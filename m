@@ -1,490 +1,234 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <jay.shen.teoh@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5B18C00144
-	for <webhook@archiver.kernel.org>; Fri, 29 Jul 2022 08:57:52 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web10.5885.1659085062384997927
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54BE9C19F2B
+	for <webhook@archiver.kernel.org>; Fri, 29 Jul 2022 10:40:33 +0000 (UTC)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by mx.groups.io with SMTP id smtpd.web09.6595.1659091223445912481
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Jul 2022 01:57:42 -0700
+ Fri, 29 Jul 2022 03:40:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=LG7vIr69;
- spf=pass (domain: gmail.com, ip: 209.85.167.48,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id p10so6362054lfd.9
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Jul 2022 01:57:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=H8UzSENf++0p2CMwpB9T1oerbpMBWuKndI5YgjZZ+Pk=;
-        b=LG7vIr69lzAl8Ae1YosmDLauMmFJdR8wbNUSLc0ohVuvYUa683kU8ZlB9cAnT78c7r
-         MhZjENlDm3+UGKdMyL+ZZggGF4nuM//wCo49tjw+zPYMd4yNg94RsfO6KaboCTc2JeLp
-         FZU/ntxMjgyXSueyLSIaziPGnT9cOYy3zvhFPGFL/UF1hQLJHOEHHlMtH0BMnJpVl4h5
-         9qEmtSwERXjv46JZKPYa+V6ndxW0Od1H84+vlx9MDKvBbLorLnMcV9lCi7AQWBG5/kAf
-         x2dCM+FHnfihI4wGOefxEUoKcnojb3IMFaMxpHY+BHkUhM1OEv5MiasmRGDeXNxoMQCu
-         KDwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=H8UzSENf++0p2CMwpB9T1oerbpMBWuKndI5YgjZZ+Pk=;
-        b=JSkKEouiDHdz17JiRR9++SEk2Z/8fOzJO68N81/d2yWNfZ0EdkCAb3qAYH7ME5GIqg
-         g5mppVCeJbbpzZ0ehSUyZonfUzFg2ZGV4cIzCW/clIK49H7dVPIAhmeSzsHSDQ6IGxeE
-         94tNn5V3dSXLDgPuq8tYihjpKwuGJGbVz5BRAOfE7kN2jXppwJOUq0hGCWNpVVT56YRF
-         uOkHttt3u6mChfAwy11dtTBfCrIs/a+kfPTHhvlN5K6OORJKReK6P+DBeCi4YH7YCUhh
-         SWTTt80HRd9+GbxkaU6xIi77BJ4J02MqWo6sYbjOlDH4Ndt+df3lrrgcet8S+dF4OFka
-         nDyQ==
-X-Gm-Message-State: ACgBeo3c49ODVHqOFZNRNPfDFCctajgPO3TkolB9M4nxgxEfo5Iqq6Im
-	VMwLjdu+P2bZVNuOG7WO/J5cAIKsUgX6R+zkVHs=
-X-Google-Smtp-Source: 
- AA6agR6vMdkLE4Oxye7Ip3HcoxX0sobImEZY1BSzpjvd7rSzzzCfCnbM23XzQIM7547Jc7fRqSb4GoUqwGtWYiQK/wM=
-X-Received: by 2002:ac2:4142:0:b0:48a:e52a:d6f1 with SMTP id
- c2-20020ac24142000000b0048ae52ad6f1mr162352lfi.152.1659085059941; Fri, 29 Jul
- 2022 01:57:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220728085407.293067-1-jose.quaresma@foundries.io>
- <b5964850b01ae9766ee70404edcf189e78c4921f.camel@linuxfoundation.org>
- <1705FBBA058AF979.1380@lists.openembedded.org>
- <CANPvuRknJ5w3161hpoCAXVycDcPLEG9yPmg_AmysC_4mj+AZQw@mail.gmail.com>
- <0cc4cf664450fda920f3c9176b56ce1955b83226.camel@linuxfoundation.org>
-In-Reply-To: 
- <0cc4cf664450fda920f3c9176b56ce1955b83226.camel@linuxfoundation.org>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Fri, 29 Jul 2022 09:57:11 +0100
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=JuGOB7d3;
+ spf=pass (domain: intel.com, ip: 134.134.136.31,
+ mailfrom: jay.shen.teoh@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1659091223; x=1690627223;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=lBW/4ISs8JquazSR27VveyCDDhqurJoCSfg8G6btqZw=;
+  b=JuGOB7d3haMHuzVsf7oAeIH/I2zVRDevYjc4kdm7948XV8jXcUD//n83
+   WV+S2LBQxY8LMZymGeVbr0VDNIeKnSAG202q4Yx7UMGwV5g69w65O8OhD
+   K1XDuF+RUejLz2ynlHjZeld4SunWL9kV9FhzFu08Hv3yZSt2rpYxxS9bY
+   iP/ixJSFKqueBVZmA/PQ51FAJuDTbuqMjZejx/kilHNJ7BP/76FZwR4rF
+   /Jiimrfy4wBGfYWC0DARCR0dL7X0g5Y9v/yt/vnzF+1cWtU+EbqdWdFGV
+   CormCKHwG/1v7GXEO0y3+Hp2Fr+wibetaar9l7Y4rHDL8wEjCmlFU1Rwi
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10422"; a="350447878"
+X-IronPort-AV: E=Sophos;i="5.93,201,1654585200";
+   d="scan'208";a="350447878"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jul 2022 03:40:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,201,1654585200";
+   d="scan'208";a="727708008"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
+  by orsmga004.jf.intel.com with ESMTP; 29 Jul 2022 03:40:22 -0700
+Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
+ ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Fri, 29 Jul 2022 03:40:22 -0700
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Fri, 29 Jul 2022 03:40:22 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28 via Frontend Transport; Fri, 29 Jul 2022 03:40:21 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.173)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.28; Fri, 29 Jul 2022 03:40:21 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lU0YknnKQBoDlUbvP95q7OhIRrD1ZcSHfUxN5BSaRFH0Y8mrweMAwYucgKEjOkqq4Y8kFjM/fodJCdWY0bWwScM6iK/7AARPMNeuj6KNLfT0DPwNK5RmtXMtEa1R206oOnKNkeE7lv20OsqaVb1ATAoHSVu91aELHOeSDg9sJ5icJYJ857cXVF0lMFMPKzuKzlG8TiQOKuE+pptOjfDifKsL6mVPBe+9RwqiUJ/6asvVQ5qC0vc3WlGCaSiYp6UTBby/goyoJwQbhmoy1jCd/ViZfhg7HXRyLm8tX4kwqPhLe62eP5axLj8AefYV3e+IQC4wKfoV6So5crYeBEflyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YGBd1xgqtLpjNahu7RsGFnxN1VdBfxuWH/tqtHxJ+f8=;
+ b=eYGWNGYG6H2qwNJk5Tw1wWq6sTY32vUWkLymuWI6YbLBuIiBX10z2v2qQwnlDdwYvVpBzvcg3MiGLRgppSPjtxWsyOsdeBBSCLzw9eWt+B3WxQNA3u6YOm7R5v9FWWYmhDB86ZDHi3fwBUhnJCHGGVDoehcUuN2W81PaqVphtFUfv5eYCu8VxFk/DZ6BMO5Wi3fy/hmennzFO/hPzoB3xQyOvdyJh84tzdU6zvHPZtO7Cvnf02Vgw02v6AC/AYIPxKjD89QYaaA1hraDf9AD4YwQ7eGzi7DRkC5Gse6isx1qPqGPxrl+CLd5ma8of3FcJNuOKNb4fNV0wMsV/gh8vw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM5PR1101MB2348.namprd11.prod.outlook.com (2603:10b6:3:a8::16)
+ by CY4PR11MB1541.namprd11.prod.outlook.com (2603:10b6:910:9::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.19; Fri, 29 Jul
+ 2022 10:40:20 +0000
+Received: from DM5PR1101MB2348.namprd11.prod.outlook.com
+ ([fe80::4d41:d985:2a5f:16ed]) by DM5PR1101MB2348.namprd11.prod.outlook.com
+ ([fe80::4d41:d985:2a5f:16ed%5]) with mapi id 15.20.5458.025; Fri, 29 Jul 2022
+ 10:40:20 +0000
+From: "Teoh, Jay Shen" <jay.shen.teoh@intel.com>
+To: "qa-build-notification@lists.yoctoproject.org"
+	<qa-build-notification@lists.yoctoproject.org>,
+	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: RE: [qa-build-notification] QA notification for completed autobuilder
+ build (yocto-3.1.18.rc1)
+Thread-Topic: [qa-build-notification] QA notification for completed
+ autobuilder build (yocto-3.1.18.rc1)
+Thread-Index: AQHYoHAJl/c7tpd8eE+n1PGO5AhDPK2VLhFg
+Date: Fri, 29 Jul 2022 10:40:19 +0000
 Message-ID: 
- <CANPvuRn4mDR3dbB1fOjEFuq9EbKpYLVkFtXf8HbHzhzGF0nOqQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] create-spdx: Runs the do_create_spdx task after
- the do_package_write_*
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Ricardo Salveti <ricardo@foundries.io>, daiane.angolini@foundries.io,
-	Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: multipart/alternative; boundary="000000000000a6689405e4edd72f"
+ <DM5PR1101MB2348F433835B77931ABC72FBBB999@DM5PR1101MB2348.namprd11.prod.outlook.com>
+References: 
+ <0101018237539254-f6b986ca-1380-43de-bd08-061d94334983-000000@us-west-2.amazonses.com>
+In-Reply-To: 
+ <0101018237539254-f6b986ca-1380-43de-bd08-061d94334983-000000@us-west-2.amazonses.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.6.500.17
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ca51f7d4-475c-4be4-96ea-08da714ebbe1
+x-ms-traffictypediagnostic: CY4PR11MB1541:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ nFXl74+rINEqxlO+Ox6qgTFwCiY/sLyiU+oS5i06xSVd9W1HQ5sTnsOIRZS9MuhAnjvYpYxrWbDMsrLP9m290gFNPr2LOhKslkbGDx1pWuRuCBgLNzBhiN0Iehg9I5lICaY7m0U1ByMxs7tAQBSgjXlU+qarGcnCyzi9Ok2W1iGgcRCwV/S0skzI6dmin7NxuKJKw93ZI9pnWHAjpLRjypVxFy61AmvSImA5xXit11F4vO+YI7ohlcmAP7iiZern8gC9VGAQDJ5IfPyKKuXFq1mwJh/2335t0m64higmjAoPImCqfOUiHRihP8o4POM7uEZbU2jl4qcLNk4Vzvb1iW2sPR2bQ/+6S9A5hySR92NXHcJjbIDIAIWH52NsDculfPKrb5RrKeus8jE6oxQz/RsuS7EyIyGkYuKJsaLUFc3PuCs8iXFMsMu60vY5D/qXoGCdUH50egqU/b+PtPa4ugK9P/8PaVixBrzM83eiccl8AVwAt2E+AJYtF0i322DZaU224rhFbcy5oGnkq2rndwlnYVB22olNDSiyRBUBpEo3Oc3FiQ7liwBpnSdBWncskDC7POdqRBls21ZnRDf1pr/Qcbm9evuFFoL7aVwCclnMSnW7iaeiiQoAJJvSU05aQY2SD3exPtz7Y3jpPmdFT8huXDXVE5YTwIT6hhUkqnPDW50B7IwLmNO3dtA2pXtoNDGXK+89b6quTcGrqfFyyILV9PIxcVEXeVhBUcJJCeIFp3S6vvOsRbullrxDSXbuHZeVzOmqt4bvER2pnbbkFsFbDx4fUblA99b33JntvGxsZCaPXhk2sVWFp8SAJ0+p6CqwX/g2ksURjlMIb2ATnbN2Rl4ea+/7a9saE7d8/J9nwE4f5/j+5GR0WAEQRWxd
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR1101MB2348.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(396003)(346002)(376002)(39860400002)(136003)(366004)(110136005)(82960400001)(478600001)(6506007)(71200400001)(41300700001)(38070700005)(186003)(966005)(26005)(8936002)(7696005)(83380400001)(122000001)(38100700002)(53546011)(9686003)(55236004)(66476007)(33656002)(15650500001)(55016003)(2906002)(8676002)(52536014)(76116006)(316002)(66556008)(5660300002)(66446008)(64756008)(66946007)(86362001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?a2Ze7rKnOK+fBJq0u4v3ZBRUspXWczj7Zk3F9eMpSynSvqePjvNl+3loSWFe?=
+ =?us-ascii?Q?k/4QyhEFM3u1uhCF2A/LCwDhxYTTDzrV/zCD5Ii3i+ag6gVxxW/NITriuJmJ?=
+ =?us-ascii?Q?dxJL6Oa8fQtEaJ+iD8fLqnifFeXeqbawHD/QcNCsJF283O5D1oXrFPdmvQjg?=
+ =?us-ascii?Q?6waG32Laxkdou+Cxzysm+rMeRVtiI9otrmU3aj6eIcAs0IahzEPJ2cNC/26d?=
+ =?us-ascii?Q?wrlqtoQFjdGuMc8a1p79CXxojsJWSoCfKo0yD26HpdlOCK9h5BAhGk0x4D7Z?=
+ =?us-ascii?Q?VhZYOU351rFElVi/HAP2OpRbhIkknngCPEesaKkqIIu1kHOWGSaEIi1vbQKQ?=
+ =?us-ascii?Q?/WRFSnOWE3pqgmsH/i3M44hCLNXO3oJ8z/gn9mGOhmW675DTFXTlNpdGMyUT?=
+ =?us-ascii?Q?g0xHbTpQd406K1YPS9Zj+eroBtCwV5F6qnXo4/I5gaebYT+UJEbp3jXPUGLc?=
+ =?us-ascii?Q?x6HyRD2IU5Tdi/i/ljydY0D+VChZnlR532Qw+TUrbIP5IcsYMns05H0SDk+j?=
+ =?us-ascii?Q?e3ZVHAoxhW14eEYkwtdzswJggiiRW5S3srl3YP3YIXdxozkYQlqdjcOJitfn?=
+ =?us-ascii?Q?3eMXdS8oK+nUcU95pFx0femH4EX/9RCVHaZ6cG6kYFRqL+mxTnUwqkTDGWg+?=
+ =?us-ascii?Q?18oPrHjsGUxhYg+vYPXcWh/YMyO/zY88JzPzQ8w1YtlYunlb34mg+dXhDvVN?=
+ =?us-ascii?Q?EryNqOjjCHXfUNTsw4GAJpTpgK5wbv+H8y3KtUDEHWYCCRcKcGlgcSaJqKnY?=
+ =?us-ascii?Q?oYChQzkMlqP/ms0fGiQcGYE1hxKHoe5JDC4PGXYSk2dtMReNnkaR3hF6Kb1K?=
+ =?us-ascii?Q?DmWBqr4AMqIPko0hRAyetgNwRq31Z+16UL6C7X2CmKlfTMVZrdtsRTdUcIzp?=
+ =?us-ascii?Q?5eUrn1tTCQtIcsRlIXGZrzUyU9jBbOczlodcMkoo5kv671+RwbkcAUGNeg+Y?=
+ =?us-ascii?Q?v/KvU+YfKcv4on2KXPOo511/Ggx4BYQI8iqRsIsWrcg+uEPc9EMWSMxrvhVU?=
+ =?us-ascii?Q?KJRehSguRRaibNSYfRU8DnkMBOaU3OfNrG9bNz1nxpRy8ZSIFHcc0LFzpYx8?=
+ =?us-ascii?Q?Aj65W1UBdqfybPNU/mNylrqNyv1GTHsQQuFXkbeSdqPbUvY51z+k+zMR3EG0?=
+ =?us-ascii?Q?NUZ9QXI0EYNIg6AUkPkMRfQ9fRdA3HcCXcBll1gs2GsjI4ZNNpoZA90QNt2F?=
+ =?us-ascii?Q?BJ0PJ1eu+qti7/dMlV96TQcGWAy+on7IzL+/q0532ms0oThjSrWadwmpEplz?=
+ =?us-ascii?Q?nhAv0nn0LMKqB3QMPG0eJ/i3tf8AS+7Ij3j75zMZXHTOlV6THtl8PMgsE3sJ?=
+ =?us-ascii?Q?ekTps/PNjpxgqUx9WkcQRy0+QK9RRwh1uHX8ANbeoLhqV1AjTAJGos0mU1bm?=
+ =?us-ascii?Q?+svXibVlQrPxpY40nGouCCgxxlzN03YgBKldqwncwMM6bdz3463D5VVIvysS?=
+ =?us-ascii?Q?ErGwEcKzp5aSfdsYfY7oXJk/AvzRn69aOZozJG2ACZHkKmi3bqgimLYRJkWz?=
+ =?us-ascii?Q?xnxGIDS5s2QRiQBx7EwVxBIBWV5zRItfYkgv/1kZqcOWxPFs1rKg5Vd1IHx+?=
+ =?us-ascii?Q?fV82TJkKWzOpu06o1TDiyErkS9bDyxeuCpCifnst?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: 
+ DM5PR1101MB2348.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ ca51f7d4-475c-4be4-96ea-08da714ebbe1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jul 2022 10:40:19.7670
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 
+ tbMym0M2Czefw+AntDzmdXRom8FpNK4zl6DN5BWicJh0k0GXic8i90MwgQqnxmWOPFodAUEKRqrvDSYqwSHz5A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR11MB1541
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Jul 2022 08:57:52 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Jul 2022 10:40:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168623
+ https://lists.openembedded.org/g/openembedded-core/message/168624
 
---000000000000a6689405e4edd72f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Everyone,
 
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia quinta,
-28/07/2022 =C3=A0(s) 22:15:
+QA for yocto-3.1.18.rc1 is completed. This is the full report for this rele=
+ase: =20
+https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
+h=3Dintel-yocto-testresults
 
-> On Thu, 2022-07-28 at 15:32 +0100, Jose Quaresma wrote:
-> >
-> >
-> > Jose Quaresma via lists.openembedded.org
-> > <quaresma.jose=3Dgmail.com@lists.openembedded.org> escreveu no dia
-> > quinta, 28/07/2022 =C3=A0(s) 12:46:
-> > >
-> > >
-> > > Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
-> > > quinta, 28/07/2022 =C3=A0(s) 12:01:
-> > > > On Thu, 2022-07-28 at 09:54 +0100, Jose Quaresma wrote:
-> > > > > Otherwise spdx can have references for data that is not packed.
-> > > > > in the package delivered.
-> > > > >
-> > > > > During do_package_write_ipk task in do_package_ipk some files
-> > > > > is cleaned up from packages-split directory in the funcion
-> > > > > cleanupcontrol.
-> > > > >
-> > > > > This also fixes the following race condictions when the
-> > > > > do_create_spdx
-> > > > > task runs the add_package_files function and these files is
-> > > > > been deleted
-> > > > > at same time in the task do_package_write_ipk:
-> > > > >
-> > > > > ERROR: alsa-topology-conf-1.2.5.1-r0 do_create_spdx: Error
-> > > > > executing a python function in exec_func_python()
-> > > > > autogenerated:
-> > > > >
-> > > > > The stack trace of python calls that resulted in this
-> > > > > exception/failure was:
-> > > > > File: 'exec_func_python() autogenerated', lineno: 2, function:
-> > > > > <module>
-> > > > >       0001:
-> > > > >   *** 0002:do_create_spdx(d)
-> > > > >       0003:
-> > > > > File: '/srv/oe/build/conf/../../layers/openembedded-
-> > > > > core/meta/classes/create-spdx.bbclass', lineno: 567, function:
-> > > > > do_create_spdx
-> > > > >       0563:
-> > > > > package_doc.add_relationship(package_doc, "DESCRIBES",
-> > > > > spdx_package)
-> > > > >       0564:
-> > > > >       0565:            package_archive =3D deploy_dir_spdx /
-> > > > > "packages" / (package_doc.name + ".tar.zst")
-> > > > >       0566:            with optional_tarfile(package_archive,
-> > > > > archive_packaged) as archive:
-> > > > >   *** 0567:                package_files =3D add_package_files(
-> > > > >       0568:                    d,
-> > > > >       0569:                    package_doc,
-> > > > >       0570:                    spdx_package,
-> > > > >       0571:                    pkgdest / package,
-> > > > > File: '/srv/oe/build/conf/../../layers/openembedded-
-> > > > > core/meta/classes/create-spdx.bbclass', lineno: 234, function:
-> > > > > add_package_files
-> > > > >       0230:                            info.mtime =3D
-> > > > > source_date_epoch
-> > > > >       0231:
-> > > > >       0232:                        archive.addfile(info, f)
-> > > > >       0233:
-> > > > >   *** 0234:                sha1 =3D bb.utils.sha1_file(filepath)
-> > > > >       0235:                sha1s.append(sha1)
-> > > > >       0236:
-> > > > > spdx_file.checksums.append(oe.spdx.SPDXChecksum(
-> > > > >       0237:                        algorithm=3D"SHA1",
-> > > > >       0238:                        checksumValue=3Dsha1,
-> > > > > File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 559, function:
-> > > > > sha1_file
-> > > > >       0555:    """
-> > > > >       0556:    Return the hex string representation of the SHA1
-> > > > > checksum of the filename
-> > > > >       0557:    """
-> > > > >       0558:    import hashlib
-> > > > >   *** 0559:    return _hasher(hashlib.sha1(), filename)
-> > > > >       0560:
-> > > > >       0561:def sha384_file(filename):
-> > > > >       0562:    """
-> > > > >       0563:    Return the hex string representation of the
-> > > > > SHA384 checksum of the filename
-> > > > > File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 528, function:
-> > > > > _hasher
-> > > > >       0524:
-> > > > >       0525:def _hasher(method, filename):
-> > > > >       0526:    import mmap
-> > > > >       0527:
-> > > > >   *** 0528:    with open(filename, "rb") as f:
-> > > > >       0529:        try:
-> > > > >       0530:            with mmap.mmap(f.fileno(), 0,
-> > > > > access=3Dmmap.ACCESS_READ) as mm:
-> > > > >       0531:                for chunk in iter(lambda:
-> > > > > mm.read(8192), b''):
-> > > > >       0532:                    method.update(chunk)
-> > > > > Exception: FileNotFoundError: [Errno 2] No such file or
-> > > > > directory: '/srv/oe/build/tmp-lmp/work/all-lmp-linux/alsa-
-> > > > > topology-conf/1.2.5.1-r0/packages-split/alsa-topology-
-> > > > > conf/CONTROL/control'
-> > > >
-> > > > We have other places where we've had to teach the code to ignore
-> > > > the
-> > > > control files and we'll probably have to do that here (grep for
-> > > > CONTROL).
-> > > >
-> > >
-> > >
-> > > The snip that delete this files is in cleanupcontrol
-> > >
-> https://git.yoctoproject.org/poky/tree/meta/classes/package_ipk.bbclass#n=
-51
-> > >
-> > > So these files are not shipped in the ipk package produced.
-> > >
-> >
-> >
-> > What I mean is those files are not part of the content deployed and
-> > it is a requirement of the packing
-> > standard used so tracking it the sbom doesn't make much sense imo.
->
-> Right, it would be fine to make the spdx class skip them if they were
-> present.
->
-> > ar -xv deploy/ipk/all/alsa-topology-conf_1.2.5.1-r0_all.ipk
-> > x - debian-binary
-> > x - control.tar.gz
-> > x - data.tar.xz
-> >
-> > For and deb and ipk we have in deb_write_pkg and ipk_write_pkg:
-> >
-> >     finally:
-> >         cleanupcontrol(root)
-> >         bb.utils.unlockfile(lf)
-> >
-> > For rpm we have in do_package_rpm:
-> >
-> >         # rpm 4 creates various empty directories in _topdir, let's
-> > clean them up
-> >         cleanupcmd =3D "rm -rf %s/BUILDROOT %s/SOURCES %s/SPECS
-> > %s/SRPMS" % (workdir, workdir, workdir, workdir)
-> >
-> > So all of them delete this package control content at the end but as
-> > do_create_spdx
-> > runs at the same time it can see and track this content as well.
->
-> Yes, it is a race. We've generally tweaked the code using these
-> directories to ignore these files rather than change the dependencies
-> though.
->
-> Ideally we'd change dpkg/opkg to place the files somewhere else during
-> package build but we've not worked out how to do that as yet.
->
+=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
+No high milestone defects.
 
-Many thanks for the review and your time.
-I will do that in this way, change dpkg/opkg to place the files somewhere
-else.
+No new issue found.=20
 
-Jose
+Thanks,
+Jay
 
+> -----Original Message-----
+> From: qa-build-notification@lists.yoctoproject.org <qa-build-
+> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
+> Sent: Tuesday, 26 July, 2022 5:47 AM
+> To: yocto@lists.yoctoproject.org
+> Cc: qa-build-notification@lists.yoctoproject.org
+> Subject: [qa-build-notification] QA notification for completed autobuilde=
+r
+> build (yocto-3.1.18.rc1)
+>=20
+>=20
+> A build flagged for QA (yocto-3.1.18.rc1) was completed on the autobuilde=
+r
+> and is available at:
+>=20
+>=20
+>     https://autobuilder.yocto.io/pub/releases/yocto-3.1.18.rc1
+>=20
+>=20
+> Build hash information:
+>=20
+> bitbake: 7fc4cffebf5dcc1d050416c0b7f7d58c765c1d69
+> meta-agl: 6c9fa75459cf86576c47411fc239e0d7896d483c
+> meta-arm: 5c09684863be8e803e3e987a5ce4940721c3f39a
+> meta-aws: dd742bafa5eff33ac930e97dde851f41cbde85e8
+> meta-gplv2: 60b251c25ba87e946a0ca4cdc8d17b1cb09292ac
+> meta-intel: 1c1a8f769ef93d96ae488f40abbcd11946403169
+> meta-mingw: 524de686205b5d6736661d4532f5f98fee8589b7
+> meta-openembedded: 52cee67833d1975a5bd52e4556c4cd312425a017
+> meta-virtualization: a63a54df3170fed387f810f23cdc2f483ad587df
+> oecore: 3f40d5f095ceb099b604750db96058df00fcd49e
+> poky: d695bd0d3dc66f2111a25c6922f617be2d991071
+>=20
+>=20
+>=20
+> This is an automated message from the Yocto Project Autobuilder
+> Git: git://git.yoctoproject.org/yocto-autobuilder2
+> Email: richard.purdie@linuxfoundation.org
+>=20
+>=20
+>=20
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#167): https://lists.yoctoproject.org/g/qa-build-
+> notification/message/167
+> Mute This Topic: https://lists.yoctoproject.org/mt/92615446/4899463
+> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
+> notification/leave/10406805/4899463/715389995/xyzzy
+> [jay.shen.teoh@intel.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
-> Cheers,
->
-> Richard
->
->
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---000000000000a6689405e4edd72f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
-richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
-gt; escreveu no dia quinta, 28/07/2022 =C3=A0(s) 22:15:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">On Thu, 2022-07-28 at 15:32 +0100, =
-Jose Quaresma wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; Jose Quaresma via <a href=3D"http://lists.openembedded.org" rel=3D"nor=
-eferrer" target=3D"_blank">lists.openembedded.org</a><br>
-&gt; &lt;quaresma.jose=3D<a href=3D"mailto:gmail.com@lists.openembedded.org=
-" target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; escreveu no di=
-a<br>
-&gt; quinta, 28/07/2022 =C3=A0(s) 12:46:<br>
-&gt; &gt; <br>
-&gt; &gt; <br>
-&gt; &gt; Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundati=
-on.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; escrev=
-eu no dia<br>
-&gt; &gt; quinta, 28/07/2022 =C3=A0(s) 12:01:<br>
-&gt; &gt; &gt; On Thu, 2022-07-28 at 09:54 +0100, Jose Quaresma wrote:<br>
-&gt; &gt; &gt; &gt; Otherwise spdx can have references for data that is not=
- packed.<br>
-&gt; &gt; &gt; &gt; in the package delivered.<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; During do_package_write_ipk task in do_package_ipk some=
- files<br>
-&gt; &gt; &gt; &gt; is cleaned up from packages-split directory in the func=
-ion<br>
-&gt; &gt; &gt; &gt; cleanupcontrol.<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; This also fixes the following race condictions when the=
-<br>
-&gt; &gt; &gt; &gt; do_create_spdx<br>
-&gt; &gt; &gt; &gt; task runs the add_package_files function and these file=
-s is<br>
-&gt; &gt; &gt; &gt; been deleted<br>
-&gt; &gt; &gt; &gt; at same time in the task do_package_write_ipk:<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; ERROR: alsa-topology-conf-1.2.5.1-r0 do_create_spdx: Er=
-ror<br>
-&gt; &gt; &gt; &gt; executing a python function in exec_func_python()<br>
-&gt; &gt; &gt; &gt; autogenerated:<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; The stack trace of python calls that resulted in this<b=
-r>
-&gt; &gt; &gt; &gt; exception/failure was:<br>
-&gt; &gt; &gt; &gt; File: &#39;exec_func_python() autogenerated&#39;, linen=
-o: 2, function:<br>
-&gt; &gt; &gt; &gt; &lt;module&gt;<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0001:<br>
-&gt; &gt; &gt; &gt; =C2=A0 *** 0002:do_create_spdx(d)<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0003:<br>
-&gt; &gt; &gt; &gt; File: &#39;/srv/oe/build/conf/../../layers/openembedded=
--<br>
-&gt; &gt; &gt; &gt; core/meta/classes/create-spdx.bbclass&#39;, lineno: 567=
-, function:<br>
-&gt; &gt; &gt; &gt; do_create_spdx<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0563:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0<br>
-&gt; &gt; &gt; &gt; package_doc.add_relationship(package_doc, &quot;DESCRIB=
-ES&quot;,<br>
-&gt; &gt; &gt; &gt; spdx_package)<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0564:<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0565:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 package_archive =3D deploy_dir_spdx /<br>
-&gt; &gt; &gt; &gt; &quot;packages&quot; / (<a href=3D"http://package_doc.n=
-ame" rel=3D"noreferrer" target=3D"_blank">package_doc.name</a> + &quot;.tar=
-.zst&quot;)<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0566:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 with optional_tarfile(package_archive,<br>
-&gt; &gt; &gt; &gt; archive_packaged) as archive:<br>
-&gt; &gt; &gt; &gt; =C2=A0 *** 0567:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 package_files =3D add_package_files(<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0568:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d,<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0569:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 package_doc,<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0570:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 spdx_package,<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0571:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pkgdest / package,<br>
-&gt; &gt; &gt; &gt; File: &#39;/srv/oe/build/conf/../../layers/openembedded=
--<br>
-&gt; &gt; &gt; &gt; core/meta/classes/create-spdx.bbclass&#39;, lineno: 234=
-, function:<br>
-&gt; &gt; &gt; &gt; add_package_files<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0230:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.=
-mtime =3D<br>
-&gt; &gt; &gt; &gt; source_date_epoch<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0231:<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0232:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 archive.addfile(inf=
-o, f)<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0233:<br>
-&gt; &gt; &gt; &gt; =C2=A0 *** 0234:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 sha1 =3D bb.utils.sha1_file(filepath)<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0235:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 sha1s.append(sha1)<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0236:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0<br>
-&gt; &gt; &gt; &gt; spdx_file.checksums.append(oe.spdx.SPDXChecksum(<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0237:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 algorithm=3D&quot;S=
-HA1&quot;,<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0238:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 checksumValue=3Dsha=
-1,<br>
-&gt; &gt; &gt; &gt; File: &#39;/srv/oe/bitbake/lib/bb/utils.py&#39;, lineno=
-: 559, function:<br>
-&gt; &gt; &gt; &gt; sha1_file<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0555:=C2=A0 =C2=A0 &quot;&quot;&qu=
-ot;<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0556:=C2=A0 =C2=A0 Return the hex =
-string representation of the SHA1<br>
-&gt; &gt; &gt; &gt; checksum of the filename<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0557:=C2=A0 =C2=A0 &quot;&quot;&qu=
-ot;<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0558:=C2=A0 =C2=A0 import hashlib<=
-br>
-&gt; &gt; &gt; &gt; =C2=A0 *** 0559:=C2=A0 =C2=A0 return _hasher(hashlib.sh=
-a1(), filename)<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0560:<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0561:def sha384_file(filename):<br=
->
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0562:=C2=A0 =C2=A0 &quot;&quot;&qu=
-ot;<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0563:=C2=A0 =C2=A0 Return the hex =
-string representation of the<br>
-&gt; &gt; &gt; &gt; SHA384 checksum of the filename<br>
-&gt; &gt; &gt; &gt; File: &#39;/srv/oe/bitbake/lib/bb/utils.py&#39;, lineno=
-: 528, function:<br>
-&gt; &gt; &gt; &gt; _hasher<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0524:<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0525:def _hasher(method, filename)=
-:<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0526:=C2=A0 =C2=A0 import mmap<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0527:<br>
-&gt; &gt; &gt; &gt; =C2=A0 *** 0528:=C2=A0 =C2=A0 with open(filename, &quot=
-;rb&quot;) as f:<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0529:=C2=A0 =C2=A0 =C2=A0 =C2=A0 t=
-ry:<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0530:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 with mmap.mmap(f.fileno(), 0,<br>
-&gt; &gt; &gt; &gt; access=3Dmmap.ACCESS_READ) as mm:<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0531:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 for chunk in iter(lambda:<br>
-&gt; &gt; &gt; &gt; mm.read(8192), b&#39;&#39;):<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 0532:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 method.update(chunk)<br>
-&gt; &gt; &gt; &gt; Exception: FileNotFoundError: [Errno 2] No such file or=
-<br>
-&gt; &gt; &gt; &gt; directory: &#39;/srv/oe/build/tmp-lmp/work/all-lmp-linu=
-x/alsa-<br>
-&gt; &gt; &gt; &gt; topology-conf/1.2.5.1-r0/packages-split/alsa-topology-<=
-br>
-&gt; &gt; &gt; &gt; conf/CONTROL/control&#39;<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; We have other places where we&#39;ve had to teach the code t=
-o ignore<br>
-&gt; &gt; &gt; the<br>
-&gt; &gt; &gt; control files and we&#39;ll probably have to do that here (g=
-rep for<br>
-&gt; &gt; &gt; CONTROL).<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; <br>
-&gt; &gt; <br>
-&gt; &gt; The snip=C2=A0that delete this files is in=C2=A0cleanupcontrol<br=
->
-&gt; &gt; <a href=3D"https://git.yoctoproject.org/poky/tree/meta/classes/pa=
-ckage_ipk.bbclass#n51" rel=3D"noreferrer" target=3D"_blank">https://git.yoc=
-toproject.org/poky/tree/meta/classes/package_ipk.bbclass#n51</a><br>
-&gt; &gt; <br>
-&gt; &gt; So these=C2=A0files are not shipped=C2=A0in the ipk package produ=
-ced.<br>
-&gt; &gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; What I mean is those files are not part of the content deployed and<br=
->
-&gt; it is a requirement=C2=A0of the packing<br>
-&gt; standard used so tracking it the sbom doesn&#39;t make much sense imo.=
-<br>
-<br>
-Right, it would be fine to make the spdx class skip them if they were<br>
-present.<br>
-<br>
-&gt; ar -xv deploy/ipk/all/alsa-topology-conf_1.2.5.1-r0_all.ipk<br>
-&gt; x - debian-binary<br>
-&gt; x - control.tar.gz<br>
-&gt; x - data.tar.xz<br>
-&gt; <br>
-&gt; For and deb and ipk we have in deb_write_pkg and ipk_write_pkg:<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>
-&gt; =C2=A0 =C2=A0 finally:<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0cleanupcontrol(root)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils.unlockfile(lf)<br>
-&gt; <br>
-&gt; For rpm we have in do_package_rpm:<br>
-&gt; <br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 # rpm 4 creates various empty directories =
-in _topdir, let&#39;s<br>
-&gt; clean them up<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0cleanupcmd =3D &quot;rm -rf %s/BUILDR=
-OOT %s/SOURCES %s/SPECS<br>
-&gt; %s/SRPMS&quot; % (workdir, workdir, workdir, workdir)<br>
-&gt; =C2=A0<br>
-&gt; So all of them delete this package control content at the end but as<b=
-r>
-&gt; do_create_spdx<br>
-&gt; runs at the same time it can see and track this content as well.<br>
-<br>
-Yes, it is a race. We&#39;ve generally tweaked the code using these<br>
-directories to ignore these files rather than change the dependencies<br>
-though.<br>
-<br>
-Ideally we&#39;d change dpkg/opkg to place the files somewhere else during<=
-br>
-package build but we&#39;ve not worked out how to do that as yet.<br></bloc=
-kquote><div><br>Many thanks for the review and your time.<br>I will do that=
- in this way, change dpkg/opkg to place the files somewhere else.</div><div=
-><br></div><div>Jose<br><br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div>
-
---000000000000a6689405e4edd72f--
 
