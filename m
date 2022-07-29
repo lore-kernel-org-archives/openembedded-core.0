@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B12DFC3F6B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B12A9C00144
 	for <webhook@archiver.kernel.org>; Fri, 29 Jul 2022 15:24:58 +0000 (UTC)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
- [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web12.533.1659108297989917831
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web11.507.1659108294609326333
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Jul 2022 08:24:58 -0700
+ Fri, 29 Jul 2022 08:24:54 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=ARp4RAES;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.173,
+ header.b=Hhc70clI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.49,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f173.google.com with SMTP id h132so4257536pgc.10
+Received: by mail-pj1-f49.google.com with SMTP id e1so5119238pjl.1
         for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Jul 2022 08:24:57 -0700 (PDT)
+ Fri, 29 Jul 2022 08:24:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=9/98zSRHaoVlwZxuQeyiCYG31cyIfSb9uXxpcH1k5cs=;
-        b=ARp4RAESmLH6kOc2TWKINwuK1b+B6lT3WKyXTWN/5qocjYYAswRJfIbCmwYkE8kH4x
-         12H/6f448X7Lv0yGJUwS51gEWJsS93tfhLQyhFs1W86YfFWlJq8sW4L726x6ouIvaTfK
-         Q0/0q508BkySSUG8JVB/u6gyannuCDiv6/7EhkYnD5RIZFD6ElFh63Jt322dRjq0txzn
-         wTt/l8skofKtrobzzL/TPZhqcETHPFKvxk4cspCroEVVXlAxC6lqeHj1Dh6nGQIm60V8
-         fk4r3FwmE83qJ1sMByYYZYh20aac0zngr2jiN2m2KTt4PX8FEwdwlgIokFIDl5vDPC9W
-         K7NA==
+        bh=YNfk5SOPJMNiSDJYZKEgL7xRQw6HAMfJWaYMKjhOTD8=;
+        b=Hhc70clIpQKpgN820bjQXDa0QDUCZ2Ib69GgjeRTkUkWBWFlxyZRgXVk3bC/v/d7Ql
+         uoVwXj8tZ5Wp7Qj0BjRpHbESix/2Y8j1S3idU7kiDZmV3/ZWQ6uNyGMwiKpEeL/yPDBm
+         y2ZchSVQmaDJyS1Vd1z3MpQlGYm/uzo0xHC9HQkXKarwreEXfPQH/0ffgEKgwax6hdkz
+         BMF2zeAI6uJJkm71gUV3bTjUvSW6CSs/GssqBgibh8dsm22fcfcnQ713/F7mEG1i7tyy
+         CN6LDZPmWfyBF8MuyD9TkAOS4jiSPDkQ4eeomgddO0w5tlVkSdEqPIem49cjSHRu89ab
+         TjEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9/98zSRHaoVlwZxuQeyiCYG31cyIfSb9uXxpcH1k5cs=;
-        b=7fbMBaWyYtNBzGNyWxBa4hqa+p0E+1GtOFme5OPolf67NhLvaWUuuQY7ioXBL5KctL
-         vkQO9Y+XoIO/jjUQxgIAgAEuO2Wd4gBV0cx9MYukiVHmHWC6A/zwmbJvRM0gOO0Z9qDO
-         ZtHsc52qEf4PTbQOLq2vDIyPjeClootpgMbZp1JOKn1zHcmENuDcMJyxc5NPvXgaY+yF
-         wgf7pl0qohltAVxCFh02/09YVoKNu9rh6mGAHFwGKSBHqo+0RqvGqsTFzwXWlPJv9ruX
-         wtqeCnQi5+j71dKPQ4WzafqdQXI30AO4hXjMvIEMzGogMTD+dbAEUREmOEiIxRmE8XLm
-         TvDA==
-X-Gm-Message-State: AJIora+sbaoAxl4lBEY51HxrjbVKXfiEBFwzjGBnKLSyDzok3+9XdTuB
-	zHDCCQYNELXJi2f2NLz/DM+8i+iV7U3DuAlb
+        bh=YNfk5SOPJMNiSDJYZKEgL7xRQw6HAMfJWaYMKjhOTD8=;
+        b=fda07iTewvplFcM9G3QZskfnP84JWNTd1dnOy1gdgYoRLgVuU/hyhohSuvgeQDNk28
+         j/BVII3rqncaeeUYB2/4VhT+0JpAYnYZOFPS2rvP7c4OxxjxkR/C7GW66XodYvj5orJt
+         +N4tjRQ3jmUqj0gE7Er31BkhjcxwWPBJmc3Myo2q18J6NGGTxXT+7pnXLtWZfifrZIzf
+         TJqu4UWh382WVR12u4vXXRRFx+aRAvmEEfrwaUTjYKovUpWE2Q1qYC8XODuOx5llOAC0
+         SkaYr3tLH7zpRHRtkewYxDZIeLjOKbQJoljWzxEuXLdw7m+MGUFQNqyN8agRdZolhag/
+         wr5A==
+X-Gm-Message-State: ACgBeo3pLN1cP3Atc6/PN8A0N/u5Op/sQ/PF5a0bInSSwpCGxL76wFVK
+	ZbKEMw5O3q7tvIlcTIJU6csGmh99usE+QR02
 X-Google-Smtp-Source: 
- AGRyM1sjWjDK8gE9QmC3j/hPVZtjjWL6oRETqfzwdB3vJH3HkEa1m0osjE0zcnzWjuoZIP9Q3Ci8XA==
-X-Received: by 2002:a63:451e:0:b0:40d:c602:4e with SMTP id
- s30-20020a63451e000000b0040dc602004emr3337725pga.453.1659108296707;
-        Fri, 29 Jul 2022 08:24:56 -0700 (PDT)
+ AA6agR52UftfnzwnJVi5h270qmfMA9tfkVayaYb1g03InjAA7KGeYpDKfm7aqEakwEEC122QjiZ5cA==
+X-Received: by 2002:a17:903:2c6:b0:16a:276a:ad81 with SMTP id
+ s6-20020a17090302c600b0016a276aad81mr4609552plk.65.1659108293446;
+        Fri, 29 Jul 2022 08:24:53 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- q16-20020a17090311d000b0016be6a554b5sm3889808plh.233.2022.07.29.08.24.54
+ q16-20020a17090311d000b0016be6a554b5sm3889808plh.233.2022.07.29.08.24.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Jul 2022 08:24:55 -0700 (PDT)
+        Fri, 29 Jul 2022 08:24:52 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 7/7] libtirpc: CVE-2021-46828 DoS vulnerability
- with lots of connections
-Date: Fri, 29 Jul 2022 05:24:11 -1000
+Subject: [OE-core][dunfell 6/7] libTiff: CVE-2022-2056 CVE-2022-2057
+ CVE-2022-2058 DoS from Divide By Zero Error
+Date: Fri, 29 Jul 2022 05:24:10 -1000
 Message-Id: 
- <73d2b640ad665f6ff3c4fbe8f5da4ef0dbb175f2.1659108121.git.steve@sakoman.com>
+ <429c2c89b65b8e226d4e0d6f94d43300989c143e.1659108121.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1659108121.git.steve@sakoman.com>
 References: <cover.1659108121.git.steve@sakoman.com>
@@ -70,202 +70,227 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 29 Jul 2022 15:24:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168672
+ https://lists.openembedded.org/g/openembedded-core/message/168671
 
 From: Hitendra Prajapati <hprajapati@mvista.com>
 
-Source: http://git.linux-nfs.org/?p=steved/libtirpc.git;
-MR: 120231
+Source: https://gitlab.com/libtiff/libtiff
+MR: 119341
 Type: Security Fix
-Disposition: Backport from http://git.linux-nfs.org/?p=steved/libtirpc.git;a=commit;h=86529758570cef4c73fb9b9c4104fdc510f701ed
-ChangeID: 544120a5f10a4717cd2c7291821a012e26b14b7f
+Disposition: Backport from https://gitlab.com/libtiff/libtiff/-/commit/dd1bcc7abb26094e93636e85520f0d8f81ab0fab
+ChangeID: 6cea4937a34a618567a42cef8c41961ade2f3a07
 Description:
-        CVE-2021-46828 libtirpc: DoS vulnerability with lots of connections.
+        CVE-2022-2056 CVE-2022-2057 CVE-2022-2058 libTiff: DoS from Divide By Zero Error.
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libtirpc/libtirpc/CVE-2021-46828.patch    | 155 ++++++++++++++++++
- .../libtirpc/libtirpc_1.2.6.bb                |   4 +-
- 2 files changed, 158 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/libtirpc/libtirpc/CVE-2021-46828.patch
+ ...022-2056-CVE-2022-2057-CVE-2022-2058.patch | 183 ++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |   1 +
+ 2 files changed, 184 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-2056-CVE-2022-2057-CVE-2022-2058.patch
 
-diff --git a/meta/recipes-extended/libtirpc/libtirpc/CVE-2021-46828.patch b/meta/recipes-extended/libtirpc/libtirpc/CVE-2021-46828.patch
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-2056-CVE-2022-2057-CVE-2022-2058.patch b/meta/recipes-multimedia/libtiff/files/CVE-2022-2056-CVE-2022-2057-CVE-2022-2058.patch
 new file mode 100644
-index 0000000000..c78e7ef4d5
+index 0000000000..01e81349a2
 --- /dev/null
-+++ b/meta/recipes-extended/libtirpc/libtirpc/CVE-2021-46828.patch
-@@ -0,0 +1,155 @@
-+From 48309e7cb230fc539c3edab0b3363f8ce973194f Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2022-2056-CVE-2022-2057-CVE-2022-2058.patch
+@@ -0,0 +1,183 @@
++From 8261237113a53cd21029c4a8cbb62c47b4c19523 Mon Sep 17 00:00:00 2001
 +From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Thu, 28 Jul 2022 09:11:04 +0530
-+Subject: [PATCH] CVE-2021-46828
++Date: Wed, 27 Jul 2022 11:30:18 +0530
++Subject: [PATCH] CVE-2022-2056 CVE-2022-2057 CVE-2022-2058
 +
-+Upstream-Status: Backport [http://git.linux-nfs.org/?p=steved/libtirpc.git;a=commit;h=86529758570cef4c73fb9b9c4104fdc510f701ed}
-+CVE: CVE-2021-46828
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/dd1bcc7abb26094e93636e85520f0d8f81ab0fab]
++CVE: CVE-2022-2056 CVE-2022-2057 CVE-2022-2058
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ src/svc.c    | 17 +++++++++++++-
-+ src/svc_vc.c | 62 +++++++++++++++++++++++++++++++++++++++++++++++++++-
-+ 2 files changed, 77 insertions(+), 2 deletions(-)
++ libtiff/tif_aux.c |  9 +++++++
++ libtiff/tiffiop.h |  1 +
++ tools/tiffcrop.c  | 62 ++++++++++++++++++++++++++---------------------
++ 3 files changed, 44 insertions(+), 28 deletions(-)
 +
-+diff --git a/src/svc.c b/src/svc.c
-+index 6db164b..3a8709f 100644
-+--- a/src/svc.c
-++++ b/src/svc.c
-+@@ -57,7 +57,7 @@
-+ 
-+ #define max(a, b) (a > b ? a : b)
-+ 
-+-static SVCXPRT **__svc_xports;
-++SVCXPRT **__svc_xports;
-+ int __svc_maxrec;
-+ 
-+ /*
-+@@ -194,6 +194,21 @@ __xprt_do_unregister (xprt, dolock)
-+     rwlock_unlock (&svc_fd_lock);
++diff --git a/libtiff/tif_aux.c b/libtiff/tif_aux.c
++index 8188db5..3dac542 100644
++--- a/libtiff/tif_aux.c
+++++ b/libtiff/tif_aux.c
++@@ -402,6 +402,15 @@ float _TIFFClampDoubleToFloat( double val )
++     return (float)val;
 + }
 + 
-++int
-++svc_open_fds()
+++uint32 _TIFFClampDoubleToUInt32(double val)
 ++{
-++	int ix;
-++	int nfds = 0;
-++
-++	rwlock_rdlock (&svc_fd_lock);
-++	for (ix = 0; ix < svc_max_pollfd; ++ix) {
-++		if (svc_pollfd[ix].fd != -1)
-++			nfds++;
-++	}
-++	rwlock_unlock (&svc_fd_lock);
-++	return (nfds);
+++    if( val < 0 )
+++        return 0;
+++    if( val > 0xFFFFFFFFU || val != val )
+++        return 0xFFFFFFFFU;
+++    return (uint32)val;
 ++}
 ++
-+ /*
-+  * Add a service program to the callout list.
-+  * The dispatch routine will be called when a rpc request for this
-+diff --git a/src/svc_vc.c b/src/svc_vc.c
-+index c23cd36..1729963 100644
-+--- a/src/svc_vc.c
-++++ b/src/svc_vc.c
-+@@ -64,6 +64,8 @@
-+ 
-+ 
-+ extern rwlock_t svc_fd_lock;
-++extern SVCXPRT **__svc_xports;
-++extern int svc_open_fds();
-+ 
-+ static SVCXPRT *makefd_xprt(int, u_int, u_int);
-+ static bool_t rendezvous_request(SVCXPRT *, struct rpc_msg *);
-+@@ -82,6 +84,7 @@ static void svc_vc_ops(SVCXPRT *);
-+ static bool_t svc_vc_control(SVCXPRT *xprt, const u_int rq, void *in);
-+ static bool_t svc_vc_rendezvous_control (SVCXPRT *xprt, const u_int rq,
-+ 				   	     void *in);
-++static int __svc_destroy_idle(int timeout);
-+ 
-+ struct cf_rendezvous { /* kept in xprt->xp_p1 for rendezvouser */
-+ 	u_int sendsize;
-+@@ -312,13 +315,14 @@ done:
-+ 	return (xprt);
-+ }
-+ 
-++
-+ /*ARGSUSED*/
-+ static bool_t
-+ rendezvous_request(xprt, msg)
-+ 	SVCXPRT *xprt;
-+ 	struct rpc_msg *msg;
++ int _TIFFSeekOK(TIFF* tif, toff_t off)
 + {
-+-	int sock, flags;
-++	int sock, flags, nfds, cnt;
-+ 	struct cf_rendezvous *r;
-+ 	struct cf_conn *cd;
-+ 	struct sockaddr_storage addr;
-+@@ -378,6 +382,16 @@ again:
++     /* Huge offsets, especially -1 / UINT64_MAX, can cause issues */
++diff --git a/libtiff/tiffiop.h b/libtiff/tiffiop.h
++index 45a7932..c6f6f93 100644
++--- a/libtiff/tiffiop.h
+++++ b/libtiff/tiffiop.h
++@@ -393,6 +393,7 @@ extern double _TIFFUInt64ToDouble(uint64);
++ extern float _TIFFUInt64ToFloat(uint64);
 + 
-+ 	gettimeofday(&cd->last_recv_time, NULL);
++ extern float _TIFFClampDoubleToFloat(double);
+++extern uint32 _TIFFClampDoubleToUInt32(double);
 + 
-++	nfds = svc_open_fds();
-++	if (nfds >= (_rpc_dtablesize() / 5) * 4) {
-++		/* destroy idle connections */
-++		cnt = __svc_destroy_idle(15);
-++		if (cnt == 0) {
-++			/* destroy least active */
-++			__svc_destroy_idle(0);
-++		}
-++	}
-++
-+ 	return (FALSE); /* there is never an rpc msg to be processed */
-+ }
++ extern tmsize_t
++ _TIFFReadEncodedStripAndAllocBuffer(TIFF* tif, uint32 strip,
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index c2c2052..79dd0a0 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -5141,17 +5141,17 @@ computeInputPixelOffsets(struct crop_mask *crop, struct image_data *image,
++       {
++       if ((crop->res_unit == RESUNIT_INCH) || (crop->res_unit == RESUNIT_CENTIMETER))
++         {
++-	x1 = (uint32) (crop->corners[i].X1 * scale * xres);
++-	x2 = (uint32) (crop->corners[i].X2 * scale * xres);
++-	y1 = (uint32) (crop->corners[i].Y1 * scale * yres);
++-	y2 = (uint32) (crop->corners[i].Y2 * scale * yres);
+++	x1 = _TIFFClampDoubleToUInt32(crop->corners[i].X1 * scale * xres);
+++	x2 = _TIFFClampDoubleToUInt32(crop->corners[i].X2 * scale * xres);
+++	y1 = _TIFFClampDoubleToUInt32(crop->corners[i].Y1 * scale * yres);
+++	y2 = _TIFFClampDoubleToUInt32(crop->corners[i].Y2 * scale * yres);
++         }
++       else
++         {
++-	x1 = (uint32) (crop->corners[i].X1);
++-	x2 = (uint32) (crop->corners[i].X2);
++-	y1 = (uint32) (crop->corners[i].Y1);
++-	y2 = (uint32) (crop->corners[i].Y2);       
+++	x1 = _TIFFClampDoubleToUInt32(crop->corners[i].X1);
+++	x2 = _TIFFClampDoubleToUInt32(crop->corners[i].X2);
+++	y1 = _TIFFClampDoubleToUInt32(crop->corners[i].Y1);
+++	y2 = _TIFFClampDoubleToUInt32(crop->corners[i].Y2);
++ 	}
++       if (x1 < 1)
++         crop->regionlist[i].x1 = 0;
++@@ -5214,17 +5214,17 @@ computeInputPixelOffsets(struct crop_mask *crop, struct image_data *image,
++     {
++     if (crop->res_unit != RESUNIT_INCH && crop->res_unit != RESUNIT_CENTIMETER)
++       { /* User has specified pixels as reference unit */
++-      tmargin = (uint32)(crop->margins[0]);
++-      lmargin = (uint32)(crop->margins[1]);
++-      bmargin = (uint32)(crop->margins[2]);
++-      rmargin = (uint32)(crop->margins[3]);
+++      tmargin = _TIFFClampDoubleToUInt32(crop->margins[0]);
+++      lmargin = _TIFFClampDoubleToUInt32(crop->margins[1]);
+++      bmargin = _TIFFClampDoubleToUInt32(crop->margins[2]);
+++      rmargin = _TIFFClampDoubleToUInt32(crop->margins[3]);
++       }
++     else
++       { /* inches or centimeters specified */
++-      tmargin = (uint32)(crop->margins[0] * scale * yres);
++-      lmargin = (uint32)(crop->margins[1] * scale * xres);
++-      bmargin = (uint32)(crop->margins[2] * scale * yres);
++-      rmargin = (uint32)(crop->margins[3] * scale * xres);
+++      tmargin = _TIFFClampDoubleToUInt32(crop->margins[0] * scale * yres);
+++      lmargin = _TIFFClampDoubleToUInt32(crop->margins[1] * scale * xres);
+++      bmargin = _TIFFClampDoubleToUInt32(crop->margins[2] * scale * yres);
+++      rmargin = _TIFFClampDoubleToUInt32(crop->margins[3] * scale * xres);
++       }
 + 
-+@@ -819,3 +833,49 @@ __svc_clean_idle(fd_set *fds, int timeout, bool_t cleanblock)
-+ {
-+ 	return FALSE;
-+ }
++     if ((lmargin + rmargin) > image->width)
++@@ -5254,24 +5254,24 @@ computeInputPixelOffsets(struct crop_mask *crop, struct image_data *image,
++   if (crop->res_unit != RESUNIT_INCH && crop->res_unit != RESUNIT_CENTIMETER)
++     {
++     if (crop->crop_mode & CROP_WIDTH)
++-      width = (uint32)crop->width;
+++      width = _TIFFClampDoubleToUInt32(crop->width);
++     else
++       width = image->width - lmargin - rmargin;
++ 
++     if (crop->crop_mode & CROP_LENGTH)
++-      length  = (uint32)crop->length;
+++      length  = _TIFFClampDoubleToUInt32(crop->length);
++     else
++       length = image->length - tmargin - bmargin;
++     }
++   else
++     {
++     if (crop->crop_mode & CROP_WIDTH)
++-      width = (uint32)(crop->width * scale * image->xres);
+++      width = _TIFFClampDoubleToUInt32(crop->width * scale * image->xres);
++     else
++       width = image->width - lmargin - rmargin;
++ 
++     if (crop->crop_mode & CROP_LENGTH)
++-      length  = (uint32)(crop->length * scale * image->yres);
+++      length  = _TIFFClampDoubleToUInt32(crop->length * scale * image->yres);
++     else
++       length = image->length - tmargin - bmargin;
++     }
++@@ -5670,13 +5670,13 @@ computeOutputPixelOffsets (struct crop_mask *crop, struct image_data *image,
++     {
++     if (page->res_unit == RESUNIT_INCH || page->res_unit == RESUNIT_CENTIMETER)
++       { /* inches or centimeters specified */
++-      hmargin = (uint32)(page->hmargin * scale * page->hres * ((image->bps + 7)/ 8));
++-      vmargin = (uint32)(page->vmargin * scale * page->vres * ((image->bps + 7)/ 8));
+++      hmargin = _TIFFClampDoubleToUInt32(page->hmargin * scale * page->hres * ((image->bps + 7) / 8));
+++      vmargin = _TIFFClampDoubleToUInt32(page->vmargin * scale * page->vres * ((image->bps + 7) / 8));
++       }
++     else
++       { /* Otherwise user has specified pixels as reference unit */
++-      hmargin = (uint32)(page->hmargin * scale * ((image->bps + 7)/ 8));
++-      vmargin = (uint32)(page->vmargin * scale * ((image->bps + 7)/ 8));
+++      hmargin = _TIFFClampDoubleToUInt32(page->hmargin * scale * ((image->bps + 7) / 8));
+++      vmargin = _TIFFClampDoubleToUInt32(page->vmargin * scale * ((image->bps + 7) / 8));
++       }
++ 
++     if ((hmargin * 2.0) > (pwidth * page->hres))
++@@ -5714,13 +5714,13 @@ computeOutputPixelOffsets (struct crop_mask *crop, struct image_data *image,
++     {
++     if (page->mode & PAGE_MODE_PAPERSIZE )
++       {
++-      owidth  = (uint32)((pwidth * page->hres) - (hmargin * 2));
++-      olength = (uint32)((plength * page->vres) - (vmargin * 2));
+++      owidth  = _TIFFClampDoubleToUInt32((pwidth * page->hres) - (hmargin * 2));
+++      olength = _TIFFClampDoubleToUInt32((plength * page->vres) - (vmargin * 2));
++       }
++     else
++       {
++-      owidth = (uint32)(iwidth - (hmargin * 2 * page->hres));
++-      olength = (uint32)(ilength - (vmargin * 2 * page->vres));
+++      owidth = _TIFFClampDoubleToUInt32(iwidth - (hmargin * 2 * page->hres));
+++      olength = _TIFFClampDoubleToUInt32(ilength - (vmargin * 2 * page->vres));
++       }
++     }
++ 
++@@ -5729,6 +5729,12 @@ computeOutputPixelOffsets (struct crop_mask *crop, struct image_data *image,
++   if (olength > ilength)
++     olength = ilength;
++ 
+++  if (owidth == 0 || olength == 0)
+++  {
+++    TIFFError("computeOutputPixelOffsets", "Integer overflow when calculating the number of pages");
+++    exit(EXIT_FAILURE);
+++  }
 ++
-++static int
-++__svc_destroy_idle(int timeout)
-++{
-++	int i, ncleaned = 0;
-++	SVCXPRT *xprt, *least_active;
-++	struct timeval tv, tdiff, tmax;
-++	struct cf_conn *cd;
-++
-++	gettimeofday(&tv, NULL);
-++	tmax.tv_sec = tmax.tv_usec = 0;
-++	least_active = NULL;
-++	rwlock_wrlock(&svc_fd_lock);
-++
-++	for (i = 0; i <= svc_max_pollfd; i++) {
-++		if (svc_pollfd[i].fd == -1)
-++			continue;
-++		xprt = __svc_xports[i];
-++		if (xprt == NULL || xprt->xp_ops == NULL ||
-++			xprt->xp_ops->xp_recv != svc_vc_recv)
-++			continue;
-++		cd = (struct cf_conn *)xprt->xp_p1;
-++		if (!cd->nonblock)
-++			continue;
-++		if (timeout == 0) {
-++			timersub(&tv, &cd->last_recv_time, &tdiff);
-++			if (timercmp(&tdiff, &tmax, >)) {
-++				tmax = tdiff;
-++				least_active = xprt;
-++			}
-++			continue;
-++		}
-++		if (tv.tv_sec - cd->last_recv_time.tv_sec > timeout) {
-++			__xprt_unregister_unlocked(xprt);
-++			__svc_vc_dodestroy(xprt);
-++			ncleaned++;
-++		}
-++	}
-++	if (timeout == 0 && least_active != NULL) {
-++		__xprt_unregister_unlocked(least_active);
-++		__svc_vc_dodestroy(least_active);
-++		ncleaned++;
-++	}
-++	rwlock_unlock(&svc_fd_lock);
-++	return (ncleaned);
-++}
++   /* Compute the number of pages required for Portrait or Landscape */
++   switch (page->orient)
++     {
 +-- 
 +2.25.1
 +
-diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.2.6.bb b/meta/recipes-extended/libtirpc/libtirpc_1.2.6.bb
-index 10a324c3b6..fe4e30e61f 100644
---- a/meta/recipes-extended/libtirpc/libtirpc_1.2.6.bb
-+++ b/meta/recipes-extended/libtirpc/libtirpc_1.2.6.bb
-@@ -9,7 +9,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f835cce8852481e4b2bbbdd23b5e47f3 \
- 
- PROVIDES = "virtual/librpc"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2 \
-+	   file://CVE-2021-46828.patch \
-+	  "
- UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/libtirpc/files/libtirpc/"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
- SRC_URI[md5sum] = "b25f9cc18bfad50f7c446c77f4ae00bb"
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+index 75bc20de78..4383f7af8e 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+@@ -24,6 +24,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2022-0909.patch \
+            file://CVE-2022-0891.patch \
+            file://CVE-2022-0924.patch \
++           file://CVE-2022-2056-CVE-2022-2057-CVE-2022-2058.patch \
+           "
+ SRC_URI[md5sum] = "2165e7aba557463acc0664e71a3ed424"
+ SRC_URI[sha256sum] = "5d29f32517dadb6dbcd1255ea5bbc93a2b54b94fbf83653b4d65c7d6775b8634"
 -- 
 2.25.1
 
