@@ -1,83 +1,85 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC7F3C04A68
-	for <webhook@archiver.kernel.org>; Sat, 30 Jul 2022 09:55:13 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web12.1662.1659174903062497981
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF221C04A68
+	for <webhook@archiver.kernel.org>; Sat, 30 Jul 2022 17:31:45 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web09.5227.1659202299988004932
  for <openembedded-core@lists.openembedded.org>;
- Sat, 30 Jul 2022 02:55:03 -0700
+ Sat, 30 Jul 2022 10:31:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=NeZJHOfK;
- spf=pass (domain: axis.com, ip: 195.60.68.18,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=d/4SBVSa;
+ spf=pass (domain: gmail.com, ip: 209.85.167.46,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f46.google.com with SMTP id bq11so6352748lfb.5
+        for <openembedded-core@lists.openembedded.org>;
+ Sat, 30 Jul 2022 10:31:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1659174904;
-  x=1690710904;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=f7wqyh969PXEVuc1qBxPBffzDOKQfDQlvdQh81zhQv4=;
-  b=NeZJHOfKzgyJ4x7noc8SsougGGIuUikR2IG/asidFoMqhcSRJV1RzHXP
-   l+cbj4Yi7nPvfiefHBUpYUySacyeqrDva4/LCvY7OXMi6T76arjO+1DtF
-   JWC5oa4k0iCO1psJkE9VSvOzX1Z5tz67BvO7kXtdoH1ZVVJ0JCq4ugA21
-   fTETvEsnA6DRE6L3YB6tEdgPvefl7uHEEBftuTsZ8rlbbg3qUOYVsH5iA
-   JRfINoPMepOUi0U/R2FrpX2oNdlN0SBA+SQpJStUc1thdxwtlDxyOHeBX
-   pj2oetIzwOviI8zfaI3/vt8gn2ejfRc3rLJeftNg5boml3XySn2KimkB0
-   A==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Alexander Kanavin
-	<alex@linutronix.de>
-Subject: RE: [OE-core] [PATCH 1/6] scripts/oe-setup-builddir: make it known
- where configurations come from
-Thread-Topic: [OE-core] [PATCH 1/6] scripts/oe-setup-builddir: make it known
- where configurations come from
-Thread-Index: AQHYo1UKfJ7Ym5nsbk6mb2lrYFGOz62VwDsQ///mbYCAAQH2cA==
-Date: Sat, 30 Jul 2022 09:54:59 +0000
-Message-ID: <33ed623c9f5147fea346548754ec498c@axis.com>
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SFZpR/Tw6wc4PivYuZiAz6fvx68iq8SbFLowYORAWzQ=;
+        b=d/4SBVSazoF5BGucgxcR7IIpbxaSob4KgbFfuBHVcBGIx8gkSvBv3L6Tdh3Wd409fn
+         Cvk8S88dytFfG4r29mIrygmeTG/paKjj5kj0gCNQIU1sFQLHQkaaKtjxhuWm5HuCFC3Z
+         coNNcp8xUP438cDbGXjCsve+1J/NK3w5/nKzouvpM1He6uewHivs43HGvT14Hw0g/O+q
+         6IOK38gaf90f7vw8DdAEpTK6Y2RpOURwyH1Qk2t7DcvgTEY8eTU08q87kwnsobuMtdCW
+         N4Fv9ATV5kpmD4KRixcfuk1tzZ1WnuYbYlAnXbvhplXflN9gCq2THAEhkO/YWRXcQ8D+
+         n4GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SFZpR/Tw6wc4PivYuZiAz6fvx68iq8SbFLowYORAWzQ=;
+        b=f3c5tGn/IoTilxebWz4hi8aDlYuYQA/krEAdwWKpinFyME22JLQUoUUmL0kNqRgKWj
+         FNHg1pRVh22wH4K1XZjYUwSFmQyxL9FL4qkkurq5p6/yWKo1SVqT+6+A39SzE31Ev0se
+         uIVnEjSaaArvl0RMm4+C6vE+d4dr9Pv6Rh1CQwbqQsGliwJF2yazR08L4fsvG62rEgkA
+         jHBRAPXioDmfevZoriSyHmIG7b2uelhRdQIqE/+doOycIK0mbvXvlzkcw3MgKmoQVcSo
+         eqC47OhZHMrlQNiSy3O7qbHLZNTleybhUhm4roiPGxRYtQwOQ3cFpazrF68nIm74R1jy
+         hoJA==
+X-Gm-Message-State: ACgBeo2BnpQV3cm4I7oo9zq78TrIfg9A2lzI6SRY9dj8RXgnlIiINmKX
+	IlrFBRuKgJqcI233MxFNm1/sIuWMnnLTgsMH464=
+X-Google-Smtp-Source: 
+ AGRyM1sFytKs4EvU4RTC851366ubYJAPmkWfXjgkMI870Gjnd/mOCYBfzYnAQ2Jlcnd8bAlsUO1IYp+FNzSLdJ1GVyc=
+X-Received: by 2002:a05:6512:3403:b0:481:60ae:7ebc with SMTP id
+ i3-20020a056512340300b0048160ae7ebcmr3248309lfr.358.1659202298079; Sat, 30
+ Jul 2022 10:31:38 -0700 (PDT)
+MIME-Version: 1.0
 References: <20220729141049.835733-1-alex@linutronix.de>
  <57a6142f5c2f444288e16632839dc647@axis.com>
  <CANNYZj9xE8EUR385HAy5BPcsiL8G_LPwaY9Q3GAXBp7sv45t4g@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj9xE8EUR385HAy5BPcsiL8G_LPwaY9Q3GAXBp7sv45t4g@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
+ <33ed623c9f5147fea346548754ec498c@axis.com>
+In-Reply-To: <33ed623c9f5147fea346548754ec498c@axis.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 30 Jul 2022 19:31:26 +0200
+Message-ID: 
+ <CANNYZj_v_EdD4tB_aOvEy9vneN0sgDk73Vj4uYbhiC70yQpiyA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/6] scripts/oe-setup-builddir: make it known
+ where configurations come from
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 30 Jul 2022 09:55:13 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 30 Jul 2022 17:31:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168680
+ https://lists.openembedded.org/g/openembedded-core/message/168681
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8
-YWxleC5rYW5hdmluQGdtYWlsLmNvbT4NCj4gU2VudDogZGVuIDI5IGp1bGkgMjAyMiAyMjoxMg0K
-PiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+
-IENjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnOyBBbGV4YW5kZXIg
-S2FuYXZpbg0KPiA8YWxleEBsaW51dHJvbml4LmRlPg0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVd
-IFtQQVRDSCAxLzZdIHNjcmlwdHMvb2Utc2V0dXAtYnVpbGRkaXI6IG1ha2UgaXQNCj4ga25vd24g
-d2hlcmUgY29uZmlndXJhdGlvbnMgY29tZSBmcm9tDQo+IA0KPiBPbiBGcmksIDI5IEp1bCAyMDIy
-IGF0IDIxOjU1LCBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNv
-bT4gd3JvdGU6DQo+ID4gUGxlYXNlIGNvbnRpbnVlIHRvIGxpbWl0IHRoZSB0ZXh0IHRvIHdpdGhp
-biA4MCBjaGFyYWN0ZXJzIChhcyBpdCB3YXMpOg0KPiA+DQo+ID4gWW91IG1heSB3aXNoIHRvIGVk
-aXQgaXQgdG8sIGZvciBleGFtcGxlLCBzZWxlY3QgYSBkaWZmZXJlbnQgTUFDSElORSAodGFyZ2V0
-DQo+ID4gaGFyZHdhcmUpLiBTZWUgY29uZi9sb2NhbC5jb25mIGZvciBtb3JlIGluZm9ybWF0aW9u
-IGFzIGNvbW1vbiBjb25maWd1cmF0aW9uDQo+ID4gb3B0aW9ucyBhcmUgY29tbWVudGVkLg0KPiA+
-DQo+ID4gb3I6DQo+ID4NCj4gPiBZb3UgbWF5IHdpc2ggdG8gZWRpdCBpdCB0bywgZS5nLiwgc2Vs
-ZWN0IGEgZGlmZmVyZW50IE1BQ0hJTkUgKHRhcmdldCBoYXJkd2FyZSkuDQo+ID4gU2VlIGNvbmYv
-bG9jYWwuY29uZiBmb3IgbW9yZSBpbmZvcm1hdGlvbiBhcyBjb21tb24gY29uZmlndXJhdGlvbiBv
-cHRpb25zIGFyZQ0KPiA+IGNvbW1lbnRlZC4NCj4gDQo+IEkgY2FuIGRvIHRoYXQsIGJ1dCBJJ20g
-Y3VyaW91cyBhYm91dCB0aGlzIDgwIGNoYXJhY3RlciBsaW1pdC4gV2hvDQo+IGNhcmVzLCBpbiAy
-MDIyLCBhbmQgd2h5Pw0KPiANCj4gQWxleA0KDQpXZWxsLCBJIGNhcmUgc2luY2UgYWxsIG15IHdp
-bmRvd3MgaGFwcGVuIHRvIGJlIDgwIGNoYXJhY3RlcnMgd2lkZSAoYW5kIEkgaGF2ZSANCmEgbG90
-IG9mIHRoZW0gb24gbXkgNEsgbW9uaXRvcikuIEFuZCBzaW5jZSBJIGNhcmUgYW5kIG1vc3QgZG9u
-J3QsIGtlZXBpbmcgdGhlIA0KODAgY2hhcmFjdGVyIHdpZHRoIHNob3VsZCBob3BlZnVsbHkgbm90
-IGJlIHRvbyBtdWNoIG9mIGEgcHJvYmxlbS4gOykNCg0KLy9QZXRlcg0KDQoNCg==
+On Sat, 30 Jul 2022 at 11:55, Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+> Well, I care since all my windows happen to be 80 characters wide (and I have
+> a lot of them on my 4K monitor). And since I care and most don't, keeping the
+> 80 character width should hopefully not be too much of a problem. ;)
+
+On the other hand, I have a single fullscreen terminal window (with
+tabs) which offers 212 char x 53 lines of text. So that I don't need
+to be irritated by other people's indentation and line breaking
+preferences (or lack of care for them), and everything just fits and
+is perfectly readable, always :)
+
+Alex
 
