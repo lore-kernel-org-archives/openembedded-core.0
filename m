@@ -1,150 +1,91 @@
-Return-Path: <chuckwolber@gmail.com>
+Return-Path: <changhyeok.bae@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEA6BC19F2B
-	for <webhook@archiver.kernel.org>; Sat, 30 Jul 2022 18:15:15 +0000 (UTC)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
- [209.85.219.180])
- by mx.groups.io with SMTP id smtpd.web09.5644.1659204913679903149
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8FA4C19F2C
+	for <webhook@archiver.kernel.org>; Sat, 30 Jul 2022 21:18:36 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web08.7097.1659215906453940563
  for <openembedded-core@lists.openembedded.org>;
- Sat, 30 Jul 2022 11:15:13 -0700
+ Sat, 30 Jul 2022 14:18:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gbV0rkDb;
- spf=pass (domain: gmail.com, ip: 209.85.219.180,
- mailfrom: chuckwolber@gmail.com)
-Received: by mail-yb1-f180.google.com with SMTP id i62so11182826yba.5
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=XNt7lge/;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53,
+ mailfrom: changhyeok.bae@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id m8so9466704edd.9
         for <openembedded-core@lists.openembedded.org>;
- Sat, 30 Jul 2022 11:15:13 -0700 (PDT)
+ Sat, 30 Jul 2022 14:18:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=qAeiX91tv/DSogOxjst9qM+LKFyiunldi/FCl2bIlO4=;
-        b=gbV0rkDbQRofzcpH0bgUXzgMHOKfYNANi4uqfUNQYYuyaI+gPCmQlkRfdW6lPlX50v
-         fvKiKcbNe3ajIKrDxD7RYtQCKqmjU3K27eAvf8w+2PmVROdDSwp9q2vwRwlD1YTPD5Zy
-         Td7fLLAKSJNbNG3nwMmkuC2pcLgVFIoJ7cQblErXY5gV1MtU7cq/350RfohhdaxNWxXm
-         frRkSIHKTzgptpyRVoJQjzPTbgW7ebrL0xVP9GOYVC9AD8mkUZlFc2D595ixjW6avN6M
-         btBMwhZTKiKVnuCoiZP01KeaAPeMc9LTzEcIdmrQsjUHzNIesr50az93RGwss4sAkRv5
-         tYsw==
+        h=message-id:date:subject:cc:to:from:from:to:cc;
+        bh=evreIacFbAzQPSZGvk8sKEYb/Bf3F2OLUbFmM5khMlA=;
+        b=XNt7lge/tzc1huhj/1mUOGR9hkKOgyrRhW+zt4geDzElGsR9RzhKUCcT3DwCGSZEzw
+         hYmTqvFiT0femfOGBNEVOx4rHiGK/57zgsJUae87+XgZNfXk7OnMXAwWJAJiG4Bn/LUd
+         CEsK7oEZxHTrT1qxvCXv+kbdHiZXOAi6VnxZVpxVa1JIUpBtKXXbDtmZZgo8hNzqQuiK
+         0DLg4DznkbXUytkvC2x8trQNV7UD1GaCXCIL4w+oBxlNgPzV6fdrX+HFmnzg+kj4EhkJ
+         aqVepgwCbtnCKJVnfrNk4cE8NXHqp8C3zn043JpGPJF1mK1Zc5BFz48dEB9HAANaS47c
+         Inmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=qAeiX91tv/DSogOxjst9qM+LKFyiunldi/FCl2bIlO4=;
-        b=00TZoGF2wiAdt1gOUYW1dzMRNYJkI8eO1rDD7lBlvP/kX4bdlHvZlPhq6ZALavdpC8
-         C+nxKgnbhYlJTs2vv/lLQ0B6bZePl+nVuwk+0cYANHB34iVAatgOheADOHhvqfz3IWQK
-         HriulwiDf/n7Lm1wmpebmPG4Hc5wa/Bxx2ibFSFOtqQ+0THFiSlFMD/60Idm++w5Vnh2
-         lwKnjRoaFDO+KJrC2SfRYMQYp5UN0mdEoUFgb92N6uJh1F2f8WkuC+XgpTvKBQ8laOdx
-         77R6hwjApAegdlx9yXwU7FpXw00xZklunGaVW5DLDMb8n0Kozzjkb8ja0iX1y0CwIjXo
-         VEHA==
-X-Gm-Message-State: ACgBeo0V821NDgF3eK9zy2nG4xgtPpVwqz0ed38VB7FURtxW/phptJJ5
-	1WrOlSaixRdO770zUkt7TXbq5+nbYNMuv8xz+4A=
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=evreIacFbAzQPSZGvk8sKEYb/Bf3F2OLUbFmM5khMlA=;
+        b=pMjNnSF9ItzWyZglmV9TAAQmfVt90XWWFbIyAbrTPOLjEqd7OZkA8xWPNj1tr2tY4h
+         8fdgkK5M3CZXJHkv8SOYbX1VFD2+pgRdjERoqjdzZSGuBld0tcy9nNEn2mWEY9CKl3L5
+         ImsqnmZXTd5TFscTpV2YSzlMVrCaB6xumT0u8SGoCqZqHo/mLwVMRCsVlnDxhI2GnHc6
+         eM0ySFQvG4VODK5YAKUxbEFLgZOcWDGGXkOH107QNAap0gYb4VTq3G+mk4Ie7wcWMeVt
+         QF8uNDByE3x+b0GTV4woJzicZ9wydDmNVQGuc9yAQZbINDRVwCrdq1lfPT1ejf3R6td9
+         YHLw==
+X-Gm-Message-State: AJIora8Zh3RWzyrrDSJwnJg+bYYxaoozMEQLCm+LtmwB9WbWj4Pa6Szy
+	9XKoqhVqxfKoZQJj1jGxSwHOiAC1u9qw0A==
 X-Google-Smtp-Source: 
- AA6agR7lpRdf4tYbhTYcSt9a5UbRWiUI2MvxLYeHsekIqIHcpk4h8wH1vMczmoJB5loIWEYN7wTXtU26v71/AW2vtbo=
-X-Received: by 2002:a25:198b:0:b0:676:bd41:eb45 with SMTP id
- 133-20020a25198b000000b00676bd41eb45mr5127386ybz.312.1659204912801; Sat, 30
- Jul 2022 11:15:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220729141049.835733-1-alex@linutronix.de>
- <57a6142f5c2f444288e16632839dc647@axis.com>
- <CANNYZj9xE8EUR385HAy5BPcsiL8G_LPwaY9Q3GAXBp7sv45t4g@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj9xE8EUR385HAy5BPcsiL8G_LPwaY9Q3GAXBp7sv45t4g@mail.gmail.com>
-From: Chuck Wolber <chuckwolber@gmail.com>
-Date: Sat, 30 Jul 2022 11:15:02 -0700
-Message-ID: 
- <CAB=6tBQzdzvgsD-tWQ9nz7C2-Smn0SDSqeveYus57zW98SkHsA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/6] scripts/oe-setup-builddir: make it known
- where configurations come from
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Alexander Kanavin <alex@linutronix.de>,
- Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000006feb3a05e509bfb5"
+ AGRyM1tO2luMB7AXm6aHWY2+lbklbTz8ftimZA7+FZU68nWEue2neDuzLilVnRVGP1P25x8oXSqsOA==
+X-Received: by 2002:a05:6402:484:b0:43b:6e02:71af with SMTP id
+ k4-20020a056402048400b0043b6e0271afmr9163977edv.176.1659215904656;
+        Sat, 30 Jul 2022 14:18:24 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5aec80.dynamic.kabel-deutschland.de.
+ [95.90.236.128])
+        by smtp.gmail.com with ESMTPSA id
+ s10-20020aa7c54a000000b0043d1eff72b3sm2963154edr.74.2022.07.30.14.18.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Jul 2022 14:18:24 -0700 (PDT)
+From: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Changhyeok Bae <changhyeok.bae@gmail.com>
+Subject: [OE-Core][PATCH] repo: upgrade 2.27 -> 2.28
+Date: Sat, 30 Jul 2022 21:18:21 +0000
+Message-Id: <20220730211821.8943-1-changhyeok.bae@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 30 Jul 2022 18:15:15 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 30 Jul 2022 21:18:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168682
+ https://lists.openembedded.org/g/openembedded-core/message/168683
 
---0000000000006feb3a05e509bfb5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+---
+ meta/recipes-devtools/repo/{repo_2.27.bb => repo_2.28.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/repo/{repo_2.27.bb => repo_2.28.bb} (95%)
 
-On Fri, Jul 29, 2022 at 13:12 Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
+diff --git a/meta/recipes-devtools/repo/repo_2.27.bb b/meta/recipes-devtools/repo/repo_2.28.bb
+similarity index 95%
+rename from meta/recipes-devtools/repo/repo_2.27.bb
+rename to meta/recipes-devtools/repo/repo_2.28.bb
+index 3c1e3acd7c..052108e9e5 100644
+--- a/meta/recipes-devtools/repo/repo_2.27.bb
++++ b/meta/recipes-devtools/repo/repo_2.28.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+ SRC_URI = "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main \
+            file://0001-python3-shebang.patch \
+            "
+-SRCREV = "68d69635c7bfef6ed8a5c7e29246265611471e0f"
++SRCREV = "a8cf575d68e7e211292d967f4a12cf609a028b20"
+ 
+ MIRRORS += "git://gerrit.googlesource.com/git-repo.git git://github.com/GerritCodeReview/git-repo.git"
+ 
+-- 
+2.17.1
 
-I can do that, but I'm curious about this 80 character limit. Who
-> cares, in 2022, and why?
-
-
-I care :)
-
-Why? It is an expectation built into a lot of tools for one thing.
-
-The git commit log is one notable example. Wrapping commit messages at 72
-characters and keeping code width to (generally) 80 characters has
-non-trivial benefits that are (hopefully) reasonably obvious to anyone who
-has had a lot of windows up at one time.
-
-We also have to have *some* sort of limit and it *should* be consistently
-applied. The human ability to mentally =E2=80=9Ccarriage return=E2=80=9D dr=
-ops off as lines
-get longer and minds get fatigued.
-
-Finally, looking back at my own learning curve and having mentored new
-developers, line length guidelines force developers to write code that is
-more readable in the long run.
-
-..Ch:W..
-
-
-> --
-*"Perfection must be reached by degrees; she requires the slow hand of
-time." - Voltaire*
-
---0000000000006feb3a05e509bfb5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Fri, Jul 29, 2022 at 13:12 Alexander Kanavin &lt;<a href=
-=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br=
-></div><div dir=3D"ltr" class=3D"gmail_attr"><br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;borde=
-r-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)" dir=
-=3D"auto">I can do that, but I&#39;m curious about this 80 character limit.=
- Who<br>
-cares, in 2022, and why?</blockquote><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid=
-;padding-left:1ex;border-left-color:rgb(204,204,204)" dir=3D"auto"></blockq=
-uote><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-co=
-lor:rgb(204,204,204)" dir=3D"auto"></blockquote><div dir=3D"auto"><br></div=
-><div dir=3D"auto">I care :)=C2=A0</div><div dir=3D"auto"><br></div><div di=
-r=3D"auto">Why? It is an expectation built into a lot of tools for one thin=
-g.</div><div dir=3D"auto"><br></div><div dir=3D"auto">The git commit log is=
- one notable example. Wrapping commit messages at 72 characters and keeping=
- code width to (generally) 80 characters has non-trivial benefits that are =
-(hopefully) reasonably obvious to anyone who has had a lot of windows up at=
- one time.</div><div dir=3D"auto"><br></div><div dir=3D"auto">We also have =
-to have *some* sort of limit and it *should* be consistently applied. The h=
-uman ability to mentally =E2=80=9Ccarriage return=E2=80=9D drops off as lin=
-es get longer and minds get fatigued.</div><div dir=3D"auto"><br></div><div=
- dir=3D"auto">Finally, looking back at my own learning curve and having men=
-tored new developers, line length guidelines force developers to write code=
- that is more readable in the long run.</div><div dir=3D"auto"><br></div><d=
-iv dir=3D"auto">..Ch:W..</div><div dir=3D"auto"><br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
-rder-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)" =
-dir=3D"auto"><br></blockquote></div></div>-- <br><div dir=3D"ltr" class=3D"=
-gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><=
-b><span style=3D"font-family:monospace">&quot;Perfection must be reached by=
- degrees; she requires the slow hand of time.&quot; - Voltaire</span></b></=
-div></div></div>
-
---0000000000006feb3a05e509bfb5--
 
