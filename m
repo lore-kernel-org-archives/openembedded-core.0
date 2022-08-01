@@ -2,42 +2,44 @@ Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 981F1C19F2A
-	for <webhook@archiver.kernel.org>; Mon,  1 Aug 2022 13:04:18 +0000 (UTC)
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net
- [217.70.178.231])
- by mx.groups.io with SMTP id smtpd.web11.24294.1659359045515559905
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00009C00144
+	for <webhook@archiver.kernel.org>; Mon,  1 Aug 2022 14:12:18 +0000 (UTC)
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net
+ [217.70.178.232])
+ by mx.groups.io with SMTP id smtpd.web08.25224.1659363129983841859
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Aug 2022 06:04:06 -0700
+ Mon, 01 Aug 2022 07:12:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Us2F7CRu;
- spf=pass (domain: bootlin.com, ip: 217.70.178.231,
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=YJLcXmdG;
+ spf=pass (domain: bootlin.com, ip: 217.70.178.232,
  mailfrom: luca.ceresoli@bootlin.com)
 Received: from booty (unknown [77.244.183.192])
 	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 0201110000B;
-	Mon,  1 Aug 2022 13:04:02 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 95C7A200004;
+	Mon,  1 Aug 2022 14:12:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1659359043;
+	t=1659363128;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dKU54uYT04RDyr73vHWCyJWbXs29xwgRZIm1aIcYpVs=;
-	b=Us2F7CRuYugvTo4NZi12nFNCsdDnRxYaSpkWLP3kkFvquhaxhDIf9wgAlLI6GsosTXMtYC
-	gERHPo3xjehtiwN3r065lDDHXXIAJog54uE473V2E9Vv5EhIp2jnmqkLWl6X6n4/alokpq
-	BT9/Hb882nxirj7YpNfpDBQ70QFnHLA/jR3Iqs2f/2AUO7qpenhJ88NmPIujKnb5g0HXWB
-	/WX3h2URAyYokGjpAU7Xy2uJiLWdTckFQZwg09K+XDbRl32A9UGppHBUuBAVMxyMEOydUF
-	IsLF9ZY4FQVNydqn8H6zRcOBN5P/uPCjEWPBj22P19AFwCQ2oWsQ+IgPZLJ9Yw==
-Date: Mon, 1 Aug 2022 15:04:01 +0200
+	bh=tLrvmRamCdP59dK+nI63tdTZ1mz9EcjaA05nlARdcMA=;
+	b=YJLcXmdGbOSAenVMYbHrXz8h92AzgmnGS5O50D+LxuwAdiHomA3P5XrWebI7HQs37p2qZS
+	Gf13/o1O7oXqNrixcTrtdMRZhnWNxT1LI88IpCFhQTGvLzAcPtm9StFaKT3bw/5G5FcsHS
+	y10683smvsf5+WRtsoJbVoR9CU9Qwws4gI/JczVNxL6Mue6qnCNEqFqc1/yzRpSu0oxRbH
+	qfsvc+nrVSBuQ2quIe8xGh/yFhJ8zqT6pKTk+y7hF2nz/zMPDeaJzYrlxB03+Hp+OSXgmV
+	bf3xR+R30WOrOeceqgQl6gj3xzRhh34Fnwug6YI4ospSALLfZb/WysZOqepYoA==
+Date: Mon, 1 Aug 2022 16:12:05 +0200
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "He Zhe" <zhe.he@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][PATCH] lttng-modules: Fix build failure for kernel
- v5.15.58
-Message-ID: <20220801150401.28861502@booty>
-In-Reply-To: <20220801085136.38110-1-zhe.he@windriver.com>
-References: <20220801085136.38110-1-zhe.he@windriver.com>
+To: "Jan Kiszka" <jan.kiszka@siemens.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, Ross Burton
+ <ross.burton@arm.com>
+Subject: Re: [OE-core] [PATCH 2/2] wic/bootimg-efi: Add support for loading
+ devicetree files
+Message-ID: <20220801161205.735ef5a5@booty>
+In-Reply-To: <5e8d6c83-8795-3040-3131-3b181e6f01ff@siemens.com>
+References: <bc3dd2ac-3ae7-4818-e212-6f49147c306c@siemens.com>
+	<5e8d6c83-8795-3040-3131-3b181e6f01ff@siemens.com>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
@@ -46,70 +48,58 @@ Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Aug 2022 13:04:18 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Aug 2022 14:12:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168748
+ https://lists.openembedded.org/g/openembedded-core/message/168749
 
-Hello He,
+Hello Jan,
 
-On Mon,  1 Aug 2022 16:51:36 +0800
-"He Zhe" <zhe.he@windriver.com> wrote:
+On Sat, 30 Jul 2022 10:24:43 +0200
+"Jan Kiszka" <jan.kiszka@siemens.com> wrote:
 
-> Backport from upstream d8254360c7f2ff9b3f945e9668d89c0b56b9bd91
-> ("fix: net: skb: introduce kfree_skb_reason() (v5.15.58..v5.16)")
+> From: Jan Kiszka <jan.kiszka@siemens.com>
 > 
-> tmp-glibc/work/qemuarm-wrs-linux-gnueabi/lttng-modules/2.13.3-r0/
-> lttng-modules-2.13.3/src/probes/../../include/lttng/
-> tracepoint-event-impl.h:133:6:
-> error: conflicting types for 'trace_kfree_skb'; have 'void(struct sk_buff *, void *)'
->   133 | void trace_##_name(_proto);
->       |      ^~~~~~
+> For device tree using systems, add support to set a custom devices tree
+> during UEFI boot. This requires to copy the DTB file to the boot
+> partition and to add the respective loader entries to the configuration
+> files.
 > 
-> Signed-off-by: He Zhe <zhe.he@windriver.com>
+> Both grub and systemd-boot support only loading a specific device tree.
+> Therefore refuse to work if the 'dtb' parameter contains more than one
+> entry.
+> 
+> Out of scope for now are overlays (only supported by systemd-boot).
+> 
+> Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
 > ---
->  ...oduce-kfree_skb_reason-v5.15.58.v5.1.patch | 51 +++++++++++++++++++
->  .../lttng/lttng-modules_2.13.4.bb             |  1 +
->  2 files changed, 52 insertions(+)
->  create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-net-skb-introduce-kfree_skb_reason-v5.15.58.v5.1.patch
-> 
-> diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-net-skb-introduce-kfree_skb_reason-v5.15.58.v5.1.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-net-skb-introduce-kfree_skb_reason-v5.15.58.v5.1.patch
-> new file mode 100644
-> index 0000000000..0140c4b989
-> --- /dev/null
-> +++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-net-skb-introduce-kfree_skb_reason-v5.15.58.v5.1.patch
-> @@ -0,0 +1,51 @@
-> +From d8254360c7f2ff9b3f945e9668d89c0b56b9bd91 Mon Sep 17 00:00:00 2001
-> +From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> +Date: Fri, 29 Jul 2022 15:37:43 -0400
-> +Subject: [PATCH] fix: net: skb: introduce kfree_skb_reason() (v5.15.58..v5.16)
-> +
-> +See upstream commit :
-> +
-> +  commit c504e5c2f9648a1e5c2be01e8c3f59d394192bd3
-> +  Author: Menglong Dong <imagedong@tencent.com>
-> +  Date:   Sun Jan 9 14:36:26 2022 +0800
-> +
-> +    net: skb: introduce kfree_skb_reason()
-> +
-> +    Introduce the interface kfree_skb_reason(), which is able to pass
-> +    the reason why the skb is dropped to 'kfree_skb' tracepoint.
-> +
-> +    Add the 'reason' field to 'trace_kfree_skb', therefor user can get
-> +    more detail information about abnormal skb with 'drop_monitor' or
-> +    eBPF.
-> +
-> +    All drop reasons are defined in the enum 'skb_drop_reason', and
-> +    they will be print as string in 'kfree_skb' tracepoint in format
-> +    of 'reason: XXX'.
-> +
-> +    ( Maybe the reasons should be defined in a uapi header file, so that
-> +    user space can use them? )
-> +
-> +Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> +Change-Id: Ib3c039207739dad10f097cf76474e0822e351273
 
-Missing Upstream-status tag here.
+[...]
 
+> @@ -327,11 +350,13 @@ class BootimgEFIPlugin(SourcePlugin):
+>                  objcopy_cmd = "objcopy \
+>                      --add-section .osrel=%s --change-section-vma .osrel=0x20000 \
+>                      --add-section .cmdline=%s --change-section-vma .cmdline=0x30000 \
+> +                    %s \
+>                      --add-section .linux=%s --change-section-vma .linux=0x2000000 \
+>                      --add-section .initrd=%s --change-section-vma .initrd=0x3000000 \
+>                      %s %s" % \
+>                      ("%s/usr/lib/os-release" % staging_dir_host,
+>                      cmdline.name,
+> +                    dtb_params,
+>                      "%s/%s" % (staging_kernel_dir, kernel),
+>                      initrd.name,
+>                      efi_stub,
+
+This hunk conflicts with the changes introduced by [0], which is
+already in my testing branch. I have applied your patch with a little
+change to resolve the conflict, can you please have a look at the result
+[1] to ensure I correctly followed the logic of your patch?
+
+[0] https://lists.openembedded.org/g/openembedded-core/message/168553
+[1]
+https://git.openembedded.org/openembedded-core-contrib/commit/?h=lucaceresoli/master-next&id=7547ec3e2065e55a8caa6118fc962130b8c6bd98
+
+Best regards.
 -- 
 Luca Ceresoli, Bootlin
 Embedded Linux and Kernel engineering
