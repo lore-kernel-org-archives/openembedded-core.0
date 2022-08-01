@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E288FC2BBC5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED232C32765
 	for <webhook@archiver.kernel.org>; Mon,  1 Aug 2022 08:14:56 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com
- (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web12.22464.1659341691224180174
+Received: from a27-33.smtp-out.us-west-2.amazonses.com
+ (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web08.22238.1659341691038237079
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Aug 2022 01:14:51 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=IYV0BxDK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
- mailfrom: 010101825878d6e0-913ee0b1-28a9-43f4-88c2-dd70694d8f65-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=jpTcEIVf;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
+ mailfrom: 010101825878d4a3-2b9d99a7-1406-4833-850e-e3665216effa-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1659341690;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=N4xD++Z9Run36XPuxSBCT7k+/+aSFaHbczh+jy+FzNQ=;
-	b=IYV0BxDKYm7CKdG6AEkp7O6tI1e+LD294e06Jxutxpd0lVNR8Nb8i8pEoWjltbCW
-	25RT/ANa9sNZ2FLggiLLOAzKPcp8IUBsRASfjACZDeBGdQheaxty2sHo8csnjJe/iXd
-	CrSV/e9uK2Cp8epQKnquIiOxwoHiQHmqqlXeMojY=
+	bh=1GgbfKOKbH5BBaWXmFZPJB7oab8wn3oOoUP/Aj1JUWs=;
+	b=jpTcEIVfJbNYR6vnFEeyGVDh0HSFttepOGD659I8b5WBIzvvBH1v25sLvnxlRw7N
+	olq2JzmPlNxVcx2MupZ0cKFVi1NsgeWDsJFXZ+dCjLYQEhUm5YsFpxqYhkkr4naGgbN
+	oK0E/KNE1uFraMPWQPUCgsuWmrDeQmPhUI40I7RQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1659341690;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=N4xD++Z9Run36XPuxSBCT7k+/+aSFaHbczh+jy+FzNQ=;
-	b=cW2Kq+wfJjxQ2YJxfSVSh7pZ14JGGrx9722rPCOYi5b/mUj0SI8YsljryYkyDZj2
-	IIleov8FFR3x+V68xgEpwRs7cVgISi1H5NRMqE4dIYF5lBzCqBbfMe+8xV33Fttv3TT
-	5lqFd7bdDJIq/Pc/FVcd6b0Q0ZGUQ6VrEsjv4rMk=
-Content-Type: multipart/mixed; boundary="===============3644840575461553743=="
+	bh=1GgbfKOKbH5BBaWXmFZPJB7oab8wn3oOoUP/Aj1JUWs=;
+	b=ICJ2BracQmpH8ghJz7mwHVhBiqje/RkfQvEjlBMqnJx0Iq/2txTbBnU9A+l5v2Mt
+	fMmOTcaKKp6KfYdW8JGadmgXfEYfmaYzetjmuBF522KY+Tz0UsbzyC6s0RLU5nLCdp+
+	dojAY0hHe6fdeMfNct/i6WZ9UKLOz9vrtatljoCc=
+Content-Type: multipart/mixed; boundary="===============4739213757722997481=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Zang Ruochen <zangrc.fnst@fujitsu.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pip: upgrading to 22.2.1 FAILED
+Subject: [AUH] python3-dbusmock: upgrading to 0.28.4 FAILED
 Message-ID: 
- <010101825878d6e0-913ee0b1-28a9-43f4-88c2-dd70694d8f65-000000@us-west-2.amazonses.com>
+ <010101825878d4a3-2b9d99a7-1406-4833-850e-e3665216effa-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Aug 2022 08:14:50 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.08.01-54.240.27.45
+X-SES-Outgoing: 2022.08.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Aug 2022 08:14:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168711
+ https://lists.openembedded.org/g/openembedded-core/message/168709
 
---===============3644840575461553743==
+--===============4739213757722997481==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,7 +56,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pip* to *22.2.1* has Failed(get_env).
+that the automatic attempt to upgrade the recipe *python3-dbusmock* to *0.28.4* has Failed(get_env).
 
 Detailed error information:
 
@@ -75,5 +75,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3644840575461553743==--
+--===============4739213757722997481==--
 
