@@ -1,120 +1,130 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7DAEC00144
-	for <webhook@archiver.kernel.org>; Mon,  1 Aug 2022 22:43:16 +0000 (UTC)
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com
- [209.85.210.41])
- by mx.groups.io with SMTP id smtpd.web11.3981.1659393789499652855
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4B32C00144
+	for <webhook@archiver.kernel.org>; Mon,  1 Aug 2022 22:47:36 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web12.3950.1659394047122297899
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Aug 2022 15:43:09 -0700
+ Mon, 01 Aug 2022 15:47:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=etKF8l3U;
- spf=pass (domain: gmail.com, ip: 209.85.210.41,
- mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f41.google.com with SMTP id
- g20-20020a9d6a14000000b0061c84e679f5so9215227otn.2
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TYB6bGZ+;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id j15so7714745wrr.2
         for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Aug 2022 15:43:09 -0700 (PDT)
+ Mon, 01 Aug 2022 15:47:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fALXmUzD6zFqerxVfu/JE/mY648/HJXkvcmDVjPsTzA=;
-        b=etKF8l3Uf6S7KxbCqaqMCkRAcHW7LPhGbLJY5FdjxhuCC4aYG9EIKJyfyNyk1B5GIi
-         5BiPY6X88cM5bNmPn83YUlmvfSBdOOfbD1uGnW6t6Y7p3CRMMNX2YXQ4BQkYT0WGaLla
-         649e5Ybz/npcSLNQR9zq5uFeuGyLD5me4sa0UgNjOUvG3sigeGVzbyxTz1NjRQ7MGnmZ
-         qOSQ9O2RJmzAzVGFz/4n89CIXCFbVquFnoc7DP+a9s1J2gMN2J1BbN47NBxmmKNC5aCD
-         j6q4Uwl/FuYN1zcGTVr8TJpIaCVd3qYJFAOd/311AHns4SfRCCIOHhU3V+4AnkQoHLkq
-         Rbkg==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc;
+        bh=nMFi6XUnThOAXaAMUwmhSEIHLrLvylFQXjUGbdYnssM=;
+        b=TYB6bGZ+QvXi0j20EQT/bF/EMpQbUO0S3Ks424F4x6qRxQeQK57WElSaBT1BIlUt42
+         G95/G/O2kMe20+IQ13gBkc9uXnVzoGXPqW3xBz4dxqn0X6J0obVXa7Lm8W+nD27ez2sV
+         Q8wHyhpDNfbf+/jPvaG7L3tUE9BjuJ/y7Fgcc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fALXmUzD6zFqerxVfu/JE/mY648/HJXkvcmDVjPsTzA=;
-        b=YPbvfMTaE0EPObnBLBG36+a6l+8IRylr4DuUu1OVJ1jVWx4qbji+c/dH7CE6vEst+1
-         3Ta2fZyzs0j9D9IOHjtawSxlJxry+Vw4cWUq088AuwsgMFC8KvD9cglbLn4802fBF54+
-         YVgw9HISz+vlL6VNAQyCZgHJD5MV/LK/o9mpuKseLSfJ7Cw1k+2ENXBIevgYXR8/PizA
-         J0aUqa/Z/TZlCv6p0PSss4nkQOcD6tS/3tntE/74U77paoO5AKVjGG/8iTZuuhgcrE2D
-         45EGro00/bOpiLY00Cvj2mR0WSEifu922bixD3FV6MgfkHFogRvr4j9uH0sSPx5Q1B/c
-         uQhQ==
-X-Gm-Message-State: AJIora9x4ZTYrqC2HDfqhOm+HLwvstvGdpNbLo34GDiCFhZwuaDhAkg7
-	EC/tD6QEbjt1X8vXvVGpUpnr5wgXwYE=
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc;
+        bh=nMFi6XUnThOAXaAMUwmhSEIHLrLvylFQXjUGbdYnssM=;
+        b=i1TVm9p1CKX1azdHt+WckQe/6taMCeeD0ahFkl/mUcpQn3mlYdfU20Al1cqaKjGzs9
+         ZxKetl7SwoDikdTrqrue22v5mm/WwxmZWxJdfeUJdMILxXosdA9L7Oe/8PUbEfKJQDmO
+         7HzgucdGETQ9gU//OInxkABcqJQGgb9sEz1htUuzzPjYOdQdUMubLuMpnbaiLRK+nKHu
+         K523T5PVkR4yMtELdVd2OJy9TE6V/kxxBzUDe9ajUtAb68dF9XQ7P31CCVlYife1JZ6G
+         DX0G0VPWoWZc2gSCJvxO8xzfzQrv+Q+UCs+9RG2oNu1VNDxagmxWFVcgk8gEPMBuc36z
+         Kz7Q==
+X-Gm-Message-State: ACgBeo0AKRpcteSZFnARo5AWA+5PWCFG/Chgl1LSBlMaA+t0M96Hj85g
+	aGFduQx6C95TJKX1k2xTSqlrig==
 X-Google-Smtp-Source: 
- AGRyM1svKLUT2sDL/3J9y/xYlwodplOEW6dGtF3kEK+hlBbpRVBHF97+9ZZ2X49d4oxAsyN2Cg7axQ==
-X-Received: by 2002:a9d:65cd:0:b0:61d:355:b5f7 with SMTP id
- z13-20020a9d65cd000000b0061d0355b5f7mr6535776oth.119.1659393788482;
-        Mon, 01 Aug 2022 15:43:08 -0700 (PDT)
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+ AA6agR7ayDvl16J6IALcyoGiQ/uSdaU0bhxVlzEIMsT9nu6vzJ5FmKqMhvwoLThtAERPe38ZxPwcwQ==
+X-Received: by 2002:a5d:6c6b:0:b0:1ea:77ea:dde8 with SMTP id
+ r11-20020a5d6c6b000000b001ea77eadde8mr11501369wrz.690.1659394045501;
+        Mon, 01 Aug 2022 15:47:25 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:2e5a:83:f743:7e5b?
+ ([2001:8b0:aba:5f3c:2e5a:83:f743:7e5b])
         by smtp.gmail.com with ESMTPSA id
- g40-20020a9d12ab000000b0061c514a3b7bsm3030754otg.10.2022.08.01.15.43.07
+ k12-20020a5d524c000000b002205ffe88edsm5940702wrc.31.2022.08.01.15.47.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Aug 2022 15:43:08 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] classes/own-mirror: Add hierarchical premirrors
-Date: Mon,  1 Aug 2022 17:43:05 -0500
-Message-Id: <20220801224305.251616-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.33.0
+        Mon, 01 Aug 2022 15:47:24 -0700 (PDT)
+Message-ID: 
+ <7080b3df677002145713e495cbed15f27cb36c3b.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] classes/own-mirror: Add hierarchical premirrors
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Joshua Watt <JPEWhacker@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 01 Aug 2022 23:47:24 +0100
+In-Reply-To: <20220801224305.251616-1-JPEWhacker@gmail.com>
+References: <20220801224305.251616-1-JPEWhacker@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Aug 2022 22:43:16 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Aug 2022 22:47:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168761
+ https://lists.openembedded.org/g/openembedded-core/message/168762
 
-Reworks own-mirrors.bbclass to allow multiple URLs to be listed in the
-SOURCE_MIRROR_URL variable. This allows a hierarchy of premirrors to be
-defined where URLs earlier in the list will be tried before the later
-ones.
+On Mon, 2022-08-01 at 17:43 -0500, Joshua Watt wrote:
+> Reworks own-mirrors.bbclass to allow multiple URLs to be listed in the
+> SOURCE_MIRROR_URL variable. This allows a hierarchy of premirrors to be
+> defined where URLs earlier in the list will be tried before the later
+> ones.
+>=20
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>  meta/classes/own-mirrors.bbclass | 31 +++++++++++++++++--------------
+>  1 file changed, 17 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/meta/classes/own-mirrors.bbclass b/meta/classes/own-mirrors.=
+bbclass
+> index ef972740ce..dcb4456222 100644
+> --- a/meta/classes/own-mirrors.bbclass
+> +++ b/meta/classes/own-mirrors.bbclass
+> @@ -1,14 +1,17 @@
+> -PREMIRRORS:prepend =3D " \
+> -cvs://.*/.*     ${SOURCE_MIRROR_URL} \
+> -svn://.*/.*     ${SOURCE_MIRROR_URL} \
+> -git://.*/.*     ${SOURCE_MIRROR_URL} \
+> -gitsm://.*/.*   ${SOURCE_MIRROR_URL} \
+> -hg://.*/.*      ${SOURCE_MIRROR_URL} \
+> -bzr://.*/.*     ${SOURCE_MIRROR_URL} \
+> -p4://.*/.*      ${SOURCE_MIRROR_URL} \
+> -osc://.*/.*     ${SOURCE_MIRROR_URL} \
+> -https?://.*/.*  ${SOURCE_MIRROR_URL} \
+> -ftp://.*/.*     ${SOURCE_MIRROR_URL} \
+> -npm://.*/?.*    ${SOURCE_MIRROR_URL} \
+> -s3://.*/.*      ${SOURCE_MIRROR_URL} \
+> -"
+> +python() {
+> +    for m in reversed(d.getVar("SOURCE_MIRROR_URL").split()):
+> +        d.prependVar("PREMIRRORS", " \
+> +cvs://.*/.*     {m} \
+> +svn://.*/.*     {m} \
+> +git://.*/.*     {m} \
+> +gitsm://.*/.*   {m} \
+> +hg://.*/.*      {m} \
+> +bzr://.*/.*     {m} \
+> +p4://.*/.*      {m} \
+> +osc://.*/.*     {m} \
+> +https?://.*/.*  {m} \
+> +ftp://.*/.*     {m} \
+> +npm://.*/?.*    {m} \
+> +s3://.*/.*      {m} \
+> +".format(m=3Dm))
+> +}
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/classes/own-mirrors.bbclass | 31 +++++++++++++++++--------------
- 1 file changed, 17 insertions(+), 14 deletions(-)
+It makes me a little sad every time I see us turning variables into
+anonymous python :(
 
-diff --git a/meta/classes/own-mirrors.bbclass b/meta/classes/own-mirrors.bbclass
-index ef972740ce..dcb4456222 100644
---- a/meta/classes/own-mirrors.bbclass
-+++ b/meta/classes/own-mirrors.bbclass
-@@ -1,14 +1,17 @@
--PREMIRRORS:prepend = " \
--cvs://.*/.*     ${SOURCE_MIRROR_URL} \
--svn://.*/.*     ${SOURCE_MIRROR_URL} \
--git://.*/.*     ${SOURCE_MIRROR_URL} \
--gitsm://.*/.*   ${SOURCE_MIRROR_URL} \
--hg://.*/.*      ${SOURCE_MIRROR_URL} \
--bzr://.*/.*     ${SOURCE_MIRROR_URL} \
--p4://.*/.*      ${SOURCE_MIRROR_URL} \
--osc://.*/.*     ${SOURCE_MIRROR_URL} \
--https?://.*/.*  ${SOURCE_MIRROR_URL} \
--ftp://.*/.*     ${SOURCE_MIRROR_URL} \
--npm://.*/?.*    ${SOURCE_MIRROR_URL} \
--s3://.*/.*      ${SOURCE_MIRROR_URL} \
--"
-+python() {
-+    for m in reversed(d.getVar("SOURCE_MIRROR_URL").split()):
-+        d.prependVar("PREMIRRORS", " \
-+cvs://.*/.*     {m} \
-+svn://.*/.*     {m} \
-+git://.*/.*     {m} \
-+gitsm://.*/.*   {m} \
-+hg://.*/.*      {m} \
-+bzr://.*/.*     {m} \
-+p4://.*/.*      {m} \
-+osc://.*/.*     {m} \
-+https?://.*/.*  {m} \
-+ftp://.*/.*     {m} \
-+npm://.*/?.*    {m} \
-+s3://.*/.*      {m} \
-+".format(m=m))
-+}
--- 
-2.33.0
+I can understand why here but it still makes me sad and it does come at
+a performance price.
 
+Cheers,
+
+Richard
 
