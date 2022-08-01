@@ -2,52 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10413C00144
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AB55C25B07
 	for <webhook@archiver.kernel.org>; Mon,  1 Aug 2022 08:15:07 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com
- (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.22122.1659341692127050782
+Received: from a27-29.smtp-out.us-west-2.amazonses.com
+ (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web08.22239.1659341691257556433
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Aug 2022 01:14:52 -0700
+ Mon, 01 Aug 2022 01:14:51 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=HlsPPDsH;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
- mailfrom: 010101825878da73-259413bb-ee0f-4611-bbf8-62febc5f03f0-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=eF/vPcva;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29,
+ mailfrom: 010101825878d719-2dc07d0c-a759-4bfc-85d7-f9cb795c4e9e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1659341691;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=FPlKfP3soIF4F+NvWX61ZdigUbu8c03ZxP/nTLqYKpI=;
-	b=HlsPPDsHVBB951rqOtKEG/X1UOTJ/5DPb6jHpQykxh5DTgCdYuJmG0sUs77xYtRx
-	14RnM2Fl8ck9zwEezEQDz4GZhsk9SOd9xZckNN5tIqycNOTEGSyw31gyI4ywnmaKjKd
-	l4cmtTLDKkHFk1+mu4XQmseWbn6hw2vWho6upwdw=
+	t=1659341690;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=oGIEVlMvfnCdjLk7xRPNwG6Ldv7Co9H7+jcUxMiTAwk=;
+	b=eF/vPcvaN+1qWS49FaZRTwSZshmzT6P+HGj0Z72xD9Y1UmWidJJOXqDaK54ClRFT
+	OQ6KpLpOChWLgRFENDeWnatdXkM5+jpIu1K1nQ7aMOmsufjB+RT/4ztnTodvtK9qYoN
+	ZcMwpEkR5+wpGUHiOCz1h7mrluTxaHgj48wYEAuA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1659341691;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=FPlKfP3soIF4F+NvWX61ZdigUbu8c03ZxP/nTLqYKpI=;
-	b=LtbLi3Mf7NEhbJT3HhDI1wHCOylggNtTstvwRXo7qlN3JtTsPyCRMXpOLLrdHum7
-	nCW59kMM1FOXXuVnI5qNiZXea5NBLU5OzjfcUQyEv3geixRemnrREtf3pV+eVgdkdxl
-	A9EZ09C5vNKLo2j2HNKtm8CVk7Dc/rZARv+GX8/M=
-Content-Type: multipart/mixed; boundary="===============3235146921688892228=="
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1659341690;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=oGIEVlMvfnCdjLk7xRPNwG6Ldv7Co9H7+jcUxMiTAwk=;
+	b=c5Q4LnmiVNt/ZoPHYIegODih0o/r2vb4Zo2o5ZTLVk+K3NhosouSl5q85NLezMeu
+	YRmaNa2rngA211KsBc8KiC1Tnt0Y8ZcFwCHE2CkhHjIgaNAz89tRdYeQjVoqyy4nR6U
+	Yw7NMdU77S98YdP+87hwET7RsQFTRWcP2pDuUfc8=
+Content-Type: multipart/mixed; boundary="===============0255566846608925325=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] gnutls: upgrading to 3.7.7 FAILED
+To: Tim Orling <tim.orling@konsulko.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-scons: upgrading to 4.4.0 FAILED
 Message-ID: 
- <010101825878da73-259413bb-ee0f-4611-bbf8-62febc5f03f0-000000@us-west-2.amazonses.com>
-Date: Mon, 1 Aug 2022 08:14:51 +0000
+ <010101825878d719-2dc07d0c-a759-4bfc-85d7-f9cb795c4e9e-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Aug 2022 08:14:50 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.08.01-54.240.27.30
+X-SES-Outgoing: 2022.08.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Aug 2022 08:15:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168736
+ https://lists.openembedded.org/g/openembedded-core/message/168713
 
---===============3235146921688892228==
+--===============0255566846608925325==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -55,7 +56,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gnutls* to *3.7.7* has Failed(get_env).
+that the automatic attempt to upgrade the recipe *python3-scons* to *4.4.0* has Failed(get_env).
 
 Detailed error information:
 
@@ -74,5 +75,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3235146921688892228==--
+--===============0255566846608925325==--
 
