@@ -2,162 +2,102 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3FF4C00140
-	for <webhook@archiver.kernel.org>; Tue,  2 Aug 2022 17:07:13 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web11.9001.1659460027879997634
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA3FBC00140
+	for <webhook@archiver.kernel.org>; Tue,  2 Aug 2022 17:13:23 +0000 (UTC)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web12.9014.1659460394007066498
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Aug 2022 10:07:08 -0700
+ Tue, 02 Aug 2022 10:13:14 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=FkuMGKN7;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.49,
- mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f49.google.com with SMTP id a7so14107356ejp.2
+ header.b=dENkO+bZ;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: sakoman@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id gk3so14929848ejb.8
         for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Aug 2022 10:07:07 -0700 (PDT)
+ Tue, 02 Aug 2022 10:13:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5uSXwjXE8ObDQubIsPPMqiiqmJnuqxHh/yxnXljj7Gg=;
-        b=FkuMGKN7VaP+2FXk84DVmEyigZOYBlB9upHF0zr7+jTHNXxi+be9pvcpTmfz+PVW0s
-         mpIykK6CWZQ2z/chIsF4x/6z4iFHyQwTqv+ekvvfy37Z7hPjEwlQxtN7o04dI9G48fbB
-         EuoKFFIHldlaM5TxeV6nybFIxvmhwyH9Zt7JasDv/EoFvCil7h4RHEdmhaiJW+I8NQWW
-         hqZ5XQ+1cft7axED1VDhCh3y4JSnUT00S9zDz6WBKtlnkPstplDCGFdlm1WjE8hbRh5I
-         YvkTsor1AidAgEwgQfhV9ubSGa3wOnPA8IsBz4SYG4k4Q+nXnRntpKAAbBLLvVxK2ceH
-         l3DQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=XNXE7fgYJJin6ZxXuzA20QrFA9WVm+rebf0VpHu5lfI=;
+        b=dENkO+bZqVetSYOis5M5VVwit9jLs3aIYF2uiKP7MQ7rm2Pmu8L0cg0cNVLqazG4Zt
+         mzyliwKcLKG+VGkWO8Jj7XN8vo+WUueVVwgBghqhtSoK6BsKZ7zS/1skQpP9lfj1lWyY
+         41ubfM6BjSt/CEyDQL1taAFAOe1mgavvDukL7xDePERN1v3zYMgqNhhiyIq1vUkFFVoc
+         bSctDFXUogwuWP0WWWzRF8c22fPdBESTWaKRQbld5M8wy9/NXmPr58BbiofwWBZw7Xws
+         wx94n6eFWx12LhmvBJ1YiBf1nITwxiUSGO4TrVHEVB0mVklHE6aljoCqXTIiCaoC4K7I
+         1AVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5uSXwjXE8ObDQubIsPPMqiiqmJnuqxHh/yxnXljj7Gg=;
-        b=xvkYekrZqyW2stAPQRnIYK34WNSorSjsajMl24Ooi7QNGxauubSZfBGSt2BD7tqteN
-         QoE206mWqAAKmusNtEkqBdHoTzD2S+JUelxhZnS+eQmK8vLClQcMAEP9n6J3v4FYiKZ5
-         EQoQjoN9MPO1qjjwV8XpuxOV+CxjVBJV2BNjMTBeD29f+Ia3mlOSGqtT2jbrPlfmOH6O
-         rxdWg0LtVuMEGSyQzJ+55AXRPP8mRnewSsU/zQcP3ttye/pMrlyzDl9kxmIbCF8625mX
-         2hJfInsbNMs0FqtyEzSuNbLyo8pOKwr5Qo+YW5ANadlec2cBVfT/OgJVc/5vQWgwF9Dc
-         skdg==
-X-Gm-Message-State: ACgBeo1lzzpvx3X1Zw6nAKU6/aC0r6qZtcUOjdEZ8TcAj29jqZf3sa7W
-	RTQ+VyDN9Wh2cHozxb4+aDfkZn0NkyzmIDjRDxrz5A==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=XNXE7fgYJJin6ZxXuzA20QrFA9WVm+rebf0VpHu5lfI=;
+        b=EUYMGeeP5bc0mqjfcs366I9ZaDR1TuwDb952eGSityfTpOTA0fwp9xpAQ4kO+cZBpA
+         b8NG5DwlLJAJLt5hZS/PO7d93V+cGc1IKs1NOwJqQ0GdYg3Nl6IkeW56kYg0wVJDoyUy
+         znXNE7HsxzN195tdkOdNc9Tn8iTqgPMd+oZi/9eJ4BL9uq/fYBNVWojCYU7UnrN9sAGF
+         MyEYSulo0YQqRMgTQhRenjDywadXdOn/oTykK5i11gXlEjP1Gw09WL4Et2waztzijpwm
+         daIoxLGU05iQbApdOsuORYfrfbUUOK9uUuAvptZIyWZdkP8yS0Il8K0c/dTHoKkdwlF7
+         yyHw==
+X-Gm-Message-State: AJIora+CSrgIHz0sdWfnM2PZZSEerU5y7/bWx4ihOGWg/nyjdDCewtFo
+	rOQu3u7ZaPkDHB35kslMQhQKxxunp2YYl2wljy4=
 X-Google-Smtp-Source: 
- AA6agR7nSLlV+fRwj9QryINSd4xEorp3H4Bq4CBIiZ++PLw/VyNuDZP2EMb8kjH7iqIGNC7ePaOhddYAGC3O0ZjUavw=
-X-Received: by 2002:a17:907:72cb:b0:730:8ef6:7975 with SMTP id
- du11-20020a17090772cb00b007308ef67975mr7548595ejc.18.1659460026304; Tue, 02
- Aug 2022 10:07:06 -0700 (PDT)
+ AGRyM1vLtJYH9QiGSgPvQosC8HucbnGtb2Oot1CkGWfQti7ZHwcnPiTNfvnVSYTKzAAbhz/t9xu0qEF+mFjSyXrj564=
+X-Received: by 2002:a17:906:cc5d:b0:72b:1313:cd09 with SMTP id
+ mm29-20020a170906cc5d00b0072b1313cd09mr17048249ejb.482.1659460392491; Tue, 02
+ Aug 2022 10:13:12 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1659105705.git.steve@sakoman.com>
- <75503a13cb2a2266f311477a605389bbac7676e2.1659105705.git.steve@sakoman.com>
- <CAApg2=Ssr1jO61mMOg4_QnT=4EFeu21N9sASB1esde0yYwUiJA@mail.gmail.com>
- <17078DEC65A79A88.27835@lists.openembedded.org>
- <CAOSpxdaFAu2WTKZA7pKxtFAsjNoG4+A56U7qqtfGt+Fku=VxHQ@mail.gmail.com>
- <CAApg2=SuG1Q-RTD2YyCZpP5+PkCzhSeNevs3Ci3SYQ6UpSHyVQ@mail.gmail.com>
+ <5f236e744b5b528bdf8d95c9580c273f63c04452.1659105705.git.steve@sakoman.com>
+ <8470e905aa3fbdcf2cd34594b4e06800dcfd1683.camel@linuxfoundation.org>
 In-Reply-To: 
- <CAApg2=SuG1Q-RTD2YyCZpP5+PkCzhSeNevs3Ci3SYQ6UpSHyVQ@mail.gmail.com>
+ <8470e905aa3fbdcf2cd34594b4e06800dcfd1683.camel@linuxfoundation.org>
 From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 2 Aug 2022 07:06:55 -1000
+Date: Tue, 2 Aug 2022 07:13:01 -1000
 Message-ID: 
- <CAOSpxdaRM9z6NGjwJ0SK8LXshZaLu5c0uvJimd=Qnc3Kuxu6Zg@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone 11/29] xserver-xorg: update 21.1.3 -> 21.1.4
-To: Marta Rybczynska <rybczynska@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
+ <CAGDS+nm0idp1pJMimLJS7rFe8JR88L7O8DoNPu94K6yt0o16Ww@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone 01/29] qemu: CVE-2022-35414 can perform an
+ uninitialized read on the translate_fail path, leading to an io_readx or
+ io_writex crash
+To: Hitendra Prajapati <hprajapati@mvista.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Aug 2022 17:07:13 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Aug 2022 17:13:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168797
+ https://lists.openembedded.org/g/openembedded-core/message/168798
 
-On Tue, Aug 2, 2022 at 6:19 AM Marta Rybczynska <rybczynska@gmail.com> wrote:
+On Tue, Aug 2, 2022 at 4:41 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> On Tue, Aug 2, 2022 at 4:57 PM Steve Sakoman <steve@sakoman.com> wrote:
+> On Fri, 2022-07-29 at 04:46 -1000, Steve Sakoman wrote:
+> > From: Hitendra Prajapati <hprajapati@mvista.com>
 > >
-> > On Tue, Aug 2, 2022 at 4:37 AM Steve Sakoman via
-> > lists.openembedded.org <steve=sakoman.com@lists.openembedded.org>
-> > wrote:
-> > >
-> > > On Mon, Aug 1, 2022 at 7:56 PM Marta Rybczynska <rybczynska@gmail.com> wrote:
-> > > >
-> > > > On Fri, Jul 29, 2022 at 4:47 PM Steve Sakoman <steve@sakoman.com> wrote:
-> > > > >
-> > > > > From: Alexander Kanavin <alex.kanavin@gmail.com>
-> > > > >
-> > > > > Security update
-> > > > >
-> > > >
-> > > > With this update we're getting:
-> > > >
-> > > > Parsing recipes...WARNING:
-> > > > /tmp/workspace.Pvlp4fXTtK/oe-core/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.4.bb:
-> > > > Exception during build_dependencies for AUTOREV
-> > > > WARNING: /tmp/workspace.Pvlp4fXTtK/oe-core/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.4.bb:
-> > > > Error during finalise of
-> > > > /tmp/workspace.Pvlp4fXTtK/oe-core/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.4.bb
-> > > > ERROR: ExpansionError during parsing
-> > > > /tmp/workspace.Pvlp4fXTtK/oe-core/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.4.bb
-> > > > Traceback (most recent call last):
-> > > > File "/tmp/workspace.Pvlp4fXTtK/bitbake/lib/bb/fetch2/git.py", line
-> > > > 249, in Git.urldata_init(ud=<bb.fetch2.FetchData object at
-> > > > 0x7fc0cb054970>, d=<bb.data_smart.DataSmart object at
-> > > > 0x7fc0cafbd0d0>):
-> > > > > ud.setup_revisions(d)
-> > > > File "/tmp/workspace.Pvlp4fXTtK/bitbake/lib/bb/fetch2/__init__.py",
-> > > > line 1347, in FetchData.setup_revisions(d=<bb.data_smart.DataSmart
-> > > > object at 0x7fc0cafbd0d0>):
-> > > > for name in self.names:
-> > > > > self.revisions[name] = srcrev_internal_helper(self, d, name)
-> > > > File "/tmp/workspace.Pvlp4fXTtK/bitbake/lib/bb/fetch2/__init__.py",
-> > > > line 1212, in srcrev_internal_helper(ud=<bb.fetch2.FetchData object at
-> > > > 0x7fc0cb054970>, d=<bb.data_smart.DataSmart object at 0x7fc0cafbd0d0>,
-> > > > name='default'):
-> > > > if srcrev == "AUTOINC":
-> > > > > srcrev = ud.method.latest_revision(ud, d, name)
-> > > > File "/tmp/workspace.Pvlp4fXTtK/bitbake/lib/bb/fetch2/__init__.py",
-> > > > line 1624, in Git.latest_revision(ud=<bb.fetch2.FetchData object at
-> > > > 0x7fc0cb054970>, d=<bb.data_smart.DataSmart object at 0x7fc0cafbd0d0>,
-> > > > name='default'):
-> > > > except KeyError:
-> > > > > revs[key] = rev = self._latest_revision(ud, d, name)
-> > > > return rev
-> > > > File "/tmp/workspace.Pvlp4fXTtK/bitbake/lib/bb/fetch2/git.py", line
-> > > > 752, in Git._latest_revision(ud=<bb.fetch2.FetchData object at
-> > > > 0x7fc0cb054970>, d=<bb.data_smart.DataSmart object at 0x7fc0cafbd0d0>,
-> > > > name='default'):
-> > > > return sha1
-> > > > > raise bb.fetch2.FetchError("Unable to resolve '%s' in upstream git repository in git ls-remote output for %s" % \
-> > > > (ud.unresolvedrev[name], ud.host+ud.path))
-> > > > bb.data_smart.ExpansionError: Failure expanding variable SRCPV,
-> > > > expression was ${@bb.fetch2.get_srcrev(d)} which triggered exception
-> > > > FetchError: Fetcher failure: Unable to resolve '21.1.4_2022_05_23' in
-> > > > upstream git repository in git ls-remote output for
-> > > > github.com/JeffyCN/xorg-xserver
-> > >
-> > > Is there a bbappend to xserver-xorg somewhere in your layers?
-> > >
-> > > The recipe in core is building from a tarball fetched from
-> > > https://www.x.org/releases/
-> > >
-> > > It appears that a bbappend is changing this to look in
-> > > github.com/JeffyCN/xorg-xserver, which doesn't have 21.1.4
-> > >
-> > > So my best guess is that the issue is with a bbappend in some other
-> > > layer, not with this patch in oe-core.
+> > Source: https://github.com/qemu/qemu
+> > MR: 119830
+> > Type: Security Fix
+> > Disposition: Backport from https://github.com/qemu/qemu/commit/418ade7849ce7641c0f7333718caf5091a02fd4c
+> > ChangeID: 41d6646e06319e629da574b9b2e8a3a197a73441
+> > Description:
+> >         CVE-2022-35414 qemu: can perform an uninitialized read on the translate_fail path, leading to an io_readx or io_writex crash.
 > >
-> > I'm going to guess you've included meta-rockchip in your build which
-> > does include this bbappend:
-> >
-> > https://github.com/JeffyCN/meta-rockchip/blob/master/recipes-graphics/xorg-xserver/xserver-xorg_%25.bbappend
-> >
-> > That's where github.com/JeffyCN/xorg-xserver and the AUTOREV are coming from.
-> >
+> > Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> > ---
+> >  meta/recipes-devtools/qemu/qemu.inc           |  1 +
+> >  .../qemu/qemu/CVE-2022-35414.patch            | 53 +++++++++++++++++++
+> >  2 files changed, 54 insertions(+)
+> >  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-35414.patch
 >
-> Oh my yes. I was grepping around in meta-zephyr as it fails only there.
+> This isn't fixed in master yet?
 
-I'm not going to hold up this patch based on the meta-rockchip
-bbappend.  IMHO the use of a fork of xserver-xorg and an AUTOREV is
-beyond the scope of what the LTS should deal with!
+Hi Hitendra,
+
+Have you tried this patch on master branch? CVE-2022-35414 is the sole
+open CVE on master so it would be great to get this fixed there too!
 
 Steve
 
