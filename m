@@ -1,153 +1,156 @@
-Return-Path: <pgowda.cve@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55D33C00140
-	for <webhook@archiver.kernel.org>; Tue,  2 Aug 2022 09:08:11 +0000 (UTC)
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com
- [209.85.222.52])
- by mx.groups.io with SMTP id smtpd.web11.4013.1659431287294785269
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E007C00140
+	for <webhook@archiver.kernel.org>; Tue,  2 Aug 2022 09:29:41 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web11.4133.1659432578599253067
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Aug 2022 02:08:07 -0700
+ Tue, 02 Aug 2022 02:29:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=OQBdM6tV;
- spf=pass (domain: gmail.com, ip: 209.85.222.52,
- mailfrom: pgowda.cve@gmail.com)
-Received: by mail-ua1-f52.google.com with SMTP id f15so5542173uao.12
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=U55UMfo8;
+ spf=pass (domain: gmail.com, ip: 209.85.128.45,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f45.google.com with SMTP id
+ u14-20020a05600c00ce00b003a323062569so6686153wmm.4
         for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Aug 2022 02:08:07 -0700 (PDT)
+ Tue, 02 Aug 2022 02:29:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=G/SCd5qBJjzxbAR1OcsHgTDgTQ76r/qhpGUYw9rpJSg=;
-        b=OQBdM6tVPOly78GymtmLEg/4T+oE/hF3iiuSNbLi1zzh0XxxdFU663C/1lM0w5fG6P
-         Cp3eSHwf55nZn9bAYc3Ml7Tt16YVovXUo97sx7NxHLIIRiUL1BkdS2lpQGSJIcsv49Wp
-         gV9IskdxZiYkysaeslJ4m6QDIRwLUvUeABNavKhjgV3GYphsN7iOyIQ29TWfIBTQ/2rv
-         nJFGTZPqac3fArAUb1FG8W8fe/9aULFG2RaAptKjBU/hA6YwtkCLshheaM1KMq0sZbpj
-         LDKn/lIlFsKhXo20+wtSP7WgyF3GQo+X5+6J0Lv7idBTaj+DiYYW4H2YxwaRjNhypvbt
-         DSCQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=WA6OpPJfMFBhBbSoQ7iqV4hBKRLku1ZwZS88cRq2EOc=;
+        b=U55UMfo8dNEmP09s5MRNriGUOfELJTkgmFBGKJYnKp11VHHV7tqhvy22wvVNuOq6oe
+         cPxoAMtd6oPRF7NI0S/7o68DMY1tE/ALYPfTOBt3hL5w/EZdaQiTxskzAmt8yC3kXA8K
+         gWTuQw2SdwweA9Vsu0tKoHNpqaY4MUUgkr9OvnPytkno5dodvExouC2/PQNL5hYjmqK/
+         IcBrGKgVMB0K1CPBgRCyc1LT9hgc6nkWK6S3Htf0XEaFGMlubRzttnHO8J2whA5FBeoY
+         0n2qwFAKJQSD2Wy6y1wTtNaDuSawMzqb4HTSHzjsh9YJTKm93tzqDUxfTA4jA3B6yVt2
+         Lu7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=G/SCd5qBJjzxbAR1OcsHgTDgTQ76r/qhpGUYw9rpJSg=;
-        b=w6N2YSoZJHe5DQS4kgDTdeFeViRgwIFcWumMBRVXlqZVajXBd8OFhbiKbUxaYp01av
-         T6XGPN2XdGkD7NCw1peKuDUJkpLXSnkw+KDN60CJ/g7p19cV50RdZWY4hYXgh3eX1EM3
-         XALGnR6XbViSItoe4ur+LWBXdCb/FG2We+85UEaKgCqr+kzQdJOTTyvn37ZxKMh6JkGd
-         7ul3ifd90AI1L1lt3hTrgiLwSzOjZEuEKeV4fMUzeueI/SHMYWYW5P8CqrgC9K0omP9B
-         ZziN06Wk70hh/LFquZVZ/5kMJy262XwrApOze06SwMK3yyzQnfTFaRSAXlMlTu3XZu/U
-         6MuQ==
-X-Gm-Message-State: ACgBeo1dN0J6sl9Xmr6qskNn8SM3P/1H3iydsYCyUX1LKGHLVFT2uQbJ
-	EXDhL/2600cs02iR9qBdwdTNpxbZYXUzLoZcNGc=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=WA6OpPJfMFBhBbSoQ7iqV4hBKRLku1ZwZS88cRq2EOc=;
+        b=b+tSYX25VgJX9WTzOUj77XT0klCz0C1qgDyk1PLDY+Kce21tAUBDhZsGk9bMycjXfo
+         buNn8OTYXhHStPBTIMoXlKIUm7HFfG+r4doPbIWyyFV0CsuH6scHurUzmKVLmy95NjVr
+         nomVhAKzRwfjEatZT5cHOK5YoWjzUefmVevRSPCXd/MKY/4LqMIbhGZfbT3z+/lLHNYC
+         jCEw+0/AzbmRNPrCjgp6dViaXtTAzDnnSSyB0/GMZPJ6qHa5XiQqQQCdbm9q0CtX7I72
+         TKPJssCUW1p5iMNK1e7inxQbbxIgyKJidej6i9HRaOZamt5cGz9oFmhr8JiAH+q6QxTB
+         X6JQ==
+X-Gm-Message-State: AJIora8LRyQf8pE16xvHDJCHlZN9Ipou9BGizir9lm4tDVP7GbIsXGPf
+	RyjXxXH0QmFDgAsS55bcl8wCG5ZeMKaHJA==
 X-Google-Smtp-Source: 
- AA6agR65VOIwkDXy6hBwaSP7J2BgU10UGfbC/fKyil4ampAKKziyJUQ2Lvp6vnGQHtSsWFvVjW6PoemsICTImMIvvAY=
-X-Received: by 2002:ab0:38c5:0:b0:383:eed8:dd45 with SMTP id
- l5-20020ab038c5000000b00383eed8dd45mr8747413uaw.11.1659431286294; Tue, 02 Aug
- 2022 02:08:06 -0700 (PDT)
+ AGRyM1sYNpMQUuszOEkH/WWAK5FV6gf5f2lBykjpGP3EZ8BwROy5DRE6P4GFAPuNvUsKVL1wsIpXBA==
+X-Received: by 2002:a1c:2783:0:b0:3a2:fd82:bf46 with SMTP id
+ n125-20020a1c2783000000b003a2fd82bf46mr13731884wmn.29.1659432576643;
+        Tue, 02 Aug 2022 02:29:36 -0700 (PDT)
+Received: from fio.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+        by smtp.gmail.com with ESMTPSA id
+ i2-20020a1c5402000000b003a2cf1535aasm18065865wmb.17.2022.08.02.02.29.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Aug 2022 02:29:35 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Cc: ricardo@foundries.io,
+	daiane.angolini@foundries.io,
+	Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [OE-core][PATCH] create-spdx: ignore packing control files from ipk
+ and deb
+Date: Tue,  2 Aug 2022 10:29:24 +0100
+Message-Id: <20220802092924.82664-1-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-References: <20220802035352.1497111-1-pgowda.cve@gmail.com>
- <20220802103833.0b32b669@booty>
-In-Reply-To: <20220802103833.0b32b669@booty>
-From: pgowda cve <pgowda.cve@gmail.com>
-Date: Tue, 2 Aug 2022 14:37:54 +0530
-Message-ID: 
- <CALY4986e=cqifcHUNt0buU5+FtHjLju_29SwLhD14rwFd2zU_g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v6] Rust Oe-Selftest implementation
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org, rwmacleod@gmail.com,
-	Vinay Kumar <vinay.m.engg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Aug 2022 09:08:11 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Aug 2022 09:29:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168772
+ https://lists.openembedded.org/g/openembedded-core/message/168773
 
-Hi Luca,
+Otherwise spdx can have references for data that is not packed
+in the package delivered because this contol data is temporarly
+and only exist while the package is been write.
 
-There were around 270 testcase failing when "has-elf-tls" has been
-enabled while building llvm.
-Hence, we had to remove the option to enable the proper working of these tests.
-The patch has been tested on Ubuntu and also fedora (using docker image).
+During do_package_write_ipk task in do_package_ipk the control
+files is cleaned up at the end. This can create a race condiction
+when the do_create_spdx task runs the add_package_files function
+and these files is been deleted at same time in the
+task do_package_write_ipk.
 
-Thanks,
-Pgowda
+ERROR: alsa-topology-conf-1.2.5.1-r0 do_create_spdx: Error executing a python function in exec_func_python() autogenerated:
 
-On Tue, Aug 2, 2022 at 2:08 PM Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
->
-> On Tue,  2 Aug 2022 09:23:52 +0530
-> "Pgowda" <pgowda.cve@gmail.com> wrote:
->
-> > From: pgowda <pgowda.cve@gmail.com>
-> >
-> > The patch implements Rust testing framework similar to other selftest,
-> > specifically the gcc selftest in OE. It uses the client and server
-> > based method to test the binaries for cross-target on the image.
-> > The test framework is a wrapper around the Rust build system as ./x.py
-> > test.
-> > It tests many functionalities of Rust distribution like tools,
-> > documentation, libraries, packages, tools, Cargo, Crater etc.
-> > Please refer the following link for detailed description of Rust
-> > testing:-
-> > https://rustc-dev-guide.rust-lang.org/tests/intro.html#tool-tests
-> >
-> > To support the rust tests in oe-core, the following functions were
-> > added:-
-> > setup_cargo_environment(): Build bootstrap and some early stage tools.
-> > do_rust_setup_snapshot(): Install the snapshot version of rust binaries.
-> > do_configure(): To generate config.toml
-> > do_compile(): To build "remote-test-server" for qemu target image.
-> >
-> > Approximate Number of Tests Run in the Rust Testsuite :- 18000
-> > Approximate Number of Tests that FAIL in bitbake environment :- 100-150
-> > Normally majority of the testcases are present in major folder "test/"
-> > It contributes to more than 80% of the testcases present in Rust test
-> > framework. These tests pass as expected on any Rust versions without
-> > much fuss. The tests that fail are of less important and contribute to
-> > less than 2% of the total testcases. These minor tests are observed to
-> > work on some versions and fail on others. They have to be added, ignored
-> > or excluded for different versions as per the behavior.
-> > These tests have been ignored or excluded in the Rust selftest
-> > environment to generate success of completing the testsuite.
-> >
-> > These tests work in parallel mode even in the skipped test mode as
-> > expected. Although the patch to disable tests is large, it is very simple
-> > in that it only disables tests. When updating to a newer version of Rust,
-> > the patch can usually be ported in a day.
-> >
-> > Signed-off-by: pgowda <pgowda.cve@gmail.com>
-> > Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
-> > ---
-> >  meta/classes/rust-target-config.bbclass       |   2 +-
-> >  meta/lib/oeqa/selftest/cases/rust.py          |  57 +++
-> >  meta/recipes-devtools/rust/rust-testsuite.inc | 164 ++++++
-> >  .../rust-testsuite/rust-oe-selftest.patch     | 477 ++++++++++++++++++
-> >  .../rust/rust-testsuite_1.62.0.bb             |   3 +
-> >  5 files changed, 702 insertions(+), 1 deletion(-)
-> >  create mode 100644 meta/lib/oeqa/selftest/cases/rust.py
-> >  create mode 100644 meta/recipes-devtools/rust/rust-testsuite.inc
-> >  create mode 100644 meta/recipes-devtools/rust/rust-testsuite/rust-oe-selftest.patch
-> >  create mode 100644 meta/recipes-devtools/rust/rust-testsuite_1.62.0.bb
-> >
-> > diff --git a/meta/classes/rust-target-config.bbclass b/meta/classes/rust-target-config.bbclass
-> > index 87b7dee3ed..26dc931971 100644
-> > --- a/meta/classes/rust-target-config.bbclass
-> > +++ b/meta/classes/rust-target-config.bbclass
-> > @@ -344,7 +344,7 @@ def rust_gen_target(d, thing, wd, arch):
-> >      tspec['linker-is-gnu'] = True
-> >      tspec['linker-flavor'] = "gcc"
-> >      tspec['has-rpath'] = True
-> > -    tspec['has-elf-tls'] = True
-> > +#    tspec['has-elf-tls'] = True
->
-> I'm not sure of the meaning of the above change, can you clarify that?
->
-> Thanks.
-> --
-> Luca Ceresoli, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:do_create_spdx(d)
+     0003:
+File: '/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/create-spdx.bbclass', lineno: 567, function: do_create_spdx
+     0563:            package_doc.add_relationship(package_doc, "DESCRIBES", spdx_package)
+     0564:
+     0565:            package_archive = deploy_dir_spdx / "packages" / (package_doc.name + ".tar.zst")
+     0566:            with optional_tarfile(package_archive, archive_packaged) as archive:
+ *** 0567:                package_files = add_package_files(
+     0568:                    d,
+     0569:                    package_doc,
+     0570:                    spdx_package,
+     0571:                    pkgdest / package,
+File: '/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/create-spdx.bbclass', lineno: 234, function: add_package_files
+     0230:                            info.mtime = source_date_epoch
+     0231:
+     0232:                        archive.addfile(info, f)
+     0233:
+ *** 0234:                sha1 = bb.utils.sha1_file(filepath)
+     0235:                sha1s.append(sha1)
+     0236:                spdx_file.checksums.append(oe.spdx.SPDXChecksum(
+     0237:                        algorithm="SHA1",
+     0238:                        checksumValue=sha1,
+File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 559, function: sha1_file
+     0555:    """
+     0556:    Return the hex string representation of the SHA1 checksum of the filename
+     0557:    """
+     0558:    import hashlib
+ *** 0559:    return _hasher(hashlib.sha1(), filename)
+     0560:
+     0561:def sha384_file(filename):
+     0562:    """
+     0563:    Return the hex string representation of the SHA384 checksum of the filename
+File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 528, function: _hasher
+     0524:
+     0525:def _hasher(method, filename):
+     0526:    import mmap
+     0527:
+ *** 0528:    with open(filename, "rb") as f:
+     0529:        try:
+     0530:            with mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ) as mm:
+     0531:                for chunk in iter(lambda: mm.read(8192), b''):
+     0532:                    method.update(chunk)
+Exception: FileNotFoundError: [Errno 2] No such file or directory: '/srv/oe/build/tmp-lmp/work/all-lmp-linux/alsa-topology-conf/1.2.5.1-r0/packages-split/alsa-topology-conf/CONTROL/control'
+
+ERROR: Logfile of failure stored in: /srv/oe/build/tmp-lmp/work/all-lmp-linux/alsa-topology-conf/1.2.5.1-r0/temp/log.do_create_spdx.998864
+INFO: recipe alsa-topology-conf-1.2.5.1-r0: task do_create_spdx: Failed
+
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+---
+ meta/classes/create-spdx.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.bbclass
+index 37b6b569a1..08ef7fd409 100644
+--- a/meta/classes/create-spdx.bbclass
++++ b/meta/classes/create-spdx.bbclass
+@@ -571,6 +571,7 @@ python do_create_spdx() {
+                     pkgdest / package,
+                     lambda file_counter: oe.sbom.get_packaged_file_spdxid(pkg_name, file_counter),
+                     lambda filepath: ["BINARY"],
++                    ignore_top_level_dirs=['CONTROL', 'DEBIAN'],
+                     archive=archive,
+                 )
+ 
+-- 
+2.37.1
+
 
