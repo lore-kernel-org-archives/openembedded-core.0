@@ -2,110 +2,162 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADD9FC3F6B0
-	for <webhook@archiver.kernel.org>; Tue,  2 Aug 2022 17:02:13 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web08.8852.1659459724122620373
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3FF4C00140
+	for <webhook@archiver.kernel.org>; Tue,  2 Aug 2022 17:07:13 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web11.9001.1659460027879997634
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Aug 2022 10:02:04 -0700
+ Tue, 02 Aug 2022 10:07:08 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=HMkqENuC;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.48,
+ header.b=FkuMGKN7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.49,
  mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f48.google.com with SMTP id k26so11333860ejx.5
+Received: by mail-ej1-f49.google.com with SMTP id a7so14107356ejp.2
         for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Aug 2022 10:02:03 -0700 (PDT)
+ Tue, 02 Aug 2022 10:07:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=E3zAuD26hcX7dgZReSIM3n8LOwIDVS1aZmwG7aXDreo=;
-        b=HMkqENuCB+S/3A+TGeNB7XADmszX6lHTmF3LljkZEJ4nV1J/VZrqiFdapAmfrEJNgd
-         wb3EgJj4YBbM62Kez5uQzuVoU/yG4CDtK4nQlkfvWrZJEWShaPbF3o5cGLfPdHMgXCWV
-         UzDhcCP6YZF46Tvf9QgxUWgJAREuva8Mw+g0UEnP0rHE3ZnBKfIQomw0zTsEPO7W9Kgt
-         R7LLJl6wvTABtaEQ9VGLrbAyHfXpltJbfQLVPiLnNa9XxLuz53lolwBZyhGKGz6qcSp/
-         DjFx3pb6bRlTSbEHdWLw6i/cUbLZYbD98Regwqenpr/ilayTOJfKa/P0/elKPJaPkvut
-         AVig==
+        bh=5uSXwjXE8ObDQubIsPPMqiiqmJnuqxHh/yxnXljj7Gg=;
+        b=FkuMGKN7VaP+2FXk84DVmEyigZOYBlB9upHF0zr7+jTHNXxi+be9pvcpTmfz+PVW0s
+         mpIykK6CWZQ2z/chIsF4x/6z4iFHyQwTqv+ekvvfy37Z7hPjEwlQxtN7o04dI9G48fbB
+         EuoKFFIHldlaM5TxeV6nybFIxvmhwyH9Zt7JasDv/EoFvCil7h4RHEdmhaiJW+I8NQWW
+         hqZ5XQ+1cft7axED1VDhCh3y4JSnUT00S9zDz6WBKtlnkPstplDCGFdlm1WjE8hbRh5I
+         YvkTsor1AidAgEwgQfhV9ubSGa3wOnPA8IsBz4SYG4k4Q+nXnRntpKAAbBLLvVxK2ceH
+         l3DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=E3zAuD26hcX7dgZReSIM3n8LOwIDVS1aZmwG7aXDreo=;
-        b=BmVeNbgN+MITJRhaufQVf/HqmHHc1vnHgrDAeoH/sTsc+CHBRZhMZoFqt06MpGE26u
-         yxthsxb48OPaQxmB/iCCyBldN8m4S+FlO69c4d/VRUSAqfUK5dcdGdSbmwMj+j3aW1AV
-         kXqSpD0zySsIJoxlLyFlvEKrRwGSy6PgUhpMSG5pce20FAfXC1k9NoVTj/mk6dMpA/kI
-         YCEuU8ZT4dMzbLT/cBO2myKMxsfb3dgz71zZEgSZl+r2iB2n/Hsg+EocQtOdzE+Qtv+H
-         W1t5aWZCpPNOYptYljY9aXoOGa5MHg06cfZd3VIjbedCNO4XuHB2E74BFlo0qp7Zya0o
-         zjHQ==
-X-Gm-Message-State: ACgBeo0GfHI0HMhC/O6/TIDGH2mPgwumnxIeIR8ILF8uyNlA0FwqG9N7
-	ZH2YmeQrCucRZAvZWyFeqvzGdaO6kAZSi5lIWN4UPQ==
+        bh=5uSXwjXE8ObDQubIsPPMqiiqmJnuqxHh/yxnXljj7Gg=;
+        b=xvkYekrZqyW2stAPQRnIYK34WNSorSjsajMl24Ooi7QNGxauubSZfBGSt2BD7tqteN
+         QoE206mWqAAKmusNtEkqBdHoTzD2S+JUelxhZnS+eQmK8vLClQcMAEP9n6J3v4FYiKZ5
+         EQoQjoN9MPO1qjjwV8XpuxOV+CxjVBJV2BNjMTBeD29f+Ia3mlOSGqtT2jbrPlfmOH6O
+         rxdWg0LtVuMEGSyQzJ+55AXRPP8mRnewSsU/zQcP3ttye/pMrlyzDl9kxmIbCF8625mX
+         2hJfInsbNMs0FqtyEzSuNbLyo8pOKwr5Qo+YW5ANadlec2cBVfT/OgJVc/5vQWgwF9Dc
+         skdg==
+X-Gm-Message-State: ACgBeo1lzzpvx3X1Zw6nAKU6/aC0r6qZtcUOjdEZ8TcAj29jqZf3sa7W
+	RTQ+VyDN9Wh2cHozxb4+aDfkZn0NkyzmIDjRDxrz5A==
 X-Google-Smtp-Source: 
- AA6agR6/MpXB1FF8eItk312qFhpUwkYVGEpHM57joLp10Bl5MiGn20PahREhcafJyDIkbOAjslf83Kb3/Qyj+gD21NY=
-X-Received: by 2002:a17:907:9619:b0:730:8ebb:9e45 with SMTP id
- gb25-20020a170907961900b007308ebb9e45mr7110340ejc.628.1659459722386; Tue, 02
- Aug 2022 10:02:02 -0700 (PDT)
+ AA6agR7nSLlV+fRwj9QryINSd4xEorp3H4Bq4CBIiZ++PLw/VyNuDZP2EMb8kjH7iqIGNC7ePaOhddYAGC3O0ZjUavw=
+X-Received: by 2002:a17:907:72cb:b0:730:8ef6:7975 with SMTP id
+ du11-20020a17090772cb00b007308ef67975mr7548595ejc.18.1659460026304; Tue, 02
+ Aug 2022 10:07:06 -0700 (PDT)
 MIME-Version: 1.0
-References: 
- <CAODMxsLgFeENYpTGMJO=Y7QQUF_2Vg11STnY+cmeJXvHrdAtzA@mail.gmail.com>
- <CAApg2=RJQ8W3hVs6S1HuUg9uM_LcNvwupMQxi_far8JD54S26g@mail.gmail.com>
+References: <cover.1659105705.git.steve@sakoman.com>
+ <75503a13cb2a2266f311477a605389bbac7676e2.1659105705.git.steve@sakoman.com>
+ <CAApg2=Ssr1jO61mMOg4_QnT=4EFeu21N9sASB1esde0yYwUiJA@mail.gmail.com>
+ <17078DEC65A79A88.27835@lists.openembedded.org>
+ <CAOSpxdaFAu2WTKZA7pKxtFAsjNoG4+A56U7qqtfGt+Fku=VxHQ@mail.gmail.com>
+ <CAApg2=SuG1Q-RTD2YyCZpP5+PkCzhSeNevs3Ci3SYQ6UpSHyVQ@mail.gmail.com>
 In-Reply-To: 
- <CAApg2=RJQ8W3hVs6S1HuUg9uM_LcNvwupMQxi_far8JD54S26g@mail.gmail.com>
+ <CAApg2=SuG1Q-RTD2YyCZpP5+PkCzhSeNevs3Ci3SYQ6UpSHyVQ@mail.gmail.com>
 From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 2 Aug 2022 07:01:51 -1000
+Date: Tue, 2 Aug 2022 07:06:55 -1000
 Message-ID: 
- <CAOSpxdb9HUnNopugjW9k0wqqvn0pGusg8dgHesx4nKYGc2iENw@mail.gmail.com>
-Subject: Re: [OE-core] Yocto Project Status 02 August 2022 (WW31)
+ <CAOSpxdaRM9z6NGjwJ0SK8LXshZaLu5c0uvJimd=Qnc3Kuxu6Zg@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone 11/29] xserver-xorg: update 21.1.3 -> 21.1.4
 To: Marta Rybczynska <rybczynska@gmail.com>
-Cc: Neal Caidin <ncaidin@linuxfoundation.org>, yocto@lists.yoctoproject.org,
-	openembedded-core@lists.openembedded.org,
-	Stephen Jolley <sjolley.yp.pm@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Aug 2022 17:02:13 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Aug 2022 17:07:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168796
+ https://lists.openembedded.org/g/openembedded-core/message/168797
 
-On Tue, Aug 2, 2022 at 6:30 AM Marta Rybczynska <rybczynska@gmail.com> wrote:
+On Tue, Aug 2, 2022 at 6:19 AM Marta Rybczynska <rybczynska@gmail.com> wrote:
 >
-> On Tue, Aug 2, 2022 at 4:49 PM Neal Caidin <ncaidin@linuxfoundation.org> wrote:
+> On Tue, Aug 2, 2022 at 4:57 PM Steve Sakoman <steve@sakoman.com> wrote:
 > >
-> > Current Dev Position: YP 4.1 M3
+> > On Tue, Aug 2, 2022 at 4:37 AM Steve Sakoman via
+> > lists.openembedded.org <steve=sakoman.com@lists.openembedded.org>
+> > wrote:
+> > >
+> > > On Mon, Aug 1, 2022 at 7:56 PM Marta Rybczynska <rybczynska@gmail.com> wrote:
+> > > >
+> > > > On Fri, Jul 29, 2022 at 4:47 PM Steve Sakoman <steve@sakoman.com> wrote:
+> > > > >
+> > > > > From: Alexander Kanavin <alex.kanavin@gmail.com>
+> > > > >
+> > > > > Security update
+> > > > >
+> > > >
+> > > > With this update we're getting:
+> > > >
+> > > > Parsing recipes...WARNING:
+> > > > /tmp/workspace.Pvlp4fXTtK/oe-core/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.4.bb:
+> > > > Exception during build_dependencies for AUTOREV
+> > > > WARNING: /tmp/workspace.Pvlp4fXTtK/oe-core/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.4.bb:
+> > > > Error during finalise of
+> > > > /tmp/workspace.Pvlp4fXTtK/oe-core/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.4.bb
+> > > > ERROR: ExpansionError during parsing
+> > > > /tmp/workspace.Pvlp4fXTtK/oe-core/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.4.bb
+> > > > Traceback (most recent call last):
+> > > > File "/tmp/workspace.Pvlp4fXTtK/bitbake/lib/bb/fetch2/git.py", line
+> > > > 249, in Git.urldata_init(ud=<bb.fetch2.FetchData object at
+> > > > 0x7fc0cb054970>, d=<bb.data_smart.DataSmart object at
+> > > > 0x7fc0cafbd0d0>):
+> > > > > ud.setup_revisions(d)
+> > > > File "/tmp/workspace.Pvlp4fXTtK/bitbake/lib/bb/fetch2/__init__.py",
+> > > > line 1347, in FetchData.setup_revisions(d=<bb.data_smart.DataSmart
+> > > > object at 0x7fc0cafbd0d0>):
+> > > > for name in self.names:
+> > > > > self.revisions[name] = srcrev_internal_helper(self, d, name)
+> > > > File "/tmp/workspace.Pvlp4fXTtK/bitbake/lib/bb/fetch2/__init__.py",
+> > > > line 1212, in srcrev_internal_helper(ud=<bb.fetch2.FetchData object at
+> > > > 0x7fc0cb054970>, d=<bb.data_smart.DataSmart object at 0x7fc0cafbd0d0>,
+> > > > name='default'):
+> > > > if srcrev == "AUTOINC":
+> > > > > srcrev = ud.method.latest_revision(ud, d, name)
+> > > > File "/tmp/workspace.Pvlp4fXTtK/bitbake/lib/bb/fetch2/__init__.py",
+> > > > line 1624, in Git.latest_revision(ud=<bb.fetch2.FetchData object at
+> > > > 0x7fc0cb054970>, d=<bb.data_smart.DataSmart object at 0x7fc0cafbd0d0>,
+> > > > name='default'):
+> > > > except KeyError:
+> > > > > revs[key] = rev = self._latest_revision(ud, d, name)
+> > > > return rev
+> > > > File "/tmp/workspace.Pvlp4fXTtK/bitbake/lib/bb/fetch2/git.py", line
+> > > > 752, in Git._latest_revision(ud=<bb.fetch2.FetchData object at
+> > > > 0x7fc0cb054970>, d=<bb.data_smart.DataSmart object at 0x7fc0cafbd0d0>,
+> > > > name='default'):
+> > > > return sha1
+> > > > > raise bb.fetch2.FetchError("Unable to resolve '%s' in upstream git repository in git ls-remote output for %s" % \
+> > > > (ud.unresolvedrev[name], ud.host+ud.path))
+> > > > bb.data_smart.ExpansionError: Failure expanding variable SRCPV,
+> > > > expression was ${@bb.fetch2.get_srcrev(d)} which triggered exception
+> > > > FetchError: Fetcher failure: Unable to resolve '21.1.4_2022_05_23' in
+> > > > upstream git repository in git ls-remote output for
+> > > > github.com/JeffyCN/xorg-xserver
+> > >
+> > > Is there a bbappend to xserver-xorg somewhere in your layers?
+> > >
+> > > The recipe in core is building from a tarball fetched from
+> > > https://www.x.org/releases/
+> > >
+> > > It appears that a bbappend is changing this to look in
+> > > github.com/JeffyCN/xorg-xserver, which doesn't have 21.1.4
+> > >
+> > > So my best guess is that the issue is with a bbappend in some other
+> > > layer, not with this patch in oe-core.
 > >
-> > Next Deadline: 22nd August 2022 YP 4.1 M3 Build
+> > I'm going to guess you've included meta-rockchip in your build which
+> > does include this bbappend:
 > >
+> > https://github.com/JeffyCN/meta-rockchip/blob/master/recipes-graphics/xorg-xserver/xserver-xorg_%25.bbappend
 > >
-> > Next Team Meetings:
+> > That's where github.com/JeffyCN/xorg-xserver and the AUTOREV are coming from.
 > >
-> > Bug Triage meeting Thursday August 4th 7:30 am PDT (https://zoom.us/j/454367603?pwd=ZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09)
-> >
-> > Weekly Project Engineering Sync Tuesday August  2nd  at 8 am PDT (https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09)
-> >
-> > Twitch -  See https://www.twitch.tv/theyoctojester
-> >
-> >
-> > Key Status/Updates:
-> >
-> > YP 4.1 M2 was released
-> >
-> > YP 3.1.18 passed QA and is due to be released
-> >
-> > The debug file mapping issues have moved slightly further forward thanks to some help from Ross but are stalling due to insufficient developer time available to resolve the issues.
-> >
-> > Some rust toolchain improvements did merge, including an automated rust toolchain test. The bulk of the rework is stalled on a handful of remaining issues, particularly a couple of reproducibility problems but also a mips n32 toolchain issue.
-> >
-> > We have one open CVE on master against qemu, help to backport that fix would be very welcome to keep the numbers down. CVEs in kirkstone (LTS) significantly reduced.
 >
-> Do you mean CVE-2022-35414?
+> Oh my yes. I was grepping around in meta-zephyr as it fails only there.
 
-Yes!  We have a patch under review for kirkstone:
-https://lists.openembedded.org/g/openembedded-core/message/168636
-
-I think Richard is hoping someone will see if that also will work on
-master and if so send a patch.
+I'm not going to hold up this patch based on the meta-rockchip
+bbappend.  IMHO the use of a fork of xserver-xorg and an AUTOREV is
+beyond the scope of what the LTS should deal with!
 
 Steve
 
