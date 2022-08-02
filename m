@@ -2,63 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8808FC00140
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E880C19F2C
 	for <webhook@archiver.kernel.org>; Tue,  2 Aug 2022 13:57:52 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web10.6449.1659448664206996402
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web11.6472.1659448662434844676
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Aug 2022 06:57:44 -0700
+ Tue, 02 Aug 2022 06:57:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=KFAgjE6U;
- spf=pass (domain: gmail.com, ip: 209.85.218.44,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=kAH7dco/;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id j8so851052ejx.9
+Received: by mail-ej1-f46.google.com with SMTP id i14so7353035ejg.6
         for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Aug 2022 06:57:43 -0700 (PDT)
+ Tue, 02 Aug 2022 06:57:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=59xiqpgRqVgv3tMsJy+XfRldpup4en7R50wAAmxyie8=;
-        b=KFAgjE6UjtPMb8yVtZQlEyt5YkJ0oz/oGRuDmUfHaCiWI/Y/0jIijbYc/ueYfK1ztW
-         gVoE4PsNcQeJKGfNPeI/njXLCyyLm3VfkQ25nbN6X/WR2DxuX83DZgqzKLhVtyxiMSUr
-         7WGf7TK3+0ZQ6u227Xbnq8ZxNnrbtdKc3pM0PGsbQ1Ocggf4e2atKbdlIhAnLQkyYE4S
-         cLLraqYen9jTJx6CNPwGw7YhtZnNeCQsbBkfOBMoFWUJzDpqVPt5Cb6VgMzhLk8XXMkK
-         RVuTEsaNVEk9NarRksKpJ2w7m5YhnVReCi5ORn/DXqwvrW7JT4Z76Nnzhg7y1AhzMoXw
-         Bcfw==
+        bh=CsxuF0CddlrXuIzGokcZRzcfRJB0l07nqE/LEGiWM0I=;
+        b=kAH7dco/Vzc6H0PuYccEvkp1EuwdBmdX79WFYqlOQ0bF+TBWS+6D1owpbYIzoCWpzI
+         E0eWQ86JaXi3UJx2Y5vlAtQsw1uOus9YeWDtWm4/7E6Ua5YqR/CqYdyShZlvuJ52Qcpd
+         PDa/S3obnQClOaEOpPYER3qWdCKNXTyAkqEXeavwPS3+RpeHDqjvtSvA2BbKOVodhACg
+         y+UDlxM3+pt6K0t7N6Iq6l5QRl8pz7coYIvRt6dkv2YvwLSB7wqOS/TAK6NgBvN6EEed
+         PGCHPNZyIYLXXi/f85PSa7iZbSFFaovISOpdhE1ERDPeiCdCjgfMt1OZQ4AtD67KSVCJ
+         m55A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=59xiqpgRqVgv3tMsJy+XfRldpup4en7R50wAAmxyie8=;
-        b=a2/8Wh4mivKwCX8ON/50IXiJQpfgk3nf6VoBluOTLONNmC8zIxtSnsK5oVBnBS8JBA
-         4tlfndFUDLreHTqxVPWTHusf/rA7q8dhaqNkXpRskwg9nTgDYPtieBLl6bGybzbIxS+I
-         lAlSIwSGzataIgg3anJQ6Hxz5p7VHFIjlc+NPGDG7aQps+stLtWMA/trVfkq/d09vVkq
-         8/BrntZHqDFhl22vNtHoGmiVA6iQU67x0W3hfm/j5JASEONmQlU5xS5Jf7jk/N0g14wl
-         WM07/RF+utl0v51l4ZpbLbfh3H/JTqcHQEvTTTpHkdVViKAa5zsghcQ23suzi4Q2UnKw
-         gvyg==
-X-Gm-Message-State: ACgBeo2yZCXeZfvKHIYfE02/BB5eVbK78ZNzNq3alFducoK1pLiw/nTh
-	5Rem1BKNMZUkgHQcU2hkjmejHaVNMIk=
+        bh=CsxuF0CddlrXuIzGokcZRzcfRJB0l07nqE/LEGiWM0I=;
+        b=DU35zU4T4lrbnkDDLH9t5bxcYuu2Z48gqfWZ5du8BsF+U2z6rZvT0bYnh77L35C0Lm
+         cF8X7kp9re+4p5UfW/Z+GtbO1Swbvifbj7oFC5BSWLfy7Y2naDtyMxr/lp7I2IdbC9jT
+         a7Ez6eS61Tonvbs/gkrc7cfCgeV+bPK60UZNSk1wLzuHdIp16UuO2D9wp2TX8WfN2EQu
+         n1hIfEkPopSnTGSjsBJaOQOgNDAHQqkfDQOQTvVB5bdRdu3hp28tsuSCLmnlG9476dmd
+         3SXB9zI9f+6Gd4YsyXxfrzg9SCkocQLjCpgIyjtrWwJXblqZebkZRbz9r3m7vjXVECCN
+         /CRQ==
+X-Gm-Message-State: AJIora+3pPY38aaY/OdI5iHk0uAyQkfzSzFFeAl7u0PXVEFPYGEaUNu/
+	lvZGLYjoauaRYw7U/mbpFwS7d5udfEg=
 X-Google-Smtp-Source: 
- AA6agR6+VE2Y+TN7e47EsBswyqwFjbNeOebznVYBwM1qt3lsWmopEueR1wk6NabzBHgkKNYkdCGd9w==
-X-Received: by 2002:a17:907:3d90:b0:730:9300:68aa with SMTP id
- he16-20020a1709073d9000b00730930068aamr6399529ejc.655.1659448662676;
-        Tue, 02 Aug 2022 06:57:42 -0700 (PDT)
+ AGRyM1tB8/+DAAx19lp44R7J4VuLFPxC7PWQ321CWVnagwUcu5gNHcbfS7Nmxe4+lFfIBgvnRSc+Wg==
+X-Received: by 2002:a17:907:6e10:b0:72b:7ddc:e9e6 with SMTP id
+ sd16-20020a1709076e1000b0072b7ddce9e6mr16388146ejc.12.1659448660624;
+        Tue, 02 Aug 2022 06:57:40 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- kx18-20020a170907775200b00722e50dab2csm6233731ejc.109.2022.08.02.06.57.41
+ kx18-20020a170907775200b00722e50dab2csm6233731ejc.109.2022.08.02.06.57.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Aug 2022 06:57:42 -0700 (PDT)
+        Tue, 02 Aug 2022 06:57:38 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 4/5] scripts/oe-setup-layers: add a script that restores the
- layer configuration from a json file
-Date: Tue,  2 Aug 2022 15:57:13 +0200
-Message-Id: <20220802135714.2785052-4-alex@linutronix.de>
+Cc: Joshua Watt <JPEWhacker@gmail.com>,
+	Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 2/5] meta/files: add layer setup JSON schema and example
+Date: Tue,  2 Aug 2022 15:57:11 +0200
+Message-Id: <20220802135714.2785052-2-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220802135714.2785052-1-alex@linutronix.de>
 References: <20220802135714.2785052-1-alex@linutronix.de>
@@ -69,157 +69,342 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 02 Aug 2022 13:57:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168784
+ https://lists.openembedded.org/g/openembedded-core/message/168782
 
-This script can be used directly from poky, or can be copied directly into a
-layer or any other repository - it is self-suffucient and requires only python3
-and git on the host where it will run. It is also copied by the bitbake-layers
-layers-setup plugin together with the json, unless requested otherwise.
+From: Joshua Watt <JPEWhacker@gmail.com>
 
-1. How to restore the layers from the saved configuration:
+Defines a common schema for layer setup that can be consumed by tools to
+know how to fetch and assemble layers for end users. Also includes an
+example of the layer setup that constructs poky/meta-intel/imaginary product layer
+for reference.
 
-a) Clone the bootstrap layer or some other repository to obtain the json config and the setup script that can use it.
-(use 'bitbake-layers create-layer-setup' from the previous commit to create them)
+The schema can be used to validate a layer setup file with the commands:
 
-b) Running with default options:
-(note: this will work to update an existing checkout as well)
+ $ python3 -m pip install jsonschema
+ $ jsonschema -i meta/files/layers.example.json meta/files/layers.schema.json
 
-alex@Zen2:/srv/work/alex/my-build$ meta-alex/setup-layers
-Note: not checking out source meta-alex, use --force-bootstraplayer-checkout to override.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 
-Setting up source meta-intel, revision 15.0-hardknott-3.3-310-g0a96edae, branch master
-Running 'git init -q /srv/work/alex/my-build/meta-intel'
-Running 'git remote remove origin > /dev/null 2>&1; git remote add origin git://git.yoctoproject.org/meta-intel' in /srv/work/alex/my-build/meta-intel
-Running 'git fetch -q origin || true' in /srv/work/alex/my-build/meta-intel
-Running 'git checkout -q 0a96edae609a3f48befac36af82cf1eed6786b4a' in /srv/work/alex/my-build/meta-intel
+Alex: I made the following modifications to Joshua's original commit:
 
-Setting up source poky, revision 4.1_M1-372-g55483d28f2, branch akanavin/setup-layers
-Running 'git init -q /srv/work/alex/my-build/poky'
-Running 'git remote remove origin > /dev/null 2>&1; git remote add origin git://git.yoctoproject.org/poky' in /srv/work/alex/my-build/poky
-Running 'git fetch -q origin || true' in /srv/work/alex/my-build/poky
-Running 'git remote remove poky-contrib > /dev/null 2>&1; git remote add poky-contrib ssh://git@push.yoctoproject.org/poky-contrib' in /srv/work/alex/my-build/poky
-Running 'git fetch -q poky-contrib || true' in /srv/work/alex/my-build/poky
-Running 'git checkout -q 11db0390b02acac1324e0f827beb0e2e3d0d1d63' in /srv/work/alex/my-build/poky
+- moved the files from meta/lib to meta/files
 
-Available build configurations:
-/srv/work/alex/my-build/meta-alex/conf/templates/configuration-gadget
-/srv/work/alex/my-build/meta-alex/conf/templates/configuration-gizmo
-/srv/work/alex/my-build/poky/meta-poky/conf
+- the example json showcases a multi-repo, multi-layer setup with additional
+configurations and machines, instead of just poky - closer to a typical product
 
-You can set up a build with:
-TEMPLATECONF=one/of/the/above . /srv/work/alex/my-build/poky/oe-init-build-env
+- added oe-selftest that validates the example json against the schema using python3-jsonschema-native
 
-2. Command line options:
+- the schema is modified so that:
 
-alex@Zen2:/srv/work/alex/my-build$ meta-alex/setup-layers -h
-usage: setup-layers [-h] [--force-bootstraplayer-checkout] [--destdir DESTDIR] [--jsondata JSONDATA]
+-- all lists (sources, layers, remotes) are replaced by objects keyed by 'name' properties of the list items.
+This allows using them as dicts inside Python, and makes the json more compact and readable.
 
-A self contained python script that fetches all the needed layers and sets them to correct revisions
+-- added 'contains_this_file' property to source object
 
-optional arguments:
-  -h, --help            show this help message and exit
-  --force-bootstraplayer-checkout
-                        Force the checkout of the layer containing this file (by default it is presumed that as this script is in it, the layer is already in place).
-  --destdir DESTDIR     Where to check out the layers (default is /srv/work/alex/my-build).
-  --jsondata JSONDATA   File containing the layer data in json format (default is /srv/work/alex/my-build/meta-alex/setup-layers.json).
+-- added 'buildconfigs', 'machines' and 'distros' properties to layer objects.
+
+-- replaced 'remote' property with a 'oneOf' definition for git with a specific
+'git-remote' property. 'oneOf' is problematic when schema validation fails:
+the diagnostic is only that none of oneOf variants matched, which is too non-specific.
+
+-- added 'describe' property to 'git-remote' object.
+
+-- removed description property for a layer source: it is not clear how to add that
+when auto-generating the json
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- scripts/oe-setup-layers | 85 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 85 insertions(+)
- create mode 100755 scripts/oe-setup-layers
+ meta/files/layers.example.json           | 115 +++++++++++++++++++++
+ meta/files/layers.schema.json            | 121 +++++++++++++++++++++++
+ meta/lib/oeqa/selftest/cases/bblayers.py |  16 ++-
+ 3 files changed, 251 insertions(+), 1 deletion(-)
+ create mode 100644 meta/files/layers.example.json
+ create mode 100644 meta/files/layers.schema.json
 
-diff --git a/scripts/oe-setup-layers b/scripts/oe-setup-layers
-new file mode 100755
-index 0000000000..39cc16a30d
+diff --git a/meta/files/layers.example.json b/meta/files/layers.example.json
+new file mode 100644
+index 0000000000..b6e35c615d
 --- /dev/null
-+++ b/scripts/oe-setup-layers
-@@ -0,0 +1,85 @@
-+#!/usr/bin/env python3
-+#
-+# This file was copied from poky(or oe-core)/scripts/oe-setup-layers by running
-+#
-+# bitbake-layers create-layers-setup destdir
-+#
-+# It is recommended that you do not modify this file directly, but rather re-run the above command to get the freshest upstream copy.
-+#
++++ b/meta/files/layers.example.json
+@@ -0,0 +1,115 @@
++{
++    "sources": {
++        "meta-alex": {
++            "contains_this_file": true,
++            "git-remote": {
++                "branch": "master",
++                "describe": "",
++                "remotes": {
++                    "remote-alex": {
++                        "uri": "https://github.com/kanavin/meta-alex"
++                    }
++                },
++                "rev": "05b25605fb8b2399e4706d7323828676bf0da0b5"
++            },
++            "layers": {
++                "meta-alex": {
++                    "buildconfigs": {
++                        "conf/templates/configuration-gadget": {},
++                        "conf/templates/configuration-gizmo": {}
++                    },
++                    "subpath": ""
++                }
++            },
++            "path": "meta-alex"
++        },
++        "meta-intel": {
++            "git-remote": {
++                "branch": "master",
++                "describe": "15.0-hardknott-3.3-310-g0a96edae",
++                "remotes": {
++                    "origin": {
++                        "uri": "git://git.yoctoproject.org/meta-intel"
++                    }
++                },
++                "rev": "0a96edae609a3f48befac36af82cf1eed6786b4a"
++            },
++            "layers": {
++                "meta-intel": {
++                    "machines": {
++                        "intel-core2-32": {},
++                        "intel-corei7-64": {},
++                        "intel-skylake-64": {}
++                    },
++                    "subpath": ""
++                }
++            },
++            "path": "meta-intel"
++        },
++        "poky": {
++            "git-remote": {
++                "branch": "akanavin/setup-layers",
++                "describe": "4.1_M1-374-g9dda719b2a",
++                "remotes": {
++                    "origin": {
++                        "uri": "git://git.yoctoproject.org/poky"
++                    },
++                    "poky-contrib": {
++                        "uri": "ssh://git@push.yoctoproject.org/poky-contrib"
++                    }
++                },
++                "rev": "9dda719b2a4727a4d43a6ab8d9e23f8ca68790ec"
++            },
++            "layers": {
++                "meta": {
++                    "distros": {
++                        "defaultsetup": {}
++                    },
++                    "machines": {
++                        "qemuarm": {},
++                        "qemuarm64": {},
++                        "qemuarmv5": {},
++                        "qemumips": {},
++                        "qemumips64": {},
++                        "qemuppc": {},
++                        "qemuppc64": {},
++                        "qemuriscv32": {},
++                        "qemuriscv64": {},
++                        "qemux86": {},
++                        "qemux86-64": {}
++                    },
++                    "subpath": "meta"
++                },
++                "meta-poky": {
++                    "buildconfigs": {
++                        "conf": {}
++                    },
++                    "distros": {
++                        "poky": {},
++                        "poky-altcfg": {},
++                        "poky-bleeding": {},
++                        "poky-tiny": {}
++                    },
++                    "subpath": "meta-poky"
++                },
++                "meta-selftest": {
++                    "machines": {
++                        "qemux86copy": {}
++                    },
++                    "subpath": "meta-selftest"
++                },
++                "meta-yocto-bsp": {
++                    "machines": {
++                        "beaglebone-yocto": {},
++                        "edgerouter": {},
++                        "genericx86": {},
++                        "genericx86-64": {}
++                    },
++                    "subpath": "meta-yocto-bsp"
++                }
++            },
++            "path": "poky"
++        }
++    },
++    "version": "1.0"
++}
+diff --git a/meta/files/layers.schema.json b/meta/files/layers.schema.json
+new file mode 100644
+index 0000000000..2603fae8f7
+--- /dev/null
++++ b/meta/files/layers.schema.json
+@@ -0,0 +1,121 @@
++{
++    "description": "OpenEmbedder Layer Setup Manifest",
++    "type": "object",
++    "additionalProperties": false,
++    "required": [
++        "version"
++    ],
++    "properties": {
++        "version": {
++            "description": "The version of this document; currently '1.0'",
++            "enum": ["1.0"]
++        },
++        "sources": {
++            "description": "The dict of layer sources",
++            "type": "object",
++            "patternProperties": { ".*" : {
++                "type": "object",
++                "description": "The upstream source from which a set of layers may be fetched",
++                "additionalProperties": false,
++                "required": [
++                    "path"
++                ],
++                "properties": {
++                    "path": {
++                        "description": "The path where this layer source will be placed when fetching",
++                        "type": "string"
++                    },
++                    "contains_this_file": {
++                        "description": "Whether the directory with the layer source also contains this json description. Tools may want to skip the checkout of the source then.",
++                        "type": "boolean"
++                    },
++                    "layers": {
++                        "description": "The dict of layers to be used from this upstream source",
++                        "type": "object",
++                        "patternProperties": { ".*" : {
++                            "description": "A layer from the upstream source",
++                            "type": "object",
++                            "additionalProperties": false,
++                            "properties": {
++                                "subpath": {
++                                    "description": "The subpath (relative to the source root) for this layer. Omit if the source root is the layer path",
++                                    "type": "string"
++                                },
++                                "buildconfigs": {
++                                    "description": "A dict of template build configurations in the layer, keyed by relative path to the layer root",
++                                    "type": "object",
++                                    "patternProperties": { ".*" : {
++                                        "description": "Properties of a build confuguration template",
++                                        "type": "object",
++                                        "additionalProperties": false,
++                                        "properties":{}
++                                    }}
++                                },
++                                "machines": {
++                                    "description": "A dict of machine definitions in the layer",
++                                    "type": "object",
++                                    "patternProperties": { ".*" : {
++                                        "description": "Properties of a machine definition",
++                                        "type": "object",
++                                        "additionalProperties": false,
++                                        "properties":{}
++                                    }}
++                                },
++                                "distros": {
++                                    "description": "A dict of distro definitions in the layer",
++                                    "type": "object",
++                                    "patternProperties": { ".*" : {
++                                        "description": "Properties of a distro definition",
++                                        "type": "object",
++                                        "additionalProperties": false,
++                                        "properties":{}
++                                    }}
++                                }
++                            }
++                        }}
++                    },
++                    "git-remote": {
++                                "description": "A remote git source from which to fetch",
++                                "type": "object",
++                                "additionalProperties": false,
++                                "required": [
++                                    "rev"
++                                ],
++                                "properties": {
++                                    "branch": {
++                                        "description": "The git branch to fetch (optional)",
++                                        "type": "string"
++                                    },
++                                    "rev": {
++                                        "description": "The git revision to checkout",
++                                        "type": "string"
++                                    },
++                                    "describe": {
++                                        "description": "The output of 'git describe' (human readable description of the revision using tags in revision history).",
++                                        "type": "string"
++                                    },
++                                    "remotes": {
++                                        "description": "The dict of git remotes to add to this repository",
++                                        "type": "object",
++                                        "patternProperties": { ".*" : {
++                                            "description": "A git remote",
++                                            "type": "object",
++                                            "addtionalProperties": false,
++                                            "required": [
++                                                "uri"
++                                            ],
++                                            "properties": {
++                                                "uri": {
++                                                    "description": "The URI for the remote",
++                                                    "type": "string"
++                                                }
++                                            }
++                                        }}
++                                    }
++                                }
++                    }
++                }
++            }
++        }}
++    }
++}
+diff --git a/meta/lib/oeqa/selftest/cases/bblayers.py b/meta/lib/oeqa/selftest/cases/bblayers.py
+index 8aa45e432e..4f4952f3eb 100644
+--- a/meta/lib/oeqa/selftest/cases/bblayers.py
++++ b/meta/lib/oeqa/selftest/cases/bblayers.py
+@@ -6,12 +6,16 @@ import os
+ import re
+ 
+ import oeqa.utils.ftools as ftools
+-from oeqa.utils.commands import runCmd, get_bb_var, get_bb_vars
++from oeqa.utils.commands import runCmd, get_bb_var, get_bb_vars, bitbake
+ 
+ from oeqa.selftest.case import OESelftestTestCase
+ 
+ class BitbakeLayers(OESelftestTestCase):
+ 
++    def setUpLocal(self):
++        bitbake("python3-jsonschema-native")
++        bitbake("-c addto_recipe_sysroot python3-jsonschema-native")
 +
-+import argparse
-+import json
-+import os
-+import subprocess
+     def test_bitbakelayers_layerindexshowdepends(self):
+         result = runCmd('bitbake-layers layerindex-show-depends meta-poky')
+         find_in_contents = re.search("openembedded-core", result.output)
+@@ -126,3 +130,13 @@ class BitbakeLayers(OESelftestTestCase):
+ 
+         self.assertTrue(os.path.isfile(recipe_file), msg = "Can't find recipe file for %s" % recipe)
+         return os.path.basename(recipe_file)
 +
-+def _do_checkout(args, json):
-+    layers = json['sources']
-+    buildconfs = []
-+    oecorepath = ""
-+    for l_name in layers:
-+        l_data = layers[l_name]
-+        layerdir = os.path.abspath(os.path.join(args['destdir'], l_data['path']))
++    def validate_layersjson(self, json):
++        python = os.path.join(get_bb_var('STAGING_BINDIR', 'python3-jsonschema-native'), 'nativepython3')
++        jsonvalidator = os.path.join(get_bb_var('STAGING_BINDIR', 'python3-jsonschema-native'), 'jsonschema')
++        jsonschema = os.path.join(get_bb_var('COREBASE'), 'meta/files/layers.schema.json')
++        result = runCmd("{} {} -i {} {}".format(python, jsonvalidator, json, jsonschema))
 +
-+        for ll_name in l_data['layers']:
-+            if ll_name == 'meta':
-+                oecorepath = layerdir
-+            ll_data = l_data['layers'][ll_name]
-+            if 'buildconfigs' in ll_data:
-+                for c in ll_data['buildconfigs']:
-+                    buildconfs.append(os.path.join(layerdir, ll_data['subpath'], c))
-+
-+        if 'contains_this_file' in l_data.keys():
-+            force_arg = 'force_bootstraplayer_checkout'
-+            if not args[force_arg]:
-+                print('Note: not checking out source {layer}, use {layerflag} to override.'.format(layer=l_name, layerflag='--force-bootstraplayer-checkout'))
-+                continue
-+        l_remote = l_data['git-remote']
-+        rev = l_remote['rev']
-+        desc = l_remote['describe']
-+        if not desc:
-+            desc = rev[:10]
-+        branch = l_remote['branch']
-+        remotes = l_remote['remotes']
-+
-+        print('\nSetting up source {}, revision {}, branch {}'.format(l_name, desc, branch))
-+        cmd = 'git init -q {}'.format(layerdir)
-+        print("Running '{}'".format(cmd))
-+        subprocess.check_output(cmd, shell=True)
-+
-+        for remote in remotes:
-+            cmd = "git remote remove {} > /dev/null 2>&1; git remote add {} {}".format(remote, remote, remotes[remote]['uri'])
-+            print("Running '{}' in {}".format(cmd, layerdir))
-+            subprocess.check_output(cmd, shell=True, cwd=layerdir)
-+
-+            cmd = "git fetch -q {} || true".format(remote)
-+            print("Running '{}' in {}".format(cmd, layerdir))
-+            subprocess.check_output(cmd, shell=True, cwd=layerdir)
-+
-+        cmd = 'git checkout -q {}'.format(rev)
-+        print("Running '{}' in {}".format(cmd, layerdir))
-+        subprocess.check_output(cmd, shell=True, cwd=layerdir)
-+
-+
-+    print("\nAvailable build configurations:\n{}\n".format("\n".join(buildconfs)))
-+    print("You can set up a build with:\nTEMPLATECONF=one/of/the/above . {}/oe-init-build-env".format(oecorepath))
-+
-+
-+parser = argparse.ArgumentParser(description="A self contained python script that fetches all the needed layers and sets them to correct revisions using data in a json format from a separate file. The json data can be created from an active build directory with 'bitbake-layers create-layers-setup destdir' and there's a sample file and a schema in meta/files/")
-+
-+parser.add_argument('--force-bootstraplayer-checkout', action='store_true',
-+        help='Force the checkout of the layer containing this file (by default it is presumed that as this script is in it, the layer is already in place).')
-+
-+try:
-+    defaultdest = os.path.dirname(subprocess.check_output('git rev-parse --show-toplevel', universal_newlines=True, shell=True, cwd=os.path.dirname(__file__)))
-+except subprocess.CalledProcessError as e:
-+    defaultdest = os.path.abspath(".")
-+
-+parser.add_argument('--destdir', default=defaultdest, help='Where to check out the layers (default is {defaultdest}).'.format(defaultdest=defaultdest))
-+parser.add_argument('--jsondata', default=__file__+".json", help='File containing the layer data in json format (default is {defaultjson}).'.format(defaultjson=__file__+".json"))
-+
-+args = parser.parse_args()
-+
-+with open(args.jsondata) as f:
-+    json = json.load(f)
-+
-+_do_checkout(vars(args), json)
++    def test_validate_examplelayersjson(self):
++        json = os.path.join(get_bb_var('COREBASE'), "meta/files/layers.example.json")
++        self.validate_layersjson(json)
 -- 
 2.30.2
 
