@@ -1,141 +1,197 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B32ECC19F28
-	for <webhook@archiver.kernel.org>; Wed,  3 Aug 2022 13:43:23 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web12.8661.1659534195880033133
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E37E7C19F28
+	for <webhook@archiver.kernel.org>; Wed,  3 Aug 2022 14:19:33 +0000 (UTC)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web12.9082.1659536365260280649
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Aug 2022 06:43:16 -0700
+ Wed, 03 Aug 2022 07:19:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Nq79iHpE;
- spf=pass (domain: bootlin.com, ip: 217.70.183.198,
- mailfrom: luca.ceresoli@bootlin.com)
-Received: from booty (unknown [77.244.183.192])
-	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 8DD82C000A;
-	Wed,  3 Aug 2022 13:43:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1659534193;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tF2GnEtVrM9UWHf/+KNX5efiWxs78mMNImt7xKhtE2A=;
-	b=Nq79iHpEFoUPoRVyotlx++ajxPLNu0Hvo7Pe7GyHLnCn79vFDjjNTI89SoEfYHzoxGe38Q
-	L35WrZnIRnmgURJ0v5NaFlF2t2eLQxeYrGLrrZF5rHGvvheRTT9yaw2bjOKPx2ZxyQDx+e
-	yNp0W4VhY43aBTv9r3lvweHtSP7++fMIyTQ36HxRNh9EZdvEk5Zd1Z310OsVUhSzcD+npG
-	bXHXoFAg5CEsTjCx1w3ubrgqE4Is5QE81NyN64SodSX9Cr7v1UnkX7sFXiWVAtmn1NBNfM
-	rADSpOfMQr1dwzOqxckITh0GqnTeEJH+xDkHvUeXWUShYtMQgOV4/+M4jCteKQ==
-Date: Wed, 3 Aug 2022 15:43:10 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Luca Ceresoli via lists.openembedded.org"
- <luca.ceresoli=bootlin.com@lists.openembedded.org>
-Cc: luca.ceresoli@bootlin.com, "Pgowda" <pgowda.cve@gmail.com>,
- openembedded-core@lists.openembedded.org,
- richard.purdie@linuxfoundation.org, rwmacleod@gmail.com, Vinay Kumar
- <vinay.m.engg@gmail.com>
-Subject: Re: [OE-core] [PATCH v7] Rust Oe-Selftest implementation
-Message-ID: <20220803154310.2cf9862c@booty>
-In-Reply-To: <1707D9665C148D1A.1831@lists.openembedded.org>
-References: <20220802122005.31100-1-pgowda.cve@gmail.com>
-	<1707D9665C148D1A.1831@lists.openembedded.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=iZ+CexEQ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.44,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f44.google.com with SMTP id ha11so16911499pjb.2
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 03 Aug 2022 07:19:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iQseSRI9pE6rEXnpwZ7aNpcuePRNuKkqRBrmZa7XuEs=;
+        b=iZ+CexEQ2dJ3wI5qurQQ8crgLm64m92Rah/TmWt8QfIFLtrc1Gnwvi7Oods8SAhZfO
+         Iki/bTFF4310S2kEvkVx5dx49dbD6rXqV1OWcsmIIbFOGVkuWhW5s2b0Av4IbT1ykD08
+         NO9GQOZNbUxpSIlL8wkl5/9xZgGACbwZNoXr0btyxTktMslFdF/swvtoFwidx2+MrgOJ
+         DLVpMc3dNl3EhSze8hsHmKwYgE0sCl23v20iiI1+0Wkn3UrBypcxrt61OvInzJl2pbv/
+         G+vaZq+4DLrWBIz+jfH1yeO9dLzcLBlQnR+PwbgkFaQF1Au9g9Lpp1bSXPNph4BRU4Ph
+         y2xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iQseSRI9pE6rEXnpwZ7aNpcuePRNuKkqRBrmZa7XuEs=;
+        b=KHhPPYRBiGyKNtn9NiutZXbfxjsdgGHLnr8UBrB7aEnzqHr58ui2ImMlSJk6TO8sCt
+         ODx1lW2UlRpf1Ohb60QU7GOt3OhPCsWVnqp9ihG8dPMBA+PqJugWg8UCsZInom2lu4CS
+         ktPit5ZgV/Z25M20K5MH7tbyUawhDjGbjtvY39F8DQTHz2visKT54GYimYcXl7XUbfWe
+         rtueYCbrxOtGChh6xhy6dA/LfzYCYvf0HpGyXA9oZgaw9XEcVpusHaxDks51GmIZUT6+
+         FEe+erhEsw4q8cqY0cy3BO9GdTUxRCOjSAtqFnxXAxrzWbrlpE7I5yPzxroHgh5sUKdE
+         7McA==
+X-Gm-Message-State: ACgBeo2c7wnOajE2oDlCu7ToX9SQRhOPT/lmhA4BFlcmWebVGYrn6Mdd
+	Dz7oljpXUjtR62sdYFS9ch7ESjAAPdzCxWdh
+X-Google-Smtp-Source: 
+ AA6agR7sBxM30xdMWr3GdV6L3Fkbn3skmx0WNmqHAC8efEqiIiRKgRAyWge+Fygg3TVhZWLF7JyPqQ==
+X-Received: by 2002:a17:90a:9907:b0:1f5:2318:ea6d with SMTP id
+ b7-20020a17090a990700b001f52318ea6dmr5232773pjp.163.1659536363870;
+        Wed, 03 Aug 2022 07:19:23 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id
+ f9-20020a170902ce8900b0016f1c1f50f4sm952891plg.235.2022.08.03.07.19.21
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Aug 2022 07:19:21 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 00/29] Pull request (cover letter only)
+Date: Wed,  3 Aug 2022 04:19:10 -1000
+Message-Id: <cover.1659536254.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Aug 2022 13:43:23 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Aug 2022 14:19:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168816
+ https://lists.openembedded.org/g/openembedded-core/message/168817
 
-Hi Pgowda,
+The following changes since commit 2bc86c029fb82ae572f6a89407ccfe332972568c:
 
-On Wed, 3 Aug 2022 15:40:15 +0200
-"Luca Ceresoli via lists.openembedded.org"
-<luca.ceresoli=bootlin.com@lists.openembedded.org> wrote:
+  gcc-runtime: Pass -nostartfiles when building dummy libstdc++.so (2022-07-26 05:34:59 -1000)
 
-> On Tue,  2 Aug 2022 17:50:05 +0530
-> "Pgowda" <pgowda.cve@gmail.com> wrote:
-> 
-> > From: pgowda <pgowda.cve@gmail.com>
-> > 
-> > The patch implements Rust testing framework similar to other selftest,
-> > specifically the gcc selftest in OE. It uses the client and server
-> > based method to test the binaries for cross-target on the image.
-> > The test framework is a wrapper around the Rust build system as ./x.py
-> > test.
-> > It tests many functionalities of Rust distribution like tools,
-> > documentation, libraries, packages, tools, Cargo, Crater etc.
-> > Please refer the following link for detailed description of Rust
-> > testing:-
-> > https://rustc-dev-guide.rust-lang.org/tests/intro.html#tool-tests
-> > 
-> > To support the rust tests in oe-core, the following functions were
-> > added:-
-> > setup_cargo_environment(): Build bootstrap and some early stage tools.
-> > do_rust_setup_snapshot(): Install the snapshot version of rust binaries.
-> > do_configure(): To generate config.toml
-> > do_compile(): To build "remote-test-server" for qemu target image.
-> > 
-> > Approximate Number of Tests Run in the Rust Testsuite :- 18000
-> > Approximate Number of Tests that FAIL in bitbake environment :- 100-150
-> > Normally majority of the testcases are present in major folder "test/"
-> > It contributes to more than 80% of the testcases present in Rust test
-> > framework. These tests pass as expected on any Rust versions without
-> > much fuss. The tests that fail are of less important and contribute to
-> > less than 2% of the total testcases. These minor tests are observed to
-> > work on some versions and fail on others. They have to be added, ignored
-> > or excluded for different versions as per the behavior.
-> > These tests have been ignored or excluded in the Rust selftest
-> > environment to generate success of completing the testsuite.
-> > 
-> > These tests work in parallel mode even in the skipped test mode as
-> > expected. Although the patch to disable tests is large, it is very simple
-> > in that it only disables tests. When updating to a newer version of Rust,
-> > the patch can usually be ported in a day.
-> > 
-> > Signed-off-by: pgowda <pgowda.cve@gmail.com>
-> > Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>  
-> 
-> This patch fails because of:
-> 
->   AssertionError: 
->   The following recipes do not have a maintainer assigned to them. Please add an entry to meta/conf/distro/include/maintainers.inc file.
->   rust-testsuite (/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/recipes-devtools/rust/rust-testsuite_1.62.0.bb)
-> 
-> Some logs:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/3917/steps/15/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/3866/steps/14/logs/stdio
+are available in the Git repository at:
 
-...and there is another failure, this time it is an actual build error:
+  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
 
-| CMake Error at /home/pokybuild/yocto-worker/qemux86-64/build/build-st-789666/tmp/work/core2-64-poky-linux/rust-testsuite/1.62.0-r0/recipe-sysroot-native/usr/share/cmake-3.23/Modules/CMakeTestCXXCompiler.cmake:62 (message):
-|   The C++ compiler
-| 
-|     "/home/pokybuild/yocto-worker/qemux86-64/build/build-st-789666/tmp/work/core2-64-poky-linux/rust-testsuite/1.62.0-r0/wrapper/build-rust-cxx"
-| 
-|   is not able to compile a simple test program.
-| 
-|   It fails with the following output:
-| 
-[...]
-|     /home/pokybuild/yocto-worker/qemux86-64/build/build-st-789666/tmp/hosttools/ld: cannot find -lstdc++
-|     collect2: error: ld returned 1 exit status
+Alex Kiernan (1):
+  bind: Remove legacy python3 PACKAGECONFIG code
 
-Full log at:
+Alexander Kanavin (14):
+  xev: update 1.2.4 -> 1.2.5
+  xmodmap: update 1.0.10 -> 1.0.11
+  xf86-input-synaptics: update 1.9.1 -> 1.9.2
+  encodings: update 1.0.5 -> 1.0.6
+  font-util: update 1.3.2 -> 1.3.3
+  xserver-xorg: update 21.1.3 -> 21.1.4
+  linux-firmware: update 20220610 -> 20220708
+  libuv: upgrade 1.44.1 -> 1.44.2
+  log4cplus: upgrade 2.0.7 -> 2.0.8
+  vala: upgrade 0.56.0 -> 0.56.1
+  vala: upgrade 0.56.1 -> 0.56.2
+  webkitgtk: upgrade 2.36.3 -> 2.36.4
+  xwayland: upgrade 22.1.2 -> 22.1.3
+  epiphany: upgrade 42.2 -> 42.3
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/73/builds/5569/steps/19/logs/stdio
+Hitendra Prajapati (2):
+  qemu: CVE-2022-35414 can perform an uninitialized read on the
+    translate_fail path, leading to an io_readx or io_writex crash
+  libtirpc: CVE-2021-46828 DoS vulnerability with lots of connections
 
+Mihai Lindner (1):
+  wic/plugins/rootfs: Fix NameError for 'orig_path'
+
+Ming Liu (1):
+  udev-extraconf:mount.sh: fix a umount issue
+
+Richard Purdie (3):
+  xorg-app: Tweak handling of compression changes in SRC_URI
+  xwayland: upgrade 22.1.1 -> 22.1.2
+  base/reproducible: Change Source Date Epoch generation methods
+
+Ross Burton (2):
+  oeqa/runtime: add test that the kernel has CONFIG_PREEMPT_RT enabled
+  perf: fix reproduciblity in older releases of Linux
+
+Shruthi Ravichandran (1):
+  initscripts: run umountnfs as a KILL script
+
+gr embeter (1):
+  efivar: fix import functionality
+
+leimaohui (1):
+  systemd: Added base_bindir into pkg_postinst:udev-hwdb.
+
+wangmy (2):
+  mkfontscale: upgrade 1.2.1 -> 1.2.2
+  xdpyinfo: upgrade 1.3.2 -> 1.3.3
+
+ meta/classes/base.bbclass                     |   1 +
+ meta/lib/oe/reproducible.py                   |   1 -
+ meta/lib/oeqa/runtime/cases/rt.py             |  17 ++
+ .../0001-Fix-invalid-free-in-main.patch       |  30 ++++
+ meta/recipes-bsp/efivar/efivar_38.bb          |   1 +
+ meta/recipes-connectivity/bind/bind_9.18.4.bb |  13 --
+ .../{libuv_1.44.1.bb => libuv_1.44.2.bb}      |   2 +-
+ .../initscripts/initscripts_1.0.bb            |   2 +-
+ meta/recipes-core/systemd/systemd_250.5.bb    |   2 +-
+ .../recipes-core/udev/udev-extraconf/mount.sh |   2 +-
+ ...{log4cplus_2.0.7.bb => log4cplus_2.0.8.bb} |   2 +-
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
+ .../qemu/qemu/CVE-2022-35414.patch            |  53 ++++++
+ meta/recipes-devtools/vala/vala_0.56.0.bb     |   3 -
+ meta/recipes-devtools/vala/vala_0.56.2.bb     |   3 +
+ .../libtirpc/libtirpc/CVE-2021-46828.patch    | 155 ++++++++++++++++++
+ .../libtirpc/libtirpc_1.3.2.bb                |   4 +-
+ .../{epiphany_42.2.bb => epiphany_42.3.bb}    |   2 +-
+ ...ontscale_1.2.1.bb => mkfontscale_1.2.2.bb} |   4 +-
+ .../{xdpyinfo_1.3.2.bb => xdpyinfo_1.3.3.bb}  |   4 +-
+ .../xorg-app/{xev_1.2.4.bb => xev_1.2.5.bb}   |   4 +-
+ .../{xmodmap_1.0.10.bb => xmodmap_1.0.11.bb}  |   5 +-
+ .../xorg-app/xorg-app-common.inc              |   3 +-
+ .../recipes-graphics/xorg-app/xrandr_1.5.1.bb |   3 +-
+ .../64bit_time_t_support.patch                |  51 ------
+ ...1.9.1.bb => xf86-input-synaptics_1.9.2.bb} |   7 +-
+ .../xorg-font/encodings/nocompiler.patch      |   8 +-
+ ...{encodings_1.0.5.bb => encodings_1.0.6.bb} |   6 +-
+ ...{font-util_1.3.2.bb => font-util_1.3.3.bb} |   5 +-
+ .../xorg-font/xorg-font-common.inc            |   3 +-
+ .../0001-render-Fix-build-with-gcc-12.patch   |  90 ----------
+ ...-xorg_21.1.3.bb => xserver-xorg_21.1.4.bb} |   7 +-
+ ...{xwayland_22.1.1.bb => xwayland_22.1.3.bb} |   2 +-
+ ...20220610.bb => linux-firmware_20220708.bb} |  13 +-
+ meta/recipes-kernel/perf/perf.bb              |   3 +
+ ...ebkitgtk_2.36.3.bb => webkitgtk_2.36.4.bb} |   2 +-
+ scripts/lib/wic/plugins/source/rootfs.py      |   2 +-
+ 37 files changed, 309 insertions(+), 207 deletions(-)
+ create mode 100644 meta/lib/oeqa/runtime/cases/rt.py
+ create mode 100644 meta/recipes-bsp/efivar/efivar/0001-Fix-invalid-free-in-main.patch
+ rename meta/recipes-connectivity/libuv/{libuv_1.44.1.bb => libuv_1.44.2.bb} (93%)
+ rename meta/recipes-devtools/log4cplus/{log4cplus_2.0.7.bb => log4cplus_2.0.8.bb} (90%)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-35414.patch
+ delete mode 100644 meta/recipes-devtools/vala/vala_0.56.0.bb
+ create mode 100644 meta/recipes-devtools/vala/vala_0.56.2.bb
+ create mode 100644 meta/recipes-extended/libtirpc/libtirpc/CVE-2021-46828.patch
+ rename meta/recipes-gnome/epiphany/{epiphany_42.2.bb => epiphany_42.3.bb} (94%)
+ rename meta/recipes-graphics/xorg-app/{mkfontscale_1.2.1.bb => mkfontscale_1.2.2.bb} (82%)
+ rename meta/recipes-graphics/xorg-app/{xdpyinfo_1.3.2.bb => xdpyinfo_1.3.3.bb} (81%)
+ rename meta/recipes-graphics/xorg-app/{xev_1.2.4.bb => xev_1.2.5.bb} (81%)
+ rename meta/recipes-graphics/xorg-app/{xmodmap_1.0.10.bb => xmodmap_1.0.11.bb} (78%)
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-input-synaptics/64bit_time_t_support.patch
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-synaptics_1.9.1.bb => xf86-input-synaptics_1.9.2.bb} (74%)
+ rename meta/recipes-graphics/xorg-font/{encodings_1.0.5.bb => encodings_1.0.6.bb} (78%)
+ rename meta/recipes-graphics/xorg-font/{font-util_1.3.2.bb => font-util_1.3.3.bb} (84%)
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-render-Fix-build-with-gcc-12.patch
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.3.bb => xserver-xorg_21.1.4.bb} (79%)
+ rename meta/recipes-graphics/xwayland/{xwayland_22.1.1.bb => xwayland_22.1.3.bb} (95%)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220610.bb => linux-firmware_20220708.bb} (98%)
+ rename meta/recipes-sato/webkit/{webkitgtk_2.36.3.bb => webkitgtk_2.36.4.bb} (98%)
 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.25.1
+
 
