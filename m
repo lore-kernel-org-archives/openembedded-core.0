@@ -2,77 +2,74 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42DCFC19F28
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 440E9C3F6B0
 	for <webhook@archiver.kernel.org>; Wed,  3 Aug 2022 08:40:52 +0000 (UTC)
 Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
  [195.245.230.2])
  by mx.groups.io with SMTP id smtpd.web12.6276.1659516047363765692
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Aug 2022 01:40:50 -0700
+ Wed, 03 Aug 2022 01:40:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=go6zeXTh;
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=Tlm33kxm;
  spf=pass (domain: fujitsu.com, ip: 195.245.230.2,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1659516050; i=@fujitsu.com;
-	bh=iLGnuyz8F1mxbnkKYYpsevEnqTOhaR8tRS8i6eDWxo4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=go6zeXThf7XsZSHMbeKFxVvRHD8/ajfuonN+1+40hDXIDFoolYwiYQVzSa8DkMqtj
-	 r9unNRuhuj0DeqPdKmbvIfUfmD7mR8gP3aHC5IbBL7hTvlGzqV1Fp/gjWlI+5/af3h
-	 PAUt5x8k9sE4/Uav85F5iugj1J0pqi2Y8ySHBi75OF0BFpmWNtUS9Z7Yu4w4iOHxP3
-	 CRp01fhC01wJt4JHMQlPhLokRnhMXw6alJnuk806Enjn96I4a/a/og21trE2jQ0/+B
-	 6TNmIuHs7T1SHd0zXdssTZtFJhIcLszDyNPJT/E9gQ41x1KnQW5UbAYwD8rg+vAbdj
-	 OimFfJm5W4Vhw==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrKIsWRWlGSWpSXmKPExsViZ8MxSXeiyas
-  kg/cfDS3u/HzH7sDocW7jCsYAxijWzLyk/IoE1oy5+5oYC5q5Kjbt7GFrYJzA2cXIxSEk8JhR
-  YsHEu6wQzjUmiSWLZrNDOLsZJa4de8zYxcjJwSagJjH91g2gKg4OEQE9iav/REHCzAIqEi9+9
-  7CD2MICrhIzp61gA7FZgOKftv4Fs3kFnCR+XFsJNkZCQEFiysP3zCA2p4CzRN+pBhaQkUJANS
-  0vTSHKBSVOznzCAjFeQuLgixfMEK2KErMvN7NA2BUSM2ZsY4Ow1SSuntvEPIFRcBaS9llI2hc
-  wMq1itEoqykzPKMlNzMzRNTQw0DU0NNUFkqYmeolVuol6qaW65anFJbqGeonlxXqpxcV6xZW5
-  yTkpenmpJZsYgSGcUswwawfjrL6feocYJTmYlER5mRRfJQnxJeWnVGYkFmfEF5XmpBYfYpTh4
-  FCS4M3QAsoJFqWmp1akZeYA4wkmLcHBoyTCK6wElOYtLkjMLc5Mh0idYtTlmPm17QCzEEtefl
-  6qlDivnjFQkQBIUUZpHtwIWGxfYpSVEuZlZGBgEOIpSC3KzSxBlX/FKM7BqCTMq2oENIUnM68
-  EbtMroCOYgI7Q4XoBckRJIkJKqoEpofKht97zMqXijJnf+x4lbmxzMXqXGRsguuDCtK0+8599
-  WHS+dkvzJb51btVbq66WCmw031fIuD7gSfefxws2PBG5+TKdf2mFu8etDN8VKrldBj4btxlFv
-  GMPUxRwPV4/5b+/lKGgGcNe9eObjJijC+0DtqlwXG+rWVI+dftpz2hfE8/Kma/X1cQt5DrQtz
-  rBM0/MPO7gyocbjG4sOJ546Ae/258DalN90mtFL+RrtOt/1OJ238S8oECo4X+alvauT7d37H5
-  5K/GoedjCZY8+7q5/9CrR/Dz/ZeEHz1l/5hlK6TnsXNcWKdw4938gf7fBv2svC3aJZljXfb/l
-  7i9qfu1muLjmgz38rMrvTMKVWIozEg21mIuKEwHeqEYpaAMAAA==
+	s=170520fj; t=1659516045; i=@fujitsu.com;
+	bh=u3JAwZJkMl/g6fzuvPBucm5ARLxDW85f+CgQfgOeqQY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=Tlm33kxmRe9cp2By5UmdO+M88bod2y8I0VZzVji39LZsU2qA2omsoUkYkDCR8r4Qw
+	 Bi7qsb09LorVG27H3wUzfESO3DUHK9+siaDQUZ8HtZdXqXRT2bVSTAy7MbCNSKdl24
+	 IvzZlGzg1/GtH6p0bW4byBXYfER4fMy4VAbnYaPCgIRlCQEaHyJkonWE7aqQiSuDrZ
+	 kBX2dqaxmy/JBzzqr1HqQcc7EqjL66QGtPV8xyzI55BeNiwgpMg5XN5RPzIHO+Qz34
+	 1T0/zaqvUg900Qhh6q/z3JFN0h1obuZ2I/GIAgFgZo8TJH82KgvoAuxG+m/prEiES/
+	 x+tDIgz1cPqFA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrHIsWRWlGSWpSXmKPExsViZ8OxWbfH5FW
+  SwcsOZYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePp3PssBa84K74/nMXcwNjI2cXIxSEkcJ9R
+  ouniB1YI5xKTxMUpG6Cc3YwSxz6sY+5i5ORgE1CTmH7rBlCCg0NEQE/i6j9RkDCzgIrEi9897
+  CC2sICTxPud7SwgNgtQfNWMc2wgNi9QfPKW56wgtoSAgsSUh++ZIeKCEidnPmGBmCMhcfDFC2
+  aIGkWJ2ZebWSDsCokZM7axQdhqElfPbWKewMg/C0n7LCTtCxiZVjFaJRVlpmeU5CZm5ugaGhj
+  oGhqa6prqGhmZ6iVW6SbqpZbqlqcWl+ga6iWWF+ulFhfrFVfmJuek6OWllmxiBAZlSjHrwx2M
+  i/t+6h1ilORgUhLlZVJ8lSTEl5SfUpmRWJwRX1Sak1p8iFGGg0NJgjdDCygnWJSanlqRlpkDj
+  BCYtAQHj5IIr7ASUJq3uCAxtzgzHSJ1ilGXY+bXtgPMQix5+XmpUuK8esZARQIgRRmleXAjYN
+  F6iVFWSpiXkYGBQYinILUoN7MEVf4VozgHo5Iwr6oR0BSezLwSuE2vgI5gAjpCh+sFyBEliQg
+  pqQYmh0Mac54anHz8dMLS6jU7ntXceZ1t9lm2K2zaJ7up/6doCbktCa3N5F10yjjZZ9vvKdVN
+  dZfaFhs+X3zm2qrgl5ufe8ubOpYsmH6q8sjvlZ+bo9cF7dbQmF2u0M+zTibn785J/a5Fn8785
+  14q7xf6/h2P5YIO1+SJzsWivXx+i2fw3F/58uzqqW98Yzy89RdcdBLf92t6zMJnmyYnbJVxtI
+  h6nJ7Mc1N62cadh9TnzJTNl7t3K++c81tBoQ+CPP9n8F6VvCtdqFxnnrh6yiLvqyb7V3bOqj5
+  df1xpavgV7q7dC3x+nAzQzD3wLv90VFj2l5gr7o+kj7Q2HCoxS7x1gbf1lPv3IJcl/EZvRf4s
+  faPEUpyRaKjFXFScCAC+4+DMUQMAAA==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-4.tower-591.messagelabs.com!1659516049!134377!1
-X-Originating-IP: [62.60.8.146]
+X-Msg-Ref: server-22.tower-591.messagelabs.com!1659516044!133932!1
+X-Originating-IP: [62.60.8.179]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.87.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 6962 invoked from network); 3 Aug 2022 08:40:49 -0000
-Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-4.tower-591.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 3 Aug 2022 08:40:49 -0000
-Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 5B6801000CE
+Received: (qmail 13313 invoked from network); 3 Aug 2022 08:40:44 -0000
+Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
+  by server-22.tower-591.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 3 Aug 2022 08:40:44 -0000
+Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id 380E27B
 	for <openembedded-core@lists.openembedded.org>;
- Wed,  3 Aug 2022 09:40:49 +0100 (BST)
+ Wed,  3 Aug 2022 09:40:44 +0100 (BST)
 Received: from R01UKEXCASM126.r01.fujitsu.local (R01UKEXCASM126
  [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 4E8411000C2
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id 2BAA475
 	for <openembedded-core@lists.openembedded.org>;
- Wed,  3 Aug 2022 09:40:49 +0100 (BST)
+ Wed,  3 Aug 2022 09:40:44 +0100 (BST)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Wed, 3 Aug 2022 09:40:47 +0100
+ (TLS) id 15.0.1497.32; Wed, 3 Aug 2022 09:40:42 +0100
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-dbusmock: upgrade 0.28.1 -> 0.28.4
-Date: Wed, 3 Aug 2022 16:40:29 +0800
-Message-ID: <1659516030-31123-3-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-attrs: upgrade 21.4.0 -> 22.1.0
+Date: Wed, 3 Aug 2022 16:40:27 +0800
+Message-ID: <1659516030-31123-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1659516030-31123-1-git-send-email-wangmy@fujitsu.com>
-References: <1659516030-31123-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
@@ -84,35 +81,34 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 03 Aug 2022 08:40:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168805
+ https://lists.openembedded.org/g/openembedded-core/message/168803
 
-Changelog:
-==========
-    setup.py: Fix ModuleNotFoundError
-    ofono template: Fix conversion to f-strings (Debian #1015286)
-    Ship FMF tests in release tarballs
+License-Update: add "and the attrs contributors" to Copyright
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../{python3-dbusmock_0.28.1.bb => python3-dbusmock_0.28.4.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-dbusmock_0.28.1.bb => python3-dbusmock_0.28.4.bb} (83%)
+ .../{python3-attrs_21.4.0.bb => python3-attrs_22.1.0.bb}      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-attrs_21.4.0.bb => python3-attrs_22.1.0.bb} (68%)
 
-diff --git a/meta/recipes-devtools/python/python3-dbusmock_0.28.1.bb b/meta/recipes-devtools/python/python3-dbusmock_0.28.4.bb
-similarity index 83%
-rename from meta/recipes-devtools/python/python3-dbusmock_0.28.1.bb
-rename to meta/recipes-devtools/python/python3-dbusmock_0.28.4.bb
-index d6889f4313..e895d87b7b 100644
---- a/meta/recipes-devtools/python/python3-dbusmock_0.28.1.bb
-+++ b/meta/recipes-devtools/python/python3-dbusmock_0.28.4.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://pypi.org/project/python-dbusmock/"
- LICENSE = "GPL-3.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=e6a600fd5e1d9cbde2d983680233ad02"
+diff --git a/meta/recipes-devtools/python/python3-attrs_21.4.0.bb b/meta/recipes-devtools/python/python3-attrs_22.1.0.bb
+similarity index 68%
+rename from meta/recipes-devtools/python/python3-attrs_21.4.0.bb
+rename to meta/recipes-devtools/python/python3-attrs_22.1.0.bb
+index 1839ce6245..ba07ac71e3 100644
+--- a/meta/recipes-devtools/python/python3-attrs_21.4.0.bb
++++ b/meta/recipes-devtools/python/python3-attrs_22.1.0.bb
+@@ -1,9 +1,9 @@
+ DESCRIPTION = "Classes Without Boilerplate"
+ HOMEPAGE = "http://www.attrs.org/"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=d4ab25949a73fe7d4fdee93bcbdbf8ff"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=5e55731824cf9205cfabeab9a0600887"
  
--SRC_URI[sha256sum] = "6434e544c055e3570b20e341e50a3d2dd50b19d9e55d579b919e14879f9f1e57"
-+SRC_URI[sha256sum] = "52ad024a44d46602084fd91c0c467ab95b7ecf27c4e2168e0d2160623f18c0a2"
+-SRC_URI[sha256sum] = "626ba8234211db98e869df76230a137c4c40a12d72445c45d5f5b716f076e2fd"
++SRC_URI[sha256sum] = "29adc2665447e5191d0e7c568fde78b21f9672d344281d0c6e1ab085429b22b6"
  
- PYPI_PACKAGE = "python-dbusmock"
+ inherit pypi python_setuptools_build_meta
  
 -- 
 2.25.1
