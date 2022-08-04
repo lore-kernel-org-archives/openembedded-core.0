@@ -1,103 +1,84 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C725C19F2A
-	for <webhook@archiver.kernel.org>; Thu,  4 Aug 2022 16:27:36 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web10.6933.1659630452699650443
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFEFDC25B08
+	for <webhook@archiver.kernel.org>; Thu,  4 Aug 2022 20:58:25 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web10.159.1659646699027768781
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Aug 2022 09:27:33 -0700
+ Thu, 04 Aug 2022 13:58:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TXQgCiUD;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id z12so286289wrs.9
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Aug 2022 09:27:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
-        bh=vEE1DN2fEip/D2ZE/lRKs4OQI3Dcmr11g3/SyDpapFI=;
-        b=TXQgCiUDiGiJMQ0cmZpeWAD4ZwItVCg1aa8LyVivZKNVdwJLNtmNlhx54MZt05+Rck
-         MxfidARbHHVG7xSUNOTM5oGcqCCKYSLRhomlzEZ47GIwqYmVKSewNytsBhLuhWTkOT/9
-         jdcNsyxG4Oqe0Drz2KFo9qtnmomxMUkgvvkT4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc;
-        bh=vEE1DN2fEip/D2ZE/lRKs4OQI3Dcmr11g3/SyDpapFI=;
-        b=k0tS7EXDIQ9DxS2B4EvDR/E+j6+/emZHzjhOpQsLttO5dDppC1TmDQWp9+2zOCGsoc
-         f29pYDpsguJoWnauTzk9Vs6TpVVADBS49kHHZsZAV2P2Q2j+I2Gvk+Z5SFKsZ6+P6dK5
-         YzRYb92S6K4OToAi/bC62QWE1ohypqBOU0m9zGd4j09p6od3Po1YdXYg6uG6BlmZDhuo
-         cPQLkbkY2iXSuDVFyHTMnbYkCr0QUSJyroQZu6xbJylyu762lNUDF/OTCDmCZjAjSPOD
-         BlZXyy9L8km5g74l5MORWXugzRNEVQzJ8o/AxvL9Y5RJdPDrY30gkwyhEGY2cqhBSbw/
-         p05A==
-X-Gm-Message-State: ACgBeo3OCSYSG39mXkmszZ2iUyFeKlOYEA6DnfDEXEx9aAAQorSQ8x1B
-	iH4ytRdkvCMjFN7nsfidXiFp2Q==
-X-Google-Smtp-Source: 
- AA6agR4sskEoPFicksvjpogF+mx7rm+RwhXvkyA9FgM+dQPbCHuUE8smbn3uaJxzEyfDaUg/9zohyA==
-X-Received: by 2002:a05:6000:1b85:b0:21f:93d:a23d with SMTP id
- r5-20020a0560001b8500b0021f093da23dmr1920048wru.286.1659630450966;
-        Thu, 04 Aug 2022 09:27:30 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:2b1e:c52b:bd77:b2e3?
- ([2001:8b0:aba:5f3c:2b1e:c52b:bd77:b2e3])
-        by smtp.gmail.com with ESMTPSA id
- u13-20020a5d434d000000b0021e74ef5ae8sm1621503wrr.21.2022.08.04.09.27.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Aug 2022 09:27:30 -0700 (PDT)
-Message-ID: 
- <5cde45cec9a5aa114efce822f506502fa193c7f9.camel@linuxfoundation.org>
-Subject: Re: [OE-core] pseudo deadlock in rust via malloc backtrace
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 04 Aug 2022 17:27:29 +0100
-In-Reply-To: 
- <CAMKF1spReLumv7Hc_683PRMgYSBSdh4oYW+YEtuiGEWof0kv2w@mail.gmail.com>
-References: 
-	<f870b8169472e6737c99c74779e5680b935d57ed.camel@linuxfoundation.org>
-	 <CAMKF1spReLumv7Hc_683PRMgYSBSdh4oYW+YEtuiGEWof0kv2w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=RHXanJ8h;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194,
+ mailfrom: luca.ceresoli@bootlin.com)
+Received: from booty (unknown [77.244.183.192])
+	(Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 7544B4000A;
+	Thu,  4 Aug 2022 20:58:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1659646696;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aRubbJRdyCnNtBaZhE1fvBqloUi3YOgBFI2jVyG5wvU=;
+	b=RHXanJ8hIqQWFY6CXqyLD8FbSZKi5yYG0RXOx6ZM8dtLvWVrtn4eyzjTbjiGud5PpiZfhB
+	ikqDgi3zL+1PXtUA00D4+/YOFWeiMMz/SzDMK6y0aZ0cIkMT+Ye8/TYYJSnU1/sohRk6rz
+	v9u4a+9PtHSOIrxSU5ZgdfYDcRQgfe9laAhxMnboJwTcnr6f01ln367galjPXlWnZ+2Ai6
+	BOt/ku3UxdMYwXP+tyHWJEq3cU1uR6rCJYAkUsPXxDSh2RCWCYRWco/bkgSbp0fOMoOpI6
+	GethzJYTbuwxwSyR0CLrMvd3HiFRZL75iMRVPHeE5h4+1Am/sPcOJFYjd5aUrA==
+Date: Thu, 4 Aug 2022 22:58:14 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Joshua Watt" <JPEWhacker@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core][PATCH] classes/sanity: Add comment about github &
+ gitlab archives
+Message-ID: <20220804225814.61baffe2@booty>
+In-Reply-To: <20220804145831.1545698-1-JPEWhacker@gmail.com>
+References: <20220804145831.1545698-1-JPEWhacker@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Aug 2022 16:27:36 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Aug 2022 20:58:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168861
+ https://lists.openembedded.org/g/openembedded-core/message/168862
 
-On Thu, 2022-08-04 at 12:36 +0100, Khem Raj wrote:
->=20
->=20
-> On Thu, Aug 4, 2022 at 10:05 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > Just to note that where we've been seeing pseudo hangs in rust, it
-> > seems jemalloc calls obtain_malloc_conf() which calls readlink()
-> > which
-> > pseudo intercepts and then calls malloc() which loops back to
-> > jemalloc
-> > which deadlocks. What fun.
-> >=20
->=20
->=20
-> I guess pseudo is doing this extra malloc right ?
+Hi Joshua,
 
-Yes
+On Thu,  4 Aug 2022 09:58:31 -0500
+"Joshua Watt" <JPEWhacker@gmail.com> wrote:
 
->  Maybe disable instrumentation in jemalloc when building non target
-> packages. This might avoid the issue at least=C2=A0
->=20
+> Add a comment so that users grepping for "github" or "gitlab" will find
+> this code (since the regex wont).
+> 
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>  meta/classes/insane.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 37e10ad850..c8b434bb54 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -1335,6 +1335,7 @@ def unpack_check_src_uri(pn, d):
+>          oe.qa.handle_error("src-uri-bad", "%s: SRC_URI uses PN not BPN" % pn, d)
+>  
+>      for url in d.getVar("SRC_URI").split():
+> +        # Search for github and gitlab URLs that pull unstable archives (comment for future greppers)
+>          if re.search(r"git(hu|la)b\.com/.+/.+/archive/.+", url):
 
-Sadly it doesn't help as it wants to load it isn't configuration and
-the system setup from /proc too.
+I think the regexp is unnecessarily baroque and it could become just a
+more readable (github|gitlab). And that would add only 4 chars! :-)
 
-Cheers,
-
-Richard
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
