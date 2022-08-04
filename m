@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FB05C19F2A
-	for <webhook@archiver.kernel.org>; Thu,  4 Aug 2022 14:08:35 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web11.5147.1659622114571565437
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FA7AC19F2A
+	for <webhook@archiver.kernel.org>; Thu,  4 Aug 2022 14:09:05 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web08.5201.1659622138912824570
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Aug 2022 07:08:34 -0700
+ Thu, 04 Aug 2022 07:08:59 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=L4T8oChl;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178,
+ header.b=PXHkLNbW;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id d16so11325451pll.11
+Received: by mail-pf1-f175.google.com with SMTP id y141so19451214pfb.7
         for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Aug 2022 07:08:34 -0700 (PDT)
+ Thu, 04 Aug 2022 07:08:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=E3nz8SLb6Tkr0Ii3zablwUamWwe9U7uy5ediw6ylS8Q=;
-        b=L4T8oChlGLc1fUUO57CeKa+D/9PHfkRp6nlJo9vPXBRAFIOhtKna1ytAIEKxgUFy6G
-         Okqrp/2s3Md38qTznQ91AwMRi+IRxcKH/MMK6SlS+KQkctBl7UOYe9mnZ1AoEnxXe+gM
-         iCfs42YkRu53NBD9Oyph85sr+EzsqDDPUUEExKwbcO/rPAIMY1DvaRdFyDIbESGwMbm6
-         vAFkYppqnNJsOrgCv9Si4Cqn0up9nxQcki8TymthnpdBxo0YSxC1Ic7iTmHXPpLSufU4
-         4tan6OmrQpH2otonCARQTzOZrq/RvpPw/xfLSRLrMpaJoiiw6OMIwRatdxF2woOAGKOp
-         zEQQ==
+        bh=YpQhel4k9Iw1jJDFphbkwOK5PAEwXmIQg+IeyudthYQ=;
+        b=PXHkLNbWH8ia7Ae+hI1CMxpEVrS+Ruiyr4nstLmVa0ADideot3kv66jbS605qxQzRf
+         nTWCu4hsvc1k4+kfNoA1+Di+8bXZGyws0klm3+QQbVVAnuB5AX4vUsAnsXnVyjPkBRqE
+         a7ve194mIWT5vQuquwU1gmp6i2jA29P36qIzD5YD0EvXRpPOlheJSaIEIg/tyto8jQrN
+         zhPFikVHtuEJP+i4/q9agFtc405hrscjnqdg9EwUn7Exm6gY1udT09E7B4gZIsi/YVV8
+         6O68KQn6YQ1I5AysKpGkv1MkYGdBemAz6QBuxo+RqiQChlOG11ehRX67gLE2PGE47yvj
+         ZLMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=E3nz8SLb6Tkr0Ii3zablwUamWwe9U7uy5ediw6ylS8Q=;
-        b=nwvkHxEJzMt8ixaRY9UWRj6yplRUwjVOSNxVirL0HSuqmpBqIUdpc48mVeyPuJp4xr
-         jIkTaTazqGKiIecnDe7FY7COYJdrg/HlvCE9u/dX53B64TkA/dzSzUICSesDTTKE9ooK
-         8EZJHOgP2hlsfq7F5aaygxD2Zp7LUVRPp1rxFwXWzKl3yhPT2mSnWj8nus9SNraTH/nq
-         1es3F2OGggZRjGuJyG429Gc2G33LNXY3BvIM6g6Cf2S1qTbrxfZRRruMJE/vDH1r8Kuw
-         yW5KUniH1uyeU+vSfBX1PevAvKMVSBAllICtEJHTHZrz3mMwmAQLTsBgAMf2yVp/8X+o
-         IY0w==
-X-Gm-Message-State: ACgBeo0UPw0pYhzGy6gNQ9zg8rhHMaSHOMU4REjX8fTv1EMFHYTBAvRL
-	hwCZPBzQDGrp8B4ZC9uQHv19djfwUMWdpxod
+        bh=YpQhel4k9Iw1jJDFphbkwOK5PAEwXmIQg+IeyudthYQ=;
+        b=XIXucTRZ5Gt4HJQpxDv8BP6g5WoiEZNGTFWBnX2eGAbvByv4EOV5ChFUr6vCPPOY46
+         capNYCZTHbJi9AjwT0OGiXDowZfJF+7A5VBoq7sgH7PRBWFVd5sPObE7kGL/j8QNP7t8
+         +D1PNCa5KmTsXomHh9SGiqgFeh/aiS4brmwpN4sIkP5Vtte7eCJpL7JJR9gK90l9gUXS
+         XWnTQArYSB+dOAvavPdP7Kq09g/qZZDvNn5PrCfNM4gAYORdeF8BCbuUYHwjUBDyRrj4
+         Sb8Qno0BiGeAwTVWeqci/XDMulP2ds04ObGkcPfIVYsG/ZAln4xLJ6dgSWrJIF050U9G
+         f6Sg==
+X-Gm-Message-State: ACgBeo3bJrRpd8p9oXw71RLZ/fjHCpTwcTfQCWae+A4/A3VG21EEu7jp
+	h0Sqxgufu73Mlfkg6BCf4y/jtbmpE7P1K+wz
 X-Google-Smtp-Source: 
- AA6agR6DWb0R1XcaDa00dsLspvV/Q9b81ZolAJ4d5Uuq68OqS5PiMR57pSIzXkKrB72b3Mqy/vy4Xg==
-X-Received: by 2002:a17:903:24c:b0:16f:8937:6ac7 with SMTP id
- j12-20020a170903024c00b0016f89376ac7mr660369plh.6.1659622113436;
-        Thu, 04 Aug 2022 07:08:33 -0700 (PDT)
+ AA6agR6AhTrPl0nY4VBE7q3dbMb1ypu/w43uqbAmoWmgu1XaICMvR0icuzpbyiccAXuZlt1qdSeG5A==
+X-Received: by 2002:a05:6a00:a8b:b0:4e1:52db:9e5c with SMTP id
+ b11-20020a056a000a8b00b004e152db9e5cmr1886910pfl.38.1659622137766;
+        Thu, 04 Aug 2022 07:08:57 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- 196-20020a6215cd000000b0052d5e93fcb7sm970261pfv.191.2022.08.04.07.08.06
+ 196-20020a6215cd000000b0052d5e93fcb7sm970261pfv.191.2022.08.04.07.08.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Aug 2022 07:08:13 -0700 (PDT)
+        Thu, 04 Aug 2022 07:08:43 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 2/7] package_manager/ipk: do not pipe stderr to
- stdout
-Date: Thu,  4 Aug 2022 04:06:05 -1000
+Subject: [OE-core][kirkstone 3/7] libgcc: Fix standalone target builds with
+ usrmerge distro feature
+Date: Thu,  4 Aug 2022 04:06:06 -1000
 Message-Id: 
- <fd5689696731fefa0d035fde86f27a0135dc31f1.1659621460.git.steve@sakoman.com>
+ <38fb876253e28577b8fcf4dd47fbb1d0673c6220.1659621460.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1659621460.git.steve@sakoman.com>
 References: <cover.1659621460.git.steve@sakoman.com>
@@ -68,75 +68,45 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Aug 2022 14:08:35 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Aug 2022 14:09:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168851
+ https://lists.openembedded.org/g/openembedded-core/message/168852
 
-From: Shruthi Ravichandran <shruthi.ravichandran@ni.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-Some opkg commands print an error during cleanup when the tmp_dir
-does not exist and an attempt is made to delete it. The error messages
-are harmless and the opkg commands eventually succeed.
-When these commands are run and stderr is piped to stdout, the error
-messages may clobber the stdout and cause unexpected results while
-parsing the output of the command. Therefore, when parsing the output
-of a command, do not pipe stderr to stdout. Instead, capture stderr
-and stdout separately, and upon success, send stderr to bb.note().
+Ignore the rmdir cmd if using usrmerge distro feature since the
+intention is to delete /lib or /lib64 but not libdir under /usr and
+base_libdir = libdir when usrmerge is enabled in distro
 
-Signed-off-by: Shruthi Ravichandran <shruthi.ravichandran@ni.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f2167ae80258253eb47a5b148546b265320284cc)
+(cherry picked from commit 3b7f6b0e0f1f16f89cd924aac001b4f661c145ca)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oe/package_manager/ipk/__init__.py | 23 ++++++++++++---------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+ meta/recipes-devtools/gcc/libgcc-common.inc | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oe/package_manager/ipk/__init__.py b/meta/lib/oe/package_manager/ipk/__init__.py
-index 4cd3963111..9f60f3abcc 100644
---- a/meta/lib/oe/package_manager/ipk/__init__.py
-+++ b/meta/lib/oe/package_manager/ipk/__init__.py
-@@ -102,12 +102,14 @@ class OpkgDpkgPM(PackageManager):
-         This method extracts the common parts for Opkg and Dpkg
-         """
+diff --git a/meta/recipes-devtools/gcc/libgcc-common.inc b/meta/recipes-devtools/gcc/libgcc-common.inc
+index d48dc8b823..31f629acaa 100644
+--- a/meta/recipes-devtools/gcc/libgcc-common.inc
++++ b/meta/recipes-devtools/gcc/libgcc-common.inc
+@@ -45,10 +45,14 @@ do_install () {
+ }
  
--        try:
--            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True).decode("utf-8")
--        except subprocess.CalledProcessError as e:
-+        proc = subprocess.run(cmd, capture_output=True, encoding="utf-8", shell=True)
-+        if proc.returncode:
-             bb.fatal("Unable to list available packages. Command '%s' "
--                     "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
--        return opkg_query(output)
-+                     "returned %d:\n%s" % (cmd, proc.returncode, proc.stderr))
-+        elif proc.stderr:
-+            bb.note("Command '%s' returned stderr: %s" % (cmd, proc.stderr))
-+
-+        return opkg_query(proc.stdout)
+ do_install:append:libc-baremetal () {
+-	rmdir ${D}${base_libdir}
++	if [ "${base_libdir}" != "${libdir}" ]; then
++		rmdir ${D}${base_libdir}
++	fi
+ }
+ do_install:append:libc-newlib () {
+-	rmdir ${D}${base_libdir}
++	if [ "${base_libdir}" != "${libdir}" ]; then
++		rmdir ${D}${base_libdir}
++	fi
+ }
  
-     def extract(self, pkg, pkg_info):
-         """
-@@ -443,15 +445,16 @@ class OpkgPM(OpkgDpkgPM):
-         cmd = "%s %s --noaction install %s " % (self.opkg_cmd,
-                                                 opkg_args,
-                                                 ' '.join(pkgs))
--        try:
--            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
--        except subprocess.CalledProcessError as e:
-+        proc = subprocess.run(cmd, capture_output=True, encoding="utf-8", shell=True)
-+        if proc.returncode:
-             bb.fatal("Unable to dummy install packages. Command '%s' "
--                     "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
-+                     "returned %d:\n%s" % (cmd, proc.returncode, proc.stderr))
-+        elif proc.stderr:
-+            bb.note("Command '%s' returned stderr: %s" % (cmd, proc.stderr))
- 
-         bb.utils.remove(temp_rootfs, True)
- 
--        return output
-+        return proc.stdout
- 
-     def backup_packaging_data(self):
-         # Save the opkglib for increment ipk image generation
+ # No rpm package is actually created but -dev depends on it, avoid dnf error
 -- 
 2.25.1
 
