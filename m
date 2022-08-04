@@ -1,110 +1,155 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE750C25B06
-	for <webhook@archiver.kernel.org>; Thu,  4 Aug 2022 21:04:15 +0000 (UTC)
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com
- [209.85.160.42])
- by mx.groups.io with SMTP id smtpd.web12.197.1659647046568579921
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51774C25B06
+	for <webhook@archiver.kernel.org>; Thu,  4 Aug 2022 22:57:55 +0000 (UTC)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com
+ [209.85.219.41])
+ by mx.groups.io with SMTP id smtpd.web10.687.1659653873456905081
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Aug 2022 14:04:06 -0700
+ Thu, 04 Aug 2022 15:57:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jRKoGZGC;
- spf=pass (domain: gmail.com, ip: 209.85.160.42,
- mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f42.google.com with SMTP id
- 586e51a60fabf-10e6bdbe218so883290fac.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eDooqLjj;
+ spf=pass (domain: gmail.com, ip: 209.85.219.41,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f41.google.com with SMTP id q3so691043qvp.5
         for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Aug 2022 14:04:06 -0700 (PDT)
+ Thu, 04 Aug 2022 15:57:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:in-reply-to
-         :content-transfer-encoding;
-        bh=XSRCE79D1Olu5HAcEArNJ2BVdxIuRvxQ+rVlzil91AY=;
-        b=jRKoGZGCiXdqoQAFLjt1sddgJSxgOZ/W2gCMR751HhOfHKLKwKjIATrjftaDOiZcjC
-         mQ0WJSfYKl9WFlRH2u17jCM5xt97Nt2IQBZPH2xjJaA5uEKKSMNPYw1gus0qati2soeV
-         bQtdSMv40DCa6dzGLkLcpt2e66pcwrYfav1aeVHqmL96yAcIbjev+gzEdbkixj3BkZKR
-         Yt6R4lOfsNYwb3I/ERHCGoj7JLM+RF28aePxyLh9Tf3nGOS+0RJ3LqFoVhvAHmojqzO3
-         O2q31/RFTmH+rf3272gzdiuschkICizid0MTxMwptEw/zo1kM5KM0Vw23WuF9epdBV4x
-         vVEA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=bqyF8CEzflk9WNPxijL9h7BoGisWP0it20J3r6ECpAw=;
+        b=eDooqLjjROAz1t0oCZzo2sP4frfaBCKOZn4Sqvtpk9PtTSMFz7zIcS/CV7v+nAv/mZ
+         X/7cH2NocMPb2YfAglwt0hJ5s2dfgHQ97d9Wat53tSnXnxr9e1bRWnT1tDRYEy0jLVzV
+         ruoxu+FgPLxmE07GAoKdKra/rJaaB2Y3n+QRgl9mEgKmc0Ooe+hbG+FIdsNAklZIrGRo
+         MtSqXLl2/rxDDLvfYr1VXqVna/+FtqlYGd6QRoaS5NO6uHOUu7pSrm+J3f/Va5t19C0d
+         hjuPmKiCCo5XR/hyRoXG7OBBM7ctGsW5A1Ct5D02aa1YO7kI5K4xdGhMupUJh3hQAMti
+         Dt3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:in-reply-to
-         :content-transfer-encoding;
-        bh=XSRCE79D1Olu5HAcEArNJ2BVdxIuRvxQ+rVlzil91AY=;
-        b=Uu0yEP6QN9u60rNWq2DX7Rms4MP2ytMiil0/thkvBSEc8d4GzcT/rs14ZAndB87a3A
-         0bgiet4C4J3VsBV3rXcp22MSinMWa0jz000TnUFDWoag/gbuPqexQlZtvvC1BmsrwojY
-         TrpcV1LjzxUiq4BdYgSEISiWtDVx70RmMaFaKL4uG8PgRl2mQQS9rXLB1A7uVPgn5yS1
-         ur6FgRvujQkPgkwqPbJZt5YBazVOpD5u2YB6N+xbPGPg3xUBRKvqQqykmXFj0IZsOxb9
-         M3mO5N3iFd36BkOrcx9AyK8kGr4hDCkUBA3a4MAR0Iv2NLzHk16EJbfB9LKCQ/rQSRVp
-         JUzw==
-X-Gm-Message-State: ACgBeo26yah+FIqw3LZYUFpQtsyiX7PT/9kX85/dzBx5UnHRx2GqW894
-	DYBBb57SnVMj6grGbJZmqQqGcwspE4E=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=bqyF8CEzflk9WNPxijL9h7BoGisWP0it20J3r6ECpAw=;
+        b=oEixI0vwXOkLjTgkDM0PU/MvAp2AAWfigChjyrlryxcwlnpz/F287I13twgH4OHM0p
+         NEoLfxejKkHRa8LdPTfUOuzyTOMk5kpYtmtvD6/7WQ8lkjYvb95VpfE87+gFuo4C/K44
+         kumsO5kMdbvx2boUne2b+4eym2kWWNd1LanID6Py5ui3TIMZRyUdEW5GZskonK1tSdln
+         lYHDxMaX2y9/lrB8tgo+EozcwwALTM6BALhOwY1riEsMYX8sX7iIi0+j8sfVhqK9pJ+i
+         2KvFUVvm22TcpxLWP7FQs3Uu3EJksV3X+JmslOzCWUHIyNGLdhTIxfbQ0wOs/UuSkUXM
+         MxsA==
+X-Gm-Message-State: ACgBeo2hZ2GH3ZkYLB51zdVa3oTy4OJN6RVux89Q+RWrYMMA/5aMK5Ue
+	NaBgFkCXsiqDmVuEUaiJeUo=
 X-Google-Smtp-Source: 
- AA6agR5sjEIOOw6P200DJqxMzyrP4NbRdsXBgd1J08iHSY/jWRBXdHX9gUuaqY6UVVl+9uDBGsyTfg==
-X-Received: by 2002:a05:6870:d1d0:b0:101:ec40:69ef with SMTP id
- b16-20020a056870d1d000b00101ec4069efmr5389546oac.187.1659647045856;
-        Thu, 04 Aug 2022 14:04:05 -0700 (PDT)
-Received: from ?IPV6:2605:a601:ac3d:c100:e3e8:d9:3a56:e27d?
- ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+ AA6agR7v8guXZ8ktxmLhbBj5OVnsdfiJjGIk9MwWZT+VP7BDZfrXM+tlVkQHCBoywoH26QsTuUMs8g==
+X-Received: by 2002:a05:6214:76a:b0:477:9b2:641e with SMTP id
+ f10-20020a056214076a00b0047709b2641emr3664180qvz.74.1659653872304;
+        Thu, 04 Aug 2022 15:57:52 -0700 (PDT)
+Received: from build.lan ([173.34.88.218])
         by smtp.gmail.com with ESMTPSA id
- z5-20020a056830128500b006369299f514sm312814otp.76.2022.08.04.14.04.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Aug 2022 14:04:05 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <8f5b1055-c76c-1996-626d-9ef996368efe@gmail.com>
-Date: Thu, 4 Aug 2022 16:04:04 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [OE-core][PATCH] classes/sanity: Add comment about github &
- gitlab archives
-Content-Language: en-US
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+ bl38-20020a05620a1aa600b006b8df80471csm1500818qkb.119.2022.08.04.15.57.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Aug 2022 15:57:51 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-References: <20220804145831.1545698-1-JPEWhacker@gmail.com>
- <20220804225814.61baffe2@booty>
-In-Reply-To: <20220804225814.61baffe2@booty>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: [PATCH 00/13] kernel-yocto: consolidated pull request
+Date: Thu,  4 Aug 2022 18:57:37 -0400
+Message-Id: <cover.1659653543.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Aug 2022 21:04:15 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Aug 2022 22:57:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168863
+ https://lists.openembedded.org/g/openembedded-core/message/168864
 
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-On 8/4/22 15:58, Luca Ceresoli wrote:
-> Hi Joshua,
->
-> On Thu,  4 Aug 2022 09:58:31 -0500
-> "Joshua Watt" <JPEWhacker@gmail.com> wrote:
->
->> Add a comment so that users grepping for "github" or "gitlab" will find
->> this code (since the regex wont).
->>
->> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
->> ---
->>   meta/classes/insane.bbclass | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
->> index 37e10ad850..c8b434bb54 100644
->> --- a/meta/classes/insane.bbclass
->> +++ b/meta/classes/insane.bbclass
->> @@ -1335,6 +1335,7 @@ def unpack_check_src_uri(pn, d):
->>           oe.qa.handle_error("src-uri-bad", "%s: SRC_URI uses PN not BPN" % pn, d)
->>   
->>       for url in d.getVar("SRC_URI").split():
->> +        # Search for github and gitlab URLs that pull unstable archives (comment for future greppers)
->>           if re.search(r"git(hu|la)b\.com/.+/.+/archive/.+", url):
-> I think the regexp is unnecessarily baroque and it could become just a
-> more readable (github|gitlab). And that would add only 4 chars! :-)
-Ya that would be better. I assumed someone was trying to win regex golf ;)
->
+Richard,
+
+As I mentioned earlier today, I've built and booted the 5.19 kernel
+on all architectures, have run core-iamge-kernel-dev, core-image-sato
+and validated musl.
+
+At this point, we need wider coverage to scare out the remaining
+gremlins.
+
+I'm also sending update to 5.10 and 5.15 in the pull request, since
+these are the retbleed stable updates, and I didn't want to sit on
+them any longer. These are of course independenct of the 5.19 work.
+
+I found one issue with vboxguestdrivers in meta-oe agains the new
+kernel/headers, and I've sent a patch to that mailing list. I also
+had to fix lttng-modules (as usual) and have sent a patch to that
+mailing list as well.
+
+devsrc needed a few tweaks as well, and they are included in the
+series.
+
+Note: I've mixed in the poky / meta-yocto patches as part of this
+pull request, just for ease of sending it for wider testing and to
+see if I missed any references to 5.10 or have left any else
+dangling.
+
+Cheers,
+
+Bruce
+
+The following changes since commit 25248acfdf92465b360ca464725b679ac5200d8d:
+
+  initscripts: run umountnfs as a KILL script (2022-07-23 13:55:26 +0100)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (13):
+  linux-yocto/5.15: update to v5.15.58
+  linux-yocto/5.10: update to v5.10.134
+  linux-yocto-rt/5.15: update to -rt48 (and fix -stable merge)
+  linux-libc-headers: update to v5.19
+  linux-yocto: introduce v5.19 reference kernel recipes
+  meta/conf: update preferred linux-yocto version to v5.19
+  kernel-devsrc: support arm v5.19+ on target build
+  kernel-devsrc: support powerpc on v5.19+
+  lttng-modules: fix build against mips and v5.19 kernel
+  linux-yocto: drop v5.10 reference kernel recipes
+  poky: update preferred version to v5.19
+  poky: change preferred kernel version to 5.15 in poky-alt
+  yocto-bsp: drop v5.10 bbappend and create 5.19 placeholder
+
+ .../include/poky-distro-alt-test-config.inc   |   2 +-
+ meta-poky/conf/distro/poky-tiny.conf          |   2 +-
+ meta-poky/conf/distro/poky.conf               |   4 +-
+ .../linux/linux-yocto_5.10.bbappend           |  23 ----
+ .../linux/linux-yocto_5.19.bbappend           |  23 ++++
+ meta/conf/distro/include/tcmode-default.inc   |   2 +-
+ meta/conf/machine/include/x86/x86-base.inc    |   2 +-
+ meta/conf/machine/qemuarmv5.conf              |   2 +-
+ ...ers_5.16.bb => linux-libc-headers_5.19.bb} |   4 +-
+ meta/recipes-kernel/linux/kernel-devsrc.bb    |  17 +++
+ .../linux/linux-yocto-rt_5.15.bb              |   6 +-
+ ...octo-rt_5.10.bb => linux-yocto-rt_5.19.bb} |  10 +-
+ .../linux/linux-yocto-tiny_5.15.bb            |   6 +-
+ ...-tiny_5.10.bb => linux-yocto-tiny_5.19.bb} |  14 +--
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb |  26 ++---
+ ...inux-yocto_5.10.bb => linux-yocto_5.19.bb} |  66 ++++++-----
+ ...tracepoints-condtional-on-CONFIG_COM.patch | 103 ++++++++++++++++++
+ .../lttng/lttng-modules_2.13.4.bb             |   1 +
+ 18 files changed, 222 insertions(+), 91 deletions(-)
+ delete mode 100644 meta-yocto-bsp/recipes-kernel/linux/linux-yocto_5.10.bbappend
+ create mode 100644 meta-yocto-bsp/recipes-kernel/linux/linux-yocto_5.19.bbappend
+ rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_5.16.bb => linux-libc-headers_5.19.bb} (81%)
+ rename meta/recipes-kernel/linux/{linux-yocto-rt_5.10.bb => linux-yocto-rt_5.19.bb} (87%)
+ rename meta/recipes-kernel/linux/{linux-yocto-tiny_5.10.bb => linux-yocto-tiny_5.19.bb} (59%)
+ rename meta/recipes-kernel/linux/{linux-yocto_5.10.bb => linux-yocto_5.19.bb} (47%)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-compaction-make-tracepoints-condtional-on-CONFIG_COM.patch
+
+-- 
+2.19.1
+
 
