@@ -1,175 +1,169 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 719EBC19F29
-	for <webhook@archiver.kernel.org>; Thu,  4 Aug 2022 02:34:02 +0000 (UTC)
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com
- [209.85.160.50])
- by mx.groups.io with SMTP id smtpd.web10.373.1659580438979273833
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AA9DC00144
+	for <webhook@archiver.kernel.org>; Thu,  4 Aug 2022 03:43:42 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
+ [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.866.1659584617109580373
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Aug 2022 19:33:59 -0700
+ Wed, 03 Aug 2022 20:43:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pjaAEapI;
- spf=pass (domain: gmail.com, ip: 209.85.160.50,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-oa1-f50.google.com with SMTP id
- 586e51a60fabf-10ea30a098bso17973851fac.8
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Aug 2022 19:33:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sAIRQ2IGtpsfmXer6QFKqU+FqU9LE+LqqiCTbm0OuPM=;
-        b=pjaAEapI1sjMADWoZ67D3T0OwFduw7RqMI3TjgRyoLxNSUrTAnnpkJfQOAQclRTOSb
-         2/75gLirQRVU6922nk5b2m9Gy6UWPs4Z4OqIn0mNLueq6DNF11BKbNVwG5ehdchhNIyr
-         e/Wul8gsLrQMxBEKoWmvRSVp9wIGjl+gdIEvkb7Ie6gcoGi3h3b6Nax4cEuxPAlJGLkN
-         2qcQdScju1hFgSxfxcShO55/z4nalgH49Z7YT4Tm1H7jngHxXSlEvYfHYTKY2PV7WWzN
-         kC4i4wylrnThz8yVcy/Fx954tikmWOjqXinuYGwOmTOyw3ZggMqocPtMfjh3hpRWP7xD
-         +LZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sAIRQ2IGtpsfmXer6QFKqU+FqU9LE+LqqiCTbm0OuPM=;
-        b=WYzh08tWdZkKGudHEGxhnwlzPCI4hMm2//SJly2iVFzj8X7ug4+fuMElFfVDm+Lvg3
-         dlKkl6Xc1TKk+1reVKeGaoRFVxIkjefO7iJvTdclnltIAgD7rhObQfRZo89SfV58qJly
-         yXWu0s8kMe2viquTY7kKhAeqd7KzricVIqL4z01iy2vcKMmiekPabi8wJ8XW8b9CF835
-         +6gh84TeUFUlNtLT7Vde4D2Ky20l/GHHTHQW0QrRmn/o81u64/GmxcjhL1ZxRZtSSzmP
-         b9VNILwuqxvY4t0T+cC+HYeso5ZyoHNmGBQKegBlJjwr4hsasu5LyzwMTRUqU+UFoGvj
-         xvhg==
-X-Gm-Message-State: ACgBeo3RRrODisRCi+rJGHFGsmXdx28pA+x8JtBgYgFDA5RJ6yvJqSm5
-	U0ly3IP5Z1bBEnwHVAXcUUt7MC6gRAM6BJ72LaYixlypZnxeFQ==
-X-Google-Smtp-Source: 
- AA6agR6BX1fXfo0+W3zQf5etV8mEwsQHlRmNmV2O577Q0lV2sXYm4x2mPf47GaZ3ot2CnoZwffaA5Ti3nK3khzrppbg=
-X-Received: by 2002:a05:6870:d29d:b0:10e:747b:f87b with SMTP id
- d29-20020a056870d29d00b0010e747bf87bmr3217193oae.6.1659580438194; Wed, 03 Aug
- 2022 19:33:58 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=U/oLsH5a;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.178.238,
+ mailfrom: prvs=52158af8f2=qi.chen@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
+ 2742tPas007518
+	for <openembedded-core@lists.openembedded.org>; Thu, 4 Aug 2022 03:43:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=from : to :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS06212021;
+ bh=mvaFWdZ+8R9MFIDKRO2k6ACXkgZluoDfnrjmUc03YW0=;
+ b=U/oLsH5a60ytcUjZZPvKte+Wsc5Wjk6cznQaFfjRdN4foIFbD0s/ZW8pu5JuR/o7/WBy
+ FUCeOTf2Av/bOeTH1rPLi3dCoq8dgc5gnloRCcSGo+FCZy/QdSqbbsglsR8a3iw3ZKIG
+ GORcibKwGCYuo1FzoGeb64yV2BDLYyrHT5cvcKks4YpQH5KP+VPXGY3/R8pcNIRZjKV+
+ 5rUwS1BvwTUpkQnVjxbtNxkqpnr5q13Wo6JjEhgUMtY+EdKRbUFgfU6wCueZFfOrT93S
+ XOgEG7Lc48WY+ECIPexsA7nQ4AVOb7BYueu3Sc/DSoN9rzd4DgX7RYqsvoRnrfxRAtBV Uw==
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2106.outbound.protection.outlook.com [104.47.55.106])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3hr40082v1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 04 Aug 2022 03:43:35 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Xuds6TYzLUOb8Y78eHGW1UwStkdhGeRotbUOfoADz5y5OMQf9ApMVNfQ6g48I6CoH4++YiIzhYXVgat2lTBqVE8ikST3W37Uzp5qDYCnbtnv6IilmhkZNBHLmzB3xtCmOC+44aFEYNiuQLo4WXWgl8jpiegcx44P6Zj+b9NH/B8WTfbO1aHZgK8FBSZ3ZnZHq1zkwkC1yaZ3aN8CnE+IMRnVuBX12ne9PQpHE8dXwG20EQOi6LOnYk76dUWxnK4UiE12/q/Y2ZAAQZAhbeBNimsGKpiEGnyOh63JIuvGX3X2q9wM0DEKR+DkNRngL0u5kvi6/gpXRKPr3SnPorIA6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mvaFWdZ+8R9MFIDKRO2k6ACXkgZluoDfnrjmUc03YW0=;
+ b=n7NJK8Q71gEggQT10IV+eVq6n1C9uBgsxRaWR1yJfIiz2yKZeiSL8I996OpN1oeMR5xNoDeAPscuUCuuMxvoATjU673wVWiXwvFSXS/Nk7S8oofBtez3OSI1BLXQM2X8YGOi8CCkN/HILkSGFgXGb+DoZ18c7+FncOEBqjxKhpMaJ8792MdtjmtRyr6f7lW2hbSQbs80VeX1BqaE47n+gOy2ruNfgop953CI0bam5uGZanN6g8alTxu7xwY83GLBtxgnfEQ9CO02kLK4eDOuBOFzd/rcZ9/hnUHym9Ppzz8WJu8CTTUFP1GPA56jkdYZrD641cG3NokleXqKiFMxmw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by SJ0PR11MB6744.namprd11.prod.outlook.com (2603:10b6:a03:47d::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Thu, 4 Aug
+ 2022 03:43:33 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::7874:564a:5570:ca99]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::7874:564a:5570:ca99%6]) with mapi id 15.20.5504.014; Thu, 4 Aug 2022
+ 03:43:33 +0000
+From: Chen Qi <Qi.Chen@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] image_types_wic.bbclass: fix cross binutils
+ dependency
+Date: Wed,  3 Aug 2022 20:43:20 -0700
+Message-Id: <20220804034320.120323-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.37.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR03CA0033.namprd03.prod.outlook.com
+ (2603:10b6:a02:a8::46) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
 MIME-Version: 1.0
-References: <YsWOLwlNxhAq7sKz@mail.local>
- <570c56bce472ec4ba6a68f537dcb1f85f99a05ea.camel@linuxfoundation.org>
- <CADkTA4N2gGHwG7OWGY32gqLzztsTcOsGXx=-wgpJrJhkfj=OKA@mail.gmail.com>
- <CAOSpxdZPefjY=513h0vLb-W3dPqkUzBQXh00V6t68M+-9CDogQ@mail.gmail.com>
- <830db8ea9f131bf577340c92a36cb5b7870f315f.camel@linuxfoundation.org>
-In-Reply-To: 
- <830db8ea9f131bf577340c92a36cb5b7870f315f.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 3 Aug 2022 22:33:46 -0400
-Message-ID: 
- <CADkTA4OEvF-MDtYRaMfT=1_FGS78XDtL+gJmO1Wn3m_6tKUyeQ@mail.gmail.com>
-Subject: Re: [OE-core] linux-yocto 5.15.48 reproducibility failure
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Steve Sakoman <steve@sakoman.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7ef33b62-ce8f-429e-4bcb-08da75cb8108
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB6744:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	JABvVECil+m7NXMPbFQbFI9itgZUup199dToy57iAwlYHTi+anA20PaOULxcTSZwEo7+d6IJfcU2MuAn3CBv44hcBUa1dn2D0YvZHu9i1YRL8cdXduc3mddl2KYLaw+zuH51hDZv99OjBA41noLAu8oA10UbbshaABcIhMCSkPieZpJipyofwLyCfnZn9xmW8IO8U5B/KwPc1JE+E+NG+pWliedwHIZaWYPkcSnvgIeUjXObzugK4Fuk+s2jrk59+4azYH+ygYAzzRuGGGeT8t1q0yKQZxx18wMXx+jV8x6PpF0XANhSxW5ERA3ZSVDVRZ/pv032R+OzJOnjOLHOMtAABbJpXW7hWppsdAUAA+tsr8YVRW4wkSvNQlX87y/OTbwzRQ76g1mjj5J0IvIdfhZSfE7bsLfTNyl1Z7SpkQCe81ByKfcb7ts51NM3hLdl3hd7cV7eSuHanZd91OP4Kz6vEm9gBWD6gqrHj2uf5gPCobgF42MEbfwEXsz4u/3h306a3Cqn4vN6BRzSIAFKasUagyRgUabnoPLz9TDAIOJW4EJjepulDi27aHe27AeF63aHXSAC4dcAV3vqeMsHbxXqfp99jlxDdq1pxWeNYpSJNrXXhHPeD+l3kWf0BdBT1UOg4H4FQUyBzS2O0Pyt8jcI9/T+oF9utFoK3GLbTtCI6dW3Bp6ijVQyIei5HEL6/Va5k4be/Ka4/+rTQvjpKaRoTNTKuuYKTkfQDVmabUvjQbPVlpK4tiVc7B0TtR6WE5Vk+x51EtxP48aAX6TAGuETSBGih1M1rUJ6ugQW0GY=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39850400004)(346002)(136003)(396003)(376002)(366004)(5660300002)(66556008)(8936002)(66946007)(66476007)(8676002)(2906002)(38100700002)(38350700002)(1076003)(36756003)(83380400001)(6486002)(478600001)(6916009)(316002)(186003)(2616005)(6506007)(6666004)(52116002)(86362001)(41300700001)(6512007)(26005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?2PuD+l6tJwqKUEm6p/9JRHqO8ctkgZbmZCIJKYckiWlAbzLWSf3Q0Vw/2Gmu?=
+ =?us-ascii?Q?0Sdr+iUgVJrkupf7SP0LCG7sWNIBBN7DtyN6nEyuWD7zmY9Cg2lMhoHu/xnE?=
+ =?us-ascii?Q?WSUdu6DU24/jstjA4UzzksFhmz4bDszIyvCmfmcHLJG1/sHEB4ftPD2Cx2Ac?=
+ =?us-ascii?Q?E+uV2l1i+qevqJNNRajftThaj3NCK09N09RjAKEvWPLmKKGENXKslV+JEprG?=
+ =?us-ascii?Q?wPzFtFT/WlPXyKfm9deuLh4Lu4ISsZ26rgmhKR03W7lSTjvmFwdLM1hV5H+f?=
+ =?us-ascii?Q?GfkhSKzzHtqCv9aASrQN3hZ0w2bu3dQcHvc5Bv04zdYDwxzIMfUF+lLeq+Px?=
+ =?us-ascii?Q?ah3bG3TX8Ia2WV5pX/DsXZ6Z26PPK/DxRWbZhXxNUcHjS9rdKvqdoAP9I4pV?=
+ =?us-ascii?Q?kZZhMXtjN4ecWzXPznLzgTTHLT7soKZYhazqGf8VNuf6My3kTwkN4tFig9oj?=
+ =?us-ascii?Q?wXyKQkqO9R9oakRYWiYyumOSdp1LfBJlfEYeLQDzEm1Jr/nRQjz3bvtn182u?=
+ =?us-ascii?Q?XV0yFYz1IWuKHUHpI7uV0b9ZeXrZ6rn6i82mcvHXx/7173zwiq30sLr3MKHN?=
+ =?us-ascii?Q?8h65nkiChSdGXX6SPCCiSBU+WMvLsBxjpnFZgTYnTj8NNJIjIH1RDRFDDHqY?=
+ =?us-ascii?Q?8uUsG4gy5af/ZFoHGvxq12YlffE+L7KfAJ9cm4QBmK+60FpRXSPhdW/s8IG4?=
+ =?us-ascii?Q?2ngaP05c/7SzxQmsInhBESejdgZ/r6TggFCSVg3ConZ3IkkV27AxX8mHFAtw?=
+ =?us-ascii?Q?PEhnBA6d2Q1wEySHqVII5CN7tzXsokWu0wJHbl14vyu0F0hPbHfXiPuG5DV/?=
+ =?us-ascii?Q?/t7FudXVTbe8CsWRHk31rgiJYFCf7KecNFvA7tEZZvs1C+xXwhMF7uXbX524?=
+ =?us-ascii?Q?lFBlUvZX0rzb/ZMRQALDiVSWo0bfUhD8Ey++rJVI42wfx3rsQ4qc1GzFDfRN?=
+ =?us-ascii?Q?h1x3HQtny/iovTv7uOQw6cJoZ4DY5KYrEgyokr9YgrLe3qtDQmv3VIXkXXrq?=
+ =?us-ascii?Q?Zn7O9ZEPsFIrwzmPnHCJeek7dXDiDcdM4zsSfN4M6zrwcsp6RRmHYw/9KjfE?=
+ =?us-ascii?Q?RCu7WXZjpLS7KbXEMZNjke8M419/7Yxl6NQqAUL+Nv4IobrhGG4eW1je8Hby?=
+ =?us-ascii?Q?s4tBoOh7tedRo4p8eJjQMrPMZRQHrubNZ51mu9vD8a+Mfktn5U8fqXTvLpTe?=
+ =?us-ascii?Q?dgZQypfhNls8S/eU93VMv7n/9jRr1yJ4kJr+RGv30G/00fRGkAIWwVUSFE7a?=
+ =?us-ascii?Q?JCstzIMRz/6UzyI5duA3K1RKzp/HhTksSqbrrDsSgq6RK3i4ZzTnyrCTjiFK?=
+ =?us-ascii?Q?EfT3Fnva5NrdCCcjGJvvOb8rWYowYvV0CVY8ZGtf3+e/Y/GJVOPIAOvaZe9P?=
+ =?us-ascii?Q?bzxSUKfvvRMvGkIwAo6NmEbE50NG6q9BCTLIFHzexEVjBTdS/dEElykUj7TM?=
+ =?us-ascii?Q?yZM/zL/MUbtw+g5kNZ7/N0hgh+rr5SXBPUlRjwWjuNbg6Hpoq5LJahhpJsMf?=
+ =?us-ascii?Q?Vz+aQ7H3EM9PBkmlTys26yE7l7yBi3gCspnTLLWlCr27/2BN3oxpHx/LrZoE?=
+ =?us-ascii?Q?/CPeqGyOFpGdYCcDeWBsMnZG6Zs11vSR9SWq1esaYe9n0ck9EQWNYQXRPas8?=
+ =?us-ascii?Q?lQ=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 7ef33b62-ce8f-429e-4bcb-08da75cb8108
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2022 03:43:33.1680
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ 8mZVx8gKcsZhH2nmTTpnUSyHJHVBuz7m8crSPGRNTL9Ph8uQZSaJMnk00WpQIfEU3GHlXoyif8VzzThJTQIzUA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB6744
+X-Proofpoint-GUID: Hj6q6DCaDr2KdBmTSySQ2Zn6xrx-tmAa
+X-Proofpoint-ORIG-GUID: Hj6q6DCaDr2KdBmTSySQ2Zn6xrx-tmAa
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-03_07,2022-08-02_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ suspectscore=0 mlxscore=0 bulkscore=0 adultscore=0 mlxlogscore=537
+ clxscore=1015 priorityscore=1501 lowpriorityscore=0 spamscore=0
+ malwarescore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2206140000 definitions=main-2208040016
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Aug 2022 02:34:02 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Aug 2022 03:43:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168833
+ https://lists.openembedded.org/g/openembedded-core/message/168834
 
-On Wed, Aug 3, 2022 at 6:46 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2022-08-03 at 11:50 -1000, Steve Sakoman wrote:
-> > On Wed, Jul 6, 2022 at 4:05 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-> > >
-> > > On Wed, Jul 6, 2022 at 9:31 AM Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote:
-> > > >
-> > > > On Wed, 2022-07-06 at 15:29 +0200, Alexandre Belloni wrote:
-> > > > > Hello Bruce,
-> > > > >
-> > > > > I got the following reproducible build failures:
-> > > > >
-> > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/1116/steps/12/logs/stdio
-> > > > >
-> > > > > To me, it looks like the in-kernel config changed, did the compression
-> > > > > alg change?
-> > > > >
-> > > > > Are you able to look at that soon or should I file a bug?
-> > > >
-> > > > FWIW,
-> > > > http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20220705-g8ltxczy/packages/diff-html/
-> > > >
-> > > > and CONFIG_CC_HAS_ASM_GOTO_TIED_OUTPUT=y changed value...
-> > >
-> > > A quick look at the -stable queue to init/Kconfig does indeed show
-> > > that option arriving .. from my scan of the change, it looks like
-> > > there are different compilers on the hosts, and hence that check is
-> > > detecting a buggy gcc (or not) and changing the value.
-> > >
-> > > So one of the build hosts is failing the test, and another isn't.
-> > >
-> > > I'm not sure how to fix that, unless we revert the change. I'll ponder it more.
-> >
-> > Was this issue ever resolved?  I'm seeing it on kirkstone now too :-(
->
-> No, it wasn't. I took a quick look and my best guess is that we now
-> have the kernel wanting to do $CC tests in kConfig and we don't set CC
-> properly for all our make config calls. I chucked this in master-next
-> as a quick guess at a possible fix:
->
+Enable multilib and wic at the same time and we'll meet the
+following error.
 
-That's what we've had to do with the linker in the past, so that is
-generally speaking the right place to force the compiler.
+  ERROR: Nothing PROVIDES 'virtual/i686-wrsmllib32-linux-binutils'
 
-> https://git.yoctoproject.org/poky/commit/?h=master-next&id=944cc04d1ed316a5652f3d058b966d4cfb9a6b73
->
-> but others might know better where we might be missing the CC settings.
-> I suspect we need to clean up our parameters a bit looking at the
-> different call site differences.
+Adjust the dependency to take multilib into consideration.
 
-That being said, merge_config uses the compiler like so:
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/classes/image_types_wic.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-# Use the merged file as the starting point for:
-# alldefconfig: Fills in any missing symbols with Kconfig default
-# allnoconfig: Fills in any missing symbols with # CONFIG_* is not set
-make HOSTCC="$HOSTCC" HOSTLD="$HOSTLD" CC="$CC" LD="$LD" \
-        KCONFIG_ALLCONFIG=$TMP_FILE $OUTPUT_ARG $ALLTARGET
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+index 940dc5f577..8497916d48 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -85,7 +85,7 @@ do_image_wic[deptask] += "do_image_complete"
+ WKS_FILE_DEPENDS_DEFAULT = '${@bb.utils.contains_any("BUILD_ARCH", [ 'x86_64', 'i686' ], "syslinux-native", "",d)}'
+ WKS_FILE_DEPENDS_DEFAULT += "bmap-tools-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
+ # Unified kernel images need objcopy
+-WKS_FILE_DEPENDS_DEFAULT += "virtual/${TARGET_PREFIX}binutils"
++WKS_FILE_DEPENDS_DEFAULT += "virtual/${MLPREFIX}${TARGET_PREFIX}binutils"
+ WKS_FILE_DEPENDS_BOOTLOADERS = ""
+ WKS_FILE_DEPENDS_BOOTLOADERS:x86 = "syslinux grub-efi systemd-boot os-release"
+ WKS_FILE_DEPENDS_BOOTLOADERS:x86-64 = "syslinux grub-efi systemd-boot os-release"
+-- 
+2.37.0
 
-And we call it like this:
-
-CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}" HOSTCC="${BUILD_CC}
-${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}"
-CC="${KERNEL_CC}" LD="${KERNEL_LD}" ARCH=${ARCH} merge_config.sh -O
-${B} ${config_flags} ${configs} >
-${meta_dir}/cfg/merge_config_build.log 2>&1
-
-So for the merging of fragments, we are already covered.
-
-and kernel_do_configure calls: KERNEL_CONFIG_COMMAND as the last thing
-it does, which is:
-
-KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} CC="${KERNEL_CC}"
-LD="${KERNEL_LD}" O=${B} olddefconfig || oe_runmake -C ${S} O=${B}
-CC="${KERNEL_CC}" LD="${KERNEL_LD}" oldnoconfig"
-
-Which already does set CC to KERNEL_CC.
-
-So unless I'm missing how KCONFIG_CONFIG_COMMAND is sneaking in, I
-expect the behaviour will still be the same.
-
-I spent the day digging through 5.19 kernel issues, so only had a few
-minutes to look at this tonight .. and it is late, so I very easily
-could have missed something.
-
-Bruce
-
->
-> Cheers,
->
-> Richard
->
->
-
-
---
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
