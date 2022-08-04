@@ -2,62 +2,61 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3830DC25B06
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CB79C25B08
 	for <webhook@archiver.kernel.org>; Thu,  4 Aug 2022 22:58:25 +0000 (UTC)
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
- [209.85.222.178])
- by mx.groups.io with SMTP id smtpd.web08.699.1659653897965734479
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
+ [209.85.222.169])
+ by mx.groups.io with SMTP id smtpd.web11.727.1659653896479839107
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Aug 2022 15:58:18 -0700
+ Thu, 04 Aug 2022 15:58:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=iMRbYRC+;
- spf=pass (domain: gmail.com, ip: 209.85.222.178,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=EUb6JJtT;
+ spf=pass (domain: gmail.com, ip: 209.85.222.169,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f178.google.com with SMTP id m22so728870qkm.12
+Received: by mail-qk1-f169.google.com with SMTP id o1so739114qkg.9
         for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Aug 2022 15:58:17 -0700 (PDT)
+ Thu, 04 Aug 2022 15:58:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=fyTU5dGBsoYIhFJ3JMlz7Yw5DWUwWsl1OTyimNizdgs=;
-        b=iMRbYRC+8M8/Cd3TW7US/3Zy7eb8QbHz8M1J6dc3FHpde3r4i8ldKuf5Lf21+qtxVp
-         mbjNQRBCGLmTlaS6gG6//rTEsbJ8c11n58DRYDiWBDvv+w515vKFFUDY+8PF7yhybuCM
-         zCcyB5H3+BFovgqE2md+pJ01YP/SVMAYSa0T3dCohVjXLotdXaGT+EQUtA6nLxY9f7Hr
-         MQsB6aruxkbREjXFPDFLYLuB7wOp136qvYP5OVu1D2NA5v1PCUVVm89qwyg+tCAD2+hU
-         2SImzbdyjx9cRDnoa0L1FOnypsxWG4oaKhkyynQJL9uKLfA1dLAJUSVi+OjlQSGTlK59
-         M/VQ==
+        bh=at3BGstpCKeDXogHsRY7MMlvD+Z/RYNPmdaSQRgborU=;
+        b=EUb6JJtTIFf9EHSXy7FmR9haDTkarNuYc1vTdV4FabWQg+csLYMiiWheeySThazs+l
+         Y0fhsZV4gXyeUwAA5q09b0F14Zb6Cfsv9GA7V/Zvtipp9T8xtA7xFUdfo5kYH3F9OGx7
+         BwA2uftsPh4pyUFRc508o8XifMfc6gGooHztb9hOxSyqKqQdKj1ALJ2uFNHPRTD0zCUR
+         oTGGvlKeleLuMD2aprKOeXyVkIhWIxUYddqDp2qhF6fwWb7P/IlgvrW/iP7NrFhVy0kX
+         7cMbknSf3d6AMNnA+an1jrOV++KH8/PHg7TeW9N98cvFnbTZ4qPMC2PQg+TkjTLRUWcl
+         w/zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=fyTU5dGBsoYIhFJ3JMlz7Yw5DWUwWsl1OTyimNizdgs=;
-        b=iI5z/7GkixbWgh6YiriBYyn0i2EaokTm3hZRTJXsjJD2fwLNDT/G2ZwLem2VLM98e7
-         oJqrXZjBximeW2YPNJmqk6tGyKCKlowx85FxKQBRnro4qUxtNa1kg2YZILXbsguASiuN
-         d0yjG/r2GD8M7Cf/DbsB4E9DmGk050w360C210Y18HXUwv3HyE9BGaf8b4STnpB9YB9T
-         DqStRKPlBf6jPiUS5jlDXdh+kmaymbKYX/CNsrrM5Ei0qDTJI8Fl4kwjXnO1vPi/p2Np
-         0zFRLggtb0SdpirnejiiWBRr/iHBxy7Ut265lK/EFg2mBHCYiaM8xPbrSTQB/6hEARna
-         PqXg==
-X-Gm-Message-State: ACgBeo3hDOKKzGY1w4HpLgJ9im6lu9rfVsiTG1WZXA3fQRCPu/1oSzmY
-	TfXVTREsXH1YiLyGhz7cySw=
+        bh=at3BGstpCKeDXogHsRY7MMlvD+Z/RYNPmdaSQRgborU=;
+        b=ToDJ9jYzPK7si4ym9DWJ3/Z1cbWKIZ9NMNqPqvY7yf/LbwJ0AGx5xsZBoxKfWLBlN7
+         IxZe0fU9uzwImWe4nw3JF2qExOYmi1IkVjlF3kJToPhwcj3ZxwvkuLCl3+xovYhoiyHO
+         kmmIxDR2abUIbzWMqqeVDvzO1wuT5jMfqpP9E1zeAk5YxFA9a8sOcxicFrml8z14fjLA
+         IcP+fv+LUISlkIVS1+wN5ZCIMYagXUPzyu3qmCIu8CS1XyBgYPMAgTgX2laaMvp6z7p7
+         r63fUgR2rPwQ5rzbpsRY7/1Abv0iX/Va45izxQKNTYAHmW2W49IIC2jG4sYeMC1Gpo4Y
+         OV1g==
+X-Gm-Message-State: ACgBeo3sLIePK5m0Hvy48pj004IRz7PQ4RpDWI1mDwFW75tGOuNPJKKw
+	BKfaE1Wg9LPayIIbtRTYrUVPCBWLEfxV4A==
 X-Google-Smtp-Source: 
- AA6agR6z1wgMjXGSxkqc9PJuPgkOUKYgL2GS7DptG9Uh992ubMmIj/L6kxqkmMGadbRAXzw3Xl4uqQ==
-X-Received: by 2002:a05:620a:404d:b0:6a7:d3d:df9b with SMTP id
- i13-20020a05620a404d00b006a70d3ddf9bmr3092380qko.530.1659653896962;
-        Thu, 04 Aug 2022 15:58:16 -0700 (PDT)
+ AA6agR5Ajbn/c3eWjhn81UrsqRChW3+qO1jNFksO/2zkn97kcnMI1GUSpqhaZjVFwY/Jfv9J1Djz1g==
+X-Received: by 2002:a05:620a:f0d:b0:6b5:473d:d4b with SMTP id
+ v13-20020a05620a0f0d00b006b5473d0d4bmr3217002qkl.6.1659653895482;
+        Thu, 04 Aug 2022 15:58:15 -0700 (PDT)
 Received: from build.lan ([173.34.88.218])
         by smtp.gmail.com with ESMTPSA id
- bl38-20020a05620a1aa600b006b8df80471csm1500818qkb.119.2022.08.04.15.58.15
+ bl38-20020a05620a1aa600b006b8df80471csm1500818qkb.119.2022.08.04.15.58.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Aug 2022 15:58:15 -0700 (PDT)
+        Thu, 04 Aug 2022 15:58:14 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 12/13] poky: change preferred kernel version to 5.15 in
- poky-alt
-Date: Thu,  4 Aug 2022 18:57:49 -0400
+Subject: [PATCH 11/13] poky: update preferred version to v5.19
+Date: Thu,  4 Aug 2022 18:57:48 -0400
 Message-Id: 
- <056ce553b9f41c17046eeaab37d95e0950af83d8.1659653543.git.bruce.ashfield@gmail.com>
+ <4e8c377793162a1718a5afef7e827221fa3973a8.1659653543.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1659653543.git.bruce.ashfield@gmail.com>
 References: <cover.1659653543.git.bruce.ashfield@gmail.com>
@@ -68,31 +67,44 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 04 Aug 2022 22:58:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168876
+ https://lists.openembedded.org/g/openembedded-core/message/168875
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-5.10 has been removed from oe-core, we change the alt distro to
-the 5.15 kernel.
-
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta-poky/conf/distro/include/poky-distro-alt-test-config.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta-poky/conf/distro/poky-tiny.conf | 2 +-
+ meta-poky/conf/distro/poky.conf      | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta-poky/conf/distro/include/poky-distro-alt-test-config.inc b/meta-poky/conf/distro/include/poky-distro-alt-test-config.inc
-index 0de2013826..b42b830e43 100644
---- a/meta-poky/conf/distro/include/poky-distro-alt-test-config.inc
-+++ b/meta-poky/conf/distro/include/poky-distro-alt-test-config.inc
-@@ -2,7 +2,7 @@
- DISTRO_FEATURES:append = " pam"
+diff --git a/meta-poky/conf/distro/poky-tiny.conf b/meta-poky/conf/distro/poky-tiny.conf
+index 2fe0d478ff..5772661588 100644
+--- a/meta-poky/conf/distro/poky-tiny.conf
++++ b/meta-poky/conf/distro/poky-tiny.conf
+@@ -44,7 +44,7 @@ FULL_OPTIMIZATION="-Os -pipe ${DEBUG_FLAGS}"
+ # Distro config is evaluated after the machine config, so we have to explicitly
+ # set the kernel provider to override a machine config.
+ PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-tiny"
+-PREFERRED_VERSION_linux-yocto-tiny ?= "5.15%"
++PREFERRED_VERSION_linux-yocto-tiny ?= "5.19%"
  
- # Use the LTSI Kernel
--PREFERRED_VERSION_linux-yocto = "5.10%"
-+PREFERRED_VERSION_linux-yocto = "5.15%"
+ # We can use packagegroup-core-boot, but in the future we may need a new packagegroup-core-tiny
+ #POKY_DEFAULT_EXTRA_RDEPENDS += "packagegroup-core-boot"
+diff --git a/meta-poky/conf/distro/poky.conf b/meta-poky/conf/distro/poky.conf
+index b4c64c495f..46600aa5d2 100644
+--- a/meta-poky/conf/distro/poky.conf
++++ b/meta-poky/conf/distro/poky.conf
+@@ -19,8 +19,8 @@ POKY_DEFAULT_EXTRA_RRECOMMENDS = "kernel-module-af-packet"
  
- # Ensure the kernel nfs server is enabled
- KERNEL_FEATURES:append:pn-linux-yocto = " features/nfsd/nfsd-enable.scc"
+ DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${POKY_DEFAULT_DISTRO_FEATURES}"
+ 
+-PREFERRED_VERSION_linux-yocto ?= "5.15%"
+-PREFERRED_VERSION_linux-yocto-rt ?= "5.15%"
++PREFERRED_VERSION_linux-yocto ?= "5.19%"
++PREFERRED_VERSION_linux-yocto-rt ?= "5.19%"
+ 
+ SDK_NAME = "${DISTRO}-${TCLIBC}-${SDKMACHINE}-${IMAGE_BASENAME}-${TUNE_PKGARCH}-${MACHINE}"
+ SDKPATHINSTALL = "/opt/${DISTRO}/${SDK_VERSION}"
 -- 
 2.19.1
 
