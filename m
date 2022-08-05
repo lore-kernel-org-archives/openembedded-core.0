@@ -2,57 +2,57 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FD7AC25B0E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5183C28B2B
 	for <webhook@archiver.kernel.org>; Fri,  5 Aug 2022 13:13:20 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web11.6700.1659705193015844321
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.6822.1659705177741602045
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Aug 2022 06:13:13 -0700
+ Fri, 05 Aug 2022 06:13:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=P6ctC4t3;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=N6PibkW4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id z16so3172332wrh.12
+Received: by mail-wm1-f41.google.com with SMTP id s13so946067wmj.1
         for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Aug 2022 06:13:12 -0700 (PDT)
+ Fri, 05 Aug 2022 06:13:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc;
-        bh=8375xG5KIqTBCOvn00jcoIS+CjFWQyKYw8uzqmJ+4kU=;
-        b=P6ctC4t3sr2qo3an4tMMqKbZosuMk60ZNk3eDfbhQAWv7kqZSRmgOC8hC6l27XJMan
-         4Fq7n7pAsrpLVpWjxm1+2OrXYQdV5BRAw0Q9R8+PKaqbl5EQuk2JybCrjmpmjvaGxK7B
-         dOjgLHgg8/KskQEhDBwsgtjOIYyVSaRkGeRVM=
+        bh=O7KctozCA4tg6jvL/YfCpxVrdj8MFUJjpJ9u06xms7o=;
+        b=N6PibkW4keK3FJ9cm2szmHOYr0QnDZ2RlU9/UOz/lS4jwBATavndEgQRwdi/XbafeL
+         e53u+Pq86A/91jd6TlROAxWvleOfg7B4PJb2sRCis5XCLQuihNu/+3xcvUoL9KvmapV/
+         ZyDV+ktWaIgz3PX3fpWg9+53eGUfGvtla4HWM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=8375xG5KIqTBCOvn00jcoIS+CjFWQyKYw8uzqmJ+4kU=;
-        b=SjVWuLg0kVWaznIRkyvH0/70+g/ztFQAtt6RcTtVKCDSQTGHR6qlOAPAZs6mEOm7L7
-         m9GQc9vpXFtDc9N/+Jy2POrlen89jcO/0H1IvfcpzS78Eci8jjNqTaBqxXQhN3oqo5zP
-         Vnx+/eKg5J3aB1grCMIiEcpo46cbpls7yk1c2Ey7Z/lhnvQnbqT8SEMFH6Rsi6gOWGYH
-         sJVzn6RoMDoRuH/DVCZXcjxynZ/uQTcdXJMK9gjkMoOziFa7EIpBYW26WyONSPb4mh56
-         C7PNOl3mDmEd6p+vUvxMq1229XJM4TNj2Nf20rXYhxh6/9/uUcmztm8KfaIlmd+tVuOy
-         gBng==
-X-Gm-Message-State: ACgBeo3ETyK9UNxuN3WKEyGMw62MJ/Da1CqxyRcLRJnTmTIe3k54NxPr
-	+kMVgV4+FDkq0I38j4xAbitS4xTwegDu9A==
+        bh=O7KctozCA4tg6jvL/YfCpxVrdj8MFUJjpJ9u06xms7o=;
+        b=RlnwxFyR6XLcotXSEN2qHdmnYU3kTfSre690ByYBAOaOkTNw0ZbHhABU96FRfEWFH3
+         ufenb4x1NFJasyYsANFQUR7Riij7gw/7SX+TXaaL67gT2mubEMMbaESS1fiOpRLIY2X9
+         lfMzcuqGJPeG/iFawaUx+GTgMl7Txf0JBKK8iuTshMp/AR4yX1w97UXIiIObuSULgeXD
+         xnLBC2XbFu5y7yM9ttvbKf7a5iSx6S2VHFoVvKVw1/6Y/UL+hINXY9sULCkPEjtjQHb/
+         rtgEO0YRG9NfIjZ6WwKq1xZR8nsTT0zWVJMOPcWcn6aKqNcBvKXXvZLoiVp1ez46WwXq
+         khTQ==
+X-Gm-Message-State: ACgBeo3JyrHj/yCuNC0e+2cQedLLaBH76sadNilujSj64W1cF3jDxovh
+	O61JAouVVjuOX+XY217FazGj0w4kkc6WCA==
 X-Google-Smtp-Source: 
- AA6agR5QlS2hBtO/hrYoYm3NYzzTwfKs1TCVy54KknwjdlgnSasr/oT9x8T/zjUt8NmFPJ26KUTcRg==
-X-Received: by 2002:a5d:6241:0:b0:21e:f97f:d0cb with SMTP id
- m1-20020a5d6241000000b0021ef97fd0cbmr4376017wrv.37.1659705191178;
-        Fri, 05 Aug 2022 06:13:11 -0700 (PDT)
+ AA6agR4otZpmgVarvbLXk2MpkDwTYz4adqBgm7+gQDFOylkjygaFgaaWDXHtCXsesDYXvRqWxZyQIw==
+X-Received: by 2002:a05:600c:1e03:b0:3a3:6cd6:1d38 with SMTP id
+ ay3-20020a05600c1e0300b003a36cd61d38mr9570767wmb.25.1659705190370;
+        Fri, 05 Aug 2022 06:13:10 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:f483:fcb0:1452:5a5a])
         by smtp.gmail.com with ESMTPSA id
- p12-20020a05600c204c00b003a51a0d35e7sm1908901wmg.37.2022.08.05.06.13.10
+ p12-20020a05600c204c00b003a51a0d35e7sm1908901wmg.37.2022.08.05.06.13.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Aug 2022 06:13:10 -0700 (PDT)
+        Fri, 05 Aug 2022 06:13:09 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 18/29] rust-llvm: Enable nativesdk variant
-Date: Fri,  5 Aug 2022 14:12:41 +0100
-Message-Id: <20220805131252.3706794-18-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 17/29] cargo_common: Handle build SYS as well as HOST/TARGET
+Date: Fri,  5 Aug 2022 14:12:40 +0100
+Message-Id: <20220805131252.3706794-17-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220805131252.3706794-1-richard.purdie@linuxfoundation.org>
 References: <20220805131252.3706794-1-richard.purdie@linuxfoundation.org>
@@ -63,40 +63,51 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 05 Aug 2022 13:13:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168952
+ https://lists.openembedded.org/g/openembedded-core/message/168951
 
-The allow nativesdk variants of the tools to build, enable a nativesdk
-variant of rust-llvm.
+Improve the common class to handle BUILD_SYS as well as host and target,
+removing the need to a workaround in the rust recipe.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/rust/rust-llvm.inc | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ meta/classes/cargo_common.bbclass   | 9 +++++++++
+ meta/recipes-devtools/rust/rust.inc | 3 ---
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/rust/rust-llvm.inc b/meta/recipes-devtools/rust/rust-llvm.inc
-index 9baad12dc8e..625eb570416 100644
---- a/meta/recipes-devtools/rust/rust-llvm.inc
-+++ b/meta/recipes-devtools/rust/rust-llvm.inc
-@@ -47,6 +47,13 @@ EXTRA_OECMAKE:append:class-target = "\
-     -DLLVM_CONFIG_PATH=${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-config \
- "
+diff --git a/meta/classes/cargo_common.bbclass b/meta/classes/cargo_common.bbclass
+index dcd0afd9801..4a419cdd0a3 100644
+--- a/meta/classes/cargo_common.bbclass
++++ b/meta/classes/cargo_common.bbclass
+@@ -82,6 +82,15 @@ cargo_common_do_configure () {
+ 		EOF
+ 	fi
  
-+EXTRA_OECMAKE:append:class-nativesdk = "\
-+    -DCMAKE_CROSSCOMPILING:BOOL=ON \
-+    -DLLVM_BUILD_TOOLS=OFF \
-+    -DLLVM_TABLEGEN=${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-tblgen \
-+    -DLLVM_CONFIG_PATH=${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-config \
-+"
++	if [ "${RUST_TARGET_SYS}" != "${RUST_BUILD_SYS}" -a "${RUST_TARGET_SYS}" != "${RUST_HOST_SYS}"]; then
++		cat <<- EOF >> ${CARGO_HOME}/config
 +
- # The debug symbols are huge here (>2GB) so suppress them since they
- # provide almost no value. If you really need them then override this
- INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
-@@ -68,4 +75,4 @@ FILES:${PN}-staticdev =+ "${libdir}/llvm-rust/*/*.a"
- FILES:${PN} += "${libdir}/libLLVM*.so.* ${libdir}/llvm-rust/lib/*.so.* ${libdir}/llvm-rust/bin"
- FILES:${PN}-dev += "${datadir}/llvm ${libdir}/llvm-rust/lib/*.so ${libdir}/llvm-rust/include ${libdir}/llvm-rust/share ${libdir}/llvm-rust/lib/cmake"
++		# TARGET_SYS
++		[target.${RUST_TARGET_SYS}]
++		linker = "${RUST_TARGET_CCLD}"
++		EOF
++	fi
++
+ 	# Put build output in build directory preferred by bitbake instead of
+ 	# inside source directory unless they are the same
+ 	if [ "${B}" != "${S}" ]; then
+diff --git a/meta/recipes-devtools/rust/rust.inc b/meta/recipes-devtools/rust/rust.inc
+index 5730887411a..12c86e02c4a 100644
+--- a/meta/recipes-devtools/rust/rust.inc
++++ b/meta/recipes-devtools/rust/rust.inc
+@@ -29,9 +29,6 @@ setup_cargo_environment () {
+     # x86_64-unknown-linux-gnu.
+     # Later stages are build for the native target (i.e. target.x86_64-linux)
+     cargo_common_do_configure
+-
+-    printf '[target.%s]\n' "${RUST_BUILD_SYS}" >> ${CARGO_HOME}/config
+-    printf "linker = '%s'\n" "${RUST_BUILD_CCLD}" >> ${CARGO_HOME}/config
+ }
  
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
+ inherit rust-target-config
 -- 
 2.34.1
 
