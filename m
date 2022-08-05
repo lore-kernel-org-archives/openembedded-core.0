@@ -2,41 +2,41 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3566FC3276D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35FD8C3276E
 	for <webhook@archiver.kernel.org>; Fri,  5 Aug 2022 06:03:38 +0000 (UTC)
 Received: from a27-33.smtp-out.us-west-2.amazonses.com
  (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web08.3859.1659679408478371686
+ by mx.groups.io with SMTP id smtpd.web12.3949.1659679408763091031
  for <openembedded-core@lists.openembedded.org>;
  Thu, 04 Aug 2022 23:03:28 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=RDkT62FQ;
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=D423Il6i;
  spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
- mailfrom: 010101826c99fcb0-51883a0b-506b-481e-a62a-be9618b2860b-000000@us-west-2.amazonses.com)
+ mailfrom: 010101826c99fed6-a40ac192-de75-4b24-826a-5cb710b4b845-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1659679407;
+	t=1659679408;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=clVx/ukMLV9W8Wg08s8zUYM8Lw7A5I+SIM5gKVYRrog=;
-	b=RDkT62FQRnTUtzRuBoSNc3djI3DyTFtqTMMTvc2u3vSptJoO0bZy25vXigkXmECg
-	bncgE3HPDkx6OOEDCZm35KxWEc4M7WA2xi1CqIzeC3XYTOE93jw2x766TCFbb5PEzpZ
-	6JV6baUSVOW/2sSt3/AkT6ATX1n2er/033pyBino=
+	bh=ocAhZwfdxuiY1UkaAGbkEQHAToEFQWV5X4It0JYtQYQ=;
+	b=D423Il6ixKhQzTfZYIsYGKdn/oPGnMdjvkKnWum6PupdJYhhgkjsjydwTUb1eBjZ
+	J+AlSV+aCpiF8BoKYtHqdrD1swU7dlSqYuOUxXQcS8lIuD2ygWhWZTH8/L6QLfTwLlG
+	WPXgbRwTkrHzgWCkQOEmx/tpyRbYdd8/Nbgw+NlU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1659679407;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1659679408;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=clVx/ukMLV9W8Wg08s8zUYM8Lw7A5I+SIM5gKVYRrog=;
-	b=QljH7b15H+UzGVim0AKu0eNvXoiTpTTN2GD38pnrmijPtxZilo/TlJl69nLG8Q/Q
-	7JSBlsZdAtlg336cvWeJ5KFXWQaLy1YgI4Vn3NTRosrh/y1ybtLRDWh96i+aKF0YlJW
-	DOJ3oOBK3MVhWQ5FbsWAVbLeVeD2QITALnEjQXx0=
-Content-Type: multipart/mixed; boundary="===============3010742849721957585=="
+	bh=ocAhZwfdxuiY1UkaAGbkEQHAToEFQWV5X4It0JYtQYQ=;
+	b=OIhawWom8f+Z5IGGXieYt2Uaik1VfyC6UQ+vc5lDWmp2DsmTSdOrydEFZS0CIgTK
+	x0jxyGgJ16ch3xFTo1lJJdJNqzZLc7sKz9DojaC0OxIX45XkgwF/UzwZStrWP21EX7L
+	0gw8Doe3Kjs1aUE1BMiYtELOFQEvKZYZt7DcSfJk=
+Content-Type: multipart/mixed; boundary="===============0526286626880083638=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Randy MacLeod <Randy.MacLeod@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] go: upgrading to 1.19 FAILED
+Subject: [AUH] rust-llvm: upgrading to 1.62.1 SUCCEEDED
 Message-ID: 
- <010101826c99fcb0-51883a0b-506b-481e-a62a-be9618b2860b-000000@us-west-2.amazonses.com>
+ <010101826c99fed6-a40ac192-de75-4b24-826a-5cb710b4b845-000000@us-west-2.amazonses.com>
 Date: Fri, 5 Aug 2022 06:03:27 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
@@ -46,9 +46,9 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 05 Aug 2022 06:03:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168900
+ https://lists.openembedded.org/g/openembedded-core/message/168901
 
---===============3010742849721957585==
+--===============0526286626880083638==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,138 +56,85 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *go* to *1.19* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *rust-llvm* to *1.62.1* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-rust-llvm-upgrade-1.62.0-1.62.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe go failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1659 entries from dependency cache.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-d6bde120c1a28eb7f2c68ff2760926ce89cb7264"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:d6bde120c1a28eb7f2c68ff2760926ce89cb7264"
-workspace            = "master:6c3a88e8dcf0b7a40080c4cd9d447d0d50b12f4c"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1659 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 889 .bb files complete (887 cached, 2 parsed). 1660 targets, 35 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-d6bde120c1a28eb7f2c68ff2760926ce89cb7264"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:d6bde120c1a28eb7f2c68ff2760926ce89cb7264"
-workspace            = "master:6c3a88e8dcf0b7a40080c4cd9d447d0d50b12f4c"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   2% |                                    | ETA:  0:00:04
-Adding changed files:   5% |#                                   | ETA:  0:00:03
-Adding changed files:   7% |##                                  | ETA:  0:00:03
-Adding changed files:  10% |###                                 | ETA:  0:00:04
-Adding changed files:  12% |####                                | ETA:  0:00:04
-Adding changed files:  15% |#####                               | ETA:  0:00:03
-Adding changed files:  17% |######                              | ETA:  0:00:03
-Adding changed files:  20% |#######                             | ETA:  0:00:03
-Adding changed files:  22% |########                            | ETA:  0:00:03
-Adding changed files:  25% |#########                           | ETA:  0:00:03
-Adding changed files:  27% |#########                           | ETA:  0:00:03
-Adding changed files:  30% |##########                          | ETA:  0:00:02
-Adding changed files:  32% |###########                         | ETA:  0:00:02
-Adding changed files:  35% |############                        | ETA:  0:00:02
-Adding changed files:  37% |#############                       | ETA:  0:00:02
-Adding changed files:  40% |##############                      | ETA:  0:00:02
-Adding changed files:  42% |###############                     | ETA:  0:00:02
-Adding changed files:  45% |################                    | ETA:  0:00:02
-Adding changed files:  47% |#################                   | ETA:  0:00:02
-Adding changed files:  50% |##################                  | ETA:  0:00:01
-Adding changed files:  52% |###################                 | ETA:  0:00:01
-Adding changed files:  55% |###################                 | ETA:  0:00:01
-Adding changed files:  57% |####################                | ETA:  0:00:01
-Adding changed files:  60% |#####################               | ETA:  0:00:01
-Adding changed files:  62% |######################              | ETA:  0:00:01
-Adding changed files:  65% |#######################             | ETA:  0:00:01
-Adding changed files:  67% |########################            | ETA:  0:00:01
-Adding changed files:  70% |#########################           | ETA:  0:00:01
-Adding changed files:  72% |##########################          | ETA:  0:00:01
-Adding changed files:  75% |###########################         | ETA:  0:00:00
-Adding changed files:  78% |############################        | ETA:  0:00:00
-Adding changed files:  80% |############################        | ETA:  0:00:00
-Adding changed files:  83% |#############################       | ETA:  0:00:00
-Adding changed files:  85% |##############################      | ETA:  0:00:00
-Adding changed files:  88% |###############################     | ETA:  0:00:00
-Adding changed files:  90% |################################    | ETA:  0:00:00
-Adding changed files:  93% |#################################   | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:03
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://golang.org/dl/go1.19.src.tar.gz;name=main...
-INFO: Rebasing devtool onto 69630c19769baa792ff9dda4b2d54a9f41f6ad39
-WARNING: Command 'git rebase 69630c19769baa792ff9dda4b2d54a9f41f6ad39' failed:
-Auto-merging src/cmd/go/internal/work/exec.go
-CONFLICT (content): Merge conflict in src/cmd/go/internal/work/exec.go
-Auto-merging src/cmd/go/internal/envcmd/env.go
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/go
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/go/go_1.19.bb
-WARNING: Version is pinned to 1.18% via PREFERRED_VERSION; it may need adjustment to match the new version before any further steps are taken
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============3010742849721957585==--
+--===============0526286626880083638==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-rust-llvm-upgrade-1.62.0-1.62.1.patch"
+
+RnJvbSBkMWU2ZjUyN2JkMTcxMjllMjhjM2YyNTBlMDJiYjI4MDA1ZGE1ZDVhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgNSBBdWcgMjAyMiAwMDoyMzozNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJ1
+c3QtbGx2bTogdXBncmFkZSAxLjYyLjAgLT4gMS42Mi4xCgotLS0KIC4uLi9ydXN0L3tydXN0LWxs
+dm1fMS42Mi4wLmJiID0+IHJ1c3QtbGx2bV8xLjYyLjEuYmJ9ICAgICAgICAgICB8IDAKIG1ldGEv
+cmVjaXBlcy1kZXZ0b29scy9ydXN0L3J1c3Qtc291cmNlLmluYyAgICAgICAgICAgICAgICAgICAg
+ICB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVzdC97cnVzdC1sbHZtXzEuNjIuMC5iYiA9
+PiBydXN0LWxsdm1fMS42Mi4xLmJifSAoMTAwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcnVzdC9ydXN0LWxsdm1fMS42Mi4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3J1c3QvcnVzdC1sbHZtXzEuNjIuMS5iYgpzaW1pbGFyaXR5IGluZGV4IDEwMCUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1c3QvcnVzdC1sbHZtXzEuNjIuMC5iYgpyZW5hbWUg
+dG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1c3QvcnVzdC1sbHZtXzEuNjIuMS5iYgpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1c3QvcnVzdC1zb3VyY2UuaW5jIGIvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3J1c3QvcnVzdC1zb3VyY2UuaW5jCmluZGV4IGZkYTI2NTM0ZTguLjA4
+OTYwMjBiNmEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydXN0L3J1c3Qtc291
+cmNlLmluYworKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVzdC9ydXN0LXNvdXJjZS5pbmMK
+QEAgLTEsNSArMSw1IEBACiBTUkNfVVJJICs9ICJodHRwczovL3N0YXRpYy5ydXN0LWxhbmcub3Jn
+L2Rpc3QvcnVzdGMtJHtQVn0tc3JjLnRhci54ejtuYW1lPXJ1c3QiCi1TUkNfVVJJW3J1c3Quc2hh
+MjU2c3VtXSA9ICI2YzAwZWYxMTVjODk0YzI2NDVlNjBiNTA0OWE0ZjVkYWNmMWRjMGM5OTNmMzA3
+NGY3YWU0ZmRmNGM3NTVkZDVlIgorU1JDX1VSSVtydXN0LnNoYTI1NnN1bV0gPSAiMDIwNjZhOTNj
+MmY2NTk2Y2MwNDZhODk3ZDU3MTZjODZlMzYwN2MxY2QwZjU0ZGI5YTg2N2FlOGM4MjY1MDcyZSIK
+IAogUlVTVFNSQyA9ICIke1dPUktESVJ9L3J1c3RjLSR7UFZ9LXNyYyIKIAotLSAKMi4zMS4xCgo=
+
+--===============0526286626880083638==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/rust-llvm: SRC_URI changed from "https://static.rust-lang.org/dist/rustc-1.62.0-src.tar.xz;name=rust file://0002-llvm-allow-env-override-of-exe-path.patch;striplevel=2 file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 file://0003-llvm-fix-include-benchmarks.patch;striplevel=2" to "https://static.rust-lang.org/dist/rustc-1.62.1-src.tar.xz;name=rust file://0002-llvm-allow-env-override-of-exe-path.patch;striplevel=2 file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 file://0003-llvm-fix-include-benchmarks.patch;striplevel=2"
+packages/core2-32-poky-linux/rust-llvm: PV changed from "1.62.0" to "1.62.1"
+packages/core2-32-poky-linux/rust-llvm: PKGV changed from 1.62.0 [default] to 1.62.1 [default]
+packages/core2-32-poky-linux/rust-llvm/rust-llvm-bugpointpasses: PV changed from "1.62.0" to "1.62.1"
+packages/core2-32-poky-linux/rust-llvm/rust-llvm-bugpointpasses: PKGV changed from 1.62.0 [default] to 1.62.1 [default]
+packages/core2-32-poky-linux/rust-llvm/rust-llvm-dbg: PV changed from "1.62.0" to "1.62.1"
+packages/core2-32-poky-linux/rust-llvm/rust-llvm-dbg: PKGV changed from 1.62.0 [default] to 1.62.1 [default]
+packages/core2-32-poky-linux/rust-llvm/rust-llvm-dev: PV changed from "1.62.0" to "1.62.1"
+packages/core2-32-poky-linux/rust-llvm/rust-llvm-dev: PKGV changed from 1.62.0 [default] to 1.62.1 [default]
+packages/core2-32-poky-linux/rust-llvm/rust-llvm-doc: PV changed from "1.62.0" to "1.62.1"
+packages/core2-32-poky-linux/rust-llvm/rust-llvm-doc: PKGV changed from 1.62.0 [default] to 1.62.1 [default]
+packages/core2-32-poky-linux/rust-llvm/rust-llvm-liblto: PV changed from "1.62.0" to "1.62.1"
+packages/core2-32-poky-linux/rust-llvm/rust-llvm-liblto: PKGV changed from 1.62.0 [default] to 1.62.1 [default]
+packages/core2-32-poky-linux/rust-llvm/rust-llvm-llvmhello: PV changed from "1.62.0" to "1.62.1"
+packages/core2-32-poky-linux/rust-llvm/rust-llvm-llvmhello: PKGV changed from 1.62.0 [default] to 1.62.1 [default]
+packages/core2-32-poky-linux/rust-llvm/rust-llvm-locale: PV changed from "1.62.0" to "1.62.1"
+packages/core2-32-poky-linux/rust-llvm/rust-llvm-locale: PKGV changed from 1.62.0 [default] to 1.62.1 [default]
+packages/core2-32-poky-linux/rust-llvm/rust-llvm-src: PV changed from "1.62.0" to "1.62.1"
+packages/core2-32-poky-linux/rust-llvm/rust-llvm-src: PKGV changed from 1.62.0 [default] to 1.62.1 [default]
+packages/core2-32-poky-linux/rust-llvm/rust-llvm-staticdev: PV changed from "1.62.0" to "1.62.1"
+packages/core2-32-poky-linux/rust-llvm/rust-llvm-staticdev: PKGV changed from 1.62.0 [default] to 1.62.1 [default]
+packages/core2-32-poky-linux/rust-llvm/rust-llvm: PV changed from "1.62.0" to "1.62.1"
+packages/core2-32-poky-linux/rust-llvm/rust-llvm: PKGV changed from 1.62.0 [default] to 1.62.1 [default]
+
+--===============0526286626880083638==--
 
