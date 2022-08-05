@@ -2,53 +2,52 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51F38C32767
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82579C3814E
 	for <webhook@archiver.kernel.org>; Fri,  5 Aug 2022 06:03:38 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com
- (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web09.3948.1659679408215624079
+Received: from a27-30.smtp-out.us-west-2.amazonses.com
+ (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.3935.1659679407397170419
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Aug 2022 23:03:28 -0700
+ Thu, 04 Aug 2022 23:03:27 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=BLpFT/Es;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
- mailfrom: 010101826c99fbbe-bb6a10c9-8528-433a-990b-850653c85911-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=UsJHC7B4;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
+ mailfrom: 010101826c99f90f-210dcd30-5e09-47c5-8dd6-d607c455c4df-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1659679407;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=M6p9T6KzbhMdzD4ft8mWCsyqUqgdJi1fBUMjfH12eVI=;
-	b=BLpFT/Es+pGk1QUAvPnFREgHRm6/G6snd7Z3jkjpAJ6gcbiYjNMto6n9riL+gSJ6
-	mxVkDO5JxZOYA1ASq2VUbx9feQ+1nqhmIKYneGZ97XxEW9Mz+BVQyByYULkU5zjAIxH
-	hDcGIcs+s+AaH+Gi0hOdAolFYuTPADUUMDwObpvU=
+	t=1659679406;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=BHzlZULzwP864/dyDqKK4EShqF6DHl8iNeqmbI5NSwY=;
+	b=UsJHC7B48d2lv0LTA0AAr+KnNojElUfVV+3FmW3VnXhG14Hp9YuIDOyd33N0Y+6b
+	SBSWBduqdQiksvz224BgDims2GkPhSP2YB5rTRTvBLCXjI+c/alDP2lgHVLPQygZW8J
+	4h0rJujTvufNzsPkgjkr65ablKmuTMVEJ2x9YSFM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1659679407;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=M6p9T6KzbhMdzD4ft8mWCsyqUqgdJi1fBUMjfH12eVI=;
-	b=cwlC5wQMXBuxFxNMtSJ1mFALF6Xwb9zhGlYh7ZTY6L1jAW41jm+avZVJKzlr3/AK
-	YApc2DanlztXziBIOIfTNR3ePpyrnXhxPWua2YWHe8bc0wAAu6OZcgaClVLX7UzNClA
-	JyqG7IGcd1p1CP1VuT76L7MSEg+o0son9QhMkAvc=
-Content-Type: multipart/mixed; boundary="===============7560580213603158760=="
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1659679406;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=BHzlZULzwP864/dyDqKK4EShqF6DHl8iNeqmbI5NSwY=;
+	b=YsEcDnY2WFDwh9+Rsjp2jws0Uld0RbRXLDxBBM+KuTbNwcvSRlrHIp9+rjc5cssi
+	+pHy81GYT7yQ0dPtSdWeWiAhDmQlOTsEJ68kVt9Pfh6gBTz3rtt8s3bLWpd2HGnxXv/
+	jZLsgvUOHlMg/kGnN4/N9iAQIwxYf1pR+g7Pqkqo=
+Content-Type: multipart/mixed; boundary="===============1353708202194819279=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] util-linux: upgrading to 2.38.1 FAILED
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] kea: upgrading to 2.2.0 SUCCEEDED
 Message-ID: 
- <010101826c99fbbe-bb6a10c9-8528-433a-990b-850653c85911-000000@us-west-2.amazonses.com>
-Date: Fri, 5 Aug 2022 06:03:27 +0000
+ <010101826c99f90f-210dcd30-5e09-47c5-8dd6-d607c455c4df-000000@us-west-2.amazonses.com>
+Date: Fri, 5 Aug 2022 06:03:26 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.08.05-54.240.27.45
+X-SES-Outgoing: 2022.08.05-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 05 Aug 2022 06:03:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168894
+ https://lists.openembedded.org/g/openembedded-core/message/168884
 
---===============7560580213603158760==
+--===============1353708202194819279==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,16 +55,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *util-linux* to *2.38.1* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *kea* to *2.2.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-util-linux-upgrade-2.38-2.38.1.patch
+    - apply the patch: git am 0001-kea-upgrade-2.0.2-2.2.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -81,828 +74,581 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7560580213603158760==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-util-linux-upgrade-2.38-2.38.1.patch"
-
-RnJvbSBmMGU0MzEwMmU2ODEzOGRjZjZhMDg4MDVjMWQ0MjgyMDA2YzFjMmIyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgNCBBdWcgMjAyMiAyMToxNDozNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHV0
-aWwtbGludXg6IHVwZ3JhZGUgMi4zOCAtPiAyLjM4LjEKCi0tLQogbWV0YS9yZWNpcGVzLWNvcmUv
-dXRpbC1saW51eC91dGlsLWxpbnV4LmluYyAgICAgICAgICAgICAgICAgICAgIHwgMiArLQogLi4u
-L3V0aWwtbGludXgve3V0aWwtbGludXhfMi4zOC5iYiA9PiB1dGlsLWxpbnV4XzIuMzguMS5iYn0g
-ICAgIHwgMAogMiBmaWxlcyBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgve3V0aWwtbGludXhfMi4zOC5iYiA9
-PiB1dGlsLWxpbnV4XzIuMzguMS5iYn0gKDEwMCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LWNvcmUvdXRpbC1saW51eC91dGlsLWxpbnV4LmluYyBiL21ldGEvcmVjaXBlcy1jb3JlL3V0aWwt
-bGludXgvdXRpbC1saW51eC5pbmMKaW5kZXggYzliZGRmYjdhNi4uZjE1MTFmMDJhOCAxMDA2NDQK
-LS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxpbnV4LmluYworKysgYi9t
-ZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXguaW5jCkBAIC0zNyw0ICszNyw0
-IEBAIFNSQ19VUkkgPSAiJHtLRVJORUxPUkdfTUlSUk9SfS9saW51eC91dGlscy91dGlsLWxpbnV4
-L3Yke01BSk9SX1ZFUlNJT059L3V0aWwtbGluCiAgICAgICAgICAgIGZpbGU6Ly9hdm9pZF9wYXJh
-bGxlbF90ZXN0cy5wYXRjaCBcCiAgICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0g
-IjZkMTExY2JlNGQ1NWIzMzZkYjJmMWZiZWZmYmM2NWI4OTkwODcwNGMwMTEzNjM3MWQzMmFhOWJl
-YzM3M2ViNjQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNjA0OTJhMTliNDRlNmNmOWEzZGRmZjY4
-MzI1YjMzM2I4YjUyYjZjNTljZTNlYmQ2YTBlY2FhNGM1MTE3ZTg0ZiIKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRpbC1saW51eF8yLjM4LmJiIGIvbWV0YS9yZWNp
-cGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxpbnV4XzIuMzguMS5iYgpzaW1pbGFyaXR5IGluZGV4
-IDEwMCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxpbnV4
-XzIuMzguYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRpbC1saW51
-eF8yLjM4LjEuYmIKLS0gCjIuMzEuMQoK
-
---===============7560580213603158760==
+--===============1353708202194819279==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1659 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 888 .bb files complete (886 cached, 2 parsed). 1659 targets, 36 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-32-poky-linux/kea/kea-dev: FILELIST: removed "/usr/include/kea/dhcpsrv/triplet.h", added "/usr/include/kea/util/file_utilities.h /usr/include/kea/util/triplet.h /usr/include/kea/dhcpsrv/memfile_lease_limits.h /usr/include/kea/dhcp/pkt_template.h /usr/include/kea/util/dhcp_space.h /usr/include/kea/util/reconnect_ctl.h"
+packages/core2-32-poky-linux/kea/kea-doc: FILELIST: removed "/usr/share/doc/kea/examples/kea6/cassandra.json /usr/share/doc/kea/examples/kea4/cassandra.json", added "/usr/share/doc/kea/examples/agent/rbac.json"
+packages/core2-32-poky-linux/kea/kea: FILELIST: removed "/usr/lib/libkea-process.so.29 /usr/share/kea/scripts/cql/wipe_data.sh /usr/share/kea/scripts/pgsql/upgrade_3.2_to_3.3.sh /usr/lib/libkea-log.so.22.0.0 /usr/share/kea/scripts/pgsql/upgrade_4.0_to_5.0.sh /usr/lib/libkea-d2srv.so.4.0.0 /usr/lib/libkea-cc.so.25 /usr/lib/libkea-asiolink.so.27.0.0 /usr/lib/libkea-database.so.23.0.0 /usr/lib/libkea-cryptolink.so.16.0.0 /usr/lib/libkea-database.so.23 /usr/lib/libkea-process.so.29.0.0 /usr/share/kea/scripts/pgsql/upgrade_1.0_to_2.0.sh /usr/lib/libkea-dhcp_ddns.so.18.0.0 /usr/lib/libkea-http.so.30 /usr/lib/libkea-http.so.30.0.0 /usr/lib/libkea-eval.so.27 /usr/lib/libkea-hooks.so.40.0.0 /usr/lib/libkea-asiodns.so.14 /usr/share/kea/scripts/pgsql/upgrade_5.0_to_5.1.sh /usr/share/kea/scripts/cql/dhcpdb_create.cql /usr/share/kea/scripts/pgsql/upgrade_2.0_to_3.0.sh /usr/lib/libkea-asiodns.so.14.0.0 /usr/share/kea/scripts/pgsql/upgrade_6.0_to_6.1.sh /usr/share/kea/scripts/pgsql/upgrade_3.1_to_3
+ .2.sh /usr/lib/libkea-util.so.36 /usr/lib/libkea-cfgclient.so.25 /usr/lib/libkea-cfgclient.so.25.0.0 /usr/share/kea/scripts/cql/upgrade_3.0_to_4.0.sh /usr/share/kea/scripts/pgsql/upgrade_5.1_to_6.0.sh /usr/lib/libkea-eval.so.27.0.0 /usr/share/kea/scripts/pgsql/upgrade_6.1_to_6.2.sh /usr/share/kea/scripts/cql/upgrade_2.0_to_3.0.sh /usr/lib/libkea-dhcpsrv.so.51.0.0 /usr/lib/libkea-asiolink.so.27 /usr/lib/libkea-dhcpsrv.so.51 /usr/share/kea/scripts/pgsql/upgrade_3.3_to_4.0.sh /usr/lib/libkea-dns++.so.19 /usr/lib/libkea-log.so.22 /usr/share/kea/scripts/cql/upgrade_4.0_to_5.0.sh /usr/lib/libkea-dhcp++.so.36 /usr/share/kea/scripts/cql/upgrade_1.0_to_2.0.sh /usr/share/kea/scripts/cql/dhcpdb_drop.cql /usr/lib/libkea-dhcp++.so.36.0.0 /usr/lib/libkea-util.so.36.0.0 /usr/lib/libkea-dns++.so.19.0.0 /usr/lib/libkea-d2srv.so.4 /usr/lib/libkea-cc.so.25.0.0 /usr/share/kea/scripts/pgsql/upgrade_3.0_to_3.1.sh /usr/lib/libkea-hooks.so.40 /usr/lib/libkea-cryptolink.so.16 /usr/lib/libkea-dhcp_ddns.so.18
+ ", added "/usr/share/kea/api/subnet4-delta-del.json /usr/share/kea/scripts/pgsql/upgrade_006.1_to_006.2.sh /usr/share/kea/scripts/pgsql/upgrade_003.2_to_003.3.sh /usr/lib/libkea-dns++.so.30 /usr/lib/libkea-d2srv.so.16 /usr/lib/libkea-hooks.so.57 /usr/lib/libkea-http.so.42.0.0 /usr/share/kea/api/subnet4-delta-add.json /usr/lib/libkea-log.so.35 /usr/lib/libkea-d2srv.so.16.0.0 /usr/lib/libkea-hooks.so.57.0.0 /usr/lib/libkea-asiolink.so.40 /usr/share/kea/api/gss-tsig-rekey-all.json /usr/lib/libkea-asiodns.so.24 /usr/share/kea/scripts/pgsql/upgrade_009_to_010.sh /usr/lib/libkea-cfgclient.so.36.0.0 /usr/lib/libkea-dhcp_ddns.so.29 /usr/share/kea/scripts/mysql/upgrade_012_to_013.sh /usr/share/kea/scripts/pgsql/upgrade_011_to_012.sh /usr/lib/libkea-dhcp++.so.54 /usr/lib/libkea-dhcpsrv.so.69 /usr/lib/libkea-dhcpsrv.so.69.0.0 /usr/lib/libkea-asiolink.so.40.0.0 /usr/share/kea/scripts/pgsql/upgrade_005.1_to_006.0.sh /usr/share/kea/scripts/pgsql/upgrade_010_to_011.sh /usr/lib/libkea-eval.so.39.0.
+ 0 /usr/share/kea/scripts/pgsql/upgrade_006.0_to_006.1.sh /usr/share/kea/scripts/pgsql/upgrade_002.0_to_003.0.sh /usr/share/kea/scripts/pgsql/upgrade_004.0_to_005.0.sh /usr/lib/libkea-database.so.35.0.0 /usr/lib/libkea-cryptolink.so.28.0.0 /usr/lib/libkea-cc.so.39.0.0 /usr/lib/libkea-log.so.35.0.0 /usr/lib/libkea-cc.so.39 /usr/share/kea/scripts/pgsql/upgrade_005.0_to_005.1.sh /usr/share/kea/scripts/pgsql/upgrade_003.1_to_003.2.sh /usr/lib/libkea-cryptolink.so.28 /usr/share/kea/api/gss-tsig-rekey.json /usr/share/kea/scripts/mysql/upgrade_013_to_014.sh /usr/share/kea/api/subnet6-delta-add.json /usr/share/kea/scripts/pgsql/upgrade_007_to_008.sh /usr/share/kea/scripts/pgsql/upgrade_012_to_013.sh /usr/share/kea/scripts/pgsql/upgrade_003.3_to_004.0.sh /usr/share/kea/scripts/pgsql/upgrade_008_to_009.sh /usr/lib/libkea-asiodns.so.24.0.0 /usr/lib/libkea-eval.so.39 /usr/lib/libkea-process.so.40.0.0 /usr/lib/libkea-dhcp++.so.54.0.0 /usr/lib/libkea-database.so.35 /usr/lib/libkea-process.so.40 /u
+ sr/share/kea/api/subnet6-delta-del.json /usr/share/kea/scripts/pgsql/upgrade_001.0_to_002.0.sh /usr/lib/libkea-dhcp_ddns.so.29.0.0 /usr/lib/libkea-http.so.42 /usr/lib/libkea-util.so.52 /usr/share/kea/scripts/pgsql/upgrade_003.0_to_003.1.sh /usr/lib/libkea-cfgclient.so.36 /usr/lib/libkea-util.so.52.0.0 /usr/lib/libkea-dns++.so.30.0.0 /usr/share/kea/scripts/pgsql/upgrade_006.2_to_007.0.sh"
+Changes to packages/core2-32-poky-linux/kea (sysroot):
+  /usr/lib/libkea-asiodns.so changed symlink target from libkea-asiodns.so.14.0.0 to libkea-asiodns.so.24.0.0
+  /usr/lib/libkea-asiolink.so changed symlink target from libkea-asiolink.so.27.0.0 to libkea-asiolink.so.40.0.0
+  /usr/lib/libkea-cc.so changed symlink target from libkea-cc.so.25.0.0 to libkea-cc.so.39.0.0
+  /usr/lib/libkea-cfgclient.so changed symlink target from libkea-cfgclient.so.25.0.0 to libkea-cfgclient.so.36.0.0
+  /usr/lib/libkea-cryptolink.so changed symlink target from libkea-cryptolink.so.16.0.0 to libkea-cryptolink.so.28.0.0
+  /usr/lib/libkea-d2srv.so changed symlink target from libkea-d2srv.so.4.0.0 to libkea-d2srv.so.16.0.0
+  /usr/lib/libkea-database.so changed symlink target from libkea-database.so.23.0.0 to libkea-database.so.35.0.0
+  /usr/lib/libkea-dhcp_ddns.so changed symlink target from libkea-dhcp_ddns.so.18.0.0 to libkea-dhcp_ddns.so.29.0.0
+  /usr/lib/libkea-dhcp++.so changed symlink target from libkea-dhcp++.so.36.0.0 to libkea-dhcp++.so.54.0.0
+  /usr/lib/libkea-dhcpsrv.so changed symlink target from libkea-dhcpsrv.so.51.0.0 to libkea-dhcpsrv.so.69.0.0
+  /usr/lib/libkea-dns++.so changed symlink target from libkea-dns++.so.19.0.0 to libkea-dns++.so.30.0.0
+  /usr/lib/libkea-eval.so changed symlink target from libkea-eval.so.27.0.0 to libkea-eval.so.39.0.0
+  /usr/lib/libkea-hooks.so changed symlink target from libkea-hooks.so.40.0.0 to libkea-hooks.so.57.0.0
+  /usr/lib/libkea-http.so changed symlink target from libkea-http.so.30.0.0 to libkea-http.so.42.0.0
+  /usr/lib/libkea-log.so changed symlink target from libkea-log.so.22.0.0 to libkea-log.so.35.0.0
+  /usr/lib/libkea-process.so changed symlink target from libkea-process.so.29.0.0 to libkea-process.so.40.0.0
+  /usr/lib/libkea-util.so changed symlink target from libkea-util.so.36.0.0 to libkea-util.so.52.0.0
+  /usr/lib/libkea-asiodns.so.14.0.0 moved to /usr/lib/libkea-asiodns.so.24.0.0
+  /usr/lib/libkea-asiodns.so.14 moved to /usr/lib/libkea-asiodns.so.24
+  /usr/lib/libkea-asiolink.so.27.0.0 moved to /usr/lib/libkea-asiolink.so.40.0.0
+  /usr/lib/libkea-asiolink.so.27 moved to /usr/lib/libkea-asiolink.so.40
+  /usr/lib/libkea-cc.so.25.0.0 moved to /usr/lib/libkea-cc.so.39.0.0
+  /usr/lib/libkea-cc.so.25 moved to /usr/lib/libkea-cc.so.39
+  /usr/lib/libkea-cfgclient.so.25.0.0 moved to /usr/lib/libkea-cfgclient.so.36.0.0
+  /usr/lib/libkea-cfgclient.so.25 moved to /usr/lib/libkea-cfgclient.so.36
+  /usr/lib/libkea-cryptolink.so.16.0.0 moved to /usr/lib/libkea-cryptolink.so.28.0.0
+  /usr/lib/libkea-cryptolink.so.16 moved to /usr/lib/libkea-cryptolink.so.28
+  /usr/lib/libkea-database.so.23.0.0 moved to /usr/lib/libkea-database.so.35.0.0
+  /usr/lib/libkea-database.so.23 moved to /usr/lib/libkea-database.so.35
+  /usr/lib/libkea-dhcp_ddns.so.18.0.0 moved to /usr/lib/libkea-dhcp_ddns.so.29.0.0
+  /usr/lib/libkea-dhcp_ddns.so.18 moved to /usr/lib/libkea-dhcp_ddns.so.29
+  /usr/lib/libkea-dhcp++.so.36.0.0 moved to /usr/lib/libkea-dhcp++.so.54.0.0
+  /usr/lib/libkea-dhcp++.so.36 moved to /usr/lib/libkea-dhcp++.so.54
+  /usr/lib/libkea-dhcpsrv.so.51.0.0 moved to /usr/lib/libkea-dhcpsrv.so.69.0.0
+  /usr/lib/libkea-dhcpsrv.so.51 moved to /usr/lib/libkea-dhcpsrv.so.69
+  /usr/lib/libkea-dns++.so.19.0.0 moved to /usr/lib/libkea-dns++.so.30.0.0
+  /usr/lib/libkea-dns++.so.19 moved to /usr/lib/libkea-dns++.so.30
+  /usr/lib/libkea-eval.so.27.0.0 moved to /usr/lib/libkea-eval.so.39.0.0
+  /usr/lib/libkea-eval.so.27 moved to /usr/lib/libkea-eval.so.39
+  /usr/lib/libkea-hooks.so.40.0.0 moved to /usr/lib/libkea-hooks.so.57.0.0
+  /usr/lib/libkea-hooks.so.40 moved to /usr/lib/libkea-hooks.so.57
+  /usr/lib/libkea-http.so.30.0.0 moved to /usr/lib/libkea-http.so.42.0.0
+  /usr/lib/libkea-http.so.30 moved to /usr/lib/libkea-http.so.42
+  /usr/lib/libkea-log.so.22.0.0 moved to /usr/lib/libkea-log.so.35.0.0
+  /usr/lib/libkea-log.so.22 moved to /usr/lib/libkea-log.so.35
+  /usr/lib/libkea-process.so.29.0.0 moved to /usr/lib/libkea-process.so.40.0.0
+  /usr/lib/libkea-process.so.29 moved to /usr/lib/libkea-process.so.40
+  /usr/lib/libkea-util.so.36.0.0 moved to /usr/lib/libkea-util.so.52.0.0
+  /usr/lib/libkea-util.so.36 moved to /usr/lib/libkea-util.so.52
+  /usr/include/kea/dhcp/pkt_template.h was added
+  /usr/include/kea/dhcpsrv/memfile_lease_limits.h was added
+  /usr/include/kea/util/dhcp_space.h was added
+  /usr/include/kea/util/file_utilities.h was added
+  /usr/include/kea/util/reconnect_ctl.h was added
+  /usr/include/kea/util/triplet.h was added
+  /usr/lib/libkea-d2srv.so.16.0.0 was added
+  /usr/lib/libkea-d2srv.so.16 was added
+  /usr/share/kea/api/gss-tsig-rekey-all.json was added
+  /usr/share/kea/api/gss-tsig-rekey.json was added
+  /usr/share/kea/api/subnet4-delta-add.json was added
+  /usr/share/kea/api/subnet4-delta-del.json was added
+  /usr/share/kea/api/subnet6-delta-add.json was added
+  /usr/share/kea/api/subnet6-delta-del.json was added
+  /usr/share/kea/scripts/mysql/upgrade_012_to_013.sh was added
+  /usr/share/kea/scripts/mysql/upgrade_013_to_014.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_001.0_to_002.0.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_002.0_to_003.0.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_003.0_to_003.1.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_003.1_to_003.2.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_003.2_to_003.3.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_003.3_to_004.0.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_004.0_to_005.0.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_005.0_to_005.1.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_005.1_to_006.0.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_006.0_to_006.1.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_006.1_to_006.2.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_006.2_to_007.0.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_007_to_008.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_008_to_009.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_009_to_010.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_010_to_011.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_011_to_012.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_012_to_013.sh was added
+  /usr/include/kea/dhcpsrv/triplet.h was removed
+  /usr/lib/libkea-d2srv.so.4.0.0 was removed
+  /usr/lib/libkea-d2srv.so.4 was removed
+  /usr/share/kea/scripts/cql was removed
+  /usr/share/kea/scripts/cql/dhcpdb_create.cql was removed
+  /usr/share/kea/scripts/cql/dhcpdb_drop.cql was removed
+  /usr/share/kea/scripts/cql/upgrade_1.0_to_2.0.sh was removed
+  /usr/share/kea/scripts/cql/upgrade_2.0_to_3.0.sh was removed
+  /usr/share/kea/scripts/cql/upgrade_3.0_to_4.0.sh was removed
+  /usr/share/kea/scripts/cql/upgrade_4.0_to_5.0.sh was removed
+  /usr/share/kea/scripts/cql/wipe_data.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_1.0_to_2.0.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_2.0_to_3.0.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_3.0_to_3.1.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_3.1_to_3.2.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_3.2_to_3.3.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_3.3_to_4.0.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_4.0_to_5.0.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_5.0_to_5.1.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_5.1_to_6.0.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_6.0_to_6.1.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_6.1_to_6.2.sh was removed
 
-Build Configuration:
-BB_VERSION           = "2.0.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-9d97433e20e6d78b04a3d8b85a7902d249a26f8a"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:9d97433e20e6d78b04a3d8b85a7902d249a26f8a"
-workspace            = "master:6c3a88e8dcf0b7a40080c4cd9d447d0d50b12f4c"
+--===============1353708202194819279==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-Initialising tasks...done.
-Sstate summary: Wanted 328 Local 69 Mirrors 0 Missed 259 Current 233 (21% match, 53% complete)
-Removing 4 stale sstate objects for arch allarch...done.
-Removing 55 stale sstate objects for arch core2-32...done.
-Removing 23 stale sstate objects for arch x86_64...done.
-Removing 94 stale sstate objects for arch qemux86...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 242 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/iproute2/iproute2_5.18.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 255 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 275 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/iptables/iptables_1.8.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 279 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 282 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 301 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 304 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 306 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 328 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.11.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 337 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/zstd/zstd_1.5.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 346 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.4.8.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 353 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 358 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 361 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 366 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 375 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.14.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 379 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.5.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 380 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 383 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 384 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 386 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 387 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 391 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 395 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 400 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 403 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 417 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 420 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 426 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 429 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 432 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 435 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 446 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.5.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 459 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.28.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 462 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 465 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.7.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 469 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.42.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 471 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.84.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 474 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 475 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.6.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 479 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 480 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.64.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 481 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 482 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.45.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 483 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 488 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 491 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 492 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 495 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 498 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 503 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 509 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 512 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 513 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/psmisc/psmisc_23.5.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 516 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 527 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.39.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe iptables-1.8.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-passwd-3.5.52-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe readline-8.1.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libtirpc-1.3.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxml2-2.9.14-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe wayland-1.21.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxcb-1.15-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe xkeyboard-config-2.36-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe iproute2-5.18.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe elfutils-0.187-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe initscripts-1.0-r155: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe shadow-4.11.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe zstd-1.5.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe expat-2.4.8-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxau-1_1.0.9-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe systemd-1_251.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe util-macros-1_1.19.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe xcb-proto-1.15.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe xorgproto-2022.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe attr-2.5.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe acl-2.3.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-3.10.5-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libffi-3.4.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxcrypt-4.4.28-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe cracklib-2.9.7-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe file-5.42-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.0.5-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libcap-2.64-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe elfutils-0.187-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe flex-2.6.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe initscripts-1.0-r155: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libidn2-2.3.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe curl-7.84.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe zlib-1.2.12-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe zstd-1.5.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxcb-1.15-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe gnutls-3.7.6-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libpam-1.5.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe iproute2-5.18.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe base-passwd-3.5.52-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libunistring-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.4.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libpcre-8.45-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libseccomp-2.5.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe wayland-1.21.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libgpg-error-1.45-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe nettle-3.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe xkeyboard-config-2.36-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe shadow-4.11.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.39.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe readline-8.1.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxml2-2.9.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe ncurses-6.3+20220423-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxau-1_1.0.9-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe psmisc-23.5-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe xcb-proto-1.15.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe util-macros-1_1.19.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe xorgproto-2022.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe systemd-1_251.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libffi-3.4.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe acl-2.3.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe cracklib-2.9.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-3.10.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxcrypt-4.4.28-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libmnl-1.0.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe openssl-3.0.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libcap-2.64-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe flex-2.6.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 554 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libidn2-2.3.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libgcrypt-1.10.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe gnutls-3.7.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe curl-7.84.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe zlib-1.2.12-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libpcre-8.45-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libseccomp-2.5.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libpam-1.5.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe ncurses-6.3+20220423-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe iptables-1.8.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 555 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/iptables/iptables_1.8.8.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe psmisc-23.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.39.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe file-5.42-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libmnl-1.0.5-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: Running setscene task 556 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.42.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libunistring-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 557 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running task 194 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_patch)
-NOTE: recipe libgpg-error-1.45-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe nettle-3.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 558 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 559 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.45.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 560 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe iptables-1.8.8-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: Running task 297 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_fetch)
-NOTE: Running task 327 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_fetch)
-NOTE: recipe libmnl-1.0.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 335 of 1990 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.bb:do_fetch)
-NOTE: Running task 342 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.5.bb:do_fetch)
-NOTE: Running task 343 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_fetch)
-NOTE: Running task 344 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_fetch)
-NOTE: recipe file-5.42-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: Running task 379 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_fetch)
-NOTE: recipe libunistring-1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: Running task 408 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb:do_fetch)
-NOTE: Running task 409 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb:do_fetch)
-NOTE: Running task 417 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.28.bb:do_fetch)
-NOTE: Running task 428 of 1990 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_fetch)
-NOTE: recipe linux-libc-headers-5.16-r0: task do_patch: Started
-NOTE: recipe iptables-1.8.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 443 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.bb:do_fetch)
-NOTE: Running task 444 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_fetch)
-NOTE: Running task 445 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_fetch)
-NOTE: Running task 446 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.39.1.bb:do_fetch)
-NOTE: Running task 447 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.2.bb:do_fetch)
-NOTE: Running task 448 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_fetch)
-NOTE: Running task 449 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.5.bb:do_fetch)
-NOTE: recipe gmp-6.2.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgpg-error-1.45-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe nettle-3.8-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_fetch: Started
-NOTE: Running task 520 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.7.bb:do_fetch)
-NOTE: Running task 521 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_fetch)
-NOTE: Running task 522 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_fetch)
-NOTE: recipe opkg-utils-0.5.0-r0: task do_fetch: Succeeded
-NOTE: recipe zlib-1.2.12-r0: task do_fetch: Started
-NOTE: recipe file-5.42-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 573 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_unpack)
-NOTE: recipe gdbm-1.23-r0: task do_fetch: Started
-NOTE: recipe libunistring-1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 595 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.4.8.bb:do_fetch)
-NOTE: Running task 599 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.14.bb:do_fetch)
-NOTE: Running task 625 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_fetch)
-NOTE: recipe zlib-1.2.12-r0: task do_fetch: Succeeded
-NOTE: recipe openssl-3.0.5-r0: task do_fetch: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_fetch: Started
-NOTE: Running task 626 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_fetch)
-NOTE: recipe flex-2.6.4-r0: task do_fetch: Started
-NOTE: recipe libtirpc-1.3.2-r0: task do_fetch: Started
-NOTE: Running task 627 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_unpack)
-NOTE: recipe libxcrypt-4.4.28-r0: task do_fetch: Started
-NOTE: Running task 628 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_fetch)
-NOTE: Running task 629 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_fetch)
-NOTE: Running task 630 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_fetch)
-NOTE: Running task 631 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.3.bb:do_fetch)
-NOTE: Running task 632 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.84.0.bb:do_fetch)
-NOTE: Running task 634 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_fetch)
-NOTE: Running task 640 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.64.bb:do_fetch)
-NOTE: Running task 649 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_fetch)
-NOTE: Running task 655 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_fetch)
-NOTE: Running task 675 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_fetch)
-NOTE: Running task 676 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_fetch)
-NOTE: Running task 686 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_write_config)
-NOTE: Running task 690 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/zstd/zstd_1.5.2.bb:do_fetch)
-NOTE: Running task 692 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb:do_fetch)
-NOTE: Running task 700 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_write_config)
-NOTE: Running task 701 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_fetch)
-NOTE: Running task 702 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.42.bb:do_fetch)
-NOTE: Running task 703 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.6.bb:do_fetch)
-NOTE: Running task 705 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_fetch)
-NOTE: Running task 706 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_fetch)
-NOTE: Running task 707 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_fetch)
-NOTE: Running task 708 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_fetch)
-NOTE: Running task 711 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_fetch)
-NOTE: Running task 712 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_fetch)
-NOTE: Running task 714 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_fetch)
-NOTE: Running task 718 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_fetch)
-NOTE: recipe libgpg-error-1.45-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 720 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_fetch)
-NOTE: recipe openssl-3.0.5-r0: task do_fetch: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_fetch: Succeeded
-NOTE: recipe flex-2.6.4-r0: task do_fetch: Succeeded
-NOTE: recipe ncurses-6.3+20220423-r0: task do_fetch: Started
-NOTE: recipe libtirpc-1.3.2-r0: task do_fetch: Succeeded
-NOTE: recipe libffi-3.4.2-r0: task do_fetch: Started
-NOTE: recipe sqlite3-3_3.39.1-r0: task do_fetch: Started
-NOTE: recipe readline-8.1.2-r0: task do_fetch: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_fetch: Started
-NOTE: recipe nettle-3.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 721 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.45.bb:do_fetch)
-NOTE: recipe util-linux-libuuid-native-2.38-r0: task do_fetch: Started
-NOTE: recipe util-linux-libuuid-2.38-r0: task do_fetch: Started
-WARNING: util-linux-libuuid-2.38-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz
-Cleaning and trying again.
-WARNING: util-linux-libuuid-2.38-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz_bad-checksum_6d111cbe4d55b336db2f1fbeffbc65b89908704c01136371d32aa9bec373eb64
-NOTE: Running task 722 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.5.bb:do_unpack)
-NOTE: recipe libffi-3.4.2-r0: task do_fetch: Succeeded
-NOTE: Running task 723 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_unpack)
-NOTE: Running task 724 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_unpack)
-NOTE: Running task 725 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb:do_unpack)
-NOTE: recipe xz-5.2.5-r0: task do_fetch: Started
-NOTE: Running task 726 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.bb:do_fetch)
-NOTE: recipe cracklib-2.9.7-r0: task do_fetch: Started
-NOTE: Running task 727 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_unpack)
-NOTE: recipe sqlite3-3_3.39.1-r0: task do_fetch: Succeeded
-NOTE: Running task 728 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.39.1.bb:do_unpack)
-NOTE: recipe readline-8.1.2-r0: task do_fetch: Succeeded
-NOTE: recipe gmp-6.2.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 729 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.2.bb:do_unpack)
-NOTE: recipe bzip2-1.0.8-r0: task do_fetch: Succeeded
-NOTE: recipe ncurses-6.3+20220423-r0: task do_fetch: Succeeded
-NOTE: recipe libxcrypt-4.4.28-r0: task do_fetch: Succeeded
-NOTE: recipe util-linux-native-2.38.1-r0: task do_fetch: Started
-NOTE: recipe util-linux-native-2.38.1-r0: task do_fetch: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_fetch: Succeeded
-NOTE: recipe libpam-1.5.2-r0: task do_fetch: Started
-NOTE: recipe libpam-1.5.2-r0: task do_fetch: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_fetch: Started
-NOTE: recipe attr-2.5.1-r0: task do_fetch: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_unpack: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 561 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe cracklib-2.9.7-r0: task do_fetch: Succeeded
-NOTE: recipe linux-libc-headers-5.16-r0: task do_patch: Succeeded
-NOTE: Running task 730 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_patch)
-NOTE: recipe python3-3.10.5-r0: task do_fetch: Started
-NOTE: Running task 731 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_unpack)
-NOTE: Running task 732 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb:do_unpack)
-NOTE: Running task 733 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.28.bb:do_unpack)
-NOTE: Running task 734 of 1990 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_unpack)
-NOTE: recipe expat-2.4.8-r0: task do_fetch: Started
-NOTE: Running task 735 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_unpack)
-NOTE: recipe expat-2.4.8-r0: task do_fetch: Succeeded
-NOTE: recipe libxml2-2.9.14-r0: task do_fetch: Started
-NOTE: Running task 736 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.7.bb:do_unpack)
-NOTE: Running task 737 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_unpack)
-NOTE: Running task 738 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_unpack)
-NOTE: recipe libxml2-2.9.14-r0: task do_fetch: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_fetch: Started
-NOTE: recipe bash-completion-2.11-r0: task do_fetch: Succeeded
-NOTE: recipe acl-2.3.1-r0: task do_fetch: Started
-NOTE: recipe acl-2.3.1-r0: task do_fetch: Succeeded
-NOTE: recipe zlib-1.2.12-r0: task do_unpack: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_fetch: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_fetch: Succeeded
-NOTE: recipe libunistring-1.0-r0: task do_fetch: Started
-NOTE: Running noexec task 740 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_configure)
-NOTE: recipe libidn2-2.3.3-r0: task do_fetch: Started
-NOTE: recipe curl-7.84.0-r0: task do_fetch: Started
-NOTE: recipe libcap-2.64-r0: task do_fetch: Started
-NOTE: Running noexec task 741 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_compile)
-NOTE: recipe wayland-1.21.0-r0: task do_fetch: Started
-NOTE: recipe wayland-1.21.0-r0: task do_fetch: Succeeded
-NOTE: recipe zstd-1.5.2-r0: task do_fetch: Started
-NOTE: Running task 742 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_install)
-NOTE: Running task 743 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.4.8.bb:do_unpack)
-NOTE: Running task 744 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_unpack)
-NOTE: recipe libunistring-1.0-r0: task do_fetch: Succeeded
-NOTE: Running task 745 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_unpack)
-NOTE: Running task 746 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_unpack)
-NOTE: Running task 747 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_unpack)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_fetch: Started
-NOTE: recipe xorgproto-2022.1-r0: task do_write_config: Started
-NOTE: Running task 748 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.14.bb:do_unpack)
-NOTE: recipe libcap-2.64-r0: task do_fetch: Succeeded
-NOTE: recipe xorgproto-2022.1-r0: task do_fetch: Started
-NOTE: recipe base-passwd-3.5.52-r0: task do_fetch: Started
-NOTE: recipe libidn2-2.3.3-r0: task do_fetch: Succeeded
-NOTE: recipe curl-7.84.0-r0: task do_fetch: Succeeded
-NOTE: recipe libseccomp-2.5.4-r0: task do_fetch: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_fetch: Succeeded
-NOTE: recipe file-5.42-r0: task do_fetch: Started
-NOTE: recipe gnutls-3.7.6-r0: task do_fetch: Started
-NOTE: Running task 749 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_unpack)
-NOTE: recipe python3-3.10.5-r0: task do_fetch: Succeeded
-NOTE: recipe util-linux-2.38.1-r0: task do_fetch: Started
-NOTE: recipe xorgproto-2022.1-r0: task do_fetch: Succeeded
-NOTE: recipe util-macros-1_1.19.3-r0: task do_fetch: Started
-NOTE: Running task 750 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.64.bb:do_unpack)
-NOTE: recipe util-macros-1_1.19.3-r0: task do_fetch: Succeeded
-NOTE: recipe wayland-1.21.0-r0: task do_write_config: Started
-NOTE: recipe base-passwd-3.5.52-r0: task do_fetch: Succeeded
-NOTE: recipe xorgproto-2022.1-r0: task do_write_config: Succeeded
-NOTE: recipe libpcre-8.45-r0: task do_fetch: Started
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_fetch: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_fetch: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_fetch: Succeeded
-NOTE: recipe xcb-proto-1.15.2-r0: task do_fetch: Started
-NOTE: recipe gnutls-3.7.6-r0: task do_fetch: Succeeded
-NOTE: Running task 751 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.5.bb:do_unpack)
-NOTE: recipe zstd-1.5.2-r0: task do_fetch: Succeeded
-NOTE: recipe libarchive-3.6.1-r0: task do_fetch: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_fetch: Succeeded
-NOTE: recipe xkeyboard-config-2.36-r0: task do_fetch: Started
-NOTE: Running task 752 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.3.bb:do_unpack)
-NOTE: Running task 753 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.84.0.bb:do_unpack)
-NOTE: Running task 754 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_unpack)
-NOTE: Running task 755 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_unpack)
-NOTE: Running task 756 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb:do_unpack)
-NOTE: Running task 757 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.16.bb:do_fetch)
-NOTE: Running task 760 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_30.bb:do_fetch)
-NOTE: recipe libxau-1_1.0.9-r0: task do_fetch: Started
-NOTE: Running task 761 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_unpack)
-NOTE: recipe xkeyboard-config-2.36-r0: task do_fetch: Succeeded
-NOTE: recipe libpcre-8.45-r0: task do_fetch: Succeeded
-NOTE: Running task 762 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/zstd/zstd_1.5.2.bb:do_unpack)
-NOTE: Running task 764 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.11.1.bb:do_fetch)
-NOTE: Running task 767 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_fetch)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_fetch: Started
-NOTE: recipe openssl-3.0.5-r0: task do_unpack: Started
-NOTE: recipe gdbm-1.23-r0: task do_unpack: Started
-NOTE: recipe util-linux-2.38.1-r0: task do_fetch: Succeeded
-NOTE: recipe xcb-proto-1.15.2-r0: task do_fetch: Succeeded
-NOTE: Running task 768 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_fetch)
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_fetch: Succeeded
-NOTE: recipe libxcb-1.15-r0: task do_fetch: Started
-NOTE: Running task 769 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_unpack)
-NOTE: recipe elfutils-0.187-r0: task do_fetch: Started
-NOTE: recipe nettle-3.8-r0: task do_fetch: Started
-NOTE: recipe libxau-1_1.0.9-r0: task do_fetch: Succeeded
-NOTE: recipe sqlite3-3_3.39.1-r0: task do_unpack: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_fetch: Succeeded
-NOTE: Running task 770 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_unpack)
-NOTE: recipe libffi-3.4.2-r0: task do_unpack: Started
-NOTE: Running task 772 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.6.bb:do_unpack)
-NOTE: Running task 775 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_unpack)
-NOTE: recipe wayland-1.21.0-r0: task do_write_config: Succeeded
-NOTE: Running task 776 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_unpack)
-NOTE: recipe libseccomp-2.5.4-r0: task do_fetch: Succeeded
-NOTE: recipe libtirpc-1.3.2-r0: task do_unpack: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_patch: Started
-NOTE: Running task 777 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_unpack)
-NOTE: recipe libxcb-1.15-r0: task do_fetch: Succeeded
-NOTE: recipe file-5.42-r0: task do_fetch: Succeeded
-NOTE: recipe nettle-3.8-r0: task do_fetch: Succeeded
-NOTE: recipe elfutils-0.187-r0: task do_fetch: Succeeded
-NOTE: recipe flex-2.6.4-r0: task do_unpack: Started
-NOTE: Running task 778 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_unpack)
-NOTE: recipe linux-libc-headers-5.16-r0: task do_install: Started
-NOTE: recipe libgpg-error-1.45-r0: task do_fetch: Started
-NOTE: Running task 779 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_unpack)
-NOTE: recipe ncurses-6.3+20220423-r0: task do_unpack: Started
-NOTE: Running task 780 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.bb:do_unpack)
-NOTE: Running task 781 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.42.bb:do_unpack)
-NOTE: Running task 782 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_fetch)
-NOTE: Running task 783 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_unpack)
-NOTE: recipe libxcrypt-4.4.28-r0: task do_unpack: Started
-NOTE: recipe readline-8.1.2-r0: task do_unpack: Started
-NOTE: recipe gmp-6.2.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libgpg-error-1.45-r0: task do_fetch: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_unpack: Succeeded
-NOTE: Running task 784 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.45.bb:do_unpack)
-NOTE: recipe xz-5.2.5-r0: task do_fetch: Succeeded
-NOTE: recipe libpam-1.5.2-r0: task do_unpack: Started
-NOTE: recipe attr-2.5.1-r0: task do_unpack: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_unpack: Started
-NOTE: recipe cracklib-2.9.7-r0: task do_unpack: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_unpack: Started
-WARNING: util-linux-libuuid-2.38-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz
-Cleaning and trying again.
-WARNING: util-linux-libuuid-2.38-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz_bad-checksum_6d111cbe4d55b336db2f1fbeffbc65b89908704c01136371d32aa9bec373eb64
-NOTE: recipe libffi-3.4.2-r0: task do_unpack: Succeeded
-WARNING: util-linux-libuuid-2.38-r0 do_fetch: Checksum failure encountered with download of https://cdn.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.tar.xz - will attempt other sources if available
-NOTE: Running task 785 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_patch)
-NOTE: recipe sqlite3-3_3.39.1-r0: task do_unpack: Succeeded
-NOTE: Running task 786 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_patch)
-NOTE: Running task 787 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_unpack)
-NOTE: Running task 788 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.39.1.bb:do_patch)
-NOTE: recipe gmp-6.2.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe zlib-1.2.12-r0: task do_unpack: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 789 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_fetch)
-NOTE: recipe attr-2.5.1-r0: task do_unpack: Succeeded
-NOTE: recipe libtirpc-1.3.2-r0: task do_unpack: Succeeded
-NOTE: Running task 790 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_patch)
-NOTE: recipe flex-2.6.4-r0: task do_unpack: Succeeded
-NOTE: recipe readline-8.1.2-r0: task do_unpack: Succeeded
-NOTE: recipe util-linux-native-2.38.1-r0: task do_unpack: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_patch: Succeeded
-NOTE: Running task 792 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_patch)
-NOTE: Running task 793 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb:do_patch)
-NOTE: recipe libpam-1.5.2-r0: task do_unpack: Succeeded
-NOTE: Running task 794 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.2.bb:do_patch)
-NOTE: recipe libxcrypt-4.4.28-r0: task do_unpack: Succeeded
-NOTE: Running task 795 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_patch)
-NOTE: Running task 796 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.28.bb:do_patch)
-NOTE: recipe libnsl2-2.0.0-r0: task do_unpack: Succeeded
-NOTE: recipe openssl-3.0.5-r0: task do_unpack: Succeeded
-NOTE: recipe cracklib-2.9.7-r0: task do_unpack: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_unpack: Succeeded
-NOTE: recipe ncurses-6.3+20220423-r0: task do_unpack: Succeeded
-NOTE: Running task 797 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.5.bb:do_patch)
-NOTE: Running task 798 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_patch)
-NOTE: Running task 799 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb:do_patch)
-NOTE: Running task 800 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_patch)
-NOTE: Running task 801 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.7.bb:do_patch)
-NOTE: Running task 802 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_patch)
-NOTE: Running task 803 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_unpack)
-NOTE: recipe bash-completion-2.11-r0: task do_unpack: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_unpack: Started
-NOTE: recipe expat-2.4.8-r0: task do_unpack: Started
-NOTE: recipe acl-2.3.1-r0: task do_unpack: Started
-NOTE: recipe libxml2-2.9.14-r0: task do_unpack: Started
-NOTE: recipe libcap-2.64-r0: task do_unpack: Started
-NOTE: recipe wayland-1.21.0-r0: task do_unpack: Started
-NOTE: recipe libunistring-1.0-r0: task do_unpack: Started
-NOTE: recipe libidn2-2.3.3-r0: task do_unpack: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_unpack: Started
-NOTE: recipe xorgproto-2022.1-r0: task do_unpack: Started
-NOTE: recipe base-passwd-3.5.52-r0: task do_unpack: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_unpack: Succeeded
-NOTE: recipe util-macros-1_1.19.3-r0: task do_unpack: Started
-NOTE: recipe curl-7.84.0-r0: task do_unpack: Started
-NOTE: recipe zstd-1.5.2-r0: task do_unpack: Started
-NOTE: recipe util-linux-native-2.38.1-r0: task do_unpack: Succeeded
-NOTE: recipe kmod-30-r0: task do_fetch: Started
-NOTE: Running task 804 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_patch)
-NOTE: recipe bash-5.1.16-r0: task do_fetch: Started
-NOTE: recipe initscripts-1.0-r155: task do_fetch: Started
-NOTE: Running task 805 of 1990 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_patch)
-NOTE: recipe util-macros-1_1.19.3-r0: task do_unpack: Succeeded
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_fetch: Started
-NOTE: recipe acl-2.3.1-r0: task do_unpack: Succeeded
-NOTE: recipe libpcre-8.45-r0: task do_unpack: Started
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_fetch: Succeeded
-NOTE: Running task 806 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_patch)
-NOTE: Running task 807 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_patch)
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_unpack: Started
-NOTE: recipe shadow-4.11.1-r0: task do_fetch: Started
-NOTE: Running task 815 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_unpack)
-NOTE: recipe initscripts-1.0-r155: task do_fetch: Succeeded
-NOTE: recipe gnutls-3.7.6-r0: task do_unpack: Started
-NOTE: recipe python3-3.10.5-r0: task do_unpack: Started
-NOTE: Running task 821 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.3.bb:do_fetch)
-NOTE: recipe shadow-4.11.1-r0: task do_fetch: Succeeded
-NOTE: recipe libpthread-stubs-0.4-r0: task do_unpack: Started
-NOTE: recipe libxau-1_1.0.9-r0: task do_unpack: Started
-NOTE: recipe expat-2.4.8-r0: task do_unpack: Succeeded
-NOTE: recipe libseccomp-2.5.4-r0: task do_unpack: Started
-NOTE: recipe libcap-2.64-r0: task do_unpack: Succeeded
-NOTE: recipe util-linux-2.38.1-r0: task do_unpack: Started
-NOTE: recipe xcb-proto-1.15.2-r0: task do_unpack: Started
-NOTE: recipe nettle-3.8-r0: task do_unpack: Started
-NOTE: recipe file-5.42-r0: task do_unpack: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_unpack: Started
-NOTE: Running task 824 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_unpack)
-NOTE: recipe libpthread-stubs-0.4-r0: task do_unpack: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_unpack: Succeeded
-NOTE: recipe wayland-1.21.0-r0: task do_unpack: Succeeded
-NOTE: Running task 825 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.4.8.bb:do_patch)
-NOTE: recipe libgpg-error-1.45-r0: task do_unpack: Started
-NOTE: recipe libffi-3.4.2-r0: task do_patch: Started
-NOTE: recipe sqlite3-3_3.39.1-r0: task do_patch: Started
-NOTE: Running task 826 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_patch)
-NOTE: recipe coreutils-9.1-r0: task do_fetch: Started
-NOTE: recipe gdbm-1.23-r0: task do_patch: Started
-NOTE: recipe xz-5.2.5-r0: task do_unpack: Started
-NOTE: Running task 827 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.64.bb:do_patch)
-NOTE: Running task 828 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_patch)
-NOTE: Running task 829 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_patch)
-NOTE: recipe libidn2-2.3.3-r0: task do_unpack: Succeeded
-NOTE: recipe gmp-6.2.1-r0: task do_fetch: Started
-NOTE: recipe zlib-1.2.12-r0: task do_patch: Started
-NOTE: recipe readline-8.1.2-r0: task do_patch: Started
-NOTE: Running task 830 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.3.bb:do_patch)
-NOTE: recipe libtirpc-1.3.2-r0: task do_patch: Started
-NOTE: recipe gmp-6.2.1-r0: task do_fetch: Succeeded
-NOTE: recipe libxcrypt-4.4.28-r0: task do_patch: Started
-NOTE: recipe flex-2.6.4-r0: task do_patch: Started
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_unpack: Succeeded
-NOTE: recipe libunistring-1.0-r0: task do_unpack: Succeeded
-NOTE: recipe base-passwd-3.5.52-r0: task do_unpack: Succeeded
-NOTE: Running task 831 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_unpack)
-NOTE: recipe libpam-1.5.2-r0: task do_patch: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_patch: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_unpack: Succeeded
-NOTE: Running task 832 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_patch)
-NOTE: Running task 833 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb:do_patch)
-NOTE: Running task 834 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_patch)
-NOTE: recipe openssl-3.0.5-r0: task do_patch: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_patch: Started
-NOTE: recipe cracklib-2.9.7-r0: task do_patch: Started
-NOTE: recipe ncurses-6.3+20220423-r0: task do_patch: Started
-NOTE: Running task 835 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_patch)
-NOTE: recipe xz-5.2.5-r0: task do_unpack: Succeeded
-NOTE: recipe libxau-1_1.0.9-r0: task do_unpack: Succeeded
-NOTE: recipe libarchive-3.6.1-r0: task do_unpack: Started
-NOTE: recipe attr-2.5.1-r0: task do_patch: Started
-NOTE: Running task 836 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_patch)
-NOTE: recipe libcap-ng-0.8.3-r0: task do_patch: Started
-NOTE: Running task 837 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_patch)
-NOTE: recipe bash-5.1.16-r0: task do_fetch: Succeeded
-NOTE: recipe xcb-proto-1.15.2-r0: task do_unpack: Succeeded
-NOTE: recipe sqlite3-3_3.39.1-r0: task do_patch: Succeeded
-NOTE: recipe nettle-3.8-r0: task do_unpack: Succeeded
-NOTE: recipe xorgproto-2022.1-r0: task do_unpack: Succeeded
-NOTE: Running task 838 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_patch)
-NOTE: recipe util-macros-1_1.19.3-r0: task do_patch: Started
-NOTE: recipe kmod-30-r0: task do_fetch: Succeeded
-NOTE: Running task 840 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.bb:do_patch)
-NOTE: Running task 841 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_patch)
-NOTE: recipe acl-2.3.1-r0: task do_patch: Started
-NOTE: Running task 843 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_unpack)
-NOTE: Running task 845 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.16.bb:do_unpack)
-NOTE: recipe elfutils-0.187-r0: task do_unpack: Started
-NOTE: Running task 846 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_30.bb:do_unpack)
-NOTE: recipe libtirpc-1.3.2-r0: task do_patch: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_patch: Succeeded
-NOTE: recipe util-linux-native-2.38.1-r0: task do_patch: Started
-NOTE: recipe xkeyboard-config-2.36-r0: task do_unpack: Started
-NOTE: recipe expat-2.4.8-r0: task do_patch: Started
-NOTE: recipe libcap-2.64-r0: task do_patch: Started
-NOTE: recipe coreutils-9.1-r0: task do_fetch: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_patch: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_patch: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_patch: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_patch: Started
-NOTE: recipe systemd-1_251.3-r0: task do_fetch: Started
-NOTE: recipe attr-2.5.1-r0: task do_patch: Succeeded
-NOTE: recipe wayland-1.21.0-r0: task do_patch: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_patch: Succeeded
-NOTE: recipe util-macros-1_1.19.3-r0: task do_patch: Succeeded
-NOTE: recipe libxcrypt-4.4.28-r0: task do_patch: Succeeded
-NOTE: recipe libffi-3.4.2-r0: task do_patch: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_patch: Succeeded
-NOTE: recipe libidn2-2.3.3-r0: task do_patch: Started
-NOTE: recipe libpcre-8.45-r0: task do_unpack: Succeeded
-NOTE: recipe libgpg-error-1.45-r0: task do_unpack: Succeeded
-NOTE: recipe gmp-6.2.1-r0: task do_unpack: Started
-NOTE: recipe libunistring-1.0-r0: task do_patch: Started
-NOTE: recipe base-passwd-3.5.52-r0: task do_patch: Started
-NOTE: Running task 856 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.45.bb:do_patch)
-NOTE: Running task 860 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_patch)
-NOTE: Running task 864 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.11.1.bb:do_unpack)
-NOTE: Running task 872 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_unpack)
-NOTE: Running task 873 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_unpack)
-NOTE: Running task 878 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_unpack)
-NOTE: recipe libarchive-3.6.1-r0: task do_unpack: Succeeded
-NOTE: Running task 893 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_patch)
-NOTE: recipe libpam-1.5.2-r0: task do_patch: Succeeded
-NOTE: recipe systemd-1_251.3-r0: task do_fetch: Succeeded
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_patch: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_patch: Started
-NOTE: recipe expat-2.4.8-r0: task do_patch: Succeeded
-NOTE: recipe readline-8.1.2-r0: task do_patch: Succeeded
-NOTE: recipe curl-7.84.0-r0: task do_unpack: Succeeded
-NOTE: Running task 903 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.3.bb:do_unpack)
-NOTE: Running task 904 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_write_config)
-NOTE: Running task 921 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libpthread-stubs-0.4-r0: task do_patch: Succeeded
-NOTE: Running task 923 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.84.0.bb:do_patch)
-NOTE: Running task 924 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_write_config)
-NOTE: recipe zstd-1.5.2-r0: task do_unpack: Succeeded
-NOTE: recipe xz-5.2.5-r0: task do_patch: Started
-NOTE: recipe libxau-1_1.0.9-r0: task do_patch: Started
-NOTE: Running task 945 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.4.8.bb:do_generate_toolchain_file)
-NOTE: recipe xcb-proto-1.15.2-r0: task do_patch: Started
-NOTE: Running task 951 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.3.bb:do_warn_musl)
-NOTE: Running task 952 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.3.bb:do_write_config)
-NOTE: Running task 960 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_fetch)
-NOTE: Running task 964 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_fetch)
-NOTE: Running task 965 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/iptables/iptables_1.8.8.bb:do_fetch)
-NOTE: Running task 979 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/iproute2/iproute2_5.18.0.bb:do_fetch)
-NOTE: Running task 1014 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/zstd/zstd_1.5.2.bb:do_patch)
-NOTE: recipe libxcb-1.15-r0: task do_unpack: Started
-NOTE: recipe nettle-3.8-r0: task do_patch: Started
-NOTE: recipe xorgproto-2022.1-r0: task do_patch: Started
-NOTE: Running task 1024 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/psmisc/psmisc_23.5.bb:do_fetch)
-NOTE: recipe xkeyboard-config-2.36-r0: task do_unpack: Succeeded
-NOTE: recipe wayland-1.21.0-r0: task do_patch: Succeeded
-NOTE: recipe libidn2-2.3.3-r0: task do_patch: Succeeded
-WARNING: util-linux-libuuid-2.38-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz
-Cleaning and trying again.
-WARNING: util-linux-libuuid-2.38-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz_bad-checksum_6d111cbe4d55b336db2f1fbeffbc65b89908704c01136371d32aa9bec373eb64
-NOTE: recipe kmod-30-r0: task do_unpack: Started
-NOTE: recipe bash-5.1.16-r0: task do_unpack: Started
-NOTE: recipe initscripts-1.0-r155: task do_unpack: Started
-NOTE: Running task 1025 of 1990 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_patch)
-NOTE: recipe libunistring-1.0-r0: task do_patch: Succeeded
-NOTE: recipe libseccomp-2.5.4-r0: task do_unpack: Succeeded
-NOTE: recipe cracklib-2.9.7-r0: task do_patch: Succeeded
-NOTE: recipe util-linux-libuuid-2.38-r0: task do_fetch: Failed
-NOTE: recipe file-5.42-r0: task do_unpack: Succeeded
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_patch: Succeeded
-NOTE: recipe libgpg-error-1.45-r0: task do_patch: Started
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_unpack: Started
-NOTE: recipe libpcre-8.45-r0: task do_patch: Started
-NOTE: recipe shadow-4.11.1-r0: task do_unpack: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_patch: Started
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_patch: Succeeded
-NOTE: recipe acl-2.3.1-r0: task do_patch: Succeeded
-NOTE: recipe initscripts-1.0-r155: task do_prepare_recipe_sysroot: Started
-NOTE: recipe xkeyboard-config-2.36-r0: task do_write_config: Started
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_write_config: Started
-NOTE: recipe zlib-1.2.12-r0: task do_patch: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_unpack: Started
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_fetch: Started
-NOTE: recipe libcap-2.64-r0: task do_patch: Succeeded
-NOTE: recipe libmnl-1.0.5-r0: task do_fetch: Started
-NOTE: recipe libxau-1_1.0.9-r0: task do_patch: Succeeded
-NOTE: recipe initscripts-1.0-r155: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe curl-7.84.0-r0: task do_patch: Started
-NOTE: recipe expat-2.4.8-r0: task do_generate_toolchain_file: Started
-NOTE: recipe zstd-1.5.2-r0: task do_patch: Started
-NOTE: recipe iptables-1.8.8-r0: task do_fetch: Started
-NOTE: recipe iproute2-5.18.0-r0: task do_fetch: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_fetch: Succeeded
-NOTE: recipe flex-2.6.4-r0: task do_patch: Succeeded
-NOTE: recipe xorgproto-2022.1-r0: task do_patch: Succeeded
-NOTE: recipe openssl-3.0.5-r0: task do_patch: Succeeded
-NOTE: recipe xkeyboard-config-2.36-r0: task do_write_config: Succeeded
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_write_config: Succeeded
-NOTE: recipe iproute2-5.18.0-r0: task do_fetch: Succeeded
-NOTE: recipe systemd-1_251.3-r0: task do_unpack: Started
-NOTE: recipe xz-5.2.5-r0: task do_patch: Succeeded
-NOTE: recipe xkeyboard-config-2.36-r0: task do_patch: Started
-NOTE: recipe libxcb-1.15-r0: task do_unpack: Succeeded
-NOTE: recipe xcb-proto-1.15.2-r0: task do_patch: Succeeded
-NOTE: recipe ncurses-6.3+20220423-r0: task do_patch: Succeeded
-NOTE: recipe iptables-1.8.8-r0: task do_fetch: Succeeded
-NOTE: recipe expat-2.4.8-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_fetch: Succeeded
-NOTE: recipe psmisc-23.5-r0: task do_fetch: Started
-NOTE: recipe systemd-1_251.3-r0: task do_write_config: Started
-NOTE: recipe libpcre-8.45-r0: task do_patch: Succeeded
-NOTE: recipe systemd-1_251.3-r0: task do_warn_musl: Started
-NOTE: recipe systemd-1_251.3-r0: task do_warn_musl: Succeeded
-NOTE: recipe libgcrypt-1.10.1-r0: task do_unpack: Succeeded
-NOTE: recipe xkeyboard-config-2.36-r0: task do_patch: Succeeded
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_unpack: Succeeded
-NOTE: recipe libxml2-2.9.14-r0: task do_unpack: Succeeded
-NOTE: recipe zstd-1.5.2-r0: task do_patch: Succeeded
-NOTE: recipe psmisc-23.5-r0: task do_fetch: Succeeded
-NOTE: recipe util-linux-native-2.38.1-r0: task do_patch: Succeeded
-NOTE: recipe systemd-1_251.3-r0: task do_write_config: Succeeded
-NOTE: recipe libarchive-3.6.1-r0: task do_patch: Succeeded
-WARNING: util-linux-libuuid-native-2.38-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz
-Cleaning and trying again.
-WARNING: util-linux-libuuid-native-2.38-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz_bad-checksum_6d111cbe4d55b336db2f1fbeffbc65b89908704c01136371d32aa9bec373eb64
-NOTE: recipe initscripts-1.0-r155: task do_unpack: Succeeded
-WARNING: util-linux-libuuid-native-2.38-r0 do_fetch: Checksum failure encountered with download of https://cdn.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.tar.xz - will attempt other sources if available
-NOTE: recipe curl-7.84.0-r0: task do_patch: Succeeded
-NOTE: recipe libgpg-error-1.45-r0: task do_patch: Succeeded
-NOTE: recipe shadow-4.11.1-r0: task do_unpack: Succeeded
-NOTE: recipe nettle-3.8-r0: task do_patch: Succeeded
-NOTE: recipe gnutls-3.7.6-r0: task do_unpack: Succeeded
-NOTE: recipe bash-5.1.16-r0: task do_unpack: Succeeded
-NOTE: recipe kmod-30-r0: task do_unpack: Succeeded
-NOTE: recipe util-linux-2.38.1-r0: task do_unpack: Succeeded
-NOTE: recipe base-passwd-3.5.52-r0: task do_patch: Succeeded
-NOTE: recipe gmp-6.2.1-r0: task do_unpack: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_unpack: Succeeded
-NOTE: recipe elfutils-0.187-r0: task do_unpack: Succeeded
-NOTE: recipe systemd-1_251.3-r0: task do_unpack: Succeeded
-NOTE: recipe python3-3.10.5-r0: task do_unpack: Succeeded
-NOTE: recipe linux-libc-headers-5.16-r0: task do_install: Succeeded
-WARNING: util-linux-libuuid-native-2.38-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz
-Cleaning and trying again.
-WARNING: util-linux-libuuid-native-2.38-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz_bad-checksum_6d111cbe4d55b336db2f1fbeffbc65b89908704c01136371d32aa9bec373eb64
-NOTE: recipe util-linux-libuuid-native-2.38-r0: task do_fetch: Failed
-NOTE: Tasks Summary: Attempted 1048 tasks of which 872 didn't need to be rerun and 2 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
+packages/core2-32-poky-linux/kea/kea-dbg: FILELIST: removed "/usr/lib/.debug/libkea-hooks.so.40.0.0 /usr/lib/.debug/libkea-eval.so.27.0.0 /usr/lib/.debug/libkea-cfgclient.so.25.0.0 /usr/lib/.debug/libkea-dhcp++.so.36.0.0 /usr/lib/.debug/libkea-dhcp_ddns.so.18.0.0 /usr/lib/.debug/libkea-dhcpsrv.so.51.0.0 /usr/lib/.debug/libkea-asiodns.so.14.0.0 /usr/lib/.debug/libkea-database.so.23.0.0 /usr/lib/.debug/libkea-dns++.so.19.0.0 /usr/lib/.debug/libkea-process.so.29.0.0 /usr/lib/.debug/libkea-d2srv.so.4.0.0 /usr/lib/.debug/libkea-http.so.30.0.0 /usr/lib/.debug/libkea-cc.so.25.0.0 /usr/lib/.debug/libkea-cryptolink.so.16.0.0 /usr/lib/.debug/libkea-log.so.22.0.0 /usr/lib/.debug/libkea-util.so.36.0.0 /usr/lib/.debug/libkea-asiolink.so.27.0.0", added "/usr/lib/.debug/libkea-http.so.42.0.0 /usr/lib/.debug/libkea-asiodns.so.24.0.0 /usr/lib/.debug/libkea-hooks.so.57.0.0 /usr/lib/.debug/libkea-dhcp++.so.54.0.0 /usr/lib/.debug/libkea-dhcp_ddns.so.29.0.0 /usr/lib/.debug/libkea-cfgclient.so.36.0.0 /usr
+ /lib/.debug/libkea-database.so.35.0.0 /usr/lib/.debug/libkea-dhcpsrv.so.69.0.0 /usr/lib/.debug/libkea-process.so.40.0.0 /usr/lib/.debug/libkea-cryptolink.so.28.0.0 /usr/lib/.debug/libkea-cc.so.39.0.0 /usr/lib/.debug/libkea-d2srv.so.16.0.0 /usr/lib/.debug/libkea-asiolink.so.40.0.0 /usr/lib/.debug/libkea-eval.so.39.0.0 /usr/lib/.debug/libkea-util.so.52.0.0 /usr/lib/.debug/libkea-dns++.so.30.0.0 /usr/lib/.debug/libkea-log.so.35.0.0"
+packages/core2-32-poky-linux/kea/kea-dbg: PKGSIZE changed from 264770748 to 271343268 (+2%)
+packages/core2-32-poky-linux/kea/kea-dbg: PV changed from "2.0.2" to "2.2.0"
+packages/core2-32-poky-linux/kea/kea-dbg: PKGV changed from 2.0.2 [default] to 2.2.0 [default]
+packages/core2-32-poky-linux/kea/kea-dev: FILELIST: removed "/usr/include/kea/dhcpsrv/triplet.h", added "/usr/include/kea/util/dhcp_space.h /usr/include/kea/dhcpsrv/memfile_lease_limits.h /usr/include/kea/dhcp/pkt_template.h /usr/include/kea/util/file_utilities.h /usr/include/kea/util/reconnect_ctl.h /usr/include/kea/util/triplet.h"
+packages/core2-32-poky-linux/kea/kea-dev: PKGSIZE changed from 3727892 to 3788213 (+2%)
+packages/core2-32-poky-linux/kea/kea-dev: PV changed from "2.0.2" to "2.2.0"
+packages/core2-32-poky-linux/kea/kea-dev: PKGV changed from 2.0.2 [default] to 2.2.0 [default]
+packages/core2-32-poky-linux/kea/kea-doc: FILELIST: removed "/usr/share/doc/kea/examples/kea6/cassandra.json /usr/share/doc/kea/examples/kea4/cassandra.json", added "/usr/share/doc/kea/examples/agent/rbac.json"
+packages/core2-32-poky-linux/kea/kea-doc: PKGSIZE changed from 1162901 to 1196793 (+3%)
+packages/core2-32-poky-linux/kea/kea-doc: PV changed from "2.0.2" to "2.2.0"
+packages/core2-32-poky-linux/kea/kea-doc: PKGV changed from 2.0.2 [default] to 2.2.0 [default]
+packages/core2-32-poky-linux/kea/kea-locale: PV changed from "2.0.2" to "2.2.0"
+packages/core2-32-poky-linux/kea/kea-locale: PKGV changed from 2.0.2 [default] to 2.2.0 [default]
+packages/core2-32-poky-linux/kea/kea-src: FILELIST: directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/process -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/process, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/hooks/dhcp/lease_cmds -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/hooks/dhcp/lease_cmds, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/database -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/database, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/bin/d2 -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/bin/d2, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/config -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/config, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/hooks/dhcp/flex_option -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/hooks/dhcp/flex_option, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/hooks/dhcp/high_availability -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/
+ hooks/dhcp/high_availability, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dns/rdata/generic/detail -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dns/rdata/generic/detail, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcp_ddns -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcp_ddns, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/io -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/io, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/exceptions -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/exceptions, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/hooks/dhcp/run_script -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/hooks/dhcp/run_script, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/asiodns -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/asiodns, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/cc -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/cc, dir
+ ectory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dns -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dns, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/config_backend -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/config_backend, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/bin/dhcp6 -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/bin/dhcp6, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/bin/agent -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/bin/agent, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/stats -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/stats, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/http -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/http, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/cryptolink -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/cryptolink, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/bin/lfc -> /usr/src/debug/kea/2.2.0-
+ r0/kea-2.2.0/src/bin/lfc, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/hooks -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/hooks, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/log/interprocess -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/log/interprocess, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/parsers -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/parsers, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/log -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/log, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/hooks/dhcp/stat_cmds -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/hooks/dhcp/stat_cmds, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/cfgrpt -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/cfgrpt, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/encode -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/encode, directory renam
+ ed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/bin/dhcp4 -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/bin/dhcp4, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/eval -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/eval, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/hooks/dhcp/bootp -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/hooks/dhcp/bootp, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/d2srv -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/d2srv, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcp -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcp, directory renamed /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/asiolink -> /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/asiolink, directory renamed /usr/src/debug/kea/2.0.2-r0/build/src/lib/cfgrpt -> /usr/src/debug/kea/2.2.0-r0/build/src/lib/cfgrpt, removed "/usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/triplet.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/d
+ hcpsrv/cfg_multi_threading.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/host_container.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/csv_lease_file4.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/client_class_def.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/csv_lease_file6.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/subnet_selector.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/utils.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/thread_pool.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/dhcp4o6_ipc.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/dhcpsrv_log.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_rsoo.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/lease_mgr_factory.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/io_utilities.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/stopwatch.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_4o6.cc /usr/src
+ /debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/subnet.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/host.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_option.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_db_access.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/dhcpsrv_log.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/labeled_value.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/stopwatch_impl.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/free_lease_queue.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_host_operations.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/memory_segment_local.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/pointer_util.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/lease_mgr.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/hosts_messages.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/memfile_lease_mgr.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0
+ .2/src/lib/util/staged_value.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/labeled_value.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/csv_lease_file4.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/time_utilities.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/alloc_engine_messages.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/config_backend_dhcp6_mgr.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/watch_socket.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/optional.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_mac_source.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/chrono_time_utils.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/ncr_generator.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/csv_file.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/buffer.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_hosts.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_host_opera
+ tions.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/timer_mgr.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/range_utilities.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/stopwatch.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/stopwatch_impl.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/strutil.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/ncr_generator.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cb_ctl_dhcp4.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/unlock_guard.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cb_ctl_dhcp6.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/d2_client_mgr.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/shared_network.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cb_ctl_dhcp.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/host_data_source_factory.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/sanity_checker.cc /usr/src/debug/kea/2.
+ 0.2-r0/kea-2.0.2/src/lib/dhcpsrv/config_backend_pool_dhcp4.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/free_lease_queue.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/resource_handler.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/lease_mgr_factory.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/config_backend_dhcp4_mgr.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/config_backend_dhcp6.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/srv_config.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/filename.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_mac_source.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/alloc_engine.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cb_ctl_dhcp6.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/d2_client_mgr.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/memory_segment_local.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfgmgr.h /usr/
+ src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_iface.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/memfile_lease_mgr.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/versioned_csv_file.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/timer_mgr.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/writable_host_data_source.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/csv_file.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/state_model.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_hosts.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/config_backend_pool_dhcp6.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/hosts_log.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/chrono_time_utils.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/boost_time_utils.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfgmgr.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/d2_client_cfg.h /usr/src/debug/kea/2.
+ 0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_consistency.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_subnets4.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/host_data_source_factory.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/dhcpsrv_exceptions.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/pid_file.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/key_from_key.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/alloc_engine_log.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/dhcpsrv_messages.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/multi_threading_mgr.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_duid.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/host_mgr.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/ip_range_permutation.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/lease.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_rsoo.h /usr/src/debug/kea/2.0.2-r0/kea-
+ 2.0.2/src/lib/dhcpsrv/network_state.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/pool.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/config_backend_dhcp6_mgr.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/filename.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_4o6.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/readwrite_mutex.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/ip_range.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/pid_file.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/alloc_engine_log.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cache_host_data_source.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/alloc_engine_messages.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_subnets6.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/dhcp4o6_ipc.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/subnet.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/confi
+ g_backend_pool_dhcp4.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/host_mgr.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_shared_networks.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_subnets4.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/watched_thread.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_duid.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/alloc_engine.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_option_def.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/strutil.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/config_backend_dhcp4.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_hosts_util.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_subnets6.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/network.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/multi_threading_mgr.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_multi_threa
+ ding.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/ip_range_permutation.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/callout_handle_store.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/versioned_csv_file.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/d2_client_cfg.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/lease_file_loader.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/hosts_messages.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/lease_mgr.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/pool.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_shared_networks.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/boost_time_utils.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_option.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/watch_socket.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/hosts_log.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/ip_range.cc /us
+ r/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/network_state.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_option_def.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/dhcpsrv_messages.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/sanity_checker.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/lease.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/config_backend_dhcp4_mgr.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_db_access.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_consistency.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_expiration.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/time_utilities.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/state_model.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/network.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cb_ctl_dhcp4.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/base_host_data_source.h /usr/src
+ /debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/srv_config.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_hosts_util.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/shared_network.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/host.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_iface.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/memfile_lease_storage.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/lease_file_stats.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/watched_thread.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/subnet_id.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/client_class_def.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/csv_lease_file6.cc /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/resource_handler.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/dhcpsrv/cfg_expiration.h /usr/src/debug/kea/2.0.2-r0/kea-2.0.2/src/lib/util/memory_segment.h /usr/src/debug/kea/2.0.
+ 2-r0/kea-2.0.2/src/lib/dhcpsrv/config_backend_pool_dhcp6.h", added "/usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_db_access.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/dhcp_space.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cb_ctl_dhcp6.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/lease.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/io_utilities.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/config_backend_dhcp6.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/config_backend_dhcp4_mgr.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/sanity_checker.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/ip_range_permutation.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_duid.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/memfile_lease_limits.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/host_mgr.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_mac_source.cc /usr/src/
+ debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_globals.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/unlock_guard.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/writable_host_data_source.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_host_operations.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_hosts.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/base_host_data_source.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/config_backend_pool_dhcp4.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/watched_thread.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfgmgr.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/alloc_engine.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/config_backend_pool_dhcp6.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/pool.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/d2_client_cfg.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/buffer.h /usr/src/de
+ bug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/dhcpsrv_log.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_hosts_util.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/dhcp4o6_ipc.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/timer_mgr.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/state_model.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_hosts_util.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/watch_socket.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_iface.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/dhcpsrv_messages.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_4o6.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_rsoo.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/staged_value.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/ip_range.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/filename.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_expira
+ tion.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/lease_mgr_factory.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/host_data_source_factory.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/pid_file.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/ncr_generator.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/thread_pool.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/stopwatch_impl.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/resource_handler.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/config_backend_dhcp6_mgr.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/d2_client_mgr.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_expiration.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/time_utilities.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/client_class_def.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/network_state.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/c
+ fg_option.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/triplet.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/free_lease_queue.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/config_backend_dhcp4_mgr.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/d2_client_mgr.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/strutil.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/dhcpsrv_log.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/versioned_csv_file.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/multi_threading_mgr.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/strutil.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cb_ctl_dhcp6.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_host_operations.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_option.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_globals.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_mac_source.h /usr/s
+ rc/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_rsoo.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/ncr_generator.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/subnet.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/time_utilities.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/ip_range.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/alloc_engine_log.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_subnets6.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/labeled_value.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/timer_mgr.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_consistency.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/memory_segment.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/memfile_lease_storage.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_db_access.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/host_container.h /usr/src/debug/kea/2.2.0-r0/kea-
+ 2.2.0/src/lib/util/watch_socket.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/shared_network.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/lease_file_stats.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/state_model.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/network.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/host_mgr.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/file_utilities.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/csv_file.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_consistency.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/filename.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/lease_mgr.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/config_backend_dhcp4.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/shared_network.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/csv_file.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/lease_mgr_factory.cc /usr/
+ src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/chrono_time_utils.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/lease.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/srv_config.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/file_utilities.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_option_def.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/watched_thread.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/d2_client_cfg.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_iface.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/alloc_engine_log.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/alloc_engine_messages.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/csv_lease_file4.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/ip_range_permutation.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/dhcpsrv_messages.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/stopwatch.h /usr/src/debug
+ /kea/2.2.0-r0/kea-2.2.0/src/lib/util/memory_segment_local.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cb_ctl_dhcp4.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/resource_handler.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/versioned_csv_file.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_subnets6.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/dhcp4o6_ipc.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/dhcpsrv_exceptions.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/csv_lease_file4.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_subnets4.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/labeled_value.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/network_state.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_shared_networks.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_multi_threading.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/config_backend_pool_dhcp6
+ .cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/boost_time_utils.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/sanity_checker.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_4o6.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfgmgr.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/range_utilities.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/stopwatch_impl.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/key_from_key.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/hosts_messages.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/config_backend_dhcp6_mgr.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/config_backend_pool_dhcp4.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cb_ctl_dhcp4.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/boost_time_utils.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/memory_segment_local.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/lease_file_lo
+ ader.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/subnet.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/pool.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/lease_mgr.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/host.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_multi_threading.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/memfile_lease_limits.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cb_ctl_dhcp.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/host_data_source_factory.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cache_host_data_source.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/csv_lease_file6.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/readwrite_mutex.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/srv_config.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_duid.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/chrono_time_utils.h /usr/src/de
+ bug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/hosts_log.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/csv_lease_file6.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/host.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/free_lease_queue.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/alloc_engine_messages.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/network.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_shared_networks.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_option_def.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/subnet_selector.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/reconnect_ctl.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_subnets4.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/hosts_log.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/hosts_messages.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/optional.h /usr/src/debug/kea/2.2.0-r0/kea-
+ 2.2.0/src/lib/dhcpsrv/memfile_lease_mgr.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/pointer_util.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/pid_file.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/memfile_lease_mgr.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/multi_threading_mgr.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/subnet_id.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/alloc_engine.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/client_class_def.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/utils.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/reconnect_ctl.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/callout_handle_store.h /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/stopwatch.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/dhcpsrv/cfg_hosts.cc /usr/src/debug/kea/2.2.0-r0/kea-2.2.0/src/lib/util/dhcp_space.cc"
+packages/core2-32-poky-linux/kea/kea-src: PKGSIZE changed from 8938959 to 9149080 (+2%)
+packages/core2-32-poky-linux/kea/kea-src: PV changed from "2.0.2" to "2.2.0"
+packages/core2-32-poky-linux/kea/kea-src: PKGV changed from 2.0.2 [default] to 2.2.0 [default]
+packages/core2-32-poky-linux/kea/kea-staticdev: PV changed from "2.0.2" to "2.2.0"
+packages/core2-32-poky-linux/kea/kea-staticdev: PKGV changed from 2.0.2 [default] to 2.2.0 [default]
+packages/core2-32-poky-linux/kea/kea: FILELIST: removed "/usr/lib/libkea-asiodns.so.14 /usr/lib/libkea-cryptolink.so.16 /usr/share/kea/scripts/pgsql/upgrade_1.0_to_2.0.sh /usr/share/kea/scripts/pgsql/upgrade_2.0_to_3.0.sh /usr/lib/libkea-asiodns.so.14.0.0 /usr/lib/libkea-eval.so.27.0.0 /usr/lib/libkea-asiolink.so.27.0.0 /usr/lib/libkea-process.so.29.0.0 /usr/lib/libkea-dhcp++.so.36.0.0 /usr/share/kea/scripts/pgsql/upgrade_6.0_to_6.1.sh /usr/share/kea/scripts/pgsql/upgrade_6.1_to_6.2.sh /usr/share/kea/scripts/pgsql/upgrade_4.0_to_5.0.sh /usr/lib/libkea-dhcp_ddns.so.18.0.0 /usr/share/kea/scripts/cql/upgrade_4.0_to_5.0.sh /usr/lib/libkea-log.so.22.0.0 /usr/share/kea/scripts/cql/upgrade_3.0_to_4.0.sh /usr/lib/libkea-log.so.22 /usr/share/kea/scripts/cql/upgrade_2.0_to_3.0.sh /usr/share/kea/scripts/cql/wipe_data.sh /usr/lib/libkea-database.so.23 /usr/lib/libkea-util.so.36 /usr/lib/libkea-process.so.29 /usr/lib/libkea-dhcp_ddns.so.18 /usr/lib/libkea-hooks.so.40.0.0 /usr/lib/libkea-asiolink.
+ so.27 /usr/lib/libkea-http.so.30.0.0 /usr/lib/libkea-cfgclient.so.25.0.0 /usr/lib/libkea-dns++.so.19.0.0 /usr/share/kea/scripts/cql/dhcpdb_create.cql /usr/share/kea/scripts/cql/upgrade_1.0_to_2.0.sh /usr/share/kea/scripts/cql/dhcpdb_drop.cql /usr/share/kea/scripts/pgsql/upgrade_5.1_to_6.0.sh /usr/lib/libkea-dns++.so.19 /usr/lib/libkea-cfgclient.so.25 /usr/lib/libkea-cc.so.25.0.0 /usr/lib/libkea-eval.so.27 /usr/share/kea/scripts/pgsql/upgrade_5.0_to_5.1.sh /usr/share/kea/scripts/pgsql/upgrade_3.3_to_4.0.sh /usr/lib/libkea-dhcpsrv.so.51 /usr/lib/libkea-http.so.30 /usr/lib/libkea-d2srv.so.4 /usr/share/kea/scripts/pgsql/upgrade_3.1_to_3.2.sh /usr/share/kea/scripts/pgsql/upgrade_3.0_to_3.1.sh /usr/lib/libkea-dhcpsrv.so.51.0.0 /usr/lib/libkea-d2srv.so.4.0.0 /usr/lib/libkea-cc.so.25 /usr/lib/libkea-cryptolink.so.16.0.0 /usr/lib/libkea-database.so.23.0.0 /usr/lib/libkea-util.so.36.0.0 /usr/share/kea/scripts/pgsql/upgrade_3.2_to_3.3.sh /usr/lib/libkea-dhcp++.so.36 /usr/lib/libkea-hooks.so.40
+ ", added "/usr/lib/libkea-log.so.35.0.0 /usr/lib/libkea-http.so.42.0.0 /usr/lib/libkea-dhcp++.so.54 /usr/lib/libkea-dhcpsrv.so.69 /usr/lib/libkea-dhcp_ddns.so.29.0.0 /usr/lib/libkea-hooks.so.57.0.0 /usr/share/kea/scripts/pgsql/upgrade_006.2_to_007.0.sh /usr/lib/libkea-dns++.so.30.0.0 /usr/lib/libkea-cc.so.39.0.0 /usr/lib/libkea-process.so.40 /usr/share/kea/scripts/pgsql/upgrade_012_to_013.sh /usr/lib/libkea-asiodns.so.24 /usr/lib/libkea-log.so.35 /usr/lib/libkea-asiolink.so.40 /usr/lib/libkea-util.so.52.0.0 /usr/share/kea/scripts/pgsql/upgrade_006.0_to_006.1.sh /usr/lib/libkea-cfgclient.so.36 /usr/lib/libkea-dhcpsrv.so.69.0.0 /usr/lib/libkea-dns++.so.30 /usr/share/kea/scripts/pgsql/upgrade_011_to_012.sh /usr/lib/libkea-hooks.so.57 /usr/lib/libkea-http.so.42 /usr/share/kea/scripts/pgsql/upgrade_003.2_to_003.3.sh /usr/lib/libkea-d2srv.so.16.0.0 /usr/share/kea/scripts/pgsql/upgrade_006.1_to_006.2.sh /usr/share/kea/scripts/pgsql/upgrade_008_to_009.sh /usr/share/kea/api/gss-tsig-rekey-al
+ l.json /usr/share/kea/scripts/mysql/upgrade_013_to_014.sh /usr/share/kea/api/subnet6-delta-del.json /usr/share/kea/scripts/pgsql/upgrade_005.0_to_005.1.sh /usr/share/kea/scripts/pgsql/upgrade_010_to_011.sh /usr/lib/libkea-cryptolink.so.28 /usr/lib/libkea-dhcp_ddns.so.29 /usr/share/kea/scripts/pgsql/upgrade_003.3_to_004.0.sh /usr/lib/libkea-asiolink.so.40.0.0 /usr/share/kea/scripts/pgsql/upgrade_005.1_to_006.0.sh /usr/share/kea/scripts/pgsql/upgrade_009_to_010.sh /usr/share/kea/api/subnet4-delta-add.json /usr/lib/libkea-cfgclient.so.36.0.0 /usr/lib/libkea-process.so.40.0.0 /usr/lib/libkea-eval.so.39 /usr/lib/libkea-cc.so.39 /usr/share/kea/api/subnet6-delta-add.json /usr/share/kea/scripts/pgsql/upgrade_001.0_to_002.0.sh /usr/share/kea/scripts/mysql/upgrade_012_to_013.sh /usr/share/kea/scripts/pgsql/upgrade_003.0_to_003.1.sh /usr/lib/libkea-eval.so.39.0.0 /usr/lib/libkea-dhcp++.so.54.0.0 /usr/lib/libkea-database.so.35.0.0 /usr/lib/libkea-asiodns.so.24.0.0 /usr/share/kea/scripts/pgsql/u
+ pgrade_004.0_to_005.0.sh /usr/share/kea/api/gss-tsig-rekey.json /usr/share/kea/scripts/pgsql/upgrade_007_to_008.sh /usr/share/kea/scripts/pgsql/upgrade_002.0_to_003.0.sh /usr/lib/libkea-d2srv.so.16 /usr/share/kea/api/subnet4-delta-del.json /usr/lib/libkea-util.so.52 /usr/lib/libkea-cryptolink.so.28.0.0 /usr/lib/libkea-database.so.35 /usr/share/kea/scripts/pgsql/upgrade_003.1_to_003.2.sh"
+packages/core2-32-poky-linux/kea/kea: PKGSIZE changed from 16078267 to 16828658 (+5%)
+packages/core2-32-poky-linux/kea/kea: PV changed from "2.0.2" to "2.2.0"
+packages/core2-32-poky-linux/kea/kea: PKGV changed from 2.0.2 [default] to 2.2.0 [default]
+packages/core2-32-poky-linux/kea: SRC_URI changed from "http://ftp.isc.org/isc/kea/2.0.2/kea-2.0.2.tar.gz file://kea-dhcp4.service file://kea-dhcp6.service file://kea-dhcp-ddns.service file://kea-dhcp4-server file://kea-dhcp6-server file://kea-dhcp-ddns-server file://fix-multilib-conflict.patch file://fix_pid_keactrl.patch file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch" to "http://ftp.isc.org/isc/kea/2.2.0/kea-2.2.0.tar.gz file://kea-dhcp4.service file://kea-dhcp6.service file://kea-dhcp-ddns.service file://kea-dhcp4-server file://kea-dhcp6-server file://kea-dhcp-ddns-server file://fix-multilib-conflict.patch file://fix_pid_keactrl.patch file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch"
+packages/core2-32-poky-linux/kea: PV changed from "2.0.2" to "2.2.0"
+packages/core2-32-poky-linux/kea: PKGV changed from 2.0.2 [default] to 2.2.0 [default]
+Changes to packages/core2-32-poky-linux/kea (sysroot):
+  /usr/lib/libkea-asiodns.so changed symlink target from libkea-asiodns.so.14.0.0 to libkea-asiodns.so.24.0.0
+  /usr/lib/libkea-asiolink.so changed symlink target from libkea-asiolink.so.27.0.0 to libkea-asiolink.so.40.0.0
+  /usr/lib/libkea-cc.so changed symlink target from libkea-cc.so.25.0.0 to libkea-cc.so.39.0.0
+  /usr/lib/libkea-cfgclient.so changed symlink target from libkea-cfgclient.so.25.0.0 to libkea-cfgclient.so.36.0.0
+  /usr/lib/libkea-cryptolink.so changed symlink target from libkea-cryptolink.so.16.0.0 to libkea-cryptolink.so.28.0.0
+  /usr/lib/libkea-d2srv.so changed symlink target from libkea-d2srv.so.4.0.0 to libkea-d2srv.so.16.0.0
+  /usr/lib/libkea-database.so changed symlink target from libkea-database.so.23.0.0 to libkea-database.so.35.0.0
+  /usr/lib/libkea-dhcp_ddns.so changed symlink target from libkea-dhcp_ddns.so.18.0.0 to libkea-dhcp_ddns.so.29.0.0
+  /usr/lib/libkea-dhcp++.so changed symlink target from libkea-dhcp++.so.36.0.0 to libkea-dhcp++.so.54.0.0
+  /usr/lib/libkea-dhcpsrv.so changed symlink target from libkea-dhcpsrv.so.51.0.0 to libkea-dhcpsrv.so.69.0.0
+  /usr/lib/libkea-dns++.so changed symlink target from libkea-dns++.so.19.0.0 to libkea-dns++.so.30.0.0
+  /usr/lib/libkea-eval.so changed symlink target from libkea-eval.so.27.0.0 to libkea-eval.so.39.0.0
+  /usr/lib/libkea-hooks.so changed symlink target from libkea-hooks.so.40.0.0 to libkea-hooks.so.57.0.0
+  /usr/lib/libkea-http.so changed symlink target from libkea-http.so.30.0.0 to libkea-http.so.42.0.0
+  /usr/lib/libkea-log.so changed symlink target from libkea-log.so.22.0.0 to libkea-log.so.35.0.0
+  /usr/lib/libkea-process.so changed symlink target from libkea-process.so.29.0.0 to libkea-process.so.40.0.0
+  /usr/lib/libkea-util.so changed symlink target from libkea-util.so.36.0.0 to libkea-util.so.52.0.0
+  /usr/lib/libkea-asiodns.so.14.0.0 moved to /usr/lib/libkea-asiodns.so.24.0.0
+  /usr/lib/libkea-asiodns.so.14 moved to /usr/lib/libkea-asiodns.so.24
+  /usr/lib/libkea-asiolink.so.27.0.0 moved to /usr/lib/libkea-asiolink.so.40.0.0
+  /usr/lib/libkea-asiolink.so.27 moved to /usr/lib/libkea-asiolink.so.40
+  /usr/lib/libkea-cc.so.25.0.0 moved to /usr/lib/libkea-cc.so.39.0.0
+  /usr/lib/libkea-cc.so.25 moved to /usr/lib/libkea-cc.so.39
+  /usr/lib/libkea-cfgclient.so.25.0.0 moved to /usr/lib/libkea-cfgclient.so.36.0.0
+  /usr/lib/libkea-cfgclient.so.25 moved to /usr/lib/libkea-cfgclient.so.36
+  /usr/lib/libkea-cryptolink.so.16.0.0 moved to /usr/lib/libkea-cryptolink.so.28.0.0
+  /usr/lib/libkea-cryptolink.so.16 moved to /usr/lib/libkea-cryptolink.so.28
+  /usr/lib/libkea-database.so.23.0.0 moved to /usr/lib/libkea-database.so.35.0.0
+  /usr/lib/libkea-database.so.23 moved to /usr/lib/libkea-database.so.35
+  /usr/lib/libkea-dhcp_ddns.so.18.0.0 moved to /usr/lib/libkea-dhcp_ddns.so.29.0.0
+  /usr/lib/libkea-dhcp_ddns.so.18 moved to /usr/lib/libkea-dhcp_ddns.so.29
+  /usr/lib/libkea-dhcp++.so.36.0.0 moved to /usr/lib/libkea-dhcp++.so.54.0.0
+  /usr/lib/libkea-dhcp++.so.36 moved to /usr/lib/libkea-dhcp++.so.54
+  /usr/lib/libkea-dhcpsrv.so.51.0.0 moved to /usr/lib/libkea-dhcpsrv.so.69.0.0
+  /usr/lib/libkea-dhcpsrv.so.51 moved to /usr/lib/libkea-dhcpsrv.so.69
+  /usr/lib/libkea-dns++.so.19.0.0 moved to /usr/lib/libkea-dns++.so.30.0.0
+  /usr/lib/libkea-dns++.so.19 moved to /usr/lib/libkea-dns++.so.30
+  /usr/lib/libkea-eval.so.27.0.0 moved to /usr/lib/libkea-eval.so.39.0.0
+  /usr/lib/libkea-eval.so.27 moved to /usr/lib/libkea-eval.so.39
+  /usr/lib/libkea-hooks.so.40.0.0 moved to /usr/lib/libkea-hooks.so.57.0.0
+  /usr/lib/libkea-hooks.so.40 moved to /usr/lib/libkea-hooks.so.57
+  /usr/lib/libkea-http.so.30.0.0 moved to /usr/lib/libkea-http.so.42.0.0
+  /usr/lib/libkea-http.so.30 moved to /usr/lib/libkea-http.so.42
+  /usr/lib/libkea-log.so.22.0.0 moved to /usr/lib/libkea-log.so.35.0.0
+  /usr/lib/libkea-log.so.22 moved to /usr/lib/libkea-log.so.35
+  /usr/lib/libkea-process.so.29.0.0 moved to /usr/lib/libkea-process.so.40.0.0
+  /usr/lib/libkea-process.so.29 moved to /usr/lib/libkea-process.so.40
+  /usr/lib/libkea-util.so.36.0.0 moved to /usr/lib/libkea-util.so.52.0.0
+  /usr/lib/libkea-util.so.36 moved to /usr/lib/libkea-util.so.52
+  /usr/include/kea/dhcp/pkt_template.h was added
+  /usr/include/kea/dhcpsrv/memfile_lease_limits.h was added
+  /usr/include/kea/util/dhcp_space.h was added
+  /usr/include/kea/util/file_utilities.h was added
+  /usr/include/kea/util/reconnect_ctl.h was added
+  /usr/include/kea/util/triplet.h was added
+  /usr/lib/libkea-d2srv.so.16.0.0 was added
+  /usr/lib/libkea-d2srv.so.16 was added
+  /usr/share/kea/api/gss-tsig-rekey-all.json was added
+  /usr/share/kea/api/gss-tsig-rekey.json was added
+  /usr/share/kea/api/subnet4-delta-add.json was added
+  /usr/share/kea/api/subnet4-delta-del.json was added
+  /usr/share/kea/api/subnet6-delta-add.json was added
+  /usr/share/kea/api/subnet6-delta-del.json was added
+  /usr/share/kea/scripts/mysql/upgrade_012_to_013.sh was added
+  /usr/share/kea/scripts/mysql/upgrade_013_to_014.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_001.0_to_002.0.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_002.0_to_003.0.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_003.0_to_003.1.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_003.1_to_003.2.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_003.2_to_003.3.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_003.3_to_004.0.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_004.0_to_005.0.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_005.0_to_005.1.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_005.1_to_006.0.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_006.0_to_006.1.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_006.1_to_006.2.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_006.2_to_007.0.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_007_to_008.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_008_to_009.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_009_to_010.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_010_to_011.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_011_to_012.sh was added
+  /usr/share/kea/scripts/pgsql/upgrade_012_to_013.sh was added
+  /usr/include/kea/dhcpsrv/triplet.h was removed
+  /usr/lib/libkea-d2srv.so.4.0.0 was removed
+  /usr/lib/libkea-d2srv.so.4 was removed
+  /usr/share/kea/scripts/cql was removed
+  /usr/share/kea/scripts/cql/dhcpdb_create.cql was removed
+  /usr/share/kea/scripts/cql/dhcpdb_drop.cql was removed
+  /usr/share/kea/scripts/cql/upgrade_1.0_to_2.0.sh was removed
+  /usr/share/kea/scripts/cql/upgrade_2.0_to_3.0.sh was removed
+  /usr/share/kea/scripts/cql/upgrade_3.0_to_4.0.sh was removed
+  /usr/share/kea/scripts/cql/upgrade_4.0_to_5.0.sh was removed
+  /usr/share/kea/scripts/cql/wipe_data.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_1.0_to_2.0.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_2.0_to_3.0.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_3.0_to_3.1.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_3.1_to_3.2.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_3.2_to_3.3.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_3.3_to_4.0.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_4.0_to_5.0.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_5.0_to_5.1.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_5.1_to_6.0.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_6.0_to_6.1.sh was removed
+  /usr/share/kea/scripts/pgsql/upgrade_6.1_to_6.2.sh was removed
 
-Summary: 2 tasks failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.bb:do_fetch
-  virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.bb:do_fetch
-Summary: There were 13 WARNING messages.
-Summary: There were 4 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: util-linux-libuuid-2.38-r0 do_fetch: Checksum failure fetching https://cdn.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.tar.xz
-ERROR: util-linux-libuuid-2.38-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz\' has sha256 checksum \'6d111cbe4d55b336db2f1fbeffbc65b89908704c01136371d32aa9bec373eb64\' when \'60492a19b44e6cf9a3ddff68325b333b8b52b6c59ce3ebd6a0ecaa4c5117e84f\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[sha256sum] = "6d111cbe4d55b336db2f1fbeffbc65b89908704c01136371d32aa9bec373eb64"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://cdn.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.tar.xz')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/util-linux-libuuid/2.38-r0/temp/log.do_fetch.3870316
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.bb:do_fetch) failed with exit code '1'
-ERROR: util-linux-libuuid-native-2.38-r0 do_fetch: Checksum failure fetching https://cdn.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.tar.xz
-ERROR: util-linux-libuuid-native-2.38-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz\' has sha256 checksum \'6d111cbe4d55b336db2f1fbeffbc65b89908704c01136371d32aa9bec373eb64\' when \'60492a19b44e6cf9a3ddff68325b333b8b52b6c59ce3ebd6a0ecaa4c5117e84f\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[sha256sum] = "6d111cbe4d55b336db2f1fbeffbc65b89908704c01136371d32aa9bec373eb64"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://cdn.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.tar.xz')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/util-linux-libuuid-native/2.38-r0/temp/log.do_fetch.3870244
-ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.bb:do_fetch) failed with exit code '1'
+--===============1353708202194819279==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-kea-upgrade-2.0.2-2.2.0.patch"
 
---===============7560580213603158760==--
+RnJvbSA1NjBkNjY3OTRkNTQzZWZkZjk2MmExNTBhMzZkMWVmMTk3YTMzNzQzIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgNCBBdWcgMjAyMiAyMDozNDo1MiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGtl
+YTogdXBncmFkZSAyLjAuMiAtPiAyLjIuMAoKLS0tCiAuLi4va2VhL3trZWFfMi4wLjIuYmIgPT4g
+a2VhXzIuMi4wLmJifSAgICAgICAgfCAyNDkgKysrKysrKysrKysrKysrKystCiAxIGZpbGUgY2hh
+bmdlZCwgMjQ3IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLWNvbm5lY3Rpdml0eS9rZWEve2tlYV8yLjAuMi5iYiA9PiBrZWFfMi4yLjAuYmJ9ICgxNyUp
+CgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9rZWEva2VhXzIuMC4yLmJi
+IGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9rZWEva2VhXzIuMi4wLmJiCnNpbWlsYXJpdHkg
+aW5kZXggMTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkva2VhL2tlYV8y
+LjAuMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9rZWEva2VhXzIuMi4w
+LmJiCmluZGV4IDEzZGExZjg1OGQuLjdjNjhhYTM4YzQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
+cy1jb25uZWN0aXZpdHkva2VhL2tlYV8yLjAuMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVj
+dGl2aXR5L2tlYS9rZWFfMi4yLjAuYmIKQEAgLTEsOSArMSwyNTQgQEAKKyMgRklYTUU6IHRoZSBM
+SUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1cGdy
+YWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBvbGQg
+YW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNFIHZh
+bHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUgY29tbWl0
+IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNlbnNl
+LVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6Cisj
+CisjIC0tLSBDT1BZSU5HCisjICsrKyBDT1BZSU5HCisjIEBAIC00LDE4ICs0LDYgQEAKKyMgIExp
+Y2Vuc2UsIHYuIDIuMC4gSWYgYSBjb3B5IG9mIHRoZSBNUEwgd2FzIG5vdCBkaXN0cmlidXRlZCB3
+aXRoIHRoaXMKKyMgIGZpbGUsIFlvdSBjYW4gb2J0YWluIG9uZSBhdCBodHRwOi8vbW96aWxsYS5v
+cmcvTVBMLzIuMC8uIEZ1bGwKKyMgIHRleHQgaXMgYWxzbyBpbmNsdWRlZCBiZWxvdy4KKyMgLQor
+IyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KKyMgLQorIyAtVGhlIENhc3NhbmRyYSBiYWNrZW5kIGNv
+ZGUgYW5kIHN1cHBvcnQgZm9yIEdvb2dsZSBiZW5jaG1hcmsgaXMgZGlzdHJpYnV0ZWQgdW5kZXIK
+KyMgLXRoZSBBcGFjaGUgTGljZW5zZSwgVmVyc2lvbiAyLjAuIFRoZSB0ZXh0IGlzIGF2YWlsYWJs
+ZSBhdAorIyAtaHR0cDovL3d3dy5hcGFjaGUub3JnL2xpY2Vuc2VzL0xJQ0VOU0UtMi4wLiBGdWxs
+IHRleHQgaXMgYWxzbyBpbmNsdWRlZCBiZWxvdyBpbgorIyAtdGhpcyBmaWxlLiBCb3RoIGZlYXR1
+cmVzIGFyZSBvcHRpb25hbCBhbmQgYXJlIGRpc2FibGVkIGJ5IGRlZmF1bHQuCisjIC0KKyMgLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tCisjIC0KKyMgLUZvciB5b3VyIGNvbnZlbmllbmNlLCBmdWxsIHRl
+eHQgb2YgTVBMIDIuMCBhbmQgQXBhY2hlIDIuMCBsaWNlbnNlcyBpcyBhdmFpbGFibGUKKyMgLWJl
+bG93OgorIyAgCisjICAtLS0gTVBMIDIuMCBsaWNlbnNlIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQorIyAgCisjIEBAIC0zOTUsMjEyICsz
+ODMsNiBAQAorIyAgCisjICAtLS1lbmQgb2YgTVBMIDIuMCBsaWNlbnNlIC0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQorIyAgCisjIC0tLS0gQXBhY2hl
+IDIuMCBsaWNlbnNlIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLQorIyAtCisjIC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBBcGFj
+aGUgTGljZW5zZQorIyAtICAgICAgICAgICAgICAgICAgICAgICAgICAgVmVyc2lvbiAyLjAsIEph
+bnVhcnkgMjAwNAorIyAtICAgICAgICAgICAgICAgICAgICAgICAgaHR0cDovL3d3dy5hcGFjaGUu
+b3JnL2xpY2Vuc2VzLworIyAtCisjIC0gICBURVJNUyBBTkQgQ09ORElUSU9OUyBGT1IgVVNFLCBS
+RVBST0RVQ1RJT04sIEFORCBESVNUUklCVVRJT04KKyMgLQorIyAtICAgMS4gRGVmaW5pdGlvbnMu
+CisjIC0KKyMgLSAgICAgICJMaWNlbnNlIiBzaGFsbCBtZWFuIHRoZSB0ZXJtcyBhbmQgY29uZGl0
+aW9ucyBmb3IgdXNlLCByZXByb2R1Y3Rpb24sCisjIC0gICAgICBhbmQgZGlzdHJpYnV0aW9uIGFz
+IGRlZmluZWQgYnkgU2VjdGlvbnMgMSB0aHJvdWdoIDkgb2YgdGhpcyBkb2N1bWVudC4KKyMgLQor
+IyAtICAgICAgIkxpY2Vuc29yIiBzaGFsbCBtZWFuIHRoZSBjb3B5cmlnaHQgb3duZXIgb3IgZW50
+aXR5IGF1dGhvcml6ZWQgYnkKKyMgLSAgICAgIHRoZSBjb3B5cmlnaHQgb3duZXIgdGhhdCBpcyBn
+cmFudGluZyB0aGUgTGljZW5zZS4KKyMgLQorIyAtICAgICAgIkxlZ2FsIEVudGl0eSIgc2hhbGwg
+bWVhbiB0aGUgdW5pb24gb2YgdGhlIGFjdGluZyBlbnRpdHkgYW5kIGFsbAorIyAtICAgICAgb3Ro
+ZXIgZW50aXRpZXMgdGhhdCBjb250cm9sLCBhcmUgY29udHJvbGxlZCBieSwgb3IgYXJlIHVuZGVy
+IGNvbW1vbgorIyAtICAgICAgY29udHJvbCB3aXRoIHRoYXQgZW50aXR5LiBGb3IgdGhlIHB1cnBv
+c2VzIG9mIHRoaXMgZGVmaW5pdGlvbiwKKyMgLSAgICAgICJjb250cm9sIiBtZWFucyAoaSkgdGhl
+IHBvd2VyLCBkaXJlY3Qgb3IgaW5kaXJlY3QsIHRvIGNhdXNlIHRoZQorIyAtICAgICAgZGlyZWN0
+aW9uIG9yIG1hbmFnZW1lbnQgb2Ygc3VjaCBlbnRpdHksIHdoZXRoZXIgYnkgY29udHJhY3Qgb3IK
+KyMgLSAgICAgIG90aGVyd2lzZSwgb3IgKGlpKSBvd25lcnNoaXAgb2YgZmlmdHkgcGVyY2VudCAo
+NTAlKSBvciBtb3JlIG9mIHRoZQorIyAtICAgICAgb3V0c3RhbmRpbmcgc2hhcmVzLCBvciAoaWlp
+KSBiZW5lZmljaWFsIG93bmVyc2hpcCBvZiBzdWNoIGVudGl0eS4KKyMgLQorIyAtICAgICAgIllv
+dSIgKG9yICJZb3VyIikgc2hhbGwgbWVhbiBhbiBpbmRpdmlkdWFsIG9yIExlZ2FsIEVudGl0eQor
+IyAtICAgICAgZXhlcmNpc2luZyBwZXJtaXNzaW9ucyBncmFudGVkIGJ5IHRoaXMgTGljZW5zZS4K
+KyMgLQorIyAtICAgICAgIlNvdXJjZSIgZm9ybSBzaGFsbCBtZWFuIHRoZSBwcmVmZXJyZWQgZm9y
+bSBmb3IgbWFraW5nIG1vZGlmaWNhdGlvbnMsCisjIC0gICAgICBpbmNsdWRpbmcgYnV0IG5vdCBs
+aW1pdGVkIHRvIHNvZnR3YXJlIHNvdXJjZSBjb2RlLCBkb2N1bWVudGF0aW9uCisjIC0gICAgICBz
+b3VyY2UsIGFuZCBjb25maWd1cmF0aW9uIGZpbGVzLgorIyAtCisjIC0gICAgICAiT2JqZWN0IiBm
+b3JtIHNoYWxsIG1lYW4gYW55IGZvcm0gcmVzdWx0aW5nIGZyb20gbWVjaGFuaWNhbAorIyAtICAg
+ICAgdHJhbnNmb3JtYXRpb24gb3IgdHJhbnNsYXRpb24gb2YgYSBTb3VyY2UgZm9ybSwgaW5jbHVk
+aW5nIGJ1dAorIyAtICAgICAgbm90IGxpbWl0ZWQgdG8gY29tcGlsZWQgb2JqZWN0IGNvZGUsIGdl
+bmVyYXRlZCBkb2N1bWVudGF0aW9uLAorIyAtICAgICAgYW5kIGNvbnZlcnNpb25zIHRvIG90aGVy
+IG1lZGlhIHR5cGVzLgorIyAtCisjIC0gICAgICAiV29yayIgc2hhbGwgbWVhbiB0aGUgd29yayBv
+ZiBhdXRob3JzaGlwLCB3aGV0aGVyIGluIFNvdXJjZSBvcgorIyAtICAgICAgT2JqZWN0IGZvcm0s
+IG1hZGUgYXZhaWxhYmxlIHVuZGVyIHRoZSBMaWNlbnNlLCBhcyBpbmRpY2F0ZWQgYnkgYQorIyAt
+ICAgICAgY29weXJpZ2h0IG5vdGljZSB0aGF0IGlzIGluY2x1ZGVkIGluIG9yIGF0dGFjaGVkIHRv
+IHRoZSB3b3JrCisjIC0gICAgICAoYW4gZXhhbXBsZSBpcyBwcm92aWRlZCBpbiB0aGUgQXBwZW5k
+aXggYmVsb3cpLgorIyAtCisjIC0gICAgICAiRGVyaXZhdGl2ZSBXb3JrcyIgc2hhbGwgbWVhbiBh
+bnkgd29yaywgd2hldGhlciBpbiBTb3VyY2Ugb3IgT2JqZWN0CisjIC0gICAgICBmb3JtLCB0aGF0
+IGlzIGJhc2VkIG9uIChvciBkZXJpdmVkIGZyb20pIHRoZSBXb3JrIGFuZCBmb3Igd2hpY2ggdGhl
+CisjIC0gICAgICBlZGl0b3JpYWwgcmV2aXNpb25zLCBhbm5vdGF0aW9ucywgZWxhYm9yYXRpb25z
+LCBvciBvdGhlciBtb2RpZmljYXRpb25zCisjIC0gICAgICByZXByZXNlbnQsIGFzIGEgd2hvbGUs
+IGFuIG9yaWdpbmFsIHdvcmsgb2YgYXV0aG9yc2hpcC4gRm9yIHRoZSBwdXJwb3NlcworIyAtICAg
+ICAgb2YgdGhpcyBMaWNlbnNlLCBEZXJpdmF0aXZlIFdvcmtzIHNoYWxsIG5vdCBpbmNsdWRlIHdv
+cmtzIHRoYXQgcmVtYWluCisjIC0gICAgICBzZXBhcmFibGUgZnJvbSwgb3IgbWVyZWx5IGxpbmsg
+KG9yIGJpbmQgYnkgbmFtZSkgdG8gdGhlIGludGVyZmFjZXMgb2YsCisjIC0gICAgICB0aGUgV29y
+ayBhbmQgRGVyaXZhdGl2ZSBXb3JrcyB0aGVyZW9mLgorIyAtCisjIC0gICAgICAiQ29udHJpYnV0
+aW9uIiBzaGFsbCBtZWFuIGFueSB3b3JrIG9mIGF1dGhvcnNoaXAsIGluY2x1ZGluZworIyAtICAg
+ICAgdGhlIG9yaWdpbmFsIHZlcnNpb24gb2YgdGhlIFdvcmsgYW5kIGFueSBtb2RpZmljYXRpb25z
+IG9yIGFkZGl0aW9ucworIyAtICAgICAgdG8gdGhhdCBXb3JrIG9yIERlcml2YXRpdmUgV29ya3Mg
+dGhlcmVvZiwgdGhhdCBpcyBpbnRlbnRpb25hbGx5CisjIC0gICAgICBzdWJtaXR0ZWQgdG8gTGlj
+ZW5zb3IgZm9yIGluY2x1c2lvbiBpbiB0aGUgV29yayBieSB0aGUgY29weXJpZ2h0IG93bmVyCisj
+IC0gICAgICBvciBieSBhbiBpbmRpdmlkdWFsIG9yIExlZ2FsIEVudGl0eSBhdXRob3JpemVkIHRv
+IHN1Ym1pdCBvbiBiZWhhbGYgb2YKKyMgLSAgICAgIHRoZSBjb3B5cmlnaHQgb3duZXIuIEZvciB0
+aGUgcHVycG9zZXMgb2YgdGhpcyBkZWZpbml0aW9uLCAic3VibWl0dGVkIgorIyAtICAgICAgbWVh
+bnMgYW55IGZvcm0gb2YgZWxlY3Ryb25pYywgdmVyYmFsLCBvciB3cml0dGVuIGNvbW11bmljYXRp
+b24gc2VudAorIyAtICAgICAgdG8gdGhlIExpY2Vuc29yIG9yIGl0cyByZXByZXNlbnRhdGl2ZXMs
+IGluY2x1ZGluZyBidXQgbm90IGxpbWl0ZWQgdG8KKyMgLSAgICAgIGNvbW11bmljYXRpb24gb24g
+ZWxlY3Ryb25pYyBtYWlsaW5nIGxpc3RzLCBzb3VyY2UgY29kZSBjb250cm9sIHN5c3RlbXMsCisj
+IC0gICAgICBhbmQgaXNzdWUgdHJhY2tpbmcgc3lzdGVtcyB0aGF0IGFyZSBtYW5hZ2VkIGJ5LCBv
+ciBvbiBiZWhhbGYgb2YsIHRoZQorIyAtICAgICAgTGljZW5zb3IgZm9yIHRoZSBwdXJwb3NlIG9m
+IGRpc2N1c3NpbmcgYW5kIGltcHJvdmluZyB0aGUgV29yaywgYnV0CisjIC0gICAgICBleGNsdWRp
+bmcgY29tbXVuaWNhdGlvbiB0aGF0IGlzIGNvbnNwaWN1b3VzbHkgbWFya2VkIG9yIG90aGVyd2lz
+ZQorIyAtICAgICAgZGVzaWduYXRlZCBpbiB3cml0aW5nIGJ5IHRoZSBjb3B5cmlnaHQgb3duZXIg
+YXMgIk5vdCBhIENvbnRyaWJ1dGlvbi4iCisjIC0KKyMgLSAgICAgICJDb250cmlidXRvciIgc2hh
+bGwgbWVhbiBMaWNlbnNvciBhbmQgYW55IGluZGl2aWR1YWwgb3IgTGVnYWwgRW50aXR5CisjIC0g
+ICAgICBvbiBiZWhhbGYgb2Ygd2hvbSBhIENvbnRyaWJ1dGlvbiBoYXMgYmVlbiByZWNlaXZlZCBi
+eSBMaWNlbnNvciBhbmQKKyMgLSAgICAgIHN1YnNlcXVlbnRseSBpbmNvcnBvcmF0ZWQgd2l0aGlu
+IHRoZSBXb3JrLgorIyAtCisjIC0gICAyLiBHcmFudCBvZiBDb3B5cmlnaHQgTGljZW5zZS4gU3Vi
+amVjdCB0byB0aGUgdGVybXMgYW5kIGNvbmRpdGlvbnMgb2YKKyMgLSAgICAgIHRoaXMgTGljZW5z
+ZSwgZWFjaCBDb250cmlidXRvciBoZXJlYnkgZ3JhbnRzIHRvIFlvdSBhIHBlcnBldHVhbCwKKyMg
+LSAgICAgIHdvcmxkd2lkZSwgbm9uLWV4Y2x1c2l2ZSwgbm8tY2hhcmdlLCByb3lhbHR5LWZyZWUs
+IGlycmV2b2NhYmxlCisjIC0gICAgICBjb3B5cmlnaHQgbGljZW5zZSB0byByZXByb2R1Y2UsIHBy
+ZXBhcmUgRGVyaXZhdGl2ZSBXb3JrcyBvZiwKKyMgLSAgICAgIHB1YmxpY2x5IGRpc3BsYXksIHB1
+YmxpY2x5IHBlcmZvcm0sIHN1YmxpY2Vuc2UsIGFuZCBkaXN0cmlidXRlIHRoZQorIyAtICAgICAg
+V29yayBhbmQgc3VjaCBEZXJpdmF0aXZlIFdvcmtzIGluIFNvdXJjZSBvciBPYmplY3QgZm9ybS4K
+KyMgLQorIyAtICAgMy4gR3JhbnQgb2YgUGF0ZW50IExpY2Vuc2UuIFN1YmplY3QgdG8gdGhlIHRl
+cm1zIGFuZCBjb25kaXRpb25zIG9mCisjIC0gICAgICB0aGlzIExpY2Vuc2UsIGVhY2ggQ29udHJp
+YnV0b3IgaGVyZWJ5IGdyYW50cyB0byBZb3UgYSBwZXJwZXR1YWwsCisjIC0gICAgICB3b3JsZHdp
+ZGUsIG5vbi1leGNsdXNpdmUsIG5vLWNoYXJnZSwgcm95YWx0eS1mcmVlLCBpcnJldm9jYWJsZQor
+IyAtICAgICAgKGV4Y2VwdCBhcyBzdGF0ZWQgaW4gdGhpcyBzZWN0aW9uKSBwYXRlbnQgbGljZW5z
+ZSB0byBtYWtlLCBoYXZlIG1hZGUsCisjIC0gICAgICB1c2UsIG9mZmVyIHRvIHNlbGwsIHNlbGws
+IGltcG9ydCwgYW5kIG90aGVyd2lzZSB0cmFuc2ZlciB0aGUgV29yaywKKyMgLSAgICAgIHdoZXJl
+IHN1Y2ggbGljZW5zZSBhcHBsaWVzIG9ubHkgdG8gdGhvc2UgcGF0ZW50IGNsYWltcyBsaWNlbnNh
+YmxlCisjIC0gICAgICBieSBzdWNoIENvbnRyaWJ1dG9yIHRoYXQgYXJlIG5lY2Vzc2FyaWx5IGlu
+ZnJpbmdlZCBieSB0aGVpcgorIyAtICAgICAgQ29udHJpYnV0aW9uKHMpIGFsb25lIG9yIGJ5IGNv
+bWJpbmF0aW9uIG9mIHRoZWlyIENvbnRyaWJ1dGlvbihzKQorIyAtICAgICAgd2l0aCB0aGUgV29y
+ayB0byB3aGljaCBzdWNoIENvbnRyaWJ1dGlvbihzKSB3YXMgc3VibWl0dGVkLiBJZiBZb3UKKyMg
+LSAgICAgIGluc3RpdHV0ZSBwYXRlbnQgbGl0aWdhdGlvbiBhZ2FpbnN0IGFueSBlbnRpdHkgKGlu
+Y2x1ZGluZyBhCisjIC0gICAgICBjcm9zcy1jbGFpbSBvciBjb3VudGVyY2xhaW0gaW4gYSBsYXdz
+dWl0KSBhbGxlZ2luZyB0aGF0IHRoZSBXb3JrCisjIC0gICAgICBvciBhIENvbnRyaWJ1dGlvbiBp
+bmNvcnBvcmF0ZWQgd2l0aGluIHRoZSBXb3JrIGNvbnN0aXR1dGVzIGRpcmVjdAorIyAtICAgICAg
+b3IgY29udHJpYnV0b3J5IHBhdGVudCBpbmZyaW5nZW1lbnQsIHRoZW4gYW55IHBhdGVudCBsaWNl
+bnNlcworIyAtICAgICAgZ3JhbnRlZCB0byBZb3UgdW5kZXIgdGhpcyBMaWNlbnNlIGZvciB0aGF0
+IFdvcmsgc2hhbGwgdGVybWluYXRlCisjIC0gICAgICBhcyBvZiB0aGUgZGF0ZSBzdWNoIGxpdGln
+YXRpb24gaXMgZmlsZWQuCisjIC0KKyMgLSAgIDQuIFJlZGlzdHJpYnV0aW9uLiBZb3UgbWF5IHJl
+cHJvZHVjZSBhbmQgZGlzdHJpYnV0ZSBjb3BpZXMgb2YgdGhlCisjIC0gICAgICBXb3JrIG9yIERl
+cml2YXRpdmUgV29ya3MgdGhlcmVvZiBpbiBhbnkgbWVkaXVtLCB3aXRoIG9yIHdpdGhvdXQKKyMg
+LSAgICAgIG1vZGlmaWNhdGlvbnMsIGFuZCBpbiBTb3VyY2Ugb3IgT2JqZWN0IGZvcm0sIHByb3Zp
+ZGVkIHRoYXQgWW91CisjIC0gICAgICBtZWV0IHRoZSBmb2xsb3dpbmcgY29uZGl0aW9uczoKKyMg
+LQorIyAtICAgICAgKGEpIFlvdSBtdXN0IGdpdmUgYW55IG90aGVyIHJlY2lwaWVudHMgb2YgdGhl
+IFdvcmsgb3IKKyMgLSAgICAgICAgICBEZXJpdmF0aXZlIFdvcmtzIGEgY29weSBvZiB0aGlzIExp
+Y2Vuc2U7IGFuZAorIyAtCisjIC0gICAgICAoYikgWW91IG11c3QgY2F1c2UgYW55IG1vZGlmaWVk
+IGZpbGVzIHRvIGNhcnJ5IHByb21pbmVudCBub3RpY2VzCisjIC0gICAgICAgICAgc3RhdGluZyB0
+aGF0IFlvdSBjaGFuZ2VkIHRoZSBmaWxlczsgYW5kCisjIC0KKyMgLSAgICAgIChjKSBZb3UgbXVz
+dCByZXRhaW4sIGluIHRoZSBTb3VyY2UgZm9ybSBvZiBhbnkgRGVyaXZhdGl2ZSBXb3JrcworIyAt
+ICAgICAgICAgIHRoYXQgWW91IGRpc3RyaWJ1dGUsIGFsbCBjb3B5cmlnaHQsIHBhdGVudCwgdHJh
+ZGVtYXJrLCBhbmQKKyMgLSAgICAgICAgICBhdHRyaWJ1dGlvbiBub3RpY2VzIGZyb20gdGhlIFNv
+dXJjZSBmb3JtIG9mIHRoZSBXb3JrLAorIyAtICAgICAgICAgIGV4Y2x1ZGluZyB0aG9zZSBub3Rp
+Y2VzIHRoYXQgZG8gbm90IHBlcnRhaW4gdG8gYW55IHBhcnQgb2YKKyMgLSAgICAgICAgICB0aGUg
+RGVyaXZhdGl2ZSBXb3JrczsgYW5kCisjIC0KKyMgLSAgICAgIChkKSBJZiB0aGUgV29yayBpbmNs
+dWRlcyBhICJOT1RJQ0UiIHRleHQgZmlsZSBhcyBwYXJ0IG9mIGl0cworIyAtICAgICAgICAgIGRp
+c3RyaWJ1dGlvbiwgdGhlbiBhbnkgRGVyaXZhdGl2ZSBXb3JrcyB0aGF0IFlvdSBkaXN0cmlidXRl
+IG11c3QKKyMgLSAgICAgICAgICBpbmNsdWRlIGEgcmVhZGFibGUgY29weSBvZiB0aGUgYXR0cmli
+dXRpb24gbm90aWNlcyBjb250YWluZWQKKyMgLSAgICAgICAgICB3aXRoaW4gc3VjaCBOT1RJQ0Ug
+ZmlsZSwgZXhjbHVkaW5nIHRob3NlIG5vdGljZXMgdGhhdCBkbyBub3QKKyMgLSAgICAgICAgICBw
+ZXJ0YWluIHRvIGFueSBwYXJ0IG9mIHRoZSBEZXJpdmF0aXZlIFdvcmtzLCBpbiBhdCBsZWFzdCBv
+bmUKKyMgLSAgICAgICAgICBvZiB0aGUgZm9sbG93aW5nIHBsYWNlczogd2l0aGluIGEgTk9USUNF
+IHRleHQgZmlsZSBkaXN0cmlidXRlZAorIyAtICAgICAgICAgIGFzIHBhcnQgb2YgdGhlIERlcml2
+YXRpdmUgV29ya3M7IHdpdGhpbiB0aGUgU291cmNlIGZvcm0gb3IKKyMgLSAgICAgICAgICBkb2N1
+bWVudGF0aW9uLCBpZiBwcm92aWRlZCBhbG9uZyB3aXRoIHRoZSBEZXJpdmF0aXZlIFdvcmtzOyBv
+ciwKKyMgLSAgICAgICAgICB3aXRoaW4gYSBkaXNwbGF5IGdlbmVyYXRlZCBieSB0aGUgRGVyaXZh
+dGl2ZSBXb3JrcywgaWYgYW5kCisjIC0gICAgICAgICAgd2hlcmV2ZXIgc3VjaCB0aGlyZC1wYXJ0
+eSBub3RpY2VzIG5vcm1hbGx5IGFwcGVhci4gVGhlIGNvbnRlbnRzCisjIC0gICAgICAgICAgb2Yg
+dGhlIE5PVElDRSBmaWxlIGFyZSBmb3IgaW5mb3JtYXRpb25hbCBwdXJwb3NlcyBvbmx5IGFuZAor
+IyAtICAgICAgICAgIGRvIG5vdCBtb2RpZnkgdGhlIExpY2Vuc2UuIFlvdSBtYXkgYWRkIFlvdXIg
+b3duIGF0dHJpYnV0aW9uCisjIC0gICAgICAgICAgbm90aWNlcyB3aXRoaW4gRGVyaXZhdGl2ZSBX
+b3JrcyB0aGF0IFlvdSBkaXN0cmlidXRlLCBhbG9uZ3NpZGUKKyMgLSAgICAgICAgICBvciBhcyBh
+biBhZGRlbmR1bSB0byB0aGUgTk9USUNFIHRleHQgZnJvbSB0aGUgV29yaywgcHJvdmlkZWQKKyMg
+LSAgICAgICAgICB0aGF0IHN1Y2ggYWRkaXRpb25hbCBhdHRyaWJ1dGlvbiBub3RpY2VzIGNhbm5v
+dCBiZSBjb25zdHJ1ZWQKKyMgLSAgICAgICAgICBhcyBtb2RpZnlpbmcgdGhlIExpY2Vuc2UuCisj
+IC0KKyMgLSAgICAgIFlvdSBtYXkgYWRkIFlvdXIgb3duIGNvcHlyaWdodCBzdGF0ZW1lbnQgdG8g
+WW91ciBtb2RpZmljYXRpb25zIGFuZAorIyAtICAgICAgbWF5IHByb3ZpZGUgYWRkaXRpb25hbCBv
+ciBkaWZmZXJlbnQgbGljZW5zZSB0ZXJtcyBhbmQgY29uZGl0aW9ucworIyAtICAgICAgZm9yIHVz
+ZSwgcmVwcm9kdWN0aW9uLCBvciBkaXN0cmlidXRpb24gb2YgWW91ciBtb2RpZmljYXRpb25zLCBv
+cgorIyAtICAgICAgZm9yIGFueSBzdWNoIERlcml2YXRpdmUgV29ya3MgYXMgYSB3aG9sZSwgcHJv
+dmlkZWQgWW91ciB1c2UsCisjIC0gICAgICByZXByb2R1Y3Rpb24sIGFuZCBkaXN0cmlidXRpb24g
+b2YgdGhlIFdvcmsgb3RoZXJ3aXNlIGNvbXBsaWVzIHdpdGgKKyMgLSAgICAgIHRoZSBjb25kaXRp
+b25zIHN0YXRlZCBpbiB0aGlzIExpY2Vuc2UuCisjIC0KKyMgLSAgIDUuIFN1Ym1pc3Npb24gb2Yg
+Q29udHJpYnV0aW9ucy4gVW5sZXNzIFlvdSBleHBsaWNpdGx5IHN0YXRlIG90aGVyd2lzZSwKKyMg
+LSAgICAgIGFueSBDb250cmlidXRpb24gaW50ZW50aW9uYWxseSBzdWJtaXR0ZWQgZm9yIGluY2x1
+c2lvbiBpbiB0aGUgV29yaworIyAtICAgICAgYnkgWW91IHRvIHRoZSBMaWNlbnNvciBzaGFsbCBi
+ZSB1bmRlciB0aGUgdGVybXMgYW5kIGNvbmRpdGlvbnMgb2YKKyMgLSAgICAgIHRoaXMgTGljZW5z
+ZSwgd2l0aG91dCBhbnkgYWRkaXRpb25hbCB0ZXJtcyBvciBjb25kaXRpb25zLgorIyAtICAgICAg
+Tm90d2l0aHN0YW5kaW5nIHRoZSBhYm92ZSwgbm90aGluZyBoZXJlaW4gc2hhbGwgc3VwZXJzZWRl
+IG9yIG1vZGlmeQorIyAtICAgICAgdGhlIHRlcm1zIG9mIGFueSBzZXBhcmF0ZSBsaWNlbnNlIGFn
+cmVlbWVudCB5b3UgbWF5IGhhdmUgZXhlY3V0ZWQKKyMgLSAgICAgIHdpdGggTGljZW5zb3IgcmVn
+YXJkaW5nIHN1Y2ggQ29udHJpYnV0aW9ucy4KKyMgLQorIyAtICAgNi4gVHJhZGVtYXJrcy4gVGhp
+cyBMaWNlbnNlIGRvZXMgbm90IGdyYW50IHBlcm1pc3Npb24gdG8gdXNlIHRoZSB0cmFkZQorIyAt
+ICAgICAgbmFtZXMsIHRyYWRlbWFya3MsIHNlcnZpY2UgbWFya3MsIG9yIHByb2R1Y3QgbmFtZXMg
+b2YgdGhlIExpY2Vuc29yLAorIyAtICAgICAgZXhjZXB0IGFzIHJlcXVpcmVkIGZvciByZWFzb25h
+YmxlIGFuZCBjdXN0b21hcnkgdXNlIGluIGRlc2NyaWJpbmcgdGhlCisjIC0gICAgICBvcmlnaW4g
+b2YgdGhlIFdvcmsgYW5kIHJlcHJvZHVjaW5nIHRoZSBjb250ZW50IG9mIHRoZSBOT1RJQ0UgZmls
+ZS4KKyMgLQorIyAtICAgNy4gRGlzY2xhaW1lciBvZiBXYXJyYW50eS4gVW5sZXNzIHJlcXVpcmVk
+IGJ5IGFwcGxpY2FibGUgbGF3IG9yCisjIC0gICAgICBhZ3JlZWQgdG8gaW4gd3JpdGluZywgTGlj
+ZW5zb3IgcHJvdmlkZXMgdGhlIFdvcmsgKGFuZCBlYWNoCisjIC0gICAgICBDb250cmlidXRvciBw
+cm92aWRlcyBpdHMgQ29udHJpYnV0aW9ucykgb24gYW4gIkFTIElTIiBCQVNJUywKKyMgLSAgICAg
+IFdJVEhPVVQgV0FSUkFOVElFUyBPUiBDT05ESVRJT05TIE9GIEFOWSBLSU5ELCBlaXRoZXIgZXhw
+cmVzcyBvcgorIyAtICAgICAgaW1wbGllZCwgaW5jbHVkaW5nLCB3aXRob3V0IGxpbWl0YXRpb24s
+IGFueSB3YXJyYW50aWVzIG9yIGNvbmRpdGlvbnMKKyMgLSAgICAgIG9mIFRJVExFLCBOT04tSU5G
+UklOR0VNRU5ULCBNRVJDSEFOVEFCSUxJVFksIG9yIEZJVE5FU1MgRk9SIEEKKyMgLSAgICAgIFBB
+UlRJQ1VMQVIgUFVSUE9TRS4gWW91IGFyZSBzb2xlbHkgcmVzcG9uc2libGUgZm9yIGRldGVybWlu
+aW5nIHRoZQorIyAtICAgICAgYXBwcm9wcmlhdGVuZXNzIG9mIHVzaW5nIG9yIHJlZGlzdHJpYnV0
+aW5nIHRoZSBXb3JrIGFuZCBhc3N1bWUgYW55CisjIC0gICAgICByaXNrcyBhc3NvY2lhdGVkIHdp
+dGggWW91ciBleGVyY2lzZSBvZiBwZXJtaXNzaW9ucyB1bmRlciB0aGlzIExpY2Vuc2UuCisjIC0K
+KyMgLSAgIDguIExpbWl0YXRpb24gb2YgTGlhYmlsaXR5LiBJbiBubyBldmVudCBhbmQgdW5kZXIg
+bm8gbGVnYWwgdGhlb3J5LAorIyAtICAgICAgd2hldGhlciBpbiB0b3J0IChpbmNsdWRpbmcgbmVn
+bGlnZW5jZSksIGNvbnRyYWN0LCBvciBvdGhlcndpc2UsCisjIC0gICAgICB1bmxlc3MgcmVxdWly
+ZWQgYnkgYXBwbGljYWJsZSBsYXcgKHN1Y2ggYXMgZGVsaWJlcmF0ZSBhbmQgZ3Jvc3NseQorIyAt
+ICAgICAgbmVnbGlnZW50IGFjdHMpIG9yIGFncmVlZCB0byBpbiB3cml0aW5nLCBzaGFsbCBhbnkg
+Q29udHJpYnV0b3IgYmUKKyMgLSAgICAgIGxpYWJsZSB0byBZb3UgZm9yIGRhbWFnZXMsIGluY2x1
+ZGluZyBhbnkgZGlyZWN0LCBpbmRpcmVjdCwgc3BlY2lhbCwKKyMgLSAgICAgIGluY2lkZW50YWws
+IG9yIGNvbnNlcXVlbnRpYWwgZGFtYWdlcyBvZiBhbnkgY2hhcmFjdGVyIGFyaXNpbmcgYXMgYQor
+IyAtICAgICAgcmVzdWx0IG9mIHRoaXMgTGljZW5zZSBvciBvdXQgb2YgdGhlIHVzZSBvciBpbmFi
+aWxpdHkgdG8gdXNlIHRoZQorIyAtICAgICAgV29yayAoaW5jbHVkaW5nIGJ1dCBub3QgbGltaXRl
+ZCB0byBkYW1hZ2VzIGZvciBsb3NzIG9mIGdvb2R3aWxsLAorIyAtICAgICAgd29yayBzdG9wcGFn
+ZSwgY29tcHV0ZXIgZmFpbHVyZSBvciBtYWxmdW5jdGlvbiwgb3IgYW55IGFuZCBhbGwKKyMgLSAg
+ICAgIG90aGVyIGNvbW1lcmNpYWwgZGFtYWdlcyBvciBsb3NzZXMpLCBldmVuIGlmIHN1Y2ggQ29u
+dHJpYnV0b3IKKyMgLSAgICAgIGhhcyBiZWVuIGFkdmlzZWQgb2YgdGhlIHBvc3NpYmlsaXR5IG9m
+IHN1Y2ggZGFtYWdlcy4KKyMgLQorIyAtICAgOS4gQWNjZXB0aW5nIFdhcnJhbnR5IG9yIEFkZGl0
+aW9uYWwgTGlhYmlsaXR5LiBXaGlsZSByZWRpc3RyaWJ1dGluZworIyAtICAgICAgdGhlIFdvcmsg
+b3IgRGVyaXZhdGl2ZSBXb3JrcyB0aGVyZW9mLCBZb3UgbWF5IGNob29zZSB0byBvZmZlciwKKyMg
+LSAgICAgIGFuZCBjaGFyZ2UgYSBmZWUgZm9yLCBhY2NlcHRhbmNlIG9mIHN1cHBvcnQsIHdhcnJh
+bnR5LCBpbmRlbW5pdHksCisjIC0gICAgICBvciBvdGhlciBsaWFiaWxpdHkgb2JsaWdhdGlvbnMg
+YW5kL29yIHJpZ2h0cyBjb25zaXN0ZW50IHdpdGggdGhpcworIyAtICAgICAgTGljZW5zZS4gSG93
+ZXZlciwgaW4gYWNjZXB0aW5nIHN1Y2ggb2JsaWdhdGlvbnMsIFlvdSBtYXkgYWN0IG9ubHkKKyMg
+LSAgICAgIG9uIFlvdXIgb3duIGJlaGFsZiBhbmQgb24gWW91ciBzb2xlIHJlc3BvbnNpYmlsaXR5
+LCBub3Qgb24gYmVoYWxmCisjIC0gICAgICBvZiBhbnkgb3RoZXIgQ29udHJpYnV0b3IsIGFuZCBv
+bmx5IGlmIFlvdSBhZ3JlZSB0byBpbmRlbW5pZnksCisjIC0gICAgICBkZWZlbmQsIGFuZCBob2xk
+IGVhY2ggQ29udHJpYnV0b3IgaGFybWxlc3MgZm9yIGFueSBsaWFiaWxpdHkKKyMgLSAgICAgIGlu
+Y3VycmVkIGJ5LCBvciBjbGFpbXMgYXNzZXJ0ZWQgYWdhaW5zdCwgc3VjaCBDb250cmlidXRvciBi
+eSByZWFzb24KKyMgLSAgICAgIG9mIHlvdXIgYWNjZXB0aW5nIGFueSBzdWNoIHdhcnJhbnR5IG9y
+IGFkZGl0aW9uYWwgbGlhYmlsaXR5LgorIyAtCisjIC0gICBFTkQgT0YgVEVSTVMgQU5EIENPTkRJ
+VElPTlMKKyMgLQorIyAtICAgQVBQRU5ESVg6IEhvdyB0byBhcHBseSB0aGUgQXBhY2hlIExpY2Vu
+c2UgdG8geW91ciB3b3JrLgorIyAtCisjIC0gICAgICBUbyBhcHBseSB0aGUgQXBhY2hlIExpY2Vu
+c2UgdG8geW91ciB3b3JrLCBhdHRhY2ggdGhlIGZvbGxvd2luZworIyAtICAgICAgYm9pbGVycGxh
+dGUgbm90aWNlLCB3aXRoIHRoZSBmaWVsZHMgZW5jbG9zZWQgYnkgYnJhY2tldHMgIltdIgorIyAt
+ICAgICAgcmVwbGFjZWQgd2l0aCB5b3VyIG93biBpZGVudGlmeWluZyBpbmZvcm1hdGlvbi4gKERv
+bid0IGluY2x1ZGUKKyMgLSAgICAgIHRoZSBicmFja2V0cyEpICBUaGUgdGV4dCBzaG91bGQgYmUg
+ZW5jbG9zZWQgaW4gdGhlIGFwcHJvcHJpYXRlCisjIC0gICAgICBjb21tZW50IHN5bnRheCBmb3Ig
+dGhlIGZpbGUgZm9ybWF0LiBXZSBhbHNvIHJlY29tbWVuZCB0aGF0IGEKKyMgLSAgICAgIGZpbGUg
+b3IgY2xhc3MgbmFtZSBhbmQgZGVzY3JpcHRpb24gb2YgcHVycG9zZSBiZSBpbmNsdWRlZCBvbiB0
+aGUKKyMgLSAgICAgIHNhbWUgInByaW50ZWQgcGFnZSIgYXMgdGhlIGNvcHlyaWdodCBub3RpY2Ug
+Zm9yIGVhc2llcgorIyAtICAgICAgaWRlbnRpZmljYXRpb24gd2l0aGluIHRoaXJkLXBhcnR5IGFy
+Y2hpdmVzLgorIyAtCisjIC0gICBDb3B5cmlnaHQgW3l5eXldIFtuYW1lIG9mIGNvcHlyaWdodCBv
+d25lcl0KKyMgLQorIyAtICAgTGljZW5zZWQgdW5kZXIgdGhlIEFwYWNoZSBMaWNlbnNlLCBWZXJz
+aW9uIDIuMCAodGhlICJMaWNlbnNlIik7CisjIC0gICB5b3UgbWF5IG5vdCB1c2UgdGhpcyBmaWxl
+IGV4Y2VwdCBpbiBjb21wbGlhbmNlIHdpdGggdGhlIExpY2Vuc2UuCisjIC0gICBZb3UgbWF5IG9i
+dGFpbiBhIGNvcHkgb2YgdGhlIExpY2Vuc2UgYXQKKyMgLQorIyAtICAgICAgIGh0dHA6Ly93d3cu
+YXBhY2hlLm9yZy9saWNlbnNlcy9MSUNFTlNFLTIuMAorIyAtCisjIC0gICBVbmxlc3MgcmVxdWly
+ZWQgYnkgYXBwbGljYWJsZSBsYXcgb3IgYWdyZWVkIHRvIGluIHdyaXRpbmcsIHNvZnR3YXJlCisj
+IC0gICBkaXN0cmlidXRlZCB1bmRlciB0aGUgTGljZW5zZSBpcyBkaXN0cmlidXRlZCBvbiBhbiAi
+QVMgSVMiIEJBU0lTLAorIyAtICAgV0lUSE9VVCBXQVJSQU5USUVTIE9SIENPTkRJVElPTlMgT0Yg
+QU5ZIEtJTkQsIGVpdGhlciBleHByZXNzIG9yIGltcGxpZWQuCisjIC0gICBTZWUgdGhlIExpY2Vu
+c2UgZm9yIHRoZSBzcGVjaWZpYyBsYW5ndWFnZSBnb3Zlcm5pbmcgcGVybWlzc2lvbnMgYW5kCisj
+IC0gICBsaW1pdGF0aW9ucyB1bmRlciB0aGUgTGljZW5zZS4KKyMgLQorIyAtLS0tIGVuZCBvZiBB
+cGFjaGUgMi4wIGxpY2Vuc2UgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0KKyMgLQorIyAgVGhlIGV4dC9jb3JvdXRpbmUgY29kZSBpcyBleHRlcm5hbGx5IG1h
+aW50YWluZWQgYW5kIGRpc3RyaWJ1dGVkIHVuZGVyCisjICB0aGUgQm9vc3QgU29mdHdhcmUgTGlj
+ZW5zZSwgVmVyc2lvbiAxLjAuICAoU2VlIGl0cyBhY2NvbXBhbnlpbmcgZmlsZQorIyAgTElDRU5T
+RV8xXzAudHh0LikKKyMgCisjCisKIFNVTU1BUlkgPSAiSVNDIEtlYSBESENQIFNlcnZlciIKIERF
+U0NSSVBUSU9OID0gIktlYSBpcyB0aGUgbmV4dCBnZW5lcmF0aW9uIG9mIERIQ1Agc29mdHdhcmUg
+ZGV2ZWxvcGVkIGJ5IElTQy4gSXQgc3VwcG9ydHMgYm90aCBESENQdjQgYW5kIERIQ1B2NiBwcm90
+b2NvbHMgYWxvbmcgd2l0aCB0aGVpciBleHRlbnNpb25zLCBlLmcuIHByZWZpeCBkZWxlZ2F0aW9u
+IGFuZCBkeW5hbWljIHVwZGF0ZXMgdG8gRE5TLiIKIEhPTUVQQUdFID0gImh0dHA6Ly9rZWEuaXNj
+Lm9yZyIKIFNFQ1RJT04gPSAiY29ubmVjdGl2aXR5IgogTElDRU5TRSA9ICJNUEwtMi4wICYgQXBh
+Y2hlLTIuMCIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PWI0ZWNlZTk5
+NWVlYjY3ODBhMTdkZDdlNTM5ZTk3YWJjIgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09Q
+WUlORzttZDU9OTdjZTE0YmRkMjczM2Y1Yjg0YWI1ZTI5MzgwZDA1N2QiCiAKIERFUEVORFMgPSAi
+Ym9vc3QgbG9nNGNwbHVzIG9wZW5zc2wiCiAKQEAgLTE4LDcgKzI2Myw3IEBAIFNSQ19VUkkgPSAi
+aHR0cDovL2Z0cC5pc2Mub3JnL2lzYy9rZWEvJHtQVn0vJHtCUH0udGFyLmd6IFwKICAgICAgICAg
+ICAgZmlsZTovL2ZpeF9waWRfa2VhY3RybC5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAx
+LXNyYy1saWItbG9nLWxvZ2dlcl91bml0dGVzdF9zdXBwb3J0LmNjLWRvLW5vdC13cml0ZS0ucGF0
+Y2ggXAogICAgICAgICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOGQyODIxM2JkYzhlMmJi
+ODcwYTM4M2IzMGFjMWU1M2Q1NGUxZWJhNDNkMmY4NmU1MTUxYjA4YjY2YWE2Y2YzMiIKK1NSQ19V
+Uklbc2hhMjU2c3VtXSA9ICJkYTdkOTBjYTYyYTc3MjYwMmRhYzZlNzdlNTA3MzE5MDM4NDIyODk1
+YWQ2OGVlYjE0MmYxNDg3ZDY3ZDUzMWQyIgogCiBpbmhlcml0IGF1dG90b29scyBzeXN0ZW1kIHVw
+ZGF0ZS1yYy5kIHVwc3RyZWFtLXZlcnNpb24taXMtZXZlbgogCi0tIAoyLjMxLjEKCg==
+
+--===============1353708202194819279==--
 
