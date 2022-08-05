@@ -2,57 +2,57 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93A73C25B06
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9400DC25B0D
 	for <webhook@archiver.kernel.org>; Fri,  5 Aug 2022 13:13:20 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web12.6780.1659705197775584356
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web08.6587.1659705194196225206
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Aug 2022 06:13:18 -0700
+ Fri, 05 Aug 2022 06:13:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EnhZaop1;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=I9u6xHVx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id q30so3182139wra.11
+Received: by mail-wr1-f42.google.com with SMTP id z12so3198590wrs.9
         for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Aug 2022 06:13:17 -0700 (PDT)
+ Fri, 05 Aug 2022 06:13:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc;
-        bh=EQAAOsR7VDLPtDmBP8DxT83b4Y/vW7FfqwsE2nmDzgI=;
-        b=EnhZaop19he4MHThFeRGI4DiqwroWQIQ0ImH3/GivZsrwxuV2TXMR9fQ5biGJvh38V
-         IHo1qDQkN9DXS5HheRdSmVbFVa8WLeWyShSZS+soZ/WNrhWEM4mXG7UEGAURloYl9wFi
-         OTZs2JGFLp1EL6rXVTzZMUSpHOeZJALzdeUlQ=
+        bh=KD3zi5VPJTUIl7gf3YBtUk8udugvSm2OeCj9+Gfd9H8=;
+        b=I9u6xHVxYi06hu3ueB4ZvGZCSfyt7W2evLKjC80kamjj6EI2mKOHiEGwi4ZpSZakYt
+         kH0kpO+FjIOJF+lb6qLTamfScKZIDFCyhtz9qROtyGfnmSudzQEq6aOTStKHJxb+47uH
+         Z6iALNlSG+bGOqhD3l4iv4sgawwI/4isG6zr8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=EQAAOsR7VDLPtDmBP8DxT83b4Y/vW7FfqwsE2nmDzgI=;
-        b=g8o6eD7mP3088uChTD31+vC2jCBfGE222KRhISM4OZww+C8daU42wWV7QekMedOhp2
-         jA6Y6b5gs7vxF95YPECGyoSo83WQ8mrSZa61PeyAjbWu32mdpdmgaavsADFDmnE7r2KV
-         3KY53xDB9yUtwk1d7IJryegz1Wlz/T5/LgNzTRd1G/E86zTylZ9u/PR7H3hFfasEjDIs
-         +MI4YbxvAF0QQjuGSF8hC4dUt5tNJTQcPfZwTeCFHDv9AOLRZqMAZzkHyElnWX1evSB/
-         LcBgly69zoPDTh8PpbmEoBwoOUSxxw6Hq6G40muSGPrNwdQNvrqZEH5TIBaX+SC4NILD
-         RrCw==
-X-Gm-Message-State: ACgBeo0/6i8NbshTi+yyp7S34mUCBg7wmMz1XXscs+sK25YG2i2wLCWi
-	5SZVGCWDOLcGb+pX+H19kI+MRdTS93PL+g==
+        bh=KD3zi5VPJTUIl7gf3YBtUk8udugvSm2OeCj9+Gfd9H8=;
+        b=BRE+O9xLm1JpeWfZ6+YeRuSEgrdDsv0GE8xlm9UAJAJfVGo4SBjuvkt5ItZi/ILvc8
+         RhzR6h4/cAxLw767AZBUCzm43BMguj8QgMWFdf+5y8YwT0kocTNVpYjK9wb7PzqgQpF0
+         WhxCJI58/CvcvqlqIqjPYqKWpoCeYSlGiRxL0nA976jGUYfJO02QvLdCNZAAHgtSk7ko
+         iCOXc48CI+RCz9/US82rOzsFe9nSq9uk0ORAb3kK3PON0neYxH3VxQalS40tp+Ue+skL
+         R+QG4c/Hq4yTbufx+pLhpRGbBWcaN6+r57svioIoTEA1A1qAJKTK0n/QYSQVeBNDBrSU
+         sc2g==
+X-Gm-Message-State: ACgBeo3r6M01UUF73l1jB1ONX8ChFD9UddtqRvlYuocpZItdcYAt5XnG
+	Mm8TkWf31Ppiw2tktNIZFynZ5r8Y6bzUgg==
 X-Google-Smtp-Source: 
- AA6agR4x2DBNa9yd7ZByEhyArn1QI8VB35dJCem3k+hr+fz7MXl8AiZYZDoidzCQQxfGY1DGwXsFog==
-X-Received: by 2002:a5d:64ca:0:b0:220:6247:42c1 with SMTP id
- f10-20020a5d64ca000000b00220624742c1mr4326366wri.478.1659705195953;
-        Fri, 05 Aug 2022 06:13:15 -0700 (PDT)
+ AA6agR6A9WIPcR2ejmgUa5PM5dYCWORaLOm0cRtIt17KFVANTBgQEGU15Fs4VaFE0KOR3u05qHF2uQ==
+X-Received: by 2002:a05:6000:18ab:b0:220:6c0d:8157 with SMTP id
+ b11-20020a05600018ab00b002206c0d8157mr4410699wri.438.1659705194792;
+        Fri, 05 Aug 2022 06:13:14 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:f483:fcb0:1452:5a5a])
         by smtp.gmail.com with ESMTPSA id
- p12-20020a05600c204c00b003a51a0d35e7sm1908901wmg.37.2022.08.05.06.13.14
+ p12-20020a05600c204c00b003a51a0d35e7sm1908901wmg.37.2022.08.05.06.13.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Aug 2022 06:13:15 -0700 (PDT)
+        Fri, 05 Aug 2022 06:13:14 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 22/29] rust-common: Simplify libc handling
-Date: Fri,  5 Aug 2022 14:12:45 +0100
-Message-Id: <20220805131252.3706794-22-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 21/29] rust-target-config: Make target workaround generic
+Date: Fri,  5 Aug 2022 14:12:44 +0100
+Message-Id: <20220805131252.3706794-21-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220805131252.3706794-1-richard.purdie@linuxfoundation.org>
 References: <20220805131252.3706794-1-richard.purdie@linuxfoundation.org>
@@ -63,84 +63,42 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 05 Aug 2022 13:13:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168956
+ https://lists.openembedded.org/g/openembedded-core/message/168955
 
-The current libc handling code is simply wrong in many cases. Simplify it
-to a check of the triplet for musl handling which is much simpler and less
-error prone when handling things like nativesdk targets.
+Ensure the 'target' data is set for both HOST and TARGET queries
+as appropriate to work correctly in cross configurations.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/rust-common.bbclass | 45 ++++++--------------------------
- 1 file changed, 8 insertions(+), 37 deletions(-)
+ meta/classes/rust-target-config.bbclass | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/rust-common.bbclass b/meta/classes/rust-common.bbclass
-index 7c432ed131b..516b258c15e 100644
---- a/meta/classes/rust-common.bbclass
-+++ b/meta/classes/rust-common.bbclass
-@@ -13,27 +13,6 @@ RUSTFLAGS += "${RUSTLIB} ${RUST_DEBUG_REMAP}"
- RUSTLIB_DEP ?= "libstd-rs"
- RUST_PANIC_STRATEGY ?= "unwind"
+diff --git a/meta/classes/rust-target-config.bbclass b/meta/classes/rust-target-config.bbclass
+index bc6bd77abbf..b3c738f02a4 100644
+--- a/meta/classes/rust-target-config.bbclass
++++ b/meta/classes/rust-target-config.bbclass
+@@ -290,6 +290,10 @@ llvm_cpu[vardepvalue] = "${@llvm_cpu(d)}"
  
--# Native builds are not effected by TCLIBC. Without this, rust-native
--# thinks it's "target" (i.e. x86_64-linux) is a musl target.
--RUST_LIBC = "${TCLIBC}"
--RUST_LIBC:class-crosssdk = "glibc"
--RUST_LIBC:class-native = "glibc"
--
--def determine_libc(d, thing):
--    '''Determine which libc something should target'''
--
--    # BUILD is never musl, TARGET may be musl or glibc,
--    # HOST could be musl, but only if a compiler is built to be run on
--    # target in which case HOST_SYS != BUILD_SYS.
--    if thing == 'TARGET':
--        libc = d.getVar('RUST_LIBC')
--    elif thing == 'BUILD' and (d.getVar('HOST_SYS') != d.getVar('BUILD_SYS')):
--        libc = d.getVar('RUST_LIBC')
--    else:
--        libc = d.getVar('RUST_LIBC:class-native')
--
--    return libc
--
- def target_is_armv7(d):
-     '''Determine if target is armv7'''
-     # TUNE_FEATURES may include arm* even if the target is not arm
-@@ -73,26 +52,18 @@ def rust_base_triple(d, thing):
-     if thing == "BUILD" and bpn in ["rust"]:
-         return arch + "-unknown-linux-gnu"
- 
--    # All the Yocto targets are Linux and are 'unknown'
--    vendor = "-unknown"
--    os = d.getVar('{}_OS'.format(thing))
--    libc = determine_libc(d, thing)
--
--    # Prefix with a dash and convert glibc -> gnu
--    if libc == "glibc":
--        libc = "-gnu"
--    elif libc == "musl":
--        libc = "-musl"
--
--    # Don't double up musl (only appears to be the case on aarch64)
--    if os == "linux-musl":
--        if libc != "-musl":
--            bb.fatal("{}_OS was '{}' but TCLIBC was not 'musl'".format(thing, os))
--        os = "linux"
-+    vendor = d.getVar('{}_VENDOR'.format(thing))
- 
-+    # Default to glibc
-+    libc = "-gnu"
-+    os = d.getVar('{}_OS'.format(thing))
-     # This catches ARM targets and appends the necessary hard float bits
-     if os == "linux-gnueabi" or os == "linux-musleabi":
-         libc = bb.utils.contains('TUNE_FEATURES', 'callconvention-hard', 'hf', '', d)
-+    elif "musl" in os:
-+        libc = "-musl"
-+        os = "linux"
+ def rust_gen_target(d, thing, wd, arch):
+     import json
 +
-     return arch + vendor + '-' + os + libc
++    build_sys = d.getVar('BUILD_SYS')
++    target_sys = d.getVar('TARGET_SYS')
++
+     sys = d.getVar('{}_SYS'.format(thing))
+     prefix = d.getVar('{}_PREFIX'.format(thing))
+     rustsys = d.getVar('RUST_{}_SYS'.format(thing))
+@@ -298,7 +302,9 @@ def rust_gen_target(d, thing, wd, arch):
+     cpu = "generic"
+     features = ""
  
- 
+-    if thing == "TARGET":
++    # Need to apply the target tuning conssitently, only if the triplet applies to the target
++    # and not in the native case
++    if sys == target_sys and sys != build_sys:
+         abi = d.getVar('ABIEXTENSION')
+         cpu = llvm_cpu(d)
+         if bb.data.inherits_class('native', d):
 -- 
 2.34.1
 
