@@ -2,57 +2,57 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D96AC25B08
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99DD5C25B0C
 	for <webhook@archiver.kernel.org>; Fri,  5 Aug 2022 13:13:20 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web12.6767.1659705175208683315
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web09.6782.1659705187235305448
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Aug 2022 06:13:19 -0700
+ Fri, 05 Aug 2022 06:13:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=J1MkEvYl;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CdCJigfe;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id l4so3179590wrm.13
+Received: by mail-wr1-f43.google.com with SMTP id n4so1463416wrp.10
         for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Aug 2022 06:13:19 -0700 (PDT)
+ Fri, 05 Aug 2022 06:13:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc;
-        bh=DTo5j2e7SUYxAIASJznUSvw/QNvpiYxFi4QlTtDlUwc=;
-        b=J1MkEvYlXHLaSz1YLtnob19fkr4VzSPZjb4SNCD7hjwmlA3bhR6wOi3ipresk5rZwR
-         4LSW4xv3N4PVqKlLxw1aSrCzTPYDYse1o5Zp9oLvPAMZnKOrA9qjp8F2xKwKzf0EXYCq
-         f7y2mWD0BAeKxR8rKC8VHiK1OZZKjRAXhq4NQ=
+        bh=Wzb8J8ky9isqgGk0tt0WCT8QETut2REefbZkobgzND0=;
+        b=CdCJigfemzavJZvwzKRoyC1YEhqaAJtzX3H2PmliNDMIojuAjOZM1pv9WPzXROB3pz
+         LozxsagEBG56M8o8rE6F4nyghPYdGv8v/N8MFZIzX5KRam1pTno3+vCaR0/pqfc/edAy
+         zv2OEwqCsI2hD1ECguebgLgHNn5nhiEjNogi4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=DTo5j2e7SUYxAIASJznUSvw/QNvpiYxFi4QlTtDlUwc=;
-        b=DoXIsMK+YHG6mDek6x2yIWfZTB4OI0P6DWILdaDoqDCqGLTcONBoUj5rbjNx4iXcac
-         r9lLKyqBSRzehe6ar8IV6Ol7I1fDXzxRq4lAxcy2J7ZLj8eTaptoGNkQpvDy8QO0DK5T
-         q+dKLABLBvzz7O4+PSqPN+cYtf17N169dWFwLeDYTL8QsVmj34s0BDxjuT2N2ul6rma1
-         VXC8VAWeRnfqMNrFIa973U1htOUtWEBNdEqpwtnT5uUoKc4KQbNoDjvRsk8cGK+gZe50
-         b3yfwP0JeiMC7/O2GwqxUvUy0HtqF4c6XcnUlwlc0CsyK1lBRU/Y9YWTxRc3SZU6HeOj
-         Tn1A==
-X-Gm-Message-State: ACgBeo3903uE8yBqQrWgemy1RZ9GVraVu0iAqbCnkNeZjMavGjVUxi38
-	7JlRpwBmvCez2OmfuVM8XqlhyjKl7xY8jA==
+        bh=Wzb8J8ky9isqgGk0tt0WCT8QETut2REefbZkobgzND0=;
+        b=wQSgpuo+9bN4XBqAwtgRkdH7fhJS3WniIOvwNGYzE9zzEJlcMOLVxeXt1h+EzFx4jY
+         CV1wEICkMP0FTfGAQ4GwdG5wVBz0RAwHF632ksJNZIJgMIsDeuC4Ole/EjW0JM392Ny/
+         LmhdSTcSAUxTQ8/tYi/5mCD8dwHITefKmWMaluTd/WWWMXhZtxchwkh/LEUzHrawm2b5
+         RHOAX+IFnQuT1j7hWZ3wILDYinJu6LCUw2XvpjgtWoI5RwiRY0IIdkMK1PpFF12mjfaY
+         NK8Z9hS8UkHxzzDrIOjIKdHB/cVKATNsp3GijVIqHLucNEUUKPCn8cFGbsv/SXx1Hx8E
+         Uz8g==
+X-Gm-Message-State: ACgBeo2L/pHD27F2klR17aGkpn/jOar/6Y/wx3guDv8M1Ajm2iavazG7
+	D/af/wPux7BfWacOwNdGWw2uDmzpOF/F8Q==
 X-Google-Smtp-Source: 
- AA6agR4x1uRQ6kC1VPMF3Sqd+G9kAhZWs3vUnLPshBpB5yrAcYeQ0ol83eQdXtEwuAHJXT8QxKFKzg==
-X-Received: by 2002:a5d:5601:0:b0:220:7144:2938 with SMTP id
- l1-20020a5d5601000000b0022071442938mr4581005wrv.50.1659705198545;
-        Fri, 05 Aug 2022 06:13:18 -0700 (PDT)
+ AA6agR7KyS1zUffYW7Rv+OXgYVDi2dTDPtPwzwOt8I0iyN/28C6PprcgspKb6gulsD1rSNnpquCuYQ==
+X-Received: by 2002:a5d:6d49:0:b0:21b:a3ba:30b5 with SMTP id
+ k9-20020a5d6d49000000b0021ba3ba30b5mr4434953wri.513.1659705193584;
+        Fri, 05 Aug 2022 06:13:13 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:f483:fcb0:1452:5a5a])
         by smtp.gmail.com with ESMTPSA id
- p12-20020a05600c204c00b003a51a0d35e7sm1908901wmg.37.2022.08.05.06.13.17
+ p12-20020a05600c204c00b003a51a0d35e7sm1908901wmg.37.2022.08.05.06.13.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Aug 2022 06:13:18 -0700 (PDT)
+        Fri, 05 Aug 2022 06:13:13 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 24/29] rust-common: Set rustlibdir to match target expectation
-Date: Fri,  5 Aug 2022 14:12:47 +0100
-Message-Id: <20220805131252.3706794-24-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 20/29] rust-common: Update to match cross targets
+Date: Fri,  5 Aug 2022 14:12:43 +0100
+Message-Id: <20220805131252.3706794-20-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220805131252.3706794-1-richard.purdie@linuxfoundation.org>
 References: <20220805131252.3706794-1-richard.purdie@linuxfoundation.org>
@@ -63,32 +63,29 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 05 Aug 2022 13:13:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168958
+ https://lists.openembedded.org/g/openembedded-core/message/168954
+
+Tweak the armv7 workaround to work for cross environments and as a host
+triplet and not just as a target.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/rust-common.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/rust-common.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/classes/rust-common.bbclass b/meta/classes/rust-common.bbclass
-index 516b258c15e..8ee05f57f86 100644
+index f2e99493fef..7c432ed131b 100644
 --- a/meta/classes/rust-common.bbclass
 +++ b/meta/classes/rust-common.bbclass
-@@ -2,12 +2,12 @@ inherit python3native
- inherit rust-target-config
+@@ -63,7 +63,7 @@ def rust_base_triple(d, thing):
+     '''
  
- # Common variables used by all Rust builds
--export rustlibdir = "${libdir}/rust"
-+export rustlibdir = "${libdir}/rustlib/${RUST_HOST_SYS}/lib"
- FILES:${PN} += "${rustlibdir}/*.so"
- FILES:${PN}-dev += "${rustlibdir}/*.rlib ${rustlibdir}/*.rmeta"
- FILES:${PN}-dbg += "${rustlibdir}/.debug"
- 
--RUSTLIB = "-L ${STAGING_LIBDIR}/rust"
-+RUSTLIB = "-L ${STAGING_DIR_HOST}${rustlibdir}"
- RUST_DEBUG_REMAP = "--remap-path-prefix=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}"
- RUSTFLAGS += "${RUSTLIB} ${RUST_DEBUG_REMAP}"
- RUSTLIB_DEP ?= "libstd-rs"
+     # The llvm-target for armv7 is armv7-unknown-linux-gnueabihf
+-    if thing == "TARGET" and target_is_armv7(d):
++    if d.getVar('{}_ARCH'.format(thing)) == d.getVar('TARGET_ARCH') and target_is_armv7(d):
+         arch = "armv7"
+     else:
+         arch = oe.rust.arch_to_rust_arch(d.getVar('{}_ARCH'.format(thing)))
 -- 
 2.34.1
 
