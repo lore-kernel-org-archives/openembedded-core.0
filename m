@@ -1,147 +1,138 @@
-Return-Path: <pgowda.cve@gmail.com>
+Return-Path: <beniaminsandu@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBAD9C25B08
-	for <webhook@archiver.kernel.org>; Fri,  5 Aug 2022 10:15:19 +0000 (UTC)
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com
- [209.85.221.178])
- by mx.groups.io with SMTP id smtpd.web09.5361.1659694510324468315
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CAF7C00140
+	for <webhook@archiver.kernel.org>; Fri,  5 Aug 2022 11:18:10 +0000 (UTC)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com
+ [209.85.219.170])
+ by mx.groups.io with SMTP id smtpd.web12.5785.1659698281481052718
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Aug 2022 03:15:10 -0700
+ Fri, 05 Aug 2022 04:18:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Q8umZYrm;
- spf=pass (domain: gmail.com, ip: 209.85.221.178,
- mailfrom: pgowda.cve@gmail.com)
-Received: by mail-vk1-f178.google.com with SMTP id q191so1024876vkb.6
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=hCgNRfgn;
+ spf=pass (domain: gmail.com, ip: 209.85.219.170,
+ mailfrom: beniaminsandu@gmail.com)
+Received: by mail-yb1-f170.google.com with SMTP id 7so3399204ybw.0
         for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Aug 2022 03:15:10 -0700 (PDT)
+ Fri, 05 Aug 2022 04:18:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=6i6/Hgo3rb2e0JOO8SyqpYOUVhLWrOpYIJEuDo6Bp9Q=;
-        b=Q8umZYrmctgZYKk+6LxSCLefFd2iGShK8FoKCcfwkPFSWlgZBdGMnB5qq9z3eZPTBD
-         yQoBbc9xIKfd3hgLcBINrF1imyqqwxv6k/ono+w6gVSZAGiSTzd5/VYmFy0fXfa9TRl2
-         HSnQzNTd5++FEAeVF98cDqvqbYyEat5/K6F0pLPw+T5IuzYDg6ARziYsRlPOm8mK0LFD
-         4MfIXqxexBwui4QE3eDTDffnxb/kbGUQKVDu3kKETk9gpmNPJpOHNsThi4idxNOHFgn8
-         mu+FdObiM2PJdYcqcHhaTf2WQWSK/szxktz0ip1km8Zfa7C3W81eU6rm2ZmgXpDAwoD4
-         6e7g==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=D1hHcqpPUnQILhap8alIakfB/4fMmTlBN0FwZ2vW1Y0=;
+        b=hCgNRfgn71Fwd7iC/Ex+CYhHzojOzS2Z15p+cXlgpsSdwAKlBEkTIjBx7mbIG+6q0j
+         jv81m3RnJyVshtbSHeBOZGq7AdHw4NuU8C/kw4p+dHWE/lG1SVBtrSg4MlV4L4tlZnSI
+         9egn48XARVMKv8ysItGwIjRq66DBYGUMKWqYTDO13dPFt9NYfQGXsZHFwv5E6NzLaUFx
+         m3Qibatw8/1LE6rNpBmU3r29K0wsNOySJ03N54UDRa03YE1uATVVsq9HbfiGYSc1MI32
+         sjDGZurvD3zFmlnsldPj/6/E59e4Md6Bg2UTSjk461wwoUN0Rr0U9HnXi/4B6wdl42UW
+         sAvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=6i6/Hgo3rb2e0JOO8SyqpYOUVhLWrOpYIJEuDo6Bp9Q=;
-        b=P+GAG/ihFn3vCk33Bxjqp1VxsyBpqxoJjurAZZD62/YsUOTInm1Q7gcTYEEBnLFiOu
-         1AqxoTvpEtEJG845atzcPmdwJu6esbbRxCoxaymMRa4nw+P9jVMaKWTJBLWAbNU9/VXu
-         Vgu5W6i3k82xQ/d6BCPuzsvWLDB90+bGnjze/fZActAW3G0/ZkTDPkiv1OUSZ99U8ENW
-         jnKJJu5XgdgAIZfIbgZiDM1dUR4lL/icf8iSKn/czTb7QJKN/5QGl8pG4lHLT0TZde2Y
-         ZsmC7PgVRBu4+CFrSaVA4ci7z5Gf54iIPBF9HYyaE+C1ZggN3qyAp4mo7Uas98YxE+X2
-         6dZw==
-X-Gm-Message-State: ACgBeo1XLFBu2zj4x8ZODaS7hTJXC/+atyZKANJvCUqo7Hajy2ri8whb
-	TkYaGkdHGg2gRu77Bs3C+E0X+U7hhjdfprz8WmU=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=D1hHcqpPUnQILhap8alIakfB/4fMmTlBN0FwZ2vW1Y0=;
+        b=x8TLVMJSvt+MxB7QTqcIWvF+F+tR9lszsXaiEi6zwalS+U7LAlw59Loa5cMznigvWn
+         iczuwKjNabilnVyOUOoEGvx6I+i6PIDsfcPNS2i8+npOCt7304QQJ3HRPhMzkoAGZwYS
+         Lev5WGbmreFEURc5AWcd9xLGe+woj24KY9ML22QqXLV9FQSVE7RQIUuLkJ7LgNq0nkHM
+         lxrxkTCkoYLS5jpo956lStJLAXCYONJT1dQJG5NdHysBDhWdc/4tsaL7cqEdoB13YhrE
+         6NR6am1cY4zVmjmab77qB3tGrO+0ZkNFBuQ4XyxT5P2YNVEQ6Icq1vPA0vYLPcA4i58p
+         ZHAQ==
+X-Gm-Message-State: ACgBeo0H4ecc9PGuL4w5ZWeBg04N27z9f4pb2e2Hsy5xjaxuqZMujWEh
+	5a3mWoVIXXrxYX8Wame8I2tpj527/8b80EAhn0AimlNC
 X-Google-Smtp-Source: 
- AA6agR50zrsafuLlgo2aC69aAMHDl42H/YWtk8v1icC06xQTkaZR2pQh1C0wXgiijyB7ew/793ERAln45kzSB3IE+a4=
-X-Received: by 2002:a1f:9896:0:b0:374:a380:f7bc with SMTP id
- a144-20020a1f9896000000b00374a380f7bcmr2761774vke.15.1659694509288; Fri, 05
- Aug 2022 03:15:09 -0700 (PDT)
+ AA6agR7tKybR2PD6h90Z5MzB5aPo/CR4e5wo+09s4ty5mHYyOxkuistkXblT7Oun2skeLr/SfH7xkD8mJZCvpt4//18=
+X-Received: by 2002:a25:74c4:0:b0:676:dba6:1201 with SMTP id
+ p187-20020a2574c4000000b00676dba61201mr4927838ybc.438.1659698280476; Fri, 05
+ Aug 2022 04:18:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220803142734.2877-1-pgowda.cve@gmail.com>
- <20220805091248.0e83b7f0@booty>
-In-Reply-To: <20220805091248.0e83b7f0@booty>
-From: pgowda cve <pgowda.cve@gmail.com>
-Date: Fri, 5 Aug 2022 15:45:00 +0530
+References: <20220804113818.31414-1-beniaminsandu@gmail.com>
+In-Reply-To: <20220804113818.31414-1-beniaminsandu@gmail.com>
+From: Beniamin Sandu <beniaminsandu@gmail.com>
+Date: Fri, 5 Aug 2022 14:19:03 +0300
 Message-ID: 
- <CALY4987JxDvHj24HceUb2kt8rdG-2z0W-fogYNdVCTE3r1iibg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v8] Rust Oe-Selftest implementation
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org, rwmacleod@gmail.com,
-	Vinay Kumar <vinay.m.engg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+ <CABQJdOEDPeUg0HGMVBBuDFHyb4QxLj=G3kKC95_h-tPiUKOi_w@mail.gmail.com>
+Subject: Re: [PATCH] libpam: use /run instead of /var/run in systemd tmpfiles
+To: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000071336605e57c9e8a"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Aug 2022 10:15:19 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Aug 2022 11:18:10 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168932
+ https://lists.openembedded.org/g/openembedded-core/message/168933
 
-Hi Luca,
+--00000000000071336605e57c9e8a
+Content-Type: text/plain; charset="UTF-8"
 
-Thanks for the update.
-The issue is due to the requirement of libstdc++ in rust-1.62.
-It was not the same with 1.61 and earlier.
-It requires the installation of libstdc++ in the host machine.
-Can you please let us know whether it should be fixed in rust-testsuite
-or can they be installed in the host machine as a prerequisite for rust-1.62??
+Please disregard this change, it seems I was looking in the wrong place and
+this file is not actually used with systemd.
 
 Thanks,
-Pgowda
+Beni
 
-On Fri, Aug 5, 2022 at 12:42 PM Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+On Thu, Aug 4, 2022 at 2:37 PM Beniamin Sandu <beniaminsandu@gmail.com>
+wrote:
+
+> Update the deprecated path to remove the systemd warning:
 >
-> Hello Pgowda,
+> /etc/tmpfiles.d/pam.conf:2: Line references path below
+> legacy directory /var/run/, updating /var/run/console
+> /run/console; please update the tmpfiles.d/
 >
-> On Wed,  3 Aug 2022 19:57:34 +0530
-> "Pgowda" <pgowda.cve@gmail.com> wrote:
+> Signed-off-by: Beniamin Sandu <beniaminsandu@gmail.com>
+> ---
+>  meta/recipes-extended/pam/libpam/99_pam | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> > From: pgowda <pgowda.cve@gmail.com>
-> >
-> > The patch implements Rust testing framework similar to other selftest,
-> > specifically the gcc selftest in OE. It uses the client and server
-> > based method to test the binaries for cross-target on the image.
-> > The test framework is a wrapper around the Rust build system as ./x.py
-> > test.
-> > It tests many functionalities of Rust distribution like tools,
-> > documentation, libraries, packages, tools, Cargo, Crater etc.
-> > Please refer the following link for detailed description of Rust
-> > testing:-
-> > https://rustc-dev-guide.rust-lang.org/tests/intro.html#tool-tests
-> >
-> > To support the rust tests in oe-core, the following functions were
-> > added:-
-> > setup_cargo_environment(): Build bootstrap and some early stage tools.
-> > do_rust_setup_snapshot(): Install the snapshot version of rust binaries.
-> > do_configure(): To generate config.toml
-> > do_compile(): To build "remote-test-server" for qemu target image.
-> >
-> > Approximate Number of Tests Run in the Rust Testsuite :- 18000
-> > Approximate Number of Tests that FAIL in bitbake environment :- 100-150
-> > Normally majority of the testcases are present in major folder "test/"
-> > It contributes to more than 80% of the testcases present in Rust test
-> > framework. These tests pass as expected on any Rust versions without
-> > much fuss. The tests that fail are of less important and contribute to
-> > less than 2% of the total testcases. These minor tests are observed to
-> > work on some versions and fail on others. They have to be added, ignored
-> > or excluded for different versions as per the behavior.
-> > These tests have been ignored or excluded in the Rust selftest
-> > environment to generate success of completing the testsuite.
-> >
-> > These tests work in parallel mode even in the skipped test mode as
-> > expected. Although the patch to disable tests is large, it is very simple
-> > in that it only disables tests. When updating to a newer version of Rust,
-> > the patch can usually be ported in a day.
-> >
-> > Signed-off-by: pgowda <pgowda.cve@gmail.com>
-> > Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
->
->
-> This patch triggers the same error I had reported for v7:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/73/builds/5588/steps/18/logs/stdio
->
-> https://lists.openembedded.org/g/openembedded-core/message/168816
->
-> Can please try to reproduce the issue locally, to ensure you can
-> investigate it?
->
->
-> Also, when sending a new version, don't forget to add a short changelog
-> as suggested by Randy:
-> https://lists.openembedded.org/g/openembedded-core/message/168821
->
+> diff --git a/meta/recipes-extended/pam/libpam/99_pam
+> b/meta/recipes-extended/pam/libpam/99_pam
+> index 97e990d10b..a88247be13 100644
+> --- a/meta/recipes-extended/pam/libpam/99_pam
+> +++ b/meta/recipes-extended/pam/libpam/99_pam
+> @@ -1 +1 @@
+> -d root root 0755 /var/run/sepermit none
+> +d root root 0755 /run/sepermit none
 > --
-> Luca Ceresoli, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+> 2.25.1
+>
+>
+
+--00000000000071336605e57c9e8a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Please disregard this change, it seems I was looking =
+in the wrong place and this file is not actually used with systemd.</div><d=
+iv><br></div><div>Thanks,</div><div>Beni<br></div></div><br><div class=3D"g=
+mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 4, 2022 at 2:=
+37 PM Beniamin Sandu &lt;<a href=3D"mailto:beniaminsandu@gmail.com">beniami=
+nsandu@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex">Update the deprecated path to remove the systemd warning:<b=
+r>
+<br>
+/etc/tmpfiles.d/pam.conf:2: Line references path below<br>
+legacy directory /var/run/, updating /var/run/console<br>
+/run/console; please update the tmpfiles.d/<br>
+<br>
+Signed-off-by: Beniamin Sandu &lt;<a href=3D"mailto:beniaminsandu@gmail.com=
+" target=3D"_blank">beniaminsandu@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-extended/pam/libpam/99_pam | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-extended/pam/libpam/99_pam b/meta/recipes-extende=
+d/pam/libpam/99_pam<br>
+index 97e990d10b..a88247be13 100644<br>
+--- a/meta/recipes-extended/pam/libpam/99_pam<br>
++++ b/meta/recipes-extended/pam/libpam/99_pam<br>
+@@ -1 +1 @@<br>
+-d root root 0755 /var/run/sepermit none<br>
++d root root 0755 /run/sepermit none<br>
+-- <br>
+2.25.1<br>
+<br>
+</blockquote></div>
+
+--00000000000071336605e57c9e8a--
 
