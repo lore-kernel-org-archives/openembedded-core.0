@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BF8FC32771
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 561F0C32773
 	for <webhook@archiver.kernel.org>; Fri,  5 Aug 2022 06:03:38 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com
- (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web12.3946.1659679408182554141
+Received: from a27-192.smtp-out.us-west-2.amazonses.com
+ (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web08.3857.1659679408122744160
  for <openembedded-core@lists.openembedded.org>;
  Thu, 04 Aug 2022 23:03:28 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ID5f/Yp7;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193,
- mailfrom: 010101826c99fd89-ad919cb1-6a31-429c-901a-ce08afa61714-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Xq688PAg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
+ mailfrom: 010101826c99fdab-5b29ed95-1360-4b98-b8ae-d6026bec705e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1659679407;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=dKYFXu1tffySzeByIc8WIgrdhHpD4pVgiJRawuQlX+k=;
-	b=ID5f/Yp72QObphFGoVfE45EfeZ5LXat5fEV6pogEbm6bMdOc9eYFL9WbIav0xF/V
-	hmWQ+a/QzqKbgDBbaIVBSPom153VNX21zRdNcsDXP901S0oA+wdLr0gic207vowPyS/
-	AusTcqC33Grm06UFkbDoH6ZQgIjLaOoVQ9whYq4E=
+	bh=WjPRxYR0iy5uZcJdrqIz6lw0ZgoE1F+A65qPo553eyQ=;
+	b=Xq688PAgd3GNMvMBX1aGKlnVKbamnHRFbMsp7RgUvKi9hlZ4T4n9Biqo2s1BubX8
+	GayE8J8TW9f4pPLVjJqTlFF8AiEoyaimii3Xs3FP4tb5rZJBv67JDY1cIzlZsD0rjH6
+	GMu++9ZMVvCBsrX1T1uIqlClXBHSgQCIfqHbLa/Y=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1659679407;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=dKYFXu1tffySzeByIc8WIgrdhHpD4pVgiJRawuQlX+k=;
-	b=gSsRs2e6Aq6GI9rCor+/yXtzfDAkQmzBDK2vTgr7OXD5GsF4gNPWucUpve7I5TeP
-	SKp1RBAv729bZv2KJnYkvUPLBZjSwgQG6SNWUjYEhzhKWHJDVPn0d3vyVcJmDiN8HZA
-	8H5qnhVcUNqVtSKdsoqYpG03AQH++S1GcY6qXnR0=
-Content-Type: multipart/mixed; boundary="===============7273667445114110078=="
+	bh=WjPRxYR0iy5uZcJdrqIz6lw0ZgoE1F+A65qPo553eyQ=;
+	b=WpFFp7s4wpGHWAN4fbr1BzXLCbol6GSwkfQxDojm3mALjc8UKiseBzOOakNkBsgG
+	mNHOQd3QQwtpZik0x5WvqbmTDpmMfWqERwrJT0iI6n903vNRW2xmVhn5i5s13X4O6jS
+	l3/Oa57yWASrcdElpI5Imx+jOVo/Cnglzhs6+GHQ=
+Content-Type: multipart/mixed; boundary="===============5910425840424649339=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-markdown: upgrading to 3.4.1 SUCCEEDED
+Subject: [AUH] python3-sphinx: upgrading to 5.1.1 SUCCEEDED
 Message-ID: 
- <010101826c99fd89-ad919cb1-6a31-429c-901a-ce08afa61714-000000@us-west-2.amazonses.com>
+ <010101826c99fdab-5b29ed95-1360-4b98-b8ae-d6026bec705e-000000@us-west-2.amazonses.com>
 Date: Fri, 5 Aug 2022 06:03:27 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.08.05-54.240.27.193
+X-SES-Outgoing: 2022.08.05-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 05 Aug 2022 06:03:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168893
+ https://lists.openembedded.org/g/openembedded-core/message/168892
 
---===============7273667445114110078==
+--===============5910425840424649339==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-markdown* to *3.4.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-sphinx* to *5.1.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-markdown-upgrade-3.3.7-3.4.1.patch
+    - apply the patch: git am 0001-python3-sphinx-upgrade-5.0.2-5.1.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,78 +75,88 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7273667445114110078==
+--===============5910425840424649339==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/python3-markdown/python3-markdown: FILELIST: directory renamed /usr/lib/python3.10/site-packages/Markdown-3.3.7.dist-info -> /usr/lib/python3.10/site-packages/Markdown-3.4.1.dist-info, removed "/usr/lib/python3.10/site-packages/markdown/__pycache__/pep562.cpython-310.pyc /usr/lib/python3.10/site-packages/markdown/pep562.py"
-Changes to packages/core2-32-poky-linux/python3-markdown (sysroot):
-  /usr/lib/python3.10/site-packages/Markdown-3.3.7.dist-info moved to /usr/lib/python3.10/site-packages/Markdown-3.4.1.dist-info
-  /usr/lib/python3.10/site-packages/markdown/pep562.py was removed
-  /usr/lib/python3.10/site-packages/markdown/__pycache__/pep562.cpython-310.pyc was removed
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx: FILELIST: directory renamed /usr/lib/python3.10/site-packages/Sphinx-5.0.2.dist-info -> /usr/lib/python3.10/site-packages/Sphinx-5.1.1.dist-info, removed "/usr/lib/python3.10/site-packages/sphinx/util/stemmer/__pycache__/porter.cpython-310.pyc /usr/lib/python3.10/site-packages/sphinx/util/stemmer/porter.py /usr/lib/python3.10/site-packages/sphinx/locale/ru_RU/LC_MESSAGES/sphinx.mo /usr/lib/python3.10/site-packages/sphinx/locale/ru_RU/LC_MESSAGES/sphinx.po /usr/lib/python3.10/site-packages/sphinx/locale/ru_RU/LC_MESSAGES/sphinx.js", added "/usr/lib/python3.10/site-packages/sphinx/texinputs/sphinxpackageboxes.sty"
+Changes to packages/core2-32-poky-linux/python3-sphinx (sysroot):
+  /usr/lib/python3.10/site-packages/Sphinx-5.0.2.dist-info moved to /usr/lib/python3.10/site-packages/Sphinx-5.1.1.dist-info
+  /usr/lib/python3.10/site-packages/sphinx/texinputs/sphinxpackageboxes.sty was added
+  /usr/lib/python3.10/site-packages/sphinx/locale/ru_RU was removed
+  /usr/lib/python3.10/site-packages/sphinx/locale/ru_RU/LC_MESSAGES was removed
+  /usr/lib/python3.10/site-packages/sphinx/locale/ru_RU/LC_MESSAGES/sphinx.js was removed
+  /usr/lib/python3.10/site-packages/sphinx/locale/ru_RU/LC_MESSAGES/sphinx.mo was removed
+  /usr/lib/python3.10/site-packages/sphinx/locale/ru_RU/LC_MESSAGES/sphinx.po was removed
+  /usr/lib/python3.10/site-packages/sphinx/util/stemmer/porter.py was removed
+  /usr/lib/python3.10/site-packages/sphinx/util/stemmer/__pycache__/porter.cpython-310.pyc was removed
 
---===============7273667445114110078==
+--===============5910425840424649339==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-markdown: PV changed from "3.3.7" to "3.4.1"
-packages/core2-32-poky-linux/python3-markdown: PKGV changed from 3.3.7 [default] to 3.4.1 [default]
-packages/core2-32-poky-linux/python3-markdown: SRC_URI changed from "https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-3.3.7.tar.gz" to "https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-3.4.1.tar.gz"
-packages/core2-32-poky-linux/python3-markdown/python3-markdown-dbg: PV changed from "3.3.7" to "3.4.1"
-packages/core2-32-poky-linux/python3-markdown/python3-markdown-dbg: PKGV changed from 3.3.7 [default] to 3.4.1 [default]
-packages/core2-32-poky-linux/python3-markdown/python3-markdown-dev: PV changed from "3.3.7" to "3.4.1"
-packages/core2-32-poky-linux/python3-markdown/python3-markdown-dev: PKGV changed from 3.3.7 [default] to 3.4.1 [default]
-packages/core2-32-poky-linux/python3-markdown/python3-markdown-doc: PV changed from "3.3.7" to "3.4.1"
-packages/core2-32-poky-linux/python3-markdown/python3-markdown-doc: PKGV changed from 3.3.7 [default] to 3.4.1 [default]
-packages/core2-32-poky-linux/python3-markdown/python3-markdown-locale: PV changed from "3.3.7" to "3.4.1"
-packages/core2-32-poky-linux/python3-markdown/python3-markdown-locale: PKGV changed from 3.3.7 [default] to 3.4.1 [default]
-packages/core2-32-poky-linux/python3-markdown/python3-markdown-src: PV changed from "3.3.7" to "3.4.1"
-packages/core2-32-poky-linux/python3-markdown/python3-markdown-src: PKGV changed from 3.3.7 [default] to 3.4.1 [default]
-packages/core2-32-poky-linux/python3-markdown/python3-markdown-staticdev: PV changed from "3.3.7" to "3.4.1"
-packages/core2-32-poky-linux/python3-markdown/python3-markdown-staticdev: PKGV changed from 3.3.7 [default] to 3.4.1 [default]
-packages/core2-32-poky-linux/python3-markdown/python3-markdown: PV changed from "3.3.7" to "3.4.1"
-packages/core2-32-poky-linux/python3-markdown/python3-markdown: PKGV changed from 3.3.7 [default] to 3.4.1 [default]
-packages/core2-32-poky-linux/python3-markdown/python3-markdown: PKGSIZE changed from 519373 to 496030 (-4%)
-packages/core2-32-poky-linux/python3-markdown/python3-markdown: FILELIST: directory renamed /usr/lib/python3.10/site-packages/Markdown-3.3.7.dist-info -> /usr/lib/python3.10/site-packages/Markdown-3.4.1.dist-info, removed "/usr/lib/python3.10/site-packages/markdown/__pycache__/pep562.cpython-310.pyc /usr/lib/python3.10/site-packages/markdown/pep562.py"
-Changes to packages/core2-32-poky-linux/python3-markdown (sysroot):
-  /usr/lib/python3.10/site-packages/Markdown-3.3.7.dist-info moved to /usr/lib/python3.10/site-packages/Markdown-3.4.1.dist-info
-  /usr/lib/python3.10/site-packages/markdown/pep562.py was removed
-  /usr/lib/python3.10/site-packages/markdown/__pycache__/pep562.cpython-310.pyc was removed
+packages/core2-32-poky-linux/python3-sphinx: SRC_URI changed from "https://files.pythonhosted.org/packages/source/S/Sphinx/Sphinx-5.0.2.tar.gz" to "https://files.pythonhosted.org/packages/source/S/Sphinx/Sphinx-5.1.1.tar.gz"
+packages/core2-32-poky-linux/python3-sphinx: PV changed from "5.0.2" to "5.1.1"
+packages/core2-32-poky-linux/python3-sphinx: PKGV changed from 5.0.2 [default] to 5.1.1 [default]
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-dbg: PV changed from "5.0.2" to "5.1.1"
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-dbg: PKGV changed from 5.0.2 [default] to 5.1.1 [default]
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-dev: PV changed from "5.0.2" to "5.1.1"
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-dev: PKGV changed from 5.0.2 [default] to 5.1.1 [default]
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-doc: PV changed from "5.0.2" to "5.1.1"
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-doc: PKGV changed from 5.0.2 [default] to 5.1.1 [default]
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-locale: PV changed from "5.0.2" to "5.1.1"
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-locale: PKGV changed from 5.0.2 [default] to 5.1.1 [default]
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-src: PV changed from "5.0.2" to "5.1.1"
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-src: PKGV changed from 5.0.2 [default] to 5.1.1 [default]
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-staticdev: PV changed from "5.0.2" to "5.1.1"
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-staticdev: PKGV changed from 5.0.2 [default] to 5.1.1 [default]
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx: PKGSIZE changed from 13819288 to 13884489 (+0%)
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx: FILELIST: directory renamed /usr/lib/python3.10/site-packages/Sphinx-5.0.2.dist-info -> /usr/lib/python3.10/site-packages/Sphinx-5.1.1.dist-info, removed "/usr/lib/python3.10/site-packages/sphinx/util/stemmer/__pycache__/porter.cpython-310.pyc /usr/lib/python3.10/site-packages/sphinx/util/stemmer/porter.py /usr/lib/python3.10/site-packages/sphinx/locale/ru_RU/LC_MESSAGES/sphinx.mo /usr/lib/python3.10/site-packages/sphinx/locale/ru_RU/LC_MESSAGES/sphinx.js /usr/lib/python3.10/site-packages/sphinx/locale/ru_RU/LC_MESSAGES/sphinx.po", added "/usr/lib/python3.10/site-packages/sphinx/texinputs/sphinxpackageboxes.sty"
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx: PV changed from "5.0.2" to "5.1.1"
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx: PKGV changed from 5.0.2 [default] to 5.1.1 [default]
+Changes to packages/core2-32-poky-linux/python3-sphinx (sysroot):
+  /usr/lib/python3.10/site-packages/Sphinx-5.0.2.dist-info moved to /usr/lib/python3.10/site-packages/Sphinx-5.1.1.dist-info
+  /usr/lib/python3.10/site-packages/sphinx/texinputs/sphinxpackageboxes.sty was added
+  /usr/lib/python3.10/site-packages/sphinx/locale/ru_RU was removed
+  /usr/lib/python3.10/site-packages/sphinx/locale/ru_RU/LC_MESSAGES was removed
+  /usr/lib/python3.10/site-packages/sphinx/locale/ru_RU/LC_MESSAGES/sphinx.js was removed
+  /usr/lib/python3.10/site-packages/sphinx/locale/ru_RU/LC_MESSAGES/sphinx.mo was removed
+  /usr/lib/python3.10/site-packages/sphinx/locale/ru_RU/LC_MESSAGES/sphinx.po was removed
+  /usr/lib/python3.10/site-packages/sphinx/util/stemmer/porter.py was removed
+  /usr/lib/python3.10/site-packages/sphinx/util/stemmer/__pycache__/porter.cpython-310.pyc was removed
 
---===============7273667445114110078==
+--===============5910425840424649339==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-markdown-upgrade-3.3.7-3.4.1.patch"
+ filename="0001-python3-sphinx-upgrade-5.0.2-5.1.1.patch"
 
-RnJvbSAyYTIxZTdmODk3MTZlYTE1YTE2YWYzZjU1ODAwOTMyYWE4YzQ3MTFlIE1vbiBTZXAgMTcg
+RnJvbSBmMWUxOGE5NjFhZjczZDZhZTQ5OGJiNWRiMmRkMWM3NWFhMjdjZmE0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgNCBBdWcgMjAyMiAyMjoxMzoyNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtbWFya2Rvd246IHVwZ3JhZGUgMy4zLjcgLT4gMy40LjEKCi0tLQogLi4uL3tweXRob24z
-LW1hcmtkb3duXzMuMy43LmJiID0+IHB5dGhvbjMtbWFya2Rvd25fMy40LjEuYmJ9ICAgIHwgMiAr
-LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1tYXJrZG93bl8zLjMuNy5iYiA9
-PiBweXRob24zLW1hcmtkb3duXzMuNC4xLmJifSAoODAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1tYXJrZG93bl8zLjMuNy5iYiBiL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1tYXJrZG93bl8zLjQuMS5iYgpzaW1pbGFyaXR5
-IGluZGV4IDgwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
-bjMtbWFya2Rvd25fMy4zLjcuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
-b24vcHl0aG9uMy1tYXJrZG93bl8zLjQuMS5iYgppbmRleCBjNDU2Y2VjYzc4Li5lOTljMzMxMGFj
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWFya2Rv
-d25fMy4zLjcuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1h
-cmtkb3duXzMuNC4xLmJiCkBAIC02LDcgKzYsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6
-Ly9MSUNFTlNFLm1kO21kNT03NDVhYWFkMGM2OWM2MDAzOWU2MzhiZmY5ZmZjNTllZCIKIGluaGVy
-aXQgcHlwaSBweXRob25fc2V0dXB0b29sc19idWlsZF9tZXRhCiAKIFBZUElfUEFDS0FHRSA9ICJN
-YXJrZG93biIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJjYmI1MTZmMTYyMThlNjQzZDhlMGE5NWIz
-MDlmNzdlYjExOGNiMTM4ZDM5YTRmMjc4NTFlNmE2MzU4MWRiODc0IgorU1JDX1VSSVtzaGEyNTZz
-dW1dID0gIjNiODA5MDg2YmI2ZWZhZDQxNjE1NmUwMGEwZGE2NmZlNDc2MThhNWQ2OTE4ZGQ2ODhm
-NTNmNDBjOGU0Y2ZlZmYiCiAKIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIgogCi0tIAoyLjMxLjEK
-Cg==
+CkRhdGU6IFRodSwgNCBBdWcgMjAyMiAyMjozMToxOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtc3BoaW54OiB1cGdyYWRlIDUuMC4yIC0+IDUuMS4xCgotLS0KIC4uLi9weXRob24ve3B5
+dGhvbjMtc3BoaW54XzUuMC4yLmJiID0+IHB5dGhvbjMtc3BoaW54XzUuMS4xLmJifSB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtc3BoaW54XzUuMC4yLmJiID0+IHB5
+dGhvbjMtc3BoaW54XzUuMS4xLmJifSAoOTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy1zcGhpbnhfNS4wLjIuYmIgYi9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMtc3BoaW54XzUuMS4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTEl
+CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zcGhpbnhf
+NS4wLjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1z
+cGhpbnhfNS4xLjEuYmIKaW5kZXggNDZjYzI2ZTY3ZS4uMWJlZjIwYzJlMiAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNwaGlueF81LjAuMi5iYgorKysg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc3BoaW54XzUuMS4xLmJiCkBA
+IC02LDcgKzYsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT03MmM1
+MzZlNzhjMjFjNTY3MzExYjE5M2ZlMDBjZDI1MyIKIAogUFlQSV9QQUNLQUdFID0gIlNwaGlueCIK
+IAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImIxOGU5NzhlYTc1NjU3MjBmMjYwMTljNzAyY2Q4NWM4
+NDM3NmU5NDgzNzBmMWNkNDNkNjAyNjUwMTBlMWM3YjAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAi
+YmEzMjI0YTRlMjA2ZTFmYmRlY2Y5OGE0ZmFlNDk5MmVmOWIyNGI4NWViZjdiNTg0YmIzNDAxNTZl
+YWYwOGQ4OSIKIAogaW5oZXJpdCBzZXR1cHRvb2xzMyBweXBpCiAKLS0gCjIuMzEuMQoK
 
---===============7273667445114110078==--
+--===============5910425840424649339==--
 
