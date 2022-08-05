@@ -2,42 +2,42 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56246C32789
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B97BC3276C
 	for <webhook@archiver.kernel.org>; Fri,  5 Aug 2022 06:03:38 +0000 (UTC)
 Received: from a27-192.smtp-out.us-west-2.amazonses.com
  (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.3937.1659679408028959778
+ by mx.groups.io with SMTP id smtpd.web09.3950.1659679408677505707
  for <openembedded-core@lists.openembedded.org>;
  Thu, 04 Aug 2022 23:03:28 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=awm7/RnA;
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=eNjfxU55;
  spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
- mailfrom: 010101826c99fb27-d08e3481-2788-4c4a-b048-8000c61d44cb-000000@us-west-2.amazonses.com)
+ mailfrom: 010101826c99ff40-a8b267d3-9982-4acf-b59c-387331dfff13-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1659679407;
+	t=1659679408;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=l5oGm7Rjy/1R9ZYld0v8S7RYCT60mQoIellwU8v79CE=;
-	b=awm7/RnAvr1z890D+3Cy6S7VgkdFg6AM0z2qNmyDgu/aUZeafkY2yNf51/rJajiA
-	hTE4/2DPZ/9k+CjnTyOFhhZb5Avg0/YOI0sZg5ecHnXPnQTH9JKNlbfkME0Ykzyc4WT
-	o7JIPWtvA/1L6zy0UH1pbyIHw1SkVxq5TvWXoIxQ=
+	bh=7qgwCrAmnA3LnJl2EOJyVkaHNi2Ahara1baoszCCpE0=;
+	b=eNjfxU55i2TPMTHVGuKdmLAAASauf+Nt/H91p1ddq4VZUjN4jw5hdqrHJsVoYvLt
+	X3tBSozNj/rKPt66qGl5C6Jj6CqZX3XzTJ9DrSj6mDhEnsXcSelSHWL+f7E+F1GtBsn
+	1KQhtmxjDcAxT/poRpl0HUQikH6ksemzafL3OGf0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1659679407;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1659679408;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=l5oGm7Rjy/1R9ZYld0v8S7RYCT60mQoIellwU8v79CE=;
-	b=NUjTwDIzgqfeFJeL21uK0eBH/nUZ+yvkhssAfRM2HQRyiYrk4TWZSCrdtwM7FQ3b
-	Rxf5oHmbFkjzhe09fZ+A363VuvtTzATAjxoticUKotrWjYgfIlEEQuBo1sJSb/WUIuv
-	b/Lk2m/KDz2kFzitKemGxE5kXzkNDPTFTENHc/oY=
-Content-Type: multipart/mixed; boundary="===============6506179629186435858=="
+	bh=7qgwCrAmnA3LnJl2EOJyVkaHNi2Ahara1baoszCCpE0=;
+	b=OnvU9swhoPS7WS/x02hWHlxMGI25Em8uSwrLoOTlaKOaagVyBwrVdl/CfhhKOMMs
+	ROu33TVBsTErbN+ShX/2/xWx2TzidaLzM0biF7kXj1dys2G8eeYaDDMEqwMgIGr133G
+	41Ysm7ZTnDe3lmL/RMKDS9K7IPs3cvxFL+Zzduic=
+Content-Type: multipart/mixed; boundary="===============7520072627113491191=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] util-linux-libuuid: upgrading to 2.38.1 FAILED
+Subject: [AUH] stress-ng: upgrading to 0.14.03 SUCCEEDED
 Message-ID: 
- <010101826c99fb27-d08e3481-2788-4c4a-b048-8000c61d44cb-000000@us-west-2.amazonses.com>
-Date: Fri, 5 Aug 2022 06:03:27 +0000
+ <010101826c99ff40-a8b267d3-9982-4acf-b59c-387331dfff13-000000@us-west-2.amazonses.com>
+Date: Fri, 5 Aug 2022 06:03:28 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2022.08.05-54.240.27.192
@@ -46,9 +46,9 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 05 Aug 2022 06:03:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168891
+ https://lists.openembedded.org/g/openembedded-core/message/168902
 
---===============6506179629186435858==
+--===============7520072627113491191==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,16 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *util-linux-libuuid* to *2.38.1* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *stress-ng* to *0.14.03* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-util-linux-libuuid-upgrade-2.38-2.38.1.patch
+    - apply the patch: git am 0001-stress-ng-upgrade-0.14.02-0.14.03.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -81,155 +75,102 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6506179629186435858==
+--===============7520072627113491191==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-util-linux-libuuid-upgrade-2.38-2.38.1.patch"
+ filename="0001-stress-ng-upgrade-0.14.02-0.14.03.patch"
 
-RnJvbSBmNTA5YzBjMDA0NDBlOGQyNDllOTBiNTAyNWUxZTg0NzAyNjU0ZWQ0IE1vbiBTZXAgMTcg
+RnJvbSA1YTc5NWE5ODNkMmZhMTNhNjQxYmQwMTc0YzRhM2E2YmJkYjY3NzM1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgNCBBdWcgMjAyMiAyMTowMzowOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHV0
-aWwtbGludXgtbGlidXVpZDogdXBncmFkZSAyLjM4IC0+IDIuMzguMQoKLS0tCiAuLi57dXRpbC1s
-aW51eC1saWJ1dWlkXzIuMzguYmIgPT4gdXRpbC1saW51eC1saWJ1dWlkXzIuMzguMS5iYn0gfCAw
-CiBtZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXguaW5jICAgICAgICAgICAg
-ICAgICAgICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0
-aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC97dXRpbC1saW51eC1s
-aWJ1dWlkXzIuMzguYmIgPT4gdXRpbC1saW51eC1saWJ1dWlkXzIuMzguMS5iYn0gKDEwMCUpCgpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxpbnV4LWxpYnV1
-aWRfMi4zOC5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRpbC1saW51eC1saWJ1
-dWlkXzIuMzguMS5iYgpzaW1pbGFyaXR5IGluZGV4IDEwMCUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
-cGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxpbnV4LWxpYnV1aWRfMi4zOC5iYgpyZW5hbWUgdG8g
-bWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxpbnV4LWxpYnV1aWRfMi4zOC4xLmJi
-CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXguaW5j
-IGIvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxpbnV4LmluYwppbmRleCBjOWJk
-ZGZiN2E2Li5mMTUxMWYwMmE4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS91dGlsLWxp
-bnV4L3V0aWwtbGludXguaW5jCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRp
-bC1saW51eC5pbmMKQEAgLTM3LDQgKzM3LDQgQEAgU1JDX1VSSSA9ICIke0tFUk5FTE9SR19NSVJS
-T1J9L2xpbnV4L3V0aWxzL3V0aWwtbGludXgvdiR7TUFKT1JfVkVSU0lPTn0vdXRpbC1saW4KICAg
-ICAgICAgICAgZmlsZTovL2F2b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoIFwKICAgICAgICAgICAg
-IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNmQxMTFjYmU0ZDU1YjMzNmRiMmYxZmJlZmZiYzY1
-Yjg5OTA4NzA0YzAxMTM2MzcxZDMyYWE5YmVjMzczZWI2NCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9
-ICI2MDQ5MmExOWI0NGU2Y2Y5YTNkZGZmNjgzMjViMzMzYjhiNTJiNmM1OWNlM2ViZDZhMGVjYWE0
-YzUxMTdlODRmIgotLSAKMi4zMS4xCgo=
+CkRhdGU6IEZyaSwgNSBBdWcgMjAyMiAwMDozMDoxMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHN0
+cmVzcy1uZzogdXBncmFkZSAwLjE0LjAyIC0+IDAuMTQuMDMKCi0tLQogLi4uL3N0cmVzcy1uZy97
+c3RyZXNzLW5nXzAuMTQuMDIuYmIgPT4gc3RyZXNzLW5nXzAuMTQuMDMuYmJ9ICAgIHwgMiArLQog
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLWV4dGVuZGVkL3N0cmVzcy1uZy97c3RyZXNzLW5nXzAuMTQuMDIuYmIgPT4gc3Ry
+ZXNzLW5nXzAuMTQuMDMuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVu
+ZGVkL3N0cmVzcy1uZy9zdHJlc3MtbmdfMC4xNC4wMi5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRl
+ZC9zdHJlc3Mtbmcvc3RyZXNzLW5nXzAuMTQuMDMuYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVu
+YW1lIGZyb20gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3N0cmVzcy1uZy9zdHJlc3MtbmdfMC4xNC4w
+Mi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3N0cmVzcy1uZy9zdHJlc3Mtbmdf
+MC4xNC4wMy5iYgppbmRleCAwMDBhNjQwOTE3Li5jY2NhNGZmYTRkIDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMtZXh0ZW5kZWQvc3RyZXNzLW5nL3N0cmVzcy1uZ18wLjE0LjAyLmJiCisrKyBiL21l
+dGEvcmVjaXBlcy1leHRlbmRlZC9zdHJlc3Mtbmcvc3RyZXNzLW5nXzAuMTQuMDMuYmIKQEAgLTYs
+NyArNiw3IEBAIExJQ0VOU0UgPSAiR1BMLTIuMC1vbmx5IgogTElDX0ZJTEVTX0NIS1NVTSA9ICJm
+aWxlOi8vQ09QWUlORzttZDU9YjIzNGVlNGQ2OWY1ZmNlNDQ4NmE4MGZkYWY0YTQyNjMiCiAKIFNS
+Q19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9Db2xpbklhbktpbmcvc3RyZXNzLW5nLmdpdDtwcm90
+b2NvbD1odHRwczticmFuY2g9bWFzdGVyIgotU1JDUkVWID0gIjUyMzlhZTZjODJiZmIyMzk2Mzdi
+NWE2NmNkMzlhMDM1YTE1OGU2NDEiCitTUkNSRVYgPSAiMzQ2NTE4Y2FmZmU1MzAyZjlhNmQzNjg2
+MDQ1OWMyOTdjNjk2OGFhYSIKIFMgPSAiJHtXT1JLRElSfS9naXQiCiAKIERFUEVORFMgPSAiY29y
+ZXV0aWxzLW5hdGl2ZSIKLS0gCjIuMzEuMQoK
 
---===============6506179629186435858==
+--===============7520072627113491191==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1659 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 888 .bb files complete (886 cached, 2 parsed). 1659 targets, 36 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-32-poky-linux/stress-ng: PV changed from "0.14.02" to "0.14.03"
+packages/core2-32-poky-linux/stress-ng: PKGV changed from 0.14.02 [default] to 0.14.03 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-bash-completion: PV changed from "0.14.02" to "0.14.03"
+packages/core2-32-poky-linux/stress-ng/stress-ng-bash-completion: PKGV changed from 0.14.02 [default] to 0.14.03 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PV changed from "0.14.02" to "0.14.03"
+packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PKGV changed from 0.14.02 [default] to 0.14.03 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PKGSIZE changed from 6279244 to 6355380 (+1%)
+packages/core2-32-poky-linux/stress-ng/stress-ng-dev: PV changed from "0.14.02" to "0.14.03"
+packages/core2-32-poky-linux/stress-ng/stress-ng-dev: PKGV changed from 0.14.02 [default] to 0.14.03 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PV changed from "0.14.02" to "0.14.03"
+packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PKGV changed from 0.14.02 [default] to 0.14.03 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PKGSIZE changed from 62409 to 63325 (+1%)
+packages/core2-32-poky-linux/stress-ng/stress-ng-locale: PV changed from "0.14.02" to "0.14.03"
+packages/core2-32-poky-linux/stress-ng/stress-ng-locale: PKGV changed from 0.14.02 [default] to 0.14.03 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-src: PV changed from "0.14.02" to "0.14.03"
+packages/core2-32-poky-linux/stress-ng/stress-ng-src: FILELIST: removed "/usr/src/debug/stress-ng/0.14.02-r0/git/core-mounts.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-killpid.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-vmstat.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-icache.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-exec.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-poll.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-chmod.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-exit-group.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-rseq.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-pci.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-ioport.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-rawpkt.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-timerfd.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-chdir.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-env.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-rawsock.c /usr/src/debug/stress-ng/0.14.02-r0/git/st
+ ress-cap.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-oom-pipe.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sigfd.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-rlimit.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sync-file.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-tsearch.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-dekker.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-matrix.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-personality.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-tsc.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-lsearch.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-dup.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-mmaphuge.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-usersyscall.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-dirdeep.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-shellsort.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-aio.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-heapsort.c /usr/src/debug/stre
+ ss-ng/0.14.02-r0/git/stress-sigabrt.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-iomix.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-seal.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sendfile.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-affinity.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-dentry.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-ftrace.h /usr/src/debug/stress-ng/0.14.02-r0/git/stress-file-ioctl.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-mincore.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-quota.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-tee.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-mprotect.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-time.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-goto.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-kill.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sigpipe.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-remap-file-pages.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sparsematri
+ x.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sigq.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-tree.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-perf.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-resched.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-klog.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-chroot.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-udp.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-rawdev.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-get.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-mmap.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-access.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-loop.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-seccomp.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-secretmem.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-mmap.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-stackmmap.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-malloc.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-daemon.c /us
+ r/src/debug/stress-ng/0.14.02-r0/git/stress-munmap.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-pidfd.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sem.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-bitops.h /usr/src/debug/stress-ng/0.14.02-r0/git/stress-idle-page.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-bad-ioctl.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-chattr.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-fpunch.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-loadavg.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-judy.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-null.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-pthread.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-nanosleep.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-ramfs.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sigchld.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sock.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-locka.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sig
+ segv.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-udp-flood.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-mmapmany.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-atomic.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-rmap.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-gpu.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-ftrace.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-fiemap.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-tun.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sockfd.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-mmapfork.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-mlock.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-smart.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-dnotify.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-numa.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-hash.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-pageswap.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sysbadaddr.c /usr/src/debug/stress-ng/0.14.02-r0/git/core
+ -smart.h /usr/src/debug/stress-ng/0.14.02-r0/git/core-limit.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-signal.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-str.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-flock.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-watchdog.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-touch.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-thermal-zone.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-aio-linux.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-mergesort.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-epoll.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-hsearch.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-mlock.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-netdev.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-physpage.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-prefetch.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-skiplist.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-membarrier.c /usr/src/debug/stress-n
+ g/0.14.02-r0/git/stress-vecwide.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sysinval.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-uprobe.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-l1cache.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-resources.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-fifo.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-fanotify.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-ng.h /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sigrt.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-hdd.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-memrate.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-handle.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-icmp-flood.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-wait.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-cache.h /usr/src/debug/stress-ng/0.14.02-r0/git/stress-getrandom.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-ipsec-mb.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-cpu-online.c /usr
+ /src/debug/stress-ng/0.14.02-r0/git/stress-mmapfixed.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-session.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-parse-opts.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-brk.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-enosys.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-yield.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-af-alg.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-madvise.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-misaligned.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-funccall.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-netlink-task.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-landlock.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-put.h /usr/src/debug/stress-ng/0.14.02-r0/git/stress-bind-mount.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-seek.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-set.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-syncload.c /usr/src/debug/stress-ng/0.14.02-r0/
+ git/stress-inode-flags.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-tmpfs.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sysfs.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-mremap.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-verity.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-setting.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-memthrash.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-mlockmany.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sem-sysv.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-vdso.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-dir.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-thermal-zone.h /usr/src/debug/stress-ng/0.14.02-r0/git/stress-futex.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-sched.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-try-open.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-clock.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-fstat.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-mmapaddr.c /usr/src/debug/stres
+ s-ng/0.14.02-r0/git/stress-copy-file.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-cpu.h /usr/src/debug/stress-ng/0.14.02-r0/git/stress-link.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-binderfs.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-cyclic.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-dccp.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-memcpy.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-shm.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-msync.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-peterson.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-pkey.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-vecmath.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-tlb-shootdown.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-mq.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-lock.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-vm.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-bsearch.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-jpeg.c /usr/src/debug/stress-
+ ng/0.14.02-r0/git/stress-memhotplug.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-efivar.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-fallocate.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sigsuspend.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-filename.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sleep.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-swap.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-utime.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-dev.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-cache.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-lockbus.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-spawn.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-net.h /usr/src/debug/stress-ng/0.14.02-r0/git/stress-getdent.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-nice.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-stream.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-xattr.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-funcret.c /usr/src/debug
+ /stress-ng/0.14.02-r0/git/stress-radixsort.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-prctl.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-rename.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-hash.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-klog.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sctp.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-thrash.h /usr/src/debug/stress-ng/0.14.02-r0/git/stress-vm-splice.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-bigheap.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-mknod.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-apparmor.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-matrix-3d.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-softlockup.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-context.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-close.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-stack.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-vforkmany.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-net.c /u
+ sr/src/debug/stress-ng/0.14.02-r0/git/stress-lockofd.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-job.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-branch.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-schedpolicy.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-userfaultfd.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-dirmany.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-dev-shm.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-mutex.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-zlib.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-opcode.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-ptrace.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-eventfd.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-fp-error.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sigpending.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sysinfo.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-nop.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-ignite-cpu.c /usr/src/debug/stress-ng/0.14.02-r0
+ /git/stress-iosync.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-msg.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sigfpe.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-switch.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-vm-addr.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-x86syscall.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-fcntl.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-kcmp.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-pipe.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-rtc.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-mcontend.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-dynlib.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-out-of-memory.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-helper.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-madvise.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-fork.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-full.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-qsort.c /usr/src/debug/stress-ng/0.14.0
+ 2-r0/git/stress-sockpair.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-kvm.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-ping-sock.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-rawudp.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-splice.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-urandom.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-msyncmany.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-signest.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-mwc.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-ioprio.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-module.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-list.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-memfd.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-lease.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-smi.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-io-priority.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-log.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-readahead.c /usr/src/debug/stress-ng/0
+ .14.02-r0/git/core-cpu.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sigtrap.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-pipeherd.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-alarm.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-netlink-proc.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-thrash.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-bad-altstack.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-randlist.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-zero.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-longjmp.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-io-uring.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sockabuse.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-mincore.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-rdrand.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-inotify.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-revio.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-chown.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-itimer.c /usr
+ /src/debug/stress-ng/0.14.02-r0/git/stress-fault.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-hrtimers.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-key.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-shm-sysv.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-open.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-vm-rw.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-reboot.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-wcstr.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-crypt.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-clone.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-vm-segv.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-cpu.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-ng.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-lockf.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-perf.h /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sigio.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sockdiag.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-cache.c /usr/src/d
+ ebug/stress-ng/0.14.02-r0/git/core-affinity.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-procfs.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-sockmany.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-timer.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-unshare.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-zombie.c /usr/src/debug/stress-ng/0.14.02-r0/git/core-hash.h /usr/src/debug/stress-ng/0.14.02-r0/git/core-shim.c /usr/src/debug/stress-ng/0.14.02-r0/git/stress-pty.c", added "/usr/src/debug/stress-ng/0.14.03-r0/git/stress-memfd.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-stack.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-pkey.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sleep.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-list.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-bigheap.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-smart.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-dup.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-ioport.c /usr/src/de
+ bug/stress-ng/0.14.03-r0/git/stress-open.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-schedpolicy.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sigfpe.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-spawn.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-utime.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-filename.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-copy-file.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-atomic.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-chdir.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-mmapfixed.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-itimer.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-smart.h /usr/src/debug/stress-ng/0.14.03-r0/git/stress-longjmp.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-numa.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-prefetch.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-skiplist.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-fault.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-affi
+ nity.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-memhotplug.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-null.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-mmapmany.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-sched.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-netdev.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-thermal-zone.h /usr/src/debug/stress-ng/0.14.03-r0/git/core-try-open.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-branch.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-chattr.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-cache.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-fork.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-mlock.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-lsearch.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-perf.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-resched.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-qsort.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-env.c /usr/src/debug/stress-ng/0.14.03-r0/git/stres
+ s-yield.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-inode-flags.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-ftrace.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-cpu.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-time.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-enosys.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-mmapfork.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-mcontend.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-netlink-task.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-secretmem.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-set.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-link.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-inotify.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-str.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-bitops.h /usr/src/debug/stress-ng/0.14.03-r0/git/core-thrash.h /usr/src/debug/stress-ng/0.14.03-r0/git/core-setting.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-verity.c /usr/src/debug/stress-ng/0.14.03-r0/gi
+ t/stress-efivar.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-udp-flood.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-signal.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-ftrace.h /usr/src/debug/stress-ng/0.14.03-r0/git/stress-tsc.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-madvise.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-stackmmap.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-ioprio.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-iosync.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-bind-mount.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-full.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-vecwide.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-memthrash.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-dynlib.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-revio.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-vdso.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-lockf.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-uprobe.c /usr/src/debug/stress-ng/
+ 0.14.03-r0/git/stress-chroot.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-module.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-jpeg.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sysfs.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-dev-shm.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-personality.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-munmap.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sigabrt.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-unshare.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-handle.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-idle-page.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-lock.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-vecmath.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-cap.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-heapsort.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sysinfo.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-kcmp.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-pidfd.c /usr/src/debug
+ /stress-ng/0.14.03-r0/git/stress-futex.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-userfaultfd.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-seal.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-io-priority.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-hash.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-chmod.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-bad-ioctl.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-killpid.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-mmapaddr.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-lockofd.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-mmaphuge.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-shellsort.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-job.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-timerfd.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sockdiag.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-pty.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sctp.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-loop.c /u
+ sr/src/debug/stress-ng/0.14.03-r0/git/stress-ping-sock.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-msyncmany.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-syncload.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-dekker.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-dev.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-switch.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-hdd.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-rseq.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-vm-addr.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-prctl.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-exit-group.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sparsematrix.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-cache.h /usr/src/debug/stress-ng/0.14.03-r0/git/stress-nice.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-rtc.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-peterson.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sockfd.c /usr/src/debug/stress-ng/0.14.03-r0/git/str
+ ess-file-ioctl.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-udp.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-key.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-rmap.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-seccomp.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-icmp-flood.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-urandom.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-clone.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-ipsec-mb.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-pthread.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sysbadaddr.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-readahead.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-clock.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-log.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-io-uring.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-oom-pipe.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-pipeherd.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-shm-sysv.c /usr/src/debug/stre
+ ss-ng/0.14.03-r0/git/stress-x86syscall.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-fcntl.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-zero.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-perf.h /usr/src/debug/stress-ng/0.14.03-r0/git/core-parse-opts.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-access.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-vm-rw.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sigsegv.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-crypt.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-loadavg.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-pageswap.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-rdrand.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-gpu.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-rawdev.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-physpage.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-cpu.h /usr/src/debug/stress-ng/0.14.03-r0/git/stress-cpu-online.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-mmap.c /usr/src/debu
+ g/stress-ng/0.14.03-r0/git/core-cpu.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-dentry.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-mutex.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sigpipe.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sockmany.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-funccall.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-hsearch.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-net.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-misaligned.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-session.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-getdent.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-matrix.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sigpending.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-net.h /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sigtrap.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-usersyscall.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-aio-linux.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-di
+ rmany.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-opcode.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-dccp.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-tsearch.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-mwc.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-vforkmany.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-quota.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-mincore.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-funcret.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-matrix-3d.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-tee.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-shim.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-tlb-shootdown.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-malloc.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-msync.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-eventfd.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-msg.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sendfile.c /usr/src/debug/stress-ng/0.14.03-r0/g
+ it/stress-brk.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-get.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-apparmor.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-context.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-mknod.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-ignite-cpu.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-procfs.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-iomix.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-close.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-ng.h /usr/src/debug/stress-ng/0.14.03-r0/git/stress-swap.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-vm.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-hash.h /usr/src/debug/stress-ng/0.14.03-r0/git/stress-tmpfs.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-out-of-memory.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-vmstat.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-xattr.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-hrtimers.c /usr/src/debug/stress-ng/0.14.03-r0/git/s
+ tress-icache.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-numa.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sync-file.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-resources.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-tun.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-wcstr.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-dirdeep.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-klog.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sock.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-stream.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-chown.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-memrate.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-pipe.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-randlist.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-seek.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sigfd.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-ptrace.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sigchld.c /usr/src/debug/stress-ng/0.14.03-r0/g
+ it/stress-dnotify.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-membarrier.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-poll.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-dir.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-cyclic.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-ramfs.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-signest.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-landlock.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-wait.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-bad-altstack.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-locka.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-aio.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-rawpkt.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-put.h /usr/src/debug/stress-ng/0.14.03-r0/git/stress-cache.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-mincore.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-mergesort.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-rename.c /usr/src/debug/stress-ng/0.1
+ 4.03-r0/git/stress-ng.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-touch.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-thermal-zone.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-exec.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-timer.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-mlock.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-daemon.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-l1cache.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-mq.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sigio.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-lease.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-fanotify.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-tree.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-epoll.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-memcpy.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-mlockmany.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-pci.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sem.c /usr/src/debug/stress-ng/0.14.03-
+ r0/git/core-thrash.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-rlimit.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-mprotect.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sigsuspend.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-mmap.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-affinity.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sockabuse.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sysinval.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-vm-segv.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-lockbus.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-zlib.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-binderfs.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-fpunch.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-rawsock.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-kill.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-fp-error.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sigq.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-softlockup.c /usr/src
+ /debug/stress-ng/0.14.03-r0/git/stress-fiemap.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sem-sysv.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-fstat.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-vm-splice.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-getrandom.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-zombie.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-limit.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-flock.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sigrt.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-madvise.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-helper.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-splice.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-alarm.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-rawudp.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-cacheline.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-radixsort.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-kvm.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-fif
+ o.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-sockpair.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-bsearch.c /usr/src/debug/stress-ng/0.14.03-r0/git/core-mounts.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-nop.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-reboot.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-hash.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-watchdog.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-mremap.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-goto.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-af-alg.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-remap-file-pages.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-netlink-proc.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-nanosleep.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-shm.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-smi.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-judy.c /usr/src/debug/stress-ng/0.14.03-r0/git/stress-fallocate.c /usr/src/debug/stress-ng/0.14.0
+ 3-r0/git/core-klog.c"
+packages/core2-32-poky-linux/stress-ng/stress-ng-src: PKGV changed from 0.14.02 [default] to 0.14.03 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-src: PKGSIZE changed from 3635139 to 3707937 (+2%)
+packages/core2-32-poky-linux/stress-ng/stress-ng-staticdev: PV changed from "0.14.02" to "0.14.03"
+packages/core2-32-poky-linux/stress-ng/stress-ng-staticdev: PKGV changed from 0.14.02 [default] to 0.14.03 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng: PV changed from "0.14.02" to "0.14.03"
+packages/core2-32-poky-linux/stress-ng/stress-ng: PKGV changed from 0.14.02 [default] to 0.14.03 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng: PKGSIZE changed from 4634792 to 4708584 (+2%)
 
-Build Configuration:
-BB_VERSION           = "2.0.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-99f924ca802632cf5ed3686680733ea5e73beda4"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:99f924ca802632cf5ed3686680733ea5e73beda4"
-workspace            = "master:6c3a88e8dcf0b7a40080c4cd9d447d0d50b12f4c"
-
-Initialising tasks...done.
-Sstate summary: Wanted 36 Local 8 Mirrors 0 Missed 28 Current 121 (22% match, 82% complete)
-Removing 11 stale sstate objects for arch x86_64...done.
-Removing 4 stale sstate objects for arch qemux86...done.
-Removing 2 stale sstate objects for arch core2-32...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 132 of 157 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 137 of 157 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc-initial_12.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 138 of 157 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running task 164 of 655 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_fetch)
-NOTE: Running task 260 of 655 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_fetch)
-NOTE: Running task 361 of 655 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.bb:do_fetch)
-NOTE: Running noexec task 489 of 655 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.1.bb:do_fetch)
-NOTE: Running task 504 of 655 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_fetch)
-NOTE: Running noexec task 507 of 655 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.1.bb:do_fetch)
-NOTE: recipe libgcc-initial-12.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-5.16-r0: task do_fetch: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_fetch: Started
-NOTE: recipe libgcc-12.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gcc-runtime-12.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe util-linux-libuuid-native-2.38.1-r0: task do_fetch: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_fetch: Succeeded
-NOTE: Running task 519 of 655 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_unpack)
-NOTE: recipe util-linux-libuuid-native-2.38.1-r0: task do_fetch: Succeeded
-NOTE: recipe util-linux-native-2.38-r0: task do_fetch: Started
-NOTE: Running task 520 of 655 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_unpack)
-NOTE: Running task 521 of 655 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libgcc-12.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe gcc-runtime-12.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-WARNING: util-linux-native-2.38-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz
-Cleaning and trying again.
-WARNING: util-linux-native-2.38-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz_bad-checksum_6d111cbe4d55b336db2f1fbeffbc65b89908704c01136371d32aa9bec373eb64
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_unpack: Started
-NOTE: recipe libgcc-initial-12.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 155 of 157 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.1.bb:do_gcc_stash_builddir_setscene)
-NOTE: recipe linux-libc-headers-5.16-r0: task do_fetch: Succeeded
-NOTE: Running task 526 of 655 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_unpack)
-NOTE: Running task 527 of 655 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_prepare_recipe_sysroot)
-NOTE: recipe util-linux-libuuid-native-2.38.1-r0: task do_unpack: Started
-NOTE: recipe util-linux-libuuid-native-2.38.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gcc-cross-i686-12.1.0-r0: task do_gcc_stash_builddir_setscene: Started
-NOTE: recipe linux-libc-headers-5.16-r0: task do_unpack: Started
-NOTE: recipe linux-libc-headers-5.16-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe linux-libc-headers-5.16-r0: task do_prepare_recipe_sysroot: Succeeded
-WARNING: util-linux-native-2.38-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz
-Cleaning and trying again.
-WARNING: util-linux-native-2.38-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz_bad-checksum_6d111cbe4d55b336db2f1fbeffbc65b89908704c01136371d32aa9bec373eb64
-NOTE: recipe util-linux-libuuid-native-2.38.1-r0: task do_prepare_recipe_sysroot: Succeeded
-WARNING: util-linux-native-2.38-r0 do_fetch: Checksum failure encountered with download of https://cdn.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.tar.xz - will attempt other sources if available
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_unpack: Succeeded
-NOTE: Running task 528 of 655 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_patch)
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_patch: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_patch: Succeeded
-NOTE: Running task 529 of 655 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 530 of 655 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_lic)
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_lic: Started
-NOTE: recipe util-linux-libuuid-native-2.38.1-r0: task do_unpack: Succeeded
-NOTE: Running task 531 of 655 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_patch)
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_lic: Succeeded
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe util-linux-libuuid-native-2.38.1-r0: task do_patch: Started
-NOTE: recipe util-linux-libuuid-native-2.38.1-r0: task do_patch: Succeeded
-NOTE: Running task 532 of 655 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_deploy_source_date_epoch)
-WARNING: util-linux-native-2.38-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz
-Cleaning and trying again.
-WARNING: util-linux-native-2.38-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz_bad-checksum_6d111cbe4d55b336db2f1fbeffbc65b89908704c01136371d32aa9bec373eb64
-NOTE: recipe util-linux-native-2.38-r0: task do_fetch: Failed
-NOTE: recipe gcc-cross-i686-12.1.0-r0: task do_gcc_stash_builddir_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-native-2.38.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe util-linux-libuuid-native-2.38.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe linux-libc-headers-5.16-r0: task do_unpack: Succeeded
-NOTE: Tasks Summary: Attempted 532 tasks of which 516 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: 1 task failed:
-  virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.bb:do_fetch
-Summary: There were 8 WARNING messages.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: util-linux-native-2.38-r0 do_fetch: Checksum failure fetching https://cdn.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.tar.xz
-ERROR: util-linux-native-2.38-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.38.tar.xz\' has sha256 checksum \'6d111cbe4d55b336db2f1fbeffbc65b89908704c01136371d32aa9bec373eb64\' when \'60492a19b44e6cf9a3ddff68325b333b8b52b6c59ce3ebd6a0ecaa4c5117e84f\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[sha256sum] = "6d111cbe4d55b336db2f1fbeffbc65b89908704c01136371d32aa9bec373eb64"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://cdn.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.tar.xz')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/util-linux-native/2.38-r0/temp/log.do_fetch.3412645
-ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.bb:do_fetch) failed with exit code '1'
-
---===============6506179629186435858==--
+--===============7520072627113491191==--
 
