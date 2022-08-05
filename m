@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2764C282E7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A23E2C25B0F
 	for <webhook@archiver.kernel.org>; Fri,  5 Aug 2022 06:03:37 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com
- (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web12.3951.1659679409508929919
+Received: from a27-193.smtp-out.us-west-2.amazonses.com
+ (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web09.3954.1659679409568934968
  for <openembedded-core@lists.openembedded.org>;
  Thu, 04 Aug 2022 23:03:29 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=AF5lcJkI;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
- mailfrom: 010101826c9a0345-3e80eb63-054e-4f49-962f-34e856339dbb-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=hSbzww1m;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193,
+ mailfrom: 010101826c9a0316-92d9f8a7-e97c-48c7-b798-3a5e8ebcb35f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1659679409;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=PTRtX4rtPlQTum9WHduKuNNRE985Zc2bEULe7r5DsT8=;
-	b=AF5lcJkIKOtEE0uMMRgR4PgbkbDnMn34kz8rUhWdo2DAzZLnI5RXqa24MMWXcoYj
-	ncTgpeL+T7I2HGQGW9SjAaY9HegL3cLKU0nym2aB+7aXuNgAGilyC9Epm/wc/ZumykQ
-	Acezc0Jz9KlwunR8nDFirzXRvAPAQC8+gvBzkMAQ=
+	bh=JPebG6JYcaHVsP2KdHPker0a2pkVs1vH4yMJYI/80xk=;
+	b=hSbzww1m5xtk6XIQTrRrMAQG/sO2KjF7Lbol7C6hn99h8lYsnnhtPxD/GzRlSXCB
+	G93+KuYqO7zLoxZK8oHfv/pHfdlNOC/oOBZTGx/hfuuLdkLhQdAlpc45Njz6wBYzXzM
+	qW1+CqbVxAkkjgnsLw9Vb96K7RFWIW5+leefQIZs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1659679409;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=PTRtX4rtPlQTum9WHduKuNNRE985Zc2bEULe7r5DsT8=;
-	b=c16BhjhLxD8lNjDEVzCrgJMjNx9Vb4N/ttl1Nj/IRRKzdItMTv4+S4eE9kuU6wSX
-	hYb8F/HPmlyqinZ+sBbUudh6a8CrEZqm5V4jlXViWY/2kSyxVruwbVShMhrIHGo5Nj2
-	ryLE/ey3UUCxWM6eU9xMCnpkrlEfj+Y2E53f45Z4=
-Content-Type: multipart/mixed; boundary="===============0710481488557220285=="
+	bh=JPebG6JYcaHVsP2KdHPker0a2pkVs1vH4yMJYI/80xk=;
+	b=A+vVSfI6YyrDloRZgLhUJLg4PJm36a2kGioSHSua9PFILIa75qcN8faWsCmhssf0
+	i0Er9AFRW5TqaTrMb2fM1w8ZLW+5n4g5x74VkD+VIlOCLpqpS+zbSUyh5DXPdRhvgnX
+	WW5QfSSdr0PSYOKvxaZKeAaQfF/NP24rIbjoiYeg=
+Content-Type: multipart/mixed; boundary="===============5105912029549935913=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] sqlite3: upgrading to 3.39.2 SUCCEEDED
+Subject: [AUH] libevdev: upgrading to 1.13.0 SUCCEEDED
 Message-ID: 
- <010101826c9a0345-3e80eb63-054e-4f49-962f-34e856339dbb-000000@us-west-2.amazonses.com>
+ <010101826c9a0316-92d9f8a7-e97c-48c7-b798-3a5e8ebcb35f-000000@us-west-2.amazonses.com>
 Date: Fri, 5 Aug 2022 06:03:28 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.08.05-54.240.27.45
+X-SES-Outgoing: 2022.08.05-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 05 Aug 2022 06:03:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168924
+ https://lists.openembedded.org/g/openembedded-core/message/168925
 
---===============0710481488557220285==
+--===============5105912029549935913==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *sqlite3* to *3.39.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *libevdev* to *1.13.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-sqlite3-upgrade-3.39.1-3.39.2.patch
+    - apply the patch: git am 0001-libevdev-upgrade-1.12.1-1.13.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,38 +75,7 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============0710481488557220285==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-sqlite3-upgrade-3.39.1-3.39.2.patch"
-
-RnJvbSAxMmFjNDJlYzhlNjYxODI1OWEwZTczZGQwNDkyYmNkYzg1MTI1ZjYyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgNSBBdWcgMjAyMiAwNjowMzoyNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNx
-bGl0ZTM6IHVwZ3JhZGUgMy4zOS4xIC0+IDMuMzkuMgoKLS0tCiAuLi4vc3FsaXRlL3tzcWxpdGUz
-XzMuMzkuMS5iYiA9PiBzcWxpdGUzXzMuMzkuMi5iYn0gICAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9zcWxpdGUve3NxbGl0ZTNfMy4zOS4xLmJiID0+IHNxbGl0ZTNfMy4zOS4y
-LmJifSAoODYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxp
-dGUzXzMuMzkuMS5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxpdGUzXzMuMzku
-Mi5iYgpzaW1pbGFyaXR5IGluZGV4IDg2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9y
-dC9zcWxpdGUvc3FsaXRlM18zLjM5LjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0
-L3NxbGl0ZS9zcWxpdGUzXzMuMzkuMi5iYgppbmRleCAzOWRkYmZiOTA4Li5kZmVmNDgwODk1IDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvc3FsaXRlM18zLjM5LjEuYmIK
-KysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvc3FsaXRlL3NxbGl0ZTNfMy4zOS4yLmJiCkBAIC00
-LDcgKzQsNyBAQCBMSUNFTlNFID0gIlBEIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vc3Fs
-aXRlMy5oO2VuZGxpbmU9MTE7bWQ1PTc4NmQzZGM1ODFlZmYwM2Y0ZmQ5ZTRhNzdlZDAwYzY2Igog
-CiBTUkNfVVJJID0gImh0dHA6Ly93d3cuc3FsaXRlLm9yZy8yMDIyL3NxbGl0ZS1hdXRvY29uZi0k
-e1NRTElURV9QVn0udGFyLmd6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjg3YzhlN2E3ZmEwYzY4
-YWIyOGUyMDhiYTQ5ZjNhMjJhNTYwMDBkYmY1M2E2ZjkwMjA2ZTJiYzU4NDM5MzFjYzQiCitTUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiODUyYmU4YTYxODNhMTdiYTQ3Y2VlMGJiZmY3NDAwYjdhYTVhZmZk
-MjgzYmYzYmVlZmMzNGZjZDA4OGEyMzlkZSIKIAogIyAtMTkyNDIgaXMgb25seSBhbiBpc3N1ZSBp
-biBzcGVjaWZpYyBkZXZlbG9wbWVudCBicmFuY2ggY29tbWl0cwogQ1ZFX0NIRUNLX0lHTk9SRSAr
-PSAiQ1ZFLTIwMTktMTkyNDIiCi0tIAoyLjMxLjEKCg==
-
---===============0710481488557220285==
+--===============5105912029549935913==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1466,31 +1435,30 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoffout.h was removed
 
---===============0710481488557220285==
+--===============5105912029549935913==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/sqlite3: PV changed from "3.39.1" to "3.39.2"
-packages/core2-32-poky-linux/sqlite3: SRC_URI changed from "http://www.sqlite.org/2022/sqlite-autoconf-3390100.tar.gz" to "http://www.sqlite.org/2022/sqlite-autoconf-3390200.tar.gz"
-packages/core2-32-poky-linux/sqlite3: PKGV changed from 3.39.1 [default] to 3.39.2 [default]
-packages/core2-32-poky-linux/sqlite3/libsqlite3-dev: PV changed from "3.39.1" to "3.39.2"
-packages/core2-32-poky-linux/sqlite3/libsqlite3-dev: PKGV changed from 3.39.1 [default] to 3.39.2 [default]
-packages/core2-32-poky-linux/sqlite3/libsqlite3-doc: PV changed from "3.39.1" to "3.39.2"
-packages/core2-32-poky-linux/sqlite3/libsqlite3-doc: PKGV changed from 3.39.1 [default] to 3.39.2 [default]
-packages/core2-32-poky-linux/sqlite3/libsqlite3-staticdev: PV changed from "3.39.1" to "3.39.2"
-packages/core2-32-poky-linux/sqlite3/libsqlite3-staticdev: PKGV changed from 3.39.1 [default] to 3.39.2 [default]
-packages/core2-32-poky-linux/sqlite3/libsqlite3: PV changed from "3.39.1" to "3.39.2"
-packages/core2-32-poky-linux/sqlite3/libsqlite3: PKGV changed from 3.39.1 [default] to 3.39.2 [default]
-packages/core2-32-poky-linux/sqlite3/sqlite3-dbg: PV changed from "3.39.1" to "3.39.2"
-packages/core2-32-poky-linux/sqlite3/sqlite3-dbg: PKGSIZE changed from 4805764 to 4809872 (+0%)
-packages/core2-32-poky-linux/sqlite3/sqlite3-dbg: PKGV changed from 3.39.1 [default] to 3.39.2 [default]
-packages/core2-32-poky-linux/sqlite3/sqlite3-src: PV changed from "3.39.1" to "3.39.2"
-packages/core2-32-poky-linux/sqlite3/sqlite3-src: PKGSIZE changed from 9894406 to 9893943 (-0%)
-packages/core2-32-poky-linux/sqlite3/sqlite3-src: PKGV changed from 3.39.1 [default] to 3.39.2 [default]
-packages/core2-32-poky-linux/sqlite3/sqlite3: PV changed from "3.39.1" to "3.39.2"
-packages/core2-32-poky-linux/sqlite3/sqlite3: PKGV changed from 3.39.1 [default] to 3.39.2 [default]
+packages/core2-32-poky-linux/libevdev: PKGV changed from 1.12.1 [default] to 1.13.0 [default]
+packages/core2-32-poky-linux/libevdev: SRC_URI changed from "http://www.freedesktop.org/software/libevdev/libevdev-1.12.1.tar.xz" to "http://www.freedesktop.org/software/libevdev/libevdev-1.13.0.tar.xz"
+packages/core2-32-poky-linux/libevdev: PV changed from "1.12.1" to "1.13.0"
+packages/core2-32-poky-linux/libevdev/libevdev-dbg: PKGV changed from 1.12.1 [default] to 1.13.0 [default]
+packages/core2-32-poky-linux/libevdev/libevdev-dbg: PV changed from "1.12.1" to "1.13.0"
+packages/core2-32-poky-linux/libevdev/libevdev-dev: PKGV changed from 1.12.1 [default] to 1.13.0 [default]
+packages/core2-32-poky-linux/libevdev/libevdev-dev: PV changed from "1.12.1" to "1.13.0"
+packages/core2-32-poky-linux/libevdev/libevdev-doc: PKGV changed from 1.12.1 [default] to 1.13.0 [default]
+packages/core2-32-poky-linux/libevdev/libevdev-doc: PV changed from "1.12.1" to "1.13.0"
+packages/core2-32-poky-linux/libevdev/libevdev-locale: PKGV changed from 1.12.1 [default] to 1.13.0 [default]
+packages/core2-32-poky-linux/libevdev/libevdev-locale: PV changed from "1.12.1" to "1.13.0"
+packages/core2-32-poky-linux/libevdev/libevdev-src: PKGV changed from 1.12.1 [default] to 1.13.0 [default]
+packages/core2-32-poky-linux/libevdev/libevdev-src: PV changed from "1.12.1" to "1.13.0"
+packages/core2-32-poky-linux/libevdev/libevdev-src: PKGSIZE changed from 281316 to 283345 (+1%)
+packages/core2-32-poky-linux/libevdev/libevdev-staticdev: PKGV changed from 1.12.1 [default] to 1.13.0 [default]
+packages/core2-32-poky-linux/libevdev/libevdev-staticdev: PV changed from "1.12.1" to "1.13.0"
+packages/core2-32-poky-linux/libevdev/libevdev: PKGV changed from 1.12.1 [default] to 1.13.0 [default]
+packages/core2-32-poky-linux/libevdev/libevdev: PV changed from "1.12.1" to "1.13.0"
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2845,5 +2813,35 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoffout.h was removed
 
---===============0710481488557220285==--
+--===============5105912029549935913==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libevdev-upgrade-1.12.1-1.13.0.patch"
+
+RnJvbSA5NTIyYTM4NWFmM2UxZWU3YmYxZGZlOTQyMDIxNjA5NjdhNDM5Y2RmIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgNSBBdWcgMjAyMiAwNToxMzo0NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YmV2ZGV2OiB1cGdyYWRlIDEuMTIuMSAtPiAxLjEzLjAKCi0tLQogLi4uL2xpYmV2ZGV2L3tsaWJl
+dmRldl8xLjEyLjEuYmIgPT4gbGliZXZkZXZfMS4xMy4wLmJifSAgICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvbGliZXZkZXYve2xpYmV2ZGV2XzEuMTIuMS5iYiA9PiBsaWJldmRldl8x
+LjEzLjAuYmJ9ICg4NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZXZk
+ZXYvbGliZXZkZXZfMS4xMi4xLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZXZkZXYvbGli
+ZXZkZXZfMS4xMy4wLmJiCnNpbWlsYXJpdHkgaW5kZXggODclCnJlbmFtZSBmcm9tIG1ldGEvcmVj
+aXBlcy1zdXBwb3J0L2xpYmV2ZGV2L2xpYmV2ZGV2XzEuMTIuMS5iYgpyZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvbGliZXZkZXYvbGliZXZkZXZfMS4xMy4wLmJiCmluZGV4IGJkY2E2NGYz
+NTcuLmRkY2M0YjYxMjkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmV2ZGV2
+L2xpYmV2ZGV2XzEuMTIuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJldmRldi9s
+aWJldmRldl8xLjEzLjAuYmIKQEAgLTEwLDcgKzEwLDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJm
+aWxlOi8vQ09QWUlORzttZDU9ODBjNTUwYjMxOTdiY2I4ZGE3ZDc1NTdlYmNjM2ZjNDYgXAogICAg
+ICAgICAgICAgICAgICAgICAiCiAKIFNSQ19VUkkgPSAiaHR0cDovL3d3dy5mcmVlZGVza3RvcC5v
+cmcvc29mdHdhcmUvbGliZXZkZXYvJHtCUH0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0g
+IjFkYmJhNDFiYzUxNmQzY2E3YWJjMGRhNWI4NjJlZmUzZWE4YTcwMThmYTZlOWI5N2NlOWQzOTQw
+MWIyMjQyNmMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiOWVkZjIwMDZjYzg2YTUwNTUyNzk2NDdj
+MzhlYzkyM2QxMWE4MjFlZTRkYzJjMzAzM2U4ZDIwZThlZTIzN2NkOSIKIAogaW5oZXJpdCBhdXRv
+dG9vbHMgcGtnY29uZmlnCiAKLS0gCjIuMzEuMQoK
+
+--===============5105912029549935913==--
 
