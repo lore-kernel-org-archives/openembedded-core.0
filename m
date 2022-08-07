@@ -2,110 +2,146 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFEFAC19F2D
-	for <webhook@archiver.kernel.org>; Sun,  7 Aug 2022 00:48:27 +0000 (UTC)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com
- [209.85.219.174])
- by mx.groups.io with SMTP id smtpd.web08.9296.1659833304480532506
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDB47C19F2D
+	for <webhook@archiver.kernel.org>; Sun,  7 Aug 2022 00:56:47 +0000 (UTC)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com
+ [209.85.219.176])
+ by mx.groups.io with SMTP id smtpd.web12.9526.1659833799644667182
  for <openembedded-core@lists.openembedded.org>;
- Sat, 06 Aug 2022 17:48:24 -0700
+ Sat, 06 Aug 2022 17:56:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ld0DDBQ8;
- spf=pass (domain: gmail.com, ip: 209.85.219.174,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=GrhnLs5n;
+ spf=pass (domain: gmail.com, ip: 209.85.219.176,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-yb1-f174.google.com with SMTP id i62so8927503yba.5
+Received: by mail-yb1-f176.google.com with SMTP id z5so8957876yba.3
         for <openembedded-core@lists.openembedded.org>;
- Sat, 06 Aug 2022 17:48:24 -0700 (PDT)
+ Sat, 06 Aug 2022 17:56:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=WdPsuWW7i3zgXOZEHvjkzwcrGPnzu1Zg44VQYWUVvQg=;
-        b=ld0DDBQ8zPpf6US2n+9WWcBjoqeP/BHAW3waLGeKz+rJlH0rC4pUEpcRoek2vxtEJb
-         UBlKR7AKFPlDORoGdjk2jRxVURoHlQTG52rm5VRy6/drDvM+0h+nKoVDj6Euf9IMISH2
-         Rm4ncd0qWlHHy+mJeAdlDTV5rhKT3wfdTRz+uSQpbkTNUWFyVC6dYnpTbCc/j//zS1FQ
-         +h7k1Cdu6ZjghWuHAyjGyYbbqeHMGB171iDgD1dbKkNlazvh/HvLkkZhrdD2yVnmCjLd
-         L1tUvoXGoH3uJqQDVDgb3hSW4I5TXTXhz2Z8bNTR/tSACK6clcFeTnzaOvd5m7H1/OpR
-         cEEQ==
+        bh=r/UFxD3qodDqarBvLHcFb8wSOBcO9dQEfCDAFZzDu6w=;
+        b=GrhnLs5n36IcNSBgT1QkoncxJ2gMVyssHUydUGlUGHCnVD6uMsYrISsXxJKKAC6Wom
+         78FTj3y4/oHRePW9vvdWtMyTt6V27H3k0LmuOLIKTJoib1Tc3988X1tW9bQh3tXljnAM
+         fTJlsDjN5sMTGFdeRkAZBOQ0x8NJ3F9hU1IOWwkAGwQzDOBLD/rn4ZUCW4i/WZb1+rdU
+         Px95OmD+PnW3//FaE5/wNOX+wse6VPh4OWFHToSHb8Ho3HKmZ58lo+lvu7Gd2c/5Gb1l
+         eMu2sY4aBW3B74nk6NER5q+t0sv+xCilCzqbQdXA8w7Z5lyVYo+3c161jC+GAH+z6oLa
+         bMOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=WdPsuWW7i3zgXOZEHvjkzwcrGPnzu1Zg44VQYWUVvQg=;
-        b=Oz/FS7tP/xYgAati/RKRlfjnrdjI4SP96f0LMWUfu0njF/iBoa5dHzpWd4oXeovkIw
-         dUwmlHO6v8qEcU4M3qlsJKSj0ASKFyP8gwvKjnQEiuksClQiuuoCOyYtiBbqUkB5EDGT
-         9iuAwcO0lOIMFS0toN1FuTSBF0oUSXUog7BujOUmnEh51OVQsclrmar03ByksDOa6I7A
-         cyeLWIu2bU3WpMON2RZvIEn5+ZUKfCaBbkAgubHw/NdzGYruATU5f+6scm8SaE2Irqbx
-         hDzbh4USteaHjqhoxCOGaiEcQ5KSKs8Sy8NutTFsO5y75K7eR3x46rWQMIJI5Gwv6p6v
-         ETFQ==
-X-Gm-Message-State: ACgBeo1AK0iAY0qCemXJ00/Z83hTZIEFsLHkZntnmGd5nsOr/Fx6r3GO
-	MlLwqKAUH0szGPsfNo0JyT78o4j8oK/Z1NFBK18=
+        bh=r/UFxD3qodDqarBvLHcFb8wSOBcO9dQEfCDAFZzDu6w=;
+        b=1bukW3unILWyTWUWtAiU2WZfR24uIhDEsosOOEkVHa6N/IjiuX7SK0k+l+oHDiwq38
+         spFpER6eWWKqIWtbrCUTbK9EDDnWfxmffs2SOwWlgbye26LatqPaoKRWxWEXhghZU9Od
+         uzaSIK+sPn/QK+qsAnyKnsK/+CsdJVjBznxOJLaGfuatRc+XUlnOI84ZZ5uMNUm3J9B7
+         SDed7BBzWLw3HyLzaCXxq/pPYYc1VotZbgsEYfJNpmboWyU8jQQoQsHyxmXSsrvC1W9f
+         c6eRW6BwJHlqdCSFMotB6LU+S4A82GN3jeLOyza9saUyM2WgKEvRtvZ8C7uVUragQDLd
+         DJiA==
+X-Gm-Message-State: ACgBeo31CIzRuMAjqhAM1nh12RSHpsI/bvop3amKwSAyUXoFHRvUTJ/q
+	HuIHyIMiG9VbSMUEykC8oJtcKKpCoWoae6mBYhqcOxl2
 X-Google-Smtp-Source: 
- AA6agR6FtyILgbpC5P/5ikXKc7Xxl/vtnXEdirxIjUEN2nBxr8Be0B31eVOV68fMahwRmZPab6gWQqbZuB100fahUBQ=
-X-Received: by 2002:a05:6902:11c9:b0:67a:7633:644e with SMTP id
- n9-20020a05690211c900b0067a7633644emr10317621ybu.363.1659833303504; Sat, 06
- Aug 2022 17:48:23 -0700 (PDT)
+ AA6agR4kGwFMOlkoLXt8xxu5HgFGWjPcgjYEvkcGu4PFnxzwRHbDwBUpBTIpU5AkQE6RiKFFRDr8HSdzXxtBrw05Ydk=
+X-Received: by 2002:a25:ef52:0:b0:674:4eb5:cbc6 with SMTP id
+ w18-20020a25ef52000000b006744eb5cbc6mr10913460ybm.620.1659833798667; Sat, 06
+ Aug 2022 17:56:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220805131252.3706794-1-richard.purdie@linuxfoundation.org>
- <20220805131252.3706794-5-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20220805131252.3706794-5-richard.purdie@linuxfoundation.org>
+ <20220805131252.3706794-12-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20220805131252.3706794-12-richard.purdie@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 6 Aug 2022 17:47:56 -0700
+Date: Sat, 6 Aug 2022 17:56:11 -0700
 Message-ID: 
- <CAMKF1srgNYi_hUN2UATKUOAJWsGC2BonVXupA1x0goTi-3eRgg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 05/29] rust-target-config: Add mips n32 best
- guess at target information
+ <CAMKF1sptpABUGaYwsKAoW11p1F-CKyVtsntQOLSi29L5CXbW6Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 12/29] rust.inc: Fix cross build llvm-config
+ handling
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 07 Aug 2022 00:48:27 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 07 Aug 2022 00:56:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168980
+ https://lists.openembedded.org/g/openembedded-core/message/168981
 
 On Fri, Aug 5, 2022 at 6:13 AM Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
 >
-> Add a best guess at MIPS n32 target information. This might not be
-> 100% correct but is something to start from at least.
+> We need llvm-config for the target but the cross compiled target binary is
+> no good. We can copy the native one into the target location where it will
+> then return the target values though.
 >
-
-Looking at llvm data layout this is correct, so you might update the
-commit comment
-
 > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  meta/classes/rust-target-config.bbclass | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  meta/recipes-devtools/rust/rust.inc | 18 ++++++++++++++----
+>  1 file changed, 14 insertions(+), 4 deletions(-)
 >
-> diff --git a/meta/classes/rust-target-config.bbclass b/meta/classes/rust-target-config.bbclass
-> index 87b7dee3edc..1721839922e 100644
-> --- a/meta/classes/rust-target-config.bbclass
-> +++ b/meta/classes/rust-target-config.bbclass
-> @@ -190,6 +190,13 @@ TARGET_POINTER_WIDTH[mips64] = "64"
->  TARGET_C_INT_WIDTH[mips64] = "64"
->  MAX_ATOMIC_WIDTH[mips64] = "64"
+> diff --git a/meta/recipes-devtools/rust/rust.inc b/meta/recipes-devtools/rust/rust.inc
+> index 30f2b71fe8c..47b76e725de 100644
+> --- a/meta/recipes-devtools/rust/rust.inc
+> +++ b/meta/recipes-devtools/rust/rust.inc
+> @@ -18,7 +18,8 @@ export RUST_TARGET_PATH="${WORKDIR}/targets/"
+>  export FORCE_CRATE_HASH="${BB_TASKHASH}"
 >
-> +## mips64-n32-unknown-linux-{gnu, musl}
-> +DATA_LAYOUT[mips64-n32] = "E-m:e-p:32:32-i8:8:32-i16:16:32-i64:64-n32:64-S128"
-> +TARGET_ENDIAN[mips64-n32] = "big"
-> +TARGET_POINTER_WIDTH[mips64-n32] = "32"
-> +TARGET_C_INT_WIDTH[mips64-n32] = "32"
-> +MAX_ATOMIC_WIDTH[mips64-n32] = "64"
+>  RUST_ALTERNATE_EXE_PATH ?= "${STAGING_LIBDIR}/llvm-rust/bin/llvm-config"
+> -export YOCTO_ALTERNATE_EXE_PATH = "${RUST_ALTERNATE_EXE_PATH}"
+> +RUST_ALTERNATE_EXE_PATH_NATIVE = "${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-config"
 > +
->  ## mips64el-unknown-linux-{gnu, musl}
->  DATA_LAYOUT[mips64el] = "e-m:e-i8:8:32-i16:16:32-i64:64-n32:64-S128"
->  TARGET_ENDIAN[mips64el] = "little"
+>  export YOCTO_ALTERNATE_MULTILIB_NAME = "/${BASELIB}"
+>
+>  # We don't want to use bitbakes vendoring because the rust sources do their
+> @@ -82,8 +83,9 @@ python do_configure() {
+>      host_section = "target.{}".format(d.getVar('RUST_TARGET_SYS', True))
+>      config.add_section(host_section)
+>
+> -    llvm_config = d.expand("${YOCTO_ALTERNATE_EXE_PATH}")
+> -    config.set(host_section, "llvm-config", e(llvm_config))
+> +    llvm_config_target = d.expand("${RUST_ALTERNATE_EXE_PATH}")
+> +    llvm_config_build = d.expand("${RUST_ALTERNATE_EXE_PATH_NATIVE}")
+> +    config.set(host_section, "llvm-config", e(llvm_config_target))
+>
+>      config.set(host_section, "cxx", e(d.expand("${RUST_TARGET_CXX}")))
+>      config.set(host_section, "cc", e(d.expand("${RUST_TARGET_CC}")))
+> @@ -93,7 +95,7 @@ python do_configure() {
+>      build_section = "target.{}".format(d.getVar('SNAPSHOT_BUILD_SYS', True))
+>      config.add_section(build_section)
+>
+> -    config.set(build_section, "llvm-config", e(llvm_config))
+> +    config.set(build_section, "llvm-config", e(llvm_config_build))
+>
+>      config.set(build_section, "cxx", e(d.expand("${RUST_BUILD_CXX}")))
+>      config.set(build_section, "cc", e(d.expand("${RUST_BUILD_CC}")))
+> @@ -169,6 +171,14 @@ rust_runx () {
+>      unset CXXFLAGS
+>      unset CPPFLAGS
+>
+> +    # Copy the natively built llvm-config into the target so we can run it. Horrible,
+> +    # but works!
+> +    if [ ${RUST_ALTERNATE_EXE_PATH_NATIVE} != ${RUST_ALTERNATE_EXE_PATH} ]; then
+> +        mkdir -p `dirname ${RUST_ALTERNATE_EXE_PATH}`
+> +        cp ${RUST_ALTERNATE_EXE_PATH_NATIVE} ${RUST_ALTERNATE_EXE_PATH}
+> +        chrpath -d ${RUST_ALTERNATE_EXE_PATH}
+> +    fi
+> +
+
+
+this is interesting. In meta-clang we have a different solution which
+uses wrapper for llvm-config but this seems
+interesting at the same time hacky but if it works. I will take a
+deeper look from clang's pov too.
+
+>      oe_cargo_fix_env
+>
+>      python3 src/bootstrap/bootstrap.py ${@oe.utils.parallel_make_argument(d, '-j %d')} "$@" --verbose
 > --
 > 2.34.1
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#168939): https://lists.openembedded.org/g/openembedded-core/message/168939
-> Mute This Topic: https://lists.openembedded.org/mt/92834380/1997914
+> View/Reply Online (#168946): https://lists.openembedded.org/g/openembedded-core/message/168946
+> Mute This Topic: https://lists.openembedded.org/mt/92834390/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
