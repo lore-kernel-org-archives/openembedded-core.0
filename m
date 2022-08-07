@@ -2,60 +2,60 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD4A7C48BE4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD134C25B06
 	for <webhook@archiver.kernel.org>; Sun,  7 Aug 2022 04:15:58 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web11.10841.1659845753258587592
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
+ [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web10.10723.1659845750428153880
  for <openembedded-core@lists.openembedded.org>;
- Sat, 06 Aug 2022 21:15:53 -0700
+ Sat, 06 Aug 2022 21:15:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=UzK3o9up;
- spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f53.google.com with SMTP id
- t22-20020a17090a449600b001f617f2bf3eso2933282pjg.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Cf9guebs;
+ spf=pass (domain: gmail.com, ip: 209.85.210.174,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f174.google.com with SMTP id k14so3510860pfh.0
         for <openembedded-core@lists.openembedded.org>;
- Sat, 06 Aug 2022 21:15:53 -0700 (PDT)
+ Sat, 06 Aug 2022 21:15:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=VxhrVuWnyAtVcuNfPCP07tvpC93IjwB09C0SmWEmetE=;
-        b=UzK3o9uprg5yu3qVt5Xqo6SovAXGDtbqf3E+uQ2n3xclkXOJLSPujueZX1BU4nylTf
-         6Yn248ccG1mWu5rAluubFWLuK//jzF0y32/E+tUM/1Sgm2hPjLbX2mY9lMVnogCln7Ii
-         6FO1JfF4GsJZeC1ag1WoW7JZi8cmLllwALdPO+u135rH/a829l7f5N8ER9fZocDsSkAa
-         7mwQwXjpLgJaijv8Q8V9FoFltEc9gBM3sb2OxKscbo9HMC/GgeYhCM18M6+URh2AJ/2A
-         y6JP0LoANSM0vF4yeDeXtUZRPxHrBPSPYF9eEQwX4qBaOQmswZvZBSlUjXYfGormrSxC
-         3TkQ==
+        bh=D5/FGMvJP8lpzkXnkJqZqB8XO4nCvIeutFhFm60Yzzg=;
+        b=Cf9guebsJsNoyiRrByqgkKpqBPid1cXwNdQXdYuieoKDRdyCxfE1UvaflX6BSdRoY/
+         R1NWItT7VzWiaLoJysb58mi3mXY+wcHWCDdtK5lvBQ5chfJrfqh54bV66SExcjdW6M9U
+         2XVpnBWSyp8wf8s+I1DXLKf2vCPyhREAtzZ5Phd83TSuJSx9WVKk5eWdY0F/L35ho9ye
+         qlMS5LS17E602M8n0Kk2iNtsdHeVLc4S+z4HziuXYBfkG81vDzDkwwXAtY/KISeY9HbA
+         gikV5P3wfEkorVGCux+EmUPYIrIWtw2DakHZ646GD6t3+Ad51Q7QnojE5jcxdUhgfCUW
+         oKeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=VxhrVuWnyAtVcuNfPCP07tvpC93IjwB09C0SmWEmetE=;
-        b=IatJTTVJPIE/c3usABkPQi3KHa2wn+hVAoOR152HxA/JtPEra3qoqYFHTCPJ1zMcyR
-         SUJGepK68sbzrqrzOut3jthiNsecGnG0lxaoO4KkqoaPmziOiqSvf+Aq1CQWbgBZcPQW
-         i2TvE/nnUBGSp/ZhOoRrzF9vzgAh3WmTTv3DxCoEXJdL/eeLibMN+8VqP/zFbDExxXd0
-         uLyGZXwUPbWUZjnPyVHi3TiI/LrtBrwgXs1Czk2Y8KOZhawlbSKiwTlVL7jHVPXCdI99
-         jEp+6aQyUj0eVZBP9nOFe/wLaAUs467gney9iT6tbHthlVo2weKjIHDWwOt2YSOy2GQk
-         pzQA==
-X-Gm-Message-State: ACgBeo3j8PAvtUCHFbfHMxQUg2sUhipqnhAu3Ksv4FRqCIP7B9KcfyjM
-	9G7wtItn40+LiCF5bGyeOSm/9YzSty4=
+        bh=D5/FGMvJP8lpzkXnkJqZqB8XO4nCvIeutFhFm60Yzzg=;
+        b=8RziiPJhSe6hl8da74tjeK07y0iiinbsPKsy35+qo+FhRgdtzSauVfgtj+8O7YgO5K
+         wQ9VJzuJohnEPuYrP1Kjs8/f5v7fAxFZxyYrBPkdZYUdGJM+MYuGu6lRJyDuCLrHpQEd
+         aUIUDAIvPUGv2/Btpx6cWJJV8nmktupAXrJ58TMFrEAwAVP3n6WxQ5P4pLJxV5pNa2js
+         8LRHA1U5806Ylg4Ep1PpoqarDF8N0+Mra8pqYZMdW+h6J5P+lphFx5AilFQOm67e/ips
+         rBlm+d5P53EJKj0CEG9EY3uvPVRfUGNZIp/BSx2Eobhu/pZEVmNHQ95xfm9nC+GBrqwh
+         sSbQ==
+X-Gm-Message-State: ACgBeo32fcQjYxv9PbI8yMzTv3g/ZJkvc4W9ytYzAaCK05eqKnjCfVWq
+	KujEirmOXYdi4zb/aVgQFa8m+8V5Y4g=
 X-Google-Smtp-Source: 
- AA6agR41HD2gJjp2kvqpVi5ZnssLeL92zcbiFTDPYE/cMIFKrYK6btNP5XEg+4arl5JrUlHf0O6wEA==
-X-Received: by 2002:a17:903:2c6:b0:16d:d2c2:9939 with SMTP id
- s6-20020a17090302c600b0016dd2c29939mr13504856plk.42.1659845752113;
-        Sat, 06 Aug 2022 21:15:52 -0700 (PDT)
+ AA6agR4vNgghef6aGh/fr23DlDjSn1XPmyeOG6I5wKnxpc+s8FdKyowqoAjgvQHCNhPF/NYEmSaamA==
+X-Received: by 2002:a63:f854:0:b0:419:83a9:4c00 with SMTP id
+ v20-20020a63f854000000b0041983a94c00mr11332059pgj.115.1659845749462;
+        Sat, 06 Aug 2022 21:15:49 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::9f45])
         by smtp.gmail.com with ESMTPSA id
- z67-20020a626546000000b0052e8bf1c27fsm5654146pfb.31.2022.08.06.21.15.50
+ z67-20020a626546000000b0052e8bf1c27fsm5654146pfb.31.2022.08.06.21.15.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Aug 2022 21:15:51 -0700 (PDT)
+        Sat, 06 Aug 2022 21:15:48 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 7/7] efivar: Fix build with glibc 2.36
-Date: Sat,  6 Aug 2022 21:15:41 -0700
-Message-Id: <20220807041541.2665647-7-raj.khem@gmail.com>
+Subject: [PATCH 5/7] bootchart2: Fix build with glibc 2.36+
+Date: Sat,  6 Aug 2022 21:15:39 -0700
+Message-Id: <20220807041541.2665647-5-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220807041541.2665647-1-raj.khem@gmail.com>
 References: <20220807041541.2665647-1-raj.khem@gmail.com>
@@ -66,93 +66,64 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 07 Aug 2022 04:15:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168988
+ https://lists.openembedded.org/g/openembedded-core/message/168986
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...x-glibc-2.36-build-mount.h-conflicts.patch | 60 +++++++++++++++++++
- meta/recipes-bsp/efivar/efivar_38.bb          |  1 +
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-bsp/efivar/efivar/0001-Fix-glibc-2.36-build-mount.h-conflicts.patch
+ .../0001-Do-not-include-linux-fs.h.patch      | 31 +++++++++++++++++++
+ .../bootchart2/bootchart2_0.14.9.bb           |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-devtools/bootchart2/bootchart2/0001-Do-not-include-linux-fs.h.patch
 
-diff --git a/meta/recipes-bsp/efivar/efivar/0001-Fix-glibc-2.36-build-mount.h-conflicts.patch b/meta/recipes-bsp/efivar/efivar/0001-Fix-glibc-2.36-build-mount.h-conflicts.patch
+diff --git a/meta/recipes-devtools/bootchart2/bootchart2/0001-Do-not-include-linux-fs.h.patch b/meta/recipes-devtools/bootchart2/bootchart2/0001-Do-not-include-linux-fs.h.patch
 new file mode 100644
-index 00000000000..28dadabe6b3
+index 00000000000..4e71e5c7887
 --- /dev/null
-+++ b/meta/recipes-bsp/efivar/efivar/0001-Fix-glibc-2.36-build-mount.h-conflicts.patch
-@@ -0,0 +1,60 @@
-+From 7b0e7ba674321ec1ddd6b9cbb419e5fb44f88bb3 Mon Sep 17 00:00:00 2001
-+From: Robbie Harwood <rharwood@redhat.com>
-+Date: Thu, 28 Jul 2022 16:11:24 -0400
-+Subject: [PATCH] Fix glibc 2.36 build (mount.h conflicts)
++++ b/meta/recipes-devtools/bootchart2/bootchart2/0001-Do-not-include-linux-fs.h.patch
+@@ -0,0 +1,31 @@
++From 8591c1e3edaea8f17396e3d2819d9064b2818cfb Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 6 Aug 2022 20:39:01 -0700
++Subject: [PATCH] Do not include linux/fs.h
 +
-+glibc has decided that sys/mount.h and linux/mount.h are no longer
-+usable at the same time.  This broke the build, since linux/fs.h itself
-+includes linux/mount.h.  For now, fix the build by only including
-+sys/mount.h where we need it.
++This header is not needed to be included anymore, moreover it conflicts
++with sys/mount.h from glibc 2.36+ see [1]
 +
-+See-also: https://sourceware.org/glibc/wiki/Release/2.36#Usage_of_.3Clinux.2Fmount.h.3E_and_.3Csys.2Fmount.h.3E
-+Resolves: #227
++[1] https://sourceware.org/glibc/wiki/Release/2.36
 +
-+Upstream-Status: Backport [https://github.com/rhboot/efivar/commit/bc65d63ebf8fe6ac8a099ff15ca200986dba1565]
-+Signed-off-by: Robbie Harwood <rharwood@redhat.com>
++Upstream-Status: Submitted [https://github.com/xrmx/bootchart/pull/99]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ src/gpt.c   | 1 +
-+ src/linux.c | 1 +
-+ src/util.h  | 1 -
-+ 3 files changed, 2 insertions(+), 1 deletion(-)
++ collector/collector.c | 1 -
++ 1 file changed, 1 deletion(-)
 +
-+diff --git a/src/gpt.c b/src/gpt.c
-+index 1eda049..21413c3 100644
-+--- a/src/gpt.c
-++++ b/src/gpt.c
-+@@ -17,6 +17,7 @@
-+ #include <stdio.h>
-+ #include <stdlib.h>
-+ #include <string.h>
-++#include <sys/mount.h>
-+ #include <sys/param.h>
-+ #include <sys/stat.h>
-+ #include <sys/utsname.h>
-+diff --git a/src/linux.c b/src/linux.c
-+index 47e45ae..1780816 100644
-+--- a/src/linux.c
-++++ b/src/linux.c
-+@@ -20,6 +20,7 @@
-+ #include <stdbool.h>
-+ #include <stdio.h>
-+ #include <sys/ioctl.h>
-++#include <sys/mount.h>
-+ #include <sys/socket.h>
++diff --git a/collector/collector.c b/collector/collector.c
++index 5055181..12738ff 100644
++--- a/collector/collector.c
+++++ b/collector/collector.c
++@@ -34,7 +34,6 @@
++ 
++ #include <sys/mount.h>
 + #include <sys/sysmacros.h>
-+ #include <sys/types.h>
-+diff --git a/src/util.h b/src/util.h
-+index 3300666..1e67e44 100644
-+--- a/src/util.h
-++++ b/src/util.h
-+@@ -23,7 +23,6 @@
-+ #include <stdio.h>
-+ #include <string.h>
-+ #include <sys/ioctl.h>
-+-#include <sys/mount.h>
-+ #include <sys/stat.h>
-+ #include <sys/types.h>
-+ #include <tgmath.h>
++-#include <linux/fs.h>
++ #include <linux/genetlink.h>
++ #include <linux/taskstats.h>
++ #include <linux/cgroupstats.h>
 +-- 
 +2.37.1
 +
-diff --git a/meta/recipes-bsp/efivar/efivar_38.bb b/meta/recipes-bsp/efivar/efivar_38.bb
-index 42625fa041f..6a6918931ba 100644
---- a/meta/recipes-bsp/efivar/efivar_38.bb
-+++ b/meta/recipes-bsp/efivar/efivar_38.bb
-@@ -12,6 +12,7 @@ SRC_URI = "git://github.com/rhinstaller/efivar.git;branch=main;protocol=https \
-            file://0001-src-Makefile-build-util.c-separately-for-makeguids.patch \
-            file://efisecdb-fix-build-with-musl-libc.patch \
-            file://0001-Fix-invalid-free-in-main.patch \
-+           file://0001-Fix-glibc-2.36-build-mount.h-conflicts.patch \
-            "
- SRCREV = "1753149d4176ebfb2b135ac0aaf79340bf0e7a93"
+diff --git a/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb b/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
+index b1628075a7d..b4d5b7cd9bc 100644
+--- a/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
++++ b/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
+@@ -95,6 +95,7 @@ SRC_URI = "git://github.com/xrmx/bootchart.git;branch=master;protocol=https \
+            file://0001-collector-Allocate-space-on-heap-for-chunks.patch \
+            file://0001-bootchart2-support-usrmerge.patch \
+            file://0001-bootchartd.in-make-sure-only-one-bootchartd-process.patch \
++           file://0001-Do-not-include-linux-fs.h.patch \
+           "
  
+ S = "${WORKDIR}/git"
 -- 
 2.37.1
 
