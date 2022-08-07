@@ -2,61 +2,60 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB7A3C19F2A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC558C3F6B0
 	for <webhook@archiver.kernel.org>; Sun,  7 Aug 2022 04:15:58 +0000 (UTC)
 Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
  [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web11.10840.1659845751907496253
+ by mx.groups.io with SMTP id smtpd.web10.10722.1659845749316002441
  for <openembedded-core@lists.openembedded.org>;
- Sat, 06 Aug 2022 21:15:52 -0700
+ Sat, 06 Aug 2022 21:15:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FZEU9Zd/;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VSAs4GmU;
  spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: raj.khem@gmail.com)
 Received: by mail-pj1-f45.google.com with SMTP id
- q9-20020a17090a2dc900b001f58bcaca95so4861278pjm.3
+ h21-20020a17090aa89500b001f31a61b91dso11645586pjq.4
         for <openembedded-core@lists.openembedded.org>;
- Sat, 06 Aug 2022 21:15:51 -0700 (PDT)
+ Sat, 06 Aug 2022 21:15:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=dAmxbp6uYl4IPpCK1qez5dmIV18UaLODJD5tfx7WN/0=;
-        b=FZEU9Zd/QBrXezyXVyI1EB3LQwCo4UL/hBHzWSKINomzHqaIdbaG8kcBugDD+orB2l
-         2/oDNMOSAv/ZfpJIbIPWOY1kN8JDvul2NQ9+7E37d5chrVKVmie9Fj3TUVcLV8GAbjxe
-         iinCzzJA7pYVp8vdIpxLkZrIUzUeZB2BjBe4QWjL/wAhkE29KVg2y0Xd3NFGSNi3CMnh
-         tZgFSAJC0M41MnqnLJ8OafssnoXmLuOJhG5nk7SKOysOV84vGXDSCKrBjmx5kyk38gJp
-         K/c44nmO/SwPzsdEIccuSVCuv490MQR1ueUbVxLDKDAI/Lpb/pEGJSLtYVg5tbfo4a4M
-         2C1Q==
+        bh=QSTKx70TjCXQB0BjtmCdqcq90+Wl1SPhAWHgwNi4zgI=;
+        b=VSAs4GmUJh4aDRXCobZmk0qTavSh9FUelLZgU07wcIaVH9sYHdqxiuLny/8ud0PqNA
+         Wwbh+aoemrD5Luvxcl52elOIAudRf8NB+KUghuJDpZW1wXWwe57Oq0HtLXTIEZLf88ET
+         7blbuAFf+gRzQ2G7bThKYutJx3HxGA8i0Log1MyQxiILz7eJvrykjt6Dob5rj2kfyuzc
+         eH+Nf6j/PMFXybaXwukib9CIgzFUDD2pC5xEAhVhCT2cEw3epLWcb/vnmljI6VHD4Ps4
+         Krx+kd3dXnVLRnNXf5BP0zp8JlDGU9I9/Ilri+8FlhzzP0RVUU3Jnj6Z7EN9+n+MPk5h
+         R4Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=dAmxbp6uYl4IPpCK1qez5dmIV18UaLODJD5tfx7WN/0=;
-        b=HBV9rrxznyXk3apxxn2Z8hc7TTAvDJvwb7QEkry5jBv2xP9QEtM194sNjEedKWxoQ6
-         0Nu00EUs6g8JrO5fyfBTPs7rl1QHnddzuwrHazooi2dHb+w3HDcY+oghlJamI7xJn5IJ
-         8Nf45Cok3jNZchw96gQnnG3eVYWV+mO7q4HlGpXBGJL1uNXjB+6ulak+wXNBwrIEP+HA
-         7PyHEDzyVKD9lwzrY2EEkOWfoUwhnBOuTWHFWsxaf43ZQxU7xFd7pSQ6ZkC+1/yM0W9d
-         urWqg4F95XXxB/bZrtXbpSlcXlfVV2a0dg55uCY4TZ67uK0tKXKSHzZ/eWI1CbeFRNN1
-         nywQ==
-X-Gm-Message-State: ACgBeo0b0fQiYDu6J9zF5HEMDaQD7yaW1hk2QQWVeRd96HvFpGbHlali
-	YPIfvpqPeqjevG0PbgZeNAfZqXb4LL4=
+        bh=QSTKx70TjCXQB0BjtmCdqcq90+Wl1SPhAWHgwNi4zgI=;
+        b=aKBBWYT39x3fKPlYFgjBWuRF2SiZLTF41M10hHlimWtWVyadn/IBcf6Ylx3a/oCOeB
+         R1HQPBs4ewVLjtU8T8hKLb7p6OSySchdRCPVpJSUsj1p68vSwhTsqirP2iWhQfVn0WQg
+         qQKOG6wO6V/nGpVTJKOKZxCdz2a/6aOz7h1OUP5YtZLgaNl/Hdhk3xMNkPP11n6bUfia
+         7hXBiH7RC4qilLHIYodQeralSS1JYWd0/MIHDCg7f+AZ3bXxJ0uAhsjKkGNtay3eombS
+         2EX2xuDhzu4Wgjr1tH9BXt7SBzhvjhU59wcgEMqSc+BVSZBkOmnDjD2MTI2vj/fAQxiB
+         WfOw==
+X-Gm-Message-State: ACgBeo2FZX5ZgrfAmnw6dng6HK8IV2QKv/k35GlylkgXBLvrqwqt+qYb
+	TmyV7sIwwuWY97+d3wjf8kQ3TkDGd98=
 X-Google-Smtp-Source: 
- AA6agR6HH764+Q2wRXIfFuYMUiuVz6dM8M3npVb8F26mMOVNTmqB6yFdFPa0KSl4HBCZ+eq+gXyGwA==
-X-Received: by 2002:a17:90a:fe07:b0:1f4:203d:d192 with SMTP id
- ck7-20020a17090afe0700b001f4203dd192mr15097020pjb.145.1659845750834;
-        Sat, 06 Aug 2022 21:15:50 -0700 (PDT)
+ AA6agR75uJe9ruP2PUKNeS1fTnLEw5Eyfn8OQ7J5Vn9sH4eE4n4ho3BAtv/aRRBgCqdZROrdidCq6Q==
+X-Received: by 2002:a17:90b:33cb:b0:1f4:f635:93f8 with SMTP id
+ lk11-20020a17090b33cb00b001f4f63593f8mr24120530pjb.74.1659845748270;
+        Sat, 06 Aug 2022 21:15:48 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::9f45])
         by smtp.gmail.com with ESMTPSA id
- z67-20020a626546000000b0052e8bf1c27fsm5654146pfb.31.2022.08.06.21.15.49
+ z67-20020a626546000000b0052e8bf1c27fsm5654146pfb.31.2022.08.06.21.15.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Aug 2022 21:15:49 -0700 (PDT)
+        Sat, 06 Aug 2022 21:15:47 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 6/7] ltp: Fix sys/mount.h conflicts needed for glibc 2.36+
- compile
-Date: Sat,  6 Aug 2022 21:15:40 -0700
-Message-Id: <20220807041541.2665647-6-raj.khem@gmail.com>
+Subject: [PATCH 4/7] stress-ng: Upgrade to 0.14.03
+Date: Sat,  6 Aug 2022 21:15:38 -0700
+Message-Id: <20220807041541.2665647-4-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220807041541.2665647-1-raj.khem@gmail.com>
 References: <20220807041541.2665647-1-raj.khem@gmail.com>
@@ -67,63 +66,121 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 07 Aug 2022 04:15:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168987
+ https://lists.openembedded.org/g/openembedded-core/message/168985
+
+Backport fixes for build with glibc 2.36+
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...ove-duplicate-include-of-sys-mount.h.patch | 30 +++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20220527.bb     |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-Remove-duplicate-include-of-sys-mount.h.patch
+ ...helper-remove-include-of-sys-mount.h.patch | 34 +++++++++++++++++++
+ ...e-shim-remove-include-of-sys-mount.h.patch | 34 +++++++++++++++++++
+ ...ess-ng_0.14.02.bb => stress-ng_0.14.03.bb} |  7 ++--
+ 3 files changed, 73 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/stress-ng/stress-ng/0001-core-helper-remove-include-of-sys-mount.h.patch
+ create mode 100644 meta/recipes-extended/stress-ng/stress-ng/0002-core-shim-remove-include-of-sys-mount.h.patch
+ rename meta/recipes-extended/stress-ng/{stress-ng_0.14.02.bb => stress-ng_0.14.03.bb} (77%)
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-Remove-duplicate-include-of-sys-mount.h.patch b/meta/recipes-extended/ltp/ltp/0001-Remove-duplicate-include-of-sys-mount.h.patch
+diff --git a/meta/recipes-extended/stress-ng/stress-ng/0001-core-helper-remove-include-of-sys-mount.h.patch b/meta/recipes-extended/stress-ng/stress-ng/0001-core-helper-remove-include-of-sys-mount.h.patch
 new file mode 100644
-index 00000000000..fc7fea02f9b
+index 00000000000..52b2e61bc14
 --- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-Remove-duplicate-include-of-sys-mount.h.patch
-@@ -0,0 +1,30 @@
-+From 463f3f85e326253feb35015a022ab6d1e03fe1d5 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 6 Aug 2022 20:50:27 -0700
-+Subject: [PATCH] Remove duplicate include of <sys/mount.h>
++++ b/meta/recipes-extended/stress-ng/stress-ng/0001-core-helper-remove-include-of-sys-mount.h.patch
+@@ -0,0 +1,34 @@
++From 627e5227783ff2a0c3b11adee57ef7f0684a367e Mon Sep 17 00:00:00 2001
++From: Colin Ian King <colin.i.king@gmail.com>
++Date: Mon, 1 Aug 2022 21:39:39 +0100
++Subject: [PATCH 1/2] core-helper: remove include of sys/mount.h
 +
-+<sys/mount.h> is already included by lapi/mount.h.
++This is not required in the shim core and it fixes a build issue
++with newer glibc 2.36
 +
-+This fixes build with glibc 2.36+
++Fixes: https://github.com/ColinIanKing/stress-ng/issues/216
 +
-+Upstream-Status: Submitted [https://github.com/linux-test-project/ltp/pull/953]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Backport [https://github.com/ColinIanKing/stress-ng/commit/69f4f4d629c5f4304b5388b6a7fa8616de23f50e]
++Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 +---
-+ testcases/kernel/syscalls/statx/statx09.c | 1 -
-+ 1 file changed, 1 deletion(-)
++ core-helper.c | 4 ----
++ 1 file changed, 4 deletions(-)
 +
-+diff --git a/testcases/kernel/syscalls/statx/statx09.c b/testcases/kernel/syscalls/statx/statx09.c
-+index aea329e086..34c5f41f87 100644
-+--- a/testcases/kernel/syscalls/statx/statx09.c
-++++ b/testcases/kernel/syscalls/statx/statx09.c
-+@@ -18,7 +18,6 @@
-+  */
++diff --git a/core-helper.c b/core-helper.c
++index 6795410d..9e4533f2 100644
++--- a/core-helper.c
+++++ b/core-helper.c
++@@ -39,10 +39,6 @@
++ #include <sys/loadavg.h>
++ #endif
 + 
-+ #define _GNU_SOURCE
++-#if defined(HAVE_SYS_MOUNT_H)
 +-#include <sys/mount.h>
-+ #include <stdlib.h>
-+ #include "tst_test.h"
-+ #include "lapi/fs.h"
++-#endif
++-
++ #if defined(HAVE_SYS_PRCTL_H)
++ #include <sys/prctl.h>
++ #endif
 +-- 
 +2.37.1
 +
-diff --git a/meta/recipes-extended/ltp/ltp_20220527.bb b/meta/recipes-extended/ltp/ltp_20220527.bb
-index b0f4ea6021e..6d812958cdd 100644
---- a/meta/recipes-extended/ltp/ltp_20220527.bb
-+++ b/meta/recipes-extended/ltp/ltp_20220527.bb
-@@ -37,6 +37,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git;branch=master;protocol=ht
-            file://0001-netstress-Restore-runtime-to-5m.patch \
-            file://0001-net_stress-Fix-usage-of-variables-from-tst_net.sh.patch \
-            file://0001-memcg-functional-Fix-usage-of-PAGESIZE-from-memcg_li.patch \
-+           file://0001-Remove-duplicate-include-of-sys-mount.h.patch \
-            "
+diff --git a/meta/recipes-extended/stress-ng/stress-ng/0002-core-shim-remove-include-of-sys-mount.h.patch b/meta/recipes-extended/stress-ng/stress-ng/0002-core-shim-remove-include-of-sys-mount.h.patch
+new file mode 100644
+index 00000000000..5cb95f1f2b8
+--- /dev/null
++++ b/meta/recipes-extended/stress-ng/stress-ng/0002-core-shim-remove-include-of-sys-mount.h.patch
+@@ -0,0 +1,34 @@
++From 0503ec88e9187c0152b7b2840a1ad5bfb022bbfe Mon Sep 17 00:00:00 2001
++From: Colin Ian King <colin.i.king@gmail.com>
++Date: Mon, 1 Aug 2022 21:28:49 +0100
++Subject: [PATCH 2/2] core-shim: remove include of sys/mount.h
++
++This is not required in the shim core and it fixes a build issue
++with newer glibc 2.36
++
++Fixes: https://github.com/ColinIanKing/stress-ng/issues/216
++
++Upstream-Status: Backport [https://github.com/ColinIanKing/stress-ng/commit/0c9a711f213b5734729ab0c5ed90669e9fd11ca2]
++Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
++---
++ core-shim.c | 4 ----
++ 1 file changed, 4 deletions(-)
++
++diff --git a/core-shim.c b/core-shim.c
++index 0343402a..324eba7d 100644
++--- a/core-shim.c
+++++ b/core-shim.c
++@@ -52,10 +52,6 @@
++ #include <asm/ldt.h>
++ #endif
++ 
++-#if defined(HAVE_SYS_MOUNT_H)
++-#include <sys/mount.h>
++-#endif
++-
++ #if defined(HAVE_SYS_PRCTL_H)
++ #include <sys/prctl.h>
++ #endif
++-- 
++2.37.1
++
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.14.02.bb b/meta/recipes-extended/stress-ng/stress-ng_0.14.03.bb
+similarity index 77%
+rename from meta/recipes-extended/stress-ng/stress-ng_0.14.02.bb
+rename to meta/recipes-extended/stress-ng/stress-ng_0.14.03.bb
+index 000a640917c..370662bbb30 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.14.02.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.14.03.bb
+@@ -5,8 +5,11 @@ HOMEPAGE = "https://github.com/ColinIanKing/stress-ng#readme"
+ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
  
+-SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master"
+-SRCREV = "5239ae6c82bfb239637b5a66cd39a035a158e641"
++SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master \
++           file://0001-core-helper-remove-include-of-sys-mount.h.patch \
++           file://0002-core-shim-remove-include-of-sys-mount.h.patch \
++"
++SRCREV = "346518caffe5302f9a6d36860459c297c6968aaa"
  S = "${WORKDIR}/git"
+ 
+ DEPENDS = "coreutils-native"
 -- 
 2.37.1
 
