@@ -2,296 +2,408 @@ Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65FF4C19F2A
-	for <webhook@archiver.kernel.org>; Sun,  7 Aug 2022 16:53:22 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web12.15570.1659891198026270379
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82C85C19F2A
+	for <webhook@archiver.kernel.org>; Sun,  7 Aug 2022 17:36:22 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web08.15765.1659893774002638595
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Aug 2022 09:53:18 -0700
+ Sun, 07 Aug 2022 10:36:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=JDQnU7xc;
- spf=pass (domain: gmail.com, ip: 209.85.128.47,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=gAYKjGQy;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43,
  mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id
- az6-20020a05600c600600b003a530cebbe3so1444089wmb.0
+Received: by mail-wm1-f43.google.com with SMTP id c22so3715920wmr.2
         for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Aug 2022 09:53:17 -0700 (PDT)
+ Sun, 07 Aug 2022 10:36:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=TkO5I3RA17Y5ekAqtIkPy9CJhe56OIRaxKnCz+PEobY=;
-        b=JDQnU7xcW92kWKbGxarjEpMLgNQf4jvYMPeK2MfpjB+RR4g5+iwWEP4R+dX52KpDmc
-         wNm5+0JOxl0O4IrH5femffD3D47Y/+wAiDK5zTs+uzMPyOZ548OJe+ydj7YI472CjZm5
-         d2YGoeZMRu8f/ydaOkKVG2cShijLw6mtqI4bCeUA50fmuAFu2k29fYdtxecoobj4bSiQ
-         RSjsACVlOwQMvOgHuFGs7C+b2+1Dy9PhoqLKeC0icX+Oeg6tb4LJROqqulsyrDLfLMsn
-         3v5oVshYEx9c/ne0sYEYTdMv3feTDOhCQ8h69CJ7faJeS/GTuWe+JtRb7NzZgBxELA1O
-         H4/g==
+        bh=zbETWCzKTyVXD8zORiUaff7wkKRNU/ZO8WqTmVaLsl0=;
+        b=gAYKjGQy7b0qKobPZzQVoWDjkfsgMKO/TGxiNZpyi6zBl54mUASycqdPLVzCLsaTwu
+         /MauGy3XwKAcl6AJ9R41jKf3VblcwTLl2o2uA5swFITP9LEu9xlZY08uAWBxTAHFwYLD
+         15xJcxoMgzLJjFtOV1lUwP2jjLGV1+L5H/RH/x02y49XbdfeONgo4H+DGzmY2qLOx3Z5
+         z0bp2VsPDtFAz18saZ65hroW5PF7Jr9brNHtf1ez4ZQzeQqBUwhng3E5k5YtzGaLm1ga
+         xL4l19POqO4fhoo4AlEL+R9QEseipchzXe3ebK7eYE5VIM1lDLzOa1cJcUS9fYvVwBZd
+         YT8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=TkO5I3RA17Y5ekAqtIkPy9CJhe56OIRaxKnCz+PEobY=;
-        b=jZSN5uHDuv09Prn5AqFoJ902UN/YNgpAY0OMomjYHHfkc5xOtdcsCVXTU9dx+lMt02
-         EJMc/6aKWbfC9WIVsonAsUMd8L2p6DJPmomMmBunV5ZAQnEXt/Yhv76AQnI1CX1D0XbV
-         foxMkRlunQu8lJ38WxHxuTXwsplO+1BpexlPpVZLSeOXlVM8tvaOfxfzdIlTEMfFT09D
-         HhT63vGqqtxXAk7weuc7G18jvauDgnhDJs+5hg1YvNiQYoti0O78lxzOoNquJWWtni2N
-         cBcWsJdaN/OybDhPI1Et+DNunQ1DWQBG3DcIgXn5mtQbuNKwGzPnpgn9jXU7mc+lO3Qj
-         srKA==
-X-Gm-Message-State: ACgBeo208ENaWrjFnm0yOZJYV3iM2nBVxfqnXuvCtMntQyjcjfYQJSmJ
-	6Ctu/YU8OYBeDvCp9FIFWDmJq29xppbQpCp98W4=
+        bh=zbETWCzKTyVXD8zORiUaff7wkKRNU/ZO8WqTmVaLsl0=;
+        b=LvbFhW0Hdzxf6VTi/lEd0qyb/Lg1PW8a3egmyXRzn3RLB2xvTltjajZa7aYoEVops0
+         m83nmvXbbuYBnGFA65uxwhtd7Pl575hQajGW4oW2TzhOEtRh2BxpTeGeOTIJgSaPZNFx
+         MC+omte7JYTZJmUli/0IXibuBtze0efJdYE43jwbawi+VfpgSPMMdKDhvNkS0XtRUgdK
+         fIW9yRdq58fZjorormnAfFFBuhtDH/xbJvkEIgDt4Vd0/aJTy95DMaLG4DyRPIy3zCdZ
+         CtQH7iKAxtI6XKPgGQYH1wbEdwbX7vXT0zdg6jwB6/aVo0takUs+PVJPFIlTJ3PoZc5t
+         C29Q==
+X-Gm-Message-State: ACgBeo3j0YCgauCsDM0xZmaDI/XrZCWkFu77pYdRc1HzjtRUC7yKalKv
+	8SdvNUSMaHP9i1NVpviOBXpSIMntjlhnvCZVdwI=
 X-Google-Smtp-Source: 
- AA6agR5dSUWgkTSLVhS0lt8sQLthg+27Q9IV48z3FpwzPeyZjFk7Wnj7YP7i9bjiTTbbRiGhvsezljzAAXtCcvodTDQ=
-X-Received: by 2002:a7b:cc0d:0:b0:3a5:1eae:3948 with SMTP id
- f13-20020a7bcc0d000000b003a51eae3948mr7576933wmh.32.1659891196310; Sun, 07
- Aug 2022 09:53:16 -0700 (PDT)
+ AA6agR70n0lMoM5yE8/1SENG42PBWHOfwz1TEPB6zjhxy6DozZjmYmTR2b/QYdCSWuHxq9WGpVLy2woN5L5Vbv6ZTuw=
+X-Received: by 2002:a7b:ce02:0:b0:3a5:47a:3897 with SMTP id
+ m2-20020a7bce02000000b003a5047a3897mr12091833wmc.102.1659893772312; Sun, 07
+ Aug 2022 10:36:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220807160629.2112131-1-raj.khem@gmail.com>
- <17091D9A9B07112A.8942@lists.openembedded.org>
-In-Reply-To: <17091D9A9B07112A.8942@lists.openembedded.org>
+References: <20220727072956.15438-1-kai.kang@windriver.com>
+In-Reply-To: <20220727072956.15438-1-kai.kang@windriver.com>
 From: Martin Jansa <martin.jansa@gmail.com>
-Date: Sun, 7 Aug 2022 18:52:31 +0200
+Date: Sun, 7 Aug 2022 19:35:27 +0200
 Message-ID: 
- <CA+chaQc45mTQc9VNYOPjeYsGEdm5-3bki2AjRLG_Gp7qrC=kuQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] binutils: Upgrade to 2.39 release
-To: Martin.Jansa@gmail.com
-Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000001f388f05e5a989d9"
+ <CA+chaQf7iEzXN-rH5HxjvaveHxg9mPtvh-q-5d_pxoWY=G01Lw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] mesa: fix compile error when debug build
+ enabled
+To: kai <kai.kang@windriver.com>
+Cc: Ross.Burton@arm.com, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000a9e6ff05e5aa2236"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 07 Aug 2022 16:53:22 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 07 Aug 2022 17:36:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169000
+ https://lists.openembedded.org/g/openembedded-core/message/169002
 
---0000000000001f388f05e5a989d9
+--000000000000a9e6ff05e5aa2236
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Aug 7, 2022 at 6:41 PM Martin Jansa via lists.openembedded.org
-<Martin.Jansa=gmail.com@lists.openembedded.org> wrote:
+Does this still work for you?
 
+With this change applied (now in master), mesa fails here with:
+http://errors.yoctoproject.org/Errors/Details/664881/
+
+and builds fine with DEBUG_BUILD when I revert this.
+
+I've reported the same in upstream MR
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/17439
+
+On Wed, Jul 27, 2022 at 9:30 AM kai <kai.kang@windriver.com> wrote:
+
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> It fails to compile mesa{,-native} when DEBUG_BUILD is enabled:
+>
+> ../mesa-22.1.3/src/compiler/nir/nir_inline_helpers.h: In function
+> =E2=80=98nir_opt_move_block=E2=80=99:
+> ../mesa-22.1.3/src/compiler/nir/nir_opt_move.c:55:1: error: inlining
+> failed in call to
+>   always_inline =E2=80=98src_is_ssa=E2=80=99: indirect function call with=
+ a yet
+> undetermined callee
+>  src_is_ssa(nir_src *src, void *state)
+>  ^~~~~~~~~~
+>
+> Backport patch from mesa merge request to fix it.
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+> v2:
+> * use patch from mesa merge request
+>
+>  ...ove-fix-ALWAYS_INLINE-compiler-error.patch | 65 +++++++++++++++++++
+>  meta/recipes-graphics/mesa/mesa.inc           |  1 +
+>  2 files changed, 66 insertions(+)
+>  create mode 100644
+> meta/recipes-graphics/mesa/files/0001-nir-nir_opt_move-fix-ALWAYS_INLINE-=
+compiler-error.patch
+>
+> diff --git
+> a/meta/recipes-graphics/mesa/files/0001-nir-nir_opt_move-fix-ALWAYS_INLIN=
+E-compiler-error.patch
+> b/meta/recipes-graphics/mesa/files/0001-nir-nir_opt_move-fix-ALWAYS_INLIN=
+E-compiler-error.patch
+> new file mode 100644
+> index 0000000000..48fc1e37ff
+> --- /dev/null
+> +++
+> b/meta/recipes-graphics/mesa/files/0001-nir-nir_opt_move-fix-ALWAYS_INLIN=
+E-compiler-error.patch
+> @@ -0,0 +1,65 @@
+> +Backport merge request to fix mesa compile error when debug build
+> +enabled.
+> +
+> +Upstream-Status: Submitted [
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/17439]
+> +
+> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> +
+> +From c69c6e7a35205557de73734ad4a1f411c8f99926 Mon Sep 17 00:00:00 2001
+> +From: t bettler <thomas.bettler@gmail.com>
+> +Date: Sat, 9 Jul 2022 09:28:51 +0000
+> +Subject: [PATCH] nir/nir_opt_move: fix ALWAYS_INLINE compiler error
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=3DUTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +fix call to =E2=80=98always_inline=E2=80=99 =E2=80=98src_is_ssa=E2=80=99
+> +
+> +Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/6825
+> +Fixes: f1d20ec67c3f186886b97de94f74484650f8fda1 ("nir/nir_opt_move:
+> handle non-SSA defs ")
+> +---
+> + src/compiler/nir/nir_inline_helpers.h | 10 ++++++++--
+> + src/compiler/nir/nir_opt_move.c       |  2 +-
+> + 2 files changed, 9 insertions(+), 3 deletions(-)
+> +
+> +diff --git a/src/compiler/nir/nir_inline_helpers.h
+> b/src/compiler/nir/nir_inline_helpers.h
+> +index 125dd8a537c..ec33f0509f7 100644
+> +--- a/src/compiler/nir/nir_inline_helpers.h
+> ++++ b/src/compiler/nir/nir_inline_helpers.h
+> +@@ -73,8 +73,8 @@ nir_foreach_dest(nir_instr *instr, nir_foreach_dest_cb
+> cb, void *state)
+> +    return _nir_foreach_dest(instr, cb, state);
+> + }
+> +
+> +-static inline bool
+> +-nir_foreach_src(nir_instr *instr, nir_foreach_src_cb cb, void *state)
+> ++static ALWAYS_INLINE bool
+> ++_nir_foreach_src(nir_instr *instr, nir_foreach_src_cb cb, void *state)
+> + {
+> +    switch (instr->type) {
+> +    case nir_instr_type_alu: {
+> +@@ -162,3 +162,9 @@ nir_foreach_src(nir_instr *instr, nir_foreach_src_cb
+> cb, void *state)
+> +    dest_state.cb =3D cb;
+> +    return _nir_foreach_dest(instr, _nir_visit_dest_indirect,
+> &dest_state);
+> + }
+> ++
+> ++static inline bool
+> ++nir_foreach_src(nir_instr *instr, nir_foreach_src_cb cb, void *state)
+> ++{
+> ++   return _nir_foreach_src(instr, cb, state);
+> ++}
+> +diff --git a/src/compiler/nir/nir_opt_move.c
+> b/src/compiler/nir/nir_opt_move.c
+> +index 81bcde5c436..051c3cc6295 100644
+> +--- a/src/compiler/nir/nir_opt_move.c
+> ++++ b/src/compiler/nir/nir_opt_move.c
+> +@@ -60,7 +60,7 @@ src_is_ssa(nir_src *src, void *state)
+> + static ALWAYS_INLINE bool
+> + instr_reads_register(nir_instr *instr)
+> + {
+> +-   return !nir_foreach_src(instr, src_is_ssa, NULL);
+> ++   return !_nir_foreach_src(instr, src_is_ssa, NULL);
+> + }
+> +
+> + static bool
+> +--
+> +2.34.1
+> +
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc
+> b/meta/recipes-graphics/mesa/mesa.inc
+> index 710cacb09d..f02ef2dc2b 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -22,6 +22,7 @@ SRC_URI =3D "
+> https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+>             file://0001-util-format-Check-for-NEON-before-using-it.patch =
+\
+>
+> file://0001-Revert-egl-wayland-deprecate-drm_handle_format-and-d.patch \
+>
+> file://0001-swrast_kms-use-swkmsDRI2Extension-instead-of-driDRI2.patch \
+> +
+>  file://0001-nir-nir_opt_move-fix-ALWAYS_INLINE-compiler-error.patch \
+>             "
+>
+>  SRC_URI[sha256sum] =3D
+> "b98f32ba7aa2a1ff5725fb36eb999c693079f0ca16f70aa2f103e2b6c3f093e3"
+> --
+> 2.17.1
 >
 >
-> On Sun, Aug 7, 2022 at 6:06 PM Khem Raj <raj.khem@gmail.com> wrote:
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#168545):
+> https://lists.openembedded.org/g/openembedded-core/message/168545
+> Mute This Topic: https://lists.openembedded.org/mt/92644854/3617156
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> Martin.Jansa@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
->> Details of changes [1]
->>
->> [1] https://sourceware.org/pipermail/binutils/2022-August/122246.html
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->> v2: Remove trailing .0 from PV
->>
->>  meta/conf/distro/include/tcmode-default.inc   |    2 +-
->>  .../{binutils-2.38.inc => binutils-2.39.inc}  |   26 +-
->>  ....38.bb => binutils-cross-canadian_2.39.bb} |    0
->>  ...38.bb => binutils-cross-testsuite_2.39.bb} |    0
->>  ...s-cross_2.38.bb => binutils-cross_2.39.bb} |    0
->>  ...ssdk_2.38.bb => binutils-crosssdk_2.39.bb} |    0
->>  ...s-crosssdk-Generate-relocatable-SDKs.patch |    2 +-
->>  ...o-not-generate-linker-script-directo.patch |    2 +-
->>  ...dk-Search-for-alternative-ld.so.conf.patch |   16 +-
->>  ...004-Point-scripts-location-to-libdir.patch |   10 +-
->>  ...tro-compiler-point-to-the-wrong-ins.patch} |    2 +-
->>  ...system-directories-when-cross-linki.patch} |   42 +-
->>  ...ct-assembling-for-ppc-wait-mnemonic.patch} |    8 +-
->>  ...l-2.4.patch => 0008-Use-libtool-2.4.patch} | 2131 ++++++++---------
->>  ...-in-libtool-when-sysroot-is-enabled.patch} |    2 +-
->>  ...> 0010-sync-with-OE-libtool-changes.patch} |    2 +-
->>  ...r-clang-before-checking-gcc-version.patch} |   10 +-
->>  ...RPATH-entry-if-LD_RUN_PATH-is-not-e.patch} |   17 +-
->>  .../0013-Avoid-as-info-race-condition.patch   |   75 -
->>  .../binutils/0014-CVE-2019-1010204.patch      |   49 -
->>  .../{binutils_2.38.bb => binutils_2.39.bb}    |    0
->>  21 files changed, 1129 insertions(+), 1267 deletions(-)
->>  rename meta/recipes-devtools/binutils/{binutils-2.38.inc =>
->> binutils-2.39.inc} (60%)
->>  rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.38.bb
->> => binutils-cross-canadian_2.39.bb} (100%)
->>  rename meta/recipes-devtools/binutils/{binutils-cross-testsuite_2.38.bb
->> => binutils-cross-testsuite_2.39.bb} (100%)
->>  rename meta/recipes-devtools/binutils/{binutils-cross_2.38.bb =>
->> binutils-cross_2.39.bb} (100%)
->>  rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.38.bb =>
->> binutils-crosssdk_2.39.bb} (100%)
->>  rename
->> meta/recipes-devtools/binutils/binutils/{0006-don-t-let-the-distro-compiler-point-to-the-wrong-ins.patch
->> => 0005-don-t-let-the-distro-compiler-point-to-the-wrong-ins.patch} (94%)
->>  rename
->> meta/recipes-devtools/binutils/binutils/{0007-warn-for-uses-of-system-directories-when-cross-linki.patch
->> => 0006-warn-for-uses-of-system-directories-when-cross-linki.patch} (91%)
->>  rename
->> meta/recipes-devtools/binutils/binutils/{0008-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch
->> => 0007-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch} (85%)
->>  rename
->> meta/recipes-devtools/binutils/binutils/{0009-Use-libtool-2.4.patch =>
->> 0008-Use-libtool-2.4.patch} (95%)
->>  rename
->> meta/recipes-devtools/binutils/binutils/{0010-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch
->> => 0009-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch} (96%)
->>  rename
->> meta/recipes-devtools/binutils/binutils/{0011-sync-with-OE-libtool-changes.patch
->> => 0010-sync-with-OE-libtool-changes.patch} (97%)
->>  rename
->> meta/recipes-devtools/binutils/binutils/{0012-Check-for-clang-before-checking-gcc-version.patch
->> => 0011-Check-for-clang-before-checking-gcc-version.patch} (84%)
->>  rename
->> meta/recipes-devtools/binutils/binutils/{0005-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch
->> => 0012-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch} (70%)
->>  delete mode 100644
->> meta/recipes-devtools/binutils/binutils/0013-Avoid-as-info-race-condition.patch
->>  delete mode 100644
->> meta/recipes-devtools/binutils/binutils/0014-CVE-2019-1010204.patch
->>  rename meta/recipes-devtools/binutils/{binutils_2.38.bb =>
->> binutils_2.39.bb} (100%)
->>
->
-> I'm seeing bunch of libtool erros with this applied, see:
-> http://errors.yoctoproject.org/Errors/Details/664878/
 >
 
- --disable-gprofng
-in openembedded-core/meta/recipes-devtools/binutils/binutils-cross.inc
-EXTRA_OECONF
-fixed the build
-
-I guess 0008-Use-libtool-2.4.patch should be extended to cover gprofng from
-https://sourceware.org/pipermail/binutils/2021-August/117665.html /
-https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=bb368aad297fe3ad40cf397e6fc85aa471429a28
-
---0000000000001f388f05e5a989d9
+--000000000000a9e6ff05e5aa2236
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Sun, Aug 7, 2022 at 6:41 PM Martin Jan=
-sa via <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a>=
- &lt;Martin.Jansa=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gma=
-il.com@lists.openembedded.org</a>&gt; wrote:<br></div><div class=3D"gmail_q=
-uote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><d=
-iv dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
-ass=3D"gmail_attr">On Sun, Aug 7, 2022 at 6:06 PM Khem Raj &lt;<a href=3D"m=
-ailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Details of ch=
-anges [1]<br>
+<div dir=3D"ltr">Does this still work for you?<div><br></div><div>With this=
+ change applied (now in master), mesa fails here with:</div><div><a href=3D=
+"http://errors.yoctoproject.org/Errors/Details/664881/" target=3D"_blank">h=
+ttp://errors.yoctoproject.org/Errors/Details/664881/</a><br></div><div><br>=
+</div><div>and builds fine with DEBUG_BUILD when I revert this.</div><div><=
+br></div><div>I&#39;ve reported the same in upstream MR=C2=A0<a href=3D"htt=
+ps://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/17439">https://gitla=
+b.freedesktop.org/mesa/mesa/-/merge_requests/17439</a></div></div><br><div =
+class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 27,=
+ 2022 at 9:30 AM kai &lt;<a href=3D"mailto:kai.kang@windriver.com" target=
+=3D"_blank">kai.kang@windriver.com</a>&gt; wrote:<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">From: Kai Kang &lt;<a href=3D"mailto:kai.=
+kang@windriver.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;<br>
 <br>
-[1] <a href=3D"https://sourceware.org/pipermail/binutils/2022-August/122246=
-.html" rel=3D"noreferrer" target=3D"_blank">https://sourceware.org/pipermai=
-l/binutils/2022-August/122246.html</a><br>
+It fails to compile mesa{,-native} when DEBUG_BUILD is enabled:<br>
 <br>
-Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D=
-"_blank">raj.khem@gmail.com</a>&gt;<br>
+../mesa-22.1.3/src/compiler/nir/nir_inline_helpers.h: In function =E2=80=98=
+nir_opt_move_block=E2=80=99:<br>
+../mesa-22.1.3/src/compiler/nir/nir_opt_move.c:55:1: error: inlining failed=
+ in call to<br>
+=C2=A0 always_inline =E2=80=98src_is_ssa=E2=80=99: indirect function call w=
+ith a yet undetermined callee<br>
+=C2=A0src_is_ssa(nir_src *src, void *state)<br>
+=C2=A0^~~~~~~~~~<br>
+<br>
+Backport patch from mesa merge request to fix it.<br>
+<br>
+Signed-off-by: Kai Kang &lt;<a href=3D"mailto:kai.kang@windriver.com" targe=
+t=3D"_blank">kai.kang@windriver.com</a>&gt;<br>
 ---<br>
-v2: Remove trailing .0 from PV<br>
+v2:<br>
+* use patch from mesa merge request<br>
 <br>
-=C2=A0meta/conf/distro/include/tcmode-default.inc=C2=A0 =C2=A0|=C2=A0 =C2=
-=A0 2 +-<br>
-=C2=A0.../{binutils-2.38.inc =3D&gt; binutils-2.39.inc}=C2=A0 |=C2=A0 =C2=
-=A026 +-<br>
-=C2=A0....<a href=3D"http://38.bb" rel=3D"noreferrer" target=3D"_blank">38.=
-bb</a> =3D&gt; <a href=3D"http://binutils-cross-canadian_2.39.bb" rel=3D"no=
-referrer" target=3D"_blank">binutils-cross-canadian_2.39.bb</a>} |=C2=A0 =
-=C2=A0 0<br>
-=C2=A0...<a href=3D"http://38.bb" rel=3D"noreferrer" target=3D"_blank">38.b=
-b</a> =3D&gt; <a href=3D"http://binutils-cross-testsuite_2.39.bb" rel=3D"no=
-referrer" target=3D"_blank">binutils-cross-testsuite_2.39.bb</a>} |=C2=A0 =
-=C2=A0 0<br>
-=C2=A0...<a href=3D"http://s-cross_2.38.bb" rel=3D"noreferrer" target=3D"_b=
-lank">s-cross_2.38.bb</a> =3D&gt; <a href=3D"http://binutils-cross_2.39.bb"=
- rel=3D"noreferrer" target=3D"_blank">binutils-cross_2.39.bb</a>} |=C2=A0 =
-=C2=A0 0<br>
-=C2=A0...<a href=3D"http://ssdk_2.38.bb" rel=3D"noreferrer" target=3D"_blan=
-k">ssdk_2.38.bb</a> =3D&gt; <a href=3D"http://binutils-crosssdk_2.39.bb" re=
-l=3D"noreferrer" target=3D"_blank">binutils-crosssdk_2.39.bb</a>} |=C2=A0 =
-=C2=A0 0<br>
-=C2=A0...s-crosssdk-Generate-relocatable-SDKs.patch |=C2=A0 =C2=A0 2 +-<br>
-=C2=A0...o-not-generate-linker-script-directo.patch |=C2=A0 =C2=A0 2 +-<br>
-=C2=A0...dk-Search-for-alternative-ld.so.conf.patch |=C2=A0 =C2=A016 +-<br>
-=C2=A0...004-Point-scripts-location-to-libdir.patch |=C2=A0 =C2=A010 +-<br>
-=C2=A0...tro-compiler-point-to-the-wrong-ins.patch} |=C2=A0 =C2=A0 2 +-<br>
-=C2=A0...system-directories-when-cross-linki.patch} |=C2=A0 =C2=A042 +-<br>
-=C2=A0...ct-assembling-for-ppc-wait-mnemonic.patch} |=C2=A0 =C2=A0 8 +-<br>
-=C2=A0...l-2.4.patch =3D&gt; 0008-Use-libtool-2.4.patch} | 2131 ++++++++---=
-------<br>
-=C2=A0...-in-libtool-when-sysroot-is-enabled.patch} |=C2=A0 =C2=A0 2 +-<br>
-=C2=A0...&gt; 0010-sync-with-OE-libtool-changes.patch} |=C2=A0 =C2=A0 2 +-<=
-br>
-=C2=A0...r-clang-before-checking-gcc-version.patch} |=C2=A0 =C2=A010 +-<br>
-=C2=A0...RPATH-entry-if-LD_RUN_PATH-is-not-e.patch} |=C2=A0 =C2=A017 +-<br>
-=C2=A0.../0013-Avoid-as-info-race-condition.patch=C2=A0 =C2=A0|=C2=A0 =C2=
-=A075 -<br>
-=C2=A0.../binutils/0014-CVE-2019-1010204.patch=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-=C2=A049 -<br>
-=C2=A0.../{<a href=3D"http://binutils_2.38.bb" rel=3D"noreferrer" target=3D=
-"_blank">binutils_2.38.bb</a> =3D&gt; <a href=3D"http://binutils_2.39.bb" r=
-el=3D"noreferrer" target=3D"_blank">binutils_2.39.bb</a>}=C2=A0 =C2=A0 |=C2=
-=A0 =C2=A0 0<br>
-=C2=A021 files changed, 1129 insertions(+), 1267 deletions(-)<br>
-=C2=A0rename meta/recipes-devtools/binutils/{binutils-2.38.inc =3D&gt; binu=
-tils-2.39.inc} (60%)<br>
-=C2=A0rename meta/recipes-devtools/binutils/{<a href=3D"http://binutils-cro=
-ss-canadian_2.38.bb" rel=3D"noreferrer" target=3D"_blank">binutils-cross-ca=
-nadian_2.38.bb</a> =3D&gt; <a href=3D"http://binutils-cross-canadian_2.39.b=
-b" rel=3D"noreferrer" target=3D"_blank">binutils-cross-canadian_2.39.bb</a>=
-} (100%)<br>
-=C2=A0rename meta/recipes-devtools/binutils/{<a href=3D"http://binutils-cro=
-ss-testsuite_2.38.bb" rel=3D"noreferrer" target=3D"_blank">binutils-cross-t=
-estsuite_2.38.bb</a> =3D&gt; <a href=3D"http://binutils-cross-testsuite_2.3=
-9.bb" rel=3D"noreferrer" target=3D"_blank">binutils-cross-testsuite_2.39.bb=
-</a>} (100%)<br>
-=C2=A0rename meta/recipes-devtools/binutils/{<a href=3D"http://binutils-cro=
-ss_2.38.bb" rel=3D"noreferrer" target=3D"_blank">binutils-cross_2.38.bb</a>=
- =3D&gt; <a href=3D"http://binutils-cross_2.39.bb" rel=3D"noreferrer" targe=
-t=3D"_blank">binutils-cross_2.39.bb</a>} (100%)<br>
-=C2=A0rename meta/recipes-devtools/binutils/{<a href=3D"http://binutils-cro=
-sssdk_2.38.bb" rel=3D"noreferrer" target=3D"_blank">binutils-crosssdk_2.38.=
-bb</a> =3D&gt; <a href=3D"http://binutils-crosssdk_2.39.bb" rel=3D"noreferr=
-er" target=3D"_blank">binutils-crosssdk_2.39.bb</a>} (100%)<br>
-=C2=A0rename meta/recipes-devtools/binutils/binutils/{0006-don-t-let-the-di=
-stro-compiler-point-to-the-wrong-ins.patch =3D&gt; 0005-don-t-let-the-distr=
-o-compiler-point-to-the-wrong-ins.patch} (94%)<br>
-=C2=A0rename meta/recipes-devtools/binutils/binutils/{0007-warn-for-uses-of=
--system-directories-when-cross-linki.patch =3D&gt; 0006-warn-for-uses-of-sy=
-stem-directories-when-cross-linki.patch} (91%)<br>
-=C2=A0rename meta/recipes-devtools/binutils/binutils/{0008-fix-the-incorrec=
-t-assembling-for-ppc-wait-mnemonic.patch =3D&gt; 0007-fix-the-incorrect-ass=
-embling-for-ppc-wait-mnemonic.patch} (85%)<br>
-=C2=A0rename meta/recipes-devtools/binutils/binutils/{0009-Use-libtool-2.4.=
-patch =3D&gt; 0008-Use-libtool-2.4.patch} (95%)<br>
-=C2=A0rename meta/recipes-devtools/binutils/binutils/{0010-Fix-rpath-in-lib=
-tool-when-sysroot-is-enabled.patch =3D&gt; 0009-Fix-rpath-in-libtool-when-s=
-ysroot-is-enabled.patch} (96%)<br>
-=C2=A0rename meta/recipes-devtools/binutils/binutils/{0011-sync-with-OE-lib=
-tool-changes.patch =3D&gt; 0010-sync-with-OE-libtool-changes.patch} (97%)<b=
+=C2=A0...ove-fix-ALWAYS_INLINE-compiler-error.patch | 65 ++++++++++++++++++=
++<br>
+=C2=A0meta/recipes-graphics/mesa/mesa.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0|=C2=A0 1 +<br>
+=C2=A02 files changed, 66 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-graphics/mesa/files/0001-nir-nir_opt_=
+move-fix-ALWAYS_INLINE-compiler-error.patch<br>
+<br>
+diff --git a/meta/recipes-graphics/mesa/files/0001-nir-nir_opt_move-fix-ALW=
+AYS_INLINE-compiler-error.patch b/meta/recipes-graphics/mesa/files/0001-nir=
+-nir_opt_move-fix-ALWAYS_INLINE-compiler-error.patch<br>
+new file mode 100644<br>
+index 0000000000..48fc1e37ff<br>
+--- /dev/null<br>
++++ b/meta/recipes-graphics/mesa/files/0001-nir-nir_opt_move-fix-ALWAYS_INL=
+INE-compiler-error.patch<br>
+@@ -0,0 +1,65 @@<br>
++Backport merge request to fix mesa compile error when debug build<br>
++enabled.<br>
++<br>
++Upstream-Status: Submitted [<a href=3D"https://gitlab.freedesktop.org/mesa=
+/mesa/-/merge_requests/17439" rel=3D"noreferrer" target=3D"_blank">https://=
+gitlab.freedesktop.org/mesa/mesa/-/merge_requests/17439</a>]<br>
++<br>
++Signed-off-by: Kai Kang &lt;<a href=3D"mailto:kai.kang@windriver.com" targ=
+et=3D"_blank">kai.kang@windriver.com</a>&gt;<br>
++<br>
++From c69c6e7a35205557de73734ad4a1f411c8f99926 Mon Sep 17 00:00:00 2001<br>
++From: t bettler &lt;<a href=3D"mailto:thomas.bettler@gmail.com" target=3D"=
+_blank">thomas.bettler@gmail.com</a>&gt;<br>
++Date: Sat, 9 Jul 2022 09:28:51 +0000<br>
++Subject: [PATCH] nir/nir_opt_move: fix ALWAYS_INLINE compiler error<br>
++MIME-Version: 1.0<br>
++Content-Type: text/plain; charset=3DUTF-8<br>
++Content-Transfer-Encoding: 8bit<br>
++<br>
++fix call to =E2=80=98always_inline=E2=80=99 =E2=80=98src_is_ssa=E2=80=99<b=
 r>
-=C2=A0rename meta/recipes-devtools/binutils/binutils/{0012-Check-for-clang-=
-before-checking-gcc-version.patch =3D&gt; 0011-Check-for-clang-before-check=
-ing-gcc-version.patch} (84%)<br>
-=C2=A0rename meta/recipes-devtools/binutils/binutils/{0005-Only-generate-an=
--RPATH-entry-if-LD_RUN_PATH-is-not-e.patch =3D&gt; 0012-Only-generate-an-RP=
-ATH-entry-if-LD_RUN_PATH-is-not-e.patch} (70%)<br>
-=C2=A0delete mode 100644 meta/recipes-devtools/binutils/binutils/0013-Avoid=
--as-info-race-condition.patch<br>
-=C2=A0delete mode 100644 meta/recipes-devtools/binutils/binutils/0014-CVE-2=
-019-1010204.patch<br>
-=C2=A0rename meta/recipes-devtools/binutils/{<a href=3D"http://binutils_2.3=
-8.bb" rel=3D"noreferrer" target=3D"_blank">binutils_2.38.bb</a> =3D&gt; <a =
-href=3D"http://binutils_2.39.bb" rel=3D"noreferrer" target=3D"_blank">binut=
-ils_2.39.bb</a>} (100%)<br></blockquote><div><br></div><div>I&#39;m seeing =
-bunch of libtool erros with this applied, see:</div><div><a href=3D"http://=
-errors.yoctoproject.org/Errors/Details/664878/" target=3D"_blank">http://er=
-rors.yoctoproject.org/Errors/Details/664878/</a></div></div></div></blockqu=
-ote><div><br></div><div>=C2=A0--disable-gprofng in=C2=A0openembedded-core/m=
-eta/recipes-devtools/binutils/binutils-cross.inc=C2=A0EXTRA_OECONF fixed th=
-e build</div><div><br></div><div>I guess 0008-Use-libtool-2.4.patch should =
-be extended to cover gprofng from=C2=A0<a href=3D"https://sourceware.org/pi=
-permail/binutils/2021-August/117665.html">https://sourceware.org/pipermail/=
-binutils/2021-August/117665.html</a> /=C2=A0<a href=3D"https://sourceware.o=
-rg/git/?p=3Dbinutils-gdb.git;a=3Dcommit;h=3Dbb368aad297fe3ad40cf397e6fc85aa=
-471429a28">https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dcommit;h=3D=
-bb368aad297fe3ad40cf397e6fc85aa471429a28</a></div></div></div>
++<br>
++Closes: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa/-/issues/6825"=
+ rel=3D"noreferrer" target=3D"_blank">https://gitlab.freedesktop.org/mesa/m=
+esa/-/issues/6825</a><br>
++Fixes: f1d20ec67c3f186886b97de94f74484650f8fda1 (&quot;nir/nir_opt_move: h=
+andle non-SSA defs &quot;)<br>
++---<br>
++ src/compiler/nir/nir_inline_helpers.h | 10 ++++++++--<br>
++ src/compiler/nir/nir_opt_move.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +-<br=
+>
++ 2 files changed, 9 insertions(+), 3 deletions(-)<br>
++<br>
++diff --git a/src/compiler/nir/nir_inline_helpers.h b/src/compiler/nir/nir_=
+inline_helpers.h<br>
++index 125dd8a537c..ec33f0509f7 100644<br>
++--- a/src/compiler/nir/nir_inline_helpers.h<br>
+++++ b/src/compiler/nir/nir_inline_helpers.h<br>
++@@ -73,8 +73,8 @@ nir_foreach_dest(nir_instr *instr, nir_foreach_dest_cb c=
+b, void *state)<br>
++=C2=A0 =C2=A0 return _nir_foreach_dest(instr, cb, state);<br>
++ }<br>
++ <br>
++-static inline bool<br>
++-nir_foreach_src(nir_instr *instr, nir_foreach_src_cb cb, void *state)<br>
+++static ALWAYS_INLINE bool<br>
+++_nir_foreach_src(nir_instr *instr, nir_foreach_src_cb cb, void *state)<br=
+>
++ {<br>
++=C2=A0 =C2=A0 switch (instr-&gt;type) {<br>
++=C2=A0 =C2=A0 case nir_instr_type_alu: {<br>
++@@ -162,3 +162,9 @@ nir_foreach_src(nir_instr *instr, nir_foreach_src_cb c=
+b, void *state)<br>
++=C2=A0 =C2=A0 dest_state.cb =3D cb;<br>
++=C2=A0 =C2=A0 return _nir_foreach_dest(instr, _nir_visit_dest_indirect, &a=
+mp;dest_state);<br>
++ }<br>
+++<br>
+++static inline bool<br>
+++nir_foreach_src(nir_instr *instr, nir_foreach_src_cb cb, void *state)<br>
+++{<br>
+++=C2=A0 =C2=A0return _nir_foreach_src(instr, cb, state);<br>
+++}<br>
++diff --git a/src/compiler/nir/nir_opt_move.c b/src/compiler/nir/nir_opt_mo=
+ve.c<br>
++index 81bcde5c436..051c3cc6295 100644<br>
++--- a/src/compiler/nir/nir_opt_move.c<br>
+++++ b/src/compiler/nir/nir_opt_move.c<br>
++@@ -60,7 +60,7 @@ src_is_ssa(nir_src *src, void *state)<br>
++ static ALWAYS_INLINE bool<br>
++ instr_reads_register(nir_instr *instr)<br>
++ {<br>
++-=C2=A0 =C2=A0return !nir_foreach_src(instr, src_is_ssa, NULL);<br>
+++=C2=A0 =C2=A0return !_nir_foreach_src(instr, src_is_ssa, NULL);<br>
++ }<br>
++ <br>
++ static bool<br>
++-- <br>
++2.34.1<br>
++<br>
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/me=
+sa/mesa.inc<br>
+index 710cacb09d..f02ef2dc2b 100644<br>
+--- a/meta/recipes-graphics/mesa/mesa.inc<br>
++++ b/meta/recipes-graphics/mesa/mesa.inc<br>
+@@ -22,6 +22,7 @@ SRC_URI =3D &quot;<a href=3D"https://mesa.freedesktop.org=
+/archive/mesa-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">https:=
+//mesa.freedesktop.org/archive/mesa-${PV}.tar.xz</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-util-format-Check-for=
+-NEON-before-using-it.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Revert-egl-wayland-de=
+precate-drm_handle_format-and-d.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-swrast_kms-use-swkmsD=
+RI2Extension-instead-of-driDRI2.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-nir-nir_opt_move-fix-=
+ALWAYS_INLINE-compiler-error.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+=C2=A0SRC_URI[sha256sum] =3D &quot;b98f32ba7aa2a1ff5725fb36eb999c693079f0ca=
+16f70aa2f103e2b6c3f093e3&quot;<br>
+-- <br>
+2.17.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#168545): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/168545" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/168545</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/92644854/3617=
+156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/92644854/3617156</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
+rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
 
---0000000000001f388f05e5a989d9--
+--000000000000a9e6ff05e5aa2236--
 
