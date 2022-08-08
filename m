@@ -1,199 +1,113 @@
-Return-Path: <yogesh.tyagi@intel.com>
+Return-Path: <lifeofthanks@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6AFFC00140
-	for <webhook@archiver.kernel.org>; Mon,  8 Aug 2022 04:21:55 +0000 (UTC)
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by mx.groups.io with SMTP id smtpd.web11.21783.1659932512498240378
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2801C00140
+	for <webhook@archiver.kernel.org>; Mon,  8 Aug 2022 04:55:25 +0000 (UTC)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+ [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web11.21962.1659934514594365223
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Aug 2022 21:21:52 -0700
+ Sun, 07 Aug 2022 21:55:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=DWEjpN+r;
- spf=pass (domain: intel.com, ip: 134.134.136.126,
- mailfrom: yogesh.tyagi@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659932512; x=1691468512;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=fP7EB2BYGaxbT48QgHyFe5PDkiLp+S5b+HzAt75joOQ=;
-  b=DWEjpN+rn75ufrl1H3c3OWgJd8SJHx2RLPjM6uPSEJMvw3DxFuPTdMe8
-   GHrDCesQEWcIxkkaAha6a4gfSoQ37Usv7oBqI/eweH9aybVQnd0ginsFY
-   NAtLLgtXLFDils1hS6iLLmz+A8zjzdh5RLJuy1IyC54bpxDai5itdNoPA
-   d4H47Z/g/XpyirEQ22cvPHNcFAB9KXxC+kb6AIJZfgyCmkFkI3+DlbKxs
-   U+JekYJ+Ml5+/ECHom8pxtQ20Wk0gtxrwPeQDjv9RGmZuM3crDD5pewLg
-   OY1T2n6ZqM9Llwb4T1eC3JPyNP5dfWUobWvvKUG7NMMlKSi5Tc1UrAeAG
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10432"; a="273546787"
-X-IronPort-AV: E=Sophos;i="5.93,221,1654585200";
-   d="scan'208";a="273546787"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2022 21:21:51 -0700
-X-IronPort-AV: E=Sophos;i="5.93,221,1654585200";
-   d="scan'208";a="632721994"
-Received: from andromeda02.png.intel.com ([10.221.253.198])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
- 07 Aug 2022 21:21:50 -0700
-From: Yogesh Tyagi <yogesh.tyagi@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FTUkL12B;
+ spf=pass (domain: gmail.com, ip: 209.85.215.177,
+ mailfrom: lifeofthanks@gmail.com)
+Received: by mail-pg1-f177.google.com with SMTP id 202so825091pgc.8
+        for <openembedded-core@lists.openembedded.org>;
+ Sun, 07 Aug 2022 21:55:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:subject:cc:to:from:from:to:cc;
+        bh=uauyQv9JA7fWs1vRjHyeslDGJkJzk6Egz1hUkaSJxd0=;
+        b=FTUkL12BfWVvqQZ6eo49Wuyd81JpveMhZX2BMla2UmUh5vJQgutl5+uh+yoI2M59PX
+         w4DSlFZynXLs3Zc3W4p96KkqchP47LTK4AMtr9sFozIgwz3ITPy4S6vOoa8PK2wJ8BZP
+         49gS7hq77O/ePA/UT5aYZszZPdaqPTQoS+FI0BgU8NH7aeQT1r4f4/W+XXrR1wZ2mIYC
+         Xb+9SBycl/wzfCXX272C95R2MYPIX964WKRGpa2EC4jmOSpLDNv2ukK+3LpltNlktMDt
+         +k+q0mEnYUCvYwhWzhXvkh+3lkS/Mtu2hecFuIEoMVzFt3QU5x1dF5ATvi8/fhTKp196
+         15dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=uauyQv9JA7fWs1vRjHyeslDGJkJzk6Egz1hUkaSJxd0=;
+        b=0+r7UaFsm8vHqRwsdeMQKWDUYZv3Gap5YC4OS35QG+38UOGyiBYR9HHP0VK6svdt2G
+         GQdULCZthu6KqNq/sbrYEXyCLKAjv5f5oEiqUOLCnGDF8qGHqAYtMkJ89rZF5dWPM1PR
+         IXcqvseYtGH3GQwdT2buqlRZFFU0hum3PGOc+9jEnxeA8v7NHDFb4GGqvF8ALZlasRxA
+         y9t8YQxXlf4v/PD1XsIMyh5aMuHAc+VxmtXLJEhrJGAT2a0eOndYWowxSzYoXoQ4dgiD
+         ldmoyVQig6Ca5XPqCAEl2U5GiS68ZXSgXho+0bDXarDP0xwtL+pqwb85saTBGzeehEe3
+         bdLQ==
+X-Gm-Message-State: ACgBeo21OdAGOJ76X3s8VzpJwFoF20NIJeDPDJPDO0MnLA+0xyXfWHzW
+	fwGBu9inCiStgH3XmgcR79Hy1BgJu6Y=
+X-Google-Smtp-Source: 
+ AA6agR5e9eozGvH3qMAt++RBEpVKuNYZ59IkBkLivda+G4OLb9BSbeSNiAWsolVXsreSQpT7wiaFLg==
+X-Received: by 2002:aa7:9f02:0:b0:52d:6ae1:d631 with SMTP id
+ g2-20020aa79f02000000b0052d6ae1d631mr17432483pfr.41.1659934513415;
+        Sun, 07 Aug 2022 21:55:13 -0700 (PDT)
+Received: from ip-172-31-56-46.ap-northeast-2.compute.internal
+ (ec2-52-79-182-214.ap-northeast-2.compute.amazonaws.com. [52.79.182.214])
+        by smtp.gmail.com with ESMTPSA id
+ n7-20020a170903110700b0016f1c1f50f4sm7527454plh.235.2022.08.07.21.55.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 Aug 2022 21:55:12 -0700 (PDT)
+From: JeongBong Seo <lifeofthanks@gmail.com>
+X-Google-Original-From: JeongBong Seo <jb.seo@lge.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] gdbserver : add selftest
-Date: Mon,  8 Aug 2022 12:21:40 +0800
-Message-Id: <20220808042140.12374-1-yogesh.tyagi@intel.com>
-X-Mailer: git-send-email 2.36.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: JeongBong Seo <jb.seo@lge.com>
+Subject: [meta-oe][PATCH] wic: add 'none' fstype for custom image
+Date: Mon,  8 Aug 2022 04:55:08 +0000
+Message-Id: <20220808045508.24982-1-jb.seo@lge.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Aug 2022 04:21:55 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Aug 2022 04:55:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169011
+ https://lists.openembedded.org/g/openembedded-core/message/169012
 
-The test runs gdbserver on qemu and connects the gdb client from host over TCP.
+It's not possible to set the label (of gpt entry) normally
+when I want to use non-listed fstype as a rawcopy.
 
-It builds a cross gdb on the host and compiles the program to be debugged on the target,
-launches the gdbserver and tries to connect cross gdb to it.
+Example)
+part ? --source rawcopy --ondisk mmcblk0 --label mypart --sourceparams file=mypart.raw
 
-[YOCTO #13996]
+To resolve this problem, this patch addes a 'none' fstype
+and ignore do_image_label on rawcopy (that actually set the partition label.)
 
-Signed-off-by: Yogesh Tyagi <yogesh.tyagi@intel.com>
+Signed-off-by: JeongBong Seo <jb.seo@lge.com>
 ---
- meta/lib/oeqa/selftest/cases/gdbserver.py | 122 ++++++++++++++++++++++
- 1 file changed, 122 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/cases/gdbserver.py
+ scripts/lib/wic/ksparser.py               | 2 +-
+ scripts/lib/wic/plugins/source/rawcopy.py | 4 ++++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/gdbserver.py b/meta/lib/oeqa/selftest/cases/gdbserver.py
-new file mode 100644
-index 0000000000..2c733a1342
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/gdbserver.py
-@@ -0,0 +1,122 @@
-+# SPDX-License-Identifier: MIT
-+#
-+import os
-+from subprocess import Popen, PIPE
-+import threading
-+import time
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index 452a160232..298e593ad4 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -157,7 +157,7 @@ class KickStart():
+         part.add_argument('--fsoptions', dest='fsopts')
+         part.add_argument('--fstype', default='vfat',
+                           choices=('ext2', 'ext3', 'ext4', 'btrfs',
+-                                   'squashfs', 'vfat', 'msdos', 'swap'))
++                                   'squashfs', 'vfat', 'msdos', 'swap', 'none'))
+         part.add_argument('--mkfs-extraopts', default='')
+         part.add_argument('--label')
+         part.add_argument('--use-label', action='store_true')
+diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
+index 3c4997d8ba..a71629282d 100644
+--- a/scripts/lib/wic/plugins/source/rawcopy.py
++++ b/scripts/lib/wic/plugins/source/rawcopy.py
+@@ -21,6 +21,10 @@ class RawCopyPlugin(SourcePlugin):
+ 
+     @staticmethod
+     def do_image_label(fstype, dst, label):
++        # don't create label when fstype is none
++        if fstype == 'none':
++            return
 +
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars, runqemu , runCmd
-+from oeqa.core.exception import OEQATimeoutError
-+
-+
-+#The test runs gdbserver on qemu and connects the gdb client from host over TCP.
-+#
-+#It builds a cross gdb on the host and compiles the program to be debugged on the target,
-+#launches the gdbserver and tries to connect cross gdb to it.
-+
-+
-+class GdbTest(OESelftestTestCase):
-+
-+    def run_gdb(self, native_sysroot=None, **options):
-+        # Add path to cross gdb to environment.
-+        extra_paths = "%s/usr/bin/%s" % (self.recipe_sysroot_native, self.target_sys)
-+        nenv = dict(options.get('env', os.environ))
-+        nenv['PATH'] = extra_paths + ':' + nenv.get('PATH', '')
-+        options['env'] = nenv
-+
-+        for count in range(5):
-+            # Let the gdb server start before by putting client thread to sleep.
-+            # Still, if gdb client happens to start before gdbserver, if will
-+            # return "gdb connection timed out". In that case try
-+            # connecting again
-+            time.sleep(1)
-+            cmd = "%s-gdb -ex 'set sysroot %s' -ex \"target remote %s:%s\" -ex continue -ex quit %s" \
-+                       %(self.target_sys, self.recipe_sysroot_native, self.qemu_ip, self.gdbserver_port, self.binary)
-+            r = runCmd(cmd, native_sysroot=self.recipe_sysroot_native, **options)
-+            if "Connection timed out" not in r.output:
-+                break
-+            if count == 4:
-+                self.assertTrue(False, "gdb unable to connect to gdbserver")
-+
-+    def run_gdb_client(self):
-+        self.run_gdb(native_sysroot=self.recipe_sysroot_native, ignore_status=False)
-+
-+    def test_gdb_server(self):
-+        self.target_dst = "/tmp/"
-+        self.source  = "test.c"
-+        self.binary  = "test"
-+        self.target_source = self.target_dst + self.source
-+        self.target_binary = self.target_dst + self.binary
-+        self.gdbserver_port = 2001
-+
-+        try:
-+            # These aren't the actual IP addresses but testexport class needs something defined
-+            features  = 'TEST_SERVER_IP = "192.168.7.1"\n'
-+            features += 'TEST_TARGET_IP = "192.168.7.2"\n'
-+            features += 'EXTRA_IMAGE_FEATURES += "ssh-server-openssh"\n'
-+            features += 'CORE_IMAGE_EXTRA_INSTALL += "gdbserver packagegroup-core-buildessential"\n'
-+            self.write_config(features)
-+
-+            self.target_arch = get_bb_var('TARGET_ARCH')
-+            self.target_sys  = get_bb_var('TARGET_SYS')
-+
-+            recipe = "gdb-cross-%s" %self.target_arch
-+            gdb_cross_bitbake_command = "%s -c addto_recipe_sysroot" %recipe
-+
-+            bitbake(gdb_cross_bitbake_command)
-+
-+            self.recipe_sysroot_native = get_bb_var('RECIPE_SYSROOT_NATIVE', recipe)
-+
-+            bitbake('core-image-minimal')
-+
-+            self.cross_gdb_name = "%s-gdb" %self.target_sys
-+
-+            # wrap the execution with a qemu instance
-+            with runqemu("core-image-minimal", runqemuparams = "nographic") as qemu:
-+                status, target_gcc = qemu.run_serial("which gcc")
-+
-+                self.assertNotEqual(target_gcc, None, 'gcc not found on the target')
-+
-+                self.qemu_ip = qemu.ip
-+
-+                # self.tc.files_dir = meta/lib/oeqa/files
-+                src = os.path.join(self.tc.files_dir, 'test.c')
-+
-+                self.logger.debug("src : %s qemu.ip : %s self.target_dst : %s" % (src , self.qemu_ip , self.target_dst))
-+                cmd = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR %s root@%s:%s"  % (src, qemu.ip, self.target_dst)
-+                result = runCmd(cmd)
-+
-+                cmd = "cat %s" %(self.target_source)
-+                status, output = qemu.run_serial(cmd)
-+                self.assertIn("1234", output, "Source file copied to target is different that what is expected")
-+
-+                cmd = "%s %s -o %s -lm -g" % (target_gcc, self.target_source, self.target_binary)
-+                status, output = qemu.run_serial(cmd)
-+
-+                cmd = "ls %s" %self.target_binary
-+                status, output = qemu.run_serial(cmd)
-+                self.assertNotIn("No such file or directory", output, "Test file compilation failed on target")
-+
-+                status, output = qemu.run_serial(self.target_binary)
-+                self.assertIn("1234", output, "Test binary is different than what is expected")
-+
-+                cmd = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR root@%s:%s %s"  % (qemu.ip, self.target_binary, os.getcwd())
-+                result = runCmd(cmd)
-+
-+                cmd = "strip -s --strip-debug %s" %self.target_binary
-+                status, output = qemu.run_serial(cmd)
-+
-+                gdb_client_thread = threading.Thread(target=self.run_gdb_client)
-+                gdb_client_thread.start()
-+
-+                cmd = "gdbserver localhost:%s %s" %(self.gdbserver_port, self.target_binary)
-+                status, output = qemu.run_serial(cmd)
-+                self.logger.debug("gdbserver status : %s output : %s" % (status, output))
-+
-+                gdb_client_thread.join()
-+                self.assertIn("1234", output, "Expected string (1234) not present in test output")
-+
-+        except OEQATimeoutError:
-+            self.fail("gdbserver test timeout error")
-+
+         if fstype.startswith('ext'):
+             cmd = 'tune2fs -L %s %s' % (label, dst)
+         elif fstype in ('msdos', 'vfat'):
 -- 
-2.36.1
+2.17.1
 
 
