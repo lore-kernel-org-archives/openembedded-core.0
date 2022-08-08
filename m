@@ -1,114 +1,91 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2839AC25B08
-	for <webhook@archiver.kernel.org>; Mon,  8 Aug 2022 14:30:59 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web12.26300.1659969057313584275
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4356EC00140
+	for <webhook@archiver.kernel.org>; Mon,  8 Aug 2022 14:44:19 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web12.26484.1659969857352678077
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Aug 2022 07:30:57 -0700
+ Mon, 08 Aug 2022 07:44:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=lV5rbs7h;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.44,
- mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id
- e8-20020a17090a280800b001f2fef7886eso9243448pjd.3
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YNzTMe92;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id z12so11143336wrs.9
         for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Aug 2022 07:30:57 -0700 (PDT)
+ Mon, 08 Aug 2022 07:44:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XkWQ90muJTnb2lcisvImGoK/yjtNNIl3m1ZhxXf0nX0=;
-        b=lV5rbs7hWk7n0ebeF7/FJ6l9CzmNThTzzqVhQM+9nxfyW0Kt+6Bk/PWmWvELhWq0po
-         aSY8FTZQR43HW/lQR2DJ20AcQbXD2p9TlITQhL61kjqid8NOVo4X5m1ClcS3ylapTEaJ
-         xSXGQTP6VzL0ScQUvouryfsDaXEbxQKMermG6FqGdR4t63pkc+ziSTAjGKwOFNDvFcrd
-         hCZ9MgeecUBbtfSCKwGjeyxfMQ4fEWt7XdCLj61GAKyHp66ZjKVHz3oYK8cBqOx52FfI
-         q9Na+bNJp62WZi/9cxlHkeZz4K9iC31L7+53ITjToXW8sSKsjBt2afdLUkFjWZanxBOA
-         Q22Q==
+        d=linuxfoundation.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc;
+        bh=3oUdvRfgKzEf/equxDrE//pLzPtkCMF1tuXfM8aTIDM=;
+        b=YNzTMe92rmW5Du86nos+kb7Si4BMS+pptLtFmY9A7ls4lI2plh2fYVzgNcCe9f3pFW
+         dgyw0trKlTSriEPjgxhadAYR0rMo4PbS+soZiXGUjm0GCyyN71QGqzh07frngveujQcQ
+         mmDKPjJ6dt6P6k5mqkvRsdgKAerbIrjrL56Gc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XkWQ90muJTnb2lcisvImGoK/yjtNNIl3m1ZhxXf0nX0=;
-        b=5bvOZn3V2Ap/c9c1wCF4R8Jpeq/mspH7fEsAxWJWj1myCvp2+qtANLAgS+xQXwMzIY
-         tnlz6xgOJmd3CzQojaWUcZKkSgIT5d7o+wC9rt4VZoTdlbFLiQEaIx9WhT1+wgl7uJlm
-         QTg0JCma9tMlDG9ELCmziF5Eo+uOVIwN1VBy+1TQqKVZKlEQzkbCVmuBWtNXpcbLNv25
-         BEd7DCmbIyt2XffM+EG+MYtCmsdk3krTkMTXFHXttPDNZqYJW2Pbh3ZKW+X7R0dI4SHs
-         SkCq3C0Br+T9dKX0WaI34xRuCu56Em7zfGyLvCXyLXYsDenhjefJLo1MQmbucCy+azrR
-         GyWw==
-X-Gm-Message-State: ACgBeo1uc8Bf7epFst+tG8I9L5N9PCcWESTYIOOR/i/Zh2ajL1Z5jbfJ
-	owTIQTez8M+frhFpLDwyDDePBF67qZeWoASI
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc;
+        bh=3oUdvRfgKzEf/equxDrE//pLzPtkCMF1tuXfM8aTIDM=;
+        b=TmXNoTuNa03R3JLzGEAoE0h3MX+PaxY/0BD41jWqwcFlPE550WIl/nOlzTqZU1twRT
+         fCj1vYGWQjzuNJs3jqr6o9FjByILwRAFStaLfU9h6NpURmNB+ryWocpnAImzd4mpq8Uz
+         KyjfZLzpBjK/iVzdfD4RgyWoRZ8e9LYwj5Pa1or5/MFeDKmoqHBf/GsYU8JkZxY3iL6n
+         f1srGJl0oHvjuAiapyxOgO7z6CCslwjpwG0dSVAJhdeYzSLFtQG5PQC0kzV6jwlQsAde
+         thqMHXsSp0SAITaPjGEd4ZjplrCh+QfeR/Y9sbiNsGh2gn+Un6AG+XpxEZoM2Uv0te6L
+         ywlQ==
+X-Gm-Message-State: ACgBeo3RhWYJerMSyVNzyTFbgKqLe2J9MeIBG6q7E6MmvXcbmSQfkd+Z
+	meMzeHvHprHUGVHkp9pdcPjfUrOhxYidAw==
 X-Google-Smtp-Source: 
- AA6agR6VjLH+vpKckcq/yHv7K2ou/pozIGvuZqEz0oBKSXEkavQGfLtZ+Ol69T8lgTnI7qYVR8VZug==
-X-Received: by 2002:a17:902:e846:b0:170:84c5:ae21 with SMTP id
- t6-20020a170902e84600b0017084c5ae21mr12723884plg.19.1659969055835;
-        Mon, 08 Aug 2022 07:30:55 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
+ AA6agR5PCPFP/WJ8MGSccRHgihvaWxcvbJIURByhaDr0GxMUNQ+wQhWMhGP264M0CUQlwaEj9kVgeA==
+X-Received: by 2002:a5d:6b10:0:b0:21e:4bbd:e893 with SMTP id
+ v16-20020a5d6b10000000b0021e4bbde893mr11820454wrw.613.1659969855394;
+        Mon, 08 Aug 2022 07:44:15 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:d3ed:8697:1d83:a16])
         by smtp.gmail.com with ESMTPSA id
- h22-20020a63df56000000b0041cbcc1c222sm6383115pgj.41.2022.08.08.07.30.53
+ t11-20020a5d534b000000b00222c96d8656sm3842859wrv.114.2022.08.08.07.44.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Aug 2022 07:30:54 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
+        Mon, 08 Aug 2022 07:44:15 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 0/7] Pull request (cover letter only)
-Date: Mon,  8 Aug 2022 04:30:43 -1000
-Message-Id: <cover.1659968971.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [PATCH] selftest/wic: Tweak test case to not depend on kernel size
+Date: Mon,  8 Aug 2022 15:44:13 +0100
+Message-Id: <20220808144413.56533-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Aug 2022 14:30:59 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Aug 2022 14:44:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169089
+ https://lists.openembedded.org/g/openembedded-core/message/169090
 
-The following changes since commit 3564ce3d9b2030dd420362c66147bd327090915c:
+The current test assumes the kernel size leaves a certain amount of whitespace
+in the output. Improve this constraint so a slightly larger kernel doesn't fail
+the test.
 
-  initscripts: run umountnfs as a KILL script (2022-07-28 05:32:25 -1000)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/cases/wic.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
-
-Alex Kiernan (1):
-  openssh: Add openssh-sftp-server to openssh RDEPENDS
-
-Dmitry Baryshkov (1):
-  linux-firwmare: restore WHENCE_CHKSUM variable
-
-Khem Raj (1):
-  libgcc: Fix standalone target builds with usrmerge distro feature
-
-Martin Jansa (1):
-  kernel.bbclass: pass LD also in savedefconfig
-
-Mingli Yu (1):
-  strace: set COMPATIBLE_HOST for riscv32
-
-Shruthi Ravichandran (1):
-  package_manager/ipk: do not pipe stderr to stdout
-
-Sundeep KOKKONDA (1):
-  binutils: stable 2.38 branch updates
-
- meta/classes/kernel.bbclass                   |  2 +-
- meta/lib/oe/package_manager/ipk/__init__.py   | 23 +++++++++++--------
- .../openssh/openssh_8.9p1.bb                  |  2 +-
- .../binutils/binutils-2.38.inc                |  2 +-
- meta/recipes-devtools/gcc/libgcc-common.inc   |  8 +++++--
- meta/recipes-devtools/strace/strace_5.16.bb   |  3 +++
- .../linux-firmware/linux-firmware_20220708.bb |  5 +++-
- 7 files changed, 29 insertions(+), 16 deletions(-)
-
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 53058df226b..0d664d7c395 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -1420,7 +1420,7 @@ class ModifyTests(WicTestCase):
+ 
+         # list directory content of the first partition
+         result = runCmd("wic ls %s:1 -n %s" % (images[0], sysroot))
+-        self.assertIn('\n%s        ' % kerneltype.upper(), result.output)
++        self.assertIn('\n%s ' % kerneltype.upper(), result.output)
+         self.assertIn('\nEFI          <DIR>     ', result.output)
+ 
+         # remove file. EFI partitions are case-insensitive so exercise that too
 -- 
-2.25.1
+2.34.1
 
 
