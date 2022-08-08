@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BDFEC00140
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BE3EC3F6B0
 	for <webhook@archiver.kernel.org>; Mon,  8 Aug 2022 06:39:06 +0000 (UTC)
 Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
  [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web10.22423.1659940731701245897
+ by mx.groups.io with SMTP id smtpd.web09.22251.1659940736104019952
  for <openembedded-core@lists.openembedded.org>;
  Sun, 07 Aug 2022 23:38:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=d3yW/owG;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=p1dsY4Ph;
  spf=pass (domain: gmail.com, ip: 209.85.208.51,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id z22so10062086edd.6
+Received: by mail-ed1-f51.google.com with SMTP id e13so10014736edj.12
         for <openembedded-core@lists.openembedded.org>;
  Sun, 07 Aug 2022 23:38:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Hp2czlIM7ix8/l8Ha5UTIjhvvNhJj6WlQRNikvz60Hc=;
-        b=d3yW/owGxsBB8mxFK5caI/vD5HrGB0w/pQbVR3V6T8PNV53NA9JKp7JclfWdo7qlyr
-         0oKW+Zm6EJpJoKHAwrSlGJvRCwxJ/lJKIKn2UsGF57dORBZ0Vb+h38je9XABSpu+hJuF
-         NcOCoJ+iYLrSgO4zdJ/5683mm+GJPblprhILE0R7VjTCfCp8pt1DsdVoMlpnYrBNqj95
-         /0qcctA6v3x0ufgbqfeuRacor39G68Bs7iY9gabNsOlkaJZdZZcaQQwcc27jTWlrzZec
-         Oy3fQuHu2iFCT4zpSVkHsRhfV8XUY5+JkTbSR3wHh8eKpBeR2HPq1iSkkr4A27VY85WB
-         8lQQ==
+        bh=xBpa3TV6eUC/KniBvWaxNQ02Ykn73AHmC6rYlKnXvTg=;
+        b=p1dsY4PhHeJS4HMyBUn9xh0BcKY8fK5muOoCwYd/WayJJAHShGYv+h4G8GsPni9vhA
+         GaTKCn76EuIA9SnZ4YBmMYioLgQuoJnfdLTaBDdzf6seE318J115wTgYjXaHi0Rf44x4
+         I85HMkKmJOtQpoyX0QTO0mly7v6KPJH+/IFU7jDIbd+UHOAr26FD9IG7mqkjQMO5uv0R
+         Fxf+dfRrMS5BIyGSqwk1YhatexK/yAu/567VWiQVDWlO1Wk4UO7TiYPm6jQOTzeJD3XF
+         DDi44EkcS/81LwJq7V+i7/XiVZyPRqF3b2Epht2/KYA2WXf0K+3gYHjDesgu9OvFzrpY
+         MkHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Hp2czlIM7ix8/l8Ha5UTIjhvvNhJj6WlQRNikvz60Hc=;
-        b=lGHUTgZ6VdL/HiVKcZs6qtw7V/gH44cRFqBfMOZng00mPPoZJiSvoT7BPzZoeruvlt
-         91Mg7qR80XD1SSCcCbcmmsWJCvtNWLxSosOaK8RTOkfvS0MaxD3qaaQ5T/ScR3/9VbgT
-         PGJ0Z6Nh9ICFcKzNK8LBqMGW3lI2UesI0UeNFAq5yshwje2O+ExA+3aS8xOWTreaAkG/
-         v9v1UOiFOp4Be389IjNCLs3RoB75i58VaAggaVe9My3gmIm/A0XzX8zsGS9NdWczUBt8
-         tBFv63+cf7i79ncavHYy/m2ocQ5bGXaOv1i1pBCmPomzj4Dhg3J09C50KzA8EntrNSN6
-         1buQ==
-X-Gm-Message-State: ACgBeo2Zb11XVTPiD7IHQOamnQDo5Ts3x94JYZ5HytoMC0FVA64Gn0DF
-	tc/wdXEPZFxNlSdqWUcqNx6hOayDB2o=
+        bh=xBpa3TV6eUC/KniBvWaxNQ02Ykn73AHmC6rYlKnXvTg=;
+        b=SImuRvbynvVIHP3fzUHJ0WzjhziqloIXcV2FBu+60XuAe7Xs3nSjWi1cGbpsadaLrG
+         FvdyRAPwizSSxYCNV+JwdRiqBGSBD3btbg/aghk/G6ftscGUD2pxhaupbnXbFBRRRgIi
+         Jd/oknFeZTPibZQW1mCSSLraqsNkGOTgSAjRzDufx1MR83uNGp2WA+U9uqoS/qhMKcoL
+         uisL+EZyT7xWBBhdZNNX+Q3vNNJd2oSo0hJSyy5/YLhkK4kQYe/zLuvV97pYUu6UhgQv
+         7zxiCvo1dku4UWaCr7A+0qDa4yBmwi7h4P/UwM7XgoEejv6u+S9GT3iOn4sDQPXs3iFb
+         gXvQ==
+X-Gm-Message-State: ACgBeo2LVB6r1d6tWMJDdrB0XSB6ipVNSxq3SH0kEcE23XdJ6/xzg5ET
+	HDNJQBf/+egNLmwH7WT4NidSStDpfNg=
 X-Google-Smtp-Source: 
- AA6agR7wkuWdoP3ovY36iT4EW0ZOp/5spD6vjIs3MgkjbyyEh1JPLqZB/dFodGg5htz+0yJH8uYJ8w==
-X-Received: by 2002:a05:6402:5216:b0:43e:81c5:82dd with SMTP id
- s22-20020a056402521600b0043e81c582ddmr17026368edd.345.1659940735462;
-        Sun, 07 Aug 2022 23:38:55 -0700 (PDT)
+ AA6agR4hdRLej9pdjSTKIeht3031nYX2FKgTEczPyqE2jo49nIlRUYJn9pAylduWrquwPZ39MVTyYw==
+X-Received: by 2002:a05:6402:520f:b0:43e:5cf1:d1 with SMTP id
+ s15-20020a056402520f00b0043e5cf100d1mr16888943edd.22.1659940734657;
+        Sun, 07 Aug 2022 23:38:54 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- k22-20020aa7c056000000b0043ce5d4d2c3sm4092644edo.14.2022.08.07.23.38.54
+ k22-20020aa7c056000000b0043ce5d4d2c3sm4092644edo.14.2022.08.07.23.38.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Aug 2022 23:38:55 -0700 (PDT)
+        Sun, 07 Aug 2022 23:38:54 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 08/45] bluez5: update 5.64 -> 5.65
-Date: Mon,  8 Aug 2022 08:38:06 +0200
-Message-Id: <20220808063843.3975130-8-alex@linutronix.de>
+Subject: [PATCH 07/45] cmake: update 3.23.2 -> 3.24.0
+Date: Mon,  8 Aug 2022 08:38:05 +0200
+Message-Id: <20220808063843.3975130-7-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220808063843.3975130-1-alex@linutronix.de>
 References: <20220808063843.3975130-1-alex@linutronix.de>
@@ -68,82 +68,47 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 08 Aug 2022 06:39:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169022
-
-Drop fix_service.patch as it is merged upstream.
+ https://lists.openembedded.org/g/openembedded-core/message/169021
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 -
- .../bluez5/bluez5/fix_service.patch           | 30 -------------------
- .../bluez5/{bluez5_5.64.bb => bluez5_5.65.bb} |  2 +-
- 3 files changed, 1 insertion(+), 32 deletions(-)
- delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/fix_service.patch
- rename meta/recipes-connectivity/bluez5/{bluez5_5.64.bb => bluez5_5.65.bb} (95%)
+ .../cmake/{cmake-native_3.23.2.bb => cmake-native_3.24.0.bb}  | 0
+ meta/recipes-devtools/cmake/cmake.inc                         | 4 ++--
+ .../cmake/{cmake_3.23.2.bb => cmake_3.24.0.bb}                | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.23.2.bb => cmake-native_3.24.0.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.23.2.bb => cmake_3.24.0.bb} (100%)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 22dd07b348..79d4645ca8 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -53,7 +53,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
-            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
-            file://0001-test-gatt-Fix-hung-issue.patch \
--           file://fix_service.patch \
-            "
- S = "${WORKDIR}/bluez-${PV}"
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.23.2.bb b/meta/recipes-devtools/cmake/cmake-native_3.24.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.23.2.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.24.0.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index 4a6884e871..d64afffdc1 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -10,7 +10,7 @@ HOMEPAGE = "http://www.cmake.org/"
+ BUGTRACKER = "http://public.kitware.com/Bug/my_view_page.php"
+ SECTION = "console/utils"
+ LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://Copyright.txt;md5=f2102a52df7aa592cf072180e7ebc8c7 \
++LIC_FILES_CHKSUM = "file://Copyright.txt;md5=45025187a129339459b6f1a24f7fac6e \
+                     file://Source/cmake.h;beginline=1;endline=2;md5=a5f70e1fef8614734eae0d62b4f5891b \
+                     "
  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/fix_service.patch b/meta/recipes-connectivity/bluez5/bluez5/fix_service.patch
-deleted file mode 100644
-index 96fdf6b299..0000000000
---- a/meta/recipes-connectivity/bluez5/bluez5/fix_service.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--The systemd bluetooth service failed to start because the /var/lib/bluetooth
--path of ReadWritePaths= is created by the bluetooth daemon itself.
--
--The commit systemd: Add more filesystem lockdown (442d211) add ReadWritePaths=/etc/bluetooth
--and ReadOnlyPaths=/var/lib/bluetooth options to the bluetooth systemd service.
--The existing ProtectSystem=full option mounts the /usr, the boot loader
--directories and /etc read-only. This means the two option are useless and could be removed.
--
--Upstream-Status: Submitted [https://github.com/bluez/bluez/issues/329]
--
--Index: bluez-5.64/src/bluetooth.service.in
--===================================================================
----- bluez-5.64.orig/src/bluetooth.service.in
--+++ bluez-5.64/src/bluetooth.service.in
--@@ -15,12 +15,12 @@ LimitNPROC=1
-- 
-- # Filesystem lockdown
-- ProtectHome=true
---ProtectSystem=full
--+ProtectSystem=strict
-- PrivateTmp=true
-- ProtectKernelTunables=true
-- ProtectControlGroups=true
---ReadWritePaths=@statedir@
---ReadOnlyPaths=@confdir@
--+ConfigurationDirectory=bluetooth
--+StateDirectory=bluetooth
-- 
-- # Execute Mappings
-- MemoryDenyWriteExecute=true
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.64.bb b/meta/recipes-connectivity/bluez5/bluez5_5.65.bb
-similarity index 95%
-rename from meta/recipes-connectivity/bluez5/bluez5_5.64.bb
-rename to meta/recipes-connectivity/bluez5/bluez5_5.65.bb
-index 4319f9aae8..4c15aeb46d 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.64.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.65.bb
-@@ -1,6 +1,6 @@
- require bluez5.inc
+@@ -21,7 +21,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
+ "
  
--SRC_URI[sha256sum] = "ae437e65b6b3070c198bc5b0109fe9cdeb9eaa387380e2072f9de65fe8a1de34"
-+SRC_URI[sha256sum] = "2565a4d48354b576e6ad92e25b54ed66808296581c8abb80587051f9993d96d4"
+-SRC_URI[sha256sum] = "f316b40053466f9a416adf981efda41b160ca859e97f6a484b447ea299ff26aa"
++SRC_URI[sha256sum] = "c2b61f7cdecb1576cad25f918a8f42b8685d88a832fd4b62b9e0fa32e915a658"
  
- # These issues have kernel fixes rather than bluez fixes so exclude here
- CVE_CHECK_IGNORE += "CVE-2020-12352 CVE-2020-24490"
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/cmake/cmake_3.23.2.bb b/meta/recipes-devtools/cmake/cmake_3.24.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.23.2.bb
+rename to meta/recipes-devtools/cmake/cmake_3.24.0.bb
 -- 
 2.30.2
 
