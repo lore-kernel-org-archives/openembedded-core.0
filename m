@@ -2,67 +2,68 @@ Return-Path: <lifeofthanks@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2801C00140
-	for <webhook@archiver.kernel.org>; Mon,  8 Aug 2022 04:55:25 +0000 (UTC)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
- [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web11.21962.1659934514594365223
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1D86C00140
+	for <webhook@archiver.kernel.org>; Mon,  8 Aug 2022 04:57:25 +0000 (UTC)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web12.21980.1659934637007765903
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Aug 2022 21:55:14 -0700
+ Sun, 07 Aug 2022 21:57:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FTUkL12B;
- spf=pass (domain: gmail.com, ip: 209.85.215.177,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Yd8Gsxiz;
+ spf=pass (domain: gmail.com, ip: 209.85.216.51,
  mailfrom: lifeofthanks@gmail.com)
-Received: by mail-pg1-f177.google.com with SMTP id 202so825091pgc.8
+Received: by mail-pj1-f51.google.com with SMTP id
+ 15-20020a17090a098f00b001f305b453feso13427604pjo.1
         for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Aug 2022 21:55:14 -0700 (PDT)
+ Sun, 07 Aug 2022 21:57:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:subject:cc:to:from:from:to:cc;
         bh=uauyQv9JA7fWs1vRjHyeslDGJkJzk6Egz1hUkaSJxd0=;
-        b=FTUkL12BfWVvqQZ6eo49Wuyd81JpveMhZX2BMla2UmUh5vJQgutl5+uh+yoI2M59PX
-         w4DSlFZynXLs3Zc3W4p96KkqchP47LTK4AMtr9sFozIgwz3ITPy4S6vOoa8PK2wJ8BZP
-         49gS7hq77O/ePA/UT5aYZszZPdaqPTQoS+FI0BgU8NH7aeQT1r4f4/W+XXrR1wZ2mIYC
-         Xb+9SBycl/wzfCXX272C95R2MYPIX964WKRGpa2EC4jmOSpLDNv2ukK+3LpltNlktMDt
-         +k+q0mEnYUCvYwhWzhXvkh+3lkS/Mtu2hecFuIEoMVzFt3QU5x1dF5ATvi8/fhTKp196
-         15dg==
+        b=Yd8Gsxizg/br3lzyyyEfCwAGQXEHH6TfwTat4t33KJn4cawH5DmHFpuhD6eCokP2aa
+         pCWj0aeioJnOHl74f3KKPgwhVI+VS6tdtLqB2bZOBCqHtRQr3YxVF6shXAx/Qp2SyoQP
+         iv6NUGhuJW2zfE2/8ZNPQc2TTjw7pGkgQtDdR2JYUcPEUisoprpOrbEwrfxyDenVBnMk
+         ieUSRYvDv31/1ZRADfw1SP+zdhfAPO7bBLSw0TpI6cePGnqX1+L4eOd0pkFRUOQBHUAZ
+         1TAi7+XhoKfc1gy9DLCSp9GLr2oludN/h/cqds3rDkKWbn+9jIJWz+5f1YzG1ZnTTMHb
+         B0uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
         bh=uauyQv9JA7fWs1vRjHyeslDGJkJzk6Egz1hUkaSJxd0=;
-        b=0+r7UaFsm8vHqRwsdeMQKWDUYZv3Gap5YC4OS35QG+38UOGyiBYR9HHP0VK6svdt2G
-         GQdULCZthu6KqNq/sbrYEXyCLKAjv5f5oEiqUOLCnGDF8qGHqAYtMkJ89rZF5dWPM1PR
-         IXcqvseYtGH3GQwdT2buqlRZFFU0hum3PGOc+9jEnxeA8v7NHDFb4GGqvF8ALZlasRxA
-         y9t8YQxXlf4v/PD1XsIMyh5aMuHAc+VxmtXLJEhrJGAT2a0eOndYWowxSzYoXoQ4dgiD
-         ldmoyVQig6Ca5XPqCAEl2U5GiS68ZXSgXho+0bDXarDP0xwtL+pqwb85saTBGzeehEe3
-         bdLQ==
-X-Gm-Message-State: ACgBeo21OdAGOJ76X3s8VzpJwFoF20NIJeDPDJPDO0MnLA+0xyXfWHzW
-	fwGBu9inCiStgH3XmgcR79Hy1BgJu6Y=
+        b=dC+hOadD/kGjj6HxSUaQmynk8XVRh4IyphTMyocL+3RSqEQZFhXJmd+xKzGV1OPpAw
+         tzv+1x3NjGopN7nFuN4MB5jFs7c4fnmxaJ+OQ5RiDsFsSxay0lZboMMVBcRQwHTGMi1V
+         ffhHN+0kRiMOUvba5htPdVZuSwYCGIGamuE3rmyNp4XphwM7azndsrEwA/4XRkE+YLdn
+         REEZQP75SZqWfeisKQf/F2vMSaAgvxGOgUqqF0mvflLedFVl+2k2WNfH5ZkUxGxPpzDn
+         aoMc960jF/HVH+e8ceCYJl99l/M6EkuTeAJ0fMJ/zP6xtBRBFMe0wr01tIzGNDwbOytX
+         a8yw==
+X-Gm-Message-State: ACgBeo0HXhnVAphsmP88+MuNZ6yVqAyWfQznwdF4ir5eN42cBn4HcGvH
+	yM1MVNJC8vV35NKGJuwB/Ntw3c/F17g8tg==
 X-Google-Smtp-Source: 
- AA6agR5e9eozGvH3qMAt++RBEpVKuNYZ59IkBkLivda+G4OLb9BSbeSNiAWsolVXsreSQpT7wiaFLg==
-X-Received: by 2002:aa7:9f02:0:b0:52d:6ae1:d631 with SMTP id
- g2-20020aa79f02000000b0052d6ae1d631mr17432483pfr.41.1659934513415;
-        Sun, 07 Aug 2022 21:55:13 -0700 (PDT)
+ AA6agR7Stxd+tvyKAu5AyyZdfNva/E/RQpRBkyFdEvcCtAEysl6CM3bwQ0X0VdV356O9ie6R7QIxoQ==
+X-Received: by 2002:a17:902:f54a:b0:16f:16bb:778e with SMTP id
+ h10-20020a170902f54a00b0016f16bb778emr16596453plf.37.1659934636063;
+        Sun, 07 Aug 2022 21:57:16 -0700 (PDT)
 Received: from ip-172-31-56-46.ap-northeast-2.compute.internal
  (ec2-52-79-182-214.ap-northeast-2.compute.amazonaws.com. [52.79.182.214])
         by smtp.gmail.com with ESMTPSA id
- n7-20020a170903110700b0016f1c1f50f4sm7527454plh.235.2022.08.07.21.55.11
+ ik30-20020a170902ab1e00b0016c1a1c1405sm7432998plb.222.2022.08.07.21.57.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Aug 2022 21:55:12 -0700 (PDT)
+        Sun, 07 Aug 2022 21:57:15 -0700 (PDT)
 From: JeongBong Seo <lifeofthanks@gmail.com>
 X-Google-Original-From: JeongBong Seo <jb.seo@lge.com>
 To: openembedded-core@lists.openembedded.org
 Cc: JeongBong Seo <jb.seo@lge.com>
-Subject: [meta-oe][PATCH] wic: add 'none' fstype for custom image
-Date: Mon,  8 Aug 2022 04:55:08 +0000
-Message-Id: <20220808045508.24982-1-jb.seo@lge.com>
+Subject: [PATCH] wic: add 'none' fstype for custom image
+Date: Mon,  8 Aug 2022 04:57:10 +0000
+Message-Id: <20220808045710.25038-1-jb.seo@lge.com>
 X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Aug 2022 04:55:25 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Aug 2022 04:57:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169012
+ https://lists.openembedded.org/g/openembedded-core/message/169013
 
 It's not possible to set the label (of gpt entry) normally
 when I want to use non-listed fstype as a rawcopy.
