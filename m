@@ -1,88 +1,95 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B96EEC00140
-	for <webhook@archiver.kernel.org>; Mon,  8 Aug 2022 18:35:02 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web10.2213.1659983700475251539
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CEA9C00140
+	for <webhook@archiver.kernel.org>; Mon,  8 Aug 2022 19:34:33 +0000 (UTC)
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net
+ [217.70.178.231])
+ by mx.groups.io with SMTP id smtpd.web11.3005.1659987262605505308
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Aug 2022 11:35:00 -0700
+ Mon, 08 Aug 2022 12:34:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=WgW4AgGB;
- spf=pass (domain: gmail.com, ip: 209.85.167.48,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id a9so13857161lfm.12
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Aug 2022 11:35:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=i8RgMvRlL7CSarcuQ91FbGkh7+mMQxgF87sYzwXsYpk=;
-        b=WgW4AgGBIufPOMAxmKruTxT15dDVqodK6ZYEuPVMt+/vVSnBzd9En9sEmzLBDW4luW
-         pKoweh0RaWNI8wO1AMFBhBFOYsWhKZOssW1AeWP8e6lYTfQT9axGPtEi7BPYnzAzhPrP
-         Rm5vPayfI3ggpPzQhOQE+Yiq7FTLUe8GOdVK3SjkEcTHWD+Fx6AdCrlUphx7/SdoL5FC
-         zbnGQ9pOQ/FkMVTRg0blshNxMKodtI3FRcjjzuNPv3CWV2lyg2oKb7D/IX1wq/tWaaWT
-         ff1+sq0tfQ+6L+5tD5LEifvuGwqpxfOlLT+YyOKd3uRtxJ6q4t31Z5NJmhlTDHUwPfrW
-         EBHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=i8RgMvRlL7CSarcuQ91FbGkh7+mMQxgF87sYzwXsYpk=;
-        b=AU9zVzIAos/iTdpn+MJ+Zcr0Z0gokmlTKqCPE4uP3dGwygAfR+6hvj5SXKh0YCrB0l
-         EX48lX0TRrZfFP7m1zrT02DW0ESDx9hGwbGGH1+Gy1cYf6uWSvzBYzquRKvSD+AxhBOz
-         B0kVJAijCDwWY4Z6QMXNjpR9qBg3mEhqzl+yvg36aluJitZnu3OkZo7nMDYdPNGNVzcl
-         WLI9I54vaRYbUlcXBiJ+i/MTwmbllf43Ukk35dHtPlxiu+q/TJ4X9hyCqo/JoAlo/KVo
-         ZfGJpIdfco6EoazFz1rLDVKHa2rE1wJUaUKflhJYSTJ+/Q5nWiFMNZaULZTj6CyV/F0N
-         AORQ==
-X-Gm-Message-State: ACgBeo2d9gkDZll5aZy9vixGODXQsrMUmcvawrdP2ssTDWWguuHrPTfs
-	/ijbGXoQves9iXNaC/PN0+Sm4gSXUKra75eSOxQ=
-X-Google-Smtp-Source: 
- AA6agR6X7I/AC9r+oQz+bHIVnjZLIX/fT6Jv+hmeUlxU4XK/dNqgS0PRTG0b5uc872sjQUn7uWivBu50ruZSA6D3Bm4=
-X-Received: by 2002:ac2:4209:0:b0:48a:7386:978f with SMTP id
- y9-20020ac24209000000b0048a7386978fmr6770635lfh.521.1659983698537; Mon, 08
- Aug 2022 11:34:58 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=lm3gEVsx;
+ spf=pass (domain: bootlin.com, ip: 217.70.178.231,
+ mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 42E39100003;
+	Mon,  8 Aug 2022 19:34:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1659987260;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2ytQEJzQAMwF9Phn9w3ts+ZMH4x23DS1mi6+FtEB050=;
+	b=lm3gEVsxW6UWHB9f27yEqdFwkra0r4eoVlCdD9ixDQf8sMMisszjIeo73bZWPYYoi86HK2
+	F7JCpLCjffmbRn2/ARBJzlYmds1a1AyiQVnyF7xP7tFxMXk0hxG846AiCeNXK4KPpgzNjq
+	WBjGQobhWd/GoiL7unXJeSAPzvojH0MU30Vk0GWe/s1FxYt4IjwvX+n7gbTFeeGPrc1zf3
+	U7AKJeVR/XFtaILXHC+AGvg+7zwgZ3zXgDCRDOHxv0tIyZUAmQJSzgWrLRO5ho3eR48tYC
+	yI1u1Jeemd6AuptTAtoaQ76XgQvxTxixEmTN/i1xNNI4CNY1G6kzNJt2nCWWkQ==
+Date: Mon, 8 Aug 2022 21:34:19 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Joshua Watt <JPEWhacker@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, luca.ceresoli@bootlin.com
+Subject: Re: [OE-core][PATCH] classes/sanity: De-golf regex
+Message-ID: <YvFlO0a8mT23eEqF@mail.local>
+References: <20220808131951.2029559-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-References: <cover.1659653543.git.bruce.ashfield@gmail.com>
- <22bce10c2755711b42b7a3bd0ce61705961c2552.camel@linuxfoundation.org>
- <CADkTA4NvmFOT+gW4z9Lx_2VMQ4aVSPkGcXnfTXDZ8zwD61G0ag@mail.gmail.com>
- <87a68d011dd53f284b7021a8d2a3858140ef2c4d.camel@linuxfoundation.org>
-In-Reply-To: 
- <87a68d011dd53f284b7021a8d2a3858140ef2c4d.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 8 Aug 2022 20:34:46 +0200
-Message-ID: 
- <CANNYZj_Dr+L4yMAkZNdOssd9+x3yrH1=DsBJAR7C0a1pDsJD1Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 00/13] kernel-yocto: consolidated pull request
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
- Alexander Kanavin <alex@linutronix.de>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220808131951.2029559-1-JPEWhacker@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Aug 2022 18:35:02 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Aug 2022 19:34:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169114
+ https://lists.openembedded.org/g/openembedded-core/message/169115
 
-On Mon, 8 Aug 2022 at 15:08, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> > > Using modifier ffffffffffffff
-> > > failed to set mode: Invalid argument
-> > >
-> >
-> > I did do graphical tests on x86-64, and didn't see any issues. I'll
-> > have another look.
->
-> This is virgl GL passthrough in qemu so not a commonly tested thing,
-> you'd need to run the selftest. I'm hoping AlexK has some ideas on this
-> one.
+Hi,
 
-Patch sent :-)
+On 08/08/2022 08:19:51-0500, Joshua Watt wrote:
+> The regex to match github or gitlab was unnecessarily shortened, which
+> prevented them from showing up when grepping.
+> 
 
-Alex
+This doesn't apply since we have "classes/sanity: Add comment about
+github & gitlab archives" in master. I guess this was one or the other.
+
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>  meta/classes/insane.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 37e10ad850..b66926f540 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -1335,7 +1335,7 @@ def unpack_check_src_uri(pn, d):
+>          oe.qa.handle_error("src-uri-bad", "%s: SRC_URI uses PN not BPN" % pn, d)
+>  
+>      for url in d.getVar("SRC_URI").split():
+> -        if re.search(r"git(hu|la)b\.com/.+/.+/archive/.+", url):
+> +        if re.search(r"(github|gitlab)\.com/.+/.+/archive/.+", url):
+>              oe.qa.handle_error("src-uri-bad", "%s: SRC_URI uses unstable GitHub/GitLab archives, convert recipe to use git protocol" % pn, d)
+>  
+>  python do_qa_unpack() {
+> -- 
+> 2.33.0
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#169085): https://lists.openembedded.org/g/openembedded-core/message/169085
+> Mute This Topic: https://lists.openembedded.org/mt/92891575/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
