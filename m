@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43BB2C25B06
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43B12C00140
 	for <webhook@archiver.kernel.org>; Mon,  8 Aug 2022 06:42:56 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web09.22276.1659940975209834636
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web10.22446.1659940965724579115
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Aug 2022 23:42:55 -0700
+ Sun, 07 Aug 2022 23:42:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=em1TZkmR;
- spf=pass (domain: gmail.com, ip: 209.85.218.42,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=TI3l3c+O;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id gb36so14772060ejc.10
+Received: by mail-ej1-f50.google.com with SMTP id qn6so2991000ejc.11
         for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Aug 2022 23:42:54 -0700 (PDT)
+ Sun, 07 Aug 2022 23:42:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=oh+vinziCULFIAYSY2X7oZd0y0nnr4iUONRUUGKxBpY=;
-        b=em1TZkmRvrMjMhQ6/oMZdkzIr4lrQe9mkiFgt9KpvWHI348InDHJTakRXGYgT2pHkB
-         RNAiLoKiY6z+eJ08ruyrV/YCvZrNmCkYEYnQEEHYKepJoNL3SasnbTlYS9c0s0oGCbIq
-         YsNYK8EaFbt+wOHK2YootLqwtoNSnJO36fpkosUBwHsis6hgXtyf5QldaR2hwhvebAtM
-         ND2aE6r2cObHosYUu63m23nCcS9igTlqm1+n3/Ui9XhjUqG7QAFlQ1Jw27PdR89jH3zd
-         +touVZS/pTC+Zx6p1jIMG/q4EAPTfGG6gt0RrKjbegUc9I1RQUasd5TpNIjfAiq34BBx
-         OjGQ==
+        bh=9pxrFzoHB6lZYV0nax5sjK/sRmsAEWwxLnY3Lb7u8/0=;
+        b=TI3l3c+O/aTKJqFnIz8lsRLIjHMVjK32e6VLAxAxNBNjw0q8uJuFCGX8Sm6bZxxvgJ
+         0NpraWDGpLXK12c3E04bbT7FlHyzf+8sNHwCsi6C+4H/mmieTIUV3BdnsH2mIM9OJ16z
+         xhCKLcJ8w1RC705eO2pTpe/tYCCYYImE5QBxY5mixy4Q3rTT4PhQ41mO28t0mv7L/BD8
+         lm6UTDUCfy1WaKEHsrQP0f2mTBP2eeJReVBpqMOjqTMGenZV0rxxA303GHyFIy4yYCq1
+         jLwT+AAoSn1dqFfR4QlrxBNShEvpltXbz0t21ivnn+MqWAGOw5t0OeXCOlkfsz33N2fg
+         lYZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=oh+vinziCULFIAYSY2X7oZd0y0nnr4iUONRUUGKxBpY=;
-        b=WsY/S03hQze1uo4e7IsoQmtu8f0yXRMW/Rp7mD5yVT2zyYOazA/r+qW9B3idejelBL
-         rh18b0wyJL8eUcpscnYsCjqLWwQmW9bCGY3sxbtxecEmO1OdWSnMplvt972AIZQw/Wwx
-         u/po/iwMTRAK304IbLE/jWk8G92Jtwi6gly4iiGqzZ8Bqep1m8GSGmMEvpMm+2VE4bzM
-         lXX+resrmPG18+75tSPRZYre2FQVLyGgl3vwm+bsIlQE1D2lB2HiA8Ki0rMbA9mOzdjs
-         wjHyldfesq9sFHplIqDkkPLMoAx3U7A/utSfUlFNGX0iDOjbx3cQJMa5sm9FF6uu5Kqz
-         vK7w==
-X-Gm-Message-State: ACgBeo2m6tj9YGdy5G5kJUEoaF8aenSj2lAWc3lVh17WSFERPCKwyUyh
-	+Q0SwhRkkukywcSr6nzBHDbIu2uuTcI=
+        bh=9pxrFzoHB6lZYV0nax5sjK/sRmsAEWwxLnY3Lb7u8/0=;
+        b=etM8uxoEWaOlFYbu7CezfZvGRrIlPhFUR2XGuEzMQeLGBowxTtfKpnZ5oOVgPyAJjN
+         NWRBs1kKRumSUbmMg8gYAKizFwGYBFzLopoT5pab0KgJCEt6qsKmtVHeNnmFtOXU/Lue
+         l3XpKKTnQqZWpvmCGboX+G2QFUZvFQ1PwldcAhDjfp6s+V3gA22Yq2oqskWdotyf25Ks
+         AmEHuDgHfGRyl5Q1XR6aviW8HSgw9/ykOhBvepK+LG9vgZLdeF96hUNlKV6UKPL1pdNT
+         4ZY/zTD/nK0UPbYQBPhtS0FJPCoHIXd9xXOyR3sEjO21HyMv06JgIPJXXiZEiXNy5fKL
+         m0HA==
+X-Gm-Message-State: ACgBeo0dN9Pf5/BQWCgLo5E7pVqG8j2ZuGEQF5MgqOTwcvtAY68/V2u4
+	T+TJENFrhUCopyskSiM3eIM21/OWeJE=
 X-Google-Smtp-Source: 
- AA6agR41fNtPb4WgojreR2XLjpl9pMYSnTYZFHaosAQ0DBD6HAauzytyBlfN9uqKuNJ1klyUFxSb4Q==
-X-Received: by 2002:a17:906:5a6a:b0:730:bc8a:57dd with SMTP id
- my42-20020a1709065a6a00b00730bc8a57ddmr12433100ejc.301.1659940973789;
-        Sun, 07 Aug 2022 23:42:53 -0700 (PDT)
+ AA6agR5OUkIcT0bKcGPaBo3J0SRZjfsrWz7DNvJeTGSmdC6urRISDzrPt0S8I7I5GV7I4lavzj5HGw==
+X-Received: by 2002:a17:907:1361:b0:730:8f59:6434 with SMTP id
+ yo1-20020a170907136100b007308f596434mr13102592ejb.745.1659940964201;
+        Sun, 07 Aug 2022 23:42:44 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- q19-20020aa7da93000000b0043bd2a79311sm4153477eds.37.2022.08.07.23.42.53
+ q19-20020aa7da93000000b0043bd2a79311sm4153477eds.37.2022.08.07.23.42.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Aug 2022 23:42:53 -0700 (PDT)
+        Sun, 07 Aug 2022 23:42:43 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH v2 14/44] libwpe: upgrade 1.12.0 -> 1.12.2
-Date: Mon,  8 Aug 2022 08:42:07 +0200
-Message-Id: <20220808064237.3975347-14-alex@linutronix.de>
+Subject: [PATCH v2 02/44] dropbear: merge .inc into .bb
+Date: Mon,  8 Aug 2022 08:41:55 +0200
+Message-Id: <20220808064237.3975347-2-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220808064237.3975347-1-alex@linutronix.de>
 References: <20220808064237.3975347-1-alex@linutronix.de>
@@ -68,84 +68,284 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 08 Aug 2022 06:42:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169039
+ https://lists.openembedded.org/g/openembedded-core/message/169026
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...ure-due-to-libc-using-libc-functions.patch | 42 +++++++++++++++++++
- .../{libwpe_1.12.0.bb => libwpe_1.12.2.bb}    |  6 ++-
- 2 files changed, 46 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-sato/webkit/libwpe/0001-Fix-build-failure-due-to-libc-using-libc-functions.patch
- rename meta/recipes-sato/webkit/{libwpe_1.12.0.bb => libwpe_1.12.2.bb} (72%)
+ meta/recipes-core/dropbear/dropbear.inc       | 128 -----------------
+ .../recipes-core/dropbear/dropbear_2022.82.bb | 129 +++++++++++++++++-
+ 2 files changed, 127 insertions(+), 130 deletions(-)
+ delete mode 100644 meta/recipes-core/dropbear/dropbear.inc
 
-diff --git a/meta/recipes-sato/webkit/libwpe/0001-Fix-build-failure-due-to-libc-using-libc-functions.patch b/meta/recipes-sato/webkit/libwpe/0001-Fix-build-failure-due-to-libc-using-libc-functions.patch
-new file mode 100644
-index 0000000000..6d27b4835d
---- /dev/null
-+++ b/meta/recipes-sato/webkit/libwpe/0001-Fix-build-failure-due-to-libc-using-libc-functions.patch
-@@ -0,0 +1,42 @@
-+From ccf8a58c3536ca0e62748e0ea477514e14d821bc Mon Sep 17 00:00:00 2001
-+From: Adrian Perez de Castro <aperez@igalia.com>
-+Date: Thu, 4 Aug 2022 12:19:05 +0300
-+Subject: [PATCH] Fix build failure due to libc++ using libc functions
-+
-+Include the "alloc-private.h" header after the C++ standard library
-+headers. This sidesteps build failures caused by implementations of
-+std::map and std::string which use libc memory allocation functions
-+in expanded templates after they have been marked with the "poison"
-+pragma.
-+
-+Fixes #115
-+
-+Upstream-Status: Backport
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ src/pasteboard-generic.cpp | 9 ++++++---
-+ 1 file changed, 6 insertions(+), 3 deletions(-)
-+
-+diff --git a/src/pasteboard-generic.cpp b/src/pasteboard-generic.cpp
-+index 86fe4ee..a357027 100644
-+--- a/src/pasteboard-generic.cpp
-++++ b/src/pasteboard-generic.cpp
-+@@ -26,12 +26,15 @@
-+ 
-+ #include "pasteboard-private.h"
-+ 
-+-#include "alloc-private.h"
-+-#include <cstdlib>
-+-#include <cstring>
-+ #include <map>
-+ #include <string>
-+ 
-++// We need to include this header last, in order to avoid template expansions
-++// from the C++ standard library happening after it forbids usage of the libc
-++// memory functions.
-++#include "alloc-private.h"
-++#include <cstring>
-++
-+ namespace Generic {
-+ using Pasteboard = std::map<std::string, std::string>;
-+ }
-diff --git a/meta/recipes-sato/webkit/libwpe_1.12.0.bb b/meta/recipes-sato/webkit/libwpe_1.12.2.bb
-similarity index 72%
-rename from meta/recipes-sato/webkit/libwpe_1.12.0.bb
-rename to meta/recipes-sato/webkit/libwpe_1.12.2.bb
-index ac4ee3eb23..e23a9ac32d 100644
---- a/meta/recipes-sato/webkit/libwpe_1.12.0.bb
-+++ b/meta/recipes-sato/webkit/libwpe_1.12.2.bb
-@@ -10,8 +10,10 @@ inherit cmake features_check pkgconfig
+diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+deleted file mode 100644
+index e170587d08..0000000000
+--- a/meta/recipes-core/dropbear/dropbear.inc
++++ /dev/null
+@@ -1,128 +0,0 @@
+-SUMMARY = "A lightweight SSH and SCP implementation"
+-HOMEPAGE = "http://matt.ucc.asn.au/dropbear/dropbear.html"
+-DESCRIPTION = "Dropbear is a relatively small SSH server and client. It runs on a variety of POSIX-based platforms. Dropbear is open source software, distributed under a MIT-style license. Dropbear is particularly useful for "embedded"-type Linux (or other Unix) systems, such as wireless routers."
+-SECTION = "console/network"
+-
+-# some files are from other projects and have others license terms:
+-#   public domain, OpenSSH 3.5p1, OpenSSH3.6.1p2, PuTTY
+-LICENSE = "MIT & BSD-3-Clause & BSD-2-Clause & PD"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=25cf44512b7bc8966a48b6b1a9b7605f"
+-
+-DEPENDS = "zlib virtual/crypt"
+-RPROVIDES:${PN} = "ssh sshd"
+-RCONFLICTS:${PN} = "openssh-sshd openssh"
+-
+-DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+-
+-SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
+-           file://0001-urandom-xauth-changes-to-options.h.patch \
+-           file://init \
+-           file://dropbearkey.service \
+-           file://dropbear@.service \
+-           file://dropbear.socket \
+-           file://dropbear.default \
+-           ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+-           ${@bb.utils.contains('PACKAGECONFIG', 'disable-weak-ciphers', 'file://dropbear-disable-weak-ciphers.patch', '', d)} "
+-
+-PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
+-               file://0006-dropbear-configuration-file.patch \
+-               file://dropbear"
+-
+-PAM_PLUGINS = "libpam-runtime \
+-	pam-plugin-deny \
+-	pam-plugin-permit \
+-	pam-plugin-unix \
+-	"
+-RDEPENDS:${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_PLUGINS}', '', d)}"
+-
+-inherit autotools update-rc.d systemd
+-
+-CVE_PRODUCT = "dropbear_ssh"
+-
+-INITSCRIPT_NAME = "dropbear"
+-INITSCRIPT_PARAMS = "defaults 10"
+-
+-SYSTEMD_SERVICE:${PN} = "dropbear.socket"
+-
+-SBINCOMMANDS = "dropbear dropbearkey dropbearconvert"
+-BINCOMMANDS = "dbclient ssh scp"
+-EXTRA_OEMAKE = 'MULTI=1 SCPPROGRESS=1 PROGRAMS="${SBINCOMMANDS} ${BINCOMMANDS}"'
+-
+-PACKAGECONFIG ?= "disable-weak-ciphers"
+-PACKAGECONFIG[system-libtom] = "--disable-bundled-libtom,--enable-bundled-libtom,libtommath libtomcrypt"
+-PACKAGECONFIG[disable-weak-ciphers] = ""
+-
+-EXTRA_OECONF += "\
+- ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '--enable-pam', '--disable-pam', d)}"
+-
+-# This option appends to CFLAGS and LDFLAGS from OE
+-# This is causing [textrel] QA warning
+-EXTRA_OECONF += "--disable-harden"
+-
+-# musl does not implement wtmp/logwtmp APIs
+-EXTRA_OECONF:append:libc-musl = " --disable-wtmp --disable-lastlog"
+-
+-do_install() {
+-	install -d ${D}${sysconfdir} \
+-		${D}${sysconfdir}/init.d \
+-		${D}${sysconfdir}/default \
+-		${D}${sysconfdir}/dropbear \
+-		${D}${bindir} \
+-		${D}${sbindir} \
+-		${D}${localstatedir}
+-
+-	install -m 0644 ${WORKDIR}/dropbear.default ${D}${sysconfdir}/default/dropbear
+-
+-	install -m 0755 dropbearmulti ${D}${sbindir}/
+-
+-	for i in ${BINCOMMANDS}
+-	do
+-		# ssh and scp symlinks are created by update-alternatives
+-		if [ $i = ssh ] || [ $i = scp ]; then continue; fi
+-		ln -s ${sbindir}/dropbearmulti ${D}${bindir}/$i
+-	done
+-	for i in ${SBINCOMMANDS}
+-	do
+-		ln -s ./dropbearmulti ${D}${sbindir}/$i
+-	done
+-	sed -e 's,/etc,${sysconfdir},g' \
+-		-e 's,/usr/sbin,${sbindir},g' \
+-		-e 's,/var,${localstatedir},g' \
+-		-e 's,/usr/bin,${bindir},g' \
+-		-e 's,/usr,${prefix},g' ${WORKDIR}/init > ${D}${sysconfdir}/init.d/dropbear
+-	chmod 755 ${D}${sysconfdir}/init.d/dropbear
+-	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}" ]; then
+-		install -d ${D}${sysconfdir}/pam.d
+-		install -m 0644 ${WORKDIR}/dropbear  ${D}${sysconfdir}/pam.d/
+-	fi
+-
+-	# deal with systemd unit files
+-	install -d ${D}${systemd_system_unitdir}
+-	install -m 0644 ${WORKDIR}/dropbearkey.service ${D}${systemd_system_unitdir}
+-	install -m 0644 ${WORKDIR}/dropbear@.service ${D}${systemd_system_unitdir}
+-	install -m 0644 ${WORKDIR}/dropbear.socket ${D}${systemd_system_unitdir}
+-	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
+-		-e 's,@BINDIR@,${bindir},g' \
+-		-e 's,@SBINDIR@,${sbindir},g' \
+-		${D}${systemd_system_unitdir}/dropbear.socket ${D}${systemd_system_unitdir}/*.service
+-}
+-
+-inherit update-alternatives
+-
+-ALTERNATIVE_PRIORITY = "20"
+-ALTERNATIVE:${PN} = "${@bb.utils.filter('BINCOMMANDS', 'scp ssh', d)}"
+-
+-ALTERNATIVE_TARGET = "${sbindir}/dropbearmulti"
+-
+-pkg_postrm:${PN} () {
+-  if [ -f "${sysconfdir}/dropbear/dropbear_rsa_host_key" ]; then
+-        rm ${sysconfdir}/dropbear/dropbear_rsa_host_key
+-  fi
+-  if [ -f "${sysconfdir}/dropbear/dropbear_dss_host_key" ]; then
+-        rm ${sysconfdir}/dropbear/dropbear_dss_host_key
+-  fi
+-}
+-
+-CONFFILES:${PN} = "${sysconfdir}/default/dropbear"
+-
+-FILES:${PN} += "${bindir}"
+diff --git a/meta/recipes-core/dropbear/dropbear_2022.82.bb b/meta/recipes-core/dropbear/dropbear_2022.82.bb
+index 154a407a19..e170587d08 100644
+--- a/meta/recipes-core/dropbear/dropbear_2022.82.bb
++++ b/meta/recipes-core/dropbear/dropbear_2022.82.bb
+@@ -1,3 +1,128 @@
+-require dropbear.inc
++SUMMARY = "A lightweight SSH and SCP implementation"
++HOMEPAGE = "http://matt.ucc.asn.au/dropbear/dropbear.html"
++DESCRIPTION = "Dropbear is a relatively small SSH server and client. It runs on a variety of POSIX-based platforms. Dropbear is open source software, distributed under a MIT-style license. Dropbear is particularly useful for "embedded"-type Linux (or other Unix) systems, such as wireless routers."
++SECTION = "console/network"
  
- REQUIRED_DISTRO_FEATURES = "opengl"
- 
--SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "e8eeca228a6b4c36294cfb63f7d3ba9ada47a430904a5a973b3c99c96a44c18c"
-+SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz \
-+           file://0001-Fix-build-failure-due-to-libc-using-libc-functions.patch \
-+           "
-+SRC_URI[sha256sum] = "4ac4fd0a8b562b721bffd0f46ae9f06c2b5a3114407581978be875a9d651642a"
- 
- # This is a tweak of upstream-version-is-even needed because
- # ipstream directory contains tarballs for other components as well.
+-SRC_URI[sha256sum] = "3a038d2bbc02bf28bbdd20c012091f741a3ec5cbe460691811d714876aad75d1"
++# some files are from other projects and have others license terms:
++#   public domain, OpenSSH 3.5p1, OpenSSH3.6.1p2, PuTTY
++LICENSE = "MIT & BSD-3-Clause & BSD-2-Clause & PD"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=25cf44512b7bc8966a48b6b1a9b7605f"
++
++DEPENDS = "zlib virtual/crypt"
++RPROVIDES:${PN} = "ssh sshd"
++RCONFLICTS:${PN} = "openssh-sshd openssh"
++
++DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
++
++SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
++           file://0001-urandom-xauth-changes-to-options.h.patch \
++           file://init \
++           file://dropbearkey.service \
++           file://dropbear@.service \
++           file://dropbear.socket \
++           file://dropbear.default \
++           ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
++           ${@bb.utils.contains('PACKAGECONFIG', 'disable-weak-ciphers', 'file://dropbear-disable-weak-ciphers.patch', '', d)} "
++
++PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
++               file://0006-dropbear-configuration-file.patch \
++               file://dropbear"
++
++PAM_PLUGINS = "libpam-runtime \
++	pam-plugin-deny \
++	pam-plugin-permit \
++	pam-plugin-unix \
++	"
++RDEPENDS:${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_PLUGINS}', '', d)}"
++
++inherit autotools update-rc.d systemd
++
++CVE_PRODUCT = "dropbear_ssh"
++
++INITSCRIPT_NAME = "dropbear"
++INITSCRIPT_PARAMS = "defaults 10"
++
++SYSTEMD_SERVICE:${PN} = "dropbear.socket"
++
++SBINCOMMANDS = "dropbear dropbearkey dropbearconvert"
++BINCOMMANDS = "dbclient ssh scp"
++EXTRA_OEMAKE = 'MULTI=1 SCPPROGRESS=1 PROGRAMS="${SBINCOMMANDS} ${BINCOMMANDS}"'
++
++PACKAGECONFIG ?= "disable-weak-ciphers"
++PACKAGECONFIG[system-libtom] = "--disable-bundled-libtom,--enable-bundled-libtom,libtommath libtomcrypt"
++PACKAGECONFIG[disable-weak-ciphers] = ""
++
++EXTRA_OECONF += "\
++ ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '--enable-pam', '--disable-pam', d)}"
++
++# This option appends to CFLAGS and LDFLAGS from OE
++# This is causing [textrel] QA warning
++EXTRA_OECONF += "--disable-harden"
++
++# musl does not implement wtmp/logwtmp APIs
++EXTRA_OECONF:append:libc-musl = " --disable-wtmp --disable-lastlog"
++
++do_install() {
++	install -d ${D}${sysconfdir} \
++		${D}${sysconfdir}/init.d \
++		${D}${sysconfdir}/default \
++		${D}${sysconfdir}/dropbear \
++		${D}${bindir} \
++		${D}${sbindir} \
++		${D}${localstatedir}
++
++	install -m 0644 ${WORKDIR}/dropbear.default ${D}${sysconfdir}/default/dropbear
++
++	install -m 0755 dropbearmulti ${D}${sbindir}/
++
++	for i in ${BINCOMMANDS}
++	do
++		# ssh and scp symlinks are created by update-alternatives
++		if [ $i = ssh ] || [ $i = scp ]; then continue; fi
++		ln -s ${sbindir}/dropbearmulti ${D}${bindir}/$i
++	done
++	for i in ${SBINCOMMANDS}
++	do
++		ln -s ./dropbearmulti ${D}${sbindir}/$i
++	done
++	sed -e 's,/etc,${sysconfdir},g' \
++		-e 's,/usr/sbin,${sbindir},g' \
++		-e 's,/var,${localstatedir},g' \
++		-e 's,/usr/bin,${bindir},g' \
++		-e 's,/usr,${prefix},g' ${WORKDIR}/init > ${D}${sysconfdir}/init.d/dropbear
++	chmod 755 ${D}${sysconfdir}/init.d/dropbear
++	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}" ]; then
++		install -d ${D}${sysconfdir}/pam.d
++		install -m 0644 ${WORKDIR}/dropbear  ${D}${sysconfdir}/pam.d/
++	fi
++
++	# deal with systemd unit files
++	install -d ${D}${systemd_system_unitdir}
++	install -m 0644 ${WORKDIR}/dropbearkey.service ${D}${systemd_system_unitdir}
++	install -m 0644 ${WORKDIR}/dropbear@.service ${D}${systemd_system_unitdir}
++	install -m 0644 ${WORKDIR}/dropbear.socket ${D}${systemd_system_unitdir}
++	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
++		-e 's,@BINDIR@,${bindir},g' \
++		-e 's,@SBINDIR@,${sbindir},g' \
++		${D}${systemd_system_unitdir}/dropbear.socket ${D}${systemd_system_unitdir}/*.service
++}
++
++inherit update-alternatives
++
++ALTERNATIVE_PRIORITY = "20"
++ALTERNATIVE:${PN} = "${@bb.utils.filter('BINCOMMANDS', 'scp ssh', d)}"
++
++ALTERNATIVE_TARGET = "${sbindir}/dropbearmulti"
++
++pkg_postrm:${PN} () {
++  if [ -f "${sysconfdir}/dropbear/dropbear_rsa_host_key" ]; then
++        rm ${sysconfdir}/dropbear/dropbear_rsa_host_key
++  fi
++  if [ -f "${sysconfdir}/dropbear/dropbear_dss_host_key" ]; then
++        rm ${sysconfdir}/dropbear/dropbear_dss_host_key
++  fi
++}
++
++CONFFILES:${PN} = "${sysconfdir}/default/dropbear"
++
++FILES:${PN} += "${bindir}"
 -- 
 2.30.2
 
