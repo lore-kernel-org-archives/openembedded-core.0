@@ -1,96 +1,74 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A76ECC00140
-	for <webhook@archiver.kernel.org>; Mon,  8 Aug 2022 13:19:58 +0000 (UTC)
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com
- [209.85.160.53])
- by mx.groups.io with SMTP id smtpd.web08.25127.1659964796044757972
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 866A0C00140
+	for <webhook@archiver.kernel.org>; Mon,  8 Aug 2022 13:20:08 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web12.25442.1659964802854356987
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Aug 2022 06:19:56 -0700
+ Mon, 08 Aug 2022 06:20:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=igdLYKin;
- spf=pass (domain: gmail.com, ip: 209.85.160.53,
- mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f53.google.com with SMTP id
- 586e51a60fabf-10ea30a098bso10474143fac.8
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Aug 2022 06:19:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NJOUIXI2Fn2GQteAo25bzPC2N5X2UEKn62Cf+xNNovU=;
-        b=igdLYKinbQdUcdszJSHCS/pEz7jk0hR40VwuWA/UeDiXqRHBXHcklEbtL8lz3uh4VW
-         PZd3U28mpS1XxS4Z+X/eGp1Idf8104LmO6bUduAnoRgg6irfgMSMDeZmg+9Fv1AipNOB
-         NVFr+b8M0W0O9uiJwjFealUwdVh4S7QMlGRUwL/TS/I3/wAKLrRsBWcrOD/Oov1dUVHR
-         PN6Jv489sTD1LoNbWiMJbOQTP+zTAkoF692n/jqac+K4bn2xV5HuOR2uzlMugItbkQfC
-         j0jTY9gm420gkpmVFCo7IK5EgY8rt3uYJTDR7BeIXIw8pvUD45oYCnL3odCS1aybZT29
-         L3pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NJOUIXI2Fn2GQteAo25bzPC2N5X2UEKn62Cf+xNNovU=;
-        b=fxDiGFEFWUwsy1qTyxctz9YT5hPiCXnstD/zUdnoNROygNTKZZwrpi6qUud6da/OVS
-         qtMW4LhjwzCj2x0Vb+8fsFlrqFThb5i/lkNqhDWY51Y+3n2fzerw2qM4GHOf3ZqPVVwP
-         aMNH+Bt8BmT8vmLKZZlxx22er9j8cExygyqmlYw1UFhxdN8uaRr+YwC0B7TAA30HRiMB
-         kImskdjqQ9JrerSwfdbBcgue5ZPFnUpdOXqRqXsrAsO1mzwpgigfFlPLXAtnlhaY4AiS
-         J/O5khYx7/Al6efoxKVvWEYwdrsfQBiLxbygfccnTwGPrA1Lk18w0dmzkU6OCRDmAWTE
-         C/Rw==
-X-Gm-Message-State: ACgBeo2lFkJzD6yPLBUvcCIPzmt6MNob+5B+uvABstd9OhTTfPU0Geqa
-	yTCSn8A1ngO3B8cLIlxSUY0rLN0JdtA=
-X-Google-Smtp-Source: 
- AA6agR5JGSH33CWaAiMttH+HSdQZFcWvT5zH5u3GqhB3BKnFk13vcFgKQQnC8RMH07hK4Tm+gKOUAQ==
-X-Received: by 2002:a05:6870:c141:b0:10d:ab80:8006 with SMTP id
- g1-20020a056870c14100b0010dab808006mr12301102oad.87.1659964795026;
-        Mon, 08 Aug 2022 06:19:55 -0700 (PDT)
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id
- s23-20020a056808009700b00342e4388468sm853442oic.10.2022.08.08.06.19.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Aug 2022 06:19:54 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: luca.ceresoli@bootlin.com,
-	Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] classes/sanity: De-golf regex
-Date: Mon,  8 Aug 2022 08:19:51 -0500
-Message-Id: <20220808131951.2029559-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.33.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=o/Jr8aAl;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194,
+ mailfrom: luca.ceresoli@bootlin.com)
+Received: from booty (unknown [77.244.183.192])
+	(Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id B2FE54000B;
+	Mon,  8 Aug 2022 13:20:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1659964801;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ySY1ABLaQziUwEjqBw7xj4Snr0SYpt3Vu/mLz8fjDs8=;
+	b=o/Jr8aAlI8HsyIL6Iju9X8hp6FZhpJC4A7dhCQ+qrfEDg1MMS8eQWauX4gsMk+fKxU+gbF
+	3DVvjxHXN3ndbP2/Y47tE7mcw8QEtYzPihiamjaPsoKYCpAiL/KCKg7l/dhtvkzcSVzO4F
+	C4zHNMwLAt+Lop8/qtn/Gfpz+hlPvEBR5f99+ecmfEsGw9ZGo9tqVfnoLM0G2Ioabh4Qyj
+	is5ScvjjLcw1eYcK9huHYgFaW4kw0e7UgNmzqz4BXkMNDtAoa8ma8G3dee6Enkh8z0UedU
+	Bkf3mC2UuKZo+/G/fhL9X4OqZkhiKR80x2DDS4BJDqd0GbENTHoWSJ11aOQX/g==
+Date: Mon, 8 Aug 2022 15:19:59 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Roos, Thomas" <throos@amazon.de>,
+ openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v2] oeqa devtool: Add tests to cover devtool
+ handling of various git URL styles
+Message-ID: <20220808151959.22790acf@booty>
+In-Reply-To: <1659947998632.6878@amazon.de>
+References: <20220804134920.167173-1-throos@amazon.de>
+	<20220808091813.6a467409@booty>
+	<1659947998632.6878@amazon.de>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Aug 2022 13:19:58 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Aug 2022 13:20:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169085
+ https://lists.openembedded.org/g/openembedded-core/message/169086
 
-The regex to match github or gitlab was unnecessarily shortened, which
-prevented them from showing up when grepping.
+Hi Thomas,
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/classes/insane.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, 8 Aug 2022 08:39:59 +0000
+"Roos, Thomas" <throos@amazon.de> wrote:
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 37e10ad850..b66926f540 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -1335,7 +1335,7 @@ def unpack_check_src_uri(pn, d):
-         oe.qa.handle_error("src-uri-bad", "%s: SRC_URI uses PN not BPN" % pn, d)
- 
-     for url in d.getVar("SRC_URI").split():
--        if re.search(r"git(hu|la)b\.com/.+/.+/archive/.+", url):
-+        if re.search(r"(github|gitlab)\.com/.+/.+/archive/.+", url):
-             oe.qa.handle_error("src-uri-bad", "%s: SRC_URI uses unstable GitHub/GitLab archives, convert recipe to use git protocol" % pn, d)
- 
- python do_qa_unpack() {
+> Hi Luca,
+> thank you for this - will update my patch and try with the sendemail.from parameter.
+> The correct procedure will be creating a v3 patch and send as new again?
+
+The correct thing would be to configure your git sendemail.from
+parameter, fix the issues I reported, and send a v3 with those fixed.
+
+Thanks!
+Luca
+
 -- 
-2.33.0
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
