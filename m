@@ -1,164 +1,347 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B0C0C00140
-	for <webhook@archiver.kernel.org>; Mon,  8 Aug 2022 17:39:52 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web08.1476.1659980382165381623
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83D56C00140
+	for <webhook@archiver.kernel.org>; Mon,  8 Aug 2022 18:07:22 +0000 (UTC)
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com
+ [209.85.160.45])
+ by mx.groups.io with SMTP id smtpd.web08.1832.1659982034622490368
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Aug 2022 10:39:42 -0700
+ Mon, 08 Aug 2022 11:07:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=VGM1siHY;
- spf=pass (domain: gmail.com, ip: 209.85.210.179,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f179.google.com with SMTP id d20so8703157pfq.5
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=lLqDw/RV;
+ spf=pass (domain: gmail.com, ip: 209.85.160.45,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-oa1-f45.google.com with SMTP id
+ 586e51a60fabf-1168e046c85so1585648fac.13
         for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Aug 2022 10:39:42 -0700 (PDT)
+ Mon, 08 Aug 2022 11:07:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=LuR7AyUFaL8WYBa3qC3EaPcJmhmg01aOnrBaFzO3lYE=;
-        b=VGM1siHY9MGAsaBS+b7oeqEtJKEzmUZUMvBdBD8K8aJpKZPZfm+yZrwD1shckdLgvq
-         cWU09za2jyMypRQ7MFpsi5AJsgYdZtaJvcIhnN14JE5RsCTSrfF/tkMWYFmL2w/Qw0p1
-         Sx/kBAVbbCg4SefMQL5S1ooKiMlP57sxmBXSgmLseEaKEo59aKbi0JuRZ9uegyh73a+B
-         ufhumZVRvIlten7AiLBYtE4T2XTEnil74iAmUjTZrTUraj6fxwmW8TlWK6uFnt80pI4O
-         c3iXOgCE7M9TSSVs7qn9FE6la+fRs7HXs6OYT/JQsUdjmDP5wTTh4lwjeU/fQRDkg0jh
-         1qEw==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc;
+        bh=OR7o7oq2bP4GVJiA/aa5kwEbaMj4j/tilkpHEKSHplc=;
+        b=lLqDw/RVGVKmDIpuKIUfJlflwRAs57C8rbJnL4b//wBr34cd+eSjryU/qWtdKuRQsw
+         kdDZbcLehiHIIeySRD920AGWlxibRGcdIr6Z46FpZuOZ1FBvUC5G/YYD5Yz/VGecY4zS
+         a5h8dNX0zqsR6l1eLzUs6Dk7EBGk3oXp/2I3ccuS7WygxQ6SrFq+Kv1M4cVUMUzTyUv/
+         X7NvWuHclFCZ6/cT5lX7TBwmNdCJJjm7szL8lwqPDfhsZlcAHD26CItwkuuQM9fnagBB
+         9k4rrH7vzvxkwDfwcobCoy8S4ebJswMi3xaggozKD3zVA0dmXev6tgSJD9BBtV2PzhM6
+         FIgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=LuR7AyUFaL8WYBa3qC3EaPcJmhmg01aOnrBaFzO3lYE=;
-        b=DsYT+d5xpuiDDTPKYMNbm1hyVbrlmeVrjUPMV/2fuMg8ZoxxMdAJO7ftJWXQmy7WT+
-         1NlydT7rK5PltWiDAvJ1ZJrKic6dWXkqJ6/exjX5kaA4VzUk7Btu39QYQb7LxlhVAKYa
-         fa6QlqgrnqZmlWm+Egvl4I4gbrBke6XhuGAH5Ik9Eo8fbK1wl2DZnjmL8zoIfhqtnS4G
-         14yaVCfWKh/LrG3v3YGuxZcoVJGb840f2CiJNwL4GetCKR2bfe/1Szca88nHtYTEPIyN
-         j51MakMp+6I3NpbEZwgokJe8z93F7SosUjEvPRnGA9qfCYpcvYF12/v5N6zqs7HCL01t
-         JtqA==
-X-Gm-Message-State: ACgBeo25cSAonLgagfpYNdT0wvHOnvIDoTQqbfCsUWywtzk28odOI4+V
-	s7/JjJq8hdGFGPKoEH4B7A4=
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=OR7o7oq2bP4GVJiA/aa5kwEbaMj4j/tilkpHEKSHplc=;
+        b=uhTXuZ5+i0ihnb9PLCmM+HEaU1b3mA4p+Yp+bsvsXYRS/qolyk0CZTEOxijyaRVhLj
+         W6mfoD8WlLZ4zc/OU1wbT37uUcMdmp2D4PpNIWLc9g10+wF6nLEC/EzZprMqt3y15ah3
+         H3cEisJSIu6aaCEODv44Z3Jr9v+Cx6vSlPB/Bq61A65copRmTO1K5/ApO3oJNA7K3ae0
+         1UDqOxmYJRhJ7b4npiCKeGINyNoaHKleBtv7rYVP4A/mmezjAVYekBdeLx+DKIAoy5kq
+         p+Rr4mJXZQtFRUjqhapz+gw76FtZCcKBC/CifBsGHQbJ42oNRopFnK2NzYLZJxmWLzkr
+         tVJw==
+X-Gm-Message-State: ACgBeo1FcYw344YTM4q9UNJrsfbUU+R1N5eSWQTMyltCNA+BO3NvLa0J
+	dhppnmfzaLIG8K1vdmN7tNDWyaQHF2+ehDzCFPM=
 X-Google-Smtp-Source: 
- AA6agR7177lAghZ8rspWgZ69onhywEyRDljYmjfpJZy9iWDf1JH3SQx/1ZIAbHPBkdyucbfDZjEJWA==
-X-Received: by 2002:a63:d117:0:b0:41a:f0ee:f194 with SMTP id
- k23-20020a63d117000000b0041af0eef194mr15685676pgg.588.1659980381482;
-        Mon, 08 Aug 2022 10:39:41 -0700 (PDT)
-Received: from ?IPV6:2601:646:9200:a0f0:f9ab:8bd3:9e60:d783?
- ([2601:646:9200:a0f0:f9ab:8bd3:9e60:d783])
-        by smtp.gmail.com with ESMTPSA id
- b6-20020a655786000000b0041d9e78de05sm1453769pgr.73.2022.08.08.10.39.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Aug 2022 10:39:40 -0700 (PDT)
-Message-ID: <c5feaf04-72c9-239c-2f79-03dd56cb5df0@gmail.com>
-Date: Mon, 8 Aug 2022 10:39:39 -0700
+ AA6agR7ZDhs037AUdzrEOP+GMKOlRiayrLkzQ/JyVG0h4C2beNH3KkiJy4z9a5Li6pVzzJZrWROKAIJ90nxWKXSRIrc=
+X-Received: by 2002:a05:6870:d29d:b0:10e:747b:f87b with SMTP id
+ d29-20020a056870d29d00b0010e747bf87bmr12478888oae.6.1659982033703; Mon, 08
+ Aug 2022 11:07:13 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.1.1
-Subject: Re: [OE-core] [PATCH v2 44/44] weston: upgrade 10.0.1 -> 10.0.2
-Content-Language: en-US
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
- openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-References: <20220808064237.3975347-1-alex@linutronix.de>
- <20220808064237.3975347-44-alex@linutronix.de>
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20220808064237.3975347-44-alex@linutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <cover.1659653543.git.bruce.ashfield@gmail.com>
+ <22bce10c2755711b42b7a3bd0ce61705961c2552.camel@linuxfoundation.org>
+ <CAMKF1so-jgN+m7a4-zuv-W7JkskEj2AYvFwM+jb84CtT0WZe1g@mail.gmail.com>
+In-Reply-To: 
+ <CAMKF1so-jgN+m7a4-zuv-W7JkskEj2AYvFwM+jb84CtT0WZe1g@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 8 Aug 2022 14:07:01 -0400
+Message-ID: 
+ <CADkTA4OvLtGcSP94xz_XdMXSTUMZ36LEeGF3graEU885huSnnQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 00/13] kernel-yocto: consolidated pull request
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Aug 2022 17:39:52 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Aug 2022 18:07:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169110
+ https://lists.openembedded.org/g/openembedded-core/message/169111
+
+On Mon, Aug 8, 2022 at 12:14 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> Hi Bruce
+>
+> 5.19 has issues with zfs see [1], it seem zfs is not yet working well
+> with 5.19 I see this message
+>
+> | checking whether blk_queue_discard() is available... configure: error:
+> |       *** None of the expected "blk_queue_discard" interfaces were dete=
+cted.
+> |       *** This may be because your kernel version is newer than what is
+> |       *** supported, or you are using a patched custom kernel with
+> |       *** incompatible modifications.
+> |       ***
+> |       *** ZFS Version: zfs-2.1.4-1
+> |       *** Compatible Kernels: 3.10 - 5.17
+> |
+>
+> There is another failure in audit, but its not clear yet if its due to
+> kernel 5.19 or something else
+>
+> | audit_wrap.c: In function '_wrap_audit_rule_data_buf_set':
+> | audit_wrap.c:4701:17: error: cast specifies array type
+> |  4701 |     arg1->buf =3D (char [])(char
+> *)memcpy(malloc((size)*sizeof(char)), (const char *)(arg2),
+> sizeof(char)*(size));
+> |       |                 ^
+> | audit_wrap.c:4701:15: error: invalid use of flexible array member
+> |  4701 |     arg1->buf =3D (char [])(char
+> *)memcpy(malloc((size)*sizeof(char)), (const char *)(arg2),
+> sizeof(char)*(size));
+> |       |               ^
+> | audit_wrap.c:4703:15: error: invalid use of flexible array member
+> |  4703 |     arg1->buf =3D 0;
+> |       |               ^
+>
+>
+
+audit looks like it has been broken since about 5.17:
+
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D1010289
+
+I'm checking to see how debian fixed it, as we don't want to hack the
+kernel headers like was referenced in that bug.
+
+Bruce
+
+> [1] https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/188=
+8
+>
+> On Mon, Aug 8, 2022 at 12:38 AM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > Hi Bruce,
+> >
+> > On Thu, 2022-08-04 at 18:57 -0400, bruce.ashfield@gmail.com wrote:
+> > > As I mentioned earlier today, I've built and booted the 5.19 kernel
+> > > on all architectures, have run core-iamge-kernel-dev, core-image-sato
+> > > and validated musl.
+> > >
+> > > At this point, we need wider coverage to scare out the remaining
+> > > gremlins.
+> > >
+> > > I'm also sending update to 5.10 and 5.15 in the pull request, since
+> > > these are the retbleed stable updates, and I didn't want to sit on
+> > > them any longer. These are of course independenct of the 5.19 work.
+> > >
+> > > I found one issue with vboxguestdrivers in meta-oe agains the new
+> > > kernel/headers, and I've sent a patch to that mailing list. I also
+> > > had to fix lttng-modules (as usual) and have sent a patch to that
+> > > mailing list as well.
+> > >
+> > > devsrc needed a few tweaks as well, and they are included in the
+> > > series.
+> > >
+> > > Note: I've mixed in the poky / meta-yocto patches as part of this
+> > > pull request, just for ease of sending it for wider testing and to
+> > > see if I missed any references to 5.10 or have left any else
+> > > dangling.
+> >
+> > We've had a few autobuilder issues but I did run this through with
+> > other changes. The logs were a mess but I think I see three issues
+> > which are likely kernel related. The first kernel module issue happened
+> > a lot, the other two were more isolated to oe-selftest or a single
+> > failure.
+> >
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/4999/=
+steps/16/logs/stdio
+> >
+> > RESULTS - kernelmodule.KernelModuleTest.test_kernel_module: FAILED (19.=
+47s)
+> >
+> > Traceback (most recent call last):
+> >   File "/home/pokybuild/yocto-worker/qemuarm64-armhost/build/meta/lib/o=
+eqa/core/decorator/__init__.py", line 35, in wrapped_f
+> >     return func(*args, **kwargs)
+> >   File "/home/pokybuild/yocto-worker/qemuarm64-armhost/build/meta/lib/o=
+eqa/core/decorator/__init__.py", line 35, in wrapped_f
+> >     return func(*args, **kwargs)
+> >   File "/home/pokybuild/yocto-worker/qemuarm64-armhost/build/meta/lib/o=
+eqa/core/decorator/__init__.py", line 35, in wrapped_f
+> >     return func(*args, **kwargs)
+> >   [Previous line repeated 2 more times]
+> >   File "/home/pokybuild/yocto-worker/qemuarm64-armhost/build/meta/lib/o=
+eqa/runtime/cases/kernelmodule.py", line 46, in test_kernel_module
+> >     self.assertEqual(status, 0, msg=3D'\n'.join([cmd, output]))
+> > AssertionError: 2 !=3D 0 : cd /tmp && make
+> > make -C /usr/src/kernel M=3D/tmp modules
+> > make[1]: Entering directory '/lib/modules/5.19.0-yocto-standard/build'
+> > /bin/sh: -c: line 1: syntax error near unexpected token `('
+> > /bin/sh: -c: line 1: `if [ "gcc (GCC) 12.1.0" !=3D ""aarch64-poky-linux=
+-gcc (GCC) 12.1.0"" ]; then \'
+> > make[1]: Leaving directory '/lib/modules/5.19.0-yocto-standard/build'
+> > make[1]: *** [Makefile:1728: prepare] Error 2
+> > make: *** [Makefile:5: all] Error 2
+> >
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/3948/=
+steps/15/logs/stdio
+> >
+> >  runtime_test.TestImage.test_testimage_virgl_gtk_sdl (subunit.RemotedTe=
+stCase)
+> > 2022-08-08 02:08:41,717 - oe-selftest - INFO -  ... FAIL
+> >
+> > Traceback (most recent call last):
+> >   File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/=
+oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+> >     return func(*args, **kwargs)
+> >   File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-=
+645516/meta-selftest/lib/oeqa/runtime/cases/virgl.py", line 17, in test_kms=
+cube
+> >     self.assertEqual(status, 0, "kmscube exited with non-zero status %d=
+ and output:\n%s" %(status, output))
+> > AssertionError: 234 !=3D 0 : kmscube exited with non-zero status 234 an=
+d output:
+> > Using display 0x55f5ecf4d920 with EGL version 1.4
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > EGL information:
+> >   version: "1.4"
+> >   vendor: "Mesa Project"
+> >   client extensions: "EGL_EXT_client_extensions EGL_EXT_device_base EGL=
+_EXT_device_enumeration EGL_EXT_device_query EGL_EXT_platform_base EGL_KHR_=
+client_get_all_proc_addresses EGL_KHR_debug EGL_EXT_platform_device EGL_EXT=
+_platform_wayland EGL_KHR_platform_wayland EGL_EXT_platform_x11 EGL_KHR_pla=
+tform_x11 EGL_MESA_platform_xcb EGL_MESA_platform_gbm EGL_KHR_platform_gbm =
+EGL_MESA_platform_surfaceless"
+> >   display extensions: "EGL_ANDROID_blob_cache EGL_ANDROID_native_fence_=
+sync EGL_EXT_buffer_age EGL_EXT_image_dma_buf_import EGL_EXT_image_dma_buf_=
+import_modifiers EGL_KHR_cl_event2 EGL_KHR_config_attribs EGL_KHR_create_co=
+ntext EGL_KHR_create_context_no_error EGL_KHR_fence_sync EGL_KHR_get_all_pr=
+oc_addresses EGL_KHR_gl_colorspace EGL_KHR_gl_renderbuffer_image EGL_KHR_gl=
+_texture_2D_image EGL_KHR_gl_texture_3D_image EGL_KHR_gl_texture_cubemap_im=
+age EGL_KHR_image EGL_KHR_image_base EGL_KHR_image_pixmap EGL_KHR_no_config=
+_context EGL_KHR_reusable_sync EGL_KHR_surfaceless_context EGL_EXT_pixel_fo=
+rmat_float EGL_KHR_wait_sync EGL_MESA_configless_context EGL_MESA_drm_image=
+ EGL_MESA_image_dma_buf_export EGL_MESA_query_driver EGL_WL_bind_wayland_di=
+splay "
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > OpenGL ES 2.x information:
+> >   version: "OpenGL ES 3.2 Mesa 22.1.3"
+> >   shading language version: "OpenGL ES GLSL ES 3.20"
+> >   vendor: "Mesa/X.org"
+> >   renderer: "virgl"
+> >   extensions: "GL_EXT_blend_minmax GL_EXT_multi_draw_arrays GL_EXT_text=
+ure_compression_s3tc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compres=
+sion_rgtc GL_EXT_texture_format_BGRA8888 GL_OES_compressed_ETC1_RGB8_textur=
+e GL_OES_depth24 GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_=
+mapbuffer GL_OES_rgb8_rgba8 GL_OES_standard_derivatives GL_OES_stencil8 GL_=
+OES_texture_3D GL_OES_texture_float GL_OES_texture_float_linear GL_OES_text=
+ure_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_=
+vertex_half_float GL_EXT_draw_instanced GL_EXT_texture_sRGB_decode GL_OES_E=
+GL_image GL_OES_depth_texture GL_OES_packed_depth_stencil GL_EXT_texture_ty=
+pe_2_10_10_10_REV GL_NV_conditional_render GL_OES_get_program_binary GL_APP=
+LE_texture_max_level GL_EXT_discard_framebuffer GL_EXT_read_format_bgra GL_=
+NV_pack_subimage GL_EXT_frag_depth GL_NV_fbo_color_attachments GL_OES_EGL_i=
+mage_external GL_OES_EGL_sync GL_OES_vertex_array_object GL_OES_viewport_ar=
+ray GL_ANGLE_pack_reverse_row_order GL_ANGLE_texture_compression_dxt3 GL_AN=
+GLE_texture_compression_dxt5 GL_EXT_occlusion_query_boolean GL_EXT_robustne=
+ss GL_EXT_texture_rg GL_EXT_unpack_subimage GL_NV_draw_buffers GL_NV_read_b=
+uffer GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_EXT_d=
+raw_buffers GL_EXT_map_buffer_range GL_KHR_debug GL_KHR_robustness GL_KHR_t=
+exture_compression_astc_ldr GL_NV_pixel_buffer_object GL_OES_depth_texture_=
+cube_map GL_OES_required_internalformat GL_OES_surfaceless_context GL_EXT_c=
+olor_buffer_float GL_EXT_sRGB_write_control GL_EXT_separate_shader_objects =
+GL_EXT_shader_implicit_conversions GL_EXT_shader_integer_mix GL_EXT_tessell=
+ation_point_size GL_EXT_tessellation_shader GL_ANDROID_extension_pack_es31a=
+ GL_EXT_base_instance GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_copy_i=
+mage GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_gp=
+u_shader5 GL_EXT_polygon_offset_clamp GL_EXT_primitive_bounding_box GL_EXT_=
+render_snorm GL_EXT_shader_io_blocks GL_EXT_texture_border_clamp GL_EXT_tex=
+ture_buffer GL_EXT_texture_cube_map_array GL_EXT_texture_norm16 GL_EXT_text=
+ure_view GL_KHR_blend_equation_advanced GL_KHR_context_flush_control GL_KHR=
+_robust_buffer_access_behavior GL_NV_image_formats GL_OES_copy_image GL_OES=
+_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_gpu_shader5 G=
+L_OES_primitive_bounding_box GL_OES_sample_shading GL_OES_sample_variables =
+GL_OES_shader_io_blocks GL_OES_shader_multisample_interpolation GL_OES_tess=
+ellation_point_size GL_OES_tessellation_shader GL_OES_texture_border_clamp =
+GL_OES_texture_buffer GL_OES_texture_cube_map_array GL_OES_texture_stencil8=
+ GL_OES_texture_storage_multisample_2d_array GL_OES_texture_view GL_EXT_ble=
+nd_func_extended GL_EXT_float_blend GL_EXT_geometry_point_size GL_EXT_geome=
+try_shader GL_EXT_texture_sRGB_R8 GL_KHR_no_error GL_KHR_texture_compressio=
+n_astc_sliced_3d GL_OES_EGL_image_external_essl3 GL_OES_geometry_point_size=
+ GL_OES_geometry_shader GL_OES_shader_image_atomic GL_EXT_clear_texture GL_=
+EXT_clip_cull_distance GL_EXT_disjoint_timer_query GL_EXT_texture_compressi=
+on_s3tc_srgb GL_MESA_shader_integer_functions GL_EXT_clip_control GL_EXT_co=
+lor_buffer_half_float GL_EXT_texture_compression_bptc GL_EXT_texture_mirror=
+_clamp_to_edge GL_KHR_parallel_shader_compile GL_EXT_EGL_image_storage GL_M=
+ESA_framebuffer_flip_y GL_EXT_depth_clamp GL_EXT_texture_query_lod GL_MESA_=
+bgra "
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > Using modifier ffffffffffffff
+> > failed to set mode: Invalid argument
+> >
+> >
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/5569/=
+steps/12/logs/stdio
+> >
+> > x32 init issue:
+> >
+> > [    6.250566] Run /etc/init as init process
+> > [    6.251951] Run /bin/init as init process
+> > [    6.253182] Run /bin/sh as init process
+> > [    6.258191] request_module: kmod_concurrent_max (0) close to 0
+> > (max_modprobes: 50), for module binfmt-464c, throttling...
+> > [   11.363516] request_module: modprobe binfmt-464c cannot be
+> > processed, kmod busy with 50 threads for more than 5 seconds now
+> > [   11.366573] Starting init: /bin/sh exists but couldn't execute it
+> > (error -8)
+> > [   11.369043] Kernel panic - not syncing: No working init found.  Try
+> > passing init=3D option to kernel. See Linux Documentation/admin-
+> > guide/init.rst for guidance.
+> > [   11.371040] CPU: 1 PID: 1 Comm: swapper/0 Not tainted 5.19.0-yocto-
+> > standard #1
+> > [   11.372059] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS
+> > rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014
+> > [   11.373541] Call Trace:
+> > [   11.373905]  <TASK>
+> > [   11.374221]  dump_stack_lvl+0x3a/0x50
+> > [   11.374754]  dump_stack+0x10/0x16
+> > [   11.375223]  panic+0x113/0x283
+> > [   11.375684]  ? rest_init+0xc0/0xc0
+> > [   11.376154]  kernel_init+0x127/0x130
+> > [   11.376630]  ret_from_fork+0x22/0x30
+> > [   11.377120]  </TASK>
+> > [   11.377532] Kernel Offset: 0xf600000 from 0xffffffff81000000
+> > (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
+> > [   11.378972] ---[ end Kernel panic - not syncing: No working init
+> > found.  Try passing init=3D option to kernel. See Linux
+> > Documentation/admin-guide/init.rst for guidance. ]---
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+> >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#169070): https://lists.openembedded.org/g/openembed=
+ded-core/message/169070
+> > Mute This Topic: https://lists.openembedded.org/mt/92824833/1997914
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+raj.khem@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
 
 
 
-On 8/7/22 11:42 PM, Alexander Kanavin wrote:
-> Drop dont-use-plane-add-prop.patch as issue is fixed elsewhere
-> (see the link in the patch).
-> 
-
-I think this needs some verification if this implied patch really fixes 
-the problem. I will see if I can test it out in coming week.
-
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->   .../weston/dont-use-plane-add-prop.patch      | 32 -------------------
->   .../{weston_10.0.1.bb => weston_10.0.2.bb}    |  4 +--
->   2 files changed, 1 insertion(+), 35 deletions(-)
->   delete mode 100644 meta/recipes-graphics/wayland/weston/dont-use-plane-add-prop.patch
->   rename meta/recipes-graphics/wayland/{weston_10.0.1.bb => weston_10.0.2.bb} (97%)
-> 
-> diff --git a/meta/recipes-graphics/wayland/weston/dont-use-plane-add-prop.patch b/meta/recipes-graphics/wayland/weston/dont-use-plane-add-prop.patch
-> deleted file mode 100644
-> index 1ac0695222..0000000000
-> --- a/meta/recipes-graphics/wayland/weston/dont-use-plane-add-prop.patch
-> +++ /dev/null
-> @@ -1,32 +0,0 @@
-> -From ece4c3d261aeec230869c0304ed1011ff6837c16 Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Sat, 12 Sep 2020 14:04:04 -0700
-> -Subject: [PATCH] Fix atomic modesetting with musl
-> -
-> -atomic modesetting seems to fail with drm weston backend and this patch fixes
-> -it, below errors are seen before weston exits
-> -
-> -atomic: couldn't commit new state: Invalid argument
-> -
-> -Upstream-Status: Submitted [https://gitlab.freedesktop.org/wayland/weston/-/issues/158]
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -
-> ----
-> - libweston/backend-drm/kms.c | 4 ++--
-> - 1 file changed, 2 insertions(+), 2 deletions(-)
-> -
-> -diff --git a/libweston/backend-drm/kms.c b/libweston/backend-drm/kms.c
-> -index 780d007..9994da1 100644
-> ---- a/libweston/backend-drm/kms.c
-> -+++ b/libweston/backend-drm/kms.c
-> -@@ -1142,8 +1142,8 @@ drm_pending_state_apply_atomic(struct drm_pending_state *pending_state,
-> - 		wl_list_for_each(plane, &b->plane_list, link) {
-> - 			drm_debug(b, "\t\t[atomic] starting with plane %lu disabled\n",
-> - 				  (unsigned long) plane->plane_id);
-> --			plane_add_prop(req, plane, WDRM_PLANE_CRTC_ID, 0);
-> --			plane_add_prop(req, plane, WDRM_PLANE_FB_ID, 0);
-> -+			//plane_add_prop(req, plane, WDRM_PLANE_CRTC_ID, 0);
-> -+			//plane_add_prop(req, plane, WDRM_PLANE_FB_ID, 0);
-> - 		}
-> -
-> - 		flags |= DRM_MODE_ATOMIC_ALLOW_MODESET;
-> diff --git a/meta/recipes-graphics/wayland/weston_10.0.1.bb b/meta/recipes-graphics/wayland/weston_10.0.2.bb
-> similarity index 97%
-> rename from meta/recipes-graphics/wayland/weston_10.0.1.bb
-> rename to meta/recipes-graphics/wayland/weston_10.0.2.bb
-> index e27dac164e..f81a33fd1e 100644
-> --- a/meta/recipes-graphics/wayland/weston_10.0.1.bb
-> +++ b/meta/recipes-graphics/wayland/weston_10.0.2.bb
-> @@ -13,9 +13,7 @@ SRC_URI = "https://gitlab.freedesktop.org/wayland/weston/-/releases/${PV}/downlo
->              file://systemd-notify.weston-start \
->              "
->   
-> -SRC_URI:append:libc-musl = " file://dont-use-plane-add-prop.patch "
-> -
-> -SRC_URI[sha256sum] = "8a9e52506a865a7410981b04f8341b89b84106db8531ab1f9fdd37b5dc034115"
-> +SRC_URI[sha256sum] = "89646ca0d9f8d413c2767e5c3828eaa3fa149c2a105b3729a6894fa7cf1549e7"
->   
->   UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
->   
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#169068): https://lists.openembedded.org/g/openembedded-core/message/169068
-> Mute This Topic: https://lists.openembedded.org/mt/92887040/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
