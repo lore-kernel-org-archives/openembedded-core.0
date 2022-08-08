@@ -1,208 +1,199 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <yogesh.tyagi@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9224C19F2A
-	for <webhook@archiver.kernel.org>; Mon,  8 Aug 2022 00:45:34 +0000 (UTC)
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
- [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web09.19913.1659919529232967042
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6AFFC00140
+	for <webhook@archiver.kernel.org>; Mon,  8 Aug 2022 04:21:55 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by mx.groups.io with SMTP id smtpd.web11.21783.1659932512498240378
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Aug 2022 17:45:29 -0700
+ Sun, 07 Aug 2022 21:21:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=PqSvEB1D;
- spf=pass (domain: gmail.com, ip: 209.85.215.170,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f170.google.com with SMTP id f65so7244339pgc.12
-        for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Aug 2022 17:45:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=csi8DwrB3k/txh2CZdQ/xHpJdpQMnh+NdWBEtDm0N3s=;
-        b=PqSvEB1DBG8dwzf1YeRiFWip5Nal6P2gbRLq+TcwyJf+y/9Q3FW4avAXl3mkW60Jsw
-         ates+1S6FW76k7N/7zXhbzudPhyrBZYKEigc/1XClFjNEuZTKa3Ezt8YvdwMGA1yX+od
-         FkJMAu+a98OOhY0A2RHBQjuCEjbOnkzkeUZ616dDQTiH/MS8pfv4ZeA1+fXdoJMmpq5J
-         f9IyZX6XIEdGJA00G5j4MR8t86nn9ixLesN/wAM00BGyrXX8y/0fBrsR93eex0ASslre
-         0mUelF5rEOxgUTi1L4Xi/UdJuNopwy2RBuflAA24hq5LECW60lwFtgBgKwj67ym2TzK5
-         tG5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=csi8DwrB3k/txh2CZdQ/xHpJdpQMnh+NdWBEtDm0N3s=;
-        b=ORMVbEmZl+K+W+/fue5k25NP4FG6XgdhYZ3P73wLpvItMq8SSu8Jd0JaG5VNc35zFC
-         Rohi1PlQpstNEZIp+/X++PKwLuv4aRDvu2yI39CYzSe9UDrDafGRJvaqEN1hQs1oViD0
-         GNilrsoRO/XNP24k8vxR6sJmPDbvUmZ3dpcuJ5IN1dz7xoRaKLn+zmhzrb0WeyIguLNf
-         y6SlICKHoqmkvtETVhucB7P8yjNGosqdSpZjIQJa4aSRtnjoZG6oDCHHurrXoXl+a2x1
-         SY6VDhonTfExgPKEXG2/vZQSWTVfCH96Tsa6B1lI4yhRX3Hnu/yNrNc/JELRmMjo6VXv
-         KZoQ==
-X-Gm-Message-State: ACgBeo0HXf+coz/7dNyBj9VCfuBYfktmPUyW90TIuA5rlNg8Q1Azkbpq
-	g8PM08JZ+sXlYDvUDde056ApzB8cnqM=
-X-Google-Smtp-Source: 
- AA6agR5//p5MIc0MYIsGeF2fVjQTZAVSCOq7typDckBH2Gnxq7O+Ni1mYiz7D1Hj421uM78kWLPOjA==
-X-Received: by 2002:a63:5a58:0:b0:41c:7d4c:8fd5 with SMTP id
- k24-20020a635a58000000b0041c7d4c8fd5mr14177827pgm.92.1659919528158;
-        Sun, 07 Aug 2022 17:45:28 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::9f45])
-        by smtp.gmail.com with ESMTPSA id
- z5-20020a170902d54500b0016d338160d6sm7109053plf.155.2022.08.07.17.45.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Aug 2022 17:45:27 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=DWEjpN+r;
+ spf=pass (domain: intel.com, ip: 134.134.136.126,
+ mailfrom: yogesh.tyagi@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1659932512; x=1691468512;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=fP7EB2BYGaxbT48QgHyFe5PDkiLp+S5b+HzAt75joOQ=;
+  b=DWEjpN+rn75ufrl1H3c3OWgJd8SJHx2RLPjM6uPSEJMvw3DxFuPTdMe8
+   GHrDCesQEWcIxkkaAha6a4gfSoQ37Usv7oBqI/eweH9aybVQnd0ginsFY
+   NAtLLgtXLFDils1hS6iLLmz+A8zjzdh5RLJuy1IyC54bpxDai5itdNoPA
+   d4H47Z/g/XpyirEQ22cvPHNcFAB9KXxC+kb6AIJZfgyCmkFkI3+DlbKxs
+   U+JekYJ+Ml5+/ECHom8pxtQ20Wk0gtxrwPeQDjv9RGmZuM3crDD5pewLg
+   OY1T2n6ZqM9Llwb4T1eC3JPyNP5dfWUobWvvKUG7NMMlKSi5Tc1UrAeAG
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10432"; a="273546787"
+X-IronPort-AV: E=Sophos;i="5.93,221,1654585200";
+   d="scan'208";a="273546787"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Aug 2022 21:21:51 -0700
+X-IronPort-AV: E=Sophos;i="5.93,221,1654585200";
+   d="scan'208";a="632721994"
+Received: from andromeda02.png.intel.com ([10.221.253.198])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
+ 07 Aug 2022 21:21:50 -0700
+From: Yogesh Tyagi <yogesh.tyagi@intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] tcp-wrappers: Fix implicit-function-declaration warnings
-Date: Sun,  7 Aug 2022 17:45:25 -0700
-Message-Id: <20220808004525.1909493-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.37.1
+Subject: [PATCH] gdbserver : add selftest
+Date: Mon,  8 Aug 2022 12:21:40 +0800
+Message-Id: <20220808042140.12374-1-yogesh.tyagi@intel.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Aug 2022 00:45:34 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Aug 2022 04:21:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169010
+ https://lists.openembedded.org/g/openembedded-core/message/169011
 
-This is seen with clang-15+
+The test runs gdbserver on qemu and connects the gdb client from host over TCP.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+It builds a cross gdb on the host and compiles the program to be debugged on the target,
+launches the gdbserver and tries to connect cross gdb to it.
+
+[YOCTO #13996]
+
+Signed-off-by: Yogesh Tyagi <yogesh.tyagi@intel.com>
 ---
- ...plicit-function-declaration-warnings.patch | 109 ++++++++++++++++++
- .../tcp-wrappers/tcp-wrappers_7.6.bb          |   1 +
- 2 files changed, 110 insertions(+)
- create mode 100644 meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-implicit-function-declaration-warnings.patch
+ meta/lib/oeqa/selftest/cases/gdbserver.py | 122 ++++++++++++++++++++++
+ 1 file changed, 122 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/cases/gdbserver.py
 
-diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-implicit-function-declaration-warnings.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-implicit-function-declaration-warnings.patch
+diff --git a/meta/lib/oeqa/selftest/cases/gdbserver.py b/meta/lib/oeqa/selftest/cases/gdbserver.py
 new file mode 100644
-index 00000000000..ec793ac8ffe
+index 0000000000..2c733a1342
 --- /dev/null
-+++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-implicit-function-declaration-warnings.patch
-@@ -0,0 +1,109 @@
-+From 9c97b5db237a793e0d1b6b0241570bdc6e35ee24 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 7 Aug 2022 17:42:24 -0700
-+Subject: [PATCH] Fix implicit-function-declaration warnings
++++ b/meta/lib/oeqa/selftest/cases/gdbserver.py
+@@ -0,0 +1,122 @@
++# SPDX-License-Identifier: MIT
++#
++import os
++from subprocess import Popen, PIPE
++import threading
++import time
 +
-+These are seen with clang-15+
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars, runqemu , runCmd
++from oeqa.core.exception import OEQATimeoutError
 +
-+Upstream-Status: Inappropriate [upstream is dead]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ hosts_access.c | 3 +++
-+ safe_finger.c  | 1 +
-+ shell_cmd.c    | 3 +++
-+ tcpd.c         | 2 +-
-+ tcpdchk.c      | 1 +
-+ workarounds.c  | 1 +
-+ 6 files changed, 10 insertions(+), 1 deletion(-)
 +
-+diff --git a/hosts_access.c b/hosts_access.c
-+index 0133e5e..58697ea 100644
-+--- a/hosts_access.c
-++++ b/hosts_access.c
-+@@ -33,6 +33,7 @@ static char sccsid[] = "@(#) hosts_access.c 1.21 97/02/12 02:13:22";
-+ #endif
-+ #include <netinet/in.h>
-+ #include <arpa/inet.h>
-++#include <rpcsvc/ypclnt.h>
-+ #include <stdio.h>
-+ #include <stdlib.h>
-+ #include <syslog.h>
-+@@ -45,6 +46,8 @@ static char sccsid[] = "@(#) hosts_access.c 1.21 97/02/12 02:13:22";
-+ #endif
-+ 
-+ extern int errno;
-++extern int match_pattern_ylo(const char *s, const char *pattern);
-++extern unsigned long cidr_mask_addr(char* str);
-+ 
-+ #ifndef	INADDR_NONE
-+ #define	INADDR_NONE	(-1)		/* XXX should be 0xffffffff */
-+diff --git a/safe_finger.c b/safe_finger.c
-+index 23afab1..a6458fb 100644
-+--- a/safe_finger.c
-++++ b/safe_finger.c
-+@@ -34,6 +34,7 @@ static char sccsid[] = "@(#) safe_finger.c 1.4 94/12/28 17:42:41";
-+ #include <syslog.h>
-+ 
-+ extern void exit();
-++extern int pipe_stdin(char  **argv);
-+ 
-+ /* Local stuff */
-+ 
-+diff --git a/shell_cmd.c b/shell_cmd.c
-+index 62d31bc..a566092 100644
-+--- a/shell_cmd.c
-++++ b/shell_cmd.c
-+@@ -16,10 +16,13 @@ static char sccsid[] = "@(#) shell_cmd.c 1.5 94/12/28 17:42:44";
-+ 
-+ #include <sys/types.h>
-+ #include <sys/param.h>
-++#include <sys/wait.h>
-++#include <fcntl.h>
-+ #include <signal.h>
-+ #include <stdio.h>
-+ #include <syslog.h>
-+ #include <string.h>
-++#include <unistd.h>
-+ 
-+ extern void exit();
-+ 
-+diff --git a/tcpd.c b/tcpd.c
-+index dc9ff17..4353caa 100644
-+--- a/tcpd.c
-++++ b/tcpd.c
-+@@ -46,7 +46,7 @@ void fix_options(struct request_info *);
-+ int     allow_severity = SEVERITY;	/* run-time adjustable */
-+ int     deny_severity = LOG_WARNING;	/* ditto */
-+ 
-+-main(argc, argv)
-++void main(argc, argv)
-+ int     argc;
-+ char  **argv;
-+ {
-+diff --git a/tcpdchk.c b/tcpdchk.c
-+index 5dca8bd..67c12ce 100644
-+--- a/tcpdchk.c
-++++ b/tcpdchk.c
-+@@ -38,6 +38,7 @@ static char sccsid[] = "@(#) tcpdchk.c 1.8 97/02/12 02:13:25";
-+ 
-+ extern int errno;
-+ extern void exit();
-++extern unsigned long cidr_mask_addr(char* str);
-+ extern int optind;
-+ extern char *optarg;
-+ 
-+diff --git a/workarounds.c b/workarounds.c
-+index b22b378..6335049 100644
-+--- a/workarounds.c
-++++ b/workarounds.c
-+@@ -21,6 +21,7 @@ char    sccsid[] = "@(#) workarounds.c 1.6 96/03/19 16:22:25";
-+ #include <stdio.h>
-+ #include <syslog.h>
-+ #include <string.h>
-++#include <unistd.h>
-+ 
-+ extern int errno;
-+ 
-+-- 
-+2.37.1
++#The test runs gdbserver on qemu and connects the gdb client from host over TCP.
++#
++#It builds a cross gdb on the host and compiles the program to be debugged on the target,
++#launches the gdbserver and tries to connect cross gdb to it.
 +
-diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-index 814d7fd9139..8137d257c82 100644
---- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-+++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-@@ -50,6 +50,7 @@ SRC_URI = "http://ftp.porcupine.org/pub/security/tcp_wrappers_${PV}.tar.gz \
-            file://fix_warnings.patch \
-            file://fix_warnings2.patch \
-            file://0001-Remove-fgets-extern-declaration.patch \
-+           file://0001-Fix-implicit-function-declaration-warnings.patch \
-            "
- 
- SRC_URI[md5sum] = "e6fa25f71226d090f34de3f6b122fb5a"
++
++class GdbTest(OESelftestTestCase):
++
++    def run_gdb(self, native_sysroot=None, **options):
++        # Add path to cross gdb to environment.
++        extra_paths = "%s/usr/bin/%s" % (self.recipe_sysroot_native, self.target_sys)
++        nenv = dict(options.get('env', os.environ))
++        nenv['PATH'] = extra_paths + ':' + nenv.get('PATH', '')
++        options['env'] = nenv
++
++        for count in range(5):
++            # Let the gdb server start before by putting client thread to sleep.
++            # Still, if gdb client happens to start before gdbserver, if will
++            # return "gdb connection timed out". In that case try
++            # connecting again
++            time.sleep(1)
++            cmd = "%s-gdb -ex 'set sysroot %s' -ex \"target remote %s:%s\" -ex continue -ex quit %s" \
++                       %(self.target_sys, self.recipe_sysroot_native, self.qemu_ip, self.gdbserver_port, self.binary)
++            r = runCmd(cmd, native_sysroot=self.recipe_sysroot_native, **options)
++            if "Connection timed out" not in r.output:
++                break
++            if count == 4:
++                self.assertTrue(False, "gdb unable to connect to gdbserver")
++
++    def run_gdb_client(self):
++        self.run_gdb(native_sysroot=self.recipe_sysroot_native, ignore_status=False)
++
++    def test_gdb_server(self):
++        self.target_dst = "/tmp/"
++        self.source  = "test.c"
++        self.binary  = "test"
++        self.target_source = self.target_dst + self.source
++        self.target_binary = self.target_dst + self.binary
++        self.gdbserver_port = 2001
++
++        try:
++            # These aren't the actual IP addresses but testexport class needs something defined
++            features  = 'TEST_SERVER_IP = "192.168.7.1"\n'
++            features += 'TEST_TARGET_IP = "192.168.7.2"\n'
++            features += 'EXTRA_IMAGE_FEATURES += "ssh-server-openssh"\n'
++            features += 'CORE_IMAGE_EXTRA_INSTALL += "gdbserver packagegroup-core-buildessential"\n'
++            self.write_config(features)
++
++            self.target_arch = get_bb_var('TARGET_ARCH')
++            self.target_sys  = get_bb_var('TARGET_SYS')
++
++            recipe = "gdb-cross-%s" %self.target_arch
++            gdb_cross_bitbake_command = "%s -c addto_recipe_sysroot" %recipe
++
++            bitbake(gdb_cross_bitbake_command)
++
++            self.recipe_sysroot_native = get_bb_var('RECIPE_SYSROOT_NATIVE', recipe)
++
++            bitbake('core-image-minimal')
++
++            self.cross_gdb_name = "%s-gdb" %self.target_sys
++
++            # wrap the execution with a qemu instance
++            with runqemu("core-image-minimal", runqemuparams = "nographic") as qemu:
++                status, target_gcc = qemu.run_serial("which gcc")
++
++                self.assertNotEqual(target_gcc, None, 'gcc not found on the target')
++
++                self.qemu_ip = qemu.ip
++
++                # self.tc.files_dir = meta/lib/oeqa/files
++                src = os.path.join(self.tc.files_dir, 'test.c')
++
++                self.logger.debug("src : %s qemu.ip : %s self.target_dst : %s" % (src , self.qemu_ip , self.target_dst))
++                cmd = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR %s root@%s:%s"  % (src, qemu.ip, self.target_dst)
++                result = runCmd(cmd)
++
++                cmd = "cat %s" %(self.target_source)
++                status, output = qemu.run_serial(cmd)
++                self.assertIn("1234", output, "Source file copied to target is different that what is expected")
++
++                cmd = "%s %s -o %s -lm -g" % (target_gcc, self.target_source, self.target_binary)
++                status, output = qemu.run_serial(cmd)
++
++                cmd = "ls %s" %self.target_binary
++                status, output = qemu.run_serial(cmd)
++                self.assertNotIn("No such file or directory", output, "Test file compilation failed on target")
++
++                status, output = qemu.run_serial(self.target_binary)
++                self.assertIn("1234", output, "Test binary is different than what is expected")
++
++                cmd = "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR root@%s:%s %s"  % (qemu.ip, self.target_binary, os.getcwd())
++                result = runCmd(cmd)
++
++                cmd = "strip -s --strip-debug %s" %self.target_binary
++                status, output = qemu.run_serial(cmd)
++
++                gdb_client_thread = threading.Thread(target=self.run_gdb_client)
++                gdb_client_thread.start()
++
++                cmd = "gdbserver localhost:%s %s" %(self.gdbserver_port, self.target_binary)
++                status, output = qemu.run_serial(cmd)
++                self.logger.debug("gdbserver status : %s output : %s" % (status, output))
++
++                gdb_client_thread.join()
++                self.assertIn("1234", output, "Expected string (1234) not present in test output")
++
++        except OEQATimeoutError:
++            self.fail("gdbserver test timeout error")
++
 -- 
-2.37.1
+2.36.1
 
 
