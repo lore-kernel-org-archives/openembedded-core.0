@@ -2,935 +2,191 @@ Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F089C00140
-	for <webhook@archiver.kernel.org>; Mon,  8 Aug 2022 21:28:13 +0000 (UTC)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
- [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web09.4374.1659994090149569386
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BB88C00140
+	for <webhook@archiver.kernel.org>; Mon,  8 Aug 2022 21:37:53 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web09.4487.1659994669301980528
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Aug 2022 14:28:10 -0700
+ Mon, 08 Aug 2022 14:37:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=TLHZCZjC;
- spf=pass (domain: gmail.com, ip: 209.85.208.52,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=EmrEvHzI;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51,
  mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id f22so12891399edc.7
+Received: by mail-wm1-f51.google.com with SMTP id
+ ay39-20020a05600c1e2700b003a5503a80cfso820584wmb.2
         for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Aug 2022 14:28:09 -0700 (PDT)
+ Mon, 08 Aug 2022 14:37:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=dkamlbs7L6cNwS8lct2DEB2XWcx7jZpT7LLnuXpuohk=;
-        b=TLHZCZjCc/HkQzrpbiPXAAgQ2qclq6lW//CEA64qYKCeYlMSbPCZm0uo6dn7lDgP3r
-         +WfPhNsZiOUDVAiBez8mxmAUObVavLu7sE6IEAT1/S6iepolLmLmQFKs6uq4xyc1geoz
-         2XVd/R/v4Cy10pY4fIYwBWzjNVjWx6h1x6f/8L3mEDWd6m91JP88lPuC+wqX+8IAEJg0
-         C+3pmQZmIceK32PH5UkGMmSW2Pi0cPrgYQDaQapASYTn28vxeem+YXc4ex/FMaNxi5XC
-         EYK/gZQiY9N9hBZXFZepIlhFr3KqpP2wb1M825LgAde5bC4hDFtXr1IN4RgrcGk9qIG+
-         1isg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=SwsVCVV+vM/RGyJH2vuOBlvrtYxmG7O+iqMauyLjwIQ=;
+        b=EmrEvHzIuNcbwMHXy7ZLZ9odMZwIwxNXvqVrr45Z+rMApA1rHtzBX8p33Q8Z9VF6yL
+         HWDEVQp5oUEDEqQ3DX3EG/2bTPi8AXq1ZzJ6EgD76wxXu3E4T7yqaA0paGxJsOJ1Xo+P
+         xHHKhX0Tm76nUqz/9ytaQeAb2wayM/DC39fXgktSo9T4ujd647c6rpSmRSdI36TdZfkk
+         AJFYkqluqQFzsWVQC6STIK55vSOdDjOJJ2ZC7MVw0fPE2D5ZEvgm9uXZJSqVtT0jU9XO
+         ZHgGf7mZi8B+d+pekEJLNozMyhkDkU/UikLlCnT9WrH5eN8pJYgwulHClXBBHGgsuYcq
+         zNOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=dkamlbs7L6cNwS8lct2DEB2XWcx7jZpT7LLnuXpuohk=;
-        b=hmarePpLJ8pTmYNROXQg01euiYy5+E/8XAsdX8PcFGPjF2zL1OcdQrhOit+YeDNoLI
-         X7KUMStxkAWo+qKkrgz4jJkuIAdHLQc1Syq1O+xf2PG5Gu8CI3P7y9QEPRXOnfACdUA9
-         WZ5KWfTqq4kMYMCVTMXiZ0XvQpvS8zalmBG6lwOG1SQZdHjGgd9kLD9gGg4M+8y7Nxme
-         kEfcAkQH/Z87nyft5F+ohtnvxWgCiFCttb2n+q1dfZzxgssHZsJgM22q18981ippfTDu
-         UiipMjmHY5ODcoVgbVDvQ+xpquHVF/zd8/2Ht+1UxRNtAE0ifTFeVCudG8US0/BEaWY/
-         Gdsw==
-X-Gm-Message-State: ACgBeo0p8MUL1uSPoM/9AcIN9KjUokHVraMD4dP1WYCQXOLyuklT7ZVa
-	MBnygAuzlg27N1SYvO6CGUdYjZ15vM0=
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=SwsVCVV+vM/RGyJH2vuOBlvrtYxmG7O+iqMauyLjwIQ=;
+        b=PtNmOXLEQqaUBaMN0alHoIEic1nruwfb612n5SjmmRQk8jcgPkeM/j1yxRhvAblMkZ
+         kQxsKdFLxXyOgEcb8//LSOY7aivIpC+QXJtSwgpwJwrKsSldrrLua384Zxxhb1HvvX6j
+         oZ3polE1ifh6BfssoAoF9OcvR9np/11qOCp3Wwuw0R0i+IvMNIdvnYPNcKTsXXHpkFr5
+         9JiNBBdrAYSZ3N0uzXdNiDvSPYYFDmyvFz0DU6cRTpokKehSdiUnbC2onvanI/zvfH5r
+         KsHvNLuQlkGCLggJXLTiNhafan7GBOh3talLUmCQm9Y5csXvrwyyneOVuNVMWsnKUPkB
+         qpSA==
+X-Gm-Message-State: ACgBeo0p1+OM7oOTOiFLKuyDcRPKXHTwUcFhbZ7RyPFrDI/ZZkgttF8A
+	XOKWRLRhzG1UhlSJlv0Xngzu6iH/n7Yezi1Lv0s=
 X-Google-Smtp-Source: 
- AA6agR6J8MIftDQQRvK/r9++2aKUjOxpMfXGGRiIUKxjvBXsBZ63imna9LWSTzl6LibrnTV9PNK5/A==
-X-Received: by 2002:a05:6402:4504:b0:43b:4ec7:2ec1 with SMTP id
- ez4-20020a056402450400b0043b4ec72ec1mr19014417edb.7.1659994088352;
-        Mon, 08 Aug 2022 14:28:08 -0700 (PDT)
-Received: from localhost ([109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id
- lb5-20020a170907784500b0072b13ac9ca3sm284908ejc.183.2022.08.08.14.28.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Aug 2022 14:28:07 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com,
-	Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH][dunfell] libxml2: Port gentest.py to Python-3
-Date: Mon,  8 Aug 2022 23:27:30 +0200
-Message-Id: <20220808212730.3312008-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ AA6agR4W8/IsDjEFVRlIre8RzypFOfI3Hv0n97DzlYJ9owVzN06cVc0CHVCRR7suZ18qZKu4iH90EKLLMU92qWv4Ak0=
+X-Received: by 2002:a7b:cc0d:0:b0:3a5:1eae:3948 with SMTP id
+ f13-20020a7bcc0d000000b003a51eae3948mr11144223wmh.32.1659994667631; Mon, 08
+ Aug 2022 14:37:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <17097BD4A7B99188.24862@lists.openembedded.org>
+In-Reply-To: <17097BD4A7B99188.24862@lists.openembedded.org>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 8 Aug 2022 23:37:01 +0200
+Message-ID: 
+ <CA+chaQdQDsV-rSL8F3L4JyKn0QKhaz-0N-4ti7GixhZX1OxDGA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH][dunfell] libxml2: Port gentest.py to Python-3
+To: Martin.Jansa@gmail.com
+Cc: openembedded-core@lists.openembedded.org, steve@sakoman.com
+Content-Type: multipart/alternative; boundary="0000000000007e4bbf05e5c1a0ce"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Aug 2022 21:28:13 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Aug 2022 21:37:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169117
+ https://lists.openembedded.org/g/openembedded-core/message/169118
 
-* but it still won't work well on hosts without libxml2, make
-  sure to use pre-generated testapi.c in do_compile_ptest
+--0000000000007e4bbf05e5c1a0ce
+Content-Type: text/plain; charset="UTF-8"
 
-* this is reproducible with SOURCE_DATE_EPOCH set to 0 which
-  e.g. meta-updater still sets by default for DISTROs which
-  use it :(, see https://github.com/uptane/meta-updater/pull/35
+On Mon, Aug 8, 2022 at 11:28 PM Martin Jansa via lists.openembedded.org
+<Martin.Jansa=gmail.com@lists.openembedded.org> wrote:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../0001-Port-gentest.py-to-Python-3.patch    | 813 ++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.10.bb    |  11 +
- 2 files changed, 824 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/0001-Port-gentest.py-to-Python-3.patch
+> * but it still won't work well on hosts without libxml2, make
+>   sure to use pre-generated testapi.c in do_compile_ptest
+>
+> * this is reproducible with SOURCE_DATE_EPOCH set to 0 which
+>   e.g. meta-updater still sets by default for DISTROs which
+>   use it :(, see https://github.com/uptane/meta-updater/pull/35
 
-diff --git a/meta/recipes-core/libxml/libxml2/0001-Port-gentest.py-to-Python-3.patch b/meta/recipes-core/libxml/libxml2/0001-Port-gentest.py-to-Python-3.patch
-new file mode 100644
-index 0000000000..b0d26d1c08
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/0001-Port-gentest.py-to-Python-3.patch
-@@ -0,0 +1,813 @@
-+From b5125000917810731bc28055c0445d571121f80e Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Thu, 21 Apr 2022 00:45:58 +0200
-+Subject: [PATCH] Port gentest.py to Python 3
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/343fc1421cdae097fa6c4cffeb1a065a40be6bbb]
-+
-+* fixes:
-+
-+make[1]: 'testReader' is up to date.
-+  File "../libxml2-2.9.10/gentest.py", line 11
-+    print "libxml2 python bindings not available, skipping testapi.c generation"
-+          ^
-+SyntaxError: Missing parentheses in call to 'print'. Did you mean print("libxml2 python bindings not available, skipping testapi.c generation")?
-+make[1]: [Makefile:2078: testapi.c] Error 1 (ignored)
-+
-+...
-+
-+make[1]: 'testReader' is up to date.
-+  File "../libxml2-2.9.10/gentest.py", line 271
-+    return 1
-+           ^
-+TabError: inconsistent use of tabs and spaces in indentation
-+make[1]: [Makefile:2078: testapi.c] Error 1 (ignored)
-+
-+...
-+
-+aarch64-oe-linux-gcc: error: testapi.c: No such file or directory
-+aarch64-oe-linux-gcc: fatal error: no input files
-+compilation terminated.
-+make[1]: *** [Makefile:1275: testapi.o] Error 1
-+
-+But there is still a bit mystery why it worked before, because check-am
-+calls gentest.py with $(PYTHON), so it ignores the shebang in the script
-+and libxml2 is using python3native (through python3targetconfig.bbclass)
-+so something like:
-+
-+libxml2/2.9.10-r0/recipe-sysroot-native/usr/bin/python3-native/python3 gentest.py
-+
-+But that still fails (now without SyntaxError) with:
-+libxml2 python bindings not available, skipping testapi.c generation
-+
-+because we don't have dependency on libxml2-native (to provide libxml2
-+python bindings form python3native) and exported PYTHON_SITE_PACKAGES
-+might be useless (e.g. /usr/lib/python3.8/site-packages on Ubuntu-22.10
-+which uses python 3.10 and there is no site-packages with libxml2)
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ gentest.py | 421 ++++++++++++++++++++++++++---------------------------
-+ 1 file changed, 209 insertions(+), 212 deletions(-)
-+
-+diff --git a/gentest.py b/gentest.py
-+index b763300..0756706 100755
-+--- a/gentest.py
-++++ b/gentest.py
-+@@ -8,7 +8,7 @@ import string
-+ try:
-+     import libxml2
-+ except:
-+-    print "libxml2 python bindings not available, skipping testapi.c generation"
-++    print("libxml2 python bindings not available, skipping testapi.c generation")
-+     sys.exit(0)
-+ 
-+ if len(sys.argv) > 1:
-+@@ -227,7 +227,7 @@ extra_post_call = {
-+           if (old != NULL) {
-+               xmlUnlinkNode(old);
-+               xmlFreeNode(old) ; old = NULL ; }
-+-	  ret_val = NULL;""",
-++\t  ret_val = NULL;""",
-+    "xmlTextMerge": 
-+        """if ((first != NULL) && (first->type != XML_TEXT_NODE)) {
-+               xmlUnlinkNode(second);
-+@@ -236,7 +236,7 @@ extra_post_call = {
-+        """if ((ret_val != NULL) && (ret_val != ncname) &&
-+               (ret_val != prefix) && (ret_val != memory))
-+               xmlFree(ret_val);
-+-	  ret_val = NULL;""",
-++\t  ret_val = NULL;""",
-+    "xmlNewDocElementContent":
-+        """xmlFreeDocElementContent(doc, ret_val); ret_val = NULL;""",
-+    "xmlDictReference": "xmlDictFree(dict);",
-+@@ -268,29 +268,29 @@ modules = []
-+ def is_skipped_module(name):
-+     for mod in skipped_modules:
-+         if mod == name:
-+-	    return 1
-++            return 1
-+     return 0
-+ 
-+ def is_skipped_function(name):
-+     for fun in skipped_functions:
-+         if fun == name:
-+-	    return 1
-++            return 1
-+     # Do not test destructors
-+-    if string.find(name, 'Free') != -1:
-++    if name.find('Free') != -1:
-+         return 1
-+     return 0
-+ 
-+ def is_skipped_memcheck(name):
-+     for fun in skipped_memcheck:
-+         if fun == name:
-+-	    return 1
-++            return 1
-+     return 0
-+ 
-+ missing_types = {}
-+ def add_missing_type(name, func):
-+     try:
-+         list = missing_types[name]
-+-	list.append(func)
-++        list.append(func)
-+     except:
-+         missing_types[name] = [func]
-+ 
-+@@ -310,7 +310,7 @@ def add_missing_functions(name, module):
-+     missing_functions_nr = missing_functions_nr + 1
-+     try:
-+         list = missing_functions[module]
-+-	list.append(name)
-++        list.append(name)
-+     except:
-+         missing_functions[module] = [name]
-+ 
-+@@ -319,45 +319,45 @@ def add_missing_functions(name, module):
-+ #
-+ 
-+ def type_convert(str, name, info, module, function, pos):
-+-#    res = string.replace(str, "    ", " ")
-+-#    res = string.replace(str, "   ", " ")
-+-#    res = string.replace(str, "  ", " ")
-+-    res = string.replace(str, " *", "_ptr")
-+-#    res = string.replace(str, "*", "_ptr")
-+-    res = string.replace(res, " ", "_")
-++#    res = str.replace("    ", " ")
-++#    res = str.replace("   ", " ")
-++#    res = str.replace("  ", " ")
-++    res = str.replace(" *", "_ptr")
-++#    res = str.replace("*", "_ptr")
-++    res = res.replace(" ", "_")
-+     if res == 'const_char_ptr':
-+-        if string.find(name, "file") != -1 or \
-+-           string.find(name, "uri") != -1 or \
-+-           string.find(name, "URI") != -1 or \
-+-           string.find(info, "filename") != -1 or \
-+-           string.find(info, "URI") != -1 or \
-+-           string.find(info, "URL") != -1:
-+-	    if string.find(function, "Save") != -1 or \
-+-	       string.find(function, "Create") != -1 or \
-+-	       string.find(function, "Write") != -1 or \
-+-	       string.find(function, "Fetch") != -1:
-+-	        return('fileoutput')
-+-	    return('filepath')
-++        if name.find("file") != -1 or \
-++           name.find("uri") != -1 or \
-++           name.find("URI") != -1 or \
-++           info.find("filename") != -1 or \
-++           info.find("URI") != -1 or \
-++           info.find("URL") != -1:
-++            if function.find("Save") != -1 or \
-++               function.find("Create") != -1 or \
-++               function.find("Write") != -1 or \
-++               function.find("Fetch") != -1:
-++                return('fileoutput')
-++            return('filepath')
-+     if res == 'void_ptr':
-+         if module == 'nanoftp' and name == 'ctx':
-+-	    return('xmlNanoFTPCtxtPtr')
-++            return('xmlNanoFTPCtxtPtr')
-+         if function == 'xmlNanoFTPNewCtxt' or \
-+-	   function == 'xmlNanoFTPConnectTo' or \
-+-	   function == 'xmlNanoFTPOpen':
-+-	    return('xmlNanoFTPCtxtPtr')
-++           function == 'xmlNanoFTPConnectTo' or \
-++           function == 'xmlNanoFTPOpen':
-++            return('xmlNanoFTPCtxtPtr')
-+         if module == 'nanohttp' and name == 'ctx':
-+-	    return('xmlNanoHTTPCtxtPtr')
-+-	if function == 'xmlNanoHTTPMethod' or \
-+-	   function == 'xmlNanoHTTPMethodRedir' or \
-+-	   function == 'xmlNanoHTTPOpen' or \
-+-	   function == 'xmlNanoHTTPOpenRedir':
-+-	    return('xmlNanoHTTPCtxtPtr');
-++            return('xmlNanoHTTPCtxtPtr')
-++        if function == 'xmlNanoHTTPMethod' or \
-++           function == 'xmlNanoHTTPMethodRedir' or \
-++           function == 'xmlNanoHTTPOpen' or \
-++           function == 'xmlNanoHTTPOpenRedir':
-++            return('xmlNanoHTTPCtxtPtr');
-+         if function == 'xmlIOHTTPOpen':
-+-	    return('xmlNanoHTTPCtxtPtr')
-+-	if string.find(name, "data") != -1:
-+-	    return('userdata')
-+-	if string.find(name, "user") != -1:
-+-	    return('userdata')
-++            return('xmlNanoHTTPCtxtPtr')
-++        if name.find("data") != -1:
-++            return('userdata')
-++        if name.find("user") != -1:
-++            return('userdata')
-+     if res == 'xmlDoc_ptr':
-+         res = 'xmlDocPtr'
-+     if res == 'xmlNode_ptr':
-+@@ -366,18 +366,18 @@ def type_convert(str, name, info, module, function, pos):
-+         res = 'xmlDictPtr'
-+     if res == 'xmlNodePtr' and pos != 0:
-+         if (function == 'xmlAddChild' and pos == 2) or \
-+-	   (function == 'xmlAddChildList' and pos == 2) or \
-++           (function == 'xmlAddChildList' and pos == 2) or \
-+            (function == 'xmlAddNextSibling' and pos == 2) or \
-+            (function == 'xmlAddSibling' and pos == 2) or \
-+            (function == 'xmlDocSetRootElement' and pos == 2) or \
-+            (function == 'xmlReplaceNode' and pos == 2) or \
-+            (function == 'xmlTextMerge') or \
-+-	   (function == 'xmlAddPrevSibling' and pos == 2):
-+-	    return('xmlNodePtr_in');
-++           (function == 'xmlAddPrevSibling' and pos == 2):
-++            return('xmlNodePtr_in');
-+     if res == 'const xmlBufferPtr':
-+         res = 'xmlBufferPtr'
-+     if res == 'xmlChar_ptr' and name == 'name' and \
-+-       string.find(function, "EatName") != -1:
-++       function.find("EatName") != -1:
-+         return('eaten_name')
-+     if res == 'void_ptr*':
-+         res = 'void_ptr_ptr'
-+@@ -393,7 +393,7 @@ def type_convert(str, name, info, module, function, pos):
-+         res = 'debug_FILE_ptr';
-+     if res == 'int' and name == 'options':
-+         if module == 'parser' or module == 'xmlreader':
-+-	    res = 'parseroptions'
-++            res = 'parseroptions'
-+ 
-+     return res
-+ 
-+@@ -402,28 +402,28 @@ known_param_types = []
-+ def is_known_param_type(name):
-+     for type in known_param_types:
-+         if type == name:
-+-	    return 1
-++            return 1
-+     return name[-3:] == 'Ptr' or name[-4:] == '_ptr'
-+ 
-+ def generate_param_type(name, rtype):
-+     global test
-+     for type in known_param_types:
-+         if type == name:
-+-	    return
-++            return
-+     for type in generated_param_types:
-+         if type == name:
-+-	    return
-++            return
-+ 
-+     if name[-3:] == 'Ptr' or name[-4:] == '_ptr':
-+         if rtype[0:6] == 'const ':
-+-	    crtype = rtype[6:]
-+-	else:
-+-	    crtype = rtype
-++            crtype = rtype[6:]
-++        else:
-++            crtype = rtype
-+ 
-+         define = 0
-+-	if modules_defines.has_key(module):
-+-	    test.write("#ifdef %s\n" % (modules_defines[module]))
-+-	    define = 1
-++        if module in modules_defines:
-++            test.write("#ifdef %s\n" % (modules_defines[module]))
-++            define = 1
-+         test.write("""
-+ #define gen_nb_%s 1
-+ static %s gen_%s(int no ATTRIBUTE_UNUSED, int nr ATTRIBUTE_UNUSED) {
-+@@ -433,7 +433,7 @@ static void des_%s(int no ATTRIBUTE_UNUSED, %s val ATTRIBUTE_UNUSED, int nr ATTR
-+ }
-+ """ % (name, crtype, name, name, rtype))
-+         if define == 1:
-+-	    test.write("#endif\n\n")
-++            test.write("#endif\n\n")
-+         add_generated_param_type(name)
-+ 
-+ #
-+@@ -445,7 +445,7 @@ known_return_types = []
-+ def is_known_return_type(name):
-+     for type in known_return_types:
-+         if type == name:
-+-	    return 1
-++            return 1
-+     return 0
-+ 
-+ #
-+@@ -471,7 +471,7 @@ def compare_and_save():
-+         try:
-+             os.system("rm testapi.c; mv testapi.c.new testapi.c")
-+         except:
-+-	    os.system("mv testapi.c.new testapi.c")
-++            os.system("mv testapi.c.new testapi.c")
-+         print("Updated testapi.c")
-+     else:
-+         print("Generated testapi.c is identical")
-+@@ -481,17 +481,17 @@ while line != "":
-+     if line == "/* CUT HERE: everything below that line is generated */\n":
-+         break;
-+     if line[0:15] == "#define gen_nb_":
-+-        type = string.split(line[15:])[0]
-+-	known_param_types.append(type)
-++        type = line[15:].split()[0]
-++        known_param_types.append(type)
-+     if line[0:19] == "static void desret_":
-+-        type = string.split(line[19:], '(')[0]
-+-	known_return_types.append(type)
-++        type = line[19:].split('(')[0]
-++        known_return_types.append(type)
-+     test.write(line)
-+     line = input.readline()
-+ input.close()
-+ 
-+ if line == "":
-+-    print "Could not find the CUT marker in testapi.c skipping generation"
-++    print("Could not find the CUT marker in testapi.c skipping generation")
-+     test.close()
-+     sys.exit(0)
-+ 
-+@@ -505,7 +505,7 @@ test.write("/* CUT HERE: everything below that line is generated */\n")
-+ #
-+ doc = libxml2.readFile(srcPref + 'doc/libxml2-api.xml', None, 0)
-+ if doc == None:
-+-    print "Failed to load doc/libxml2-api.xml"
-++    print("Failed to load doc/libxml2-api.xml")
-+     sys.exit(1)
-+ ctxt = doc.xpathNewContext()
-+ 
-+@@ -519,9 +519,9 @@ for arg in args:
-+     mod = arg.xpathEval('string(../@file)')
-+     func = arg.xpathEval('string(../@name)')
-+     if (mod not in skipped_modules) and (func not in skipped_functions):
-+-	type = arg.xpathEval('string(@type)')
-+-	if not argtypes.has_key(type):
-+-	    argtypes[type] = func
-++        type = arg.xpathEval('string(@type)')
-++        if type not in argtypes:
-++            argtypes[type] = func
-+ 
-+ # similarly for return types
-+ rettypes = {}
-+@@ -531,8 +531,8 @@ for ret in rets:
-+     func = ret.xpathEval('string(../@name)')
-+     if (mod not in skipped_modules) and (func not in skipped_functions):
-+         type = ret.xpathEval('string(@type)')
-+-	if not rettypes.has_key(type):
-+-	    rettypes[type] = func
-++        if type not in rettypes:
-++            rettypes[type] = func
-+ 
-+ #
-+ # Generate constructors and return type handling for all enums
-+@@ -549,49 +549,49 @@ for enum in enums:
-+         continue;
-+     define = 0
-+ 
-+-    if argtypes.has_key(name) and is_known_param_type(name) == 0:
-+-	values = ctxt.xpathEval("/api/symbols/enum[@type='%s']" % name)
-+-	i = 0
-+-	vals = []
-+-	for value in values:
-+-	    vname = value.xpathEval('string(@name)')
-+-	    if vname == None:
-+-		continue;
-+-	    i = i + 1
-+-	    if i >= 5:
-+-		break;
-+-	    vals.append(vname)
-+-	if vals == []:
-+-	    print "Didn't find any value for enum %s" % (name)
-+-	    continue
-+-	if modules_defines.has_key(module):
-+-	    test.write("#ifdef %s\n" % (modules_defines[module]))
-+-	    define = 1
-+-	test.write("#define gen_nb_%s %d\n" % (name, len(vals)))
-+-	test.write("""static %s gen_%s(int no, int nr ATTRIBUTE_UNUSED) {\n""" %
-+-	           (name, name))
-+-	i = 1
-+-	for value in vals:
-+-	    test.write("    if (no == %d) return(%s);\n" % (i, value))
-+-	    i = i + 1
-+-	test.write("""    return(0);
-++    if (name in argtypes) and is_known_param_type(name) == 0:
-++        values = ctxt.xpathEval("/api/symbols/enum[@type='%s']" % name)
-++        i = 0
-++        vals = []
-++        for value in values:
-++            vname = value.xpathEval('string(@name)')
-++            if vname == None:
-++                continue;
-++            i = i + 1
-++            if i >= 5:
-++                break;
-++            vals.append(vname)
-++        if vals == []:
-++            print("Didn't find any value for enum %s" % (name))
-++            continue
-++        if module in modules_defines:
-++            test.write("#ifdef %s\n" % (modules_defines[module]))
-++            define = 1
-++        test.write("#define gen_nb_%s %d\n" % (name, len(vals)))
-++        test.write("""static %s gen_%s(int no, int nr ATTRIBUTE_UNUSED) {\n""" %
-++                   (name, name))
-++        i = 1
-++        for value in vals:
-++            test.write("    if (no == %d) return(%s);\n" % (i, value))
-++            i = i + 1
-++        test.write("""    return(0);
-+ }
-+ 
-+ static void des_%s(int no ATTRIBUTE_UNUSED, %s val ATTRIBUTE_UNUSED, int nr ATTRIBUTE_UNUSED) {
-+ }
-+ 
-+ """ % (name, name));
-+-	known_param_types.append(name)
-++        known_param_types.append(name)
-+ 
-+     if (is_known_return_type(name) == 0) and (name in rettypes):
-+-	if define == 0 and modules_defines.has_key(module):
-+-	    test.write("#ifdef %s\n" % (modules_defines[module]))
-+-	    define = 1
-++        if define == 0 and (module in modules_defines):
-++            test.write("#ifdef %s\n" % (modules_defines[module]))
-++            define = 1
-+         test.write("""static void desret_%s(%s val ATTRIBUTE_UNUSED) {
-+ }
-+ 
-+ """ % (name, name))
-+-	known_return_types.append(name)
-++        known_return_types.append(name)
-+     if define == 1:
-+         test.write("#endif\n\n")
-+ 
-+@@ -615,9 +615,9 @@ for file in headers:
-+     # do not test deprecated APIs
-+     #
-+     desc = file.xpathEval('string(description)')
-+-    if string.find(desc, 'DEPRECATED') != -1:
-+-        print "Skipping deprecated interface %s" % name
-+-	continue;
-++    if desc.find('DEPRECATED') != -1:
-++        print("Skipping deprecated interface %s" % name)
-++        continue;
-+ 
-+     test.write("#include <libxml/%s.h>\n" % name)
-+     modules.append(name)
-+@@ -679,7 +679,7 @@ def generate_test(module, node):
-+     # and store the informations for the generation
-+     #
-+     try:
-+-	args = node.xpathEval("arg")
-++        args = node.xpathEval("arg")
-+     except:
-+         args = []
-+     t_args = []
-+@@ -687,37 +687,37 @@ def generate_test(module, node):
-+     for arg in args:
-+         n = n + 1
-+         rtype = arg.xpathEval("string(@type)")
-+-	if rtype == 'void':
-+-	    break;
-+-	info = arg.xpathEval("string(@info)")
-+-	nam = arg.xpathEval("string(@name)")
-++        if rtype == 'void':
-++            break;
-++        info = arg.xpathEval("string(@info)")
-++        nam = arg.xpathEval("string(@name)")
-+         type = type_convert(rtype, nam, info, module, name, n)
-+-	if is_known_param_type(type) == 0:
-+-	    add_missing_type(type, name);
-+-	    no_gen = 1
-++        if is_known_param_type(type) == 0:
-++            add_missing_type(type, name);
-++            no_gen = 1
-+         if (type[-3:] == 'Ptr' or type[-4:] == '_ptr') and \
-+-	    rtype[0:6] == 'const ':
-+-	    crtype = rtype[6:]
-+-	else:
-+-	    crtype = rtype
-+-	t_args.append((nam, type, rtype, crtype, info))
-++            rtype[0:6] == 'const ':
-++            crtype = rtype[6:]
-++        else:
-++            crtype = rtype
-++        t_args.append((nam, type, rtype, crtype, info))
-+     
-+     try:
-+-	rets = node.xpathEval("return")
-++        rets = node.xpathEval("return")
-+     except:
-+         rets = []
-+     t_ret = None
-+     for ret in rets:
-+         rtype = ret.xpathEval("string(@type)")
-+-	info = ret.xpathEval("string(@info)")
-++        info = ret.xpathEval("string(@info)")
-+         type = type_convert(rtype, 'return', info, module, name, 0)
-+-	if rtype == 'void':
-+-	    break
-+-	if is_known_return_type(type) == 0:
-+-	    add_missing_type(type, name);
-+-	    no_gen = 1
-+-	t_ret = (type, rtype, info)
-+-	break
-++        if rtype == 'void':
-++            break
-++        if is_known_return_type(type) == 0:
-++            add_missing_type(type, name);
-++            no_gen = 1
-++        t_ret = (type, rtype, info)
-++        break
-+ 
-+     if no_gen == 0:
-+         for t_arg in t_args:
-+@@ -733,7 +733,7 @@ test_%s(void) {
-+ 
-+     if no_gen == 1:
-+         add_missing_functions(name, module)
-+-	test.write("""
-++        test.write("""
-+     /* missing type support */
-+     return(test_ret);
-+ }
-+@@ -742,22 +742,22 @@ test_%s(void) {
-+         return
-+ 
-+     try:
-+-	conds = node.xpathEval("cond")
-+-	for cond in conds:
-+-	    test.write("#if %s\n" % (cond.get_content()))
-+-	    nb_cond = nb_cond + 1
-++        conds = node.xpathEval("cond")
-++        for cond in conds:
-++            test.write("#if %s\n" % (cond.get_content()))
-++            nb_cond = nb_cond + 1
-+     except:
-+         pass
-+ 
-+     define = 0
-+-    if function_defines.has_key(name):
-++    if name in function_defines:
-+         test.write("#ifdef %s\n" % (function_defines[name]))
-+-	define = 1
-++        define = 1
-+     
-+     # Declare the memory usage counter
-+     no_mem = is_skipped_memcheck(name)
-+     if no_mem == 0:
-+-	test.write("    int mem_base;\n");
-++        test.write("    int mem_base;\n");
-+ 
-+     # Declare the return value
-+     if t_ret != None:
-+@@ -766,29 +766,29 @@ test_%s(void) {
-+     # Declare the arguments
-+     for arg in t_args:
-+         (nam, type, rtype, crtype, info) = arg;
-+-	# add declaration
-+-	test.write("    %s %s; /* %s */\n" % (crtype, nam, info))
-+-	test.write("    int n_%s;\n" % (nam))
-++        # add declaration
-++        test.write("    %s %s; /* %s */\n" % (crtype, nam, info))
-++        test.write("    int n_%s;\n" % (nam))
-+     test.write("\n")
-+ 
-+     # Cascade loop on of each argument list of values
-+     for arg in t_args:
-+         (nam, type, rtype, crtype, info) = arg;
-+-	#
-+-	test.write("    for (n_%s = 0;n_%s < gen_nb_%s;n_%s++) {\n" % (
-+-	           nam, nam, type, nam))
-++        #
-++        test.write("    for (n_%s = 0;n_%s < gen_nb_%s;n_%s++) {\n" % (
-++                   nam, nam, type, nam))
-+     
-+     # log the memory usage
-+     if no_mem == 0:
-+-	test.write("        mem_base = xmlMemBlocks();\n");
-++        test.write("        mem_base = xmlMemBlocks();\n");
-+ 
-+     # prepare the call
-+     i = 0;
-+     for arg in t_args:
-+         (nam, type, rtype, crtype, info) = arg;
-+-	#
-+-	test.write("        %s = gen_%s(n_%s, %d);\n" % (nam, type, nam, i))
-+-	i = i + 1;
-++        #
-++        test.write("        %s = gen_%s(n_%s, %d);\n" % (nam, type, nam, i))
-++        i = i + 1;
-+ 
-+     # add checks to avoid out-of-bounds array access
-+     i = 0;
-+@@ -797,7 +797,7 @@ test_%s(void) {
-+         # assume that "size", "len", and "start" parameters apply to either
-+         # the nearest preceding or following char pointer
-+         if type == "int" and (nam == "size" or nam == "len" or nam == "start"):
-+-            for j in range(i - 1, -1, -1) + range(i + 1, len(t_args)):
-++            for j in (*range(i - 1, -1, -1), *range(i + 1, len(t_args))):
-+                 (bnam, btype) = t_args[j][:2]
-+                 if btype == "const_char_ptr" or btype == "const_xmlChar_ptr":
-+                     test.write(
-+@@ -806,42 +806,42 @@ test_%s(void) {
-+                         "            continue;\n"
-+                         % (bnam, nam, bnam))
-+                     break
-+-	i = i + 1;
-++        i = i + 1;
-+ 
-+     # do the call, and clanup the result
-+-    if extra_pre_call.has_key(name):
-+-	test.write("        %s\n"% (extra_pre_call[name]))
-++    if name in extra_pre_call:
-++        test.write("        %s\n"% (extra_pre_call[name]))
-+     if t_ret != None:
-+-	test.write("\n        ret_val = %s(" % (name))
-+-	need = 0
-+-	for arg in t_args:
-+-	    (nam, type, rtype, crtype, info) = arg
-+-	    if need:
-+-	        test.write(", ")
-+-	    else:
-+-	        need = 1
-+-	    if rtype != crtype:
-+-	        test.write("(%s)" % rtype)
-+-	    test.write("%s" % nam);
-+-	test.write(");\n")
-+-	if extra_post_call.has_key(name):
-+-	    test.write("        %s\n"% (extra_post_call[name]))
-+-	test.write("        desret_%s(ret_val);\n" % t_ret[0])
-++        test.write("\n        ret_val = %s(" % (name))
-++        need = 0
-++        for arg in t_args:
-++            (nam, type, rtype, crtype, info) = arg
-++            if need:
-++                test.write(", ")
-++            else:
-++                need = 1
-++            if rtype != crtype:
-++                test.write("(%s)" % rtype)
-++            test.write("%s" % nam);
-++        test.write(");\n")
-++        if name in extra_post_call:
-++            test.write("        %s\n"% (extra_post_call[name]))
-++        test.write("        desret_%s(ret_val);\n" % t_ret[0])
-+     else:
-+-	test.write("\n        %s(" % (name));
-+-	need = 0;
-+-	for arg in t_args:
-+-	    (nam, type, rtype, crtype, info) = arg;
-+-	    if need:
-+-	        test.write(", ")
-+-	    else:
-+-	        need = 1
-+-	    if rtype != crtype:
-+-	        test.write("(%s)" % rtype)
-+-	    test.write("%s" % nam)
-+-	test.write(");\n")
-+-	if extra_post_call.has_key(name):
-+-	    test.write("        %s\n"% (extra_post_call[name]))
-++        test.write("\n        %s(" % (name));
-++        need = 0;
-++        for arg in t_args:
-++            (nam, type, rtype, crtype, info) = arg;
-++            if need:
-++                test.write(", ")
-++            else:
-++                need = 1
-++            if rtype != crtype:
-++                test.write("(%s)" % rtype)
-++            test.write("%s" % nam)
-++        test.write(");\n")
-++        if name in extra_post_call:
-++            test.write("        %s\n"% (extra_post_call[name]))
-+ 
-+     test.write("        call_tests++;\n");
-+ 
-+@@ -849,32 +849,32 @@ test_%s(void) {
-+     i = 0;
-+     for arg in t_args:
-+         (nam, type, rtype, crtype, info) = arg;
-+-	# This is a hack to prevent generating a destructor for the
-+-	# 'input' argument in xmlTextReaderSetup.  There should be
-+-	# a better, more generic way to do this!
-+-	if string.find(info, 'destroy') == -1:
-+-	    test.write("        des_%s(n_%s, " % (type, nam))
-+-	    if rtype != crtype:
-+-	        test.write("(%s)" % rtype)
-+-	    test.write("%s, %d);\n" % (nam, i))
-+-	i = i + 1;
-++        # This is a hack to prevent generating a destructor for the
-++        # 'input' argument in xmlTextReaderSetup.  There should be
-++        # a better, more generic way to do this!
-++        if info.find('destroy') == -1:
-++            test.write("        des_%s(n_%s, " % (type, nam))
-++            if rtype != crtype:
-++                test.write("(%s)" % rtype)
-++            test.write("%s, %d);\n" % (nam, i))
-++        i = i + 1;
-+ 
-+     test.write("        xmlResetLastError();\n");
-+     # Check the memory usage
-+     if no_mem == 0:
-+-	test.write("""        if (mem_base != xmlMemBlocks()) {
-++        test.write("""        if (mem_base != xmlMemBlocks()) {
-+             printf("Leak of %%d blocks found in %s",
-+-	           xmlMemBlocks() - mem_base);
-+-	    test_ret++;
-++\t           xmlMemBlocks() - mem_base);
-++\t    test_ret++;
-+ """ % (name));
-+-	for arg in t_args:
-+-	    (nam, type, rtype, crtype, info) = arg;
-+-	    test.write("""            printf(" %%d", n_%s);\n""" % (nam))
-+-	test.write("""            printf("\\n");\n""")
-+-	test.write("        }\n")
-++        for arg in t_args:
-++            (nam, type, rtype, crtype, info) = arg;
-++            test.write("""            printf(" %%d", n_%s);\n""" % (nam))
-++        test.write("""            printf("\\n");\n""")
-++        test.write("        }\n")
-+ 
-+     for arg in t_args:
-+-	test.write("    }\n")
-++        test.write("    }\n")
-+ 
-+     test.write("    function_tests++;\n")
-+     #
-+@@ -882,7 +882,7 @@ test_%s(void) {
-+     #
-+     while nb_cond > 0:
-+         test.write("#endif\n")
-+-	nb_cond = nb_cond -1
-++        nb_cond = nb_cond -1
-+     if define == 1:
-+         test.write("#endif\n")
-+ 
-+@@ -900,10 +900,10 @@ test_%s(void) {
-+ for module in modules:
-+     # gather all the functions exported by that module
-+     try:
-+-	functions = ctxt.xpathEval("/api/symbols/function[@file='%s']" % (module))
-++        functions = ctxt.xpathEval("/api/symbols/function[@file='%s']" % (module))
-+     except:
-+-        print "Failed to gather functions from module %s" % (module)
-+-	continue;
-++        print("Failed to gather functions from module %s" % (module))
-++        continue;
-+ 
-+     # iterate over all functions in the module generating the test
-+     i = 0
-+@@ -923,14 +923,14 @@ test_%s(void) {
-+     # iterate over all functions in the module generating the call
-+     for function in functions:
-+         name = function.xpathEval('string(@name)')
-+-	if is_skipped_function(name):
-+-	    continue
-+-	test.write("    test_ret += test_%s();\n" % (name))
-++        if is_skipped_function(name):
-++            continue
-++        test.write("    test_ret += test_%s();\n" % (name))
-+ 
-+     # footer
-+     test.write("""
-+     if (test_ret != 0)
-+-	printf("Module %s: %%d errors\\n", test_ret);
-++\tprintf("Module %s: %%d errors\\n", test_ret);
-+     return(test_ret);
-+ }
-+ """ % (module))
-+@@ -948,7 +948,7 @@ test.write("""    return(0);
-+ }
-+ """);
-+ 
-+-print "Generated test for %d modules and %d functions" %(len(modules), nb_tests)
-++print("Generated test for %d modules and %d functions" %(len(modules), nb_tests))
-+ 
-+ compare_and_save()
-+ 
-+@@ -960,11 +960,8 @@ for missing in missing_types.keys():
-+     n = len(missing_types[missing])
-+     missing_list.append((n, missing))
-+ 
-+-def compare_missing(a, b):
-+-    return b[0] - a[0]
-+-
-+-missing_list.sort(compare_missing)
-+-print "Missing support for %d functions and %d types see missing.lst" % (missing_functions_nr, len(missing_list))
-++missing_list.sort(key=lambda a: a[0])
-++print("Missing support for %d functions and %d types see missing.lst" % (missing_functions_nr, len(missing_list)))
-+ lst = open("missing.lst", "w")
-+ lst.write("Missing support for %d types" % (len(missing_list)))
-+ lst.write("\n")
-+@@ -974,9 +971,9 @@ for miss in missing_list:
-+     for n in missing_types[miss[1]]:
-+         i = i + 1
-+         if i > 5:
-+-	    lst.write(" ...")
-+-	    break
-+-	lst.write(" %s" % (n))
-++            lst.write(" ...")
-++            break
-++        lst.write(" %s" % (n))
-+     lst.write("\n")
-+ lst.write("\n")
-+ lst.write("\n")
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core/libxml/libxml2_2.9.10.bb
-index b3ebf15751..d1c1f0884f 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
-@@ -32,6 +32,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;subdir=${BP};name=te
-            file://CVE-2022-23308-fix-regression.patch \
-            file://CVE-2022-29824-dependent.patch \
-            file://CVE-2022-29824.patch \
-+           file://0001-Port-gentest.py-to-Python-3.patch \
-            "
- 
- SRC_URI[archive.sha256sum] = "593b7b751dd18c2d6abcd0c4bcb29efc203d0b4373a6df98e3a455ea74ae2813"
-@@ -89,6 +90,16 @@ do_configure_prepend () {
- }
- 
- do_compile_ptest() {
-+        # Make sure that testapi.c is newer than gentests.py, because
-+        # with reproducible builds, they will both get e.g. Jan  1  1970
-+        # modification time from SOURCE_DATE_EPOCH and then check-am
-+        # might try to rebuild_testapi, which will fail even with
-+        # 0001-Port-gentest.py-to-Python-3.patch, because it needs
-+        # libxml2 module (libxml2-native dependency and correctly
-+        # set PYTHON_SITE_PACKAGES), it's easier to
-+        # just rely on pre-generated testapi.c from the release
-+        touch ${S}/testapi.c
-+
- 	oe_runmake check-am
- }
- 
--- 
-2.35.1
 
+Still not sure why I've started to see this just today, maybe just
+unfortunate filesystem ordering?
+
+Might be similar to the issue shown in bc recently:
+https://git.openembedded.org/openembedded-core/commit/?h=kirkstone&id=400ed3bc77232b9d67594fa012b1278a6c8be3c6
+
+but in this case we need to prevent the rebuild (as I don't see how python2
+gettest.py could have worked in dunfell builds before)
+
+Without meta-updater setting SOURCE_DATE_EPOCH to 0 and with libxml2/2.9.14
+used in kirkstone I see usable timestamps:
+-rw-r--r-- 3 bitbake bitbake 1448791 May  2 11:42
+libxml2/2.9.14-r0/libxml2-2.9.14/testapi.c
+
+-rwxr-xr-x 1 bitbake bitbake 30753 May  2 10:52
+libxml2/2.9.14-r0/libxml2-2.9.14/gentest.py*
+so this isn't needed in kirkstone.
+
+
+> diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb
+> b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+> index b3ebf15751..d1c1f0884f 100644
+> --- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
+> +++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+> ...
+>  do_compile_ptest() {
+> +        # Make sure that testapi.c is newer than gentests.py, because
+> +        # with reproducible builds, they will both get e.g. Jan  1  1970
+> +        # modification time from SOURCE_DATE_EPOCH and then check-am
+> +        # might try to rebuild_testapi, which will fail even with
+> +        # 0001-Port-gentest.py-to-Python-3.patch, because it needs
+> +        # libxml2 module (libxml2-native dependency and correctly
+> +        # set PYTHON_SITE_PACKAGES), it's easier to
+> +        # just rely on pre-generated testapi.c from the release
+> +        touch ${S}/testapi.c
+> +
+>         oe_runmake check-am
+>  }
+>
+
+--0000000000007e4bbf05e5c1a0ce
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, Aug 8, 2022 at 11:28 PM Martin Ja=
+nsa via <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a=
+> &lt;Martin.Jansa=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gm=
+ail.com@lists.openembedded.org</a>&gt; wrote:<br></div><div class=3D"gmail_=
+quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">* but it still won=
+&#39;t work well on hosts without libxml2, make<br>
+=C2=A0 sure to use pre-generated testapi.c in do_compile_ptest<br>
+<br>
+* this is reproducible with SOURCE_DATE_EPOCH set to 0 which<br>
+=C2=A0 e.g. meta-updater still sets by default for DISTROs which<br>
+=C2=A0 use it :(, see <a href=3D"https://github.com/uptane/meta-updater/pul=
+l/35" rel=3D"noreferrer" target=3D"_blank">https://github.com/uptane/meta-u=
+pdater/pull/35</a></blockquote><div><br></div><div>Still not sure why I&#39=
+;ve started to see this just today, maybe just unfortunate filesystem order=
+ing?</div><div><br></div><div>Might be similar to the issue shown in bc rec=
+ently:</div><div><a href=3D"https://git.openembedded.org/openembedded-core/=
+commit/?h=3Dkirkstone&amp;id=3D400ed3bc77232b9d67594fa012b1278a6c8be3c6">ht=
+tps://git.openembedded.org/openembedded-core/commit/?h=3Dkirkstone&amp;id=
+=3D400ed3bc77232b9d67594fa012b1278a6c8be3c6</a></div><div><br></div><div>bu=
+t in this case we need to prevent the rebuild (as I don&#39;t see how pytho=
+n2 gettest.py could have worked in dunfell builds before)</div><div><br></d=
+iv><div>Without meta-updater setting SOURCE_DATE_EPOCH to 0 and with libxml=
+2/2.9.14 used in kirkstone I see usable timestamps:</div><div>-rw-r--r-- 3 =
+bitbake bitbake 1448791 May =C2=A02 11:42 libxml2/2.9.14-r0/libxml2-2.9.14/=
+testapi.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0<br></div><div>-rwxr-xr-x 1 =
+bitbake bitbake 30753 May =C2=A02 10:52 libxml2/2.9.14-r0/libxml2-2.9.14/ge=
+ntest.py*<br></div><div>so this isn&#39;t needed in kirkstone.</div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">diff --git a/=
+meta/recipes-core/libxml/<a href=3D"http://libxml2_2.9.10.bb" rel=3D"norefe=
+rrer" target=3D"_blank">libxml2_2.9.10.bb</a> b/meta/recipes-core/libxml/<a=
+ href=3D"http://libxml2_2.9.10.bb" rel=3D"noreferrer" target=3D"_blank">lib=
+xml2_2.9.10.bb</a><br>
+index b3ebf15751..d1c1f0884f 100644<br>
+--- a/meta/recipes-core/libxml/<a href=3D"http://libxml2_2.9.10.bb" rel=3D"=
+noreferrer" target=3D"_blank">libxml2_2.9.10.bb</a><br>
++++ b/meta/recipes-core/libxml/<a href=3D"http://libxml2_2.9.10.bb" rel=3D"=
+noreferrer" target=3D"_blank">libxml2_2.9.10.bb</a><br>...<br>
+=C2=A0do_compile_ptest() {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Make sure that testapi.c is newer than gente=
+sts.py, because<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # with reproducible builds, they will both get=
+ e.g. Jan=C2=A0 1=C2=A0 1970<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # modification time from SOURCE_DATE_EPOCH and=
+ then check-am<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # might try to rebuild_testapi, which will fai=
+l even with<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # 0001-Port-gentest.py-to-Python-3.patch, beca=
+use it needs<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # libxml2 module (libxml2-native dependency an=
+d correctly<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # set PYTHON_SITE_PACKAGES), it&#39;s easier t=
+o<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # just rely on pre-generated testapi.c from th=
+e release<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 touch ${S}/testapi.c<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runmake check-am<br>
+=C2=A0}<br>
+</blockquote></div></div>
+
+--0000000000007e4bbf05e5c1a0ce--
 
