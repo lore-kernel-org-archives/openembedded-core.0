@@ -2,143 +2,290 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46CEFC25B0C
-	for <webhook@archiver.kernel.org>; Tue,  9 Aug 2022 03:43:05 +0000 (UTC)
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
- [209.85.222.181])
- by mx.groups.io with SMTP id smtpd.web11.7837.1660016583323290993
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F1C5C19F2D
+	for <webhook@archiver.kernel.org>; Tue,  9 Aug 2022 03:44:15 +0000 (UTC)
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com
+ [209.85.160.43])
+ by mx.groups.io with SMTP id smtpd.web12.7803.1660016653474761264
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Aug 2022 20:43:03 -0700
+ Mon, 08 Aug 2022 20:44:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=IiFtv3vl;
- spf=pass (domain: gmail.com, ip: 209.85.222.181,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=l/hD4rrX;
+ spf=pass (domain: gmail.com, ip: 209.85.160.43,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f181.google.com with SMTP id i24so7884192qkg.13
+Received: by mail-oa1-f43.google.com with SMTP id
+ 586e51a60fabf-10ea9ef5838so12693822fac.3
         for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Aug 2022 20:43:03 -0700 (PDT)
+ Mon, 08 Aug 2022 20:44:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=trERcOGi85sF17AoNuZh/Gr+vearWO81nQCq+6FuWRk=;
-        b=IiFtv3vlfza0dkZLQvsrqfsjw2XRrlGCAsECVDLfW+jFEkbJEC0JlR/KdEtQh1H5Z3
-         VR2cj/2SlkgUI9L+F0ekrA85thCE8xntKKB7tUA1g4MGjjBw9SVjJCcKG31o9PIDYyPF
-         khNkUI4hgqcitldwN/gcikJ9zyJT71LpPX/H0YsBhGHzs+omOQY4Rfe81TAoIcUg7CrO
-         qk1dE3Rww60ymW78jwF49mGvs2yEKqQ8GYNIE6ZDTQSjTVhAGA/TzOlhcN/l8mstv/uQ
-         5LTOTpArdceVrHki0rVSFcbVLp8PlvrQ3zTFvIq4MvdxbbBmRunOBlIKmmmCF1ldzXI7
-         pkZA==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc;
+        bh=1fgjm8HhWyudWGw/Act+CQCiR5K09LDyYsIBRs4xln8=;
+        b=l/hD4rrXOP0zosYIDgCvbc7E7cfAbjsSDP1IoU9uCvwB+YwPxCU5O3rIIR5IImEC4e
+         yVJzKOY/nLpvx6dNYiFmNyXMkdieCT84VGnEfpdSsj3VpQBXb7l43SNhdDS8OeZplOZJ
+         wCnM4xqMv+eNrlfXKibSIXZB2ibwNHHC9ezw73JkxiH5K1K785kdU/Lv4gT5Fk11MVXb
+         OEnwVl0b7GQ5GcL6NEYHgxT7KZ1a4i2ycmcju0jGaF0scWOiTcjuHbIGmn+ousZC36o0
+         FcI4TdWKMDl/QZ4dhCi1wQSWWVAlgZAD11KgbzNEIezFqJkGh3U4ObSUWnhoLub5Uu8z
+         JpUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=trERcOGi85sF17AoNuZh/Gr+vearWO81nQCq+6FuWRk=;
-        b=J44j6UFT5QbxPoa4zKCErj4zWgP1DYrKlSCLD6pS0ywbxa6KfY0VavKd6XSo0hFAmt
-         hKl30oMwyuoWVAo9vg76Zgd4YgeiLYPq1hV5GeFk8OqX1TqReeYEBk+FjiBDRnwpCk78
-         /C0lYZxcVhPWm9WpX1KLZvyKdDymOvtOgbLIZhLRaFKPsJlVqUuv2+PCtgZDOyUrTpXh
-         YA19sWbaaDq5bRL5K7ur4AiFFoLetHgCmekSixt3iNDa2TChCRuejedmVkksDZIjDMpn
-         xHZjhkA/GQIL0aLqbLznoO4UG+II7ZSx+nEeVjD9plnXH8dJjd0YI4W8tLHf/DkYQtCX
-         xNhg==
-X-Gm-Message-State: ACgBeo3gz04yW+XXv6S/MIL9WXBeUT1qoi9jDVsBns58OEoG3HzswTj8
-	sfqASqDWCctnhzv+se4qhQayvN9kD2BXDQ==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=1fgjm8HhWyudWGw/Act+CQCiR5K09LDyYsIBRs4xln8=;
+        b=uvTMFADiigmYNB6qpDjK95V52nmXY97DpOT0xQCeG6/oWUiBu1jnOk9MdY8zXs+eKg
+         YWP/Sab5ZR7/Gt5i3hvFCw6Kr/mg6XhX9XStEyzw5H9WDzbICNGcZHBjEyTBIqImyER4
+         ATDJ+5CVDrBUUciRKGVv2E8C01DQdMJbfvAvsY9zcyeArx1B3ly2GyuLhKtcd7WXR0Lh
+         eRFY/M8bZR7SP8dPeDZlkLi9sqLBYprEiWRtbyYSv52uzXr48GrT1ii1YTBUJCPChz1+
+         8XfQjt+UMZBZmLdZjXP1WNKD+lmqoR3cdvfVURkGq4KzCdCGnOIkkFMScfz/aw+DSXED
+         j2Rw==
+X-Gm-Message-State: ACgBeo0xyAZbg2vr0vsoHPeJuv9xhjWneFKGCdGz2F75/IpnYdNhlbur
+	pKE5Bv7V3GSxQf1BCrW9umUTE5aniJDKAnJROpA=
 X-Google-Smtp-Source: 
- AA6agR76dpdBIqaDIoWsUR4RFLEKt/VXNdxmVpaXJIpLvtBaIRl1eOJC0XcWNMZ0rCHQ6MF66Lio5g==
-X-Received: by 2002:a37:4254:0:b0:6b5:da0b:efc7 with SMTP id
- p81-20020a374254000000b006b5da0befc7mr16169891qka.438.1660016582330;
-        Mon, 08 Aug 2022 20:43:02 -0700 (PDT)
-Received: from build.lan ([173.34.88.218])
-        by smtp.gmail.com with ESMTPSA id
- br35-20020a05620a462300b006a6a4b43c01sm483898qkb.38.2022.08.08.20.43.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Aug 2022 20:43:00 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] linux-yocto/5.19: fix reproducibility issues
-Date: Mon,  8 Aug 2022 23:42:58 -0400
-Message-Id: <20220809034258.53200-2-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20220809034258.53200-1-bruce.ashfield@gmail.com>
-References: <20220809034258.53200-1-bruce.ashfield@gmail.com>
+ AA6agR7itp5Njz13t6QFHtp8S2BBYl+ouihXUgk2lfkU8tqba7fXulSwzoq3xpn4eHsG0ptKSpPMedYtnNaqUedKR4w=
+X-Received: by 2002:a05:6870:d29d:b0:10e:747b:f87b with SMTP id
+ d29-20020a056870d29d00b0010e747bf87bmr13234204oae.6.1660016652674; Mon, 08
+ Aug 2022 20:44:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1659653543.git.bruce.ashfield@gmail.com>
+ <22bce10c2755711b42b7a3bd0ce61705961c2552.camel@linuxfoundation.org>
+In-Reply-To: 
+ <22bce10c2755711b42b7a3bd0ce61705961c2552.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 8 Aug 2022 23:44:00 -0400
+Message-ID: 
+ <CADkTA4PMGK-QRLpZYXN+mU0g-b0oLcm0Q8CdeGzpLWWdkKFdUg@mail.gmail.com>
+Subject: Re: [PATCH 00/13] kernel-yocto: consolidated pull request
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Aug 2022 03:43:05 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Aug 2022 03:44:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169128
+ https://lists.openembedded.org/g/openembedded-core/message/169129
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+On Mon, Aug 8, 2022 at 3:38 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> Hi Bruce,
+>
+> On Thu, 2022-08-04 at 18:57 -0400, bruce.ashfield@gmail.com wrote:
+> > As I mentioned earlier today, I've built and booted the 5.19 kernel
+> > on all architectures, have run core-iamge-kernel-dev, core-image-sato
+> > and validated musl.
+> >
+> > At this point, we need wider coverage to scare out the remaining
+> > gremlins.
+> >
+> > I'm also sending update to 5.10 and 5.15 in the pull request, since
+> > these are the retbleed stable updates, and I didn't want to sit on
+> > them any longer. These are of course independenct of the 5.19 work.
+> >
+> > I found one issue with vboxguestdrivers in meta-oe agains the new
+> > kernel/headers, and I've sent a patch to that mailing list. I also
+> > had to fix lttng-modules (as usual) and have sent a patch to that
+> > mailing list as well.
+> >
+> > devsrc needed a few tweaks as well, and they are included in the
+> > series.
+> >
+> > Note: I've mixed in the poky / meta-yocto patches as part of this
+> > pull request, just for ease of sending it for wider testing and to
+> > see if I missed any references to 5.10 or have left any else
+> > dangling.
+>
+> We've had a few autobuilder issues but I did run this through with
+> other changes. The logs were a mess but I think I see three issues
+> which are likely kernel related. The first kernel module issue happened
+> a lot, the other two were more isolated to oe-selftest or a single
+> failure.
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/4999/st=
+eps/16/logs/stdio
+>
+> RESULTS - kernelmodule.KernelModuleTest.test_kernel_module: FAILED (19.47=
+s)
+>
+> Traceback (most recent call last):
+>   File "/home/pokybuild/yocto-worker/qemuarm64-armhost/build/meta/lib/oeq=
+a/core/decorator/__init__.py", line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   File "/home/pokybuild/yocto-worker/qemuarm64-armhost/build/meta/lib/oeq=
+a/core/decorator/__init__.py", line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   File "/home/pokybuild/yocto-worker/qemuarm64-armhost/build/meta/lib/oeq=
+a/core/decorator/__init__.py", line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   [Previous line repeated 2 more times]
+>   File "/home/pokybuild/yocto-worker/qemuarm64-armhost/build/meta/lib/oeq=
+a/runtime/cases/kernelmodule.py", line 46, in test_kernel_module
+>     self.assertEqual(status, 0, msg=3D'\n'.join([cmd, output]))
+> AssertionError: 2 !=3D 0 : cd /tmp && make
+> make -C /usr/src/kernel M=3D/tmp modules
+> make[1]: Entering directory '/lib/modules/5.19.0-yocto-standard/build'
+> /bin/sh: -c: line 1: syntax error near unexpected token `('
+> /bin/sh: -c: line 1: `if [ "gcc (GCC) 12.1.0" !=3D ""aarch64-poky-linux-g=
+cc (GCC) 12.1.0"" ]; then \'
+> make[1]: Leaving directory '/lib/modules/5.19.0-yocto-standard/build'
+> make[1]: *** [Makefile:1728: prepare] Error 2
+> make: *** [Makefile:5: all] Error 2
+>
 
-Integrating the following commit(s) to linux-yocto/5.19:
+Patch sent.
 
-    e0e977e1b098 init/Kconfig: fix CC_HAS_ASM_GOTO_TIED_OUTPUT test with dash
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/3948/st=
+eps/15/logs/stdio
+>
+>  runtime_test.TestImage.test_testimage_virgl_gtk_sdl (subunit.RemotedTest=
+Case)
+> 2022-08-08 02:08:41,717 - oe-selftest - INFO -  ... FAIL
+>
+> Traceback (most recent call last):
+>   File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oe=
+qa/core/decorator/__init__.py", line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-64=
+5516/meta-selftest/lib/oeqa/runtime/cases/virgl.py", line 17, in test_kmscu=
+be
+>     self.assertEqual(status, 0, "kmscube exited with non-zero status %d a=
+nd output:\n%s" %(status, output))
+> AssertionError: 234 !=3D 0 : kmscube exited with non-zero status 234 and =
+output:
+> Using display 0x55f5ecf4d920 with EGL version 1.4
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> EGL information:
+>   version: "1.4"
+>   vendor: "Mesa Project"
+>   client extensions: "EGL_EXT_client_extensions EGL_EXT_device_base EGL_E=
+XT_device_enumeration EGL_EXT_device_query EGL_EXT_platform_base EGL_KHR_cl=
+ient_get_all_proc_addresses EGL_KHR_debug EGL_EXT_platform_device EGL_EXT_p=
+latform_wayland EGL_KHR_platform_wayland EGL_EXT_platform_x11 EGL_KHR_platf=
+orm_x11 EGL_MESA_platform_xcb EGL_MESA_platform_gbm EGL_KHR_platform_gbm EG=
+L_MESA_platform_surfaceless"
+>   display extensions: "EGL_ANDROID_blob_cache EGL_ANDROID_native_fence_sy=
+nc EGL_EXT_buffer_age EGL_EXT_image_dma_buf_import EGL_EXT_image_dma_buf_im=
+port_modifiers EGL_KHR_cl_event2 EGL_KHR_config_attribs EGL_KHR_create_cont=
+ext EGL_KHR_create_context_no_error EGL_KHR_fence_sync EGL_KHR_get_all_proc=
+_addresses EGL_KHR_gl_colorspace EGL_KHR_gl_renderbuffer_image EGL_KHR_gl_t=
+exture_2D_image EGL_KHR_gl_texture_3D_image EGL_KHR_gl_texture_cubemap_imag=
+e EGL_KHR_image EGL_KHR_image_base EGL_KHR_image_pixmap EGL_KHR_no_config_c=
+ontext EGL_KHR_reusable_sync EGL_KHR_surfaceless_context EGL_EXT_pixel_form=
+at_float EGL_KHR_wait_sync EGL_MESA_configless_context EGL_MESA_drm_image E=
+GL_MESA_image_dma_buf_export EGL_MESA_query_driver EGL_WL_bind_wayland_disp=
+lay "
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> OpenGL ES 2.x information:
+>   version: "OpenGL ES 3.2 Mesa 22.1.3"
+>   shading language version: "OpenGL ES GLSL ES 3.20"
+>   vendor: "Mesa/X.org"
+>   renderer: "virgl"
+>   extensions: "GL_EXT_blend_minmax GL_EXT_multi_draw_arrays GL_EXT_textur=
+e_compression_s3tc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compressi=
+on_rgtc GL_EXT_texture_format_BGRA8888 GL_OES_compressed_ETC1_RGB8_texture =
+GL_OES_depth24 GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_ma=
+pbuffer GL_OES_rgb8_rgba8 GL_OES_standard_derivatives GL_OES_stencil8 GL_OE=
+S_texture_3D GL_OES_texture_float GL_OES_texture_float_linear GL_OES_textur=
+e_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_ve=
+rtex_half_float GL_EXT_draw_instanced GL_EXT_texture_sRGB_decode GL_OES_EGL=
+_image GL_OES_depth_texture GL_OES_packed_depth_stencil GL_EXT_texture_type=
+_2_10_10_10_REV GL_NV_conditional_render GL_OES_get_program_binary GL_APPLE=
+_texture_max_level GL_EXT_discard_framebuffer GL_EXT_read_format_bgra GL_NV=
+_pack_subimage GL_EXT_frag_depth GL_NV_fbo_color_attachments GL_OES_EGL_ima=
+ge_external GL_OES_EGL_sync GL_OES_vertex_array_object GL_OES_viewport_arra=
+y GL_ANGLE_pack_reverse_row_order GL_ANGLE_texture_compression_dxt3 GL_ANGL=
+E_texture_compression_dxt5 GL_EXT_occlusion_query_boolean GL_EXT_robustness=
+ GL_EXT_texture_rg GL_EXT_unpack_subimage GL_NV_draw_buffers GL_NV_read_buf=
+fer GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_EXT_dra=
+w_buffers GL_EXT_map_buffer_range GL_KHR_debug GL_KHR_robustness GL_KHR_tex=
+ture_compression_astc_ldr GL_NV_pixel_buffer_object GL_OES_depth_texture_cu=
+be_map GL_OES_required_internalformat GL_OES_surfaceless_context GL_EXT_col=
+or_buffer_float GL_EXT_sRGB_write_control GL_EXT_separate_shader_objects GL=
+_EXT_shader_implicit_conversions GL_EXT_shader_integer_mix GL_EXT_tessellat=
+ion_point_size GL_EXT_tessellation_shader GL_ANDROID_extension_pack_es31a G=
+L_EXT_base_instance GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_copy_ima=
+ge GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_gpu_=
+shader5 GL_EXT_polygon_offset_clamp GL_EXT_primitive_bounding_box GL_EXT_re=
+nder_snorm GL_EXT_shader_io_blocks GL_EXT_texture_border_clamp GL_EXT_textu=
+re_buffer GL_EXT_texture_cube_map_array GL_EXT_texture_norm16 GL_EXT_textur=
+e_view GL_KHR_blend_equation_advanced GL_KHR_context_flush_control GL_KHR_r=
+obust_buffer_access_behavior GL_NV_image_formats GL_OES_copy_image GL_OES_d=
+raw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_gpu_shader5 GL_=
+OES_primitive_bounding_box GL_OES_sample_shading GL_OES_sample_variables GL=
+_OES_shader_io_blocks GL_OES_shader_multisample_interpolation GL_OES_tessel=
+lation_point_size GL_OES_tessellation_shader GL_OES_texture_border_clamp GL=
+_OES_texture_buffer GL_OES_texture_cube_map_array GL_OES_texture_stencil8 G=
+L_OES_texture_storage_multisample_2d_array GL_OES_texture_view GL_EXT_blend=
+_func_extended GL_EXT_float_blend GL_EXT_geometry_point_size GL_EXT_geometr=
+y_shader GL_EXT_texture_sRGB_R8 GL_KHR_no_error GL_KHR_texture_compression_=
+astc_sliced_3d GL_OES_EGL_image_external_essl3 GL_OES_geometry_point_size G=
+L_OES_geometry_shader GL_OES_shader_image_atomic GL_EXT_clear_texture GL_EX=
+T_clip_cull_distance GL_EXT_disjoint_timer_query GL_EXT_texture_compression=
+_s3tc_srgb GL_MESA_shader_integer_functions GL_EXT_clip_control GL_EXT_colo=
+r_buffer_half_float GL_EXT_texture_compression_bptc GL_EXT_texture_mirror_c=
+lamp_to_edge GL_KHR_parallel_shader_compile GL_EXT_EGL_image_storage GL_MES=
+A_framebuffer_flip_y GL_EXT_depth_clamp GL_EXT_texture_query_lod GL_MESA_bg=
+ra "
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> Using modifier ffffffffffffff
+> failed to set mode: Invalid argument
+>
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/5569/st=
+eps/12/logs/stdio
+>
+> x32 init issue:
+>
+> [    6.250566] Run /etc/init as init process
+> [    6.251951] Run /bin/init as init process
+> [    6.253182] Run /bin/sh as init process
+> [    6.258191] request_module: kmod_concurrent_max (0) close to 0
+> (max_modprobes: 50), for module binfmt-464c, throttling...
+> [   11.363516] request_module: modprobe binfmt-464c cannot be
+> processed, kmod busy with 50 threads for more than 5 seconds now
+> [   11.366573] Starting init: /bin/sh exists but couldn't execute it
+> (error -8)
+> [   11.369043] Kernel panic - not syncing: No working init found.  Try
+> passing init=3D option to kernel. See Linux Documentation/admin-
+> guide/init.rst for guidance.
+> [   11.371040] CPU: 1 PID: 1 Comm: swapper/0 Not tainted 5.19.0-yocto-
+> standard #1
+> [   11.372059] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS
+> rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014
+> [   11.373541] Call Trace:
+> [   11.373905]  <TASK>
+> [   11.374221]  dump_stack_lvl+0x3a/0x50
+> [   11.374754]  dump_stack+0x10/0x16
+> [   11.375223]  panic+0x113/0x283
+> [   11.375684]  ? rest_init+0xc0/0xc0
+> [   11.376154]  kernel_init+0x127/0x130
+> [   11.376630]  ret_from_fork+0x22/0x30
+> [   11.377120]  </TASK>
+> [   11.377532] Kernel Offset: 0xf600000 from 0xffffffff81000000
+> (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
+> [   11.378972] ---[ end Kernel panic - not syncing: No working init
+> found.  Try passing init=3D option to kernel. See Linux
+> Documentation/admin-guide/init.rst for guidance. ]---
+>
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- .../linux/linux-yocto-rt_5.19.bb              |  2 +-
- .../linux/linux-yocto-tiny_5.19.bb            |  2 +-
- meta/recipes-kernel/linux/linux-yocto_5.19.bb | 20 +++++++++----------
- 3 files changed, 12 insertions(+), 12 deletions(-)
+And patch sent for this one as well.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb
-index 94f900c91a..e70d20f9f0 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb
-@@ -11,7 +11,7 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "e41cf2ea686c923a56b8fbc52ea998dc7193f099"
-+SRCREV_machine ?= "942f6fb5262e8432d6fa982022d953e6a63aec64"
- SRCREV_meta ?= "89fdc2046baff988519317cbe838386b6489779f"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb
-index ab6c0b7d90..b0c4d30ef0 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb
-@@ -14,7 +14,7 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "43e6ab6ed043f4bc8e7cffbb08af86af0bdb5e12"
-+SRCREV_machine ?= "e0e977e1b098d96389f2ab657849456ded9189c9"
- SRCREV_meta ?= "89fdc2046baff988519317cbe838386b6489779f"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.19.bb b/meta/recipes-kernel/linux/linux-yocto_5.19.bb
-index 4debef5f2e..2fb6a05b84 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.19.bb
-@@ -13,16 +13,16 @@ KBRANCH:qemux86  ?= "v5.19/standard/base"
- KBRANCH:qemux86-64 ?= "v5.19/standard/base"
- KBRANCH:qemumips64 ?= "v5.19/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "fdb9f8c3f9a6762603e4d71e3f678dfae1afced6"
--SRCREV_machine:qemuarm64 ?= "43e6ab6ed043f4bc8e7cffbb08af86af0bdb5e12"
--SRCREV_machine:qemumips ?= "128ff884612b479168e68519bb69d1c7a5180b7d"
--SRCREV_machine:qemuppc ?= "43e6ab6ed043f4bc8e7cffbb08af86af0bdb5e12"
--SRCREV_machine:qemuriscv64 ?= "43e6ab6ed043f4bc8e7cffbb08af86af0bdb5e12"
--SRCREV_machine:qemuriscv32 ?= "43e6ab6ed043f4bc8e7cffbb08af86af0bdb5e12"
--SRCREV_machine:qemux86 ?= "43e6ab6ed043f4bc8e7cffbb08af86af0bdb5e12"
--SRCREV_machine:qemux86-64 ?= "43e6ab6ed043f4bc8e7cffbb08af86af0bdb5e12"
--SRCREV_machine:qemumips64 ?= "a078f75cccc88d26763cab4762ed00418813f2cd"
--SRCREV_machine ?= "43e6ab6ed043f4bc8e7cffbb08af86af0bdb5e12"
-+SRCREV_machine:qemuarm ?= "a6ca992258edecafa8bf33cfc5d9e54019ea27b8"
-+SRCREV_machine:qemuarm64 ?= "e0e977e1b098d96389f2ab657849456ded9189c9"
-+SRCREV_machine:qemumips ?= "371a5e816aa00f010df12d9fed04dee9f5829cf1"
-+SRCREV_machine:qemuppc ?= "e0e977e1b098d96389f2ab657849456ded9189c9"
-+SRCREV_machine:qemuriscv64 ?= "e0e977e1b098d96389f2ab657849456ded9189c9"
-+SRCREV_machine:qemuriscv32 ?= "e0e977e1b098d96389f2ab657849456ded9189c9"
-+SRCREV_machine:qemux86 ?= "e0e977e1b098d96389f2ab657849456ded9189c9"
-+SRCREV_machine:qemux86-64 ?= "e0e977e1b098d96389f2ab657849456ded9189c9"
-+SRCREV_machine:qemumips64 ?= "a28b974f928d53d00b06d0d61ae7746336a438f4"
-+SRCREV_machine ?= "e0e977e1b098d96389f2ab657849456ded9189c9"
- SRCREV_meta ?= "89fdc2046baff988519317cbe838386b6489779f"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
--- 
-2.19.1
+Bruce
 
+> Cheers,
+>
+> Richard
+>
+>
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
