@@ -1,85 +1,365 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEFE9C19F2D
-	for <webhook@archiver.kernel.org>; Tue,  9 Aug 2022 16:23:08 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web09.14013.1660062184715341551
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA55BC25B07
+	for <webhook@archiver.kernel.org>; Tue,  9 Aug 2022 16:41:18 +0000 (UTC)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web08.14447.1660063271690396692
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Aug 2022 09:23:05 -0700
+ Tue, 09 Aug 2022 09:41:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=PUpPg/EB;
- spf=pass (domain: gmail.com, ip: 209.85.167.43,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f43.google.com with SMTP id v2so9056562lfi.6
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=PyGPBZME;
+ spf=pass (domain: gmail.com, ip: 209.85.208.176,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-lj1-f176.google.com with SMTP id z20so13565849ljq.3
         for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Aug 2022 09:23:04 -0700 (PDT)
+ Tue, 09 Aug 2022 09:41:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=aqK6WLNjGrgZnS7dq7GxKbbnHDcNfDSpAXkUpXBzgYo=;
-        b=PUpPg/EBDSUkrzC1zrgO0A+fspFtenALiKo6VWdX88Yd6D92a8qRikIF/TmnZ6KTrV
-         ezjtFfz8zKDdelqjBr3f8MAE1h7tAbAmjiPh5Y3LLh7ic3CfmM/eiVAEeBS9inLwU2S0
-         lAFORkTZf5Iu37p2dMbsYreJB1l/CAf/BrXSdqhLYOzhsrTlBnaboaubyRvxae+m74BP
-         Iqa7E/qLL/7vhFBYg0OQ1lGyaqJUgEJl2hI0V27/5zgwUz4XfNn8pdWQeZY9M0kYnf+W
-         VBaQsvBh4+vyQUe+a02C2qZFTQNBuV48W78KMwJXmOsFao2aJcKLMIWDi9wX5NuPmiIo
-         Q6QA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=rDS3S8r0B9T9QGK/3GDwuqa2AKzYE05SUIu0ADipK84=;
+        b=PyGPBZME3hgUv9OTlxg1riGeVtUKQERn8C14yTSNbR7Ziz6eYueiYjCmkJGvXah/6r
+         66xZlLD8pM0QRoKz01zNOLoDpB9yUrChCsSc/74EEBxjRFy39ms4AxQ09jeCLshcNuLJ
+         Z6Cl5XQ9ucsLSMyG2nMSAG0e7GsDp/s4Ut9HoTd9rikkJSJ1M5P3ePHZWyGrDsk7sa76
+         CnX4yM1gQWVvekqD46vc3q9c8i0Ty6SZCarq7/j+qRCoJteBUFlQGGH+ABiQPtK/owL5
+         Co8IVBwm4vAPCtLaZCJSn10OlZfEpCELew4lpSnYJHMPZybbBmxRcx+cE66JPZ6LKAwO
+         9kkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aqK6WLNjGrgZnS7dq7GxKbbnHDcNfDSpAXkUpXBzgYo=;
-        b=QEMvv+fx3BwD3kha3oE0g00mjpkwRtECHGfdy6qsOvJZ3zwsjXwu0ZQBfNAPtx0H3t
-         59RkrM45cefHOCGoVoaPaQVRtZrlhKxg+w7MVpsnCyrvMaCtaRjjLk10MniR/NY/YFMH
-         0ht/v1CLcIC4+RdTE+OmgtkVPnoBO8gQmiFcI2ljw1H96IsBEvz6icLwL+BGI1F1jr1+
-         XsrgYgo012/vGkpHTwxjXfK5LL58EStpH4/ewFifbYKAyOCtLbwjdG8Uog5C5neyBrZV
-         8Bw9YkGw/KlW6wXmFp7VG0dcze4KtChgZrsX0XWtNp3I0zLrcMaErxbPj0bT2lYNxyjh
-         jRIQ==
-X-Gm-Message-State: ACgBeo3LrbNs1xfRfNNlAuT+wvnHr8EvnFzawm2ffBmB/FOqElhKKOhh
-	I1RHZnoy2uPOkYXakMcnREaSX9eQnFEeE8F1lfA=
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=rDS3S8r0B9T9QGK/3GDwuqa2AKzYE05SUIu0ADipK84=;
+        b=RXhcf2I1tSVRenif4aOT2xcKKHufa2QPfdtILbZT0BU+rI5FbZKB/CbP/EUccY0xJG
+         BdPaQsnLPUVIbnftdd/Uc7H1VNek6vVVA/6rqwT+NIG4iCAz/Mfnfjgd99cskyMZl0Or
+         79Wr6NvAIC0qc2qUIJr7g64Vm+m78yji58VtHPh7N6ADyXhsS018uIHSCRl3Zty1hNg5
+         xAWYu8Rn8Ttreqxc9YwXLF09t9IyIKmU5PgEF05vUHVxFpo1442fiFLaDvQzcuilnY0c
+         i/4IfHQx3LjwbAKwpn+BQbektVN1UXQmuJTJEJtcvHuxYtSKiOaEp2l8K2cdmkpWrjMD
+         zcVg==
+X-Gm-Message-State: ACgBeo2jJOiFGKhIXF8a9YoKDo/OaLeV+pHM9vV8aZg+z65m4cHZ7kk8
+	onFOy/OU9CVThl+nqWTw2yXnEWm8Qm+MX/90GY8=
 X-Google-Smtp-Source: 
- AA6agR4mEHliP5NwTW2o5nLfA2B2c0zs0ZMB/O75sjX38iUP+QKCOkc1iUJA7ASz9xHNFipQ7BdC5I+nKe8a1z+4NW4=
-X-Received: by 2002:ac2:4209:0:b0:48a:7386:978f with SMTP id
- y9-20020ac24209000000b0048a7386978fmr8235240lfh.521.1660062182749; Tue, 09
- Aug 2022 09:23:02 -0700 (PDT)
+ AA6agR79eeL5wHhv6OdE2GQfd9oGJMlx8etTXQRQS7pLP0qwvql8mjB0nF8YDYV9dJsovyYAsnd5nJ8rVBHdnmC9jDQ=
+X-Received: by 2002:a2e:309:0:b0:25e:a57:8337 with SMTP id
+ 9-20020a2e0309000000b0025e0a578337mr7679032ljd.50.1660063269694;
+ Tue, 09 Aug 2022 09:41:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220809083527.1221635-1-alban.bedel@aerq.com>
- <42071e5296d8b1df2e55086df95296d1eccbe5bc.camel@linuxfoundation.org>
- <51ea51600d49617d2f6c3b09d7684b205db517e2.camel@aerq.com>
-In-Reply-To: <51ea51600d49617d2f6c3b09d7684b205db517e2.camel@aerq.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 9 Aug 2022 18:22:51 +0200
+References: <17077D238077F896.4080@lists.openembedded.org>
+In-Reply-To: <17077D238077F896.4080@lists.openembedded.org>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Tue, 9 Aug 2022 17:40:58 +0100
 Message-ID: 
- <CANNYZj9gpUC4HWg7pKrfcuBegOFyxWK_++pWHF=pp-hSBh9EMg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] sstate: Don't abort if installing a sstate
- package fails
-To: alban.bedel@aerq.com
-Cc: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ <CANPvuR=TrFFY_UqywBHbpjMnLBsX6xFtNPxZg+PwD4KUsLcwhA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] create-spdx: ignore packing control files from
+ ipk and deb
+To: Jose Quaresma <quaresma.jose@gmail.com>, Steve Sakoman <steve@sakoman.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Ricardo Salveti <ricardo@foundries.io>, daiane.angolini@foundries.io,
+	Jose Quaresma <jose.quaresma@foundries.io>
+Content-Type: multipart/alternative; boundary="0000000000007eb2fc05e5d199c2"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Aug 2022 16:23:08 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Aug 2022 16:41:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169158
+ https://lists.openembedded.org/g/openembedded-core/message/169159
 
-On Tue, 9 Aug 2022 at 15:49, Alban Bedel via lists.openembedded.org
-<alban.bedel=aerq.com@lists.openembedded.org> wrote:
-> > How are you corrupting sstate files? They're moved into place
-> > atomically at the end of processing so this should be really hard to
-> > do.
+--0000000000007eb2fc05e5d199c2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Steve,
+
+Can this patch be backported to kirkstone?
+
+Jose
+
+Jose Quaresma via lists.openembedded.org <quaresma.jose=3D
+gmail.com@lists.openembedded.org> escreveu no dia ter=C3=A7a, 2/08/2022 =C3=
+=A0(s)
+10:29:
+
+> Otherwise spdx can have references for data that is not packed
+> in the package delivered because this contol data is temporarly
+> and only exist while the package is been write.
 >
-> We are still hunting for this problem, but as it happen on a shared build
-> server with several users it is not trivial to find why this is happening.
+> During do_package_write_ipk task in do_package_ipk the control
+> files is cleaned up at the end. This can create a race condiction
+> when the do_create_spdx task runs the add_package_files function
+> and these files is been deleted at same time in the
+> task do_package_write_ipk.
+>
+> ERROR: alsa-topology-conf-1.2.5.1-r0 do_create_spdx: Error executing a
+> python function in exec_func_python() autogenerated:
+>
+> The stack trace of python calls that resulted in this exception/failure
+> was:
+> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+>      0001:
+>  *** 0002:do_create_spdx(d)
+>      0003:
+> File:
+> '/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/create-sp=
+dx.bbclass',
+> lineno: 567, function: do_create_spdx
+>      0563:            package_doc.add_relationship(package_doc,
+> "DESCRIBES", spdx_package)
+>      0564:
+>      0565:            package_archive =3D deploy_dir_spdx / "packages" / =
+(
+> package_doc.name + ".tar.zst")
+>      0566:            with optional_tarfile(package_archive,
+> archive_packaged) as archive:
+>  *** 0567:                package_files =3D add_package_files(
+>      0568:                    d,
+>      0569:                    package_doc,
+>      0570:                    spdx_package,
+>      0571:                    pkgdest / package,
+> File:
+> '/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/create-sp=
+dx.bbclass',
+> lineno: 234, function: add_package_files
+>      0230:                            info.mtime =3D source_date_epoch
+>      0231:
+>      0232:                        archive.addfile(info, f)
+>      0233:
+>  *** 0234:                sha1 =3D bb.utils.sha1_file(filepath)
+>      0235:                sha1s.append(sha1)
+>      0236:                spdx_file.checksums.append(oe.spdx.SPDXChecksum=
+(
+>      0237:                        algorithm=3D"SHA1",
+>      0238:                        checksumValue=3Dsha1,
+> File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 559, function: sha1_file
+>      0555:    """
+>      0556:    Return the hex string representation of the SHA1 checksum o=
+f
+> the filename
+>      0557:    """
+>      0558:    import hashlib
+>  *** 0559:    return _hasher(hashlib.sha1(), filename)
+>      0560:
+>      0561:def sha384_file(filename):
+>      0562:    """
+>      0563:    Return the hex string representation of the SHA384 checksum
+> of the filename
+> File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 528, function: _hasher
+>      0524:
+>      0525:def _hasher(method, filename):
+>      0526:    import mmap
+>      0527:
+>  *** 0528:    with open(filename, "rb") as f:
+>      0529:        try:
+>      0530:            with mmap.mmap(f.fileno(), 0,
+> access=3Dmmap.ACCESS_READ) as mm:
+>      0531:                for chunk in iter(lambda: mm.read(8192), b''):
+>      0532:                    method.update(chunk)
+> Exception: FileNotFoundError: [Errno 2] No such file or directory:
+> '/srv/oe/build/tmp-lmp/work/all-lmp-linux/alsa-topology-conf/1.2.5.1-r0/p=
+ackages-split/alsa-topology-conf/CONTROL/control'
+>
+> ERROR: Logfile of failure stored in:
+> /srv/oe/build/tmp-lmp/work/all-lmp-linux/alsa-topology-conf/1.2.5.1-r0/te=
+mp/log.do_create_spdx.998864
+> INFO: recipe alsa-topology-conf-1.2.5.1-r0: task do_create_spdx: Failed
+>
+> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> ---
+>  meta/classes/create-spdx.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/classes/create-spdx.bbclass
+> b/meta/classes/create-spdx.bbclass
+> index 37b6b569a1..08ef7fd409 100644
+> --- a/meta/classes/create-spdx.bbclass
+> +++ b/meta/classes/create-spdx.bbclass
+> @@ -571,6 +571,7 @@ python do_create_spdx() {
+>                      pkgdest / package,
+>                      lambda file_counter:
+> oe.sbom.get_packaged_file_spdxid(pkg_name, file_counter),
+>                      lambda filepath: ["BINARY"],
+> +                    ignore_top_level_dirs=3D['CONTROL', 'DEBIAN'],
+>                      archive=3Darchive,
+>                  )
+>
+> --
+> 2.37.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#168773):
+> https://lists.openembedded.org/g/openembedded-core/message/168773
+> Mute This Topic: https://lists.openembedded.org/mt/92767075/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-Is somebody running 'bitbake -c cleansstate' or otherwise removing
-items from sstate while someone else is running a regular build? Don't
-do this, bitbake can't handle it.
+--=20
+Best regards,
 
-Alex
+Jos=C3=A9 Quaresma
+
+--0000000000007eb2fc05e5d199c2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi=C2=A0Steve,<div><br></div><div>Can this patch be backpo=
+rted to kirkstone?</div><div><br></div><div>Jose</div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Jose Quaresma via <a=
+ href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;quar=
+esma.jose=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@l=
+ists.openembedded.org</a>&gt; escreveu no dia ter=C3=A7a, 2/08/2022 =C3=A0(=
+s) 10:29:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Otherw=
+ise spdx can have references for data that is not packed<br>
+in the package delivered because this contol data is temporarly<br>
+and only exist while the package is been write.<br>
+<br>
+During do_package_write_ipk task in do_package_ipk the control<br>
+files is cleaned up at the end. This can create a race condiction<br>
+when the do_create_spdx task runs the add_package_files function<br>
+and these files is been deleted at same time in the<br>
+task do_package_write_ipk.<br>
+<br>
+ERROR: alsa-topology-conf-1.2.5.1-r0 do_create_spdx: Error executing a pyth=
+on function in exec_func_python() autogenerated:<br>
+<br>
+The stack trace of python calls that resulted in this exception/failure was=
+:<br>
+File: &#39;exec_func_python() autogenerated&#39;, lineno: 2, function: &lt;=
+module&gt;<br>
+=C2=A0 =C2=A0 =C2=A00001:<br>
+=C2=A0*** 0002:do_create_spdx(d)<br>
+=C2=A0 =C2=A0 =C2=A00003:<br>
+File: &#39;/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/c=
+reate-spdx.bbclass&#39;, lineno: 567, function: do_create_spdx<br>
+=C2=A0 =C2=A0 =C2=A00563:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 package_=
+doc.add_relationship(package_doc, &quot;DESCRIBES&quot;, spdx_package)<br>
+=C2=A0 =C2=A0 =C2=A00564:<br>
+=C2=A0 =C2=A0 =C2=A00565:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 package_=
+archive =3D deploy_dir_spdx / &quot;packages&quot; / (<a href=3D"http://pac=
+kage_doc.name" rel=3D"noreferrer" target=3D"_blank">package_doc.name</a> + =
+&quot;.tar.zst&quot;)<br>
+=C2=A0 =C2=A0 =C2=A00566:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with opt=
+ional_tarfile(package_archive, archive_packaged) as archive:<br>
+=C2=A0*** 0567:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pack=
+age_files =3D add_package_files(<br>
+=C2=A0 =C2=A0 =C2=A00568:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 d,<br>
+=C2=A0 =C2=A0 =C2=A00569:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 package_doc,<br>
+=C2=A0 =C2=A0 =C2=A00570:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 spdx_package,<br>
+=C2=A0 =C2=A0 =C2=A00571:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 pkgdest / package,<br>
+File: &#39;/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/c=
+reate-spdx.bbclass&#39;, lineno: 234, function: add_package_files<br>
+=C2=A0 =C2=A0 =C2=A00230:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.mtime =3D source_date=
+_epoch<br>
+=C2=A0 =C2=A0 =C2=A00231:<br>
+=C2=A0 =C2=A0 =C2=A00232:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 archive.addfile(info, f)<br>
+=C2=A0 =C2=A0 =C2=A00233:<br>
+=C2=A0*** 0234:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sha1=
+ =3D bb.utils.sha1_file(filepath)<br>
+=C2=A0 =C2=A0 =C2=A00235:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 sha1s.append(sha1)<br>
+=C2=A0 =C2=A0 =C2=A00236:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 spdx_file.checksums.append(oe.spdx.SPDXChecksum(<br>
+=C2=A0 =C2=A0 =C2=A00237:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 algorithm=3D&quot;SHA1&quot;,<br>
+=C2=A0 =C2=A0 =C2=A00238:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 checksumValue=3Dsha1,<br>
+File: &#39;/srv/oe/bitbake/lib/bb/utils.py&#39;, lineno: 559, function: sha=
+1_file<br>
+=C2=A0 =C2=A0 =C2=A00555:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A00556:=C2=A0 =C2=A0 Return the hex string representation=
+ of the SHA1 checksum of the filename<br>
+=C2=A0 =C2=A0 =C2=A00557:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A00558:=C2=A0 =C2=A0 import hashlib<br>
+=C2=A0*** 0559:=C2=A0 =C2=A0 return _hasher(hashlib.sha1(), filename)<br>
+=C2=A0 =C2=A0 =C2=A00560:<br>
+=C2=A0 =C2=A0 =C2=A00561:def sha384_file(filename):<br>
+=C2=A0 =C2=A0 =C2=A00562:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A00563:=C2=A0 =C2=A0 Return the hex string representation=
+ of the SHA384 checksum of the filename<br>
+File: &#39;/srv/oe/bitbake/lib/bb/utils.py&#39;, lineno: 528, function: _ha=
+sher<br>
+=C2=A0 =C2=A0 =C2=A00524:<br>
+=C2=A0 =C2=A0 =C2=A00525:def _hasher(method, filename):<br>
+=C2=A0 =C2=A0 =C2=A00526:=C2=A0 =C2=A0 import mmap<br>
+=C2=A0 =C2=A0 =C2=A00527:<br>
+=C2=A0*** 0528:=C2=A0 =C2=A0 with open(filename, &quot;rb&quot;) as f:<br>
+=C2=A0 =C2=A0 =C2=A00529:=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
+=C2=A0 =C2=A0 =C2=A00530:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with mma=
+p.mmap(f.fileno(), 0, access=3Dmmap.ACCESS_READ) as mm:<br>
+=C2=A0 =C2=A0 =C2=A00531:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 for chunk in iter(lambda: mm.read(8192), b&#39;&#39;):<br>
+=C2=A0 =C2=A0 =C2=A00532:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 method.update(chunk)<br>
+Exception: FileNotFoundError: [Errno 2] No such file or directory: &#39;/sr=
+v/oe/build/tmp-lmp/work/all-lmp-linux/alsa-topology-conf/1.2.5.1-r0/package=
+s-split/alsa-topology-conf/CONTROL/control&#39;<br>
+<br>
+ERROR: Logfile of failure stored in: /srv/oe/build/tmp-lmp/work/all-lmp-lin=
+ux/alsa-topology-conf/1.2.5.1-r0/temp/log.do_create_spdx.998864<br>
+INFO: recipe alsa-topology-conf-1.2.5.1-r0: task do_create_spdx: Failed<br>
+<br>
+Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@foundries.=
+io" target=3D"_blank">jose.quaresma@foundries.io</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/create-spdx.bbclass | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.bb=
+class<br>
+index 37b6b569a1..08ef7fd409 100644<br>
+--- a/meta/classes/create-spdx.bbclass<br>
++++ b/meta/classes/create-spdx.bbclass<br>
+@@ -571,6 +571,7 @@ python do_create_spdx() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0pkgdest / package,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0lambda file_counter: oe.sbom.get_packaged_file_spdxid(pkg_name, file_cou=
+nter),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0lambda filepath: [&quot;BINARY&quot;],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 igno=
+re_top_level_dirs=3D[&#39;CONTROL&#39;, &#39;DEBIAN&#39;],<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0archive=3Darchive,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0)<br>
+<br>
+-- <br>
+2.37.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#168773): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/168773" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/168773</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/92767075/5052=
+612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/92767075/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
+ Quaresma</div></div></div>
+
+--0000000000007eb2fc05e5d199c2--
 
