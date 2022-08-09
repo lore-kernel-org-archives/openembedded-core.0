@@ -1,365 +1,288 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA55BC25B07
-	for <webhook@archiver.kernel.org>; Tue,  9 Aug 2022 16:41:18 +0000 (UTC)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by mx.groups.io with SMTP id smtpd.web08.14447.1660063271690396692
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE92BC19F2D
+	for <webhook@archiver.kernel.org>; Tue,  9 Aug 2022 19:53:32 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
+ [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.194.1660074809308410478
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Aug 2022 09:41:12 -0700
+ Tue, 09 Aug 2022 12:53:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=PyGPBZME;
- spf=pass (domain: gmail.com, ip: 209.85.208.176,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lj1-f176.google.com with SMTP id z20so13565849ljq.3
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Aug 2022 09:41:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=rDS3S8r0B9T9QGK/3GDwuqa2AKzYE05SUIu0ADipK84=;
-        b=PyGPBZME3hgUv9OTlxg1riGeVtUKQERn8C14yTSNbR7Ziz6eYueiYjCmkJGvXah/6r
-         66xZlLD8pM0QRoKz01zNOLoDpB9yUrChCsSc/74EEBxjRFy39ms4AxQ09jeCLshcNuLJ
-         Z6Cl5XQ9ucsLSMyG2nMSAG0e7GsDp/s4Ut9HoTd9rikkJSJ1M5P3ePHZWyGrDsk7sa76
-         CnX4yM1gQWVvekqD46vc3q9c8i0Ty6SZCarq7/j+qRCoJteBUFlQGGH+ABiQPtK/owL5
-         Co8IVBwm4vAPCtLaZCJSn10OlZfEpCELew4lpSnYJHMPZybbBmxRcx+cE66JPZ6LKAwO
-         9kkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=rDS3S8r0B9T9QGK/3GDwuqa2AKzYE05SUIu0ADipK84=;
-        b=RXhcf2I1tSVRenif4aOT2xcKKHufa2QPfdtILbZT0BU+rI5FbZKB/CbP/EUccY0xJG
-         BdPaQsnLPUVIbnftdd/Uc7H1VNek6vVVA/6rqwT+NIG4iCAz/Mfnfjgd99cskyMZl0Or
-         79Wr6NvAIC0qc2qUIJr7g64Vm+m78yji58VtHPh7N6ADyXhsS018uIHSCRl3Zty1hNg5
-         xAWYu8Rn8Ttreqxc9YwXLF09t9IyIKmU5PgEF05vUHVxFpo1442fiFLaDvQzcuilnY0c
-         i/4IfHQx3LjwbAKwpn+BQbektVN1UXQmuJTJEJtcvHuxYtSKiOaEp2l8K2cdmkpWrjMD
-         zcVg==
-X-Gm-Message-State: ACgBeo2jJOiFGKhIXF8a9YoKDo/OaLeV+pHM9vV8aZg+z65m4cHZ7kk8
-	onFOy/OU9CVThl+nqWTw2yXnEWm8Qm+MX/90GY8=
-X-Google-Smtp-Source: 
- AA6agR79eeL5wHhv6OdE2GQfd9oGJMlx8etTXQRQS7pLP0qwvql8mjB0nF8YDYV9dJsovyYAsnd5nJ8rVBHdnmC9jDQ=
-X-Received: by 2002:a2e:309:0:b0:25e:a57:8337 with SMTP id
- 9-20020a2e0309000000b0025e0a578337mr7679032ljd.50.1660063269694;
- Tue, 09 Aug 2022 09:41:09 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=GfxxDIt9;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.166.238,
+ mailfrom: prvs=5220609cec=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
+ 279JRJM6030078
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 9 Aug 2022 12:53:29 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=content-type :
+ message-id : date : subject : to : cc : references : from : in-reply-to :
+ mime-version; s=PPS06212021;
+ bh=CsPgGaai1cXRGMyLQYLpClL4kTKr2RN1V7g4b6CxDSU=;
+ b=GfxxDIt9w/+1Sm6m08hyQt+zyBXfJjjy6BUoBw0XsBKN0jpH+rGkJFcmtMq9N6Gb8q9s
+ mX86Rg+fbW0hHaSaJpCnvKGs0tQ1Jdjw9yItfOtCeXemfGUZZq+fcHp8Fd0D9xUP2qBi
+ zeDOt15qsoHqi89WHSlUFUOKmyesxYSzXXqdelVRa0Pnd2gOEL5rh77Gar04cFOjDw98
+ bGdY0jCFQp5SU/N01ytkHeaO7pxv8lYmtcyhtS9EdihZ5dor2orQL+vBmjWgOgtPXvCO
+ 7RlbbgKwQjWnDt1e+XpcNr/J+hHgvcu/iujxLrIFlsn9PTHHCni0apOOCYZLpvo/5ny7 jg==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3huwr7r0gs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 09 Aug 2022 12:53:28 -0700
+Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 279JrSAx001810
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 9 Aug 2022 12:53:28 -0700
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2175.outbound.protection.outlook.com [104.47.55.175])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3huwr7r0gr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 09 Aug 2022 12:53:28 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Gl1R0db2UtcVQ5XDno/sro/Y/Q6eYa7ivNh0Hm8wlbt7Bp6sGyNva+x/ZlpWEPQUv51WoKoE8t4trrZ75PThjCH0RWAJjN4QA/0SyD/xokTHkkXZdNhwhC8FoLDGXFR5rEkm8aSq8owKktf0brIkcAILTwj5g0LmUEPSk04CKujRVsXzZafgYUJ5Aa08jDoqjvyk0AKkDueEz5KcyyS6s9YYg9VuVfj6HdJpLw8khZ461IQLrN4x0sA+Jdl/5556hbuv2Xv9babUtQ3DG4mEuH/GVVyYjpPT45RUsH4pd0mvf/NRwj4zkq5pkAqW4facBAU9+4aPTKRBll2cgjfkiQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CsPgGaai1cXRGMyLQYLpClL4kTKr2RN1V7g4b6CxDSU=;
+ b=aSfYOpdlgUI50VazUtx7z4yKVeO+qzUEiXQzkoO836xmx7cWHwcE/NOS19dPT9OAemcdCCaKty/jlcPY+my441RuBZIVG7Fmk3OMdne4HMz5gNDsKF8aC9b4IX8moMw0EYk+ibyKMEoQkD4yal1tMF6D9noZzXVZFUisORuCgHilijULZmYEl11P9HCDCTbUj2CCM1vqxhYo+jSoEv3IF/HVMiOnjqwujSTjZKlR8XeeADTv4Wg/KGjTj7mp0EOkaTFVpiQZBL3ZqaL1pkeygS5zNRbg5E6HJ5nh5U3Klgj7m+5gOYwAYF97HP1t+pYCl2s9JKnCHscxo8eKQaOFnQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
+ by SJ0PR11MB5598.namprd11.prod.outlook.com (2603:10b6:a03:304::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Tue, 9 Aug
+ 2022 19:53:24 +0000
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::b5ff:be5e:771a:9060]) by DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::b5ff:be5e:771a:9060%5]) with mapi id 15.20.5504.020; Tue, 9 Aug 2022
+ 19:53:24 +0000
+Content-Type: multipart/alternative;
+ boundary="------------SJL3uI2encjELPO50p9g0ca1"
+Message-ID: <be26318e-b250-0292-d18b-02f4cf645c15@windriver.com>
+Date: Tue, 9 Aug 2022 15:53:20 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [OE-core][PATCH] classes/sanity: De-golf regex
+Content-Language: en-CA
+To: Joshua Watt <JPEWhacker@gmail.com>,
+        openembedded-core@lists.openembedded.org
+Cc: luca.ceresoli@bootlin.com
+References: <20220808131951.2029559-1-JPEWhacker@gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+In-Reply-To: <20220808131951.2029559-1-JPEWhacker@gmail.com>
+X-ClientProxiedBy: BY5PR20CA0014.namprd20.prod.outlook.com
+ (2603:10b6:a03:1f4::27) To DM6PR11MB3994.namprd11.prod.outlook.com
+ (2603:10b6:5:193::19)
 MIME-Version: 1.0
-References: <17077D238077F896.4080@lists.openembedded.org>
-In-Reply-To: <17077D238077F896.4080@lists.openembedded.org>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Tue, 9 Aug 2022 17:40:58 +0100
-Message-ID: 
- <CANPvuR=TrFFY_UqywBHbpjMnLBsX6xFtNPxZg+PwD4KUsLcwhA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] create-spdx: ignore packing control files from
- ipk and deb
-To: Jose Quaresma <quaresma.jose@gmail.com>, Steve Sakoman <steve@sakoman.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Ricardo Salveti <ricardo@foundries.io>, daiane.angolini@foundries.io,
-	Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: multipart/alternative; boundary="0000000000007eb2fc05e5d199c2"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 96616c1a-c01a-46e0-2122-08da7a40d15d
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB5598:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	EJDpUpGCkD6feyX/wUaaj8MtCLYj3ptT6NyFetxwtUJW2yyzO5MSHB9ONIDMACmt/7y4Wq2NzpO/9ck83ZHM50wr3fKEczNghNvf5E/t6Qo+FgvjS/EzktRnsMw9K0poAgaC6gSi6Tj/UPxono22sgxs81QBAcGUD54p8z4Jm2Me+WvbAUE5SIif8MgjRwmH9F6s9kgIM111pXTc6V4htSFFrTQxChJrY5GYY/2AMIomTLQyY3TKBpRY6pw4V8ClTpmHUvr3l7MuBomQAQd+7g8Uj7XCJedecHdicvU+PhOnRej6vSMggSpjnAllbOWHCMpT+vgbo1/peyrU3sTUxfpYjNW+2pX7Pr0EZBFlGFBkaRH5YIdDG+XMzfOVthOHlTOGonCnkLSF30Gb/g3wLHeBEJpEjsjrDcLZ5Hfxntz3PhoqkBjP0rSF2wibJ+w3ELzCug2Em/Nz7UsvvjWvOVhUaAP2wLSdnxRlkoWjvr136AADDWn6lNg1S+kQLcOk7VqzIjxDupV1S3IIWQNknGCSs5HhIXB2QO/pRwRrRqRK3CkIWxsvuv5a+XTpLTGWOuxTaJRX9MpBiahxoG2KnAfxFGGgPqFBLleEpAEsEhwjK7xpkgM+3h+Rm1Z5WDT9De43KCnCfHb/82teOC+lOb9i/q3rq9iJsHonep2qhNGAdqhtaaNV0CvKj7KXvlk+wd0oghsrt4MAc1J1/XEFFsJk2o71QfcEUrFgeOQxSUhOHNpKD8vv/vUL1f1hjnnqosZ4Wcztl1uggrvINtbc9hI3kF6o5oBHhb4cLusWByBq/PlikxcSHgK6vObQ9x0nG7wx79KJHA63EyCXhX80hX4qypy6d2c6Tj+XtLBLbvnNLSAZ4h8j3IfPv64PbMe2vnVyVqQ9XNZDno8MGSi3s87sRNFsdaWbosDesA85aBM=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(366004)(376002)(136003)(396003)(39850400004)(8936002)(66946007)(966005)(83380400001)(478600001)(66476007)(66556008)(6486002)(7066003)(4326008)(86362001)(31696002)(8676002)(316002)(186003)(2616005)(6666004)(41300700001)(5660300002)(166002)(53546011)(6512007)(26005)(38100700002)(6506007)(38350700002)(33964004)(52116002)(36756003)(16799955002)(2906002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?ZExCYk15SmNIL0pMMkFvU0FRbWMrSG41aVpXcUFZWS84ZzA4SURaUkdseFR6?=
+ =?utf-8?B?S3YwUld3bVh6SVZDSmlhNVpTV0ZWMm5mMllUT1NCK2NjT2N1cFVnUnpJc1Uy?=
+ =?utf-8?B?bGJJRGJGZFp6YzBHZ0N0Tk9XYjBDNU9jY3F6blJKaFdDSjduTUY1MGVNUWlQ?=
+ =?utf-8?B?Q2l3MThINi9FTXZrb3FUaEFweDlsRit6OWhRaE40UHZEU002V2ZFSzZpdFhj?=
+ =?utf-8?B?c2lrY3VNZi9odno1Z3I4a1Q1bVJpWkEzZ1YySm1Ca01kSXJTd0VTZ0thVE83?=
+ =?utf-8?B?OW1TcEphZzU0T1JJRVovSWw2MGk3M0x0Q3EwMklZR0xhVUV5VEVkdnNSVmVZ?=
+ =?utf-8?B?SDhlQXBEc3M5cFJEMmJPaXdTK3JDNXQzMmhsSVRQbmlQLzlpSk5wNEE2Y3hz?=
+ =?utf-8?B?ZTJaWngwZTd2cXNWaVhGd2F5bmRpMXBZRHRSUHFXK2UzeHdVREFYYjJjTnF3?=
+ =?utf-8?B?RDlESEVTMmNhaE1PWU1Da2NpaUY0bm1ndEVCd2pwZXVwVU9FSzdrZFR4aHlv?=
+ =?utf-8?B?Sjd1ZVJLaEIxWktwejJMZ0JSSEQrZkFoVDJuQ2FvbFZnS2RjR3o5YUl0NHEz?=
+ =?utf-8?B?TDVtaFZiSExKRXlMU1FCdDZObjNoRUZMOXZtc0p5dHVKYWhobFdoZmxNdmcv?=
+ =?utf-8?B?aS9ENjg0OVVnZXNTNkpwemhQTVE1eWVZeURxOXYyRk82QUpWUTJCMWN0L3Zw?=
+ =?utf-8?B?STRUd09hbUpWVEErK0lIc3FrOGVBMzhOaUp5d1JlU3NtY1BRRHAwNWF4UmR3?=
+ =?utf-8?B?ZEMxZmppbVovMDd1aHpBam1vb0lVa3cvV3dZTWdIRTZEVVQ3TGNkenA0UHNS?=
+ =?utf-8?B?Z0FXak02Q1lWdngxaEl0czBIYzNNSjc3QTBEWXV4cXUrK3FuTnFzNjE2Rm9S?=
+ =?utf-8?B?SWhJeUNOdWlyQ1dFZVZiRElTWXkxTDVadnkweWd1d3hzNURteHV1M1RoT2N0?=
+ =?utf-8?B?d0JWMjd3dzhCekU4WCtydnVOcGd0c0YzUm0xV2Y4MlpLbDVzT2tuRFhCUVhJ?=
+ =?utf-8?B?WWsxZzFaZEZ5ditpVjNVTXVRRUQ3WlhEN3htdHZudnl3a213UGR3ZWt1MXNY?=
+ =?utf-8?B?cXMyMUFEMmdkUGdmZUNsNnM1NG01ZDJldkNYWXJkdTA0OFNEcXZiK2k5azlv?=
+ =?utf-8?B?aGdVZkVEQnVleUlNWG95ZHdkVWZXUzdCcUkxM2JwcnE0cWc5Y0tIMENSekln?=
+ =?utf-8?B?NHNnZVBINWpHYmsyVTR4djdCR2k2OWxxbjYzaENnL3NjSm9JNXdnTFREYmwz?=
+ =?utf-8?B?TFBaUWRNc2p5cXBmRWowanZWUE5wR2luOU9OcjJjQnNpWUFkNVhmY1dnZEk1?=
+ =?utf-8?B?emRHNmhROUR0b2JMVEhseVB4NmZwdzRRZ2MvSEYvTjBEKzBoVjcxWkpEcnQ4?=
+ =?utf-8?B?ejdOZVpaWTVZNkI4M2VVeFFxTFhpVG5yRzRHTXluUDVBVm1FK2FhclJnZExy?=
+ =?utf-8?B?ZjNDOUF4SElmYXpxQWdmbit3czZ5WW05TFYrdjN6eGtYQjNiZGN0QnJNNEJT?=
+ =?utf-8?B?TDFCTVo2SkQwa0NqZXJ4bDBNN3hXdDZKdDFYQTI3d2t4N2V6bDlVYXhVdlpV?=
+ =?utf-8?B?WmFXc2loMC8xWFE5M2xuR1FnOHdPcVdaTGVBUEx4d2J5eWlpYXRVUTVEcXhX?=
+ =?utf-8?B?emxmd1QrbERVTUtIS3A0aXQ0NFM2VzZJem91b2FZejVnUFkrMVJndzdpQU52?=
+ =?utf-8?B?RldCbEM3anRCV3RYUy94TTVUbCt5Qis3N0M1ZlM2MHAvS0x1VzUvTG8vMity?=
+ =?utf-8?B?RVpaeTRnMXBRYmdCdHk0bVFUTlllVUswVDBQeTdoVm1hcFNUelpsZlZrVXla?=
+ =?utf-8?B?MXFqd0RYcWwvcUVxSjVtakppMkVnWHRYbjg2SGx5ZGJlZzJNZGh3bXkxbmdm?=
+ =?utf-8?B?TzZuTHFCd2k1b0tGb3VvM3NPbGMvRVErQ0xVN2NEVHVqNGxENEZ2Um5kTDEv?=
+ =?utf-8?B?TnVNVG9TbVZOUzBya3ZJNzlSOFhXYVpzM2RjR1ZmTUY5aHpLSkJhSk1FcEsr?=
+ =?utf-8?B?Q2NjeWQvaTJtUEhUUkFPbElSSFN6aW91QnBRSHNZS2FRNTBsOUp1TGgwMFR6?=
+ =?utf-8?B?MWgrY0VmTXJwNFNVcStuaytKL0JRblNFNm1FdnVKZ1N4VlFXMmNFeEtkUlE3?=
+ =?utf-8?B?OXcyNll2K1RINEFKWmc2RmtUSitwSGxPWTl2SDJGR3BTRE91NEFpcjhHU0Zm?=
+ =?utf-8?B?Ymc9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 96616c1a-c01a-46e0-2122-08da7a40d15d
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2022 19:53:23.9445
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ D//ayqKQH3z+1998nemvfHcTJp2/MF9Nh6zj+erATTRhpj4+LSpUWedtbTV/nLe+CgqxPbm8wV0Wjw4V5A0NenmkeLRewfejVUNRoaHGnEk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5598
+X-Proofpoint-GUID: DKMSuOb5ZW3R_SUMZGNJcrF0ocM51G3D
+X-Proofpoint-ORIG-GUID: -19Oq0zFjuRvHunfqmwOSxW73huB4LvP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-09_05,2022-08-09_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ priorityscore=1501 phishscore=0 impostorscore=0 spamscore=0 suspectscore=0
+ malwarescore=0 bulkscore=0 mlxscore=0 adultscore=0 mlxlogscore=999
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208090074
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Aug 2022 16:41:18 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Aug 2022 19:53:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169159
+ https://lists.openembedded.org/g/openembedded-core/message/169160
 
---0000000000007eb2fc05e5d199c2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--------------SJL3uI2encjELPO50p9g0ca1
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Steve,
+De-golf?
 
-Can this patch be backported to kirkstone?
+LoL: https://www.explainxkcd.com/wiki/index.php/1313:_Regex_Golf
 
-Jose
+on "regex golf <http://regex.alf.nu/>", which is a discipline of "code 
+golf <https://en.wikipedia.org/wiki/Code_golf>", a game in which 
+programmers attempt to solve a given programming problem using as few 
+characters as possible,
 
-Jose Quaresma via lists.openembedded.org <quaresma.jose=3D
-gmail.com@lists.openembedded.org> escreveu no dia ter=C3=A7a, 2/08/2022 =C3=
-=A0(s)
-10:29:
 
-> Otherwise spdx can have references for data that is not packed
-> in the package delivered because this contol data is temporarly
-> and only exist while the package is been write.
+I need to get out more!
+
+../Randy
+
+
+On 2022-08-08 09:19, Joshua Watt wrote:
+> The regex to match github or gitlab was unnecessarily shortened, which
+> prevented them from showing up when grepping.
 >
-> During do_package_write_ipk task in do_package_ipk the control
-> files is cleaned up at the end. This can create a race condiction
-> when the do_create_spdx task runs the add_package_files function
-> and these files is been deleted at same time in the
-> task do_package_write_ipk.
->
-> ERROR: alsa-topology-conf-1.2.5.1-r0 do_create_spdx: Error executing a
-> python function in exec_func_python() autogenerated:
->
-> The stack trace of python calls that resulted in this exception/failure
-> was:
-> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
->      0001:
->  *** 0002:do_create_spdx(d)
->      0003:
-> File:
-> '/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/create-sp=
-dx.bbclass',
-> lineno: 567, function: do_create_spdx
->      0563:            package_doc.add_relationship(package_doc,
-> "DESCRIBES", spdx_package)
->      0564:
->      0565:            package_archive =3D deploy_dir_spdx / "packages" / =
-(
-> package_doc.name + ".tar.zst")
->      0566:            with optional_tarfile(package_archive,
-> archive_packaged) as archive:
->  *** 0567:                package_files =3D add_package_files(
->      0568:                    d,
->      0569:                    package_doc,
->      0570:                    spdx_package,
->      0571:                    pkgdest / package,
-> File:
-> '/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/create-sp=
-dx.bbclass',
-> lineno: 234, function: add_package_files
->      0230:                            info.mtime =3D source_date_epoch
->      0231:
->      0232:                        archive.addfile(info, f)
->      0233:
->  *** 0234:                sha1 =3D bb.utils.sha1_file(filepath)
->      0235:                sha1s.append(sha1)
->      0236:                spdx_file.checksums.append(oe.spdx.SPDXChecksum=
-(
->      0237:                        algorithm=3D"SHA1",
->      0238:                        checksumValue=3Dsha1,
-> File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 559, function: sha1_file
->      0555:    """
->      0556:    Return the hex string representation of the SHA1 checksum o=
-f
-> the filename
->      0557:    """
->      0558:    import hashlib
->  *** 0559:    return _hasher(hashlib.sha1(), filename)
->      0560:
->      0561:def sha384_file(filename):
->      0562:    """
->      0563:    Return the hex string representation of the SHA384 checksum
-> of the filename
-> File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 528, function: _hasher
->      0524:
->      0525:def _hasher(method, filename):
->      0526:    import mmap
->      0527:
->  *** 0528:    with open(filename, "rb") as f:
->      0529:        try:
->      0530:            with mmap.mmap(f.fileno(), 0,
-> access=3Dmmap.ACCESS_READ) as mm:
->      0531:                for chunk in iter(lambda: mm.read(8192), b''):
->      0532:                    method.update(chunk)
-> Exception: FileNotFoundError: [Errno 2] No such file or directory:
-> '/srv/oe/build/tmp-lmp/work/all-lmp-linux/alsa-topology-conf/1.2.5.1-r0/p=
-ackages-split/alsa-topology-conf/CONTROL/control'
->
-> ERROR: Logfile of failure stored in:
-> /srv/oe/build/tmp-lmp/work/all-lmp-linux/alsa-topology-conf/1.2.5.1-r0/te=
-mp/log.do_create_spdx.998864
-> INFO: recipe alsa-topology-conf-1.2.5.1-r0: task do_create_spdx: Failed
->
-> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> Signed-off-by: Joshua Watt<JPEWhacker@gmail.com>
 > ---
->  meta/classes/create-spdx.bbclass | 1 +
->  1 file changed, 1 insertion(+)
+>   meta/classes/insane.bbclass | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/classes/create-spdx.bbclass
-> b/meta/classes/create-spdx.bbclass
-> index 37b6b569a1..08ef7fd409 100644
-> --- a/meta/classes/create-spdx.bbclass
-> +++ b/meta/classes/create-spdx.bbclass
-> @@ -571,6 +571,7 @@ python do_create_spdx() {
->                      pkgdest / package,
->                      lambda file_counter:
-> oe.sbom.get_packaged_file_spdxid(pkg_name, file_counter),
->                      lambda filepath: ["BINARY"],
-> +                    ignore_top_level_dirs=3D['CONTROL', 'DEBIAN'],
->                      archive=3Darchive,
->                  )
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 37e10ad850..b66926f540 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -1335,7 +1335,7 @@ def unpack_check_src_uri(pn, d):
+>           oe.qa.handle_error("src-uri-bad", "%s: SRC_URI uses PN not BPN" % pn, d)
+>   
+>       for url in d.getVar("SRC_URI").split():
+> -        if re.search(r"git(hu|la)b\.com/.+/.+/archive/.+", url):
+> +        if re.search(r"(github|gitlab)\.com/.+/.+/archive/.+", url):
+>               oe.qa.handle_error("src-uri-bad", "%s: SRC_URI uses unstable GitHub/GitLab archives, convert recipe to use git protocol" % pn, d)
+>   
+>   python do_qa_unpack() {
 >
-> --
-> 2.37.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#168773):
-> https://lists.openembedded.org/g/openembedded-core/message/168773
-> Mute This Topic: https://lists.openembedded.org/mt/92767075/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> View/Reply Online (#169085):https://lists.openembedded.org/g/openembedded-core/message/169085
+> Mute This Topic:https://lists.openembedded.org/mt/92891575/3616765
+> Group Owner:openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [randy.macleod@windriver.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
 
---=20
-Best regards,
+-- 
+# Randy MacLeod
+# Wind River Linux
 
-Jos=C3=A9 Quaresma
+--------------SJL3uI2encjELPO50p9g0ca1
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
---0000000000007eb2fc05e5d199c2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <p>De-golf?</p>
+    <p>LoL: <a class="moz-txt-link-freetext" href="https://www.explainxkcd.com/wiki/index.php/1313:_Regex_Golf">https://www.explainxkcd.com/wiki/index.php/1313:_Regex_Golf</a><br>
+    </p>
+    <p>on &quot;<a rel="nofollow" class="external text" href="http://regex.alf.nu/">regex golf</a>&quot;, which is a
+      discipline of &quot;<a href="https://en.wikipedia.org/wiki/Code_golf" class="extiw" title="wikipedia:Code golf">code golf</a>&quot;, a game
+      in which programmers attempt to solve a given programming problem
+      using as few characters as possible, <br>
+    </p>
+    <p><br>
+    </p>
+    <p>I need to get out more!</p>
+    <p>../Randy<br>
+    </p>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2022-08-08 09:19, Joshua Watt wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:20220808131951.2029559-1-JPEWhacker@gmail.com">
+      <pre class="moz-quote-pre" wrap="">The regex to match github or gitlab was unnecessarily shortened, which
+prevented them from showing up when grepping.
 
-<div dir=3D"ltr">Hi=C2=A0Steve,<div><br></div><div>Can this patch be backpo=
-rted to kirkstone?</div><div><br></div><div>Jose</div></div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Jose Quaresma via <a=
- href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;quar=
-esma.jose=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@l=
-ists.openembedded.org</a>&gt; escreveu no dia ter=C3=A7a, 2/08/2022 =C3=A0(=
-s) 10:29:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Otherw=
-ise spdx can have references for data that is not packed<br>
-in the package delivered because this contol data is temporarly<br>
-and only exist while the package is been write.<br>
-<br>
-During do_package_write_ipk task in do_package_ipk the control<br>
-files is cleaned up at the end. This can create a race condiction<br>
-when the do_create_spdx task runs the add_package_files function<br>
-and these files is been deleted at same time in the<br>
-task do_package_write_ipk.<br>
-<br>
-ERROR: alsa-topology-conf-1.2.5.1-r0 do_create_spdx: Error executing a pyth=
-on function in exec_func_python() autogenerated:<br>
-<br>
-The stack trace of python calls that resulted in this exception/failure was=
-:<br>
-File: &#39;exec_func_python() autogenerated&#39;, lineno: 2, function: &lt;=
-module&gt;<br>
-=C2=A0 =C2=A0 =C2=A00001:<br>
-=C2=A0*** 0002:do_create_spdx(d)<br>
-=C2=A0 =C2=A0 =C2=A00003:<br>
-File: &#39;/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/c=
-reate-spdx.bbclass&#39;, lineno: 567, function: do_create_spdx<br>
-=C2=A0 =C2=A0 =C2=A00563:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 package_=
-doc.add_relationship(package_doc, &quot;DESCRIBES&quot;, spdx_package)<br>
-=C2=A0 =C2=A0 =C2=A00564:<br>
-=C2=A0 =C2=A0 =C2=A00565:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 package_=
-archive =3D deploy_dir_spdx / &quot;packages&quot; / (<a href=3D"http://pac=
-kage_doc.name" rel=3D"noreferrer" target=3D"_blank">package_doc.name</a> + =
-&quot;.tar.zst&quot;)<br>
-=C2=A0 =C2=A0 =C2=A00566:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with opt=
-ional_tarfile(package_archive, archive_packaged) as archive:<br>
-=C2=A0*** 0567:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pack=
-age_files =3D add_package_files(<br>
-=C2=A0 =C2=A0 =C2=A00568:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 d,<br>
-=C2=A0 =C2=A0 =C2=A00569:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 package_doc,<br>
-=C2=A0 =C2=A0 =C2=A00570:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 spdx_package,<br>
-=C2=A0 =C2=A0 =C2=A00571:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 pkgdest / package,<br>
-File: &#39;/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/c=
-reate-spdx.bbclass&#39;, lineno: 234, function: add_package_files<br>
-=C2=A0 =C2=A0 =C2=A00230:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.mtime =3D source_date=
-_epoch<br>
-=C2=A0 =C2=A0 =C2=A00231:<br>
-=C2=A0 =C2=A0 =C2=A00232:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 archive.addfile(info, f)<br>
-=C2=A0 =C2=A0 =C2=A00233:<br>
-=C2=A0*** 0234:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sha1=
- =3D bb.utils.sha1_file(filepath)<br>
-=C2=A0 =C2=A0 =C2=A00235:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 sha1s.append(sha1)<br>
-=C2=A0 =C2=A0 =C2=A00236:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 spdx_file.checksums.append(oe.spdx.SPDXChecksum(<br>
-=C2=A0 =C2=A0 =C2=A00237:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 algorithm=3D&quot;SHA1&quot;,<br>
-=C2=A0 =C2=A0 =C2=A00238:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 checksumValue=3Dsha1,<br>
-File: &#39;/srv/oe/bitbake/lib/bb/utils.py&#39;, lineno: 559, function: sha=
-1_file<br>
-=C2=A0 =C2=A0 =C2=A00555:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A00556:=C2=A0 =C2=A0 Return the hex string representation=
- of the SHA1 checksum of the filename<br>
-=C2=A0 =C2=A0 =C2=A00557:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A00558:=C2=A0 =C2=A0 import hashlib<br>
-=C2=A0*** 0559:=C2=A0 =C2=A0 return _hasher(hashlib.sha1(), filename)<br>
-=C2=A0 =C2=A0 =C2=A00560:<br>
-=C2=A0 =C2=A0 =C2=A00561:def sha384_file(filename):<br>
-=C2=A0 =C2=A0 =C2=A00562:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A00563:=C2=A0 =C2=A0 Return the hex string representation=
- of the SHA384 checksum of the filename<br>
-File: &#39;/srv/oe/bitbake/lib/bb/utils.py&#39;, lineno: 528, function: _ha=
-sher<br>
-=C2=A0 =C2=A0 =C2=A00524:<br>
-=C2=A0 =C2=A0 =C2=A00525:def _hasher(method, filename):<br>
-=C2=A0 =C2=A0 =C2=A00526:=C2=A0 =C2=A0 import mmap<br>
-=C2=A0 =C2=A0 =C2=A00527:<br>
-=C2=A0*** 0528:=C2=A0 =C2=A0 with open(filename, &quot;rb&quot;) as f:<br>
-=C2=A0 =C2=A0 =C2=A00529:=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-=C2=A0 =C2=A0 =C2=A00530:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with mma=
-p.mmap(f.fileno(), 0, access=3Dmmap.ACCESS_READ) as mm:<br>
-=C2=A0 =C2=A0 =C2=A00531:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 for chunk in iter(lambda: mm.read(8192), b&#39;&#39;):<br>
-=C2=A0 =C2=A0 =C2=A00532:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 method.update(chunk)<br>
-Exception: FileNotFoundError: [Errno 2] No such file or directory: &#39;/sr=
-v/oe/build/tmp-lmp/work/all-lmp-linux/alsa-topology-conf/1.2.5.1-r0/package=
-s-split/alsa-topology-conf/CONTROL/control&#39;<br>
-<br>
-ERROR: Logfile of failure stored in: /srv/oe/build/tmp-lmp/work/all-lmp-lin=
-ux/alsa-topology-conf/1.2.5.1-r0/temp/log.do_create_spdx.998864<br>
-INFO: recipe alsa-topology-conf-1.2.5.1-r0: task do_create_spdx: Failed<br>
-<br>
-Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@foundries.=
-io" target=3D"_blank">jose.quaresma@foundries.io</a>&gt;<br>
----<br>
-=C2=A0meta/classes/create-spdx.bbclass | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.bb=
-class<br>
-index 37b6b569a1..08ef7fd409 100644<br>
---- a/meta/classes/create-spdx.bbclass<br>
-+++ b/meta/classes/create-spdx.bbclass<br>
-@@ -571,6 +571,7 @@ python do_create_spdx() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0pkgdest / package,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0lambda file_counter: oe.sbom.get_packaged_file_spdxid(pkg_name, file_cou=
-nter),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0lambda filepath: [&quot;BINARY&quot;],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 igno=
-re_top_level_dirs=3D[&#39;CONTROL&#39;, &#39;DEBIAN&#39;],<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0archive=3Darchive,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0)<br>
-<br>
--- <br>
-2.37.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#168773): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/168773" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/168773</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/92767075/5052=
-612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/92767075/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div>
+Signed-off-by: Joshua Watt <a class="moz-txt-link-rfc2396E" href="mailto:JPEWhacker@gmail.com">&lt;JPEWhacker@gmail.com&gt;</a>
+---
+ meta/classes/insane.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---0000000000007eb2fc05e5d199c2--
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 37e10ad850..b66926f540 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -1335,7 +1335,7 @@ def unpack_check_src_uri(pn, d):
+         oe.qa.handle_error(&quot;src-uri-bad&quot;, &quot;%s: SRC_URI uses PN not BPN&quot; % pn, d)
+ 
+     for url in d.getVar(&quot;SRC_URI&quot;).split():
+-        if re.search(r&quot;git(hu|la)b\.com/.+/.+/archive/.+&quot;, url):
++        if re.search(r&quot;(github|gitlab)\.com/.+/.+/archive/.+&quot;, url):
+             oe.qa.handle_error(&quot;src-uri-bad&quot;, &quot;%s: SRC_URI uses unstable GitHub/GitLab archives, convert recipe to use git protocol&quot; % pn, d)
+ 
+ python do_qa_unpack() {
+</pre>
+      <br>
+      <fieldset class="moz-mime-attachment-header"></fieldset>
+      <pre class="moz-quote-pre" wrap="">-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#169085): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/169085">https://lists.openembedded.org/g/openembedded-core/message/169085</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/92891575/3616765">https://lists.openembedded.org/mt/92891575/3616765</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class="moz-signature" cols="72">-- 
+# Randy MacLeod
+# Wind River Linux</pre>
+  </body>
+</html>
+
+--------------SJL3uI2encjELPO50p9g0ca1--
 
