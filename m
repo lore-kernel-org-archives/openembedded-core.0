@@ -1,135 +1,114 @@
-Return-Path: <throos@amazon.de>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5091EC19F2D
-	for <webhook@archiver.kernel.org>; Tue,  9 Aug 2022 07:00:36 +0000 (UTC)
-Received: from smtp-fw-6002.amazon.com (smtp-fw-6002.amazon.com [52.95.49.90])
- by mx.groups.io with SMTP id smtpd.web09.8860.1660028427466293648
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71070C19F2D
+	for <webhook@archiver.kernel.org>; Tue,  9 Aug 2022 07:32:26 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web12.9047.1660030340361722649
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Aug 2022 00:00:27 -0700
+ Tue, 09 Aug 2022 00:32:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amazon.de header.s=amazon201209 header.b=CS8YOQQM;
- spf=pass (domain: amazon.de, ip: 52.95.49.90,
- mailfrom: prvs=2133f8a6a=throos@amazon.de)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=k9tDGRaZ;
+ spf=pass (domain: gmail.com, ip: 209.85.210.179,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f179.google.com with SMTP id 130so10053108pfv.13
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 09 Aug 2022 00:32:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1660028428; x=1691564428;
-  h=from:to:date:message-id:references:in-reply-to:
-   mime-version:content-transfer-encoding:subject;
-  bh=KYjIIUtYJUkhPfjHWswQDq4A3kYiHDbNXpj3HCOa9ck=;
-  b=CS8YOQQMopD6tDm8fLeiuxXaYiykf3f73e8X1ddeZ5CGTKbhScr1Vior
-   eHwbfneE1eEaXXzaRlqHBuepylyaa/3uClQClDxv3iRdch/7Q8Z1ETP5g
-   Y5GTDWRD7JxKJ02Wdo0/DUuMpHToRpjzy65VV6XzqPTcaNpQnBzpRSpdC
-   s=;
-X-IronPort-AV: E=Sophos;i="5.93,223,1654560000";
-   d="scan'208";a="230796872"
-Subject: AW: [OE-core] [PATCH v2] oeqa devtool: Add tests to cover devtool
- handling
- of various git URL styles
-Thread-Topic: [OE-core] [PATCH v2] oeqa devtool: Add tests to cover devtool
- handling of
- various git URL styles
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO
- email-inbound-relay-pdx-2a-11a39b7d.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-6002.iad6.amazon.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2022 07:00:14 +0000
-Received: from EX13D16EUA002.ant.amazon.com
- (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
-	by email-inbound-relay-pdx-2a-11a39b7d.us-west-2.amazon.com (Postfix) with
- ESMTPS id 7173B44404;
-	Tue,  9 Aug 2022 07:00:13 +0000 (UTC)
-Received: from EX13D16EUA003.ant.amazon.com (10.43.165.51) by
- EX13D16EUA002.ant.amazon.com (10.43.165.49) with Microsoft SMTP Server (TLS)
- id 15.0.1497.36; Tue, 9 Aug 2022 07:00:12 +0000
-Received: from EX13D16EUA003.ant.amazon.com ([10.43.165.51]) by
- EX13D16EUA003.ant.amazon.com ([10.43.165.51]) with mapi id 15.00.1497.036;
- Tue, 9 Aug 2022 07:00:12 +0000
-From: "Roos, Thomas" <throos@amazon.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"luca.ceresoli@bootlin.com" <luca.ceresoli@bootlin.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Index: AQHYqvcuO8hJ5opULEOoETXWZiHm3a2krmNMgABOzICAAB8SgIABCOqn
-Date: Tue, 9 Aug 2022 07:00:12 +0000
-Message-ID: <1660028411623.65190@amazon.de>
-References: <20220804134920.167173-1-throos@amazon.de>
-	 <20220808091813.6a467409@booty> <1659947998632.6878@amazon.de>
-	 <20220808151959.22790acf@booty>,<91ae37e140b97207709b75e3e54a925ecb40b6ec.camel@linuxfoundation.org>
-In-Reply-To: 
- <91ae37e140b97207709b75e3e54a925ecb40b6ec.camel@linuxfoundation.org>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.43.162.134]
-Content-Type: text/plain; charset="iso-8859-1"
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=Pl5HgTSst3MXZ0ZXbCnGk96adJBybxtk6PB6YYiT0bE=;
+        b=k9tDGRaZnSdI/4gB39heBzP12B2pv5mfmSr23Bo9gg1QwaFrqzNRmX55Fx73WByHDM
+         LuHumrQrSXcSFCvA8wszu1l9eCS6n+3Jo/fENZiqhXmU98qV7NWrGf5cF6eh3AhrkQpD
+         F1JIip4QGn7wxhPqTRcTKOFlQXu0dIlmdrsivfONoBsc37tItIPMpxSFes22UQmHS5zX
+         VQkVyH5jQUONMtcgmw6S5X13yCwsLWaPqsbb7Z8U7LCT7LotoVwNuj4M8jeE9JlSF0En
+         YblV/qTT83kytCMH+y/bmhJO46ehcIyMUAz4/tKEkIaJDxir8TnVLfDXzIR2/VeLLlav
+         gffw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=Pl5HgTSst3MXZ0ZXbCnGk96adJBybxtk6PB6YYiT0bE=;
+        b=kY+cZiBpFZFD3YmnSN0CbcCNLyv8GrgWGpbRrpR3JvMMkbVNW8elFLNiNkVIFKZ+TD
+         poZECHAGAyq++FjVPyb9yvnnsHDA28pGPdsXermINUHdM88LgnrwxyfQ0226BVDts7AN
+         fT40eeMtrfwrZje3amvtE8kdbVkwNiBjjf4quQhencYpUZMPAW0/Nppj8KJp5BduFEqe
+         zFdMR2H7XgI/vPQKPb3L6bb39aC8sskwNKtvjQDCGwliOBnXDVoPuYwdw9h1Jaopwg94
+         Jghp3HTjsKyeQ4AhCnPB0yja2NezspFngoJLIyqIxWxf0P+Ho95QrGZjJIPhAy1X+7iJ
+         J17w==
+X-Gm-Message-State: ACgBeo3Rnn7XIRsMrIus3VO6rbNVVXQ2xv5tfQvauYXsZ9rdb7pbd1e9
+	hsZ0IjUt0VsDWhIFBD8bBk6KGBdyMhk=
+X-Google-Smtp-Source: 
+ AA6agR5ygWf8JZ4XYjULGYC3k3HDirIdCZsdPxPJ455MffknosW2iQLa1Y8n+oX4ERe07gouDAsBJA==
+X-Received: by 2002:a63:2110:0:b0:41d:234f:16aa with SMTP id
+ h16-20020a632110000000b0041d234f16aamr13077437pgh.481.1660030339133;
+        Tue, 09 Aug 2022 00:32:19 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::9f45])
+        by smtp.gmail.com with ESMTPSA id
+ x13-20020a63b20d000000b0041a67913d5bsm7728980pge.71.2022.08.09.00.32.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Aug 2022 00:32:18 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] sysvinit: Fix mount.h conflicts seen with glibc 2.36+
+Date: Tue,  9 Aug 2022 00:32:16 -0700
+Message-Id: <20220809073216.940143-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Aug 2022 07:00:36 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Aug 2022 07:32:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169137
+ https://lists.openembedded.org/g/openembedded-core/message/169138
 
-Hi Richard, Hi Luca,
-thank you!
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../sysvinit/sysvinit_remove_linux_fs.patch     | 17 +++++++++++++++++
+ meta/recipes-core/sysvinit/sysvinit_3.04.bb     |  1 +
+ 2 files changed, 18 insertions(+)
+ create mode 100644 meta/recipes-core/sysvinit/sysvinit/sysvinit_remove_linux_fs.patch
 
-Cheers, =
-
-Thomas
-________________________________________
-Von: Richard Purdie <richard.purdie@linuxfoundation.org>
-Gesendet: Montag, 8. August 2022 17:11
-An: luca.ceresoli@bootlin.com; Roos, Thomas; openembedded-core@lists.openem=
-bedded.org
-Betreff: RE: [EXTERNAL][OE-core] [PATCH v2] oeqa devtool: Add tests to cove=
-r devtool handling of various git URL styles
-
-CAUTION: This email originated from outside of the organization. Do not cli=
-ck links or open attachments unless you can confirm the sender and know the=
- content is safe.
-
-
-
-On Mon, 2022-08-08 at 15:19 +0200, Luca Ceresoli via
-lists.openembedded.org wrote:
-> Hi Thomas,
->
-> On Mon, 8 Aug 2022 08:39:59 +0000
-> "Roos, Thomas" <throos@amazon.de> wrote:
->
-> > Hi Luca,
-> > thank you for this - will update my patch and try with the sendemail.fr=
-om parameter.
-> > The correct procedure will be creating a v3 patch and send as new again?
->
-> The correct thing would be to configure your git sendemail.from
-> parameter, fix the issues I reported, and send a v3 with those fixed.
-
-I think I merged this into master-next in the meantime so there isn't a
-need for a v3 in this case.
-
-Cheers,
-
-Richard
-
-
-
-Amazon Web Services EMEA SARL
-38 avenue John F. Kennedy, L-1855 Luxembourg
-Sitz der Gesellschaft: L-1855 Luxemburg
-eingetragen im Luxemburgischen Handelsregister unter R.C.S. B186284
-
-Amazon Web Services EMEA SARL, Niederlassung Deutschland
-Marcel-Breuer-Str. 12, D-80807 Muenchen
-Sitz der Zweigniederlassung: Muenchen
-eingetragen im Handelsregister des Amtsgerichts Muenchen unter HRB 242240, =
-USt-ID DE317013094
-
-
-
+diff --git a/meta/recipes-core/sysvinit/sysvinit/sysvinit_remove_linux_fs.patch b/meta/recipes-core/sysvinit/sysvinit/sysvinit_remove_linux_fs.patch
+new file mode 100644
+index 00000000000..89d65c23b71
+--- /dev/null
++++ b/meta/recipes-core/sysvinit/sysvinit/sysvinit_remove_linux_fs.patch
+@@ -0,0 +1,17 @@
++# From glibc 2.36, <linux/mount.h> (included from <linux/fs.h>) and 
++# <sys/mount.h> (included from glibc) are no longer compatible:
++# https://sourceware.org/glibc/wiki/Release/2.36#Usage_of_.3Clinux.2Fmount.h.3E_and_.3Csys.2Fmount.h.3E
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++--- sysvinit-3.04/src/sulogin.c.orig	2022-08-07 23:07:42.952576274 +0200
+++++ sysvinit-3.04/src/sulogin.c	2022-08-07 23:08:26.511470983 +0200
++@@ -51,7 +51,6 @@
++ #ifdef __linux__
++ #  include <sys/statfs.h>
++ #  include <sys/mount.h>
++-#  include <linux/fs.h>
++ #  include <linux/magic.h>
++ #  include <linux/major.h>
++ #  ifndef TMPFS_MAGIC
+diff --git a/meta/recipes-core/sysvinit/sysvinit_3.04.bb b/meta/recipes-core/sysvinit/sysvinit_3.04.bb
+index f678f65c1ef..76b187c1961 100644
+--- a/meta/recipes-core/sysvinit/sysvinit_3.04.bb
++++ b/meta/recipes-core/sysvinit/sysvinit_3.04.bb
+@@ -15,6 +15,7 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/sysvinit/sysvinit-${PV}.tar.xz \
+            file://pidof-add-m-option.patch \
+            file://realpath.patch \
+            file://0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch \
++           file://sysvinit_remove_linux_fs.patch \
+            file://rcS-default \
+            file://rc \
+            file://rcS \
+-- 
+2.37.1
 
 
