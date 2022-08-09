@@ -1,152 +1,136 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAD29C19F2D
-	for <webhook@archiver.kernel.org>; Tue,  9 Aug 2022 20:00:12 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web12.263.1660075209672592802
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 113A4C3F6B0
+	for <webhook@archiver.kernel.org>; Tue,  9 Aug 2022 21:28:06 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web12.393.1660080480244394659
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Aug 2022 13:00:10 -0700
+ Tue, 09 Aug 2022 14:28:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KFc/Xvos;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id n4so13701312wrp.10
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=8SA/vdDY;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id g13so5571367plo.6
         for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Aug 2022 13:00:09 -0700 (PDT)
+ Tue, 09 Aug 2022 14:28:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
-        bh=2bt5EOsJToxB3FjQiJxoyfYS7UJKlf8Ze8DF0AhuLzk=;
-        b=KFc/XvosV18+UPhwtvqvauHcS9mjhfmClnLfb5FhHAuVat+GsBQpFfAxdVwUutzcp9
-         /cAn3SPrHx7I5Thu/TuNxmkarYRF7Typ+2I11L/S0q1xETOhP/hdJD1dEWdT9Ikbqrq/
-         jx1xLfNLW8t/j5BIh0uroivM/7gVlABRu/Rc8=
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=icLDWT3rKOLgIzjie/vNwfR85zmteWlquzTQVbY3EW4=;
+        b=8SA/vdDYfd8px/zxQCtFbvQdQeueyfQJMSTkPPXxbjO07/FqMkjX19IAwAKHab41n2
+         xRAzB7dePVNsHqLZC0hnphs4T+KzWicdYKYJDy8/gP8Q7LiHOiCgQVmPeCd6HEBDsBIm
+         OsnHmyJzs7fk4/kjSvl99ERTil8JIklCjeXsWUZgfIvuTpIrLJc57fPEM3iL6Q+zK05g
+         61QEX8iwRSSfB/0+bqMJMEsAX7Abj899PTQWQu1bBkzb6HAIbzC9VpZ29RLGJLNRVGD9
+         z++OqqPOj4+5wVobalDC1/X7yST0vELsgs/4adAJzVMe6WoThCeQofZCSOtuS/g9M2Qu
+         0EeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc;
-        bh=2bt5EOsJToxB3FjQiJxoyfYS7UJKlf8Ze8DF0AhuLzk=;
-        b=6Eg2aqdBj76OL7MX/5j7vkDnaeQDXCCRepO/Sz4TZJeXLaTcQ0Qpkhd7hdK7/MyymL
-         dIYx6y84BA8/hE69NuK583p0CWBA8W2uwZCDmUkPK8AY7Yw3mnV6nJVsfnIgc3j0YrdD
-         CDQJAThI9uATsOUFYGK9ejRe2AaJFM9bqj5b37FgQfBEABofk0fSt2jGwHS9ukj7Ry1y
-         jpzlKc0IiM4KfdJpUxo4lPve6dyodwviHX3I379Xu8oGQFh+1A2mKhcYgjaBxfA3pCZ8
-         tN9t0pQ6hGgueNF+HovrHSOFjmiVoyrNWf/FynFlIn+Eax441ZIQqyt8+b6yhkX9ozkC
-         PqQA==
-X-Gm-Message-State: ACgBeo2S6vmcUaHigg2VxtuaF8tL9hvghlNKbnDGGWWUw9FofZFiY7SB
-	jJ0EMG6fwMIaEStsVLPHX5fqVQ==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=icLDWT3rKOLgIzjie/vNwfR85zmteWlquzTQVbY3EW4=;
+        b=0YpgF98eJdjwGQ1BO6U7/qbmQXo8+GaDi7AKOkIWNuOHFs1TNmt8Dd/u5e2Cg2FweT
+         795pLfV/W5xASh4/KRM47jvTJBUzfI4msIUpZLSg3Q0Re97/lnHYVl+wuIVD0OVRYTxg
+         ZSLtNKoj+7LtKdUL1qYCiGplcJb4fG7e1s7xq377H36nsdgHESK+hdYGLAiGQb0DdlrF
+         CnsgfrJM/97Mib8z8+knuBeVIiZAonJchyedtq88+5me5y2hHvyFEV90pPvecRupSTZQ
+         sxCJt84OLI8LGdaES9/brfY5pRVHJ7qESitCen9zUQT6sQsC8UVuCN/hzQJgpBtDi9Oe
+         250Q==
+X-Gm-Message-State: ACgBeo11ETVYFryJ6aaLF65dnGsYV2H/SCUeVYLLfS4X2Z4wgBTWfTA4
+	zubeGMQML5b36HU/dSzTG7RJh09DmEsjJD3N
 X-Google-Smtp-Source: 
- AA6agR4biK82eRhvtf7pyTd/OY9i8PeEYTrRs2aiUoS4YteEe/oRTSDIFMy1VppYobRkoy3hmYu2Ig==
-X-Received: by 2002:adf:ce89:0:b0:220:6cc5:aff8 with SMTP id
- r9-20020adfce89000000b002206cc5aff8mr15368685wrn.396.1660075207902;
-        Tue, 09 Aug 2022 13:00:07 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:78b2:407:e1aa:2bc?
- ([2001:8b0:aba:5f3c:78b2:407:e1aa:2bc])
+ AA6agR6b0PZFMSUe20mSjOMJ+iA9PtAGZn5iasRBjLhWGpmL0dnnVcVvkrjecXqMBQ0KF6JLAFIJ2Q==
+X-Received: by 2002:a17:90b:1807:b0:1f5:7835:7fbc with SMTP id
+ lw7-20020a17090b180700b001f578357fbcmr411860pjb.170.1660080478958;
+        Tue, 09 Aug 2022 14:27:58 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- 6-20020a1c1906000000b003a511e92abcsm18177529wmz.34.2022.08.09.13.00.06
+ g12-20020a17090a4b0c00b001f4d711e165sm62273pjh.11.2022.08.09.14.27.57
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Aug 2022 13:00:06 -0700 (PDT)
-Message-ID: 
- <98105f0e26a0b19e6bc890789c127f169dcbe621.camel@linuxfoundation.org>
-Subject: Re: [PATCH 00/13] kernel-yocto: consolidated pull request
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Tue, 09 Aug 2022 21:00:06 +0100
-In-Reply-To: 
- <CADkTA4PMGK-QRLpZYXN+mU0g-b0oLcm0Q8CdeGzpLWWdkKFdUg@mail.gmail.com>
-References: <cover.1659653543.git.bruce.ashfield@gmail.com>
-	 <22bce10c2755711b42b7a3bd0ce61705961c2552.camel@linuxfoundation.org>
-	 <CADkTA4PMGK-QRLpZYXN+mU0g-b0oLcm0Q8CdeGzpLWWdkKFdUg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+        Tue, 09 Aug 2022 14:27:58 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 0/8] Patch review
+Date: Tue,  9 Aug 2022 11:27:34 -1000
+Message-Id: <cover.1660080350.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Aug 2022 20:00:12 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Aug 2022 21:28:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169162
+ https://lists.openembedded.org/g/openembedded-core/message/169163
 
-On Mon, 2022-08-08 at 23:44 -0400, Bruce Ashfield wrote:
-> On Mon, Aug 8, 2022 at 3:38 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >=20
-> > Hi Bruce,
-> >=20
-> > On Thu, 2022-08-04 at 18:57 -0400, bruce.ashfield@gmail.com wrote:
-> > > As I mentioned earlier today, I've built and booted the 5.19 kernel
-> > > on all architectures, have run core-iamge-kernel-dev, core-image-sato
-> > > and validated musl.
-> > >=20
-> > > At this point, we need wider coverage to scare out the remaining
-> > > gremlins.
-> > >=20
-> > > I'm also sending update to 5.10 and 5.15 in the pull request, since
-> > > these are the retbleed stable updates, and I didn't want to sit on
-> > > them any longer. These are of course independenct of the 5.19 work.
-> > >=20
-> > > I found one issue with vboxguestdrivers in meta-oe agains the new
-> > > kernel/headers, and I've sent a patch to that mailing list. I also
-> > > had to fix lttng-modules (as usual) and have sent a patch to that
-> > > mailing list as well.
-> > >=20
-> > > devsrc needed a few tweaks as well, and they are included in the
-> > > series.
-> > >=20
-> > > Note: I've mixed in the poky / meta-yocto patches as part of this
-> > > pull request, just for ease of sending it for wider testing and to
-> > > see if I missed any references to 5.10 or have left any else
-> > > dangling.
-> >=20
-> > We've had a few autobuilder issues but I did run this through with
-> > other changes. The logs were a mess but I think I see three issues
-> > which are likely kernel related. The first kernel module issue happened
-> > a lot, the other two were more isolated to oe-selftest or a single
-> > failure.
-> >=20
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/4999/=
-steps/16/logs/stdio
-> >=20
-> > RESULTS - kernelmodule.KernelModuleTest.test_kernel_module: FAILED (19.=
-47s)
-> >=20
-> > Traceback (most recent call last):
-> >   File "/home/pokybuild/yocto-worker/qemuarm64-armhost/build/meta/lib/o=
-eqa/core/decorator/__init__.py", line 35, in wrapped_f
-> >     return func(*args, **kwargs)
-> >   File "/home/pokybuild/yocto-worker/qemuarm64-armhost/build/meta/lib/o=
-eqa/core/decorator/__init__.py", line 35, in wrapped_f
-> >     return func(*args, **kwargs)
-> >   File "/home/pokybuild/yocto-worker/qemuarm64-armhost/build/meta/lib/o=
-eqa/core/decorator/__init__.py", line 35, in wrapped_f
-> >     return func(*args, **kwargs)
-> >   [Previous line repeated 2 more times]
-> >   File "/home/pokybuild/yocto-worker/qemuarm64-armhost/build/meta/lib/o=
-eqa/runtime/cases/kernelmodule.py", line 46, in test_kernel_module
-> >     self.assertEqual(status, 0, msg=3D'\n'.join([cmd, output]))
-> > AssertionError: 2 !=3D 0 : cd /tmp && make
-> > make -C /usr/src/kernel M=3D/tmp modules
-> > make[1]: Entering directory '/lib/modules/5.19.0-yocto-standard/build'
-> > /bin/sh: -c: line 1: syntax error near unexpected token `('
-> > /bin/sh: -c: line 1: `if [ "gcc (GCC) 12.1.0" !=3D ""aarch64-poky-linux=
--gcc (GCC) 12.1.0"" ]; then \'
-> > make[1]: Leaving directory '/lib/modules/5.19.0-yocto-standard/build'
-> > make[1]: *** [Makefile:1728: prepare] Error 2
-> > make: *** [Makefile:5: all] Error 2
-> >=20
->=20
-> Patch sent.
+Please review this set of patches for the kirkstone 4.0.3 release.
 
-Just to round things off on the list, there was one further issue which
-I sent a patch to kernel-devsrc for. With that fixed we could merge
-5.19 for core for master, thanks!
+The following changes since commit c33eb7fb1d1e91a005b22b65d221d4b899ec69dc:
 
-Cheers,
+  openssh: Add openssh-sftp-server to openssh RDEPENDS (2022-08-02 12:32:44 -1000)
 
-Richard
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Alexander Kanavin (1):
+  lttng-modules: update 2.13.3 -> 2.13.4
+
+Bruce Ashfield (5):
+  linux-yocto/5.10: update to v5.10.135
+  linux-yocto/5.15: update to v5.15.58
+  linux-yocto-rt/5.15: update to -rt48 (and fix -stable merge)
+  linux-yocto/5.15: update to v5.15.59
+  linux-yocto/5.15: fix reproducibility issues
+
+He Zhe (1):
+  lttng-modules: Fix build failure for kernel v5.15.58
+
+Sundeep KOKKONDA (1):
+  glibc : stable 2.35 branch updates
+
+ meta/recipes-core/glibc/glibc-version.inc     |   2 +-
+ .../linux/linux-yocto-rt_5.10.bb              |   6 +-
+ .../linux/linux-yocto-rt_5.15.bb              |   6 +-
+ .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
+ .../linux/linux-yocto-tiny_5.15.bb            |   6 +-
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +--
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb |  26 +--
+ ...x-compaction-migratepages-event-name.patch |  37 ----
+ ...oduce-kfree_skb_reason-v5.15.58.v5.1.patch |  53 +++++
+ ...emove-unused-tracepoints-v5.10-v5.15.patch |  44 -----
+ ...g-Append-prev_state-to-tp-args-inste.patch |  59 ------
+ ...vent-allow-same-provider-and-event-n.patch |  48 -----
+ ...g-Don-t-re-read-p-state-when-emittin.patch | 183 ------------------
+ .../0004-fix-block-remove-genhd.h-v5.18.patch |  45 -----
+ ...emove-REQ_OP_WRITE_SAME-support-v5.1.patch |  79 --------
+ ...ndom-remove-unused-tracepoints-v5.18.patch |  47 -----
+ ...rethook-for-kretprobe-if-possible-v5.patch |  72 -------
+ ...ore-Remove-scsi-scsi_request.h-v5.18.patch |  44 -----
+ ...n-cleanup-the-compaction-trace-event.patch | 106 ----------
+ ...ules_2.13.3.bb => lttng-modules_2.13.4.bb} |  16 +-
+ 20 files changed, 95 insertions(+), 816 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-Fix-compaction-migratepages-event-name.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-net-skb-introduce-kfree_skb_reason-v5.15.58.v5.1.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-random-remove-unused-tracepoints-v5.10-v5.15.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-sched-tracing-Append-prev_state-to-tp-args-inste.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-Fix-tracepoint-event-allow-same-provider-and-event-n.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-fix-sched-tracing-Don-t-re-read-p-state-when-emittin.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0004-fix-block-remove-genhd.h-v5.18.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0005-fix-scsi-block-Remove-REQ_OP_WRITE_SAME-support-v5.1.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0006-fix-random-remove-unused-tracepoints-v5.18.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0007-fix-kprobes-Use-rethook-for-kretprobe-if-possible-v5.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0008-fix-scsi-core-Remove-scsi-scsi_request.h-v5.18.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0010-fix-mm-compaction-cleanup-the-compaction-trace-event.patch
+ rename meta/recipes-kernel/lttng/{lttng-modules_2.13.3.bb => lttng-modules_2.13.4.bb} (60%)
+
+-- 
+2.25.1
+
 
