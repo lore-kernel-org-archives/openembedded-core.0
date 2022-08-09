@@ -2,63 +2,66 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 113A4C3F6B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EDA6C19F2D
 	for <webhook@archiver.kernel.org>; Tue,  9 Aug 2022 21:28:06 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web12.393.1660080480244394659
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+ [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web11.415.1660080484790885598
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Aug 2022 14:28:00 -0700
+ Tue, 09 Aug 2022 14:28:04 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=8SA/vdDY;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176,
+ header.b=T7Uydfhi;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id g13so5571367plo.6
+Received: by mail-pg1-f170.google.com with SMTP id h132so12518259pgc.10
         for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Aug 2022 14:28:00 -0700 (PDT)
+ Tue, 09 Aug 2022 14:28:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=icLDWT3rKOLgIzjie/vNwfR85zmteWlquzTQVbY3EW4=;
-        b=8SA/vdDYfd8px/zxQCtFbvQdQeueyfQJMSTkPPXxbjO07/FqMkjX19IAwAKHab41n2
-         xRAzB7dePVNsHqLZC0hnphs4T+KzWicdYKYJDy8/gP8Q7LiHOiCgQVmPeCd6HEBDsBIm
-         OsnHmyJzs7fk4/kjSvl99ERTil8JIklCjeXsWUZgfIvuTpIrLJc57fPEM3iL6Q+zK05g
-         61QEX8iwRSSfB/0+bqMJMEsAX7Abj899PTQWQu1bBkzb6HAIbzC9VpZ29RLGJLNRVGD9
-         z++OqqPOj4+5wVobalDC1/X7yST0vELsgs/4adAJzVMe6WoThCeQofZCSOtuS/g9M2Qu
-         0EeQ==
+        bh=B4/b/2GbiUPld4dJNl4AY747q4XLOU34akujaX7rQU8=;
+        b=T7Uydfhi8kXKb+Mlq7ixTBxJpdc9mQXoqm8ve6bDeHfeAn2EAZLOhw/J1WTwR2bW1N
+         nBUVO7R7I3GifoRkapx+yynPFisPe4LqMdldb67Wke066ek1wrDhcM1AbIuZzPDVynuv
+         7h3feoTyTcj7jDDukkaQ3CBS9+eCrUFYtlQyQabIWWAArucap5ZKDnm95wOYu9xj7/Cy
+         VjTio4iGHRSY3XVTKpK0UjOWopwy4hgjsu+CqixXd5OltkKSC6PthcH3e3kLDCavrvU9
+         BjBwHj89j9VRLWFZzSWFqLhyijsvUQPB8MS3no7sGcisARWNP1NyuQseeuNfBUaKqvbN
+         Zskg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=icLDWT3rKOLgIzjie/vNwfR85zmteWlquzTQVbY3EW4=;
-        b=0YpgF98eJdjwGQ1BO6U7/qbmQXo8+GaDi7AKOkIWNuOHFs1TNmt8Dd/u5e2Cg2FweT
-         795pLfV/W5xASh4/KRM47jvTJBUzfI4msIUpZLSg3Q0Re97/lnHYVl+wuIVD0OVRYTxg
-         ZSLtNKoj+7LtKdUL1qYCiGplcJb4fG7e1s7xq377H36nsdgHESK+hdYGLAiGQb0DdlrF
-         CnsgfrJM/97Mib8z8+knuBeVIiZAonJchyedtq88+5me5y2hHvyFEV90pPvecRupSTZQ
-         sxCJt84OLI8LGdaES9/brfY5pRVHJ7qESitCen9zUQT6sQsC8UVuCN/hzQJgpBtDi9Oe
-         250Q==
-X-Gm-Message-State: ACgBeo11ETVYFryJ6aaLF65dnGsYV2H/SCUeVYLLfS4X2Z4wgBTWfTA4
-	zubeGMQML5b36HU/dSzTG7RJh09DmEsjJD3N
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=B4/b/2GbiUPld4dJNl4AY747q4XLOU34akujaX7rQU8=;
+        b=sO7++1HRZ0jIAIfxPHaSWJ3J7hlRnRNNFYbNmcYwokercy71Osow1i+KcoUSTTZGmZ
+         43UcWTY5garQH3REQ5yuUwYYfbnHl85AZui3Ue6+VdpoRLqofvJk44O10kA67esuyg61
+         iHgRIkMh7U5T/+FuagcP1C/ghk48sF8Hkkw7+CEiruNmIhLFKUKRuLcnswYLSfouHOs2
+         obaZB+YI2U/ok77ECAuRd9NS+Mgsktjx2m/QuRuD3HisDPEcbvGPTzXnICoI6at12pdW
+         iqD/T+SHoPtLwQL2qaswF8oQGjPaYpqJOHekgFi0641jYQcv+kNdAo+/j3Tl2onBD2wn
+         rILw==
+X-Gm-Message-State: ACgBeo1IpNo8df1f5ovwQaG8A/I/U5sspezOAwvn7fEZRJcw0q9uYmie
+	TKksFp0vK3Pwiu7WVWWqkI2UQq4ELhgo7MH6
 X-Google-Smtp-Source: 
- AA6agR6b0PZFMSUe20mSjOMJ+iA9PtAGZn5iasRBjLhWGpmL0dnnVcVvkrjecXqMBQ0KF6JLAFIJ2Q==
-X-Received: by 2002:a17:90b:1807:b0:1f5:7835:7fbc with SMTP id
- lw7-20020a17090b180700b001f578357fbcmr411860pjb.170.1660080478958;
-        Tue, 09 Aug 2022 14:27:58 -0700 (PDT)
+ AA6agR46NIlBB1d5qpEzCfH5q5k8nuZdqpnR7hkDT/YhepPB1ETdQVoSYlrH0oP87EHylc2fYhhS4w==
+X-Received: by 2002:a62:7bd6:0:b0:52d:4773:a3de with SMTP id
+ w205-20020a627bd6000000b0052d4773a3demr24407385pfc.70.1660080483661;
+        Tue, 09 Aug 2022 14:28:03 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- g12-20020a17090a4b0c00b001f4d711e165sm62273pjh.11.2022.08.09.14.27.57
+ g12-20020a17090a4b0c00b001f4d711e165sm62273pjh.11.2022.08.09.14.28.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Aug 2022 14:27:58 -0700 (PDT)
+        Tue, 09 Aug 2022 14:28:03 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 0/8] Patch review
-Date: Tue,  9 Aug 2022 11:27:34 -1000
-Message-Id: <cover.1660080350.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 1/8] glibc : stable 2.35 branch updates
+Date: Tue,  9 Aug 2022 11:27:35 -1000
+Message-Id: 
+ <ec5de254e40d188cd0cce75568851b0c130533e6.1660080350.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1660080350.git.steve@sakoman.com>
+References: <cover.1660080350.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -66,70 +69,63 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 09 Aug 2022 21:28:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169163
+ https://lists.openembedded.org/g/openembedded-core/message/169164
 
-Please review this set of patches for the kirkstone 4.0.3 release.
+From: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
 
-The following changes since commit c33eb7fb1d1e91a005b22b65d221d4b899ec69dc:
+Below commits on glibc-2.35 development branch are updated.
 
-  openssh: Add openssh-sftp-server to openssh RDEPENDS (2022-08-02 12:32:44 -1000)
+glibc:
+0e5b239f45 malloc: Simplify implementation of __malloc_assert
+dc2d843045 Update syscall-names.list for Linux 5.18
+d56c7e0965 Apply asm redirections in stdio.h before first use [BZ #27087]
+c4050b2552 x86: Add missing IS_IN (libc) check to strncmp-sse4_2.S
+fdf699edea x86: Move mem{p}{mov|cpy}_{chk_}erms to its own file
+de6f7bb873 x86: Move and slightly improve memset_erms
+210e9728ff x86: Add definition for __wmemset_chk AVX2 RTM in ifunc impl list
+c77cde8172 x86: Put wcs{n}len-sse4.1 in the sse4.1 text section
+3eb17048c4 x86: Align entry for memrchr to 64-bytes.
+dd3b6857ee x86: Add BMI1/BMI2 checks for ISA_V3 check
+ce32ad91eb x86: Cleanup bounds checking in large memcpy case
+863987a6ef x86: Add bounds `x86_non_temporal_threshold`
+232b7adb14 x86: Add sse42 implementation to strcmp's ifunc
+7f7a728b71 x86: Fix misordered logic for setting `rep_movsb_stop_threshold`
+6b4a2ab7e0 x86: Align varshift table to 32-bytes
+e74385736c x86: ZERO_UPPER_VEC_REGISTERS_RETURN_XTEST expect no transactions
+b4744d4414 x86: Shrink code size of memchr-evex.S
+5321a217cf x86: Shrink code size of memchr-avx2.S
+c536b318f0 x86: Optimize memrchr-avx2.S
+f8ba0e0452 x86: Optimize memrchr-evex.S
+7001d558a0 x86: Optimize memrchr-sse2.S
+54486f520a x86: Add COND_VZEROUPPER that can replace vzeroupper if no `ret`
+82560fe43e x86: Create header for VEC classes in x86 strings library
+b1f23b6128 x86_64: Add strstr function with 512-bit EVEX
+f9f0fbbf7b x86-64: Ignore r_addend for R_X86_64_GLOB_DAT/R_X86_64_JUMP_SLOT
+650bf51c78 x86_64: Implement evex512 version of strlen, strnlen, wcslen and wcsnlen
+e0cb101d1b x86_64: Remove bzero optimization
+51e2d3b53b nptl: Fix ___pthread_unregister_cancel_restore asynchronous restore
+cd4f43be3d linux: Fix mq_timereceive check for 32 bit fallback code (BZ 29304)
 
-are available in the Git repository at:
+Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 7d70ccb320459faf356b51d38e62c5dc3955393b)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Alexander Kanavin (1):
-  lttng-modules: update 2.13.3 -> 2.13.4
-
-Bruce Ashfield (5):
-  linux-yocto/5.10: update to v5.10.135
-  linux-yocto/5.15: update to v5.15.58
-  linux-yocto-rt/5.15: update to -rt48 (and fix -stable merge)
-  linux-yocto/5.15: update to v5.15.59
-  linux-yocto/5.15: fix reproducibility issues
-
-He Zhe (1):
-  lttng-modules: Fix build failure for kernel v5.15.58
-
-Sundeep KOKKONDA (1):
-  glibc : stable 2.35 branch updates
-
- meta/recipes-core/glibc/glibc-version.inc     |   2 +-
- .../linux/linux-yocto-rt_5.10.bb              |   6 +-
- .../linux/linux-yocto-rt_5.15.bb              |   6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
- .../linux/linux-yocto-tiny_5.15.bb            |   6 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +--
- meta/recipes-kernel/linux/linux-yocto_5.15.bb |  26 +--
- ...x-compaction-migratepages-event-name.patch |  37 ----
- ...oduce-kfree_skb_reason-v5.15.58.v5.1.patch |  53 +++++
- ...emove-unused-tracepoints-v5.10-v5.15.patch |  44 -----
- ...g-Append-prev_state-to-tp-args-inste.patch |  59 ------
- ...vent-allow-same-provider-and-event-n.patch |  48 -----
- ...g-Don-t-re-read-p-state-when-emittin.patch | 183 ------------------
- .../0004-fix-block-remove-genhd.h-v5.18.patch |  45 -----
- ...emove-REQ_OP_WRITE_SAME-support-v5.1.patch |  79 --------
- ...ndom-remove-unused-tracepoints-v5.18.patch |  47 -----
- ...rethook-for-kretprobe-if-possible-v5.patch |  72 -------
- ...ore-Remove-scsi-scsi_request.h-v5.18.patch |  44 -----
- ...n-cleanup-the-compaction-trace-event.patch | 106 ----------
- ...ules_2.13.3.bb => lttng-modules_2.13.4.bb} |  16 +-
- 20 files changed, 95 insertions(+), 816 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-Fix-compaction-migratepages-event-name.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-net-skb-introduce-kfree_skb_reason-v5.15.58.v5.1.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-random-remove-unused-tracepoints-v5.10-v5.15.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-sched-tracing-Append-prev_state-to-tp-args-inste.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-Fix-tracepoint-event-allow-same-provider-and-event-n.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-fix-sched-tracing-Don-t-re-read-p-state-when-emittin.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0004-fix-block-remove-genhd.h-v5.18.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0005-fix-scsi-block-Remove-REQ_OP_WRITE_SAME-support-v5.1.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0006-fix-random-remove-unused-tracepoints-v5.18.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0007-fix-kprobes-Use-rethook-for-kretprobe-if-possible-v5.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0008-fix-scsi-core-Remove-scsi-scsi_request.h-v5.18.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0010-fix-mm-compaction-cleanup-the-compaction-trace-event.patch
- rename meta/recipes-kernel/lttng/{lttng-modules_2.13.3.bb => lttng-modules_2.13.4.bb} (60%)
-
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 99017ce1d4..ccb41e5af6 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.35/master"
+ PV = "2.35"
+-SRCREV_glibc ?= "b6aade18a7e5719c942aa2da6cf3157aca993fa4"
++SRCREV_glibc ?= "0e5b239f45992e4b54c6f946ecb0c410afc8bb08"
+ SRCREV_localedef ?= "794da69788cbf9bf57b59a852f9f11307663fa87"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
 -- 
 2.25.1
 
