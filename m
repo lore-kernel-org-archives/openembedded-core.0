@@ -1,100 +1,85 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88E66C19F2D
-	for <webhook@archiver.kernel.org>; Tue,  9 Aug 2022 15:00:08 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web09.12970.1660057205010776389
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEFE9C19F2D
+	for <webhook@archiver.kernel.org>; Tue,  9 Aug 2022 16:23:08 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by mx.groups.io with SMTP id smtpd.web09.14013.1660062184715341551
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Aug 2022 08:00:05 -0700
+ Tue, 09 Aug 2022 09:23:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Hi/oduWR;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id
- p12-20020a7bcc8c000000b003a5360f218fso335294wma.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=PUpPg/EB;
+ spf=pass (domain: gmail.com, ip: 209.85.167.43,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f43.google.com with SMTP id v2so9056562lfi.6
         for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Aug 2022 08:00:04 -0700 (PDT)
+ Tue, 09 Aug 2022 09:23:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc;
-        bh=Kq649DeHe5PfqeF3msY+vR301tYJ8dy1LZY4EIYExY8=;
-        b=Hi/oduWRSlxZOIt1wHT/wtIq37Da47X5Lzk7ZqxP6nIJxhazX3JkvivEcgcl6x60Hx
-         jsFfqB6UpDDN1dYSD05CVEic38moAoZVNN75FB5aVHfsg1XxqYOuCFB3qnU75S2TA7JM
-         zCfXX2SPwrlendZtlcWcs1cqTwFfwwnnYgKW4=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=aqK6WLNjGrgZnS7dq7GxKbbnHDcNfDSpAXkUpXBzgYo=;
+        b=PUpPg/EBDSUkrzC1zrgO0A+fspFtenALiKo6VWdX88Yd6D92a8qRikIF/TmnZ6KTrV
+         ezjtFfz8zKDdelqjBr3f8MAE1h7tAbAmjiPh5Y3LLh7ic3CfmM/eiVAEeBS9inLwU2S0
+         lAFORkTZf5Iu37p2dMbsYreJB1l/CAf/BrXSdqhLYOzhsrTlBnaboaubyRvxae+m74BP
+         Iqa7E/qLL/7vhFBYg0OQ1lGyaqJUgEJl2hI0V27/5zgwUz4XfNn8pdWQeZY9M0kYnf+W
+         VBaQsvBh4+vyQUe+a02C2qZFTQNBuV48W78KMwJXmOsFao2aJcKLMIWDi9wX5NuPmiIo
+         Q6QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc;
-        bh=Kq649DeHe5PfqeF3msY+vR301tYJ8dy1LZY4EIYExY8=;
-        b=eBqvuUhDOse7ckQ0qP2Awdl1NtEu/tzLapSG9XcHl9rksILuCVpBY+VZ2KWo4SdyHv
-         C36jB1WlFR/HBKind40ouXMW9GZy1IgbHLa3G4us3v2d9dlISD0s33mVA3iN04UJ+p/V
-         czQNfZ/q+U5mUIxRdSEgdIaGKljx7EkRIZtpRe9lEthUVj/0AlfQPyF96JfZAerkQ19y
-         niVWJ0CDzinaCoBCrW+wQECE67noX3RygHQwVv9Gs6vme6+uyrHxj6DkA3horMFeamzy
-         qDsG65HQGJfiFDzv9RLlMFQK0NYEELjZcODSkryOIyW3thS6tQBxZ+sKuvtNKoajqbTN
-         MsXw==
-X-Gm-Message-State: ACgBeo0wlKBBXhVUft5IWENyPqD0VlXx6L7mtMHQaJAUxoTvKsMnx27p
-	5xoWEHD1YrT/hbCwtQVMQmMMwUp/vjQVQg==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aqK6WLNjGrgZnS7dq7GxKbbnHDcNfDSpAXkUpXBzgYo=;
+        b=QEMvv+fx3BwD3kha3oE0g00mjpkwRtECHGfdy6qsOvJZ3zwsjXwu0ZQBfNAPtx0H3t
+         59RkrM45cefHOCGoVoaPaQVRtZrlhKxg+w7MVpsnCyrvMaCtaRjjLk10MniR/NY/YFMH
+         0ht/v1CLcIC4+RdTE+OmgtkVPnoBO8gQmiFcI2ljw1H96IsBEvz6icLwL+BGI1F1jr1+
+         XsrgYgo012/vGkpHTwxjXfK5LL58EStpH4/ewFifbYKAyOCtLbwjdG8Uog5C5neyBrZV
+         8Bw9YkGw/KlW6wXmFp7VG0dcze4KtChgZrsX0XWtNp3I0zLrcMaErxbPj0bT2lYNxyjh
+         jRIQ==
+X-Gm-Message-State: ACgBeo3LrbNs1xfRfNNlAuT+wvnHr8EvnFzawm2ffBmB/FOqElhKKOhh
+	I1RHZnoy2uPOkYXakMcnREaSX9eQnFEeE8F1lfA=
 X-Google-Smtp-Source: 
- AA6agR560JLehAnf4LHKaK2TdEPh6xma9F2zyKHwKDEeohssa0ML1uQAk0pjJDeXNN4ijH6f6rucFw==
-X-Received: by 2002:a05:600c:3b15:b0:3a5:49e:81a6 with SMTP id
- m21-20020a05600c3b1500b003a5049e81a6mr17626386wms.49.1660057202970;
-        Tue, 09 Aug 2022 08:00:02 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:e4b1:e2c4:e19e:2222])
-        by smtp.gmail.com with ESMTPSA id
- o19-20020a05600c4fd300b0039747cf8354sm17971854wmq.39.2022.08.09.08.00.02
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Aug 2022 08:00:02 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] rust-cross-canadian: Use shell from SDK, not the host
-Date: Tue,  9 Aug 2022 16:00:01 +0100
-Message-Id: <20220809150001.224634-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
+ AA6agR4mEHliP5NwTW2o5nLfA2B2c0zs0ZMB/O75sjX38iUP+QKCOkc1iUJA7ASz9xHNFipQ7BdC5I+nKe8a1z+4NW4=
+X-Received: by 2002:ac2:4209:0:b0:48a:7386:978f with SMTP id
+ y9-20020ac24209000000b0048a7386978fmr8235240lfh.521.1660062182749; Tue, 09
+ Aug 2022 09:23:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220809083527.1221635-1-alban.bedel@aerq.com>
+ <42071e5296d8b1df2e55086df95296d1eccbe5bc.camel@linuxfoundation.org>
+ <51ea51600d49617d2f6c3b09d7684b205db517e2.camel@aerq.com>
+In-Reply-To: <51ea51600d49617d2f6c3b09d7684b205db517e2.camel@aerq.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 9 Aug 2022 18:22:51 +0200
+Message-ID: 
+ <CANNYZj9gpUC4HWg7pKrfcuBegOFyxWK_++pWHF=pp-hSBh9EMg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] sstate: Don't abort if installing a sstate
+ package fails
+To: alban.bedel@aerq.com
+Cc: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Aug 2022 15:00:08 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Aug 2022 16:23:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169157
+ https://lists.openembedded.org/g/openembedded-core/message/169158
 
-rust sets LD_LIBRARY_PATH which causes a lot of problems with host
-binaries conflicting with SDK libraries. By using sh/bash from the
-SDK we avoid those issues.
+On Tue, 9 Aug 2022 at 15:49, Alban Bedel via lists.openembedded.org
+<alban.bedel=aerq.com@lists.openembedded.org> wrote:
+> > How are you corrupting sstate files? They're moved into place
+> > atomically at the end of processing so this should be really hard to
+> > do.
+>
+> We are still hunting for this problem, but as it happen on a shared build
+> server with several users it is not trivial to find why this is happening.
 
-[YOCTO #14878]
+Is somebody running 'bitbake -c cleansstate' or otherwise removing
+items from sstate while someone else is running a regular build? Don't
+do this, bitbake can't handle it.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/rust/rust-cross-canadian.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-index 2b09661542d..77d45a37a31 100644
---- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
-+++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-@@ -7,12 +7,13 @@ LICENSE = "MIT"
- 
- MODIFYTOS = "0"
- 
-+# Need to use our SDK's sh here, see #14878
- create_sdk_wrapper () {
-         file="$1"
-         shift
- 
-         cat <<- EOF > "${file}"
--		#!/bin/sh
-+		#!${base_prefix}/bin/sh
- 		\$$1 \$@
- 		EOF
- 
--- 
-2.34.1
-
+Alex
 
