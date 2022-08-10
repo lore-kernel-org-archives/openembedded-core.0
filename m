@@ -1,285 +1,254 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <simone.weiss@elektrobit.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3952C19F2A
-	for <webhook@archiver.kernel.org>; Wed, 10 Aug 2022 17:51:25 +0000 (UTC)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com
- [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.web12.1470.1660153875735542747
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28328C00140
+	for <webhook@archiver.kernel.org>; Wed, 10 Aug 2022 19:40:16 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.41])
+ by mx.groups.io with SMTP id smtpd.web09.2784.1660160408247719683
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Aug 2022 10:51:15 -0700
+ Wed, 10 Aug 2022 12:40:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=XxAOGIpj;
- spf=pass (domain: gmail.com, ip: 209.85.219.41,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f41.google.com with SMTP id b7so11540545qvq.2
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Aug 2022 10:51:15 -0700 (PDT)
+ dkim=fail reason="body hash did not verify"
+ header.i=@elektrobit.onmicrosoft.com
+ header.s=selector2-elektrobit-onmicrosoft-com header.b=cZcq/0ph;
+ spf=pass (domain: elektrobit.com, ip: 40.107.236.41,
+ mailfrom: simone.weiss@elektrobit.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=CJvsGf0R8oUq+0oLLiRMVN+BM2VPqkd6HCwKL/PktkSE+ZnHFtRParremsEI42yJQUl+45UdIrANzzOrYCvShlhmavED5d4Y6tSt4vULqXjy6pnK2GKvosYhUDoS9gauehEqc0chpj5I3tFR1RCUBcdKd0IvSfWyZbbQoRS0/BQvwHYgrfp9XAAWoQNNgfm1A5mJWEvmYybwSmDuvh3spr7yGK5LDJqnKcnPpohN9RXvVLepT31LVwD/XPH4f/xBu3Yr6B57QLo/N5nLCzV1VLM2V7Ab+4W1jIQ/UovdIsWp2WGjrjvpTcQxiwlqlPvKFQrPs0FWlpAgW6HbON5ZYA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ybCS8XQNvlKpf0Szlj3pDcsmwKLVRnkZ8lxsMXnZ07s=;
+ b=GVEjE9Uy8Ggjkmtm/8OytWf3o1ccXVkjDVPLqImyLPSeN5S0m/BD+XqQhp8QR+5W7XpCaSke25ga377V3SsGcn1GI05wqKW6kejmZBE81bsR5WHTi9Dg0Rne4fXl5bxgw1QzQZ0BC5AERJOtwMYQ4TkbM7sAZXbi+O3cPLpRBlBCPq6x1F5iFr3Wwnu/L+xwRPPedHPOTL3AB19oyCmmiB4Xrs8QqfHobbQ7foGWPEJ+kbHTTsLx1PtahhGfocyhWxWgZ4a/SPdIZAdaoHS+E+SswZ+VrkFdGAHbEY5X7gbgKGtUUI1hVEBFST6x4DnokenDljzHloV7RDQhIQXA/A==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=softfail (sender ip
+ is 4.79.107.243) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=elektrobit.com; dmarc=fail (p=none sp=none pct=100) action=none
+ header.from=elektrobit.com; dkim=pass (signature was verified)
+ header.d=elektrobit.onmicrosoft.com; arc=pass (0 oda=0 ltdi=1)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=L1MaaW0Wb/omAh970Ixh0/JwsvLZVm+IAf551CyFIPg=;
-        b=XxAOGIpj0KxCV9wmeoLCcYAUu8lhu6ex85JbiZUiEM3lWo115IwfscgvAuVlf72rFi
-         uj2frLTO1GPmWFnJHZeyqoCsH61X2TWTJSkSX1XLyp7PCuqGK4bDmO0WdL8Mf66ryUVD
-         7Wri8VCHOt7UoVf4Y0GPnYyej9YygwGoXGWYLTNR9B+5PrH33QuJTdLCBC8I+Djm4GGw
-         bUeB9Pg+TbNG0a2FRQwopttVKlpgHZ6BWNimTgCK2T+LFRKes1wxbosJo+rW/0G25cZ4
-         B8srCmjVrJQnpNmO0sLLbixwgAwalCY6MLnUKYbJVcxrRJTysFYN94oFu5Rz/bPDdj3d
-         XEpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=L1MaaW0Wb/omAh970Ixh0/JwsvLZVm+IAf551CyFIPg=;
-        b=Fb8BwLkIs8MhfUlvWTnapVbcxmcYcRCF27nOzoOrLi2jwx4gbH2cpXES9X41NCeBQ2
-         a3N1cmaEz1Omi7GDDw0RGrRzEbWX8lMQF8lINS5ADzjfRNHeqEBJN5ZLOGO4M2/Z+J1c
-         QGLc6ZicJao/iqF0nvU9rW9W1/01hcf4KdoXCSreImnwDB1147MZFC+7YIP2YxBX6kwE
-         4DVUaDvl+OslNpH3gkp5Bp/sZxSBpgfh7smn4jgyVrljGl9rW/9PyqnApXB5BYUgcVkg
-         UZh1PdOjmGR2ou1GR0OfzWvUyX/qYw06vWmrGnIeMKeusNBB7XkGmnaPtO2xJxdfkSXw
-         +G3w==
-X-Gm-Message-State: ACgBeo3lHkVtPE423JuOGrr/YmRlOiV/BXfUbTEdLr0LbOpcMjMR+2AD
-	1J0pGj9/AdFwcJF+s+WY72Fh6emr+8/7Zg==
-X-Google-Smtp-Source: 
- AA6agR4nhXuzbluC5SX3cCQTg7YostNdBX8MV1KWB/vmiKEfxRaK+th2sgjaRfZoQ7OllqmtfTsThQ==
-X-Received: by 2002:a05:6214:e89:b0:47b:2839:5877 with SMTP id
- hf9-20020a0562140e8900b0047b28395877mr16573137qvb.112.1660153874550;
-        Wed, 10 Aug 2022 10:51:14 -0700 (PDT)
-Received: from localhost.localdomain ([173.34.88.218])
-        by smtp.gmail.com with ESMTPSA id
- bj11-20020a05620a190b00b006b5df4d2c81sm249355qkb.94.2022.08.10.10.51.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Aug 2022 10:51:13 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] lttng-modules: replace mips compaction fix with upstream
- change
-Date: Wed, 10 Aug 2022 13:51:12 -0400
-Message-Id: <20220810175112.3879638-1-bruce.ashfield@gmail.com>
+ d=elektrobit.onmicrosoft.com; s=selector2-elektrobit-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ybCS8XQNvlKpf0Szlj3pDcsmwKLVRnkZ8lxsMXnZ07s=;
+ b=cZcq/0phPyIaRPd+h8oEtW32WwSu0rhlakIwRhI76drPd7krTOgSyqkq+n6wuGngqbomZMX7qVryL+g2V410Uv5Ztuza6TuGCuNyikMZrbVwwqeIlTndXSXNLlxSJGCXTgI1tCv0S+TiGQscDTgy1uC4Vur0njApL1wHup51Zzo=
+Received: from BN0PR04CA0071.namprd04.prod.outlook.com (2603:10b6:408:ea::16)
+ by BN7PR08MB4964.namprd08.prod.outlook.com (2603:10b6:408:23::30) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.10; Wed, 10 Aug
+ 2022 19:40:00 +0000
+Received: from BN8NAM12FT037.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:408:ea:cafe::67) by BN0PR04CA0071.outlook.office365.com
+ (2603:10b6:408:ea::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.16 via Frontend
+ Transport; Wed, 10 Aug 2022 19:40:00 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 4.79.107.243)
+ smtp.mailfrom=elektrobit.com; dkim=pass (signature was verified)
+ header.d=elektrobit.onmicrosoft.com;dmarc=fail action=none
+ header.from=elektrobit.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ elektrobit.com discourages use of 4.79.107.243 as permitted sender)
+Received: from usbth1es003.ebgroup.elektrobit.com (4.79.107.243) by
+ BN8NAM12FT037.mail.protection.outlook.com (10.13.182.128) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5525.4 via Frontend Transport; Wed, 10 Aug 2022 19:39:59 +0000
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by usbth1es003.ebgroup.elektrobit.com (Postfix) with ESMTPS
+	for <openembedded-core@lists.openembedded.org>;
+ Wed, 10 Aug 2022 12:39:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Dm9lvEVyJgHxtFdumFer7ZTPE5spKBhkAQmPPf63qW94o4m/KoUvjWI933h9ObC/tbNMrDXpFEcvXO8lI+080PhA5jvMzJIuNJPwWkHTA3eWxxJaY93UJmUNy0++X0VZaoX+2Hjz/f6OJpFk3o9yCMB/Z67MYnlF7eg2LQoQrm7QnllO4RN1YPao7eMJHNFf2uRiiEBMMP1Q6Z2hxjmwjHjaz2/PbK5xm5WEVLZ0oKCWP039p1DhYQVQyZ5PgaD9Bs9kgHT/y0pxvYD432OZiFqHT1M8Y1cO90u/k9W2zH5EACOe6QkfKsPCFQLE5uHpwOfTqUEhw7RuMq734znQXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ybCS8XQNvlKpf0Szlj3pDcsmwKLVRnkZ8lxsMXnZ07s=;
+ b=PFRv99kC6lzb5gfpVYiyFfxLNkmpxc1XVHCiQiuHdKVKSyZEhDhudOa8K/nufneu9dH1mk3txVJCV10Uc9wSj1ZELoKoSReqcAPKghQAtbgd1puUv/Js99Kf4hujG18YLUxwIFo+RpUkeO6GZKQObTUcf2nJhZF0ScaVRhcq/NKMBns3TIi7xnw6TQ8Tg36BO5LY10uSfBWPLUORNawSd7r9jW5ly0G1ReLE/HGprnbS/L5Q9V873TXCamlIr0AyjgR+XavJGYIqLl0b8UvHXXNwCsraXeC63gezDDb/GJG8GhnkVNol0kkDdYONt/s0u+MmVLbSlE0o9AsfooCgpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 213.95.148.172) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=elektrobit.com; dmarc=fail (p=none sp=none pct=100) action=none
+ header.from=elektrobit.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=elektrobit.onmicrosoft.com; s=selector2-elektrobit-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ybCS8XQNvlKpf0Szlj3pDcsmwKLVRnkZ8lxsMXnZ07s=;
+ b=cZcq/0phPyIaRPd+h8oEtW32WwSu0rhlakIwRhI76drPd7krTOgSyqkq+n6wuGngqbomZMX7qVryL+g2V410Uv5Ztuza6TuGCuNyikMZrbVwwqeIlTndXSXNLlxSJGCXTgI1tCv0S+TiGQscDTgy1uC4Vur0njApL1wHup51Zzo=
+Received: from DM6PR14CA0066.namprd14.prod.outlook.com (2603:10b6:5:18f::43)
+ by DM6PR08MB5561.namprd08.prod.outlook.com (2603:10b6:5:107::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.10; Wed, 10 Aug
+ 2022 19:39:55 +0000
+Received: from DM6NAM12FT047.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:5:18f:cafe::3d) by DM6PR14CA0066.outlook.office365.com
+ (2603:10b6:5:18f::43) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.11 via Frontend
+ Transport; Wed, 10 Aug 2022 19:39:55 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
+ 213.95.148.172) smtp.mailfrom=elektrobit.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=elektrobit.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ elektrobit.com discourages use of 213.95.148.172 as permitted sender)
+Received: from denue6es010.ebgroup.elektrobit.com (213.95.148.172) by
+ DM6NAM12FT047.mail.protection.outlook.com (10.13.179.63) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5546.7 via Frontend Transport; Wed, 10 Aug 2022 19:39:55 +0000
+Received: from denue6es011.ebgroup.elektrobit.com (10.243.160.101) by
+ denue6es010.ebgroup.elektrobit.com (10.243.160.100) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.9; Wed, 10 Aug 2022 21:39:52 +0200
+Received: from DEL01461.ebgroup.elektrobit.com (10.243.11.84) by
+ denue6es011.ebgroup.elektrobit.com (10.243.160.101) with Microsoft SMTP
+ Server id 15.1.2507.9 via Frontend Transport; Wed, 10 Aug 2022 21:39:52 +0200
+From: Simone Weiss <simone.weiss@elektrobit.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Simone Weiss <simone.weiss@elektrobit.com>, Kai Tomerius
+	<kai.tomerius@elektrobit.com>
+Subject: [PATCH v2] json-c: Add ptest for json-c
+Date: Wed, 10 Aug 2022 21:39:18 +0200
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Message-ID: 
+ <5c34f311-8120-42a8-bfe7-18c90a5fabd6@denue6es010.ebgroup.elektrobit.com>
+X-EOPAttributedMessage: 1
+X-MS-Office365-Filtering-Correlation-Id: bacbf5e9-537b-4f9d-498e-08da7b081d04
+X-MS-TrafficTypeDiagnostic: 
+	DM6PR08MB5561:EE_|BN8NAM12FT037:EE_|BN7PR08MB4964:EE_
+X-SM-outgoing: yes
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ bZnS/chRnslV+KmGka6rZNzICkKQNasXWfW8sJEl/hUGCmWDc9vNwN+hVtLAxpMD0ohcLosGSUaT0oL5KDwTXIQTzCS3RlwQl1NhH1rYnVX4Obn7dmBRoty4C8p2BrXvOWgsdIHLDy/ds9BjXdfWHeq0EZaWOWnJnnb89JoSZg8R1X5my0P3Ur9C3RfNK+ln2QyQmJKJfz/6B2BTPlYsnbOjKvi4c7t/37GxjQ13fT587KRWRjxA32uHSvEf+MkE+8taXe6qOgZqckwml1Jh/7tROkFWIqTPURCcUUsGOhX+hzbQZgbHxszyJsGep0ipApFw6JNPlwItDUP05PaFPrg0BT28WmucxE39syen5Q70r3LvvDM9G/Q9weHKiAjrh5L7wA/Zg4Gl0d12ZKzSMgOD8EoIoao3ujICEilgN9RXbkTS0a/wVtgRKHJTVg67F6VkcsVVzISZPUFQGBs/rt2+z4eyt4LS5xAIM3yriZQVGFXfzUwVZnv2W/sQ2d39rcIhPW8GGXkyn2sNYFSdSAqaxpYbEGcDL6XrD3wnigOuJJPvfxEsBCD0aeo3p4fXRsynsL+fr+s4nz5+WCRWCOQWSA5ufiDqljioDbjTqPAeiijJYy9AUS09CFytwfKeRjroNYptL1QjR8ETlv4+5xyGJX/6vhznJCP3gzbOf0pP7tO0nJDi+pBx/Jp7Kzs3UOQ9Syz7CRPzLiAUGnQ4DzTbGFW633xXf4o971I5AFQoF/LD81mX5cLtixBaj7WMhovrYTh7ydnFhKc8zqR+vs/s3InJ9ctKE9kfdYFiI3hYMWClxFT1+0hg3IcrvfK276is89Bt47Lpt7MQjv9MXw==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:213.95.148.172;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:denue6es010.ebgroup.elektrobit.com;PTR:eth1-fw1-nbg6.eb.noris.de;CAT:NONE;SFS:(13230016)(4636009)(39850400004)(396003)(346002)(376002)(136003)(40470700004)(36840700001)(46966006)(40480700001)(36860700001)(81166007)(356005)(31696002)(86362001)(40460700003)(82310400005)(82740400003)(4326008)(966005)(8676002)(70206006)(70586007)(8936002)(478600001)(6916009)(54906003)(316002)(107886003)(186003)(83380400001)(47076005)(426003)(336012)(41300700001)(6666004)(2906002)(5660300002)(44832011)(26005)(31686004);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR08MB5561
+X-SM-smarthost: [elektrobit-com.mail.protection.outlook.com]
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ BN8NAM12FT037.eop-nam12.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	09994e9d-d497-4b01-89f1-08da7b081a1d
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	EI3lzye+duWMhRvQArgDG55OCu7r98cwjW1FIi5RGKLuKiswhb2W4+r8LpaAdEBLlyR25Im/V7ZeHmkXcLDKSAvO3AltOMvp3q2d5TH/1xwc9HO/hB4uPJ7NU9Efzt9dxoGDE1JSBI4dhkwsuJZnrh1D9Erwn79ywfUHwBupt1bRc9ELQvEMLgdk31b8cOMq12i/etiFJl1Ylu8Um+ZTtYk97pqZsqqlkruCUPkU25Wf+EFbSxcNLtJdjBCP5Th2nqBJTIe+xAgL1gOTa88CUO25rjFHCMEkjk6pv8yrqfzCb4o8AWpCc+P2mAWE7tM3Lo2f//3lJn3hI2GlnH6i4IwqsQxWwUjZx7QccLX0aBsBedBmYkluJPx+5E7/fDLhG/vDsmihmLgn36qux951cqAaAW5b1Jkwk87eMp1zFdypYYN/cIf3IoSGIRFMdmr7BgnhkiOT0ASI4IFGK0B7LLcaHvFDL5t/vZDaPOTo6dI3QIO9ul+8cTeV3EO+JoCkhdMbuDEDZ5RE4fmB0ogApBnNRaba0jNn87imJcX20DGf+L+5fMZ/KoZameOw+yOD9iKMgw2qbQsreLSBJ8CwbC8D1PphmdnGCfNecLRB0S/7Lu8P2VbRpYtzVakHJbWh6xK8QSUgYs4gB8AKsyhv2rhTtatY5BunylmZIaNlhxLZbODudTA6xNSFl06MYs3dsRKvy2GHAeR+pdysJn6S35rY83UcaVrFHniydROYuDgZA4Kw9m1GosBN6XyErcldErwmZkBBtKQk/tf+Ir7ae56P0eJA5XLt829CYZuqn91fY2zMVzpmcbromZPdtP91YEAwENkjCvKlEMnHvp9ylIwkRbs95aMiuxRJC/WnkMg=
+X-Forefront-Antispam-Report: 
+	CIP:4.79.107.243;CTRY:CA;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:usbth1es003.ebgroup.elektrobit.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230016)(4636009)(136003)(396003)(346002)(376002)(39850400004)(46966006)(40470700004)(36840700001)(40460700003)(26005)(31696002)(86362001)(40480700001)(54906003)(2906002)(6916009)(6666004)(82310400005)(8676002)(4326008)(316002)(36860700001)(81166007)(336012)(186003)(426003)(107886003)(70586007)(47076005)(70206006)(83380400001)(82740400003)(31686004)(5660300002)(44832011)(8936002)(478600001)(41300700001)(966005)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: elektrobit.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2022 19:39:59.8903
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ bacbf5e9-537b-4f9d-498e-08da7b081d04
+X-MS-Exchange-CrossTenant-Id: e764c36b-012e-4216-910d-8fd16283182d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
+ TenantId=e764c36b-012e-4216-910d-8fd16283182d;Ip=[4.79.107.243];Helo=[usbth1es003.ebgroup.elektrobit.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	BN8NAM12FT037.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR08MB4964
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Aug 2022 17:51:25 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Aug 2022 19:40:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169200
+ https://lists.openembedded.org/g/openembedded-core/message/169201
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Adapt json-c recipe to compile and deploy a ptest for json-c.
+Also add a small script for executing the tests.
+All tests were successful on a trial
 
-lttng upstream had a different solution to the compaction build isses
-seen on mips.
-
-We switch our patch for a backport of the upstream solution.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Simone Wei=C3=9F <simone.weiss@elektrobit.com>
+Signed-off-by: Kai Tomerius <kai.tomerius@elektrobit.com>
 ---
- ...tracepoints-condtional-on-CONFIG_COM.patch | 103 ------------------
- .../lttng-modules/0001-fix-compaction.patch   |  68 ++++++++++++
- .../lttng/lttng-modules_2.13.4.bb             |   2 +-
- 3 files changed, 69 insertions(+), 104 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-compaction-make-tracepoints-condtional-on-CONFIG_COM.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-compaction.patch
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ meta/recipes-devtools/json-c/json-c/run-ptest | 20 +++++++++++++++++++
+ meta/recipes-devtools/json-c/json-c_0.16.bb   | 16 +++++++++++++--
+ 3 files changed, 35 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/json-c/json-c/run-ptest
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-compaction-make-tracepoints-condtional-on-CONFIG_COM.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-compaction-make-tracepoints-condtional-on-CONFIG_COM.patch
-deleted file mode 100644
-index 305ca7cb8b..0000000000
---- a/meta/recipes-kernel/lttng/lttng-modules/0001-compaction-make-tracepoints-condtional-on-CONFIG_COM.patch
-+++ /dev/null
-@@ -1,103 +0,0 @@
--From 417bb00022c813c6dc11bfa652d74f3687df7626 Mon Sep 17 00:00:00 2001
--From: Bruce Ashfield <bruce.ashfield@gmail.com>
--Date: Wed, 3 Aug 2022 14:55:56 -0400
--Subject: [PATCH] compaction: make tracepoints condtional on CONFIG_COMPACTION
--
--When building against a v5.19 mips kernel, the following errors
--were triggered:
--
--  | lttng-modules-2.13.4/src/probes/../../include/instrumentation/events/compaction.h:105:42: note: expected 'struct compact_control *' but argument is of type 'struct compact_control *'
--  |   105 |         TP_PROTO(struct compact_control *cc,
--  |       |                  ~~~~~~~~~~~~~~~~~~~~~~~~^~
--  | lttng-modules-2.13.4/src/probes/../../include/lttng/tracepoint-event-impl.h:779:68: note: in definition of macro 'LTTNG_TRACEPOINT_EVENT_CLASS_CODE'
--  |   779 | static inline size_t __event_get_align__##_name(void *__tp_locvar, _proto)    \
--  |       |                                                                    ^~~~~~
--  | lttng-modules-2.13.4/src/probes/../../include/lttng/tracepoint-event-impl.h:106:50: note: in expansion of macro 'PARAMS'
--  |   106 |         LTTNG_TRACEPOINT_EVENT_CLASS_CODE(_name, PARAMS(_proto), PARAMS(_args), , , \
--  |       |                                                  ^~~~~~
--  | lttng-modules-2.13.4/src/probes/../../include/lttng/tracepoint-event-impl.h:41:9: note: in expansion of macro 'LTTNG_TRACEPOINT_EVENT_CLASS'
--  |    41 |         LTTNG_TRACEPOINT_EVENT_CLASS(map,                               \
--  |       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
--  | lttng-modules-2.13.4/src/probes/../../include/lttng/tracepoint-event-impl.h:42:30: note: in expansion of macro 'PARAMS'
--  |    42 |                              PARAMS(proto),                             \
--  |       |                              ^~~~~~
--  | lttng-modules-2.13.4/src/probes/../../include/instrumentation/events/compaction.h:101:1: note: in expansion of macro 'LTTNG_TRACEPOINT_EVENT_MAP'
--  |   101 | LTTNG_TRACEPOINT_EVENT_MAP(mm_compaction_migratepages,
--  |       | ^~~~~~~~~~~~~~~~~~~~~~~~~~
--  | lttng-modules-2.13.4/src/probes/../../include/instrumentation/events/compaction.h:105:9: note: in expansion of macro 'TP_PROTO'
--  |   105 |         TP_PROTO(struct compact_control *cc,
--  |       |         ^~~~~~~~
--  | lttng-modules-2.13.4/src/probes/../../include/instrumentation/events/compaction.h:112:57: error: invalid use of undefined type 'struct compact_control'
--
--...
--
--  | lttng-modules-2.13.4/src/probes/../../include/instrumentation/events/compaction.h:108:25: warning: 'struct compact_control' declared inside parameter list will not be visible outside of this definition or declaration
--  |   108 |         TP_PROTO(struct compact_control *cc,
--  |       |                         ^~~~~~~~~~~~~~~
--  | lttng-modules-2.13.4/src/probes/../../include/lttng/tracepoint-event-impl.h:159:43: note: in definition of macro 'LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP'
--  |   159 | void __event_template_proto___##_template(_proto);
--  |       |                                           ^~~~~~
--  | lttng-modules-2.13.4/src/probes/../../include/lttng/tracepoint-event-impl.h:45:61: note: in expansion of macro 'PARAMS'
--  |    45 |         LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(map, name, map, PARAMS(proto), PARAMS(args))
--  |       |                                                             ^~~~~~
--  | lttng-modules-2.13.4/src/probes/../../include/instrumentation/events/compaction.h:104:1: note: in expansion of macro 'LTTNG_TRACEPOINT_EVENT_MAP'
--  |   104 | LTTNG_TRACEPOINT_EVENT_MAP(mm_compaction_migratepages,
--  |       | ^~~~~~~~~~~~~~~~~~~~~~~~~~
--  | lttng-modules-2.13.4/src/probes/../../include/instrumentation/events/compaction.h:108:9: note: in expansion of macro 'TP_PROTO'
--  |   108 |         TP_PROTO(struct compact_control *cc,
--  |       |         ^~~~~~~~
--  | lttng-modules-2.13.4/src/probes/../../include/lttng/tracepoint-event-impl.h:159:6: error: conflicting types for '__event_template_proto___compaction_migratepages'; have 'void(struct compact_control *, unsigned int)'
--  |   159 | void __event_template_proto___##_template(_proto);
--  |       |      ^~~~~~~~~~~~~~~~~~~~~~~~~
--  | lttng-modules-2.13.4/src/probes/../../include/lttng/tracepoint-event-impl.h:45:9: note: in expansion of macro 'LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP'
--  |    45 |         LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(map, name, map, PARAMS(proto), PARAMS(args))
--  |       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--
--The root cause appears to be that this particular mips kernel does not
--have CONFIG_COMPACTION avaiable, and hence we end up with the struct
--declaration within this tracepoint, and then conflicting types.
--
--While putting the conditional around only compaction_migratepages seemed
--sufficient to get the build working, it doesn't look like any of the
--tracepoints should be valid, so we extend it to all definitions.
--
--Upstream-Status: Submitted [https://lists.lttng.org/pipermail/lttng-dev/2022-August/030246.html]
--
--Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-----
-- include/instrumentation/events/compaction.h | 5 +++++
-- 1 file changed, 5 insertions(+)
--
--diff --git a/include/instrumentation/events/compaction.h b/include/instrumentation/events/compaction.h
--index ecae39a..155804a 100644
----- a/include/instrumentation/events/compaction.h
--+++ b/include/instrumentation/events/compaction.h
--@@ -9,6 +9,8 @@
-- #include <linux/types.h>
-- #include <lttng/kernel-version.h>
-- 
--+#ifdef CONFIG_COMPACTION
--+
-- #if LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,0,0)
-- 
-- LTTNG_TRACEPOINT_EVENT_CLASS(compaction_isolate_template,
--@@ -97,6 +99,7 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(compaction_isolate_template,
-- 
-- #endif /* #else #if LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,0,0) */
-- 
--+
-- #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,18,0))
-- LTTNG_TRACEPOINT_EVENT_MAP(mm_compaction_migratepages,
-- 
--@@ -182,6 +185,8 @@ LTTNG_TRACEPOINT_EVENT_MAP(mm_compaction_migratepages,
-- )
-- #endif /* #else #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(3,16,0)) */
-- 
--+#endif /* CONFIG_COMPACTION */
--+
-- #endif /* LTTNG_TRACE_COMPACTION_H */
-- 
-- /* This part must be outside protection */
---- 
--2.25.1
--
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-compaction.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-compaction.patch
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
+stro/include/ptest-packagelists.inc
+index 6c4339e3e1..ec82df65a2 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -87,6 +87,7 @@ PTESTS_SLOW =3D "\
+     findutils-ptest \
+     glib-2.0-ptest \
+     gstreamer1.0-ptest \
++    json-c-ptest \
+     libevent-ptest \
+     libgcrypt-ptest \
+     lttng-tools-ptest \
+diff --git a/meta/recipes-devtools/json-c/json-c/run-ptest b/meta/recipes-d=
+evtools/json-c/json-c/run-ptest
 new file mode 100644
-index 0000000000..21e27ffc5e
+index 0000000000..9ee6095ea2
 --- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-compaction.patch
-@@ -0,0 +1,68 @@
-+From 8e42c4821fb5f5cb816b6ddf73d9a13ba3298a63 Mon Sep 17 00:00:00 2001
-+From: Michael Jeanson <mjeanson@efficios.com>
-+Date: Wed, 10 Aug 2022 11:07:14 -0400
-+Subject: [PATCH] fix: tie compaction probe build to CONFIG_COMPACTION
++++ b/meta/recipes-devtools/json-c/json-c/run-ptest
+@@ -0,0 +1,20 @@
++#!/bin/sh
 +
-+The definition of 'struct compact_control' in 'mm/internal.h' depends on
-+CONFIG_COMPACTION being defined. Only build the compaction probe when
-+this configuration option is enabled.
++# This script is used to run json-c test suites
++cd tests
 +
-+Thanks to Bruce Ashfield <bruce.ashfield@gmail.com> for reporting this
-+issue.
++ret_val=3D0
++for i in test*.test; do
++    # test_basic is not an own testcase, just
++    # contains common code of other tests
++    if [ "$i" !=3D "test_basic.test" ]; then
++        if ./$i > json-c_test.log 2>&1 ; then
++            echo PASS: $i
++        else
++            ret_val=3D1
++            echo FAIL: $i
++        fi
++    fi
++done
 +
-+Upstream-Status: Backport [https://review.lttng.org/c/lttng-modules/+/8660]
++exit $ret_val
+diff --git a/meta/recipes-devtools/json-c/json-c_0.16.bb b/meta/recipes-dev=
+tools/json-c/json-c_0.16.bb
+index fdec5ec9af..50431081bb 100644
+--- a/meta/recipes-devtools/json-c/json-c_0.16.bb
++++ b/meta/recipes-devtools/json-c/json-c_0.16.bb
+@@ -4,7 +4,10 @@ HOMEPAGE =3D "https://github.com/json-c/json-c/wiki"
+ LICENSE =3D "MIT"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dde54b60fbbc35123ba193fea8ee216f=
+2"
+=20
+-SRC_URI =3D "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.g=
+z"
++SRC_URI =3D " \
++    https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
++    file://run-ptest \
++"
+=20
+ SRC_URI[sha256sum] =3D "8e45ac8f96ec7791eaf3bb7ee50e9c2100bbbc87b8d0f1d030=
+c5ba8a0288d96b"
+=20
+@@ -13,6 +16,15 @@ UPSTREAM_CHECK_REGEX =3D "json-c-(?P<pver>\d+(\.\d+)+)-\=
+d+"
+=20
+ RPROVIDES:${PN} =3D "libjson"
+=20
+-inherit cmake
++inherit cmake ptest
 +
-+Change-Id: I81e77aa9c1bf10452c152d432fe5224df0db42c9
-+Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
-+---
-+ src/probes/Kbuild | 34 ++++++++++++++++++----------------
-+ 1 file changed, 18 insertions(+), 16 deletions(-)
-+
-+diff --git a/src/probes/Kbuild b/src/probes/Kbuild
-+index 2908cf75..3e556b8e 100644
-+--- a/src/probes/Kbuild
-++++ b/src/probes/Kbuild
-+@@ -167,22 +167,24 @@ ifneq ($(CONFIG_BTRFS_FS),)
-+   endif # $(wildcard $(btrfs_dep))
-+ endif # CONFIG_BTRFS_FS
-+ 
-+-# A dependency on internal header 'mm/internal.h' was introduced in v5.18
-+-compaction_dep = $(srctree)/mm/internal.h
-+-compaction_dep_wildcard = $(wildcard $(compaction_dep))
-+-compaction_dep_check = $(shell \
-+-if [ \( $(VERSION) -ge 6 \
-+-   -o \( $(VERSION) -eq 5 -a $(PATCHLEVEL) -ge 18 \) \) -a \
-+-   -z "$(compaction_dep_wildcard)" ] ; then \
-+-  echo "warn" ; \
-+-else \
-+-  echo "ok" ; \
-+-fi ;)
-+-ifeq ($(compaction_dep_check),ok)
-+-  obj-$(CONFIG_LTTNG) += lttng-probe-compaction.o
-+-else
-+-  $(warning Files $(compaction_dep) not found. Probe "compaction" is disabled. Use full kernel source tree to enable it.)
-+-endif # $(wildcard $(compaction_dep))
-++ifneq ($(CONFIG_COMPACTION),)
-++  # A dependency on internal header 'mm/internal.h' was introduced in v5.18
-++  compaction_dep = $(srctree)/mm/internal.h
-++  compaction_dep_wildcard = $(wildcard $(compaction_dep))
-++  compaction_dep_check = $(shell \
-++  if [ \( $(VERSION) -ge 6 \
-++     -o \( $(VERSION) -eq 5 -a $(PATCHLEVEL) -ge 18 \) \) -a \
-++     -z "$(compaction_dep_wildcard)" ] ; then \
-++    echo "warn" ; \
-++  else \
-++    echo "ok" ; \
-++  fi ;)
-++  ifeq ($(compaction_dep_check),ok)
-++    obj-$(CONFIG_LTTNG) += lttng-probe-compaction.o
-++  else
-++    $(warning Files $(compaction_dep) not found. Probe "compaction" is disabled. Use full kernel source tree to enable it.)
-++  endif # $(wildcard $(compaction_dep))
-++endif # CONFIG_COMPACTION
-+ 
-+ ifneq ($(CONFIG_EXT4_FS),)
-+   ext4_dep = $(srctree)/fs/ext4/*.h
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.4.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.4.bb
-index a81a0e580f..f60ab3b5f5 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.13.4.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.4.bb
-@@ -15,7 +15,7 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0002-fix-fs-Remove-flags-parameter-from-aops-write_begin-.patch \
-            file://0003-fix-workqueue-Fix-type-of-cpu-in-trace-event-v5.19.patch \
-            file://0001-fix-net-skb-introduce-kfree_skb_reason-v5.15.58.v5.1.patch \
--           file://0001-compaction-make-tracepoints-condtional-on-CONFIG_COM.patch \
-+           file://0001-fix-compaction.patch \
-            "
- 
- # Use :append here so that the patch is applied also when using devupstream
--- 
++do_install_ptest() {
++    install -d ${D}/${PTEST_PATH}/tests
++    install ${B}/tests/test* ${D}/${PTEST_PATH}/tests
++    install ${S}/tests/*.test ${D}/${PTEST_PATH}/tests
++    install ${S}/tests/*.expected ${D}/${PTEST_PATH}/tests
++    install ${S}/tests/test-defs.sh ${D}/${PTEST_PATH}/tests
++    install ${S}/tests/valid*json ${D}/${PTEST_PATH}/tests
++}
+=20
+ BBCLASSEXTEND =3D "native nativesdk"
+--=20
 2.25.1
 
 
