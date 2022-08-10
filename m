@@ -2,67 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EE8CC25B08
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81A29C25B0E
 	for <webhook@archiver.kernel.org>; Wed, 10 Aug 2022 22:32:41 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
- [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web11.986.1660170747384561648
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web08.975.1660170740813231156
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Aug 2022 15:32:29 -0700
+ Wed, 10 Aug 2022 15:32:21 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=oMK/qDiH;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180,
+ header.b=qmwdy9Lf;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.46,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id f11so15571385pgj.7
+Received: by mail-pj1-f46.google.com with SMTP id
+ e8-20020a17090a280800b001f2fef7886eso3484352pjd.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Aug 2022 15:32:29 -0700 (PDT)
+ Wed, 10 Aug 2022 15:32:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc;
-        bh=QBxHlnktdxp4F+g3lb9ZVqp1QoTcdzRm3HPtPAEL4Qs=;
-        b=oMK/qDiHFNoGOKozYJUwxIHPs+YoI95WhNzVyevYItpVSrKSdhqZ17dU5uaUqzGN0t
-         upNu7rkupkSIf2LfL+6sTB9lr+PdV3ejHFj6on3uVyatUxAextJhzSEnnxNllJLYorWU
-         j97eB6zZ8qlqxMze/7XM8ZNRmAJn1F5hSY6788yraSuVgdV1HlhVVXV+Gbbf4PqLJf0o
-         ep+v+9r2+OzyeiJ84bvQqQtEl8Ys9WpGkyA8cm1M/vPWs90iIg1M5LsP61TB2LuI8Pnb
-         m3EGpAt4rPmiEUlVFDVEGdU34BO5Dejek9vW7eZ0xoSACbfmsiU3+/GiyzZrS2ixN9K0
-         ySQg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc;
+        bh=Rme7T2mMikrORZf/S+SkEuqAldvunt/9WRxNtw3WKzU=;
+        b=qmwdy9LfRbq8qSUYnyBdpeNWgEhtjMbNy4xY3lE7GYxiZfzk1FwCJOXOHJv1Ckg5J7
+         cxNupWrNMNQ6iAAuvIoQrAcofCF/kCRcEzdwgWCG9ajPv/pKMHe0sgtlA+tUDPQwVI/a
+         GHwHneWZ5Ujiib1MxboPYCmdFG3WV7++h7/lAYOPRnOoRnesESYeO0ni2+1ZHlsGyftt
+         9GJNbrZkBhZ/nq3ar/GsFFYq1rueRq+52g6bu2psTUo6RNbyoNBRylKANBXVBebSc9jS
+         aTSPwyc+GBVaxHTELXvx64a1fPq6KLPThfLQDAa9Vy49JqOq/PUBul4Dug0Dbh7VDfvM
+         nyJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=QBxHlnktdxp4F+g3lb9ZVqp1QoTcdzRm3HPtPAEL4Qs=;
-        b=bCXET6aS+UTh4BBHcIbbhtWLpLLkSMelStORzK3S7QRCFYBN77iCkGK+ZUiZJ91o0Q
-         iL8TMJ89+hr3o6IvBE6FcunFo3IM+Fy/pisEG/eQbnSp1p6FSvzAOrTWOA9dXfI9snYi
-         YBTtpRoQChtJsYbBh2EXYNrjXI6ub0AZ5VbaKVMghoE7MhxDxDqtUu6NqbTv7nTR3bzl
-         3c2KDA3cPymfzp+KXvPAAbBMHVG0Yi875I3l8RAprr7Na/PrGnVs+QIvRiYUPu5xUSU7
-         4NOFQ8/UyJG0mp+7YLsQfMo3k96bcHt0E4FiqUL0Q3/omWHpeWeL2fnHU9dxg6lP0tOi
-         s36w==
-X-Gm-Message-State: ACgBeo210BTyJtIYkUPf7uAkL/HaWsMmR6ppP9kBd3ibZ/CqaZz33p31
-	7BXo2fXx7NFFbL9WdOCC/ktLOvxxBoqT7RPv
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc;
+        bh=Rme7T2mMikrORZf/S+SkEuqAldvunt/9WRxNtw3WKzU=;
+        b=DkG7ErXm4lX44J63gpjqAWqQHwCEHTCOen8DscUIxO10Bh3exIIAJ3K0/pvDQ/+2jW
+         +H7zV4vam4AaptzaLmyx4Gx20PENFxq+GhU12ht+9E82O63x3zwAyhjVBzwdPcZgM8Lv
+         AOEtHJLCbgbor2EwuR9xRxiF2e7Uh/6pmr+51aj1wIiMgErhtjW5vMwCEgyF1Yms1C0X
+         u4YDGt6tXgLI6qA5kNNfsB9fhKlEfYMzrsgx3ciNWUF9TtqSEbdQVp9fWG9egrqbqJfz
+         uH3uFCp0TNVfrEsuTkFyFaNIbRHLF0Rna5uCNbxA4fosMXr1yaIRzcJyJpDOg271dBEH
+         yf1w==
+X-Gm-Message-State: ACgBeo2dCcXIni1sPfYN6Z1oVdyA8wH/Cz3hMi/7V91qvhX/4sBTGEoD
+	TNMF7xsTZukglusJwJSU0y2QKzue/XYOPoh6
 X-Google-Smtp-Source: 
- AA6agR4DRaRRz4EjUVaLEUeqpFKei3ZW9gk/j69KalRHqLl1QjoW+2WffdsQLvmRtpUtiltAmww2Bg==
-X-Received: by 2002:a65:6e87:0:b0:41d:fefe:fd9d with SMTP id
- bm7-20020a656e87000000b0041dfefefd9dmr3129326pgb.557.1660170748464;
-        Wed, 10 Aug 2022 15:32:28 -0700 (PDT)
+ AA6agR7yfyttyKpkP3brADw94OyyCtZmIr7WXTEiVU+mofk65KB7Xlk3507cuPux/sOJczTgOSzPyw==
+X-Received: by 2002:a17:903:292:b0:16d:5e43:bd9e with SMTP id
+ j18-20020a170903029200b0016d5e43bd9emr30594211plr.116.1660170739577;
+        Wed, 10 Aug 2022 15:32:19 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- x14-20020aa79ace000000b0052d7606d144sm2532513pfp.74.2022.08.10.15.32.27
+ x14-20020aa79ace000000b0052d7606d144sm2532513pfp.74.2022.08.10.15.32.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Aug 2022 15:32:28 -0700 (PDT)
+        Wed, 10 Aug 2022 15:32:19 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 03/11] cve_check: skip remote patches that haven't
- been fetched when searching for CVE tags
-Date: Wed, 10 Aug 2022 12:32:01 -1000
-Message-Id: 
- <a2d03f445c45558997484240d2549eaa1e103692.1660170592.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 00/11] Patch review
+Date: Wed, 10 Aug 2022 12:31:58 -1000
+Message-Id: <cover.1660170592.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1660170592.git.steve@sakoman.com>
-References: <cover.1660170592.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -70,43 +67,78 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 10 Aug 2022 22:32:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169216
+ https://lists.openembedded.org/g/openembedded-core/message/169213
 
-From: Ross Burton <ross.burton@arm.com>
+Please review this set of patches for dunfell and have comments back by
+end of day Friday.
 
-If a remote patch is compressed we need to have run the unpack task for
-the file to exist locally.  Currently cve_check only depends on fetch so
-instead of erroring out, emit a warning that this file won't be scanned
-for CVE references.
+Passed a-full on autobuilder:
 
-Typically, remote compressed patches won't contain our custom tags, so
-this is unlikely to be an issue.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4058
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit cefc8741438c91f74264da6b59dece2e31f9e5a5)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/lib/oe/cve_check.py | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+The following changes since commit 73d2b640ad665f6ff3c4fbe8f5da4ef0dbb175f2:
 
-diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
-index a4b831831b..30fdc3e3dd 100644
---- a/meta/lib/oe/cve_check.py
-+++ b/meta/lib/oe/cve_check.py
-@@ -114,9 +114,10 @@ def get_patched_cves(d):
-     for url in oe.patch.src_patches(d):
-         patch_file = bb.fetch.decodeurl(url)[2]
- 
-+        # Remote compressed patches may not be unpacked, so silently ignore them
-         if not os.path.isfile(patch_file):
--            bb.error("File Not found: %s" % patch_file)
--            raise FileNotFoundError
-+            bb.warn("%s does not exist, cannot extract CVE list" % patch_file)
-+            continue
- 
-         # Check patch file name for CVE ID
-         fname_match = cve_file_name_match.search(patch_file)
+  libtirpc: CVE-2021-46828 DoS vulnerability with lots of connections (2022-07-28 06:26:48 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Alex Kiernan (1):
+  openssh: Add openssh-sftp-server to openssh RDEPENDS
+
+Bruce Ashfield (2):
+  linux-yocto/5.4: update to v5.4.208
+  linux-yocto/5.4: update to v5.4.209
+
+Hitendra Prajapati (2):
+  grub2: Fix several security issue of integer underflow
+  gdk-pixbuf: CVE-2021-46829 a heap-based buffer overflow
+
+Jose Quaresma (1):
+  gstreamer1.0: use the correct meson option for the capabilities
+
+Khem Raj (1):
+  libmodule-build-perl: Use env utility to find perl interpreter
+
+Martin Jansa (1):
+  libxml2: Port gentest.py to Python-3
+
+Richard Purdie (1):
+  insane: Fix buildpaths test to work with special devices
+
+Ross Burton (1):
+  cve_check: skip remote patches that haven't been fetched when
+    searching for CVE tags
+
+Steve Sakoman (1):
+  selftest: skip virgl test on fedora 36
+
+ meta/classes/insane.bbclass                   |   6 +-
+ meta/lib/oe/cve_check.py                      |   5 +-
+ meta/lib/oeqa/selftest/cases/runtime_test.py  |   2 +
+ .../grub/files/CVE-2022-28733.patch           |  60 ++
+ .../grub/files/CVE-2022-28734.patch           |  67 ++
+ .../grub/files/CVE-2022-28736.patch           | 275 ++++++
+ meta/recipes-bsp/grub/grub2.inc               |   3 +
+ .../openssh/openssh_8.2p1.bb                  |   2 +-
+ .../0001-Port-gentest.py-to-Python-3.patch    | 813 ++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.10.bb    |  11 +
+ .../perl/libmodule-build-perl_0.4231.bb       |   1 +
+ .../gdk-pixbuf/CVE-2021-46829.patch           |  61 ++
+ .../gdk-pixbuf/gdk-pixbuf_2.40.0.bb           |   1 +
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ .../gstreamer/gstreamer1.0_1.16.3.bb          |   2 +-
+ 17 files changed, 1321 insertions(+), 24 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-28733.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-28734.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-28736.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/0001-Port-gentest.py-to-Python-3.patch
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-46829.patch
+
 -- 
 2.25.1
 
