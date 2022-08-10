@@ -1,195 +1,285 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B5FBC19F2A
-	for <webhook@archiver.kernel.org>; Wed, 10 Aug 2022 16:31:15 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web11.484.1660149070327573429
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3952C19F2A
+	for <webhook@archiver.kernel.org>; Wed, 10 Aug 2022 17:51:25 +0000 (UTC)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com
+ [209.85.219.41])
+ by mx.groups.io with SMTP id smtpd.web12.1470.1660153875735542747
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Aug 2022 09:31:10 -0700
+ Wed, 10 Aug 2022 10:51:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=qH5OCO/q;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.44,
- mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f44.google.com with SMTP id z2so19826324edc.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=XxAOGIpj;
+ spf=pass (domain: gmail.com, ip: 209.85.219.41,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f41.google.com with SMTP id b7so11540545qvq.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Aug 2022 09:31:10 -0700 (PDT)
+ Wed, 10 Aug 2022 10:51:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=HXCXhlYZ0V9KpbTkTvxEyn3ZlpuwQDd8Q+KbGzk+TkI=;
-        b=qH5OCO/qwTV7ov6ENe8bCeQ6kPAbiiuL8tRF9XFb3xKKgbByXIRL5PjzGif21NfNEF
-         fyluNfJcvZNQf61RA2xFhT0ItXzAJzzuvElKdYDXFvAzu2CGS/UDx4QSr8prDL9YRSx8
-         I6Mr0i6km1qGB5Kgrbtj9GbQlS3DKdt+80Zi/pwz0xaugaIa9DwHP2O4tVWjNmOxDjV+
-         WKYcjDK9rZ0+WOBm4NIGaOaa8AKkUTTIS9IGfCR3srDA10Djk/fiwMXaKnj8jNH9bOs7
-         6qPrJIqsxTnQAfGWyNww9cDgZr6tQjxHCvAzjDpDymdizXei1DQUQVD8mmcT1XVtyCpY
-         e2Ug==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=L1MaaW0Wb/omAh970Ixh0/JwsvLZVm+IAf551CyFIPg=;
+        b=XxAOGIpj0KxCV9wmeoLCcYAUu8lhu6ex85JbiZUiEM3lWo115IwfscgvAuVlf72rFi
+         uj2frLTO1GPmWFnJHZeyqoCsH61X2TWTJSkSX1XLyp7PCuqGK4bDmO0WdL8Mf66ryUVD
+         7Wri8VCHOt7UoVf4Y0GPnYyej9YygwGoXGWYLTNR9B+5PrH33QuJTdLCBC8I+Djm4GGw
+         bUeB9Pg+TbNG0a2FRQwopttVKlpgHZ6BWNimTgCK2T+LFRKes1wxbosJo+rW/0G25cZ4
+         B8srCmjVrJQnpNmO0sLLbixwgAwalCY6MLnUKYbJVcxrRJTysFYN94oFu5Rz/bPDdj3d
+         XEpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=HXCXhlYZ0V9KpbTkTvxEyn3ZlpuwQDd8Q+KbGzk+TkI=;
-        b=goRjTNlHkOYOYLlfwMFEM9slMAHXGdC6iGZjvlzmpdqKV3ZfaaCUF0/xZ3yp9beurk
-         5VSJOOK3ssTpx9jOWdZ63QpA+p6bz4/0mxKOHv7RwoCVYtwkqKQ5q8fQpIwDQAQVAtVI
-         0eqXhs2Br9dvNyKFB6fHiWx3GQoe4cNrRZElFHGtbYFIwCAxvz9QkclOLhBbQBxuOxxD
-         zBLWG2QOEju/U56Y9gISfw7DA77AXGlmRFRjyvjd1lt7yBZ6O7A89copCukqHE7RDMMy
-         eYGw1NFHDotH40dJjQhna479uNvyImWlL4hIZA4c8810oDQ10GPKSSR6S3CxaQh0hzf9
-         eALg==
-X-Gm-Message-State: ACgBeo2njJSG8fd3UNja06f0JK5vhHqW+8d5028dKAMi/pSztmKaTyQO
-	deMv3i3whQ296b3xMWVrBdICyZ54g2snV7Mpb0ZTYfjVkyTJ6Q==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=L1MaaW0Wb/omAh970Ixh0/JwsvLZVm+IAf551CyFIPg=;
+        b=Fb8BwLkIs8MhfUlvWTnapVbcxmcYcRCF27nOzoOrLi2jwx4gbH2cpXES9X41NCeBQ2
+         a3N1cmaEz1Omi7GDDw0RGrRzEbWX8lMQF8lINS5ADzjfRNHeqEBJN5ZLOGO4M2/Z+J1c
+         QGLc6ZicJao/iqF0nvU9rW9W1/01hcf4KdoXCSreImnwDB1147MZFC+7YIP2YxBX6kwE
+         4DVUaDvl+OslNpH3gkp5Bp/sZxSBpgfh7smn4jgyVrljGl9rW/9PyqnApXB5BYUgcVkg
+         UZh1PdOjmGR2ou1GR0OfzWvUyX/qYw06vWmrGnIeMKeusNBB7XkGmnaPtO2xJxdfkSXw
+         +G3w==
+X-Gm-Message-State: ACgBeo3lHkVtPE423JuOGrr/YmRlOiV/BXfUbTEdLr0LbOpcMjMR+2AD
+	1J0pGj9/AdFwcJF+s+WY72Fh6emr+8/7Zg==
 X-Google-Smtp-Source: 
- AA6agR413m6xpZG6qU5yIqTyzhW3F7tdjcI3N/KIuMr/jgaSk5eoMrB02Peip9EL107oQPToNf1WXlJ/CIMeVQ8Y/js=
-X-Received: by 2002:aa7:d0c8:0:b0:43c:f071:992a with SMTP id
- u8-20020aa7d0c8000000b0043cf071992amr27447971edo.418.1660149068733; Wed, 10
- Aug 2022 09:31:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <1705773DE10A5E2A.21236@lists.openembedded.org>
- <b6e3d481-675d-fc6f-b88b-81cfc6ca2aed@windriver.com>
-In-Reply-To: <b6e3d481-675d-fc6f-b88b-81cfc6ca2aed@windriver.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 10 Aug 2022 06:30:57 -1000
-Message-ID: 
- <CAOSpxdYbaGBmOqhvcaPeUgGZZUumE9fc_0c0g_sq5A4AHeXv3w@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH] u-boot: fix CVE-2022-33103
-To: Sakib Sajal <sakib.sajal@windriver.com>
+ AA6agR4nhXuzbluC5SX3cCQTg7YostNdBX8MV1KWB/vmiKEfxRaK+th2sgjaRfZoQ7OllqmtfTsThQ==
+X-Received: by 2002:a05:6214:e89:b0:47b:2839:5877 with SMTP id
+ hf9-20020a0562140e8900b0047b28395877mr16573137qvb.112.1660153874550;
+        Wed, 10 Aug 2022 10:51:14 -0700 (PDT)
+Received: from localhost.localdomain ([173.34.88.218])
+        by smtp.gmail.com with ESMTPSA id
+ bj11-20020a05620a190b00b006b5df4d2c81sm249355qkb.94.2022.08.10.10.51.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Aug 2022 10:51:13 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: [PATCH] lttng-modules: replace mips compaction fix with upstream
+ change
+Date: Wed, 10 Aug 2022 13:51:12 -0400
+Message-Id: <20220810175112.3879638-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Aug 2022 16:31:15 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Aug 2022 17:51:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169199
+ https://lists.openembedded.org/g/openembedded-core/message/169200
 
-On Wed, Aug 10, 2022 at 5:35 AM Sakib Sajal <sakib.sajal@windriver.com> wrote:
->
-> Steve, did you miss this patch?
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-I did :-(
+lttng upstream had a different solution to the compaction build isses
+seen on mips.
 
-I've got it now.  Sorry about that.
+We switch our patch for a backport of the upstream solution.
 
-Steve
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ ...tracepoints-condtional-on-CONFIG_COM.patch | 103 ------------------
+ .../lttng-modules/0001-fix-compaction.patch   |  68 ++++++++++++
+ .../lttng/lttng-modules_2.13.4.bb             |   2 +-
+ 3 files changed, 69 insertions(+), 104 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-compaction-make-tracepoints-condtional-on-CONFIG_COM.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-compaction.patch
 
-> On 2022-07-26 15:18, Sakib Sajal wrote:
-> > Backport patch to resolve CVE-2022-33103.
-> >
-> > Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-> > ---
-> >   ..._read-Prevent-arbitrary-code-executi.patch | 80 +++++++++++++++++++
-> >   meta/recipes-bsp/u-boot/u-boot_2022.01.bb     |  1 +
-> >   2 files changed, 81 insertions(+)
-> >   create mode 100644 meta/recipes-bsp/u-boot/files/0001-fs-squashfs-sqfs_read-Prevent-arbitrary-code-executi.patch
-> >
-> > diff --git a/meta/recipes-bsp/u-boot/files/0001-fs-squashfs-sqfs_read-Prevent-arbitrary-code-executi.patch b/meta/recipes-bsp/u-boot/files/0001-fs-squashfs-sqfs_read-Prevent-arbitrary-code-executi.patch
-> > new file mode 100644
-> > index 0000000000..b1650f6baa
-> > --- /dev/null
-> > +++ b/meta/recipes-bsp/u-boot/files/0001-fs-squashfs-sqfs_read-Prevent-arbitrary-code-executi.patch
-> > @@ -0,0 +1,80 @@
-> > +From 65f1066f5abe291c7b10b6075fd60776074a38a9 Mon Sep 17 00:00:00 2001
-> > +From: Miquel Raynal <miquel.raynal@bootlin.com>
-> > +Date: Thu, 9 Jun 2022 16:02:06 +0200
-> > +Subject: [PATCH] fs/squashfs: sqfs_read: Prevent arbitrary code execution
-> > +
-> > +Following Jincheng's report, an out-of-band write leading to arbitrary
-> > +code execution is possible because on one side the squashfs logic
-> > +accepts directory names up to 65535 bytes (u16), while U-Boot fs logic
-> > +accepts directory names up to 255 bytes long.
-> > +
-> > +Prevent such an exploit from happening by capping directory name sizes
-> > +to 255. Use a define for this purpose so that developers can link the
-> > +limitation to its source and eventually kill it some day by dynamically
-> > +allocating this array (if ever desired).
-> > +
-> > +Link: https://lore.kernel.org/all/CALO=DHFB+yBoXxVr5KcsK0iFdg+e7ywko4-e+72kjbcS8JBfPw@mail.gmail.com
-> > +Reported-by: Jincheng Wang <jc.w4ng@gmail.com>
-> > +Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> > +Tested-by: Jincheng Wang <jc.w4ng@gmail.com>
-> > +
-> > +CVE: CVE-2022-33103
-> > +Upstream-Status: Backport [2ac0baab4aff1a0b45067d0b62f00c15f4e86856]
-> > +
-> > +Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-> > +---
-> > + fs/squashfs/sqfs.c | 8 +++++---
-> > + include/fs.h       | 4 +++-
-> > + 2 files changed, 8 insertions(+), 4 deletions(-)
-> > +
-> > +diff --git a/fs/squashfs/sqfs.c b/fs/squashfs/sqfs.c
-> > +index e2d91c654c..a145d754cc 100644
-> > +--- a/fs/squashfs/sqfs.c
-> > ++++ b/fs/squashfs/sqfs.c
-> > +@@ -973,6 +973,7 @@ int sqfs_readdir(struct fs_dir_stream *fs_dirs, struct fs_dirent **dentp)
-> > +     int i_number, offset = 0, ret;
-> > +     struct fs_dirent *dent;
-> > +     unsigned char *ipos;
-> > ++    u16 name_size;
-> > +
-> > +     dirs = (struct squashfs_dir_stream *)fs_dirs;
-> > +     if (!dirs->size) {
-> > +@@ -1055,9 +1056,10 @@ int sqfs_readdir(struct fs_dir_stream *fs_dirs, struct fs_dirent **dentp)
-> > +             return -SQFS_STOP_READDIR;
-> > +     }
-> > +
-> > +-    /* Set entry name */
-> > +-    strncpy(dent->name, dirs->entry->name, dirs->entry->name_size + 1);
-> > +-    dent->name[dirs->entry->name_size + 1] = '\0';
-> > ++    /* Set entry name (capped at FS_DIRENT_NAME_LEN which is a U-Boot limitation) */
-> > ++    name_size = min_t(u16, dirs->entry->name_size + 1, FS_DIRENT_NAME_LEN - 1);
-> > ++    strncpy(dent->name, dirs->entry->name, name_size);
-> > ++    dent->name[name_size] = '\0';
-> > +
-> > +     offset = dirs->entry->name_size + 1 + SQFS_ENTRY_BASE_LENGTH;
-> > +     dirs->entry_count--;
-> > +diff --git a/include/fs.h b/include/fs.h
-> > +index 1c79e299fd..6cb7ec89f4 100644
-> > +--- a/include/fs.h
-> > ++++ b/include/fs.h
-> > +@@ -161,6 +161,8 @@ int fs_write(const char *filename, ulong addr, loff_t offset, loff_t len,
-> > + #define FS_DT_REG  8         /* regular file */
-> > + #define FS_DT_LNK  10        /* symbolic link */
-> > +
-> > ++#define FS_DIRENT_NAME_LEN 256
-> > ++
-> > + /**
-> > +  * struct fs_dirent - directory entry
-> > +  *
-> > +@@ -181,7 +183,7 @@ struct fs_dirent {
-> > +     /** change_time:        time of last modification */
-> > +     struct rtc_time change_time;
-> > +     /** name:               file name */
-> > +-    char name[256];
-> > ++    char name[FS_DIRENT_NAME_LEN];
-> > + };
-> > +
-> > + /* Note: fs_dir_stream should be treated as opaque to the user of fs layer */
-> > +--
-> > +2.33.0
-> > +
-> > diff --git a/meta/recipes-bsp/u-boot/u-boot_2022.01.bb b/meta/recipes-bsp/u-boot/u-boot_2022.01.bb
-> > index f2443723e2..a6a15d698f 100644
-> > --- a/meta/recipes-bsp/u-boot/u-boot_2022.01.bb
-> > +++ b/meta/recipes-bsp/u-boot/u-boot_2022.01.bb
-> > @@ -4,6 +4,7 @@ require u-boot.inc
-> >   SRC_URI:append = " file://0001-riscv32-Use-double-float-ABI-for-rv32.patch \
-> >                      file://0001-riscv-fix-build-with-binutils-2.38.patch \
-> >                      file://0001-i2c-fix-stack-buffer-overflow-vulnerability-in-i2c-m.patch \
-> > +                   file://0001-fs-squashfs-sqfs_read-Prevent-arbitrary-code-executi.patch \
-> >                    "
-> >
-> >   DEPENDS += "bc-native dtc-native python3-setuptools-native"
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#168511): https://lists.openembedded.org/g/openembedded-core/message/168511
-> > Mute This Topic: https://lists.openembedded.org/mt/92635002/4422444
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [sakib.sajal@windriver.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-compaction-make-tracepoints-condtional-on-CONFIG_COM.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-compaction-make-tracepoints-condtional-on-CONFIG_COM.patch
+deleted file mode 100644
+index 305ca7cb8b..0000000000
+--- a/meta/recipes-kernel/lttng/lttng-modules/0001-compaction-make-tracepoints-condtional-on-CONFIG_COM.patch
++++ /dev/null
+@@ -1,103 +0,0 @@
+-From 417bb00022c813c6dc11bfa652d74f3687df7626 Mon Sep 17 00:00:00 2001
+-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+-Date: Wed, 3 Aug 2022 14:55:56 -0400
+-Subject: [PATCH] compaction: make tracepoints condtional on CONFIG_COMPACTION
+-
+-When building against a v5.19 mips kernel, the following errors
+-were triggered:
+-
+-  | lttng-modules-2.13.4/src/probes/../../include/instrumentation/events/compaction.h:105:42: note: expected 'struct compact_control *' but argument is of type 'struct compact_control *'
+-  |   105 |         TP_PROTO(struct compact_control *cc,
+-  |       |                  ~~~~~~~~~~~~~~~~~~~~~~~~^~
+-  | lttng-modules-2.13.4/src/probes/../../include/lttng/tracepoint-event-impl.h:779:68: note: in definition of macro 'LTTNG_TRACEPOINT_EVENT_CLASS_CODE'
+-  |   779 | static inline size_t __event_get_align__##_name(void *__tp_locvar, _proto)    \
+-  |       |                                                                    ^~~~~~
+-  | lttng-modules-2.13.4/src/probes/../../include/lttng/tracepoint-event-impl.h:106:50: note: in expansion of macro 'PARAMS'
+-  |   106 |         LTTNG_TRACEPOINT_EVENT_CLASS_CODE(_name, PARAMS(_proto), PARAMS(_args), , , \
+-  |       |                                                  ^~~~~~
+-  | lttng-modules-2.13.4/src/probes/../../include/lttng/tracepoint-event-impl.h:41:9: note: in expansion of macro 'LTTNG_TRACEPOINT_EVENT_CLASS'
+-  |    41 |         LTTNG_TRACEPOINT_EVENT_CLASS(map,                               \
+-  |       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-  | lttng-modules-2.13.4/src/probes/../../include/lttng/tracepoint-event-impl.h:42:30: note: in expansion of macro 'PARAMS'
+-  |    42 |                              PARAMS(proto),                             \
+-  |       |                              ^~~~~~
+-  | lttng-modules-2.13.4/src/probes/../../include/instrumentation/events/compaction.h:101:1: note: in expansion of macro 'LTTNG_TRACEPOINT_EVENT_MAP'
+-  |   101 | LTTNG_TRACEPOINT_EVENT_MAP(mm_compaction_migratepages,
+-  |       | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+-  | lttng-modules-2.13.4/src/probes/../../include/instrumentation/events/compaction.h:105:9: note: in expansion of macro 'TP_PROTO'
+-  |   105 |         TP_PROTO(struct compact_control *cc,
+-  |       |         ^~~~~~~~
+-  | lttng-modules-2.13.4/src/probes/../../include/instrumentation/events/compaction.h:112:57: error: invalid use of undefined type 'struct compact_control'
+-
+-...
+-
+-  | lttng-modules-2.13.4/src/probes/../../include/instrumentation/events/compaction.h:108:25: warning: 'struct compact_control' declared inside parameter list will not be visible outside of this definition or declaration
+-  |   108 |         TP_PROTO(struct compact_control *cc,
+-  |       |                         ^~~~~~~~~~~~~~~
+-  | lttng-modules-2.13.4/src/probes/../../include/lttng/tracepoint-event-impl.h:159:43: note: in definition of macro 'LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP'
+-  |   159 | void __event_template_proto___##_template(_proto);
+-  |       |                                           ^~~~~~
+-  | lttng-modules-2.13.4/src/probes/../../include/lttng/tracepoint-event-impl.h:45:61: note: in expansion of macro 'PARAMS'
+-  |    45 |         LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(map, name, map, PARAMS(proto), PARAMS(args))
+-  |       |                                                             ^~~~~~
+-  | lttng-modules-2.13.4/src/probes/../../include/instrumentation/events/compaction.h:104:1: note: in expansion of macro 'LTTNG_TRACEPOINT_EVENT_MAP'
+-  |   104 | LTTNG_TRACEPOINT_EVENT_MAP(mm_compaction_migratepages,
+-  |       | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+-  | lttng-modules-2.13.4/src/probes/../../include/instrumentation/events/compaction.h:108:9: note: in expansion of macro 'TP_PROTO'
+-  |   108 |         TP_PROTO(struct compact_control *cc,
+-  |       |         ^~~~~~~~
+-  | lttng-modules-2.13.4/src/probes/../../include/lttng/tracepoint-event-impl.h:159:6: error: conflicting types for '__event_template_proto___compaction_migratepages'; have 'void(struct compact_control *, unsigned int)'
+-  |   159 | void __event_template_proto___##_template(_proto);
+-  |       |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+-  | lttng-modules-2.13.4/src/probes/../../include/lttng/tracepoint-event-impl.h:45:9: note: in expansion of macro 'LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP'
+-  |    45 |         LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(map, name, map, PARAMS(proto), PARAMS(args))
+-  |       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-
+-The root cause appears to be that this particular mips kernel does not
+-have CONFIG_COMPACTION avaiable, and hence we end up with the struct
+-declaration within this tracepoint, and then conflicting types.
+-
+-While putting the conditional around only compaction_migratepages seemed
+-sufficient to get the build working, it doesn't look like any of the
+-tracepoints should be valid, so we extend it to all definitions.
+-
+-Upstream-Status: Submitted [https://lists.lttng.org/pipermail/lttng-dev/2022-August/030246.html]
+-
+-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+----
+- include/instrumentation/events/compaction.h | 5 +++++
+- 1 file changed, 5 insertions(+)
+-
+-diff --git a/include/instrumentation/events/compaction.h b/include/instrumentation/events/compaction.h
+-index ecae39a..155804a 100644
+---- a/include/instrumentation/events/compaction.h
+-+++ b/include/instrumentation/events/compaction.h
+-@@ -9,6 +9,8 @@
+- #include <linux/types.h>
+- #include <lttng/kernel-version.h>
+- 
+-+#ifdef CONFIG_COMPACTION
+-+
+- #if LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,0,0)
+- 
+- LTTNG_TRACEPOINT_EVENT_CLASS(compaction_isolate_template,
+-@@ -97,6 +99,7 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(compaction_isolate_template,
+- 
+- #endif /* #else #if LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,0,0) */
+- 
+-+
+- #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,18,0))
+- LTTNG_TRACEPOINT_EVENT_MAP(mm_compaction_migratepages,
+- 
+-@@ -182,6 +185,8 @@ LTTNG_TRACEPOINT_EVENT_MAP(mm_compaction_migratepages,
+- )
+- #endif /* #else #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(3,16,0)) */
+- 
+-+#endif /* CONFIG_COMPACTION */
+-+
+- #endif /* LTTNG_TRACE_COMPACTION_H */
+- 
+- /* This part must be outside protection */
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-compaction.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-compaction.patch
+new file mode 100644
+index 0000000000..21e27ffc5e
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-compaction.patch
+@@ -0,0 +1,68 @@
++From 8e42c4821fb5f5cb816b6ddf73d9a13ba3298a63 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Wed, 10 Aug 2022 11:07:14 -0400
++Subject: [PATCH] fix: tie compaction probe build to CONFIG_COMPACTION
++
++The definition of 'struct compact_control' in 'mm/internal.h' depends on
++CONFIG_COMPACTION being defined. Only build the compaction probe when
++this configuration option is enabled.
++
++Thanks to Bruce Ashfield <bruce.ashfield@gmail.com> for reporting this
++issue.
++
++Upstream-Status: Backport [https://review.lttng.org/c/lttng-modules/+/8660]
++
++Change-Id: I81e77aa9c1bf10452c152d432fe5224df0db42c9
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++---
++ src/probes/Kbuild | 34 ++++++++++++++++++----------------
++ 1 file changed, 18 insertions(+), 16 deletions(-)
++
++diff --git a/src/probes/Kbuild b/src/probes/Kbuild
++index 2908cf75..3e556b8e 100644
++--- a/src/probes/Kbuild
+++++ b/src/probes/Kbuild
++@@ -167,22 +167,24 @@ ifneq ($(CONFIG_BTRFS_FS),)
++   endif # $(wildcard $(btrfs_dep))
++ endif # CONFIG_BTRFS_FS
++ 
++-# A dependency on internal header 'mm/internal.h' was introduced in v5.18
++-compaction_dep = $(srctree)/mm/internal.h
++-compaction_dep_wildcard = $(wildcard $(compaction_dep))
++-compaction_dep_check = $(shell \
++-if [ \( $(VERSION) -ge 6 \
++-   -o \( $(VERSION) -eq 5 -a $(PATCHLEVEL) -ge 18 \) \) -a \
++-   -z "$(compaction_dep_wildcard)" ] ; then \
++-  echo "warn" ; \
++-else \
++-  echo "ok" ; \
++-fi ;)
++-ifeq ($(compaction_dep_check),ok)
++-  obj-$(CONFIG_LTTNG) += lttng-probe-compaction.o
++-else
++-  $(warning Files $(compaction_dep) not found. Probe "compaction" is disabled. Use full kernel source tree to enable it.)
++-endif # $(wildcard $(compaction_dep))
+++ifneq ($(CONFIG_COMPACTION),)
+++  # A dependency on internal header 'mm/internal.h' was introduced in v5.18
+++  compaction_dep = $(srctree)/mm/internal.h
+++  compaction_dep_wildcard = $(wildcard $(compaction_dep))
+++  compaction_dep_check = $(shell \
+++  if [ \( $(VERSION) -ge 6 \
+++     -o \( $(VERSION) -eq 5 -a $(PATCHLEVEL) -ge 18 \) \) -a \
+++     -z "$(compaction_dep_wildcard)" ] ; then \
+++    echo "warn" ; \
+++  else \
+++    echo "ok" ; \
+++  fi ;)
+++  ifeq ($(compaction_dep_check),ok)
+++    obj-$(CONFIG_LTTNG) += lttng-probe-compaction.o
+++  else
+++    $(warning Files $(compaction_dep) not found. Probe "compaction" is disabled. Use full kernel source tree to enable it.)
+++  endif # $(wildcard $(compaction_dep))
+++endif # CONFIG_COMPACTION
++ 
++ ifneq ($(CONFIG_EXT4_FS),)
++   ext4_dep = $(srctree)/fs/ext4/*.h
++-- 
++2.34.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.4.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.4.bb
+index a81a0e580f..f60ab3b5f5 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.13.4.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.4.bb
+@@ -15,7 +15,7 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://0002-fix-fs-Remove-flags-parameter-from-aops-write_begin-.patch \
+            file://0003-fix-workqueue-Fix-type-of-cpu-in-trace-event-v5.19.patch \
+            file://0001-fix-net-skb-introduce-kfree_skb_reason-v5.15.58.v5.1.patch \
+-           file://0001-compaction-make-tracepoints-condtional-on-CONFIG_COM.patch \
++           file://0001-fix-compaction.patch \
+            "
+ 
+ # Use :append here so that the patch is applied also when using devupstream
+-- 
+2.25.1
+
 
