@@ -1,100 +1,117 @@
-Return-Path: <max.oss.09@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D62C8C25B08
-	for <webhook@archiver.kernel.org>; Wed, 10 Aug 2022 07:22:23 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web09.3075.1660116137788549972
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10C50C00140
+	for <webhook@archiver.kernel.org>; Wed, 10 Aug 2022 07:49:04 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web11.3149.1660117739614484910
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Aug 2022 00:22:18 -0700
+ Wed, 10 Aug 2022 00:49:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jf3cC7sC;
- spf=pass (domain: gmail.com, ip: 209.85.221.46,
- mailfrom: max.oss.09@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id j7so16750379wrh.3
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Aug 2022 00:22:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=SgPkAMhm6V+BM/ieLRlMsDfZK/FviTfLb5eVAGicHk0=;
-        b=jf3cC7sC7KtxGjq2sgu92jhu105eEdu7eIsJjTZIcAvTYNBEtlI4MEHPIJfEX/4uU5
-         sotO17kJl3x88udh0RKkPHoMoSTGt+JVac8vveRPiMnlAM4xh9YKzOUCvwD++DvwZDjA
-         RnHbz0FaPYlkrxfOPn2fRhKUJDI8Tznw7sObu8k0PspmPgxz1PTNCetxU6pJiwtH3KJT
-         9986OZul//tVYIkxbJlYK9cON5rPY2k+yv7ZSHM17Z6FU39TRGat7qa6LIKte00XCKQN
-         kCGO4+0fYZ4lxiXKSRMYtalD+UvNUEYEM7AiDjSbBMrZSTonYNjX+BFtyrijTsbP7Ehu
-         BDOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=SgPkAMhm6V+BM/ieLRlMsDfZK/FviTfLb5eVAGicHk0=;
-        b=WiaEcUB6rLEbQSkt5nzdYDFU7bdwUr153sW1Uj21+i7afNw8+wc7UuwvwzyoFkd/VF
-         Oq/bEDJyRTUcdt4NTvXXHhFmgZn/qHAhLdJqZ1pguslX6Ls+Xopz+qHh+LZtrzB+as9L
-         mFzbtqCWCaBhJs2UOCKvozg5WH8N6Wib+xQz532eKUu5c355y+Bmy7yZSgg36hlG8uCp
-         yUAhGxwTv7oph/BA0ZZKAoI6psVUeQ+u0Q+hNOxZkkCo7Tky3XQOJTqxM4sKXc5H5eU5
-         NiG51DhFd9mHYONPATZQnFogbKS9HlGWeOquDlNJUu/O4uuBb74CcSdu6OHiUDiWdJdS
-         TEcA==
-X-Gm-Message-State: ACgBeo0+CzzBZs8n9YIc5ChQdezw7emUEeBT+bREzRDBPtXQaajeoRV4
-	191a3/1pE8wfXlOfGKBcWp+2NX/q/G0=
-X-Google-Smtp-Source: 
- AA6agR7odygb4m6v6nFG2Gjr1OeeXx8JkMYnVUYyBBnku0uy+gcTsEs8L3/LG8KVGnA3knP36FKsVg==
-X-Received: by 2002:a05:6000:1861:b0:220:68e0:ac7e with SMTP id
- d1-20020a056000186100b0022068e0ac7emr17070700wri.376.1660116135692;
-        Wed, 10 Aug 2022 00:22:15 -0700 (PDT)
-Received: from linuxdev2.toradex.int (31-10-206-125.static.upc.ch.
- [31.10.206.125])
-        by smtp.gmail.com with ESMTPSA id
- ba21-20020a0560001c1500b0021e5bec14basm15315393wrb.5.2022.08.10.00.22.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Aug 2022 00:22:15 -0700 (PDT)
-From: Max Krummenacher <max.oss.09@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Max Krummenacher <max.krummenacher@toradex.com>
-Subject: [oe][OE-core][Patch 1/1] perf: depend on setuptools if building
- python scripting
-Date: Wed, 10 Aug 2022 09:21:38 +0200
-Message-Id: <20220810072138.2440138-1-max.oss.09@gmail.com>
-X-Mailer: git-send-email 2.35.3
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=djdY3fqE;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198,
+ mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 13D14C0006;
+	Wed, 10 Aug 2022 07:48:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1660117737;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RbpK8G7IDor1Hl5J5MoqDfcusJxiBJreckQ4h2Pegzw=;
+	b=djdY3fqEl48R1gXy4cDM7gLgTaRk95h5nIIY/ElDQBW+Q/T8JAeZqAJ5cv9gMv6om8b+la
+	AmitaIqii/KAJtzK2E9f5ZF832Kil5dSDAq5Wzi+cbVvrNzrIZKoOaF1+6Sec8s1FefL4D
+	gJDhBaMoocEgNUrUpfcTuJ/4iBpddBTfuJJQgLz342AH6q58k2qN4yy2Dq1btHvDR5t1EV
+	3vQLKF6jiR4+V+Nv/G4lYY9aH+tyOj49GoOeDditLkBkrZ/mMg5f6sN3UWcc38J4n0XSDY
+	Gj4S5orc+nibztQN5KVngeRfv5/LcMiBjbtWXauPb8RInI+PMWtOcdLEqvEHrA==
+Date: Wed, 10 Aug 2022 09:48:55 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: JeongBong Seo <lifeofthanks@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	JeongBong Seo <jb.seo@lge.com>
+Subject: Re: [OE-core] [PATCH] wic: add 'none' fstype for custom image
+Message-ID: <YvNi59exCGgnhioM@mail.local>
+References: <20220808045710.25038-1-jb.seo@lge.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220808045710.25038-1-jb.seo@lge.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Aug 2022 07:22:23 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Aug 2022 07:49:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169185
+ https://lists.openembedded.org/g/openembedded-core/message/169186
 
-From: Max Krummenacher <max.krummenacher@toradex.com>
+Hello,
 
-Starting with kernel 5.19-rc7 perf changed from using distutils
-to setuptools.
-Add this to the dependencies to be prepared.
+On 08/08/2022 04:57:10+0000, JeongBong Seo wrote:
+> It's not possible to set the label (of gpt entry) normally
+> when I want to use non-listed fstype as a rawcopy.
+> 
+> Example)
+> part ? --source rawcopy --ondisk mmcblk0 --label mypart --sourceparams file=mypart.raw
+> 
+> To resolve this problem, this patch addes a 'none' fstype
+> and ignore do_image_label on rawcopy (that actually set the partition label.)
+> 
+> Signed-off-by: JeongBong Seo <jb.seo@lge.com>
+> ---
+>  scripts/lib/wic/ksparser.py               | 2 +-
+>  scripts/lib/wic/plugins/source/rawcopy.py | 4 ++++
+>  2 files changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+> index 452a160232..298e593ad4 100644
+> --- a/scripts/lib/wic/ksparser.py
+> +++ b/scripts/lib/wic/ksparser.py
+> @@ -157,7 +157,7 @@ class KickStart():
+>          part.add_argument('--fsoptions', dest='fsopts')
+>          part.add_argument('--fstype', default='vfat',
+>                            choices=('ext2', 'ext3', 'ext4', 'btrfs',
+> -                                   'squashfs', 'vfat', 'msdos', 'swap'))
+> +                                   'squashfs', 'vfat', 'msdos', 'swap', 'none'))
 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/tools/perf?id=ee87a0841aa538ab7ad49cf5679ac5ea2682c909
+This doesn't apply on master, can you rebase please?
 
-Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
----
- meta/recipes-kernel/perf/perf.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>          part.add_argument('--mkfs-extraopts', default='')
+>          part.add_argument('--label')
+>          part.add_argument('--use-label', action='store_true')
+> diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
+> index 3c4997d8ba..a71629282d 100644
+> --- a/scripts/lib/wic/plugins/source/rawcopy.py
+> +++ b/scripts/lib/wic/plugins/source/rawcopy.py
+> @@ -21,6 +21,10 @@ class RawCopyPlugin(SourcePlugin):
+>  
+>      @staticmethod
+>      def do_image_label(fstype, dst, label):
+> +        # don't create label when fstype is none
+> +        if fstype == 'none':
+> +            return
+> +
+>          if fstype.startswith('ext'):
+>              cmd = 'tune2fs -L %s %s' % (label, dst)
+>          elif fstype in ('msdos', 'vfat'):
+> -- 
+> 2.17.1
+> 
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 95e7eae9fe..4b15b11462 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -13,7 +13,7 @@ PR = "r9"
- 
- PACKAGECONFIG ??= "scripting tui libunwind"
- PACKAGECONFIG[dwarf] = ",NO_DWARF=1"
--PACKAGECONFIG[scripting] = ",NO_LIBPERL=1 NO_LIBPYTHON=1,perl python3"
-+PACKAGECONFIG[scripting] = ",NO_LIBPERL=1 NO_LIBPYTHON=1,perl python3 python3-setuptools-native"
- # gui support was added with kernel 3.6.35
- # since 3.10 libnewt was replaced by slang
- # to cover a wide range of kernel we add both dependencies
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#169013): https://lists.openembedded.org/g/openembedded-core/message/169013
+> Mute This Topic: https://lists.openembedded.org/mt/92886214/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.35.3
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
