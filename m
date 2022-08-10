@@ -1,98 +1,100 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <max.oss.09@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACD79C19F2A
-	for <webhook@archiver.kernel.org>; Wed, 10 Aug 2022 06:37:53 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web09.2862.1660113468041075976
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D62C8C25B08
+	for <webhook@archiver.kernel.org>; Wed, 10 Aug 2022 07:22:23 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web09.3075.1660116137788549972
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Aug 2022 23:37:48 -0700
+ Wed, 10 Aug 2022 00:22:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=I2wcaKql;
- spf=pass (domain: gmail.com, ip: 209.85.214.177,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f177.google.com with SMTP id x10so13419908plb.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jf3cC7sC;
+ spf=pass (domain: gmail.com, ip: 209.85.221.46,
+ mailfrom: max.oss.09@gmail.com)
+Received: by mail-wr1-f46.google.com with SMTP id j7so16750379wrh.3
         for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Aug 2022 23:37:47 -0700 (PDT)
+ Wed, 10 Aug 2022 00:22:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc;
-        bh=D2Md3/entGJz1Dro5hTpJQUVSCa6V/FMrrJVQzh4adA=;
-        b=I2wcaKqlmHpUxW3o1HyS0OvObqURrAHouHtY7sXTMwGZfgK8QBGxGNYirVc6shg45M
-         kwcIXCrXd6zcnSLnouhu41cUxr3RYoT5IHbmVq8LEuchcii6JWrWf5sksI8HBjPfw7gc
-         qJTZMR8PkbSPKdqCbB3FtRkqC2LQeR4TriEpXu8zLx+vv+poy8ds2doNQEUMWV6+TPNn
-         +qy3nZOsympQf4xobNMqUwJ0l6RejwFTivYzibWznr4mpbIAQLTaT+VNhDNq2EN5iPDt
-         NBPWVqMDVwe/pe/u39AL6GWeYThWEeDCKQMc6wRwTnoU9j6G+YkFrVzp/n6HGAHdD5yk
-         5QkA==
+        bh=SgPkAMhm6V+BM/ieLRlMsDfZK/FviTfLb5eVAGicHk0=;
+        b=jf3cC7sC7KtxGjq2sgu92jhu105eEdu7eIsJjTZIcAvTYNBEtlI4MEHPIJfEX/4uU5
+         sotO17kJl3x88udh0RKkPHoMoSTGt+JVac8vveRPiMnlAM4xh9YKzOUCvwD++DvwZDjA
+         RnHbz0FaPYlkrxfOPn2fRhKUJDI8Tznw7sObu8k0PspmPgxz1PTNCetxU6pJiwtH3KJT
+         9986OZul//tVYIkxbJlYK9cON5rPY2k+yv7ZSHM17Z6FU39TRGat7qa6LIKte00XCKQN
+         kCGO4+0fYZ4lxiXKSRMYtalD+UvNUEYEM7AiDjSbBMrZSTonYNjX+BFtyrijTsbP7Ehu
+         BDOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc;
-        bh=D2Md3/entGJz1Dro5hTpJQUVSCa6V/FMrrJVQzh4adA=;
-        b=IDrGr+/wyBVO0Rzm9lcNW9I7Q1Y8oRJHnLuRAvg7Q4j6G53Ba8ykglS2+Wx7z8nnuu
-         6hYPK8/cM31JdxPp7FeiSCT0eh22wcwgE3bmNGpe3HsDT+xWTBMlvlmcbGw0OtEUa9CI
-         OLv60CkBKDAzYPeoNVXkmd1IX7m0LJJRfBrBpMbJBOqaLRLUCn7EKWppnu5t/daw+jTn
-         og+XQlaH80s0kCy/yv9U4PLmGYc1WKSxD3JHwQuFwSdj7G3LNwSP5CZtJcbY2dvhYu+a
-         4GIEAINTCMg7y3AW0wcnBXI6XAK4ua82f3Lp3VnoGYHHGQmA/XOF3lIiQwsFGeDO2l/t
-         GOQg==
-X-Gm-Message-State: ACgBeo3JetPjtWkhXH3cQbcyfR8sRIb+IqQpkwLPqrzGqKNh6UPnBUHY
-	0cOxkVw6caBvSEpcWDKjq555DIVxe4k=
+        bh=SgPkAMhm6V+BM/ieLRlMsDfZK/FviTfLb5eVAGicHk0=;
+        b=WiaEcUB6rLEbQSkt5nzdYDFU7bdwUr153sW1Uj21+i7afNw8+wc7UuwvwzyoFkd/VF
+         Oq/bEDJyRTUcdt4NTvXXHhFmgZn/qHAhLdJqZ1pguslX6Ls+Xopz+qHh+LZtrzB+as9L
+         mFzbtqCWCaBhJs2UOCKvozg5WH8N6Wib+xQz532eKUu5c355y+Bmy7yZSgg36hlG8uCp
+         yUAhGxwTv7oph/BA0ZZKAoI6psVUeQ+u0Q+hNOxZkkCo7Tky3XQOJTqxM4sKXc5H5eU5
+         NiG51DhFd9mHYONPATZQnFogbKS9HlGWeOquDlNJUu/O4uuBb74CcSdu6OHiUDiWdJdS
+         TEcA==
+X-Gm-Message-State: ACgBeo0+CzzBZs8n9YIc5ChQdezw7emUEeBT+bREzRDBPtXQaajeoRV4
+	191a3/1pE8wfXlOfGKBcWp+2NX/q/G0=
 X-Google-Smtp-Source: 
- AA6agR5l2ct1AfbDSspa7GVK/Angoxaa2grwJnveAggTIWdOr8HL/G+JBunIBms0ETbeKpXw21Pwrg==
-X-Received: by 2002:a17:90b:4f91:b0:1cd:3a73:3a5d with SMTP id
- qe17-20020a17090b4f9100b001cd3a733a5dmr2150948pjb.98.1660113466677;
-        Tue, 09 Aug 2022 23:37:46 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::9f45])
+ AA6agR7odygb4m6v6nFG2Gjr1OeeXx8JkMYnVUYyBBnku0uy+gcTsEs8L3/LG8KVGnA3knP36FKsVg==
+X-Received: by 2002:a05:6000:1861:b0:220:68e0:ac7e with SMTP id
+ d1-20020a056000186100b0022068e0ac7emr17070700wri.376.1660116135692;
+        Wed, 10 Aug 2022 00:22:15 -0700 (PDT)
+Received: from linuxdev2.toradex.int (31-10-206-125.static.upc.ch.
+ [31.10.206.125])
         by smtp.gmail.com with ESMTPSA id
- h2-20020a17090a054200b001f30b5bb378sm758091pjf.15.2022.08.09.23.37.45
+ ba21-20020a0560001c1500b0021e5bec14basm15315393wrb.5.2022.08.10.00.22.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Aug 2022 23:37:46 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+        Wed, 10 Aug 2022 00:22:15 -0700 (PDT)
+From: Max Krummenacher <max.oss.09@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] binutils: Disable gprofng when using clang
-Date: Tue,  9 Aug 2022 23:37:41 -0700
-Message-Id: <20220810063741.2914548-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.37.1
+Cc: Max Krummenacher <max.krummenacher@toradex.com>
+Subject: [oe][OE-core][Patch 1/1] perf: depend on setuptools if building
+ python scripting
+Date: Wed, 10 Aug 2022 09:21:38 +0200
+Message-Id: <20220810072138.2440138-1-max.oss.09@gmail.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Aug 2022 06:37:53 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Aug 2022 07:22:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169184
+ https://lists.openembedded.org/g/openembedded-core/message/169185
 
-It does not yet compile with clang it comes with __ builtin___snprintf_chk Not Supported
-formatted output of built-in functions check is failing with clang
-somehow it seems to be compiler limitation. Therefore disable building
-this component with clang for now
+From: Max Krummenacher <max.krummenacher@toradex.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Starting with kernel 5.19-rc7 perf changed from using distutils
+to setuptools.
+Add this to the dependencies to be prepared.
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/tools/perf?id=ee87a0841aa538ab7ad49cf5679ac5ea2682c909
+
+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
 ---
-v2: Use EXTRA_OECONF instead of EXTRA_OEMAKE for configure vars
+ meta/recipes-kernel/perf/perf.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- meta/recipes-devtools/binutils/binutils_2.39.bb | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/recipes-devtools/binutils/binutils_2.39.bb b/meta/recipes-devtools/binutils/binutils_2.39.bb
-index 8eab78c3301..863eedbcbd9 100644
---- a/meta/recipes-devtools/binutils/binutils_2.39.bb
-+++ b/meta/recipes-devtools/binutils/binutils_2.39.bb
-@@ -14,6 +14,9 @@ EXTRA_OEMAKE:append:libc-musl = "\
-                                  gt_cv_func_gnugettext1_libc=yes \
-                                  gt_cv_func_gnugettext2_libc=yes \
-                                 "
-+# libcollector/collector.c:547:15: error: no member named '__fprintf_chk' in 'struct CollectorUtilFuncs'
-+EXTRA_OECONF:append:toolchain-clang = " --disable-gprofng"
-+
- EXTRA_OECONF:class-native = "--enable-targets=all \
-                              --enable-64-bit-bfd \
-                              --enable-install-libiberty \
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 95e7eae9fe..4b15b11462 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -13,7 +13,7 @@ PR = "r9"
+ 
+ PACKAGECONFIG ??= "scripting tui libunwind"
+ PACKAGECONFIG[dwarf] = ",NO_DWARF=1"
+-PACKAGECONFIG[scripting] = ",NO_LIBPERL=1 NO_LIBPYTHON=1,perl python3"
++PACKAGECONFIG[scripting] = ",NO_LIBPERL=1 NO_LIBPYTHON=1,perl python3 python3-setuptools-native"
+ # gui support was added with kernel 3.6.35
+ # since 3.10 libnewt was replaced by slang
+ # to cover a wide range of kernel we add both dependencies
 -- 
-2.37.1
+2.35.3
 
 
