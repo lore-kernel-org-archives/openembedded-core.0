@@ -1,159 +1,599 @@
-Return-Path: <quentin.schulz@theobroma-systems.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B17AC00140
-	for <webhook@archiver.kernel.org>; Wed, 10 Aug 2022 09:12:14 +0000 (UTC)
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com
- (EUR01-VE1-obe.outbound.protection.outlook.com [40.107.14.43])
- by mx.groups.io with SMTP id smtpd.web08.3654.1660122726815752659
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A66D6C00140
+	for <webhook@archiver.kernel.org>; Wed, 10 Aug 2022 13:44:05 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web12.5929.1660139043070762724
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Aug 2022 02:12:07 -0700
+ Wed, 10 Aug 2022 06:44:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherrycloud.onmicrosoft.com
- header.s=selector2-cherrycloud-onmicrosoft-com header.b=onkKuAI4;
- spf=pass (domain: theobroma-systems.com, ip: 40.107.14.43,
- mailfrom: quentin.schulz@theobroma-systems.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nLbN5SG7W/ysg18J0XjgyajSanARRDlD46yKrasAGWrGcN1TrAPMjSf13dsALxyoKXcTaKqIHsUJ438Y9vZSRKQxWStPzErVvH7OppikAqFs5pIOyWWQg1v1IYWPn0wk9UShwcY0NxSk6fUlkV42Rfk6574c4YWftdHXFHoQh2b3etyYf/xggxoLw4j9FYcepkAbr0O9EbzENDgc6vIr+MYFu2VQ3v4SEQaYrB4kOX5D9ZbVXDJbv8YmUCknFfP0WIiXubL+Fq7BemtV4of0Y0XX0wBcUQMSSlGr065iGFXoVgP2xBxHqbcMDgKuf3DfXBWQ1OhklRSVUZHCPuvTNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E8genDYahAa9doAFUjuAiHMZJ1KVxRaWgBlzKFdCAIo=;
- b=ABRbSa5YVtpFsQUfEo4+DzxB6WAx8yxIwgUFVWV2Ek15Ga0O7F8xue6gTHjAWPqYAHWg2MrMz6Xijvrim3O8dNaBtW0IScZMncongCXcPoVJJpmQJjsyTieb3hhwd7PIcCbN5kGM3HIbSslVwm+rkLVI/SxjqF+rRQVmSgAGrJ/SVsttH85lC1mDtQsKVVgozQwglltqaecqZUZFSJmtmmwba8dvObZidEFrL0r3JWtKXZUKTcE6PQXPqaonEl+TEvRBYWBV4dzDDzPaRMwSUtTNfmhdTQlR9R6NGyb9LmtDNPVrXbJjHm+O7tueXwPZ/HaMLBX764oEfIKsoRGhXw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
- header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
- arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Tim/LYkx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id z12so17799126wrs.9
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 10 Aug 2022 06:44:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cherrycloud.onmicrosoft.com; s=selector2-cherrycloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E8genDYahAa9doAFUjuAiHMZJ1KVxRaWgBlzKFdCAIo=;
- b=onkKuAI4DGKlF4N2u2jn6QaImEJc94UpMjPKsmMexp+fFdPTZ69DiZj3PIPf2dzG2LXHGY3A92ObWR/lrdroe5mSrwywRsT/7dVZU/B1iDoy0A157ODGTTUKDNiPi4aWW9+XZgiuTlX7zhQwHFph77Ob5Q8Ec93l+/jh/sb2wV4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
-Received: from PA4PR04MB9367.eurprd04.prod.outlook.com (2603:10a6:102:2aa::7)
- by VE1PR04MB7262.eurprd04.prod.outlook.com (2603:10a6:800:1ab::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.11; Wed, 10 Aug
- 2022 09:12:01 +0000
-Received: from PA4PR04MB9367.eurprd04.prod.outlook.com
- ([fe80::81a8:1bbf:5e16:9b4e]) by PA4PR04MB9367.eurprd04.prod.outlook.com
- ([fe80::81a8:1bbf:5e16:9b4e%4]) with mapi id 15.20.5525.010; Wed, 10 Aug 2022
- 09:12:01 +0000
-Message-ID: <2e01839f-b3da-ded1-a968-550b46b3d82c@theobroma-systems.com>
-Date: Wed, 10 Aug 2022 11:11:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [OE-core] [PATCH] wic: add 'none' fstype for custom image
-Content-Language: en-US
-To: JeongBong Seo <lifeofthanks@gmail.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, JeongBong Seo <jb.seo@lge.com>
-References: <YvNi59exCGgnhioM@mail.local>
- <ED44FD47-635D-4937-BAA3-AE9C4F277969@gmail.com>
-From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-In-Reply-To: <ED44FD47-635D-4937-BAA3-AE9C4F277969@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0094.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a1::9) To PA4PR04MB9367.eurprd04.prod.outlook.com
- (2603:10a6:102:2aa::7)
+        d=linuxfoundation.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc;
+        bh=R+1YcaYwgvxisBPXnPiRnPcAD47dGU/dpi/9yEDF1Po=;
+        b=Tim/LYkxYZ5AOoo4rURYo3bDvNQoOq4Yhr+2M/Sx0JT8Xtb+k3eRt4M8Hl8ntRFKme
+         THRngLIY78Aa4adhW86vMUt52U5QtKjesaELxhRwSX7IsGf1pXc/c0hhx733kS/XBEiQ
+         n6xMxpPQNmMJ3VJUXsgLHsv9pYAwyIO1i2lJI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc;
+        bh=R+1YcaYwgvxisBPXnPiRnPcAD47dGU/dpi/9yEDF1Po=;
+        b=uB5ATT2BGhfrRpfqNa05wGTA46oIakJ75LRfRCrBpTA29Q2NPdN64n9uSzGXcFnj22
+         4M7N1ZbyjbQgXNzFunJRC4T8XOLeN+VbjU27RpDhwS7PzDaLUE9ii4J/Q5VdQ9WYTenc
+         4jaqvu5eYMRv+X23aFoRPf9Tbq6EXSmc8ylfY4Gcj0lltZzbkdxGv7az7r347Zqapgrj
+         4oRhoLiiUrc9r65Li7+iSyZrHm1A2LkWizYfcLWLGCErxOI4d29VOSxBQwRu6P8h8DHD
+         DJ9PdSgTh3JFUmG8kctrgl+fg9gceBvafsT6CU7H/jhgR3yS33JF7RWG673+Muq6m1q/
+         jKvA==
+X-Gm-Message-State: ACgBeo0mJlgVCeb2aP6DBr0m9zCVJjjfT3iLMas1C/gZlLw5repn+rhk
+	tDB76c6BKU7tty48iRs2AiltUlhXq49OgQ==
+X-Google-Smtp-Source: 
+ AA6agR61CsJsTj6YvFAEQHuJ7krijEgFqZA5tiqs1YUlchmIZfFy8mhjrLVF+wM5i05BJgD884Imow==
+X-Received: by 2002:adf:fe0d:0:b0:220:5f88:ebef with SMTP id
+ n13-20020adffe0d000000b002205f88ebefmr16448198wrr.349.1660139040803;
+        Wed, 10 Aug 2022 06:44:00 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:54f2:80ed:9b2b:a32b])
+        by smtp.gmail.com with ESMTPSA id
+ b6-20020adfee86000000b00220606afdf4sm16565973wro.43.2022.08.10.06.44.00
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Aug 2022 06:44:00 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] classes: Update classes to match new bitbake class scope
+ functionality
+Date: Wed, 10 Aug 2022 14:43:59 +0100
+Message-Id: <20220810134359.420208-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3609b216-9926-49d3-c859-08da7ab06272
-X-MS-TrafficTypeDiagnostic: VE1PR04MB7262:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	K/p4pc3iAO4gKQgAXqVeHxWzwd7P9EpVI9TJLplH3mZGuyML8IF6zUo/33eVtJc6iy9TsLc4TVCDDOQbfxzMJbpdTSDxSh7jvb1DYW+3VtgWJWg52dadcMeVBT5WB7rcJDfJdreBzlwircCUoprX2qFi12ofFfwKHFWeU8MJ5SJL74OaIsNbi9xlqmN2a17iaua2g19OpJoDo9JUn9WxkE5q0nqvcu/nIPFSbQED97SDLT4WzA3q4b0YFdeCcFmLM/dzL3K0qu/1OjSsNbvu9FjOz24RpSouP9jVlubKfvjv4ZbS44uJjWsQaNiUlzuihT5QISefMG7625NslJuvLHihx9G+tNH1ZehhS8q+wFt0fOZXQIjSMoEW18zTq8GyAwgzb6GkcH/vZolMkgjD+ftTXKKN5yZIZGpEc0rxmfpQaOfVJqH04Ou6LQW8ef50dOkxMNExxdAASJWi5FLbRG4OhsuKAtquE1E/SRVvIs4sjOduhvEy8fMH6LryHlha0tKNDz5q4qQRZYps5dhPER1sV/FiptnTdsi42E4UcPSo5UW8rTRM58VK0FdYRhTRVgbdj3mYMyEnX82L+OwAYkqflBCS92ysiZnFnQuwHtGwSknlZ4+7B3rsZLPhfms7UFWbNXsiqOVLYSkGj636bx0LKgB4c6dcn6qFWYmRCfOHn2AgRdNz/WCW6pExGPRbmqcJo80y07UGeZW1ObMl6SPb57gURV/0uwelJQioQeA3Knw07g3sHi28YePuPmK0xrtYIo4WQ6WSHHfRpkTBj3TFkcBhFtrklShwIDasajAKNvMFmsloXGe5nx9MleiIocM0TtAcxN6PQcHArtUv7g==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9367.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(366004)(346002)(39850400004)(376002)(396003)(136003)(8936002)(5660300002)(2906002)(44832011)(86362001)(31696002)(36756003)(38100700002)(2616005)(41300700001)(53546011)(6666004)(6512007)(6506007)(83380400001)(26005)(316002)(4326008)(8676002)(186003)(66556008)(66946007)(66476007)(6486002)(478600001)(110136005)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?WjY2M0p1c2tQaUQrRGpvYTNwVTFYblNFSko0TVhlQXNIUVlQakN4T0xVQjFH?=
- =?utf-8?B?dWMrQ21OTUhDUnlwcVM1ZFMreUFPSHJVNGFFbUZ5bGlqNk0zQ2hHckNNV1p3?=
- =?utf-8?B?dnhJTzRhRmhIaWFiTEF3RG93eXU2NG1rNTJ4NG5hZlh1amxHOWtqZ2t5QUk0?=
- =?utf-8?B?U2NJWFhjY1NrektyMXBtWnM5WHNNVWRibXhCbWVONmlLV0dnK0hLUi93cFE0?=
- =?utf-8?B?K3VLVmxZdVBVdlJZMzY2V2VFL1ZGaXpjU2thL1IybkduNGdPQm1MVUdCOXhF?=
- =?utf-8?B?eDVOY1VMVS9tQVVDREtmVndmK3l1LzZjcWt5c1B4OHB4TS96WXR6S1JLejFw?=
- =?utf-8?B?K1orN0JObkprYytGZWFOMGgxa1VwaEpualVvS0FNdVRNSVZMazNva3doZHpx?=
- =?utf-8?B?SkZBQVBPRFhZMnh0YTNvOG1uSmpxczFHeURpVHpCM1JUTlJyT1ptZnNMekho?=
- =?utf-8?B?dkVSZThyS2F2Vlg1VUtjMGtOOUtNZDcyeDE1RWs1Y2Z6TFAxSzZMK1JFQm9B?=
- =?utf-8?B?bVhOY2tqWUE2amJqQXpBNmZib1RzaEVPN1hwTEVzNjhLbzVSSlB5L0s0RWd0?=
- =?utf-8?B?QjR6UzJTaTJ4L3JhTW9pUDJ5ZWswc3ZiemNVakpkeGpRUG5aOThOeVkxZkRL?=
- =?utf-8?B?OGdaOWJka3kvYXh2RFZ1MDRFZkhxcVZ2V3REdTdFQ2Q3Mjk1WFViaVlWTzFC?=
- =?utf-8?B?NHEvTHVoMTNXMDBPY3oybnR6M2sxbG4rZ0xjUmFOcGFwSWNEUXFFSk45cXNx?=
- =?utf-8?B?eXRITHd5OEZPeEdvZGxxZEFTMk02czQvNmtCYy9iVWxxdmRQODlmcU5yOWdY?=
- =?utf-8?B?Q1Fvb212WGl6T3ROQm53NXpjUmVicm50YjR2dW1veXdaTUkvY2d5OWJGM2M2?=
- =?utf-8?B?MTZMOU5HYlBRaXNrYWVGRDloV3VjTEtrdEVNczlBSmsxK2lVYUxiMXJvRTRN?=
- =?utf-8?B?cDNBMlBWMERiWU82TW4zbk5qT2RzTWg0eXFLK01rdmlzMVJGSTljTEZTWjZC?=
- =?utf-8?B?QlE2WWtFeUhzcnpBNzNpekNOMlZ3QmZKZzBZVlRaTXR2WkZHZXVjVXBkazdx?=
- =?utf-8?B?b3VLc3VkNnlyaStZcUJMbEpMTDRoSC9WTWxjU3Z2RnRiakVjcCt0OEhJclQ5?=
- =?utf-8?B?MFdmRktBNS9wT3Z5Y3RpQVNZV0JXeXc4Tmh5R1pNS0dzSXFKMEFkbmIzZFdJ?=
- =?utf-8?B?N0M1M2RZdE9VV2FPZjBZVk1rdGN2eVcvVFVQL08ydTZjZzdEZ01maEhMdTFM?=
- =?utf-8?B?Vm5OOU53ay9McWc2RGdRbWdWNW9CNVh6QmlLVFcvMHo2ZzhGaU95OWlpNnMx?=
- =?utf-8?B?Y2tEVDloSE5NVEF1ZU5YbDhEdWpjZUhPRDgwOGJNTmVTZ29UOEFqUUlveHhC?=
- =?utf-8?B?dVBXLy9ZZUtzNlhtVGRSM0lnL0NwTjQybllzejh2RGVjMGU3cGUwTVlIdEdR?=
- =?utf-8?B?enRhR2Y3QS93L2xrMnJ0b3JDTVJRa0dxb0U2TXFmTWFEREpjOWZZS1FWc1or?=
- =?utf-8?B?empvWlVIR2k2cFBDV25MM0VCK01SL3hEU1FtcmZDcHpmWFBJcnhyK0JSWVRX?=
- =?utf-8?B?Qmw0S3ozTFVKNmFQWW1zejNpYjB4ZXNaRW1OTG8ycFFtRll1TVAzNzNDbzdl?=
- =?utf-8?B?T2QvNExWK3Y3bmhRNTVEVGluVlk2T2FRSGxyR2JhUGVSTW12RkRacmFMTGQy?=
- =?utf-8?B?MSt5VzVMR3lWVW5wa0cyVE42ZmtxdGg1dytKSVlRdE02WTEzemlkb0hUVzhF?=
- =?utf-8?B?KzNNaWxxVWRIUFBMdjdpUzV5L2laS3FBeFdIdmlDMll0VFlwaithTTkzUkhi?=
- =?utf-8?B?QnFQQ2xaU2w0bWk4UXByNmMxdTdEOFdSaVBSVkVkZHJQRDlWL0lTNnUxd3Js?=
- =?utf-8?B?NndTSXpWTGNPV2ljSVlkT0xEbEhydVdTc0FoNzcrRGdUaUYwazd2NkJTTjE3?=
- =?utf-8?B?a3NsU2ducmJFR0NhVHhHLzlRSUU4SHI2NmgzRGFCUUZmaVhsS0ZkTnRuOWFG?=
- =?utf-8?B?NUt6Y1hBNC9BU3N0cjdjdlV5YVowNlZ3dmYvTDNpTStYRkhZSDdBdGVWY2Jr?=
- =?utf-8?B?K25idiszZVlIU0dUVjVrWEllaUdXZmdqLytXWFA1aHhLVTZjSW4rekZ1OVc0?=
- =?utf-8?B?MS8ydUtlR054Y3pkeEwvdlJOK2JYeVdGK1ROeEZKYmZWKzVuK1RLa2pvR1dX?=
- =?utf-8?Q?fHxCmUeAuPnD30BPEDU0wa0=3D?=
-X-OriginatorOrg: theobroma-systems.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 3609b216-9926-49d3-c859-08da7ab06272
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9367.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2022 09:12:01.2274
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- fj/7/D4rKWin6YPqIe8vhvMbAP6QC3P79U+OVg4ijvz/KM8Y1mJkFJ8bVzvPspfyLgLk6KDRPlaS4uSFpuTh6H2w1P5lDmbG9cTbvSRIIk7GNFRzRNWbvHAdO/8t2ScA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB7262
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Aug 2022 09:12:14 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Aug 2022 13:44:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169189
+ https://lists.openembedded.org/g/openembedded-core/message/169190
 
-Hi JB,
+Move classes to classes-global or classes-recipe as approproate to take
+advantage of new bitbake functionality to check class scope/usage.
 
-On 8/10/22 10:59, JeongBong Seo wrote:
-> Thanks!
-> I resent it after the master rebase.
-> 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/{classes => classes-global}/base.bbclass                     | 0
+ meta/{classes => classes-global}/buildstats.bbclass               | 0
+ meta/{classes => classes-global}/debian.bbclass                   | 0
+ meta/{classes => classes-global}/devshell.bbclass                 | 0
+ meta/{classes => classes-global}/license.bbclass                  | 0
+ meta/{classes => classes-global}/package.bbclass                  | 0
+ meta/{classes => classes-global}/package_deb.bbclass              | 0
+ meta/{classes => classes-global}/package_ipk.bbclass              | 0
+ meta/{classes => classes-global}/package_pkgdata.bbclass          | 0
+ meta/{classes => classes-global}/package_rpm.bbclass              | 0
+ meta/{classes => classes-global}/package_tar.bbclass              | 0
+ meta/{classes => classes-global}/packagedata.bbclass              | 0
+ meta/{classes => classes-global}/patch.bbclass                    | 0
+ meta/{classes => classes-global}/remove-libtool.bbclass           | 0
+ meta/{classes => classes-global}/sanity.bbclass                   | 0
+ meta/{classes => classes-global}/sstate.bbclass                   | 0
+ meta/{classes => classes-global}/staging.bbclass                  | 0
+ meta/{classes => classes-global}/uninative.bbclass                | 0
+ meta/{classes => classes-global}/utility-tasks.bbclass            | 0
+ meta/{classes => classes-global}/utils.bbclass                    | 0
+ meta/{classes => classes-recipe}/allarch.bbclass                  | 0
+ meta/{classes => classes-recipe}/autotools-brokensep.bbclass      | 0
+ meta/{classes => classes-recipe}/autotools.bbclass                | 0
+ meta/{classes => classes-recipe}/baremetal-image.bbclass          | 0
+ meta/{classes => classes-recipe}/bash-completion.bbclass          | 0
+ meta/{classes => classes-recipe}/bin_package.bbclass              | 0
+ meta/{classes => classes-recipe}/binconfig-disabled.bbclass       | 0
+ meta/{classes => classes-recipe}/binconfig.bbclass                | 0
+ meta/{classes => classes-recipe}/cargo.bbclass                    | 0
+ meta/{classes => classes-recipe}/cargo_common.bbclass             | 0
+ meta/{classes => classes-recipe}/cmake.bbclass                    | 0
+ meta/{classes => classes-recipe}/cml1.bbclass                     | 0
+ meta/{classes => classes-recipe}/compress_doc.bbclass             | 0
+ meta/{classes => classes-recipe}/cpan-base.bbclass                | 0
+ meta/{classes => classes-recipe}/cpan.bbclass                     | 0
+ meta/{classes => classes-recipe}/cpan_build.bbclass               | 0
+ meta/{classes => classes-recipe}/deploy.bbclass                   | 0
+ meta/{classes => classes-recipe}/dos2unix.bbclass                 | 0
+ meta/{classes => classes-recipe}/externalsrc.bbclass              | 0
+ meta/{classes => classes-recipe}/fontcache.bbclass                | 0
+ meta/{classes => classes-recipe}/gconf.bbclass                    | 0
+ meta/{classes => classes-recipe}/gettext.bbclass                  | 0
+ meta/{classes => classes-recipe}/image-artifact-names.bbclass     | 0
+ meta/{classes => classes-recipe}/populate_sdk.bbclass             | 0
+ meta/{classes => classes-recipe}/populate_sdk_base.bbclass        | 0
+ meta/{classes => classes-recipe}/populate_sdk_ext.bbclass         | 0
+ meta/{classes => classes-recipe}/ptest-gnome.bbclass              | 0
+ meta/{classes => classes-recipe}/ptest-perl.bbclass               | 0
+ meta/{classes => classes-recipe}/ptest.bbclass                    | 0
+ meta/{classes => classes-recipe}/pypi.bbclass                     | 0
+ meta/{classes => classes-recipe}/python3-dir.bbclass              | 0
+ meta/{classes => classes-recipe}/python3native.bbclass            | 0
+ meta/{classes => classes-recipe}/python3targetconfig.bbclass      | 0
+ meta/{classes => classes-recipe}/python_flit_core.bbclass         | 0
+ meta/{classes => classes-recipe}/python_hatchling.bbclass         | 0
+ meta/{classes => classes-recipe}/python_pep517.bbclass            | 0
+ meta/{classes => classes-recipe}/python_poetry_core.bbclass       | 0
+ meta/{classes => classes-recipe}/python_pyo3.bbclass              | 0
+ meta/{classes => classes-recipe}/python_setuptools3_rust.bbclass  | 0
+ .../python_setuptools_build_meta.bbclass                          | 0
+ meta/{classes => classes-recipe}/qemu.bbclass                     | 0
+ meta/{classes => classes-recipe}/qemuboot.bbclass                 | 0
+ meta/{classes => classes-recipe}/rootfs-postcommands.bbclass      | 0
+ meta/{classes => classes-recipe}/rootfs_deb.bbclass               | 0
+ meta/{classes => classes-recipe}/rootfs_ipk.bbclass               | 0
+ meta/{classes => classes-recipe}/rootfs_rpm.bbclass               | 0
+ meta/{classes => classes-recipe}/rootfsdebugfiles.bbclass         | 0
+ meta/{classes => classes-recipe}/rust-bin.bbclass                 | 0
+ meta/{classes => classes-recipe}/rust-common.bbclass              | 0
+ meta/{classes => classes-recipe}/rust-target-config.bbclass       | 0
+ meta/{classes => classes-recipe}/rust.bbclass                     | 0
+ meta/{classes => classes-recipe}/siteinfo.bbclass                 | 0
+ meta/{classes => classes-recipe}/testimage.bbclass                | 0
+ meta/{classes => classes-recipe}/testsdk.bbclass                  | 0
+ meta/{classes => classes-recipe}/texinfo.bbclass                  | 0
+ meta/{classes => classes-recipe}/toolchain-scripts-base.bbclass   | 0
+ meta/{classes => classes-recipe}/toolchain-scripts.bbclass        | 0
+ meta/{classes => classes-recipe}/uboot-config.bbclass             | 0
+ meta/{classes => classes-recipe}/uboot-extlinux-config.bbclass    | 0
+ meta/{classes => classes-recipe}/uboot-sign.bbclass               | 0
+ meta/{classes => classes-recipe}/update-alternatives.bbclass      | 0
+ meta/{classes => classes-recipe}/update-rc.d.bbclass              | 0
+ meta/{classes => classes-recipe}/useradd.bbclass                  | 0
+ meta/{classes => classes-recipe}/useradd_base.bbclass             | 0
+ meta/{classes => classes-recipe}/vala.bbclass                     | 0
+ meta/{classes => classes-recipe}/waf.bbclass                      | 0
+ meta/{classes => classes-recipe}/xmlcatalog.bbclass               | 0
+ 87 files changed, 0 insertions(+), 0 deletions(-)
+ rename meta/{classes => classes-global}/base.bbclass (100%)
+ rename meta/{classes => classes-global}/buildstats.bbclass (100%)
+ rename meta/{classes => classes-global}/debian.bbclass (100%)
+ rename meta/{classes => classes-global}/devshell.bbclass (100%)
+ rename meta/{classes => classes-global}/license.bbclass (100%)
+ rename meta/{classes => classes-global}/package.bbclass (100%)
+ rename meta/{classes => classes-global}/package_deb.bbclass (100%)
+ rename meta/{classes => classes-global}/package_ipk.bbclass (100%)
+ rename meta/{classes => classes-global}/package_pkgdata.bbclass (100%)
+ rename meta/{classes => classes-global}/package_rpm.bbclass (100%)
+ rename meta/{classes => classes-global}/package_tar.bbclass (100%)
+ rename meta/{classes => classes-global}/packagedata.bbclass (100%)
+ rename meta/{classes => classes-global}/patch.bbclass (100%)
+ rename meta/{classes => classes-global}/remove-libtool.bbclass (100%)
+ rename meta/{classes => classes-global}/sanity.bbclass (100%)
+ rename meta/{classes => classes-global}/sstate.bbclass (100%)
+ rename meta/{classes => classes-global}/staging.bbclass (100%)
+ rename meta/{classes => classes-global}/uninative.bbclass (100%)
+ rename meta/{classes => classes-global}/utility-tasks.bbclass (100%)
+ rename meta/{classes => classes-global}/utils.bbclass (100%)
+ rename meta/{classes => classes-recipe}/allarch.bbclass (100%)
+ rename meta/{classes => classes-recipe}/autotools-brokensep.bbclass (100%)
+ rename meta/{classes => classes-recipe}/autotools.bbclass (100%)
+ rename meta/{classes => classes-recipe}/baremetal-image.bbclass (100%)
+ rename meta/{classes => classes-recipe}/bash-completion.bbclass (100%)
+ rename meta/{classes => classes-recipe}/bin_package.bbclass (100%)
+ rename meta/{classes => classes-recipe}/binconfig-disabled.bbclass (100%)
+ rename meta/{classes => classes-recipe}/binconfig.bbclass (100%)
+ rename meta/{classes => classes-recipe}/cargo.bbclass (100%)
+ rename meta/{classes => classes-recipe}/cargo_common.bbclass (100%)
+ rename meta/{classes => classes-recipe}/cmake.bbclass (100%)
+ rename meta/{classes => classes-recipe}/cml1.bbclass (100%)
+ rename meta/{classes => classes-recipe}/compress_doc.bbclass (100%)
+ rename meta/{classes => classes-recipe}/cpan-base.bbclass (100%)
+ rename meta/{classes => classes-recipe}/cpan.bbclass (100%)
+ rename meta/{classes => classes-recipe}/cpan_build.bbclass (100%)
+ rename meta/{classes => classes-recipe}/deploy.bbclass (100%)
+ rename meta/{classes => classes-recipe}/dos2unix.bbclass (100%)
+ rename meta/{classes => classes-recipe}/externalsrc.bbclass (100%)
+ rename meta/{classes => classes-recipe}/fontcache.bbclass (100%)
+ rename meta/{classes => classes-recipe}/gconf.bbclass (100%)
+ rename meta/{classes => classes-recipe}/gettext.bbclass (100%)
+ rename meta/{classes => classes-recipe}/image-artifact-names.bbclass (100%)
+ rename meta/{classes => classes-recipe}/populate_sdk.bbclass (100%)
+ rename meta/{classes => classes-recipe}/populate_sdk_base.bbclass (100%)
+ rename meta/{classes => classes-recipe}/populate_sdk_ext.bbclass (100%)
+ rename meta/{classes => classes-recipe}/ptest-gnome.bbclass (100%)
+ rename meta/{classes => classes-recipe}/ptest-perl.bbclass (100%)
+ rename meta/{classes => classes-recipe}/ptest.bbclass (100%)
+ rename meta/{classes => classes-recipe}/pypi.bbclass (100%)
+ rename meta/{classes => classes-recipe}/python3-dir.bbclass (100%)
+ rename meta/{classes => classes-recipe}/python3native.bbclass (100%)
+ rename meta/{classes => classes-recipe}/python3targetconfig.bbclass (100%)
+ rename meta/{classes => classes-recipe}/python_flit_core.bbclass (100%)
+ rename meta/{classes => classes-recipe}/python_hatchling.bbclass (100%)
+ rename meta/{classes => classes-recipe}/python_pep517.bbclass (100%)
+ rename meta/{classes => classes-recipe}/python_poetry_core.bbclass (100%)
+ rename meta/{classes => classes-recipe}/python_pyo3.bbclass (100%)
+ rename meta/{classes => classes-recipe}/python_setuptools3_rust.bbclass (100%)
+ rename meta/{classes => classes-recipe}/python_setuptools_build_meta.bbclass (100%)
+ rename meta/{classes => classes-recipe}/qemu.bbclass (100%)
+ rename meta/{classes => classes-recipe}/qemuboot.bbclass (100%)
+ rename meta/{classes => classes-recipe}/rootfs-postcommands.bbclass (100%)
+ rename meta/{classes => classes-recipe}/rootfs_deb.bbclass (100%)
+ rename meta/{classes => classes-recipe}/rootfs_ipk.bbclass (100%)
+ rename meta/{classes => classes-recipe}/rootfs_rpm.bbclass (100%)
+ rename meta/{classes => classes-recipe}/rootfsdebugfiles.bbclass (100%)
+ rename meta/{classes => classes-recipe}/rust-bin.bbclass (100%)
+ rename meta/{classes => classes-recipe}/rust-common.bbclass (100%)
+ rename meta/{classes => classes-recipe}/rust-target-config.bbclass (100%)
+ rename meta/{classes => classes-recipe}/rust.bbclass (100%)
+ rename meta/{classes => classes-recipe}/siteinfo.bbclass (100%)
+ rename meta/{classes => classes-recipe}/testimage.bbclass (100%)
+ rename meta/{classes => classes-recipe}/testsdk.bbclass (100%)
+ rename meta/{classes => classes-recipe}/texinfo.bbclass (100%)
+ rename meta/{classes => classes-recipe}/toolchain-scripts-base.bbclass (100%)
+ rename meta/{classes => classes-recipe}/toolchain-scripts.bbclass (100%)
+ rename meta/{classes => classes-recipe}/uboot-config.bbclass (100%)
+ rename meta/{classes => classes-recipe}/uboot-extlinux-config.bbclass (100%)
+ rename meta/{classes => classes-recipe}/uboot-sign.bbclass (100%)
+ rename meta/{classes => classes-recipe}/update-alternatives.bbclass (100%)
+ rename meta/{classes => classes-recipe}/update-rc.d.bbclass (100%)
+ rename meta/{classes => classes-recipe}/useradd.bbclass (100%)
+ rename meta/{classes => classes-recipe}/useradd_base.bbclass (100%)
+ rename meta/{classes => classes-recipe}/vala.bbclass (100%)
+ rename meta/{classes => classes-recipe}/waf.bbclass (100%)
+ rename meta/{classes => classes-recipe}/xmlcatalog.bbclass (100%)
 
-If there was a need to rebase (i.e. a git conflict when applying the 
-patch on top of latest master), you need to say it's a new version in 
-the patchset, this is usually done by passing -v 2 to git format-patch. 
-If there was no need for it, a ping on the original mail or a patch with 
-the [RESEND] tag would have worked too.
+diff --git a/meta/classes/base.bbclass b/meta/classes-global/base.bbclass
+similarity index 100%
+rename from meta/classes/base.bbclass
+rename to meta/classes-global/base.bbclass
+diff --git a/meta/classes/buildstats.bbclass b/meta/classes-global/buildstats.bbclass
+similarity index 100%
+rename from meta/classes/buildstats.bbclass
+rename to meta/classes-global/buildstats.bbclass
+diff --git a/meta/classes/debian.bbclass b/meta/classes-global/debian.bbclass
+similarity index 100%
+rename from meta/classes/debian.bbclass
+rename to meta/classes-global/debian.bbclass
+diff --git a/meta/classes/devshell.bbclass b/meta/classes-global/devshell.bbclass
+similarity index 100%
+rename from meta/classes/devshell.bbclass
+rename to meta/classes-global/devshell.bbclass
+diff --git a/meta/classes/license.bbclass b/meta/classes-global/license.bbclass
+similarity index 100%
+rename from meta/classes/license.bbclass
+rename to meta/classes-global/license.bbclass
+diff --git a/meta/classes/package.bbclass b/meta/classes-global/package.bbclass
+similarity index 100%
+rename from meta/classes/package.bbclass
+rename to meta/classes-global/package.bbclass
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes-global/package_deb.bbclass
+similarity index 100%
+rename from meta/classes/package_deb.bbclass
+rename to meta/classes-global/package_deb.bbclass
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes-global/package_ipk.bbclass
+similarity index 100%
+rename from meta/classes/package_ipk.bbclass
+rename to meta/classes-global/package_ipk.bbclass
+diff --git a/meta/classes/package_pkgdata.bbclass b/meta/classes-global/package_pkgdata.bbclass
+similarity index 100%
+rename from meta/classes/package_pkgdata.bbclass
+rename to meta/classes-global/package_pkgdata.bbclass
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
+similarity index 100%
+rename from meta/classes/package_rpm.bbclass
+rename to meta/classes-global/package_rpm.bbclass
+diff --git a/meta/classes/package_tar.bbclass b/meta/classes-global/package_tar.bbclass
+similarity index 100%
+rename from meta/classes/package_tar.bbclass
+rename to meta/classes-global/package_tar.bbclass
+diff --git a/meta/classes/packagedata.bbclass b/meta/classes-global/packagedata.bbclass
+similarity index 100%
+rename from meta/classes/packagedata.bbclass
+rename to meta/classes-global/packagedata.bbclass
+diff --git a/meta/classes/patch.bbclass b/meta/classes-global/patch.bbclass
+similarity index 100%
+rename from meta/classes/patch.bbclass
+rename to meta/classes-global/patch.bbclass
+diff --git a/meta/classes/remove-libtool.bbclass b/meta/classes-global/remove-libtool.bbclass
+similarity index 100%
+rename from meta/classes/remove-libtool.bbclass
+rename to meta/classes-global/remove-libtool.bbclass
+diff --git a/meta/classes/sanity.bbclass b/meta/classes-global/sanity.bbclass
+similarity index 100%
+rename from meta/classes/sanity.bbclass
+rename to meta/classes-global/sanity.bbclass
+diff --git a/meta/classes/sstate.bbclass b/meta/classes-global/sstate.bbclass
+similarity index 100%
+rename from meta/classes/sstate.bbclass
+rename to meta/classes-global/sstate.bbclass
+diff --git a/meta/classes/staging.bbclass b/meta/classes-global/staging.bbclass
+similarity index 100%
+rename from meta/classes/staging.bbclass
+rename to meta/classes-global/staging.bbclass
+diff --git a/meta/classes/uninative.bbclass b/meta/classes-global/uninative.bbclass
+similarity index 100%
+rename from meta/classes/uninative.bbclass
+rename to meta/classes-global/uninative.bbclass
+diff --git a/meta/classes/utility-tasks.bbclass b/meta/classes-global/utility-tasks.bbclass
+similarity index 100%
+rename from meta/classes/utility-tasks.bbclass
+rename to meta/classes-global/utility-tasks.bbclass
+diff --git a/meta/classes/utils.bbclass b/meta/classes-global/utils.bbclass
+similarity index 100%
+rename from meta/classes/utils.bbclass
+rename to meta/classes-global/utils.bbclass
+diff --git a/meta/classes/allarch.bbclass b/meta/classes-recipe/allarch.bbclass
+similarity index 100%
+rename from meta/classes/allarch.bbclass
+rename to meta/classes-recipe/allarch.bbclass
+diff --git a/meta/classes/autotools-brokensep.bbclass b/meta/classes-recipe/autotools-brokensep.bbclass
+similarity index 100%
+rename from meta/classes/autotools-brokensep.bbclass
+rename to meta/classes-recipe/autotools-brokensep.bbclass
+diff --git a/meta/classes/autotools.bbclass b/meta/classes-recipe/autotools.bbclass
+similarity index 100%
+rename from meta/classes/autotools.bbclass
+rename to meta/classes-recipe/autotools.bbclass
+diff --git a/meta/classes/baremetal-image.bbclass b/meta/classes-recipe/baremetal-image.bbclass
+similarity index 100%
+rename from meta/classes/baremetal-image.bbclass
+rename to meta/classes-recipe/baremetal-image.bbclass
+diff --git a/meta/classes/bash-completion.bbclass b/meta/classes-recipe/bash-completion.bbclass
+similarity index 100%
+rename from meta/classes/bash-completion.bbclass
+rename to meta/classes-recipe/bash-completion.bbclass
+diff --git a/meta/classes/bin_package.bbclass b/meta/classes-recipe/bin_package.bbclass
+similarity index 100%
+rename from meta/classes/bin_package.bbclass
+rename to meta/classes-recipe/bin_package.bbclass
+diff --git a/meta/classes/binconfig-disabled.bbclass b/meta/classes-recipe/binconfig-disabled.bbclass
+similarity index 100%
+rename from meta/classes/binconfig-disabled.bbclass
+rename to meta/classes-recipe/binconfig-disabled.bbclass
+diff --git a/meta/classes/binconfig.bbclass b/meta/classes-recipe/binconfig.bbclass
+similarity index 100%
+rename from meta/classes/binconfig.bbclass
+rename to meta/classes-recipe/binconfig.bbclass
+diff --git a/meta/classes/cargo.bbclass b/meta/classes-recipe/cargo.bbclass
+similarity index 100%
+rename from meta/classes/cargo.bbclass
+rename to meta/classes-recipe/cargo.bbclass
+diff --git a/meta/classes/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
+similarity index 100%
+rename from meta/classes/cargo_common.bbclass
+rename to meta/classes-recipe/cargo_common.bbclass
+diff --git a/meta/classes/cmake.bbclass b/meta/classes-recipe/cmake.bbclass
+similarity index 100%
+rename from meta/classes/cmake.bbclass
+rename to meta/classes-recipe/cmake.bbclass
+diff --git a/meta/classes/cml1.bbclass b/meta/classes-recipe/cml1.bbclass
+similarity index 100%
+rename from meta/classes/cml1.bbclass
+rename to meta/classes-recipe/cml1.bbclass
+diff --git a/meta/classes/compress_doc.bbclass b/meta/classes-recipe/compress_doc.bbclass
+similarity index 100%
+rename from meta/classes/compress_doc.bbclass
+rename to meta/classes-recipe/compress_doc.bbclass
+diff --git a/meta/classes/cpan-base.bbclass b/meta/classes-recipe/cpan-base.bbclass
+similarity index 100%
+rename from meta/classes/cpan-base.bbclass
+rename to meta/classes-recipe/cpan-base.bbclass
+diff --git a/meta/classes/cpan.bbclass b/meta/classes-recipe/cpan.bbclass
+similarity index 100%
+rename from meta/classes/cpan.bbclass
+rename to meta/classes-recipe/cpan.bbclass
+diff --git a/meta/classes/cpan_build.bbclass b/meta/classes-recipe/cpan_build.bbclass
+similarity index 100%
+rename from meta/classes/cpan_build.bbclass
+rename to meta/classes-recipe/cpan_build.bbclass
+diff --git a/meta/classes/deploy.bbclass b/meta/classes-recipe/deploy.bbclass
+similarity index 100%
+rename from meta/classes/deploy.bbclass
+rename to meta/classes-recipe/deploy.bbclass
+diff --git a/meta/classes/dos2unix.bbclass b/meta/classes-recipe/dos2unix.bbclass
+similarity index 100%
+rename from meta/classes/dos2unix.bbclass
+rename to meta/classes-recipe/dos2unix.bbclass
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes-recipe/externalsrc.bbclass
+similarity index 100%
+rename from meta/classes/externalsrc.bbclass
+rename to meta/classes-recipe/externalsrc.bbclass
+diff --git a/meta/classes/fontcache.bbclass b/meta/classes-recipe/fontcache.bbclass
+similarity index 100%
+rename from meta/classes/fontcache.bbclass
+rename to meta/classes-recipe/fontcache.bbclass
+diff --git a/meta/classes/gconf.bbclass b/meta/classes-recipe/gconf.bbclass
+similarity index 100%
+rename from meta/classes/gconf.bbclass
+rename to meta/classes-recipe/gconf.bbclass
+diff --git a/meta/classes/gettext.bbclass b/meta/classes-recipe/gettext.bbclass
+similarity index 100%
+rename from meta/classes/gettext.bbclass
+rename to meta/classes-recipe/gettext.bbclass
+diff --git a/meta/classes/image-artifact-names.bbclass b/meta/classes-recipe/image-artifact-names.bbclass
+similarity index 100%
+rename from meta/classes/image-artifact-names.bbclass
+rename to meta/classes-recipe/image-artifact-names.bbclass
+diff --git a/meta/classes/populate_sdk.bbclass b/meta/classes-recipe/populate_sdk.bbclass
+similarity index 100%
+rename from meta/classes/populate_sdk.bbclass
+rename to meta/classes-recipe/populate_sdk.bbclass
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
+similarity index 100%
+rename from meta/classes/populate_sdk_base.bbclass
+rename to meta/classes-recipe/populate_sdk_base.bbclass
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes-recipe/populate_sdk_ext.bbclass
+similarity index 100%
+rename from meta/classes/populate_sdk_ext.bbclass
+rename to meta/classes-recipe/populate_sdk_ext.bbclass
+diff --git a/meta/classes/ptest-gnome.bbclass b/meta/classes-recipe/ptest-gnome.bbclass
+similarity index 100%
+rename from meta/classes/ptest-gnome.bbclass
+rename to meta/classes-recipe/ptest-gnome.bbclass
+diff --git a/meta/classes/ptest-perl.bbclass b/meta/classes-recipe/ptest-perl.bbclass
+similarity index 100%
+rename from meta/classes/ptest-perl.bbclass
+rename to meta/classes-recipe/ptest-perl.bbclass
+diff --git a/meta/classes/ptest.bbclass b/meta/classes-recipe/ptest.bbclass
+similarity index 100%
+rename from meta/classes/ptest.bbclass
+rename to meta/classes-recipe/ptest.bbclass
+diff --git a/meta/classes/pypi.bbclass b/meta/classes-recipe/pypi.bbclass
+similarity index 100%
+rename from meta/classes/pypi.bbclass
+rename to meta/classes-recipe/pypi.bbclass
+diff --git a/meta/classes/python3-dir.bbclass b/meta/classes-recipe/python3-dir.bbclass
+similarity index 100%
+rename from meta/classes/python3-dir.bbclass
+rename to meta/classes-recipe/python3-dir.bbclass
+diff --git a/meta/classes/python3native.bbclass b/meta/classes-recipe/python3native.bbclass
+similarity index 100%
+rename from meta/classes/python3native.bbclass
+rename to meta/classes-recipe/python3native.bbclass
+diff --git a/meta/classes/python3targetconfig.bbclass b/meta/classes-recipe/python3targetconfig.bbclass
+similarity index 100%
+rename from meta/classes/python3targetconfig.bbclass
+rename to meta/classes-recipe/python3targetconfig.bbclass
+diff --git a/meta/classes/python_flit_core.bbclass b/meta/classes-recipe/python_flit_core.bbclass
+similarity index 100%
+rename from meta/classes/python_flit_core.bbclass
+rename to meta/classes-recipe/python_flit_core.bbclass
+diff --git a/meta/classes/python_hatchling.bbclass b/meta/classes-recipe/python_hatchling.bbclass
+similarity index 100%
+rename from meta/classes/python_hatchling.bbclass
+rename to meta/classes-recipe/python_hatchling.bbclass
+diff --git a/meta/classes/python_pep517.bbclass b/meta/classes-recipe/python_pep517.bbclass
+similarity index 100%
+rename from meta/classes/python_pep517.bbclass
+rename to meta/classes-recipe/python_pep517.bbclass
+diff --git a/meta/classes/python_poetry_core.bbclass b/meta/classes-recipe/python_poetry_core.bbclass
+similarity index 100%
+rename from meta/classes/python_poetry_core.bbclass
+rename to meta/classes-recipe/python_poetry_core.bbclass
+diff --git a/meta/classes/python_pyo3.bbclass b/meta/classes-recipe/python_pyo3.bbclass
+similarity index 100%
+rename from meta/classes/python_pyo3.bbclass
+rename to meta/classes-recipe/python_pyo3.bbclass
+diff --git a/meta/classes/python_setuptools3_rust.bbclass b/meta/classes-recipe/python_setuptools3_rust.bbclass
+similarity index 100%
+rename from meta/classes/python_setuptools3_rust.bbclass
+rename to meta/classes-recipe/python_setuptools3_rust.bbclass
+diff --git a/meta/classes/python_setuptools_build_meta.bbclass b/meta/classes-recipe/python_setuptools_build_meta.bbclass
+similarity index 100%
+rename from meta/classes/python_setuptools_build_meta.bbclass
+rename to meta/classes-recipe/python_setuptools_build_meta.bbclass
+diff --git a/meta/classes/qemu.bbclass b/meta/classes-recipe/qemu.bbclass
+similarity index 100%
+rename from meta/classes/qemu.bbclass
+rename to meta/classes-recipe/qemu.bbclass
+diff --git a/meta/classes/qemuboot.bbclass b/meta/classes-recipe/qemuboot.bbclass
+similarity index 100%
+rename from meta/classes/qemuboot.bbclass
+rename to meta/classes-recipe/qemuboot.bbclass
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes-recipe/rootfs-postcommands.bbclass
+similarity index 100%
+rename from meta/classes/rootfs-postcommands.bbclass
+rename to meta/classes-recipe/rootfs-postcommands.bbclass
+diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes-recipe/rootfs_deb.bbclass
+similarity index 100%
+rename from meta/classes/rootfs_deb.bbclass
+rename to meta/classes-recipe/rootfs_deb.bbclass
+diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes-recipe/rootfs_ipk.bbclass
+similarity index 100%
+rename from meta/classes/rootfs_ipk.bbclass
+rename to meta/classes-recipe/rootfs_ipk.bbclass
+diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes-recipe/rootfs_rpm.bbclass
+similarity index 100%
+rename from meta/classes/rootfs_rpm.bbclass
+rename to meta/classes-recipe/rootfs_rpm.bbclass
+diff --git a/meta/classes/rootfsdebugfiles.bbclass b/meta/classes-recipe/rootfsdebugfiles.bbclass
+similarity index 100%
+rename from meta/classes/rootfsdebugfiles.bbclass
+rename to meta/classes-recipe/rootfsdebugfiles.bbclass
+diff --git a/meta/classes/rust-bin.bbclass b/meta/classes-recipe/rust-bin.bbclass
+similarity index 100%
+rename from meta/classes/rust-bin.bbclass
+rename to meta/classes-recipe/rust-bin.bbclass
+diff --git a/meta/classes/rust-common.bbclass b/meta/classes-recipe/rust-common.bbclass
+similarity index 100%
+rename from meta/classes/rust-common.bbclass
+rename to meta/classes-recipe/rust-common.bbclass
+diff --git a/meta/classes/rust-target-config.bbclass b/meta/classes-recipe/rust-target-config.bbclass
+similarity index 100%
+rename from meta/classes/rust-target-config.bbclass
+rename to meta/classes-recipe/rust-target-config.bbclass
+diff --git a/meta/classes/rust.bbclass b/meta/classes-recipe/rust.bbclass
+similarity index 100%
+rename from meta/classes/rust.bbclass
+rename to meta/classes-recipe/rust.bbclass
+diff --git a/meta/classes/siteinfo.bbclass b/meta/classes-recipe/siteinfo.bbclass
+similarity index 100%
+rename from meta/classes/siteinfo.bbclass
+rename to meta/classes-recipe/siteinfo.bbclass
+diff --git a/meta/classes/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
+similarity index 100%
+rename from meta/classes/testimage.bbclass
+rename to meta/classes-recipe/testimage.bbclass
+diff --git a/meta/classes/testsdk.bbclass b/meta/classes-recipe/testsdk.bbclass
+similarity index 100%
+rename from meta/classes/testsdk.bbclass
+rename to meta/classes-recipe/testsdk.bbclass
+diff --git a/meta/classes/texinfo.bbclass b/meta/classes-recipe/texinfo.bbclass
+similarity index 100%
+rename from meta/classes/texinfo.bbclass
+rename to meta/classes-recipe/texinfo.bbclass
+diff --git a/meta/classes/toolchain-scripts-base.bbclass b/meta/classes-recipe/toolchain-scripts-base.bbclass
+similarity index 100%
+rename from meta/classes/toolchain-scripts-base.bbclass
+rename to meta/classes-recipe/toolchain-scripts-base.bbclass
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes-recipe/toolchain-scripts.bbclass
+similarity index 100%
+rename from meta/classes/toolchain-scripts.bbclass
+rename to meta/classes-recipe/toolchain-scripts.bbclass
+diff --git a/meta/classes/uboot-config.bbclass b/meta/classes-recipe/uboot-config.bbclass
+similarity index 100%
+rename from meta/classes/uboot-config.bbclass
+rename to meta/classes-recipe/uboot-config.bbclass
+diff --git a/meta/classes/uboot-extlinux-config.bbclass b/meta/classes-recipe/uboot-extlinux-config.bbclass
+similarity index 100%
+rename from meta/classes/uboot-extlinux-config.bbclass
+rename to meta/classes-recipe/uboot-extlinux-config.bbclass
+diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
+similarity index 100%
+rename from meta/classes/uboot-sign.bbclass
+rename to meta/classes-recipe/uboot-sign.bbclass
+diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes-recipe/update-alternatives.bbclass
+similarity index 100%
+rename from meta/classes/update-alternatives.bbclass
+rename to meta/classes-recipe/update-alternatives.bbclass
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes-recipe/update-rc.d.bbclass
+similarity index 100%
+rename from meta/classes/update-rc.d.bbclass
+rename to meta/classes-recipe/update-rc.d.bbclass
+diff --git a/meta/classes/useradd.bbclass b/meta/classes-recipe/useradd.bbclass
+similarity index 100%
+rename from meta/classes/useradd.bbclass
+rename to meta/classes-recipe/useradd.bbclass
+diff --git a/meta/classes/useradd_base.bbclass b/meta/classes-recipe/useradd_base.bbclass
+similarity index 100%
+rename from meta/classes/useradd_base.bbclass
+rename to meta/classes-recipe/useradd_base.bbclass
+diff --git a/meta/classes/vala.bbclass b/meta/classes-recipe/vala.bbclass
+similarity index 100%
+rename from meta/classes/vala.bbclass
+rename to meta/classes-recipe/vala.bbclass
+diff --git a/meta/classes/waf.bbclass b/meta/classes-recipe/waf.bbclass
+similarity index 100%
+rename from meta/classes/waf.bbclass
+rename to meta/classes-recipe/waf.bbclass
+diff --git a/meta/classes/xmlcatalog.bbclass b/meta/classes-recipe/xmlcatalog.bbclass
+similarity index 100%
+rename from meta/classes/xmlcatalog.bbclass
+rename to meta/classes-recipe/xmlcatalog.bbclass
+-- 
+2.34.1
 
-> How can I request to merge this patch to the dunfell branch?
-> 
-
-Once **merged** in our master branch, you can request the patch to be 
-backported to older still-maintained branches (i.e. dunfell and 
-kirkstone) by sending a patch with [dunfell] tag before the [PATCH] tag. 
-Your patch needs to fit our backporting criteria (bug or security fix 
-usually). This is appreciated by maintainers though not always 
-necessary: they usually follow what's going into master and sometimes 
-backport interesting patches without requests. Better send a patch if 
-you really want/need a patch to be backported though, it helps them :).
-
-Cheers,
-Quentin
 
