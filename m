@@ -1,143 +1,175 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C7A6C00140
-	for <webhook@archiver.kernel.org>; Wed, 10 Aug 2022 22:00:41 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web08.661.1660168838171316768
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 896B1C00140
+	for <webhook@archiver.kernel.org>; Wed, 10 Aug 2022 22:32:31 +0000 (UTC)
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+ [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web11.986.1660170747384561648
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Aug 2022 15:00:38 -0700
+ Wed, 10 Aug 2022 15:32:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YGvZ4nCC;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id z12so19263453wrs.9
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=IdUIWiHS;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.180,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f180.google.com with SMTP id f11so15571322pgj.7
         for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Aug 2022 15:00:37 -0700 (PDT)
+ Wed, 10 Aug 2022 15:32:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc;
-        bh=fdMoGYTqUVfdQzlkAreyKYncbc252enSJncamOkZIxQ=;
-        b=YGvZ4nCC2An3eBKwnuCEx2Z5fzvK5/UTDouGCrok4XD8LeW2LwceA1u/1UyN4vemQA
-         f/iiqrc4qINvlCctiksL4SpF4kqo1BRSkrfqwELa6pxvoKfa8aqwbUJF9Yruxu1j2U0l
-         HTtA+viL01swb4vlrH/cV4xIekDYD0j4GJN3o=
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc;
+        bh=msVL8zW1DhFeJWsHOV1aEFgRT47fQw8q+63AFRmrshk=;
+        b=IdUIWiHSH5MUef35wJWf4z5Bi1aJmHO9bfpV7/CrEkv06kCHqUjd+O2HuRtDRb7wRG
+         Vc0oBTa25QA02f6TKl3dBXHQoTFSBv95CyTQ9ghgbicaoBEKxnc6yIWlY5+b3GibXAq5
+         2/HuGjUfC4EVK7rzZkV41cjhnj4W4iIIbhHyvHWWkRVCuCuzTK5yUvR1cOVxv7k6FDs3
+         YJee3AdUTAP6Stu8tTTVyxS0L1gXMOXPESXrSdIsj65DC+ZTae5BBKUYx3E3qepgMqYX
+         krPmbS2gJc0gonJMkpANFilIRxf/TLyKe7FwBJUEBi3jsyFXiwuhkKuvzMJymLB0lF5i
+         g1ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc;
-        bh=fdMoGYTqUVfdQzlkAreyKYncbc252enSJncamOkZIxQ=;
-        b=WTHMHqF5VnMEl6XjBDq4gX4+hwXuO+rnPfgimTLVr3XzRWi2X9dGq2QKy9h9OpRA25
-         TXmW1YXc77Icm/iO9+PDer77hQ9BsBFpf0C9krpX521ZlS7VLDyNulr8/HvaYDzoEJVq
-         aNvgwxK7IlyhIXxubQoOe5kppjOtkH0eyI5M+lGcX1VBtDhSJpRggy20bYmUz/ZC76lW
-         uze0PQcCPl5znHKcUj7MRVe7236ssIU5Lc4VRYbSyM3R11VajOHGF9B5bk/u28p5izmC
-         PhAq3r5mV9WP1ifw5ET+m3fREd3N+fJ9ZkzZYC5j0LGLtGGIfL8cDc6Zybygma/35JDY
-         229Q==
-X-Gm-Message-State: ACgBeo1f0th9dnJiqG16P5wcyTxi3besDCPEYUYRqGA08w8ibezp/+p6
-	GFnfytNeiGYYDLYulTihFOQ3XovhgHmpig==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
+        bh=msVL8zW1DhFeJWsHOV1aEFgRT47fQw8q+63AFRmrshk=;
+        b=Fek/R6Wcpc0FpcmaiVVod86/r+rbNla3kKVslHVbDjP4oHcdV2zyGf46P6Me+DOi+P
+         3PApNcenRc3CAv0I0S0SvXtjU8iHqyZ5BmyyqPx/R9BIwAjAoMiHW7XxdosgKxPTzLjN
+         Q/PjYSJkYgruMWQZHldFoe3kJKF7lXN7TkTMtuYEPe5RlJGU/4GG3pyhASBcS13bDj7C
+         USxuNH8pTPlsEitSs3wewgE9QtwmBu7B3n5n5kbiLbGWsQr/Z4jbpn/lQE0dvwRCFay1
+         sVCS2iU6Xz7GQm5kN00euqrz5IUlmCWkbo6CzA4cKmBdJ+ypD8IR2XIDnY2s/NpfhFHs
+         epew==
+X-Gm-Message-State: ACgBeo32cqEznACXhHo2FplbTR0UMi4nGNEjL007fCUndDY3K6VNlzp0
+	oDS0fy/8Y10uL33e8Tb74chxguSR7MQYAK5V
 X-Google-Smtp-Source: 
- AA6agR6AgQKw4LPc8LdaMHxDV8ur78pR/sZaBGqIIRA3NKWQNbRAR8XfkEGwoFjTFMlWxuKml+dtMg==
-X-Received: by 2002:a05:6000:1a85:b0:221:7333:80d0 with SMTP id
- f5-20020a0560001a8500b00221733380d0mr15952016wry.177.1660168836106;
-        Wed, 10 Aug 2022 15:00:36 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:95c7:ec9:dfa1:7b7])
+ AA6agR71OFYMfUZNkPeQGTberDkZZ/DZ4HPyEyAn5kIV1iotALai5dS8phfZMJzQh5sHlStojx785w==
+X-Received: by 2002:a63:f207:0:b0:41b:6137:2b6d with SMTP id
+ v7-20020a63f207000000b0041b61372b6dmr24661886pgh.397.1660170746189;
+        Wed, 10 Aug 2022 15:32:26 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- p14-20020a05600c358e00b003a5b746abd4sm2369956wmq.22.2022.08.10.15.00.35
+ x14-20020aa79ace000000b0052d7606d144sm2532513pfp.74.2022.08.10.15.32.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Aug 2022 15:00:35 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Wed, 10 Aug 2022 15:32:25 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] rust: Remove unneeded RUST_TARGETGENS settings
-Date: Wed, 10 Aug 2022 23:00:34 +0100
-Message-Id: <20220810220034.507620-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
+Subject: [OE-core][dunfell 02/11] gdk-pixbuf: CVE-2021-46829 a heap-based
+ buffer overflow
+Date: Wed, 10 Aug 2022 12:32:00 -1000
+Message-Id: 
+ <ef3f5fba3c3b5e8b16d6b8b7721468e61c65f72f.1660170592.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1660170592.git.steve@sakoman.com>
+References: <cover.1660170592.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Aug 2022 22:00:41 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Aug 2022 22:32:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169212
+ https://lists.openembedded.org/g/openembedded-core/message/169215
 
-These match the default from the class so drop them. We then always
-generate all targets so remove the configuration from the class.
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Source: https://gitlab.gnome.org/GNOME/gdk-pixbuf
+MR: 120380
+Type: Security Fix
+Disposition: Backport from https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/5398f04d772f7f8baf5265715696ed88db0f0512
+ChangeID: d8a843bcf97268ee4f0c6870f1339790a9a908e5
+Description:
+         CVE-2021-46829 gdk-pixbuf: a heap-based buffer overflow when compositing or clearing frames in GIF files.
+
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-recipe/rust-target-config.bbclass | 8 ++------
- meta/recipes-devtools/cargo/cargo.inc          | 2 --
- meta/recipes-devtools/rust/libstd-rs.inc       | 3 ---
- meta/recipes-devtools/rust/rust.inc            | 2 --
- 4 files changed, 2 insertions(+), 13 deletions(-)
+ .../gdk-pixbuf/CVE-2021-46829.patch           | 61 +++++++++++++++++++
+ .../gdk-pixbuf/gdk-pixbuf_2.40.0.bb           |  1 +
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-46829.patch
 
-diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classes-recipe/rust-target-config.bbclass
-index 35d83e0cd26..34050864023 100644
---- a/meta/classes-recipe/rust-target-config.bbclass
-+++ b/meta/classes-recipe/rust-target-config.bbclass
-@@ -378,16 +378,12 @@ do_rust_gen_targets[vardeps] += "DATA_LAYOUT TARGET_ENDIAN TARGET_POINTER_WIDTH
- RUST_TARGETS_DIR = "${WORKDIR}/rust-targets/"
- export RUST_TARGET_PATH = "${RUST_TARGETS_DIR}"
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-46829.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-46829.patch
+new file mode 100644
+index 0000000000..b29ab209ce
+--- /dev/null
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-46829.patch
+@@ -0,0 +1,61 @@
++From bdf3a2630c02a63803309cf0ad4b274234c814ce Mon Sep 17 00:00:00 2001
++From: Hitendra Prajapati <hprajapati@mvista.com>
++Date: Tue, 9 Aug 2022 09:45:42 +0530
++Subject: [PATCH] CVE-2021-46829
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/5398f04d772f7f8baf5265715696ed88db0f0512]
++CVE: CVE-2021-46829
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ gdk-pixbuf/io-gif-animation.c | 21 +++++++++++++--------
++ 1 file changed, 13 insertions(+), 8 deletions(-)
++
++diff --git a/gdk-pixbuf/io-gif-animation.c b/gdk-pixbuf/io-gif-animation.c
++index d742963..9544391 100644
++--- a/gdk-pixbuf/io-gif-animation.c
+++++ b/gdk-pixbuf/io-gif-animation.c
++@@ -364,7 +364,7 @@ composite_frame (GdkPixbufGifAnim *anim, GdkPixbufFrame *frame)
++         for (i = 0; i < n_indexes; i++) {
++                 guint8 index = index_buffer[i];
++                 guint x, y;
++-                int offset;
+++                gsize offset;
++ 
++                 if (index == frame->transparent_index)
++                         continue;
++@@ -374,11 +374,13 @@ composite_frame (GdkPixbufGifAnim *anim, GdkPixbufFrame *frame)
++                 if (x >= anim->width || y >= anim->height)
++                         continue;
++ 
++-                offset = y * gdk_pixbuf_get_rowstride (anim->last_frame_data) + x * 4;
++-                pixels[offset + 0] = frame->color_map[index * 3 + 0];
++-                pixels[offset + 1] = frame->color_map[index * 3 + 1];
++-                pixels[offset + 2] = frame->color_map[index * 3 + 2];
++-                pixels[offset + 3] = 255;
+++                if (g_size_checked_mul (&offset, gdk_pixbuf_get_rowstride (anim->last_frame_data), y) &&
+++                    g_size_checked_add (&offset, offset, x * 4)) {
+++                        pixels[offset + 0] = frame->color_map[index * 3 + 0];
+++                        pixels[offset + 1] = frame->color_map[index * 3 + 1];
+++                        pixels[offset + 2] = frame->color_map[index * 3 + 2];
+++                        pixels[offset + 3] = 255;
+++                }
++         }
++ 
++ out:
++@@ -443,8 +445,11 @@ gdk_pixbuf_gif_anim_iter_get_pixbuf (GdkPixbufAnimationIter *anim_iter)
++                         x_end = MIN (anim->last_frame->x_offset + anim->last_frame->width, anim->width);
++                         y_end = MIN (anim->last_frame->y_offset + anim->last_frame->height, anim->height);
++                         for (y = anim->last_frame->y_offset; y < y_end; y++) {
++-                                guchar *line = pixels + y * gdk_pixbuf_get_rowstride (anim->last_frame_data) + anim->last_frame->x_offset * 4;
++-                                memset (line, 0, (x_end - anim->last_frame->x_offset) * 4);
+++                                gsize offset;
+++                                if (g_size_checked_mul (&offset, gdk_pixbuf_get_rowstride (anim->last_frame_data), y) &&
+++                                    g_size_checked_add (&offset, offset, anim->last_frame->x_offset * 4)) {
+++                                         memset (pixels + offset, 0, (x_end - anim->last_frame->x_offset) * 4);
+++                                }
++                         }
++                         break;
++                 case GDK_PIXBUF_FRAME_REVERT:
++-- 
++2.25.1
++
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
+index 60a04c3581..1171e6cc11 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
+@@ -26,6 +26,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://missing-test-data.patch \
+            file://CVE-2020-29385.patch \
+            file://CVE-2021-20240.patch \
++           file://CVE-2021-46829.patch \
+            "
  
--RUST_TARGETGENS = "BUILD HOST TARGET"
--
- python do_rust_gen_targets () {
-     wd = d.getVar('RUST_TARGETS_DIR')
-     # Order of BUILD, HOST, TARGET is important in case the files overwrite, most specific last
-     rust_gen_target(d, 'BUILD', wd, d.getVar('BUILD_ARCH'))
--    if "HOST" in d.getVar("RUST_TARGETGENS"):
--        rust_gen_target(d, 'HOST', wd, d.getVar('HOST_ARCH'))
--    if "TARGET" in d.getVar("RUST_TARGETGENS"):
--        rust_gen_target(d, 'TARGET', wd, d.getVar('TARGET_ARCH'))
-+    rust_gen_target(d, 'HOST', wd, d.getVar('HOST_ARCH'))
-+    rust_gen_target(d, 'TARGET', wd, d.getVar('TARGET_ARCH'))
- }
- 
- addtask rust_gen_targets after do_patch before do_compile
-diff --git a/meta/recipes-devtools/cargo/cargo.inc b/meta/recipes-devtools/cargo/cargo.inc
-index 636e9c4fe51..40421df4f76 100644
---- a/meta/recipes-devtools/cargo/cargo.inc
-+++ b/meta/recipes-devtools/cargo/cargo.inc
-@@ -18,8 +18,6 @@ EXCLUDE_FROM_WORLD = "1"
- 
- inherit cargo pkgconfig
- 
--RUST_TARGETGENS = "BUILD HOST TARGET"
--
- do_cargo_setup_snapshot () {
- 	${WORKDIR}/rust-snapshot-components/${CARGO_SNAPSHOT}/install.sh --prefix="${WORKDIR}/${CARGO_SNAPSHOT}" --disable-ldconfig
- 	# Need to use uninative's loader if enabled/present since the library paths
-diff --git a/meta/recipes-devtools/rust/libstd-rs.inc b/meta/recipes-devtools/rust/libstd-rs.inc
-index 1498b88f0e2..d49383ced58 100644
---- a/meta/recipes-devtools/rust/libstd-rs.inc
-+++ b/meta/recipes-devtools/rust/libstd-rs.inc
-@@ -12,9 +12,6 @@ DEPENDS:append:libc-musl = " libunwind"
- DEPENDS:remove:riscv32 = "libunwind"
- DEPENDS:remove:riscv64 = "libunwind"
- 
--
--RUST_TARGETGENS = "BUILD HOST TARGET"
--
- # Embed bitcode in order to allow compiling both with and without LTO
- RUSTFLAGS += "-Cembed-bitcode=yes"
- # Needed so cargo can find libbacktrace
-diff --git a/meta/recipes-devtools/rust/rust.inc b/meta/recipes-devtools/rust/rust.inc
-index 7e302b59929..284347dedc3 100644
---- a/meta/recipes-devtools/rust/rust.inc
-+++ b/meta/recipes-devtools/rust/rust.inc
-@@ -34,8 +34,6 @@ setup_cargo_environment () {
- 
- inherit rust-target-config
- 
--RUST_TARGETGENS = "BUILD HOST TARGET"
--
- do_rust_setup_snapshot () {
-     for installer in "${WORKDIR}/rust-snapshot-components/"*"/install.sh"; do
-         "${installer}" --prefix="${WORKDIR}/rust-snapshot" --disable-ldconfig
+ SRC_URI_append_class-target = " \
 -- 
-2.34.1
+2.25.1
 
 
