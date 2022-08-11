@@ -1,220 +1,185 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E40FC19F2A
-	for <webhook@archiver.kernel.org>; Thu, 11 Aug 2022 17:46:30 +0000 (UTC)
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com
- [209.85.160.54])
- by mx.groups.io with SMTP id smtpd.web08.874.1660239986891353023
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 483E7C3F6B0
+	for <webhook@archiver.kernel.org>; Thu, 11 Aug 2022 19:58:21 +0000 (UTC)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web09.2535.1660247897246539726
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Aug 2022 10:46:27 -0700
+ Thu, 11 Aug 2022 12:58:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=EGSgvhOr;
- spf=pass (domain: gmail.com, ip: 209.85.160.54,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-oa1-f54.google.com with SMTP id
- 586e51a60fabf-10e615a36b0so22348492fac.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jF71PdXC;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f46.google.com with SMTP id gk3so35284346ejb.8
         for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Aug 2022 10:46:26 -0700 (PDT)
+ Thu, 11 Aug 2022 12:58:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=yQXbLtxq/A3xL7qcy0XRDXGM2HA6E6STLGychi0y4dM=;
-        b=EGSgvhOrN0xj6SRqceO9H1/e0ATPOXdnBmb3xwHW+hEqiH/h34BZK87c9jdbjYZ9Jm
-         FgPMmR6AqEbfwQPvHoC3PVmeN3WQVdrqK35BBERZvu08P3OOXGEexXl+hgarMdsXGV3c
-         hVrvgloi8sZ63QfUGsN9P+kul8LUsOAw3yPYo/2SN4IS+n7kaIcVknSZSvXDLthvr5jl
-         UElJ8AAEiHeg0nLZ6in6wTZAgUA8O4FXE3M/vn/LIfnTpR2RZiTOdMMXGIz88xJVfpAm
-         1siyySPpU0qyMsgFX+5J+yb2It43JngCQ/3Gb9R6QzEs3/eFe4pA+VKnE6c+JHYp5Csp
-         T+OA==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=FlvBb4qfT8GhoNLT2aYsFZMksW5VrnFAShCHxt5jQSg=;
+        b=jF71PdXCCsaMPoUdtm6iHsKy7PF8pxHsyXxzDksQaeGpJ09PDqW0rbdE0/mkFScaSK
+         ceS/Brdg+e9NaC5ZdY2UQ6q/UDjkQS/nFWR1e+O+Jrml4dvE8oSxScGaq7WznNMhWTh/
+         mLgpijoAV89MqJ6iiH0DNP8pkQ200Sk//jgHSWf6/ER6kJgM7TYrkbShzL3JrMs0JQeX
+         X5dyy8x3j54m4SVXjqWWgC1rhCkUrGyy5MofNWit23OjtQxKLt0UgV3GrjodJm9Pg4wZ
+         rH7vUpttOt35HWgxu9eiOcULjn/rDL34TeYKnRAd50qZb0JgJxW0DSgSBaVBQjOhYdwX
+         YeBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=yQXbLtxq/A3xL7qcy0XRDXGM2HA6E6STLGychi0y4dM=;
-        b=uyInLoVUv/7JeKxuTwrZEpIuecF2uY4JfFVIw2BTObpMOdhouUIyFwiFNXJouqD7wc
-         xmGnBCl81Y11qkR7wWFS4zR2/hQJV8g7SCumZTzvEFji5gVcnuxQJx4VLrcw3zPgU8as
-         HdMmt3L33gJxxTBnSDHWwH76L6Cdo5OS4KmfeGbREtCYKzcfCwVs7lh8vBWd7/jQe395
-         jmznZje1VF0qW28nIvAvlPq14bANi2ISQGiIvxNyf3/BDdPDN4iHhcIFpb5U5lnTt509
-         EOxRKIA5gS7M6QaUK6aUaeSLhvsaHc9oezNn/JxoMMEF5OrjsB2GwaASGoONFoN1O5yn
-         xycA==
-X-Gm-Message-State: ACgBeo0bd+6CmKdF2c5bDJpA40qAb12ZTLdyFvE4940iQjey0gUeF+1J
-	raLVs0uS/Uj6SrEh2it9INGqOK6Of17KtuT3nuU=
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=FlvBb4qfT8GhoNLT2aYsFZMksW5VrnFAShCHxt5jQSg=;
+        b=DvNV1URdTf8ppD4Hk8BSapF2TeKRilGhR97ueExRcaDCJYVc1w8NNal0aIpBj5C28t
+         tUKMv+PrVhu8egnB6F7fs7IkWXFpzrWQCfCKSjFdUQSQKl5eV+E+g/0FGsFQEUPfuiRz
+         qlYeUY2YtKccW3QYAxf+1AUq8GbJV0EZ/mfcMDoU1Lvi5nxL8zUzammekLMYWwoX+Xng
+         CWxgrs+bdLQD2EO0xDK71t3jXKmeA77SLcmKNlVmo+PJ801EAyHmXxjXccUyaSLGlgNA
+         xmAqcqZd/fLQJuQSnrv0VAZECIo2SefiGVF/1Q/pTGdN2Pd287Uy81JpS2IKO8Ag5JSx
+         Mtdg==
+X-Gm-Message-State: ACgBeo02URHtmQqliEk7uAHcdwprYOjQ0ZysXpfhr2w3kUfeeVJyI+fU
+	76RnMm7qn6s0cwq76G3VQYg6FmcBacI=
 X-Google-Smtp-Source: 
- AA6agR5a2w01D1SBaCJuhCQQ1fizpb9q0N2aytpsqO4xOSyBjx2NU2xXeYopsaUEuSus+PZFQuSxYBqgx277o9ZxNfY=
-X-Received: by 2002:a05:6870:4388:b0:10e:803f:9dae with SMTP id
- r8-20020a056870438800b0010e803f9daemr3944880oah.175.1660239986209; Thu, 11
- Aug 2022 10:46:26 -0700 (PDT)
+ AA6agR4I/MalY0P6F3GvkEs0LP3vN8/pg8QcmqJGqsyLdPo38pSiWYutXKB/qeKtOv2v1tSDAMO6cQ==
+X-Received: by 2002:a17:907:2707:b0:730:af0b:3572 with SMTP id
+ w7-20020a170907270700b00730af0b3572mr411067ejk.411.1660247895510;
+        Thu, 11 Aug 2022 12:58:15 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
+ [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id
+ fu18-20020a170907b01200b007308bdef04bsm22010ejc.103.2022.08.11.12.58.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Aug 2022 12:58:15 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 6/7] patchelf: replace a rejected patch with an equivalent
+ uninative.bbclass tweak
+Date: Thu, 11 Aug 2022 21:58:05 +0200
+Message-Id: <20220811195806.1571221-6-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220811195806.1571221-1-alex@linutronix.de>
+References: <20220811195806.1571221-1-alex@linutronix.de>
 MIME-Version: 1.0
-References: <20220811161757.278819-1-jose.quaresma@foundries.io>
- <CADkTA4PaFdRpyxko=bpRQ5CVoAVgD8g8Nt4SMW_0USAYme3RkQ@mail.gmail.com>
- <CANPvuRmPVe_4D-hWkkZ93y=u6YuMVBu_KCADG1OH32aK-=OB_w@mail.gmail.com>
-In-Reply-To: 
- <CANPvuRmPVe_4D-hWkkZ93y=u6YuMVBu_KCADG1OH32aK-=OB_w@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 11 Aug 2022 13:46:17 -0400
-Message-ID: 
- <CADkTA4ONM+bq+onFjQSpYxU=qz8gyTEmpVTBBZR2S34t18HzAw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] module.bbclass: rebuild the modules when kernel
- change
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Ricardo Salveti <ricardo@foundries.io>, daiane.angolini@foundries.io,
-	otavio@ossystems.com.br, Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Aug 2022 17:46:30 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Aug 2022 19:58:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169262
+ https://lists.openembedded.org/g/openembedded-core/message/169268
 
-On Thu, Aug 11, 2022 at 1:26 PM Jose Quaresma <quaresma.jose@gmail.com> wro=
-te:
->
->
->
-> Bruce Ashfield <bruce.ashfield@gmail.com> escreveu no dia quinta, 11/08/2=
-022 =C3=A0(s) 18:06:
->>
->> On Thu, Aug 11, 2022 at 12:18 PM Jose Quaresma <quaresma.jose@gmail.com>=
- wrote:
->> >
->> > When the kernel is rebuild or some of they tasks change the
->> > kernel modules is not rebuild as well and will comes from
->> > the sstate-cache.
->> >
->> > [YOCTO #14885] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D148=
-85
->> >
->> > Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
->> > ---
->> >  meta/classes/module.bbclass | 2 ++
->> >  1 file changed, 2 insertions(+)
->> >
->> > diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
->> > index a09ec3ed1e..d377a08bc6 100644
->> > --- a/meta/classes/module.bbclass
->> > +++ b/meta/classes/module.bbclass
->> > @@ -1,5 +1,7 @@
->> >  inherit module-base kernel-module-split pkgconfig
->> >
->> > +DEPENDS +=3D "virtual/kernel"
->>
->> There's already a dependency on virtual/kernel:do_shared_workdir() throu=
-gh
->> module-base.bbclass and the make-mod-scripts dependency.
->
->
-> I know that and imo the make-mod-scripts need to be cleaned up a bit as w=
-ell
-> It is compile the the code do_configure and as a dependency in "virtual/k=
-ernel:do_compile_kernelmodules"
+This was the original reason to add the patch:
+https://git.openembedded.org/openembedded-core/commit/?id=18efcbcb896239c64fedd009ce57f3f0c668cbc0
 
-Right. It doesn't save much, but being able to start dependent tasks even
-that bit sooner has proven to be a win. We get plenty of complaints about
-the kernel being a bottleneck, which is what lead to the finer dependency.
+and this is the upstream discussion which suggests handling
+read-only files explicitly outside of patchelf:
+https://github.com/NixOS/patchelf/pull/89
 
-> for they do_compile anyway this is another history and I will submit some=
- patch when finished.
-> Another thing that I have in my mind is to make the  make-mod-scripts a n=
-ative recipe because they
-> don't build anything for the target.
->
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/classes/uninative.bbclass                |  2 +
+ .../patchelf/handle-read-only-files.patch     | 63 -------------------
+ .../patchelf/patchelf_0.15.0.bb               |  1 -
+ 3 files changed, 2 insertions(+), 64 deletions(-)
+ delete mode 100644 meta/recipes-devtools/patchelf/patchelf/handle-read-only-files.patch
 
-make-mod-scripts is a bit strange indeed, it sits somewhere in the middle, =
-it
-does use the target compiler, etc, for some tests that the kernel fires as =
-part
-of even the scripts and preparation. Which is why it hasn't been -native on=
-ly
-up until now .. it isn't out of the question that we could use it in
-more of a cross
-friendly way (there are some really old bugs/enhancements around that topic=
-).
+diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
+index 6a9e862bcd..7f0591d49a 100644
+--- a/meta/classes/uninative.bbclass
++++ b/meta/classes/uninative.bbclass
+@@ -167,5 +167,7 @@ python uninative_changeinterp () {
+             if not elf.isDynamic():
+                 continue
+ 
++            os.chmod(f, s[stat.ST_MODE] | stat.S_IWUSR)
+             subprocess.check_output(("patchelf-uninative", "--set-interpreter", d.getVar("UNINATIVE_LOADER"), f), stderr=subprocess.STDOUT)
++            os.chmod(f, s[stat.ST_MODE])
+ }
+diff --git a/meta/recipes-devtools/patchelf/patchelf/handle-read-only-files.patch b/meta/recipes-devtools/patchelf/patchelf/handle-read-only-files.patch
+deleted file mode 100644
+index 76ad8d9d4d..0000000000
+--- a/meta/recipes-devtools/patchelf/patchelf/handle-read-only-files.patch
++++ /dev/null
+@@ -1,63 +0,0 @@
+-From 38b3d65f4a79d39ad9cdf841f2b3b29fd0c961ca Mon Sep 17 00:00:00 2001
+-From: Fabio Berton <fabio.berton@ossystems.com.br>
+-Date: Fri, 9 Sep 2016 16:00:42 -0300
+-Subject: [PATCH] handle read-only files
+-
+-Patch from:
+-https://github.com/darealshinji/patchelf/commit/40e66392bc4b96e9b4eda496827d26348a503509
+-
+-Upstream-Status: Denied [https://github.com/NixOS/patchelf/pull/89]
+-
+-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+----
+- src/patchelf.cc | 18 +++++++++++++-----
+- 1 file changed, 13 insertions(+), 5 deletions(-)
+-
+-diff --git a/src/patchelf.cc b/src/patchelf.cc
+-index 49accae..fb6c7ed 100644
+---- a/src/patchelf.cc
+-+++ b/src/patchelf.cc
+-@@ -378,8 +378,16 @@ void ElfFile<ElfFileParamNames>::sortShdrs()
+- 
+- static void writeFile(const std::string & fileName, const FileContents & contents)
+- {
+-+    struct stat st;
+-+
+-     debug("writing %s\n", fileName.c_str());
+- 
+-+    if (stat(fileName.c_str(), &st) != 0)
+-+        error("stat");
+-+
+-+    if (chmod(fileName.c_str(), 0600) != 0)
+-+        error("chmod");
+-+
+-     int fd = open(fileName.c_str(), O_CREAT | O_TRUNC | O_WRONLY | O_BINARY, 0777);
+-     if (fd == -1)
+-         error("open");
+-@@ -395,8 +403,6 @@ static void writeFile(const std::string & fileName, const FileContents & content
+-         bytesWritten += portion;
+-     }
+- 
+--    if (close(fd) >= 0)
+--        return;
+-     /*
+-      * Just ignore EINTR; a retry loop is the wrong thing to do.
+-      *
+-@@ -405,9 +411,11 @@ static void writeFile(const std::string & fileName, const FileContents & content
+-      * http://utcc.utoronto.ca/~cks/space/blog/unix/CloseEINTR
+-      * https://sites.google.com/site/michaelsafyan/software-engineering/checkforeintrwheninvokingclosethinkagain
+-      */
+--    if (errno == EINTR)
+--        return;
+--    error("close");
+-+    if ((close(fd) < 0) && errno != EINTR)
+-+        error("close");
+-+
+-+    if (chmod(fileName.c_str(), st.st_mode) != 0)
+-+        error("chmod");
+- }
+- 
+- 
+--- 
+-2.30.2
+-
+diff --git a/meta/recipes-devtools/patchelf/patchelf_0.15.0.bb b/meta/recipes-devtools/patchelf/patchelf_0.15.0.bb
+index 389a0a9f40..e07775f574 100644
+--- a/meta/recipes-devtools/patchelf/patchelf_0.15.0.bb
++++ b/meta/recipes-devtools/patchelf/patchelf_0.15.0.bb
+@@ -5,7 +5,6 @@ HOMEPAGE = "https://github.com/NixOS/patchelf"
+ LICENSE = "GPL-3.0-only"
+ 
+ SRC_URI = "git://github.com/NixOS/patchelf;protocol=https;branch=master \
+-           file://handle-read-only-files.patch \
+            "
+ SRCREV = "49008002562355b0e35075cbc1c42c645ff04e28"
+ 
+-- 
+2.30.2
 
-It might be worth a try, but if it isn't breaking anything .. I tread
-very carefully
-around the kernel dependencies, shared-workdir and the scripts. We've had
-many subtle race conditions and other hard to debug issues.
-
->>
->>
->> And that dependency was a change to this:
->>
->> -# This is instead of DEPENDS =3D "virtual/kernel"
->> -do_configure[depends] +=3D "virtual/kernel:do_compile_kernelmodules"
->>
->> i.e. we've always had a finer grained dependency than what is being
->> proposed here.
->>
->> We need to understand why that shared_workdir() dependency isn't
->> doing the job any more, and if there's no way to fix it .. then going ba=
-ck
->> to the older compile dependency is still lighter weight than depending
->> on virtual/kernel (and the default of do_prepare_recipe_sysroot).
->
->
-> I can do another round in order to change another task, other than the sh=
-ared_workdir,
-> that I think will do the same i.e: get the modules from the sstate-cache.
-> I suspect this is unrelated to the task shared_workdir.
->
-> Thanks for the feedback and your time.
-
-I can dig into it more as well, I'll see what I can find in some local buil=
-ds.
-
-Bruce
-
->
-> Jose
->
->>
->>
->> It must (could?) be something with the shared workdir changing the inter=
-actions.
->>
->> Bruce
->>
->> > +
->> >  EXTRA_OEMAKE +=3D "KERNEL_SRC=3D${STAGING_KERNEL_DIR}"
->> >
->> >  MODULES_INSTALL_TARGET ?=3D "modules_install"
->> > --
->> > 2.37.1
->> >
->> >
->> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> > Links: You receive all messages sent to this group.
->> > View/Reply Online (#169253): https://lists.openembedded.org/g/openembe=
-dded-core/message/169253
->> > Mute This Topic: https://lists.openembedded.org/mt/92962048/1050810
->> > Group Owner: openembedded-core+owner@lists.openembedded.org
->> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
-[bruce.ashfield@gmail.com]
->> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> >
->>
->>
->> --
->> - Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end
->> - "Use the force Harry" - Gandalf, Star Trek II
->
->
->
-> --
-> Best regards,
->
-> Jos=C3=A9 Quaresma
-
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
