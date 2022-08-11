@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54C54C25B06
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48E32C48BEA
 	for <webhook@archiver.kernel.org>; Thu, 11 Aug 2022 19:58:21 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web09.2533.1660247893703813052
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+ [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.web09.2536.1660247897885408748
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Aug 2022 12:58:14 -0700
+ Thu, 11 Aug 2022 12:58:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=KPwf3frS;
- spf=pass (domain: gmail.com, ip: 209.85.218.41,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=o+dF6pWQ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.43,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id a7so35352988ejp.2
+Received: by mail-ed1-f43.google.com with SMTP id z20so22353600edb.9
         for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Aug 2022 12:58:13 -0700 (PDT)
+ Thu, 11 Aug 2022 12:58:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=tSkLGyWwnwnJjAK/6ziFuT0O/BZNUrTE6g3ZgDdXFSk=;
-        b=KPwf3frS1yY/B1rzwtgmosIT+5aZVC1MP0g9jJ6vud8gzSwRR28/jhOyrrRz7SjIe6
-         daXrnXfpSCnMpjg2+aRLp5scambQdsbjHMln/2sHYEftFvscu5i/8a4pzbNW/KrYoO7Y
-         N3CqWa2yG437tIgQCeuo7+maqe6NcI5hXeUkA3V/sNiKONWuqQMSkOgzPvhavPnRcrKC
-         s1/zHg6QHNfNa74R6ohuuk+liCCTaoOBWn6A3Dh8Ri4vAMvMorLAtWD8/XnZWnVg0xIo
-         WjRkdL3HVIn1irgE8OqyFGkSTzVJfzPhU57ib2dcVvLVN2a1VRln2do5iimjRRA6bn0Z
-         xkkg==
+        bh=AtkvL6iJWSNFiz7OB7TXQQtoYzQaYLAM1KWzt0KKdpc=;
+        b=o+dF6pWQja5aYkssZtn429+SoVd84peajkLTR7/Gp71dG2bw/5vMVq1yj6pp0K8RYC
+         jW9bMmSs8nHSkltElXzPqRAJ0FU8TLPXFqcsvzt7jV88/WT9E8Wq+qMh8uWrKAyE3AKe
+         4/mtGC0roBGqw6qiTe4F7ePHsyY+2Ta54sNxSbsSCPKbVDU25tR+64eepDQC5fohx/Xn
+         Q84FbSEUb8L5RQsdvaSCkYNgabiQ+9X2nbUEb52jmvX3S8GXMtIAlRV/GCf0j05p8xFl
+         I1XtgnkEG/86mVAFool9UrzV8K5Q6aXW7n8jnEY+HHjCsXOpYBlW6vCnnxnTiUuk3TUN
+         T/3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=tSkLGyWwnwnJjAK/6ziFuT0O/BZNUrTE6g3ZgDdXFSk=;
-        b=7QxEuS+jU8EQf2ihvmUVTl8kc9r27zPTlOyDnNtO/N6Yq/cTGXxwhiZZpWB81KXuv7
-         0xqnYrM3rzzNbw1DqBDZ0TrcyWnWmTdx/Spn+QzFxK6947lS3V3Z9Ca8nOM03kLnfDWB
-         /4fdIsDRr40BeX8h/icFGUUa6OV50Al23x+5VSTUuekA7cLSxjLGJ6CoElhqjdAyiyFC
-         VOytzdKkIFRYQ7batP+IXZgavegEzub9Bwc2XyYyoBm2v0z85PZ5M0EhLGJ9Ux+xefr9
-         qmv4i91yjH1hE7KrLqbgzQAmiUToB9ifFV5jZNpE7jJQu3BthbIVrqFbOFvpo39rHXiB
-         9RkA==
-X-Gm-Message-State: ACgBeo0wIUJap4QMDwHw3wrn0oDs58v9YdR09JgC5J7Nh3743O1gQy9K
-	EEkbXzv64wDclfIqyoODYVueSkpWMTY=
+        bh=AtkvL6iJWSNFiz7OB7TXQQtoYzQaYLAM1KWzt0KKdpc=;
+        b=aQr4FPal/rmjQs2fvhUW0tWkpdsOHoTLzzLFavoMekWr8Gsftb0mnVKpGad1kz3KRD
+         YckFzc0cCL4EfSOy7IrlMtWIr5z22Zn7A+QPOKXwgUR2avnKAze+Z2NlEqtpI3sC5Y1W
+         l/h9lTIYA1NDi2VDxn57oPv5TsOE3MxAG70kUNW4CGGWvAX6qFVIqqVpHsgBSsc811Vd
+         OSR/L5V2F515wc5y++mbI4lAMm9aNmXawWqE25iXJG4BeN0NJ4DOWQIU9nAg+/mx5Swt
+         fiZfNM5qLRZ2ZO5uJd3L42k8rcF4zJHqlhfYiyxdCYKqmYX0QN1PaVgBm6Bo6Mf8fQEk
+         Ya/A==
+X-Gm-Message-State: ACgBeo11MGg1kxL5D8D+zPJ5i7Fy55Jzy4NIlO2Yas/dnEYoOYAPWBEQ
+	y36d583Pev1Ox5MT+2xnLM1BiX3b7SA=
 X-Google-Smtp-Source: 
- AA6agR4Pp7V7CidZpCIYmySsz2LBfU+/1+6WDdtMiG4ycvukoLrGKPTsRT21ajUdAdTTwpP5CQ1muQ==
-X-Received: by 2002:a17:907:3e21:b0:730:92bb:7fcd with SMTP id
- hp33-20020a1709073e2100b0073092bb7fcdmr453688ejc.170.1660247892216;
-        Thu, 11 Aug 2022 12:58:12 -0700 (PDT)
+ AA6agR66cgDOdelOF47+NQZCS39YU6pX+bDWUVev5S0nblTMOTo+mCvqFnETMqDgaKUKc+sVNFSLjA==
+X-Received: by 2002:a05:6402:194e:b0:442:c81c:ca25 with SMTP id
+ f14-20020a056402194e00b00442c81cca25mr641963edz.137.1660247896294;
+        Thu, 11 Aug 2022 12:58:16 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- fu18-20020a170907b01200b007308bdef04bsm22010ejc.103.2022.08.11.12.58.11
+ fu18-20020a170907b01200b007308bdef04bsm22010ejc.103.2022.08.11.12.58.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Aug 2022 12:58:11 -0700 (PDT)
+        Thu, 11 Aug 2022 12:58:15 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 3/7] cmake: update 3.23.2 -> 3.24.0
-Date: Thu, 11 Aug 2022 21:58:02 +0200
-Message-Id: <20220811195806.1571221-3-alex@linutronix.de>
+Subject: [PATCH 7/7] weston: exclude pre-releases from version check
+Date: Thu, 11 Aug 2022 21:58:06 +0200
+Message-Id: <20220811195806.1571221-7-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220811195806.1571221-1-alex@linutronix.de>
 References: <20220811195806.1571221-1-alex@linutronix.de>
@@ -68,49 +68,25 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 11 Aug 2022 19:58:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169265
-
-License-Update: additional copyright holders
+ https://lists.openembedded.org/g/openembedded-core/message/169269
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../cmake/{cmake-native_3.23.2.bb => cmake-native_3.24.0.bb}  | 0
- meta/recipes-devtools/cmake/cmake.inc                         | 4 ++--
- .../cmake/{cmake_3.23.2.bb => cmake_3.24.0.bb}                | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.23.2.bb => cmake-native_3.24.0.bb} (100%)
- rename meta/recipes-devtools/cmake/{cmake_3.23.2.bb => cmake_3.24.0.bb} (100%)
+ meta/recipes-graphics/wayland/weston_10.0.2.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.23.2.bb b/meta/recipes-devtools/cmake/cmake-native_3.24.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake-native_3.23.2.bb
-rename to meta/recipes-devtools/cmake/cmake-native_3.24.0.bb
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index 4a6884e871..d64afffdc1 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -10,7 +10,7 @@ HOMEPAGE = "http://www.cmake.org/"
- BUGTRACKER = "http://public.kitware.com/Bug/my_view_page.php"
- SECTION = "console/utils"
- LICENSE = "BSD-3-Clause"
--LIC_FILES_CHKSUM = "file://Copyright.txt;md5=f2102a52df7aa592cf072180e7ebc8c7 \
-+LIC_FILES_CHKSUM = "file://Copyright.txt;md5=45025187a129339459b6f1a24f7fac6e \
-                     file://Source/cmake.h;beginline=1;endline=2;md5=a5f70e1fef8614734eae0d62b4f5891b \
-                     "
+diff --git a/meta/recipes-graphics/wayland/weston_10.0.2.bb b/meta/recipes-graphics/wayland/weston_10.0.2.bb
+index f81a33fd1e..786d12be61 100644
+--- a/meta/recipes-graphics/wayland/weston_10.0.2.bb
++++ b/meta/recipes-graphics/wayland/weston_10.0.2.bb
+@@ -16,6 +16,7 @@ SRC_URI = "https://gitlab.freedesktop.org/wayland/weston/-/releases/${PV}/downlo
+ SRC_URI[sha256sum] = "89646ca0d9f8d413c2767e5c3828eaa3fa149c2a105b3729a6894fa7cf1549e7"
  
-@@ -21,7 +21,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-            file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
- "
+ UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
++UPSTREAM_CHECK_REGEX = "weston-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
  
--SRC_URI[sha256sum] = "f316b40053466f9a416adf981efda41b160ca859e97f6a484b447ea299ff26aa"
-+SRC_URI[sha256sum] = "c2b61f7cdecb1576cad25f918a8f42b8685d88a832fd4b62b9e0fa32e915a658"
+ inherit meson pkgconfig useradd
  
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/cmake/cmake_3.23.2.bb b/meta/recipes-devtools/cmake/cmake_3.24.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_3.23.2.bb
-rename to meta/recipes-devtools/cmake/cmake_3.24.0.bb
 -- 
 2.30.2
 
