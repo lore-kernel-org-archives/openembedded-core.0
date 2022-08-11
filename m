@@ -2,66 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 483E7C3F6B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46BFBC19F2A
 	for <webhook@archiver.kernel.org>; Thu, 11 Aug 2022 19:58:21 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web09.2535.1660247897246539726
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web12.2436.1660247892073097023
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Aug 2022 12:58:17 -0700
+ Thu, 11 Aug 2022 12:58:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jF71PdXC;
- spf=pass (domain: gmail.com, ip: 209.85.218.46,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CCxNKuUe;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id gk3so35284346ejb.8
+Received: by mail-ej1-f48.google.com with SMTP id kb8so35332391ejc.4
         for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Aug 2022 12:58:17 -0700 (PDT)
+ Thu, 11 Aug 2022 12:58:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=FlvBb4qfT8GhoNLT2aYsFZMksW5VrnFAShCHxt5jQSg=;
-        b=jF71PdXCCsaMPoUdtm6iHsKy7PF8pxHsyXxzDksQaeGpJ09PDqW0rbdE0/mkFScaSK
-         ceS/Brdg+e9NaC5ZdY2UQ6q/UDjkQS/nFWR1e+O+Jrml4dvE8oSxScGaq7WznNMhWTh/
-         mLgpijoAV89MqJ6iiH0DNP8pkQ200Sk//jgHSWf6/ER6kJgM7TYrkbShzL3JrMs0JQeX
-         X5dyy8x3j54m4SVXjqWWgC1rhCkUrGyy5MofNWit23OjtQxKLt0UgV3GrjodJm9Pg4wZ
-         rH7vUpttOt35HWgxu9eiOcULjn/rDL34TeYKnRAd50qZb0JgJxW0DSgSBaVBQjOhYdwX
-         YeBg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=wuRDtjwmnEv/DEUkknv6C9mF1VFKMthY8Z5Py0fVFiw=;
+        b=CCxNKuUek0equzH3uY2ZCyZBsX+UOhxPN5GUiwNDbEzBr6axhftlLOv1oaHL+/MSft
+         3J+PNA53i6MRsVj4KRO8FT8PfUpZ+y3cQxjYoAEcE70MsbXyyLsS3GdieWzPhLtYB/v6
+         B5Pj4K2f3lRXxhz7IUDSRZwAEBg9LDPO+f2n1HM/8pm2TMxQy/Dq4WvmSfjRjC44V6ld
+         9gxWoibPirhuuVEXZfCJh7MFTSF6JUiG6dKlxqVzg8k0grvdDxtw/pZr2/+LVWHp1Ngn
+         f0nbuzeygeV+WNLFAzzA9rSBw5JhMCNHITW6K9xwWkv84FAZON8Q8Z9tNN65EyP/SIxu
+         bZdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=FlvBb4qfT8GhoNLT2aYsFZMksW5VrnFAShCHxt5jQSg=;
-        b=DvNV1URdTf8ppD4Hk8BSapF2TeKRilGhR97ueExRcaDCJYVc1w8NNal0aIpBj5C28t
-         tUKMv+PrVhu8egnB6F7fs7IkWXFpzrWQCfCKSjFdUQSQKl5eV+E+g/0FGsFQEUPfuiRz
-         qlYeUY2YtKccW3QYAxf+1AUq8GbJV0EZ/mfcMDoU1Lvi5nxL8zUzammekLMYWwoX+Xng
-         CWxgrs+bdLQD2EO0xDK71t3jXKmeA77SLcmKNlVmo+PJ801EAyHmXxjXccUyaSLGlgNA
-         xmAqcqZd/fLQJuQSnrv0VAZECIo2SefiGVF/1Q/pTGdN2Pd287Uy81JpS2IKO8Ag5JSx
-         Mtdg==
-X-Gm-Message-State: ACgBeo02URHtmQqliEk7uAHcdwprYOjQ0ZysXpfhr2w3kUfeeVJyI+fU
-	76RnMm7qn6s0cwq76G3VQYg6FmcBacI=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=wuRDtjwmnEv/DEUkknv6C9mF1VFKMthY8Z5Py0fVFiw=;
+        b=y+1HtxIKV8MEZWn4DCf1PfnVlljBAjPYEapcDxu6f9fTiGp81ukv3vTsJQKJrx1tDn
+         g1DHmV1c0Zo717taDpsuHi3bcewJPYcbbHWTMZfmcn5044GMB0UIddiS3kRArr0iDJ1F
+         CCQm4WJYX1u39e2OJ2E+VbJ6qSSqOEeRnpTgmYauyP9kFvytZ5ldHQxJzU5UIcDtyVvW
+         iXYSZun+mM+DTDPeb2b/z+7wSLHPZm1HngIQVAoUzJWnV7qz94ZmtotTHkl4dFjjUoTN
+         EaOp+9C9ynLveyRx+JpCUUlFbwkVbhdcAYxfUC/MY9GqUWxs62hWUHmRKch2WBEcYCCY
+         IMJQ==
+X-Gm-Message-State: ACgBeo0xsN22e45dnlWP7MP/fsuXt2M3MNQNhP4DihB4PQwXVia7SoqS
+	tuTskhEL4DrX8Zx894zyhKCjE/A0A6Q=
 X-Google-Smtp-Source: 
- AA6agR4I/MalY0P6F3GvkEs0LP3vN8/pg8QcmqJGqsyLdPo38pSiWYutXKB/qeKtOv2v1tSDAMO6cQ==
-X-Received: by 2002:a17:907:2707:b0:730:af0b:3572 with SMTP id
- w7-20020a170907270700b00730af0b3572mr411067ejk.411.1660247895510;
-        Thu, 11 Aug 2022 12:58:15 -0700 (PDT)
+ AA6agR7fJK3ku9xpYkAbMnk35AW022Hwm31jlv2vk1mDoTx4sBNto+NBdSNJJDADdemGWOhon8Or7A==
+X-Received: by 2002:a17:906:845c:b0:730:bbf1:196a with SMTP id
+ e28-20020a170906845c00b00730bbf1196amr443512ejy.13.1660247890407;
+        Thu, 11 Aug 2022 12:58:10 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- fu18-20020a170907b01200b007308bdef04bsm22010ejc.103.2022.08.11.12.58.14
+ fu18-20020a170907b01200b007308bdef04bsm22010ejc.103.2022.08.11.12.58.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Aug 2022 12:58:15 -0700 (PDT)
+        Thu, 11 Aug 2022 12:58:09 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 6/7] patchelf: replace a rejected patch with an equivalent
- uninative.bbclass tweak
-Date: Thu, 11 Aug 2022 21:58:05 +0200
-Message-Id: <20220811195806.1571221-6-alex@linutronix.de>
+Subject: [PATCH 1/7] dropbear: merge .inc into .bb
+Date: Thu, 11 Aug 2022 21:58:00 +0200
+Message-Id: <20220811195806.1571221-1-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220811195806.1571221-1-alex@linutronix.de>
-References: <20220811195806.1571221-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -69,116 +66,285 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 11 Aug 2022 19:58:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169268
-
-This was the original reason to add the patch:
-https://git.openembedded.org/openembedded-core/commit/?id=18efcbcb896239c64fedd009ce57f3f0c668cbc0
-
-and this is the upstream discussion which suggests handling
-read-only files explicitly outside of patchelf:
-https://github.com/NixOS/patchelf/pull/89
+ https://lists.openembedded.org/g/openembedded-core/message/169263
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/classes/uninative.bbclass                |  2 +
- .../patchelf/handle-read-only-files.patch     | 63 -------------------
- .../patchelf/patchelf_0.15.0.bb               |  1 -
- 3 files changed, 2 insertions(+), 64 deletions(-)
- delete mode 100644 meta/recipes-devtools/patchelf/patchelf/handle-read-only-files.patch
+ meta/recipes-core/dropbear/dropbear.inc       | 128 -----------------
+ .../recipes-core/dropbear/dropbear_2022.82.bb | 129 +++++++++++++++++-
+ 2 files changed, 128 insertions(+), 129 deletions(-)
+ delete mode 100644 meta/recipes-core/dropbear/dropbear.inc
 
-diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
-index 6a9e862bcd..7f0591d49a 100644
---- a/meta/classes/uninative.bbclass
-+++ b/meta/classes/uninative.bbclass
-@@ -167,5 +167,7 @@ python uninative_changeinterp () {
-             if not elf.isDynamic():
-                 continue
- 
-+            os.chmod(f, s[stat.ST_MODE] | stat.S_IWUSR)
-             subprocess.check_output(("patchelf-uninative", "--set-interpreter", d.getVar("UNINATIVE_LOADER"), f), stderr=subprocess.STDOUT)
-+            os.chmod(f, s[stat.ST_MODE])
- }
-diff --git a/meta/recipes-devtools/patchelf/patchelf/handle-read-only-files.patch b/meta/recipes-devtools/patchelf/patchelf/handle-read-only-files.patch
+diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
 deleted file mode 100644
-index 76ad8d9d4d..0000000000
---- a/meta/recipes-devtools/patchelf/patchelf/handle-read-only-files.patch
+index e170587d08..0000000000
+--- a/meta/recipes-core/dropbear/dropbear.inc
 +++ /dev/null
-@@ -1,63 +0,0 @@
--From 38b3d65f4a79d39ad9cdf841f2b3b29fd0c961ca Mon Sep 17 00:00:00 2001
--From: Fabio Berton <fabio.berton@ossystems.com.br>
--Date: Fri, 9 Sep 2016 16:00:42 -0300
--Subject: [PATCH] handle read-only files
+@@ -1,128 +0,0 @@
+-SUMMARY = "A lightweight SSH and SCP implementation"
+-HOMEPAGE = "http://matt.ucc.asn.au/dropbear/dropbear.html"
+-DESCRIPTION = "Dropbear is a relatively small SSH server and client. It runs on a variety of POSIX-based platforms. Dropbear is open source software, distributed under a MIT-style license. Dropbear is particularly useful for "embedded"-type Linux (or other Unix) systems, such as wireless routers."
+-SECTION = "console/network"
 -
--Patch from:
--https://github.com/darealshinji/patchelf/commit/40e66392bc4b96e9b4eda496827d26348a503509
+-# some files are from other projects and have others license terms:
+-#   public domain, OpenSSH 3.5p1, OpenSSH3.6.1p2, PuTTY
+-LICENSE = "MIT & BSD-3-Clause & BSD-2-Clause & PD"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=25cf44512b7bc8966a48b6b1a9b7605f"
 -
--Upstream-Status: Denied [https://github.com/NixOS/patchelf/pull/89]
+-DEPENDS = "zlib virtual/crypt"
+-RPROVIDES:${PN} = "ssh sshd"
+-RCONFLICTS:${PN} = "openssh-sshd openssh"
 -
--Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
-----
-- src/patchelf.cc | 18 +++++++++++++-----
-- 1 file changed, 13 insertions(+), 5 deletions(-)
+-DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
 -
--diff --git a/src/patchelf.cc b/src/patchelf.cc
--index 49accae..fb6c7ed 100644
----- a/src/patchelf.cc
--+++ b/src/patchelf.cc
--@@ -378,8 +378,16 @@ void ElfFile<ElfFileParamNames>::sortShdrs()
-- 
-- static void writeFile(const std::string & fileName, const FileContents & contents)
-- {
--+    struct stat st;
--+
--     debug("writing %s\n", fileName.c_str());
-- 
--+    if (stat(fileName.c_str(), &st) != 0)
--+        error("stat");
--+
--+    if (chmod(fileName.c_str(), 0600) != 0)
--+        error("chmod");
--+
--     int fd = open(fileName.c_str(), O_CREAT | O_TRUNC | O_WRONLY | O_BINARY, 0777);
--     if (fd == -1)
--         error("open");
--@@ -395,8 +403,6 @@ static void writeFile(const std::string & fileName, const FileContents & content
--         bytesWritten += portion;
--     }
-- 
---    if (close(fd) >= 0)
---        return;
--     /*
--      * Just ignore EINTR; a retry loop is the wrong thing to do.
--      *
--@@ -405,9 +411,11 @@ static void writeFile(const std::string & fileName, const FileContents & content
--      * http://utcc.utoronto.ca/~cks/space/blog/unix/CloseEINTR
--      * https://sites.google.com/site/michaelsafyan/software-engineering/checkforeintrwheninvokingclosethinkagain
--      */
---    if (errno == EINTR)
---        return;
---    error("close");
--+    if ((close(fd) < 0) && errno != EINTR)
--+        error("close");
--+
--+    if (chmod(fileName.c_str(), st.st_mode) != 0)
--+        error("chmod");
-- }
-- 
-- 
---- 
--2.30.2
+-SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
+-           file://0001-urandom-xauth-changes-to-options.h.patch \
+-           file://init \
+-           file://dropbearkey.service \
+-           file://dropbear@.service \
+-           file://dropbear.socket \
+-           file://dropbear.default \
+-           ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+-           ${@bb.utils.contains('PACKAGECONFIG', 'disable-weak-ciphers', 'file://dropbear-disable-weak-ciphers.patch', '', d)} "
 -
-diff --git a/meta/recipes-devtools/patchelf/patchelf_0.15.0.bb b/meta/recipes-devtools/patchelf/patchelf_0.15.0.bb
-index 389a0a9f40..e07775f574 100644
---- a/meta/recipes-devtools/patchelf/patchelf_0.15.0.bb
-+++ b/meta/recipes-devtools/patchelf/patchelf_0.15.0.bb
-@@ -5,7 +5,6 @@ HOMEPAGE = "https://github.com/NixOS/patchelf"
- LICENSE = "GPL-3.0-only"
+-PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
+-               file://0006-dropbear-configuration-file.patch \
+-               file://dropbear"
+-
+-PAM_PLUGINS = "libpam-runtime \
+-	pam-plugin-deny \
+-	pam-plugin-permit \
+-	pam-plugin-unix \
+-	"
+-RDEPENDS:${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_PLUGINS}', '', d)}"
+-
+-inherit autotools update-rc.d systemd
+-
+-CVE_PRODUCT = "dropbear_ssh"
+-
+-INITSCRIPT_NAME = "dropbear"
+-INITSCRIPT_PARAMS = "defaults 10"
+-
+-SYSTEMD_SERVICE:${PN} = "dropbear.socket"
+-
+-SBINCOMMANDS = "dropbear dropbearkey dropbearconvert"
+-BINCOMMANDS = "dbclient ssh scp"
+-EXTRA_OEMAKE = 'MULTI=1 SCPPROGRESS=1 PROGRAMS="${SBINCOMMANDS} ${BINCOMMANDS}"'
+-
+-PACKAGECONFIG ?= "disable-weak-ciphers"
+-PACKAGECONFIG[system-libtom] = "--disable-bundled-libtom,--enable-bundled-libtom,libtommath libtomcrypt"
+-PACKAGECONFIG[disable-weak-ciphers] = ""
+-
+-EXTRA_OECONF += "\
+- ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '--enable-pam', '--disable-pam', d)}"
+-
+-# This option appends to CFLAGS and LDFLAGS from OE
+-# This is causing [textrel] QA warning
+-EXTRA_OECONF += "--disable-harden"
+-
+-# musl does not implement wtmp/logwtmp APIs
+-EXTRA_OECONF:append:libc-musl = " --disable-wtmp --disable-lastlog"
+-
+-do_install() {
+-	install -d ${D}${sysconfdir} \
+-		${D}${sysconfdir}/init.d \
+-		${D}${sysconfdir}/default \
+-		${D}${sysconfdir}/dropbear \
+-		${D}${bindir} \
+-		${D}${sbindir} \
+-		${D}${localstatedir}
+-
+-	install -m 0644 ${WORKDIR}/dropbear.default ${D}${sysconfdir}/default/dropbear
+-
+-	install -m 0755 dropbearmulti ${D}${sbindir}/
+-
+-	for i in ${BINCOMMANDS}
+-	do
+-		# ssh and scp symlinks are created by update-alternatives
+-		if [ $i = ssh ] || [ $i = scp ]; then continue; fi
+-		ln -s ${sbindir}/dropbearmulti ${D}${bindir}/$i
+-	done
+-	for i in ${SBINCOMMANDS}
+-	do
+-		ln -s ./dropbearmulti ${D}${sbindir}/$i
+-	done
+-	sed -e 's,/etc,${sysconfdir},g' \
+-		-e 's,/usr/sbin,${sbindir},g' \
+-		-e 's,/var,${localstatedir},g' \
+-		-e 's,/usr/bin,${bindir},g' \
+-		-e 's,/usr,${prefix},g' ${WORKDIR}/init > ${D}${sysconfdir}/init.d/dropbear
+-	chmod 755 ${D}${sysconfdir}/init.d/dropbear
+-	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}" ]; then
+-		install -d ${D}${sysconfdir}/pam.d
+-		install -m 0644 ${WORKDIR}/dropbear  ${D}${sysconfdir}/pam.d/
+-	fi
+-
+-	# deal with systemd unit files
+-	install -d ${D}${systemd_system_unitdir}
+-	install -m 0644 ${WORKDIR}/dropbearkey.service ${D}${systemd_system_unitdir}
+-	install -m 0644 ${WORKDIR}/dropbear@.service ${D}${systemd_system_unitdir}
+-	install -m 0644 ${WORKDIR}/dropbear.socket ${D}${systemd_system_unitdir}
+-	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
+-		-e 's,@BINDIR@,${bindir},g' \
+-		-e 's,@SBINDIR@,${sbindir},g' \
+-		${D}${systemd_system_unitdir}/dropbear.socket ${D}${systemd_system_unitdir}/*.service
+-}
+-
+-inherit update-alternatives
+-
+-ALTERNATIVE_PRIORITY = "20"
+-ALTERNATIVE:${PN} = "${@bb.utils.filter('BINCOMMANDS', 'scp ssh', d)}"
+-
+-ALTERNATIVE_TARGET = "${sbindir}/dropbearmulti"
+-
+-pkg_postrm:${PN} () {
+-  if [ -f "${sysconfdir}/dropbear/dropbear_rsa_host_key" ]; then
+-        rm ${sysconfdir}/dropbear/dropbear_rsa_host_key
+-  fi
+-  if [ -f "${sysconfdir}/dropbear/dropbear_dss_host_key" ]; then
+-        rm ${sysconfdir}/dropbear/dropbear_dss_host_key
+-  fi
+-}
+-
+-CONFFILES:${PN} = "${sysconfdir}/default/dropbear"
+-
+-FILES:${PN} += "${bindir}"
+diff --git a/meta/recipes-core/dropbear/dropbear_2022.82.bb b/meta/recipes-core/dropbear/dropbear_2022.82.bb
+index 154a407a19..2de243b889 100644
+--- a/meta/recipes-core/dropbear/dropbear_2022.82.bb
++++ b/meta/recipes-core/dropbear/dropbear_2022.82.bb
+@@ -1,3 +1,130 @@
+-require dropbear.inc
++SUMMARY = "A lightweight SSH and SCP implementation"
++HOMEPAGE = "http://matt.ucc.asn.au/dropbear/dropbear.html"
++DESCRIPTION = "Dropbear is a relatively small SSH server and client. It runs on a variety of POSIX-based platforms. Dropbear is open source software, distributed under a MIT-style license. Dropbear is particularly useful for "embedded"-type Linux (or other Unix) systems, such as wireless routers."
++SECTION = "console/network"
++
++# some files are from other projects and have others license terms:
++#   public domain, OpenSSH 3.5p1, OpenSSH3.6.1p2, PuTTY
++LICENSE = "MIT & BSD-3-Clause & BSD-2-Clause & PD"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=25cf44512b7bc8966a48b6b1a9b7605f"
++
++DEPENDS = "zlib virtual/crypt"
++RPROVIDES:${PN} = "ssh sshd"
++RCONFLICTS:${PN} = "openssh-sshd openssh"
++
++DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
++
++SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
++           file://0001-urandom-xauth-changes-to-options.h.patch \
++           file://init \
++           file://dropbearkey.service \
++           file://dropbear@.service \
++           file://dropbear.socket \
++           file://dropbear.default \
++           ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
++           ${@bb.utils.contains('PACKAGECONFIG', 'disable-weak-ciphers', 'file://dropbear-disable-weak-ciphers.patch', '', d)} "
  
- SRC_URI = "git://github.com/NixOS/patchelf;protocol=https;branch=master \
--           file://handle-read-only-files.patch \
-            "
- SRCREV = "49008002562355b0e35075cbc1c42c645ff04e28"
- 
+ SRC_URI[sha256sum] = "3a038d2bbc02bf28bbdd20c012091f741a3ec5cbe460691811d714876aad75d1"
++
++PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
++               file://0006-dropbear-configuration-file.patch \
++               file://dropbear"
++
++PAM_PLUGINS = "libpam-runtime \
++	pam-plugin-deny \
++	pam-plugin-permit \
++	pam-plugin-unix \
++	"
++RDEPENDS:${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_PLUGINS}', '', d)}"
++
++inherit autotools update-rc.d systemd
++
++CVE_PRODUCT = "dropbear_ssh"
++
++INITSCRIPT_NAME = "dropbear"
++INITSCRIPT_PARAMS = "defaults 10"
++
++SYSTEMD_SERVICE:${PN} = "dropbear.socket"
++
++SBINCOMMANDS = "dropbear dropbearkey dropbearconvert"
++BINCOMMANDS = "dbclient ssh scp"
++EXTRA_OEMAKE = 'MULTI=1 SCPPROGRESS=1 PROGRAMS="${SBINCOMMANDS} ${BINCOMMANDS}"'
++
++PACKAGECONFIG ?= "disable-weak-ciphers"
++PACKAGECONFIG[system-libtom] = "--disable-bundled-libtom,--enable-bundled-libtom,libtommath libtomcrypt"
++PACKAGECONFIG[disable-weak-ciphers] = ""
++
++EXTRA_OECONF += "\
++ ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '--enable-pam', '--disable-pam', d)}"
++
++# This option appends to CFLAGS and LDFLAGS from OE
++# This is causing [textrel] QA warning
++EXTRA_OECONF += "--disable-harden"
++
++# musl does not implement wtmp/logwtmp APIs
++EXTRA_OECONF:append:libc-musl = " --disable-wtmp --disable-lastlog"
++
++do_install() {
++	install -d ${D}${sysconfdir} \
++		${D}${sysconfdir}/init.d \
++		${D}${sysconfdir}/default \
++		${D}${sysconfdir}/dropbear \
++		${D}${bindir} \
++		${D}${sbindir} \
++		${D}${localstatedir}
++
++	install -m 0644 ${WORKDIR}/dropbear.default ${D}${sysconfdir}/default/dropbear
++
++	install -m 0755 dropbearmulti ${D}${sbindir}/
++
++	for i in ${BINCOMMANDS}
++	do
++		# ssh and scp symlinks are created by update-alternatives
++		if [ $i = ssh ] || [ $i = scp ]; then continue; fi
++		ln -s ${sbindir}/dropbearmulti ${D}${bindir}/$i
++	done
++	for i in ${SBINCOMMANDS}
++	do
++		ln -s ./dropbearmulti ${D}${sbindir}/$i
++	done
++	sed -e 's,/etc,${sysconfdir},g' \
++		-e 's,/usr/sbin,${sbindir},g' \
++		-e 's,/var,${localstatedir},g' \
++		-e 's,/usr/bin,${bindir},g' \
++		-e 's,/usr,${prefix},g' ${WORKDIR}/init > ${D}${sysconfdir}/init.d/dropbear
++	chmod 755 ${D}${sysconfdir}/init.d/dropbear
++	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}" ]; then
++		install -d ${D}${sysconfdir}/pam.d
++		install -m 0644 ${WORKDIR}/dropbear  ${D}${sysconfdir}/pam.d/
++	fi
++
++	# deal with systemd unit files
++	install -d ${D}${systemd_system_unitdir}
++	install -m 0644 ${WORKDIR}/dropbearkey.service ${D}${systemd_system_unitdir}
++	install -m 0644 ${WORKDIR}/dropbear@.service ${D}${systemd_system_unitdir}
++	install -m 0644 ${WORKDIR}/dropbear.socket ${D}${systemd_system_unitdir}
++	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
++		-e 's,@BINDIR@,${bindir},g' \
++		-e 's,@SBINDIR@,${sbindir},g' \
++		${D}${systemd_system_unitdir}/dropbear.socket ${D}${systemd_system_unitdir}/*.service
++}
++
++inherit update-alternatives
++
++ALTERNATIVE_PRIORITY = "20"
++ALTERNATIVE:${PN} = "${@bb.utils.filter('BINCOMMANDS', 'scp ssh', d)}"
++
++ALTERNATIVE_TARGET = "${sbindir}/dropbearmulti"
++
++pkg_postrm:${PN} () {
++  if [ -f "${sysconfdir}/dropbear/dropbear_rsa_host_key" ]; then
++        rm ${sysconfdir}/dropbear/dropbear_rsa_host_key
++  fi
++  if [ -f "${sysconfdir}/dropbear/dropbear_dss_host_key" ]; then
++        rm ${sysconfdir}/dropbear/dropbear_dss_host_key
++  fi
++}
++
++CONFFILES:${PN} = "${sysconfdir}/default/dropbear"
++
++FILES:${PN} += "${bindir}"
 -- 
 2.30.2
 
