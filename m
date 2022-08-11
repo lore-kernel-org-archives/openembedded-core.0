@@ -2,123 +2,114 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FD96C25B06
-	for <webhook@archiver.kernel.org>; Thu, 11 Aug 2022 15:41:40 +0000 (UTC)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.web09.7922.1660232496011822469
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 655B7C19F2A
+	for <webhook@archiver.kernel.org>; Thu, 11 Aug 2022 15:52:10 +0000 (UTC)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web11.8216.1660233125900293518
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Aug 2022 08:41:36 -0700
+ Thu, 11 Aug 2022 08:52:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jjFgNK8u;
- spf=pass (domain: gmail.com, ip: 209.85.208.182,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=j+v5rsAG;
+ spf=pass (domain: gmail.com, ip: 209.85.167.44,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f182.google.com with SMTP id bx38so19670101ljb.10
+Received: by mail-lf1-f44.google.com with SMTP id d14so26064907lfl.13
         for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Aug 2022 08:41:35 -0700 (PDT)
+ Thu, 11 Aug 2022 08:52:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=3ra7BiYRoASLgZve3cAiAKGulHO1BNSrzQSHVxy3dJA=;
-        b=jjFgNK8uov4y2CU3kBjCsRtEHLDZ8igQzGj9NuQvqOegfClzlOaetdUUFi1ychFpwf
-         00VyACfheiSpLuwfFQturqUR3eXwVTBxcvC0j/PiCkE5uDsA1xu9jQtIhMSx2m3p5znQ
-         9b48rMH4we5Wc6MoQVSvghfjENVuxHA7SHnhqFIviiSASTGHrJBtKJefY1U9Lw/+CzcT
-         wBv7VpYdRHWhJAZRLyO9fM6vlWaUbGzgFY/HSeeqIRAwY9HkaJjov/yZGIZf+QRkK+IS
-         tqgVK3Yob9ndg4Vvt5ZoRvsFgO/yja8OJgTXeJpAfc0xdNwaq/akiAZiQUqAfiI+i8Dl
-         i8IQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=1ju6oBQwkOvSwckVB6jC6pHybofiCawrmtcNVZdCc6c=;
+        b=j+v5rsAGTL/sxeX9aMFDumscM+5oPWzZC5wLTp6nhh2vQZJZlNFWQJ1nb6tOrIvs7c
+         aeT0OXnbIF1SWNpWRgrpu/PFtY07Bs3mZlLmBWTGRQbrYK/1WUbwGlDmLHrMchaQphfk
+         dIeC+KUpM0HtqmlRrXA9LPzojdgOb90p1fkz84R2fJnABK97dbpjZzNZPWYRzLMNsjTb
+         eU1K4ifS41xafMkdXlMsYf0HNYjOwPH+q5DUFl6i0w3BppMm7b3VCPOYk2U0Mg3ZHULR
+         oFXdhWFyaKQUqZVDJ5x6VX00FW9v0E7GbIPiMcHpkolT3ntYeXaDLZ4YDYXJx8+Be7nl
+         S+Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=3ra7BiYRoASLgZve3cAiAKGulHO1BNSrzQSHVxy3dJA=;
-        b=lLpzjnn7ERkGGh0DcPgmgDvq19iGD6dwelEkiDnvyl0r6CC2mm0HOhpb5mB/vF8gWw
-         11KSlIMHYHHVe2qZGKIuD64vM5Yax85zHO2DZR81QrQ2n6mG+pVmGvyEU5HHTq7MFTR8
-         F2qdd0DKhEzYAnEkJGg9gA8JExCzel9cF9HNq79Okcl4BehKvOpA7G8Xr7hAGDU6yI4t
-         pvvCHMytDk/CFphrmsYDIeOi6l7UhIEMfZilDiBo+oBv7Xd3Rko+h8VRHOkARehtW3Nw
-         sEw5O4TURA2QqveZ8zMM0m1gg7Qv0cMTLzf2lFLGdt35onIq6JSxI2Od/dqT+ESJZ3/v
-         7nTg==
-X-Gm-Message-State: ACgBeo0KYe00ojx2rzLo6j3gmHlifIr1jzM8j4aI6BsELhP7V4Xxgrwa
-	r3JTuO8flCh6eQEOvqetkhdecPNtIoxHRYtRxpI=
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=1ju6oBQwkOvSwckVB6jC6pHybofiCawrmtcNVZdCc6c=;
+        b=PK3hlRoROGdC8jAnmk4IyXaJEY9AxRPWtdYxQ913XpQYhJDw4FRuDqFjjkL6kKyhux
+         rw5KumB56MPeEilDpy9JajAzKydpWzDum1lpRZbmm6PfwBeJbjJrz04P2sfXSUB8J895
+         yNqrxVr01RGdVptJ1/oGSwq9BaLEjW1374xoA3OYe073CCGzHnqKTqJKFFRrh82/T7wE
+         oiqXcrChFpaelyRPivpWBANxpeyVPyXlDC93d1IR2zhqdFJ6wQFjrAGeu0XxPN/bv3S+
+         HJVbMLIoX1TmEv0HqitPRQ62RawWVWRbDeqSQ8l9RWkdCkbJqt961v/2SdFgbfklS2x9
+         LRgg==
+X-Gm-Message-State: ACgBeo2JSqJ5HZY0iK47m0aJR+EWgfVBow7FyRCj0NGVj9afgm88rv3G
+	XvxxLKCtbB8ZxQJn50A7bXhmI0YSprVrcXt/nTE=
 X-Google-Smtp-Source: 
- AA6agR6e76WB6XWsP0a4aAfP/rTwtgdLQhx20UK1vcm0mgShGvX3vmeJbKb2LtbzCOklQORYl4Mq9OJS1R4te7w47V0=
-X-Received: by 2002:a2e:3a09:0:b0:25e:4212:5628 with SMTP id
- h9-20020a2e3a09000000b0025e42125628mr9810778lja.68.1660232494199; Thu, 11 Aug
- 2022 08:41:34 -0700 (PDT)
+ AA6agR6uyBzCE1OHmj9ry+JUKlsneGq02QFRrvCuD+LVxhIzAuAtqD+xKkLKvp6PE8wdsqEf/SAAE/FCNOiEA7K+/to=
+X-Received: by 2002:a05:6512:3455:b0:48b:c5c:6689 with SMTP id
+ j21-20020a056512345500b0048b0c5c6689mr12462332lfr.673.1660233123634; Thu, 11
+ Aug 2022 08:52:03 -0700 (PDT)
 MIME-Version: 1.0
-References: 
- <5c34f311-8120-42a8-bfe7-18c90a5fabd6@denue6es010.ebgroup.elektrobit.com>
- <CANNYZj_6O9M+VC+1Z3YLFwqppQR3Ns8d9P523JuAjiM-mh33RA@mail.gmail.com>
- <2465e917a63704c5acf072d6c9183f9a8e1d25b3.camel@elektrobit.com>
-In-Reply-To: <2465e917a63704c5acf072d6c9183f9a8e1d25b3.camel@elektrobit.com>
+References: <20220811154005.4084669-1-trini@konsulko.com>
+In-Reply-To: <20220811154005.4084669-1-trini@konsulko.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 11 Aug 2022 17:41:22 +0200
+Date: Thu, 11 Aug 2022 17:51:52 +0200
 Message-ID: 
- <CANNYZj8yGefw7sniQeTfaU4XnHOtD_wJF0Q7Gv+NTcrmiVAyKw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] json-c: Add ptest for json-c
-To: =?UTF-8?Q?Wei=C3=9F=2C_Simone?= <Simone.Weiss@elektrobit.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>,
-	"Tomerius, Kai" <Kai.Tomerius@elektrobit.com>
+ <CANNYZj82WqbCr2MktnE8GrowoRiXL=W2GGOVpgzgi9Ud9YJJOg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] qemux86-64: Allow higher tunes
+To: Tom Rini <trini@konsulko.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Joshua Watt <JPEWhacker@gmail.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Aug 2022 15:41:40 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Aug 2022 15:52:10 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169249
+ https://lists.openembedded.org/g/openembedded-core/message/169250
 
-Just to be sure, did you use qemu with kvm option? I find it odd that
-json library tests would take this long. Can you double check what
-they do? We can't afford to extend ptest run time indefinitely, it's
-already close to 4 hours.
+This is less useful than it may seem, and merely moves the supported
+CPU from circa-2006 core 2 to circa-2008 core i7. You won't get AVX or
+anything newer, which requires adding these instructions to qemu
+usermode (a project I'd like to do if I had the time).
 
 Alex
 
-On Thu, 11 Aug 2022 at 17:26, Wei=C3=9F, Simone <Simone.Weiss@elektrobit.co=
-m> wrote:
+On Thu, 11 Aug 2022 at 17:40, Tom Rini <trini@konsulko.com> wrote:
 >
-> Hi,
+> Back in 0be64e54a0e6 ("qemux86: Allow higher tunes") we moved the
+> qemux86 machine to using the core-i7 tune file, for maximum flexibility
+> and to allow for enabling advanced processor features if desired or
+> required by various packagess, without changing the default tune. Do the
+> same now for qemux86-64.
 >
-> For me it took around ~500 seconds. I considered it as slow, as
-> `PTESTS_FAST` should take around ~30 seconds according to the comment
-> on ptest-packagelists.inc.
+> Cc: Joshua Watt <JPEWhacker@gmail.com>
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Tom Rini <trini@konsulko.com>
+> ---
+>  meta/conf/machine/qemux86-64.conf | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Simone
-> On Thu, 2022-08-11 at 10:23 +0200, Alexander Kanavin via
-> lists.openembedded.org wrote:
-> > CAUTION: This email originated from outside of the Elektrobit
-> > organization. Do not click links or open attachments unless you
-> > recognize the sender and know the content is safe.
-> >
-> >
-> > On Wed, 10 Aug 2022 at 21:40, Simone Weiss <
-> > simone.weiss@elektrobit.com> wrote:
-> > > --- a/meta/conf/distro/include/ptest-packagelists.inc
-> > > +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> > > @@ -87,6 +87,7 @@ PTESTS_SLOW =3D "\
-> > >      findutils-ptest \
-> > >      glib-2.0-ptest \
-> > >      gstreamer1.0-ptest \
-> > > +    json-c-ptest \
-> > >      libevent-ptest \
-> > >      libgcrypt-ptest \
-> > >      lttng-tools-ptest \
-> >
-> > How long do the tests take to execute? Do they have to be added to
-> > the
-> > slow list?
-> >
-> > Alex
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#169236):
-> > https://lists.openembedded.org/g/openembedded-core/message/169236
-> > Mute This Topic: https://lists.openembedded.org/mt/92944223/6639279
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
-> >  [simone.weiss@elektrobit.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+> diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
+> index 901353499c81..864086791179 100644
+> --- a/meta/conf/machine/qemux86-64.conf
+> +++ b/meta/conf/machine/qemux86-64.conf
+> @@ -10,7 +10,7 @@ PREFERRED_PROVIDER_virtual/libgles3 ?= "mesa"
+>
+>  require conf/machine/include/qemu.inc
+>  DEFAULTTUNE ?= "core2-64"
+> -require conf/machine/include/x86/tune-core2.inc
+> +require conf/machine/include/x86/tune-corei7.inc
+>  require conf/machine/include/x86/qemuboot-x86.inc
+>
+>  UBOOT_MACHINE ?= "qemu-x86_64_defconfig"
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#169248): https://lists.openembedded.org/g/openembedded-core/message/169248
+> Mute This Topic: https://lists.openembedded.org/mt/92961093/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
