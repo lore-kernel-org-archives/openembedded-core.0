@@ -1,145 +1,126 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7A80C19F2A
-	for <webhook@archiver.kernel.org>; Thu, 11 Aug 2022 16:33:10 +0000 (UTC)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com
- [209.85.219.46])
- by mx.groups.io with SMTP id smtpd.web12.8820.1660235580171904685
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F045C25B06
+	for <webhook@archiver.kernel.org>; Thu, 11 Aug 2022 16:39:10 +0000 (UTC)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
+ [209.85.128.181])
+ by mx.groups.io with SMTP id smtpd.web12.44.1660235944920175785
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Aug 2022 09:33:00 -0700
+ Thu, 11 Aug 2022 09:39:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20210112.gappssmtp.com header.s=20210112
- header.b=OBZ4IZBn;
- spf=pass (domain: ossystems.com.br, ip: 209.85.219.46,
- mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qv1-f46.google.com with SMTP id u10so1443209qvp.12
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ECYUim8I;
+ spf=pass (domain: gmail.com, ip: 209.85.128.181,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-32194238c77so178538037b3.4
         for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Aug 2022 09:32:59 -0700 (PDT)
+ Thu, 11 Aug 2022 09:39:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
-         :from:from:to:cc;
-        bh=cCJjdEONVyMlLFbTqTjGMPHY5iJJvoJmCsxgqXDjR3c=;
-        b=OBZ4IZBnBaWsuruo/0ptNQshS0300DXO8Q49WQ6CbrWxe28BREWUoo5Muflnnkoxr1
-         iicBy2m/3FO45Jl2Ue6mD8ZRUi0QPuKr3RWHF1FZv32BzjQ5Y6Sv8ZqmqlFCJjKggKKH
-         i8o5STGXzhpGn73CcFirAQ9xt/TqLw6LJNWRnPNgCfmvhNMDdXA3yuhS2DiF2gnfEQ+V
-         QwWh5g9S42AiRhD1UCdmbDadJgWF7YTN8Ts6crFg+XlC/zOHHkl7uAjM1XS7rPkLZTGg
-         2yTZybnBRYUAiZ3BEDpX2Fu/qZAFZiyr6Ja99GE/ANejM1QcGqMBzO0x7FgC2HD3GAJD
-         bkLQ==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=yL/Yh4g21LemSTFP3Ufi/OLaEUp/aaMNKCgmG+qS/M8=;
+        b=ECYUim8IBV8HECfoHYd+X6EQGNJKM0p/Jj2LqRK22mx9CtSBBxItRU3QTDgOIUPsMj
+         Fvq0AJAshDCsALWxHuT7U0XkFwU0CZR7EtDeLth+Y9Xcz4RVgkchLXMC4W4AOWNN09Pk
+         96aNPHZwgjCaO8tjt7hqE5g41P9agTFOSGqWo5HqV26ccR/6XHQPE9Aqv9PAe93YQLmi
+         uu9h0oypqFB2mOTXVhYHFARw7E91TVQQmLqxvt49wabhFsOLZQspBrKKJ0nRKwl0/vTx
+         y8REE+ue8AiB1JlGG+UyRGtuujTHFGPCsxeoQIXSB2GeMBURCRMJ4dum+jZPN6L8AOZn
+         Tv8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
-         :from:x-gm-message-state:from:to:cc;
-        bh=cCJjdEONVyMlLFbTqTjGMPHY5iJJvoJmCsxgqXDjR3c=;
-        b=Iwwvg7NUFmxDQxXNiIVgb5UoLUSl5F/VU233ZJ16MaWL8/MpxTLtwa5YTRWA27Rr+x
-         Aq7CmHL05r7hUUn/rgrQRM6a43D3r5anY2zOzpnnYDp2UD47ospn8Wt5EWIZ+rf+hFQX
-         AUU3AH79WQznqzEhx3RSvoUCOBiV3WgbeDyaBFjsLbJuHp4a0qjfMVlni/uh6ZZiq/Y0
-         4pxL/axYfyoFE/9vQHqvMsp7Mr2f2+lnZ94YlWCTaLcvm4nd72m5CNExu6ovhc3Uu7Ne
-         txIIwmGcBvaRMsePeDCVfwu/pU01TMqFmuifkAdJwJ4FkI4Q76NTjQzU6iOwfoEBm62r
-         d3eA==
-X-Gm-Message-State: ACgBeo3Vc6ArRrnH7AXAnfTZ1T5h3/GzYq+uZyxkYpdTpIp4an3xHOlS
-	G5+wTOUbpqbJv6+CTYt3f11/IgTbRNzSb4OH
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=yL/Yh4g21LemSTFP3Ufi/OLaEUp/aaMNKCgmG+qS/M8=;
+        b=X90FAHaVKT2inZdSjBf0K9YGPLqWvz/5MZnjox0Yg8dXUetoe31BwG6Ina6BSQFpiI
+         I01p7y6UoIiPr4DZ0zgNOBr+9y+O2sshZjdnGbyyGKhw4DYrOBx3XtkiWvTnmtC0Dx5Z
+         c0MzAICIEIgVNRSEBG5qtyYvQfNEuhrFkJOFOJ3tvWUg5RiqDyGTZoT78VW0HPvjESue
+         YoafMVsTXGDO6VSBRJAcl/63K9NRhI+IxPM1VDyoqkF1bDg6zLuDnfFJWI75pT/KP7kw
+         ruzon3cM9IumAHwboMfEZRGNq0r6gPeiUMw6H6ef4U3vlWbXd1B4NhGEggpcVVYl6xWt
+         iKzg==
+X-Gm-Message-State: ACgBeo3NYwW967cK3xlFL4uzjnDhLWYCc3nHIL/AuYGEM7RnAiuuhoDd
+	d90/iuzZ8PO6uVnp5LTTxtBKK9Km0L2o/we1T0o=
 X-Google-Smtp-Source: 
- AA6agR5HJtGylDymHHSDkLpucrnbVcWXB4aIAIAehkbXXZ/DpZK+6R1WBtv9pegSrkbEjFhfy045vQ==
-X-Received: by 2002:a0c:802c:0:b0:478:de2c:9b6f with SMTP id
- 41-20020a0c802c000000b00478de2c9b6fmr27178684qva.89.1660235578967;
-        Thu, 11 Aug 2022 09:32:58 -0700 (PDT)
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com.
- [209.85.160.171])
-        by smtp.gmail.com with ESMTPSA id
- z15-20020ac8430f000000b00342fa1f4a10sm1910005qtm.61.2022.08.11.09.32.58
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Aug 2022 09:32:58 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qt1-f171.google.com with SMTP id cb8so1101590qtb.0
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Aug 2022 09:32:58 -0700 (PDT)
-X-Received: by 2002:ac8:5a42:0:b0:343:4eed:43a with SMTP id
- o2-20020ac85a42000000b003434eed043amr10098206qta.90.1660235577773; Thu, 11
- Aug 2022 09:32:57 -0700 (PDT)
+ AA6agR5YPC9gTwMbIDUPQxy8ubaBNU57SYP+Zc8dHkxIUXU9nP+bLSP8sFJLGwyyaz9cTDPQNET5TGV9IbZaKR2HyQQ=
+X-Received: by 2002:a81:9144:0:b0:31f:5070:4241 with SMTP id
+ i65-20020a819144000000b0031f50704241mr63730ywg.282.1660235943943; Thu, 11 Aug
+ 2022 09:39:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220811161757.278819-1-jose.quaresma@foundries.io>
-In-Reply-To: <20220811161757.278819-1-jose.quaresma@foundries.io>
-Date: Thu, 11 Aug 2022 13:32:46 -0300
-X-Gmail-Original-Message-ID: 
- <CAP9ODKodJUGKZGcHM5WqqW-2=Z6iPNtddeo_99h-e_Dv1x_oJw@mail.gmail.com>
+References: <20220809145042.1789552-1-raj.khem@gmail.com>
+ <CA+chaQebygH34uZ0bwiUdMKrBV3Wsnx-G8Muv4zmFZR7kjAuGA@mail.gmail.com>
+In-Reply-To: 
+ <CA+chaQebygH34uZ0bwiUdMKrBV3Wsnx-G8Muv4zmFZR7kjAuGA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 11 Aug 2022 09:38:36 -0700
 Message-ID: 
- <CAP9ODKodJUGKZGcHM5WqqW-2=Z6iPNtddeo_99h-e_Dv1x_oJw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] module.bbclass: rebuild the modules when kernel
- change
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>, ricardo@foundries.io,
-	daiane.angolini@foundries.io, Otavio Salvador <otavio@ossystems.com.br>,
-	Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: multipart/alternative; boundary="000000000000db55b605e5f9b7ed"
+ <CAMKF1spGv2PBhkaSuhcRZnDrrAiyN3xD6bZM=rGbj0bV2ah7uQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] glibc: Update patch status
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Aug 2022 16:33:10 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Aug 2022 16:39:10 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169255
+ https://lists.openembedded.org/g/openembedded-core/message/169256
 
---000000000000db55b605e5f9b7ed
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Em qui., 11 de ago. de 2022 =C3=A0s 13:18, Jose Quaresma <quaresma.jose@gma=
-il.com>
-escreveu:
-
-> When the kernel is rebuild or some of they tasks change the
-> kernel modules is not rebuild as well and will comes from
-> the sstate-cache.
+On Thu, Aug 11, 2022 at 9:21 AM Martin Jansa <martin.jansa@gmail.com> wrote:
 >
-> [YOCTO #14885] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14885
+> The 2nd more important part was backported to 2.36 branch https://sourceware.org/git/?p=glibc.git;a=commit;h=302bc33bc53c787da6e74162a7092e9c0fb964a8
 >
-> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> If you plan to do another SRCREV bump before glibc upgrade is merged, then we can drop these 2 changes. (I'll try to do another build tests with DEBUG_BUILD, but probably next week or so).
+
+I think, I might do, if Alex reports issues as he is already testing it out.
+
 >
-
-Issue: https://github.com/Freescale/meta-freescale/pull/1168
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
-
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
-
---000000000000db55b605e5f9b7ed
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Em qui., 11 de ago. de 2022 =C3=A0s 1=
-3:18, Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail.com">quaresma=
-.jose@gmail.com</a>&gt; escreveu:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">When the kernel is rebuild or some of they tasks change t=
-he<br>
-kernel modules is not rebuild as well and will comes from<br>
-the sstate-cache.<br>
-<br>
-[YOCTO #14885] <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=
-=3D14885" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoprojec=
-t.org/show_bug.cgi?id=3D14885</a><br>
-<br>
-Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@foundries.=
-io" target=3D"_blank">jose.quaresma@foundries.io</a>&gt;<br></blockquote><d=
-iv><br></div><div>Issue:=C2=A0<a href=3D"https://github.com/Freescale/meta-=
-freescale/pull/1168">https://github.com/Freescale/meta-freescale/pull/1168<=
-/a></div><div>Acked-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@ossyst=
-ems.com.br">otavio@ossystems.com.br</a>&gt;=C2=A0</div></div><div><br></div=
->-- <br><div dir=3D"ltr" class=3D"gmail_signature">Otavio Salvador =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 O.S. Systems<br><a href=3D"http://www.ossystems.com.br" t=
-arget=3D"_blank">http://www.ossystems.com.br</a> =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0<a href=3D"http://code.ossystems.com.br" target=3D"_blank">http://code.o=
-ssystems.com.br</a><br>Mobile: +55 (53) 9 9981-7854 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0Mobile: +1 (347) 903-9750</div></div>
-
---000000000000db55b605e5f9b7ed--
+> On Tue, Aug 9, 2022 at 4:50 PM Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> These patches were appplied in master
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>  .../0026-x86-Fix-define-STRCPY-guard-in-strcpy-sse2.S.patch     | 2 +-
+>>  .../0027-elf-Replace-strcpy-call-with-memcpy-BZ-29454.patch     | 2 +-
+>>  2 files changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/glibc/glibc/0026-x86-Fix-define-STRCPY-guard-in-strcpy-sse2.S.patch b/meta/recipes-core/glibc/glibc/0026-x86-Fix-define-STRCPY-guard-in-strcpy-sse2.S.patch
+>> index 2d14a4c6196..2caff3a0d53 100644
+>> --- a/meta/recipes-core/glibc/glibc/0026-x86-Fix-define-STRCPY-guard-in-strcpy-sse2.S.patch
+>> +++ b/meta/recipes-core/glibc/glibc/0026-x86-Fix-define-STRCPY-guard-in-strcpy-sse2.S.patch
+>> @@ -7,7 +7,7 @@ Subject: [PATCH] x86: Fix `#define STRCPY` guard in strcpy-sse2.S
+>>  defined.  It doesn't end up mattering as the whole check is
+>>  guarded by `#if IS_IN (libc)` but is incorrect none the less.
+>>
+>> -Upstream-Status: Submitted [https://sourceware.org/bugzilla/show_bug.cgi?id=29454 https://sourceware.org/pipermail/libc-alpha/2022-August/141289.html]
+>> +Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=312ded0d6339e8c463d0395397b5825401b14f54]
+>>  Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>>  ---
+>>   sysdeps/x86_64/multiarch/strcpy-sse2.S | 2 +-
+>> diff --git a/meta/recipes-core/glibc/glibc/0027-elf-Replace-strcpy-call-with-memcpy-BZ-29454.patch b/meta/recipes-core/glibc/glibc/0027-elf-Replace-strcpy-call-with-memcpy-BZ-29454.patch
+>> index 1b347b33226..a2c951ad936 100644
+>> --- a/meta/recipes-core/glibc/glibc/0027-elf-Replace-strcpy-call-with-memcpy-BZ-29454.patch
+>> +++ b/meta/recipes-core/glibc/glibc/0027-elf-Replace-strcpy-call-with-memcpy-BZ-29454.patch
+>> @@ -8,7 +8,7 @@ strlen_pass::handle_builtin_strcpy but only for optimized
+>>  build. To avoid needing to include strcpy.S in the rtld build to
+>>  support the debug build, just do the optimization by hand.
+>>
+>> -Upstream-Status: Submitted [https://sourceware.org/bugzilla/show_bug.cgi?id=29454 https://sourceware.org/pipermail/libc-alpha/2022-August/141290.html]
+>> +Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=483cfe1a6a33d6335b1901581b41040d2d412511]
+>>  Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>>  ---
+>>   elf/dl-cache.c | 5 +++--
+>> --
+>> 2.37.1
+>>
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#169155): https://lists.openembedded.org/g/openembedded-core/message/169155
+>> Mute This Topic: https://lists.openembedded.org/mt/92916378/3617156
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [Martin.Jansa@gmail.com]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
 
