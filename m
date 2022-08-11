@@ -1,218 +1,220 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5548EC19F2A
-	for <webhook@archiver.kernel.org>; Thu, 11 Aug 2022 17:26:50 +0000 (UTC)
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
- [209.85.160.182])
- by mx.groups.io with SMTP id smtpd.web11.605.1660238808292113468
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E40FC19F2A
+	for <webhook@archiver.kernel.org>; Thu, 11 Aug 2022 17:46:30 +0000 (UTC)
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com
+ [209.85.160.54])
+ by mx.groups.io with SMTP id smtpd.web08.874.1660239986891353023
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Aug 2022 10:26:48 -0700
+ Thu, 11 Aug 2022 10:46:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20210112.gappssmtp.com header.s=20210112
- header.b=o4LwAMp+;
- spf=pass (domain: ossystems.com.br, ip: 209.85.160.182,
- mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qt1-f182.google.com with SMTP id cb8so1218586qtb.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=EGSgvhOr;
+ spf=pass (domain: gmail.com, ip: 209.85.160.54,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-oa1-f54.google.com with SMTP id
+ 586e51a60fabf-10e615a36b0so22348492fac.1
         for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Aug 2022 10:26:47 -0700 (PDT)
+ Thu, 11 Aug 2022 10:46:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
-         :from:from:to:cc;
-        bh=fZm5vZdb2vjFaST63wYmKw+KpGt7R8xfe2gX9eXFM+s=;
-        b=o4LwAMp+oxL3Y+0otnQYsvtG6+pYNyHviL8/BB5EESJPufy84uhadQnw0a8AR6jTkq
-         b+BInWECSIdO9KuiCl3wibHRJhnL68ENIx2QvUGVNTzVWer1OF+3Sl8wllYQSYp8Jq/Q
-         mNMMfphd7l4lODxm8q3sgvjV2IuOhuqiC9ZSAL7cXmHU92TEfqAdCIeQ8i5yUINR1Iqo
-         T12ad9Dp4rIW2DXKnCL4Qrs/gwG2V0b/IDFlLE+T1TAj2nFqygi+dudmlywZRv7Gz/0t
-         AK8TNxIAPGnWJom0iebx4IXnL7JSMk0r1lljTgtcCC6JtdKrieBcApCx5PEd6lTvULNO
-         EKag==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc;
+        bh=yQXbLtxq/A3xL7qcy0XRDXGM2HA6E6STLGychi0y4dM=;
+        b=EGSgvhOrN0xj6SRqceO9H1/e0ATPOXdnBmb3xwHW+hEqiH/h34BZK87c9jdbjYZ9Jm
+         FgPMmR6AqEbfwQPvHoC3PVmeN3WQVdrqK35BBERZvu08P3OOXGEexXl+hgarMdsXGV3c
+         hVrvgloi8sZ63QfUGsN9P+kul8LUsOAw3yPYo/2SN4IS+n7kaIcVknSZSvXDLthvr5jl
+         UElJ8AAEiHeg0nLZ6in6wTZAgUA8O4FXE3M/vn/LIfnTpR2RZiTOdMMXGIz88xJVfpAm
+         1siyySPpU0qyMsgFX+5J+yb2It43JngCQ/3Gb9R6QzEs3/eFe4pA+VKnE6c+JHYp5Csp
+         T+OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
-         :from:x-gm-message-state:from:to:cc;
-        bh=fZm5vZdb2vjFaST63wYmKw+KpGt7R8xfe2gX9eXFM+s=;
-        b=1NSd3h9QmRuQqnsR9S3euJ8Gzs+A+kUOIWhdV5S/mikIDsNWoXJTg1u0ZHoIC1pkDk
-         3vu1UXsOYNYXD/zKIHtNQ07oieokX6NxuzbLEYARIzmmPaLjJbcSiQw++dFstn+wpIUx
-         SeTBRzh5EAoxty3uz3boccnamMvs6YuKG713erkutmEyXqLALm/11nlpm1yTxLgBtrKl
-         JY1/WMSkt7EnA6M8YdKhPAadpxC/OTx3i4zHHLEt1B24+DpraStP0FSRpir54+lumF9U
-         MhizgZaUtACUMZ9O0VRCjNzbct67tVtaBwBDUcMEv0CRTeXny6/KaCSVHeS6yUYcvZ8D
-         Xv9A==
-X-Gm-Message-State: ACgBeo3BpUvlrOT+VOPiSmdBci6zGo+uhq5GJ4KmZFX+W2aCxHnsteyz
-	cHm8h8+HePY70iM96FcnKfYWPhL+yB16eTi1
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=yQXbLtxq/A3xL7qcy0XRDXGM2HA6E6STLGychi0y4dM=;
+        b=uyInLoVUv/7JeKxuTwrZEpIuecF2uY4JfFVIw2BTObpMOdhouUIyFwiFNXJouqD7wc
+         xmGnBCl81Y11qkR7wWFS4zR2/hQJV8g7SCumZTzvEFji5gVcnuxQJx4VLrcw3zPgU8as
+         HdMmt3L33gJxxTBnSDHWwH76L6Cdo5OS4KmfeGbREtCYKzcfCwVs7lh8vBWd7/jQe395
+         jmznZje1VF0qW28nIvAvlPq14bANi2ISQGiIvxNyf3/BDdPDN4iHhcIFpb5U5lnTt509
+         EOxRKIA5gS7M6QaUK6aUaeSLhvsaHc9oezNn/JxoMMEF5OrjsB2GwaASGoONFoN1O5yn
+         xycA==
+X-Gm-Message-State: ACgBeo0bd+6CmKdF2c5bDJpA40qAb12ZTLdyFvE4940iQjey0gUeF+1J
+	raLVs0uS/Uj6SrEh2it9INGqOK6Of17KtuT3nuU=
 X-Google-Smtp-Source: 
- AA6agR7vVdvXJNcFHd8KJzEZhiGK+nYNjobfdz6tiC87M9fkBmzrRkqHJGSqrCneAuCH9VQgkJ+OcA==
-X-Received: by 2002:ac8:5fc2:0:b0:343:202:7f46 with SMTP id
- k2-20020ac85fc2000000b0034302027f46mr161167qta.418.1660238807025;
-        Thu, 11 Aug 2022 10:26:47 -0700 (PDT)
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com.
- [209.85.219.52])
-        by smtp.gmail.com with ESMTPSA id
- f4-20020a05620a280400b006aedb35d8a1sm2409179qkp.74.2022.08.11.10.26.46
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Aug 2022 10:26:46 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qv1-f52.google.com with SMTP id mk9so13789768qvb.11
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Aug 2022 10:26:46 -0700 (PDT)
-X-Received: by 2002:ad4:5dc7:0:b0:476:a281:5335 with SMTP id
- m7-20020ad45dc7000000b00476a2815335mr185048qvh.1.1660238806299; Thu, 11 Aug
- 2022 10:26:46 -0700 (PDT)
+ AA6agR5a2w01D1SBaCJuhCQQ1fizpb9q0N2aytpsqO4xOSyBjx2NU2xXeYopsaUEuSus+PZFQuSxYBqgx277o9ZxNfY=
+X-Received: by 2002:a05:6870:4388:b0:10e:803f:9dae with SMTP id
+ r8-20020a056870438800b0010e803f9daemr3944880oah.175.1660239986209; Thu, 11
+ Aug 2022 10:46:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220811161757.278819-1-jose.quaresma@foundries.io>
  <CADkTA4PaFdRpyxko=bpRQ5CVoAVgD8g8Nt4SMW_0USAYme3RkQ@mail.gmail.com>
+ <CANPvuRmPVe_4D-hWkkZ93y=u6YuMVBu_KCADG1OH32aK-=OB_w@mail.gmail.com>
 In-Reply-To: 
- <CADkTA4PaFdRpyxko=bpRQ5CVoAVgD8g8Nt4SMW_0USAYme3RkQ@mail.gmail.com>
-Date: Thu, 11 Aug 2022 14:26:35 -0300
-X-Gmail-Original-Message-ID: 
- <CAP9ODKq_4LrFG79_v36ez+9wUrqaALcL_q1rfAg0fD1micghLg@mail.gmail.com>
+ <CANPvuRmPVe_4D-hWkkZ93y=u6YuMVBu_KCADG1OH32aK-=OB_w@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 11 Aug 2022 13:46:17 -0400
 Message-ID: 
- <CAP9ODKq_4LrFG79_v36ez+9wUrqaALcL_q1rfAg0fD1micghLg@mail.gmail.com>
+ <CADkTA4ONM+bq+onFjQSpYxU=qz8gyTEmpVTBBZR2S34t18HzAw@mail.gmail.com>
 Subject: Re: [OE-core][PATCH] module.bbclass: rebuild the modules when kernel
  change
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Jose Quaresma <quaresma.jose@gmail.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>, ricardo@foundries.io,
-	daiane.angolini@foundries.io, Otavio Salvador <otavio@ossystems.com.br>,
-	Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: multipart/alternative; boundary="0000000000004abc6405e5fa78e7"
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Ricardo Salveti <ricardo@foundries.io>, daiane.angolini@foundries.io,
+	otavio@ossystems.com.br, Jose Quaresma <jose.quaresma@foundries.io>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Aug 2022 17:26:50 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Aug 2022 17:46:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169261
+ https://lists.openembedded.org/g/openembedded-core/message/169262
 
---0000000000004abc6405e5fa78e7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, Aug 11, 2022 at 1:26 PM Jose Quaresma <quaresma.jose@gmail.com> wro=
+te:
+>
+>
+>
+> Bruce Ashfield <bruce.ashfield@gmail.com> escreveu no dia quinta, 11/08/2=
+022 =C3=A0(s) 18:06:
+>>
+>> On Thu, Aug 11, 2022 at 12:18 PM Jose Quaresma <quaresma.jose@gmail.com>=
+ wrote:
+>> >
+>> > When the kernel is rebuild or some of they tasks change the
+>> > kernel modules is not rebuild as well and will comes from
+>> > the sstate-cache.
+>> >
+>> > [YOCTO #14885] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D148=
+85
+>> >
+>> > Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+>> > ---
+>> >  meta/classes/module.bbclass | 2 ++
+>> >  1 file changed, 2 insertions(+)
+>> >
+>> > diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+>> > index a09ec3ed1e..d377a08bc6 100644
+>> > --- a/meta/classes/module.bbclass
+>> > +++ b/meta/classes/module.bbclass
+>> > @@ -1,5 +1,7 @@
+>> >  inherit module-base kernel-module-split pkgconfig
+>> >
+>> > +DEPENDS +=3D "virtual/kernel"
+>>
+>> There's already a dependency on virtual/kernel:do_shared_workdir() throu=
+gh
+>> module-base.bbclass and the make-mod-scripts dependency.
+>
+>
+> I know that and imo the make-mod-scripts need to be cleaned up a bit as w=
+ell
+> It is compile the the code do_configure and as a dependency in "virtual/k=
+ernel:do_compile_kernelmodules"
 
-Em qui., 11 de ago. de 2022 =C3=A0s 14:06, Bruce Ashfield <
-bruce.ashfield@gmail.com> escreveu:
+Right. It doesn't save much, but being able to start dependent tasks even
+that bit sooner has proven to be a win. We get plenty of complaints about
+the kernel being a bottleneck, which is what lead to the finer dependency.
 
-> On Thu, Aug 11, 2022 at 12:18 PM Jose Quaresma <quaresma.jose@gmail.com>
-> wrote:
-> >
-> > When the kernel is rebuild or some of they tasks change the
-> > kernel modules is not rebuild as well and will comes from
-> > the sstate-cache.
-> >
-> > [YOCTO #14885] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D1488=
-5
-> >
-> > Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-> > ---
-> >  meta/classes/module.bbclass | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-> > index a09ec3ed1e..d377a08bc6 100644
-> > --- a/meta/classes/module.bbclass
-> > +++ b/meta/classes/module.bbclass
-> > @@ -1,5 +1,7 @@
-> >  inherit module-base kernel-module-split pkgconfig
-> >
-> > +DEPENDS +=3D "virtual/kernel"
->
-> There's already a dependency on virtual/kernel:do_shared_workdir() throug=
-h
-> module-base.bbclass and the make-mod-scripts dependency.
->
-> And that dependency was a change to this:
->
-> -# This is instead of DEPENDS =3D "virtual/kernel"
-> -do_configure[depends] +=3D "virtual/kernel:do_compile_kernelmodules"
->
-> i.e. we've always had a finer grained dependency than what is being
-> proposed here.
->
-> We need to understand why that shared_workdir() dependency isn't
-> doing the job any more, and if there's no way to fix it .. then going bac=
-k
-> to the older compile dependency is still lighter weight than depending
-> on virtual/kernel (and the default of do_prepare_recipe_sysroot).
->
-> It must (could?) be something with the shared workdir changing the
-> interactions.
+> for they do_compile anyway this is another history and I will submit some=
+ patch when finished.
+> Another thing that I have in my mind is to make the  make-mod-scripts a n=
+ative recipe because they
+> don't build anything for the target.
 >
 
-Good catch; this really seems strange.
+make-mod-scripts is a bit strange indeed, it sits somewhere in the middle, =
+it
+does use the target compiler, etc, for some tests that the kernel fires as =
+part
+of even the scripts and preparation. Which is why it hasn't been -native on=
+ly
+up until now .. it isn't out of the question that we could use it in
+more of a cross
+friendly way (there are some really old bugs/enhancements around that topic=
+).
+
+It might be worth a try, but if it isn't breaking anything .. I tread
+very carefully
+around the kernel dependencies, shared-workdir and the scripts. We've had
+many subtle race conditions and other hard to debug issues.
+
+>>
+>>
+>> And that dependency was a change to this:
+>>
+>> -# This is instead of DEPENDS =3D "virtual/kernel"
+>> -do_configure[depends] +=3D "virtual/kernel:do_compile_kernelmodules"
+>>
+>> i.e. we've always had a finer grained dependency than what is being
+>> proposed here.
+>>
+>> We need to understand why that shared_workdir() dependency isn't
+>> doing the job any more, and if there's no way to fix it .. then going ba=
+ck
+>> to the older compile dependency is still lighter weight than depending
+>> on virtual/kernel (and the default of do_prepare_recipe_sysroot).
+>
+>
+> I can do another round in order to change another task, other than the sh=
+ared_workdir,
+> that I think will do the same i.e: get the modules from the sstate-cache.
+> I suspect this is unrelated to the task shared_workdir.
+>
+> Thanks for the feedback and your time.
+
+I can dig into it more as well, I'll see what I can find in some local buil=
+ds.
+
+Bruce
+
+>
+> Jose
+>
+>>
+>>
+>> It must (could?) be something with the shared workdir changing the inter=
+actions.
+>>
+>> Bruce
+>>
+>> > +
+>> >  EXTRA_OEMAKE +=3D "KERNEL_SRC=3D${STAGING_KERNEL_DIR}"
+>> >
+>> >  MODULES_INSTALL_TARGET ?=3D "modules_install"
+>> > --
+>> > 2.37.1
+>> >
+>> >
+>> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> > Links: You receive all messages sent to this group.
+>> > View/Reply Online (#169253): https://lists.openembedded.org/g/openembe=
+dded-core/message/169253
+>> > Mute This Topic: https://lists.openembedded.org/mt/92962048/1050810
+>> > Group Owner: openembedded-core+owner@lists.openembedded.org
+>> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
+[bruce.ashfield@gmail.com]
+>> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> >
+>>
+>>
+>> --
+>> - Thou shalt not follow the NULL pointer, for chaos and madness await
+>> thee at its end
+>> - "Use the force Harry" - Gandalf, Star Trek II
+>
+>
+>
+> --
+> Best regards,
+>
+> Jos=C3=A9 Quaresma
+
+
 
 --=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
-
---0000000000004abc6405e5fa78e7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Em qui., 11 de ago. de 2022 =C3=A0s 1=
-4:06, Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.=
-ashfield@gmail.com</a>&gt; escreveu:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">On Thu, Aug 11, 2022 at 12:18 PM Jose Quaresma &lt;<a =
-href=3D"mailto:quaresma.jose@gmail.com" target=3D"_blank">quaresma.jose@gma=
-il.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; When the kernel is rebuild or some of they tasks change the<br>
-&gt; kernel modules is not rebuild as well and will comes from<br>
-&gt; the sstate-cache.<br>
-&gt;<br>
-&gt; [YOCTO #14885] <a href=3D"https://bugzilla.yoctoproject.org/show_bug.c=
-gi?id=3D14885" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctop=
-roject.org/show_bug.cgi?id=3D14885</a><br>
-&gt;<br>
-&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@found=
-ries.io" target=3D"_blank">jose.quaresma@foundries.io</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/module.bbclass | 2 ++<br>
-&gt;=C2=A0 1 file changed, 2 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass=
-<br>
-&gt; index a09ec3ed1e..d377a08bc6 100644<br>
-&gt; --- a/meta/classes/module.bbclass<br>
-&gt; +++ b/meta/classes/module.bbclass<br>
-&gt; @@ -1,5 +1,7 @@<br>
-&gt;=C2=A0 inherit module-base kernel-module-split pkgconfig<br>
-&gt;<br>
-&gt; +DEPENDS +=3D &quot;virtual/kernel&quot;<br>
-<br>
-There&#39;s already a dependency on virtual/kernel:do_shared_workdir() thro=
-ugh<br>
-module-base.bbclass and the make-mod-scripts dependency.<br>
-<br>
-And that dependency was a change to this:<br>
-<br>
--# This is instead of DEPENDS =3D &quot;virtual/kernel&quot;<br>
--do_configure[depends] +=3D &quot;virtual/kernel:do_compile_kernelmodules&q=
-uot;<br>
-<br>
-i.e. we&#39;ve always had a finer grained dependency than what is being<br>
-proposed here.<br>
-<br>
-We need to understand why that shared_workdir() dependency isn&#39;t<br>
-doing the job any more, and if there&#39;s no way to fix it .. then going b=
-ack<br>
-to the older compile dependency is still lighter weight than depending<br>
-on virtual/kernel (and the default of do_prepare_recipe_sysroot).<br>
-<br>
-It must (could?) be something with the shared workdir changing the interact=
-ions.<br></blockquote><div><br></div><div>Good catch; this really seems str=
-ange.=C2=A0=C2=A0</div></div><div><br></div>-- <br><div dir=3D"ltr" class=
-=3D"gmail_signature">Otavio Salvador =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O.S. Systems<br=
-><a href=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossys=
-tems.com.br</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://code.ossystems=
-.com.br" target=3D"_blank">http://code.ossystems.com.br</a><br>Mobile: +55 =
-(53) 9 9981-7854 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mobile: +1 (347) 903-975=
-0</div></div>
-
---0000000000004abc6405e5fa78e7--
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
