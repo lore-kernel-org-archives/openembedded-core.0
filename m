@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55EE1C19F2D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73819C25B0F
 	for <webhook@archiver.kernel.org>; Thu, 11 Aug 2022 19:58:21 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web10.2521.1660247894686278188
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web10.2520.1660247892807032417
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Aug 2022 12:58:15 -0700
+ Thu, 11 Aug 2022 12:58:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=U0sCfCpF;
- spf=pass (domain: gmail.com, ip: 209.85.218.44,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=lD9Odzht;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id uj29so35425555ejc.0
+Received: by mail-ej1-f46.google.com with SMTP id fy5so4520713ejc.3
         for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Aug 2022 12:58:14 -0700 (PDT)
+ Thu, 11 Aug 2022 12:58:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=Rrh71xddDzyjatKHf5dkG+lPyULKTsTWObTh1cVqxzw=;
-        b=U0sCfCpF8Vpn3KSYOlE2HLAyVLTEgRnFfr4URXbmc8tJh/qGOAAZdhA4qcXgJ9HAC5
-         T/F2Iziq8VZ5OiOFLt9FllXJKto+JtU3uFP7yd5L7vMXOaOHaOIFpmTlvu9ScKnO4+wT
-         3FeExpii2627u7NJuaWIrVUkWND2NDWvllAKYWTkO2ljlgDIlHqEjC//l9n9Mzv65siG
-         YoHfh7Ixfq3r/8XraL+R7bCeEgA8Cvtthe7mpRkb4fY5tf7F17SwI/mT/JnQMWezSSwx
-         q+TXPwogpCAsCqbsYUVFGaoz0+vNxZvTIhVe8vFBrl8TX0LKiPZUSaAky+FvJwb3CmTr
-         ivYQ==
+        bh=D/e7UyDuQ5UUla6aoOhnEmXy2PZabYT5UIUQOBzWMfE=;
+        b=lD9Odzht4yf2vksp2Mka3BpWYruK9BX+6IwfNxJli6PQDD22hvYr/ja3QM2rEIBAFw
+         IUH86fgvm4xQOHardouiTxggobMlStaOe5wnfxlnzcz+iFx6RcpGQ4ZEvg82genIJeTM
+         E3fBwicsmrGM/mziBZeDV5MgaOKPeZvIwAxrR6jOgdzTwFZ58udDV7hacvDxG4M0qJ71
+         rcZHbmT9etQEv3GnhU7oPQzVp8MiEDg/i2RE9RKqgCjEwsvjMooJ0ZhwOtryhYHOyGid
+         PUMjhoDSQ4d2EI3ToayLIcZg6KefJmIh2Py0ipLx+cdW/jaPre6XFHquCz1mMfl/PtdN
+         fJ1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=Rrh71xddDzyjatKHf5dkG+lPyULKTsTWObTh1cVqxzw=;
-        b=MeiWGxmgnFVPmcGep3EfdjxqmY8Ve9GQ1X7ZB90S907kLg1/nXP0/Q7D/uBiTPGllE
-         F5eXUFzz88h9Uqydn03l9MvnPaYcXxvVAzrkHy/900ASCyYXhjueQqDAIw1rEgGMYiUM
-         qLhISAjIG0NqmWZo7wjofrl0NiAN0Mc4RqTvKAat7Hdsaz1TIIGsgh7h7LJA649ehuhs
-         HV2q7x9y17u3dByje8MS8wsh+fuKGJWnDyuG4pjhnQl1S60eX3xxfVJD7Xm5zCgHXDqD
-         2s/zoAv/GNErJYGLEfBJB+9d4DEyYyfMyk1p9qyoyzix4Leot40KeXD54GJ9hiFyFki8
-         UhAg==
-X-Gm-Message-State: ACgBeo3Yz1dNToRFHmgdDQtEPE03Io21J0sfsbXbI1dIEUiRBCzCLbhs
-	ycozqW5udGGPpJ2r/on6Fx9h9rEzzvY=
+        bh=D/e7UyDuQ5UUla6aoOhnEmXy2PZabYT5UIUQOBzWMfE=;
+        b=f+e3DRxVug/YtXWiHzz+JccUHtjP36S/RwESSrFKwxq6Nmjw0oe6/8H0NQ83/LtnET
+         3FNUYyVXw2/xgs3uTNqm3TKSinqUqcLkFiQyh8QKcjW+mr1ZlriuYRtovYecQg80mfzN
+         n1yRT6T6iWgCN3I5Nn7XZ8KszzVzlzp9IZSwxQTO0aKBWTuEhm+i8oJnGBYZL4L9IaPD
+         E5TZtuLQvhhN2PDG5NWvEZf5clnYyRNEBmWCiarcorIUcvqBAozk4e59JC4K5JjLsSzU
+         CpwMWY7PmZdmCGAQr41n3FJ+OtdqVnf7PdC22jCq9AF4/JA/oqkQrx4GxtkH45njmUp/
+         kpQw==
+X-Gm-Message-State: ACgBeo2nKc3zl9c5o6Td638ql8YfsR66SVt+H5SESjsbv4elqbuXpo2w
+	MBxMnB0LV9JRYB0jq0sGbdNw+mJXzng=
 X-Google-Smtp-Source: 
- AA6agR6kU2qmMqpX+ZT7PEKxKunPUupT2/OMj3bv7dFxbhJxiHGakrjCGnil7zdPUZhPIw0upf09Bw==
-X-Received: by 2002:a17:907:60c7:b0:731:14e2:af10 with SMTP id
- hv7-20020a17090760c700b0073114e2af10mr450676ejc.92.1660247893215;
-        Thu, 11 Aug 2022 12:58:13 -0700 (PDT)
+ AA6agR7crI/gPZHia8mDMnLS0VuiMSuX8PciGZbT/F3QU/WRbQPthBqLOpihUl2NIRTK7fNI+8zA0w==
+X-Received: by 2002:a17:907:8687:b0:730:7c7b:b9ce with SMTP id
+ qa7-20020a170907868700b007307c7bb9cemr434230ejc.656.1660247891379;
+        Thu, 11 Aug 2022 12:58:11 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- fu18-20020a170907b01200b007308bdef04bsm22010ejc.103.2022.08.11.12.58.12
+ fu18-20020a170907b01200b007308bdef04bsm22010ejc.103.2022.08.11.12.58.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Aug 2022 12:58:12 -0700 (PDT)
+        Thu, 11 Aug 2022 12:58:10 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 4/7] weston: upgrade 10.0.1 -> 10.0.2
-Date: Thu, 11 Aug 2022 21:58:03 +0200
-Message-Id: <20220811195806.1571221-4-alex@linutronix.de>
+Subject: [PATCH 2/7] rust: update 1.62.0 -> 1.62.1
+Date: Thu, 11 Aug 2022 21:58:01 +0200
+Message-Id: <20220811195806.1571221-2-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220811195806.1571221-1-alex@linutronix.de>
 References: <20220811195806.1571221-1-alex@linutronix.de>
@@ -68,75 +68,54 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 11 Aug 2022 19:58:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169266
-
-Drop dont-use-plane-add-prop.patch as issue is fixed elsewhere
-(see the link in the patch).
+ https://lists.openembedded.org/g/openembedded-core/message/169264
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../weston/dont-use-plane-add-prop.patch      | 32 -------------------
- .../{weston_10.0.1.bb => weston_10.0.2.bb}    |  4 +--
- 2 files changed, 1 insertion(+), 35 deletions(-)
- delete mode 100644 meta/recipes-graphics/wayland/weston/dont-use-plane-add-prop.patch
- rename meta/recipes-graphics/wayland/{weston_10.0.1.bb => weston_10.0.2.bb} (97%)
+ .../recipes-devtools/cargo/{cargo_1.62.0.bb => cargo_1.62.1.bb} | 0
+ .../rust/{libstd-rs_1.62.0.bb => libstd-rs_1.62.1.bb}           | 0
+ ...t-cross-canadian_1.62.0.bb => rust-cross-canadian_1.62.1.bb} | 0
+ .../rust/{rust-llvm_1.62.0.bb => rust-llvm_1.62.1.bb}           | 0
+ meta/recipes-devtools/rust/rust-source.inc                      | 2 +-
+ meta/recipes-devtools/rust/{rust_1.62.0.bb => rust_1.62.1.bb}   | 0
+ 6 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/cargo/{cargo_1.62.0.bb => cargo_1.62.1.bb} (100%)
+ rename meta/recipes-devtools/rust/{libstd-rs_1.62.0.bb => libstd-rs_1.62.1.bb} (100%)
+ rename meta/recipes-devtools/rust/{rust-cross-canadian_1.62.0.bb => rust-cross-canadian_1.62.1.bb} (100%)
+ rename meta/recipes-devtools/rust/{rust-llvm_1.62.0.bb => rust-llvm_1.62.1.bb} (100%)
+ rename meta/recipes-devtools/rust/{rust_1.62.0.bb => rust_1.62.1.bb} (100%)
 
-diff --git a/meta/recipes-graphics/wayland/weston/dont-use-plane-add-prop.patch b/meta/recipes-graphics/wayland/weston/dont-use-plane-add-prop.patch
-deleted file mode 100644
-index 1ac0695222..0000000000
---- a/meta/recipes-graphics/wayland/weston/dont-use-plane-add-prop.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From ece4c3d261aeec230869c0304ed1011ff6837c16 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 12 Sep 2020 14:04:04 -0700
--Subject: [PATCH] Fix atomic modesetting with musl
--
--atomic modesetting seems to fail with drm weston backend and this patch fixes
--it, below errors are seen before weston exits
--
--atomic: couldn't commit new state: Invalid argument
--
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/wayland/weston/-/issues/158]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-----
-- libweston/backend-drm/kms.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/libweston/backend-drm/kms.c b/libweston/backend-drm/kms.c
--index 780d007..9994da1 100644
----- a/libweston/backend-drm/kms.c
--+++ b/libweston/backend-drm/kms.c
--@@ -1142,8 +1142,8 @@ drm_pending_state_apply_atomic(struct drm_pending_state *pending_state,
-- 		wl_list_for_each(plane, &b->plane_list, link) {
-- 			drm_debug(b, "\t\t[atomic] starting with plane %lu disabled\n",
-- 				  (unsigned long) plane->plane_id);
---			plane_add_prop(req, plane, WDRM_PLANE_CRTC_ID, 0);
---			plane_add_prop(req, plane, WDRM_PLANE_FB_ID, 0);
--+			//plane_add_prop(req, plane, WDRM_PLANE_CRTC_ID, 0);
--+			//plane_add_prop(req, plane, WDRM_PLANE_FB_ID, 0);
-- 		}
-- 
-- 		flags |= DRM_MODE_ATOMIC_ALLOW_MODESET;
-diff --git a/meta/recipes-graphics/wayland/weston_10.0.1.bb b/meta/recipes-graphics/wayland/weston_10.0.2.bb
-similarity index 97%
-rename from meta/recipes-graphics/wayland/weston_10.0.1.bb
-rename to meta/recipes-graphics/wayland/weston_10.0.2.bb
-index e27dac164e..f81a33fd1e 100644
---- a/meta/recipes-graphics/wayland/weston_10.0.1.bb
-+++ b/meta/recipes-graphics/wayland/weston_10.0.2.bb
-@@ -13,9 +13,7 @@ SRC_URI = "https://gitlab.freedesktop.org/wayland/weston/-/releases/${PV}/downlo
-            file://systemd-notify.weston-start \
-            "
+diff --git a/meta/recipes-devtools/cargo/cargo_1.62.0.bb b/meta/recipes-devtools/cargo/cargo_1.62.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/cargo/cargo_1.62.0.bb
+rename to meta/recipes-devtools/cargo/cargo_1.62.1.bb
+diff --git a/meta/recipes-devtools/rust/libstd-rs_1.62.0.bb b/meta/recipes-devtools/rust/libstd-rs_1.62.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/rust/libstd-rs_1.62.0.bb
+rename to meta/recipes-devtools/rust/libstd-rs_1.62.1.bb
+diff --git a/meta/recipes-devtools/rust/rust-cross-canadian_1.62.0.bb b/meta/recipes-devtools/rust/rust-cross-canadian_1.62.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/rust/rust-cross-canadian_1.62.0.bb
+rename to meta/recipes-devtools/rust/rust-cross-canadian_1.62.1.bb
+diff --git a/meta/recipes-devtools/rust/rust-llvm_1.62.0.bb b/meta/recipes-devtools/rust/rust-llvm_1.62.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/rust/rust-llvm_1.62.0.bb
+rename to meta/recipes-devtools/rust/rust-llvm_1.62.1.bb
+diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
+index b814574e55..dbcef2cbc2 100644
+--- a/meta/recipes-devtools/rust/rust-source.inc
++++ b/meta/recipes-devtools/rust/rust-source.inc
+@@ -1,5 +1,5 @@
+ SRC_URI += "https://static.rust-lang.org/dist/rustc-${PV}-src.tar.xz;name=rust"
+-SRC_URI[rust.sha256sum] = "6c00ef115c894c2645e60b5049a4f5dacf1dc0c993f3074f7ae4fdf4c755dd5e"
++SRC_URI[rust.sha256sum] = "02066a93c2f6596cc046a897d5716c86e3607c1cd0f54db9a867ae8c8265072e"
  
--SRC_URI:append:libc-musl = " file://dont-use-plane-add-prop.patch "
--
--SRC_URI[sha256sum] = "8a9e52506a865a7410981b04f8341b89b84106db8531ab1f9fdd37b5dc034115"
-+SRC_URI[sha256sum] = "89646ca0d9f8d413c2767e5c3828eaa3fa149c2a105b3729a6894fa7cf1549e7"
- 
- UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
- 
+ SRC_URI:append:class-target:pn-rust = " file://hardcodepaths.patch"
+ SRC_URI:append:class-nativesdk:pn-nativesdk-rust = " file://hardcodepaths.patch"
+diff --git a/meta/recipes-devtools/rust/rust_1.62.0.bb b/meta/recipes-devtools/rust/rust_1.62.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/rust/rust_1.62.0.bb
+rename to meta/recipes-devtools/rust/rust_1.62.1.bb
 -- 
 2.30.2
 
