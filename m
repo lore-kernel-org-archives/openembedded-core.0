@@ -1,91 +1,76 @@
-Return-Path: <l.stach@pengutronix.de>
+Return-Path: <bertrand.marquis@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B3C6C19F2A
-	for <webhook@archiver.kernel.org>; Thu, 11 Aug 2022 09:03:38 +0000 (UTC)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [85.220.165.71])
- by mx.groups.io with SMTP id smtpd.web09.4383.1660208614857095535
- for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Aug 2022 02:03:35 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C727C19F2A
+	for <webhook@archiver.kernel.org>; Thu, 11 Aug 2022 09:47:38 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.4616.1660211248288137809
+ for <Openembedded-core@lists.openembedded.org>;
+ Thu, 11 Aug 2022 02:47:28 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: l.stach@pengutronix.de)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
-	by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <l.stach@pengutronix.de>)
-	id 1oM46G-00074n-MI; Thu, 11 Aug 2022 11:03:32 +0200
-Message-ID: <0aa804c7ad0822cf943eee3118309e11707a8021.camel@pengutronix.de>
-Subject: Re: [OE-core] [PATCH] perf: sort-pmuevents: really keep array
- terminators
-From: Lucas Stach <l.stach@pengutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, Max Krummenacher
-	 <max.oss.09@gmail.com>
-Date: Thu, 11 Aug 2022 11:03:31 +0200
-In-Reply-To: <16FAB17DECFBADD8.5445@lists.openembedded.org>
-References: <16FAB17DECFBADD8.5445@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: bertrand.marquis@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5FA25106F;
+	Thu, 11 Aug 2022 02:47:28 -0700 (PDT)
+Received: from e109506.cambridge.arm.com (e109506.cambridge.arm.com
+ [10.1.199.62])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 295AD3F70D;
+	Thu, 11 Aug 2022 02:47:27 -0700 (PDT)
+From: Bertrand Marquis <bertrand.marquis@arm.com>
+To: Openembedded-core@lists.openembedded.org
+Cc: nd@arm.com
+Subject: [PATCH] sysvinit-inittab/start_getty: Fix respawn too fast
+Date: Thu, 11 Aug 2022 10:47:21 +0100
+Message-Id: 
+ <9fd908d3afa5e01bb315fbba22a8ab490564923f.1660208982.git.bertrand.marquis@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Aug 2022 09:03:38 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Aug 2022 09:47:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169238
+ https://lists.openembedded.org/g/openembedded-core/message/169239
 
-Hi all,
+When an entry in /dev does not exist, start_getty is returning directly.
+As it is started from init in a respawn mode, it will loop infinitely.
+In this case add a sleep inside start_getty to prevent the "Respawning
+too fast" message popping up every 5 minutes.
 
-gentle ping with some people CC'ed.
+This case is happening quite often when the system is started as an
+hypervisor guest as the standard serial line is usually taken by it and
+removed from the configuration.
 
-Regards,
-Lucas
+This was triggered quite often running linux as dom0 on top of Xen on
+arm as the serial line is taken by Xen and removed from the device tree.
 
-Am Dienstag, dem 21.06.2022 um 19:02 +0200 schrieb Lucas Stach:
-> Commit e1382583cd50 ("perf: sort-pmuevents: don't drop elements") tried
-> to fix a case where the array terminator elements were dropped from the
-> sorted list breaking the build, but it only worked for the case where
-> the terminator is the only element of the array. When the array has other
-> elements the terminator will still be silently dropped, causing invalid
-> memory accesses at runtime when the perf utility iterates over the array.
-> 
-> Fix this by treating any unmatched entry as an array terminator and also
-> add a comment to make it a little more clear how things are ending up at
-> the right position in the sorted list.
-> 
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> ---
->  meta/recipes-kernel/perf/perf/sort-pmuevents.py | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-kernel/perf/perf/sort-pmuevents.py b/meta/recipes-kernel/perf/perf/sort-pmuevents.py
-> index 09ba3328a7ab..0362f2d8fabc 100755
-> --- a/meta/recipes-kernel/perf/perf/sort-pmuevents.py
-> +++ b/meta/recipes-kernel/perf/perf/sort-pmuevents.py
-> @@ -62,7 +62,10 @@ for struct in re.findall( struct_block_regex, data ):
->              #print( "    name found: %s" % name.group(1) )
->              entry_dict[struct[2]]['fields'][name.group(1)] = entry
->  
-> -        if not entry_dict[struct[2]]['fields']:
-> +        # unmatched entries are most likely array terminators and
-> +        # should end up as the last element in the sorted list, which
-> +        # is achieved by using '0' as the key
-> +        if not cpuid and not name:
->              entry_dict[struct[2]]['fields']['0'] = entry
->  
->  # created ordered dictionaries from the captured values. These are ordered by
-> 
+Use the opportunity to replace one tab with spaces as the rest of the
+file is using spaces.
 
+Signed-off-by: Bertrand Marquis <bertrand.marquis@arm.com>
+---
+ meta/recipes-core/sysvinit/sysvinit-inittab/start_getty | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty b/me=
+ta/recipes-core/sysvinit/sysvinit-inittab/start_getty
+index 699a1ead1a40..2bfe4310acad 100644
+--- a/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
++++ b/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
+@@ -13,5 +13,8 @@ case $(readlink -f "${getty}") in
+ esac
+=20
+ if [ -e /sys/class/tty/$2 -a -c /dev/$2 ]; then
+-	${setsid:-} ${getty} -L $1 $2 $3
++    ${setsid:-} ${getty} -L $1 $2 $3
++else
++    # Prevent respawning to fast error if /dev entry does not exist
++    sleep 1000
+ fi
+--=20
+2.25.1
 
 
