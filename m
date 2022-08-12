@@ -1,123 +1,92 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1141C25B0E
-	for <webhook@archiver.kernel.org>; Fri, 12 Aug 2022 10:45:25 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web12.9215.1660301118933046209
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5F95C00140
+	for <webhook@archiver.kernel.org>; Fri, 12 Aug 2022 11:27:05 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web08.9483.1660303624282774856
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Aug 2022 03:45:19 -0700
+ Fri, 12 Aug 2022 04:27:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=btGYSKxn;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id
- d24-20020a1c7318000000b003a5c1bf4f27so341421wmb.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=HQOLxHSA;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id n4so865766wrp.10
         for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Aug 2022 03:45:18 -0700 (PDT)
+ Fri, 12 Aug 2022 04:27:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc;
-        bh=0bCsZ1SoX9ybRQorcZn6cnh+1mIqa3cphjeptmNN5Ls=;
-        b=btGYSKxn1Foy0ecIcwBRcY6amqGaOhJRbn1HpYzRkgi2+iQMKcHUxVsEO4DYb6ja9D
-         F0VoYWxcOrdQFbL7BooNXpgxlsMYSwjAXxSc7e9uBFB0MKzRmBKEKNzHVV8Er0t44VAf
-         n/duzj0o7lXFfR4DoF54eZiBXwJ8KqXCuUH5o=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=bebxoKUjeoPxd5Y7aKdotuxdUUut6gInqBZjBRrxThk=;
+        b=HQOLxHSAovFXF2VYbfqMTX4zJGbbe2GnTzCP7wM215GGJqdoBeR0Kva6rgMUCX/v7I
+         NEtjXhR0UmZzEj9FxtfYaDbkmmP6t0/KXpuP6GH8F7mBf7PgTQxSxO0/4w7MBQRPDSfi
+         bvb1fZVy57QaSdamZH6kqJckWIpQAtgJ7o9rl6iTfomKwXMe95URJO2BZr7qKFHkrHqY
+         FCfHObHNIiGZ6rkDJGgBsfmc+tLwR0NzlrcdFGyMAq7Zn9PaoCd7THMUeLIzUXF6NQ4U
+         uxRU6ytbM307QR2upoopPIeYiIdwo0r4sS1qPIS0aj19ws/K5rYfn+d2RSEb6OMKAD4/
+         R2Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=0bCsZ1SoX9ybRQorcZn6cnh+1mIqa3cphjeptmNN5Ls=;
-        b=6CEu8p4VMsT56EAWVWa0OCP9UN7d80gy8PCMi6aDn/jWUO3ZN9VZBmMXrPG0XCCzmy
-         vI7ANKJ29Shl+5vktSPCoej8GtH8bBg2a2caSx83iYODN7W+bjZ7XvVucQSh6NOltxVv
-         DSSapJAWe8Vsx34u820X4wM8Zw+vCg7dejk72vjB36LeNtM0oQVhIKWyp+mc8YVjVIUj
-         b/mVo8gFZlaXnkT6ZoEUiWLdtcjkKT0nAOYwLYxvGANeEhCQdV2szZzs6vaJFK1y1/cq
-         TPi9KidXFP6CAuae2dAogD0Yvwqly5aogkPQX0JejAcgtRjZv3Kj4X7sLyKbv+tsEmyX
-         CXAg==
-X-Gm-Message-State: ACgBeo101VD+lbaHhyaOTFT0IT69ilCPAQguAS7+dD2Sv4PcfBFhH+GV
-	JRnYuK7xXVVffmemtPML5CYpUcCzPw5B8A==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=bebxoKUjeoPxd5Y7aKdotuxdUUut6gInqBZjBRrxThk=;
+        b=Tfn27csxfl2eRPhxQX93CSVsgO4M+4Q24sEVDbXl9GJ03aI+bluLIQxeOeoSG3X4KR
+         V7avD0WYq22c+t+nPppFbjFvZ1PKUe0AispqZ9hcS+ocr2jp52BoUpXnkr+TTu8krFB2
+         aPqvp4FSNVWQjh3enGb5fi/lACLX/tbBuVn/l6yClesPLfbL6i2YyYYQhO7L1YLCckbG
+         dQs6tUos2vhdrWgVVsRP4JskxCwsub3klHd8027t/dEdT++4ZyjDz/3ythyiE581hHNw
+         7f5qMPdTmp1avGrqC8cQJEHTgBl7rwR5Au3kpsn/yx1TN+PHlvVXKxj5zP3ndSy0k7ed
+         tX/A==
+X-Gm-Message-State: ACgBeo3sDHnvqf+4TJBgDpUtg8bZo/vKv5+I1v50OJqWSjy531PqyP9m
+	hsN3mIPkc844iHLN5CqSHE8th6of2nQ=
 X-Google-Smtp-Source: 
- AA6agR5d9nhyjxHVTqt/Wg3iViNWt4zjy59bi7wwLKdIsIzWzm96U7YOJNct8uqY1dzdCAbZuYpjqg==
-X-Received: by 2002:a05:600c:1e8f:b0:3a4:e0f0:4bad with SMTP id
- be15-20020a05600c1e8f00b003a4e0f04badmr2216313wmb.133.1660301117159;
-        Fri, 12 Aug 2022 03:45:17 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:c425:95a5:4141:7147])
+ AA6agR4Wl6WaI+WarGeihCTivpvlLVetYGpkHuuDI9N83N+dlcVLjJ4DQ1Uw297CNTagw1AHSI27Cg==
+X-Received: by 2002:adf:db06:0:b0:220:7a57:6665 with SMTP id
+ s6-20020adfdb06000000b002207a576665mr1922475wri.55.1660303621980;
+        Fri, 12 Aug 2022 04:27:01 -0700 (PDT)
+Received: from og-worker-dev-01.infra.foundries.io.net
+ (51-159-19-113.rev.poneytelecom.eu. [51.159.19.113])
         by smtp.gmail.com with ESMTPSA id
- s11-20020a5d69cb000000b00220628ef654sm1587732wrw.24.2022.08.12.03.45.16
-        for <openembedded-core@lists.openembedded.org>
+ f16-20020a5d50d0000000b002205ffe88edsm1732932wrt.31.2022.08.12.04.27.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Aug 2022 03:45:16 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Fri, 12 Aug 2022 04:27:01 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/4] testexport: Fix to work as an image class
-Date: Fri, 12 Aug 2022 11:45:13 +0100
-Message-Id: <20220812104514.825820-3-richard.purdie@linuxfoundation.org>
+Cc: Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [OE-core][PATCH] linux-yocto: adds a space when append to
+ KERNEL_EXTRA_ARGS
+Date: Fri, 12 Aug 2022 11:26:43 +0000
+Message-Id: <20220812112643.2168104-1-jose.quaresma@foundries.io>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220812104514.825820-1-richard.purdie@linuxfoundation.org>
-References: <20220812104514.825820-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Aug 2022 10:45:25 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Aug 2022 11:27:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169279
+ https://lists.openembedded.org/g/openembedded-core/message/169281
 
-The class is mainly an image based class but one recipe does need to look
-at values shared with the class and isn't an image. Move this to a conf
-file instead, avoiding the need to pollute all recipes globally.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 ---
- meta/classes/testexport.bbclass              | 5 ++---
- meta/conf/testexport.conf                    | 3 +++
- meta/recipes-core/meta/testexport-tarball.bb | 2 +-
- 3 files changed, 6 insertions(+), 4 deletions(-)
- create mode 100644 meta/conf/testexport.conf
+ meta/recipes-kernel/linux/linux-yocto.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/testexport.bbclass b/meta/classes/testexport.bbclass
-index 01656455e84..98468c96fd1 100644
---- a/meta/classes/testexport.bbclass
-+++ b/meta/classes/testexport.bbclass
-@@ -23,10 +23,9 @@ TEST_TARGET ?= "simpleremote"
- TEST_TARGET_IP ?= ""
- TEST_SERVER_IP ?= ""
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index cabc8f4975..7ea661e138 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -60,7 +60,7 @@ do_install:append(){
+ KERNEL_FEATURES:append:qemuall=" features/kernel-sample/kernel-sample.scc"
  
--TEST_EXPORT_SDK_PACKAGES ?= ""
-+require conf/testexport.conf
-+
- TEST_EXPORT_SDK_ENABLED ?= "0"
--TEST_EXPORT_SDK_NAME ?= "testexport-tools-nativesdk"
--TEST_EXPORT_SDK_DIR ?= "sdk"
+ KERNEL_DEBUG_OPTIONS ?= "stack"
+-KERNEL_EXTRA_ARGS:append:x86-64 = "${@bb.utils.contains('KERNEL_DEBUG_OPTIONS', 'stack', 'HOST_LIBELF_LIBS="-L${RECIPE_SYSROOT_NATIVE}/usr/lib/pkgconfig/../../../usr/lib/ -lelf"', '', d)}"
++KERNEL_EXTRA_ARGS:append:x86-64 = " ${@bb.utils.contains('KERNEL_DEBUG_OPTIONS', 'stack', 'HOST_LIBELF_LIBS="-L${RECIPE_SYSROOT_NATIVE}/usr/lib/pkgconfig/../../../usr/lib/ -lelf"', '', d)}"
  
- TEST_EXPORT_DEPENDS = ""
- TEST_EXPORT_DEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'cpio-native:do_populate_sysroot', '', d)}"
-diff --git a/meta/conf/testexport.conf b/meta/conf/testexport.conf
-new file mode 100644
-index 00000000000..d7c28de7a75
---- /dev/null
-+++ b/meta/conf/testexport.conf
-@@ -0,0 +1,3 @@
-+TEST_EXPORT_SDK_PACKAGES ?= ""
-+TEST_EXPORT_SDK_DIR ?= "sdk"
-+TEST_EXPORT_SDK_NAME ?= "testexport-tools-nativesdk"
-\ No newline at end of file
-diff --git a/meta/recipes-core/meta/testexport-tarball.bb b/meta/recipes-core/meta/testexport-tarball.bb
-index bb9f8ded48c..abdd0092528 100644
---- a/meta/recipes-core/meta/testexport-tarball.bb
-+++ b/meta/recipes-core/meta/testexport-tarball.bb
-@@ -4,7 +4,7 @@ DESCRIPTION = "SDK type target for standalone tarball containing packages define
- SUMMARY = "Standalone tarball for test systems with missing software"
- LICENSE = "MIT"
- 
--TEST_EXPORT_SDK_PACKAGES ??= ""
-+require conf/testexport.conf
- 
- TOOLCHAIN_TARGET_TASK ?= ""
- 
+ do_devshell:prepend() {
+     # setup native pkg-config variables (kconfig scripts call pkg-config directly, cannot generically be overriden to pkg-config-native)
 -- 
 2.34.1
 
