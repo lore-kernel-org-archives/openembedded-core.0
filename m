@@ -1,118 +1,138 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2695C25B08
-	for <webhook@archiver.kernel.org>; Fri, 12 Aug 2022 20:32:11 +0000 (UTC)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
- [209.85.219.179])
- by mx.groups.io with SMTP id smtpd.web12.2087.1660336324142682456
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5CBCC00140
+	for <webhook@archiver.kernel.org>; Fri, 12 Aug 2022 21:12:01 +0000 (UTC)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web08.2391.1660338720842653348
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Aug 2022 13:32:04 -0700
+ Fri, 12 Aug 2022 14:12:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CeZOiWdX;
- spf=pass (domain: gmail.com, ip: 209.85.219.179,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-yb1-f179.google.com with SMTP id b144so3118521yba.13
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=6Aw6LYpI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.49,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f49.google.com with SMTP id
+ s5-20020a17090a13c500b001f4da9ffe5fso9374589pjf.5
         for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Aug 2022 13:32:04 -0700 (PDT)
+ Fri, 12 Aug 2022 14:12:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=+gP64klRZToOqQuIiL3+dSLGQ+eJU/bkegbxIMdzeYQ=;
-        b=CeZOiWdXyJj+QRuQrvgS6HO7Vp2sR/NyvSPRBIYRqxcAnsfH5kpiy25SAWF9v0tV3R
-         9IzkuMwmwSI4kE+RtHHeJhTX7OdeiRGFfxJNyeaHE2Rm8BIVi+v7I7ZEn2ilVpjMXeNh
-         esBeCh2e9lmC5n7UseqQ2QYbEWkiF5bqOKtyLcIM3DeOWJv3GmmVPnjWsuZCyWy++Bai
-         Yfzh7cqONhKh5eBOh+XVnONUQMO2MRKd43QT6WjWzHioVBihf03/tqeN5rITxXSXWuoA
-         ZjsLGd64Jg4x8FzOv6s11EDVO9UvhGVlST/IBvQIRaXxyXJ0ra/CUk3w2HvsyzstxUmH
-         rQsA==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc;
+        bh=pqi2gJl0JuLLD4zj9+OSflnanEfcZvAKw2an1rBSoPU=;
+        b=6Aw6LYpIaoizf8jq7wqark6Tri/xF7URDMaLBhFqipVbC6YfQvb67K27YGuikcFXRT
+         Q6t+v2YYsBdk1DeBakhXxRBDlIbNpzmDkRO904juc1uqcP6I91NzCRsyNNmIE+Tl8seh
+         5DTsppbSAf+hQG5gPhO75zB/mfhqdJZLH7UeNMG24P4OeSvqNfw0nY3E3YCTJrKFM3Sl
+         qGbup5mMz1pIeet8G/FtXmA8SG8MrPgX24b+Fbvkmc1LgN2Zkk+v+DiTqzLk8iKX//Pp
+         u544fMZshROjChcb7It4wLE/tL7iA8OqTEsloLhaUtCzruGZS8vmKBSf7crFbTsM6xY+
+         PbtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=+gP64klRZToOqQuIiL3+dSLGQ+eJU/bkegbxIMdzeYQ=;
-        b=aKpf/XkIhAGENG39Kf5HC93lH2lLq9Ff4tGIJQDRUQVbkkDbh6OPaK4WAqRbpjdyxs
-         uUFwBnjUlpfibNDpfJjVBpi55fjTTv4WW2x1I3NVmmYTlJH1yUy/K1UG+aeV9EknQ/+g
-         KtJXIRz6kXfS4jtyEbFKTOGp+OOxuPNAVKynjkzJsKNF7e8RSoXcwAg4+/SZWSSUXCYw
-         4X9XczIvYOgiD/eysfUyGUOo2EzVyf95yTeC8zfmmhM1J8itfJLYXepmFIAI5byqXy47
-         9LqVRT5ZlWWfEQ5UYSOgqkFBskk4TBvcL6DfEL6HOPQ2upMQqIHs2MOvxvGKVdJYE5x/
-         sfyw==
-X-Gm-Message-State: ACgBeo25N8dA/ErUXZcl8Aci/qIXu1Qc811SL8NHj/ylb9qvWok2ZgL9
-	NdtmJBF0paiydBTPnWcL8vArpfA7+HoyZgyCTeQ=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc;
+        bh=pqi2gJl0JuLLD4zj9+OSflnanEfcZvAKw2an1rBSoPU=;
+        b=ZItRPn9lQf5s2SeU4VhnFqssOWpDDLDGF6mZeTPcn62F7qEEpPv34zbIi0xHQT20nX
+         poTaCcEE2NqUN8viLt3o6EfkaaV6Z7weqCEp0WvqaQmYe0qGMoLGFBpZrpDx2JiIm1BL
+         Q3+H4poHOA0YoUrwcR9u7/WJiAFKexTkMHaR7QUdZIKFHD2o+2DTXdHob4FRtVtI/dLV
+         T0z50Sb0klX0rdIKk5uuwNbEm9osxLNU/6WvgY8MsiG/XJIUnP4u1ZElAlD6EUrloNYk
+         PpYsOq19WzXzR7m9HRlbw/5/Z4di0UPGrY7pza50zKC8zd6CKJHY8U1MJctbyCfsVi05
+         MKKA==
+X-Gm-Message-State: ACgBeo3jw3Aljn+H8rcYy3KIp6DwoypAMqNeMdQM4vhB4uc3m7EJQhED
+	/eF29xOxPbdbKTYCRzkC/2um6ObOlkDG14oO
 X-Google-Smtp-Source: 
- AA6agR7TAOM2Bh6FfzOhk+/RfJtNdxtI6alJj1Iha1jVo6T3mh6RGeuMW+olSoeI0fHyheQY9DY9JU1njezRW+GBVzs=
-X-Received: by 2002:a25:b986:0:b0:671:a73:1ea6 with SMTP id
- r6-20020a25b986000000b006710a731ea6mr4571634ybg.405.1660336323156; Fri, 12
- Aug 2022 13:32:03 -0700 (PDT)
+ AA6agR7ZwiapCfLNBo/v+XYR6IMZexoM3JqP7RnjlymYVtae5brSKtJTZDZGaLA3oajq7VG3LC+NNQ==
+X-Received: by 2002:a17:903:2286:b0:16e:ef47:4013 with SMTP id
+ b6-20020a170903228600b0016eef474013mr5931233plh.120.1660338719701;
+        Fri, 12 Aug 2022 14:11:59 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id
+ h7-20020a170902680700b0016f0c2ea158sm2197192plk.157.2022.08.12.14.11.58
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Aug 2022 14:11:59 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/11] Pull request (cover letter only)
+Date: Fri, 12 Aug 2022 11:11:51 -1000
+Message-Id: <cover.1660338639.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220811055433.819522-1-raj.khem@gmail.com>
- <CAJ86T=W5VXFR5Z+1VCrddFS-y4roaoqpU2QzQiSEGzuRpL=9QQ@mail.gmail.com>
-In-Reply-To: 
- <CAJ86T=W5VXFR5Z+1VCrddFS-y4roaoqpU2QzQiSEGzuRpL=9QQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 12 Aug 2022 13:31:36 -0700
-Message-ID: 
- <CAMKF1sqDXtqTcV6J5JwFu8JVoANRXYkH_vitXF84K=22n60RTw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/5] zip: Enable largefile support based on
- distro feature
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Aug 2022 20:32:11 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Aug 2022 21:12:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169292
+ https://lists.openembedded.org/g/openembedded-core/message/169293
 
-On Fri, Aug 12, 2022 at 1:25 PM Andre McCurdy <armccurdy@gmail.com> wrote:
->
-> On Wed, Aug 10, 2022 at 10:54 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > The configure test tries to run a binary during build to determine
-> > largefile support, which wont work in cross-compile mode, therefore
-> > specify it when largefile DISTRO_FEATURE is on.
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/recipes-extended/zip/zip_3.0.bb | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
-> > index 07a67b96348..d560c83464b 100644
-> > --- a/meta/recipes-extended/zip/zip_3.0.bb
-> > +++ b/meta/recipes-extended/zip/zip_3.0.bb
-> > @@ -29,6 +29,8 @@ CVE_CHECK_IGNORE += "CVE-2018-13410"
-> >  # Not for zip but for smart contract implementation for it
-> >  CVE_CHECK_IGNORE += "CVE-2018-13684"
-> >
-> > +CFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', '-DLARGE_FILE_SUPPORT', '', d)}"
->
-> This should be hardcoded to enable LFS. The largefile distro feature
-> isn't used in oe-core (ie disabling LFS is not supported or even
-> possible anymore). The distro feature should be removed completely at
-> some point... when recipes in meta-oe etc have stopped referring to
-> it. See release notes from OE 2.3 (ie May 2017):
->
->   https://docs.yoctoproject.org/2.3/ref-manual/ref-manual.html#migration-2.3-miscellaneous-changes
->
+The following changes since commit 73d2b640ad665f6ff3c4fbe8f5da4ef0dbb175f2:
 
-you are right.
+  libtirpc: CVE-2021-46828 DoS vulnerability with lots of connections (2022-07-28 06:26:48 -1000)
 
-> >  # zip.inc sets CFLAGS, but what Makefile actually uses is
-> >  # CFLAGS_NOOPT.  It will also force -O3 optimization, overriding
-> >  # whatever we set.
-> > --
-> > 2.37.1
-> >
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#169227): https://lists.openembedded.org/g/openembedded-core/message/169227
-> > Mute This Topic: https://lists.openembedded.org/mt/92953016/3619030
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [armccurdy@gmail.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+
+Alex Kiernan (1):
+  openssh: Add openssh-sftp-server to openssh RDEPENDS
+
+Bruce Ashfield (2):
+  linux-yocto/5.4: update to v5.4.208
+  linux-yocto/5.4: update to v5.4.209
+
+Hitendra Prajapati (2):
+  grub2: Fix several security issue of integer underflow
+  gdk-pixbuf: CVE-2021-46829 a heap-based buffer overflow
+
+Jose Quaresma (1):
+  gstreamer1.0: use the correct meson option for the capabilities
+
+Khem Raj (1):
+  libmodule-build-perl: Use env utility to find perl interpreter
+
+Martin Jansa (1):
+  libxml2: Port gentest.py to Python-3
+
+Richard Purdie (1):
+  insane: Fix buildpaths test to work with special devices
+
+Ross Burton (1):
+  cve_check: skip remote patches that haven't been fetched when
+    searching for CVE tags
+
+Steve Sakoman (1):
+  selftest: skip virgl test on fedora 36
+
+ meta/classes/insane.bbclass                   |   6 +-
+ meta/lib/oe/cve_check.py                      |   5 +-
+ meta/lib/oeqa/selftest/cases/runtime_test.py  |   2 +
+ .../grub/files/CVE-2022-28733.patch           |  60 ++
+ .../grub/files/CVE-2022-28734.patch           |  67 ++
+ .../grub/files/CVE-2022-28736.patch           | 275 ++++++
+ meta/recipes-bsp/grub/grub2.inc               |   3 +
+ .../openssh/openssh_8.2p1.bb                  |   2 +-
+ .../0001-Port-gentest.py-to-Python-3.patch    | 813 ++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.10.bb    |  11 +
+ .../perl/libmodule-build-perl_0.4231.bb       |   1 +
+ .../gdk-pixbuf/CVE-2021-46829.patch           |  61 ++
+ .../gdk-pixbuf/gdk-pixbuf_2.40.0.bb           |   1 +
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ .../gstreamer/gstreamer1.0_1.16.3.bb          |   2 +-
+ 17 files changed, 1321 insertions(+), 24 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-28733.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-28734.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-28736.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/0001-Port-gentest.py-to-Python-3.patch
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-46829.patch
+
+-- 
+2.25.1
+
 
