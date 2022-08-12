@@ -1,180 +1,111 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <armccurdy@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05CC8C00140
-	for <webhook@archiver.kernel.org>; Fri, 12 Aug 2022 19:27:36 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web08.1258.1660332450504692933
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9026C00140
+	for <webhook@archiver.kernel.org>; Fri, 12 Aug 2022 20:25:21 +0000 (UTC)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
+ [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web10.1992.1660335914137430236
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Aug 2022 12:27:30 -0700
+ Fri, 12 Aug 2022 13:25:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=nzRPC+BU;
- spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f42.google.com with SMTP id ha11so1854487pjb.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=g6ts8mzh;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51,
+ mailfrom: armccurdy@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id tl27so3828609ejc.1
         for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Aug 2022 12:27:30 -0700 (PDT)
+ Fri, 12 Aug 2022 13:25:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=rgZ0SsQ6Ug6tgKnpT2irs0guhfS0hihG7np+/i2nuNg=;
-        b=nzRPC+BUSZj8ZyljapZbiFw7SP8/rMiQewuhazRDTbHPxPjU36Y1d4UPjewLOgvGAQ
-         be6k7Q6LDleVx2ERg8/nKN2AeooMSJJHAS3YNQ7eE7JqJk07BmGBA631JdDu+hrGSP+2
-         FwHLFPjAzrC8Mr3KY/e/JFhRXwuI4b7rDNA8Ref+n6ASUd1Qj023p+cYUyrElaKrhmgM
-         R2bZi8tgLv1MBtnBjn5ilY6Hn3XxuVjFpqrt1cFTQY4iOZFsYdeAU1BdecZ/tXMBEPdi
-         2VXWTO4gjr+P/hNrBixb+ZXMs+Yxcz/Qu9L/3X0RHGFW3/AKl5zaE9dNem8+prgCYQtM
-         PqbA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=tt2Z/H6zyQSuyxkkSniENGTQYhVmIjNVXd7gEvmYdSM=;
+        b=g6ts8mzhXk+HYa5IMp+TairgyEwVVtynzm6QMMsNfLWgywAx+taAMuEfGVS92BHjyn
+         d5v18RmBkAwk+LpCYnNnjNZKKZV6lCsGo5jviYUxqL1oUd136wxJr7HxjuYy3a9SlFBH
+         hUd8SL8/qHxReKO8DzC1pPR5VdIKtDP7aPJAmLKrxW9wF2vuRYl/VPbIjUSAWcQX5skC
+         Nzq9vlmzhuwkqckbDd7z7L93MJSIReOu9S0FSKiAPfKRB1qWolYsIPlIPaqeKHxC0eGt
+         sBQ83Bbn/l7CrBf99/C66DeIkDpVWYh51Q3yYNBdw8mDa3zFTsiwVByBF4QlP9UtF/Th
+         x83g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=rgZ0SsQ6Ug6tgKnpT2irs0guhfS0hihG7np+/i2nuNg=;
-        b=AbRkGxxMed8mLDYRtdBZFb8we+oghZIHp4Ry5rxfWUb/ou99evN5ZULN9z4WPlZG/l
-         aK7oJKR0Xuqt8Z8gIWqwsqRuv49NY4FNH87Kfs80pvdFhnz2cyIA9tOfPxGzKyqxkZ52
-         QNtIBLpWR+nzngwWsUrqjQg4gSIVPc0iJl4GXsZlx8XuLmZpgNDw2rWl3IH6uH6bv2Vk
-         dL+y9I/aUnsVOssea7uVu42xh5iIy8Y7KvYF9ZmDuMrwlAw9Exm2Q4LzjWJY175nFaMX
-         NgO3gLrRZlnPB/5+ostMPQZRlxGvQXNAtonn45YYHGk6JWQFH4Cu5BSefcksj25JkYWA
-         B/bA==
-X-Gm-Message-State: ACgBeo3KYeouo6O4Ygd8T2JNbR+01MUObGa+75Lm18+NWKbmOX9U1tqJ
-	cWRz2SM/+ozIyVQpdh84oyMttmlkaxU=
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=tt2Z/H6zyQSuyxkkSniENGTQYhVmIjNVXd7gEvmYdSM=;
+        b=IfeWRx2wRSZOs/H699S822zZQ9JB9H7gSVg0ldfZ7X8Gg8VXc5yov93T4HtZFyPiCL
+         wNsbnQxatfOGpitmy41QGtufdRjSbrobMESMe5f6y5oTRKqJbH0Vu8PSKXVoqA/bg2zp
+         d+caZEtepgwEKhB9IdvL4iDqdEK9PYHzGxKgd0S1t7Osswi3RY0Tmm+dajDNWFhmuzYH
+         AOVOFLxT8pq1i7sstZxhDF+WNOjcSME0O5a+tKjRdZgWwNu8sxRV1uPSCt/45w2kS87e
+         pBUfQwqaRljQs1sUE/2t+M7gUmgDO8WzjtdDjKNjztFTzUKc0oj3ajYCRFFI5P/XTI3/
+         VL9w==
+X-Gm-Message-State: ACgBeo0ZYfgzg92LgLY7mWAywog5YwAQGJWcrUsHwjx6LzXRYK50zi82
+	3fa7HcMevosNrn6MGuFsSOIs2afOaF8Jtz/bzpc=
 X-Google-Smtp-Source: 
- AA6agR6z7PIiHksoN1nVMQmAr93IOCfgzAw7CmS+gGSsqvjpPyLIyF4yBy+pEXBQ1AUT6zqABz2REw==
-X-Received: by 2002:a17:903:110e:b0:171:5a95:a91d with SMTP id
- n14-20020a170903110e00b001715a95a91dmr3851384plh.3.1660332449447;
-        Fri, 12 Aug 2022 12:27:29 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::9f45])
-        by smtp.gmail.com with ESMTPSA id
- x1-20020a623101000000b0052f1e061b21sm1965133pfx.66.2022.08.12.12.27.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Aug 2022 12:27:28 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] glibc: Bump to latest 2.36 branch
-Date: Fri, 12 Aug 2022 12:27:25 -0700
-Message-Id: <20220812192725.2600254-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.37.1
+ AA6agR6mjm90YzQy7cy+Ag+SNNx4/Exq7pCYE3DH0UImrXQGoejmSY5yeAoT9JvO1nlDoyauvHM5hJ+ZXNAWwxQskv4=
+X-Received: by 2002:a17:907:6e1b:b0:732:25eb:745c with SMTP id
+ sd27-20020a1709076e1b00b0073225eb745cmr3638475ejc.297.1660335912519; Fri, 12
+ Aug 2022 13:25:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220811055433.819522-1-raj.khem@gmail.com>
+In-Reply-To: <20220811055433.819522-1-raj.khem@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 12 Aug 2022 13:24:55 -0700
+Message-ID: 
+ <CAJ86T=W5VXFR5Z+1VCrddFS-y4roaoqpU2QzQiSEGzuRpL=9QQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/5] zip: Enable largefile support based on
+ distro feature
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Aug 2022 19:27:35 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Aug 2022 20:25:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169290
+ https://lists.openembedded.org/g/openembedded-core/message/169291
 
-Drop upstreamed patches
+On Wed, Aug 10, 2022 at 10:54 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> The configure test tries to run a binary during build to determine
+> largefile support, which wont work in cross-compile mode, therefore
+> specify it when largefile DISTRO_FEATURE is on.
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-extended/zip/zip_3.0.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
+> index 07a67b96348..d560c83464b 100644
+> --- a/meta/recipes-extended/zip/zip_3.0.bb
+> +++ b/meta/recipes-extended/zip/zip_3.0.bb
+> @@ -29,6 +29,8 @@ CVE_CHECK_IGNORE += "CVE-2018-13410"
+>  # Not for zip but for smart contract implementation for it
+>  CVE_CHECK_IGNORE += "CVE-2018-13684"
+>
+> +CFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', '-DLARGE_FILE_SUPPORT', '', d)}"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/glibc/glibc-version.inc     |  2 +-
- ...define-STRCPY-guard-in-strcpy-sse2.S.patch | 28 ----------------
- ...ace-strcpy-call-with-memcpy-BZ-29454.patch | 32 -------------------
- meta/recipes-core/glibc/glibc_2.36.bb         |  2 --
- 4 files changed, 1 insertion(+), 63 deletions(-)
- delete mode 100644 meta/recipes-core/glibc/glibc/0026-x86-Fix-define-STRCPY-guard-in-strcpy-sse2.S.patch
- delete mode 100644 meta/recipes-core/glibc/glibc/0027-elf-Replace-strcpy-call-with-memcpy-BZ-29454.patch
+This should be hardcoded to enable LFS. The largefile distro feature
+isn't used in oe-core (ie disabling LFS is not supported or even
+possible anymore). The distro feature should be removed completely at
+some point... when recipes in meta-oe etc have stopped referring to
+it. See release notes from OE 2.3 (ie May 2017):
 
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-index f6cdbbf2414..74b48b05f48 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
- SRCBRANCH ?= "release/2.36/master"
- PV = "2.36"
--SRCREV_glibc ?= "ac47d8f6cf9744139adb12f540fb9cc610cac579"
-+SRCREV_glibc ?= "302bc33bc53c787da6e74162a7092e9c0fb964a8"
- SRCREV_localedef ?= "794da69788cbf9bf57b59a852f9f11307663fa87"
- 
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
-diff --git a/meta/recipes-core/glibc/glibc/0026-x86-Fix-define-STRCPY-guard-in-strcpy-sse2.S.patch b/meta/recipes-core/glibc/glibc/0026-x86-Fix-define-STRCPY-guard-in-strcpy-sse2.S.patch
-deleted file mode 100644
-index 2caff3a0d53..00000000000
---- a/meta/recipes-core/glibc/glibc/0026-x86-Fix-define-STRCPY-guard-in-strcpy-sse2.S.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From 1d4d09d9dff96f46674262534ce1f0e51a8252cb Mon Sep 17 00:00:00 2001
--From: Noah Goldstein <goldstein.w.n@gmail.com>
--Date: Sun, 7 Aug 2022 22:42:30 +0800
--Subject: [PATCH] x86: Fix `#define STRCPY` guard in strcpy-sse2.S
--
--`#ifndef STPCPY` is incorrect for checking if `STRCPY` is already
--defined.  It doesn't end up mattering as the whole check is
--guarded by `#if IS_IN (libc)` but is incorrect none the less.
--
--Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=312ded0d6339e8c463d0395397b5825401b14f54]
--Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-----
-- sysdeps/x86_64/multiarch/strcpy-sse2.S | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/sysdeps/x86_64/multiarch/strcpy-sse2.S b/sysdeps/x86_64/multiarch/strcpy-sse2.S
--index e29b411314..d6b9bae5f8 100644
----- a/sysdeps/x86_64/multiarch/strcpy-sse2.S
--+++ b/sysdeps/x86_64/multiarch/strcpy-sse2.S
--@@ -22,7 +22,7 @@
-- 
-- # include <sysdep.h>
-- 
---# ifndef STPCPY
--+# ifndef STRCPY
-- #  define STRCPY __strcpy_sse2
-- # endif
-- 
-diff --git a/meta/recipes-core/glibc/glibc/0027-elf-Replace-strcpy-call-with-memcpy-BZ-29454.patch b/meta/recipes-core/glibc/glibc/0027-elf-Replace-strcpy-call-with-memcpy-BZ-29454.patch
-deleted file mode 100644
-index a2c951ad936..00000000000
---- a/meta/recipes-core/glibc/glibc/0027-elf-Replace-strcpy-call-with-memcpy-BZ-29454.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From f0e36cf0b348dbc990af9f869196710ca89c28c2 Mon Sep 17 00:00:00 2001
--From: Noah Goldstein <goldstein.w.n@gmail.com>
--Date: Sun, 7 Aug 2022 23:54:19 +0800
--Subject: [PATCH] elf: Replace `strcpy` call with `memcpy` [BZ #29454]
--
--GCC normally does this optimization for us in
--strlen_pass::handle_builtin_strcpy but only for optimized
--build. To avoid needing to include strcpy.S in the rtld build to
--support the debug build, just do the optimization by hand.
--
--Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=483cfe1a6a33d6335b1901581b41040d2d412511]
--Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-----
-- elf/dl-cache.c | 5 +++--
-- 1 file changed, 3 insertions(+), 2 deletions(-)
--
--diff --git a/elf/dl-cache.c b/elf/dl-cache.c
--index c02a95d9b5..03a6d236e8 100644
----- a/elf/dl-cache.c
--+++ b/elf/dl-cache.c
--@@ -513,8 +513,9 @@ _dl_load_cache_lookup (const char *name)
--      we are accessing. Therefore we must make the copy of the
--      mapping data without using malloc.  */
--   char *temp;
---  temp = alloca (strlen (best) + 1);
---  strcpy (temp, best);
--+  size_t best_len = strlen (best) + 1;
--+  temp = alloca (best_len);
--+  memcpy (temp, best, best_len);
--   return __strdup (temp);
-- }
-- 
-diff --git a/meta/recipes-core/glibc/glibc_2.36.bb b/meta/recipes-core/glibc/glibc_2.36.bb
-index 2db3994cf7b..6ccb392f090 100644
---- a/meta/recipes-core/glibc/glibc_2.36.bb
-+++ b/meta/recipes-core/glibc/glibc_2.36.bb
-@@ -51,8 +51,6 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0023-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
-            file://0024-Avoid-hardcoded-build-time-paths-in-the-output-binar.patch \
-            file://0025-Revert-Linux-Implement-a-useful-version-of-_startup_.patch \
--           file://0026-x86-Fix-define-STRCPY-guard-in-strcpy-sse2.S.patch \
--           file://0027-elf-Replace-strcpy-call-with-memcpy-BZ-29454.patch \
- "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
--- 
-2.37.1
+  https://docs.yoctoproject.org/2.3/ref-manual/ref-manual.html#migration-2.3-miscellaneous-changes
 
+>  # zip.inc sets CFLAGS, but what Makefile actually uses is
+>  # CFLAGS_NOOPT.  It will also force -O3 optimization, overriding
+>  # whatever we set.
+> --
+> 2.37.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#169227): https://lists.openembedded.org/g/openembedded-core/message/169227
+> Mute This Topic: https://lists.openembedded.org/mt/92953016/3619030
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [armccurdy@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
