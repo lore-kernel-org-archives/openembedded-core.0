@@ -2,131 +2,129 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C27EDC19F2D
-	for <webhook@archiver.kernel.org>; Sat, 13 Aug 2022 14:28:14 +0000 (UTC)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
- [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web09.5397.1660400891457655894
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86EE4C19F2D
+	for <webhook@archiver.kernel.org>; Sat, 13 Aug 2022 14:29:14 +0000 (UTC)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+ [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web10.5445.1660400946933893478
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Aug 2022 07:28:11 -0700
+ Sat, 13 Aug 2022 07:29:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=kXeVFM+J;
- spf=pass (domain: gmail.com, ip: 209.85.208.178,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CppV+I/B;
+ spf=pass (domain: gmail.com, ip: 209.85.208.173,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f178.google.com with SMTP id l10so3455524lje.7
+Received: by mail-lj1-f173.google.com with SMTP id y23so3431690ljh.12
         for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Aug 2022 07:28:11 -0700 (PDT)
+ Sat, 13 Aug 2022 07:29:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=XHOiJQdE34qVdviwAJQDa+jCJtiahFvvD97iL4j8REY=;
-        b=kXeVFM+JgbJIUV8qag0EIDvB9pc6UhsC/6Ff+0IlJs3eBtbjdUOAs9+70G8CqhS6TC
-         IIPJoTYVLW/Emo7MafnFYzokDxB3ntWTzpZFhjZ9htiItikOL7If3kka4uLXjiNkzBKZ
-         hUGGKksbn+sDqF94MAnv7XCk2E1MczCVy8jJcmLWN1BqjufzI7ZlsLuQqiNjnaP+iR6h
-         QJiPGkW9ovyoIkD2n71lHSjf87dZ2sm1zOAdtPYGQLWFk1Psevg7znlhLbyuqnfxNaAq
-         BTkFe0Z4+EhN36LaWwtc+GpwFPIi30DZOwkQ5nfHjsVyT8d/L9Xez0+iqpD84/xjVk/6
-         ijPQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=IVMUxZGMz/rSuTZfUyhD9SCCbjRQe9vZXkmMK0GGCak=;
+        b=CppV+I/BktnVTvdYujyn/dYeJ1zirf0V9q+za9/h4+ZoIQ8Et+BtHGXFikn7pMP5p9
+         sAz770A2GuakioXGrd/N36Uu9Zj/GQkwAo826D8dPyUlNFTY32qhF873x6aR04fAP4LV
+         4MK3D0kLSJ+HgFoQ3hTr8sQ4I/WiLFO9emPzWXiYS4VmVvM44HGW4me0i29AMHA094jC
+         rccV2CZsAfZDOgydfR3ULHFuILyFmAZjixpBWgkvZOm7BR/LsoFzbLZFP4Hn8YNfTLs+
+         EPZPcrVMEtL+zC1FaOuMOB81XxmISwXiS+23zh3QhLvHanygApqJsmehNb4+0QhakgV4
+         w94w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=XHOiJQdE34qVdviwAJQDa+jCJtiahFvvD97iL4j8REY=;
-        b=2i7LnsyUEJmoHPWGnen7ZgRYvQ1yyW14U8VU1TRvDq9Jq2Flaxb4pXXIbtcXstoanC
-         bnIlcihynsLp6+kk96anl4s1P7kKz9C8oJXpQc9qjFVuwlnRdxQXt2sJrblAuylIx95/
-         Aljv6xj7olfgJAvSIzXLXYOPNtDyRrQGHUALUoAm8yZRb3eyWGrxGQyVCChJL3d8WL+u
-         Z1RXlNxjDN395C0NqsvMEfKSw6vEKYLAe1E+57+5zon74ftkYfLS96Ypqo6WkXa/gdbZ
-         mMD/hN3ubB6vJjOUarS6MkjWIiaZ4dErxCqXHKRiW1m07RkAxp1aAVysmmqNCpMD77cK
-         yXeQ==
-X-Gm-Message-State: ACgBeo0mnzPtvem5hfhPb5h8nszJLz/6YnuF0O3DWPVf2l9Uz2QjTPln
-	rVd0WTkm2KfyAkMYYPbOvQ/Jh8uqImfMjG4potk=
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=IVMUxZGMz/rSuTZfUyhD9SCCbjRQe9vZXkmMK0GGCak=;
+        b=ctuIxtQ7ZxgaNlWObysD5RJkw62UmicXDR2r4NthCMrsH5MlYU9m9Ii3QJ7JsXQeB8
+         tvvPmJNVvlzJdKHrhwvZ1YwNzrWdpfT3Cbgb3ZbbfKUPS5PCfC220idE/26yrDheOVwf
+         QPTisZQepBXvzdNqSm/ZiWr5dg72S1+0XnfseYNg+4TFsm6XiBeqaKGT+1XjFtaDRetU
+         sczk1DgIKGygmblc5NXsZtIr1APbB58YWNMxJsA71GQMq2ZCTyk9IAn6Km3LzfQmnqQS
+         S2Q45TJ2wozWtZHAgHCdMdfkL+IR5WoW+C1hFRHPvFGHyUiOtob1BERVItDO5BAKo9Ef
+         9WGA==
+X-Gm-Message-State: ACgBeo0GgNCs6J74BmQkbUsUzH1lGsA2EKhzKW53pg8GC0C9OBItjK6q
+	sf+xosWmkUES2trf85PjGgUl9357ladoT9u6aOY=
 X-Google-Smtp-Source: 
- AA6agR7BO51lc72I7Qq16VkKKLDo66AcKW1sy+xPwDE8ZesbJD5DjSb6m50kPt7eEbLRHNmm1FLbLGNJPMffyEItHeI=
-X-Received: by 2002:a2e:9dc5:0:b0:25e:6fa0:1243 with SMTP id
- x5-20020a2e9dc5000000b0025e6fa01243mr2712132ljj.513.1660400889293; Sat, 13
- Aug 2022 07:28:09 -0700 (PDT)
+ AA6agR6sjNmCvohuehvwmHLAoXLpVvUajzww5GY14p2NIFAxJMxMesjxqq/Z1FQ/quwxLFEfaAHX/L0O4hDNKiUIi9I=
+X-Received: by 2002:a2e:804e:0:b0:25e:7231:c304 with SMTP id
+ p14-20020a2e804e000000b0025e7231c304mr2521869ljg.257.1660400945299; Sat, 13
+ Aug 2022 07:29:05 -0700 (PDT)
 MIME-Version: 1.0
-References: 
- <CABF_=yi9-vQ4b-4qnOz+W5bbJmjRmk72YOog+GvDVBVyQ160+Q@mail.gmail.com>
- <CANNYZj-c97JgQnN-W3Ae3YzpWRGOO9hwO_xF0WDuoMsCaOwyKg@mail.gmail.com>
- <CABF_=yhQmn4Odw1wabzdS+_+D3tqpE0S6r6aCsuP9PbsudF9ow@mail.gmail.com>
-In-Reply-To: 
- <CABF_=yhQmn4Odw1wabzdS+_+D3tqpE0S6r6aCsuP9PbsudF9ow@mail.gmail.com>
+References: <20220808064237.3975347-1-alex@linutronix.de>
+ <20220808064237.3975347-12-alex@linutronix.de>
+ <Yveh2svRupzwP67Z@mail.local>
+In-Reply-To: <Yveh2svRupzwP67Z@mail.local>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 13 Aug 2022 16:27:57 +0200
+Date: Sat, 13 Aug 2022 16:28:53 +0200
 Message-ID: 
- <CANNYZj8M+RfFmhPdM7caohuOtThORatkDZKuxL68xodDd_=v8w@mail.gmail.com>
-Subject: Re: [OE-core] makeself
-To: jan vermaete <jan.vermaete@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+ <CANNYZj9XdS0p_ms9nzOpg1-aQt-sSPVkf-DWSTG33UFyiC-gEQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 12/44] util-linux: upgrade 2.38 -> 2.38.1
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 13 Aug 2022 14:28:14 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 13 Aug 2022 14:29:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169308
+ https://lists.openembedded.org/g/openembedded-core/message/169309
 
-meta-openembedded/meta-oe/recipes-devtools is fine I think.
+I believe there is nothing to rebase, the latest patch was merged.
+Same for stress-ng.
+
 
 Alex
 
-On Sat, 13 Aug 2022 at 16:09, jan vermaete <jan.vermaete@gmail.com> wrote:
+
+On Sat, 13 Aug 2022 at 15:06, Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
 >
-> fine for me, I'll do.
+> Hello,
 >
-> But where to place it?
->  * meta-openembedded/meta-oe/recipes-support
->  * meta-openembedded/meta-oe/recipes-devtools
->  * meta-openembedded/recipes-devtools
->  * poky/meta/recipes-devtools/
+> could you rebase on master?
 >
-> Jan,
+> On 08/08/2022 08:42:05+0200, Alexander Kanavin wrote:
+> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> > ---
+> >  ...{util-linux-libuuid_2.38.bb => util-linux-libuuid_2.38.1.bb} | 0
+> >  meta/recipes-core/util-linux/util-linux.inc                     | 2 +-
+> >  .../util-linux/{util-linux_2.38.bb => util-linux_2.38.1.bb}     | 0
+> >  3 files changed, 1 insertion(+), 1 deletion(-)
+> >  rename meta/recipes-core/util-linux/{util-linux-libuuid_2.38.bb => util-linux-libuuid_2.38.1.bb} (100%)
+> >  rename meta/recipes-core/util-linux/{util-linux_2.38.bb => util-linux_2.38.1.bb} (100%)
+> >
+> > diff --git a/meta/recipes-core/util-linux/util-linux-libuuid_2.38.bb b/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb
+> > similarity index 100%
+> > rename from meta/recipes-core/util-linux/util-linux-libuuid_2.38.bb
+> > rename to meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb
+> > diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+> > index c9bddfb7a6..f1511f02a8 100644
+> > --- a/meta/recipes-core/util-linux/util-linux.inc
+> > +++ b/meta/recipes-core/util-linux/util-linux.inc
+> > @@ -37,4 +37,4 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+> >             file://avoid_parallel_tests.patch \
+> >             "
+> >
+> > -SRC_URI[sha256sum] = "6d111cbe4d55b336db2f1fbeffbc65b89908704c01136371d32aa9bec373eb64"
+> > +SRC_URI[sha256sum] = "60492a19b44e6cf9a3ddff68325b333b8b52b6c59ce3ebd6a0ecaa4c5117e84f"
+> > diff --git a/meta/recipes-core/util-linux/util-linux_2.38.bb b/meta/recipes-core/util-linux/util-linux_2.38.1.bb
+> > similarity index 100%
+> > rename from meta/recipes-core/util-linux/util-linux_2.38.bb
+> > rename to meta/recipes-core/util-linux/util-linux_2.38.1.bb
+> > --
+> > 2.30.2
+> >
 >
->
-> On Sat, Aug 13, 2022 at 1:36 PM Alexander Kanavin <alex.kanavin@gmail.com=
-> wrote:
->>
->> No need to ask. Make a patch, write a good commit message and send it :)
->>
->> Alex
->>
->> On Sat, 13 Aug 2022 at 12:11, Jan Vermaete <jan.vermaete@gmail.com> wrot=
-e:
->> >
->> > Could it be useful to transfer the makeself recipe from the no longer =
-maintained intel-iot-refkit into meta-openembedded?
->> >
->> > https://github.com/intel/intel-iot-refkit/blob/master/meta-refkit-core=
-/recipes-core/makeself/makeself_2.2.0.bb
->> >
->> > https://github.com/megastep/makeself
->> >
->> > It's useful as a native recipe to create self extracting installers fo=
-r firmware updates, as an example.
->> >
->> > br,
->> >
->> > --
->> > Jan Vermaete
->> > =E2=80=9CSuccess is a self-correcting phenomenom.=E2=80=9D -- Gary Ham=
-el
->> >
->> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> > Links: You receive all messages sent to this group.
->> > View/Reply Online (#169301): https://lists.openembedded.org/g/openembe=
-dded-core/message/169301
->> > Mute This Topic: https://lists.openembedded.org/mt/92997365/1686489
->> > Group Owner: openembedded-core+owner@lists.openembedded.org
->> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
-[alex.kanavin@gmail.com]
->> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> >
->
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#169036): https://lists.openembedded.org/g/openembedded-core/message/169036
+> > Mute This Topic: https://lists.openembedded.org/mt/92887007/3617179
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
 >
 >
 > --
-> Jan Vermaete
-> =E2=80=9CSuccess is a self-correcting phenomenom.=E2=80=9D -- Gary Hamel
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
