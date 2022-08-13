@@ -1,101 +1,102 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <jan.vermaete@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5A7EC282E7
-	for <webhook@archiver.kernel.org>; Sat, 13 Aug 2022 04:28:21 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
- [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web12.1925.1660364893145275671
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47548C25B08
+	for <webhook@archiver.kernel.org>; Sat, 13 Aug 2022 10:11:33 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web09.3497.1660385489726400476
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Aug 2022 21:28:13 -0700
+ Sat, 13 Aug 2022 03:11:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BAGjMJmG;
- spf=pass (domain: gmail.com, ip: 209.85.215.171,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f171.google.com with SMTP id bh13so2330375pgb.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=num8wcls;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49,
+ mailfrom: jan.vermaete@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id dc19so5726813ejb.12
         for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Aug 2022 21:28:13 -0700 (PDT)
+ Sat, 13 Aug 2022 03:11:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=BcitRYar5+tY/2Sc6Xt75JwBRqIv1MdNxlG6jsleDaw=;
-        b=BAGjMJmGB1mq2P1UxBZ0V8d6Ys6EnTmmyidnc5gp7Mk66O66phD+9nTdMP0ygw95Yw
-         N/CaapyLfULXfptobdufHsFwJk7nrMc3jaYlq7goP5jBI8V8/GwjyH/JQoIBz6IxhMWY
-         TbUzYNrwzhRqDtrUqcb+GPUAg5vLTDWZ87scGRj4a82nCOK6iItXSA/gsU/yAuVSOsWm
-         A17Ojs89r/uZTY6pG+h3MzapDVn0f6twW7MWOY14fCTxkUiPUxAAUvPbTBEIXV5Z9JXB
-         U29OQ8jIYrbufNAnpmWYfnP/yopH8qkRjsZqCdHCiLt0F6cV8plP1vvLQryrzWXQdDu1
-         FjnA==
+        h=to:subject:message-id:date:from:mime-version:from:to:cc;
+        bh=1GJ/4kQGT/Nxeeqr1WuMdLbpJ0fNr1rRQCLjaoerb4w=;
+        b=num8wcls5suTr3S2pRCw4Zye3A+boa8KgD09/2dZ2ux3Z+q7rhKf9B/JZdIyL8hlX/
+         HZ5KmMbUshoKRJKFMAPjkqZ3ExnXgdvtOhFz+4H8vUKhmGjz+z0FV9B8GBqvo3qx1xag
+         YP/E6xZ4KkE3rID3zG2/C1X4mVm1s9xZUZG33qPQ0AfwynZ6uDbpizct09tZFD3F4JFj
+         VNv2WnTA/NIp/6Gmbd7NVcMnK8FBdSB0FpnXnjdKKud2wwCDPaG5cn9IYwqolmqyevoF
+         yLYpCYD2CmoKrlOeC0mJsEtSzqhtRzjxMV9hyA3bRVLXvb3AANBe4EvRrnsADFw/HGND
+         CY6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=BcitRYar5+tY/2Sc6Xt75JwBRqIv1MdNxlG6jsleDaw=;
-        b=uXTCljRfcPZZcdL/NVhqoQCNoYix9Tbb38HWO+BVqsNUQK50RdlnaPUWPFDcqW2Jol
-         IK5g3R5XOVydRNkTugLk/EcGs3EZHvWUKusfSlogTEwatN2S3RdtSSa2SMRnw2rx0/vd
-         AR0wbBqmnC3d+0zkog+xEaSNvQqJv3y/18zcLIA4saN8Ypx313uE93gl97YV6o0LhFyF
-         J9aMuuK/K0hh7DcZhL2dMco0U8t9wHz3smEHIJzY8i7lFLo5+Zh82TnfWC460dXYb8W/
-         Ozy/1tT+jy7NJntSsF0FRyvv0xyGaupKQCTWwQrD4dQZgTPTq8bYch0ailltVqGXoL3e
-         RI5w==
-X-Gm-Message-State: ACgBeo2L1NRb2W+JvEu3hICOlEXTtApoqkB5P2OZ2SFjVUsrEaXDI991
-	qE0DherQFy/D3OCyIbBWxiiw18W7Nvk=
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc;
+        bh=1GJ/4kQGT/Nxeeqr1WuMdLbpJ0fNr1rRQCLjaoerb4w=;
+        b=h6tci9CUjKmytYsY1E5Ffa3GyZya/IvNp+e3uRvtPg0qIG6LSTwt91JFR4HLPeoadu
+         ueWHYeXA+qil7ajqsB0HU/et+NjstYeCyuzCCL5Bn8P9msPXoOiXy4yh+gZ51NrWMgBe
+         cI6xSFQY+WaEtvQZ0daPBBIt/oQ6e555AgzCfbneZxQ+w4mgqL+dgq00hpd7pnAIG/li
+         RthOPYGG0x+diYpTReKABFGHFRnwGydroeHdF8UTwZbbM1GZ/cEdjxG7dhVMYlUO5U2+
+         Euni49s/SwpV1mcI3DlJMgFqH8r8NB8xVYpz0NZZiQiu0jTMAZepkLMkWyCohRJgkcKF
+         ZK7A==
+X-Gm-Message-State: ACgBeo1GASyli5298iMNaVJ3IM5RS676hjPF69N8dqPMHuTSXgV0r6Lo
+	YALHBxp8X6EW5CtqJJKcjB8j7OzuEEkLRMDkh5KfpBbDVpFYnw==
 X-Google-Smtp-Source: 
- AA6agR7ZGLyQDS1rAJ10UZbdp0dk+Vqc4h/NRBUbA+TAisHD7DorBsin9F7Ab5o1EQT2ipfNisr16Q==
-X-Received: by 2002:a63:450:0:b0:41e:1bbc:37b6 with SMTP id
- 77-20020a630450000000b0041e1bbc37b6mr5538353pge.327.1660364892035;
-        Fri, 12 Aug 2022 21:28:12 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::bb7a])
-        by smtp.gmail.com with ESMTPSA id
- h18-20020aa796d2000000b0052d4afc4302sm2536105pfq.175.2022.08.12.21.28.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Aug 2022 21:28:11 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/5] libmicrohttpd: Enable largefile support unconditionally
-Date: Fri, 12 Aug 2022 21:28:04 -0700
-Message-Id: <20220813042807.3533472-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220813042807.3533472-1-raj.khem@gmail.com>
-References: <20220813042807.3533472-1-raj.khem@gmail.com>
+ AA6agR5q4Zi0Lfr6/h+RbQ3WOqNphX6RecHr4U4xC/k598XzfaeUmBcK6pYeyK/qcM90Y0FNpKqGPi2TxkrTtNErQ6k=
+X-Received: by 2002:a17:906:8b81:b0:733:183b:988e with SMTP id
+ nr1-20020a1709068b8100b00733183b988emr5111104ejc.457.1660385487742; Sat, 13
+ Aug 2022 03:11:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: jan vermaete <jan.vermaete@gmail.com>
+Date: Sat, 13 Aug 2022 12:11:15 +0200
+Message-ID: 
+ <CABF_=yi9-vQ4b-4qnOz+W5bbJmjRmk72YOog+GvDVBVyQ160+Q@mail.gmail.com>
+Subject: makeself
+To: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000002feb2005e61c9ff3"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 13 Aug 2022 04:28:21 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 13 Aug 2022 10:11:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169297
+ https://lists.openembedded.org/g/openembedded-core/message/169301
 
-the distro feature knob is deprecated
+--0000000000002feb2005e61c9ff3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+Could it be useful to transfer the makeself recipe from the no longer
+maintained intel-iot-refkit into meta-openembedded?
 
-diff --git a/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb b/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb
-index 9c99af7c912..043fed367c6 100644
---- a/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb
-+++ b/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb
-@@ -13,13 +13,10 @@ inherit autotools lib_package pkgconfig gettext
- 
- CFLAGS += "-pthread -D_REENTRANT"
- 
--EXTRA_OECONF += "--disable-static --with-gnutls=${STAGING_LIBDIR}/../"
-+EXTRA_OECONF += "--disable-static --with-gnutls=${STAGING_LIBDIR}/../ --enable-largefile"
- 
- PACKAGECONFIG ?= "curl https"
--PACKAGECONFIG:append:class-target = "\
--        ${@bb.utils.filter('DISTRO_FEATURES', 'largefile', d)} \
--"
--PACKAGECONFIG[largefile] = "--enable-largefile,--disable-largefile,,"
-+
- PACKAGECONFIG[curl] = "--enable-curl,--disable-curl,curl,"
- PACKAGECONFIG[https] = "--enable-https,--disable-https,libgcrypt gnutls,"
- 
--- 
-2.37.1
+https://github.com/intel/intel-iot-refkit/blob/master/meta-refkit-core/reci=
+pes-core/makeself/makeself_2.2.0.bb
 
+https://github.com/megastep/makeself
+
+It's useful as a native recipe to create self extracting installers for
+firmware updates, as an example.
+
+br,
+
+--=20
+Jan Vermaete
+=E2=80=9CSuccess is a self-correcting phenomenom.=E2=80=9D -- Gary Hamel
+
+--0000000000002feb2005e61c9ff3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Could it be useful=C2=A0to transfer=C2=A0the makeself reci=
+pe from the no longer maintained intel-iot-refkit into meta-openembedded?<d=
+iv><br></div><div><a href=3D"https://github.com/intel/intel-iot-refkit/blob=
+/master/meta-refkit-core/recipes-core/makeself/makeself_2.2.0.bb">https://g=
+ithub.com/intel/intel-iot-refkit/blob/master/meta-refkit-core/recipes-core/=
+makeself/makeself_2.2.0.bb</a></div><div><br></div><div><a href=3D"https://=
+github.com/megastep/makeself">https://github.com/megastep/makeself</a></div=
+><div><br></div><div>It&#39;s useful as a native recipe to create self extr=
+acting=C2=A0installers for firmware updates, as an example.</div><div><br><=
+/div><div>br,<br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr" class=
+=3D"gmail_signature" data-smartmail=3D"gmail_signature">Jan Vermaete<br>=E2=
+=80=9CSuccess is a self-correcting phenomenom.=E2=80=9D -- Gary Hamel</div>=
+</div></div>
+
+--0000000000002feb2005e61c9ff3--
 
