@@ -1,106 +1,146 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68E1EC25B0D
-	for <webhook@archiver.kernel.org>; Sat, 13 Aug 2022 17:02:05 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web10.6898.1660410123013901736
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AAB0C19F2D
+	for <webhook@archiver.kernel.org>; Sat, 13 Aug 2022 20:35:06 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web09.8722.1660422904740592503
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Aug 2022 10:02:03 -0700
+ Sat, 13 Aug 2022 13:35:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Imm4+RQO;
- spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f45.google.com with SMTP id gp7so3590868pjb.4
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=L77tqrJd;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id q30so4648556wra.11
         for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Aug 2022 10:02:02 -0700 (PDT)
+ Sat, 13 Aug 2022 13:35:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=G7Bn66z+H1sW8mKhX8l7HFEk9R/0YTZCyUbbwgd/iGM=;
-        b=Imm4+RQO0tKZSmwZacr+zmT8zTcy69vqCWuQG41ZmW0wdGdH20L3sH7HsSPb/F6mLM
-         JqQ81mz2F7U7/04qyq5k7laXPcsmb9xKJGAVxBkCSrZ3FtKR7G1fb+WCEVpZ9epC8ooz
-         UntwB3kVssdmitpoHZVE7sW7dsv5koJVxkIYUtG/p3wZ6v2k6z4iLDYz9bF2PA4LuX5f
-         umiyEfvtIj0lFZzrr3MrwAriscyYj5NKGj3KeKAncFQZFWnUFEyJpwHMNjfaI2IDQ5IG
-         aVgNeDrxn87H+qqmwQ5L+LA7I4nBubf7/C65nZl0ajIDtyuohlT+BVulg+kydX6PfkK0
-         i3cg==
+        d=linuxfoundation.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc;
+        bh=HH4iRuQ+HK+qfyubj5jcUmwzn4FBH7IHI+7FcrmdOdo=;
+        b=L77tqrJdb0JtTWtPN9OA9afD5ozcUUmWJIgjtTzpe0mox8Rkb3Su0m6NgaJWJVi9aD
+         V6+EK1ri2fWVe9LtjaeC0T1OoU+QyKtzn466vMc0KCypPCk8A+AnrROyJ1Tmst/Exrq7
+         q/qvpNHfj801Ml69HUndORCOFD+KuRkkvawiM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=G7Bn66z+H1sW8mKhX8l7HFEk9R/0YTZCyUbbwgd/iGM=;
-        b=niVNyTpAsBtOaHFNCGGe442Lw4lKxLGQUf1FVFtpsjkEuH5vDXh7NrL3DohYmLtu5c
-         mZHAYZ1xoiUBDyUszPZ7FvVDB6JpCB4BGd0MeSiHsvtiFWGPLKpPXz0KhFZ6qAIQOKiM
-         QUuS5p/xtlT+KNZ8bzoEjTKwuS+ItERXXsbeSZgYy25WBMWskC+EqK4b023io6eubXPm
-         9dmeVxcZE4FiU41tAN5YEGL5cEUWdi1ljUkEGPEeN+zGzrY1qxk8SsWQ14UjGbyrXG3D
-         r4FbdF0DXNBT1qHnH3lIThTJow8Ad7BtriZ/Bjf7TMJU/Cv6Ftpe/KH9ic4bDvdq3Sba
-         NNrQ==
-X-Gm-Message-State: ACgBeo0HGYRTKrbCFcLejZB/+ixEoGB90CGDTsDh2WHLovz8i982/9G/
-	2TjQsvxyniTeSqlgx9tY4Vba/UwOFrqW1w==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc;
+        bh=HH4iRuQ+HK+qfyubj5jcUmwzn4FBH7IHI+7FcrmdOdo=;
+        b=ljQRKGg31g8cLuDtUPwBbgiOQzgxNqTHgUOi5LJiG6Y3bbV9zMDBADuDtzYDJH56jL
+         C9GrdU6GQolrZOyLadVBTAEYnX14KqGjNzcpKWC7+yEQEGbVv1cBo6q0XqcCY6d4Q/zR
+         tjih9Bcr4tAys4Pv5SqH+OLLfP3RpfMFZpmj6EoVT04SIcW20f4XFT/32uAVDIxydy1j
+         dRI3THXcMf7pqwLPOXvVRTEGzYfeRCkIFU+ENAnW6pTjhSJTKb8AX8QdEOujs227z48e
+         F8XJ387eZ/t/ul5JW9EvJDc6gnZzaY/YQ2iE+9rDWVf2G93eUPgHCAZdDNexibVPxV5H
+         PwRQ==
+X-Gm-Message-State: ACgBeo0XUdms1Kc2+tnqa5iBiQV5279C7NG3KE0oRsY479d2Mr+fyCa+
+	SYoTVD2FO3tiqxCgY8MqNrFtkcr7MNTHiw==
 X-Google-Smtp-Source: 
- AA6agR7Lz8HXX0RS0sm6fLq9/7Yt2LdQ+MecIyyLw63YSZDlC39FousXjsA9I4sB9N8ggeE9Dfmscg==
-X-Received: by 2002:a17:902:b483:b0:170:a89f:32b3 with SMTP id
- y3-20020a170902b48300b00170a89f32b3mr9375936plr.149.1660410121896;
-        Sat, 13 Aug 2022 10:02:01 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::bb7a])
+ AA6agR6N/uk46DgFkE8c+BJAdhOCmt6X0vb6Xg0XgQK5+rmaXFCC4wdND/OxFzxtobNyMlVHC+Pq4A==
+X-Received: by 2002:adf:e5ca:0:b0:21f:15f2:9894 with SMTP id
+ a10-20020adfe5ca000000b0021f15f29894mr5223486wrn.115.1660422902471;
+        Sat, 13 Aug 2022 13:35:02 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:f6d8:ef31:d475:da8f])
         by smtp.gmail.com with ESMTPSA id
- n7-20020a170902e54700b0016c78aaae7fsm3975713plf.23.2022.08.13.10.02.00
+ l14-20020a05600c4f0e00b003a1980d55c4sm4182050wmq.47.2022.08.13.13.35.01
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Aug 2022 10:02:01 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+        Sat, 13 Aug 2022 13:35:01 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/3] musl: Upgrade to latest tip of trunk
-Date: Sat, 13 Aug 2022 10:01:56 -0700
-Message-Id: <20220813170156.4040589-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220813170156.4040589-1-raj.khem@gmail.com>
-References: <20220813170156.4040589-1-raj.khem@gmail.com>
+Subject: [PATCH 1/5] gcc: Resolve relative prefix-map filenames
+Date: Sat, 13 Aug 2022 21:34:57 +0100
+Message-Id: <20220813203501.1111519-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 13 Aug 2022 17:02:05 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 13 Aug 2022 20:35:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169312
+ https://lists.openembedded.org/g/openembedded-core/message/169313
 
-Brings in following changes
+Add a patch to gcc so that relative paths are handled by -fdebug-prefix-map
+and friends. In OE we use relative paths in autotools and removing that
+creates a lot of issues we'd have to fix. This alternative allows us to
+fix the paths within gcc and improve our debug file coverage (and SPDX
+manifests) accordingly.
 
-* 46d1c780 fix strings.h feature test macro usage due to missing features.h
-* baaf257f fix ESRCH error handling for clock_getcpuclockid
-* 4f48da00 aarch64: add vfork
-* 7d568410 fix mishandling of errno in getaddrinfo AI_ADDRCONFIG logic
-* d16d7b10 early stage ldso: remove symbolic references via error handling function
-* 63c67053 in early stage ldso before __dls2b, call mprotect with __syscall
-* a23a3da2 avoid limited space of random temp file names if clock resolution is low
-* 41002798 remove random filename obfuscation that leaks ASLR information
-* 6c858d6f ensure distinct query id for parallel A and AAAA queries in resolver
-* 8974ef21 mntent: fix potential mishandling of extremely long lines
-* 751bee0e mntent: fix parsing lines with optional fields
-* dcb31f6b fix constraint violation in qsort wrapper around qsort_r
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/gcc/gcc-12.1.inc        |  1 +
+ .../gcc/gcc/prefix-map-realpath.patch         | 46 +++++++++++++++++++
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc/prefix-map-realpath.patch
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index fde5fc0ccec..510dd4eeeea 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,7 +4,7 @@
- require musl.inc
- inherit linuxloader
+diff --git a/meta/recipes-devtools/gcc/gcc-12.1.inc b/meta/recipes-devtools/gcc/gcc-12.1.inc
+index 56678c78bef..c42fa3d72f0 100644
+--- a/meta/recipes-devtools/gcc/gcc-12.1.inc
++++ b/meta/recipes-devtools/gcc/gcc-12.1.inc
+@@ -65,6 +65,7 @@ SRC_URI = "${BASEURI} \
+            file://0025-Move-sched.h-include-ahead-of-user-headers.patch \
+            file://0026-rust-recursion-limit.patch \
+            file://0001-libsanitizer-cherry-pick-9cf13067cb5088626ba7-from-u.patch \
++           file://prefix-map-realpath.patch \
+ "
+ SRC_URI[sha256sum] = "62fd634889f31c02b64af2c468f064b47ad1ca78411c45abe6ac4b5f8dd19c7b"
  
--SRCREV = "6e9d2370c7559af80b32a91f20898f41597e093b"
-+SRCREV = "46d1c7801bb509e1097e8fadbaf359367fa4ef0b"
- 
- BASEVER = "1.2.3"
- 
+diff --git a/meta/recipes-devtools/gcc/gcc/prefix-map-realpath.patch b/meta/recipes-devtools/gcc/gcc/prefix-map-realpath.patch
+new file mode 100644
+index 00000000000..137fc645624
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc/prefix-map-realpath.patch
+@@ -0,0 +1,46 @@
++Relative paths don't work with -fdebug-prefix-map and friends. This
++can lead to paths which the user wanted to be remapped being missed.
++Setting -fdebug-prefix-map to work with a relative path isn't practical
++either.
++
++Instead, call gcc's realpath function on the incomming path name before
++comparing it with the remapping. This means other issues like symlinks
++are also accounted for and leads to a more consistent remapping experience.
++
++Upstream-Status: Pending [need to see if gcc developers would accept this]
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++
++
++Index: gcc-12.1.0/gcc/file-prefix-map.cc
++===================================================================
++--- gcc-12.1.0.orig/gcc/file-prefix-map.cc
+++++ gcc-12.1.0/gcc/file-prefix-map.cc
++@@ -70,19 +70,25 @@ remap_filename (file_prefix_map *maps, c
++   file_prefix_map *map;
++   char *s;
++   const char *name;
+++  char *realname;
++   size_t name_len;
++ 
+++  realname = lrealpath (filename);
+++
++   for (map = maps; map; map = map->next)
++-    if (filename_ncmp (filename, map->old_prefix, map->old_len) == 0)
+++    if (filename_ncmp (realname, map->old_prefix, map->old_len) == 0)
++       break;
++-  if (!map)
+++  if (!map) {
+++    free (realname);
++     return filename;
++-  name = filename + map->old_len;
+++  }
+++  name = realname + map->old_len;
++   name_len = strlen (name) + 1;
++ 
++   s = (char *) ggc_alloc_atomic (name_len + map->new_len);
++   memcpy (s, map->new_prefix, map->new_len);
++   memcpy (s + map->new_len, name, name_len);
+++  free (realname);
++   return s;
++ }
++ 
 -- 
-2.37.2
+2.34.1
 
 
