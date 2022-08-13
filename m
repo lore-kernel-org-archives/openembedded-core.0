@@ -2,61 +2,59 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5270CC3F6B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68E1EC25B0D
 	for <webhook@archiver.kernel.org>; Sat, 13 Aug 2022 17:02:05 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
- [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web08.6815.1660410121667133586
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web10.6898.1660410123013901736
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Aug 2022 10:02:01 -0700
+ Sat, 13 Aug 2022 10:02:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=WHqcKFS6;
- spf=pass (domain: gmail.com, ip: 209.85.215.171,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f171.google.com with SMTP id s206so3249212pgs.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Imm4+RQO;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id gp7so3590868pjb.4
         for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Aug 2022 10:02:01 -0700 (PDT)
+ Sat, 13 Aug 2022 10:02:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=vE2Kds4atTK0jFIo4r5i8OuVSJHO51bRs8GlEl8VQxU=;
-        b=WHqcKFS6/TCkcc1SxFWpboUpzDsD8l7qhIA4wTTE0uOmBBxiPOfomcnDufhAi+wdNV
-         pyZaLdHZ6TTgjxdR2JibC44RzL+OGiINkwrzE57aN5nAT2wPxjRvUyX9replkdU7OuFQ
-         z7e00jAdc+rLBS9LptXe0OI3Pi5T0PLGOVbQRh/XQUkA2+z9Wslz5sWyRPOjxKKCvLsw
-         JO3mBgqLMXqD2Y9kPt5cqnrCUwYhnvT8lGo5N3taFuNX5QxzVWs9q80XxBgXciM7lCb8
-         uD/E7vPxuJnooN+p/jVvyMUWK2SD/dYxBJCTzqBjkYdlOx2R5CnI0w4FRGag+LVdcZro
-         v+Cg==
+        bh=G7Bn66z+H1sW8mKhX8l7HFEk9R/0YTZCyUbbwgd/iGM=;
+        b=Imm4+RQO0tKZSmwZacr+zmT8zTcy69vqCWuQG41ZmW0wdGdH20L3sH7HsSPb/F6mLM
+         JqQ81mz2F7U7/04qyq5k7laXPcsmb9xKJGAVxBkCSrZ3FtKR7G1fb+WCEVpZ9epC8ooz
+         UntwB3kVssdmitpoHZVE7sW7dsv5koJVxkIYUtG/p3wZ6v2k6z4iLDYz9bF2PA4LuX5f
+         umiyEfvtIj0lFZzrr3MrwAriscyYj5NKGj3KeKAncFQZFWnUFEyJpwHMNjfaI2IDQ5IG
+         aVgNeDrxn87H+qqmwQ5L+LA7I4nBubf7/C65nZl0ajIDtyuohlT+BVulg+kydX6PfkK0
+         i3cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=vE2Kds4atTK0jFIo4r5i8OuVSJHO51bRs8GlEl8VQxU=;
-        b=oVbB05Cm/VGEcllwkdKy0xR0x+eutaKBrxwhTPq6626GI0Xk5M/3AlWaKqygdnl/vd
-         f5jJ43r/+pYMUVgXHzYN67IdpHRJ2KcY4j6cBrm+WQF4dB7m+++iHBf5X4c8uJ0Xhki8
-         53/esYN0WvL6IR4V1oF9HiArQ9v8O/pinVAEPoXiOKWPwCaIIPjfMojsVVQMxccUL0Pi
-         /uGeogyV17fIIDIfyrp/wigJOFgl9HYp9zvSlqWuxCddhWyV+2AyFn17XWOS1eKwc+Th
-         v68/RdqBwgBIbsqZVkwV8jaA2iQNHk9QquARGmvtoD1tsgFDkbvpWpGvuVuHiG6wjfoe
-         zzkw==
-X-Gm-Message-State: ACgBeo1OuPz0R59FWM/cJUkjCU8p9MFpOXkYeK6TFKmXNP2uTl+Rzspi
-	3vxSubBv892xRoWCVzcEFGpr6ikJJqBzbQ==
+        bh=G7Bn66z+H1sW8mKhX8l7HFEk9R/0YTZCyUbbwgd/iGM=;
+        b=niVNyTpAsBtOaHFNCGGe442Lw4lKxLGQUf1FVFtpsjkEuH5vDXh7NrL3DohYmLtu5c
+         mZHAYZ1xoiUBDyUszPZ7FvVDB6JpCB4BGd0MeSiHsvtiFWGPLKpPXz0KhFZ6qAIQOKiM
+         QUuS5p/xtlT+KNZ8bzoEjTKwuS+ItERXXsbeSZgYy25WBMWskC+EqK4b023io6eubXPm
+         9dmeVxcZE4FiU41tAN5YEGL5cEUWdi1ljUkEGPEeN+zGzrY1qxk8SsWQ14UjGbyrXG3D
+         r4FbdF0DXNBT1qHnH3lIThTJow8Ad7BtriZ/Bjf7TMJU/Cv6Ftpe/KH9ic4bDvdq3Sba
+         NNrQ==
+X-Gm-Message-State: ACgBeo0HGYRTKrbCFcLejZB/+ixEoGB90CGDTsDh2WHLovz8i982/9G/
+	2TjQsvxyniTeSqlgx9tY4Vba/UwOFrqW1w==
 X-Google-Smtp-Source: 
- AA6agR7PJySnx6zayh2emLsyhdSVauBKUogxorEE5slQOoufeVwAuQQ5IW2pbk6G77FEN68zEyiCUA==
-X-Received: by 2002:a05:6a00:3106:b0:52d:53d4:ccc9 with SMTP id
- bi6-20020a056a00310600b0052d53d4ccc9mr9106305pfb.9.1660410120597;
-        Sat, 13 Aug 2022 10:02:00 -0700 (PDT)
+ AA6agR7Lz8HXX0RS0sm6fLq9/7Yt2LdQ+MecIyyLw63YSZDlC39FousXjsA9I4sB9N8ggeE9Dfmscg==
+X-Received: by 2002:a17:902:b483:b0:170:a89f:32b3 with SMTP id
+ y3-20020a170902b48300b00170a89f32b3mr9375936plr.149.1660410121896;
+        Sat, 13 Aug 2022 10:02:01 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::bb7a])
         by smtp.gmail.com with ESMTPSA id
- n7-20020a170902e54700b0016c78aaae7fsm3975713plf.23.2022.08.13.10.01.59
+ n7-20020a170902e54700b0016c78aaae7fsm3975713plf.23.2022.08.13.10.02.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Aug 2022 10:02:00 -0700 (PDT)
+        Sat, 13 Aug 2022 10:02:01 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/3] gstreamer1.0-plugins-base: Include required system
- headers for isspace() and sscanf()
-Date: Sat, 13 Aug 2022 10:01:55 -0700
-Message-Id: <20220813170156.4040589-2-raj.khem@gmail.com>
+Subject: [PATCH 3/3] musl: Upgrade to latest tip of trunk
+Date: Sat, 13 Aug 2022 10:01:56 -0700
+Message-Id: <20220813170156.4040589-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220813170156.4040589-1-raj.khem@gmail.com>
 References: <20220813170156.4040589-1-raj.khem@gmail.com>
@@ -67,67 +65,40 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 13 Aug 2022 17:02:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169311
+ https://lists.openembedded.org/g/openembedded-core/message/169312
+
+Brings in following changes
+
+* 46d1c780 fix strings.h feature test macro usage due to missing features.h
+* baaf257f fix ESRCH error handling for clock_getcpuclockid
+* 4f48da00 aarch64: add vfork
+* 7d568410 fix mishandling of errno in getaddrinfo AI_ADDRCONFIG logic
+* d16d7b10 early stage ldso: remove symbolic references via error handling function
+* 63c67053 in early stage ldso before __dls2b, call mprotect with __syscall
+* a23a3da2 avoid limited space of random temp file names if clock resolution is low
+* 41002798 remove random filename obfuscation that leaks ASLR information
+* 6c858d6f ensure distinct query id for parallel A and AAAA queries in resolver
+* 8974ef21 mntent: fix potential mishandling of extremely long lines
+* 751bee0e mntent: fix parsing lines with optional fields
+* dcb31f6b fix constraint violation in qsort wrapper around qsort_r
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...-system-headers-for-isspace-and-ssca.patch | 35 +++++++++++++++++++
- .../gstreamer1.0-plugins-base_1.20.3.bb       |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-include-required-system-headers-for-isspace-and-ssca.patch
+ meta/recipes-core/musl/musl_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-include-required-system-headers-for-isspace-and-ssca.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-include-required-system-headers-for-isspace-and-ssca.patch
-new file mode 100644
-index 00000000000..23c1048a362
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-include-required-system-headers-for-isspace-and-ssca.patch
-@@ -0,0 +1,35 @@
-+From c85a53a41d4e6bfc49c377217ece12a1f330a690 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 12 Aug 2022 22:50:06 -0700
-+Subject: [PATCH] include required system headers for isspace() and sscanf()
-+ functions
-+
-+Newer compilers ( clang 15 ) has turned stricter and errors out instead
-+of warning on implicit function declations
-+Fixes
-+gstssaparse.c:297:12: error: call to undeclared library function 'isspace' with type 'int (int)'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-+while (isspace(*t))
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/2879]
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ gst/subparse/gstssaparse.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/gst/subparse/gstssaparse.c b/gst/subparse/gstssaparse.c
-+index ff802fa..5ebe678 100755
-+--- a/gst/subparse/gstssaparse.c
-++++ b/gst/subparse/gstssaparse.c
-+@@ -24,6 +24,8 @@
-+ #include "config.h"
-+ #endif
-+ 
-++#include <ctype.h>              /* isspace() */
-++#include <stdio.h>              /* sscanf() */
-+ #include <stdlib.h>             /* atoi() */
-+ #include <string.h>
-+ 
-+-- 
-+2.37.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.3.bb
-index 7eebbba9497..e5e346e5e96 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.3.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.3.bb
-@@ -10,6 +10,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
-            file://0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch \
-            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
-            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
-+           file://0001-include-required-system-headers-for-isspace-and-ssca.patch \
-            "
- SRC_URI[sha256sum] = "7e30b3dd81a70380ff7554f998471d6996ff76bbe6fc5447096f851e24473c9f"
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index fde5fc0ccec..510dd4eeeea 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -4,7 +4,7 @@
+ require musl.inc
+ inherit linuxloader
+ 
+-SRCREV = "6e9d2370c7559af80b32a91f20898f41597e093b"
++SRCREV = "46d1c7801bb509e1097e8fadbaf359367fa4ef0b"
+ 
+ BASEVER = "1.2.3"
  
 -- 
 2.37.2
