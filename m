@@ -1,102 +1,112 @@
-Return-Path: <jan.vermaete@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47548C25B08
-	for <webhook@archiver.kernel.org>; Sat, 13 Aug 2022 10:11:33 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web09.3497.1660385489726400476
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85F94C19F2D
+	for <webhook@archiver.kernel.org>; Sat, 13 Aug 2022 10:41:23 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.3673.1660387275115624783
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Aug 2022 03:11:30 -0700
+ Sat, 13 Aug 2022 03:41:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=num8wcls;
- spf=pass (domain: gmail.com, ip: 209.85.218.49,
- mailfrom: jan.vermaete@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id dc19so5726813ejb.12
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hzrHyFSo;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id l22so3624956wrz.7
         for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Aug 2022 03:11:29 -0700 (PDT)
+ Sat, 13 Aug 2022 03:41:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc;
-        bh=1GJ/4kQGT/Nxeeqr1WuMdLbpJ0fNr1rRQCLjaoerb4w=;
-        b=num8wcls5suTr3S2pRCw4Zye3A+boa8KgD09/2dZ2ux3Z+q7rhKf9B/JZdIyL8hlX/
-         HZ5KmMbUshoKRJKFMAPjkqZ3ExnXgdvtOhFz+4H8vUKhmGjz+z0FV9B8GBqvo3qx1xag
-         YP/E6xZ4KkE3rID3zG2/C1X4mVm1s9xZUZG33qPQ0AfwynZ6uDbpizct09tZFD3F4JFj
-         VNv2WnTA/NIp/6Gmbd7NVcMnK8FBdSB0FpnXnjdKKud2wwCDPaG5cn9IYwqolmqyevoF
-         yLYpCYD2CmoKrlOeC0mJsEtSzqhtRzjxMV9hyA3bRVLXvb3AANBe4EvRrnsADFw/HGND
-         CY6w==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc;
+        bh=GstvTeXWFmEqZmFlD287pGJXVrcuMwbX0trY9fzOyYc=;
+        b=hzrHyFSoU9Jc6yCV/1Z8zEDlnQGviDZOugKupCKU4GIOg//5iTYdWRr20LOw/cJrF0
+         E5W49wYS2BfA8eh4lTb0Vyc1vR76Ssq0d7SlAmRYn9R0dFiubTrElsS8M/Sw+24O2fyr
+         5hTvNlGKj9ubitR4/p79MO+BIz5Kw5c6sK660=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc;
-        bh=1GJ/4kQGT/Nxeeqr1WuMdLbpJ0fNr1rRQCLjaoerb4w=;
-        b=h6tci9CUjKmytYsY1E5Ffa3GyZya/IvNp+e3uRvtPg0qIG6LSTwt91JFR4HLPeoadu
-         ueWHYeXA+qil7ajqsB0HU/et+NjstYeCyuzCCL5Bn8P9msPXoOiXy4yh+gZ51NrWMgBe
-         cI6xSFQY+WaEtvQZ0daPBBIt/oQ6e555AgzCfbneZxQ+w4mgqL+dgq00hpd7pnAIG/li
-         RthOPYGG0x+diYpTReKABFGHFRnwGydroeHdF8UTwZbbM1GZ/cEdjxG7dhVMYlUO5U2+
-         Euni49s/SwpV1mcI3DlJMgFqH8r8NB8xVYpz0NZZiQiu0jTMAZepkLMkWyCohRJgkcKF
-         ZK7A==
-X-Gm-Message-State: ACgBeo1GASyli5298iMNaVJ3IM5RS676hjPF69N8dqPMHuTSXgV0r6Lo
-	YALHBxp8X6EW5CtqJJKcjB8j7OzuEEkLRMDkh5KfpBbDVpFYnw==
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc;
+        bh=GstvTeXWFmEqZmFlD287pGJXVrcuMwbX0trY9fzOyYc=;
+        b=NT/rXvYHBp7iWRiXacYNmovFkAWTqUaE+ur3tbw3BFfqipgAtd9hennbWTjgCeN/Jv
+         K2rjLo3uKEDtzVM0KBvXnFUkUps+goc6NZ/gmmg5subwPcMgPtMocIgAhi2Or2hDA60+
+         pOHIA1DaNw4LC/FcqqcrIMSw/BChIlyBgVs5/8b72dHjfLJsu+jXLMLljYJR5fpBCZGi
+         PHof6Gu6XaI2BeH5nvzHp6SI4OzP/QifBLwexFbOQRDaZ3Uj/73bdi5bIvzIz5AckGTp
+         Xh5XD19mcYUZJXbbSRwnE1NVxwdwEempkomrlSQHymofVBhcZKvoBV0lC0FeC8I1Axfp
+         sgAA==
+X-Gm-Message-State: ACgBeo1rzikeLWrXcYJHONdMo1x9xxj/UeETnVi6XUTS7UZo7gvaHj2g
+	TqoVB58B11zIJ0pd9xJ/WPN0dQ==
 X-Google-Smtp-Source: 
- AA6agR5q4Zi0Lfr6/h+RbQ3WOqNphX6RecHr4U4xC/k598XzfaeUmBcK6pYeyK/qcM90Y0FNpKqGPi2TxkrTtNErQ6k=
-X-Received: by 2002:a17:906:8b81:b0:733:183b:988e with SMTP id
- nr1-20020a1709068b8100b00733183b988emr5111104ejc.457.1660385487742; Sat, 13
- Aug 2022 03:11:27 -0700 (PDT)
-MIME-Version: 1.0
-From: jan vermaete <jan.vermaete@gmail.com>
-Date: Sat, 13 Aug 2022 12:11:15 +0200
+ AA6agR6rTVQP5VZw6Et1kxpAJ86bpa1cn65ApuKqukEdUbjwrOTlVVvOFVuB6zS+gprJylMO41Q0uA==
+X-Received: by 2002:a5d:47c4:0:b0:21f:f34:56fd with SMTP id
+ o4-20020a5d47c4000000b0021f0f3456fdmr3967250wrc.585.1660387273464;
+        Sat, 13 Aug 2022 03:41:13 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:f6d8:ef31:d475:da8f?
+ ([2001:8b0:aba:5f3c:f6d8:ef31:d475:da8f])
+        by smtp.gmail.com with ESMTPSA id
+ v8-20020a05600c214800b003a5c244fc13sm2698548wml.2.2022.08.13.03.41.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Aug 2022 03:41:12 -0700 (PDT)
 Message-ID: 
- <CABF_=yi9-vQ4b-4qnOz+W5bbJmjRmk72YOog+GvDVBVyQ160+Q@mail.gmail.com>
-Subject: makeself
-To: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000002feb2005e61c9ff3"
+ <68b55478e2e44ffffde830318d3ca731a9693edb.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] uninative: Upgrade to 3.7 with glibc 2.36
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Michael Halstead <mhalstead@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+Date: Sat, 13 Aug 2022 11:41:12 +0100
+In-Reply-To: <20220812215736.10309-1-mhalstead@linuxfoundation.org>
+References: <20220812215736.10309-1-mhalstead@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 13 Aug 2022 10:11:33 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 13 Aug 2022 10:41:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169301
+ https://lists.openembedded.org/g/openembedded-core/message/169302
 
---0000000000002feb2005e61c9ff3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, 2022-08-12 at 14:57 -0700, Michael Halstead wrote:
+> Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+> ---
+>  meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/dis=
+tro/include/yocto-uninative.inc
+> index 411fe45a24..7012db441b 100644
+> --- a/meta/conf/distro/include/yocto-uninative.inc
+> +++ b/meta/conf/distro/include/yocto-uninative.inc
+> @@ -6,10 +6,10 @@
+>  # to the distro running on the build machine.
+>  #
+> =20
+> -UNINATIVE_MAXGLIBCVERSION =3D "2.35"
+> -UNINATIVE_VERSION =3D "3.6"
+> +UNINATIVE_MAXGLIBCVERSION =3D "2.36"
+> +UNINATIVE_VERSION =3D "3.7"
+> =20
+>  UNINATIVE_URL ?=3D "http://downloads.yoctoproject.org/releases/uninative=
+/${UNINATIVE_VERSION}/"
+> -UNINATIVE_CHECKSUM[aarch64] ?=3D "d64831cf2792c8e470c2e42230660e1a8e5de5=
+6a579cdd59978791f663c2f3ed"
+> -UNINATIVE_CHECKSUM[i686] ?=3D "2f0ee9b66b1bb2c85e2b592fb3c9c7f5d77399fa6=
+38d74961330cdb8de34ca3b"
+> -UNINATIVE_CHECKSUM[x86_64] ?=3D "9bfc4c970495b3716b2f9e52c4df9f968c02463=
+a9a95000f6657fbc3fde1f098"
+> +UNINATIVE_CHECKSUM[aarch64] ?=3D "6a29bcae4b5b716d2d520e18800b33943b65f8=
+a835eac1ff8793fc5ee65b4be6"
+> +UNINATIVE_CHECKSUM[i686] ?=3D "3f6d52e64996570c716108d49f8108baccf499a28=
+3bbefae438c7266b7a93305"
+> +UNINATIVE_CHECKSUM[x86_64] ?=3D "b110bf2e10fe420f5ca2f3ec55f048ee5f0a54c=
+7e34856a3594e51eb2aea0570"
 
-Could it be useful to transfer the makeself recipe from the no longer
-maintained intel-iot-refkit into meta-openembedded?
+Thanks Michael! That sorts another potential headache :)
 
-https://github.com/intel/intel-iot-refkit/blob/master/meta-refkit-core/reci=
-pes-core/makeself/makeself_2.2.0.bb
+Cheers,
 
-https://github.com/megastep/makeself
-
-It's useful as a native recipe to create self extracting installers for
-firmware updates, as an example.
-
-br,
-
---=20
-Jan Vermaete
-=E2=80=9CSuccess is a self-correcting phenomenom.=E2=80=9D -- Gary Hamel
-
---0000000000002feb2005e61c9ff3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Could it be useful=C2=A0to transfer=C2=A0the makeself reci=
-pe from the no longer maintained intel-iot-refkit into meta-openembedded?<d=
-iv><br></div><div><a href=3D"https://github.com/intel/intel-iot-refkit/blob=
-/master/meta-refkit-core/recipes-core/makeself/makeself_2.2.0.bb">https://g=
-ithub.com/intel/intel-iot-refkit/blob/master/meta-refkit-core/recipes-core/=
-makeself/makeself_2.2.0.bb</a></div><div><br></div><div><a href=3D"https://=
-github.com/megastep/makeself">https://github.com/megastep/makeself</a></div=
-><div><br></div><div>It&#39;s useful as a native recipe to create self extr=
-acting=C2=A0installers for firmware updates, as an example.</div><div><br><=
-/div><div>br,<br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr" class=
-=3D"gmail_signature" data-smartmail=3D"gmail_signature">Jan Vermaete<br>=E2=
-=80=9CSuccess is a self-correcting phenomenom.=E2=80=9D -- Gary Hamel</div>=
-</div></div>
-
---0000000000002feb2005e61c9ff3--
+Richard
 
