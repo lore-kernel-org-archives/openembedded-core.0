@@ -1,184 +1,99 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B635CC25B06
-	for <webhook@archiver.kernel.org>; Sun, 14 Aug 2022 12:43:14 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web08.4572.1660480986499339583
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5473C25B06
+	for <webhook@archiver.kernel.org>; Sun, 14 Aug 2022 13:02:34 +0000 (UTC)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
+ [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web08.4740.1660482149942001572
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Aug 2022 05:43:06 -0700
+ Sun, 14 Aug 2022 06:02:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MZcVoqJ+;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id l4so6172410wrm.13
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=QnvDWjwF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.43,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f43.google.com with SMTP id
+ h21-20020a17090aa89500b001f31a61b91dso12299368pjq.4
         for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Aug 2022 05:43:06 -0700 (PDT)
+ Sun, 14 Aug 2022 06:02:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
-        bh=ZLawP9g5a/ZGHrOTC/XyKy2A9JKtgHP2rTeyjMxVssk=;
-        b=MZcVoqJ+YB2xhyBoegeiCec0mGBk/oTDa+OBIzZgvXZzD71hNwSGmyF+x7szicBLe8
-         klKbEWoG/NNXKpu+s/7bK2BhHmvmSYc3aCxqEJ7qvQ1RQiGOMUZd+7fbQ6rC5kQyQVbH
-         zHZc7scB2tFWFMrrJ5oF78buXgrCXQ32O7kkI=
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=date:message-id:to:from:subject:from:to:cc;
+        bh=R0hxmPmYo2zIwir4o0WjKRGuOHoddJO0rOVZWf2Sn1M=;
+        b=QnvDWjwFwTR96XRDa00bx+eggzHHmQZOqtGzE9gDJWjb1zwFvCr6GqrC54Fe0i9cej
+         iXzGpAju7FxqMCwTVHvvjgEVS6RJwuX+Y+Iar+cgLionOdzEV56AUu9VMJ2Zn5RmX7mW
+         tzTswPdU4nWz7m6ISM5bfvfHGXdCWCPmfXb7jiMNPdzinDQwsqvKe6bn8/xQP+AkzEog
+         OSdF4+kFX6i9v2Ink+fHKeuiA1wuxwkA+POtAgCFrzYQmtERFMJDOIRxRAOREbXRXOSD
+         60LlvnyjcKrZHEbUv7KcaxhDmk/ei49Jho49f6gr7q4jvOdPeSfAGeRNJ2UMDCAToGTy
+         ZogA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc;
-        bh=ZLawP9g5a/ZGHrOTC/XyKy2A9JKtgHP2rTeyjMxVssk=;
-        b=VPzjQRM4a3zADYGq0xckTlcnnidJShYigbHYTb+TUD2jw9hsdGKKbnq3XYUpFF/JKW
-         BBSDamZtY/ML8ZIXu2JZBPWlT0N8JNuLUvCTvbYtDGGy6F7VIKI3pdNfMbi3KEpV6baC
-         OjmrPiN2V3fuemyUpBDQXNKbOf2V/YIT1jm3cSyJo7OOLM7vB3SZnSEHbnhT5p3uk05T
-         CGexYwNRe6++AoO6qMDP8QUxBnitRP+Ny/4Vu+Nr8Ygm9jRorWzlXAJcRDtjD10Ub16x
-         bDKN3qr78HfSWbaLzGBdXKSxaJDNKK5i72flHSXVaoyq5yVPJa+vOss+mF/wJIUAs9eY
-         eoRQ==
-X-Gm-Message-State: ACgBeo1OS+fYqkFuGtc4oNgH75N9lhweE+KHWCSYD2U5/sgs0tcyDbjK
-	QfgiEwjNTG9R9nOY2Se218k4v8tWk8BeaA==
+        h=date:message-id:to:from:subject:x-gm-message-state:from:to:cc;
+        bh=R0hxmPmYo2zIwir4o0WjKRGuOHoddJO0rOVZWf2Sn1M=;
+        b=XBh+TllDiRPbiAGpqJaazx4rCNN5AqbwK76vmmYC+Ek8QamMlAcAjyFPrbiKzhFqZ0
+         Or2QYJg1HKPsvH1in++uvQ1Zqjv3jykpSPHMG+sKOrUELPR5MkXaY2fY/lb93KSVNCZC
+         y76HLcrBpXNhJ+2EnBcG3Kbkd9rfNtED/fDB84UYOcMG6BEY3NogClwBnBJ300nV8A2j
+         ikLynidWzq1gf+f4ISJ5+2TlPFr7+6Pk6GvCXQwLEMm59vLnaGt/uvlzU1QYfmnRVYMB
+         gih0vhcnCJOK5iTw/VHy35F3ZxWxwdFvRElvBVDyY8XF8ugT7LYww8nux9qYj6iDBDss
+         hrDg==
+X-Gm-Message-State: ACgBeo3+iIygA7h8GwyGtcjYaeHSxyh9aMBa6tshg/omi193FmNzLHUh
+	nTncTP2CJJ5zEBV1JFrBIqMsJ69xt/3DMT4w
 X-Google-Smtp-Source: 
- AA6agR6f/MZJWrVVgEyWfI+u1alMTU1xrRRxVjN9xsX5q7bGZHE39FWCtvyUjV3UU1Ix/bC3wj5Aaw==
-X-Received: by 2002:adf:fd4a:0:b0:220:66b6:83ab with SMTP id
- h10-20020adffd4a000000b0022066b683abmr6472025wrs.360.1660480984544;
-        Sun, 14 Aug 2022 05:43:04 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a4b0:91f3:f2:f39?
- ([2001:8b0:aba:5f3c:a4b0:91f3:f2:f39])
+ AA6agR6E1Go78Y1BL1f8nr1X38gkYcg8ZZAxW6QjPhvuVmD3swPkwyArG4peMaP/t163p4SOF4qQNA==
+X-Received: by 2002:a17:90a:c690:b0:1f5:858e:f538 with SMTP id
+ n16-20020a17090ac69000b001f5858ef538mr22794480pjt.10.1660482148786;
+        Sun, 14 Aug 2022 06:02:28 -0700 (PDT)
+Received: from nuc.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- v2-20020adf8b42000000b0021e74ef5ae8sm4623178wra.21.2022.08.14.05.43.03
+ e10-20020a170902784a00b0015ee60ef65bsm5287903pln.260.2022.08.14.06.02.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Aug 2022 05:43:03 -0700 (PDT)
-Message-ID: 
- <c316990afed0a1ce620c186ec595a39233c82e86.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/5] gcc: Resolve relative prefix-map filenames
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>, Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 14 Aug 2022 13:43:02 +0100
-In-Reply-To: <170B01D5C8A5AC22.16737@lists.openembedded.org>
-References: <170B01D5C8A5AC22.16737@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
-MIME-Version: 1.0
+        Sun, 14 Aug 2022 06:02:28 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 30BBD96247C; Sun, 14 Aug 2022 03:02:26 -1000 (HST)
+Subject: OE-core CVE metrics for kirkstone on Sun 14 Aug 2022 03:00:01 AM HST
+FROM: steve@sakoman.com
+To: 
+ <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20220814130226.30BBD96247C@nuc.router0800d9.com>
+Date: Sun, 14 Aug 2022 03:02:26 -1000 (HST)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Aug 2022 12:43:14 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Aug 2022 13:02:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169322
+ https://lists.openembedded.org/g/openembedded-core/message/169323
 
-On Sat, 2022-08-13 at 21:34 +0100, Richard Purdie via
-lists.openembedded.org wrote:
-> Add a patch to gcc so that relative paths are handled by -fdebug-prefix-m=
-ap
-> and friends. In OE we use relative paths in autotools and removing that
-> creates a lot of issues we'd have to fix. This alternative allows us to
-> fix the paths within gcc and improve our debug file coverage (and SPDX
-> manifests) accordingly.
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-devtools/gcc/gcc-12.1.inc        |  1 +
->  .../gcc/gcc/prefix-map-realpath.patch         | 46 +++++++++++++++++++
->  2 files changed, 47 insertions(+)
->  create mode 100644 meta/recipes-devtools/gcc/gcc/prefix-map-realpath.pat=
-ch
->=20
-> diff --git a/meta/recipes-devtools/gcc/gcc-12.1.inc b/meta/recipes-devtoo=
-ls/gcc/gcc-12.1.inc
-> index 56678c78bef..c42fa3d72f0 100644
-> --- a/meta/recipes-devtools/gcc/gcc-12.1.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-12.1.inc
-> @@ -65,6 +65,7 @@ SRC_URI =3D "${BASEURI} \
->             file://0025-Move-sched.h-include-ahead-of-user-headers.patch =
-\
->             file://0026-rust-recursion-limit.patch \
->             file://0001-libsanitizer-cherry-pick-9cf13067cb5088626ba7-fro=
-m-u.patch \
-> +           file://prefix-map-realpath.patch \
->  "
->  SRC_URI[sha256sum] =3D "62fd634889f31c02b64af2c468f064b47ad1ca78411c45ab=
-e6ac4b5f8dd19c7b"
-> =20
-> diff --git a/meta/recipes-devtools/gcc/gcc/prefix-map-realpath.patch b/me=
-ta/recipes-devtools/gcc/gcc/prefix-map-realpath.patch
-> new file mode 100644
-> index 00000000000..137fc645624
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc/prefix-map-realpath.patch
-> @@ -0,0 +1,46 @@
-> +Relative paths don't work with -fdebug-prefix-map and friends. This
-> +can lead to paths which the user wanted to be remapped being missed.
-> +Setting -fdebug-prefix-map to work with a relative path isn't practical
-> +either.
-> +
-> +Instead, call gcc's realpath function on the incomming path name before
-> +comparing it with the remapping. This means other issues like symlinks
-> +are also accounted for and leads to a more consistent remapping experien=
-ce.
-> +
-> +Upstream-Status: Pending [need to see if gcc developers would accept thi=
-s]
-> +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> +
-> +
-> +Index: gcc-12.1.0/gcc/file-prefix-map.cc
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- gcc-12.1.0.orig/gcc/file-prefix-map.cc
-> ++++ gcc-12.1.0/gcc/file-prefix-map.cc
-> +@@ -70,19 +70,25 @@ remap_filename (file_prefix_map *maps, c
-> +   file_prefix_map *map;
-> +   char *s;
-> +   const char *name;
-> ++  char *realname;
-> +   size_t name_len;
-> +=20
-> ++  realname =3D lrealpath (filename);
-> ++
-> +   for (map =3D maps; map; map =3D map->next)
-> +-    if (filename_ncmp (filename, map->old_prefix, map->old_len) =3D=3D =
-0)
-> ++    if (filename_ncmp (realname, map->old_prefix, map->old_len) =3D=3D =
-0)
-> +       break;
-> +-  if (!map)
-> ++  if (!map) {
-> ++    free (realname);
-> +     return filename;
-> +-  name =3D filename + map->old_len;
-> ++  }
-> ++  name =3D realname + map->old_len;
-> +   name_len =3D strlen (name) + 1;
-> +=20
-> +   s =3D (char *) ggc_alloc_atomic (name_len + map->new_len);
-> +   memcpy (s, map->new_prefix, map->new_len);
-> +   memcpy (s + map->new_len, name, name_len);
-> ++  free (realname);
-> +   return s;
-> + }
-> +=20
+Branch: kirkstone
 
+New this week: 5 CVEs
+CVE-2022-29154 (CVSS3: 7.4 HIGH): rsync:rsync-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-29154 *
+CVE-2022-32292 (CVSS3: 9.8 CRITICAL): connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32292 *
+CVE-2022-32293 (CVSS3: 8.1 HIGH): connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32293 *
+CVE-2022-35737 (CVSS3: 7.5 HIGH): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-35737 *
+CVE-2022-37434 (CVSS3: 9.8 CRITICAL): zlib:zlib-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-37434 *
 
-Seems there is a downside to this, it breaks ruby and xen-tools:
+Removed this week: 0 CVEs
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/1386/ste=
-ps/12/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/128/builds/482/step=
-s/12/logs/stdio
+Full list:  Found 15 unpatched CVEs
+CVE-2016-3709 (CVSS3: 6.1 MEDIUM): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-3709 *
+CVE-2021-3611 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3611 *
+CVE-2021-3750 (CVSS3: 8.2 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3750 *
+CVE-2021-46829 (CVSS3: 7.8 HIGH): gdk-pixbuf:gdk-pixbuf-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-46829 *
+CVE-2022-2294 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2294 *
+CVE-2022-2509 (CVSS3: 7.5 HIGH): gnutls:gnutls-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2509 *
+CVE-2022-2571 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2571 *
+CVE-2022-2580 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2580 *
+CVE-2022-2581 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2581 *
+CVE-2022-2598 (CVSS3: 5.5 MEDIUM): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2598 *
+CVE-2022-29154 (CVSS3: 7.4 HIGH): rsync:rsync-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-29154 *
+CVE-2022-32292 (CVSS3: 9.8 CRITICAL): connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32292 *
+CVE-2022-32293 (CVSS3: 8.1 HIGH): connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32293 *
+CVE-2022-35737 (CVSS3: 7.5 HIGH): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-35737 *
+CVE-2022-37434 (CVSS3: 9.8 CRITICAL): zlib:zlib-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-37434 *
 
-which both do:
-
-#include __FILE__
-
-I'm tempted to suggest we patch that to something different in both
-cases as the alternatives to debug handling are much worse.
-
-Cheers,
-
-Richard
-
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
