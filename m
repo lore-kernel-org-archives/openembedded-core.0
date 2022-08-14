@@ -2,63 +2,61 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70196C28B2B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 631FFC25B06
 	for <webhook@archiver.kernel.org>; Sun, 14 Aug 2022 22:20:47 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
- [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web09.10141.1660515643981272276
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+ [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web11.10184.1660515641285300432
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Aug 2022 15:20:44 -0700
+ Sun, 14 Aug 2022 15:20:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=YciNNb2m;
- spf=pass (domain: gmail.com, ip: 209.85.210.173,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=H6M2aYNh;
+ spf=pass (domain: gmail.com, ip: 209.85.210.176,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f173.google.com with SMTP id y141so5358016pfb.7
+Received: by mail-pf1-f176.google.com with SMTP id k14so5383786pfh.0
         for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Aug 2022 15:20:43 -0700 (PDT)
+ Sun, 14 Aug 2022 15:20:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=Bsh2V94MHizmHMhmKOs74z/IHzcIkouIwkrfH6nI5+0=;
-        b=YciNNb2mgmq6DI6vzi553+7LS5nRXrhqvutYBPwcLIBPd8TNZfYpKhWS5FkAUirmMb
-         0D9bW4OBpWOz8GmiHEN5owOjj16g2L60tonyad15zcqEJmLNT8anC7GosHis5FzAOkwk
-         THs2nVaJvuQD3KBHQm6yahzlrWjNCaazNzG22Eo6EhVxDJ/seCqZ0rhBmZj6iNeeeJmK
-         9B7bYmnrN4rn7KyV3xlRerDPKuHMHRjo5ayBFA75vLfeRrRkR3ZoTYqdTNk19mTP2MlZ
-         xB+FvQ9mpL62EY6zSrdwKj/R2WCUTWia4GYywxx0PCgIh7E+mPfg+KA6UtC4jV69zCgt
-         y7JA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=7x2xT+WGWMVRrbUlb+Ur5A/wXjhGK4il64ZrTSPSMr4=;
+        b=H6M2aYNhXZLYEtAU+W8R/J+Ekl6a/o6ocWubC78lEiTfR0deZKJTzy9UzNUvn+mt89
+         u37sEJaSSCdvaXTZkTCFvKUvIluFPoflhTWYffwgp1M0L2NVDwUjPCIFLznf2LfqSLJw
+         cm9AHNtfEcHf1Tv9N6YMJAQtpga97REShUxjkliIHm7pND+SR5jjeHCW1vkpM5+yKghw
+         yfApEXTOJ9qupsSyaL20LtuToNA/RWwXMYM9iYbUu0/ncGGdUMpFeoTqU1c4ca5U0WG8
+         lDYsbXjabRakS94KnCNpmHnnTQBY+il4TSWXOYapUm3xdtlwR+b3FFkTlN5mM2TDN8WF
+         ohfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=Bsh2V94MHizmHMhmKOs74z/IHzcIkouIwkrfH6nI5+0=;
-        b=H+tdKrJVM2cNY/ljDMw6Z9L+Tiy8XNwCqowJ1lALlJsXGgbHbWs8cC4hENH0hdkwQj
-         2gy9m+hCKBkEDzc6vDC582d36/z1EES42fWeclyKbrbDE1kAlU8GCuhrhCecmVp/l09I
-         0aPWrl3G0deg+0UvwUgxpgYL+kxI81+rbGG8whQX99/ZlVkD9s7OZhr8EIWFz1Jkl95z
-         mBpiYxOyO8KUwjRlLI/TkWn3EjV4Vm3TwK9u6EKf5nOr4vaQE2YxOuQyueQKuYLrIga0
-         uh7LUI4gujfk5lhOXtaZNcJaC7Ik3OfeGPffb3pxB/Oats4QFgwYjNNq9Y0+lXQvD7YK
-         ViNg==
-X-Gm-Message-State: ACgBeo1cTZ/KuJUg74HHvG8e6aXwTffUwZFAzNV3DrlGypgM/AJC3KLH
-	Vcd+Oz5PZueeGTpZp9AtPFWzERvAEP1vdQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=7x2xT+WGWMVRrbUlb+Ur5A/wXjhGK4il64ZrTSPSMr4=;
+        b=ZgjKBGljCgKUOLZ8eWlHBI+2W73s7CuxFA8Ak3Xu8GYH8923pH3N8yZxArs0RHBYeU
+         8Yn4OT45TWXKQCTdKvAVQnPIVJX5YYshxQjdkq0gepHWOSAyiX8soyEz+30YhQBCfjuR
+         EdvHWRrYe8JkERQaVSbEWgJyYiaC6irfoKnOs6IjMs+qeOyJ/VFCX8gGbDYLo51S9xgV
+         lXcaIPu28G2DImbPIi5lfrELbM1X35QnGSlrhZ1SOCZUZOT61R0S5IAwST2uScN2Sx1j
+         JQOa+TIlhkQfq7FKdG2pdXRaRrrb0A7a1becCjHKq1RGUPQcxarsiGdr6Wi5O0nOlC2+
+         9ZqQ==
+X-Gm-Message-State: ACgBeo1H9qHOgsQ5BY8s8PpWsXe1dbX5EyiAjK0HCHi8EzmmbhCF5r9j
+	vXPCh9xAwX4v+gfYTWxT3FjFCEzdfHV/rQ==
 X-Google-Smtp-Source: 
- AA6agR41DD/NIK8YhR1CdaFZgTCObeHWRdTsEpUBDbufaZ6/1X9ckAchtGM3+l+rg41QDGMIo8/h6g==
-X-Received: by 2002:a05:6a00:138a:b0:52d:979a:b640 with SMTP id
- t10-20020a056a00138a00b0052d979ab640mr13642445pfg.8.1660515642861;
-        Sun, 14 Aug 2022 15:20:42 -0700 (PDT)
+ AA6agR7iEEwchxpOYrkdyRuLPS489oHNcC9O73OzfXyg+CEPoUxMR5Su1/3Dv4lKlRA2zeQdy0RVOg==
+X-Received: by 2002:a05:6a00:114c:b0:528:2c7a:630e with SMTP id
+ b12-20020a056a00114c00b005282c7a630emr13510147pfm.86.1660515640238;
+        Sun, 14 Aug 2022 15:20:40 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::bb7a])
         by smtp.gmail.com with ESMTPSA id
- k15-20020a170902d58f00b0016d8b0dfd61sm5819502plh.178.2022.08.14.15.20.41
+ k15-20020a170902d58f00b0016d8b0dfd61sm5819502plh.178.2022.08.14.15.20.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Aug 2022 15:20:41 -0700 (PDT)
+        Sun, 14 Aug 2022 15:20:39 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 03/10] zlib: Resolve CVE-2022-37434
-Date: Sun, 14 Aug 2022 15:20:30 -0700
-Message-Id: <20220814222037.283943-3-raj.khem@gmail.com>
+Subject: [PATCH 01/10] json-c: Fix function prototypes
+Date: Sun, 14 Aug 2022 15:20:28 -0700
+Message-Id: <20220814222037.283943-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220814222037.283943-1-raj.khem@gmail.com>
-References: <20220814222037.283943-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -66,33 +64,72 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 14 Aug 2022 22:20:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169330
+ https://lists.openembedded.org/g/openembedded-core/message/169328
 
-This is only seen in development branch as per [1]
-
-[1] https://github.com/madler/zlib/commit/eff308af425b67093bab25f80f1ae950166bece1#commitcomment-80753451
-CVE: CVE-2022-37434
+This is flagged with clang 15
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/zlib/zlib_1.2.12.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../json-c/0001-Fix-build-with-clang-15.patch | 34 +++++++++++++++++++
+ meta/recipes-devtools/json-c/json-c_0.16.bb   |  2 +-
+ 2 files changed, 35 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch
 
-diff --git a/meta/recipes-core/zlib/zlib_1.2.12.bb b/meta/recipes-core/zlib/zlib_1.2.12.bb
-index 77e7a4937fa..d3e0f25295d 100644
---- a/meta/recipes-core/zlib/zlib_1.2.12.bb
-+++ b/meta/recipes-core/zlib/zlib_1.2.12.bb
-@@ -17,6 +17,10 @@ UPSTREAM_CHECK_URI = "http://zlib.net/"
- 
- SRC_URI[sha256sum] = "7db46b8d7726232a621befaab4a1c870f00a90805511c0e0090441dac57def18"
- 
-+# 1.2.12 or any other released zlib version does not have this issue see
-+# https://github.com/madler/zlib/commit/eff308af425b67093bab25f80f1ae950166bece1#commitcomment-80801182
-+CVE_CHECK_IGNORE += "CVE-2022-37434"
+diff --git a/meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch b/meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch
+new file mode 100644
+index 00000000000..215f4d829a2
+--- /dev/null
++++ b/meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch
+@@ -0,0 +1,34 @@
++From 0145b575ac1fe6a77e00d639864f26fc91ceb12f Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 13 Aug 2022 20:37:03 -0700
++Subject: [PATCH] Fix build with clang-15+
 +
- CFLAGS += "-D_REENTRANT"
++Fixes
++json_util.c:63:35: error: a function declaration without a prototype is deprecated in all versions of C [-We
++rror,-Wstrict-prototypes]
++const char *json_util_get_last_err()
++                                  ^
++                                   void
++
++Upstream-Status: Backport [https://github.com/json-c/json-c/pull/783]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ json_util.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/json_util.c b/json_util.c
++index 952770a..83d9c68 100644
++--- a/json_util.c
+++++ b/json_util.c
++@@ -60,7 +60,7 @@ static int _json_object_to_fd(int fd, struct json_object *obj, int flags, const
++ 
++ static char _last_err[256] = "";
++ 
++-const char *json_util_get_last_err()
+++const char *json_util_get_last_err(void)
++ {
++ 	if (_last_err[0] == '\0')
++ 		return NULL;
++-- 
++2.37.2
++
+diff --git a/meta/recipes-devtools/json-c/json-c_0.16.bb b/meta/recipes-devtools/json-c/json-c_0.16.bb
+index 50431081bba..3aba41dfcf6 100644
+--- a/meta/recipes-devtools/json-c/json-c_0.16.bb
++++ b/meta/recipes-devtools/json-c/json-c_0.16.bb
+@@ -6,9 +6,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
  
- RDEPENDS:${PN}-ptest += "make"
+ SRC_URI = " \
+     https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
++    file://0001-Fix-build-with-clang-15.patch \
+     file://run-ptest \
+ "
+-
+ SRC_URI[sha256sum] = "8e45ac8f96ec7791eaf3bb7ee50e9c2100bbbc87b8d0f1d030c5ba8a0288d96b"
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/tags"
 -- 
 2.37.2
 
