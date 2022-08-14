@@ -2,59 +2,60 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 501A4C48BE4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F336C25B0F
 	for <webhook@archiver.kernel.org>; Sun, 14 Aug 2022 22:20:57 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web11.10185.1660515652862568412
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web12.10110.1660515649881659689
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Aug 2022 15:20:53 -0700
+ Sun, 14 Aug 2022 15:20:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=bEyr0kt8;
- spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f45.google.com with SMTP id ha11so5539777pjb.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=egupTRtO;
+ spf=pass (domain: gmail.com, ip: 209.85.214.172,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f172.google.com with SMTP id m2so5014326pls.4
         for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Aug 2022 15:20:52 -0700 (PDT)
+ Sun, 14 Aug 2022 15:20:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=aniGHnMRSkOBkAz8HlVqD6X0MC85/zygqA2S5Y877LY=;
-        b=bEyr0kt8gW8INe0zFTTF4zbf3RiDeRKFX4kWNiHU2+E/DYn/UC6K60fYO3HrDYTmDa
-         RoEvD3+WUoFKayla0gGLILuEzkkDFVP37K/AqK/HN7tbKD0HChzZY0WQtq0IYXk1Vm5V
-         pm2Vv8jH3xBfpYqXgoCgnifmCO+pDg/HOj6889VYl3qO+lenT/0UsSZK8zznQXBHEuIb
-         8q33RM7NrTR7ISUBKs8lGDf4ohvFPqXlJrJw5jxRmxAbaCCqo7x2wwn19fcgki3kKvVF
-         nEToxytwxbl3YBKfnvp3+Gpky92qaIIQ5S6NlEx3zCfuZBxP9dN3zveAeybBbz/9MbJ8
-         8Unw==
+        bh=NrRd4SdHkzL2S6mneNj5HL1GYvJqrQZ+OfLlFhIDT2k=;
+        b=egupTRtOuzK+/5f1TK7UvPHUCMXVzdmvHY5sPW8TDoDgnRhrMuwo4pAewOVzhjWlFC
+         xgq5ElCujHkIRxsd3sYxp7Ir4oS5dDzwluFKR7OgJJd2l8RerZKM2dJkhmZrzXi29Vvc
+         bY/LuiCfPo0xLjlxuhhxIO8wevGTUgN9Fu9Tcixa6uJJwqAb+LEw8w4SlS8HO3NaQJ2W
+         xAj+K5av/XrnoSeQOLLFlh177MQFnMWirU872rzK+BuhRovhEZBeOzwCKMMObzAIzAok
+         t+ms4mZwkTfQM0a5oB4NnVHqORrAk7wtHhFcXOHRg/oll+TtF4oWqwl/PYUF+fpaSQc4
+         DvAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=aniGHnMRSkOBkAz8HlVqD6X0MC85/zygqA2S5Y877LY=;
-        b=PJspJ8386a/Ye0iUCMnGVtARKf3M1nDHwab1LC4dbS3HNRu7xngHc/PObrG3eS1Tsi
-         PxhdQkPm61f09rl7gk/pb1Rn25zADjNX14pqw7lqeN9pBnlJbvMiibLjBYhPG05C8h8z
-         itAWdABq3EKZBQN9s4MR5XEzV5nArIIYKLbDc69yOBqwB2S2G+UrigJ11SqMl0iT0dGK
-         rhz/XnFJeS4vVQ/dMTzFA4eroq8g7gHBmdJPB0ZBHMJ7w+zfagsu12tw9XUtROmNThS9
-         LNaCCWk1sxp71Xc5CCfZ6ZLkaDLWFUZt0a/O2idg9aEli/bm6r0cHgGhGMTp93HyklE7
-         h11Q==
-X-Gm-Message-State: ACgBeo1/HzfxmACzbG2Of96K9wm/tBZ62vzYGWcIM9nYqHEQ6n4Z39RX
-	sy7WRWDCot5c2qDUrmM/dPTrPT7Hp/65WA==
+        bh=NrRd4SdHkzL2S6mneNj5HL1GYvJqrQZ+OfLlFhIDT2k=;
+        b=hEyQzL8IJAVVi8DxiRuQ8hsDst+O0W5i4JVQnvCcIY7vy4W3jTDQ6G7Z+nJRiHH7wX
+         ksvVf93qL4C8bUWffYReHTuwFThKb8WQK5O0lNPFQN/ycSDV8k9XsdahbN6LhMdMjLMr
+         16CwarKP7d2p036zBg/mxyd8C+zvIOHoMFK4lhVqDY/2FkiK8yp8JYJapH3aYei0Lx3I
+         sRomuhNQfzScaahWhCFr63WYF9Seed7JzcHsuoa+KE7L7xJXLOqstTIKuFBTvbBbwE4D
+         SW+8DVC8+3jxrX8Wp1pgOWDS7BxJL/xCqhe36XJs/xS9SG0S05UMQZn0Iaj+wmTciCWU
+         Gt7g==
+X-Gm-Message-State: ACgBeo3SWTfWK4iExcsKBR7O4nRIuVrGIbVVDjzWBYQs6LF6zpmCUObR
+	PY5kD6DGHOz2wt3IBHhtBD92ryvF6DiFSw==
 X-Google-Smtp-Source: 
- AA6agR4DHrjI4uM1yNXp6cI3sCowAN1d3CisJimE7ELdO4xaEnGtygx+gX8SJFwp2R28F71zLRTO8g==
-X-Received: by 2002:a17:902:f806:b0:172:55a6:bd25 with SMTP id
- ix6-20020a170902f80600b0017255a6bd25mr10134279plb.61.1660515651393;
-        Sun, 14 Aug 2022 15:20:51 -0700 (PDT)
+ AA6agR4F8P91ZMacXd2lMBqng7BWSBOrYiIMxgTNBICCbcTCJBwNtYVyUzfVoBeA+0uYDleP9zMMxA==
+X-Received: by 2002:a17:90a:b703:b0:1dd:1e2f:97d7 with SMTP id
+ l3-20020a17090ab70300b001dd1e2f97d7mr24423331pjr.62.1660515648862;
+        Sun, 14 Aug 2022 15:20:48 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::bb7a])
         by smtp.gmail.com with ESMTPSA id
- k15-20020a170902d58f00b0016d8b0dfd61sm5819502plh.178.2022.08.14.15.20.50
+ k15-20020a170902d58f00b0016d8b0dfd61sm5819502plh.178.2022.08.14.15.20.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Aug 2022 15:20:50 -0700 (PDT)
+        Sun, 14 Aug 2022 15:20:48 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 10/10] libtirpc: Upgrade to 1.3.3
-Date: Sun, 14 Aug 2022 15:20:37 -0700
-Message-Id: <20220814222037.283943-10-raj.khem@gmail.com>
+Subject: [PATCH 08/10] libxml2: Ignore CVE-2016-3709
+Date: Sun, 14 Aug 2022 15:20:35 -0700
+Message-Id: <20220814222037.283943-8-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220814222037.283943-1-raj.khem@gmail.com>
 References: <20220814222037.283943-1-raj.khem@gmail.com>
@@ -65,618 +66,32 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 14 Aug 2022 22:20:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169337
+ https://lists.openembedded.org/g/openembedded-core/message/169335
 
-In this release a large number of deadlocks in the
-in the multi-thread code were fix. A number of
-memory leaks were plugged and a DoS was eliminated.
-As well as a large number of bug fixes.
+This is fixed via a revert in 2.9.11 [1]
 
-Release notes:
-
-http://sourceforge.net/projects/libtirpc/files/libtirpc/1.3.3/Release-1.3.3.txt
+[1] https://gitlab.gnome.org/GNOME/libxml2/-/commit/c1ba6f54d32b707ca6d91cb3257ce9de82876b6f
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../libtirpc/libtirpc/CVE-2021-46828.patch    | 565 ------------------
- .../{libtirpc_1.3.2.bb => libtirpc_1.3.3.bb}  |   6 +-
- 2 files changed, 2 insertions(+), 569 deletions(-)
- delete mode 100644 meta/recipes-extended/libtirpc/libtirpc/CVE-2021-46828.patch
- rename meta/recipes-extended/libtirpc/{libtirpc_1.3.2.bb => libtirpc_1.3.3.bb} (80%)
+ meta/recipes-core/libxml/libxml2_2.9.14.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-extended/libtirpc/libtirpc/CVE-2021-46828.patch b/meta/recipes-extended/libtirpc/libtirpc/CVE-2021-46828.patch
-deleted file mode 100644
-index 64dffb923b9..00000000000
---- a/meta/recipes-extended/libtirpc/libtirpc/CVE-2021-46828.patch
-+++ /dev/null
-@@ -1,565 +0,0 @@
--From 86529758570cef4c73fb9b9c4104fdc510f701ed Mon Sep 17 00:00:00 2001
--From: Dai Ngo <dai.ngo@oracle.com>
--Date: Sat, 21 Aug 2021 13:16:23 -0400
--Subject: [PATCH] Fix DoS vulnerability in libtirpc
--
--Currently svc_run does not handle poll timeout and rendezvous_request
--does not handle EMFILE error returned from accept(2 as it used to.
--These two missing functionality were removed by commit b2c9430f46c4.
--
--The effect of not handling poll timeout allows idle TCP conections
--to remain ESTABLISHED indefinitely. When the number of connections
--reaches the limit of the open file descriptors (ulimit -n) then
--accept(2) fails with EMFILE. Since there is no handling of EMFILE
--error this causes svc_run() to get in a tight loop calling accept(2).
--This resulting in the RPC service of svc_run is being down, it's
--no longer able to service any requests.
--
--RPC service rpcbind, statd and mountd are effected by this
--problem.
--
--Fix by enhancing rendezvous_request to keep the number of
--SVCXPRT conections to 4/5 of the size of the file descriptor
--table. When this thresold is reached, it destroys the idle
--TCP connections or destroys the least active connection if
--no idle connnction was found.
--
--Fixes: 44bf15b8 rpcbind: don't use obsolete svc_fdset interface of libtirpc
--
--CVE: CVE-2021-46828
--Upstream-Status: Backport [http://git.linux-nfs.org/?p=steved/libtirpc.git;a=commit;h=86529758570cef4c73fb9b9c4104fdc510f701ed]
--Signed-off-by: dai.ngo@oracle.com
--Signed-off-by: Steve Dickson <steved@redhat.com>
-----
-- INSTALL      | 371 +----------------------------------------------------------
-- src/svc.c    |  17 ++-
-- src/svc_vc.c |  62 +++++++++-
-- 3 files changed, 78 insertions(+), 372 deletions(-)
-- mode change 100644 => 120000 INSTALL
--
--diff --git a/INSTALL b/INSTALL
--deleted file mode 100644
--index 2099840..0000000
----- a/INSTALL
--+++ /dev/null
--@@ -1,370 +0,0 @@
---Installation Instructions
---*************************
---
---Copyright (C) 1994-1996, 1999-2002, 2004-2013 Free Software Foundation,
---Inc.
---
---   Copying and distribution of this file, with or without modification,
---are permitted in any medium without royalty provided the copyright
---notice and this notice are preserved.  This file is offered as-is,
---without warranty of any kind.
---
---Basic Installation
---==================
---
---   Briefly, the shell command `./configure && make && make install'
---should configure, build, and install this package.  The following
---more-detailed instructions are generic; see the `README' file for
---instructions specific to this package.  Some packages provide this
---`INSTALL' file but do not implement all of the features documented
---below.  The lack of an optional feature in a given package is not
---necessarily a bug.  More recommendations for GNU packages can be found
---in *note Makefile Conventions: (standards)Makefile Conventions.
---
---   The `configure' shell script attempts to guess correct values for
---various system-dependent variables used during compilation.  It uses
---those values to create a `Makefile' in each directory of the package.
---It may also create one or more `.h' files containing system-dependent
---definitions.  Finally, it creates a shell script `config.status' that
---you can run in the future to recreate the current configuration, and a
---file `config.log' containing compiler output (useful mainly for
---debugging `configure').
---
---   It can also use an optional file (typically called `config.cache'
---and enabled with `--cache-file=config.cache' or simply `-C') that saves
---the results of its tests to speed up reconfiguring.  Caching is
---disabled by default to prevent problems with accidental use of stale
---cache files.
---
---   If you need to do unusual things to compile the package, please try
---to figure out how `configure' could check whether to do them, and mail
---diffs or instructions to the address given in the `README' so they can
---be considered for the next release.  If you are using the cache, and at
---some point `config.cache' contains results you don't want to keep, you
---may remove or edit it.
---
---   The file `configure.ac' (or `configure.in') is used to create
---`configure' by a program called `autoconf'.  You need `configure.ac' if
---you want to change it or regenerate `configure' using a newer version
---of `autoconf'.
---
---   The simplest way to compile this package is:
---
---  1. `cd' to the directory containing the package's source code and type
---     `./configure' to configure the package for your system.
---
---     Running `configure' might take a while.  While running, it prints
---     some messages telling which features it is checking for.
---
---  2. Type `make' to compile the package.
---
---  3. Optionally, type `make check' to run any self-tests that come with
---     the package, generally using the just-built uninstalled binaries.
---
---  4. Type `make install' to install the programs and any data files and
---     documentation.  When installing into a prefix owned by root, it is
---     recommended that the package be configured and built as a regular
---     user, and only the `make install' phase executed with root
---     privileges.
---
---  5. Optionally, type `make installcheck' to repeat any self-tests, but
---     this time using the binaries in their final installed location.
---     This target does not install anything.  Running this target as a
---     regular user, particularly if the prior `make install' required
---     root privileges, verifies that the installation completed
---     correctly.
---
---  6. You can remove the program binaries and object files from the
---     source code directory by typing `make clean'.  To also remove the
---     files that `configure' created (so you can compile the package for
---     a different kind of computer), type `make distclean'.  There is
---     also a `make maintainer-clean' target, but that is intended mainly
---     for the package's developers.  If you use it, you may have to get
---     all sorts of other programs in order to regenerate files that came
---     with the distribution.
---
---  7. Often, you can also type `make uninstall' to remove the installed
---     files again.  In practice, not all packages have tested that
---     uninstallation works correctly, even though it is required by the
---     GNU Coding Standards.
---
---  8. Some packages, particularly those that use Automake, provide `make
---     distcheck', which can by used by developers to test that all other
---     targets like `make install' and `make uninstall' work correctly.
---     This target is generally not run by end users.
---
---Compilers and Options
---=====================
---
---   Some systems require unusual options for compilation or linking that
---the `configure' script does not know about.  Run `./configure --help'
---for details on some of the pertinent environment variables.
---
---   You can give `configure' initial values for configuration parameters
---by setting variables in the command line or in the environment.  Here
---is an example:
---
---     ./configure CC=c99 CFLAGS=-g LIBS=-lposix
---
---   *Note Defining Variables::, for more details.
---
---Compiling For Multiple Architectures
---====================================
---
---   You can compile the package for more than one kind of computer at the
---same time, by placing the object files for each architecture in their
---own directory.  To do this, you can use GNU `make'.  `cd' to the
---directory where you want the object files and executables to go and run
---the `configure' script.  `configure' automatically checks for the
---source code in the directory that `configure' is in and in `..'.  This
---is known as a "VPATH" build.
---
---   With a non-GNU `make', it is safer to compile the package for one
---architecture at a time in the source code directory.  After you have
---installed the package for one architecture, use `make distclean' before
---reconfiguring for another architecture.
---
---   On MacOS X 10.5 and later systems, you can create libraries and
---executables that work on multiple system types--known as "fat" or
---"universal" binaries--by specifying multiple `-arch' options to the
---compiler but only a single `-arch' option to the preprocessor.  Like
---this:
---
---     ./configure CC="gcc -arch i386 -arch x86_64 -arch ppc -arch ppc64" \
---                 CXX="g++ -arch i386 -arch x86_64 -arch ppc -arch ppc64" \
---                 CPP="gcc -E" CXXCPP="g++ -E"
---
---   This is not guaranteed to produce working output in all cases, you
---may have to build one architecture at a time and combine the results
---using the `lipo' tool if you have problems.
---
---Installation Names
---==================
---
---   By default, `make install' installs the package's commands under
---`/usr/local/bin', include files under `/usr/local/include', etc.  You
---can specify an installation prefix other than `/usr/local' by giving
---`configure' the option `--prefix=PREFIX', where PREFIX must be an
---absolute file name.
---
---   You can specify separate installation prefixes for
---architecture-specific files and architecture-independent files.  If you
---pass the option `--exec-prefix=PREFIX' to `configure', the package uses
---PREFIX as the prefix for installing programs and libraries.
---Documentation and other data files still use the regular prefix.
---
---   In addition, if you use an unusual directory layout you can give
---options like `--bindir=DIR' to specify different values for particular
---kinds of files.  Run `configure --help' for a list of the directories
---you can set and what kinds of files go in them.  In general, the
---default for these options is expressed in terms of `${prefix}', so that
---specifying just `--prefix' will affect all of the other directory
---specifications that were not explicitly provided.
---
---   The most portable way to affect installation locations is to pass the
---correct locations to `configure'; however, many packages provide one or
---both of the following shortcuts of passing variable assignments to the
---`make install' command line to change installation locations without
---having to reconfigure or recompile.
---
---   The first method involves providing an override variable for each
---affected directory.  For example, `make install
---prefix=/alternate/directory' will choose an alternate location for all
---directory configuration variables that were expressed in terms of
---`${prefix}'.  Any directories that were specified during `configure',
---but not in terms of `${prefix}', must each be overridden at install
---time for the entire installation to be relocated.  The approach of
---makefile variable overrides for each directory variable is required by
---the GNU Coding Standards, and ideally causes no recompilation.
---However, some platforms have known limitations with the semantics of
---shared libraries that end up requiring recompilation when using this
---method, particularly noticeable in packages that use GNU Libtool.
---
---   The second method involves providing the `DESTDIR' variable.  For
---example, `make install DESTDIR=/alternate/directory' will prepend
---`/alternate/directory' before all installation names.  The approach of
---`DESTDIR' overrides is not required by the GNU Coding Standards, and
---does not work on platforms that have drive letters.  On the other hand,
---it does better at avoiding recompilation issues, and works well even
---when some directory options were not specified in terms of `${prefix}'
---at `configure' time.
---
---Optional Features
---=================
---
---   If the package supports it, you can cause programs to be installed
---with an extra prefix or suffix on their names by giving `configure' the
---option `--program-prefix=PREFIX' or `--program-suffix=SUFFIX'.
---
---   Some packages pay attention to `--enable-FEATURE' options to
---`configure', where FEATURE indicates an optional part of the package.
---They may also pay attention to `--with-PACKAGE' options, where PACKAGE
---is something like `gnu-as' or `x' (for the X Window System).  The
---`README' should mention any `--enable-' and `--with-' options that the
---package recognizes.
---
---   For packages that use the X Window System, `configure' can usually
---find the X include and library files automatically, but if it doesn't,
---you can use the `configure' options `--x-includes=DIR' and
---`--x-libraries=DIR' to specify their locations.
---
---   Some packages offer the ability to configure how verbose the
---execution of `make' will be.  For these packages, running `./configure
-----enable-silent-rules' sets the default to minimal output, which can be
---overridden with `make V=1'; while running `./configure
-----disable-silent-rules' sets the default to verbose, which can be
---overridden with `make V=0'.
---
---Particular systems
---==================
---
---   On HP-UX, the default C compiler is not ANSI C compatible.  If GNU
---CC is not installed, it is recommended to use the following options in
---order to use an ANSI C compiler:
---
---     ./configure CC="cc -Ae -D_XOPEN_SOURCE=500"
---
---and if that doesn't work, install pre-built binaries of GCC for HP-UX.
---
---   HP-UX `make' updates targets which have the same time stamps as
---their prerequisites, which makes it generally unusable when shipped
---generated files such as `configure' are involved.  Use GNU `make'
---instead.
---
---   On OSF/1 a.k.a. Tru64, some versions of the default C compiler cannot
---parse its `<wchar.h>' header file.  The option `-nodtk' can be used as
---a workaround.  If GNU CC is not installed, it is therefore recommended
---to try
---
---     ./configure CC="cc"
---
---and if that doesn't work, try
---
---     ./configure CC="cc -nodtk"
---
---   On Solaris, don't put `/usr/ucb' early in your `PATH'.  This
---directory contains several dysfunctional programs; working variants of
---these programs are available in `/usr/bin'.  So, if you need `/usr/ucb'
---in your `PATH', put it _after_ `/usr/bin'.
---
---   On Haiku, software installed for all users goes in `/boot/common',
---not `/usr/local'.  It is recommended to use the following options:
---
---     ./configure --prefix=/boot/common
---
---Specifying the System Type
---==========================
---
---   There may be some features `configure' cannot figure out
---automatically, but needs to determine by the type of machine the package
---will run on.  Usually, assuming the package is built to be run on the
---_same_ architectures, `configure' can figure that out, but if it prints
---a message saying it cannot guess the machine type, give it the
---`--build=TYPE' option.  TYPE can either be a short name for the system
---type, such as `sun4', or a canonical name which has the form:
---
---     CPU-COMPANY-SYSTEM
---
---where SYSTEM can have one of these forms:
---
---     OS
---     KERNEL-OS
---
---   See the file `config.sub' for the possible values of each field.  If
---`config.sub' isn't included in this package, then this package doesn't
---need to know the machine type.
---
---   If you are _building_ compiler tools for cross-compiling, you should
---use the option `--target=TYPE' to select the type of system they will
---produce code for.
---
---   If you want to _use_ a cross compiler, that generates code for a
---platform different from the build platform, you should specify the
---"host" platform (i.e., that on which the generated programs will
---eventually be run) with `--host=TYPE'.
---
---Sharing Defaults
---================
---
---   If you want to set default values for `configure' scripts to share,
---you can create a site shell script called `config.site' that gives
---default values for variables like `CC', `cache_file', and `prefix'.
---`configure' looks for `PREFIX/share/config.site' if it exists, then
---`PREFIX/etc/config.site' if it exists.  Or, you can set the
---`CONFIG_SITE' environment variable to the location of the site script.
---A warning: not all `configure' scripts look for a site script.
---
---Defining Variables
---==================
---
---   Variables not defined in a site shell script can be set in the
---environment passed to `configure'.  However, some packages may run
---configure again during the build, and the customized values of these
---variables may be lost.  In order to avoid this problem, you should set
---them in the `configure' command line, using `VAR=value'.  For example:
---
---     ./configure CC=/usr/local2/bin/gcc
---
---causes the specified `gcc' to be used as the C compiler (unless it is
---overridden in the site shell script).
---
---Unfortunately, this technique does not work for `CONFIG_SHELL' due to
---an Autoconf limitation.  Until the limitation is lifted, you can use
---this workaround:
---
---     CONFIG_SHELL=/bin/bash ./configure CONFIG_SHELL=/bin/bash
---
---`configure' Invocation
---======================
---
---   `configure' recognizes the following options to control how it
---operates.
---
---`--help'
---`-h'
---     Print a summary of all of the options to `configure', and exit.
---
---`--help=short'
---`--help=recursive'
---     Print a summary of the options unique to this package's
---     `configure', and exit.  The `short' variant lists options used
---     only in the top level, while the `recursive' variant lists options
---     also present in any nested packages.
---
---`--version'
---`-V'
---     Print the version of Autoconf used to generate the `configure'
---     script, and exit.
---
---`--cache-file=FILE'
---     Enable the cache: use and save the results of the tests in FILE,
---     traditionally `config.cache'.  FILE defaults to `/dev/null' to
---     disable caching.
---
---`--config-cache'
---`-C'
---     Alias for `--cache-file=config.cache'.
---
---`--quiet'
---`--silent'
---`-q'
---     Do not print messages saying which checks are being made.  To
---     suppress all normal output, redirect it to `/dev/null' (any error
---     messages will still be shown).
---
---`--srcdir=DIR'
---     Look for the package's source code in directory DIR.  Usually
---     `configure' can determine that directory automatically.
---
---`--prefix=DIR'
---     Use DIR as the installation prefix.  *note Installation Names::
---     for more details, including other options available for fine-tuning
---     the installation locations.
---
---`--no-create'
---`-n'
---     Run the configure checks, but stop before creating any output
---     files.
---
---`configure' also accepts some other, not widely useful, options.  Run
---`configure --help' for more details.
--diff --git a/INSTALL b/INSTALL
--new file mode 120000
--index 0000000..e3f22c0
----- /dev/null
--+++ b/INSTALL
--@@ -0,0 +1 @@
--+/usr/share/automake-1.16/INSTALL
--\ No newline at end of file
--diff --git a/src/svc.c b/src/svc.c
--index 6db164b..3a8709f 100644
----- a/src/svc.c
--+++ b/src/svc.c
--@@ -57,7 +57,7 @@
-- 
-- #define max(a, b) (a > b ? a : b)
-- 
---static SVCXPRT **__svc_xports;
--+SVCXPRT **__svc_xports;
-- int __svc_maxrec;
-- 
-- /*
--@@ -194,6 +194,21 @@ __xprt_do_unregister (xprt, dolock)
--     rwlock_unlock (&svc_fd_lock);
-- }
-- 
--+int
--+svc_open_fds()
--+{
--+	int ix;
--+	int nfds = 0;
--+
--+	rwlock_rdlock (&svc_fd_lock);
--+	for (ix = 0; ix < svc_max_pollfd; ++ix) {
--+		if (svc_pollfd[ix].fd != -1)
--+			nfds++;
--+	}
--+	rwlock_unlock (&svc_fd_lock);
--+	return (nfds);
--+}
--+
-- /*
--  * Add a service program to the callout list.
--  * The dispatch routine will be called when a rpc request for this
--diff --git a/src/svc_vc.c b/src/svc_vc.c
--index f1d9f00..3dc8a75 100644
----- a/src/svc_vc.c
--+++ b/src/svc_vc.c
--@@ -64,6 +64,8 @@
-- 
-- 
-- extern rwlock_t svc_fd_lock;
--+extern SVCXPRT **__svc_xports;
--+extern int svc_open_fds();
-- 
-- static SVCXPRT *makefd_xprt(int, u_int, u_int);
-- static bool_t rendezvous_request(SVCXPRT *, struct rpc_msg *);
--@@ -82,6 +84,7 @@ static void svc_vc_ops(SVCXPRT *);
-- static bool_t svc_vc_control(SVCXPRT *xprt, const u_int rq, void *in);
-- static bool_t svc_vc_rendezvous_control (SVCXPRT *xprt, const u_int rq,
-- 				   	     void *in);
--+static int __svc_destroy_idle(int timeout);
-- 
-- struct cf_rendezvous { /* kept in xprt->xp_p1 for rendezvouser */
-- 	u_int sendsize;
--@@ -313,13 +316,14 @@ done:
-- 	return (xprt);
-- }
-- 
--+
-- /*ARGSUSED*/
-- static bool_t
-- rendezvous_request(xprt, msg)
-- 	SVCXPRT *xprt;
-- 	struct rpc_msg *msg;
-- {
---	int sock, flags;
--+	int sock, flags, nfds, cnt;
-- 	struct cf_rendezvous *r;
-- 	struct cf_conn *cd;
-- 	struct sockaddr_storage addr;
--@@ -379,6 +383,16 @@ again:
-- 
-- 	gettimeofday(&cd->last_recv_time, NULL);
-- 
--+	nfds = svc_open_fds();
--+	if (nfds >= (_rpc_dtablesize() / 5) * 4) {
--+		/* destroy idle connections */
--+		cnt = __svc_destroy_idle(15);
--+		if (cnt == 0) {
--+			/* destroy least active */
--+			__svc_destroy_idle(0);
--+		}
--+	}
--+
-- 	return (FALSE); /* there is never an rpc msg to be processed */
-- }
-- 
--@@ -820,3 +834,49 @@ __svc_clean_idle(fd_set *fds, int timeout, bool_t cleanblock)
-- {
-- 	return FALSE;
-- }
--+
--+static int
--+__svc_destroy_idle(int timeout)
--+{
--+	int i, ncleaned = 0;
--+	SVCXPRT *xprt, *least_active;
--+	struct timeval tv, tdiff, tmax;
--+	struct cf_conn *cd;
--+
--+	gettimeofday(&tv, NULL);
--+	tmax.tv_sec = tmax.tv_usec = 0;
--+	least_active = NULL;
--+	rwlock_wrlock(&svc_fd_lock);
--+
--+	for (i = 0; i <= svc_max_pollfd; i++) {
--+		if (svc_pollfd[i].fd == -1)
--+			continue;
--+		xprt = __svc_xports[i];
--+		if (xprt == NULL || xprt->xp_ops == NULL ||
--+			xprt->xp_ops->xp_recv != svc_vc_recv)
--+			continue;
--+		cd = (struct cf_conn *)xprt->xp_p1;
--+		if (!cd->nonblock)
--+			continue;
--+		if (timeout == 0) {
--+			timersub(&tv, &cd->last_recv_time, &tdiff);
--+			if (timercmp(&tdiff, &tmax, >)) {
--+				tmax = tdiff;
--+				least_active = xprt;
--+			}
--+			continue;
--+		}
--+		if (tv.tv_sec - cd->last_recv_time.tv_sec > timeout) {
--+			__xprt_unregister_unlocked(xprt);
--+			__svc_vc_dodestroy(xprt);
--+			ncleaned++;
--+		}
--+	}
--+	if (timeout == 0 && least_active != NULL) {
--+		__xprt_unregister_unlocked(least_active);
--+		__svc_vc_dodestroy(least_active);
--+		ncleaned++;
--+	}
--+	rwlock_unlock(&svc_fd_lock);
--+	return (ncleaned);
--+}
---- 
--1.8.3.1
--
-diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb b/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb
-similarity index 80%
-rename from meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb
-rename to meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb
-index cc87638c0f7..bd13f6e95e9 100644
---- a/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb
-+++ b/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb
-@@ -9,12 +9,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f835cce8852481e4b2bbbdd23b5e47f3 \
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+index 3081ebf92f0..e58298d3b01 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+@@ -29,6 +29,10 @@ SRC_URI[testtar.sha256sum] = "96151685cec997e1f9f3387e3626d61e6284d4d6e66e0e440c
  
- PROVIDES = "virtual/librpc"
+ BINCONFIG = "${bindir}/xml2-config"
  
--SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2 \
--           file://CVE-2021-46828.patch \
--          "
-+SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2"
- UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/libtirpc/files/libtirpc/"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
--SRC_URI[sha256sum] = "e24eb88b8ce7db3b7ca6eb80115dd1284abc5ec32a8deccfed2224fc2532b9fd"
-+SRC_URI[sha256sum] = "6474e98851d9f6f33871957ddee9714fdcd9d8a5ee9abb5a98d63ea2e60e12f3"
- 
- inherit autotools pkgconfig
- 
++# Fixed since 2.9.11 via
++# https://gitlab.gnome.org/GNOME/libxml2/-/commit/c1ba6f54d32b707ca6d91cb3257ce9de82876b6f
++CVE_CHECK_IGNORE += "CVE-2016-3709"
++
+ PACKAGECONFIG ??= "python \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
+ "
 -- 
 2.37.2
 
