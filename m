@@ -1,103 +1,115 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 767D9C25B06
-	for <webhook@archiver.kernel.org>; Sun, 14 Aug 2022 15:18:15 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
- [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web08.5956.1660490290155231373
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90DDBC25B06
+	for <webhook@archiver.kernel.org>; Sun, 14 Aug 2022 15:39:45 +0000 (UTC)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.web11.6195.1660491582700399755
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Aug 2022 08:18:10 -0700
+ Sun, 14 Aug 2022 08:39:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=q1LIHVER;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.178.238,
- mailfrom: prvs=5225295450=kai.kang@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 27EFI9Mw002618
-	for <openembedded-core@lists.openembedded.org>; Sun, 14 Aug 2022 15:18:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to :
- subject : date : message-id : mime-version : content-type; s=PPS06212021;
- bh=RzHgthSLWgOC1J+DcEG9xoYUYqbaZMtB/wpjMVL4S1A=;
- b=q1LIHVERGXjsBOTEjFY8JnnO79/fYhDFdhBboogVVfS/XxNVLhS2h3pH/nmwQTis21+A
- Kx8bIpWT+ekJ1ePmby6fQVPiZT1wgTcj3w6G/6MwKychGS7t8YScP2CiPNOTz6J8+GNj
- Rk2z08KDfZjJkb2XVgCiIk+rR0fepmYyPCGmoQiQQ0JTdO4xu5kV8fA7uksUVWaY+PCt
- Iumdx0gN/hC/6GQKLZ+mBnrV3dXeFvnC0JwjgUILBP2zqXqrkgCs+BSNK6UVPbW4KoYM
- 1y6qGVGX/51FRgKwySUJC4QKjZ1ig7mT9p1b2idsq6Q1aOKW/58Yd2U2FKOuimlmJh2a +A==
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com
- [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3hx2x8gy9u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Aug 2022 15:18:09 +0000
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Sun, 14 Aug 2022 08:18:07 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Sun, 14 Aug 2022 08:18:07 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] packagegroup-self-hosted: update for strace
-Date: Sun, 14 Aug 2022 23:18:02 +0800
-Message-ID: <20220814151802.9877-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=l7OyKJNv;
+ spf=pass (domain: gmail.com, ip: 209.85.208.169,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f169.google.com with SMTP id s9so5474394ljs.6
+        for <openembedded-core@lists.openembedded.org>;
+ Sun, 14 Aug 2022 08:39:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=sRzuSNx9ITnFKYDlY29ltfmA+QCkq3rlOl/f2u61Sxg=;
+        b=l7OyKJNv8RhZuGzg5izN6M93Wclr28du9AOllITKbdDTX1TqLnRYN8kfgtMZMCl/i5
+         5TRZ2ZPxlL+MaOZ3tplSAZ2gL5K4cGVM9WgPTYPaK4nI6cZRhVXj4KjHKlNwQBHGpK7t
+         LzsTS7oE+C6xEAXB4uDDRDtWXgexpSnPFG9J35qRDX5wQjtwab+mZ2pGFsHcaZI3y5Vo
+         y6desfMGTxpfuvIefGIOgwKhHAJWQ1bs/5L1H2NPp96rg/I5Y2/9d051CrcSqQMmMkyo
+         LGloK1ionr6YtXEGIoWPTBBVUa72FRFMGvCoSxkEz1l2zyNFR3Pb2xLMflU61vdOJAtQ
+         BQ0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=sRzuSNx9ITnFKYDlY29ltfmA+QCkq3rlOl/f2u61Sxg=;
+        b=t+vlysiQI6uEZ0tmN3YSewGDZ7eullSbrs2NjOH5vw0eFi71IeHq66QUNZQQahQJjJ
+         Vign6k2mNRLj5ijw045b2Qn5qMuXZa7NP1U5wmIUbfH81kHqrgehaYX70z0SXlizuzPu
+         IO+DJbNq+HFwe4ZWcHbOFVW47Yf37ISHMkuFu948dnkoCP0IA9gHiaZC8TUlAzon0heI
+         CHq0i0WtK+acTV42cvz3QQTnjDAkAZ35LNmik3Iu7Nykwh/xXP7gAkbfFe2sOTe3xash
+         fhfzX0h1djk7napDkdC6S88a6IV7hQ7mK02SOby/VDu2PXqslad4sUKmIG7ILPXnktm7
+         MWlA==
+X-Gm-Message-State: ACgBeo1RWOv1xqEyjecAklMWhtOQwee8kD+HvBcacZCxje6++93M1oXd
+	NId/Z+pQq86ABQptO0VeRa7+ajZakJEHD3cNj10=
+X-Google-Smtp-Source: 
+ AA6agR7LfoRPlP+mERAlEPn3Pq5Hmk8LZev9tAqbShi5JSrE+17sNg3xFmsELryzYKLctsBHpuVit5n52Ywxe3333kQ=
+X-Received: by 2002:a05:651c:2120:b0:25e:5145:38b0 with SMTP id
+ a32-20020a05651c212000b0025e514538b0mr3899000ljq.191.1660491580435; Sun, 14
+ Aug 2022 08:39:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: nshbPB-dRexp-hbx9P8zUwCAoqK-LVHK
-X-Proofpoint-GUID: nshbPB-dRexp-hbx9P8zUwCAoqK-LVHK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-14_10,2022-08-11_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 malwarescore=0 bulkscore=0 clxscore=1015 mlxscore=0
- lowpriorityscore=0 spamscore=0 mlxlogscore=773 adultscore=0
- impostorscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2207270000 definitions=main-2208140068
+References: <20220814151802.9877-1-kai.kang@windriver.com>
+In-Reply-To: <20220814151802.9877-1-kai.kang@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sun, 14 Aug 2022 17:39:29 +0200
+Message-ID: 
+ <CANNYZj9rK3fycg6S0yumZrM+L0wNbQgOA1h_2b0bMZehaou=Ww@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] packagegroup-self-hosted: update for strace
+To: kai <kai.kang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Aug 2022 15:18:15 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Aug 2022 15:39:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169324
+ https://lists.openembedded.org/g/openembedded-core/message/169325
 
-From: Kai Kang <kai.kang@windriver.com>
+Some information or links about how it is incompatible would be
+appreciated. Can it be made compatible instead?
 
-strace has been set imcompatible with riscv32, so update in
-packagegroup-self-hosted.bb accordingly.
+Alex
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-index 772b86b39a..a1b0ee2883 100644
---- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-@@ -98,11 +98,14 @@ RDEPENDS:packagegroup-self-hosted-sdk:append:libc-glibc = "\
-     glibc-utils \
-     rpcsvc-proto \
-     "
-+
-+STRACE = "strace"
-+STRACE:riscv32 = ""
- RDEPENDS:packagegroup-self-hosted-debug = " \
-     gdb \
-     gdbserver \
-     rsync \
--    strace \
-+    ${STRACE} \
-     tcf-agent"
- 
- 
--- 
-2.17.1
-
+On Sun, 14 Aug 2022 at 17:18, kai <kai.kang@windriver.com> wrote:
+>
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> strace has been set imcompatible with riscv32, so update in
+> packagegroup-self-hosted.bb accordingly.
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+> index 772b86b39a..a1b0ee2883 100644
+> --- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+> +++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+> @@ -98,11 +98,14 @@ RDEPENDS:packagegroup-self-hosted-sdk:append:libc-glibc = "\
+>      glibc-utils \
+>      rpcsvc-proto \
+>      "
+> +
+> +STRACE = "strace"
+> +STRACE:riscv32 = ""
+>  RDEPENDS:packagegroup-self-hosted-debug = " \
+>      gdb \
+>      gdbserver \
+>      rsync \
+> -    strace \
+> +    ${STRACE} \
+>      tcf-agent"
+>
+>
+> --
+> 2.17.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#169324): https://lists.openembedded.org/g/openembedded-core/message/169324
+> Mute This Topic: https://lists.openembedded.org/mt/93017686/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
