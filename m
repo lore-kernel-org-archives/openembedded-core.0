@@ -1,99 +1,103 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <kai.kang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5473C25B06
-	for <webhook@archiver.kernel.org>; Sun, 14 Aug 2022 13:02:34 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web08.4740.1660482149942001572
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 767D9C25B06
+	for <webhook@archiver.kernel.org>; Sun, 14 Aug 2022 15:18:15 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
+ [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web08.5956.1660490290155231373
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Aug 2022 06:02:30 -0700
+ Sun, 14 Aug 2022 08:18:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=QnvDWjwF;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43,
- mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id
- h21-20020a17090aa89500b001f31a61b91dso12299368pjq.4
-        for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Aug 2022 06:02:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=date:message-id:to:from:subject:from:to:cc;
-        bh=R0hxmPmYo2zIwir4o0WjKRGuOHoddJO0rOVZWf2Sn1M=;
-        b=QnvDWjwFwTR96XRDa00bx+eggzHHmQZOqtGzE9gDJWjb1zwFvCr6GqrC54Fe0i9cej
-         iXzGpAju7FxqMCwTVHvvjgEVS6RJwuX+Y+Iar+cgLionOdzEV56AUu9VMJ2Zn5RmX7mW
-         tzTswPdU4nWz7m6ISM5bfvfHGXdCWCPmfXb7jiMNPdzinDQwsqvKe6bn8/xQP+AkzEog
-         OSdF4+kFX6i9v2Ink+fHKeuiA1wuxwkA+POtAgCFrzYQmtERFMJDOIRxRAOREbXRXOSD
-         60LlvnyjcKrZHEbUv7KcaxhDmk/ei49Jho49f6gr7q4jvOdPeSfAGeRNJ2UMDCAToGTy
-         ZogA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=date:message-id:to:from:subject:x-gm-message-state:from:to:cc;
-        bh=R0hxmPmYo2zIwir4o0WjKRGuOHoddJO0rOVZWf2Sn1M=;
-        b=XBh+TllDiRPbiAGpqJaazx4rCNN5AqbwK76vmmYC+Ek8QamMlAcAjyFPrbiKzhFqZ0
-         Or2QYJg1HKPsvH1in++uvQ1Zqjv3jykpSPHMG+sKOrUELPR5MkXaY2fY/lb93KSVNCZC
-         y76HLcrBpXNhJ+2EnBcG3Kbkd9rfNtED/fDB84UYOcMG6BEY3NogClwBnBJ300nV8A2j
-         ikLynidWzq1gf+f4ISJ5+2TlPFr7+6Pk6GvCXQwLEMm59vLnaGt/uvlzU1QYfmnRVYMB
-         gih0vhcnCJOK5iTw/VHy35F3ZxWxwdFvRElvBVDyY8XF8ugT7LYww8nux9qYj6iDBDss
-         hrDg==
-X-Gm-Message-State: ACgBeo3+iIygA7h8GwyGtcjYaeHSxyh9aMBa6tshg/omi193FmNzLHUh
-	nTncTP2CJJ5zEBV1JFrBIqMsJ69xt/3DMT4w
-X-Google-Smtp-Source: 
- AA6agR6E1Go78Y1BL1f8nr1X38gkYcg8ZZAxW6QjPhvuVmD3swPkwyArG4peMaP/t163p4SOF4qQNA==
-X-Received: by 2002:a17:90a:c690:b0:1f5:858e:f538 with SMTP id
- n16-20020a17090ac69000b001f5858ef538mr22794480pjt.10.1660482148786;
-        Sun, 14 Aug 2022 06:02:28 -0700 (PDT)
-Received: from nuc.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id
- e10-20020a170902784a00b0015ee60ef65bsm5287903pln.260.2022.08.14.06.02.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Aug 2022 06:02:28 -0700 (PDT)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 30BBD96247C; Sun, 14 Aug 2022 03:02:26 -1000 (HST)
-Subject: OE-core CVE metrics for kirkstone on Sun 14 Aug 2022 03:00:01 AM HST
-FROM: steve@sakoman.com
-To: 
- <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20220814130226.30BBD96247C@nuc.router0800d9.com>
-Date: Sun, 14 Aug 2022 03:02:26 -1000 (HST)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=q1LIHVER;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.178.238,
+ mailfrom: prvs=5225295450=kai.kang@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
+ 27EFI9Mw002618
+	for <openembedded-core@lists.openembedded.org>; Sun, 14 Aug 2022 15:18:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=from : to :
+ subject : date : message-id : mime-version : content-type; s=PPS06212021;
+ bh=RzHgthSLWgOC1J+DcEG9xoYUYqbaZMtB/wpjMVL4S1A=;
+ b=q1LIHVERGXjsBOTEjFY8JnnO79/fYhDFdhBboogVVfS/XxNVLhS2h3pH/nmwQTis21+A
+ Kx8bIpWT+ekJ1ePmby6fQVPiZT1wgTcj3w6G/6MwKychGS7t8YScP2CiPNOTz6J8+GNj
+ Rk2z08KDfZjJkb2XVgCiIk+rR0fepmYyPCGmoQiQQ0JTdO4xu5kV8fA7uksUVWaY+PCt
+ Iumdx0gN/hC/6GQKLZ+mBnrV3dXeFvnC0JwjgUILBP2zqXqrkgCs+BSNK6UVPbW4KoYM
+ 1y6qGVGX/51FRgKwySUJC4QKjZ1ig7mT9p1b2idsq6Q1aOKW/58Yd2U2FKOuimlmJh2a +A==
+Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com
+ [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3hx2x8gy9u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Sun, 14 Aug 2022 15:18:09 +0000
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Sun, 14 Aug 2022 08:18:07 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Sun, 14 Aug 2022 08:18:07 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] packagegroup-self-hosted: update for strace
+Date: Sun, 14 Aug 2022 23:18:02 +0800
+Message-ID: <20220814151802.9877-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: nshbPB-dRexp-hbx9P8zUwCAoqK-LVHK
+X-Proofpoint-GUID: nshbPB-dRexp-hbx9P8zUwCAoqK-LVHK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-14_10,2022-08-11_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ phishscore=0 malwarescore=0 bulkscore=0 clxscore=1015 mlxscore=0
+ lowpriorityscore=0 spamscore=0 mlxlogscore=773 adultscore=0
+ impostorscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2207270000 definitions=main-2208140068
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Aug 2022 13:02:34 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Aug 2022 15:18:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169323
+ https://lists.openembedded.org/g/openembedded-core/message/169324
 
-Branch: kirkstone
+From: Kai Kang <kai.kang@windriver.com>
 
-New this week: 5 CVEs
-CVE-2022-29154 (CVSS3: 7.4 HIGH): rsync:rsync-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-29154 *
-CVE-2022-32292 (CVSS3: 9.8 CRITICAL): connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32292 *
-CVE-2022-32293 (CVSS3: 8.1 HIGH): connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32293 *
-CVE-2022-35737 (CVSS3: 7.5 HIGH): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-35737 *
-CVE-2022-37434 (CVSS3: 9.8 CRITICAL): zlib:zlib-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-37434 *
+strace has been set imcompatible with riscv32, so update in
+packagegroup-self-hosted.bb accordingly.
 
-Removed this week: 0 CVEs
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Full list:  Found 15 unpatched CVEs
-CVE-2016-3709 (CVSS3: 6.1 MEDIUM): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-3709 *
-CVE-2021-3611 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3611 *
-CVE-2021-3750 (CVSS3: 8.2 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3750 *
-CVE-2021-46829 (CVSS3: 7.8 HIGH): gdk-pixbuf:gdk-pixbuf-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-46829 *
-CVE-2022-2294 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2294 *
-CVE-2022-2509 (CVSS3: 7.5 HIGH): gnutls:gnutls-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2509 *
-CVE-2022-2571 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2571 *
-CVE-2022-2580 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2580 *
-CVE-2022-2581 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2581 *
-CVE-2022-2598 (CVSS3: 5.5 MEDIUM): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2598 *
-CVE-2022-29154 (CVSS3: 7.4 HIGH): rsync:rsync-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-29154 *
-CVE-2022-32292 (CVSS3: 9.8 CRITICAL): connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32292 *
-CVE-2022-32293 (CVSS3: 8.1 HIGH): connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32293 *
-CVE-2022-35737 (CVSS3: 7.5 HIGH): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-35737 *
-CVE-2022-37434 (CVSS3: 9.8 CRITICAL): zlib:zlib-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-37434 *
+diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+index 772b86b39a..a1b0ee2883 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+@@ -98,11 +98,14 @@ RDEPENDS:packagegroup-self-hosted-sdk:append:libc-glibc = "\
+     glibc-utils \
+     rpcsvc-proto \
+     "
++
++STRACE = "strace"
++STRACE:riscv32 = ""
+ RDEPENDS:packagegroup-self-hosted-debug = " \
+     gdb \
+     gdbserver \
+     rsync \
+-    strace \
++    ${STRACE} \
+     tcf-agent"
+ 
+ 
+-- 
+2.17.1
 
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
