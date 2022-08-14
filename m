@@ -1,251 +1,473 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DE7DC3F6B0
-	for <webhook@archiver.kernel.org>; Sun, 14 Aug 2022 15:57:25 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
- [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.6210.1660492644446965100
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63F05C3F6B0
+	for <webhook@archiver.kernel.org>; Sun, 14 Aug 2022 22:20:47 +0000 (UTC)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
+ [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web08.10086.1660515645756781214
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Aug 2022 08:57:24 -0700
+ Sun, 14 Aug 2022 15:20:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriver.com
- header.s=pps06212021 header.b=EzryxwCB;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.178.238,
- mailfrom: prvs=5225295450=kai.kang@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 27EFq95w030459
-	for <openembedded-core@lists.openembedded.org>; Sun, 14 Aug 2022 15:57:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=message-id : date
- : subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=9A4qAxXbSRncqoMR8yQsgLRXbAvHrzIr0UIy+o+7aE4=;
- b=EzryxwCB5iXUeKzhWW5tTFANcHRu82buFqF4VbT4qNi2UVHe2KEJH3WicHaEL6b4B8H5
- sv5+Eey9UgmWYZ5JEy/eaNKYeG6wDfMKs3PaUEnNYYF17lIl2NLZZ+3oYFGo5ha90vOP
- 0a2cOk46C+bN/OZ/w1OMeHbvopPAxY2kmwPR49EzUIeoFyMeBc8jhNOXsEVNDnW3hqRS
- fWz4GN2AjUFPOGs944mOGYeW1FEhaxS+QJYFysvN6RRUnaIQVV2rzZqKjAVqPpE53whB
- WjZoQ2vd5AUcLM6/Nn0faF6YROPOLbMjwjouOyo/azEwcn4+NCPapl+mhj8FVgDsLFqK UA==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3hx160s1ku-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Aug 2022 15:57:23 +0000
-Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27EFvMCf007429
-	for <openembedded-core@lists.openembedded.org>; Sun, 14 Aug 2022 15:57:22 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2175.outbound.protection.outlook.com [104.47.55.175])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3hx160s1kt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 14 Aug 2022 15:57:22 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G6KLGWNR1K0JQknFZezllWQFrtET/BVz4/b++ZlI96RmA8QM1sgaNlVGJbBE/foEtYcKcREpJbVUs2oaMFM6ImKRQLCexB7uTbhpts3yvWGc39emBgGKbeo7woAVjvuCL2N0HdsUvwNFbQ7ndX0rN94Xuz8xjHOFeaCShC9jMHBPU9c/D/g8s2ZS2X3uQvgYZ4Eaxt7xtwsavkKVx+nfaGEzx3NVmhd3OS5636e5Q5P5hEobcIuGYUYq4gbX9Qi2JiHvrN02vZ4EuUpalwvjD6TyafwHUBag79Mcsa4ro3iPzG03ucIQNgZ/PSj4YIevuATREtw4mrcKBUw504+y3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9A4qAxXbSRncqoMR8yQsgLRXbAvHrzIr0UIy+o+7aE4=;
- b=VqNxH4EssDulS032JRk9T+vUzocOc0xhDNnzwCJhqrjip4rsPM25u9telDq+o81vQxjjG0rEVgQtwpvbAjSj8IoIsyShJ7Guu7BjEBnxt6cV54WU0hv9bGaqR/eoRYR6xgvHlulSpin5oY6ElPvyClBajWNNSXZzWYyHtA6tkw7EBKglsTJonXEXuZIizyO31vAnsyqh4+mjErbrLmh2V73AjIYhW/R75kPxPnugVnmkRxgfWCesgJWw3RjyWA7BG5lYpSfpKI5hzslsCI4OBH1RoIimWa/dOrEkw5NLma2PblYWXQJreCvCWNoOf9SSeibqlo9qqMb6c0bbQ8xXlg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS7PR11MB6064.namprd11.prod.outlook.com (2603:10b6:8:77::14) by
- MW4PR11MB6762.namprd11.prod.outlook.com (2603:10b6:303:20c::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.15; Sun, 14 Aug
- 2022 15:57:18 +0000
-Received: from DS7PR11MB6064.namprd11.prod.outlook.com
- ([fe80::d0c1:127f:313e:e8f9]) by DS7PR11MB6064.namprd11.prod.outlook.com
- ([fe80::d0c1:127f:313e:e8f9%3]) with mapi id 15.20.5525.011; Sun, 14 Aug 2022
- 15:57:18 +0000
-Message-ID: <5ab0399c-8d5f-1357-e954-8469803858c0@windriver.com>
-Date: Sun, 14 Aug 2022 23:57:09 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [OE-core] [PATCH] packagegroup-self-hosted: update for strace
-Content-Language: en-US
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-References: <20220814151802.9877-1-kai.kang@windriver.com>
- <CANNYZj9rK3fycg6S0yumZrM+L0wNbQgOA1h_2b0bMZehaou=Ww@mail.gmail.com>
-From: Kai <kai.kang@windriver.com>
-In-Reply-To: 
- <CANNYZj9rK3fycg6S0yumZrM+L0wNbQgOA1h_2b0bMZehaou=Ww@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-ClientProxiedBy: SG2PR06CA0240.apcprd06.prod.outlook.com
- (2603:1096:4:ac::24) To DS7PR11MB6064.namprd11.prod.outlook.com
- (2603:10b6:8:77::14)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VHdpEXaD;
+ spf=pass (domain: gmail.com, ip: 209.85.210.174,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f174.google.com with SMTP id f28so5378910pfk.1
+        for <openembedded-core@lists.openembedded.org>;
+ Sun, 14 Aug 2022 15:20:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=mqYqAYCNrSSlrD1AYKlysebUkF1wrduP7xnIOy344Gg=;
+        b=VHdpEXaDTU0+GSkUbORQz5OJLWsUSce8wEipNhq6Zw0a11z72lA4E/VFMhhxqzkIzm
+         VKUPljm6FMSkV/fjxpT6vRmdPcMrBsnPBky8PPNw6SCzu/wWPPgRErskxtqQzt+HqJo6
+         l/XEJCYnsjdbrnAc9k+UVBCbGYRe7s9NeUdCJWbqWMlLd5Hu0HX3lOO9LNiAPGzVNBJm
+         rRXv06qWg1dQB13pNL1kk87CHkw/XogU5O82Up5UkL6fLGjtO04nb55Jy933nniWnU/N
+         AZxU//BF0nLeJNUVCzcvSM2jxqNe8dSbe4KIZwqAQcTaYYB/3R4p9PlKry2usMFYu9kP
+         FN5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=mqYqAYCNrSSlrD1AYKlysebUkF1wrduP7xnIOy344Gg=;
+        b=jQFc9rCZMjL1CSgs3uouAhmg3CKs+F5f5ctFIRRAd77nymKv9ncBrTnKqMKNSwEmAf
+         esWtk1c6gNhpx6Lwob5zsugHjliCa77pY2OpyL5z8BgsWnxvaMJElwCBvpnHvRqWE0Fk
+         XWhbwf19UfJ2/9c3XAW196IXIn9sRV6yJctsGoWhOHysuinYhWyf716i6N+pBdSIC9w1
+         E2v2XhnFjxJymg24asJS8o1D/uqNGzcjk/KzME1PlSUbE6IFNkJRxnhlgAoK/eiZRgXI
+         /EFkQJI588hYRhG1jSMjwMM+lXg/rxZBmnd1DGVxCZ+CTcK2zocz9Fs3ROgAFq4lt/vf
+         bikA==
+X-Gm-Message-State: ACgBeo241R6f/ui+cTsXPQWlGlXTYzkKuBOBqVw89+mKyYpK9NfpZvJ+
+	0yPw8O7B5ZjFAfv1kWgviVEwRTjvOC7hhg==
+X-Google-Smtp-Source: 
+ AA6agR4c8X8QxRYDIp+Z2Cvcv0kAWoFRevutamgCMS7DutgGPG5o/n+TmdpbG5MGsGzEtXP06UuArg==
+X-Received: by 2002:a63:4b4a:0:b0:427:bbb0:110e with SMTP id
+ k10-20020a634b4a000000b00427bbb0110emr4770339pgl.397.1660515644127;
+        Sun, 14 Aug 2022 15:20:44 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::bb7a])
+        by smtp.gmail.com with ESMTPSA id
+ k15-20020a170902d58f00b0016d8b0dfd61sm5819502plh.178.2022.08.14.15.20.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Aug 2022 15:20:43 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 04/10] rsync: Backport fix to address CVE-2022-29154
+Date: Sun, 14 Aug 2022 15:20:31 -0700
+Message-Id: <20220814222037.283943-4-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20220814222037.283943-1-raj.khem@gmail.com>
+References: <20220814222037.283943-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fdd883b3-72d4-4c56-b61b-08da7e0daa2b
-X-MS-TrafficTypeDiagnostic: MW4PR11MB6762:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	z5AMJaKxuAwI/Mw/TsLETye7zvtWuCybf+HUj0GhydYrUV18/qcfqGehybM1wpMKUYzY8Tx8pnNFe12nGD2n9w2RvZ7RmbIE/tPmy1IhJTvIzii24aphDxVJkB7SpQMX/82opYL3kMB1NEoW0HD15vQpZcf4nfvgqvXeFmkR+PStfB6mM1DSiuBCtVGbf6A3jslCcrlhSkz7/Rllovr9CwVL4saiy+fBuF6tWFNgqbXquVpIjtz+Phz1VYlhJxtiN5MyR/jGX2XOdD1Rs2ChZOqYsBkXkJD+tZpXMvJYlSMWFYOmWvLj4JcxhNyepqrY/594D4pFpF6jWBsJQfw9pQFk9b+qisSz/atvAzVdq7+l9DQ29YMvZSKanC/c2xnnCnp6cTp2uGbs9LZPxVSZb1K4Da4kmrrOCIraou4RzbwG8UerNdl6wVLp5tQkGiZ5cawxKhsgqfJJ+bZhfwQ0V5nqlfajBFNkUyvg8wzUED5oJ8/LxzT/F1C8i0H8QYvSYeqVQZwcZ4cb6pYolfEz6NMJLQWwm7er7M8XElCv8OqOqe8ukdPopAqW8CRzIE9nIbpWc7/AMaDtIlCIJaqHkp/y1m6BeyEhAnhdn7B6uJg2ec6EsUV1HFYAtIv4o9aMbxa5GeGtXkQzGiPV1LbhFmhQWcR6Bco3NzTFta1PHlFxfI+vJxe7oCVAdNEUbklUb/B1i5LEvTWQENU4H7v1ERN3h4AENwIeR657xdwq8lPo00jU/jdKIYnOnXEf/Bvfb7M2BwVt+RjM80nusqZszpQh+qf8Gc65QYPRZXn7boxZXWNJa/qfTE6VvGs25fMOF+qCOXNWJCM0gxao9bDom9vgmFrsfPvilOjRQtOeX5T3ArM38sitgDb2fGf+oVYDXwSWqYaXJxMDvEBPDWNJsg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR11MB6064.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39830400003)(136003)(376002)(366004)(346002)(396003)(83380400001)(31696002)(86362001)(316002)(38100700002)(66946007)(4326008)(66556008)(66476007)(6486002)(966005)(478600001)(8676002)(6916009)(6512007)(6506007)(36756003)(15650500001)(26005)(53546011)(2906002)(6666004)(41300700001)(8936002)(2616005)(31686004)(186003)(5660300002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?aWR3cUdHSmhka1gzRGxicnpXMFQyMkI4bk9YOTBYaFc4S1Y0VGdCRDIvVVZE?=
- =?utf-8?B?SCtCclZaSk8wNm9heHU0ZitTT2pGUjUvMmhYZndicDFxM21odVJnQlZYa3Av?=
- =?utf-8?B?dFV4eDFVR3N5WWxURkFhalZMSUhxbTRNSWIzSUkzaWM4c0phRzhWYUZYT1pu?=
- =?utf-8?B?eHFSd3hFYVh0Q1RaOTk1U2x4UWlIQVp1d25ZTzMwZVFQcjBqVkhrWUY5ckM5?=
- =?utf-8?B?OUVxT1g0M3V5cDBsSmU0STVnTURmQ3NaQVJkc0RDRm9QYjFIclFYeERhV0Zy?=
- =?utf-8?B?dEU3RlovMHNNS2ZrYkc0OTI0MDl3SnIrR0lzSk1aeWFoanIzRDV1eVpYNEJX?=
- =?utf-8?B?Y2dUc0d0UGNvOU9GWmhpam5SczBJV0Rwa1ZJWlhyd1pHdTVsQ1IvQTJTRmFr?=
- =?utf-8?B?VzJ3cUlMM2NiUWJkTGE2dnJ0Mlg1ZFBuL0d6My83VjR4YlNTSUlaeWxmK1hH?=
- =?utf-8?B?NWhNV1ZGWXQyMmg2T0ZlZVpveHpRNExyM2lWTkwzUFJ6WVd0cjNzZ0JZRHNB?=
- =?utf-8?B?WG0zQlZjcDBxUjlPcFllZ1Jla29aTStWa2hLMmhuK2hCdkpQUkZYWjFQakNt?=
- =?utf-8?B?QU9VemFYck1zeFdqMjlITmQyd3hiOEdUSXArMkJ1am90cXRXSU9KT051RHZL?=
- =?utf-8?B?cTRxYVpFNS9Zb1pEOXhSdEFtRWxka0w3ZHlvQVVXeDFzQlNlVGxCVm1qQmZO?=
- =?utf-8?B?NjhaOFAvaUdZVXZnMkhrYWxySmg2QnhEY2xOb0hHZHFQMzhvMUt2akRSYnVl?=
- =?utf-8?B?OXJ2RFVXajJHWFhITzltQ2RDdXF0M3A5NGdMbDhCcGpxdHdROS9xQWgyYVAz?=
- =?utf-8?B?L2tqTEVxYnhjWFNHVTNqVFdjZFJMS01ZWG1ESzBIcGl2M1ZFZ3dPWi9MMXdK?=
- =?utf-8?B?OHVDeDVOSkJZcENNSWdsc25Ccnl6MTBndEtHYVoyL0hMU1RLQm9iR3IzTkho?=
- =?utf-8?B?Z29oeURkVEhLZUtzNkJmS081NlgzbEZzZXBBTFJCZXpjcTVZOW0wbXdCWnVQ?=
- =?utf-8?B?K3M4SElESzVqck9TV1dzZEd3RmhiQUF2RUJBeGh5ek1BbVpvcmhyWi9WVWV4?=
- =?utf-8?B?aGl3MnlYclcvbU5zSFoxTWhWL1B0VXpjWEhzU0hwaXZkajZHYnRFc2ZuZ1dF?=
- =?utf-8?B?U0JIS1pDVUsrSGE5VHpIdzlrNFR4M2dOTmtQSjFIMllWeG9BclNRZFVFTUFN?=
- =?utf-8?B?YjdMZngxZHk0SG9PZUpGc3lSc2FYdnh2V2VrQ2dVbGw4N1lHUlFUbmthc1gz?=
- =?utf-8?B?bldrVE9ES2JmNmMydWxoWHhRQmcxRWZIMTgwbGpMb1VJRGhrQ0hYTUpkSFp6?=
- =?utf-8?B?N1VzQXV3aGgrR21tSkR5N3p6OWRaR2pnYldEN2pjYmpkcjVPT2M2eWoxcnhU?=
- =?utf-8?B?VVRoUmxXK1pFVnV3ODdQODB4bFJZcjA2ZGQzRmhBL1NCQjVuN1NoVEZsRzhM?=
- =?utf-8?B?VEorQm8vUk92L0U4NnJpVXB4Q2QzckQyV2dycXB3RTlUYkt5NUxtT2toMDJp?=
- =?utf-8?B?YSs0MDNLQzlRQThCb2w2aHJ5VDdiQXZ4MlFvcDViWTRBRmltempiOWpHN2ZQ?=
- =?utf-8?B?WXU4dUQvcmd1aWRFTmlOUmhtSGJRQXBzMTJDNERlUGl1SXRSYmp3V0JlblRa?=
- =?utf-8?B?N0VmNW5Vb0NPeGhIRDJTeWJKcUY2bHRBa1AyNEZOSEhFd1lrMHN4aGhtendo?=
- =?utf-8?B?dkp2U3dSY1dpNDVqa3hyNytjU3hPWlhVZU96ak9PV2dEeUVrQ1VmS2JkZFFw?=
- =?utf-8?B?ZWJvQjZ3M1hPMUNsaDluT2RuZkVpZDI0dlZPdXpOWTd6NGNabk1iL1E0UkVz?=
- =?utf-8?B?UlNxQTNOTHhPTnFTc2s3YW1MWUFWdjhLaVIwN1kyS3E5enoxb1lDelR2akp5?=
- =?utf-8?B?dUtaZDliRUVSY01xM2NpamllMEpiU25LZXFiNlVYeFNrS1lUampvSmtWTjFZ?=
- =?utf-8?B?ODNPSi9WZEVGMXZ5Ti9lWi9FeVVPczc4d3cxQTJQZmgxaEM1djdXTHNKNEg2?=
- =?utf-8?B?NEpyMmlGNzZqMnF5TGZaMTNHYit3aWNmUi9iRG5jRWlPaGxFNjl6T3FkR3Uv?=
- =?utf-8?B?V20wRFFIU2p0SWc2ZXZibHI1aWR6TFJNdjYyRURUZUNnRnZQLy9sTHRJT0Zm?=
- =?utf-8?Q?80+Dj3Am6GLr2PVZDj0aVZU73?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- fdd883b3-72d4-4c56-b61b-08da7e0daa2b
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB6064.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2022 15:57:18.3423
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- Cn4ameWBZCRoA1ALzqzf+ZUS/psl4hxKGLF+dRWGGoWXTHe6GzCNDSw+ig+v8qVc4FZFfiM7RlXr4eiThPfVTw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6762
-X-Proofpoint-ORIG-GUID: g2KtKEM5MPTw18yEoijOlrqVgQFOjoq7
-X-Proofpoint-GUID: GXA-r_WVR8SvitHYkKkIJ-T_qLzCbZnz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-14_11,2022-08-11_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- mlxlogscore=999 lowpriorityscore=0 malwarescore=0 mlxscore=0 phishscore=0
- spamscore=0 adultscore=0 bulkscore=0 suspectscore=0 impostorscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208140070
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-0064b401.pphosted.com id 27EFq95w030459
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Aug 2022 15:57:25 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Aug 2022 22:20:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169327
+ https://lists.openembedded.org/g/openembedded-core/message/169331
 
-On 8/14/22 23:39, Alexander Kanavin wrote:
-> Some information or links about how it is incompatible would be
-> appreciated. Can it be made compatible instead?
+CVE: CVE-2022-29154
 
-Based on previous commit
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../rsync/files/CVE-2022-29154.patch          | 372 ++++++++++++++++++
+ meta/recipes-devtools/rsync/rsync_3.2.4.bb    |   1 +
+ 2 files changed, 373 insertions(+)
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2022-29154.patch
 
-commit 6749e29082043e4e71849e80e058fa45988c62a5
-Author: Mingli Yu <mingli.yu@windriver.com>
-Date:=C2=A0=C2=A0 Tue Jul 5 15:03:18 2022 +0800
-
- =C2=A0=C2=A0=C2=A0 strace: set COMPATIBLE_HOST for riscv32
-
- =C2=A0=C2=A0=C2=A0 Disable the build on riscv32 as it's not supported on=
- riscv32 [1].
-
- =C2=A0=C2=A0=C2=A0 [1]=20
-https://github.com/strace/strace/commit/69ff62ea5087506ad36a27599db088096=
-db215da
-
- =C2=A0=C2=A0=C2=A0 (From OE-Core rev: 5276a9a845d0277936e9321ada296818f7=
-bfd84b)
-
- =C2=A0=C2=A0=C2=A0 Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
- =C2=A0=C2=A0=C2=A0 Signed-off-by: Richard Purdie <richard.purdie@linuxfo=
-undation.org>
-
-
-Regards,
-Kai
-
->
-> Alex
->
-> On Sun, 14 Aug 2022 at 17:18, kai <kai.kang@windriver.com> wrote:
->> From: Kai Kang <kai.kang@windriver.com>
->>
->> strace has been set imcompatible with riscv32, so update in
->> packagegroup-self-hosted.bb accordingly.
->>
->> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> ---
->>   meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 5 ++++=
--
->>   1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.=
-bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
->> index 772b86b39a..a1b0ee2883 100644
->> --- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
->> +++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
->> @@ -98,11 +98,14 @@ RDEPENDS:packagegroup-self-hosted-sdk:append:libc-=
-glibc =3D "\
->>       glibc-utils \
->>       rpcsvc-proto \
->>       "
->> +
->> +STRACE =3D "strace"
->> +STRACE:riscv32 =3D ""
->>   RDEPENDS:packagegroup-self-hosted-debug =3D " \
->>       gdb \
->>       gdbserver \
->>       rsync \
->> -    strace \
->> +    ${STRACE} \
->>       tcf-agent"
->>
->>
->> --
->> 2.17.1
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#169324): https://lists.openembedded.org/g/openembe=
-dded-core/message/169324
->> Mute This Topic: https://lists.openembedded.org/mt/93017686/1686489
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
-[alex.kanavin@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
-
---=20
-Kai Kang
-Wind River Linux
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2022-29154.patch b/meta/recipes-devtools/rsync/files/CVE-2022-29154.patch
+new file mode 100644
+index 00000000000..e43b092ea89
+--- /dev/null
++++ b/meta/recipes-devtools/rsync/files/CVE-2022-29154.patch
+@@ -0,0 +1,372 @@
++From b7231c7d02cfb65d291af74ff66e7d8c507ee871 Mon Sep 17 00:00:00 2001
++From: Wayne Davison <wayne@opencoder.net>
++Date: Sun, 31 Jul 2022 16:55:34 -0700
++Subject: [PATCH] Some extra file-list safety checks.
++
++Upstream-Status: Backport [https://github.com/WayneD/rsync/commit/b7231c7d02cfb65d291af74ff66e7d8c507ee871]
++CVE: CVE-2022-29154
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ exclude.c  | 130 ++++++++++++++++++++++++++++++++++++++++++++++++++++-
++ flist.c    |  17 ++++++-
++ io.c       |   4 ++
++ main.c     |   7 ++-
++ receiver.c |  11 +++--
++ rsync.1.md |  44 ++++++++++++++++--
++ 6 files changed, 202 insertions(+), 11 deletions(-)
++
++--- a/exclude.c
+++++ b/exclude.c
++@@ -27,16 +27,22 @@ extern int am_server;
++ extern int am_sender;
++ extern int eol_nulls;
++ extern int io_error;
+++extern int xfer_dirs;
+++extern int recurse;
++ extern int local_server;
++ extern int prune_empty_dirs;
++ extern int ignore_perishable;
+++extern int old_style_args;
+++extern int relative_paths;
++ extern int delete_mode;
++ extern int delete_excluded;
++ extern int cvs_exclude;
++ extern int sanitize_paths;
++ extern int protocol_version;
+++extern int list_only;
++ extern int module_id;
++ 
+++extern char *filesfrom_host;
++ extern char curr_dir[MAXPATHLEN];
++ extern unsigned int curr_dir_len;
++ extern unsigned int module_dirlen;
++@@ -44,8 +50,10 @@ extern unsigned int module_dirlen;
++ filter_rule_list filter_list = { .debug_type = "" };
++ filter_rule_list cvs_filter_list = { .debug_type = " [global CVS]" };
++ filter_rule_list daemon_filter_list = { .debug_type = " [daemon]" };
+++filter_rule_list implied_filter_list = { .debug_type = " [implied]" };
++ 
++ int saw_xattr_filter = 0;
+++int trust_sender_filter = 0;
++ 
++ /* Need room enough for ":MODS " prefix plus some room to grow. */
++ #define MAX_RULE_PREFIX (16)
++@@ -292,6 +300,125 @@ static void add_rule(filter_rule_list *l
++ 	}
++ }
++ 
+++/* Each arg the client sends to the remote sender turns into an implied include
+++ * that the receiver uses to validate the file list from the sender. */
+++void add_implied_include(const char *arg)
+++{
+++	filter_rule *rule;
+++	int arg_len, saw_wild = 0, backslash_cnt = 0;
+++	int slash_cnt = 1; /* We know we're adding a leading slash. */
+++	const char *cp;
+++	char *p;
+++	if (old_style_args || list_only || filesfrom_host != NULL)
+++		return;
+++	if (relative_paths) {
+++		cp = strstr(arg, "/./");
+++		if (cp)
+++			arg = cp+3;
+++	} else {
+++		if ((cp = strrchr(arg, '/')) != NULL)
+++			arg = cp + 1;
+++	}
+++	arg_len = strlen(arg);
+++	if (arg_len) {
+++		if (strpbrk(arg, "*[?")) {
+++			/* We need to add room to escape backslashes if wildcard chars are present. */
+++			cp = arg;
+++			while ((cp = strchr(cp, '\\')) != NULL) {
+++				arg_len++;
+++				cp++;
+++			}
+++			saw_wild = 1;
+++		}
+++		arg_len++; /* Leave room for the prefixed slash */
+++		rule = new0(filter_rule);
+++		if (!implied_filter_list.head)
+++			implied_filter_list.head = implied_filter_list.tail = rule;
+++		else {
+++			rule->next = implied_filter_list.head;
+++			implied_filter_list.head = rule;
+++		}
+++		rule->rflags = FILTRULE_INCLUDE + (saw_wild ? FILTRULE_WILD : 0);
+++		p = rule->pattern = new_array(char, arg_len + 1);
+++		*p++ = '/';
+++		cp = arg;
+++		while (*cp) {
+++			switch (*cp) {
+++			  case '\\':
+++				backslash_cnt++;
+++				if (saw_wild)
+++					*p++ = '\\';
+++				*p++ = *cp++;
+++				break;
+++			  case '/':
+++				if (p[-1] == '/') /* This is safe because of the initial slash. */
+++					break;
+++				if (relative_paths) {
+++					filter_rule const *ent;
+++					int found = 0;
+++					*p = '\0';
+++					for (ent = implied_filter_list.head; ent; ent = ent->next) {
+++						if (ent != rule && strcmp(ent->pattern, rule->pattern) == 0)
+++							found = 1;
+++					}
+++					if (!found) {
+++						filter_rule *R_rule = new0(filter_rule);
+++						R_rule->rflags = FILTRULE_INCLUDE + (saw_wild ? FILTRULE_WILD : 0);
+++						R_rule->pattern = strdup(rule->pattern);
+++						R_rule->u.slash_cnt = slash_cnt;
+++						R_rule->next = implied_filter_list.head;
+++						implied_filter_list.head = R_rule;
+++					}
+++				}
+++				slash_cnt++;
+++				*p++ = *cp++;
+++				break;
+++			  default:
+++				*p++ = *cp++;
+++				break;
+++			}
+++		}
+++		*p = '\0';
+++		rule->u.slash_cnt = slash_cnt;
+++		arg = (const char *)rule->pattern;
+++	}
+++
+++	if (recurse || xfer_dirs) {
+++		/* Now create a rule with an added "/" & "**" or "*" at the end */
+++		rule = new0(filter_rule);
+++		if (recurse)
+++			rule->rflags = FILTRULE_INCLUDE | FILTRULE_WILD | FILTRULE_WILD2;
+++		else
+++			rule->rflags = FILTRULE_INCLUDE | FILTRULE_WILD;
+++		/* A +4 in the len leaves enough room for / * * \0 or / * \0 \0 */
+++		if (!saw_wild && backslash_cnt) {
+++			/* We are appending a wildcard, so now the backslashes need to be escaped. */
+++			p = rule->pattern = new_array(char, arg_len + backslash_cnt + 3 + 1);
+++			cp = arg;
+++			while (*cp) {
+++				if (*cp == '\\')
+++					*p++ = '\\';
+++				*p++ = *cp++;
+++			}
+++		} else {
+++			p = rule->pattern = new_array(char, arg_len + 3 + 1);
+++			if (arg_len) {
+++				memcpy(p, arg, arg_len);
+++				p += arg_len;
+++			}
+++		}
+++		if (p[-1] != '/')
+++			*p++ = '/';
+++		*p++ = '*';
+++		if (recurse)
+++			*p++ = '*';
+++		*p = '\0';
+++		rule->u.slash_cnt = slash_cnt + 1;
+++		rule->next = implied_filter_list.head;
+++		implied_filter_list.head = rule;
+++	}
+++}
+++
++ /* This frees any non-inherited items, leaving just inherited items on the list. */
++ static void pop_filter_list(filter_rule_list *listp)
++ {
++@@ -718,7 +845,7 @@ static void report_filter_result(enum lo
++ 			      : name_flags & NAME_IS_DIR ? "directory"
++ 			      : "file";
++ 		rprintf(code, "[%s] %sing %s %s because of pattern %s%s%s\n",
++-		    w, actions[*w!='s'][!(ent->rflags & FILTRULE_INCLUDE)],
+++		    w, actions[*w=='g'][!(ent->rflags & FILTRULE_INCLUDE)],
++ 		    t, name, ent->pattern,
++ 		    ent->rflags & FILTRULE_DIRECTORY ? "/" : "", type);
++ 	}
++@@ -890,6 +1017,7 @@ static filter_rule *parse_rule_tok(const
++ 		}
++ 		switch (ch) {
++ 		case ':':
+++			trust_sender_filter = 1;
++ 			rule->rflags |= FILTRULE_PERDIR_MERGE
++ 				      | FILTRULE_FINISH_SETUP;
++ 			/* FALL THROUGH */
++--- a/flist.c
+++++ b/flist.c
++@@ -73,6 +73,7 @@ extern int need_unsorted_flist;
++ extern int sender_symlink_iconv;
++ extern int output_needs_newline;
++ extern int sender_keeps_checksum;
+++extern int trust_sender_filter;
++ extern int unsort_ndx;
++ extern uid_t our_uid;
++ extern struct stats stats;
++@@ -83,8 +84,7 @@ extern char curr_dir[MAXPATHLEN];
++ 
++ extern struct chmod_mode_struct *chmod_modes;
++ 
++-extern filter_rule_list filter_list;
++-extern filter_rule_list daemon_filter_list;
+++extern filter_rule_list filter_list, implied_filter_list, daemon_filter_list;
++ 
++ #ifdef ICONV_OPTION
++ extern int filesfrom_convert;
++@@ -986,6 +986,19 @@ static struct file_struct *recv_file_ent
++ 		exit_cleanup(RERR_UNSUPPORTED);
++ 	}
++ 
+++	if (*thisname != '.' || thisname[1] != '\0') {
+++		int filt_flags = S_ISDIR(mode) ? NAME_IS_DIR : NAME_IS_FILE;
+++		if (!trust_sender_filter /* a per-dir filter rule means we must trust the sender's filtering */
+++		 && filter_list.head && check_filter(&filter_list, FINFO, thisname, filt_flags) < 0) {
+++			rprintf(FERROR, "ERROR: rejecting excluded file-list name: %s\n", thisname);
+++			exit_cleanup(RERR_PROTOCOL);
+++		}
+++		if (implied_filter_list.head && check_filter(&implied_filter_list, FINFO, thisname, filt_flags) <= 0) {
+++			rprintf(FERROR, "ERROR: rejecting unrequested file-list name: %s\n", thisname);
+++			exit_cleanup(RERR_PROTOCOL);
+++		}
+++	}
+++
++ 	if (inc_recurse && S_ISDIR(mode)) {
++ 		if (one_file_system) {
++ 			/* Room to save the dir's device for -x */
++--- a/io.c
+++++ b/io.c
++@@ -419,6 +419,7 @@ static void forward_filesfrom_data(void)
++ 		while (s != eob) {
++ 			if (*s++ == '\0') {
++ 				ff_xb.len = s - sob - 1;
+++				add_implied_include(sob);
++ 				if (iconvbufs(ic_send, &ff_xb, &iobuf.out, flags) < 0)
++ 					exit_cleanup(RERR_PROTOCOL); /* impossible? */
++ 				write_buf(iobuf.out_fd, s-1, 1); /* Send the '\0'. */
++@@ -450,9 +451,12 @@ static void forward_filesfrom_data(void)
++ 		char *f = ff_xb.buf + ff_xb.pos;
++ 		char *t = ff_xb.buf;
++ 		char *eob = f + len;
+++		char *cur = t;
++ 		/* Eliminate any multi-'\0' runs. */
++ 		while (f != eob) {
++ 			if (!(*t++ = *f++)) {
+++				add_implied_include(cur);
+++				cur = t;
++ 				while (f != eob && *f == '\0')
++ 					f++;
++ 			}
++--- a/main.c
+++++ b/main.c
++@@ -89,6 +89,7 @@ extern int backup_dir_len;
++ extern int basis_dir_cnt;
++ extern int default_af_hint;
++ extern int stdout_format_has_i;
+++extern int trust_sender_filter;
++ extern struct stats stats;
++ extern char *stdout_format;
++ extern char *logfile_format;
++@@ -104,7 +105,7 @@ extern char curr_dir[MAXPATHLEN];
++ extern char backup_dir_buf[MAXPATHLEN];
++ extern char *basis_dir[MAX_BASIS_DIRS+1];
++ extern struct file_list *first_flist;
++-extern filter_rule_list daemon_filter_list;
+++extern filter_rule_list daemon_filter_list, implied_filter_list;
++ 
++ uid_t our_uid;
++ gid_t our_gid;
++@@ -635,6 +636,7 @@ static pid_t do_cmd(char *cmd, char *mac
++ #ifdef ICONV_CONST
++ 		setup_iconv();
++ #endif
+++		trust_sender_filter = 1;
++ 	} else if (local_server) {
++ 		/* If the user didn't request --[no-]whole-file, force
++ 		 * it on, but only if we're not batch processing. */
++@@ -1500,6 +1502,8 @@ static int start_client(int argc, char *
++ 		char *dummy_host;
++ 		int dummy_port = rsync_port;
++ 		int i;
+++		if (filesfrom_fd < 0)
+++			add_implied_include(remote_argv[0]);
++ 		/* For remote source, any extra source args must have either
++ 		 * the same hostname or an empty hostname. */
++ 		for (i = 1; i < remote_argc; i++) {
++@@ -1523,6 +1527,7 @@ static int start_client(int argc, char *
++ 			if (!rsync_port && !*arg) /* Turn an empty arg into a dot dir. */
++ 				arg = ".";
++ 			remote_argv[i] = arg;
+++			add_implied_include(arg);
++ 		}
++ 	}
++ 
++--- a/receiver.c
+++++ b/receiver.c
++@@ -593,10 +593,13 @@ int recv_files(int f_in, int f_out, char
++ 		if (DEBUG_GTE(RECV, 1))
++ 			rprintf(FINFO, "recv_files(%s)\n", fname);
++ 
++-		if (daemon_filter_list.head && (*fname != '.' || fname[1] != '\0')
++-		 && check_filter(&daemon_filter_list, FLOG, fname, 0) < 0) {
++-			rprintf(FERROR, "attempt to hack rsync failed.\n");
++-			exit_cleanup(RERR_PROTOCOL);
+++		if (daemon_filter_list.head && (*fname != '.' || fname[1] != '\0')) {
+++			int filt_flags = S_ISDIR(file->mode) ? NAME_IS_DIR : NAME_IS_FILE;
+++			if (check_filter(&daemon_filter_list, FLOG, fname, filt_flags) < 0) {
+++				rprintf(FERROR, "ERROR: rejecting file transfer request for daemon excluded file: %s\n",
+++					fname);
+++				exit_cleanup(RERR_PROTOCOL);
+++			}
++ 		}
++ 
++ #ifdef SUPPORT_XATTRS
++--- a/rsync.1.md
+++++ b/rsync.1.md
++@@ -154,6 +154,33 @@ rsync daemon by leaving off the module n
++ 
++ See the following section for more details.
++ 
+++## MULTI-HOST SECURITY
+++
+++Rsync takes steps to ensure that the file requests that are shared in a
+++transfer are protected against various security issues.  Most of the potential
+++problems arise on the receiving side where rsync takes steps to ensure that the
+++list of files being transferred remains within the bounds of what was
+++requested.
+++
+++Toward this end, rsync 3.1.2 and later have aborted when a file list contains
+++an absolute or relative path that tries to escape out of the top of the
+++transfer.  Also, beginning with version 3.2.5, rsync does two more safety
+++checks of the file list to (1) ensure that no extra source arguments were added
+++into the transfer other than those that the client requested and (2) ensure
+++that the file list obeys the exclude rules that we sent to the sender.
+++
+++For those that don't yet have a 3.2.5 client rsync, it is safest to do a copy
+++into a dedicated destination directory for the remote files rather than
+++requesting the remote content get mixed in with other local content.  For
+++example, doing an rsync copy into your home directory is potentially unsafe on
+++an older rsync if the remote rsync is being controlled by a bad actor:
+++
+++>     rsync -aiv host1:dir1 ~
+++
+++A safer command would be:
+++
+++>     rsync -aiv host1:dir1 ~/host1-files
+++
++ ## ADVANCED USAGE
++ 
++ The syntax for requesting multiple files from a remote host is done by
++@@ -2323,6 +2350,12 @@ your home directory (remove the '=' for
++     behavior.  The environment is always overridden by manually specified
++     positive or negative options (the negative is `--no-old-args`).
++ 
+++    Note that this option also disables the extra safety check added in 3.2.5
+++    that ensures that a remote sender isn't including extra top-level items in
+++    the file-list that you didn't request.  This side-effect is necessary
+++    because we can't know for sure what names to expect when the remote shell
+++    is interpreting the args.
+++
++     This option conflicts with the [`--protect-args`](#opt) option.
++ 
++ 0.  `--protect-args`, `-s`
+diff --git a/meta/recipes-devtools/rsync/rsync_3.2.4.bb b/meta/recipes-devtools/rsync/rsync_3.2.4.bb
+index e6f917b5cdc..711e97002d2 100644
+--- a/meta/recipes-devtools/rsync/rsync_3.2.4.bb
++++ b/meta/recipes-devtools/rsync/rsync_3.2.4.bb
+@@ -14,6 +14,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
+            file://rsyncd.conf \
+            file://makefile-no-rebuild.patch \
+            file://determism.patch \
++           file://CVE-2022-29154.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "6f761838d08052b0b6579cf7f6737d93e47f01f4da04c5d24d3447b7f2a5fad1"
+-- 
+2.37.2
 
 
