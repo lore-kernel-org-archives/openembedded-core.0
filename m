@@ -2,59 +2,60 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50014C3F6B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71501C282E7
 	for <webhook@archiver.kernel.org>; Sun, 14 Aug 2022 22:20:57 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
- [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web12.10109.1660515647609139292
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web08.10088.1660515649439096070
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Aug 2022 15:20:47 -0700
+ Sun, 14 Aug 2022 15:20:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=IYfNRWSY;
- spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f48.google.com with SMTP id pm17so5523295pjb.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=HDR0/Qle;
+ spf=pass (domain: gmail.com, ip: 209.85.214.172,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f172.google.com with SMTP id d10so5007622plr.6
         for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Aug 2022 15:20:47 -0700 (PDT)
+ Sun, 14 Aug 2022 15:20:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=mgbPkLP/xtpn7b2UYHmTqNa2h5Dq7HfzGDH3+xKYGwI=;
-        b=IYfNRWSYsjg1+DbZ/TBvFk5L7CNZzvqoz/tCg60doovKjY2SRcguU8EbwRqj9FKetg
-         Ob5CibPq4i+ZZVsA67jea/Ucj7u/7KFuu9PlSS9hUu4AgklD9CVBmoWT9DE0L07TkwV5
-         trV5HD1S2dWIIfPbqvlIoxfTq4FWiiSSdutC+9PN8ff8nOvi4SsyycjyaNbeMayAO1FY
-         yQWD352tyIsHB8BWVurmJ/zSSy4Xn9Aa9i5zTFmO7L7/CcE9r3pceMtcuCumI2k3EpBh
-         WD/h6F62RRy4IY0Ap9V1q8x1qvxyBBP+laNfSwwno02m0MJIA8xmOFwP+0HIjxSsV97L
-         0WtA==
+        bh=KGEyZXYYPwjkKEstCE7ZjKEtnZ+K9JRXdjkIA/JVblI=;
+        b=HDR0/QlehssU4gTkG9cuDz33xgO+GS3jbSTxdwXb860LIBhdoGxxZFIuKNS7Fd9Fiz
+         drQbcYRvsGJ/owK5JXk0CFAnWSILaFzQEWO1d2CCMQZVi2P7E0BvMy197qtojBaYHvDj
+         uB3T52eIyDNHgzPzuishp9hGorN9JxAhrtNN2uGZHdZwA63xTvJFEB2LThdmJ5coKxPJ
+         ozpVWpPFgg0DSprAtVN0hc+nJBFPk+qdztfDeyIAMqbt7QKU0hi7NpbKkHTwa4FZp54c
+         5JGU5BjKOIjG7Gap0IFUulM5y6mxjGw7PQbHOpGkEL3Mcx9f/0tr7L3yVf+I8RMbrK+V
+         foqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=mgbPkLP/xtpn7b2UYHmTqNa2h5Dq7HfzGDH3+xKYGwI=;
-        b=LU1zC/uXcRGmFvhCQq7vWDjenhBY9hKFTqyVeZZqSrvpEsVnxyVeqIjQaLh08y8FWC
-         SAYsn/7lgmVpPgJHqWyKxXXmpuZJkaWMsFJiKHyJTIuSrzzjkBAwWYc5sVdoQ/91sEr/
-         yad5vFQOaoxGy0QYLKc3IyBsmFMBjtAioc8JUSbKTUxkHS7CCxPI4YMyOTUSn/ZCFQ9k
-         CrpAOv3wTW7WENUDXSbmQXpVZaYUGD5BdF6QxDiU+jJU2YdBDSTHGfySjmDnP3qkcvk9
-         G1PgmjwExG0dsnRQFSN/zNpuSo4LWohDwQPK5EXgtNJiChgrHurpVGoiAoxXQ4RUo3od
-         qg8A==
-X-Gm-Message-State: ACgBeo2qQ3brobOdovyDL5MBLEoJeSRq8Ls9nUbynqvTKnvbkD4ii7de
-	KOySRJYBaNJw23BET+lvOq9pZu3IFQ7/RQ==
+        bh=KGEyZXYYPwjkKEstCE7ZjKEtnZ+K9JRXdjkIA/JVblI=;
+        b=dniQVjQJHG81mne2qCz0nYY4uvoKbBuyqTd6tKzOXix/RPT2kb9OoGubGU/mkLBqVf
+         F9pP8XsO4fhOAB6Yq5ORAiM01AVvo5rVNh8V2micaXR6ONOEaaqrrPpVcKyyVHeAYc2y
+         xAA7EurLWhiGvSOVwCrIU+9N72yy9dNj42n7SQO7c4yvMJ0DgKouSPwqzgLCOaDhRFZJ
+         9hLwA6/CH6/pHCItFerYR1+QcMec3J3u9KECpSQQItJ1zVavhbTBg5HLM35xoPmPrWwk
+         fIGHJfPFFB4sdKcxmXTsgLPN1CPyV72iOsJTfHYeZNPIZXJz+BbijwXgrZa4PJ7ZgtN4
+         tMwA==
+X-Gm-Message-State: ACgBeo21WLswDSwtrj+nosoM1plhSOSHvqsRMFINgeCkUkmQ5mvrnO2k
+	88ZPbx9fFZ7zrswF4wfeDAl6Jj3BTohOJA==
 X-Google-Smtp-Source: 
- AA6agR55jK0g7sZhGzzgoJOeDFaQiSRG41Zs5BUlcidHIpxFg996BHreT95z77NiDjKOw0SFT5LmLw==
-X-Received: by 2002:a17:903:11c9:b0:172:6ea1:b727 with SMTP id
- q9-20020a17090311c900b001726ea1b727mr2304156plh.78.1660515646600;
-        Sun, 14 Aug 2022 15:20:46 -0700 (PDT)
+ AA6agR6IKlGYOt/rALnPqHtaucxDcRsLgdx53zu/Z5YeX+Lb5Ij9rUj+dmHSWxvmwUldEp7AtXrelA==
+X-Received: by 2002:a17:90a:df96:b0:1f3:22e:7826 with SMTP id
+ p22-20020a17090adf9600b001f3022e7826mr14758466pjv.21.1660515647926;
+        Sun, 14 Aug 2022 15:20:47 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::bb7a])
         by smtp.gmail.com with ESMTPSA id
- k15-20020a170902d58f00b0016d8b0dfd61sm5819502plh.178.2022.08.14.15.20.45
+ k15-20020a170902d58f00b0016d8b0dfd61sm5819502plh.178.2022.08.14.15.20.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Aug 2022 15:20:45 -0700 (PDT)
+        Sun, 14 Aug 2022 15:20:47 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 06/10] connman: Backports for security fixes
-Date: Sun, 14 Aug 2022 15:20:33 -0700
-Message-Id: <20220814222037.283943-6-raj.khem@gmail.com>
+Subject: [PATCH 07/10] libtirpc: Backport fix for CVE-2021-46828
+Date: Sun, 14 Aug 2022 15:20:34 -0700
+Message-Id: <20220814222037.283943-7-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220814222037.283943-1-raj.khem@gmail.com>
 References: <20220814222037.283943-1-raj.khem@gmail.com>
@@ -65,406 +66,602 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 14 Aug 2022 22:20:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169333
+ https://lists.openembedded.org/g/openembedded-core/message/169334
 
-Fixes
-CVE: CVE-2022-32292, CVE-2022-32293
-
+CVE: CVE-2021-46828
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../connman/connman/CVE-2022-32292.patch      |  37 ++++
- .../connman/connman/CVE-2022-32293_p1.patch   | 174 ++++++++++++++++++
- .../connman/connman/CVE-2022-32293_p2.patch   | 141 ++++++++++++++
- .../connman/connman_1.41.bb                   |   3 +
- 4 files changed, 355 insertions(+)
- create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2022-32292.patch
- create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2022-32293_p1.patch
- create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2022-32293_p2.patch
+ .../libtirpc/libtirpc/CVE-2021-46828.patch    | 565 ++++++++++++++++++
+ .../libtirpc/libtirpc_1.3.2.bb                |   4 +-
+ 2 files changed, 568 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/libtirpc/libtirpc/CVE-2021-46828.patch
 
-diff --git a/meta/recipes-connectivity/connman/connman/CVE-2022-32292.patch b/meta/recipes-connectivity/connman/connman/CVE-2022-32292.patch
+diff --git a/meta/recipes-extended/libtirpc/libtirpc/CVE-2021-46828.patch b/meta/recipes-extended/libtirpc/libtirpc/CVE-2021-46828.patch
 new file mode 100644
-index 00000000000..182c5ca29c2
+index 00000000000..64dffb923b9
 --- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/CVE-2022-32292.patch
-@@ -0,0 +1,37 @@
-+From d1a5ede5d255bde8ef707f8441b997563b9312bd Mon Sep 17 00:00:00 2001
-+From: Nathan Crandall <ncrandall@tesla.com>
-+Date: Tue, 12 Jul 2022 08:56:34 +0200
-+Subject: gweb: Fix OOB write in received_data()
++++ b/meta/recipes-extended/libtirpc/libtirpc/CVE-2021-46828.patch
+@@ -0,0 +1,565 @@
++From 86529758570cef4c73fb9b9c4104fdc510f701ed Mon Sep 17 00:00:00 2001
++From: Dai Ngo <dai.ngo@oracle.com>
++Date: Sat, 21 Aug 2021 13:16:23 -0400
++Subject: [PATCH] Fix DoS vulnerability in libtirpc
 +
-+There is a mismatch of handling binary vs. C-string data with memchr
-+and strlen, resulting in pos, count, and bytes_read to become out of
-+sync and result in a heap overflow.  Instead, do not treat the buffer
-+as an ASCII C-string. We calculate the count based on the return value
-+of memchr, instead of strlen.
++Currently svc_run does not handle poll timeout and rendezvous_request
++does not handle EMFILE error returned from accept(2 as it used to.
++These two missing functionality were removed by commit b2c9430f46c4.
 +
-+Fixes: CVE-2022-32292
++The effect of not handling poll timeout allows idle TCP conections
++to remain ESTABLISHED indefinitely. When the number of connections
++reaches the limit of the open file descriptors (ulimit -n) then
++accept(2) fails with EMFILE. Since there is no handling of EMFILE
++error this causes svc_run() to get in a tight loop calling accept(2).
++This resulting in the RPC service of svc_run is being down, it's
++no longer able to service any requests.
 +
-+CVE: CVE-2022-32292
++RPC service rpcbind, statd and mountd are effected by this
++problem.
 +
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=d1a5ede5d255bde8ef707f8441b997563b9312bd]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Fix by enhancing rendezvous_request to keep the number of
++SVCXPRT conections to 4/5 of the size of the file descriptor
++table. When this thresold is reached, it destroys the idle
++TCP connections or destroys the least active connection if
++no idle connnction was found.
++
++Fixes: 44bf15b8 rpcbind: don't use obsolete svc_fdset interface of libtirpc
++
++CVE: CVE-2021-46828
++Upstream-Status: Backport [http://git.linux-nfs.org/?p=steved/libtirpc.git;a=commit;h=86529758570cef4c73fb9b9c4104fdc510f701ed]
++Signed-off-by: dai.ngo@oracle.com
++Signed-off-by: Steve Dickson <steved@redhat.com>
 +---
-+ gweb/gweb.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ INSTALL      | 371 +----------------------------------------------------------
++ src/svc.c    |  17 ++-
++ src/svc_vc.c |  62 +++++++++-
++ 3 files changed, 78 insertions(+), 372 deletions(-)
++ mode change 100644 => 120000 INSTALL
 +
-+diff --git a/gweb/gweb.c b/gweb/gweb.c
-+index 12fcb1d8..13c6c5f2 100644
-+--- a/gweb/gweb.c
-++++ b/gweb/gweb.c
-+@@ -918,7 +918,7 @@ static gboolean received_data(GIOChannel *channel, GIOCondition cond,
-+ 		}
-+ 
-+ 		*pos = '\0';
-+-		count = strlen((char *) ptr);
-++		count = pos - ptr;
-+ 		if (count > 0 && ptr[count - 1] == '\r') {
-+ 			ptr[--count] = '\0';
-+ 			bytes_read--;
-+-- 
-+cgit 
-+
-diff --git a/meta/recipes-connectivity/connman/connman/CVE-2022-32293_p1.patch b/meta/recipes-connectivity/connman/connman/CVE-2022-32293_p1.patch
-new file mode 100644
-index 00000000000..56f8fc82de9
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/CVE-2022-32293_p1.patch
-@@ -0,0 +1,174 @@
-+From 416bfaff988882c553c672e5bfc2d4f648d29e8a Mon Sep 17 00:00:00 2001
-+From: Daniel Wagner <wagi@monom.org>
-+Date: Tue, 5 Jul 2022 09:11:09 +0200
-+Subject: wispr: Update portal context references
-+
-+Maintain proper portal context references to avoid UAF.
-+
-+Fixes: CVE-2022-32293
-+CVE: CVE-2022-32293
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=72343929836de80727a27d6744c869dff045757c]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/wispr.c | 34 ++++++++++++++++++++++------------
-+ 1 file changed, 22 insertions(+), 12 deletions(-)
-+
-+diff --git a/src/wispr.c b/src/wispr.c
-+index bde7e63b..84bed33f 100644
-+--- a/src/wispr.c
-++++ b/src/wispr.c
-+@@ -105,8 +105,6 @@ static bool enable_online_to_ready_transition = false;
-+ 
-+ static void connman_wispr_message_init(struct connman_wispr_message *msg)
-+ {
-+-	DBG("");
++diff --git a/INSTALL b/INSTALL
++deleted file mode 100644
++index 2099840..0000000
++--- a/INSTALL
+++++ /dev/null
++@@ -1,370 +0,0 @@
++-Installation Instructions
++-*************************
 +-
-+ 	msg->has_error = false;
-+ 	msg->current_element = NULL;
-+ 
-+@@ -166,8 +164,6 @@ static void free_wispr_routes(struct connman_wispr_portal_context *wp_context)
-+ static void free_connman_wispr_portal_context(
-+ 		struct connman_wispr_portal_context *wp_context)
-+ {
-+-	DBG("context %p", wp_context);
++-Copyright (C) 1994-1996, 1999-2002, 2004-2013 Free Software Foundation,
++-Inc.
 +-
-+ 	if (wp_context->wispr_portal) {
-+ 		if (wp_context->wispr_portal->ipv4_context == wp_context)
-+ 			wp_context->wispr_portal->ipv4_context = NULL;
-+@@ -483,9 +479,6 @@ static void portal_manage_status(GWebResult *result,
-+ 				&str))
-+ 		connman_info("Client-Timezone: %s", str);
-+ 
-+-	if (!enable_online_to_ready_transition)
-+-		wispr_portal_context_unref(wp_context);
++-   Copying and distribution of this file, with or without modification,
++-are permitted in any medium without royalty provided the copyright
++-notice and this notice are preserved.  This file is offered as-is,
++-without warranty of any kind.
 +-
-+ 	__connman_service_ipconfig_indicate_state(service,
-+ 					CONNMAN_SERVICE_STATE_ONLINE, type);
++-Basic Installation
++-==================
++-
++-   Briefly, the shell command `./configure && make && make install'
++-should configure, build, and install this package.  The following
++-more-detailed instructions are generic; see the `README' file for
++-instructions specific to this package.  Some packages provide this
++-`INSTALL' file but do not implement all of the features documented
++-below.  The lack of an optional feature in a given package is not
++-necessarily a bug.  More recommendations for GNU packages can be found
++-in *note Makefile Conventions: (standards)Makefile Conventions.
++-
++-   The `configure' shell script attempts to guess correct values for
++-various system-dependent variables used during compilation.  It uses
++-those values to create a `Makefile' in each directory of the package.
++-It may also create one or more `.h' files containing system-dependent
++-definitions.  Finally, it creates a shell script `config.status' that
++-you can run in the future to recreate the current configuration, and a
++-file `config.log' containing compiler output (useful mainly for
++-debugging `configure').
++-
++-   It can also use an optional file (typically called `config.cache'
++-and enabled with `--cache-file=config.cache' or simply `-C') that saves
++-the results of its tests to speed up reconfiguring.  Caching is
++-disabled by default to prevent problems with accidental use of stale
++-cache files.
++-
++-   If you need to do unusual things to compile the package, please try
++-to figure out how `configure' could check whether to do them, and mail
++-diffs or instructions to the address given in the `README' so they can
++-be considered for the next release.  If you are using the cache, and at
++-some point `config.cache' contains results you don't want to keep, you
++-may remove or edit it.
++-
++-   The file `configure.ac' (or `configure.in') is used to create
++-`configure' by a program called `autoconf'.  You need `configure.ac' if
++-you want to change it or regenerate `configure' using a newer version
++-of `autoconf'.
++-
++-   The simplest way to compile this package is:
++-
++-  1. `cd' to the directory containing the package's source code and type
++-     `./configure' to configure the package for your system.
++-
++-     Running `configure' might take a while.  While running, it prints
++-     some messages telling which features it is checking for.
++-
++-  2. Type `make' to compile the package.
++-
++-  3. Optionally, type `make check' to run any self-tests that come with
++-     the package, generally using the just-built uninstalled binaries.
++-
++-  4. Type `make install' to install the programs and any data files and
++-     documentation.  When installing into a prefix owned by root, it is
++-     recommended that the package be configured and built as a regular
++-     user, and only the `make install' phase executed with root
++-     privileges.
++-
++-  5. Optionally, type `make installcheck' to repeat any self-tests, but
++-     this time using the binaries in their final installed location.
++-     This target does not install anything.  Running this target as a
++-     regular user, particularly if the prior `make install' required
++-     root privileges, verifies that the installation completed
++-     correctly.
++-
++-  6. You can remove the program binaries and object files from the
++-     source code directory by typing `make clean'.  To also remove the
++-     files that `configure' created (so you can compile the package for
++-     a different kind of computer), type `make distclean'.  There is
++-     also a `make maintainer-clean' target, but that is intended mainly
++-     for the package's developers.  If you use it, you may have to get
++-     all sorts of other programs in order to regenerate files that came
++-     with the distribution.
++-
++-  7. Often, you can also type `make uninstall' to remove the installed
++-     files again.  In practice, not all packages have tested that
++-     uninstallation works correctly, even though it is required by the
++-     GNU Coding Standards.
++-
++-  8. Some packages, particularly those that use Automake, provide `make
++-     distcheck', which can by used by developers to test that all other
++-     targets like `make install' and `make uninstall' work correctly.
++-     This target is generally not run by end users.
++-
++-Compilers and Options
++-=====================
++-
++-   Some systems require unusual options for compilation or linking that
++-the `configure' script does not know about.  Run `./configure --help'
++-for details on some of the pertinent environment variables.
++-
++-   You can give `configure' initial values for configuration parameters
++-by setting variables in the command line or in the environment.  Here
++-is an example:
++-
++-     ./configure CC=c99 CFLAGS=-g LIBS=-lposix
++-
++-   *Note Defining Variables::, for more details.
++-
++-Compiling For Multiple Architectures
++-====================================
++-
++-   You can compile the package for more than one kind of computer at the
++-same time, by placing the object files for each architecture in their
++-own directory.  To do this, you can use GNU `make'.  `cd' to the
++-directory where you want the object files and executables to go and run
++-the `configure' script.  `configure' automatically checks for the
++-source code in the directory that `configure' is in and in `..'.  This
++-is known as a "VPATH" build.
++-
++-   With a non-GNU `make', it is safer to compile the package for one
++-architecture at a time in the source code directory.  After you have
++-installed the package for one architecture, use `make distclean' before
++-reconfiguring for another architecture.
++-
++-   On MacOS X 10.5 and later systems, you can create libraries and
++-executables that work on multiple system types--known as "fat" or
++-"universal" binaries--by specifying multiple `-arch' options to the
++-compiler but only a single `-arch' option to the preprocessor.  Like
++-this:
++-
++-     ./configure CC="gcc -arch i386 -arch x86_64 -arch ppc -arch ppc64" \
++-                 CXX="g++ -arch i386 -arch x86_64 -arch ppc -arch ppc64" \
++-                 CPP="gcc -E" CXXCPP="g++ -E"
++-
++-   This is not guaranteed to produce working output in all cases, you
++-may have to build one architecture at a time and combine the results
++-using the `lipo' tool if you have problems.
++-
++-Installation Names
++-==================
++-
++-   By default, `make install' installs the package's commands under
++-`/usr/local/bin', include files under `/usr/local/include', etc.  You
++-can specify an installation prefix other than `/usr/local' by giving
++-`configure' the option `--prefix=PREFIX', where PREFIX must be an
++-absolute file name.
++-
++-   You can specify separate installation prefixes for
++-architecture-specific files and architecture-independent files.  If you
++-pass the option `--exec-prefix=PREFIX' to `configure', the package uses
++-PREFIX as the prefix for installing programs and libraries.
++-Documentation and other data files still use the regular prefix.
++-
++-   In addition, if you use an unusual directory layout you can give
++-options like `--bindir=DIR' to specify different values for particular
++-kinds of files.  Run `configure --help' for a list of the directories
++-you can set and what kinds of files go in them.  In general, the
++-default for these options is expressed in terms of `${prefix}', so that
++-specifying just `--prefix' will affect all of the other directory
++-specifications that were not explicitly provided.
++-
++-   The most portable way to affect installation locations is to pass the
++-correct locations to `configure'; however, many packages provide one or
++-both of the following shortcuts of passing variable assignments to the
++-`make install' command line to change installation locations without
++-having to reconfigure or recompile.
++-
++-   The first method involves providing an override variable for each
++-affected directory.  For example, `make install
++-prefix=/alternate/directory' will choose an alternate location for all
++-directory configuration variables that were expressed in terms of
++-`${prefix}'.  Any directories that were specified during `configure',
++-but not in terms of `${prefix}', must each be overridden at install
++-time for the entire installation to be relocated.  The approach of
++-makefile variable overrides for each directory variable is required by
++-the GNU Coding Standards, and ideally causes no recompilation.
++-However, some platforms have known limitations with the semantics of
++-shared libraries that end up requiring recompilation when using this
++-method, particularly noticeable in packages that use GNU Libtool.
++-
++-   The second method involves providing the `DESTDIR' variable.  For
++-example, `make install DESTDIR=/alternate/directory' will prepend
++-`/alternate/directory' before all installation names.  The approach of
++-`DESTDIR' overrides is not required by the GNU Coding Standards, and
++-does not work on platforms that have drive letters.  On the other hand,
++-it does better at avoiding recompilation issues, and works well even
++-when some directory options were not specified in terms of `${prefix}'
++-at `configure' time.
++-
++-Optional Features
++-=================
++-
++-   If the package supports it, you can cause programs to be installed
++-with an extra prefix or suffix on their names by giving `configure' the
++-option `--program-prefix=PREFIX' or `--program-suffix=SUFFIX'.
++-
++-   Some packages pay attention to `--enable-FEATURE' options to
++-`configure', where FEATURE indicates an optional part of the package.
++-They may also pay attention to `--with-PACKAGE' options, where PACKAGE
++-is something like `gnu-as' or `x' (for the X Window System).  The
++-`README' should mention any `--enable-' and `--with-' options that the
++-package recognizes.
++-
++-   For packages that use the X Window System, `configure' can usually
++-find the X include and library files automatically, but if it doesn't,
++-you can use the `configure' options `--x-includes=DIR' and
++-`--x-libraries=DIR' to specify their locations.
++-
++-   Some packages offer the ability to configure how verbose the
++-execution of `make' will be.  For these packages, running `./configure
++---enable-silent-rules' sets the default to minimal output, which can be
++-overridden with `make V=1'; while running `./configure
++---disable-silent-rules' sets the default to verbose, which can be
++-overridden with `make V=0'.
++-
++-Particular systems
++-==================
++-
++-   On HP-UX, the default C compiler is not ANSI C compatible.  If GNU
++-CC is not installed, it is recommended to use the following options in
++-order to use an ANSI C compiler:
++-
++-     ./configure CC="cc -Ae -D_XOPEN_SOURCE=500"
++-
++-and if that doesn't work, install pre-built binaries of GCC for HP-UX.
++-
++-   HP-UX `make' updates targets which have the same time stamps as
++-their prerequisites, which makes it generally unusable when shipped
++-generated files such as `configure' are involved.  Use GNU `make'
++-instead.
++-
++-   On OSF/1 a.k.a. Tru64, some versions of the default C compiler cannot
++-parse its `<wchar.h>' header file.  The option `-nodtk' can be used as
++-a workaround.  If GNU CC is not installed, it is therefore recommended
++-to try
++-
++-     ./configure CC="cc"
++-
++-and if that doesn't work, try
++-
++-     ./configure CC="cc -nodtk"
++-
++-   On Solaris, don't put `/usr/ucb' early in your `PATH'.  This
++-directory contains several dysfunctional programs; working variants of
++-these programs are available in `/usr/bin'.  So, if you need `/usr/ucb'
++-in your `PATH', put it _after_ `/usr/bin'.
++-
++-   On Haiku, software installed for all users goes in `/boot/common',
++-not `/usr/local'.  It is recommended to use the following options:
++-
++-     ./configure --prefix=/boot/common
++-
++-Specifying the System Type
++-==========================
++-
++-   There may be some features `configure' cannot figure out
++-automatically, but needs to determine by the type of machine the package
++-will run on.  Usually, assuming the package is built to be run on the
++-_same_ architectures, `configure' can figure that out, but if it prints
++-a message saying it cannot guess the machine type, give it the
++-`--build=TYPE' option.  TYPE can either be a short name for the system
++-type, such as `sun4', or a canonical name which has the form:
++-
++-     CPU-COMPANY-SYSTEM
++-
++-where SYSTEM can have one of these forms:
++-
++-     OS
++-     KERNEL-OS
++-
++-   See the file `config.sub' for the possible values of each field.  If
++-`config.sub' isn't included in this package, then this package doesn't
++-need to know the machine type.
++-
++-   If you are _building_ compiler tools for cross-compiling, you should
++-use the option `--target=TYPE' to select the type of system they will
++-produce code for.
++-
++-   If you want to _use_ a cross compiler, that generates code for a
++-platform different from the build platform, you should specify the
++-"host" platform (i.e., that on which the generated programs will
++-eventually be run) with `--host=TYPE'.
++-
++-Sharing Defaults
++-================
++-
++-   If you want to set default values for `configure' scripts to share,
++-you can create a site shell script called `config.site' that gives
++-default values for variables like `CC', `cache_file', and `prefix'.
++-`configure' looks for `PREFIX/share/config.site' if it exists, then
++-`PREFIX/etc/config.site' if it exists.  Or, you can set the
++-`CONFIG_SITE' environment variable to the location of the site script.
++-A warning: not all `configure' scripts look for a site script.
++-
++-Defining Variables
++-==================
++-
++-   Variables not defined in a site shell script can be set in the
++-environment passed to `configure'.  However, some packages may run
++-configure again during the build, and the customized values of these
++-variables may be lost.  In order to avoid this problem, you should set
++-them in the `configure' command line, using `VAR=value'.  For example:
++-
++-     ./configure CC=/usr/local2/bin/gcc
++-
++-causes the specified `gcc' to be used as the C compiler (unless it is
++-overridden in the site shell script).
++-
++-Unfortunately, this technique does not work for `CONFIG_SHELL' due to
++-an Autoconf limitation.  Until the limitation is lifted, you can use
++-this workaround:
++-
++-     CONFIG_SHELL=/bin/bash ./configure CONFIG_SHELL=/bin/bash
++-
++-`configure' Invocation
++-======================
++-
++-   `configure' recognizes the following options to control how it
++-operates.
++-
++-`--help'
++-`-h'
++-     Print a summary of all of the options to `configure', and exit.
++-
++-`--help=short'
++-`--help=recursive'
++-     Print a summary of the options unique to this package's
++-     `configure', and exit.  The `short' variant lists options used
++-     only in the top level, while the `recursive' variant lists options
++-     also present in any nested packages.
++-
++-`--version'
++-`-V'
++-     Print the version of Autoconf used to generate the `configure'
++-     script, and exit.
++-
++-`--cache-file=FILE'
++-     Enable the cache: use and save the results of the tests in FILE,
++-     traditionally `config.cache'.  FILE defaults to `/dev/null' to
++-     disable caching.
++-
++-`--config-cache'
++-`-C'
++-     Alias for `--cache-file=config.cache'.
++-
++-`--quiet'
++-`--silent'
++-`-q'
++-     Do not print messages saying which checks are being made.  To
++-     suppress all normal output, redirect it to `/dev/null' (any error
++-     messages will still be shown).
++-
++-`--srcdir=DIR'
++-     Look for the package's source code in directory DIR.  Usually
++-     `configure' can determine that directory automatically.
++-
++-`--prefix=DIR'
++-     Use DIR as the installation prefix.  *note Installation Names::
++-     for more details, including other options available for fine-tuning
++-     the installation locations.
++-
++-`--no-create'
++-`-n'
++-     Run the configure checks, but stop before creating any output
++-     files.
++-
++-`configure' also accepts some other, not widely useful, options.  Run
++-`configure --help' for more details.
++diff --git a/INSTALL b/INSTALL
++new file mode 120000
++index 0000000..e3f22c0
++--- /dev/null
+++++ b/INSTALL
++@@ -0,0 +1 @@
+++/usr/share/automake-1.16/INSTALL
++\ No newline at end of file
++diff --git a/src/svc.c b/src/svc.c
++index 6db164b..3a8709f 100644
++--- a/src/svc.c
+++++ b/src/svc.c
++@@ -57,7 +57,7 @@
 + 
-+@@ -546,14 +539,17 @@ static void wispr_portal_request_portal(
-+ {
-+ 	DBG("");
++ #define max(a, b) (a > b ? a : b)
 + 
-++	wispr_portal_context_ref(wp_context);
-+ 	wp_context->request_id = g_web_request_get(wp_context->web,
-+ 					wp_context->status_url,
-+ 					wispr_portal_web_result,
-+ 					wispr_route_request,
-+ 					wp_context);
++-static SVCXPRT **__svc_xports;
+++SVCXPRT **__svc_xports;
++ int __svc_maxrec;
 + 
-+-	if (wp_context->request_id == 0)
-++	if (wp_context->request_id == 0) {
-+ 		wispr_portal_error(wp_context);
-++		wispr_portal_context_unref(wp_context);
++ /*
++@@ -194,6 +194,21 @@ __xprt_do_unregister (xprt, dolock)
++     rwlock_unlock (&svc_fd_lock);
++ }
++ 
+++int
+++svc_open_fds()
+++{
+++	int ix;
+++	int nfds = 0;
+++
+++	rwlock_rdlock (&svc_fd_lock);
+++	for (ix = 0; ix < svc_max_pollfd; ++ix) {
+++		if (svc_pollfd[ix].fd != -1)
+++			nfds++;
 ++	}
+++	rwlock_unlock (&svc_fd_lock);
+++	return (nfds);
+++}
+++
++ /*
++  * Add a service program to the callout list.
++  * The dispatch routine will be called when a rpc request for this
++diff --git a/src/svc_vc.c b/src/svc_vc.c
++index f1d9f00..3dc8a75 100644
++--- a/src/svc_vc.c
+++++ b/src/svc_vc.c
++@@ -64,6 +64,8 @@
++ 
++ 
++ extern rwlock_t svc_fd_lock;
+++extern SVCXPRT **__svc_xports;
+++extern int svc_open_fds();
++ 
++ static SVCXPRT *makefd_xprt(int, u_int, u_int);
++ static bool_t rendezvous_request(SVCXPRT *, struct rpc_msg *);
++@@ -82,6 +84,7 @@ static void svc_vc_ops(SVCXPRT *);
++ static bool_t svc_vc_control(SVCXPRT *xprt, const u_int rq, void *in);
++ static bool_t svc_vc_rendezvous_control (SVCXPRT *xprt, const u_int rq,
++ 				   	     void *in);
+++static int __svc_destroy_idle(int timeout);
++ 
++ struct cf_rendezvous { /* kept in xprt->xp_p1 for rendezvouser */
++ 	u_int sendsize;
++@@ -313,13 +316,14 @@ done:
++ 	return (xprt);
 + }
 + 
-+ static bool wispr_input(const guint8 **data, gsize *length,
-+@@ -618,13 +614,15 @@ static void wispr_portal_browser_reply_cb(struct connman_service *service,
-+ 		return;
+++
++ /*ARGSUSED*/
++ static bool_t
++ rendezvous_request(xprt, msg)
++ 	SVCXPRT *xprt;
++ 	struct rpc_msg *msg;
++ {
++-	int sock, flags;
+++	int sock, flags, nfds, cnt;
++ 	struct cf_rendezvous *r;
++ 	struct cf_conn *cd;
++ 	struct sockaddr_storage addr;
++@@ -379,6 +383,16 @@ again:
 + 
-+ 	if (!authentication_done) {
-+-		wispr_portal_error(wp_context);
-+ 		free_wispr_routes(wp_context);
-++		wispr_portal_error(wp_context);
-++		wispr_portal_context_unref(wp_context);
-+ 		return;
-+ 	}
++ 	gettimeofday(&cd->last_recv_time, NULL);
 + 
-+ 	/* Restarting the test */
-+ 	__connman_service_wispr_start(service, wp_context->type);
-++	wispr_portal_context_unref(wp_context);
-+ }
-+ 
-+ static void wispr_portal_request_wispr_login(struct connman_service *service,
-+@@ -700,11 +698,13 @@ static bool wispr_manage_message(GWebResult *result,
-+ 
-+ 		wp_context->wispr_result = CONNMAN_WISPR_RESULT_LOGIN;
-+ 
-++		wispr_portal_context_ref(wp_context);
-+ 		if (__connman_agent_request_login_input(wp_context->service,
-+ 					wispr_portal_request_wispr_login,
-+-					wp_context) != -EINPROGRESS)
-++					wp_context) != -EINPROGRESS) {
-+ 			wispr_portal_error(wp_context);
-+-		else
-++			wispr_portal_context_unref(wp_context);
-++		} else
-+ 			return true;
-+ 
-+ 		break;
-+@@ -753,6 +753,7 @@ static bool wispr_portal_web_result(GWebResult *result, gpointer user_data)
-+ 		if (length > 0) {
-+ 			g_web_parser_feed_data(wp_context->wispr_parser,
-+ 								chunk, length);
-++			wispr_portal_context_unref(wp_context);
-+ 			return true;
-+ 		}
-+ 
-+@@ -770,6 +771,7 @@ static bool wispr_portal_web_result(GWebResult *result, gpointer user_data)
-+ 
-+ 	switch (status) {
-+ 	case 000:
-++		wispr_portal_context_ref(wp_context);
-+ 		__connman_agent_request_browser(wp_context->service,
-+ 				wispr_portal_browser_reply_cb,
-+ 				wp_context->status_url, wp_context);
-+@@ -781,11 +783,14 @@ static bool wispr_portal_web_result(GWebResult *result, gpointer user_data)
-+ 		if (g_web_result_get_header(result, "X-ConnMan-Status",
-+ 						&str)) {
-+ 			portal_manage_status(result, wp_context);
-++			wispr_portal_context_unref(wp_context);
-+ 			return false;
-+-		} else
-++		} else {
-++			wispr_portal_context_ref(wp_context);
-+ 			__connman_agent_request_browser(wp_context->service,
-+ 					wispr_portal_browser_reply_cb,
-+ 					wp_context->redirect_url, wp_context);
+++	nfds = svc_open_fds();
+++	if (nfds >= (_rpc_dtablesize() / 5) * 4) {
+++		/* destroy idle connections */
+++		cnt = __svc_destroy_idle(15);
+++		if (cnt == 0) {
+++			/* destroy least active */
+++			__svc_destroy_idle(0);
 ++		}
-+ 
-+ 		break;
-+ 	case 300:
-+@@ -798,6 +803,7 @@ static bool wispr_portal_web_result(GWebResult *result, gpointer user_data)
-+ 			!g_web_result_get_header(result, "Location",
-+ 							&redirect)) {
-+ 
-++			wispr_portal_context_ref(wp_context);
-+ 			__connman_agent_request_browser(wp_context->service,
-+ 					wispr_portal_browser_reply_cb,
-+ 					wp_context->status_url, wp_context);
-+@@ -808,6 +814,7 @@ static bool wispr_portal_web_result(GWebResult *result, gpointer user_data)
-+ 
-+ 		wp_context->redirect_url = g_strdup(redirect);
-+ 
-++		wispr_portal_context_ref(wp_context);
-+ 		wp_context->request_id = g_web_request_get(wp_context->web,
-+ 				redirect, wispr_portal_web_result,
-+ 				wispr_route_request, wp_context);
-+@@ -820,6 +827,7 @@ static bool wispr_portal_web_result(GWebResult *result, gpointer user_data)
-+ 
-+ 		break;
-+ 	case 505:
-++		wispr_portal_context_ref(wp_context);
-+ 		__connman_agent_request_browser(wp_context->service,
-+ 				wispr_portal_browser_reply_cb,
-+ 				wp_context->status_url, wp_context);
-+@@ -832,6 +840,7 @@ static bool wispr_portal_web_result(GWebResult *result, gpointer user_data)
-+ 	wp_context->request_id = 0;
-+ done:
-+ 	wp_context->wispr_msg.message_type = -1;
-++	wispr_portal_context_unref(wp_context);
-+ 	return false;
-+ }
-+ 
-+@@ -890,6 +899,7 @@ static void proxy_callback(const char *proxy, void *user_data)
-+ 					xml_wispr_parser_callback, wp_context);
-+ 
-+ 	wispr_portal_request_portal(wp_context);
-++	wispr_portal_context_unref(wp_context);
-+ }
-+ 
-+ static gboolean no_proxy_callback(gpointer user_data)
-+-- 
-+cgit 
-+
-diff --git a/meta/recipes-connectivity/connman/connman/CVE-2022-32293_p2.patch b/meta/recipes-connectivity/connman/connman/CVE-2022-32293_p2.patch
-new file mode 100644
-index 00000000000..b2802035943
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/CVE-2022-32293_p2.patch
-@@ -0,0 +1,141 @@
-+From 72343929836de80727a27d6744c869dff045757c Mon Sep 17 00:00:00 2001
-+From: Daniel Wagner <wagi@monom.org>
-+Date: Tue, 5 Jul 2022 08:32:12 +0200
-+Subject: wispr: Add reference counter to portal context
-+
-+Track the connman_wispr_portal_context live time via a
-+refcounter. This only adds the infrastructure to do proper reference
-+counting.
-+
-+Fixes: CVE-2022-32293
-+CVE: CVE-2022-32293
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=416bfaff988882c553c672e5bfc2d4f648d29e8a]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/wispr.c | 52 ++++++++++++++++++++++++++++++++++++++++++----------
-+ 1 file changed, 42 insertions(+), 10 deletions(-)
-+
-+diff --git a/src/wispr.c b/src/wispr.c
-+index a07896ca..bde7e63b 100644
-+--- a/src/wispr.c
-++++ b/src/wispr.c
-+@@ -56,6 +56,7 @@ struct wispr_route {
-+ };
-+ 
-+ struct connman_wispr_portal_context {
-++	int refcount;
-+ 	struct connman_service *service;
-+ 	enum connman_ipconfig_type type;
-+ 	struct connman_wispr_portal *wispr_portal;
-+@@ -97,6 +98,11 @@ static char *online_check_ipv4_url = NULL;
-+ static char *online_check_ipv6_url = NULL;
-+ static bool enable_online_to_ready_transition = false;
-+ 
-++#define wispr_portal_context_ref(wp_context) \
-++	wispr_portal_context_ref_debug(wp_context, __FILE__, __LINE__, __func__)
-++#define wispr_portal_context_unref(wp_context) \
-++	wispr_portal_context_unref_debug(wp_context, __FILE__, __LINE__, __func__)
+++	}
 ++
-+ static void connman_wispr_message_init(struct connman_wispr_message *msg)
-+ {
-+ 	DBG("");
-+@@ -162,9 +168,6 @@ static void free_connman_wispr_portal_context(
-+ {
-+ 	DBG("context %p", wp_context);
-+ 
-+-	if (!wp_context)
-+-		return;
-+-
-+ 	if (wp_context->wispr_portal) {
-+ 		if (wp_context->wispr_portal->ipv4_context == wp_context)
-+ 			wp_context->wispr_portal->ipv4_context = NULL;
-+@@ -201,9 +204,38 @@ static void free_connman_wispr_portal_context(
-+ 	g_free(wp_context);
++ 	return (FALSE); /* there is never an rpc msg to be processed */
 + }
 + 
-++static struct connman_wispr_portal_context *
-++wispr_portal_context_ref_debug(struct connman_wispr_portal_context *wp_context,
-++			const char *file, int line, const char *caller)
++@@ -820,3 +834,49 @@ __svc_clean_idle(fd_set *fds, int timeout, bool_t cleanblock)
++ {
++ 	return FALSE;
++ }
+++
+++static int
+++__svc_destroy_idle(int timeout)
 ++{
-++	DBG("%p ref %d by %s:%d:%s()", wp_context,
-++		wp_context->refcount + 1, file, line, caller);
+++	int i, ncleaned = 0;
+++	SVCXPRT *xprt, *least_active;
+++	struct timeval tv, tdiff, tmax;
+++	struct cf_conn *cd;
 ++
-++	__sync_fetch_and_add(&wp_context->refcount, 1);
+++	gettimeofday(&tv, NULL);
+++	tmax.tv_sec = tmax.tv_usec = 0;
+++	least_active = NULL;
+++	rwlock_wrlock(&svc_fd_lock);
 ++
-++	return wp_context;
+++	for (i = 0; i <= svc_max_pollfd; i++) {
+++		if (svc_pollfd[i].fd == -1)
+++			continue;
+++		xprt = __svc_xports[i];
+++		if (xprt == NULL || xprt->xp_ops == NULL ||
+++			xprt->xp_ops->xp_recv != svc_vc_recv)
+++			continue;
+++		cd = (struct cf_conn *)xprt->xp_p1;
+++		if (!cd->nonblock)
+++			continue;
+++		if (timeout == 0) {
+++			timersub(&tv, &cd->last_recv_time, &tdiff);
+++			if (timercmp(&tdiff, &tmax, >)) {
+++				tmax = tdiff;
+++				least_active = xprt;
+++			}
+++			continue;
+++		}
+++		if (tv.tv_sec - cd->last_recv_time.tv_sec > timeout) {
+++			__xprt_unregister_unlocked(xprt);
+++			__svc_vc_dodestroy(xprt);
+++			ncleaned++;
+++		}
+++	}
+++	if (timeout == 0 && least_active != NULL) {
+++		__xprt_unregister_unlocked(least_active);
+++		__svc_vc_dodestroy(least_active);
+++		ncleaned++;
+++	}
+++	rwlock_unlock(&svc_fd_lock);
+++	return (ncleaned);
 ++}
-++
-++static void wispr_portal_context_unref_debug(
-++		struct connman_wispr_portal_context *wp_context,
-++		const char *file, int line, const char *caller)
-++{
-++	if (!wp_context)
-++		return;
-++
-++	DBG("%p ref %d by %s:%d:%s()", wp_context,
-++		wp_context->refcount - 1, file, line, caller);
-++
-++	if (__sync_fetch_and_sub(&wp_context->refcount, 1) != 1)
-++		return;
-++
-++	free_connman_wispr_portal_context(wp_context);
-++}
-++
-+ static struct connman_wispr_portal_context *create_wispr_portal_context(void)
-+ {
-+-	return g_try_new0(struct connman_wispr_portal_context, 1);
-++	return wispr_portal_context_ref(
-++		g_new0(struct connman_wispr_portal_context, 1));
-+ }
-+ 
-+ static void free_connman_wispr_portal(gpointer data)
-+@@ -215,8 +247,8 @@ static void free_connman_wispr_portal(gpointer data)
-+ 	if (!wispr_portal)
-+ 		return;
-+ 
-+-	free_connman_wispr_portal_context(wispr_portal->ipv4_context);
-+-	free_connman_wispr_portal_context(wispr_portal->ipv6_context);
-++	wispr_portal_context_unref(wispr_portal->ipv4_context);
-++	wispr_portal_context_unref(wispr_portal->ipv6_context);
-+ 
-+ 	g_free(wispr_portal);
-+ }
-+@@ -452,7 +484,7 @@ static void portal_manage_status(GWebResult *result,
-+ 		connman_info("Client-Timezone: %s", str);
-+ 
-+ 	if (!enable_online_to_ready_transition)
-+-		free_connman_wispr_portal_context(wp_context);
-++		wispr_portal_context_unref(wp_context);
-+ 
-+ 	__connman_service_ipconfig_indicate_state(service,
-+ 					CONNMAN_SERVICE_STATE_ONLINE, type);
-+@@ -616,7 +648,7 @@ static void wispr_portal_request_wispr_login(struct connman_service *service,
-+ 				return;
-+ 		}
-+ 
-+-		free_connman_wispr_portal_context(wp_context);
-++		wispr_portal_context_unref(wp_context);
-+ 		return;
-+ 	}
-+ 
-+@@ -952,7 +984,7 @@ static int wispr_portal_detect(struct connman_wispr_portal_context *wp_context)
-+ 
-+ 		if (wp_context->token == 0) {
-+ 			err = -EINVAL;
-+-			free_connman_wispr_portal_context(wp_context);
-++			wispr_portal_context_unref(wp_context);
-+ 		}
-+ 	} else if (wp_context->timeout == 0) {
-+ 		wp_context->timeout = g_idle_add(no_proxy_callback, wp_context);
-+@@ -1001,7 +1033,7 @@ int __connman_wispr_start(struct connman_service *service,
-+ 
-+ 	/* If there is already an existing context, we wipe it */
-+ 	if (wp_context)
-+-		free_connman_wispr_portal_context(wp_context);
-++		wispr_portal_context_unref(wp_context);
-+ 
-+ 	wp_context = create_wispr_portal_context();
-+ 	if (!wp_context)
 +-- 
-+cgit 
++1.8.3.1
 +
-diff --git a/meta/recipes-connectivity/connman/connman_1.41.bb b/meta/recipes-connectivity/connman/connman_1.41.bb
-index 736b78eaebb..79542b2175d 100644
---- a/meta/recipes-connectivity/connman/connman_1.41.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.41.bb
-@@ -5,6 +5,9 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-            file://0001-connman.service-stop-systemd-resolved-when-we-use-co.patch \
-            file://connman \
-            file://no-version-scripts.patch \
-+           file://CVE-2022-32293_p1.patch \
-+           file://CVE-2022-32293_p2.patch \
-+           file://CVE-2022-32292.patch \
-            "
+diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb b/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb
+index 45b3d2befc3..cc87638c0f7 100644
+--- a/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb
++++ b/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb
+@@ -9,7 +9,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f835cce8852481e4b2bbbdd23b5e47f3 \
  
- SRC_URI:append:libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
+ PROVIDES = "virtual/librpc"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2"
++SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2 \
++           file://CVE-2021-46828.patch \
++          "
+ UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/libtirpc/files/libtirpc/"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
+ SRC_URI[sha256sum] = "e24eb88b8ce7db3b7ca6eb80115dd1284abc5ec32a8deccfed2224fc2532b9fd"
 -- 
 2.37.2
 
