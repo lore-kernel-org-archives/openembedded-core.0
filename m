@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88F06C2BB45
-	for <webhook@archiver.kernel.org>; Mon, 15 Aug 2022 18:57:02 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com
- (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web09.6459.1660589819561818253
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50655C49EC3
+	for <webhook@archiver.kernel.org>; Mon, 15 Aug 2022 18:57:03 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com
+ (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web12.6338.1660589821134962404
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Aug 2022 11:57:01 -0700
+ Mon, 15 Aug 2022 11:57:02 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=hynRmbVo;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
- mailfrom: 01010182a2ddcae1-67f0f70c-12da-4079-9f62-d0c50fb04715-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=F79INw4b;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
+ mailfrom: 01010182a2ddcce7-d9aa9d99-5a51-43bb-ac18-3083b33361a2-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1660589821;
+	t=1660589822;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=fh+fwcOihQMbLwub3fjC8FNxTZvjFRMsObVkI+8FKYk=;
-	b=hynRmbVop6tUbRF6lUJsFwZYBYHcwyIpICmj99xr1sNHKDhkui3F+oZPXzbj3K3k
-	XXV4k3c1a/NNoHrzVOb1ucKzWbZ1VeaXnL5+t+B7ixlGKm6MwfIe8xlNtuV1DYZIuDf
-	4ywP11QpIvpvbr1v+14Hmap4kRhaAQLy0k8PKXAc=
+	bh=u/gg6uC3Sb+3JPoFbzMMIY5+PMuC/XjDGBUrdGylq0U=;
+	b=F79INw4b7tLbAyqdPTyXDIUk7e47TtEwGOJB0u98g9Hgn5c0AgVcAzMFxHbkaqSo
+	2zl4w9Be3czIBKxc/la8d3BhV3emRRTXc0oRECs6IZMOW2Vc/Bov0DZb2k4DlXO7QnN
+	6XIQPgEz+566V6KbLrWlPo4SV/PAJ4hZEX9Qwglc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1660589821;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1660589822;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=fh+fwcOihQMbLwub3fjC8FNxTZvjFRMsObVkI+8FKYk=;
-	b=X4Ff4v9Xry/6RUVQr3J4vjHAHCugr6plJ3NTdOpZhL0BGluAT7HfuD5YN7hkod+e
-	Sxb3mAFT/v6P0RxUEOMpj7QnsUSObXVylXrSdyhIgz3Q9JgXE/k4gEzlY3l2COPRwo9
-	oYZJbKJ8pCyxpBupVy/oJyhc4FN7eJR1PEK+kpMY=
-Content-Type: multipart/mixed; boundary="===============6343903812646358662=="
+	bh=u/gg6uC3Sb+3JPoFbzMMIY5+PMuC/XjDGBUrdGylq0U=;
+	b=EF8uD95a2F6mtobrcocrsLg2BZgl0bQEQCw23FsOxhzZxUZcnOO+GrPC5czCrKI2
+	SyritLnQIC/QRPfEKapZ7TE4tbXfdvlsLaA+3hmkmWrOyTC/5IcIeCqj2hL2y3EXjqc
+	Z4P1pnV1wiu/KU0UPqX5lRC+AY99CTcSWwVZCy2M=
+Content-Type: multipart/mixed; boundary="===============0318779328249464051=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libtirpc: upgrading to 1.3.3 SUCCEEDED
+Subject: [AUH] libjpeg-turbo: upgrading to 2.1.4 SUCCEEDED
 Message-ID: 
- <01010182a2ddcae1-67f0f70c-12da-4079-9f62-d0c50fb04715-000000@us-west-2.amazonses.com>
-Date: Mon, 15 Aug 2022 18:57:00 +0000
+ <01010182a2ddcce7-d9aa9d99-5a51-43bb-ac18-3083b33361a2-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Aug 2022 18:57:01 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.08.15-54.240.27.33
+X-SES-Outgoing: 2022.08.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Aug 2022 18:57:02 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Aug 2022 18:57:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169388
+ https://lists.openembedded.org/g/openembedded-core/message/169406
 
---===============6343903812646358662==
+--===============0318779328249464051==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libtirpc* to *1.3.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *libjpeg-turbo* to *2.1.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libtirpc-upgrade-1.3.2-1.3.3.patch
+    - apply the patch: git am 0001-libjpeg-turbo-upgrade-2.1.3-2.1.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,34 +75,37 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6343903812646358662==
+--===============0318779328249464051==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libtirpc: PKGV changed from 1.3.2 [default] to 1.3.3 [default]
-packages/core2-32-poky-linux/libtirpc: PV changed from "1.3.2" to "1.3.3"
-packages/core2-32-poky-linux/libtirpc: SRC_URI changed from "https://downloads.sourceforge.net/libtirpc/libtirpc-1.3.2.tar.bz2" to "https://downloads.sourceforge.net/libtirpc/libtirpc-1.3.3.tar.bz2"
-packages/core2-32-poky-linux/libtirpc/libtirpc-dbg: PKGV changed from 1.3.2 [default] to 1.3.3 [default]
-packages/core2-32-poky-linux/libtirpc/libtirpc-dbg: PKGSIZE changed from 511532 to 519544 (+2%)
-packages/core2-32-poky-linux/libtirpc/libtirpc-dbg: PV changed from "1.3.2" to "1.3.3"
-packages/core2-32-poky-linux/libtirpc/libtirpc-dev: PKGV changed from 1.3.2 [default] to 1.3.3 [default]
-packages/core2-32-poky-linux/libtirpc/libtirpc-dev: PKGSIZE changed from 181688 to 181803 (+0%)
-packages/core2-32-poky-linux/libtirpc/libtirpc-dev: PV changed from "1.3.2" to "1.3.3"
-packages/core2-32-poky-linux/libtirpc/libtirpc-doc: PKGV changed from 1.3.2 [default] to 1.3.3 [default]
-packages/core2-32-poky-linux/libtirpc/libtirpc-doc: PKGSIZE changed from 126381 to 126502 (+0%)
-packages/core2-32-poky-linux/libtirpc/libtirpc-doc: PV changed from "1.3.2" to "1.3.3"
-packages/core2-32-poky-linux/libtirpc/libtirpc-locale: PKGV changed from 1.3.2 [default] to 1.3.3 [default]
-packages/core2-32-poky-linux/libtirpc/libtirpc-locale: PV changed from "1.3.2" to "1.3.3"
-packages/core2-32-poky-linux/libtirpc/libtirpc-src: PKGV changed from 1.3.2 [default] to 1.3.3 [default]
-packages/core2-32-poky-linux/libtirpc/libtirpc-src: PKGSIZE changed from 667748 to 672330 (+1%)
-packages/core2-32-poky-linux/libtirpc/libtirpc-src: PV changed from "1.3.2" to "1.3.3"
-packages/core2-32-poky-linux/libtirpc/libtirpc-staticdev: PKGV changed from 1.3.2 [default] to 1.3.3 [default]
-packages/core2-32-poky-linux/libtirpc/libtirpc-staticdev: PV changed from "1.3.2" to "1.3.3"
-packages/core2-32-poky-linux/libtirpc/libtirpc: PKGV changed from 1.3.2 [default] to 1.3.3 [default]
-packages/core2-32-poky-linux/libtirpc/libtirpc: PKGSIZE changed from 178947 to 183043 (+2%)
-packages/core2-32-poky-linux/libtirpc/libtirpc: PV changed from "1.3.2" to "1.3.3"
+packages/core2-32-poky-linux/libjpeg-turbo/jpeg-tools: PKGV changed from 2.1.3 [default] to 2.1.4 [default]
+packages/core2-32-poky-linux/libjpeg-turbo/jpeg-tools: PV changed from "2.1.3" to "2.1.4"
+packages/core2-32-poky-linux/libjpeg-turbo: PKGV changed from 2.1.3 [default] to 2.1.4 [default]
+packages/core2-32-poky-linux/libjpeg-turbo: SRC_URI changed from "https://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-2.1.3.tar.gz file://0001-libjpeg-turbo-fix-package_qa-error.patch" to "https://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-2.1.4.tar.gz file://0001-libjpeg-turbo-fix-package_qa-error.patch"
+packages/core2-32-poky-linux/libjpeg-turbo: PV changed from "2.1.3" to "2.1.4"
+packages/core2-32-poky-linux/libjpeg-turbo/libjpeg-turbo-dbg: PKGV changed from 2.1.3 [default] to 2.1.4 [default]
+packages/core2-32-poky-linux/libjpeg-turbo/libjpeg-turbo-dbg: PKGSIZE changed from 2868664 to 2869248 (+0%)
+packages/core2-32-poky-linux/libjpeg-turbo/libjpeg-turbo-dbg: PV changed from "2.1.3" to "2.1.4"
+packages/core2-32-poky-linux/libjpeg-turbo/libjpeg-turbo-dev: PKGV changed from 2.1.3 [default] to 2.1.4 [default]
+packages/core2-32-poky-linux/libjpeg-turbo/libjpeg-turbo-dev: PKGSIZE changed from 165845 to 166738 (+1%)
+packages/core2-32-poky-linux/libjpeg-turbo/libjpeg-turbo-dev: PV changed from "2.1.3" to "2.1.4"
+packages/core2-32-poky-linux/libjpeg-turbo/libjpeg-turbo-doc: PKGV changed from 2.1.3 [default] to 2.1.4 [default]
+packages/core2-32-poky-linux/libjpeg-turbo/libjpeg-turbo-doc: PKGSIZE changed from 380161 to 379401 (-0%)
+packages/core2-32-poky-linux/libjpeg-turbo/libjpeg-turbo-doc: PV changed from "2.1.3" to "2.1.4"
+packages/core2-32-poky-linux/libjpeg-turbo/libjpeg-turbo-locale: PKGV changed from 2.1.3 [default] to 2.1.4 [default]
+packages/core2-32-poky-linux/libjpeg-turbo/libjpeg-turbo-locale: PV changed from "2.1.3" to "2.1.4"
+packages/core2-32-poky-linux/libjpeg-turbo/libjpeg-turbo-src: PKGV changed from 2.1.3 [default] to 2.1.4 [default]
+packages/core2-32-poky-linux/libjpeg-turbo/libjpeg-turbo-src: PKGSIZE changed from 2138914 to 2138984 (+0%)
+packages/core2-32-poky-linux/libjpeg-turbo/libjpeg-turbo-src: PV changed from "2.1.3" to "2.1.4"
+packages/core2-32-poky-linux/libjpeg-turbo/libjpeg-turbo-staticdev: PKGV changed from 2.1.3 [default] to 2.1.4 [default]
+packages/core2-32-poky-linux/libjpeg-turbo/libjpeg-turbo-staticdev: PV changed from "2.1.3" to "2.1.4"
+packages/core2-32-poky-linux/libjpeg-turbo/libjpeg-turbo: PKGV changed from 2.1.3 [default] to 2.1.4 [default]
+packages/core2-32-poky-linux/libjpeg-turbo/libjpeg-turbo: PV changed from "2.1.3" to "2.1.4"
+packages/core2-32-poky-linux/libjpeg-turbo/libturbojpeg: PKGV changed from 2.1.3 [default] to 2.1.4 [default]
+packages/core2-32-poky-linux/libjpeg-turbo/libturbojpeg: PV changed from "2.1.3" to "2.1.4"
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1457,7 +1460,7 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoffout.h was removed
 
---===============6343903812646358662==
+--===============0318779328249464051==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -2817,36 +2820,37 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoffout.h was removed
 
---===============6343903812646358662==
+--===============0318779328249464051==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libtirpc-upgrade-1.3.2-1.3.3.patch"
+ filename="0001-libjpeg-turbo-upgrade-2.1.3-2.1.4.patch"
 
-RnJvbSA4ZGUwYjNhM2M5MzIzMTc4NGQ5NWJhOTU4NjU0YTYxMjc4Mzk3NTNmIE1vbiBTZXAgMTcg
+RnJvbSA1NjY3MmE2ZTQ1MjY0ODVjNzI2MGM5OTExNWVhY2ZjY2U5YWE2YWZkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgQXVnIDIwMjIgMTA6MjM6MjMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ0aXJwYzogdXBncmFkZSAxLjMuMiAtPiAxLjMuMwoKLS0tCiAuLi4vbGlidGlycGMve2xpYnRp
-cnBjXzEuMy4yLmJiID0+IGxpYnRpcnBjXzEuMy4zLmJifSAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtZXh0ZW5kZWQvbGlidGlycGMve2xpYnRpcnBjXzEuMy4yLmJiID0+IGxpYnRpcnBjXzEu
-My4zLmJifSAoOTAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJ0aXJw
-Yy9saWJ0aXJwY18xLjMuMi5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJ0aXJwYy9saWJ0
-aXJwY18xLjMuMy5iYgpzaW1pbGFyaXR5IGluZGV4IDkwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
-ZXMtZXh0ZW5kZWQvbGlidGlycGMvbGlidGlycGNfMS4zLjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
-aXBlcy1leHRlbmRlZC9saWJ0aXJwYy9saWJ0aXJwY18xLjMuMy5iYgppbmRleCA0NWIzZDJiZWZj
-Li5iZDEzZjZlOTVlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGlidGlycGMv
-bGlidGlycGNfMS4zLjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYnRpcnBjL2xp
-YnRpcnBjXzEuMy4zLmJiCkBAIC0xMiw3ICsxMiw3IEBAIFBST1ZJREVTID0gInZpcnR1YWwvbGli
-cnBjIgogU1JDX1VSSSA9ICIke1NPVVJDRUZPUkdFX01JUlJPUn0vJHtCUE59LyR7QlB9LnRhci5i
-ejIiCiBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cHM6Ly9zb3VyY2Vmb3JnZS5uZXQvcHJvamVj
-dHMvbGlidGlycGMvZmlsZXMvbGlidGlycGMvIgogVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAiKD9Q
-PHB2ZXI+XGQrKFwuXGQrKSspLyIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJlMjRlYjg4YjhjZTdk
-YjNiN2NhNmViODAxMTVkZDEyODRhYmM1ZWMzMmE4ZGVjY2ZlZDIyMjRmYzI1MzJiOWZkIgorU1JD
-X1VSSVtzaGEyNTZzdW1dID0gIjY0NzRlOTg4NTFkOWY2ZjMzODcxOTU3ZGRlZTk3MTRmZGNkOWQ4
-YTVlZTlhYmI1YTk4ZDYzZWEyZTYwZTEyZjMiCiAKIGluaGVyaXQgYXV0b3Rvb2xzIHBrZ2NvbmZp
-ZwogCi0tIAoyLjMxLjEKCg==
+CkRhdGU6IE1vbiwgMTUgQXVnIDIwMjIgMTM6NDQ6NDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJqcGVnLXR1cmJvOiB1cGdyYWRlIDIuMS4zIC0+IDIuMS40CgotLS0KIC4uLi9qcGVnL3tsaWJq
+cGVnLXR1cmJvXzIuMS4zLmJiID0+IGxpYmpwZWctdHVyYm9fMi4xLjQuYmJ9ICAgICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1ncmFwaGljcy9qcGVnL3tsaWJqcGVnLXR1cmJvXzIuMS4zLmJiID0+IGxpYmpw
+ZWctdHVyYm9fMi4xLjQuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL2pwZWcvbGlianBlZy10dXJib18yLjEuMy5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9q
+cGVnL2xpYmpwZWctdHVyYm9fMi4xLjQuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2pwZWcvbGlianBlZy10dXJib18yLjEuMy5iYgpyZW5h
+bWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2pwZWcvbGlianBlZy10dXJib18yLjEuNC5iYgpp
+bmRleCBmZGMwMzVkNWY3Li4xNzA4ZmE5N2YwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3MvanBlZy9saWJqcGVnLXR1cmJvXzIuMS4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFw
+aGljcy9qcGVnL2xpYmpwZWctdHVyYm9fMi4xLjQuYmIKQEAgLTE0LDcgKzE0LDcgQEAgU1JDX1VS
+SSA9ICIke1NPVVJDRUZPUkdFX01JUlJPUn0vJHtCUE59LyR7QlBOfS0ke1BWfS50YXIuZ3ogXAog
+ICAgICAgICAgICBmaWxlOi8vMDAwMS1saWJqcGVnLXR1cmJvLWZpeC1wYWNrYWdlX3FhLWVycm9y
+LnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNDY3YjMxMDkw
+MzgzMmIwMzNmZTU2Y2QzNzcyMGQxYjczYTZhM2JkMDE3MWRiZjZmZjBiNjIwMzg1ZjRmNzZkMCIK
+K1NSQ19VUklbc2hhMjU2c3VtXSA9ICJkM2VkMjZhMTEzMWExMzY4NmRmY2E0OTM1ZTUyMGViN2M5
+MGFlNzZmYmM0NWQ5OGJiNTBhOGRjODYyMzAzNDJiIgogVVBTVFJFQU1fQ0hFQ0tfVVJJID0gImh0
+dHA6Ly9zb3VyY2Vmb3JnZS5uZXQvcHJvamVjdHMvbGlianBlZy10dXJiby9maWxlcy8iCiBVUFNU
+UkVBTV9DSEVDS19SRUdFWCA9ICIvbGlianBlZy10dXJiby9maWxlcy8oP1A8cHZlcj4oXGQrW1wu
+XC1fXSopKykvIgogCi0tIAoyLjMxLjEKCg==
 
---===============6343903812646358662==--
+--===============0318779328249464051==--
 
