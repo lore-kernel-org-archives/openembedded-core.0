@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABF0EC32765
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABED4C32763
 	for <webhook@archiver.kernel.org>; Mon, 15 Aug 2022 18:57:02 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com
- (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web12.6338.1660589821134962404
+Received: from a27-29.smtp-out.us-west-2.amazonses.com
+ (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web08.6460.1660589821042428320
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Aug 2022 11:57:01 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=OEltK/Aa;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
- mailfrom: 01010182a2ddca11-e5ef3851-5a7a-46eb-929d-89b3c58dd3e9-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=DMuywYEp;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29,
+ mailfrom: 01010182a2ddc934-16cd0f15-6288-478e-9673-af8acbd0fcc8-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1660589820;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ZFpsu1rtgHJL5mV0UxrXicEi9lt08WCDpvvwlD05nc8=;
-	b=OEltK/Aa7ML30rsmR6+SlufUD1y5CG8hwSm2Jg/YVP8KY+n0f+WYV2ZdwrB0BFs8
-	8kWCcs5ieAh5F6/Ejs6xTfDzCoojw/2x9h+GUJd71Z27Eg/5RBlR/Qa+8C6dkUA3epR
-	llrqleSiaFk2PPbZMjFie+KXuMwuJtHytiXbWpHA=
+	bh=K21QwxhITisVJ9hU8r4dB6WVM4p61cGr+TlzzcnLU54=;
+	b=DMuywYEpGOrj/Cp+z509F/XhPi2arNFNcB3l5FTE8NbAnLiCrGwwPJWeOc1Tzw6I
+	79voajyroRS9CJ+VZ+Xw9vt1RB1NEAXmCugQnUayDSFpWf27vRvsNsLiGOdRu9XNBI4
+	+yZzja8dJjYvjguFzF8Y6kFjxG0/hPmIj5Cw5/mc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1660589820;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ZFpsu1rtgHJL5mV0UxrXicEi9lt08WCDpvvwlD05nc8=;
-	b=DKbWdIyRCWCSJRPGMi8yl+sr1sYkVwS2H4qLZ2I09M3d9B6cNCMNisXM7hfLEjXw
-	wWCDkUxMUdm/xBSA69Lhm2pHqW9lukTGqseuTHjCbljDT3AsOTx5+gmix4FIo2ZOh7S
-	jWNsOmwghtq3tvkXqE9Fv2Vrep1Vuq8CVoh9Ftvo=
-Content-Type: multipart/mixed; boundary="===============6958065218533294098=="
+	bh=K21QwxhITisVJ9hU8r4dB6WVM4p61cGr+TlzzcnLU54=;
+	b=cYcMS7t9p9hlBbk5tPFA1DiLlxjHatgou6WZb49v6lD6O2073Cuw/ov0wQWgLcf7
+	h1dbYtYy9aYhW3lDhHrm8ef7OFauwfDt7ykn4b4iKtMeulibP0QBjUPoyXvK/6PriZd
+	/NWrxWki2VzJfbMMzhhDIEvRgY0XxRMxWQD1m3Jk=
+Content-Type: multipart/mixed; boundary="===============5913779776869027976=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: Joshua Watt <JPEWhacker@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] rust: upgrading to 1.63.0 FAILED
+Subject: [AUH] python3-pyelftools: upgrading to 0.29 SUCCEEDED
 Message-ID: 
- <01010182a2ddca11-e5ef3851-5a7a-46eb-929d-89b3c58dd3e9-000000@us-west-2.amazonses.com>
+ <01010182a2ddc934-16cd0f15-6288-478e-9673-af8acbd0fcc8-000000@us-west-2.amazonses.com>
 Date: Mon, 15 Aug 2022 18:57:00 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.08.15-54.240.27.23
+X-SES-Outgoing: 2022.08.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Aug 2022 18:57:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169380
+ https://lists.openembedded.org/g/openembedded-core/message/169379
 
---===============6958065218533294098==
+--===============5913779776869027976==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,76 +56,101 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *rust* to *1.63.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-pyelftools* to *0.29* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-pyelftools-upgrade-0.28-0.29.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  finish -f rust /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust
-NOTE: Starting bitbake server...
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1661 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 885 .bb files complete (884 cached, 1 parsed). 1661 targets, 35 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-
-INFO: Handling main branch (devtool)...
-INFO: No patches or local source files needed updating
-INFO: Handling branch devtool-override-class-nativesdk...
-ERROR: Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 162, in wrapped
-    return func(fn, *args)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 187, in parse_config_file
-    return bb.parse.handle(fn, data, include)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 107, in handle
-    return h['handle'](fn, data, include)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 118, in handle
-    abs_fn = resolve_file(fn, data)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 133, in resolve_file
-    raise IOError(errno.ENOENT, "file %s not found" % fn)
-FileNotFoundError: [Errno 2] file /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.conf not found
-
-ERROR: Unable to parse /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.conf: [Errno 2] file /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.conf not found
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 162, in wrapped
-    return func(fn, *args)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 187, in parse_config_file
-    return bb.parse.handle(fn, data, include)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 107, in handle
-    return h['handle'](fn, data, include)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 118, in handle
-    abs_fn = resolve_file(fn, data)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 133, in resolve_file
-    raise IOError(errno.ENOENT, "file %s not found" % fn)
-FileNotFoundError: [Errno 2] file /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.conf not found
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 338, in <module>
-    ret = main()
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 325, in main
-    ret = args.func(args, config, basepath, workspace)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/standard.py", line 2123, in finish
-    updated, appendfile, removed = _update_recipe(args.recipename, workspace, rd, args.mode, appendlayerdir, wildcard_version=True, no_remove=False, no_report_remove=removing_original, initial_rev=args.initial_rev, dry_run_outdir=dry_run_outdir, no_overrides=args.no_overrides, force_patch_refresh=args.force_patch_refresh)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/standard.py", line 1829, in _update_recipe
-    updated, appendf, removed = _update_recipe_patch(recipename, workspace, srctree, crd, appendlayerdir, wildcard_version, no_remove, no_report_remove, initial_rev, dry_run_outdir, force_patch_refresh)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/standard.py", line 1686, in _update_recipe_patch
-    params=[patchdir_params] * len(files))
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/recipeutils.py", line 708, in bbappend_recipe
-    appendpath, pathok = get_bbappend_path(rd, destlayerdir, wildcardver)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/recipeutils.py", line 632, in get_bbappend_path
-    confdata = bb.cookerdata.parse_config_file(destlayerconf, confdata)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 167, in wrapped
-    raise bb.BBHandledException()
-bb.BBHandledException
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============6958065218533294098==--
+--===============5913779776869027976==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-pyelftools-upgrade-0.28-0.29.patch"
+
+RnJvbSBhM2Y2NThmNTMyMjgzNDMxZDFiZDYzOTJlNjFmMTQwZDExMTY4YjE1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgQXVnIDIwMjIgMDg6NDA6MzIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXB5ZWxmdG9vbHM6IHVwZ3JhZGUgMC4yOCAtPiAwLjI5CgotLS0KIC4uLi97cHl0aG9u
+My1weWVsZnRvb2xzXzAuMjguYmIgPT4gcHl0aG9uMy1weWVsZnRvb2xzXzAuMjkuYmJ9ICB8IDIg
+Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHllbGZ0b29sc18wLjI4LmJi
+ID0+IHB5dGhvbjMtcHllbGZ0b29sc18wLjI5LmJifSAoODIlKQoKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weWVsZnRvb2xzXzAuMjguYmIgYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHllbGZ0b29sc18wLjI5LmJiCnNpbWls
+YXJpdHkgaW5kZXggODIlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1weWVsZnRvb2xzXzAuMjguYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9weXRob24vcHl0aG9uMy1weWVsZnRvb2xzXzAuMjkuYmIKaW5kZXggMGNlZGRjYjY4YS4uMjE5
+OWU5ZmY4ZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
+LXB5ZWxmdG9vbHNfMC4yOC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
+dGhvbjMtcHllbGZ0b29sc18wLjI5LmJiCkBAIC00LDcgKzQsNyBAQCBTRUNUSU9OID0gImRldmVs
+L3B5dGhvbiIKIExJQ0VOU0UgPSAiUEQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNF
+TlNFO21kNT01Y2UyYTJiMDdmY2EzMjZiYzdjMTQ2ZDEwMTA1Y2NmYyIKIAotU1JDX1VSSVtzaGEy
+NTZzdW1dID0gIjUzZTU2MDljYWMwMTY0NzFkNDBiZDg4ZGM0MTBjZDkwNzU1OTQyYzI1ZTU4YTYx
+MDIxY2ZkZjdhYmRmZWFjZmYiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZWM3NjE1OTZhYWZhMTZl
+MjgyYTMxZGUxODg3MzdlNTQ4NTU1MjQ2OWFjNjNiNjBjZmNjY2YyMjI2M2ZkMjRmZiIKIAogUFlQ
+SV9QQUNLQUdFID0gInB5ZWxmdG9vbHMiCiAKLS0gCjIuMzEuMQoK
+
+--===============5913779776869027976==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-pyelftools: PKGV changed from 0.28 [default] to 0.29 [default]
+packages/core2-32-poky-linux/python3-pyelftools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyelftools/pyelftools-0.28.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pyelftools/pyelftools-0.29.tar.gz"
+packages/core2-32-poky-linux/python3-pyelftools: PV changed from "0.28" to "0.29"
+packages/core2-32-poky-linux/python3-pyelftools/python3-pyelftools-dbg: PKGV changed from 0.28 [default] to 0.29 [default]
+packages/core2-32-poky-linux/python3-pyelftools/python3-pyelftools-dbg: PV changed from "0.28" to "0.29"
+packages/core2-32-poky-linux/python3-pyelftools/python3-pyelftools-dev: PKGV changed from 0.28 [default] to 0.29 [default]
+packages/core2-32-poky-linux/python3-pyelftools/python3-pyelftools-dev: PV changed from "0.28" to "0.29"
+packages/core2-32-poky-linux/python3-pyelftools/python3-pyelftools-doc: PKGV changed from 0.28 [default] to 0.29 [default]
+packages/core2-32-poky-linux/python3-pyelftools/python3-pyelftools-doc: PV changed from "0.28" to "0.29"
+packages/core2-32-poky-linux/python3-pyelftools/python3-pyelftools-locale: PKGV changed from 0.28 [default] to 0.29 [default]
+packages/core2-32-poky-linux/python3-pyelftools/python3-pyelftools-locale: PV changed from "0.28" to "0.29"
+packages/core2-32-poky-linux/python3-pyelftools/python3-pyelftools-src: PKGV changed from 0.28 [default] to 0.29 [default]
+packages/core2-32-poky-linux/python3-pyelftools/python3-pyelftools-src: PV changed from "0.28" to "0.29"
+packages/core2-32-poky-linux/python3-pyelftools/python3-pyelftools-staticdev: PKGV changed from 0.28 [default] to 0.29 [default]
+packages/core2-32-poky-linux/python3-pyelftools/python3-pyelftools-staticdev: PV changed from "0.28" to "0.29"
+packages/core2-32-poky-linux/python3-pyelftools/python3-pyelftools: PKGSIZE changed from 1009771 to 1133249 (+12%)
+packages/core2-32-poky-linux/python3-pyelftools/python3-pyelftools: PKGV changed from 0.28 [default] to 0.29 [default]
+packages/core2-32-poky-linux/python3-pyelftools/python3-pyelftools: PV changed from "0.28" to "0.29"
+packages/core2-32-poky-linux/python3-pyelftools/python3-pyelftools: FILELIST: directory renamed /usr/lib/python3.10/site-packages/pyelftools-0.28.dist-info -> /usr/lib/python3.10/site-packages/pyelftools-0.29.dist-info, added "/usr/lib/python3.10/site-packages/elftools/dwarf/__pycache__/datatype_cpp.cpython-310.pyc /usr/lib/python3.10/site-packages/elftools/dwarf/dwarf_util.py /usr/lib/python3.10/site-packages/elftools/dwarf/__pycache__/dwarf_util.cpython-310.pyc /usr/lib/python3.10/site-packages/elftools/dwarf/datatype_cpp.py"
+Changes to packages/core2-32-poky-linux/python3-pyelftools (sysroot):
+  /usr/lib/python3.10/site-packages/pyelftools-0.28.dist-info moved to /usr/lib/python3.10/site-packages/pyelftools-0.29.dist-info
+  /usr/lib/python3.10/site-packages/elftools/dwarf/datatype_cpp.py was added
+  /usr/lib/python3.10/site-packages/elftools/dwarf/dwarf_util.py was added
+  /usr/lib/python3.10/site-packages/elftools/dwarf/__pycache__/datatype_cpp.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/elftools/dwarf/__pycache__/dwarf_util.cpython-310.pyc was added
+
+--===============5913779776869027976==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/python3-pyelftools/python3-pyelftools: FILELIST: directory renamed /usr/lib/python3.10/site-packages/pyelftools-0.28.dist-info -> /usr/lib/python3.10/site-packages/pyelftools-0.29.dist-info, added "/usr/lib/python3.10/site-packages/elftools/dwarf/__pycache__/dwarf_util.cpython-310.pyc /usr/lib/python3.10/site-packages/elftools/dwarf/datatype_cpp.py /usr/lib/python3.10/site-packages/elftools/dwarf/__pycache__/datatype_cpp.cpython-310.pyc /usr/lib/python3.10/site-packages/elftools/dwarf/dwarf_util.py"
+packages/core2-32-poky-linux/python3-pyelftools/python3-pyelftools: PKGSIZE changed from 1009771 to 1133249 (+12%)
+Changes to packages/core2-32-poky-linux/python3-pyelftools (sysroot):
+  /usr/lib/python3.10/site-packages/pyelftools-0.28.dist-info moved to /usr/lib/python3.10/site-packages/pyelftools-0.29.dist-info
+  /usr/lib/python3.10/site-packages/elftools/dwarf/datatype_cpp.py was added
+  /usr/lib/python3.10/site-packages/elftools/dwarf/dwarf_util.py was added
+  /usr/lib/python3.10/site-packages/elftools/dwarf/__pycache__/datatype_cpp.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/elftools/dwarf/__pycache__/dwarf_util.cpython-310.pyc was added
+
+--===============5913779776869027976==--
 
