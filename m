@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EF41C2BBC5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABF0EC32765
 	for <webhook@archiver.kernel.org>; Mon, 15 Aug 2022 18:57:02 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com
- (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web09.6464.1660589821364208004
+Received: from a27-23.smtp-out.us-west-2.amazonses.com
+ (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web12.6338.1660589821134962404
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Aug 2022 11:57:01 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=WJDpxFsd;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191,
- mailfrom: 01010182a2ddcaf7-9479e14c-6072-4417-8026-9ab3140ff00b-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=OEltK/Aa;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
+ mailfrom: 01010182a2ddca11-e5ef3851-5a7a-46eb-929d-89b3c58dd3e9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1660589820;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=HBz2sbi10dHIIsd6ofSjAHqo/i/5QoJPZJQ3e/zcaIk=;
-	b=WJDpxFsdLp2UbT6UM2JCsWlFigt1qMtT97d1MFxJTEm1jJ7PGLVMO2FLXe7CLdv8
-	14W/xTUMJuIWzKsh/dKPimKjUy49gtYXOW+/Eed5G7th6TcziG4iadKeSynBnSw3E16
-	K55DsXFNJ7agRMECH5RV5AIlVd5sGs8FscWOYUc4=
+	bh=ZFpsu1rtgHJL5mV0UxrXicEi9lt08WCDpvvwlD05nc8=;
+	b=OEltK/Aa7ML30rsmR6+SlufUD1y5CG8hwSm2Jg/YVP8KY+n0f+WYV2ZdwrB0BFs8
+	8kWCcs5ieAh5F6/Ejs6xTfDzCoojw/2x9h+GUJd71Z27Eg/5RBlR/Qa+8C6dkUA3epR
+	llrqleSiaFk2PPbZMjFie+KXuMwuJtHytiXbWpHA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1660589820;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=HBz2sbi10dHIIsd6ofSjAHqo/i/5QoJPZJQ3e/zcaIk=;
-	b=Vn+f3aPTfCc9TF5IqI4bpxRpbItUbQ4oPxr5SO2c6v+FfjO3DhTuKv44E4/KraKE
-	aWqfqKR2y5/J//3xpPs6Vorkq8+6kMjA9hHRp4kUeyf3mPbkdID1lcBWPYDYZZSZGnS
-	QTWfR8HnkujTl22zWLXgCTm4BF+ounGb/hfol78g=
-Content-Type: multipart/mixed; boundary="===============4552543468406927702=="
+	bh=ZFpsu1rtgHJL5mV0UxrXicEi9lt08WCDpvvwlD05nc8=;
+	b=DKbWdIyRCWCSJRPGMi8yl+sr1sYkVwS2H4qLZ2I09M3d9B6cNCMNisXM7hfLEjXw
+	wWCDkUxMUdm/xBSA69Lhm2pHqW9lukTGqseuTHjCbljDT3AsOTx5+gmix4FIo2ZOh7S
+	jWNsOmwghtq3tvkXqE9Fv2Vrep1Vuq8CVoh9Ftvo=
+Content-Type: multipart/mixed; boundary="===============6958065218533294098=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Wang Mingyu <wangmy@fujitsu.com>
+To: Randy MacLeod <Randy.MacLeod@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] msmtp: upgrading to 1.8.22 SUCCEEDED
+Subject: [AUH] rust: upgrading to 1.63.0 FAILED
 Message-ID: 
- <01010182a2ddcaf7-9479e14c-6072-4417-8026-9ab3140ff00b-000000@us-west-2.amazonses.com>
+ <01010182a2ddca11-e5ef3851-5a7a-46eb-929d-89b3c58dd3e9-000000@us-west-2.amazonses.com>
 Date: Mon, 15 Aug 2022 18:57:00 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.08.15-54.240.27.191
+X-SES-Outgoing: 2022.08.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Aug 2022 18:57:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169384
+ https://lists.openembedded.org/g/openembedded-core/message/169380
 
---===============4552543468406927702==
+--===============6958065218533294098==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,106 +56,76 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *msmtp* to *1.8.22* has Succeeded.
+that the automatic attempt to upgrade the recipe *rust* to *1.63.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-msmtp-upgrade-1.8.20-1.8.22.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  finish -f rust /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust
+NOTE: Starting bitbake server...
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1661 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 885 .bb files complete (884 cached, 1 parsed). 1661 targets, 35 skipped, 0 masked, 0 errors.
+
+Summary: There was 1 WARNING message.
+
+INFO: Handling main branch (devtool)...
+INFO: No patches or local source files needed updating
+INFO: Handling branch devtool-override-class-nativesdk...
+ERROR: Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 162, in wrapped
+    return func(fn, *args)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 187, in parse_config_file
+    return bb.parse.handle(fn, data, include)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 107, in handle
+    return h['handle'](fn, data, include)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 118, in handle
+    abs_fn = resolve_file(fn, data)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 133, in resolve_file
+    raise IOError(errno.ENOENT, "file %s not found" % fn)
+FileNotFoundError: [Errno 2] file /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.conf not found
+
+ERROR: Unable to parse /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.conf: [Errno 2] file /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.conf not found
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 162, in wrapped
+    return func(fn, *args)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 187, in parse_config_file
+    return bb.parse.handle(fn, data, include)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 107, in handle
+    return h['handle'](fn, data, include)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 118, in handle
+    abs_fn = resolve_file(fn, data)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 133, in resolve_file
+    raise IOError(errno.ENOENT, "file %s not found" % fn)
+FileNotFoundError: [Errno 2] file /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.conf not found
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 338, in <module>
+    ret = main()
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 325, in main
+    ret = args.func(args, config, basepath, workspace)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/standard.py", line 2123, in finish
+    updated, appendfile, removed = _update_recipe(args.recipename, workspace, rd, args.mode, appendlayerdir, wildcard_version=True, no_remove=False, no_report_remove=removing_original, initial_rev=args.initial_rev, dry_run_outdir=dry_run_outdir, no_overrides=args.no_overrides, force_patch_refresh=args.force_patch_refresh)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/standard.py", line 1829, in _update_recipe
+    updated, appendf, removed = _update_recipe_patch(recipename, workspace, srctree, crd, appendlayerdir, wildcard_version, no_remove, no_report_remove, initial_rev, dry_run_outdir, force_patch_refresh)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/standard.py", line 1686, in _update_recipe_patch
+    params=[patchdir_params] * len(files))
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/recipeutils.py", line 708, in bbappend_recipe
+    appendpath, pathok = get_bbappend_path(rd, destlayerdir, wildcardver)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/recipeutils.py", line 632, in get_bbappend_path
+    confdata = bb.cookerdata.parse_config_file(destlayerconf, confdata)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 167, in wrapped
+    raise bb.BBHandledException()
+bb.BBHandledException
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============4552543468406927702==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/msmtp: SRC_URI changed from "https://marlam.de/msmtp/releases/msmtp-1.8.20.tar.xz" to "https://marlam.de/msmtp/releases/msmtp-1.8.22.tar.xz"
-packages/core2-32-poky-linux/msmtp: PV changed from "1.8.20" to "1.8.22"
-packages/core2-32-poky-linux/msmtp: PKGV changed from 1.8.20 [default] to 1.8.22 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-dbg: PV changed from "1.8.20" to "1.8.22"
-packages/core2-32-poky-linux/msmtp/msmtp-dbg: PKGSIZE changed from 330524 to 342616 (+4%)
-packages/core2-32-poky-linux/msmtp/msmtp-dbg: PKGV changed from 1.8.20 [default] to 1.8.22 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-dev: PV changed from "1.8.20" to "1.8.22"
-packages/core2-32-poky-linux/msmtp/msmtp-dev: PKGV changed from 1.8.20 [default] to 1.8.22 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-doc: PV changed from "1.8.20" to "1.8.22"
-packages/core2-32-poky-linux/msmtp/msmtp-doc: PKGSIZE changed from 112117 to 114240 (+2%)
-packages/core2-32-poky-linux/msmtp/msmtp-doc: PKGV changed from 1.8.20 [default] to 1.8.22 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-locale-de: PV changed from "1.8.20" to "1.8.22"
-packages/core2-32-poky-linux/msmtp/msmtp-locale-de: PKGSIZE changed from 35746 to 35576 (-0%)
-packages/core2-32-poky-linux/msmtp/msmtp-locale-de: PKGV changed from 1.8.20 [default] to 1.8.22 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-locale-eo: PV changed from "1.8.20" to "1.8.22"
-packages/core2-32-poky-linux/msmtp/msmtp-locale-eo: PKGSIZE changed from 34818 to 34678 (-0%)
-packages/core2-32-poky-linux/msmtp/msmtp-locale-eo: PKGV changed from 1.8.20 [default] to 1.8.22 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-locale-fr: PV changed from "1.8.20" to "1.8.22"
-packages/core2-32-poky-linux/msmtp/msmtp-locale-fr: PKGSIZE changed from 37557 to 37402 (-0%)
-packages/core2-32-poky-linux/msmtp/msmtp-locale-fr: PKGV changed from 1.8.20 [default] to 1.8.22 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-locale-pt-br: PV changed from "1.8.20" to "1.8.22"
-packages/core2-32-poky-linux/msmtp/msmtp-locale-pt-br: PKGSIZE changed from 36413 to 36253 (-0%)
-packages/core2-32-poky-linux/msmtp/msmtp-locale-pt-br: PKGV changed from 1.8.20 [default] to 1.8.22 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-locale-sr: PV changed from "1.8.20" to "1.8.22"
-packages/core2-32-poky-linux/msmtp/msmtp-locale-sr: PKGSIZE changed from 45425 to 45241 (-0%)
-packages/core2-32-poky-linux/msmtp/msmtp-locale-sr: PKGV changed from 1.8.20 [default] to 1.8.22 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-locale-ta: PV changed from "1.8.20" to "1.8.22"
-packages/core2-32-poky-linux/msmtp/msmtp-locale-ta: PKGSIZE changed from 12713 to 12446 (-2%)
-packages/core2-32-poky-linux/msmtp/msmtp-locale-ta: PKGV changed from 1.8.20 [default] to 1.8.22 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-locale-uk: PV changed from "1.8.20" to "1.8.22"
-packages/core2-32-poky-linux/msmtp/msmtp-locale-uk: PKGSIZE changed from 47311 to 47097 (-0%)
-packages/core2-32-poky-linux/msmtp/msmtp-locale-uk: PKGV changed from 1.8.20 [default] to 1.8.22 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-src: FILELIST: removed "/usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/smtp.h /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/aliases.c /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/conf.h /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/readbuf.c /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/base64.h /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/mtls.c /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/md5.h /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/stream.c /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/tools.h /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/conf.c /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/list.h /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/netrc.c /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/password.h /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/stream.h /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/tools.c /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/readbuf.h /usr/src/debug/msmtp/1.8.20-r0/m
- smtp-1.8.20/src/msmtp.c /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/smtp.c /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/md5-apps.h /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/md5.c /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/netrc.h /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/net.c /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/mtls.h /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/xalloc.c /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/net.h /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/md5-apps.c /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/mtls-gnutls.c /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/base64.c /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/aliases.h /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/msmtpd.c /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/xalloc.h /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/password.c /usr/src/debug/msmtp/1.8.20-r0/msmtp-1.8.20/src/list.c", added "/usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/stream.c
-  /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/mtls-gnutls.c /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/list.c /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/base64.h /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/md5-apps.h /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/mtls.c /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/readbuf.c /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/base64.c /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/xalloc.c /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/md5.h /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/tools.c /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/aliases.h /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/password.h /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/aliases.c /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/conf.h /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/xalloc.h /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/list.h /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/conf.c /usr/src/debug/msmtp/1.8.22-r
- 0/msmtp-1.8.22/src/mtls.h /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/smtp.c /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/msgid.h /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/eval.h /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/msmtpd.c /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/password.c /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/msmtp.c /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/netrc.c /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/md5-apps.c /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/tools.h /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/net.c /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/md5.c /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/net.h /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/readbuf.h /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/msgid.c /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/smtp.h /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/eval.c /usr/src/debug/msmtp/1.8.22-r0/msmtp-1.8.22/src/stream.h /usr/src/debug/msmt
- p/1.8.22-r0/msmtp-1.8.22/src/netrc.h"
-packages/core2-32-poky-linux/msmtp/msmtp-src: PV changed from "1.8.20" to "1.8.22"
-packages/core2-32-poky-linux/msmtp/msmtp-src: PKGSIZE changed from 496268 to 512388 (+3%)
-packages/core2-32-poky-linux/msmtp/msmtp-src: PKGV changed from 1.8.20 [default] to 1.8.22 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-staticdev: PV changed from "1.8.20" to "1.8.22"
-packages/core2-32-poky-linux/msmtp/msmtp-staticdev: PKGV changed from 1.8.20 [default] to 1.8.22 [default]
-packages/core2-32-poky-linux/msmtp/msmtp: PV changed from "1.8.20" to "1.8.22"
-packages/core2-32-poky-linux/msmtp/msmtp: PKGSIZE changed from 204552 to 204568 (+0%)
-packages/core2-32-poky-linux/msmtp/msmtp: PKGV changed from 1.8.20 [default] to 1.8.22 [default]
-
---===============4552543468406927702==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-msmtp-upgrade-1.8.20-1.8.22.patch"
-
-RnJvbSA4MjQ2OWY3ZWQ1Y2IzZmM0NDE3ZTk2MmEzNjE4ZGM1MWRjNDgwNGFjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgQXVnIDIwMjIgMTA6MzI6MjEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
-c210cDogdXBncmFkZSAxLjguMjAgLT4gMS44LjIyCgotLS0KIC4uLi9yZWNpcGVzLWV4dGVuZGVk
-L21zbXRwL3ttc210cF8xLjguMjAuYmIgPT4gbXNtdHBfMS44LjIyLmJifSB8IDIgKy0KIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1leHRlbmRlZC9tc210cC97bXNtdHBfMS44LjIwLmJiID0+IG1zbXRwXzEuOC4yMi5iYn0g
-KDkxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbXNtdHAvbXNtdHBfMS44
-LjIwLmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL21zbXRwL21zbXRwXzEuOC4yMi5iYgpzaW1p
-bGFyaXR5IGluZGV4IDkxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbXNtdHAv
-bXNtdHBfMS44LjIwLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbXNtdHAvbXNt
-dHBfMS44LjIyLmJiCmluZGV4IGRhM2Y3MGExNjMuLmQ1NmFmNzM0NmIgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1leHRlbmRlZC9tc210cC9tc210cF8xLjguMjAuYmIKKysrIGIvbWV0YS9yZWNp
-cGVzLWV4dGVuZGVkL21zbXRwL21zbXRwXzEuOC4yMi5iYgpAQCAtMTEsNyArMTEsNyBAQCBMSUNf
-RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT1kMzIyMzliY2I2NzM0NjNhYjg3NGU4
-MGQ0N2ZhZTUwNCIKIFVQU1RSRUFNX0NIRUNLX1VSSSA9ICJodHRwczovL21hcmxhbS5kZS9tc210
-cC9kb3dubG9hZC8iCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly9tYXJsYW0uZGUvJHtCUE59L3JlbGVh
-c2VzLyR7QlB9LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJkOTNhZTJhYWZjMGY0OGFm
-N2RjOWQwYjM5NGRmMWJiODAwNTg4YjhiNGU4ZDA5NmQ4YjNjZjIyNTM0NGViMTExIgorU1JDX1VS
-SVtzaGEyNTZzdW1dID0gIjFiMDQyMDYyODZhNWI4MjYyMjMzNWU0ZWIwOWUxNzA3NDM2OGI3Mjg4
-ZTUzZDEzNDU0M2NiYmM2Yjc5ZWEzZTciCiAKIGluaGVyaXQgZ2V0dGV4dCBhdXRvdG9vbHMgdXBk
-YXRlLWFsdGVybmF0aXZlcyBwa2djb25maWcKIAotLSAKMi4zMS4xCgo=
-
---===============4552543468406927702==--
+--===============6958065218533294098==--
 
