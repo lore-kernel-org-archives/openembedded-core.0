@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA0ECC3276F
-	for <webhook@archiver.kernel.org>; Mon, 15 Aug 2022 18:57:02 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com
- (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web08.6458.1660589820502485010
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1854BC38142
+	for <webhook@archiver.kernel.org>; Mon, 15 Aug 2022 18:57:03 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com
+ (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.6316.1660589822573132046
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Aug 2022 11:57:00 -0700
+ Mon, 15 Aug 2022 11:57:02 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ZP4qsAsc;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
- mailfrom: 01010182a2ddc493-3e5f3d7b-172f-458c-8080-cb1c232db5d9-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=CeIWd0v9;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
+ mailfrom: 01010182a2ddce1e-77c86aa3-e714-4230-8b16-941064936631-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1660589819;
+	t=1660589822;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=YnSovvM+xYRVRgn0dBPAZ2jEc0hNrB2FoyLEeKksn5I=;
-	b=ZP4qsAscpRh2+HqMhPOy9mgEoaEpYmD1WI+V/SFLZR/wgOYYUGBpbNCfbA/HJJFA
-	Anf46a2AYh67PrJEg+OKHjNkPos3nF20eTcqgwSVNXPxlVFH/vTxgrPrkWA67hID2bU
-	GRQDtfWC/nNH7UHZQ0b0/t/vkeKVi1G94LAVLLl0=
+	bh=5t7AoZNUkLOHIIkl3OpmRmUCo89aVGR4gXuchTLETU0=;
+	b=CeIWd0v97s7eP0RpoPct3PeUPl+HREqdiD1dCPmCxseEqq3BGoo0DHT0yxti4gqM
+	rPCmS0M9IBC6stASZhqBK5Dh0Ju2QW7I4JrMmw05U57begyQA0Nt4KCcAmkBCyPES1b
+	smUzJTKLb8TxwfhJPFFMFfSQh1MMiFih9ubE6+As=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1660589819;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1660589822;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=YnSovvM+xYRVRgn0dBPAZ2jEc0hNrB2FoyLEeKksn5I=;
-	b=Uhiitlp1DVxfGuudurOv/O5ABkylEdG9w1oCXun/pvSfI2IV8TiuCb1mE0S8jrny
-	YMQS3x3hAi/bCFanhdSoNiT+EEug1BUnnr3N2HTSCIOLnev/vSRA1++Q2eN/SNsz412
-	hiEbdiaMrxttP3ZeJwh5TPTyP/bi6gVCY+EyIncU=
-Content-Type: multipart/mixed; boundary="===============0594249480128032560=="
+	bh=5t7AoZNUkLOHIIkl3OpmRmUCo89aVGR4gXuchTLETU0=;
+	b=T53EiH+C9RgYNgiHP09wb3uIqzhcOyHLgDzgHQqLSnBERqMWANEtv2I31tCrjp3Q
+	YEJ6SrKKAggZ7djrMXJT2tccyr+rA4U9QDyG6FKvwFzYuTT0MiuSWehL/F3Kjc9edch
+	uN3lqZcLsWhrOe70gdQGire67hp23epIbFXdL5vM=
+Content-Type: multipart/mixed; boundary="===============5983172891262656916=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Adrian Bunk <bunk@kernel.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libcgroup: upgrading to 3.0.0 FAILED
+Subject: [AUH] wireless-regdb: upgrading to 2022.08.12 SUCCEEDED
 Message-ID: 
- <01010182a2ddc493-3e5f3d7b-172f-458c-8080-cb1c232db5d9-000000@us-west-2.amazonses.com>
-Date: Mon, 15 Aug 2022 18:56:59 +0000
+ <01010182a2ddce1e-77c86aa3-e714-4230-8b16-941064936631-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Aug 2022 18:57:01 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.08.15-54.240.27.192
+X-SES-Outgoing: 2022.08.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Aug 2022 18:57:02 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Aug 2022 18:57:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169367
+ https://lists.openembedded.org/g/openembedded-core/message/169404
 
---===============0594249480128032560==
+--===============5983172891262656916==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,90 +56,74 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libcgroup* to *3.0.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *wireless-regdb* to *2022.08.12* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-wireless-regdb-upgrade-2022.06.06-2022.08.12.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade libcgroup -V 3.0.0
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1658 entries from dependency cache.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-832312428027d455c3bd01737de97b2a2e617e94"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:832312428027d455c3bd01737de97b2a2e617e94"
-workspace            = "master:21cfb871f7da604f1fab957d7747cb03b113b971"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1658 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 885 .bb files complete (883 cached, 2 parsed). 1659 targets, 35 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-832312428027d455c3bd01737de97b2a2e617e94"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:832312428027d455c3bd01737de97b2a2e617e94"
-workspace            = "master:21cfb871f7da604f1fab957d7747cb03b113b971"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-WARNING: Failed to fetch URL https://github.com/libcgroup/libcgroup/releases/download/v3.0.0/libcgroup-3.0.0.tar.gz, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://github.com/libcgroup/libcgroup/releases/download/v3.0.0/libcgroup-3.0.0.tar.gz...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-svzr47cd/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-svzr47cd/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-svzr47cd/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-svzr47cd/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-svzr47cd/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-svzr
- 47cd/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -O /home/pokybuild/yocto-worker/auh/build/build/build/downloads/libcgroup-3.0.0.tar.gz.tmp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://github.com/libcgroup/libcgroup/releases/download/v3.0.0/libcgroup-3.0.0.tar.gz' --progress=dot -v failed with exit code 8, no output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://github.com/libcgroup/libcgroup/releases/download/v3.0.0/libcgroup-3.0.0.tar.gz')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-svzr47cd/work/temp/log.do_fetch.544797
-ERROR: Failed to fetch URL https://github.com/libcgroup/libcgroup/releases/download/v3.0.0/libcgroup-3.0.0.tar.gz
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============0594249480128032560==--
+--===============5983172891262656916==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/all-poky-linux/wireless-regdb: SRC_URI changed from "https://www.kernel.org/pub/software/network/wireless-regdb/wireless-regdb-2022.06.06.tar.xz" to "https://www.kernel.org/pub/software/network/wireless-regdb/wireless-regdb-2022.08.12.tar.xz"
+packages/all-poky-linux/wireless-regdb: PKGV changed from 2022.06.06 [default] to 2022.08.12 [default]
+packages/all-poky-linux/wireless-regdb: PV changed from "2022.06.06" to "2022.08.12"
+packages/all-poky-linux/wireless-regdb/wireless-regdb-src: PKGV changed from 2022.06.06 [default] to 2022.08.12 [default]
+packages/all-poky-linux/wireless-regdb/wireless-regdb-src: PV changed from "2022.06.06" to "2022.08.12"
+packages/all-poky-linux/wireless-regdb/wireless-regdb-static: PKGSIZE changed from 5674 to 5774 (+2%)
+packages/all-poky-linux/wireless-regdb/wireless-regdb-static: PKGV changed from 2022.06.06 [default] to 2022.08.12 [default]
+packages/all-poky-linux/wireless-regdb/wireless-regdb-static: PV changed from "2022.06.06" to "2022.08.12"
+packages/all-poky-linux/wireless-regdb/wireless-regdb: PKGSIZE changed from 6635 to 6787 (+2%)
+packages/all-poky-linux/wireless-regdb/wireless-regdb: PKGV changed from 2022.06.06 [default] to 2022.08.12 [default]
+packages/all-poky-linux/wireless-regdb/wireless-regdb: PV changed from "2022.06.06" to "2022.08.12"
+
+--===============5983172891262656916==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-wireless-regdb-upgrade-2022.06.06-2022.08.12.patch"
+
+RnJvbSBkNGI2MjQzY2ExNWRhMjBjOTQxMjY5NDY1YzI1NzY5NjA3ZmMwZDMwIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgQXVnIDIwMjIgMTU6MTk6NTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSB3
+aXJlbGVzcy1yZWdkYjogdXBncmFkZSAyMDIyLjA2LjA2IC0+IDIwMjIuMDguMTIKCi0tLQogLi4u
+aXJlbGVzcy1yZWdkYl8yMDIyLjA2LjA2LmJiID0+IHdpcmVsZXNzLXJlZ2RiXzIwMjIuMDguMTIu
+YmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
+CiByZW5hbWUgbWV0YS9yZWNpcGVzLWtlcm5lbC93aXJlbGVzcy1yZWdkYi97d2lyZWxlc3MtcmVn
+ZGJfMjAyMi4wNi4wNi5iYiA9PiB3aXJlbGVzcy1yZWdkYl8yMDIyLjA4LjEyLmJifSAoOTQlKQoK
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwvd2lyZWxlc3MtcmVnZGIvd2lyZWxlc3Mt
+cmVnZGJfMjAyMi4wNi4wNi5iYiBiL21ldGEvcmVjaXBlcy1rZXJuZWwvd2lyZWxlc3MtcmVnZGIv
+d2lyZWxlc3MtcmVnZGJfMjAyMi4wOC4xMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUg
+ZnJvbSBtZXRhL3JlY2lwZXMta2VybmVsL3dpcmVsZXNzLXJlZ2RiL3dpcmVsZXNzLXJlZ2RiXzIw
+MjIuMDYuMDYuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1rZXJuZWwvd2lyZWxlc3MtcmVnZGIv
+d2lyZWxlc3MtcmVnZGJfMjAyMi4wOC4xMi5iYgppbmRleCAyZWJhNGY4NzNiLi4zNTdlNzlkN2Ux
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL3dpcmVsZXNzLXJlZ2RiL3dpcmVsZXNz
+LXJlZ2RiXzIwMjIuMDYuMDYuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC93aXJlbGVzcy1y
+ZWdkYi93aXJlbGVzcy1yZWdkYl8yMDIyLjA4LjEyLmJiCkBAIC01LDcgKzUsNyBAQCBMSUNFTlNF
+ID0gIklTQyIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTA3YzRmNmRl
+YTM4NDViMDJhMThkYzAwYzhjODc2OTljIgogCiBTUkNfVVJJID0gImh0dHBzOi8vd3d3Lmtlcm5l
+bC5vcmcvcHViL3NvZnR3YXJlL25ldHdvcmsvJHtCUE59LyR7QlB9LnRhci54eiIKLVNSQ19VUklb
+c2hhMjU2c3VtXSA9ICJhYzAwZjk3ZWZlY2NlNTA0NmVkMDY5ZDFkOTNmMzM2NWZkZjk5NGM3Yzc4
+NTRhOGZjNTA4MzFlOTU5NTM3MjMwIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjU5YzhmN2QxNzk2
+NmRiNzFiMjdmOTBlNzM1ZWU4ZjViNDJjYTM1Mjc2OTRhOGM1ZTZlOWI1NmJkMzc5YzNiODQiCiAK
+IGluaGVyaXQgYmluX3BhY2thZ2UgYWxsYXJjaAogCi0tIAoyLjMxLjEKCg==
+
+--===============5983172891262656916==--
 
