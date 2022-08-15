@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24CEDC38147
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48398C38145
 	for <webhook@archiver.kernel.org>; Mon, 15 Aug 2022 18:57:03 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com
- (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web08.6463.1660589822378845520
+Received: from a27-23.smtp-out.us-west-2.amazonses.com
+ (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web12.6341.1660589821920986279
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Aug 2022 11:57:02 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=goOuRy+Q;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
- mailfrom: 01010182a2ddcf17-cadde70a-7f70-49d0-aa44-dbd01c60382d-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=kcr1Qqrb;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
+ mailfrom: 01010182a2ddcd03-37dab425-52f3-43bd-91e4-bc45612bad4e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1660589821;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=51ovF5LoMKYK6hZ/G8+HZ1IaDlcQMOuLcIjtb1azhxU=;
-	b=goOuRy+QG/891LuF1gdxs1R3t9WLlupNwmwchl+XkaYGKfMnxNKLyISY/NRqscrs
-	4TjHaTeXnfmZ7I3+P5+ZjOVCb5Ku2k1m3r+rUDNTezT7/gyz7n68cYVgvmLCPnaId23
-	jAPSJ4rrtLnWl/eCbmYwWT4hivksPX6PdKSkgwIw=
+	bh=fQoGh8g1HuLiVZrzQehhG4NVnXsJxlReR+2JtxOjhIU=;
+	b=kcr1Qqrb4mBkVjZd0hN6IgLZtQkADWwqVvdM+S+B01wuEtoz2TpCOimIZpak+EcT
+	1+MLMQONKzBWePE9nvhjy1PmTOzTomONrAoDehe/4Tm9K5wlnaK87ppwqdZYQuhvI83
+	BYhLhZdXHqBJ048lLXkUGTqogGk1epBNdaT3LfSI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1660589821;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=51ovF5LoMKYK6hZ/G8+HZ1IaDlcQMOuLcIjtb1azhxU=;
-	b=MvfLwbbdznjvaCwVSaXMHYD2jw5+yrLTK4CyCDVMmrUvRJXClGknfKvkQ5kvuXhy
-	D6du/BUiWdPipjy71anzz2b4xe9HGnp0SA87wX4rDfhVu8QjihNI3uTacE/N13cYN2d
-	3LUn70hLoc7Gqzd0knGUOR/EpsCQZHJWFxPHPe34=
-Content-Type: multipart/mixed; boundary="===============7245836385101006850=="
+	bh=fQoGh8g1HuLiVZrzQehhG4NVnXsJxlReR+2JtxOjhIU=;
+	b=IoKoRqz8LQdyODBthTM6I3NiDfdN8lsLdjHAzJn/Mm12FNEd857zGgqW+C9i1+D5
+	dD0YWIgmWJHe+BWnn04ZPtMPHmsVm7ZuO7lOEjzVnLUybsIQx75idj6zHB3f6IRymuU
+	VIA2cLh3BgiQlw8C0xDT+HW4NBaM7tB+hESblAlY=
+Content-Type: multipart/mixed; boundary="===============8724635551490596230=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] wpebackend-fdo: upgrading to 1.12.1 SUCCEEDED
+Subject: [AUH] mesa: upgrading to 22.1.6 SUCCEEDED
 Message-ID: 
- <01010182a2ddcf17-cadde70a-7f70-49d0-aa44-dbd01c60382d-000000@us-west-2.amazonses.com>
+ <01010182a2ddcd03-37dab425-52f3-43bd-91e4-bc45612bad4e-000000@us-west-2.amazonses.com>
 Date: Mon, 15 Aug 2022 18:57:01 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.08.15-54.240.27.192
+X-SES-Outgoing: 2022.08.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Aug 2022 18:57:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169403
+ https://lists.openembedded.org/g/openembedded-core/message/169396
 
---===============7245836385101006850==
+--===============8724635551490596230==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *wpebackend-fdo* to *1.12.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *mesa* to *22.1.6* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-wpebackend-fdo-upgrade-1.12.0-1.12.1.patch
+    - apply the patch: git am 0001-mesa-upgrade-22.1.5-22.1.6.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,37 +75,112 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7245836385101006850==
+--===============8724635551490596230==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-mesa-upgrade-22.1.5-22.1.6.patch"
+
+RnJvbSAzNWViMzgzNDAxYmQ0NTk5M2UxNmIwZDA3NzA3MDA3NDc5ZTk3M2Q3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgQXVnIDIwMjIgMTM6NTU6MTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
+ZXNhOiB1cGdyYWRlIDIyLjEuNSAtPiAyMi4xLjYKCi0tLQogbWV0YS9yZWNpcGVzLWdyYXBoaWNz
+L21lc2EvbWVzYS5pbmMgICAgICAgICAgICAgICAgICAgICAgICAgICB8IDIgKy0KIG1ldGEvcmVj
+aXBlcy1ncmFwaGljcy9tZXNhL3ttZXNhXzIyLjEuNS5iYiA9PiBtZXNhXzIyLjEuNi5iYn0gfCAw
+CiAyIGZpbGVzIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2Eve21lc2FfMjIuMS41LmJiID0+IG1lc2FfMjIuMS42
+LmJifSAoMTAwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNh
+LmluYyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2EuaW5jCmluZGV4IGZjY2YxNGE3
+ZDEuLmM0ZWZjMTM0MzggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21l
+c2EuaW5jCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2EuaW5jCkBAIC0yNSw3
+ICsyNSw3IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9tZXNhLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZl
+L21lc2EtJHtQVn0udGFyLnh6IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtbmlyLW5pcl9vcHRf
+bW92ZS1maXgtQUxXQVlTX0lOTElORS1jb21waWxlci1lcnJvci5wYXRjaCBcCiAgICAgICAgICAg
+ICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjZmZDYwZDM4ZWZkZDI1MzE3OTQ4YzYxNDk0YjUx
+MTdlMDFkNDJkYTY5NTI3ODcyOGIxZmFlZjlmNWY5YTQ3YmEiCitTUkNfVVJJW3NoYTI1NnN1bV0g
+PSAiMjJjZWQwNjFlYjlhZGFiOGVhMzUzNjgyNDZjMTk5NWMwOTcyM2YzZjcxNjUzY2Q1MDUwYzVj
+ZWMzNzZlNjcxYSIKIAogVVBTVFJFQU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAibWVzYS0oP1A8cHZl
+cj5cZCsoXC5cZCspKykiCiAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNh
+L21lc2FfMjIuMS41LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYV8yMi4xLjYu
+YmIKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGlj
+cy9tZXNhL21lc2FfMjIuMS41LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVz
+YS9tZXNhXzIyLjEuNi5iYgotLSAKMi4zMS4xCgo=
+
+--===============8724635551490596230==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/wpebackend-fdo: PV changed from "1.12.0" to "1.12.1"
-packages/core2-32-poky-linux/wpebackend-fdo: SRC_URI changed from "https://wpewebkit.org/releases/wpebackend-fdo-1.12.0.tar.xz" to "https://wpewebkit.org/releases/wpebackend-fdo-1.12.1.tar.xz"
-packages/core2-32-poky-linux/wpebackend-fdo: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
-Changes to packages/core2-32-poky-linux/wpebackend-fdo (sysroot):
-  /usr/lib/libWPEBackend-fdo-1.0.so.1 changed symlink target from libWPEBackend-fdo-1.0.so.1.8.0 to libWPEBackend-fdo-1.0.so.1.8.1
-  /usr/lib/libWPEBackend-fdo-1.0.so.1.8.0 moved to /usr/lib/libWPEBackend-fdo-1.0.so.1.8.1
-packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-dbg: PKGSIZE changed from 1476588 to 1476184 (-0%)
-packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-dbg: PV changed from "1.12.0" to "1.12.1"
-packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-dbg: FILELIST: removed "/usr/lib/.debug/libWPEBackend-fdo-1.0.so.1.8.0", added "/usr/lib/.debug/libWPEBackend-fdo-1.0.so.1.8.1"
-packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-dbg: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
-packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-dev: PKGSIZE changed from 45490 to 45495 (+0%)
-packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-dev: PV changed from "1.12.0" to "1.12.1"
-packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-dev: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
-packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-doc: PV changed from "1.12.0" to "1.12.1"
-packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-doc: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
-packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-locale: PV changed from "1.12.0" to "1.12.1"
-packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-locale: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
-packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-src: PKGSIZE changed from 336444 to 336403 (-0%)
-packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-src: PV changed from "1.12.0" to "1.12.1"
-packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-src: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
-packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-staticdev: PV changed from "1.12.0" to "1.12.1"
-packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-staticdev: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
-packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo: PV changed from "1.12.0" to "1.12.1"
-packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo: FILELIST: removed "/usr/lib/libWPEBackend-fdo-1.0.so.1.8.0", added "/usr/lib/libWPEBackend-fdo-1.0.so.1.8.1"
-packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
+packages/core2-32-poky-linux/mesa: SRC_URI changed from "https://mesa.freedesktop.org/archive/mesa-22.1.5.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0002-meson.build-make-TLS-ELF-optional.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch file://0001-util-format-Check-for-NEON-before-using-it.patch file://0001-Revert-egl-wayland-deprecate-drm_handle_format-and-d.patch file://0001-swrast_kms-use-swkmsDRI2Extension-instead-of-driDRI2.patch file://0001-nir-nir_opt_move-fix-ALWAYS_INLINE-compiler-error.patch" to "https://mesa.freedesktop.org/archive/mesa-22.1.6.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0002-meson.build-make-TLS-ELF-optional.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch file://0001-util-format-Check-for-NEON-before-using
+ -it.patch file://0001-Revert-egl-wayland-deprecate-drm_handle_format-and-d.patch file://0001-swrast_kms-use-swkmsDRI2Extension-instead-of-driDRI2.patch file://0001-nir-nir_opt_move-fix-ALWAYS_INLINE-compiler-error.patch"
+packages/core2-32-poky-linux/mesa: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/libegl-mesa-dev: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/libegl-mesa: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/libegl-mesa: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/libgbm-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/libgbm-dev: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/libgbm: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/libgbm: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/libgl-mesa-dev: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/libgl-mesa: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/libgl-mesa: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/libglapi-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/libglapi-dev: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/libglapi: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/libglapi: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/libgles1-mesa-dev: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/libgles1-mesa: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/libgles1-mesa: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/libgles2-mesa-dev: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/libgles2-mesa: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/libgles2-mesa: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/libgles3-mesa-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/libgles3-mesa-dev: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/libgles3-mesa: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/libgles3-mesa: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/libopencl-mesa-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/libopencl-mesa-dev: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/libopencl-mesa: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/libopencl-mesa: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/libosmesa-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/libosmesa-dev: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/libosmesa: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/libosmesa: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/libxatracker-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/libxatracker-dev: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/libxatracker: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/libxatracker: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 123397772 to 123393452 (-0%)
+packages/core2-32-poky-linux/mesa/mesa-dbg: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/mesa-dbg: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/mesa-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/mesa-dev: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/mesa-doc: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/mesa-doc: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/mesa-locale: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/mesa-locale: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/mesa-megadriver: PKGSIZE changed from 15777783 to 15773687 (-0%)
+packages/core2-32-poky-linux/mesa/mesa-megadriver: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/mesa-megadriver: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/mesa-src: PKGSIZE changed from 87187495 to 87187420 (-0%)
+packages/core2-32-poky-linux/mesa/mesa-src: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/mesa-src: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/mesa-staticdev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/mesa-staticdev: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/mesa-vdpau-drivers: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/mesa-vdpau-drivers: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PKGSIZE changed from 8540438 to 8536342 (-0%)
+packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/mesa/mesa: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
+packages/core2-32-poky-linux/mesa/mesa: PV changed from "22.1.5" to "22.1.6"
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1460,16 +1535,12 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoffout.h was removed
 
---===============7245836385101006850==
+--===============8724635551490596230==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/wpebackend-fdo (sysroot):
-  /usr/lib/libWPEBackend-fdo-1.0.so.1 changed symlink target from libWPEBackend-fdo-1.0.so.1.8.0 to libWPEBackend-fdo-1.0.so.1.8.1
-  /usr/lib/libWPEBackend-fdo-1.0.so.1.8.0 moved to /usr/lib/libWPEBackend-fdo-1.0.so.1.8.1
-packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo: FILELIST: removed "/usr/lib/libWPEBackend-fdo-1.0.so.1.8.0", added "/usr/lib/libWPEBackend-fdo-1.0.so.1.8.1"
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2824,36 +2895,5 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoffout.h was removed
 
---===============7245836385101006850==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-wpebackend-fdo-upgrade-1.12.0-1.12.1.patch"
-
-RnJvbSA4NTQ0MzJmNTMxMTgyMTM2OTY2YjY2MjNhZDY2NWQ5Y2E3MjI5OGIyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgQXVnIDIwMjIgMTg6MzU6NDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSB3
-cGViYWNrZW5kLWZkbzogdXBncmFkZSAxLjEyLjAgLT4gMS4xMi4xCgotLS0KIC4uLi97d3BlYmFj
-a2VuZC1mZG9fMS4xMi4wLmJiID0+IHdwZWJhY2tlbmQtZmRvXzEuMTIuMS5iYn0gICAgICB8IDIg
-Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
-IG1ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC97d3BlYmFja2VuZC1mZG9fMS4xMi4wLmJiID0+IHdw
-ZWJhY2tlbmQtZmRvXzEuMTIuMS5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-c2F0by93ZWJraXQvd3BlYmFja2VuZC1mZG9fMS4xMi4wLmJiIGIvbWV0YS9yZWNpcGVzLXNhdG8v
-d2Via2l0L3dwZWJhY2tlbmQtZmRvXzEuMTIuMS5iYgpzaW1pbGFyaXR5IGluZGV4IDkwJQpyZW5h
-bWUgZnJvbSBtZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd3BlYmFja2VuZC1mZG9fMS4xMi4wLmJi
-CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd3BlYmFja2VuZC1mZG9fMS4xMi4x
-LmJiCmluZGV4IDRhMTg0NjdlYTQuLjVmNzc2YzEzZTYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
-cy1zYXRvL3dlYmtpdC93cGViYWNrZW5kLWZkb18xLjEyLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVz
-LXNhdG8vd2Via2l0L3dwZWJhY2tlbmQtZmRvXzEuMTIuMS5iYgpAQCAtMTMsNyArMTMsNyBAQCBp
-bmhlcml0IG1lc29uIGZlYXR1cmVzX2NoZWNrIHBrZ2NvbmZpZwogUkVRVUlSRURfRElTVFJPX0ZF
-QVRVUkVTID0gIm9wZW5nbCIKIAogU1JDX1VSSSA9ICJodHRwczovL3dwZXdlYmtpdC5vcmcvcmVs
-ZWFzZXMvJHtCUE59LSR7UFZ9LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI2MjM5Yzlj
-MTU1MjM0MTA3OThkNjYzMTVkZTZiNDkxNzEyYWIzMDAwOWJhMTgwZjNlMGRkMDc2ZDliMDA3NGFj
-IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjQ1YWE4MzNjNDRlYzI5MmYzMWZhOTQzYjAxYjhjYzc1
-ZTU0ZWI2MjNhZDdiYTZhNjZmYzJmMTE4ZmU2OWU2MjkiCiAKICMgRXNwZWNpYWxseSBoZWxwcyBj
-b21waWxpbmcgd2l0aCBjbGFuZyB3aGljaCBlbmFibGUgdGhpcyBhcyBlcnJvciB3aGVuCiAjIHVz
-aW5nIGMrKzExCi0tIAoyLjMxLjEKCg==
-
---===============7245836385101006850==--
+--===============8724635551490596230==--
 
