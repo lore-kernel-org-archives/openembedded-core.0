@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1DE7C3276D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD86EC3276A
 	for <webhook@archiver.kernel.org>; Mon, 15 Aug 2022 18:57:02 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com
- (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web12.6333.1660589819989571958
+Received: from a27-29.smtp-out.us-west-2.amazonses.com
+ (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web09.6461.1660589820592686918
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Aug 2022 11:57:00 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=c+k03j8h;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
- mailfrom: 01010182a2ddc825-23aabc0b-a175-438d-b80b-cc776f7176ae-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=MJ3YMzJQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29,
+ mailfrom: 01010182a2ddc72a-fb4145a5-e146-4119-b452-17bd9e0d2c14-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1660589820;
+	t=1660589819;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=HR5fDvV5pxTr9HJ7mBoiD1UWOYQ7H4WjZGUxI6E4YvE=;
-	b=c+k03j8h6C7V8D+8l90TPP2NvCE9klonF3WxU8S2tLd1qkksG9n75uqcWnxvvPLi
-	2NC5EET7gbOVlH0R9nX0FpCt+wkcVGB7YVyEsOgKHUEIuRumaHWb/lJq6liVaWWaXv7
-	JLgNHAXFMOtY3cb8Cx+kVbANlVZdAlNXcTpP2tlg=
+	bh=dRuN51tUfzUbQTZsu5ocYMp+i9GEpMaqhxPfqHvdmKo=;
+	b=MJ3YMzJQKarI4g346X1OOwkaQWwVFxWmGi3F+JRZnGnaStemAVFPon9GdEiPCPwO
+	G2lmNRMZ+NhDT1v0kaDhc3cSwcbdyTkZrg6bYufJsNjED9WZt3EiG+XH1mkHCV9NcVa
+	PIRe+DFh7/c3c9EvQPY6wqw+Edz1JA01lH4+bna4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1660589820;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1660589819;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=HR5fDvV5pxTr9HJ7mBoiD1UWOYQ7H4WjZGUxI6E4YvE=;
-	b=bFrLV7SvhE3jFaJVHf7VqrWQPXKQ/XhKB49crxfPZZu1goNyJiJIPo6ynBURK57K
-	/QTRUTyyhlouGvBBNFzg7JrJtQCHrHdS9DoGd29zV49UUZDAd6GtEY4vZgjvRlhbwq+
-	Nnnq82tufiyW+kVugt80lxMYYypKERH11gzJHBBM=
-Content-Type: multipart/mixed; boundary="===============4767283098487154585=="
+	bh=dRuN51tUfzUbQTZsu5ocYMp+i9GEpMaqhxPfqHvdmKo=;
+	b=fMcPmTVtqGBpAmXT+ToA691fBjvbtWQEn+cyk6vMVnPrbmcKIgW/5dbb9xoSyr0b
+	JjFSqb3/evJBHXbHovYVV+TReJZa/hUSLNI8w3FfepUfr4KqWOagZTcXB7vR5mdxXSP
+	Kv+hQ00kb0dd8fGGjdohRNVEtuQ/I8PtQsyVG7bE=
+Content-Type: multipart/mixed; boundary="===============8645264926541434029=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hatchling: upgrading to 1.7.1 SUCCEEDED
+Subject: [AUH] python3-dtschema: upgrading to 2022.8.1 SUCCEEDED
 Message-ID: 
- <01010182a2ddc825-23aabc0b-a175-438d-b80b-cc776f7176ae-000000@us-west-2.amazonses.com>
-Date: Mon, 15 Aug 2022 18:57:00 +0000
+ <01010182a2ddc72a-fb4145a5-e146-4119-b452-17bd9e0d2c14-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Aug 2022 18:56:59 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.08.15-54.240.27.23
+X-SES-Outgoing: 2022.08.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Aug 2022 18:57:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169371
+ https://lists.openembedded.org/g/openembedded-core/message/169370
 
---===============4767283098487154585==
+--===============8645264926541434029==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-hatchling* to *1.7.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-dtschema* to *2022.8.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-hatchling-upgrade-1.6.0-1.7.1.patch
+    - apply the patch: git am 0001-python3-dtschema-upgrade-2022.8-2022.8.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,88 +75,100 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4767283098487154585==
+--===============8645264926541434029==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-dtschema-upgrade-2022.8-2022.8.1.patch"
+
+RnJvbSA1MmMxYjA4OWE2NWRhZjEwNThjMDQyNTEyMTcyOGU1NDIwNDJiMDA0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgQXVnIDIwMjIgMDg6MDA6MTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWR0c2NoZW1hOiB1cGdyYWRlIDIwMjIuOCAtPiAyMDIyLjguMQoKLS0tCiAuLi57cHl0
+aG9uMy1kdHNjaGVtYV8yMDIyLjguYmIgPT4gcHl0aG9uMy1kdHNjaGVtYV8yMDIyLjguMS5iYn0g
+fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWR0c2NoZW1hXzIwMjIu
+OC5iYiA9PiBweXRob24zLWR0c2NoZW1hXzIwMjIuOC4xLmJifSAoODMlKQoKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1kdHNjaGVtYV8yMDIyLjguYmIg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZHRzY2hlbWFfMjAyMi44LjEu
+YmIKc2ltaWxhcml0eSBpbmRleCA4MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLWR0c2NoZW1hXzIwMjIuOC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWR0c2NoZW1hXzIwMjIuOC4xLmJiCmluZGV4IGU4Yzhh
+YzZmOTIuLjM4ZjY0NmU1MGEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
+b24vcHl0aG9uMy1kdHNjaGVtYV8yMDIyLjguYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLWR0c2NoZW1hXzIwMjIuOC4xLmJiCkBAIC03LDcgKzcsNyBAQCBpbmhl
+cml0IHB5cGkgc2V0dXB0b29sczMKIAogUFlQSV9QQUNLQUdFID0gImR0c2NoZW1hIgogCi1TUkNf
+VVJJW3NoYTI1NnN1bV0gPSAiMWJlZmU3YzlmNzRjZWEyNDhhOGI1MjRjZjYxODVhYzQ4OTEyYTVi
+MmFhZTk2ODU0ZDc3Y2I5NDU4NDQzM2NhNCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIzZTU2YTk5
+MjA5NDQyMjNkNmY5M2ZkNTFhZGExOWRkOGRiNTU0YWM5MTgyZWY1MmMxYzVjOWQ0OTY2YWIzMGFh
+IgogCiBERVBFTkRTICs9ICJweXRob24zLXNldHVwdG9vbHMtc2NtLW5hdGl2ZSIKIFJERVBFTkRT
+OiR7UE59ICs9ICJweXRob24zLXJ1YW1lbC15YW1sIHB5dGhvbjMtanNvbnNjaGVtYSBweXRob24z
+LXJmYzM5ODciCi0tIAoyLjMxLjEKCg==
+
+--===============8645264926541434029==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-hatchling: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hatchling/hatchling-1.6.0.tar.gz" to "https://files.pythonhosted.org/packages/source/h/hatchling/hatchling-1.7.1.tar.gz"
-packages/core2-32-poky-linux/python3-hatchling: PKGV changed from 1.6.0 [default] to 1.7.1 [default]
-packages/core2-32-poky-linux/python3-hatchling: PV changed from "1.6.0" to "1.7.1"
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-dbg: PKGV changed from 1.6.0 [default] to 1.7.1 [default]
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-dbg: PV changed from "1.6.0" to "1.7.1"
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-dev: PKGV changed from 1.6.0 [default] to 1.7.1 [default]
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-dev: PV changed from "1.6.0" to "1.7.1"
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-doc: PKGV changed from 1.6.0 [default] to 1.7.1 [default]
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-doc: PV changed from "1.6.0" to "1.7.1"
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-locale: PKGV changed from 1.6.0 [default] to 1.7.1 [default]
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-locale: PV changed from "1.6.0" to "1.7.1"
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-src: PKGV changed from 1.6.0 [default] to 1.7.1 [default]
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-src: PV changed from "1.6.0" to "1.7.1"
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-staticdev: PKGV changed from 1.6.0 [default] to 1.7.1 [default]
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-staticdev: PV changed from "1.6.0" to "1.7.1"
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling: FILELIST: directory renamed /usr/lib/python3.10/site-packages/hatchling-1.6.0.dist-info -> /usr/lib/python3.10/site-packages/hatchling-1.7.1.dist-info, directory renamed /usr/lib/python3.10/site-packages/hatchling-1.6.0.dist-info/licenses -> /usr/lib/python3.10/site-packages/hatchling-1.7.1.dist-info/licenses, added "/usr/lib/python3.10/site-packages/hatchling/metadata/__pycache__/classifiers.cpython-310.pyc /usr/lib/python3.10/site-packages/hatchling/metadata/classifiers.py"
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling: PKGV changed from 1.6.0 [default] to 1.7.1 [default]
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling: PV changed from "1.6.0" to "1.7.1"
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling: PKGSIZE changed from 436650 to 518236 (+19%)
-Changes to packages/core2-32-poky-linux/python3-hatchling (sysroot):
-  /usr/lib/python3.10/site-packages/hatchling-1.6.0.dist-info moved to /usr/lib/python3.10/site-packages/hatchling-1.7.1.dist-info
-  /usr/lib/python3.10/site-packages/hatchling/metadata/classifiers.py was added
-  /usr/lib/python3.10/site-packages/hatchling/metadata/__pycache__/classifiers.cpython-310.pyc was added
-Changes to packages/x86_64-linux/python3-hatchling-native (sysroot):
-  /usr/lib/python3.10/site-packages/hatchling-1.6.0.dist-info moved to /usr/lib/python3.10/site-packages/hatchling-1.7.1.dist-info
-  /usr/lib/python3.10/site-packages/hatchling/metadata/classifiers.py was added
-  /usr/lib/python3.10/site-packages/hatchling/metadata/__pycache__/classifiers.cpython-310.pyc was added
+packages/core2-32-poky-linux/python3-dtschema: PKGV changed from 2022.8 [default] to 2022.8.1 [default]
+packages/core2-32-poky-linux/python3-dtschema: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/dtschema/dtschema-2022.8.tar.gz" to "https://files.pythonhosted.org/packages/source/d/dtschema/dtschema-2022.8.1.tar.gz"
+packages/core2-32-poky-linux/python3-dtschema: PV changed from "2022.8" to "2022.8.1"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-dbg: PKGV changed from 2022.8 [default] to 2022.8.1 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-dbg: PV changed from "2022.8" to "2022.8.1"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-dev: PKGV changed from 2022.8 [default] to 2022.8.1 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-dev: PV changed from "2022.8" to "2022.8.1"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-doc: PKGV changed from 2022.8 [default] to 2022.8.1 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-doc: PV changed from "2022.8" to "2022.8.1"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-locale: PKGV changed from 2022.8 [default] to 2022.8.1 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-locale: PV changed from "2022.8" to "2022.8.1"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-src: PKGV changed from 2022.8 [default] to 2022.8.1 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-src: PV changed from "2022.8" to "2022.8.1"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-staticdev: PKGV changed from 2022.8 [default] to 2022.8.1 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-staticdev: PV changed from "2022.8" to "2022.8.1"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: PKGV changed from 2022.8 [default] to 2022.8.1 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: PKGSIZE changed from 241896 to 243478 (+1%)
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: FILELIST: directory renamed /usr/lib/python3.10/site-packages/dtschema-2022.8.dist-info -> /usr/lib/python3.10/site-packages/dtschema-2022.8.1.dist-info, added "/usr/lib/python3.10/site-packages/dtschema/schemas/bus/qemu,platform.yaml"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: PV changed from "2022.8" to "2022.8.1"
+Changes to packages/core2-32-poky-linux/python3-dtschema (sysroot):
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.1.dist-info was added
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.1.dist-info/LICENSE.txt was added
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.1.dist-info/METADATA was added
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.1.dist-info/RECORD was added
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.1.dist-info/top_level.txt was added
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.1.dist-info/WHEEL was added
+  /usr/lib/python3.10/site-packages/dtschema/schemas/bus was added
+  /usr/lib/python3.10/site-packages/dtschema/schemas/bus/qemu,platform.yaml was added
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.dist-info was removed
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.dist-info/LICENSE.txt was removed
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.dist-info/METADATA was removed
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.dist-info/RECORD was removed
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.dist-info/top_level.txt was removed
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.dist-info/WHEEL was removed
 
---===============4767283098487154585==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-hatchling-upgrade-1.6.0-1.7.1.patch"
-
-RnJvbSBlOTE0NDk5YjkxNzlkNjFlYWRjNWZkYzUyMzI3YzRmMWFiMDZiNmZhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgQXVnIDIwMjIgMDg6MDI6NTggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWhhdGNobGluZzogdXBncmFkZSAxLjYuMCAtPiAxLjcuMQoKLS0tCiAuLi4ve3B5dGhv
-bjMtaGF0Y2hsaW5nXzEuNi4wLmJiID0+IHB5dGhvbjMtaGF0Y2hsaW5nXzEuNy4xLmJifSAgfCAy
-ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWhhdGNobGluZ18xLjYuMC5i
-YiA9PiBweXRob24zLWhhdGNobGluZ18xLjcuMS5iYn0gKDg1JSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaGF0Y2hsaW5nXzEuNi4wLmJiIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWhhdGNobGluZ18xLjcuMS5iYgpzaW1p
-bGFyaXR5IGluZGV4IDg1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
-L3B5dGhvbjMtaGF0Y2hsaW5nXzEuNi4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtaGF0Y2hsaW5nXzEuNy4xLmJiCmluZGV4IGUwNmJkZjAyZWMuLjgz
-YzFjZTFhYzkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My1oYXRjaGxpbmdfMS42LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLWhhdGNobGluZ18xLjcuMS5iYgpAQCAtOCw3ICs4LDcgQEAgaW5oZXJpdCBweXBpIHB5
-dGhvbl9oYXRjaGxpbmcKIERFUEVORFMgKz0gInB5dGhvbjMtcGx1Z2d5LW5hdGl2ZSBweXRob24z
-LXRvbWxpLW5hdGl2ZSBweXRob24zLXBhdGhzcGVjLW5hdGl2ZSBweXRob24zLXBhY2thZ2luZy1u
-YXRpdmUgcHl0aG9uMy1lZGl0YWJsZXMtbmF0aXZlIgogREVQRU5EUzpyZW1vdmU6Y2xhc3MtbmF0
-aXZlID0gInB5dGhvbjMtaGF0Y2hsaW5nLW5hdGl2ZSIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0g
-ImJkNmU4NTA1ZGU1MTFhYzQyMTdmZjUwOTI3ZjZkMTg0NTQ5NDYwOGU0MDFlNjNhNjJiODMwYzMx
-ZmI2MTM1NDQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZGFlZjBjZjU1NWEzMGYyZTk4Y2IyOTVj
-MGFjMzI0YzY2ZmM2NmYzM2M5NWVhMDNjYjc5ZTE1MzZiMWUxZjQ5MiIKIAogZG9fY29tcGlsZTpw
-cmVwZW5kKCkgewogICAgIGV4cG9ydCBQWVRIT05QQVRIPXNyYwotLSAKMi4zMS4xCgo=
-
---===============4767283098487154585==
+--===============8645264926541434029==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling: PKGSIZE changed from 436650 to 518236 (+19%)
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling: FILELIST: directory renamed /usr/lib/python3.10/site-packages/hatchling-1.6.0.dist-info/licenses -> /usr/lib/python3.10/site-packages/hatchling-1.7.1.dist-info/licenses, directory renamed /usr/lib/python3.10/site-packages/hatchling-1.6.0.dist-info -> /usr/lib/python3.10/site-packages/hatchling-1.7.1.dist-info, added "/usr/lib/python3.10/site-packages/hatchling/metadata/__pycache__/classifiers.cpython-310.pyc /usr/lib/python3.10/site-packages/hatchling/metadata/classifiers.py"
-Changes to packages/core2-32-poky-linux/python3-hatchling (sysroot):
-  /usr/lib/python3.10/site-packages/hatchling-1.6.0.dist-info moved to /usr/lib/python3.10/site-packages/hatchling-1.7.1.dist-info
-  /usr/lib/python3.10/site-packages/hatchling/metadata/classifiers.py was added
-  /usr/lib/python3.10/site-packages/hatchling/metadata/__pycache__/classifiers.cpython-310.pyc was added
-Changes to packages/x86_64-linux/python3-hatchling-native (sysroot):
-  /usr/lib/python3.10/site-packages/hatchling-1.6.0.dist-info moved to /usr/lib/python3.10/site-packages/hatchling-1.7.1.dist-info
-  /usr/lib/python3.10/site-packages/hatchling/metadata/classifiers.py was added
-  /usr/lib/python3.10/site-packages/hatchling/metadata/__pycache__/classifiers.cpython-310.pyc was added
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: FILELIST: directory renamed /usr/lib/python3.10/site-packages/dtschema-2022.8.dist-info -> /usr/lib/python3.10/site-packages/dtschema-2022.8.1.dist-info, added "/usr/lib/python3.10/site-packages/dtschema/schemas/bus/qemu,platform.yaml"
+Changes to packages/core2-32-poky-linux/python3-dtschema (sysroot):
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.1.dist-info was added
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.1.dist-info/LICENSE.txt was added
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.1.dist-info/METADATA was added
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.1.dist-info/RECORD was added
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.1.dist-info/top_level.txt was added
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.1.dist-info/WHEEL was added
+  /usr/lib/python3.10/site-packages/dtschema/schemas/bus was added
+  /usr/lib/python3.10/site-packages/dtschema/schemas/bus/qemu,platform.yaml was added
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.dist-info was removed
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.dist-info/LICENSE.txt was removed
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.dist-info/METADATA was removed
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.dist-info/RECORD was removed
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.dist-info/top_level.txt was removed
+  /usr/lib/python3.10/site-packages/dtschema-2022.8.dist-info/WHEEL was removed
 
---===============4767283098487154585==--
+--===============8645264926541434029==--
 
