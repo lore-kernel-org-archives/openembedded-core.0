@@ -2,52 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7685EC28B2C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 854CBC2BB41
 	for <webhook@archiver.kernel.org>; Mon, 15 Aug 2022 18:57:02 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com
- (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web12.6333.1660589819989571958
+Received: from a27-191.smtp-out.us-west-2.amazonses.com
+ (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web09.6465.1660589821419989386
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Aug 2022 11:57:01 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=HQ7COC/X;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
- mailfrom: 01010182a2ddcc6b-611e584a-7e8b-4391-8d7a-fbd3085e09af-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=GCWcfbUq;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191,
+ mailfrom: 01010182a2ddcad7-77c0db4b-0e96-4248-8e4b-f9ee920516da-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1660589821;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=N0191dKaOyyG/K66xX0vrtHN+rTYkVsqI8FAfuhNDyY=;
-	b=HQ7COC/X9hvlBx3ysnFN+HNyqOzwrDaKW9o4HreFVHpyTHXwR4EVCHMGoVxDWyet
-	WAZC5gqeixltV1dw2+MUXH77xWshHLJX5U74kEouKErDYG7+fW3TwVIVqhLZqsKE/h4
-	ZmS+1U+wQIHw969gh84FDScqymB1/fk1IinP0/ZE=
+	t=1660589820;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=6mGSz8BIwk0+VIVacauUyb/3cr/3RX0sQMb4mginhq8=;
+	b=GCWcfbUqB8e7S8pXY9G8rjNCVlZiJeu71NyzGsuaolfNgi4iRpXEk/BpOtbo9S5x
+	fVO9ZC4I8Ld15rP3sHmORJJxAN5/Z9e2S8b+IBYtv1tlPuADunrGWmsEIJCZFp2rHZX
+	vV8BELe2ITHyHnrZMhlH9dpUOTLvNcrIU2VpKCaU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1660589821;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=N0191dKaOyyG/K66xX0vrtHN+rTYkVsqI8FAfuhNDyY=;
-	b=ENfWpuQ9JpT8tRsltLyYyJ3CAy5DuZ9Zs0gtQ++BRwrnc2qKE4jD9Ee2bSIKCatQ
-	945tPliRGZCv0XxSWXePOajVu1mmrgYpW7fq/wnR0MdM6h0gAr34yuO3W8h1eSoDFRo
-	GwqKGlR78XjiiMwLr60MjsdqieA4xka66SBFGw4A=
-Content-Type: multipart/mixed; boundary="===============6075586779614382858=="
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1660589820;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=6mGSz8BIwk0+VIVacauUyb/3cr/3RX0sQMb4mginhq8=;
+	b=BYPH5FCkNv+YYqRqDosWDc3uEanzMKdnQJL0U82MQ89qffxmK3BGEYaxk2zektL1
+	yZroOvy6T3f/h8oimi36zuctk6cwBSHq8d2eZzEmT4D445MxTToPkOXTdnw3T4DWNzV
+	D6/ZHTmmf1cV4YmLYUAzg7KT6Fn1P6kV1rE8UrFU=
+Content-Type: multipart/mixed; boundary="===============3101808214916293867=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] tzdata: upgrading to 2022b FAILED
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] lighttpd: upgrading to 1.4.66 SUCCEEDED
 Message-ID: 
- <01010182a2ddcc6b-611e584a-7e8b-4391-8d7a-fbd3085e09af-000000@us-west-2.amazonses.com>
-Date: Mon, 15 Aug 2022 18:57:01 +0000
+ <01010182a2ddcad7-77c0db4b-0e96-4248-8e4b-f9ee920516da-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Aug 2022 18:57:00 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.08.15-54.240.27.23
+X-SES-Outgoing: 2022.08.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Aug 2022 18:57:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169389
+ https://lists.openembedded.org/g/openembedded-core/message/169386
 
---===============6075586779614382858==
+--===============3101808214916293867==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -55,16 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *tzdata* to *2022b* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *lighttpd* to *1.4.66* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-tzdata-upgrade-2022a-2022b.patch
+    - apply the patch: git am 0001-lighttpd-upgrade-1.4.65-1.4.66.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -80,114 +75,129 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6075586779614382858==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1658 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 884 .bb files complete (882 cached, 2 parsed). 1658 targets, 36 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86 sysroot...done.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-0de37953b162ad20c9f1455dd21504212b2f759d"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:0de37953b162ad20c9f1455dd21504212b2f759d"
-workspace            = "master:21cfb871f7da604f1fab957d7747cb03b113b971"
-
-Initialising tasks...done.
-Sstate summary: Wanted 10 Local 1 Mirrors 0 Missed 9 Current 105 (10% match, 92% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 337 of 501 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzdata.bb:do_fetch)
-NOTE: Running task 341 of 501 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzcode-native.bb:do_fetch)
-NOTE: recipe tzcode-native-2022b-r0: task do_fetch: Started
-NOTE: recipe tzdata-2022b-r0: task do_fetch: Started
-WARNING: tzcode-native-2022b-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022b.tar.gz
-Cleaning and trying again.
-WARNING: tzcode-native-2022b-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022b.tar.gz to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022b.tar.gz_bad-checksum_f590eaf04a395245426c2be4fae71c143aea5cebc11088b7a0a5704461df397d
-WARNING: tzcode-native-2022b-r0 do_fetch: Checksum failure encountered with download of http://www.iana.org/time-zones/repository/releases/tzdata2022b.tar.gz;name=tzdata - will attempt other sources if available
-NOTE: recipe tzcode-native-2022b-r0: task do_fetch: Failed
-WARNING: tzdata-2022b-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022b.tar.gz
-Cleaning and trying again.
-WARNING: tzdata-2022b-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022b.tar.gz to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022b.tar.gz_bad-checksum_f590eaf04a395245426c2be4fae71c143aea5cebc11088b7a0a5704461df397d
-WARNING: tzdata-2022b-r0 do_fetch: Checksum failure encountered with download of http://www.iana.org/time-zones/repository/releases/tzdata2022b.tar.gz;name=tzdata - will attempt other sources if available
-NOTE: recipe tzdata-2022b-r0: task do_fetch: Failed
-NOTE: Tasks Summary: Attempted 479 tasks of which 477 didn't need to be rerun and 2 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: 2 tasks failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzcode-native.bb:do_fetch
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzdata.bb:do_fetch
-Summary: There were 7 WARNING messages.
-Summary: There were 4 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: tzcode-native-2022b-r0 do_fetch: Fetcher failure for URL: 'http://www.iana.org/time-zones/repository/releases/tzdata2022b.tar.gz;name=tzdata'. Checksum mismatch!
-File: '/home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022b.tar.gz' has sha256 checksum 'f590eaf04a395245426c2be4fae71c143aea5cebc11088b7a0a5704461df397d' when 'ef7fffd9f4f50f4f58328b35022a32a5a056b245c5cb3d6791dddb342f871664' was expected
-If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
-SRC_URI[tzdata.sha256sum] = "f590eaf04a395245426c2be4fae71c143aea5cebc11088b7a0a5704461df397d"
-Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
-ERROR: tzcode-native-2022b-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'http://www.iana.org/time-zones/repository/releases/tzdata2022b.tar.gz;name=tzdata')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/tzcode-native/2022b-r0/temp/log.do_fetch.2550703
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzcode-native.bb:do_fetch) failed with exit code '1'
-ERROR: tzdata-2022b-r0 do_fetch: Fetcher failure for URL: 'http://www.iana.org/time-zones/repository/releases/tzdata2022b.tar.gz;name=tzdata'. Checksum mismatch!
-File: '/home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022b.tar.gz' has sha256 checksum 'f590eaf04a395245426c2be4fae71c143aea5cebc11088b7a0a5704461df397d' when 'ef7fffd9f4f50f4f58328b35022a32a5a056b245c5cb3d6791dddb342f871664' was expected
-If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
-SRC_URI[tzdata.sha256sum] = "f590eaf04a395245426c2be4fae71c143aea5cebc11088b7a0a5704461df397d"
-Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
-ERROR: tzdata-2022b-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'http://www.iana.org/time-zones/repository/releases/tzdata2022b.tar.gz;name=tzdata')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/all-poky-linux/tzdata/2022b-r0/temp/log.do_fetch.2550702
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzdata.bb:do_fetch) failed with exit code '1'
-
---===============6075586779614382858==
+--===============3101808214916293867==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-tzdata-upgrade-2022a-2022b.patch"
+ filename="0001-lighttpd-upgrade-1.4.65-1.4.66.patch"
 
-RnJvbSA2NDI3NzMyZGNmODJkMjEwYTk5OWExOWM0MTk0MjI2NGQzZjhlOWEzIE1vbiBTZXAgMTcg
+RnJvbSBhNDk0Yzc2N2FiNzBmMzA5MjcxNWNhMWNmOGJhNjNmM2UwNjNkMjRiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgQXVnIDIwMjIgMTA6Mzk6MTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSB0
-emRhdGE6IHVwZ3JhZGUgMjAyMmEgLT4gMjAyMmIKCi0tLQogbWV0YS9yZWNpcGVzLWV4dGVuZGVk
-L3RpbWV6b25lL3RpbWV6b25lLmluYyB8IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0
-aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5k
-ZWQvdGltZXpvbmUvdGltZXpvbmUuaW5jIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3RpbWV6b25l
-L3RpbWV6b25lLmluYwppbmRleCBjZGQxYTJhYzNjLi5mYWI3ZGM4YjJkIDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvdGltZXpvbmUvdGltZXpvbmUuaW5jCisrKyBiL21ldGEvcmVj
-aXBlcy1leHRlbmRlZC90aW1lem9uZS90aW1lem9uZS5pbmMKQEAgLTYsNyArNiw3IEBAIFNFQ1RJ
-T04gPSAiYmFzZSIKIExJQ0VOU0UgPSAiUEQgJiBCU0QtMy1DbGF1c2UiCiBMSUNfRklMRVNfQ0hL
-U1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT1jNjc5YzlkNmIwMmJjMjc1N2IzZWFmOGY1M2M0M2Zi
-YSIKIAotUFYgPSAiMjAyMmEiCitQViA9ICIyMDIyYiIKIAogU1JDX1VSSSA9IiBodHRwOi8vd3d3
-LmlhbmEub3JnL3RpbWUtem9uZXMvcmVwb3NpdG9yeS9yZWxlYXNlcy90emNvZGUke1BWfS50YXIu
-Z3o7bmFtZT10emNvZGUgXAogICAgICAgICAgICBodHRwOi8vd3d3LmlhbmEub3JnL3RpbWUtem9u
-ZXMvcmVwb3NpdG9yeS9yZWxlYXNlcy90emRhdGEke1BWfS50YXIuZ3o7bmFtZT10emRhdGEgXApA
-QCAtMTQsNiArMTQsNiBAQCBTUkNfVVJJID0iIGh0dHA6Ly93d3cuaWFuYS5vcmcvdGltZS16b25l
-cy9yZXBvc2l0b3J5L3JlbGVhc2VzL3R6Y29kZSR7UFZ9LnRhci5negogCiBVUFNUUkVBTV9DSEVD
-S19VUkkgPSAiaHR0cDovL3d3dy5pYW5hLm9yZy90aW1lLXpvbmVzIgogCi1TUkNfVVJJW3R6Y29k
-ZS5zaGEyNTZzdW1dID0gImY4NTc1ZTdlMzNiZTllZTI2NWRmMjA4MTA5MjUyNmI4MWM4MGFiYWMz
-ZjRhMDQzOTlhZTlkNGQ5MWNkYWRhYzciCitTUkNfVVJJW3R6Y29kZS5zaGEyNTZzdW1dID0gImJh
-YjIwZDk0M2U1OWEzMjE4NDM1ZjQ4ZDg2OGE0ZTU1MmYxOGQ2ZDdmM2RkMTI4NjYwYzU2NjBjODBi
-OGEwNWYiCiBTUkNfVVJJW3R6ZGF0YS5zaGEyNTZzdW1dID0gImVmN2ZmZmQ5ZjRmNTBmNGY1ODMy
-OGIzNTAyMmEzMmE1YTA1NmIyNDVjNWNiM2Q2NzkxZGRkYjM0MmY4NzE2NjQiCiAKLS0gCjIuMzEu
-MQoK
+CkRhdGU6IE1vbiwgMTUgQXVnIDIwMjIgMTA6Mjc6MTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWdodHRwZDogdXBncmFkZSAxLjQuNjUgLT4gMS40LjY2CgotLS0KIC4uLi9saWdodHRwZC97bGln
+aHR0cGRfMS40LjY1LmJiID0+IGxpZ2h0dHBkXzEuNC42Ni5iYn0gICAgICAgICB8IDIgKy0KIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1leHRlbmRlZC9saWdodHRwZC97bGlnaHR0cGRfMS40LjY1LmJiID0+IGxpZ2h0dHBk
+XzEuNC42Ni5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGln
+aHR0cGQvbGlnaHR0cGRfMS40LjY1LmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpZ2h0dHBk
+L2xpZ2h0dHBkXzEuNC42Ni5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBtZXRh
+L3JlY2lwZXMtZXh0ZW5kZWQvbGlnaHR0cGQvbGlnaHR0cGRfMS40LjY1LmJiCnJlbmFtZSB0byBt
+ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGlnaHR0cGQvbGlnaHR0cGRfMS40LjY2LmJiCmluZGV4IDEw
+YWEyN2YwNzIuLjgwMTE2Mjg2N2MgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9s
+aWdodHRwZC9saWdodHRwZF8xLjQuNjUuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xp
+Z2h0dHBkL2xpZ2h0dHBkXzEuNC42Ni5iYgpAQCAtMTksNyArMTksNyBAQCBTUkNfVVJJID0gImh0
+dHA6Ly9kb3dubG9hZC5saWdodHRwZC5uZXQvbGlnaHR0cGQvcmVsZWFzZXMtMS40LngvbGlnaHR0
+cGQtJHtQVn0udAogICAgICAgICAgICBmaWxlOi8vbGlnaHR0cGQgXAogICAgICAgICAgICAiCiAK
+LVNSQ19VUklbc2hhMjU2c3VtXSA9ICJiZjBmYTY4YTYyOWZiYzQwNDAyM2E5MTJiMzc3ZTcwMDQ5
+MzMxZDY3OTdiY2JiNGIzZThkZjRjM2I0MjMyOGJlIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjQ3
+YWM2ZTYwMjcxYWEwMTk2ZTY1NDcyZDAyZDAxOTU1NmRjN2M2ZDA5ZGYzYjY1ZGYyYzFhYjY4NjYz
+NDhlM2IiCiAKIERFUEVORFMgPSAidmlydHVhbC9jcnlwdCIKIAotLSAKMi4zMS4xCgo=
 
---===============6075586779614382858==--
+--===============3101808214916293867==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/lighttpd: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd: SRC_URI changed from "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.65.tar.xz file://index.html.lighttpd file://lighttpd.conf file://lighttpd" to "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.66.tar.xz file://index.html.lighttpd file://lighttpd.conf file://lighttpd"
+packages/core2-32-poky-linux/lighttpd/lighttpd-dbg: PKGSIZE changed from 2534632 to 2540668 (+0%)
+packages/core2-32-poky-linux/lighttpd/lighttpd-dbg: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-dbg: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-dev: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-dev: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-doc: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-doc: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-locale: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-locale: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-access: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-access: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-accesslog: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-accesslog: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-ajp13: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-ajp13: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-alias: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-alias: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-auth: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-auth: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-authn-file: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-authn-file: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-cgi: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-cgi: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-deflate: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-deflate: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-dirlisting: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-dirlisting: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-evasive: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-evasive: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-evhost: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-evhost: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-expire: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-expire: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-extforward: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-extforward: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-fastcgi: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-fastcgi: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-indexfile: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-indexfile: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-openssl: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-openssl: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-proxy: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-proxy: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-redirect: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-redirect: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-rewrite: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-rewrite: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-rrdtool: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-rrdtool: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-scgi: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-scgi: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-secdownload: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-secdownload: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-setenv: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-setenv: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-simple-vhost: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-simple-vhost: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-sockproxy: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-sockproxy: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-ssi: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-ssi: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-staticfile: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-staticfile: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-status: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-status: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-uploadprogress: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-uploadprogress: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-userdir: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-userdir: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-usertrack: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-usertrack: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-vhostdb: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-vhostdb: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-webdav: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-webdav: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-wstunnel: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-wstunnel: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-src: PKGSIZE changed from 2926407 to 2933298 (+0%)
+packages/core2-32-poky-linux/lighttpd/lighttpd-src: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-src: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-staticdev: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd-staticdev: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd: PKGSIZE changed from 449900 to 453996 (+1%)
+packages/core2-32-poky-linux/lighttpd/lighttpd: PV changed from "1.4.65" to "1.4.66"
+packages/core2-32-poky-linux/lighttpd/lighttpd: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+
+--===============3101808214916293867==--
 
