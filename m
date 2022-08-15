@@ -1,798 +1,589 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07811C25B08
-	for <webhook@archiver.kernel.org>; Mon, 15 Aug 2022 20:58:34 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
- [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web09.8024.1660597109896760257
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DD37C00140
+	for <webhook@archiver.kernel.org>; Mon, 15 Aug 2022 21:18:14 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web10.8016.1660598293224869801
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Aug 2022 13:58:30 -0700
+ Mon, 15 Aug 2022 14:18:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=N6p1v1IJ;
- spf=pass (domain: gmail.com, ip: 209.85.215.180,
- mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pg1-f180.google.com with SMTP id r22so7494706pgm.5
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CgW2nDyc;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51,
+ mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f51.google.com with SMTP id j26so2131639wms.0
         for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Aug 2022 13:58:29 -0700 (PDT)
+ Mon, 15 Aug 2022 14:18:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=thread-index:content-language:mime-version:message-id:date:subject
-         :to:from:from:to:cc;
-        bh=RBSs3WxwT/62+c/zwe4kPtwZ1YBe4WRKbzlOdz/o64s=;
-        b=N6p1v1IJ+uXddfYZ/looltw/cgNpE/sJa3FMyMBzDa8aXrItuQaXmkk1WnNDpTRzie
-         hRFIsWzxJTIn9cWI278xJAMRdSz0mh5roboHnoDlyfjSmlcuIoVtHfxlfamn52xcek5h
-         Y6ApA1n5zxH0eTgVMrA5tvKxcuh1t2xqicylAWj9G71uurTOj+GMVwa/vNAjOOgIb4Az
-         Z7CLZ0Bk2ch48gHZI1dMYiPGrnxLlthzvrrxblyoWk0M1YU+AMnF69SZfMlUKl+bwnIX
-         BcRr5pdGMa8GcmrW2UD7pbvKjGlzYyCSVlbfdPcssSM8clFbaK4gvfoMCxGSCtQBVNI4
-         b7IA==
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc;
+        bh=R3a4VwaxXpwrqZi20cWIvYj/o+MfMqB10QIeNCuDWGw=;
+        b=CgW2nDycfRueSEL5asybVuslm5EmglDSvcdP6f/S4boIZmdMteq1c7vVNUWQs/nkhy
+         nbxizkWLWnOCNeH1pfZmHmMVjM30Sv9uwBsfJ6tLc2hLdJbzHL4ke23627nn3PpwJD6X
+         Wg9ES3i2ZVMsnW7wLm/9xUv7rL+r72R5TNIrAenXXFVtKJs2BuVBWo9wgQ2GXEcL1zeO
+         CqdmTIv3NDzCzipKRwXgCu4ZUUjWGTBzAgnhyWL/cGMc+MJR9Etne9pT/yRsZmzldqL0
+         Bs0Se9iwJezOD+8WyINj4CjPAAZfY1aSSbU4d30H1WXlPNR/97o6IRbK6xHZgzhc3nWt
+         MInA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=thread-index:content-language:mime-version:message-id:date:subject
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=RBSs3WxwT/62+c/zwe4kPtwZ1YBe4WRKbzlOdz/o64s=;
-        b=adkwSHx16MxryiKDNYvfkNgJ9wPfuOv0GUZDztJqo67B8WkYIjn7zEztZCgbsTwDId
-         KFgajOk+BT/qd0Z0eN6+6tJX8E5xn7XtyRTozjBEfbL2Rp/DUJ5uF3Qd0k5GSSDlVFw7
-         I9fSXBI31baMvxPED2rGXPw7gBnh+c4hkBcOMWGtbl3RtvMrrIxaSXLku9/quNM6n/MD
-         Tfnye/mIBI1QkpuCb1QrXOMhn+ydAsRuJkZc7d8SCdDQovnA9ammhyIsXBcAoGPbSBdC
-         03PDjaIAdZrE6Tz0Zyl8KXf5jaFDkYEHK0I4RWuHh0axkch1EVbcDXnqBZdjLdH1baeK
-         M6RA==
-X-Gm-Message-State: ACgBeo0rx4+brafc7q2S2M+ku/cPNdKw+IEUsudI7vz9BEr6Ofcp120A
-	FiSikcfwj9kcGCCSTdMzWoXgUnXnFBE=
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc;
+        bh=R3a4VwaxXpwrqZi20cWIvYj/o+MfMqB10QIeNCuDWGw=;
+        b=zhbF1Nh1h0aAK/hHJ6T3bud56mm83PMl/E57XRCUJXusY8Umf1fRjTNWnW9GNo72mU
+         B7iBJH43bcmV1/mJENIxNqCcWrBUPTPRhh895jf5CDDAwejBOoioGr6oJihYewd5AcM5
+         yyCBxd7tZpKFDHmFTycw+YMhPCWyhAdrn7RVIsNoGbRHXUZviP1zl6NzP56EMhaX89km
+         fn9aTjjfJaBf58it4LVQzf5Ll3nQXtMZmT6N3BnuKcKKnxo/4qT/jbuzNTUpBIy5l2MC
+         74mCl7zm8WOnrZhzr/11ToKTPrEGvQd8NuWy3XdjCanPtpfuZRCjNFi6st1L8tB+J88S
+         7LLQ==
+X-Gm-Message-State: ACgBeo1ymRsVDGe3+cEvHnBfCuMSchTZEKf4qkSAriGgskhYjxOlJDYT
+	ewe2BbtBMLDwZAuKEypyovGNwsYsuyAdXyuJ1JAl1wsgAU8=
 X-Google-Smtp-Source: 
- AA6agR7Kt58ExVpNL1Ll9Dzf75Zr8JHUeqMnk8HppfWvMSxhTbtYeoBPoMknuXdgn0QMlXaqIte2HQ==
-X-Received: by 2002:a05:6a00:230d:b0:52b:1819:3a0 with SMTP id
- h13-20020a056a00230d00b0052b181903a0mr17993807pfh.53.1660597108864;
-        Mon, 15 Aug 2022 13:58:28 -0700 (PDT)
-Received: from skjolley ([2600:1011:a118:b58:293c:e2d4:1418:7020])
-        by smtp.gmail.com with ESMTPSA id
- i1-20020a17090332c100b0016d9b101413sm7485334plr.200.2022.08.15.13.58.27
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Aug 2022 13:58:28 -0700 (PDT)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@lists.yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Current high bug count owners for Yocto Project 4.1
-Date: Mon, 15 Aug 2022 13:58:28 -0700
-Message-ID: <08fc01d8b0e9$c5b3c0b0$511b4210$@gmail.com>
+ AA6agR6fqSzOmBXQXhD6REuBB59iTYCNvhoRfBfq+3cGbn27prCsEKFjf3GRD3c7/Jwq4u/VFLdw8wrm9IRhTnAhn/s=
+X-Received: by 2002:a7b:cc0d:0:b0:3a5:1eae:3948 with SMTP id
+ f13-20020a7bcc0d000000b003a51eae3948mr11318149wmh.32.1660598291249; Mon, 15
+ Aug 2022 14:18:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_08FD_01D8B0AF.195AB510"
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-us
-Thread-Index: AQIBlIjhwMxqStvCQsUnRBF4rv7whQ==
+References: <20220812192725.2600254-1-raj.khem@gmail.com>
+ <20220813123848.3647980-1-Martin.Jansa@gmail.com>
+In-Reply-To: <20220813123848.3647980-1-Martin.Jansa@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 15 Aug 2022 23:17:20 +0200
+Message-ID: 
+ <CA+chaQeKBq8cbnGB35Dg6aOx4DMkmSAOByw==SG8y_DKahm9rA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] glibc: apply proposed patch from upstream instead of
+ revert
+To: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000043c21205e64e2bb8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Aug 2022 20:58:33 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Aug 2022 21:18:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169412
-
-This is a multipart message in MIME format.
-
-------=_NextPart_000_08FD_01D8B0AF.195AB510
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-
-All,
-
-Below is the list as of top 35 bug owners as of the end of WW33 of who have
-open medium or higher bugs and enhancements against YP 4.1.   There are 52
-possible work days left until the final release candidates for YP 4.1 needs
-to be released.
-
-
-Who
-
-Count
-
-
-michael.opdenacker@bootlin.com
-
-36
-
-
-ross.burton@arm.com
-
-26
-
-
-david.reyna@windriver.com
-
-23
-
-
-bruce.ashfield@gmail.com
-
-21
-
-
-randy.macleod@windriver.com
-
-15
-
-
-richard.purdie@linuxfoundation.org
-
-13
-
-
-saul.wold@windriver.com
-
-10
-
-
-JPEWhacker@gmail.com
-
-9
-
-
-sakib.sajal@windriver.com
-
-9
-
-
-Aryaman.Gupta@windriver.com
-
-7
-
-
-tim.orling@konsulko.com
-
-6
-
-
-sundeep.kokkonda@gmail.com
-
-5
-
-
-mhalstead@linuxfoundation.org
-
-4
-
-
-jon.mason@arm.com
-
-4
-
-
-akuster808@gmail.com
-
-3
-
-
-tvgamblin@gmail.com
-
-2
-
-
-hongxu.jia@windriver.com
-
-2
-
-
-pgowda.cve@gmail.com
-
-2
-
-
-Qi.Chen@windriver.com
-
-2
-
-
-pavel@zhukoff.net
-
-2
-
-
-sgw@bigsur.com
-
-1
-
-
-raj.khem@gmail.com
-
-1
-
-
-ola.x.nilsson@axis.com
-
-1
-
-
-behanw@converseincode.com
-
-1
-
-
-thomas.perrot@bootlin.com
-
-1
-
-
-martin.beeger@online.de
-
-1
-
-
-aehs29@gmail.com
-
-1
-
-
-open.source@oleksandr-kravchuk.com
-
-1
-
-
-ptsneves@gmail.com
-
-1
-
-
-Martin.Jansa@gmail.com
-
-1
-
-
-nicolas.dechesne@linaro.org
-
-1
-
-
-mostthingsweb@gmail.com
-
-1
-
-
-shachar@vdoo.com
-
-1
-
-
-alexandre.belloni@bootlin.com
-
-1
-
-
-alejandro@enedino.org
-
-1
-
-
-Grand Total
-
-216
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_08FD_01D8B0AF.195AB510
-Content-Type: text/html;
-	boundary="----=_NextPart_000_167B_01D8AB42.A181A8D0";
-	charset="us-ascii"
+ https://lists.openembedded.org/g/openembedded-core/message/169413
+
+--00000000000043c21205e64e2bb8
+Content-Type: text/plain; charset="UTF-8"
+
+Another version was proposed upstream
+https://sourceware.org/bugzilla/attachment.cgi?id=14283
+
+lets wait a bit more on this one.
+
+On Sat, Aug 13, 2022 at 2:39 PM Martin Jansa <martin.jansa@gmail.com> wrote:
+
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  ...lement-a-useful-version-of-_startup_.patch | 128 ------------------
+>  .../glibc/glibc/0025-startup-Force-O2.patch   |  28 ++++
+>  meta/recipes-core/glibc/glibc_2.36.bb         |   2 +-
+>  3 files changed, 29 insertions(+), 129 deletions(-)
+>  delete mode 100644
+> meta/recipes-core/glibc/glibc/0025-Revert-Linux-Implement-a-useful-version-of-_startup_.patch
+>  create mode 100644
+> meta/recipes-core/glibc/glibc/0025-startup-Force-O2.patch
+>
+> diff --git
+> a/meta/recipes-core/glibc/glibc/0025-Revert-Linux-Implement-a-useful-version-of-_startup_.patch
+> b/meta/recipes-core/glibc/glibc/0025-Revert-Linux-Implement-a-useful-version-of-_startup_.patch
+> deleted file mode 100644
+> index 1982598339..0000000000
+> ---
+> a/meta/recipes-core/glibc/glibc/0025-Revert-Linux-Implement-a-useful-version-of-_startup_.patch
+> +++ /dev/null
+> @@ -1,128 +0,0 @@
+> -From 18b04419d5984f5c6c89fab5e72fcdd1942491cb Mon Sep 17 00:00:00 2001
+> -From: Martin Jansa <Martin.Jansa@gmail.com>
+> -Date: Sun, 7 Aug 2022 12:51:48 +0200
+> -Subject: [PATCH] Revert "Linux: Implement a useful version of
+> _startup_fatal"
+> -
+> -This reverts commit a2a6bce7d7e52c1c34369a7da62c501cc350bc31.
+> -
+> -Upstream-Status: Inappropriate [temporary work around]
+> -
+> -Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ----
+> - sysdeps/unix/sysv/linux/i386/startup.h | 23 ++++++++++++---
+> - sysdeps/unix/sysv/linux/ia64/startup.h | 22 ---------------
+> - sysdeps/unix/sysv/linux/startup.h      | 39 --------------------------
+> - 3 files changed, 19 insertions(+), 65 deletions(-)
+> - delete mode 100644 sysdeps/unix/sysv/linux/ia64/startup.h
+> - delete mode 100644 sysdeps/unix/sysv/linux/startup.h
+> -
+> -diff --git a/sysdeps/unix/sysv/linux/i386/startup.h
+> b/sysdeps/unix/sysv/linux/i386/startup.h
+> -index 213805d7d2..67c9310f3a 100644
+> ---- a/sysdeps/unix/sysv/linux/i386/startup.h
+> -+++ b/sysdeps/unix/sysv/linux/i386/startup.h
+> -@@ -1,5 +1,5 @@
+> - /* Linux/i386 definitions of functions used by static libc main startup.
+> --   Copyright (C) 2022 Free Software Foundation, Inc.
+> -+   Copyright (C) 2017-2022 Free Software Foundation, Inc.
+> -    This file is part of the GNU C Library.
+> -
+> -    The GNU C Library is free software; you can redistribute it and/or
+> -@@ -16,7 +16,22 @@
+> -    License along with the GNU C Library; if not, see
+> -    <https://www.gnu.org/licenses/>.  */
+> -
+> --/* Can't use "call *%gs:SYSINFO_OFFSET" during startup.  */
+> --#define I386_USE_SYSENTER 0
+> -+#if BUILD_PIE_DEFAULT
+> -+/* Can't use "call *%gs:SYSINFO_OFFSET" during statup in static PIE.  */
+> -+# define I386_USE_SYSENTER 0
+> -
+> --#include_next <startup.h>
+> -+# include <sysdep.h>
+> -+# include <abort-instr.h>
+> -+
+> -+__attribute__ ((__noreturn__))
+> -+static inline void
+> -+_startup_fatal (const char *message __attribute__ ((unused)))
+> -+{
+> -+  /* This is only called very early during startup in static PIE.
+> -+     FIXME: How can it be improved?  */
+> -+  ABORT_INSTRUCTION;
+> -+  __builtin_unreachable ();
+> -+}
+> -+#else
+> -+# include_next <startup.h>
+> -+#endif
+> -diff --git a/sysdeps/unix/sysv/linux/ia64/startup.h
+> b/sysdeps/unix/sysv/linux/ia64/startup.h
+> -deleted file mode 100644
+> -index 77f29f15a2..0000000000
+> ---- a/sysdeps/unix/sysv/linux/ia64/startup.h
+> -+++ /dev/null
+> -@@ -1,22 +0,0 @@
+> --/* Linux/ia64 definitions of functions used by static libc main startup.
+> --   Copyright (C) 2022 Free Software Foundation, Inc.
+> --   This file is part of the GNU C Library.
+> --
+> --   The GNU C Library is free software; you can redistribute it and/or
+> --   modify it under the terms of the GNU Lesser General Public
+> --   License as published by the Free Software Foundation; either
+> --   version 2.1 of the License, or (at your option) any later version.
+> --
+> --   The GNU C Library is distributed in the hope that it will be useful,
+> --   but WITHOUT ANY WARRANTY; without even the implied warranty of
+> --   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> --   Lesser General Public License for more details.
+> --
+> --   You should have received a copy of the GNU Lesser General Public
+> --   License along with the GNU C Library; if not, see
+> --   <https://www.gnu.org/licenses/>.  */
+> --
+> --/* This code is used before the TCB is set up.  */
+> --#define IA64_USE_NEW_STUB 0
+> --
+> --#include_next <startup.h>
+> -diff --git a/sysdeps/unix/sysv/linux/startup.h
+> b/sysdeps/unix/sysv/linux/startup.h
+> -deleted file mode 100644
+> -index 39859b404a..0000000000
+> ---- a/sysdeps/unix/sysv/linux/startup.h
+> -+++ /dev/null
+> -@@ -1,39 +0,0 @@
+> --/* Linux definitions of functions used by static libc main startup.
+> --   Copyright (C) 2017-2022 Free Software Foundation, Inc.
+> --   This file is part of the GNU C Library.
+> --
+> --   The GNU C Library is free software; you can redistribute it and/or
+> --   modify it under the terms of the GNU Lesser General Public
+> --   License as published by the Free Software Foundation; either
+> --   version 2.1 of the License, or (at your option) any later version.
+> --
+> --   The GNU C Library is distributed in the hope that it will be useful,
+> --   but WITHOUT ANY WARRANTY; without even the implied warranty of
+> --   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> --   Lesser General Public License for more details.
+> --
+> --   You should have received a copy of the GNU Lesser General Public
+> --   License along with the GNU C Library; if not, see
+> --   <https://www.gnu.org/licenses/>.  */
+> --
+> --#ifdef SHARED
+> --# include_next <startup.h>
+> --#else
+> --# include <sysdep.h>
+> --
+> --/* Avoid a run-time invocation of strlen.  */
+> --#define _startup_fatal(message)                                         \
+> --  do                                                                    \
+> --    {                                                                   \
+> --      size_t __message_length = __builtin_strlen (message);             \
+> --      if (! __builtin_constant_p (__message_length))                    \
+> --        {                                                               \
+> --          extern void _startup_fatal_not_constant (void);               \
+> --          _startup_fatal_not_constant ();                               \
+> --        }                                                               \
+> --      INTERNAL_SYSCALL_CALL (write, STDERR_FILENO, (message),           \
+> --                             __message_length);                         \
+> --      INTERNAL_SYSCALL_CALL (exit_group, 127);                          \
+> --    }                                                                   \
+> --  while (0)
+> --#endif  /* !SHARED */
+> diff --git a/meta/recipes-core/glibc/glibc/0025-startup-Force-O2.patch
+> b/meta/recipes-core/glibc/glibc/0025-startup-Force-O2.patch
+> new file mode 100644
+> index 0000000000..1f3426295a
+> --- /dev/null
+> +++ b/meta/recipes-core/glibc/glibc/0025-startup-Force-O2.patch
+> @@ -0,0 +1,28 @@
+> +From 5e635e5dc7d1b21a78f38109d4f43a03bec865c8 Mon Sep 17 00:00:00 2001
+> +From: "H.J. Lu" <hjl.tools@gmail.com>
+> +Date: Sun, 7 Aug 2022 12:51:48 +0200
+> +Subject: [PATCH] startup: Force -O2
+> +
+> +Upstream-Status: Submitted [
+> https://sourceware.org/bugzilla/show_bug.cgi?id=29249]
+> +
+> +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> +---
+> + sysdeps/unix/sysv/linux/startup.h | 5 +++++
+> + 1 file changed, 5 insertions(+)
+> +
+> +diff --git a/sysdeps/unix/sysv/linux/startup.h
+> b/sysdeps/unix/sysv/linux/startup.h
+> +index 39859b404a..e1fc1b682d 100644
+> +--- a/sysdeps/unix/sysv/linux/startup.h
+> ++++ b/sysdeps/unix/sysv/linux/startup.h
+> +@@ -21,6 +21,11 @@
+> + #else
+> + # include <sysdep.h>
+> +
+> ++# if !defined __OPTIMIZE__ || __OPTIMIZE__ < 2
+> ++/* Force to fold strlen.  */
+> ++#  pragma GCC optimize(2)
+> ++# endif
+> ++
+> + /* Avoid a run-time invocation of strlen.  */
+> + #define _startup_fatal(message)                                         \
+> +   do                                                                    \
+> diff --git a/meta/recipes-core/glibc/glibc_2.36.bb
+> b/meta/recipes-core/glibc/glibc_2.36.bb
+> index 6ccb392f09..1cfa8101ef 100644
+> --- a/meta/recipes-core/glibc/glibc_2.36.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.36.bb
+> @@ -50,7 +50,7 @@ SRC_URI =
+> "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+>
+> file://0022-tzselect.ksh-Use-bin-sh-default-shell-interpreter.patch \
+>
+> file://0023-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
+>
+> file://0024-Avoid-hardcoded-build-time-paths-in-the-output-binar.patch \
+> -
+>  file://0025-Revert-Linux-Implement-a-useful-version-of-_startup_.patch \
+> +           file://0025-startup-Force-O2.patch \
+>  "
+>  S = "${WORKDIR}/git"
+>  B = "${WORKDIR}/build-${TARGET_SYS}"
+> --
+> 2.37.2
+>
+>
+
+--00000000000043c21205e64e2bb8
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:0 0 0 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal><span =
-style=3D'color:black'>All,<br><br>Below is the list as of top 35 bug =
-owners as of the end of WW33 of who have open medium or higher bugs and =
-enhancements against YP 4.1.&nbsp;&nbsp; There are 52 possible work days =
-left until the final release candidates for YP 4.1 needs to be =
-released.<o:p></o:p></span></p><table class=3DMsoNormalTable border=3D0 =
-cellspacing=3D0 cellpadding=3D0 width=3D293 =
-style=3D'width:220.0pt;margin-left:-.15pt;border-collapse:collapse'><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;background:#DCE6F1;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><b><span =
-style=3D'color:black'>Who<o:p></o:p></span></b></p></td><td width=3D43 =
-nowrap valign=3Dbottom style=3D'width:32.0pt;border:solid windowtext =
-1.0pt;border-left:none;background:#DCE6F1;padding:0in 5.4pt 0in =
-5.4pt;height:15.0pt'><p class=3DMsoNormal><b><span =
-style=3D'color:black'>Count<o:p></o:p></span></b></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>michael.opdenacker@bootlin.com<o:p></o:p></span></p=
-></td><td width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>36<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>ross.burton@arm.com<o:p></o:p></span></p></td><td =
-width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>26<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>david.reyna@windriver.com<o:p></o:p></span></p></td=
-><td width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>23<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>bruce.ashfield@gmail.com<o:p></o:p></span></p></td>=
-<td width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>21<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>randy.macleod@windriver.com<o:p></o:p></span></p></=
-td><td width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>15<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>richard.purdie@linuxfoundation.org<o:p></o:p></span=
-></p></td><td width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>13<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>saul.wold@windriver.com<o:p></o:p></span></p></td><=
-td width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>10<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>JPEWhacker@gmail.com<o:p></o:p></span></p></td><td =
-width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>9<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>sakib.sajal@windriver.com<o:p></o:p></span></p></td=
-><td width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>9<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>Aryaman.Gupta@windriver.com<o:p></o:p></span></p></=
-td><td width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>7<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>tim.orling@konsulko.com<o:p></o:p></span></p></td><=
-td width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>6<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>sundeep.kokkonda@gmail.com<o:p></o:p></span></p></t=
-d><td width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>5<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>mhalstead@linuxfoundation.org<o:p></o:p></span></p>=
-</td><td width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>4<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>jon.mason@arm.com<o:p></o:p></span></p></td><td =
-width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>4<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>akuster808@gmail.com<o:p></o:p></span></p></td><td =
-width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>3<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>tvgamblin@gmail.com<o:p></o:p></span></p></td><td =
-width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>2<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>hongxu.jia@windriver.com<o:p></o:p></span></p></td>=
-<td width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>2<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>pgowda.cve@gmail.com<o:p></o:p></span></p></td><td =
-width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>2<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>Qi.Chen@windriver.com<o:p></o:p></span></p></td><td=
- width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>2<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>pavel@zhukoff.net<o:p></o:p></span></p></td><td =
-width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>2<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>sgw@bigsur.com<o:p></o:p></span></p></td><td =
-width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>1<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>raj.khem@gmail.com<o:p></o:p></span></p></td><td =
-width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>1<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>ola.x.nilsson@axis.com<o:p></o:p></span></p></td><t=
-d width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>1<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>behanw@converseincode.com<o:p></o:p></span></p></td=
-><td width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>1<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>thomas.perrot@bootlin.com<o:p></o:p></span></p></td=
-><td width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>1<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>martin.beeger@online.de<o:p></o:p></span></p></td><=
-td width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>1<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>aehs29@gmail.com<o:p></o:p></span></p></td><td =
-width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>1<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>open.source@oleksandr-kravchuk.com<o:p></o:p></span=
-></p></td><td width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>1<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>ptsneves@gmail.com<o:p></o:p></span></p></td><td =
-width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>1<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>Martin.Jansa@gmail.com<o:p></o:p></span></p></td><t=
-d width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>1<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>nicolas.dechesne@linaro.org<o:p></o:p></span></p></=
-td><td width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>1<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>mostthingsweb@gmail.com<o:p></o:p></span></p></td><=
-td width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>1<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>shachar@vdoo.com<o:p></o:p></span></p></td><td =
-width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>1<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>alexandre.belloni@bootlin.com<o:p></o:p></span></p>=
-</td><td width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>1<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>alejandro@enedino.org<o:p></o:p></span></p></td><td=
- width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt =
-0in 5.4pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><span =
-style=3D'color:black'>1<o:p></o:p></span></p></td></tr><tr =
-style=3D'height:15.0pt'><td width=3D251 nowrap valign=3Dbottom =
-style=3D'width:188.0pt;border:solid windowtext =
-1.0pt;border-top:none;background:#DCE6F1;padding:0in 5.4pt 0in =
-5.4pt;height:15.0pt'><p class=3DMsoNormal><b><span =
-style=3D'color:black'>Grand Total<o:p></o:p></span></b></p></td><td =
-width=3D43 nowrap valign=3Dbottom =
-style=3D'width:32.0pt;border-top:none;border-left:none;border-bottom:soli=
-d windowtext 1.0pt;border-right:solid windowtext =
-1.0pt;background:#DCE6F1;padding:0in 5.4pt 0in 5.4pt;height:15.0pt'><p =
-class=3DMsoNormal align=3Dright style=3D'text-align:right'><b><span =
-style=3D'color:black'>216<o:p></o:p></span></b></p></td></tr></table><p =
-class=3DMsoNormal><span =
-style=3D'color:black'>Thanks,</span><o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-------=_NextPart_000_08FD_01D8B0AF.195AB510--
+<div dir=3D"ltr">Another version was proposed upstream<div><a href=3D"https=
+://sourceware.org/bugzilla/attachment.cgi?id=3D14283">https://sourceware.or=
+g/bugzilla/attachment.cgi?id=3D14283</a><br></div><div><br></div><div>lets =
+wait a bit more on this one.</div></div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Sat, Aug 13, 2022 at 2:39 PM Martin Ja=
+nsa &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail.com</a=
+>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Sig=
+ned-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com" targ=
+et=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0...lement-a-useful-version-of-_startup_.patch | 128 -----------------=
+-<br>
+=C2=A0.../glibc/glibc/0025-startup-Force-O2.patch=C2=A0 =C2=A0|=C2=A0 28 ++=
+++<br>
+=C2=A0meta/recipes-core/glibc/<a href=3D"http://glibc_2.36.bb" rel=3D"noref=
+errer" target=3D"_blank">glibc_2.36.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 =C2=A02 +-<br>
+=C2=A03 files changed, 29 insertions(+), 129 deletions(-)<br>
+=C2=A0delete mode 100644 meta/recipes-core/glibc/glibc/0025-Revert-Linux-Im=
+plement-a-useful-version-of-_startup_.patch<br>
+=C2=A0create mode 100644 meta/recipes-core/glibc/glibc/0025-startup-Force-O=
+2.patch<br>
+<br>
+diff --git a/meta/recipes-core/glibc/glibc/0025-Revert-Linux-Implement-a-us=
+eful-version-of-_startup_.patch b/meta/recipes-core/glibc/glibc/0025-Revert=
+-Linux-Implement-a-useful-version-of-_startup_.patch<br>
+deleted file mode 100644<br>
+index 1982598339..0000000000<br>
+--- a/meta/recipes-core/glibc/glibc/0025-Revert-Linux-Implement-a-useful-ve=
+rsion-of-_startup_.patch<br>
++++ /dev/null<br>
+@@ -1,128 +0,0 @@<br>
+-From 18b04419d5984f5c6c89fab5e72fcdd1942491cb Mon Sep 17 00:00:00 2001<br>
+-From: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com" target=3D=
+"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
+-Date: Sun, 7 Aug 2022 12:51:48 +0200<br>
+-Subject: [PATCH] Revert &quot;Linux: Implement a useful version of _startu=
+p_fatal&quot;<br>
+-<br>
+-This reverts commit a2a6bce7d7e52c1c34369a7da62c501cc350bc31.<br>
+-<br>
+-Upstream-Status: Inappropriate [temporary work around]<br>
+-<br>
+-Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com" =
+target=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
+----<br>
+- sysdeps/unix/sysv/linux/i386/startup.h | 23 ++++++++++++---<br>
+- sysdeps/unix/sysv/linux/ia64/startup.h | 22 ---------------<br>
+- sysdeps/unix/sysv/linux/startup.h=C2=A0 =C2=A0 =C2=A0 | 39 --------------=
+------------<br>
+- 3 files changed, 19 insertions(+), 65 deletions(-)<br>
+- delete mode 100644 sysdeps/unix/sysv/linux/ia64/startup.h<br>
+- delete mode 100644 sysdeps/unix/sysv/linux/startup.h<br>
+-<br>
+-diff --git a/sysdeps/unix/sysv/linux/i386/startup.h b/sysdeps/unix/sysv/li=
+nux/i386/startup.h<br>
+-index 213805d7d2..67c9310f3a 100644<br>
+---- a/sysdeps/unix/sysv/linux/i386/startup.h<br>
+-+++ b/sysdeps/unix/sysv/linux/i386/startup.h<br>
+-@@ -1,5 +1,5 @@<br>
+- /* Linux/i386 definitions of functions used by static libc main startup.<=
+br>
+--=C2=A0 =C2=A0Copyright (C) 2022 Free Software Foundation, Inc.<br>
+-+=C2=A0 =C2=A0Copyright (C) 2017-2022 Free Software Foundation, Inc.<br>
+-=C2=A0 =C2=A0 This file is part of the GNU C Library.<br>
+- <br>
+-=C2=A0 =C2=A0 The GNU C Library is free software; you can redistribute it =
+and/or<br>
+-@@ -16,7 +16,22 @@<br>
+-=C2=A0 =C2=A0 License along with the GNU C Library; if not, see<br>
+-=C2=A0 =C2=A0 &lt;<a href=3D"https://www.gnu.org/licenses/" rel=3D"norefer=
+rer" target=3D"_blank">https://www.gnu.org/licenses/</a>&gt;.=C2=A0 */<br>
+- <br>
+--/* Can&#39;t use &quot;call *%gs:SYSINFO_OFFSET&quot; during startup.=C2=
+=A0 */<br>
+--#define I386_USE_SYSENTER 0<br>
+-+#if BUILD_PIE_DEFAULT<br>
+-+/* Can&#39;t use &quot;call *%gs:SYSINFO_OFFSET&quot; during statup in st=
+atic PIE.=C2=A0 */<br>
+-+# define I386_USE_SYSENTER 0<br>
+- <br>
+--#include_next &lt;startup.h&gt;<br>
+-+# include &lt;sysdep.h&gt;<br>
+-+# include &lt;abort-instr.h&gt;<br>
+-+<br>
+-+__attribute__ ((__noreturn__))<br>
+-+static inline void<br>
+-+_startup_fatal (const char *message __attribute__ ((unused)))<br>
+-+{<br>
+-+=C2=A0 /* This is only called very early during startup in static PIE.<br=
+>
+-+=C2=A0 =C2=A0 =C2=A0FIXME: How can it be improved?=C2=A0 */<br>
+-+=C2=A0 ABORT_INSTRUCTION;<br>
+-+=C2=A0 __builtin_unreachable ();<br>
+-+}<br>
+-+#else<br>
+-+# include_next &lt;startup.h&gt;<br>
+-+#endif<br>
+-diff --git a/sysdeps/unix/sysv/linux/ia64/startup.h b/sysdeps/unix/sysv/li=
+nux/ia64/startup.h<br>
+-deleted file mode 100644<br>
+-index 77f29f15a2..0000000000<br>
+---- a/sysdeps/unix/sysv/linux/ia64/startup.h<br>
+-+++ /dev/null<br>
+-@@ -1,22 +0,0 @@<br>
+--/* Linux/ia64 definitions of functions used by static libc main startup.<=
+br>
+--=C2=A0 =C2=A0Copyright (C) 2022 Free Software Foundation, Inc.<br>
+--=C2=A0 =C2=A0This file is part of the GNU C Library.<br>
+--<br>
+--=C2=A0 =C2=A0The GNU C Library is free software; you can redistribute it =
+and/or<br>
+--=C2=A0 =C2=A0modify it under the terms of the GNU Lesser General Public<b=
+r>
+--=C2=A0 =C2=A0License as published by the Free Software Foundation; either=
+<br>
+--=C2=A0 =C2=A0version 2.1 of the License, or (at your option) any later ve=
+rsion.<br>
+--<br>
+--=C2=A0 =C2=A0The GNU C Library is distributed in the hope that it will be=
+ useful,<br>
+--=C2=A0 =C2=A0but WITHOUT ANY WARRANTY; without even the implied warranty =
+of<br>
+--=C2=A0 =C2=A0MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 S=
+ee the GNU<br>
+--=C2=A0 =C2=A0Lesser General Public License for more details.<br>
+--<br>
+--=C2=A0 =C2=A0You should have received a copy of the GNU Lesser General Pu=
+blic<br>
+--=C2=A0 =C2=A0License along with the GNU C Library; if not, see<br>
+--=C2=A0 =C2=A0&lt;<a href=3D"https://www.gnu.org/licenses/" rel=3D"norefer=
+rer" target=3D"_blank">https://www.gnu.org/licenses/</a>&gt;.=C2=A0 */<br>
+--<br>
+--/* This code is used before the TCB is set up.=C2=A0 */<br>
+--#define IA64_USE_NEW_STUB 0<br>
+--<br>
+--#include_next &lt;startup.h&gt;<br>
+-diff --git a/sysdeps/unix/sysv/linux/startup.h b/sysdeps/unix/sysv/linux/s=
+tartup.h<br>
+-deleted file mode 100644<br>
+-index 39859b404a..0000000000<br>
+---- a/sysdeps/unix/sysv/linux/startup.h<br>
+-+++ /dev/null<br>
+-@@ -1,39 +0,0 @@<br>
+--/* Linux definitions of functions used by static libc main startup.<br>
+--=C2=A0 =C2=A0Copyright (C) 2017-2022 Free Software Foundation, Inc.<br>
+--=C2=A0 =C2=A0This file is part of the GNU C Library.<br>
+--<br>
+--=C2=A0 =C2=A0The GNU C Library is free software; you can redistribute it =
+and/or<br>
+--=C2=A0 =C2=A0modify it under the terms of the GNU Lesser General Public<b=
+r>
+--=C2=A0 =C2=A0License as published by the Free Software Foundation; either=
+<br>
+--=C2=A0 =C2=A0version 2.1 of the License, or (at your option) any later ve=
+rsion.<br>
+--<br>
+--=C2=A0 =C2=A0The GNU C Library is distributed in the hope that it will be=
+ useful,<br>
+--=C2=A0 =C2=A0but WITHOUT ANY WARRANTY; without even the implied warranty =
+of<br>
+--=C2=A0 =C2=A0MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 S=
+ee the GNU<br>
+--=C2=A0 =C2=A0Lesser General Public License for more details.<br>
+--<br>
+--=C2=A0 =C2=A0You should have received a copy of the GNU Lesser General Pu=
+blic<br>
+--=C2=A0 =C2=A0License along with the GNU C Library; if not, see<br>
+--=C2=A0 =C2=A0&lt;<a href=3D"https://www.gnu.org/licenses/" rel=3D"norefer=
+rer" target=3D"_blank">https://www.gnu.org/licenses/</a>&gt;.=C2=A0 */<br>
+--<br>
+--#ifdef SHARED<br>
+--# include_next &lt;startup.h&gt;<br>
+--#else<br>
+--# include &lt;sysdep.h&gt;<br>
+--<br>
+--/* Avoid a run-time invocation of strlen.=C2=A0 */<br>
+--#define _startup_fatal(message)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+--=C2=A0 do=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+--=C2=A0 =C2=A0 {=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+--=C2=A0 =C2=A0 =C2=A0 size_t __message_length =3D __builtin_strlen (messag=
+e);=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+--=C2=A0 =C2=A0 =C2=A0 if (! __builtin_constant_p (__message_length))=C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 {=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 extern void _startup_fatal_not_constan=
+t (void);=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _startup_fatal_not_constant ();=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+--=C2=A0 =C2=A0 =C2=A0 INTERNAL_SYSCALL_CALL (write, STDERR_FILENO, (messag=
+e),=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__message_length);=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+--=C2=A0 =C2=A0 =C2=A0 INTERNAL_SYSCALL_CALL (exit_group, 127);=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 \<br>
+--=C2=A0 =C2=A0 }=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+--=C2=A0 while (0)<br>
+--#endif=C2=A0 /* !SHARED */<br>
+diff --git a/meta/recipes-core/glibc/glibc/0025-startup-Force-O2.patch b/me=
+ta/recipes-core/glibc/glibc/0025-startup-Force-O2.patch<br>
+new file mode 100644<br>
+index 0000000000..1f3426295a<br>
+--- /dev/null<br>
++++ b/meta/recipes-core/glibc/glibc/0025-startup-Force-O2.patch<br>
+@@ -0,0 +1,28 @@<br>
++From 5e635e5dc7d1b21a78f38109d4f43a03bec865c8 Mon Sep 17 00:00:00 2001<br>
++From: &quot;H.J. Lu&quot; &lt;<a href=3D"mailto:hjl.tools@gmail.com" targe=
+t=3D"_blank">hjl.tools@gmail.com</a>&gt;<br>
++Date: Sun, 7 Aug 2022 12:51:48 +0200<br>
++Subject: [PATCH] startup: Force -O2<br>
++<br>
++Upstream-Status: Submitted [<a href=3D"https://sourceware.org/bugzilla/sho=
+w_bug.cgi?id=3D29249" rel=3D"noreferrer" target=3D"_blank">https://sourcewa=
+re.org/bugzilla/show_bug.cgi?id=3D29249</a>]<br>
++<br>
++Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com" =
+target=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
++---<br>
++ sysdeps/unix/sysv/linux/startup.h | 5 +++++<br>
++ 1 file changed, 5 insertions(+)<br>
++<br>
++diff --git a/sysdeps/unix/sysv/linux/startup.h b/sysdeps/unix/sysv/linux/s=
+tartup.h<br>
++index 39859b404a..e1fc1b682d 100644<br>
++--- a/sysdeps/unix/sysv/linux/startup.h<br>
+++++ b/sysdeps/unix/sysv/linux/startup.h<br>
++@@ -21,6 +21,11 @@<br>
++ #else<br>
++ # include &lt;sysdep.h&gt;<br>
++ <br>
+++# if !defined __OPTIMIZE__ || __OPTIMIZE__ &lt; 2<br>
+++/* Force to fold strlen.=C2=A0 */<br>
+++#=C2=A0 pragma GCC optimize(2)<br>
+++# endif<br>
+++<br>
++ /* Avoid a run-time invocation of strlen.=C2=A0 */<br>
++ #define _startup_fatal(message)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
++=C2=A0 =C2=A0do=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+diff --git a/meta/recipes-core/glibc/<a href=3D"http://glibc_2.36.bb" rel=
+=3D"noreferrer" target=3D"_blank">glibc_2.36.bb</a> b/meta/recipes-core/gli=
+bc/<a href=3D"http://glibc_2.36.bb" rel=3D"noreferrer" target=3D"_blank">gl=
+ibc_2.36.bb</a><br>
+index 6ccb392f09..1cfa8101ef 100644<br>
+--- a/meta/recipes-core/glibc/<a href=3D"http://glibc_2.36.bb" rel=3D"noref=
+errer" target=3D"_blank">glibc_2.36.bb</a><br>
++++ b/meta/recipes-core/glibc/<a href=3D"http://glibc_2.36.bb" rel=3D"noref=
+errer" target=3D"_blank">glibc_2.36.bb</a><br>
+@@ -50,7 +50,7 @@ SRC_URI =3D=C2=A0 &quot;${GLIBC_GIT_URI};branch=3D${SRCBR=
+ANCH};name=3Dglibc \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0022-tzselect.ksh-Use-bin-=
+sh-default-shell-interpreter.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0023-fix-create-thread-fai=
+led-in-unprivileged-process-BZ-.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0024-Avoid-hardcoded-build=
+-time-paths-in-the-output-binar.patch \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0025-Revert-Linux-Implemen=
+t-a-useful-version-of-_startup_.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0025-startup-Force-O2.patc=
+h \<br>
+=C2=A0&quot;<br>
+=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
+=C2=A0B =3D &quot;${WORKDIR}/build-${TARGET_SYS}&quot;<br>
+-- <br>
+2.37.2<br>
+<br>
+</blockquote></div>
 
+--00000000000043c21205e64e2bb8--
 
