@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAEC2C32762
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CE59C2BB9D
 	for <webhook@archiver.kernel.org>; Mon, 15 Aug 2022 18:57:02 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com
- (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.6314.1660589821216285909
+Received: from a27-29.smtp-out.us-west-2.amazonses.com
+ (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web09.6461.1660589820592686918
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Aug 2022 11:57:01 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ECz+ZS20;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31,
- mailfrom: 01010182a2ddc9c3-fd3cefb9-45b7-4240-aa9e-eb39ab9fe6e6-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=OuUVbeZ9;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29,
+ mailfrom: 01010182a2ddca67-9166400b-3d0d-47b4-ba54-98a6efe719df-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1660589820;
+	t=1660589821;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=xkra32wyWwHhXqNiKa+gwt1aUSahFlHwqZRuUI2Ko8M=;
-	b=ECz+ZS206Gq3Pc4Fe51ypcYoD9E91HNTd219iCfEMwcbO3esuNEqbtfgEkXeTD9Q
-	RXVbNGwK5RLQf34fAebnKKnISn4PeZIju9GI9mapcAyzUL2Nq/aG4ri5OwxGgJyZ9A8
-	nyO3EpZ7VlJcPz08YKUprr9Vn2U1bRhws6yjzpzc=
+	bh=tPhts/kdCk1xNo2bJEY2p0QrW8XNcVnzcOzWH0dy80E=;
+	b=OuUVbeZ9jl/NGJWN36Fi7yIZrwxD7uY2iigqOi1mXZi/7TvtrXyQaHfeGmS7LnT2
+	xRxknWi43DT/O9Svk81YQU1Mtv2sG2rcf8wS5MIyrgDLGlIbBsY8aS1PSh4kMWPE1io
+	WkPbOcvyeBfxoh7hRl+dOCxqwhhPC1A9vU79wMZ4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1660589820;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1660589821;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=xkra32wyWwHhXqNiKa+gwt1aUSahFlHwqZRuUI2Ko8M=;
-	b=iKvtmxNGNLIJyqtMnOPj6iHE64cOteSEbCy0EBFsWv7Op6BhmYhP4iDcJEMBwfah
-	Lm1/mXbCDgOinvP/oQqYl2R1yXt2x5nZTlN8zye/6uDllTWyUBuSCjjYju0MP9Ul2dX
-	DfpipYxxjPX/YCV02+rvbO+Zjrvdh0OZn9LWVKrQ=
-Content-Type: multipart/mixed; boundary="===============6773915204288501766=="
+	bh=tPhts/kdCk1xNo2bJEY2p0QrW8XNcVnzcOzWH0dy80E=;
+	b=C/v1kSXM2JV1BFTxqJZbgeRbgaI8bHjO0RW7OXv2+jIqnh1nb2LWRb6Hw39GWT0J
+	6K405qzZXOgAKWFyUWwRhsTDp6I5GScGeuuWRtx4/MZ8PxChclnhhx/YEXnkx6fA5kv
+	ihjMpbEZQr+8Al6Zd1nRTu5IEXiQl3vVgkBumPKE=
+Content-Type: multipart/mixed; boundary="===============7627776742713622199=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Randy MacLeod <Randy.MacLeod@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libstd-rs: upgrading to 1.63.0 FAILED
+Subject: [AUH] rust-llvm: upgrading to 1.63.0 FAILED
 Message-ID: 
- <01010182a2ddc9c3-fd3cefb9-45b7-4240-aa9e-eb39ab9fe6e6-000000@us-west-2.amazonses.com>
+ <01010182a2ddca67-9166400b-3d0d-47b4-ba54-98a6efe719df-000000@us-west-2.amazonses.com>
 Date: Mon, 15 Aug 2022 18:57:00 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.08.15-54.240.27.31
+X-SES-Outgoing: 2022.08.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Aug 2022 18:57:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169381
+ https://lists.openembedded.org/g/openembedded-core/message/169382
 
---===============6773915204288501766==
+--===============7627776742713622199==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,17 +56,17 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libstd-rs* to *1.63.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *rust-llvm* to *1.63.0* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  finish -f libstd-rs /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust
+The following devtool command failed:  finish -f rust-llvm /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust
 NOTE: Starting bitbake server...
 WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
-Loaded 1658 entries from dependency cache.
+Loaded 1659 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 885 .bb files complete (884 cached, 1 parsed). 1660 targets, 35 skipped, 0 masked, 0 errors.
+Parsing of 885 .bb files complete (884 cached, 1 parsed). 1661 targets, 35 skipped, 0 masked, 0 errors.
 
 Summary: There was 1 WARNING message.
 
@@ -133,5 +133,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6773915204288501766==--
+--===============7627776742713622199==--
 
