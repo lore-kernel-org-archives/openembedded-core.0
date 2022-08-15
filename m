@@ -1,100 +1,67 @@
 Return-Path: <drew.moseley@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <f01236ab-4fa1-94b7-e44d-fc43cfeb0fe5@gmail.com>
-Date: Fri, 12 Aug 2022 11:20:37 -0400
+Message-ID: <43f17af6-eb16-efd3-ce23-374ea6791c52@gmail.com>
+Date: Mon, 15 Aug 2022 14:29:58 -0400
 MIME-Version: 1.0
-Reply-To: drew@moseleynet.net
-Subject: Re: [OE-core][PATCH v2] rng-tools: Replace obsolete "wants systemd-udev-settle"
-References: <CAMKF1soSmZCBvJHYM4GPSUUjg9SY+ZuRuVC7phro1YryVadd4w@mail.gmail.com>
- <20220804150952.2831520-1-drew@moseleynet.net>
- <7ed692f7-cc83-9cf9-a278-e780be697c62@windriver.com>
+Subject: Re: [OE-core][PATCH] rng-tools: Change "Requires" to "WantedBy" for dev-hwrng.device
 From: "Drew Moseley" <drew.moseley@gmail.com>
-In-Reply-To: <7ed692f7-cc83-9cf9-a278-e780be697c62@windriver.com>
+References: <f01236ab-4fa1-94b7-e44d-fc43cfeb0fe5@gmail.com>
+ <20220815182503.2007534-1-drew@moseleynet.net>
+In-Reply-To: <20220815182503.2007534-1-drew@moseleynet.net>
 Content-Language: en-US
 Content-Type: text/plain; charset="utf-8"; format="flowed"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: openembedded-core@lists.openembedded.org, raj.khem@gmail.com, ch@denx.de
-Cc: Dragos-Marian Panait <dragos.panait@windriver.com>
+To: raj.khem@gmail.com, ch@denx.de
+Cc: dragos.panait@windriver.com, openembedded-core@lists.openembedded.org
 
-Well dang. Any other suggestions on how to resolve the original issue 
-without breaking others things?
+Hi Khem,
+
+It looks like you recently removed both the dependency on hwrng and 
+systemd-udev-settle.  Do you think this change will be useful?
+
+Claudius, any thoughts here?
 
 
 Drew
 
-On 8/12/22 8:59 AM, Dragos-Marian Panait wrote:
-> It seems that this change introduced a boot delay for qemux86-64 + 
-> systemd build.
+
+
+On 8/15/22 2:25 PM, drew.moseley@gmail.com wrote:
+> From: Drew Moseley <drew@moseleynet.net>
 >
-> Steps:
+> The previous change to remove the dependency on systemd-udev-settle
+> caused boot delays at least on qemu. It seems that change required
+> a hwrng device but that's not necessarily available on all platforms.
 >
-> git clone git://git.yoctoproject.org/poky
-> . poky/oe-init-build-env
+> This changes the "Requires" to a "WantedBy" as modeled after the
+> version of this file on Ubuntu 20.04.
 >
-> add to conf/local.conf:
+> Signed-off-by: Drew Moseley <drew@moseleynet.net>
+> ---
+>   meta/recipes-support/rng-tools/rng-tools/rng-tools.service | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> DISTRO_FEATURES:remove = " sysvinit"
-> DISTRO_FEATURES:append = " systemd"
-> VIRTUAL-RUNTIME_init_manager = "systemd"
-> DISTRO_FEATURES_BACKFILL_CONSIDERED = ""
->
-> bitbake core-image-full-cmdline
->
-> Cause of boot delay:
-> [ TIME ] Timed out waiting for device /dev/hwrng.
-> [DEPEND] Dependency failed for Hard…e RNG Entropy Gatherer Daemon.
->
-> Regards,
-> Dragos
->
-> On 04.08.2022 18:09, Drew Moseley wrote:
->> [Please note: This e-mail is from an EXTERNAL e-mail address]
->>
->> From: Drew Moseley <drew@moseleynet.net>
->>
->> The systemd-udev-settle service is listed as obsolete and does in
->> some cases result in a significant boot time.  Replace that with a
->> specific wait for the random source hardware device to be loaded.
->>
->> Before this change:
->>
->>     Startup finished in 4.025s (kernel) + 2min 13.236s (userspace) = 
->> 2min 17.262s
->>     multi-user.target reached after 2min 8.153s in userspace
->>
->> After this change:
->>
->>     Startup finished in 3.956s (kernel) + 13.294s (userspace) = 17.250s
->>     multi-user.target reached after 9.522s in userspace
->>
->> Signed-off-by: Drew Moseley <drew@moseleynet.net>
->> ---
->>   meta/recipes-support/rng-tools/rng-tools/rngd.service | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-support/rng-tools/rng-tools/rngd.service 
->> b/meta/recipes-support/rng-tools/rng-tools/rngd.service
->> index 568686e80e..0f50890dcb 100644
->> --- a/meta/recipes-support/rng-tools/rng-tools/rngd.service
->> +++ b/meta/recipes-support/rng-tools/rng-tools/rngd.service
->> @@ -3,7 +3,8 @@ Description=Hardware RNG Entropy Gatherer Daemon
->>   DefaultDependencies=no
->>   After=systemd-udev-settle.service
->>   Before=sysinit.target shutdown.target
->> -Wants=systemd-udev-settle.service
->> +Requires=dev-hwrng.device
->> +After=dev-hwrng.device
->>   Conflicts=shutdown.target
->>
->>   [Service]
->> -- 
->> 2.37.1
->>
->>
->> 
->>
+> diff --git a/meta/recipes-support/rng-tools/rng-tools/rng-tools.service b/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
+> index 0f50890dcb..b013d95932 100644
+> --- a/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
+> +++ b/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
+> @@ -3,8 +3,6 @@ Description=Hardware RNG Entropy Gatherer Daemon
+>   DefaultDependencies=no
+>   After=systemd-udev-settle.service
+>   Before=sysinit.target shutdown.target
+> -Requires=dev-hwrng.device
+> -After=dev-hwrng.device
+>   Conflicts=shutdown.target
+>   
+>   [Service]
+> @@ -32,3 +30,4 @@ SystemCallFilter=@system-service
+>   
+>   [Install]
+>   WantedBy=sysinit.target
+> +WantedBy=dev-hwrng.device
+
 -- 
 mailto:drew@moseleynet.net
 
