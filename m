@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48398C38145
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31808C48BEA
 	for <webhook@archiver.kernel.org>; Mon, 15 Aug 2022 18:57:03 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com
- (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web12.6341.1660589821920986279
+Received: from a27-30.smtp-out.us-west-2.amazonses.com
+ (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web09.6468.1660589822318237151
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Aug 2022 11:57:02 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=kcr1Qqrb;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
- mailfrom: 01010182a2ddcd03-37dab425-52f3-43bd-91e4-bc45612bad4e-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=jto/6wuL;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
+ mailfrom: 01010182a2ddcea3-9534d7d1-4ead-4b9e-93a3-c68da4258b22-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1660589821;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=fQoGh8g1HuLiVZrzQehhG4NVnXsJxlReR+2JtxOjhIU=;
-	b=kcr1Qqrb4mBkVjZd0hN6IgLZtQkADWwqVvdM+S+B01wuEtoz2TpCOimIZpak+EcT
-	1+MLMQONKzBWePE9nvhjy1PmTOzTomONrAoDehe/4Tm9K5wlnaK87ppwqdZYQuhvI83
-	BYhLhZdXHqBJ048lLXkUGTqogGk1epBNdaT3LfSI=
+	bh=MHcHGx3VB07d/BkL4091cwsb0L0Je7ztpUUDkdACsfE=;
+	b=jto/6wuLBFgecV0s4nnSXZ3qEFt/FLHrZaX2IiMgw6vq7Ak/CZWNqURGkBcXWvBv
+	kpsAnecKViEBSMOXVkhxcNiG3kwB3izXgaKS8BtXcq7KMZBnYSU/4/1TDt6BwIVtapo
+	O5BoW0g/xtsdJ6F0KHmn4kcDH62FD2xBI7Ttu47U=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1660589821;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=fQoGh8g1HuLiVZrzQehhG4NVnXsJxlReR+2JtxOjhIU=;
-	b=IoKoRqz8LQdyODBthTM6I3NiDfdN8lsLdjHAzJn/Mm12FNEd857zGgqW+C9i1+D5
-	dD0YWIgmWJHe+BWnn04ZPtMPHmsVm7ZuO7lOEjzVnLUybsIQx75idj6zHB3f6IRymuU
-	VIA2cLh3BgiQlw8C0xDT+HW4NBaM7tB+hESblAlY=
-Content-Type: multipart/mixed; boundary="===============8724635551490596230=="
+	bh=MHcHGx3VB07d/BkL4091cwsb0L0Je7ztpUUDkdACsfE=;
+	b=OzfQrWLySQiHsonenUS/pWi6yy8f22oPZz9ueagUuMOGsRahuqQT0Xmx8JdJ3UFe
+	BqUVlpFJSyRtehjSUMrmZTBznVx4D07Mlqjz49a8ChAbalQUvnpiEvhXiY7yDT/yMfC
+	L7/IXu5kLv9Fd2jI9VAt2tklvAPlWATpd6oYKqVo=
+Content-Type: multipart/mixed; boundary="===============4096689413547819737=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mesa: upgrading to 22.1.6 SUCCEEDED
+Subject: [AUH] libwebp: upgrading to 1.2.4 SUCCEEDED
 Message-ID: 
- <01010182a2ddcd03-37dab425-52f3-43bd-91e4-bc45612bad4e-000000@us-west-2.amazonses.com>
+ <01010182a2ddcea3-9534d7d1-4ead-4b9e-93a3-c68da4258b22-000000@us-west-2.amazonses.com>
 Date: Mon, 15 Aug 2022 18:57:01 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.08.15-54.240.27.23
+X-SES-Outgoing: 2022.08.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Aug 2022 18:57:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169396
+ https://lists.openembedded.org/g/openembedded-core/message/169401
 
---===============8724635551490596230==
+--===============4096689413547819737==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *mesa* to *22.1.6* has Succeeded.
+that the automatic attempt to upgrade the recipe *libwebp* to *1.2.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-mesa-upgrade-22.1.5-22.1.6.patch
+    - apply the patch: git am 0001-libwebp-upgrade-1.2.3-1.2.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,112 +75,80 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8724635551490596230==
+--===============4096689413547819737==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-mesa-upgrade-22.1.5-22.1.6.patch"
+ filename="0001-libwebp-upgrade-1.2.3-1.2.4.patch"
 
-RnJvbSAzNWViMzgzNDAxYmQ0NTk5M2UxNmIwZDA3NzA3MDA3NDc5ZTk3M2Q3IE1vbiBTZXAgMTcg
+RnJvbSA5ZjA3OWFkMjY3MTEzYjgyOGYzNWMxNjI4ODcyNGIxYThiMjgyZTA2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgQXVnIDIwMjIgMTM6NTU6MTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
-ZXNhOiB1cGdyYWRlIDIyLjEuNSAtPiAyMi4xLjYKCi0tLQogbWV0YS9yZWNpcGVzLWdyYXBoaWNz
-L21lc2EvbWVzYS5pbmMgICAgICAgICAgICAgICAgICAgICAgICAgICB8IDIgKy0KIG1ldGEvcmVj
-aXBlcy1ncmFwaGljcy9tZXNhL3ttZXNhXzIyLjEuNS5iYiA9PiBtZXNhXzIyLjEuNi5iYn0gfCAw
-CiAyIGZpbGVzIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2Eve21lc2FfMjIuMS41LmJiID0+IG1lc2FfMjIuMS42
-LmJifSAoMTAwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNh
-LmluYyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2EuaW5jCmluZGV4IGZjY2YxNGE3
-ZDEuLmM0ZWZjMTM0MzggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21l
-c2EuaW5jCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2EuaW5jCkBAIC0yNSw3
-ICsyNSw3IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9tZXNhLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZl
-L21lc2EtJHtQVn0udGFyLnh6IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtbmlyLW5pcl9vcHRf
-bW92ZS1maXgtQUxXQVlTX0lOTElORS1jb21waWxlci1lcnJvci5wYXRjaCBcCiAgICAgICAgICAg
-ICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjZmZDYwZDM4ZWZkZDI1MzE3OTQ4YzYxNDk0YjUx
-MTdlMDFkNDJkYTY5NTI3ODcyOGIxZmFlZjlmNWY5YTQ3YmEiCitTUkNfVVJJW3NoYTI1NnN1bV0g
-PSAiMjJjZWQwNjFlYjlhZGFiOGVhMzUzNjgyNDZjMTk5NWMwOTcyM2YzZjcxNjUzY2Q1MDUwYzVj
-ZWMzNzZlNjcxYSIKIAogVVBTVFJFQU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAibWVzYS0oP1A8cHZl
-cj5cZCsoXC5cZCspKykiCiAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNh
-L21lc2FfMjIuMS41LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYV8yMi4xLjYu
-YmIKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGlj
-cy9tZXNhL21lc2FfMjIuMS41LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVz
-YS9tZXNhXzIyLjEuNi5iYgotLSAKMi4zMS4xCgo=
+CkRhdGU6IE1vbiwgMTUgQXVnIDIwMjIgMTU6Mzk6MDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJ3ZWJwOiB1cGdyYWRlIDEuMi4zIC0+IDEuMi40CgotLS0KIC4uLi93ZWJwL3tsaWJ3ZWJwXzEu
+Mi4zLmJiID0+IGxpYndlYnBfMS4yLjQuYmJ9ICAgICAgICAgICAgICAgICB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1tdWx0aW1lZGlhL3dlYnAve2xpYndlYnBfMS4yLjMuYmIgPT4gbGlid2VicF8xLjIuNC5i
+Yn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS93ZWJwL2xpYndl
+YnBfMS4yLjMuYmIgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS93ZWJwL2xpYndlYnBfMS4yLjQu
+YmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVk
+aWEvd2VicC9saWJ3ZWJwXzEuMi4zLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRp
+YS93ZWJwL2xpYndlYnBfMS4yLjQuYmIKaW5kZXggMmQ1MjNkZjc0OS4uMjYzNTg5ODQ2YSAxMDA2
+NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvd2VicC9saWJ3ZWJwXzEuMi4zLmJiCisr
+KyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL3dlYnAvbGlid2VicF8xLjIuNC5iYgpAQCAtMTQs
+NyArMTQsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT02ZThkZWU5
+MzJjMjZmMmRhYjUwM2FiZjcwYzk2ZDhiYiBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9Q
+QVRFTlRTO21kNT1jNjkyNmQwY2IwN2QyOTZmODg2YWI2ZTBjYzVhODViNyIKIAogU1JDX1VSSSA9
+ICJodHRwOi8vZG93bmxvYWRzLndlYm1wcm9qZWN0Lm9yZy9yZWxlYXNlcy93ZWJwLyR7QlB9LnRh
+ci5neiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJmNWQ3YWIyMzkwYjA2YjhhOTM0YTRmYzM1Nzg0
+MjkxYjM4ODViNTU3NzgwZDA5OWJkMzJmMDkyNDFmOWQ4M2Y5IgorU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gIjdiZjVhOGEyOGNjNjliY2ZhOGNiMjE0ZjJjMzA5NTcwM2M2YjczYWM1ZmJhNGQ1NDgwYzIw
+NTMzMWQ5NDk0ZGYiCiAKIFVQU1RSRUFNX0NIRUNLX1VSSSA9ICJodHRwOi8vZG93bmxvYWRzLndl
+Ym1wcm9qZWN0Lm9yZy9yZWxlYXNlcy93ZWJwL2luZGV4Lmh0bWwiCiAKLS0gCjIuMzEuMQoK
 
---===============8724635551490596230==
+--===============4096689413547819737==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/mesa: SRC_URI changed from "https://mesa.freedesktop.org/archive/mesa-22.1.5.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0002-meson.build-make-TLS-ELF-optional.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch file://0001-util-format-Check-for-NEON-before-using-it.patch file://0001-Revert-egl-wayland-deprecate-drm_handle_format-and-d.patch file://0001-swrast_kms-use-swkmsDRI2Extension-instead-of-driDRI2.patch file://0001-nir-nir_opt_move-fix-ALWAYS_INLINE-compiler-error.patch" to "https://mesa.freedesktop.org/archive/mesa-22.1.6.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0002-meson.build-make-TLS-ELF-optional.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch file://0001-util-format-Check-for-NEON-before-using
- -it.patch file://0001-Revert-egl-wayland-deprecate-drm_handle_format-and-d.patch file://0001-swrast_kms-use-swkmsDRI2Extension-instead-of-driDRI2.patch file://0001-nir-nir_opt_move-fix-ALWAYS_INLINE-compiler-error.patch"
-packages/core2-32-poky-linux/mesa: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/libegl-mesa-dev: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/libegl-mesa: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/libegl-mesa: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/libgbm-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/libgbm-dev: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/libgbm: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/libgbm: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/libgl-mesa-dev: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/libgl-mesa: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/libgl-mesa: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/libglapi-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/libglapi-dev: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/libglapi: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/libglapi: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/libgles1-mesa-dev: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/libgles1-mesa: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/libgles1-mesa: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/libgles2-mesa-dev: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/libgles2-mesa: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/libgles2-mesa: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/libgles3-mesa-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/libgles3-mesa-dev: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/libgles3-mesa: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/libgles3-mesa: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/libopencl-mesa-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/libopencl-mesa-dev: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/libopencl-mesa: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/libopencl-mesa: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/libosmesa-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/libosmesa-dev: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/libosmesa: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/libosmesa: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/libxatracker-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/libxatracker-dev: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/libxatracker: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/libxatracker: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 123397772 to 123393452 (-0%)
-packages/core2-32-poky-linux/mesa/mesa-dbg: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa-dbg: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/mesa-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa-dev: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/mesa-doc: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa-doc: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/mesa-locale: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa-locale: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/mesa-megadriver: PKGSIZE changed from 15777783 to 15773687 (-0%)
-packages/core2-32-poky-linux/mesa/mesa-megadriver: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa-megadriver: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/mesa-src: PKGSIZE changed from 87187495 to 87187420 (-0%)
-packages/core2-32-poky-linux/mesa/mesa-src: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa-src: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/mesa-staticdev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa-staticdev: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/mesa-vdpau-drivers: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa-vdpau-drivers: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PKGSIZE changed from 8540438 to 8536342 (-0%)
-packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/mesa/mesa: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa: PV changed from "22.1.5" to "22.1.6"
+packages/core2-32-poky-linux/libwebp: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/libwebp: SRC_URI changed from "http://downloads.webmproject.org/releases/webp/libwebp-1.2.3.tar.gz" to "http://downloads.webmproject.org/releases/webp/libwebp-1.2.4.tar.gz"
+packages/core2-32-poky-linux/libwebp: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-bin: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/libwebp/libwebp-bin: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-dbg: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/libwebp/libwebp-dbg: FILELIST: removed "/usr/lib/.debug/libwebpmux.so.3.0.9 /usr/lib/.debug/libwebpdemux.so.2.0.10 /usr/lib/.debug/libwebp.so.7.1.4", added "/usr/lib/.debug/libwebp.so.7.1.5 /usr/lib/.debug/libwebpmux.so.3.0.10 /usr/lib/.debug/libwebpdemux.so.2.0.11"
+packages/core2-32-poky-linux/libwebp/libwebp-dbg: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-dev: PKGSIZE changed from 96255 to 96256 (+0%)
+packages/core2-32-poky-linux/libwebp/libwebp-dev: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/libwebp/libwebp-dev: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-doc: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/libwebp/libwebp-doc: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-gif2webp: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/libwebp/libwebp-gif2webp: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-locale: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/libwebp/libwebp-locale: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-src: PKGSIZE changed from 2896213 to 2896022 (-0%)
+packages/core2-32-poky-linux/libwebp/libwebp-src: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/libwebp/libwebp-src: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-staticdev: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/libwebp/libwebp-staticdev: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/libwebp/libwebp: PKGSIZE changed from 569429 to 569434 (+0%)
+packages/core2-32-poky-linux/libwebp/libwebp: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/libwebp/libwebp: FILELIST: removed "/usr/lib/libwebpdemux.so.2.0.10 /usr/lib/libwebp.so.7.1.4 /usr/lib/libwebpmux.so.3.0.9", added "/usr/lib/libwebp.so.7.1.5 /usr/lib/libwebpmux.so.3.0.10 /usr/lib/libwebpdemux.so.2.0.11"
+packages/core2-32-poky-linux/libwebp/libwebp: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+Changes to packages/core2-32-poky-linux/libwebp (sysroot):
+  /usr/lib/libwebpdemux.so.2 changed symlink target from libwebpdemux.so.2.0.10 to libwebpdemux.so.2.0.11
+  /usr/lib/libwebpdemux.so changed symlink target from libwebpdemux.so.2.0.10 to libwebpdemux.so.2.0.11
+  /usr/lib/libwebpmux.so.3 changed symlink target from libwebpmux.so.3.0.9 to libwebpmux.so.3.0.10
+  /usr/lib/libwebpmux.so changed symlink target from libwebpmux.so.3.0.9 to libwebpmux.so.3.0.10
+  /usr/lib/libwebp.so.7 changed symlink target from libwebp.so.7.1.4 to libwebp.so.7.1.5
+  /usr/lib/libwebp.so changed symlink target from libwebp.so.7.1.4 to libwebp.so.7.1.5
+  /usr/lib/libwebpdemux.so.2.0.10 moved to /usr/lib/libwebpdemux.so.2.0.11
+  /usr/lib/libwebp.so.7.1.4 moved to /usr/lib/libwebp.so.7.1.5
+  /usr/lib/libwebpmux.so.3.0.10 was added
+  /usr/lib/libwebpmux.so.3.0.9 was removed
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1535,12 +1503,24 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoffout.h was removed
 
---===============8724635551490596230==
+--===============4096689413547819737==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-32-poky-linux/libwebp/libwebp: FILELIST: removed "/usr/lib/libwebp.so.7.1.4 /usr/lib/libwebpdemux.so.2.0.10 /usr/lib/libwebpmux.so.3.0.9", added "/usr/lib/libwebp.so.7.1.5 /usr/lib/libwebpmux.so.3.0.10 /usr/lib/libwebpdemux.so.2.0.11"
+Changes to packages/core2-32-poky-linux/libwebp (sysroot):
+  /usr/lib/libwebpdemux.so.2 changed symlink target from libwebpdemux.so.2.0.10 to libwebpdemux.so.2.0.11
+  /usr/lib/libwebpdemux.so changed symlink target from libwebpdemux.so.2.0.10 to libwebpdemux.so.2.0.11
+  /usr/lib/libwebpmux.so.3 changed symlink target from libwebpmux.so.3.0.9 to libwebpmux.so.3.0.10
+  /usr/lib/libwebpmux.so changed symlink target from libwebpmux.so.3.0.9 to libwebpmux.so.3.0.10
+  /usr/lib/libwebp.so.7 changed symlink target from libwebp.so.7.1.4 to libwebp.so.7.1.5
+  /usr/lib/libwebp.so changed symlink target from libwebp.so.7.1.4 to libwebp.so.7.1.5
+  /usr/lib/libwebpdemux.so.2.0.10 moved to /usr/lib/libwebpdemux.so.2.0.11
+  /usr/lib/libwebp.so.7.1.4 moved to /usr/lib/libwebp.so.7.1.5
+  /usr/lib/libwebpmux.so.3.0.10 was added
+  /usr/lib/libwebpmux.so.3.0.9 was removed
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2895,5 +2875,5 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoffout.h was removed
 
---===============8724635551490596230==--
+--===============4096689413547819737==--
 
