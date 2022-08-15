@@ -1,129 +1,143 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52AB8C25B0E
-	for <webhook@archiver.kernel.org>; Mon, 15 Aug 2022 18:48:12 +0000 (UTC)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
- [209.85.128.169])
- by mx.groups.io with SMTP id smtpd.web09.6356.1660589289029441265
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A314C25B0E
+	for <webhook@archiver.kernel.org>; Mon, 15 Aug 2022 18:57:02 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com
+ (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web12.6335.1660589820582764022
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Aug 2022 11:48:09 -0700
+ Mon, 15 Aug 2022 11:57:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=VMCInmOw;
- spf=pass (domain: gmail.com, ip: 209.85.128.169,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-32fd97c199fso70173407b3.6
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Aug 2022 11:48:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=rJl8boMTMTPJ/ME+ICpIudhX4yUoisFP2Dlv5/FLWBk=;
-        b=VMCInmOwgn8tgbuDeVvNSdDX6nNnOFCIhjgcXUJSvZ5a2YXTml3hhD8iDTzfTCNAWT
-         M42VijkB5bAEpPNA+jBKENW+up70Bn5ShQxYFBOPvx3TUVFtnw++gs5/TFDhck7elk5S
-         EoizmSdPpVkrTH28GFCqvefJELXKjAQHJk99siP4VlApqPAfi5GDF4oclJOc2tmpElEw
-         9bGykF2rcboo1qynx6B2ej45NgptXbdc9AhUTyNmtiYkMYvlrB8kHQyvtu2O347U0C7c
-         0H1t9tch9VvEt9xpAIsSuE+YjpeM50LyGApw+K9n1Eh8Lq5H5ThMl5ez3RmBn0GF4Qm4
-         b7jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=rJl8boMTMTPJ/ME+ICpIudhX4yUoisFP2Dlv5/FLWBk=;
-        b=eHy/cx79DRTMUtbzcypCdlWp9bWcJaptGTP37Vyxju4RUMljxgLQPGIg+GINgIJSlf
-         iM/YEGOKZGKlVniyRC2yi9ZQYZkmh3eijy4dYIQ3WDICOssJlotSeoXOC8PTE26rcoMl
-         xZUQWhudnMzDHNJFggH0+/2wii2O4h0cFBsp2RiOz6QydoBqlwS7n4VIiDkiLpLXEw5o
-         oYlAgrEKp8UnClnTOMiFutGLd6xPpM7bwyjfbr4H0HkgKgGL//fvapp5GGa9fUwakk6Q
-         7MPHB4YAhU+M95mP50yiUP/vgyBnRxtddZbBc/D/cCzAyn9sY9lgRzCAvWbVJNsjoOHd
-         5FRg==
-X-Gm-Message-State: ACgBeo2+HnANYAYzlY/rufhnioWg6b30ppq0Sy1ESLX2t3d6HweA1Ekx
-	3ljIgUNXxGhdnb/FFA/xPdEPX37QhpjW49HN74s=
-X-Google-Smtp-Source: 
- AA6agR5jKwn0Eo3oenXVnb1PCDK8L2tDmEFtvjtPhnxXv9UernkfpKwZkyxLtIVyObYo7nd+Am3RML1f0/tU1J6Ng3Y=
-X-Received: by 2002:a5b:107:0:b0:67c:4077:17f0 with SMTP id
- 7-20020a5b0107000000b0067c407717f0mr11582010ybx.363.1660589287346; Mon, 15
- Aug 2022 11:48:07 -0700 (PDT)
+ dkim=pass header.i=@yoctoproject.org
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=NQPQZEkE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193,
+ mailfrom: 01010182a2ddcdf0-6e6ed5f5-c9a5-4076-8cec-e194eeb121ab-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1660589821;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=pwFmJj13RH62tznHrTpZejI/X6LsCn0T6O7RTtTXaoQ=;
+	b=NQPQZEkE5YunFICgMlyK9bBfg2OGGBwCczypu7lr2GLEhDbj3nUoe/rziaWdKQD3
+	BrPQTq6+GC+gBK5GWN+LJafLuXO3pvsAf52qVa70QpbdzkqkJkgJAtqxZxht8t7sk+N
+	Oa+1zwc5y5jMt8+z9HCoR+Ra+TvPjqZnUzXKifTk=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1660589821;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=pwFmJj13RH62tznHrTpZejI/X6LsCn0T6O7RTtTXaoQ=;
+	b=fI35IHcZfWevfLWusayJNUxVRvxky4wKP1o2yICXP3PWvIk+r2NDa0O78q6kamtH
+	Izlpw2rlzqSxb8+vUI1/Ti3qqmlS+nTVV1JFuh00CrBNcbnVKG8VbVKnmvTkjbIelTu
+	/CEst5z+qUjsw7FXrA/vGOPRB43G8iC3MK8vGHmw=
+Content-Type: multipart/mixed; boundary="===============1884891341844353077=="
 MIME-Version: 1.0
-References: <f01236ab-4fa1-94b7-e44d-fc43cfeb0fe5@gmail.com>
- <20220815182503.2007534-1-drew@moseleynet.net>
- <43f17af6-eb16-efd3-ce23-374ea6791c52@gmail.com>
-In-Reply-To: <43f17af6-eb16-efd3-ce23-374ea6791c52@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 15 Aug 2022 11:47:40 -0700
+From: auh@yoctoproject.org
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] xorgproto: upgrading to 2022.2 FAILED
 Message-ID: 
- <CAMKF1spqYbHNQ7nWbPiM8jmy=pZNM3h7UvRhPfCRaYORuo7qDw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] rng-tools: Change "Requires" to "WantedBy" for
- dev-hwrng.device
-To: Drew Moseley <drew.moseley@gmail.com>
-Cc: ch@denx.de, dragos.panait@windriver.com,
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ <01010182a2ddcdf0-6e6ed5f5-c9a5-4076-8cec-e194eeb121ab-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Aug 2022 18:57:01 +0000
+Feedback-ID: 
+ 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2022.08.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Aug 2022 18:48:12 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Aug 2022 18:57:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169360
+ https://lists.openembedded.org/g/openembedded-core/message/169394
 
-On Mon, Aug 15, 2022 at 11:30 AM Drew Moseley <drew.moseley@gmail.com> wrote:
->
-> Hi Khem,
->
-> It looks like you recently removed both the dependency on hwrng and
-> systemd-udev-settle.  Do you think this change will be useful?
+--===============1884891341844353077==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Depending on udev-settle certainly seems an overkill so that should go.
-the change you have made will now ensure that this service starts when
-dev-hwrng device is created
-but loses the order of starting the service. So it may still race with
-device creation.
+Hello,
 
->
-> Claudius, any thoughts here?
->
->
-> Drew
->
->
->
-> On 8/15/22 2:25 PM, drew.moseley@gmail.com wrote:
-> > From: Drew Moseley <drew@moseleynet.net>
-> >
-> > The previous change to remove the dependency on systemd-udev-settle
-> > caused boot delays at least on qemu. It seems that change required
-> > a hwrng device but that's not necessarily available on all platforms.
-> >
-> > This changes the "Requires" to a "WantedBy" as modeled after the
-> > version of this file on Ubuntu 20.04.
-> >
-> > Signed-off-by: Drew Moseley <drew@moseleynet.net>
-> > ---
-> >   meta/recipes-support/rng-tools/rng-tools/rng-tools.service | 3 +--
-> >   1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/meta/recipes-support/rng-tools/rng-tools/rng-tools.service b/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
-> > index 0f50890dcb..b013d95932 100644
-> > --- a/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
-> > +++ b/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
-> > @@ -3,8 +3,6 @@ Description=Hardware RNG Entropy Gatherer Daemon
-> >   DefaultDependencies=no
-> >   After=systemd-udev-settle.service
-> >   Before=sysinit.target shutdown.target
-> > -Requires=dev-hwrng.device
-> > -After=dev-hwrng.device
-> >   Conflicts=shutdown.target
-> >
-> >   [Service]
-> > @@ -32,3 +30,4 @@ SystemCallFilter=@system-service
-> >
-> >   [Install]
-> >   WantedBy=sysinit.target
-> > +WantedBy=dev-hwrng.device
->
-> --
-> mailto:drew@moseleynet.net
->
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *xorgproto* to *2022.2* has Failed (devtool error).
+
+Detailed error information:
+
+The following devtool command failed:  upgrade xorgproto -V 2022.2
+NOTE: Starting bitbake server...
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1658 entries from dependency cache.
+
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-1a42c216aa5f39dc67224999455c43d1f2055774"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:1a42c216aa5f39dc67224999455c43d1f2055774"
+workspace            = "master:21cfb871f7da604f1fab957d7747cb03b113b971"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1658 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 885 .bb files complete (883 cached, 2 parsed). 1659 targets, 35 skipped, 0 masked, 0 errors.
+
+Summary: There was 1 WARNING message.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-1a42c216aa5f39dc67224999455c43d1f2055774"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:1a42c216aa5f39dc67224999455c43d1f2055774"
+workspace            = "master:21cfb871f7da604f1fab957d7747cb03b113b971"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+WARNING: Failed to fetch URL https://www.x.org/releases//individual/proto/xorgproto-2022.2.tar.bz2, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://www.x.org/releases//individual/proto/xorgproto-2022.2.tar.bz2...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-3mgb1s0p/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-3mgb1s0p/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-3mgb1s0p/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-3mgb1s0p/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-3mgb1s0p/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-3mgb
+ 1s0p/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -O /home/pokybuild/yocto-worker/auh/build/build/build/downloads/xorgproto-2022.2.tar.bz2.tmp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://www.x.org/releases//individual/proto/xorgproto-2022.2.tar.bz2' --progress=dot -v failed with exit code 8, no output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://www.x.org/releases//individual/proto/xorgproto-2022.2.tar.bz2')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-3mgb1s0p/work/temp/log.do_fetch.3893473
+ERROR: Failed to fetch URL https://www.x.org/releases//individual/proto/xorgproto-2022.2.tar.bz2
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============1884891341844353077==--
 
