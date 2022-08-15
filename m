@@ -2,41 +2,41 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 854CBC2BB41
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92AE5C2BB47
 	for <webhook@archiver.kernel.org>; Mon, 15 Aug 2022 18:57:02 +0000 (UTC)
 Received: from a27-191.smtp-out.us-west-2.amazonses.com
  (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web09.6465.1660589821419989386
+ by mx.groups.io with SMTP id smtpd.web10.6264.1660589821426876572
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Aug 2022 11:57:01 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=GCWcfbUq;
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=fmGoj0ie;
  spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191,
- mailfrom: 01010182a2ddcad7-77c0db4b-0e96-4248-8e4b-f9ee920516da-000000@us-west-2.amazonses.com)
+ mailfrom: 01010182a2ddc94d-587877a1-f245-43b8-9a0c-662ecf59e4e3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1660589820;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=6mGSz8BIwk0+VIVacauUyb/3cr/3RX0sQMb4mginhq8=;
-	b=GCWcfbUqB8e7S8pXY9G8rjNCVlZiJeu71NyzGsuaolfNgi4iRpXEk/BpOtbo9S5x
-	fVO9ZC4I8Ld15rP3sHmORJJxAN5/Z9e2S8b+IBYtv1tlPuADunrGWmsEIJCZFp2rHZX
-	vV8BELe2ITHyHnrZMhlH9dpUOTLvNcrIU2VpKCaU=
+	bh=QYmtLv9ZJHjG+MoNQKODyiH1MM1cdSqRqJ6Ulh1v3XA=;
+	b=fmGoj0ied57J0/4E9fWzbFPJMhEHm8LHZ6Yel8yKHkmSsNicuUzUZEP1vzQTpMSU
+	h3lrSsare8gYTnJB28HjMUfSYCgPR3eetHNURMGOOk37xRUczAAJ+l+eKYnOfSKCTsj
+	bEYf3ekuEeiIEKAxTAa/10tq4jE6ne4BSjJ+5Hi4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1660589820;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=6mGSz8BIwk0+VIVacauUyb/3cr/3RX0sQMb4mginhq8=;
-	b=BYPH5FCkNv+YYqRqDosWDc3uEanzMKdnQJL0U82MQ89qffxmK3BGEYaxk2zektL1
-	yZroOvy6T3f/h8oimi36zuctk6cwBSHq8d2eZzEmT4D445MxTToPkOXTdnw3T4DWNzV
-	D6/ZHTmmf1cV4YmLYUAzg7KT6Fn1P6kV1rE8UrFU=
-Content-Type: multipart/mixed; boundary="===============3101808214916293867=="
+	bh=QYmtLv9ZJHjG+MoNQKODyiH1MM1cdSqRqJ6Ulh1v3XA=;
+	b=a1+Pgum4bzy+efyYH20ULHTbSAAz99mL/LMpBRMF0g8gvyx3KbmSl1S5xISGqfQu
+	tSd9UXYxYR3xVPtL61k7Bz85+5Rs69DyXu/nyEirh6HaeYaRMhfEFKvadzDUPPdQ1LI
+	MkFXs0lK14q2N1GwSGa4HkGHph2r6hnpaSjRxJ/o=
+Content-Type: multipart/mixed; boundary="===============5562360258461404420=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] lighttpd: upgrading to 1.4.66 SUCCEEDED
+Subject: [AUH] python3-pytz: upgrading to 2022.2.1 SUCCEEDED
 Message-ID: 
- <01010182a2ddcad7-77c0db4b-0e96-4248-8e4b-f9ee920516da-000000@us-west-2.amazonses.com>
+ <01010182a2ddc94d-587877a1-f245-43b8-9a0c-662ecf59e4e3-000000@us-west-2.amazonses.com>
 Date: Mon, 15 Aug 2022 18:57:00 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
@@ -46,9 +46,9 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Aug 2022 18:57:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169386
+ https://lists.openembedded.org/g/openembedded-core/message/169385
 
---===============3101808214916293867==
+--===============5562360258461404420==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *lighttpd* to *1.4.66* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-pytz* to *2022.2.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-lighttpd-upgrade-1.4.65-1.4.66.patch
+    - apply the patch: git am 0001-python3-pytz-upgrade-2022.1-2022.2.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,129 +75,104 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3101808214916293867==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-lighttpd-upgrade-1.4.65-1.4.66.patch"
-
-RnJvbSBhNDk0Yzc2N2FiNzBmMzA5MjcxNWNhMWNmOGJhNjNmM2UwNjNkMjRiIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgQXVnIDIwMjIgMTA6Mjc6MTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWdodHRwZDogdXBncmFkZSAxLjQuNjUgLT4gMS40LjY2CgotLS0KIC4uLi9saWdodHRwZC97bGln
-aHR0cGRfMS40LjY1LmJiID0+IGxpZ2h0dHBkXzEuNC42Ni5iYn0gICAgICAgICB8IDIgKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1leHRlbmRlZC9saWdodHRwZC97bGlnaHR0cGRfMS40LjY1LmJiID0+IGxpZ2h0dHBk
-XzEuNC42Ni5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGln
-aHR0cGQvbGlnaHR0cGRfMS40LjY1LmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpZ2h0dHBk
-L2xpZ2h0dHBkXzEuNC42Ni5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBtZXRh
-L3JlY2lwZXMtZXh0ZW5kZWQvbGlnaHR0cGQvbGlnaHR0cGRfMS40LjY1LmJiCnJlbmFtZSB0byBt
-ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGlnaHR0cGQvbGlnaHR0cGRfMS40LjY2LmJiCmluZGV4IDEw
-YWEyN2YwNzIuLjgwMTE2Mjg2N2MgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9s
-aWdodHRwZC9saWdodHRwZF8xLjQuNjUuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xp
-Z2h0dHBkL2xpZ2h0dHBkXzEuNC42Ni5iYgpAQCAtMTksNyArMTksNyBAQCBTUkNfVVJJID0gImh0
-dHA6Ly9kb3dubG9hZC5saWdodHRwZC5uZXQvbGlnaHR0cGQvcmVsZWFzZXMtMS40LngvbGlnaHR0
-cGQtJHtQVn0udAogICAgICAgICAgICBmaWxlOi8vbGlnaHR0cGQgXAogICAgICAgICAgICAiCiAK
-LVNSQ19VUklbc2hhMjU2c3VtXSA9ICJiZjBmYTY4YTYyOWZiYzQwNDAyM2E5MTJiMzc3ZTcwMDQ5
-MzMxZDY3OTdiY2JiNGIzZThkZjRjM2I0MjMyOGJlIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjQ3
-YWM2ZTYwMjcxYWEwMTk2ZTY1NDcyZDAyZDAxOTU1NmRjN2M2ZDA5ZGYzYjY1ZGYyYzFhYjY4NjYz
-NDhlM2IiCiAKIERFUEVORFMgPSAidmlydHVhbC9jcnlwdCIKIAotLSAKMi4zMS4xCgo=
-
---===============3101808214916293867==
+--===============5562360258461404420==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/lighttpd: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd: SRC_URI changed from "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.65.tar.xz file://index.html.lighttpd file://lighttpd.conf file://lighttpd" to "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.66.tar.xz file://index.html.lighttpd file://lighttpd.conf file://lighttpd"
-packages/core2-32-poky-linux/lighttpd/lighttpd-dbg: PKGSIZE changed from 2534632 to 2540668 (+0%)
-packages/core2-32-poky-linux/lighttpd/lighttpd-dbg: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-dbg: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-dev: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-dev: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-doc: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-doc: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-locale: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-locale: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-access: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-access: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-accesslog: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-accesslog: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-ajp13: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-ajp13: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-alias: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-alias: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-auth: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-auth: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-authn-file: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-authn-file: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-cgi: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-cgi: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-deflate: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-deflate: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-dirlisting: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-dirlisting: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-evasive: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-evasive: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-evhost: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-evhost: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-expire: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-expire: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-extforward: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-extforward: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-fastcgi: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-fastcgi: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-indexfile: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-indexfile: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-openssl: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-openssl: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-proxy: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-proxy: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-redirect: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-redirect: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-rewrite: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-rewrite: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-rrdtool: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-rrdtool: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-scgi: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-scgi: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-secdownload: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-secdownload: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-setenv: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-setenv: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-simple-vhost: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-simple-vhost: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-sockproxy: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-sockproxy: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-ssi: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-ssi: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-staticfile: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-staticfile: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-status: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-status: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-uploadprogress: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-uploadprogress: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-userdir: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-userdir: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-usertrack: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-usertrack: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-vhostdb: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-vhostdb: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-webdav: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-webdav: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-wstunnel: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-wstunnel: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-src: PKGSIZE changed from 2926407 to 2933298 (+0%)
-packages/core2-32-poky-linux/lighttpd/lighttpd-src: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-src: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-staticdev: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd-staticdev: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd: PKGSIZE changed from 449900 to 453996 (+1%)
-packages/core2-32-poky-linux/lighttpd/lighttpd: PV changed from "1.4.65" to "1.4.66"
-packages/core2-32-poky-linux/lighttpd/lighttpd: PKGV changed from 1.4.65 [default] to 1.4.66 [default]
+packages/core2-32-poky-linux/python3-pytz: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pytz/pytz-2022.1.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/p/pytz/pytz-2022.2.1.tar.gz file://run-ptest"
+packages/core2-32-poky-linux/python3-pytz: PV changed from "2022.1" to "2022.2.1"
+packages/core2-32-poky-linux/python3-pytz: PKGV changed from 2022.1 [default] to 2022.2.1 [default]
+packages/core2-32-poky-linux/python3-pytz/python3-pytz-dbg: PV changed from "2022.1" to "2022.2.1"
+packages/core2-32-poky-linux/python3-pytz/python3-pytz-dbg: PKGV changed from 2022.1 [default] to 2022.2.1 [default]
+packages/core2-32-poky-linux/python3-pytz/python3-pytz-dev: PV changed from "2022.1" to "2022.2.1"
+packages/core2-32-poky-linux/python3-pytz/python3-pytz-dev: PKGV changed from 2022.1 [default] to 2022.2.1 [default]
+packages/core2-32-poky-linux/python3-pytz/python3-pytz-doc: PV changed from "2022.1" to "2022.2.1"
+packages/core2-32-poky-linux/python3-pytz/python3-pytz-doc: PKGV changed from 2022.1 [default] to 2022.2.1 [default]
+packages/core2-32-poky-linux/python3-pytz/python3-pytz-locale: PV changed from "2022.1" to "2022.2.1"
+packages/core2-32-poky-linux/python3-pytz/python3-pytz-locale: PKGV changed from 2022.1 [default] to 2022.2.1 [default]
+packages/core2-32-poky-linux/python3-pytz/python3-pytz-ptest: PKGSIZE changed from 61126 to 59168 (-3%)
+packages/core2-32-poky-linux/python3-pytz/python3-pytz-ptest: PV changed from "2022.1" to "2022.2.1"
+packages/core2-32-poky-linux/python3-pytz/python3-pytz-ptest: PKGV changed from 2022.1 [default] to 2022.2.1 [default]
+packages/core2-32-poky-linux/python3-pytz/python3-pytz-src: PV changed from "2022.1" to "2022.2.1"
+packages/core2-32-poky-linux/python3-pytz/python3-pytz-src: PKGV changed from 2022.1 [default] to 2022.2.1 [default]
+packages/core2-32-poky-linux/python3-pytz/python3-pytz-staticdev: PV changed from "2022.1" to "2022.2.1"
+packages/core2-32-poky-linux/python3-pytz/python3-pytz-staticdev: PKGV changed from 2022.1 [default] to 2022.2.1 [default]
+packages/core2-32-poky-linux/python3-pytz/python3-pytz: FILELIST: directory renamed /usr/lib/python3.10/site-packages/pytz-2022.1.dist-info -> /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info, added "/usr/lib/python3.10/site-packages/pytz/zoneinfo/Europe/Kyiv"
+packages/core2-32-poky-linux/python3-pytz/python3-pytz: PKGSIZE changed from 1061752 to 1054609 (-1%)
+packages/core2-32-poky-linux/python3-pytz/python3-pytz: PV changed from "2022.1" to "2022.2.1"
+packages/core2-32-poky-linux/python3-pytz/python3-pytz: PKGV changed from 2022.1 [default] to 2022.2.1 [default]
+Changes to packages/core2-32-poky-linux/python3-pytz (sysroot):
+  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info was added
+  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/LICENSE.txt was added
+  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/METADATA was added
+  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/RECORD was added
+  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/top_level.txt was added
+  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/WHEEL was added
+  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/zip-safe was added
+  /usr/lib/python3.10/site-packages/pytz/zoneinfo/Europe/Kyiv was added
+  /usr/lib/python3.10/site-packages/pytz-2022.1.dist-info was removed
+  /usr/lib/python3.10/site-packages/pytz-2022.1.dist-info/LICENSE.txt was removed
+  /usr/lib/python3.10/site-packages/pytz-2022.1.dist-info/METADATA was removed
+  /usr/lib/python3.10/site-packages/pytz-2022.1.dist-info/RECORD was removed
+  /usr/lib/python3.10/site-packages/pytz-2022.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.10/site-packages/pytz-2022.1.dist-info/WHEEL was removed
+  /usr/lib/python3.10/site-packages/pytz-2022.1.dist-info/zip-safe was removed
 
---===============3101808214916293867==--
+--===============5562360258461404420==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-pytz-upgrade-2022.1-2022.2.1.patch"
+
+RnJvbSBkNDRhMGU4YmI1MWUwNWNlMGQ0ZWM5YzI4MGMxYjdkY2VmYTJlOWViIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgQXVnIDIwMjIgMDg6NDM6MzQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXB5dHo6IHVwZ3JhZGUgMjAyMi4xIC0+IDIwMjIuMi4xCgotLS0KIC4uLi9weXRob24v
+e3B5dGhvbjMtcHl0el8yMDIyLjEuYmIgPT4gcHl0aG9uMy1weXR6XzIwMjIuMi4xLmJifSB8IDIg
+Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHl0el8yMDIyLjEuYmIgPT4g
+cHl0aG9uMy1weXR6XzIwMjIuMi4xLmJifSAoODklKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weXR6XzIwMjIuMS5iYiBiL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy1weXR6XzIwMjIuMi4xLmJiCnNpbWlsYXJpdHkgaW5kZXgg
+ODklCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weXR6
+XzIwMjIuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
+LXB5dHpfMjAyMi4yLjEuYmIKaW5kZXggYTRiYjRmNWM4Zi4uYmI3YWVlZWMzNSAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5dHpfMjAyMi4xLmJiCisr
+KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weXR6XzIwMjIuMi4xLmJi
+CkBAIC01LDcgKzUsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLnR4dDtt
+ZDU9MWE2N2ZjNDZjMWI1OTZjY2U1ZDIxMjA5YmJlNzU5OTkiCiAKIGluaGVyaXQgcHlwaSBzZXR1
+cHRvb2xzMyBwdGVzdAogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMWU3NjBlMmZlNmE4MTYzYmMw
+YjNkOWExOWM0Zjg0MzQyYWZhMGEyYWZmZWJmYWE4NGIwMWI5NzhhMDJlY2FhNyIKK1NSQ19VUklb
+c2hhMjU2c3VtXSA9ICJjZWEyMjE0MTcyMDRmMmQxYTJhYTAzZGRhZTNlODY3OTIxOTcxZDBkNzZm
+MTRkODdhYmI0NDE0NDE1YmJkY2Y1IgogCiBSREVQRU5EUzoke1BOfTpjbGFzcy10YXJnZXQgKz0g
+IlwKICAgICAke1BZVEhPTl9QTn0tZGF0ZXRpbWUgXAotLSAKMi4zMS4xCgo=
+
+--===============5562360258461404420==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/python3-pytz/python3-pytz: FILELIST: directory renamed /usr/lib/python3.10/site-packages/pytz-2022.1.dist-info -> /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info, added "/usr/lib/python3.10/site-packages/pytz/zoneinfo/Europe/Kyiv"
+Changes to packages/core2-32-poky-linux/python3-pytz (sysroot):
+  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info was added
+  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/LICENSE.txt was added
+  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/METADATA was added
+  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/RECORD was added
+  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/top_level.txt was added
+  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/WHEEL was added
+  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/zip-safe was added
+  /usr/lib/python3.10/site-packages/pytz/zoneinfo/Europe/Kyiv was added
+  /usr/lib/python3.10/site-packages/pytz-2022.1.dist-info was removed
+  /usr/lib/python3.10/site-packages/pytz-2022.1.dist-info/LICENSE.txt was removed
+  /usr/lib/python3.10/site-packages/pytz-2022.1.dist-info/METADATA was removed
+  /usr/lib/python3.10/site-packages/pytz-2022.1.dist-info/RECORD was removed
+  /usr/lib/python3.10/site-packages/pytz-2022.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.10/site-packages/pytz-2022.1.dist-info/WHEEL was removed
+  /usr/lib/python3.10/site-packages/pytz-2022.1.dist-info/zip-safe was removed
+
+--===============5562360258461404420==--
 
