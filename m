@@ -2,60 +2,60 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FC5BC2BB41
-	for <webhook@archiver.kernel.org>; Tue, 16 Aug 2022 16:59:09 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
- [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web10.18014.1660669145111054483
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A0B8C25B0E
+	for <webhook@archiver.kernel.org>; Tue, 16 Aug 2022 16:59:19 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.18099.1660669146455225699
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Aug 2022 09:59:05 -0700
+ Tue, 16 Aug 2022 09:59:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QTE/dfzE;
- spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f51.google.com with SMTP id
- t2-20020a17090a4e4200b001f21572f3a4so10226668pjl.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=htx0ONkG;
+ spf=pass (domain: gmail.com, ip: 209.85.214.173,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f173.google.com with SMTP id 20so1148497plo.10
         for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Aug 2022 09:59:05 -0700 (PDT)
+ Tue, 16 Aug 2022 09:59:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=Hoa3pBEItjavgdh2dWU9su9dh1AvZn+1L4cDgbD85oM=;
-        b=QTE/dfzE9MK++2tXaRn42c6/OiXjg4D/0B9oKDjkUfU7wAG/aeqpyew0Pmt4vhyas4
-         kJ7VaEI1nOG/bBP9pA2bP1KpfQOWUeFqGjsDR3u8fdAABgBjOTPxHK+h9HFGEGhZBdFh
-         P/I8vMcLLv5lE/gmBG8Ta5Lsrm+9cXAsWJ86j5lnPzVnroeZGkuhPL9NjiEr6gnqi8wV
-         9NUNIsZFOK8Qo8HIpoFfN48YXECQQZWHhzJS3O8jTVvQrznTAPV2X0lX4UgRpIV38HR4
-         dQUerOjwBThslnaJkQmwLLJivR1iZYRwSoQBNVRpIoWy5YpW4Sgwby/HilylDGo+hPxu
-         E4Pw==
+        bh=IpwTNl/tzAl5oLknqMbJzURT9GkouYd3IL2SC3uKDcM=;
+        b=htx0ONkG6b4EaYqvGXu5716k6heeA5ElzC/+2XRETSEqGgTYv/FZi/kQvPrFDgkqCN
+         wszrCA7UzzQ8UDg0CuniipxEHmXC7jCileSlE07kL5MmZwoh+ONXB/RJXnk0/DNWuczT
+         x2+esH/7HE+HvsHM7ZTn3YgegLCF4XMIeG+4Fc+SchjgXBsv5rBj1t5xqhf6gBQBS9UI
+         SVXrD2GcifckuOfLMn2u2woV38zI4IgvNkFCDg7zODo/SDGpQskkIZx+bQ62eo1Wh8MP
+         n288ijxEvOI8GGTAANgNtdu9Oq9gmxxwPJp8IPLb+UaoYMbP/+p1x60X8DSYOq6MsZBs
+         Heyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=Hoa3pBEItjavgdh2dWU9su9dh1AvZn+1L4cDgbD85oM=;
-        b=T6l6I+LYpQAD5K7ppKkwjlbhdhGLyyNk2o6amio+dEYKUYeNUZQpekvVlwQvQbylP2
-         ZkS0ZTOnS+MN4xHwGopCv4guwvnodpw5F02aVqpnISRhUkidsWvWVn0YD/DBbZWI7iov
-         fb5WypxHs/yWdraSpny57HT1QdzADxercB5hSIRvQ2BZPbVRywjwCCN45P54FbwsgPka
-         SFkeyMt2V7lP1/K5wlpUbOC5SV+OPolg5VUvIeT/LqJcCWq/8tGuhewt6mg7H8KPyRhW
-         28J7QxY/3tbHb//ggo8A58qMpWMaVTtFeuIHk8fR4aI+xjekDsN8OGJP369p/OCLENxY
-         Tj2Q==
-X-Gm-Message-State: ACgBeo0ma6cBnNtsaSd4fgQxdou9ucas1KXEE3S/3Shvt6GGhpAkmcd0
-	rgoQz0ZF3DBewP+vXyfCyYoCoeE3i7Q7Rg==
+        bh=IpwTNl/tzAl5oLknqMbJzURT9GkouYd3IL2SC3uKDcM=;
+        b=i594mln9SAnwGnaA6oVIJCOnaiIin+7kR4s1G4VUjZ9tIgVbe3PK2mgRZtJnxwRADm
+         +VT6vidL8x6gejo+IrcMtgoXacGaBatl4uHBUSVz3jL5/ZCFiHk1cPHM26vRqxLItCJy
+         IyWSDlAEb/n5Ba71v6ej30hxp0Ohtvxc0Lu9LGvIB3P6Y+edocY+vKeBW9wcvLcTLSRJ
+         XYcj/JQq7Rvbgj7ZCVHGFQwcJ14nFgQkMosnuyHSnLMUMeiWwkSugr5pr0z8fYam7KzB
+         go7SLq+A+aCtAeGqUIJBCWIiarotaGPhKpsqIliso1EM495NoVwRqaGQkvwbR6B7y+2e
+         u1aA==
+X-Gm-Message-State: ACgBeo3YWoYpYFArI6UTgW1rCPpjTcPxVtKu7iC3pgv5Y+bbK4P19TqE
+	+HYAXsnAvbWyE/niDUlERJXLDdnPL9lSYw==
 X-Google-Smtp-Source: 
- AA6agR7cF9idthAAWZUE5X/ktFZAtdVd6fItYiYKhyeGZJLG5bd4MH2CpL1/QNXsdrOOulXeDDb/pw==
-X-Received: by 2002:a17:902:e744:b0:170:d01d:df10 with SMTP id
- p4-20020a170902e74400b00170d01ddf10mr23150374plf.40.1660669143961;
-        Tue, 16 Aug 2022 09:59:03 -0700 (PDT)
+ AA6agR7t3v6DLV8W5VewtTWTpoHy30HL6Zj0HO6Hui6Brcgve9n29ZqpwryCyy+BXGwZPyStfRVXvg==
+X-Received: by 2002:a17:902:d4d2:b0:16e:fe70:ca7e with SMTP id
+ o18-20020a170902d4d200b0016efe70ca7emr22850600plg.11.1660669145381;
+        Tue, 16 Aug 2022 09:59:05 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::bb7a])
         by smtp.gmail.com with ESMTPSA id
- x21-20020a17090a531500b001f04479017fsm6562577pjh.29.2022.08.16.09.59.02
+ x21-20020a17090a531500b001f04479017fsm6562577pjh.29.2022.08.16.09.59.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Aug 2022 09:59:03 -0700 (PDT)
+        Tue, 16 Aug 2022 09:59:04 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 4/7] nfs-utils: Upgrade to 2.6.2
-Date: Tue, 16 Aug 2022 09:58:54 -0700
-Message-Id: <20220816165857.2342796-4-raj.khem@gmail.com>
+Subject: [PATCH 5/7] apt: Do not use std::binary_function
+Date: Tue, 16 Aug 2022 09:58:55 -0700
+Message-Id: <20220816165857.2342796-5-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220816165857.2342796-1-raj.khem@gmail.com>
 References: <20220816165857.2342796-1-raj.khem@gmail.com>
@@ -64,204 +64,164 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Aug 2022 16:59:09 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Aug 2022 16:59:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169445
+ https://lists.openembedded.org/g/openembedded-core/message/169446
 
-Fix build with clang
-Package new rpcctl utility into a new package
+This feature is removed from c++17
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...td-Check-for-return-of-stat-function.patch | 34 +++++++
- .../0006-Fix-function-prototypes.patch        | 93 +++++++++++++++++++
- ...{nfs-utils_2.6.1.bb => nfs-utils_2.6.2.bb} | 11 ++-
- 3 files changed, 135 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0005-mountd-Check-for-return-of-stat-function.patch
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0006-Fix-function-prototypes.patch
- rename meta/recipes-connectivity/nfs-utils/{nfs-utils_2.6.1.bb => nfs-utils_2.6.2.bb} (92%)
+ ...-init-tables-from-dpkg-configuration.patch |  4 +-
+ ...001-Remove-using-std-binary_function.patch | 87 +++++++++++++++++++
+ ...n-dpkg-configure-a-at-the-end-of-our.patch |  4 +-
+ meta/recipes-devtools/apt/apt_2.4.5.bb        |  1 +
+ 4 files changed, 92 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-devtools/apt/apt/0001-Remove-using-std-binary_function.patch
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0005-mountd-Check-for-return-of-stat-function.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0005-mountd-Check-for-return-of-stat-function.patch
+diff --git a/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch b/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch
+index 59b9cd190f5..37a31330102 100644
+--- a/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch
++++ b/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch
+@@ -1,4 +1,4 @@
+-From 11ba49594ae9d11f0070198c146b5e437fa83022 Mon Sep 17 00:00:00 2001
++From b84280fec4e1d0d33eca78e76556023f8f8fe5b7 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 10 May 2019 16:47:38 +0200
+ Subject: [PATCH] Do not init tables from dpkg configuration
+@@ -13,7 +13,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/apt-pkg/init.cc b/apt-pkg/init.cc
+-index b9d9b15..1725c59 100644
++index b9d9b15d2..1725c5966 100644
+ --- a/apt-pkg/init.cc
+ +++ b/apt-pkg/init.cc
+ @@ -281,8 +281,8 @@ bool pkgInitSystem(Configuration &Cnf,pkgSystem *&Sys)
+diff --git a/meta/recipes-devtools/apt/apt/0001-Remove-using-std-binary_function.patch b/meta/recipes-devtools/apt/apt/0001-Remove-using-std-binary_function.patch
 new file mode 100644
-index 00000000000..13a21e53070
+index 00000000000..3065210a04b
 --- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0005-mountd-Check-for-return-of-stat-function.patch
-@@ -0,0 +1,34 @@
-+From 887ecc7837962e9be77a4fea7d9122648f73a84a Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/apt/apt/0001-Remove-using-std-binary_function.patch
+@@ -0,0 +1,87 @@
++From e91fb0618ce0a5d42f239d0fca602544858f0819 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 15 Aug 2022 14:47:53 -0700
-+Subject: [PATCH] mountd: Check for return of stat function
++Date: Tue, 16 Aug 2022 08:44:18 -0700
++Subject: [PATCH] Remove using std::binary_function
 +
-+simplify the check, stat() return 0 on success -1 on failure
++std::binary_function and std::unary_function are deprecated since c++11
++and removed in c++17, therefore remove it and use lambda functions to get same
++functionality implemented.
 +
-+Fixes clang reported errors e.g.
-+
-+| v4clients.c:29:6: error: logical not is only applied to the left hand side of this comparison [-Werror,-Wlogical-not-parentheses]
-+|         if (!stat("/proc/fs/nfsd/clients", &sb) == 0 ||
-+|             ^                                   ~~
-+
-+Upstream-Status: Submitted [https://patchwork.kernel.org/project/linux-nfs/patch/20220816024403.2694169-1-raj.khem@gmail.com/]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Cc: Konstantin Khorenko <khorenko@virtuozzo.com>
-+Cc: Steve Dickson <steved@redhat.com>
-+---
-+ support/export/v4clients.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/support/export/v4clients.c b/support/export/v4clients.c
-+index 5f15b61..3230251 100644
-+--- a/support/export/v4clients.c
-++++ b/support/export/v4clients.c
-+@@ -26,7 +26,7 @@ void v4clients_init(void)
-+ {
-+ 	struct stat sb;
-+ 
-+-	if (!stat("/proc/fs/nfsd/clients", &sb) == 0 ||
-++	if (stat("/proc/fs/nfsd/clients", &sb) != 0 ||
-+ 	    !S_ISDIR(sb.st_mode))
-+ 		return;
-+ 	if (clients_fd >= 0)
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0006-Fix-function-prototypes.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0006-Fix-function-prototypes.patch
-new file mode 100644
-index 00000000000..793bc4651cd
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0006-Fix-function-prototypes.patch
-@@ -0,0 +1,93 @@
-+From cf0ffbb5c8fa167376926d12a63613f15aa7602f Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 15 Aug 2022 14:50:15 -0700
-+Subject: [PATCH] Fix function prototypes
-+
-+Clang is now erroring out on functions with out parameter types
-+
-+Fixes errors like
-+error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
-+
-+Upstream-Status: Submitted [https://patchwork.kernel.org/project/linux-nfs/patch/20220816024403.2694169-2-raj.khem@gmail.com/]
++Upstream-Status: Submitted [https://salsa.debian.org/apt-team/apt/-/merge_requests/253]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ support/export/auth.c     | 2 +-
-+ support/export/v4root.c   | 2 +-
-+ support/export/xtab.c     | 2 +-
-+ utils/exportfs/exportfs.c | 4 ++--
-+ utils/mount/network.c     | 2 +-
-+ 5 files changed, 6 insertions(+), 6 deletions(-)
++ ftparchive/apt-ftparchive.cc | 33 ++++++++++-----------------------
++ 1 file changed, 10 insertions(+), 23 deletions(-)
 +
-+diff --git a/support/export/auth.c b/support/export/auth.c
-+index 03ce4b8..2d7960f 100644
-+--- a/support/export/auth.c
-++++ b/support/export/auth.c
-+@@ -82,7 +82,7 @@ check_useipaddr(void)
-+ }
++diff --git a/ftparchive/apt-ftparchive.cc b/ftparchive/apt-ftparchive.cc
++index 87ce9153c..56fdc2246 100644
++--- a/ftparchive/apt-ftparchive.cc
+++++ b/ftparchive/apt-ftparchive.cc
++@@ -48,6 +48,11 @@
++ using namespace std;
++ unsigned Quiet = 0;
 + 
-+ unsigned int
-+-auth_reload()
-++auth_reload(void)
+++auto ContentsCompare = [](const auto &a, const auto &b) { return a.ContentsMTime < b.ContentsMTime; };
+++auto DBCompare = [](const auto &a, const auto &b) { return a.BinCacheDB < b.BinCacheDB; };
+++auto SrcDBCompare = [](const auto &a, const auto &b) { return a.SrcCacheDB < b.SrcCacheDB; };
+++
+++
++ static struct timeval GetTimevalFromSteadyClock()			/*{{{*/
 + {
-+ 	struct stat		stb;
-+ 	static ino_t		last_inode;
-+diff --git a/support/export/v4root.c b/support/export/v4root.c
-+index c12a7d8..fbb0ad5 100644
-+--- a/support/export/v4root.c
-++++ b/support/export/v4root.c
-+@@ -198,7 +198,7 @@ static int v4root_add_parents(nfs_export *exp)
-+  * looking for components of the v4 mount.
-+  */
-+ void
-+-v4root_set()
-++v4root_set(void)
-+ {
-+ 	nfs_export	*exp;
-+ 	int	i;
-+diff --git a/support/export/xtab.c b/support/export/xtab.c
-+index c888a80..e210ca9 100644
-+--- a/support/export/xtab.c
-++++ b/support/export/xtab.c
-+@@ -135,7 +135,7 @@ xtab_write(char *xtab, char *xtabtmp, char *lockfn, int is_export)
-+ }
++    auto const Time = std::chrono::steady_clock::now().time_since_epoch();
++@@ -116,24 +121,6 @@ struct PackageMap
++    bool SrcDone;
++    time_t ContentsMTime;
++    
++-   struct ContentsCompare : public binary_function<PackageMap,PackageMap,bool>
++-   {
++-      inline bool operator() (const PackageMap &x,const PackageMap &y)
++-      {return x.ContentsMTime < y.ContentsMTime;};
++-   };
++-    
++-   struct DBCompare : public binary_function<PackageMap,PackageMap,bool>
++-   {
++-      inline bool operator() (const PackageMap &x,const PackageMap &y)
++-      {return x.BinCacheDB < y.BinCacheDB;};
++-   };  
++-
++-   struct SrcDBCompare : public binary_function<PackageMap,PackageMap,bool>
++-   {
++-      inline bool operator() (const PackageMap &x,const PackageMap &y)
++-      {return x.SrcCacheDB < y.SrcCacheDB;};
++-   };
++-   
++    void GetGeneral(Configuration &Setup,Configuration &Block);
++    bool GenPackages(Configuration &Setup,struct CacheDB::Stats &Stats);
++    bool GenSources(Configuration &Setup,struct CacheDB::Stats &Stats);
++@@ -869,7 +856,7 @@ static bool DoGenerateContents(Configuration &Setup,
++       else
++ 	 I->ContentsMTime = A.st_mtime;
++    }
++-   stable_sort(PkgList.begin(),PkgList.end(),PackageMap::ContentsCompare());
+++   stable_sort(PkgList.begin(),PkgList.end(),ContentsCompare);
++    
++    /* Now for Contents.. The process here is to do a make-like dependency
++       check. Each contents file is verified to be newer than the package files
++@@ -941,8 +928,8 @@ static bool Generate(CommandLine &CmdL)
++    LoadBinDir(PkgList,Setup);
 + 
-+ int
-+-xtab_export_write()
-++xtab_export_write(void)
-+ {
-+ 	return xtab_write(etab.statefn, etab.tmpfn, etab.lockfn, 1);
-+ }
-+diff --git a/utils/exportfs/exportfs.c b/utils/exportfs/exportfs.c
-+index 6ba615d..0897b22 100644
-+--- a/utils/exportfs/exportfs.c
-++++ b/utils/exportfs/exportfs.c
-+@@ -69,14 +69,14 @@ static int _lockfd = -1;
-+  * need these additional lockfile() routines.
-+  */
-+ static void
-+-grab_lockfile()
-++grab_lockfile(void)
-+ {
-+ 	_lockfd = open(lockfile, O_CREAT|O_RDWR, 0666);
-+ 	if (_lockfd != -1)
-+ 		lockf(_lockfd, F_LOCK, 0);
-+ }
-+ static void
-+-release_lockfile()
-++release_lockfile(void)
-+ {
-+ 	if (_lockfd != -1) {
-+ 		lockf(_lockfd, F_ULOCK, 0);
-+diff --git a/utils/mount/network.c b/utils/mount/network.c
-+index ed2f825..01ead49 100644
-+--- a/utils/mount/network.c
-++++ b/utils/mount/network.c
-+@@ -179,7 +179,7 @@ static const unsigned long probe_mnt3_only[] = {
++    // Sort by cache DB to improve IO locality.
++-   stable_sort(PkgList.begin(),PkgList.end(),PackageMap::DBCompare());
++-   stable_sort(PkgList.begin(),PkgList.end(),PackageMap::SrcDBCompare());
+++   stable_sort(PkgList.begin(),PkgList.end(),DBCompare);
+++   stable_sort(PkgList.begin(),PkgList.end(),SrcDBCompare);
 + 
-+ static const unsigned int *nfs_default_proto(void);
-+ #ifdef MOUNT_CONFIG
-+-static const unsigned int *nfs_default_proto()
-++static const unsigned int *nfs_default_proto(void)
-+ {
-+ 	extern unsigned long config_default_proto;
-+ 	/*
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.2.bb
-similarity index 92%
-rename from meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.1.bb
-rename to meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.2.bb
-index bbed5aea59b..42311c66c73 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.1.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.2.bb
-@@ -30,8 +30,10 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
-            file://bugfix-adjust-statd-service-name.patch \
-            file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
-            file://clang-warnings.patch \
-+           file://0005-mountd-Check-for-return-of-stat-function.patch \
-+           file://0006-Fix-function-prototypes.patch \
++    // Generate packages
++    if (_config->FindB("APT::FTPArchive::ContentsOnly", false) == false)
++@@ -993,8 +980,8 @@ static bool Clean(CommandLine &CmdL)
++    LoadBinDir(PkgList,Setup);
++ 
++    // Sort by cache DB to improve IO locality.
++-   stable_sort(PkgList.begin(),PkgList.end(),PackageMap::DBCompare());
++-   stable_sort(PkgList.begin(),PkgList.end(),PackageMap::SrcDBCompare());
+++   stable_sort(PkgList.begin(),PkgList.end(),DBCompare);
+++   stable_sort(PkgList.begin(),PkgList.end(),SrcDBCompare);
++ 
++    string CacheDir = Setup.FindDir("Dir::CacheDir");
++ 
+diff --git a/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch b/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
+index 593ed7d0968..6f4d5b6e729 100644
+--- a/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
++++ b/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
+@@ -1,4 +1,4 @@
+-From 47c2b42af60ceefd8ed52b32a3a365facf0e05b8 Mon Sep 17 00:00:00 2001
++From a2dd661484536492b47d4c88998f2bf516749bc8 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 21 May 2020 20:13:25 +0000
+ Subject: [PATCH] Revert "always run 'dpkg --configure -a' at the end of our
+@@ -20,7 +20,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 2 insertions(+), 7 deletions(-)
+ 
+ diff --git a/apt-pkg/deb/dpkgpm.cc b/apt-pkg/deb/dpkgpm.cc
+-index 93effa9..4375781 100644
++index 93effa959..4375781d1 100644
+ --- a/apt-pkg/deb/dpkgpm.cc
+ +++ b/apt-pkg/deb/dpkgpm.cc
+ @@ -1199,12 +1199,6 @@ void pkgDPkgPM::BuildPackagesProgressMap()
+diff --git a/meta/recipes-devtools/apt/apt_2.4.5.bb b/meta/recipes-devtools/apt/apt_2.4.5.bb
+index 53849f80a30..564bdeec410 100644
+--- a/meta/recipes-devtools/apt/apt_2.4.5.bb
++++ b/meta/recipes-devtools/apt/apt_2.4.5.bb
+@@ -13,6 +13,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/a/apt/${BPN}_${PV}.tar.xz \
+            file://0001-cmake-Do-not-build-po-files.patch \
+            file://0001-Hide-fstatat64-and-prlimit64-defines-on-musl.patch \
+            file://0001-aptwebserver.cc-Include-array.patch \
++           file://0001-Remove-using-std-binary_function.patch \
             "
--SRC_URI[sha256sum] = "60dfcd94a9f3d72a12bc7058d811787ec87a6d593d70da2123faf9aad3d7a1df"
-+SRC_URI[sha256sum] = "5200873e81c4d610e2462fc262fe18135f2dbe78b7979f95accd159ae64d5011"
  
- # Only kernel-module-nfsd is required here (but can be built-in)  - the nfsd module will
- # pull in the remainder of the dependencies.
-@@ -70,7 +72,7 @@ PACKAGECONFIG[nfsv41] = "--enable-nfsv41,--disable-nfsv41,libdevmapper,libdevmap
- # keyutils is available in meta-oe
- PACKAGECONFIG[nfsv4] = "--enable-nfsv4,--disable-nfsv4,keyutils,python3-core"
- 
--PACKAGES =+ "${PN}-client ${PN}-mount ${PN}-stats"
-+PACKAGES =+ "${PN}-client ${PN}-mount ${PN}-stats ${PN}-rpcctl"
- 
- CONFFILES:${PN}-client += "${localstatedir}/lib/nfs/etab \
- 			   ${localstatedir}/lib/nfs/rmtab \
-@@ -93,9 +95,12 @@ FILES:${PN}-mount = "${base_sbindir}/*mount.nfs*"
- FILES:${PN}-stats = "${sbindir}/mountstats ${sbindir}/nfsiostat ${sbindir}/nfsdclnts"
- RDEPENDS:${PN}-stats = "python3-core"
- 
-+FILES:${PN}-rpcctl = "${sbindir}/rpcctl"
-+RDEPENDS:${PN}-rpcctl = "python3-core"
-+
- FILES:${PN}-staticdev += "${libdir}/libnfsidmap/*.a"
- 
--FILES:${PN} += "${systemd_unitdir} ${libdir}/libnfsidmap/"
-+FILES:${PN} += "${systemd_unitdir} ${libdir}/libnfsidmap/ ${nonarch_base_libdir}/modprobe.d"
- 
- do_configure:prepend() {
- 	sed -i -e 's,sbindir = /sbin,sbindir = ${base_sbindir},g' \
+ SRC_URI:append:class-native = " \
 -- 
 2.37.2
 
