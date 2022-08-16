@@ -1,96 +1,96 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09F35C2BB41
-	for <webhook@archiver.kernel.org>; Tue, 16 Aug 2022 07:54:47 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
- [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web09.13276.1660636482788326054
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20243C2BB41
+	for <webhook@archiver.kernel.org>; Tue, 16 Aug 2022 08:15:17 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web09.13363.1660637709441303077
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Aug 2022 00:54:43 -0700
+ Tue, 16 Aug 2022 01:15:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Raw/wdw/;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.178.238,
- mailfrom: prvs=5227a7d44d=kai.kang@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 27G6LjjE032070
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Aug 2022 07:54:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to :
- subject : date : message-id : mime-version : content-type; s=PPS06212021;
- bh=AvNzlBncBiA+AtcXPH1WpiJm3UpKM0RpBsC2nXcbyps=;
- b=Raw/wdw/Ggl8buV9FQbGJd0gXklvwX3lYnvTY7hpJq3QA6TwSwSwXMU04gPti7tE0jIA
- 0kfRHZZy2K85HevC9YOdYF62c/2zyDzpjjmBJuux6G7Daym2bcL1NXVXwxHjPfEu9DYj
- rozELVQVRkAGkFNifPvyT3wKE+/Ur3h5hGo/9OXkjSJVTjb3ACGZ5u149Zn8p7uMpSPt
- mjsWPxBrsic0Zs1tQOmXcplwmft9T48mPQN7PgmwPHbAc88/taZeUKD2AKS4MkGs/ER+
- MY32a5JxiAxjFjfCcCDM+F9Vt7leky6VGpfwmb0Jq/PjjgJD8xOG6SLP15L/jR3t4MpG GQ==
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com
- [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3hx2x8jbk8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Aug 2022 07:54:41 +0000
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Tue, 16 Aug 2022 00:54:40 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Tue, 16 Aug 2022 00:54:39 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] distrooverrides.bbclass: use IMAGE_CLASSES
-Date: Tue, 16 Aug 2022 15:54:32 +0800
-Message-ID: <20220816075432.22347-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=p3R5EonI;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id
+ bd26-20020a05600c1f1a00b003a5e82a6474so3348209wmb.4
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 16 Aug 2022 01:15:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=/mqJ9rJu0tH31/NNJloxm19EmQmAXS/F3gad6grcVQM=;
+        b=p3R5EonIHUjS3KDLwO4PafuqcD/My9K/OBR+taegw/Okyn11cX+cfZGxdypVaoiADZ
+         lt9UHkxP/bLevG/iF4lmjfqtraKW5XeV7FP6AgDEfn50zX6xaTR0wWMpNmP889gVdGns
+         RRnPMcBZZlCbohFdZt8V8w5U6gGDtGAFrrqZ1s0xElp0xJCsCxeeHrUHj0tvUClGkLWx
+         46UGFtwu9E0aDIH+HqIdz8YqPdzvojennwNlsUZ/4Yr9LSSZZhEpCnhJhm820uy+Xh0n
+         TEkNjRDm5orL83zpIxrgpqltnxAbqz9sP+Nk1nxASDWDZzmxkcl6dXJqtH0XEdQxYo3N
+         +Lcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=/mqJ9rJu0tH31/NNJloxm19EmQmAXS/F3gad6grcVQM=;
+        b=eObiMKkf8y4x0fKVrGUDrRuoScILngxNRgUkqEf9lBU03rv3gOprqsUlzXgv6Gs66O
+         GBTCLegL9bv4MFExWYA7o1iJ/pP0/IGCu/8TXUaKXYhRzTpDb/dZW1BtrfZf6El5jfBQ
+         q7TbnhBcDerwBebA9RhxkhvzCFxM658/iY48k9nj0oEsYywjrR7GPAKSEbqlpTdmKXPz
+         tZYjDJN/FHd6bbwCEeG/R3FetDxp1LDCP9JTVXe93tsXfIdC8+ZysWLrthQvn6sZoEYK
+         dxsSrrhzv7/RxnsybWLTUeecptL+bryXwmJJwFxPoK4xN2kUOaez2wjNCRcDIm2opagi
+         6aOA==
+X-Gm-Message-State: ACgBeo35/SyhEOZdVm7gPW1lI4aSEt14HCmiaGiA2bTrdeOpKw5um+R+
+	Phu4R1k4jS720MaIeOB/kpgEcRYF6V4=
+X-Google-Smtp-Source: 
+ AA6agR6fPjlrMbNftyuH2226uxUxUcmtUDGqllYhNHeGWm6LI+CDwU0hXWXdkbU5srxPFxQ0w5imMA==
+X-Received: by 2002:a05:600c:4caa:b0:3a5:4a14:854a with SMTP id
+ g42-20020a05600c4caa00b003a54a14854amr12641981wmp.107.1660637707461;
+        Tue, 16 Aug 2022 01:15:07 -0700 (PDT)
+Received: from fio.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+        by smtp.gmail.com with ESMTPSA id
+ i1-20020a1c5401000000b003a32167b8d4sm12143390wmb.13.2022.08.16.01.15.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Aug 2022 01:15:06 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [OE-core][PATCH] shaderc: upgrade 2022.1 -> 2022.2
+Date: Tue, 16 Aug 2022 09:14:57 +0100
+Message-Id: <20220816081457.4850-1-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: NjkMABTHHqd_PzyDtK63grnGT9CyROpJ
-X-Proofpoint-GUID: NjkMABTHHqd_PzyDtK63grnGT9CyROpJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-16_06,2022-08-16_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 malwarescore=0 bulkscore=0 clxscore=1015 mlxscore=0
- lowpriorityscore=0 spamscore=0 mlxlogscore=841 adultscore=0
- impostorscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2207270000 definitions=main-2208160030
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Aug 2022 07:54:47 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Aug 2022 08:15:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169428
+ https://lists.openembedded.org/g/openembedded-core/message/169429
 
-From: Kai Kang <kai.kang@windriver.com>
-
-Update comment in distrooverrides.bbclass to use IMAGE_CLASSES rather
-than globally with INHERIT.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 ---
- meta/classes-recipe/distrooverrides.bbclass | 2 +-
+ .../shaderc/{shaderc_2022.1.bb => shaderc_2022.2.bb}            | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/shaderc/{shaderc_2022.1.bb => shaderc_2022.2.bb} (95%)
 
-diff --git a/meta/classes-recipe/distrooverrides.bbclass b/meta/classes-recipe/distrooverrides.bbclass
-index 8d9d7cda7d..b5346b465e 100644
---- a/meta/classes-recipe/distrooverrides.bbclass
-+++ b/meta/classes-recipe/distrooverrides.bbclass
-@@ -17,7 +17,7 @@
- #
- # The class is meant to be used in a layer.conf or distro
- # .inc file with:
--# INHERIT += "distrooverrides"
-+# IMAGE_CLASSES += "distrooverrides"
- # DISTRO_FEATURES_OVERRIDES += "my-feature"
- #
- # Beware that this part of OVERRIDES changes during parsing, so usage
+diff --git a/meta/recipes-graphics/shaderc/shaderc_2022.1.bb b/meta/recipes-graphics/shaderc/shaderc_2022.2.bb
+similarity index 95%
+rename from meta/recipes-graphics/shaderc/shaderc_2022.1.bb
+rename to meta/recipes-graphics/shaderc/shaderc_2022.2.bb
+index fe9d94094c..df0fe8e6c8 100644
+--- a/meta/recipes-graphics/shaderc/shaderc_2022.1.bb
++++ b/meta/recipes-graphics/shaderc/shaderc_2022.2.bb
+@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/google/shaderc"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+ 
+-SRCREV = "e4722b0ad49ee60c143d43baae8390f75ba27d2d"
++SRCREV = "3f1635df7774a90f691773e0093bc6ad8005de5a"
+ SRC_URI = "git://github.com/google/shaderc.git;protocol=https;branch=main \
+            file://0001-cmake-disable-building-external-dependencies.patch \
+            file://0002-libshaderc_util-fix-glslang-header-file-location.patch \
 -- 
-2.17.1
+2.37.2
 
 
