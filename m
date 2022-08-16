@@ -2,63 +2,62 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ED5FC32772
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E20CC25B0E
 	for <webhook@archiver.kernel.org>; Tue, 16 Aug 2022 16:59:09 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
- [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web10.18015.1660669148978940195
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web11.18094.1660669141050154256
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Aug 2022 09:59:09 -0700
+ Tue, 16 Aug 2022 09:59:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Noivy6/H;
- spf=pass (domain: gmail.com, ip: 209.85.210.180,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=T0APrCfS;
+ spf=pass (domain: gmail.com, ip: 209.85.214.177,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f180.google.com with SMTP id y141so9838874pfb.7
+Received: by mail-pl1-f177.google.com with SMTP id m2so9760085pls.4
         for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Aug 2022 09:59:08 -0700 (PDT)
+ Tue, 16 Aug 2022 09:59:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=Dl/0OWja+KOhyVl1zq0mOMzC7x4h7z2lqRJJSOPiTcg=;
-        b=Noivy6/Hhy4JQuPAd7ReskOLxhyr6ek0kpRM3hkQdpGZfS9d+DrYt+a1WJoClQCUYr
-         QVtemD8goBWeO3fWnNI8zOyt3aepM1FM0P7M/3Y9D2fkUSqt/huh8kRjwUT0yeE4jK/P
-         2zSA30pTBKE3Ma8Xa0idaYdn40mOgi8+d7XkSrUuoiZ66ZcHgqSN+fJ2PpET2SxQ6e6J
-         vdNGUFfYyU0CUFMPI5bRuHsELb/kpT67lenphgEWNV4Yi7pAMmnkCN7UhSLL8VDmAebb
-         SQxKsP8fNkq2wnkF2q9N2n40KI14z25fjVvGLIvdXp1MwM1bdStINMbn3b0FN5lhSNBn
-         QmvA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=hBbsZCdXCnaRcvKtdoNonL1JS/BODT23GGm55vqsWZI=;
+        b=T0APrCfSpdrsKVcit7s2ySL0NPpM2zsH6Fxqrwh1bkwyM7/l+GIWPyxyNNZaFmKy1+
+         65cg/kDkHnREytc/PiyAS+yfwyEYyxReaEnuVY4MtKNP0w1toHulZNo8IbI8QHWUWF7v
+         DH40ZbsW8cE6QwXtZ9d7issAL+/vFMoPiWakatNJH29WkcVsyTezr5gLlJMtEqUSEvXx
+         vh0yzGWCwGG8iwKPlg7yM1m8ZIShFa9DupAED5s8W1FLZPTb5nA3zZ4Q/okWtLl1VUDY
+         jJHg4jsenMcttdppyDIKP2DRK+Xd2zC7V5m8UckaA4XWFQti4d/YLnIxh7G/XglB3Ipg
+         hptA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=Dl/0OWja+KOhyVl1zq0mOMzC7x4h7z2lqRJJSOPiTcg=;
-        b=zBC6NwL/4dzoC0VIJTBcX/fVJR1NsP1g1MdBl4DZPsEeB6WQF6SziIzDDbaZu+5zcI
-         Fs/4TV7AGy+qMGUJ/5tPtV+JWZ4Pq4Fjgb9MR7kIsb00gt82idoVWkVnXs4mAFQOENoJ
-         QEDBFX6sOoyTKLehQZtkpaJVBm8vt3NXVhwI/TmVWhbpcryX20ahKBckxuLgeGGY374O
-         HGMiChrZKL3xTvikuPN8Rmx86Oy4V0cOxsfWelJpm7XAVzUiTGu1rwf0KPnViW+AwRZ5
-         yRIcSZFUcPmduKKHDJ3T2/dKtuTqMeyZ8NuvFgCExtvH0CGgwvlNkMFGIas1sRElraRX
-         v9lQ==
-X-Gm-Message-State: ACgBeo1QP5YWgfBTR7SxQAGudv66az+l+BMPVzGQjswcVvOSi34/KPLy
-	RvESYwQyTrZIWlEkh70yNYSyIMvaGcpChg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=hBbsZCdXCnaRcvKtdoNonL1JS/BODT23GGm55vqsWZI=;
+        b=nz2DrmwtJTaoTt154invAzLMfaH3sOiUFrheY6ku4WemYASvVymZ7KOZCWGYYB3J0f
+         av9OCVt3QPT0Z/9LpR0/2bPSU4cviGumc5CIaycjsATLaSNamQUvlUzfnR6CC/15Ez+B
+         PXWn5kPp8t3whwSh8IEB2hqD3UvkRlOybH+5yoGp3Vux/NF5peV2aUhm+eHfB0/gAOvb
+         GmqQFTGSIqD9KwJUnrFWxIc/64L63rMzGNDK8abUQ/LSQIr4pNHz4LBp0hGONdPSsAfr
+         INw8h8I32lnvH/e+NTNn5wPLDWYvynz5LHe3iJbFa9pUXHxYfehSTCaym3vtROSbyqcK
+         +Pjw==
+X-Gm-Message-State: ACgBeo2h7Fz5VNvOia8vKym0hdwQrL0V74CB92YA7lGIWbmjPGLhYSUR
+	c9WcepgIMb9dSNMveZfkhoS7Ax3bNQEcYQ==
 X-Google-Smtp-Source: 
- AA6agR4cCa3ldUG7IlItTQ6Dj+T2yra+w83DveZKWXamukuqXfyEqamMopmJ8QemiWdpsCAggAP+hQ==
-X-Received: by 2002:a05:6a00:1813:b0:52d:cccf:e443 with SMTP id
- y19-20020a056a00181300b0052dcccfe443mr21938594pfa.81.1660669147933;
-        Tue, 16 Aug 2022 09:59:07 -0700 (PDT)
+ AA6agR6BVwboYV4do1TP9Bez2zUlMTPtjuNc2ffg8Pw/l8INLj4uOnRtUuUdmaspbNpZYOUt+h1B8Q==
+X-Received: by 2002:a17:903:2c9:b0:172:57d5:d6f0 with SMTP id
+ s9-20020a17090302c900b0017257d5d6f0mr18999116plk.61.1660669139840;
+        Tue, 16 Aug 2022 09:58:59 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::bb7a])
         by smtp.gmail.com with ESMTPSA id
- x21-20020a17090a531500b001f04479017fsm6562577pjh.29.2022.08.16.09.59.06
+ x21-20020a17090a531500b001f04479017fsm6562577pjh.29.2022.08.16.09.58.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Aug 2022 09:59:07 -0700 (PDT)
+        Tue, 16 Aug 2022 09:58:59 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2 7/7] spirv-tools: Update to 1.3.224.0
-Date: Tue, 16 Aug 2022 09:58:57 -0700
-Message-Id: <20220816165857.2342796-7-raj.khem@gmail.com>
+Subject: [PATCH 1/7] boost: Compile out stdlib unary/binary_functions for
+ c++11 and newer
+Date: Tue, 16 Aug 2022 09:58:51 -0700
+Message-Id: <20220816165857.2342796-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220816165857.2342796-1-raj.khem@gmail.com>
-References: <20220816165857.2342796-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -66,34 +65,67 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Aug 2022 16:59:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169448
+ https://lists.openembedded.org/g/openembedded-core/message/169442
 
-Fixes build with clang
+These base classes are deprecated/removed from libcpp15
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-v2: Drop uprev of vulkan-headers recipe, there was no change
+ ...y-binary_function-base-classes-are-d.patch | 34 +++++++++++++++++++
+ meta/recipes-support/boost/boost_1.79.0.bb    |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-support/boost/boost/0001-The-std-lib-unary-binary_function-base-classes-are-d.patch
 
- .../spir/{spirv-tools_1.3.216.0.bb => spirv-tools_1.3.224.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/spir/{spirv-tools_1.3.216.0.bb => spirv-tools_1.3.224.0.bb} (96%)
-
-diff --git a/meta/recipes-graphics/spir/spirv-tools_1.3.216.0.bb b/meta/recipes-graphics/spir/spirv-tools_1.3.224.0.bb
-similarity index 96%
-rename from meta/recipes-graphics/spir/spirv-tools_1.3.216.0.bb
-rename to meta/recipes-graphics/spir/spirv-tools_1.3.224.0.bb
-index eb907326c43..cfea28a6efe 100644
---- a/meta/recipes-graphics/spir/spirv-tools_1.3.216.0.bb
-+++ b/meta/recipes-graphics/spir/spirv-tools_1.3.224.0.bb
-@@ -7,7 +7,7 @@ SECTION = "graphics"
- LICENSE  = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
- 
--SRCREV = "c94501352d545e84c821ce031399e76d1af32d18"
-+SRCREV = "5e61ea2098220059e89523f1f47b0bcd8c33b89a"
- SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=master;protocol=https"
- PE = "1"
- UPSTREAM_CHECK_GITTAGREGEX = "sdk-(?P<pver>\d+(\.\d+)+)"
+diff --git a/meta/recipes-support/boost/boost/0001-The-std-lib-unary-binary_function-base-classes-are-d.patch b/meta/recipes-support/boost/boost/0001-The-std-lib-unary-binary_function-base-classes-are-d.patch
+new file mode 100644
+index 00000000000..49603348eee
+--- /dev/null
++++ b/meta/recipes-support/boost/boost/0001-The-std-lib-unary-binary_function-base-classes-are-d.patch
+@@ -0,0 +1,34 @@
++From f9b55f5a1fab85bf73c95e6372779d6f50f75e84 Mon Sep 17 00:00:00 2001
++From: jzmaddock <john@johnmaddock.co.uk>
++Date: Mon, 11 Jul 2022 18:26:07 +0100
++Subject: [PATCH] The std lib unary/binary_function base classes are
++ deprecated/removed from libcpp15. Fixes
++ https://github.com/boostorg/container_hash/issues/24.
++
++Upstream-Status: Backport [https://github.com/boostorg/config/pull/440/commits/f0af4a9184457939b89110795ae2d293582c5f66]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ boost/config/stdlib/libcpp.hpp | 9 +++++++++
++ 1 file changed, 9 insertions(+)
++
++diff --git a/boost/config/stdlib/libcpp.hpp b/boost/config/stdlib/libcpp.hpp
++index bc8536ead..0e9f2445e 100644
++--- a/boost/config/stdlib/libcpp.hpp
+++++ b/boost/config/stdlib/libcpp.hpp
++@@ -168,4 +168,13 @@
++ #  define BOOST_NO_CXX14_HDR_SHARED_MUTEX
++ #endif
++ 
+++#if _LIBCPP_VERSION >= 15000
+++//
+++// Unary function is now deprecated in C++11 and later:
+++//
+++#if __cplusplus >= 201103L
+++#define BOOST_NO_CXX98_FUNCTION_BASE
+++#endif
+++#endif
+++
++ //  --- end ---
++-- 
++2.37.2
++
+diff --git a/meta/recipes-support/boost/boost_1.79.0.bb b/meta/recipes-support/boost/boost_1.79.0.bb
+index dd5d6eadd61..09e25567903 100644
+--- a/meta/recipes-support/boost/boost_1.79.0.bb
++++ b/meta/recipes-support/boost/boost_1.79.0.bb
+@@ -5,4 +5,5 @@ SRC_URI += "file://boost-CVE-2012-2677.patch \
+            file://boost-math-disable-pch-for-gcc.patch \
+            file://0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch \
+            file://0001-dont-setup-compiler-flags-m32-m64.patch \
++           file://0001-The-std-lib-unary-binary_function-base-classes-are-d.patch \
+            "
 -- 
 2.37.2
 
