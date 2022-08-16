@@ -2,94 +2,95 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04041C25B0E
-	for <webhook@archiver.kernel.org>; Tue, 16 Aug 2022 11:21:08 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
- [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web09.14586.1660648860607153579
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7062CC25B0E
+	for <webhook@archiver.kernel.org>; Tue, 16 Aug 2022 12:28:48 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web11.14750.1660652923806408578
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Aug 2022 04:21:00 -0700
+ Tue, 16 Aug 2022 05:28:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=e6Q9traE;
- spf=pass (domain: mvista.com, ip: 209.85.210.172,
+ dkim=pass header.i=@mvista.com header.s=google header.b=iBnV65lm;
+ spf=pass (domain: mvista.com, ip: 209.85.216.50,
  mailfrom: hprajapati@mvista.com)
-Received: by mail-pf1-f172.google.com with SMTP id d20so9069705pfq.5
+Received: by mail-pj1-f50.google.com with SMTP id
+ r14-20020a17090a4dce00b001faa76931beso564017pjl.1
         for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Aug 2022 04:21:00 -0700 (PDT)
+ Tue, 16 Aug 2022 05:28:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=mvista.com; s=google;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc;
-        bh=779iEEkgG5AUfq4wQmOZ5v/t7SeF45Sv7VZ+NndZX+I=;
-        b=e6Q9traE7q8IqUMHIb4dn+J12Mr9aTPSsnf9Ms+//laCa6zUbHzaKt9UARvbMWse4J
-         7azvl9maann7tOg3MMp3pUHKPgaUsozn10CQuDm1GIq6UPeEhOCrTs/NiTd5lIJZ6lmz
-         pdlic7reyEKW2zHGaLbpn5YEbqMNb12GW2M7M=
+        bh=jhsDS1Ss1raQsc40PHhHuh1vrB9P6i8+b1b/07smZ3U=;
+        b=iBnV65lm30syFt2jQDnyCJ7fq9PP5pJdP9eF/NPe6dveDA2PqjtxOLYv95J5KdV32e
+         SZnGy+1Xkzn9XLJoafXv+Z8gSasGQn0TMrfaCcn+NTw+Yn+rMG70QFdE2m3NYwnPyBCk
+         g33yQ5sbJEMyg65E1c2d/5Q6CiTymTQS2evxk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc;
-        bh=779iEEkgG5AUfq4wQmOZ5v/t7SeF45Sv7VZ+NndZX+I=;
-        b=g/VIItJ2AraMf1TEScc8Nd/uMtmLoGgwS1cxuGFsslKc54mOT6Aj8R4SNcNeF1vyKT
-         r1r1zcUogNb0x5TogHo867gS14qdc1MRg4KSen3eihJEbR8kCXQXMPueYdemg/vCCa4j
-         oxd03FSRUxv4MaV0pPCtGvGnS8HHRkD+90Qr5NHM5N2HTu7o6ugcg/+3Dm8U2ruIW6ZE
-         ft1IoS0KeLmEKc2Ixwlg5HvhTPZPYqOmjLowu2tc5YEZT6pPu3JvnS4Ex9lvB4UtyUPF
-         2n3O5qyEzGku3lnNxkWQeDY/u0kLmWR+wdwAFPNj1+2tXKZsl7N8YVXF9VtIZJZMmTtY
-         abOA==
-X-Gm-Message-State: ACgBeo0yplZB3kg3aiwabtnb3/VIAn7nTNCGutBq8htJSM9r9sSN2EKQ
-	ex/6mKNINAbdJj4HajZsnRQJ2ZHQekMZEA==
+        bh=jhsDS1Ss1raQsc40PHhHuh1vrB9P6i8+b1b/07smZ3U=;
+        b=ZBQzcmsRNHfMtkARmSSKY+7a4Gm2sakwswBKD1BA6siff+BvNAjKwrMFTlMprLU1G6
+         qpCUQEGzMZLCv5R3vWa7C7Nbhk6rw1erKjfqSKrfmW2ia3DVq4wIw/NljCbiKMQs0jHU
+         ssCX90ecDt/KKckSyuP6gmnYIZlJhL47uCOLH+wPTq4S+TaJdXEaWuRnhu58Bju6g33c
+         Do8jJqElwLp46OLsj9GJmdBjkBqq7+G3d4CA5AlzaZpXYHUEyLMtz6abLNQVQFaaGqqm
+         LQCkb5912NZTi0QoB83ufGzSb1sGNyNgLJCqIc3Seh0jqfEJPiIVf7Nw6knotYVWEfdn
+         xuXQ==
+X-Gm-Message-State: ACgBeo0UGT7yIz805sdvMWXcC15KXIeSMMwEpRvbhwptrxI9x52xb//I
+	9pS8Fh/nnAuSlSEEsmwGwWfIuk78E50G4Q==
 X-Google-Smtp-Source: 
- AA6agR4T3ij8ealRJjGXCCrCJPuXtxU1Et2/FNeTGvvsGuXaUSGfag7L1wMr16AfOQKoAFdb9B33Vg==
-X-Received: by 2002:a63:80c8:0:b0:421:9052:8259 with SMTP id
- j191-20020a6380c8000000b0042190528259mr17332929pgd.14.1660648859291;
-        Tue, 16 Aug 2022 04:20:59 -0700 (PDT)
-Received: from MVIN00024 ([157.32.95.37])
+ AA6agR78kAvZjvnMh/HEqZYn9FNbz/Z83KgbwA2CSwHHye0gAxARfYM+ZaQA7wTRTRvhnryVunsJ3g==
+X-Received: by 2002:a17:90b:3c0e:b0:1f4:d764:99f8 with SMTP id
+ pb14-20020a17090b3c0e00b001f4d76499f8mr23012959pjb.91.1660652922808;
+        Tue, 16 Aug 2022 05:28:42 -0700 (PDT)
+Received: from MVIN00024 ([2405:205:c96f:351b:38f1:eb20:43ff:a7ef])
         by smtp.gmail.com with ESMTPSA id
- d10-20020a63360a000000b004299ceadcc1sm1391950pga.23.2022.08.16.04.20.56
+ x6-20020a170902a38600b0017150330889sm8910497pla.189.2022.08.16.05.28.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Aug 2022 04:20:58 -0700 (PDT)
+        Tue, 16 Aug 2022 05:28:42 -0700 (PDT)
 Received: by MVIN00024 (sSMTP sendmail emulation);
- Tue, 16 Aug 2022 16:48:41 +0530
+ Tue, 16 Aug 2022 17:58:35 +0530
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [dunfell][PATCH] gnutls: CVE-2022-2509 Double free during
+Subject: [kirkstone][PATCH] gnutls: CVE-2022-2509 Double free during
  gnutls_pkcs7_verify
-Date: Tue, 16 Aug 2022 16:48:40 +0530
-Message-Id: <20220816111840.407821-1-hprajapati@mvista.com>
+Date: Tue, 16 Aug 2022 17:58:34 +0530
+Message-Id: <20220816122834.523974-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Aug 2022 11:21:08 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Aug 2022 12:28:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169434
+ https://lists.openembedded.org/g/openembedded-core/message/169435
 
 Source: https://gitlab.com/gnutls/gnutls
-MR: 120421
+MR: 120416
 Type: Security Fix
 Disposition: Backport from https://gitlab.com/gnutls/gnutls/-/commit/ce37f9eb265dbe9b6d597f5767449e8ee95848e2
-ChangeID: f0c84c6aa8178582ac9838c453dacdf2c7cae0e5
+ChangeID: 703e01956915cf9543fdc47cfd5edb87403294f9
 Description:
           CVE-2022-2509 gnutls: Double free during gnutls_pkcs7_verify.
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
  .../gnutls/gnutls/CVE-2022-2509.patch         | 282 ++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.6.14.bb  |   1 +
+ meta/recipes-support/gnutls/gnutls_3.7.4.bb   |   1 +
  2 files changed, 283 insertions(+)
  create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2022-2509.patch
 
 diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2022-2509.patch b/meta/recipes-support/gnutls/gnutls/CVE-2022-2509.patch
 new file mode 100644
-index 0000000000..f8954945d0
+index 0000000000..c1c1def194
 --- /dev/null
 +++ b/meta/recipes-support/gnutls/gnutls/CVE-2022-2509.patch
 @@ -0,0 +1,282 @@
-+From 9835638d4e1f37781a47e777c76d5bb14218929b Mon Sep 17 00:00:00 2001
++From 8161fec931f416f5ca6aa31bb53751e140a93046 Mon Sep 17 00:00:00 2001
 +From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Tue, 16 Aug 2022 12:23:14 +0530
++Date: Tue, 16 Aug 2022 16:56:15 +0530
 +Subject: [PATCH] CVE-2022-2509
 +
 +Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/ce37f9eb265dbe9b6d597f5767449e8ee95848e2]
@@ -104,22 +105,22 @@ index 0000000000..f8954945d0
 + create mode 100644 tests/pkcs7-verify-double-free.c
 +
 +diff --git a/NEWS b/NEWS
-+index 755a67c..ba70bb3 100644
++index 36381f0..02c4040 100644
 +--- a/NEWS
 ++++ b/NEWS
 +@@ -7,6 +7,10 @@ See the end for copying conditions.
 + 
-+ * Version 3.6.14 (released 2020-06-03)
++ * Version 3.7.4 (released 2022-03-17)
 + 
 ++** libgnutls: Fixed double free during verification of pkcs7 signatures.
 ++   Reported by Jaak Ristioja (#1383). [GNUTLS-SA-2022-07-07, CVSS: medium]
 ++   [CVE-2022-2509]
 ++
-+ ** libgnutls: Fixed insecure session ticket key construction, since 3.6.4.
-+    The TLS server would not bind the session ticket encryption key with a
-+    value supplied by the application until the initial key rotation, allowing
++ ** libgnutls: Added support for certificate compression as defined in RFC8879.
++ ** certtool: Added option --compress-cert that allows user to specify compression
++    methods for certificate compression.
 +diff --git a/lib/x509/pkcs7.c b/lib/x509/pkcs7.c
-+index 98669e8..ccbc69d 100644
++index 1f35fab..d5be7f4 100644
 +--- a/lib/x509/pkcs7.c
 ++++ b/lib/x509/pkcs7.c
 +@@ -1318,7 +1318,8 @@ gnutls_x509_crt_t find_signer(gnutls_pkcs7_t pkcs7, gnutls_x509_trust_list_t tl,
@@ -133,18 +134,18 @@ index 0000000000..f8954945d0
 + 					break;
 + 				}
 +diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index 11a083c..cd43a0f 100644
++index cec0a4e..b3cb56c 100644
 +--- a/tests/Makefile.am
 ++++ b/tests/Makefile.am
-+@@ -219,7 +219,7 @@ ctests += mini-record-2 simple gnutls_hmac_fast set_pkcs12_cred cert certuniquei
-+ 	 tls-record-size-limit-asym dh-compute ecdh-compute sign-verify-data-newapi \
++@@ -230,7 +230,7 @@ ctests += mini-record-2 simple gnutls_hmac_fast set_pkcs12_cred cert certuniquei
 + 	 sign-verify-newapi sign-verify-deterministic iov aead-cipher-vec \
 + 	 tls13-without-timeout-func buffer status-request-revoked \
-+-	 set_x509_ocsp_multi_cli kdf-api keylog-func \
-++	 set_x509_ocsp_multi_cli kdf-api keylog-func pkcs7-verify-double-free \
-+ 	 dtls_hello_random_value tls_hello_random_value x509cert-dntypes
++ 	 set_x509_ocsp_multi_cli kdf-api keylog-func handshake-write \
++-	 x509cert-dntypes id-on-xmppAddr tls13-compat-mode ciphersuite-name
+++	 x509cert-dntypes id-on-xmppAddr tls13-compat-mode ciphersuite-name pkcs7-verify-double-free
 + 
-+ if HAVE_SECCOMP_TESTS
++ ctests += tls-channel-binding
++ 
 +diff --git a/tests/pkcs7-verify-double-free.c b/tests/pkcs7-verify-double-free.c
 +new file mode 100644
 +index 0000000..fadf307
@@ -369,18 +370,18 @@ index 0000000000..f8954945d0
 +-- 
 +2.25.1
 +
-diff --git a/meta/recipes-support/gnutls/gnutls_3.6.14.bb b/meta/recipes-support/gnutls/gnutls_3.6.14.bb
-index 0c68da7c54..e9af71c7bd 100644
---- a/meta/recipes-support/gnutls/gnutls_3.6.14.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.6.14.bb
-@@ -25,6 +25,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://CVE-2020-24659.patch \
-            file://CVE-2021-20231.patch \
-            file://CVE-2021-20232.patch \
-+           file://CVE-2022-2509.patch \
- "
+diff --git a/meta/recipes-support/gnutls/gnutls_3.7.4.bb b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
+index b34eb7f5f0..94e7f0d58e 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.7.4.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
+@@ -21,6 +21,7 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
  
- SRC_URI[sha256sum] = "5630751adec7025b8ef955af4d141d00d252a985769f51b4059e5affa3d39d63"
+ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar.xz \
+            file://arm_eabi.patch \
++           file://CVE-2022-2509.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "e6adbebcfbc95867de01060d93c789938cf89cc1d1f6ef9ef661890f6217451f"
 -- 
 2.25.1
 
