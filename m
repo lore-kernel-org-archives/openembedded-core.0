@@ -1,184 +1,133 @@
-Return-Path: <kergoth@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C870C3F6B0
-	for <webhook@archiver.kernel.org>; Tue, 16 Aug 2022 14:55:39 +0000 (UTC)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web09.16829.1660661731072635763
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07902C25B0E
+	for <webhook@archiver.kernel.org>; Tue, 16 Aug 2022 14:59:59 +0000 (UTC)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
+ [209.85.128.170])
+ by mx.groups.io with SMTP id smtpd.web11.16505.1660661992886397029
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Aug 2022 07:55:31 -0700
+ Tue, 16 Aug 2022 07:59:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=EyAW93Ur;
- spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: kergoth@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id z2so13847414edc.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VjrolhnT;
+ spf=pass (domain: gmail.com, ip: 209.85.128.170,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f170.google.com with SMTP id
+ 00721157ae682-32194238c77so158274037b3.4
         for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Aug 2022 07:55:30 -0700 (PDT)
+ Tue, 16 Aug 2022 07:59:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=yC5ClZMvBGRolbFOs5twy1i3eEXpLiwPX5G4FT7H3ls=;
-        b=EyAW93UrMSLXJ8ifsUavNipxKJYpyKoFcBaFseTaLwYvVYYYVuXx+e3g/IBTRl5ydq
-         dskkFY0K1WYLkUOD0CvLutmm8+WNzokLyjFuT/lMSgGVxUxQr8pG3+9vUnb4ia9vW7lx
-         GIjp6tyIXd32K5qUOEzLc+mpO718DWsBUREdMk9jmAmjZtRo/rJW4BQj07hxHg+VVMo6
-         zbQGDGmU3Cslx/nvW3iVwcSP34nkd9zET1ILmn2+09XlcbOeQXXy6XrVev+cnQep5Shz
-         CQOirwovvd08NmxaW+zFwQfm7GLaMJd/TxMID1lYlogcs6uGLCk7tcIywlLhnBb/7Znn
-         KT5A==
+        bh=n03LfrJZVFjztygo9ryWe3cLhp65lhYvBXdggl65Vas=;
+        b=VjrolhnTJWLtccVK11wOYF9YR8H/H15aPj42Ss66I0SkYhie91TngqU0k+k+HA3QFV
+         VqIRNgE9DNQ47pSulBjLrW4xiEuBqbEnwS3yHRfn0VoDgMQd6bg8nRNr22KFdfXLN6Oo
+         lf2cEiDDoPI/8/3bFU+32gE56clsW+Vv43+N2i7/pMfO2b4YSLCB38vZUqtYaMS42MZR
+         onqKowHT6QGjhPgYW54qPH9SQsw0GljuOO+qatIifVxUZ8e3sH70tlb4fvmsMM0K3e6E
+         UjLMpVwL3VQYOdGsQG29s2rnS7uklS7IgRW69DysUmRVX90te0RMZncGRLTI/zCZQNQb
+         bMXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=yC5ClZMvBGRolbFOs5twy1i3eEXpLiwPX5G4FT7H3ls=;
-        b=z6cOR11Wa5dWfmLloWEqp6A2/RiYiTwEg1mS+2VW1BLMkdNVDbRO6S4Kltey21ImSf
-         VXIC8qtM8qOgwjBAO89mzJQBszUagjtdpjrasUnlZVEaGyErg1vCGFVRYsqXlJM0VGU8
-         SW/hddLFfJPDdAcsn4ppMRWb5isqN1p8yM9ktCGbr8u7DEYs1KJKFyF25o8vuDv0KQC6
-         4ikwUIeGsuPhG9C2Z/tNSX0LYtHq4HYfg2GLZv1Bft0WVNA73XnBg/jDxZUVuOUg6jGY
-         OyD6EvgxbGJHrENLTQut4ZMzO5WNn1vuyv3VPnFifoYiCbCi/5zC4aznOto+jzdlV4re
-         QKog==
-X-Gm-Message-State: ACgBeo3xiTYARpnMWURQppASwUFBJU7d4nfTUTFBvAIKup3s6HnwcWH1
-	xulMlOJL5LWCELi/TDZSOaGrFO7qU/PAqbQbXsQ=
+        bh=n03LfrJZVFjztygo9ryWe3cLhp65lhYvBXdggl65Vas=;
+        b=XpuYZCBWOQ71mW68UrOWHinGrFV0c3gLBstlH0A18x0/mZWuhmmOBtrBSTJHBI3ypL
+         x4sqoHhJeHHYy4pT0UuVBT3tfoTqQP9Sc4y5l368oCJNIuk1sT6PKQ7i43DCiPUN0j08
+         21S+2Qa3ewytwpBXpof9aHHGoR9ngFDbLBn2Eq5gciXG03mmAS5wtiAzbz7VwyM0jxqj
+         nYq+89r94CMhON8i8tP0Sg1mq9EYl41GYHoRefI/ZNttaTFGmSO355cKnMq43iZ0riQA
+         BEcJzMb1w8NDxRbgGTe/K5hwjk/BS/7YOysn5KbG9h6S6gP3kVL1Fvljstummmr5JKhr
+         7eCg==
+X-Gm-Message-State: ACgBeo3AGhqVKfN8jzWaeHeYI8L3kQdKMqNf5/u9HaD7Rv5HZzXOU/0Z
+	N0z+s4nDulMSAhzEx2K8yp8SYw9CfFEe8xbJOY4=
 X-Google-Smtp-Source: 
- AA6agR4OstsVzC/2eA1bvfgEc1bmqIS40Vkws7dhcbu/WzCks9kKABfMgxkb3I2m8sl+VraObpJV0CA50QTvcRkaK5o=
-X-Received: by 2002:a05:6402:450c:b0:443:6279:774f with SMTP id
- ez12-20020a056402450c00b004436279774fmr14845144edb.11.1660661729010; Tue, 16
- Aug 2022 07:55:29 -0700 (PDT)
+ AA6agR7MuXMrvGJN/bI1kgcuPGzjvvOOGjpkyA0rc3i34fEz2CnvI+Vu1G6HAe1J+/pjojfQ0OexBOQzKx+Wt34ANeI=
+X-Received: by 2002:a81:b61c:0:b0:333:9118:4020 with SMTP id
+ u28-20020a81b61c000000b0033391184020mr2537460ywh.282.1660661991876; Tue, 16
+ Aug 2022 07:59:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220816075432.22347-1-kai.kang@windriver.com>
-In-Reply-To: <20220816075432.22347-1-kai.kang@windriver.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Tue, 16 Aug 2022 07:55:18 -0700
+References: <20220816033005.2700801-1-raj.khem@gmail.com>
+ <20220816033005.2700801-5-raj.khem@gmail.com>
+ <CANNYZj9wJFxRzEDQMpJ5CxRbx4Si5Se91YWn9bZ=TTr+NmCFgw@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj9wJFxRzEDQMpJ5CxRbx4Si5Se91YWn9bZ=TTr+NmCFgw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 16 Aug 2022 07:59:24 -0700
 Message-ID: 
- <CABcZANmYBerOcEo9NRhY43w8SQyEKsbdSMbgMwFh81Rh1u7Xhg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] distrooverrides.bbclass: use IMAGE_CLASSES
-To: kai <kai.kang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000732afd05e65cf081"
+ <CAMKF1spE3RHcRGtXYR48zWqJObxVPv0CRcGe6ZOF+genM75o7Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 5/6] spirv-tools,spirv-headers: Update to
+ 1.3.224.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Aug 2022 14:55:39 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Aug 2022 14:59:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169439
+ https://lists.openembedded.org/g/openembedded-core/message/169440
 
---000000000000732afd05e65cf081
-Content-Type: text/plain; charset="UTF-8"
-
-This class functionality isn't limited to images.
-
-On Tue, Aug 16, 2022 at 12:54 AM kai <kai.kang@windriver.com> wrote:
-
-> From: Kai Kang <kai.kang@windriver.com>
+On Tue, Aug 16, 2022 at 12:39 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
 >
-> Update comment in distrooverrides.bbclass to use IMAGE_CLASSES rather
-> than globally with INHERIT.
->
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->  meta/classes-recipe/distrooverrides.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes-recipe/distrooverrides.bbclass
-> b/meta/classes-recipe/distrooverrides.bbclass
-> index 8d9d7cda7d..b5346b465e 100644
-> --- a/meta/classes-recipe/distrooverrides.bbclass
-> +++ b/meta/classes-recipe/distrooverrides.bbclass
-> @@ -17,7 +17,7 @@
->  #
->  # The class is meant to be used in a layer.conf or distro
->  # .inc file with:
-> -# INHERIT += "distrooverrides"
-> +# IMAGE_CLASSES += "distrooverrides"
->  # DISTRO_FEATURES_OVERRIDES += "my-feature"
->  #
->  # Beware that this part of OVERRIDES changes during parsing, so usage
-> --
-> 2.17.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#169428):
-> https://lists.openembedded.org/g/openembedded-core/message/169428
-> Mute This Topic: https://lists.openembedded.org/mt/93054585/3617123
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> kergoth@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
+> This version isn't tagged, so where does 1.3.224 come from? Maybe it's
+> better to leave at 1.3.216+SRCPV?
 
--- 
-Christopher Larson
-chris_larson@mentor.com, chris.larson@siemens.com, kergoth@gmail.com
-Principal Software Engineer, Embedded Linux Solutions, Siemens Digital
-Industries Software
+its not tagged but there is branch
+https://github.com/KhronosGroup/SPIRV-Headers/tree/sdk-1.3.224
+I am not sure if they mean folks to use this branch or perhaps there
+will be a tag eventually. same is true for
+spirv-tools - https://github.com/KhronosGroup/SPIRV-Tools/tree/sdk-1.3.224,
+its not clear what to use.
 
---000000000000732afd05e65cf081
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+but for now I guess I will leave spirv-headers as it is. Since there
+is no SRCREV bump perhaps no need to
+rename it.
 
-<div dir=3D"ltr">This class functionality isn&#39;t limited to images.</div=
-><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tu=
-e, Aug 16, 2022 at 12:54 AM kai &lt;<a href=3D"mailto:kai.kang@windriver.co=
-m">kai.kang@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">From: Kai Kang &lt;<a href=3D"mailto:kai.kang@wind=
-river.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;<br>
-<br>
-Update comment in distrooverrides.bbclass to use IMAGE_CLASSES rather<br>
-than globally with INHERIT.<br>
-<br>
-Signed-off-by: Kai Kang &lt;<a href=3D"mailto:kai.kang@windriver.com" targe=
-t=3D"_blank">kai.kang@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes-recipe/distrooverrides.bbclass | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes-recipe/distrooverrides.bbclass b/meta/classes-rec=
-ipe/distrooverrides.bbclass<br>
-index 8d9d7cda7d..b5346b465e 100644<br>
---- a/meta/classes-recipe/distrooverrides.bbclass<br>
-+++ b/meta/classes-recipe/distrooverrides.bbclass<br>
-@@ -17,7 +17,7 @@<br>
-=C2=A0#<br>
-=C2=A0# The class is meant to be used in a layer.conf or distro<br>
-=C2=A0# .inc file with:<br>
--# INHERIT +=3D &quot;distrooverrides&quot;<br>
-+# IMAGE_CLASSES +=3D &quot;distrooverrides&quot;<br>
-=C2=A0# DISTRO_FEATURES_OVERRIDES +=3D &quot;my-feature&quot;<br>
-=C2=A0#<br>
-=C2=A0# Beware that this part of OVERRIDES changes during parsing, so usage=
-<br>
--- <br>
-2.17.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#169428): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/169428" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/169428</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/93054585/3617=
-123" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/93054585/3617123</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:kergoth@gmail.com" target=
-=3D"_blank">kergoth@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr"><div dir=3D"ltr"><font color=3D=
-"#333333">Christopher Larson<br><a>chris_larson@mentor.com</a>,=C2=A0<a>chr=
-is.larson@siemens.com</a>,=C2=A0<a>kergoth@gmail.com</a><br>Principal Softw=
-are Engineer,=C2=A0Embedded Linux Solutions,=C2=A0Siemens Digital Industrie=
-s Software</font><br></div></div></div>
-
---000000000000732afd05e65cf081--
+>
+> Akex
+>
+> On Tue, 16 Aug 2022 at 05:30, Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  .../{spirv-headers_1.3.216.0.bb => spirv-headers_1.3.224.0.bb}  | 0
+> >  .../spir/{spirv-tools_1.3.216.0.bb => spirv-tools_1.3.224.0.bb} | 2 +-
+> >  2 files changed, 1 insertion(+), 1 deletion(-)
+> >  rename meta/recipes-graphics/spir/{spirv-headers_1.3.216.0.bb => spirv-headers_1.3.224.0.bb} (100%)
+> >  rename meta/recipes-graphics/spir/{spirv-tools_1.3.216.0.bb => spirv-tools_1.3.224.0.bb} (96%)
+> >
+> > diff --git a/meta/recipes-graphics/spir/spirv-headers_1.3.216.0.bb b/meta/recipes-graphics/spir/spirv-headers_1.3.224.0.bb
+> > similarity index 100%
+> > rename from meta/recipes-graphics/spir/spirv-headers_1.3.216.0.bb
+> > rename to meta/recipes-graphics/spir/spirv-headers_1.3.224.0.bb
+> > diff --git a/meta/recipes-graphics/spir/spirv-tools_1.3.216.0.bb b/meta/recipes-graphics/spir/spirv-tools_1.3.224.0.bb
+> > similarity index 96%
+> > rename from meta/recipes-graphics/spir/spirv-tools_1.3.216.0.bb
+> > rename to meta/recipes-graphics/spir/spirv-tools_1.3.224.0.bb
+> > index eb907326c43..cfea28a6efe 100644
+> > --- a/meta/recipes-graphics/spir/spirv-tools_1.3.216.0.bb
+> > +++ b/meta/recipes-graphics/spir/spirv-tools_1.3.224.0.bb
+> > @@ -7,7 +7,7 @@ SECTION = "graphics"
+> >  LICENSE  = "Apache-2.0"
+> >  LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+> >
+> > -SRCREV = "c94501352d545e84c821ce031399e76d1af32d18"
+> > +SRCREV = "5e61ea2098220059e89523f1f47b0bcd8c33b89a"
+> >  SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=master;protocol=https"
+> >  PE = "1"
+> >  UPSTREAM_CHECK_GITTAGREGEX = "sdk-(?P<pver>\d+(\.\d+)+)"
+> > --
+> > 2.37.2
+> >
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#169419): https://lists.openembedded.org/g/openembedded-core/message/169419
+> > Mute This Topic: https://lists.openembedded.org/mt/93052351/1686489
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
 
