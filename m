@@ -2,58 +2,60 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C270C3F6B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A0BCC32772
 	for <webhook@archiver.kernel.org>; Tue, 16 Aug 2022 20:57:50 +0000 (UTC)
 Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
  [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web10.20998.1660683469463840658
+ by mx.groups.io with SMTP id smtpd.web09.21297.1660683469680583253
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Aug 2022 13:57:49 -0700
+ Tue, 16 Aug 2022 13:57:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gbQCyQEl;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WMSvyn7q;
  spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id v3so14047533wrp.0
+Received: by mail-wr1-f50.google.com with SMTP id z16so13974887wrh.12
         for <openembedded-core@lists.openembedded.org>;
  Tue, 16 Aug 2022 13:57:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc;
-        bh=QBT+jHDdtvtu22KpPbuQ1AGEVdBbC9mwR0GrFr1eTXo=;
-        b=gbQCyQEl1TRE4y5Nq/uJnfhDJSuX2pQn0WDlXWR7z7szDrgNOuWy74o6+yHR5nJXQZ
-         /EOIzaQVfNhJHsXws59OUBKwFF1Mgwudp1mY27DXYH2Dh3RuHju7s6mQ6PiRbTVi0an4
-         KcmuOA0AZHw/zh+6a4WvQs9cWKb3PGXdi2Who=
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc;
+        bh=51CrrLWdwFrBSdjUad5sLuuahz7vZLsIyPTzQ+N5J7M=;
+        b=WMSvyn7qYKsyJOwKUG78GK2rMJSRgaOOO52f65Sqh7rIyzjUZeiZS3UH6uvc91b99Q
+         j+g/5jVkOvRNjMEsjb280IyiEo89iouEvEvRllb07Z04ymIcxNr+eAtZMN1czSDgd3F9
+         kviQ5Hjn0qjtfUfK+Ag+7XqF6NdS1U2Op+jdQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc;
-        bh=QBT+jHDdtvtu22KpPbuQ1AGEVdBbC9mwR0GrFr1eTXo=;
-        b=oHa+5TCVy1L4KUGKqgjgIYJcODC4hYBnto7H7SmJSs++syBs7iQSLHMfRXaVwpUnb+
-         qASP+JTMF4KQrfm5IrmgJlCBDh8A0T55ty5epyFN6a4Wf/fhrYSKXgUj6IEA0QmhzIJH
-         cP1wHQaqlqWJ9cLnrYP6+7cNIy8X7lv5P+FlogM0jM9jzZTMrbJx2LzfGp0O6XW9/Gzl
-         WfrgVp++BImrBuwfZDaDZwT2zf7D0/r4woBoBhGwEjSPlRikKZ1QS4p3OFEJexx386x2
-         mUK1bVWsc2AQa5q3r+GZ3qSzX9pdH1QmUp7Hev9nf/CTGiP0JqSbHhtw92DmCTXts7rG
-         lbmA==
-X-Gm-Message-State: ACgBeo1BNcgm5H3US8yJRu9ymPa5Wo7mbmZyE2IgEf5szqcwMsLSexME
-	fNVleRZxyQQDBGvtuXxgz3IU00GXb1RyEw==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
+        bh=51CrrLWdwFrBSdjUad5sLuuahz7vZLsIyPTzQ+N5J7M=;
+        b=RCNxGyw7eg0QIgyvuvrOsurlFwwJjKn7CWaMOD1azCgvUpRa3x1rDZu+ohztYJq843
+         atmiPYSidxT0PnVXJW2ZgBURqHuPfRcFPZHmQkMb4kWq02WlpwkSeVJjd3b4ijVsKut1
+         6+1wbOl0rOnwfApuJB7NpVCGDNIcvIF80+wJmFVnHDn4sytn0gCVeS6NpOQUynOBfFsx
+         mF/J6YmZszhYbJRIpt6igMqeA5JiRGhODWpPMA2B+EzeoPFXUFGqA+//YobQujdNMG09
+         3tr8zJiEv/MebxeoBvA1xQqtjYgwnC7oi6n/IfH8VtZN3HiUBfmvBAgpI6zI+jml/d+6
+         uuyA==
+X-Gm-Message-State: ACgBeo3UTFJ7DWKdmmRx6eTRzs3jf/5OS1EZX2Vzw2ILGWkiRUEDDYV4
+	ZdQrEpb+dZuJLLVEc8g66FP75duBzQhcpw==
 X-Google-Smtp-Source: 
- AA6agR41S44yeMcqZ+CB5UOsdROYxRxb+PKL7+JmLhtugjYqqtLavIk+dm6vC7DvuzGyJeO5ghKl8A==
-X-Received: by 2002:a5d:64e9:0:b0:220:7dd7:63eb with SMTP id
- g9-20020a5d64e9000000b002207dd763ebmr12663588wri.590.1660683467206;
+ AA6agR5EOg4nxczajyMJqdS99VVHwoer1ei4Fz6y7X+Pg/YAsL3Ud5I5NkGREwCxedCkhPWEGkKP5w==
+X-Received: by 2002:a05:6000:71e:b0:223:764f:b2a8 with SMTP id
+ bs30-20020a056000071e00b00223764fb2a8mr12872714wrb.79.1660683467918;
         Tue, 16 Aug 2022 13:57:47 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3694:2ef4:2932:37d5])
         by smtp.gmail.com with ESMTPSA id
- m18-20020adffa12000000b002250f9abdefsm5349460wrr.117.2022.08.16.13.57.46
+ m18-20020adffa12000000b002250f9abdefsm5349460wrr.117.2022.08.16.13.57.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Aug 2022 13:57:46 -0700 (PDT)
+        Tue, 16 Aug 2022 13:57:47 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/8] package: Switch debug source handling to use prefix map
-Date: Tue, 16 Aug 2022 21:57:39 +0100
-Message-Id: <20220816205746.1672987-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/8] libgcc/gcc-runtime: Improve source reference handling
+Date: Tue, 16 Aug 2022 21:57:40 +0100
+Message-Id: <20220816205746.1672987-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220816205746.1672987-1-richard.purdie@linuxfoundation.org>
+References: <20220816205746.1672987-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -61,111 +63,98 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Aug 2022 20:57:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169455
+ https://lists.openembedded.org/g/openembedded-core/message/169456
 
-Reproducible builds are no longer a configuration option but are required.
-We also rely on the prefix mapping capability of the compilers now.
+This code was some of the earliest reproducible build work we did. To
+correctly handle the encoding of file paths, we used relative build
+paths to run configure which resulted in relative build paths in the
+binaries.
 
-As such, rewrite the source locating code to use the prefix maps instead
-of taking a guess about WORKDIR which isn't correct for kernels, gcc,
-externalsrc and probably more.
+We now have more modern approaches used elsewhere with the prefix remapping
+options. These work best with absolute paths, not relative ones. As such,
+drop the relative path mangling and switch to using prefix mapping
+exclusively on absolute paths.
 
-Instead, iterate the maps to locate any matching source code, keeping
-in mind that multiple maps may map to one target location.
+This makes the code matc the rest of the system and triggers the correct
+code to be added in /usr/src/debug.
+
+We have to include both file-prefix and debug-prefix since the assembler
+only looks at debug-prefix.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes-global/package.bbclass | 68 ++++++++++++-----------------
- 1 file changed, 28 insertions(+), 40 deletions(-)
+ meta/recipes-devtools/gcc/gcc-runtime.inc   | 22 ++++++++++-----------
+ meta/recipes-devtools/gcc/libgcc-common.inc | 11 +++++++++--
+ 2 files changed, 19 insertions(+), 14 deletions(-)
 
-diff --git a/meta/classes-global/package.bbclass b/meta/classes-global/package.bbclass
-index 418400da8c9..2d985d8affd 100644
---- a/meta/classes-global/package.bbclass
-+++ b/meta/classes-global/package.bbclass
-@@ -565,26 +565,16 @@ def copydebugsources(debugsrcdir, sources, d):
-         objcopy = d.getVar("OBJCOPY")
-         workdir = d.getVar("WORKDIR")
-         sdir = d.getVar("S")
--        sparentdir = os.path.dirname(os.path.dirname(sdir))
--        sbasedir = os.path.basename(os.path.dirname(sdir)) + "/" + os.path.basename(sdir)
--        workparentdir = os.path.dirname(os.path.dirname(workdir))
--        workbasedir = os.path.basename(os.path.dirname(workdir)) + "/" + os.path.basename(workdir)
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index b8bfdcedadf..35a3077a4a7 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -51,16 +51,15 @@ RUNTIMETARGET:libc-newlib = "libstdc++-v3"
+ # libgfortran needs separate recipe due to libquadmath dependency
+ 
+ # Relative path to be repaced into debug info
+-REL_S = "/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}"
 -
--        # If S isnt based on WORKDIR we can infer our sources are located elsewhere,
--        # e.g. using externalsrc; use S as base for our dirs
--        if workdir in sdir or 'work-shared' in sdir:
--            basedir = workbasedir
--            parentdir = workparentdir
--        else:
--            basedir = sbasedir
--            parentdir = sparentdir
-+        cflags = d.expand("${CFLAGS}")
+-DEBUG_PREFIX_MAP:class-target = " \
+-   -fdebug-prefix-map=${WORKDIR}/${MLPREFIX}recipe-sysroot= \
+-   -fdebug-prefix-map=${WORKDIR}/recipe-sysroot-native= \
+-   -fdebug-prefix-map=${S}=${REL_S} \
+-   -fdebug-prefix-map=${S}/include=${REL_S}/libstdc++-v3/../include \
+-   -fdebug-prefix-map=${S}/libiberty=${REL_S}/libstdc++-v3/../libiberty \
+-   -fdebug-prefix-map=${S}/libgcc=${REL_S}/libstdc++-v3/../libgcc \
+-   -fdebug-prefix-map=${B}=${REL_S} \
++DEBUGSOURCE = "/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}"
++
++DEBUG_PREFIX_MAP = " \
++   -ffile-prefix-map=${WORKDIR}/${MLPREFIX}recipe-sysroot= \
++   -ffile-prefix-map=${WORKDIR}/recipe-sysroot-native= \
++   -ffile-prefix-map=${B}=${DEBUGSOURCE} \
++   -ffile-prefix-map=${S}=${DEBUGSOURCE} \
++   -fdebug-prefix-map=${B}=${DEBUGSOURCE} \
++   -fdebug-prefix-map=${S}=${DEBUGSOURCE} \
+    -ffile-prefix-map=${B}/${HOST_SYS}/libstdc++-v3/include=${includedir}/c++/${BINV} \
+    "
  
--        # If build path exists in sourcefile, it means toolchain did not use
--        # -fdebug-prefix-map to compile
--        if checkbuildpath(sourcefile, d):
--            localsrc_prefix = parentdir + "/"
--        else:
--            localsrc_prefix = "/usr/src/debug/"
-+        prefixmap = {}
-+        for flag in cflags.split():
-+            if not flag.startswith("-fdebug-prefix-map"):
-+                continue
-+            if "recipe-sysroot" in flag:
-+                continue
-+            flag = flag.split("=")
-+            prefixmap[flag[1]] = flag[2]
+@@ -77,8 +76,7 @@ do_configure () {
+ 		mkdir -p ${B}/${TARGET_SYS}/$d/
+ 		cd ${B}/${TARGET_SYS}/$d/
+ 		chmod a+x ${S}/$d/configure
+-		relpath=${@os.path.relpath("${S}/$d", "${B}/${TARGET_SYS}/$d")}
+-		$relpath/configure ${CONFIGUREOPTS} ${EXTRA_OECONF}
++		${S}/$d/configure ${CONFIGUREOPTS} ${EXTRA_OECONF}
+ 		if [ "$d" = "libgcc" ]; then
+ 			(cd ${B}/${TARGET_SYS}/libgcc; oe_runmake enable-execute-stack.c unwind.h md-unwind-support.h sfp-machine.h gthr-default.h)
+ 		fi
+diff --git a/meta/recipes-devtools/gcc/libgcc-common.inc b/meta/recipes-devtools/gcc/libgcc-common.inc
+index cf8d6b7ed6e..e8139263132 100644
+--- a/meta/recipes-devtools/gcc/libgcc-common.inc
++++ b/meta/recipes-devtools/gcc/libgcc-common.inc
+@@ -4,14 +4,21 @@ require gcc-configure-common.inc
  
-         nosuchdir = []
-         basepath = dvar
-@@ -595,28 +585,26 @@ def copydebugsources(debugsrcdir, sources, d):
-         bb.utils.mkdirhier(basepath)
-         cpath.updatecache(basepath)
+ INHIBIT_DEFAULT_DEPS = "1"
  
--        # Ignore files from the recipe sysroots (target and native)
--        processdebugsrc =  "LC_ALL=C ; sort -z -u '%s' | egrep -v -z '((<internal>|<built-in>)$|/.*recipe-sysroot.*/)' | "
--        # We need to ignore files that are not actually ours
--        # we do this by only paying attention to items from this package
--        processdebugsrc += "fgrep -zw '%s' | "
--        # Remove prefix in the source paths
--        processdebugsrc += "sed 's#%s##g' | "
--        processdebugsrc += "(cd '%s' ; cpio -pd0mlL --no-preserve-owner '%s%s' 2>/dev/null)"
--
--        cmd = processdebugsrc % (sourcefile, basedir, localsrc_prefix, parentdir, dvar, debugsrcdir)
--        try:
--            subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
--        except subprocess.CalledProcessError:
--            # Can "fail" if internal headers/transient sources are attempted
--            pass
--
--        # cpio seems to have a bug with -lL together and symbolic links are just copied, not dereferenced.
--        # Work around this by manually finding and copying any symbolic links that made it through.
--        cmd = "find %s%s -type l -print0 -delete | sed s#%s%s/##g | (cd '%s' ; cpio -pd0mL --no-preserve-owner '%s%s')" % \
--                (dvar, debugsrcdir, dvar, debugsrcdir, parentdir, dvar, debugsrcdir)
--        subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-+        for pmap in prefixmap:
-+            # Ignore files from the recipe sysroots (target and native)
-+            cmd =  "LC_ALL=C ; sort -z -u '%s' | egrep -v -z '((<internal>|<built-in>)$|/.*recipe-sysroot.*/)' | " % sourcefile
-+            # We need to ignore files that are not actually ours
-+            # we do this by only paying attention to items from this package
-+            cmd += "fgrep -zw '%s' | " % prefixmap[pmap]
-+            # Remove prefix in the source paths
-+            cmd += "sed 's#%s/##g' | " % (prefixmap[pmap])
-+            cmd += "(cd '%s' ; cpio -pd0mlL --no-preserve-owner '%s%s' 2>/dev/null)" % (pmap, dvar, prefixmap[pmap])
- 
-+            try:
-+                subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-+            except subprocess.CalledProcessError:
-+                # Can "fail" if internal headers/transient sources are attempted
-+                pass
-+            # cpio seems to have a bug with -lL together and symbolic links are just copied, not dereferenced.
-+            # Work around this by manually finding and copying any symbolic links that made it through.
-+            cmd = "find %s%s -type l -print0 -delete | sed s#%s%s/##g | (cd '%s' ; cpio -pd0mL --no-preserve-owner '%s%s')" % \
-+                    (dvar, prefixmap[pmap], dvar, prefixmap[pmap], pmap, dvar, prefixmap[pmap])
-+            subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
- 
-         # debugsources.list may be polluted from the host if we used externalsrc,
-         # cpio uses copy-pass and may have just created a directory structure
++DEBUGSOURCE = "/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}"
++DEBUG_PREFIX_MAP = " \
++   -fdebug-prefix-map=${WORKDIR}/${MLPREFIX}recipe-sysroot= \
++   -fdebug-prefix-map=${WORKDIR}/recipe-sysroot-native= \
++   -fdebug-prefix-map=${B}=${DEBUGSOURCE} \
++   -fdebug-prefix-map=${S}=${DEBUGSOURCE} \
++   "
++
+ do_configure () {
+ 	install -d ${D}${base_libdir} ${D}${libdir}
+ 	mkdir -p ${B}/${BPN}
+ 	mkdir -p ${B}/${TARGET_SYS}/${BPN}/
+ 	cd ${B}/${BPN}
+ 	chmod a+x ${S}/${BPN}/configure
+-	relpath=${@os.path.relpath("${S}/${BPN}", "${B}/${BPN}")}
+-	$relpath/configure ${CONFIGUREOPTS} ${EXTRA_OECONF}
++	${S}/${BPN}/configure ${CONFIGUREOPTS} ${EXTRA_OECONF}
+ }
+ EXTRACONFFUNCS += "extract_stashed_builddir"
+ do_configure[depends] += "${COMPILERDEP}"
 -- 
 2.34.1
 
