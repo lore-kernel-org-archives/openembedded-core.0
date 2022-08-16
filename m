@@ -1,115 +1,96 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <kai.kang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E881EC2BB41
-	for <webhook@archiver.kernel.org>; Tue, 16 Aug 2022 07:39:36 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web11.12812.1660635567049062329
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09F35C2BB41
+	for <webhook@archiver.kernel.org>; Tue, 16 Aug 2022 07:54:47 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
+ [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web09.13276.1660636482788326054
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Aug 2022 00:39:27 -0700
+ Tue, 16 Aug 2022 00:54:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=I47NDt5Y;
- spf=pass (domain: gmail.com, ip: 209.85.167.51,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id u3so13674263lfk.8
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Aug 2022 00:39:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=WNFMjnK4YnivMbBgxFdjKyr7DRdTOOyiogXkxjg4U0I=;
-        b=I47NDt5YQzU2wRQLVPCTJjrBel01qMezw1e7ZUvj3DY6VyRfqj8UsxLM9v5rTtleRV
-         cR8n+uyk9kc74uG5I8hShQFZ92a83rHG61VDFnMYDABnvMZrLrSkybFSUBQoQycvcq/s
-         8qFl2anHYrZLKc4TjhHpS+vvv67z23QeXXElLNG7OOakqhPr8r6FDrOFujgLAfVRCExQ
-         acK+82P3sZ+ZdCOKshy+cgroMqOvLeRIsQWMZUeJsVo28mhvJ4ZH4Hlvwyh8ujpodj1k
-         1NFbKbBszCOFC7snNinMOWNK1WjA/JtqOSffBSV+Zzn9G0/b+fvNzBIU+H4Ey/qQNtIF
-         p4Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=WNFMjnK4YnivMbBgxFdjKyr7DRdTOOyiogXkxjg4U0I=;
-        b=1BnOF0zEvVtqfDurgiB2QL6EdPVjLw7GjgzkhV8J/ZmXyHX9Hl73hM6A8AqJTs0o+P
-         rMUw9IQR3RbWYvZo5vsXCjJLBhe8dLlPTthrgLZgiMoq08pkbRYXsqkopqDhtr9Jort2
-         b6LRRw8u+LVpKCOISqbkBkpr6GAi79adZHGSnbDWi1HNjvJtwfh/9wqRpDiz66Du9ZPG
-         WJ6PvrWYX3MzrqoGALrm7Pbr+btvB5fIXUzQylClhDIU+Z+QsvO2tj2rr0lzU8LEfIwb
-         /uT3a98iUxSIoMGeFz2k7RmBJTFMDVRS/GstI8pg3I3WPudzePFvt+vkjrVbuZGXCtTJ
-         rh9g==
-X-Gm-Message-State: ACgBeo1+iXXbkhsfEfrh2Ry3u6FkH6IyB5v1ag+ANj6eGdjxk26JxvmO
-	B/92KrYF5CyVJAiqZFYhWLVx6HX/9PNlxlTOAM0=
-X-Google-Smtp-Source: 
- AA6agR7i/cZpmWIXsc2hD3MnKOeHYb5PIGC7C5WkvW0eMqTFedIldbXREZImLd4A/gI2a9ioZ9jKhZrDq+6rhqWbOeQ=
-X-Received: by 2002:ac2:4832:0:b0:48b:1899:b364 with SMTP id
- 18-20020ac24832000000b0048b1899b364mr6987989lft.534.1660635565161; Tue, 16
- Aug 2022 00:39:25 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Raw/wdw/;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.178.238,
+ mailfrom: prvs=5227a7d44d=kai.kang@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
+ 27G6LjjE032070
+	for <openembedded-core@lists.openembedded.org>; Tue, 16 Aug 2022 07:54:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=from : to :
+ subject : date : message-id : mime-version : content-type; s=PPS06212021;
+ bh=AvNzlBncBiA+AtcXPH1WpiJm3UpKM0RpBsC2nXcbyps=;
+ b=Raw/wdw/Ggl8buV9FQbGJd0gXklvwX3lYnvTY7hpJq3QA6TwSwSwXMU04gPti7tE0jIA
+ 0kfRHZZy2K85HevC9YOdYF62c/2zyDzpjjmBJuux6G7Daym2bcL1NXVXwxHjPfEu9DYj
+ rozELVQVRkAGkFNifPvyT3wKE+/Ur3h5hGo/9OXkjSJVTjb3ACGZ5u149Zn8p7uMpSPt
+ mjsWPxBrsic0Zs1tQOmXcplwmft9T48mPQN7PgmwPHbAc88/taZeUKD2AKS4MkGs/ER+
+ MY32a5JxiAxjFjfCcCDM+F9Vt7leky6VGpfwmb0Jq/PjjgJD8xOG6SLP15L/jR3t4MpG GQ==
+Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com
+ [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3hx2x8jbk8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 16 Aug 2022 07:54:41 +0000
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 16 Aug 2022 00:54:40 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Tue, 16 Aug 2022 00:54:39 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] distrooverrides.bbclass: use IMAGE_CLASSES
+Date: Tue, 16 Aug 2022 15:54:32 +0800
+Message-ID: <20220816075432.22347-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20220816033005.2700801-1-raj.khem@gmail.com>
- <20220816033005.2700801-5-raj.khem@gmail.com>
-In-Reply-To: <20220816033005.2700801-5-raj.khem@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 16 Aug 2022 09:39:13 +0200
-Message-ID: 
- <CANNYZj9wJFxRzEDQMpJ5CxRbx4Si5Se91YWn9bZ=TTr+NmCFgw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 5/6] spirv-tools,spirv-headers: Update to
- 1.3.224.0
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: NjkMABTHHqd_PzyDtK63grnGT9CyROpJ
+X-Proofpoint-GUID: NjkMABTHHqd_PzyDtK63grnGT9CyROpJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-16_06,2022-08-16_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ phishscore=0 malwarescore=0 bulkscore=0 clxscore=1015 mlxscore=0
+ lowpriorityscore=0 spamscore=0 mlxlogscore=841 adultscore=0
+ impostorscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2207270000 definitions=main-2208160030
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Aug 2022 07:39:36 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Aug 2022 07:54:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169427
+ https://lists.openembedded.org/g/openembedded-core/message/169428
 
-This version isn't tagged, so where does 1.3.224 come from? Maybe it's
-better to leave at 1.3.216+SRCPV?
+From: Kai Kang <kai.kang@windriver.com>
 
-Akex
+Update comment in distrooverrides.bbclass to use IMAGE_CLASSES rather
+than globally with INHERIT.
 
-On Tue, 16 Aug 2022 at 05:30, Khem Raj <raj.khem@gmail.com> wrote:
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  .../{spirv-headers_1.3.216.0.bb => spirv-headers_1.3.224.0.bb}  | 0
->  .../spir/{spirv-tools_1.3.216.0.bb => spirv-tools_1.3.224.0.bb} | 2 +-
->  2 files changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-graphics/spir/{spirv-headers_1.3.216.0.bb => spirv-headers_1.3.224.0.bb} (100%)
->  rename meta/recipes-graphics/spir/{spirv-tools_1.3.216.0.bb => spirv-tools_1.3.224.0.bb} (96%)
->
-> diff --git a/meta/recipes-graphics/spir/spirv-headers_1.3.216.0.bb b/meta/recipes-graphics/spir/spirv-headers_1.3.224.0.bb
-> similarity index 100%
-> rename from meta/recipes-graphics/spir/spirv-headers_1.3.216.0.bb
-> rename to meta/recipes-graphics/spir/spirv-headers_1.3.224.0.bb
-> diff --git a/meta/recipes-graphics/spir/spirv-tools_1.3.216.0.bb b/meta/recipes-graphics/spir/spirv-tools_1.3.224.0.bb
-> similarity index 96%
-> rename from meta/recipes-graphics/spir/spirv-tools_1.3.216.0.bb
-> rename to meta/recipes-graphics/spir/spirv-tools_1.3.224.0.bb
-> index eb907326c43..cfea28a6efe 100644
-> --- a/meta/recipes-graphics/spir/spirv-tools_1.3.216.0.bb
-> +++ b/meta/recipes-graphics/spir/spirv-tools_1.3.224.0.bb
-> @@ -7,7 +7,7 @@ SECTION = "graphics"
->  LICENSE  = "Apache-2.0"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
->
-> -SRCREV = "c94501352d545e84c821ce031399e76d1af32d18"
-> +SRCREV = "5e61ea2098220059e89523f1f47b0bcd8c33b89a"
->  SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=master;protocol=https"
->  PE = "1"
->  UPSTREAM_CHECK_GITTAGREGEX = "sdk-(?P<pver>\d+(\.\d+)+)"
-> --
-> 2.37.2
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#169419): https://lists.openembedded.org/g/openembedded-core/message/169419
-> Mute This Topic: https://lists.openembedded.org/mt/93052351/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/classes-recipe/distrooverrides.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes-recipe/distrooverrides.bbclass b/meta/classes-recipe/distrooverrides.bbclass
+index 8d9d7cda7d..b5346b465e 100644
+--- a/meta/classes-recipe/distrooverrides.bbclass
++++ b/meta/classes-recipe/distrooverrides.bbclass
+@@ -17,7 +17,7 @@
+ #
+ # The class is meant to be used in a layer.conf or distro
+ # .inc file with:
+-# INHERIT += "distrooverrides"
++# IMAGE_CLASSES += "distrooverrides"
+ # DISTRO_FEATURES_OVERRIDES += "my-feature"
+ #
+ # Beware that this part of OVERRIDES changes during parsing, so usage
+-- 
+2.17.1
+
 
