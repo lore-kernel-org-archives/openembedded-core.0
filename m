@@ -1,252 +1,234 @@
-Return-Path: <mikko.rapeli@bmw.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 681D7C25B08
-	for <webhook@archiver.kernel.org>; Wed, 17 Aug 2022 14:32:15 +0000 (UTC)
-Received: from esa4.hc324-48.eu.iphmx.com (esa4.hc324-48.eu.iphmx.com
- [207.54.71.48])
- by mx.groups.io with SMTP id smtpd.web11.29309.1660746728292447399
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80A81C25B08
+	for <webhook@archiver.kernel.org>; Wed, 17 Aug 2022 14:38:25 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web08.29621.1660747099966663590
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Aug 2022 07:32:09 -0700
+ Wed, 17 Aug 2022 07:38:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1
- header.b=dx4i+f3f;
- spf=pass (domain: bmw.de, ip: 207.54.71.48,
- mailfrom: prvs=22116a6d0=mikko.rapeli@bmw.de)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YnMfPD7K;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id
+ h204-20020a1c21d5000000b003a5b467c3abso1102088wmh.5
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 17 Aug 2022 07:38:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1660746728; x=1692282728;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=+gxGe+mtuIQIpM7Z8X0MVYkyZOfqn1ogMLPSNfICnBU=;
-  b=dx4i+f3fWVTyU4vFsFZGvAl3orX1voVP1BQBUPSd0vzfwzRKncGm65vt
-   OyEJbt5EFvytKY/yM/RgYdzJjIJSX6WFOWK0+Fr8LbvIEBo8d1Y/N28Z/
-   vDlJ1hEewiRpp5XMdj2ObzrUY0/bqIqVguQaaljpeZSUffski7E8QUnbs
-   0=;
-Received: from esagw3.bmwgroup.com (HELO esagw3.muc) ([160.46.252.35]) by
- esa4.hc324-48.eu.iphmx.com with ESMTP/TLS; 17 Aug 2022 16:32:05 +0200
-Received: from esabb4.muc ([160.50.100.33])  by esagw3.muc with ESMTP/TLS;
- 17 Aug 2022 16:32:05 +0200
-Received: from smucm30k.bmwgroup.net (HELO SMUCM30K.europe.bmw.corp)
- ([160.46.167.47])
- by esabb4.muc with ESMTP/TLS; 17 Aug 2022 16:32:05 +0200
-Received: from SMUCMP08G.europe.bmw.corp (10.30.13.73) by
- SMUCM30K.europe.bmw.corp
- (160.46.167.47) with Microsoft SMTP Server (TLS;
- Wed, 17 Aug 2022 16:32:04 +0200
-Received: from SMUCMP08E.europe.bmw.corp (2a03:1e80:a15:58f::1:24) by
- SMUCMP08G.europe.bmw.corp (2a03:1e80:a15:58f::2039) with Microsoft SMTP
- Server (version=TLS; Wed, 17 Aug 2022 16:32:04 +0200
-Received: from SMUCMP08E.europe.bmw.corp ([10.30.13.71]) by
- SMUCMP08E.europe.bmw.corp ([10.30.13.71]) with mapi id 15.02.0922.027; Wed,
- 17 Aug 2022 16:32:04 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: <steve@sakoman.com>
-Subject: Re: [OE-core] [PATCH][kirkstone] boost: fix install of fiber shared
- libraries
-Thread-Topic: [OE-core] [PATCH][kirkstone] boost: fix install of fiber shared
- libraries
-Thread-Index: AQHYqvANyXbrRRnifEWVvx5gPjjiAq2zFNWA
-Date: Wed, 17 Aug 2022 14:32:04 +0000
-Message-ID: <Yvz74zSeKsf8e9ky@korppu>
-References: <17094AB0976F2F91.7414@lists.openembedded.org>
-In-Reply-To: <17094AB0976F2F91.7414@lists.openembedded.org>
-Accept-Language: en-US, de-DE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <17A2A4D652E171439BA28D13CBDD1073@bmwmail.corp>
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc;
+        bh=l+JnXWxIPizlEPVmE0kIz3wi9hF7p0cAvDYazdLklrs=;
+        b=YnMfPD7KKDkS4Isp5J9tChKHswbz28QiGPWKKxo7ozWpHfUsw260c9BOC0RyVcJI5R
+         OmQeC3koce6xdRhQSOsYhfdfA9jagol+UxNCDF8f/lbAfH4DVRTtYoseItswzqJdz4IR
+         b/ze/9E0oAlgVGl71yfnZ6MTub20J/insQSB0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc;
+        bh=l+JnXWxIPizlEPVmE0kIz3wi9hF7p0cAvDYazdLklrs=;
+        b=IfZvfw5OoSSSNEdiW8w77McIXZ83L36xhhY4aJu36TNOMpxq6AWurWeJRUqvOQfTpX
+         oWY3j8QspqYCxpG5ntPK+H8o1tDcrMfzqXYtMdCToOxwweKp4yL3pWlK0NmF/yEA4i2E
+         esBZrdisytoElQA00LJncDsQhBuERZp2f5dku/QTWQPIw3TZ/1A8TyiYgSy0UB/UU5tX
+         qjMwfGSWcSw/uHNXEHhRxpSsUgh1uLJ7FWHak8ymYOG7LfQsXCmgSFuaHVkRZvx5MfvU
+         YkaYWtrWE6m6sGVti1b6j3T65LNDXWzbYqyCMXI7PjTnI2w46poa4veYbUzykAjU+jWL
+         ALCQ==
+X-Gm-Message-State: ACgBeo2VDzCfGvJ7cmjuiXkz4wr9tb/K459GURBuf2jOqVwsFBzOEEhm
+	pU7e6T3Vb91USuUajYnm9klXlg==
+X-Google-Smtp-Source: 
+ AA6agR6fMPdD7mcQhHErzWtW2hg9Sa5o1gZzr3SZFIQqS194Zj653vprmIqcpA5KBzj+p/J3wjouow==
+X-Received: by 2002:a05:600c:4c06:b0:3a5:4eec:eb4b with SMTP id
+ d6-20020a05600c4c0600b003a54eeceb4bmr2453905wmp.151.1660747098242;
+        Wed, 17 Aug 2022 07:38:18 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:3694:2ef4:2932:37d5?
+ ([2001:8b0:aba:5f3c:3694:2ef4:2932:37d5])
+        by smtp.gmail.com with ESMTPSA id
+ r62-20020a1c2b41000000b003a5537bb2besm2326981wmr.25.2022.08.17.07.38.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Aug 2022 07:38:17 -0700 (PDT)
+Message-ID: 
+ <25379da13e18c8f0ccd75d461a5c9799c603da80.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 6/6] xmlto: Update to use upstream tip of
+ trunk
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Wed, 17 Aug 2022 15:38:17 +0100
+In-Reply-To: <170C2857622947BA.6839@lists.openembedded.org>
+References: <20220816033005.2700801-1-raj.khem@gmail.com>
+	 <20220816033005.2700801-6-raj.khem@gmail.com>
+	 <170C2857622947BA.6839@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Aug 2022 14:32:15 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Aug 2022 14:38:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169486
+ https://lists.openembedded.org/g/openembedded-core/message/169487
 
-Hi,
+On Wed, 2022-08-17 at 15:31 +0100, Richard Purdie via
+lists.openembedded.org wrote:
+> On Mon, 2022-08-15 at 20:30 -0700, Khem Raj wrote:
+> > There are several fixes which are done to fix builds with newer
+> > compilers after 0.0.28 was releases in 2015 a long time ago.
+> >=20
+> > Add a patch to fix manpages builds not trying to access network during
+> > build
+> >=20
+> > Regenerate xmlif from lex files, before configuring the build
+> >=20
+> > Add UPSTREAM_CHECK_COMMITS =3D "1"
+> >=20
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> > v2:
+> > - Update patch status
+> > - Add UPSTREAM_CHECK_COMMITS
+> >=20
+> >  .../0001-Skip-validating-xmlto-output.patch   | 29 +++++++++++++++++++
+> >  ...rop-the-test-of-xmllint-and-xsltproc.patch |  6 ++--
+> >  meta/recipes-devtools/xmlto/xmlto_0.0.28.bb   | 16 +++++++---
+> >  3 files changed, 44 insertions(+), 7 deletions(-)
+> >  create mode 100644 meta/recipes-devtools/xmlto/xmlto/0001-Skip-validat=
+ing-xmlto-output.patch
+> >  rename meta/recipes-devtools/xmlto/{xmlto-0.0.28 =3D> xmlto}/configure=
+.in-drop-the-test-of-xmllint-and-xsltproc.patch (91%)
+> >=20
+> > diff --git a/meta/recipes-devtools/xmlto/xmlto/0001-Skip-validating-xml=
+to-output.patch b/meta/recipes-devtools/xmlto/xmlto/0001-Skip-validating-xm=
+lto-output.patch
+> > new file mode 100644
+> > index 00000000000..c6857a9da51
+> > --- /dev/null
+> > +++ b/meta/recipes-devtools/xmlto/xmlto/0001-Skip-validating-xmlto-outp=
+ut.patch
+> > @@ -0,0 +1,29 @@
+> > +From 3deb7a0eded04ab08a9cb2d88526cb1c7b440061 Mon Sep 17 00:00:00 2001
+> > +From: Khem Raj <raj.khem@gmail.com>
+> > +Date: Sun, 14 Aug 2022 00:23:29 -0700
+> > +Subject: [PATCH] Skip validating xmlto output
+> > +
+> > +Avoids network access
+> > +
+> > +Upstream-Status: Submitted [https://pagure.io/xmlto/pull-request/11]
+> > +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > +---
+> > + Makefile.am | 2 +-
+> > + 1 file changed, 1 insertion(+), 1 deletion(-)
+> > +
+> > +diff --git a/Makefile.am b/Makefile.am
+> > +index 50fa279..6a2da62 100644
+> > +--- a/Makefile.am
+> > ++++ b/Makefile.am
+> > +@@ -68,7 +68,7 @@ EXTRA_DIST =3D xmlto.spec \
+> > + 	doc/xmlif.xml \
+> > + 	xmlto.mak
+> > +=20
+> > +-GEN_MANPAGE =3D FORMAT_DIR=3D$(top_srcdir)/format $(BASH) ./xmlto -o =
+$(@D) man $<
+> > ++GEN_MANPAGE =3D FORMAT_DIR=3D$(top_srcdir)/format $(BASH) ./xmlto --s=
+kip-validation -o $(@D) man $<
+> > + man/man1/xmlto.1: doc/xmlto.xml ; $(GEN_MANPAGE)
+> > + man/man1/xmlif.1: doc/xmlif.xml ; $(GEN_MANPAGE)
+> > +=20
+> > +--=20
+> > +2.37.2
+> > +
+> > diff --git a/meta/recipes-devtools/xmlto/xmlto-0.0.28/configure.in-drop=
+-the-test-of-xmllint-and-xsltproc.patch b/meta/recipes-devtools/xmlto/xmlto=
+/configure.in-drop-the-test-of-xmllint-and-xsltproc.patch
+> > similarity index 91%
+> > rename from meta/recipes-devtools/xmlto/xmlto-0.0.28/configure.in-drop-=
+the-test-of-xmllint-and-xsltproc.patch
+> > rename to meta/recipes-devtools/xmlto/xmlto/configure.in-drop-the-test-=
+of-xmllint-and-xsltproc.patch
+> > index 6d547a6c994..7cc3cbe0fb2 100644
+> > --- a/meta/recipes-devtools/xmlto/xmlto-0.0.28/configure.in-drop-the-te=
+st-of-xmllint-and-xsltproc.patch
+> > +++ b/meta/recipes-devtools/xmlto/xmlto/configure.in-drop-the-test-of-x=
+mllint-and-xsltproc.patch
+> > @@ -9,9 +9,9 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> >   configure.in | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> > =20
+> > -diff --git a/configure.in b/configure.in
+> > ---- a/configure.in
+> > -+++ b/configure.in
+> > +diff --git a/configure.ac b/configure.ac
+> > +--- a/configure.ac
+> > ++++ b/configure.ac
+> >  @@ -42,10 +42,10 @@ AC_ARG_VAR([LOCALE], [Name and path of the `locale=
+' program.])
+> >   AC_PATH_PROG([LOCALE], [locale], [locale])
+> >  =20
+> > diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recipes=
+-devtools/xmlto/xmlto_0.0.28.bb
+> > index 5cb9a4c57be..1913dd2833d 100644
+> > --- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
+> > +++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
+> > @@ -6,17 +6,21 @@ LICENSE =3D "GPL-2.0-only"
+> > =20
+> >  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D59530bdf33659b29e73d4adb9f9=
+f6552"
+> > =20
+> > -SRC_URI =3D "https://releases.pagure.org/xmlto/xmlto-${PV}.tar.gz \
+> > +SRCREV =3D "6fa6a0e07644f20abf2596f78a60112713e11cbe"
+> > +UPSTREAM_CHECK_COMMITS =3D "1"
+> > +SRC_URI =3D "git://pagure.io/xmlto.git;protocol=3Dhttps;branch=3Dmaste=
+r \
+> >             file://configure.in-drop-the-test-of-xmllint-and-xsltproc.p=
+atch \
+> > +           file://0001-Skip-validating-xmlto-output.patch \
+> >  "
+> > -SRC_URI[md5sum] =3D "a1fefad9d83499a15576768f60f847c6"
+> > -SRC_URI[sha256sum] =3D "2f986b7c9a0e9ac6728147668e776d405465284e13c74d=
+4146c9cbc51fd8aad3"
+> > +S =3D "${WORKDIR}/git"
+> > +
+> > +PV .=3D "+0.0.29+git${SRCPV}"
+> > =20
+> >  inherit autotools
+> > =20
+> >  CLEANBROKEN =3D "1"
+> > =20
+> > -DEPENDS =3D "libxml2-native"
+> > +DEPENDS =3D "libxml2-native libxslt-native flex-native docbook-xml-dtd=
+4-native docbook-xsl-stylesheets-native"
+> > =20
+> >  RDEPENDS:${PN} =3D "docbook-xml-dtd4 \
+> >                    docbook-xsl-stylesheets \
+> > @@ -36,6 +40,10 @@ BBCLASSEXTEND =3D "native"
+> > =20
+> >  EXTRA_OECONF:append =3D " BASH=3D/bin/bash GCP=3D/bin/cp XMLLINT=3Dxml=
+lint XSLTPROC=3Dxsltproc"
+> > =20
+> > +do_configure:prepend() {
+> > +    flex -o ${S}/xmlif/xmlif.c ${S}/xmlif/xmlif.l
+> > +}
+> > +
+> >  do_install:append:class-native() {
+> >      create_wrapper ${D}${bindir}/xmlto XML_CATALOG_FILES=3D${sysconfdi=
+r}/xml/catalog
+> >  }
+> >=20
+>=20
+> Seems to have a reproducibility problem:
+>=20
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/1401
+>=20
 
-Is there a problem applying this to kirkstone? Master and other
-branches are not affected.
+and a packaging warning:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/5723
+https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/3390
 
 Cheers,
 
--Mikko
-
-On Mon, Aug 08, 2022 at 09:27:19AM +0300, bounce+67612+169014+3616751+99821=
-26@lists.openembedded.org wrote:
-> From: Mikko Rapeli <mikko.rapeli@bmw.de>
->=20
-> For fiber, only CMake modules were installed in boost 1.78.0.
-> In 1.79.0 and versions before 1.78.0 also the shared libraries
-> are installed. This upstream patch fixes the issue in 1.78.0.
->=20
-> Note that boost git repo does not show changes in tools/build
-> directory between 1.78.0 and 1.79.0 tags but the release tar balls
-> contain a large update of which this one is needed to fix the missing
-> shared libraries.
->=20
-> Only kirkstone is affected.
->=20
-> buildhistory shows the difference in metadata boost-fiber binary package
-> without and with this patch:
->=20
->  --- a/packages/core2-64-poky-linux/boost/boost-fiber/latest
->  +++ b/packages/core2-64-poky-linux/boost/boost-fiber/latest
-> @@ -1,8 +1,9 @@
->  PV =3D 1.78.0
->  PR =3D r0
-> -RPROVIDES =3D
-> -RDEPENDS =3D
-> +PKG =3D libboost-fiber1.78.0
-> +RPROVIDES =3D boost-fiber (=3D1.78.0)
-> +RDEPENDS =3D boost-context (>=3D 1.78.0) glibc (>=3D 2.35) libgcc (>=3D =
-11.3.0) libstdc++ (>=3D 11.3.0)
->  RRECOMMENDS =3D
-> -PKGSIZE =3D 0
-> +PKGSIZE =3D 80032
->  FILES =3D /usr/lib/libboost_fiber*.so.*
-> -FILELIST =3D
-> +FILELIST =3D /usr/lib/libboost_fiber.so.1.78.0
->=20
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
-> ---
->  ...ll-targets-if-there-s-build-no-in-ur.patch | 82 +++++++++++++++++++
->  meta/recipes-support/boost/boost_1.78.0.bb    |  1 +
->  2 files changed, 83 insertions(+)
->  create mode 100644 meta/recipes-support/boost/boost/0001-Don-t-skip-inst=
-all-targets-if-there-s-build-no-in-ur.patch
->=20
-> diff --git a/meta/recipes-support/boost/boost/0001-Don-t-skip-install-tar=
-gets-if-there-s-build-no-in-ur.patch b/meta/recipes-support/boost/boost/000=
-1-Don-t-skip-install-targets-if-there-s-build-no-in-ur.patch
-> new file mode 100644
-> index 0000000000..df8b285700
-> --- /dev/null
-> +++ b/meta/recipes-support/boost/boost/0001-Don-t-skip-install-targets-if=
--there-s-build-no-in-ur.patch
-> @@ -0,0 +1,82 @@
-> +From 78fd284a42caabe8815cb0870b46e5567872e75b Mon Sep 17 00:00:00 2001
-> +From: Dmitry <grisumbras@gmail.com>
-> +Date: Sat, 11 Dec 2021 16:58:23 +0300
-> +Subject: [PATCH] Don't skip install targets if there's <build>no in ureq=
-s
-> + (#113)
-> +
-> +---
-> + src/tools/stage.jam      |  4 ++++
-> + test/install_build_no.py | 26 ++++++++++++++++++++++++++
-> + test/test_all.py         |  1 +
-> + 3 files changed, 31 insertions(+)
-> + create mode 100755 test/install_build_no.py
-> +
-> +Fixes install of boost fiber shared libraries which are missing in 1.78.=
-0
-> +but working in 1.79.0. Only kirkstone affected by this.
-> +
-> +Upstream-Status: Backport
-> +
-> +Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
-> +
-> +diff --git a/tools/build/src/tools/stage.jam b/tools/build/src/tools/sta=
-ge.jam
-> +index c5f02e3ba..325129dc8 100644
-> +--- a/tools/build/src/tools/stage.jam
-> ++++ b/tools/build/src/tools/stage.jam
-> +@@ -478,6 +478,10 @@ class install-target-class : basic-target
-> +         return [ sequence.unique $(result2) ] ;
-> +     }
-> +=20
-> ++    rule skip-from-usage-requirements ( )
-> ++    {
-> ++    }
-> ++
-> +     # Returns true iff 'type' is subtype of some element of 'types-to-i=
-nclude'.
-> +     #
-> +     local rule include-type ( type : types-to-include * )
-> +diff --git a/tools/build/test/install_build_no.py b/tools/build/test/ins=
-tall_build_no.py
-> +new file mode 100755
-> +index 000000000..0ccf3c5cc
-> +--- /dev/null
-> ++++ b/tools/build/test/install_build_no.py
-> +@@ -0,0 +1,26 @@
-> ++#!/usr/bin/python
-> ++
-> ++# Copyright 2021 Dmitry Arkhipov (grisumbras@gmail.com)
-> ++# Distributed under the Boost Software License, Version 1.0.
-> ++# (See accompanying file LICENSE.txt or https://www.bfgroup.xyz/b2/LICE=
-NSE.txt)
-> ++
-> ++# Check that <build>no in usage-requirements of dependencies does not a=
-ffect
-> ++# install rule, i.e. a skipped installed target does not affect insalla=
-tion of
-> ++# other targets.
-> ++
-> ++import BoostBuild
-> ++
-> ++t =3D BoostBuild.Tester()
-> ++
-> ++t.write("a.cpp", "int main() {}\n")
-> ++
-> ++t.write("jamroot.jam", """
-> ++make x : : maker : <build>no ;
-> ++exe a : a.cpp ;
-> ++install install : x a ;
-> ++""")
-> ++
-> ++t.run_build_system()
-> ++t.expect_addition("install/a.exe")
-> ++
-> ++t.cleanup()
-> +diff --git a/tools/build/test/test_all.py b/tools/build/test/test_all.py
-> +index b7ef5ad70..9ed729d01 100644
-> +--- a/tools/build/test/test_all.py
-> ++++ b/tools/build/test/test_all.py
-> +@@ -250,6 +250,7 @@ tests =3D ["abs_workdir",
-> +          "inherit_toolset",
-> +          "inherited_dependency",
-> +          "inline",
-> ++         "install_build_no",
-> +          "libjpeg",
-> +          "liblzma",
-> +          "libpng",
-> +--=20
-> +2.20.1
-> +
-> diff --git a/meta/recipes-support/boost/boost_1.78.0.bb b/meta/recipes-su=
-pport/boost/boost_1.78.0.bb
-> index 58be9dcf12..08364a4c3c 100644
-> --- a/meta/recipes-support/boost/boost_1.78.0.bb
-> +++ b/meta/recipes-support/boost/boost_1.78.0.bb
-> @@ -7,4 +7,5 @@ SRC_URI +=3D "file://boost-CVE-2012-2677.patch \
->             file://0001-dont-setup-compiler-flags-m32-m64.patch \
->             file://de657e01635306085488290ea83de541ec393f8b.patch \
->             file://0001-futex-fix-build-on-32-bit-architectures-using-64-=
-bit.patch \
-> +           file://0001-Don-t-skip-install-targets-if-there-s-build-no-in=
--ur.patch \
->             "
-> --=20
-> 2.20.1
->=20
-
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#169014): https://lists.openembedded.org/g/openembedde=
-d-core/message/169014
-> Mute This Topic: https://lists.openembedded.org/mt/92886894/3616751
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mi=
-kko.rapeli@bmw.de]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+Richard
 
