@@ -2,63 +2,61 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3561AC28B2B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3474DC25B08
 	for <webhook@archiver.kernel.org>; Wed, 17 Aug 2022 16:24:46 +0000 (UTC)
 Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
  [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web12.30970.1660753483034227115
+ by mx.groups.io with SMTP id smtpd.web09.31377.1660753481782377728
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Aug 2022 09:24:43 -0700
+ Wed, 17 Aug 2022 09:24:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Cb8URi7d;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SfYMYuC+;
  spf=pass (domain: gmail.com, ip: 209.85.214.176,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f176.google.com with SMTP id d10so12415625plr.6
+Received: by mail-pl1-f176.google.com with SMTP id 20so3817154plo.10
         for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Aug 2022 09:24:42 -0700 (PDT)
+ Wed, 17 Aug 2022 09:24:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=8xdgndMKEvzTBmvoYi2G9xbVn5QjyDT8XRJRA+JwERY=;
-        b=Cb8URi7dZJSn8bGD41ppPGQydN1QKpTbOIUKp7VDASjchV/3iWFo4ip6nDKTMJQ++F
-         o2bh4MWbZHBO7L67UmoY/Z7I0iPC2I1KAWJkuILjfUfkjKCkqNPG1jHWDbFp9EAU30YQ
-         VTpHaga4vQ5C0QCCw8eQKPHv/bXmhVuiHozOBUfA6b19jfQ+ca1n+iTPPHddbsRerUlN
-         K+5b8JfFKe+MFIi8IgCDbNwATBWgrGZyZ7mtU1aqwpiQmEV3r1OfcuIz24/rJb9/TVJf
-         +ZA4BWuUL7C5rttXiZG/01WuUXRQD1r9fejEZo9nk8GaaAbhIZMUgpOlq08s0BKSW4AZ
-         EgGw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=x6//4A6P7MsT3KRjZuEaOowLVmRrTlvQ1B6qjJDFqtM=;
+        b=SfYMYuC+NbN5hjtv9Ikao/Gs4MwY+5li2aYL6NmrkCCvO0ngWfqPrcWzkIxH68uhxv
+         xGK1uqvbp3aMpFYxnJn9ccbTz1ta7xE8DVMd7LopMYOANmJu0gpvwMQxFCMAUlxJ7JBO
+         pzg5hBg8Nd0Bb9xrl88hRc1mcDUAchVb1UTFrnvDy0wYPNTogHe0vUZGzIa/b4ZLBoRy
+         d71FfXtFLvli1NOuUkpnd5YOAdPBDmysDEXWu7hy+Sh13dBiNfmgp5dCIHsvEZA5mqsE
+         DJ3J/dF/yWvsBK4JaGT1CEqSOY4+f17rDq/tBo9Qm7mUFLoZJGfxGOZ9bpxaKy1PnTLn
+         3FBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=8xdgndMKEvzTBmvoYi2G9xbVn5QjyDT8XRJRA+JwERY=;
-        b=saVy23m7RJ/MgEAOomZcAdVoOHg5LkvqdtDBgxiUMU0Wr3cEPaKuSg42gU+ESVes+u
-         SzLRkBQ7tpA/FtrFCuqie4i1WqP9EJOB3x471PS4g7tWEfYGugTGtM81yfz+f3j8kG4i
-         JCzjWAoT61C8hey/lKwmregIbVut4gaSeVX/GM8iT3ntWHlLjEIee50S3HL64jpHYRMJ
-         U5CgfuN0vUzzMr6jLP2P5DzxfO2wc/+sZFrNR3X8rI0Au2OsQqqO+b1zNToN7UgVKrXN
-         Kgk5Et8kLp90gaWRWxrWcYLcQDoV6Q7pbUMoEy0R3oNgJziaFJaPZRsZpfKnTEE6cYDr
-         7Nfg==
-X-Gm-Message-State: ACgBeo06xbzthLTwC5Yl/SIaKERe/+aTPgpss4skZp4WdleKrCUTRAHA
-	CDyuMtipfZtS6ntegMkfjZSRB0e6yQyVTQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=x6//4A6P7MsT3KRjZuEaOowLVmRrTlvQ1B6qjJDFqtM=;
+        b=tRLvADwfk/LSyedk0YDW8HG3dhhDIO5UtvpULLRQH+KRZi4G915dEQJqL+OiLDZ3ig
+         m9KB+e9dU+PCzu452w6uUnPhRm2TOjN3ZVH9NPSoew69JsnLlZp5tjbKk5Tm+8Im6ArS
+         FwxFZyA7IGE7PzxCzmgts/2t+k+4EEs4pDWJOdRstEOyaS57JNEdKhZ1w/krfaZcxPfJ
+         /Ia5ON4j/uhKRWtnZ2Yy2jMfjd5mRSJcpGwNoOeoadsGrgVE4cCZu7x5BF2di/LGffzg
+         q/CrnC00B2Q4dvwrZUNtikKHPG90cHMs2eeSv60ZyJbn/tLnXj7LkNJp3cuE1M1ACdpC
+         Sz8w==
+X-Gm-Message-State: ACgBeo0rIYKuaMJ+8aioYHgUAUR87K6Lll1SpmiYRuWziX4f8MvGC3oL
+	cMAQvkwiFp901aP5+/4m8q6UMXtCRqkMcg==
 X-Google-Smtp-Source: 
- AA6agR5He+q/D6MIbjbxui70Df3e94lhRmTaCO6MInuBmdzWRDzlbhS498G63rAstBQbE9YtIvKB9w==
-X-Received: by 2002:a17:902:ce01:b0:172:59a6:fb3d with SMTP id
- k1-20020a170902ce0100b0017259a6fb3dmr21951026plg.119.1660753481882;
-        Wed, 17 Aug 2022 09:24:41 -0700 (PDT)
+ AA6agR6alVDyRhopIqjqysceW5vkUrj58AUPliiFqrDUOga6Rl50fodxdTmIohTvWE7ZrY66iL2sZA==
+X-Received: by 2002:a17:90b:4acc:b0:1f5:7f05:12e8 with SMTP id
+ mh12-20020a17090b4acc00b001f57f0512e8mr4468397pjb.92.1660753480637;
+        Wed, 17 Aug 2022 09:24:40 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::bb7a])
         by smtp.gmail.com with ESMTPSA id
- v13-20020a655c4d000000b0040ced958e8fsm9713601pgr.80.2022.08.17.09.24.40
+ v13-20020a655c4d000000b0040ced958e8fsm9713601pgr.80.2022.08.17.09.24.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Aug 2022 09:24:41 -0700 (PDT)
+        Wed, 17 Aug 2022 09:24:40 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2 2/2] nfs-utils: Upgrade to 2.6.2
-Date: Wed, 17 Aug 2022 09:24:37 -0700
-Message-Id: <20220817162437.1150136-2-raj.khem@gmail.com>
+Subject: [PATCH v2 1/2] xmlto: Update to use upstream tip of trunk
+Date: Wed, 17 Aug 2022 09:24:36 -0700
+Message-Id: <20220817162437.1150136-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220817162437.1150136-1-raj.khem@gmail.com>
-References: <20220817162437.1150136-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -66,205 +64,128 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 17 Aug 2022 16:24:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169495
+ https://lists.openembedded.org/g/openembedded-core/message/169494
 
-Fix build with clang
-Package new rpcctl utility into a new package
+There are several fixes which are done to fix builds with newer
+compilers after 0.0.28 was releases in 2015 a long time ago.
+
+Add a patch to fix manpages builds not trying to access network during
+build
+
+Add UPSTREAM_CHECK_COMMITS = "1"
+
+Regenerate xmlif from lex files, before configuring the build.
+Run lex from sourcedir to avoid emitting absolute source paths via #line
+directive into generated c source file which ends up causing
+reproducability isssue
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-v2: Use nonarch_libdir instead of nonarch_base_libdir for packaging
-    modprobe.d dir
+v2: Fix reproducibility failure
 
- ...td-Check-for-return-of-stat-function.patch | 34 +++++++
- .../0006-Fix-function-prototypes.patch        | 93 +++++++++++++++++++
- ...{nfs-utils_2.6.1.bb => nfs-utils_2.6.2.bb} | 11 ++-
- 3 files changed, 135 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0005-mountd-Check-for-return-of-stat-function.patch
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0006-Fix-function-prototypes.patch
- rename meta/recipes-connectivity/nfs-utils/{nfs-utils_2.6.1.bb => nfs-utils_2.6.2.bb} (92%)
+ .../0001-Skip-validating-xmlto-output.patch   | 29 +++++++++++++++++++
+ ...rop-the-test-of-xmllint-and-xsltproc.patch |  6 ++--
+ meta/recipes-devtools/xmlto/xmlto_0.0.28.bb   | 16 +++++++---
+ 3 files changed, 44 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-devtools/xmlto/xmlto/0001-Skip-validating-xmlto-output.patch
+ rename meta/recipes-devtools/xmlto/{xmlto-0.0.28 => xmlto}/configure.in-drop-the-test-of-xmllint-and-xsltproc.patch (91%)
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0005-mountd-Check-for-return-of-stat-function.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0005-mountd-Check-for-return-of-stat-function.patch
+diff --git a/meta/recipes-devtools/xmlto/xmlto/0001-Skip-validating-xmlto-output.patch b/meta/recipes-devtools/xmlto/xmlto/0001-Skip-validating-xmlto-output.patch
 new file mode 100644
-index 0000000000..13a21e5307
+index 0000000000..c6857a9da5
 --- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0005-mountd-Check-for-return-of-stat-function.patch
-@@ -0,0 +1,34 @@
-+From 887ecc7837962e9be77a4fea7d9122648f73a84a Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/xmlto/xmlto/0001-Skip-validating-xmlto-output.patch
+@@ -0,0 +1,29 @@
++From 3deb7a0eded04ab08a9cb2d88526cb1c7b440061 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 15 Aug 2022 14:47:53 -0700
-+Subject: [PATCH] mountd: Check for return of stat function
++Date: Sun, 14 Aug 2022 00:23:29 -0700
++Subject: [PATCH] Skip validating xmlto output
 +
-+simplify the check, stat() return 0 on success -1 on failure
++Avoids network access
 +
-+Fixes clang reported errors e.g.
-+
-+| v4clients.c:29:6: error: logical not is only applied to the left hand side of this comparison [-Werror,-Wlogical-not-parentheses]
-+|         if (!stat("/proc/fs/nfsd/clients", &sb) == 0 ||
-+|             ^                                   ~~
-+
-+Upstream-Status: Submitted [https://patchwork.kernel.org/project/linux-nfs/patch/20220816024403.2694169-1-raj.khem@gmail.com/]
++Upstream-Status: Submitted [https://pagure.io/xmlto/pull-request/11]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Cc: Konstantin Khorenko <khorenko@virtuozzo.com>
-+Cc: Steve Dickson <steved@redhat.com>
 +---
-+ support/export/v4clients.c | 2 +-
++ Makefile.am | 2 +-
 + 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/support/export/v4clients.c b/support/export/v4clients.c
-+index 5f15b61..3230251 100644
-+--- a/support/export/v4clients.c
-++++ b/support/export/v4clients.c
-+@@ -26,7 +26,7 @@ void v4clients_init(void)
-+ {
-+ 	struct stat sb;
++diff --git a/Makefile.am b/Makefile.am
++index 50fa279..6a2da62 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -68,7 +68,7 @@ EXTRA_DIST = xmlto.spec \
++ 	doc/xmlif.xml \
++ 	xmlto.mak
 + 
-+-	if (!stat("/proc/fs/nfsd/clients", &sb) == 0 ||
-++	if (stat("/proc/fs/nfsd/clients", &sb) != 0 ||
-+ 	    !S_ISDIR(sb.st_mode))
-+ 		return;
-+ 	if (clients_fd >= 0)
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0006-Fix-function-prototypes.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0006-Fix-function-prototypes.patch
-new file mode 100644
-index 0000000000..793bc4651c
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0006-Fix-function-prototypes.patch
-@@ -0,0 +1,93 @@
-+From cf0ffbb5c8fa167376926d12a63613f15aa7602f Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 15 Aug 2022 14:50:15 -0700
-+Subject: [PATCH] Fix function prototypes
-+
-+Clang is now erroring out on functions with out parameter types
-+
-+Fixes errors like
-+error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
-+
-+Upstream-Status: Submitted [https://patchwork.kernel.org/project/linux-nfs/patch/20220816024403.2694169-2-raj.khem@gmail.com/]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ support/export/auth.c     | 2 +-
-+ support/export/v4root.c   | 2 +-
-+ support/export/xtab.c     | 2 +-
-+ utils/exportfs/exportfs.c | 4 ++--
-+ utils/mount/network.c     | 2 +-
-+ 5 files changed, 6 insertions(+), 6 deletions(-)
-+
-+diff --git a/support/export/auth.c b/support/export/auth.c
-+index 03ce4b8..2d7960f 100644
-+--- a/support/export/auth.c
-++++ b/support/export/auth.c
-+@@ -82,7 +82,7 @@ check_useipaddr(void)
-+ }
++-GEN_MANPAGE = FORMAT_DIR=$(top_srcdir)/format $(BASH) ./xmlto -o $(@D) man $<
+++GEN_MANPAGE = FORMAT_DIR=$(top_srcdir)/format $(BASH) ./xmlto --skip-validation -o $(@D) man $<
++ man/man1/xmlto.1: doc/xmlto.xml ; $(GEN_MANPAGE)
++ man/man1/xmlif.1: doc/xmlif.xml ; $(GEN_MANPAGE)
 + 
-+ unsigned int
-+-auth_reload()
-++auth_reload(void)
-+ {
-+ 	struct stat		stb;
-+ 	static ino_t		last_inode;
-+diff --git a/support/export/v4root.c b/support/export/v4root.c
-+index c12a7d8..fbb0ad5 100644
-+--- a/support/export/v4root.c
-++++ b/support/export/v4root.c
-+@@ -198,7 +198,7 @@ static int v4root_add_parents(nfs_export *exp)
-+  * looking for components of the v4 mount.
-+  */
-+ void
-+-v4root_set()
-++v4root_set(void)
-+ {
-+ 	nfs_export	*exp;
-+ 	int	i;
-+diff --git a/support/export/xtab.c b/support/export/xtab.c
-+index c888a80..e210ca9 100644
-+--- a/support/export/xtab.c
-++++ b/support/export/xtab.c
-+@@ -135,7 +135,7 @@ xtab_write(char *xtab, char *xtabtmp, char *lockfn, int is_export)
-+ }
-+ 
-+ int
-+-xtab_export_write()
-++xtab_export_write(void)
-+ {
-+ 	return xtab_write(etab.statefn, etab.tmpfn, etab.lockfn, 1);
-+ }
-+diff --git a/utils/exportfs/exportfs.c b/utils/exportfs/exportfs.c
-+index 6ba615d..0897b22 100644
-+--- a/utils/exportfs/exportfs.c
-++++ b/utils/exportfs/exportfs.c
-+@@ -69,14 +69,14 @@ static int _lockfd = -1;
-+  * need these additional lockfile() routines.
-+  */
-+ static void
-+-grab_lockfile()
-++grab_lockfile(void)
-+ {
-+ 	_lockfd = open(lockfile, O_CREAT|O_RDWR, 0666);
-+ 	if (_lockfd != -1)
-+ 		lockf(_lockfd, F_LOCK, 0);
-+ }
-+ static void
-+-release_lockfile()
-++release_lockfile(void)
-+ {
-+ 	if (_lockfd != -1) {
-+ 		lockf(_lockfd, F_ULOCK, 0);
-+diff --git a/utils/mount/network.c b/utils/mount/network.c
-+index ed2f825..01ead49 100644
-+--- a/utils/mount/network.c
-++++ b/utils/mount/network.c
-+@@ -179,7 +179,7 @@ static const unsigned long probe_mnt3_only[] = {
-+ 
-+ static const unsigned int *nfs_default_proto(void);
-+ #ifdef MOUNT_CONFIG
-+-static const unsigned int *nfs_default_proto()
-++static const unsigned int *nfs_default_proto(void)
-+ {
-+ 	extern unsigned long config_default_proto;
-+ 	/*
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.2.bb
-similarity index 92%
-rename from meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.1.bb
-rename to meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.2.bb
-index bbed5aea59..4b5c28c27b 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.1.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.2.bb
-@@ -30,8 +30,10 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
-            file://bugfix-adjust-statd-service-name.patch \
-            file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
-            file://clang-warnings.patch \
-+           file://0005-mountd-Check-for-return-of-stat-function.patch \
-+           file://0006-Fix-function-prototypes.patch \
-            "
--SRC_URI[sha256sum] = "60dfcd94a9f3d72a12bc7058d811787ec87a6d593d70da2123faf9aad3d7a1df"
-+SRC_URI[sha256sum] = "5200873e81c4d610e2462fc262fe18135f2dbe78b7979f95accd159ae64d5011"
- 
- # Only kernel-module-nfsd is required here (but can be built-in)  - the nfsd module will
- # pull in the remainder of the dependencies.
-@@ -70,7 +72,7 @@ PACKAGECONFIG[nfsv41] = "--enable-nfsv41,--disable-nfsv41,libdevmapper,libdevmap
- # keyutils is available in meta-oe
- PACKAGECONFIG[nfsv4] = "--enable-nfsv4,--disable-nfsv4,keyutils,python3-core"
- 
--PACKAGES =+ "${PN}-client ${PN}-mount ${PN}-stats"
-+PACKAGES =+ "${PN}-client ${PN}-mount ${PN}-stats ${PN}-rpcctl"
- 
- CONFFILES:${PN}-client += "${localstatedir}/lib/nfs/etab \
- 			   ${localstatedir}/lib/nfs/rmtab \
-@@ -93,9 +95,12 @@ FILES:${PN}-mount = "${base_sbindir}/*mount.nfs*"
- FILES:${PN}-stats = "${sbindir}/mountstats ${sbindir}/nfsiostat ${sbindir}/nfsdclnts"
- RDEPENDS:${PN}-stats = "python3-core"
- 
-+FILES:${PN}-rpcctl = "${sbindir}/rpcctl"
-+RDEPENDS:${PN}-rpcctl = "python3-core"
++-- 
++2.37.2
 +
- FILES:${PN}-staticdev += "${libdir}/libnfsidmap/*.a"
+diff --git a/meta/recipes-devtools/xmlto/xmlto-0.0.28/configure.in-drop-the-test-of-xmllint-and-xsltproc.patch b/meta/recipes-devtools/xmlto/xmlto/configure.in-drop-the-test-of-xmllint-and-xsltproc.patch
+similarity index 91%
+rename from meta/recipes-devtools/xmlto/xmlto-0.0.28/configure.in-drop-the-test-of-xmllint-and-xsltproc.patch
+rename to meta/recipes-devtools/xmlto/xmlto/configure.in-drop-the-test-of-xmllint-and-xsltproc.patch
+index 6d547a6c99..7cc3cbe0fb 100644
+--- a/meta/recipes-devtools/xmlto/xmlto-0.0.28/configure.in-drop-the-test-of-xmllint-and-xsltproc.patch
++++ b/meta/recipes-devtools/xmlto/xmlto/configure.in-drop-the-test-of-xmllint-and-xsltproc.patch
+@@ -9,9 +9,9 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  configure.in | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
  
--FILES:${PN} += "${systemd_unitdir} ${libdir}/libnfsidmap/"
-+FILES:${PN} += "${systemd_unitdir} ${libdir}/libnfsidmap/ ${nonarch_libdir}/modprobe.d"
+-diff --git a/configure.in b/configure.in
+---- a/configure.in
+-+++ b/configure.in
++diff --git a/configure.ac b/configure.ac
++--- a/configure.ac
+++++ b/configure.ac
+ @@ -42,10 +42,10 @@ AC_ARG_VAR([LOCALE], [Name and path of the `locale' program.])
+  AC_PATH_PROG([LOCALE], [locale], [locale])
+  
+diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
+index 5cb9a4c57b..373eca2454 100644
+--- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
++++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
+@@ -6,17 +6,21 @@ LICENSE = "GPL-2.0-only"
  
- do_configure:prepend() {
- 	sed -i -e 's,sbindir = /sbin,sbindir = ${base_sbindir},g' \
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+ 
+-SRC_URI = "https://releases.pagure.org/xmlto/xmlto-${PV}.tar.gz \
++SRCREV = "6fa6a0e07644f20abf2596f78a60112713e11cbe"
++UPSTREAM_CHECK_COMMITS = "1"
++SRC_URI = "git://pagure.io/xmlto.git;protocol=https;branch=master \
+            file://configure.in-drop-the-test-of-xmllint-and-xsltproc.patch \
++           file://0001-Skip-validating-xmlto-output.patch \
+ "
+-SRC_URI[md5sum] = "a1fefad9d83499a15576768f60f847c6"
+-SRC_URI[sha256sum] = "2f986b7c9a0e9ac6728147668e776d405465284e13c74d4146c9cbc51fd8aad3"
++S = "${WORKDIR}/git"
++
++PV .= "+0.0.29+git${SRCPV}"
+ 
+ inherit autotools
+ 
+ CLEANBROKEN = "1"
+ 
+-DEPENDS = "libxml2-native"
++DEPENDS = "libxml2-native libxslt-native flex-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+ 
+ RDEPENDS:${PN} = "docbook-xml-dtd4 \
+                   docbook-xsl-stylesheets \
+@@ -36,6 +40,10 @@ BBCLASSEXTEND = "native"
+ 
+ EXTRA_OECONF:append = " BASH=/bin/bash GCP=/bin/cp XMLLINT=xmllint XSLTPROC=xsltproc"
+ 
++do_configure:prepend() {
++    (cd ${S} && flex -o xmlif/xmlif.c xmlif/xmlif.l)
++}
++
+ do_install:append:class-native() {
+     create_wrapper ${D}${bindir}/xmlto XML_CATALOG_FILES=${sysconfdir}/xml/catalog
+ }
 -- 
 2.37.2
 
