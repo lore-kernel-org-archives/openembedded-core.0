@@ -1,94 +1,169 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCD1CC25B08
-	for <webhook@archiver.kernel.org>; Wed, 17 Aug 2022 22:16:37 +0000 (UTC)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.web09.35675.1660774593497072442
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C96CFC25B08
+	for <webhook@archiver.kernel.org>; Wed, 17 Aug 2022 22:27:47 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.35126.1660775264602019210
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Aug 2022 15:16:33 -0700
+ Wed, 17 Aug 2022 15:27:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZIaapExv;
- spf=pass (domain: gmail.com, ip: 209.85.208.182,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f182.google.com with SMTP id v10so78769ljh.9
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DsyLXBlr;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id u14so3171557wrq.9
         for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Aug 2022 15:16:33 -0700 (PDT)
+ Wed, 17 Aug 2022 15:27:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=mA1xUfIDZrwQUHE2FMjWi8FppilbxKnXFXkP+W0JDxg=;
-        b=ZIaapExvDI5l9Z82L4fwIqzcfWfIz9uN2ucFx0yFxyE72n6l+cGulQt8tzxuSDl6VD
-         Sw9H7upB+dXeGV/9hIK2JL4Ns1TI55GD8Q6+X6uwFk4s0laxIO/NjOYQ9ArCkho5odui
-         VcJAEr51K1Yj6a+K8fxuh0nyhREiBJcrruhq/3uOle8HPg6mvP4+OlX5K+D2Yj2RvQ9W
-         HBi20b0HZ8A4bXuhOQnwnl177xQrUf5AdJeXyiUlxK1FpzVYCk36xQlMmYrQL12pjyg8
-         /vPKX1NpsjdowRs1j2SNvT/M6+T838LZPIr1gbEFU8AWpNKZLJiqom4bH3Rd2tfy0Vyc
-         H46g==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
+        bh=ToRIirv4QxxwRlipuYGTgte6rlNzfdfUNQc/d8z2mRE=;
+        b=DsyLXBlrrzLOmcYEH8etV0IUkv56MQ4KQMRLX1dRbTmwDEgI7U0p0s9py9BiXXa1la
+         nB7Y3ydFfR3pnX0TXMKVyTGEfGmiW5MoZxkGHX+AkKh25x33o3b12BsMW2+mLBa724jX
+         Mk2l0tQ+q9LY9/vRYrRdvIjcMbi2tpWvOZ7Cw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=mA1xUfIDZrwQUHE2FMjWi8FppilbxKnXFXkP+W0JDxg=;
-        b=YLMGHcI74Ys/RxBRSKEv00WdC6QMGToMUV5fgbcLHII5s1CLmgYvG47uZHx7G6GbSK
-         RSXPpb4mZtb1T1sm5cbRHC26KFVSkBTb0QI6JUuDh+6JkYPneEcPmySW2ZM/g1CahgU6
-         1GWXYUopgwsbDSosg35eigrR60wIyhi/0m6nQ0gr+ZnwINXV/OI+1sHFAkfdD2rCeE6s
-         gB+Kb1oBwTvE6LgFHBmKxG9a2fFd5TqrBtqWzVQ0LTJ5bCjwiJs5vG9NVgCaXpwtZKWd
-         dul6m17CqA6q0OU5cx1xq8x55MhMo65Tr1EluNPlc91UZj3t3QFaf8zfs3t2nFB5NUYS
-         zgCw==
-X-Gm-Message-State: ACgBeo217sWA+WfCExO7Agry3Zt9MrtPJX7WlTmAv6m51sGmJXxApO/+
-	PsCn8LedJF37AEyTxppv8ge5EUMSFEgXANUttao=
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc;
+        bh=ToRIirv4QxxwRlipuYGTgte6rlNzfdfUNQc/d8z2mRE=;
+        b=yEuluEr//lM1HDyqy6/obnfYMI5udYXr1pXqXKu2hv9v1kNarjANMS9u9zIXWezwN6
+         hWEsdRZ/JkjpMAhiGfBnqL+p6A1ZOToPdK/Dd+MOTyEkn/B3u5Arnrgi7FKj0le60rCd
+         hsLvFfmCZ38z/08v4XEHDecn9fGwMYvQ2wCJ8Y3gmDjkP4VkqD8N2JRU35B2ygl+RJmp
+         HmUgueJgLItJQUO7BWT5djq7Ay5WIuao9Ni1vBn+jl2fKLHzCEkegN0D/j/f0kThgM06
+         ohQYS+ImM0sBC4s81vlwHYSpVqPcxxb9P1sHQFMjxGZmlftYjf7PhMbrodsqATN8xM1W
+         ycjw==
+X-Gm-Message-State: ACgBeo2DVPTMgqGJA+flxIw7kptkvqbcrRzu7RDVjoAiyFmQi/fh2Xjn
+	tJt+JSCA+8jCExcl8+k7siVlog==
 X-Google-Smtp-Source: 
- AA6agR4RNS1qW7KNUaAphm26RotT7ZF5pNT1G+l2QjxoadTpd58epaG8DMe9In2t8v8QiX2hI5SGO/6FlgKW0R/nMAQ=
-X-Received: by 2002:a2e:7d12:0:b0:261:81ae:f804 with SMTP id
- y18-20020a2e7d12000000b0026181aef804mr90737ljc.56.1660774591656; Wed, 17 Aug
- 2022 15:16:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220817131023.4093773-1-alex@linutronix.de>
- <20220817131023.4093773-2-alex@linutronix.de>
- <bff578854db1852bc0891463e6eecd3c892876bd.camel@linuxfoundation.org>
-In-Reply-To: 
- <bff578854db1852bc0891463e6eecd3c892876bd.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 18 Aug 2022 00:16:20 +0200
+ AA6agR6dt0z7j/UXTfpTz1ONSFIYCTcsWSi0JMpJtuPt1QLLbxta/QjMsdjafEkaJEq73TWQlCzXUw==
+X-Received: by 2002:adf:e5c8:0:b0:224:f60c:6f7e with SMTP id
+ a8-20020adfe5c8000000b00224f60c6f7emr63465wrn.87.1660775262874;
+        Wed, 17 Aug 2022 15:27:42 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:bfd7:4d1c:d13d:975?
+ ([2001:8b0:aba:5f3c:bfd7:4d1c:d13d:975])
+        by smtp.gmail.com with ESMTPSA id
+ y5-20020adff6c5000000b0021b970a68f9sm13448956wrp.26.2022.08.17.15.27.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Aug 2022 15:27:42 -0700 (PDT)
 Message-ID: 
- <CANNYZj9k-WxkGPLeE6PzZMSyy8xjtU94ghV465JP8EZu1oFKow@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/5] meta/files: add layer setup JSON schema and
- example
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Joshua Watt <JPEWhacker@gmail.com>, Alexander Kanavin <alex@linutronix.de>
+ <d3d5ec04d1b0caec5f0e8f7578e40b3f055e10d9.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/5] meta/files: add layer setup JSON schema
+ and example
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, Joshua Watt
+	 <JPEWhacker@gmail.com>, Alexander Kanavin <alex@linutronix.de>
+Date: Wed, 17 Aug 2022 23:27:41 +0100
+In-Reply-To: 
+ <CANNYZj-1c9cd1Q9LodoxrMxkhBTbOTdg3gb=TVyVdWJ6inMO4w@mail.gmail.com>
+References: <20220817131023.4093773-1-alex@linutronix.de>
+	 <20220817131023.4093773-2-alex@linutronix.de>
+	 <bff578854db1852bc0891463e6eecd3c892876bd.camel@linuxfoundation.org>
+	 <CANNYZj-1c9cd1Q9LodoxrMxkhBTbOTdg3gb=TVyVdWJ6inMO4w@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Aug 2022 22:16:37 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Aug 2022 22:27:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169508
+ https://lists.openembedded.org/g/openembedded-core/message/169509
 
-On Wed, 17 Aug 2022 at 22:52, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On Wed, 2022-08-17 at 23:36 +0200, Alexander Kanavin wrote:
+> On Wed, 17 Aug 2022 at 22:52, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > One thing that concerns me a little is that this mixes two things,
+> > layer setup (as in repos) and configuration. I'm nervous about json
+> > config which effectively has to duplicate the list of machines/distros
+> > in layers.
+> >=20
+> > Where is the distro/machine data used?
+>=20
+> The use case I was thinking of is doing something useful with this
+> information *before* doing actual checkout. I would even appreciate
+> knowing in advance - maybe even by just looking at the json through
+> gitweb ui - which machines, distros and config templates I would be
+> getting, and from which layers.
 
-> I'm still worried about bolting a format directly into one of our core
-> tools as it effectively means it is a definitive standard. We do
-> probably need one but I'm not convinced this is quite right, perhaps
-> because of the above reason. Not 100% sure but something doesn't feel
-> quite right.
+The trouble is that others already went a different direction with this
+which is why we have layer index and the concept of local layer indexes
+as well we the ability for bblayers to talk to such indexes if I'm
+remembering correctly.
 
-This part can perhaps be addressed by the venerable 'adding an
-abstraction layer', in the shape of config format generator plugins. I
-can supply the native json plugin, others can add kas, repo, or
-whatever else they find useful.
+An advantage it has is that it does parse the layers so it can cache
+other information too.
 
-Also, the json is versioned and almost nothing in it is required. If
-some ideas don't work out, or are found to cause problems, there are
-ways to transition out of problematic bits - perhaps even as simple as
-dropping the bad ideas from the generator, or the setup script,
-without modifying the schema.
+My worry is that you have two copies of this information, one in the
+json and one in the metadata and effectively by that fact, one of them
+will be wrong.=C2=A0
 
-We do need a starting point though.
+You could report it to the user with a directory listing of the remote
+repo via git.
 
-Alex
+>  Also the proposed oe-setup tool could
+> do useful things with this information, if it operates from the json
+> definitions in the same format. You can discover and supply all needed
+> information up front, and oe-setup will land you in a bitbake session.
+> Without it, you have to first do the layer setup, then the
+> configuration discovery, then the configuration setup, as separate
+> commands - I'd say that would be an inferior experience for the users.
+
+I think you can get a lot of this information relatively easily and
+possibly without a clone, via a layer index or probably through a
+remote git command too.
+
+> > Are these the only config options people will want to add or will we
+> > have others? init system? libc? Or feature information about which
+> > configurations are expected to work? I worry this is a magnet for
+> > future feature creep and duplication of information.
+>=20
+> These are not the same, as machines and distros are specifically
+> defined in layers as .conf files in pre-determined locations. Other
+> things are defined as variables in files, and aren't as easily
+> discoverable by code. I only want to allow programmatically
+> discoverable options (that are guaranteed to be in lockstep with the
+> layer revision) in the json; no one should ever write or modify the
+> json by hand.
+
+I'm not sure that will scale for what users want then (which I suspect
+is why we ended up with the layer index instead).
+
+> > I can see where the buildconfigs are used but again, does the json file
+> > need to encode those or could you determine them by inspection of the
+> > layers once setup?
+>=20
+> In addition to the above point (knowing them in advance is useful),
+> there is no fixed location for these in layers. You could perhaps walk
+> the layer trees, but I'd rather place the info in the json.
+
+I have wondered if we should define one. I kind of have a plan in mind
+to turn the majority of the autobuilder configurations into config
+files somewhere in OE-Core to make it easier for people to reproduce
+autobuilder configs too, which may be an interesting example of that.
+
+> > Also, if there is new version of this series, could you squash in these
+> > copyright/license tweaks please:
+> >=20
+> > https://git.yoctoproject.org/poky/commit/?h=3Dmaster-next&id=3D45b39629=
+8c1dd638bb702f5251b4a663f07978ca
+>=20
+> This is the easy part :-) Hope the above clarifies a bit what went on
+> in my head when I was writing the code.
+
+It does, thanks. I'm just not sure we're quite in the right place with
+things. I know in your other reply you say we have to start somewhere
+and we can change things. I also know the screaming if we try and
+remove something later...
+
+Cheers,
+
+Richard
+
+
 
