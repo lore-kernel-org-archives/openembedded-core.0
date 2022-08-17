@@ -2,62 +2,61 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7020DC32773
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FD18C2BB41
 	for <webhook@archiver.kernel.org>; Wed, 17 Aug 2022 07:04:53 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web12.25905.1660719889403816001
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web12.25907.1660719892134328643
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Aug 2022 00:04:49 -0700
+ Wed, 17 Aug 2022 00:04:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=TrkbsRy8;
- spf=pass (domain: gmail.com, ip: 209.85.214.181,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id 20so2655594plo.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=WLDs5to4;
+ spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f48.google.com with SMTP id
+ s31-20020a17090a2f2200b001faaf9d92easo1014731pjd.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Aug 2022 00:04:49 -0700 (PDT)
+ Wed, 17 Aug 2022 00:04:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=Zr/IioYxefY146biaSOgUxWg4L4QhWnmts7qnlLavHQ=;
-        b=TrkbsRy8nRe8a0fknVVq9fXQuSOQvfNBCfW8WR6C9jwDrgLif+QfXXhXXz786dH18h
-         GVHVC2viebrCpZRRlE9wGzDt8NN1OC7/cf5jM0lWxXl8DiFSotQmDM/ua8ur0jWxtDZ7
-         qGpeJ3XQHVKGCytCxC3M26mpK5HLdien5iGUAm8QzaGoAJtyu/RizpIFZ/7vaCrds7gq
-         6bnpaUryzThiY4zyg4/xsfjarMn1sgCDc/Qsi+2rXMoJKn9jvdJcNKGOm9xuAVv0Ov0a
-         3DQX9Uk8mV5ePYSE2IKI+kgMXNV3Mb4TG4xG4VYoMwJLwR6VP05hSXuw62+J3oR+7uy9
-         JWxw==
+        bh=SqPiQwMNkNfr2V5BfVxdzhbbt82+MwWtp3tb7igeyhc=;
+        b=WLDs5to4M9XOYR0P4bYSNPNqrKInUwlORins7ldIMgtDSKm8/21yKAeY1ManmFyoIs
+         c6LTtvBOA+RVEQZLoee/Z+qOGJoccrhCYOUlWfAirKcm3dY+etCMwavnUvxWdkUl1roQ
+         FNrKB4FnlDg9YUUwdteHuorHps3BKSwWvZRy2yoaWgSRHH7a3xw0Xp4YzoXG9fBe9tGS
+         JSQ9+Wt97IjoGdPyHB1Z/Z1DKEcjMCeWJKzwA/52rzcaQb++chQk444RU6zAb78B2kOZ
+         euAMrnPKLAlM8bcScIDNnkEdyIufPPpN2JsuETJtNdZJHHqDmC9nYABJ58NDmFY1yTQf
+         LeHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=Zr/IioYxefY146biaSOgUxWg4L4QhWnmts7qnlLavHQ=;
-        b=wxaUwfKn9Frxv9ceQhHfIxcM5lbGoX92oQYxE7xuSZxJ3CZcAHUQSmfZ95Bb2+4ket
-         vlDULFrEheyn7fIHow59QVgkZmeAswQI1fzB55ymOlimrnLFU3bhagMK9RpMEn6PCSH8
-         1tACWYUkMJwO8mXPQo1RinlHC7rAIaklA0lAvB2CczpEo02i/5YyMl+3mK1x3TFbkf5/
-         3LjqBTtQ/LpQ7wYD7VlZj6vlVS99uVtXfmXgcXl5iNGtT2VkaxAT8jxNRhPGM893EY7l
-         483uBYOA8UmpCbhVKxAD/A39FxTKkzJC+knJaN+stO1wHAtOXdyg0wThDeGUNiJF36UB
-         NQTg==
-X-Gm-Message-State: ACgBeo0fuSs81VaUNVqumZciS3meSPHyNj6zl95hhaXARbaWW92Ctbkf
-	Ybbu+t73cVpz0oOuY2pFQfmIwY+AzEHAjA==
+        bh=SqPiQwMNkNfr2V5BfVxdzhbbt82+MwWtp3tb7igeyhc=;
+        b=y6rWts7zeUzvwI9G66PQ9oynYAhVNY6gp+JPNd2P7IYP6v3UAHjQOT4gHCIPVkgqD3
+         uXgIiaegfmIyTFFag32meFD2SF7X0cxIj1VO+3Wu6uu9DDeB3Kls1X0/djxdb+B5OiO3
+         u0H1H3mbsXvGF686jRJhm0u4jde5RcczXOWFWRaNMDe/t86V2Tmv0dZhizqHFKbU2Wyh
+         9qqmuSHJIKNMMKOWXBgr67Mzlu4ieiE1T6wDtblawe31dpa0TuBGyKIOIfsdcM+Gz7sz
+         tCafZ67hzPLKgaRkFfvvtcZjvi5ToatTrps+cUruvkIaUDLd0cqgU3mWdTD8wQjwaHG5
+         uJgw==
+X-Gm-Message-State: ACgBeo3wXCbF5MF/HZdwr60ZS7lum7N1bLO907yEkGs7geKJ59mBn0yN
+	T3iPx75BxxQ0BYR/s9ZJ2xuIF7UMlbYHqQ==
 X-Google-Smtp-Source: 
- AA6agR7oCBXxlMuiHfxIlZOxHoWDmwuXADHatRbnLz8WCon6rWhcEqzshpSw2501awHoBVclejTypg==
-X-Received: by 2002:a17:90a:fe92:b0:1f5:1b0b:1cd7 with SMTP id
- co18-20020a17090afe9200b001f51b0b1cd7mr2328734pjb.197.1660719888329;
-        Wed, 17 Aug 2022 00:04:48 -0700 (PDT)
+ AA6agR7Cm+EnWletwqYEXPwgiqE8nu0z+Wb8GZPNATLbYJEf3d9X8JEqanrIngGn1o9BZZCg+qu8VA==
+X-Received: by 2002:a17:90b:1c0a:b0:1f3:1848:591c with SMTP id
+ oc10-20020a17090b1c0a00b001f31848591cmr2370419pjb.24.1660719891137;
+        Wed, 17 Aug 2022 00:04:51 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::bb7a])
         by smtp.gmail.com with ESMTPSA id
- 196-20020a6218cd000000b0052b94e757ecsm9638546pfy.213.2022.08.17.00.04.47
+ 196-20020a6218cd000000b0052b94e757ecsm9638546pfy.213.2022.08.17.00.04.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Aug 2022 00:04:47 -0700 (PDT)
+        Wed, 17 Aug 2022 00:04:50 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH v3 2/7] binutils-cross: Disable gprofng for when building
- cross binutils
-Date: Wed, 17 Aug 2022 00:04:35 -0700
-Message-Id: <20220817070440.537761-2-raj.khem@gmail.com>
+Subject: [PATCH v3 4/7] binutils: Disable gprofng when using clang
+Date: Wed, 17 Aug 2022 00:04:37 -0700
+Message-Id: <20220817070440.537761-4-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220817070440.537761-1-raj.khem@gmail.com>
 References: <20220817070440.537761-1-raj.khem@gmail.com>
@@ -68,30 +67,35 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 17 Aug 2022 07:04:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169467
+ https://lists.openembedded.org/g/openembedded-core/message/169470
 
-This does not work in cross settings yet
+It does not yet compile with clang it comes with __ builtin___snprintf_chk Not Supported
+formatted output of built-in functions check is failing with clang
+somehow it seems to be compiler limitation. Therefore disable building
+this component with clang for now
 
-(From OE-Core rev: c9d484092060f7e8431e31c64d98433b4f85c378)
+(From OE-Core rev: 5f4b6afb030fe75247cc2da09cdf0ec5259673df)
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/binutils/binutils-cross.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/binutils/binutils_2.39.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-cross.inc b/meta/recipes-devtools/binutils/binutils-cross.inc
-index 02ec891606..835d4fa69b 100644
---- a/meta/recipes-devtools/binutils/binutils-cross.inc
-+++ b/meta/recipes-devtools/binutils/binutils-cross.inc
-@@ -16,6 +16,7 @@ SRC_URI += "file://0002-binutils-cross-Do-not-generate-linker-script-directo.pat
- # and mean the linker scripts have to be relocated.
- EXTRA_OECONF += "--with-sysroot=${STAGING_DIR_TARGET} \
-                 --disable-install-libbfd \
-+                --disable-gprofng \
-                 --enable-poison-system-directories \
-                 --with-lib-path==${target_base_libdir}:=${target_libdir} \
-                 "
+diff --git a/meta/recipes-devtools/binutils/binutils_2.39.bb b/meta/recipes-devtools/binutils/binutils_2.39.bb
+index 8eab78c330..863eedbcbd 100644
+--- a/meta/recipes-devtools/binutils/binutils_2.39.bb
++++ b/meta/recipes-devtools/binutils/binutils_2.39.bb
+@@ -14,6 +14,9 @@ EXTRA_OEMAKE:append:libc-musl = "\
+                                  gt_cv_func_gnugettext1_libc=yes \
+                                  gt_cv_func_gnugettext2_libc=yes \
+                                 "
++# libcollector/collector.c:547:15: error: no member named '__fprintf_chk' in 'struct CollectorUtilFuncs'
++EXTRA_OECONF:append:toolchain-clang = " --disable-gprofng"
++
+ EXTRA_OECONF:class-native = "--enable-targets=all \
+                              --enable-64-bit-bfd \
+                              --enable-install-libiberty \
 -- 
 2.37.2
 
