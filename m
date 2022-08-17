@@ -1,225 +1,167 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 657AEC25B08
-	for <webhook@archiver.kernel.org>; Wed, 17 Aug 2022 20:33:27 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web11.33835.1660768401409790829
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5826FC25B08
+	for <webhook@archiver.kernel.org>; Wed, 17 Aug 2022 20:52:17 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.34096.1660769529884801674
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Aug 2022 13:33:21 -0700
+ Wed, 17 Aug 2022 13:52:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=L8TpTbFh;
- spf=pass (domain: gmail.com, ip: 209.85.167.46,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id i19so2133090lfr.10
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GPSVi8wK;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id u14so2972950wrq.9
         for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Aug 2022 13:33:21 -0700 (PDT)
+ Wed, 17 Aug 2022 13:52:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=6TuAq9hHt91UX1o3XLhnVkyUUuoNFcFi+9H+kkGiX6c=;
-        b=L8TpTbFhhOtJeUjiP7FA2B+/7kTK2pidajAim1wLH1x/b0hLWT+QMTQ7Cb/dXnr0md
-         UqXOhrgkAcR/SNcKpmyENK6jMt1efA66XeS7PbGlag6/1cLE+kp07pggWy9L8UGDjiza
-         JZ5+FXCr2FoCuFcU4jNlE9vlElG9gbz+A8ARMGo6Qm1Ize3Wh7iEDCOgiBMGIWZzS21D
-         AvOye03QBroAqmFR7W/WWSk2NHQgG2UnzYLQ8DX5m8x+5qwDHrKquSog6/Wy/ZFYUUOt
-         lVGqT6Rf73L0PjJlLTwBCcgZedOmTxyq6ubz85xc0nYWBdZ/cZRclx4J2Iz5En6J8BSc
-         fuLQ==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
+        bh=3ABciEYAMeKPfZFmjhwYXC0ozuWjtHvWwy6rkNpphHU=;
+        b=GPSVi8wKLseKFptbQL6UPfX/V9b1peAl5ip+cT53BJaUzu9+XN0T2kY4BNpFLUd1iL
+         nSnXg/DE8CtCggt6PJdOnYsCYmr/PFNCA3bZgxx9OBtBX8l6VcYL/4lpMxts4zEGemb3
+         zInyEfxt9gZVjtkSo046QhN7ZXFtbaAjHCtBo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=6TuAq9hHt91UX1o3XLhnVkyUUuoNFcFi+9H+kkGiX6c=;
-        b=HRTfWNfjCHLYN/JMu9EewoAZn2bWu+ixvfGf8d+i+raPyMEY00Sq1BH13uUg71da8h
-         9rSFC7+gNp/LpBvo+7pgFmRSJpu8nf7JlfRlymATKRtJwmtkn48Z87dCT2riETVBEIxR
-         D4Rj21SOdf8l4kkZrmFh1KGeuF2Ci/ZBTS94fUo6UmMchltEminSJ0ffgKr1DLhn1NHd
-         1EOB2GqbVtacdessOEYAm0gS4IUFQpGOlMPFQQXkyQzxSwUn2nTRMqcQJ6o4+PjkKu3B
-         KzUQjOfu7wWzmP95jZKzWAgXygDD/dqaVHPkioz/IzmE0JHbOoF+BAyvWLUMowzr9Id9
-         I2eA==
-X-Gm-Message-State: ACgBeo130Qp0+sAdMQPv+s2KK2WqMvRH6CmbJWByHcwhDBXRk7SOiC+s
-	7/Tu7yQcL6JUcFBjhVBu3P3nwys6OkejVjD3hSs=
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc;
+        bh=3ABciEYAMeKPfZFmjhwYXC0ozuWjtHvWwy6rkNpphHU=;
+        b=Lw2lTUscdbyKRP7iZa8zszRE2SLeaT70ZMgbwu8tgcwils3/Su65bpljnW6Gfiz4vK
+         Hf1ZVsA3tZZb2RVFP6BmwiBGA37sjGdXkQyZmeXSkGq/MuUcSjGa0fMqNQZxjyMgpLlQ
+         PgUXHrblUQ7xey9p5RrohGDNZAj5LKnfAILQS27lQGd77MTTMKCaGs0lsS6D+lkBc0Np
+         e1wkQRPWincrOzdhBsRmKs8FTorbjbKZOI5QUx3rz/Gx9uUDPBkvTdyFBxyPEMpaliDS
+         PtF7g0YXKiBEyvtMnVBqSt43/1U7cSlpMEkVmlMLMk8Az0kclqCElHydvElJODbGKQr/
+         murA==
+X-Gm-Message-State: ACgBeo2n7gNZjBxWFT+9wY6PopN7pM2Ol16N521yJ8PXFrSd7CcMbt+M
+	XAf/QnGpA3jXfGJCwmxlMK1I3g==
 X-Google-Smtp-Source: 
- AA6agR53UUlpVfBjnuwxwgH7z8Ge1RTKKBEYx4S0YDfxXzzrN7i1AYG4L6AmUbXG7IjHdKOPESHo+el7VxIAx3wCqGo=
-X-Received: by 2002:a05:6512:33d4:b0:48b:3a5f:e6e7 with SMTP id
- d20-20020a05651233d400b0048b3a5fe6e7mr8798335lfg.665.1660768399559; Wed, 17
- Aug 2022 13:33:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220817190124.2126652-1-jstephan@baylibre.com>
- <CANNYZj_VxXe6aZKXstZVNov9aeQJ-2beBY1=WojSPA-gvXQqvg@mail.gmail.com>
- <CAEHHSvavULJhb-W6MJ+2GSouf8sBk_xFHXeHdQCO_VF_zsqn5g@mail.gmail.com>
- <170C3947C33061FA.1805@lists.openembedded.org>
-In-Reply-To: <170C3947C33061FA.1805@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 17 Aug 2022 22:33:07 +0200
+ AA6agR4oBx1wlH6+Cyc+Rkq9ED89aA83kFe8pV3RR4fSJDOqMyaqERDe/p46DEl1WJs51ST84IAPNQ==
+X-Received: by 2002:a05:6000:1102:b0:220:5c10:5cbe with SMTP id
+ z2-20020a056000110200b002205c105cbemr15893996wrw.359.1660769528300;
+        Wed, 17 Aug 2022 13:52:08 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:bfd7:4d1c:d13d:975?
+ ([2001:8b0:aba:5f3c:bfd7:4d1c:d13d:975])
+        by smtp.gmail.com with ESMTPSA id
+ x1-20020a5d4901000000b002207a5d8db3sm13872940wrq.73.2022.08.17.13.52.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Aug 2022 13:52:06 -0700 (PDT)
 Message-ID: 
- <CANNYZj-ZOPgM_iLFw6uQWF+St_GWNNOfdWB0zUw_yZQfWjQuig@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] vulkan-samples: enable network during do_unpack
-To: Julien Stephan <jstephan@baylibre.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+ <bff578854db1852bc0891463e6eecd3c892876bd.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/5] meta/files: add layer setup JSON schema
+ and example
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>, Alexander Kanavin
+ <alex@linutronix.de>
+Date: Wed, 17 Aug 2022 21:52:06 +0100
+In-Reply-To: <20220817131023.4093773-2-alex@linutronix.de>
+References: <20220817131023.4093773-1-alex@linutronix.de>
+	 <20220817131023.4093773-2-alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Aug 2022 20:33:27 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Aug 2022 20:52:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169505
+ https://lists.openembedded.org/g/openembedded-core/message/169506
 
-I reproduced. This happens if all three are true:
-- recipe is using gitsm://
-- one of the submodules contains lfs objects
-- git-lfs is installed on the host (that's why it's not seen on the AB)
+On Wed, 2022-08-17 at 15:10 +0200, Alexander Kanavin wrote:
+> From: Joshua Watt <JPEWhacker@gmail.com>
+>=20
+> Defines a common schema for layer setup that can be consumed by tools to
+> know how to fetch and assemble layers for end users. Also includes an
+> example of the layer setup that constructs poky/meta-intel/imaginary prod=
+uct layer
+> for reference.
+>=20
+> The schema can be used to validate a layer setup file with the commands:
+>=20
+>  $ python3 -m pip install jsonschema
+>  $ jsonschema -i meta/files/layers.example.json meta/files/layers.schema.=
+json
+>=20
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+>=20
+> Alex: I made the following modifications to Joshua's original commit:
+>=20
+> - moved the files from meta/lib to meta/files
+>=20
+> - the example json showcases a multi-repo, multi-layer setup with additio=
+nal
+> configurations and machines, instead of just poky - closer to a typical p=
+roduct
+>=20
+> - added oe-selftest that validates the example json against the schema us=
+ing python3-jsonschema-native
+>=20
+> - the schema is modified so that:
+>=20
+> -- all lists (sources, layers, remotes) are replaced by objects keyed by =
+'name' properties of the list items.
+> This allows using them as dicts inside Python, and makes the json more co=
+mpact and readable.
+>=20
+> -- added 'contains_this_file' property to source object
+>=20
+> -- added 'buildconfigs', 'machines' and 'distros' properties to layer obj=
+ects.
+>=20
+> -- replaced 'remote' property with a 'oneOf' definition for git with a sp=
+ecific
+> 'git-remote' property. 'oneOf' is problematic when schema validation fail=
+s:
+> the diagnostic is only that none of oneOf variants matched, which is too =
+non-specific.
+>=20
+> -- added 'describe' property to 'git-remote' object.
+>=20
+> -- removed description property for a layer source: it is not clear how t=
+o add that
+> when auto-generating the json
 
-There's logic in plain git:// fetcher to deal with lfs, but not in
-gitsm://. So that logic needs to be added there as well. A workaround
-like you suggested is not the right fix.
+I finally got some time to think about this a little bit more.
 
-Can you look into it please? Or at least a ticket would be good to have.
+One thing that concerns me a little is that this mixes two things,
+layer setup (as in repos) and configuration. I'm nervous about json
+config which effectively has to duplicate the list of machines/distros
+in layers.
 
-Alex
+Where is the distro/machine data used?
 
-On Wed, 17 Aug 2022 at 21:42, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> Just to be sure, can you repeat this on a pristine poky master
-> checkout with no cache and no downloads? 'bitbake -c unpack
-> vulkan-samples' should do.
->
-> Also what does git --version say? I wonder if there's something in too
-> old or too new versions of it.
->
-> Alex
->
-> On Wed, 17 Aug 2022 at 21:22, Julien Stephan <jstephan@baylibre.com> wrot=
-e:
-> >
-> > Hi Alexander,
-> >
-> > I observe this by just trying to build the vulkan-samples recipe: DISTR=
-O=3Dpoky bitbake vulkan-samples.
-> >
-> > Here is the log output (sorry it is a bit verbose):
-> > ERROR: vulkan-samples-git-r0 do_unpack: Bitbake Fetcher Error: FetchErr=
-or('Fetch command export PSEUDO_DISABLED=3D1; export SSH_AUTH_SOCK=3D"/home=
-/jstephan/.ssh/ssh_auth_sock"; export PATH=3D"/home/jstephan/kirkstone/buil=
-d/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/jstephan/kirkstone/src/=
-poky/scripts:/home/jstephan/kirkstone/build/tmp/work/cortexa53-poky-linux/v=
-ulkan-samples/git-r0/recipe-sysroot-native/usr/bin/aarch64-poky-linux:/home=
-/jstephan/kirkstone/build/tmp/work/cortexa53-poky-linux/vulkan-samples/git-=
-r0/recipe-sysroot/usr/bin/crossscripts:/home/jstephan/kirkstone/build/tmp/w=
-ork/cortexa53-poky-linux/vulkan-samples/git-r0/recipe-sysroot-native/usr/sb=
-in:/home/jstephan/kirkstone/build/tmp/work/cortexa53-poky-linux/vulkan-samp=
-les/git-r0/recipe-sysroot-native/usr/bin:/home/jstephan/kirkstone/build/tmp=
-/work/cortexa53-poky-linux/vulkan-samples/git-r0/recipe-sysroot-native/sbin=
-:/home/jstephan/kirkstone/build/tmp/work/cortexa53-poky-linux/vulkan-sample=
-s/git-r0/recipe-sysroot-native/bin:/home/jstephan/kirkstone/src/poky/bitbak=
-e/bin:/home/jstephan/kirkstone/build/tmp/hosttools"; export HOME=3D"/home/j=
-stephan"; git -c core.fsyncobjectfiles=3D0 -c gc.autoDetach=3Dfalse -c core=
-.pager=3Dcat submodule update --recursive --no-fetch failed with exit code =
-1, output:\nSubmodule path \'assets\': checked out \'8a6b7f952d7786a305f89d=
-375a55598e995ee972\'\nSubmodule path \'third_party/CTPL\': checked out \'43=
-7e135dbd94eb65b45533d9ce8ee28b5bd37b6d\'\nSubmodule path \'third_party/astc=
-\': checked out \'4861c3db1ca50eb5f5767d95d1cd1bacb98ac8a5\'\nSubmodule pat=
-h \'third_party/cli11\': checked out \'4af78beef777e313814b4daff70e2da9171a=
-385a\'\nSubmodule path \'third_party/glfw\': checked out \'6876cf8d7e0e70dc=
-3e4d7b0224d08312c9f78099\'\nSubmodule path \'third_party/glm\': checked out=
- \'fce2abd01ce21063bd25ba67c9318be83bf48813\'\nSubmodule path \'third_party=
-/glslang\': checked out \'6baa85f6ceec5fddd2e13b43dd1edc944dd930af\'\nSubmo=
-dule path \'third_party/hwcpipe\': checked out \'5a0c3d0b527bea96154998f291=
-77f3b449cebd3a\'\nSubmodule path \'third_party/imgui\': checked out \'c23a1=
-9c26fa9cc778f755e76799f0cafdcb5a13b\'\nSubmodule path \'third_party/opencl\=
-': checked out \'1aa1139b58a515877a923cce6b254e09d1b2fb2c\'\nSubmodule path=
- \'third_party/spdlog\': checked out \'7bf8f148795d2571b4ae4aa9c6d2a8111fbb=
-7077\'\nSubmodule path \'third_party/spirv-cross\': checked out \'84f56d0b4=
-3e5a6874de45e11be2bff9dc336fd7e\'\nSubmodule path \'third_party/stb\': chec=
-ked out \'2c2908f50515dcd939f24be261c3ccbcd277bb49\'\nSubmodule path \'thir=
-d_party/tinygltf\': checked out \'c0d0251e2c7f2273a894aa1b125af9313a88eae4\=
-'\nSubmodule path \'third_party/vma\': checked out \'f9921aefddee2437cc2e33=
-03d3175bd8ef23e22c\'\nSubmodule path \'third_party/volk\': checked out \'b1=
-8f3192886981f28d17f8f41c26c5a53ac3b977\'\nSubmodule path \'third_party/vulk=
-an\': checked out \'76f00ef6cbb1886eb1162d1fa39bee8b51e22ee8\'\n\nDownloadi=
-ng other_lib/ios/Debug-iphoneos/libSDL2.a (8.2 MB)\nError downloading objec=
-t: other_lib/ios/Debug-iphoneos/libSDL2.a (5045776): Smudge error: Error do=
-wnloading other_lib/ios/Debug-iphoneos/libSDL2.a (5045776556ca57f2f7125d89c=
-37a8b94f79cdebdc040d420513f0491787c4ea7): batch response: Post https://gith=
-ub.com/KhronosGroup/KTX-Software.git/info/lfs/objects/batch: dial tcp: look=
-up github.com: Temporary failure in name resolution\n\nErrors logged to /ho=
-me/jstephan/kirkstone/build/tmp/work/cortexa53-poky-linux/vulkan-samples/gi=
-t-r0/git/.git/modules/third_party/ktx/lfs/logs/20220817T152514.337649981.lo=
-g\nUse `git lfs logs last` to view the log.\nerror: external filter \'git-l=
-fs filter-process\' failed\nfatal: other_lib/ios/Debug-iphoneos/libSDL2.a: =
-smudge filter lfs failed\nUnable to checkout \'6a38a0694b4d73d22c5d1e22f865=
-d03545e808ea\' in submodule path \'third_party/ktx\'\n', None)
-> > ERROR: Logfile of failure stored in: /home/jstephan/kirkstone/build/tmp=
-/work/cortexa53-poky-linux/vulkan-samples/git-r0/temp/log.do_unpack.1796011
-> > ERROR: Task (/home/jstephan/kirkstone/src/poky/meta/recipes-graphics/vu=
-lkan/vulkan-samples_git.bb:do_unpack) failed with exit code '1'
-> >
-> > Julien
-> >
-> > Le mer. 17 ao=C3=BBt 2022 =C3=A0 21:09, Alexander Kanavin <alex.kanavin=
-@gmail.com> a =C3=A9crit :
-> >>
-> >> This has not been observed on the autobuilder or independently
-> >> reported, can you show how to reproduce or the failure log?
-> >>
-> >> Alex
-> >>
-> >> On Wed, 17 Aug 2022 at 21:01, Julien STEPHAN <jstephan@baylibre.com> w=
-rote:
-> >> >
-> >> > vulkan-samples uses git submodules and one of the submodules uses lf=
-s
-> >> > objects. During the unpack step, the lfs objects are retrieved leadi=
-ng to
-> >> > a network failure.
-> >> >
-> >> > The correct fix is to fetch lfs objects during the fetch step, but l=
-et's
-> >> > workaround this issue for now
-> >> >
-> >> > Signed-off-by: Julien STEPHAN <jstephan@baylibre.com>
-> >> > ---
-> >> >  meta/recipes-graphics/vulkan/vulkan-samples_git.bb | 5 +++++
-> >> >  1 file changed, 5 insertions(+)
-> >> >
-> >> > diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/me=
-ta/recipes-graphics/vulkan/vulkan-samples_git.bb
-> >> > index 41cb4a437d..b45ee22a69 100644
-> >> > --- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-> >> > +++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-> >> > @@ -11,6 +11,11 @@ SRC_URI =3D "gitsm://github.com/KhronosGroup/Vulk=
-an-Samples.git;branch=3Dmaster;prot
-> >> >             file://0001-framework-core-hpp_vulkan_resource.h-add-hea=
-der-incl.patch \
-> >> >             "
-> >> >
-> >> > +# Workaround for network access issue during the do_unpack step
-> >> > +# this needs to be fixed in the recipes buildsystem to move
-> >> > +# this such that it can be accomplished during do_fetch task
-> >> > +do_unpack[network] =3D "1"
-> >> > +
-> >> >  UPSTREAM_CHECK_COMMITS =3D "1"
-> >> >  SRCREV =3D "ee6c1522af8ba9b56f8416c2eedafb440f681085"
-> >> >
-> >> > --
-> >> > 2.37.1
-> >> >
-> >> >
-> >> >
-> >> >
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#169504): https://lists.openembedded.org/g/openembedde=
-d-core/message/169504
-> Mute This Topic: https://lists.openembedded.org/mt/93089137/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Are these the only config options people will want to add or will we
+have others? init system? libc? Or feature information about which
+configurations are expected to work? I worry this is a magnet for
+future feature creep and duplication of information.
+
+I can see where the buildconfigs are used but again, does the json file
+need to encode those or could you determine them by inspection of the
+layers once setup?
+
+I'm still worried about bolting a format directly into one of our core
+tools as it effectively means it is a definitive standard. We do
+probably need one but I'm not convinced this is quite right, perhaps
+because of the above reason. Not 100% sure but something doesn't feel
+quite right.
+
+Also, if there is new version of this series, could you squash in these
+copyright/license tweaks please:
+
+https://git.yoctoproject.org/poky/commit/?h=3Dmaster-next&id=3D45b396298c1d=
+d638bb702f5251b4a663f07978ca
+
+Cheers,
+
+Richard
+
+
+
+
 
