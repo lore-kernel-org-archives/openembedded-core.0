@@ -1,172 +1,149 @@
-Return-Path: <frieder.schrempf@kontron.de>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A8FAC32772
-	for <webhook@archiver.kernel.org>; Wed, 17 Aug 2022 10:38:54 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.118])
- by mx.groups.io with SMTP id smtpd.web12.27184.1660732724823007681
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAC9EC25B08
+	for <webhook@archiver.kernel.org>; Wed, 17 Aug 2022 11:37:34 +0000 (UTC)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web10.27446.1660736253150143242
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Aug 2022 03:38:45 -0700
+ Wed, 17 Aug 2022 04:37:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mysnt.onmicrosoft.com
- header.s=selector2-mysnt-onmicrosoft-com header.b=jZbU+Sq7;
- spf=pass (domain: kontron.de, ip: 40.107.22.118,
- mailfrom: frieder.schrempf@kontron.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B5IjfYiMvPFmJos3FaI2JwM22jW6oDHJTMqSjSWG52lLI557VHKhP1UlZmK/dm6Enezy37BliZwSBaXXmKUfXIAA5JI1SpxTBtnbK4CaIKfzYQ+70aZMjzW0Y25gL7gZLI0l7qNc680F5jUy776khAck6UOViL9UTvVT80kQFL8Mptcgezp0SpHaaycs5jfs+chJQc2DEb05vueXDtU8zI6G4etJxqjYIslwKyL1SGnyzzkIWMDxKBqR2zTJ1MuqoFpfRaw+IOL7gHsXltiea+d+11VKnQzRK7zD5gmZ680j3VaWRlso8KP4jfL/hMUk9H9arCwT7+b05G3+txgGZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OZEX25WGYGLBjHVVe2BUd7ySTZf6bLhoVURqd4LVFlA=;
- b=DykBSfxRO+UDcl22zHWyYmqZHyRfPBLTwQ7OrAeq8hqU3jjmqrMak0xMwcuwPzSZ6gbB705PMtOAICH5AfqNvXzufo7ABIMyHgsWgmCLpeY0QWtrXEnXGMliXxpng9wZQK56QjxqtRYGObYSipbOajaG8tgC8tWIk2OT9VZe2yGnIkt2gyVmXBSIzpkVPDVK6C3UPtNY4WXwYtE/rggU4wvQvsLmlj32Lrd15igrtte/47UOrqsX5+14DFoRgAOoHSc9RKjMl5uE9phhhABsrDZDHb38ZJf3qMoDp29J8aI+pexHCMnZVpdFfWsxWyYLKR2wChA1lwTQxAONUSr4BA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
- dkim=pass header.d=kontron.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com;
- s=selector2-mysnt-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OZEX25WGYGLBjHVVe2BUd7ySTZf6bLhoVURqd4LVFlA=;
- b=jZbU+Sq7WFpZdK1rdVkL1cEt7W4ndIg3uTaWz6PpBZhRheM+zotI+QXQfChkj3VSNhS0cbYS1vxRtkI1tFCPCT0MUQ/H0/A9cxHamaON7APBaA2Au5WgIwF1RgUyEo4yfPDDOk4kkNJGkVc7i4owZpS4JSAdQTTpHDaBv8/lBDI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kontron.de;
-Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
- by AS8PR10MB4376.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:2b6::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.19; Wed, 17 Aug
- 2022 10:38:41 +0000
-Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::e8c2:f87d:c1c9:c637]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::e8c2:f87d:c1c9:c637%4]) with mapi id 15.20.5525.019; Wed, 17 Aug 2022
- 10:38:41 +0000
-Message-ID: <d00ff147-dc27-d124-8334-ea0848870908@kontron.de>
-Date: Wed, 17 Aug 2022 12:38:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [OE-core] [PATCH] siteinfo/autotools: Ensure task checksums
- reflect site files
-Content-Language: en-US
-From: Frieder Schrempf <frieder.schrempf@kontron.de>
-To: Steve Sakoman <steve@sakoman.com>
-Cc: richard.purdie@linuxfoundation.org,
- openembedded-core@lists.openembedded.org
-References: <20210921121537.1611646-1-richard.purdie@linuxfoundation.org>
- <c09410c6-2b55-497d-97b2-e05484f9a4a4@kontron.de>
-In-Reply-To: <c09410c6-2b55-497d-97b2-e05484f9a4a4@kontron.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM8P190CA0026.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:20b:219::31) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:263::10)
+ dkim=pass header.i=@mvista.com header.s=google header.b=NMAHlm53;
+ spf=pass (domain: mvista.com, ip: 209.85.216.49,
+ mailfrom: hprajapati@mvista.com)
+Received: by mail-pj1-f49.google.com with SMTP id
+ m10-20020a17090a730a00b001fa986fd8eeso1603839pjk.0
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 17 Aug 2022 04:37:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=qYmdcxEt1O4EIHgBqg6f/f6l83A2iV47N7sZzSbnzJg=;
+        b=NMAHlm5329SB6nKGi12CtILos+oPgzevKp8BTqExzHpn/Kz0iOcZbxR6WSIdI7+Cgx
+         OCdHsgI0d0ddRaGfk/YGlr086VaIrwxCFQLhbUWCQS+4/Ope8B/XImlGiyBRelkod6Ty
+         nG9nCHF1CW+Do0p+3yPlasMTjNGqEU3JpcVSE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=qYmdcxEt1O4EIHgBqg6f/f6l83A2iV47N7sZzSbnzJg=;
+        b=il+kFVIpHsb81W3ivhPyPNjhQBrmWKxJ41lrFWbbi1o1UVpZvhDR6HNSSE9AqyvLJm
+         OE3ZvjH0S+E8icNi1X/sJy3pPHTrgHSK4bjAdtMoWLt/mFBS3NqjWI+Tz2VMVrFSHYe4
+         XiErXCfcuUe22nCacXu2Jfc2Uf8KNRfTL0QO7g0ihzmCxR+V7CcbNDYpdQg8KUt9P/b4
+         VZX66TKIK/PWr1WaTRsqXlrH07+ue+7FSm74Luhfe2b1wmRJuWxQczBY6jc/cG/OtE+Y
+         /p9iwRPW4YJA/HpD4IGERo1gOlNC0vGkDk/AsoEVcFhw7lgq5UTIj6XCKuF+2REE1JEl
+         ncWg==
+X-Gm-Message-State: ACgBeo0Bnk20ik37QEYReEQUkpIptT+GwdAY2UAHm1y0fNc1BK/XNsgm
+	ahmZmYBVy5BK+toy6da2oYwErWXx2Kb5Qw==
+X-Google-Smtp-Source: 
+ AA6agR7XYGrgGnL1GlJ2rjyPuT+foaFuXes9K3qnb6IFfWcRo0ylDEgjZ0Ri1gS1x5Jf3n5aXKz6WA==
+X-Received: by 2002:a17:90b:2789:b0:1fa:c17c:92fa with SMTP id
+ pw9-20020a17090b278900b001fac17c92famr78478pjb.197.1660736252447;
+        Wed, 17 Aug 2022 04:37:32 -0700 (PDT)
+Received: from MVIN00024 ([43.249.234.165])
+        by smtp.gmail.com with ESMTPSA id
+ b189-20020a62cfc6000000b0052d1275a570sm10238034pfg.64.2022.08.17.04.37.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Aug 2022 04:37:32 -0700 (PDT)
+Received: by MVIN00024 (sSMTP sendmail emulation);
+ Wed, 17 Aug 2022 17:07:26 +0530
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] zlib: CVE-2022-37434 a heap-based buffer over-read
+Date: Wed, 17 Aug 2022 17:07:25 +0530
+Message-Id: <20220817113725.2012263-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 71326b65-d062-46d0-e045-08da803ca6d4
-X-MS-TrafficTypeDiagnostic: AS8PR10MB4376:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	f01X3RXCiD1mcCQ5vXtAXCL5OYmjjVSAi3yWqAkbQ91VN9yR5tL29DI9EUnqD7M8QwcgxOYtR59+uTcYguigyJ/UJ5JqL8TikHfzPpi+R4Rbt7j0lgfWKlPwyJts+MBtz7BtBZMveV3RqPpaJo7CCtS6CulpB1ZX9HHF7N0A3+McRdfbTW5HmJUSsiZZyqy5MPmMMjobjfw4bkb6h3f48YMVi3+7Ie1DJKKu+78jfQ8PO3yDvWXEe+sDDtjIZkj7boXH1RCVHZ9XHwb+pct84HgIRaa46qjaaIAGXqxjsk4xoc7sXFxswXX5iSRhSnLKSNQNKBhM6wHw5ocVLZ98/bJOmb4QyoBjJAt4LuCT+BjZ4Ve3JvTMclAcyDBDrNOWjifMFtEhq96TokEd1ameHAqhA3DYKpkqiMd7tQgdfnqYmYQjXFiAXnSr7j0Tm/CBebrBI1d3DiIRuroZ//CcpizmY8Jpfx6nLmIsTUsFt+zcy0873JQcMe0cwdtwwQmU3dfH9EAmfMUWDpN6WXbiFf15kAui4anyybRL79VBFLWwkC5jKMvq5LZ6CyiLUkCAG0ThLpIBeQLYAm9aSVJH6ucrHDbdJi4dUDhyaK6TezrK1jJAUUp1xOd4wGT2U0KqLyFPCV6c8uXIGnBwOg+pDYJLVAhTg5FCzxSE8WhppqodEHSk8woAay11Hhm48jjZexlt/8nwvx8slDeMrBMmh1+L577upWviTx1E11nNr0c/grs6jPp+50ntVoTFpjjv3xe5Wy7z9T5kgR3gyXqTOt3XAIaCtVKkDtnFcHledNeBDeAwFRGmhQm/sdH+vrh9qcYl8w6SNLY1lvrWp5zxvA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(376002)(396003)(366004)(39860400002)(136003)(5660300002)(478600001)(44832011)(36756003)(41300700001)(316002)(6916009)(66946007)(6486002)(66556008)(2906002)(8936002)(31686004)(66476007)(4326008)(8676002)(31696002)(186003)(6512007)(2616005)(6506007)(86362001)(83380400001)(38100700002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?cEdNU0dBRG8zRXg0VktmTjlMOTZEdXlpNUlsMnZzNVl5dzdTU2NneEd1Zm9B?=
- =?utf-8?B?UHlUN0tTbXZ0QXpiTE80blp0ejZVdkxtMnU0MHA2ZG5wNi9xN1RwT3JXZlJp?=
- =?utf-8?B?bTRscTBUS0lFalJqRGxHSkd2Yk1xbW5xVytqZWVGbnJFTFNmMmwxR0tLRVl3?=
- =?utf-8?B?MmdmSW80N3FYTjhJcjl4REQrU0JBcmJjME5BT2xZVksrek1HTEVZUWtkcW1n?=
- =?utf-8?B?MFJWb0J0b001YmVLTEFTdzc2Q3E0TnUyTmFycnJCNkREem8xMDJ4bGZTRmZL?=
- =?utf-8?B?TTNMSFU0UHA4Lzh6c1ZSYVBnTUhyY1grWDFySytxLytVQWhMbGNNSndWMzhR?=
- =?utf-8?B?MzcwenFpT2xNNUlKam1YbkFpZHFPdEIrL2NUODZhVjh2eThua0dJQTdET3pC?=
- =?utf-8?B?SG5kNmU2TDJoU0pNcytRMzcvRmRDSTVvNjB2d1ZyL1VFaEtjamcwWC9ROXQ2?=
- =?utf-8?B?SlpVZVBKTzByd29TZjFCVi8zR2xJQVpESzI3S2ZuanBYNVg1UEFmVCtXWWcw?=
- =?utf-8?B?cnlGOWtsRjZNeC9aQXVXeWdPdEQrdUVLamZTa29ycjlPUEk5RThJeVIyTmhx?=
- =?utf-8?B?VCt3ZFF5MzcyUnUwOVNScWFUOUJaTEpEMjd1Y2I3VkQ2S3V5andYUmUrdlAy?=
- =?utf-8?B?bXg4U3ZpNkoxaE5HaHZOQ2NuWnlGVWs1T2prVjBtVkdJRUdWL0YrRFJNWm13?=
- =?utf-8?B?elZ0Vnp0a2N5eDdqYkZFcVFOM2VzdHJUN2UvaVU2QTN6UTg2T3IzdUxpb053?=
- =?utf-8?B?TVMvVHc4WDVQY3UyQmZ6enQxazl6NGVNNEJWaTl2UVZ6cCttTlloY3NqNnNV?=
- =?utf-8?B?T1JlaTVpKzdiRVBQUEhLNHFRdnU1QjZ0emJzcTJ3U29uTjNZekFqajZsU1N0?=
- =?utf-8?B?bVE4cnhHN1RocG4zdGNkdnU0TDZCc0ttbGN0MktnSE8vaG1LeWdsdlM4dnhw?=
- =?utf-8?B?UDU5ZkhLdnE4cWl1Skw0YUJJRGp4SWo2TWt1NXRnbjkvb3BqOHYzY3ZDQmly?=
- =?utf-8?B?aG5DNXFGTEdGWHlzSnBnNEFBdnNPd3ZMSkNucVVwM0tUMjRSTVNuK1Z0NDYr?=
- =?utf-8?B?Y01OWWF2bDZlaGFqYWo3UzBhUjNUVmgwQ3lrdm5tL3JPcVFTMnRwd1FRRVRG?=
- =?utf-8?B?UXA0ekc5cVVWK2V5OGZSQUxpWUNTNFd5a3RLVFZIOHVlQjlaQ2tYaVJnaFh2?=
- =?utf-8?B?WU9kNlFQNC9tbSt6Zkp2dE15UWZMeFhDN3M5cEpZNnlJaXpycis1UU9PRmNn?=
- =?utf-8?B?Rm5UNU0rSkNEbFVZV0g0OE9UMXdGNWQ2U0RMT2ZadUk3emphRjA1Z1V4RXhp?=
- =?utf-8?B?ejRtdTkzNldCQjdmQWFkd0hmcTBiVXZObEhvTlIwWFN4VGtKMGZHcCtqTnU2?=
- =?utf-8?B?amNIMmhES0QycXcxMHlIVFVaNWNpWUJZWXFnTjRJN0RhTEJNZ25PSUUyZCta?=
- =?utf-8?B?NGNSbk9mQkMvd3QyQ29tZkQ5QVY3djNqZHRFcmNpNjdnUFhHUGlNVFI0MjZZ?=
- =?utf-8?B?am1TaHhQT3Q5Qk0zWm5ueE1sNStpNU5uMWJDWUdTMVZUbFNyMkhyY0RvTnA5?=
- =?utf-8?B?YW43dHZVNklzU1pEakk0NjBGUHNJUXNEQTNEdGJHdXRkblhWakRtTnNOa0lr?=
- =?utf-8?B?N1hpR1hnTkFSZjNZNnh4Wi9WN3J3aGovTjBZRFpxWm5ZUmhnV1JHS0pua0Ny?=
- =?utf-8?B?OXk5elZjd2R4RFJ5dHZLaXpYNFYvS2JHemdnNUZoNGxDYTQwU0t4dTdpeDNo?=
- =?utf-8?B?eUE1V0s0cDQwTW5hSVI4b0RnOGliZDA2VHFjZ1d4Ti9uZzRVdlc1V3A0RUMr?=
- =?utf-8?B?THFXK0w1d091VTZmRjMrZWg1cnBQS1lCbVVCUmNDcnFkczBhVDZCaFp6THlO?=
- =?utf-8?B?bnAxSHVsak96R3J5NmRTdFFxS2xWNmRpTzRvNERXc3paMjlVVlBPaS9qYllJ?=
- =?utf-8?B?ejNCSzZ0emx3STBrQ3RMSm1ZMTVXcURrMVlrSnFJeVVkNEJqaEd2TlQvd0Vr?=
- =?utf-8?B?VHdhMm1zUXZIYytzN2txbHJtZHlkVjlUYnZDY0ZpbUNLQjBydjRjRVo2TWdq?=
- =?utf-8?B?ZjI1WW9nVGNUYkE2K1NtSUdENWUvbktSbGhidEJ1a1RXZk1IUm9wblJibVlQ?=
- =?utf-8?B?RndqWFlPMy84RWhSZ1dHaUROVXAxV0hjZStiekdadEJCSFlKeUR6SGhPSnlU?=
- =?utf-8?B?c1RmZVFtcFcyOUg1cWR6SGx0TDNLTnlIQVF5MnJWbXorMWIvOVZXMUF4cGFQ?=
- =?utf-8?B?UjI3Q3ZkTDRFZFhYS3pOdy9ud0dRPT0=?=
-X-OriginatorOrg: kontron.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 71326b65-d062-46d0-e045-08da803ca6d4
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2022 10:38:41.3114
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- lRR1VKoE5XwWu6HVJ7tLUqm3xILKRpC8SH+lF/xbOBfR+13tyA6/xP4KbV0EEwCloq7mtBGWgBdNJpvM5/jofU0pO4/HJ5ytNyStpy4vmS0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR10MB4376
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Aug 2022 10:38:54 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Aug 2022 11:37:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169476
+ https://lists.openembedded.org/g/openembedded-core/message/169477
 
-Am 17.08.22 um 11:10 schrieb Frieder Schrempf:
-> Hi Steve,
-> 
-> Am 21.09.21 um 14:15 schrieb Richard Purdie via lists.openembedded.org:
->> Currently, if you change the site files, nothing rebuilds since they are
->> not accounted for in task checksums. They could/should be through the
->> file-checksums task flag. We need to cache all the files looked for,
->> whether the exist or not so that if they do exist and didn't,
->> the checksum also changes.
->>
->> This gets complicated by the need to clean out hardcoded build
->> paths from the variable and that other layers can have site files.
->>
->> This patch adds this functionality. A new variable, SITEINFO_PATHVARS
->> is added which controls which substitutions to make on the file-checksum
->> values to remove the hardcoded paths. Layers adding site files will need
->> to set this to a variable that has the layer path in it and is excluded
->> from task hashes (COREBASE is the one the core layer uses).
->>
->> This patch will cause yocto-check-layer to fail for some layers
->> where site files are added yet the layer isn't a machine specific layer.
->> This is arguable correct since these additional site files apply to
->> all recipes and things from a layer like core could be changed by such
->> changes so it is right they should rebuild. There is a determinism issue
->> potentially there if not. meta-openembedded does have some such references
->> but looking at them they should move to core or likely just be removed as
->> most look obsolete anyway.
->>
->> [YOCTO #13729]
->>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> 
-> Do you think we could have this patch backported to Dunfell?
-> 
-> When I'm building the SDK with "bitbake -c populated_sdk image" I'm
-> getting errors like below. Cherry-picking this patch solves the issue.
+Source: https://github.com/madler/zlib
+MR: 120525
+Type: Security Fix
+Disposition: Backport from https://github.com/madler/zlib/commit/eff308af425b67093bab25f80f1ae950166bece1 & https://github.com/madler/zlib/commit/1eb7682f845ac9e9bf9ae35bbfb3bad5dacbd91d
+ChangeID: 94d9b7d372b83cc1022c0a15046c5449d39208c3
+Description:
+          CVE-2022-37434 zlib: a heap-based buffer over-read or buffer overflow in inflate in inflate.c via a large gzip header extra field.
 
-Forget about it. I was too fast with my conclusions. The errors just
-reappeared even with the patch applied.
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../zlib/zlib/CVE-2022-37434.patch            | 44 +++++++++++++++++++
+ meta/recipes-core/zlib/zlib_1.2.11.bb         |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-core/zlib/zlib/CVE-2022-37434.patch
+
+diff --git a/meta/recipes-core/zlib/zlib/CVE-2022-37434.patch b/meta/recipes-core/zlib/zlib/CVE-2022-37434.patch
+new file mode 100644
+index 0000000000..d29e6e0f1f
+--- /dev/null
++++ b/meta/recipes-core/zlib/zlib/CVE-2022-37434.patch
+@@ -0,0 +1,44 @@
++From 8617d83d6939754ae3a04fc2d22daa18eeea2a43 Mon Sep 17 00:00:00 2001
++From: Hitendra Prajapati <hprajapati@mvista.com>
++Date: Wed, 17 Aug 2022 10:15:57 +0530
++Subject: [PATCH] CVE-2022-37434
++
++Upstream-Status: Backport [https://github.com/madler/zlib/commit/eff308af425b67093bab25f80f1ae950166bece1 & https://github.com/madler/zlib/commit/1eb7682f845ac9e9bf9ae35bbfb3bad5dacbd91d]
++CVE: CVE-2022-37434
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++
++Fix a bug when getting a gzip header extra field with inflate().
++
++If the extra field was larger than the space the user provided with
++inflateGetHeader(), and if multiple calls of inflate() delivered
++the extra header data, then there could be a buffer overflow of the
++provided space. This commit assures that provided space is not
++exceeded.
++
++ Fix extra field processing bug that dereferences NULL state->head.
++
++The recent commit to fix a gzip header extra field processing bug
++introduced the new bug fixed here.
++---
++ inflate.c | 5 +++--
++ 1 file changed, 3 insertions(+), 2 deletions(-)
++
++diff --git a/inflate.c b/inflate.c
++index ac333e8..cd01857 100644
++--- a/inflate.c
+++++ b/inflate.c
++@@ -759,8 +759,9 @@ int flush;
++                 if (copy > have) copy = have;
++                 if (copy) {
++                     if (state->head != Z_NULL &&
++-                        state->head->extra != Z_NULL) {
++-                        len = state->head->extra_len - state->length;
+++                        state->head->extra != Z_NULL &&
+++                        (len = state->head->extra_len - state->length) <
+++                            state->head->extra_max) {
++                         zmemcpy(state->head->extra + len, next,
++                                 len + copy > state->head->extra_max ?
++                                 state->head->extra_max - len : copy);
++-- 
++2.25.1
++
+diff --git a/meta/recipes-core/zlib/zlib_1.2.11.bb b/meta/recipes-core/zlib/zlib_1.2.11.bb
+index f8bcc0abcf..f768b41988 100644
+--- a/meta/recipes-core/zlib/zlib_1.2.11.bb
++++ b/meta/recipes-core/zlib/zlib_1.2.11.bb
+@@ -11,6 +11,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/libpng/${BPN}/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-configure-Pass-LDFLAGS-to-link-tests.patch \
+            file://CVE-2018-25032.patch \
+            file://run-ptest \
++	    file://CVE-2022-37434.patch \
+            "
+ UPSTREAM_CHECK_URI = "http://zlib.net/"
+ 
+-- 
+2.25.1
+
 
