@@ -2,49 +2,49 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7AFEC25B08
-	for <webhook@archiver.kernel.org>; Wed, 17 Aug 2022 21:36:37 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
- [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web08.34945.1660772191054304208
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCD1CC25B08
+	for <webhook@archiver.kernel.org>; Wed, 17 Aug 2022 22:16:37 +0000 (UTC)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+ [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web09.35675.1660774593497072442
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Aug 2022 14:36:31 -0700
+ Wed, 17 Aug 2022 15:16:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=fzLX8Ddj;
- spf=pass (domain: gmail.com, ip: 209.85.208.179,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZIaapExv;
+ spf=pass (domain: gmail.com, ip: 209.85.208.182,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f179.google.com with SMTP id x25so20406ljm.5
+Received: by mail-lj1-f182.google.com with SMTP id v10so78769ljh.9
         for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Aug 2022 14:36:30 -0700 (PDT)
+ Wed, 17 Aug 2022 15:16:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=LCDIUpLXGBueBIf1XQXFu0nQbfEtyRqM4VaUsC2pjMo=;
-        b=fzLX8DdjN57E7KbzRoiHbLLe1NTNkZpwS6rr8X4t/me09WH0/EMWOdVhUjrK3SYd0E
-         vkTIxr5+rvE8we0tsiolOLdairizOB7aehWnpKBklz+k8nXwh6bpLnTOLXzeRADVI8Nk
-         76Ye8uZ3XxC1qa+ImKfhVBmKehgPdSIQHkoIIUyAxIEnK4RSVXTsZNYbDHHPik5qvANt
-         Fbc3PjWVWh8wMXAyJRBvb+9BrFYGhoSEgOGBu8zzyu/wLVKWRn8WMK5ObjgJu30cJD58
-         LIFiLaLLkjbwagUj+fMbj9bBzMqTzad/rRFGr6KPP1+G9pQho6JhJVuP5pVBUIAkHTC1
-         hEzQ==
+        bh=mA1xUfIDZrwQUHE2FMjWi8FppilbxKnXFXkP+W0JDxg=;
+        b=ZIaapExvDI5l9Z82L4fwIqzcfWfIz9uN2ucFx0yFxyE72n6l+cGulQt8tzxuSDl6VD
+         Sw9H7upB+dXeGV/9hIK2JL4Ns1TI55GD8Q6+X6uwFk4s0laxIO/NjOYQ9ArCkho5odui
+         VcJAEr51K1Yj6a+K8fxuh0nyhREiBJcrruhq/3uOle8HPg6mvP4+OlX5K+D2Yj2RvQ9W
+         HBi20b0HZ8A4bXuhOQnwnl177xQrUf5AdJeXyiUlxK1FpzVYCk36xQlMmYrQL12pjyg8
+         /vPKX1NpsjdowRs1j2SNvT/M6+T838LZPIr1gbEFU8AWpNKZLJiqom4bH3Rd2tfy0Vyc
+         H46g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=LCDIUpLXGBueBIf1XQXFu0nQbfEtyRqM4VaUsC2pjMo=;
-        b=fdA2tjhrzmHfTQ9qrgUWtjuHc7PrS3fyZLhUBI+GJTkmEDgTMCuo4678+w9arumL7U
-         6tR4VXtz9B1TkI6qMGAsq7zlVHBoSYnK9kGogwGGP/VGFor5EmIQZazgZ0YHN1uyYCIl
-         ImOeGp3HBXvUW4dtr1wleBGqYmVsjv4Nlfmb+YWVtpbkZ94al7WeFiKGqvJa3AtauY7K
-         cWyTbYqYwoCBhFhmTaqaajcOdXWS7mZyr2cHMDXwGdaYxZqCXKz7862eIZJT22ny+cmN
-         7Ej2rjBELLQVymCmVrsazqV6x2M4FKmaH3056r/XDhqJfn4Cx0HSUZZsrL2hkvqW4Zgm
-         g+2g==
-X-Gm-Message-State: ACgBeo0EKKhjoEgvrH7sxtz8PYzixYVqTe+Zfz3Jz+Fl8fvvzLXqq4F7
-	QMY3KMP49rqt3uLcT14VfxHv2QyOa4VC+nn0qcw=
+        bh=mA1xUfIDZrwQUHE2FMjWi8FppilbxKnXFXkP+W0JDxg=;
+        b=YLMGHcI74Ys/RxBRSKEv00WdC6QMGToMUV5fgbcLHII5s1CLmgYvG47uZHx7G6GbSK
+         RSXPpb4mZtb1T1sm5cbRHC26KFVSkBTb0QI6JUuDh+6JkYPneEcPmySW2ZM/g1CahgU6
+         1GWXYUopgwsbDSosg35eigrR60wIyhi/0m6nQ0gr+ZnwINXV/OI+1sHFAkfdD2rCeE6s
+         gB+Kb1oBwTvE6LgFHBmKxG9a2fFd5TqrBtqWzVQ0LTJ5bCjwiJs5vG9NVgCaXpwtZKWd
+         dul6m17CqA6q0OU5cx1xq8x55MhMo65Tr1EluNPlc91UZj3t3QFaf8zfs3t2nFB5NUYS
+         zgCw==
+X-Gm-Message-State: ACgBeo217sWA+WfCExO7Agry3Zt9MrtPJX7WlTmAv6m51sGmJXxApO/+
+	PsCn8LedJF37AEyTxppv8ge5EUMSFEgXANUttao=
 X-Google-Smtp-Source: 
- AA6agR5ca4JSWmc9JRA0FDyCMOEuMGZbpj2iEj31Nc/h3wfMlvXWB8p7EtBEaXFuC8YCJTbkLTmYMujSDS34aT7kmpk=
-X-Received: by 2002:a05:651c:2120:b0:25e:5145:38b0 with SMTP id
- a32-20020a05651c212000b0025e514538b0mr51559ljq.191.1660772188720; Wed, 17 Aug
- 2022 14:36:28 -0700 (PDT)
+ AA6agR4RNS1qW7KNUaAphm26RotT7ZF5pNT1G+l2QjxoadTpd58epaG8DMe9In2t8v8QiX2hI5SGO/6FlgKW0R/nMAQ=
+X-Received: by 2002:a2e:7d12:0:b0:261:81ae:f804 with SMTP id
+ y18-20020a2e7d12000000b0026181aef804mr90737ljc.56.1660774591656; Wed, 17 Aug
+ 2022 15:16:31 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220817131023.4093773-1-alex@linutronix.de>
  <20220817131023.4093773-2-alex@linutronix.de>
@@ -52,9 +52,9 @@ References: <20220817131023.4093773-1-alex@linutronix.de>
 In-Reply-To: 
  <bff578854db1852bc0891463e6eecd3c892876bd.camel@linuxfoundation.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 17 Aug 2022 23:36:16 +0200
+Date: Thu, 18 Aug 2022 00:16:20 +0200
 Message-ID: 
- <CANNYZj-1c9cd1Q9LodoxrMxkhBTbOTdg3gb=TVyVdWJ6inMO4w@mail.gmail.com>
+ <CANNYZj9k-WxkGPLeE6PzZMSyy8xjtU94ghV465JP8EZu1oFKow@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 2/5] meta/files: add layer setup JSON schema and
  example
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
@@ -64,59 +64,31 @@ Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Aug 2022 21:36:37 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Aug 2022 22:16:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169507
+ https://lists.openembedded.org/g/openembedded-core/message/169508
 
 On Wed, 17 Aug 2022 at 22:52, Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
-> One thing that concerns me a little is that this mixes two things,
-> layer setup (as in repos) and configuration. I'm nervous about json
-> config which effectively has to duplicate the list of machines/distros
-> in layers.
->
-> Where is the distro/machine data used?
 
-The use case I was thinking of is doing something useful with this
-information *before* doing actual checkout. I would even appreciate
-knowing in advance - maybe even by just looking at the json through
-gitweb ui - which machines, distros and config templates I would be
-getting, and from which layers. Also the proposed oe-setup tool could
-do useful things with this information, if it operates from the json
-definitions in the same format. You can discover and supply all needed
-information up front, and oe-setup will land you in a bitbake session.
-Without it, you have to first do the layer setup, then the
-configuration discovery, then the configuration setup, as separate
-commands - I'd say that would be an inferior experience for the users.
+> I'm still worried about bolting a format directly into one of our core
+> tools as it effectively means it is a definitive standard. We do
+> probably need one but I'm not convinced this is quite right, perhaps
+> because of the above reason. Not 100% sure but something doesn't feel
+> quite right.
 
-> Are these the only config options people will want to add or will we
-> have others? init system? libc? Or feature information about which
-> configurations are expected to work? I worry this is a magnet for
-> future feature creep and duplication of information.
+This part can perhaps be addressed by the venerable 'adding an
+abstraction layer', in the shape of config format generator plugins. I
+can supply the native json plugin, others can add kas, repo, or
+whatever else they find useful.
 
-These are not the same, as machines and distros are specifically
-defined in layers as .conf files in pre-determined locations. Other
-things are defined as variables in files, and aren't as easily
-discoverable by code. I only want to allow programmatically
-discoverable options (that are guaranteed to be in lockstep with the
-layer revision) in the json; no one should ever write or modify the
-json by hand.
+Also, the json is versioned and almost nothing in it is required. If
+some ideas don't work out, or are found to cause problems, there are
+ways to transition out of problematic bits - perhaps even as simple as
+dropping the bad ideas from the generator, or the setup script,
+without modifying the schema.
 
-> I can see where the buildconfigs are used but again, does the json file
-> need to encode those or could you determine them by inspection of the
-> layers once setup?
-
-In addition to the above point (knowing them in advance is useful),
-there is no fixed location for these in layers. You could perhaps walk
-the layer trees, but I'd rather place the info in the json.
-
-> Also, if there is new version of this series, could you squash in these
-> copyright/license tweaks please:
->
-> https://git.yoctoproject.org/poky/commit/?h=master-next&id=45b396298c1dd638bb702f5251b4a663f07978ca
-
-This is the easy part :-) Hope the above clarifies a bit what went on
-in my head when I was writing the code.
+We do need a starting point though.
 
 Alex
 
