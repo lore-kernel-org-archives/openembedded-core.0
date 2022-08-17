@@ -1,138 +1,93 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FBDDC25B08
-	for <webhook@archiver.kernel.org>; Wed, 17 Aug 2022 17:44:06 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web08.32053.1660758238955833614
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 924B1C25B08
+	for <webhook@archiver.kernel.org>; Wed, 17 Aug 2022 17:46:26 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web10.31994.1660758382082331458
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Aug 2022 10:43:59 -0700
+ Wed, 17 Aug 2022 10:46:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Hy5PY3bB;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193,
- mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id B1071240004;
-	Wed, 17 Aug 2022 17:43:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1660758237;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sovRfvNmkETyBcS1A3Wer4mAxYiI4eW2AS0IOAWoAwE=;
-	b=Hy5PY3bBm7bIW99cC3jJTGLM3Fhb3S/yvcI79QrRLscr5VUzaTSxLNhguXBCJ3W/1XDgKg
-	4XolgO8kcpLSxnQQV+yrUVykUTlXVRzbbz/2XTJRHixpcnTO3tlkd+X8hboON9x3Y4hV81
-	i9CppcnHijPTnhJUxQ5rPJFjnzaHBnmWZfjQ5g1wTUlNfXZw7isyIz4C1+fgjEhiU7A9jx
-	AXFi6mXNK9rPeTsqbhPi9vfjmM0r9UbJQ+Ss4LAkXfklCDZvN4DaV9wT0CpCGU6xp6LIpA
-	XAcSwoN8tiv0z5SKVCeWyU+fpY+CtwzJmwq26is7yh4RVEVeh/ImPNnYvLC3hQ==
-Date: Wed, 17 Aug 2022 19:43:56 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Awais Belal <Awais_Belal@mentor.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [[PATCH v2] kernel-fitimage.bbclass: only package
- unique DTBs
-Message-ID: <Yv0o3H/D/SbdbaTZ@mail.local>
-References: <170BD7FB076CA188.19212@lists.openembedded.org>
- <e840813aa69c4b968e839da161d735c8@mentor.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=T5GBul0e;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id j26so4772218wms.0
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 17 Aug 2022 10:46:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc;
+        bh=ELwBE+3zlY9+idOMhTpZDYO2benKrwgj01QEZPqQQ4U=;
+        b=T5GBul0ePPI9Q5MjrDiCF14NGV5RC0+ulrXzlDxZTJlXuBguaacOvpte61ul7TlVkp
+         UrQcOcgKvv4gI9freAq9bVfWAELLkZjBK7svTGX9topm4XG9A4MPclU0LK5KPOX2kbMA
+         VxQRGIqMpi/PLp9cMsOEbvW67UsocWiNfnxDw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
+        bh=ELwBE+3zlY9+idOMhTpZDYO2benKrwgj01QEZPqQQ4U=;
+        b=2WlmbKLwoF0H0nja2ZThaRvX3WKJmDIwH3phAwNa1/rGpPyAa2MSFpgCUA0mV3TAq4
+         iAwvZCsrIvbdTjItNUMzbAzjWbZEuPrKAHzE/XaPlZCB1t1fvGk5DwPUps5V/VsqmCsD
+         dYCzf99gHJoCVboUpDl5w3IMzMfpgegOw2jVKmIwolCErwPa7rNdOa5BRa3Y4LwB5zTf
+         qmJ/CjMGcyGOVwDIUkWcxMyvjJ5g1rENZHZxDUIOya0754zotgGdX7Iymyhtv8ASHXDO
+         DQivK8WTxy/+o6O93G/bVMBW9D/sjnUo8SjL68dZUsZBn6JU5T0sjzwQ6guK7Ej3zHqh
+         dzFg==
+X-Gm-Message-State: ACgBeo2l1Q/28x7S4r1XGTb3pLoQB5acwcpMzfS/MUy7JzIseiJXO1p1
+	A5TFX5BQtSDBN6x21v3BhYcb34DEJGf7kQ==
+X-Google-Smtp-Source: 
+ AA6agR5gaVqbyDF5ptWbyX1R9cd5cEd1h9BZTTWRh8hyolLLkQIaGl1F8qHvCLMFBC/B5ybL1F/L9A==
+X-Received: by 2002:a05:600c:4e11:b0:3a5:bfd3:a899 with SMTP id
+ b17-20020a05600c4e1100b003a5bfd3a899mr2823683wmq.185.1660758380163;
+        Wed, 17 Aug 2022 10:46:20 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3694:2ef4:2932:37d5])
+        by smtp.gmail.com with ESMTPSA id
+ s4-20020adfdb04000000b002211fc70174sm15717564wri.99.2022.08.17.10.46.19
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Aug 2022 10:46:19 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/2] valgrind: Update to match debug file layout changes
+Date: Wed, 17 Aug 2022 18:46:17 +0100
+Message-Id: <20220817174617.1874788-2-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220817174617.1874788-1-richard.purdie@linuxfoundation.org>
+References: <20220817174617.1874788-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e840813aa69c4b968e839da161d735c8@mentor.com>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Aug 2022 17:44:06 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Aug 2022 17:46:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169497
+ https://lists.openembedded.org/g/openembedded-core/message/169499
 
-Hi,
+Update the recpie to match the recent debug files layout change.
 
-On 17/08/2022 16:09:46+0000, Awais Belal wrote:
-> Do I need to send an update here to align with https://git.openembedded.org/openembedded-core/commit/meta/classes-recipe/kernel-fitimage.bbclass?h=master-next&id=f5c128008365e141082c129417eb72d2751e8045 ?
-> 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/valgrind/valgrind_3.19.0.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I have the patch in my master-next and I believe the merge was correct.
-This is under testing right now.
-
-> 
-> BR,
-> Awais
-> ________________________________
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org> on behalf of Belal, Awais
-> Sent: Tuesday, August 16, 2022 6:58:55 PM
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [[PATCH v2] kernel-fitimage.bbclass: only package unique DTBs
-> 
-> The KERNEL_DEVICETREE and related variables could potentially have a device
-> tree listed multiple times and this works okay for most scenarios. However,
-> when we create FIT entries for these we get duplicate nodes and uboot-mkimage
-> fails with
-> 
-> fit-image-initramfs-image.its:219.58-229.19: ERROR (duplicate_node_names): /images/fdt-freescale_imx8mp-evk-ecspi-slave.dtb: Duplicate node name
-> fit-image-initramfs-image.its:307.50-317.19: ERROR (duplicate_node_names): /images/fdt-freescale_imx8mp-evk-ndm.dtb: Duplicate node name
-> fit-image-initramfs-image.its:362.54-372.19: ERROR (duplicate_node_names): /images/fdt-freescale_imx8mp-evk-rm67199.dtb: Duplicate node name
-> fit-image-initramfs-image.its:417.56-427.19: ERROR (duplicate_node_names): /images/fdt-freescale_imx8mp-evk-usdhc1-m2.dtb: Duplicate node name
-> fit-image-initramfs-image.its:648.59-658.19: ERROR (duplicate_node_names): /configurations/conf-freescale_imx8mp-evk-ecspi-slave.dtb: Duplicate node name
-> fit-image-initramfs-image.its:744.51-754.19: ERROR (duplicate_node_names): /configurations/conf-freescale_imx8mp-evk-ndm.dtb: Duplicate node name
-> fit-image-initramfs-image.its:804.55-814.19: ERROR (duplicate_node_names): /configurations/conf-freescale_imx8mp-evk-rm67199.dtb: Duplicate node name
-> fit-image-initramfs-image.its:864.57-874.19: ERROR (duplicate_node_names): /configurations/conf-freescale_imx8mp-evk-usdhc1-m2.dtb: Duplicate node name
-> ERROR: Input tree has errors, aborting (use -f to force output)
-> uboot-mkimage: Can't open arch/arm64/boot/fitImage.tmp: No such file or directory
-> 
-> We fix this by tracking the DTBs we're compiling in the FIT and only picking
-> up unique ones.
-> 
-> Signed-off-by: Awais Belal <awais_belal@mentor.com>
-> ---
->  meta/classes/kernel-fitimage.bbclass | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-> index 7e09b075ff..56d71ba8fa 100644
-> --- a/meta/classes/kernel-fitimage.bbclass
-> +++ b/meta/classes/kernel-fitimage.bbclass
-> @@ -527,6 +527,10 @@ fitimage_assemble() {
->                          fi
-> 
->                          DTB=$(echo "$DTB" | tr '/' '_')
-> +
-> +                       # Skip DTB if we've picked it up previously
-> +                       echo "$DTBS" | tr ' ' '\n' | grep -xq "$DTB" && continue
-> +
->                          DTBS="$DTBS $DTB"
->                          fitimage_emit_section_dtb $1 $DTB $DTB_PATH
->                  done
-> @@ -536,6 +540,10 @@ fitimage_assemble() {
->                  dtbcount=1
->                  for DTB in $(find "${EXTERNAL_KERNEL_DEVICETREE}" \( -name '*.dtb' -o -name '*.dtbo' \) -printf '%P\n' | sort); do
->                          DTB=$(echo "$DTB" | tr '/' '_')
-> +
-> +                       # Skip DTB if we've picked it up previously
-> +                       echo "$DTBS" | tr ' ' '\n' | grep -xq "$DTB" && continue
-> +
->                          DTBS="$DTBS $DTB"
->                          fitimage_emit_section_dtb $1 $DTB "${EXTERNAL_KERNEL_DEVICETREE}/$DTB"
->                  done
-> --
-> 2.25.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#169493): https://lists.openembedded.org/g/openembedded-core/message/169493
-> Mute This Topic: https://lists.openembedded.org/mt/93059092/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.19.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.19.0.bb
+index 69915de5057..4b21b74e902 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.19.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.19.0.bb
+@@ -239,8 +239,8 @@ do_install_ptest() {
+ 
+     # As the binary isn't stripped or debug-splitted, the source file isn't fetched
+     # via dwarfsrcfiles either, so it needs to be installed manually.
+-    mkdir -p ${D}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/${BP}/none/tests/
+-    install ${S}/none/tests/tls.c ${D}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/${BP}/none/tests/
++    mkdir -p ${D}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/none/tests/
++    install ${S}/none/tests/tls.c ${D}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/none/tests/
+ }
+ 
+ # avoid stripping some generated binaries otherwise some of the tests will fail
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.34.1
+
 
