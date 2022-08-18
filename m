@@ -2,138 +2,186 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2513C00140
-	for <webhook@archiver.kernel.org>; Thu, 18 Aug 2022 16:56:52 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web11.44441.1660841804991747920
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C838CC32772
+	for <webhook@archiver.kernel.org>; Thu, 18 Aug 2022 16:57:02 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web09.44930.1660841815254665801
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 09:56:45 -0700
+ Thu, 18 Aug 2022 09:56:55 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=c7xm81uU;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43,
+ header.b=ZBhaFB+t;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id
- s36-20020a17090a69a700b001faad0a7a34so5278259pjj.4
+Received: by mail-pj1-f45.google.com with SMTP id
+ s4-20020a17090a5d0400b001fabc6bb0baso3001883pji.1
         for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 09:56:44 -0700 (PDT)
+ Thu, 18 Aug 2022 09:56:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc;
-        bh=su1RVlVuK3IlbKzdn1NrrFLtKt4VRFlGJseYX2uvqtY=;
-        b=c7xm81uUD+nXnjvD8VONBuMxg/8nwogDoZEiScqxaGd3+zEXTtkt5ruxeVbPaCj2J6
-         wyP2LdycIOvHRCdaAmD7DDPw47Sd1z193IvBF5jg0ly83XXOfqc7Tr+7HWtDUYph3iUb
-         FeEHJgKDeonUIJnts9phTZlSLu+Pjg0/8Cfp5Kq7NKO5lfBuCS4FhU2qfNM+todArEey
-         bVluHLpjlmNUFMz9QFc3uH62rGfJKIPjLCvUNxVd4Y/MfABEZndHtHDwkzHiU05o5fHs
-         y/0ngQunoHzaQUAExQrVKtxjU8lCqV/H91PpeGCAE7bN0U97aLQOGsVx7KWQu1jlr0ce
-         t0YQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc;
+        bh=vhs7AGiHJEa+L0iZ0memkr1SqPs2eAaXOPfKO19Cz4U=;
+        b=ZBhaFB+t20IdPrJufdsyJNGv7xe8V3zCoyYZeIGwRjN8uzHOPjRm62lbXaMoCmUMQP
+         HyZKAcQIuseofP/wETLP0c8mvYiawntz9Up/y7G5vxtXrRkdpVlzuXzOsKbMi1vmD/4c
+         RtbDBsvgTQ8tzYjYc5Dwr2Q+4dqULHZMI/qwmJ7HvagGtdQpnhN2Favw/KMFux9zo9tD
+         z69xWgV4KrLVzTEoDaxwv5Rq0vJKHJYC85gKU4YdAHrNc/xN3jF2BWK7XgtBByO0x9pL
+         bZg9Y2EFcZVFTImO5bkf7AecuYCmrfw/Y35AXqIux2L5o/GO+fwrketub5IIPn7ijmOr
+         dIgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc;
-        bh=su1RVlVuK3IlbKzdn1NrrFLtKt4VRFlGJseYX2uvqtY=;
-        b=R99OQaYIhMbWPvNGVifMXXO1uFjoJrvUkKrkic4cRgEv1bsw753zSouxJTJfSDka9+
-         fajwI8c1J52Be6xHyXI0DkeQgC95xlELkU3NnFCDedxik1RRw/MOu03obBd4tkeuMpmm
-         i/AtU5/ZOKV9uhbjU7jefWz9B8FtG5T8MO1Igpd/XCXgPAZXQmBuoOyJL1bcmh/iZG/X
-         RgabRFflhAg1olZ74Jogu+hCDtlm6xTjZ0jyMV62vd0nksWKAoK4oO1PdWuWjnUt+z6u
-         raPeBxBzmFHRl6MG6Q35PuyKBc0ULVbkTN59jM338TkCovcdXLdUYHtQu1dJbBu9kDav
-         qMGw==
-X-Gm-Message-State: ACgBeo2HcJRuIq29cy2Gsqnp8zHeX+Nwd/vWn0B1o4uxEKycE3Xsb8/j
-	OeBhIwQHWX+FnrF6rMZPy+W1BV/KugYjxxq+
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
+        bh=vhs7AGiHJEa+L0iZ0memkr1SqPs2eAaXOPfKO19Cz4U=;
+        b=cLlZv/rop3dq+waMlA4bpx9L/zgF7G6GIdoVGMxpiEynqYdb5/K3TlyW26bwrIwBl1
+         d2zLgH5VhM+XczP+XIEWMBpVJDd3ODqijaBsfUGwTjvNAbBt/csWZNwGmnheQ+2TPZGe
+         lKCCpn0/55aY+877nMQHVKnwHvAsympmnmUuAXDbbUEqYfez9H3CjQCf/aPebxqQFkaO
+         tB2S66SF6ucS/6NH3ZOZ+ESaczkoTute1GSpeYIF6wmT6KN4JI8YmyOZyXqbA/cD8KNn
+         vSLw3BZvf9jL9kax9IJX4UPnckV8tEpE2w2cpR5xcXaO3pWQTzjaXBUOyJ6/ot6zZTYO
+         3YCw==
+X-Gm-Message-State: ACgBeo3xQGK8Rup98X0ybSSa/1EReOeY8u8oToJQWn6HkuqUFYRNItfv
+	/1AuqtsKekDzP+x+FHRFN+mtvW1vObUvlapU
 X-Google-Smtp-Source: 
- AA6agR4rBsKswgxiXhy019Eqfrr24YGFhB7xElt3FGTfl5B4Q//lAA2QxYKFUBqodtFDzHV8+s6mOQ==
-X-Received: by 2002:a17:902:8e8c:b0:171:2a36:e390 with SMTP id
- bg12-20020a1709028e8c00b001712a36e390mr3567853plb.77.1660841803869;
-        Thu, 18 Aug 2022 09:56:43 -0700 (PDT)
+ AA6agR4yswidFt9R47CGN61EtLcHy66/k/l3HyLZBI8Si5MgzM4HrcEYPf6fsbZA29Xk658dhbu3AQ==
+X-Received: by 2002:a17:902:b214:b0:171:2e1f:6d1a with SMTP id
+ t20-20020a170902b21400b001712e1f6d1amr3345958plr.147.1660841814229;
+        Thu, 18 Aug 2022 09:56:54 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- h135-20020a62838d000000b0052d432b4cc0sm1897446pfe.33.2022.08.18.09.56.42
+ h135-20020a62838d000000b0052d432b4cc0sm1897446pfe.33.2022.08.18.09.56.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Aug 2022 09:56:43 -0700 (PDT)
+        Thu, 18 Aug 2022 09:56:53 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/11] Patch review
-Date: Thu, 18 Aug 2022 06:56:17 -1000
-Message-Id: <cover.1660841536.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/11] qemu: CVE-2020-27821 heap buffer overflow in
+ msix_table_mmio_write
+Date: Thu, 18 Aug 2022 06:56:18 -1000
+Message-Id: 
+ <198bd53bdc77d2b01dae19993bde79f03f4dd02c.1660841536.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1660841536.git.steve@sakoman.com>
+References: <cover.1660841536.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Aug 2022 16:56:52 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Aug 2022 16:57:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169522
+ https://lists.openembedded.org/g/openembedded-core/message/169523
 
-Please review this set of patches for dunfell and have comments back by end
-of day Sunday.
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-This is the final patch set for the 3.1.19 release.
+Source: https://git.qemu.org/?p=qemu.git;
+MR: 107558
+Type: Security Fix
+Disposition: Backport from https://git.qemu.org/?p=qemu.git;a=commit;h=4bfb024bc76973d40a359476dc0291f46e435442
+ChangeID: c5d25422f43edb7d8728118eb482eba09474ef2c
+Description:
+          CVE-2020-27821 qemu: heap buffer overflow in msix_table_mmio_write() in hw/pci/msix.c.
 
-Passed a-full on autobuilder:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4098
-
-The following changes since commit ac6ea1a96645d2a4dd54660256603f0b191bb4d3:
-
-  gstreamer1.0: use the correct meson option for the capabilities (2022-08-10 05:04:10 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Alexander Kanavin (1):
-  linux-firmware: update 20220610 -> 20220708
-
-Dmitry Baryshkov (1):
-  linux-firwmare: restore WHENCE_CHKSUM variable
-
-Hitendra Prajapati (3):
-  qemu: CVE-2020-27821 heap buffer overflow in msix_table_mmio_write
-  gnutls: CVE-2022-2509 Double free during gnutls_pkcs7_verify
-  zlib: CVE-2022-37434 a heap-based buffer over-read
-
-Ming Liu (1):
-  rootfs-postcommands.bbclass: move host-user-contaminated.txt to ${S}
-
-Pascal Bach (1):
-  bin_package: install into base_prefix
-
-Randy MacLeod (1):
-  vim: update from 9.0.0063 to 9.0.0115
-
-Richard Purdie (2):
-  vim: Upgrade 9.0.0021 -> 9.0.0063
-  kernel-arch: Fix buildpaths leaking into external module compiles
-
-Shruthi Ravichandran (1):
-  initscripts: run umountnfs as a KILL script
-
- meta/classes/bin_package.bbclass              |   3 +-
- meta/classes/kernel-arch.bbclass              |   2 +-
- meta/classes/rootfs-postcommands.bbclass      |   2 +-
- .../initscripts/initscripts_1.0.bb            |   2 +-
- .../zlib/zlib/CVE-2022-37434.patch            |  44 +++
- meta/recipes-core/zlib/zlib_1.2.11.bb         |   1 +
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- .../qemu/qemu/CVE-2020-27821.patch            |  73 +++++
- ...20220610.bb => linux-firmware_20220708.bb} |  14 +-
- .../gnutls/gnutls/CVE-2022-2509.patch         | 282 ++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.6.14.bb  |   1 +
- meta/recipes-support/vim/files/racefix.patch  |  33 --
- meta/recipes-support/vim/vim.inc              |  10 +-
- 13 files changed, 418 insertions(+), 50 deletions(-)
- create mode 100644 meta/recipes-core/zlib/zlib/CVE-2022-37434.patch
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2020-27821.patch            | 73 +++++++++++++++++++
+ 2 files changed, 74 insertions(+)
  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-27821.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220610.bb => linux-firmware_20220708.bb} (98%)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2022-2509.patch
- delete mode 100644 meta/recipes-support/vim/files/racefix.patch
 
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 10b4280b23..a773068499 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -99,6 +99,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2020-13253_5.patch \
+            file://CVE-2020-13791.patch \
+            file://CVE-2022-35414.patch \
++           file://CVE-2020-27821.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-27821.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-27821.patch
+new file mode 100644
+index 0000000000..e26bc31bbb
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-27821.patch
+@@ -0,0 +1,73 @@
++From 15222d4636d742f3395fd211fad0cd7e36d9f43e Mon Sep 17 00:00:00 2001
++From: Hitendra Prajapati <hprajapati@mvista.com>
++Date: Tue, 16 Aug 2022 10:07:01 +0530
++Subject: [PATCH] CVE-2020-27821
++
++Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commit;h=4bfb024bc76973d40a359476dc0291f46e435442]
++CVE: CVE-2020-27821
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++
++memory: clamp cached translation in case it points to an MMIO region
++
++In using the address_space_translate_internal API, address_space_cache_init
++forgot one piece of advice that can be found in the code for
++address_space_translate_internal:
++
++    /* MMIO registers can be expected to perform full-width accesses based only
++     * on their address, without considering adjacent registers that could
++     * decode to completely different MemoryRegions.  When such registers
++     * exist (e.g. I/O ports 0xcf8 and 0xcf9 on most PC chipsets), MMIO
++     * regions overlap wildly.  For this reason we cannot clamp the accesses
++     * here.
++     *
++     * If the length is small (as is the case for address_space_ldl/stl),
++     * everything works fine.  If the incoming length is large, however,
++     * the caller really has to do the clamping through memory_access_size.
++     */
++
++address_space_cache_init is exactly one such case where "the incoming length
++is large", therefore we need to clamp the resulting length---not to
++memory_access_size though, since we are not doing an access yet, but to
++the size of the resulting section.  This ensures that subsequent accesses
++to the cached MemoryRegionSection will be in range.
++
++With this patch, the enclosed testcase notices that the used ring does
++not fit into the MSI-X table and prints a "qemu-system-x86_64: Cannot map used"
++error.
++
++Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
++---
++ exec.c | 10 ++++++++++
++ 1 file changed, 10 insertions(+)
++
++diff --git a/exec.c b/exec.c
++index 2d6add46..1360051a 100644
++--- a/exec.c
+++++ b/exec.c
++@@ -3632,6 +3632,7 @@ int64_t address_space_cache_init(MemoryRegionCache *cache,
++     AddressSpaceDispatch *d;
++     hwaddr l;
++     MemoryRegion *mr;
+++    Int128 diff;
++ 
++     assert(len > 0);
++ 
++@@ -3640,6 +3641,15 @@ int64_t address_space_cache_init(MemoryRegionCache *cache,
++     d = flatview_to_dispatch(cache->fv);
++     cache->mrs = *address_space_translate_internal(d, addr, &cache->xlat, &l, true);
++ 
+++    /*
+++     * cache->xlat is now relative to cache->mrs.mr, not to the section itself.
+++     * Take that into account to compute how many bytes are there between
+++     * cache->xlat and the end of the section.
+++     */
+++    diff = int128_sub(cache->mrs.size,
+++                     int128_make64(cache->xlat - cache->mrs.offset_within_region));
+++    l = int128_get64(int128_min(diff, int128_make64(l)));
+++
++     mr = cache->mrs.mr;
++     memory_region_ref(mr);
++     if (memory_access_is_direct(mr, is_write)) {
++-- 
++2.25.1
++
 -- 
 2.25.1
 
