@@ -1,110 +1,148 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C163DC00140
-	for <webhook@archiver.kernel.org>; Thu, 18 Aug 2022 16:57:22 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web12.44445.1660841835053447613
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D671C00140
+	for <webhook@archiver.kernel.org>; Thu, 18 Aug 2022 17:12:23 +0000 (UTC)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.web09.45242.1660842736561095862
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 09:57:15 -0700
+ Thu, 18 Aug 2022 10:12:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=f5vN3rM9;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181,
- mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id x19so2003290plc.5
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=LyoN3V4c;
+ spf=pass (domain: gmail.com, ip: 209.85.167.54,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f54.google.com with SMTP id o2so2965120lfb.1
         for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 09:57:15 -0700 (PDT)
+ Thu, 18 Aug 2022 10:12:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc;
-        bh=HD4qi2Ri58BxZuJ+VT+kA1DfmjjzIytELRU0MzgO2lc=;
-        b=f5vN3rM9lL4Sm0Cg10fFhxLKPXXO1F0WR82HYp/O0ulLQJOnLYZeOwGGMag9jJI8Zz
-         FxhEvM00vR8To7JYe5kwX3fQ2r8RVzcPVNvKnQWuUkAPI7d7WnEeOZhaokC11kDp0m8k
-         BbmbdhvSgyb7bE3V/ZKkIas+d4uG/AbOvj5UrqoOjAaZYWSXvPXUWujRdJ4KQR5UaofF
-         LkOomDeIc7OYTpxzJ5uTsSIdFjbdS6kx4pGQfd1+OoOFaL6mbRUj6qJMjwjfg15KOajz
-         fm5G6ob7LWR3+CU/GiHThPb7Ww/iHEZit3IpVr1tmt3ccwSGZ4iip9/h/EG8Fhrr/gEn
-         VyQA==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=vNm9uOfIdLepapmNN2UzzamYzRGd5SIsvAM5pGpn584=;
+        b=LyoN3V4cozBZMyNe0BZdS1vRqcrwF2grzJgAT7yoZ5qPPjT5c/e7dPaiFrooPIeLpI
+         spC4fUXHbf24FQMN0oIDTnFJYvqh5olG89Ip3QU5R50Dn+y9vLTE4ThGfxqJmyKJ4VS3
+         CY9zvnSfvnyfP4KXb346RbHBhqXEXNJTJIqX/4o6H08nfxHDp1iYMjpTVW3hq+pdynjk
+         3KDGAeMgqsjijzurfU6P/m1S1WwQSYtILVvik6yd/rLiU/JAsIvg3UeHEyon/EsfTnEf
+         LvgHg8LQsf6ALvz4I/HIY55grNwTSxEEEZKBrpOVtNYuODLcbpIu7Eus4fdWRWkwJCQi
+         DEcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=HD4qi2Ri58BxZuJ+VT+kA1DfmjjzIytELRU0MzgO2lc=;
-        b=MNKjQfN1GZPZQ++I3PU0wMcQGRtOyK5F7bJd/2P+Oh1KJ4JSyIPNS8p5KdIa3Bfnqs
-         M2EH2G4qWXaTBZ3sNcqZffb4VUW3AWXKkMwHFlTJ1uWUFsOCAzNujYIdq6XvW8azTmeP
-         7Q8UWVCOB3aNsQjL4WjmrtGpW5AKLOTS+rm7JM8vY3E25rnAtSbGcPJIetw4t+vL2sot
-         Gh6/vGhm1315v08SKyMLgj6fbNGnypRiEpfMyk4x5qwP/AcTFEhAHN/UmFBfIQ4GwwP2
-         K/32IxKVGdqrVa3Nk9BrRh7Cj39D3tWKOqRldhBLDtv30k1h4WgD5mO//yeFOaVkODSy
-         p4LA==
-X-Gm-Message-State: ACgBeo0BIchuRMAxd5qYkeugy5Y3GCx5XbniMjTEdSvfzxGFoXoF7kuk
-	b1LMeaBgG/2Kmks99/WIO3/XYSayuJBLyeAp
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=vNm9uOfIdLepapmNN2UzzamYzRGd5SIsvAM5pGpn584=;
+        b=pnDatKkxP8woPjUY3Z7mJ4ab353+hjtSkcn2+LM38avAUZ4Rmfq9y4dTZhczCRnICU
+         IiepRaQFwEkryBHYrz7qvJ9/j6W7TsRyi4lUNpi/6T2TwYO8ge8fF+AhjGGIP+FY1tZN
+         oLG/7Ga+KW7Jqb/Q0tt42zF3XRC8aNKnbDRXrSw/i90ByKaKCtrpcjqW1o7s+SvxxQTu
+         J8jZ1RurQASZjamXQSlF6gxaXhFTjbq0SzrhCAKcCvSSc0UyqvboqOqdPjqLebvFN0lF
+         ZXiHaOGpz3uHTrXJIy/KYAgbGvrQJkdxqJYA37RQ9SufuPUEeSsuYkXFsm+R0EpHCbwS
+         NKdQ==
+X-Gm-Message-State: ACgBeo1EnU6u72smDLSiPwVJSsWm/PimNuopzS0tIBntzl9gV5pxzLOw
+	ObLvhLoMCqODaq1TLHVDc1+b41bmgIPhc0HTIw0=
 X-Google-Smtp-Source: 
- AA6agR5NZ5VTJ8Gf/ModdccoHRA0V+PWvtjtRnSgYLlGyRbgLC2c3tYSR3mD8uA5940JSZUIAfUEGA==
-X-Received: by 2002:a17:902:c411:b0:170:91ff:884b with SMTP id
- k17-20020a170902c41100b0017091ff884bmr3377180plk.58.1660841834122;
-        Thu, 18 Aug 2022 09:57:14 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id
- h135-20020a62838d000000b0052d432b4cc0sm1897446pfe.33.2022.08.18.09.57.13
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Aug 2022 09:57:13 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 11/11] initscripts: run umountnfs as a KILL script
-Date: Thu, 18 Aug 2022 06:56:28 -1000
-Message-Id: 
- <60e3c877fa507f21885c5ef13f493ccb26e5d63b.1660841536.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1660841536.git.steve@sakoman.com>
-References: <cover.1660841536.git.steve@sakoman.com>
+ AA6agR7LB7dv5LhEDXXBoDUpbds7R9UkGsZIvoFSKd7lbLdhRSlfftF6LzXUmrvea/uWh8hcLZYr+wdUfh4yw+h3hvU=
+X-Received: by 2002:a05:6512:b98:b0:492:beef:a6a5 with SMTP id
+ b24-20020a0565120b9800b00492beefa6a5mr1010708lfv.358.1660842734504; Thu, 18
+ Aug 2022 10:12:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <f01236ab-4fa1-94b7-e44d-fc43cfeb0fe5@gmail.com>
+ <20220815182503.2007534-1-drew@moseleynet.net>
+ <43f17af6-eb16-efd3-ce23-374ea6791c52@gmail.com>
+ <CAMKF1spqYbHNQ7nWbPiM8jmy=pZNM3h7UvRhPfCRaYORuo7qDw@mail.gmail.com>
+In-Reply-To: 
+ <CAMKF1spqYbHNQ7nWbPiM8jmy=pZNM3h7UvRhPfCRaYORuo7qDw@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 18 Aug 2022 19:12:02 +0200
+Message-ID: 
+ <CANNYZj_g=Rc0PUUH5xb=o=WmPJEFhERNAmtD8kR7-VeZQz5suA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] rng-tools: Change "Requires" to "WantedBy" for
+ dev-hwrng.device
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Drew Moseley <drew.moseley@gmail.com>, Claudius Heine <ch@denx.de>,
+	Dragos-Marian Panait <dragos.panait@windriver.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Aug 2022 16:57:22 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Aug 2022 17:12:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169533
+ https://lists.openembedded.org/g/openembedded-core/message/169534
 
-From: Shruthi Ravichandran <shruthi.ravichandran@ni.com>
+I am definitely seeing a serious regression where qemu images get
+stuck for 4 minutes on boot waiting for /dev/hwrng, so if this is
+fixing the issue, I'd appreciate getting it in!
 
-`rc` runs all the KILL scripts in a runlevel before the START scripts.
-The umountnfs script is currently configured as a START script, and
-runs after the networking KILL script. During shutdown, this causes a
-~3 minute timeout after networking is shutdown when the system tries
-to connect to and unmount any mounted network shares.
-Fix this by changing the script configuration to "stop" so that it can
-run before networking is stopped and unmount any network shares
-safely.
+Alex
 
-Signed-off-by: Shruthi Ravichandran <shruthi.ravichandran@ni.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c419bd4537756e9f6c2fe6da3a9b798526e27eca)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-core/initscripts/initscripts_1.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index f98e42eb2e..cb5417cc39 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -129,7 +129,7 @@ do_install () {
- 	update-rc.d -r ${D} rmnologin.sh start 99 2 3 4 5 .
- 	update-rc.d -r ${D} sendsigs start 20 0 6 .
- 	update-rc.d -r ${D} urandom start 38 S 0 6 .
--	update-rc.d -r ${D} umountnfs.sh start 31 0 1 6 .
-+	update-rc.d -r ${D} umountnfs.sh stop 31 0 1 6 .
- 	update-rc.d -r ${D} umountfs start 40 0 6 .
- 	update-rc.d -r ${D} reboot start 90 6 .
- 	update-rc.d -r ${D} halt start 90 0 .
--- 
-2.25.1
-
+On Mon, 15 Aug 2022 at 20:48, Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Mon, Aug 15, 2022 at 11:30 AM Drew Moseley <drew.moseley@gmail.com> wrote:
+> >
+> > Hi Khem,
+> >
+> > It looks like you recently removed both the dependency on hwrng and
+> > systemd-udev-settle.  Do you think this change will be useful?
+>
+> Depending on udev-settle certainly seems an overkill so that should go.
+> the change you have made will now ensure that this service starts when
+> dev-hwrng device is created
+> but loses the order of starting the service. So it may still race with
+> device creation.
+>
+> >
+> > Claudius, any thoughts here?
+> >
+> >
+> > Drew
+> >
+> >
+> >
+> > On 8/15/22 2:25 PM, drew.moseley@gmail.com wrote:
+> > > From: Drew Moseley <drew@moseleynet.net>
+> > >
+> > > The previous change to remove the dependency on systemd-udev-settle
+> > > caused boot delays at least on qemu. It seems that change required
+> > > a hwrng device but that's not necessarily available on all platforms.
+> > >
+> > > This changes the "Requires" to a "WantedBy" as modeled after the
+> > > version of this file on Ubuntu 20.04.
+> > >
+> > > Signed-off-by: Drew Moseley <drew@moseleynet.net>
+> > > ---
+> > >   meta/recipes-support/rng-tools/rng-tools/rng-tools.service | 3 +--
+> > >   1 file changed, 1 insertion(+), 2 deletions(-)
+> > >
+> > > diff --git a/meta/recipes-support/rng-tools/rng-tools/rng-tools.service b/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
+> > > index 0f50890dcb..b013d95932 100644
+> > > --- a/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
+> > > +++ b/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
+> > > @@ -3,8 +3,6 @@ Description=Hardware RNG Entropy Gatherer Daemon
+> > >   DefaultDependencies=no
+> > >   After=systemd-udev-settle.service
+> > >   Before=sysinit.target shutdown.target
+> > > -Requires=dev-hwrng.device
+> > > -After=dev-hwrng.device
+> > >   Conflicts=shutdown.target
+> > >
+> > >   [Service]
+> > > @@ -32,3 +30,4 @@ SystemCallFilter=@system-service
+> > >
+> > >   [Install]
+> > >   WantedBy=sysinit.target
+> > > +WantedBy=dev-hwrng.device
+> >
+> > --
+> > mailto:drew@moseleynet.net
+> >
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#169360): https://lists.openembedded.org/g/openembedded-core/message/169360
+> Mute This Topic: https://lists.openembedded.org/mt/93042904/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
