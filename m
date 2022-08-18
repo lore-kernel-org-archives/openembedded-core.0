@@ -1,90 +1,94 @@
-Return-Path: <skulkarni@mvista.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 892B1C00140
-	for <webhook@archiver.kernel.org>; Thu, 18 Aug 2022 07:53:10 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web10.39361.1660809187075230215
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB908C00140
+	for <webhook@archiver.kernel.org>; Thu, 18 Aug 2022 08:25:00 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web11.39419.1660811092309666797
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 00:53:07 -0700
+ Thu, 18 Aug 2022 01:24:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=EKqZv81n;
- spf=pass (domain: mvista.com, ip: 209.85.214.178,
- mailfrom: skulkarni@mvista.com)
-Received: by mail-pl1-f178.google.com with SMTP id jl18so889279plb.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=q0d6sGOf;
+ spf=pass (domain: gmail.com, ip: 209.85.167.41,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f41.google.com with SMTP id u9so1170522lfg.11
         for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 00:53:06 -0700 (PDT)
+ Thu, 18 Aug 2022 01:24:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google;
-        h=message-id:date:subject:cc:to:from:from:to:cc;
-        bh=apG+HGPDZGk9KOHFPUk/LjVMGN67oVvEWc9icfLbAlk=;
-        b=EKqZv81ndZmRiu4FiqNwdveKco6wHQNiGJPzBbwJCDnJnECe6yBcEl3CM0hAFKfiEB
-         byoH5hhP/fthV8yvN3bxs9GaDqOjIiR50u6zCJg9oyk8xrHkiMFa2xF1gHBICosvFulh
-         7uyqA5opEHBINjjZOapoaDPhXzFIVkG+Wk6mw=
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=JnlOm4AW1rQLc1bQvhrRdS+kqmOaj+jRo0VxBoTGjNI=;
+        b=q0d6sGOfcTBTQm0T+S5SmcMJm2QpgbzpgAGJVdGAquMLuRAjc/W3BdWCayYDszjs8B
+         ROVVyKeiPmcAiG+1CPCOmWXSLP4FB2AlsfXHaX+iPJkmJRHoLI0b5mA7PhgaEMo2eSsg
+         gYQUp37UAQ87Xmk9iiaaU2j/1oQ6y1Z3llSN8ZnMpY8tjZdUXgeBCqjj9XMXrem6nwiB
+         lE9wfRVei3NIoXiK6j4CQuOq/A28mypXT85yhCefE5aywOD5nE/TRpOA5LBYvxZFDjws
+         lKpjimzENCD+otd2F1lzO2vfK+EJ5Gs620iGC8k+cda3YJmmUA6+uOL61CUKG9m228cK
+         ygDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=apG+HGPDZGk9KOHFPUk/LjVMGN67oVvEWc9icfLbAlk=;
-        b=xvoTHnycndLTtu1FEnsUIKg1hXdMSYNeTg99rApvxXV/uK/k2blrFoI8eU9IuFsjJ4
-         nSwVIUrR6Ufpvjw3Ou6fyu+ufvKEmIlQZAsfNsomtKys2u8dduLoeYgQGSB78uqeBTXA
-         tIvDgWjBGohMcdhFwz87HC307H6uXx0DKsphuTeVFnHKZ/WonwBS00HsBXtrlbbKjMLs
-         aWywfiVvVGLVuVSQtdCkzPFxlyI1w/GTraDS2dOzfXMZUJ66IGyVttwvXmkrsZ7LFSwz
-         hEwwTvMiCDX7m1cyXR1ww8xyw1ZjKzX3ZnbBPenq/4VmogZYiMvI5bTj2c6kfQPpCPd9
-         WQDg==
-X-Gm-Message-State: ACgBeo3iPgZ4HCQunERZuVB045EK3Zt6dJ1XJB7v2HnioIMGIuC0oB2U
-	JII+k1Ppl5nO89EUq5JH8TQKHEtlpAHw1w==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=JnlOm4AW1rQLc1bQvhrRdS+kqmOaj+jRo0VxBoTGjNI=;
+        b=MpefPhmZ89VMDTdPXPcuCItm5dkK53sEiYEQzB70XazTfAKxrh+bpgSdFk+vhnCHTj
+         07RAotPNYLLHCZseLP7ywYMjNRUzqoO3iZ4+9MV1eecbZcS3610m0rKwt0stZIcRZEpv
+         Zk4mdjmY3FxeRsvebdqKHACisfFT+Nnqs4jCtShOkkgSXGI0QxSCrE6G0nm+tdQIfLrA
+         DqBxe8Wg2wgZ+ias/gsbIrPwehv+0kRmO1TLjkF+Szjxfb01mIezVTRwWE/6Zj7A6cPJ
+         Rzq9daaea6GoxSIruRAuPCFwhnJ28xMQPmt9saBb3nQ1GkRMSCy+NbE2DKHaZglQgalP
+         gbOw==
+X-Gm-Message-State: ACgBeo3LSH1SzwGF0vT+lPNnmJh+JwDnblK1uPpNTqxylUi4YjWigch4
+	XZLS8IOFeH6mmYxyApnbstqUJ4OfUYENfXuaUFU=
 X-Google-Smtp-Source: 
- AA6agR7uUG1r7YJ0Feq0JlPqFIusqh5RXRtTdLmIH+URAI7jzw0r6zc/sfUm+BWqk5U1YoKtCQ+Rlg==
-X-Received: by 2002:a17:90b:4a4e:b0:1f5:431c:54f8 with SMTP id
- lb14-20020a17090b4a4e00b001f5431c54f8mr7711567pjb.161.1660809186173;
-        Thu, 18 Aug 2022 00:53:06 -0700 (PDT)
-Received: from kite.mvista.com ([182.74.28.237])
-        by smtp.gmail.com with ESMTPSA id
- t4-20020a625f04000000b005323a1ba20fsm889811pfb.42.2022.08.18.00.53.04
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 18 Aug 2022 00:53:05 -0700 (PDT)
-From: Shubham Kulkarni <skulkarni@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Shubham Kulkarni <skulkarni@mvista.com>
-Subject: [OE-core][PATCH] docs: add a comment to ensure
- CONNECTIVITY_CHECK_URIS is correct
-Date: Thu, 18 Aug 2022 13:22:38 +0530
-Message-Id: <1660809158-31798-1-git-send-email-skulkarni@mvista.com>
-X-Mailer: git-send-email 2.7.4
+ AA6agR4b2JLDSWS1O/EkIgvAky/J3+UbDWsZ4UnoijN/1ZQqvp0KGZTlVMs1NopVOQDcl3QrBsUBuQIuam4yOwo2PBk=
+X-Received: by 2002:a05:6512:3455:b0:48b:c5c:6689 with SMTP id
+ j21-20020a056512345500b0048b0c5c6689mr669360lfr.673.1660811090513; Thu, 18
+ Aug 2022 01:24:50 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220817131023.4093773-1-alex@linutronix.de>
+ <20220817131023.4093773-2-alex@linutronix.de>
+ <bff578854db1852bc0891463e6eecd3c892876bd.camel@linuxfoundation.org>
+ <CANNYZj-1c9cd1Q9LodoxrMxkhBTbOTdg3gb=TVyVdWJ6inMO4w@mail.gmail.com>
+ <d3d5ec04d1b0caec5f0e8f7578e40b3f055e10d9.camel@linuxfoundation.org>
+In-Reply-To: 
+ <d3d5ec04d1b0caec5f0e8f7578e40b3f055e10d9.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 18 Aug 2022 10:24:39 +0200
+Message-ID: 
+ <CANNYZj8vXyK0erJ9AGBSiUsuskKXCUY6PPGiZshOf-0Gcak-fA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/5] meta/files: add layer setup JSON schema and
+ example
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Joshua Watt <JPEWhacker@gmail.com>, Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Aug 2022 07:53:10 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Aug 2022 08:25:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169515
+ https://lists.openembedded.org/g/openembedded-core/message/169516
 
-In sanity.bbclass, in function check_connectivity :
-Connectivity is tested by fetching URIs in variable CONNECTIVITY_CHECK_URIS.
-If none is accessible, the status error is ambiguous.
+On Thu, 18 Aug 2022 at 00:27, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 
-It says to ensure the host's network is correctly configured but
-never if the remote is available.
+> It does, thanks. I'm just not sure we're quite in the right place with
+> things. I know in your other reply you say we have to start somewhere
+> and we can change things. I also know the screaming if we try and
+> remove something later...
 
-Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
----
- meta/classes-global/sanity.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+Right, I'm going to make the following changes:
+- machine/distro/config-template stuff gets dropped from the schema
+and tools - I am convinced now that it can be discovered through other
+means :-)
+- config template location gets standardized (perhaps in
+conf/templates/), default template in oe-core moves to
+conf/templates/default/
+- add a plugin abstraction for the layer setup writers, move the json
+writer to a plugin
 
-diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
-index 4104694..4a403a2 100644
---- a/meta/classes-global/sanity.bbclass
-+++ b/meta/classes-global/sanity.bbclass
-@@ -357,6 +357,7 @@ def check_connectivity(d):
-             if len(msg) == 0:
-                 msg = "%s.\n" % err
-                 msg += "    Please ensure your host's network is configured correctly.\n"
-+                msg += "    Please ensure CONNECTIVITY_CHECK_URIS is correct and specified URIs are available.\n"
-                 msg += "    If your ISP or network is blocking the above URL,\n"
-                 msg += "    try with another domain name, for example by setting:\n"
-                 msg += "    CONNECTIVITY_CHECK_URIS = \"https://www.example.com/\""
--- 
-2.7.4
+Anything else?
 
+Alex
 
