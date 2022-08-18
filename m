@@ -1,132 +1,93 @@
-Return-Path: <jlu@pengutronix.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 652E2C00140
-	for <webhook@archiver.kernel.org>; Thu, 18 Aug 2022 11:22:01 +0000 (UTC)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [85.220.165.71])
- by mx.groups.io with SMTP id smtpd.web11.40524.1660821714153564658
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAFB2C00140
+	for <webhook@archiver.kernel.org>; Thu, 18 Aug 2022 13:26:41 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web09.42158.1660829200388297806
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 04:21:54 -0700
+ Thu, 18 Aug 2022 06:26:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: jlu@pengutronix.de)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-	by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <jlu@pengutronix.de>)
-	id 1oOdax-00039g-S0; Thu, 18 Aug 2022 13:21:51 +0200
-Received: from jlu by ptx.hi.pengutronix.de with local (Exim 4.92)
-	(envelope-from <jlu@pengutronix.de>)
-	id 1oOdax-0000eH-20; Thu, 18 Aug 2022 13:21:51 +0200
-From: Jan Luebbe <jlu@pengutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Jan Luebbe <jlu@pengutronix.de>
-Subject: [OE-core][PATCH 1/2] openssh: sync local ssh_config + sshd_config
- files with upstream 8.7p1
-Date: Thu, 18 Aug 2022 13:17:02 +0200
-Message-Id: <20220818111703.1858-1-jlu@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WZbxmIDh;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id k9so1769888wri.0
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 18 Aug 2022 06:26:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
+        bh=p0BVcWjzBDWVF96GxUcKAohPdC5UxcVO3RayTh/5C1E=;
+        b=WZbxmIDhbF8xcHUlspE6DcbFcxiOIPakN1YAh59+WeEtUm69Uya/tFcnOUmufQXy0P
+         UCb+VVPHOUJP2hzczV7VQPnm7oagEJv7DHYXoRQU9SAfE/E3+UX4MOzDlkhouw6eABDJ
+         wCjwNUoIEl2vnJpNWaRA39rkDnh2d+P119nkE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc;
+        bh=p0BVcWjzBDWVF96GxUcKAohPdC5UxcVO3RayTh/5C1E=;
+        b=1a2mNXblbSC8oyjS35azHNa5ORnvLn6k6zeiExmwS/imiTdMvm+jQ6WsEuT14AwYiD
+         lcgimhwuNNbRMSWQDkKkBoZYxIY8qguragmSNtxD0xWkT8vWTME2bXedlannQ8Y6700d
+         3L6dxaGWKvhDwYFZbrm3DED8r1y66omSIt6uuvZmBvKxgOMA71pdSMDBhKIoIPIhgQ8T
+         na7h9SD6YfO2/nbQs8Smo5aM/CE2rIxFCfuCkKoyI/2Lrtl02QhgUly6m2G2ARBo1kLP
+         0io3FMD0sFEzv4wnNhuZFyBf+l+cIoxllFsQqPoZ2gjrtvqgjc4oIckFO0awRUH1LIXM
+         1KkQ==
+X-Gm-Message-State: ACgBeo1AbmspuRloDCzTybHoIZts9DBmXLeNWKpnACY6MS7BFV1ok4P7
+	ZRV/+GiQpN7EDF1WL6MSwZhAtw==
+X-Google-Smtp-Source: 
+ AA6agR4q32ODK5Z3W48d8H1Vi2yCMrx40QdLdPR8uLa0eiWZV3D0o3/RZVLeA1yy3VRUQIF+3A+P/A==
+X-Received: by 2002:adf:ebd2:0:b0:222:cd3f:cf9 with SMTP id
+ v18-20020adfebd2000000b00222cd3f0cf9mr1661741wrn.598.1660829198763;
+        Thu, 18 Aug 2022 06:26:38 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:bfd7:4d1c:d13d:975?
+ ([2001:8b0:aba:5f3c:bfd7:4d1c:d13d:975])
+        by smtp.gmail.com with ESMTPSA id
+ t15-20020adfe44f000000b0021e4bc9edbfsm1434236wrm.112.2022.08.18.06.26.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Aug 2022 06:26:37 -0700 (PDT)
+Message-ID: 
+ <2940b1bf9287064f82deb04a121b5893b5029d58.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] distrooverrides.bbclass: use IMAGE_CLASSES
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: kai <kai.kang@windriver.com>, Christopher Larson <kergoth@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>
+Date: Thu, 18 Aug 2022 14:26:37 +0100
+In-Reply-To: <a7721619-50b8-8d35-b392-3fd5088ee5a8@windriver.com>
+References: <20220816075432.22347-1-kai.kang@windriver.com>
+	 <CABcZANmYBerOcEo9NRhY43w8SQyEKsbdSMbgMwFh81Rh1u7Xhg@mail.gmail.com>
+	 <a7721619-50b8-8d35-b392-3fd5088ee5a8@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: jlu@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Aug 2022 11:22:01 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Aug 2022 13:26:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169520
+ https://lists.openembedded.org/g/openembedded-core/message/169521
 
-Changes are caused by the removal of deprecated options.
+On Thu, 2022-08-18 at 09:54 +0800, kai wrote:
+> On 8/16/22 22:55, Christopher Larson wrote:
+> =C2=A0
+> > This class functionality isn't limited to images.
+> If not, it may need to move to classes-global. Otherwise it fails to
+> parse:
+> ERROR: ParseError in configuration INHERITs: Could not inherit file
+> classes/distrooverrides.bbclass
+>=20
+> =C2=A0
 
-ChallengeResponseAuthentication was replaced by
-KbdInteractiveAuthentication in the SSHv2 protocol, see
-https://www.openssh.com/txt/release-8.7
+I've moved this back to the classes directory for now until we can
+decide on how it should be used. It is one of those cases where either
+can work.
 
-Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
----
- .../openssh/openssh/ssh_config                    |  4 ++--
- .../openssh/openssh/sshd_config                   | 15 +++++++--------
- 2 files changed, 9 insertions(+), 10 deletions(-)
+Cheers,
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/ssh_config b/meta/recipes-connectivity/openssh/openssh/ssh_config
-index e0d023803eb3..05eecb465ff0 100644
---- a/meta/recipes-connectivity/openssh/openssh/ssh_config
-+++ b/meta/recipes-connectivity/openssh/openssh/ssh_config
-@@ -1,4 +1,4 @@
--#	$OpenBSD: ssh_config,v 1.33 2017/05/07 23:12:57 djm Exp $
-+#	$OpenBSD: ssh_config,v 1.35 2020/07/17 03:43:42 dtucker Exp $
- 
- # This is the ssh client system-wide configuration file.  See
- # ssh_config(5) for more information.  This file provides defaults for
-@@ -36,7 +36,6 @@ Host *
- #   IdentityFile ~/.ssh/id_ecdsa
- #   IdentityFile ~/.ssh/id_ed25519
- #   Port 22
--#   Protocol 2
- #   Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc
- #   MACs hmac-md5,hmac-sha1,umac-64@openssh.com
- #   EscapeChar ~
-@@ -46,3 +45,4 @@ Host *
- #   VisualHostKey no
- #   ProxyCommand ssh -q -W %h:%p gateway.example.com
- #   RekeyLimit 1G 1h
-+#   UserKnownHostsFile ~/.ssh/known_hosts.d/%k
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_config b/meta/recipes-connectivity/openssh/openssh/sshd_config
-index 15f061b570a4..9c5380589013 100644
---- a/meta/recipes-connectivity/openssh/openssh/sshd_config
-+++ b/meta/recipes-connectivity/openssh/openssh/sshd_config
-@@ -1,4 +1,4 @@
--#	$OpenBSD: sshd_config,v 1.102 2018/02/16 02:32:40 djm Exp $
-+#	$OpenBSD: sshd_config,v 1.104 2021/07/02 05:11:21 dtucker Exp $
- 
- # This is the sshd server system-wide configuration file.  See
- # sshd_config(5) for more information.
-@@ -57,9 +57,9 @@ AuthorizedKeysFile	.ssh/authorized_keys
- #PasswordAuthentication yes
- #PermitEmptyPasswords no
- 
--# Change to yes to enable challenge-response passwords (beware issues with
--# some PAM modules and threads)
--ChallengeResponseAuthentication no
-+# Change to yes to enable keyboard-interactive authentication (beware issues
-+# with some PAM modules and threads)
-+KbdInteractiveAuthentication no
- 
- # Kerberos options
- #KerberosAuthentication no
-@@ -73,13 +73,13 @@ ChallengeResponseAuthentication no
- 
- # Set this to 'yes' to enable PAM authentication, account processing,
- # and session processing. If this is enabled, PAM authentication will
--# be allowed through the ChallengeResponseAuthentication and
-+# be allowed through the KbdInteractiveAuthentication and
- # PasswordAuthentication.  Depending on your PAM configuration,
--# PAM authentication via ChallengeResponseAuthentication may bypass
-+# PAM authentication via KbdInteractiveAuthentication may bypass
- # the setting of "PermitRootLogin without-password".
- # If you just want the PAM account and session checks to run without
- # PAM authentication, then enable this but set PasswordAuthentication
--# and ChallengeResponseAuthentication to 'no'.
-+# and KbdInteractiveAuthentication to 'no'.
- #UsePAM no
- 
- #AllowAgentForwarding yes
-@@ -92,7 +92,6 @@ ChallengeResponseAuthentication no
- #PrintMotd yes
- #PrintLastLog yes
- #TCPKeepAlive yes
--#UseLogin no
- #PermitUserEnvironment no
- Compression no
- ClientAliveInterval 15
--- 
-2.20.1
-
+Richard
 
