@@ -1,148 +1,127 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D671C00140
-	for <webhook@archiver.kernel.org>; Thu, 18 Aug 2022 17:12:23 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web09.45242.1660842736561095862
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DD22C00140
+	for <webhook@archiver.kernel.org>; Thu, 18 Aug 2022 17:32:33 +0000 (UTC)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
+ [209.85.128.176])
+ by mx.groups.io with SMTP id smtpd.web08.45150.1660843947140409283
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 10:12:16 -0700
+ Thu, 18 Aug 2022 10:32:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=LyoN3V4c;
- spf=pass (domain: gmail.com, ip: 209.85.167.54,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id o2so2965120lfb.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=HJyhYn1C;
+ spf=pass (domain: gmail.com, ip: 209.85.128.176,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f176.google.com with SMTP id
+ 00721157ae682-3378303138bso19903257b3.9
         for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 10:12:16 -0700 (PDT)
+ Thu, 18 Aug 2022 10:32:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=vNm9uOfIdLepapmNN2UzzamYzRGd5SIsvAM5pGpn584=;
-        b=LyoN3V4cozBZMyNe0BZdS1vRqcrwF2grzJgAT7yoZ5qPPjT5c/e7dPaiFrooPIeLpI
-         spC4fUXHbf24FQMN0oIDTnFJYvqh5olG89Ip3QU5R50Dn+y9vLTE4ThGfxqJmyKJ4VS3
-         CY9zvnSfvnyfP4KXb346RbHBhqXEXNJTJIqX/4o6H08nfxHDp1iYMjpTVW3hq+pdynjk
-         3KDGAeMgqsjijzurfU6P/m1S1WwQSYtILVvik6yd/rLiU/JAsIvg3UeHEyon/EsfTnEf
-         LvgHg8LQsf6ALvz4I/HIY55grNwTSxEEEZKBrpOVtNYuODLcbpIu7Eus4fdWRWkwJCQi
-         DEcA==
+        bh=F9AhviDM8P5rwucKK9NPFCzjOmsVkEiAYyWZMww8E1U=;
+        b=HJyhYn1CcHnJj2fmlDuHj0foXUkSwmGYI6CasN8S5WorGc2GW0tLF0MDvqdnPHPl1T
+         w0l4Ck0tpfkbgVodeVY9N4Kxl1NtWFluV0nxccr4w1fWHyh12whYMjUEyyBFfWQ47tRK
+         Sz6VX1JiPivTldBj5Vl57RZmChVrY+52aboqKIoUIcO+/oavmNA3nh0h0Cf+hXFJdpJP
+         L1eI1o+7Lt42rl4/BLEt80E20snjBWrMpXcNMN1slO3oCE7XR1Ys/m0SnzJQiLuhRPdd
+         oOXmkmSLjA0IbEm2YyuGzHY3tj+5TMF14XqHvJtNY9w+59A8VUfzaitvvlILYFCtLOdy
+         QbkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=vNm9uOfIdLepapmNN2UzzamYzRGd5SIsvAM5pGpn584=;
-        b=pnDatKkxP8woPjUY3Z7mJ4ab353+hjtSkcn2+LM38avAUZ4Rmfq9y4dTZhczCRnICU
-         IiepRaQFwEkryBHYrz7qvJ9/j6W7TsRyi4lUNpi/6T2TwYO8ge8fF+AhjGGIP+FY1tZN
-         oLG/7Ga+KW7Jqb/Q0tt42zF3XRC8aNKnbDRXrSw/i90ByKaKCtrpcjqW1o7s+SvxxQTu
-         J8jZ1RurQASZjamXQSlF6gxaXhFTjbq0SzrhCAKcCvSSc0UyqvboqOqdPjqLebvFN0lF
-         ZXiHaOGpz3uHTrXJIy/KYAgbGvrQJkdxqJYA37RQ9SufuPUEeSsuYkXFsm+R0EpHCbwS
-         NKdQ==
-X-Gm-Message-State: ACgBeo1EnU6u72smDLSiPwVJSsWm/PimNuopzS0tIBntzl9gV5pxzLOw
-	ObLvhLoMCqODaq1TLHVDc1+b41bmgIPhc0HTIw0=
+        bh=F9AhviDM8P5rwucKK9NPFCzjOmsVkEiAYyWZMww8E1U=;
+        b=ZKYkWVKMDWk4Mp7VWtysL/wPSIrV3c8p9n3oT6M1TXUtLeBmAMeDOK2EbRcxf1S4ah
+         8/yP7dJTLYrAey7Ob02+xFm+gKQ/QFg2Ln8UXS1Fyk9htzyIfquqjcIX/e6GkUsD3mK+
+         S55VNmcKbiTFfvFp0YpQ+Rfl3wU0xPO/dWz2qPFBPnMlh492m231ulUvHxjs3nCKKTjr
+         Zu8GXCPgjYU+ERsxDBkFm9RKmXmSh3S51YS5RW4kWjWRMA7kvnkbEcEJ6drRaSYtC2ws
+         Po8AYCGTXHnw5LlHreYg9/gflbGfdlEBao0y/mHqfHb+FLO1qyiRrR5F1PWkpsB94MbX
+         +xJg==
+X-Gm-Message-State: ACgBeo0XFkVCKRu4OKITfsjeGZvX5UwoxXA4jyj9odEUC1PRXmtr0hv6
+	v+yL7G74FxtxbMBtJqx+b/9Mc/qo8xe7v3noKzE=
 X-Google-Smtp-Source: 
- AA6agR7LB7dv5LhEDXXBoDUpbds7R9UkGsZIvoFSKd7lbLdhRSlfftF6LzXUmrvea/uWh8hcLZYr+wdUfh4yw+h3hvU=
-X-Received: by 2002:a05:6512:b98:b0:492:beef:a6a5 with SMTP id
- b24-20020a0565120b9800b00492beefa6a5mr1010708lfv.358.1660842734504; Thu, 18
- Aug 2022 10:12:14 -0700 (PDT)
+ AA6agR6jsY2+LHsyKCoROaCQ9vc8oaBDBKOwMM39/IS5tA+cd3cA/II1KeIU5r6OlrUQqXU6x8cGM+J6uTWqS/qVoSk=
+X-Received: by 2002:a0d:f204:0:b0:333:c23f:d793 with SMTP id
+ b4-20020a0df204000000b00333c23fd793mr3928578ywf.71.1660843946003; Thu, 18 Aug
+ 2022 10:32:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <f01236ab-4fa1-94b7-e44d-fc43cfeb0fe5@gmail.com>
- <20220815182503.2007534-1-drew@moseleynet.net>
- <43f17af6-eb16-efd3-ce23-374ea6791c52@gmail.com>
- <CAMKF1spqYbHNQ7nWbPiM8jmy=pZNM3h7UvRhPfCRaYORuo7qDw@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1spqYbHNQ7nWbPiM8jmy=pZNM3h7UvRhPfCRaYORuo7qDw@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 18 Aug 2022 19:12:02 +0200
+References: <20220818111703.1858-1-jlu@pengutronix.de>
+ <20220818111703.1858-2-jlu@pengutronix.de>
+In-Reply-To: <20220818111703.1858-2-jlu@pengutronix.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 18 Aug 2022 10:31:59 -0700
 Message-ID: 
- <CANNYZj_g=Rc0PUUH5xb=o=WmPJEFhERNAmtD8kR7-VeZQz5suA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] rng-tools: Change "Requires" to "WantedBy" for
- dev-hwrng.device
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Drew Moseley <drew.moseley@gmail.com>, Claudius Heine <ch@denx.de>,
-	Dragos-Marian Panait <dragos.panait@windriver.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
+ <CAMKF1spo5nbjvHpxsyff3_dv7Da7a0YP-vkSLXg16D1jHmS78w@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 2/2] openssh: add support for config snippet
+ includes to ssh and sshd
+To: Jan Luebbe <jlu@pengutronix.de>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Aug 2022 17:12:23 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Aug 2022 17:32:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169534
+ https://lists.openembedded.org/g/openembedded-core/message/169535
 
-I am definitely seeing a serious regression where qemu images get
-stuck for 4 minutes on boot waiting for /dev/hwrng, so if this is
-fixing the issue, I'd appreciate getting it in!
+On Thu, Aug 18, 2022 at 4:21 AM Jan Luebbe <jlu@pengutronix.de> wrote:
+>
+> This makes it simpler to set specific ssh/sshd config options by adding
+> snippet files to /etc/ssh/ssh_config.d/ or /etc/ssh/sshd_config.d/
+> instead of modifying a copy of the full configuration file. As new
+> snippets can be added from separate recipes, targeted changes can be
+> done in multiple layers.
+>
+> These specific directories are also used in Debian's default
+> configuration.
+>
+> Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
+> ---
+>  meta/recipes-connectivity/openssh/openssh/ssh_config  | 2 ++
+>  meta/recipes-connectivity/openssh/openssh/sshd_config | 2 ++
+>  2 files changed, 4 insertions(+)
+>
+> diff --git a/meta/recipes-connectivity/openssh/openssh/ssh_config b/meta/recipes-connectivity/openssh/openssh/ssh_config
+> index 05eecb465ff0..ca70f3737596 100644
+> --- a/meta/recipes-connectivity/openssh/openssh/ssh_config
+> +++ b/meta/recipes-connectivity/openssh/openssh/ssh_config
+> @@ -17,6 +17,8 @@
+>  # list of available options, their meanings and defaults, please see the
+>  # ssh_config(5) man page.
+>
+> +Include /etc/ssh/ssh_config.d/*.conf
+> +
+Generally looks ok.
+I wonder if this increases security concerns with such blanket includes.
 
-Alex
-
-On Mon, 15 Aug 2022 at 20:48, Khem Raj <raj.khem@gmail.com> wrote:
+>  Host *
+>    ForwardAgent yes
+>    ForwardX11 yes
+> diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_config b/meta/recipes-connectivity/openssh/openssh/sshd_config
+> index 9c5380589013..e9eaf9315775 100644
+> --- a/meta/recipes-connectivity/openssh/openssh/sshd_config
+> +++ b/meta/recipes-connectivity/openssh/openssh/sshd_config
+> @@ -10,6 +10,8 @@
+>  # possible, but leave them commented.  Uncommented options override the
+>  # default value.
 >
-> On Mon, Aug 15, 2022 at 11:30 AM Drew Moseley <drew.moseley@gmail.com> wrote:
-> >
-> > Hi Khem,
-> >
-> > It looks like you recently removed both the dependency on hwrng and
-> > systemd-udev-settle.  Do you think this change will be useful?
+> +Include /etc/ssh/sshd_config.d/*.conf
+> +
+>  #Port 22
+>  #AddressFamily any
+>  #ListenAddress 0.0.0.0
+> --
+> 2.20.1
 >
-> Depending on udev-settle certainly seems an overkill so that should go.
-> the change you have made will now ensure that this service starts when
-> dev-hwrng device is created
-> but loses the order of starting the service. So it may still race with
-> device creation.
->
-> >
-> > Claudius, any thoughts here?
-> >
-> >
-> > Drew
-> >
-> >
-> >
-> > On 8/15/22 2:25 PM, drew.moseley@gmail.com wrote:
-> > > From: Drew Moseley <drew@moseleynet.net>
-> > >
-> > > The previous change to remove the dependency on systemd-udev-settle
-> > > caused boot delays at least on qemu. It seems that change required
-> > > a hwrng device but that's not necessarily available on all platforms.
-> > >
-> > > This changes the "Requires" to a "WantedBy" as modeled after the
-> > > version of this file on Ubuntu 20.04.
-> > >
-> > > Signed-off-by: Drew Moseley <drew@moseleynet.net>
-> > > ---
-> > >   meta/recipes-support/rng-tools/rng-tools/rng-tools.service | 3 +--
-> > >   1 file changed, 1 insertion(+), 2 deletions(-)
-> > >
-> > > diff --git a/meta/recipes-support/rng-tools/rng-tools/rng-tools.service b/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
-> > > index 0f50890dcb..b013d95932 100644
-> > > --- a/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
-> > > +++ b/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
-> > > @@ -3,8 +3,6 @@ Description=Hardware RNG Entropy Gatherer Daemon
-> > >   DefaultDependencies=no
-> > >   After=systemd-udev-settle.service
-> > >   Before=sysinit.target shutdown.target
-> > > -Requires=dev-hwrng.device
-> > > -After=dev-hwrng.device
-> > >   Conflicts=shutdown.target
-> > >
-> > >   [Service]
-> > > @@ -32,3 +30,4 @@ SystemCallFilter=@system-service
-> > >
-> > >   [Install]
-> > >   WantedBy=sysinit.target
-> > > +WantedBy=dev-hwrng.device
-> >
-> > --
-> > mailto:drew@moseleynet.net
-> >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#169360): https://lists.openembedded.org/g/openembedded-core/message/169360
-> Mute This Topic: https://lists.openembedded.org/mt/93042904/1686489
+> View/Reply Online (#169519): https://lists.openembedded.org/g/openembedded-core/message/169519
+> Mute This Topic: https://lists.openembedded.org/mt/93100986/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
 >
 
