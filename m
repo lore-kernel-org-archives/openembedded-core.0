@@ -1,94 +1,108 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB908C00140
-	for <webhook@archiver.kernel.org>; Thu, 18 Aug 2022 08:25:00 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web11.39419.1660811092309666797
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3747C00140
+	for <webhook@archiver.kernel.org>; Thu, 18 Aug 2022 09:17:00 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web09.40250.1660814212938727706
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 01:24:52 -0700
+ Thu, 18 Aug 2022 02:16:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=q0d6sGOf;
- spf=pass (domain: gmail.com, ip: 209.85.167.41,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f41.google.com with SMTP id u9so1170522lfg.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=joBY0GkC;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f49.google.com with SMTP id k9so1031204wri.0
         for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 01:24:52 -0700 (PDT)
+ Thu, 18 Aug 2022 02:16:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=JnlOm4AW1rQLc1bQvhrRdS+kqmOaj+jRo0VxBoTGjNI=;
-        b=q0d6sGOfcTBTQm0T+S5SmcMJm2QpgbzpgAGJVdGAquMLuRAjc/W3BdWCayYDszjs8B
-         ROVVyKeiPmcAiG+1CPCOmWXSLP4FB2AlsfXHaX+iPJkmJRHoLI0b5mA7PhgaEMo2eSsg
-         gYQUp37UAQ87Xmk9iiaaU2j/1oQ6y1Z3llSN8ZnMpY8tjZdUXgeBCqjj9XMXrem6nwiB
-         lE9wfRVei3NIoXiK6j4CQuOq/A28mypXT85yhCefE5aywOD5nE/TRpOA5LBYvxZFDjws
-         lKpjimzENCD+otd2F1lzO2vfK+EJ5Gs620iGC8k+cda3YJmmUA6+uOL61CUKG9m228cK
-         ygDQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=4R3S3Dp2skdIlneHlrL7GVwQePMLDmc6kVO2QQFX7ik=;
+        b=joBY0GkC47XRUB1j8Lz1FaxPJbL4S3iAr+1kDRrZyQ3rQB7s4C83Zc4R4Vlz5j1AWl
+         JODLt32YSoCoWTXzaZQxaH2bKvpXII3pTfUuG2vngMzORuV0i5VsqMT44D7kkEz0MBTa
+         sjapQ21XLJ+8IQMmjmnGnbRKqVlURJBPtl71rm2o5EuQcIHIhFxWk71dft5213ENaqP4
+         hNJnueFrMHeEGeLZAWSMdyqBRtApbp+M1Z5/6NlNoiEvIJVH2k1dJjZGL9Ei7IqSFngc
+         L8mnKL/v5BHTm3LswMcPeiwfmaHEuTfJDQWuH2aXpGLqeReQWSu8TSNLWfXD3txWCw40
+         jfow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=JnlOm4AW1rQLc1bQvhrRdS+kqmOaj+jRo0VxBoTGjNI=;
-        b=MpefPhmZ89VMDTdPXPcuCItm5dkK53sEiYEQzB70XazTfAKxrh+bpgSdFk+vhnCHTj
-         07RAotPNYLLHCZseLP7ywYMjNRUzqoO3iZ4+9MV1eecbZcS3610m0rKwt0stZIcRZEpv
-         Zk4mdjmY3FxeRsvebdqKHACisfFT+Nnqs4jCtShOkkgSXGI0QxSCrE6G0nm+tdQIfLrA
-         DqBxe8Wg2wgZ+ias/gsbIrPwehv+0kRmO1TLjkF+Szjxfb01mIezVTRwWE/6Zj7A6cPJ
-         Rzq9daaea6GoxSIruRAuPCFwhnJ28xMQPmt9saBb3nQ1GkRMSCy+NbE2DKHaZglQgalP
-         gbOw==
-X-Gm-Message-State: ACgBeo3LSH1SzwGF0vT+lPNnmJh+JwDnblK1uPpNTqxylUi4YjWigch4
-	XZLS8IOFeH6mmYxyApnbstqUJ4OfUYENfXuaUFU=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=4R3S3Dp2skdIlneHlrL7GVwQePMLDmc6kVO2QQFX7ik=;
+        b=dEJmeDQaJCxOi7g6BPySl6Fwnc0SNWwBWHO0lo1ELQppRQ/lImcmxGG2paN290btbE
+         xyP4OCHeZfHOChU+n0qR1+++BQlHyqLdj8NCrgf2wf3zKVZQN/Wojk60Glo5tra14CyD
+         r91yVLOs/mR5iYwOIaMWM9tCZfQsQ5gv73EyR0Cb7fLRixeca1nUaMGKC/Lc0rs8nRW4
+         wKVZVRhZsDrZQVDOYvyK0b0Q07yYvR8dT1wuk7lekdyKFIXM5vsIPUGO3Z4ludwnkUwH
+         ESMJMAVMjSCZX3huFGHxCffYzJRnWogu2CHTUT+5rL+xX/sbsOQKvVF1c64pxjpG8Lok
+         DcjQ==
+X-Gm-Message-State: ACgBeo2x2krCgV3D2t/xjPeLSlKo0e+NgOrl7zWYemV6bOOvtxRMQClT
+	1cdCv56yni3/u0WSpVR4jpoqxX4ZJ4w=
 X-Google-Smtp-Source: 
- AA6agR4b2JLDSWS1O/EkIgvAky/J3+UbDWsZ4UnoijN/1ZQqvp0KGZTlVMs1NopVOQDcl3QrBsUBuQIuam4yOwo2PBk=
-X-Received: by 2002:a05:6512:3455:b0:48b:c5c:6689 with SMTP id
- j21-20020a056512345500b0048b0c5c6689mr669360lfr.673.1660811090513; Thu, 18
- Aug 2022 01:24:50 -0700 (PDT)
+ AA6agR5byx8jQoHQu37Ve8Cr0Dql3tjINTFZoiEhmfMBQbXat5TyMZk4frWfVPd9qaWR3hDa6k5lIw==
+X-Received: by 2002:a05:6000:1ac9:b0:220:7f40:49e3 with SMTP id
+ i9-20020a0560001ac900b002207f4049e3mr1065440wry.40.1660814210966;
+        Thu, 18 Aug 2022 02:16:50 -0700 (PDT)
+Received: from fio.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+        by smtp.gmail.com with ESMTPSA id
+ r14-20020a056000014e00b00223678fe95asm1096685wrx.18.2022.08.18.02.16.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Aug 2022 02:16:50 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Cc: ricardo@foundries.io,
+	daiane.angolini@foundries.io,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [OE-core][kirkstone][PATCH] python3-pip: Fix RDEPENDS after the
+ update
+Date: Thu, 18 Aug 2022 10:16:28 +0100
+Message-Id: <20220818091628.201421-1-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-References: <20220817131023.4093773-1-alex@linutronix.de>
- <20220817131023.4093773-2-alex@linutronix.de>
- <bff578854db1852bc0891463e6eecd3c892876bd.camel@linuxfoundation.org>
- <CANNYZj-1c9cd1Q9LodoxrMxkhBTbOTdg3gb=TVyVdWJ6inMO4w@mail.gmail.com>
- <d3d5ec04d1b0caec5f0e8f7578e40b3f055e10d9.camel@linuxfoundation.org>
-In-Reply-To: 
- <d3d5ec04d1b0caec5f0e8f7578e40b3f055e10d9.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 18 Aug 2022 10:24:39 +0200
-Message-ID: 
- <CANNYZj8vXyK0erJ9AGBSiUsuskKXCUY6PPGiZshOf-0Gcak-fA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/5] meta/files: add layer setup JSON schema and
- example
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Joshua Watt <JPEWhacker@gmail.com>, Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Aug 2022 08:25:00 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Aug 2022 09:17:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169516
+ https://lists.openembedded.org/g/openembedded-core/message/169517
 
-On Thu, 18 Aug 2022 at 00:27, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+From: Daiane Angolini <daiane.angolini@foundries.io>
 
-> It does, thanks. I'm just not sure we're quite in the right place with
-> things. I know in your other reply you say we have to start somewhere
-> and we can change things. I also know the screaming if we try and
-> remove something later...
+Fix the following error messages:
 
-Right, I'm going to make the following changes:
-- machine/distro/config-template stuff gets dropped from the schema
-and tools - I am convinced now that it can be discovered through other
-means :-)
-- config template location gets standardized (perhaps in
-conf/templates/), default template in oe-core moves to
-conf/templates/default/
-- add a plugin abstraction for the layer setup writers, move the json
-writer to a plugin
+   ModuleNotFoundError: No module named 'distutils'
 
-Anything else?
+   ModuleNotFoundError: No module named 'colorsys'
 
-Alex
+Signed-off-by: Daiane Angolini <daiane.angolini@foundries.io>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 8beef93e6e341566eba8a125f75ad836ac6a3d69)
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+---
+ meta/recipes-devtools/python/python3-pip_22.0.3.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-devtools/python/python3-pip_22.0.3.bb b/meta/recipes-devtools/python/python3-pip_22.0.3.bb
+index 09a305edf8..6e28b87ba3 100644
+--- a/meta/recipes-devtools/python/python3-pip_22.0.3.bb
++++ b/meta/recipes-devtools/python/python3-pip_22.0.3.bb
+@@ -55,6 +55,8 @@ RDEPENDS:${PN} = "\
+   python3-unixadmin \
+   python3-xmlrpc \
+   python3-pickle \
++  python3-distutils \
++  python3-image \
+ "
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.37.2
+
 
