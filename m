@@ -1,108 +1,138 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3747C00140
-	for <webhook@archiver.kernel.org>; Thu, 18 Aug 2022 09:17:00 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web09.40250.1660814212938727706
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9BBAC00140
+	for <webhook@archiver.kernel.org>; Thu, 18 Aug 2022 09:27:50 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.39750.1660814868146566575
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 02:16:53 -0700
+ Thu, 18 Aug 2022 02:27:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=joBY0GkC;
- spf=pass (domain: gmail.com, ip: 209.85.221.49,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id k9so1031204wri.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KL2CuHLL;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id z16so1014540wrh.12
         for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 02:16:52 -0700 (PDT)
+ Thu, 18 Aug 2022 02:27:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=4R3S3Dp2skdIlneHlrL7GVwQePMLDmc6kVO2QQFX7ik=;
-        b=joBY0GkC47XRUB1j8Lz1FaxPJbL4S3iAr+1kDRrZyQ3rQB7s4C83Zc4R4Vlz5j1AWl
-         JODLt32YSoCoWTXzaZQxaH2bKvpXII3pTfUuG2vngMzORuV0i5VsqMT44D7kkEz0MBTa
-         sjapQ21XLJ+8IQMmjmnGnbRKqVlURJBPtl71rm2o5EuQcIHIhFxWk71dft5213ENaqP4
-         hNJnueFrMHeEGeLZAWSMdyqBRtApbp+M1Z5/6NlNoiEvIJVH2k1dJjZGL9Ei7IqSFngc
-         L8mnKL/v5BHTm3LswMcPeiwfmaHEuTfJDQWuH2aXpGLqeReQWSu8TSNLWfXD3txWCw40
-         jfow==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
+        bh=WF1rQX8Iu5nLcO6x8zfCldB+K1cewnG1oVX1Es2YS/k=;
+        b=KL2CuHLLxnq/dFvKLYx3K4qrdClJjHvgRqxtA14zTE5KZ6jQm56tfz+joLFr6ZXNxY
+         Iu+2qrmHsFqvmJ4kK1WIXghoG0sRxG+neBe5BzIc7bR9aXa9tkRI6nCSkeF9wGeke/Mn
+         P8Vah1nTY00hN0yZc5vzu5XeGXm+AFLuwVXuc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=4R3S3Dp2skdIlneHlrL7GVwQePMLDmc6kVO2QQFX7ik=;
-        b=dEJmeDQaJCxOi7g6BPySl6Fwnc0SNWwBWHO0lo1ELQppRQ/lImcmxGG2paN290btbE
-         xyP4OCHeZfHOChU+n0qR1+++BQlHyqLdj8NCrgf2wf3zKVZQN/Wojk60Glo5tra14CyD
-         r91yVLOs/mR5iYwOIaMWM9tCZfQsQ5gv73EyR0Cb7fLRixeca1nUaMGKC/Lc0rs8nRW4
-         wKVZVRhZsDrZQVDOYvyK0b0Q07yYvR8dT1wuk7lekdyKFIXM5vsIPUGO3Z4ludwnkUwH
-         ESMJMAVMjSCZX3huFGHxCffYzJRnWogu2CHTUT+5rL+xX/sbsOQKvVF1c64pxjpG8Lok
-         DcjQ==
-X-Gm-Message-State: ACgBeo2x2krCgV3D2t/xjPeLSlKo0e+NgOrl7zWYemV6bOOvtxRMQClT
-	1cdCv56yni3/u0WSpVR4jpoqxX4ZJ4w=
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc;
+        bh=WF1rQX8Iu5nLcO6x8zfCldB+K1cewnG1oVX1Es2YS/k=;
+        b=rSQ+T8VDZYaPoxKhLA7fMKl90ivN1lc1dTJ/QWq8lh411oyNA8agPwn+Z0//WbNJn4
+         LGIyzRbDkBGzOiGdCPCBfR/x4RbkkI9ObK83uQzWOgWWwui1K6aUSMGGwNLSTzs6woBI
+         nBXe3a45RRIChVtuuEDFRlhxYZwB/++sjFFYg9i4Nr6F/USTiuGcJGXBNvsp1PIDGNl6
+         7m0N4fVot635zR4u1Nvjm1nrW4HzUuwda4OWbTOA5aNIy0DWkoSvUV+GOIIYNt482WIp
+         qhiP+b4rnoIGpVvaDx+JWEygcYTC36wi4THY+XD7n+7Hm39JRWRkxne1rfNBOcg0OtSe
+         FuqA==
+X-Gm-Message-State: ACgBeo3Mn4F5uDEdGZ6S0aLirfT6/6uO1J2mKZ5bE23y+K27XJGumCgj
+	PI4glFzi4vWoq9oZg+nsxNYV0A==
 X-Google-Smtp-Source: 
- AA6agR5byx8jQoHQu37Ve8Cr0Dql3tjINTFZoiEhmfMBQbXat5TyMZk4frWfVPd9qaWR3hDa6k5lIw==
-X-Received: by 2002:a05:6000:1ac9:b0:220:7f40:49e3 with SMTP id
- i9-20020a0560001ac900b002207f4049e3mr1065440wry.40.1660814210966;
-        Thu, 18 Aug 2022 02:16:50 -0700 (PDT)
-Received: from fio.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+ AA6agR71d/VYfGbvug0A23fc6cbsHzIlCEfpQSbQnrn7M0alvzNdugBUM3FiZ9bW2TsDmuTU0VEtAg==
+X-Received: by 2002:adf:fbc7:0:b0:220:6004:18ca with SMTP id
+ d7-20020adffbc7000000b00220600418camr1082293wrs.632.1660814866482;
+        Thu, 18 Aug 2022 02:27:46 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:bfd7:4d1c:d13d:975?
+ ([2001:8b0:aba:5f3c:bfd7:4d1c:d13d:975])
         by smtp.gmail.com with ESMTPSA id
- r14-20020a056000014e00b00223678fe95asm1096685wrx.18.2022.08.18.02.16.49
+ y6-20020a056000108600b002250f9abdefsm1079120wrw.117.2022.08.18.02.27.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Aug 2022 02:16:50 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: ricardo@foundries.io,
-	daiane.angolini@foundries.io,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][kirkstone][PATCH] python3-pip: Fix RDEPENDS after the
- update
-Date: Thu, 18 Aug 2022 10:16:28 +0100
-Message-Id: <20220818091628.201421-1-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.37.2
+        Thu, 18 Aug 2022 02:27:45 -0700 (PDT)
+Message-ID: 
+ <65b62446fc6c2c3d873ca6113f590be95ee27bf8.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/5] meta/files: add layer setup JSON schema
+ and example
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, Joshua Watt
+	 <JPEWhacker@gmail.com>, Alexander Kanavin <alex@linutronix.de>
+Date: Thu, 18 Aug 2022 10:27:45 +0100
+In-Reply-To: 
+ <CANNYZj8vXyK0erJ9AGBSiUsuskKXCUY6PPGiZshOf-0Gcak-fA@mail.gmail.com>
+References: <20220817131023.4093773-1-alex@linutronix.de>
+	 <20220817131023.4093773-2-alex@linutronix.de>
+	 <bff578854db1852bc0891463e6eecd3c892876bd.camel@linuxfoundation.org>
+	 <CANNYZj-1c9cd1Q9LodoxrMxkhBTbOTdg3gb=TVyVdWJ6inMO4w@mail.gmail.com>
+	 <d3d5ec04d1b0caec5f0e8f7578e40b3f055e10d9.camel@linuxfoundation.org>
+	 <CANNYZj8vXyK0erJ9AGBSiUsuskKXCUY6PPGiZshOf-0Gcak-fA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Aug 2022 09:17:00 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Aug 2022 09:27:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169517
+ https://lists.openembedded.org/g/openembedded-core/message/169518
 
-From: Daiane Angolini <daiane.angolini@foundries.io>
+On Thu, 2022-08-18 at 10:24 +0200, Alexander Kanavin wrote:
+> On Thu, 18 Aug 2022 at 00:27, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>=20
+> > It does, thanks. I'm just not sure we're quite in the right place with
+> > things. I know in your other reply you say we have to start somewhere
+> > and we can change things. I also know the screaming if we try and
+> > remove something later...
+>=20
+> Right, I'm going to make the following changes:
+> - machine/distro/config-template stuff gets dropped from the schema
+> and tools - I am convinced now that it can be discovered through other
+> means :-)
+> - config template location gets standardized (perhaps in
+> conf/templates/), default template in oe-core moves to
+> conf/templates/default/
+> - add a plugin abstraction for the layer setup writers, move the json
+> writer to a plugin
+>=20
+> Anything else?
 
-Fix the following error messages:
+I think that is a good plan and lets us move forward. If it turns out
+we need to extend the json, we can. Incrementally extending if/as
+needed is the safer path forward.
 
-   ModuleNotFoundError: No module named 'distutils'
+That would just leave the details of the template layout. I think what
+you have above is probably fine. I'm just wondering how it fits with
+something else I've been worrying about, e.g. how to add config
+fragments to be used on the autobuilder.
 
-   ModuleNotFoundError: No module named 'colorsys'
+The intent is the user could add something like:
 
-Signed-off-by: Daiane Angolini <daiane.angolini@foundries.io>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8beef93e6e341566eba8a125f75ad836ac6a3d69)
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
----
- meta/recipes-devtools/python/python3-pip_22.0.3.bb | 2 ++
- 1 file changed, 2 insertions(+)
+require conf/yocto-autobuilder/x32.inc
 
-diff --git a/meta/recipes-devtools/python/python3-pip_22.0.3.bb b/meta/recipes-devtools/python/python3-pip_22.0.3.bb
-index 09a305edf8..6e28b87ba3 100644
---- a/meta/recipes-devtools/python/python3-pip_22.0.3.bb
-+++ b/meta/recipes-devtools/python/python3-pip_22.0.3.bb
-@@ -55,6 +55,8 @@ RDEPENDS:${PN} = "\
-   python3-unixadmin \
-   python3-xmlrpc \
-   python3-pickle \
-+  python3-distutils \
-+  python3-image \
- "
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.37.2
+or
+
+require conf/yocto-autobuilder/multilib-mipsn32.inc
+
+and similar to their local.conf and more easily replicate
+configurations.
+
+With those, I could add to OE-Core or meta-yocto. I'm leaning towards
+core, just so people can see the testing configs more easily but I know
+people don't like yocto mentions in core and whether or not it is too
+higher a level in conf, not sure.
+
+Anyway, I think it is tangential to what you're working on which is
+good and stops me worrying. I left this in here just to write it out
+somewhere.
+
+I would like to see if we can switch the eSDK to use the json format
+btw. I suspect that may be one of your next steps? :)
+
+Cheers,
+
+Richard
+
 
 
