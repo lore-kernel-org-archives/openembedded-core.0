@@ -1,124 +1,103 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 288E3C25B0E
-	for <webhook@archiver.kernel.org>; Fri, 19 Aug 2022 06:10:18 +0000 (UTC)
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by mx.groups.io with SMTP id smtpd.web10.101.1660889416628408692
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8678FC32773
+	for <webhook@archiver.kernel.org>; Fri, 19 Aug 2022 07:27:58 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web08.482.1660894068833603902
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 23:10:17 -0700
+ Fri, 19 Aug 2022 00:27:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=bMd41RYv;
- spf=pass (domain: intel.com, ip: 134.134.136.24,
- mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660889416; x=1692425416;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=iewCA8XheJZg/7nz0b7dT420uzKj9c7IgieTt87MDng=;
-  b=bMd41RYvXDldRh5s2FtGSHyLnVgoyXJCeGiBdQ+04vc+ltLLz5+7Bxjb
-   bA887Id6X3Wa2ORMmOArG3CEychwXzje5G71CvkMdjXh86AyxxvmnGjim
-   5odSemcuSyTZ5cNDgQSDAM3keGKTz3bmJp4RrCn/XOJx+VengK3S7RRcZ
-   oKwGsZZgx/o4RG/60KsWmIdee5VBZ1D9tFw8EaMwJsahJN08BwhW5w+S7
-   Vk6bawqIyW9IEMvPaPxfzF2P5lulJi6am2X+jZr19oXcQRVUlvBDgUCPh
-   EesLnjW8BRnDMM5zG3Cw6owDg9s6bCkt1WV5YzdRHgYMzIM7T7E9WC9tT
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10443"; a="293732684"
-X-IronPort-AV: E=Sophos;i="5.93,247,1654585200";
-   d="scan'208";a="293732684"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2022 23:10:08 -0700
-X-IronPort-AV: E=Sophos;i="5.93,247,1654585200";
-   d="scan'208";a="784044902"
-Received: from nailulmx-mobl.gar.corp.intel.com (HELO
- anmitta2-mobl3.intel.com) ([10.214.166.221])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2022 23:10:07 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=C71TL4RD;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f49.google.com with SMTP id h5so3368777wru.7
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 19 Aug 2022 00:27:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=EjgLLsNlTyuTcoLBJZMpf8d7dWLG+IZBq8kNmqat2EE=;
+        b=C71TL4RDJi/FDrtFYioTAGjughO930bFChtn12o4sEcavUZjhaaTT9n0O3BHochTDC
+         lKR4/R9Y9nFqT/vjjUgMgIT/ve/hYRssD0WSQGfZLq7prgn+H/HRMDeG2ktKLvaZLRA6
+         dEhpabeBoRZRzXB/0zGeQEcNEymA3qaBDAGomrmMShmUSmPMzfaNdhsbNrj62Bl055xX
+         oyrVETZHw1MwSydlyGjubMr3SLy/KKMbC3OiyiKGbgLV5r6AdQfYJ+WJ9IOo5rG2suaj
+         tE6nit5yGYPAL0kpRIIgivD1Nfm7T+drRSzuxDF+mp2fdD4DNNuPaOsEocHTPSYYhcVo
+         TRNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=EjgLLsNlTyuTcoLBJZMpf8d7dWLG+IZBq8kNmqat2EE=;
+        b=f7CBZHaVhsmYb+wdm+7nyYejr2CkgP90qS/9pX1CEc4z6xrRqaBfFTLecaNrHzsPDq
+         kCvLSohnvfeiol4v4twWcctpIe/LQP41YIHN6xe3kmKCSN53X/21sVj+hXoYiBgeJiR+
+         M7V5oCw9/jKfn1avqAhrg+Vriq5ub7L65qBsdA/UyE7Rr5TMANSP6GzWC5iHESMk+Yve
+         InraCIX69GVmzXIsiffElBRgEZ3+kODxkF+WbS3wYtC88bep9ewiMD0Wsn5pmPdgFvwJ
+         hSXfr12PI55uJvWPjwTxpsY+fPw9G4CNou/PGMvLbJoMUqHuLBG4ntNBKjY2cdC6AVex
+         p9ag==
+X-Gm-Message-State: ACgBeo23HKt2JjrE50pXpEykEs8/H0U9IaP2PBK+NlL5SX/AWk+X/CC4
+	YA7I5AT2wkPq3mKhRJMH9X7Z72v5FKI=
+X-Google-Smtp-Source: 
+ AA6agR4eHilLM6KuIhd3yV7gUFYQ2zpaIXR6+2r51YpkxaHB6pC21g0zLvcl96OmGnD+0+w2MTMdsQ==
+X-Received: by 2002:adf:fb8f:0:b0:225:2def:221e with SMTP id
+ a15-20020adffb8f000000b002252def221emr3397309wrr.130.1660894067260;
+        Fri, 19 Aug 2022 00:27:47 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
+ [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id
+ ay15-20020a05600c1e0f00b003a604a29a34sm4650739wmb.35.2022.08.19.00.27.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Aug 2022 00:27:46 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [dunfell][PATCH] cryptodev-module: fix build with 5.11+ kernels
-Date: Fri, 19 Aug 2022 14:10:03 +0800
-Message-Id: <20220819061003.43857-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.37.1
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 02/42] tzdata: upgrade 2022a -> 2022b
+Date: Fri, 19 Aug 2022 09:26:47 +0200
+Message-Id: <20220819072727.2236928-2-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220819072727.2236928-1-alex@linutronix.de>
+References: <20220819072727.2236928-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Aug 2022 06:10:18 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Aug 2022 07:27:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169571
+ https://lists.openembedded.org/g/openembedded-core/message/169573
 
-Backport patch to fix:
-
-| cryptodev-module/1.10-r0/git/ioctl.c:875:4: error: implicit declaration of function 'ksys_close'; did you mean 'ksys_chown'? [-Werror=implicit-function-declaration]
-|   875 |    ksys_close(fd);
-|       |    ^~~~~~~~~~
-|       |    ksys_chown
-| cc1: some warnings being treated as errors
-
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../cryptodev/cryptodev-module_1.10.bb        |  1 +
- .../files/fix-build-for-Linux-5.11-rc1.patch  | 32 +++++++++++++++++++
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-kernel/cryptodev/files/fix-build-for-Linux-5.11-rc1.patch
+ meta/recipes-extended/timezone/timezone.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/cryptodev/cryptodev-module_1.10.bb b/meta/recipes-kernel/cryptodev/cryptodev-module_1.10.bb
-index e4f7d1e3729..d7c7918515d 100644
---- a/meta/recipes-kernel/cryptodev/cryptodev-module_1.10.bb
-+++ b/meta/recipes-kernel/cryptodev/cryptodev-module_1.10.bb
-@@ -11,6 +11,7 @@ SRC_URI += " \
- file://0001-Disable-installing-header-file-provided-by-another-p.patch \
- file://0001-Fix-build-for-Linux-5.8-rc1.patch \
- file://0001-Fix-build-for-Linux-5.9-rc1.patch \
-+file://fix-build-for-Linux-5.11-rc1.patch \
- "
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index cdd1a2ac3c..2b956cf7c0 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
  
- EXTRA_OEMAKE='KERNEL_DIR="${STAGING_KERNEL_DIR}" PREFIX="${D}"'
-diff --git a/meta/recipes-kernel/cryptodev/files/fix-build-for-Linux-5.11-rc1.patch b/meta/recipes-kernel/cryptodev/files/fix-build-for-Linux-5.11-rc1.patch
-new file mode 100644
-index 00000000000..3ae77cb9d66
---- /dev/null
-+++ b/meta/recipes-kernel/cryptodev/files/fix-build-for-Linux-5.11-rc1.patch
-@@ -0,0 +1,32 @@
-+From 55c6315058fc0dd189ffd116f2cc27ba4fa84cb6 Mon Sep 17 00:00:00 2001
-+From: Joan Bruguera <joanbrugueram@gmail.com>
-+Date: Mon, 28 Dec 2020 01:41:31 +0100
-+Subject: [PATCH] Fix build for Linux 5.11-rc1
-+
-+ksys_close was removed, as far as I can tell, close_fd replaces it.
-+
-+See also: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8760c909f54a82aaa6e76da19afe798a0c77c3c3
-+          https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1572bfdf21d4d50e51941498ffe0b56c2289f783
-+
-+Upstream-Status: Backport [https://github.com/cryptodev-linux/cryptodev-linux/commit/55c6315058fc0dd189ffd116f2cc27ba4fa84cb6]
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ ioctl.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/ioctl.c b/ioctl.c
-+index 3d332380..95481d4f 100644
-+--- a/ioctl.c
-++++ b/ioctl.c
-+@@ -871,8 +871,10 @@ cryptodev_ioctl(struct file *filp, unsigned int cmd, unsigned long arg_)
-+ 		if (unlikely(ret)) {
-+ #if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 17, 0))
-+ 			sys_close(fd);
-+-#else
-++#elif (LINUX_VERSION_CODE < KERNEL_VERSION(5, 11, 0))
-+ 			ksys_close(fd);
-++#else
-++			close_fd(fd);
-+ #endif
-+ 			return ret;
-+ 		}
+-PV = "2022a"
++PV = "2022b"
+ 
+ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
+@@ -14,6 +14,6 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
+ 
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.sha256sum] = "f8575e7e33be9ee265df2081092526b81c80abac3f4a04399ae9d4d91cdadac7"
+-SRC_URI[tzdata.sha256sum] = "ef7fffd9f4f50f4f58328b35022a32a5a056b245c5cb3d6791dddb342f871664"
++SRC_URI[tzcode.sha256sum] = "bab20d943e59a3218435f48d868a4e552f18d6d7f3dd128660c5660c80b8a05f"
++SRC_URI[tzdata.sha256sum] = "f590eaf04a395245426c2be4fae71c143aea5cebc11088b7a0a5704461df397d"
+ 
 -- 
-2.37.1
+2.30.2
 
 
