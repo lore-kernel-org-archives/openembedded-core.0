@@ -2,63 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAFFBC48BE4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B741FC28B2B
 	for <webhook@archiver.kernel.org>; Fri, 19 Aug 2022 07:28:08 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.459.1660894076525308798
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.464.1660894083026496777
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Aug 2022 00:28:05 -0700
+ Fri, 19 Aug 2022 00:28:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ntLbKGgl;
- spf=pass (domain: gmail.com, ip: 209.85.128.45,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=W4yBXkvY;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id
- m10-20020a05600c3b0a00b003a603fc3f81so2082705wms.0
+Received: by mail-wr1-f44.google.com with SMTP id z16so4160174wrh.12
         for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Aug 2022 00:28:05 -0700 (PDT)
+ Fri, 19 Aug 2022 00:28:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=rq6be8FpFX74LmyXNi2rG2TJcmTYVVdNC9el53Deyyc=;
-        b=ntLbKGglh3zLTdjyRsQxWd9/YtZeB6S11kcBLKAoVhrZy5q3TUdXo30+NXNG9ngiES
-         BJFrNRwHVTFhgNAfZOtJ+qC2zKPQkIEKrGucjJ18zeybgSxy7ylG5aHko1GyxWFNqbgw
-         0Ta0xkulBPmoDOhfAwemhu4EZ2SPRgBjMaOvWUravTdkNMXopG2vs366VKKMx+gq3ftf
-         R+sh/5zR1faMiL/HfjMnMsUqCIGB5FkF6Dt0FflE9ECkTJ7zpVLb32ySDR+ZGKHRojr9
-         SNNVlAyev13cQ7WceYZ1GQZGcg46cl3ErvdzCp8nuM0ROkf3BBFMjbfzg6CWx2MBDKut
-         V6xQ==
+        bh=F/3C5TT5KSXzkEh6u7jkk5cR/kdYDil10xohvh/FHiM=;
+        b=W4yBXkvYt29dDuqOBZ39pCfjZnEKm7CTufbrh5OCQykmx+upP2Ph28Keg9lIXXIHGd
+         5zRVVSlQZHKitNasWYwnBU6Tav3VywytLLPnppIAJ+VyWXCBF3/9pxy/kxEVoJ2ouSl1
+         PvRdSb8xJMSq/3Mt0EntVydAx1kNs3DpDf7KuhfCBwbIz13lYha2JCCvJqSviG+pW6Pz
+         VhKIkbsnZKP6xWWCNpbEGh1eNaRwslMBBUzEW962qxx5wi1d1MMr+5BmclbJ50MyGDBT
+         dZ4F7TtFxtLjPheQ7/Rqj9lGp/isCO2uK9uqzOQlq56D11lLZ3bNTRcWYPj2/qmA8f53
+         K4xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=rq6be8FpFX74LmyXNi2rG2TJcmTYVVdNC9el53Deyyc=;
-        b=fK5KCfgROKVReg/NyTs9Sf8kLBDAutLJPkZmrJYlE/yzgXWLRu5x7ZxeH69MuVuWSL
-         PiJjghLwVGomOkI8350j0hOD7Uoytt0CooUyAUnTIu0hm9D3JptLW0ifi2qBGvaCvGjq
-         WFpI/PgfXgPDpepJSPB05aWL2tDjaHPtaNCIPH1F+RcNzjaHIAi2TV+IECDeIxoBC1Q0
-         JJxHjO3sIVYZuSCqunbjWrh9u1qlpI4ojgAqhyWM7MVST18VjuCgnxaJEIxl8drnX9uf
-         xXNzBA8atGNN52TqD9D/Jej7mxhgrUlJjlN9l9hVo2VEfr1ZDtw7MqyOGFfDatwK+9aq
-         zseA==
-X-Gm-Message-State: ACgBeo2xLtd0iYk15c3HZjQAkS8QlFA+fJw8W5+8gIA0dfG1PQ9TBohc
-	BN96c2p7U/RCSy6Ygd2GyivtRWIHxKo=
+        bh=F/3C5TT5KSXzkEh6u7jkk5cR/kdYDil10xohvh/FHiM=;
+        b=2JKrZb7j48RHQb26n3Bb9/P9S7mxi/cDHqpeMMk1rDBA7wcCyZZ47waylJVn1rCgNC
+         LtjPQsyTmwFLVNHiQ0U+orU6BVrndkmiZU+DNvbUHcLOLqWgaHqu982QV/TF+6zORf8E
+         P+82VJohKeB6ITk0oFoe9NqBXpPPW2RhxEPFs0wfUbUgPi9lYAJ9XE12u+mfZLB0Rmz2
+         XUeDf9Scl+5gleaGlgXzKae47RUPr8egJiTFZvwSABkFlOSlSXqyNg4viVq8wKOF0w1N
+         k7N5RZpC0xhWJQhpdbM0U0LApDxD7XGSY/S7pveOX/hs/8pe9U44GG3kPob5j4xzc+js
+         /72w==
+X-Gm-Message-State: ACgBeo3BsBTntdkXid9WuEuIqYPGebb737A7GSN7vcy9SuNrVF2Z0tQu
+	gol41BsZPqhw+BfdX9Z35Os8NYjnuSg=
 X-Google-Smtp-Source: 
- AA6agR7RzDAuBxP2ijOBPfN8khMphwvUsACDzNgYiAPfdpilMnAtDCrtFzj5UiIcFHZcMANG87ipzg==
-X-Received: by 2002:a05:600c:1906:b0:3a5:fe9c:4dcf with SMTP id
- j6-20020a05600c190600b003a5fe9c4dcfmr3981223wmq.118.1660894084561;
-        Fri, 19 Aug 2022 00:28:04 -0700 (PDT)
+ AA6agR62LoAbook99rEESyUSekSjTbhu1Sip3GJiLFTM40UPAnW83uq13vSWnPwKLJeBRZv0HCDP1w==
+X-Received: by 2002:a5d:6348:0:b0:225:2ec7:81d9 with SMTP id
+ b8-20020a5d6348000000b002252ec781d9mr3480960wrw.693.1660894081451;
+        Fri, 19 Aug 2022 00:28:01 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- ay15-20020a05600c1e0f00b003a604a29a34sm4650739wmb.35.2022.08.19.00.28.03
+ ay15-20020a05600c1e0f00b003a604a29a34sm4650739wmb.35.2022.08.19.00.28.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Aug 2022 00:28:03 -0700 (PDT)
+        Fri, 19 Aug 2022 00:28:01 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 21/42] mesa: upgrade 22.1.5 -> 22.1.6
-Date: Fri, 19 Aug 2022 09:27:06 +0200
-Message-Id: <20220819072727.2236928-21-alex@linutronix.de>
+Subject: [PATCH 18/42] libjpeg-turbo: upgrade 2.1.3 -> 2.1.4
+Date: Fri, 19 Aug 2022 09:27:03 +0200
+Message-Id: <20220819072727.2236928-18-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220819072727.2236928-1-alex@linutronix.de>
 References: <20220819072727.2236928-1-alex@linutronix.de>
@@ -69,38 +68,30 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Aug 2022 07:28:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169592
+ https://lists.openembedded.org/g/openembedded-core/message/169589
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../mesa/{mesa-gl_22.1.5.bb => mesa-gl_22.1.6.bb}               | 0
- meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
- meta/recipes-graphics/mesa/{mesa_22.1.5.bb => mesa_22.1.6.bb}   | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_22.1.5.bb => mesa-gl_22.1.6.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_22.1.5.bb => mesa_22.1.6.bb} (100%)
+ .../jpeg/{libjpeg-turbo_2.1.3.bb => libjpeg-turbo_2.1.4.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/jpeg/{libjpeg-turbo_2.1.3.bb => libjpeg-turbo_2.1.4.bb} (97%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_22.1.5.bb b/meta/recipes-graphics/mesa/mesa-gl_22.1.6.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_22.1.5.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_22.1.6.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index fccf14a7d1..c4efc13438 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -25,7 +25,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-nir-nir_opt_move-fix-ALWAYS_INLINE-compiler-error.patch \
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.3.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.4.bb
+similarity index 97%
+rename from meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.3.bb
+rename to meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.4.bb
+index fdc035d5f7..1708fa97f0 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.3.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.4.bb
+@@ -14,7 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
+            file://0001-libjpeg-turbo-fix-package_qa-error.patch \
             "
  
--SRC_URI[sha256sum] = "6fd60d38efdd25317948c61494b5117e01d42da695278728b1faef9f5f9a47ba"
-+SRC_URI[sha256sum] = "22ced061eb9adab8ea35368246c1995c09723f3f71653cd5050c5cec376e671a"
+-SRC_URI[sha256sum] = "467b310903832b033fe56cd37720d1b73a6a3bd0171dbf6ff0b620385f4f76d0"
++SRC_URI[sha256sum] = "d3ed26a1131a13686dfca4935e520eb7c90ae76fbc45d98bb50a8dc86230342b"
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/libjpeg-turbo/files/"
+ UPSTREAM_CHECK_REGEX = "/libjpeg-turbo/files/(?P<pver>(\d+[\.\-_]*)+)/"
  
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_22.1.5.bb b/meta/recipes-graphics/mesa/mesa_22.1.6.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_22.1.5.bb
-rename to meta/recipes-graphics/mesa/mesa_22.1.6.bb
 -- 
 2.30.2
 
