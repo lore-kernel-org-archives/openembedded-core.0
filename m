@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89208C32789
-	for <webhook@archiver.kernel.org>; Fri, 19 Aug 2022 02:43:35 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web08.50679.1660877009442128014
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75BD8C00140
+	for <webhook@archiver.kernel.org>; Fri, 19 Aug 2022 02:43:45 +0000 (UTC)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web10.50699.1660877018260547942
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 19:43:29 -0700
+ Thu, 18 Aug 2022 19:43:42 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=7fPgvtjP;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171,
+ header.b=m9Gla4EQ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.44,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d16so3021485pll.11
+Received: by mail-pj1-f44.google.com with SMTP id e19so2196157pju.1
         for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 19:43:29 -0700 (PDT)
+ Thu, 18 Aug 2022 19:43:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc;
-        bh=2qm7AFK5vIecKpaFRee+r5o5dDMXtbsBagZkoZjDn8U=;
-        b=7fPgvtjPKWXaWpAhdQeJag4py9dCoOfKvpcgXKaPww5fW8SLGvB+u9yIzo8ru8mT0s
-         S2FaKdWqUv4uVhds52Sk0Lm16+oukcU62EV+Z+74Ddikrjdu929kiK7f5cDjcpgeVIEZ
-         OjnsyNQZM/g+VcdHK2mNq2piXjQoQc50PZvpnayGPSKVhmyR9Luij86hQ4p8VLYkk5yV
-         9JLy4I73yiUcMmL99Ejc/rLT0c5+vY/catQqq5PfaVOLI4mVQCyV7qbQV44m/p+0QRl9
-         2ZI8vlNNNvZXJB7FzAMVAwnyLSHvKUtccZkxElvXn/abrtnnQvnYDubmseilaFn6oLID
-         lg0Q==
+        bh=qe8mVxZcV2W+zWLORsOsF3SZHdmWfCFIWZE9/jCzIuA=;
+        b=m9Gla4EQsnUmeoK0lCO5kD3qayl2lYfhiO8oP4ZkqkYR74InryrnwIB401fUDYOSB+
+         pOv/VV287WjiYPTIRagiqVYgCsCWu0sb6L+R2vIWIRkeaWXq35J1Fdi+SmY/FLWC5XPu
+         2FefEJcUCKM45FbD3dB5HoYwr0FyNzKC6k71XCmyPdpgg2GM4lyeneJxKHYhrwSVMjEn
+         tSzk2sM21xamVqa6vanl2IBKaFyeGrG9Ligwp67+HV3bpMN5rHuJg3S/s/hMaIPiX4EX
+         TgLVBbTT3LFXuqeNvinGfXPBA9yWwAoeJ9GRrHzfgz+nqFsdI8Iedl7yRaaaiEt6Yb+L
+         cPwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=2qm7AFK5vIecKpaFRee+r5o5dDMXtbsBagZkoZjDn8U=;
-        b=bSDPAEpkQ5O93/w3rnR/oEG4r+WF2iOVcK+3gqgLHtE88DOvwfgyKh0XvAd6L54yZn
-         32gPkifrcu4fSik3Dh2mxRbXOMFljbhLOk71VhoZHO/xnGQKon9E6iBavD1Yx2QLXzti
-         GeFR+dJm2mUWgMdUSI2O9Vnng4taO0viFNTfSsefGSs1odZmfDbL2tG3DbDP/+R7dU0f
-         LDGtNnenbTReesYKfp9qGsYOsAKbrUSX71ps+dKrOsFgJpMaLTUAgiYxpqLU7Gj96hpT
-         +3H8oq/WjQtP3amiCuqpMAWlXAa5WbzBVVM38Xkj4GSWZNqsK8noWCrGpvAUM3DbOwsN
-         iTiw==
-X-Gm-Message-State: ACgBeo3/v/x28Z1K17xXRnCzJnVAIKS3TDXA25d0fwMxyucRemJc5DaP
-	FV4iqhI1Y5649AHadj0C2PAV3p/JBLRX8ohy
+        bh=qe8mVxZcV2W+zWLORsOsF3SZHdmWfCFIWZE9/jCzIuA=;
+        b=l7xtd1BY8+QTwleVpzylw6naLBXD0wUh31hb1pDM626R5cDadRRj3O7RmoU6w6Hjk9
+         hcuBp289c6nwHHv9OnFtKht1u/oy4M6muKssBEBtkuMN1fDY88rYYR7I+WGoOtCiBhPd
+         I7LXTB3x17/BUtcTZGqbyy9AKbu3xF3XVglQ8q1NON8hV4FURMa7o8c8spM7G+NJ8Hgv
+         61/FDdko3WKpeQrhvGKqoY7NBVz1QKqM4Ma9XTHB9AbiHX8wZ+DST6pZ0c/U7mY4xHdB
+         AvFKchD+Qm9PUsVvEWDmw41UD1RxLqqU7At5C0rFj8MvdpDX0/Ap5KKpDcC6qN8PtDX9
+         5UjA==
+X-Gm-Message-State: ACgBeo1PKQQMbKxbWPsLj3TpbJZjzr0BIHqtwKxGTdWMf73twZYBZXKe
+	QArssi2TuiUunAACal6/y/zegUpuHrTVXF9W
 X-Google-Smtp-Source: 
- AA6agR5YAJN2fatoyXOJTYGC6hd4wNpwYe33hauEuA+FwBClExceHS28tCViLLuTMpB1rIpIBAXrCg==
-X-Received: by 2002:a17:90a:1d0:b0:1fa:c551:5e83 with SMTP id
- 16-20020a17090a01d000b001fac5515e83mr7089497pjd.106.1660877008475;
-        Thu, 18 Aug 2022 19:43:28 -0700 (PDT)
+ AA6agR5kFdu8UwqXipt16EKUY3jBzE2t2NRn5NtOK0TFqFeUCCHYWJdXkJ82tKI/y7Qvx+H0Haqc8w==
+X-Received: by 2002:a17:902:f712:b0:171:29d0:6f9f with SMTP id
+ h18-20020a170902f71200b0017129d06f9fmr5380245plo.84.1660877021559;
+        Thu, 18 Aug 2022 19:43:41 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- t12-20020a17090a4e4c00b001fa80cde150sm4150145pjl.20.2022.08.18.19.43.27
+ t12-20020a17090a4e4c00b001fa80cde150sm4150145pjl.20.2022.08.18.19.43.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Aug 2022 19:43:27 -0700 (PDT)
+        Thu, 18 Aug 2022 19:43:40 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 10/26] vim: update from 9.0.0063 to 9.0.0115
-Date: Thu, 18 Aug 2022 16:42:32 -1000
+Subject: [OE-core][kirkstone 16/26] create-spdx: Fix supplier field
+Date: Thu, 18 Aug 2022 16:42:38 -1000
 Message-Id: 
- <27e4c6f98be296fb5f67ac7775461854d48f6c9a.1660876844.git.steve@sakoman.com>
+ <504b50aec662f177fea452e05e29af8b36ca69fc.1660876844.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1660876844.git.steve@sakoman.com>
 References: <cover.1660876844.git.steve@sakoman.com>
@@ -67,153 +67,69 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Aug 2022 02:43:35 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Aug 2022 02:43:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169553
+ https://lists.openembedded.org/g/openembedded-core/message/169559
 
-From: Randy MacLeod <randy.macleod@windriver.com>
+From: Mihai Lindner <mihai.lindner@gmail.com>
 
-Drop crosscompile.patch which was merged as part of:
-   509695c1c (tag: v9.0.0065) patch 9.0.0065: \
-      cross-compiling doesn't work because of timer_create check
+The correct field name is "supplier" according to SPDX schema.
+The "supplier" field translates to "PackageSupplier", but that's for
+tag-value format.
 
-Also drop: racefix.patch which may have been fixed upstream
-and is being tracked by:
-   https://github.com/vim/vim/pull/10776
-where upstream is asking if the different approach resolves the
-race condition. Let's see what's out there!
-
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-(cherry picked from commit 6996472cd33d2d4b91821f2dfe24a27a697e4afe)
+Signed-off-by: Mihai Lindner <mihai.lindner@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit ca8db0e0a2860ac1e3f537471fa71b43c3be0a58)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../vim/files/crosscompile.patch              | 51 -------------------
- meta/recipes-support/vim/files/racefix.patch  | 37 --------------
- meta/recipes-support/vim/vim.inc              |  6 +--
- 3 files changed, 2 insertions(+), 92 deletions(-)
- delete mode 100644 meta/recipes-support/vim/files/crosscompile.patch
- delete mode 100644 meta/recipes-support/vim/files/racefix.patch
+ meta/classes/create-spdx.bbclass | 6 +++---
+ meta/lib/oe/spdx.py              | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-support/vim/files/crosscompile.patch b/meta/recipes-support/vim/files/crosscompile.patch
-deleted file mode 100644
-index 583d3fc7b0..0000000000
---- a/meta/recipes-support/vim/files/crosscompile.patch
-+++ /dev/null
-@@ -1,51 +0,0 @@
--configure.ac: Fix create_timer solaris test for cross compiling
--
--A runtime test was added for create_timer however this meant cross compiling
--would no longer work. Allow a cache value to be specified to allow cross
--compiling again.
--
--Signed-off-by: Richard Purdie richard.purdie@linuxfoundation.org
--
--Upstream-Status: Submitted [https://github.com/vim/vim/pull/10777]
--
--Index: git/src/configure.ac
--===================================================================
----- git.orig/src/configure.ac
--+++ git/src/configure.ac
--@@ -3814,7 +3814,7 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-- dnl Check for timer_create. It probably requires the 'rt' library.
-- dnl Run the program to find out if timer_create(CLOCK_MONOTONIC) actually
-- dnl works, on Solaris timer_create() exists but fails at runtime.
---AC_MSG_CHECKING([for timer_create])
--+AC_CACHE_CHECK([for timer_create], [vim_cv_timer_create],
-- save_LIBS="$LIBS"
-- LIBS="$LIBS -lrt"
-- AC_RUN_IFELSE([AC_LANG_PROGRAM([
--@@ -3831,7 +3831,7 @@ static void set_flag(union sigval sv) {}
--   if (timer_create(CLOCK_MONOTONIC, &action, &timer_id) < 0)
--     exit(1);  // cannot create a monotonic timer
--   ])],
---  AC_MSG_RESULT(yes; with -lrt); AC_DEFINE(HAVE_TIMER_CREATE),
--+  AC_MSG_NOTICE(timer_create with -lrt); vim_cv_timer_create=yes,
--   LIBS="$save_LIBS"
--   AC_RUN_IFELSE([AC_LANG_PROGRAM([
-- #include<signal.h>
--@@ -3847,8 +3847,16 @@ static void set_flag(union sigval sv) {}
--     if (timer_create(CLOCK_MONOTONIC, &action, &timer_id) < 0)
--       exit(1);  // cannot create a monotonic timer
--     ])],
---    AC_MSG_RESULT(yes); AC_DEFINE(HAVE_TIMER_CREATE),
---    AC_MSG_RESULT(no)))
--+    vim_cv_timer_create=yes,
--+    vim_cv_timer_create=no),
--+    AC_MSG_ERROR(cross-compiling: please set 'vim_cv_timer_create')
--+    )
--+)
--+
--+if test "x$vim_cv_timer_create" = "xyes" ; then
--+  AC_DEFINE(HAVE_TIMER_CREATE)
--+fi
--+
-- 
-- AC_CACHE_CHECK([whether stat() ignores a trailing slash], [vim_cv_stat_ignores_slash],
--   [
-diff --git a/meta/recipes-support/vim/files/racefix.patch b/meta/recipes-support/vim/files/racefix.patch
-deleted file mode 100644
-index 34bd37d650..0000000000
---- a/meta/recipes-support/vim/files/racefix.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--po/Makefile: Avoid race over LINGUAS file
--
--The creation of the LINGUAS file is duplicated for each desktop file
--which can lead the commands to race against each other. One target might
--remove it before another has been able to use it. Rework the makefile to
--avoid this as the expense of leaving the file on disk.
--
--Signed-off-by: Richard Purdie richard.purdie@linuxfoundation.org
--
--Upstream-Status: Submitted [https://github.com/vim/vim/pull/10776]
--
--Index: git/src/po/Makefile
--===================================================================
----- git.orig/src/po/Makefile
--+++ git/src/po/Makefile
--@@ -207,17 +207,16 @@ $(PACKAGE).pot: $(PO_INPUTLIST) $(PO_VIM
-- 	# Delete the temporary files
-- 	rm *.js
-- 
---vim.desktop: vim.desktop.in $(POFILES)
--+LINGUAS:
-- 	echo $(LANGUAGES) | tr " " "\n" |sed -e '/\./d' | sort > LINGUAS
--+
--+vim.desktop: vim.desktop.in $(POFILES) LINGUAS
-- 	$(MSGFMT) --desktop -d . --template vim.desktop.in -o tmp_vim.desktop
---	rm -f LINGUAS
-- 	if command -v desktop-file-validate; then desktop-file-validate tmp_vim.desktop; fi
-- 	mv tmp_vim.desktop vim.desktop
-- 
---gvim.desktop: gvim.desktop.in $(POFILES)
---	echo $(LANGUAGES) | tr " " "\n" |sed -e '/\./d' | sort > LINGUAS
--+gvim.desktop: gvim.desktop.in $(POFILES) LINGUAS
-- 	$(MSGFMT) --desktop -d . --template gvim.desktop.in -o tmp_gvim.desktop
---	rm -f LINGUAS
-- 	if command -v desktop-file-validate; then desktop-file-validate tmp_gvim.desktop; fi
-- 	mv tmp_gvim.desktop gvim.desktop
-- 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 31229534e4..48896465ed 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -18,12 +18,10 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://vim-add-knob-whether-elf.h-are-checked.patch \
-            file://0001-src-Makefile-improve-reproducibility.patch \
-            file://no-path-adjust.patch \
--           file://racefix.patch \
--           file://crosscompile.patch \
-            "
+diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.bbclass
+index 37b6b569a1..f6827fccf7 100644
+--- a/meta/classes/create-spdx.bbclass
++++ b/meta/classes/create-spdx.bbclass
+@@ -445,7 +445,7 @@ python do_create_spdx() {
+     recipe.name = d.getVar("PN")
+     recipe.versionInfo = d.getVar("PV")
+     recipe.SPDXID = oe.sbom.get_recipe_spdxid(d)
+-    recipe.packageSupplier = d.getVar("SPDX_SUPPLIER")
++    recipe.supplier = d.getVar("SPDX_SUPPLIER")
+     if bb.data.inherits_class("native", d) or bb.data.inherits_class("cross", d):
+         recipe.annotations.append(create_annotation(d, "isNative"))
  
--PV .= ".0063"
--SRCREV = "d61efa50f8f5b9d9dcbc136705cc33874f0fdcb3"
-+PV .= ".0115"
-+SRCREV = "6747cf1671bd41cddee77c65b3f9a70509f968db"
+@@ -555,7 +555,7 @@ python do_create_spdx() {
+             spdx_package.name = pkg_name
+             spdx_package.versionInfo = d.getVar("PV")
+             spdx_package.licenseDeclared = convert_license_to_spdx(package_license, package_doc, d, found_licenses)
+-            spdx_package.packageSupplier = d.getVar("SPDX_SUPPLIER")
++            spdx_package.supplier = d.getVar("SPDX_SUPPLIER")
  
- # Remove when 8.3 is out
- UPSTREAM_VERSION_UNKNOWN = "1"
+             package_doc.packages.append(spdx_package)
+ 
+@@ -895,7 +895,7 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages):
+     image.name = d.getVar("PN")
+     image.versionInfo = d.getVar("PV")
+     image.SPDXID = rootfs_spdxid
+-    image.packageSupplier = d.getVar("SPDX_SUPPLIER")
++    image.supplier = d.getVar("SPDX_SUPPLIER")
+ 
+     doc.packages.append(image)
+ 
+diff --git a/meta/lib/oe/spdx.py b/meta/lib/oe/spdx.py
+index 14ca706895..6d56ed90df 100644
+--- a/meta/lib/oe/spdx.py
++++ b/meta/lib/oe/spdx.py
+@@ -218,7 +218,7 @@ class SPDXPackage(SPDXObject):
+     SPDXID = _String()
+     versionInfo = _String()
+     downloadLocation = _String(default="NOASSERTION")
+-    packageSupplier = _String(default="NOASSERTION")
++    supplier = _String(default="NOASSERTION")
+     homepage = _String()
+     licenseConcluded = _String(default="NOASSERTION")
+     licenseDeclared = _String(default="NOASSERTION")
 -- 
 2.25.1
 
