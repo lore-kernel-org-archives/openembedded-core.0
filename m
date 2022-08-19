@@ -1,102 +1,76 @@
-Return-Path: <mateuszmar2@gmail.com>
+Return-Path: <jlu@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F20FC32771
-	for <webhook@archiver.kernel.org>; Fri, 19 Aug 2022 11:34:10 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web08.2065.1660908841467440963
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85D42C32771
+	for <webhook@archiver.kernel.org>; Fri, 19 Aug 2022 12:37:30 +0000 (UTC)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [85.220.165.71])
+ by mx.groups.io with SMTP id smtpd.web12.2574.1660912640762331804
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Aug 2022 04:34:01 -0700
+ Fri, 19 Aug 2022 05:37:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=eOu2I+C4;
- spf=pass (domain: gmail.com, ip: 209.85.167.51,
- mailfrom: mateuszmar2@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id z6so5742206lfu.9
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Aug 2022 04:34:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=c2m8dJfBViOd6Elzq0zQHRU+iOyYFj9kthRz64wSlZI=;
-        b=eOu2I+C4NRjLZemG6yw/o+x9Cve0JB9X55OZgz+zgfWIj9eEoDvE5NYJPmxeVnbbMO
-         oi29ktckSBOPqltvyhIv56USD78/n/rY9eMNsiZLDPHFeWovgfy1xvIDv9T5D+O9+q8S
-         KQhU9XgD9a2N3perC5OrbmFlBC+bxKmWo+nT3CwU291G/4OPD0vjZfPsDqcFomfEDrzQ
-         EFzG8lSFH2HGnyjZWUrwBy1jx8NNAaqS+hyLswRTT5NKjT2LswLDrUqB/u94H8ZVo9xn
-         KU2RQuCLA7C8DWWJbcecTGLndIXFQrbPy03QYs/AB0kE2uwmRJeVJDD9ZsO4bjLbizFf
-         lfvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=c2m8dJfBViOd6Elzq0zQHRU+iOyYFj9kthRz64wSlZI=;
-        b=H7WX/Vf9ACnpVehdx+yftWJKvKZ1dfZhNXg6gbKBvFVKRjftV8Iq6E6O82mnoVOerG
-         0xmH4ovraUDfUc1/l8iMlSzUpIp/ov+JW+5F8gNAvXANR3l7m+7KyUl5GfAiU/JvnoFl
-         XqIQaGW2yxWnA75VTUXI+e3hDmtgqxux2FiB3jVxV3XFLQ2qVjFjjdWH2pw9GSITXfYK
-         zCPcIvB+srjoPkmmt/QBRvx0mqoW/8OWnWbD13YpIoe3AuBknBGfdnyvO7Q2crKFBu6n
-         A8CHLe7KwWQDhmmNPMjvL9Z0QBnYlFYwgqGo9TV8A+x3sKPb1WtPP+JskdDKdn6imugC
-         V9tA==
-X-Gm-Message-State: ACgBeo2ByG6guCEpbbmg8mxMOTXU2FvvNMyqskoLK8NvVyGChaSqB8ki
-	huVyEhXZaQNvy7nHeXgjKTA28CRUm6g=
-X-Google-Smtp-Source: 
- AA6agR7cSEy7zrGumF1CU6rvgnFTHxv7tjWYWV0TnpsZO1uFleQPdCKN8X9FL39VlCckWLUol9YPWw==
-X-Received: by 2002:a05:6512:458:b0:48c:d0dd:a56 with SMTP id
- y24-20020a056512045800b0048cd0dd0a56mr2291502lfk.574.1660908838998;
-        Fri, 19 Aug 2022 04:33:58 -0700 (PDT)
-Received: from mateusz-gf75thin8rd.NAT.wroclaw_krzyki.vectranet.pl
- (178235146003.dynamic-3-poz-k-0-0-0.vectranet.pl. [178.235.146.3])
-        by smtp.gmail.com with ESMTPSA id
- g1-20020a056512118100b0048ae9114c73sm605466lfr.243.2022.08.19.04.33.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Aug 2022 04:33:58 -0700 (PDT)
-From: Mateusz Marciniec <mateuszmar2@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Mateusz Marciniec <mateuszmar2@gmail.com>,
-	Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-Subject: [PATCH] util-linux: Remove raw flags in EXTRA_OECONF
-Date: Fri, 19 Aug 2022 13:33:36 +0200
-Message-Id: <20220819113336.3167-1-mateuszmar2@gmail.com>
-X-Mailer: git-send-email 2.37.1
+ dkim=missing;
+ spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: jlu@pengutronix.de)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+	by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <jlu@pengutronix.de>)
+	id 1oP1FV-0004Yc-PQ; Fri, 19 Aug 2022 14:37:17 +0200
+Received: from localhost ([127.0.0.1])
+	by ptx.hi.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <jlu@pengutronix.de>)
+	id 1oP1FT-00068M-7N; Fri, 19 Aug 2022 14:37:15 +0200
+Message-ID: <c9809db464e0d3d47c290b25d4fb1a1b84d448ac.camel@pengutronix.de>
+Subject: Re: [OE-core][PATCH 2/2] openssh: add support for config snippet
+ includes to ssh and sshd
+From: Jan =?ISO-8859-1?Q?L=FCbbe?= <jlu@pengutronix.de>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Khem Raj
+	 <raj.khem@gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Aug 2022 14:37:14 +0200
+In-Reply-To: <fbcb8ef91eb74bcc883dc6e5d4924251@axis.com>
+References: <20220818111703.1858-1-jlu@pengutronix.de>
+	 <20220818111703.1858-2-jlu@pengutronix.de>
+	 <CAMKF1spo5nbjvHpxsyff3_dv7Da7a0YP-vkSLXg16D1jHmS78w@mail.gmail.com>
+	 <fbcb8ef91eb74bcc883dc6e5d4924251@axis.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (by Flathub.org) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: jlu@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Aug 2022 11:34:10 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Aug 2022 12:37:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169624
+ https://lists.openembedded.org/g/openembedded-core/message/169625
 
-Having both enable and disable flags for raw is confusing.
-Raw should not be enabled so both flags can be removed.
+On Fri, 2022-08-19 at 09:57 +0000, Peter Kjellerstedt wrote:
+> > > +Include /etc/ssh/ssh_config.d/*.conf
+> > > +
+> > Generally looks ok.
+> > I wonder if this increases security concerns with such blanket includes=
+.
+>=20
+> If you have the permissions to add a file to /etc/ssh/ssh_config.d or=20
+> /etc/ssh/sshd_config.d, you could just as well modify /etc/ssh/ssh_config=
+=20
+> or /etc/ssh/sshd_config directly.
 
-Signed-off-by: Mateusz Marciniec <mateuszmar2@gmail.com>
-Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
----
- meta/recipes-core/util-linux/util-linux_2.38.1.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This was my thinking as well.
 
-diff --git a/meta/recipes-core/util-linux/util-linux_2.38.1.bb b/meta/recipes-core/util-linux/util-linux_2.38.1.bb
-index 8a7b47a0c6..a93ae83cd6 100644
---- a/meta/recipes-core/util-linux/util-linux_2.38.1.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.38.1.bb
-@@ -69,12 +69,12 @@ EXTRA_OECONF = "\
-     --enable-libuuid --enable-libblkid \
-     \
-     --enable-fsck --enable-kill --enable-last --enable-mesg \
--    --enable-mount --enable-partx --enable-raw --enable-rfkill \
-+    --enable-mount --enable-partx --enable-rfkill \
-     --enable-unshare --enable-write \
-     \
-     --disable-bfs --disable-login \
-     --disable-makeinstall-chown --disable-minix --disable-newgrp \
--    --disable-use-tty-group --disable-vipw --disable-raw \
-+    --disable-use-tty-group --disable-vipw \
-     \
-     --without-udev \
-     \
--- 
-2.37.1
-
+Thanks,
+Jan
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
