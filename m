@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74C97C00140
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AA2AC3F6B0
 	for <webhook@archiver.kernel.org>; Fri, 19 Aug 2022 02:43:25 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
- [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web09.51215.1660877003090693380
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web09.51213.1660877000688735199
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 19:43:23 -0700
+ Thu, 18 Aug 2022 19:43:20 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=HhWd5ePD;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48,
+ header.b=o5qwjdhK;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id
- t2-20020a17090a4e4200b001f21572f3a4so3635840pjl.0
+Received: by mail-pj1-f45.google.com with SMTP id
+ x63-20020a17090a6c4500b001fabbf8debfso3593826pjj.4
         for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 19:43:23 -0700 (PDT)
+ Thu, 18 Aug 2022 19:43:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc;
-        bh=6mnlaCvz5OUk8Q0nft4PENQcW7yr78w357nP21sZkcc=;
-        b=HhWd5ePDtppGZyP3bPOmgf+BBL6MLvBPYT5IyPjkAPkWAv8NGnQeXydGgUiA7hrN7O
-         zNG8AswTPifL03nfy9lnnHrBs7rmJrbB85Dq3alGNCnqC2Oou/6jk1R40lFSjHk8pEfJ
-         nVeSozevVcgiXkJsbgk3HGBE/mpFFK04HtFxmU+CfzBzdjDlP2ULniX1MMfnNjpiyUgP
-         k7upoIIBs1TBp0Ch4as8XfmCUKhTtnaNayeaG3YAEElICeWd06WLLIEeeJqr3v/75E1S
-         JV0Vy9iVr+EvoSxceLw+eQy7JcEoBfWGk8uJL0W1gUDDsZgR2qXq2SIvyCyJe0cYJ2Os
-         WxZw==
+        bh=/qw95IdSb2ze0viP4pfiKpRgKKGktUia2/Xz6o4+iRs=;
+        b=o5qwjdhKEY2/CGimEdFFBia/4L+0ogt04Hxtqvbe26WvliNCtNg8CbV5TPVc+mennT
+         OQIwR+z6NHcEIBILavWkhok+O96uUafPae2ho+Lba9MJO3YuqGJJI2cKvoT9lmpyvXxg
+         Hsf76g8pxwEknGjSuPFx0OSqnbrL8j2ddlfHq3efpewmhAVjAEhX8wPdWHq6K2XwcLF1
+         xuPfuEBjQrZxODjoiuYafS4IuUU9tu0fanYLfH/9dL062nqW3BNQgUPznKhdJab3i6cd
+         TvDdNOK5MG6aAxKu/AHzLwHiA+Eb/KTyEFiImEOm+N6BPkm6gTM3FStv4tqKGzjOHGZB
+         eAhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=6mnlaCvz5OUk8Q0nft4PENQcW7yr78w357nP21sZkcc=;
-        b=HaPvWeTZ2tGEVVzsjmRH9JT43UIPifIY/TDE3VAfhLcYXQ55mps+FxUDPoVoSRK6lt
-         ZQP2CwdXu44hwEH93dCpE4dM4Ei/p6Ci/unMlMQw/a4B8rXzaO04cyTQybavReZccN3X
-         W2md9S5BPLbwnnvPPvZauPQ/FNJyMcR2tUoSl0ljpGTwsEWJmfcgXwF/ZsN4jlv71sHj
-         XnhDBWyt5ffrO4VaFEgr0uk79/bE6ZMFA6GkKaoGbSg5UsipBt1Mq5YFLIC9GebEDSRD
-         O1FJov7vZ6W8JM+tASlVEY8vOBy0BnqkQvuyGgu1RO/RhEqHqiFjtbBCbgiA/pdO3/5r
-         Ys0A==
-X-Gm-Message-State: ACgBeo3lV1+K2EEMV8+r8n8f22flojqMHE9pIh4BTKmNbptpkgmrM8mU
-	kfA1gA07xhQ1SlhdmrS9flInjgGwOjntILJm
+        bh=/qw95IdSb2ze0viP4pfiKpRgKKGktUia2/Xz6o4+iRs=;
+        b=1XIQMp4oZ02I288dWImAOxLQC2eG8kgu6GQLA5SrovquHIBKOgz1r60cct1Su6UBCL
+         wtynicLJtgr9cQNUjEjCruE0KfCK0/gf/2+QsXQwSZdGdT5YAMEzSlGffQeB76WhEGi8
+         8Y2f4Qie5MJnjBAX0T680no8+Q75JbUmy5jKyZzlYXV5q3gP82gyZFykHfE05Pu6ueAC
+         Gm2xkhTbdAumsGY//UuRBt1omoYcMWEsknDuQzZsLMw6XwF5hrZjVv4xvlENCGfHu/tg
+         bH48ecnOax/Zxms/pSpjii0dWwQ83++2PxKGgZJ9yineZQE98iFuhBne2cMBY79pE7lk
+         Co9Q==
+X-Gm-Message-State: ACgBeo0PehwlbCM3MF26iLNMVHbn/iaUVKaGvkAqXHlKDGxscYM6jl/5
+	Mqs/UWetRIlkcKutz2+6OWyybH88xS7orus3
 X-Google-Smtp-Source: 
- AA6agR6qp5zziVrhoH53xLaAb50iu/DphvkEoPMpiFYYotzlKzdEoR/n+3mJIV6I/SQqYBqylA1nZA==
-X-Received: by 2002:a17:90a:982:b0:1ef:f525:9801 with SMTP id
- 2-20020a17090a098200b001eff5259801mr6103168pjo.191.1660877002036;
-        Thu, 18 Aug 2022 19:43:22 -0700 (PDT)
+ AA6agR5k5XixXMyxnKBjcyIhwfRnMPpF2sR0yBRhY4QaatN1RX97/ybPgJthFQk7SWS6c9VVEXuwuQ==
+X-Received: by 2002:a17:90b:180f:b0:1f5:160c:a656 with SMTP id
+ lw15-20020a17090b180f00b001f5160ca656mr11990253pjb.193.1660876999704;
+        Thu, 18 Aug 2022 19:43:19 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- t12-20020a17090a4e4c00b001fa80cde150sm4150145pjl.20.2022.08.18.19.43.20
+ t12-20020a17090a4e4c00b001fa80cde150sm4150145pjl.20.2022.08.18.19.43.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Aug 2022 19:43:21 -0700 (PDT)
+        Thu, 18 Aug 2022 19:43:19 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 07/26] u-boot: fix CVE-2022-33103
-Date: Thu, 18 Aug 2022 16:42:29 -1000
+Subject: [OE-core][kirkstone 06/26] qemu: fix CVE-2022-0216
+Date: Thu, 18 Aug 2022 16:42:28 -1000
 Message-Id: 
- <af701fde05f6c225a65223fddc6008c4d6444af1.1660876844.git.steve@sakoman.com>
+ <f2ebd772edd9508af9b557b184d7716a7004f46d.1660876844.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1660876844.git.steve@sakoman.com>
 References: <cover.1660876844.git.steve@sakoman.com>
@@ -70,118 +70,141 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Aug 2022 02:43:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169550
+ https://lists.openembedded.org/g/openembedded-core/message/169549
 
 From: Sakib Sajal <sakib.sajal@windriver.com>
 
-Backport patch to resolve CVE-2022-33103.
+Backport relevant patches to fix CVE-2022-0216.
 
 Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ..._read-Prevent-arbitrary-code-executi.patch | 80 +++++++++++++++++++
- meta/recipes-bsp/u-boot/u-boot_2022.01.bb     |  1 +
- 2 files changed, 81 insertions(+)
- create mode 100644 meta/recipes-bsp/u-boot/files/0001-fs-squashfs-sqfs_read-Prevent-arbitrary-code-executi.patch
+ meta/recipes-devtools/qemu/qemu.inc           |  2 +
+ .../qemu/qemu/CVE-2022-0216_1.patch           | 42 +++++++++++++++
+ .../qemu/qemu/CVE-2022-0216_2.patch           | 52 +++++++++++++++++++
+ 3 files changed, 96 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-0216_1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-0216_2.patch
 
-diff --git a/meta/recipes-bsp/u-boot/files/0001-fs-squashfs-sqfs_read-Prevent-arbitrary-code-executi.patch b/meta/recipes-bsp/u-boot/files/0001-fs-squashfs-sqfs_read-Prevent-arbitrary-code-executi.patch
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 44d4c9ca2f..a493ac8add 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -41,6 +41,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2021-3929.patch \
+            file://CVE-2021-4158.patch \
+            file://CVE-2022-0358.patch \
++           file://CVE-2022-0216_1.patch \
++           file://CVE-2022-0216_2.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2022-0216_1.patch b/meta/recipes-devtools/qemu/qemu/CVE-2022-0216_1.patch
 new file mode 100644
-index 0000000000..b1650f6baa
+index 0000000000..de7458fc72
 --- /dev/null
-+++ b/meta/recipes-bsp/u-boot/files/0001-fs-squashfs-sqfs_read-Prevent-arbitrary-code-executi.patch
-@@ -0,0 +1,80 @@
-+From 65f1066f5abe291c7b10b6075fd60776074a38a9 Mon Sep 17 00:00:00 2001
-+From: Miquel Raynal <miquel.raynal@bootlin.com>
-+Date: Thu, 9 Jun 2022 16:02:06 +0200
-+Subject: [PATCH] fs/squashfs: sqfs_read: Prevent arbitrary code execution
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2022-0216_1.patch
+@@ -0,0 +1,42 @@
++From 1cedc914b2c4b4e0c9dfcd1b0e02917af35b5eb6 Mon Sep 17 00:00:00 2001
++From: Mauro Matteo Cascella <mcascell@redhat.com>
++Date: Tue, 5 Jul 2022 22:05:43 +0200
++Subject: [PATCH 1/3] scsi/lsi53c895a: fix use-after-free in lsi_do_msgout
++ (CVE-2022-0216)
 +
-+Following Jincheng's report, an out-of-band write leading to arbitrary
-+code execution is possible because on one side the squashfs logic
-+accepts directory names up to 65535 bytes (u16), while U-Boot fs logic
-+accepts directory names up to 255 bytes long.
++Set current_req->req to NULL to prevent reusing a free'd buffer in case of
++repeated SCSI cancel requests. Thanks to Thomas Huth for suggesting the patch.
 +
-+Prevent such an exploit from happening by capping directory name sizes
-+to 255. Use a define for this purpose so that developers can link the
-+limitation to its source and eventually kill it some day by dynamically
-+allocating this array (if ever desired).
++Fixes: CVE-2022-0216
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/972
++Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
++Reviewed-by: Thomas Huth <thuth@redhat.com>
++Message-Id: <20220705200543.2366809-1-mcascell@redhat.com>
++Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 +
-+Link: https://lore.kernel.org/all/CALO=DHFB+yBoXxVr5KcsK0iFdg+e7ywko4-e+72kjbcS8JBfPw@mail.gmail.com
-+Reported-by: Jincheng Wang <jc.w4ng@gmail.com>
-+Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-+Tested-by: Jincheng Wang <jc.w4ng@gmail.com>
-+
-+CVE: CVE-2022-33103
-+Upstream-Status: Backport [2ac0baab4aff1a0b45067d0b62f00c15f4e86856]
++Upstream-Status: Backport [6c8fa961da5e60f574bb52fd3ad44b1e9e8ad4b8]
++CVE: CVE-2022-0216
 +
 +Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 +---
-+ fs/squashfs/sqfs.c | 8 +++++---
-+ include/fs.h       | 4 +++-
-+ 2 files changed, 8 insertions(+), 4 deletions(-)
++ hw/scsi/lsi53c895a.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
 +
-+diff --git a/fs/squashfs/sqfs.c b/fs/squashfs/sqfs.c
-+index e2d91c654c..a145d754cc 100644
-+--- a/fs/squashfs/sqfs.c
-++++ b/fs/squashfs/sqfs.c
-+@@ -973,6 +973,7 @@ int sqfs_readdir(struct fs_dir_stream *fs_dirs, struct fs_dirent **dentp)
-+ 	int i_number, offset = 0, ret;
-+ 	struct fs_dirent *dent;
-+ 	unsigned char *ipos;
-++	u16 name_size;
-+ 
-+ 	dirs = (struct squashfs_dir_stream *)fs_dirs;
-+ 	if (!dirs->size) {
-+@@ -1055,9 +1056,10 @@ int sqfs_readdir(struct fs_dir_stream *fs_dirs, struct fs_dirent **dentp)
-+ 		return -SQFS_STOP_READDIR;
-+ 	}
-+ 
-+-	/* Set entry name */
-+-	strncpy(dent->name, dirs->entry->name, dirs->entry->name_size + 1);
-+-	dent->name[dirs->entry->name_size + 1] = '\0';
-++	/* Set entry name (capped at FS_DIRENT_NAME_LEN which is a U-Boot limitation) */
-++	name_size = min_t(u16, dirs->entry->name_size + 1, FS_DIRENT_NAME_LEN - 1);
-++	strncpy(dent->name, dirs->entry->name, name_size);
-++	dent->name[name_size] = '\0';
-+ 
-+ 	offset = dirs->entry->name_size + 1 + SQFS_ENTRY_BASE_LENGTH;
-+ 	dirs->entry_count--;
-+diff --git a/include/fs.h b/include/fs.h
-+index 1c79e299fd..6cb7ec89f4 100644
-+--- a/include/fs.h
-++++ b/include/fs.h
-+@@ -161,6 +161,8 @@ int fs_write(const char *filename, ulong addr, loff_t offset, loff_t len,
-+ #define FS_DT_REG  8         /* regular file */
-+ #define FS_DT_LNK  10        /* symbolic link */
-+ 
-++#define FS_DIRENT_NAME_LEN 256
-++
-+ /**
-+  * struct fs_dirent - directory entry
-+  *
-+@@ -181,7 +183,7 @@ struct fs_dirent {
-+ 	/** change_time:	time of last modification */
-+ 	struct rtc_time change_time;
-+ 	/** name:		file name */
-+-	char name[256];
-++	char name[FS_DIRENT_NAME_LEN];
-+ };
-+ 
-+ /* Note: fs_dir_stream should be treated as opaque to the user of fs layer */
++diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
++index 85e907a78..8033cf050 100644
++--- a/hw/scsi/lsi53c895a.c
+++++ b/hw/scsi/lsi53c895a.c
++@@ -1029,8 +1029,9 @@ static void lsi_do_msgout(LSIState *s)
++         case 0x0d:
++             /* The ABORT TAG message clears the current I/O process only. */
++             trace_lsi_do_msgout_abort(current_tag);
++-            if (current_req) {
+++            if (current_req && current_req->req) {
++                 scsi_req_cancel(current_req->req);
+++                current_req->req = NULL;
++             }
++             lsi_disconnect(s);
++             break;
 +-- 
 +2.33.0
 +
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2022.01.bb b/meta/recipes-bsp/u-boot/u-boot_2022.01.bb
-index f2443723e2..a6a15d698f 100644
---- a/meta/recipes-bsp/u-boot/u-boot_2022.01.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot_2022.01.bb
-@@ -4,6 +4,7 @@ require u-boot.inc
- SRC_URI:append = " file://0001-riscv32-Use-double-float-ABI-for-rv32.patch \
-                    file://0001-riscv-fix-build-with-binutils-2.38.patch \
-                    file://0001-i2c-fix-stack-buffer-overflow-vulnerability-in-i2c-m.patch \
-+                   file://0001-fs-squashfs-sqfs_read-Prevent-arbitrary-code-executi.patch \
-                  "
- 
- DEPENDS += "bc-native dtc-native python3-setuptools-native"
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2022-0216_2.patch b/meta/recipes-devtools/qemu/qemu/CVE-2022-0216_2.patch
+new file mode 100644
+index 0000000000..12f5a602da
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2022-0216_2.patch
+@@ -0,0 +1,52 @@
++From 8f2c2cb908758192d5ebc00605cbf0989b8a507c Mon Sep 17 00:00:00 2001
++From: Mauro Matteo Cascella <mcascell@redhat.com>
++Date: Mon, 11 Jul 2022 14:33:16 +0200
++Subject: [PATCH 3/3] scsi/lsi53c895a: really fix use-after-free in
++ lsi_do_msgout (CVE-2022-0216)
++
++Set current_req to NULL, not current_req->req, to prevent reusing a free'd
++buffer in case of repeated SCSI cancel requests.  Also apply the fix to
++CLEAR QUEUE and BUS DEVICE RESET messages as well, since they also cancel
++the request.
++
++Thanks to Alexander Bulekov for providing a reproducer.
++
++Fixes: CVE-2022-0216
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/972
++Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
++Tested-by: Alexander Bulekov <alxndr@bu.edu>
++Message-Id: <20220711123316.421279-1-mcascell@redhat.com>
++Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
++
++Upstream-Status: Backport [4367a20cc442c56b05611b4224de9a61908f9eac]
++CVE: CVE-2022-0216
++
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ hw/scsi/lsi53c895a.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
++index 8033cf050..fbe3fa3dd 100644
++--- a/hw/scsi/lsi53c895a.c
+++++ b/hw/scsi/lsi53c895a.c
++@@ -1031,7 +1031,7 @@ static void lsi_do_msgout(LSIState *s)
++             trace_lsi_do_msgout_abort(current_tag);
++             if (current_req && current_req->req) {
++                 scsi_req_cancel(current_req->req);
++-                current_req->req = NULL;
+++                current_req = NULL;
++             }
++             lsi_disconnect(s);
++             break;
++@@ -1057,6 +1057,7 @@ static void lsi_do_msgout(LSIState *s)
++             /* clear the current I/O process */
++             if (s->current) {
++                 scsi_req_cancel(s->current->req);
+++                current_req = NULL;
++             }
++ 
++             /* As the current implemented devices scsi_disk and scsi_generic
++-- 
++2.33.0
++
 -- 
 2.25.1
 
