@@ -1,134 +1,102 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <mateuszmar2@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17CB7C32771
-	for <webhook@archiver.kernel.org>; Fri, 19 Aug 2022 11:09:30 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
- [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web09.1852.1660907366765768788
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F20FC32771
+	for <webhook@archiver.kernel.org>; Fri, 19 Aug 2022 11:34:10 +0000 (UTC)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by mx.groups.io with SMTP id smtpd.web08.2065.1660908841467440963
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Aug 2022 04:09:27 -0700
+ Fri, 19 Aug 2022 04:34:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=BIPBVThb;
- spf=pass (domain: mvista.com, ip: 209.85.210.172,
- mailfrom: hprajapati@mvista.com)
-Received: by mail-pf1-f172.google.com with SMTP id z187so4003544pfb.12
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eOu2I+C4;
+ spf=pass (domain: gmail.com, ip: 209.85.167.51,
+ mailfrom: mateuszmar2@gmail.com)
+Received: by mail-lf1-f51.google.com with SMTP id z6so5742206lfu.9
         for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Aug 2022 04:09:26 -0700 (PDT)
+ Fri, 19 Aug 2022 04:34:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google;
+        d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc;
-        bh=xYycNa5zKgMhdoBSC6Jcr6E/QCUTH+a2mr/6HAzk43M=;
-        b=BIPBVThbBF9+W8qeXxlauRB4vkvcdNaejGW67hafK6qckTFkosjKTGvTgu+wQhrlKt
-         dCGNjODj04jUEIUTSvTJXQ5Y0MbXFFc/HhXF4tgFgdgV4ZXh4EruXfQTkrurFn1dyHym
-         5nOm1jv/Tv4O1Tc0yOes6JA+8gL/FGWM/Gujw=
+        bh=c2m8dJfBViOd6Elzq0zQHRU+iOyYFj9kthRz64wSlZI=;
+        b=eOu2I+C4NRjLZemG6yw/o+x9Cve0JB9X55OZgz+zgfWIj9eEoDvE5NYJPmxeVnbbMO
+         oi29ktckSBOPqltvyhIv56USD78/n/rY9eMNsiZLDPHFeWovgfy1xvIDv9T5D+O9+q8S
+         KQhU9XgD9a2N3perC5OrbmFlBC+bxKmWo+nT3CwU291G/4OPD0vjZfPsDqcFomfEDrzQ
+         EFzG8lSFH2HGnyjZWUrwBy1jx8NNAaqS+hyLswRTT5NKjT2LswLDrUqB/u94H8ZVo9xn
+         KU2RQuCLA7C8DWWJbcecTGLndIXFQrbPy03QYs/AB0kE2uwmRJeVJDD9ZsO4bjLbizFf
+         lfvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc;
-        bh=xYycNa5zKgMhdoBSC6Jcr6E/QCUTH+a2mr/6HAzk43M=;
-        b=DPiM5oPBbGyWU2c+vgaIXrMkcGrC+UcmYvZqodjZUwHpkoqiXoAfeAFbQa2Y6u7Yel
-         hwEvjmCvAjHf9zjLwxcsW4SRWnJAfzrAlBDVrx6dvu2auNYGoVneEWXOlYCupy2JjrUd
-         kbZZrV5cnJcz6keDd1Eia6CUXfoUHL76bQUXXa5YOQ8d7SaCk94UY00C0yUcuLsQMhCq
-         BESMxyka/heqAnce1WmaibMQRj74s+cUq2SH0slxsRCUTf0uHHcUSKQqTNnbpHId3f5b
-         G3Ux2ie/Y4mjFftD1oL8FjGs66jobgGQFNDO7BJ9f6fxiyLjVppVmP4mX7Sp1s41wLgP
-         LkbA==
-X-Gm-Message-State: ACgBeo0o0CvqmWvbwUkJvcrIXPwIxDmD+buSijmlm6jLi7WgaJdU+v9S
-	WPGMKBxLerTvfGrwEabzBCyL5q8mbLTAlQ==
+        bh=c2m8dJfBViOd6Elzq0zQHRU+iOyYFj9kthRz64wSlZI=;
+        b=H7WX/Vf9ACnpVehdx+yftWJKvKZ1dfZhNXg6gbKBvFVKRjftV8Iq6E6O82mnoVOerG
+         0xmH4ovraUDfUc1/l8iMlSzUpIp/ov+JW+5F8gNAvXANR3l7m+7KyUl5GfAiU/JvnoFl
+         XqIQaGW2yxWnA75VTUXI+e3hDmtgqxux2FiB3jVxV3XFLQ2qVjFjjdWH2pw9GSITXfYK
+         zCPcIvB+srjoPkmmt/QBRvx0mqoW/8OWnWbD13YpIoe3AuBknBGfdnyvO7Q2crKFBu6n
+         A8CHLe7KwWQDhmmNPMjvL9Z0QBnYlFYwgqGo9TV8A+x3sKPb1WtPP+JskdDKdn6imugC
+         V9tA==
+X-Gm-Message-State: ACgBeo2ByG6guCEpbbmg8mxMOTXU2FvvNMyqskoLK8NvVyGChaSqB8ki
+	huVyEhXZaQNvy7nHeXgjKTA28CRUm6g=
 X-Google-Smtp-Source: 
- AA6agR5escK2xiwV5o7C+wynFToOeuT5qqidXFDIF4LUkiLQEiAEECF6RV1BSJEWsOBnhycic/JxZQ==
-X-Received: by 2002:a65:4c0e:0:b0:41b:c11a:c006 with SMTP id
- u14-20020a654c0e000000b0041bc11ac006mr6029526pgq.299.1660907365956;
-        Fri, 19 Aug 2022 04:09:25 -0700 (PDT)
-Received: from MVIN00024 ([43.249.234.148])
+ AA6agR7cSEy7zrGumF1CU6rvgnFTHxv7tjWYWV0TnpsZO1uFleQPdCKN8X9FL39VlCckWLUol9YPWw==
+X-Received: by 2002:a05:6512:458:b0:48c:d0dd:a56 with SMTP id
+ y24-20020a056512045800b0048cd0dd0a56mr2291502lfk.574.1660908838998;
+        Fri, 19 Aug 2022 04:33:58 -0700 (PDT)
+Received: from mateusz-gf75thin8rd.NAT.wroclaw_krzyki.vectranet.pl
+ (178235146003.dynamic-3-poz-k-0-0-0.vectranet.pl. [178.235.146.3])
         by smtp.gmail.com with ESMTPSA id
- c16-20020a056a00009000b0052dce4edceesm3251018pfj.169.2022.08.19.04.09.22
+ g1-20020a056512118100b0048ae9114c73sm605466lfr.243.2022.08.19.04.33.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Aug 2022 04:09:25 -0700 (PDT)
-Received: by MVIN00024 (sSMTP sendmail emulation);
- Fri, 19 Aug 2022 16:39:19 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
+        Fri, 19 Aug 2022 04:33:58 -0700 (PDT)
+From: Mateusz Marciniec <mateuszmar2@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] libtiff: CVE-2022-34526 A stack overflow was
- discovered
-Date: Fri, 19 Aug 2022 16:39:18 +0530
-Message-Id: <20220819110918.13511-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Mateusz Marciniec <mateuszmar2@gmail.com>,
+	Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Subject: [PATCH] util-linux: Remove raw flags in EXTRA_OECONF
+Date: Fri, 19 Aug 2022 13:33:36 +0200
+Message-Id: <20220819113336.3167-1-mateuszmar2@gmail.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Aug 2022 11:09:30 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Aug 2022 11:34:10 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169623
+ https://lists.openembedded.org/g/openembedded-core/message/169624
 
-Source: https://gitlab.com/libtiff/libtiff
-MR: 120544
-Type: Security Fix
-Disposition: Backport from https://gitlab.com/libtiff/libtiff/-/commit/275735d0354e39c0ac1dc3c0db2120d6f31d1990
-ChangeID: 2f9df449974f5436c1690f3ace5d74b1ab4670c9
-Description:
-          CVE-2022-34526 libtiff: A stack overflow was discovered in the _TIFFVGetField function of Tiffsplit.
+Having both enable and disable flags for raw is confusing.
+Raw should not be enabled so both flags can be removed.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Mateusz Marciniec <mateuszmar2@gmail.com>
+Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
 ---
- .../libtiff/tiff/CVE-2022-34526.patch         | 29 +++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-34526.patch
+ meta/recipes-core/util-linux/util-linux_2.38.1.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2022-34526.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-34526.patch
-new file mode 100644
-index 0000000000..48ca56982f
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-34526.patch
-@@ -0,0 +1,29 @@
-+From 3fc1fdda0068981340cc7ae136173731275e2c5e Mon Sep 17 00:00:00 2001
-+From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Thu, 18 Aug 2022 10:46:30 +0530
-+Subject: [PATCH] CVE-2022-34526
-+
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/275735d0354e39c0ac1dc3c0db2120d6f31d1990]
-+CVE: CVE-2022-34526
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ libtiff/tif_dirinfo.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/libtiff/tif_dirinfo.c b/libtiff/tif_dirinfo.c
-+index 8565dfb..0f722a5 100644
-+--- a/libtiff/tif_dirinfo.c
-++++ b/libtiff/tif_dirinfo.c
-+@@ -1157,6 +1157,9 @@ _TIFFCheckFieldIsValidForCodec(TIFF *tif, ttag_t tag)
-+ 	    default:
-+ 		return 1;
-+ 	}
-++	if( !TIFFIsCODECConfigured(tif->tif_dir.td_compression) ) {
-++		return 0;
-++	}
-+ 	/* Check if codec specific tags are allowed for the current
-+ 	 * compression scheme (codec) */
-+ 	switch (tif->tif_dir.td_compression) {
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-index 149516508f..b5ccd859f3 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-@@ -21,6 +21,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://0001-fix-the-FPE-in-tiffcrop-415-427-and-428.patch \
-            file://CVE-2022-1354.patch \
-            file://CVE-2022-1355.patch \
-+           file://CVE-2022-34526.patch \
-            "
- 
- SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
+diff --git a/meta/recipes-core/util-linux/util-linux_2.38.1.bb b/meta/recipes-core/util-linux/util-linux_2.38.1.bb
+index 8a7b47a0c6..a93ae83cd6 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.38.1.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.38.1.bb
+@@ -69,12 +69,12 @@ EXTRA_OECONF = "\
+     --enable-libuuid --enable-libblkid \
+     \
+     --enable-fsck --enable-kill --enable-last --enable-mesg \
+-    --enable-mount --enable-partx --enable-raw --enable-rfkill \
++    --enable-mount --enable-partx --enable-rfkill \
+     --enable-unshare --enable-write \
+     \
+     --disable-bfs --disable-login \
+     --disable-makeinstall-chown --disable-minix --disable-newgrp \
+-    --disable-use-tty-group --disable-vipw --disable-raw \
++    --disable-use-tty-group --disable-vipw \
+     \
+     --without-udev \
+     \
 -- 
-2.25.1
+2.37.1
 
 
