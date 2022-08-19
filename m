@@ -1,162 +1,116 @@
-Return-Path: <pavel@zhukoff.net>
+Return-Path: <ch@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90AD3C32771
-	for <webhook@archiver.kernel.org>; Fri, 19 Aug 2022 09:21:19 +0000 (UTC)
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
- by mx.groups.io with SMTP id smtpd.web08.1101.1660900878818356126
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2008C32771
+	for <webhook@archiver.kernel.org>; Fri, 19 Aug 2022 09:36:09 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web09.1117.1660901764406654891
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Aug 2022 02:21:19 -0700
+ Fri, 19 Aug 2022 02:36:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@zhukoff.net header.s=fm1
- header.b=hGOrmpDf;
- spf=pass (domain: zhukoff.net, ip: 64.147.123.21,
- mailfrom: pavel@zhukoff.net)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id A1A8D320046E;
-	Fri, 19 Aug 2022 05:21:17 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Fri, 19 Aug 2022 05:21:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1660900877; x=1660987277; bh=Li
-	RSNHb8oRQbmRvclDvICjxJKOczfodMhA5jDE8Y3xI=; b=hGOrmpDflGKmFcL8sK
-	9PF1V5k4wAJEuE4CFG772hnfixa3GcO3IKKE1u/Q0yeVr9R1f/SvA1v5Ty/xTsVN
-	d2e8ihJb3BUqBETVQaqnuBRb0w+cCFKcz+aowKhMXLEVJarI0f4th59E5zeEjLjs
-	u6j1FVFhpdZFCei5+IjjeabIWQyEy6Xq4DW9FlzRWLpXOCx8T1hum1x7/KrSUPbt
-	DOTysgteYhCx6DRPHlqZ57GlkYISOTM0QZIR5KVVvoabfQHwIghaByT9eSdMYcq+
-	FXddHSO8khl3Hvia1OQwnENwzdJ0YDP+G9qUvq7wJGJGICt5oe/yNVzcMc4UbMGd
-	t0pw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1660900877; x=1660987277; bh=LiRSNHb8oRQbm
-	RvclDvICjxJKOczfodMhA5jDE8Y3xI=; b=k/xJdso1q4Tdbb5+dgsfgUNUPo0eA
-	291ij03ZoixYXN0k2DF5swtFo5P6RRqJmzHi5i3gyoAcyyS8LWC1wXNORTwmzdRr
-	hAtEB4SHz3LR0GSLoHrSuZbuvbdiV1z1au2CMe/qebLGAUsvLOD5W3hc1Eq0i/1M
-	CVvg70bX6AlUio9HJXvTFTt0BWNUtntwKvZozySn3EAXowrFBV92iykbigrBFbBU
-	SM41UKdIt2i/ee679D2Pka6xVbwfv6AjVtI/0haS4gimr8GjOch2y8iyRN04YZ0k
-	SopnOXcHyGPcdRzmDE8c3Mq3pujmYMY7zFyPDiiBx+dHrT92yhH9VezUQ==
-X-ME-Sender: <xms:DFb_YiRK9EXZY6WUIamvA_qQLJj3Hi4WPKpRO3puoOOMSMpAHC89bQ>
-    <xme:DFb_YnwFxhyug30G7hMBjD6Yb7YVDwuXtbUIOAfZ76kx8X_wOgYOWEy2DHD094dOE
-    7z1jsZwGt-e92erhJM>
-X-ME-Received: 
- <xmr:DFb_Yv0V7rZ7Iloya0FPbYsm_4wZjVtUPPlyagnjaT_w3RoyI8o672OleH2SnWbfM5acpwVCn_4xWYn63tik5vc>
-X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvfedrvdeiuddgudehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
-    ertdertddtnecuhfhrohhmpefrrghvvghlucgkhhhukhhovhcuoehprghvvghlseiihhhu
-    khhofhhfrdhnvghtqeenucggtffrrghtthgvrhhnpeejgfelvdejhfefgfeffffgudelud
-    ffhedtleefueegkedtjedvleevtdeuieeiudenucffohhmrghinhepshgvlhhfthgvshht
-    rdgtrghsvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehprghvvghlseiihhhukhhofhhfrdhnvght
-X-ME-Proxy: <xmx:DVb_YuAWQLttManGJnmSOSciJEtPLWJdjfPddSZo89geRW4QClXr5A>
-    <xmx:DVb_YrjBmuHuexzmv7bQzYWOmLXGr-LQ_SL1GIoOoRvGnuNVBmi-jg>
-    <xmx:DVb_Yqpndr9cKzIgFDGgc8YJiDA__LJizkFO0VW6a9KyhrBvKdOyoQ>
-    <xmx:DVb_YjYeL3s2pfq3-Gv5wWqIUWjlNzgPYisR9cBac8gJh0xOcGXgjQ>
-Feedback-ID: ib94946c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 19 Aug 2022 05:21:16 -0400 (EDT)
-From: Pavel Zhukov <pavel@zhukoff.net>
-To: openembedded-core@lists.openembedded.org
-Cc: pavel@zhukoff.net,
-	Pavel Zhukov <pavel.zhukov@huawei.com>
-Subject: [PATCH 2/2] selftest: Add regression test for rpm filenames
-Date: Fri, 19 Aug 2022 11:20:04 +0200
-Message-Id: <20220819092002.31294-2-pavel@zhukoff.net>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220819092002.31294-1-pavel@zhukoff.net>
-References: <20220819092002.31294-1-pavel@zhukoff.net>
+ dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=jkh7nBH4;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: ch@denx.de)
+Received: from [10.88.0.66] (dslb-002-205-011-086.002.205.pools.vodafone-ip.de
+ [2.205.11.86])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: ch@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 736CD84B1F;
+	Fri, 19 Aug 2022 11:36:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1660901762;
+	bh=ArrreiQbTXmVWVCdQrx0sNqdGAEs04srLtdacTFzjiA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=jkh7nBH4PH1UMgA4xyw3oFkgzWJw315pxLY2IPP/c1bkRi6O5o41Hn6AcpTgddDmK
+	 qjO0YrWzYRRCC9F1zKBtsYuG01Mh18Cyrxui5eiLNH6AMqxZvbschsLTSs4Hmke2FI
+	 7vm1BpcIpz+s8rXkXKvfWoSfEuAqjVmzOeQ4Hb76WieIr0GPtZ7fmsuzfYH/RM1GOe
+	 GAqt2vL+FTxJUF82HqxjNhc/WzUxN4g1d51z12CsuZSKnVkgKaemG74ZbUdZpd0EZ+
+	 XEZ05iu3E2I1wSv+Cy5wUZxZrcbq93hEz5sw5ZmOhuQ/MY4Cvj87Pd5czGsHghHV7Q
+	 qdLc8drCiGWnA==
+Message-ID: <6d48f3e4-28c9-848d-9b14-cb5f1950c4ca@denx.de>
+Date: Fri, 19 Aug 2022 11:36:00 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [OE-core][PATCH] rng-tools: Change "Requires" to "WantedBy" for
+ dev-hwrng.device
+Content-Language: en-US
+To: drew.moseley@gmail.com, openembedded-core@lists.openembedded.org
+Cc: raj.khem@gmail.com, dragos.panait@windriver.com
+References: <f01236ab-4fa1-94b7-e44d-fc43cfeb0fe5@gmail.com>
+ <20220815182503.2007534-1-drew@moseleynet.net>
+From: Claudius Heine <ch@denx.de>
+Organization: Denx Software Engineering
+In-Reply-To: <20220815182503.2007534-1-drew@moseleynet.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Aug 2022 09:21:19 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Aug 2022 09:36:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169617
+ https://lists.openembedded.org/g/openembedded-core/message/169618
 
-Escaping globs and quoting in rpm spec files is tricky and requires a
-bit of dancing. In addition to that it changes from time to time.
-Adding (simple) regression test for different types of filename
-patterns. Cover bracket in first iteration
+Hi Dew.
 
-[Yocto #13746]
+On 2022-08-15 20:25, drew.moseley@gmail.com wrote:
+> From: Drew Moseley <drew@moseleynet.net>
+> 
+> The previous change to remove the dependency on systemd-udev-settle
+> caused boot delays at least on qemu. It seems that change required
+> a hwrng device but that's not necessarily available on all platforms.
+> 
+> This changes the "Requires" to a "WantedBy" as modeled after the
+> version of this file on Ubuntu 20.04.
+> 
+> Signed-off-by: Drew Moseley <drew@moseleynet.net>
+> ---
+>   meta/recipes-support/rng-tools/rng-tools/rng-tools.service | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-support/rng-tools/rng-tools/rng-tools.service b/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
+> index 0f50890dcb..b013d95932 100644
+> --- a/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
+> +++ b/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
+> @@ -3,8 +3,6 @@ Description=Hardware RNG Entropy Gatherer Daemon
+>   DefaultDependencies=no
+>   After=systemd-udev-settle.service
+>   Before=sysinit.target shutdown.target
+> -Requires=dev-hwrng.device
+> -After=dev-hwrng.device
+>   Conflicts=shutdown.target
+>   
+>   [Service]
+> @@ -32,3 +30,4 @@ SystemCallFilter=@system-service
+>   
+>   [Install]
+>   WantedBy=sysinit.target
+> +WantedBy=dev-hwrng.device
 
-Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
----
- .../recipes-test/testrpm/files/testfile.txt     |  6 ++++++
- .../recipes-test/testrpm/testrpm_0.0.1.bb       | 17 +++++++++++++++++
- meta/lib/oeqa/selftest/cases/rpmtests.py        | 16 ++++++++++++++++
- 3 files changed, 39 insertions(+)
- create mode 100644 meta-selftest/recipes-test/testrpm/files/testfile.txt
- create mode 100644 meta-selftest/recipes-test/testrpm/testrpm_0.0.1.bb
- create mode 100644 meta/lib/oeqa/selftest/cases/rpmtests.py
+This looses the order. Have you tried just replacing `Requires` with 
+`Wants`. So something like this:
 
-diff --git a/meta-selftest/recipes-test/testrpm/files/testfile.txt b/meta-selftest/recipes-test/testrpm/files/testfile.txt
-new file mode 100644
-index 00000000000..d1e50ff79a2
---- /dev/null
-+++ b/meta-selftest/recipes-test/testrpm/files/testfile.txt
-@@ -0,0 +1,6 @@
-+  /mnt/builds/yocto/sources/meta-selftest/recipes-test/testrpm:
-+  total used in directory 16 available 76.4 GiB
-+  drwxr-xr-x  2 pavel pavel 4096 Aug 19 08:59 .
-+  drwxr-xr-x 34 pavel pavel 4096 Aug 18 17:59 ..
-+  -rw-r--r--  1 pavel pavel  408 Aug 19 08:59 testrpm_0.0.1.bb
-+  -rw-r--r--  1 pavel pavel  355 Aug 18 21:54 testrpm_0.0.1.bb~
-diff --git a/meta-selftest/recipes-test/testrpm/testrpm_0.0.1.bb b/meta-selftest/recipes-test/testrpm/testrpm_0.0.1.bb
-new file mode 100644
-index 00000000000..e42c7db3b39
---- /dev/null
-+++ b/meta-selftest/recipes-test/testrpm/testrpm_0.0.1.bb
-@@ -0,0 +1,17 @@
-+SUMMARY = "Test recipe for testing rpm generated by oe-core"
-+LICENSE = "CLOSED"
-+
-+SRC_URI = "file://testfile.txt"
-+
-+INHIBIT_DEFAULT_DEPS = "1"
-+
-+do_compile(){
-+	echo "testdata" > ${B}/"file with [quotes].txt"
-+	echo "testdata" > ${B}/"file with (quites).txt"
-+}
-+
-+do_install(){
-+	install ${B}/* ${D}/
-+}
-+
-+FILES:${PN} = "*"
-diff --git a/meta/lib/oeqa/selftest/cases/rpmtests.py b/meta/lib/oeqa/selftest/cases/rpmtests.py
-new file mode 100644
-index 00000000000..dafbbc21360
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/rpmtests.py
-@@ -0,0 +1,16 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import bitbake
-+
-+class BitbakeTests(OESelftestTestCase):
-+
-+    def test_rpm_filenames(self):
-+        test_recipe = "testrpm"
-+        bitbake(test_recipe)
-+        
--- 
-2.35.1
 
+```
+
+Before=sysinit.target shutdown.target
+Wants=dev-hwrng.device
+After=dev-hwrng.device
+Conflicts=shutdown.target
+
+```
+
+If that still would cause the long waiting time on qemu?
+
+I haven't investigated the qemu issue, but maybe qemu just doesn't 
+provide a hardware random source? If it doesn't provide a hardware 
+random source, then installing rng-tools on there might also not make sense.
+
+Alternatively maybe just adding a start timeout might solve it?
+
+regards,
+Claudius
 
