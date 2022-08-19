@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 761B9C3F6B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89208C32789
 	for <webhook@archiver.kernel.org>; Fri, 19 Aug 2022 02:43:35 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web08.50675.1660876985505791286
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web08.50679.1660877009442128014
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 19:43:33 -0700
+ Thu, 18 Aug 2022 19:43:29 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=Dx10mETZ;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177,
+ header.b=7fPgvtjP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id w14so3024619plp.9
+Received: by mail-pl1-f171.google.com with SMTP id d16so3021485pll.11
         for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 19:43:33 -0700 (PDT)
+ Thu, 18 Aug 2022 19:43:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc;
-        bh=uMW2M/2geN49NJjvEnLIB10wRRAIgt6Nto3AOeItF/k=;
-        b=Dx10mETZAH1FozkexcjiF5FI1hAizanXPB314KqWftsuGOR9Mg3VoVeA0eC1c0bHfa
-         WZO7Hca43yXtWseiVlbjvP8IL/THk34AncENMBa3sek4Y6UVMo5r0hdY2t3H5087czRT
-         3CprxLE+ntuLvTJU9A9kpwvBoeqTBInpVQGdyjefPnRLmvpl28tYwHLwxSV4MsTAh/yS
-         oeEKn3PYDxsiBOZbdfOEoMr3trg+918NDgcBHftzyGRE1Td38GlthMl4Erjh1DLKTqnP
-         OfHZar5AAhO3cip1N7Munbg6YD2rZ+gbuJR/IO4S3UX01M8RQFN/N8G1mqKc2GzpSu7o
-         m45w==
+        bh=2qm7AFK5vIecKpaFRee+r5o5dDMXtbsBagZkoZjDn8U=;
+        b=7fPgvtjPKWXaWpAhdQeJag4py9dCoOfKvpcgXKaPww5fW8SLGvB+u9yIzo8ru8mT0s
+         S2FaKdWqUv4uVhds52Sk0Lm16+oukcU62EV+Z+74Ddikrjdu929kiK7f5cDjcpgeVIEZ
+         OjnsyNQZM/g+VcdHK2mNq2piXjQoQc50PZvpnayGPSKVhmyR9Luij86hQ4p8VLYkk5yV
+         9JLy4I73yiUcMmL99Ejc/rLT0c5+vY/catQqq5PfaVOLI4mVQCyV7qbQV44m/p+0QRl9
+         2ZI8vlNNNvZXJB7FzAMVAwnyLSHvKUtccZkxElvXn/abrtnnQvnYDubmseilaFn6oLID
+         lg0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=uMW2M/2geN49NJjvEnLIB10wRRAIgt6Nto3AOeItF/k=;
-        b=J454cVdEgXibLkpi3wMM6D0E1+U+yndG2WzR6mjIbzH3+V2IMLYN3sorML+uk2hshJ
-         Cjj/23FuGdbX1oJfNgyRJWiS//g/vExoH1D6VvBKLgZfJqYTuCk+M2eySAoM2/9wA72d
-         gy0kpSLl0HeICimK83njhYLsOhYJ3C+WkZ8M8FWBAJ1qTPkHaiMb0uHvrQfS/iM79I/W
-         gFLKpjWdMQuHQsEGQZ0sWZcX4oVwcROgUiWanMK0pJBxr7U9tifMTYjlLbFF3tElp4UJ
-         Ku+68hPuMqPAWPBxtIYvGUx+p/fRCLfuBLTytOLhqLQgmWF6dl7kC5L3LYRPJTHs6n2R
-         LOMQ==
-X-Gm-Message-State: ACgBeo181+0d/dUVCYMfMMLtH/e5qXODWxFsK7j1FsGxnCiogYti+928
-	mYKPHg+b8esJ3oNZLk1AzmNb8nGv2N/F2Jwe
+        bh=2qm7AFK5vIecKpaFRee+r5o5dDMXtbsBagZkoZjDn8U=;
+        b=bSDPAEpkQ5O93/w3rnR/oEG4r+WF2iOVcK+3gqgLHtE88DOvwfgyKh0XvAd6L54yZn
+         32gPkifrcu4fSik3Dh2mxRbXOMFljbhLOk71VhoZHO/xnGQKon9E6iBavD1Yx2QLXzti
+         GeFR+dJm2mUWgMdUSI2O9Vnng4taO0viFNTfSsefGSs1odZmfDbL2tG3DbDP/+R7dU0f
+         LDGtNnenbTReesYKfp9qGsYOsAKbrUSX71ps+dKrOsFgJpMaLTUAgiYxpqLU7Gj96hpT
+         +3H8oq/WjQtP3amiCuqpMAWlXAa5WbzBVVM38Xkj4GSWZNqsK8noWCrGpvAUM3DbOwsN
+         iTiw==
+X-Gm-Message-State: ACgBeo3/v/x28Z1K17xXRnCzJnVAIKS3TDXA25d0fwMxyucRemJc5DaP
+	FV4iqhI1Y5649AHadj0C2PAV3p/JBLRX8ohy
 X-Google-Smtp-Source: 
- AA6agR556CBkqGV7uPrhQQ+pXt23dbneVxmX1czLdYaFFFfPuXhCr9TqSAebdKGFCipTvtsXRz5QLQ==
-X-Received: by 2002:a17:90b:238b:b0:1fa:d833:30dd with SMTP id
- mr11-20020a17090b238b00b001fad83330ddmr3596614pjb.147.1660877012950;
-        Thu, 18 Aug 2022 19:43:32 -0700 (PDT)
+ AA6agR5YAJN2fatoyXOJTYGC6hd4wNpwYe33hauEuA+FwBClExceHS28tCViLLuTMpB1rIpIBAXrCg==
+X-Received: by 2002:a17:90a:1d0:b0:1fa:c551:5e83 with SMTP id
+ 16-20020a17090a01d000b001fac5515e83mr7089497pjd.106.1660877008475;
+        Thu, 18 Aug 2022 19:43:28 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- t12-20020a17090a4e4c00b001fa80cde150sm4150145pjl.20.2022.08.18.19.43.31
+ t12-20020a17090a4e4c00b001fa80cde150sm4150145pjl.20.2022.08.18.19.43.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Aug 2022 19:43:32 -0700 (PDT)
+        Thu, 18 Aug 2022 19:43:27 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 12/26] devtool/upgrade: correctly clean up when
- recipe filename isn't yet known
-Date: Thu, 18 Aug 2022 16:42:34 -1000
+Subject: [OE-core][kirkstone 10/26] vim: update from 9.0.0063 to 9.0.0115
+Date: Thu, 18 Aug 2022 16:42:32 -1000
 Message-Id: 
- <a7d406dce577192f98d76dbae411c72a8b7f07d4.1660876844.git.steve@sakoman.com>
+ <27e4c6f98be296fb5f67ac7775461854d48f6c9a.1660876844.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1660876844.git.steve@sakoman.com>
 References: <cover.1660876844.git.steve@sakoman.com>
@@ -70,82 +69,151 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Aug 2022 02:43:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169555
+ https://lists.openembedded.org/g/openembedded-core/message/169553
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
 
-There is a coding error in the second invocation of _upgrade_error:
-rf is passed into it before it is initialized in the try: block. And so
-bogus recipes are left behind in the workspace, causing breakage.
+Drop crosscompile.patch which was merged as part of:
+   509695c1c (tag: v9.0.0065) patch 9.0.0065: \
+      cross-compiling doesn't work because of timer_create check
 
-Instead, rewrite the functions to take the recipe directory name in the
-workspace layer, which can be calculated in advance.
+Also drop: racefix.patch which may have been fixed upstream
+and is being tracked by:
+   https://github.com/vim/vim/pull/10776
+where upstream is asking if the different approach resolves the
+race condition. Let's see what's out there!
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-(cherry picked from commit e653996369c1d2b5ac8367ad85f4816d679b6c98)
+(cherry picked from commit 6996472cd33d2d4b91821f2dfe24a27a697e4afe)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/devtool/upgrade.py | 28 +++++++++++++---------------
- 1 file changed, 13 insertions(+), 15 deletions(-)
+ .../vim/files/crosscompile.patch              | 51 -------------------
+ meta/recipes-support/vim/files/racefix.patch  | 37 --------------
+ meta/recipes-support/vim/vim.inc              |  6 +--
+ 3 files changed, 2 insertions(+), 92 deletions(-)
+ delete mode 100644 meta/recipes-support/vim/files/crosscompile.patch
+ delete mode 100644 meta/recipes-support/vim/files/racefix.patch
 
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index 0357ec07bf..c57015eb40 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -119,20 +119,19 @@ def _write_append(rc, srctree, same_dir, no_same_dir, rev, copied, workspace, d)
-             f.write('# original_files: %s\n' % ' '.join(copied))
-     return af
+diff --git a/meta/recipes-support/vim/files/crosscompile.patch b/meta/recipes-support/vim/files/crosscompile.patch
+deleted file mode 100644
+index 583d3fc7b0..0000000000
+--- a/meta/recipes-support/vim/files/crosscompile.patch
++++ /dev/null
+@@ -1,51 +0,0 @@
+-configure.ac: Fix create_timer solaris test for cross compiling
+-
+-A runtime test was added for create_timer however this meant cross compiling
+-would no longer work. Allow a cache value to be specified to allow cross
+-compiling again.
+-
+-Signed-off-by: Richard Purdie richard.purdie@linuxfoundation.org
+-
+-Upstream-Status: Submitted [https://github.com/vim/vim/pull/10777]
+-
+-Index: git/src/configure.ac
+-===================================================================
+---- git.orig/src/configure.ac
+-+++ git/src/configure.ac
+-@@ -3814,7 +3814,7 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
+- dnl Check for timer_create. It probably requires the 'rt' library.
+- dnl Run the program to find out if timer_create(CLOCK_MONOTONIC) actually
+- dnl works, on Solaris timer_create() exists but fails at runtime.
+--AC_MSG_CHECKING([for timer_create])
+-+AC_CACHE_CHECK([for timer_create], [vim_cv_timer_create],
+- save_LIBS="$LIBS"
+- LIBS="$LIBS -lrt"
+- AC_RUN_IFELSE([AC_LANG_PROGRAM([
+-@@ -3831,7 +3831,7 @@ static void set_flag(union sigval sv) {}
+-   if (timer_create(CLOCK_MONOTONIC, &action, &timer_id) < 0)
+-     exit(1);  // cannot create a monotonic timer
+-   ])],
+--  AC_MSG_RESULT(yes; with -lrt); AC_DEFINE(HAVE_TIMER_CREATE),
+-+  AC_MSG_NOTICE(timer_create with -lrt); vim_cv_timer_create=yes,
+-   LIBS="$save_LIBS"
+-   AC_RUN_IFELSE([AC_LANG_PROGRAM([
+- #include<signal.h>
+-@@ -3847,8 +3847,16 @@ static void set_flag(union sigval sv) {}
+-     if (timer_create(CLOCK_MONOTONIC, &action, &timer_id) < 0)
+-       exit(1);  // cannot create a monotonic timer
+-     ])],
+--    AC_MSG_RESULT(yes); AC_DEFINE(HAVE_TIMER_CREATE),
+--    AC_MSG_RESULT(no)))
+-+    vim_cv_timer_create=yes,
+-+    vim_cv_timer_create=no),
+-+    AC_MSG_ERROR(cross-compiling: please set 'vim_cv_timer_create')
+-+    )
+-+)
+-+
+-+if test "x$vim_cv_timer_create" = "xyes" ; then
+-+  AC_DEFINE(HAVE_TIMER_CREATE)
+-+fi
+-+
+- 
+- AC_CACHE_CHECK([whether stat() ignores a trailing slash], [vim_cv_stat_ignores_slash],
+-   [
+diff --git a/meta/recipes-support/vim/files/racefix.patch b/meta/recipes-support/vim/files/racefix.patch
+deleted file mode 100644
+index 34bd37d650..0000000000
+--- a/meta/recipes-support/vim/files/racefix.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-po/Makefile: Avoid race over LINGUAS file
+-
+-The creation of the LINGUAS file is duplicated for each desktop file
+-which can lead the commands to race against each other. One target might
+-remove it before another has been able to use it. Rework the makefile to
+-avoid this as the expense of leaving the file on disk.
+-
+-Signed-off-by: Richard Purdie richard.purdie@linuxfoundation.org
+-
+-Upstream-Status: Submitted [https://github.com/vim/vim/pull/10776]
+-
+-Index: git/src/po/Makefile
+-===================================================================
+---- git.orig/src/po/Makefile
+-+++ git/src/po/Makefile
+-@@ -207,17 +207,16 @@ $(PACKAGE).pot: $(PO_INPUTLIST) $(PO_VIM
+- 	# Delete the temporary files
+- 	rm *.js
+- 
+--vim.desktop: vim.desktop.in $(POFILES)
+-+LINGUAS:
+- 	echo $(LANGUAGES) | tr " " "\n" |sed -e '/\./d' | sort > LINGUAS
+-+
+-+vim.desktop: vim.desktop.in $(POFILES) LINGUAS
+- 	$(MSGFMT) --desktop -d . --template vim.desktop.in -o tmp_vim.desktop
+--	rm -f LINGUAS
+- 	if command -v desktop-file-validate; then desktop-file-validate tmp_vim.desktop; fi
+- 	mv tmp_vim.desktop vim.desktop
+- 
+--gvim.desktop: gvim.desktop.in $(POFILES)
+--	echo $(LANGUAGES) | tr " " "\n" |sed -e '/\./d' | sort > LINGUAS
+-+gvim.desktop: gvim.desktop.in $(POFILES) LINGUAS
+- 	$(MSGFMT) --desktop -d . --template gvim.desktop.in -o tmp_gvim.desktop
+--	rm -f LINGUAS
+- 	if command -v desktop-file-validate; then desktop-file-validate tmp_gvim.desktop; fi
+- 	mv tmp_gvim.desktop gvim.desktop
+- 
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 31229534e4..48896465ed 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -18,12 +18,10 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://vim-add-knob-whether-elf.h-are-checked.patch \
+            file://0001-src-Makefile-improve-reproducibility.patch \
+            file://no-path-adjust.patch \
+-           file://racefix.patch \
+-           file://crosscompile.patch \
+            "
  
--def _cleanup_on_error(rf, srctree):
--    rfp = os.path.split(rf)[0] # recipe folder
--    rfpp = os.path.split(rfp)[0] # recipes folder
--    if os.path.exists(rfp):
--        shutil.rmtree(rfp)
--    if not len(os.listdir(rfpp)):
--        os.rmdir(rfpp)
-+def _cleanup_on_error(rd, srctree):
-+    rdp = os.path.split(rd)[0] # recipes folder
-+    if os.path.exists(rd):
-+        shutil.rmtree(rd)
-+    if not len(os.listdir(rdp)):
-+        os.rmdir(rdp)
-     srctree = os.path.abspath(srctree)
-     if os.path.exists(srctree):
-         shutil.rmtree(srctree)
+-PV .= ".0063"
+-SRCREV = "d61efa50f8f5b9d9dcbc136705cc33874f0fdcb3"
++PV .= ".0115"
++SRCREV = "6747cf1671bd41cddee77c65b3f9a70509f968db"
  
--def _upgrade_error(e, rf, srctree, keep_failure=False, extramsg=None):
--    if rf and not keep_failure:
--        _cleanup_on_error(rf, srctree)
-+def _upgrade_error(e, rd, srctree, keep_failure=False, extramsg=None):
-+    if not keep_failure:
-+        _cleanup_on_error(rd, srctree)
-     logger.error(e)
-     if extramsg:
-         logger.error(extramsg)
-@@ -426,7 +425,7 @@ def _create_new_recipe(newpv, md5, sha256, srcrev, srcbranch, srcsubdir_old, src
-     try:
-         rd = tinfoil.parse_recipe_file(fullpath, False)
-     except bb.tinfoil.TinfoilCommandFailed as e:
--        _upgrade_error(e, fullpath, srctree, keep_failure, 'Parsing of upgraded recipe failed')
-+        _upgrade_error(e, os.path.dirname(fullpath), srctree, keep_failure, 'Parsing of upgraded recipe failed')
-     oe.recipeutils.patch_recipe(rd, fullpath, newvalues)
- 
-     return fullpath, copied
-@@ -568,10 +567,9 @@ def upgrade(args, config, basepath, workspace):
-             new_licenses = _extract_licenses(srctree_s, (rd.getVar('LIC_FILES_CHKSUM') or ""))
-             license_diff = _generate_license_diff(old_licenses, new_licenses)
-             rf, copied = _create_new_recipe(args.version, md5, sha256, args.srcrev, srcbranch, srcsubdir1, srcsubdir2, config.workspace_path, tinfoil, rd, license_diff, new_licenses, srctree, args.keep_failure)
--        except bb.process.CmdError as e:
--            _upgrade_error(e, rf, srctree, args.keep_failure)
--        except DevtoolError as e:
--            _upgrade_error(e, rf, srctree, args.keep_failure)
-+        except (bb.process.CmdError, DevtoolError) as e:
-+            recipedir = os.path.join(config.workspace_path, 'recipes', rd.getVar('BPN'))
-+            _upgrade_error(e, recipedir, srctree, args.keep_failure)
-         standard._add_md5(config, pn, os.path.dirname(rf))
- 
-         af = _write_append(rf, srctree_s, args.same_dir, args.no_same_dir, rev2,
+ # Remove when 8.3 is out
+ UPSTREAM_VERSION_UNKNOWN = "1"
 -- 
 2.25.1
 
