@@ -2,62 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEA01C32772
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFC3AC3F6B0
 	for <webhook@archiver.kernel.org>; Fri, 19 Aug 2022 07:28:18 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web09.469.1660894072830837589
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.465.1660894084213324710
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Aug 2022 00:28:14 -0700
+ Fri, 19 Aug 2022 00:28:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=czNrMyrf;
- spf=pass (domain: gmail.com, ip: 209.85.221.54,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=cDWx+V+l;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id bs25so4185710wrb.2
+Received: by mail-wm1-f43.google.com with SMTP id
+ z14-20020a7bc7ce000000b003a5db0388a8so3446312wmk.1
         for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Aug 2022 00:28:13 -0700 (PDT)
+ Fri, 19 Aug 2022 00:28:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=4eYZEVRmxtadr5Cu+MxGpm2DMcbbxk3Ro1Fh6jAb8x8=;
-        b=czNrMyrfKu08EKey9qOtUjanG4gF+cXu4yDY4tcrnUU2xpoAfEwDTm3DgSfJo7UmWC
-         JCqwHTcDQtETb6z8v1Ugdtt5E9uW2xu+U0cCPLJD3l9GW+KzGohqFaHW4RhYZMBjkj54
-         c8nKCO1pr3elCrW25CADs0zIf+cLD+r3TDUArfjb3kVYk8pc6nyutbMpuRi3YL2K2G1o
-         TunxtT1jiuJi+/fGnxWGB5vsFwCObVBUaLZkaZW15GF06boX9zC2FHvXMR2tIz8bHUWY
-         XmUJbDIIUToIesnVJTzoc0UC5B//T+zqGCYz74h3NDhQWTv3OHCUv1f2XNdKIC717YCX
-         dWHA==
+        bh=lP+ehaHXD6tWehc7f+PUHszoBigR8Ph+E2itSa9y7xs=;
+        b=cDWx+V+lt1eLr55Y4IVjFAL8e1yv5a+SKUX/PAOY8ashM3OHdMZAYNrUjYtLjI7h6t
+         aNRmcomPZo4IP8wQmVKxzVi7DRspjVCuMCTTLawykuYj2SiclZeGhqS6FXXldIoD9nkK
+         i1gJ6SOxGCmJDg9m+45s2vW9Knc3b9vxyYkCB+ruREN11Ns07Qtqo8GAQx+cXQOE/N+j
+         s8wwzUM2EROdyeaNGSZBSReHKdm6/hwloaApoU1tqI0GGfernwxbyaXza31XiGzzeV3D
+         nD8mumlhD76l8kZz7AEYySOPAPY7EY0AobmSbfE/gnnq7G1bnaaN33Q5nMER7Rj0d4YO
+         nAuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=4eYZEVRmxtadr5Cu+MxGpm2DMcbbxk3Ro1Fh6jAb8x8=;
-        b=WfI4AvD/3LcZQF0C6BE7Qk+AuXXlbOm5vZnMnnsSmGDZM9clsddbFHw4EQHHwvBN3n
-         wmlhK/hgt3XQ7tSXizhnoGwWNGJnXBaHtvrqvbj52rfIxDn3QTF/k2mwvbFPXgRVUOCG
-         SVl++t1csNbu74zdiHK1gyW9cc8KyuBVOElEMpX9Vrcx44JW3C9HN6FXuWbqFj2O/F7E
-         9nOuNojAGMat9XzktsERqBYgismEQyUkKxOXabfnYzMXhYeTXijhOJH/QGzRD6o4qILn
-         /YFjqplyG1F7dza+E2sYO3OiwnNuq4cTvjV9c0192GzMFW5oV5bwlwOn6nlL3LSnx98z
-         klfA==
-X-Gm-Message-State: ACgBeo144KuCC1Jh99tGGjLzUSyHSEKat0/dA7eXRm5GZbmUDcNAlpbJ
-	VRn3K2E/X6D0zeJrQMvJ3nvcG9XtrKw=
+        bh=lP+ehaHXD6tWehc7f+PUHszoBigR8Ph+E2itSa9y7xs=;
+        b=hqRThDuwvGKZ1H1JW1Da2QfuSmv1w1aaOMZ/Dwa+oDCm2wfr0YV+iQ8vDmXJyttEk/
+         XrqE/ZUf2zBsi/YzfTBs2P1yWvykDKZGFVufwNsY8Y2y26o0WZRwWFmUHacPKPe0PdK+
+         e4RMjgURI7IQntdFaMj5U1mr04tpIdeEbu62Anv0sd1xlTLhNOqU2S4QVpf247QfQhO+
+         uxjvWuPBLvY/FKpofoRzQ8cuqeoL7xkDTbgTNjRNPux5yIEXQD1zPDYsqcIfnGmo2TQW
+         paWrD6aIxeZoTn0FGtk+ARrXoTPWes2bGSKevKKXOADx0zoU/XBx5PmiDCCWcOqI3Bi8
+         JtcQ==
+X-Gm-Message-State: ACgBeo2pVwfz0rb8FnjiHcDotvkQtIEaKuxDfPL4TODgadDKjiGz8d2E
+	sVG8KhFCGAnv9tR+SgjqT9RO1qm5M/c=
 X-Google-Smtp-Source: 
- AA6agR7lIBeiBMWKgaTGJ1RnSSTWlLCLNciA0Iox3CE+jyetfl+c9rUqg5MbJS+84u2XGJrwT9w7lw==
-X-Received: by 2002:adf:fbd2:0:b0:21e:e983:165f with SMTP id
- d18-20020adffbd2000000b0021ee983165fmr3332027wrs.517.1660894093210;
-        Fri, 19 Aug 2022 00:28:13 -0700 (PDT)
+ AA6agR5PysRubdnYQAwBRDINIEV0qSmN6HIbIsGrP2ryt9zfvz4c2jXhrI3yCPUYb6caK3s5lk11qg==
+X-Received: by 2002:a05:600c:1912:b0:3a5:f4fc:cd40 with SMTP id
+ j18-20020a05600c191200b003a5f4fccd40mr7118586wmq.205.1660894097412;
+        Fri, 19 Aug 2022 00:28:17 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- ay15-20020a05600c1e0f00b003a604a29a34sm4650739wmb.35.2022.08.19.00.28.12
+ ay15-20020a05600c1e0f00b003a604a29a34sm4650739wmb.35.2022.08.19.00.28.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Aug 2022 00:28:12 -0700 (PDT)
+        Fri, 19 Aug 2022 00:28:16 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 30/42] python3-numpy: upgrade 1.23.1 -> 1.23.2
-Date: Fri, 19 Aug 2022 09:27:15 +0200
-Message-Id: <20220819072727.2236928-30-alex@linutronix.de>
+Subject: [PATCH 34/42] strace: upgrade 5.18 -> 5.19
+Date: Fri, 19 Aug 2022 09:27:19 +0200
+Message-Id: <20220819072727.2236928-34-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220819072727.2236928-1-alex@linutronix.de>
 References: <20220819072727.2236928-1-alex@linutronix.de>
@@ -68,30 +69,30 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Aug 2022 07:28:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169601
+ https://lists.openembedded.org/g/openembedded-core/message/169605
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../python/{python3-numpy_1.23.1.bb => python3-numpy_1.23.2.bb} | 2 +-
+ meta/recipes-devtools/strace/{strace_5.18.bb => strace_5.19.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-numpy_1.23.1.bb => python3-numpy_1.23.2.bb} (96%)
+ rename meta/recipes-devtools/strace/{strace_5.18.bb => strace_5.19.bb} (96%)
 
-diff --git a/meta/recipes-devtools/python/python3-numpy_1.23.1.bb b/meta/recipes-devtools/python/python3-numpy_1.23.2.bb
+diff --git a/meta/recipes-devtools/strace/strace_5.18.bb b/meta/recipes-devtools/strace/strace_5.19.bb
 similarity index 96%
-rename from meta/recipes-devtools/python/python3-numpy_1.23.1.bb
-rename to meta/recipes-devtools/python/python3-numpy_1.23.2.bb
-index 67ab1d9298..960dcf9410 100644
---- a/meta/recipes-devtools/python/python3-numpy_1.23.1.bb
-+++ b/meta/recipes-devtools/python/python3-numpy_1.23.2.bb
-@@ -13,7 +13,7 @@ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${S
-            file://run-ptest \
-            file://0001-generate_umath.py-do-not-write-full-path-to-output-f.patch \
+rename from meta/recipes-devtools/strace/strace_5.18.bb
+rename to meta/recipes-devtools/strace/strace_5.19.bb
+index 75ff58bd50..5e69cfd5f9 100644
+--- a/meta/recipes-devtools/strace/strace_5.18.bb
++++ b/meta/recipes-devtools/strace/strace_5.19.bb
+@@ -14,7 +14,7 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
+            file://0001-strace-fix-reproducibilty-issues.patch \
+            file://skip-load.patch \
             "
--SRC_URI[sha256sum] = "d748ef349bfef2e1194b59da37ed5a29c19ea8d7e6342019921ba2ba4fd8b624"
-+SRC_URI[sha256sum] = "b78d00e48261fbbd04aa0d7427cf78d18401ee0abd89c7559bbf422e5b1c7d01"
+-SRC_URI[sha256sum] = "60293ea79ac9253d600cdc9be077ad2988ca22284a439c9e66be5150db3d1187"
++SRC_URI[sha256sum] = "aa3dc1c8e60e4f6ff3d396514aa247f3c7bf719d8a8dc4dd4fa793be786beca3"
  
- UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+ inherit autotools ptest
+ 
 -- 
 2.30.2
 
