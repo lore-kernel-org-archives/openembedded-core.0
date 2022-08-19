@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFC5EC48BE4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8163C28B2B
 	for <webhook@archiver.kernel.org>; Fri, 19 Aug 2022 07:28:18 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.470.1660894069618602835
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web12.470.1660894068364851799
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Aug 2022 00:28:09 -0700
+ Fri, 19 Aug 2022 00:28:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=XB5HZm/6;
- spf=pass (domain: gmail.com, ip: 209.85.221.54,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=b0Rfs2Rk;
+ spf=pass (domain: gmail.com, ip: 209.85.221.53,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id e20so3686503wri.13
+Received: by mail-wr1-f53.google.com with SMTP id k16so4156849wrx.11
         for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Aug 2022 00:28:08 -0700 (PDT)
+ Fri, 19 Aug 2022 00:28:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=TgWVL0PSgzCiHhAFRneMRk33q6tYtILgPXSt5kEBzRI=;
-        b=XB5HZm/643dcQdsTzR+Viej/lTDvyNe/2FFMcBBzDWecpl/xBwCKLcDmYb6Kk5oW96
-         3dfYWDAtMUrLJ2jymzN9243uB61HVYpXRnJJ0MLCnKkNeQl7SuIAaCop0rjjQVecZppV
-         DpFLhmfCDD20NKZ1j+HG/XCPEeBaM/thino37qzgRs0tcEebOiYbxUdvr2AlKmIqO9SM
-         dow94+snFw001jjRPKZmDCOLqdqGz6tLEH93zxbggsZR546vfUW6SigL9GWpnug1Oi3H
-         J+zH0Ms0nBEpU1ClBPHVXtGNmgBO3+gCy55FJeNKTRTQTtd4bbW0tAlDqNdRK+C1Knrt
-         1gbQ==
+        bh=FaxWl0zY1nLgzqSKPuw3KruI6J24hfz1CybUdxuKMoE=;
+        b=b0Rfs2RkCOMcjKA5nZiBzVjCyNDhgnvI8JgdgpEFIU0MKoeedyJUkTWQZZpW7uAPe1
+         bRgccLND4hHLjlSmPCTCFOZt7FveYAe+/kBYARJ7myno0a4xseBDCqVJBrnPpTwD7j8j
+         XXKCkbBDSxQ0L6F5iU36DfSV6zrvP6quSt0yO6acgcZSUL6NAcGdYTzZ2llM2cN1BRcD
+         b8YnI1Yp6Bj/FJYDdnzFnztSjUpAcnHEUWexFVS3F3HIbt5l/MjYWhMmdIQkEzGabHYS
+         gtlk+EP3Lry2AGNoIDAFwJzOQGnIhfAvrnidMCctR2kiVgJr3cRZ0bKAoNuYsuw9g2eu
+         HH7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=TgWVL0PSgzCiHhAFRneMRk33q6tYtILgPXSt5kEBzRI=;
-        b=Pdj6LLjUwQfjQ1dB6RtzVJ+LKyffdZKOYiKhGYK1533bkNX814vkA8dxcMeBwevCn5
-         Ep93NJF92oLApMavQPZP+C2EKkf3+UmST++XplsZMhK4pnSy592zCxvw4ouPQKO2dMaI
-         rY6IttgTDw2sjbhj0qyYfzng/65tKy1zmvoL8O7AaAjRwXvrrZrQeY642BomsfVcDip2
-         txmnQKnediKIDq4Vj3GdDCQhcYwu2qPKaxV2rQ5j6kqqP8ekWL28rNr3ltL2L1x57/kT
-         ap5JBST59g5zcTyamFkRZpj/iCh2gXVlGC+ZNEjLOXZyF3wCwYYZwrRe6r98ysGFx4CJ
-         72gw==
-X-Gm-Message-State: ACgBeo3DheJ82GaU5CCoFhWZ+moLmKYI6boukt4nK0smNbzmHq3bZBbC
-	EsGuzfDPcaZIkRz2+3LzMc/USiPmwIs=
+        bh=FaxWl0zY1nLgzqSKPuw3KruI6J24hfz1CybUdxuKMoE=;
+        b=6oBkkEV8ZOouRcMPGPI9zA2ipIvc10Lt/NHnXHCxnnvn4sRt1J+yx/+kz2QAVFJBwn
+         hKGOkskvIXFkhlTKsANCBRVu1kAZLLtoRb2OGS00HIVEoEHymYoBTaafPIAmGTGQQiMm
+         iXu7veY4Na05D0+ymNRJse1E4iFb2aTdN4yGQVQ2wsyuwlkgQ1WbqBE0JjqGeOYd6kIo
+         DZqU7Q/C0tzq7F1nd8h9R63/DQmYqpyFrTe+2dENnPVpvSjT+Vd/x9IF3MgeSdIdF00/
+         OkSMIcsPD2Bte9rzDZwqkr3Det8LJYZxn8qRQvTPy/oqylF7mLRyr9myARMFEBC4IBDr
+         4OJw==
+X-Gm-Message-State: ACgBeo0BrZTRkD8RO2MdHy18Eoh44qOzlYGvT6rrCJygB8jQC0NRi++G
+	D1swOSvyYcN8zI1pJClj9dsAXwh9GRY=
 X-Google-Smtp-Source: 
- AA6agR5tP9lZzOb7xVsE+IH6KWZ4hfe7eQEwq5vUjl/UugGlfh7VSC7aQIkDZVmWdQI4d1GSBlHk7w==
-X-Received: by 2002:a5d:64aa:0:b0:21f:12ae:f8ef with SMTP id
- m10-20020a5d64aa000000b0021f12aef8efmr3490379wrp.452.1660894088450;
-        Fri, 19 Aug 2022 00:28:08 -0700 (PDT)
+ AA6agR7JR2vk+LigZwsCOEIbwMS4DgF01JbDMTFg52ljqqT3CwioggJHp3KzcqhpP6Ad98A1/qbxLg==
+X-Received: by 2002:a05:6000:2aa:b0:225:179a:80df with SMTP id
+ l10-20020a05600002aa00b00225179a80dfmr3501195wry.599.1660894095263;
+        Fri, 19 Aug 2022 00:28:15 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- ay15-20020a05600c1e0f00b003a604a29a34sm4650739wmb.35.2022.08.19.00.28.07
+ ay15-20020a05600c1e0f00b003a604a29a34sm4650739wmb.35.2022.08.19.00.28.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Aug 2022 00:28:07 -0700 (PDT)
+        Fri, 19 Aug 2022 00:28:14 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 25/42] piglit: upgrade to latest revision
-Date: Fri, 19 Aug 2022 09:27:10 +0200
-Message-Id: <20220819072727.2236928-25-alex@linutronix.de>
+Subject: [PATCH 32/42] python3-pyelftools: upgrade 0.28 -> 0.29
+Date: Fri, 19 Aug 2022 09:27:17 +0200
+Message-Id: <20220819072727.2236928-32-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220819072727.2236928-1-alex@linutronix.de>
 References: <20220819072727.2236928-1-alex@linutronix.de>
@@ -68,25 +68,29 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Aug 2022 07:28:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169596
+ https://lists.openembedded.org/g/openembedded-core/message/169603
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
+ .../{python3-pyelftools_0.28.bb => python3-pyelftools_0.29.bb}  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pyelftools_0.28.bb => python3-pyelftools_0.29.bb} (82%)
 
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index b1e948ea69..7c1bc89c22 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -14,7 +14,7 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
-            "
- UPSTREAM_CHECK_COMMITS = "1"
+diff --git a/meta/recipes-devtools/python/python3-pyelftools_0.28.bb b/meta/recipes-devtools/python/python3-pyelftools_0.29.bb
+similarity index 82%
+rename from meta/recipes-devtools/python/python3-pyelftools_0.28.bb
+rename to meta/recipes-devtools/python/python3-pyelftools_0.29.bb
+index 0ceddcb68a..2199e9ff8e 100644
+--- a/meta/recipes-devtools/python/python3-pyelftools_0.28.bb
++++ b/meta/recipes-devtools/python/python3-pyelftools_0.29.bb
+@@ -4,7 +4,7 @@ SECTION = "devel/python"
+ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=5ce2a2b07fca326bc7c146d10105ccfc"
  
--SRCREV = "b95782f470ca2915b0d9b9079f9cd6d81bae092c"
-+SRCREV = "6403e90dc7da02d486906cddab8d02c2552a8d46"
- # (when PV goes above 1.0 remove the trailing r)
- PV = "1.0+gitr${SRCPV}"
+-SRC_URI[sha256sum] = "53e5609cac016471d40bd88dc410cd90755942c25e58a61021cfdf7abdfeacff"
++SRC_URI[sha256sum] = "ec761596aafa16e282a31de188737e5485552469ac63b60cfcccf22263fd24ff"
+ 
+ PYPI_PACKAGE = "pyelftools"
  
 -- 
 2.30.2
