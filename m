@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9BB1C32796
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A92A4C38142
 	for <webhook@archiver.kernel.org>; Fri, 19 Aug 2022 07:27:58 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.470.1660894069618602835
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web11.458.1660894070506448354
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Aug 2022 00:27:49 -0700
+ Fri, 19 Aug 2022 00:27:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=qaF1fhPI;
- spf=pass (domain: gmail.com, ip: 209.85.221.54,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=aptjw9Z1;
+ spf=pass (domain: gmail.com, ip: 209.85.221.46,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id e20so3685662wri.13
+Received: by mail-wr1-f46.google.com with SMTP id j7so4185172wrh.3
         for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Aug 2022 00:27:49 -0700 (PDT)
+ Fri, 19 Aug 2022 00:27:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=/fGtIKnOFnrkIo7hr0957S4a8WR4+Krm16jHhOw4TxU=;
-        b=qaF1fhPIDHOUd2SzSFqPkRWLH7iu0zG9W9Jd5ucBX+g0W94NeiNyk1uLYfmEeq6vej
-         OLaEu3vleocGDueobWwIKf8OibPAHqvptq4CoXNt+F7A+WrtBKrZoDv55b0hSfGt5BI1
-         T/p/TLErJW2ScwjCy93Mvhq1CLe8Im6UVaxtE8QXc1C/T0p1RPlNWQOg0DyFf9nr7Mbs
-         8BeK8yiVnbrVBuonWXwHOPgBKGU9liSa+Ij2gqYhB35YKM/nyrRICP80G6fm1umFvtCP
-         WQt5anU/rEuSgcflYyaS7HNoVx4V7rRqsjvfi1YbvymSiF3h59NneVsKHkNP8U1kabNJ
-         3gdg==
+        bh=qumAPWPdNoY4cBrFhTDnHKVLzJpb8hJ9+dU4XonP5EQ=;
+        b=aptjw9Z15dqUcwxRT4XApE6fwNz3eReZR3H+Osorg3VvERhN1DtX9Czhwh+nBo1U1p
+         LrvMu1RQu9i/jFVtHznTAmlZ88IKVleMv6wIhvRtb9P+XYqs7X3mUdqwRxr1szHUmCm2
+         K9RMBCcI39svq2BAOjbZMXhJS+T+G3S4isDyf02PAdK/pO/4UbzDGuW8I4ML4xJOoPu0
+         OkzxnJGvpDjnf+ekMkawLKnR9QOyCckFSCB+FcJf5Y7r49HxoRd1/2eMaF5Q7MvGrayq
+         KKJqaBdlInc+EPkD1DQfzY0ZwgueUPWOK7x1uJAERqP5k4xDsznj9Uhh5RTEc4j1iCfS
+         M9HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=/fGtIKnOFnrkIo7hr0957S4a8WR4+Krm16jHhOw4TxU=;
-        b=YxUkwMSkFVkrCQOvQeAzYynnr8dyznpzqpnzkO3C2s8isX3FFBG4ZbipA9HUcLatl6
-         BwgAFqBiouMrklQQc9OpXnNtHxri6nhA42QG+QOcbXbt/GJdBFRLuFHN8384oG2nTGQZ
-         QMyBGdZu1YKHaFH4SJjS0zq/Lzeh3mU5ejKKl+j+PLhFXZ0IREl0wS0jRq6khRnJNoex
-         NLrN3fNJIWrhSqk0bqUcp82gTsnEFyyMDVqonYXXUBc46Cc6wgLz4NmhoL91K7EwGQQN
-         bepz4so7uwaGVLa1M3WMUC446fmDudWvFFWAwdLdoq0EYdRrGGJbH2YIlCYGcDL0uDJv
-         vCSA==
-X-Gm-Message-State: ACgBeo1NrR+pVTW7DnxH3hrgH8iDdAzQtt2ufTR4KOyENF0kHAe6Y14b
-	K1Sa3DMEpn7JSQ36umqb7kg46mnuL+I=
+        bh=qumAPWPdNoY4cBrFhTDnHKVLzJpb8hJ9+dU4XonP5EQ=;
+        b=Qxi++MElI1Ziie0VWtqXyvDNBggK/7G6DJTcfYmoHg+EQ3V2MV45XcWa2oRB8jT4vr
+         52VMQBM1+EkSawG6QW0IalCLz8W14OsvBO1GDGbvYfAaVKtZArSdYJz4LLRatcftLUeA
+         J7uA9qzCtDE7L7fKLoDp/BWuzgE8327jVCnKjYLGxNaSK35VCtva6WQlPzNRY0OK6RHP
+         FBJz2pNyshUggtSY3j6KqwxKX26sH9flMQAeMgfrIenSKNsCAxLTXVUNxguxdS/n5w+i
+         dxpfGvSfTxwD6XSmdoFKs3Xam+WDkmP3Vr6NnIjfr+0EJDyZ+SAmbKr/Mv/YhGfcgkE8
+         Xb1g==
+X-Gm-Message-State: ACgBeo3cC7LWQhB7n0beXPxtaiz7U4f3gXwg/Uf+cAgaUpbhX5rOF4sw
+	JZ9t9t4+E65RuEDF1GOeU13JWKrAYzc=
 X-Google-Smtp-Source: 
- AA6agR7yzU62kceFNveGW3i/VKCDxH4yYNgACAI6snC6hUEVeEAX28210rxV8zGq/pG3jD1BRL2xTw==
-X-Received: by 2002:a5d:64aa:0:b0:21f:12ae:f8ef with SMTP id
- m10-20020a5d64aa000000b0021f12aef8efmr3489660wrp.452.1660894068058;
+ AA6agR7atZTiVm5WWBlk3izUtZUo/f1/FsSiHVedSb7oUA9qr+hd0lcLEd+/nzwHJJzxK37FtNb8AQ==
+X-Received: by 2002:a5d:6303:0:b0:225:2194:7181 with SMTP id
+ i3-20020a5d6303000000b0022521947181mr3534537wru.614.1660894068881;
         Fri, 19 Aug 2022 00:27:48 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- ay15-20020a05600c1e0f00b003a604a29a34sm4650739wmb.35.2022.08.19.00.27.47
+ ay15-20020a05600c1e0f00b003a604a29a34sm4650739wmb.35.2022.08.19.00.27.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Aug 2022 00:27:47 -0700 (PDT)
+        Fri, 19 Aug 2022 00:27:48 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 03/42] libcgroup: update 2.0.2 -> 3.0.0
-Date: Fri, 19 Aug 2022 09:26:48 +0200
-Message-Id: <20220819072727.2236928-3-alex@linutronix.de>
+Subject: [PATCH 04/42] python3-setuptools-rust: update 1.4.1 -> 1.5.1
+Date: Fri, 19 Aug 2022 09:26:49 +0200
+Message-Id: <20220819072727.2236928-4-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220819072727.2236928-1-alex@linutronix.de>
 References: <20220819072727.2236928-1-alex@linutronix.de>
@@ -68,42 +68,266 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Aug 2022 07:27:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169574
+ https://lists.openembedded.org/g/openembedded-core/message/169575
 
-License-Update: formatting
+Drop upstreamed patch.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../libcgroup/{libcgroup_2.0.2.bb => libcgroup_3.0.0.bb}    | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-core/libcgroup/{libcgroup_2.0.2.bb => libcgroup_3.0.0.bb} (81%)
+ ...92f08b1248dc03862da86915c2745e0ff7ec.patch | 221 ------------------
+ ....1.bb => python3-setuptools-rust_1.5.1.bb} |   7 +-
+ 2 files changed, 4 insertions(+), 224 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-setuptools-rust/8e9892f08b1248dc03862da86915c2745e0ff7ec.patch
+ rename meta/recipes-devtools/python/{python3-setuptools-rust_1.4.1.bb => python3-setuptools-rust_1.5.1.bb} (81%)
 
-diff --git a/meta/recipes-core/libcgroup/libcgroup_2.0.2.bb b/meta/recipes-core/libcgroup/libcgroup_3.0.0.bb
+diff --git a/meta/recipes-devtools/python/python3-setuptools-rust/8e9892f08b1248dc03862da86915c2745e0ff7ec.patch b/meta/recipes-devtools/python/python3-setuptools-rust/8e9892f08b1248dc03862da86915c2745e0ff7ec.patch
+deleted file mode 100644
+index 2a531e17aa..0000000000
+--- a/meta/recipes-devtools/python/python3-setuptools-rust/8e9892f08b1248dc03862da86915c2745e0ff7ec.patch
++++ /dev/null
+@@ -1,221 +0,0 @@
+-From 8e9892f08b1248dc03862da86915c2745e0ff7ec Mon Sep 17 00:00:00 2001
+-From: "Andrew J. Hesford" <ajh@sideband.org>
+-Date: Fri, 15 Jul 2022 10:33:02 -0400
+-Subject: [PATCH] build_rust: remove linker handling that broke cross
+- compilation
+-
+-Upstream-Status: Submitted [https://github.com/PyO3/setuptools-rust/pull/269]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- setuptools_rust/build.py | 151 ++-------------------------------------
+- 1 file changed, 7 insertions(+), 144 deletions(-)
+-
+-diff --git a/setuptools_rust/build.py b/setuptools_rust/build.py
+-index 4fe594b..e81ed8f 100644
+---- a/setuptools_rust/build.py
+-+++ b/setuptools_rust/build.py
+-@@ -113,23 +113,10 @@ def build_extension(
+-         self, ext: RustExtension, forced_target_triple: Optional[str] = None
+-     ) -> List["_BuiltModule"]:
+- 
+--        target_info = self._detect_rust_target(forced_target_triple)
+--        if target_info is not None:
+--            target_triple = target_info.triple
+--            cross_lib = target_info.cross_lib
+--            linker = target_info.linker
+--            # We're ignoring target_info.linker_args for now because we're not
+--            # sure if they will always do the right thing. Might help with some
+--            # of the OS-specific logic if it does.
+--
+--        else:
+--            target_triple = None
+--            cross_lib = None
+--            linker = None
+--
+-+        target_triple = self._detect_rust_target(forced_target_triple)
+-         rustc_cfgs = get_rustc_cfgs(target_triple)
+- 
+--        env = _prepare_build_environment(cross_lib)
+-+        env = _prepare_build_environment()
+- 
+-         if not os.path.exists(ext.path):
+-             raise DistutilsFileError(
+-@@ -150,9 +137,6 @@ def build_extension(
+- 
+-         rustflags = []
+- 
+--        if linker is not None:
+--            rustflags.extend(["-C", "linker=" + linker])
+--
+-         if ext._uses_exec_binding():
+-             command = [self.cargo, "build", "--manifest-path", ext.path, *cargo_args]
+- 
+-@@ -407,45 +391,12 @@ def _py_limited_api(self) -> _PyLimitedApi:
+- 
+-     def _detect_rust_target(
+-         self, forced_target_triple: Optional[str] = None
+--    ) -> Optional["_TargetInfo"]:
+-+    ) -> Optional[str]:
+-         assert self.plat_name is not None
+--        cross_compile_info = _detect_unix_cross_compile_info()
+--        if cross_compile_info is not None:
+--            cross_target_info = cross_compile_info.to_target_info()
+--            if forced_target_triple is not None:
+--                if (
+--                    cross_target_info is not None
+--                    and not cross_target_info.is_compatible_with(forced_target_triple)
+--                ):
+--                    self.warn(
+--                        f"Forced Rust target `{forced_target_triple}` is not "
+--                        f"compatible with deduced Rust target "
+--                        f"`{cross_target_info.triple}` - the built package "
+--                        f" may not import successfully once installed."
+--                    )
+--
+--                # Forcing the target in a cross-compile environment; use
+--                # the cross-compile information in combination with the
+--                # forced target
+--                return _TargetInfo(
+--                    forced_target_triple,
+--                    cross_compile_info.cross_lib,
+--                    cross_compile_info.linker,
+--                    cross_compile_info.linker_args,
+--                )
+--            elif cross_target_info is not None:
+--                return cross_target_info
+--            else:
+--                raise DistutilsPlatformError(
+--                    "Don't know the correct rust target for system type "
+--                    f"{cross_compile_info.host_type}. Please set the "
+--                    "CARGO_BUILD_TARGET environment variable."
+--                )
+--
+--        elif forced_target_triple is not None:
+-+        if forced_target_triple is not None:
+-             # Automatic target detection can be overridden via the CARGO_BUILD_TARGET
+-             # environment variable or --target command line option
+--            return _TargetInfo.for_triple(forced_target_triple)
+-+            return forced_target_triple
+- 
+-         # Determine local rust target which needs to be "forced" if necessary
+-         local_rust_target = _adjusted_local_rust_target(self.plat_name)
+-@@ -457,7 +408,7 @@ def _detect_rust_target(
+-             # check for None first to avoid calling to rustc if not needed
+-             and local_rust_target != get_rust_host()
+-         ):
+--            return _TargetInfo.for_triple(local_rust_target)
+-+            return local_rust_target
+- 
+-         return None
+- 
+-@@ -547,91 +498,6 @@ class _BuiltModule(NamedTuple):
+-     path: str
+- 
+- 
+--class _TargetInfo(NamedTuple):
+--    triple: str
+--    cross_lib: Optional[str]
+--    linker: Optional[str]
+--    linker_args: Optional[str]
+--
+--    @staticmethod
+--    def for_triple(triple: str) -> "_TargetInfo":
+--        return _TargetInfo(triple, None, None, None)
+--
+--    def is_compatible_with(self, target: str) -> bool:
+--        if self.triple == target:
+--            return True
+--
+--        # the vendor field can be ignored, so x86_64-pc-linux-gnu is compatible
+--        # with x86_64-unknown-linux-gnu
+--        if _replace_vendor_with_unknown(self.triple) == target:
+--            return True
+--
+--        return False
+--
+--
+--class _CrossCompileInfo(NamedTuple):
+--    host_type: str
+--    cross_lib: Optional[str]
+--    linker: Optional[str]
+--    linker_args: Optional[str]
+--
+--    def to_target_info(self) -> Optional[_TargetInfo]:
+--        """Maps this cross compile info to target info.
+--
+--        Returns None if the corresponding target information could not be
+--        deduced.
+--        """
+--        # hopefully an exact match
+--        targets = get_rust_target_list()
+--        if self.host_type in targets:
+--            return _TargetInfo(
+--                self.host_type, self.cross_lib, self.linker, self.linker_args
+--            )
+--
+--        # the vendor field can be ignored, so x86_64-pc-linux-gnu is compatible
+--        # with x86_64-unknown-linux-gnu
+--        without_vendor = _replace_vendor_with_unknown(self.host_type)
+--        if without_vendor is not None and without_vendor in targets:
+--            return _TargetInfo(
+--                without_vendor, self.cross_lib, self.linker, self.linker_args
+--            )
+--
+--        return None
+--
+--
+--def _detect_unix_cross_compile_info() -> Optional["_CrossCompileInfo"]:
+--    # See https://github.com/PyO3/setuptools-rust/issues/138
+--    # This is to support cross compiling on *NIX, where plat_name isn't
+--    # necessarily the same as the system we are running on.  *NIX systems
+--    # have more detailed information available in sysconfig. We need that
+--    # because plat_name doesn't give us information on e.g., glibc vs musl.
+--    host_type = sysconfig.get_config_var("HOST_GNU_TYPE")
+--    build_type = sysconfig.get_config_var("BUILD_GNU_TYPE")
+--
+--    if not host_type or host_type == build_type:
+--        # not *NIX, or not cross compiling
+--        return None
+--
+--    if "apple-darwin" in host_type and (build_type and "apple-darwin" in build_type):
+--        # On macos and the build and host differ. This is probably an arm
+--        # Python which was built on x86_64. Don't try to handle this for now.
+--        # (See https://github.com/PyO3/setuptools-rust/issues/192)
+--        return None
+--
+--    stdlib = sysconfig.get_path("stdlib")
+--    assert stdlib is not None
+--    cross_lib = os.path.dirname(stdlib)
+--
+--    bldshared = sysconfig.get_config_var("BLDSHARED")
+--    if not bldshared:
+--        linker = None
+--        linker_args = None
+--    else:
+--        [linker, _, linker_args] = bldshared.partition(" ")
+--
+--    return _CrossCompileInfo(host_type, cross_lib, linker, linker_args)
+--
+--
+- def _replace_vendor_with_unknown(target: str) -> Optional[str]:
+-     """Replaces vendor in the target triple with unknown.
+- 
+-@@ -644,7 +510,7 @@ def _replace_vendor_with_unknown(target: str) -> Optional[str]:
+-     return "-".join(components)
+- 
+- 
+--def _prepare_build_environment(cross_lib: Optional[str]) -> Dict[str, str]:
+-+def _prepare_build_environment() -> Dict[str, str]:
+-     """Prepares environment variables to use when executing cargo build."""
+- 
+-     # Make sure that if pythonXX-sys is used, it builds against the current
+-@@ -665,9 +531,6 @@ def _prepare_build_environment(cross_lib: Optional[str]) -> Dict[str, str]:
+-         }
+-     )
+- 
+--    if cross_lib:
+--        env.setdefault("PYO3_CROSS_LIB_DIR", cross_lib)
+--
+-     env.pop("CARGO", None)
+-     return env
+- 
+diff --git a/meta/recipes-devtools/python/python3-setuptools-rust_1.4.1.bb b/meta/recipes-devtools/python/python3-setuptools-rust_1.5.1.bb
 similarity index 81%
-rename from meta/recipes-core/libcgroup/libcgroup_2.0.2.bb
-rename to meta/recipes-core/libcgroup/libcgroup_3.0.0.bb
-index 7ade372cae..efd887844d 100644
---- a/meta/recipes-core/libcgroup/libcgroup_2.0.2.bb
-+++ b/meta/recipes-core/libcgroup/libcgroup_3.0.0.bb
-@@ -5,15 +5,15 @@ in Linux. Control groups allow you to limit, account and isolate resource usage
- (CPU, memory, disk I/O, etc.) of groups of processes."
- SECTION = "libs"
- LICENSE = "LGPL-2.1-only"
--LIC_FILES_CHKSUM = "file://COPYING;md5=2d5025d4aa3495befef8f17206a5b0a1"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=4d794c5d710e5b3547a6cc6a6609a641"
+rename from meta/recipes-devtools/python/python3-setuptools-rust_1.4.1.bb
+rename to meta/recipes-devtools/python/python3-setuptools-rust_1.5.1.bb
+index c63a3f2b52..24a4f4abef 100644
+--- a/meta/recipes-devtools/python/python3-setuptools-rust_1.4.1.bb
++++ b/meta/recipes-devtools/python/python3-setuptools-rust_1.5.1.bb
+@@ -9,9 +9,10 @@ BUGTRACKER = "https://github.com/PyO3/setuptools-rust/issues"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=011cd92e702dd9e6b1a26157b6fd53f5"
  
- inherit autotools pkgconfig
+-SRC_URI = "https://files.pythonhosted.org/packages/67/08/e1aa2c582c62ac76e4d60f8e454bd3bba933781a06a88b4e38797445822a/setuptools-rust-${PV}.tar.gz \
+-           file://8e9892f08b1248dc03862da86915c2745e0ff7ec.patch"
+-SRC_URI[sha256sum] = "18ff850831f58ee21d5783825c99fad632da21e47645e9427fd7dec048029e76"
++SRC_URI = "${PYPI_SRC_URI} \
++           https://files.pythonhosted.org/packages/67/08/e1aa2c582c62ac76e4d60f8e454bd3bba933781a06a88b4e38797445822a/setuptools-rust-${PV}.tar.gz \
++           "
++SRC_URI[sha256sum] = "0e05e456645d59429cb1021370aede73c0760e9360bbfdaaefb5bced530eb9d7"
  
- DEPENDS = "bison-native flex-native"
+ inherit cargo pypi python_setuptools_build_meta
  
--SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${BP}.tar.gz"
-+SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/v3.0/${BP}.tar.gz"
- 
--SRC_URI[sha256sum] = "8ef63b32e0aff619547dbb8a25e1f6bab152d7c4864795cf915571a5994d0cf8"
-+SRC_URI[sha256sum] = "8d284d896fca1c981b55850e92acd3ad9648a69227c028dda7ae3402af878edd"
- UPSTREAM_CHECK_URI = "https://github.com/libcgroup/libcgroup/releases/"
- 
- DEPENDS:append:libc-musl = " fts "
 -- 
 2.30.2
 
