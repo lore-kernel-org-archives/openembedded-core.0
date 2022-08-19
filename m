@@ -2,66 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70E41C25B0E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71EF8C3F6B0
 	for <webhook@archiver.kernel.org>; Fri, 19 Aug 2022 07:27:58 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.472.1660894074839236359
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web12.470.1660894068364851799
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Aug 2022 00:27:55 -0700
+ Fri, 19 Aug 2022 00:27:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=fusdXbJo;
- spf=pass (domain: gmail.com, ip: 209.85.128.41,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=H8e8z1Yv;
+ spf=pass (domain: gmail.com, ip: 209.85.221.53,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id
- m17-20020a7bce11000000b003a5bedec07bso3706270wmc.0
+Received: by mail-wr1-f53.google.com with SMTP id k16so4155796wrx.11
         for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Aug 2022 00:27:54 -0700 (PDT)
+ Fri, 19 Aug 2022 00:27:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=7jOQp1Vbwjjuv07L3GYbNHWCKcAosTyjbGwNqL9AeWo=;
-        b=fusdXbJo+X11odgExoXC12tVfnBnC3M/eAY/QIQKK0sZIKl+N7NUEiO/Xoj3rvZt4C
-         BnCRKKyaZwEuxmp/dLug7b23Agyhpoe4mU+SZ75wD3X5dVTX1SZC3x8b7KaC2uYAGzL9
-         YwXZoVw6Cu7gO3piqYovt15sUbcK1j5E6EzFNVLZVfqH6HEe3t/yvxKykZeTeG0Z9f2u
-         81GIP8Tptr25f0Qv1BOiBuEBe3dx25qZhbDZVE1W2rmltXe97OmwLatRvLQY4HS1JogM
-         Fjclp+Py5zGfYe00D5rUj6x6KGRkHfVXsW0NpHB55YoJFJhC7jE2+JhkOWI8nPiCI/bF
-         2zOw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=APLQS2qRkjww//L6CrMTAEK7/sYWSBiaq5NqZhGYqA4=;
+        b=H8e8z1YvnQgkY4g+BPQlSpXbQlygzQqlRJuJ8djE7NtLDTDi39sN5D7TSWYCNRTKU1
+         3f2LWYqMfrLIs+wqFTMuDZOOP83kL1F7tIRozQhK4KldkXFOZTlRjFsYr4EWQ0WgV5Yv
+         JAiznKeVSIwLHN+SWtt93466kSQeDj57KNcPpcAmeXEEEukViFyp+yjRwDBXzEOCQ3M/
+         VbkHp/743Dpx/t1+6Ru75jcyWre+AtLVoSJMs1/O4iC5K6QpkLCT9yAHoq7Ccg30wqru
+         VkvlgQOtARKdoYMADjsu3re+0iBJpLLNDtm8BcIkyxaBgwe4H+q2qyev92/6Xah5sOC0
+         Nx3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=7jOQp1Vbwjjuv07L3GYbNHWCKcAosTyjbGwNqL9AeWo=;
-        b=XwNbFVs8uKjM9ZhYTsXYxVMtu7KcmbsZv3TqTecYSQoIbhvg4zeU4moLZeQIX2NIy2
-         URaLGWVUwvaAkCSwfcngdPQx8JXo9Z749TBMYgu+Lypi9ZtnuWgjd0iFZPrGFas0/qST
-         SmWPmUK4Y8tB4oKrwhbowyHN0YSR4cON4U42sb0490SkjaiO7+Ad1uOyHAoQDEYqCz91
-         or6oqxIF1LYdj2jQNs3jWqvHizPU5uCZEZWW8cJ5aEhAPhJzpROFdJrG2rEx/A6z4bXm
-         KAgzrf8pv3v5W2iTHyuRRRjSl88nBtxTdl3AxCtCPFq6+jGKStnk64Z7maHLXPalT9KG
-         n+wg==
-X-Gm-Message-State: ACgBeo1d0dcpx1/iF1Aw2hGV1xJuNehISsSpfvmOfoTXdwfwsSb+6w1C
-	9eAKx8g/MtUg9wctkIrWTsITWbGNUjM=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=APLQS2qRkjww//L6CrMTAEK7/sYWSBiaq5NqZhGYqA4=;
+        b=A2G04VvjE18Ot+2GDA8HzaZHZLxc3DlKZaLCjhOnyejU97abjIEzRiuwReDAdrEegG
+         PkemGiijPXSNzxdLjFvU16j1THeegIdB3K9BNq3J+V1vSnoZKfBpj1TFMCxQeVlQOHPm
+         9nEnOvca6jLO1h8sfxVPRzj1JlA7X/ZYB8mgvSmQde+IZUsjzySDE973vLHVctb2UtrD
+         IrO9TS6JUIplvO9y61Ua9Zov6sPh8VI6CVOJVRDgj7eXc2u2VllvjjEF/t0RCJAZRypy
+         uoiHKjKo9OAHpuuHgboI1UwSWyvA0EptqnXCiDIef0hTlEp/7Rlc3P1GNf8eJOZBPmli
+         LRfg==
+X-Gm-Message-State: ACgBeo1VZd5B2TfogAXxO2jax40cGLPBI6ThzBFhdoVFg5bCsDH3Ud1l
+	bhGylLokhhqX52cGqt/0Bh964yhEFps=
 X-Google-Smtp-Source: 
- AA6agR6dYw2n+OnnqP3nNBTIhooj78su3swxNR0d4lvO8APq/Mozn9vSHms+cqpvlEehOyIXwmoBuQ==
-X-Received: by 2002:a05:600c:ace:b0:3a5:b495:854d with SMTP id
- c14-20020a05600c0ace00b003a5b495854dmr3843053wmr.86.1660894073359;
-        Fri, 19 Aug 2022 00:27:53 -0700 (PDT)
+ AA6agR6IXCWOWx2JlBIuqVSuyh8LGntZ4ZiPHrAkDgYtly9oX6tGzuyhslDpLYd653TGUsIcfxycGg==
+X-Received: by 2002:a05:6000:1379:b0:21f:c4d:957a with SMTP id
+ q25-20020a056000137900b0021f0c4d957amr3443597wrz.210.1660894066461;
+        Fri, 19 Aug 2022 00:27:46 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- ay15-20020a05600c1e0f00b003a604a29a34sm4650739wmb.35.2022.08.19.00.27.52
+ ay15-20020a05600c1e0f00b003a604a29a34sm4650739wmb.35.2022.08.19.00.27.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Aug 2022 00:27:52 -0700 (PDT)
+        Fri, 19 Aug 2022 00:27:45 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 09/42] xorgproto: update 2022.1 -> 2022.2
-Date: Fri, 19 Aug 2022 09:26:54 +0200
-Message-Id: <20220819072727.2236928-9-alex@linutronix.de>
+Subject: [PATCH 01/42] nfs-utils: upgrade 2.6.1 -> 2.6.2
+Date: Fri, 19 Aug 2022 09:26:46 +0200
+Message-Id: <20220819072727.2236928-1-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220819072727.2236928-1-alex@linutronix.de>
-References: <20220819072727.2236928-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -69,31 +66,53 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Aug 2022 07:27:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169580
+ https://lists.openembedded.org/g/openembedded-core/message/169572
+
+/usr/sbin/rpcctl is written in python, so add it as a separate package
+with python3 RDEPENDS.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../xorg-proto/{xorgproto_2022.1.bb => xorgproto_2022.2.bb}   | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-proto/{xorgproto_2022.1.bb => xorgproto_2022.2.bb} (84%)
+ .../nfs-utils/{nfs-utils_2.6.1.bb => nfs-utils_2.6.2.bb} | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/nfs-utils/{nfs-utils_2.6.1.bb => nfs-utils_2.6.2.bb} (95%)
 
-diff --git a/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb b/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb
-similarity index 84%
-rename from meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb
-rename to meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb
-index a1e852b9eb..a1cd66c744 100644
---- a/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb
-+++ b/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb
-@@ -8,8 +8,8 @@ SECTION = "x11/libs"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING-x11proto;md5=dfc4bd2b0568b31725b85b0604e69b56"
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.2.bb
+similarity index 95%
+rename from meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.1.bb
+rename to meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.2.bb
+index bbed5aea59..57aac8c60b 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.1.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.2.bb
+@@ -31,7 +31,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
+            file://clang-warnings.patch \
+            "
+-SRC_URI[sha256sum] = "60dfcd94a9f3d72a12bc7058d811787ec87a6d593d70da2123faf9aad3d7a1df"
++SRC_URI[sha256sum] = "5200873e81c4d610e2462fc262fe18135f2dbe78b7979f95accd159ae64d5011"
  
--SRC_URI = "${XORG_MIRROR}/individual/proto/${BP}.tar.bz2"
--SRC_URI[sha256sum] = "1d2dcc66963f234d2c1e1f8d98a0d3e8725149cdac0a263df4097593c48bc2a6"
-+SRC_URI = "${XORG_MIRROR}/individual/proto/${BP}.tar.xz"
-+SRC_URI[sha256sum] = "5d13dbf2be08f95323985de53352c4f352713860457b95ccaf894a647ac06b9e"
+ # Only kernel-module-nfsd is required here (but can be built-in)  - the nfsd module will
+ # pull in the remainder of the dependencies.
+@@ -70,7 +70,9 @@ PACKAGECONFIG[nfsv41] = "--enable-nfsv41,--disable-nfsv41,libdevmapper,libdevmap
+ # keyutils is available in meta-oe
+ PACKAGECONFIG[nfsv4] = "--enable-nfsv4,--disable-nfsv4,keyutils,python3-core"
  
- inherit meson
+-PACKAGES =+ "${PN}-client ${PN}-mount ${PN}-stats"
++PACKAGES =+ "${PN}-client ${PN}-mount ${PN}-rpcctl ${PN}-stats"
++
++FILES:${PN} += "${nonarch_libdir}/modprobe.d"
+ 
+ CONFFILES:${PN}-client += "${localstatedir}/lib/nfs/etab \
+ 			   ${localstatedir}/lib/nfs/rmtab \
+@@ -90,6 +92,9 @@ RDEPENDS:${PN}-client = "${PN}-mount rpcbind"
+ 
+ FILES:${PN}-mount = "${base_sbindir}/*mount.nfs*"
+ 
++FILES:${PN}-rpcctl = "${sbindir}/rpcctl"
++RDEPENDS:${PN}-rpcctl = "python3-core"
++
+ FILES:${PN}-stats = "${sbindir}/mountstats ${sbindir}/nfsiostat ${sbindir}/nfsdclnts"
+ RDEPENDS:${PN}-stats = "python3-core"
  
 -- 
 2.30.2
