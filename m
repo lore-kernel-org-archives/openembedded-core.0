@@ -2,64 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75C13C3F6B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80EFEC32789
 	for <webhook@archiver.kernel.org>; Fri, 19 Aug 2022 02:43:45 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web10.50699.1660877018260547942
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web11.50679.1660876993920883649
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 19:43:44 -0700
+ Thu, 18 Aug 2022 19:43:40 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=GvOMmcOo;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.44,
+ header.b=Oigwb1+6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.49,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id e19so2196204pju.1
+Received: by mail-pj1-f49.google.com with SMTP id
+ s3-20020a17090a2f0300b001facfc6fdbcso2932179pjd.1
         for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Aug 2022 19:43:44 -0700 (PDT)
+ Thu, 18 Aug 2022 19:43:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc;
-        bh=a4D0VR3LnvgdbIyl0E7iU7lJwyA39nVgAR6kLNwNhBc=;
-        b=GvOMmcOoQq3X2SyO+ov9o918QDKpD1qyqRxaYMZ1BZ0bttr05M+3xgsLexsb6Sp92k
-         hgZtFPuZBnWumXau6vRvQ6nizgqqG5ILsPMC4Gy5nFJNlFc5z6n9kz+F4X3FlO4GnG6K
-         kWJQrwliudLcAsXQPC4YyJRDE0WCDM5rQeO/jYzL8Mlm0VRLLep2I88EkOZFCqvL1UsH
-         4X/l8rzRycLBo/bkpc7qEhbCPNcK7lQeeCyNIDFA3myvYL6A5iQjCi9JnvKBrQdecqJC
-         dhCG5jNF18dUdMUS0Y7LKV1cQlBeptdzLbRdDxeYIvXAzI2WVi854XA+KNWOiMjWU8bc
-         OC/w==
+        bh=H08WO+CADCSbagt5JglzSlD3Q3/XxSNfkcDSeFg7uy0=;
+        b=Oigwb1+6QBK89GleU0xVkML9Rb9KV2laeYfGazKO6L16998Xts5EwIs17DMfY6WHB1
+         93d3EfCm/Fm5K307HCsTrHFm8Qgd+gH3XWV0ZveGHejwyn5xeBTIet/c420lmsynM35u
+         B3cKagBvmJzRApZULsO6xMLu7OnJZat/VDon+jkIELdKU8HjwOfHDT0Ct0myc/wTD3Xh
+         rZYcZJla6GwzksEqikFfHY+hpsbDCDtHbofTDvkmIhGQ9S9yDj0Zli0/4yYGyIDCfKIr
+         W1jZ5WYqxnXZP8C5fHP2WQgSmfHT2DdxLSktI0/JOWclj8o1uXIyLNH3OmU1YSyGkBbM
+         LhcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=a4D0VR3LnvgdbIyl0E7iU7lJwyA39nVgAR6kLNwNhBc=;
-        b=ZYhsuJ5D79MYYwZjOK4sldKMMJmY+sIfCZzeHD799pZEqgXQZUE62BCXXnyCybZ1Lq
-         9eZibOeJfrBGlTIvbUI52DtjAis6PhbQFcAlS96czmwwcZQbJg5zbVl8fyiZDNcfWe/9
-         EeOJuIT5X2yZPOzX4fxSR5zKkOG0QUB0UcR4RDB72/OCGZN9j4B8/9wgKz8SJSN1sS0b
-         be/FE31CWBGi82uLdKuALHkpSJisnebf2ajSNVLuhWdmkJ6ijp+I0Ae4+1Ape/hFMZNv
-         WNkiHaINoDl4I9ekRwGcEca/fKJxhCAaKWd77bCvrDWvbF1x5zonH8HytA78+fR1wDLC
-         KZjw==
-X-Gm-Message-State: ACgBeo3k1HJxS18XVvAhY36A/5k+XptFWxAyT2D0T1cAw87Kgnhql9QB
-	LgI1YMwSNgVPhKLPv8BXK30kwipOSwO9nZgH
+        bh=H08WO+CADCSbagt5JglzSlD3Q3/XxSNfkcDSeFg7uy0=;
+        b=znKOxzHz1hWwFm0k2RCg0uLo5+kQ4zoUiLEBBKKm4KQjbC3VoulFN5k9kG5aJyZzHs
+         hQdvyPUwo/35Id2UKcygAoDosbpprnoyduRATMW073NT07rlLS3VHxv9ryBvsIu8D8dy
+         ++HHBJvIEPSfOHom6+Ri8mYIy3sEUdJgQMGBXJKVYy4klWqjdSC4dRgNdE61Wczm6DMH
+         OynFV7A/bmafwzOKff1Ymra3z2O9CnaT2+clwdgyVpoG+MSkYDonGhEaL47x/1RUy9GF
+         4uviLjkc6HquVRW2pPlNmdWffGd/iEPpdkWpfXGpPlkruoYIExUJQJpXYnLRUkLV3dXP
+         dNMA==
+X-Gm-Message-State: ACgBeo1L7/rHLSCRW3Qc0Hdl7CRE598S9PRo6v56ZTGraazd+teFHCdD
+	iXVtRfPRYEB1Raa1tZAma4fVQZ4qpcmvX4gP
 X-Google-Smtp-Source: 
- AA6agR4Y1Ci1OPUfNIfr2ZMfiUSsSFf8ZgpdWPTHTuk4u4kywjpVEZ8MuNPsoqtw+yAPulwqyzDGCw==
-X-Received: by 2002:a17:903:244c:b0:171:55cf:a930 with SMTP id
- l12-20020a170903244c00b0017155cfa930mr5361209pls.35.1660877023610;
-        Thu, 18 Aug 2022 19:43:43 -0700 (PDT)
+ AA6agR6fyS8W+mGMfjv1OD7k8RXeLpnWk3kElbZlZgEEsIJeqIZtw5KDOm4N7C9Rh5O500SK/XsrGA==
+X-Received: by 2002:a17:903:291:b0:172:ba83:71a8 with SMTP id
+ j17-20020a170903029100b00172ba8371a8mr3649885plr.65.1660877019542;
+        Thu, 18 Aug 2022 19:43:39 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- t12-20020a17090a4e4c00b001fa80cde150sm4150145pjl.20.2022.08.18.19.43.42
+ t12-20020a17090a4e4c00b001fa80cde150sm4150145pjl.20.2022.08.18.19.43.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Aug 2022 19:43:43 -0700 (PDT)
+        Thu, 18 Aug 2022 19:43:38 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 17/26] create-spdx: ignore packing control files
- from ipk and deb
-Date: Thu, 18 Aug 2022 16:42:39 -1000
+Subject: [OE-core][kirkstone 15/26] archiver.bbclass: remove unsed
+ do_deploy_archives[dirs]
+Date: Thu, 18 Aug 2022 16:42:37 -1000
 Message-Id: 
- <90799920339e121c9fdf385258927f8d6a6405eb.1660876844.git.steve@sakoman.com>
+ <31ed9d68cca4788c48e1e7c470218b80df61baa4.1660876844.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1660876844.git.steve@sakoman.com>
 References: <cover.1660876844.git.steve@sakoman.com>
@@ -70,91 +71,34 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Aug 2022 02:43:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169560
+ https://lists.openembedded.org/g/openembedded-core/message/169558
 
 From: Jose Quaresma <quaresma.jose@gmail.com>
 
-Otherwise spdx can have references for data that is not packed
-in the package delivered because this contol data is temporarly
-and only exist while the package is been write.
+Remove as commit b3afe7d redifines it.
 
-During do_package_write_ipk task in do_package_ipk the control
-files is cleaned up at the end. This can create a race condiction
-when the do_create_spdx task runs the add_package_files function
-and these files is been deleted at same time in the
-task do_package_write_ipk.
-
-ERROR: alsa-topology-conf-1.2.5.1-r0 do_create_spdx: Error executing a python function in exec_func_python() autogenerated:
-
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:do_create_spdx(d)
-     0003:
-File: '/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/create-spdx.bbclass', lineno: 567, function: do_create_spdx
-     0563:            package_doc.add_relationship(package_doc, "DESCRIBES", spdx_package)
-     0564:
-     0565:            package_archive = deploy_dir_spdx / "packages" / (package_doc.name + ".tar.zst")
-     0566:            with optional_tarfile(package_archive, archive_packaged) as archive:
- *** 0567:                package_files = add_package_files(
-     0568:                    d,
-     0569:                    package_doc,
-     0570:                    spdx_package,
-     0571:                    pkgdest / package,
-File: '/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/create-spdx.bbclass', lineno: 234, function: add_package_files
-     0230:                            info.mtime = source_date_epoch
-     0231:
-     0232:                        archive.addfile(info, f)
-     0233:
- *** 0234:                sha1 = bb.utils.sha1_file(filepath)
-     0235:                sha1s.append(sha1)
-     0236:                spdx_file.checksums.append(oe.spdx.SPDXChecksum(
-     0237:                        algorithm="SHA1",
-     0238:                        checksumValue=sha1,
-File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 559, function: sha1_file
-     0555:    """
-     0556:    Return the hex string representation of the SHA1 checksum of the filename
-     0557:    """
-     0558:    import hashlib
- *** 0559:    return _hasher(hashlib.sha1(), filename)
-     0560:
-     0561:def sha384_file(filename):
-     0562:    """
-     0563:    Return the hex string representation of the SHA384 checksum of the filename
-File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 528, function: _hasher
-     0524:
-     0525:def _hasher(method, filename):
-     0526:    import mmap
-     0527:
- *** 0528:    with open(filename, "rb") as f:
-     0529:        try:
-     0530:            with mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ) as mm:
-     0531:                for chunk in iter(lambda: mm.read(8192), b''):
-     0532:                    method.update(chunk)
-Exception: FileNotFoundError: [Errno 2] No such file or directory: '/srv/oe/build/tmp-lmp/work/all-lmp-linux/alsa-topology-conf/1.2.5.1-r0/packages-split/alsa-topology-conf/CONTROL/control'
-
-ERROR: Logfile of failure stored in: /srv/oe/build/tmp-lmp/work/all-lmp-linux/alsa-topology-conf/1.2.5.1-r0/temp/log.do_create_spdx.998864
-INFO: recipe alsa-topology-conf-1.2.5.1-r0: task do_create_spdx: Failed
+https://git.openembedded.org/openembedded-core/commit/?id=b3afe7d9bd25a943e947de3ec064ea245173c5a8
 
 Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-(cherry picked from commit 0bfe403f46fd568910a727982c3ff528e3d5c8bc)
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit cf5e155a9c76a6e4ed7145118e7367ab6f2f53f2)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/create-spdx.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/archiver.bbclass | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.bbclass
-index f6827fccf7..ae484328fb 100644
---- a/meta/classes/create-spdx.bbclass
-+++ b/meta/classes/create-spdx.bbclass
-@@ -571,6 +571,7 @@ python do_create_spdx() {
-                     pkgdest / package,
-                     lambda file_counter: oe.sbom.get_packaged_file_spdxid(pkg_name, file_counter),
-                     lambda filepath: ["BINARY"],
-+                    ignore_top_level_dirs=['CONTROL', 'DEBIAN'],
-                     archive=archive,
-                 )
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index 33070cd17f..5da369d422 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -69,7 +69,6 @@ SSTATE_ALLOW_OVERLAP_FILES += "${DEPLOY_DIR_SRC}/mirror"
+ do_dumpdata[dirs] = "${ARCHIVER_OUTDIR}"
+ do_ar_recipe[dirs] = "${ARCHIVER_OUTDIR}"
+ do_ar_original[dirs] = "${ARCHIVER_OUTDIR} ${ARCHIVER_WORKDIR}"
+-do_deploy_archives[dirs] = "${WORKDIR}"
+ 
+ # This is a convenience for the shell script to use it
  
 -- 
 2.25.1
