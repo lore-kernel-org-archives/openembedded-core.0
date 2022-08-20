@@ -1,117 +1,94 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A1BC28D13
-	for <webhook@archiver.kernel.org>; Sat, 20 Aug 2022 02:29:24 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.3124.1660962554718041732
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B05D3C25B08
+	for <webhook@archiver.kernel.org>; Sat, 20 Aug 2022 07:19:15 +0000 (UTC)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web08.4651.1660979945886251606
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Aug 2022 19:29:14 -0700
+ Sat, 20 Aug 2022 00:19:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=aE/mi0vS;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=5231ae9cc0=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 27K0dc9G027190;
-	Fri, 19 Aug 2022 19:29:11 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=PPS06212021;
- bh=MX1MakDJS6UIJtllj0047vFn/XkXNTiCx0dKHnSIDcc=;
- b=aE/mi0vSWMyFlcXNdK8e/r9oe1K6to7h6QtAyNhsVnxE1KxEo1PsaFqCiNazOq2G4t5p
- U5X8YYHbbgW0ZcbGPBkn5vwnLAFfQxiy6hkXX32/CBi/9jWhdu0aj7X1LODNNYoSHiRR
- ie5eGChVelvAyawDCMFinqW3WEej9JridUBlNjBreF4be19V8Apx5uYzJApXjiaS5G0B
- qM2Ga4Iok9wvS2TPAZZ4IyEakWhE2IgT5ZDJqPaAjR2mLXErURdKPr3UHx1DncMXMCFI
- Z7iKAzwC85b/E6LL/wlK0PkTpzklD+Li1z3RCSkxaEAT63qeN5p8wcHP+2zaQtBsutYZ HA==
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com
- [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3hx783dyd9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 19 Aug 2022 19:29:11 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Fri, 19 Aug 2022 19:29:10 -0700
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Fri, 19 Aug 2022 19:29:10 -0700
-From: Randy MacLeod <Randy.MacLeod@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <alex.kanavin@gmail.com>, <richard.purdie@linuxfoundation.org>
-Subject: [PATCH] rust: conditionally copy tools like rustfmt
-Date: Fri, 19 Aug 2022 19:29:10 -0700
-Message-ID: <20220820022910.173452-1-Randy.MacLeod@windriver.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220819072727.2236928-39-alex@linutronix.de>
-References: <20220819072727.2236928-39-alex@linutronix.de>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=hpAddg9F;
+ spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f41.google.com with SMTP id j1so1244602pjg.5
+        for <openembedded-core@lists.openembedded.org>;
+ Sat, 20 Aug 2022 00:19:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=STEfvSv3q9EYuzrhfNUh979rZuY0XKaUSDf+XkCp0Wo=;
+        b=hpAddg9FBqr7xSxc9RCZosHdbmO0VeX4UZ2bVZd796tXlTf8PjWo9Bhs5URflJsRFz
+         jAnw9ilYtIZjNWEcRt3rAGp2xja75yZk0dOnMVCVSMskME0BsljWhXiDphm6AQJE9xBo
+         sSeekfLLaAh1h5pC5hgiXho7gsI3+l9N8shFxWWXTC19sAFaBnKXSAx7KoxAAWS55Suu
+         NhBH7j/2cD3nBYMYYJ44sC7hRjDSj3yg85WD4V3rweto4QiHXibZH1pPjpbrsASl5wiq
+         A9+MCQ6ROvqODTv5ivwl+9yUf1yMhCwnpdHMvp/LjO+d5MtheIvSWL6xe0LieNz+5Oaw
+         SPbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=STEfvSv3q9EYuzrhfNUh979rZuY0XKaUSDf+XkCp0Wo=;
+        b=OtzA4j+63V9ZyIADzy4Iez3mOp/30/5teGYiHE1CaOr6VBO8VypurIIHbyVgcZfo1T
+         87v60XsLz/Uk0nIXTUjd1a+U3CUNrh1KANszE/IOx4QRGIa2Ah3KjVMBqfUCHyim0kH+
+         bwNP+/IqtccxmOZclpsov8kFhYMpzJjK0F2O1P2CoRcK1kd/lIx/LqMbDivEPPJ3iFr4
+         p595xT4HarjyKD+areZHBw0TNiXkUZJ/cc9e23S1ZoPO8jxi6/yNU9hnynuRy6b38Bbx
+         z6gBj2iMLb15+u4DeaDtLC5+N5X018TPCmVKwEmjUVB6WOlcl9LEU0Lj/bO1WE2Zxnt3
+         vebw==
+X-Gm-Message-State: ACgBeo1+suPRg0Ae8b2BwPvS0AD261xR3WnqsPaI+L+/X3A+rWxBLcse
+	TaT+VIhF0OgSbhTU/iGoMnSRM/NK7HQuig==
+X-Google-Smtp-Source: 
+ AA6agR51Xcc/TyxrfFL/fVkdt5kNn1SjJe7GqZDoMnbtvn4Nb24gUuwPNDxEi3VQth1BHvSWhKEuoA==
+X-Received: by 2002:a17:90b:4012:b0:1fa:df52:16ad with SMTP id
+ ie18-20020a17090b401200b001fadf5216admr8269869pjb.198.1660979944966;
+        Sat, 20 Aug 2022 00:19:04 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::d53f])
+        by smtp.gmail.com with ESMTPSA id
+ n5-20020a170903110500b00170d34cf7f3sm4259365plh.257.2022.08.20.00.19.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Aug 2022 00:19:04 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] cargo_common.bbclass: Add missing space in shell conditional
+ code
+Date: Sat, 20 Aug 2022 00:19:01 -0700
+Message-Id: <20220820071901.3174011-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: L1aciXRQEROUX-Td8wAFFBV6JbYvkB2J
-X-Proofpoint-GUID: L1aciXRQEROUX-Td8wAFFBV6JbYvkB2J
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-19_13,2022-08-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0
- spamscore=0 impostorscore=0 suspectscore=0 phishscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 adultscore=0 priorityscore=1501
- mlxlogscore=569 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208200008
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 20 Aug 2022 02:29:24 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 20 Aug 2022 07:19:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169646
+ https://lists.openembedded.org/g/openembedded-core/message/169647
 
-For qemuppc/mips, rustfmt isn't being built so check
-that it and related tools exist before copying them.
-qemuppc/mips are not well-supported in the Rust world
-but will work to get the build to fixed later.
+Fixes cofigure errors in rust recipes e.g.
 
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+tmp/work/riscv32-yoe-linux-musl/rust/1.62.1-r0/temp/run.setup_cargo_environment.3047487: line 215: [: missing `]'
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/rust/rust_1.63.0.bb | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ meta/classes-recipe/cargo_common.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/rust/rust_1.63.0.bb b/meta/recipes-devtools/rust/rust_1.63.0.bb
-index 3081cd5ef3..050f398794 100644
---- a/meta/recipes-devtools/rust/rust_1.63.0.bb
-+++ b/meta/recipes-devtools/rust/rust_1.63.0.bb
-@@ -43,8 +43,10 @@ rust_do_install:class-nativesdk() {
+diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
+index eec7710a4c..dea0fbe2f6 100644
+--- a/meta/classes-recipe/cargo_common.bbclass
++++ b/meta/classes-recipe/cargo_common.bbclass
+@@ -88,7 +88,7 @@ cargo_common_do_configure () {
+ 		EOF
+ 	fi
  
-     install -d ${D}${bindir}
-     for i in cargo-clippy clippy-driver rustfmt; do
--        cp build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/release/$i ${D}${bindir}
--        chrpath -r "\$ORIGIN/../lib" ${D}${bindir}/$i
-+        if [ -e build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/release/$i ]; then
-+            cp build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/release/$i ${D}${bindir}
-+            chrpath -r "\$ORIGIN/../lib" ${D}${bindir}/$i
-+        fi
-     done
+-	if [ "${RUST_TARGET_SYS}" != "${RUST_BUILD_SYS}" -a "${RUST_TARGET_SYS}" != "${RUST_HOST_SYS}"]; then
++	if [ "${RUST_TARGET_SYS}" != "${RUST_BUILD_SYS}" -a "${RUST_TARGET_SYS}" != "${RUST_HOST_SYS}" ]; then
+ 		cat <<- EOF >> ${CARGO_HOME}/config
  
-     chown root:root ${D}/ -R
-@@ -60,8 +62,10 @@ rust_do_install:class-target() {
- 
-     install -d ${D}${bindir}
-     for i in cargo-clippy clippy-driver rustfmt; do
--        cp build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/release/$i ${D}${bindir}
--        chrpath -r "\$ORIGIN/../lib" ${D}${bindir}/$i
-+        if [ -e build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/release/$i ]; then
-+            cp build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/release/$i ${D}${bindir}
-+            chrpath -r "\$ORIGIN/../lib" ${D}${bindir}/$i
-+        fi
-     done
- 
-     chown root:root ${D}/ -R
+ 		# TARGET_SYS
 -- 
-2.35.1
+2.37.2
 
 
