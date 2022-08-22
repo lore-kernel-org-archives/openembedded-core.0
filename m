@@ -1,142 +1,95 @@
-Return-Path: <chuckwolber@gmail.com>
+Return-Path: <wesley.lindauer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D300BC28D13
-	for <webhook@archiver.kernel.org>; Mon, 22 Aug 2022 01:21:01 +0000 (UTC)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
- [209.85.128.169])
- by mx.groups.io with SMTP id smtpd.web11.12965.1661131252161036061
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00475C28D13
+	for <webhook@archiver.kernel.org>; Mon, 22 Aug 2022 05:00:12 +0000 (UTC)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.web12.14561.1661144405960141423
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Aug 2022 18:20:52 -0700
+ Sun, 21 Aug 2022 22:00:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Mw3qty7h;
- spf=pass (domain: gmail.com, ip: 209.85.128.169,
- mailfrom: chuckwolber@gmail.com)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-3246910dac3so253714267b3.12
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=kV0Qq1bH;
+ spf=pass (domain: gmail.com, ip: 209.85.222.177,
+ mailfrom: wesley.lindauer@gmail.com)
+Received: by mail-qk1-f177.google.com with SMTP id n21so7117452qkk.3
         for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Aug 2022 18:20:52 -0700 (PDT)
+ Sun, 21 Aug 2022 22:00:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=igL7bmeMXCwifcvq4L9LSVc2ZoTpFV6NTejdq0QVCF0=;
-        b=Mw3qty7h3feTN5shoT7i9kjX4HGcj3KA7eklv2M7l4jQ0xAYMxrss39b7NQ63LGRJd
-         hYYCXbLcXn6bcM7iGuWrVSJ9//JNWSgFxoKdykZgH1a4/qkRiXylk167ctO9CJwmaurs
-         IjALgHwqtMwF9X/MsIjjqncSeAHsY9z7dBCBllHRG6Btl6q4gNroPF96Zw8kQAm26xPG
-         gci0ps3FR6ajkz5JBW2eO29VooUwJy59l37FIgejHNPrIYiIdhND8LDTo8S+r0T2kqq9
-         AYt7eRNeSfF+B7JYK8h+aUj+Vj6fupjA9OGiPB+kIlDH/byGi3TsbINqm2zXMMSK0ul1
-         v4HQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=Y71wWku5xeJVArKbBwuHxilQNIYi17ESAfRV51LjW/U=;
+        b=kV0Qq1bHx81inJGCvL/Wfo1e+3nQkBL63818nr2qSePDkdVZ1shmgLd14kqZ46hHxq
+         2z1JklJyQR/+MIQi28ifFM3oY+sO0773RAdiW8EtRI+UrvOQL4Zm8Ju+rnvdUVgZQ3Jm
+         1qQXEKe330fNpGqP583OWqKPQ1BeRu8K+BpEivkxM1DCfz69bCP247VuRnKcX2mBISWM
+         mUB3eV2uqwoEDmIBl6IBSbhYRsvPTLP3UAcIPv61zkxBvrTePNiDvw9wirlymBwfFhxt
+         I1S7nHKEzreAsjga5bgooOYC5BqCnk/DURWblWiFKJIDQnZxv3aqDxRovhx7yyfGlEFa
+         hkDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=igL7bmeMXCwifcvq4L9LSVc2ZoTpFV6NTejdq0QVCF0=;
-        b=2aQQKCAHrogLeQicgEEsH2gEXi94sy7HEBHdBNCuBsgfShvxCApphyB45N2fX/5WR8
-         Trxb5E2QU89ZMXvB33M0SDb9RDBfmRbFcJRtV76sM3Kl0HgwxJB0NQ/kYDFwQ4LzN8sN
-         Q63NyiepM8PEJFAhIupzL4gAF+QnvnonlXVtgFBW6dPI5SJDkQ8p0vYm6ISBab5Cnw4E
-         COaxQeFzIcKLbmZ51d3avxxszSYUtduu8LVJDTRxfcH7BPhEaSWXR8UWkXcmI5Wl6IkV
-         t1Vq8pkQBQ+F/kcYzE4nyGSjSM4U2Rzd5a4TEf1b8NDLIcxFrrXiXrGoZG1f6a/HkQUL
-         oz/A==
-X-Gm-Message-State: ACgBeo3CWGCCjBz6BSAgswzLWEW79+VUAbyhuiRXSc3+gGsOYtXeewOi
-	N3nbS/eqtGl5J7cQZXjnwWrf8TRlnzWyMctzrT0=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=Y71wWku5xeJVArKbBwuHxilQNIYi17ESAfRV51LjW/U=;
+        b=xmExayf2eNBl22Fa6zrY8HiuLjuwNAz9R1W2CzZ1zriZ5W10OBafLjqKKAO9m1CWxI
+         nkrxP6JXMlus17T2Csyi8ZAbF3LJRY402t+l75JHeDbZlx+95NmWfm1T99VApjSTWJzt
+         plaPMdMVxCO8in4dBFO/4YcdaYNCpGseTap2b+9/SaUE9HnKs0ny3F1qSBZ9TaWCGDfG
+         YzISiU5HBm3eds7ZxvDLWi8iJmyttXfKJUyALxUXIJSPW1svAiHa93S6gCQJWaYSmkjd
+         VKInIvvjV1p+9NMzaiMMvDwvDWDTmySfvr3OwSYt6zHzN82cjGt+kCIkRk0TRKoCu5/o
+         nsbw==
+X-Gm-Message-State: ACgBeo0BYmcW5xS4dyWIZcJXXbcriMMjqG+Pzy9BG/r+WBcJI3osnZ7T
+	jb5QfcuXFk/97MzE3FJq8MdIu51xeL7LZg==
 X-Google-Smtp-Source: 
- AA6agR7cmGuJUqZeSjcmOeWSwYf7Cah/OITYx5lygDJCST9IXJeU7vNqiTCpweHk71fsIon15Zh/OeGGEYeMNfASlDA=
-X-Received: by 2002:a81:1e0d:0:b0:33b:fb67:9895 with SMTP id
- e13-20020a811e0d000000b0033bfb679895mr2492062ywe.188.1661131251229; Sun, 21
- Aug 2022 18:20:51 -0700 (PDT)
+ AA6agR6fxUyRtFYSURC1iNx3qAPZbapjxrtrHGZCrQRf53Z6bZH41gyhanjgkwDNGLK10j5MYsAjNw==
+X-Received: by 2002:a05:620a:4613:b0:6bb:61c1:819 with SMTP id
+ br19-20020a05620a461300b006bb61c10819mr11724786qkb.736.1661144404792;
+        Sun, 21 Aug 2022 22:00:04 -0700 (PDT)
+Received: from nova.wlindauer.baselinux.net
+ (cpe-192-181-152-172.kya.res.rr.com. [192.181.152.172])
+        by smtp.gmail.com with ESMTPSA id
+ y16-20020ac85f50000000b0031ecddf2278sm8997964qta.37.2022.08.21.22.00.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Aug 2022 22:00:04 -0700 (PDT)
+From: Wes Lindauer <wesley.lindauer@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Wes Lindauer <wesley.lindauer@gmail.com>
+Subject: [OE-core][PATCH] bitbake.conf: Add resource vars to hash ignore list
+Date: Mon, 22 Aug 2022 00:59:19 -0400
+Message-Id: <20220822045919.1262270-1-wesley.lindauer@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220817131023.4093773-1-alex@linutronix.de>
- <20220817131023.4093773-4-alex@linutronix.de>
-In-Reply-To: <20220817131023.4093773-4-alex@linutronix.de>
-From: Chuck Wolber <chuckwolber@gmail.com>
-Date: Sun, 21 Aug 2022 18:20:39 -0700
-Message-ID: 
- <CAB=6tBQEuiwNq6W-qT6P6fcnGOpQtxH2cRDBd2NrfKqWrNsXiA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/5] scripts/oe-setup-layers: add a script that
- restores the layer configuration from a json file
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: multipart/alternative; boundary="00000000000027a95c05e6ca42b5"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Aug 2022 01:21:01 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Aug 2022 05:00:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169657
+ https://lists.openembedded.org/g/openembedded-core/message/169658
 
---00000000000027a95c05e6ca42b5
-Content-Type: text/plain; charset="UTF-8"
+It should not matter what xz/zstd parallelism and resource usage is set to
+when determining hash signatures. This allows sharing more sstate across
+host machines with different CPU configurations.
 
-On Wed, Aug 17, 2022 at 6:10 AM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
+Signed-off-by: Wes Lindauer <wesley.lindauer@gmail.com>
+---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> This script can be used directly from poky, or can be copied directly into
-> a
-> layer or any other repository - it is self-suffucient and requires only
-> python3
-> and git on the host where it will run. It is also copied by the
-> bitbake-layers
-> layers-setup plugin together with the json, unless requested otherwise.
->
-
-I need to review the code a bit closer, but on the face of it, this appears
-to solve the repository
-pinning problem quite elegantly. This matters a great deal in tightly
-configuration controlled
-environments, such as where regulatory oversight is involved.
-
-One feedback item I might suggest is to check if the layer is already
-pulled and to avoid pulling
-again. Same goes for the commit hash - no reason to checkout the hash if
-HEAD is already pointing
-at it.
-
-Adding those checks would enable your script to be added as a pre-build
-step in a developer
-workflow wrapper script. Our environment takes a different approach to
-repository pinning, but if
-setup-layers had those checks, we could probably switch to this approach.
-
-..Ch:W..
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index dd2df8a552..d9eb1831ea 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -944,7 +944,7 @@ BB_HASHEXCLUDE_COMMON ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH BBSERVER DL_DI
+     BB_WORKERCONTEXT BB_LIMITEDDEPS BB_UNIHASH extend_recipe_sysroot DEPLOY_DIR \
+     SSTATE_HASHEQUIV_METHOD SSTATE_HASHEQUIV_REPORT_TASKDATA \
+     SSTATE_HASHEQUIV_OWNER CCACHE_TOP_DIR BB_HASHSERVE GIT_CEILING_DIRECTORIES \
+-    OMP_NUM_THREADS BB_CURRENTTASK"
++    XZ_MEMLIMIT XZ_THREADS XZ_DEFAULTS ZSTD_THREADS OMP_NUM_THREADS BB_CURRENTTASK"
+ BB_BASEHASH_IGNORE_VARS ?= "${BB_HASHEXCLUDE_COMMON} PSEUDO_IGNORE_PATHS BUILDHISTORY_DIR \
+     SSTATE_DIR SOURCE_DATE_EPOCH RUST_BUILD_SYS RUST_HOST_SYS RUST_TARGET_SYS"
+ BB_HASHCONFIG_IGNORE_VARS ?= "${BB_HASHEXCLUDE_COMMON} DATE TIME SSH_AGENT_PID \
 -- 
-*"Perfection must be reached by degrees; she requires the slow hand of
-time." - Voltaire*
+2.25.1
 
---00000000000027a95c05e6ca42b5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, Aug 17, 2022 at 6:10 AM Alexander=
- Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.c=
-om</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">This script can be used directly from poky, or=
- can be copied directly into a<br>
-layer or any other repository - it is self-suffucient and requires only pyt=
-hon3<br>
-and git on the host where it will run. It is also copied by the bitbake-lay=
-ers<br>
-layers-setup plugin together with the json, unless requested otherwise.<br>=
-</blockquote><div><br></div><div>I need to review the code a bit closer, bu=
-t on the face of it, this appears to solve the repository</div><div>pinning=
- problem quite elegantly. This matters a great deal in tightly configuratio=
-n controlled</div><div>environments, such as where regulatory oversight is =
-involved.<br></div><div><br></div><div>One feedback item I might suggest is=
- to check if the layer is already pulled and to avoid pulling</div><div>aga=
-in. Same goes for the commit hash - no reason to checkout the hash if HEAD =
-is already pointing</div><div>at it.</div><div><br></div><div>Adding those =
-checks would enable your script to be added as a pre-build step in a develo=
-per</div><div>workflow wrapper script. Our environment takes a different ap=
-proach to repository pinning, but if</div><div>setup-layers had those check=
-s, we could probably switch to this approach.<br></div><div><br></div><div>=
-..Ch:W..<br></div><div><br></div></div>-- <br><div dir=3D"ltr" class=3D"gma=
-il_signature"><div dir=3D"ltr"><div><b><span style=3D"font-family:monospace=
-">&quot;Perfection must be reached by degrees; she requires the slow hand o=
-f time.&quot; - Voltaire</span></b></div></div></div></div>
-
---00000000000027a95c05e6ca42b5--
 
