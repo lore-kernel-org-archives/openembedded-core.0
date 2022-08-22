@@ -1,100 +1,207 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <devendra.tewari@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A27AEC28D13
-	for <webhook@archiver.kernel.org>; Mon, 22 Aug 2022 11:19:04 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web08.16900.1661167141239347965
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08F61C28D13
+	for <webhook@archiver.kernel.org>; Mon, 22 Aug 2022 12:25:25 +0000 (UTC)
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com
+ [209.85.217.51])
+ by mx.groups.io with SMTP id smtpd.web09.17367.1661171124301441816
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Aug 2022 04:19:01 -0700
+ Mon, 22 Aug 2022 05:25:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eJve0/SF;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id
- ay39-20020a05600c1e2700b003a5503a80cfso5813330wmb.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=UHiwjBlt;
+ spf=pass (domain: gmail.com, ip: 209.85.217.51,
+ mailfrom: devendra.tewari@gmail.com)
+Received: by mail-vs1-f51.google.com with SMTP id w188so2844381vsb.10
         for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Aug 2022 04:19:01 -0700 (PDT)
+ Mon, 22 Aug 2022 05:25:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc;
-        bh=pZjXftMJwzxrcctOfYJawsCw2LYkR1a5BWGDiuUZVCg=;
-        b=eJve0/SFnYVDBmK8ZCcTpWvnwvXdEK33lvLRWNIcmTLZpN2HR2SLgCRtTlAAnF9wK7
-         n408/6Iz4rfMFoBPycb4y0ilbxHEh6SjOEu9PK7gQd05GxHBat4MITduWtP4xrO2nuim
-         8iLKOHgHj+KQQ6LUnrto0u2ag2zqyTYCBpmM8=
+        d=gmail.com; s=20210112;
+        h=to:references:message-id:cc:date:in-reply-to:from:subject
+         :mime-version:from:to:cc;
+        bh=M+mYEIlIGo6Bhj3GcmgMK/YrXYWUcy7WiTPBLhADuhs=;
+        b=UHiwjBltucEd0gRha3gjwdFeQB2DhPd5bAlEm31RArC4NNCsh2RYJrFnHloN72lHsq
+         TMBlgF352IbAo0PyK9nVZT5xrwKJaudIPDarnjn5EXSxyTRUbpLvOeRYiHlv2lWuJeYn
+         alwTStHboWn9VFA1fJdoZbIY3+mkK905IO9GmvQU/0JqNnBDuAZJRHtelIKMsfmKgLTV
+         D8dgpvQHc+9pQXGsvwMjXheEVoHpvi++RWtgcZczGqh4pZelZHhsuuZqqKmITVDgYq2J
+         ApVcorhCiZhWgTtp1mfBOdO6AU4K1Kl67iU2d8n11PYhdg0sTcxvs5feXTOG4O1bZrfk
+         Sr1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc;
-        bh=pZjXftMJwzxrcctOfYJawsCw2LYkR1a5BWGDiuUZVCg=;
-        b=Da32+lp905z7pGuW/UOcaeEu6RdYUwp8/Rpf3/RjkqI4Cmtjbq47vA6AUq3u+oaHJc
-         PVvWAtqO517Ye4jGK6eHOj8n+qMlKGUOMyqHaitIlXWe2CRZXZEN9AO4qnDk5UfW/Fh6
-         eRFymhv5krbS8VnpKh32vX81SjHW6w/7DvQbwKqDDFcrbPyJSeioxiRFjEvfE5ZNQk1W
-         yvWlaV1kmG4n9qEW1HKdcunSwA4cV1ywA/BJcR4LZFlpz2wxCkbZ68hFf9zSrcs4vTZk
-         jkfJvaFbAoK6Fy5AYthBQNjhgcL6fOUINswDDp3MIMFxUt0IjWwIIUfxr3lvFaDPiXz7
-         GcLA==
-X-Gm-Message-State: ACgBeo3+e+DPmIzKzCEOx0PKMSGoGrr0GDb0uSM5jmAJyrKJlM0DzJRT
-	GobSLYWU1jAfNtM8Agd9kjezrA==
+        h=to:references:message-id:cc:date:in-reply-to:from:subject
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=M+mYEIlIGo6Bhj3GcmgMK/YrXYWUcy7WiTPBLhADuhs=;
+        b=DVGwW1gNbusJfJr6rFXsLc/5TBsnVrIE2zLjHPQmSyvMEGyWRsYbCyTTaxV9ejq2Wv
+         6FIGYFp1Da05qQS+9WDFpxL6s8RGuJyMVvCUoGDHWBEZaRSTvSjTs2sZ3VQPEqtvVTV3
+         GMJ3rQcJAp0AK7KUbt4dWWVeBGJyhv3geuIqBpUSOk3Ql5zYUDAjvglVPCdmC29/7yqh
+         TEyVeFOFS9gWqejDTWNfHwvOnqsQrdF+e/kJ7YDP5lQyHMdTrUuanId3kXCqxONihRSb
+         he8hDrJi2pPTbqhO9SwOYVwtE53we1lI+VF5algdnwHotrJCHD1V50KyzEClnmuHlwJZ
+         qUqA==
+X-Gm-Message-State: ACgBeo1tcQicJPRUEV+fLr9qUANB7MnZuBs8G6vx/ILudJWdD+21hWxw
+	5VUdugYWk6NtOjKe4vfZ0WmykQIwfZk=
 X-Google-Smtp-Source: 
- AA6agR4j+4Cg95s7JLDSDxv4DPvdbuUWrePkB5tmZ+n6d+5olzUGpVMp8HGach+UrwSKsy/AdULUHQ==
-X-Received: by 2002:a7b:c453:0:b0:3a5:b42e:c4fb with SMTP id
- l19-20020a7bc453000000b003a5b42ec4fbmr11686656wmi.167.1661167139520;
-        Mon, 22 Aug 2022 04:18:59 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a4a9:e65c:bb6e:14cc?
- ([2001:8b0:aba:5f3c:a4a9:e65c:bb6e:14cc])
+ AA6agR6A5t38S06lPXhdXSzvWa9D9hudHSvqm0mExDUC1FftO8yor52IyOXryy69RCsxw60tZYTfuQ==
+X-Received: by 2002:a05:6102:ec7:b0:388:d2a2:41c5 with SMTP id
+ m7-20020a0561020ec700b00388d2a241c5mr6680532vst.41.1661171123135;
+        Mon, 22 Aug 2022 05:25:23 -0700 (PDT)
+Received: from smtpclient.apple ([189.115.172.149])
         by smtp.gmail.com with ESMTPSA id
- o22-20020a05600c511600b003a601707174sm15341243wms.33.2022.08.22.04.18.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Aug 2022 04:18:58 -0700 (PDT)
-Message-ID: 
- <01dce5b603bc47fc195ba4ea738e7a333ac1992e.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] bitbake.conf: Add resource vars to hash ignore
- list
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Quentin Schulz <quentin.schulz@theobroma-systems.com>, Wes Lindauer
-	 <wesley.lindauer@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 22 Aug 2022 12:18:58 +0100
-In-Reply-To: <cf290a54-3b62-9c0d-32cc-08195f682b99@theobroma-systems.com>
-References: <20220822045919.1262270-1-wesley.lindauer@gmail.com>
-	 <cf290a54-3b62-9c0d-32cc-08195f682b99@theobroma-systems.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
-MIME-Version: 1.0
+ k203-20020a1fa1d4000000b00377b6c5f926sm9378541vke.42.2022.08.22.05.25.20
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 22 Aug 2022 05:25:22 -0700 (PDT)
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_457C20F1-5468-4F08-82B6-264F16D98DB6"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.0.8.1.1\))
+Subject: Re: [OE-core] [PATCH] Use shutil.move when os.rename fails
+From: Devendra Tewari <devendra.tewari@gmail.com>
+In-Reply-To: <90B42906-44DE-4D61-8210-669DC25BBD3F@gmail.com>
+Date: Mon, 22 Aug 2022 09:25:07 -0300
+Cc: Khem Raj <raj.khem@gmail.com>,
+ Andre McCurdy <armccurdy@gmail.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-Id: <AB381ED0-2889-40B0-8629-463159665EDD@gmail.com>
+References: 
+ <d59ab2e71f0115018fb1c957276ce71e3292cd95.camel@linuxfoundation.org>
+ <F32A7470-A864-41C0-BA9C-FB611421DC0F@gmail.com>
+ <aebbbcf8d29afec37b4a9c459eca8ab24112137f.camel@linuxfoundation.org>
+ <4538E61E-9CE7-4346-877F-FA6CEAEB5074@gmail.com>
+ <61C98407-3B1A-4C8D-9969-7D3EEAE3B75A@gmail.com>
+ <3F33A9E1-ED6B-4728-A0CE-49EAAB2CFAC1@gmail.com>
+ <a825b895707921ccfb5a2d20a0def7982963de21.camel@linuxfoundation.org>
+ <7C3B49FD-7C8F-4C64-B847-F84BEA35ED94@gmail.com>
+ <5CA188E2-24EB-4FE9-8F31-84DD73F92C1E@gmail.com>
+ <42E76009-F583-4E55-BA29-1C989B25BD73@gmail.com>
+ <162f49616d345a02d2633ae51e2e09b3f08de158.camel@linuxfoundation.org>
+ <90B42906-44DE-4D61-8210-669DC25BBD3F@gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.3731.0.8.1.1)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Aug 2022 11:19:04 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Aug 2022 12:25:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169670
+ https://lists.openembedded.org/g/openembedded-core/message/169671
 
-On Mon, 2022-08-22 at 11:28 +0200, Quentin Schulz wrote:
-> Hi Wes,
+
+--Apple-Mail=_457C20F1-5468-4F08-82B6-264F16D98DB6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
+
+I was asked about the createrepo_c patch in private. Replying here for =
+closure.
+
+I had reported the issue upstream at =
+https://github.com/rpm-software-management/createrepo_c/issues/266 and =
+it has been fixed. Poky kirkstone and mainline should have the fix.
+
+Kind Regards,
+Devendra
+
+> On 28 Apr 2021, at 20:02, Devendra Tewari <devendra.tewari@gmail.com> =
+wrote:
 >=20
-> On 8/22/22 06:59, Wes Lindauer wrote:
-> > It should not matter what xz/zstd parallelism and resource usage is set=
- to
-> > when determining hash signatures. This allows sharing more sstate acros=
-s
-> > host machines with different CPU configurations.
-> >=20
+> Understood - carrying patches is a burden for sure. I=E2=80=99ll =
+maintain patches for my own narrow use cases at my end, and perhaps =
+submit them upstream.
 >=20
-> It seems like it does matter in some ways, c.f.:
-> https://git.openembedded.org/openembedded-core/commit/?id=3D0296dc71c01d1=
-b7953d74ef37d56429e2f4fcfab
-> and
-> https://git.openembedded.org/openembedded-core/commit/?id=3De72c0b94554a9=
-bc293844ec2bddb0c04ea19791d
+> Thanks,
+> Devendra
+>=20
+>> On 28 Apr 2021, at 18:42, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
+>>=20
+>> On Wed, 2021-04-28 at 07:00 -0300, Devendra Tewari wrote:
+>>> The gist of it is that Docker uses the overlay2 storage driver by =
+default,=20
+>>> previously it used aufs. Both drivers have the same limitation in =
+rename,=20
+>>> where file rename across layers is handled by moving, but directory =
+rename
+>>> across layers results in error EXDEV. It is up to user space to =
+handle the error.
+>>=20
+>> I'm still struggling to see how you're going to patch all the various =
+pieces of
+>> software out there used during a build to handle EXDEV correctly.
+>>=20
+>> We have handled some cases of this for a long time where we're moving =
+files
+>> over to different parts of a filesystem, e.g. /tmp/ to WORKDIR or =
+vice versa.
+>>=20
+>> This new docker case triggers for renames even within a directory, =
+e.g.=20
+>> /some/path/a -> /some/path/b which is not something that would often =
+trigger
+>> this.
+>>=20
+>> I need to say clearly now that we are not carrying/taking patches to =
+patch
+>> every bit of other software to try and avoid this.
+>>=20
+>> Cheers,
+>>=20
+>> Richard
+>>=20
+>>=20
+>>=20
+>=20
+>=20
+>=20
 
-As Quentin mentions, the value does matter. In particular, those
-compiled with a single thread differ to those with multiple threads. As
-such the proposed patch can't be accepted.
 
-Cheers,
+--Apple-Mail=_457C20F1-5468-4F08-82B6-264F16D98DB6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=utf-8
 
-Richard
+<html><head><meta http-equiv=3D"content-type" content=3D"text/html; =
+charset=3Dutf-8"></head><body style=3D"overflow-wrap: break-word; =
+-webkit-nbsp-mode: space; line-break: after-white-space;">I was asked =
+about the createrepo_c patch<span style=3D"caret-color: rgb(0, 0, 0); =
+color: rgb(0, 0, 0);">&nbsp;in private. Replying here for =
+closure</span>.<div><span style=3D"caret-color: rgb(0, 0, 0); color: =
+rgb(0, 0, 0);"><br></span></div><div><span style=3D"caret-color: rgb(0, =
+0, 0); color: rgb(0, 0, 0);">I had reported the issue upstream =
+at&nbsp;</span><a =
+href=3D"https://github.com/rpm-software-management/createrepo_c/issues/266=
+">https://github.com/rpm-software-management/createrepo_c/issues/266</a>&n=
+bsp;<span style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);">and =
+it has been fixed</span><span style=3D"caret-color: rgb(0, 0, 0); color: =
+rgb(0, 0, 0);">. Poky kirkstone and mainline should have the =
+fix.</span><div><font color=3D"#000000"><span style=3D"caret-color: =
+rgb(0, 0, 0);"><br></span></font></div><div><font color=3D"#000000"><span =
+style=3D"caret-color: rgb(0, 0, 0);">Kind =
+Regards,</span></font></div><div><font color=3D"#000000"><span =
+style=3D"caret-color: rgb(0, 0, =
+0);">Devendra<br></span></font><div><br><blockquote type=3D"cite"><div>On =
+28 Apr 2021, at 20:02, Devendra Tewari &lt;devendra.tewari@gmail.com&gt; =
+wrote:</div><br class=3D"Apple-interchange-newline"><div><div>Understood =
+- carrying patches is a burden for sure. I=E2=80=99ll maintain patches =
+for my own narrow use cases at my end, and perhaps submit them =
+upstream.<br><br>Thanks,<br>Devendra<br><br><blockquote type=3D"cite">On =
+28 Apr 2021, at 18:42, Richard Purdie =
+&lt;richard.purdie@linuxfoundation.org&gt; wrote:<br><br>On Wed, =
+2021-04-28 at 07:00 -0300, Devendra Tewari wrote:<br><blockquote =
+type=3D"cite">The gist of it is that Docker uses the overlay2 storage =
+driver by default, <br>previously it used aufs. Both drivers have the =
+same limitation in rename, <br>where file rename across layers is =
+handled by moving, but directory rename<br>across layers results in =
+error EXDEV. It is up to user space to handle the =
+error.<br></blockquote><br>I'm still struggling to see how you're going =
+to patch all the various pieces of<br>software out there used during a =
+build to handle EXDEV correctly.<br><br>We have handled some cases of =
+this for a long time where we're moving files<br>over to different parts =
+of a filesystem, e.g. /tmp/ to WORKDIR or vice versa.<br><br>This new =
+docker case triggers for renames even within a directory, e.g. =
+<br>/some/path/a -&gt; /some/path/b which is not something that would =
+often trigger<br>this.<br><br>I need to say clearly now that we are not =
+carrying/taking patches to patch<br>every bit of other software to try =
+and avoid =
+this.<br><br>Cheers,<br><br>Richard<br><br><br><br></blockquote><br><br><b=
+r></div></div></blockquote></div><br></div></div></body></html>=
+
+--Apple-Mail=_457C20F1-5468-4F08-82B6-264F16D98DB6--
 
