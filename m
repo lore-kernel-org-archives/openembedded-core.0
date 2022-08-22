@@ -1,131 +1,142 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <chuckwolber@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54B4BC00140
-	for <webhook@archiver.kernel.org>; Sun, 21 Aug 2022 23:03:51 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
- [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web10.12245.1661123025566133871
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D300BC28D13
+	for <webhook@archiver.kernel.org>; Mon, 22 Aug 2022 01:21:01 +0000 (UTC)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
+ [209.85.128.169])
+ by mx.groups.io with SMTP id smtpd.web11.12965.1661131252161036061
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Aug 2022 16:03:45 -0700
+ Sun, 21 Aug 2022 18:20:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=KjBPaNNh;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52,
- mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id
- s3-20020a17090a2f0300b001facfc6fdbcso8930255pjd.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Mw3qty7h;
+ spf=pass (domain: gmail.com, ip: 209.85.128.169,
+ mailfrom: chuckwolber@gmail.com)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-3246910dac3so253714267b3.12
         for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Aug 2022 16:03:45 -0700 (PDT)
+ Sun, 21 Aug 2022 18:20:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc;
-        bh=1+NcgmdHkET4cjjd/bkfBhWCJM5KzMMhRo9ImOn/w1Y=;
-        b=KjBPaNNhxa7KWUqqbrOByWxBch3GlKl3SpApC5zrax8UmJJ6vBJuNA6SNuacH7JQEm
-         uneGiE8LZKIsbnrI13+Fnb0aHodH01nl/+i/l5W/aZ6LK7/2XTqAc+GNT6TK5nOTY8rE
-         wQ1Ro5erDsyWV2bF+OO/6EOcyB5QlcAC06JPMIa/aVOGQKWRtvVzRCxH1lxe0DE5Oksr
-         xFjCkGqXFS9pzuf58IjVRNb6bkzMnMtTh8L2TGKRQ6sLgyS1Vq4z+Kzsw0t4V2EH2WBd
-         8iuET1GWTHjGSZ2L06AI2xSa1YBsMphaSYFNKTypSMbOjozOBekknChk75kQ5ZdLX8Wg
-         rzKg==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=igL7bmeMXCwifcvq4L9LSVc2ZoTpFV6NTejdq0QVCF0=;
+        b=Mw3qty7h3feTN5shoT7i9kjX4HGcj3KA7eklv2M7l4jQ0xAYMxrss39b7NQ63LGRJd
+         hYYCXbLcXn6bcM7iGuWrVSJ9//JNWSgFxoKdykZgH1a4/qkRiXylk167ctO9CJwmaurs
+         IjALgHwqtMwF9X/MsIjjqncSeAHsY9z7dBCBllHRG6Btl6q4gNroPF96Zw8kQAm26xPG
+         gci0ps3FR6ajkz5JBW2eO29VooUwJy59l37FIgejHNPrIYiIdhND8LDTo8S+r0T2kqq9
+         AYt7eRNeSfF+B7JYK8h+aUj+Vj6fupjA9OGiPB+kIlDH/byGi3TsbINqm2zXMMSK0ul1
+         v4HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc;
-        bh=1+NcgmdHkET4cjjd/bkfBhWCJM5KzMMhRo9ImOn/w1Y=;
-        b=SahKRuSDn6DomaeYSDIp9wyFXQvSS7uKHeso56PHeciGWvRM5cdrH+I9WWBmHk8ht4
-         V+t9JMgCSozVWb37P4AtPHEzbmRCM8jcvLPY10n/M0i0am4Flt/N0MK10btbv1PzT5uU
-         t4ds4QSaC0gZhrHk8w24Jc49GXT5Eus9LsobBkBn0YVdbKgcdOL939C4PBNiltQIU3oP
-         +fNe1jQSVi5CGsvwSjwj0T5untCOF4aABdSOnx2zaYPvEnlYd4NIAJbDbVOP+c+9Zvmh
-         TxNVy1hlYXBXzinEo8bhzDj4abqEc2SiqkGlArzOyjRsH0Bp65L4ZV0CxU5ONayWqZ01
-         m/UA==
-X-Gm-Message-State: ACgBeo0Jh+yZV7IRzCU5+/y3msg96QP7gLDWhi/lOSSE5JrDhcNnJvBi
-	StKjgzRLtunWRac3bY7jJs0LknePgC5OHbZC
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=igL7bmeMXCwifcvq4L9LSVc2ZoTpFV6NTejdq0QVCF0=;
+        b=2aQQKCAHrogLeQicgEEsH2gEXi94sy7HEBHdBNCuBsgfShvxCApphyB45N2fX/5WR8
+         Trxb5E2QU89ZMXvB33M0SDb9RDBfmRbFcJRtV76sM3Kl0HgwxJB0NQ/kYDFwQ4LzN8sN
+         Q63NyiepM8PEJFAhIupzL4gAF+QnvnonlXVtgFBW6dPI5SJDkQ8p0vYm6ISBab5Cnw4E
+         COaxQeFzIcKLbmZ51d3avxxszSYUtduu8LVJDTRxfcH7BPhEaSWXR8UWkXcmI5Wl6IkV
+         t1Vq8pkQBQ+F/kcYzE4nyGSjSM4U2Rzd5a4TEf1b8NDLIcxFrrXiXrGoZG1f6a/HkQUL
+         oz/A==
+X-Gm-Message-State: ACgBeo3CWGCCjBz6BSAgswzLWEW79+VUAbyhuiRXSc3+gGsOYtXeewOi
+	N3nbS/eqtGl5J7cQZXjnwWrf8TRlnzWyMctzrT0=
 X-Google-Smtp-Source: 
- AA6agR78YzXHYUG9HEy6IpqHbr6Yuhiv2JXwSNd72MHuby5+bhEgoINXFyFymBfi/813ebnlyv/Hiw==
-X-Received: by 2002:a17:902:b48f:b0:172:b57e:f0ff with SMTP id
- y15-20020a170902b48f00b00172b57ef0ffmr16750558plr.25.1661123024205;
-        Sun, 21 Aug 2022 16:03:44 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id
- nb16-20020a17090b35d000b001f516895294sm6754356pjb.40.2022.08.21.16.03.42
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Aug 2022 16:03:43 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/11] Pull request (cover letter only)
-Date: Sun, 21 Aug 2022 13:03:25 -1000
-Message-Id: <cover.1661122933.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+ AA6agR7cmGuJUqZeSjcmOeWSwYf7Cah/OITYx5lygDJCST9IXJeU7vNqiTCpweHk71fsIon15Zh/OeGGEYeMNfASlDA=
+X-Received: by 2002:a81:1e0d:0:b0:33b:fb67:9895 with SMTP id
+ e13-20020a811e0d000000b0033bfb679895mr2492062ywe.188.1661131251229; Sun, 21
+ Aug 2022 18:20:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220817131023.4093773-1-alex@linutronix.de>
+ <20220817131023.4093773-4-alex@linutronix.de>
+In-Reply-To: <20220817131023.4093773-4-alex@linutronix.de>
+From: Chuck Wolber <chuckwolber@gmail.com>
+Date: Sun, 21 Aug 2022 18:20:39 -0700
+Message-ID: 
+ <CAB=6tBQEuiwNq6W-qT6P6fcnGOpQtxH2cRDBd2NrfKqWrNsXiA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 4/5] scripts/oe-setup-layers: add a script that
+ restores the layer configuration from a json file
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: multipart/alternative; boundary="00000000000027a95c05e6ca42b5"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 21 Aug 2022 23:03:51 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Aug 2022 01:21:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169656
+ https://lists.openembedded.org/g/openembedded-core/message/169657
 
-The following changes since commit ac6ea1a96645d2a4dd54660256603f0b191bb4d3:
+--00000000000027a95c05e6ca42b5
+Content-Type: text/plain; charset="UTF-8"
 
-  gstreamer1.0: use the correct meson option for the capabilities (2022-08-10 05:04:10 -1000)
+On Wed, Aug 17, 2022 at 6:10 AM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
-are available in the Git repository at:
+> This script can be used directly from poky, or can be copied directly into
+> a
+> layer or any other repository - it is self-suffucient and requires only
+> python3
+> and git on the host where it will run. It is also copied by the
+> bitbake-layers
+> layers-setup plugin together with the json, unless requested otherwise.
+>
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+I need to review the code a bit closer, but on the face of it, this appears
+to solve the repository
+pinning problem quite elegantly. This matters a great deal in tightly
+configuration controlled
+environments, such as where regulatory oversight is involved.
 
-Alexander Kanavin (1):
-  linux-firmware: update 20220610 -> 20220708
+One feedback item I might suggest is to check if the layer is already
+pulled and to avoid pulling
+again. Same goes for the commit hash - no reason to checkout the hash if
+HEAD is already pointing
+at it.
 
-Dmitry Baryshkov (1):
-  linux-firwmare: restore WHENCE_CHKSUM variable
+Adding those checks would enable your script to be added as a pre-build
+step in a developer
+workflow wrapper script. Our environment takes a different approach to
+repository pinning, but if
+setup-layers had those checks, we could probably switch to this approach.
 
-Hitendra Prajapati (3):
-  qemu: CVE-2020-27821 heap buffer overflow in msix_table_mmio_write
-  gnutls: CVE-2022-2509 Double free during gnutls_pkcs7_verify
-  zlib: CVE-2022-37434 a heap-based buffer over-read
-
-Ming Liu (1):
-  rootfs-postcommands.bbclass: move host-user-contaminated.txt to ${S}
-
-Pascal Bach (1):
-  bin_package: install into base_prefix
-
-Randy MacLeod (1):
-  vim: update from 9.0.0063 to 9.0.0115
-
-Richard Purdie (2):
-  vim: Upgrade 9.0.0021 -> 9.0.0063
-  kernel-arch: Fix buildpaths leaking into external module compiles
-
-Shruthi Ravichandran (1):
-  initscripts: run umountnfs as a KILL script
-
- meta/classes/bin_package.bbclass              |   3 +-
- meta/classes/kernel-arch.bbclass              |   2 +-
- meta/classes/rootfs-postcommands.bbclass      |   2 +-
- .../initscripts/initscripts_1.0.bb            |   2 +-
- .../zlib/zlib/CVE-2022-37434.patch            |  44 +++
- meta/recipes-core/zlib/zlib_1.2.11.bb         |   1 +
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- .../qemu/qemu/CVE-2020-27821.patch            |  73 +++++
- ...20220610.bb => linux-firmware_20220708.bb} |  14 +-
- .../gnutls/gnutls/CVE-2022-2509.patch         | 282 ++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.6.14.bb  |   1 +
- meta/recipes-support/vim/files/racefix.patch  |  33 --
- meta/recipes-support/vim/vim.inc              |  10 +-
- 13 files changed, 418 insertions(+), 50 deletions(-)
- create mode 100644 meta/recipes-core/zlib/zlib/CVE-2022-37434.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-27821.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220610.bb => linux-firmware_20220708.bb} (98%)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2022-2509.patch
- delete mode 100644 meta/recipes-support/vim/files/racefix.patch
+..Ch:W..
 
 -- 
-2.25.1
+*"Perfection must be reached by degrees; she requires the slow hand of
+time." - Voltaire*
 
+--00000000000027a95c05e6ca42b5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Wed, Aug 17, 2022 at 6:10 AM Alexander=
+ Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.c=
+om</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">This script can be used directly from poky, or=
+ can be copied directly into a<br>
+layer or any other repository - it is self-suffucient and requires only pyt=
+hon3<br>
+and git on the host where it will run. It is also copied by the bitbake-lay=
+ers<br>
+layers-setup plugin together with the json, unless requested otherwise.<br>=
+</blockquote><div><br></div><div>I need to review the code a bit closer, bu=
+t on the face of it, this appears to solve the repository</div><div>pinning=
+ problem quite elegantly. This matters a great deal in tightly configuratio=
+n controlled</div><div>environments, such as where regulatory oversight is =
+involved.<br></div><div><br></div><div>One feedback item I might suggest is=
+ to check if the layer is already pulled and to avoid pulling</div><div>aga=
+in. Same goes for the commit hash - no reason to checkout the hash if HEAD =
+is already pointing</div><div>at it.</div><div><br></div><div>Adding those =
+checks would enable your script to be added as a pre-build step in a develo=
+per</div><div>workflow wrapper script. Our environment takes a different ap=
+proach to repository pinning, but if</div><div>setup-layers had those check=
+s, we could probably switch to this approach.<br></div><div><br></div><div>=
+..Ch:W..<br></div><div><br></div></div>-- <br><div dir=3D"ltr" class=3D"gma=
+il_signature"><div dir=3D"ltr"><div><b><span style=3D"font-family:monospace=
+">&quot;Perfection must be reached by degrees; she requires the slow hand o=
+f time.&quot; - Voltaire</span></b></div></div></div></div>
+
+--00000000000027a95c05e6ca42b5--
 
