@@ -2,368 +2,417 @@ Return-Path: <sakib.sajal@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1793C28D13
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2542C3F6B0
 	for <webhook@archiver.kernel.org>; Mon, 22 Aug 2022 19:16:06 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
  [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.22207.1661195761600303306
+ by mx.groups.io with SMTP id smtpd.web12.22383.1661195761058198803
  for <openembedded-core@lists.openembedded.org>;
  Mon, 22 Aug 2022 12:16:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=AJE6yVVa;
+ dkim=fail reason="body hash did not verify" header.i=@windriver.com
+ header.s=pps06212021 header.b=evT+pcFB;
  spf=permerror,
  err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
  invalid domain name (domain: windriver.com, ip: 205.220.166.238,
  mailfrom: prvs=5233a6570f=sakib.sajal@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
 	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 27MDtcXi012721
+ 27MDtcXh012721
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Aug 2022 12:16:01 -0700
+ Mon, 22 Aug 2022 12:16:00 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
  h=from : to :
- subject : date : message-id : in-reply-to : references :
- content-transfer-encoding : content-type : mime-version; s=PPS06212021;
- bh=kHcrkhr0/pThBH64gnsp4OzExxKdg6K/j+13GddNMhI=;
- b=AJE6yVVaPE0iQ1X7247lmudcizo6Ek2G0cD7VKTT9lnNMqFNK3TjWYQpbkOudU0qIAji
- q9Zi5q2fCQAfWwtGIULtIUHCl2ljkfxG7ObQ4EsYI9foXvQ88KoKsoQV1jDDNYtgjrsl
- JYkiN0qn7m+hM2UcEZUcLrqdoKLhbrO++X8t1rCsKXu4mTki8fdGZaxspzNeThx4pPrW
- iziO20n6dMPFHyHwwzRyUWur52cGB4UsBJwN5LG51xyn+X+6uHkGPRK9qLjmU4HG6u0s
- qijarRPymbGUevZ46mx5GGNpfzW3mzUtUZqoGwrUuUSzbzHd264FoYw8M3tNU6VgYVzq IA==
+ subject : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=PPS06212021;
+ bh=ZSVFaiPweuV4zN6ors5ekNIMvlOwkiLTSi37WmXR5jQ=;
+ b=evT+pcFBHi/YF+/SuyfkUBbZFzXJzD4Q4N37DjUqOqlzg6J9Sxbwrzo1fUwpB5pHSYkG
+ oRODdKmYG3d4LrRpnKcoVlDlGEOeQGvGmaqOjWen4gKqTzhFfY0+CnjA56bRq+7tQnJK
+ NSVFCUVJrvxP2Y8Zhov1vRRVlRFl/y21ulPfYARD6EDIv5a8AhVJo//LgVrU9rBnzWXN
+ d83slAhXrkIBBRc0oxRZUDWgpgKNCaecWmkKol4tv1Zcd1q2FSYvMRc31uAnHhc+46kK
+ eDSqFaZ6bhjkURPvgCNzJNo4zVBQgl3oT9xdR7eKPXPZNMEj5xmH22vtKJV2vSzrqqhJ Zg==
 Received: from nam12-dm6-obe.outbound.protection.outlook.com
  (mail-dm6nam12lp2171.outbound.protection.outlook.com [104.47.59.171])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3j2y4jj18h-2
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3j2y4jj18h-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
  Mon, 22 Aug 2022 12:16:00 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FdKCVBjt//3p92/L4AWr8wlz8Dv0jvKFrMUGa6HYxH+FHJHR2cNubEFjFMsKr8XBYQrrH7sd/wT6GzNOnF90XeXIAP0Fx915wD37dci5/N9y/u5LAzrsNknTfkl2yhQOW0i3g0sck+5cgii2hE/dF//Cd3lGhR4S0A3SiNYbT5PnNmkYXPaSuA/m1Ofr5FCJp9ehP/F5dvbAnxqxubW8ne9mxmFAeRq+s0OAs2+vApJKqmNnCEpeTeWGXen0bpQJ4TSt9j8J4hAtz6hIIvDxFN34jnxA1Msf/kGogkif0WVzW2ksmfHL5GGLpj9uLK7WULSGADzK+to7Qj3AIdxG+g==
+ b=TkPc9leR/GCkbUEKRfYHNs6DdQCidXZLIBHdRuOPU2EJ0h4KgrcvOPs3VUEx7CVI0Fkk4Lm/QJya2kg9bRx4s9cc2pb/TV1xWjnk4lgXVaWsYYT1OKxZvC2eaNEhfiJoaYFABIafm8hkmm/p4VOosRSiCDZ3NBnDkYAxKTdFZtJHj4dO64IuAq1MP8fLcEX4Csbe97Gua5mYXphptmjwKA1BALpyK+xeAhQG89OkWA0u3TxQ/7y9wVxdtzdmsZ6pk5HJrNCeSc3qvcIxR6dxrw8Jx/MXMNhiEmtnUeISvcsOUC5kX2COjVXe0IgFaT3YPkHymIQsM8gpfDbfnG9HMg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kHcrkhr0/pThBH64gnsp4OzExxKdg6K/j+13GddNMhI=;
- b=EG+GndS85OAyERDS2s1dPCPtMaq5rFxLmtjq+LTpojUUerFax2slEluD6GinslMg2boPxrpWTZMIje6yTNfWueOX9WH6Re6MyGM4fmXX+mCaxMM1WRAsRdp/Uq+ByaCKX275Kd4Qi26QmcUK8bSURlx6BpUb8fH0GR6fKkGDUYuyerp5t9/CA8EwnHVaPp0zOLjxKitVmVHtUJMCxlsyVYuKvFgnLq0ItVdZyqP+JzWVu8kmF4VyBv3wXxS78CzdUIrnQFBp8Y2vGYajZd6R2bha8epOa3WlCURLFWzROAAUpweRoNGGIYmO2hfAk1QCiasMzjspSJ0E5QNUzKm8GA==
+ bh=ZSVFaiPweuV4zN6ors5ekNIMvlOwkiLTSi37WmXR5jQ=;
+ b=EGd1cxdh6OVUfM5K0Y0oP4+zeuXePPPrfLDGrD+xYBPl9q8mXqHArKvFI6UbA6dDreOr18K2BmYgQi8THj//3HqVwbzwR47B/W1UR+Vecj8wT3b5HiW2sWNqaJ7endmWjgZXYGwvLbQ6FkMlTLFeMBnBeUwiHkitcQxuOCjLp0+4c8NcAZki5yKGQGsidc/8WROLhvJrmNooH9kZQaS21gH0nUzD5HlHN/Ko7o9iEdkU9Hp2wVln2+Nz8YpEftN4QTwZattKZeqhl4F9vIkUsnLO62tkvIQ837Pwm1o0hIMwW4AVi47AMB/9XAvHoBK/MJV9PFtHKy4wok36U6ZRlA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Received: from DM6PR11MB2538.namprd11.prod.outlook.com (2603:10b6:5:be::20) by
  DM6PR11MB2970.namprd11.prod.outlook.com (2603:10b6:5:65::23) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5546.21; Mon, 22 Aug 2022 19:15:58 +0000
+ 15.20.5546.21; Mon, 22 Aug 2022 19:15:56 +0000
 Received: from DM6PR11MB2538.namprd11.prod.outlook.com
  ([fe80::3526:31b1:a7c:cd2]) by DM6PR11MB2538.namprd11.prod.outlook.com
  ([fe80::3526:31b1:a7c:cd2%5]) with mapi id 15.20.5546.022; Mon, 22 Aug 2022
- 19:15:58 +0000
+ 19:15:56 +0000
 From: Sakib Sajal <sakib.sajal@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] qemu: fix CVE-2022-0216
-Date: Mon, 22 Aug 2022 15:15:37 -0400
-Message-Id: <20220822191537.25682-2-sakib.sajal@windriver.com>
+Subject: [PATCH 1/2] qemu: fix CVE-2021-3507
+Date: Mon, 22 Aug 2022 15:15:36 -0400
+Message-Id: <20220822191537.25682-1-sakib.sajal@windriver.com>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20220822191537.25682-1-sakib.sajal@windriver.com>
-References: <20220822191537.25682-1-sakib.sajal@windriver.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
 X-ClientProxiedBy: YQBPR01CA0139.CANPRD01.PROD.OUTLOOK.COM
  (2603:10b6:c01:1::39) To DM6PR11MB2538.namprd11.prod.outlook.com
  (2603:10b6:5:be::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: aa449d20-e424-4516-db46-08da8472bdc5
+X-MS-Office365-Filtering-Correlation-Id: dc70420c-101a-4aed-a5da-08da8472bd6d
 X-MS-TrafficTypeDiagnostic: DM6PR11MB2970:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	Ksq8Qbwawk3R2KyK5mJXhucr67BYMPHz3bPByuFliz6eNfnsKP6CPErXmkLqa0QFxcroVU+0vjS4x2lzhdHIMpBEj1EyQbCOmqNAtnPF3ACTCcAQ4oCVyW9nZK1B8oyiyPDSyoZXmRYEFNfaXmC8M8XNtYhFxY9yPb+EWNNZWX7HeCzhncmq5hIqZnLCyUZBahejchzmygNw1pn3TiO7AQgY7KE/tpxMon3iT3P9XSNcvZOJjD65etLNcENDNVBEZYxoKl1F6z7qUOtyLedTAFFaiMB3gihXih62dPPNpzB5iFGnjIH3W2lh0EReeX1KK6mr+fu8x9+Tv0VyFTecvoosp+Eu9chzYg7hP+HV1jKBp/XEu2BR4RAojD6+XriVpjlM85VpiiazL5PC4dugoAr4Pg7nnI1nGqc3plUSAGDYrV2PBjpJwYzYvsWbnF5yYYuGljObHM8kluD2QPZQSijxq2gjvqoP7Qoolmp1+IzamYX5iCFnSeHNeowtzZB0RTg4Qx7grhcaoef2EmK+cTX3C5XQ3NtlOe5TSly8YgV8nQvub0dWsVqJwBXjNOoJ5Y6r2FNeOtVKX3RvP8l72tlPZHW6235Hkvyr5VKwGw1LmSLwk3W67LT985NxsatVFHcsye8OmJTInsO6z83vAB7pYj2+EGTkr4AS4BRlPKM08FKsRmRhcWOzXfLX4Z4KcqiJHTVbljPxTtFaebF01bhUSs+79Fon0h6raHKDm11Q2IFnQvbyAQWldhgvF/InpuwbncKwZI2BvIQMMLfjD85cA1pXcXfYRInc6inLpYlfKbqNV0xh1zOhimWH1/VQLclkXEcYYay7dSccT9WY7w==
+	B0RascKmNv1vQzoh/vhBtE1SYkEzhkzkmo40cDy+RO3ghrqyFzn3uccmzcXb/YLsKgH8n07dhCy75fhQ1tp2xMjg3PZ8jn99GZCQNr+sWbpqPj9pIeKaAinGHnpvs6rSmBE4dSJ5Os3YHHO7Qea4A/sZ+EZvYPy/fczocjYYF+/Sv089sYg9ZxomMJgA8KQPoj+oXrNPAtILSS58mshlCXboVijig8WDeddy5QPdgmTpjR1azrMnOgxc3XRiVPsTP7WX62yeDrJSJT+gT9dzJLrGxQ4me7hP2PAo0kZqT2PMnfky2+0LVviqCHDZUCe53SHfc+y0MjI21+/LkGEkwey0gH6HXCJdXuv2XUTxFFzHpXjIbe8LOQ8ZVxGUU3BluNk70sl4Nz2iq3fvSfit/gEZSQQadnbal8DWRnah4UOJCh/j0gML0zwiCc43QlxvNvmbeFeiwlNczsiogdT88YyBt6kcZrvZvMVJn1MXlbfp4bfP8OCeHI8aqXSDeOlVEU1hOx8LBNF9EneZqUQdsltgYsatqoy6swU6iw8LaLsO20NvPGeri1A6Nl7HfQlF1Y4EfcadZSnoXQ0w6dDp3e7xl+bNDEJlByF44hTeZYxP11ALvYSg1OO3uAouyVCEr85UvlalOFXqHByU2cdsKEzGTdOofL1kORBVjgUoldysti7aJYaQdNRNMKrnaRmwTbCd1y4TWgfpgeSyjbtujcWKwN0/jnj1gaB9NhyJU/v4uy8yoOHUQ2FeIU5HsrNdfe2hveu7RzKWlPOa3vdK/whIA+0+x9HqSpA8efDB4UXdVS8mKplUpLiqfhqG2kjVZAlxGywnvAux9hWkQ7pZcs4WTwxWGgo3Ypuy0a37TGw=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB2538.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(39850400004)(376002)(366004)(346002)(136003)(2906002)(52116002)(6506007)(86362001)(6512007)(26005)(6486002)(966005)(41300700001)(44832011)(478600001)(6666004)(5660300002)(8936002)(186003)(1076003)(83380400001)(38350700002)(2616005)(38100700002)(66946007)(316002)(6916009)(66556008)(8676002)(66476007)(36756003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB2538.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(39850400004)(376002)(366004)(346002)(136003)(2906002)(52116002)(6506007)(86362001)(6512007)(26005)(6486002)(966005)(41300700001)(44832011)(478600001)(6666004)(5660300002)(8936002)(186003)(1076003)(83380400001)(38350700002)(2616005)(38100700002)(66946007)(316002)(6916009)(66556008)(8676002)(66476007)(36756003)(505234007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?2s5X1DdDxyjfZVcuhi8+VUuAkQNxonEvBCbebg8o4jwGyD3IzgnjtMtACQOh?=
- =?us-ascii?Q?u5vy9GjwKbED9guIc3KwxDnSFOvsFeMuT0XR+FOtGNB9VlljdG105jITG+0D?=
- =?us-ascii?Q?FlVX+AgITf+FrZfn2PN9VWV7Ec8xOLRawowy6xKMHT5RAH0WyM6GqLCSdWqW?=
- =?us-ascii?Q?0IWmmKqwnJXp+wKmGMkmAPKa/p8S29/JYJ0AYh7uxmDRIlwoJBr4sJxsTZvd?=
- =?us-ascii?Q?aF6iXrCxP4+n4Ka74yIVoCYpoQFEp+LnRkTW5OWnHpvr42Rjs/iKx0XxJNJP?=
- =?us-ascii?Q?qigOhkUuviX+dYmUfkn3XkByeveWmItZJuLBK+d3BcT3kx2AdMCTpIqV85QQ?=
- =?us-ascii?Q?V9fCOFhFwCNWMWkpNW8bT2RS5S37BB9rcxsYyu99fyaPXjDa8PMrWwSdFOlN?=
- =?us-ascii?Q?LNPcINBJ/NofaAnZnWkq0MiE50ycXnJho1FaAbltVtg6vmkBVZNC7trEj/hq?=
- =?us-ascii?Q?TXe/M69nu2ZBjvBYjB9sRqmkFh+8ATA9JXV3zPS/rveQFXlO+ftM1eDF1EiL?=
- =?us-ascii?Q?vkEyGmwWs3BTAECw/B6ZChBBJxLiYVp1wdXA1ylqYiZnwwE17xQ+FX4Nnhi0?=
- =?us-ascii?Q?uLc8UHA7MtWH/Y7qqFmU/tJTySCks8/5aB5rA32w+OlVMF2Q6U/M/5FpGU0g?=
- =?us-ascii?Q?2czj1wd3lGXWo8LJCzTIMwVLaMMhOsZyBpEVYKWkaifjk3d6z7Vx7se3vFxK?=
- =?us-ascii?Q?KI0i6VLCacBnNebWF7RC5u6wFrSaoNRrsWQ86eXRYnvtJxw7XEi+mhyTkRUl?=
- =?us-ascii?Q?XANmSyJt9N4e9iDEMiVisT5+XacThpLv2FDQhIZkmnpLIXEAWx4MmBeBdJZI?=
- =?us-ascii?Q?ln80qN0kq0MH1fx2Eqr6C+5vPFs9Fsezs8/Xwr+9TZtoXCKtJdc+TrMaVN2D?=
- =?us-ascii?Q?LTO+QAPV0ZA7L92/1j0hWKSAsaI9cXf82dkdaE/Jfzz03ighP0mWW3O4bxxd?=
- =?us-ascii?Q?5k1Ke6WCWEM+RPIFH1Tcv9yXLkKHzA77Lg5zArsfX70NbAFELpSdJFHz6tJR?=
- =?us-ascii?Q?cUqzUQns/I/hOwWVVfdcMxPjXjqMv3oQfSMGGRkU125V0Ukx8nudrVrZgf7m?=
- =?us-ascii?Q?ZAR0dTeItZ5k2xCCP0iLXhpKkt1m/HSRgbyZ989Jt9T7eaSeGUdFWsTJFfYK?=
- =?us-ascii?Q?gk2DznffrRbei8z5LWR3r3I99DaocbJoIfAiDaMVKZqeGs4m9+pa4iBqlo4x?=
- =?us-ascii?Q?0YkHGAhJOIeuNTqK91rkojNtZ8k09tCD12ZQJUVjsWv6nnaTeax8g7fW0KRg?=
- =?us-ascii?Q?D9nUqjbsPn408UF4XOoS/dZSYYG456pf3BSw2GOUB0ROaccA+TPhvj/fw8ai?=
- =?us-ascii?Q?J8MhFRF0Fmevloo/WyK5khEKsMmSiX6vp5iI18degwzUDdd+ArEaYcjofz4X?=
- =?us-ascii?Q?u1kDZ43ZX5Q7jyDHBna207eUWfkBGT0FdOqIT1qq8iMaP0nCqZqsdoQvFtFU?=
- =?us-ascii?Q?d5oJ7Ef5GZqOaWWfWluU7lCGkb1xzFZYu1IHPoHi3M34e2dPHdwZV2KgfzkB?=
- =?us-ascii?Q?enFI9LkG2vtVrDEefLXsT+6oCrJy+TvDyLFpWZQ41Qhpscgw5egh8C76GlI0?=
- =?us-ascii?Q?7ozP1Arg011GU4QU5d1SyIIeSd6x480fCbuivbxzAox9H8YD62iCNUwwxdKy?=
- =?us-ascii?Q?0Q=3D=3D?=
+	=?utf-8?B?SzArOVRlekZ0bDJ3QmdUMUpUbGpmK2pub3d0MmRQWm5RTElZM3oyK0JLOXFm?=
+ =?utf-8?B?TjVVVGg4UmUrNmxIWkxJMnpxdTN5OXdRblRXSmFDa0E0Qy9tenB3MUIwdVFM?=
+ =?utf-8?B?aEtkbVNRSDZQNW1jU3pwWW9IaXdMUisxY2FoNkpwYnlaY3ljWDFFLzZZK1hs?=
+ =?utf-8?B?N3puZzMwZDVLRVo1MlRjRERwbi9BM0t5cEZ6STByNUxIclN4VnNHNm0rYk9V?=
+ =?utf-8?B?QVV2L3FBcnBhd0kzNmtEZVR4dHN3MjdleFVOMTVyRUdmaytnbVQ4S016RzE1?=
+ =?utf-8?B?U01UbEw0NWJDa1NZYjVVdmVKNEIyMk9JS2pkMHR4eWVnQng3cnRWbGRIekN6?=
+ =?utf-8?B?eFE0cm8vTk9WcXp3SksxbjRvWjhQNEExd0hLZzQrS3RrbHpDeURCTXhQaHNV?=
+ =?utf-8?B?Zmk1d2tOYlBFaEtudjZzb2pVYXlqUGZjUmRDMTR6cGhKV1E0SksveHpldTM2?=
+ =?utf-8?B?NjFQK2ZTMHRGTVdoNm9HejlYM3hNb0ZhQWlROUo3Y1hnTVNoU0V4R0hlM1Jv?=
+ =?utf-8?B?Q1FtYjgzOWJ5TVZmY0FUOVBQRDlSemRuTmU0Qi8yeUdrTHh3T25qaTNPL1k5?=
+ =?utf-8?B?VVVIZ0g4dWRkQUJZNW5GN0M1aXRGVkhSWS9MRUYxanZQaFppenplcFJwWTN6?=
+ =?utf-8?B?a2Z5dzlMcFI5QTlRNnNmQkZOYVZIR0VDNVpaVDE3SVVkdFBJZ0IwTHQ5bzM3?=
+ =?utf-8?B?d3NKWFZ3VmtNdVNtVDR2dURZbGtUQ2xpcTlTVnpHZEZScWhieTl2WWxCdmdU?=
+ =?utf-8?B?Rlo5TGo5b1pHL3pDZEhjZitXTHpIUVdocS9WV1pkeXM4T056aHJ5bndYM1Bx?=
+ =?utf-8?B?SjlRc1F2MlNRY1pzTDJzT1E4MnJBRS9OQ1YzN01XQ2NLUFNYY1doalEva29n?=
+ =?utf-8?B?eDhpRzVMSGd0TkZZekxXZFJTUXhKTXVDZjNaZmRRR0xqU0cxRjNJak5XT0Zs?=
+ =?utf-8?B?enNINVpidHRINVIyWWxraVJRZXdqVEUrWHZ0dCtSMWw4WDJqZGkrMlFEVUZL?=
+ =?utf-8?B?dWphMThqbGxTdGlpbE1WQlBQOXlZQ0RlY0x0R1Y5Y3l2OWtEQlpCVHFobTZM?=
+ =?utf-8?B?c25TNlFJSVorSjlndTN5L2hCdlB3SG83aGh3V0ZuN3RkdjMraGF4OFh1UEJt?=
+ =?utf-8?B?K3lBcS9ZU3UvbTNPZktaMFN3czRBa2Uvc0dCTmZuU0tBeTdWSEdlaWI3Umtn?=
+ =?utf-8?B?c0k2SFg1NGZxM2tyeWhiaE56UkUxdjNMRmdLczdRSDFlZzdNOUp3c1c1YjRM?=
+ =?utf-8?B?U2lYRS85b2VpMnIxUy95MUNwUDl2ZXVIZkdhUElpM3BlT2cwUFd5ZzJkTTJn?=
+ =?utf-8?B?SE5nUEVlT2ZqRjcxNnZPZ0U2N2syWUJtVVpGa3lDR09ZQklpRmZCZXhGUkMw?=
+ =?utf-8?B?eVZJbk0xWG43Y1o2U3dsdGI1U0lLNjBPRWczUER6V3daYk1ZU3gxSmRtS0M1?=
+ =?utf-8?B?SWU2cm9ka0FiUVRUaUZVcitBQ3MyVzRvR2pVV2tpcVg2ajdFSy9zNE9MOWpk?=
+ =?utf-8?B?U2hTbUpGNDZkUlVyL1B6dmh4VU1McGVmUm1NZmMrakJtVXZKSVhFUExBS2tw?=
+ =?utf-8?B?TnZuZkVjS2QwcGVhditMKzA3S2U0YnVwYnRCbzRpMyt4amFaVDRWWDBYbVU1?=
+ =?utf-8?B?bjQwbWVLZ2hZR0pHd2JxYWM4alFPQ242YkcwVGtYRUhKOFBNWFRidFBUQ082?=
+ =?utf-8?B?aTM4WWkyQXJnVVo0YUpQbWRIcVB1MmIxVWx4VnhtRkRFY013VzZiYm95RzRC?=
+ =?utf-8?B?Um1vQmhuUS8xRVNlQlpFbFhDRDlhQUhvZnRkeFByQ2UrRXJHK29YMGdLZEl3?=
+ =?utf-8?B?akphV2xieHZrUEZETGFoc2U4OXNwSG44WWpNdzhjVHV6WFZIZkhmeWp5d3Fu?=
+ =?utf-8?B?Q01PUGFwNnl5NnJjbXJlTVlNSktqSzRBY0ZVVUgvNGN3QlhMR0ZWVm16V3Ra?=
+ =?utf-8?B?bWoxVHR3TEJqK3JPa3N4SXZzZHJGbkI0d0VmMTBmRWFNVDNkeUt0RXY1K1py?=
+ =?utf-8?B?SStUSUd2T2kwY01WQ2VuaFBCLzlCL1piNDI3UFpYM1lydXl0MmFuOWVmMXg0?=
+ =?utf-8?B?MnRWNzM3ZWplcVhhOXRGNWNic2l5em9JNjhqSlRxRDExNlRjaHVHUTNXeElj?=
+ =?utf-8?B?M0ZWZE45OVlWMGh3UWdIQWRmVC9jOGhDem5JRk8yRGNTd09Ha2dkT3ZDSWhB?=
+ =?utf-8?B?K0E9PQ==?=
 X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- aa449d20-e424-4516-db46-08da8472bdc5
+ dc70420c-101a-4aed-a5da-08da8472bd6d
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB2538.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2022 19:15:57.2438
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2022 19:15:56.8689
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- gxHPSV4ET70FbNztPeRjy+uJU39TrstBIdDeQ4lbg5mFaUQt3Tu931ph3kUWbupheeW2mh5LnnoC3l9Rtdud3YWK4GgGdJ3yM1pCnOUPWLI=
+ 0WiOAJNcr5X5+soT8aI1Q/SNBLzQY8D8pre6jg2n0KVeerwElbkSZGrRtBuzPNdI2HB6JNTjz97bjfyPVs1Ix4VoXkFvCHT9TvSSAbWY5+Q=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2970
-X-Proofpoint-ORIG-GUID: 35-5uP66159PtUxV1R2W6kDPTJ-987wF
-X-Proofpoint-GUID: 35-5uP66159PtUxV1R2W6kDPTJ-987wF
+X-Proofpoint-ORIG-GUID: kot5m87h7kaTkni0nxk4Q1iyDQsuJ0pm
+X-Proofpoint-GUID: kot5m87h7kaTkni0nxk4Q1iyDQsuJ0pm
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-08-22_12,2022-08-22_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  suspectscore=0 mlxscore=0
- lowpriorityscore=0 clxscore=1015 mlxlogscore=912 bulkscore=0 spamscore=0
+ lowpriorityscore=0 clxscore=1015 mlxlogscore=861 bulkscore=0 spamscore=0
  adultscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
  phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2207270000 definitions=main-2208220079
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0a-0064b401.pphosted.com id 27MDtcXh012721
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 22 Aug 2022 19:16:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169680
+ https://lists.openembedded.org/g/openembedded-core/message/169679
 
-Backport required patches to fix CVE-2022-0216.
+Backport required patches to fix CVE-2021-3507.
 
 Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 ---
  meta/recipes-devtools/qemu/qemu.inc           |   2 +
- .../qemu/qemu/CVE-2022-0216_1.patch           |  42 +++++
- .../qemu/qemu/CVE-2022-0216_2.patch           | 146 ++++++++++++++++++
- 3 files changed, 190 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-0216_1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-0216_2.patch
+ .../qemu/qemu/CVE-2021-3507_1.patch           |  92 ++++++++++++++
+ .../qemu/qemu/CVE-2021-3507_2.patch           | 115 ++++++++++++++++++
+ 3 files changed, 209 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3507_1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3507_2.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 9fdb8c6428..56fc7aaf55 100644
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
+qemu/qemu.inc
+index bcaa56bbba..9fdb8c6428 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -31,6 +31,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+@@ -29,6 +29,8 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.tar=
+.xz \
+            file://0010-hw-pvrdma-Protect-against-buggy-or-malicious-gues=
+t-d.patch \
+            file://qemu-7.0.0-glibc-2.36.patch \
             file://CVE-2022-35414.patch \
-            file://CVE-2021-3507_1.patch \
-            file://CVE-2021-3507_2.patch \
-+           file://CVE-2022-0216_1.patch \
-+           file://CVE-2022-0216_2.patch \
++           file://CVE-2021-3507_1.patch \
++           file://CVE-2021-3507_2.patch \
             "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2022-0216_1.patch b/meta/recipes-devtools/qemu/qemu/CVE-2022-0216_1.patch
+ UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+=20
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3507_1.patch b/meta=
+/recipes-devtools/qemu/qemu/CVE-2021-3507_1.patch
 new file mode 100644
-index 0000000000..56fc34ce5a
+index 0000000000..24fd2c5ed3
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2022-0216_1.patch
-@@ -0,0 +1,42 @@
-+From f37ac8619a39498edd225c4a0b3039b28814833d Mon Sep 17 00:00:00 2001
-+From: Mauro Matteo Cascella <mcascell@redhat.com>
-+Date: Tue, 5 Jul 2022 22:05:43 +0200
-+Subject: [PATCH 1/2] scsi/lsi53c895a: fix use-after-free in lsi_do_msgout
-+ (CVE-2022-0216)
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3507_1.patch
+@@ -0,0 +1,92 @@
++From 57a89cc36ead7234e540d0ecbe1a792ab6b04cb7 Mon Sep 17 00:00:00 2001
++From: =3D?UTF-8?q?Philippe=3D20Mathieu-Daud=3DC3=3DA9?=3D <philmd@redhat=
+.com>
++Date: Thu, 18 Nov 2021 12:57:32 +0100
++Subject: [PATCH 1/2] hw/block/fdc: Prevent end-of-track overrun
++ (CVE-2021-3507)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
 +
-+Set current_req->req to NULL to prevent reusing a free'd buffer in case of
-+repeated SCSI cancel requests. Thanks to Thomas Huth for suggesting the patch.
++Per the 82078 datasheet, if the end-of-track (EOT byte in
++the FIFO) is more than the number of sectors per side, the
++command is terminated unsuccessfully:
 +
-+Fixes: CVE-2022-0216
-+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/972
-+Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-+Reviewed-by: Thomas Huth <thuth@redhat.com>
-+Message-Id: <20220705200543.2366809-1-mcascell@redhat.com>
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
++* 5.2.5 DATA TRANSFER TERMINATION
 +
-+Upstream-Status: Backport [6c8fa961da5e60f574bb52fd3ad44b1e9e8ad4b8]
-+CVE: CVE-2022-0216
++  The 82078 supports terminal count explicitly through
++  the TC pin and implicitly through the underrun/over-
++  run and end-of-track (EOT) functions. For full sector
++  transfers, the EOT parameter can define the last
++  sector to be transferred in a single or multisector
++  transfer. If the last sector to be transferred is a par-
++  tial sector, the host can stop transferring the data in
++  mid-sector, and the 82078 will continue to complete
++  the sector as if a hardware TC was received. The
++  only difference between these implicit functions and
++  TC is that they return "abnormal termination" result
++  status. Such status indications can be ignored if they
++  were expected.
++
++* 6.1.3 READ TRACK
++
++  This command terminates when the EOT specified
++  number of sectors have been read. If the 82078
++  does not find an I D Address Mark on the diskette
++  after the second=C2=B7 occurrence of a pulse on the
++  INDX# pin, then it sets the IC code in Status Regis-
++  ter 0 to "01" (Abnormal termination), sets the MA bit
++  in Status Register 1 to "1", and terminates the com-
++  mand.
++
++* 6.1.6 VERIFY
++
++  Refer to Table 6-6 and Table 6-7 for information
++  concerning the values of MT and EC versus SC and
++  EOT value.
++
++* Table 6=C2=B76. Result Phase Table
++
++* Table 6-7. Verify Command Result Phase Table
++
++Fix by aborting the transfer when EOT > # Sectors Per Side.
++
++Cc: qemu-stable@nongnu.org
++Cc: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
++Fixes: baca51faff0 ("floppy driver: disk geometry auto detect")
++Reported-by: Alexander Bulekov <alxndr@bu.edu>
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/339
++Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
++Message-Id: <20211118115733.4038610-2-philmd@redhat.com>
++Reviewed-by: Hanna Reitz <hreitz@redhat.com>
++Signed-off-by: Kevin Wolf <kwolf@redhat.com>
++
++Upstream-Status: Backport [defac5e2fbddf8423a354ff0454283a2115e1367]
++CVE: CVE-2021-3507
 +
 +Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 +---
-+ hw/scsi/lsi53c895a.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
++ hw/block/fdc.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
 +
-+diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-+index c8773f73f..99ea42d49 100644
-+--- a/hw/scsi/lsi53c895a.c
-++++ b/hw/scsi/lsi53c895a.c
-+@@ -1028,8 +1028,9 @@ static void lsi_do_msgout(LSIState *s)
-+         case 0x0d:
-+             /* The ABORT TAG message clears the current I/O process only. */
-+             trace_lsi_do_msgout_abort(current_tag);
-+-            if (current_req) {
-++            if (current_req && current_req->req) {
-+                 scsi_req_cancel(current_req->req);
-++                current_req->req = NULL;
-+             }
-+             lsi_disconnect(s);
-+             break;
-+-- 
++diff --git a/hw/block/fdc.c b/hw/block/fdc.c
++index 347875a0c..57bb35579 100644
++--- a/hw/block/fdc.c
+++++ b/hw/block/fdc.c
++@@ -1530,6 +1530,14 @@ static void fdctrl_start_transfer(FDCtrl *fdctrl,=
+ int direction)
++         int tmp;
++         fdctrl->data_len =3D 128 << (fdctrl->fifo[5] > 7 ? 7 : fdctrl->=
+fifo[5]);
++         tmp =3D (fdctrl->fifo[6] - ks + 1);
+++        if (tmp < 0) {
+++            FLOPPY_DPRINTF("invalid EOT: %d\n", tmp);
+++            fdctrl_stop_transfer(fdctrl, FD_SR0_ABNTERM, FD_SR1_MA, 0x0=
+0);
+++            fdctrl->fifo[3] =3D kt;
+++            fdctrl->fifo[4] =3D kh;
+++            fdctrl->fifo[5] =3D ks;
+++            return;
+++        }
++         if (fdctrl->fifo[0] & 0x80)
++             tmp +=3D fdctrl->fifo[6];
++         fdctrl->data_len *=3D tmp;
++--=20
 +2.33.0
 +
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2022-0216_2.patch b/meta/recipes-devtools/qemu/qemu/CVE-2022-0216_2.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3507_2.patch b/meta=
+/recipes-devtools/qemu/qemu/CVE-2021-3507_2.patch
 new file mode 100644
-index 0000000000..f332154b6a
+index 0000000000..acc93e897b
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2022-0216_2.patch
-@@ -0,0 +1,146 @@
-+From 5451bf6db85ce3da1238e9154d051ebccec8f171 Mon Sep 17 00:00:00 2001
-+From: Mauro Matteo Cascella <mcascell@redhat.com>
-+Date: Mon, 11 Jul 2022 14:33:16 +0200
-+Subject: [PATCH 2/2] scsi/lsi53c895a: really fix use-after-free in
-+ lsi_do_msgout (CVE-2022-0216)
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3507_2.patch
+@@ -0,0 +1,115 @@
++From 3e8601ec707dcbc3c768f7733d016dc70c947e4a Mon Sep 17 00:00:00 2001
++From: =3D?UTF-8?q?Philippe=3D20Mathieu-Daud=3DC3=3DA9?=3D <philmd@redhat=
+.com>
++Date: Thu, 18 Nov 2021 12:57:33 +0100
++Subject: [PATCH 2/2] tests/qtest/fdc-test: Add a regression test for
++ CVE-2021-3507
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
 +
-+Set current_req to NULL, not current_req->req, to prevent reusing a free'd
-+buffer in case of repeated SCSI cancel requests.  Also apply the fix to
-+CLEAR QUEUE and BUS DEVICE RESET messages as well, since they also cancel
-+the request.
++Add the reproducer from https://gitlab.com/qemu-project/qemu/-/issues/33=
+9
 +
-+Thanks to Alexander Bulekov for providing a reproducer.
++Without the previous commit, when running 'make check-qtest-i386'
++with QEMU configured with '--enable-sanitizers' we get:
 +
-+Fixes: CVE-2022-0216
-+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/972
-+Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-+Tested-by: Alexander Bulekov <alxndr@bu.edu>
-+Message-Id: <20220711123316.421279-1-mcascell@redhat.com>
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
++  =3D=3D4028352=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on ad=
+dress 0x619000062a00 at pc 0x5626d03c491a bp 0x7ffdb4199410 sp 0x7ffdb419=
+8bc0
++  READ of size 786432 at 0x619000062a00 thread T0
++      #0 0x5626d03c4919 in __asan_memcpy (qemu-system-i386+0x1e65919)
++      #1 0x5626d1c023cc in flatview_write_continue softmmu/physmem.c:278=
+7:13
++      #2 0x5626d1bf0c0f in flatview_write softmmu/physmem.c:2822:14
++      #3 0x5626d1bf0798 in address_space_write softmmu/physmem.c:2914:18
++      #4 0x5626d1bf0f37 in address_space_rw softmmu/physmem.c:2924:16
++      #5 0x5626d1bf14c8 in cpu_physical_memory_rw softmmu/physmem.c:2933=
+:5
++      #6 0x5626d0bd5649 in cpu_physical_memory_write include/exec/cpu-co=
+mmon.h:82:5
++      #7 0x5626d0bd0a07 in i8257_dma_write_memory hw/dma/i8257.c:452:9
++      #8 0x5626d09f825d in fdctrl_transfer_handler hw/block/fdc.c:1616:1=
+3
++      #9 0x5626d0a048b4 in fdctrl_start_transfer hw/block/fdc.c:1539:13
++      #10 0x5626d09f4c3e in fdctrl_write_data hw/block/fdc.c:2266:13
++      #11 0x5626d09f22f7 in fdctrl_write hw/block/fdc.c:829:9
++      #12 0x5626d1c20bc5 in portio_write softmmu/ioport.c:207:17
 +
-+Upstream-Status: Backport [4367a20cc442c56b05611b4224de9a61908f9eac]
-+CVE: CVE-2022-0216
++  0x619000062a00 is located 0 bytes to the right of 512-byte region [0x6=
+19000062800,0x619000062a00)
++  allocated by thread T0 here:
++      #0 0x5626d03c66ec in posix_memalign (qemu-system-i386+0x1e676ec)
++      #1 0x5626d2b988d4 in qemu_try_memalign util/oslib-posix.c:210:11
++      #2 0x5626d2b98b0c in qemu_memalign util/oslib-posix.c:226:27
++      #3 0x5626d09fbaf0 in fdctrl_realize_common hw/block/fdc.c:2341:20
++      #4 0x5626d0a150ed in isabus_fdc_realize hw/block/fdc-isa.c:113:5
++      #5 0x5626d2367935 in device_set_realized hw/core/qdev.c:531:13
++
++  SUMMARY: AddressSanitizer: heap-buffer-overflow (qemu-system-i386+0x1e=
+65919) in __asan_memcpy
++  Shadow bytes around the buggy address:
++    0x0c32800044f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
++    0x0c3280004500: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
++    0x0c3280004510: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
++    0x0c3280004520: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
++    0x0c3280004530: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
++  =3D>0x0c3280004540:[fa]fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
++    0x0c3280004550: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
++    0x0c3280004560: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
++    0x0c3280004570: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
++    0x0c3280004580: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
++    0x0c3280004590: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
++  Shadow byte legend (one shadow byte represents 8 application bytes):
++    Addressable:           00
++    Heap left redzone:       fa
++    Freed heap region:       fd
++  =3D=3D4028352=3D=3DABORTING
++
++[ kwolf: Added snapshot=3Don to prevent write file lock failure ]
++
++Reported-by: Alexander Bulekov <alxndr@bu.edu>
++Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
++Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
++Signed-off-by: Kevin Wolf <kwolf@redhat.com>
++
++Upstream-Status: Backport [46609b90d9e3a6304def11038a76b58ff43f77bc]
++CVE: CVE-2021-3507
 +
 +Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 +---
-+ hw/scsi/lsi53c895a.c               |  3 +-
-+ tests/qtest/fuzz-lsi53c895a-test.c | 76 ++++++++++++++++++++++++++++++
-+ 2 files changed, 78 insertions(+), 1 deletion(-)
++ tests/qtest/fdc-test.c | 21 +++++++++++++++++++++
++ 1 file changed, 21 insertions(+)
 +
-+diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-+index 99ea42d49..ad5f5e5f3 100644
-+--- a/hw/scsi/lsi53c895a.c
-++++ b/hw/scsi/lsi53c895a.c
-+@@ -1030,7 +1030,7 @@ static void lsi_do_msgout(LSIState *s)
-+             trace_lsi_do_msgout_abort(current_tag);
-+             if (current_req && current_req->req) {
-+                 scsi_req_cancel(current_req->req);
-+-                current_req->req = NULL;
-++                current_req = NULL;
-+             }
-+             lsi_disconnect(s);
-+             break;
-+@@ -1056,6 +1056,7 @@ static void lsi_do_msgout(LSIState *s)
-+             /* clear the current I/O process */
-+             if (s->current) {
-+                 scsi_req_cancel(s->current->req);
-++                current_req = NULL;
-+             }
-+ 
-+             /* As the current implemented devices scsi_disk and scsi_generic
-+diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
-+index ba5d46897..c1af0ab1c 100644
-+--- a/tests/qtest/fuzz-lsi53c895a-test.c
-++++ b/tests/qtest/fuzz-lsi53c895a-test.c
-+@@ -8,6 +8,79 @@
-+ #include "qemu/osdep.h"
-+ #include "libqos/libqtest.h"
-+ 
-++/*
-++ * This used to trigger a UAF in lsi_do_msgout()
-++ * https://gitlab.com/qemu-project/qemu/-/issues/972
-++ */
-++static void test_lsi_do_msgout_cancel_req(void)
++diff --git a/tests/qtest/fdc-test.c b/tests/qtest/fdc-test.c
++index b0d40012e..1d4f85212 100644
++--- a/tests/qtest/fdc-test.c
+++++ b/tests/qtest/fdc-test.c
++@@ -583,6 +583,26 @@ static void test_cve_2021_20196(void)
++     qtest_quit(s);
++ }
++=20
+++static void test_cve_2021_3507(void)
 ++{
 ++    QTestState *s;
 ++
-++    if (sizeof(void *) == 4) {
-++        g_test_skip("memory size too big for 32-bit build");
-++        return;
-++    }
-++
-++    s = qtest_init("-M q35 -m 4G -display none -nodefaults "
-++                   "-device lsi53c895a,id=scsi "
-++                   "-device scsi-hd,drive=disk0 "
-++                   "-drive file=null-co://,id=disk0,if=none,format=raw");
-++
-++    qtest_outl(s, 0xcf8, 0x80000810);
-++    qtest_outl(s, 0xcf8, 0xc000);
-++    qtest_outl(s, 0xcf8, 0x80000810);
-++    qtest_outw(s, 0xcfc, 0x7);
-++    qtest_outl(s, 0xcf8, 0x80000810);
-++    qtest_outl(s, 0xcfc, 0xc000);
-++    qtest_outl(s, 0xcf8, 0x80000804);
-++    qtest_outw(s, 0xcfc, 0x05);
-++    qtest_writeb(s, 0x69736c10, 0x08);
-++    qtest_writeb(s, 0x69736c13, 0x58);
-++    qtest_writeb(s, 0x69736c1a, 0x01);
-++    qtest_writeb(s, 0x69736c1b, 0x06);
-++    qtest_writeb(s, 0x69736c22, 0x01);
-++    qtest_writeb(s, 0x69736c23, 0x07);
-++    qtest_writeb(s, 0x69736c2b, 0x02);
-++    qtest_writeb(s, 0x69736c48, 0x08);
-++    qtest_writeb(s, 0x69736c4b, 0x58);
-++    qtest_writeb(s, 0x69736c52, 0x04);
-++    qtest_writeb(s, 0x69736c53, 0x06);
-++    qtest_writeb(s, 0x69736c5b, 0x02);
-++    qtest_outl(s, 0xc02d, 0x697300);
-++    qtest_writeb(s, 0x5a554662, 0x01);
-++    qtest_writeb(s, 0x5a554663, 0x07);
-++    qtest_writeb(s, 0x5a55466a, 0x10);
-++    qtest_writeb(s, 0x5a55466b, 0x22);
-++    qtest_writeb(s, 0x5a55466c, 0x5a);
-++    qtest_writeb(s, 0x5a55466d, 0x5a);
-++    qtest_writeb(s, 0x5a55466e, 0x34);
-++    qtest_writeb(s, 0x5a55466f, 0x5a);
-++    qtest_writeb(s, 0x5a345a5a, 0x77);
-++    qtest_writeb(s, 0x5a345a5b, 0x55);
-++    qtest_writeb(s, 0x5a345a5c, 0x51);
-++    qtest_writeb(s, 0x5a345a5d, 0x27);
-++    qtest_writeb(s, 0x27515577, 0x41);
-++    qtest_outl(s, 0xc02d, 0x5a5500);
-++    qtest_writeb(s, 0x364001d0, 0x08);
-++    qtest_writeb(s, 0x364001d3, 0x58);
-++    qtest_writeb(s, 0x364001da, 0x01);
-++    qtest_writeb(s, 0x364001db, 0x26);
-++    qtest_writeb(s, 0x364001dc, 0x0d);
-++    qtest_writeb(s, 0x364001dd, 0xae);
-++    qtest_writeb(s, 0x364001de, 0x41);
-++    qtest_writeb(s, 0x364001df, 0x5a);
-++    qtest_writeb(s, 0x5a41ae0d, 0xf8);
-++    qtest_writeb(s, 0x5a41ae0e, 0x36);
-++    qtest_writeb(s, 0x5a41ae0f, 0xd7);
-++    qtest_writeb(s, 0x5a41ae10, 0x36);
-++    qtest_writeb(s, 0x36d736f8, 0x0c);
-++    qtest_writeb(s, 0x36d736f9, 0x80);
-++    qtest_writeb(s, 0x36d736fa, 0x0d);
-++    qtest_outl(s, 0xc02d, 0x364000);
-++
+++    s =3D qtest_initf("-nographic -m 32M -nodefaults "
+++                    "-drive file=3D%s,format=3Draw,if=3Dfloppy,snapshot=
+=3Don",
+++                    test_image);
+++    qtest_outl(s, 0x9, 0x0a0206);
+++    qtest_outw(s, 0x3f4, 0x1600);
+++    qtest_outw(s, 0x3f4, 0x0000);
+++    qtest_outw(s, 0x3f4, 0x0000);
+++    qtest_outw(s, 0x3f4, 0x0000);
+++    qtest_outw(s, 0x3f4, 0x0200);
+++    qtest_outw(s, 0x3f4, 0x0200);
+++    qtest_outw(s, 0x3f4, 0x0000);
+++    qtest_outw(s, 0x3f4, 0x0000);
+++    qtest_outw(s, 0x3f4, 0x0000);
 ++    qtest_quit(s);
 ++}
 ++
-+ /*
-+  * This used to trigger the assert in lsi_do_dma()
-+  * https://bugs.launchpad.net/qemu/+bug/697510
-+@@ -48,5 +121,8 @@ int main(int argc, char **argv)
-+                        test_lsi_do_dma_empty_queue);
-+     }
-+ 
-++    qtest_add_func("fuzz/lsi53c895a/lsi_do_msgout_cancel_req",
-++                   test_lsi_do_msgout_cancel_req);
-++
-+     return g_test_run();
-+ }
-+-- 
++ int main(int argc, char **argv)
++ {
++     int fd;
++@@ -614,6 +634,7 @@ int main(int argc, char **argv)
++     qtest_add_func("/fdc/read_no_dma_19", test_read_no_dma_19);
++     qtest_add_func("/fdc/fuzz-registers", fuzz_registers);
++     qtest_add_func("/fdc/fuzz/cve_2021_20196", test_cve_2021_20196);
+++    qtest_add_func("/fdc/fuzz/cve_2021_3507", test_cve_2021_3507);
++=20
++     ret =3D g_test_run();
++=20
++--=20
 +2.33.0
 +
--- 
+--=20
 2.33.0
 
 
