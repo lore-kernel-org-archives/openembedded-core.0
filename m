@@ -1,125 +1,143 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F625C32772
-	for <webhook@archiver.kernel.org>; Tue, 23 Aug 2022 22:29:08 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web08.4444.1661293747049798422
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98A1DC32789
+	for <webhook@archiver.kernel.org>; Tue, 23 Aug 2022 22:35:58 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+ [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web12.4494.1661294153007845736
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 15:29:07 -0700
+ Tue, 23 Aug 2022 15:35:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Uef1qlpq;
- spf=pass (domain: gmail.com, ip: 209.85.210.170,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f170.google.com with SMTP id y127so11803935pfy.5
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=b0tbKDe9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f172.google.com with SMTP id 67so6591298pfv.2
         for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 15:29:06 -0700 (PDT)
+ Tue, 23 Aug 2022 15:35:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=jVUB2Y9ZTPx1DuAJ7K8LJnAez6kVkjdMD6xSGySaWQU=;
-        b=Uef1qlpqx73u3yCjXWIn3/OCBMvs+6g4gTy3+0DKsRBN47/hXgpPTuqv7QIS/3nBm2
-         S/lY3dHjigwxlDu4cWmpjnlIPHPKUswAHNd9/SazjFc3HUlYZ2TbC9WiNvtdnA4K6H5w
-         DuAHZIHDQ2pJ7N/maz/u+cRXLsw26pLIN9MP3tNU3garhUqby3sgvzAV2ZPGUlWj38Eo
-         Iu06SBh9uUCxURsc5VbiKxePxAgd0TobOAWZOGGl910xkS7Jh43L1BlRRBZeC5gBjsIe
-         O1FpdT1BW4YW5yvhjglEQqj85fuUBZyhX5P8U0ySuwZJZzKbQOLaTGBhCnzN3VURripP
-         lVkQ==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc;
+        bh=Caf5yU5QUTkvjpBsWVVNWWPraQAvqqTfRGmYfu6f61Y=;
+        b=b0tbKDe9J9AOEIwd5npmSvQaMavNhfadZoEW3B00CHmqSrK92Uj80XgOA9iXd72V5u
+         hUM2SAYMftxG9WyGIIc2FR6ByUOR3vUV3ZaqVcekf/cImP0S9I/JYNn4X3p3icRbmIj6
+         M2ZK83KyfqGQvA125i7giyVAcmVkaX77/BApvBY3hPnT796GinToOho9bfRG9QgK1GJr
+         wxVLifFhTYLFUvIQCgMmnh0oA6ggSLahknUTeqjGFBN1mUmfzJ4Fl/7VQVoHBQy9MvWF
+         cPprinUYwjtxKsGs3Nb7bauDpOjCs8Mqp7R71EuHAjBdCy559QaPQ68TkXFVVmKqByCy
+         JAzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=jVUB2Y9ZTPx1DuAJ7K8LJnAez6kVkjdMD6xSGySaWQU=;
-        b=Wt95aS38/hM5jazmD4ap5zKG6D1huOkt7VBTcD75uUMiyPUPvXsh4PJGE46uAw4Yyg
-         /8AlaXA6UDSopfBXdyZ9SqJegf/hBIg8C2U/hLLanEAQpm3q+0e3xhuvEv6v1RfBgoQT
-         o+PYu49GKXlGVuZmwlZ+yUw+NDX+vsAZx8qfHLiOHzwVYhOrp5FzdsYbaSdV79s/U2gq
-         iQI6wBHQMEg/Tgkygviqrldbf+OWbIdyT/3OcZetciR/T/TsPjq/HCioS8wszHSRyZVp
-         hP2O83l028GPSmQUS6BcZoRxisbevokasOy4NJ2nYpKuFwfCVMdmCAzX0mh29JlaUKaU
-         nBgQ==
-X-Gm-Message-State: ACgBeo0vIN4MG079ZQ+EobHwOyjIKx40Gd212tx0aR8Eov0LabBPXufM
-	VcSvNrSWzTdg4mIip0LPs/Lq5Tl7FqxJHg==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
+        bh=Caf5yU5QUTkvjpBsWVVNWWPraQAvqqTfRGmYfu6f61Y=;
+        b=ZImqi+MbrASQ9Xh/ED3VjzeUn9mn8TNg0bzabSXJ3NDafkAMrHCkrdD52v2dcZMEmQ
+         hSw09kKF5MGXAjAIJSPMdf1mEwDxAlSYgsRnV13WakyRCo431rI0of83meXWsnUK+TNx
+         9NDgcBmV2wEP2n8NTEGyB7MEi+H3pArZqAndQ/8vQAmM20G/WyRuMXRV5X/zIVtPyV1M
+         v94v1/wfCqwA5AoqHHIk6LwATHQplYfY0Ldt4UGRqpv4aJGA4+2vUZs6swYGQX7Ff0H8
+         sNXcV4+o3CfDWgx/GkLqcPb4o4XXBeXpo2pY2EeZsGIrk2Qk7tVBzDjFz25KzecwUCcA
+         taYQ==
+X-Gm-Message-State: ACgBeo3qsJVcvai6pvz1erKGVDzXG5HNg7f9V/nWY1GudV2OHRxfh+bc
+	We7sApfrLdT4oyxSQMcoQgiI4UlVbJC1miAL
 X-Google-Smtp-Source: 
- AA6agR546daF6AkZiMxadI74o1JPsAhLA/4teJVbt34zfpK5mLiyi8WPo9hJOjqvXcZUCA8uoEMI9A==
-X-Received: by 2002:a63:7457:0:b0:42a:f1ed:f624 with SMTP id
- e23-20020a637457000000b0042af1edf624mr3072630pgn.102.1661293746167;
-        Tue, 23 Aug 2022 15:29:06 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::6b6a])
+ AA6agR4QeRgyo8m5JMBMCfExvNZjDzawkpkJf2ocp9Zo0z8ioTw7CYc4UlE6dtCtNCdFdAC8fgCsSg==
+X-Received: by 2002:a05:6a00:ac6:b0:530:3197:48b6 with SMTP id
+ c6-20020a056a000ac600b00530319748b6mr27190719pfl.80.1661294151911;
+        Tue, 23 Aug 2022 15:35:51 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- a9-20020a62d409000000b0053645475a6dsm7679550pfh.66.2022.08.23.15.29.05
+ p4-20020a1709026b8400b001729da53673sm11042141plk.14.2022.08.23.15.35.50
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Aug 2022 15:29:05 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+        Tue, 23 Aug 2022 15:35:51 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] alsa-plugins: Include missing string.h
-Date: Tue, 23 Aug 2022 15:29:02 -0700
-Message-Id: <20220823222902.1827013-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.37.2
+Subject: [OE-core][kirkstone 01/28] libtiff: CVE-2022-34526 A stack overflow
+ was discovered
+Date: Tue, 23 Aug 2022 12:35:13 -1000
+Message-Id: 
+ <4ad7470bc772e33e579947c894ed74a513fbcb39.1661293746.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1661293745.git.steve@sakoman.com>
+References: <cover.1661293745.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Aug 2022 22:29:08 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Aug 2022 22:35:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169731
+ https://lists.openembedded.org/g/openembedded-core/message/169733
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+From: Hitendra Prajapati <hprajapati@mvista.com>
+
+Source: https://gitlab.com/libtiff/libtiff
+MR: 120544
+Type: Security Fix
+Disposition: Backport from https://gitlab.com/libtiff/libtiff/-/commit/275735d0354e39c0ac1dc3c0db2120d6f31d1990
+ChangeID: 2f9df449974f5436c1690f3ace5d74b1ab4670c9
+Description:
+          CVE-2022-34526 libtiff: A stack overflow was discovered in the _TIFFVGetField function of Tiffsplit.
+
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...-arcam_av.c-Include-missing-string.h.patch | 25 +++++++++++++++++++
- .../alsa/alsa-plugins_1.2.7.1.bb              |  4 ++-
- 2 files changed, 28 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-multimedia/alsa/alsa-plugins/0001-arcam_av.c-Include-missing-string.h.patch
+ .../libtiff/tiff/CVE-2022-34526.patch         | 29 +++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-34526.patch
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-plugins/0001-arcam_av.c-Include-missing-string.h.patch b/meta/recipes-multimedia/alsa/alsa-plugins/0001-arcam_av.c-Include-missing-string.h.patch
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2022-34526.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-34526.patch
 new file mode 100644
-index 0000000000..ff7745d637
+index 0000000000..48ca56982f
 --- /dev/null
-+++ b/meta/recipes-multimedia/alsa/alsa-plugins/0001-arcam_av.c-Include-missing-string.h.patch
-@@ -0,0 +1,25 @@
-+From b01b176a665ba65979d74922955f51dc4888a713 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Tue, 23 Aug 2022 15:21:16 -0700
-+Subject: [PATCH] arcam_av.c: Include missing string.h
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-34526.patch
+@@ -0,0 +1,29 @@
++From 3fc1fdda0068981340cc7ae136173731275e2c5e Mon Sep 17 00:00:00 2001
++From: Hitendra Prajapati <hprajapati@mvista.com>
++Date: Thu, 18 Aug 2022 10:46:30 +0530
++Subject: [PATCH] CVE-2022-34526
 +
-+bzero() function needs this header to be included
-+
-+Upstream-Status: Submitted [https://github.com/alsa-project/alsa-plugins/pull/47]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/275735d0354e39c0ac1dc3c0db2120d6f31d1990]
++CVE: CVE-2022-34526
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ arcam-av/arcam_av.c | 1 +
-+ 1 file changed, 1 insertion(+)
++ libtiff/tif_dirinfo.c | 3 +++
++ 1 file changed, 3 insertions(+)
 +
-+diff --git a/arcam-av/arcam_av.c b/arcam-av/arcam_av.c
-+index 63f9b4e..29fc537 100644
-+--- a/arcam-av/arcam_av.c
-++++ b/arcam-av/arcam_av.c
-+@@ -27,6 +27,7 @@
-+ #include <signal.h>
-+ #include <stddef.h>
-+ #include <stdio.h>
-++#include <string.h>
-+ #include <termios.h>
-+ #include <unistd.h>
-+ 
-diff --git a/meta/recipes-multimedia/alsa/alsa-plugins_1.2.7.1.bb b/meta/recipes-multimedia/alsa/alsa-plugins_1.2.7.1.bb
-index 62505fee83..9500462d5c 100644
---- a/meta/recipes-multimedia/alsa/alsa-plugins_1.2.7.1.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-plugins_1.2.7.1.bb
-@@ -22,7 +22,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
-                     file://rate/rate_samplerate.c;endline=35;md5=fd77bce85f4a338c0e8ab18430b69fae \
-                     "
++diff --git a/libtiff/tif_dirinfo.c b/libtiff/tif_dirinfo.c
++index 8565dfb..0f722a5 100644
++--- a/libtiff/tif_dirinfo.c
+++++ b/libtiff/tif_dirinfo.c
++@@ -1157,6 +1157,9 @@ _TIFFCheckFieldIsValidForCodec(TIFF *tif, ttag_t tag)
++ 	    default:
++ 		return 1;
++ 	}
+++	if( !TIFFIsCODECConfigured(tif->tif_dir.td_compression) ) {
+++		return 0;
+++	}
++ 	/* Check if codec specific tags are allowed for the current
++ 	 * compression scheme (codec) */
++ 	switch (tif->tif_dir.td_compression) {
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+index 149516508f..b5ccd859f3 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+@@ -21,6 +21,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://0001-fix-the-FPE-in-tiffcrop-415-427-and-428.patch \
+            file://CVE-2022-1354.patch \
+            file://CVE-2022-1355.patch \
++           file://CVE-2022-34526.patch \
+            "
  
--SRC_URI = "https://www.alsa-project.org/files/pub/plugins/${BP}.tar.bz2"
-+SRC_URI = "https://www.alsa-project.org/files/pub/plugins/${BP}.tar.bz2 \
-+           file://0001-arcam_av.c-Include-missing-string.h.patch \
-+           "
- SRC_URI[sha256sum] = "8c337814954bb7c167456733a6046142a2931f12eccba3ec2a4ae618a3432511"
- 
- DEPENDS += "alsa-lib"
+ SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
 -- 
-2.37.2
+2.25.1
 
 
