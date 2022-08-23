@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71633C32789
-	for <webhook@archiver.kernel.org>; Tue, 23 Aug 2022 22:36:38 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web10.4535.1661294179804728120
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64BB4C32772
+	for <webhook@archiver.kernel.org>; Tue, 23 Aug 2022 22:36:48 +0000 (UTC)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
+ [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web10.4546.1661294203177576849
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 15:36:33 -0700
+ Tue, 23 Aug 2022 15:36:43 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=DzqNEko0;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43,
+ header.b=iLEWms4s;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.171,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id g18so15333336pju.0
+Received: by mail-pg1-f171.google.com with SMTP id l64so13490202pge.0
         for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 15:36:33 -0700 (PDT)
+ Tue, 23 Aug 2022 15:36:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc;
-        bh=N2+5+PV1hkwtFVqsfTYOKeplUwU17dxssXoKw1V8hqQ=;
-        b=DzqNEko0F7uz0wHYm4L2irqXtnUgrLs+gjav7MdVApMzAosMln73+WaZLaFbVaG1+U
-         N8u04qMZRa9D1P3YmJTY/+xoIkfD4P35MN4DdpqRmC+MeWA2wENZYLWxplOO3Mau0oOb
-         NFItCKIu23xpYyij298XAarGWPFhcV7y3Wu6gyws39P0rRxQhqikbSbS4s33GRuhxEbJ
-         8oqfFy54j/gS+lSbn0zI4D/KwlKiskmaZgi8NaJVVP7VLBSOkZzrKqFdKzpOSBKHb7NZ
-         8FHEpQnaag3sYxWKiLS2K5rQRon+pA6KASkMg5Om9kJWdzUvjyt8UZXZRCj8/xeeOIun
-         JS7A==
+        bh=DQsweaolqqeCxvUALG14UOaZl8oGCrXYE46HChk/CVE=;
+        b=iLEWms4svLtzp75JojrgwCmWhQ4h4sagFKh38bjJflvCleeqM3LTOrbUn343rCq4i1
+         uLuvLL+0TZYeeVZVRLBgSyz+1izvVD3v4Lj1oggSXkr8mKZEJNCj7tiR/jnn9zcREy07
+         NNI+XZQTrdui+WO8aZIJ0zt4IigKAYTovR+V80uOfUctJyGWe7+9LgB51xc4Vz+n6q0B
+         V3JoxV1TPf96blpY6xYxcXxepMDzke2h5cFulKudcyl2MLXM8gs1UlL2gJXTTu6dHZI6
+         OhSLrOa9dCdZhNSAxwaovsK5dmgTyy8cuA8Rh1q6cQLSLdyMDX8dalAaKn61jZZKhc7B
+         JeoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=N2+5+PV1hkwtFVqsfTYOKeplUwU17dxssXoKw1V8hqQ=;
-        b=yA+yQ4xwTw2ZpYT26p08gukbZj0aE4QH2GTtQ+yALYJCW8sy+/5O5GBBCS2wjb0Uoe
-         06cozRi8TN/xLMMp4p3iW11N72f+s2iko8zb8hhCr66lHXXeYgETulqE4HSTAT9iBQha
-         eF04F9aPa0E3Rj/w9Tg+cOZo1Cx/qNzjCaD5jrfm0748TKlVSYsX8XPn5u5zGhxj+mzA
-         MDL2LNdr73LeqI+PkNH8INRKdr+XA/YpoW4+O0pfVmoxEoYNNA4MqIDD978ys+LIJ3oI
-         xcrbouXjka2b2h3gzoSd1a9ni0A6nWPe+CfY4Q6hiNPSpb9Yqtab+OdzJihbYpVanJfw
-         FaXg==
-X-Gm-Message-State: ACgBeo052ByjGLfXP7d4Qk4ymXdExgNNM+Nacp4w6/R8xwdV2bWYyw17
-	2Be0Q7KejtlNHIphjPbvi7WhJOLZxmV2WrYN
+        bh=DQsweaolqqeCxvUALG14UOaZl8oGCrXYE46HChk/CVE=;
+        b=0WKgJv/34fgxM2/DT1iXvTp2IByk6YyGjl9pYhZmfnTNheU9Fb2FL4rpkPRX85EO9P
+         ibirhjnvI93Vhd7LT3X6MbeNlgeXbZ9wbqXV602393SKe9bjkqJDPx3e6+hXQ93nVEnC
+         ClwjIx6yswgtRQXXJvj1Fj84lF1oJRUPCWd4lmxBy5mNCd3lF0jd+PeRouMa0kOKELQf
+         SabV+XNfBcwVaSP2A9O9KBMQ9cckzKelPiWyPSQ+awbSlD8esJUpY0EDobmV/i2e/eDG
+         Tm6ntmD94quaxQ/2zvFJqbM3FwzD+B/aZd5UGTJkQedpsK4618FaPAXsf7QPQhw+gr7y
+         RRuA==
+X-Gm-Message-State: ACgBeo3zQiqaiRofQt1mziOdDKhvzKPALWzjdOwiF85f/MZH9J9QVzrU
+	uNWuuOLQ5CJiOrGw0O+QlyLTYSLYY3kGC2oy
 X-Google-Smtp-Source: 
- AA6agR5ryWjBh1CRtpo3KL45Neh4MDfQvpllsccSDgPhLsMId/TcZsMZ6KsUkIkYfbF0+hB4xPJRQA==
-X-Received: by 2002:a17:90a:d982:b0:1fb:aec:e8db with SMTP id
- d2-20020a17090ad98200b001fb0aece8dbmr5152920pjv.148.1661294192264;
-        Tue, 23 Aug 2022 15:36:32 -0700 (PDT)
+ AA6agR4mk7HcjLZgJAtlzvcVtResT8p+WOqzqS1GrhdYL/8lxvOPCMvVh404cnHG90c5+Fakn8KtFw==
+X-Received: by 2002:aa7:814d:0:b0:535:c875:dd4f with SMTP id
+ d13-20020aa7814d000000b00535c875dd4fmr26696271pfn.4.1661294202275;
+        Tue, 23 Aug 2022 15:36:42 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- p4-20020a1709026b8400b001729da53673sm11042141plk.14.2022.08.23.15.36.30
+ p4-20020a1709026b8400b001729da53673sm11042141plk.14.2022.08.23.15.36.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Aug 2022 15:36:31 -0700 (PDT)
+        Tue, 23 Aug 2022 15:36:41 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 21/28] tcp-wrappers: Fix
- implicit-function-declaration warnings
-Date: Tue, 23 Aug 2022 12:35:33 -1000
+Subject: [OE-core][kirkstone 26/28] linux-yocto: prepend the the value with a
+ space when append to KERNEL_EXTRA_ARGS
+Date: Tue, 23 Aug 2022 12:35:38 -1000
 Message-Id: 
- <a5555a2d38521ef1c8d93676fbc2f6fec3558160.1661293746.git.steve@sakoman.com>
+ <099e000999383c464d38e5d6b044994e5d08a1ea.1661293746.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1661293745.git.steve@sakoman.com>
 References: <cover.1661293745.git.steve@sakoman.com>
@@ -68,152 +68,34 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Aug 2022 22:36:38 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Aug 2022 22:36:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169753
+ https://lists.openembedded.org/g/openembedded-core/message/169758
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
 
-This is seen with clang-15+
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4b882afd6c1a67b48cf4e7ace95d46ca2ff12aa0)
+(cherry picked from commit f6183b2d2f625515ea767dba3d8076a53a246874)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...plicit-function-declaration-warnings.patch | 109 ++++++++++++++++++
- .../tcp-wrappers/tcp-wrappers_7.6.bb          |   1 +
- 2 files changed, 110 insertions(+)
- create mode 100644 meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-implicit-function-declaration-warnings.patch
+ meta/recipes-kernel/linux/linux-yocto.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-implicit-function-declaration-warnings.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-implicit-function-declaration-warnings.patch
-new file mode 100644
-index 0000000000..ec793ac8ff
---- /dev/null
-+++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-implicit-function-declaration-warnings.patch
-@@ -0,0 +1,109 @@
-+From 9c97b5db237a793e0d1b6b0241570bdc6e35ee24 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 7 Aug 2022 17:42:24 -0700
-+Subject: [PATCH] Fix implicit-function-declaration warnings
-+
-+These are seen with clang-15+
-+
-+Upstream-Status: Inappropriate [upstream is dead]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ hosts_access.c | 3 +++
-+ safe_finger.c  | 1 +
-+ shell_cmd.c    | 3 +++
-+ tcpd.c         | 2 +-
-+ tcpdchk.c      | 1 +
-+ workarounds.c  | 1 +
-+ 6 files changed, 10 insertions(+), 1 deletion(-)
-+
-+diff --git a/hosts_access.c b/hosts_access.c
-+index 0133e5e..58697ea 100644
-+--- a/hosts_access.c
-++++ b/hosts_access.c
-+@@ -33,6 +33,7 @@ static char sccsid[] = "@(#) hosts_access.c 1.21 97/02/12 02:13:22";
-+ #endif
-+ #include <netinet/in.h>
-+ #include <arpa/inet.h>
-++#include <rpcsvc/ypclnt.h>
-+ #include <stdio.h>
-+ #include <stdlib.h>
-+ #include <syslog.h>
-+@@ -45,6 +46,8 @@ static char sccsid[] = "@(#) hosts_access.c 1.21 97/02/12 02:13:22";
-+ #endif
-+ 
-+ extern int errno;
-++extern int match_pattern_ylo(const char *s, const char *pattern);
-++extern unsigned long cidr_mask_addr(char* str);
-+ 
-+ #ifndef	INADDR_NONE
-+ #define	INADDR_NONE	(-1)		/* XXX should be 0xffffffff */
-+diff --git a/safe_finger.c b/safe_finger.c
-+index 23afab1..a6458fb 100644
-+--- a/safe_finger.c
-++++ b/safe_finger.c
-+@@ -34,6 +34,7 @@ static char sccsid[] = "@(#) safe_finger.c 1.4 94/12/28 17:42:41";
-+ #include <syslog.h>
-+ 
-+ extern void exit();
-++extern int pipe_stdin(char  **argv);
-+ 
-+ /* Local stuff */
-+ 
-+diff --git a/shell_cmd.c b/shell_cmd.c
-+index 62d31bc..a566092 100644
-+--- a/shell_cmd.c
-++++ b/shell_cmd.c
-+@@ -16,10 +16,13 @@ static char sccsid[] = "@(#) shell_cmd.c 1.5 94/12/28 17:42:44";
-+ 
-+ #include <sys/types.h>
-+ #include <sys/param.h>
-++#include <sys/wait.h>
-++#include <fcntl.h>
-+ #include <signal.h>
-+ #include <stdio.h>
-+ #include <syslog.h>
-+ #include <string.h>
-++#include <unistd.h>
-+ 
-+ extern void exit();
-+ 
-+diff --git a/tcpd.c b/tcpd.c
-+index dc9ff17..4353caa 100644
-+--- a/tcpd.c
-++++ b/tcpd.c
-+@@ -46,7 +46,7 @@ void fix_options(struct request_info *);
-+ int     allow_severity = SEVERITY;	/* run-time adjustable */
-+ int     deny_severity = LOG_WARNING;	/* ditto */
-+ 
-+-main(argc, argv)
-++void main(argc, argv)
-+ int     argc;
-+ char  **argv;
-+ {
-+diff --git a/tcpdchk.c b/tcpdchk.c
-+index 5dca8bd..67c12ce 100644
-+--- a/tcpdchk.c
-++++ b/tcpdchk.c
-+@@ -38,6 +38,7 @@ static char sccsid[] = "@(#) tcpdchk.c 1.8 97/02/12 02:13:25";
-+ 
-+ extern int errno;
-+ extern void exit();
-++extern unsigned long cidr_mask_addr(char* str);
-+ extern int optind;
-+ extern char *optarg;
-+ 
-+diff --git a/workarounds.c b/workarounds.c
-+index b22b378..6335049 100644
-+--- a/workarounds.c
-++++ b/workarounds.c
-+@@ -21,6 +21,7 @@ char    sccsid[] = "@(#) workarounds.c 1.6 96/03/19 16:22:25";
-+ #include <stdio.h>
-+ #include <syslog.h>
-+ #include <string.h>
-++#include <unistd.h>
-+ 
-+ extern int errno;
-+ 
-+-- 
-+2.37.1
-+
-diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-index 814d7fd913..8137d257c8 100644
---- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-+++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-@@ -50,6 +50,7 @@ SRC_URI = "http://ftp.porcupine.org/pub/security/tcp_wrappers_${PV}.tar.gz \
-            file://fix_warnings.patch \
-            file://fix_warnings2.patch \
-            file://0001-Remove-fgets-extern-declaration.patch \
-+           file://0001-Fix-implicit-function-declaration-warnings.patch \
-            "
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index cabc8f4975..7ea661e138 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -60,7 +60,7 @@ do_install:append(){
+ KERNEL_FEATURES:append:qemuall=" features/kernel-sample/kernel-sample.scc"
  
- SRC_URI[md5sum] = "e6fa25f71226d090f34de3f6b122fb5a"
+ KERNEL_DEBUG_OPTIONS ?= "stack"
+-KERNEL_EXTRA_ARGS:append:x86-64 = "${@bb.utils.contains('KERNEL_DEBUG_OPTIONS', 'stack', 'HOST_LIBELF_LIBS="-L${RECIPE_SYSROOT_NATIVE}/usr/lib/pkgconfig/../../../usr/lib/ -lelf"', '', d)}"
++KERNEL_EXTRA_ARGS:append:x86-64 = " ${@bb.utils.contains('KERNEL_DEBUG_OPTIONS', 'stack', 'HOST_LIBELF_LIBS="-L${RECIPE_SYSROOT_NATIVE}/usr/lib/pkgconfig/../../../usr/lib/ -lelf"', '', d)}"
+ 
+ do_devshell:prepend() {
+     # setup native pkg-config variables (kconfig scripts call pkg-config directly, cannot generically be overriden to pkg-config-native)
 -- 
 2.25.1
 
