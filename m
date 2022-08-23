@@ -1,107 +1,91 @@
-Return-Path: <pavel@zhukoff.net>
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 158EEC32774
-	for <webhook@archiver.kernel.org>; Tue, 23 Aug 2022 14:58:52 +0000 (UTC)
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by mx.groups.io with SMTP id smtpd.web08.32935.1661266728156073282
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 231A6C32772
+	for <webhook@archiver.kernel.org>; Tue, 23 Aug 2022 15:04:12 +0000 (UTC)
+Received: from smtpout.cvg.de (smtpout.cvg.de [87.128.211.67])
+ by mx.groups.io with SMTP id smtpd.web09.32970.1661267045639781117
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 07:58:48 -0700
+ Tue, 23 Aug 2022 08:04:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@zhukoff.net header.s=fm1
- header.b=IV/QCuXR;
- spf=pass (domain: zhukoff.net, ip: 66.111.4.27, mailfrom: pavel@zhukoff.net)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 5985D5C024B;
-	Tue, 23 Aug 2022 10:58:47 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Tue, 23 Aug 2022 10:58:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm1; t=1661266727; x=1661353127; bh=ZDsDA5f2WMQGlRW4lJjU5ctwa
-	5xlfwNhigVxcGuNhgE=; b=IV/QCuXR1sVh1EcsRXMRKY0KyaJr310tj9cUCGfrV
-	GYJZDZ/bm9jW5H6g7/Q7uIJa6eio2UU/NT27CCp748fw+oxHUGukk8YIEWZCLY4/
-	HAYmM9Fp/Ak/t1uEByeugorgmd12zmRsLL8nz2ZENKhqQdqtdV3RCNRRRqj6KVS+
-	maqFYppanx2IkqX49MIma89bo3ImTuDfpQ1kmtqS2P/W0Uai7WouoiF1SbOWcc8X
-	LjZz6/LqIASHxZqZzXiRq+MS37lq8g13HGT7eYR7gVE/os8xj89UCdC4nmbLvF6N
-	BBRoJHdbfENtjF1duNAOYs5tbEatyWmjPaLGD8jDH64Gw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1661266727; x=1661353127; bh=ZDsDA5f2WMQGlRW4lJjU5ctwa5xlfwNhigV
-	xcGuNhgE=; b=uBG18R5VYQMz51BTv+dB7+IJNTDo3jx+LaZ6vWspIy/NLXSdG2N
-	JpVAc1qvcWyBF+anxgiREozPBNfYbM1cK4te79Px3gj16xBpvwR8F0yQVWg7LBeD
-	JbQ+kMPmvn1NK6WPwq7IJgxU+l3qksKfuRL/MFCBVlKtV4WZAvO7+OAj794yn9R/
-	fs36RufGTfxRKpVs8oUBjGHPfsdqihvGj2JnfPgquMS03cZ+YYJ8H7c7r5kaBrXb
-	aK1aqNERLFekwx2JIDvgInjIgGVKMvRubTci4cg8z8NlrOdg3imBW7AmTdWeCul0
-	scAORGmox1/986XxCPM1A2+yKIOTmIl1zqQ==
-X-ME-Sender: <xms:J-sEYymuscBKK5lG7WhupSoFRzah_ajhacfo3Ijg4iCkPAu-JFzNcg>
-    <xme:J-sEY50Z4hHvAF_sLWFr2Tu7TocHl9tV0uQz5RKjiO8zOXS1S8-pFm0v0o1_sHBK_
-    txtqRXJInWhTGZiYfc>
-X-ME-Received: 
- <xmr:J-sEYwpOZHqDpvftAa348sAGLx1QebIZoyuSxi8cFwnVBe8bvdmwY74JVJdFNMH6SVNiQlRC3lKeGCdUyoO7z0g>
-X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvfedrvdeiledgkedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
-    ertddtnecuhfhrohhmpefrrghvvghlucgkhhhukhhovhcuoehprghvvghlseiihhhukhho
-    fhhfrdhnvghtqeenucggtffrrghtthgvrhhnpeevfeejkeejudegledtkeejhfettdefje
-    euffehieekvddugfdtffffledvvdefhfenucevlhhushhtvghrufhiiigvpedtnecurfgr
-    rhgrmhepmhgrihhlfhhrohhmpehprghvvghlseiihhhukhhofhhfrdhnvght
-X-ME-Proxy: <xmx:J-sEY2mi7RwnBWWDuiQTocDYsxDknsQplcqfLccFtsKPINHf_maxQg>
-    <xmx:J-sEYw1BKNRFcMHDLibgd5Pv68l_UmEqeAXesqwahWp0kkI3BK5iZA>
-    <xmx:J-sEY9v8dz7HfnRkZCbH1UUNwvK1LmpXFLOMxPOkAPaZf7V0p-vwMA>
-    <xmx:J-sEY19iJblE1NX-FjFTKWmJDQfUdM0m5rHagIqY3kq7BBMXLtKJ2g>
-Feedback-ID: ib94946c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 23 Aug 2022 10:58:46 -0400 (EDT)
-From: Pavel Zhukov <pavel@zhukoff.net>
-To: openembedded-core@lists.openembedded.org
-Cc: Pavel Zhukov <pavel@zhukoff.net>
-Subject: [PATCH] parselogs: Ignore xf86OpenConsole error
-Date: Tue, 23 Aug 2022 16:58:22 +0200
-Message-Id: <20220823145822.28366-1-pavel@zhukoff.net>
-X-Mailer: git-send-email 2.35.1
+ dkim=pass header.i=@sigma-chemnitz.de header.s=v2022040800 header.b=ykWpQOkx;
+ spf=pass (domain: sigma-chemnitz.de, ip: 87.128.211.67,
+ mailfrom: enrico.scholz@sigma-chemnitz.de)
+Received: from mail-mta-3.intern.sigma-chemnitz.de
+ (mail-mta-3.intern.sigma-chemnitz.de [192.168.12.71])
+	by mail-out-2.intern.sigma-chemnitz.de (8.16.1/8.16.1) with ESMTPS id
+ 27NF416o741839
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 23 Aug 2022 17:04:01 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2022040800; t=1661267041;
+	bh=TL1uqNd0oz+O53qdnzj403YzWU6bC4NXOyk2pQfl9l0=; l=589;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To;
+	b=ykWpQOkxVztcd1/dmKdWIByspZEXyMUwR0VY4TL0HPifYC21eVLTh++z60X1UQbcq
+	 s5Q8aaBlGpCtlE7owHv5No3/h7VsPdpQFtctLA3IJ8Ov88hKA8ibK+740UvP0CEJFj
+	 lgHo92wAuGhGIDFn+/bn8OS4eIiAtMiCwEmhbXOJkCnXkeJxxc8cpNQoMqzmQgpzfW
+	 8bhEGg9bpDL0a+EiM2n7MFKqYXjQ7lw5U+mG0uHJXP6YDycj8Wn4ZVOQ+CLJnLihhv
+	 NkqSqkSaGgEC7A3r/XTlSQ1onu2FhQnrOFLWtvWHdQqW12nc6JOW+97ghTt9ne8B8p
+	 mLQEAkp8Ld34A==
+Received: from reddoxx.intern.sigma-chemnitz.de (reddoxx.sigma.local
+ [192.168.16.32])
+	by mail-mta-3.intern.sigma-chemnitz.de (8.16.1/8.16.1) with ESMTP id
+ 27NF3x5k2732171
+	for <openembedded-core@lists.openembedded.org> from
+ enrico.scholz@sigma-chemnitz.de; Tue, 23 Aug 2022 17:04:00 +0200
+Received: from mail-msa-2.intern.sigma-chemnitz.de ( [192.168.12.72]) by
+ reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 77C9CD0EF7A; Tue, 23 Aug 2022 17:03:59 +0200
+Received: from ensc-pc.intern.sigma-chemnitz.de
+ (ensc-pc.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-2.intern.sigma-chemnitz.de (8.16.1/8.16.1) with ESMTPS id
+ 27NF3xaW710423
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Tue, 23 Aug 2022 17:03:59 +0200
+Received: from ensc by ensc-pc.intern.sigma-chemnitz.de with local (Exim 4.95)
+	(envelope-from <ensc@sigma-chemnitz.de>)
+	id 1oQVRf-0077eZ-35;
+	Tue, 23 Aug 2022 17:03:59 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: DKIM compatible maillist setup (was: [OE-core] [PATCH 1/2]
+ npm.bbclass: fix typo in 'fund' config option)
+References: <20220822111337.1201003-1-enrico.scholz@sigma-chemnitz.de>
+	<20220823162848.3468656c@booty>
+Date: Tue, 23 Aug 2022 17:03:59 +0200
+In-Reply-To: <20220823162848.3468656c@booty> (Luca Ceresoli's message of "Tue,
+	23 Aug 2022 16:28:48 +0200")
+Message-ID: <lyk06zj928.fsf_-_@ensc-pc.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Aug 2022 14:58:52 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Aug 2022 15:04:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169713
+ https://lists.openembedded.org/g/openembedded-core/message/169714
 
-[Yocto #13854]
+Luca Ceresoli <luca.ceresoli@bootlin.com> writes:
 
-If VT argument was not specified Xorg server tries to bind to VT1, then
-VT2 and so on. In some cases (runqemu with nographics or serial options
-for example) VT1 can be taken by systemd getty service which generates
-error message. Do not fail on this message if Xorg is running. (covered
-by test_xorg_running test)
+> As you can see above, your sender address is getting mangled. This is
+> not your fault, it is done by DMARC for anti-phishing, but it makes
+> applying your patches annoying.
+>
+> Can you please try to work around that by setting the sendemail.from
+> parameter in your git config?
 
-Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
----
- meta/lib/oeqa/runtime/cases/parselogs.py | 1 +
- 1 file changed, 1 insertion(+)
+Thanks for pointing me to this git option.
 
-diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
-index 1f9365f3a86..01ae4518cb0 100644
---- a/meta/lib/oeqa/runtime/cases/parselogs.py
-+++ b/meta/lib/oeqa/runtime/cases/parselogs.py
-@@ -64,6 +64,7 @@ common_errors = [
-     "[pulseaudio] authkey.c: Failed to load authentication key",
-     "was skipped because of a failed condition check",
-     "was skipped because all trigger condition checks failed",
-+    "xf86OpenConsole: Switching VT failed",
-     ]
- 
- video_related = [
--- 
-2.35.1
+Would it be possible to configure the maillist so that it does not
+mangle the message (no "unsubscribe" footer or "[OE-core]" subject
+prefix)?  Or is this not supported with groups.io?
 
+
+
+Enrico
 
