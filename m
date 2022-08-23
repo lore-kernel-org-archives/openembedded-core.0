@@ -1,83 +1,107 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <pavel@zhukoff.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05AF3C32772
-	for <webhook@archiver.kernel.org>; Tue, 23 Aug 2022 14:49:52 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web12.32375.1661266187630511209
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 158EEC32774
+	for <webhook@archiver.kernel.org>; Tue, 23 Aug 2022 14:58:52 +0000 (UTC)
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by mx.groups.io with SMTP id smtpd.web08.32935.1661266728156073282
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 07:49:48 -0700
+ Tue, 23 Aug 2022 07:58:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=GnLzLaLf;
- spf=pass (domain: bootlin.com, ip: 217.70.183.198,
- mailfrom: luca.ceresoli@bootlin.com)
-Received: from booty (unknown [77.244.183.192])
-	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 7468DC000E;
-	Tue, 23 Aug 2022 14:49:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1661266186;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZE7/LZDayc/l5NHiA2zz1kLN+8Deej5e0yglReCy3DA=;
-	b=GnLzLaLfr/dE69Wf7FXvh0YEWN82l0COuefKYTw37SzJIxEcMNK1xpiHBPqQ+ZW2q1RSli
-	Dzqzu7vi0P5HWwUe2k+FslAYYJhidkCitgWeJ8ZgxHGnGA+K1bzZQSCTUKbcGnKz7Xv2FQ
-	2wwjFncIxK/kmNcTelqXd3v06BbDXm21pxj/Zlt7PkVrJAa63wWC5CdlQX7dgDo0kIL6YH
-	K9tcwVSJXpa9Nh7Mz/oYXBSfUM8TFO24GekxY/uKSurZhwdW7DSrcF21bWqcal4ac/biU8
-	MeWETLvguSwZxyGfYOrHquaKoIS+gs0Hoqz0lXVGEYxnHEu5wT+lHfDybiYLxg==
-Date: Tue, 23 Aug 2022 16:49:44 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Khem Raj" <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] gcc: Upgrade to 12.2.0
-Message-ID: <20220823164944.774719d2@booty>
-In-Reply-To: <20220820163903.3462152-1-raj.khem@gmail.com>
-References: <20220820163903.3462152-1-raj.khem@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ dkim=fail reason="signature has expired" header.i=@zhukoff.net header.s=fm1
+ header.b=IV/QCuXR;
+ spf=pass (domain: zhukoff.net, ip: 66.111.4.27, mailfrom: pavel@zhukoff.net)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 5985D5C024B;
+	Tue, 23 Aug 2022 10:58:47 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Tue, 23 Aug 2022 10:58:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm1; t=1661266727; x=1661353127; bh=ZDsDA5f2WMQGlRW4lJjU5ctwa
+	5xlfwNhigVxcGuNhgE=; b=IV/QCuXR1sVh1EcsRXMRKY0KyaJr310tj9cUCGfrV
+	GYJZDZ/bm9jW5H6g7/Q7uIJa6eio2UU/NT27CCp748fw+oxHUGukk8YIEWZCLY4/
+	HAYmM9Fp/Ak/t1uEByeugorgmd12zmRsLL8nz2ZENKhqQdqtdV3RCNRRRqj6KVS+
+	maqFYppanx2IkqX49MIma89bo3ImTuDfpQ1kmtqS2P/W0Uai7WouoiF1SbOWcc8X
+	LjZz6/LqIASHxZqZzXiRq+MS37lq8g13HGT7eYR7gVE/os8xj89UCdC4nmbLvF6N
+	BBRoJHdbfENtjF1duNAOYs5tbEatyWmjPaLGD8jDH64Gw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1661266727; x=1661353127; bh=ZDsDA5f2WMQGlRW4lJjU5ctwa5xlfwNhigV
+	xcGuNhgE=; b=uBG18R5VYQMz51BTv+dB7+IJNTDo3jx+LaZ6vWspIy/NLXSdG2N
+	JpVAc1qvcWyBF+anxgiREozPBNfYbM1cK4te79Px3gj16xBpvwR8F0yQVWg7LBeD
+	JbQ+kMPmvn1NK6WPwq7IJgxU+l3qksKfuRL/MFCBVlKtV4WZAvO7+OAj794yn9R/
+	fs36RufGTfxRKpVs8oUBjGHPfsdqihvGj2JnfPgquMS03cZ+YYJ8H7c7r5kaBrXb
+	aK1aqNERLFekwx2JIDvgInjIgGVKMvRubTci4cg8z8NlrOdg3imBW7AmTdWeCul0
+	scAORGmox1/986XxCPM1A2+yKIOTmIl1zqQ==
+X-ME-Sender: <xms:J-sEYymuscBKK5lG7WhupSoFRzah_ajhacfo3Ijg4iCkPAu-JFzNcg>
+    <xme:J-sEY50Z4hHvAF_sLWFr2Tu7TocHl9tV0uQz5RKjiO8zOXS1S8-pFm0v0o1_sHBK_
+    txtqRXJInWhTGZiYfc>
+X-ME-Received: 
+ <xmr:J-sEYwpOZHqDpvftAa348sAGLx1QebIZoyuSxi8cFwnVBe8bvdmwY74JVJdFNMH6SVNiQlRC3lKeGCdUyoO7z0g>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvfedrvdeiledgkedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpefrrghvvghlucgkhhhukhhovhcuoehprghvvghlseiihhhukhho
+    fhhfrdhnvghtqeenucggtffrrghtthgvrhhnpeevfeejkeejudegledtkeejhfettdefje
+    euffehieekvddugfdtffffledvvdefhfenucevlhhushhtvghrufhiiigvpedtnecurfgr
+    rhgrmhepmhgrihhlfhhrohhmpehprghvvghlseiihhhukhhofhhfrdhnvght
+X-ME-Proxy: <xmx:J-sEY2mi7RwnBWWDuiQTocDYsxDknsQplcqfLccFtsKPINHf_maxQg>
+    <xmx:J-sEYw1BKNRFcMHDLibgd5Pv68l_UmEqeAXesqwahWp0kkI3BK5iZA>
+    <xmx:J-sEY9v8dz7HfnRkZCbH1UUNwvK1LmpXFLOMxPOkAPaZf7V0p-vwMA>
+    <xmx:J-sEY19iJblE1NX-FjFTKWmJDQfUdM0m5rHagIqY3kq7BBMXLtKJ2g>
+Feedback-ID: ib94946c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 23 Aug 2022 10:58:46 -0400 (EDT)
+From: Pavel Zhukov <pavel@zhukoff.net>
+To: openembedded-core@lists.openembedded.org
+Cc: Pavel Zhukov <pavel@zhukoff.net>
+Subject: [PATCH] parselogs: Ignore xf86OpenConsole error
+Date: Tue, 23 Aug 2022 16:58:22 +0200
+Message-Id: <20220823145822.28366-1-pavel@zhukoff.net>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Aug 2022 14:49:52 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Aug 2022 14:58:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169712
+ https://lists.openembedded.org/g/openembedded-core/message/169713
 
-Hi Khem,
+[Yocto #13854]
 
-On Sat, 20 Aug 2022 09:39:03 -0700
-"Khem Raj" <raj.khem@gmail.com> wrote:
+If VT argument was not specified Xorg server tries to bind to VT1, then
+VT2 and so on. In some cases (runqemu with nographics or serial options
+for example) VT1 can be taken by systemd getty service which generates
+error message. Do not fail on this message if Xorg is running. (covered
+by test_xorg_running test)
 
-> GCC 12.2 is the first bug-fix release from the GCC 12 branch containing
-> important fixes for regressions and serious bugs in GCC 12.1 with more
-> than 71 bugs fixed since the previous release comprising of  a number
-> of libstdc++ and C++ and fortran fixes [1]
-> 
-> Remove backported patch to fix libsanitizers with glibc 2.36, its
-> already present in 12.2
-> 
-> [1] https://gcc.gnu.org/bugzilla/buglist.cgi?bug_status=RESOLVED&resolution=FIXED&target_milestone=12.2
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
+---
+ meta/lib/oeqa/runtime/cases/parselogs.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-Building with this patch I had a ccache compile failure on musl builds:
-
-  error: 'time_t' has not been declared
-  error: no declaration matches 'std::string core::Statistics::format_human_readable(const Config&, time_t, uint8_t, bool) const'
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/5735/steps/11/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/5752/steps/11/logs/stdio
-
-They disappeared after removing this patch and rebuilding.
-
+diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
+index 1f9365f3a86..01ae4518cb0 100644
+--- a/meta/lib/oeqa/runtime/cases/parselogs.py
++++ b/meta/lib/oeqa/runtime/cases/parselogs.py
+@@ -64,6 +64,7 @@ common_errors = [
+     "[pulseaudio] authkey.c: Failed to load authentication key",
+     "was skipped because of a failed condition check",
+     "was skipped because all trigger condition checks failed",
++    "xf86OpenConsole: Switching VT failed",
+     ]
+ 
+ video_related = [
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.35.1
+
 
