@@ -1,40 +1,45 @@
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: =?UTF-8?B?VWxyaWNoIMOWbG1hbm4=?= <u.oelmann@pengutronix.de>
-Subject: [PATCH] icecc.bbclass: fix filename of recipe in comment
-Date: Wed, 14 Sep 2022 13:19:45 +0200
-Message-Id: <20220914111945.3085854-1-u.oelmann@pengutronix.de>
+From: "Steve Sakoman" <steve@sakoman.com>
+Subject: [OE-core][kirkstone 07/28] cve-check: Don't use f-strings
+Date: Tue, 23 Aug 2022 12:35:19 -1000
+Message-Id: <057a6f826bd45ebf240df47f0baf7c8027f5711c.1661293746.git.steve@sakoman.com>
+In-Reply-To: <cover.1661293745.git.steve@sakoman.com>
+References: <cover.1661293745.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: OpenEmbedded Core Developers <openembedded-core@lists.openembedded.org>
-Cc: =?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
 
-The character '%' is not a valid part of a recipe filename and has been used
-here only to suggest a wildcard regarding the recipe's version, see reply [1] in
-a companioned thread. Correct that by using the current recipe version instead.
+From: Ernst Sjöstrand <ernstp@gmail.com>
 
-[1] https://lists.yoctoproject.org/g/docs/message/3165
+Since we're keeping cve-check aligned between the active branches,
+and dunfell is supported on Python 3.5, we can't use f-strings.
 
-Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
+Signed-off-by: Ernst Sjöstrand <ernstp@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 1821cf7464cbba521b55a9c128fe8812c0cc5eca)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/icecc.bbclass | 2 +-
+ meta/lib/oe/cve_check.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index e478ba488ce0..312e0f17b554 100644
---- a/meta/classes/icecc.bbclass
-+++ b/meta/classes/icecc.bbclass
-@@ -22,7 +22,7 @@
- # but nothing is sure. ;)
- #
- # If ICECC_ENV_EXEC is set in local.conf, then it should point to the icecc-create-env script provided by the user
--# or the default one provided by icecc-create-env_%.bb will be used.
-+# or the default one provided by icecc-create-env_0.1.bb will be used.
- # (NOTE that this is a modified version of the needed script and *not the one that comes with icecream*).
- #
- # User can specify if specific recipes or recipes inheriting specific classes should not use icecc to distribute
+diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
+index aa06497727..f40f16d7ab 100644
+--- a/meta/lib/oe/cve_check.py
++++ b/meta/lib/oe/cve_check.py
+@@ -143,7 +143,7 @@ def get_cpe_ids(cve_product, version):
+         else:
+             vendor = "*"
+ 
+-        cpe_id = f'cpe:2.3:a:{vendor}:{product}:{version}:*:*:*:*:*:*:*'
++        cpe_id = 'cpe:2.3:a:{}:{}:{}:*:*:*:*:*:*:*'.format(vendor, product, version)
+         cpe_ids.append(cpe_id)
+ 
+     return cpe_ids
 -- 
-2.30.2
+2.25.1
 
