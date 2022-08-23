@@ -1,136 +1,195 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4A96C32772
-	for <webhook@archiver.kernel.org>; Tue, 23 Aug 2022 14:03:21 +0000 (UTC)
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
- [209.85.222.181])
- by mx.groups.io with SMTP id smtpd.web09.32144.1661263400736083189
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECFDEC32772
+	for <webhook@archiver.kernel.org>; Tue, 23 Aug 2022 14:13:21 +0000 (UTC)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web10.32558.1661263999396177916
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 07:03:21 -0700
+ Tue, 23 Aug 2022 07:13:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20210112.gappssmtp.com header.s=20210112
- header.b=bLuQFVD4;
- spf=pass (domain: ossystems.com.br, ip: 209.85.222.181,
- mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qk1-f181.google.com with SMTP id f4so10305289qkl.7
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=Z8fE7JeJ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f182.google.com with SMTP id s206so12396004pgs.3
         for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 07:03:20 -0700 (PDT)
+ Tue, 23 Aug 2022 07:13:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc;
-        bh=jvIgnw5Ww2PcRbZAVSynvIF7P3QOm4x0/cG/EXL2Dqg=;
-        b=bLuQFVD4X7rS0Eh4HLffThwcI1TYGjqoFf6rJegDTKg/kWU0yAZLDc5E3P/n5qp1ou
-         3DhSyH3Ncl10AascYhOkBGWuk+NhBPX5lHwVqOBDb7h2NGzn0N4agjsbs8yBgi3JCIG9
-         yCZJIbLx8bWgl0MHyAWoBiX9dXTAQ1xAO988QjBYQqKN4COmndOvk+ZcrM8iEHN0Ukz5
-         Il4nUHSEgqZ51G4FCgd2dGWPmgKjBnZ1uuV0TZLc5KqH1lIR1SotqXkOootSNcgZdNLv
-         /CkpRlytrAYOfTECdq/JwIgsXMBOpA9lrkLlliywdX+MeYxI2FuO0nHTYCg0zdkCMbgw
-         D/1A==
+        bh=NEjf6fDIX/8g11qmQGk3psg5xAJFny6az4rWE9fQQLQ=;
+        b=Z8fE7JeJxdattQJMUolyYBpC7aZ9EuSotVPz7pbAjM48U/GNzjFvO0ORgXGgMd22ps
+         y8AkZcxfYs5SD58dnGxrq9UFq+yJ6xt6HrOSH5zOBAVNbSi+OGFpcw9WUdIKp8SSqofP
+         KllGlpNirDAdMxW2th75oIF648VTKIYSbEYKg6MWxJcssrAGPfFpF24BIxlqE7z73G1k
+         /t4b5v57fvFKMVZl03txuRGRWGnkhRWqQpwMeS1jRyJWdWTYPNB8i15ZaQ1irS4YaSsX
+         Ufpney/Tr+jrMTep8tVbUAV0V22QlRnVheaNxSxqNoMPmyJB9SQ8/FcNcxNxePHGVbFP
+         qgew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc;
-        bh=jvIgnw5Ww2PcRbZAVSynvIF7P3QOm4x0/cG/EXL2Dqg=;
-        b=W+HXTKxWI/buWhI+54BLSFzVf+2xeRCHyEGK3pSZAZZNheTL7VFtuzPYDH87Yqfm7+
-         f5OJdOSZO4D5xFcWnn1Hh0feM1/BAFydHK1YZY5cDjuzF4zoHjKxPLiTnBQYKMulsFZ8
-         64VBEzFeij/rsC0AR+jHi7Sg1leJ7TuU6VWcfFP90Xx474GWEk1wgK1kfsOLKn9kX/88
-         PxzdjA9sGSH4axUdVl1qAWTlRHLbUzf9VQoZHkhjo86O0AkWSiYi2elmfg6UiRgTeqEK
-         OmNmOn6NJnhsMRtLz/wdYMJ0a5dhpWksW3y0tgMddoXuL2djSMEzoyghaEzAE/qq/Avx
-         xP7A==
-X-Gm-Message-State: ACgBeo0PnctBfqZwmjfYFiQVt449+K4NcQf5BVtkC4aSfmNPtS0/Mn0l
-	zS2T9nrtoIV+j8RBo5EvvauZCJsyBgw0neHj
+        bh=NEjf6fDIX/8g11qmQGk3psg5xAJFny6az4rWE9fQQLQ=;
+        b=FfQ+QPoSz9wlXAWu6gbfg4z2PgRz1khrX7ZLPZbSzDPzlg7ESgRzApetLrjXHAseLZ
+         oN3E8hEIEIj6mYaTYPHxLsG+MK8RfUrE38nUvCefI3XgOkQPs/rgyaRzP73d4wz57/6/
+         w4BGvNxppYpWFKGYGJXXdqI3iuOeqY+E/DX9Lr1vUGm8r7M2qJQtmG7zPm3ocoyW2pnG
+         yzfh7jUgisv3umoCRWxxu26Fi12VA3M1Ej36IsSmQXeDFvALGaAqaDi0P4DGLNiIHdu1
+         PqwSkAiuFSSJYn8GCRvCpzqwTyYFOOaPWyxXVHA7m/OclifQQtUBS6i9T7DgbKRBXtLe
+         NiZQ==
+X-Gm-Message-State: ACgBeo1Kc/X1XwybSTDaXBC/N3kyeLKEFR7o+s0BkhA/n+YLTU/DD6RN
+	5dU4DTduJ69mdJy2GRj1ctAZkJ9sCqZkbkMe
 X-Google-Smtp-Source: 
- AA6agR6+AQ6CcbCTNWJnCaj/3j+GdQuBbgviuOvNASw9fwpUaWPNP53ZoLjmX1aSzIFx5gNqNH/SOg==
-X-Received: by 2002:ae9:e404:0:b0:6bb:d8c0:381c with SMTP id
- q4-20020ae9e404000000b006bbd8c0381cmr12375774qkc.459.1661263399364;
-        Tue, 23 Aug 2022 07:03:19 -0700 (PDT)
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com.
- [209.85.160.170])
+ AA6agR4sehItO2JPQDOCkSk82BPMte2TY1PeckYSLvBnOY8Uzx8iTX70ev8wUAVn2wGbjaDD6/mpyQ==
+X-Received: by 2002:a63:fe12:0:b0:42a:e57:7464 with SMTP id
+ p18-20020a63fe12000000b0042a0e577464mr19901151pgh.552.1661263998019;
+        Tue, 23 Aug 2022 07:13:18 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- j10-20020ac8664a000000b0033fc75c3469sm10306994qtp.27.2022.08.23.07.03.18
+ q9-20020a170902eb8900b001715a939ac5sm3733944plg.295.2022.08.23.07.13.16
         for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Aug 2022 07:03:19 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qt1-f170.google.com with SMTP id j17so10383863qtp.12
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 07:03:18 -0700 (PDT)
-X-Received: by 2002:a05:622a:1787:b0:344:94c1:fb0e with SMTP id
- s7-20020a05622a178700b0034494c1fb0emr18771418qtk.82.1661263398748; Tue, 23
- Aug 2022 07:03:18 -0700 (PDT)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Aug 2022 07:13:17 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 00/26] Pull request (cover letter only)
+Date: Tue, 23 Aug 2022 04:13:05 -1000
+Message-Id: <cover.1661263918.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220823110227.68348-1-peter@berginkonsult.se>
-In-Reply-To: <20220823110227.68348-1-peter@berginkonsult.se>
-Date: Tue, 23 Aug 2022 11:03:07 -0300
-X-Gmail-Original-Message-ID: 
- <CAP9ODKoRj+aqcdH6uFN0xZEeMJ2y=8e931vGTFFxgQsXh=pO6Q@mail.gmail.com>
-Message-ID: 
- <CAP9ODKoRj+aqcdH6uFN0xZEeMJ2y=8e931vGTFFxgQsXh=pO6Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] rust-cross-canadian: rename shell variables for
- easier appends
-To: Peter Bergin <peter@berginkonsult.se>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000c2cbaf05e6e90628"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Aug 2022 14:03:21 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Aug 2022 14:13:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169705
+ https://lists.openembedded.org/g/openembedded-core/message/169706
 
---000000000000c2cbaf05e6e90628
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 2cafa6ed5f0aa9df5a120b6353755d56c7c7800d:
 
-Em ter., 23 de ago. de 2022 =C3=A0s 08:02, Peter Bergin <peter@berginkonsul=
-t.se>
-escreveu:
+  build-appliance-image: Update to kirkstone head revision (2022-08-10 14:59:51 +0100)
 
-> Make unique shell variable names for cargo and rust
-> setup scripts. This change will make it easier to append to the
-> scripts in a bbappend file by using the variable for the script.
-> Before this change it was only possible for the last script as
-> they shared the same variable name.
->
-> Signed-off-by: Peter Bergin <peter@berginkonsult.se>
->
+are available in the Git repository at:
 
-Why do you want to append them?
+  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+Alexander Kanavin (3):
+  devtool/upgrade: correctly clean up when recipe filename isn't yet
+    known
+  devtool/upgrade: catch bb.fetch2.decodeurl errors
+  scripts/oe-setup-builddir: make it known where configurations come
+    from
 
---000000000000c2cbaf05e6e90628
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Bruce Ashfield (3):
+  lttng-modules: fix 5.19+ build
+  lttng-modules: fix build against mips and v5.19 kernel
+  lttng-modules: replace mips compaction fix with upstream change
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Em ter., 23 de ago. de 2022 =C3=A0s 0=
-8:02, Peter Bergin &lt;<a href=3D"mailto:peter@berginkonsult.se">peter@berg=
-inkonsult.se</a>&gt; escreveu:<br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">Make unique shell variable names for cargo and rust<br>
-setup scripts. This change will make it easier to append to the<br>
-scripts in a bbappend file by using the variable for the script.<br>
-Before this change it was only possible for the last script as<br>
-they shared the same variable name.<br>
-<br>
-Signed-off-by: Peter Bergin &lt;<a href=3D"mailto:peter@berginkonsult.se" t=
-arget=3D"_blank">peter@berginkonsult.se</a>&gt;<br></blockquote><div><br></=
-div><div>Why do you want to append them?</div><div>=C2=A0</div></div>-- <br=
-><div dir=3D"ltr" class=3D"gmail_signature">Otavio Salvador =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 O.S. Systems<br><a href=3D"http://www.ossystems.com.br" target=
-=3D"_blank">http://www.ossystems.com.br</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0<a h=
-ref=3D"http://code.ossystems.com.br" target=3D"_blank">http://code.ossystem=
-s.com.br</a><br>Mobile: +55 (53) 9 9981-7854 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0Mobile: +1 (347) 903-9750</div></div>
+Hitendra Prajapati (3):
+  gdk-pixbuf: CVE-2021-46829 a heap-based buffer overflow
+  gnutls: CVE-2022-2509 Double free during gnutls_pkcs7_verify
+  zlib: CVE-2022-37434 a heap-based buffer over-read
 
---000000000000c2cbaf05e6e90628--
+Jose Quaresma (2):
+  archiver.bbclass: remove unsed do_deploy_archives[dirs]
+  create-spdx: ignore packing control files from ipk and deb
+
+Mark Hatle (1):
+  runqemu: Add missing space on default display option
+
+Martin Beeger (1):
+  cmake: remove CMAKE_ASM_FLAGS variable in toolchain file
+
+Mihai Lindner (1):
+  create-spdx: Fix supplier field
+
+Mikko Rapeli (1):
+  boost: fix install of fiber shared libraries
+
+Paul Eggleton (1):
+  relocate_sdk.py: ensure interpreter size error causes relocation to
+    fail
+
+Randy MacLeod (1):
+  vim: update from 9.0.0063 to 9.0.0115
+
+Richard Purdie (2):
+  nativesdk: Clear TUNE_FEATURES
+  selftest/wic: Tweak test case to not depend on kernel size
+
+Roland Hieber (1):
+  devtool: error out when workspace is using old override syntax
+
+Sakib Sajal (6):
+  qemu: fix CVE-2021-3507
+  qemu: fix CVE-2021-3929
+  qemu: fix CVE-2021-4158
+  qemu: fix CVE-2022-0358
+  qemu: fix CVE-2022-0216
+  u-boot: fix CVE-2022-33103
+
+ meta/classes/archiver.bbclass                 |   1 -
+ meta/classes/create-spdx.bbclass              |   7 +-
+ meta/classes/nativesdk.bbclass                |   1 +
+ meta/lib/oe/spdx.py                           |   2 +-
+ meta/lib/oeqa/selftest/cases/wic.py           |   2 +-
+ ..._read-Prevent-arbitrary-code-executi.patch |  80 +++++
+ meta/recipes-bsp/u-boot/u-boot_2022.01.bb     |   1 +
+ .../zlib/zlib/CVE-2022-37434.patch            |  44 +++
+ meta/recipes-core/zlib/zlib_1.2.11.bb         |   1 +
+ .../cmake/cmake/OEToolchainConfig.cmake       |   1 -
+ meta/recipes-devtools/qemu/qemu.inc           |   7 +
+ .../qemu/qemu/CVE-2021-3507_1.patch           |  92 ++++++
+ .../qemu/qemu/CVE-2021-3507_2.patch           | 115 +++++++
+ .../qemu/qemu/CVE-2021-3929.patch             |  70 +++++
+ .../qemu/qemu/CVE-2021-4158.patch             |  46 +++
+ .../qemu/qemu/CVE-2022-0216_1.patch           |  42 +++
+ .../qemu/qemu/CVE-2022-0216_2.patch           |  52 ++++
+ .../qemu/qemu/CVE-2022-0358.patch             | 106 +++++++
+ .../gdk-pixbuf/CVE-2021-46829.patch           |  61 ++++
+ .../gdk-pixbuf/gdk-pixbuf_2.42.6.bb           |   1 +
+ .../lttng-modules/0001-fix-compaction.patch   |  68 +++++
+ ...c-fix-tracepoint-mm_page_alloc_zone_.patch | 106 +++++++
+ ...ags-parameter-from-aops-write_begin-.patch |  76 +++++
+ ...Fix-type-of-cpu-in-trace-event-v5.19.patch | 124 ++++++++
+ .../lttng/lttng-modules_2.13.4.bb             |   4 +
+ ...ll-targets-if-there-s-build-no-in-ur.patch |  82 +++++
+ meta/recipes-support/boost/boost_1.78.0.bb    |   1 +
+ .../gnutls/gnutls/CVE-2022-2509.patch         | 282 ++++++++++++++++++
+ meta/recipes-support/gnutls/gnutls_3.7.4.bb   |   1 +
+ .../vim/files/crosscompile.patch              |  51 ----
+ meta/recipes-support/vim/files/racefix.patch  |  37 ---
+ meta/recipes-support/vim/vim.inc              |   6 +-
+ scripts/devtool                               |  10 +-
+ scripts/lib/devtool/upgrade.py                |  33 +-
+ scripts/oe-setup-builddir                     |  12 +-
+ scripts/relocate_sdk.py                       |  10 +-
+ scripts/runqemu                               |   2 +-
+ 37 files changed, 1511 insertions(+), 126 deletions(-)
+ create mode 100644 meta/recipes-bsp/u-boot/files/0001-fs-squashfs-sqfs_read-Prevent-arbitrary-code-executi.patch
+ create mode 100644 meta/recipes-core/zlib/zlib/CVE-2022-37434.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3507_1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3507_2.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3929.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-4158.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-0216_1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-0216_2.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-0358.patch
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-46829.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-compaction.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-page_alloc-fix-tracepoint-mm_page_alloc_zone_.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-fix-fs-Remove-flags-parameter-from-aops-write_begin-.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-fix-workqueue-Fix-type-of-cpu-in-trace-event-v5.19.patch
+ create mode 100644 meta/recipes-support/boost/boost/0001-Don-t-skip-install-targets-if-there-s-build-no-in-ur.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2022-2509.patch
+ delete mode 100644 meta/recipes-support/vim/files/crosscompile.patch
+ delete mode 100644 meta/recipes-support/vim/files/racefix.patch
+
+-- 
+2.25.1
+
 
