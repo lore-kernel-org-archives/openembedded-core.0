@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64D76C32772
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6813DC32793
 	for <webhook@archiver.kernel.org>; Tue, 23 Aug 2022 22:36:38 +0000 (UTC)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web12.4504.1661294189280425355
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web10.4531.1661294171833207652
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 15:36:29 -0700
+ Tue, 23 Aug 2022 15:36:36 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=c04Mwn1D;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.54,
+ header.b=X0CXvO6x;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f54.google.com with SMTP id
- c13-20020a17090a4d0d00b001fb6921b42aso2899813pjg.2
+Received: by mail-pg1-f182.google.com with SMTP id v4so13442175pgi.10
         for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 15:36:29 -0700 (PDT)
+ Tue, 23 Aug 2022 15:36:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc;
-        bh=wyMerV5om738SFJmB/2+rByfNad7Wd3TnXnvuJS1is0=;
-        b=c04Mwn1Da2tQ72+kjbyUBWPunle2MjRfi2zzzaVEDP9Zyg6V1Y1vsxd8yJOILqNU4n
-         UWNAKqsgUd1PVoG/b/NoU6tc3ag7IUisngxLtg+eLERLK9/wkeXkQ/jJBmb674LSDRPN
-         U0dKsf9pAKensGEWyfUvP6JsZqhqQl83EWDg4cXeOAaTagIN7MDiz1zEJFOVeWuE/OL7
-         YnX3gJXvZgo/tgqEVp0bZdUSFb1V0kQRuTDaJw2KD24fBoUUzDREbWz8AHsAAm87UiTP
-         z6IMU/t/wAeYubPMAzcCx1RffCqHzSPBbdmp5fd9/4nb2pEAoJlrnREvsN9Vpyd7JYm2
-         HDbA==
+        bh=ZeZ4eXPjAJE8SrB7FbPF0zjAPQr5+v6nvvj1lBr39gc=;
+        b=X0CXvO6x8isnWoSTPi4C/jln5Y6/a0VZeQvDoL3GvSaBQ08Ibwe/PJbatDKfcOdMpf
+         tMkHm0WPKHYbWZWEAuJc+Qzlpbo0u02k1lGFyc4bXuuoo5tqFn41uNLSUTsWfZ6K2nNK
+         G6AAdhU0xbY/WPFFrufML6OxACRdJsWZ7PXfekHLAJzUF2Bkskyz+0SxkScGqTgL6ZJd
+         sfl4eQOWuEHBIO4nR3eeNvTzMFO0AQSI6GxRqLCNdMRvff4+8JqbXrlQwUp6cWqiA5JH
+         9BuboQrpE53orPemAGMpHjy9J6P2nJRzNRpyp2J5wUDSV9KasZEs8kvnEgaSDEEzxiZh
+         TLAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=wyMerV5om738SFJmB/2+rByfNad7Wd3TnXnvuJS1is0=;
-        b=uR7aASGFWtoU/eOBqhNcp3haHPMpyugiZwU0IZb078ZfwGaxd0vtyrMUQDNDkzhN4I
-         SRTS+OIyoTBjDAQquVf8i8oE9ESbxSGN1fTQZ/aluxLHG0IYmHJ0pLWpItHvYQ/AfTaN
-         hwgsr1wUObN12W3P6wqp/acY3SUxCH85JSihwlEqcn7JodzcgzzQrTUq/r4ZchJwJT0o
-         2b338pQ34imwMwV/F9FqNsDun/EAzHbJdvlnLs/jw1cDw1acBkofes9StqZTOcBwnnxs
-         Y6u3IQPMMD+WbDvd5w+dppCqh9c/VSQ0Pas0hJZWFTHgeZr2b7vQqciz5X7KGal21o9A
-         dqRA==
-X-Gm-Message-State: ACgBeo3mM10gfUxAuzvgzG+ySHoCQVwN1PvZKNBpcqt8/6nwDKa8I2L2
-	1Aq9NNsPa8oRADeNnZHZ7WtRFhNXHM31/N3X
+        bh=ZeZ4eXPjAJE8SrB7FbPF0zjAPQr5+v6nvvj1lBr39gc=;
+        b=u0sTXNGQrMESwBYdrQy0Dsyy+mZK1pzBzUPrMiuXdVZjWSWEx6BMxH+4CaxzqryjyA
+         B/VINj5cHoUuRsPQyPKMw2orcmHtoHhtofsns0Fl1EhxZ17dZo9zgiISCDyzsdix6it5
+         8pv9lZYsSR/hP8sNigwgrsJDKQC8NCXosfQc1alLeu809xh9p9ZBMcbEMDQQ6bJAnf5W
+         OhfeTGVFFTBhtOrKY+wCtKjJYvM/mX0hPS5OIeVOXJlLvvKFAzv4poNx/fzTBMtthJNK
+         TP8EzpPKjwLhcIEietJgVFEx34axm4L/XhlzcyBc6zAG8UqVTzvsoRgbodHl4E+hRVAr
+         NCjg==
+X-Gm-Message-State: ACgBeo1tuzttI0om3h05eKHj2mWyNxwO3dFyQoYBifiRWWtRjmugT/rs
+	+UGdkmIyWFGMOZxbYP8NXUmHbky8nczU+ho9
 X-Google-Smtp-Source: 
- AA6agR4FnFgJKhnjpaPhTHwnh+X10uJVc40i/KUNK4r85VEJxH9yBDpuOcMfi8sSs0Xhh53jazAX9Q==
-X-Received: by 2002:a17:902:e848:b0:172:dda3:780f with SMTP id
- t8-20020a170902e84800b00172dda3780fmr14367160plg.66.1661294188383;
-        Tue, 23 Aug 2022 15:36:28 -0700 (PDT)
+ AA6agR6yVYcLpxpF9FdTKj4xEnkGfThGWxc7waSi0GnPgzt/LHBj11DnwRiO409uIMcUUyQAHofIgQ==
+X-Received: by 2002:a63:1857:0:b0:41c:4217:426e with SMTP id
+ 23-20020a631857000000b0041c4217426emr21917635pgy.285.1661294195873;
+        Tue, 23 Aug 2022 15:36:35 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- p4-20020a1709026b8400b001729da53673sm11042141plk.14.2022.08.23.15.36.27
+ p4-20020a1709026b8400b001729da53673sm11042141plk.14.2022.08.23.15.36.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Aug 2022 15:36:27 -0700 (PDT)
+        Tue, 23 Aug 2022 15:36:35 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 19/28] python3-pip: Fix RDEPENDS after the update
-Date: Tue, 23 Aug 2022 12:35:31 -1000
+Subject: [OE-core][kirkstone 23/28] perf: Fix reproducibility issues with 5.19
+ onwards
+Date: Tue, 23 Aug 2022 12:35:35 -1000
 Message-Id: 
- <3e1c254f71a4d22ebde063e23242cd838fb917f9.1661293746.git.steve@sakoman.com>
+ <6d1bedab94e5ffa1b6fefcf181b09fcf4127bdc7.1661293746.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1661293745.git.steve@sakoman.com>
 References: <cover.1661293745.git.steve@sakoman.com>
@@ -70,39 +70,34 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 23 Aug 2022 22:36:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169751
+ https://lists.openembedded.org/g/openembedded-core/message/169755
 
-From: Daiane Angolini <daiane.angolini@foundries.io>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Fix the following error messages:
+In 5.19 onwards the build process changed and encoded full build paths
+into the output. Adapt the code to look more like our setuptools class
+calls. This seems to work ok with older kernels too.
 
-   ModuleNotFoundError: No module named 'distutils'
-
-   ModuleNotFoundError: No module named 'colorsys'
-
-Signed-off-by: Daiane Angolini <daiane.angolini@foundries.io>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8beef93e6e341566eba8a125f75ad836ac6a3d69)
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+(cherry picked from commit 138673f833a72c636a7fa185089f25dda350dc54)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/python/python3-pip_22.0.3.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-kernel/perf/perf.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-pip_22.0.3.bb b/meta/recipes-devtools/python/python3-pip_22.0.3.bb
-index 09a305edf8..6e28b87ba3 100644
---- a/meta/recipes-devtools/python/python3-pip_22.0.3.bb
-+++ b/meta/recipes-devtools/python/python3-pip_22.0.3.bb
-@@ -55,6 +55,8 @@ RDEPENDS:${PN} = "\
-   python3-unixadmin \
-   python3-xmlrpc \
-   python3-pickle \
-+  python3-distutils \
-+  python3-image \
- "
- 
- BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 95e7eae9fe..95b4362958 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -203,7 +203,7 @@ do_configure:prepend () {
+     if [ -e "${S}/tools/perf/Makefile.perf" ]; then
+         sed -i -e 's,\ .config-detected, $(OUTPUT)/config-detected,g' \
+             ${S}/tools/perf/Makefile.perf
+-        sed -i -e "s,prefix='\$(DESTDIR_SQ)/usr'$,prefix='\$(DESTDIR_SQ)/usr' --install-lib='\$(DESTDIR)\$(PYTHON_SITEPACKAGES_DIR)',g" \
++        sed -i -e "s,prefix='\$(DESTDIR_SQ)/usr'$,prefix='\$(DESTDIR_SQ)/usr' --install-lib='\$(PYTHON_SITEPACKAGES_DIR)' --root='\$(DESTDIR)',g" \
+             ${S}/tools/perf/Makefile.perf
+         # backport https://github.com/torvalds/linux/commit/e4ffd066ff440a57097e9140fa9e16ceef905de8
+         sed -i -e 's,\($(Q)$(SHELL) .$(arch_errno_tbl).\) $(CC) $(arch_errno_hdr_dir),\1 $(firstword $(CC)) $(arch_errno_hdr_dir),g' \
 -- 
 2.25.1
 
