@@ -2,50 +2,50 @@ Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D33B1C3F6B0
-	for <webhook@archiver.kernel.org>; Tue, 23 Aug 2022 23:55:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4966C32793
+	for <webhook@archiver.kernel.org>; Tue, 23 Aug 2022 23:56:38 +0000 (UTC)
 Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
  [64.147.123.25])
- by mx.groups.io with SMTP id smtpd.web10.5299.1661298945179683076
+ by mx.groups.io with SMTP id smtpd.web10.5309.1661298998438661897
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 16:55:45 -0700
+ Tue, 23 Aug 2022 16:56:38 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm2
- header.b=VGc+CThX;
+ header.b=tzcwraJi;
  spf=pass (domain: gherzan.com, ip: 64.147.123.25,
  mailfrom: andrei@gherzan.com)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 6846832007BE;
-	Tue, 23 Aug 2022 19:55:44 -0400 (EDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id 8A3A932001FC;
+	Tue, 23 Aug 2022 19:56:37 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 23 Aug 2022 19:55:44 -0400
+  by compute4.internal (MEProxy); Tue, 23 Aug 2022 19:56:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
 	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm2; t=1661298943; x=1661385343; bh=GFOEA58oxlCs50qAZkzVb+1Ot
-	PdxY1eT4ghGCgJ0VKo=; b=VGc+CThX1Li55RYiSTMGR4pB4e9s5B3AlBLJZbB9a
-	NpAwbpM7FPhYB1wRSLy+vSzbMixCHAMSSaHkpVMcw7I2ttyi11Z3pt1bbVBiLNQz
-	cdB62f9sKvrvPiibM1wSM6/m53WQPm2iuLM1oFW+cCxFxPvi5ybo9JzWpL79PhVP
-	it7jh9tbfzXzZazzC3tnbFoFGMB7KG87wtWefRycVUFDkYpa2PLDraXF+W0jMNqG
-	aqSCbC9n6fwKwFqwhEe6+WuJqvn6OJ/kptiXE3fXq0HsiA0ign1sjfNnl+VDw+ed
-	MAdS85osFeL8pakz7FtVvb6wX/ZqSu54Hwz7dvUXLlGWQ==
+	 s=fm2; t=1661298997; x=1661385397; bh=Qw8HBwI4T28hpMPRdWIH5ptSe
+	buKo+bE8Ur0f2jKB98=; b=tzcwraJicIsHW8fc3DRniPewu0+kJkGg8+Nw0JtDq
+	pJPS/BO6wpAsozxRyB8wvLFIW4JEqGDvCBJplcNfWUf0gLUvuWn5vyeXpMdJWF42
+	820P/RTP+fgWxV3/0Xbqnxfazpg2jPQDYnSjp+iAXXN4en88F2u8nOcKCpXGgYSE
+	WtF1BFhTuim2a1EKkBxDwddCaoy4mkBhD3m9Upm0m5ZU10Ef0XdT1tyxvCGLpXPn
+	T78vuZKvyZinkryR3QCSswJZuSC35+XBIEPk0kofrMoENaQAnirLi0dO+loyPfFZ
+	PlFeJcTEGde5BbUF3/hJrfG6j/AT1ICAwkoYMFKwGdQcg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:message-id
 	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
 	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1661298943; x=1661385343; bh=GFOEA58oxlCs50qAZkzVb+1OtPdxY1eT4gh
-	GCgJ0VKo=; b=O6M49xtbCTjiR93kD2wZCMMj5EzN1x90EcT5jfSrMFb5YM4s0Qn
-	Z3zq3meTGh2JYelLSBV6Ij5eCekWR7in/ci/N4XajbpeMAbc2G+k0yQhMm3iXRUg
-	sLsHbgLCMluoyA3GCgc3/A/vGscnT+3lqPZV/hNnbFSVvh2u28jPJH4VMhSILRGk
-	mW54FELho33yo9jO1QvMtyCVlIFdgZh+APQagJdahqeufSdc1xKKif5HrmRT2Fq4
-	0M52QN0EIVmFk31LoNGNuVb2ekUfQ0xHRWEiN7HU8ayiTl6Yuo2GBNvupvP/4R7u
-	PIwkgyrRlg29DHGJxWAJySkrtnWvZ4T591A==
-X-ME-Sender: <xms:_mgFY9iaL2FfP6olNAIfE-8mfZMezYNwjGsFrfs5YLitbA6TF8grmw>
-    <xme:_mgFYyAaeX1Qk8tbOJvJqhnP-JnM8ZaAXXZ91nCZRP9ZfcnMr5XL33N8MdqxKdehq
-    wIl38Caz4v2aIfqMcQ>
+	1661298997; x=1661385397; bh=Qw8HBwI4T28hpMPRdWIH5ptSebuKo+bE8Ur
+	0f2jKB98=; b=QgI22WOWT22lR5/E2hAF59X5dN0xgMWvcaLK8PkX/ApUqvg8Moj
+	i7nfpPoONHtkiQ2F78Z82fkmdEV4i1s/1czVETuTG0uMrZnzG9HyXSEK3VkvUS8c
+	h6/bTRM34jppz5jw/lyw114b31kQGJXfAdGJjF5cOjfp6iXyV2G4wV/mE/0YUGDx
+	gFU+/3XLQ+bSey1eu5jBPVqPhZUpuz4XxtV7tw2sJNvWj7tFjNQeIIji5Xswrb54
+	zX7Vc2XAvbT4lm/XAXVjkOYaxCn8qQlpsQU2Y++d6+ZFXwuD70rWke+elHofW4w+
+	cY7Hp0LiJVKyMfTFDaBrHgmE0V7o5+lwy9w==
+X-ME-Sender: <xms:NGkFYxaegMCDfeurnUo0hDhYG9bZzU9reQRvfKlJx-HKQ5CNUvVEVA>
+    <xme:NGkFY4YvCZ03Diz7Ayk_s2habJkqzGgu19wmID0gL3o3ItOlkTDspY3LxrdRIbIzA
+    FwHbSILM5vOVc9o0gA>
 X-ME-Received: 
- <xmr:_mgFY9E36QZ9Xr6m_vXiok5Nlt8QenDHpT2lfMU-_Y38ygaOj6v0g7XAs3nTK1nviSOeJJ_q9PEa6AyC00MvbEl0xAVEGzB0ku-CIPgfKwaPinUULjbVj6Nn>
+ <xmr:NGkFYz_4gxiw3m_Ew9d4QCtQIqfOEYCCQHAE9LYwjdL-9IDJlUaRJ-ntff48kz0lJyXeepKdhoazDxIDhhSryzTV8mmfFaHX6XAd1wcYRENDfY2mm3pRrLwL>
 X-ME-Proxy-Cause: 
  gggruggvucftvghtrhhoucdtuddrgedvfedrvdejtddgvdelucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
@@ -54,144 +54,55 @@ X-ME-Proxy-Cause:
     vghriigrnhdrtghomheqnecuggftrfgrthhtvghrnhepieejlefhveevleffveegfeetle
     ejtedvgeejtddthefhhfdtiefhveegffeggeeknecuvehluhhsthgvrhfuihiivgeptden
     ucfrrghrrghmpehmrghilhhfrhhomheprghnughrvghisehghhgvrhiirghnrdgtohhm
-X-ME-Proxy: <xmx:_mgFYyT2AXFM-Wf3XuDE80No9vYrQt354-D9iF8jjJhK123aBZAhoQ>
-    <xmx:_mgFY6zpbT4NYA0g3h4wun8mgdonC388Zy1wtlN_gWbFd5LpO-X6xA>
-    <xmx:_mgFY46iM2iU8kgcI9nTQiKgytgTCrAlyZusrGp0Si6ZtHe_V5amiw>
-    <xmx:_2gFY_ohrNNSfTBNa_H2LTyFbd2JjmOPmfzl4yIe9wubYBVTzoNkVg>
+X-ME-Proxy: <xmx:NGkFY_q4MMILbpphN5N3DB6DYFN0FlHVtYFnO-8LAKfGt0K6DdQzcg>
+    <xmx:NGkFY8oiqwNjegyaU2x9zA_RHSbJerlBtZhENDGaSOnwY4Qb70nkyQ>
+    <xmx:NGkFY1ToPRAo5ta5fjilo9Gptx6jp74yCpa5w3x5Gd3-vywdUTRM2A>
+    <xmx:NWkFY5AppGhp9beVpfYYATwdEuNyaSmol74bk-80bADrk8FU7zQRFw>
 Feedback-ID: i68994715:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 23 Aug 2022 19:55:42 -0400 (EDT)
+ 23 Aug 2022 19:56:36 -0400 (EDT)
 From: Andrei Gherzan <andrei@gherzan.com>
 To: openembedded-core@lists.openembedded.org
 Cc: andrei@gherzan.com,
 	Andrei Gherzan <andrei.gherzan@huawei.com>
-Subject: [PATCH 2/6] rootfspostcommands.py: Restructure sort_passwd and
- related functions
-Date: Wed, 24 Aug 2022 01:55:26 +0200
-Message-Id: <20220823235530.2487410-2-andrei@gherzan.com>
+Subject: [PATCH 3/6] rootfspostcommands.py: Cleanup subid backup files
+ generated by shadow-utils
+Date: Wed, 24 Aug 2022 01:56:21 +0200
+Message-Id: <20220823235624.2488133-3-andrei@gherzan.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Aug 2022 23:55:48 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Aug 2022 23:56:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169763
+ https://lists.openembedded.org/g/openembedded-core/message/169764
 
 From: Andrei Gherzan <andrei.gherzan@huawei.com>
 
-This change proposes a restructure of the functions in
-rootfspostcommandstests.py to clarify the purpose of each function and
-also, make it scalable for other use cases (for example adding support
-for removing subid backup files).
-
-The main function of interest here is 'tidy_shadowutils_files' which
-brings in the functionality of the old 'sort_passwd' making it clear
-that it doesn't only sort the passwd file:
-- delete backup files
-- it sorts passwd, group and the associated shadow files
-
-The other functions are also renamed for consistency and clarity and
-more documentation was added.
+When creating users, shadow-utils might create backup files for
+subordinate ID files (subid, subgid). Make sure we clean them up
+similarly to the other backup files shadow-utils creates.
 
 Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
 ---
- meta/lib/rootfspostcommands.py | 60 ++++++++++++++++++++++++----------
- 1 file changed, 43 insertions(+), 17 deletions(-)
+ meta/lib/rootfspostcommands.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/meta/lib/rootfspostcommands.py b/meta/lib/rootfspostcommands.py
-index b5a51295e2..e344ae2efc 100644
+index e344ae2efc..5386eea409 100644
 --- a/meta/lib/rootfspostcommands.py
 +++ b/meta/lib/rootfspostcommands.py
-@@ -6,13 +6,14 @@
- 
- import os
- 
--def sort_file(filename, mapping):
-+def sort_shadowutils_file(filename, mapping):
-     """
-     Sorts a passwd or group file based on the numeric ID in the third column.
-     If a mapping is given, the name from the first column is mapped via that
-     dictionary instead (necessary for /etc/shadow and /etc/gshadow). If not,
-     a new mapping is created on the fly and returned.
-     """
-+
-     new_mapping = {}
-     with open(filename, 'rb+') as f:
-         lines = f.readlines()
-@@ -33,30 +34,55 @@ def sort_file(filename, mapping):
-         # We overwrite the entire file, i.e. no truncate() necessary.
-         f.seek(0)
-         f.write(b''.join(lines))
-+
-     return new_mapping
- 
--def remove_backup(filename):
-+def sort_shadowutils_files(sysconfdir):
-     """
--    Removes the backup file for files like /etc/passwd.
-+    Sorts shadow-utils 'passwd' and 'group' files in a rootfs' /etc directory
-+    by ID.
-     """
--    backup_filename = filename + '-'
--    if os.path.exists(backup_filename):
--        os.unlink(backup_filename)
- 
--def sort_passwd(sysconfdir):
--    """
--    Sorts passwd and group files in a rootfs /etc directory by ID.
--    Backup files are sometimes are inconsistent and then cannot be
--    sorted (YOCTO #11043), and more importantly, are not needed in
--    the initial rootfs, so they get deleted.
--    """
-     for main, shadow in (('passwd', 'shadow'),
-                          ('group', 'gshadow')):
-         filename = os.path.join(sysconfdir, main)
--        remove_backup(filename)
-         if os.path.exists(filename):
--            mapping = sort_file(filename, None)
-+            mapping = sort_shadowutils_file(filename, None)
-             filename = os.path.join(sysconfdir, shadow)
--            remove_backup(filename)
-             if os.path.exists(filename):
--                 sort_file(filename, mapping)
-+                 sort_shadowutils_file(filename, mapping)
-+
-+def remove_shadowutils_backup_file(filename):
-+    """
-+    Remove shadow-utils backup file for files like /etc/passwd.
-+    """
-+
-+    backup_filename = filename + '-'
-+    if os.path.exists(backup_filename):
-+        os.unlink(backup_filename)
-+
-+def remove_shadowutils_backup_files(sysconfdir):
-+    """
-+    Remove shadow-utils backup files in a rootfs /etc directory. They are not
-+    needed in the initial root filesystem and sorting them can be inconsistent
-+    (YOCTO #11043).
-+    """
-+
-+    for filename in (
-+            'group',
-+            'gshadow',
-+            'passwd',
-+            'shadow',
-+        ):
-+        filepath = os.path.join(sysconfdir, filename)
-+        remove_shadowutils_backup_file(filepath)
-+
-+def tidy_shadowutils_files(sysconfdir):
-+    """
-+    Tidy up shadow-utils files.
-+    """
-+
-+    remove_shadowutils_backup_files(sysconfdir)
-+    sort_shadowutils_files(sysconfdir)
-+
-+    return True
+@@ -73,6 +73,8 @@ def remove_shadowutils_backup_files(sysconfdir):
+             'gshadow',
+             'passwd',
+             'shadow',
++            'subgid',
++            'subuid',
+         ):
+         filepath = os.path.join(sysconfdir, filename)
+         remove_shadowutils_backup_file(filepath)
 -- 
 2.25.1
 
