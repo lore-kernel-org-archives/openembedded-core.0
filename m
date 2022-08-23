@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98A1DC32789
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D198C32793
 	for <webhook@archiver.kernel.org>; Tue, 23 Aug 2022 22:35:58 +0000 (UTC)
 Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
  [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web12.4494.1661294153007845736
+ by mx.groups.io with SMTP id smtpd.web11.4425.1661294155111062939
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 15:35:53 -0700
+ Tue, 23 Aug 2022 15:35:55 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=b0tbKDe9;
+ header.b=kQII3VxO;
  spf=softfail (domain: sakoman.com, ip: 209.85.210.172,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id 67so6591298pfv.2
+Received: by mail-pf1-f172.google.com with SMTP id x19so12001785pfq.1
         for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 15:35:52 -0700 (PDT)
+ Tue, 23 Aug 2022 15:35:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc;
-        bh=Caf5yU5QUTkvjpBsWVVNWWPraQAvqqTfRGmYfu6f61Y=;
-        b=b0tbKDe9J9AOEIwd5npmSvQaMavNhfadZoEW3B00CHmqSrK92Uj80XgOA9iXd72V5u
-         hUM2SAYMftxG9WyGIIc2FR6ByUOR3vUV3ZaqVcekf/cImP0S9I/JYNn4X3p3icRbmIj6
-         M2ZK83KyfqGQvA125i7giyVAcmVkaX77/BApvBY3hPnT796GinToOho9bfRG9QgK1GJr
-         wxVLifFhTYLFUvIQCgMmnh0oA6ggSLahknUTeqjGFBN1mUmfzJ4Fl/7VQVoHBQy9MvWF
-         cPprinUYwjtxKsGs3Nb7bauDpOjCs8Mqp7R71EuHAjBdCy559QaPQ68TkXFVVmKqByCy
-         JAzA==
+        bh=xgzqJw9YUH0qJ1YT7YE7TLunHJcaGT5NbgXr9ye3CGk=;
+        b=kQII3VxOqNkv7qZcYbRNlILGF125lsunILhRJXPEOIN7x2DbVRpyfjAplFE+kb2cBp
+         CgxJD+0tavA/ouVvNIUIgiX7cpkWJoRGaCYX9QQTu0I2o4T1WxSnPS2AicXCMKF86y+r
+         V7h0rewOtP1VqjCx5xe0lLtYfPBdaUZMyLBOMzBlNlwVg6oqSpp9R3k5/FF29lEKCIWd
+         di6S+Vdxs40/nOHCpLhp11Ir0811tghbAWVtpRAfxihuAobnBjHDLyyclgRP1Ag6JFuU
+         45U1dJn/R0N9cOP+LCxj1ibY4k1cgKRiy8ADsfOfAq8gum1ag+5Cs0TvyqKxp1iXBfzY
+         HJbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=Caf5yU5QUTkvjpBsWVVNWWPraQAvqqTfRGmYfu6f61Y=;
-        b=ZImqi+MbrASQ9Xh/ED3VjzeUn9mn8TNg0bzabSXJ3NDafkAMrHCkrdD52v2dcZMEmQ
-         hSw09kKF5MGXAjAIJSPMdf1mEwDxAlSYgsRnV13WakyRCo431rI0of83meXWsnUK+TNx
-         9NDgcBmV2wEP2n8NTEGyB7MEi+H3pArZqAndQ/8vQAmM20G/WyRuMXRV5X/zIVtPyV1M
-         v94v1/wfCqwA5AoqHHIk6LwATHQplYfY0Ldt4UGRqpv4aJGA4+2vUZs6swYGQX7Ff0H8
-         sNXcV4+o3CfDWgx/GkLqcPb4o4XXBeXpo2pY2EeZsGIrk2Qk7tVBzDjFz25KzecwUCcA
-         taYQ==
-X-Gm-Message-State: ACgBeo3qsJVcvai6pvz1erKGVDzXG5HNg7f9V/nWY1GudV2OHRxfh+bc
-	We7sApfrLdT4oyxSQMcoQgiI4UlVbJC1miAL
+        bh=xgzqJw9YUH0qJ1YT7YE7TLunHJcaGT5NbgXr9ye3CGk=;
+        b=WmbqcXgSCDDBVUjB8BoHDpGVvIY5/FWhtB0efMBjixjrZlCe2D68fchW+6b8KlE82Z
+         b1RA0lyg8MmLXx/ZRREzBI+CZzkAEM6ECM4+u0rrHjOA7xCTuq3bI3UJILA2brCNCijd
+         iC+lGtjXo1XCEe3GUcvrDtCBxPHmp7cma0cvV5jIULr3R4rbMqVeMa+t+eNdq4UHZvAh
+         kYjKb59bFvmlurJMoX6dEvBn6IUxy7LiIUHL1dmXNHqDIExF4YYEA5LjF+7mBHuDkjji
+         LW4AKl3uWsa5QALALB2764DQkHaWu9vb21Q8McQWptQN0a04PFyNqX+063IEmK9uFLlq
+         GDlQ==
+X-Gm-Message-State: ACgBeo2gi1HF1yORuvha03flWCFcupUcyfbli+8la/lRbF39vlHxxjEV
+	l3fNbFBTjD7446uyR5N0pEIRT2jWcwozT8B1
 X-Google-Smtp-Source: 
- AA6agR4QeRgyo8m5JMBMCfExvNZjDzawkpkJf2ocp9Zo0z8ioTw7CYc4UlE6dtCtNCdFdAC8fgCsSg==
-X-Received: by 2002:a05:6a00:ac6:b0:530:3197:48b6 with SMTP id
- c6-20020a056a000ac600b00530319748b6mr27190719pfl.80.1661294151911;
-        Tue, 23 Aug 2022 15:35:51 -0700 (PDT)
+ AA6agR4TMXblU4ROFpJv8ZxP/o1r2ZYnZjc7AgtnuB+QgqgS311bdcQ5bJAB02IhrJITkoCRfaELQQ==
+X-Received: by 2002:a63:2b4d:0:b0:41d:6d37:365 with SMTP id
+ r74-20020a632b4d000000b0041d6d370365mr22011094pgr.325.1661294153888;
+        Tue, 23 Aug 2022 15:35:53 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- p4-20020a1709026b8400b001729da53673sm11042141plk.14.2022.08.23.15.35.50
+ p4-20020a1709026b8400b001729da53673sm11042141plk.14.2022.08.23.15.35.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Aug 2022 15:35:51 -0700 (PDT)
+        Tue, 23 Aug 2022 15:35:53 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 01/28] libtiff: CVE-2022-34526 A stack overflow
- was discovered
-Date: Tue, 23 Aug 2022 12:35:13 -1000
+Subject: [OE-core][kirkstone 02/28] libxml2: Ignore CVE-2016-3709
+Date: Tue, 23 Aug 2022 12:35:14 -1000
 Message-Id: 
- <4ad7470bc772e33e579947c894ed74a513fbcb39.1661293746.git.steve@sakoman.com>
+ <a2806f24b95dd8cb1e687655e202bd7e053d0ac7.1661293746.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1661293745.git.steve@sakoman.com>
 References: <cover.1661293745.git.steve@sakoman.com>
@@ -70,73 +69,37 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 23 Aug 2022 22:35:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169733
+ https://lists.openembedded.org/g/openembedded-core/message/169734
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-Source: https://gitlab.com/libtiff/libtiff
-MR: 120544
-Type: Security Fix
-Disposition: Backport from https://gitlab.com/libtiff/libtiff/-/commit/275735d0354e39c0ac1dc3c0db2120d6f31d1990
-ChangeID: 2f9df449974f5436c1690f3ace5d74b1ab4670c9
-Description:
-          CVE-2022-34526 libtiff: A stack overflow was discovered in the _TIFFVGetField function of Tiffsplit.
+This is fixed via a revert in 2.9.11 [1]
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+[1] https://gitlab.gnome.org/GNOME/libxml2/-/commit/c1ba6f54d32b707ca6d91cb3257ce9de82876b6f
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 131b7010ae45b0c4e1c6a29dfc56b225d2ad2a69)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libtiff/tiff/CVE-2022-34526.patch         | 29 +++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-34526.patch
+ meta/recipes-core/libxml/libxml2_2.9.14.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2022-34526.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-34526.patch
-new file mode 100644
-index 0000000000..48ca56982f
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-34526.patch
-@@ -0,0 +1,29 @@
-+From 3fc1fdda0068981340cc7ae136173731275e2c5e Mon Sep 17 00:00:00 2001
-+From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Thu, 18 Aug 2022 10:46:30 +0530
-+Subject: [PATCH] CVE-2022-34526
-+
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/275735d0354e39c0ac1dc3c0db2120d6f31d1990]
-+CVE: CVE-2022-34526
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ libtiff/tif_dirinfo.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/libtiff/tif_dirinfo.c b/libtiff/tif_dirinfo.c
-+index 8565dfb..0f722a5 100644
-+--- a/libtiff/tif_dirinfo.c
-++++ b/libtiff/tif_dirinfo.c
-+@@ -1157,6 +1157,9 @@ _TIFFCheckFieldIsValidForCodec(TIFF *tif, ttag_t tag)
-+ 	    default:
-+ 		return 1;
-+ 	}
-++	if( !TIFFIsCODECConfigured(tif->tif_dir.td_compression) ) {
-++		return 0;
-++	}
-+ 	/* Check if codec specific tags are allowed for the current
-+ 	 * compression scheme (codec) */
-+ 	switch (tif->tif_dir.td_compression) {
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-index 149516508f..b5ccd859f3 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-@@ -21,6 +21,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://0001-fix-the-FPE-in-tiffcrop-415-427-and-428.patch \
-            file://CVE-2022-1354.patch \
-            file://CVE-2022-1355.patch \
-+           file://CVE-2022-34526.patch \
-            "
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+index 3081ebf92f..e58298d3b0 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+@@ -29,6 +29,10 @@ SRC_URI[testtar.sha256sum] = "96151685cec997e1f9f3387e3626d61e6284d4d6e66e0e440c
  
- SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
+ BINCONFIG = "${bindir}/xml2-config"
+ 
++# Fixed since 2.9.11 via
++# https://gitlab.gnome.org/GNOME/libxml2/-/commit/c1ba6f54d32b707ca6d91cb3257ce9de82876b6f
++CVE_CHECK_IGNORE += "CVE-2016-3709"
++
+ PACKAGECONFIG ??= "python \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
+ "
 -- 
 2.25.1
 
