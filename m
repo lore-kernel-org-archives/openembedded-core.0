@@ -2,101 +2,141 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64BB4C32772
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 705E1C32789
 	for <webhook@archiver.kernel.org>; Tue, 23 Aug 2022 22:36:48 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
- [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web10.4546.1661294203177576849
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+ [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web11.4436.1661294201338961752
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 15:36:43 -0700
+ Tue, 23 Aug 2022 15:36:41 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=iLEWms4s;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.171,
+ header.b=mzq+avVw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.178,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f171.google.com with SMTP id l64so13490202pge.0
+Received: by mail-pf1-f178.google.com with SMTP id f17so8633934pfk.11
         for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 15:36:43 -0700 (PDT)
+ Tue, 23 Aug 2022 15:36:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc;
-        bh=DQsweaolqqeCxvUALG14UOaZl8oGCrXYE46HChk/CVE=;
-        b=iLEWms4svLtzp75JojrgwCmWhQ4h4sagFKh38bjJflvCleeqM3LTOrbUn343rCq4i1
-         uLuvLL+0TZYeeVZVRLBgSyz+1izvVD3v4Lj1oggSXkr8mKZEJNCj7tiR/jnn9zcREy07
-         NNI+XZQTrdui+WO8aZIJ0zt4IigKAYTovR+V80uOfUctJyGWe7+9LgB51xc4Vz+n6q0B
-         V3JoxV1TPf96blpY6xYxcXxepMDzke2h5cFulKudcyl2MLXM8gs1UlL2gJXTTu6dHZI6
-         OhSLrOa9dCdZhNSAxwaovsK5dmgTyy8cuA8Rh1q6cQLSLdyMDX8dalAaKn61jZZKhc7B
-         JeoQ==
+        bh=HoDLAeo3H3wUZlHga6ezCjEND719ro/wlSOt0lMma6E=;
+        b=mzq+avVwPvNw0nzQy+2aNIoENXMw/QDcK9pgi5PVBSrbBBmme86nExy5EhaanlWj/D
+         4vQ1SLiAjrTW57UFva79w1x517sZMNVtO2DT1IwIZYWEtGpKzdTX7l93JxJ/S6PscRzb
+         wBM/F6UQO7oxfdF/tb6gTKn3NP1pcL8Hf+gLsLQp85+MvfzR1Ku2XSvcRcEl2Rx+Thrq
+         Cr0xjX4JCHuWT1Bd2fKBa68XYQ2rG6z5TbkPNzcNBMiIJv2lOcVqY7ExhNVNDkje2Lku
+         iLvypQabFZRa3f5cK/qEbY06t8sQilpn01htC8/LkueCM+WcOR/9Z/Ani00Ml6XChO9f
+         8kyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=DQsweaolqqeCxvUALG14UOaZl8oGCrXYE46HChk/CVE=;
-        b=0WKgJv/34fgxM2/DT1iXvTp2IByk6YyGjl9pYhZmfnTNheU9Fb2FL4rpkPRX85EO9P
-         ibirhjnvI93Vhd7LT3X6MbeNlgeXbZ9wbqXV602393SKe9bjkqJDPx3e6+hXQ93nVEnC
-         ClwjIx6yswgtRQXXJvj1Fj84lF1oJRUPCWd4lmxBy5mNCd3lF0jd+PeRouMa0kOKELQf
-         SabV+XNfBcwVaSP2A9O9KBMQ9cckzKelPiWyPSQ+awbSlD8esJUpY0EDobmV/i2e/eDG
-         Tm6ntmD94quaxQ/2zvFJqbM3FwzD+B/aZd5UGTJkQedpsK4618FaPAXsf7QPQhw+gr7y
-         RRuA==
-X-Gm-Message-State: ACgBeo3zQiqaiRofQt1mziOdDKhvzKPALWzjdOwiF85f/MZH9J9QVzrU
-	uNWuuOLQ5CJiOrGw0O+QlyLTYSLYY3kGC2oy
+        bh=HoDLAeo3H3wUZlHga6ezCjEND719ro/wlSOt0lMma6E=;
+        b=uVYRJc5y2o/8u3qc8iW9NowS0qmRqj465wsv93eAokm/cnyuiMfUwDv03E6CqeXdLn
+         pWEfYBnimPbObG+bot+3lARQ0ajIiBPspXBsGCJxITwjTAOiCTXHcF66PRdhXUYifSaa
+         3Yym7epq+bM+LxenHTj4YmsKuZiyy1zfZeiTtYZSHcWafKJQ2Ian0mpD0cD2rkT1yQT8
+         2RMPzdkZ6v83k1mlO56wpVfb2E7BFgwB8LRniRVnjL5LU/CcvAzs8C3opydlXPHLpqq3
+         2PRRnd+7LmfdDT1JQH/zxy7C9s1T5bnv3oVb9VPiKLgx5/gUofW+ubDmqf+af5RW6uk0
+         OkSQ==
+X-Gm-Message-State: ACgBeo0KxIqLShOmD4qfoUN7zdmUmlKH9VwJ54fNZxvPww8vdfpVnxnf
+	EEln2fCOXm1rQo8YLSctiGF5Hu2cwCFxHScK
 X-Google-Smtp-Source: 
- AA6agR4mk7HcjLZgJAtlzvcVtResT8p+WOqzqS1GrhdYL/8lxvOPCMvVh404cnHG90c5+Fakn8KtFw==
-X-Received: by 2002:aa7:814d:0:b0:535:c875:dd4f with SMTP id
- d13-20020aa7814d000000b00535c875dd4fmr26696271pfn.4.1661294202275;
-        Tue, 23 Aug 2022 15:36:42 -0700 (PDT)
+ AA6agR4+9Yj3uSpC8QmVbaFilrfEwfzeG8H0YdN0sgz/XFRz78c+3FpF93bZsOss5wYQtbI+3mE9Kg==
+X-Received: by 2002:a05:6a00:850:b0:52e:d1c1:df48 with SMTP id
+ q16-20020a056a00085000b0052ed1c1df48mr26786473pfk.75.1661294200362;
+        Tue, 23 Aug 2022 15:36:40 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- p4-20020a1709026b8400b001729da53673sm11042141plk.14.2022.08.23.15.36.41
+ p4-20020a1709026b8400b001729da53673sm11042141plk.14.2022.08.23.15.36.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Aug 2022 15:36:41 -0700 (PDT)
+        Tue, 23 Aug 2022 15:36:39 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 26/28] linux-yocto: prepend the the value with a
- space when append to KERNEL_EXTRA_ARGS
-Date: Tue, 23 Aug 2022 12:35:38 -1000
+Subject: [OE-core][kirkstone 25/28] apt: fix nativesdk-apt build failure
+ during the second time build
+Date: Tue, 23 Aug 2022 12:35:37 -1000
 Message-Id: 
- <099e000999383c464d38e5d6b044994e5d08a1ea.1661293746.git.steve@sakoman.com>
+ <00337a5426aaece57ecbdc2f601b0c8272e2c5b9.1661293746.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1661293745.git.steve@sakoman.com>
 References: <cover.1661293745.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 23 Aug 2022 22:36:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169758
+ https://lists.openembedded.org/g/openembedded-core/message/169757
 
-From: Jose Quaresma <quaresma.jose@gmail.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+Run following commands:
+bitbake nativesdk-apt
+bitbake nativesdk-apt -c install -f
+
+The second command's do_install will fail with following error:
+| /build/tmp-glibc/work/x86_64-nativesdk-wrlinuxsdk-linux/nativesdk-apt/2.4=
+.5-r0/recipe-sysroot-native/usr/bin/x86_64-wrlinuxsdk-linux/x86_64-wrlinuxs=
+dk-linux-g++ -D_WITH_GETLINE=3D1 -Dapt_pkg_EXPORTS -I/build/tmp-glibc/work/=
+x86_64-nativesdk-wrlinuxsdk-linux/nativesdk-apt/2.4.5-r0/build/include -I/b=
+uild/tmp-glibc/work/x86_64-nativesdk-wrlinuxsdk-linux/nativesdk-apt/2.4.5-r=
+0/build/include/apt-pkg --sysroot=3D/build/tmp-glibc/work/x86_64-nativesdk-=
+wrlinuxsdk-linux/nativesdk-apt/2.4.5-r0/recipe-sysroot  -O2 -pipe -fmacro-p=
+refix-map=3D/build/tmp-glibc/work/x86_64-nativesdk-wrlinuxsdk-linux/natives=
+dk-apt/2.4.5-r0=3D/usr/src/debug/nativesdk-apt/2.4.5-r0                    =
+  -fdebug-prefix-map=3D/build/tmp-glibc/work/x86_64-nativesdk-wrlinuxsdk-li=
+nux/nativesdk-apt/2.4.5-r0=3D/usr/src/debug/nativesdk-apt/2.4.5-r0         =
+             -fdebug-prefix-map=3D/build/tmp-glibc/work/x86_64-nativesdk-wr=
+linuxsdk-linux/nativesdk-apt/2.4.5-r0/recipe-sysroot=3D                    =
+  -fdebug-prefix-map=3D/build/tmp-glibc/work/x86_64-nativesdk-wrlinuxsdk-li=
+nux/nativesdk-apt/2.4.5-r0/recipe-sysroot-native=3D  -fPIC -fvisibility=3Dh=
+idden -fvisibility-inlines-hidden -Wall -Wextra -Wcast-align -Wlogical-op -=
+Wredundant-decls -Wmissing-declarations -Wunsafe-loop-optimizations -Wctor-=
+dtor-privacy -Wdisabled-optimization -Winit-self -Wmissing-include-dirs -Wn=
+oexcept -Wsign-promo -Wundef -Wdouble-promotion -Wsuggest-override -Werror=
+=3Dsuggest-override -Werror=3Dreturn-type -std=3Dgnu++17 -MD -MT apt-pkg/CM=
+akeFiles/apt-pkg.dir/tagfile-keys.cc.o -MF apt-pkg/CMakeFiles/apt-pkg.dir/t=
+agfile-keys.cc.o.d -o apt-pkg/CMakeFiles/apt-pkg.dir/tagfile-keys.cc.o -c /=
+build/tmp-glibc/work/x86_64-nativesdk-wrlinuxsdk-linux/nativesdk-apt/2.4.5-=
+r0/build/apt-pkg/tagfile-keys.cc
+| /build/tmp-glibc/work/x86_64-nativesdk-wrlinuxsdk-linux/nativesdk-apt/2.4=
+.5-r0/build/apt-pkg/tagfile-keys.cc:1:10: fatal error: /include/apt-pkg/tag=
+file-keys.h: No such file or directory
+|     1 | #include "/include/apt-pkg/tagfile-keys.h"
+0/build/tmp-glibc/work/x86_64-nativesdk-wrlinuxsdk-linux/nativesdk-apt/2.4.=
+5-r0/build/apt-pkg/tagfile-keys.cc
+
+During the first command, do_install task changed tagfile-keys.cc, this
+will make tagfile-keys.cc is newer than the built tagfile-keys.cc.o. So the=
+ second
+do_install will rebuild tagfile-keys.cc.o. But the header path is
+replaced wrongly, so fix the header path
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f6183b2d2f625515ea767dba3d8076a53a246874)
+(cherry picked from commit 3e18bd4dbddacfd878317ebcf0a039b46d6d6342)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/linux/linux-yocto.inc | 2 +-
+ meta/recipes-devtools/apt/apt_2.4.5.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index cabc8f4975..7ea661e138 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -60,7 +60,7 @@ do_install:append(){
- KERNEL_FEATURES:append:qemuall=" features/kernel-sample/kernel-sample.scc"
- 
- KERNEL_DEBUG_OPTIONS ?= "stack"
--KERNEL_EXTRA_ARGS:append:x86-64 = "${@bb.utils.contains('KERNEL_DEBUG_OPTIONS', 'stack', 'HOST_LIBELF_LIBS="-L${RECIPE_SYSROOT_NATIVE}/usr/lib/pkgconfig/../../../usr/lib/ -lelf"', '', d)}"
-+KERNEL_EXTRA_ARGS:append:x86-64 = " ${@bb.utils.contains('KERNEL_DEBUG_OPTIONS', 'stack', 'HOST_LIBELF_LIBS="-L${RECIPE_SYSROOT_NATIVE}/usr/lib/pkgconfig/../../../usr/lib/ -lelf"', '', d)}"
- 
- do_devshell:prepend() {
-     # setup native pkg-config variables (kconfig scripts call pkg-config directly, cannot generically be overriden to pkg-config-native)
--- 
+diff --git a/meta/recipes-devtools/apt/apt_2.4.5.bb b/meta/recipes-devtools=
+/apt/apt_2.4.5.bb
+index 95c25e3036..b5ada2ef55 100644
+--- a/meta/recipes-devtools/apt/apt_2.4.5.bb
++++ b/meta/recipes-devtools/apt/apt_2.4.5.bb
+@@ -132,5 +132,5 @@ do_install:append:class-target() {
+=20
+ do_install:append() {
+ 	# Avoid non-reproducible -src package
+-	sed -i -e "s,${B},,g" ${B}/apt-pkg/tagfile-keys.cc
++	sed -i -e "s,${B}/include/,,g" ${B}/apt-pkg/tagfile-keys.cc
+ }
+--=20
 2.25.1
 
 
