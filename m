@@ -1,195 +1,106 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECFDEC32772
-	for <webhook@archiver.kernel.org>; Tue, 23 Aug 2022 14:13:21 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
- [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web10.32558.1661263999396177916
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3366C32772
+	for <webhook@archiver.kernel.org>; Tue, 23 Aug 2022 14:16:21 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web09.32306.1661264174227670159
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 07:13:19 -0700
+ Tue, 23 Aug 2022 07:16:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=Z8fE7JeJ;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.182,
- mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f182.google.com with SMTP id s206so12396004pgs.3
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=brhEIIIc;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id
+ z14-20020a7bc7ce000000b003a5db0388a8so754458wmk.1
         for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 07:13:19 -0700 (PDT)
+ Tue, 23 Aug 2022 07:16:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        d=linuxfoundation.org; s=google;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc;
-        bh=NEjf6fDIX/8g11qmQGk3psg5xAJFny6az4rWE9fQQLQ=;
-        b=Z8fE7JeJxdattQJMUolyYBpC7aZ9EuSotVPz7pbAjM48U/GNzjFvO0ORgXGgMd22ps
-         y8AkZcxfYs5SD58dnGxrq9UFq+yJ6xt6HrOSH5zOBAVNbSi+OGFpcw9WUdIKp8SSqofP
-         KllGlpNirDAdMxW2th75oIF648VTKIYSbEYKg6MWxJcssrAGPfFpF24BIxlqE7z73G1k
-         /t4b5v57fvFKMVZl03txuRGRWGnkhRWqQpwMeS1jRyJWdWTYPNB8i15ZaQ1irS4YaSsX
-         Ufpney/Tr+jrMTep8tVbUAV0V22QlRnVheaNxSxqNoMPmyJB9SQ8/FcNcxNxePHGVbFP
-         qgew==
+        bh=V2A6zuwMe7l9LayuAGyNQ40kmnvLssVBgkSWC7JaCv8=;
+        b=brhEIIIctlgYd6jW3JNxEy+PGJZXqURD1htbVsrrSVC1hkChbyI+TOkJxYN0dlBid7
+         NbdGSPvUjci1fCsaOp4xL8ddTyQMImAeMUC+loARIW6/hU+KD0qLjDdiOaBkffMVe4uO
+         iUruP7iDAeY2H5SB/6iNw8d6nsUZ/ycRhUS7c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc;
-        bh=NEjf6fDIX/8g11qmQGk3psg5xAJFny6az4rWE9fQQLQ=;
-        b=FfQ+QPoSz9wlXAWu6gbfg4z2PgRz1khrX7ZLPZbSzDPzlg7ESgRzApetLrjXHAseLZ
-         oN3E8hEIEIj6mYaTYPHxLsG+MK8RfUrE38nUvCefI3XgOkQPs/rgyaRzP73d4wz57/6/
-         w4BGvNxppYpWFKGYGJXXdqI3iuOeqY+E/DX9Lr1vUGm8r7M2qJQtmG7zPm3ocoyW2pnG
-         yzfh7jUgisv3umoCRWxxu26Fi12VA3M1Ej36IsSmQXeDFvALGaAqaDi0P4DGLNiIHdu1
-         PqwSkAiuFSSJYn8GCRvCpzqwTyYFOOaPWyxXVHA7m/OclifQQtUBS6i9T7DgbKRBXtLe
-         NiZQ==
-X-Gm-Message-State: ACgBeo1Kc/X1XwybSTDaXBC/N3kyeLKEFR7o+s0BkhA/n+YLTU/DD6RN
-	5dU4DTduJ69mdJy2GRj1ctAZkJ9sCqZkbkMe
+        bh=V2A6zuwMe7l9LayuAGyNQ40kmnvLssVBgkSWC7JaCv8=;
+        b=pcf5c4i86H2lZQS1plwytEqnR/PkwuXxkEKb6hNf3xBzRDz9mFjWqP9V61VaAAl1Po
+         pbzNtP8DY+uga4fKrpJDUa51Saoki8oF9LZIrvN5/BDil9pfatfGbshHu6vt9YuGjYVl
+         DpEnX7ZAVHRTj+VOl2pPy0Ar5ulqnkmlQzErG4iRtOgy1ZZ/pjJmQuIKunXQVtBRo9cf
+         rvu1/itfTmw4eVMrw/4YvO/nqzrSe7ZJTXrp9a6ijdAH1SFNaAHgyBqDKCksxBMQyd00
+         vyyebUmDfanUOMjAxy9mmhBwDsNTGyuxTInt8242EK+O5bycwFbxUf+8QeNqEhmv9VtF
+         qMFA==
+X-Gm-Message-State: ACgBeo3/0c+8t0DzXXqYRCWE0ARGQ6S8lAvUR5bX4prgIahYbimEgYNt
+	dQZS6wURg5XQloDoCBvHfzXU6Dho9wYkeA==
 X-Google-Smtp-Source: 
- AA6agR4sehItO2JPQDOCkSk82BPMte2TY1PeckYSLvBnOY8Uzx8iTX70ev8wUAVn2wGbjaDD6/mpyQ==
-X-Received: by 2002:a63:fe12:0:b0:42a:e57:7464 with SMTP id
- p18-20020a63fe12000000b0042a0e577464mr19901151pgh.552.1661263998019;
-        Tue, 23 Aug 2022 07:13:18 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
+ AA6agR5sR/TLxkxX2Zz4Uhao7+V0yz3/kfwaq/CukiHkJh1E4ONaCVxVYq5HPYtH25i6rwkgcsGfVg==
+X-Received: by 2002:a05:600c:4e15:b0:3a6:152a:9143 with SMTP id
+ b21-20020a05600c4e1500b003a6152a9143mr2371204wmq.20.1661264172155;
+        Tue, 23 Aug 2022 07:16:12 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:6994:a175:4613:7bc4])
         by smtp.gmail.com with ESMTPSA id
- q9-20020a170902eb8900b001715a939ac5sm3733944plg.295.2022.08.23.07.13.16
+ l26-20020a05600c089a00b003a2cf1ba9e2sm17079667wmp.6.2022.08.23.07.16.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Aug 2022 07:13:17 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
+        Tue, 23 Aug 2022 07:16:11 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/26] Pull request (cover letter only)
-Date: Tue, 23 Aug 2022 04:13:05 -1000
-Message-Id: <cover.1661263918.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [PATCH 1/2] mesa: Rework llvm handling
+Date: Tue, 23 Aug 2022 15:16:09 +0100
+Message-Id: <20220823141610.2934060-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Aug 2022 14:13:21 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Aug 2022 14:16:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169706
+ https://lists.openembedded.org/g/openembedded-core/message/169707
 
-The following changes since commit 2cafa6ed5f0aa9df5a120b6353755d56c7c7800d:
+meson in mesa no longer uses WANT_LLVM_RELEASE and LLVM_CONFIG so drop
+those. Instead, copy the llvm-config binary into the target sysroot which
+allows the paths to be relocated to the target in question. This should allow
+the llvm patch for YOCTO_ALTERNATE_EXE_PATH to be dropped assuming nothing
+else relies upon it.
 
-  build-appliance-image: Update to kirkstone head revision (2022-08-10 14:59:51 +0100)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
-
-Alexander Kanavin (3):
-  devtool/upgrade: correctly clean up when recipe filename isn't yet
-    known
-  devtool/upgrade: catch bb.fetch2.decodeurl errors
-  scripts/oe-setup-builddir: make it known where configurations come
-    from
-
-Bruce Ashfield (3):
-  lttng-modules: fix 5.19+ build
-  lttng-modules: fix build against mips and v5.19 kernel
-  lttng-modules: replace mips compaction fix with upstream change
-
-Hitendra Prajapati (3):
-  gdk-pixbuf: CVE-2021-46829 a heap-based buffer overflow
-  gnutls: CVE-2022-2509 Double free during gnutls_pkcs7_verify
-  zlib: CVE-2022-37434 a heap-based buffer over-read
-
-Jose Quaresma (2):
-  archiver.bbclass: remove unsed do_deploy_archives[dirs]
-  create-spdx: ignore packing control files from ipk and deb
-
-Mark Hatle (1):
-  runqemu: Add missing space on default display option
-
-Martin Beeger (1):
-  cmake: remove CMAKE_ASM_FLAGS variable in toolchain file
-
-Mihai Lindner (1):
-  create-spdx: Fix supplier field
-
-Mikko Rapeli (1):
-  boost: fix install of fiber shared libraries
-
-Paul Eggleton (1):
-  relocate_sdk.py: ensure interpreter size error causes relocation to
-    fail
-
-Randy MacLeod (1):
-  vim: update from 9.0.0063 to 9.0.0115
-
-Richard Purdie (2):
-  nativesdk: Clear TUNE_FEATURES
-  selftest/wic: Tweak test case to not depend on kernel size
-
-Roland Hieber (1):
-  devtool: error out when workspace is using old override syntax
-
-Sakib Sajal (6):
-  qemu: fix CVE-2021-3507
-  qemu: fix CVE-2021-3929
-  qemu: fix CVE-2021-4158
-  qemu: fix CVE-2022-0358
-  qemu: fix CVE-2022-0216
-  u-boot: fix CVE-2022-33103
-
- meta/classes/archiver.bbclass                 |   1 -
- meta/classes/create-spdx.bbclass              |   7 +-
- meta/classes/nativesdk.bbclass                |   1 +
- meta/lib/oe/spdx.py                           |   2 +-
- meta/lib/oeqa/selftest/cases/wic.py           |   2 +-
- ..._read-Prevent-arbitrary-code-executi.patch |  80 +++++
- meta/recipes-bsp/u-boot/u-boot_2022.01.bb     |   1 +
- .../zlib/zlib/CVE-2022-37434.patch            |  44 +++
- meta/recipes-core/zlib/zlib_1.2.11.bb         |   1 +
- .../cmake/cmake/OEToolchainConfig.cmake       |   1 -
- meta/recipes-devtools/qemu/qemu.inc           |   7 +
- .../qemu/qemu/CVE-2021-3507_1.patch           |  92 ++++++
- .../qemu/qemu/CVE-2021-3507_2.patch           | 115 +++++++
- .../qemu/qemu/CVE-2021-3929.patch             |  70 +++++
- .../qemu/qemu/CVE-2021-4158.patch             |  46 +++
- .../qemu/qemu/CVE-2022-0216_1.patch           |  42 +++
- .../qemu/qemu/CVE-2022-0216_2.patch           |  52 ++++
- .../qemu/qemu/CVE-2022-0358.patch             | 106 +++++++
- .../gdk-pixbuf/CVE-2021-46829.patch           |  61 ++++
- .../gdk-pixbuf/gdk-pixbuf_2.42.6.bb           |   1 +
- .../lttng-modules/0001-fix-compaction.patch   |  68 +++++
- ...c-fix-tracepoint-mm_page_alloc_zone_.patch | 106 +++++++
- ...ags-parameter-from-aops-write_begin-.patch |  76 +++++
- ...Fix-type-of-cpu-in-trace-event-v5.19.patch | 124 ++++++++
- .../lttng/lttng-modules_2.13.4.bb             |   4 +
- ...ll-targets-if-there-s-build-no-in-ur.patch |  82 +++++
- meta/recipes-support/boost/boost_1.78.0.bb    |   1 +
- .../gnutls/gnutls/CVE-2022-2509.patch         | 282 ++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.7.4.bb   |   1 +
- .../vim/files/crosscompile.patch              |  51 ----
- meta/recipes-support/vim/files/racefix.patch  |  37 ---
- meta/recipes-support/vim/vim.inc              |   6 +-
- scripts/devtool                               |  10 +-
- scripts/lib/devtool/upgrade.py                |  33 +-
- scripts/oe-setup-builddir                     |  12 +-
- scripts/relocate_sdk.py                       |  10 +-
- scripts/runqemu                               |   2 +-
- 37 files changed, 1511 insertions(+), 126 deletions(-)
- create mode 100644 meta/recipes-bsp/u-boot/files/0001-fs-squashfs-sqfs_read-Prevent-arbitrary-code-executi.patch
- create mode 100644 meta/recipes-core/zlib/zlib/CVE-2022-37434.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3507_1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3507_2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3929.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-4158.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-0216_1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-0216_2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-0358.patch
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-46829.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-compaction.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-page_alloc-fix-tracepoint-mm_page_alloc_zone_.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-fix-fs-Remove-flags-parameter-from-aops-write_begin-.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-fix-workqueue-Fix-type-of-cpu-in-trace-event-v5.19.patch
- create mode 100644 meta/recipes-support/boost/boost/0001-Don-t-skip-install-targets-if-there-s-build-no-in-ur.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2022-2509.patch
- delete mode 100644 meta/recipes-support/vim/files/crosscompile.patch
- delete mode 100644 meta/recipes-support/vim/files/racefix.patch
-
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index c4efc134387..c2313e91cc5 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -55,11 +55,16 @@ ANY_OF_DISTRO_FEATURES:class-target = "opengl vulkan"
+ 
+ PLATFORMS ??= "${@bb.utils.filter('PACKAGECONFIG', 'x11 wayland', d)}"
+ 
+-export YOCTO_ALTERNATE_EXE_PATH = "${STAGING_LIBDIR}/llvm-config"
+-export LLVM_CONFIG = "${STAGING_BINDIR_NATIVE}/llvm-config${MESA_LLVM_RELEASE}"
+-export WANT_LLVM_RELEASE = "${MESA_LLVM_RELEASE}"
+-
++# By placing llvm-config in the target sysroot bindir, it will then map values
++# to the target libdir magically. We can safely add to path as there are no other binaries
++# there.
++PATH:prepend = "${STAGING_BINDIR}:"
+ MESA_LLVM_RELEASE ?= "${LLVMVERSION}"
++do_configure:prepend () {
++	if [ -e ${STAGING_BINDIR_NATIVE}/llvm-config${MESA_LLVM_RELEASE} ]; then
++		cp ${STAGING_BINDIR_NATIVE}/llvm-config${MESA_LLVM_RELEASE} ${STAGING_BINDIR}
++	fi
++}
+ 
+ # set the MESA_BUILD_TYPE to either 'release' (default) or 'debug'
+ # by default the upstream mesa sources build a debug release
 -- 
-2.25.1
+2.34.1
 
 
