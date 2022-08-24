@@ -1,91 +1,112 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3777C00140
-	for <webhook@archiver.kernel.org>; Wed, 24 Aug 2022 09:39:51 +0000 (UTC)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.web11.9023.1661333985042692798
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9890C00140
+	for <webhook@archiver.kernel.org>; Wed, 24 Aug 2022 09:42:41 +0000 (UTC)
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by mx.groups.io with SMTP id smtpd.web11.9038.1661334153084671401
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Aug 2022 02:39:45 -0700
+ Wed, 24 Aug 2022 02:42:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=o4U/Fbz+;
- spf=pass (domain: gmail.com, ip: 209.85.208.182,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f182.google.com with SMTP id l19so12734158ljg.8
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Aug 2022 02:39:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=i5BFDgyauPN7Wbnh5P0TL8hP+e5dEoJhil6eFM72aTY=;
-        b=o4U/Fbz+vBKw7hnUPupeiR7AZtKoci/U8cUmCzIdF3mwfj23YId+Lt9wORZeemq4ox
-         t5KjKFna+e0I025iUxw6I/XAIT64I0G5eXeC9LtqyuJ3bqQsn0kvFoF/+7bfO2EZilnU
-         eHxFffng3wSYnH4IHwHgnQL+112rcQtwkrml+5VdHUp4ZR3eF5FU7My3E0/r7ocDDBpR
-         KAzk18cYRe7LUVodVnI5BHGJI3VT4FV++x/1bRB4JWhQtO5W2ea/Aw4i6gG49tdy9VnE
-         rfJ31XSluqrtEwfSbkGTDa4fEEByxOyMlO546ye2Gl/Jyn0aLJ0bEK1mdySVa89p4Rad
-         iOoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=i5BFDgyauPN7Wbnh5P0TL8hP+e5dEoJhil6eFM72aTY=;
-        b=lbaeNVJUakc8hiF0BhpDeT6CF6no8IO0h+CKbN1prpMlO7rFv/ZqS2r7rrANlqPhwH
-         UkZcCU4Hi21AZBz53Ym2BgLVHP/rNE+hMDC3ab9M4oVKcvG8ITWArsN9g+INjsun/V6t
-         wswzB+5q3HBU8/w+ePXiO9L/A2/B9TS2uIRGH7tWdhafn0ZzvsH9vFXqJrldXJJabkpR
-         CeK8itZ6FYHuA9gz2VLaizpGs+WDPF43m2VZI9ybeQE+T7qDpHgEU6+FHAAXWLQCvr6n
-         8fvggYTA3U5faH4pN3KWIXGVX6R4Ohd8Z9gSRi/fZU1CeuH6XI6kigYlMJM1HqPxWSC4
-         uUcg==
-X-Gm-Message-State: ACgBeo2cnq2RvkfaC6lfqZYC9HLJep28zoysWOrsfiaWkZ8og3Z8ubyP
-	+E8d3Rtwf8Xo1pGvbDV+cxD65V3z5aQr/BHJtfo=
-X-Google-Smtp-Source: 
- AA6agR7nACvtdYVY6SLJutLFIEc1G5Y2RNsb3x1FD3peNVHq9DOn59z6vxu19pVHb+K7ACem3VcWcvmovO7pNOczTas=
-X-Received: by 2002:a2e:7e0b:0:b0:261:bef1:a32e with SMTP id
- z11-20020a2e7e0b000000b00261bef1a32emr6677389ljc.41.1661333982999; Wed, 24
- Aug 2022 02:39:42 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm2
+ header.b=W/BkCxRB;
+ spf=pass (domain: gherzan.com, ip: 66.111.4.28, mailfrom: andrei@gherzan.com)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 68C3D5C00C9;
+	Wed, 24 Aug 2022 05:42:32 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Wed, 24 Aug 2022 05:42:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1661334152; x=1661420552; bh=bUhjuiqojLpkWg7nmxZj0xVjY
+	FV5zM/BWAmgFS2CPJc=; b=W/BkCxRBN+24C/sc9B7YlADQaGAu3cpGgKEkIm6s4
+	QA8qwVti9W6C1rNANXDAq1643kAtKVp0T4a5oWvjF3uNBE5kCjyOoPlEi5EKH39r
+	/CmZKpCgeU7sx8bQ3BUinjuC1w8xhyxw2oFHi7y5UMfDxeMzcKdzYTjWcLUUp4bo
+	jH4FnUXbtGQOOoF7xh8KTCq/IEBIOIszHW8p5CKddmgK07zpTexTcRSNlK73ns7b
+	J5F5EilMIBzzh/N27IXcIqg5FBvV4b0akUKNvt1T6d/yO8ZLWjBwLvv9y2873n3S
+	veqXLfKGrcavU+R02mgKeNidNJEclrs/odKE3SL1tInoA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1661334152; x=1661420552; bh=bUhjuiqojLpkWg7nmxZj0xVjYFV5zM/BWAm
+	gFS2CPJc=; b=FwxBeQVxI+XFSb1bbPyZf+klU8Jwu7M+mNzS9oo0TPCRLW2m5Ce
+	HCyAgW62IrYSlBBfJdPaA7XTGgTCl2jlCqgevxa+ju3Bnvc3+OCQ6lGwjQuuKJj5
+	DWLhrD3mFLctVUbCeSbgXTKpwtMJMSCxAWlqfdQLi3DJuD37oW8am1i25I29ciO3
+	KVqZXKpROpWUmYd8p7ZZMoEj5TJ6hLmuJs1N9u/jUGtoQSCX3Co+2lTmfbdhrHkt
+	JvyLWlGFAqPgnqr8al31+VIx+Ta0wPy0DOvx6k7U8NvYODeInkcoxclCwXEan293
+	1har2kFvrcT/F6sNY7/CT5nC6tyzrALmI3g==
+X-ME-Sender: <xms:iPIFYyeJleF95U0dInaI75Q9jcQbynZU8zovDSFV5Vve9SuUZRPAFA>
+    <xme:iPIFY8OLzu8tIyyltJFlwjBvrOZfKy50zZhZJx-D5yv7G4ytMs0GJSHnfha_BoMzQ
+    x_rS_tW-O2SBhe5Pw0>
+X-ME-Received: 
+ <xmr:iPIFYzgMp5UOnlCd9RoMB8Io8wo-Lx3B8BcUA6TemGGcs8KMagfUZ5hv6QqkUoW9zLiGhuU1WU-W97Tq-dNwcYaIK0gk9dbd8cke9ETG6iWJEtck8iaxIpGM>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvfedrvdejuddgudelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpeetnhgurhgvihcuifhhvghriigrnhcuoegrnhgurhgvihesghhh
+    vghriigrnhdrtghomheqnecuggftrfgrthhtvghrnhepieejlefhveevleffveegfeetle
+    ejtedvgeejtddthefhhfdtiefhveegffeggeeknecuvehluhhsthgvrhfuihiivgeptden
+    ucfrrghrrghmpehmrghilhhfrhhomheprghnughrvghisehghhgvrhiirghnrdgtohhm
+X-ME-Proxy: <xmx:iPIFY__vneVVMqYpOt8YRri4yjZKC3n9jHVnSUkGB5wq1sjICggAhA>
+    <xmx:iPIFY-sNNkfKOLXMXf4vi0UR5Sfesw4C_9mdKCXZtqKGqmdpYJOZ3A>
+    <xmx:iPIFY2GrDwLIC3LA2o9eUuGykLaStKA7RHGh_qLhZ7jD1DVTRvF_Pg>
+    <xmx:iPIFYzVcnd0FkD5r6mC7CKYhUb8-_xFK7DGXz2iJOwP4e5Z1xd9AJg>
+Feedback-ID: i68994715:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 24 Aug 2022 05:42:31 -0400 (EDT)
+From: Andrei Gherzan <andrei@gherzan.com>
+To: openembedded-core@lists.openembedded.org
+Cc: andrei@gherzan.com,
+	Andrei Gherzan <andrei.gherzan@huawei.com>
+Subject: [PATCH v3 1/6] shadow: Enable subid support
+Date: Wed, 24 Aug 2022 11:42:17 +0200
+Message-Id: <20220824094222.2554642-1-andrei@gherzan.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220823235624.2488133-3-andrei@gherzan.com>
- <20220823235624.2488133-6-andrei@gherzan.com>
- <CANNYZj-XzOu-zd1aTn7aQ0DyrsiN8J3mOPuG-4wcJw0DzegRww@mail.gmail.com>
- <c18472e4-db71-491a-8f9c-b82245c47800@www.fastmail.com>
- <CANNYZj-LRM_fR3zuRQrR4kkhY_TuF5pGPBDePDaLbEWSJaoQQQ@mail.gmail.com>
- <d0b7534b-bbec-43da-9a02-2fbd9fa453f4@www.fastmail.com>
- <CANNYZj8+qFQzobfqrow-LmbJ+Q8e249dTpz-xa1Rx4JN8OvSiA@mail.gmail.com>
- <d90ffe02-9459-414b-9c9c-758bfdf6355a@www.fastmail.com>
- <CANNYZj-9x5KFk-FMp9tbfDkPa-8uyhPx2R+rHvfsxufS+w1NkA@mail.gmail.com>
- <d040d16d-1354-4d8f-a5f3-ff681e6efa22@www.fastmail.com>
-In-Reply-To: <d040d16d-1354-4d8f-a5f3-ff681e6efa22@www.fastmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 24 Aug 2022 11:39:30 +0200
-Message-ID: 
- <CANNYZj8q9otP4D_72P9SJAStrx+FvVfrGbWp=k4iBxr1Jv_-3w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 6/6] shadow: Avoid nss warning/error with musl
-To: Andrei Gherzan <andrei@gherzan.com>
-Cc: openembedded <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Aug 2022 09:39:51 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Aug 2022 09:42:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169802
+ https://lists.openembedded.org/g/openembedded-core/message/169803
 
-Almost there :) As the patch was not actually submitted, the correct
-metadata is:
+From: Andrei Gherzan <andrei.gherzan@huawei.com>
 
-Upstream-Status: Inappropriate [issue reported at
-https://github.com/shadow-maint/shadow/issues/557]
+shadow utils are used when creating users at image creation time. The
+useradd/usermod tools will only try to add a default configuration for
+subid files if they exist.
 
-Alex
+Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+---
+ meta/recipes-extended/shadow/shadow.inc | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-On Wed, 24 Aug 2022 at 11:37, Andrei Gherzan <andrei@gherzan.com> wrote:
->
-> On Wed, 24 Aug 2022, at 09:56, Alexander Kanavin wrote:
-> > Thanks, can you also resend the patch with the link to the ticket included?
->
-> Sure. https://lists.openembedded.org/g/openembedded-core/message/169800
->
-> Andrei
+diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+index fbb1d395ff..b2f82e9ac7 100644
+--- a/meta/recipes-extended/shadow/shadow.inc
++++ b/meta/recipes-extended/shadow/shadow.inc
+@@ -147,6 +147,13 @@ do_install:append() {
+ 	# Handle link properly after rename, otherwise missing files would
+ 	# lead rpm failed dependencies.
+ 	ln -sf newgrp.${BPN} ${D}${bindir}/sg
++
++	# usermod requires the subuid/subgid files to be in place before being
++	# able to use the -v/-V flags otherwise it fails:
++	# usermod: /etc/subuid does not exist, you cannot use the flags -v or -V
++	install -d ${D}${sysconfdir}
++	touch ${D}${sysconfdir}/subuid
++	touch ${D}${sysconfdir}/subgid
+ }
+ 
+ PACKAGES =+ "${PN}-base"
+-- 
+2.25.1
+
 
