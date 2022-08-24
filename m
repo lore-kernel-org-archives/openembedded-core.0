@@ -2,61 +2,60 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBFE5C48BE4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7998C32793
 	for <webhook@archiver.kernel.org>; Wed, 24 Aug 2022 06:34:50 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web11.8066.1661322890239191409
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+ [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web08.8000.1661322888464519731
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 23:34:50 -0700
+ Tue, 23 Aug 2022 23:34:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=isHrqvPo;
- spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id
- x14-20020a17090a8a8e00b001fb61a71d99so596760pjn.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZEvqkYkH;
+ spf=pass (domain: gmail.com, ip: 209.85.210.176,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f176.google.com with SMTP id f17so9439906pfk.11
         for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 23:34:50 -0700 (PDT)
+ Tue, 23 Aug 2022 23:34:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=m0m4BoNGCgEl/I9DQ3OpR8zfsrjfaqg6G6rlcBFEUjg=;
-        b=isHrqvPoEQgkm5GpdlfTYM9srfhWbeUVsoH01NbHv9BGZCjEWomy9JzNdpC2WwDB0U
-         p50axF22qVN4fWclsJe6IlYEJuew+sO1vbcMmRyURYnGSQjCFVZ0JoTxkdm01aQBBG6L
-         gFQ2IQ8sLjWA7+eWSgyGIMloVVgudTiZfo2CvL4UZKxh93fWPWHa8WPGj8d//Z/lOWDP
-         NFgAUPJmRPtrR1MfdoE/ucz2pbSwnbhNb0EUbocewpsSAO95BGC/bq2lQJ8sPT3ULqM4
-         SKaNjuUnLJKJn6n3aFsFJYVKgs0VR0nkqnnmwhHFVRD0oOdzYoUr/hcJlq/+cKw9rUxD
-         pUCA==
+        bh=v0eUe7lXvl1mIXs8/GPY8/f3P2kflu24/qTht67js0k=;
+        b=ZEvqkYkHBW0nw74LMiOyy6l6Wvj0B3jaTQ+Cyb+p1upphoGXldfc+egkymxkrYr+gW
+         ySrqTg1NTQ/yZ4nMoveRATgaBVuzWE1/EotvVNJ0aPPm+hQpUahtbJOvkYEMZcRFtccN
+         xRQIRZnkA7rLhV5lVJcIuBwJECuupiyT6Z4JCbCg5hwKJu+uMrKJu1DSSrI+QizRJnH7
+         tqxjCBJeTvlxz8NXVGNQo3pFAcwYAOvv3iW3AtW44FSSonNz/qGlahFKjWtSVrjOO4TP
+         PKmrjfkzaX6gRpvz0vAme0Chdhl4U1vUXTT+vy5ZtptAkPvE4omn4+L9Px/7uey2cLCi
+         986A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=m0m4BoNGCgEl/I9DQ3OpR8zfsrjfaqg6G6rlcBFEUjg=;
-        b=TdWs5KIld/S8Ch/zpELxZJGM2V727jUOMgHGrC0GCZETCsxnB4Ui6iSLW/n+wwtN5T
-         z/5wzZ7LPmgKeEtxBvjLuhxgW6kLnaZBAxu0IlUo+MZpKbALerd1HSOLI+CzL1KHCCkN
-         bitSViWaatz0l2uvhbmTQtDfcjqfL3IdjkPKN0vOxsWfsExVGMx8iVuGcMfKYfBQ88cV
-         oXi80OpkEJ17+w8OsdXjPBzLFybh4IVgsIXUTewtiJbTyY7z49uy/SHTJfnHCkAZKyrT
-         b9QvUo/OSGyT0b9WwMcSksliG/Lx9X8815dpBBQHV95sZBHP5Pzljt94nX7lnOLmUjlJ
-         q5tQ==
-X-Gm-Message-State: ACgBeo2Ncq7i5xjrSqVmXeqWXReO7J280G3MqwLHbdJyUpd0CrFz1p6B
-	uplen2HSz0eqL6wy6LICLRbLgheUnAx+7A==
+        bh=v0eUe7lXvl1mIXs8/GPY8/f3P2kflu24/qTht67js0k=;
+        b=RXLCSMB6l5+lzsCwH8nlNCuVx0xNvU0mYC4ZufQEw1MWlh+ORchXGhiQsB9HU8Rq6l
+         wabhdT8//9Y/Mco0dtf6C86S/truRjzqi/mBiJSSKt5qXqIok/OV4r1kVGWGn3qdb8k2
+         eafRDFKRCr4wpv9jTqOyVNGPxcncA/4CQ0n6oTetxGYKB/RrGPK92SOdhx99vH90uZlV
+         HTz0pXko3FuDcnEOdWPZuIaTeTs5qcMVQBgjCXWQSBGHa5BvOtEJhdUdC3/vkC8klwnp
+         JrloCW582EOAqnJU1gDq7lgxIKWtqFvJxkFf/TMqjB3184kQ/WZ3p7QW/lXa1P3uPT92
+         00xw==
+X-Gm-Message-State: ACgBeo0j8IcZ/k0ttsj6C+aG8XYLCiQQ7P3xHCGxi1HhnaME05DVCYjA
+	dl6+SxQvuYcy3JvR5yyQq7Oykrua4OFGYw==
 X-Google-Smtp-Source: 
- AA6agR4uoQxKero4/KMj0N4yus/waaOPiXGJEVbFuTXW8CszUvebxiEialvgMGgZ1GqRxRU0iXX+cA==
-X-Received: by 2002:a17:902:a60f:b0:172:e476:fde with SMTP id
- u15-20020a170902a60f00b00172e4760fdemr13712346plq.104.1661322889334;
-        Tue, 23 Aug 2022 23:34:49 -0700 (PDT)
+ AA6agR6dRk69282PBbqs0dm2DKVltm/bCkVs9woB794hCqbG30MegaFe+2XCjq2HkqrakDNL8YxeOQ==
+X-Received: by 2002:a65:6e46:0:b0:42a:2c7e:4232 with SMTP id
+ be6-20020a656e46000000b0042a2c7e4232mr21249627pgb.611.1661322887536;
+        Tue, 23 Aug 2022 23:34:47 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::6b6a])
         by smtp.gmail.com with ESMTPSA id
- s24-20020a639258000000b0042a3d9a1275sm8384957pgn.16.2022.08.23.23.34.48
+ s24-20020a639258000000b0042a3d9a1275sm8384957pgn.16.2022.08.23.23.34.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Aug 2022 23:34:48 -0700 (PDT)
+        Tue, 23 Aug 2022 23:34:47 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 5/7] apr: Use correct strerror_r implementation based on libc
- type
-Date: Tue, 23 Aug 2022 23:34:41 -0700
-Message-Id: <20220824063443.1774094-5-raj.khem@gmail.com>
+Subject: [PATCH 3/7] libcgroup: Use GNU strerror_r only when its available
+Date: Tue, 23 Aug 2022 23:34:39 -0700
+Message-Id: <20220824063443.1774094-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220824063443.1774094-1-raj.khem@gmail.com>
 References: <20220824063443.1774094-1-raj.khem@gmail.com>
@@ -67,106 +66,95 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 24 Aug 2022 06:34:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169779
+ https://lists.openembedded.org/g/openembedded-core/message/169777
 
-musl does not implement GNU extention of strerror_r but XSI compliant
-version, therefore add it via a packageconfig to set right variables
-during configure to cache the value.
-
-configure detection logic depends on runtime test which will always be
-wrong on cross compiles therefore backport a patch to make it possible
-to cache the needed configure variable.
+This patch ensures that a fallback to use XSI compliant strerror_r when
+GNU extention is not implemented, which fixes the case when building
+with musl
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...CHE_CHECK-for-strerror_r-return-type.patch | 52 +++++++++++++++++++
- meta/recipes-support/apr/apr_1.7.0.bb         |  4 ++
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-support/apr/apr/0001-add-AC_CACHE_CHECK-for-strerror_r-return-type.patch
+ ...pi-Use-GNU-strerror_r-when-available.patch | 55 +++++++++++++++++++
+ .../recipes-core/libcgroup/libcgroup_3.0.0.bb |  4 +-
+ 2 files changed, 58 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/libcgroup/libcgroup/0001-api-Use-GNU-strerror_r-when-available.patch
 
-diff --git a/meta/recipes-support/apr/apr/0001-add-AC_CACHE_CHECK-for-strerror_r-return-type.patch b/meta/recipes-support/apr/apr/0001-add-AC_CACHE_CHECK-for-strerror_r-return-type.patch
+diff --git a/meta/recipes-core/libcgroup/libcgroup/0001-api-Use-GNU-strerror_r-when-available.patch b/meta/recipes-core/libcgroup/libcgroup/0001-api-Use-GNU-strerror_r-when-available.patch
 new file mode 100644
-index 0000000000..d0a9bd9129
+index 0000000000..96321d2970
 --- /dev/null
-+++ b/meta/recipes-support/apr/apr/0001-add-AC_CACHE_CHECK-for-strerror_r-return-type.patch
-@@ -0,0 +1,52 @@
-+From 8ca3c3306f1a149e51a3be6a4b1e47e9aee88262 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/libcgroup/libcgroup/0001-api-Use-GNU-strerror_r-when-available.patch
+@@ -0,0 +1,55 @@
++From d190c0c548b3219b75e4c399aa89186e77bbe270 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Tue, 23 Aug 2022 22:42:03 -0700
-+Subject: [PATCH] add AC_CACHE_CHECK for strerror_r return type
++Date: Tue, 23 Aug 2022 20:03:09 -0700
++Subject: [PATCH] api: Use GNU strerror_r when available
 +
-+APR's configure script uses AC_TRY_RUN to detect whether the return type
-+of strerror_r is int. When cross-compiling this defaults to no.
++GNU strerror_r is only available in glibc, musl impelents the XSI
++version which is slightly different, therefore check if GNU version is
++available before using it, otherwise use the XSI compliant version.
 +
-+This commit adds an AC_CACHE_CHECK so users who cross-compile APR may
-+influence the outcome with a configure variable.
-+
-+Upstream-Status: Backport [https://svn.apache.org/viewvc?view=revision&revision=1875065]
++Upstream-Status: Submitted [https://github.com/libcgroup/libcgroup/pull/236]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ build/apr_common.m4 | 11 ++++-------
-+ 1 file changed, 4 insertions(+), 7 deletions(-)
++ configure.ac | 5 +++++
++ src/api.c    | 8 ++++++--
++ 2 files changed, 11 insertions(+), 2 deletions(-)
 +
-+diff --git a/build/apr_common.m4 b/build/apr_common.m4
-+index cbf2a4c..42e75cf 100644
-+--- a/build/apr_common.m4
-++++ b/build/apr_common.m4
-+@@ -525,8 +525,9 @@ dnl  string.
-+ dnl
-+ dnl
-+ AC_DEFUN([APR_CHECK_STRERROR_R_RC], [
-+-AC_MSG_CHECKING(for type of return code from strerror_r)
-+-AC_TRY_RUN([
-++AC_CACHE_CHECK([whether return code from strerror_r has type int],
-++[ac_cv_strerror_r_rc_int],
-++[AC_TRY_RUN([
-+ #include <errno.h>
-+ #include <string.h>
-+ #include <stdio.h>
-+@@ -542,14 +543,10 @@ main()
-+ }], [
-+     ac_cv_strerror_r_rc_int=yes ], [
-+     ac_cv_strerror_r_rc_int=no ], [
-+-    ac_cv_strerror_r_rc_int=no ] )
-++    ac_cv_strerror_r_rc_int=no ] ) ] )
-+ if test "x$ac_cv_strerror_r_rc_int" = xyes; then
-+   AC_DEFINE(STRERROR_R_RC_INT, 1, [Define if strerror returns int])
-+-  msg="int"
-+-else
-+-  msg="pointer"
-+ fi
-+-AC_MSG_RESULT([$msg])
-+ ] )
++diff --git a/configure.ac b/configure.ac
++index b68c655..831866d 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -183,6 +183,11 @@ AC_FUNC_REALLOC
++ AC_FUNC_STAT
++ AC_CHECK_FUNCS([getmntent hasmntopt memset mkdir rmdir strdup])
 + 
-+ dnl
+++orig_CFLAGS="$CFLAGS"
+++CFLAGS="$CFLAGS -D_GNU_SOURCE"
+++AC_FUNC_STRERROR_R
+++CFLAGS="$orig_CFLAGS"
+++
++ AC_SEARCH_LIBS(
++ 	[fts_open],
++ 	[fts],
++diff --git a/src/api.c b/src/api.c
++index 5c6de11..06aa1d6 100644
++--- a/src/api.c
+++++ b/src/api.c
++@@ -4571,9 +4571,13 @@ const char *cgroup_strerror(int code)
++ {
++ 	int idx = code % ECGROUPNOTCOMPILED;
++ 
++-	if (code == ECGOTHER)
+++	if (code == ECGOTHER) {
+++#ifdef STRERROR_R_CHAR_P
++ 		return strerror_r(cgroup_get_last_errno(), errtext, MAXLEN);
++-
+++#else
+++		return strerror_r(cgroup_get_last_errno(), errtext, sizeof (errtext)) ? "unknown error" : errtext;
+++#endif
+++	}
++ 	if (idx >= sizeof(cgroup_strerror_codes)/sizeof(cgroup_strerror_codes[0]))
++ 		return "Invalid error code";
++ 
 +-- 
 +2.37.2
 +
-diff --git a/meta/recipes-support/apr/apr_1.7.0.bb b/meta/recipes-support/apr/apr_1.7.0.bb
-index 9c826d4380..07bf61545e 100644
---- a/meta/recipes-support/apr/apr_1.7.0.bb
-+++ b/meta/recipes-support/apr/apr_1.7.0.bb
-@@ -24,6 +24,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
-            file://libtoolize_check.patch \
-            file://0001-Add-option-to-disable-timed-dependant-tests.patch \
-            file://autoconf270.patch \
-+           file://0001-add-AC_CACHE_CHECK-for-strerror_r-return-type.patch \
-            file://CVE-2021-35940.patch \
-            "
+diff --git a/meta/recipes-core/libcgroup/libcgroup_3.0.0.bb b/meta/recipes-core/libcgroup/libcgroup_3.0.0.bb
+index efd887844d..f3e841246f 100644
+--- a/meta/recipes-core/libcgroup/libcgroup_3.0.0.bb
++++ b/meta/recipes-core/libcgroup/libcgroup_3.0.0.bb
+@@ -11,7 +11,9 @@ inherit autotools pkgconfig
  
-@@ -44,9 +45,12 @@ CACHED_CONFIGUREVARS += "ac_cv_header_netinet_sctp_h=no ac_cv_header_netinet_sct
- CACHED_CONFIGUREVARS += "ac_cv_sizeof_struct_iovec=yes"
- CACHED_CONFIGUREVARS += "ac_cv_file__dev_zero=yes"
+ DEPENDS = "bison-native flex-native"
  
-+CACHED_CONFIGUREVARS:append:libc-musl = " ac_cv_strerror_r_rc_int=yes"
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
-+PACKAGECONFIG:append:libc-musl = " xsi-strerror"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
- PACKAGECONFIG[timed-tests] = "--enable-timed-tests,--disable-timed-tests,"
-+PACKAGECONFIG[xsi-strerror] = "ac_cv_strerror_r_rc_int=yes,ac_cv_strerror_r_rc_int=no,"
+-SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/v3.0/${BP}.tar.gz"
++SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/v3.0/${BP}.tar.gz \
++           file://0001-api-Use-GNU-strerror_r-when-available.patch \
++"
  
- do_configure:prepend() {
- 	# Avoid absolute paths for grep since it causes failures
+ SRC_URI[sha256sum] = "8d284d896fca1c981b55850e92acd3ad9648a69227c028dda7ae3402af878edd"
+ UPSTREAM_CHECK_URI = "https://github.com/libcgroup/libcgroup/releases/"
 -- 
 2.37.2
 
