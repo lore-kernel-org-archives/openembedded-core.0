@@ -1,77 +1,159 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 853D9C00140
-	for <webhook@archiver.kernel.org>; Wed, 24 Aug 2022 09:00:51 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web09.8916.1661331649519486484
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B14F3C00140
+	for <webhook@archiver.kernel.org>; Wed, 24 Aug 2022 09:36:11 +0000 (UTC)
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by mx.groups.io with SMTP id smtpd.web09.9109.1661333758996810998
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Aug 2022 02:00:50 -0700
+ Wed, 24 Aug 2022 02:35:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=V9QD96VX;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196,
- mailfrom: luca.ceresoli@bootlin.com)
-Received: from booty (unknown [77.244.183.192])
-	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id D634AE000B;
-	Wed, 24 Aug 2022 09:00:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1661331647;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bpmqQXH0n3MF0zySKRV9Y4j0VXjG5uv14lnOH3a/ORs=;
-	b=V9QD96VX+0MFsZ8g3bYZvxXokon2ts4qzTothTWv373UQNmmP4QFYwYKsrigywrX/OEPLn
-	D12whRla6WyhSsZPlq3P3MA/4J11ZaY76SwX6wvaTLQW4NQc0q91XgBeQfDCuSCi6E11P1
-	lRAVTMPrw8XBq26ClI/djMBujOPZ5fX8xZXtddoStcumaEjD+JRV4k1ZKL9gF0P65UAS+c
-	p6UIDGhP0yxJ7Kw6q3S9eWra6cK8UW3M+m3FoPzPpwKdMQJ3g38Scyf8uS4gqtFr/IROb3
-	jSQaZ85lrBFizZRXCsxBw1Z81/lxsDvvWPc+SI/+lylNTOZvJYh9Pi0FvB4NjA==
-Date: Wed, 24 Aug 2022 11:00:43 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Bernhard =?UTF-8?Q?Rosenkr=C3=A4nzer?= via lists.openembedded.org"
- <bernhard.rosenkraenzer.ext=huawei.com@lists.openembedded.org>
-Cc: bernhard.rosenkraenzer.ext@huawei.com,
- openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
-Subject: Re: [OE-core] [PATCH] gcc: Update to 12.2
-Message-ID: <20220824110043.06f45941@booty>
-In-Reply-To: <20220823173616.2561114-1-bernhard.rosenkraenzer.ext@huawei.com>
-References: <20220823173616.2561114-1-bernhard.rosenkraenzer.ext@huawei.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm2
+ header.b=AIxUJfRU;
+ spf=pass (domain: gherzan.com, ip: 66.111.4.28, mailfrom: andrei@gherzan.com)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 525265C00C3;
+	Wed, 24 Aug 2022 05:35:58 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Wed, 24 Aug 2022 05:35:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1661333758; x=1661420158; bh=PgUyMF1ilNzuTj0BKECTJfCVz
+	bXBu6CyRh+n10iFrPg=; b=AIxUJfRU5ZiCCdRIEz4g6zGYBiib/PGLGd/cmh/m/
+	e2BMnZSMBPXD2xTA4Bb0tsu87S6N9kS5M7sF7RqDTzv85eLg+Uei+aS8i+db4Tqg
+	do8uRwZrfWOSUHvWGWU2btLiD9etom41DUNDM9PNMegWcAyVa5xRgxEx40OB81Bt
+	yZ/3VMJU0YFdqSKCrp5GY20H7o/kcKEQen0/4jk0XX2oOBJMF83QmUAkMXpxNZ7n
+	g2w18jSEX2z9mHTUr+L8DQEuwezNlPn6Vyltt6HqaFg/xGVr7hSe78hG3NHlKena
+	QFvKR/MbP6gKuxK9z5gx3RJo1L2AQzXps3o3mOHdLAg9A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1661333758; x=1661420158; bh=PgUyMF1ilNzuTj0BKECTJfCVzbXBu6CyRh+
+	n10iFrPg=; b=RnwEPK24hFbHqBa9kTVym4yshQJoRyISZkCVVcjL4jhT0Jf3S+L
+	QiQGx2JiXnIJ4zj0mW8T7RRTiDyY4IOnmRAnAuPJD1m1oG3oL3tkBKcq4T4Lz+Ap
+	EhBonJTyqFJ+e7841blRC4BTfXesgRQ87P8S7zseteMr4G57ESDZwSc51XBZxTCc
+	VXD4AygOgCT9ZxjQaN5cBe/IImJ48hFHzNcfu1t1KmC3yWHaaEadpn9PFku1eLDw
+	OnQ7OhxjiWp9fEenWjg/XIKIlK8yu/G3IIPYG8kMNqhBXNKvpyPPESuwKK01uHzp
+	yR/Tb4tq77pwamA5JzMIGkLDbw7s/HS8vAA==
+X-ME-Sender: <xms:_vAFY2phTvR9eV6FRay3Z1ZoV-mca-k8demB0RgpDF9x14OJaQLNpg>
+    <xme:_vAFY0rSknJTR3eemVYGIgtwFjYcoKhGuB6n_mzlRGyTfsL-4Iwg52rLXY_04yN6T
+    ieBa6mIB00EFWsi2As>
+X-ME-Received: 
+ <xmr:_vAFY7NdCrGq7HtqLUBEWNRdUJ_ANu_h8zXZHKd-yOEEAdNk5wYQxl7BbXRMHC8wtmPhvqdU1mdmMfqIHDDrnEnumwbrb46FaMXGTuOPMGtle-CJ6s7DNlm0>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvfedrvdejuddgudekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpeetnhgurhgvihcuifhhvghriigrnhcuoegrnhgurhgvihesghhh
+    vghriigrnhdrtghomheqnecuggftrfgrthhtvghrnhepjeffveelleeigedvieeiuddvtd
+    ffleettdeitdfgffejhfeigeekvdduvefhtedtnecuffhomhgrihhnpehgihhthhhusgdr
+    tghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grnhgurhgvihesghhhvghriigrnhdrtghomh
+X-ME-Proxy: <xmx:_vAFY14jgJE_RhJ_2be-UdFrm9guF7G17sv4r1IeUQaY4_TB4xpSjQ>
+    <xmx:_vAFY15HQW586BAoBHdk0MR7yTyO-h-BnLaeqtZ_dxdSRgL-o8XnsQ>
+    <xmx:_vAFY1hzeGc3MdWayFOOwkaNmgfnOqUQ05I2e9a8LOxOvRTpVkNiqw>
+    <xmx:_vAFY3T8aPFGgWvSizN8s3dv5gyzeymfvUqh62npJvWdFq7-DwSNTw>
+Feedback-ID: i68994715:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 24 Aug 2022 05:35:57 -0400 (EDT)
+From: Andrei Gherzan <andrei@gherzan.com>
+To: openembedded-core@lists.openembedded.org
+Cc: andrei@gherzan.com,
+	Andrei Gherzan <andrei.gherzan@huawei.com>
+Subject: [PATCH v2 6/6] shadow: Avoid nss warning/error with musl
+Date: Wed, 24 Aug 2022 11:35:27 +0200
+Message-Id: <20220824093526.2549922-6-andrei@gherzan.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Aug 2022 09:00:51 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Aug 2022 09:36:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169799
+ https://lists.openembedded.org/g/openembedded-core/message/169800
 
-Hello Bernhard,
+From: Andrei Gherzan <andrei.gherzan@huawei.com>
 
-On Tue, 23 Aug 2022 19:36:16 +0200
-Bernhard Rosenkr=C3=A4nzer via lists.openembedded.org
-<bernhard.rosenkraenzer.ext=3Dhuawei.com@lists.openembedded.org> wrote:
+The libnss configuration file is only installed when glibc is used. The
+inexistence of it on a musl-based rootfs, will make shadow complain
+about it:
 
-> Update gcc to 12.2, drop
-> 0001-libsanitizer-cherry-pick-9cf13067cb5088626ba7-from-u.patch
-> (which is already in 12.2)
->=20
-> Signed-off-by: Bernhard Rosenkr=C3=A4nzer <bernhard.rosenkraenzer.ext@hua=
-wei.com>
+Failed opening /etc/nsswitch.conf
 
-Khem Raj sent another patch that looks identical (except for updating
-maintainers.inc as well) and triggered some failures. You might want to
-see that thread any maybe sync with Khem to avoid duplicate work:
+This is because shadow will try to use nsswich when dealing with
+subordinate IDs and the message is just a warning as the tool will still
+generate them correctly in subuid/subgid files.
 
-https://lists.openembedded.org/g/openembedded-core/message/169651
+We drop this log message for class native to avoid an error when rootfs
+logs are checked ('Failed' will match the regex bitbake is using to
+check for rootfs generation errors).
 
---=20
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+---
+ ...f-message-when-not-in-place-eg.-musl.patch | 27 +++++++++++++++++++
+ meta/recipes-extended/shadow/shadow.inc       |  2 ++
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-extended/shadow/files/0001-Drop-nsswitch.conf-message-when-not-in-place-eg.-musl.patch
+
+diff --git a/meta/recipes-extended/shadow/files/0001-Drop-nsswitch.conf-message-when-not-in-place-eg.-musl.patch b/meta/recipes-extended/shadow/files/0001-Drop-nsswitch.conf-message-when-not-in-place-eg.-musl.patch
+new file mode 100644
+index 0000000000..895c09e738
+--- /dev/null
++++ b/meta/recipes-extended/shadow/files/0001-Drop-nsswitch.conf-message-when-not-in-place-eg.-musl.patch
+@@ -0,0 +1,27 @@
++From 11290e897a49adddee215833944a518443d9b0d6 Mon Sep 17 00:00:00 2001
++From: Andrei Gherzan <andrei.gherzan@huawei.com>
++Date: Wed, 24 Aug 2022 00:54:47 +0200
++Subject: [PATCH] Drop nsswitch.conf message when not in place - eg. musl
++
++Upstream-Status: Submitted [https://github.com/shadow-maint/shadow/issues/557]
++Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
++---
++ lib/nss.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/lib/nss.c b/lib/nss.c
++index 06fa48e..44245da 100644
++--- a/lib/nss.c
+++++ b/lib/nss.c
++@@ -59,7 +59,7 @@ void nss_init(const char *nsswitch_path) {
++ 	//   subid:	files
++ 	nssfp = fopen(nsswitch_path, "r");
++ 	if (!nssfp) {
++-		fprintf(shadow_logfd, "Failed opening %s: %m\n", nsswitch_path);
+++		//fprintf(shadow_logfd, "Failed opening %s: %m\n", nsswitch_path);
++ 		atomic_store(&nss_init_completed, true);
++ 		return;
++ 	}
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+index b2f82e9ac7..414bf467ba 100644
+--- a/meta/recipes-extended/shadow/shadow.inc
++++ b/meta/recipes-extended/shadow/shadow.inc
+@@ -25,12 +25,14 @@ SRC_URI:append:class-target = " \
+ SRC_URI:append:class-native = " \
+            file://0001-Disable-use-of-syslog-for-sysroot.patch \
+            file://commonio.c-fix-unexpected-open-failure-in-chroot-env.patch \
++           file://0001-Drop-nsswitch.conf-message-when-not-in-place-eg.-musl.patch \
+            "
+ SRC_URI:append:class-nativesdk = " \
+            file://0001-Disable-use-of-syslog-for-sysroot.patch \
+            "
+ SRC_URI[sha256sum] = "9fdb73b5d2b44e8ba9fcee1b4493ac75dd5040bda35b9ac8b06570cd192e7ee3"
+ 
++
+ # Additional Policy files for PAM
+ PAM_SRC_URI = "file://pam.d/chfn \
+                file://pam.d/chpasswd \
+-- 
+2.25.1
+
 
