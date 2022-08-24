@@ -1,92 +1,105 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1942C00140
-	for <webhook@archiver.kernel.org>; Wed, 24 Aug 2022 14:08:52 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web11.11255.1661350128931667349
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB7B3C00140
+	for <webhook@archiver.kernel.org>; Wed, 24 Aug 2022 14:13:42 +0000 (UTC)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+ [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web09.11362.1661350420109124495
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Aug 2022 07:08:49 -0700
+ Wed, 24 Aug 2022 07:13:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=nSL/zlbb;
- spf=pass (domain: gmail.com, ip: 209.85.167.51,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id d23so19806283lfl.13
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ff9Vjr4m;
+ spf=pass (domain: gmail.com, ip: 209.85.215.169,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f169.google.com with SMTP id g189so1086884pgc.0
         for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Aug 2022 07:08:48 -0700 (PDT)
+ Wed, 24 Aug 2022 07:13:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=FnlrY+LeNpsxKBRlxz+uSDa+/KA4u2yIRzg+KekbccQ=;
-        b=nSL/zlbb/7aQSHG6+I32nrZ/14VE4fLyNEfpRX5yg6tqkYU8G/+pckxVN8dPJJJcaY
-         z+L4VPRBg/APAYtS9vLnSGWqTfKCpkWcFK+VOSRaychKb5W73UosLwhxu0oaKgXJaJP/
-         2uLM0kReOuhwuOXvF+7h+q0lea8kSAl1vl90bQhr/KDvPGEECfql5JCrgvYjsREmidsp
-         B9dlAPVBfL0TknGnh0FF9oX3c3u7R5P8WVC8NxWds9BSREMUamb5vDNrGC289AcaoPUd
-         6+OjoGKH+vLGqTHY1HCEvI8xrqnly9AWDty2NIX1oefwoAUErSZ6ws+q0Gb4XwUZQHlQ
-         SWMQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=J0flWsJTmHb27oyTxHkBoqcknXTJMUBvW0UDcmxYsO4=;
+        b=Ff9Vjr4mZ8/gCVcSltkboIJxNk+7gVte4MSNXMIK9oLt3NTtLUXd9pCIA1fjDZzQeD
+         TSRuSdw+K7SGOspAO7a6cTW/yc1ADeA7BD10WAqa/ek4odGCEJqqFhm476unVXcfNRuJ
+         eVtM9YOc/EHIm1VIH9MtNZCJ61K0FGufsbvThUx4fsKIKr79coMvnAwWTidow8Od6CFi
+         r9lrgNICTDHrqz9p3GqUNfRGfUlD68Fh9dbh/auoPHEDeB65HrkgSEdoCccldKqR/6de
+         Mj2I8M8WP7qr8so+E4Pecn/EqKWJTtioSWGK7L/JzYxfIIsmW5/VuhxRSAuuU9FWliKp
+         6IgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=FnlrY+LeNpsxKBRlxz+uSDa+/KA4u2yIRzg+KekbccQ=;
-        b=X43xVLlo7bXTfRF/GJOsBjGK7Wn6/AnR+aM5PzSSEywkN+uzfmE7lc0Fsq7gEAAZtU
-         8V/NB9nh3us5LWtcKUqD8Pdx6SLf+zUR1Q3nBJDp4RC/g4xZSUwaOxaIVemZvGadwEp4
-         SuJLlWTX0lsAbiPhjSC8InD6FOQI5FAokocjMs11iPdw+SZ97tQVQlnuN9B4eziv4vLZ
-         ZpoOetpvdS0imhwhUBaWkx6q3EtesPLSd9gjtAUiL+epk1NOABj3aRz80lfFQhrDq7h6
-         U3XVB/bLCjtweDXKDm+DIlPzJ7oK5EEUK7QaJT0JsXvOUbB6+CH5lvy38mR2MLnltTxi
-         FJwQ==
-X-Gm-Message-State: ACgBeo0l4P5OuahoAIV10XppJB2KGfRL9yq71JlJm26OLE6LTPd0sH5g
-	wlf6JXhcO8ksP3t5Du3hwrNpk1k4qrbFs7VpM4w=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=J0flWsJTmHb27oyTxHkBoqcknXTJMUBvW0UDcmxYsO4=;
+        b=Kz2c6pgtYCMD8jWbVdbfVMNm+hr1UQTW4QbL8up5bI5ksFzYMOGRoc4cH2RgL4qazt
+         /5i8aTASzQo+irSsUDfpD51bkyiEx2KyfCF4sawBQZ/6Jbbcq1AkVcDMOYZE1c72GesM
+         jdxMEKdbRV2lSB7AYv1JmrDCLTRfV1/YN4o/qjivBmUGySkB2OJwCq3YPNIFvvKO6+0n
+         tUeNSRG5uJwoPpQ3617guKvjSLlxtj9S2TTpS251zZrfoQg9ZYu06OLP/XPRBP/Z+2ma
+         DB6d01WL2yK0mmBZQ5dRIRz2/J29uDnQYRMFzPWbVQKDVQ3v4W1Gj9UfaS9RhZvJt4uv
+         5nZw==
+X-Gm-Message-State: ACgBeo0F5KZz1YtED0yN0kkPoU97/3dOayaPmuAFa6HJuTOuvybBnbyJ
+	ryAX9JaOSg9AmzyqAqbWQAtFMwallrZ3zw==
 X-Google-Smtp-Source: 
- AA6agR64gfNyuPRZnfBaJCPfpSkpA7aY9O7PPX4dgh1qxcNp9h/uuVvYbng22NmffVBIF8vAjS+TfRjhnnrjUE5oz4I=
-X-Received: by 2002:a05:6512:687:b0:492:ee7c:5953 with SMTP id
- t7-20020a056512068700b00492ee7c5953mr4220097lfe.673.1661350126920; Wed, 24
- Aug 2022 07:08:46 -0700 (PDT)
+ AA6agR5QvuFDFeGIKSR/AkuZhzR8GCrAKI2L0yLRnOyaJ8nyW4Ue7HOobikF2JipUlthV9mx7wLg7Q==
+X-Received: by 2002:a05:6a00:3406:b0:535:f76f:c971 with SMTP id
+ cn6-20020a056a00340600b00535f76fc971mr27649571pfb.5.1661350419223;
+        Wed, 24 Aug 2022 07:13:39 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::6b6a])
+        by smtp.gmail.com with ESMTPSA id
+ z17-20020a170902d55100b00172ea32fa9bsm6693778plf.287.2022.08.24.07.13.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Aug 2022 07:13:38 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] glibc: Update to latest on 2.36
+Date: Wed, 24 Aug 2022 07:13:36 -0700
+Message-Id: <20220824141336.4025637-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-References: <20220824124234.3549247-1-alex@linutronix.de>
- <20220824124234.3549247-2-alex@linutronix.de>
- <c1b4303568ad4fd2a1c7133bde18ad53@axis.com>
-In-Reply-To: <c1b4303568ad4fd2a1c7133bde18ad53@axis.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 24 Aug 2022 16:08:34 +0200
-Message-ID: 
- <CANNYZj9KH13zkN2Lu7ToaqRGcXdPBxbUT+v3U0HezM5sYa0bTw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] scripts/oe-setup-builddir: add a check that
- TEMPLATECONF is valid
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Aug 2022 14:08:52 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Aug 2022 14:13:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169819
+ https://lists.openembedded.org/g/openembedded-core/message/169820
 
-On Wed, 24 Aug 2022 at 15:58, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
-> Please no. This happens to match your expectations, but doesn't at
-> all match our use of TEMPLATECONF. In our .templateconf we set
-> TEMPLATECONF=${TEMPLATECONF:-templateconf} and create the templateconf
-> directory in runtime where we generate the sample files that match the
-> layers that repo has fetched for this particular build. It obviously
-> has no layer.conf file as it is in no layer, and the path doesn't
-> contain "templates/<something>". I can of course change our tools to
-> create a couple of extra directories to match your expectations, but
-> at the same time it seems very unnecessary.
+Solves the mount.h conflict with linux kernel headers with needed
+backports from trunk
 
-If you create the template files on the fly, then you might as well
-create the actual configs directly into build/conf and skip the
-template step. No?
+These are the complete list of changes this brings
 
-We do need to standardize the location for the templates for reasons
-of discoverability and consistency with machine and distro
-definitions, this has been discussed.
+* 3bd3c612e9 Linux: Fix enum fsconfig_command detection in <sys/mount.h>
+* bb1e8b0ca9 linux: Fix sys/mount.h usage with kernel headers
+* d48813227b linux: Use compile_c_snippet to check linux/mount.h availability
+* 4dad97e2a2 linux: Mimic kernel defition for BLOCK_SIZE
+* 1cc5513114 linux: Use compile_c_snippet to check linux/pidfd.h availability
+* 0062e7dd1c glibcextract.py: Add compile_c_snippet
+* 5c62874f42 NEWS: Add entry for bug 28846
+* d13a7a6f10 socket: Check lengths before advancing pointer in CMSG_NXTHDR
+* 8b139cd4f1 alpha: Fix generic brk system call emulation in __brk_call (bug 29490)
+* e982657073 Linux: Terminate subprocess on late failure in tst-pidfd (bug 29485)
 
-Alex
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 74b48b05f4..a078eb6377 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.36/master"
+ PV = "2.36"
+-SRCREV_glibc ?= "302bc33bc53c787da6e74162a7092e9c0fb964a8"
++SRCREV_glibc ?= "3bd3c612e98a53ce60ed972f5cd2b90628b3cba5"
+ SRCREV_localedef ?= "794da69788cbf9bf57b59a852f9f11307663fa87"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+-- 
+2.37.2
+
 
