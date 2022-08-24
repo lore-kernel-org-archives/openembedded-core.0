@@ -1,120 +1,97 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67157C32793
-	for <webhook@archiver.kernel.org>; Wed, 24 Aug 2022 08:47:01 +0000 (UTC)
-Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
- [195.245.231.2])
- by mx.groups.io with SMTP id smtpd.web12.8710.1661330811955241244
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B7C4C00140
+	for <webhook@archiver.kernel.org>; Wed, 24 Aug 2022 08:49:51 +0000 (UTC)
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by mx.groups.io with SMTP id smtpd.web10.8741.1661330988643701181
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Aug 2022 01:46:52 -0700
+ Wed, 24 Aug 2022 01:49:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=kU9+Edwi;
- spf=pass (domain: fujitsu.com, ip: 195.245.231.2,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1661330810; i=@fujitsu.com;
-	bh=HCJP1WX7lylxMP0zJJyrjl2CNN+Fm98BtK4g0PLeWus=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=kU9+Edwipc0g7GnwTbTnqVjbN8M9UkKI9FgTLDIlCeakOBIg+1QXhTnWJqJEPKXnu
-	 EwXmQHdj6k6AJoLGN3JS1prpEejZ1MUEw3VU4Jk1ChnbIUD8P9yGt5Gwo8leJJ5o95
-	 zdss3JoGCzb7nxf0EyI9Z5Dy/XpJppaPIioJQpXuQ4KuBxP0XYS+maRWw0tkQlbW3o
-	 +R5gJ8bMS+S1E1UWBNDzJc3z3m2LQq89E04Fdafrqnv5hIbGrWZ2vOZHE2PFEYonYP
-	 yrbierTK+okL94b3cYNId3BfYumqm25GhO7GC5zSYPzbVLGMBGlGn/snlNOH0FpLN5
-	 XDbmNkE+Tt1cQ==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrNIsWRWlGSWpSXmKPExsViZ8MxSbfqKWu
-  ywa5TLBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aU3gXsBbc4Kz7fmcXewHiOo4uRi0NI4DGj
-  xIoHX9ghnOtMEpNvLYZy9jJKnP3ymbWLkZODTUBNYvqtG0A2B4eIgJ7E1X+iIGFmARWJF7972
-  EFsYQEriaeTu9hAbBYBVYnlfc1grbwCThJbZ68HsyUEFCSmPHzPDGJzCjhLbDt0BKxXCKimo6
-  2HBaJeUOLkzCcsEPMlJA6+eMEM0asoMftyMwuEXSmxZ1Y/E4StJnH13CbmCYyCs5C0z0LSvoC
-  RaRWjdVJRZnpGSW5iZo6uoYGBrqGhqa6xBZBpqZdYpZuol1qqW55aXKJrpJdYXqyXWlysV1yZ
-  m5yTopeXWrKJERjGKcVquTsYp6z8qXeIUZKDSUmU9+YZ1mQhvqT8lMqMxOKM+KLSnNTiQ4wyH
-  BxKErwCT4BygkWp6akVaZk5wJiCSUtw8CiJ8EqAtPIWFyTmFmemQ6ROMSpKifOmPgJKCIAkMk
-  rz4NpgcXyJUVZKmJeRgYFBiKcgtSg3swRV/hWjOAejkjDvlgdAU3gy80rgpr8CWswEtDhoNzP
-  I4pJEhJRUA5N9btuSLq6rhgUcjY0JmjuCDgabTJ8oK8Ulf3l77+01WsYbt+pI79rgLR9a93Wb
-  gb/klkPfBCYGlu3ZffRGuN2bXRMDj/NZLvWZ+nVZxooqxdb6pecudCYUXTaQrhQUPNVkdqik6
-  uC97wctJovxrorQyfq2aM17DiHrFQcPXZKMMM5MY8v8WDKpapfBitO/qrxu7/y0UiTd0SUmYX
-  Vkt4ft5CcF2esXmB64l8sY1/DasE3rYfPDowvv6EyUtr5qvOfCC9Pjn/94SnnNazso8tQ3sbL
-  3y/2+t5KNX+Zc2KHSsfmUe95PY7ZU44Sevq4o77bFyv+ERB4ffC25re66fOV+2SaLjeETnHkc
-  JGZMrFZiKc5INNRiLipOBADBiXtDXgMAAA==
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-9.tower-571.messagelabs.com!1661330809!17846!1
-X-Originating-IP: [62.60.8.146]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.87.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 29576 invoked from network); 24 Aug 2022 08:46:50 -0000
-Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-9.tower-571.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 24 Aug 2022 08:46:50 -0000
-Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id BDBB41000DC
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Aug 2022 09:46:49 +0100 (BST)
-Received: from R01UKEXCASM223.r01.fujitsu.local (R01UKEXCASM223
- [10.182.185.121])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id AE88C1000CC
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Aug 2022 09:46:49 +0100 (BST)
-Received: from localhost.localdomain (10.167.225.33) by
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Wed, 24 Aug 2022 09:46:48 +0100
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] pkgconf: upgrade 1.9.2 -> 1.9.3
-Date: Wed, 24 Aug 2022 16:46:17 +0800
-Message-ID: <1661330777-13307-5-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1661330777-13307-1-git-send-email-wangmy@fujitsu.com>
-References: <1661330777-13307-1-git-send-email-wangmy@fujitsu.com>
-MIME-Version: 1.0
+ dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm2
+ header.b=ll7SoLa5;
+ spf=pass (domain: gherzan.com, ip: 66.111.4.28, mailfrom: andrei@gherzan.com)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 79BBF5C0152;
+	Wed, 24 Aug 2022 04:49:47 -0400 (EDT)
+Received: from imap41 ([10.202.2.91])
+  by compute3.internal (MEProxy); Wed, 24 Aug 2022 04:49:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
+	cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; t=1661330987; x=1661417387; bh=+AvoU280S1
+	6+SvLLGl3YuxtZGvAy4vKDPr/Osqc+AXY=; b=ll7SoLa528S1gqLyZpBFf5LNmG
+	anEG5DS1XKbd/UrdNpqABMxB8QYPiiQSJL4q8cossKfYopt8z7pO3ODcEkM0aBQy
+	atePQ9LAoLkSSduzdyELRtqaQeDL65P9nLzmr6kbvrlvncmeAApyTSXRDRAumYiK
+	IavpWRGqdziQi680pnonplpEwEZyCBUSr/2clrx1CoUf/R7rc/8XgqNkdcOt/xqP
+	4vFpXEBrIw35/2UalU4wpfEhls2uJfJro6V6X4GstivVwMHBc67hQMb9fOM02BJY
+	lkJ7wjCLigs99jXpzV4nHNOT66fwHaMaMdpzXvGko/O3TbnDa3oGlTvBMYzw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1661330987; x=1661417387; bh=+AvoU280S16+SvLLGl3YuxtZGvAy
+	4vKDPr/Osqc+AXY=; b=akzx4UzDe12KsxdiT8nI/LssLvKJwMEbVEB2x8bUQl6o
+	zJEAsz3bDShad71AXZ+zXkyfE2d1ASkImHnXAjCMDN505Gaa+mc0uyjGC8Ly9tP9
+	LJKIUG3K5ykoH/IEQ6L/LiO1oKIGPnBifYWrE25XpD5swaUHzzimtVwhAR7KEySH
+	y/12KMeRss2jmQSzq+4GRsuGauaRsc6dGR4kdMn8lcHKqSDcNpHAcaOVeUJK2VgN
+	j3CojQozDSTWCCa/TCEwok1O7IE4rELjwUVTmu9xOXhUNFI8T0dRC8JjdglZNCuV
+	q4EvxJZgLpgdKHS8XMr0T/dbgVwt1jQ0iVoHRuOMuQ==
+X-ME-Sender: <xms:K-YFYzyb_4uWea8x0nZzS6uuALBsmCHuvpCfiENQ2cjrVDFeGHtCvQ>
+    <xme:K-YFY7Qck6xkbnpT8JSvckyWgYznHq-g-AMVTddk9LUN2BWSP0ZyhceFScTP0-WkF
+    epy_ko5sJG4iRQRXNM>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvfedrvdejuddgtdekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
+    ughrvghiucfihhgvrhiirghnfdcuoegrnhgurhgvihesghhhvghriigrnhdrtghomheqne
+    cuggftrfgrthhtvghrnheptdehvedvuedtkeeifeehhedtveehtdejjedvhffgfeefhfef
+    feefledtteekieetnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvihesghhhvghr
+    iigrnhdrtghomh
+X-ME-Proxy: <xmx:K-YFY9VIvSvdCi2c-9YJE835VRozs8j-EVjRX6xQBlDauTn6g4ydzQ>
+    <xmx:K-YFY9jMRs6jbHtAPUozXB2yDSjB1xpL8uLaRgoxXkX4K2hEkXYAlw>
+    <xmx:K-YFY1AMk9PXhC2BX89jJpzaXmbZ1sTnGOv_J3HTIrNMzAYHt72VJQ>
+    <xmx:K-YFYw-ykv8qX02B47fdngpGR-obUnVv41_v6GsWe7q2X1vYOGIY4w>
+Feedback-ID: i68994715:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 4921E2340077; Wed, 24 Aug 2022 04:49:47 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-841-g7899e99a45-fm-20220811.002-g7899e99a
+Mime-Version: 1.0
+Message-Id: <d90ffe02-9459-414b-9c9c-758bfdf6355a@www.fastmail.com>
+In-Reply-To: 
+ <CANNYZj8+qFQzobfqrow-LmbJ+Q8e249dTpz-xa1Rx4JN8OvSiA@mail.gmail.com>
+References: <20220823235624.2488133-3-andrei@gherzan.com>
+ <20220823235624.2488133-6-andrei@gherzan.com>
+ <CANNYZj-XzOu-zd1aTn7aQ0DyrsiN8J3mOPuG-4wcJw0DzegRww@mail.gmail.com>
+ <c18472e4-db71-491a-8f9c-b82245c47800@www.fastmail.com>
+ <CANNYZj-LRM_fR3zuRQrR4kkhY_TuF5pGPBDePDaLbEWSJaoQQQ@mail.gmail.com>
+ <d0b7534b-bbec-43da-9a02-2fbd9fa453f4@www.fastmail.com>
+ <CANNYZj8+qFQzobfqrow-LmbJ+Q8e249dTpz-xa1Rx4JN8OvSiA@mail.gmail.com>
+Date: Wed, 24 Aug 2022 09:49:27 +0100
+From: "Andrei Gherzan" <andrei@gherzan.com>
+To: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Cc: openembedded <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 6/6] shadow: Avoid nss warning/error with musl
 Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) To
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121)
-X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Aug 2022 08:47:01 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Aug 2022 08:49:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169793
+ https://lists.openembedded.org/g/openembedded-core/message/169794
 
-Changes from 1.9.2 to 1.9.3:
-----------------------------
-* Fix a bunch of minor code issues pointed out using Clang static analyzer.
-* New API: pkgconf_solution_free(), which frees a compiled solution graph.
-* Fix behavior when overriding global variables with '--define-variable'.
+On Wed, 24 Aug 2022, at 09:30, Alexander Kanavin wrote:
+> I trust the upstream will figure this out. My goal is to avoid adding
+> more patches that are declared unsuitable for upstream, and so have to
+> be rebased until the end of time by (usually) me.
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- .../pkgconf/{pkgconf_1.9.2.bb => pkgconf_1.9.3.bb}              | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/pkgconf/{pkgconf_1.9.2.bb => pkgconf_1.9.3.bb} (96%)
+OK. I have created an upstream issue: https://github.com/shadow-maint/shadow/issues/557.
 
-diff --git a/meta/recipes-devtools/pkgconf/pkgconf_1.9.2.bb b/meta/recipes-devtools/pkgconf/pkgconf_1.9.3.bb
-similarity index 96%
-rename from meta/recipes-devtools/pkgconf/pkgconf_1.9.2.bb
-rename to meta/recipes-devtools/pkgconf/pkgconf_1.9.3.bb
-index 576710b8fc..453da89c3d 100644
---- a/meta/recipes-devtools/pkgconf/pkgconf_1.9.2.bb
-+++ b/meta/recipes-devtools/pkgconf/pkgconf_1.9.3.bb
-@@ -20,7 +20,7 @@ SRC_URI = "\
-     file://pkg-config-native.in \
-     file://pkg-config-esdk.in \
- "
--SRC_URI[sha256sum] = "db6bf5426e0e9fc107042cc85fc62b1f391f1d7af46c4a3c39b7f5b5231dfa09"
-+SRC_URI[sha256sum] = "5fb355b487d54fb6d341e4f18d4e2f7e813a6622cf03a9e87affa6a40565699d"
- 
- inherit autotools
- 
--- 
-2.25.1
-
+Andrei
 
