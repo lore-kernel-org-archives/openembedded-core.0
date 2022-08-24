@@ -1,56 +1,119 @@
-Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Steve Sakoman" <steve@sakoman.com>
-Subject: [OE-core][kirkstone 17/28] webkitgtk: upgrade 2.36.4 -> 2.36.5
-Date: Tue, 23 Aug 2022 12:35:29 -1000
-Message-Id: <c13a40b162fba43f167e5841f6cd15c2c1ed1ab6.1661293746.git.steve@sakoman.com>
-In-Reply-To: <cover.1661293745.git.steve@sakoman.com>
-References: <cover.1661293745.git.steve@sakoman.com>
+Message-ID: <2d509d46-6194-aac0-841c-bbd2e61f4501@berginkonsult.se>
+Date: Wed, 24 Aug 2022 08:16:55 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Subject: Re: [OE-core] [PATCH] rust-cross-canadian: rename shell variables for easier appends
+References: <20220823110227.68348-1-peter@berginkonsult.se>
+ <CAP9ODKoRj+aqcdH6uFN0xZEeMJ2y=8e931vGTFFxgQsXh=pO6Q@mail.gmail.com>
+ <3a0627d1-c3c5-aad6-cd3e-a6dc6e310f07@berginkonsult.se>
+ <CAP9ODKqtMiNRs76aVqNuRQWr7xhCP-t=AR-f+civ-+G409ak_g@mail.gmail.com>
+From: "Peter Bergin" <peter@berginkonsult.se>
+In-Reply-To: <CAP9ODKqtMiNRs76aVqNuRQWr7xhCP-t=AR-f+civ-+G409ak_g@mail.gmail.com>
+Content-Type: multipart/alternative;
+ boundary="------------Dtr7WW971VrainFF0TBA517z"
+Content-Language: en-US
 List-id: <openembedded-core.lists.openembedded.org>
 To: openembedded-core@lists.openembedded.org
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+--------------Dtr7WW971VrainFF0TBA517z
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
 
-This is a bug fix release in the stable 2.36 series.
+On 2022-08-23 23:32, Otavio Salvador wrote:
+>
+>
+> Em ter., 23 de ago. de 2022 às 17:38, Peter Bergin 
+> <peter@berginkonsult.se> escreveu:
+>
+>     In my particular case the rust application I'm building against
+>     the SDK is using the crate prost-build
+>     (https://crates.io/crates/prost-build) that is used to generate
+>     code from .proto files. It is using the tool protoc from protobuf
+>     and in order to get it working the variable PROTOC needs to be
+>     set. Then my solution was to add that variable to
+>     environment-setup.d/rust.sh in the SDK as I thought that was an
+>     easy solution and rust.sh is in some way connected to the variable
+>     setting. Then looking in to do_install of rust-cross-canadian I
+>     saw that the variable ENV_SETUP_SH is first used for rust.sh then
+>     for cargo.sh so I could not use it to point out rust.sh. Then I
+>     had the idea that it would be better to have one variable for
+>     rust.sh and one for cargo.sh.
+>
+> The protoc could have this set in environment-setup.d so it doesn't 
+> need change in rust and avoids rebuilds.
+>
+Yes. As I wrote there are many different solutions to my problem. In 
+this patch I just wanted to share in what I think an improvement for a 
+recipe.
 
-What’s new in the WebKitGTK 2.36.5 release?
+/Peter
 
-- Add support for PAC proxy in the WebDriver implementation.
-- Fix video playback when loaded through custom URIs, this fixes video playback in the Yelp documentation browser.
-- Fix WebKitWebView::context-menu when using GTK4.
-- Fix LTO builds with GCC.
-- Fix several crashes and rendering issues.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 31e57deaed0fd46396d22dd6fcb75e955c1aa2f6)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../webkit/{webkitgtk_2.36.4.bb => webkitgtk_2.36.5.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-sato/webkit/{webkitgtk_2.36.4.bb => webkitgtk_2.36.5.bb} (98%)
+--------------Dtr7WW971VrainFF0TBA517z
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.5.bb
-similarity index 98%
-rename from meta/recipes-sato/webkit/webkitgtk_2.36.4.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.36.5.bb
-index df4ff63121..b3fe357010 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.36.4.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.36.5.bb
-@@ -17,7 +17,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch \
-            "
- 
--SRC_URI[sha256sum] = "b6bebe1f85a479d968c19e44a4704622ef8cef61636ad1b2406b77d16ae2e2a8"
-+SRC_URI[sha256sum] = "d5532fa884c943dc48f1911473dd663aba407a3b35caa7b04bac1419b41e5908"
- 
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
- 
--- 
-2.25.1
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 2022-08-23 23:32, Otavio Salvador
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAP9ODKqtMiNRs76aVqNuRQWr7xhCP-t=AR-f+civ-+G409ak_g@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div dir="ltr"><br>
+        </div>
+        <br>
+        <div class="gmail_quote">
+          <div dir="ltr" class="gmail_attr">Em ter., 23 de ago. de 2022
+            às 17:38, Peter Bergin &lt;<a
+              href="mailto:peter@berginkonsult.se"
+              moz-do-not-send="true" class="moz-txt-link-freetext">peter@berginkonsult.se</a>&gt;
+            escreveu:<br>
+          </div>
+          <blockquote class="gmail_quote" style="margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            <div>
+              <p>In my particular case the rust application I'm building
+                against the SDK is using the crate prost-build (<a
+                  href="https://crates.io/crates/prost-build"
+                  target="_blank" moz-do-not-send="true"
+                  class="moz-txt-link-freetext">https://crates.io/crates/prost-build</a>)
+                that is used to generate code from .proto files. It is
+                using the tool protoc from protobuf and in order to get
+                it working the variable PROTOC needs to be set. Then my
+                solution was to add that variable to
+                environment-setup.d/rust.sh in the SDK as I thought that
+                was an easy solution and rust.sh is in some way
+                connected to the variable setting. Then looking in to
+                do_install of rust-cross-canadian I saw that the
+                variable ENV_SETUP_SH is first used for rust.sh then for
+                cargo.sh so I could not use it to point out rust.sh.
+                Then I had the idea that it would be better to have one
+                variable for rust.sh and one for cargo.sh.<br>
+              </p>
+            </div>
+          </blockquote>
+          <div>The protoc could have this set in environment-setup.d so
+            it doesn't need change in rust and avoids rebuilds.</div>
+        </div>
+        <div><br>
+        </div>
+      </div>
+    </blockquote>
+    <p>Yes. As I wrote there are many different solutions to my problem.
+      In this patch I just wanted to share in what I think an
+      improvement for a recipe.</p>
+    <p>/Peter<br>
+    </p>
+    <br>
+  </body>
+</html>
 
+--------------Dtr7WW971VrainFF0TBA517z--
