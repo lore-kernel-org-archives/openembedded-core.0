@@ -1,92 +1,85 @@
-Return-Path: <andrei@gherzan.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66B64C00140
-	for <webhook@archiver.kernel.org>; Wed, 24 Aug 2022 08:16:11 +0000 (UTC)
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by mx.groups.io with SMTP id smtpd.web12.8548.1661328962084950292
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65D8FC32792
+	for <webhook@archiver.kernel.org>; Wed, 24 Aug 2022 08:22:01 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web12.8572.1661329319011852255
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Aug 2022 01:16:02 -0700
+ Wed, 24 Aug 2022 01:21:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm2
- header.b=bCev8iLz;
- spf=pass (domain: gherzan.com, ip: 66.111.4.28, mailfrom: andrei@gherzan.com)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 6CF545C003D;
-	Wed, 24 Aug 2022 04:16:01 -0400 (EDT)
-Received: from imap41 ([10.202.2.91])
-  by compute3.internal (MEProxy); Wed, 24 Aug 2022 04:16:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
-	cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1661328961; x=1661415361; bh=BdpQaPpCbq
-	8RHTC4gKeYyWn9Gg2eSCqIyKnLKQz1WUI=; b=bCev8iLzovA3O3kbMfHeQVS5RP
-	jJeH2pA68+s174wpH2zRkuec3EwROQmTmg0KnJYkbK46zN7Xqrwz94HYpsYY8AKq
-	Q4wI9VA216+dcefnWH0+8W08mSAM2MjAMOCSjiFZrLHtXvWRM3+RIGatsNp0NryK
-	suIN8kvaOz8b8A9peoqKivHkqKEVcB7RmcOpI7HV/ABC85F5xYwcnDO0H7hEZxQq
-	TD7Y0AhU30dMgRQRC5ZLus6p5WZ8z+xEKQPdV5li4XOQEd0MYl8ShenGx/mJXKSj
-	fyFrIikLQgIWyH8jDtWK1nIFfFPOdklddvi98HHnnvLWvdRZOhYtphkWjtuw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1661328961; x=1661415361; bh=BdpQaPpCbq8RHTC4gKeYyWn9Gg2e
-	SCqIyKnLKQz1WUI=; b=GTtHFCytPEJ35T/gluoKi2mHm9a3u7ZghpLL7YfUpe1C
-	gHpEBBffaEbJT68PZONWgKWr5dxFKV4N/YPCvMLBH6SzmqAoIoazB1JEfVzP4LRl
-	VcND700kUZroji+0quNJHYAPT9i5W57xAZJxlH1vbx0+NNxf/lns+iL3b/65VFkL
-	aJZSSic5gsJekdyvGmjJc1ojpDGZxbTxPcPnRc4et5zYSxxEsPLtWxVIaRasZLoq
-	Ia0uvr3sLsvDkBLZFsBOE7YYLnqLssHsWUV7mrSvcYM/0lqH2loTTOnN1c1/hkBA
-	4OtfnY1tBT+hlCqrblVGmot90jFLQmf85a5nd2M1Ww==
-X-ME-Sender: <xms:Qd4FY77AeVExp0GvOrBTd4vnXyb7ot0VbiKmKYp4FQOw0P2MOBeRrA>
-    <xme:Qd4FYw7hH885jaNhcuLW99ma1dBeD7sUPJZgzZt1T5_zGZJjjb1lN1IgoEr_4pWRW
-    Kdos9nQKp_kYcR6P8M>
-X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvfedrvdejuddgtddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
-    ughrvghiucfihhgvrhiirghnfdcuoegrnhgurhgvihesghhhvghriigrnhdrtghomheqne
-    cuggftrfgrthhtvghrnheplefhleejteeuvdeuhfejffeigfduieelgfduueffueethfeg
-    geetvdevffffueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomheprghnughrvghisehghhgvrhiirghnrdgtohhm
-X-ME-Proxy: <xmx:Qd4FYye_DWnMOwQHGFfwGvh0Cq8riKsozFd9mM03PY3rCHeLBK8eoA>
-    <xmx:Qd4FY8LZbmM2kME36aUiPeswrfb-QvpzcdoiLMhM-YKrJVR0VaDFMQ>
-    <xmx:Qd4FY_LH8iTZCse6cSRSRM5JGnWRNRgh8FdwH_UxryzxF-6xYQ5a8A>
-    <xmx:Qd4FY6nnrSgRD_DOWTyrfZUnO_bp8NXZb23sGJhO2cAlfFsMqZqTHw>
-Feedback-ID: i68994715:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 29F5D2340077; Wed, 24 Aug 2022 04:16:01 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-841-g7899e99a45-fm-20220811.002-g7899e99a
-Mime-Version: 1.0
-Message-Id: <c18472e4-db71-491a-8f9c-b82245c47800@www.fastmail.com>
-In-Reply-To: 
- <CANNYZj-XzOu-zd1aTn7aQ0DyrsiN8J3mOPuG-4wcJw0DzegRww@mail.gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=MJvJCfPZ;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id z6so22960675lfu.9
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 24 Aug 2022 01:21:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=VW/EQQeGs8WKYtbRfaSnNS0392K7DqGnROJo9lcFnRY=;
+        b=MJvJCfPZUTUg53g3MFRVEjfjp13BGjJD0WPZsEqyGljXBwxc2rrjMvfusrAYqNZ6rj
+         WYg8srNxKOIEVuBmUOvvGxsfxZEXKdrE6hEKMkas0891zV30D3c4wwSiwv++2dlvFFs7
+         jK/k7UJo7XtJsmtMmEcUT1M1GherBoqmh+Mi2hslnS2bzhXbtLS3p/ggZfkbnecjHBB2
+         Xf/W6k/NO5AGySIZyQ8TK3/rqB3wvhrxGm6FZPBesnBnTmpmWMtJMaGdMyM3mMm2o0+Y
+         w54j3Mk6iOCBEOHs1YVSKXVdmEvwVlpt68ym6y78q5eytQEKuXRpTZ6rri0V+D56qHDS
+         0XUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=VW/EQQeGs8WKYtbRfaSnNS0392K7DqGnROJo9lcFnRY=;
+        b=cDaChq5LB1QzvYApqFfwxRPyJUQBjWPZpbyjih+UU1VMqehc1hqaN65IcF0aLStdRi
+         NlHvHJDnyvT2IkG18soJQ4sOA/gQYFuPI3KYzkyiI0+myWppG9BWXSDjwrqCqiDr8XCn
+         eYbp7172s+PT7k9+URp7wHQTPkek+J+k0WDVj4dPu0k7siHWDuyV7ONQpBRuEuJ6IL8g
+         kwVDJjVFwccX6SOOXMdIgKkD2bS3Ra9xoHaYQeD+U/zE8/9D79e53j1OKjKZO4YdHgM/
+         +2tJlV34UArZdSsEIF7PLYSHB6CnXlXa62jHV8rd6cg6zaIAedCoMKXLhDTu2hXWHJBW
+         fb6w==
+X-Gm-Message-State: ACgBeo1wwrA7iJ0hnxXLLPngvttSgqdmG1jHHdFH9v6lNpBhU+UwTw0H
+	gwcvycb4vUvVe1wB7wylzA3B8QjUNY7gAB4gOCg=
+X-Google-Smtp-Source: 
+ AA6agR5EdBNJJ6ILMCRiXfS5QUnMFpscPUa3PeJwCe5oAtS0mrEFD7PAuCZryBdnBQMhcduWmXIWull8ZUrHhcgY0m0=
+X-Received: by 2002:a05:6512:2987:b0:492:e469:b327 with SMTP id
+ du7-20020a056512298700b00492e469b327mr4590394lfb.534.1661329317079; Wed, 24
+ Aug 2022 01:21:57 -0700 (PDT)
+MIME-Version: 1.0
 References: <20220823235624.2488133-3-andrei@gherzan.com>
  <20220823235624.2488133-6-andrei@gherzan.com>
  <CANNYZj-XzOu-zd1aTn7aQ0DyrsiN8J3mOPuG-4wcJw0DzegRww@mail.gmail.com>
-Date: Wed, 24 Aug 2022 09:15:39 +0100
-From: "Andrei Gherzan" <andrei@gherzan.com>
-To: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Cc: openembedded <openembedded-core@lists.openembedded.org>
+ <c18472e4-db71-491a-8f9c-b82245c47800@www.fastmail.com>
+In-Reply-To: <c18472e4-db71-491a-8f9c-b82245c47800@www.fastmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 24 Aug 2022 10:21:45 +0200
+Message-ID: 
+ <CANNYZj-LRM_fR3zuRQrR4kkhY_TuF5pGPBDePDaLbEWSJaoQQQ@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 6/6] shadow: Avoid nss warning/error with musl
-Content-Type: text/plain
+To: Andrei Gherzan <andrei@gherzan.com>
+Cc: openembedded <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Aug 2022 08:16:11 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Aug 2022 08:22:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169785
+ https://lists.openembedded.org/g/openembedded-core/message/169786
 
-On Wed, 24 Aug 2022, at 08:36, Alexander Kanavin wrote:
-> I do not think it is inappropriate, as it does highlight an issue
-> which we need to inform upstream about. Can you submit it upstream
-> anyway please?
+The issue is described by you in the commit message? I think this is
+good enough for upstream submission as is, as long as you edit out the
+yocto specific references.
 
-Just to be sure we have the same understanding, could you detail the issue you are seeing?
+Alex
 
-Andrei
+On Wed, 24 Aug 2022 at 10:16, Andrei Gherzan <andrei@gherzan.com> wrote:
+>
+> On Wed, 24 Aug 2022, at 08:36, Alexander Kanavin wrote:
+> > I do not think it is inappropriate, as it does highlight an issue
+> > which we need to inform upstream about. Can you submit it upstream
+> > anyway please?
+>
+> Just to be sure we have the same understanding, could you detail the issue you are seeing?
+>
+> Andrei
 
