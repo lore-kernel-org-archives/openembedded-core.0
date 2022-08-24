@@ -2,60 +2,59 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7417C00140
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCB66C32793
 	for <webhook@archiver.kernel.org>; Wed, 24 Aug 2022 06:35:00 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
- [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web10.8022.1661322891188698988
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web10.8023.1661322891973119247
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Aug 2022 23:34:51 -0700
+ Tue, 23 Aug 2022 23:34:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pK7WN6rQ;
- spf=pass (domain: gmail.com, ip: 209.85.215.175,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f175.google.com with SMTP id w13so9121363pgq.7
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BVRfg3KT;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id m15so8071990pjj.3
         for <openembedded-core@lists.openembedded.org>;
  Tue, 23 Aug 2022 23:34:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=ZssukcpYhmA5+w/Pfdf7IqK9yP1BzO1s3i+w0bdaJAE=;
-        b=pK7WN6rQghYQ/uheLG4rQRlI5B1oC9z8IM+xud8XLZDRc0woT4Oe+eV6pQttJa6m8F
-         YouwhxrArgaERrSbANU1+NUeoD6ozph7lC5jh5cn0b96XAbX22XmM3edpjfaWEy/ftrb
-         UKKzjQUIEIXYILgRB6L3FAFgB/tbKRF0SqHy0vP4pWke88JzMvdmwDTO9YQy2GWWRdbS
-         V39olazDC8zfI4KB5Bwci5cBbon2KG55IcOF7RGr39dxeUTiBEe7j55sz5zecjngapge
-         EoUubLmZaMsubFxBfM/Rrga2qyQZv3us0twbcDf9ho6gRskzhiyemxB1HPuIwYjPlCBi
-         +MZA==
+        bh=vy2thfHtHcGoF6hr3KuubRsFhhw6adCmAm/PtEJGlR0=;
+        b=BVRfg3KTpJgEEVBnf1wuV0Npijk8/hjLOy/dfY/jWzjUctaZYTfvT4b2e9ZqQydHtc
+         vl7WgGR8koEHKA5O07FWYk4BZZ+AXx0ahRNe2gIF78t9A+E0ZiVZWGYg1IO559BP/FTy
+         dLfdimHC30qEhV0HggC/EwktSpI3TDa3nTD8ooU3pTwVEgK3rIzsaJIBzJXW4c1jReaY
+         GsZx/aqruxO+MKdJ/P45NnP0vQSYhZVVrCIPStIBX8LIeAUer1hvLQv7Mcs5ExVmbdfN
+         IEn2kAo4OCFPAZF+DNfSnDdlzN74Sqci2hbgZ6g+wn+CmKvoq25p3ikt5nsN3SsDSfQb
+         IZSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=ZssukcpYhmA5+w/Pfdf7IqK9yP1BzO1s3i+w0bdaJAE=;
-        b=QHeJo2tVtgcGNcvkuebctSzsU3Ru5B0Ivscot3J/VzzhFjm3ja8jjCtM27XjREfIlC
-         FWqDoObvgryjxv9Km3dwDDEdQeZ/yRJodSke8PcSF4womlY+XF63LiLESBCsgV8sptGb
-         YruJ1PLdudjxysTpquMT+dhF9Cd53MNvOZ2KCpFlKAK5EIg6WpWF1FZVYgKB0jWop+2Z
-         HBU/x7Js9mx+7Pb2wnw4l+zG7HEQ/amNjpQkBr84WktQdkR6zeFL+2nA31QGSlkFCkSc
-         4VwFN6ZBtOrzqaw4DX8q3FnI9Tm99pk0wl1KMorXFnFDH4tuT6QKuYuoTPL4+yU//P/z
-         EBzQ==
-X-Gm-Message-State: ACgBeo1x/iVzvBGcwORNmGDTWe2cWzZLxoYn57UVxSmb+ufchB7CAh4s
-	+VJvS7KYq41U9mbfDSdwiMVRkFsgpv67yQ==
+        bh=vy2thfHtHcGoF6hr3KuubRsFhhw6adCmAm/PtEJGlR0=;
+        b=YHV5Rju2yG8oDJXrDTJAY9xzL6QUIB1HI/UN91aVCGNAdDIOmDfxbsszZMu9Zb1bJl
+         65avjIPkeMovsxuMCSZWo2+EO5I2ZYH0AjbJO8lNJ06vPzR95RkeGMnefkEu4TGeJMQ9
+         MOjiHZDNmJohvKeo/yvf1Oz5eoFBDcl+XbZrOS2CUzi84IUJXUjPSTa76GelsURQU9Yb
+         B7EBco4046Lg1f+z6k15sRBa3Fe6D0CLe7Ov9/LaTcR1zGczWFc0IJhXnLB52HTFCww1
+         zRkduNZXFo5jzxxaBSmDz9/rzj9GwMCw0HukVbMBIPucluW94TywkoL/cDDGf0U0Jmk9
+         P1rw==
+X-Gm-Message-State: ACgBeo1JU6T5uI3xba9IL9BdAdNbX3Et4/f2ibCGnIb0SCpa5O15q47C
+	SPqmcihyLUemioACmTcDo5uRBFrVjAJhCw==
 X-Google-Smtp-Source: 
- AA6agR7elB/y43r7fV+qu3Arwg97vUEkxztbqKMUhZiplTqfB0ax0zl49UGx2Jo+a3X/KARoiKASnw==
-X-Received: by 2002:a63:cf44:0:b0:42a:277:1cb8 with SMTP id
- b4-20020a63cf44000000b0042a02771cb8mr23139684pgj.198.1661322890297;
-        Tue, 23 Aug 2022 23:34:50 -0700 (PDT)
+ AA6agR7at3Gcf+i9LqR0ogx9GfxCxxlbcWI+/G6LmFdEj+mRZ/CsJeMO5loJdAH0Li8sr25J+eoHWw==
+X-Received: by 2002:a17:902:e848:b0:172:dda3:780f with SMTP id
+ t8-20020a170902e84800b00172dda3780fmr15718159plg.66.1661322891159;
+        Tue, 23 Aug 2022 23:34:51 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::6b6a])
         by smtp.gmail.com with ESMTPSA id
- s24-20020a639258000000b0042a3d9a1275sm8384957pgn.16.2022.08.23.23.34.49
+ s24-20020a639258000000b0042a3d9a1275sm8384957pgn.16.2022.08.23.23.34.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Aug 2022 23:34:49 -0700 (PDT)
+        Tue, 23 Aug 2022 23:34:50 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 6/7] gcr: Define _GNU_SOURCE
-Date: Tue, 23 Aug 2022 23:34:42 -0700
-Message-Id: <20220824063443.1774094-6-raj.khem@gmail.com>
+Subject: [PATCH 7/7] ltp: Adjust types to match create_fifo_thread return
+Date: Tue, 23 Aug 2022 23:34:43 -0700
+Message-Id: <20220824063443.1774094-7-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220824063443.1774094-1-raj.khem@gmail.com>
 References: <20220824063443.1774094-1-raj.khem@gmail.com>
@@ -66,29 +65,71 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 24 Aug 2022 06:35:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169780
+ https://lists.openembedded.org/g/openembedded-core/message/169781
 
-This ensures that definitions of functions e.g. getpass() are correctly
-sourced from system headers, since it depends on feature test macros
+Fixes build on musl
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-gnome/gcr/gcr_3.40.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ ...nt-instead-of-pthread_t-for-thread-I.patch | 36 +++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20220527.bb     |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-rt-migrate-Use-int-instead-of-pthread_t-for-thread-I.patch
 
-diff --git a/meta/recipes-gnome/gcr/gcr_3.40.0.bb b/meta/recipes-gnome/gcr/gcr_3.40.0.bb
-index 0c2af42f06..917be5938b 100644
---- a/meta/recipes-gnome/gcr/gcr_3.40.0.bb
-+++ b/meta/recipes-gnome/gcr/gcr_3.40.0.bb
-@@ -13,6 +13,8 @@ DEPENDS = "p11-kit glib-2.0 libgcrypt gnupg-native \
- 
- CACHED_CONFIGUREVARS += "ac_cv_path_GPG='gpg2'"
- 
-+CFLAGS += "-D_GNU_SOURCE"
+diff --git a/meta/recipes-extended/ltp/ltp/0001-rt-migrate-Use-int-instead-of-pthread_t-for-thread-I.patch b/meta/recipes-extended/ltp/ltp/0001-rt-migrate-Use-int-instead-of-pthread_t-for-thread-I.patch
+new file mode 100644
+index 0000000000..e49f53a9e2
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-rt-migrate-Use-int-instead-of-pthread_t-for-thread-I.patch
+@@ -0,0 +1,36 @@
++From 11e503344c36c1c7df3e455d81736dc4a5b43775 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 23 Aug 2022 23:20:53 -0700
++Subject: [PATCH] rt-migrate: Use int instead of pthread_t for thread IDs
 +
- GNOMEBASEBUILDCLASS = "meson"
- GTKDOC_MESON_OPTION = "gtk_doc"
- inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-version-is-even vala gobject-introspection gettext mime mime-xdg
++pthread_t is opaque, but create_fifo_thread() returns integer therefore
++on musl where thread_t is not integer, this fails to compile e.g.
++
++| rt-migrate.c:450:14: error: incompatible integer to pointer conversion assigning to 'pthread_t' (aka 'struct __pthread *') from 'int' [-Wint-conversion]
++|                 threads[i] = create_fifo_thread(start_task, (void *)i,
++|                            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Align the types used to fix the problems.
++
++Upstream-Status: Submitted [https://lists.linux.it/pipermail/ltp/2022-August/030239.html]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ testcases/realtime/func/rt-migrate/rt-migrate.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/testcases/realtime/func/rt-migrate/rt-migrate.c b/testcases/realtime/func/rt-migrate/rt-migrate.c
++index 3e6c82a2fb..97ab604c7f 100644
++--- a/testcases/realtime/func/rt-migrate/rt-migrate.c
+++++ b/testcases/realtime/func/rt-migrate/rt-migrate.c
++@@ -394,7 +394,7 @@ static void stop_log(int sig)
++ 
++ int main(int argc, char **argv)
++ {
++-	pthread_t *threads;
+++	int *threads;
++ 	long i;
++ 	int ret;
++ 	struct timespec intv;
++-- 
++2.37.2
++
+diff --git a/meta/recipes-extended/ltp/ltp_20220527.bb b/meta/recipes-extended/ltp/ltp_20220527.bb
+index a547298828..09c7250608 100644
+--- a/meta/recipes-extended/ltp/ltp_20220527.bb
++++ b/meta/recipes-extended/ltp/ltp_20220527.bb
+@@ -39,6 +39,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git;branch=master;protocol=ht
+            file://0001-memcg-functional-Fix-usage-of-PAGESIZE-from-memcg_li.patch \
+            file://0001-lapi-pidfd-adding-pidfd-header-file.patch \
+            file://0001-lapi-fsmount-resolve-conflict-in-different-header-fi.patch \
++           file://0001-rt-migrate-Use-int-instead-of-pthread_t-for-thread-I.patch \
+            "
+ 
+ S = "${WORKDIR}/git"
 -- 
 2.37.2
 
