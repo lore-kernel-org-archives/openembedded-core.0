@@ -2,243 +2,160 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B24EC00140
-	for <webhook@archiver.kernel.org>; Wed, 24 Aug 2022 07:33:21 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web08.8315.1661326397727143018
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C7B0C00140
+	for <webhook@archiver.kernel.org>; Wed, 24 Aug 2022 07:36:31 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web09.8435.1661326588872862769
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Aug 2022 00:33:18 -0700
+ Wed, 24 Aug 2022 00:36:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=nuTDWzLV;
- spf=pass (domain: gmail.com, ip: 209.85.167.48,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=kh3xO1Cm;
+ spf=pass (domain: gmail.com, ip: 209.85.208.177,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id m5so12159100lfj.4
+Received: by mail-lj1-f177.google.com with SMTP id k22so921456ljg.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Aug 2022 00:33:17 -0700 (PDT)
+ Wed, 24 Aug 2022 00:36:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=dQ/7ZXxe5TBLJltczgPHD/AL6uWFNihILe9PLl/+N50=;
-        b=nuTDWzLVSSj/P1Si8BPIPumOJu8D5UGj7W8LneLPdSTio/gFI3K+SnWH8kFYV4JjZ2
-         OgIAzhVcGck8q/5JvWoQQ7dZiRm9Sq5EN3fId/Dr11+E6dvqG2oxeCRH1zb2uBsxoLg7
-         By+RA4CCKRHWAS/oS0QBgwUq/x4r+1g7iUlUdbRpOUPTrBc2/3tE7X6Pk/iRcYcT1ARL
-         12ZenOkums9saxL/juTnGx2pZ/uf7ffPKmjPsSUjbN4Gn5hKtuzKGY4iVlOPP7ju1Uvq
-         yYJ8ity1d6XxvPqL0hKcK22/YzEV4NFVh3LFAPsoNwcmbLI6xFA5lpG9tPrYR660M889
-         1q5g==
+        bh=nfnSypyAXpLQAWr8+HeMPxSH8pm8Gh9XPGoJsKFUWAk=;
+        b=kh3xO1Cm65P49NRQ/4y+yhuNKtk+YyiMsKNfsO5u+5BFUrbJmHm7+AcIwVUEkRk25M
+         3JhBO98eisKzFImCK3F7ERwQEGYgfDPTRL+25Sc+P8a2iE/q+rtIaluS+oX6GNiO9GUm
+         Q8Qy/JcyhZfzLqSShe3UEA5FYd9VYaTlkQ/idGZXGks4SJrDOl8Hk+yra7jMMMD4m3Wi
+         yHfDb6cKhGLTLrJGeHaA6X0sPOWcDs5pnE6sMfz5P+aBIoFhUzLU42YPFyZJ9C5TCPAc
+         u+VkOPNClqrMV8CPLRsJ9jWVXlngXM39Qw3FkFRrh9lcmqcx/nZoJzNzNZdG2FYNviMn
+         wPyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=dQ/7ZXxe5TBLJltczgPHD/AL6uWFNihILe9PLl/+N50=;
-        b=55QVjJ8rAwr2zI416Hiy/0n5TSfnTneWdsvOFmCwvFqLWuZz+36ovNeuB1EwOqkZPF
-         Vh1ID9cbXIGB6r4i1YzL/KfZFn4RF3W33t9GrtrYvohwzHChoMyJxBoQsXeYJQDZsUMB
-         o61cbOPLyFlMcERXb/SzumggOYyDm0aZVFhBAM8Fw4HW/syK4wp/CNdnzidXJMk1N8ai
-         MwmX1fbuEDnwH+jpiyGjT8uLwU7Vgi9M6a6vwaJNxcIpXTQIlLI4mxHN0DlzrsQDMIEp
-         bxCKyHDvlHeVtx03DeyMtiP8/asrTXXjQYzzXGS95/55hjwqDUOtgKiDBDGfSsc/pWXc
-         iFew==
-X-Gm-Message-State: ACgBeo3PZ2qG074vHDatxX/TUx85k2wuzZdOmMPHJ+r7EZea4YaaGnQ2
-	OKS6XnUMmPfVgun/26QGUy3bdlk+2EYZvJKjXpk=
+        bh=nfnSypyAXpLQAWr8+HeMPxSH8pm8Gh9XPGoJsKFUWAk=;
+        b=x7uVVDko/y2VoRFLdhf7+paoSEkb8axDyxxiAYHS1pyLYTgqeZQ8YiZM5XafXtEvWx
+         aCfVEywMMJ0zNXNPt0wYEtW7z3RHaC5A0xIGnnNn3dt02YDjOvOeV9EAYq10xoAx1pMJ
+         uX1UywPHh8efakIuK8whEpHMoHUT+P6h/VQIrZY6Qd9SFsbauQlNFNGaPbUJPjHOeYIp
+         fTj3OcaJ7tSEK+vCNEm0AXpbK3BjrN6KMpXLpX1vW1qnuZXpKioTaEcKedBnnEirfN+r
+         ztirIRLCYiqwkGred5mnSffCMn450WkzY8cCY+BHgyRXb+qgyhmcmmnQQQGmtIDzjjLD
+         Qs7g==
+X-Gm-Message-State: ACgBeo0m9TvplEgEfUdIGoRv5sfQIWimfgwMwA+olg9UHJ8DwaQbYIPd
+	EtIfmrskB4yvXDAXp5uATMLMGPW0YXh4VfR/8Ak=
 X-Google-Smtp-Source: 
- AA6agR7tP92dw5ArtrURyzREd5fxBuoIM6Z7s3Kv0Lqw85ClV4C5X4EKAOoAd4xkAWWrfub2kzBn6Msf+8Iu2jD1oQc=
-X-Received: by 2002:a05:6512:687:b0:492:ee7c:5953 with SMTP id
- t7-20020a056512068700b00492ee7c5953mr3670108lfe.673.1661326395439; Wed, 24
- Aug 2022 00:33:15 -0700 (PDT)
+ AA6agR7qvCOzf7YJs7blELCP5C1H5gtvP5LSMPW2USr8npiiJ0p+8kx5BNCwxaFMuDxKFky8uMCMbbXM4HnODUOxn5o=
+X-Received: by 2002:a2e:3a09:0:b0:25e:4212:5628 with SMTP id
+ h9-20020a2e3a09000000b0025e42125628mr7348823lja.68.1661326586970; Wed, 24 Aug
+ 2022 00:36:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220823175656.22556-1-sakib.sajal@windriver.com>
-In-Reply-To: <20220823175656.22556-1-sakib.sajal@windriver.com>
+References: <20220823235624.2488133-3-andrei@gherzan.com>
+ <20220823235624.2488133-6-andrei@gherzan.com>
+In-Reply-To: <20220823235624.2488133-6-andrei@gherzan.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 24 Aug 2022 09:33:02 +0200
+Date: Wed, 24 Aug 2022 09:36:14 +0200
 Message-ID: 
- <CANNYZj86fh2qGbD3y6dDjeTtLXs5N3OWcPAaKknBhgJeBQXz6g@mail.gmail.com>
-Subject: Re: [OE-core] [hardknott][meta-oe][PATCH] minicoredumper: retry elf
- parsing as long as needed
-To: Sakib Sajal <sakib.sajal@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+ <CANNYZj-XzOu-zd1aTn7aQ0DyrsiN8J3mOPuG-4wcJw0DzegRww@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 6/6] shadow: Avoid nss warning/error with musl
+To: Andrei Gherzan <andrei@gherzan.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Andrei Gherzan <andrei.gherzan@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Aug 2022 07:33:21 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Aug 2022 07:36:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169783
+ https://lists.openembedded.org/g/openembedded-core/message/169784
 
-Hello,
-
-the correct list for the patch is openembedded-devel
+I do not think it is inappropriate, as it does highlight an issue
+which we need to inform upstream about. Can you submit it upstream
+anyway please?
 
 Alex
 
-On Tue, 23 Aug 2022 at 19:57, Sakib Sajal <sakib.sajal@windriver.com> wrote:
+On Wed, 24 Aug 2022 at 01:57, Andrei Gherzan <andrei@gherzan.com> wrote:
 >
-> Maximum number of tries, in rare cases, is insufficient for
-> elf parse. Backport patch that fixes the issue.
+> From: Andrei Gherzan <andrei.gherzan@huawei.com>
 >
-> Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> (cherry picked from commit e231c86e282eefff0e8164551f75f8e01682abe6)
-> Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+> The libnss configuration file is only installed when glibc is used. The
+> inexistence of it on a musl-based rootfs, will make shadow complain
+> about it:
+>
+> Failed opening /etc/nsswitch.conf
+>
+> This is because shadow will try to use nsswich when dealing with
+> subordinate IDs and the message is just a warning as the tool will still
+> generate them correctly in subuid/subgid files.
+>
+> We drop this log message for class native to avoid an error when rootfs
+> logs are checked ('Failed' will match the regex bitbake is using to
+> check for rootfs generation errors).
+>
+> Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
 > ---
->  ...-retry-elf-parsing-as-long-as-needed.patch | 128 ++++++++++++++++++
->  .../minicoredumper/minicoredumper_2.0.1.bb    |   1 +
->  2 files changed, 129 insertions(+)
->  create mode 100644 meta-oe/recipes-kernel/minicoredumper/files/0001-minicoredumper-retry-elf-parsing-as-long-as-needed.patch
+>  ...f-message-when-not-in-place-eg.-musl.patch | 27 +++++++++++++++++++
+>  meta/recipes-extended/shadow/shadow.inc       |  2 ++
+>  2 files changed, 29 insertions(+)
+>  create mode 100644 meta/recipes-extended/shadow/files/0001-Drop-nsswitch.conf-message-when-not-in-place-eg.-musl.patch
 >
-> diff --git a/meta-oe/recipes-kernel/minicoredumper/files/0001-minicoredumper-retry-elf-parsing-as-long-as-needed.patch b/meta-oe/recipes-kernel/minicoredumper/files/0001-minicoredumper-retry-elf-parsing-as-long-as-needed.patch
+> diff --git a/meta/recipes-extended/shadow/files/0001-Drop-nsswitch.conf-message-when-not-in-place-eg.-musl.patch b/meta/recipes-extended/shadow/files/0001-Drop-nsswitch.conf-message-when-not-in-place-eg.-musl.patch
 > new file mode 100644
-> index 000000000..8d5b8b6cb
+> index 0000000000..aeb89ff6a0
 > --- /dev/null
-> +++ b/meta-oe/recipes-kernel/minicoredumper/files/0001-minicoredumper-retry-elf-parsing-as-long-as-needed.patch
-> @@ -0,0 +1,128 @@
-> +From 7a8c6a06c86e133e4346b1dc66483bd8d0d3c716 Mon Sep 17 00:00:00 2001
-> +From: John Ogness <john.ogness@linutronix.de>
-> +Date: Tue, 24 Aug 2021 21:10:43 +0200
-> +Subject: [PATCH] minicoredumper: retry elf parsing as long as needed
+> +++ b/meta/recipes-extended/shadow/files/0001-Drop-nsswitch.conf-message-when-not-in-place-eg.-musl.patch
+> @@ -0,0 +1,27 @@
+> +From 11290e897a49adddee215833944a518443d9b0d6 Mon Sep 17 00:00:00 2001
+> +From: Andrei Gherzan <andrei.gherzan@huawei.com>
+> +Date: Wed, 24 Aug 2022 00:54:47 +0200
+> +Subject: [PATCH] Drop nsswitch.conf message when not in place - eg. musl
 > +
-> +As was reported in github issue #2 ("maximum number of tries
-> +insufficient, in rare cases, for elf parse"), the number of retries
-> +for parsing a process may be insufficient. Rather than setting an
-> +upper limit on the maximum number of retries, track the number of
-> +headers seen. As long as the number of seen headers is greater than
-> +the previous try, try again.
-> +
-> +In order to avoid introducing any new issues, preserve the behavior
-> +of retrying at least 10 times, even if no new headers are seen.
-> +
-> +Reported-by: github.com/ssajal-wr
-> +Signed-off-by: John Ogness <john.ogness@linutronix.de>
-> +
-> +Upstream-Status: Backport [7a8c6a06c86e133e4346b1dc66483bd8d0d3c716]
-> +
-> +Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+> +Upstream-Status: Inappropriate [OE specific]
+> +Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
 > +---
-> + src/minicoredumper/corestripper.c | 30 +++++++++++++++++++++++-------
-> + 1 file changed, 23 insertions(+), 7 deletions(-)
+> + lib/nss.c | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
 > +
-> +diff --git a/src/minicoredumper/corestripper.c b/src/minicoredumper/corestripper.c
-> +index d96d1df..c96b350 100644
-> +--- a/src/minicoredumper/corestripper.c
-> ++++ b/src/minicoredumper/corestripper.c
-> +@@ -761,7 +761,7 @@ static int init_log(struct dump_info *di)
-> + typedef int elf_parse_cb(struct dump_info *di, Elf *elf, GElf_Phdr *phdr);
-> +
-> + static int do_elf_ph_parse(struct dump_info *di, GElf_Phdr *type,
-> +-                         elf_parse_cb *callback)
-> ++                         elf_parse_cb *callback, size_t *phnum_found)
-> + {
-> +       GElf_Ehdr ehdr_mem;
-> +       GElf_Ehdr *ehdr;
-> +@@ -770,6 +770,9 @@ static int do_elf_ph_parse(struct dump_info *di, GElf_Phdr *type,
-> +       size_t phnum;
-> +       size_t cnt;
-> +
-> ++      if (phnum_found)
-> ++              *phnum_found = 0;
-> ++
-> +       /* start from beginning of core */
-> +       if (lseek64(di->elf_fd, 0, SEEK_SET) == -1) {
-> +               info("lseek failed: %s", strerror(errno));
-> +@@ -809,6 +812,9 @@ static int do_elf_ph_parse(struct dump_info *di, GElf_Phdr *type,
-> +               goto out;
+> +diff --git a/lib/nss.c b/lib/nss.c
+> +index 06fa48e..44245da 100644
+> +--- a/lib/nss.c
+> ++++ b/lib/nss.c
+> +@@ -59,7 +59,7 @@ void nss_init(const char *nsswitch_path) {
+> +       //   subid:     files
+> +       nssfp = fopen(nsswitch_path, "r");
+> +       if (!nssfp) {
+> +-              fprintf(shadow_logfd, "Failed opening %s: %m\n", nsswitch_path);
+> ++              //fprintf(shadow_logfd, "Failed opening %s: %m\n", nsswitch_path);
+> +               atomic_store(&nss_init_completed, true);
+> +               return;
 > +       }
-> +
-> ++      if (phnum_found)
-> ++              *phnum_found = phnum;
-> ++
-> +       for (cnt = 0; cnt < phnum; cnt++) {
-> +               GElf_Phdr phdr_mem;
-> +               GElf_Phdr *phdr;
-> +@@ -891,7 +897,7 @@ static int vma_cb(struct dump_info *di, Elf *elf, GElf_Phdr *phdr)
-> + /*
-> +  * Tries to parse the found ELF headers and reads all vmas from it.
-> +  */
-> +-static int parse_vma_info(struct dump_info *di)
-> ++static int parse_vma_info(struct dump_info *di, size_t *phnum_found)
-> + {
-> +       unsigned long min_off = ULONG_MAX;
-> +       unsigned long max_len = 0;
-> +@@ -911,7 +917,7 @@ static int parse_vma_info(struct dump_info *di)
-> +       memset(&type, 0, sizeof(type));
-> +       type.p_type = PT_LOAD;
-> +       type.p_flags = PF_R;
-> +-      if (do_elf_ph_parse(di, &type, vma_cb) != 0)
-> ++      if (do_elf_ph_parse(di, &type, vma_cb, phnum_found) != 0)
-> +               return -1;
-> +
-> +       for (v = di->vma; v; v = v->next) {
-> +@@ -1614,8 +1620,10 @@ int add_core_data(struct dump_info *di, off64_t dest_offset, size_t len,
-> +  */
-> + static int init_src_core(struct dump_info *di, int src)
-> + {
-> ++      size_t last_phnum = 0;
-> +       int tries = 0;
-> +       int ret = -1;
-> ++      size_t phnum;
-> +       size_t len;
-> +       char *buf;
-> +       long pos;
-> +@@ -1642,7 +1650,7 @@ again:
-> +               goto out;
-> +
-> +       /* try to elf-parse the core to read vma info */
-> +-      ret = parse_vma_info(di);
-> ++      ret = parse_vma_info(di, &phnum);
-> +
-> +       /* restore our position */
-> +       if (lseek64(di->elf_fd, pos, SEEK_SET) == -1)
-> +@@ -1653,9 +1661,17 @@ again:
-> +
-> +               tries++;
-> +
-> +-              /* maybe try again */
-> +-              if (tries < 10)
-> ++              if (phnum > last_phnum) {
-> ++                      /* new headers found, keep trying */
-> ++                      last_phnum = phnum;
-> +                       goto again;
-> ++              } else if (tries < 10) {
-> ++                      /*
-> ++                       * even if no new headers are found,
-> ++                       * retry at least 10 times
-> ++                       */
-> ++                      goto again;
-> ++              }
-> +
-> +               goto out;
-> +       }
-> +@@ -2106,7 +2122,7 @@ static int dump_stacks(struct dump_info *di)
-> +               /* find and set the first task */
-> +               memset(&type, 0, sizeof(type));
-> +               type.p_type = PT_NOTE;
-> +-              do_elf_ph_parse(di, &type, note_cb);
-> ++              do_elf_ph_parse(di, &type, note_cb, NULL);
-> +       }
-> +
-> +       if (di->first_pid)
 > +--
 > +2.25.1
 > +
-> diff --git a/meta-oe/recipes-kernel/minicoredumper/minicoredumper_2.0.1.bb b/meta-oe/recipes-kernel/minicoredumper/minicoredumper_2.0.1.bb
-> index 8188ae599..5c5e0b241 100644
-> --- a/meta-oe/recipes-kernel/minicoredumper/minicoredumper_2.0.1.bb
-> +++ b/meta-oe/recipes-kernel/minicoredumper/minicoredumper_2.0.1.bb
-> @@ -16,6 +16,7 @@ PR .= "+git${SRCPV}"
->  SRC_URI = "git://github.com/diamon/minicoredumper;protocol=https;branch=master \
->             file://minicoredumper.service \
->             file://minicoredumper.init \
-> +           file://0001-minicoredumper-retry-elf-parsing-as-long-as-needed.patch \
+> diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+> index b2f82e9ac7..414bf467ba 100644
+> --- a/meta/recipes-extended/shadow/shadow.inc
+> +++ b/meta/recipes-extended/shadow/shadow.inc
+> @@ -25,12 +25,14 @@ SRC_URI:append:class-target = " \
+>  SRC_URI:append:class-native = " \
+>             file://0001-Disable-use-of-syslog-for-sysroot.patch \
+>             file://commonio.c-fix-unexpected-open-failure-in-chroot-env.patch \
+> +           file://0001-Drop-nsswitch.conf-message-when-not-in-place-eg.-musl.patch \
 >             "
+>  SRC_URI:append:class-nativesdk = " \
+>             file://0001-Disable-use-of-syslog-for-sysroot.patch \
+>             "
+>  SRC_URI[sha256sum] = "9fdb73b5d2b44e8ba9fcee1b4493ac75dd5040bda35b9ac8b06570cd192e7ee3"
 >
->  S = "${WORKDIR}/git"
+> +
+>  # Additional Policy files for PAM
+>  PAM_SRC_URI = "file://pam.d/chfn \
+>                 file://pam.d/chpasswd \
 > --
-> 2.33.0
+> 2.25.1
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#169721): https://lists.openembedded.org/g/openembedded-core/message/169721
-> Mute This Topic: https://lists.openembedded.org/mt/93210142/1686489
+> View/Reply Online (#169767): https://lists.openembedded.org/g/openembedded-core/message/169767
+> Mute This Topic: https://lists.openembedded.org/mt/93217143/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
