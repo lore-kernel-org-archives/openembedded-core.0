@@ -2,43 +2,43 @@ Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A50F3C00140
-	for <webhook@archiver.kernel.org>; Wed, 24 Aug 2022 09:44:21 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web10.9040.1661334254416421169
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2861C32796
+	for <webhook@archiver.kernel.org>; Wed, 24 Aug 2022 09:51:21 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web11.9087.1661334671995735551
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Aug 2022 02:44:15 -0700
+ Wed, 24 Aug 2022 02:51:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=YLGKZJrf;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196,
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=SKJMDYMK;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194,
  mailfrom: luca.ceresoli@bootlin.com)
 Received: from booty (unknown [77.244.183.192])
 	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 3AF0FE0002;
-	Wed, 24 Aug 2022 09:44:11 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id C9D7D40007;
+	Wed, 24 Aug 2022 09:51:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1661334252;
+	t=1661334670;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CEz7qTrPHfhTfRNAnhhSrsjJgVYc4suzRhRYn9bXTEI=;
-	b=YLGKZJrfxPecBAdfAo56peogD/uYjtqa9TrFSfESL6QD9q8V3kNe1t8/YhdujiYn7tm1/d
-	W19oa8JAsjENW02zCacn8/A/T/jVFWbffnM8iq5fWa2OFadyxJhHUReN0sgA9W7e9YwYuM
-	kqx6nfbqc1vq18W4vZtD61o06qwE3eJq/bl8oWmi0zMBsYYZ38uTbJOFI/eFH+oYBZrGTD
-	FsBQnjYn2ubJKXLn3vYHIkhxREixnJe1COWzaspWjp9PHMP1OC2jFi4M4dAR+hzsP6VG0g
-	utxzG77u1JvCAVInLE0+LqsIDcLJUPBM1Nvj6UtCSOoVstYXUn8E/QbyVa6NEw==
-Date: Wed, 24 Aug 2022 11:44:10 +0200
+	bh=+SgSLT3uD65CktsHwSnZlnBOLbBU/YhO8uQNtFtFQgQ=;
+	b=SKJMDYMKJT+ZgnSHlvDT9hR2oPe8k5Dgdqwb9XxsI7iinatLixl5mZgfA02whIX/6QKDX6
+	SleYrtJ8kf/8TTMNe9MTTdKJqrbXeFomW0hl365ATuV/IYJQYOd4jeNUqBOJKiNOTFgbQB
+	oN1VWtLZ2M+qCBU3MjbtQLBNn9yWGBXtdTxZ1su/TPhBtLZcqRyAi+Xb3Nm8x6Ipcbil10
+	fIRnPFGm7QghNiC3F6TWWKnDD2LPybvdooj97tJOnBvw14S0yfnEi1yt85bDYzdbrBOgz9
+	CPL1AEGH128iRNA+30uvOyTXJAk+PoORcMU9KHEXHAE2/Du+oBC00ZYCIp46vg==
+Date: Wed, 24 Aug 2022 11:51:08 +0200
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Khem Raj" <raj.khem@gmail.com>
+To: "Markus Volk" <f_l_k@t-online.de>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 4/7] enable _XOPEN_SOURCE on musl for wchar
- usage in curses
-Message-ID: <20220824114410.4c9328aa@booty>
-In-Reply-To: <20220824063443.1774094-4-raj.khem@gmail.com>
-References: <20220824063443.1774094-1-raj.khem@gmail.com>
-	<20220824063443.1774094-4-raj.khem@gmail.com>
+Subject: Re: [oe-core][PATCH] connman: add PACKAGECONFIG to support iwd
+Message-ID: <20220824115108.6eee852c@booty>
+In-Reply-To: <UI34HR.PZNATSOSGVWO2@t-online.de>
+References: <20220823163809.17214-1-f_l_k@t-online.de>
+	<20220824105440.1cdf49a7@booty>
+	<UI34HR.PZNATSOSGVWO2@t-online.de>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
@@ -47,22 +47,27 @@ Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Aug 2022 09:44:21 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Aug 2022 09:51:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169806
+ https://lists.openembedded.org/g/openembedded-core/message/169807
 
-Hi Mhem,
+Hello Markus,
 
-On Tue, 23 Aug 2022 23:34:40 -0700
-"Khem Raj" <raj.khem@gmail.com> wrote:
+On Wed, 24 Aug 2022 10:56:54 +0200
+"Markus Volk" <f_l_k@t-online.de> wrote:
 
-> This is defined for glibc automatically with _GNU_SOURCE but not for
-> musl
+> Hello Luca,
 > 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Am Mi, 24. Aug 2022 um 10:54:40 +0200 schrieb Luca Ceresoli 
+> <luca.ceresoli@bootlin.com>:
+> > I would think iwd should be an rdepends, not an rrecommends. Any reson
+> > for that? Or is it just an unintended extra ','?  
+> 
+> Only reason for this was the fact, that iwd is not in oe-core so it 
+> felt wrong somehow to set it RDEPEND
 
-Missing 'pinentry: ' subject prefix. I added it when taking the patch
-on my testing branch, no need to resend.
+I see, that's fine, but I wonder whether this should be clarified in a
+comment. I'll be taking the patch for testing as is anyway.
 
 -- 
 Luca Ceresoli, Bootlin
