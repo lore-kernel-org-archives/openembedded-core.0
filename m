@@ -1,102 +1,185 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <egyszeregy@freemail.hu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68196ECAA27
-	for <webhook@archiver.kernel.org>; Thu, 25 Aug 2022 19:41:51 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web10.28570.1661456508051394589
- for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Aug 2022 12:41:48 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=UYILZQG8;
- spf=pass (domain: axis.com, ip: 195.60.68.18,
- mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1661456509;
-  x=1692992509;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=z30WubSVvCgT04HSFi5UxWw9MzZeVHH8X7kQHHYcJvc=;
-  b=UYILZQG8/hzOL4J6nAL2UEILQqm4exGPEyPxCvtWP2GwZp19U1isF3/t
-   uZf/FrAsBDeUye/fbxeM4RxYCc/XoKWoiC22RBATgzbtlMnO/afKebnEr
-   GrjQhKaDKvP+tFCD0vALESzy4dUYWI7n6MhKHx77rs1UjXxVIIT8tTTOc
-   /CY9sAW6j88GFWkX8WNOmwcM2mss7ProXPxWSV96Al7DkfjlXBCY36IrW
-   iZhhA54Bg+pqtYfNc/7V6CGbiII5xtFKuVQMnnC8jCsvfse2xbKUSZrMH
-   nobKpjeqbAAHTAbJ/KSxfJA3bIuHUneY2s4QlALEtBzS9H7UuJgCfe/Dk
-   g==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Alexander Kanavin
-	<alex@linutronix.de>, Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: RE: [OE-core] [PATCH 2/2] scripts/oe-setup-builddir: add a check that
- TEMPLATECONF is valid
-Thread-Topic: [OE-core] [PATCH 2/2] scripts/oe-setup-builddir: add a check
- that TEMPLATECONF is valid
-Thread-Index: 
- AQHYt7cRSHWGrcP8wUm8EpgvpR7Rga2+D7iA///lUQCAACL9EP//6V2AgAEzI9CAAAIBAIAAp78w
-Date: Thu, 25 Aug 2022 19:41:45 +0000
-Message-ID: <93d7371f57bb44ae96a55d5349982bc6@axis.com>
-References: <20220824124234.3549247-1-alex@linutronix.de>
- <20220824124234.3549247-2-alex@linutronix.de>
- <c1b4303568ad4fd2a1c7133bde18ad53@axis.com>
- <CANNYZj9KH13zkN2Lu7ToaqRGcXdPBxbUT+v3U0HezM5sYa0bTw@mail.gmail.com>
- <aa755beb07f143619c3c7fec974ce2a3@axis.com>
- <CANNYZj-FYOOBqPBs3sZuXQqse1nrtRZXeKrKjMg=YZgt2neSKw@mail.gmail.com>
- <57b46d76a2174cc487c8a210c3539b03@axis.com>
- <CANNYZj94cymsa-TmkcMmHWm2FQ6CvRvKE3_eCy=t63x9NFZnhA@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj94cymsa-TmkcMmHWm2FQ6CvRvKE3_eCy=t63x9NFZnhA@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70492ECAA2B
+	for <webhook@archiver.kernel.org>; Thu, 25 Aug 2022 19:59:41 +0000 (UTC)
+Subject: [master][PATCH] image_types: add 7-Zip support in conversion types
+ and commands
+To: openembedded-core@lists.openembedded.org
+From: "Livius" <egyszeregy@freemail.hu>
+X-Originating-Location: =?utf-8?q?Stuttgart=2C_Baden-W=C3=BCrttemberg=2C_DE_?=
+ =?utf-8?q?=28194=2E39=2E218=2E10=29?=
+X-Originating-Platform: Windows Chrome 104
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
+Date: Thu, 25 Aug 2022 12:59:34 -0700
+Message-ID: <kqeP.1661457574119806544.v4b2@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="cEFV2BugEo1weHarP5t2"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Aug 2022 19:41:51 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Aug 2022 19:59:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169886
+ https://lists.openembedded.org/g/openembedded-core/message/169887
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8
-YWxleC5rYW5hdmluQGdtYWlsLmNvbT4NCj4gU2VudDogZGVuIDI1IGF1Z3VzdGkgMjAyMiAxMTox
-OQ0KPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+
-DQo+IENjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnOyBBbGV4YW5k
-ZXIgS2FuYXZpbg0KPiA8YWxleEBsaW51dHJvbml4LmRlPjsgUmljaGFyZCBQdXJkaWUgPHJpY2hh
-cmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0g
-W1BBVENIIDIvMl0gc2NyaXB0cy9vZS1zZXR1cC1idWlsZGRpcjogYWRkIGEgY2hlY2sNCj4gdGhh
-dCBURU1QTEFURUNPTkYgaXMgdmFsaWQNCj4gDQo+IE9uIFRodSwgMjUgQXVnIDIwMjIgYXQgMDk6
-MTksIFBldGVyIEtqZWxsZXJzdGVkdA0KPiA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPiB3
-cm90ZToNCj4gID4NCj4gPiA+IFdlIGFyZSB0cnlpbmcgdG8gbW92ZSB0b3dhcmRzIHN0YW5kYXJk
-aXppbmcgYnVpbGQgY29uZmlndXJhdGlvbg0KPiA+ID4gbWFuYWdlbWVudC4gT25lIHN0ZXAgdG93
-YXJkcyB0aGF0IGdvYWwgaXMgdGhhdCBjb25maWcgdGVtcGxhdGVzIG11c3QNCj4gPiA+IGxpdmUg
-aW4gbWV0YS1zb21lLWxheWVyL2NvbmYvdGVtcGxhdGVzLCBhbmQgYXJlbid0IHNjYXR0ZXJlZCBh
-cm91bmQsDQo+ID4gPiBvciBnZW5lcmF0ZWQgb24gdGhlIGZseS4gVGhpcyBydWxlIG9ubHkgbWFr
-ZXMgc2Vuc2UgaWYgdGhlcmUgaXMgc29tZQ0KPiA+ID4gd2F5IHRvIGVuZm9yY2UgaXQsIHdoaWNo
-IGlzIHdoYXQgdGhpcyBjaGFuZ2UgZG9lcy4NCj4gPg0KPiA+IFdlbGwsIHdlIGdhdmUgdXAgb24g
-dGhlIHN0YXRpYyB0ZW1wbGF0ZXMgYWxtb3N0IGltbWVkaWF0ZWx5IGFmdGVyIHdlDQo+ID4gc3Rh
-cnRlZCB1c2luZyBZb2N0byB3aGVuIHdlIHJlYWxpemVkIHRoYXQgdGhleSBkaWQgbm90IGZpdCBp
-bnRvIG91cg0KPiA+IGlkZWEgb2YgYmVpbmcgYWJsZSB0byBtaXggbGF5ZXJzIGluIGRpZmZlcmVu
-dCBjb21iaW5hdGlvbnMgaW4gZGlmZmVyZW50DQo+ID4gYnVpbGRzLiBXZSByZWx5IG9uIHJlcG8g
-ZmV0Y2hpbmcgdGhlIGxheWVycyB0aGF0IGFyZSBzdXBwb3NlZCB0byBiZSBwYXJ0DQo+ID4gb2Yg
-dGhlIGJ1aWxkLCBhbmQgdGhlbiB3ZSBnZW5lcmF0ZSBhIGJibGF5ZXJzLmNvbmYuc2FtcGxlIHRo
-YXQgbWF0Y2hlcw0KPiA+IHRoZSBmZXRjaGVkIGxheWVycy4NCj4gDQo+IFRoZSBzdGF0aWMgdGVt
-cGxhdGVzIGlzIG9ubHkgYSBzdGFydGluZyBwb2ludC4gVGhlIG5leHQgc3RlcCB3b3VsZCBiZQ0K
-PiB0byBzdXBwb3J0IHByZWZhYnJpY2F0ZWQgJ2NvbmZpZ3VyYXRpb24gZnJhZ21lbnRzJyBzdG9y
-ZWQgaW5zaWRlDQo+IGxheWVycyB0aGF0IGNhbiBiZSBkeW5hbWljYWxseSBhZGRlZC9yZW1vdmVk
-IGludG8gbG9jYWwuY29uZiBhbmQvb3IgYQ0KPiBkaXN0cm8gZGVmaW5pdGlvbiwgc28gaWRlYXMg
-Zm9yIHRoZSBkZXNpZ24gYW5kIFVJIHdvdWxkIGJlIHdlbGNvbWUuDQoNCldlbGwsIHRoZSB3YXkg
-d2UgaGF2ZSBzb2x2ZWQgdGhhdCBpcyB0byBhbGxvdyBhIGxheWVyIHRvIGNvbnRhaW4gDQpjb25m
-L2xvY2FsLmNvbmYuc2FtcGxlLlhYIGZpbGVzIChhbmQgYWxzbyBjb25mL2NvbmYtbm90ZXMudHh0
-LlhYIGZpbGVzKSANCndoZXJlIFhYIGlzIGFueSBudW1iZXIgYmV0d2VlbiAwMCBhbmQgOTkuIFdl
-IGFsc28gYXNzdW1lIHRoZSBzYW1wbGUgDQpmaWxlcyBmcm9tIG1ldGEtcG9reSBoYXZlIFhYID09
-IDUwLiBUaGVuIHdoZW4gd2UgZ2VuZXJhdGUgb3VyIA0KdGVtcGxhdGVjb25mIGRpcmVjdG9yeSwg
-d2UgY29uY2F0ZW5hdGUgYWxsIHRoZXNlIGZpbGVzIG9yZGVyZWQgYnkgWFggDQoocmVnYXJkbGVz
-cyBvZiB3aGljaCBsYXllciB0aGV5IGNvbWUgZnJvbSkuDQoNCj4gDQo+IEFsZXgNCg0KLy9QZXRl
-cg0KDQo=
+--cEFV2BugEo1weHarP5t2
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+I added to support=C2=A07-Zip in conversion types/commands. It is fully con=
+figurable in compression level, method and file extension.
+
+From: "Benjamin Sz=C5=91ke"=C2=A0<egyszeregy@freemail.hu>
+Date: Thu, 25 Aug 2022 21:45:55 +0200
+Subject: [PATCH] image_types: add 7-Zip support in conversion types and=C2=
+=A0commands
+
+---
+meta/classes-recipe/image_types.bbclass | 8 +++++++-
+1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/=
+image_types.bbclass
+index a731e585b2..94aa1d9510 100644
+--- a/meta/classes-recipe/image_types.bbclass
++++ b/meta/classes-recipe/image_types.bbclass
+@@ -59,6 +59,10 @@ XZ_INTEGRITY_CHECK ?=3D "crc32"
+
+ZIP_COMPRESSION_LEVEL ?=3D "-9"
+
++7ZIP_COMPRESSION_LEVEL ?=3D "9"
++7ZIP_COMPRESSION_METHOD ?=3D "BZip2"
++7ZIP_EXTENSION ?=3D "zip"
++
+ZSTD_COMPRESSION_LEVEL ?=3D "-3"
+
+JFFS2_SUM_EXTRA_ARGS ?=3D ""
+@@ -296,7 +300,7 @@ IMAGE_TYPES:append:x86-64 =3D " hddimg iso"
+# CONVERSION_CMD/DEPENDS.
+COMPRESSIONTYPES ?=3D ""
+
+-CONVERSIONTYPES =3D "gz bz2 lzma xz lz4 lzo zip zst sum md5sum sha1sum sha=
+224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi qcow2 ba=
+se64 gzsync zsync ${COMPRESSIONTYPES}"
++CONVERSIONTYPES =3D "gz bz2 lzma xz lz4 lzo zip 7zip zst sum md5sum sha1su=
+m sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi qco=
+w2 base64 gzsync zsync ${COMPRESSIONTYPES}"
+CONVERSION_CMD:lzma =3D "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${=
+type}"
+CONVERSION_CMD:gz =3D "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}${IMAGE_NA=
+ME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+CONVERSION_CMD:bz2 =3D "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${ty=
+pe}"
+@@ -304,6 +308,7 @@ CONVERSION_CMD:xz =3D "xz -f -k -c ${XZ_COMPRESSION_LEV=
+EL} ${XZ_DEFAULTS} --check=3D
+CONVERSION_CMD:lz4 =3D "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${ty=
+pe} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
+CONVERSION_CMD:lzo =3D "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+CONVERSION_CMD:zip =3D "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_N=
+AME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
++CONVERSION_CMD:7zip =3D "7za a -mx=3D${7ZIP_COMPRESSION_LEVEL} -mm=3D${7ZI=
+P_COMPRESSION_METHOD} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.${7ZIP_EXTE=
+NSION} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+CONVERSION_CMD:zst =3D "zstd -f -k -T0 -c ${ZSTD_COMPRESSION_LEVEL} ${IMAGE=
+_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${ty=
+pe}.zst"
+CONVERSION_CMD:sum =3D "sumtool -i ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type=
+} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
+CONVERSION_CMD:md5sum =3D "md5sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}=
+ > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.md5sum"
+@@ -329,6 +334,7 @@ CONVERSION_DEPENDS_xz =3D "xz-native"
+CONVERSION_DEPENDS_lz4 =3D "lz4-native"
+CONVERSION_DEPENDS_lzo =3D "lzop-native"
+CONVERSION_DEPENDS_zip =3D "zip-native"
++CONVERSION_DEPENDS_7zip =3D "p7zip-native"
+CONVERSION_DEPENDS_zst =3D "zstd-native"
+CONVERSION_DEPENDS_sum =3D "mtd-utils-native"
+CONVERSION_DEPENDS_bmap =3D "bmap-tools-native"
+--
+2.35.1.windows.2
+
+--cEFV2BugEo1weHarP5t2
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>I added to support&nbsp;7-Zip in conversion types/commands. It is full=
+y configurable in compression level, method and file extension.</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>From: "Benjamin Sz=C5=91ke"&nbsp;&lt;egyszeregy@freemail.hu&gt;</div>
+<div>Date: Thu, 25 Aug 2022 21:45:55 +0200</div>
+<div>Subject: [PATCH] image_types: add 7-Zip support in conversion types an=
+d&nbsp;commands</div>
+<div>&nbsp;</div>
+<div>---</div>
+<div>&nbsp;meta/classes-recipe/image_types.bbclass | 8 +++++++-</div>
+<div>&nbsp;1 file changed, 7 insertions(+), 1 deletion(-)</div>
+<div>&nbsp;</div>
+<div>diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-re=
+cipe/image_types.bbclass</div>
+<div>index a731e585b2..94aa1d9510 100644</div>
+<div>--- a/meta/classes-recipe/image_types.bbclass</div>
+<div>+++ b/meta/classes-recipe/image_types.bbclass</div>
+<div>@@ -59,6 +59,10 @@ XZ_INTEGRITY_CHECK ?=3D "crc32"</div>
+<div>&nbsp;</div>
+<div>&nbsp;ZIP_COMPRESSION_LEVEL ?=3D "-9"</div>
+<div>&nbsp;</div>
+<div>+7ZIP_COMPRESSION_LEVEL ?=3D "9"</div>
+<div>+7ZIP_COMPRESSION_METHOD ?=3D "BZip2"</div>
+<div>+7ZIP_EXTENSION ?=3D "zip"</div>
+<div>+</div>
+<div>&nbsp;ZSTD_COMPRESSION_LEVEL ?=3D "-3"</div>
+<div>&nbsp;</div>
+<div>&nbsp;JFFS2_SUM_EXTRA_ARGS ?=3D ""</div>
+<div>@@ -296,7 +300,7 @@ IMAGE_TYPES:append:x86-64 =3D " hddimg iso"</div>
+<div>&nbsp;# CONVERSION_CMD/DEPENDS.</div>
+<div>&nbsp;COMPRESSIONTYPES ?=3D ""</div>
+<div>&nbsp;</div>
+<div>-CONVERSIONTYPES =3D "gz bz2 lzma xz lz4 lzo zip zst sum md5sum sha1su=
+m sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi qco=
+w2 base64 gzsync zsync ${COMPRESSIONTYPES}"</div>
+<div>+CONVERSIONTYPES =3D "gz bz2 lzma xz lz4 lzo zip 7zip zst sum md5sum s=
+ha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vd=
+i qcow2 base64 gzsync zsync ${COMPRESSIONTYPES}"</div>
+<div>&nbsp;CONVERSION_CMD:lzma =3D "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME=
+_SUFFIX}.${type}"</div>
+<div>&nbsp;CONVERSION_CMD:gz =3D "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME=
+}${IMAGE_NAME_SUFFIX}.${type} &gt; ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type=
+}.gz"</div>
+<div>&nbsp;CONVERSION_CMD:bz2 =3D "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_S=
+UFFIX}.${type}"</div>
+<div>@@ -304,6 +308,7 @@ CONVERSION_CMD:xz =3D "xz -f -k -c ${XZ_COMPRESSIO=
+N_LEVEL} ${XZ_DEFAULTS} --check=3D</div>
+<div>&nbsp;CONVERSION_CMD:lz4 =3D "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_S=
+UFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"</div>
+<div>&nbsp;CONVERSION_CMD:lzo =3D "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX=
+}.${type}"</div>
+<div>&nbsp;CONVERSION_CMD:zip =3D "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAM=
+E}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type=
+}"</div>
+<div>+CONVERSION_CMD:7zip =3D "7za a -mx=3D${7ZIP_COMPRESSION_LEVEL} -mm=3D=
+${7ZIP_COMPRESSION_METHOD} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.${7ZIP=
+_EXTENSION} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"</div>
+<div>&nbsp;CONVERSION_CMD:zst =3D "zstd -f -k -T0 -c ${ZSTD_COMPRESSION_LEV=
+EL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} &gt; ${IMAGE_NAME}${IMAGE_NAM=
+E_SUFFIX}.${type}.zst"</div>
+<div>&nbsp;CONVERSION_CMD:sum =3D "sumtool -i ${IMAGE_NAME}${IMAGE_NAME_SUF=
+FIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sum ${JFFS2_SUM_E=
+XTRA_ARGS}"</div>
+<div>&nbsp;CONVERSION_CMD:md5sum =3D "md5sum ${IMAGE_NAME}${IMAGE_NAME_SUFF=
+IX}.${type} &gt; ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.md5sum"</div>
+<div>@@ -329,6 +334,7 @@ CONVERSION_DEPENDS_xz =3D "xz-native"</div>
+<div>&nbsp;CONVERSION_DEPENDS_lz4 =3D "lz4-native"</div>
+<div>&nbsp;CONVERSION_DEPENDS_lzo =3D "lzop-native"</div>
+<div>&nbsp;CONVERSION_DEPENDS_zip =3D "zip-native"</div>
+<div>+CONVERSION_DEPENDS_7zip =3D "p7zip-native"</div>
+<div>&nbsp;CONVERSION_DEPENDS_zst =3D "zstd-native"</div>
+<div>&nbsp;CONVERSION_DEPENDS_sum =3D "mtd-utils-native"</div>
+<div>&nbsp;CONVERSION_DEPENDS_bmap =3D "bmap-tools-native"</div>
+<div>--&nbsp;</div>
+<div>2.35.1.windows.2</div>
+<div>&nbsp;</div>
+
+--cEFV2BugEo1weHarP5t2--
 
