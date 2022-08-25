@@ -2,72 +2,77 @@ Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44CD4ECAA27
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 402D0ECAA25
 	for <webhook@archiver.kernel.org>; Thu, 25 Aug 2022 16:30:50 +0000 (UTC)
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
  [66.111.4.28])
- by mx.groups.io with SMTP id smtpd.web08.26220.1661445048448322728
+ by mx.groups.io with SMTP id smtpd.web12.26017.1661445049656633342
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Aug 2022 09:30:48 -0700
+ Thu, 25 Aug 2022 09:30:49 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm2
- header.b=E0tQVwsA;
+ header.b=TyAp7ebc;
  spf=pass (domain: gherzan.com, ip: 66.111.4.28, mailfrom: andrei@gherzan.com)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id B4A015C00A2;
-	Thu, 25 Aug 2022 12:30:47 -0400 (EDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id EBC175C009A;
+	Thu, 25 Aug 2022 12:30:48 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Thu, 25 Aug 2022 12:30:47 -0400
+  by compute4.internal (MEProxy); Thu, 25 Aug 2022 12:30:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm2; t=1661445047; x=1661531447; bh=QOwA85riQslXuedhWJywmh70H
-	okmOtyyN1xGn3Bi0fc=; b=E0tQVwsAqnwMia/lssfazWRKfWbc6hgvI3QTJpzLz
-	LT22zpwkhSUwx9PiBhNMvxZNWtbro0+hyN4Wp64nAQ7QGdEA06B67j+FTuR3LyTd
-	xtSigX/2EuafwRKJvyQ1K8oDe9HAHiDAS3IsLkouHOZr8aT3RAk8ewRu7anPXRwK
-	+TRI1bEoP2/Uxjm7G6vBVQInrosWIZcD8WR0nxuH54R4pNOvWUImcxu59I29F0t5
-	59m4NMoQA++dGcQ1UKqyGtkhc66NMm4ihv3MeoDATlzwLEtrE49oMU8V6hyqVw1w
-	jgSrOxYTdE4CuKR2d1TsYxxHZllvMlXtCzyqbKeWotJSQ==
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1661445048; x=1661531448; bh=U1
+	mFO9uXr60avOZR+syTCOQw4wOoQNpu1zpSi6WMY4M=; b=TyAp7ebcDRveoP2s9U
+	q5tHuB3OXHf55/QTNJcKW6jY+/zWI7ZGsuXFBwRPWOVesqOgBprNcDNhGV/aBwpI
+	D01Gv0LudLITBKGebJu0vreggCerUChzF3dBRI2HNIpBUlSuhIptn+TqXDrOSux3
+	CbV6r7McW0V1SNU/ZUeTZHlvkd7DNlcZXWWiewlWdRw5/MmS1KLDW21/XMN0L7j9
+	TDjaxkcBSFJtpasbrDT7wAb9oMzrj0F23e1UqwuuQvy5OrYdq3heWoFAKM1oyRcz
+	XkdB8QYHMA6vckoYpJhhNXXBxS7sGLg3WlpT5A7RdXMPx1836Mpj5xRNhzm387Vg
+	zMjQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1661445047; x=1661531447; bh=QOwA85riQslXuedhWJywmh70HokmOtyyN1x
-	Gn3Bi0fc=; b=2NsNgzDeQ3g4svLordDGWjbOKTuWbVk4cPdfeFyPbWUgbtHs2pt
-	vL9JWkE4JQVGS7b73hJnKlf5tyiQt/IdsvXcoYGxHx1zfybYCopm6Yh6RlEqut2Y
-	D2tBoD7S5btwVLTipfQGYMqRmRJST7ZLIyJm0+9c1tT9FsJLRAoMCwuaq41NPs8G
-	aLGvzVfnn/4pBs7vRhOTZyM643XMmN3NWoEieH7xaabgfjzzcm2huiTO4Ipv8YOm
-	g0dV7dPcs7OMxQdRw267HNUCZwg4JLINU+j00dJhTbemU4fIpBtqbcDul+0qcgBI
-	pnJAaZGCWbYaF3S08SCSeYScyreyJEM2VKA==
-X-ME-Sender: <xms:t6MHY_KmTVX4X0vJ_SOP3SgCaX6z6WZ9oC2PBmTK9JuK6-_Qd1wVoQ>
-    <xme:t6MHYzKdGyEe-dAx2V4Bdb6X3pDAqRIuT6AslFHTe97yGvfOtuCxfB1Z7Fo-OSo6s
-    2Z8kmLN7QrarJsOMAc>
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1661445048; x=1661531448; bh=U1mFO9uXr60av
+	OZR+syTCOQw4wOoQNpu1zpSi6WMY4M=; b=uW9yJVzdpR8vqUpJFAv9kHBGy9WIh
+	3WKlze2UVzQgQ/a1n2olcJKTM4Ms3dbG3v4TImiyhGVAksAKIqsJlbkAq4fLfsRp
+	zR5Efnr2Hb85Wu7j/4wJOMAJ1/79qVw+gp2j+EcgJ0nWv+rO+ROEFi9TkoRg0QaM
+	p6MFk+H6Y4Yu4/7ANcANmuTjw9BJ2lfM1l2OSpGWpRjbjXMItmi3iJgaDnMYXqoM
+	HYeSA2BxNncOl7d2ewwNv5fQ6x7ps1lpJxHMPPapvrETGk7nR7a9KmehQN1p34NL
+	f4UGp38olvwqlPh9r9K1a7KBPuC3cjl7mii9vi/PffcTx09IXJZU9MOog==
+X-ME-Sender: <xms:uKMHY2sj7BFXZmjR-9yOl2zFcAHt0dpRV5GsgoN34QVfX5LTsBy6UA>
+    <xme:uKMHY7dS94Ezb9ui6e0LWZDLMezhiNVWJXibLbarBdv5rpHphrSRZtly6eo44Hixm
+    xe-5540RQAr61hqU6E>
 X-ME-Received: 
- <xmr:t6MHY3sydSU-mNBvQxvLkUM1bBP29H32GCN6TND6Ct_3_F_XKazsJTAR0VgNyzxnaCaFdmRFV0SF_almDIASeTzFwfzKthA9xP2gBz4dRZOLAyqq1acXnWQA>
+ <xmr:uKMHYxz6snT6pjqg7pqJQRfmizXEw0tz9ykHQ13G-COcRtjlAnYV8YZCMx-jVzpPEWr0Eq8c8sLsF5KwbHg9_4xuZD3Te0oQgloUJFdYmORRiOutvPFgdtyO>
 X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvfedrvdejfedguddttdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekre
-    dtredttdenucfhrhhomheptehnughrvghiucfihhgvrhiirghnuceorghnughrvghisehg
-    hhgvrhiirghnrdgtohhmqeenucggtffrrghtthgvrhhnpeeijeelhfevveelffevgeefte
-    eljeetvdegjedttdehhffhtdeihfevgeffgeegkeenucevlhhushhtvghrufhiiigvpedt
-    necurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvihesghhhvghriigrnhdrtghomh
-X-ME-Proxy: <xmx:t6MHY4ZsiLb3OATX0eqAa0dYhP7xcwy1trVsVW3QnNVCus-YOf2Zjw>
-    <xmx:t6MHY2ZdYsUC0K7DNKn6tLn0E-Mx1_HWpisVOti8YlRkk7X6yam_Fw>
-    <xmx:t6MHY8AEunl0vMugghYk1LWfx5pVRkRL0h1wq7xTv_N4cAoIpGNhdw>
-    <xmx:t6MHY5xCskfBCgAlA5QYT7K9ir2oSP0ws46JRHMu7CFo0-AH6xltZw>
+ gggruggvucftvghtrhhoucdtuddrgedvfedrvdejfedgleelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
+    ertdertddtnecuhfhrohhmpeetnhgurhgvihcuifhhvghriigrnhcuoegrnhgurhgvihes
+    ghhhvghriigrnhdrtghomheqnecuggftrfgrthhtvghrnhepjefhvefhgefgffejgeelke
+    ejleeiffejgffgkeeggfffgfffieeffeeghefhtdffnecuvehluhhsthgvrhfuihiivgep
+    tdenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvghisehghhgvrhiirghnrdgtoh
+    hm
+X-ME-Proxy: <xmx:uKMHYxMSnZujHlQ_0ujt_GAhOJjZo13hKDMVvdUORo3tiajPYP4KLw>
+    <xmx:uKMHY2-I5b_NsGcs2jUUwmCkzpxcYCGoOTCvVcKsyqi9E0ViyVy6Ew>
+    <xmx:uKMHY5VtiXZykU5wMkUY35jmQLSUdLH7RR1G67Aum4GsRWj6a-lUDA>
+    <xmx:uKMHY8ksjyKnUW3IhF9offwurCFPoz_ev9LY77t3AQ8eItXnGtvLUw>
 Feedback-ID: i68994715:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 25 Aug 2022 12:30:46 -0400 (EDT)
+ 25 Aug 2022 12:30:47 -0400 (EDT)
 From: Andrei Gherzan <andrei@gherzan.com>
 To: openembedded-core@lists.openembedded.org
 Cc: andrei@gherzan.com,
 	Andrei Gherzan <andrei.gherzan@huawei.com>
-Subject: [kirkstone][PATCH 1/3] shadow: Enable subid support
-Date: Thu, 25 Aug 2022 18:30:39 +0200
-Message-Id: <20220825163041.840129-1-andrei@gherzan.com>
+Subject: [kirkstone][PATCH 2/3] rootfspostcommands.py: Cleanup subid backup
+ files generated by shadow-utils
+Date: Thu, 25 Aug 2022 18:30:40 +0200
+Message-Id: <20220825163041.840129-2-andrei@gherzan.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220825163041.840129-1-andrei@gherzan.com>
+References: <20220825163041.840129-1-andrei@gherzan.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -75,37 +80,37 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 25 Aug 2022 16:30:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169880
+ https://lists.openembedded.org/g/openembedded-core/message/169881
 
 From: Andrei Gherzan <andrei.gherzan@huawei.com>
 
-shadow utils are used when creating users at image creation time. The
-useradd/usermod tools will only try to add a default configuration for
-subid files if they exist.
+When creating users, shadow-utils might create backup files for
+subordinate ID files (subid, subgid). Make sure we clean them up
+similarly to the other backup files shadow-utils creates.
+
+This is a backport from master that brings in only the cleanup of the
+subid backup files without the code restructure.
 
 Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
 ---
- meta/recipes-extended/shadow/shadow.inc | 7 +++++++
+ meta/lib/rootfspostcommands.py | 7 +++++++
  1 file changed, 7 insertions(+)
 
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index f5fdf436f7..b3ae2b4874 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -149,6 +149,13 @@ do_install:append() {
- 	# Handle link properly after rename, otherwise missing files would
- 	# lead rpm failed dependencies.
- 	ln -sf newgrp.${BPN} ${D}${bindir}/sg
-+
-+	# usermod requires the subuid/subgid files to be in place before being
-+	# able to use the -v/-V flags otherwise it fails:
-+	# usermod: /etc/subuid does not exist, you cannot use the flags -v or -V
-+	install -d ${D}${sysconfdir}
-+	touch ${D}${sysconfdir}/subuid
-+	touch ${D}${sysconfdir}/subgid
- }
- 
- PACKAGES =+ "${PN}-base"
+diff --git a/meta/lib/rootfspostcommands.py b/meta/lib/rootfspostcommands.py
+index fdb9f5b850..12f66d2ce2 100644
+--- a/meta/lib/rootfspostcommands.py
++++ b/meta/lib/rootfspostcommands.py
+@@ -58,3 +58,10 @@ def sort_passwd(sysconfdir):
+             remove_backup(filename)
+             if os.path.exists(filename):
+                  sort_file(filename, mapping)
++    # Drop other known backup shadow-utils.
++    for filename in (
++            'subgid',
++            'subuid',
++        ):
++        filepath = os.path.join(sysconfdir, filename)
++        remove_backup(filepath)
 -- 
 2.25.1
 
