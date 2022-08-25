@@ -1,107 +1,106 @@
-Return-Path: <nhorman@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68A9CECAAA1
-	for <webhook@archiver.kernel.org>; Thu, 25 Aug 2022 20:43:01 +0000 (UTC)
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
- [209.85.222.180])
- by mx.groups.io with SMTP id smtpd.web11.29298.1661460174854084771
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF43AECAAA2
+	for <webhook@archiver.kernel.org>; Thu, 25 Aug 2022 21:07:11 +0000 (UTC)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com
+ [209.85.128.179])
+ by mx.groups.io with SMTP id smtpd.web11.29575.1661461624640778247
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Aug 2022 13:42:55 -0700
+ Thu, 25 Aug 2022 14:07:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=OyJ4Ycvk;
- spf=pass (domain: gmail.com, ip: 209.85.222.180, mailfrom: nhorman@gmail.com)
-Received: by mail-qk1-f180.google.com with SMTP id g21so16160935qka.5
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=qjMbe7YO;
+ spf=pass (domain: gmail.com, ip: 209.85.128.179,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f179.google.com with SMTP id
+ 00721157ae682-333a4a5d495so572548067b3.10
         for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Aug 2022 13:42:54 -0700 (PDT)
+ Thu, 25 Aug 2022 14:07:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=LmoaBNrSchWvNgHRbnPbRJadCMRorRoXrkvvsFlJ82E=;
-        b=OyJ4Ycvk4pmvt+qGcVufCNM0WXO7gMhYpTUvySoHHIm5QOvWEZwZ0xSp9BzHRllvuu
-         EqU3+msDB1MONUOdZcli2rd6LTOlS1h/eo03vw5cecjaywmPEJx9q9ZiPJVEbQB3nUW2
-         BBKZ6qEc1D0+0r46PsMmfdv2BtQMqTL0GczmXhYMq8jS2JiOzREEk3erhpb19ndf8R7a
-         5ziJ2BgfwBi9cOEaUcp7NAYwPXBIqJvzsTVbshIvXb4gGzSUbxNXAJ/cBZRCesVYqWdL
-         PjMrxGimF+4u39OEkSSKnJnE+h486QHw5hheqgzfvS8hyKCGtdl+usMD6f67HwYBhaae
-         POfw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=MHvDx4mZn6U8l1Caw9MiPacj1Ey83Hb/aBNttCiRI4s=;
+        b=qjMbe7YO4ohEml9XIJ0X0BQUF58jHXBoj6MDnT6i7PjEHnnt38s5ObPVBjPdGFnH5f
+         PLEKFtOjYHaVvjGjnB2+OqLID5lDut4XlFMmkMPhvcoKbqqGX+qIp4h01kmnl6AxFi6e
+         eLiGHjqTsZ+ijRL8WqExuZdlx2o4C/QZnpRGRFj49S9kBXrOxNFmZ/u/Imqc4mpatZaa
+         gALNb8yT/og0MrxjAXxnrtvisbsTwiGLOSlneX9EL9vq47oyRfBS0dJkRdMSczAe//0+
+         WSHKNSVVDh5w6W/y4tqdA7yVaVLaAAtlOsz9MRPBd3tR/sWd+dtmmuAb/HWYE6IKdacT
+         NGxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=LmoaBNrSchWvNgHRbnPbRJadCMRorRoXrkvvsFlJ82E=;
-        b=zkH4q/VISUVPVIMZiz0kMgjrEg6E+sBuV3DNM8ffKzK6+m68DMpBKBnGYnQMknpfrs
-         Ow3UuxC2BkGZvYdRFnMsn9Jyi88QPt5PNSVTjW6yWcL3MsW0E2H+69tA4tyuy8hbULvh
-         uUpbusuYeoKICgOpiovfBEYzGGZ+EphFxx6X9KIaCcSJKUQgXkHWFnZCzjnCKTF7ld6H
-         QCaxS/aKAvXxiSZGcoPxasbCoADXIfaVoDjxmqkvq9cTMU3H77qmpfkJPnJFWLh5zqc+
-         4hrlmbtiixaWFyzNKOqpc7lUyPbqTNGF8z0RCiEUsNMBhc+p7rj4qLtd8dhms7QBaLPt
-         STcA==
-X-Gm-Message-State: ACgBeo0a78FQySZvu09lSneOvgTpYI4GXBrEKyBg6xhp/bBOH5bFOmqv
-	9Nsn2UfJad8g9BuZ1Kk0At7kFpWJ9wnxNQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=MHvDx4mZn6U8l1Caw9MiPacj1Ey83Hb/aBNttCiRI4s=;
+        b=sJ7BCQ6uhrKCJUrDrn/CrYLIU1c1S0U7WEW9j9bhjQZHI3IQsy7vkoD/aTK28wW654
+         JSQYE1VccVo/tum9q4AXxeQqqQgHgdhQyqlTHMISiW1y8KxDf+ExWsB7DC6Xjr/+JFaL
+         rQFAiqUy0WVNy6S00+s28bWAcSYTOI+3Dh3ZINw+x2Tcd2g4Ab8+/FPQTOTnYj3asTl6
+         Xw85TmgRGsEWBRfQ4LFAhzjJQ6hXpVhinlAx2KqXrwSbXV7I0HskrKODY6Nk5WXx68pS
+         V0agR2r+1zj3fRsWVXU7JmLDaSL6sJspl6zTPx/huJ+JIjtPlrjDo9StcHeePl9F9vWY
+         BKZA==
+X-Gm-Message-State: ACgBeo19Jd3J7cTSE24SMlLN+4j+Le5HWIcOxmWgdiL2nzYZaJT5u48R
+	477OtJOiweQvQ6v88j2Qul5pINUvVVgOY1WSVJ8=
 X-Google-Smtp-Source: 
- AA6agR6G4Dir4GrwlHgW/sft3oFuDGvw6a8roOMdBVzYhWGSsEKtgFaHeVWc6CpnfGyn8FY2Sn3j/w==
-X-Received: by 2002:ae9:f50f:0:b0:6bb:49da:e1b2 with SMTP id
- o15-20020ae9f50f000000b006bb49dae1b2mr4290958qkg.21.1661460173764;
-        Thu, 25 Aug 2022 13:42:53 -0700 (PDT)
-Received: from hmsvengance.lan ([136.56.11.135])
-        by smtp.gmail.com with ESMTPSA id
- q45-20020a05620a2a6d00b006b5e296452csm340181qkp.54.2022.08.25.13.42.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Aug 2022 13:42:53 -0700 (PDT)
-From: Neil Horman <nhorman@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Neil Horman <nhorman@gmail.com>
-Subject: [poky][PATCH] Fix npm to use https rather than http
-Date: Thu, 25 Aug 2022 16:42:50 -0400
-Message-Id: <20220825204250.3241214-1-nhorman@gmail.com>
-X-Mailer: git-send-email 2.37.2
+ AA6agR4NpTfMFLbZk4YS7DKdMXtCKk7/DXKzC1HmhOSZCIr7EAyrY9QdwMvd8xmbOCgyzvlqUdFoBZpRLz+EzRXRq6Y=
+X-Received: by 2002:a0d:f204:0:b0:333:c23f:d793 with SMTP id
+ b4-20020a0df204000000b00333c23fd793mr5747886ywf.71.1661461623651; Thu, 25 Aug
+ 2022 14:07:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220825072103.641291-1-raj.khem@gmail.com>
+ <20220825223521.04c7284d@booty>
+In-Reply-To: <20220825223521.04c7284d@booty>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 25 Aug 2022 14:06:37 -0700
+Message-ID: 
+ <CAMKF1soNs3Nvw-+Z8-HGunmMhYqbqSb0eC7tCWr5w7mE52=xVA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] apr: Cache configure tests which use AC_TRY_RUN
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Aug 2022 20:43:01 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Aug 2022 21:07:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169894
+ https://lists.openembedded.org/g/openembedded-core/message/169895
 
-Hit this error while building nlf-native recently:
-{
-  "error": {
-    "summary": "URI malformed",
-    "detail": ""
-  }
-}
+On Thu, Aug 25, 2022 at 1:35 PM Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+>
+> Hi Khem,
+>
+> On Thu, 25 Aug 2022 00:21:03 -0700
+> "Khem Raj" <raj.khem@gmail.com> wrote:
+>
+> > AC_TRY_RUN macro means the test needs to run to find the result and we
+> > are cross compiling so this will always get wrong results, this results
+> > in miscompiling apache2 on musl because it disables rlimit
+> > (ac_cv_struct_rlimit) wrongly.
+> >
+> > All these variables are determined with AC_TRY_RUN checks
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>
+> There are several failures with this patch applied:
+>
+> | locks/unix/proc_mutex.c: In function 'proc_mutex_choose_method':
+> | locks/unix/proc_mutex.c:1494:28: error: 'mutex_proc_pthread_methods' undeclared (first use in this function); did you mean 'mutex_posixsem_methods'?
+> |  1494 |         new_mutex->meth = &mutex_proc_pthread_methods;
+> |       |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+> |       |                            mutex_posixsem_methods
+>
+> and other undeclared mutex-related symbols.
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/1446/steps/12/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/3720/steps/11/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/5767/steps/11/logs/stdio
+>
 
-Some poking about led me to discover that:
-1) The npm.py tool replaces npm:// with http://, not https://
-2) Some versions of the npm tool don't handle 301 redirects properly,
-   choosing to display the above error instead when using the default
-   nodejs registry
+Yeah, I will take a look and perhaps trim the list to minimum what we
+need for apache2
 
-It would be good to go fix npm to handle the redirect properly, but it
-seems like it would also be good to assume secure http when contacting a
-registry, hence, this patch
-
-Signed-off-by: Neil Horman <nhorman@gmail.com>
----
- bitbake/lib/bb/fetch2/npm.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/bitbake/lib/bb/fetch2/npm.py b/bitbake/lib/bb/fetch2/npm.py
-index 8f7c10ac9b..8a179a339a 100644
---- a/bitbake/lib/bb/fetch2/npm.py
-+++ b/bitbake/lib/bb/fetch2/npm.py
-@@ -156,7 +156,7 @@ class Npm(FetchMethod):
-             raise ParameterError("Invalid 'version' parameter", ud.url)
- 
-         # Extract the 'registry' part of the url
--        ud.registry = re.sub(r"^npm://", "http://", ud.url.split(";")[0])
-+        ud.registry = re.sub(r"^npm://", "https://", ud.url.split(";")[0])
- 
-         # Using the 'downloadfilename' parameter as local filename
-         # or the npm package name.
--- 
-2.37.2
-
+> --
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
