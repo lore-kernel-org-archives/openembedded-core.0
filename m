@@ -1,96 +1,89 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 875FAC04AA5
-	for <webhook@archiver.kernel.org>; Thu, 25 Aug 2022 10:02:58 +0000 (UTC)
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net
- [217.70.178.231])
- by mx.groups.io with SMTP id smtpd.web11.22126.1661421773758139354
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F31CC28D13
+	for <webhook@archiver.kernel.org>; Thu, 25 Aug 2022 10:07:28 +0000 (UTC)
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com
+ [209.85.161.41])
+ by mx.groups.io with SMTP id smtpd.web10.22097.1661422045999086599
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Aug 2022 03:02:54 -0700
+ Thu, 25 Aug 2022 03:07:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=TmAOSut0;
- spf=pass (domain: bootlin.com, ip: 217.70.178.231,
- mailfrom: luca.ceresoli@bootlin.com)
-Received: from booty (unknown [77.244.183.192])
-	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 2BFAE100003;
-	Thu, 25 Aug 2022 10:02:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1661421770;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R+hW1h+oukwSTnc8jq2tAeMNkARrHeol/+ma+HbzKeU=;
-	b=TmAOSut0+xlCrBnK12Ww1dTilVT4dZ7GzbdaUHI8rXtDny/Dz0XDbRhDs+arYhqfPQL6wV
-	Nq+pM3RE/y3ozPkv0nt50GS0KXCwiMRiAgXG0FvEiiAhGNpT5JNm0gl9RfVQsxbmB+o/ue
-	U8ZdN1hscv/QhLr5dpn/tUdNmkIZsn7qVEOAC79ocXEpg7D0doPGIX4eM+LnU9GZYDJMru
-	HsSB/6TvL+Mt5A3CLycJE2/q5rCAq6O+nNJycPFiO0+g22+ErF1iLEg593inq0vsBhJzXe
-	qBrFTMvcABKC1SuowO717EXdRSdWedu/0SUQDVAa57/8APo/lNRm5UqIbE+02w==
-Date: Thu, 25 Aug 2022 12:02:48 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Khem Raj" <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 3/3] ccache: Upgrade to 4.6.2
-Message-ID: <20220825120248.66f9b613@booty>
-In-Reply-To: 
- <CAMKF1src=s9CWjps=i1PBNw=Q6BuEwE=FpJi9O9R2en3A+3BCA@mail.gmail.com>
-References: <20220823180151.3321962-1-raj.khem@gmail.com>
-	<20220823180151.3321962-3-raj.khem@gmail.com>
-	<20220824185224.370c44bf@booty>
-	<CAMKF1src=s9CWjps=i1PBNw=Q6BuEwE=FpJi9O9R2en3A+3BCA@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=KG/f68S2;
+ spf=pass (domain: gmail.com, ip: 209.85.161.41,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-oo1-f41.google.com with SMTP id
+ g5-20020a4ac4c5000000b0044af7c8c4b3so3249399ooq.1
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 25 Aug 2022 03:07:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=GA9UJ/SM6avhZfvus9SzwOcp2QlT5/jd82dAiaG7dtA=;
+        b=KG/f68S2dm8ggb34N+swxmNAjX+CjkrW4uqsPH17iWVRwktjegkU8AUMK4tq70sLR3
+         XsXsvbt/nBlH/vLt2NlKlvMs8jkMb3yamzdNo/HVFK/UURsXLtC+rpm4Iy5EiaXLjrbE
+         JdVlG8/WktOFEmR+oGT1w6qlxfycJtwkx0PbpLJ0T64wZ7+Nf/tMIQ+6cclNg/6sq/Kz
+         UNrHGSEXFpxMX3WYSuYV7iNI++ddHRqvkz9HKSLD/ZY942FCjbDX/4emDlnuWv7c02Vo
+         rFpK9K7Ww4dwBmZrx0B8NPtIf7jNzpNSh1nKtJ1VTficSINr8GFOr4Gt/VbrLLi1VrSD
+         dQrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=GA9UJ/SM6avhZfvus9SzwOcp2QlT5/jd82dAiaG7dtA=;
+        b=AWOBnIESGzFxygY1d0YF50OP+xRW9msXodNuas/g9yi/R7t5BAEqQRPWb5ogXJaSN9
+         p+AcrfMYmjp6ZPknb6kFs4Cw6i+hZUn17+YklvPsN4weNoyWE6pg6txPStpEG5Sn2iPK
+         t/1VCaJx9YA+ZYKkjwzdMToWB/5kvPQ6+ViOzH0rIZx12ts4zm+jDHDq/IGaSWMu9fFr
+         Fpb07X8npFVPQYlEyyOHLudm2wmV9/jHcPKV5mEN+f/VDsIaLnE0tQPcm0d/zfEJlPqy
+         Dl0dQ1muHI3USOvvV7ZzC2jg4ImGNKEtLfyDzX4dc9XjMZC7+ftxiqadVVK053lxYsyE
+         ZlDQ==
+X-Gm-Message-State: ACgBeo0pt347wS3C3cd7MhwfIV9YQ1IwhsACJR2u3c9Wd7qjmnpDUmLY
+	+TxQnoy+nSMgZxtvxtSIvOd74nE5ZEbI18sbc98=
+X-Google-Smtp-Source: 
+ AA6agR5u9xp8HUJ9ysGphNd0sxbJhESpwwFiSxsyxd2TU7On9nwKQYRVJTVZ2sC/WQ3kbfbjQMgqQFCQ18T/acy8A20=
+X-Received: by 2002:a05:6820:541:b0:44a:907d:c641 with SMTP id
+ n1-20020a056820054100b0044a907dc641mr977470ooj.65.1661422044981; Thu, 25 Aug
+ 2022 03:07:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20220819072727.2236928-39-alex@linutronix.de>
+ <20220820022910.173452-1-Randy.MacLeod@windriver.com>
+ <902d4b02a35afb561892760deb3084221e688bf5.camel@linuxfoundation.org>
+In-Reply-To: 
+ <902d4b02a35afb561892760deb3084221e688bf5.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 25 Aug 2022 12:07:13 +0200
+Message-ID: 
+ <CANNYZj_-e1L+Umif4oA5Nz=Sj__VZ3w0DbNHvJ7H2z4L+v5ufA@mail.gmail.com>
+Subject: Re: [PATCH] rust: conditionally copy tools like rustfmt
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Randy MacLeod <Randy.MacLeod@windriver.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Aug 2022 10:02:58 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Aug 2022 10:07:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169841
+ https://lists.openembedded.org/g/openembedded-core/message/169842
 
-Hi Khem,
+On Thu, 25 Aug 2022 at 11:46, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Digging further crossbeam-utils has a no_atomics.rs file listing all
+> the triplets that can't use atomic or have limited 64 bit ones.
+>
+> Sadly those triplets don't match the ones were using as we have
+> TARGET_VENDOR in ours, for reasons. That will be why it breaks.
 
-On Wed, 24 Aug 2022 09:57:13 -0700
-"Khem Raj" <raj.khem@gmail.com> wrote:
+Not sure if this helps, but librsvg deals with it thusly:
 
-> On Wed, Aug 24, 2022 at 9:52 AM Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
-> >
-> > Hi Khem,
-> >
-> > On Tue, 23 Aug 2022 11:01:51 -0700
-> > "Khem Raj" <raj.khem@gmail.com> wrote:
-> >  
-> > > Fix build with musl
-> > >
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>  
-> >
-> > AB testing with these 3 patches I got an error in test_ccache_tool. Not
-> > sure these patches are guilty, but they are the only ones
-> > ccache-related.
-> >
-> > Maybe you can have a look?
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/4037/steps/15/logs/stdio
-> >  
-> 
-> drop the upgrade patch
-> 
-> [3/3] ccache: Upgrade to 4.6.2
-> 
->  and see if that helps. We dont really need that for gcc 12 issue.
+RUSTFLAGS:append:mips = " --cfg crossbeam_no_atomic_64"
+RUSTFLAGS:append:mipsel = " --cfg crossbeam_no_atomic_64"
+RUSTFLAGS:append:powerpc = " --cfg crossbeam_no_atomic_64"
+RUSTFLAGS:append:riscv32 = " --cfg crossbeam_no_atomic_64"
 
-My build with the first two patches + the gcc 12.2.0 upgrade succeeded.
-Thanks!
+(it's perhaps worth investigating how this flag is used there)
 
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Alex
 
