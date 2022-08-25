@@ -1,98 +1,161 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ECD9C04AA5
-	for <webhook@archiver.kernel.org>; Thu, 25 Aug 2022 09:19:38 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web11.21889.1661419168334351828
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81FA7C04AA5
+	for <webhook@archiver.kernel.org>; Thu, 25 Aug 2022 09:46:18 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web08.22034.1661420772668087815
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Aug 2022 02:19:28 -0700
+ Thu, 25 Aug 2022 02:46:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FJmxpz61;
- spf=pass (domain: gmail.com, ip: 209.85.167.50,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f50.google.com with SMTP id n15so6324402lfe.3
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=doY7JkAT;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id
+ n23-20020a7bc5d7000000b003a62f19b453so2356579wmk.3
         for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Aug 2022 02:19:28 -0700 (PDT)
+ Thu, 25 Aug 2022 02:46:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=CkCipoSTDl9lkMP6ffYQBF4WducJ3YA9SmBDnQ87Erg=;
-        b=FJmxpz61RR5et0xe0r0UNgq7fzHr5gR/Dhyyf4vV4yi/oASDyuBdB6XuYgX5i4BqXL
-         Yukv9gSAxw6C8Z9jywYtYZr2Xt7W/7y1fJMl/nSQhfvVVZAQXq4wDwhc1Z/xJExedMmm
-         Kn+NrYJfciQopwUcqIpeXWK8mHmF9FkA7ThL8LrZuckyKPoMMIazO1BnVNCN3Fusf6qG
-         7XKNpfcqTxSEIIJTkmVM2biqjF0Twwr6d223ZT3V96FSq00FXISY1hEgxS2sQawUxI6R
-         6+0NnzaeenA9iBrThIQ0NCCUhgF9caWlrlXGq19BWPYzth5KYPtfDpZW507vc8bSlTqq
-         yetA==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
+        bh=ETkNVDXCyhnC73fNHN3lFprca7jDXVL5hKcnm+ab7y8=;
+        b=doY7JkATFLBmOTsPwoUOCjFH9o5A9R4ZdnaTlb1M9r5cr+xaGBnHjB2/olm+A77yvD
+         vdrXidKxB1yW+247dX5L/BGBAM4rb1oDlEHRfDjFlrKpur8nRR2v2xkj45IsJwt9Pm0+
+         atlsKGXS8nSUkVxh7PCGzOiXHwS29TjUsttxE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=CkCipoSTDl9lkMP6ffYQBF4WducJ3YA9SmBDnQ87Erg=;
-        b=wToGOSFidDyh3yVWk8Q7cCw0BNAXZ18SvMwrAk6tf0Xkt5xtXrQL/yOfCl8RnEah2d
-         o3Jin2tyDjRBKAPncnEoy+/vY1WFJAv8/97xCQoOajmZ38Ty1LcoJFuXyG0VuRci1yrg
-         NvQGsWN/7Oo2HM8h8aAsZd2gjWzyRXv3bj/nKHr9dJuXTyoeoAWjaW5G1tps1y6Bj7ur
-         z4ZAIygeIW3w8ajp43HEY74T9OH+kbMoJ1+jquvMZfCt/8FJ7A1W6bnh/H0UspG37fgT
-         M4Z3qlfNrtAisFsrb0jF1dab4H2YhPIldxTraMayuLTyDxsnLTCJbTz3oh8fnK56CV2w
-         eoYQ==
-X-Gm-Message-State: ACgBeo03v+algKGN6biYBpT+jXiMeQ7qA8cG3FQOrsUW2FY0oKCQeKam
-	w2HbRglhLMtj91prYm9hJySxxyGTRbp1cdjvX1U=
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc;
+        bh=ETkNVDXCyhnC73fNHN3lFprca7jDXVL5hKcnm+ab7y8=;
+        b=pyNvhRbaeWlHLjjUh85drJfgqMjfC6F+eh7uruoVrL7Q1fVJhF+m2hCqt4FJI8voEo
+         F0djjK4eXP337Kxy674mps8EiW2ogbH3ihdbX2HeOHlFysVtTMAFT0FG2H23q1/opsHM
+         7t9Lu3G6/kyz60NYZbm13yXIC+6vcyAlTeIp4n+0qwbBiRT6h3cvCnGfJ8NFhv8bs+Xx
+         NufqC7oPI/vYm58+eWdF/kD3sdtTudFTj45Pdk5vnI+EQqBcbqOlJin6ZGVn7KlPfloo
+         KUHO14QrSBptPpUVhZY2mmMPJcaKQ/0wzLz3K0LGi9E3oHezU4Ag4ITldgIVISdXIies
+         y6HQ==
+X-Gm-Message-State: ACgBeo1ZVo9NjbTjUKZXHYb5s8foFkJo/UuQ0WcgL8JGY+ZthGVuHUEc
+	QG4+jfQErG+HyaV/my8Q2yud9Q==
 X-Google-Smtp-Source: 
- AA6agR6Iwt0+pT85u8JulQ/FuevzNp4uzF8Smnu+Y6GXoStHNq57y49Em3h0CncWqAND11aaYzM0TW/FRFY5Fj6qzwM=
-X-Received: by 2002:a05:6512:2511:b0:493:50c:ec3 with SMTP id
- be17-20020a056512251100b00493050c0ec3mr823170lfb.665.1661419166413; Thu, 25
- Aug 2022 02:19:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220824124234.3549247-1-alex@linutronix.de>
- <20220824124234.3549247-2-alex@linutronix.de>
- <c1b4303568ad4fd2a1c7133bde18ad53@axis.com>
- <CANNYZj9KH13zkN2Lu7ToaqRGcXdPBxbUT+v3U0HezM5sYa0bTw@mail.gmail.com>
- <aa755beb07f143619c3c7fec974ce2a3@axis.com>
- <CANNYZj-FYOOBqPBs3sZuXQqse1nrtRZXeKrKjMg=YZgt2neSKw@mail.gmail.com>
- <57b46d76a2174cc487c8a210c3539b03@axis.com>
-In-Reply-To: <57b46d76a2174cc487c8a210c3539b03@axis.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 25 Aug 2022 11:19:14 +0200
+ AA6agR52Z7k5MZZQik3UjLxwJdvFfBXQzMvdMJyDXC4Cro2K+Vmafmw5tZlctQT2VvmQHGv2rpY4qg==
+X-Received: by 2002:a1c:7708:0:b0:3a5:5543:cec4 with SMTP id
+ t8-20020a1c7708000000b003a55543cec4mr7796695wmi.47.1661420770944;
+        Thu, 25 Aug 2022 02:46:10 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8059:8737:891c:87d?
+ ([2001:8b0:aba:5f3c:8059:8737:891c:87d])
+        by smtp.gmail.com with ESMTPSA id
+ n12-20020a5d67cc000000b0022584c82c80sm464144wrw.19.2022.08.25.02.46.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Aug 2022 02:46:10 -0700 (PDT)
 Message-ID: 
- <CANNYZj94cymsa-TmkcMmHWm2FQ6CvRvKE3_eCy=t63x9NFZnhA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] scripts/oe-setup-builddir: add a check that
- TEMPLATECONF is valid
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>,
- Richard Purdie <richard.purdie@linuxfoundation.org>
+ <902d4b02a35afb561892760deb3084221e688bf5.camel@linuxfoundation.org>
+Subject: Re: [PATCH] rust: conditionally copy tools like rustfmt
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Randy MacLeod <Randy.MacLeod@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Cc: alex.kanavin@gmail.com
+Date: Thu, 25 Aug 2022 10:46:09 +0100
+In-Reply-To: <20220820022910.173452-1-Randy.MacLeod@windriver.com>
+References: <20220819072727.2236928-39-alex@linutronix.de>
+	 <20220820022910.173452-1-Randy.MacLeod@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Aug 2022 09:19:38 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Aug 2022 09:46:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169839
+ https://lists.openembedded.org/g/openembedded-core/message/169840
 
-On Thu, 25 Aug 2022 at 09:19, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
- >
-> > We are trying to move towards standardizing build configuration
-> > management. One step towards that goal is that config templates must
-> > live in meta-some-layer/conf/templates, and aren't scattered around,
-> > or generated on the fly. This rule only makes sense if there is some
-> > way to enforce it, which is what this change does.
->
-> Well, we gave up on the static templates almost immediately after we
-> started using Yocto when we realized that they did not fit into our
-> idea of being able to mix layers in different combinations in different
-> builds. We rely on repo fetching the layers that are supposed to be part
-> of the build, and then we generate a bblayers.conf.sample that matches
-> the fetched layers.
+On Fri, 2022-08-19 at 19:29 -0700, Randy MacLeod wrote:
+> For qemuppc/mips, rustfmt isn't being built so check
+> that it and related tools exist before copying them.
+> qemuppc/mips are not well-supported in the Rust world
+> but will work to get the build to fixed later.
+>=20
+> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+> ---
+>  meta/recipes-devtools/rust/rust_1.63.0.bb | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/rust/rust_1.63.0.bb b/meta/recipes-dev=
+tools/rust/rust_1.63.0.bb
+> index 3081cd5ef3..050f398794 100644
+> --- a/meta/recipes-devtools/rust/rust_1.63.0.bb
+> +++ b/meta/recipes-devtools/rust/rust_1.63.0.bb
+> @@ -43,8 +43,10 @@ rust_do_install:class-nativesdk() {
+> =20
+>      install -d ${D}${bindir}
+>      for i in cargo-clippy clippy-driver rustfmt; do
+> -        cp build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/release=
+/$i ${D}${bindir}
+> -        chrpath -r "\$ORIGIN/../lib" ${D}${bindir}/$i
+> +        if [ -e build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/re=
+lease/$i ]; then
+> +            cp build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/rel=
+ease/$i ${D}${bindir}
+> +            chrpath -r "\$ORIGIN/../lib" ${D}${bindir}/$i
+> +        fi
+>      done
+> =20
+>      chown root:root ${D}/ -R
+> @@ -60,8 +62,10 @@ rust_do_install:class-target() {
+> =20
+>      install -d ${D}${bindir}
+>      for i in cargo-clippy clippy-driver rustfmt; do
+> -        cp build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/release=
+/$i ${D}${bindir}
+> -        chrpath -r "\$ORIGIN/../lib" ${D}${bindir}/$i
+> +        if [ -e build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/re=
+lease/$i ]; then
+> +            cp build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/rel=
+ease/$i ${D}${bindir}
+> +            chrpath -r "\$ORIGIN/../lib" ${D}${bindir}/$i
+> +        fi
+>      done
+> =20
+>      chown root:root ${D}/ -R
 
-The static templates is only a starting point. The next step would be
-to support prefabricated 'configuration fragments' stored inside
-layers that can be dynamically added/removed into local.conf and/or a
-distro definition, so ideas for the design and UI would be welcome.
 
-Alex
+I did look into this a bit. The compile logs for ppc are full of
+horrible warnings and I have patches to clean that up. Once that is
+done, it comes down to crossbeam-utils trying to use AtomicI64 which
+doesn't exist on mips or powerpc 32 bit.
+
+https://github.com/tikv/rust-prometheus/issues/315
+
+has some interesting info.
+
+error[E0412]: cannot find type `AtomicU64` in module `core::sync::atomic`
+  --> /usr/src/debug/rust/1.63.0-r0/rustc-1.63.0-src/vendor/crossbeam-utils=
+/src/atomic/consume.rs:78:14
+   |
+78 |   impl_atomic!(AtomicU64, u64);
+   |                ^^^^^^^^^ help: a struct with a similar name exists: `A=
+tomicU16`
+
+error[E0412]: cannot find type `AtomicI64` in module `core::sync::atomic`
+
+Digging further crossbeam-utils has a no_atomics.rs file listing all
+the triplets that can't use atomic or have limited 64 bit ones.
+
+Sadly those triplets don't match the ones were using as we have
+TARGET_VENDOR in ours, for reasons. That will be why it breaks.
+
+I'm trying a patch which changes TARGET_VENDOR -> "-unknown" but I've
+never written rust code and it takes an age to cycle through so we'll
+see...
+
+Cheers,
+
+Richard
+
+
+
+
 
