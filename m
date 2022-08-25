@@ -1,173 +1,193 @@
-Return-Path: <quentin.schulz@theobroma-systems.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE687C28D13
-	for <webhook@archiver.kernel.org>; Thu, 25 Aug 2022 15:00:09 +0000 (UTC)
-Received: from EUR03-VE1-obe.outbound.protection.outlook.com
- (EUR03-VE1-obe.outbound.protection.outlook.com [40.107.5.87])
- by mx.groups.io with SMTP id smtpd.web09.25056.1661439603849311202
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 537B0C28D13
+	for <webhook@archiver.kernel.org>; Thu, 25 Aug 2022 15:25:20 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web10.25212.1661441109350928527
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Aug 2022 08:00:04 -0700
+ Thu, 25 Aug 2022 08:25:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherrycloud.onmicrosoft.com
- header.s=selector2-cherrycloud-onmicrosoft-com header.b=cy/cvGFM;
- spf=pass (domain: theobroma-systems.com, ip: 40.107.5.87,
- mailfrom: quentin.schulz@theobroma-systems.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MVM2OShzM5a1nDgpLzlczv2Sj6qoSZg8qDyOzaFFiwTQAkdC/KY7Cfxz2ZO766CSlInub7H+BifCJeVaxoX7NCD4iXHGAmvAFSxp4qHrT7gG0KkjcEg5uwU+mSpAdfe5WPUtkYlaVNClNh6Xlwhp8bgFXAAK5jZk83K+SMFKR7Rv9FFmGL/NBHaCeLJQTJVkHDovZfPaHD6pVdVTXu4gMZ8LMhsg5NqE4dou8sVo1RtE1fGU9LAYJKpSkteHgcU4F/I4tDObPvUx+ZKNKkOnHCP0qiU5LXPG7gIMavsQyF2DHhUVBkyx4lMXI0nYGPTLLkdRjcKmmlXyuCDKTOF85g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NX5RaBzxBvZQYcZWheXcChwK4HI4O8dMTWy6c9q2tNM=;
- b=j6b43wec7YvhLbH2RPRp4Sn3+GThzQVrO0ZSsPHij4H9ESU/TJvWeDc+z+TL2CJubE+zj/8SNMLE19zx/1Lo9YalHyGvcSUsGwCsi35vfurcOrVpb9y28wNyotKQ8UytpkuAbTD7ttU/QoLbnPnUws+dU0SnvgWz2U8jRZq15miT1Iy39qekZFKcRkovxkVTeD9TiA5V/hBtL8q+OnmqjDDes7/Q9sr6SgFmOdaSQoH49R0zZHuX+nGW45QA+VPLZe/an8LP7MGqrxI8mJTjGajVz1ZA7Rd63avGUMKRaAGRpQ4F/tsjomm5kBeGaoYJshJWbe16BaX21ZNbDU1rjg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
- header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
- arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DwA93CdG;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id az27so5056794wrb.6
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 25 Aug 2022 08:25:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cherrycloud.onmicrosoft.com; s=selector2-cherrycloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NX5RaBzxBvZQYcZWheXcChwK4HI4O8dMTWy6c9q2tNM=;
- b=cy/cvGFMrWBMSGQKKevKHhInw+mvfUYsKJNxjgEf6pc5qXvRVyfydbVQqVgLCM9ZGcacHeDERhxm7DmtEpX+lQKIYQYDEHS2HLjSX/6oJnzKv+6eVQ9YxK95xD3L/QhArohGbAC3E4EXiWKYMUeO5QJZKRCunJ8fT1QPppGRWk4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
-Received: from PA4PR04MB9367.eurprd04.prod.outlook.com (2603:10a6:102:2aa::7)
- by AM6PR04MB4840.eurprd04.prod.outlook.com (2603:10a6:20b:11::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Thu, 25 Aug
- 2022 15:00:00 +0000
-Received: from PA4PR04MB9367.eurprd04.prod.outlook.com
- ([fe80::81a8:1bbf:5e16:9b4e]) by PA4PR04MB9367.eurprd04.prod.outlook.com
- ([fe80::81a8:1bbf:5e16:9b4e%4]) with mapi id 15.20.5566.015; Thu, 25 Aug 2022
- 15:00:00 +0000
-Message-ID: <2d8ddc57-2f9f-f909-3b26-6b1810ee5d83@theobroma-systems.com>
-Date: Thu, 25 Aug 2022 16:59:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [oe-core][PATCHv2] connman: add PACKAGECONFIG to support iwd
-Content-Language: en-US
-To: Ross Burton <ross.burton@arm.com>, Markus Volk <f_l_k@t-online.de>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <20220824125037.4855-1-f_l_k@t-online.de>
- <D7DA9B94-3FFE-4817-9279-3420BB423AC2@arm.com>
-From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-In-Reply-To: <D7DA9B94-3FFE-4817-9279-3420BB423AC2@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0044.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4a::7) To PA4PR04MB9367.eurprd04.prod.outlook.com
- (2603:10a6:102:2aa::7)
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc;
+        bh=YCuj1UKBLU5G1wmEvP+qTz9tfUW0fCC/ZZLEJJWyYHk=;
+        b=DwA93CdGNmF3RqfvsQCgkDpRVfDGE5z7O8d6AUDrkaYvef2iRbLcu3upEQyrmVNhBr
+         3E75yl6wF4p80fqhO+/ktE4L2x/mhiS9cgjFcVdsfA10igCvcxXqEA4c5tcWWV0FGhN0
+         7du6nrpkCdcfUl7G6kWZyP4uxfS6rgEj5omNA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc;
+        bh=YCuj1UKBLU5G1wmEvP+qTz9tfUW0fCC/ZZLEJJWyYHk=;
+        b=cL2w5prlY9obYARRXWVXOj01LGpDyCMFAIVHU/oU1J9UKW82V+mAOjnteXcUTClBFc
+         7hvfndvQzjHSr16rtK7HkufaZTanvOsa5u+IyyNR3oHB2Ee7rFR1QNilxESlRqHnG8MI
+         zpu4AKQ9PADhtwSxtX10x9X7tBx+u6vQ28xVAHVFpSN2BOIRtfKFvjTTLcjQN/71PIlP
+         HrAThvon2YaSAqTc7SEvzLRLwzxNjPlb2lVL+WmtUo+/j8d7hG2yxLcvLmCBA/xJxX9j
+         hPHTtsDoFD5E5a3TrXh6LIKEgifQDp6tAaHiYAg13O5Qy06M95ObAWKldleliAL6V+Yo
+         +gaQ==
+X-Gm-Message-State: ACgBeo3f7dSNE7CiUtSG1PDyDQB+SxUO1a7hy1H9u0iwMrph+xE1RqGf
+	FaJSOCImuLmPRC1oeBhu0l5KHQ==
+X-Google-Smtp-Source: 
+ AA6agR4CzRoR1OtU0AhXJoOKigcCrK6TiqGG8DVzcb+M5nSDXUNtykZKx0bbktmQ9RpW2dEF4cD7iA==
+X-Received: by 2002:adf:fbd2:0:b0:21e:7f74:5df1 with SMTP id
+ d18-20020adffbd2000000b0021e7f745df1mr2646947wrs.43.1661441107372;
+        Thu, 25 Aug 2022 08:25:07 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8059:8737:891c:87d?
+ ([2001:8b0:aba:5f3c:8059:8737:891c:87d])
+        by smtp.gmail.com with ESMTPSA id
+ h188-20020a1c21c5000000b003a54f1d007csm5668711wmh.10.2022.08.25.08.25.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Aug 2022 08:25:06 -0700 (PDT)
+Message-ID: 
+ <093ee50ae3296829910f9c6a32209002aa7a2461.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] oeqa/sdk: extend rust test to also use a
+ build script
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Bergin <peter@berginkonsult.se>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 25 Aug 2022 16:25:05 +0100
+In-Reply-To: <b6d8218a-043e-cb3a-3783-5fe1ce6e4541@berginkonsult.se>
+References: <20220823085636.30868-1-peter@berginkonsult.se>
+	 <20220823085636.30868-2-peter@berginkonsult.se>
+	 <6ca1d415a0faeba53e6a3945bd1fafd89866e2e9.camel@linuxfoundation.org>
+	 <f7469b7e-7df2-e418-6da0-7427bbdc8cfd@berginkonsult.se>
+	 <af63da104ec9d91ab441d3cabfaadfe4700760fa.camel@linuxfoundation.org>
+	 <b6d8218a-043e-cb3a-3783-5fe1ce6e4541@berginkonsult.se>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ac088240-bbdb-41a8-7934-08da86aa7b56
-X-MS-TrafficTypeDiagnostic: AM6PR04MB4840:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	H4Oh3tRSKOPg2T/Myw6rKkYznqN+0B1p2padsy2rzEcVkHWMTIyFJmMp0fLzh/bYpGn1Z++QVPjBycFauYLs+hrS9mpZZrPGnEu7u3vZ48s2ToxUadEWZ0CAtozliKewFY4xssShJDKnN6hQ7qvzulxouh81sbCFVgEwST/QzHq+DvaN7yYTeISzjIprL1WxBdDmV5yvOz1l24cAPX3BBJUt6fx9bfcdh/Wmzevi4dZ61+EFf973EHOxaZ44ENQAT1CiLmbypP0M6GH90L6eFZYmM5ZyXZ2ch/FouTUp9xFk9YIL4CYYkDzfRVWLtmeKoIXX8VaYg/XfEJz+doFPPbxAyX0B7okR0AYyUc5bb7pIFqf8iKyxmWiF5YhdPLga9UK1vtkwWX//C0W9Ad9s+uPFr8BIYUACeka7BNXLdOoUgbaqZbh5lIrH1ID81sqyYChSD0CT/Wu7tjFltL5nWHdtxwosABeERZTN7BqJkRdjmHV76BBBTw8aIBR9V1XnvAixrJvCSqCe2aUkhcpwlrYWqHOs8KMJ3ir6gUXVvRPArd2s3ghfrpAmYoeoYfQ3mdcn1IXAKuvWYYuGr723wmzHW7Wrp4QjNCVvTS/vwvD6Bu+ZiE6G6WFEABOjTU8jHXrqYn/CWJ1CG78lyV/oH2UnAtCZpj2UZl0Jcm6LMPxBXQ6FQv1ezPGge7g6h3K5TNEzeDIjkXj8no2hqPaZeMnOashuRJczc3BtE2DX8OQ29rZZMJOM+Klmjy3Wrf30J2/Z8uFjUhPJnuuQVKl1fLoq+GqdPC4Zl8wxWCSqv87ggjhmBzSNz4QgwpB9SNWJ4btbAuMeRvaX8GgNChDPBQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9367.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(376002)(39850400004)(396003)(346002)(136003)(366004)(66556008)(38100700002)(86362001)(66946007)(31686004)(36756003)(31696002)(8676002)(66476007)(4326008)(110136005)(186003)(83380400001)(53546011)(26005)(2616005)(6512007)(6506007)(41300700001)(478600001)(6486002)(966005)(316002)(2906002)(5660300002)(44832011)(8936002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?cDFsNVN0cUhmcnRhYkZyOHNjYVZ5dFZJandNTWxNSC9Uazh5OUF0ZjdXK3NR?=
- =?utf-8?B?NTlwdE44UXFSV3l1Lzlia0YyUWhBclUzdXM0SzllaXJGQTJ2T0FqYVZQdlRK?=
- =?utf-8?B?MWwzUHVTMGpjMkJ3NzhqbVdPV3VMQ1ZmQ04zNUpXNHJZblg4ZDNtdVg1RzZO?=
- =?utf-8?B?elZSWWdSVWtOcDJxYkZDYTRxUXJBZHFQNGZBdW1DOGVZdGpwaHlUQmNpRks0?=
- =?utf-8?B?enR0akE4R2xBNnZla05jbjJFTXJNSDVjWG5VQjJscmMxYjR2bEx3RGUrRmRt?=
- =?utf-8?B?NXFRUXZ6cnhPaC9uWnJCYXR0MnJyckYrMkQ3eC9odFB4Y3BOU0hrOXRUZk9D?=
- =?utf-8?B?RFBWY2VTUTFjRmpRdjd2d1Fsd3ZxTGNIYmdmRmhvQ2FrbktPNmorU0ZmSUsw?=
- =?utf-8?B?UGNOb250QmhyKzRPcExlS2xTbjN1Qzc2YzJSVklqOCtaLzNzczN6dU8zaUdX?=
- =?utf-8?B?aDZxVzg1c29hbW93VU42ZC9HUTQxR0xlL3U5cGNUL0lKRExoNXMvbDZvZTd1?=
- =?utf-8?B?aTc2Wnk1RnZXMGI5UGpjL0N2SXBFaXJ2WGtKM1NuS0swZERhcTByMUYxSnVs?=
- =?utf-8?B?cXRjWWtjWWpGYVZDS05UdVdiNWM1OXhLNXdwczA3L0dvcXloM2phTlhhbmhD?=
- =?utf-8?B?NC83UWJPSEZNMDJiQ2NLcGNTb2c0WnBPNEdNbFdpakl3RGttN3NkK2RCekph?=
- =?utf-8?B?SHZ5bnhxNTg3NUJQRCtuZ1IzeUl0WGNGODF4RXVzUDljMkhJNDFBNy96NTY4?=
- =?utf-8?B?NTF0SmxIQ2FxbkpBcXl5dXJPbjdKMUJUZHZlbGozY1JkOHFpbUkrcXFVSUVH?=
- =?utf-8?B?dEJXMENiS2trYThsWnljdUJWOXpJY3pRZS9VT0haRFhGbzNvZXZMZVBPZ3hV?=
- =?utf-8?B?b1FabzFWa2xiYlBadlRnQVBzUGNMSnRrV0duTG94K0tQWlVDNnhQcHVIampF?=
- =?utf-8?B?ZDcrVkdnYi9LSTdxRE5uQ2d6WTJyOGhWbVRoMXE1NVlralFFdm56c1pOU2E2?=
- =?utf-8?B?WlVoVENHU2JZVFNKUGV6YjIrTE1mTkw1WW51UTBOeWp2TitpQ2tJNWVGTEJE?=
- =?utf-8?B?QTRxMnZNRC9TaTB3VlBXVElPT25kbnNkdHBxWjVZVVgzdUNsL1c1OXpIT2lV?=
- =?utf-8?B?bXFlc0RNaDdLV2RKa3hxZEZCTDJuZUR5ZEVPeVhwNGJGWTdtSERPMWJ4RHRN?=
- =?utf-8?B?dXR1UlJsMWdVaEJUMXNYUTREVXhyL1dCdEJRMFZnSFE0L2lyR0hBbkJyNjUy?=
- =?utf-8?B?dlYzOEZGNDJhUVFYVytMSm01NEVLWldKOSs5RVNHS0JLRzdOY0lSUE41S2x2?=
- =?utf-8?B?OE82QzNNVHNvUk5yTGFiaTJrT1ZreWIzZkNsR0wyOVlBNzFCekEzTzVjei9i?=
- =?utf-8?B?RnNtd2dWMUladmNnd2dGeXpUNGY5VlBpbmdaWTVkOFZDU0w3RlF2a1NTdjF4?=
- =?utf-8?B?Wjd6dTZGT25KVmV6dVdycmpSZ3lSTW9ETU11K1c5Y1UxdWNYNFZjY3hHSkwr?=
- =?utf-8?B?VTVabk1rRllUc0VKZ2xoeG9xQUVIbUt2K2VTSHZHZ2VIUllVbG0rNHlBSWZM?=
- =?utf-8?B?VWV6RjNrcnkya0NMZjlEY21XYk03cGZaNFpQZ0dlQ1hkamtuSzdpcVJFcUVM?=
- =?utf-8?B?cFJxU1Y1Y0liOENJaElVakJWd2tTMVU2QlpvWGxuUVB3OWQvaTVrR0Z4ajBD?=
- =?utf-8?B?cVcxRmpZazBLZStOd3hhQndnbVB1RitVeW5uS3ZnbTBjektVdHVoZE9ZMlBG?=
- =?utf-8?B?bHhsQy84dlFZL1pveW1OMzYvdmlIYnNwU0ZhVy9jaXlFdzdHaTZralhJUzhE?=
- =?utf-8?B?L2hJZVVoRStYV0dwRjd3RGtNYXkwQmhaSkk5MkkrVC9zQ1p6RXBVU3A0bVJw?=
- =?utf-8?B?NmZtbmw1SW9WVXFPZ1lZOGllUnpXT2RoOEZNK2Z2eGVHZVRiMkdXak02bVlJ?=
- =?utf-8?B?K1dmWURLSzdHdTNETXJmL0N3VmJURHRXbXo0YldaZjIxK3ZSNzlEQllRaWpt?=
- =?utf-8?B?MFRVdWx0V3BndzJSUk13eUk1Y05GTjZaKzI5UG1OSlBQODJMR01ZUTd5L2t0?=
- =?utf-8?B?S1dXZytadnY3Yk5EcENzSjJTRXc1YjFFNzZBanJaRk9KUTVrZEZoMDdnM3JX?=
- =?utf-8?B?MS9CK2JuOFBJUGZORTRQRkxHcTlQNHdiSVdRQTNMV2tEeGxZT3NKMGp4UHBV?=
- =?utf-8?Q?yM8j74YRp1UJw4qBxiXap0c=3D?=
-X-OriginatorOrg: theobroma-systems.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- ac088240-bbdb-41a8-7934-08da86aa7b56
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9367.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2022 15:00:00.0835
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- bkk24OqnPPC5gd6AEBRP040aiH9qmVhk2VVJMIR2/6u/643LLGVewEUBAvnowOzHO7oWRXK7euBNBXG2fXp3F00dObIZtoQ/LubauyjZtRSND57IGANDXcH/dcV6vfv1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB4840
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Aug 2022 15:00:09 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Aug 2022 15:25:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169877
+ https://lists.openembedded.org/g/openembedded-core/message/169878
 
-Hi Ross,
+On Thu, 2022-08-25 at 14:03 +0200, Peter Bergin wrote:
+> Hi Richard,
+>=20
+> On 2022-08-25 10:21, Richard Purdie wrote:
+> > <snip>
+> > > I've tried locally to reproduce something. I've built and tested
+> > > genericx86 and qemuarm64 now on core-image-sato sdk that I saw was th=
+e
+> > > target for the autobuilder. Both tests passes. The failure I see in t=
+he
+> > > autobuilder logs is that the build script can not be executed. On my
+> > > machine I have that file and it can clearly be executed:
+> > >=20
+> > > $ find
+> > > tmp/work/genericx86-poky-linux/core-image-sato/1.0-r0/testimage-sdk/h=
+ello/target/
+> > > -name build-script-build
+> > > tmp/work/genericx86-poky-linux/core-image-sato/1.0-r0/testimage-sdk/h=
+ello/target/debug/build/hello-4dbf26d86b93a892/build-script-build
+> > >=20
+> > > $
+> > > tmp/work/genericx86-poky-linux/core-image-sato/1.0-r0/testimage-sdk/h=
+ello/target/debug/build/hello-4dbf26d86b93a892/build-script-build
+> > >=20
+> > > $ file
+> > > tmp/work/genericx86-poky-linux/core-image-sato/1.0-r0/testimage-sdk/h=
+ello/target/debug/build/hello-4dbf26d86b93a892/build-script-build
+> > >=20
+> > > tmp/work/genericx86-poky-linux/core-image-sato/1.0-r0/testimage-sdk/h=
+ello/target/debug/build/hello-4dbf26d86b93a892/build-script-build:
+> > > ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically
+> > > linked, interpreter
+> > > /storage/yocto/esp5-platform/build/genericx86/tmp/work/genericx86-pok=
+y-linux/core-image-sato/1.0-r0/testimage-sdk/sysroots/x86_64-pokysdk-linux/=
+lib/ld-linux-x86-64.so.2,
+> > > BuildID[sha1]=3Dc5d5e70657f8342addf5343d0206c77d9d767fd8, for GNU/Lin=
+ux
+> > > 3.2.0, with debug_info, not stripped
+> > >=20
+> > > Found one interesting link here
+> > > https://github.com/rust-lang/cargo/issues/3553. Unfortunately without
+> > > answer. But also checked the interpreter in my build which looks corr=
+ect?
+> > >=20
+> > > $ readelf -a
+> > > tmp/work/genericx86-poky-linux/core-image-sato/1.0-r0/testimage-sdk/h=
+ello/target/debug/build/hello-4dbf26d86b93a892/build-script-build
+> > > > grep interpreter
+> > >   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [Requesting program interpreter:
+> > > /storage/yocto/esp5-platform/build/genericx86/tmp/work/genericx86-pok=
+y-linux/core-image-sato/1.0-r0/testimage-sdk/sysroots/x86_64-pokysdk-linux/=
+lib/ld-linux-x86-64.so.2]
+> > >=20
+> > >=20
+> > > So there are some differences between my machine and the autobuilder
+> > > setup that I can't get. I would need help here as I'm not that famili=
+ar
+> > > with the autobuilder setup. Can it still be some host dependency? I'm
+> > > running on Ubuntu 22.04. Is it possible to check in a autobuilder set=
+up
+> > > if the file 'build-script-build' is present and possible to execute?
+> > After staring at this for an hour, I think the pattern is that is it
+> > failing on builds with:
+> >=20
+> > SDKMACHINE =3D "i686"
+> >=20
+> > which probably means the linker isn't linking against the libc and
+> > loader in the SDK properly.
+> >=20
+> > (i686 SDK binaries should run on x86_64 hosts since we provide our own
+> > loader and libc)
+>=20
+> Thanks a lot for the reproducer. You are correct, with SDKMACHINE i686 I=
+=20
+> was able to reproduce. I want to share some weird stuff and see if=20
+> someone can get a clue for a solution.
+>=20
+> Did same analyze on the build-script-build file as I did on a working one=
+:
 
-On 8/25/22 14:17, Ross Burton wrote:
-> On 24 Aug 2022, at 13:50, Markus Volk via lists.openembedded.org <f_l_k=t-online.de@lists.openembedded.org> wrote:
->> +# For smooth operation it would be best to start only one wireless daemon at a time.
->> +# If wpa_supplicant is running, connman will use it preferentially.
->> +# Select either wpa_supplicant or iwd
->> +WIRELESS_DAEMON ??= "wpa_supplicant"
->> PACKAGECONFIG ??= "wispr iptables client\
->> -                   ${@bb.utils.filter('DISTRO_FEATURES', '3g systemd wifi', d)} \
->> +                   ${@bb.utils.filter('DISTRO_FEATURES', '3g systemd', d)} \
->>                     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'wifi ${WIRELESS_DAEMON}', '', d)} \
->> "
-> 
-> This is over-complicating things.  Why is the wifi daemon a special configuration option?  Just have wpa_supplicant in the default PACKAGECONFIG, and people who want to use iwd can set PACKAGECONFIG.
-> 
->> +PACKAGECONFIG[wpa_supplicant] = ",,wpa-supplicant,wpa-supplicant"
->> +# iwd would be required as a runtime dependency. it is nevertheless given as a recommendation because the recipe for it
->> +# is not included in oe-core.
->> +PACKAGECONFIG[iwd] = "--enable-iwd,--disable-iwd,,,iwd"
-> 
-> This definitely should be RDEPENDS.
-> 
-> Note that if wpa_supplicant and iwd are mutually exclusive, you can express that in the PACKAGECONFIG:
-> 
-> https://urldefense.proofpoint.com/v2/url?u=https-3A__docs.yoctoproject.org_ref-2Dmanual_variables.html-3F-23term-2DPACKAGECONFIG&d=DwIFAg&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=8HjNGWSBnokVx86ZXb1HGtJWTl97isWyKhlw05xayeDV2PeizRV-8Et7M2oILR6A&s=SRukmgE6s_F_GQ3lRKUJZhJHBYIoHdF3lYfYPaNoS8E&e=
-> 
+As I suspected, the dynamic loader on binaries built using the
+toolchain in the SDK isn't working correctly.=20
 
- From the comment " For smooth operation it would be best to start only 
-one wireless daemon at a time." I gathered that both can be enabled at once.
+"/usr/local/oe-sdk-hardcoded-buildpath/sysroots/i686-pokysdk-
+linux/lib/ld-linux.so.2"
 
-If we had --disable-wifi in PACKAGECONFIG[iwd] or 
-PACKAGECONFIG[wpa_supplicant], we would be forced to have both or none 
-since it would be part of the PACKAGECONFIG_CONFARGS if one is disabled.
+is the value used at build time. This is supposed to be relocated into
+the SDK's install location at runtime.
 
-If support for both at once is not supported by connman, then the wifi 
-PACKAGECONFIG is unnecessary indeed.
+The question is therefore where is rust getting this value from? You
+can specify it to the linker at compile time along the lines of:
+
+-Wl,--dynamic-linker=3D/path/to/ld-linux.so.2
+
+or it can be the default that comes from toolchain. It is important it
+points at the one in the SDK, not on the host system.
+
+The bit I don't understand is whether:
+
+a) the compiler in the SDK is generating the wrong loader (in which
+case buildtools-extended-tarball would break which it doesn't)
+b) rust is hardcoding some dynamic-linker option somewhere it shouldn't
+c) whether the toolchain is relocating paths correctly or some path
+isn't relocating and is being used here.
+
+I'd suggest first checking that a binary generated by nativesdk-gcc in
+the SDK has the right loader. If that is the case, see what compiler
+options are being used to create the build tool and go from there.
+
+FWIW you can see/change the interpreter with patchelf.
 
 Cheers,
-Quentin
+
+Richard
+
 
