@@ -1,74 +1,93 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54F70C28D13
-	for <webhook@archiver.kernel.org>; Thu, 25 Aug 2022 13:37:19 +0000 (UTC)
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net
- [217.70.178.232])
- by mx.groups.io with SMTP id smtpd.web10.23907.1661434636259215233
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AADBC28D13
+	for <webhook@archiver.kernel.org>; Thu, 25 Aug 2022 13:37:59 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web12.23889.1661434677634500671
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Aug 2022 06:37:16 -0700
+ Thu, 25 Aug 2022 06:37:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=ncmimGeB;
- spf=pass (domain: bootlin.com, ip: 217.70.178.232,
- mailfrom: luca.ceresoli@bootlin.com)
-Received: from booty (unknown [77.244.183.192])
-	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 52CF0200010;
-	Thu, 25 Aug 2022 13:37:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1661434634;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=li9n536bh3XZuyBTbimGPqa6oG7WO/xb2RUC3BcWaR8=;
-	b=ncmimGeB1+PZ28bAZGboSOltVt2FccSm0ZlCy5ZcoFNNeODgWXLfopdZZFgAuGwATekNJ5
-	Li/nT2W+W+InGt0iMQn+PB4H2KAJd3/KJX7VGyx8FtrERKveudLDXYorjE4QyDRJZtY12/
-	d5x8B4UjuSgSFbucFAfzwYS9f7EOn6M7BVjNRRLbQ885DqKzpZRsDmccc/88eoJ734r6rs
-	I3Kewz6/1vmzgiWbx4J4PO6RjnepL4QW2IDnrw/Naz3kvb4gNb/D3f+WQvWpbhR/8V9eXC
-	3XyZKvkuhihZBheMFzZeuOrqRoD80AMLkrij6i8i8tGC2r551phJ5/u0jvn5LQ==
-Date: Thu, 25 Aug 2022 15:37:12 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Alexander Kanavin
- <alex@linutronix.de>
-Subject: Re: [OE-core] [PATCH 1/2] meta/conf: move default configuration
- templates into meta/conf/templates/default
-Message-ID: <20220825153712.55f446b1@booty>
-In-Reply-To: <20220824124234.3549247-1-alex@linutronix.de>
-References: <20220824124234.3549247-1-alex@linutronix.de>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ dkim=missing;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C99FED6E;
+	Thu, 25 Aug 2022 06:38:01 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com
+ (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BDB6C3F71A;
+	Thu, 25 Aug 2022 06:37:56 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: steve@sakoman.com
+Subject: [PATCH][kirkstone 1/6] oeqa/selftest: rename git.py to intercept.py
+Date: Thu, 25 Aug 2022 14:37:47 +0100
+Message-Id: <20220825133752.1660005-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Aug 2022 13:37:19 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Aug 2022 13:37:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169865
+ https://lists.openembedded.org/g/openembedded-core/message/169866
 
-Hello Alex,
+By naming this test class git.py, any attempt to import GitPython (as
+needed by oelib.buildhistory) failed.
 
-On Wed, 24 Aug 2022 14:42:33 +0200
-"Alexander Kanavin" <alex.kanavin@gmail.com> wrote:
+As this class exercises the intercepts, rename it to intercept.py.
 
-> This sets the ground for standardizing (and enforcing) the location of
-> configuration templates: let's start with the default one.
-> 
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+(From OE-Core rev: d557cbbf86767bc2ebf2beb3d70af3b3ca5e0529)
 
-I have been trying to apply this patch, and it applies on oe-core, but
-then combo-layer fails in picking it because poky has a different
-.templateconf file. I'm not sure how this should be fixed, maybe the
-patch should be done against meta-yocto (which has a .templateconf
-identical to the one in poky)?
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/cases/{git.py =3D> intercept.py} | 0
+ meta/lib/oeqa/selftest/cases/oelib/buildhistory.py    | 6 +++---
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/lib/oeqa/selftest/cases/{git.py =3D> intercept.py} (100%)
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/lib/oeqa/selftest/cases/git.py b/meta/lib/oeqa/selftest=
+/cases/intercept.py
+similarity index 100%
+rename from meta/lib/oeqa/selftest/cases/git.py
+rename to meta/lib/oeqa/selftest/cases/intercept.py
+diff --git a/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py b/meta/li=
+b/oeqa/selftest/cases/oelib/buildhistory.py
+index 802a91a4886..33bd6df2f3f 100644
+--- a/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py
++++ b/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py
+@@ -3,6 +3,7 @@
+ #
+=20
+ import os
++import sys
+ from oeqa.selftest.case import OESelftestTestCase
+ import tempfile
+ import operator
+@@ -11,15 +12,14 @@ from oeqa.utils.commands import get_bb_var
+ class TestBlobParsing(OESelftestTestCase):
+=20
+     def setUp(self):
+-        import time
+         self.repo_path =3D tempfile.mkdtemp(prefix=3D'selftest-buildhist=
+ory',
+             dir=3Dget_bb_var('TOPDIR'))
+=20
+         try:
+             from git import Repo
+             self.repo =3D Repo.init(self.repo_path)
+-        except ImportError:
+-            self.skipTest('Python module GitPython is not present')
++        except ImportError as e:
++            self.skipTest('Python module GitPython is not present (%s)  =
+(%s)' % (e, sys.path))
+=20
+         self.test_file =3D "test"
+         self.var_map =3D {}
+--=20
+2.34.1
+
 
