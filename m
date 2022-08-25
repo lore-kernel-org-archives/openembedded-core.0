@@ -1,95 +1,90 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76C8CC64990
-	for <webhook@archiver.kernel.org>; Thu, 25 Aug 2022 13:45:39 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web12.23986.1661435134849125217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97A81C28D13
+	for <webhook@archiver.kernel.org>; Thu, 25 Aug 2022 14:08:39 +0000 (UTC)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web10.24264.1661436516624186088
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Aug 2022 06:45:35 -0700
+ Thu, 25 Aug 2022 07:08:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FbuLdr9u;
- spf=pass (domain: gmail.com, ip: 209.85.208.170,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id x24so1422406lji.9
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=CEXmqwT+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.49,
+ mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f49.google.com with SMTP id r4so26260690edi.8
         for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Aug 2022 06:45:34 -0700 (PDT)
+ Thu, 25 Aug 2022 07:08:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=+9KAAn6ePAgMm8X08YFkMzSWMQc1KFAgkuP8Xv9kh+s=;
-        b=FbuLdr9u6nnlXiBcB41esytTa4F1pelwxA51fT+pWxfsMhD2gJsKsv0ifUNnD/C72Z
-         SW7EmAhHEpMowDh8ZyawAvjpIO9JV+lur0UxWamuCfFVSX3V+l51WPuqY+L0TZpoToMX
-         a10x1s7f9qeEN6IbNW9x+paXi5QvrXgxH39R1grgYh/JKAP4eaN45cS2UwcWDDHnDdyE
-         Wes9WdxNJYa2LjLTznrUmfu62/TNfTME5AKLHYzvzzZpLiLgDFuni3yHAoc5BnbFa3aV
-         YBAkUs6q/a4f5R1IqkH4k6euSDiUuWb97J7dN8iFbaFzUL3gNKtfiTpnygWRmWCYcAJf
-         j2rQ==
+        bh=WB0IVFlRMsYQelX9y5Fp18+KDS4LyrxsAvXlp1LUASc=;
+        b=CEXmqwT+hwLalGAaeudAT4XelyoVqh1hmO65Fw4R5xAb1c+Bw/mC4LrJ4d7wdN8VIx
+         RNeIlahgs9cgvHeNqueiiGe5I8YLRVn+4CeC+8Fvas6L3xC6cw3sLqc3tdBvZQpNQUaG
+         IkNaiyvnt0mCXH6oZwwxbum6Vrver9PUY9qbd16x+QaR0wVdK0/pC/AzJhDONOknqo2F
+         mbHPmWGXkMAJoNpfO/0IVF8S8HZRWSc38nBF387Da/Ib2YxeuUgoCaPX9a0zbuYjuHg+
+         g1SLoBavZ/iUd7QxwXFKAQznt3idAFZrnNAnzmCMveMqZsxuoNG3ZLF+IB4/0ZT0GmzG
+         YsaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=+9KAAn6ePAgMm8X08YFkMzSWMQc1KFAgkuP8Xv9kh+s=;
-        b=3E03f8TEPgf7BeaDLTPLh0qSQJPnOhW9RPumfOT2ynK5tPB/ryksE8Ps6NBXnlvbCS
-         shRqlh+Evux5UFcmLWsg8FIMxDdDVkq+XrqcxFLRf4dqA3GEQjwjr5GCQ56xvKLgdNui
-         Q/ZCE5/K/xiqykpelx5moMQRk4chNbQKHuVFq9wWcI7ZkmxMLnRZTLlFRGzErw16SsRn
-         5EQsp9Bi6jW7/Bn3KSWbgjDskP2A1ukH0PrzvcrE72Pv/9FpQsyfDvenA4Y7SVIJOxvl
-         f3/dGzcMgov/n/4QtbMYWJqoMe22Ev5c9h7f42nr+UgM14+ic95HJJJMVwFsHqWNSvF/
-         UhAg==
-X-Gm-Message-State: ACgBeo3D9ZbQGG60UT1Bkz6vxroe1vO2bR1YmvLsbKFjKugoWAnSvp0Y
-	sudEkuMVOSJhr6F8k3rXfMOGk5+I5LVfEGa6u5c=
+        bh=WB0IVFlRMsYQelX9y5Fp18+KDS4LyrxsAvXlp1LUASc=;
+        b=zPco3tu1xJsKt2qnWcDd4jbsLk+CiKnK/3PbzlekpfgdMRqM30SjvOjVz05XJmq6ji
+         JMJAjU2E9thZLPYBSdgMQ/XP1bJ1nEBC28VdOHXtLFEiqOxdJ/ZEzZIWRm0249sgT+TC
+         B89pOgHM/6ZoM1pB8zV3LXORsZXt6ADud5gqs3Ut6L3j4+4Cs1N0E4ohayYqcFE5BG2m
+         sgRWhL4wIWhhV5gsdplvU4qdAYLH6cAIZUR/uvE3qStHjE9en10G1olcqJjPBHkjCMkI
+         es9V/BSm1r07psP1k8bxQm0K/90oxR1IVQqDp1qz0t3/EfXUZpnHuU0YU2VQ9+YMkc2J
+         JWXg==
+X-Gm-Message-State: ACgBeo21e8LT26NClVcUxda1io/tNA6nQfhNpRLGMisDmzpwdwP94zUa
+	cWlGOyFmdvatHKMbZYFBWaVQ+BXC7gPYHw9bSTKDqg==
 X-Google-Smtp-Source: 
- AA6agR5x/WkIHZxq5BSOF5rH5qSZPBEA1P6Ljj1AFORU9ENPYiSQ1wrQTHJqeZg+iplSJC6JDr0YGDurzR7ghsQVBhs=
-X-Received: by 2002:a05:651c:31b:b0:261:df26:53ba with SMTP id
- a27-20020a05651c031b00b00261df2653bamr1215866ljp.513.1661435132979; Thu, 25
- Aug 2022 06:45:32 -0700 (PDT)
+ AA6agR5GQ2oXWV9jgCbnawzKaXuP+9jzhmTB6j7O3ZMb2al0UIQ5Fpcxo+xbPcSvlx8VaJ3FfUK+fuo+x7+9q4AmmKk=
+X-Received: by 2002:a05:6402:554:b0:446:1013:c898 with SMTP id
+ i20-20020a056402055400b004461013c898mr3395623edx.269.1661436514945; Thu, 25
+ Aug 2022 07:08:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220824124234.3549247-1-alex@linutronix.de>
- <20220825153712.55f446b1@booty>
-In-Reply-To: <20220825153712.55f446b1@booty>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 25 Aug 2022 15:45:21 +0200
+References: <20220825072507.6568-1-ghassanebb@gmail.com>
+ <CAApg2=T-BqLnaJgjBuxnfemPvfkQyWmF=r1XHz1vHa2qFKoQwQ@mail.gmail.com>
+In-Reply-To: 
+ <CAApg2=T-BqLnaJgjBuxnfemPvfkQyWmF=r1XHz1vHa2qFKoQwQ@mail.gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Thu, 25 Aug 2022 04:08:23 -1000
 Message-ID: 
- <CANNYZj_HRzuszmzkT0vU8rQ7sxvp8m_kLQUfQqPbCMWT_tdFxA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] meta/conf: move default configuration
- templates into meta/conf/templates/default
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
+ <CAOSpxdbjTh8CimLRNefoct1-bDc=ObHu-HC1M+LBP7N1vHP8CA@mail.gmail.com>
+Subject: Re: [OE-core] [kirkstone] [PATCH] sqlite: Increase the size of loop
+ variables in the printf() implementation to avoid harmless compiler warnings.
+To: Marta Rybczynska <rybczynska@gmail.com>
+Cc: ghassaneben <ghassanebb@gmail.com>,
+ openembedded-core@lists.openembedded.org,
+	ghassaneben <ghassaneb.aattar@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Aug 2022 13:45:39 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Aug 2022 14:08:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169873
+ https://lists.openembedded.org/g/openembedded-core/message/169874
 
-I've sent a separate patch for meta-yocto to poky@ list, does that help?
+On Wed, Aug 24, 2022 at 9:34 PM Marta Rybczynska <rybczynska@gmail.com> wrote:
+>
+>
+>
+> On Thu, Aug 25, 2022 at 9:25 AM ghassaneben <ghassanebb@gmail.com> wrote:
+>>
+>> From: ghassaneben <ghassaneb.aattar@huawei.com>
+>>
+>> Increase the size of loop variables in the printf() implementation to avoid integer overflow on multi-gigabyte string arguments. CVE-2022-35737. This bug fix refers to: CVE-2022-35737 and it's a backport of a fix added in sqlite 3.39.2 (2022-07-21).
+>> Original commit: https://www.sqlite.org/src/info/aab790a16e1bdff7.
+>>
+>
+> Steve,
+> I'm adding it to your watch list. This is a CVE fix contrary to the "harmless warnings" one of the commit messages is telling us.
 
-Alex
+Thanks!  I'll update the short message to reflect this.
 
-On Thu, 25 Aug 2022 at 15:37, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
->
-> Hello Alex,
->
-> On Wed, 24 Aug 2022 14:42:33 +0200
-> "Alexander Kanavin" <alex.kanavin@gmail.com> wrote:
->
-> > This sets the ground for standardizing (and enforcing) the location of
-> > configuration templates: let's start with the default one.
-> >
-> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
->
-> I have been trying to apply this patch, and it applies on oe-core, but
-> then combo-layer fails in picking it because poky has a different
-> .templateconf file. I'm not sure how this should be fixed, maybe the
-> patch should be done against meta-yocto (which has a .templateconf
-> identical to the one in poky)?
->
-> --
-> Luca Ceresoli, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+Steve
 
