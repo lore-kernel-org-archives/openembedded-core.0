@@ -1,117 +1,180 @@
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <b6d8218a-043e-cb3a-3783-5fe1ce6e4541@berginkonsult.se>
-Date: Thu, 25 Aug 2022 14:03:28 +0200
+From: "Steve Sakoman" <steve@sakoman.com>
+Subject: [OE-core][kirkstone 00/28] Pull request (cover letter only)
+Date: Thu, 25 Aug 2022 16:33:37 -1000
+Message-Id: <cover.1661481133.git.steve@sakoman.com>
 MIME-Version: 1.0
-Subject: Re: [OE-core] [PATCH 2/2] oeqa/sdk: extend rust test to also use a build script
-References: <20220823085636.30868-1-peter@berginkonsult.se>
- <20220823085636.30868-2-peter@berginkonsult.se>
- <6ca1d415a0faeba53e6a3945bd1fafd89866e2e9.camel@linuxfoundation.org>
- <f7469b7e-7df2-e418-6da0-7427bbdc8cfd@berginkonsult.se>
- <af63da104ec9d91ab441d3cabfaadfe4700760fa.camel@linuxfoundation.org>
-From: "Peter Bergin" <peter@berginkonsult.se>
-In-Reply-To: <af63da104ec9d91ab441d3cabfaadfe4700760fa.camel@linuxfoundation.org>
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core@lists.openembedded.org
+To: openembedded-core@lists.openembedded.org
 
-Hi Richard,
+The following changes since commit 10891d4d955f347c328cf8c099031f05f5c855a2:
 
-On 2022-08-25 10:21, Richard Purdie wrote:
-> <snip>
->> I've tried locally to reproduce something. I've built and tested
->> genericx86 and qemuarm64 now on core-image-sato sdk that I saw was the
->> target for the autobuilder. Both tests passes. The failure I see in the
->> autobuilder logs is that the build script can not be executed. On my
->> machine I have that file and it can clearly be executed:
->>
->> $ find
->> tmp/work/genericx86-poky-linux/core-image-sato/1.0-r0/testimage-sdk/hello/target/
->> -name build-script-build
->> tmp/work/genericx86-poky-linux/core-image-sato/1.0-r0/testimage-sdk/hello/target/debug/build/hello-4dbf26d86b93a892/build-script-build
->>
->> $
->> tmp/work/genericx86-poky-linux/core-image-sato/1.0-r0/testimage-sdk/hello/target/debug/build/hello-4dbf26d86b93a892/build-script-build
->>
->> $ file
->> tmp/work/genericx86-poky-linux/core-image-sato/1.0-r0/testimage-sdk/hello/target/debug/build/hello-4dbf26d86b93a892/build-script-build
->>
->> tmp/work/genericx86-poky-linux/core-image-sato/1.0-r0/testimage-sdk/hello/target/debug/build/hello-4dbf26d86b93a892/build-script-build:
->> ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically
->> linked, interpreter
->> /storage/yocto/esp5-platform/build/genericx86/tmp/work/genericx86-poky-linux/core-image-sato/1.0-r0/testimage-sdk/sysroots/x86_64-pokysdk-linux/lib/ld-linux-x86-64.so.2,
->> BuildID[sha1]=c5d5e70657f8342addf5343d0206c77d9d767fd8, for GNU/Linux
->> 3.2.0, with debug_info, not stripped
->>
->> Found one interesting link here
->> https://github.com/rust-lang/cargo/issues/3553. Unfortunately without
->> answer. But also checked the interpreter in my build which looks correct?
->>
->> $ readelf -a
->> tmp/work/genericx86-poky-linux/core-image-sato/1.0-r0/testimage-sdk/hello/target/debug/build/hello-4dbf26d86b93a892/build-script-build
->>> grep interpreter
->>         [Requesting program interpreter:
->> /storage/yocto/esp5-platform/build/genericx86/tmp/work/genericx86-poky-linux/core-image-sato/1.0-r0/testimage-sdk/sysroots/x86_64-pokysdk-linux/lib/ld-linux-x86-64.so.2]
->>
->>
->> So there are some differences between my machine and the autobuilder
->> setup that I can't get. I would need help here as I'm not that familiar
->> with the autobuilder setup. Can it still be some host dependency? I'm
->> running on Ubuntu 22.04. Is it possible to check in a autobuilder setup
->> if the file 'build-script-build' is present and possible to execute?
-> After staring at this for an hour, I think the pattern is that is it
-> failing on builds with:
->
-> SDKMACHINE = "i686"
->
-> which probably means the linker isn't linking against the libc and
-> loader in the SDK properly.
->
-> (i686 SDK binaries should run on x86_64 hosts since we provide our own
-> loader and libc)
+  lttng-modules: replace mips compaction fix with upstream change (2022-08-17 04:55:49 -1000)
 
-Thanks a lot for the reproducer. You are correct, with SDKMACHINE i686 I 
-was able to reproduce. I want to share some weird stuff and see if 
-someone can get a clue for a solution.
+are available in the Git repository at:
 
-Did same analyze on the build-script-build file as I did on a working one:
+  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
 
-$ 
-/storage/yocto/esp5-platform/build/qemuarm64/tmp/work/qemuarm64-poky-linux/core-image-sato/1.0-r0/testimage-sdk/hello/target/debug/build/hello-2c1c69e3bd7e958d/build-script-build 
+Alexander Kanavin (9):
+  bluez5: update 5.64 -> 5.65
+  libwpe: upgrade 1.12.0 -> 1.12.2
+  ell: upgrade 0.49 -> 0.50
+  iso-codes: upgrade 4.10.0 -> 4.11.0
+  libcap: upgrade 2.64 -> 2.65
+  libwebp: upgrade 1.2.2 -> 1.2.3
+  mobile-broadband-provider-info: upgrade 20220511 -> 20220725
+  webkitgtk: upgrade 2.36.4 -> 2.36.5
+  weston: upgrade 10.0.1 -> 10.0.2
 
--bash: 
-/storage/yocto/esp5-platform/build/qemuarm64/tmp/work/qemuarm64-poky-linux/core-image-sato/1.0-r0/testimage-sdk/hello/target/debug/build/hello-2c1c69e3bd7e958d/build-script-build: 
-No such file or directory
-$ file 
-/storage/yocto/esp5-platform/build/qemuarm64/tmp/work/qemuarm64-poky-linux/core-image-sato/1.0-r0/testimage-sdk/hello/target/debug/build/hello-2c1c69e3bd7e958d/build-script-build 
+Beniamin Sandu (1):
+  libpam: use /run instead of /var/run in systemd tmpfiles
 
-/storage/yocto/esp5-platform/build/qemuarm64/tmp/work/qemuarm64-poky-linux/core-image-sato/1.0-r0/testimage-sdk/hello/target/debug/build/hello-2c1c69e3bd7e958d/build-script-build: 
-ELF 32-bit LSB pie executable, Intel 80386, version 1 (SYSV), 
-dynamically linked, interpreter 
-/usr/local/oe-sdk-hardcoded-buildpath/sysroots/i686-pokysdk-linux/lib/ld-linux.so.2, 
-BuildID[sha1]=4c32d67e8597f30ce774e2bb32ea5170b9878957, for GNU/Linux 
-3.2.0, with debug_info, not stripped
-$ ldd 
-/storage/yocto/esp5-platform/build/qemuarm64/tmp/work/qemuarm64-poky-linux/core-image-sato/1.0-r0/testimage-sdk/hello/target/debug/build/hello-2c1c69e3bd7e958d/build-script-build 
+Changqing Li (1):
+  apt: fix nativesdk-apt build failure during the second time build
 
-     linux-gate.so.1 (0xf7f62000)
-     libgcc_s.so.1 => /lib32/libgcc_s.so.1 (0xf7ecd000)
-     libc.so.6 => /lib32/libc.so.6 (0xf7c9c000)
-  /usr/local/oe-sdk-hardcoded-buildpath/sysroots/i686-pokysdk-linux/lib/ld-linux.so.2 => /lib/ld-linux.so.2 (0xf7f64000)
-$ readelf -a 
-/storage/yocto/esp5-platform/build/qemuarm64/tmp/work/qemuarm64-poky-linux/core-image-sato/1.0-r0/testimage-sdk/hello/target/debug/build/hello-2c1c69e3bd7e958d/build-script-build 
-| grep interpreter
-       [Requesting program interpreter: 
-/usr/local/oe-sdk-hardcoded-buildpath/sysroots/i686-pokysdk-linux/lib/ld-linux.so.2] 
+Daiane Angolini (1):
+  python3-pip: Fix RDEPENDS after the update
 
+Ernst Sjöstrand (1):
+  cve-check: Don't use f-strings
 
-The interpreter is wrong and pointing to a non existing file. It has 
-'/usr/local/oe-sdk-hardcoded-buildpath' in its path which seems really 
-bad and is equal to SDKPATH variable.
+Hitendra Prajapati (1):
+  libtiff: CVE-2022-34526 A stack overflow was discovered
 
-Best regards,
-/Peter
+Jose Quaresma (2):
+  archiver.bbclass: some recipes that uses the kernelsrc bbclass uses
+    the shared source
+  linux-yocto: prepend the the value with a space when append to
+    KERNEL_EXTRA_ARGS
 
+Kai Kang (1):
+  packagegroup-self-hosted: update for strace
+
+Khem Raj (4):
+  libxml2: Ignore CVE-2016-3709
+  connman: Backports for security fixes
+  cracklib: Drop using register keyword
+  tcp-wrappers: Fix implicit-function-declaration warnings
+
+Peter Marko (1):
+  create-spdx: handle links to inaccessible locations
+
+Richard Purdie (1):
+  perf: Fix reproducibility issues with 5.19 onwards
+
+Sakib Sajal (3):
+  u-boot: fix CVE-2022-30552
+  u-boot: fix CVE-2022-33967
+  go: update v1.17.12 -> v1.17.13
+
+Yongxin Liu (1):
+  grub2: fix several CVEs
+
+wangmy (1):
+  libcap: upgrade 2.63 -> 2.64
+
+ meta/classes/archiver.bbclass                 |   4 +-
+ meta/classes/create-spdx.bbclass              |   2 +-
+ meta/lib/oe/cve_check.py                      |   2 +-
+ ...g-Drop-greyscale-support-to-fix-heap.patch | 179 +++++
+ ...ng-Avoid-heap-OOB-R-W-inserting-huff.patch |  50 ++
+ ...peg-Block-int-underflow-wild-pointer.patch |  84 +++
+ ...3-net-ip-Do-IP-fragment-maths-safely.patch |  63 ++
+ ...or-out-on-headers-with-LF-without-CR.patch |  58 ++
+ ...Fix-OOB-write-for-split-http-headers.patch |  56 ++
+ ...ct-non-kernel-files-in-the-shim_lock.patch | 111 +++
+ .../video-Remove-trailing-whitespaces.patch   | 693 ++++++++++++++++++
+ ...eg-Abort-sooner-if-a-read-operation-.patch | 264 +++++++
+ ...eg-Refuse-to-handle-multiple-start-o.patch |  53 ++
+ meta/recipes-bsp/grub/grub2.inc               |  10 +
+ ...s-squashfs-Use-kcalloc-when-relevant.patch |  64 ++
+ ...e-minimum-IP-fragmented-datagram-siz.patch | 207 ++++++
+ meta/recipes-bsp/u-boot/u-boot_2022.01.bb     |   2 +
+ meta/recipes-connectivity/bluez5/bluez5.inc   |   1 -
+ .../bluez5/bluez5/fix_service.patch           |  30 -
+ .../bluez5/{bluez5_5.64.bb => bluez5_5.65.bb} |   2 +-
+ .../connman/connman/CVE-2022-32292.patch      |  37 +
+ .../connman/connman/CVE-2022-32293_p1.patch   | 141 ++++
+ .../connman/connman/CVE-2022-32293_p2.patch   | 174 +++++
+ .../connman/connman_1.41.bb                   |   3 +
+ .../mobile-broadband-provider-info_git.bb     |   4 +-
+ .../ell/{ell_0.49.bb => ell_0.50.bb}          |   2 +-
+ meta/recipes-core/libxml/libxml2_2.9.14.bb    |   4 +
+ .../packagegroups/packagegroup-self-hosted.bb |   5 +-
+ meta/recipes-devtools/apt/apt_2.4.5.bb        |   2 +-
+ .../go/{go-1.17.12.inc => go-1.17.13.inc}     |   2 +-
+ ...1.17.12.bb => go-binary-native_1.17.13.bb} |   4 +-
+ ....17.12.bb => go-cross-canadian_1.17.13.bb} |   0
+ ...o-cross_1.17.12.bb => go-cross_1.17.13.bb} |   0
+ ...ssdk_1.17.12.bb => go-crosssdk_1.17.13.bb} |   0
+ ...native_1.17.12.bb => go-native_1.17.13.bb} |   0
+ ...ntime_1.17.12.bb => go-runtime_1.17.13.bb} |   0
+ .../go/{go_1.17.12.bb => go_1.17.13.bb}       |   0
+ .../python/python3-pip_22.0.3.bb              |   2 +
+ ...01-rules-Drop-using-register-keyword.patch | 278 +++++++
+ ...rrect-parameter-types-to-Debug-calls.patch |  40 +
+ .../cracklib/cracklib_2.9.7.bb                |   5 +-
+ meta/recipes-extended/pam/libpam/99_pam       |   2 +-
+ ...plicit-function-declaration-warnings.patch | 109 +++
+ .../tcp-wrappers/tcp-wrappers_7.6.bb          |   1 +
+ .../weston/dont-use-plane-add-prop.patch      |  32 -
+ .../{weston_10.0.1.bb => weston_10.0.2.bb}    |   4 +-
+ meta/recipes-kernel/linux/linux-yocto.inc     |   2 +-
+ meta/recipes-kernel/perf/perf.bb              |   2 +-
+ .../libtiff/tiff/CVE-2022-34526.patch         |  29 +
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |   1 +
+ .../{libwebp_1.2.2.bb => libwebp_1.2.3.bb}    |   2 +-
+ ...ure-due-to-libc-using-libc-functions.patch |  42 ++
+ .../{libwpe_1.12.0.bb => libwpe_1.12.2.bb}    |   6 +-
+ ...ebkitgtk_2.36.4.bb => webkitgtk_2.36.5.bb} |   2 +-
+ ...so-codes_4.10.0.bb => iso-codes_4.11.0.bb} |   2 +-
+ ...-Raise-the-size-of-arrays-containing.patch |   2 +-
+ .../libcap/{libcap_2.63.bb => libcap_2.65.bb} |   2 +-
+ 57 files changed, 2789 insertions(+), 89 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2021-3695-video-readers-png-Drop-greyscale-support-to-fix-heap.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2021-3696-video-readers-png-Avoid-heap-OOB-R-W-inserting-huff.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2021-3697-video-readers-jpeg-Block-int-underflow-wild-pointer.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-28733-net-ip-Do-IP-fragment-maths-safely.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-28734-net-http-Error-out-on-headers-with-LF-without-CR.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-28734-net-http-Fix-OOB-write-for-split-http-headers.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-28735-kern-efi-sb-Reject-non-kernel-files-in-the-shim_lock.patch
+ create mode 100644 meta/recipes-bsp/grub/files/video-Remove-trailing-whitespaces.patch
+ create mode 100644 meta/recipes-bsp/grub/files/video-readers-jpeg-Abort-sooner-if-a-read-operation-.patch
+ create mode 100644 meta/recipes-bsp/grub/files/video-readers-jpeg-Refuse-to-handle-multiple-start-o.patch
+ create mode 100644 meta/recipes-bsp/u-boot/files/0001-fs-squashfs-Use-kcalloc-when-relevant.patch
+ create mode 100644 meta/recipes-bsp/u-boot/files/0001-net-Check-for-the-minimum-IP-fragmented-datagram-siz.patch
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/fix_service.patch
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.64.bb => bluez5_5.65.bb} (95%)
+ create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2022-32292.patch
+ create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2022-32293_p1.patch
+ create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2022-32293_p2.patch
+ rename meta/recipes-core/ell/{ell_0.49.bb => ell_0.50.bb} (89%)
+ rename meta/recipes-devtools/go/{go-1.17.12.inc => go-1.17.13.inc} (92%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.17.12.bb => go-binary-native_1.17.13.bb} (83%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.17.12.bb => go-cross-canadian_1.17.13.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.17.12.bb => go-cross_1.17.13.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.17.12.bb => go-crosssdk_1.17.13.bb} (100%)
+ rename meta/recipes-devtools/go/{go-native_1.17.12.bb => go-native_1.17.13.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.17.12.bb => go-runtime_1.17.13.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.17.12.bb => go_1.17.13.bb} (100%)
+ create mode 100644 meta/recipes-extended/cracklib/cracklib/0001-rules-Drop-using-register-keyword.patch
+ create mode 100644 meta/recipes-extended/cracklib/cracklib/0002-rules-Correct-parameter-types-to-Debug-calls.patch
+ create mode 100644 meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-implicit-function-declaration-warnings.patch
+ delete mode 100644 meta/recipes-graphics/wayland/weston/dont-use-plane-add-prop.patch
+ rename meta/recipes-graphics/wayland/{weston_10.0.1.bb => weston_10.0.2.bb} (97%)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-34526.patch
+ rename meta/recipes-multimedia/webp/{libwebp_1.2.2.bb => libwebp_1.2.3.bb} (95%)
+ create mode 100644 meta/recipes-sato/webkit/libwpe/0001-Fix-build-failure-due-to-libc-using-libc-functions.patch
+ rename meta/recipes-sato/webkit/{libwpe_1.12.0.bb => libwpe_1.12.2.bb} (72%)
+ rename meta/recipes-sato/webkit/{webkitgtk_2.36.4.bb => webkitgtk_2.36.5.bb} (98%)
+ rename meta/recipes-support/iso-codes/{iso-codes_4.10.0.bb => iso-codes_4.11.0.bb} (94%)
+ rename meta/recipes-support/libcap/{libcap_2.63.bb => libcap_2.65.bb} (96%)
+
+-- 
+2.25.1
 
