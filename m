@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E3EDC54EE9
-	for <webhook@archiver.kernel.org>; Sat, 27 Aug 2022 18:26:54 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.51639.1661624808642244705
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32646ECAAD1
+	for <webhook@archiver.kernel.org>; Sat, 27 Aug 2022 18:27:04 +0000 (UTC)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+ [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web09.51803.1661624800344116481
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Aug 2022 11:26:48 -0700
+ Sat, 27 Aug 2022 11:26:54 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=8RwMMo88;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182,
+ header.b=YsuVNL6t;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.178,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id u22so4339935plq.12
+Received: by mail-pf1-f178.google.com with SMTP id 72so4530551pfx.9
         for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Aug 2022 11:26:48 -0700 (PDT)
+ Sat, 27 Aug 2022 11:26:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc;
-        bh=/Hul1R155T0ekrUwg7yqhrgeZ3yOK1AEptaevlomKvQ=;
-        b=8RwMMo88FQI75SLFl9Tkx29wcJS5OLncvt98d5e1MSSrETdDpSAxKhwf+YCYRt2A/I
-         ayMzqaF1dtcCKkcWx/X9THV06i7+fypGQr+43F22Bfkt89CoubUjRD6+j9/8SBZx3PXO
-         i0UXaeEW4B100qsppBQV5BwaD/W39nh1oQIZrsruVFGySiRDnnXCPkvnEOAHNwGGUr39
-         KU7WcHAmMpalAoeq8DdFTIyNRFDhUMcxjk4IIf4HHo2aLtzghUQltHUoXngu7fI6fH9J
-         flmuHIGA6y2e327qnHDvPRHy7KsYsvcnU/kbZpoFRtBi9eLUtKutHSIgqXSufsLEpp39
-         GlaA==
+        bh=RyMcXTytVSNUVmZrR8TQrsgD2eugg3EpATeFB7Uk07o=;
+        b=YsuVNL6twsjlmM1oxv08QIyBZlVwNZNA3SBIcz1nKZFFt7hdeSbQzLTL4tUEg1k9gP
+         6JVm1P4ua4XqPINgY4NUhBDfAQUMmTOFoANWIkQiz6nExLZFgX8+5/60gCHusKmTfgoy
+         s7j9NLsqYdArpRqiG8WO1bdve2mxkQ06IriOVej1z/65eWQVnz19djlNnDr1RwhaNFJV
+         ZfgK453kXLtyh4l6o7rER1j1S10E4P3IBUne2KpIxqzWlW29cTaerEnUE2cWi9tD6rhg
+         a97Guq6vI4/h64jTO1wnVF4hjoQoyzykKz+uxky1heS2zwkjVRUM32C2R/zbeoqcAucO
+         V97g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=/Hul1R155T0ekrUwg7yqhrgeZ3yOK1AEptaevlomKvQ=;
-        b=d/CWH1DwmE5gUBGud6Qgar4QELKe3NDLPBU0SDsy51pkgUqZOucVofoe3041D9jEKU
-         u2pyts438GH8sEGYD6XCNtk6ylu8wO5Al6LIosU9lG83Hs6UWxPm60+LIBquBzOaWtdQ
-         7jJ2ehWVd39m7bQFVx5TL8cdQI5XXZI7qS2GMi899LR8gWsB28pWSlu6Ci36PS1MaMwR
-         B+WuLITs97IHkg19h77LvWg2fPTuQrDhlI37cow9elqt9d2JeYgaNUebKGr3GLFfhK5v
-         A6/UVEDTUvjqwRa7Os6+ijpDZJ67ncbnAC5A/Pj6Ln9GRKeuVADfMDtB9ubBaSDt8YYN
-         aNrg==
-X-Gm-Message-State: ACgBeo2hcI+jtfuKdiDYfx2ZxAlyo7tK7uLjhjsbLdKBm6uNohoQ2dfV
-	CGdHs56Xwylw3fJecYbRmtGd3kayzv/mOOaA
+        bh=RyMcXTytVSNUVmZrR8TQrsgD2eugg3EpATeFB7Uk07o=;
+        b=m2IUar/1jM+c6S7ca8Ajzc2eWV+9I+BM1r5lyCplt72dqkg7rVGxgTXTzZMfSgwYvu
+         E7MB1pIPdBZBoK8dEmPcLMyHAKvDpRrwQA1zOGl/IlMzi+UYZGMRks3ss7gHxK2WzFOC
+         x4mmmm6Qvg3wwxkPFqScnE3JWGhM54YYRrFry3F3RPEYq1DDxhcuw7wuFjzRDoFoYLj2
+         K2678VpV4hFPhyqFMCLKJui5+IR0CenFB/9wHE0kzXc1CqnzxRUdBo2jRTDdAztmuKMG
+         4+cTtrR6AFpXBOzb/8j5EJ7tIgaAnfsg3R3aFyzxyAAA/LJCFXieILtoT6ZHVG/ahNK2
+         eJnA==
+X-Gm-Message-State: ACgBeo0TOqCBdN5FRnt1PxBB5OttCRBbByh3YYvFJNmYtO13HKVCvmYx
+	Sn/EeLEZD4HYs+hDcQh+FY9RTxBMQwD02wLH
 X-Google-Smtp-Source: 
- AA6agR7MQ3ZB41HyzRiYSxDjISQfxaEEeGVdfjC1ldoiWKqN5pCHYvokgO65aSVyC8+QoXYsOZ0dMg==
-X-Received: by 2002:a17:90b:3e8d:b0:1fa:facf:672f with SMTP id
- rj13-20020a17090b3e8d00b001fafacf672fmr10635819pjb.0.1661624807716;
-        Sat, 27 Aug 2022 11:26:47 -0700 (PDT)
+ AA6agR4UEPZuekCbCWII1OFItV9Tx4/N94kjAl8pjGimPFjBS89RzI9lW6DjepT8zbwVsCqhlrJh5g==
+X-Received: by 2002:a65:6b8f:0:b0:42b:77c3:9564 with SMTP id
+ d15-20020a656b8f000000b0042b77c39564mr6847180pgw.91.1661624813808;
+        Sat, 27 Aug 2022 11:26:53 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- r21-20020a170902ea5500b001708c4ebbaesm3864716plg.309.2022.08.27.11.26.46
+ r21-20020a170902ea5500b001708c4ebbaesm3864716plg.309.2022.08.27.11.26.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Aug 2022 11:26:47 -0700 (PDT)
+        Sat, 27 Aug 2022 11:26:53 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 21/24] oeqa/gotoolchain: set CGO_ENABLED=1
-Date: Sat, 27 Aug 2022 08:25:45 -1000
+Subject: [OE-core][kirkstone 24/24] wic: depend on cross-binutils
+Date: Sat, 27 Aug 2022 08:25:48 -1000
 Message-Id: 
- <62bd5d4a6b0bfbc7ac00bcb45ad20d32fd92689e.1661624569.git.steve@sakoman.com>
+ <4ac53650dee64f824add3ce2322b4d3e3d9d4e27.1661624569.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1661624569.git.steve@sakoman.com>
 References: <cover.1661624569.git.steve@sakoman.com>
@@ -67,41 +67,53 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 27 Aug 2022 18:26:54 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 27 Aug 2022 18:27:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169962
+ https://lists.openembedded.org/g/openembedded-core/message/169965
 
 From: Ross Burton <ross.burton@arm.com>
 
-In cross-compiles CGO_ENABLED=1 needs to be set explicitly, as otherwise
-Go refuses to use it even if CC is already set.
+Wic can build an unified kernel image, but this needs the cross-objcopy
+from binutils.
 
-This fixes the selftest on setups where the host and the SDK target
-don't have matching architectures.
-
-[ YOCTO #14859 ]
-
-(From OE-Core rev: 19be072619d39267df44f23c4c8b64f3808f6148)
+(From OE-Core rev: 7c7a488116f49083ca42d3628ebc0870585110c3)
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/gotoolchain.py | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/image_types_wic.bbclass | 2 ++
+ meta/recipes-core/meta/wic-tools.bb  | 3 ++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/gotoolchain.py b/meta/lib/oeqa/selftest/cases/gotoolchain.py
-index 345f533379..978898b86f 100644
---- a/meta/lib/oeqa/selftest/cases/gotoolchain.py
-+++ b/meta/lib/oeqa/selftest/cases/gotoolchain.py
-@@ -51,6 +51,7 @@ class oeGoToolchainSelfTest(OESelftestTestCase):
-         cmd = cmd + ". %s; " % self.env_SDK
-         cmd = cmd + "export GOPATH=%s; " % self.go_path
-         cmd = cmd + "export GOFLAGS=-modcacherw; "
-+        cmd = cmd + "export CGO_ENABLED=1; "
-         cmd = cmd + "${CROSS_COMPILE}go %s" % gocmd
-         return runCmd(cmd).status
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+index e3863c88a9..5374d6125e 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -84,6 +84,8 @@ do_image_wic[deptask] += "do_image_complete"
  
+ WKS_FILE_DEPENDS_DEFAULT = '${@bb.utils.contains_any("BUILD_ARCH", [ 'x86_64', 'i686' ], "syslinux-native", "",d)}'
+ WKS_FILE_DEPENDS_DEFAULT += "bmap-tools-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native"
++# Unified kernel images need objcopy
++WKS_FILE_DEPENDS_DEFAULT += "virtual/${TARGET_PREFIX}binutils"
+ WKS_FILE_DEPENDS_BOOTLOADERS = ""
+ WKS_FILE_DEPENDS_BOOTLOADERS:x86 = "syslinux grub-efi systemd-boot os-release"
+ WKS_FILE_DEPENDS_BOOTLOADERS:x86-64 = "syslinux grub-efi systemd-boot os-release"
+diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
+index ba0916cb56..daaf3ea576 100644
+--- a/meta/recipes-core/meta/wic-tools.bb
++++ b/meta/recipes-core/meta/wic-tools.bb
+@@ -6,7 +6,8 @@ DEPENDS = "\
+            parted-native gptfdisk-native dosfstools-native \
+            mtools-native bmap-tools-native grub-native cdrtools-native \
+            btrfs-tools-native squashfs-tools-native pseudo-native \
+-           e2fsprogs-native util-linux-native tar-native\
++           e2fsprogs-native util-linux-native tar-native \
++           virtual/${TARGET_PREFIX}binutils \
+            "
+ DEPENDS:append:x86 = " syslinux-native syslinux grub-efi systemd-boot"
+ DEPENDS:append:x86-64 = " syslinux-native syslinux grub-efi systemd-boot"
 -- 
 2.25.1
 
