@@ -2,87 +2,89 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 781F6ECAAD1
-	for <webhook@archiver.kernel.org>; Sat, 27 Aug 2022 19:00:34 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web11.51838.1661626833461221600
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E09AECAAD1
+	for <webhook@archiver.kernel.org>; Sat, 27 Aug 2022 19:13:54 +0000 (UTC)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by mx.groups.io with SMTP id smtpd.web12.52115.1661627626963187638
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Aug 2022 12:00:33 -0700
+ Sat, 27 Aug 2022 12:13:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=TB5iKdVL;
- spf=pass (domain: gmail.com, ip: 209.85.167.54,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=MuRFy4HR;
+ spf=pass (domain: gmail.com, ip: 209.85.208.175,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id bt10so6060913lfb.1
+Received: by mail-lj1-f175.google.com with SMTP id q18so4443643ljg.12
         for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Aug 2022 12:00:33 -0700 (PDT)
+ Sat, 27 Aug 2022 12:13:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=SXUr2DNKU/4KSDLCdRCADiuXlVLs/YHIoPFWL6a1RU8=;
-        b=TB5iKdVLvEsw80uI1wBHajn6TSqWs+gWCg7bCeg5ZcIpZFyrKW+GmQbhElxq4b15He
-         sCY0LyxFzeR6mRQoisUEmeFRw2fb5hT3idslJkYGRS8z0a9TYApSZWqwa/fadh8bRGTq
-         vqP9xxQrRzv1/0yTdGrMEGGeClyfXf8MK8raQ156GV69ykKWN3GnhhSz7Tphb4XD3fqC
-         0L0mvx0UD2I1fuAw9JD4kD4K+rOHYExJMpk+yHEX9OJyYC8GWmheULPHeU2b9KoAsThp
-         YrTQAzhS9bU5u8EGMgMki/BQ7jU7X9z859pKquj+epBv4jpHxfs51+mtseBDyQP0d12H
-         3eCg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=iumpfCu4aqyaacANJBddp6IPrl9FOpvVZfiKI6eEY3g=;
+        b=MuRFy4HRmyd6TpmSaX8OOiN7mbS05nC19RPNLSMItZD+fCQh6VVCbUqEan5xAaJXg7
+         AIipZcS6hsqhJT9FAj1k6VheO30L8aa8TcfJZ2/VnMRDpwG06QqpsXN+8+CyF5sjLB5I
+         YrtsyGKDweNM7aZVs/FmPQXZ1QVLCmKMffqdwiHzql26mNIU8Sb29eFIedEZ5aITX8nq
+         vI6fTHpuWN0E9ws6CLux1auvEEmOEmD3ZOs0n33EWv523KamzxYm+mlF1wtrSK0e+BrK
+         GdTRChVJN/8weE+WBUGUaz9lHY0E+0J1pFSllCYaYSIF+2CLdA2vJJiizJEsrPiB9HEp
+         OsLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=SXUr2DNKU/4KSDLCdRCADiuXlVLs/YHIoPFWL6a1RU8=;
-        b=QKLQ5nmKcCvOV+9HjZeJ+A8SICHGCZ7T78bjcXIQNiA+jsWGdrNAcqU3Pkvk9hes0E
-         hVFgY6qsJpdsrnFwxBWWgfBhf8QjIXE2/j9/frbQWeInqahw8v3p0cvawGkwagqixu8e
-         5K+1P280QvgS4PiLajixFHoAK/26axVUAHi5qLAN0bqJBMEi2UetppgBsuEZxnj4eqiE
-         f2NfgvujbMDYnE0yg5CCi861IuSMIMUQMF7sbvsdLgs5cGtZHVuefreZDDrvEvyhVboY
-         DNsPj5leMnGHrd201kyPDFfxgQX5oPPOxnDNWL/3meevip8J3DTE0eTUMAk4amJuJccr
-         SsqQ==
-X-Gm-Message-State: ACgBeo3cm+22f0MtGrczupYR1kxfyneNRLDOOBZJ1qQW0iLYM/0RbnY/
-	juXQrgM2nzRrUy0cKiBSbb6+0zednfYhZJU/0wA=
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=iumpfCu4aqyaacANJBddp6IPrl9FOpvVZfiKI6eEY3g=;
+        b=c1WBkIk8nzUw2nlX3EFNtHXQTFWYdy2uWLSAxW9KfITm06dk0wM44ANGm+1NXXnG4n
+         uVNYAS24RLtGdHry8v4ZpSe48iV2XI4kaI1vmUqPXqpZz8zt5oCbtW5aZgQBmuTqZ0NB
+         NAmNt7IWdX3rryaP38LSwOM9im7jeFyzfRNLr36rr5WulS+/lU5kjOgqq2MWXzZgZmVT
+         9LYcZh1b/sCx50k7YckzJ562bwOr3UP3nIxWpuGsWTUsbvy6OyHnqq6lkc9RCo2sCmJZ
+         SQpY93OnI3WomcagdQbDKnxlHnNVnikuOn1OTlX/4r6Qn0Ftxa5+Zt4t5NuH8FcGYkNS
+         nzZA==
+X-Gm-Message-State: ACgBeo0WDGe0HSkTRMKb3yOqBdk6c+qRyl7/zSDze/j4iAB4vJKTOGbP
+	guHXluABuaTBWnMgtZtKB912izAJsbcdv8zBirY=
 X-Google-Smtp-Source: 
- AA6agR7fRgF2J+fDt6rBpWjkW5u+Jvj8PwKBDInFqPZD5KFztGfPEFRiM4jq2xLUIohklqUPTkABMNTBwXC5wEbFeQ4=
-X-Received: by 2002:a05:6512:3e1a:b0:492:f9e8:dab with SMTP id
- i26-20020a0565123e1a00b00492f9e80dabmr4400633lfv.358.1661626831809; Sat, 27
- Aug 2022 12:00:31 -0700 (PDT)
+ AA6agR7Pmxg/Mv0sQ0FiAoEoyFpQysTkagQaDRnEbEHkqlcozs7dcXf7tAx2MhmsXw1G3XApIp4FB6BXhWYT8Flg+U0=
+X-Received: by 2002:a2e:7e0b:0:b0:261:bef1:a32e with SMTP id
+ z11-20020a2e7e0b000000b00261bef1a32emr3896927ljc.41.1661627625247; Sat, 27
+ Aug 2022 12:13:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <2ed08c8656181cf2b4495978e28e70c5274fb7e7.camel@etorok.net>
- <CANNYZj8GigGudbwsES8zvfKGUs9sr+wHTRZMP2uut45JtDgOcQ@mail.gmail.com>
- <e40af25a1dedc9780f107df17cfb81320235653e.camel@etorok.net>
-In-Reply-To: <e40af25a1dedc9780f107df17cfb81320235653e.camel@etorok.net>
+References: <20220824124234.3549247-1-alex@linutronix.de>
+ <20220824124234.3549247-2-alex@linutronix.de>
+ <20220827090049.1d19b479@booty>
+ <170F423CB671B42F.16609@lists.openembedded.org>
+In-Reply-To: <170F423CB671B42F.16609@lists.openembedded.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 27 Aug 2022 21:00:20 +0200
+Date: Sat, 27 Aug 2022 21:13:33 +0200
 Message-ID: 
- <CANNYZj8Wa7-u08yzSNEYUOtJBMYO5hNEiWWjAPjB0ieytSBQbg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] xz: do not OOM with 3x builds, lower memlimit
-To: =?UTF-8?B?RWR3aW4gVMO2csO2aw==?= <edwin@etorok.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+ <CANNYZj8D-+sLPQSVc1x7pVp94GOAG7rGAReARWz5MV5zLGs98Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] scripts/oe-setup-builddir: add a check that
+ TEMPLATECONF is valid
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 27 Aug 2022 19:00:34 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 27 Aug 2022 19:13:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169967
+ https://lists.openembedded.org/g/openembedded-core/message/169968
 
-On Sat, 27 Aug 2022 at 20:45, Edwin T=C3=B6r=C3=B6k <edwin@etorok.net> wrot=
-e:
-> I don't think it is currently possible to limit the number of 'xz'
-> processes though.
+On Sat, 27 Aug 2022 at 19:00, Alexander Kanavin via
+lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
+wrote:
+> > This is making the AB fail:
+> >
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4140/steps/7/logs/stdio
+>
+> I believe this needs the patch for poky that moves the template to the
+> expected location, was it included? I just started a test with both
+> patches:
+> https://git.yoctoproject.org/poky-contrib/log/?h=akanavin/force-templateconf
+>
+> and it is able to proceed fine:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4144
 
-This is a general problem and has been discussed many times over.
-Bitbake historically doesn't limit the amount of compiler instances or
-any other processes that may start, and makes no promises about
-avoiding OOM situations. If you find yourself in one, you need to
-tighten BB_NUMBER_THREADS/PARALLEL_MAKE until OOM goes away, or add
-more RAM. More conservative defaults will never be conservative enough
-for every user, so we stick with defaults that make use of every
-available CPU core.
-
-That said, there are recent bitbake patches to track 'memory pressure'
-and (I'm not sure exactly how) try to hold back if memory gets tight,
-so you're welcome to take them and run experiments.
+...except the change does break eSDKs, so that needs to be fixed first.
 
 Alex
 
