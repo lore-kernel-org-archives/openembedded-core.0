@@ -1,145 +1,172 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44A6CECAAD5
-	for <webhook@archiver.kernel.org>; Sat, 27 Aug 2022 18:24:04 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web09.51772.1661624636826638109
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47932ECAAD1
+	for <webhook@archiver.kernel.org>; Sat, 27 Aug 2022 18:26:04 +0000 (UTC)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web08.51889.1661624763306282220
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Aug 2022 11:23:57 -0700
+ Sat, 27 Aug 2022 11:26:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=C1k/Tfnp;
- spf=pass (domain: gmail.com, ip: 209.85.167.47,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id t23so1181104lfr.3
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=xmSsSbGu;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id x26so4533071pfo.8
         for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Aug 2022 11:23:56 -0700 (PDT)
+ Sat, 27 Aug 2022 11:26:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=ER7oSS/J651lsBSIL4KQ2ogl+LNztksvkt2V7M3ww+c=;
-        b=C1k/TfnpKEu+4fYPUX6SF5SpanO8u2I94u2vndPXRei+0Nkc6aSSkYjgfbC2NQbX9D
-         64fuPXp4qLlMl5+HXXGPU7xmCexOxdxTnXml/xIZi2YSLlp6YKhLjQwPXb0S1/s9i44g
-         U/O9vPnlPey0CLbG7EO9UR+r4y6AjUJWAuBNySU3jowjAA+uMu/wt7svUACQ5rCh8x91
-         N72IoOg8ZzwcY46y0gE5tB7GaubVu3bmsn9ydXgs/h6upPRDFKRdoD1vuXFN0IRSmM09
-         rO8CYxpc1CLDwF2UKhdINhURLnI8xokiy7kWyc0ekLiAUKYf+kvWc4bofy7te8axZV3S
-         wAGQ==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc;
+        bh=zMHC3Onky43ab6qpdB8TZU8V0D4+LJxCVWrm37PyZsQ=;
+        b=xmSsSbGuAbQe8xJaqWWAy4GKYawV7rIeY7cQIcS7PCNzrVwlGHbfMek+uxn4eF12+r
+         dVDyTsTicP4zQ4oOLRDHilPaJrN86O/Wg8r/HOY78K5hOA1eC6iTNK52PqevS2olR3BY
+         6aOoDIJHHTX3DyWA7TDFUTBJhp1vsmHjJFHZqXF451lm+MvR2BWjAvB8E4YbVTvm9brY
+         9un0Y3KfKVCJYa2dDYZz8drGa9Ajy8UVZHXz5cLJJOqsKVPb8qCLTS1riogbObzA1V32
+         JBLb/g2AMby21MeHVTzXmoSPIG3xzp2DyPclFyaYvkJvegaLeWf5SWpROHqN7JOYPg3e
+         vqeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=ER7oSS/J651lsBSIL4KQ2ogl+LNztksvkt2V7M3ww+c=;
-        b=jAsZ9ivOco+scRmQleA9aC0e4vCJYBf9PziE4ou6A9QnQ4VPnOJ5eWacpO2EUuPPKm
-         7Npfg01So5OPIQk5i97PzEMtxFet2Py5aC+UXlpJ1El0R4ie6fCuN3iJzmqFytlpFpI6
-         JMKOLrKATokngPnK37HMbmFipPJ2WaDFvOkmPN+IRhbdpSCitHepaJKcgLQLLmk7nGLq
-         ClQfpVrt4zJhmtxS9ZgGf57+vk4Y6SrU9zodVpHht60Ug+X35Lnw1rDSb0w/1Acy846m
-         8VHqIYIJuUqHb7zj/KteDRti0ViaQBOX+bES+oErH9mv3Nzv9FNICarSz132s3w3cZMk
-         +1yw==
-X-Gm-Message-State: ACgBeo0pXFNu3Z4SNCThBItC2120B28hxFvcuFIUgvQ73j/r/LuADbde
-	Gk/9fnqgdtUQjvaBVY5wb22wiXG9GPOBpIC9khA=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc;
+        bh=zMHC3Onky43ab6qpdB8TZU8V0D4+LJxCVWrm37PyZsQ=;
+        b=dStxfy8+sxlXE/Om6qlvRw/VPWCCDQyYh2+5gyc/al3y/cl1d3DDgCQ5xDps5CfuBt
+         v8LtAkU/qlpmzZv1CWXNopnvFrvoORhiopm/t8czFWJm4WM5p31KKi+E3oBB9ivdJfqS
+         JtuHYw1zWCbWKWHlB0BqOYF2Jqf6RLAtgWseL2i4nNV8QZnSs96RheNBmsUq86LMVfoR
+         Z8SmCSCKVzF4ASxsn2eghVkThwnhTZRH3SY5gpMwotDlmyA5EeAiCsXxQmM2pFY2X8Pd
+         tRHhm9xIDvXsIjNOblToPV5vF/7YpyLDFHPuVjvUUCAmyNMTIVNdGr8Mo6dA1C5CiLmw
+         fZdw==
+X-Gm-Message-State: ACgBeo1GQqpc/qkZuIiWQRkbJG7EiV85v5fLkFdBUXq8F3semJyeT01/
+	nUqS5WfFkA5Wr205ZHquHh8Q5OWFBuNE8mxR
 X-Google-Smtp-Source: 
- AA6agR7TB4Q9VK/QBM8JhOhv68oxLi7uG/GNG47Ylni0OYtVJB5w41BQuVwLwZX0jTtpYJgPwv1ALFNtPVLK6mVMBIc=
-X-Received: by 2002:a05:6512:238d:b0:492:f11e:ca92 with SMTP id
- c13-20020a056512238d00b00492f11eca92mr3966908lfv.26.1661624635016; Sat, 27
- Aug 2022 11:23:55 -0700 (PDT)
+ AA6agR611CQOu+XsAytKn0cc0Z0PGJJ/8ZF4NYNnqUu/GFR8nmrFe/IXEbyStf2Z62NlKCD1KQI+NA==
+X-Received: by 2002:a05:6a02:207:b0:41c:9e7d:775e with SMTP id
+ bh7-20020a056a02020700b0041c9e7d775emr7753611pgb.227.1661624761935;
+        Sat, 27 Aug 2022 11:26:01 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id
+ r21-20020a170902ea5500b001708c4ebbaesm3864716plg.309.2022.08.27.11.26.00
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Aug 2022 11:26:01 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 00/24] Patch review
+Date: Sat, 27 Aug 2022 08:25:24 -1000
+Message-Id: <cover.1661624569.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <2ed08c8656181cf2b4495978e28e70c5274fb7e7.camel@etorok.net>
-In-Reply-To: <2ed08c8656181cf2b4495978e28e70c5274fb7e7.camel@etorok.net>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 27 Aug 2022 20:23:43 +0200
-Message-ID: 
- <CANNYZj8GigGudbwsES8zvfKGUs9sr+wHTRZMP2uut45JtDgOcQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] xz: do not OOM with 3x builds, lower memlimit
-To: edwin@etorok.net
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 27 Aug 2022 18:24:04 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 27 Aug 2022 18:26:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169940
+ https://lists.openembedded.org/g/openembedded-core/message/169941
 
-I'm not sure this is right as a global change. This fixes situations
-where 3 xz instances run on your specific setup, what about 4? Or 5?
-Or n instances for all n in N?
+Please review this set of patches for kirkstone and have comments back by
+end of day Tuesday.
 
-I think you need to limit the amount of threads rather to match
-available RAM, and do it via site.conf and not bitbake.conf. ?=3D
-assignment is used in bitbake.conf exactly for that purpose.
+Pass a-full on autobuilder:
 
-Alex
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4141
 
-On Sat, 27 Aug 2022 at 20:15, Edwin T=C3=B6r=C3=B6k via lists.openembedded.=
-org
-<edwin=3Detorok.net@lists.openembedded.org> wrote:
->
-> By default a build such as [1] might run 3 'xz' in parallel:
-> ```
-> Currently  3 running tasks (11878 of 11883)  99%
-> |######################################################################
-> #### |
-> 0: demo-coreip-xfce4-1.0-r0 do_image_ext4 - 3m17s (pid 2088739)
-> 1: demo-coreip-xfce4-1.0-r0 do_image_tar - 3m16s (pid 2088743)
-> 2: demo-coreip-xfce4-1.0-r0 do_image_wic - 3m16s (pid 2088745)
-> ```
->
-> However the default memory usage limit of `xz` is 50% each, so this
-> will
-> attempt to use 150% memory, and it gets OOM killed by systemd-oomd on
-> Fedora 36.
-> ```
-> Aug 27 18:38:57 fedora systemd-oomd[3150]: Killed
-> /user.slice/user-1000.slice/user@1000.service/app.slice/app-
-> org.gnome.Terminal.slice/vte-spawn-2d92eb7b-b005-41b4-a786-
-> fc8c0d360ce3.scope due to memory used (66890584064) / total
-> (67332812800) and swap used (7744446464) / total (8589930496) being
-> more than 90.00%
-> ```
->
-> Even with systemd-oomd turned off it'd eventually start swapping
-> heavily
-> on a system with 64GiB of physical memory and 8GiB of swap.
->
-> Reduce memory limit on xz so that we can run 3 in parallel without
-> driving the host close to or OOM. 25% seems to work on this particular
-> build and allows it to complete successfully.
->
-> [1] https://github.com/sifive/freedom-u-sdk/tree/2022.06.00
->
-> Signed-off-by: Edwin T=C3=B6r=C3=B6k <edwin@etorok.net>
-> ---
->  meta/conf/bitbake.conf | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 2a3cf6f8aa..48ba52c12c 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -857,7 +857,8 @@ BB_NUMBER_THREADS ?=3D "${@oe.utils.cpu_count()}"
->  PARALLEL_MAKE ?=3D "-j ${@oe.utils.cpu_count()}"
->
->  # Default parallelism and resource usage for xz
-> -XZ_MEMLIMIT ?=3D "50%"
-> +# A build might run 3 'xz' in parallel, so don't exhaust memory
-> +XZ_MEMLIMIT ?=3D "25%"
->  XZ_THREADS ?=3D "${@oe.utils.cpu_count(at_least=3D2)}"
->  XZ_THREADS[vardepvalue] =3D "1"
->  XZ_DEFAULTS ?=3D "--memlimit=3D${XZ_MEMLIMIT} --threads=3D${XZ_THREADS}"
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#169939): https://lists.openembedded.org/g/openembedde=
-d-core/message/169939
-> Mute This Topic: https://lists.openembedded.org/mt/93294351/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+The following changes since commit 7709a8c1c1b2dcf05678f1a2a1fd579a95e492f2:
+
+  packagegroup-self-hosted: update for strace (2022-08-23 04:23:01 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Alexander Kanavin (10):
+  tzdata: upgrade 2022a -> 2022b
+  xz: update 5.2.5 -> 5.2.6
+  gdk-pixbuf: upgrade 2.42.6 -> 2.42.8
+  gdk-pixbuf: update 2.42.8 -> 2.42.9
+  epiphany: upgrade 42.3 -> 42.4
+  glib-networking: upgrade 2.72.1 -> 2.72.2
+  libjpeg-turbo: upgrade 2.1.3 -> 2.1.4
+  libwebp: upgrade 1.2.3 -> 1.2.4
+  wireless-regdb: upgrade 2022.06.06 -> 2022.08.12
+  wpebackend-fdo: upgrade 1.12.0 -> 1.12.1
+
+Awais Belal (1):
+  kernel-fitimage.bbclass: only package unique DTBs
+
+Bertrand Marquis (1):
+  sysvinit-inittab/start_getty: Fix respawn too fast
+
+Hitendra Prajapati (1):
+  Revert "gdk-pixbuf: CVE-2021-46829 a heap-based buffer overflow"
+
+Jon Mason (1):
+  oeqa/parselogs: add qemuarmv5 arm-charlcd masking
+
+Pavel Zhukov (1):
+  package_rpm: Do not replace square brackets in %files
+
+Richard Purdie (1):
+  vim: Upgrade 9.0.0115 -> 9.0.0242
+
+Ross Burton (7):
+  oeqa/qemurunner: add run_serial() comment
+  oeqa/selftest: rename git.py to intercept.py
+  oeqa/gotoolchain: put writable files in the Go module cache
+  oeqa/gotoolchain: set CGO_ENABLED=1
+  wic: add target tools to PATH when executing native commands
+  wic/bootimg-efi: use cross objcopy when building unified kernel image
+  wic: depend on cross-binutils
+
+Shubham Kulkarni (1):
+  sanity: add a comment to ensure CONNECTIVITY_CHECK_URIS is correct
+
+ meta/classes/image_types_wic.bbclass          |  2 +
+ meta/classes/kernel-fitimage.bbclass          |  8 ++
+ meta/classes/package_rpm.bbclass              |  6 --
+ meta/classes/sanity.bbclass                   |  1 +
+ meta/lib/oeqa/runtime/cases/parselogs.py      |  1 +
+ meta/lib/oeqa/selftest/cases/gotoolchain.py   |  8 +-
+ .../selftest/cases/{git.py => intercept.py}   |  0
+ .../oeqa/selftest/cases/oelib/buildhistory.py |  6 +-
+ meta/lib/oeqa/utils/qemurunner.py             |  2 +
+ ...ng_2.72.1.bb => glib-networking_2.72.2.bb} |  2 +-
+ meta/recipes-core/meta/wic-tools.bb           |  3 +-
+ .../sysvinit/sysvinit-inittab/start_getty     |  3 +
+ meta/recipes-extended/timezone/timezone.inc   |  6 +-
+ .../xz/xz/CVE-2022-1271.patch                 | 96 -------------------
+ .../xz/{xz_5.2.5.bb => xz_5.2.6.bb}           |  7 +-
+ .../{epiphany_42.3.bb => epiphany_42.4.bb}    |  2 +-
+ .../0001-Add-use_prebuilt_tools-option.patch  | 18 ++--
+ .../gdk-pixbuf/CVE-2021-46829.patch           | 61 ------------
+ .../gdk-pixbuf/gdk-pixbuf/fatal-loader.patch  | 20 ++--
+ ...-pixbuf_2.42.6.bb => gdk-pixbuf_2.42.9.bb} | 19 ++--
+ ...-turbo_2.1.3.bb => libjpeg-turbo_2.1.4.bb} |  2 +-
+ ....06.06.bb => wireless-regdb_2022.08.12.bb} |  2 +-
+ .../{libwebp_1.2.3.bb => libwebp_1.2.4.bb}    |  2 +-
+ ...fdo_1.12.0.bb => wpebackend-fdo_1.12.1.bb} |  2 +-
+ meta/recipes-support/vim/vim.inc              |  4 +-
+ scripts/lib/wic/misc.py                       |  7 +-
+ scripts/lib/wic/plugins/source/bootimg-efi.py | 25 +++--
+ 27 files changed, 84 insertions(+), 231 deletions(-)
+ rename meta/lib/oeqa/selftest/cases/{git.py => intercept.py} (100%)
+ rename meta/recipes-core/glib-networking/{glib-networking_2.72.1.bb => glib-networking_2.72.2.bb} (93%)
+ delete mode 100644 meta/recipes-extended/xz/xz/CVE-2022-1271.patch
+ rename meta/recipes-extended/xz/{xz_5.2.5.bb => xz_5.2.6.bb} (88%)
+ rename meta/recipes-gnome/epiphany/{epiphany_42.3.bb => epiphany_42.4.bb} (94%)
+ delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-46829.patch
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.42.6.bb => gdk-pixbuf_2.42.9.bb} (87%)
+ rename meta/recipes-graphics/jpeg/{libjpeg-turbo_2.1.3.bb => libjpeg-turbo_2.1.4.bb} (97%)
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2022.06.06.bb => wireless-regdb_2022.08.12.bb} (94%)
+ rename meta/recipes-multimedia/webp/{libwebp_1.2.3.bb => libwebp_1.2.4.bb} (95%)
+ rename meta/recipes-sato/webkit/{wpebackend-fdo_1.12.0.bb => wpebackend-fdo_1.12.1.bb} (90%)
+
+-- 
+2.25.1
+
 
