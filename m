@@ -1,82 +1,125 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D923ECAAD5
-	for <webhook@archiver.kernel.org>; Sat, 27 Aug 2022 19:21:04 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web08.52399.1661628054867891280
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94CBDECAAD1
+	for <webhook@archiver.kernel.org>; Sat, 27 Aug 2022 19:32:24 +0000 (UTC)
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net
+ [217.70.178.232])
+ by mx.groups.io with SMTP id smtpd.web11.52109.1661628734093826422
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Aug 2022 12:20:55 -0700
+ Sat, 27 Aug 2022 12:32:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Lr0EUMQV;
- spf=pass (domain: gmail.com, ip: 209.85.167.54,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id m2so2325513lfp.11
-        for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Aug 2022 12:20:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=IvPAvy+N3MLSkLJ/mV30zLhEtYVmONRshyRYHAadLD8=;
-        b=Lr0EUMQViIlmIo2QJxm5Y5ao3YZdHoEnvjrqlLlSphAd5sihRWI+SuuaFc3A3xNdAh
-         jZePRumDKCi3rNnvRQ3STouWdRPvy+nArOvxcU4JHu899/uRnBsBM6jCII/RtS/fYZ8s
-         1IS+r26l8x5qpDzMZtNpk6hX2oYY/URVjZIXkKOWOUfevAMjq3jBLJEJAC+Ehz6tapqR
-         zVZTM/CBke69LklPFAajHQRlZueEsDbIOSrELX7W563XnDaMyRa0P54ztL7PZQC/5PQ5
-         eo6Jvq7hNdaYJ+GM56ORYKIxpAyE5BS+2dyVcOimoIc7/oU6H9cKuMrG4SoCUICsKzDD
-         /aiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=IvPAvy+N3MLSkLJ/mV30zLhEtYVmONRshyRYHAadLD8=;
-        b=nF5yVRHPSez3VlGYolNMjcob+G7BynFnkaMBzO8fkLg82ZOmBX+cGdJDtAiEPPZ4d8
-         RFogxEKDMgiwx3HHOjh6I3ZWBvgUu2kG/M35at0rNTsf6UxtfF1xp8bMKgc/TDf3YvQT
-         OiVh6GAB08bnBRv2YRy2P3wepV9tdhoJcCZS7FgBOxs3PMvOiRVf6YQKaNBGHrdFCY/7
-         S0OdsRIXQB9vMIAVDqC+prjLe3XbYXToxyEYQ/VMBkXfJYYr0ubJOB332vsY4VJrcbbU
-         Ge/462FbpAzWf0QdSvZJXl9coy2NsOBSfJvQl9isrbdKGxZBqiJ6s2voULv/it8ZqCRk
-         zlsQ==
-X-Gm-Message-State: ACgBeo0jfdo78QrjjiDgXWTQ3RRp/Y8PC/L+Xq8QjdwLUtqAz1K3vy/m
-	aSzPU5ErDZxSxx8CfccrkTTruSvikblS1z5em2k=
-X-Google-Smtp-Source: 
- AA6agR4Gr0ToQhsbhVo5ModHuSARaKVobPHHrHYWlnt2kfvEDk/A++29GXg4RnE5YjVy6iSsZwq3Y+kmRbSHyCr1xkw=
-X-Received: by 2002:a05:6512:2511:b0:493:50c:ec3 with SMTP id
- be17-20020a056512251100b00493050c0ec3mr4002810lfb.665.1661628053045; Sat, 27
- Aug 2022 12:20:53 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Ntg/ZL/9;
+ spf=pass (domain: bootlin.com, ip: 217.70.178.232,
+ mailfrom: luca.ceresoli@bootlin.com)
+Received: from booty (unknown [77.244.183.192])
+	(Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 3E156200007;
+	Sat, 27 Aug 2022 19:32:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1661628732;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hFNTKsPaTNBI45nEJJtfB3Ae19LyIdujHC8GrxChqC8=;
+	b=Ntg/ZL/9oXSO39O8+CFgttNn7RwLjps2GpsPeReHXavZOT/KgwP7DNpo+pXF1Tkj0zAqEs
+	VKfZDk8fYmZr4oNqcz1eCY/zaMzU/AoBMWTa4lNf6ydyXuYNmev6o6IT9e2gSB4WLo7b3c
+	lDHu+qBtIPzXpdux3IeXT96ix9F0JIAjnYGbeGQskQcSKea4sAJZEZ5Le/1OCH2lmKo0S1
+	Mlaoz3e+7ocCYxIIo4n9/5J9117psZB5Fwz3s+JnHi/hAOmOIhe4bzkRjjQKwoA1Ztdi3W
+	p/V5B188W/E/6mvs67efBkUlezuhMyEK4I6+HtahT48mASxqIVf0ab6+wm43nA==
+Date: Sat, 27 Aug 2022 21:32:09 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Luca Ceresoli via lists.openembedded.org"
+ <luca.ceresoli=bootlin.com@lists.openembedded.org>
+Cc: luca.ceresoli@bootlin.com, "Alexander Kanavin" <alex.kanavin@gmail.com>,
+ openembedded-core@lists.openembedded.org, Alexander Kanavin
+ <alex@linutronix.de>, Ross Burton <ross.burton@arm.com>
+Subject: Re: [OE-core] [PATCH 1/5] bitbake-layers: add a command to save the
+ active build configuration as a template into a layer
+Message-ID: <20220827213209.02c7bba4@booty>
+In-Reply-To: <170EEE7825BF9D73.11791@lists.openembedded.org>
+References: <20220825203451.2074080-1-alex@linutronix.de>
+	<170EEE7825BF9D73.11791@lists.openembedded.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <2ed08c8656181cf2b4495978e28e70c5274fb7e7.camel@etorok.net>
- <CANNYZj8GigGudbwsES8zvfKGUs9sr+wHTRZMP2uut45JtDgOcQ@mail.gmail.com>
- <e40af25a1dedc9780f107df17cfb81320235653e.camel@etorok.net>
- <CANNYZj8Wa7-u08yzSNEYUOtJBMYO5hNEiWWjAPjB0ieytSBQbg@mail.gmail.com>
- <2e91bec4aeff2002d84b96f4c7f06b99119f948c.camel@etorok.net>
-In-Reply-To: <2e91bec4aeff2002d84b96f4c7f06b99119f948c.camel@etorok.net>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 27 Aug 2022 21:20:41 +0200
-Message-ID: 
- <CANNYZj8GJgtbDHan0jpNXswe=A4iRq854c5N5JCHhxzPeHp3Ag@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] xz: do not OOM with 3x builds, lower memlimit
-To: =?UTF-8?B?RWR3aW4gVMO2csO2aw==?= <edwin@etorok.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 27 Aug 2022 19:21:04 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 27 Aug 2022 19:32:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169970
+ https://lists.openembedded.org/g/openembedded-core/message/169971
 
-On Sat, 27 Aug 2022 at 21:15, Edwin T=C3=B6r=C3=B6k <edwin@etorok.net> wrot=
-e:
-> If XZ always uses 50% of available memory then adding more RAM won't
-> help though. The only safe value would be BB_NUMBER_OF_THREADS=3D1.
+Hi Alex,
 
-But does it? I wonder if reducing XZ_THREADS will actually reduce the
-RAM consumption as well. If the problem was common, it would be
-reported a lot more, and yet it's not. So I'd suggest you run
-experiments with XZ_THREADS first.
+On Fri, 26 Aug 2022 17:25:07 +0200
+"Luca Ceresoli via lists.openembedded.org"
+<luca.ceresoli=bootlin.com@lists.openembedded.org> wrote:
 
-Alex
+> Hi Alex,
+> 
+> On Thu, 25 Aug 2022 22:34:47 +0200
+> "Alexander Kanavin" <alex.kanavin@gmail.com> wrote:
+> 
+> > This is the reverse of setting up a build by pointing TEMPLATECONF to a directory
+> > with a template and running '. oe-init-build-env': this takes the config files from build/conf,
+> > replaces site-specific paths in bblayers.conf with ##OECORE##-relative paths, and copies
+> > the config files into a specified layer under a specified template name.
+> > 
+> > In many or perhaps most cases such static prefabricated configurations (that require no
+> > further editing) are just enough, and I believe they should be offered by the
+> > official configuration management. On the other hand, generating build configurations with a
+> > sufficiently versatile tool is a far more complex problem, and one we should try to tackle
+> > once we see where and how static configs fall short.
+> > 
+> > Tooling to discover and select these templates when setting up a build will be provided later on.
+> > 
+> > How to use:
+> > 
+> > alex@Zen2:/srv/work/alex/poky/build-layersetup$ bitbake-layers save-build-conf ../../meta-alex/ test-1
+> > NOTE: Starting bitbake server...
+> > NOTE: Configuration template placed into /srv/work/alex/meta-alex/conf/templates/test-1
+> > Please review the files in there, and particularly provide a configuration description in /srv/work/alex/meta-alex/conf/templates/test-1/conf-notes.txt
+> > You can try out the configuration with
+> > TEMPLATECONF=/srv/work/alex/meta-alex/conf/templates/test-1 . /srv/work/alex/poky/oe-init-build-env build-try-test-1
+> > alex@Zen2:/srv/work/alex/poky/build-layersetup$
+> > 
+> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>  
+> 
+> Testing with this series produced some failures:
+> 
+>   error: pathspec 'yocto-4.0' did not match any file(s) known to git
+> 
+> Looks like is is adding the poky-contrib remote but not poky itself.
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/3996/steps/14/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/4010/steps/14/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/4064/steps/14/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/4052/steps/15/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/26/steps/14/logs/stdio
+> 
+
+This series appears to have generated other errors on several qemu
+builds:
+
+  ERROR: core-image-sato-1.0-r0 do_testsdkext: Couldn't install the extensible SDK:
+
+To me the correlation with your code was not immediately obvious, but
+as Ross suggested I removed your patches and the failure disappeared.
+
+Some logs:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/5114/steps/16/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/5737/steps/15/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/5724/steps/16/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/73/builds/5721/steps/16/logs/stdio
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
