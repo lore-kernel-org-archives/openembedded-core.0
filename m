@@ -1,120 +1,165 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <edwin@etorok.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32646ECAAD1
-	for <webhook@archiver.kernel.org>; Sat, 27 Aug 2022 18:27:04 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
- [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web09.51803.1661624800344116481
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BF57ECAAD1
+	for <webhook@archiver.kernel.org>; Sat, 27 Aug 2022 18:45:24 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web12.51805.1661625918528184799
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Aug 2022 11:26:54 -0700
+ Sat, 27 Aug 2022 11:45:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=YsuVNL6t;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.178,
- mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id 72so4530551pfx.9
-        for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Aug 2022 11:26:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc;
-        bh=RyMcXTytVSNUVmZrR8TQrsgD2eugg3EpATeFB7Uk07o=;
-        b=YsuVNL6twsjlmM1oxv08QIyBZlVwNZNA3SBIcz1nKZFFt7hdeSbQzLTL4tUEg1k9gP
-         6JVm1P4ua4XqPINgY4NUhBDfAQUMmTOFoANWIkQiz6nExLZFgX8+5/60gCHusKmTfgoy
-         s7j9NLsqYdArpRqiG8WO1bdve2mxkQ06IriOVej1z/65eWQVnz19djlNnDr1RwhaNFJV
-         ZfgK453kXLtyh4l6o7rER1j1S10E4P3IBUne2KpIxqzWlW29cTaerEnUE2cWi9tD6rhg
-         a97Guq6vI4/h64jTO1wnVF4hjoQoyzykKz+uxky1heS2zwkjVRUM32C2R/zbeoqcAucO
-         V97g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=RyMcXTytVSNUVmZrR8TQrsgD2eugg3EpATeFB7Uk07o=;
-        b=m2IUar/1jM+c6S7ca8Ajzc2eWV+9I+BM1r5lyCplt72dqkg7rVGxgTXTzZMfSgwYvu
-         E7MB1pIPdBZBoK8dEmPcLMyHAKvDpRrwQA1zOGl/IlMzi+UYZGMRks3ss7gHxK2WzFOC
-         x4mmmm6Qvg3wwxkPFqScnE3JWGhM54YYRrFry3F3RPEYq1DDxhcuw7wuFjzRDoFoYLj2
-         K2678VpV4hFPhyqFMCLKJui5+IR0CenFB/9wHE0kzXc1CqnzxRUdBo2jRTDdAztmuKMG
-         4+cTtrR6AFpXBOzb/8j5EJ7tIgaAnfsg3R3aFyzxyAAA/LJCFXieILtoT6ZHVG/ahNK2
-         eJnA==
-X-Gm-Message-State: ACgBeo0TOqCBdN5FRnt1PxBB5OttCRBbByh3YYvFJNmYtO13HKVCvmYx
-	Sn/EeLEZD4HYs+hDcQh+FY9RTxBMQwD02wLH
-X-Google-Smtp-Source: 
- AA6agR4UEPZuekCbCWII1OFItV9Tx4/N94kjAl8pjGimPFjBS89RzI9lW6DjepT8zbwVsCqhlrJh5g==
-X-Received: by 2002:a65:6b8f:0:b0:42b:77c3:9564 with SMTP id
- d15-20020a656b8f000000b0042b77c39564mr6847180pgw.91.1661624813808;
-        Sat, 27 Aug 2022 11:26:53 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id
- r21-20020a170902ea5500b001708c4ebbaesm3864716plg.309.2022.08.27.11.26.52
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Aug 2022 11:26:53 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 24/24] wic: depend on cross-binutils
-Date: Sat, 27 Aug 2022 08:25:48 -1000
-Message-Id: 
- <4ac53650dee64f824add3ce2322b4d3e3d9d4e27.1661624569.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1661624569.git.steve@sakoman.com>
-References: <cover.1661624569.git.steve@sakoman.com>
+ dkim=pass header.i=@etorok.net header.s=gm1 header.b=imTAG8MT;
+ spf=pass (domain: etorok.net, ip: 217.70.183.194, mailfrom: edwin@etorok.net)
+Received: (Authenticated sender: edwin@etorok.net)
+	by mail.gandi.net (Postfix) with ESMTPSA id 12DD440008;
+	Sat, 27 Aug 2022 18:45:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=etorok.net; s=gm1;
+	t=1661625916;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AF7sF12IfAgSmGMt89g7hRZT6qr+Xtq/GVqnn8u7uaU=;
+	b=imTAG8MTfto5zw+ZpnqmqSXtUkgqaiBiMGF4J0/EhBIlx5SSG2l3TbTnBoqL8HbiAz+9M2
+	kWhU9pkks4SUj5xNFdB24ofy8vwRxDXNpl5oMFmOtv59oBuxbkUirx/5aAEFBqR1tmb4OQ
+	F5oES5HLSfpV7wUJGtDfa/zCbt2tPZzyrVwcObV8uU3sQxGLUu8r5WL/Mu2Ndl4nU2TkBR
+	ZqiXN8XgPPUSrclGDqpafWsyRBBSBFgN0lKamThV9U9+wZlRhBZTgTM6SfNTCGgxfFWD5m
+	cT7FXDoft1mC9UiasHxhGJFNh205lBNeVue6LfuXXVC0wXor8a8wDO69UbR91g==
+Message-ID: <e40af25a1dedc9780f107df17cfb81320235653e.camel@etorok.net>
+Subject: Re: [OE-core] [PATCH] xz: do not OOM with 3x builds, lower memlimit
+From: Edwin =?ISO-8859-1?Q?T=F6r=F6k?= <edwin@etorok.net>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Sat, 27 Aug 2022 19:45:14 +0100
+In-Reply-To: 
+ <CANNYZj8GigGudbwsES8zvfKGUs9sr+wHTRZMP2uut45JtDgOcQ@mail.gmail.com>
+References: <2ed08c8656181cf2b4495978e28e70c5274fb7e7.camel@etorok.net>
+	 <CANNYZj8GigGudbwsES8zvfKGUs9sr+wHTRZMP2uut45JtDgOcQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 27 Aug 2022 18:27:04 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 27 Aug 2022 18:45:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169965
+ https://lists.openembedded.org/g/openembedded-core/message/169966
 
-From: Ross Burton <ross.burton@arm.com>
+On Sat, 2022-08-27 at 20:23 +0200, Alexander Kanavin wrote:
+> I'm not sure this is right as a global change. This fixes situations
+> where 3 xz instances run on your specific setup, what about 4? Or 5?
+> Or n instances for all n in N?
 
-Wic can build an unified kernel image, but this needs the cross-objcopy
-from binutils.
+Thanks for the quick reply.
 
-(From OE-Core rev: 7c7a488116f49083ca42d3628ebc0870585110c3)
+I'd like to make the defaults safe for everyone, perhaps a simple fix
+would be to set XZ_MEMLIMIT to just below 100/BB_NUMBER_THREADS by
+default?
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/classes/image_types_wic.bbclass | 2 ++
- meta/recipes-core/meta/wic-tools.bb  | 3 ++-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+>=20
+> I think you need to limit the amount of threads rather to match
+> available RAM, and do it via site.conf and not bitbake.conf. ?=3D
 
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index e3863c88a9..5374d6125e 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -84,6 +84,8 @@ do_image_wic[deptask] += "do_image_complete"
- 
- WKS_FILE_DEPENDS_DEFAULT = '${@bb.utils.contains_any("BUILD_ARCH", [ 'x86_64', 'i686' ], "syslinux-native", "",d)}'
- WKS_FILE_DEPENDS_DEFAULT += "bmap-tools-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native"
-+# Unified kernel images need objcopy
-+WKS_FILE_DEPENDS_DEFAULT += "virtual/${TARGET_PREFIX}binutils"
- WKS_FILE_DEPENDS_BOOTLOADERS = ""
- WKS_FILE_DEPENDS_BOOTLOADERS:x86 = "syslinux grub-efi systemd-boot os-release"
- WKS_FILE_DEPENDS_BOOTLOADERS:x86-64 = "syslinux grub-efi systemd-boot os-release"
-diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
-index ba0916cb56..daaf3ea576 100644
---- a/meta/recipes-core/meta/wic-tools.bb
-+++ b/meta/recipes-core/meta/wic-tools.bb
-@@ -6,7 +6,8 @@ DEPENDS = "\
-            parted-native gptfdisk-native dosfstools-native \
-            mtools-native bmap-tools-native grub-native cdrtools-native \
-            btrfs-tools-native squashfs-tools-native pseudo-native \
--           e2fsprogs-native util-linux-native tar-native\
-+           e2fsprogs-native util-linux-native tar-native \
-+           virtual/${TARGET_PREFIX}binutils \
-            "
- DEPENDS:append:x86 = " syslinux-native syslinux grub-efi systemd-boot"
- DEPENDS:append:x86-64 = " syslinux-native syslinux grub-efi systemd-boot"
--- 
-2.25.1
+I don't think it is currently possible to limit the number of 'xz'
+processes though.
+(Note that they are 3 distinct 'xz' processes, so setting XZ_THREADS
+has no effect, which controls only the number of threads that a single
+'xz' process would use).
+
+The closest would be BB_NUMBER_THREADS, but that controls a lot of
+other things too (parallel package fetch perhaps)?
+
+> assignment is used in bitbake.conf exactly for that purpose.
+
+Currently the openembedded defaults don't work: the build always OOMs,
+at least on this particular target (or one with a large enough rootfs).
+
+The defaults should be conservative enough so they work on all systems
+(i.e. memlimit * number of xz processes < 100%), the user can then
+further tweak the memlimit vs number of processes (note *not* threads)
+tradeoff in their local conf file as you suggest.
+
+Best regards,
+--Edwin
+
+>=20
+> Alex
+>=20
+> On Sat, 27 Aug 2022 at 20:15, Edwin T=C3=B6r=C3=B6k via lists.openembedde=
+d.org
+> <edwin=3Detorok.net@lists.openembedded.org> wrote:
+> >=20
+> > By default a build such as [1] might run 3 'xz' in parallel:
+> > ```
+> > Currently=C2=A0 3 running tasks (11878 of 11883)=C2=A0 99%
+> > > #################################################################
+> > > #####
+> > #### |
+> > 0: demo-coreip-xfce4-1.0-r0 do_image_ext4 - 3m17s (pid 2088739)
+> > 1: demo-coreip-xfce4-1.0-r0 do_image_tar - 3m16s (pid 2088743)
+> > 2: demo-coreip-xfce4-1.0-r0 do_image_wic - 3m16s (pid 2088745)
+> > ```
+> >=20
+> > However the default memory usage limit of `xz` is 50% each, so this
+> > will
+> > attempt to use 150% memory, and it gets OOM killed by systemd-oomd
+> > on
+> > Fedora 36.
+> > ```
+> > Aug 27 18:38:57 fedora systemd-oomd[3150]: Killed
+> > /user.slice/user-1000.slice/user@1000.service/app.slice/app-
+> > org.gnome.Terminal.slice/vte-spawn-2d92eb7b-b005-41b4-a786-
+> > fc8c0d360ce3.scope due to memory used (66890584064) / total
+> > (67332812800) and swap used (7744446464) / total (8589930496) being
+> > more than 90.00%
+> > ```
+> >=20
+> > Even with systemd-oomd turned off it'd eventually start swapping
+> > heavily
+> > on a system with 64GiB of physical memory and 8GiB of swap.
+> >=20
+> > Reduce memory limit on xz so that we can run 3 in parallel without
+> > driving the host close to or OOM. 25% seems to work on this
+> > particular
+> > build and allows it to complete successfully.
+> >=20
+> > [1] https://github.com/sifive/freedom-u-sdk/tree/2022.06.00
+> >=20
+> > Signed-off-by: Edwin T=C3=B6r=C3=B6k <edwin@etorok.net>
+> > ---
+> > =C2=A0meta/conf/bitbake.conf | 3 ++-
+> > =C2=A01 file changed, 2 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> > index 2a3cf6f8aa..48ba52c12c 100644
+> > --- a/meta/conf/bitbake.conf
+> > +++ b/meta/conf/bitbake.conf
+> > @@ -857,7 +857,8 @@ BB_NUMBER_THREADS ?=3D "${@oe.utils.cpu_count()}"
+> > =C2=A0PARALLEL_MAKE ?=3D "-j ${@oe.utils.cpu_count()}"
+> >=20
+> > =C2=A0# Default parallelism and resource usage for xz
+> > -XZ_MEMLIMIT ?=3D "50%"
+> > +# A build might run 3 'xz' in parallel, so don't exhaust memory
+> > +XZ_MEMLIMIT ?=3D "25%"
+> > =C2=A0XZ_THREADS ?=3D "${@oe.utils.cpu_count(at_least=3D2)}"
+> > =C2=A0XZ_THREADS[vardepvalue] =3D "1"
+> > =C2=A0XZ_DEFAULTS ?=3D "--memlimit=3D${XZ_MEMLIMIT} --threads=3D${XZ_TH=
+READS}"
+> >=20
+> >=20
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#169939):
+> > https://lists.openembedded.org/g/openembedded-core/message/169939
+> > Mute This Topic: https://lists.openembedded.org/mt/93294351/1686489
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe:
+> > https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
+> > alex.kanavin@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >=20
 
 
