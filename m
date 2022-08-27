@@ -1,125 +1,118 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94CBDECAAD1
-	for <webhook@archiver.kernel.org>; Sat, 27 Aug 2022 19:32:24 +0000 (UTC)
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net
- [217.70.178.232])
- by mx.groups.io with SMTP id smtpd.web11.52109.1661628734093826422
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42A36ECAAD5
+	for <webhook@archiver.kernel.org>; Sat, 27 Aug 2022 21:30:55 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.53163.1661635848124255530
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Aug 2022 12:32:15 -0700
+ Sat, 27 Aug 2022 14:30:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Ntg/ZL/9;
- spf=pass (domain: bootlin.com, ip: 217.70.178.232,
- mailfrom: luca.ceresoli@bootlin.com)
-Received: from booty (unknown [77.244.183.192])
-	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 3E156200007;
-	Sat, 27 Aug 2022 19:32:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1661628732;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hFNTKsPaTNBI45nEJJtfB3Ae19LyIdujHC8GrxChqC8=;
-	b=Ntg/ZL/9oXSO39O8+CFgttNn7RwLjps2GpsPeReHXavZOT/KgwP7DNpo+pXF1Tkj0zAqEs
-	VKfZDk8fYmZr4oNqcz1eCY/zaMzU/AoBMWTa4lNf6ydyXuYNmev6o6IT9e2gSB4WLo7b3c
-	lDHu+qBtIPzXpdux3IeXT96ix9F0JIAjnYGbeGQskQcSKea4sAJZEZ5Le/1OCH2lmKo0S1
-	Mlaoz3e+7ocCYxIIo4n9/5J9117psZB5Fwz3s+JnHi/hAOmOIhe4bzkRjjQKwoA1Ztdi3W
-	p/V5B188W/E/6mvs67efBkUlezuhMyEK4I6+HtahT48mASxqIVf0ab6+wm43nA==
-Date: Sat, 27 Aug 2022 21:32:09 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Luca Ceresoli via lists.openembedded.org"
- <luca.ceresoli=bootlin.com@lists.openembedded.org>
-Cc: luca.ceresoli@bootlin.com, "Alexander Kanavin" <alex.kanavin@gmail.com>,
- openembedded-core@lists.openembedded.org, Alexander Kanavin
- <alex@linutronix.de>, Ross Burton <ross.burton@arm.com>
-Subject: Re: [OE-core] [PATCH 1/5] bitbake-layers: add a command to save the
- active build configuration as a template into a layer
-Message-ID: <20220827213209.02c7bba4@booty>
-In-Reply-To: <170EEE7825BF9D73.11791@lists.openembedded.org>
-References: <20220825203451.2074080-1-alex@linutronix.de>
-	<170EEE7825BF9D73.11791@lists.openembedded.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=MEh14fhD;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id m16so5690907wru.9
+        for <openembedded-core@lists.openembedded.org>;
+ Sat, 27 Aug 2022 14:30:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=aCfN+01A1GAEPeLvo+v+lKDT24CcTK8ssBznLi8zgZs=;
+        b=MEh14fhDkxN+x1j9Vzu44EfVXH8Quie4+fjlQgkNWYsDGZM+RFrqJio3HJUkXOb/M1
+         Y078osgl+2y4rc+MLIRk+qURt1dkKpW4lRpGKJRDJCl0QXsFL9RZSbiftN0Piqre/Bid
+         7W+KbwdtpKANV/71puQ02bl9L47MfiAXDeEXh7rXw8uZfq+YlxvBcNlha2v/J6cYeXRv
+         nRbVcx7fPHHiMbfLJgrZl3jHIV8+nwbNvLjUvzs8hfWk+OZ2KrpXxzHyPtjAHZ22m/IU
+         t9JEgVTQ6kwqmNuAZVE82i4Ti1HgiMW7teQxqdPu/1NAfpevyCNO5bFq04IbnU4WZia0
+         q+5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=aCfN+01A1GAEPeLvo+v+lKDT24CcTK8ssBznLi8zgZs=;
+        b=dQUhAhiy3yqAUp/qK/Nwqw67sr5kGhwLKFt6hxyDyPJNj3dOEpVV15BnlzkfGUMvvY
+         qbPOUHYtybdcWVY9976FzgDg1wbs9jXSON5TBRfudUZpuN2wR6EYy/fHsreeJ0V1RYzG
+         IO7C2rfIIFWmB5BADYnVn25aYLFNpZh5/kII7B8ADpc/T1bE3GAZgm2iX/l3QsaZglQj
+         PSRJzlJ1eun+05CYYmp0nHKrJlPTs/9MxZPnU2/5ui+dif8lAq95WdO4VazsvIOYtSPI
+         HY82KZUxQImh06dHm+38yhiDa1KlvxCHalY7RwuEXTRMxlSicF9hZTbq1uMxk2Y3somG
+         1taw==
+X-Gm-Message-State: ACgBeo34i04mrqEW596U6OEpQxwi5/JyEtRFtnHwh20ysF9z55jtfyXg
+	fI/bqRI0mXIPoarJtY8Msi7+Gg451Ho=
+X-Google-Smtp-Source: 
+ AA6agR49VK0JsVDiUD6b9U/4gGYt/o5Du8SSONs8IXTxjyXNmbB8tM4uyCTyrJPVXfwwUvjmosYLug==
+X-Received: by 2002:a5d:4201:0:b0:21d:7b63:1b43 with SMTP id
+ n1-20020a5d4201000000b0021d7b631b43mr2701058wrq.225.1661635846243;
+        Sat, 27 Aug 2022 14:30:46 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
+ [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id
+ r8-20020a5d6948000000b00226a5187528sm3073528wrw.48.2022.08.27.14.30.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Aug 2022 14:30:45 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] scripts/oe-setup-builddir: add a check that TEMPLATECONF is
+ valid
+Date: Sat, 27 Aug 2022 23:30:06 +0200
+Message-Id: <20220827213006.4059469-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 27 Aug 2022 19:32:24 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 27 Aug 2022 21:30:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169971
+ https://lists.openembedded.org/g/openembedded-core/message/169972
 
-Hi Alex,
+specifically that ../../layer.conf exists, and that second-from-last
+component in the path is 'templates'.
 
-On Fri, 26 Aug 2022 17:25:07 +0200
-"Luca Ceresoli via lists.openembedded.org"
-<luca.ceresoli=bootlin.com@lists.openembedded.org> wrote:
+This requires tweaking template.conf creation in eSDK bbclass, as
+we need to ensure that the path in it is valid, and exists
+(which may not be the case if the SDK is poky-based).
 
-> Hi Alex,
-> 
-> On Thu, 25 Aug 2022 22:34:47 +0200
-> "Alexander Kanavin" <alex.kanavin@gmail.com> wrote:
-> 
-> > This is the reverse of setting up a build by pointing TEMPLATECONF to a directory
-> > with a template and running '. oe-init-build-env': this takes the config files from build/conf,
-> > replaces site-specific paths in bblayers.conf with ##OECORE##-relative paths, and copies
-> > the config files into a specified layer under a specified template name.
-> > 
-> > In many or perhaps most cases such static prefabricated configurations (that require no
-> > further editing) are just enough, and I believe they should be offered by the
-> > official configuration management. On the other hand, generating build configurations with a
-> > sufficiently versatile tool is a far more complex problem, and one we should try to tackle
-> > once we see where and how static configs fall short.
-> > 
-> > Tooling to discover and select these templates when setting up a build will be provided later on.
-> > 
-> > How to use:
-> > 
-> > alex@Zen2:/srv/work/alex/poky/build-layersetup$ bitbake-layers save-build-conf ../../meta-alex/ test-1
-> > NOTE: Starting bitbake server...
-> > NOTE: Configuration template placed into /srv/work/alex/meta-alex/conf/templates/test-1
-> > Please review the files in there, and particularly provide a configuration description in /srv/work/alex/meta-alex/conf/templates/test-1/conf-notes.txt
-> > You can try out the configuration with
-> > TEMPLATECONF=/srv/work/alex/meta-alex/conf/templates/test-1 . /srv/work/alex/poky/oe-init-build-env build-try-test-1
-> > alex@Zen2:/srv/work/alex/poky/build-layersetup$
-> > 
-> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>  
-> 
-> Testing with this series produced some failures:
-> 
->   error: pathspec 'yocto-4.0' did not match any file(s) known to git
-> 
-> Looks like is is adding the poky-contrib remote but not poky itself.
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/3996/steps/14/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/4010/steps/14/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/4064/steps/14/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/4052/steps/15/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/26/steps/14/logs/stdio
-> 
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/classes-recipe/populate_sdk_ext.bbclass | 3 ++-
+ scripts/oe-setup-builddir                    | 5 +++++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-This series appears to have generated other errors on several qemu
-builds:
-
-  ERROR: core-image-sato-1.0-r0 do_testsdkext: Couldn't install the extensible SDK:
-
-To me the correlation with your code was not immediately obvious, but
-as Ross suggested I removed your patches and the failure disappeared.
-
-Some logs:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/5114/steps/16/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/5737/steps/15/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/5724/steps/16/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/73/builds/5721/steps/16/logs/stdio
-
+diff --git a/meta/classes-recipe/populate_sdk_ext.bbclass b/meta/classes-recipe/populate_sdk_ext.bbclass
+index 56e24c4eed..925cb313fc 100644
+--- a/meta/classes-recipe/populate_sdk_ext.bbclass
++++ b/meta/classes-recipe/populate_sdk_ext.bbclass
+@@ -438,7 +438,8 @@ python copy_buildsystem () {
+     else:
+         # Write a templateconf.cfg
+         with open(baseoutpath + '/conf/templateconf.cfg', 'w') as f:
+-            f.write('meta/conf\n')
++            f.write('meta/conf/templates/default\n')
++        os.makedirs(os.path.join(baseoutpath, core_meta_subdir, 'conf/templates/default'), exist_ok=True)
+ 
+     # Ensure any variables set from the external environment (by way of
+     # BB_ENV_PASSTHROUGH_ADDITIONS) are set in the SDK's configuration
+diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
+index 5d644168cb..bf832ee0ca 100755
+--- a/scripts/oe-setup-builddir
++++ b/scripts/oe-setup-builddir
+@@ -61,6 +61,11 @@ if [ -n "$TEMPLATECONF" ]; then
+             echo >&2 "Error: TEMPLATECONF value points to nonexistent directory '$TEMPLATECONF'"
+             exit 1
+         fi
++        templatesdir=$(python3 -c "import sys; print(sys.argv[1].strip('/').split('/')[-2])" $TEMPLATECONF)
++        if [ ! -f "$TEMPLATECONF/../../layer.conf" -o $templatesdir != "templates" ]; then
++            echo >&2 "Error: TEMPLATECONF value (which is $TEMPLATECONF) must point to meta-some-layer/conf/templates/template-name"
++            exit 1
++        fi
+     fi
+     OECORELAYERCONF="$TEMPLATECONF/bblayers.conf.sample"
+     OECORELOCALCONF="$TEMPLATECONF/local.conf.sample"
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.30.2
+
 
