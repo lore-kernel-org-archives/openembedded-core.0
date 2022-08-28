@@ -2,95 +2,76 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DB4FECAAA2
-	for <webhook@archiver.kernel.org>; Sun, 28 Aug 2022 19:14:01 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web10.62465.1661714031128229134
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E8C2ECAAA2
+	for <webhook@archiver.kernel.org>; Sun, 28 Aug 2022 19:16:21 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
+ [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web09.62323.1661714172068289294
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Aug 2022 12:13:51 -0700
+ Sun, 28 Aug 2022 12:16:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ikHZ3TTe;
- spf=pass (domain: gmail.com, ip: 209.85.208.174,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DAprB7CT;
+ spf=pass (domain: gmail.com, ip: 209.85.208.178,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f174.google.com with SMTP id w19so3229348ljj.7
+Received: by mail-lj1-f178.google.com with SMTP id x10so6195835ljq.4
         for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Aug 2022 12:13:50 -0700 (PDT)
+ Sun, 28 Aug 2022 12:16:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=2pBgYXk75j2kF2GnAn+9AA5OexPpsx/xxzKf2sh3X48=;
-        b=ikHZ3TTe7zh4s78UaWPPRDk+CmmfuWKhXFtU4dcxxQG5FtsOO+0bIEcb1vMGf9ZYdA
-         IGy96VzNidXJA4zKW4qAKfq6SIhbcqSoMhWxKDclj/PZAJtC2sO3pQ15ZYi9+g6g8nzy
-         7elfWKg8y+UbnTv7jou3zi7i1gVgF2786BCMo8QwS8rRLEJ1UwQfkLHcbfkCa5apqTmu
-         tk/YCn6gAY9tCJF7JFOb0OZ6GABD5YkqTY2wUKl7cNQuUXazX8yYLbb7oC5IDdmuPrp7
-         gZCzH1fcxRSyR6rIlKqYgzs3T6fERchiLRN//uZlOW2PmG7/H3T3VdDw7wC/vBaQp7+P
-         esdQ==
+        bh=d/Brh3jojKtaz0rVhaudn4Bz2Dtqx5hKHPGwCDFN5E8=;
+        b=DAprB7CTn5FN5g1rNrjpiPUd5uqCjDFVBqqmgTpOtQxYD731NLPDj3IIWckV6GWcaC
+         JjX7xFoYGnDS62uN44h/EDATHry9bVnMiaMZsFndrR6H8U2x8//TEE3r5BWktSvWuvA9
+         eatjsvQ+1uTDxIL2/hMeqVQX0Ub997Uo1DHwmodv2+lNtWjd5MMjfUQNt1Y1DWwwtAub
+         RLaTEKmIm1qOoRLh4kYd08jZkhkvW2wkaOqHgXUG6tb3mOCo2n3IJT/R49AWE5I0AObP
+         KNVSgYs5OZoDOFClpo4F4UoV0zfNe2py8RhEo06zT8ol1RYnwlM1gWnim5mjUPZci5Qc
+         XHLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=2pBgYXk75j2kF2GnAn+9AA5OexPpsx/xxzKf2sh3X48=;
-        b=RqG2uPY+MoEVF5mArZn3DVdgKolJxq2QSP56l8zq2jfNis6vxcFsOxK+UP+knoKlNO
-         g7uYT6pj/9XY/uE2UCf5V+CvZNd9eY0pST+Sj6geLpZZEiW3/LRkEKsLvpkit2N+MIX+
-         fMfhngtZeo9oY6slubY+3VRIAM2o6SPYGdRAy6rVwjR1JJ711JF6hPjJLi9m+nhSABBH
-         V5fHTquVu3fgYzgUuTbKYriOFI9V84MUg/WEN5rrVJENu56qRo6XPnkC/hrz4ELZX8vb
-         26/QRxa4vgt1BojIZF7VoJgk/Z23qFBYm6GrRdaiETkUJKFskVkHHPKXRKnYl/CHPcQU
-         fqsg==
-X-Gm-Message-State: ACgBeo1Q2jxZVZvqTgdxe/R8iWx8AtmSvIhPFFA/MuxVSmEXDE5cU/l2
-	CuNb+Q+jza+kod7rid3xgdpGiel6sj2H2VWwERY=
+        bh=d/Brh3jojKtaz0rVhaudn4Bz2Dtqx5hKHPGwCDFN5E8=;
+        b=U8KcjGi5Qi9XB1HzF2jE5Mji/YPVRyzjdb838YefdSQXyX8PdPfaJ9YugYNVvQ9uFl
+         Z3eM22zCThGfBusgKebwSpHqAKAAdztt8mcxDt/yr01SRv0FzgXtd018posTmZrXIQfm
+         v1d0EyZUgk4brlMD/3UsUQe0vUvePEraPpLdwIY6r+JR3zNVC0aQBVRPcBU3sNoMwEob
+         a5t6p+h8Fc0ngCVm6J2eRd+ajVHe1FmtAl9mvswF8bi3sNX4KOxKd/rtOGdE+pTt5JPd
+         hPrAaGhpjkJT7oD8zurzMLQolsMQSsKi4By5HJXy/HaTstMQcTXY9y1MUXvRsj1vNBZ8
+         MhWQ==
+X-Gm-Message-State: ACgBeo22rjQUMYLPtsqHCRZhFAbK4Xeuw2lW35rdfVCGNIPtBzu9ickq
+	1cviWtg91VA7EVHCHmmmDSgEq8TqZgVOTEY6tbE=
 X-Google-Smtp-Source: 
- AA6agR418Q7UV6d+f5TnNfkIyJJ9krvO7IWYptzuRR5NsMmZLuqPjUmklTk9mJLBXGJd/g1iIUnC3HVaQYa4SkMS2VE=
-X-Received: by 2002:a2e:3a09:0:b0:25e:4212:5628 with SMTP id
- h9-20020a2e3a09000000b0025e42125628mr4457926lja.68.1661714029328; Sun, 28 Aug
- 2022 12:13:49 -0700 (PDT)
+ AA6agR4KsiwZ/MOG3GcRiQ4/Zczf4wFbEd/amL0WRYQGcFVWZyhUZz+gJXBLz8xEGwVmTPEsftUWBoqv+/nwBWy7uIQ=
+X-Received: by 2002:a2e:9e50:0:b0:261:e3fd:cdc5 with SMTP id
+ g16-20020a2e9e50000000b00261e3fdcdc5mr4748176ljk.56.1661714170305; Sun, 28
+ Aug 2022 12:16:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220828174356.3074391-1-ptsneves@gmail.com>
  <20220828174356.3074391-2-ptsneves@gmail.com>
-In-Reply-To: <20220828174356.3074391-2-ptsneves@gmail.com>
+ <170F981B9326E578.11791@lists.openembedded.org>
+In-Reply-To: <170F981B9326E578.11791@lists.openembedded.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 28 Aug 2022 21:13:37 +0200
+Date: Sun, 28 Aug 2022 21:15:58 +0200
 Message-ID: 
- <CANNYZj-ZWKaM4vjaf8ZWX5GsS=wH5Kxv1g5mFBYR-=++0SQkzg@mail.gmail.com>
+ <CANNYZj-1cgL9+5AwSLcKztQt_Cm5tHLg6MFxip7t=ww5qVJHYQ@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH v3 2/2] nfs-ganesha: Replace unfs3 with
  nfs-ganesha
-To: Paulo Neves <ptsneves@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Paulo Neves <ptsneves@gmail.com>,
+ OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 Aug 2022 19:14:01 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 28 Aug 2022 19:16:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169996
+ https://lists.openembedded.org/g/openembedded-core/message/169997
 
-On Sun, 28 Aug 2022 at 19:44, Paulo Neves <ptsneves@gmail.com> wrote:
-> +gcc incorrectly decides that pos_len and pos_end are used
-> +unninitialized. It is incorrect because the condition of their
-> +use is the same as their early initialization. Apparently
-> +gcc does not pick this fact and with Werror, emits an error
-> +
-> +Upstream-Status: Inappropriate [reason above]
+On Sun, 28 Aug 2022 at 21:13, Alexander Kanavin via
+lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
+wrote:
+> All newly added or removed patches need an adjustment to
+> maintainers.inc in conf/distro/include.
 
-This needs to be submitted upstream anyway; compiler errors are not
-oe-core specific fixes.
-
-> +Subject: [PATCH] Make nfsv3_optype guarded by _USE_NFS3
-> +
-> +-Wunused-variable will trigger when NFS3 is not enabled.
-> +
-> +Upstream-Status: Submitted [https://github.com/nfs-ganesha/nfs-ganesha/pull/846]
-
-I do not see this patch at this link, where is it actually?
-
-> +Upstream-Status: Submitted [https://github.com/nfs-ganesha/nfs-ganesha/pull/354]
-
-This was re-submitted through gerrit; probably this and all other
-patches need to link directly to gerrit instead.
-
-All newly added or removed patches need an adjustment to
-maintainers.inc in conf/distro/include.
-
-Alex
+*recipes* :)
 
