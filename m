@@ -1,157 +1,191 @@
-Return-Path: <jan.vermaete@gmail.com>
+Return-Path: <ptsneves@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A852ECAAD2
-	for <webhook@archiver.kernel.org>; Sun, 28 Aug 2022 17:13:00 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web12.61119.1661706779655440614
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1960ECAAA2
+	for <webhook@archiver.kernel.org>; Sun, 28 Aug 2022 17:37:00 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web10.61477.1661708211404342756
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Aug 2022 10:13:00 -0700
+ Sun, 28 Aug 2022 10:36:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=AFLfPYEO;
- spf=pass (domain: gmail.com, ip: 209.85.218.43,
- mailfrom: jan.vermaete@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id se27so3839143ejb.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=evTcaYlY;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: ptsneves@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id l8so8330271lfc.12
         for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Aug 2022 10:12:59 -0700 (PDT)
+ Sun, 28 Aug 2022 10:36:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=Yu7r89VvHiL8cStCBlTb994dOLbeJd/Ab6WMKXbL3/w=;
-        b=AFLfPYEOV7+YHXGMMAgNU07JsG+NF/NvbGg1R7PNJdicWkpvRvCzDRv0nl396ACRSF
-         n6xnjR4VbiBwI51XvC6ZDN/aI9AAcugh9SXB3qBl0OldR4BLD9VN9AexBqTk1toPJPBx
-         Lu9SMB13JABdLjah+YntUnD99GO6+GJtUo34zImKt6GXll1MDGvK1y0Glh6D93sHMLIz
-         J4zVG/azpxauaL1898/z5svBxFA+wWsQ2lkCHN1h8jTWc1z6UYRLTmBPDYkKeG2N2frg
-         5IJCkUzeIyq0opYMgXP0Q14tbdE/G89h26sDVo4fmGaUWcGXHOCvi5+ANyXt4d2JXG0O
-         eWQA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=wcP/E5EYn9rgnvTt+5PSBj6opzUH+AH/7G2LLw0Zc+w=;
+        b=evTcaYlYDrKhEsgSGKUaTtwa98JA4Ad5y66pHDM8oh60nVNifhKwKxEdYtUzNBsr8l
+         V/FRAPjdCwGr176e0+GPei43S+PJicNCc0whv+dQfGncP4v3nm7Tx6PNgC6PHqFVif83
+         AAChRQMFxjhAYw26TYmssXKxgXrWnXSAySXWvcjdceg1TCw7oVUlgkaC4NHpdiEgxhsW
+         7HVihQuTFe/tRY1ObxKwULQAu8klriz1+SsGrEJSS4hqV3r53FgbsQXu/ZuhcKiWiJ8E
+         lKRvBWBg/cHE8B5DwL6yAc965tQ6pg+ENSPZggYZ+G/nUJIY9vGGmRHmBRcGYqgYj6Wk
+         Mnsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=Yu7r89VvHiL8cStCBlTb994dOLbeJd/Ab6WMKXbL3/w=;
-        b=dv2sSVeequ4p4E1HlXmWFTyLJgXzd8c/LWkBA8psqKWl2jeXZnRAFyupt+i7FM1zfl
-         FY2h9ovU54138N59/a1VaphpTqIj2vjEVuyCX6g5GvpZYPMdVRyFHJ4MxlA0fVmrpIGD
-         QZd9/dFlEKDTgRmVR7RSqAAQmhsnKiAGGMZ/hU/8P7GsZzraQClxJCKxyrQJ+roGsAw3
-         FUmoB1oLrhLDTtU9WdeCclJVaLDDWRtSuk0XIdIJXbxUDNPwi0z8gNTXP9BK/y+lTkRw
-         xMz4N5s2fdzIBmUvqm3QYzcNzFHsXiJeFSQEu5T4bIf/3eHKVzmjdVqQPmvJyRCUmrMi
-         zL1A==
-X-Gm-Message-State: ACgBeo17yCTA0numCSTeyl1pc6zHEdrFRuoOZHfEXtyYJmMS/mdNMc0j
-	On2WJwduiyaDq9bDMUSDkCQdB2SFQ9lupYv+Msw=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=wcP/E5EYn9rgnvTt+5PSBj6opzUH+AH/7G2LLw0Zc+w=;
+        b=uL/Yw02n5R10xKsf8lPaSEuXVXj++4VF1z9IbGSlQqfvKTIFT4BdZM4Fj+bYlGWmgg
+         Opw5XFnnp3lm0jNvd4oBHCg2Siu4lSbLYBY0adDe131kxAWq6bCP+7sCXFFCg4VSdXpZ
+         wWwAdE8MB9ZK1kTQPOV+DFrrIgkvQlKky4aC9/5OemPn+dmjRZanKgXOtOburD1SG34B
+         IaCHIOzxEEyIoK6AXCFGBNSJa5JFHHuHS1F6shDEpkrjR4PKVqNlBi/+Iple4olRYtIq
+         KwTsMGsTmfuKQm1Ub56Ohdttp/dbyplyl9S5ZkusfJ+ZZKtFx1CeNLw3ANDTAMoWDf8E
+         6fZg==
+X-Gm-Message-State: ACgBeo1oUFiLOUSIP5JgNkebEGcAt8M1dkar0GfuGfJMTAmWBKRXPln8
+	CsJ+nIluEm20sJqTnNh/kjoeqGmyR4ZL
 X-Google-Smtp-Source: 
- AA6agR7EvhQVvALNh+PvQNcze6M8DDLCKyea6/K2OB10Eh8wqQJvgXn/7fOodZdYjm6j5Mb0++7IMMbq9scPHogqgVA=
-X-Received: by 2002:a17:907:c24:b0:73d:7c20:cc45 with SMTP id
- ga36-20020a1709070c2400b0073d7c20cc45mr11474276ejc.294.1661706777930; Sun, 28
- Aug 2022 10:12:57 -0700 (PDT)
+ AA6agR59On6YX3LzrGoilYGj2HFqxdU1aGgHxq5UKDU9Rua9+r0F/DXqCSPbhycIQ4p/WczNcDfytQ==
+X-Received: by 2002:a05:6512:10d2:b0:492:ddd1:6271 with SMTP id
+ k18-20020a05651210d200b00492ddd16271mr5026813lfg.171.1661708209407;
+        Sun, 28 Aug 2022 10:36:49 -0700 (PDT)
+Received: from localhost.localdomain
+ (031011128148.dynamic-3-poz-k-0-2-0.vectranet.pl. [31.11.128.148])
+        by smtp.gmail.com with ESMTPSA id
+ h1-20020a05651c124100b0026181a42284sm570946ljh.88.2022.08.28.10.36.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Aug 2022 10:36:48 -0700 (PDT)
+From: Paulo Neves <ptsneves@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Paulo Neves <ptsneves@gmail.com>
+Subject: [PATCH v2 1/2] ntirpc: Add ntirpc recipe
+Date: Sun, 28 Aug 2022 19:36:45 +0200
+Message-Id: <20220828173646.3072653-1-ptsneves@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: 
- <CABF_=yi9-vQ4b-4qnOz+W5bbJmjRmk72YOog+GvDVBVyQ160+Q@mail.gmail.com>
- <CANNYZj-c97JgQnN-W3Ae3YzpWRGOO9hwO_xF0WDuoMsCaOwyKg@mail.gmail.com>
- <CABF_=yhQmn4Odw1wabzdS+_+D3tqpE0S6r6aCsuP9PbsudF9ow@mail.gmail.com>
- <CANNYZj8M+RfFmhPdM7caohuOtThORatkDZKuxL68xodDd_=v8w@mail.gmail.com>
- <CABF_=yhbfxZG7tPnRX3iw3nmY8DE9MQHr3vV15okerxompoH1w@mail.gmail.com>
- <CANNYZj_mnJ+4YmGfjKd2xDMEoKNjO5L-_B+y0CFGJ=e8KL3Kwg@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj_mnJ+4YmGfjKd2xDMEoKNjO5L-_B+y0CFGJ=e8KL3Kwg@mail.gmail.com>
-From: jan vermaete <jan.vermaete@gmail.com>
-Date: Sun, 28 Aug 2022 19:12:45 +0200
-Message-ID: 
- <CABF_=yijUsFqwKMP48zT4eTV-0H4eDHfXge7jiorYiiZt0RHhw@mail.gmail.com>
-Subject: Re: [OE-core] makeself
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000038329305e7504203"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 Aug 2022 17:13:00 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 28 Aug 2022 17:37:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169988
+ https://lists.openembedded.org/g/openembedded-core/message/169989
 
---00000000000038329305e7504203
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ntirpc is an actively maintained rpc implementation. We cannot completely
+remove libtirpc due to arising circular dependencies where ntirpc
+depends on libnsl2, which in turn depends on an RPC implementation.
 
-HI Alexander,
+libtirpc and ntirpc are not mutually exclusive.
 
-The recipe is tested for native and target.
-I'll make v2 with the remarks.
+Signed-off-by: Paulo Neves <ptsneves@gmail.com>
+---
+ meta/recipes-extended/ntirpc/ntirpc_4.0.bb    | 36 +++++++++++++++++++
+ meta/recipes-extended/quota/quota_4.06.bb     |  2 +-
+ .../recipes-extended/rpcbind/rpcbind_1.2.6.bb |  2 +-
+ .../watchdog/watchdog_5.16.bb                 |  2 +-
+ .../xorg-xserver/xserver-xorg.inc             |  2 +-
+ .../recipes-support/liburcu/liburcu_0.13.1.bb |  1 +
+ 6 files changed, 41 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-extended/ntirpc/ntirpc_4.0.bb
 
-br
+diff --git a/meta/recipes-extended/ntirpc/ntirpc_4.0.bb b/meta/recipes-extended/ntirpc/ntirpc_4.0.bb
+new file mode 100644
+index 0000000000..eff9d36069
+--- /dev/null
++++ b/meta/recipes-extended/ntirpc/ntirpc_4.0.bb
+@@ -0,0 +1,36 @@
++SUMMARY = "Transport-Independent RPC library (nfs-ganesha fork)"
++DESCRIPTION = "ntirpc is a port of Suns Transport-Independent RPC library to Linux"
++SECTION = "libs/network"
++HOMEPAGE = "https://github.com/nfs-ganesha/ntirpc"
++BUGTRACKER = "https://github.com/nfs-ganesha/ntirpc/issues"
++LICENSE = "BSD-3-Clause"
++LIC_FILES_CHKSUM = "file://COPYING;md5=f835cce8852481e4b2bbbdd23b5e47f3 \
++    file://src/netname.c;beginline=1;endline=27;md5=f8a8cd2cb25ac5aa16767364fb0e3c24"
++
++SRC_URI = "https://download.nfs-ganesha.org/4/${PV}/ntirpc-${PV}.tar.gz"
++SRC_URI[md5sum] = "17b0baada54936dcde80eba27bb6d88d"
++SRC_URI[sha256sum] = "6a7921cd48d02077b394a02be42bf4f9b4678d4ebfd86a7ae4385bbcdce55462"
++
++DEPENDS = "liburcu libnsl2"
++
++inherit cmake pkgconfig
++
++PACKAGECONFIG[gss] = "-DUSE_GSS=true,-DUSE_GSS=false,krb5"
++PACKAGECONFIG[rdma] = "-DUSE_RPC_RDMA=true,-DUSE_RPC_RDMA=false,rdma-core"
++PACKAGECONFIG[winbind] = "-D_MSPAC_SUPPORT=true,-D_MSPAC_SUPPORT=false,samba"
++PACKAGECONFIG[profile] = "-DUSE_PROFILE=true,-DUSE_PROFILE=false,gperftools"
++PACKAGECONFIG[lttng] = "-DUSE_LTTNG=true,-DUSE_LTTNG=false,lttng-ust lttng-tools"
++
++# Sort out the brain-dead cmake file
++# (https://github.com/nfs-ganesha/ntirpc/issues/150)
++do_install:append() {
++    if [ "${prefix}/lib64" != "${libdir}" -a -d ${D}${prefix}/lib64 ]; then
++        mv ${D}${prefix}/lib64 ${D}${libdir}
++    fi
++}
++
++BBCLASSEXTEND = "native nativesdk"
++EXTRA_OECMAKE:armv5 += '-DSYSTEM_LIBRARIES="-latomic"'
++EXTRA_OECMAKE:riscv32 += '-DSYSTEM_LIBRARIES="-latomic"'
++EXTRA_OECMAKE:riscv64 += '-DSYSTEM_LIBRARIES="-latomic"'
++EXTRA_OECMAKE:powerpc += '-DSYSTEM_LIBRARIES="-latomic"'
+diff --git a/meta/recipes-extended/quota/quota_4.06.bb b/meta/recipes-extended/quota/quota_4.06.bb
+index 0535d14c20..304477d72b 100644
+--- a/meta/recipes-extended/quota/quota_4.06.bb
++++ b/meta/recipes-extended/quota/quota_4.06.bb
+@@ -30,6 +30,6 @@ PACKAGECONFIG ??= "tcp-wrappers rpc bsd"
+ PACKAGECONFIG:libc-musl = "tcp-wrappers rpc"
+ 
+ PACKAGECONFIG[tcp-wrappers] = "--enable-libwrap,--disable-libwrap,tcp-wrappers"
+-PACKAGECONFIG[rpc] = "--enable-rpc,--disable-rpc,libtirpc"
++PACKAGECONFIG[rpc] = "--enable-rpc,--disable-rpc,ntirpc"
+ PACKAGECONFIG[bsd] = "--enable-bsd_behaviour=yes,--enable-bsd_behaviour=no,"
+ PACKAGECONFIG[ldapmail] = "--enable-ldapmail,--disable-ldapmail,openldap"
+diff --git a/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb b/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
+index dd89726afc..e30a23909c 100644
+--- a/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
++++ b/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
+@@ -4,7 +4,7 @@ DESCRIPTION = "The rpcbind utility is a server that converts RPC \
+ SECTION = "console/network"
+ HOMEPAGE = "http://sourceforge.net/projects/rpcbind/"
+ BUGTRACKER = "http://sourceforge.net/tracker/?group_id=201237&atid=976751"
+-DEPENDS = "libtirpc quota"
++DEPENDS = "ntirpc quota"
+ 
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b46486e4c4a416602693a711bb5bfa39 \
+diff --git a/meta/recipes-extended/watchdog/watchdog_5.16.bb b/meta/recipes-extended/watchdog/watchdog_5.16.bb
+index 26fcc10487..5f5fd4dc87 100644
+--- a/meta/recipes-extended/watchdog/watchdog_5.16.bb
++++ b/meta/recipes-extended/watchdog/watchdog_5.16.bb
+@@ -28,7 +28,7 @@ UPSTREAM_CHECK_REGEX = "/watchdog/(?P<pver>(\d+[\.\-_]*)+)/"
+ 
+ inherit autotools update-rc.d systemd pkgconfig
+ 
+-DEPENDS += "libtirpc"
++DEPENDS += "ntirpc"
+ CFLAGS += "-I${STAGING_INCDIR}/tirpc"
+ LDFLAGS += "-ltirpc"
+ 
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 057a1ba6ad..2085f742d6 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -36,7 +36,7 @@ inherit meson pkgconfig
+ inherit features_check
+ REQUIRED_DISTRO_FEATURES = "x11"
+ 
+-LIB_DEPS = "pixman libxfont2 xtrans libxau libxext libxdmcp libdrm libxkbfile libpciaccess libxcvt libtirpc"
++LIB_DEPS = "pixman libxfont2 xtrans libxau libxext libxdmcp libdrm libxkbfile libpciaccess libxcvt ntirpc"
+ DEPENDS = "xorgproto ${LIB_DEPS} font-util"
+ 
+ # Split out some modules and extensions from the main package
+diff --git a/meta/recipes-support/liburcu/liburcu_0.13.1.bb b/meta/recipes-support/liburcu/liburcu_0.13.1.bb
+index 66763349d2..d7e831e803 100644
+--- a/meta/recipes-support/liburcu/liburcu_0.13.1.bb
++++ b/meta/recipes-support/liburcu/liburcu_0.13.1.bb
+@@ -22,3 +22,4 @@ CPPFLAGS:append:riscv64  = " -pthread -D_REENTRANT"
+ do_install:append() {
+     oe_multilib_header urcu/config.h
+ }
++BBCLASSEXTEND = "native nativesdk"
+-- 
+2.25.1
 
-On Sat, Aug 27, 2022 at 6:20 PM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
-
-> On Sat, 27 Aug 2022 at 10:29, jan vermaete <jan.vermaete@gmail.com> wrote=
-:
-> > The recipe is currently in  master-next.
-> >
-> https://patchwork.yoctoproject.org/project/oe/patch/20220826195403.893639=
--1-jan.vermaete@gmail.com/
-> >
-> > Could you review?
->
-> I think Khem's review covers what I wanted to say.
->
-> > What I don't know is how to prove the executables used in the script of
-> makeself are those of yocto and not those of the host system.
-> > E.g. zstd is used by the script as 'zstd' (
-> https://github.com/megastep/makeself/blob/master/makeself.sh#L535).
-> > But zstd itself is set in the HOSTTOOLS of Yocto
->
-> In either case zstd will be in PATH, so it should simply work.
-> HOSTTOOLS will also refuse to proceed if anything in the list is not
-> yet installed on the host. But didn't you test the recipe?
->
-> Alex
->
-
-
---=20
-Jan Vermaete
-=E2=80=9CSuccess is a self-correcting phenomenom.=E2=80=9D -- Gary Hamel
-
---00000000000038329305e7504203
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">HI Alexander,<div><br></div><div>The recipe is tested for =
-native and target.</div><div>I&#39;ll make=C2=A0v2 with the remarks.</div><=
-div><br></div><div>br</div></div><br><div class=3D"gmail_quote"><div dir=3D=
-"ltr" class=3D"gmail_attr">On Sat, Aug 27, 2022 at 6:20 PM Alexander Kanavi=
-n &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Sa=
-t, 27 Aug 2022 at 10:29, jan vermaete &lt;<a href=3D"mailto:jan.vermaete@gm=
-ail.com" target=3D"_blank">jan.vermaete@gmail.com</a>&gt; wrote:<br>
-&gt; The recipe is currently in=C2=A0 master-next.<br>
-&gt; <a href=3D"https://patchwork.yoctoproject.org/project/oe/patch/2022082=
-6195403.893639-1-jan.vermaete@gmail.com/" rel=3D"noreferrer" target=3D"_bla=
-nk">https://patchwork.yoctoproject.org/project/oe/patch/20220826195403.8936=
-39-1-jan.vermaete@gmail.com/</a><br>
-&gt;<br>
-&gt; Could you review?<br>
-<br>
-I think Khem&#39;s review covers what I wanted to say.<br>
-<br>
-&gt; What I don&#39;t know is how to prove the executables used in the scri=
-pt of makeself are those of yocto and not those of the host system.<br>
-&gt; E.g. zstd is used by the script as &#39;zstd&#39; (<a href=3D"https://=
-github.com/megastep/makeself/blob/master/makeself.sh#L535" rel=3D"noreferre=
-r" target=3D"_blank">https://github.com/megastep/makeself/blob/master/makes=
-elf.sh#L535</a>).<br>
-&gt; But zstd itself is set in the HOSTTOOLS of Yocto<br>
-<br>
-In either case zstd will be in PATH, so it should simply work.<br>
-HOSTTOOLS will also refuse to proceed if anything in the list is not<br>
-yet installed on the host. But didn&#39;t you test the recipe?<br>
-<br>
-Alex<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">Jan Vermaete<br>=E2=80=9CSuccess is a self-corre=
-cting phenomenom.=E2=80=9D -- Gary Hamel</div>
-
---00000000000038329305e7504203--
 
