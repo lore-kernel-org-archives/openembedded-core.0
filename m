@@ -1,180 +1,154 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <ptsneves@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Steve Sakoman" <steve@sakoman.com>
-Subject: [OE-core][kirkstone 00/28] Pull request (cover letter only)
-Date: Thu, 25 Aug 2022 16:33:37 -1000
-Message-Id: <cover.1661481133.git.steve@sakoman.com>
+Message-ID: <6f6b8ba3-5564-11f9-93cd-e511375141a7@gmail.com>
+Date: Sun, 28 Aug 2022 19:40:06 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Subject: Re: [OE-core] [PATCH 1/2] ntirpc: Add ntirpc recipe
+References: <20220827174633.2772165-1-ptsneves@gmail.com>
+ <CANNYZj98LVhAGHDdKzbZCw-OytMc+7J+p4__Cuc9wFMnjx4G7g@mail.gmail.com>
+From: "Paulo Neves" <ptsneves@gmail.com>
+In-Reply-To: <CANNYZj98LVhAGHDdKzbZCw-OytMc+7J+p4__Cuc9wFMnjx4G7g@mail.gmail.com>
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"; format="flowed"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: openembedded-core@lists.openembedded.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 
-The following changes since commit 10891d4d955f347c328cf8c099031f05f5c855a2:
+Hello Alexander,
 
-  lttng-modules: replace mips compaction fix with upstream change (2022-08-17 04:55:49 -1000)
+Thank you for your review
 
-are available in the Git repository at:
+I updated the commit message for v2 to contain the following text:
 
-  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
+We cannot completely  remove libtirpc due to arising circular 
+dependencies where ntirpc depends on libnsl2, which  in turn depends on 
+an RPC implementation.
 
-Alexander Kanavin (9):
-  bluez5: update 5.64 -> 5.65
-  libwpe: upgrade 1.12.0 -> 1.12.2
-  ell: upgrade 0.49 -> 0.50
-  iso-codes: upgrade 4.10.0 -> 4.11.0
-  libcap: upgrade 2.64 -> 2.65
-  libwebp: upgrade 1.2.2 -> 1.2.3
-  mobile-broadband-provider-info: upgrade 20220511 -> 20220725
-  webkitgtk: upgrade 2.36.4 -> 2.36.5
-  weston: upgrade 10.0.1 -> 10.0.2
+Paulo Neves
 
-Beniamin Sandu (1):
-  libpam: use /run instead of /var/run in systemd tmpfiles
-
-Changqing Li (1):
-  apt: fix nativesdk-apt build failure during the second time build
-
-Daiane Angolini (1):
-  python3-pip: Fix RDEPENDS after the update
-
-Ernst Sjöstrand (1):
-  cve-check: Don't use f-strings
-
-Hitendra Prajapati (1):
-  libtiff: CVE-2022-34526 A stack overflow was discovered
-
-Jose Quaresma (2):
-  archiver.bbclass: some recipes that uses the kernelsrc bbclass uses
-    the shared source
-  linux-yocto: prepend the the value with a space when append to
-    KERNEL_EXTRA_ARGS
-
-Kai Kang (1):
-  packagegroup-self-hosted: update for strace
-
-Khem Raj (4):
-  libxml2: Ignore CVE-2016-3709
-  connman: Backports for security fixes
-  cracklib: Drop using register keyword
-  tcp-wrappers: Fix implicit-function-declaration warnings
-
-Peter Marko (1):
-  create-spdx: handle links to inaccessible locations
-
-Richard Purdie (1):
-  perf: Fix reproducibility issues with 5.19 onwards
-
-Sakib Sajal (3):
-  u-boot: fix CVE-2022-30552
-  u-boot: fix CVE-2022-33967
-  go: update v1.17.12 -> v1.17.13
-
-Yongxin Liu (1):
-  grub2: fix several CVEs
-
-wangmy (1):
-  libcap: upgrade 2.63 -> 2.64
-
- meta/classes/archiver.bbclass                 |   4 +-
- meta/classes/create-spdx.bbclass              |   2 +-
- meta/lib/oe/cve_check.py                      |   2 +-
- ...g-Drop-greyscale-support-to-fix-heap.patch | 179 +++++
- ...ng-Avoid-heap-OOB-R-W-inserting-huff.patch |  50 ++
- ...peg-Block-int-underflow-wild-pointer.patch |  84 +++
- ...3-net-ip-Do-IP-fragment-maths-safely.patch |  63 ++
- ...or-out-on-headers-with-LF-without-CR.patch |  58 ++
- ...Fix-OOB-write-for-split-http-headers.patch |  56 ++
- ...ct-non-kernel-files-in-the-shim_lock.patch | 111 +++
- .../video-Remove-trailing-whitespaces.patch   | 693 ++++++++++++++++++
- ...eg-Abort-sooner-if-a-read-operation-.patch | 264 +++++++
- ...eg-Refuse-to-handle-multiple-start-o.patch |  53 ++
- meta/recipes-bsp/grub/grub2.inc               |  10 +
- ...s-squashfs-Use-kcalloc-when-relevant.patch |  64 ++
- ...e-minimum-IP-fragmented-datagram-siz.patch | 207 ++++++
- meta/recipes-bsp/u-boot/u-boot_2022.01.bb     |   2 +
- meta/recipes-connectivity/bluez5/bluez5.inc   |   1 -
- .../bluez5/bluez5/fix_service.patch           |  30 -
- .../bluez5/{bluez5_5.64.bb => bluez5_5.65.bb} |   2 +-
- .../connman/connman/CVE-2022-32292.patch      |  37 +
- .../connman/connman/CVE-2022-32293_p1.patch   | 141 ++++
- .../connman/connman/CVE-2022-32293_p2.patch   | 174 +++++
- .../connman/connman_1.41.bb                   |   3 +
- .../mobile-broadband-provider-info_git.bb     |   4 +-
- .../ell/{ell_0.49.bb => ell_0.50.bb}          |   2 +-
- meta/recipes-core/libxml/libxml2_2.9.14.bb    |   4 +
- .../packagegroups/packagegroup-self-hosted.bb |   5 +-
- meta/recipes-devtools/apt/apt_2.4.5.bb        |   2 +-
- .../go/{go-1.17.12.inc => go-1.17.13.inc}     |   2 +-
- ...1.17.12.bb => go-binary-native_1.17.13.bb} |   4 +-
- ....17.12.bb => go-cross-canadian_1.17.13.bb} |   0
- ...o-cross_1.17.12.bb => go-cross_1.17.13.bb} |   0
- ...ssdk_1.17.12.bb => go-crosssdk_1.17.13.bb} |   0
- ...native_1.17.12.bb => go-native_1.17.13.bb} |   0
- ...ntime_1.17.12.bb => go-runtime_1.17.13.bb} |   0
- .../go/{go_1.17.12.bb => go_1.17.13.bb}       |   0
- .../python/python3-pip_22.0.3.bb              |   2 +
- ...01-rules-Drop-using-register-keyword.patch | 278 +++++++
- ...rrect-parameter-types-to-Debug-calls.patch |  40 +
- .../cracklib/cracklib_2.9.7.bb                |   5 +-
- meta/recipes-extended/pam/libpam/99_pam       |   2 +-
- ...plicit-function-declaration-warnings.patch | 109 +++
- .../tcp-wrappers/tcp-wrappers_7.6.bb          |   1 +
- .../weston/dont-use-plane-add-prop.patch      |  32 -
- .../{weston_10.0.1.bb => weston_10.0.2.bb}    |   4 +-
- meta/recipes-kernel/linux/linux-yocto.inc     |   2 +-
- meta/recipes-kernel/perf/perf.bb              |   2 +-
- .../libtiff/tiff/CVE-2022-34526.patch         |  29 +
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |   1 +
- .../{libwebp_1.2.2.bb => libwebp_1.2.3.bb}    |   2 +-
- ...ure-due-to-libc-using-libc-functions.patch |  42 ++
- .../{libwpe_1.12.0.bb => libwpe_1.12.2.bb}    |   6 +-
- ...ebkitgtk_2.36.4.bb => webkitgtk_2.36.5.bb} |   2 +-
- ...so-codes_4.10.0.bb => iso-codes_4.11.0.bb} |   2 +-
- ...-Raise-the-size-of-arrays-containing.patch |   2 +-
- .../libcap/{libcap_2.63.bb => libcap_2.65.bb} |   2 +-
- 57 files changed, 2789 insertions(+), 89 deletions(-)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2021-3695-video-readers-png-Drop-greyscale-support-to-fix-heap.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2021-3696-video-readers-png-Avoid-heap-OOB-R-W-inserting-huff.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2021-3697-video-readers-jpeg-Block-int-underflow-wild-pointer.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-28733-net-ip-Do-IP-fragment-maths-safely.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-28734-net-http-Error-out-on-headers-with-LF-without-CR.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-28734-net-http-Fix-OOB-write-for-split-http-headers.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-28735-kern-efi-sb-Reject-non-kernel-files-in-the-shim_lock.patch
- create mode 100644 meta/recipes-bsp/grub/files/video-Remove-trailing-whitespaces.patch
- create mode 100644 meta/recipes-bsp/grub/files/video-readers-jpeg-Abort-sooner-if-a-read-operation-.patch
- create mode 100644 meta/recipes-bsp/grub/files/video-readers-jpeg-Refuse-to-handle-multiple-start-o.patch
- create mode 100644 meta/recipes-bsp/u-boot/files/0001-fs-squashfs-Use-kcalloc-when-relevant.patch
- create mode 100644 meta/recipes-bsp/u-boot/files/0001-net-Check-for-the-minimum-IP-fragmented-datagram-siz.patch
- delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/fix_service.patch
- rename meta/recipes-connectivity/bluez5/{bluez5_5.64.bb => bluez5_5.65.bb} (95%)
- create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2022-32292.patch
- create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2022-32293_p1.patch
- create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2022-32293_p2.patch
- rename meta/recipes-core/ell/{ell_0.49.bb => ell_0.50.bb} (89%)
- rename meta/recipes-devtools/go/{go-1.17.12.inc => go-1.17.13.inc} (92%)
- rename meta/recipes-devtools/go/{go-binary-native_1.17.12.bb => go-binary-native_1.17.13.bb} (83%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.17.12.bb => go-cross-canadian_1.17.13.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.17.12.bb => go-cross_1.17.13.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.17.12.bb => go-crosssdk_1.17.13.bb} (100%)
- rename meta/recipes-devtools/go/{go-native_1.17.12.bb => go-native_1.17.13.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.17.12.bb => go-runtime_1.17.13.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.17.12.bb => go_1.17.13.bb} (100%)
- create mode 100644 meta/recipes-extended/cracklib/cracklib/0001-rules-Drop-using-register-keyword.patch
- create mode 100644 meta/recipes-extended/cracklib/cracklib/0002-rules-Correct-parameter-types-to-Debug-calls.patch
- create mode 100644 meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-implicit-function-declaration-warnings.patch
- delete mode 100644 meta/recipes-graphics/wayland/weston/dont-use-plane-add-prop.patch
- rename meta/recipes-graphics/wayland/{weston_10.0.1.bb => weston_10.0.2.bb} (97%)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-34526.patch
- rename meta/recipes-multimedia/webp/{libwebp_1.2.2.bb => libwebp_1.2.3.bb} (95%)
- create mode 100644 meta/recipes-sato/webkit/libwpe/0001-Fix-build-failure-due-to-libc-using-libc-functions.patch
- rename meta/recipes-sato/webkit/{libwpe_1.12.0.bb => libwpe_1.12.2.bb} (72%)
- rename meta/recipes-sato/webkit/{webkitgtk_2.36.4.bb => webkitgtk_2.36.5.bb} (98%)
- rename meta/recipes-support/iso-codes/{iso-codes_4.10.0.bb => iso-codes_4.11.0.bb} (94%)
- rename meta/recipes-support/libcap/{libcap_2.63.bb => libcap_2.65.bb} (96%)
-
--- 
-2.25.1
+On 8/27/22 20:07, Alexander Kanavin wrote:
+> Can you please explain where the circular dependencies are?
+>
+> Alex
+>
+> On Sat, 27 Aug 2022 at 19:46, Paulo Neves <ptsneves@gmail.com> wrote:
+>> ntirpc is an actively maintained rpc implementation. We cannot completely
+>> remove libtirpc due to arising circular dependencies. libtirpc and ntirpc
+>> are not mutually exclusive.
+>>
+>> Signed-off-by: Paulo Neves <ptsneves@gmail.com>
+>> ---
+>>   meta/recipes-extended/ntirpc/ntirpc_4.0.bb    | 30 +++++++++++++++++++
+>>   meta/recipes-extended/quota/quota_4.06.bb     |  2 +-
+>>   .../recipes-extended/rpcbind/rpcbind_1.2.6.bb |  2 +-
+>>   .../watchdog/watchdog_5.16.bb                 |  2 +-
+>>   .../xorg-xserver/xserver-xorg.inc             |  2 +-
+>>   .../recipes-support/liburcu/liburcu_0.13.1.bb |  1 +
+>>   6 files changed, 35 insertions(+), 4 deletions(-)
+>>   create mode 100644 meta/recipes-extended/ntirpc/ntirpc_4.0.bb
+>>
+>> diff --git a/meta/recipes-extended/ntirpc/ntirpc_4.0.bb b/meta/recipes-extended/ntirpc/ntirpc_4.0.bb
+>> new file mode 100644
+>> index 0000000000..edebcb8ca9
+>> --- /dev/null
+>> +++ b/meta/recipes-extended/ntirpc/ntirpc_4.0.bb
+>> @@ -0,0 +1,30 @@
+>> +LICENSE = "BSD"
+>> +LIC_FILES_CHKSUM = "file://COPYING;md5=f835cce8852481e4b2bbbdd23b5e47f3"
+>> +
+>> +SRC_URI = "https://download.nfs-ganesha.org/4/${PV}/ntirpc-${PV}.tar.gz"
+>> +SRC_URI[md5sum] = "17b0baada54936dcde80eba27bb6d88d"
+>> +SRC_URI[sha256sum] = "6a7921cd48d02077b394a02be42bf4f9b4678d4ebfd86a7ae4385bbcdce55462"
+>> +
+>> +DEPENDS = "liburcu libnsl2"
+>> +
+>> +inherit cmake pkgconfig
+>> +
+>> +PACKAGECONFIG[gss] = "-DUSE_GSS=true,-DUSE_GSS=false,krb5"
+>> +PACKAGECONFIG[rdma] = "-DUSE_RPC_RDMA=true,-DUSE_RPC_RDMA=false,rdma-core"
+>> +PACKAGECONFIG[winbind] = "-D_MSPAC_SUPPORT=true,-D_MSPAC_SUPPORT=false,samba"
+>> +PACKAGECONFIG[profile] = "-DUSE_PROFILE=true,-DUSE_PROFILE=false,gperftools"
+>> +PACKAGECONFIG[lttng] = "-DUSE_LTTNG=true,-DUSE_LTTNG=false,lttng-ust lttng-tools"
+>> +
+>> +# Sort out the brain-dead cmake file
+>> +# (https://github.com/nfs-ganesha/ntirpc/issues/150)
+>> +do_install:append() {
+>> +    if [ "${prefix}/lib64" != "${libdir}" -a -d ${D}${prefix}/lib64 ]; then
+>> +        mv ${D}${prefix}/lib64 ${D}${libdir}
+>> +    fi
+>> +}
+>> +
+>> +BBCLASSEXTEND = "native nativesdk"
+>> +EXTRA_OECMAKE:armv5 += '-DSYSTEM_LIBRARIES="-latomic"'
+>> +EXTRA_OECMAKE:riscv32 += '-DSYSTEM_LIBRARIES="-latomic"'
+>> +EXTRA_OECMAKE:riscv64 += '-DSYSTEM_LIBRARIES="-latomic"'
+>> +EXTRA_OECMAKE:powerpc += '-DSYSTEM_LIBRARIES="-latomic"'
+>> diff --git a/meta/recipes-extended/quota/quota_4.06.bb b/meta/recipes-extended/quota/quota_4.06.bb
+>> index 0535d14c20..304477d72b 100644
+>> --- a/meta/recipes-extended/quota/quota_4.06.bb
+>> +++ b/meta/recipes-extended/quota/quota_4.06.bb
+>> @@ -30,6 +30,6 @@ PACKAGECONFIG ??= "tcp-wrappers rpc bsd"
+>>   PACKAGECONFIG:libc-musl = "tcp-wrappers rpc"
+>>
+>>   PACKAGECONFIG[tcp-wrappers] = "--enable-libwrap,--disable-libwrap,tcp-wrappers"
+>> -PACKAGECONFIG[rpc] = "--enable-rpc,--disable-rpc,libtirpc"
+>> +PACKAGECONFIG[rpc] = "--enable-rpc,--disable-rpc,ntirpc"
+>>   PACKAGECONFIG[bsd] = "--enable-bsd_behaviour=yes,--enable-bsd_behaviour=no,"
+>>   PACKAGECONFIG[ldapmail] = "--enable-ldapmail,--disable-ldapmail,openldap"
+>> diff --git a/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb b/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
+>> index dd89726afc..e30a23909c 100644
+>> --- a/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
+>> +++ b/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
+>> @@ -4,7 +4,7 @@ DESCRIPTION = "The rpcbind utility is a server that converts RPC \
+>>   SECTION = "console/network"
+>>   HOMEPAGE = "http://sourceforge.net/projects/rpcbind/"
+>>   BUGTRACKER = "http://sourceforge.net/tracker/?group_id=201237&atid=976751"
+>> -DEPENDS = "libtirpc quota"
+>> +DEPENDS = "ntirpc quota"
+>>
+>>   LICENSE = "BSD-3-Clause"
+>>   LIC_FILES_CHKSUM = "file://COPYING;md5=b46486e4c4a416602693a711bb5bfa39 \
+>> diff --git a/meta/recipes-extended/watchdog/watchdog_5.16.bb b/meta/recipes-extended/watchdog/watchdog_5.16.bb
+>> index 26fcc10487..5f5fd4dc87 100644
+>> --- a/meta/recipes-extended/watchdog/watchdog_5.16.bb
+>> +++ b/meta/recipes-extended/watchdog/watchdog_5.16.bb
+>> @@ -28,7 +28,7 @@ UPSTREAM_CHECK_REGEX = "/watchdog/(?P<pver>(\d+[\.\-_]*)+)/"
+>>
+>>   inherit autotools update-rc.d systemd pkgconfig
+>>
+>> -DEPENDS += "libtirpc"
+>> +DEPENDS += "ntirpc"
+>>   CFLAGS += "-I${STAGING_INCDIR}/tirpc"
+>>   LDFLAGS += "-ltirpc"
+>>
+>> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+>> index 057a1ba6ad..2085f742d6 100644
+>> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+>> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+>> @@ -36,7 +36,7 @@ inherit meson pkgconfig
+>>   inherit features_check
+>>   REQUIRED_DISTRO_FEATURES = "x11"
+>>
+>> -LIB_DEPS = "pixman libxfont2 xtrans libxau libxext libxdmcp libdrm libxkbfile libpciaccess libxcvt libtirpc"
+>> +LIB_DEPS = "pixman libxfont2 xtrans libxau libxext libxdmcp libdrm libxkbfile libpciaccess libxcvt ntirpc"
+>>   DEPENDS = "xorgproto ${LIB_DEPS} font-util"
+>>
+>>   # Split out some modules and extensions from the main package
+>> diff --git a/meta/recipes-support/liburcu/liburcu_0.13.1.bb b/meta/recipes-support/liburcu/liburcu_0.13.1.bb
+>> index 66763349d2..d7e831e803 100644
+>> --- a/meta/recipes-support/liburcu/liburcu_0.13.1.bb
+>> +++ b/meta/recipes-support/liburcu/liburcu_0.13.1.bb
+>> @@ -22,3 +22,4 @@ CPPFLAGS:append:riscv64  = " -pthread -D_REENTRANT"
+>>   do_install:append() {
+>>       oe_multilib_header urcu/config.h
+>>   }
+>> +BBCLASSEXTEND = "native nativesdk"
+>> --
+>> 2.25.1
+>>
+>>
+>> 
+>>
 
