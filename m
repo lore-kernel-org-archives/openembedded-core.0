@@ -1,99 +1,75 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D579C0502A
-	for <webhook@archiver.kernel.org>; Sun, 28 Aug 2022 12:02:49 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
- [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web10.58492.1661688160823507456
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 545C4C0502A
+	for <webhook@archiver.kernel.org>; Sun, 28 Aug 2022 12:09:39 +0000 (UTC)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+ [209.85.208.179])
+ by mx.groups.io with SMTP id smtpd.web08.58679.1661688577038909117
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Aug 2022 05:02:40 -0700
+ Sun, 28 Aug 2022 05:09:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=U6ZWgOps;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.46,
- mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f46.google.com with SMTP id
- c16-20020a17090aa61000b001fb3286d9f7so10575507pjq.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=K59UJNUS;
+ spf=pass (domain: gmail.com, ip: 209.85.208.179,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f179.google.com with SMTP id k22so5610470ljg.2
         for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Aug 2022 05:02:40 -0700 (PDT)
+ Sun, 28 Aug 2022 05:09:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=date:message-id:to:from:subject:from:to:cc;
-        bh=MD19QFciEpoWCW9vPQJ11Mq8CFuf8qMNgSK/KLrOWr4=;
-        b=U6ZWgOps47ljp9+RT5A03ENksDTnMbH32zmh+jeCoVK0Fg5teGr+4zw+fac2cOJd41
-         jyc544EmBJ0Opow+bJYEhlaUCQi4mVMoqv5Vc7nXtWOS28syaJCP/FNMh063g8NLfo+l
-         8chQnyHgUYJ9ZBkvY48UkNiSsINh9qxVP6bFToqQU+BbzYk6Ca04nKT+M3k/KRD1QJx9
-         aJS8CDd0vG6OVFBFeIXazdh74F1yDk2fXjH1hi6sK3eOE3Cmah+CT9fQ5x9d8cCmOnao
-         z9bmKvse/bHIIS4jBihwToi2Aypzo5b4nCI0F1Lb8Tf/Cnr86p5gUR9GkzXk3Z54MS1G
-         fU6w==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=E/zBKOktSSBvtwR8UQUL5GMVsg1wuQ3O+/dgSySH3JA=;
+        b=K59UJNUStYEl/hjmFE9V86Ho9aC3AtEPHtkvMhnLQhAA/fVsUuuvsKS5PRdhMAadAb
+         IWzZByz7iyW0S8ogYwGzo9tWgk0zKxVJ8dbAcH+mFdUDMqmKdCsQHiWYBWfC2JpxpGPc
+         wunNTABQHQOZAUg2sHHxUUTTC8LOttsjfhd7IkDNmHW44YVvSqyQC+8lkqm6QrKstFTJ
+         2dki/Kdp7xwpIArAE58A9Tl567iRs0BZgFj5/CM+nEUA4XDV299cIIPwmLncDjDdkLLt
+         cKZjL4e/d4Ey5FPQQWtrvdX30T14CYIULKlOumNYo6ReL4DpRG8CIGTwQxtGO265FxSA
+         ziwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=date:message-id:to:from:subject:x-gm-message-state:from:to:cc;
-        bh=MD19QFciEpoWCW9vPQJ11Mq8CFuf8qMNgSK/KLrOWr4=;
-        b=IwlUqqq/KG4B9Qb0Q9uzxEfWE4Jz7DWtJOh23nDFplZFQqoC3sRaec8YUcssfUfVtP
-         qL2VjkX8UR5YuvJ7FGDJRDzzb+w7CbY0EkTuXc1mfA4CcY0KQTsTU4joFFlrgIn9aBLC
-         Mi8ias24Jyl2QRz4pOSL3TOv5s3l6CXp1ADRHsiTpzZkrKEmlXUmHWQc4dg4u6GaX+TR
-         x3gQEthHV+MkvrqRmNNBlp+GypHHydy9UbLFFx7hXmMaJHuT/k/HkFlr5uw+c4itF2cS
-         Tv/aaxrjZKg9iKk9Uv5oP2K+D0FvRWfWW07Iaqllyn838zmVFDt/3bbsboJzVlVSEyHY
-         ikYg==
-X-Gm-Message-State: ACgBeo3hQNWoCEE48Hh/Bcsx0HaAZ1J9PnJdTwUkiDBABqIeL+0mvt5j
-	JPfwr3INct0Ubzw4LMIxamH6AcrTf8zq/QNz
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=E/zBKOktSSBvtwR8UQUL5GMVsg1wuQ3O+/dgSySH3JA=;
+        b=N4t5C74hBRN20MxFvgyUiHnG0IhhVohtO9fCQjcxWWJjaCJ8D6ZQ8C95CtTLLmn/dZ
+         nywiupR4sX4288yJQLVUuMUaBBQrWdGIAtBw2Sw0vcOjIX8j9QBZudo61AV/oKVqpun8
+         7+VZHiLrEeqEg4V0RPnZ5xbM1oq8uswXSBqYPn8p3OZeAumrnDvcAWhI/SfOH/AwFX4P
+         xAeBNsP84tbrj23VHTJpYgoAkyUvfO6gv9KiWUAslvoUADrHk9xZHLuzHmFNRhxgAYMt
+         J3tifSeeXCf1R0JhSj3YAcOrtSKo79dJKvzuwuxa+JztnJZsxMU/VdcDpTBHqSLr+YoZ
+         8FHw==
+X-Gm-Message-State: ACgBeo3+WptHRndrxkG07YN/yuas4x/3XZqCsM/Hf5jPyogCkbefCiLd
+	fSal+m2cDPpyt4OkpieWil/wjxudrGFdeMF6OZI=
 X-Google-Smtp-Source: 
- AA6agR5xlrmQH+5h0DpOvtRQxVFgRHEpXs2YJDDUDWah9WY8ZlxtaIKvLYGArPD2e+4WTsKQFGxEfA==
-X-Received: by 2002:a17:902:e88c:b0:174:c448:11a2 with SMTP id
- w12-20020a170902e88c00b00174c44811a2mr467976plg.8.1661688159672;
-        Sun, 28 Aug 2022 05:02:39 -0700 (PDT)
-Received: from nuc.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id
- w1-20020a170902ca0100b00174be817124sm450783pld.221.2022.08.28.05.02.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Aug 2022 05:02:39 -0700 (PDT)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 1121A9623B1; Sun, 28 Aug 2022 02:02:37 -1000 (HST)
-Subject: OE-core CVE metrics for master on Sun 28 Aug 2022 02:00:01 AM HST
-FROM: steve@sakoman.com
-To: 
- <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20220828120237.1121A9623B1@nuc.router0800d9.com>
-Date: Sun, 28 Aug 2022 02:02:37 -1000 (HST)
+ AA6agR65KF+vrDaG+aAp4gniiCvlOvnfAI8j0r/6Ow4wgjPPwix8vFcXwfvuCO8mZlmR7zQymODJQQjPdeptxnj5UVo=
+X-Received: by 2002:a2e:9e50:0:b0:261:e3fd:cdc5 with SMTP id
+ g16-20020a2e9e50000000b00261e3fdcdc5mr4419436ljk.56.1661688575069; Sun, 28
+ Aug 2022 05:09:35 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220828120237.1121A9623B1@nuc.router0800d9.com>
+In-Reply-To: <20220828120237.1121A9623B1@nuc.router0800d9.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sun, 28 Aug 2022 14:09:23 +0200
+Message-ID: 
+ <CANNYZj-mwcsbjaotThF+pS3nOFJx2DiSd03pCzi2uA+-+23RsQ@mail.gmail.com>
+Subject: Re: [OE-core] OE-core CVE metrics for master on Sun 28 Aug 2022
+ 02:00:01 AM HST
+To: Steve Sakoman <steve@sakoman.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	yocto-security@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 Aug 2022 12:02:49 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 28 Aug 2022 12:09:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/169981
+ https://lists.openembedded.org/g/openembedded-core/message/169982
 
-Branch: master
+On Sun, 28 Aug 2022 at 14:02, Steve Sakoman <steve@sakoman.com> wrote:
+> New this week: 4 CVEs
+> CVE-2021-3521 (CVSS3: 4.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3521 *
 
-New this week: 4 CVEs
-CVE-2021-3521 (CVSS3: 4.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3521 *
-CVE-2022-2946 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2946 *
-CVE-2022-2980 (CVSS3: 5.5 MEDIUM): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2980 *
-CVE-2022-2982 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2982 *
+I believe this is fixed in 4.17.1, so nist metadata needs to be adjusted.
 
-Removed this week: 12 CVEs
-CVE-2021-46828 (CVSS3: 7.5 HIGH): libtirpc:libtirpc-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-46828 *
-CVE-2022-2816 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2816 *
-CVE-2022-2817 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2817 *
-CVE-2022-2819 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2819 *
-CVE-2022-2845 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2845 *
-CVE-2022-2849 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2849 *
-CVE-2022-2862 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2862 *
-CVE-2022-2867 (CVSS3: 8.8 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2867 *
-CVE-2022-2868 (CVSS3: 8.1 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2868 *
-CVE-2022-2869 (CVSS3: 8.8 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2869 *
-CVE-2022-2874 (CVSS3: 5.5 MEDIUM): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2874 *
-CVE-2022-2889 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2889 *
-
-Full list:  Found 4 unpatched CVEs
-CVE-2021-3521 (CVSS3: 4.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3521 *
-CVE-2022-2946 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2946 *
-CVE-2022-2980 (CVSS3: 5.5 MEDIUM): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2980 *
-CVE-2022-2982 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2982 *
-
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+Alex
 
