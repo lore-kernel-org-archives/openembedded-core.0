@@ -1,197 +1,114 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41770ECAAD2
-	for <webhook@archiver.kernel.org>; Mon, 29 Aug 2022 10:05:05 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web08.68916.1661767495049398827
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B111EECAAD4
+	for <webhook@archiver.kernel.org>; Mon, 29 Aug 2022 11:51:55 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web12.69477.1661773908683588549
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Aug 2022 03:04:55 -0700
+ Mon, 29 Aug 2022 04:51:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=DFnVHTIc;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199,
- mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 24421FF803;
-	Mon, 29 Aug 2022 10:04:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1661767493;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ll4wi+rUDAjHt+9m+tYLuw960w9LoKGaFyCkqFKr0GM=;
-	b=DFnVHTIcaAO4eDVnT5AtZfN/wWZ4y5SA2lV70MxQXfqq1PnQhLyl1gGSJmPE7o4rjyYYba
-	dJEWmbdiXSBsSc0jOBeWnQ4ggDGZRW4DrDUunrv1LAwBotFBcatQ2Q3Mj1MgfeIFyiRt5R
-	gEm33gMqSnYKnVng+CS3mUq+SwxhVt/JErCDCy0zWEqueZdpoR1e+ll3MEiKCh5r7jkpYW
-	j81Ej6q4+apeUCMfWt+C+ow77dattPZUsGX1TA0UIC6utP0CJlKIrtnKRsh1pZ2NeXyH7t
-	Tac6T480pKqZcnMhbTVSHF1HBG/tk1d7rdtu7hJnXnkWW3vPryMkE658WjjcIg==
-Date: Mon, 29 Aug 2022 12:04:52 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Paulo Neves <ptsneves@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 1/2] ntirpc: Add ntirpc recipe
-Message-ID: <YwyPRMATkaDzuqro@mail.local>
-References: <20220827174633.2772165-1-ptsneves@gmail.com>
- <YwyN9XRs+CcHEF02@mail.local>
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=oHicXHbU;
+ spf=pass (domain: axis.com, ip: 195.60.68.18,
+ mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1661773909;
+  x=1693309909;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=XNbhz0llGBnqmj2XEScqQsyZfNFfkanqXW5WSOF4DqE=;
+  b=oHicXHbU/6l2aJtb1aYZMN/ZidsiuJ9SVViWlgk91JWO1fTFhy5ScBp4
+   IQuQQaMZXfh2wMO7qn9tboeql2Ne0a/Ae2D4I1ZCc6pANrq9K5kg8yLzs
+   V6SCSBev2ZpDgbaIoc2mGGnau95SBst2SDGRkuPGVXBse8ubpVk/e9sl/
+   mQJ6twbpRVpFIirqDb158LDihAHl/BNvP0I9QqwxvAzjCrw9LBnYDUu66
+   BpV/SyNForzDu9e0BsoachI9ukORwsjYt1MNX3UV76kSUZ0ttJXxxPTeO
+   oqnfQvNbbJAsBiat4XICiS0D9Ddwr91lu0xFvhX3ZBY0rdAyv6H2etHNQ
+   w==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Markus Volk <f_l_k@t-online.de>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [oe-core][PATCHv2] packagegroup-base.bb: remove wpa_supplicant
+ preset from packagegroup-base-wifi
+Thread-Topic: [oe-core][PATCHv2] packagegroup-base.bb: remove wpa_supplicant
+ preset from packagegroup-base-wifi
+Thread-Index: AQHYuv9xPV8Ds77K/EmEy8FtY6Crmq3FxFRg
+Date: Mon, 29 Aug 2022 11:51:45 +0000
+Message-ID: <d104e8ed664d4e7e9503b7125fe29975@axis.com>
+References: <20220828165830.12594-1-f_l_k@t-online.de>
+In-Reply-To: <20220828165830.12594-1-f_l_k@t-online.de>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YwyN9XRs+CcHEF02@mail.local>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Aug 2022 10:05:05 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Aug 2022 11:51:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170010
+ https://lists.openembedded.org/g/openembedded-core/message/170012
 
-On 29/08/2022 11:59:18+0200, Alexandre Belloni wrote:
-> Hello,
-> 
-> This fails on musl:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/5771/steps/11/logs/stdio
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> On Behalf Of Markus Volk
+> Sent: den 28 augusti 2022 18:59
+> To: openembedded-core@lists.openembedded.org
+> Cc: Markus Volk <f_l_k@t-online.de>
+> Subject: [oe-core][PATCHv2] packagegroup-base.bb: remove wpa_supplicant p=
+reset from packagegroup-base-wifi
+>=20
+> This removes wpa_supplicant from packagegroup-base-wifi so that the
+> decision of which wireless daemon to use can be made within the recipes.
+> Possible choices would be wpa_supplicant or iwd.
+>=20
+> iwd is a wireless daemon written by intel and supported by all major netw=
+ork managers.
+> It can be run in standalone mode and configured with 'iwctl' from the ter=
+minal, and
+> with 'iwgtk' or 'iwdgui' from the gui. It can also work as a wpa_supplica=
+nt drop-in
+> replacement for network-manager, connman or systemd-networkd.
+>=20
+> iwd makes heavy use of the kernel api, so it is not portable but does not=
+ need
+> additional external libraries like openssl.
+>=20
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> ---
+>  meta/recipes-core/packagegroups/packagegroup-base.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/=
+recipes-core/packagegroups/packagegroup-base.bb
+> index 7489ef61b0..a70a107dac 100644
+> --- a/meta/recipes-core/packagegroups/packagegroup-base.bb
+> +++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+> @@ -271,7 +271,7 @@ SUMMARY:packagegroup-base-wifi =3D "WiFi support"
+>  RDEPENDS:packagegroup-base-wifi =3D "\
+>      iw \
+>      wireless-regdb-static \
+> -    wpa-supplicant"
+> +"
 
-Also fails on -alt:
+Rather than removing wpa-supplicant, which breaks backwards=20
+compatibility and expectations, wouldn't it make more sense to
+introduce a variable for the wireless service, and default it=20
+to wpa-supplicant. Then there is no breakage for those who=20
+expect packagegroup-base-wifi to pull in wpa-supplicant, but=20
+those who want to use iwd can easily change the configuration=20
+in their distros.=20
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/102/builds/3498/steps/12/logs/stdio
+>=20
+>  RRECOMMENDS:packagegroup-base-wifi =3D "\
+>      ${@bb.utils.contains('COMBINED_FEATURES', 'usbhost', 'kernel-module-=
+zd1211rw', '',d)} \
+> --
+> 2.34.1
 
-> 
-> On 27/08/2022 19:46:32+0200, Paulo Neves wrote:
-> > ntirpc is an actively maintained rpc implementation. We cannot completely
-> > remove libtirpc due to arising circular dependencies. libtirpc and ntirpc
-> > are not mutually exclusive.
-> > 
-> > Signed-off-by: Paulo Neves <ptsneves@gmail.com>
-> > ---
-> >  meta/recipes-extended/ntirpc/ntirpc_4.0.bb    | 30 +++++++++++++++++++
-> >  meta/recipes-extended/quota/quota_4.06.bb     |  2 +-
-> >  .../recipes-extended/rpcbind/rpcbind_1.2.6.bb |  2 +-
-> >  .../watchdog/watchdog_5.16.bb                 |  2 +-
-> >  .../xorg-xserver/xserver-xorg.inc             |  2 +-
-> >  .../recipes-support/liburcu/liburcu_0.13.1.bb |  1 +
-> >  6 files changed, 35 insertions(+), 4 deletions(-)
-> >  create mode 100644 meta/recipes-extended/ntirpc/ntirpc_4.0.bb
-> > 
-> > diff --git a/meta/recipes-extended/ntirpc/ntirpc_4.0.bb b/meta/recipes-extended/ntirpc/ntirpc_4.0.bb
-> > new file mode 100644
-> > index 0000000000..edebcb8ca9
-> > --- /dev/null
-> > +++ b/meta/recipes-extended/ntirpc/ntirpc_4.0.bb
-> > @@ -0,0 +1,30 @@
-> > +LICENSE = "BSD"
-> > +LIC_FILES_CHKSUM = "file://COPYING;md5=f835cce8852481e4b2bbbdd23b5e47f3"
-> > +
-> > +SRC_URI = "https://download.nfs-ganesha.org/4/${PV}/ntirpc-${PV}.tar.gz"
-> > +SRC_URI[md5sum] = "17b0baada54936dcde80eba27bb6d88d"
-> > +SRC_URI[sha256sum] = "6a7921cd48d02077b394a02be42bf4f9b4678d4ebfd86a7ae4385bbcdce55462"
-> > +
-> > +DEPENDS = "liburcu libnsl2"
-> > +
-> > +inherit cmake pkgconfig
-> > +
-> > +PACKAGECONFIG[gss] = "-DUSE_GSS=true,-DUSE_GSS=false,krb5"
-> > +PACKAGECONFIG[rdma] = "-DUSE_RPC_RDMA=true,-DUSE_RPC_RDMA=false,rdma-core"
-> > +PACKAGECONFIG[winbind] = "-D_MSPAC_SUPPORT=true,-D_MSPAC_SUPPORT=false,samba"
-> > +PACKAGECONFIG[profile] = "-DUSE_PROFILE=true,-DUSE_PROFILE=false,gperftools"
-> > +PACKAGECONFIG[lttng] = "-DUSE_LTTNG=true,-DUSE_LTTNG=false,lttng-ust lttng-tools"
-> > +
-> > +# Sort out the brain-dead cmake file
-> > +# (https://github.com/nfs-ganesha/ntirpc/issues/150)
-> > +do_install:append() {
-> > +    if [ "${prefix}/lib64" != "${libdir}" -a -d ${D}${prefix}/lib64 ]; then
-> > +        mv ${D}${prefix}/lib64 ${D}${libdir}
-> > +    fi
-> > +}
-> > +
-> > +BBCLASSEXTEND = "native nativesdk"
-> > +EXTRA_OECMAKE:armv5 += '-DSYSTEM_LIBRARIES="-latomic"'
-> > +EXTRA_OECMAKE:riscv32 += '-DSYSTEM_LIBRARIES="-latomic"'
-> > +EXTRA_OECMAKE:riscv64 += '-DSYSTEM_LIBRARIES="-latomic"'
-> > +EXTRA_OECMAKE:powerpc += '-DSYSTEM_LIBRARIES="-latomic"'
-> > diff --git a/meta/recipes-extended/quota/quota_4.06.bb b/meta/recipes-extended/quota/quota_4.06.bb
-> > index 0535d14c20..304477d72b 100644
-> > --- a/meta/recipes-extended/quota/quota_4.06.bb
-> > +++ b/meta/recipes-extended/quota/quota_4.06.bb
-> > @@ -30,6 +30,6 @@ PACKAGECONFIG ??= "tcp-wrappers rpc bsd"
-> >  PACKAGECONFIG:libc-musl = "tcp-wrappers rpc"
-> >  
-> >  PACKAGECONFIG[tcp-wrappers] = "--enable-libwrap,--disable-libwrap,tcp-wrappers"
-> > -PACKAGECONFIG[rpc] = "--enable-rpc,--disable-rpc,libtirpc"
-> > +PACKAGECONFIG[rpc] = "--enable-rpc,--disable-rpc,ntirpc"
-> >  PACKAGECONFIG[bsd] = "--enable-bsd_behaviour=yes,--enable-bsd_behaviour=no,"
-> >  PACKAGECONFIG[ldapmail] = "--enable-ldapmail,--disable-ldapmail,openldap"
-> > diff --git a/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb b/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
-> > index dd89726afc..e30a23909c 100644
-> > --- a/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
-> > +++ b/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
-> > @@ -4,7 +4,7 @@ DESCRIPTION = "The rpcbind utility is a server that converts RPC \
-> >  SECTION = "console/network"
-> >  HOMEPAGE = "http://sourceforge.net/projects/rpcbind/"
-> >  BUGTRACKER = "http://sourceforge.net/tracker/?group_id=201237&atid=976751"
-> > -DEPENDS = "libtirpc quota"
-> > +DEPENDS = "ntirpc quota"
-> >  
-> >  LICENSE = "BSD-3-Clause"
-> >  LIC_FILES_CHKSUM = "file://COPYING;md5=b46486e4c4a416602693a711bb5bfa39 \
-> > diff --git a/meta/recipes-extended/watchdog/watchdog_5.16.bb b/meta/recipes-extended/watchdog/watchdog_5.16.bb
-> > index 26fcc10487..5f5fd4dc87 100644
-> > --- a/meta/recipes-extended/watchdog/watchdog_5.16.bb
-> > +++ b/meta/recipes-extended/watchdog/watchdog_5.16.bb
-> > @@ -28,7 +28,7 @@ UPSTREAM_CHECK_REGEX = "/watchdog/(?P<pver>(\d+[\.\-_]*)+)/"
-> >  
-> >  inherit autotools update-rc.d systemd pkgconfig
-> >  
-> > -DEPENDS += "libtirpc"
-> > +DEPENDS += "ntirpc"
-> >  CFLAGS += "-I${STAGING_INCDIR}/tirpc"
-> >  LDFLAGS += "-ltirpc"
-> >  
-> > diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> > index 057a1ba6ad..2085f742d6 100644
-> > --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> > +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> > @@ -36,7 +36,7 @@ inherit meson pkgconfig
-> >  inherit features_check
-> >  REQUIRED_DISTRO_FEATURES = "x11"
-> >  
-> > -LIB_DEPS = "pixman libxfont2 xtrans libxau libxext libxdmcp libdrm libxkbfile libpciaccess libxcvt libtirpc"
-> > +LIB_DEPS = "pixman libxfont2 xtrans libxau libxext libxdmcp libdrm libxkbfile libpciaccess libxcvt ntirpc"
-> >  DEPENDS = "xorgproto ${LIB_DEPS} font-util"
-> >  
-> >  # Split out some modules and extensions from the main package
-> > diff --git a/meta/recipes-support/liburcu/liburcu_0.13.1.bb b/meta/recipes-support/liburcu/liburcu_0.13.1.bb
-> > index 66763349d2..d7e831e803 100644
-> > --- a/meta/recipes-support/liburcu/liburcu_0.13.1.bb
-> > +++ b/meta/recipes-support/liburcu/liburcu_0.13.1.bb
-> > @@ -22,3 +22,4 @@ CPPFLAGS:append:riscv64  = " -pthread -D_REENTRANT"
-> >  do_install:append() {
-> >      oe_multilib_header urcu/config.h
-> >  }
-> > +BBCLASSEXTEND = "native nativesdk"
-> > -- 
-> > 2.25.1
-> > 
-> 
-> > 
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#169934): https://lists.openembedded.org/g/openembedded-core/message/169934
-> > Mute This Topic: https://lists.openembedded.org/mt/93293557/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > 
-> 
-> 
-> -- 
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+//Peter
 
