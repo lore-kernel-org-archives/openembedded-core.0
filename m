@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3B83C0502C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D12A8ECAAD4
 	for <webhook@archiver.kernel.org>; Mon, 29 Aug 2022 21:03:09 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web10.3645.1661806983630080711
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web08.3690.1661806987405985448
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Aug 2022 14:03:03 -0700
+ Mon, 29 Aug 2022 14:03:07 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=vHuBOMzQ;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171,
+ header.b=YkTmaxnN;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id x19so7525222pfr.1
+Received: by mail-pj1-f48.google.com with SMTP id
+ h11-20020a17090a470b00b001fbc5ba5224so9858864pjg.2
         for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Aug 2022 14:03:03 -0700 (PDT)
+ Mon, 29 Aug 2022 14:03:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc;
-        bh=0TChK/ltfd6clCuYA1NWdePZ8dAtx8ahgkoinbG75nE=;
-        b=vHuBOMzQ/IP9DFdmjoOoNiIkFYz9N4Pzdw1ENsiBDctW9Gc7vc7eNIChJ8a3qfCJQl
-         QEwKBFyFYublGgf13PIiMgWkZMCeaLrgR3gQIgmO9fBd0x60+zwvrvJBJ1f2hUKYDgWL
-         X8mMm+Q+BtT1dtdjWocqCb66VKLLg/rqBKpAnZmWNv9pD3ZjD93N6C+03vFlnkE2kFVq
-         qBX7QOGL8xKc4kf4efnsdBlyV7hsx98P0RjJprLi1ORAyZnv8G4TZrEK452zIVGj2tLi
-         hsk/C0vgv1fUSVgPvB6y781Qj2iqkrXck757VDcnQ9s2cvACbtUWVGJ+1yaVl6MzJt8P
-         OLaw==
+        bh=RxYhLcN6kC+qIzPL3drA/49WdQzGxveX6vnc70m9laU=;
+        b=YkTmaxnNqbOcL15xN8vKQtV+stdU2gXOApZqPxUtpk5J7clHp1IFHVg4ZO22Dh5BBQ
+         B4FWx6wXEKnLf7s/dhkCJepxODcPgMFuMJUfbBRmvDQfhDZxjtdJHXHgsIaH4B/JQdUs
+         7l6RKWYrEA3JEoCo5iHRTtHj+yAahJzIKcNW6XJVtAGA5kUeFIQp4U/gp7EDH1qu/t40
+         6NJBvjtBTG1AEK3t88jBeFftAjPjt/Kl2oKdFloFdNb/GEolY3+UyECKRE5DmbIGAOI1
+         mjn5RbS906E9dRxRuBoSvdCPGZcXQB7nJnyxyl+M790WniPyuKb585D+Q4yteyjWOjVA
+         VHcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=0TChK/ltfd6clCuYA1NWdePZ8dAtx8ahgkoinbG75nE=;
-        b=lYPh82rBc2YWh4Mb7TJC+lOGIpirFJEB4bGXLnSHhpTK2kmGgopQcbSbKXi/5MvPV8
-         bLI8j4MdAZOfDcR2UjP0Gp/CE5EOcBqJnGiSXaWfwuftM7/Stc8mUa7yW0v8lwPnuMCV
-         +Eh1EAxI2KcR8WckRyVymF9OErPuDnzR1Iik0uOtBlcdeqoXQZfmEw8b9CAgpIPOAIfV
-         91qlOrPOaXCC4ZyVVDfVuJ4JPnzUT6Vo/0unIkANNCDZDtVNIpZro5EiVLQcIwPs3OVR
-         928uGMmKJ4w0T2G4yKxsLhAcRHtX4DnP9EUi9MeNR3moPOWISwm6ZXV+jC+a3Yr8+7la
-         skww==
-X-Gm-Message-State: ACgBeo0w3pp3EysRvv6RpRz2GQM/ygl2P8azzmOGWNLTJnX9tOMRXBsi
-	nXz759pe0RZhoUOmJq4RPJfAN15EAuDKUM3g
+        bh=RxYhLcN6kC+qIzPL3drA/49WdQzGxveX6vnc70m9laU=;
+        b=7t65OnAyTVpPqhiMIX8AeCEVqCyJ9cCMJqPFvgUsiAcc+6tzBtUEY+MVln4nlGvdZD
+         4/Y4FteThDet28GQjEZ2F0W0EMasMPkU1HzirFubHG9VdRI8RwBtb1dEtUFvvK5cBJI4
+         B7yVZXnJAp837SuPgASdzkZdB5VRWTK1UpwcXahQwm/Pbcokof67G3hy94QxX1zBBxas
+         hLlo8DM8rsmqOw+zFvp5exs3U4AJQ3RuZnZIuN8/i0n1vJvDFbd1RMO5fH4rIbdmBPLS
+         6glFYq5nW7nztZwdGgZHkOOqljYScUP1gxWjeRArWDYWi9B3tKSGwnry6z4gYHHgziKs
+         9Txw==
+X-Gm-Message-State: ACgBeo0n3YejdBeRlt29wiNvhmCVMaTlDpDIexouRXc0Dbvj0Xxc32PA
+	yN+B3seNalm/n7c5qFcfr/1HS6nORbg+zcXL
 X-Google-Smtp-Source: 
- AA6agR7U7rp43bD5lYYt3UppY6u2rs99m0guGrX96UZ+ro9lXwNbSSi2LpUtDRkLjMOXPuuFMrYk0A==
-X-Received: by 2002:a05:6a00:180b:b0:536:816b:f770 with SMTP id
- y11-20020a056a00180b00b00536816bf770mr18543569pfa.3.1661806982665;
-        Mon, 29 Aug 2022 14:03:02 -0700 (PDT)
+ AA6agR7jLvfEArM6EInAxV/1vJMhmevWWpxqShXGGYf1U3wyc7bWnHy19Vxf/2CSoXK8xNIq88hlYA==
+X-Received: by 2002:a17:902:f60f:b0:172:86f6:241b with SMTP id
+ n15-20020a170902f60f00b0017286f6241bmr18257056plg.162.1661806986452;
+        Mon, 29 Aug 2022 14:03:06 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- q15-20020a17090311cf00b0016eede528b4sm8058957plh.61.2022.08.29.14.03.01
+ q15-20020a17090311cf00b0016eede528b4sm8058957plh.61.2022.08.29.14.03.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Aug 2022 14:03:02 -0700 (PDT)
+        Mon, 29 Aug 2022 14:03:06 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/14] vim: Upgrade 9.0.0115 -> 9.0.0242
-Date: Mon, 29 Aug 2022 11:02:27 -1000
+Subject: [OE-core][dunfell 10/14] tzdata: upgrade 2022a -> 2022b
+Date: Mon, 29 Aug 2022 11:02:29 -1000
 Message-Id: 
- <169537045e614aa08052fd0130ea3199523bc8f3.1661806803.git.steve@sakoman.com>
+ <b0a0abbcc5e631e693b9e896bd0fc9b9432dd297.1661806803.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1661806803.git.steve@sakoman.com>
 References: <cover.1661806803.git.steve@sakoman.com>
@@ -69,43 +70,41 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 29 Aug 2022 21:03:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170033
+ https://lists.openembedded.org/g/openembedded-core/message/170035
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Includes fixes for:
-
-CVE-2022-2816
-CVE-2022-2817
-CVE-2022-2819
-CVE-2022-2845
-CVE-2022-2849
-CVE-2022-2862
-CVE-2022-2874
-CVE-2022-2889
-
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 3ec2d27d09444213ec1c9b91c6f8c4363f297294)
+(cherry picked from commit b301d5203a4da0a0985670848126c5db762ddc86)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-extended/timezone/timezone.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 30883384f6..8f89699560 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -20,8 +20,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            "
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index cdd1a2ac3c..2b956cf7c0 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
  
--PV .= ".0115"
--SRCREV = "6747cf1671bd41cddee77c65b3f9a70509f968db"
-+PV .= ".0242"
-+SRCREV = "171c683237149262665135c7d5841a89bb156f53"
+-PV = "2022a"
++PV = "2022b"
  
- # Remove when 8.3 is out
- UPSTREAM_VERSION_UNKNOWN = "1"
+ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
+@@ -14,6 +14,6 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
+ 
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.sha256sum] = "f8575e7e33be9ee265df2081092526b81c80abac3f4a04399ae9d4d91cdadac7"
+-SRC_URI[tzdata.sha256sum] = "ef7fffd9f4f50f4f58328b35022a32a5a056b245c5cb3d6791dddb342f871664"
++SRC_URI[tzcode.sha256sum] = "bab20d943e59a3218435f48d868a4e552f18d6d7f3dd128660c5660c80b8a05f"
++SRC_URI[tzdata.sha256sum] = "f590eaf04a395245426c2be4fae71c143aea5cebc11088b7a0a5704461df397d"
+ 
 -- 
 2.25.1
 
