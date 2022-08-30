@@ -1,96 +1,100 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9265BECAAA1
-	for <webhook@archiver.kernel.org>; Tue, 30 Aug 2022 20:16:56 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web11.17021.1661890615801881780
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B48A5C0502A
+	for <webhook@archiver.kernel.org>; Tue, 30 Aug 2022 20:41:06 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web09.17332.1661892059553622029
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Aug 2022 13:16:56 -0700
+ Tue, 30 Aug 2022 13:40:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=BeEM/fR6;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199,
- mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 26792FF804;
-	Tue, 30 Aug 2022 20:16:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1661890613;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XdjPRsbkX9pHMwS6FrJoeWhqXdU5HyLKTYB7BZ3AngY=;
-	b=BeEM/fR6uwcBrrndrqvSU/M1etjbK84OroHzfwv6zDZ9wy0Or7s2zOoxFyEBZYoSSy8Sdc
-	HF0SPSFRhQps7xkwOtDW40vlVj5LFWpO+uc6ca6siWp7Lp8T6igAWwMYp4pLgy6Z1eXl6M
-	Gil55nIqFiDe9CzbBRoYxD/spgw+eH9fhh60SkB7m3jhvBhE9I6RqbkTFvodpeofo68+jn
-	lDo1SptsPzPpT6mQf6L/4yneZ5AxouAVgYpAYmyVN5ojK294/IpUOQdQ6Ob6FptZRBbjBd
-	yznqDdS2iXFzXJnKEfIFBCmYTgLuGwuvanjhLPDuC6piEjzsLJYEs7vLWFBa0A==
-Date: Tue, 30 Aug 2022 22:16:52 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: wangmy <wangmy@fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] mesa: upgrade 22.1.6 -> 22.1.7
-Message-ID: <Yw5wNHBWfXqF5d1g@mail.local>
-References: <1661832712-12546-1-git-send-email-wangmy@fujitsu.com>
- <1661832712-12546-3-git-send-email-wangmy@fujitsu.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DCvLZq6S;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id az27so15736574wrb.6
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 30 Aug 2022 13:40:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
+        bh=5qB2C6omtDSiLV/gbsAJHO0jEwNZJHDURIIndbhgWTA=;
+        b=DCvLZq6SixrPiEud/Ko6saSw8pby0aRU90VyczMdbMVy5C2g8MkxQ3eVyABgOYoxs6
+         NEJmt7tCPAj+Ftrgl2fdaJ0t1vl4E0iKxqtKYYNQXNIDIEI1UIBE0P3STXQFWEx+gXyz
+         0j1zUZlwT9T6/Viv2fCIvCxJhICs8o+wtT8/s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc;
+        bh=5qB2C6omtDSiLV/gbsAJHO0jEwNZJHDURIIndbhgWTA=;
+        b=TEjrZPIGWY2gq8ijNCFxgKOujdxbwNgbZDdjAsIzAzM9uCHAEN2tFF2ISfjvbOmj3r
+         Abhux/ByhMo1wr5+h6O7r9/sIt6BsjVEO1LZk8ltU1SmU5UiZifXAQX0wkSdnZuz16xh
+         XYSC9eNqCrLIiBI6OFZUFRNFOa/ELEXjpQEpoF6c/cewph6KAoypQqo6XBHYLf9mV3bi
+         D5lhhutEGaC0kAU2nlDcsQg5lAP3J7wniACd0zxX5byWX/eJ4zAXc1+o9M7Ua8mnX7Fh
+         5gtakEzWNNxKYfRNVlaYcjPAGbon/4JvMXoDyevSFn8F05+vAHMPcvtf5xtYOsjZl8s4
+         h/Kg==
+X-Gm-Message-State: ACgBeo0YuaWyv/pPY+KP34RMlQfBlD/ByMz4u+/ZU5km/CpwJb+xl80d
+	TODLKLSFdoVBviNoIcbe8T8Aog==
+X-Google-Smtp-Source: 
+ AA6agR4rkzZPal6ujl6s2DvU8Jqsi3gmVhvr2tHmsPUdFtOHIM05mm7/nIWSK9hVRp09pcIrcULZeQ==
+X-Received: by 2002:a5d:5847:0:b0:221:748d:243c with SMTP id
+ i7-20020a5d5847000000b00221748d243cmr9620819wrf.222.1661892057914;
+        Tue, 30 Aug 2022 13:40:57 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e8fb:7413:92ab:6224?
+ ([2001:8b0:aba:5f3c:e8fb:7413:92ab:6224])
+        by smtp.gmail.com with ESMTPSA id
+ bn5-20020a056000060500b00226d217c3e6sm10777048wrb.64.2022.08.30.13.40.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Aug 2022 13:40:56 -0700 (PDT)
+Message-ID: 
+ <1792b01731d2412c53740470ba7521b68c6a3973.camel@linuxfoundation.org>
+Subject: Re: [OE-core] Yocto Project Status 30 August 2022 (WW35)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Stephen Jolley
+	 <sjolley.yp.pm@gmail.com>
+Cc: Yocto-mailing-list <yocto@lists.yoctoproject.org>, OE-core
+	 <openembedded-core@lists.openembedded.org>
+Date: Tue, 30 Aug 2022 21:40:56 +0100
+In-Reply-To: 
+ <CANNYZj-NE9s+b9Yny9+5q6MFGY3fT5RpWX76Sx6p-yFRGty1tw@mail.gmail.com>
+References: <003301d8bc7f$c2feb310$48fc1930$@gmail.com>
+	 <CANNYZj-NE9s+b9Yny9+5q6MFGY3fT5RpWX76Sx6p-yFRGty1tw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1661832712-12546-3-git-send-email-wangmy@fujitsu.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Aug 2022 20:16:56 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Aug 2022 20:41:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170089
+ https://lists.openembedded.org/g/openembedded-core/message/170090
 
-On 30/08/2022 12:11:50+0800, wangmy wrote:
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  meta/recipes-graphics/mesa/mesa.inc                           | 2 +-
->  meta/recipes-graphics/mesa/{mesa_22.1.6.bb => mesa_22.1.7.bb} | 0
+On Tue, 2022-08-30 at 17:54 +0200, Alexander Kanavin wrote:
+> On Tue, 30 Aug 2022 at 16:49, Stephen Jolley <sjolley.yp.pm@gmail.com> wr=
+ote:
+> > layer setup changes didn=E2=80=99t test successfully
+>=20
+> The latest patchset has no known issues.
 
-I believe you forgot meta/recipes-graphics/mesa/mesa-gl_22.1.6.bb
+I think I may be lagging a little behind on status. I did see a lot of
+confusion about the patches and I know they didn't make the last
+testing cut. Hopefully they'll be in the next patch.
 
->  2 files changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-graphics/mesa/{mesa_22.1.6.bb => mesa_22.1.7.bb} (100%)
-> 
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-> index c4efc13438..a2c5679bcc 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -25,7 +25,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
->             file://0001-nir-nir_opt_move-fix-ALWAYS_INLINE-compiler-error.patch \
->             "
->  
-> -SRC_URI[sha256sum] = "22ced061eb9adab8ea35368246c1995c09723f3f71653cd5050c5cec376e671a"
-> +SRC_URI[sha256sum] = "da838eb2cf11d0e08d0e9944f6bd4d96987fdc59ea2856f8c70a31a82b355d89"
->  
->  UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
->  
-> diff --git a/meta/recipes-graphics/mesa/mesa_22.1.6.bb b/meta/recipes-graphics/mesa/mesa_22.1.7.bb
-> similarity index 100%
-> rename from meta/recipes-graphics/mesa/mesa_22.1.6.bb
-> rename to meta/recipes-graphics/mesa/mesa_22.1.7.bb
-> -- 
-> 2.25.1
-> 
+>=20
+> > o    perl builds hanging indefinitely: https://bugzilla.yoctoproject.or=
+g/show_bug.cgi?id=3D14902
+>=20
+> I will look into this. Findings will go into the ticket.
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#170054): https://lists.openembedded.org/g/openembedded-core/message/170054
-> Mute This Topic: https://lists.openembedded.org/mt/93342793/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Thanks! We haven't quite found the exact trigger to reproduce it but it
+seems related to rebuilds somehow.
 
+Cheers,
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Richard
+
 
