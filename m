@@ -1,227 +1,111 @@
-Return-Path: <wesley.lindauer@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A4A6ECAAA1
-	for <webhook@archiver.kernel.org>; Tue, 30 Aug 2022 19:27:56 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web10.16302.1661887674501090610
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 692C2ECAAA1
+	for <webhook@archiver.kernel.org>; Tue, 30 Aug 2022 19:41:46 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web09.16556.1661888499850898552
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Aug 2022 12:27:54 -0700
+ Tue, 30 Aug 2022 12:41:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BJcm7Y71;
- spf=pass (domain: gmail.com, ip: 209.85.214.170,
- mailfrom: wesley.lindauer@gmail.com)
-Received: by mail-pl1-f170.google.com with SMTP id jm11so12052505plb.13
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GK9dKsR3;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id bq11so15558051wrb.12
         for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Aug 2022 12:27:54 -0700 (PDT)
+ Tue, 30 Aug 2022 12:41:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=VXpvvKzRP+rwH7Fh4qzVnpPhgO0O1n7PB+cKurO1k7g=;
-        b=BJcm7Y71Ssv3ry4X2j0W0/9oKJZEEq3svZ1ck/wV2jes+KobXXduzf9lgampzIy8sf
-         bWT3pd4x8FElMG17yNQtLRwk9xiOP2Q2y/dIuQoMa9Kq5FIU/HwaGUNhF+BNwr+iVENv
-         BOwNg0dD47qbD052mRcHj89MmyYySPNPMS2oJJgRB8q8Q1FCiM1DpYUFVBKTiidt5lVh
-         l5wDPH0gQgh3CYMTZbJ8K9ahnMo2pByK7pQrHJAIU59eEpTZ3/6Wmx4IQ/hCmuWJ2/+c
-         MLClqz1Sa4VHW2Z7A7lSO5IR1jpmnFiSRZ7sTo0s17raHy3GDkhvsahfsogTCR0D2YiF
-         3xsQ==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
+        bh=kHZebKPeT5YHWvlxprZVJ8v6CmRCnWtd608I9Jtk4W0=;
+        b=GK9dKsR3XXYFLJ2NTjHwTdJHBljx08PlI54kYmY/ozQfzlYLL0d/6d/ml9tev8HY0M
+         wyLW81Tc/2YqMIfel2ZquF3N7jAmZ/8H8wqzj7jpG7F3ri6lYlshhSeG/Y1vGnu+U1zK
+         t2A2tNqfTUdu1ZntBA2O6f6CTo6ty260YwHdg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=VXpvvKzRP+rwH7Fh4qzVnpPhgO0O1n7PB+cKurO1k7g=;
-        b=PCUQVE098+r/ytQIy8d23FmtJnvmgqoPHFKFmWxs4PAmackmHyNXtfJ7FoVj370OmM
-         LA+yixQ9holvndPj55RdvbCGqUSlXxWg4yr2ahOaS180DdWTSVd6Ih1ln4NoQ2/6/j6C
-         T+P1iKpbGCjsht2B4IULyP76EVSQ7F9WLjWjuCMr+8prHz8Ba8nUnuVGclPN4WCzqT5c
-         87B3UvpYI0HJqRrezUg9jzQd8NMAwPY8MOd3dOuWIyL3/5a4Nhj08MHwGHA3vMgWEW0O
-         F2PrZhNm/W+CGybnpsWj7GdvU+4bHdZowF4FrHDcM9oaUo63g0k5XiFx46Kn/F5VSjsk
-         36mA==
-X-Gm-Message-State: ACgBeo0ueE/kjFniIrfZ1VdqKLcrSLHNmmKGj5UKONoZP7jLFKLhx2vm
-	0WS4VMzclPUPyxTn8zcCgI9PHIO2m23FvuTZK6A=
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc;
+        bh=kHZebKPeT5YHWvlxprZVJ8v6CmRCnWtd608I9Jtk4W0=;
+        b=fVgxW+N+a6Km9717PCw/lRmB/26yioiywZL4WfDWJMiV/Guq8vG8edGY67h0PxgC1n
+         pHGE7Y+1lvIWnsAJC0o+Xa0VfmcXsIB5PUZm1Hl2apJP+4YAF6s8enrHS8QtmH9d9FOx
+         WHIJZAhRL7yVaoMXK5gVeM0jcp/UFXnDGQ0uWyeGoxyskndolHTUDu4gNEoEM+gL9L3G
+         GOZB0TXGF4AxjK+/4Jsan+ig3263Qtb56zw5hW4vRVM/0gPq4p/fCUXTqLvCDA1dUX9X
+         nNmLsmO6fZ9PVP9xSa6EUnHq302H16nvLNGwv+8Xw4w/9Q8OlXHi1Zmk2I/LD+zGKar+
+         VN6Q==
+X-Gm-Message-State: ACgBeo2PuA72AaNmeb45k4Z8tXhwBLhHQrs/Hw25WiLGaBGJMHa4/S6A
+	p1X5gyCPIH5mg4wqRN4c9iux8g==
 X-Google-Smtp-Source: 
- AA6agR4sqGj2Zmz+TkPkpVms6s+xkYe9UV55f7ik6aGqV9RLiAIc457+qlng7K5JkjcX+ufggm/N/NTOrdwX1Vtwf+E=
-X-Received: by 2002:a17:90a:bd05:b0:1fb:c4b6:a83c with SMTP id
- y5-20020a17090abd0500b001fbc4b6a83cmr24296089pjr.142.1661887673877; Tue, 30
- Aug 2022 12:27:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220822045919.1262270-1-wesley.lindauer@gmail.com>
- <cf290a54-3b62-9c0d-32cc-08195f682b99@theobroma-systems.com>
- <01dce5b603bc47fc195ba4ea738e7a333ac1992e.camel@linuxfoundation.org>
- <d6dc09aea26447ed99a4ad5cee62c048@axis.com>
-In-Reply-To: <d6dc09aea26447ed99a4ad5cee62c048@axis.com>
-From: Wes Lindauer <wesley.lindauer@gmail.com>
-Date: Tue, 30 Aug 2022 15:27:42 -0400
+ AA6agR7GAprPQFqmZt4oHEwdr8E3lJbn8tODfUf6ShhwxAo6ziwG86IDSQskuvcfrg149BW8257oWw==
+X-Received: by 2002:a5d:4882:0:b0:225:3148:9f85 with SMTP id
+ g2-20020a5d4882000000b0022531489f85mr9675070wrq.224.1661888498139;
+        Tue, 30 Aug 2022 12:41:38 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e8fb:7413:92ab:6224?
+ ([2001:8b0:aba:5f3c:e8fb:7413:92ab:6224])
+        by smtp.gmail.com with ESMTPSA id
+ w18-20020adfde92000000b00226d238be98sm9586054wrl.82.2022.08.30.12.41.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Aug 2022 12:41:37 -0700 (PDT)
 Message-ID: 
- <CALBQxSuQcXNq5M3PFDXYSYaR=UgFCOEiYNQ-Pm5F6v_MVVSsnQ@mail.gmail.com>
+ <40daa54c282c0aec73c3cdd366fedc1c76712c75.camel@linuxfoundation.org>
 Subject: Re: [OE-core][PATCH] bitbake.conf: Add resource vars to hash ignore
  list
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Wes Lindauer <wesley.lindauer@gmail.com>, Peter Kjellerstedt
+	 <peter.kjellerstedt@axis.com>
+Cc: Quentin Schulz <quentin.schulz@theobroma-systems.com>,
 	"openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000754a4605e77a6009"
+	 <openembedded-core@lists.openembedded.org>
+Date: Tue, 30 Aug 2022 20:41:36 +0100
+In-Reply-To: 
+ <CALBQxSuQcXNq5M3PFDXYSYaR=UgFCOEiYNQ-Pm5F6v_MVVSsnQ@mail.gmail.com>
+References: <20220822045919.1262270-1-wesley.lindauer@gmail.com>
+	 <cf290a54-3b62-9c0d-32cc-08195f682b99@theobroma-systems.com>
+	 <01dce5b603bc47fc195ba4ea738e7a333ac1992e.camel@linuxfoundation.org>
+	 <d6dc09aea26447ed99a4ad5cee62c048@axis.com>
+	 <CALBQxSuQcXNq5M3PFDXYSYaR=UgFCOEiYNQ-Pm5F6v_MVVSsnQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Aug 2022 19:27:56 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Aug 2022 19:41:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170087
+ https://lists.openembedded.org/g/openembedded-core/message/170088
 
---000000000000754a4605e77a6009
-Content-Type: text/plain; charset="UTF-8"
+On Tue, 2022-08-30 at 15:27 -0400, Wes Lindauer wrote:
+> I think I understand. I am sorry for the FAD. I was experiencing this
+> sstate mismatch on the dunfell branch that does not contain the
+> 'XZ_THREADS[vardepvalue] =3D "1"' change. This is probably why I
+> attempted my change in the hash exclude list and then tried to "port
+> it forward to master". I appreciate everyone taking the time to
+> explain. I am still a little confused why calculating every rpm task
+> signature with a value of 1 is acceptable, but ignoring the variable
+> in the signature is not. Are these not different implementations of
+> the same thing?
 
-I think I understand. I am sorry for the FAD. I was experiencing this
-sstate mismatch on the dunfell branch that does not contain the
-'XZ_THREADS[vardepvalue] = "1"' change. This is probably why I attempted my
-change in the hash exclude list and then tried to "port it forward to
-master". I appreciate everyone taking the time to explain. I am still a
-little confused why calculating every rpm task signature with a value of 1
-is acceptable, but ignoring the variable in the signature is not. Are these
-not different implementations of the same thing?
+> > XZ_THREADS ?=3D "${@oe.utils.cpu_count(at_least=3D2)}"=20
+> > XZ_THREADS[vardepvalue] =3D "1"
 
-Thanks,
-Wes L
+Note we do *two* things, we set it to at least a count of 2 and give it
+a known consistent value. It is the two things together than work out
+ok.
 
-On Mon, Aug 22, 2022 at 9:17 AM Peter Kjellerstedt <
-peter.kjellerstedt@axis.com> wrote:
+If the user changes XZ_THREADS, as long as it is set to a value or 2 or
+more it is still ok. If the user sets it to a value of 1, builds are
+not reproducible.
 
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-
-> > core@lists.openembedded.org> On Behalf Of Richard Purdie
-> > Sent: den 22 augusti 2022 13:19
-> > To: Quentin Schulz <quentin.schulz@theobroma-systems.com>; Wes Lindauer
-> > <wesley.lindauer@gmail.com>; openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core][PATCH] bitbake.conf: Add resource vars to hash
-> > ignore list
-> >
-> > On Mon, 2022-08-22 at 11:28 +0200, Quentin Schulz wrote:
-> > > Hi Wes,
-> > >
-> > > On 8/22/22 06:59, Wes Lindauer wrote:
-> > > > It should not matter what xz/zstd parallelism and resource usage is
-> set to
-> > > > when determining hash signatures. This allows sharing more sstate
-> across
-> > > > host machines with different CPU configurations.
-> > > >
-> > >
-> > > It seems like it does matter in some ways, c.f.:
-> > >
-> https://git.openembedded.org/openembedded-core/commit/?id=0296dc71c01d1b7953d74ef37d56429e2f4fcfab
-> > > and
-> > >
-> https://git.openembedded.org/openembedded-core/commit/?id=e72c0b94554a9bc293844ec2bddb0c04ea19791d
-> >
-> > As Quentin mentions, the value does matter. In particular, those
-> > compiled with a single thread differ to those with multiple threads. As
-> > such the proposed patch can't be accepted.
-> >
-> > Cheers,
-> >
-> > Richard
->
-> Isn't the problem of varying XZ_THREAD/ZSTD_THREAD vs taskhashes
-> already taken care of by having:
->
-> XZ_THREADS ?= "${@oe.utils.cpu_count(at_least=2)}"
-> XZ_THREADS[vardepvalue] = "1"
-> XZ_DEFAULTS ?= "--memlimit=${XZ_MEMLIMIT} --threads=${XZ_THREADS}"
-> XZ_DEFAULTS[vardepsexclude] += "XZ_MEMLIMIT XZ_THREADS"
-> ZSTD_THREADS ?= "${@oe.utils.cpu_count(at_least=2)}"
-> ZSTD_THREADS[vardepvalue] = "1"
->
-> in bitbake.conf.
->
-> //Peter
->
->
+You're right that we could have just ignored it, but this at least
+gives a hint that a value of 2 or more should be used. Ideally we'd
+have put a warning around a value of 1 but there are a lot of things
+we'd do ideally and limited time...
 
---000000000000754a4605e77a6009
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cheers,
 
-<div dir=3D"ltr"><div>I think I understand. I am sorry for the FAD. I was e=
-xperiencing this sstate mismatch on the dunfell branch that does not contai=
-n the &#39;XZ_THREADS[vardepvalue] =3D &quot;1&quot;&#39; change. This is p=
-robably why I attempted my change in the hash exclude list and then tried t=
-o &quot;port it forward to master&quot;. I appreciate everyone taking the t=
-ime to explain. I am still a little confused why calculating every rpm task=
- signature with a value of 1 is acceptable, but ignoring the variable in th=
-e signature is not. Are these not different implementations of the same thi=
-ng?</div><div><br></div><div>Thanks,</div><div>Wes L<br></div></div><br><di=
-v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 2=
-2, 2022 at 9:17 AM Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerst=
-edt@axis.com">peter.kjellerstedt@axis.com</a>&gt; wrote:<br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">&gt; -----Original Message-----<br=
->
-&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;openembedded=
--<br>
-&gt; <a href=3D"mailto:core@lists.openembedded.org" target=3D"_blank">core@=
-lists.openembedded.org</a>&gt; On Behalf Of Richard Purdie<br>
-&gt; Sent: den 22 augusti 2022 13:19<br>
-&gt; To: Quentin Schulz &lt;<a href=3D"mailto:quentin.schulz@theobroma-syst=
-ems.com" target=3D"_blank">quentin.schulz@theobroma-systems.com</a>&gt;; We=
-s Lindauer<br>
-&gt; &lt;<a href=3D"mailto:wesley.lindauer@gmail.com" target=3D"_blank">wes=
-ley.lindauer@gmail.com</a>&gt;; <a href=3D"mailto:openembedded-core@lists.o=
-penembedded.org" target=3D"_blank">openembedded-core@lists.openembedded.org=
-</a><br>
-&gt; Subject: Re: [OE-core][PATCH] bitbake.conf: Add resource vars to hash<=
-br>
-&gt; ignore list<br>
-&gt; <br>
-&gt; On Mon, 2022-08-22 at 11:28 +0200, Quentin Schulz wrote:<br>
-&gt; &gt; Hi Wes,<br>
-&gt; &gt;<br>
-&gt; &gt; On 8/22/22 06:59, Wes Lindauer wrote:<br>
-&gt; &gt; &gt; It should not matter what xz/zstd parallelism and resource u=
-sage is set to<br>
-&gt; &gt; &gt; when determining hash signatures. This allows sharing more s=
-state across<br>
-&gt; &gt; &gt; host machines with different CPU configurations.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; It seems like it does matter in some ways, c.f.:<br>
-&gt; &gt; <a href=3D"https://git.openembedded.org/openembedded-core/commit/=
-?id=3D0296dc71c01d1b7953d74ef37d56429e2f4fcfab" rel=3D"noreferrer" target=
-=3D"_blank">https://git.openembedded.org/openembedded-core/commit/?id=3D029=
-6dc71c01d1b7953d74ef37d56429e2f4fcfab</a><br>
-&gt; &gt; and<br>
-&gt; &gt; <a href=3D"https://git.openembedded.org/openembedded-core/commit/=
-?id=3De72c0b94554a9bc293844ec2bddb0c04ea19791d" rel=3D"noreferrer" target=
-=3D"_blank">https://git.openembedded.org/openembedded-core/commit/?id=3De72=
-c0b94554a9bc293844ec2bddb0c04ea19791d</a><br>
-&gt; <br>
-&gt; As Quentin mentions, the value does matter. In particular, those<br>
-&gt; compiled with a single thread differ to those with multiple threads. A=
-s<br>
-&gt; such the proposed patch can&#39;t be accepted.<br>
-&gt; <br>
-&gt; Cheers,<br>
-&gt; <br>
-&gt; Richard<br>
-<br>
-Isn&#39;t the problem of varying XZ_THREAD/ZSTD_THREAD vs taskhashes <br>
-already taken care of by having:<br>
-<br>
-XZ_THREADS ?=3D &quot;${@oe.utils.cpu_count(at_least=3D2)}&quot; <br>
-XZ_THREADS[vardepvalue] =3D &quot;1&quot;<br>
-XZ_DEFAULTS ?=3D &quot;--memlimit=3D${XZ_MEMLIMIT} --threads=3D${XZ_THREADS=
-}&quot; <br>
-XZ_DEFAULTS[vardepsexclude] +=3D &quot;XZ_MEMLIMIT XZ_THREADS&quot;<br>
-ZSTD_THREADS ?=3D &quot;${@oe.utils.cpu_count(at_least=3D2)}&quot; <br>
-ZSTD_THREADS[vardepvalue] =3D &quot;1&quot;<br>
-<br>
-in bitbake.conf.<br>
-<br>
-//Peter<br>
-<br>
-</blockquote></div>
-
---000000000000754a4605e77a6009--
+Richard
 
