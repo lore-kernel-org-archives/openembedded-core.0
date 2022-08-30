@@ -1,88 +1,122 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D96FBECAAA1
-	for <webhook@archiver.kernel.org>; Tue, 30 Aug 2022 21:14:46 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
- [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web10.17703.1661894077987407670
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DD95ECAAD5
+	for <webhook@archiver.kernel.org>; Tue, 30 Aug 2022 22:58:47 +0000 (UTC)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+ [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web11.18900.1661900316201373539
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Aug 2022 14:14:38 -0700
+ Tue, 30 Aug 2022 15:58:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=AAXCm4I1;
- spf=pass (domain: gmail.com, ip: 209.85.208.179,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f179.google.com with SMTP id s15so7545492ljp.5
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bqXbzBGx;
+ spf=pass (domain: gmail.com, ip: 209.85.215.176,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f176.google.com with SMTP id bh13so11967958pgb.4
         for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Aug 2022 14:14:37 -0700 (PDT)
+ Tue, 30 Aug 2022 15:58:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=gMt8ZEfN6+ZCd664WPvYnUrD59HLJppAp/Zz3VCAweM=;
-        b=AAXCm4I1K2qtfV5sGUvZ2S4I9FihcUEbY0c4lchibBhz5VunSfXSiL/0j0d25TJ1Pn
-         OTh2Z21+QOmjbveKQRgMha43v4dBwY1PHTUdNcEFeGD+WQh3g1/KGry+pDlfBo7TPn22
-         ejf+wOeaikGIwPV//zfA6I/9hRtOc1YC/aDxXsHWnkc4Nj0VspqFFhdX4xmgke4wFecU
-         iVIdRtu3ZdssKl8hA6rvjuys+oCVWNJr1dnrCnFY+g0pDBl1473isnwVjTOBVhB/WU9V
-         6SOrb/HSjP7Nx4dROoe6uNmUzJvv4OvGlq7AFKWxkbvRGuqU+kL/GpSzCUuvbGo8kN3O
-         NTMA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=ST2wH3/+6/Xf2L/fQrphckr+tqBEwDKjVdcqrFcsi48=;
+        b=bqXbzBGxYK5Cea0z/aQ84QOdCk4/dPNgmzLr5IoGC23yLBBX79TgyG4wKc9x46ohKE
+         GNQqtnFtp+bZm3q9ww/lDa2wp8dTMmbKhB2NIxxSjtf0ubsFhUAAXONDFW+lALPrlc3L
+         JBGcGtZjYr1/CT5tFpOHWpm1UBUDcBbbeTSNXPEyK+pykMQhoNYeKTiPNnaOq2bsykFo
+         m+nfJ5xYrexDojXM/rTDUiFhhjI/U0EXY8tIcmEIBo4IAK2bkZ7DeWkHYnrlA33/hjsd
+         SV37YC1BbWK3NWE49e9Uj8kEG78hmN26ZwEqS4la9Ey25QuIW1Y/4o2daG5KsIaWyq/h
+         G7yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=gMt8ZEfN6+ZCd664WPvYnUrD59HLJppAp/Zz3VCAweM=;
-        b=T6AHZjwSaFztQTB8jE/IoSWNHKjg1Y0NNxqIqDArXhLJbpZVsS7gbqdc5in9prKn3l
-         Shqxop8r/If4iSpap5e7eJZGor+xwmXmpHkQt1gx54eauUQJ4HKOhC7wYf0859CuQ7f8
-         7QCXMTpr2/MZcTyZzuZc3XVfTwi0H6GRUMah5TQoYRcSbwrD3NlUI9ncvw4ORTwI/ptx
-         /g3eYb/iM8ofqeKBJWuzMrYRxtsNw1Jz4MV3X3OqpqiWvE81wDc90YNSgwSvsRZ0MS1y
-         MoSUVEWx0bAxQQizgyI5HO5jb3INxzafXDMfHc7eWERBGxuYxnxSGAIoqYitEtiBer5O
-         L07A==
-X-Gm-Message-State: ACgBeo1g7rcYDMIl4w718V/vKFt0SzSwcqh17nSAmB4/HTdUz/MTbFzJ
-	gsmnHqUUPGWxT7IGiJh1yGPsMzi7Spkb/Cflluc=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=ST2wH3/+6/Xf2L/fQrphckr+tqBEwDKjVdcqrFcsi48=;
+        b=kOY2IhdJcSGP6SknZwSMYnpAA9nvMrVR0SiUc7DH41gE+LOz1tdBuVo7Y/jny1ey3Y
+         E8E+8sJtig0CdyGey/hJbXuGK4djG7yGjYlfkDmyh3M9KlEnfSMgVWRHZ3pHgdWxjARQ
+         KBHH1sD8zShWqqoI2b4INO7LiCnDZPkATMEJrKGbmiojjaQJrgY/P6Ej8j64Ht+Ut9nf
+         ZnNApsRcVf4L215XfTLYIr9sXl3CHe9A3l/AtnFabsahCmuOZDwjSmQgXOoOQuYuUoHG
+         jZK7QRkaC17Hvgq/Y49U89YUP/gEDf+ehYLSyAjMzayjAVBEIX4BVHbOPvdgD81hJk+r
+         Gl+w==
+X-Gm-Message-State: ACgBeo24LNJ6p7uHhbtg9WVlFD4wTgdY3I/5YFDJaRV8GZRXWQkogqCM
+	L/hmJQQdKTDs9asSu1gM6h7zFhwjo/3mvQ==
 X-Google-Smtp-Source: 
- AA6agR4gycSizLyRHHjearMTTBoslDPNRijfed5c/h6S/mcNMCo9vloPCH0/nCBHwFXR+k37sN7x+vYt1o2V+QrNUOk=
-X-Received: by 2002:a2e:3a09:0:b0:25e:4212:5628 with SMTP id
- h9-20020a2e3a09000000b0025e42125628mr7043565lja.68.1661894076213; Tue, 30 Aug
- 2022 14:14:36 -0700 (PDT)
+ AA6agR4bF6IthJO29xtCBM1sdRpEKWP9VTs1ye779kY0t0TKBXc2o12QPRHPMOtzpj4gFPugVLKZVA==
+X-Received: by 2002:a63:f304:0:b0:42c:1057:e37 with SMTP id
+ l4-20020a63f304000000b0042c10570e37mr10248600pgh.379.1661900315429;
+        Tue, 30 Aug 2022 15:58:35 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::24e6])
+        by smtp.gmail.com with ESMTPSA id
+ ik30-20020a170902ab1e00b0016bdc98730bsm10176111plb.151.2022.08.30.15.58.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Aug 2022 15:58:34 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] ncurses: Fix configure tests for exit and mbstate_t
+Date: Tue, 30 Aug 2022 15:58:32 -0700
+Message-Id: <20220830225832.2700943-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <003301d8bc7f$c2feb310$48fc1930$@gmail.com>
- <CANNYZj-NE9s+b9Yny9+5q6MFGY3fT5RpWX76Sx6p-yFRGty1tw@mail.gmail.com>
- <1792b01731d2412c53740470ba7521b68c6a3973.camel@linuxfoundation.org>
-In-Reply-To: 
- <1792b01731d2412c53740470ba7521b68c6a3973.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 30 Aug 2022 23:14:23 +0200
-Message-ID: 
- <CANNYZj-O4JyKXopORV+y4NA-9Cb9i6NKFrZbMRD3EA4-bXLPiA@mail.gmail.com>
-Subject: Re: [OE-core] Yocto Project Status 30 August 2022 (WW35)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Stephen Jolley <sjolley.yp.pm@gmail.com>,
-	Yocto-mailing-list <yocto@lists.yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Aug 2022 21:14:46 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Aug 2022 22:58:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170091
+ https://lists.openembedded.org/g/openembedded-core/message/170092
 
-On Tue, 30 Aug 2022 at 22:40, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> Thanks! We haven't quite found the exact trigger to reproduce it but it
-> seems related to rebuilds somehow.
+These tests do not include needed headers which results in warnings and
+as errors when using -Werror or latest clang e.g.
 
-Yes, this usually happens when new patches from master get pulled in
-and perl is rebuilding on top of a previous build. It then cleans its
-own directory in a way that results in timestamps aligning just so,
-that make gets lost in its own rules, and enters an infinite loop.
-I've seen this locally several times, and have the 'wrong' tree saved,
-but I also don't know how to trigger the arrival at the wrong tree
-reliably.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../ncurses/files/exit_prototype.patch        | 22 +++++++++++++++++++
+ .../ncurses/ncurses_6.3+20220423.bb           |  1 +
+ 2 files changed, 23 insertions(+)
+ create mode 100644 meta/recipes-core/ncurses/files/exit_prototype.patch
 
-I suspect this patch may be the solution:
-https://github.com/arsv/perl-cross/commit/6a47e4fe17aca2ebb4760d8282dbad4422d4e655
+diff --git a/meta/recipes-core/ncurses/files/exit_prototype.patch b/meta/recipes-core/ncurses/files/exit_prototype.patch
+new file mode 100644
+index 0000000000..791421a338
+--- /dev/null
++++ b/meta/recipes-core/ncurses/files/exit_prototype.patch
+@@ -0,0 +1,22 @@
++Add needed headers for including mbstate_t and exit()
++
++Upstream-Status: Inappropriate [Reconfigure will solve it]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++--- a/configure
+++++ b/configure
++@@ -3422,6 +3422,7 @@ rm -f "conftest.$ac_objext" "conftest.$a
++   cat >"conftest.$ac_ext" <<_ACEOF
++ #line 3423 "configure"
++ #include "confdefs.h"
+++#include <stdlib.h>
++ $ac_declaration
++ int
++ main (void)
++@@ -12997,6 +12998,7 @@ cat >"conftest.$ac_ext" <<_ACEOF
++ #include <stdlib.h>
++ #include <stdarg.h>
++ #include <stdio.h>
+++#include <wchar.h>
++ #ifdef HAVE_LIBUTF8_H
++ #include <libutf8.h>
++ #endif
+diff --git a/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb b/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
+index 9fba5b584b..ca5fa32572 100644
+--- a/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
++++ b/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
+@@ -3,6 +3,7 @@ require ncurses.inc
+ SRC_URI += "file://0001-tic-hang.patch \
+            file://0002-configure-reproducible.patch \
+            file://0003-gen-pkgconfig.in-Do-not-include-LDFLAGS-in-generated.patch \
++           file://exit_prototype.patch \
+            "
+ # commit id corresponds to the revision in package version
+ SRCREV = "20db1fb41ec91cd8a1f528e770362092c5403378"
+-- 
+2.37.3
 
-Alex
 
