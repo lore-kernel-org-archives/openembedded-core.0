@@ -1,111 +1,96 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 692C2ECAAA1
-	for <webhook@archiver.kernel.org>; Tue, 30 Aug 2022 19:41:46 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web09.16556.1661888499850898552
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9265BECAAA1
+	for <webhook@archiver.kernel.org>; Tue, 30 Aug 2022 20:16:56 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web11.17021.1661890615801881780
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Aug 2022 12:41:40 -0700
+ Tue, 30 Aug 2022 13:16:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GK9dKsR3;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id bq11so15558051wrb.12
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Aug 2022 12:41:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
-        bh=kHZebKPeT5YHWvlxprZVJ8v6CmRCnWtd608I9Jtk4W0=;
-        b=GK9dKsR3XXYFLJ2NTjHwTdJHBljx08PlI54kYmY/ozQfzlYLL0d/6d/ml9tev8HY0M
-         wyLW81Tc/2YqMIfel2ZquF3N7jAmZ/8H8wqzj7jpG7F3ri6lYlshhSeG/Y1vGnu+U1zK
-         t2A2tNqfTUdu1ZntBA2O6f6CTo6ty260YwHdg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc;
-        bh=kHZebKPeT5YHWvlxprZVJ8v6CmRCnWtd608I9Jtk4W0=;
-        b=fVgxW+N+a6Km9717PCw/lRmB/26yioiywZL4WfDWJMiV/Guq8vG8edGY67h0PxgC1n
-         pHGE7Y+1lvIWnsAJC0o+Xa0VfmcXsIB5PUZm1Hl2apJP+4YAF6s8enrHS8QtmH9d9FOx
-         WHIJZAhRL7yVaoMXK5gVeM0jcp/UFXnDGQ0uWyeGoxyskndolHTUDu4gNEoEM+gL9L3G
-         GOZB0TXGF4AxjK+/4Jsan+ig3263Qtb56zw5hW4vRVM/0gPq4p/fCUXTqLvCDA1dUX9X
-         nNmLsmO6fZ9PVP9xSa6EUnHq302H16nvLNGwv+8Xw4w/9Q8OlXHi1Zmk2I/LD+zGKar+
-         VN6Q==
-X-Gm-Message-State: ACgBeo2PuA72AaNmeb45k4Z8tXhwBLhHQrs/Hw25WiLGaBGJMHa4/S6A
-	p1X5gyCPIH5mg4wqRN4c9iux8g==
-X-Google-Smtp-Source: 
- AA6agR7GAprPQFqmZt4oHEwdr8E3lJbn8tODfUf6ShhwxAo6ziwG86IDSQskuvcfrg149BW8257oWw==
-X-Received: by 2002:a5d:4882:0:b0:225:3148:9f85 with SMTP id
- g2-20020a5d4882000000b0022531489f85mr9675070wrq.224.1661888498139;
-        Tue, 30 Aug 2022 12:41:38 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e8fb:7413:92ab:6224?
- ([2001:8b0:aba:5f3c:e8fb:7413:92ab:6224])
-        by smtp.gmail.com with ESMTPSA id
- w18-20020adfde92000000b00226d238be98sm9586054wrl.82.2022.08.30.12.41.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Aug 2022 12:41:37 -0700 (PDT)
-Message-ID: 
- <40daa54c282c0aec73c3cdd366fedc1c76712c75.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] bitbake.conf: Add resource vars to hash ignore
- list
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Wes Lindauer <wesley.lindauer@gmail.com>, Peter Kjellerstedt
-	 <peter.kjellerstedt@axis.com>
-Cc: Quentin Schulz <quentin.schulz@theobroma-systems.com>,
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 30 Aug 2022 20:41:36 +0100
-In-Reply-To: 
- <CALBQxSuQcXNq5M3PFDXYSYaR=UgFCOEiYNQ-Pm5F6v_MVVSsnQ@mail.gmail.com>
-References: <20220822045919.1262270-1-wesley.lindauer@gmail.com>
-	 <cf290a54-3b62-9c0d-32cc-08195f682b99@theobroma-systems.com>
-	 <01dce5b603bc47fc195ba4ea738e7a333ac1992e.camel@linuxfoundation.org>
-	 <d6dc09aea26447ed99a4ad5cee62c048@axis.com>
-	 <CALBQxSuQcXNq5M3PFDXYSYaR=UgFCOEiYNQ-Pm5F6v_MVVSsnQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=BeEM/fR6;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199,
+ mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 26792FF804;
+	Tue, 30 Aug 2022 20:16:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1661890613;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XdjPRsbkX9pHMwS6FrJoeWhqXdU5HyLKTYB7BZ3AngY=;
+	b=BeEM/fR6uwcBrrndrqvSU/M1etjbK84OroHzfwv6zDZ9wy0Or7s2zOoxFyEBZYoSSy8Sdc
+	HF0SPSFRhQps7xkwOtDW40vlVj5LFWpO+uc6ca6siWp7Lp8T6igAWwMYp4pLgy6Z1eXl6M
+	Gil55nIqFiDe9CzbBRoYxD/spgw+eH9fhh60SkB7m3jhvBhE9I6RqbkTFvodpeofo68+jn
+	lDo1SptsPzPpT6mQf6L/4yneZ5AxouAVgYpAYmyVN5ojK294/IpUOQdQ6Ob6FptZRBbjBd
+	yznqDdS2iXFzXJnKEfIFBCmYTgLuGwuvanjhLPDuC6piEjzsLJYEs7vLWFBa0A==
+Date: Tue, 30 Aug 2022 22:16:52 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: wangmy <wangmy@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] mesa: upgrade 22.1.6 -> 22.1.7
+Message-ID: <Yw5wNHBWfXqF5d1g@mail.local>
+References: <1661832712-12546-1-git-send-email-wangmy@fujitsu.com>
+ <1661832712-12546-3-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1661832712-12546-3-git-send-email-wangmy@fujitsu.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Aug 2022 19:41:46 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Aug 2022 20:16:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170088
+ https://lists.openembedded.org/g/openembedded-core/message/170089
 
-On Tue, 2022-08-30 at 15:27 -0400, Wes Lindauer wrote:
-> I think I understand. I am sorry for the FAD. I was experiencing this
-> sstate mismatch on the dunfell branch that does not contain the
-> 'XZ_THREADS[vardepvalue] =3D "1"' change. This is probably why I
-> attempted my change in the hash exclude list and then tried to "port
-> it forward to master". I appreciate everyone taking the time to
-> explain. I am still a little confused why calculating every rpm task
-> signature with a value of 1 is acceptable, but ignoring the variable
-> in the signature is not. Are these not different implementations of
-> the same thing?
+On 30/08/2022 12:11:50+0800, wangmy wrote:
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  meta/recipes-graphics/mesa/mesa.inc                           | 2 +-
+>  meta/recipes-graphics/mesa/{mesa_22.1.6.bb => mesa_22.1.7.bb} | 0
 
-> > XZ_THREADS ?=3D "${@oe.utils.cpu_count(at_least=3D2)}"=20
-> > XZ_THREADS[vardepvalue] =3D "1"
+I believe you forgot meta/recipes-graphics/mesa/mesa-gl_22.1.6.bb
 
-Note we do *two* things, we set it to at least a count of 2 and give it
-a known consistent value. It is the two things together than work out
-ok.
+>  2 files changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-graphics/mesa/{mesa_22.1.6.bb => mesa_22.1.7.bb} (100%)
+> 
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+> index c4efc13438..a2c5679bcc 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -25,7 +25,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+>             file://0001-nir-nir_opt_move-fix-ALWAYS_INLINE-compiler-error.patch \
+>             "
+>  
+> -SRC_URI[sha256sum] = "22ced061eb9adab8ea35368246c1995c09723f3f71653cd5050c5cec376e671a"
+> +SRC_URI[sha256sum] = "da838eb2cf11d0e08d0e9944f6bd4d96987fdc59ea2856f8c70a31a82b355d89"
+>  
+>  UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+>  
+> diff --git a/meta/recipes-graphics/mesa/mesa_22.1.6.bb b/meta/recipes-graphics/mesa/mesa_22.1.7.bb
+> similarity index 100%
+> rename from meta/recipes-graphics/mesa/mesa_22.1.6.bb
+> rename to meta/recipes-graphics/mesa/mesa_22.1.7.bb
+> -- 
+> 2.25.1
+> 
 
-If the user changes XZ_THREADS, as long as it is set to a value or 2 or
-more it is still ok. If the user sets it to a value of 1, builds are
-not reproducible.
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#170054): https://lists.openembedded.org/g/openembedded-core/message/170054
+> Mute This Topic: https://lists.openembedded.org/mt/93342793/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-You're right that we could have just ignored it, but this at least
-gives a hint that a value of 2 or more should be used. Ideally we'd
-have put a warning around a value of 1 but there are a lot of things
-we'd do ideally and limited time...
 
-Cheers,
-
-Richard
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
