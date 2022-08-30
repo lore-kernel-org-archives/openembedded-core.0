@@ -2,74 +2,75 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D73FDC0502A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D61F7ECAAD1
 	for <webhook@archiver.kernel.org>; Tue, 30 Aug 2022 04:10:01 +0000 (UTC)
-Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
- [195.245.231.1])
- by mx.groups.io with SMTP id smtpd.web12.7858.1661832589896681635
+Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
+ [195.245.230.65])
+ by mx.groups.io with SMTP id smtpd.web11.7721.1661832598888890204
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Aug 2022 21:09:52 -0700
+ Mon, 29 Aug 2022 21:09:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=K/3pS2NJ;
- spf=pass (domain: fujitsu.com, ip: 195.245.231.1,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=b5NkG0Y9;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.65,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1661832592; i=@fujitsu.com;
-	bh=rJa0x798cQKWamlxe3Gk1Wi4tGh0tAUf3Ex5dtCSoIg=;
+	s=170520fj; t=1661832596; i=@fujitsu.com;
+	bh=Knv52BDCBsTOl8QkYJGIZSS8JJVisK/bF9R7B4aAUxg=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=K/3pS2NJlDN54n6KFPOdoscH7x61rhwogMCZOIh57d2OxzapSpgUwx3cNi1La+On5
-	 v+DvyWV4OaU1HL7Ylkn96Q6Eql3d3d3xUcN1fuQxAxmCpMNAhGYzm28gln2C6DksUQ
-	 tQVQL7u4ideGANz6o4npDsupBITAY6GIdg4bcdNlx/PTt0bXmA9hjBIJwa6iFyr0qL
-	 4HsZ7/Q/IWf8iFkRI/xQBE8Be5BUVpbvnX37rhuNiuborkjDDxQ/yxsSK/bRMci1zV
-	 eATGkD6uH2PDfeWhumEjVGEFJ0zKUh4GGlLPE/N0lUDLc0okatd6ikZzBvGU566FfD
-	 b5sDGKqaTJoDQ==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrFIsWRWlGSWpSXmKPExsViZ8OxWbe/lzf
-  ZoO2JocWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmrFt0i/2gk0cFbP+WTcwXmHvYuTiEBK4zygx
-  c/VKJgjnMpPEuw3P2SCcvYwS7b93M3YxcnKwCahJTL91g7WLkYNDREBP4uo/UZAws4CKxIvfP
-  ewgtrCAjcT2xhZmEJtFQFXi1ZK5bCA2r4CTxLrtL8DGSAgoSEx5+B6shlPAWWL11VdMILYQUM
-  2mFytYIOoFJU7OfMICMV9C4uCLF8wQvYoSsy83s0DYlRJ7ZvUzQdhqElfPbWKewCg4C0n7LCT
-  tCxiZVjFaJxVlpmeU5CZm5ugaGhjoGhqa6hpb6BoZGuklVukm6qWW6panFpfoArnlxXqpxcV6
-  xZW5yTkpenmpJZsYgUGcUqx2ZQfjnlU/9Q4xSnIwKYnyLmzlTRbiS8pPqcxILM6ILyrNSS0+x
-  CjDwaEkwXu5GygnWJSanlqRlpkDjCiYtAQHj5IIr3cXUJq3uCAxtzgzHSJ1ilFRSpx3Qg9QQg
-  AkkVGaB9cGi+JLjLJSwryMDAwMQjwFqUW5mSWo8q8YxTkYlYR5N4BM4cnMK4Gb/gpoMRPQ4od
-  LuEEWlyQipKQamFa81qgtWrrvUX6Y+54z3F7Sdw+72PlL7rcwXrWN9e6rE/8zdWua0uPnxnku
-  L6/fvLXE9dKkqpqQG+ECTrPvHp++quLolqsXJrXwXSsMdztSM8mS7cjsFFbtrw97DquukDot1
-  fFbfOaZuG8WT1x16zbcP6mYrPuFsyU+5sEJl8235wTNLw4JtJBaze0VZql7ynNy/7XZS42d90
-  3V0qu2cEiuLDOyqTkXc+Ou5x5Z+YPC/drb6mZezmdjm3vIx/RDfHCPzLTolgUyIVHLrjW67Xm
-  xs3HzhmWxF3ylb80LzCo7PN9+kZxU8dL14imrcu+sTvgSfLee22un4iQx/TVfJfu1O8VVRVZ3
-  dHZlJ675pMRSnJFoqMVcVJwIAJVGtrhdAwAA
+	b=b5NkG0Y9YIs/n8BlecGTl/QoTqqaizVSem9NsUitEubMwTLQ5eoNm/Jrt8N2arSmJ
+	 t2rx1zQeoe3TVdEwHBMe7ntiMRyParPdVv79zQerxjKprzWKZ0/3yk3o89rGfZYBbL
+	 KCU9bqO3yRBiEQYpnYc9mnhztuxS5IzKUQtapoRK0F9SvqKPTb2u31Zp4ED5UTBZpJ
+	 cyTDxP4Y+pPixV01teOiShxdZnQhWQUwhzmNmjVXojzMTQEOZ0GcazVkAayhqmjfjW
+	 V7TWEZRCUdpShLsypSy+6Jy/s6o+vZHbSsebMcYRsck9DaMKLun4Q4URXo0OBfhrX4
+	 mE5bPO8pg93hQ==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrDIsWRWlGSWpSXmKPExsViZ8ORpDullzf
+  Z4P5sIYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePF/26mghVSFTsun2FtYNwr3sXIxSEk8IBR
+  4vLy3ywQzhUmiT9H9zFCOHsZJa4/2sLcxcjJwSagJjH91g3WLkYODhEBPYmr/0RBwswCKhIvf
+  vewg9jCAtYS85+cZAWxWQRUJWY8O8cOUs4r4CTx9LUnSFhCQEFiysP3YBM5BZwlVl99xQRiCw
+  GVbHqxggXE5hUQlDg58wkLxHgJiYMvXjBD9CpKzL7czAJhV0rsmdXPBGGrSVw9t4l5AqPgLCT
+  ts5C0L2BkWsVomVSUmZ5RkpuYmaNraGCga2hoqmuoa2qpl1ilm6iXWqpbnlpcomuol1herJda
+  XKxXXJmbnJOil5dasokRGMApxYzWOxg7+n7qHWKU5GBSEuVd2MqbLMSXlJ9SmZFYnBFfVJqTW
+  nyIUYaDQ0mC93I3UE6wKDU9tSItMwcYTTBpCQ4eJRFe7y6gNG9xQWJucWY6ROoUoyvHh0NX9j
+  JzXL0CIqfO/refmWM5mJz5te0AsxBLXn5eqpQ474QeoGYBkOaM0jy40bBEcIlRVkqYl5GBgUG
+  IpyC1KDezBFX+FaM4B6OSMO8GkCk8mXklcBe8AjqOCei4h0u4QY4rSURISTUw5RV+Wv/+yvO8
+  HSuOvt52i9ntfMJsfvm5AUX9zMz7RKarTTuRc3zZkskP3e9teHGpzf6jZomCYN97FsX7F6923
+  vq6tdjLSW+r5aZ/RZnx095WTNKpbzBJcH47+91Ht1vsR77xtglbX7/eICTWob0mlDe7J1FhyW
+  J+zgwz5xNr3usEnNxW5295ehKLwfSljTu+59vMzpqxYeX1Mx9SLpRsvLTp6KWKJs17bO9jJbO
+  i6n+cebol5Dm/QbVZauTf8Fgd1r/LVh2/EqMdf/6nXXrXx57UR8Hr927s2jJ1faH5bYnp8zvZ
+  ru048cx7iuILrSVLLafd/eo84674rE98E58GKYtZfXjxzLFY+pqonkO35j4lluKMREMt5qLiR
+  ACVnjkufwMAAA==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-8.tower-571.messagelabs.com!1661832591!398828!1
-X-Originating-IP: [62.60.8.179]
+X-Msg-Ref: server-7.tower-587.messagelabs.com!1661832596!416395!1
+X-Originating-IP: [62.60.8.98]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.87.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 16669 invoked from network); 30 Aug 2022 04:09:51 -0000
-Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
-  by server-8.tower-571.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 30 Aug 2022 04:09:51 -0000
-Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id 7F5A67B
+Received: (qmail 22555 invoked from network); 30 Aug 2022 04:09:56 -0000
+Received: from unknown (HELO n03ukasimr03.n03.fujitsu.local) (62.60.8.98)
+  by server-7.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 30 Aug 2022 04:09:56 -0000
+Received: from n03ukasimr03.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTP id DDE5C1AD
 	for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Aug 2022 05:09:51 +0100 (BST)
+ Tue, 30 Aug 2022 05:09:55 +0100 (BST)
 Received: from R01UKEXCASM223.r01.fujitsu.local (R01UKEXCASM223
  [10.182.185.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id 7275073
+	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTPS id D1EB81AB
 	for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Aug 2022 05:09:51 +0100 (BST)
+ Tue, 30 Aug 2022 05:09:55 +0100 (BST)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Tue, 30 Aug 2022 05:09:49 +0100
+ (TLS) id 15.0.1497.32; Tue, 30 Aug 2022 05:09:53 +0100
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] liburcu: upgrade 0.13.1 -> 0.13.2
-Date: Tue, 30 Aug 2022 12:09:20 +0800
-Message-ID: <1661832561-12506-4-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] libwpe: upgrade 1.12.2 -> 1.12.3
+Date: Tue, 30 Aug 2022 12:09:21 +0800
+Message-ID: <1661832561-12506-5-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1661832561-12506-1-git-send-email-wangmy@fujitsu.com>
 References: <1661832561-12506-1-git-send-email-wangmy@fujitsu.com>
@@ -84,30 +85,90 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 30 Aug 2022 04:10:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170050
+ https://lists.openembedded.org/g/openembedded-core/message/170051
+
+Changelog:
+  Fix the build when using Clang's libc++ or the Musl libc.
+
+0001-Fix-build-failure-due-to-libc-using-libc-functions.patch
+removed since it's included in 1.12.3
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../liburcu/{liburcu_0.13.1.bb => liburcu_0.13.2.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/liburcu/{liburcu_0.13.1.bb => liburcu_0.13.2.bb} (91%)
+ ...ure-due-to-libc-using-libc-functions.patch | 42 -------------------
+ .../{libwpe_1.12.2.bb => libwpe_1.12.3.bb}    |  6 +--
+ 2 files changed, 2 insertions(+), 46 deletions(-)
+ delete mode 100644 meta/recipes-sato/webkit/libwpe/0001-Fix-build-failure-due-to-libc-using-libc-functions.patch
+ rename meta/recipes-sato/webkit/{libwpe_1.12.2.bb => libwpe_1.12.3.bb} (72%)
 
-diff --git a/meta/recipes-support/liburcu/liburcu_0.13.1.bb b/meta/recipes-support/liburcu/liburcu_0.13.2.bb
-similarity index 91%
-rename from meta/recipes-support/liburcu/liburcu_0.13.1.bb
-rename to meta/recipes-support/liburcu/liburcu_0.13.2.bb
-index 66763349d2..6ecf2e21c0 100644
---- a/meta/recipes-support/liburcu/liburcu_0.13.1.bb
-+++ b/meta/recipes-support/liburcu/liburcu_0.13.2.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e548d28737289d75a8f1e01ba2fd7825 \
+diff --git a/meta/recipes-sato/webkit/libwpe/0001-Fix-build-failure-due-to-libc-using-libc-functions.patch b/meta/recipes-sato/webkit/libwpe/0001-Fix-build-failure-due-to-libc-using-libc-functions.patch
+deleted file mode 100644
+index 6d27b4835d..0000000000
+--- a/meta/recipes-sato/webkit/libwpe/0001-Fix-build-failure-due-to-libc-using-libc-functions.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-From ccf8a58c3536ca0e62748e0ea477514e14d821bc Mon Sep 17 00:00:00 2001
+-From: Adrian Perez de Castro <aperez@igalia.com>
+-Date: Thu, 4 Aug 2022 12:19:05 +0300
+-Subject: [PATCH] Fix build failure due to libc++ using libc functions
+-
+-Include the "alloc-private.h" header after the C++ standard library
+-headers. This sidesteps build failures caused by implementations of
+-std::map and std::string which use libc memory allocation functions
+-in expanded templates after they have been marked with the "poison"
+-pragma.
+-
+-Fixes #115
+-
+-Upstream-Status: Backport
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- src/pasteboard-generic.cpp | 9 ++++++---
+- 1 file changed, 6 insertions(+), 3 deletions(-)
+-
+-diff --git a/src/pasteboard-generic.cpp b/src/pasteboard-generic.cpp
+-index 86fe4ee..a357027 100644
+---- a/src/pasteboard-generic.cpp
+-+++ b/src/pasteboard-generic.cpp
+-@@ -26,12 +26,15 @@
+- 
+- #include "pasteboard-private.h"
+- 
+--#include "alloc-private.h"
+--#include <cstdlib>
+--#include <cstring>
+- #include <map>
+- #include <string>
+- 
+-+// We need to include this header last, in order to avoid template expansions
+-+// from the C++ standard library happening after it forbids usage of the libc
+-+// memory functions.
+-+#include "alloc-private.h"
+-+#include <cstring>
+-+
+- namespace Generic {
+- using Pasteboard = std::map<std::string, std::string>;
+- }
+diff --git a/meta/recipes-sato/webkit/libwpe_1.12.2.bb b/meta/recipes-sato/webkit/libwpe_1.12.3.bb
+similarity index 72%
+rename from meta/recipes-sato/webkit/libwpe_1.12.2.bb
+rename to meta/recipes-sato/webkit/libwpe_1.12.3.bb
+index e23a9ac32d..77ca517ef7 100644
+--- a/meta/recipes-sato/webkit/libwpe_1.12.2.bb
++++ b/meta/recipes-sato/webkit/libwpe_1.12.3.bb
+@@ -10,10 +10,8 @@ inherit cmake features_check pkgconfig
  
- SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2"
+ REQUIRED_DISTRO_FEATURES = "opengl"
  
--SRC_URI[sha256sum] = "3213f33d2b8f710eb920eb1abb279ec04bf8ae6361f44f2513c28c20d3363083"
-+SRC_URI[sha256sum] = "1213fd9f1b0b74da7de2bb74335b76098db9738fec5d3cdc07c0c524f34fc032"
+-SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz \
+-           file://0001-Fix-build-failure-due-to-libc-using-libc-functions.patch \
+-           "
+-SRC_URI[sha256sum] = "4ac4fd0a8b562b721bffd0f46ae9f06c2b5a3114407581978be875a9d651642a"
++SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
++SRC_URI[sha256sum] = "b84fdbfbc849ce4fdf084bb28b58e5463b1b4b6cc8f200dc77b41f8545d5329d"
  
- S = "${WORKDIR}/userspace-rcu-${PV}"
- inherit autotools multilib_header
+ # This is a tweak of upstream-version-is-even needed because
+ # ipstream directory contains tarballs for other components as well.
 -- 
 2.25.1
 
