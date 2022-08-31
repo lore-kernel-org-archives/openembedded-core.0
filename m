@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C51DDECAAD1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB092C0502C
 	for <webhook@archiver.kernel.org>; Wed, 31 Aug 2022 14:40:01 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web12.26440.1661956794936413956
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+ [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web09.26475.1661956797260359752
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Aug 2022 07:39:55 -0700
+ Wed, 31 Aug 2022 07:39:57 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=GsimiKHd;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173,
+ header.b=HFQ0phU1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.180,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id u22so14301964plq.12
+Received: by mail-pg1-f180.google.com with SMTP id q9so13680876pgq.6
         for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Aug 2022 07:39:54 -0700 (PDT)
+ Wed, 31 Aug 2022 07:39:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc;
-        bh=tlj7AmkaM+g464Fm+ItOEGF7yG30upw9taYu18D7CmY=;
-        b=GsimiKHdSaZ/cYHs9d2AffocP+V+P69tUymzwhu/lZEYlw+2K2Ba4guy1idAMZ2lSB
-         rMr5htuo5NVIhUh/BYUotKaVZ6hIumdtw8lFhLaPD2bzSEUzyX8sgdMeNWniTOIyZTRm
-         0cG5N8Uj4nZGxdwkUdWkphaDTX4gpiHzQhRdArmm2ZXNQRRQJBzwUU78FOtAQGi1AYQU
-         9RYg9QvnAqOnFuxJQWsyEdFdgD1/vo33w6tWUjZBoDgVsokruUdiFWEQiDcjSsGyZp8m
-         A8pHEG9f6DE1S3+L7tkDY938qj1mXjKyDkCsDWtPWu8rTAU2KrLu3y3dVVFE9ezzZ6W2
-         lY+Q==
+        bh=Kp8MLmJSySZ68KXppb0KyAvyPBJCEI6UGBHfDTksxcM=;
+        b=HFQ0phU11OYSRM2WulKUh1uCuEH5SdDi1dciJXzIyoyLqXKQYtK4W/aLlrnKG1J8fE
+         nbC/2EcS4JNd3r8XUCogy8SqGa4S4hKepDO5XnBFMjLVSL5o9nv4Ht/gWXJ0KfIJTXDi
+         sWAa+0rf3mp+QqD+ekW+vqFDgTOCYZFu/T4NUhfOEW0darK2QAHfhMkCqhYcsvjpqdeu
+         6BfmDDASWiF/ahXhNkTfjzDPdXz/w3cYv8ftG2mfiVmnnc8sUEwWOffGJbK/+jWo6N66
+         6YNqVGdsCb99izp5zXTrfS7xz2vOZcam/4O3w21orf5GsEgGauiZZ7kQepek6PyhTyj4
+         qwhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=tlj7AmkaM+g464Fm+ItOEGF7yG30upw9taYu18D7CmY=;
-        b=xwhG5z/Ay6dHn2vv2s5CTf9mab+Pgx+BwtA6+vbOi4lFZu2UjH/C7IfZ9bpHwHRnb0
-         2sdVBgNUHw6kWS8DTzfkFzo+rGW90FDXrg3FL0YEdkpgbluAC8YhKwVNasHsDrCDNQUD
-         FqeN/ezqLe/Woyf2twXPMphUgnUb8feIJ45YCCZFjGLFZc9DYjx0Bkro0eSKfRuMAxDk
-         V/QiXJVN7kHRKO/+QPe01FB+knjyzz94Rc9lW6RWkraxyx5xoF/oEteVELvsCXKNKCaJ
-         vb62EP8bh/d+SpgaqAQwA7Nj/ijiLZ/XyqWJq5gl3JnH1yAg73m2Sn3HLkcX+w/CSAmg
-         ES0g==
-X-Gm-Message-State: ACgBeo0beN9/uIcZRSda3hRk2w5YTfV0PRuHPZutce36yhieh3vcK2wP
-	uq7r8LBlPQHGlHTKZ/K1o57pL9IYmQvTB85w
+        bh=Kp8MLmJSySZ68KXppb0KyAvyPBJCEI6UGBHfDTksxcM=;
+        b=KXBdhKUg4of3IXhhJCBiKhb7Xhvxj9vAxPwCiCyYb8R2lSnEsnoOhsNU6L9eWCfHDP
+         cxNF89+2x9sFTlsndZErXFcg4gxt4EHtLONxmX+hPrRzSgcDfSWu8cdfjn8TELiHSV6x
+         GX5gp+5oNFzSJ9+s1W65r6OWy/pyeYzPqrM6LTmHPFa0aN72SYzDKsfsw8c3uYH9j0C5
+         HT8f3mYZOCCVosnb4AXB6YpgpT79OFyDPnHNJ0MnZ7teS0tAlGoPzFlzQD+xuWTQ3PAz
+         eLrWCMtqjF4n/qkRMRiTiWlUnyMXFJw81WKuJ15D3ypyMNN1d7+f0EUrurRhwUEJoXOB
+         vu6g==
+X-Gm-Message-State: ACgBeo1ZPgqKR7X7R9wS1qzi87ZfFOLtR7zNGpxy6A5hS5G07SXCr4OV
+	q55HsOAEdtVZU6+f0r0YASKK2rA/iiiF99Y7
 X-Google-Smtp-Source: 
- AA6agR488Cjq3T3a/qXwQCNaydMWCLR9AOF8LksdZt7OpgCBEg2ySQtfWj6XYBOADBdy6B4ulm923Q==
-X-Received: by 2002:a17:902:bd49:b0:172:df88:8981 with SMTP id
- b9-20020a170902bd4900b00172df888981mr26129796plx.120.1661956793894;
-        Wed, 31 Aug 2022 07:39:53 -0700 (PDT)
+ AA6agR7AmJBQCG7RQZg3nZ4Z4b4s0t5Et+NSpU8xQAxJrxO6s8Iwn2rRYyb+15X9EnLXyXA6aEzkdg==
+X-Received: by 2002:a65:6e46:0:b0:42a:2c7e:4232 with SMTP id
+ be6-20020a656e46000000b0042a2c7e4232mr22403147pgb.611.1661956796209;
+        Wed, 31 Aug 2022 07:39:56 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- g5-20020a170902d1c500b00174d715cb76sm6070780plb.2.2022.08.31.07.39.52
+ g5-20020a170902d1c500b00174d715cb76sm6070780plb.2.2022.08.31.07.39.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Aug 2022 07:39:53 -0700 (PDT)
+        Wed, 31 Aug 2022 07:39:55 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 02/19] bind: upgrade 9.18.4 -> 9.18.5
-Date: Wed, 31 Aug 2022 04:39:22 -1000
+Subject: [OE-core][kirkstone 03/19] linux-yocto/5.15: update to v5.15.60
+Date: Wed, 31 Aug 2022 04:39:23 -1000
 Message-Id: 
- <75c4b8361ef2d3a39e192ed8318d1038a3ff0999.1661956484.git.steve@sakoman.com>
+ <9d8d44dc6cc882d45004711cebe6f47f0bba4ffd.1661956484.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1661956484.git.steve@sakoman.com>
 References: <cover.1661956484.git.steve@sakoman.com>
@@ -69,123 +69,151 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 31 Aug 2022 14:40:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170113
+ https://lists.openembedded.org/g/openembedded-core/message/170114
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-BIND 9.18 is a stable branch, suitable for production use.
+Updating  to the latest korg -stable release that comprises
+the following commits:
 
-Notes for BIND 9.18.5
+    7217df812798 Linux 5.15.60
+    5c5c77746ce1 x86/speculation: Add LFENCE to RSB fill sequence
+    7fcd99e889c0 x86/speculation: Add RSB VM Exit protections
+    c81d1bb58c88 macintosh/adb: fix oob read in do_adb_query() function
+    d98cf2b40c20 Bluetooth: btusb: Add Realtek RTL8852C support ID 0x13D3:0x3586
+    ee421ad8973b Bluetooth: btusb: Add Realtek RTL8852C support ID 0x13D3:0x3587
+    59689a843bc9 Bluetooth: btusb: Add Realtek RTL8852C support ID 0x0CB8:0xC558
+    b653eeaa8cf8 Bluetooth: btusb: Add Realtek RTL8852C support ID 0x04C5:0x1675
+    d4f921efb4bf Bluetooth: btusb: Add Realtek RTL8852C support ID 0x04CA:0x4007
+    04e3388eeb47 Bluetooth: btusb: Add support of IMC Networks PID 0x3568
+    6a5ec48fb752 dt-bindings: bluetooth: broadcom: Add BCM4349B1 DT binding
+    88e088e29487 Bluetooth: hci_bcm: Add DT compatible for CYW55572
+    2aa38f0af306 Bluetooth: hci_bcm: Add BCM4349B1 variant
+    37b385c78cd5 btrfs: zoned: fix critical section of relocation inode writeback
+    5e04c8bf42d8 btrfs: zoned: prevent allocation from previous data relocation BG
+    775871d4be0d arm64: set UXN on swapper page tables
+    a619a0312099 KVM: x86/svm: add __GFP_ACCOUNT to __sev_dbg_{en,de}crypt_user()
+    e423893fe320 selftests: KVM: Handle compiler optimizations in ucall
+    bc2cee443c74 tools/kvm_stat: fix display of error when multiple processes are found
+    9acd899d2feb KVM: selftests: Make hyperv_clock selftest more stable
+    ad6fd99d5feb KVM: x86: do not set st->preempted when going back to user space
+    92343314d34e KVM: x86: do not report a vCPU as preempted outside instruction boundaries
+    3d4c28475ee3 crypto: arm64/poly1305 - fix a read out-of-bound
+    397c2116cbe2 ACPI: APEI: Better fix to avoid spamming the console with old error logs
+    e7170bcda613 ACPI: video: Shortening quirk list by identifying Clevo by board_name only
+    3a5fab5c4505 ACPI: video: Force backlight native for some TongFang devices
+    9894717519cc tools/vm/slabinfo: Handle files in debugfs
+    7ad47f414b40 block: fix default IO priority handling again
+    e889a4c440eb selftests/bpf: Check dst_port only on the client socket
+    119debdb9f25 selftests/bpf: Extend verifier and bpf_sock tests for dst_port loads
+    df9692b8a319 x86/speculation: Make all RETbleed mitigations 64-bit only
 
-Feature Changes
-
-The dnssec-signzone -H default value has been changed to 0 additional NSEC3
-iterations. This change aligns the dnssec-signzone default with the default
-used by the dnssec-policy feature. At the same time, documentation about
-NSEC3 has been aligned with the Best Current Practice. [GL #3395]
-
-Bug Fixes
-
-- An assertion failure caused by a TCP connection closing between a connect
-(or accept) and a read from a socket has been fixed. [GL #3400]
-
-- When grafting non-delegated namespace onto delegated namespace,
-synth-from-dnssec could incorrectly synthesize non-existence of records
-within the non-delegated namespace using NSEC records from higher zones. [GL #3402]
-
-- Previously, named immediately returned a SERVFAIL response to the client
-when it received a FORMERR response from an authoritative server during
-recursive resolution. This has been fixed: named acting as a resolver
-now attempts to contact other authoritative servers for a given domain
-when it receives a FORMERR response from one of them. [GL #3152]
-
-- Previously, rndc reconfig did not pick up changes to endpoints statements
-in http blocks. This has been fixed. [GL #3415]
-
-- It was possible for a catalog zone consumer to process a catalog zone
-member zone when there was a configured pre-existing forward-only forward
-zone with the same name. This has been fixed. [GL #2506]
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0a419b730ca87daa4e07daf022a550fb4112b9b0)
+(cherry picked from commit 04d334d8881921a1a20407bc8428c7b9c9c80d2d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../0001-avoid-start-failure-with-bind-user.patch               | 0
- .../0001-named-lwresd-V-and-start-log-hide-build-options.patch  | 0
- .../bind-ensure-searching-for-json-headers-searches-sysr.patch  | 0
- .../bind/{bind-9.18.4 => bind-9.18.5}/bind9                     | 0
- .../bind/{bind-9.18.4 => bind-9.18.5}/conf.patch                | 0
- .../bind/{bind-9.18.4 => bind-9.18.5}/generate-rndc-key.sh      | 0
- .../init.d-add-support-for-read-only-rootfs.patch               | 0
- .../make-etc-initd-bind-stop-work.patch                         | 0
- .../bind/{bind-9.18.4 => bind-9.18.5}/named.service             | 0
- .../bind/{bind_9.18.4.bb => bind_9.18.5.bb}                     | 2 +-
- 10 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/0001-avoid-start-failure-with-bind-user.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/bind9 (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/conf.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/generate-rndc-key.sh (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/init.d-add-support-for-read-only-rootfs.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/make-etc-initd-bind-stop-work.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/named.service (100%)
- rename meta/recipes-connectivity/bind/{bind_9.18.4.bb => bind_9.18.5.bb} (97%)
+ .../linux/linux-yocto-rt_5.15.bb              |  6 ++---
+ .../linux/linux-yocto-tiny_5.15.bb            |  6 ++---
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb | 26 +++++++++----------
+ 3 files changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.4/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.18.5/0001-avoid-start-failure-with-bind-user.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.4/0001-avoid-start-failure-with-bind-user.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.5/0001-avoid-start-failure-with-bind-user.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.4/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.18.5/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.4/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.5/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.4/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.18.5/bind-ensure-searching-for-json-headers-searches-sysr.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.4/bind-ensure-searching-for-json-headers-searches-sysr.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.5/bind-ensure-searching-for-json-headers-searches-sysr.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.4/bind9 b/meta/recipes-connectivity/bind/bind-9.18.5/bind9
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.4/bind9
-rename to meta/recipes-connectivity/bind/bind-9.18.5/bind9
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.4/conf.patch b/meta/recipes-connectivity/bind/bind-9.18.5/conf.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.4/conf.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.5/conf.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.4/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.18.5/generate-rndc-key.sh
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.4/generate-rndc-key.sh
-rename to meta/recipes-connectivity/bind/bind-9.18.5/generate-rndc-key.sh
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.4/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.18.5/init.d-add-support-for-read-only-rootfs.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.4/init.d-add-support-for-read-only-rootfs.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.5/init.d-add-support-for-read-only-rootfs.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.4/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.18.5/make-etc-initd-bind-stop-work.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.4/make-etc-initd-bind-stop-work.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.5/make-etc-initd-bind-stop-work.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.4/named.service b/meta/recipes-connectivity/bind/bind-9.18.5/named.service
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.4/named.service
-rename to meta/recipes-connectivity/bind/bind-9.18.5/named.service
-diff --git a/meta/recipes-connectivity/bind/bind_9.18.4.bb b/meta/recipes-connectivity/bind/bind_9.18.5.bb
-similarity index 97%
-rename from meta/recipes-connectivity/bind/bind_9.18.4.bb
-rename to meta/recipes-connectivity/bind/bind_9.18.5.bb
-index c3efaffeda..28acecc507 100644
---- a/meta/recipes-connectivity/bind/bind_9.18.4.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.18.5.bb
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
-            "
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+index 32c7db2c74..86682d7e96 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
--SRC_URI[sha256sum] = "f277ae50159a00c300eb926a9c5d51953038a936bd8242d6913dfb6eac42761d"
-+SRC_URI[sha256sum] = "0cee078d74f0bdc4ec374435026b25de7892f26540a18b22a02ef728a11dcae7"
+-SRCREV_machine ?= "13ee019f28013cf8c102a3ffaadfa5e9ae9743e1"
+-SRCREV_meta ?= "f7f709bf874f85baff9f2fb0ac0341c08399b144"
++SRCREV_machine ?= "00e089be37ae8128e25ad76999a742d30c94a8b2"
++SRCREV_meta ?= "d9823ca27110545274f77718aefbd809c29947e6"
  
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # follow the ESV versions divisible by 2
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "5.15.59"
++LINUX_VERSION ?= "5.15.60"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+index 8eb138e78b..a5b499a239 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+@@ -5,7 +5,7 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "5.15.59"
++LINUX_VERSION ?= "5.15.60"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -14,8 +14,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "86c19d4c40f475e09a076d55391fa66d96a1b3ac"
+-SRCREV_meta ?= "f7f709bf874f85baff9f2fb0ac0341c08399b144"
++SRCREV_machine ?= "d340c7a79d7732c113a14bdaeafb8105518a7a1e"
++SRCREV_meta ?= "d9823ca27110545274f77718aefbd809c29947e6"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+index 083f87727b..e951416173 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+@@ -13,24 +13,24 @@ KBRANCH:qemux86  ?= "v5.15/standard/base"
+ KBRANCH:qemux86-64 ?= "v5.15/standard/base"
+ KBRANCH:qemumips64 ?= "v5.15/standard/mti-malta64"
+ 
+-SRCREV_machine:qemuarm ?= "c33f2e2ad3fdcc1c9539f80fb51b49f68c544c03"
+-SRCREV_machine:qemuarm64 ?= "e8a14fadeb24619f20d3caebc01c7f26c49f768a"
+-SRCREV_machine:qemumips ?= "c5f07eee39e4e03e90de3e71a3f6448fdb73921a"
+-SRCREV_machine:qemuppc ?= "b5873d3a40b837059a36179174863cb4c7f9e109"
+-SRCREV_machine:qemuriscv64 ?= "efe20512212b0e85b5f884b1bfc8fbba2b43541a"
+-SRCREV_machine:qemuriscv32 ?= "efe20512212b0e85b5f884b1bfc8fbba2b43541a"
+-SRCREV_machine:qemux86 ?= "efe20512212b0e85b5f884b1bfc8fbba2b43541a"
+-SRCREV_machine:qemux86-64 ?= "efe20512212b0e85b5f884b1bfc8fbba2b43541a"
+-SRCREV_machine:qemumips64 ?= "a6c0767511eed80395777e42d33fdc8405bff2b4"
+-SRCREV_machine ?= "efe20512212b0e85b5f884b1bfc8fbba2b43541a"
+-SRCREV_meta ?= "f7f709bf874f85baff9f2fb0ac0341c08399b144"
++SRCREV_machine:qemuarm ?= "4f44e132a6125375e0df478c554d7cdd2d9d2eef"
++SRCREV_machine:qemuarm64 ?= "a22cdb03286227fd857bf7fa2b300450731b5beb"
++SRCREV_machine:qemumips ?= "ec404ea5806c491da140012bc7e5079dd2de611d"
++SRCREV_machine:qemuppc ?= "5c3013acab557c83baede63b4cf0d93fb166910e"
++SRCREV_machine:qemuriscv64 ?= "f832b2c67939eecf666126dcde686c50c3e8d358"
++SRCREV_machine:qemuriscv32 ?= "f832b2c67939eecf666126dcde686c50c3e8d358"
++SRCREV_machine:qemux86 ?= "f832b2c67939eecf666126dcde686c50c3e8d358"
++SRCREV_machine:qemux86-64 ?= "f832b2c67939eecf666126dcde686c50c3e8d358"
++SRCREV_machine:qemumips64 ?= "08ee7b823201d23f7fac7177fc3f00ce61e981bf"
++SRCREV_machine ?= "f832b2c67939eecf666126dcde686c50c3e8d358"
++SRCREV_meta ?= "d9823ca27110545274f77718aefbd809c29947e6"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
+ # meta SRCREV as the linux-yocto-standard builds. Select your version using the
+ # normal PREFERRED_VERSION settings.
+ BBCLASSEXTEND = "devupstream:target"
+-SRCREV_machine:class-devupstream ?= "d676d6149a2f4b4d66b8ea0a1dfef30a54cf5750"
++SRCREV_machine:class-devupstream ?= "7217df81279835a7aee62a07aabb7b8fb8c766f2"
+ PN:class-devupstream = "linux-yocto-upstream"
+ KBRANCH:class-devupstream = "v5.15/base"
+ 
+@@ -38,7 +38,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+-LINUX_VERSION ?= "5.15.59"
++LINUX_VERSION ?= "5.15.60"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
 -- 
 2.25.1
 
