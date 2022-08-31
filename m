@@ -2,159 +2,181 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1968ECAAD4
-	for <webhook@archiver.kernel.org>; Wed, 31 Aug 2022 14:31:31 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
- [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web10.26524.1661956290846749157
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D64C2ECAAD4
+	for <webhook@archiver.kernel.org>; Wed, 31 Aug 2022 14:39:51 +0000 (UTC)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
+ [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web11.26490.1661956790667691809
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Aug 2022 07:31:31 -0700
+ Wed, 31 Aug 2022 07:39:50 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=v7hCeDOC;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52,
+ header.b=1Ju/36Ad;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.53,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id
- z3-20020a17090abd8300b001fd803e34f1so12629492pjr.1
+Received: by mail-pj1-f53.google.com with SMTP id
+ i7-20020a17090adc0700b001fd7ccbec3cso3796927pjv.0
         for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Aug 2022 07:31:30 -0700 (PDT)
+ Wed, 31 Aug 2022 07:39:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc;
-        bh=BeohpZ++w086fQywYWg/YB3DvzxlUFGi0odcYvQEDvA=;
-        b=v7hCeDOCIM+C2t6Dfi16qV97XnQjxesbKwb681GTzaYB1zDyW8clczPvlzq3UYnPiI
-         SFM2Y2+4MlAgPfoLsdiBDkbJVJmEZjj7HV7rNnC1BiLadvdUmmDQxcWjHVdoCCgHC43G
-         kQvzwHMiZFZjQfVpFv37iwqAMbVxkGZ93FOMw5apTNsZtpyue+mNbt5laumk+lujNQpU
-         CT8og5U4ETCyHl/pU9ZWYYC/2obyHZctMZRaRWK5KMWrPGFsuSrUzwTqDQ4BSYRGaOc3
-         PrLDhAz41W64C+m4SbvwW6tecmj3S9P9S+yZX7M68p9RZC01b4G27BsRnDH1qxThBEz+
-         RWrQ==
+        bh=TWSeMzBC9JT3GgcIK7h+OSu/a7CTyYfNs4xcWncoUXE=;
+        b=1Ju/36AdGbvZx2p6dSstydtDd7F/JIs8Tt3XHou/PHJ4qCA2M/PPaxTRxeNexV65uI
+         4wKf8h/UdH+TLa509XMWterYMUrTYHlqosasKimrXz/Mtxr2zDIXiXIWOrmLLdTcRC60
+         Y/VJksX3byv7ZJ+YRqg0vmEbAOFXSHv8OG+B8al88YFZvJiRAXe0knM59lnmsJEzbSLl
+         xuMuaTenpUJJlxuQQSOK9978rRguSdk9fhYOz6DaxnmyNZ5pSvsh6UhH380Il90h+cBH
+         3/v5NsyZUxmt+IOAaFZg2ZjvqXHLwEC8vQFwzOrueDlu2ZdswQK4nTJujnen0mEBpv+H
+         jLsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc;
-        bh=BeohpZ++w086fQywYWg/YB3DvzxlUFGi0odcYvQEDvA=;
-        b=4EPZObDbhELO/Egh0fFKULMeM7bLFjX9bQoqKuQSn6Oj28ji4sUGFZBwpbI5KHi8HW
-         ekQJY9L8cRhtw3iNcCVfKDROVmmqHFzfKlUuLoXnm4z/kE//1RhkVNU1hnOsm42YGCV4
-         N8WhsGtm4EapPlbfKPBAlWoUGeh65AfRqnOaJq18D+rahsuRuhInM12i1axv7XDw7Uzw
-         WVhgDnxUtp21cUG6dDSu/WZf9n9/x/Cyo9fLnyd/i7vcEkcnxUhwdnZherXq+HoIe5fJ
-         1XYIl5aoaxrc/G5mIEor01wKmoTSpEpDRK98N6janwuGhSYDRX6CJuoM0mPduEyCrsOv
-         wj7g==
-X-Gm-Message-State: ACgBeo1MravXe+hiWVWyyLdQRqcFlmySB/9AmwbEYGnGefJPHnQr4cfC
-	mvI+SzCURhtMqiqaRHom+TPvBIlQnmO+/hEP
+        bh=TWSeMzBC9JT3GgcIK7h+OSu/a7CTyYfNs4xcWncoUXE=;
+        b=lOpdXg+kOnp+6S1cCUMYQIBd1eU8V/ydxojx99EQ0WfN9FSOpK1QAU0FgDm4teFiud
+         v02HRC4OJ1+fYkKZKRP4j4AsGvSafwZcdAz2jVlVaI9HRFlBbJZ5wFxdZmKpiLrIGYQV
+         cutiTvjCex0qQYXQVBPpyLCx+D6KeyfxGUNV7jHd00UjII0S5Ffo04KoAj69EpSNHitj
+         pQdWDRgEN2Ccc65O6equsNpryzI43WdKkNtWYAd6MCbLEZiyNdOCmv9K1lWOWsbC6/9C
+         rvynttfvKQdTpxCll1vEddj7YbfMZKCsweD748UbmBkANefvmg9SzoarwmEMKfY50cn2
+         6D9w==
+X-Gm-Message-State: ACgBeo2Ff48Jwb3+Gga3J9j6jJD+JF4BRAXEUajqO+ayQ+Bgo9skUerv
+	Jg5+M7bmjx8BhfjG69B9Agrsr7tEoKBiCjMY
 X-Google-Smtp-Source: 
- AA6agR6xn/h+nsIpQhLIziUzGivPfaVSw3SLunMFQQ+XsH7OIJpdk5VDF9FTWSCK3fpyMtHqVtIxJA==
-X-Received: by 2002:a17:90b:1b48:b0:1f4:f4e5:c189 with SMTP id
- nv8-20020a17090b1b4800b001f4f4e5c189mr3463830pjb.226.1661956289585;
-        Wed, 31 Aug 2022 07:31:29 -0700 (PDT)
+ AA6agR4afykrdG8triPQnsid9GsPMDTBVL/qNo0/vM974j6pdz9gvEyv24ziZW9J8eoIBxCYur8IGQ==
+X-Received: by 2002:a17:902:d48d:b0:175:3554:bb6b with SMTP id
+ c13-20020a170902d48d00b001753554bb6bmr5811529plg.22.1661956789363;
+        Wed, 31 Aug 2022 07:39:49 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- z62-20020a623341000000b0053670204aeasm11235077pfz.161.2022.08.31.07.31.28
+ g5-20020a170902d1c500b00174d715cb76sm6070780plb.2.2022.08.31.07.39.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Aug 2022 07:31:28 -0700 (PDT)
+        Wed, 31 Aug 2022 07:39:48 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/23] Pull request (cover letter only)
-Date: Wed, 31 Aug 2022 04:31:13 -1000
-Message-Id: <cover.1661956217.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 00/19] Patch review
+Date: Wed, 31 Aug 2022 04:39:20 -1000
+Message-Id: <cover.1661956484.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 31 Aug 2022 14:31:31 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 31 Aug 2022 14:39:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170110
+ https://lists.openembedded.org/g/openembedded-core/message/170111
 
-The following changes since commit 54ee67b1a805a07288925d56e9956aabc23b6ab2:
+Please review this set of patches for kirkstone and have comments back by end
+of day Friday.
 
-  vim: Upgrade 9.0.0115 -> 9.0.0242 (2022-08-28 07:52:25 +0100)
+Passed a-full on autobuilder:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4160
+
+with the exception of an autobuilder NAS timeout on qemux86-world which
+passed on subsequent retest:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/3450
+
+The following changes since commit 92f122e0c1a7589bec3b628474548aad7fe159b4:
+
+  wic: depend on cross-binutils (2022-08-31 04:16:07 -1000)
 
 are available in the Git repository at:
 
-  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
+  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
 
-Alexander Kanavin (10):
-  tzdata: upgrade 2022a -> 2022b
-  xz: update 5.2.5 -> 5.2.6
-  gdk-pixbuf: upgrade 2.42.6 -> 2.42.8
-  gdk-pixbuf: update 2.42.8 -> 2.42.9
-  epiphany: upgrade 42.3 -> 42.4
-  glib-networking: upgrade 2.72.1 -> 2.72.2
-  libjpeg-turbo: upgrade 2.1.3 -> 2.1.4
-  libwebp: upgrade 1.2.3 -> 1.2.4
-  wireless-regdb: upgrade 2022.06.06 -> 2022.08.12
-  wpebackend-fdo: upgrade 1.12.0 -> 1.12.1
+Alexander Kanavin (1):
+  bind: upgrade 9.18.4 -> 9.18.5
 
-Awais Belal (1):
-  kernel-fitimage.bbclass: only package unique DTBs
+Andrei Gherzan (4):
+  linux-yocto: Fix COMPATIBLE_MACHINE regex match
+  shadow: Enable subid support
+  rootfspostcommands.py: Cleanup subid backup files generated by
+    shadow-utils
+  shadow: Avoid nss warning/error with musl
 
-Bertrand Marquis (1):
-  sysvinit-inittab/start_getty: Fix respawn too fast
+Bruce Ashfield (4):
+  linux-yocto/5.15: update to v5.15.60
+  linux-yocto/5.15: update to v5.15.62
+  linux-yocto/5.10: update to v5.10.136
+  linux-yocto/5.10: update to v5.10.137
 
-Hitendra Prajapati (1):
-  Revert "gdk-pixbuf: CVE-2021-46829 a heap-based buffer overflow"
+Khem Raj (5):
+  xinetd: Pass missing -D_GNU_SOURCE
+  watchdog: Include needed system header for function decls
+  pinentry: enable _XOPEN_SOURCE on musl for wchar usage in curses
+  apr: Use correct strerror_r implementation based on libc type
+  gcr: Define _GNU_SOURCE
 
-Jon Mason (1):
-  oeqa/parselogs: add qemuarmv5 arm-charlcd masking
+Mateusz Marciniec (1):
+  util-linux: Remove --enable-raw from EXTRA_OECONF
 
 Pavel Zhukov (1):
-  package_rpm: Do not replace square brackets in %files
+  parselogs: Ignore xf86OpenConsole error
 
-Ross Burton (7):
-  oeqa/qemurunner: add run_serial() comment
-  oeqa/selftest: rename git.py to intercept.py
-  oeqa/gotoolchain: put writable files in the Go module cache
-  oeqa/gotoolchain: set CGO_ENABLED=1
-  wic: add target tools to PATH when executing native commands
-  wic/bootimg-efi: use cross objcopy when building unified kernel image
-  wic: depend on cross-binutils
+Ross Burton (1):
+  libxml2: wrap xmllint to use the correct XML catalogues
 
-Shubham Kulkarni (1):
-  sanity: add a comment to ensure CONNECTIVITY_CHECK_URIS is correct
+Steve Sakoman (1):
+  lttng-modules: fix build for kernel 5.10.137
 
- meta/classes/image_types_wic.bbclass          |  2 +
- meta/classes/kernel-fitimage.bbclass          |  8 ++
- meta/classes/package_rpm.bbclass              |  6 --
- meta/classes/sanity.bbclass                   |  1 +
+ghassaneben (1):
+  sqlite: fix CVE-2022-35737
+
  meta/lib/oeqa/runtime/cases/parselogs.py      |  1 +
- meta/lib/oeqa/selftest/cases/gotoolchain.py   |  8 +-
- .../selftest/cases/{git.py => intercept.py}   |  0
- .../oeqa/selftest/cases/oelib/buildhistory.py |  6 +-
- meta/lib/oeqa/utils/qemurunner.py             |  2 +
- ...ng_2.72.1.bb => glib-networking_2.72.2.bb} |  2 +-
- meta/recipes-core/meta/wic-tools.bb           |  3 +-
- .../sysvinit/sysvinit-inittab/start_getty     |  3 +
- meta/recipes-extended/timezone/timezone.inc   |  6 +-
- .../xz/xz/CVE-2022-1271.patch                 | 96 -------------------
- .../xz/{xz_5.2.5.bb => xz_5.2.6.bb}           |  7 +-
- .../{epiphany_42.3.bb => epiphany_42.4.bb}    |  2 +-
- .../0001-Add-use_prebuilt_tools-option.patch  | 18 ++--
- .../gdk-pixbuf/CVE-2021-46829.patch           | 61 ------------
- .../gdk-pixbuf/gdk-pixbuf/fatal-loader.patch  | 20 ++--
- ...-pixbuf_2.42.6.bb => gdk-pixbuf_2.42.9.bb} | 19 ++--
- ...-turbo_2.1.3.bb => libjpeg-turbo_2.1.4.bb} |  2 +-
- ....06.06.bb => wireless-regdb_2022.08.12.bb} |  2 +-
- .../{libwebp_1.2.3.bb => libwebp_1.2.4.bb}    |  2 +-
- ...fdo_1.12.0.bb => wpebackend-fdo_1.12.1.bb} |  2 +-
- scripts/lib/wic/misc.py                       |  7 +-
- scripts/lib/wic/plugins/source/bootimg-efi.py | 25 +++--
- 26 files changed, 82 insertions(+), 229 deletions(-)
- rename meta/lib/oeqa/selftest/cases/{git.py => intercept.py} (100%)
- rename meta/recipes-core/glib-networking/{glib-networking_2.72.1.bb => glib-networking_2.72.2.bb} (93%)
- delete mode 100644 meta/recipes-extended/xz/xz/CVE-2022-1271.patch
- rename meta/recipes-extended/xz/{xz_5.2.5.bb => xz_5.2.6.bb} (88%)
- rename meta/recipes-gnome/epiphany/{epiphany_42.3.bb => epiphany_42.4.bb} (94%)
- delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-46829.patch
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.42.6.bb => gdk-pixbuf_2.42.9.bb} (87%)
- rename meta/recipes-graphics/jpeg/{libjpeg-turbo_2.1.3.bb => libjpeg-turbo_2.1.4.bb} (97%)
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2022.06.06.bb => wireless-regdb_2022.08.12.bb} (94%)
- rename meta/recipes-multimedia/webp/{libwebp_1.2.3.bb => libwebp_1.2.4.bb} (95%)
- rename meta/recipes-sato/webkit/{wpebackend-fdo_1.12.0.bb => wpebackend-fdo_1.12.1.bb} (90%)
+ meta/lib/rootfspostcommands.py                |  7 ++
+ ...1-avoid-start-failure-with-bind-user.patch |  0
+ ...d-V-and-start-log-hide-build-options.patch |  0
+ ...ching-for-json-headers-searches-sysr.patch |  0
+ .../bind/{bind-9.18.4 => bind-9.18.5}/bind9   |  0
+ .../{bind-9.18.4 => bind-9.18.5}/conf.patch   |  0
+ .../generate-rndc-key.sh                      |  0
+ ...t.d-add-support-for-read-only-rootfs.patch |  0
+ .../make-etc-initd-bind-stop-work.patch       |  0
+ .../named.service                             |  0
+ .../bind/{bind_9.18.4.bb => bind_9.18.5.bb}   |  2 +-
+ meta/recipes-core/libxml/libxml2_2.9.14.bb    |  2 +
+ .../util-linux/util-linux_2.37.4.bb           |  2 +-
+ ...f-message-when-not-in-place-eg.-musl.patch | 27 ++++++
+ meta/recipes-extended/shadow/shadow.inc       |  9 ++
+ ...guard-sys-quota.h-sys-swap.h-and-sys.patch | 37 ++++++++
+ .../watchdog/watchdog_5.16.bb                 |  1 +
+ .../xinetd/xinetd_2.3.15.4.bb                 |  2 +
+ meta/recipes-gnome/gcr/gcr_3.40.0.bb          |  2 +
+ meta/recipes-kernel/linux/linux-yocto-dev.bb  |  2 +-
+ .../linux/linux-yocto-rt_5.10.bb              |  8 +-
+ .../linux/linux-yocto-rt_5.15.bb              |  8 +-
+ .../linux/linux-yocto-tiny_5.10.bb            | 10 +-
+ .../linux/linux-yocto-tiny_5.15.bb            |  8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 26 +++---
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb | 28 +++---
+ ...djust-range-v5.10.137-in-block-probe.patch | 92 +++++++++++++++++++
+ .../lttng/lttng-modules_2.13.4.bb             |  1 +
+ ...CHE_CHECK-for-strerror_r-return-type.patch | 52 +++++++++++
+ meta/recipes-support/apr/apr_1.7.0.bb         |  4 +
+ .../pinentry/pinentry_1.2.0.bb                |  3 +
+ ...riables-in-the-printf-implementation.patch | 26 ++++++
+ 33 files changed, 313 insertions(+), 47 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/0001-avoid-start-failure-with-bind-user.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/bind9 (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/conf.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/generate-rndc-key.sh (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/init.d-add-support-for-read-only-rootfs.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/make-etc-initd-bind-stop-work.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/named.service (100%)
+ rename meta/recipes-connectivity/bind/{bind_9.18.4.bb => bind_9.18.5.bb} (97%)
+ create mode 100644 meta/recipes-extended/shadow/files/0001-Drop-nsswitch.conf-message-when-not-in-place-eg.-musl.patch
+ create mode 100644 meta/recipes-extended/watchdog/watchdog/0001-shutdown-Do-not-guard-sys-quota.h-sys-swap.h-and-sys.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-adjust-range-v5.10.137-in-block-probe.patch
+ create mode 100644 meta/recipes-support/apr/apr/0001-add-AC_CACHE_CHECK-for-strerror_r-return-type.patch
+ create mode 100644 meta/recipes-support/sqlite/files/0001-sqlite-Increased-the-size-of-loop-variables-in-the-printf-implementation.patch
 
 -- 
 2.25.1
