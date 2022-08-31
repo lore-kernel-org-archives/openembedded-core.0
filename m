@@ -1,94 +1,185 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B88ECECAAD1
-	for <webhook@archiver.kernel.org>; Wed, 31 Aug 2022 11:10:30 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.24188.1661944225493905288
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6652ECAAD1
+	for <webhook@archiver.kernel.org>; Wed, 31 Aug 2022 11:12:00 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web12.24145.1661944317127555356
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Aug 2022 04:10:25 -0700
+ Wed, 31 Aug 2022 04:11:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YMf9dCDD;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id u18so5113499wrq.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eEWL5DpZ;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id k9so17826970wri.0
         for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Aug 2022 04:10:25 -0700 (PDT)
+ Wed, 31 Aug 2022 04:11:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc;
-        bh=zpH2Y78mCFS4OcbIAzFDhGz0qJidbIRkyyQ46Hruk1U=;
-        b=YMf9dCDD85xLYQTjwp7q7o0NZ8ESCutJD8QVnFktEXmWdNOUr4Q1FKRpZ7tGoQfzsC
-         snKtivWE7pyz8mHRZFimPFCPUJX/POhROxuy9F2qVtDYC6ESMlhj9i5yIVt4JL1nVMxt
-         5sHAl87KYv1FOno9ZO0bbCPrYfURtntgMIvd0=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=qwNZSulCcv+rk4VKJYrNnXt4/WL+ZC0auOLoStKPm4E=;
+        b=eEWL5DpZCtVue06JIFywstTIPvpX7zBbmg+ijNZC8ujhIvz21+B1zZxweEDVzMsuPp
+         faRcRiCySWhlmTPExaL4/L8rqoLNLk37KAS7Fn9iDI/FZGtcYUPQpVrBy8z8bv8X9Qqt
+         FxeW/FARHQy15s/43XLPjb/dHfLuJpr9wkWVBRaVlxqV+1R7aF9F3CRAExpGsACWY0R8
+         Ygqj0eFBY1hqeVv4YTW10XMBZaK/umoUDyYvaN3OMSlDSBIqfu31IxYYgoKUfoT9n9yw
+         3N4X0io8wC6CeCODP7N69CGIcX6PgzWBflo/QSL2MMIAbnuRja/j8dEy34GPhw+Pf2uJ
+         xzzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc;
-        bh=zpH2Y78mCFS4OcbIAzFDhGz0qJidbIRkyyQ46Hruk1U=;
-        b=M9RCbcv6epAxgwR11VsKlInR3uO/z6vISsnbK9/A3ZtNxQ9KJCJhnHxRcGoqqm7zmh
-         5I9we5WuuVxoJQk1qtuZFu1O7y3i0OkrwU/jjzKqR7ee4wFx2PMeJpn+5vIB87EOOUPb
-         SWg6zpjLN6/vaHCpBTndXZxycW6pgqIqWHJXOzYJgdOfT3jbvYXT5o7Exc4bPSTNSiBp
-         anHtBeUk+XfRYyeGMs+pUjGQaIujgCBONFZXHgiJfM7Wof+zqu2b884fdJ/n+zBJtvyU
-         VMIgXGr11bljoTbqhArnyBDSFQuBlpi13u1079ZSGIPvocmjk3xgLR0zpb9B+vMroErd
-         9lPA==
-X-Gm-Message-State: ACgBeo1x/IxRspubKxHnllA8G1IuGjqPfoerQ1eTZ0eHjv/jZTvKYn37
-	gm7REO2Qltga3VumfBD2Tzh1TuMBVpdBhQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=qwNZSulCcv+rk4VKJYrNnXt4/WL+ZC0auOLoStKPm4E=;
+        b=U1xqPoMgE6ROKFyFpQkl+Wo7EQB0elxT805y9CjyPwFaDvVDqa9XYiDVjRHupX914V
+         Id6CeOMfZTmzyZ0yUCVk1TwoMO77Ebnz+i39LzGABfFOyRwFASKKdMLkO2vyvDvXw0El
+         NNL/2/YSV9A4yN0m3BA8qKYrjDFTpr17EfYjjMeYsMVxbJkLkvXU8rJekmPYdnvz0NAI
+         wqcKRIn1r6rsq5SxvJ7AKRF0MSH64uQ7ioljGdj5OVhz3OdqRvkJXapFuDFpXlc6NpwO
+         6Yk4CxBrF0KALT/O6sLlChfvi9f2Fqyu7AiOs3enDrvGnmMPWeQdJUfDW4IUKbNpJqli
+         /ezA==
+X-Gm-Message-State: ACgBeo2y7Rm/4gnli2EKMbNBDuAbng2I2GvsxcmTQqZtTy1uApWMyXSm
+	hLEo+a+7b37loX1JI7v7wcXE5muv8B8=
 X-Google-Smtp-Source: 
- AA6agR5STq6nko4DmaaimNc67+5rgQZY6Fca+V+VsQLYIzHbnyoHZHtdV29H875KdPMEONGwdUjBuw==
-X-Received: by 2002:adf:e549:0:b0:226:cf45:a6ae with SMTP id
- z9-20020adfe549000000b00226cf45a6aemr11680238wrm.290.1661944223297;
-        Wed, 31 Aug 2022 04:10:23 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:e8fb:7413:92ab:6224])
+ AA6agR461eg3uXhUwbgoIYpi9wpNMM+pX+icjMBPzEcB6gwM7SfNcUbOcvQsuNHx049dtlioO12Nxg==
+X-Received: by 2002:a05:6000:682:b0:226:e78d:2d7a with SMTP id
+ bo2-20020a056000068200b00226e78d2d7amr3151664wrb.103.1661944315408;
+        Wed, 31 Aug 2022 04:11:55 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
+ [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- v15-20020adfe28f000000b002255eebf785sm12266878wri.89.2022.08.31.04.10.22
-        for <openembedded-core@lists.openembedded.org>
+ m4-20020a05600c4f4400b003a5c999cd1asm2173848wmq.14.2022.08.31.04.11.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Aug 2022 04:10:22 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Wed, 31 Aug 2022 04:11:54 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] pseudo: Update to include recent upstream minor fixes
-Date: Wed, 31 Aug 2022 12:10:22 +0100
-Message-Id: <20220831111022.164429-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] meta/conf: move default configuration templates into
+ meta/conf/templates/default
+Date: Wed, 31 Aug 2022 13:11:49 +0200
+Message-Id: <20220831111149.3330156-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 31 Aug 2022 11:10:30 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 31 Aug 2022 11:12:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170099
+ https://lists.openembedded.org/g/openembedded-core/message/170100
 
-Pull in some minor fixes:
+This sets the ground for standardizing (and enforcing) the location of
+configuration templates: let's start with the default one.
 
- pseudo_util: Silence symlink errors and fix resolution bug
- ports/linux: Remove build dependency on libattr
- Minor build fixes
- pseudo_util: Fix resolving relative paths from "/"
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .templateconf                                               | 2 +-
+ meta/classes-global/sanity.bbclass                          | 6 +++---
+ meta/conf/{ => templates/default}/bblayers.conf.sample      | 0
+ meta/conf/{ => templates/default}/conf-notes.txt            | 0
+ meta/conf/{ => templates/default}/local.conf.sample         | 0
+ .../conf/{ => templates/default}/local.conf.sample.extended | 0
+ meta/conf/{ => templates/default}/site.conf.sample          | 0
+ scripts/oe-setup-builddir                                   | 6 +++---
+ 8 files changed, 7 insertions(+), 7 deletions(-)
+ rename meta/conf/{ => templates/default}/bblayers.conf.sample (100%)
+ rename meta/conf/{ => templates/default}/conf-notes.txt (100%)
+ rename meta/conf/{ => templates/default}/local.conf.sample (100%)
+ rename meta/conf/{ => templates/default}/local.conf.sample.extended (100%)
+ rename meta/conf/{ => templates/default}/site.conf.sample (100%)
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index e7ef6a730c2..c34580b4ff9 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -13,7 +13,7 @@ SRC_URI:append:class-nativesdk = " \
-     file://older-glibc-symbols.patch"
- SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
+diff --git a/.templateconf b/.templateconf
+index 0bf5ecf1e5..e399e06acd 100644
+--- a/.templateconf
++++ b/.templateconf
+@@ -1,2 +1,2 @@
+ # Template settings
+-TEMPLATECONF=${TEMPLATECONF:-meta/conf}
++TEMPLATECONF=${TEMPLATECONF:-meta/conf/templates/default}
+diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
+index 4a403a2590..75c453d486 100644
+--- a/meta/classes-global/sanity.bbclass
++++ b/meta/classes-global/sanity.bbclass
+@@ -42,7 +42,7 @@ BBLAYERS_CONF_UPDATE_FUNCS += " \
  
--SRCREV = "2b4b88eb513335b0ece55fe51854693d9b20de35"
-+SRCREV = "c9670c27ff67ab899007ce749254b16091577e55"
- S = "${WORKDIR}/git"
- PV = "1.9.0+git${SRCPV}"
+ SANITY_DIFF_TOOL ?= "meld"
  
+-SANITY_LOCALCONF_SAMPLE ?= "${COREBASE}/meta*/conf/local.conf.sample"
++SANITY_LOCALCONF_SAMPLE ?= "${COREBASE}/meta*/conf/templates/default/local.conf.sample"
+ python oecore_update_localconf() {
+     # Check we are using a valid local.conf
+     current_conf  = d.getVar('CONF_VERSION')
+@@ -62,7 +62,7 @@ is a good way to visualise the changes."""
+     raise NotImplementedError(failmsg)
+ }
+ 
+-SANITY_SITECONF_SAMPLE ?= "${COREBASE}/meta*/conf/site.conf.sample"
++SANITY_SITECONF_SAMPLE ?= "${COREBASE}/meta*/conf/templates/default/site.conf.sample"
+ python oecore_update_siteconf() {
+     # If we have a site.conf, check it's valid
+     current_sconf = d.getVar('SCONF_VERSION')
+@@ -82,7 +82,7 @@ is a good way to visualise the changes."""
+     raise NotImplementedError(failmsg)
+ }
+ 
+-SANITY_BBLAYERCONF_SAMPLE ?= "${COREBASE}/meta*/conf/bblayers.conf.sample"
++SANITY_BBLAYERCONF_SAMPLE ?= "${COREBASE}/meta*/conf/templates/default/bblayers.conf.sample"
+ python oecore_update_bblayers() {
+     # bblayers.conf is out of date, so see if we can resolve that
+ 
+diff --git a/meta/conf/bblayers.conf.sample b/meta/conf/templates/default/bblayers.conf.sample
+similarity index 100%
+rename from meta/conf/bblayers.conf.sample
+rename to meta/conf/templates/default/bblayers.conf.sample
+diff --git a/meta/conf/conf-notes.txt b/meta/conf/templates/default/conf-notes.txt
+similarity index 100%
+rename from meta/conf/conf-notes.txt
+rename to meta/conf/templates/default/conf-notes.txt
+diff --git a/meta/conf/local.conf.sample b/meta/conf/templates/default/local.conf.sample
+similarity index 100%
+rename from meta/conf/local.conf.sample
+rename to meta/conf/templates/default/local.conf.sample
+diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/templates/default/local.conf.sample.extended
+similarity index 100%
+rename from meta/conf/local.conf.sample.extended
+rename to meta/conf/templates/default/local.conf.sample.extended
+diff --git a/meta/conf/site.conf.sample b/meta/conf/templates/default/site.conf.sample
+similarity index 100%
+rename from meta/conf/site.conf.sample
+rename to meta/conf/templates/default/site.conf.sample
+diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
+index 5d644168cb..975619789a 100755
+--- a/scripts/oe-setup-builddir
++++ b/scripts/oe-setup-builddir
+@@ -69,7 +69,7 @@ fi
+ 
+ unset SHOWYPDOC
+ if [ -z "$OECORELOCALCONF" ]; then
+-    OECORELOCALCONF="$OEROOT/meta/conf/local.conf.sample"
++    OECORELOCALCONF="$OEROOT/meta/conf/templates/default/local.conf.sample"
+ fi
+ if [ ! -r "$BUILDDIR/conf/local.conf" ]; then
+     cat <<EOM
+@@ -85,7 +85,7 @@ EOM
+ fi
+ 
+ if [ -z "$OECORELAYERCONF" ]; then
+-    OECORELAYERCONF="$OEROOT/meta/conf/bblayers.conf.sample"
++    OECORELAYERCONF="$OEROOT/meta/conf/templates/default/bblayers.conf.sample"
+ fi
+ if [ ! -r "$BUILDDIR/conf/bblayers.conf" ]; then
+     cat <<EOM
+@@ -125,7 +125,7 @@ EOM
+ fi
+ 
+ if [ -z "$OECORENOTESCONF" ]; then
+-    OECORENOTESCONF="$OEROOT/meta/conf/conf-notes.txt"
++    OECORENOTESCONF="$OEROOT/meta/conf/templates/default/conf-notes.txt"
+ fi
+ [ ! -r "$OECORENOTESCONF" ] || cat "$OECORENOTESCONF"
+ unset OECORENOTESCONF
 -- 
-2.34.1
+2.30.2
 
 
