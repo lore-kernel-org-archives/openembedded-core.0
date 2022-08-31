@@ -2,182 +2,120 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D64C2ECAAD4
-	for <webhook@archiver.kernel.org>; Wed, 31 Aug 2022 14:39:51 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web11.26490.1661956790667691809
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9D32ECAAD4
+	for <webhook@archiver.kernel.org>; Wed, 31 Aug 2022 14:40:01 +0000 (UTC)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
+ [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web10.26640.1661956793022348865
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Aug 2022 07:39:50 -0700
+ Wed, 31 Aug 2022 07:39:53 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=1Ju/36Ad;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.53,
+ header.b=cqF0snJ+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f53.google.com with SMTP id
- i7-20020a17090adc0700b001fd7ccbec3cso3796927pjv.0
+Received: by mail-pf1-f180.google.com with SMTP id z187so14591018pfb.12
         for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Aug 2022 07:39:50 -0700 (PDT)
+ Wed, 31 Aug 2022 07:39:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc;
-        bh=TWSeMzBC9JT3GgcIK7h+OSu/a7CTyYfNs4xcWncoUXE=;
-        b=1Ju/36AdGbvZx2p6dSstydtDd7F/JIs8Tt3XHou/PHJ4qCA2M/PPaxTRxeNexV65uI
-         4wKf8h/UdH+TLa509XMWterYMUrTYHlqosasKimrXz/Mtxr2zDIXiXIWOrmLLdTcRC60
-         Y/VJksX3byv7ZJ+YRqg0vmEbAOFXSHv8OG+B8al88YFZvJiRAXe0knM59lnmsJEzbSLl
-         xuMuaTenpUJJlxuQQSOK9978rRguSdk9fhYOz6DaxnmyNZ5pSvsh6UhH380Il90h+cBH
-         3/v5NsyZUxmt+IOAaFZg2ZjvqXHLwEC8vQFwzOrueDlu2ZdswQK4nTJujnen0mEBpv+H
-         jLsw==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc;
+        bh=UOJWFudqQ7Q0e8gggH22I4ULiXzRfjlcjm3uij+B8jM=;
+        b=cqF0snJ+Ao9cifYrfS65HipL2BRVu07Vn+kM/m0SpfXo/+PGPiJOPevhh2136GqY12
+         qZrXwMv9LvwsUJYm+oT/1mXAIYxF7mBQJzFznnw/0Z1qLQwC3msgB1AzNDjBx067tVNb
+         2LRz+WqFQFKF0Tz2RkyvJNcV8TZ+tOredqcveG+meNIDBH/DrQekqp7JeuR3sUVDVuv8
+         LqC4n0rHizP55wN4LJcX2OqmwYzuWSTv0nTM2lolglTBHrvFrG3PU3gJajjvyBr+4pNj
+         nj3jRBa5N7Sa4W1QIclW19xcSj4rq1v61dctrX+XpZDSyneUTpyYyP3Ng8wondIdg7nA
+         8x7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc;
-        bh=TWSeMzBC9JT3GgcIK7h+OSu/a7CTyYfNs4xcWncoUXE=;
-        b=lOpdXg+kOnp+6S1cCUMYQIBd1eU8V/ydxojx99EQ0WfN9FSOpK1QAU0FgDm4teFiud
-         v02HRC4OJ1+fYkKZKRP4j4AsGvSafwZcdAz2jVlVaI9HRFlBbJZ5wFxdZmKpiLrIGYQV
-         cutiTvjCex0qQYXQVBPpyLCx+D6KeyfxGUNV7jHd00UjII0S5Ffo04KoAj69EpSNHitj
-         pQdWDRgEN2Ccc65O6equsNpryzI43WdKkNtWYAd6MCbLEZiyNdOCmv9K1lWOWsbC6/9C
-         rvynttfvKQdTpxCll1vEddj7YbfMZKCsweD748UbmBkANefvmg9SzoarwmEMKfY50cn2
-         6D9w==
-X-Gm-Message-State: ACgBeo2Ff48Jwb3+Gga3J9j6jJD+JF4BRAXEUajqO+ayQ+Bgo9skUerv
-	Jg5+M7bmjx8BhfjG69B9Agrsr7tEoKBiCjMY
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
+        bh=UOJWFudqQ7Q0e8gggH22I4ULiXzRfjlcjm3uij+B8jM=;
+        b=0O9s2qFE+IttXNhGE2rLcFrj/2MzVX9+DPx3P/5bep+KTLnv9721az9ERcnX57worr
+         mc8VBEaE+MMIo8pGoaPBt1Fd/A5Gua+dCbJtau+WcbO6k/EeVLf5KWSgjb2ynGJXYB8Y
+         lnxrL70tdTeOeQMijBwh6eIUBvE+70l7N7+eE4n/Zh4tcbytjfkOJAbAXJOY0h3wM212
+         eqtERShMFUyIO5/xgPSAQK6mUQMP8fLf53SXsMv1et8dwaWi2fxF2Pe8WXUoP8WQxKYT
+         l9p7scPUfWtN901EK1/PFDYaT7w4ASmOIgH8Egmry9wdHz8+yoFNsFigzQTdaKx0bMti
+         LadQ==
+X-Gm-Message-State: ACgBeo2JB4IMva8f7fKYoJuPgNjG8Ex9/oV5tu36WyJkDYfdoPeYWsU0
+	4mwSlSHt12cK4yfc7KossP8B7Os+8MghN2ii
 X-Google-Smtp-Source: 
- AA6agR4afykrdG8triPQnsid9GsPMDTBVL/qNo0/vM974j6pdz9gvEyv24ziZW9J8eoIBxCYur8IGQ==
-X-Received: by 2002:a17:902:d48d:b0:175:3554:bb6b with SMTP id
- c13-20020a170902d48d00b001753554bb6bmr5811529plg.22.1661956789363;
-        Wed, 31 Aug 2022 07:39:49 -0700 (PDT)
+ AA6agR7SIwd+5Wc+IKCQ/56WYNBSkoE+hQKq0Ttc0vC5GhqndjplWFC+mW4ShIaaIRYDaGAauN55uQ==
+X-Received: by 2002:a63:eb46:0:b0:42c:4d35:1c8 with SMTP id
+ b6-20020a63eb46000000b0042c4d3501c8mr10306571pgk.459.1661956791835;
+        Wed, 31 Aug 2022 07:39:51 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- g5-20020a170902d1c500b00174d715cb76sm6070780plb.2.2022.08.31.07.39.48
+ g5-20020a170902d1c500b00174d715cb76sm6070780plb.2.2022.08.31.07.39.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Aug 2022 07:39:48 -0700 (PDT)
+        Wed, 31 Aug 2022 07:39:51 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/19] Patch review
-Date: Wed, 31 Aug 2022 04:39:20 -1000
-Message-Id: <cover.1661956484.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 01/19] sqlite: fix CVE-2022-35737
+Date: Wed, 31 Aug 2022 04:39:21 -1000
+Message-Id: 
+ <fdc82b2314b580c0135c16b7278ebf8786311dec.1661956484.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1661956484.git.steve@sakoman.com>
+References: <cover.1661956484.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 31 Aug 2022 14:39:51 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 31 Aug 2022 14:40:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170111
+ https://lists.openembedded.org/g/openembedded-core/message/170112
 
-Please review this set of patches for kirkstone and have comments back by end
-of day Friday.
+From: ghassaneben <ghassanebb@gmail.com>
 
-Passed a-full on autobuilder:
+Increase the size of loop variables in the printf() implementation to avoid integer overflow on multi-gigabyte string arguments. CVE-2022-35737.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4160
+This bug fix refers to: CVE-2022-35737 and it's a backport of a fix added in sqlite 3.39.2 (2022-07-21).
 
-with the exception of an autobuilder NAS timeout on qemux86-world which
-passed on subsequent retest:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/3450
-
-The following changes since commit 92f122e0c1a7589bec3b628474548aad7fe159b4:
-
-  wic: depend on cross-binutils (2022-08-31 04:16:07 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Alexander Kanavin (1):
-  bind: upgrade 9.18.4 -> 9.18.5
-
-Andrei Gherzan (4):
-  linux-yocto: Fix COMPATIBLE_MACHINE regex match
-  shadow: Enable subid support
-  rootfspostcommands.py: Cleanup subid backup files generated by
-    shadow-utils
-  shadow: Avoid nss warning/error with musl
-
-Bruce Ashfield (4):
-  linux-yocto/5.15: update to v5.15.60
-  linux-yocto/5.15: update to v5.15.62
-  linux-yocto/5.10: update to v5.10.136
-  linux-yocto/5.10: update to v5.10.137
-
-Khem Raj (5):
-  xinetd: Pass missing -D_GNU_SOURCE
-  watchdog: Include needed system header for function decls
-  pinentry: enable _XOPEN_SOURCE on musl for wchar usage in curses
-  apr: Use correct strerror_r implementation based on libc type
-  gcr: Define _GNU_SOURCE
-
-Mateusz Marciniec (1):
-  util-linux: Remove --enable-raw from EXTRA_OECONF
-
-Pavel Zhukov (1):
-  parselogs: Ignore xf86OpenConsole error
-
-Ross Burton (1):
-  libxml2: wrap xmllint to use the correct XML catalogues
-
-Steve Sakoman (1):
-  lttng-modules: fix build for kernel 5.10.137
-
-ghassaneben (1):
-  sqlite: fix CVE-2022-35737
-
- meta/lib/oeqa/runtime/cases/parselogs.py      |  1 +
- meta/lib/rootfspostcommands.py                |  7 ++
- ...1-avoid-start-failure-with-bind-user.patch |  0
- ...d-V-and-start-log-hide-build-options.patch |  0
- ...ching-for-json-headers-searches-sysr.patch |  0
- .../bind/{bind-9.18.4 => bind-9.18.5}/bind9   |  0
- .../{bind-9.18.4 => bind-9.18.5}/conf.patch   |  0
- .../generate-rndc-key.sh                      |  0
- ...t.d-add-support-for-read-only-rootfs.patch |  0
- .../make-etc-initd-bind-stop-work.patch       |  0
- .../named.service                             |  0
- .../bind/{bind_9.18.4.bb => bind_9.18.5.bb}   |  2 +-
- meta/recipes-core/libxml/libxml2_2.9.14.bb    |  2 +
- .../util-linux/util-linux_2.37.4.bb           |  2 +-
- ...f-message-when-not-in-place-eg.-musl.patch | 27 ++++++
- meta/recipes-extended/shadow/shadow.inc       |  9 ++
- ...guard-sys-quota.h-sys-swap.h-and-sys.patch | 37 ++++++++
- .../watchdog/watchdog_5.16.bb                 |  1 +
- .../xinetd/xinetd_2.3.15.4.bb                 |  2 +
- meta/recipes-gnome/gcr/gcr_3.40.0.bb          |  2 +
- meta/recipes-kernel/linux/linux-yocto-dev.bb  |  2 +-
- .../linux/linux-yocto-rt_5.10.bb              |  8 +-
- .../linux/linux-yocto-rt_5.15.bb              |  8 +-
- .../linux/linux-yocto-tiny_5.10.bb            | 10 +-
- .../linux/linux-yocto-tiny_5.15.bb            |  8 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb | 26 +++---
- meta/recipes-kernel/linux/linux-yocto_5.15.bb | 28 +++---
- ...djust-range-v5.10.137-in-block-probe.patch | 92 +++++++++++++++++++
- .../lttng/lttng-modules_2.13.4.bb             |  1 +
- ...CHE_CHECK-for-strerror_r-return-type.patch | 52 +++++++++++
- meta/recipes-support/apr/apr_1.7.0.bb         |  4 +
- .../pinentry/pinentry_1.2.0.bb                |  3 +
- ...riables-in-the-printf-implementation.patch | 26 ++++++
- 33 files changed, 313 insertions(+), 47 deletions(-)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/0001-avoid-start-failure-with-bind-user.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/bind9 (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/conf.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/generate-rndc-key.sh (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/init.d-add-support-for-read-only-rootfs.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/make-etc-initd-bind-stop-work.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/named.service (100%)
- rename meta/recipes-connectivity/bind/{bind_9.18.4.bb => bind_9.18.5.bb} (97%)
- create mode 100644 meta/recipes-extended/shadow/files/0001-Drop-nsswitch.conf-message-when-not-in-place-eg.-musl.patch
- create mode 100644 meta/recipes-extended/watchdog/watchdog/0001-shutdown-Do-not-guard-sys-quota.h-sys-swap.h-and-sys.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-adjust-range-v5.10.137-in-block-probe.patch
- create mode 100644 meta/recipes-support/apr/apr/0001-add-AC_CACHE_CHECK-for-strerror_r-return-type.patch
+Signed-off-by: Ghassane Ben El Aattar <ghassaneb.aattar@huawei.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ ...riables-in-the-printf-implementation.patch | 26 +++++++++++++++++++
+ 1 file changed, 26 insertions(+)
  create mode 100644 meta/recipes-support/sqlite/files/0001-sqlite-Increased-the-size-of-loop-variables-in-the-printf-implementation.patch
 
+diff --git a/meta/recipes-support/sqlite/files/0001-sqlite-Increased-the-size-of-loop-variables-in-the-printf-implementation.patch b/meta/recipes-support/sqlite/files/0001-sqlite-Increased-the-size-of-loop-variables-in-the-printf-implementation.patch
+new file mode 100644
+index 0000000000..9e8f039ef6
+--- /dev/null
++++ b/meta/recipes-support/sqlite/files/0001-sqlite-Increased-the-size-of-loop-variables-in-the-printf-implementation.patch
+@@ -0,0 +1,26 @@
++From ec75530b8d8268cb07d8e476d79e1b0e59492fa2 Mon Sep 17 00:00:00 2001
++From: drh
++Date: Thu, 18 Aug 2022 15:10:46 +0200
++Subject: [PATCH] sqlite: Increase the size of loop variables in the printf() implementation
++
++Increase the size of loop variables in the printf() implementation to avoid integer overflow on multi-gigabyte string arguments. CVE-2022-35737.
++
++This bug fix refers to: CVE-2022-35737 and it's a backport of a fix added in sqlite 3.39.2 (2022-07-21).
++
++Signed-off-by: Ghassane Ben El Aattar ghassaneb.aattar@huawei.com
++
++CVE: CVE-2022-35737
++
++Upstream-Status: Backport [https://www.sqlite.org/src/info/aab790a16e1bdff7]
++---
++ sqlite3.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/sqlite3.c b/sqlite3.c
++index f867d62..490199a 100644
++--- a/sqlite3.c
+++++ b/sqlite3.c
++@@ -30234,1 +30234,2 @@ static int vxprintf(
++-        int i, j, k, n, isnull;
+++        i64  i, j, k, n;
+++        int isnull;
 -- 
 2.25.1
 
