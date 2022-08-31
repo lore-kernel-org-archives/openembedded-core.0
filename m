@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C92CFC54EE9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFC11C0502C
 	for <webhook@archiver.kernel.org>; Wed, 31 Aug 2022 14:40:21 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
- [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web09.26487.1661956814516212220
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+ [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web09.26484.1661956812267696694
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Aug 2022 07:40:14 -0700
+ Wed, 31 Aug 2022 07:40:12 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=c3IrN2eW;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.171,
+ header.b=ozjKuJtK;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.182,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f171.google.com with SMTP id x80so10101085pgx.0
+Received: by mail-pf1-f182.google.com with SMTP id p185so14596518pfb.13
         for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Aug 2022 07:40:14 -0700 (PDT)
+ Wed, 31 Aug 2022 07:40:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc;
-        bh=U8IEDpwD15L01v58Lx3zRRecdDdF16USzb8D0wrRqdc=;
-        b=c3IrN2eWnYSpA3kCwcZ6DHp5cVnCEbSBZM/P40ufWAT26mpOKsFF+oNN86resl+HR3
-         2WQ/aFXkA5852IxM0pLy4ctY8DgSecr/pXN6wMx73KJNZU9HNi08iPmM4ZBDMJu593fl
-         MHiGpl6k1Z+LyZ7NBX6EsLpv+cpQhkTeVvJOGarK0OJX134IvsVMWzaiP4rLaVYr6Sl3
-         U/Rhp6VBzmjuB4hMEEgYtaZ45LgWE/2NzkjEvM3cV6H+qyRHe3vs89E5e6Y+UfB08PO/
-         nwt0UqdiDKexT1LhpNnNd/qpL/0jktsDN0DEfQcICh14JyxcH+cW/K+wjd/00jksbQDE
-         x3rw==
+        bh=MinV2oaxQgpeKhixzvo7fwNRrurKqPR7g4QeYclSnHY=;
+        b=ozjKuJtKXX/0HfWqUOrt5+IgbCQ3bjjYfFIUJORV14fs4EvPEHgweN1CJ9zXE3smq/
+         jdxgwFtgBhJMJgVZy7txrs4skrrCw84DXAyVJm7rDjUIVPBy4Q5l8fop6OhCcv/V5UrS
+         OtriIEexkZPPvdbqS1fG7j+VaUfFTSc7RHE9O90KBbzkeUkS1ySaCYVbyfifgf5MSdSK
+         52cCTDBq+BOmqfRRDa2A1tt0sujmIDGhT5u80IdPKNZgPYr3qGP4twYZ4FkVt+AJCSiC
+         AlT4CcAIclu9B24fTG4r4vKOV3jVMO8JYv0DanUnADK95ds9jLxitFdJW8R4L345H//M
+         TkNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=U8IEDpwD15L01v58Lx3zRRecdDdF16USzb8D0wrRqdc=;
-        b=QNP11sj3OA/gKzU8QgOzMXS4OWIGTi47RsfgE3GMTFoUxHLxQOKeCvRj9/JOHX3ySu
-         0ZM4HqyVWFue+HPZ095HwIa/srbi6QGEt8WDzJOP6kJTbzFDpNIuGD6umzzBVo2ZzPvB
-         fO3Rii/O+JKh6ZA6Ipz0WVWBJlxiyBLcDHi7NlzQfmuGv6o4lIx11VGYT+d4c79T++nZ
-         Ap2FJJQPJtCS2lloV2SeCheshoWwtOU7i5DdimA9kLk7s2rnHlvcJuyTt41StjRrFcuR
-         dzZ9i1xxyYFkQZEc0d5UtycyGORtls/3Bg7rQuoa5D+44c9vAX0FmEdj3gLYqoCBCvP5
-         O9Bg==
-X-Gm-Message-State: ACgBeo0GcS8LTfJx4wR7YWTBlYSZZrsO5zDZ1h88tci2LvlK5zO5CEnp
-	Rp/OUvvzkC73R4Ys3wKnJVL4Ua0x9aZcPn8e
+        bh=MinV2oaxQgpeKhixzvo7fwNRrurKqPR7g4QeYclSnHY=;
+        b=c/rpWyOgLgS6t/gRWmtK1dIhqTTH+eXEbHJ27ueK5HHYFFG9V8ppFJu92y8KdGFDXj
+         WJRGm0ywss6mOPOJmC12Lgh1nwgvuP9G74VRbWAsKEu8WFYUup1Z1HvRp6BmhrHlyA3S
+         ttfDqM9UFfJfTdPsLXR7cCT4QsdDaSwLXNSgj67UMz/yPcBQZM8hhmkEhTtU5MV80DTp
+         AgdvYkDVG4EUr+Ilt5GxISTuzEucc8tyQJT6+oCjWWF2rsGA2mPll8Hrr9GuIwlCAqEo
+         orrKpk8Q0XVQjZ3c6wxZfnLz0CNybt/+8aJHDcTRAb0baP5YNYKuRoogWVrfwj/9lVxA
+         oFag==
+X-Gm-Message-State: ACgBeo00Nwvi7l6+Ri5hEJJKiAnRqJMBdAomwDw+sT1Uf5QcnSnlj297
+	6rWWyUlJ7Rd1SrPrN4yeaE0Y4egJCdWeRxYl
 X-Google-Smtp-Source: 
- AA6agR76yPQj73gmi5X84OvfynJknL01uAbVBKUOk3AWCg9Ln9X63MRSnm9Jp++iFy2ZKfg4+o+ltw==
-X-Received: by 2002:a05:6a00:174b:b0:52f:c4d1:d130 with SMTP id
- j11-20020a056a00174b00b0052fc4d1d130mr26114473pfc.23.1661956813530;
-        Wed, 31 Aug 2022 07:40:13 -0700 (PDT)
+ AA6agR4sEaT/slkDYy5VUeyeIIBymym8O8R3kBNjeJK7aqqikGc7zyWF4kK452g0HTtCgh3LqykEEQ==
+X-Received: by 2002:a65:6491:0:b0:42a:c39a:e58e with SMTP id
+ e17-20020a656491000000b0042ac39ae58emr21929116pgv.68.1661956811390;
+        Wed, 31 Aug 2022 07:40:11 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- g5-20020a170902d1c500b00174d715cb76sm6070780plb.2.2022.08.31.07.40.12
+ g5-20020a170902d1c500b00174d715cb76sm6070780plb.2.2022.08.31.07.40.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Aug 2022 07:40:12 -0700 (PDT)
+        Wed, 31 Aug 2022 07:40:10 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 10/19] rootfspostcommands.py: Cleanup subid
- backup files generated by shadow-utils
-Date: Wed, 31 Aug 2022 04:39:30 -1000
+Subject: [OE-core][kirkstone 09/19] shadow: Enable subid support
+Date: Wed, 31 Aug 2022 04:39:29 -1000
 Message-Id: 
- <84b2e9a6c17278cbcc08020aa78759004a7b60bf.1661956484.git.steve@sakoman.com>
+ <5cdc9c1809ef169b8af7ce3085f316d1e68eb7ec.1661956484.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1661956484.git.steve@sakoman.com>
 References: <cover.1661956484.git.steve@sakoman.com>
@@ -70,38 +69,38 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 31 Aug 2022 14:40:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170121
+ https://lists.openembedded.org/g/openembedded-core/message/170120
 
 From: Andrei Gherzan <andrei.gherzan@huawei.com>
 
-When creating users, shadow-utils might create backup files for
-subordinate ID files (subid, subgid). Make sure we clean them up
-similarly to the other backup files shadow-utils creates.
-
-This is a backport from master that brings in only the cleanup of the
-subid backup files without the code restructure.
+shadow utils are used when creating users at image creation time. The
+useradd/usermod tools will only try to add a default configuration for
+subid files if they exist.
 
 Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/rootfspostcommands.py | 7 +++++++
+ meta/recipes-extended/shadow/shadow.inc | 7 +++++++
  1 file changed, 7 insertions(+)
 
-diff --git a/meta/lib/rootfspostcommands.py b/meta/lib/rootfspostcommands.py
-index fdb9f5b850..12f66d2ce2 100644
---- a/meta/lib/rootfspostcommands.py
-+++ b/meta/lib/rootfspostcommands.py
-@@ -58,3 +58,10 @@ def sort_passwd(sysconfdir):
-             remove_backup(filename)
-             if os.path.exists(filename):
-                  sort_file(filename, mapping)
-+    # Drop other known backup shadow-utils.
-+    for filename in (
-+            'subgid',
-+            'subuid',
-+        ):
-+        filepath = os.path.join(sysconfdir, filename)
-+        remove_backup(filepath)
+diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+index f5fdf436f7..b3ae2b4874 100644
+--- a/meta/recipes-extended/shadow/shadow.inc
++++ b/meta/recipes-extended/shadow/shadow.inc
+@@ -149,6 +149,13 @@ do_install:append() {
+ 	# Handle link properly after rename, otherwise missing files would
+ 	# lead rpm failed dependencies.
+ 	ln -sf newgrp.${BPN} ${D}${bindir}/sg
++
++	# usermod requires the subuid/subgid files to be in place before being
++	# able to use the -v/-V flags otherwise it fails:
++	# usermod: /etc/subuid does not exist, you cannot use the flags -v or -V
++	install -d ${D}${sysconfdir}
++	touch ${D}${sysconfdir}/subuid
++	touch ${D}${sysconfdir}/subgid
+ }
+ 
+ PACKAGES =+ "${PN}-base"
 -- 
 2.25.1
 
