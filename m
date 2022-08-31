@@ -2,213 +2,82 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D911EC64991
-	for <webhook@archiver.kernel.org>; Wed, 31 Aug 2022 11:14:20 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web12.24175.1661944453176482679
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3C8CECAAD4
+	for <webhook@archiver.kernel.org>; Wed, 31 Aug 2022 11:17:10 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web12.24200.1661944625117877054
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Aug 2022 04:14:13 -0700
+ Wed, 31 Aug 2022 04:17:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QV/aBa28;
- spf=pass (domain: gmail.com, ip: 209.85.128.49,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=HbD6k+/t;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id k17so7182309wmr.2
+Received: by mail-lf1-f47.google.com with SMTP id q7so19454856lfu.5
         for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Aug 2022 04:14:12 -0700 (PDT)
+ Wed, 31 Aug 2022 04:17:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=oZSvd3uJQVS03oevdB0iJXaforqWH3cNpyDTcl0aEzQ=;
-        b=QV/aBa28rwHcN1AyvQM67ZDm/ON+eJvJETxxzcOoOEfoMUahi6OaS7uEsKwgR2lYLO
-         AmFngtX4fVkNandgl7Fw9u/tBlQ/TgrqnradnOJq2ilCs54Be3Vxd1ihQH4I2uMi9Kdl
-         Dz/da0Q7eR6IuE8pSCVajHuD6FgEUpIcyELhX/QPYtbMPHQFIT97ggwjz79D+uPL/hSf
-         AJOTMfXH8U+9gH7+nJOfnEYgaAbnoj02TLNR3cMSOWnpCTyThw3T2UUZh2MwB9d2zpie
-         c+MSkdpWg8d/zgZtoV4Aw0coESfof4WKk9JwX8GqxKQzIiyML5VzMIxWVt2bGktLfyIN
-         0skQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=MG0Zs++MyRxvC0zqxgU8oCRRFF9NtpS4WF8+G176G+k=;
+        b=HbD6k+/tNplfynEWPJdl0GgcoqD6O4fbKvxwS2Ze9H7RMwW85Cc/HAGEjwXi7zHrCt
+         X+H9oSu2UwG0FB7llXAVUsk5JH0lE1b/RPirwJadJ1yPk6z4r74RrxaaL2MbFtKrzq8f
+         kfBPc/YWKKj2b8Gv0l3tVhZ25lYyyLPPFgONOicav0YevZ7etVuRO4K5RzL9pQzl/5GQ
+         cO4wZW1g4jYp3UNqURlO5RraOYfI1znzVlUJFOBByHOgNSqtEkX5MlL83MFELIgNMj/5
+         CN9AnHJSQ7FKbTk5OstCWaHLkdUCr+wAHMn+i+5AjewcvbIzb4pymxMaZyTee8nHWGWC
+         0weQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=oZSvd3uJQVS03oevdB0iJXaforqWH3cNpyDTcl0aEzQ=;
-        b=buo5cBGGXe7odb2AUg4JHw+GBfzNs+S1jpQC19vGSsIBEhTZwvCNQI+judblUFVc7B
-         d7QGCKKBWwcRHbgSNmH/vT0a2NQ785e1uq21n+C8a/QzeAfXgruMLw9MUnlhSW8L4bFG
-         MFfjeRjisRof5+zVbU1SUqrLisElnE9c/VYrUgDyEyM1ac1tXVtgEL/JAnBaICiFP88p
-         3L7A8FOYSSkTQd4B7Y8q0qoiDWc0en+2zFhbaGxNniD5Un7S/YkBSup4xLPsGUN4kcxI
-         YpFrtbMLJzKXYuQN/yP1pD9D5LNXdmBQyeh++DfjRWKxgtoalyHUp9azIfFGxfOrmM9x
-         E2Bg==
-X-Gm-Message-State: ACgBeo3nUd75knaQPXIoStTrDuQGRZ3yh4fQknbun7KyzasSQGUMeNKF
-	NZRN4sKZ/tb+nrLTtFlE4L7f5RHrnd4=
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=MG0Zs++MyRxvC0zqxgU8oCRRFF9NtpS4WF8+G176G+k=;
+        b=c6kmCibXXxJ9wGfqD76Rysf9k6pR8VCfw0wYIbzhLWKPhuA0GPjgWcrylB4bJ/fy7s
+         exDbrkBIhBLiDskEhIRsuDYuoAsTn9jmx/w46Jjoez2AQXR5c3vW8TrTpy8e6NlOdZ2O
+         spbIfe7p3MpK9PT5lBrS8UWBUXP9N6oUUWe0ONNa5epsY3F2BtlbOS3R5RpWBKYTOFsp
+         I4GLSx9ixA4Ab2oTo8M52K0QHwTH3HXj93idXm7mioxH7bi+bR71AgW52BV7mf7jfpSU
+         JBsU5BMU/XmvC7ziiVFTQJSl88FOi7fGBdt8O0j/QX9EgyVfGJypzz5+R74tE+bOCpzV
+         wXug==
+X-Gm-Message-State: ACgBeo3QGKPWCJPjcqKTqz+ha8efoDDjdEt5sIY1QMxVVtRZUStj6UdL
+	HctPfG6l5y5BJWH8p7quC/Gm1U5BRx3z4DhqoQM=
 X-Google-Smtp-Source: 
- AA6agR6qbnLCH4Kws20gFgsqzErlOX4d+7L5WaDaSiNAF3ULD+KzNJhbmMocLNkkLxUMzBkynQTvyA==
-X-Received: by 2002:a05:600c:206:b0:3a5:abe9:8a91 with SMTP id
- 6-20020a05600c020600b003a5abe98a91mr1664372wmi.155.1661944451622;
-        Wed, 31 Aug 2022 04:14:11 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
- [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id
- bi19-20020a05600c3d9300b003a60edc3a44sm2324753wmb.5.2022.08.31.04.14.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Aug 2022 04:14:10 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 2/7] bitbake-layers: add a command to save the active build
- configuration as a template into a layer
-Date: Wed, 31 Aug 2022 13:13:56 +0200
-Message-Id: <20220831111401.3330342-2-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220831111401.3330342-1-alex@linutronix.de>
-References: <20220831111401.3330342-1-alex@linutronix.de>
+ AA6agR6aAH/ctkRjb6yh3kXsTeyf8APJnpklSXELP6iRwlayx8BmeJ07EsPS26gZDi26audRAC422MtSGeUXpPS/8q0=
+X-Received: by 2002:a05:6512:2511:b0:493:50c:ec3 with SMTP id
+ be17-20020a056512251100b00493050c0ec3mr8840481lfb.665.1661944623227; Wed, 31
+ Aug 2022 04:17:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <003301d8bc7f$c2feb310$48fc1930$@gmail.com>
+ <CANNYZj-NE9s+b9Yny9+5q6MFGY3fT5RpWX76Sx6p-yFRGty1tw@mail.gmail.com>
+ <1792b01731d2412c53740470ba7521b68c6a3973.camel@linuxfoundation.org>
+In-Reply-To: 
+ <1792b01731d2412c53740470ba7521b68c6a3973.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 31 Aug 2022 13:16:51 +0200
+Message-ID: 
+ <CANNYZj8pr9cnMeR71mPQ=TZVx+zL7WBBC4D7dZLcm+XMzmaqDg@mail.gmail.com>
+Subject: Re: [OE-core] Yocto Project Status 30 August 2022 (WW35)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Stephen Jolley <sjolley.yp.pm@gmail.com>,
+	Yocto-mailing-list <yocto@lists.yoctoproject.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 31 Aug 2022 11:14:20 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 31 Aug 2022 11:17:10 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170102
+ https://lists.openembedded.org/g/openembedded-core/message/170108
 
-This is the reverse of setting up a build by pointing TEMPLATECONF to a directory
-with a template and running '. oe-init-build-env': this takes the config files from build/conf,
-replaces site-specific paths in bblayers.conf with ##OECORE##-relative paths, and copies
-the config files into a specified layer under a specified template name.
+On Tue, 30 Aug 2022 at 22:40, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> I think I may be lagging a little behind on status. I did see a lot of
+> confusion about the patches and I know they didn't make the last
+> testing cut. Hopefully they'll be in the next patch.
 
-In many or perhaps most cases such static prefabricated configurations (that require no
-further editing) are just enough, and I believe they should be offered by the
-official configuration management. On the other hand, generating build configurations with a
-sufficiently versatile tool is a far more complex problem, and one we should try to tackle
-once we see where and how static configs fall short.
+I just resent the complete patchset (across three mailing lists -
+this/bitbake/poky). It's a bit tricky for testers working from
+poky-contrib, as they need a poky based set, but this is for
+individual repos and master-next.
 
-Tooling to discover and select these templates when setting up a build will be provided later on.
-
-How to use:
-
-alex@Zen2:/srv/work/alex/poky/build-layersetup$ bitbake-layers save-build-conf ../../meta-alex/ test-1
-NOTE: Starting bitbake server...
-NOTE: Configuration template placed into /srv/work/alex/meta-alex/conf/templates/test-1
-Please review the files in there, and particularly provide a configuration description in /srv/work/alex/meta-alex/conf/templates/test-1/conf-notes.txt
-You can try out the configuration with
-TEMPLATECONF=/srv/work/alex/meta-alex/conf/templates/test-1 . /srv/work/alex/poky/oe-init-build-env build-try-test-1
-alex@Zen2:/srv/work/alex/poky/build-layersetup$
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/lib/bblayers/buildconf.py           | 85 ++++++++++++++++++++++++
- meta/lib/oeqa/selftest/cases/bblayers.py |  5 ++
- 2 files changed, 90 insertions(+)
- create mode 100644 meta/lib/bblayers/buildconf.py
-
-diff --git a/meta/lib/bblayers/buildconf.py b/meta/lib/bblayers/buildconf.py
-new file mode 100644
-index 0000000000..e07fc534e1
---- /dev/null
-+++ b/meta/lib/bblayers/buildconf.py
-@@ -0,0 +1,85 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+
-+import logging
-+import os
-+import stat
-+import sys
-+import shutil
-+import json
-+
-+import bb.utils
-+import bb.process
-+
-+from bblayers.common import LayerPlugin
-+
-+logger = logging.getLogger('bitbake-layers')
-+
-+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-+
-+import oe.buildcfg
-+
-+def plugin_init(plugins):
-+    return BuildConfPlugin()
-+
-+class BuildConfPlugin(LayerPlugin):
-+    notes_fixme = """FIXME: Please place here the description of this build configuration.
-+It will be shown to the users when they set up their builds via TEMPLATECONF.
-+"""
-+
-+    def _save_conf(self, templatename, templatepath, oecorepath, relpaths_to_oecore):
-+        confdir = os.path.join(os.environ["BBPATH"], "conf")
-+        destdir = os.path.join(templatepath, "conf", "templates", templatename)
-+        os.makedirs(destdir, exist_ok=True)
-+
-+        with open(os.path.join(confdir, "local.conf")) as src:
-+            with open(os.path.join(destdir, "local.conf.sample"), 'w') as dest:
-+                dest.write(src.read())
-+
-+        with open(os.path.join(confdir, "bblayers.conf")) as src:
-+            with open(os.path.join(destdir, "bblayers.conf.sample"), 'w') as dest:
-+                bblayers_data = src.read()
-+
-+                for (abspath, relpath) in relpaths_to_oecore:
-+                    bblayers_data = bblayers_data.replace(abspath, "##OEROOT##/" + relpath)
-+                dest.write(bblayers_data)
-+
-+        with open(os.path.join(destdir, "conf-notes.txt"), 'w') as dest:
-+            dest.write(self.notes_fixme)
-+
-+        logger.info("""Configuration template placed into {}
-+Please review the files in there, and particularly provide a configuration description in {}
-+You can try out the configuration with
-+TEMPLATECONF={} . {}/oe-init-build-env build-try-{}"""
-+.format(destdir, os.path.join(destdir, "conf-notes.txt"), destdir, oecorepath, templatename))
-+
-+    def do_save_build_conf(self, args):
-+        """ Save the currently active build configuration (conf/local.conf, conf/bblayers.conf) as a template into a layer.\n This template can later be used for setting up builds via TEMPLATECONF. """
-+        repos = {}
-+        layers = oe.buildcfg.get_layer_revisions(self.tinfoil.config_data)
-+        targetlayer = None
-+        oecore = None
-+
-+        for l in layers:
-+            if l[0] == os.path.abspath(args.layerpath):
-+                targetlayer = l[0]
-+            if l[1] == 'meta':
-+                oecore = os.path.dirname(l[0])
-+
-+        if not targetlayer:
-+            logger.error("Layer {} not in one of the currently enabled layers:\n{}".format(args.layerpath, "\n".join([l[0] for l in layers])))
-+        elif not oecore:
-+            logger.error("Openembedded-core not in one of the currently enabled layers:\n{}".format("\n".join([l[0] for l in layers])))
-+        else:
-+            relpaths_to_oecore = [(l[0], os.path.relpath(l[0], start=oecore)) for l in layers]
-+            self._save_conf(args.templatename, targetlayer, oecore, relpaths_to_oecore)
-+
-+    def register_commands(self, sp):
-+        parser_build_conf = self.add_command(sp, 'save-build-conf', self.do_save_build_conf, parserecipes=False)
-+        parser_build_conf.add_argument('layerpath',
-+            help='The path to the layer where the configuration template should be saved.')
-+        parser_build_conf.add_argument('templatename',
-+            help='The name of the configuration template.')
-diff --git a/meta/lib/oeqa/selftest/cases/bblayers.py b/meta/lib/oeqa/selftest/cases/bblayers.py
-index 494fa892a3..549abe7d10 100644
---- a/meta/lib/oeqa/selftest/cases/bblayers.py
-+++ b/meta/lib/oeqa/selftest/cases/bblayers.py
-@@ -113,6 +113,11 @@ class BitbakeLayers(OESelftestTestCase):
- 
-         self.assertEqual(bb_vars['BBFILE_PRIORITY_%s' % layername], str(priority), 'BBFILE_PRIORITY_%s != %d' % (layername, priority))
- 
-+        result = runCmd('bitbake-layers save-build-conf {} {}'.format(layerpath, "buildconf-1"))
-+        for f in ('local.conf.sample', 'bblayers.conf.sample', 'conf-notes.txt'):
-+            fullpath = os.path.join(layerpath, "conf", "templates", "buildconf-1", f)
-+            self.assertTrue(os.path.exists(fullpath), "Template configuration file {} not found".format(fullpath))
-+
-     def get_recipe_basename(self, recipe):
-         recipe_file = ""
-         result = runCmd("bitbake-layers show-recipes -f %s" % recipe)
--- 
-2.30.2
-
+Alex
 
