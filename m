@@ -1,105 +1,112 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <trini@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB7B4ECAAD1
-	for <webhook@archiver.kernel.org>; Wed, 31 Aug 2022 14:40:41 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web12.26458.1661956833670780496
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 028D0ECAAD4
+	for <webhook@archiver.kernel.org>; Wed, 31 Aug 2022 15:05:12 +0000 (UTC)
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
+ [209.85.222.179])
+ by mx.groups.io with SMTP id smtpd.web09.26809.1661958310017502281
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Aug 2022 07:40:33 -0700
+ Wed, 31 Aug 2022 08:05:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=0xbIMV/e;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.44,
- mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id
- n8-20020a17090a73c800b001fd832b54f6so12565857pjk.0
+ dkim=pass header.i=@konsulko.com header.s=google header.b=Ya3bQlzd;
+ spf=pass (domain: konsulko.com, ip: 209.85.222.179,
+ mailfrom: trini@konsulko.com)
+Received: by mail-qk1-f179.google.com with SMTP id c9so11001839qkk.6
         for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Aug 2022 07:40:33 -0700 (PDT)
+ Wed, 31 Aug 2022 08:05:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc;
-        bh=Ob/DUJpmQn3DTzxyXyDEUm6CgRZLntlXaRCLFNqTQYM=;
-        b=0xbIMV/ec1pdgp9EXmjWDkhgUoP08EoxDKFfdPiSOkaLF9fMQcNzQAAG+3of6YMgOX
-         dpMoBS3d5XfeJAlSGpmVwuWExCwRkev7Rm3gBnRNK8lthi44ThXEPWxM37uqAzp52l6W
-         o4ObIFpyxlc6uEUd+lTSTWK2uWoPikS94D7vUQ2CT462OQTt0uBnYJfSwS8LerRUdKzS
-         aJUGFZlz2LEguNpMNvwYNErHm/l+aXoRmEoLhBHVabQvG0PbVJur9n1vf17hu9zFqmx0
-         zglpLF9wVtMtvS7bdC+D0AxSmJIoEqEioejsZ484SwJnskBX+FC8KqCXGpAXVM/6+gss
-         Fu/g==
+        d=konsulko.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=r1hf3DVEEjB0uNlRQaEEKLUWiHHwOekkyz2uhijJ76o=;
+        b=Ya3bQlzdktLTpEi0SjvUa3eK99vx9cxXY43NEJjngMpI0qASV5SdGTeGbHxRLe3KU6
+         kxET5Xk4WcKlUYzJa6UCui+VYgQ/r/8bsV1JexJ6OKSVcPlmmjeFdtFhp0nkVD/guGqA
+         W79gNHgEYPJLi2TjwLBuN/dXBi5eDYn+OYbYo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=Ob/DUJpmQn3DTzxyXyDEUm6CgRZLntlXaRCLFNqTQYM=;
-        b=zCMjYIIZtnxD8btTXFkhbNI2H1EzjEWpKJFsWSbZX26khBxDfVPSxNVopQNcDw3Say
-         J1mk4ubQIc46Ei8qqyXsQ/HOFxsGks4or2pJ5vLB6SkdXr4wqtFkPg83mXKeUECuS5bF
-         AxwdX58SVmYq+i2wQJz/dGARFssnD0plSamr48zOpu/e+QIsDeffDk/MThcKBHJ8I7nw
-         vcNBZy+2qJZmwUfJ3PQNq/qOY4hLbQj4lWboTIEoLttZ1yB/FZfo6Tmr1ITr1MkcewaZ
-         /AgJaZYl5okxyMQM73lpudfBuynqrOjXQ6C0ohXRbztqpkVLV8lfdzD2D1IaQpHLrBGh
-         4KUQ==
-X-Gm-Message-State: ACgBeo1zgra1eknOZn5oqAupAyV1/iyaE5gQD6bEx5VOS1R/T9M1KlSK
-	dxpj56ubv4tHupWtJ/SgutIPSdFT/ePQspwk
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=r1hf3DVEEjB0uNlRQaEEKLUWiHHwOekkyz2uhijJ76o=;
+        b=w2AKO0XlaGMf6MTeicPOFIBgo6uxHXL7yNWxWKvsiQQip2tr6EfO64vgr5lXEbk7fl
+         4IU4PGOtEAbeoHqeDUi4WBrB3OkVh/OJa/coClbP9twNB+1h4vDXCxukl6ix59ICmI9D
+         7sIg76IAz4VBa57s4BkIUYWnj6Ec9qMILOOn5XFe7L134iVp/vwfa+imDtSdYzplqxd8
+         qU+Z03gQUBz82IuJF//d33ALzA+Ze01vZSBWf2beGeIVvFlTzXxd6F9jj5cbgg0jvVTa
+         ylwRixgtSvrFDccctbxUMoRUHAWLMpN+FYJEFCwr00B0P8G/9LDeUI477V/f6k6U2zN5
+         JORw==
+X-Gm-Message-State: ACgBeo2y/YKpOLJ290lu6pVcf8r5RGgMZcSm2d9xEU1/1CewCt8OMtQ0
+	vBaVfnAwVFGinYzclYP5TbkSEw==
 X-Google-Smtp-Source: 
- AA6agR69MJmRW9y4aVsE1oqo3CrMW8VK9bjv6f0X0C5PZ06o1/B8L0CmPRrDr/c+r0l359PgADXxwg==
-X-Received: by 2002:a17:902:ab8d:b0:172:9382:4d1e with SMTP id
- f13-20020a170902ab8d00b0017293824d1emr26352239plr.133.1661956832728;
-        Wed, 31 Aug 2022 07:40:32 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
+ AA6agR7OwwlXn/4Bv+qkbQIbZmI+lztkSiAss7vnfL7H7uxfpyf18OcpSrEbbyY6RwsMJzoT5fAT4Q==
+X-Received: by 2002:a05:620a:1709:b0:6bb:85a4:4e8f with SMTP id
+ az9-20020a05620a170900b006bb85a44e8fmr15910738qkb.184.1661958308554;
+        Wed, 31 Aug 2022 08:05:08 -0700 (PDT)
+Received: from bill-the-cat (cpe-65-184-195-139.ec.res.rr.com.
+ [65.184.195.139])
         by smtp.gmail.com with ESMTPSA id
- g5-20020a170902d1c500b00174d715cb76sm6070780plb.2.2022.08.31.07.40.31
-        for <openembedded-core@lists.openembedded.org>
+ y26-20020a37f61a000000b006b633dc839esm9646035qkj.66.2022.08.31.08.05.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Aug 2022 07:40:32 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 19/19] gcr: Define _GNU_SOURCE
-Date: Wed, 31 Aug 2022 04:39:39 -1000
-Message-Id: 
- <ee8e5f60c2f21630400a5095304e5508d4297824.1661956484.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1661956484.git.steve@sakoman.com>
-References: <cover.1661956484.git.steve@sakoman.com>
+        Wed, 31 Aug 2022 08:05:07 -0700 (PDT)
+Date: Wed, 31 Aug 2022 11:05:05 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Minjae Kim <flowergom@gmail.com>, Steve Sakoman <steve@sakoman.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [dunfell][PATCHv2] u-boot: fix CVE-2022-34835
+Message-ID: <20220831150505.GI7942@bill-the-cat>
+References: <20220830190039.48510-1-flowergom@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ZFN9GYGE3tAy85aa"
+Content-Disposition: inline
+In-Reply-To: <20220830190039.48510-1-flowergom@gmail.com>
+X-Clacks-Overhead: GNU Terry Pratchett
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 31 Aug 2022 14:40:41 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 31 Aug 2022 15:05:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170130
+ https://lists.openembedded.org/g/openembedded-core/message/170131
 
-From: Khem Raj <raj.khem@gmail.com>
 
-This ensures that definitions of functions e.g. getpass() are correctly
-sourced from system headers, since it depends on feature test macros
+--ZFN9GYGE3tAy85aa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0d117e5d17c491e1d26aefb4b919410b07fd5347)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-gnome/gcr/gcr_3.40.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+On Tue, Aug 30, 2022 at 09:00:39PM +0200, Minjae Kim wrote:
 
-diff --git a/meta/recipes-gnome/gcr/gcr_3.40.0.bb b/meta/recipes-gnome/gcr/gcr_3.40.0.bb
-index 717c31c325..8719884f25 100644
---- a/meta/recipes-gnome/gcr/gcr_3.40.0.bb
-+++ b/meta/recipes-gnome/gcr/gcr_3.40.0.bb
-@@ -13,6 +13,8 @@ DEPENDS = "p11-kit glib-2.0 libgcrypt gnupg-native \
- 
- CACHED_CONFIGUREVARS += "ac_cv_path_GPG='gpg2'"
- 
-+CFLAGS += "-D_GNU_SOURCE"
-+
- GNOMEBASEBUILDCLASS = "meson"
- GTKDOC_MESON_OPTION = "gtk_doc"
- inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-version-is-even vala gobject-introspection gettext mime mime-xdg
--- 
-2.25.1
+> i2c: fix stack buffer overflow vulnerability in i2c md command
+>=20
+> CVE: CVE-2022-34835
+>=20
+> Signed-off-by:Minjae Kim <flowergom@gmail.com>
 
+While this is the full backport of the fix for the issue, at this point
+we now also have:
+https://patchwork.ozlabs.org/project/uboot/list/?series=3D315609&state=3D*
+because the initial fix broke other real uses of the command.
+
+--=20
+Tom
+
+--ZFN9GYGE3tAy85aa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmMPeJ4ACgkQFHw5/5Y0
+tywyFQv/ZdcwN/adyp/ojKV6WFctkCKmH9+r1k0S8297NKu3W/gmE4DBK11zflNp
+DlO6GQ59hmY9hBXTl8tyeBt/IP4QkcW7OYTlLR3+lJyvDEme5LtwBm81V/gQxtX4
+KbY3Dd5Enlrb7/Pe8JhLNKKszNwgCU3EmjOEVm2oDCz/zlUYaqqoFVh3ttgKLAs/
+BeByrpNHWJ3+cJujx/cG5nx3KW61E0HIVm3A0Iy9J5bn4leIB/mTb8o6mAazMitJ
++AIwUJ9GLHykPeGeV1B2I+WxWip1ozGH2ddl9yRs1s37i/eGaC/vaa6sO/b/xEkm
+DNT+NM6D+CUc3RcPpgZNkiJIhKnaHTpNt9/ZVKbIwp1504ZSNZF+I9wCIut3HG9a
+HxF+noD1qGelrew1CjSdf3ZyYCzpaSI2c07FBMIXtVV0KSxbKhjAy+SPmIhz8GCG
+0o5+iiCV2hKFS6MuGOqYTRtcw2EgeNqaTgID9QtW9yvSytAl3inu8sJKWdH81GeO
+q9Zcbqw2
+=i1Op
+-----END PGP SIGNATURE-----
+
+--ZFN9GYGE3tAy85aa--
 
