@@ -2,64 +2,64 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9B08C54EE9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7A8BECAAD1
 	for <webhook@archiver.kernel.org>; Wed, 31 Aug 2022 11:14:20 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web08.23995.1661944456950656563
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web08.23994.1661944455917032992
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Aug 2022 04:14:17 -0700
+ Wed, 31 Aug 2022 04:14:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=C7apodfZ;
- spf=pass (domain: gmail.com, ip: 209.85.128.42,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=A/imvrHo;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id
- i188-20020a1c3bc5000000b003a7b6ae4eb2so6526870wma.4
+Received: by mail-wm1-f51.google.com with SMTP id
+ m17-20020a7bce11000000b003a5bedec07bso11513876wmc.0
         for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Aug 2022 04:14:16 -0700 (PDT)
+ Wed, 31 Aug 2022 04:14:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=5InC7AJyE5N/2stlUrTiDCUrOP/UQAc5XX5BDLbVdoE=;
-        b=C7apodfZ/I3+/h6+nqCwtWlK3DZHNGgufno97muw9oDASHAHmTu87RPDsPBt9MqJ0x
-         QfcHLN47R5Tj4kS4PbGUAcr3Tbkr5x+x+w0BrMsxYrXMsGhpgh605e3w4p+VJrfR1HIU
-         QJdmvaMHS5gCf63jQx3cXBFaERk4FXqWga33DbVICaQ1zSvmHo9lcR6oypX1xp53f/LL
-         DCo8kDNNjGJG1GZEn6VCHHtyeWGlJw0aG8+yqsBo90XZDC6HDXGfv2XwrJ4yzXLnNb0w
-         fsF/SaWU20+E02uDYG/745JFykS+7Q7n99dLbgCZFriYYLcLHa8/iGlgx35oU62VCmIe
-         q82g==
+        bh=OYvYNmf/x4P7vSFlY+ls2p8t4uEh4HhTGMr1xOrMvUs=;
+        b=A/imvrHoLndMy9nCjcccxwFXMZXKPCzUZjoltuRKSl/Vb727xEmzr+4T6rl2VPlNQd
+         SlsUfT7NJBxz+xbeV1bLfeSJS2YfFjyxXMSFdj+fxvuiDy5twhoahzK40O1EgD+G4AMa
+         eDYu3HaLAuYX4xJNY5lWUlKtqN0BIZSAavznS50h4HxkrmS+e94O3sf8/7qmxj7MnGMi
+         1LKax6jtYPEqz0CqYiziq8L4SC50OToNp7/DWXzflTxqkIkEIoY5tAkApqL+uBZbk/r4
+         P/MxAqs6m7so13tj1PIi3jSUrNUeEViY7AvIY9A8Y7Wl44sRn5eM/DeAQXOdzRonetIG
+         kD/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=5InC7AJyE5N/2stlUrTiDCUrOP/UQAc5XX5BDLbVdoE=;
-        b=0ugQ+BJ9ZHTYXd/qwWmYNvuFWRuZ9frapNrF20ilOPLDl6VgZOC3ERSr8zeK87VSVO
-         2U064+ES9Z8JY6Y6eFr+dmhtSpCAGuE6yOnbMN8hNo5HQcvE+b8VoSU9i9KF8HC6o5CR
-         JzivDShZZxezS67CbjIOEHgbi0C6xs1KyTkUIlIsrBflV61BX2k9F32ot3L0ugYhKaFR
-         8Csz3rghT+DC+a7x4X8A60VxbEeFBWJ7w55FmD4UD0p/+jw2VGS+Bcihfuz1gVunoUY5
-         xVBtWKIwzo0h4Cog/p49q7NmDwMM32FWA7vE9V8WyCoZ6ZyWUL/KzHjl9hORvaA//ITP
-         6Ocw==
-X-Gm-Message-State: ACgBeo2Kn6lsIeZPW+fIbeOC947w4QxJi85V+TCLMi2H0YVKZKqpKBwk
-	y7Zek48/qL/uowER3YQagc/9Tf7glyk=
+        bh=OYvYNmf/x4P7vSFlY+ls2p8t4uEh4HhTGMr1xOrMvUs=;
+        b=AZGWZ0aNt4UW6B/yDxjaquGMvZY6mOVbsor3gbWyJTrAx3xCTtgEeyTuQuqX77jtvm
+         jvZPD+6odJYmmqSeam6FjbXiJHUTTFpDVB+DUXFmidIlEXhhv1NNEMK7M2FfRKAgpo4j
+         0Fb+aJQhPqc0VUNcu92sxupzflbaR3Yr+00Li8thmS3X0JKIorPp9tyGkVqcN2Xk0PG0
+         YSXhqdFpl5b4mseBMd3Dr9xXfeZV7CZ+8Yz+cz1badlpbRYvvDwFAlJQmptAi667i+T3
+         5IZ0uN8hRnpqrPTR+pL7r+3nxqjDiCei7pd/vLE4dmrmmOZqgpZ8y1NjTsXYWRrExG41
+         Hb1A==
+X-Gm-Message-State: ACgBeo1FgpzBSBXvwyyGXFG+qqMAfeO5JMutxlLvYRUlV3bCmyaJbig7
+	gSmjhtZPRMdCnrZCu9J7om+CNltSPrE=
 X-Google-Smtp-Source: 
- AA6agR4KQo0W2ovbUpYFnuAg0UpFCoW776xsYIld1yu7KOmKr4hgqLm5wsHhC2gkGOYweTnUHHeycw==
-X-Received: by 2002:a7b:ce89:0:b0:3a5:cefe:80f6 with SMTP id
- q9-20020a7bce89000000b003a5cefe80f6mr1761328wmj.113.1661944455379;
-        Wed, 31 Aug 2022 04:14:15 -0700 (PDT)
+ AA6agR4QrI/goo0Ifa3I6QTrkZ/rp7BifF54kL3nFEtBOnBao2RJNC60ulxX+CvYR3X4h0m2jlu5CA==
+X-Received: by 2002:a7b:c453:0:b0:3a5:b42e:c4fb with SMTP id
+ l19-20020a7bc453000000b003a5b42ec4fbmr1633990wmi.167.1661944454295;
+        Wed, 31 Aug 2022 04:14:14 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- bi19-20020a05600c3d9300b003a60edc3a44sm2324753wmb.5.2022.08.31.04.14.14
+ bi19-20020a05600c3d9300b003a60edc3a44sm2324753wmb.5.2022.08.31.04.14.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Aug 2022 04:14:14 -0700 (PDT)
+        Wed, 31 Aug 2022 04:14:13 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 5/7] scripts/oe-setup-layers: add a script that restores the
- layer configuration from a json file
-Date: Wed, 31 Aug 2022 13:13:59 +0200
-Message-Id: <20220831111401.3330342-5-alex@linutronix.de>
+Subject: [PATCH 4/7] bitbake-layers: add ability to save current layer
+ repository configuration into a file
+Date: Wed, 31 Aug 2022 13:13:58 +0200
+Message-Id: <20220831111401.3330342-4-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220831111401.3330342-1-alex@linutronix.de>
 References: <20220831111401.3330342-1-alex@linutronix.de>
@@ -70,152 +70,228 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 31 Aug 2022 11:14:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170105
+ https://lists.openembedded.org/g/openembedded-core/message/170104
 
-This script can be used directly from poky or oe-core, or can be copied directly
-into alayer or any other repository - it is self-suffucient and requires only python3
-and git on the host where it will run. It is also copied by the bitbake-layers
-layers-setup plugin together with the json, unless requested otherwise.
+This addresses a long standing gap in the core offering:
+there is no tooling to capture the currently configured layers
+with their revisions, or restore the layers from a configuration
+file (without using external tools, some of which aren't particularly
+suitable for the task). This plugin addresses the 'capture' part.
 
-1. How to restore the layers from the saved configuration:
+Note that the actual writing is performed by a sub-plugin; one such
+sub-plugin is provided (for the json + python script format), but
+more can be added (e.g. kas, repo, etc.).
 
-a) Clone the bootstrap layer or some other repository to obtain the json config and the setup script that can use it.
-(use 'bitbake-layers create-layer-setup' from the previous commit to create them)
+How to save a layer configuration:
 
-b) Running with default options:
-(note: this will work to update an existing checkout as well)
+a) Running with default choices:
 
-alex@Zen2:/srv/work/alex/my-build$ meta-alex/setup-layers
-Note: not checking out source meta-alex, use --force-bootstraplayer-checkout to override.
+$ bitbake-layers create-layers-setup /srv/work/alex/meta-alex/
+NOTE: Starting bitbake server...
+NOTE: Created /srv/work/alex/meta-alex/setup-layers.json
+NOTE: Created /srv/work/alex/meta-alex/setup-layers
 
-Setting up source meta-intel, revision 15.0-hardknott-3.3-310-g0a96edae, branch master
-Running 'git init -q /srv/work/alex/my-build/meta-intel'
-Running 'git remote remove origin > /dev/null 2>&1; git remote add origin git://git.yoctoproject.org/meta-intel' in /srv/work/alex/my-build/meta-intel
-Running 'git fetch -q origin || true' in /srv/work/alex/my-build/meta-intel
-Running 'git checkout -q 0a96edae609a3f48befac36af82cf1eed6786b4a' in /srv/work/alex/my-build/meta-intel
+b) Command line options:
 
-Setting up source poky, revision 4.1_M1-372-g55483d28f2, branch akanavin/setup-layers
-Running 'git init -q /srv/work/alex/my-build/poky'
-Running 'git remote remove origin > /dev/null 2>&1; git remote add origin git://git.yoctoproject.org/poky' in /srv/work/alex/my-build/poky
-Running 'git fetch -q origin || true' in /srv/work/alex/my-build/poky
-Running 'git remote remove poky-contrib > /dev/null 2>&1; git remote add poky-contrib ssh://git@push.yoctoproject.org/poky-contrib' in /srv/work/alex/my-build/poky
-Running 'git fetch -q poky-contrib || true' in /srv/work/alex/my-build/poky
-Running 'git checkout -q 11db0390b02acac1324e0f827beb0e2e3d0d1d63' in /srv/work/alex/my-build/poky
+NOTE: Starting bitbake server...
+usage: bitbake-layers create-layers-setup [-h] [--output-prefix OUTPUT_PREFIX] [--writer {oe-setup-layers}] [--json-only] destdir
 
-2. Command line options:
+ Writes out a configuration file and/or a script that replicate the directory structure and revisions of the layers in a current build.
 
-alex@Zen2:/srv/work/alex/my-build$ meta-alex/setup-layers -h
-usage: setup-layers [-h] [--force-bootstraplayer-checkout] [--destdir DESTDIR] [--jsondata JSONDATA]
-
-A self contained python script that fetches all the needed layers and sets them to correct revisions
+positional arguments:
+  destdir               Directory where to write the output
+                        (if it is inside one of the layers, the layer becomes a bootstrap repository and thus will be excluded from fetching).
 
 optional arguments:
   -h, --help            show this help message and exit
-  --force-bootstraplayer-checkout
-                        Force the checkout of the layer containing this file (by default it is presumed that as this script is in it, the layer is already in place).
-  --destdir DESTDIR     Where to check out the layers (default is /srv/work/alex/my-build).
-  --jsondata JSONDATA   File containing the layer data in json format (default is /srv/work/alex/my-build/meta-alex/setup-layers.json).
+  --output-prefix OUTPUT_PREFIX, -o OUTPUT_PREFIX
+                        File name prefix for the output files, if the default (setup-layers) is undesirable.
+  --writer {oe-setup-layers}, -w {oe-setup-layers}
+                        Choose the output format (defaults to oe-setup-layers).
+
+                        Currently supported options are:
+                        oe-setup-layers - a self-contained python script and a json config for it.
+
+  --json-only           When using the oe-setup-layers writer, write only the layer configuruation in json format. Otherwise, also a copy of scripts/oe-setup-layers (from oe-core or poky) is provided, which is a self contained python script that fetches all the needed layers and sets them to correct revisions using the data from the json.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- scripts/oe-setup-layers | 88 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 88 insertions(+)
- create mode 100755 scripts/oe-setup-layers
+ meta/lib/bblayers/makesetup.py                | 108 ++++++++++++++++++
+ .../bblayers/setupwriters/oe-setup-layers.py  |  50 ++++++++
+ 2 files changed, 158 insertions(+)
+ create mode 100644 meta/lib/bblayers/makesetup.py
+ create mode 100644 meta/lib/bblayers/setupwriters/oe-setup-layers.py
 
-diff --git a/scripts/oe-setup-layers b/scripts/oe-setup-layers
-new file mode 100755
-index 0000000000..cbd2efb5c7
+diff --git a/meta/lib/bblayers/makesetup.py b/meta/lib/bblayers/makesetup.py
+new file mode 100644
+index 0000000000..bef6da0ea8
 --- /dev/null
-+++ b/scripts/oe-setup-layers
-@@ -0,0 +1,88 @@
-+#!/usr/bin/env python3
++++ b/meta/lib/bblayers/makesetup.py
+@@ -0,0 +1,108 @@
 +#
 +# Copyright OpenEmbedded Contributors
 +#
-+# SPDX-License-Identifier: MIT
++# SPDX-License-Identifier: GPL-2.0-only
 +#
 +
-+# This file was copied from poky(or oe-core)/scripts/oe-setup-layers by running
-+#
-+# bitbake-layers create-layers-setup destdir
-+#
-+# It is recommended that you do not modify this file directly, but rather re-run the above command to get the freshest upstream copy.
-+
-+import argparse
-+import json
++import logging
 +import os
-+import subprocess
++import stat
++import sys
++import shutil
 +
-+def _do_checkout(args, json):
-+    layers = json['sources']
-+    buildconfs = []
-+    oecorepath = ""
-+    for l_name in layers:
-+        l_data = layers[l_name]
-+        layerdir = os.path.abspath(os.path.join(args['destdir'], l_data['path']))
++import bb.utils
++import bb.process
 +
-+        for ll_name in l_data['layers']:
-+            if ll_name == 'meta':
-+                oecorepath = layerdir
-+            ll_data = l_data['layers'][ll_name]
-+            if 'buildconfigs' in ll_data:
-+                for c in ll_data['buildconfigs']:
-+                    buildconfs.append(os.path.join(layerdir, ll_data['subpath'], c))
++from bblayers.common import LayerPlugin
 +
-+        if 'contains_this_file' in l_data.keys():
-+            force_arg = 'force_bootstraplayer_checkout'
-+            if not args[force_arg]:
-+                print('Note: not checking out source {layer}, use {layerflag} to override.'.format(layer=l_name, layerflag='--force-bootstraplayer-checkout'))
++logger = logging.getLogger('bitbake-layers')
++
++sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
++
++import oe.buildcfg
++
++def plugin_init(plugins):
++    return MakeSetupPlugin()
++
++class MakeSetupPlugin(LayerPlugin):
++
++    def _get_repo_path(self, layer_path):
++        repo_path, _ = bb.process.run('git rev-parse --show-toplevel', cwd=layer_path)
++        return repo_path.strip()
++
++    def _get_remotes(self, repo_path):
++        remotes = {}
++        remotes_list,_ = bb.process.run('git remote', cwd=repo_path)
++        for r in remotes_list.split():
++            uri,_ = bb.process.run('git remote get-url {r}'.format(r=r), cwd=repo_path)
++            remotes[r] = {'uri':uri.strip()}
++        return remotes
++
++    def _get_describe(self, repo_path):
++        try:
++            describe,_ = bb.process.run('git describe --tags', cwd=repo_path)
++        except bb.process.ExecutionError:
++            return ""
++        return describe.strip()
++
++    def make_repo_config(self, destdir):
++        """ This is a helper function for the writer plugins that discovers currently confugured layers.
++        The writers do not have to use it, but it can save a bit of work and avoid duplicated code, hence it is
++        available here. """
++        repos = {}
++        layers = oe.buildcfg.get_layer_revisions(self.tinfoil.config_data)
++        try:
++            destdir_repo = self._get_repo_path(destdir)
++        except bb.process.ExecutionError:
++            destdir_repo = None
++
++        for (l_path, l_name, l_branch, l_rev, l_ismodified) in layers:
++            if l_name == 'workspace':
 +                continue
-+        l_remote = l_data['git-remote']
-+        rev = l_remote['rev']
-+        desc = l_remote['describe']
-+        if not desc:
-+            desc = rev[:10]
-+        branch = l_remote['branch']
-+        remotes = l_remote['remotes']
++            if l_ismodified:
++                logger.error("Layer {name} in {path} has uncommitted modifications or is not in a git repository.".format(name=l_name,path=l_path))
++                return
++            repo_path = self._get_repo_path(l_path)
++            if repo_path not in repos.keys():
++                repos[repo_path] = {'path':os.path.basename(repo_path),'layers':{},'git-remote':{'rev':l_rev, 'branch':l_branch, 'remotes':self._get_remotes(repo_path), 'describe':self._get_describe(repo_path)}}
++                if repo_path == destdir_repo:
++                    repos[repo_path]['contains_this_file'] = True
++                if not repos[repo_path]['git-remote']['remotes'] and not repos[repo_path]['contains_this_file']:
++                    logger.error("Layer repository in {path} does not have any remotes configured. Please add at least one with 'git remote add'.".format(path=repo_path))
++                    return
++            repos[repo_path]['layers'][l_name] = {'subpath':l_path.replace(repo_path,'')[1:]}
 +
-+        print('\nSetting up source {}, revision {}, branch {}'.format(l_name, desc, branch))
-+        cmd = 'git init -q {}'.format(layerdir)
-+        print("Running '{}'".format(cmd))
-+        subprocess.check_output(cmd, shell=True)
++        top_path = os.path.commonpath([os.path.dirname(r) for r in repos.keys()])
 +
-+        for remote in remotes:
-+            cmd = "git remote remove {} > /dev/null 2>&1; git remote add {} {}".format(remote, remote, remotes[remote]['uri'])
-+            print("Running '{}' in {}".format(cmd, layerdir))
-+            subprocess.check_output(cmd, shell=True, cwd=layerdir)
++        repos_nopaths = {}
++        for r in repos.keys():
++            r_nopath = os.path.basename(r)
++            repos_nopaths[r_nopath] = repos[r]
++            r_relpath = os.path.relpath(r, top_path)
++            repos_nopaths[r_nopath]['path'] = r_relpath
++        return repos_nopaths
 +
-+            cmd = "git fetch -q {} || true".format(remote)
-+            print("Running '{}' in {}".format(cmd, layerdir))
-+            subprocess.check_output(cmd, shell=True, cwd=layerdir)
++    def do_make_setup(self, args):
++        """ Writes out a configuration file and/or a script that replicate the directory structure and revisions of the layers in a current build. """
++        for p in self.plugins:
++            if str(p) == args.writer:
++                p.do_write(self, args)
 +
-+        cmd = 'git checkout -q {}'.format(rev)
-+        print("Running '{}' in {}".format(cmd, layerdir))
-+        subprocess.check_output(cmd, shell=True, cwd=layerdir)
++    def register_commands(self, sp):
++        parser_setup_layers = self.add_command(sp, 'create-layers-setup', self.do_make_setup, parserecipes=False)
++        parser_setup_layers.add_argument('destdir',
++            help='Directory where to write the output\n(if it is inside one of the layers, the layer becomes a bootstrap repository and thus will be excluded from fetching).')
++        parser_setup_layers.add_argument('--output-prefix', '-o',
++            help='File name prefix for the output files, if the default (setup-layers) is undesirable.')
 +
-+parser = argparse.ArgumentParser(description="A self contained python script that fetches all the needed layers and sets them to correct revisions using data in a json format from a separate file. The json data can be created from an active build directory with 'bitbake-layers create-layers-setup destdir' and there's a sample file and a schema in meta/files/")
++        self.plugins = []
 +
-+parser.add_argument('--force-bootstraplayer-checkout', action='store_true',
-+        help='Force the checkout of the layer containing this file (by default it is presumed that as this script is in it, the layer is already in place).')
++        for path in (self.tinfoil.config_data.getVar('BBPATH').split(':')):
++            pluginpath = os.path.join(path, 'lib', 'bblayers', 'setupwriters')
++            bb.utils.load_plugins(logger, self.plugins, pluginpath)
 +
-+try:
-+    defaultdest = os.path.dirname(subprocess.check_output('git rev-parse --show-toplevel', universal_newlines=True, shell=True, cwd=os.path.dirname(__file__)))
-+except subprocess.CalledProcessError as e:
-+    defaultdest = os.path.abspath(".")
++        parser_setup_layers.add_argument('--writer', '-w', choices=[str(p) for p in self.plugins], help="Choose the output format (defaults to oe-setup-layers).\n\nCurrently supported options are:\noe-setup-layers - a self-contained python script and a json config for it.\n\n", default="oe-setup-layers")
 +
-+parser.add_argument('--destdir', default=defaultdest, help='Where to check out the layers (default is {defaultdest}).'.format(defaultdest=defaultdest))
-+parser.add_argument('--jsondata', default=__file__+".json", help='File containing the layer data in json format (default is {defaultjson}).'.format(defaultjson=__file__+".json"))
++        for plugin in self.plugins:
++            if hasattr(plugin, 'register_arguments'):
++                plugin.register_arguments(parser_setup_layers)
+diff --git a/meta/lib/bblayers/setupwriters/oe-setup-layers.py b/meta/lib/bblayers/setupwriters/oe-setup-layers.py
+new file mode 100644
+index 0000000000..f6a484b766
+--- /dev/null
++++ b/meta/lib/bblayers/setupwriters/oe-setup-layers.py
+@@ -0,0 +1,50 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
 +
-+args = parser.parse_args()
++import logging
++import os
++import json
++import stat
 +
-+with open(args.jsondata) as f:
-+    json = json.load(f)
++logger = logging.getLogger('bitbake-layers')
 +
-+supported_versions = ["1.0"]
-+if json["version"] not in supported_versions:
-+    raise Exception("File {} has version {}, which is not in supported versions: {}".format(args.jsondata, json["version"], supported_versions))
++def plugin_init(plugins):
++    return OeSetupLayersWriter()
 +
-+_do_checkout(vars(args), json)
++class OeSetupLayersWriter():
++
++    def __str__(self):
++        return "oe-setup-layers"
++
++    def _write_python(self, input, output):
++        with open(input) as f:
++            script = f.read()
++        with open(output, 'w') as f:
++            f.write(script)
++        st = os.stat(output)
++        os.chmod(output, st.st_mode | stat.S_IEXEC | stat.S_IXGRP | stat.S_IXOTH)
++
++    def _write_json(self, repos, output):
++        with open(output, 'w') as f:
++            json.dump(repos, f, sort_keys=True, indent=4)
++
++    def do_write(self, parent, args):
++        """ Writes out a python script and a json config that replicate the directory structure and revisions of the layers in a current build. """
++        repos = parent.make_repo_config(args.destdir)
++        json = {"version":"1.0","sources":repos}
++        if not repos:
++            raise Exception("Could not determine layer sources")
++        output = args.output_prefix or "setup-layers"
++        output = os.path.join(os.path.abspath(args.destdir),output)
++        self._write_json(json, output + ".json")
++        logger.info('Created {}.json'.format(output))
++        if not args.json_only:
++            self._write_python(os.path.join(os.path.dirname(__file__),'../../../../scripts/oe-setup-layers'), output)
++        logger.info('Created {}'.format(output))
++
++    def register_arguments(self, parser):
++        parser.add_argument('--json-only', action='store_true',
++            help='When using the oe-setup-layers writer, write only the layer configuruation in json format. Otherwise, also a copy of scripts/oe-setup-layers (from oe-core or poky) is provided, which is a self contained python script that fetches all the needed layers and sets them to correct revisions using the data from the json.')
 -- 
 2.30.2
 
