@@ -1,81 +1,102 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95EF4ECAAD3
-	for <webhook@archiver.kernel.org>; Wed, 31 Aug 2022 16:31:07 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web12.1034.1661963465046596309
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C5A6ECAAD1
+	for <webhook@archiver.kernel.org>; Wed, 31 Aug 2022 16:31:27 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web11.1042.1661963479141835027
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Aug 2022 09:31:05 -0700
+ Wed, 31 Aug 2022 09:31:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pqHx3IkV;
- spf=pass (domain: gmail.com, ip: 209.85.167.45,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id bq23so20720555lfb.7
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Aug 2022 09:31:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=LDqKBiR6jEUpJafcrQMRblTedJkgHRc2slOFQWF4sTM=;
-        b=pqHx3IkVOz3LLC9tl/puvUpuip9aqIfCodlWGVjgQ+MREL6Rl04c+KDet7QT5X3Eop
-         bjwuvK1YQdQgFB/gG3j5q9U4JLqs28KwhkSxdHXMFrz+FuK9YBcOd7rZcW5oFR7Pjt8B
-         i+BBzGZ1FXizo58gQfcFw4yD7SKtSsKD+vwAZFzFuBn327SRUNZsRUeKb6v2IrcbXMPU
-         03StwLG7N31fUuyi2xnDkF44Z+QIFMAu7261HeHGIKoL/EcDaizAw35dFkJWy9wnY5IC
-         MoGSEz+scf2yK0jb3lmSMQ0Nsk/70aUrJ476gL4U5+5z3ANg8Qoh+ikVBeE8eawowjN9
-         aNFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=LDqKBiR6jEUpJafcrQMRblTedJkgHRc2slOFQWF4sTM=;
-        b=uWn2KqsyOsA6J9esdJ4uhlnlVlmHXgspFz55IMM/28sQNmUsrI2sP+K8PmV/TBAKka
-         ysV5Eszo/9V4c6A8Sm7f2Mvz3q3DvGvTWEUkS9twiFQY7UCk6uajP1Bkis7/iLG1zseG
-         P8Q2TycC1pnK4kh+TFPcwkj4Tg+nHkR3FWkWxR7ywmBee/ecZubvK5TnNg7Jg36GewUB
-         sEVCasoyaNTNhT+g6xlQwSNuu5JZKBsOiD2r9qL3YU+ED4I+u0RD7OdBBORB6K+C77aW
-         2yFPWTVbZoR4295TTE+dQeGcDDCew+exeQf60u58ci2PdCWnJrFPYPXodEMD0OgRTfT9
-         vnwg==
-X-Gm-Message-State: ACgBeo1Aq0DCaBOlqnafb6I6ujAmyoK3HgDzSglNlqqOxppTPrPG3cPW
-	rF3gSRfNsgAmQP+/ARNn/uHUGClI3hNmyyEYTes=
-X-Google-Smtp-Source: 
- AA6agR5Y2sJU1ovK36CJb90dUSlTfSY7OYvVCQ2771aiof80CpvFus+2TP3rFT2ByQXKdG7sfecXDR7dAFIcXCUcvog=
-X-Received: by 2002:a05:6512:2511:b0:493:50c:ec3 with SMTP id
- be17-20020a056512251100b00493050c0ec3mr9230809lfb.665.1661963463262; Wed, 31
- Aug 2022 09:31:03 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=is6IKIo9;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199,
+ mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id C1FC7FF808;
+	Wed, 31 Aug 2022 16:31:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1661963477;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HUrNdBQZyZ7B1mNcgdVc0VqLdLfNOpS93TZzQCJwhmc=;
+	b=is6IKIo9cN88pXolZ1JkxtVilz35yVBH9pdsxWjGLIGYBmvtuZEuzkwd4SDDQXSEZR/hU3
+	NpZZpY4EKYS7KxoVOZdvtHxt77+Dr121ANtNWe0vmMtJUAdh9WSQdIhHBqVTKJzumajmwn
+	bYJmyFCzrVcXsWuXkJO1vQwvvjQGCffAv4xlNtDlFACzw6An79pFiMc2lbb3267paE4ts7
+	QOPPX38wTH22uZqi7nGX5q9LYrMOxzNULxiV6rcgfn8v2s7JO7GSpVikBMGeGoyG3uaKdB
+	w9OUGqLcW7HkQsYGsPll0mjn+ppFUGv4y5sE6kjJ534Mos+MPhzzPvb35ZhIHg==
+Date: Wed, 31 Aug 2022 18:31:16 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: wangmy <wangmy@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] python3-setuptools: upgrade 65.0.2 -> 65.3.0
+Message-ID: <Yw+M1LJMyyKfinpm@mail.local>
+References: <1661833494-12657-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-References: <20220831160712.189938-1-richard.purdie@linuxfoundation.org>
- <CANNYZj8T_Cntva5-+YXX7Dzhf2YJNOyPkbbEYWWZAmHUm4g3xA@mail.gmail.com>
- <bf42031e0112176dc1efea54df994161f2e554b3.camel@linuxfoundation.org>
-In-Reply-To: 
- <bf42031e0112176dc1efea54df994161f2e554b3.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 31 Aug 2022 18:30:51 +0200
-Message-ID: 
- <CANNYZj8tRkG3783-+t-Xo1B5MkjkwmLVw4kr_i=-cCoE-bPq8g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] vim: Upgrade 9.0.0242 -> 9.0.0341
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1661833494-12657-1-git-send-email-wangmy@fujitsu.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 31 Aug 2022 16:31:07 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 31 Aug 2022 16:31:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170138
+ https://lists.openembedded.org/g/openembedded-core/message/170139
 
-On Wed, 31 Aug 2022 at 18:21, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> > I have to wonder, what is really going on there? :-) This never ending
-> > stream of CVEs makes vim formally the most insecure item in core. Does
-> > anyone know?
->
-> Personally I suspect some kind of bug bounty system may be influencing
-> things. I have wondered about removing vim from core.
+Hello,
 
-As someone who writes all his code with nano, can I vote for that please? :-)
+On 30/08/2022 12:24:50+0800, wangmy wrote:
+> Changelog:
+> ===========
+>  attribute
+>  Dependency management section of the Quickstart guid
+> 
 
-Alex
+This causes the following error:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/6155/steps/11/logs/stdio
+
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  ...ython3-setuptools_65.0.2.bb => python3-setuptools_65.3.0.bb} | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-devtools/python/{python3-setuptools_65.0.2.bb => python3-setuptools_65.3.0.bb} (95%)
+> 
+> diff --git a/meta/recipes-devtools/python/python3-setuptools_65.0.2.bb b/meta/recipes-devtools/python/python3-setuptools_65.3.0.bb
+> similarity index 95%
+> rename from meta/recipes-devtools/python/python3-setuptools_65.0.2.bb
+> rename to meta/recipes-devtools/python/python3-setuptools_65.3.0.bb
+> index 1a639ea333..3471d2805d 100644
+> --- a/meta/recipes-devtools/python/python3-setuptools_65.0.2.bb
+> +++ b/meta/recipes-devtools/python/python3-setuptools_65.3.0.bb
+> @@ -11,7 +11,7 @@ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-e
+>  SRC_URI += "file://0001-change-shebang-to-python3.patch \
+>              file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
+>  
+> -SRC_URI[sha256sum] = "101bf15ca723beef42c8db91a761f3748d4d697e17fae904db60c0b619d8d094"
+> +SRC_URI[sha256sum] = "7732871f4f7fa58fb6bdcaeadb0161b2bd046c85905dbaa066bdcbcc81953b57"
+>  
+>  DEPENDS += "${PYTHON_PN}"
+>  
+> -- 
+> 2.25.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#170057): https://lists.openembedded.org/g/openembedded-core/message/170057
+> Mute This Topic: https://lists.openembedded.org/mt/93342914/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
