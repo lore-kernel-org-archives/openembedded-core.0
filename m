@@ -2,52 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8653C6FA9D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA1F9C6FA9E
 	for <webhook@archiver.kernel.org>; Thu,  1 Sep 2022 13:59:56 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com
- (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.12459.1662040786867902367
+Received: from a27-191.smtp-out.us-west-2.amazonses.com
+ (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.12460.1662040786906537459
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Sep 2022 06:59:46 -0700
+ Thu, 01 Sep 2022 06:59:47 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=BKGWi/cx;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29,
- mailfrom: 01010182f959c4a6-68ba7bcb-dd11-468f-b6a9-117706547f06-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=VYy4WcA4;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191,
+ mailfrom: 01010182f959c52d-204314c2-c3b3-497c-a319-637647ed7d04-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1662040786;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=hPmGjtu9ke9qWmyzHCDakkEDsHvRd947wjx8XBmq/co=;
-	b=BKGWi/cxuE/fvlVAeA6Ee6VgQvhlGFFwMsu5jEWp5nMlN8JL8qPWe29nLuRUu54t
-	9sagIMglmuwICGtw0iaR5YDqu+EplJrfEm2KJ7b+2BIEz8Jq+L6iU5EZYk0hVmQpj1Q
-	1T6x88N/fpeJ7Ealg/IM0IIyHsdzoIBKqlrOZ3jo=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=Q11x5Jb+C9I3yLZK1FcakWUIi93eoqk5Ex/TEWHrue0=;
+	b=VYy4WcA4qabFKEpZYTXG30S1Q8zLc2SF1oTmxWw4AT1i7RZxRdHCBNeAkceYKu6J
+	XlxHNA65yIS3fg1i3HTXICtdmfIU1sF92SWNfM1xybQ/4iln25qat34HiUjoL0QHHdn
+	LcqUfVtMjcHcDUEa1XqYO3iTS68c287P4cWtGD1k=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1662040786;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=hPmGjtu9ke9qWmyzHCDakkEDsHvRd947wjx8XBmq/co=;
-	b=OGc1ZNC2cWTJEUL60HC6u6FllexuvjTxznhP4S4ZHNGo+GpDJGei1bQZ6PUCnk1G
-	rsu7UVEePHUv+Kj+C3Wa/34mpch84W3Tf6n21sC3l/ApJezJhBMG1X1PFkvnaDJjbo3
-	wm/UO5luml78xRr+LIT0JFblUaPgGF39rY2MWvYA=
-Content-Type: multipart/mixed; boundary="===============7256597242801685610=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=Q11x5Jb+C9I3yLZK1FcakWUIi93eoqk5Ex/TEWHrue0=;
+	b=Hro828ZRTWXTebwwnsr3YzV9wF5vfdQjbZ9pwHHe499kDOt8tp80BrjiXYEt9VC2
+	27UjP9YUvjGEiHkvlXS4LDehEzjSWKczpgUhpu3qh4ZTGCRXia0zL0d2gAqP8TTtzRH
+	IP7Tp8KvbGGaXKgO7vyNc9T1VDFYQEyAc0mMRJX4=
+Content-Type: multipart/mixed; boundary="===============1265249706119486512=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] tzdata: upgrading to 2022c FAILED
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] mesa: upgrading to 22.1.7 SUCCEEDED
 Message-ID: 
- <01010182f959c4a6-68ba7bcb-dd11-468f-b6a9-117706547f06-000000@us-west-2.amazonses.com>
+ <01010182f959c52d-204314c2-c3b3-497c-a319-637647ed7d04-000000@us-west-2.amazonses.com>
 Date: Thu, 1 Sep 2022 13:59:46 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.09.01-54.240.27.29
+X-SES-Outgoing: 2022.09.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Sep 2022 13:59:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170186
+ https://lists.openembedded.org/g/openembedded-core/message/170184
 
---===============7256597242801685610==
+--===============1265249706119486512==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -55,16 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *tzdata* to *2022c* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *mesa* to *22.1.7* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-tzdata-upgrade-2022b-2022c.patch
+    - apply the patch: git am 0001-mesa-upgrade-22.1.6-22.1.7.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -80,114 +75,110 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7256597242801685610==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1658 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 884 .bb files complete (882 cached, 2 parsed). 1658 targets, 36 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86 sysroot...done.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-88160061eeae5ec57d7481d1bd2e77007263225b"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:88160061eeae5ec57d7481d1bd2e77007263225b"
-workspace            = "master:4c2f9073d6a8fb8bca198ff1f602c37c5afa691e"
-
-Initialising tasks...done.
-Sstate summary: Wanted 9 Local 0 Mirrors 0 Missed 9 Current 106 (0% match, 92% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 337 of 501 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzdata.bb:do_fetch)
-NOTE: Running task 341 of 501 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzcode-native.bb:do_fetch)
-NOTE: recipe tzcode-native-2022c-r0: task do_fetch: Started
-NOTE: recipe tzdata-2022c-r0: task do_fetch: Started
-WARNING: tzcode-native-2022c-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022c.tar.gz
-Cleaning and trying again.
-WARNING: tzcode-native-2022c-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022c.tar.gz to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022c.tar.gz_bad-checksum_6974f4e348bf2323274b56dff9e7500247e3159eaa4b485dfa0cd66e75c14bfe
-WARNING: tzcode-native-2022c-r0 do_fetch: Checksum failure encountered with download of http://www.iana.org/time-zones/repository/releases/tzdata2022c.tar.gz;name=tzdata - will attempt other sources if available
-NOTE: recipe tzcode-native-2022c-r0: task do_fetch: Failed
-WARNING: tzdata-2022c-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022c.tar.gz
-Cleaning and trying again.
-WARNING: tzdata-2022c-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022c.tar.gz to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022c.tar.gz_bad-checksum_6974f4e348bf2323274b56dff9e7500247e3159eaa4b485dfa0cd66e75c14bfe
-WARNING: tzdata-2022c-r0 do_fetch: Checksum failure encountered with download of http://www.iana.org/time-zones/repository/releases/tzdata2022c.tar.gz;name=tzdata - will attempt other sources if available
-NOTE: recipe tzdata-2022c-r0: task do_fetch: Failed
-NOTE: Tasks Summary: Attempted 479 tasks of which 477 didn't need to be rerun and 2 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: 2 tasks failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzcode-native.bb:do_fetch
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzdata.bb:do_fetch
-Summary: There were 7 WARNING messages.
-Summary: There were 4 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: tzcode-native-2022c-r0 do_fetch: Fetcher failure for URL: 'http://www.iana.org/time-zones/repository/releases/tzdata2022c.tar.gz;name=tzdata'. Checksum mismatch!
-File: '/home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022c.tar.gz' has sha256 checksum '6974f4e348bf2323274b56dff9e7500247e3159eaa4b485dfa0cd66e75c14bfe' when 'f590eaf04a395245426c2be4fae71c143aea5cebc11088b7a0a5704461df397d' was expected
-If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
-SRC_URI[tzdata.sha256sum] = "6974f4e348bf2323274b56dff9e7500247e3159eaa4b485dfa0cd66e75c14bfe"
-Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
-ERROR: tzcode-native-2022c-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'http://www.iana.org/time-zones/repository/releases/tzdata2022c.tar.gz;name=tzdata')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/tzcode-native/2022c-r0/temp/log.do_fetch.964331
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzcode-native.bb:do_fetch) failed with exit code '1'
-ERROR: tzdata-2022c-r0 do_fetch: Fetcher failure for URL: 'http://www.iana.org/time-zones/repository/releases/tzdata2022c.tar.gz;name=tzdata'. Checksum mismatch!
-File: '/home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022c.tar.gz' has sha256 checksum '6974f4e348bf2323274b56dff9e7500247e3159eaa4b485dfa0cd66e75c14bfe' when 'f590eaf04a395245426c2be4fae71c143aea5cebc11088b7a0a5704461df397d' was expected
-If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
-SRC_URI[tzdata.sha256sum] = "6974f4e348bf2323274b56dff9e7500247e3159eaa4b485dfa0cd66e75c14bfe"
-Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
-ERROR: tzdata-2022c-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'http://www.iana.org/time-zones/repository/releases/tzdata2022c.tar.gz;name=tzdata')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/all-poky-linux/tzdata/2022c-r0/temp/log.do_fetch.964330
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzdata.bb:do_fetch) failed with exit code '1'
-
---===============7256597242801685610==
+--===============1265249706119486512==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-tzdata-upgrade-2022b-2022c.patch"
+ filename="0001-mesa-upgrade-22.1.6-22.1.7.patch"
 
-RnJvbSA3YjgwMGZlZjA5MjE1MWM0OTgzNjhjY2ZiYmVlYjU0ZGU2ZDAyNzU0IE1vbiBTZXAgMTcg
+RnJvbSBmZTlmMDdjMzZhODkzYmJlMDIzYWY3OTM5ZGIwYzc2MTQzNmM5YTMwIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBTZXAgMjAyMiAwODoxNTowMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHR6
-ZGF0YTogdXBncmFkZSAyMDIyYiAtPiAyMDIyYwoKLS0tCiBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQv
-dGltZXpvbmUvdGltZXpvbmUuaW5jIHwgNCArKy0tCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRp
-b25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRl
-ZC90aW1lem9uZS90aW1lem9uZS5pbmMgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvdGltZXpvbmUv
-dGltZXpvbmUuaW5jCmluZGV4IDJiOTU2Y2Y3YzAuLmIxYmVlNGIwNDQgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1leHRlbmRlZC90aW1lem9uZS90aW1lem9uZS5pbmMKKysrIGIvbWV0YS9yZWNp
-cGVzLWV4dGVuZGVkL3RpbWV6b25lL3RpbWV6b25lLmluYwpAQCAtNiw3ICs2LDcgQEAgU0VDVElP
-TiA9ICJiYXNlIgogTElDRU5TRSA9ICJQRCAmIEJTRC0zLUNsYXVzZSIKIExJQ19GSUxFU19DSEtT
-VU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWM2NzljOWQ2YjAyYmMyNzU3YjNlYWY4ZjUzYzQzZmJh
-IgogCi1QViA9ICIyMDIyYiIKK1BWID0gIjIwMjJjIgogCiBTUkNfVVJJID0iIGh0dHA6Ly93d3cu
-aWFuYS5vcmcvdGltZS16b25lcy9yZXBvc2l0b3J5L3JlbGVhc2VzL3R6Y29kZSR7UFZ9LnRhci5n
-ejtuYW1lPXR6Y29kZSBcCiAgICAgICAgICAgIGh0dHA6Ly93d3cuaWFuYS5vcmcvdGltZS16b25l
-cy9yZXBvc2l0b3J5L3JlbGVhc2VzL3R6ZGF0YSR7UFZ9LnRhci5nejtuYW1lPXR6ZGF0YSBcCkBA
-IC0xNCw2ICsxNCw2IEBAIFNSQ19VUkkgPSIgaHR0cDovL3d3dy5pYW5hLm9yZy90aW1lLXpvbmVz
-L3JlcG9zaXRvcnkvcmVsZWFzZXMvdHpjb2RlJHtQVn0udGFyLmd6CiAKIFVQU1RSRUFNX0NIRUNL
-X1VSSSA9ICJodHRwOi8vd3d3LmlhbmEub3JnL3RpbWUtem9uZXMiCiAKLVNSQ19VUklbdHpjb2Rl
-LnNoYTI1NnN1bV0gPSAiYmFiMjBkOTQzZTU5YTMyMTg0MzVmNDhkODY4YTRlNTUyZjE4ZDZkN2Yz
-ZGQxMjg2NjBjNTY2MGM4MGI4YTA1ZiIKK1NSQ19VUklbdHpjb2RlLnNoYTI1NnN1bV0gPSAiM2U3
-Y2UxZjM2MjBjYzA0ODE5MDdjN2UwNzRkNjk5MTA3OTMyODViZmZlMGNhMzMxZWYxYTZkMWFlM2Vh
-OTBjYyIKIFNSQ19VUklbdHpkYXRhLnNoYTI1NnN1bV0gPSAiZjU5MGVhZjA0YTM5NTI0NTQyNmMy
-YmU0ZmFlNzFjMTQzYWVhNWNlYmMxMTA4OGI3YTBhNTcwNDQ2MWRmMzk3ZCIKIAotLSAKMi4zMS4x
-Cgo=
+CkRhdGU6IFRodSwgMSBTZXAgMjAyMiAwOTozNDo0NCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1l
+c2E6IHVwZ3JhZGUgMjIuMS42IC0+IDIyLjEuNwoKLS0tCiBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+bWVzYS9tZXNhLmluYyAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgMiArLQogbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL21lc2Eve21lc2FfMjIuMS42LmJiID0+IG1lc2FfMjIuMS43LmJifSB8IDAK
+IDIgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS97bWVzYV8yMi4xLjYuYmIgPT4gbWVzYV8yMi4xLjcu
+YmJ9ICgxMDAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2Eu
+aW5jIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYS5pbmMKaW5kZXggZDg1MDI0Njcy
+NC4uYzE0YmQ5MGU4MSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVz
+YS5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYS5pbmMKQEAgLTI1LDcg
+KzI1LDcgQEAgU1JDX1VSSSA9ICJodHRwczovL21lc2EuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmUv
+bWVzYS0ke1BWfS50YXIueHogXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1uaXItbmlyX29wdF9t
+b3ZlLWZpeC1BTFdBWVNfSU5MSU5FLWNvbXBpbGVyLWVycm9yLnBhdGNoIFwKICAgICAgICAgICAg
+IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMjJjZWQwNjFlYjlhZGFiOGVhMzUzNjgyNDZjMTk5
+NWMwOTcyM2YzZjcxNjUzY2Q1MDUwYzVjZWMzNzZlNjcxYSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9
+ICJkYTgzOGViMmNmMTFkMGUwOGQwZTk5NDRmNmJkNGQ5Njk4N2ZkYzU5ZWEyODU2ZjhjNzBhMzFh
+ODJiMzU1ZDg5IgogCiBVUFNUUkVBTV9DSEVDS19HSVRUQUdSRUdFWCA9ICJtZXNhLSg/UDxwdmVy
+PlxkKyhcLlxkKykrKSIKIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2Ev
+bWVzYV8yMi4xLjYuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhXzIyLjEuNy5i
+YgpzaW1pbGFyaXR5IGluZGV4IDEwMCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNz
+L21lc2EvbWVzYV8yMi4xLjYuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNh
+L21lc2FfMjIuMS43LmJiCi0tIAoyLjMxLjEKCg==
 
---===============7256597242801685610==--
+--===============1265249706119486512==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/mesa: SRC_URI changed from "https://mesa.freedesktop.org/archive/mesa-22.1.6.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0002-meson.build-make-TLS-ELF-optional.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch file://0001-util-format-Check-for-NEON-before-using-it.patch file://0001-Revert-egl-wayland-deprecate-drm_handle_format-and-d.patch file://0001-swrast_kms-use-swkmsDRI2Extension-instead-of-driDRI2.patch file://0001-nir-nir_opt_move-fix-ALWAYS_INLINE-compiler-error.patch" to "https://mesa.freedesktop.org/archive/mesa-22.1.7.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0002-meson.build-make-TLS-ELF-optional.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch file://0001-util-format-Check-for-NEON-before-using
+ -it.patch file://0001-Revert-egl-wayland-deprecate-drm_handle_format-and-d.patch file://0001-swrast_kms-use-swkmsDRI2Extension-instead-of-driDRI2.patch file://0001-nir-nir_opt_move-fix-ALWAYS_INLINE-compiler-error.patch"
+packages/core2-32-poky-linux/mesa: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libegl-mesa-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libegl-mesa: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libegl-mesa: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libgbm-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libgbm-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libgbm: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libgbm: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libgl-mesa-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libgl-mesa: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libgl-mesa: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libglapi-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libglapi-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libglapi: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libglapi: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libgles1-mesa-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libgles1-mesa: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libgles1-mesa: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libgles2-mesa-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libgles2-mesa: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libgles2-mesa: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libgles3-mesa-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libgles3-mesa-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libgles3-mesa: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libgles3-mesa: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libopencl-mesa-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libopencl-mesa-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libopencl-mesa: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libopencl-mesa: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libosmesa-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libosmesa-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libosmesa: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libosmesa: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libxatracker-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libxatracker-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libxatracker: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libxatracker: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 123463988 to 123484684 (+0%)
+packages/core2-32-poky-linux/mesa/mesa-dbg: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/mesa-dbg: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/mesa-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/mesa-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/mesa-doc: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/mesa-doc: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/mesa-locale: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/mesa-locale: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/mesa-megadriver: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/mesa-megadriver: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/mesa-src: PKGSIZE changed from 87181988 to 87187458 (+0%)
+packages/core2-32-poky-linux/mesa/mesa-src: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/mesa-src: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/mesa-staticdev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/mesa-staticdev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/mesa-vdpau-drivers: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/mesa-vdpau-drivers: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/mesa: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/mesa: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+
+--===============1265249706119486512==--
 
