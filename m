@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1004C6FD26
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4710C6FD28
 	for <webhook@archiver.kernel.org>; Thu,  1 Sep 2022 13:59:57 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com
- (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web08.12621.1662040785772401708
+Received: from a27-33.smtp-out.us-west-2.amazonses.com
+ (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web12.12462.1662040785423948987
  for <openembedded-core@lists.openembedded.org>;
  Thu, 01 Sep 2022 06:59:45 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=hZ3V69y6;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
- mailfrom: 01010182f959bfc2-be9467c0-638d-44ad-8fc8-b48bad7cc921-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=EMVur+m4;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
+ mailfrom: 01010182f959bd2c-93cdd95e-7f83-4d96-88a8-efdea173bb31-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1662040785;
+	t=1662040784;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ZzuOCDvrBxqasxcB56x288VhOGDSXJqIOLYlrg5GB9E=;
-	b=hZ3V69y6mN3iOtZKSzGY2Uy27RRFb19mSK9ftl//OeEwbZU1t/SUU7Xuaw02EkSU
-	HwuV73EwXpp9u5UHIuwU5kKQDSFx9H48OQq8OdvBtV5P2ua9tcYVIUOQ+z2IxwEwz+9
-	4flQhgDLwcJflUn3EtFFpoMO3FmvAoAhYqWfGiuw=
+	bh=y0CWCSH1j4iapO1lLA4QLCFTBoGR+keYMrC8KrQKBCc=;
+	b=EMVur+m4+H6eVsG3QAMi8mPWD0QdktLmRD4SIHxn7aAqv8BPYL98iY56irpjrBp3
+	+rv+47aJy/NrNvT1aAVew+pKEGtFGeBQu0FmPe7Gf4/oKRRe1Kw3I3R38J5Zm96O7um
+	GQoActqCsOVwjkqd62xs2mmXy7V0B4oS1YfDWlxM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1662040785;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1662040784;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ZzuOCDvrBxqasxcB56x288VhOGDSXJqIOLYlrg5GB9E=;
-	b=UkjadYH3Qo/YN5ZlVBB+rDPlv0jzhfflmf2CXA8j5fN2DNhengIKv9TuHkrjRH4h
-	HaCw7TyVtEyKCGi8Sgi+tWtFFUSOagJALPIKx9w2E2APoLlNNodiBWCaL8x4P0pt66i
-	Ks4WJLp0bcNRBkMfdwEQbLbYKqxUYGUFsupqD2gA=
-Content-Type: multipart/mixed; boundary="===============3272038088344732407=="
+	bh=y0CWCSH1j4iapO1lLA4QLCFTBoGR+keYMrC8KrQKBCc=;
+	b=L4s2wgF1XaAGPb+wtoaARQnZDnv0Y+xmVsNLlHNa47MQs+nq291DAguKFdzKuOI2
+	9QobTICmgoYz6KkFfhMTriVgQfjJZU5rgs94Gc2NYjBAf14hXGV42MZ0n3WKilKd8gY
+	1OwiqhpxS/MroUuBtKFsKzKFUyC/ms5DypjaxPIA=
+Content-Type: multipart/mixed; boundary="===============6122083873239912798=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Joshua Watt <JPEWhacker@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] jquery: upgrading to 3.6.1 FAILED
+Subject: [AUH] base-passwd: upgrading to 3.6.0 FAILED
 Message-ID: 
- <01010182f959bfc2-be9467c0-638d-44ad-8fc8-b48bad7cc921-000000@us-west-2.amazonses.com>
+ <01010182f959bd2c-93cdd95e-7f83-4d96-88a8-efdea173bb31-000000@us-west-2.amazonses.com>
 Date: Thu, 1 Sep 2022 13:59:44 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.09.01-54.240.27.23
+X-SES-Outgoing: 2022.09.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Sep 2022 13:59:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170169
+ https://lists.openembedded.org/g/openembedded-core/message/170166
 
---===============3272038088344732407==
+--===============6122083873239912798==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,121 +56,98 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *jquery* to *3.6.1* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *base-passwd* to *3.6.0* has Failed (devtool error).
 
 Detailed error information:
 
-do_compile failed
-
-
-
-Next steps:
-    - apply the patch: git am 0001-jquery-upgrade-3.6.0-3.6.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
---===============3272038088344732407==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
+Running 'devtool upgrade' for recipe base-passwd failed.
+NOTE: Starting bitbake server...
 WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
-Loaded 1658 entries from dependency cache.
+Loaded 0 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 884 .bb files complete (883 cached, 1 parsed). 1658 targets, 36 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the allarch sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
+Parsing of 884 .bb files complete (0 cached, 884 parsed). 1658 targets, 35 skipped, 0 masked, 0 errors.
+
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.0.1"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-d44944b37ea8c1e5fa3c621777f3ed83ba06cc3d"
-TUNE_FEATURES        = "m32 core2"
+DISTRO_VERSION       = "4.1+snapshot-4c2f9073d6a8fb8bca198ff1f602c37c5afa691e"
+TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:d44944b37ea8c1e5fa3c621777f3ed83ba06cc3d"
+meta-yocto-bsp       = "tmp-auh-upgrades:4c2f9073d6a8fb8bca198ff1f602c37c5afa691e"
 workspace            = "master:4c2f9073d6a8fb8bca198ff1f602c37c5afa691e"
 
 Initialising tasks...done.
-Sstate summary: Wanted 7 Local 0 Mirrors 0 Missed 7 Current 106 (0% match, 93% complete)
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 22 (0% match, 100% complete)
 NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 337 of 492 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/jquery/jquery_3.6.1.bb:do_fetch)
-NOTE: recipe jquery-3.6.1-r0: task do_fetch: Started
-WARNING: jquery-3.6.1-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/jquery-3.6.1.min.js
-Cleaning and trying again.
-WARNING: jquery-3.6.1-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/jquery-3.6.1.min.js to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/jquery-3.6.1.min.js_bad-checksum_a3cf00c109d907e543bc4f6dbc85eb31068f94515251347e9e57509b52ee3d74
-WARNING: jquery-3.6.1-r0 do_fetch: Checksum failure encountered with download of https://code.jquery.com/jquery-3.6.1.min.js;name=min;subdir=jquery-3.6.1 - will attempt other sources if available
-NOTE: recipe jquery-3.6.1-r0: task do_fetch: Failed
-NOTE: Tasks Summary: Attempted 478 tasks of which 477 didn't need to be rerun and 1 failed.
+NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1658 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 885 .bb files complete (883 cached, 2 parsed). 1659 targets, 35 skipped, 0 masked, 0 errors.
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/jquery/jquery_3.6.1.bb:do_fetch
-Summary: There were 4 WARNING messages.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: jquery-3.6.1-r0 do_fetch: Fetcher failure for URL: 'https://code.jquery.com/jquery-3.6.1.min.js;name=min;subdir=jquery-3.6.1'. Checksum mismatch!
-File: '/home/pokybuild/yocto-worker/auh/build/build/build/downloads/jquery-3.6.1.min.js' has sha256 checksum 'a3cf00c109d907e543bc4f6dbc85eb31068f94515251347e9e57509b52ee3d74' when 'ff1523fb7389539c84c65aba19260648793bb4f5e29329d2ee8804bc37a3fe6e' was expected
-If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
-SRC_URI[min.sha256sum] = "a3cf00c109d907e543bc4f6dbc85eb31068f94515251347e9e57509b52ee3d74"
-Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
-ERROR: jquery-3.6.1-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://code.jquery.com/jquery-3.6.1.min.js;name=min;subdir=jquery-3.6.1')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/all-poky-linux/jquery/3.6.1-r0/temp/log.do_fetch.1711885
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/jquery/jquery_3.6.1.bb:do_fetch) failed with exit code '1'
+Summary: There was 1 WARNING message.
+NOTE: Resolving any missing task queue dependencies
 
---===============3272038088344732407==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-jquery-upgrade-3.6.0-3.6.1.patch"
+Build Configuration:
+BB_VERSION           = "2.0.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-4c2f9073d6a8fb8bca198ff1f602c37c5afa691e"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:4c2f9073d6a8fb8bca198ff1f602c37c5afa691e"
+workspace            = "master:4c2f9073d6a8fb8bca198ff1f602c37c5afa691e"
 
-RnJvbSBiNTBhOWRlY2IzN2M3Yjg5NGNmNGUzMWIwNTZmOWZjZDkyNDZhNzgzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBTZXAgMjAyMiAwNjozNTowMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGpx
-dWVyeTogdXBncmFkZSAzLjYuMCAtPiAzLjYuMQoKLS0tCiAuLi4vanF1ZXJ5L3tqcXVlcnlfMy42
-LjAuYmIgPT4ganF1ZXJ5XzMuNi4xLmJifSAgICAgICAgICAgICAgICAgfCAyICstCiAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvanF1ZXJ5L3tqcXVlcnlfMy42LjAuYmIgPT4ganF1ZXJ5XzMuNi4xLmJifSAo
-OTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9qcXVlcnkvanF1ZXJ5XzMu
-Ni4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2pxdWVyeS9qcXVlcnlfMy42LjEuYmIKc2lt
-aWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2pxdWVy
-eS9qcXVlcnlfMy42LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9qcXVlcnkv
-anF1ZXJ5XzMuNi4xLmJiCmluZGV4IDM5ZmZkMzgxMTQuLjVlZDBiYTNiNzQgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9qcXVlcnkvanF1ZXJ5XzMuNi4wLmJiCisrKyBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9qcXVlcnkvanF1ZXJ5XzMuNi4xLmJiCkBAIC0xMyw3ICsxMyw3IEBA
-IFNSQ19VUkkgPSAiXAogICAgIGh0dHBzOi8vY29kZS5qcXVlcnkuY29tLyR7QlB9Lm1pbi5tYXA7
-bmFtZT1tYXA7c3ViZGlyPSR7QlB9IFwKICAgICAiCiAKLVNSQ19VUklbanMuc2hhMjU2c3VtXSA9
-ICIxZmUyYmI1MzkwYTc1ZTVkNjFlNzJjMTA3Y2FiNTI4ZmMzYzI5YTgzN2Q2OWFhYjdkMjAwZTFk
-YmI1ZGNkMjM5IgorU1JDX1VSSVtqcy5zaGEyNTZzdW1dID0gImRmMzk0MWU2Y2RhZWMyODUzM2Fk
-NzJiNzA1M2VjMDVmNzE3MmJlODhlY2FkYTM0NWM0MjczNmJjMmZmYmE0ZDIiCiBTUkNfVVJJW21p
-bi5zaGEyNTZzdW1dID0gImZmMTUyM2ZiNzM4OTUzOWM4NGM2NWFiYTE5MjYwNjQ4NzkzYmI0ZjVl
-MjkzMjlkMmVlODgwNGJjMzdhM2ZlNmUiCiBTUkNfVVJJW21hcC5zaGEyNTZzdW1dID0gIjM5OTU0
-OGZiMGU3YjE0NmMxMmY1YmExODA5OWE0N2Q1OTRhOTcwZmVlOTYyMTJlZWUwYWI0ODUyZjNlNTY3
-ODIiCiAKLS0gCjIuMzEuMQoK
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 18 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Creating workspace layer in /home/pokybuild/yocto-worker/auh/build/build/build/workspace
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://launchpad.net/debian/+archive/primary/+files/base-passwd_3.6.0.tar.xz...
+INFO: Rebasing devtool onto 72847ba1a03c4ca2dce12de4da2d0f858f073088
+WARNING: Command 'git rebase 72847ba1a03c4ca2dce12de4da2d0f858f073088' failed:
+Auto-merging update-passwd.c
+CONFLICT (content): Merge conflict in update-passwd.c
+Auto-merging configure.ac
+Auto-merging Makefile.am
 
---===============3272038088344732407==--
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/base-passwd
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/base-passwd/base-passwd_3.6.0.bb
+
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============6122083873239912798==--
 
