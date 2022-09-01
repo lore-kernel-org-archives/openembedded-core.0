@@ -2,212 +2,182 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CABF8C6FA85
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC725C6FA87
 	for <webhook@archiver.kernel.org>; Thu,  1 Sep 2022 07:21:51 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.9308.1662016899520612081
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web11.9414.1662016902561552697
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Sep 2022 00:21:39 -0700
+ Thu, 01 Sep 2022 00:21:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pnq6zSPn;
- spf=pass (domain: gmail.com, ip: 209.85.128.54,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=HvIkK33b;
+ spf=pass (domain: gmail.com, ip: 209.85.221.53,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id d5so8509494wms.5
+Received: by mail-wr1-f53.google.com with SMTP id u18so8424267wrq.10
         for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Sep 2022 00:21:39 -0700 (PDT)
+ Thu, 01 Sep 2022 00:21:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=k4524APJBOFiySu8QdgrIA4lW5TbIuKaD1dgkU2chDk=;
-        b=pnq6zSPnpBvkXmpzgWrJfoQT3iTbiQZMZcGGgkQClKKs8TYFuRZTM8riHlijKYc2S4
-         TmTe1UMoZz0B33Caee+eXQF4nlU8p4bM81sCR8NogSLX9b2QdppAJeoTIf7Y8Kers3Di
-         9WI+d4rIvQcsSkbtysMJPuaj+beKZJxrxVnc588gLtEcjDDSA9Tz8MMcgX2BcDYzqGkc
-         xLRL93DXV9NFLjT4RtTvw/j5OC4+pd8xrilUxmc78bQ1bs5cWf1DlyfJt0HHdemJPfT8
-         aQugdson0pPAWA+kDgKN+EAAv9PhhLcKtxzjxIksUqHqUukrmUZRCSRxU9WXvV3DHb71
-         O/Mg==
+        bh=SEVBT2uxGHeVLHXZxpSwyTelqTCc5B41B1h4zNKvnnM=;
+        b=HvIkK33bNW/Rc18EVMf6OZc2a2rLUp7nFM8deFZS5gsDEhANpZ4eZDaNjBvvxqfu0y
+         COrzkCSuE4fJGuWRBYdJ9tAkpUp5uz+j6bPzWoICRxRDCGfG8cfE2BpkI9Y7/VMZYFez
+         qQNFL1c00VEjPfsUz7qHCtv8NdNuEwAgZfF6ePChSYzN2tkkbzqOiBT7/aX/kKSHwA8V
+         IkfKKewxEsRlJmL7KAk3/O7guIIkwdj0kuSJTnzBga2OOyGuRFt+j3TVYZ3risfWbTTU
+         lwu/Ly4UgnXEJ7BNuJeY5fnu501SrvI0ICVMurLsysn4oeWoqXmyfm4J7LPL9gaDcz92
+         AVgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=k4524APJBOFiySu8QdgrIA4lW5TbIuKaD1dgkU2chDk=;
-        b=WeyaSQebk4wztwnDj3iAZHYO6z17Dm52h2BFxTbElO6BO6g5OGUtDvsuz351lg6dzp
-         13FwxzZOcRm/w28xmFJveulGL5FwZC/uz9omc2mlqlJcNMzE7GbCA1pXPGomlzVVvncX
-         KjXEqZd2IQ8xVO7o0f9Cnwz+ECRhVruN4CdG7P+ll+yoUyRkL91mv1GzVuUYuvFSqbu4
-         kGnWmQL0Zhe0Zvp3dLj3qqPR4I2CEqrEIdpokbSSDkQshQ/vshWbcl/KgIG4w6usZpWh
-         MmHLe9wBe6Dlct0y9qRG58zGgTtpg2RwohGjowCt9hb/RDJt7Aynk5GXah7WJhZFUjbf
-         G5tA==
-X-Gm-Message-State: ACgBeo2DRjm6SX3d0YlGoSbaYgFI/ckHmzsx4mqQQHp2pESBsBJGGW0T
-	wEySeZ/zk9HgD13VqQC4PJNRRI+Y7As=
+        bh=SEVBT2uxGHeVLHXZxpSwyTelqTCc5B41B1h4zNKvnnM=;
+        b=nToebdW42AWy+kGowK5wwoxnT3JTCGN+KLvF6sWTGo07wR2WvE1JiuUd4uIKZxC7eJ
+         JxjsI0MKX0MJ3mjrvqQdMPqmRxb0C0XlkXmHh5ykUdNU7yyS4K4RJvHOX6E2ciUAD7Vt
+         fIWyK3DF6qVsd5/6zE301gB+Vr1uWnk7P49wGQX1wJHIxnAk7mN77ixlu138/TaarnRF
+         KZh3sFZtYCCViM+PUyrGaO/qynqu9Ew0m3jq+lYcKi1UUYU+lQYwxjMVVklteZ6JMM0c
+         o9BCritCQy1+/U64ZmCnlwILxvGUJHe0WBfCM9aKOO+NY/YPFeyy7cWnFgPU8g8okdkS
+         e1Hg==
+X-Gm-Message-State: ACgBeo2cBiAxHmqP7tr6kizF5LGeuwC6xIVSdWC4D8ukaJiRp/0lCuY8
+	cCuHFrUz0/I1nDs9S509RUfIt94IQ/k=
 X-Google-Smtp-Source: 
- AA6agR4GHtH4mNj5Ejk4hvavaVCObJp+MRr8u4sRutOVDyuhIz3QWMe1C0YbMLVFYD+py0INO0KaPA==
-X-Received: by 2002:a05:600c:1d94:b0:3a5:e341:fc66 with SMTP id
- p20-20020a05600c1d9400b003a5e341fc66mr4135991wms.156.1662016897622;
-        Thu, 01 Sep 2022 00:21:37 -0700 (PDT)
+ AA6agR5g0tCZjWUsJnf0oz3V8HJX5kd73VtUooxwx8VEyFPd3mKTMwbKWMjPhc6R7G93e+jwRQef3g==
+X-Received: by 2002:a5d:6d0e:0:b0:21e:fc95:3dfc with SMTP id
+ e14-20020a5d6d0e000000b0021efc953dfcmr13960136wrq.112.1662016900854;
+        Thu, 01 Sep 2022 00:21:40 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- c18-20020adffb52000000b00225239d9265sm14022982wrs.74.2022.09.01.00.21.36
+ c18-20020adffb52000000b00225239d9265sm14022982wrs.74.2022.09.01.00.21.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Sep 2022 00:21:36 -0700 (PDT)
+        Thu, 01 Sep 2022 00:21:39 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 03/14] mtd-utils: remove patch that adds -I option
-Date: Thu,  1 Sep 2022 09:21:14 +0200
-Message-Id: <20220901072125.3366367-3-alex@linutronix.de>
+Subject: [PATCH 06/14] ovmf: drop the force no-stack-protector patch
+Date: Thu,  1 Sep 2022 09:21:17 +0200
+Message-Id: <20220901072125.3366367-6-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220901072125.3366367-1-alex@linutronix.de>
 References: <20220901072125.3366367-1-alex@linutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Sep 2022 07:21:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170145
+ https://lists.openembedded.org/g/openembedded-core/message/170148
 
-The patch was added in https://git.yoctoproject.org/poky/commit/?id=f594a1145eb5b952265a3fdf6b158ef41b148b12
-with no explanation for the use case or metadata.
+This should not be necessary, as ovmf is already marked as
+COMPATIBLE_HOST:class-target=3D'(i.86|x86_64).*'
+and existing upstream code handles both.
 
-As there are no uses of the option in poky or meta-oe, it can be removed.
-In the (unlikely) event that someone is using the option privately, please cherry-pick
-into a product layer, and send upstream.
+If/when ovmf is used on other targets, the situation can be revisited.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../add-exclusion-to-mkfs-jffs2-git-2.patch   | 105 ------------------
- meta/recipes-devtools/mtd/mtd-utils_git.bb    |   1 -
- 2 files changed, 106 deletions(-)
- delete mode 100644 meta/recipes-devtools/mtd/mtd-utils/add-exclusion-to-mkfs-jffs2-git-2.patch
+ .../ovmf/0003-ovmf-Update-to-latest.patch     | 45 -------------------
+ meta/recipes-core/ovmf/ovmf_git.bb            |  1 -
+ 2 files changed, 46 deletions(-)
+ delete mode 100644 meta/recipes-core/ovmf/ovmf/0003-ovmf-Update-to-latest.=
+patch
 
-diff --git a/meta/recipes-devtools/mtd/mtd-utils/add-exclusion-to-mkfs-jffs2-git-2.patch b/meta/recipes-devtools/mtd/mtd-utils/add-exclusion-to-mkfs-jffs2-git-2.patch
+diff --git a/meta/recipes-core/ovmf/ovmf/0003-ovmf-Update-to-latest.patch b=
+/meta/recipes-core/ovmf/ovmf/0003-ovmf-Update-to-latest.patch
 deleted file mode 100644
-index 5d874d9810..0000000000
---- a/meta/recipes-devtools/mtd/mtd-utils/add-exclusion-to-mkfs-jffs2-git-2.patch
+index d710429899..0000000000
+--- a/meta/recipes-core/ovmf/ovmf/0003-ovmf-Update-to-latest.patch
 +++ /dev/null
-@@ -1,105 +0,0 @@
--Upstream-Status: Pending
+@@ -1,45 +0,0 @@
+-From 67267d8cc31df16a3608cad1a17c5f1470ef8bbd Mon Sep 17 00:00:00 2001
+-From: Steve Langasek <steve.langasek@ubuntu.com>
+-Date: Sat, 10 Jun 2017 01:39:36 -0700
+-Subject: [PATCH 3/6] ovmf: Update to latest
 -
--Index: git/jffsX-utils/mkfs.jffs2.c
--===================================================================
----- git.orig/jffsX-utils/mkfs.jffs2.c
--+++ git/jffsX-utils/mkfs.jffs2.c
--@@ -100,6 +100,11 @@ struct filesystem_entry {
-- 	struct rb_node hardlink_rb;
-- };
-- 
--+struct ignorepath_entry {
--+	struct ignorepath_entry* next;  /* Points to the next ignorepath element */
--+	char name[PATH_MAX];        /* Name of the entry */
--+};
--+static struct ignorepath_entry* ignorepath = 0;
-- struct rb_root hardlinks;
-- static int out_fd = -1;
-- static int in_fd = -1;
--@@ -309,7 +314,7 @@ static struct filesystem_entry *recursiv
-- 	char *hpath, *tpath;
-- 	struct dirent *dp, **namelist;
-- 	struct filesystem_entry *entry;
---
--+	struct ignorepath_entry* element = ignorepath;
-- 
-- 	if (lstat(hostpath, &sb)) {
-- 		sys_errmsg_die("%s", hostpath);
--@@ -318,6 +323,15 @@ static struct filesystem_entry *recursiv
-- 	entry = add_host_filesystem_entry(targetpath, hostpath,
-- 			sb.st_uid, sb.st_gid, sb.st_mode, 0, parent);
-- 
--+	while ( element ) {
--+		if ( strcmp( element->name, targetpath ) == 0 ) {
--+			printf( "Note: ignoring directories below '%s'\n", targetpath );
--+			return entry;
--+			break;
--+		}
--+		element = element->next;
--+	}
--+
-- 	n = scandir(hostpath, &namelist, 0, alphasort);
-- 	if (n < 0) {
-- 		sys_errmsg_die("opening directory %s", hostpath);
--@@ -1359,6 +1373,7 @@ static struct option long_options[] = {
-- 	{"root", 1, NULL, 'r'},
-- 	{"pagesize", 1, NULL, 's'},
-- 	{"eraseblock", 1, NULL, 'e'},
--+	{"ignore", 1, NULL, 'I'},
-- 	{"output", 1, NULL, 'o'},
-- 	{"help", 0, NULL, 'h'},
-- 	{"verbose", 0, NULL, 'v'},
--@@ -1409,6 +1424,7 @@ static const char helptext[] =
-- "  -L, --list-compressors  Show the list of the available compressors\n"
-- "  -t, --test-compression  Call decompress and compare with the original (for test)\n"
-- "  -n, --no-cleanmarkers   Don't add a cleanmarker to every eraseblock\n"
--+"  -I, --ignore=PATH       Ignore sub directory and file tree below PATH when recursing over the file system\n"
-- "  -o, --output=FILE       Output to FILE (default: stdout)\n"
-- "  -l, --little-endian     Create a little-endian filesystem\n"
-- "  -b, --big-endian        Create a big-endian filesystem\n"
--@@ -1566,6 +1582,7 @@ int main(int argc, char **argv)
-- 	char *compr_name = NULL;
-- 	int compr_prior  = -1;
-- 	int warn_page_size = 0;
--+	struct ignorepath_entry* element = ignorepath;
-- 
-- 	page_size = sysconf(_SC_PAGESIZE);
-- 	if (page_size < 0) /* System doesn't know so ... */
--@@ -1576,7 +1593,7 @@ int main(int argc, char **argv)
-- 	jffs2_compressors_init();
-- 
-- 	while ((opt = getopt_long(argc, argv,
---					"D:d:r:s:o:qUPfh?vVe:lbp::nc:m:x:X:Lty:i:", long_options, &c)) >= 0)
--+					"D:d:r:s:I:o:qUPfh?vVe:lbp::nc:m:x:X:Lty:i:", long_options, &c)) >= 0)
-- 	{
-- 		switch (opt) {
-- 			case 'D':
--@@ -1600,6 +1617,28 @@ int main(int argc, char **argv)
-- 				warn_page_size = 0; /* set by user, so don't need to warn */
-- 				break;
-- 
--+			case 'I':
--+				printf( "Note: Adding '%s' to ignore Path\n", optarg );
--+				element = ignorepath;
--+				if ( !ignorepath ) {
--+					ignorepath = xmalloc( sizeof( struct ignorepath_entry ) );
--+					ignorepath->next = 0;
--+					strcpy( &ignorepath->name[0], optarg );
--+				} else {
--+					while ( element->next ) element = element->next;
--+					element->next = xmalloc( sizeof( struct ignorepath_entry ) );
--+ 					element->next->next = 0;
--+					strcpy( &element->next->name[0], optarg );
--+				}
--+				printf( "--------- Dumping ignore path list ----------------\n" );
--+				element = ignorepath;
--+				while ( element ) {
--+					printf( "  * '%s'\n", &element->name[0] );
--+					element = element->next;
--+				}
--+				printf( "---------------------------------------------------\n" );
--+				break;
--+
-- 			case 'o':
-- 				if (out_fd != -1) {
-- 					errmsg_die("output filename specified more than once");
-diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-index d5dfbcdf7a..943666e529 100644
---- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
-+++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-@@ -15,7 +15,6 @@ PV = "2.1.4"
- 
- SRCREV = "c7f1bfa44a84d02061787e2f6093df5cc40b9f5c"
- SRC_URI = "git://git.infradead.org/mtd-utils.git;branch=master \
--           file://add-exclusion-to-mkfs-jffs2-git-2.patch \
-            file://0001-tests-Remove-unused-linux-fs.h-header-from-includes.patch \
+-Description: pass -fno-stack-protector to all GCC toolchains
+- The upstream build rules inexplicably pass -fno-stack-protector only
+- when building for i386 and amd64.  Add this essential argument to the
+- generic rules for gcc 4.4 and later.
+-Last-Updated: 2016-04-12
+-Upstream-Status: Pending
+----
+- BaseTools/Conf/tools_def.template | 8 ++++----
+- 1 file changed, 4 insertions(+), 4 deletions(-)
+-
+-diff --git a/BaseTools/Conf/tools_def.template b/BaseTools/Conf/tools_def.=
+template
+-index 498696e583..36241b6ede 100755
+---- a/BaseTools/Conf/tools_def.template
+-+++ b/BaseTools/Conf/tools_def.template
+-@@ -1897,10 +1897,10 @@ DEFINE GCC_RISCV64_RC_FLAGS        =3D -I binary -=
+O elf64-littleriscv   -B riscv
+- # GCC Build Flag for included header file list generation=0D
+- DEFINE GCC_DEPS_FLAGS              =3D -MMD -MF $@.deps=0D
+- =0D
+--DEFINE GCC48_ALL_CC_FLAGS            =3D DEF(GCC_ALL_CC_FLAGS) -ffunction=
+-sections -fdata-sections -DSTRING_ARRAY_NAME=3D$(BASE_NAME)Strings=0D
+-+DEFINE GCC48_ALL_CC_FLAGS            =3D DEF(GCC_ALL_CC_FLAGS) -ffunction=
+-sections -fdata-sections -fno-stack-protector -DSTRING_ARRAY_NAME=3D$(BASE=
+_NAME)Strings=0D
+- DEFINE GCC48_IA32_X64_DLINK_COMMON   =3D -nostdlib -Wl,-n,-q,--gc-section=
+s -z common-page-size=3D0x20=0D
+--DEFINE GCC48_IA32_CC_FLAGS           =3D DEF(GCC48_ALL_CC_FLAGS) -m32 -ma=
+rch=3Di586 -malign-double -fno-stack-protector -D EFI32 -fno-asynchronous-u=
+nwind-tables -Wno-address=0D
+--DEFINE GCC48_X64_CC_FLAGS            =3D DEF(GCC48_ALL_CC_FLAGS) -m64 -fn=
+o-stack-protector "-DEFIAPI=3D__attribute__((ms_abi))" -maccumulate-outgoin=
+g-args -mno-red-zone -Wno-address -mcmodel=3Dsmall -fpie -fno-asynchronous-=
+unwind-tables -Wno-address=0D
+-+DEFINE GCC48_IA32_CC_FLAGS           =3D DEF(GCC48_ALL_CC_FLAGS) -m32 -ma=
+rch=3Di586 -malign-double -D EFI32 -fno-asynchronous-unwind-tables -Wno-add=
+ress=0D
+-+DEFINE GCC48_X64_CC_FLAGS            =3D DEF(GCC48_ALL_CC_FLAGS) -m64 "-D=
+EFIAPI=3D__attribute__((ms_abi))" -maccumulate-outgoing-args -mno-red-zone =
+-Wno-address -mcmodel=3Dsmall -fpie -fno-asynchronous-unwind-tables -Wno-ad=
+dress=0D
+- DEFINE GCC48_IA32_X64_ASLDLINK_FLAGS =3D DEF(GCC48_IA32_X64_DLINK_COMMON)=
+ -Wl,--entry,ReferenceAcpiTable -u ReferenceAcpiTable=0D
+- DEFINE GCC48_IA32_X64_DLINK_FLAGS    =3D DEF(GCC48_IA32_X64_DLINK_COMMON)=
+ -Wl,--entry,$(IMAGE_ENTRY_POINT) -u $(IMAGE_ENTRY_POINT) -Wl,-Map,$(DEST_D=
+IR_DEBUG)/$(BASE_NAME).map,--whole-archive=0D
+- DEFINE GCC48_IA32_DLINK2_FLAGS       =3D -Wl,--defsym=3DPECOFF_HEADER_SIZ=
+E=3D0x220 DEF(GCC_DLINK2_FLAGS_COMMON)=0D
+-@@ -1909,7 +1909,7 @@ DEFINE GCC48_X64_DLINK2_FLAGS        =3D -Wl,--defsy=
+m=3DPECOFF_HEADER_SIZE=3D0x228 DEF
+- DEFINE GCC48_ASM_FLAGS               =3D DEF(GCC_ASM_FLAGS)=0D
+- DEFINE GCC48_ARM_ASM_FLAGS           =3D $(ARCHASM_FLAGS) $(PLATFORM_FLAG=
+S) DEF(GCC_ASM_FLAGS) -mlittle-endian=0D
+- DEFINE GCC48_AARCH64_ASM_FLAGS       =3D $(ARCHASM_FLAGS) $(PLATFORM_FLAG=
+S) DEF(GCC_ASM_FLAGS) -mlittle-endian=0D
+--DEFINE GCC48_ARM_CC_FLAGS            =3D $(ARCHCC_FLAGS) $(PLATFORM_FLAGS=
+) DEF(GCC_ARM_CC_FLAGS) -fstack-protector -mword-relocations=0D
+-+DEFINE GCC48_ARM_CC_FLAGS            =3D $(ARCHCC_FLAGS) $(PLATFORM_FLAGS=
+) DEF(GCC_ARM_CC_FLAGS) -mword-relocations=0D
+- DEFINE GCC48_ARM_CC_XIPFLAGS         =3D DEF(GCC_ARM_CC_XIPFLAGS)=0D
+- DEFINE GCC48_AARCH64_CC_FLAGS        =3D $(ARCHCC_FLAGS) $(PLATFORM_FLAGS=
+) -mcmodel=3Dlarge DEF(GCC_AARCH64_CC_FLAGS)=0D
+- DEFINE GCC48_AARCH64_CC_XIPFLAGS     =3D DEF(GCC_AARCH64_CC_XIPFLAGS)=0D
+---=20
+-2.32.0
+-
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
+mf_git.bb
+index aac30ead30..40542239e2 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -22,7 +22,6 @@ BUILD_CFLAGS +=3D "-Wno-error=3Dstringop-overflow"
+ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=3Dmaster;protoco=
+l=3Dhttps \
+            file://0001-ovmf-update-path-to-native-BaseTools.patch \
+            file://0002-BaseTools-makefile-adjust-to-build-in-under-bitbake=
+.patch \
+-           file://0003-ovmf-Update-to-latest.patch \
+            file://0005-debug-prefix-map.patch \
+            file://0006-reproducible.patch \
             "
- 
--- 
+--=20
 2.30.2
 
 
