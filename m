@@ -1,192 +1,106 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CE53C0502C
-	for <webhook@archiver.kernel.org>; Thu,  1 Sep 2022 12:40:53 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.11524.1662036052719863600
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B66FAECAAD1
+	for <webhook@archiver.kernel.org>; Thu,  1 Sep 2022 13:43:53 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web08.12386.1662039823584365131
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Sep 2022 05:40:53 -0700
+ Thu, 01 Sep 2022 06:43:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BLvVCx/4;
- spf=pass (domain: gmail.com, ip: 209.85.128.42,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id ay12so8943435wmb.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=a8gkBIzU;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id s23so9040643wmj.4
         for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Sep 2022 05:40:52 -0700 (PDT)
+ Thu, 01 Sep 2022 06:43:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=nnrWjM2FqZ//t3OdnUkB0REz+xDEceihEJUk61d8s5s=;
-        b=BLvVCx/4J4sv5iKLFXLFJdA0XKxEHdgvtsSSZ4L6HoDjEuhTYWvv4fPE9wd8J8/aa9
-         p4AL5SofFv2erYd93S6lDDO8pA9h97y85ZGyRBdesHwGZY1WNSmFQO+8KEEfJ9QnYmoC
-         as240Sb6sRlxEsD1MRxCz+Lm6RmBv/PT4y5PvgfM6Z/HQjYV0hB0ZxPFmy8M4+Vj60WP
-         8VQY44iwc31iJ0vI8GgLZwu3sv2uORGuSky65Fxe7+wlI+9lwCyNYp5yttNCpR8T4gYq
-         wKF6TiLwcps7c+jdC5iIz7DsxSX1oSdEYVoJaX2F8y+axr815bQVjkbNLpuoZJn1YlYW
-         Q8kQ==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date;
+        bh=Z3F+JwWP66hlagKBZ475QJ8chUaKw4Ag2Lg2J79+peM=;
+        b=a8gkBIzUCaVnZA8KPQZ5alTe3EtY+FMNoW5GVhguCn5s0cQFG014XiUSvEc15WiAXS
+         FqMJC+QGxJrsf9pAlfzHLjpiyJulD8ko+Sz+lZWcS2JyFaNtXS4WyATo7sfpxq9ecpS9
+         sRNg8Wls1fDX0c6+nxLC4++XKTgd8l5OzmnuA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=nnrWjM2FqZ//t3OdnUkB0REz+xDEceihEJUk61d8s5s=;
-        b=PjAvLO3JFR6EQVjZTMJJGwWoh5EJn4B7I3s+NNOanNdqWEiCOONJ9/ERIXat5V+q/+
-         4hvuFYGfdIpVd7AUUYNlUsGPCH+k8X5IFtm9fCRJBseUEttCiVdn3gUHKdPFFjltKD/v
-         KgkTU5R+/1zu3QWAKpBc3cSxa6N3Q4/9e38aSEjRcNKp5hmdvluTxInrwfn26Xy5G+C1
-         x/sDWTGUk2TQr3JebOCjZSmAZXJx5/SUkzpRRTwEU7Ny4NFzHfb5i3s0Usc1LyfaDiWO
-         Ctgnk3nLVijC3Xg72gval6gVjzjNdVYMzHOIw2B1AMefmVPK82ZCEiMgbuq6QKx/e5/W
-         JIzA==
-X-Gm-Message-State: ACgBeo1WZkSEPfnmhC1QrO7lm7aN18dlWLYOoUXAkDp3jxI43rPPV7BO
-	p/LQpL8wiKVdlOMHVvM1ZlXtlVbzPF4=
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=Z3F+JwWP66hlagKBZ475QJ8chUaKw4Ag2Lg2J79+peM=;
+        b=oBIODwYgjTTKbD7JSEPYxVQGUDG18FSVgjMQbpQw5nRMwUxaXyarRQRhXUa4Y2oc8B
+         2p+y9bxkL0NjEmOkPK4Vb7tuzl8KvSpNCxe/K4LzGM+uwTEEpn8Uc9+8ztty0EA7Fk92
+         EuuGE7/lc/8cSQQ2EDNXEX7h8mKPY7rbW/UF955+C/V32Do1qXP51iUyq9kv0N3cijXT
+         v2j96pEpzLUcTeraSx7lhNvZRLTitQivMNIWwBR2/4w3APm23iJ4GY/xJ3DhIDwGx+6W
+         FaZL6THyGE4KGan2pQhfTGWMn1LT6sdUldBfyNrXLIFsvuO/lXYlBR3tJzsfK6CV4tyV
+         rAzQ==
+X-Gm-Message-State: ACgBeo3Z9l2twmovEnivbJcXdLrlhTseWedlLlODZPXos+L35lxOCewh
+	zvUuOf3l/Qk67UV1RpiKg/XoXw==
 X-Google-Smtp-Source: 
- AA6agR4ogv7Ei6KbmCUmrBHB4687Wj5933gPnyd1ykHHqAxnRI9MVZZIkUDgeZemz7F0VrkGQzWxfw==
-X-Received: by 2002:a1c:4c18:0:b0:3a5:3ddd:2f29 with SMTP id
- z24-20020a1c4c18000000b003a53ddd2f29mr5065494wmf.91.1662036050976;
-        Thu, 01 Sep 2022 05:40:50 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
- [80.153.143.164])
+ AA6agR58bgqpDsv5Vlrg5hwPIFPNFqxjmT8iHmWhxxdh/j3XYL9/vIHfUg/54QbfnQS9fV2G40Z7uA==
+X-Received: by 2002:a05:600c:1f11:b0:3a5:3df9:4859 with SMTP id
+ bd17-20020a05600c1f1100b003a53df94859mr5150793wmb.175.1662039821976;
+        Thu, 01 Sep 2022 06:43:41 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:417:930f:844b:d765?
+ ([2001:8b0:aba:5f3c:417:930f:844b:d765])
         by smtp.gmail.com with ESMTPSA id
- u8-20020a5d4688000000b00226f2ab6e2asm2321866wrq.68.2022.09.01.05.40.49
+ r129-20020a1c4487000000b003a35516ccc3sm5345936wma.26.2022.09.01.06.43.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Sep 2022 05:40:50 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] llvm: remove
- 0006-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch
-Date: Thu,  1 Sep 2022 14:40:46 +0200
-Message-Id: <20220901124046.267482-1-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
+        Thu, 01 Sep 2022 06:43:41 -0700 (PDT)
+Message-ID: 
+ <4bab9a949e5f6766e6dd611a21803851881ee972.camel@linuxfoundation.org>
+Subject: Re: [OE-core] Error with TEMPLATECONF value
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Jacob Kroon
+	 <jacob.kroon@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 01 Sep 2022 14:43:40 +0100
+In-Reply-To: 
+ <CANNYZj9wiX4MPLwqrtMXtPqwMMWrQPmrDZ186vahPcDpmZk9pA@mail.gmail.com>
+References: <1710BA34037FD8E9.1438@lists.openembedded.org>
+	 <dd196c7c-93e5-2854-1479-8e51996929fd@gmail.com>
+	 <CANNYZj9wiX4MPLwqrtMXtPqwMMWrQPmrDZ186vahPcDpmZk9pA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Sep 2022 12:40:53 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Sep 2022 13:43:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170163
+ https://lists.openembedded.org/g/openembedded-core/message/170164
 
-At some point this became unnecessary as llvm builds with with musl without it.
+On Thu, 2022-09-01 at 14:14 +0200, Alexander Kanavin wrote:
+> On Thu, 1 Sept 2022 at 14:11, Jacob Kroon <jacob.kroon@gmail.com> wrote:
+> >=20
+> > On 9/1/22 13:49, Jacob Kroon via lists.openembedded.org wrote:
+> > > Hi,
+> > >=20
+> > > After updating to master branches I'm getting:
+> > >=20
+> > > > Error: TEMPLATECONF value (which is
+> > > > /home/jkroon/Projects/codab-linux/openembedded-core/meta/conf) must
+> > > > point to meta-some-layer/conf/templates/template-name
+> > >=20
+> > > What is the proper solution to this ?
+> > >=20
+> >=20
+> > After wiping build/conf/* and rerunning bitbake the problem seems to
+> > have resolved itself.
+>=20
+> You can also adjust build/conf/templateconf.cfg without wiping, just
+> append /templates/default to what is in there. I have moved the
+> default templates to meta[-poky]/conf/templates/default/ and added a
+> check that enforces the location. This does break existing builds.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- ...ryInfo-Undefine-libc-functions-if-th.patch | 90 -------------------
- meta/recipes-devtools/llvm/llvm_git.bb        |  1 -
- 2 files changed, 91 deletions(-)
- delete mode 100644 meta/recipes-devtools/llvm/llvm/0006-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch
+Ideally, the checks in sanity.bbclass would migrate existing builds for
+this issue...
 
-diff --git a/meta/recipes-devtools/llvm/llvm/0006-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch b/meta/recipes-devtools/llvm/llvm/0006-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch
-deleted file mode 100644
-index d02b7ba6ab..0000000000
---- a/meta/recipes-devtools/llvm/llvm/0006-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch
-+++ /dev/null
-@@ -1,90 +0,0 @@
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--From dbeecdb307be8b783b42cbc89dcb9c5e7f528989 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 21 May 2016 00:33:20 +0000
--Subject: [PATCH] llvm: TargetLibraryInfo: Undefine libc functions if they are macros
--
--musl defines some functions as macros and not inline functions
--if this is the case then make sure to undefine them
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- .../llvm/Analysis/TargetLibraryInfo.def       | 21 +++++++++++++++++++
-- 1 file changed, 21 insertions(+)
--
--diff --git a/llvm/include/llvm/Analysis/TargetLibraryInfo.def b/llvm/include/llvm/Analysis/TargetLibraryInfo.def
--index afed404f04c..876888656f2 100644
----- a/llvm/include/llvm/Analysis/TargetLibraryInfo.def
--+++ b/llvm/include/llvm/Analysis/TargetLibraryInfo.def
--@@ -782,6 +782,9 @@ TLI_DEFINE_STRING_INTERNAL("fmodl")
-- TLI_DEFINE_ENUM_INTERNAL(fopen)
-- TLI_DEFINE_STRING_INTERNAL("fopen")
-- /// FILE *fopen64(const char *filename, const char *opentype)
--+#ifdef fopen64
--+#undef fopen64
--+#endif
-- TLI_DEFINE_ENUM_INTERNAL(fopen64)
-- TLI_DEFINE_STRING_INTERNAL("fopen64")
-- /// int fork();
--@@ -829,6 +832,9 @@ TLI_DEFINE_STRING_INTERNAL("fseek")
-- /// int fseeko(FILE *stream, off_t offset, int whence);
-- TLI_DEFINE_ENUM_INTERNAL(fseeko)
-- TLI_DEFINE_STRING_INTERNAL("fseeko")
--+#ifdef fseeko64
--+#undef fseeko64
--+#endif
-- /// int fseeko64(FILE *stream, off64_t offset, int whence)
-- TLI_DEFINE_ENUM_INTERNAL(fseeko64)
-- TLI_DEFINE_STRING_INTERNAL("fseeko64")
--@@ -839,6 +845,9 @@ TLI_DEFINE_STRING_INTERNAL("fsetpos")
-- TLI_DEFINE_ENUM_INTERNAL(fstat)
-- TLI_DEFINE_STRING_INTERNAL("fstat")
-- /// int fstat64(int filedes, struct stat64 *buf)
--+#ifdef fstat64
--+#undef fstat64
--+#endif
-- TLI_DEFINE_ENUM_INTERNAL(fstat64)
-- TLI_DEFINE_STRING_INTERNAL("fstat64")
-- /// int fstatvfs(int fildes, struct statvfs *buf);
--@@ -854,6 +863,9 @@ TLI_DEFINE_STRING_INTERNAL("ftell")
-- TLI_DEFINE_ENUM_INTERNAL(ftello)
-- TLI_DEFINE_STRING_INTERNAL("ftello")
-- /// off64_t ftello64(FILE *stream)
--+#ifdef ftello64
--+#undef ftello64
--+#endif
-- TLI_DEFINE_ENUM_INTERNAL(ftello64)
-- TLI_DEFINE_STRING_INTERNAL("ftello64")
-- /// int ftrylockfile(FILE *file);
--@@ -980,6 +992,9 @@ TLI_DEFINE_STRING_INTERNAL("logl")
-- TLI_DEFINE_ENUM_INTERNAL(lstat)
-- TLI_DEFINE_STRING_INTERNAL("lstat")
-- /// int lstat64(const char *path, struct stat64 *buf);
--+#ifdef lstat64
--+#undef lstat64
--+#endif
-- TLI_DEFINE_ENUM_INTERNAL(lstat64)
-- TLI_DEFINE_STRING_INTERNAL("lstat64")
-- /// void *malloc(size_t size);
--@@ -1205,6 +1220,9 @@ TLI_DEFINE_STRING_INTERNAL("sscanf")
-- TLI_DEFINE_ENUM_INTERNAL(stat)
-- TLI_DEFINE_STRING_INTERNAL("stat")
-- /// int stat64(const char *path, struct stat64 *buf);
--+#ifdef stat64
--+#undef stat64
--+#endif
-- TLI_DEFINE_ENUM_INTERNAL(stat64)
-- TLI_DEFINE_STRING_INTERNAL("stat64")
-- /// int statvfs(const char *path, struct statvfs *buf);
--@@ -1340,6 +1358,9 @@ TLI_DEFINE_STRING_INTERNAL("times")
-- TLI_DEFINE_ENUM_INTERNAL(tmpfile)
-- TLI_DEFINE_STRING_INTERNAL("tmpfile")
-- /// FILE *tmpfile64(void)
--+#ifdef tmpfile64
--+#undef tmpfile64
--+#endif
-- TLI_DEFINE_ENUM_INTERNAL(tmpfile64)
-- TLI_DEFINE_STRING_INTERNAL("tmpfile64")
-- /// int toascii(int c);
-diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-index 4c7fadb667..25c0a433d3 100644
---- a/meta/recipes-devtools/llvm/llvm_git.bb
-+++ b/meta/recipes-devtools/llvm/llvm_git.bb
-@@ -28,7 +28,6 @@ LLVM_RELEASE = "${PV}"
- BRANCH = "release/${MAJOR_VERSION}.x"
- SRCREV = "f28c006a5895fc0e329fe15fead81e37457cb1d1"
- SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH};protocol=https \
--           file://0006-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch;striplevel=2 \
-            file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
-            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
-            file://llvm-config \
--- 
-2.30.2
+Cheers,
 
+Richard
 
