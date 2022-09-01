@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EF1CC6FA85
-	for <webhook@archiver.kernel.org>; Thu,  1 Sep 2022 13:59:55 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com
- (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.12464.1662040787912277117
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E101DC54EE9
+	for <webhook@archiver.kernel.org>; Thu,  1 Sep 2022 13:59:54 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com
+ (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web12.12471.1662040788009370274
  for <openembedded-core@lists.openembedded.org>;
  Thu, 01 Sep 2022 06:59:48 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ac0oEHty;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
- mailfrom: 01010182f959c7e2-76beb9f2-a4c9-484e-bd4a-9d661dfb0d5a-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=KoZ/DZwu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
+ mailfrom: 01010182f959c976-59985eff-3682-4f83-a90b-83923b5d9632-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1662040787;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Lk0EbncflJDFWrpP0dEC/u9ro/jZd0Hr6Q11LWPO7nM=;
-	b=ac0oEHty37k1wzoOJVTvuVRkAM47FiMMvoBkTSrnhlmVewLUEaxGBfP6bEUxjS4L
-	ZxfT5Dr9tqxg0tPdI29/ZvFoWw0DlpYazGDl4Cdt7AFfhm1brt1wtd5qHfsFz14mg/t
-	jIPC4TTwU6lPW6I4cWnkbT+/RSm7rJlbdLrxzWCk=
+	bh=ocO1jITrmaMPu6XE+eKCsqfkySu32pdWtPLRhgNxf2s=;
+	b=KoZ/DZwuJhVNG1XJhaAcZJOXGMj/KAlJqGK/966XrpTzQgZjrdZyyJ6kAb4He5dR
+	9jPJwLcaN/3AWd0Bbabqfv+t7DYVRXf7Lbzdt4iyD3BG85YLuvCVa0wcPme1HMg9+LE
+	/h79rBKpfKcmni1SDEu0TWY6m9I55+gBPbW6NYmI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1662040787;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Lk0EbncflJDFWrpP0dEC/u9ro/jZd0Hr6Q11LWPO7nM=;
-	b=AxuMEDP+QJIhiKiV5S13wdHHCOSwU2nVsvvYigs8NaMog5z+y4elgvgNhw0O5fl/
-	MxyKLgy6mQ72bdpQhxbfZCytzj9+XiJyR8Lt4RVpd0ww28O53ZoWb49W+9G2nzH3VUM
-	wv56NoO6MdsGKiikHmIckyvDrEwDTwSWTyb1fAdE=
-Content-Type: multipart/mixed; boundary="===============2453683541832552758=="
+	bh=ocO1jITrmaMPu6XE+eKCsqfkySu32pdWtPLRhgNxf2s=;
+	b=SNeq3Ag6G1dFJ6/7sjVZlarcKRm8Qn/AzoVMSqvoVpGwurB/8dQg2Nt0+nD6+rIa
+	OVBYL8dXB6OYw6A3B1rVru5/kJrdWexgke8WCXLAcH1K8alRAID47YQW1P9rwdFiWUb
+	D/uGPHdCKHjynhXlMqwFFM+Dp4GYigoY15kHDXGI=
+Content-Type: multipart/mixed; boundary="===============3446115603516129017=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Wang Mingyu <wangmy@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] lttng-ust: upgrading to 2.13.4 SUCCEEDED
+Subject: [AUH] liburcu: upgrading to 0.13.2 SUCCEEDED
 Message-ID: 
- <01010182f959c7e2-76beb9f2-a4c9-484e-bd4a-9d661dfb0d5a-000000@us-west-2.amazonses.com>
-Date: Thu, 1 Sep 2022 13:59:46 +0000
+ <01010182f959c976-59985eff-3682-4f83-a90b-83923b5d9632-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Sep 2022 13:59:47 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.09.01-54.240.27.45
+X-SES-Outgoing: 2022.09.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Sep 2022 13:59:55 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Sep 2022 13:59:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170212
+ https://lists.openembedded.org/g/openembedded-core/message/170216
 
---===============2453683541832552758==
+--===============3446115603516129017==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *lttng-ust* to *2.13.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *liburcu* to *0.13.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-lttng-ust-upgrade-2.13.3-2.13.4.patch
+    - apply the patch: git am 0001-liburcu-upgrade-0.13.1-0.13.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,36 +75,67 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============2453683541832552758==
+--===============3446115603516129017==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-liburcu-upgrade-0.13.1-0.13.2.patch"
+
+RnJvbSBkMzc5ZTc1YWFjYTAxMjBiOTdkNWFkMjg1OGNjMTNkMTExNDRjNWJjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMSBTZXAgMjAyMiAxMzo0NToyOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YnVyY3U6IHVwZ3JhZGUgMC4xMy4xIC0+IDAuMTMuMgoKLS0tCiAuLi4vbGlidXJjdS97bGlidXJj
+dV8wLjEzLjEuYmIgPT4gbGlidXJjdV8wLjEzLjIuYmJ9ICAgICAgICAgICAgfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtc3VwcG9ydC9saWJ1cmN1L3tsaWJ1cmN1XzAuMTMuMS5iYiA9PiBsaWJ1cmN1XzAuMTMu
+Mi5iYn0gKDkxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJ1cmN1L2xp
+YnVyY3VfMC4xMy4xLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlidXJjdS9saWJ1cmN1XzAu
+MTMuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDkxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9saWJ1cmN1L2xpYnVyY3VfMC4xMy4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9saWJ1cmN1L2xpYnVyY3VfMC4xMy4yLmJiCmluZGV4IDY2NzYzMzQ5ZDIuLjZlY2YyZTIx
+YzAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnVyY3UvbGlidXJjdV8wLjEz
+LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlidXJjdS9saWJ1cmN1XzAuMTMuMi5i
+YgpAQCAtMTIsNyArMTIsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21k
+NT1lNTQ4ZDI4NzM3Mjg5ZDc1YThmMWUwMWJhMmZkNzgyNSBcCiAKIFNSQ19VUkkgPSAiaHR0cDov
+L2x0dG5nLm9yZy9maWxlcy91cmN1L3VzZXJzcGFjZS1yY3UtJHtQVn0udGFyLmJ6MiIKIAotU1JD
+X1VSSVtzaGEyNTZzdW1dID0gIjMyMTNmMzNkMmI4ZjcxMGViOTIwZWIxYWJiMjc5ZWMwNGJmOGFl
+NjM2MWY0NGYyNTEzYzI4YzIwZDMzNjMwODMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMTIxM2Zk
+OWYxYjBiNzRkYTdkZTJiYjc0MzM1Yjc2MDk4ZGI5NzM4ZmVjNWQzY2RjMDdjMGM1MjRmMzRmYzAz
+MiIKIAogUyA9ICIke1dPUktESVJ9L3VzZXJzcGFjZS1yY3UtJHtQVn0iCiBpbmhlcml0IGF1dG90
+b29scyBtdWx0aWxpYl9oZWFkZXIKLS0gCjIuMzEuMQoK
+
+--===============3446115603516129017==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/lttng-ust: SRC_URI changed from "https://lttng.org/files/lttng-ust/lttng-ust-2.13.3.tar.bz2 file://0001-python-lttngust-Makefile.am-Add-install-lib-to-setup.patch file://0001-lttng-ust-common-link-with-liburcu-explicitly.patch file://0001-Makefile.am-update-rpath-link.patch" to "https://lttng.org/files/lttng-ust/lttng-ust-2.13.4.tar.bz2 file://0001-python-lttngust-Makefile.am-Add-install-lib-to-setup.patch file://0001-lttng-ust-common-link-with-liburcu-explicitly.patch file://0001-Makefile.am-update-rpath-link.patch"
-packages/core2-32-poky-linux/lttng-ust: PKGV changed from 2.13.3 [default] to 2.13.4 [default]
-packages/core2-32-poky-linux/lttng-ust: PV changed from "2.13.3" to "2.13.4"
-packages/core2-32-poky-linux/lttng-ust/lttng-ust-bin: PKGV changed from 2.13.3 [default] to 2.13.4 [default]
-packages/core2-32-poky-linux/lttng-ust/lttng-ust-bin: PV changed from "2.13.3" to "2.13.4"
-packages/core2-32-poky-linux/lttng-ust/lttng-ust-dbg: PKGSIZE changed from 3790996 to 3834772 (+1%)
-packages/core2-32-poky-linux/lttng-ust/lttng-ust-dbg: PKGV changed from 2.13.3 [default] to 2.13.4 [default]
-packages/core2-32-poky-linux/lttng-ust/lttng-ust-dbg: PV changed from "2.13.3" to "2.13.4"
-packages/core2-32-poky-linux/lttng-ust/lttng-ust-dev: PKGSIZE changed from 220072 to 220412 (+0%)
-packages/core2-32-poky-linux/lttng-ust/lttng-ust-dev: PKGV changed from 2.13.3 [default] to 2.13.4 [default]
-packages/core2-32-poky-linux/lttng-ust/lttng-ust-dev: PV changed from "2.13.3" to "2.13.4"
-packages/core2-32-poky-linux/lttng-ust/lttng-ust-doc: PKGSIZE changed from 107271 to 108117 (+1%)
-packages/core2-32-poky-linux/lttng-ust/lttng-ust-doc: PKGV changed from 2.13.3 [default] to 2.13.4 [default]
-packages/core2-32-poky-linux/lttng-ust/lttng-ust-doc: PV changed from "2.13.3" to "2.13.4"
-packages/core2-32-poky-linux/lttng-ust/lttng-ust-locale: PKGV changed from 2.13.3 [default] to 2.13.4 [default]
-packages/core2-32-poky-linux/lttng-ust/lttng-ust-locale: PV changed from "2.13.3" to "2.13.4"
-packages/core2-32-poky-linux/lttng-ust/lttng-ust-src: PKGSIZE changed from 1510543 to 1517150 (+0%)
-packages/core2-32-poky-linux/lttng-ust/lttng-ust-src: PKGV changed from 2.13.3 [default] to 2.13.4 [default]
-packages/core2-32-poky-linux/lttng-ust/lttng-ust-src: PV changed from "2.13.3" to "2.13.4"
-packages/core2-32-poky-linux/lttng-ust/lttng-ust-staticdev: PKGV changed from 2.13.3 [default] to 2.13.4 [default]
-packages/core2-32-poky-linux/lttng-ust/lttng-ust-staticdev: PV changed from "2.13.3" to "2.13.4"
-packages/core2-32-poky-linux/lttng-ust/lttng-ust: PKGSIZE changed from 1186046 to 1202430 (+1%)
-packages/core2-32-poky-linux/lttng-ust/lttng-ust: PKGV changed from 2.13.3 [default] to 2.13.4 [default]
-packages/core2-32-poky-linux/lttng-ust/lttng-ust: PV changed from "2.13.3" to "2.13.4"
+packages/core2-32-poky-linux/liburcu: PV changed from "0.13.1" to "0.13.2"
+packages/core2-32-poky-linux/liburcu: PKGV changed from 0.13.1 [default] to 0.13.2 [default]
+packages/core2-32-poky-linux/liburcu: SRC_URI changed from "http://lttng.org/files/urcu/userspace-rcu-0.13.1.tar.bz2" to "http://lttng.org/files/urcu/userspace-rcu-0.13.2.tar.bz2"
+packages/core2-32-poky-linux/liburcu/liburcu-dbg: PV changed from "0.13.1" to "0.13.2"
+packages/core2-32-poky-linux/liburcu/liburcu-dbg: PKGV changed from 0.13.1 [default] to 0.13.2 [default]
+packages/core2-32-poky-linux/liburcu/liburcu-dbg: PKGSIZE changed from 715692 to 756088 (+6%)
+packages/core2-32-poky-linux/liburcu/liburcu-dev: PV changed from "0.13.1" to "0.13.2"
+packages/core2-32-poky-linux/liburcu/liburcu-dev: PKGV changed from 0.13.1 [default] to 0.13.2 [default]
+packages/core2-32-poky-linux/liburcu/liburcu-dev: PKGSIZE changed from 369306 to 369524 (+0%)
+packages/core2-32-poky-linux/liburcu/liburcu-doc: PV changed from "0.13.1" to "0.13.2"
+packages/core2-32-poky-linux/liburcu/liburcu-doc: PKGV changed from 0.13.1 [default] to 0.13.2 [default]
+packages/core2-32-poky-linux/liburcu/liburcu-doc: PKGSIZE changed from 165199 to 165312 (+0%)
+packages/core2-32-poky-linux/liburcu/liburcu-locale: PV changed from "0.13.1" to "0.13.2"
+packages/core2-32-poky-linux/liburcu/liburcu-locale: PKGV changed from 0.13.1 [default] to 0.13.2 [default]
+packages/core2-32-poky-linux/liburcu/liburcu-src: PV changed from "0.13.1" to "0.13.2"
+packages/core2-32-poky-linux/liburcu/liburcu-src: PKGV changed from 0.13.1 [default] to 0.13.2 [default]
+packages/core2-32-poky-linux/liburcu/liburcu-src: FILELIST: directory renamed /usr/src/debug/liburcu/0.13.1-r0/include/urcu -> /usr/src/debug/liburcu/0.13.2-r0/include/urcu, directory renamed /usr/src/debug/liburcu/0.13.1-r0/include/urcu/static -> /usr/src/debug/liburcu/0.13.2-r0/include/urcu/static, directory renamed /usr/src/debug/liburcu/0.13.1-r0/include/urcu/uatomic -> /usr/src/debug/liburcu/0.13.2-r0/include/urcu/uatomic, removed "/usr/src/debug/liburcu/0.13.1-r0/src/wfstack.c /usr/src/debug/liburcu/0.13.1-r0/src/lfstack.c /usr/src/debug/liburcu/0.13.1-r0/src/workqueue.h /usr/src/debug/liburcu/0.13.1-r0/src/urcu-wait.h /usr/src/debug/liburcu/0.13.1-r0/src/workqueue.c /usr/src/debug/liburcu/0.13.1-r0/src/compat_futex.c /usr/src/debug/liburcu/0.13.1-r0/src/urcu-call-rcu-impl.h /usr/src/debug/liburcu/0.13.1-r0/src/urcu-bp.c /usr/src/debug/liburcu/0.13.1-r0/src/urcu-qsbr.c /usr/src/debug/liburcu/0.13.1-r0/src/rculfhash-mm-chunk.c /usr/src/debug/liburcu/0.13.1-r0/src/rculfhash-mm-or
+ der.c /usr/src/debug/liburcu/0.13.1-r0/src/urcu-pointer.c /usr/src/debug/liburcu/0.13.1-r0/src/wfqueue.c /usr/src/debug/liburcu/0.13.1-r0/src/rculfhash.c /usr/src/debug/liburcu/0.13.1-r0/src/urcu.c /usr/src/debug/liburcu/0.13.1-r0/src/wfcqueue.c /usr/src/debug/liburcu/0.13.1-r0/src/rculfhash-mm-mmap.c /usr/src/debug/liburcu/0.13.1-r0/src/rculfqueue.c /usr/src/debug/liburcu/0.13.1-r0/src/rculfstack.c /usr/src/debug/liburcu/0.13.1-r0/src/compat-getcpu.h /usr/src/debug/liburcu/0.13.1-r0/src/urcu-defer-impl.h /usr/src/debug/liburcu/0.13.1-r0/src/rculfhash-internal.h", added "/usr/src/debug/liburcu/0.13.2-r0/src/rculfhash-mm-order.c /usr/src/debug/liburcu/0.13.2-r0/src/compat_futex.c /usr/src/debug/liburcu/0.13.2-r0/src/urcu-bp.c /usr/src/debug/liburcu/0.13.2-r0/src/rculfqueue.c /usr/src/debug/liburcu/0.13.2-r0/src/rculfhash.c /usr/src/debug/liburcu/0.13.2-r0/src/urcu-qsbr.c /usr/src/debug/liburcu/0.13.2-r0/src/rculfhash-mm-mmap.c /usr/src/debug/liburcu/0.13.2-r0/src/urcu-defer-impl.h /u
+ sr/src/debug/liburcu/0.13.2-r0/src/compat-smp.h /usr/src/debug/liburcu/0.13.2-r0/src/urcu-pointer.c /usr/src/debug/liburcu/0.13.2-r0/src/workqueue.c /usr/src/debug/liburcu/0.13.2-r0/src/wfqueue.c /usr/src/debug/liburcu/0.13.2-r0/src/workqueue.h /usr/src/debug/liburcu/0.13.2-r0/src/wfcqueue.c /usr/src/debug/liburcu/0.13.2-r0/src/wfstack.c /usr/src/debug/liburcu/0.13.2-r0/src/urcu.c /usr/src/debug/liburcu/0.13.2-r0/src/rculfhash-mm-chunk.c /usr/src/debug/liburcu/0.13.2-r0/src/urcu-wait.h /usr/src/debug/liburcu/0.13.2-r0/src/rculfhash-internal.h /usr/src/debug/liburcu/0.13.2-r0/src/compat-getcpu.h /usr/src/debug/liburcu/0.13.2-r0/src/rculfstack.c /usr/src/debug/liburcu/0.13.2-r0/src/lfstack.c /usr/src/debug/liburcu/0.13.2-r0/src/urcu-call-rcu-impl.h"
+packages/core2-32-poky-linux/liburcu/liburcu-src: PKGSIZE changed from 422289 to 431068 (+2%)
+packages/core2-32-poky-linux/liburcu/liburcu-staticdev: PV changed from "0.13.1" to "0.13.2"
+packages/core2-32-poky-linux/liburcu/liburcu-staticdev: PKGV changed from 0.13.1 [default] to 0.13.2 [default]
+packages/core2-32-poky-linux/liburcu/liburcu: PV changed from "0.13.1" to "0.13.2"
+packages/core2-32-poky-linux/liburcu/liburcu: PKGV changed from 0.13.1 [default] to 0.13.2 [default]
+packages/core2-32-poky-linux/liburcu/liburcu: PKGSIZE changed from 296254 to 300350 (+1%)
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1459,7 +1490,7 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
 
---===============2453683541832552758==
+--===============3446115603516129017==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -2819,34 +2850,5 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
 
---===============2453683541832552758==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-lttng-ust-upgrade-2.13.3-2.13.4.patch"
-
-RnJvbSBlMzJkZDgxODc0M2M3OGZiNGM1NzBiNGViOWJiYWYwNmFlNjIzZjczIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBTZXAgMjAyMiAxMTo1OTowNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGx0
-dG5nLXVzdDogdXBncmFkZSAyLjEzLjMgLT4gMi4xMy40CgotLS0KIC4uLi9sdHRuZy97bHR0bmct
-dXN0XzIuMTMuMy5iYiA9PiBsdHRuZy11c3RfMi4xMy40LmJifSAgICAgICAgICB8IDIgKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1rZXJuZWwvbHR0bmcve2x0dG5nLXVzdF8yLjEzLjMuYmIgPT4gbHR0bmctdXN0XzIu
-MTMuNC5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2x0
-dG5nLXVzdF8yLjEzLjMuYmIgYi9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2x0dG5nLXVzdF8y
-LjEzLjQuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWtl
-cm5lbC9sdHRuZy9sdHRuZy11c3RfMi4xMy4zLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMta2Vy
-bmVsL2x0dG5nL2x0dG5nLXVzdF8yLjEzLjQuYmIKaW5kZXggY2M4OGJmNWIxMS4uNTYyMDBhYzNl
-MSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9sdHRuZy11c3RfMi4xMy4z
-LmJiCisrKyBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvbHR0bmctdXN0XzIuMTMuNC5iYgpA
-QCAtMzQsNyArMzQsNyBAQCBTUkNfVVJJID0gImh0dHBzOi8vbHR0bmcub3JnL2ZpbGVzL2x0dG5n
-LXVzdC9sdHRuZy11c3QtJHtQVn0udGFyLmJ6MiBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLU1h
-a2VmaWxlLmFtLXVwZGF0ZS1ycGF0aC1saW5rLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiMmNjNDJmNTExNDUwNTA0MzBhYzRhYjcyYjMyZDk1ZmQ3OGQ1NTY2
-Y2NiZTQ0ZTE0YThmY2RkMjNjMGVkOGY2ZiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI2OThmODJl
-YzVkYzU2ZTk4MWMwYmIwOGM0NmViYWJhZjMxYzYwZTg3N2MyZTM2NWI5ZmQ2ZDNhOWZmZjhiMzk4
-IgogCiBDVkVfUFJPRFVDVCA9ICJ1c3QiCiAKLS0gCjIuMzEuMQoK
-
---===============2453683541832552758==--
+--===============3446115603516129017==--
 
