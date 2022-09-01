@@ -1,106 +1,285 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B66FAECAAD1
-	for <webhook@archiver.kernel.org>; Thu,  1 Sep 2022 13:43:53 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web08.12386.1662039823584365131
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4EF9ECAAD3
+	for <webhook@archiver.kernel.org>; Thu,  1 Sep 2022 13:59:53 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com
+ (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web12.12461.1662040785214139173
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Sep 2022 06:43:43 -0700
+ Thu, 01 Sep 2022 06:59:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=a8gkBIzU;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id s23so9040643wmj.4
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Sep 2022 06:43:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date;
-        bh=Z3F+JwWP66hlagKBZ475QJ8chUaKw4Ag2Lg2J79+peM=;
-        b=a8gkBIzUCaVnZA8KPQZ5alTe3EtY+FMNoW5GVhguCn5s0cQFG014XiUSvEc15WiAXS
-         FqMJC+QGxJrsf9pAlfzHLjpiyJulD8ko+Sz+lZWcS2JyFaNtXS4WyATo7sfpxq9ecpS9
-         sRNg8Wls1fDX0c6+nxLC4++XKTgd8l5OzmnuA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=Z3F+JwWP66hlagKBZ475QJ8chUaKw4Ag2Lg2J79+peM=;
-        b=oBIODwYgjTTKbD7JSEPYxVQGUDG18FSVgjMQbpQw5nRMwUxaXyarRQRhXUa4Y2oc8B
-         2p+y9bxkL0NjEmOkPK4Vb7tuzl8KvSpNCxe/K4LzGM+uwTEEpn8Uc9+8ztty0EA7Fk92
-         EuuGE7/lc/8cSQQ2EDNXEX7h8mKPY7rbW/UF955+C/V32Do1qXP51iUyq9kv0N3cijXT
-         v2j96pEpzLUcTeraSx7lhNvZRLTitQivMNIWwBR2/4w3APm23iJ4GY/xJ3DhIDwGx+6W
-         FaZL6THyGE4KGan2pQhfTGWMn1LT6sdUldBfyNrXLIFsvuO/lXYlBR3tJzsfK6CV4tyV
-         rAzQ==
-X-Gm-Message-State: ACgBeo3Z9l2twmovEnivbJcXdLrlhTseWedlLlODZPXos+L35lxOCewh
-	zvUuOf3l/Qk67UV1RpiKg/XoXw==
-X-Google-Smtp-Source: 
- AA6agR58bgqpDsv5Vlrg5hwPIFPNFqxjmT8iHmWhxxdh/j3XYL9/vIHfUg/54QbfnQS9fV2G40Z7uA==
-X-Received: by 2002:a05:600c:1f11:b0:3a5:3df9:4859 with SMTP id
- bd17-20020a05600c1f1100b003a53df94859mr5150793wmb.175.1662039821976;
-        Thu, 01 Sep 2022 06:43:41 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:417:930f:844b:d765?
- ([2001:8b0:aba:5f3c:417:930f:844b:d765])
-        by smtp.gmail.com with ESMTPSA id
- r129-20020a1c4487000000b003a35516ccc3sm5345936wma.26.2022.09.01.06.43.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Sep 2022 06:43:41 -0700 (PDT)
-Message-ID: 
- <4bab9a949e5f6766e6dd611a21803851881ee972.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Error with TEMPLATECONF value
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Jacob Kroon
-	 <jacob.kroon@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 01 Sep 2022 14:43:40 +0100
-In-Reply-To: 
- <CANNYZj9wiX4MPLwqrtMXtPqwMMWrQPmrDZ186vahPcDpmZk9pA@mail.gmail.com>
-References: <1710BA34037FD8E9.1438@lists.openembedded.org>
-	 <dd196c7c-93e5-2854-1479-8e51996929fd@gmail.com>
-	 <CANNYZj9wiX4MPLwqrtMXtPqwMMWrQPmrDZ186vahPcDpmZk9pA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ dkim=pass header.i=@yoctoproject.org
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=YEMO/+oS;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
+ mailfrom: 01010182f959bd69-eb6e212d-89ec-455d-94e7-3bd100dbddce-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1662040784;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=euSxbXIh+wzqiV0gI/8Ni3l7oHL2Am9/Hi131Kumv/8=;
+	b=YEMO/+oSbP/0AopLqVUCG/FaqrLTk09S0LcwziSnS5DeMeIjmHX+wo+m2Xq6f7dG
+	N+be60cxIktCmoDGDrjfIEGSv3hRIvbUqZGpiAJHh6h6VQR4MqGtH5aaJ1MqTl8Q/hV
+	RcBMlTaaBIHMWxTIQT4RiV0I/n+pBJGwvlzECXK4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1662040784;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=euSxbXIh+wzqiV0gI/8Ni3l7oHL2Am9/Hi131Kumv/8=;
+	b=AENjhVNR8dp2E6hCD6/EclkdTri0YDDiqpTC9KfQjgvCQ5CRiuysByCOZbG1kLG5
+	S9YElY4p1nzFs98sUd0EPuwzFBjH/wyYhXAtUeV+j0I+fzmpFonU8NAlDomjqKHsvRc
+	6m4fby0IbsVih8JhhfXgu5T/WOM6F0dhbetQBvjM=
+Content-Type: multipart/mixed; boundary="===============7884125598866882095=="
 MIME-Version: 1.0
+From: auh@yoctoproject.org
+To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] ovmf: upgrading to edk2-stable202208 FAILED
+Message-ID: 
+ <01010182f959bd69-eb6e212d-89ec-455d-94e7-3bd100dbddce-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Sep 2022 13:59:44 +0000
+Feedback-ID: 
+ 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2022.09.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Sep 2022 13:43:53 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Sep 2022 13:59:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170164
+ https://lists.openembedded.org/g/openembedded-core/message/170165
 
-On Thu, 2022-09-01 at 14:14 +0200, Alexander Kanavin wrote:
-> On Thu, 1 Sept 2022 at 14:11, Jacob Kroon <jacob.kroon@gmail.com> wrote:
-> >=20
-> > On 9/1/22 13:49, Jacob Kroon via lists.openembedded.org wrote:
-> > > Hi,
-> > >=20
-> > > After updating to master branches I'm getting:
-> > >=20
-> > > > Error: TEMPLATECONF value (which is
-> > > > /home/jkroon/Projects/codab-linux/openembedded-core/meta/conf) must
-> > > > point to meta-some-layer/conf/templates/template-name
-> > >=20
-> > > What is the proper solution to this ?
-> > >=20
-> >=20
-> > After wiping build/conf/* and rerunning bitbake the problem seems to
-> > have resolved itself.
->=20
-> You can also adjust build/conf/templateconf.cfg without wiping, just
-> append /templates/default to what is in there. I have moved the
-> default templates to meta[-poky]/conf/templates/default/ and added a
-> check that enforces the location. This does break existing builds.
+--===============7884125598866882095==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Ideally, the checks in sanity.bbclass would migrate existing builds for
-this issue...
+Hello,
 
-Cheers,
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *ovmf* to *edk2-stable202208* has Failed(do_compile).
 
-Richard
+Detailed error information:
+
+do_compile failed
+
+
+
+Next steps:
+    - apply the patch: git am 0001-ovmf-upgrade-edk2-stable202205-edk2-stable202208.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============7884125598866882095==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1658 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 884 .bb files complete (883 cached, 1 parsed). 1658 targets, 36 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 2 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-4c2f9073d6a8fb8bca198ff1f602c37c5afa691e"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:4c2f9073d6a8fb8bca198ff1f602c37c5afa691e"
+workspace            = "master:4c2f9073d6a8fb8bca198ff1f602c37c5afa691e"
+
+Initialising tasks...done.
+Sstate summary: Wanted 25 Local 14 Mirrors 0 Missed 11 Current 238 (56% match, 95% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 806 of 1137 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ovmf/ovmf_git.bb:do_fetch)
+NOTE: Running task 820 of 1137 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ovmf/ovmf_git.bb:do_fetch)
+NOTE: recipe ovmf-edk2-stable202208-r0: task do_fetch: Started
+NOTE: recipe ovmf-native-edk2-stable202208-r0: task do_fetch: Started
+NOTE: recipe ovmf-edk2-stable202208-r0: task do_fetch: Succeeded
+NOTE: Running task 1114 of 1137 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ovmf/ovmf_git.bb:do_unpack)
+NOTE: recipe ovmf-edk2-stable202208-r0: task do_unpack: Started
+NOTE: recipe ovmf-native-edk2-stable202208-r0: task do_fetch: Succeeded
+NOTE: Running task 1115 of 1137 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ovmf/ovmf_git.bb:do_unpack)
+NOTE: Running task 1116 of 1137 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ovmf/ovmf_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe ovmf-native-edk2-stable202208-r0: task do_unpack: Started
+NOTE: recipe ovmf-native-edk2-stable202208-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe ovmf-native-edk2-stable202208-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe ovmf-edk2-stable202208-r0: task do_unpack: Succeeded
+NOTE: Running task 1117 of 1137 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ovmf/ovmf_git.bb:do_patch)
+NOTE: recipe ovmf-edk2-stable202208-r0: task do_patch: Started
+NOTE: recipe ovmf-edk2-stable202208-r0: task do_patch: Failed
+NOTE: recipe ovmf-native-edk2-stable202208-r0: task do_unpack: Succeeded
+NOTE: Tasks Summary: Attempted 1117 tasks of which 1111 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ovmf/ovmf_git.bb:do_patch
+Summary: There was 1 WARNING message.
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: ovmf-edk2-stable202208-r0 do_patch: Applying patch '0006-Committing-changes-from-do_patch.patch' on target directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/ovmf/edk2-stable202208-r0/git'
+CmdError('quilt --quiltrc /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/ovmf/edk2-stable202208-r0/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Applying patch 0006-Committing-changes-from-do_patch.patch
+patching file BaseTools/Source/C/Makefiles/app.makefile
+Hunk #1 FAILED at 10 (different line endings).
+1 out of 1 hunk FAILED -- rejects in file BaseTools/Source/C/Makefiles/app.makefile
+patching file BaseTools/Source/C/VfrCompile/GNUmakefile
+Hunk #1 FAILED at 18 (different line endings).
+1 out of 1 hunk FAILED -- rejects in file BaseTools/Source/C/VfrCompile/GNUmakefile
+patching file OvmfPkg/build.sh
+Patch 0006-Committing-changes-from-do_patch.patch does not apply (enforce with -f)
+
+stderr: ')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/ovmf/edk2-stable202208-r0/temp/log.do_patch.3545212
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ovmf/ovmf_git.bb:do_patch) failed with exit code '1'
+
+--===============7884125598866882095==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-ovmf-upgrade-edk2-stable202205-edk2-stable202208.patch"
+
+RnJvbSAyMjQxYWVmM2UzMDE0YzVlOTg1YTE3ZDg1MDI0ZTcwYTUyNDFjYTc5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMSBTZXAgMjAyMiAwNTo1MzoyOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG92
+bWY6IHVwZ3JhZGUgZWRrMi1zdGFibGUyMDIyMDUgLT4gZWRrMi1zdGFibGUyMDIyMDgKCi0tLQog
+Li4uMDA2LUNvbW1pdHRpbmctY2hhbmdlcy1mcm9tLWRvX3BhdGNoLnBhdGNoIHwgNjQgKysrKysr
+KysrKysrKysrKysrKwogbWV0YS9yZWNpcGVzLWNvcmUvb3ZtZi9vdm1mX2dpdC5iYiAgICAgICAg
+ICAgIHwgIDUgKy0KIDIgZmlsZXMgY2hhbmdlZCwgNjcgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlv
+bnMoLSkKIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29yZS9vdm1mL292bWYvMDAw
+Ni1Db21taXR0aW5nLWNoYW5nZXMtZnJvbS1kb19wYXRjaC5wYXRjaAoKZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1jb3JlL292bWYvb3ZtZi8wMDA2LUNvbW1pdHRpbmctY2hhbmdlcy1mcm9tLWRv
+X3BhdGNoLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvb3ZtZi9vdm1mLzAwMDYtQ29tbWl0dGlu
+Zy1jaGFuZ2VzLWZyb20tZG9fcGF0Y2gucGF0Y2gKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXgg
+MDAwMDAwMDAwMC4uMzgzZTNjYmFjYQotLS0gL2Rldi9udWxsCisrKyBiL21ldGEvcmVjaXBlcy1j
+b3JlL292bWYvb3ZtZi8wMDA2LUNvbW1pdHRpbmctY2hhbmdlcy1mcm9tLWRvX3BhdGNoLnBhdGNo
+CkBAIC0wLDAgKzEsNjQgQEAKK0Zyb20gOTRjM2M2YmRhZDA2Yjg2MmRmZjlkNGE2MjNiZTgyYmYw
+NGFmMTQ2MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb206IE9wZW5FbWJlZGRlZCA8b2Uu
+cGF0Y2hAb2U+CitEYXRlOiBUaHUsIDEgU2VwIDIwMjIgMDU6NTI6NTIgKzAwMDAKK1N1YmplY3Q6
+IFtQQVRDSF0gQ29tbWl0dGluZyBjaGFuZ2VzIGZyb20gZG9fcGF0Y2gKKworLS0tCisgQmFzZVRv
+b2xzL1NvdXJjZS9DL01ha2VmaWxlcy9hcHAubWFrZWZpbGUgfCAgNiArKysrKysKKyBCYXNlVG9v
+bHMvU291cmNlL0MvVmZyQ29tcGlsZS9HTlVtYWtlZmlsZSB8IDEwICsrKysrKysrKysKKyBPdm1m
+UGtnL2J1aWxkLnNoICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAyICstCisgMyBmaWxlcyBj
+aGFuZ2VkLCAxNyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCisKK2RpZmYgLS1naXQgYS9C
+YXNlVG9vbHMvU291cmNlL0MvTWFrZWZpbGVzL2FwcC5tYWtlZmlsZSBiL0Jhc2VUb29scy9Tb3Vy
+Y2UvQy9NYWtlZmlsZXMvYXBwLm1ha2VmaWxlCitpbmRleCA2YTJhOGY1ZThhLi5hYmE3NjU2ODdl
+IDEwMDY0NAorLS0tIGEvQmFzZVRvb2xzL1NvdXJjZS9DL01ha2VmaWxlcy9hcHAubWFrZWZpbGUK
+KysrKyBiL0Jhc2VUb29scy9Tb3VyY2UvQy9NYWtlZmlsZXMvYXBwLm1ha2VmaWxlCitAQCAtMTAs
+NiArMTAsMTIgQEAgTUFLRVJPT1QgPz0gLi4vLi4KKyBpbmNsdWRlICQoTUFLRVJPT1QpL01ha2Vm
+aWxlcy9oZWFkZXIubWFrZWZpbGUKKyAKKyBBUFBMSUNBVElPTiA9ICQoTUFLRVJPT1QpL2Jpbi8k
+KEFQUE5BTUUpCisrQ0MgPSB4ODZfNjQtcG9reS1saW51eC1nY2MgIC1tNjQgLW1hcmNoPWNvcmUy
+IC1tdHVuZT1jb3JlMiAtbXNzZTMgLW1mcG1hdGg9c3NlIC1mc3RhY2stcHJvdGVjdG9yLXN0cm9u
+ZyAgLU8yIC1EX0ZPUlRJRllfU09VUkNFPTIgLVdmb3JtYXQgLVdmb3JtYXQtc2VjdXJpdHkgLVdl
+cnJvcj1mb3JtYXQtc2VjdXJpdHkgLS1zeXNyb290PS9ob21lL3Bva3lidWlsZC95b2N0by13b3Jr
+ZXIvYXVoL2J1aWxkL2J1aWxkL2J1aWxkL3RtcC93b3JrL2NvcmUyLTY0LXBva3ktbGludXgvb3Zt
+Zi9lZGsyLXN0YWJsZTIwMjIwNS1yMC9kZXZ0b29sdG1wLWl0dnl6NHhuL3dvcmtkaXIvcmVjaXBl
+LXN5c3Jvb3QKKytDWFggPSB4ODZfNjQtcG9reS1saW51eC1nKysgIC1tNjQgLW1hcmNoPWNvcmUy
+IC1tdHVuZT1jb3JlMiAtbXNzZTMgLW1mcG1hdGg9c3NlIC1mc3RhY2stcHJvdGVjdG9yLXN0cm9u
+ZyAgLU8yIC1EX0ZPUlRJRllfU09VUkNFPTIgLVdmb3JtYXQgLVdmb3JtYXQtc2VjdXJpdHkgLVdl
+cnJvcj1mb3JtYXQtc2VjdXJpdHkgLS1zeXNyb290PS9ob21lL3Bva3lidWlsZC95b2N0by13b3Jr
+ZXIvYXVoL2J1aWxkL2J1aWxkL2J1aWxkL3RtcC93b3JrL2NvcmUyLTY0LXBva3ktbGludXgvb3Zt
+Zi9lZGsyLXN0YWJsZTIwMjIwNS1yMC9kZXZ0b29sdG1wLWl0dnl6NHhuL3dvcmtkaXIvcmVjaXBl
+LXN5c3Jvb3QKKytBUyA9IHg4Nl82NC1wb2t5LWxpbnV4LWFzICAKKytBUiA9IHg4Nl82NC1wb2t5
+LWxpbnV4LWdjYy1hcgorK0xEID0geDg2XzY0LXBva3ktbGludXgtbGQgLS1zeXNyb290PS9ob21l
+L3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL2J1aWxkL3RtcC93b3JrL2Nv
+cmUyLTY0LXBva3ktbGludXgvb3ZtZi9lZGsyLXN0YWJsZTIwMjIwNS1yMC9kZXZ0b29sdG1wLWl0
+dnl6NHhuL3dvcmtkaXIvcmVjaXBlLXN5c3Jvb3QgIAorK0xJTktFUiA9ICQoQ0MpCisgCisgLlBI
+T05ZOmFsbAorIGFsbDogJChNQUtFUk9PVCkvYmluICQoQVBQTElDQVRJT04pCitkaWZmIC0tZ2l0
+IGEvQmFzZVRvb2xzL1NvdXJjZS9DL1ZmckNvbXBpbGUvR05VbWFrZWZpbGUgYi9CYXNlVG9vbHMv
+U291cmNlL0MvVmZyQ29tcGlsZS9HTlVtYWtlZmlsZQoraW5kZXggZmMzMjk5NDRiOS4uMjllYTc2
+NTRlZCAxMDA2NDQKKy0tLSBhL0Jhc2VUb29scy9Tb3VyY2UvQy9WZnJDb21waWxlL0dOVW1ha2Vm
+aWxlCisrKysgYi9CYXNlVG9vbHMvU291cmNlL0MvVmZyQ29tcGlsZS9HTlVtYWtlZmlsZQorQEAg
+LTE4LDggKzE4LDE4IEBAIE9CSkVDVFMgPSBBUGFyc2VyLm8gRExleGVyQmFzZS5vIEFUb2tlbkJ1
+ZmZlci5vIEVmaVZmclBhcnNlci5vIFZmckxleGVyLm8gVmZyU3luCisgICAgICAgICAgIFZmckZv
+cm1Qa2cubyBWZnJFcnJvci5vIFZmclV0aWxpdHlMaWIubyBWZnJDb21waWxlci5vCisgaWZlcSAo
+JChDWFgpLCBsbHZtKQorIFZGUl9DUFBGTEFHUyA9IC1Xbm8tZGVwcmVjYXRlZC1yZWdpc3RlciAt
+RFBDQ1RTX1VTRV9OQU1FU1BBQ0VfU1REICQoQlVJTERfQ1BQRkxBR1MpCisrQ0MgPSB4ODZfNjQt
+cG9reS1saW51eC1nY2MgIC1tNjQgLW1hcmNoPWNvcmUyIC1tdHVuZT1jb3JlMiAtbXNzZTMgLW1m
+cG1hdGg9c3NlIC1mc3RhY2stcHJvdGVjdG9yLXN0cm9uZyAgLU8yIC1EX0ZPUlRJRllfU09VUkNF
+PTIgLVdmb3JtYXQgLVdmb3JtYXQtc2VjdXJpdHkgLVdlcnJvcj1mb3JtYXQtc2VjdXJpdHkgLS1z
+eXNyb290PS9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL2J1aWxk
+L3RtcC93b3JrL2NvcmUyLTY0LXBva3ktbGludXgvb3ZtZi9lZGsyLXN0YWJsZTIwMjIwNS1yMC9k
+ZXZ0b29sdG1wLWl0dnl6NHhuL3dvcmtkaXIvcmVjaXBlLXN5c3Jvb3QKKytDWFggPSB4ODZfNjQt
+cG9reS1saW51eC1nKysgIC1tNjQgLW1hcmNoPWNvcmUyIC1tdHVuZT1jb3JlMiAtbXNzZTMgLW1m
+cG1hdGg9c3NlIC1mc3RhY2stcHJvdGVjdG9yLXN0cm9uZyAgLU8yIC1EX0ZPUlRJRllfU09VUkNF
+PTIgLVdmb3JtYXQgLVdmb3JtYXQtc2VjdXJpdHkgLVdlcnJvcj1mb3JtYXQtc2VjdXJpdHkgLS1z
+eXNyb290PS9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL2J1aWxk
+L3RtcC93b3JrL2NvcmUyLTY0LXBva3ktbGludXgvb3ZtZi9lZGsyLXN0YWJsZTIwMjIwNS1yMC9k
+ZXZ0b29sdG1wLWl0dnl6NHhuL3dvcmtkaXIvcmVjaXBlLXN5c3Jvb3QKKytBUyA9IHg4Nl82NC1w
+b2t5LWxpbnV4LWFzICAKKytBUiA9IHg4Nl82NC1wb2t5LWxpbnV4LWdjYy1hcgorK0xEID0geDg2
+XzY0LXBva3ktbGludXgtbGQgLS1zeXNyb290PS9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIv
+YXVoL2J1aWxkL2J1aWxkL2J1aWxkL3RtcC93b3JrL2NvcmUyLTY0LXBva3ktbGludXgvb3ZtZi9l
+ZGsyLXN0YWJsZTIwMjIwNS1yMC9kZXZ0b29sdG1wLWl0dnl6NHhuL3dvcmtkaXIvcmVjaXBlLXN5
+c3Jvb3QgIAorIGVsc2UKKyBWRlJfQ1BQRkxBR1MgPSAtRFBDQ1RTX1VTRV9OQU1FU1BBQ0VfU1RE
+ICQoQlVJTERfQ1BQRkxBR1MpCisrQ0MgPSB4ODZfNjQtcG9reS1saW51eC1nY2MgIC1tNjQgLW1h
+cmNoPWNvcmUyIC1tdHVuZT1jb3JlMiAtbXNzZTMgLW1mcG1hdGg9c3NlIC1mc3RhY2stcHJvdGVj
+dG9yLXN0cm9uZyAgLU8yIC1EX0ZPUlRJRllfU09VUkNFPTIgLVdmb3JtYXQgLVdmb3JtYXQtc2Vj
+dXJpdHkgLVdlcnJvcj1mb3JtYXQtc2VjdXJpdHkgLS1zeXNyb290PS9ob21lL3Bva3lidWlsZC95
+b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL2J1aWxkL3RtcC93b3JrL2NvcmUyLTY0LXBva3kt
+bGludXgvb3ZtZi9lZGsyLXN0YWJsZTIwMjIwNS1yMC9kZXZ0b29sdG1wLWl0dnl6NHhuL3dvcmtk
+aXIvcmVjaXBlLXN5c3Jvb3QKKytDWFggPSB4ODZfNjQtcG9reS1saW51eC1nKysgIC1tNjQgLW1h
+cmNoPWNvcmUyIC1tdHVuZT1jb3JlMiAtbXNzZTMgLW1mcG1hdGg9c3NlIC1mc3RhY2stcHJvdGVj
+dG9yLXN0cm9uZyAgLU8yIC1EX0ZPUlRJRllfU09VUkNFPTIgLVdmb3JtYXQgLVdmb3JtYXQtc2Vj
+dXJpdHkgLVdlcnJvcj1mb3JtYXQtc2VjdXJpdHkgLS1zeXNyb290PS9ob21lL3Bva3lidWlsZC95
+b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL2J1aWxkL3RtcC93b3JrL2NvcmUyLTY0LXBva3kt
+bGludXgvb3ZtZi9lZGsyLXN0YWJsZTIwMjIwNS1yMC9kZXZ0b29sdG1wLWl0dnl6NHhuL3dvcmtk
+aXIvcmVjaXBlLXN5c3Jvb3QKKytBUyA9IHg4Nl82NC1wb2t5LWxpbnV4LWFzICAKKytBUiA9IHg4
+Nl82NC1wb2t5LWxpbnV4LWdjYy1hcgorK0xEID0geDg2XzY0LXBva3ktbGludXgtbGQgLS1zeXNy
+b290PS9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL2J1aWxkL3Rt
+cC93b3JrL2NvcmUyLTY0LXBva3ktbGludXgvb3ZtZi9lZGsyLXN0YWJsZTIwMjIwNS1yMC9kZXZ0
+b29sdG1wLWl0dnl6NHhuL3dvcmtkaXIvcmVjaXBlLXN5c3Jvb3QgIAorIGVuZGlmCisgIyBrZWVw
+IEJVSUxEX09QVEZMQUdTIGxhc3QKKyBWRlJfQ1hYRkxBR1MgPSAkKEJVSUxEX09QVEZMQUdTKQor
+ZGlmZiAtLWdpdCBhL092bWZQa2cvYnVpbGQuc2ggYi9Pdm1mUGtnL2J1aWxkLnNoCitpbmRleCAx
+ODU4ZGFlMzFhLi5hMjk2OWQzZDFjIDEwMDc1NQorLS0tIGEvT3ZtZlBrZy9idWlsZC5zaAorKysr
+IGIvT3ZtZlBrZy9idWlsZC5zaAorQEAgLTI0LDcgKzI0LDcgQEAgdGhlbgorICMgdGhpcyBhc3N1
+bWVzIHN2biBwdWxscyBoYXZlIHRoZSBzYW1lIHJvb3QgZGlyCisgIyAgZXhwb3J0IEVES19UT09M
+U19QQVRIPWBwd2RgLy4uL0Jhc2VUb29scworICMgVGhpcyB2ZXJzaW9uIGlzIGZvciB0aGUgdG9v
+bHMgc291cmNlIGluIGVkazIKKy0gIGV4cG9ydCBFREtfVE9PTFNfUEFUSD1CQkFLRV9FREtfVE9P
+TFNfUEFUSC9CYXNlVG9vbHMKKysgIGV4cG9ydCBFREtfVE9PTFNfUEFUSD0vaG9tZS9wb2t5YnVp
+bGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9idWlsZC90bXAvd29yay9jb3JlMi02NC1w
+b2t5LWxpbnV4L292bWYvZWRrMi1zdGFibGUyMDIyMDUtcjAvZGV2dG9vbHRtcC1pdHZ5ejR4bi93
+b3JrZGlyL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3IvYmluL2VkazJfYmFzZXRvb2xzL0Jhc2VU
+b29scworICAgZWNobyAkRURLX1RPT0xTX1BBVEgKKyAgIHNvdXJjZSBlZGtzZXR1cC5zaCBCYXNl
+VG9vbHMKKyBlbHNlCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9vdm1mL292bWZfZ2l0
+LmJiIGIvbWV0YS9yZWNpcGVzLWNvcmUvb3ZtZi9vdm1mX2dpdC5iYgppbmRleCBhYWMzMGVhZDMw
+Li41YTM0NzljNWY1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9vdm1mL292bWZfZ2l0
+LmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL292bWYvb3ZtZl9naXQuYmIKQEAgLTI1LDEwICsy
+NSwxMSBAQCBTUkNfVVJJID0gImdpdHNtOi8vZ2l0aHViLmNvbS90aWFub2NvcmUvZWRrMi5naXQ7
+YnJhbmNoPW1hc3Rlcjtwcm90b2NvbD1odHRwcyBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAzLW92
+bWYtVXBkYXRlLXRvLWxhdGVzdC5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDA1LWRlYnVn
+LXByZWZpeC1tYXAucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vMDAwNi1yZXByb2R1Y2libGUu
+cGF0Y2ggXAorICAgICAgICAgICBmaWxlOi8vMDAwNi1Db21taXR0aW5nLWNoYW5nZXMtZnJvbS1k
+b19wYXRjaC5wYXRjaCBcCiAgICAgICAgICAgICIKIAotUFYgPSAiZWRrMi1zdGFibGUyMDIyMDUi
+Ci1TUkNSRVYgPSAiMTY3NzllZGUyZDM2NmJmYzZiNzAyZTgxNzM1NmNjZjQzNDI1YmNjOCIKK1BW
+ID0gImVkazItc3RhYmxlMjAyMjA4IgorU1JDUkVWID0gImJhMGUwZTRjNmExNzRiNzFiMThjY2Q2
+ZTQ3MzE5Y2M0NTg3ODg5M2MiCiBVUFNUUkVBTV9DSEVDS19HSVRUQUdSRUdFWCA9ICIoP1A8cHZl
+cj5lZGsyLXN0YWJsZS4qKSIKIAogaW5oZXJpdCBkZXBsb3kKLS0gCjIuMzEuMQoK
+
+--===============7884125598866882095==--
 
