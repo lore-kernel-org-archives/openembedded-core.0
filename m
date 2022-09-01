@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84CDBC6FD1E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1004C6FD26
 	for <webhook@archiver.kernel.org>; Thu,  1 Sep 2022 13:59:57 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com
- (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web12.12464.1662040786452331550
+Received: from a27-23.smtp-out.us-west-2.amazonses.com
+ (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web08.12621.1662040785772401708
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Sep 2022 06:59:46 -0700
+ Thu, 01 Sep 2022 06:59:45 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=NU/E1v4t;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
- mailfrom: 01010182f959c232-ce21e014-d9b4-4f76-a92e-780efeea54f9-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=hZ3V69y6;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
+ mailfrom: 01010182f959bfc2-be9467c0-638d-44ad-8fc8-b48bad7cc921-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1662040785;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=o6/Ff0fwHamBlJ7q+9GG2En3kfbdfYPOiTqghjd1Xe4=;
-	b=NU/E1v4tpia6/bs8bYDcBJdM5CRZV4IbGNM89QGpXfwg/3o1Mw8u9yPTfzMn4CTu
-	CcnoZE1igkqtqcN1wJ0qO7JBto1OL3JlQTa0LQBLg/Jpj9tba+Pd/A9SNTRHZdLHbzC
-	LFIUW/TAY0MCtv7EeDRInmGWN5/HXZNRa+BQAaa0=
+	bh=ZzuOCDvrBxqasxcB56x288VhOGDSXJqIOLYlrg5GB9E=;
+	b=hZ3V69y6mN3iOtZKSzGY2Uy27RRFb19mSK9ftl//OeEwbZU1t/SUU7Xuaw02EkSU
+	HwuV73EwXpp9u5UHIuwU5kKQDSFx9H48OQq8OdvBtV5P2ua9tcYVIUOQ+z2IxwEwz+9
+	4flQhgDLwcJflUn3EtFFpoMO3FmvAoAhYqWfGiuw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1662040785;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=o6/Ff0fwHamBlJ7q+9GG2En3kfbdfYPOiTqghjd1Xe4=;
-	b=cEsjXCCdtgRmwHAZjZZ+viJM7d05YFg4ias/ehXxrRIlhnT4GV22EC1jYxjBeXLN
-	s486Yrxvqycfdd3YaWr6N7DL8TOU4MHrf10jhLohxZ4kUfWZQY3zJEnFjF5Bef1Z2E3
-	NJrBibei+Q8EVzmRwPJGiIVWNDq/opCr99wA60pc=
-Content-Type: multipart/mixed; boundary="===============2164964564368843760=="
+	bh=ZzuOCDvrBxqasxcB56x288VhOGDSXJqIOLYlrg5GB9E=;
+	b=UkjadYH3Qo/YN5ZlVBB+rDPlv0jzhfflmf2CXA8j5fN2DNhengIKv9TuHkrjRH4h
+	HaCw7TyVtEyKCGi8Sgi+tWtFFUSOagJALPIKx9w2E2APoLlNNodiBWCaL8x4P0pt66i
+	Ks4WJLp0bcNRBkMfdwEQbLbYKqxUYGUFsupqD2gA=
+Content-Type: multipart/mixed; boundary="===============3272038088344732407=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Joshua Watt <JPEWhacker@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.54.4 SUCCEEDED
+Subject: [AUH] jquery: upgrading to 3.6.1 FAILED
 Message-ID: 
- <01010182f959c232-ce21e014-d9b4-4f76-a92e-780efeea54f9-000000@us-west-2.amazonses.com>
-Date: Thu, 1 Sep 2022 13:59:45 +0000
+ <01010182f959bfc2-be9467c0-638d-44ad-8fc8-b48bad7cc921-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Sep 2022 13:59:44 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.09.01-54.240.27.30
+X-SES-Outgoing: 2022.09.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Sep 2022 13:59:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170176
+ https://lists.openembedded.org/g/openembedded-core/message/170169
 
---===============2164964564368843760==
+--===============3272038088344732407==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-hypothesis* to *6.54.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *jquery* to *3.6.1* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.46.11-6.54.4.patch
+    - apply the patch: git am 0001-jquery-upgrade-3.6.0-3.6.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,99 +81,96 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============2164964564368843760==
+--===============3272038088344732407==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
-packages/core2-32-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.46.11.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.54.4.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py"
-packages/core2-32-poky-linux/python3-hypothesis: PKGV changed from 6.46.11 [default] to 6.54.4 [default]
-packages/core2-32-poky-linux/python3-hypothesis: PV changed from "6.46.11" to "6.54.4"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.46.11 [default] to 6.54.4 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.46.11" to "6.54.4"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.46.11 [default] to 6.54.4 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.46.11" to "6.54.4"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.46.11 [default] to 6.54.4 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.46.11" to "6.54.4"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.46.11 [default] to 6.54.4 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.46.11" to "6.54.4"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.46.11 [default] to 6.54.4 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.46.11" to "6.54.4"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.46.11 [default] to 6.54.4 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.46.11" to "6.54.4"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.46.11 [default] to 6.54.4 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.46.11" to "6.54.4"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 2070320 to 2089724 (+1%)
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.46.11 [default] to 6.54.4 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.46.11" to "6.54.4"
-Changes to packages/core2-32-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.10/site-packages/hypothesis-6.54.4.dist-info was added
-  /usr/lib/python3.10/site-packages/hypothesis-6.54.4.dist-info/entry_points.txt was added
-  /usr/lib/python3.10/site-packages/hypothesis-6.54.4.dist-info/LICENSE.txt was added
-  /usr/lib/python3.10/site-packages/hypothesis-6.54.4.dist-info/METADATA was added
-  /usr/lib/python3.10/site-packages/hypothesis-6.54.4.dist-info/RECORD was added
-  /usr/lib/python3.10/site-packages/hypothesis-6.54.4.dist-info/top_level.txt was added
-  /usr/lib/python3.10/site-packages/hypothesis-6.54.4.dist-info/WHEEL was added
-  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info was removed
-  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/entry_points.txt was removed
-  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/LICENSE.txt was removed
-  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/METADATA was removed
-  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/RECORD was removed
-  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/top_level.txt was removed
-  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/WHEEL was removed
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1658 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 884 .bb files complete (883 cached, 1 parsed). 1658 targets, 36 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the allarch sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============2164964564368843760==
+Build Configuration:
+BB_VERSION           = "2.0.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-d44944b37ea8c1e5fa3c621777f3ed83ba06cc3d"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:d44944b37ea8c1e5fa3c621777f3ed83ba06cc3d"
+workspace            = "master:4c2f9073d6a8fb8bca198ff1f602c37c5afa691e"
+
+Initialising tasks...done.
+Sstate summary: Wanted 7 Local 0 Mirrors 0 Missed 7 Current 106 (0% match, 93% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 337 of 492 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/jquery/jquery_3.6.1.bb:do_fetch)
+NOTE: recipe jquery-3.6.1-r0: task do_fetch: Started
+WARNING: jquery-3.6.1-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/jquery-3.6.1.min.js
+Cleaning and trying again.
+WARNING: jquery-3.6.1-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/jquery-3.6.1.min.js to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/jquery-3.6.1.min.js_bad-checksum_a3cf00c109d907e543bc4f6dbc85eb31068f94515251347e9e57509b52ee3d74
+WARNING: jquery-3.6.1-r0 do_fetch: Checksum failure encountered with download of https://code.jquery.com/jquery-3.6.1.min.js;name=min;subdir=jquery-3.6.1 - will attempt other sources if available
+NOTE: recipe jquery-3.6.1-r0: task do_fetch: Failed
+NOTE: Tasks Summary: Attempted 478 tasks of which 477 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/jquery/jquery_3.6.1.bb:do_fetch
+Summary: There were 4 WARNING messages.
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: jquery-3.6.1-r0 do_fetch: Fetcher failure for URL: 'https://code.jquery.com/jquery-3.6.1.min.js;name=min;subdir=jquery-3.6.1'. Checksum mismatch!
+File: '/home/pokybuild/yocto-worker/auh/build/build/build/downloads/jquery-3.6.1.min.js' has sha256 checksum 'a3cf00c109d907e543bc4f6dbc85eb31068f94515251347e9e57509b52ee3d74' when 'ff1523fb7389539c84c65aba19260648793bb4f5e29329d2ee8804bc37a3fe6e' was expected
+If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
+SRC_URI[min.sha256sum] = "a3cf00c109d907e543bc4f6dbc85eb31068f94515251347e9e57509b52ee3d74"
+Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
+ERROR: jquery-3.6.1-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://code.jquery.com/jquery-3.6.1.min.js;name=min;subdir=jquery-3.6.1')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/all-poky-linux/jquery/3.6.1-r0/temp/log.do_fetch.1711885
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/jquery/jquery_3.6.1.bb:do_fetch) failed with exit code '1'
+
+--===============3272038088344732407==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-6.46.11-6.54.4.patch"
+ filename="0001-jquery-upgrade-3.6.0-3.6.1.patch"
 
-RnJvbSBlMmE2ZDU5ZjgxYzRiNzZjMmIyNjMyNzg2MDQwMzM1ZDYyNzI4MzE5IE1vbiBTZXAgMTcg
+RnJvbSBiNTBhOWRlY2IzN2M3Yjg5NGNmNGUzMWIwNTZmOWZjZDkyNDZhNzgzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBTZXAgMjAyMiAwNzoxMToyMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtaHlwb3RoZXNpczogdXBncmFkZSA2LjQ2LjExIC0+IDYuNTQuNAoKLS0tCiAuLi50aG9u
-My1oeXBvdGhlc2lzXzYuNDYuMTEuYmIgPT4gcHl0aG9uMy1oeXBvdGhlc2lzXzYuNTQuNC5iYn0g
-fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWh5cG90aGVzaXNfNi40
-Ni4xMS5iYiA9PiBweXRob24zLWh5cG90aGVzaXNfNi41NC40LmJifSAoOTElKQoKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuNDYu
-MTEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182
-LjU0LjQuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi40Ni4xMS5iYgpyZW5hbWUgdG8gbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi41NC40LmJiCmlu
-ZGV4IDFkOTc3MmQ0ZmYuLjY0MDczMjczNDQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuNDYuMTEuYmIKKysrIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi41NC40LmJiCkBAIC0xMyw3
-ICsxMyw3IEBAIFNSQ19VUkkgKz0gIiBcCiAgICAgZmlsZTovL3Rlc3RfcmxlLnB5IFwKICAgICAi
-CiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJmNWMxY2Y2MWIyNGIwOTQzNTU1NzdhNmI4ZmJiYjhl
-YjU0YzFiMDIxNmZiYzA1MTlhZjk3YzQ2YmRkZjQzYzQyIgorU1JDX1VSSVtzaGEyNTZzdW1dID0g
-ImVlNDJmZTRkMmZmOTZjNDk5MTAwODU3ODBkNmI4ZjM0Y2JjZjRjNDQ0Mjc2MTZlMjI4MzM4Njlk
-NDUxMTE2YmIiCiAKIFJERVBFTkRTOiR7UE59ICs9ICIgXAogICAgIHB5dGhvbjMtYXR0cnMgXAot
-LSAKMi4zMS4xCgo=
+CkRhdGU6IFRodSwgMSBTZXAgMjAyMiAwNjozNTowMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGpx
+dWVyeTogdXBncmFkZSAzLjYuMCAtPiAzLjYuMQoKLS0tCiAuLi4vanF1ZXJ5L3tqcXVlcnlfMy42
+LjAuYmIgPT4ganF1ZXJ5XzMuNi4xLmJifSAgICAgICAgICAgICAgICAgfCAyICstCiAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvanF1ZXJ5L3tqcXVlcnlfMy42LjAuYmIgPT4ganF1ZXJ5XzMuNi4xLmJifSAo
+OTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9qcXVlcnkvanF1ZXJ5XzMu
+Ni4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2pxdWVyeS9qcXVlcnlfMy42LjEuYmIKc2lt
+aWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2pxdWVy
+eS9qcXVlcnlfMy42LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9qcXVlcnkv
+anF1ZXJ5XzMuNi4xLmJiCmluZGV4IDM5ZmZkMzgxMTQuLjVlZDBiYTNiNzQgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9qcXVlcnkvanF1ZXJ5XzMuNi4wLmJiCisrKyBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9qcXVlcnkvanF1ZXJ5XzMuNi4xLmJiCkBAIC0xMyw3ICsxMyw3IEBA
+IFNSQ19VUkkgPSAiXAogICAgIGh0dHBzOi8vY29kZS5qcXVlcnkuY29tLyR7QlB9Lm1pbi5tYXA7
+bmFtZT1tYXA7c3ViZGlyPSR7QlB9IFwKICAgICAiCiAKLVNSQ19VUklbanMuc2hhMjU2c3VtXSA9
+ICIxZmUyYmI1MzkwYTc1ZTVkNjFlNzJjMTA3Y2FiNTI4ZmMzYzI5YTgzN2Q2OWFhYjdkMjAwZTFk
+YmI1ZGNkMjM5IgorU1JDX1VSSVtqcy5zaGEyNTZzdW1dID0gImRmMzk0MWU2Y2RhZWMyODUzM2Fk
+NzJiNzA1M2VjMDVmNzE3MmJlODhlY2FkYTM0NWM0MjczNmJjMmZmYmE0ZDIiCiBTUkNfVVJJW21p
+bi5zaGEyNTZzdW1dID0gImZmMTUyM2ZiNzM4OTUzOWM4NGM2NWFiYTE5MjYwNjQ4NzkzYmI0ZjVl
+MjkzMjlkMmVlODgwNGJjMzdhM2ZlNmUiCiBTUkNfVVJJW21hcC5zaGEyNTZzdW1dID0gIjM5OTU0
+OGZiMGU3YjE0NmMxMmY1YmExODA5OWE0N2Q1OTRhOTcwZmVlOTYyMTJlZWUwYWI0ODUyZjNlNTY3
+ODIiCiAKLS0gCjIuMzEuMQoK
 
---===============2164964564368843760==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.10/site-packages/hypothesis-6.54.4.dist-info was added
-  /usr/lib/python3.10/site-packages/hypothesis-6.54.4.dist-info/entry_points.txt was added
-  /usr/lib/python3.10/site-packages/hypothesis-6.54.4.dist-info/LICENSE.txt was added
-  /usr/lib/python3.10/site-packages/hypothesis-6.54.4.dist-info/METADATA was added
-  /usr/lib/python3.10/site-packages/hypothesis-6.54.4.dist-info/RECORD was added
-  /usr/lib/python3.10/site-packages/hypothesis-6.54.4.dist-info/top_level.txt was added
-  /usr/lib/python3.10/site-packages/hypothesis-6.54.4.dist-info/WHEEL was added
-  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info was removed
-  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/entry_points.txt was removed
-  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/LICENSE.txt was removed
-  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/METADATA was removed
-  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/RECORD was removed
-  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/top_level.txt was removed
-  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/WHEEL was removed
-
---===============2164964564368843760==--
+--===============3272038088344732407==--
 
