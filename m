@@ -1,171 +1,107 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3F0BECAAA1
-	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 22:51:08 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
- [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web11.4852.1662159060477506519
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCF37ECAAA1
+	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 23:29:38 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web12.5114.1662161375255895410
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Sep 2022 15:51:00 -0700
+ Fri, 02 Sep 2022 16:29:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=G7TTGYaK;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.175,
- mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f175.google.com with SMTP id bh13so3143993pgb.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=gVa9babs;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id p18so3274531plr.8
         for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Sep 2022 15:51:00 -0700 (PDT)
+ Fri, 02 Sep 2022 16:29:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date;
-        bh=dhf8RUQp+4h1UdsRmupiQj4eatwECILY6rfN4wpOCmo=;
-        b=G7TTGYaKh2VRAI5LcFdrYkbOaBQjYBlAhr2xYnyImE9lO5cjZi4s7j4AEe+Y4bwXSe
-         uWGr+uwLS2TcgtFMILQfxa0Y3qQ1jN3jDDiXeMuuNPTa+N47hg5n4Ph+PuGsFJuLMLYO
-         DbF67CUfuklk16ZuH1pkr5Cexgu7/aEs2X5qhcFCuNEXLl6K4kDiEFCIz2tJjOj5Ebp5
-         GH9Tshy4CQ9MQ8x83Q7JEpli/ToDab0xlsfGEzYrl/AaAPzbopWpi034pPE7jU7FTqET
-         Pjd2yasyiylqYLbCUwftm+Q5UYV4LuCEdUUbcuRA4GbHKmDQV5Xcgop1OyTbMW69WvS6
-         Fbjg==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=rx1EnJqSdkLNQsj8rlBzcH2srE+8a4xql1QzT1LJJi4=;
+        b=gVa9babsgmuz4K8rwE06rRZwgmUsFG+0rW1oC5SuDuiOFbDP9Sh6tVfThnYOiBWfsy
+         Wf1/qX0vcXcp1g8GPgbppGF0JAAZAmxadoNVCZY1qM6LVbmFbIjltrUhc9dOORvOnwIZ
+         GTYnH60UvKDdcGoI5joXekHoGQVnI4/qbYttKFUx6I7AmEzDf/OQmG/TzFlfJ9supZm4
+         40QujYgYp8N8DtwlwN5XmBDpGK/xWZdBSgcDcrG+pdZnTGZGGVbeIl6U/1MVQA4KdCmO
+         7eBQtt2ltshBaQi6TZZm4NWBoM7A+KmHNC0vaRFUWGCXvL0/37Jmz6KPapmepOg9tmV4
+         Riow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date;
-        bh=dhf8RUQp+4h1UdsRmupiQj4eatwECILY6rfN4wpOCmo=;
-        b=4ECKzmHYGQckmCn4uXZ8H93QBClijNUHv/B6SN9r7hxx/K9FipAAHNAAvubHEOzxy6
-         zFHrGfuNQzpIafBbKx12TV74WPtDVAoAc8YftDakHcAIAlttaPdSp3Oubz3IcVFSb6OE
-         s2h2D+s5uG7zgBeQGTSqOoPTcXnICfbj8fKWsRQ/L8q8MyJzTX/y5RjY9DhrDRXE5U3T
-         aXcI+5ha2CDbto9S/9LfQ9gnC9R2wF1kRJuLto6UcIfxDsEtqNw+CYmv01aj0EOf/N0N
-         vOSflmdYSLOE+uizOULluC/hjHtYokbMs/Uvt68qqMFc2fzDQ3I0aCNtjNoOmSZ1tpZG
-         wzlQ==
-X-Gm-Message-State: ACgBeo2TaXHG2TsiZiOWh08bQTLh+wGKeHSkbRHQyWKRU4oeC1uZaUCn
-	GDxlyRoAhQ7CQQkj9Fph3AD+3xRttBO5BeZB
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=rx1EnJqSdkLNQsj8rlBzcH2srE+8a4xql1QzT1LJJi4=;
+        b=2GR/WlKh45U7T2m6PWQswLysQUyJeLTLiUsvwj1gf2lXfuKGqEBCUAaGHsrTRNQi34
+         Gl//Rx1qH3lS1LiBqtZ5XldoGcBIB1L4i3wmsOkEBsTvBg34Q2kZYlaiL3SHuSy0iOly
+         f/hfy4wwQkH/aLWOqba9RmZH9vfJAWkX9WVgmu4WUyytZnDDqwjcZpUHI+WlgC2pALnz
+         UKsjiYMJzCHRLSPBX7J85anZcTNbkHueDdSEblTGsSFmP1QdHUZa5B2QuK/QtgQVc8jg
+         nAy95zoJrkbB7L1GfGE/aTM6u9JeZHRf4ZsfKEnsdBP6Z5sf0hCLaffkyajFJQnj6NbM
+         gVLg==
+X-Gm-Message-State: ACgBeo29Bu6xYgI45IbEkcUknnpXzxLtaH+7N3leZGCMyMpkMusM/9JR
+	gQEFD8AAt0sYSJcX8VlyVwiEwlb8MeILzldqjjI=
 X-Google-Smtp-Source: 
- AA6agR5HSto1hf99akYTXmb7kFuDc5yzVu/Nntp2tRtkUsZocbp7/bNYbYxVE/2b7nPemtRILIFZag==
-X-Received: by 2002:a62:1ac1:0:b0:535:87d:d63f with SMTP id
- a184-20020a621ac1000000b00535087dd63fmr38852229pfa.74.1662159058997;
-        Fri, 02 Sep 2022 15:50:58 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id
- m15-20020a17090a34cf00b001fb35e4044bsm5679830pjf.40.2022.09.02.15.50.57
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Sep 2022 15:50:58 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/19] Pull request (cover letter only)
-Date: Fri,  2 Sep 2022 12:50:49 -1000
-Message-Id: <cover.1662158855.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+ AA6agR4necGi7nAlE3eUeAgD3iZn5wJ50Nq+kIpK/56IAhalMkPH68xd9EcZMyvfSQP6bGh5x9nnyc7J+ULX/Q8Yyqk=
+X-Received: by 2002:a17:902:7c94:b0:170:aed6:7e6c with SMTP id
+ y20-20020a1709027c9400b00170aed67e6cmr36844871pll.10.1662161374660; Fri, 02
+ Sep 2022 16:29:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220902163043.323903-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20220902163043.323903-1-richard.purdie@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 2 Sep 2022 20:29:24 -0300
+Message-ID: 
+ <CADkTA4Mdtj=XZiD7HDw_KG64VHN7qBu4hVkVam4gYtx++VvjCQ@mail.gmail.com>
+Subject: Re: [PATCH] kernel: Use consistent make flags for menuconfig
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 22:51:08 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 23:29:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170262
+ https://lists.openembedded.org/g/openembedded-core/message/170263
 
-The following changes since commit 92f122e0c1a7589bec3b628474548aad7fe159b4:
+On Fri, Sep 2, 2022 at 1:30 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> We're currently only passing in a subset of the kernel make flags to
+> menuconfig. Fix this to be consistent with all the other kernel
+> operations since these are becomming increasingly reliant on host
+> compilers and flags and target toolchains as well.
 
-  wic: depend on cross-binutils (2022-08-31 04:16:07 -1000)
+Looks good to me!
 
-are available in the Git repository at:
+Bruce
 
-  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes-recipe/kernel.bbclass | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
+> index e752874177e..fca673dd48d 100644
+> --- a/meta/classes-recipe/kernel.bbclass
+> +++ b/meta/classes-recipe/kernel.bbclass
+> @@ -650,7 +650,8 @@ addtask savedefconfig after do_configure
+>
+>  inherit cml1
+>
+> -KCONFIG_CONFIG_COMMAND:append = " PAHOLE=false LD='${KERNEL_LD}' HOSTLDFLAGS='${BUILD_LDFLAGS}'"
+> +# Need LD, HOSTLDFLAGS and more for config operations
+> +KCONFIG_CONFIG_COMMAND:append = " ${EXTRA_OEMAKE}"
+>
+>  EXPORT_FUNCTIONS do_compile do_transform_kernel do_transform_bundled_initramfs do_install do_configure
+>
+> --
+> 2.34.1
+>
 
-Alexander Kanavin (1):
-  bind: upgrade 9.18.4 -> 9.18.5
-
-Andrei Gherzan (4):
-  linux-yocto: Fix COMPATIBLE_MACHINE regex match
-  shadow: Enable subid support
-  rootfspostcommands.py: Cleanup subid backup files generated by
-    shadow-utils
-  shadow: Avoid nss warning/error with musl
-
-Bruce Ashfield (4):
-  linux-yocto/5.15: update to v5.15.60
-  linux-yocto/5.15: update to v5.15.62
-  linux-yocto/5.10: update to v5.10.136
-  linux-yocto/5.10: update to v5.10.137
-
-Khem Raj (5):
-  xinetd: Pass missing -D_GNU_SOURCE
-  watchdog: Include needed system header for function decls
-  pinentry: enable _XOPEN_SOURCE on musl for wchar usage in curses
-  apr: Use correct strerror_r implementation based on libc type
-  gcr: Define _GNU_SOURCE
-
-Mateusz Marciniec (1):
-  util-linux: Remove --enable-raw from EXTRA_OECONF
-
-Pavel Zhukov (1):
-  parselogs: Ignore xf86OpenConsole error
-
-Ross Burton (1):
-  libxml2: wrap xmllint to use the correct XML catalogues
-
-Steve Sakoman (1):
-  lttng-modules: fix build for kernel 5.10.137
-
-ghassaneben (1):
-  sqlite: fix CVE-2022-35737
-
- meta/lib/oeqa/runtime/cases/parselogs.py      |  1 +
- meta/lib/rootfspostcommands.py                |  7 ++
- ...1-avoid-start-failure-with-bind-user.patch |  0
- ...d-V-and-start-log-hide-build-options.patch |  0
- ...ching-for-json-headers-searches-sysr.patch |  0
- .../bind/{bind-9.18.4 => bind-9.18.5}/bind9   |  0
- .../{bind-9.18.4 => bind-9.18.5}/conf.patch   |  0
- .../generate-rndc-key.sh                      |  0
- ...t.d-add-support-for-read-only-rootfs.patch |  0
- .../make-etc-initd-bind-stop-work.patch       |  0
- .../named.service                             |  0
- .../bind/{bind_9.18.4.bb => bind_9.18.5.bb}   |  2 +-
- meta/recipes-core/libxml/libxml2_2.9.14.bb    |  2 +
- .../util-linux/util-linux_2.37.4.bb           |  2 +-
- ...f-message-when-not-in-place-eg.-musl.patch | 27 ++++++
- meta/recipes-extended/shadow/shadow.inc       |  9 ++
- ...guard-sys-quota.h-sys-swap.h-and-sys.patch | 37 ++++++++
- .../watchdog/watchdog_5.16.bb                 |  1 +
- .../xinetd/xinetd_2.3.15.4.bb                 |  2 +
- meta/recipes-gnome/gcr/gcr_3.40.0.bb          |  2 +
- meta/recipes-kernel/linux/linux-yocto-dev.bb  |  2 +-
- .../linux/linux-yocto-rt_5.10.bb              |  8 +-
- .../linux/linux-yocto-rt_5.15.bb              |  8 +-
- .../linux/linux-yocto-tiny_5.10.bb            | 10 +-
- .../linux/linux-yocto-tiny_5.15.bb            |  8 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb | 26 +++---
- meta/recipes-kernel/linux/linux-yocto_5.15.bb | 28 +++---
- ...djust-range-v5.10.137-in-block-probe.patch | 92 +++++++++++++++++++
- .../lttng/lttng-modules_2.13.4.bb             |  1 +
- ...CHE_CHECK-for-strerror_r-return-type.patch | 52 +++++++++++
- meta/recipes-support/apr/apr_1.7.0.bb         |  4 +
- .../pinentry/pinentry_1.2.0.bb                |  3 +
- ...riables-in-the-printf-implementation.patch | 26 ++++++
- 33 files changed, 313 insertions(+), 47 deletions(-)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/0001-avoid-start-failure-with-bind-user.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/bind9 (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/conf.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/generate-rndc-key.sh (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/init.d-add-support-for-read-only-rootfs.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/make-etc-initd-bind-stop-work.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/named.service (100%)
- rename meta/recipes-connectivity/bind/{bind_9.18.4.bb => bind_9.18.5.bb} (97%)
- create mode 100644 meta/recipes-extended/shadow/files/0001-Drop-nsswitch.conf-message-when-not-in-place-eg.-musl.patch
- create mode 100644 meta/recipes-extended/watchdog/watchdog/0001-shutdown-Do-not-guard-sys-quota.h-sys-swap.h-and-sys.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-adjust-range-v5.10.137-in-block-probe.patch
- create mode 100644 meta/recipes-support/apr/apr/0001-add-AC_CACHE_CHECK-for-strerror_r-return-type.patch
- create mode 100644 meta/recipes-support/sqlite/files/0001-sqlite-Increased-the-size-of-loop-variables-in-the-printf-implementation.patch
 
 -- 
-2.25.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
