@@ -1,96 +1,146 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BA51C54EE9
-	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 07:41:38 +0000 (UTC)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by mx.groups.io with SMTP id smtpd.web09.3921.1662104491331728526
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA806C6FA81
+	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 08:51:08 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web10.4447.1662108661172645486
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Sep 2022 00:41:31 -0700
+ Fri, 02 Sep 2022 01:51:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=N61GqHIN;
- spf=pass (domain: gmail.com, ip: 209.85.167.52,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f52.google.com with SMTP id v26so2064588lfd.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=aaVMu4KR;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47,
+ mailfrom: rybczynska@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id v26so2279918lfd.10
         for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Sep 2022 00:41:31 -0700 (PDT)
+ Fri, 02 Sep 2022 01:51:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=MFwEFRyP/gV4KzJux4ZmX0Cu1PWKu8ycYpU4NrXd5XQ=;
-        b=N61GqHINrEXTJIWvXxivv++vFnl++xh6Up9/xwRNctlwKHsII6OQXra8oCujBub5I/
-         ZEsi/sCDgCKgzgBulxcL1+DessNWSRYWVyZW/4E53LmhrLbcMMpoDjtxcR3+8pEgcdrM
-         Kq4jWwi97AYHvFJst8ShXkpjuPUk2L5nzz795aDX1uRspOs10SZ7WKSJ7vIjsELe0eVI
-         WTTrp/HiE50FBRkslqYUxqkGiOK5mAGkkdbLQEHA17z0XEC+WVoZEKDfyLHzUAUrKDeE
-         v3Irvt3qsd8nfAdsUEKoKJqB4rvBWgE14b0i8VP/Fpl8dzDmlwKZsnafz7FVqwVxssEr
-         Evaw==
+        bh=MPNfAOkEXM9N1oJwjiEmxrqS0cZWLfa8X5WQnsU3yKc=;
+        b=aaVMu4KRaGXk1nZ/zMCghPSgxHi3+nk9zCNAuTBgtF30nEAKWXV6Plc3Lr979TBsod
+         g3K/k5kgI4e9VtN/APcgjR3QbB0PXayt7y9pfFlPbBN7v+U2lve7RyeXK+2BuWMdOqgx
+         i39BJm5Is4snKrAaVZVKOgY77CSKRp61nYvbv+ssSuLBTbKo67SnW/asfOumYbCimW5d
+         Kq5BX3p819e5M54vY7JUaMcQ9hBDPY4rvVZISx7AkPSN6OS3y9t+B54jiZlL0IPXd+fg
+         /uveD8De84HTDqE0S/Wp/kK7LZylbX7JTJIAkUV1IqqTur6N7IUmV7qtixtyqXaIZVwW
+         E1Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=MFwEFRyP/gV4KzJux4ZmX0Cu1PWKu8ycYpU4NrXd5XQ=;
-        b=YQismS957SMCkULp139fr1E+T4/quuYs0YYIiqGkwGWQ7edzBbfcjyoHFwuhdqc8PP
-         +SRHwt13Fv4XwQSiFCXQVnVk13g3vzZWbxmJJ2nSHHTXnj93jxPByB7+jlxZAWARYkPI
-         GB9+9geW7QHbSr+bWiovclZ8OOv2dW9RvIZ4+0qHEQnKtx19Qmdn/+hakWRwSQrQhyxT
-         R1A+pbgdFC0BUMkdE/oD97yi20+CeC8/QllGUdgnt8DoIlI6tpnq3xCdaE8+AWdfjfQJ
-         Jlfl7VBanH284wyJT4ubnkOE3nJKPd1dI2Xc2X3SFj0l8kXF6FBFKEjUE2G1ahUYKbN/
-         U5hg==
-X-Gm-Message-State: ACgBeo1oSB9bY2w/obgF5vDo+nvx1CRqMuBYcX9MdxJVAhCQPTPPxe8L
-	hzgKMGx/6p6J1VjhcojoZxqkFaO3N9S2yPoDjJM=
+        bh=MPNfAOkEXM9N1oJwjiEmxrqS0cZWLfa8X5WQnsU3yKc=;
+        b=CMLpQSKeqaaN5DsO6R4pKZ5T6ytztMycG/xWEZfzjHo+dN8IqKs9Puy+3H+COFM72P
+         rnW9VyktV/kG3I3ji2nmUSYPyNQOa9LzHxlcvww+f4MZeDG3umN/YncUzxS0CQ2I+7/f
+         MPGQRlKXIlWr58vusWqfBCIJNNXTwba8POQ7LyDg5x2mcAsynzs7zG3c09EJDf1H1i6W
+         52GCBXtlzgC0Frgkzz91JsXnvgrLduSMDZKsR+BuV1So76Quzkq1h+MXQ7SZTt5+xrpS
+         PVk6tvy2jbp1faKkJypKQobtUfytX2Ws/yDyPBjcJM2Q/EnOwGu9LUx9KiktZK7CH1No
+         OD/g==
+X-Gm-Message-State: ACgBeo38pulQH/zLAy+YWU7PRNlMUVFZwqcOBVsLN1VIsK3RlJ9d/QWS
+	mEiWEzApAHlGa6dIOSmX2xx7gK3YrUTp3L4hBUo=
 X-Google-Smtp-Source: 
- AA6agR6W4ds4eHMF2q6VKm5vnKT0kG40/3s3yIraQyOREou825QiscWVgRzvjSLDw5Vh6onkhMYQ3IUYED//ZHZ9B9E=
-X-Received: by 2002:a05:6512:694:b0:494:9a24:3243 with SMTP id
- t20-20020a056512069400b004949a243243mr2461716lfe.673.1662104489243; Fri, 02
- Sep 2022 00:41:29 -0700 (PDT)
+ AA6agR5BHIOR65lgZ8ilBFFrAs7HcqXc5Ps96sU1TJBiNsRGElJ2bvTN9xc9RBbppABLYLw1cIqQOPLv4xZ2+5blIvk=
+X-Received: by 2002:a19:ad03:0:b0:492:d9e0:ef42 with SMTP id
+ t3-20020a19ad03000000b00492d9e0ef42mr12197963lfc.327.1662108659183; Fri, 02
+ Sep 2022 01:50:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220901142328.268769-1-alex@linutronix.de>
- <d9ec6fa663d94bcc9229066100a140fc@axis.com>
- <1710F0E3F6A43399.12033@lists.openembedded.org>
- <CANNYZj-YxzNONuKM5UVsvW7aS+k+aDTUw4GeK=MkMgGCdygxFg@mail.gmail.com>
- <eca823296bc1d5163f549ab1cbfc9408a2cbcca8.camel@linuxfoundation.org>
-In-Reply-To: 
- <eca823296bc1d5163f549ab1cbfc9408a2cbcca8.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 2 Sep 2022 09:41:17 +0200
+References: <20220830155939.662178-1-JPEWhacker@gmail.com>
+ <1710F97D4670CB8B.3145@lists.openembedded.org>
+In-Reply-To: <1710F97D4670CB8B.3145@lists.openembedded.org>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Fri, 2 Sep 2022 10:50:47 +0200
 Message-ID: 
- <CANNYZj8BB6EoUawY16RG1sm_SV430DxRGYjsBQT4EjtgJTMBew@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] scripts/oe-setup-builddir: migrate
- build/conf/templateconf.cfg to new template locations
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
+ <CAApg2=StgBK-TavxR_dFbSCibep5co_cD_s2KXZse-+8=FPk0A@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] classes: cve-check: Get shared database lock
+To: rybczynska@gmail.com
+Cc: Joshua Watt <JPEWhacker@gmail.com>, Steve Sakoman <steve@sakoman.com>,
+	openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 07:41:38 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 08:51:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170238
+ https://lists.openembedded.org/g/openembedded-core/message/170239
 
-On Fri, 2 Sept 2022 at 09:37, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> > > We can however add a hint to check what is in
-> > > build/conf/templateconf.cfg if the test fails, as it is not obvious
-> > > that TEMPLATECONF obtained from there takes priority over other
-> > > sources (which are, in order, TEMPLATECONF passed via environment,
-> > > then .templateconf next to oe-init-build-env).
-> >
-> > Ok, the more I think about this, the more I'm convinced that
-> > oe-setup-builddir needs a complete refactor.
+On Fri, Sep 2, 2022 at 9:09 AM Marta Rybczynska via
+lists.openembedded.org <rybczynska=gmail.com@lists.openembedded.org>
+wrote:
 >
-> That script is meant to be really really simple and push any heavy
-> lifting off to bitbake or other tools. Ideally we were never even meant
-> to need such a script and the tools would "just work". I'd prefer it
-> went away, not rewrite and grow it.
+> On Tue, Aug 30, 2022 at 5:59 PM Joshua Watt <JPEWhacker@gmail.com> wrote:
+> >
+> > The CVE check database needs to have a shared lock acquired on it before
+> > it is accessed. This to prevent cve-update-db-native from deleting the
+> > database file out from underneath it.
+> >
+> > [YOCTO #14899]
+> >
+> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> > +                cve_data = get_cve_info(d, patched + unpatched + ignored)
+> > +                cve_write_data(d, patched, unpatched, ignored, cve_data, status)
+> > +        else:
+> > +            bb.note("No CVE database found, skipping CVE check")
+> >
+>
+> With this commit in kirkstone-nut, we're getting an error with
+> meta-zephyr builds:
+>
+> RROR: zephyr-philosophers-3.1.0+gitAUTOINC+2ddd73feaf_5f86244bad-r0
+> do_cve_check: Error executing a python function in exec_func_python()
+> autogenerated:
+> The stack trace of python calls that resulted in this exception/failure was:
+> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+> 0001:
+> *** 0002:do_cve_check(d)
+> 0003:
+> File: '/tmp/workspace.4jc1Y12y3W/oe-core/meta/classes/cve-check.bbclass',
+> lineno: 142, function: do_cve_check
+> 0138: Check recipe for patched and unpatched CVEs
+> 0139: """
+> 0140: from oe.cve_check import get_patched_cves
+> 0141:
+> *** 0142: with bb.utils.fileslocked([d.getVar("CVE_CHECK_DB_FILE_LOCK")],
+> shared=True):
+> 0143: if os.path.exists(d.getVar("CVE_CHECK_DB_FILE")):
+> 0144: try:
+> 0145: patched_cves = get_patched_cves(d)
+> 0146: except FileNotFoundError:
+> File: '/usr/lib/python3.8/contextlib.py', lineno: 240, function: helper
+> 0236: <cleanup>
+> 0237: """
+> 0238: @wraps(func)
+> 0239: def helper(*args, **kwds):
+> *** 0240: return _GeneratorContextManager(func, args, kwds)
+> 0241: return helper
+> 0242:
+> 0243:
+> 0244:def asynccontextmanager(func):
+> File: '/usr/lib/python3.8/contextlib.py', lineno: 83, function: __init__
+> 0079:class _GeneratorContextManagerBase:
+> 0080: """Shared functionality for @contextmanager and @asynccontextmanager."""
+> 0081:
+> 0082: def __init__(self, func, args, kwds):
+> *** 0083: self.gen = func(*args, **kwds)
+> 0084: self.func, self.args, self.kwds = func, args, kwds
+> 0085: # Issue 19330: ensure context manager instances have good docstrings
+> 0086: doc = getattr(func, "__doc__", None)
+> 0087: if doc is None:
+> Exception: TypeError: fileslocked() got an unexpected keyword argument 'shared'
+> ERROR: Logfile of failure stored in:
+> /tmp/workspace.4jc1Y12y3W/build/tmp-newlib/work/i586-yocto-elf/zephyr-philosophers/3.1.0+gitAUTOINC+2ddd73feaf_5f86244bad-r0/temp/log.do_cve_check.433603
+> NOTE: recipe zephyr-philosophers-3.1.0+gitAUTOINC+2ddd73feaf_5f86244bad-r0:
+> task do_cve_check: Failed
+> ERROR: Task (/tmp/workspace.4jc1Y12y3W/oe-core/../meta-zephyr/meta-zephyr-core/recipes-kernel/zephyr-kernel/zephyr-philosophers.bb:do_cve_check)
+> failed with exit code '1'
+>
 
-Rewriting it in python will make it twice (or more) shorter, and the
-order of templateconfs does need clarity and logic. We can leave the
-'config fragments' or anything more advanced out.
+This is a mismatch with bitbake, because one commit hasn't reached 2.0.
+Steve, should I be using
+https://git.openembedded.org/bitbake-contrib/log/?h=stable/2.0-nut for
+testing?
 
-Alex
+Kind regards,
+Marta
 
