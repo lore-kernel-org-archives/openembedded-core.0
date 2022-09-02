@@ -1,123 +1,177 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01DA2C38145
-	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 09:51:59 +0000 (UTC)
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net
- [217.70.178.230])
- by mx.groups.io with SMTP id smtpd.web11.4743.1662112311156343642
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 645D3C38145
+	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 10:46:19 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web09.4997.1662115569031380920
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Sep 2022 02:51:52 -0700
+ Fri, 02 Sep 2022 03:46:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=R8J/eK6z;
- spf=pass (domain: bootlin.com, ip: 217.70.178.230,
- mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 10C5B240006;
-	Fri,  2 Sep 2022 09:51:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1662112309;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=swKrkGdUwfLnr5bM3wJejCRec7TsSzChs+h3pa+qeGc=;
-	b=R8J/eK6zpsIsc43FWpO1Rezz36RyKb2yYZEJEWgG2K41cPDvZ2Q5KtTkitD1O7UetlpEyJ
-	P6gswN909uGeNKYowhV/UlmzT8ACgnsLzxhPLVmMW38KV9zkfsOL5HSijjbBPQH/tVqc7+
-	W35RFmX1XiDZJ5HZFzIUSwBE+AnsSaqri3gDdYD5qq3Zyp78IGJEkdDB1Bx3t6ligfhKvC
-	owMDkC5R7UjDLDMTMzt2zXG0YaSHOvwfuZNJwRMCPCBjIgwb1htep4ku3rI/Ta3ugrejiL
-	ApK5HWIpBUdUsMTYQ+d61hj1fxwU8kbeRiIOS8BTnOqg7TjWOXi2EYF+xiX/lQ==
-From: alexandre.belloni@bootlin.com
-To: openembedded-core@lists.openembedded.org
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [PATCH] ruby: drop capstone support
-Date: Fri,  2 Sep 2022 11:51:38 +0200
-Message-Id: <20220902095138.1096792-1-alexandre.belloni@bootlin.com>
-X-Mailer: git-send-email 2.37.2
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MW5nhOGO;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id b16so1779567wru.7
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 02 Sep 2022 03:46:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date;
+        bh=kKZxDU5ADDFlqokhIs+BFifkcQlmfwsI+5XyuKddPUQ=;
+        b=MW5nhOGOsnQBlMXkjOOjIJ7Z6PdfdG/MJJLi2mSqU3mt7pNGXhsDpWF0e8ni80V/CX
+         ieAJTuEpXOs87l9d/YL7cxhsnklcCjSv1/+FkBCEDGPR+efnl6jPAUGEREFd1KAtPXA3
+         r8hdxnKnw1Sa94JCRso4N2cs2EToyn3f96gzw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=kKZxDU5ADDFlqokhIs+BFifkcQlmfwsI+5XyuKddPUQ=;
+        b=MjAUERt7PIs+Itfcko3dvomQId6wib+mbQU5dtHZGl3DN0GnLG9vu0VUgxvMkfHE2M
+         4Pa4QhnUOr76wqWQKxXdqtFp1WlE9KkVjEKqqmaGSXHWxtPnxksMRYrx+grivA7h1ePj
+         tnkWuR66nz7bfuJJmxxrUBfLoHCQ4Ft0qIukwlnxqCGgztx2FahMekVNJnoV2sz2WWK1
+         v5cFwkL8HIuIUqsS067A7OlH2f2d62Pq8LOVT6ZfXZ5JUES4WsHtS/JrnYKtlL0eQAhM
+         wvy90YMjSM1wQwCp7vxX/EuE1kdZ/sLDrt+VU0tMuh0LqEd7wy2hCWim5Wz3YZUgxvNY
+         NY+w==
+X-Gm-Message-State: ACgBeo3QeU9yPN4QG7ogTzSbY/XtCchF5GvgBqKWkovOHqRPyrThNqn8
+	qMkS9Jo6KlYKGnarBVWpdHrlDA==
+X-Google-Smtp-Source: 
+ AA6agR7Vo5ybhQDV8xbYqyeZriFMO84reDCQcGO+jKjorIB4pvCTRv8+yzXwpwk0zXWLuG/tgYlXbg==
+X-Received: by 2002:a5d:6b8d:0:b0:226:d47e:6ffb with SMTP id
+ n13-20020a5d6b8d000000b00226d47e6ffbmr15826781wrx.254.1662115567404;
+        Fri, 02 Sep 2022 03:46:07 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e969:460c:a8b4:e544?
+ ([2001:8b0:aba:5f3c:e969:460c:a8b4:e544])
+        by smtp.gmail.com with ESMTPSA id
+ f3-20020a1cc903000000b003a604a29a34sm1763606wmb.35.2022.09.02.03.46.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Sep 2022 03:46:06 -0700 (PDT)
+Message-ID: 
+ <40a7dbd874811a04c1e948c7f2192688ead5050c.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] classes: cve-check: Get shared database lock
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Marta Rybczynska <rybczynska@gmail.com>
+Cc: Joshua Watt <JPEWhacker@gmail.com>, Steve Sakoman <steve@sakoman.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 02 Sep 2022 11:46:04 +0100
+In-Reply-To: 
+ <CAApg2=StgBK-TavxR_dFbSCibep5co_cD_s2KXZse-+8=FPk0A@mail.gmail.com>
+References: <20220830155939.662178-1-JPEWhacker@gmail.com>
+	 <1710F97D4670CB8B.3145@lists.openembedded.org>
+	 <CAApg2=StgBK-TavxR_dFbSCibep5co_cD_s2KXZse-+8=FPk0A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 09:51:59 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 10:46:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170240
+ https://lists.openembedded.org/g/openembedded-core/message/170241
 
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+On Fri, 2022-09-02 at 10:50 +0200, Marta Rybczynska wrote:
+> On Fri, Sep 2, 2022 at 9:09 AM Marta Rybczynska via
+> lists.openembedded.org <rybczynska=3Dgmail.com@lists.openembedded.org>
+> wrote:
+> >=20
+> > On Tue, Aug 30, 2022 at 5:59 PM Joshua Watt <JPEWhacker@gmail.com> wrot=
+e:
+> > >=20
+> > > The CVE check database needs to have a shared lock acquired on it bef=
+ore
+> > > it is accessed. This to prevent cve-update-db-native from deleting th=
+e
+> > > database file out from underneath it.
+> > >=20
+> > > [YOCTO #14899]
+> > >=20
+> > > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> > > +                cve_data =3D get_cve_info(d, patched + unpatched + i=
+gnored)
+> > > +                cve_write_data(d, patched, unpatched, ignored, cve_d=
+ata, status)
+> > > +        else:
+> > > +            bb.note("No CVE database found, skipping CVE check")
+> > >=20
+> >=20
+> > With this commit in kirkstone-nut, we're getting an error with
+> > meta-zephyr builds:
+> >=20
+> > RROR: zephyr-philosophers-3.1.0+gitAUTOINC+2ddd73feaf_5f86244bad-r0
+> > do_cve_check: Error executing a python function in exec_func_python()
+> > autogenerated:
+> > The stack trace of python calls that resulted in this exception/failure=
+ was:
+> > File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+> > 0001:
+> > *** 0002:do_cve_check(d)
+> > 0003:
+> > File: '/tmp/workspace.4jc1Y12y3W/oe-core/meta/classes/cve-check.bbclass=
+',
+> > lineno: 142, function: do_cve_check
+> > 0138: Check recipe for patched and unpatched CVEs
+> > 0139: """
+> > 0140: from oe.cve_check import get_patched_cves
+> > 0141:
+> > *** 0142: with bb.utils.fileslocked([d.getVar("CVE_CHECK_DB_FILE_LOCK")=
+],
+> > shared=3DTrue):
+> > 0143: if os.path.exists(d.getVar("CVE_CHECK_DB_FILE")):
+> > 0144: try:
+> > 0145: patched_cves =3D get_patched_cves(d)
+> > 0146: except FileNotFoundError:
+> > File: '/usr/lib/python3.8/contextlib.py', lineno: 240, function: helper
+> > 0236: <cleanup>
+> > 0237: """
+> > 0238: @wraps(func)
+> > 0239: def helper(*args, **kwds):
+> > *** 0240: return _GeneratorContextManager(func, args, kwds)
+> > 0241: return helper
+> > 0242:
+> > 0243:
+> > 0244:def asynccontextmanager(func):
+> > File: '/usr/lib/python3.8/contextlib.py', lineno: 83, function: __init_=
+_
+> > 0079:class _GeneratorContextManagerBase:
+> > 0080: """Shared functionality for @contextmanager and @asynccontextmana=
+ger."""
+> > 0081:
+> > 0082: def __init__(self, func, args, kwds):
+> > *** 0083: self.gen =3D func(*args, **kwds)
+> > 0084: self.func, self.args, self.kwds =3D func, args, kwds
+> > 0085: # Issue 19330: ensure context manager instances have good docstri=
+ngs
+> > 0086: doc =3D getattr(func, "__doc__", None)
+> > 0087: if doc is None:
+> > Exception: TypeError: fileslocked() got an unexpected keyword argument =
+'shared'
+> > ERROR: Logfile of failure stored in:
+> > /tmp/workspace.4jc1Y12y3W/build/tmp-newlib/work/i586-yocto-elf/zephyr-p=
+hilosophers/3.1.0+gitAUTOINC+2ddd73feaf_5f86244bad-r0/temp/log.do_cve_check=
+.433603
+> > NOTE: recipe zephyr-philosophers-3.1.0+gitAUTOINC+2ddd73feaf_5f86244bad=
+-r0:
+> > task do_cve_check: Failed
+> > ERROR: Task (/tmp/workspace.4jc1Y12y3W/oe-core/../meta-zephyr/meta-zeph=
+yr-core/recipes-kernel/zephyr-kernel/zephyr-philosophers.bb:do_cve_check)
+> > failed with exit code '1'
+> >=20
+>=20
+> This is a mismatch with bitbake, because one commit hasn't reached 2.0.
+> Steve, should I be using
+> https://git.openembedded.org/bitbake-contrib/log/?h=3Dstable/2.0-nut for
+> testing?
 
-Upstream dropped capstone support and this also causing us
-reproducibility issues.
+I've gone ahead and backported that bitbake change to make things
+easier for people.
 
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
----
- ...001-Remove-dependency-on-libcapstone.patch | 36 +++++++++++++++++++
- meta/recipes-devtools/ruby/ruby_3.1.2.bb      |  2 +-
- 2 files changed, 37 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/ruby/ruby/0001-Remove-dependency-on-libcapstone.patch
+Cheers,
 
-diff --git a/meta/recipes-devtools/ruby/ruby/0001-Remove-dependency-on-libcapstone.patch b/meta/recipes-devtools/ruby/ruby/0001-Remove-dependency-on-libcapstone.patch
-new file mode 100644
-index 000000000000..5d0f8fcc0955
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/0001-Remove-dependency-on-libcapstone.patch
-@@ -0,0 +1,36 @@
-+From 222203297966f312109e8eaa2520f2cf2f59c09d Mon Sep 17 00:00:00 2001
-+From: Alan Wu <XrXr@users.noreply.github.com>
-+Date: Thu, 31 Mar 2022 17:26:28 -0400
-+Subject: [PATCH] Remove dependency on libcapstone
-+
-+We have received reports of build failures due to this configuration
-+check modifying compile flags. Since only YJIT devs use this library
-+we can remove it to make Ruby easier to build for users.
-+
-+See: https://github.com/rbenv/ruby-build/discussions/1933
-+
-+Upstream-Status: Backport
-+---
-+ configure.ac | 9 ---------
-+ 1 file changed, 9 deletions(-)
-+
-+Index: ruby-3.1.2/configure.ac
-+===================================================================
-+--- ruby-3.1.2.orig/configure.ac
-++++ ruby-3.1.2/configure.ac
-+@@ -1244,15 +1244,6 @@ AC_CHECK_LIB(dl, dlopen)	# Dynamic linki
-+ AC_CHECK_LIB(dld, shl_load)	# Dynamic linking for HP-UX
-+ AC_CHECK_LIB(socket, shutdown)  # SunOS/Solaris
-+ 
-+-if pkg-config --exists capstone; then
-+-   CAPSTONE_CFLAGS=`pkg-config --cflags capstone`
-+-   CAPSTONE_LIB_L=`pkg-config --libs-only-L capstone`
-+-   LDFLAGS="$LDFLAGS $CAPSTONE_LIB_L"
-+-   CFLAGS="$CFLAGS $CAPSTONE_CFLAGS"
-+-fi
-+-
-+-AC_CHECK_LIB(capstone, cs_open) # Capstone disassembler for debugging YJIT
-+-
-+ dnl Checks for header files.
-+ AC_HEADER_DIRENT
-+ dnl AC_HEADER_STDC has been checked in AC_USE_SYSTEM_EXTENSIONS
-diff --git a/meta/recipes-devtools/ruby/ruby_3.1.2.bb b/meta/recipes-devtools/ruby/ruby_3.1.2.bb
-index 6fc1f53b1885..387bfa9b44e1 100644
---- a/meta/recipes-devtools/ruby/ruby_3.1.2.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.1.2.bb
-@@ -12,6 +12,7 @@ SRC_URI += " \
-            file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch \
-            file://0006-Make-gemspecs-reproducible.patch \
-            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch \
-+           file://0001-Remove-dependency-on-libcapstone.patch \
-            "
- 
- SRC_URI[sha256sum] = "61843112389f02b735428b53bb64cf988ad9fb81858b8248e22e57336f24a83e"
-@@ -25,7 +26,6 @@ PACKAGECONFIG[ipv6] = "--enable-ipv6, --disable-ipv6,"
- # rdoc is off by default due to non-reproducibility reported in
- # https://bugs.ruby-lang.org/issues/18456
- PACKAGECONFIG[rdoc] = "--enable-install-rdoc,--disable-install-rdoc,"
--PACKAGECONFIG[capstone] = "--with-capstone=yes, --with-capstone=no"
- 
- EXTRA_OECONF = "\
-     --disable-versioned-paths \
--- 
-2.37.2
+Richard
 
 
