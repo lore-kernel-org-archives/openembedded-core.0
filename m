@@ -1,178 +1,95 @@
-Return-Path: <sakoman@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D620ECAAD5
-	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 14:11:20 +0000 (UTC)
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com
- [209.85.217.42])
- by mx.groups.io with SMTP id smtpd.web11.6961.1662127873431179860
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86E0FC38145
+	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 14:41:50 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web09.7371.1662129709025133296
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Sep 2022 07:11:13 -0700
+ Fri, 02 Sep 2022 07:41:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BtjcOdWm;
- spf=pass (domain: gmail.com, ip: 209.85.217.42, mailfrom: sakoman@gmail.com)
-Received: by mail-vs1-f42.google.com with SMTP id j6so2213511vsr.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dyPSbNg+;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id
+ h204-20020a1c21d5000000b003a5b467c3abso3453072wmh.5
         for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Sep 2022 07:11:13 -0700 (PDT)
+ Fri, 02 Sep 2022 07:41:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=XSNjoYwX1nrejd/Y6GDo+Zx1ZKnPO+NkWmwdZ1uOl+M=;
-        b=BtjcOdWm2kolEWXPKGU0XSPDLHOSkSrInl7xfzwFDK50viFeP+aOPvfrFK0Exjm11+
-         C3xDNl/oayUvMJA9OJ+s4R6nRmIG6XJX4PGnU0rQkVLIcgHF7s38sfJPpgySjOgshN/5
-         NZGiwakZmaL2k1Zj2XnPWgGAbbUu93pNNitRoLKjZAWcBxNqxyFxpFkq1O+fu/lXVjR/
-         rVhFrY4jpwX/KmWA+/2fFl/ogedvKuGGDyiXVe/QXweRzLSEmn6ul4aKxcPAYtJrUFEL
-         f54tslSJv8swQjiTG7eUmmHbQq8FSFZbILCp25ya0q+F9t4/TfkpWCTwT5YVVU2d76PJ
-         bFIw==
+        d=linuxfoundation.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date;
+        bh=DGBbn5v3+pRM135PuArExBYHb+/YeLrC8XzDJSyIDZc=;
+        b=dyPSbNg+BRFq6OpCUmKSRbnJUHdPok5srCDQdNN3MBtcg1ItlLs5TNADXfiEvLThnR
+         2caC6hs/Iy56EEbGwbvBUumjdboopqdXWoLBec5jlVq2iyzJdB+YgesDQhfSsLzgDF6d
+         8yD+w6vCUP/qW4YJ9Inu847zYiJ5OFjXjG5LU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=XSNjoYwX1nrejd/Y6GDo+Zx1ZKnPO+NkWmwdZ1uOl+M=;
-        b=yvP7L1Ylng8uW5tnkNkCZE7toQuamISc5miGHbIS2wNvsE+TlK1bcLAF8IjBxth/Cv
-         hh3PrwKLTqxebqDsIYXqq69nXtSvBKQbygPz4GUBEUOCuCERgNyJB2ujWHjgg0AAUxHZ
-         EHZZloa1Xc9N09ZQHVmWo6sZPyWjfZpfp+oFcIGDld7RRjtbaOMNxZznxpi83uVopBwy
-         qKReOgAc4J7WTifQ4r53KaxBPLVaCH2hT6WoJOLdXt4t3VWcBZwjLts8uNf8utEl3TlQ
-         fFDU5HqPssFDQTy6TFdWr3W4luyXxKYEgEHE2Q7/XymoHzVQzFeE408RXfVu0NlSz59p
-         Nt3Q==
-X-Gm-Message-State: ACgBeo09/e7mrVjhWrzohbsmP1nA53UiYtQRYkGdDAC7yIYR5keFzgcs
-	v/mZ4IUp/3pZas0mZuTk2/i4clkzi0n/Zfb90sI=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date;
+        bh=DGBbn5v3+pRM135PuArExBYHb+/YeLrC8XzDJSyIDZc=;
+        b=KvsPbxK/xPxbxTEV1yMYKoYGuoKUFQjADjR/5UjmOC1KtKxdL8lKgN3KLJN6aUorxS
+         VMdSBG6a0EybgnDurfNVMaHJwI3HFVVLzhHPl5AFR0O3F/iZdejM3T1f8mmI0UxSiEsM
+         zu0nciyErUWoi4XuWgdthG17MoXd6xE8sPlwDyUeaNPCocgUZKPJBrgk/V8D+JbdtKDT
+         DROooepakhmEEKNBDaIBkVDzu+6Tdjf7nrpBB5LxNkRtz5/T2QnpOJvGXtRuFkCsMkz/
+         pq9iEY+VhG9hi/TlO35nrZPas75wYpI01jW1SMgiXmRACuwBdQcPQDWYC3RCnYnik2HD
+         eYMw==
+X-Gm-Message-State: ACgBeo1jO9rmEhQ/MTQMQ3gJ9Ac6EULLbVV7qLhcgm2SnmTsV1KMRCap
+	dcr9tRoGlDkYI1PrVxMkIPfR3WGg4NmjbQ==
 X-Google-Smtp-Source: 
- AA6agR52c29ke0DRqjhUgRZQQ5xn3Y2ZipP3zMu1eGvaCFttfB1tdJ7m66IwH6gXnjuh4jQiBt7uPuLuakZpTofVsEw=
-X-Received: by 2002:a67:e047:0:b0:394:1bf:b735 with SMTP id
- n7-20020a67e047000000b0039401bfb735mr369545vsl.71.1662127872357; Fri, 02 Sep
- 2022 07:11:12 -0700 (PDT)
+ AA6agR67lHRSmpAh0R7TJTA3wb0yTXvLrCakxNeJlGkVaHIzj5M+lJUy9uygVLuvlK7JJlqYWNKeEg==
+X-Received: by 2002:a05:600c:35d0:b0:3a8:3f16:2c38 with SMTP id
+ r16-20020a05600c35d000b003a83f162c38mr3246599wmq.162.1662129707063;
+        Fri, 02 Sep 2022 07:41:47 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:cbec:572b:ff3a:e320])
+        by smtp.gmail.com with ESMTPSA id
+ p17-20020a5d4e11000000b00225250f2d1bsm1662218wrt.94.2022.09.02.07.41.46
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Sep 2022 07:41:46 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] gcc-multilib-config: Fix i686 toolchain relocation issues
+Date: Fri,  2 Sep 2022 15:41:45 +0100
+Message-Id: <20220902144145.313486-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220830155939.662178-1-JPEWhacker@gmail.com>
- <1710F97D4670CB8B.3145@lists.openembedded.org>
- <CAApg2=StgBK-TavxR_dFbSCibep5co_cD_s2KXZse-+8=FPk0A@mail.gmail.com>
-In-Reply-To: 
- <CAApg2=StgBK-TavxR_dFbSCibep5co_cD_s2KXZse-+8=FPk0A@mail.gmail.com>
-From: Steve Sakoman <sakoman@gmail.com>
-Date: Fri, 2 Sep 2022 04:11:01 -1000
-Message-ID: 
- <CAGDS+nke7mhQK4NHm9+9qO6m88YbV+avPeG9Fwj8tBtE9vJTcA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] classes: cve-check: Get shared database lock
-To: Marta Rybczynska <rybczynska@gmail.com>
-Cc: Joshua Watt <JPEWhacker@gmail.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 14:11:20 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 14:41:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170248
+ https://lists.openembedded.org/g/openembedded-core/message/170249
 
-On Thu, Sep 1, 2022 at 10:51 PM Marta Rybczynska <rybczynska@gmail.com> wrote:
->
-> On Fri, Sep 2, 2022 at 9:09 AM Marta Rybczynska via
-> lists.openembedded.org <rybczynska=gmail.com@lists.openembedded.org>
-> wrote:
-> >
-> > On Tue, Aug 30, 2022 at 5:59 PM Joshua Watt <JPEWhacker@gmail.com> wrote:
-> > >
-> > > The CVE check database needs to have a shared lock acquired on it before
-> > > it is accessed. This to prevent cve-update-db-native from deleting the
-> > > database file out from underneath it.
-> > >
-> > > [YOCTO #14899]
-> > >
-> > > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> > > +                cve_data = get_cve_info(d, patched + unpatched + ignored)
-> > > +                cve_write_data(d, patched, unpatched, ignored, cve_data, status)
-> > > +        else:
-> > > +            bb.note("No CVE database found, skipping CVE check")
-> > >
-> >
-> > With this commit in kirkstone-nut, we're getting an error with
-> > meta-zephyr builds:
-> >
-> > RROR: zephyr-philosophers-3.1.0+gitAUTOINC+2ddd73feaf_5f86244bad-r0
-> > do_cve_check: Error executing a python function in exec_func_python()
-> > autogenerated:
-> > The stack trace of python calls that resulted in this exception/failure was:
-> > File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-> > 0001:
-> > *** 0002:do_cve_check(d)
-> > 0003:
-> > File: '/tmp/workspace.4jc1Y12y3W/oe-core/meta/classes/cve-check.bbclass',
-> > lineno: 142, function: do_cve_check
-> > 0138: Check recipe for patched and unpatched CVEs
-> > 0139: """
-> > 0140: from oe.cve_check import get_patched_cves
-> > 0141:
-> > *** 0142: with bb.utils.fileslocked([d.getVar("CVE_CHECK_DB_FILE_LOCK")],
-> > shared=True):
-> > 0143: if os.path.exists(d.getVar("CVE_CHECK_DB_FILE")):
-> > 0144: try:
-> > 0145: patched_cves = get_patched_cves(d)
-> > 0146: except FileNotFoundError:
-> > File: '/usr/lib/python3.8/contextlib.py', lineno: 240, function: helper
-> > 0236: <cleanup>
-> > 0237: """
-> > 0238: @wraps(func)
-> > 0239: def helper(*args, **kwds):
-> > *** 0240: return _GeneratorContextManager(func, args, kwds)
-> > 0241: return helper
-> > 0242:
-> > 0243:
-> > 0244:def asynccontextmanager(func):
-> > File: '/usr/lib/python3.8/contextlib.py', lineno: 83, function: __init__
-> > 0079:class _GeneratorContextManagerBase:
-> > 0080: """Shared functionality for @contextmanager and @asynccontextmanager."""
-> > 0081:
-> > 0082: def __init__(self, func, args, kwds):
-> > *** 0083: self.gen = func(*args, **kwds)
-> > 0084: self.func, self.args, self.kwds = func, args, kwds
-> > 0085: # Issue 19330: ensure context manager instances have good docstrings
-> > 0086: doc = getattr(func, "__doc__", None)
-> > 0087: if doc is None:
-> > Exception: TypeError: fileslocked() got an unexpected keyword argument 'shared'
-> > ERROR: Logfile of failure stored in:
-> > /tmp/workspace.4jc1Y12y3W/build/tmp-newlib/work/i586-yocto-elf/zephyr-philosophers/3.1.0+gitAUTOINC+2ddd73feaf_5f86244bad-r0/temp/log.do_cve_check.433603
-> > NOTE: recipe zephyr-philosophers-3.1.0+gitAUTOINC+2ddd73feaf_5f86244bad-r0:
-> > task do_cve_check: Failed
-> > ERROR: Task (/tmp/workspace.4jc1Y12y3W/oe-core/../meta-zephyr/meta-zephyr-core/recipes-kernel/zephyr-kernel/zephyr-philosophers.bb:do_cve_check)
-> > failed with exit code '1'
-> >
->
-> This is a mismatch with bitbake, because one commit hasn't reached 2.0.
-> Steve, should I be using
-> https://git.openembedded.org/bitbake-contrib/log/?h=stable/2.0-nut for
-> testing?
+This code wasn't changing the linux.h on i686. Make the entry match that
+for i586 which was correct.
 
-If you are going to try to use oe-core stable/kirkstone-nut then, yes,
-you should also use bitbake stable/2.0-nut since occasionally changes
-in core must be paired with a bitbake change.
+This fixes problems where the wrong dynamic loader path was used by
+nativesdk-gcc on i686 SDK targets by ensuring SYSTEMLIBS_DIR is replaced
+by %r in the correct header files.
 
-However . . .
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/gcc/gcc-multilib-config.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I highly discourage anyone from using the -nut branches!  They are
-guaranteed to be rebased (and broken!), sometimes several times a day.
-So be prepared for pain!
+diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+index 26bfed9507b..2dbbc23c940 100644
+--- a/meta/recipes-devtools/gcc/gcc-multilib-config.inc
++++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+@@ -154,7 +154,7 @@ python gcc_multilib_setup() {
+     gcc_header_config_files = {
+         'x86_64'    : ['gcc/config/linux.h', 'gcc/config/i386/linux.h', 'gcc/config/i386/linux64.h'],
+         'i586'      : ['gcc/config/linux.h', 'gcc/config/i386/linux.h', 'gcc/config/i386/linux64.h'],
+-        'i686'      : ['gcc/config/linux.h', 'gcc/config/i386/linux64.h'],
++        'i686'      : ['gcc/config/linux.h', 'gcc/config/i386/linux.h', 'gcc/config/i386/linux64.h'],
+         'mips'      : ['gcc/config/linux.h', 'gcc/config/mips/linux.h', 'gcc/config/mips/linux64.h'],
+         'mips64'    : ['gcc/config/linux.h', 'gcc/config/mips/linux.h', 'gcc/config/mips/linux64.h'],
+         'powerpc'   : ['gcc/config/linux.h', 'gcc/config/rs6000/linux64.h'],
+-- 
+2.34.1
 
-Patches move to stable/kirkstone-next (and stable2.0-next) a day after
-I post a patchset for review.  At this point they have passed all
-testing and are unlikely to change unless the community finds an issue
-during the review period. So it would be safer to use the
-stable/*-next branch (but I still discourage it since it is possible
-it will change)
-
-Steve
-
-
-
-
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#170239): https://lists.openembedded.org/g/openembedded-core/message/170239
-> Mute This Topic: https://lists.openembedded.org/mt/93352038/3617601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [sakoman@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
 
