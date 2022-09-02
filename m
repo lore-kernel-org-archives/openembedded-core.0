@@ -1,177 +1,185 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 645D3C38145
-	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 10:46:19 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web09.4997.1662115569031380920
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64F47C38145
+	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 10:57:39 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web09.5070.1662116252313480803
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Sep 2022 03:46:09 -0700
+ Fri, 02 Sep 2022 03:57:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MW5nhOGO;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id b16so1779567wru.7
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=RMLESgKu;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id bt10so2773593lfb.1
         for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Sep 2022 03:46:08 -0700 (PDT)
+ Fri, 02 Sep 2022 03:57:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date;
-        bh=kKZxDU5ADDFlqokhIs+BFifkcQlmfwsI+5XyuKddPUQ=;
-        b=MW5nhOGOsnQBlMXkjOOjIJ7Z6PdfdG/MJJLi2mSqU3mt7pNGXhsDpWF0e8ni80V/CX
-         ieAJTuEpXOs87l9d/YL7cxhsnklcCjSv1/+FkBCEDGPR+efnl6jPAUGEREFd1KAtPXA3
-         r8hdxnKnw1Sa94JCRso4N2cs2EToyn3f96gzw=
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=tmKC1nZ+S5kdpGs5ZdVWTP+wb8WethhS/OjbVn+iXTE=;
+        b=RMLESgKuAGHUkV1K8oQyketBk5rWgk+MkCUAvumfWK06L4djyEzac+AB5O1CWG5xNs
+         lvQ05qOTgzylqFAhDAweQjVM8W8jQ3nkAN38whYNXRTwtLnEDFG5eSdhtuZsaHTzwlbX
+         +RoBIgoBQEzMrVDTpQsTeS846+ASw83HOyZmvFRH3s6sNC0+lnIihwVN1ooXvg1q0McC
+         OdsFWllBM3RZXygybke5tsFOPy4r7DIPY9GBBbY4WUKzyWOBhH+17lPSm23gJlWxiNbh
+         KG4xz4jscC/+8Nlb9gIPRwquQ/1PJrbrlUyC2Up2M7+lJ4aXuEWmpKIvbolWfnur+sfl
+         2nDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=kKZxDU5ADDFlqokhIs+BFifkcQlmfwsI+5XyuKddPUQ=;
-        b=MjAUERt7PIs+Itfcko3dvomQId6wib+mbQU5dtHZGl3DN0GnLG9vu0VUgxvMkfHE2M
-         4Pa4QhnUOr76wqWQKxXdqtFp1WlE9KkVjEKqqmaGSXHWxtPnxksMRYrx+grivA7h1ePj
-         tnkWuR66nz7bfuJJmxxrUBfLoHCQ4Ft0qIukwlnxqCGgztx2FahMekVNJnoV2sz2WWK1
-         v5cFwkL8HIuIUqsS067A7OlH2f2d62Pq8LOVT6ZfXZ5JUES4WsHtS/JrnYKtlL0eQAhM
-         wvy90YMjSM1wQwCp7vxX/EuE1kdZ/sLDrt+VU0tMuh0LqEd7wy2hCWim5Wz3YZUgxvNY
-         NY+w==
-X-Gm-Message-State: ACgBeo3QeU9yPN4QG7ogTzSbY/XtCchF5GvgBqKWkovOHqRPyrThNqn8
-	qMkS9Jo6KlYKGnarBVWpdHrlDA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=tmKC1nZ+S5kdpGs5ZdVWTP+wb8WethhS/OjbVn+iXTE=;
+        b=6AMEmmfcB3x70NOgDiOURW1C3+lJrbYBxtKFy33aPY6eNE59JcSkHIl1qX/c9OCdvy
+         kX3GgMjqoKDbdcAQLkGkKRniHsRCHslsBmWdfzBQuHpISdz8LO6LGR0geSQ+LJs3jENS
+         5y1g6lA7kd1VQUbzhDc+DnGeXQaLGkOQjnCq8Vh54cCT9PDkjO9mfAc2h4BSNvQILKoV
+         PV1ah2ryn8Ef3EO/GXWUKPdw1S78n70GIgiHAAmTwVGUnT+GC3Pr7SgA9Qu4/8gtlJy3
+         oXdZJH+g+xtwHJaFyBno3Pex4/TKp+lYnj+zkMIVXL46rwoBJzOnEagg65L6yT4GwBF6
+         1dGw==
+X-Gm-Message-State: ACgBeo3bUYp11XhWm144FzIQUFeTBnOU8oqDgzJzrbnSQxszyygL75Lc
+	zn86+mPimUeNdvz1aX0/W2Ck1LhX+IzbWYecXUA=
 X-Google-Smtp-Source: 
- AA6agR7Vo5ybhQDV8xbYqyeZriFMO84reDCQcGO+jKjorIB4pvCTRv8+yzXwpwk0zXWLuG/tgYlXbg==
-X-Received: by 2002:a5d:6b8d:0:b0:226:d47e:6ffb with SMTP id
- n13-20020a5d6b8d000000b00226d47e6ffbmr15826781wrx.254.1662115567404;
-        Fri, 02 Sep 2022 03:46:07 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e969:460c:a8b4:e544?
- ([2001:8b0:aba:5f3c:e969:460c:a8b4:e544])
-        by smtp.gmail.com with ESMTPSA id
- f3-20020a1cc903000000b003a604a29a34sm1763606wmb.35.2022.09.02.03.46.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Sep 2022 03:46:06 -0700 (PDT)
-Message-ID: 
- <40a7dbd874811a04c1e948c7f2192688ead5050c.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] classes: cve-check: Get shared database lock
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Marta Rybczynska <rybczynska@gmail.com>
-Cc: Joshua Watt <JPEWhacker@gmail.com>, Steve Sakoman <steve@sakoman.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 02 Sep 2022 11:46:04 +0100
-In-Reply-To: 
- <CAApg2=StgBK-TavxR_dFbSCibep5co_cD_s2KXZse-+8=FPk0A@mail.gmail.com>
-References: <20220830155939.662178-1-JPEWhacker@gmail.com>
-	 <1710F97D4670CB8B.3145@lists.openembedded.org>
-	 <CAApg2=StgBK-TavxR_dFbSCibep5co_cD_s2KXZse-+8=FPk0A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ AA6agR4tnlHdz8zGwjt6R2tI+f5UGvV/iDLPWx7NZo7HUx0ntwNRgxxQwapvcKHUd9vbR+gOZvUMXzBpMusaxw5e0OE=
+X-Received: by 2002:a05:6512:33c9:b0:494:79c1:8ea1 with SMTP id
+ d9-20020a05651233c900b0049479c18ea1mr5005839lfg.26.1662116250364; Fri, 02 Sep
+ 2022 03:57:30 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220901142328.268769-1-alex@linutronix.de>
+ <d9ec6fa663d94bcc9229066100a140fc@axis.com>
+ <1710F0E3F6A43399.12033@lists.openembedded.org>
+ <CANNYZj-YxzNONuKM5UVsvW7aS+k+aDTUw4GeK=MkMgGCdygxFg@mail.gmail.com>
+ <eca823296bc1d5163f549ab1cbfc9408a2cbcca8.camel@linuxfoundation.org>
+ <1710FB3AA9843A6F.13805@lists.openembedded.org>
+In-Reply-To: <1710FB3AA9843A6F.13805@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 2 Sep 2022 12:57:19 +0200
+Message-ID: 
+ <CANNYZj_PPktM1LzEBvYAd4GOPNfAnW5K8sUU-JSd_-E2WSniyA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] scripts/oe-setup-builddir: migrate
+ build/conf/templateconf.cfg to new template locations
+To: alex.kanavin@gmail.com
+Cc: Alexander Kanavin <alex@linutronix.de>,
+ Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000adaf4205e7af986b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 10:46:19 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 10:57:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170241
+ https://lists.openembedded.org/g/openembedded-core/message/170242
 
-On Fri, 2022-09-02 at 10:50 +0200, Marta Rybczynska wrote:
-> On Fri, Sep 2, 2022 at 9:09 AM Marta Rybczynska via
-> lists.openembedded.org <rybczynska=3Dgmail.com@lists.openembedded.org>
-> wrote:
-> >=20
-> > On Tue, Aug 30, 2022 at 5:59 PM Joshua Watt <JPEWhacker@gmail.com> wrot=
-e:
-> > >=20
-> > > The CVE check database needs to have a shared lock acquired on it bef=
-ore
-> > > it is accessed. This to prevent cve-update-db-native from deleting th=
-e
-> > > database file out from underneath it.
-> > >=20
-> > > [YOCTO #14899]
-> > >=20
-> > > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> > > +                cve_data =3D get_cve_info(d, patched + unpatched + i=
-gnored)
-> > > +                cve_write_data(d, patched, unpatched, ignored, cve_d=
-ata, status)
-> > > +        else:
-> > > +            bb.note("No CVE database found, skipping CVE check")
-> > >=20
-> >=20
-> > With this commit in kirkstone-nut, we're getting an error with
-> > meta-zephyr builds:
-> >=20
-> > RROR: zephyr-philosophers-3.1.0+gitAUTOINC+2ddd73feaf_5f86244bad-r0
-> > do_cve_check: Error executing a python function in exec_func_python()
-> > autogenerated:
-> > The stack trace of python calls that resulted in this exception/failure=
- was:
-> > File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-> > 0001:
-> > *** 0002:do_cve_check(d)
-> > 0003:
-> > File: '/tmp/workspace.4jc1Y12y3W/oe-core/meta/classes/cve-check.bbclass=
-',
-> > lineno: 142, function: do_cve_check
-> > 0138: Check recipe for patched and unpatched CVEs
-> > 0139: """
-> > 0140: from oe.cve_check import get_patched_cves
-> > 0141:
-> > *** 0142: with bb.utils.fileslocked([d.getVar("CVE_CHECK_DB_FILE_LOCK")=
-],
-> > shared=3DTrue):
-> > 0143: if os.path.exists(d.getVar("CVE_CHECK_DB_FILE")):
-> > 0144: try:
-> > 0145: patched_cves =3D get_patched_cves(d)
-> > 0146: except FileNotFoundError:
-> > File: '/usr/lib/python3.8/contextlib.py', lineno: 240, function: helper
-> > 0236: <cleanup>
-> > 0237: """
-> > 0238: @wraps(func)
-> > 0239: def helper(*args, **kwds):
-> > *** 0240: return _GeneratorContextManager(func, args, kwds)
-> > 0241: return helper
-> > 0242:
-> > 0243:
-> > 0244:def asynccontextmanager(func):
-> > File: '/usr/lib/python3.8/contextlib.py', lineno: 83, function: __init_=
-_
-> > 0079:class _GeneratorContextManagerBase:
-> > 0080: """Shared functionality for @contextmanager and @asynccontextmana=
-ger."""
-> > 0081:
-> > 0082: def __init__(self, func, args, kwds):
-> > *** 0083: self.gen =3D func(*args, **kwds)
-> > 0084: self.func, self.args, self.kwds =3D func, args, kwds
-> > 0085: # Issue 19330: ensure context manager instances have good docstri=
-ngs
-> > 0086: doc =3D getattr(func, "__doc__", None)
-> > 0087: if doc is None:
-> > Exception: TypeError: fileslocked() got an unexpected keyword argument =
-'shared'
-> > ERROR: Logfile of failure stored in:
-> > /tmp/workspace.4jc1Y12y3W/build/tmp-newlib/work/i586-yocto-elf/zephyr-p=
-hilosophers/3.1.0+gitAUTOINC+2ddd73feaf_5f86244bad-r0/temp/log.do_cve_check=
-.433603
-> > NOTE: recipe zephyr-philosophers-3.1.0+gitAUTOINC+2ddd73feaf_5f86244bad=
--r0:
-> > task do_cve_check: Failed
-> > ERROR: Task (/tmp/workspace.4jc1Y12y3W/oe-core/../meta-zephyr/meta-zeph=
-yr-core/recipes-kernel/zephyr-kernel/zephyr-philosophers.bb:do_cve_check)
-> > failed with exit code '1'
-> >=20
->=20
-> This is a mismatch with bitbake, because one commit hasn't reached 2.0.
-> Steve, should I be using
-> https://git.openembedded.org/bitbake-contrib/log/?h=3Dstable/2.0-nut for
-> testing?
+--000000000000adaf4205e7af986b
+Content-Type: text/plain; charset="UTF-8"
 
-I've gone ahead and backported that bitbake change to make things
-easier for people.
+Ok, I think I overstated things :) a couple of small targeted fixes
+incoming, no python rewrite.
 
-Cheers,
+Alex
 
-Richard
 
+On Fri 2. Sep 2022 at 9.41, Alexander Kanavin via lists.openembedded.org
+<alex.kanavin=gmail.com@lists.openembedded.org> wrote:
+
+> On Fri, 2 Sept 2022 at 09:37, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > > > We can however add a hint to check what is in
+> > > > build/conf/templateconf.cfg if the test fails, as it is not obvious
+> > > > that TEMPLATECONF obtained from there takes priority over other
+> > > > sources (which are, in order, TEMPLATECONF passed via environment,
+> > > > then .templateconf next to oe-init-build-env).
+> > >
+> > > Ok, the more I think about this, the more I'm convinced that
+> > > oe-setup-builddir needs a complete refactor.
+> >
+> > That script is meant to be really really simple and push any heavy
+> > lifting off to bitbake or other tools. Ideally we were never even meant
+> > to need such a script and the tools would "just work". I'd prefer it
+> > went away, not rewrite and grow it.
+>
+> Rewriting it in python will make it twice (or more) shorter, and the
+> order of templateconfs does need clarity and logic. We can leave the
+> 'config fragments' or anything more advanced out.
+>
+> Alex
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#170238):
+> https://lists.openembedded.org/g/openembedded-core/message/170238
+> Mute This Topic: https://lists.openembedded.org/mt/93396426/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000adaf4205e7af986b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div dir=3D"auto">Ok, I think I overstated things :) a coupl=
+e of small targeted fixes incoming, no python rewrite.</div><div dir=3D"aut=
+o"><br></div><div dir=3D"auto">Alex</div><div dir=3D"auto"><br></div><div d=
+ir=3D"auto"><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_=
+attr">On Fri 2. Sep 2022 at 9.41, Alexander Kanavin via <a href=3D"http://l=
+ists.openembedded.org">lists.openembedded.org</a> &lt;alex.kanavin=3D<a hre=
+f=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.=
+org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-=
+left:1ex;border-left-color:rgb(204,204,204)">On Fri, 2 Sept 2022 at 09:37, =
+Richard Purdie<br>
+&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank"=
+>richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
+&gt; &gt; &gt; We can however add a hint to check what is in<br>
+&gt; &gt; &gt; build/conf/templateconf.cfg if the test fails, as it is not =
+obvious<br>
+&gt; &gt; &gt; that TEMPLATECONF obtained from there takes priority over ot=
+her<br>
+&gt; &gt; &gt; sources (which are, in order, TEMPLATECONF passed via enviro=
+nment,<br>
+&gt; &gt; &gt; then .templateconf next to oe-init-build-env).<br>
+&gt; &gt;<br>
+&gt; &gt; Ok, the more I think about this, the more I&#39;m convinced that<=
+br>
+&gt; &gt; oe-setup-builddir needs a complete refactor.<br>
+&gt;<br>
+&gt; That script is meant to be really really simple and push any heavy<br>
+&gt; lifting off to bitbake or other tools. Ideally we were never even mean=
+t<br>
+&gt; to need such a script and the tools would &quot;just work&quot;. I&#39=
+;d prefer it<br>
+&gt; went away, not rewrite and grow it.<br>
+<br>
+Rewriting it in python will make it twice (or more) shorter, and the<br>
+order of templateconfs does need clarity and logic. We can leave the<br>
+&#39;config fragments&#39; or anything more advanced out.<br>
+<br>
+Alex<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#170238): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/170238" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/170238</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/93396426/1686=
+489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/93396426/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000adaf4205e7af986b--
 
