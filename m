@@ -1,185 +1,133 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64F47C38145
-	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 10:57:39 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web09.5070.1662116252313480803
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92083C38145
+	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 11:17:59 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web12.5300.1662117472217155574
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Sep 2022 03:57:32 -0700
+ Fri, 02 Sep 2022 04:17:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=RMLESgKu;
- spf=pass (domain: gmail.com, ip: 209.85.167.53,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f53.google.com with SMTP id bt10so2773593lfb.1
+ dkim=pass header.i=@mvista.com header.s=google header.b=VCiD02Ms;
+ spf=pass (domain: mvista.com, ip: 209.85.214.174,
+ mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f174.google.com with SMTP id c2so1563600plo.3
         for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Sep 2022 03:57:31 -0700 (PDT)
+ Fri, 02 Sep 2022 04:17:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=tmKC1nZ+S5kdpGs5ZdVWTP+wb8WethhS/OjbVn+iXTE=;
-        b=RMLESgKuAGHUkV1K8oQyketBk5rWgk+MkCUAvumfWK06L4djyEzac+AB5O1CWG5xNs
-         lvQ05qOTgzylqFAhDAweQjVM8W8jQ3nkAN38whYNXRTwtLnEDFG5eSdhtuZsaHTzwlbX
-         +RoBIgoBQEzMrVDTpQsTeS846+ASw83HOyZmvFRH3s6sNC0+lnIihwVN1ooXvg1q0McC
-         OdsFWllBM3RZXygybke5tsFOPy4r7DIPY9GBBbY4WUKzyWOBhH+17lPSm23gJlWxiNbh
-         KG4xz4jscC/+8Nlb9gIPRwquQ/1PJrbrlUyC2Up2M7+lJ4aXuEWmpKIvbolWfnur+sfl
-         2nDA==
+        d=mvista.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=GqX96Dq5laK5lXBtWFpHXpn/1dHjn8wJl4K+0azcnUk=;
+        b=VCiD02MsSD4JpMgpCXebQfdZp7kRLLKVGlvDGixRfPSCdifRDWUXjJ23IWI2ib9uBF
+         IRiTBnm40ObgszqyVln+poZuVQqm8vzTTV5fUyLRHpqMyz/+iH+uJvTwKQPahQE0yaTU
+         EbdFLdGp1piL4dle9bjzIUJTjvEwNy3/W3lOQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=tmKC1nZ+S5kdpGs5ZdVWTP+wb8WethhS/OjbVn+iXTE=;
-        b=6AMEmmfcB3x70NOgDiOURW1C3+lJrbYBxtKFy33aPY6eNE59JcSkHIl1qX/c9OCdvy
-         kX3GgMjqoKDbdcAQLkGkKRniHsRCHslsBmWdfzBQuHpISdz8LO6LGR0geSQ+LJs3jENS
-         5y1g6lA7kd1VQUbzhDc+DnGeXQaLGkOQjnCq8Vh54cCT9PDkjO9mfAc2h4BSNvQILKoV
-         PV1ah2ryn8Ef3EO/GXWUKPdw1S78n70GIgiHAAmTwVGUnT+GC3Pr7SgA9Qu4/8gtlJy3
-         oXdZJH+g+xtwHJaFyBno3Pex4/TKp+lYnj+zkMIVXL46rwoBJzOnEagg65L6yT4GwBF6
-         1dGw==
-X-Gm-Message-State: ACgBeo3bUYp11XhWm144FzIQUFeTBnOU8oqDgzJzrbnSQxszyygL75Lc
-	zn86+mPimUeNdvz1aX0/W2Ck1LhX+IzbWYecXUA=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=GqX96Dq5laK5lXBtWFpHXpn/1dHjn8wJl4K+0azcnUk=;
+        b=QlQ0cyHOXautKUhGXYT0jO3n5CHKXNtrWZZzTOndSmj4KbGcEepuHKzVAoCc20LhI5
+         QiWXDDn7NEAKVdyiWAQzHwfEe0F+lmcT2hZHoXivWwE7qamZzKPDGUuiYrtwmswZVRWs
+         RZ4LBoB0qaj7I1E/V2vsRfN8yTjSTocgwvWtSfti/Ps48auNrMGNHIfMajYT/75WxQJ9
+         Q6Xh81Vd8th9CJfXMHm5dKKonCqgHXu6/2OfFe7H/h04Z65MqizSL/A2x5nMrsuSL3EM
+         h2vpr/ylL3AtWZPCIBMmhRMTA2Dk5diwrLzj5d2GLdqnv2ZN9qNV0ph8d7LJ59fOtAJk
+         mj0g==
+X-Gm-Message-State: ACgBeo0hIbfqcaMcYvLIXlnkZuxnj/ciMVfm7v4eQvjqSwdsPzlAhs0q
+	63eSj9phxGpJXYmFDjooD/un1kA9fkQA0w==
 X-Google-Smtp-Source: 
- AA6agR4tnlHdz8zGwjt6R2tI+f5UGvV/iDLPWx7NZo7HUx0ntwNRgxxQwapvcKHUd9vbR+gOZvUMXzBpMusaxw5e0OE=
-X-Received: by 2002:a05:6512:33c9:b0:494:79c1:8ea1 with SMTP id
- d9-20020a05651233c900b0049479c18ea1mr5005839lfg.26.1662116250364; Fri, 02 Sep
- 2022 03:57:30 -0700 (PDT)
+ AA6agR6aYhLLr0io7Rh2hLWPu9vnpopumC53ZRvAYHS/r4V/d1idCx/8Gj4G8NuxaxKHMe4Mk0OrNw==
+X-Received: by 2002:a17:90b:1d0b:b0:1f5:72f:652c with SMTP id
+ on11-20020a17090b1d0b00b001f5072f652cmr4345001pjb.38.1662117471335;
+        Fri, 02 Sep 2022 04:17:51 -0700 (PDT)
+Received: from MVIN00024 ([150.129.170.187])
+        by smtp.gmail.com with ESMTPSA id
+ m9-20020a17090a4d8900b001f8c532b93dsm1248243pjh.15.2022.09.02.04.17.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Sep 2022 04:17:50 -0700 (PDT)
+Received: by MVIN00024 (sSMTP sendmail emulation);
+ Fri, 02 Sep 2022 16:47:45 +0530
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [dunfell][PATCH] sqlite: CVE-2022-35737 assertion failure
+Date: Fri,  2 Sep 2022 16:47:44 +0530
+Message-Id: <20220902111744.10595-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220901142328.268769-1-alex@linutronix.de>
- <d9ec6fa663d94bcc9229066100a140fc@axis.com>
- <1710F0E3F6A43399.12033@lists.openembedded.org>
- <CANNYZj-YxzNONuKM5UVsvW7aS+k+aDTUw4GeK=MkMgGCdygxFg@mail.gmail.com>
- <eca823296bc1d5163f549ab1cbfc9408a2cbcca8.camel@linuxfoundation.org>
- <1710FB3AA9843A6F.13805@lists.openembedded.org>
-In-Reply-To: <1710FB3AA9843A6F.13805@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 2 Sep 2022 12:57:19 +0200
-Message-ID: 
- <CANNYZj_PPktM1LzEBvYAd4GOPNfAnW5K8sUU-JSd_-E2WSniyA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] scripts/oe-setup-builddir: migrate
- build/conf/templateconf.cfg to new template locations
-To: alex.kanavin@gmail.com
-Cc: Alexander Kanavin <alex@linutronix.de>,
- Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000adaf4205e7af986b"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 10:57:39 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 11:17:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170242
+ https://lists.openembedded.org/g/openembedded-core/message/170243
 
---000000000000adaf4205e7af986b
-Content-Type: text/plain; charset="UTF-8"
+Source: https://www.sqlite.org/
+MR: 120541
+Type: Security Fix
+Disposition: Backport from https://www.sqlite.org/src/info/aab790a16e1bdff7
+ChangeID: cf6d0962be0d1f7d4a5019843da6349eb7f9acda
+Description:
+	 CVE-2022-35737 sqlite: assertion failure via query when compiled with -DSQLITE_ENABLE_STAT4.
 
-Ok, I think I overstated things :) a couple of small targeted fixes
-incoming, no python rewrite.
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../sqlite/files/CVE-2022-35737.patch         | 29 +++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.31.1.bb |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2022-35737.patch
 
-Alex
+diff --git a/meta/recipes-support/sqlite/files/CVE-2022-35737.patch b/meta/recipes-support/sqlite/files/CVE-2022-35737.patch
+new file mode 100644
+index 0000000000..341e002913
+--- /dev/null
++++ b/meta/recipes-support/sqlite/files/CVE-2022-35737.patch
+@@ -0,0 +1,29 @@
++From 2bbf4c999dbb4b520561a57e0bafc19a15562093 Mon Sep 17 00:00:00 2001
++From: Hitendra Prajapati <hprajapati@mvista.com>
++Date: Fri, 2 Sep 2022 11:22:29 +0530
++Subject: [PATCH] CVE-2022-35737
++
++Upstream-Status: Backport [https://www.sqlite.org/src/info/aab790a16e1bdff7]
++CVE: CVE-2022-35737
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ sqlite3.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/sqlite3.c b/sqlite3.c
++index f664217..33dfb78 100644
++--- a/sqlite3.c
+++++ b/sqlite3.c
++@@ -28758,7 +28758,8 @@ SQLITE_API void sqlite3_str_vappendf(
++       case etSQLESCAPE:           /* %q: Escape ' characters */
++       case etSQLESCAPE2:          /* %Q: Escape ' and enclose in '...' */
++       case etSQLESCAPE3: {        /* %w: Escape " characters */
++-        int i, j, k, n, isnull;
+++        i64  i, j, k, n;
+++        int isnull;
++         int needQuote;
++         char ch;
++         char q = ((xtype==etSQLESCAPE3)?'"':'\'');   /* Quote character */
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.31.1.bb b/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
+index 877e80f5a3..3440bf4913 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
+@@ -13,6 +13,7 @@ SRC_URI = "http://www.sqlite.org/2020/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+            file://CVE-2020-13630.patch \
+            file://CVE-2020-13631.patch \
+            file://CVE-2020-13632.patch \
++           file://CVE-2022-35737.patch \
+            "
+ SRC_URI[md5sum] = "2d0a553534c521504e3ac3ad3b90f125"
+ SRC_URI[sha256sum] = "62284efebc05a76f909c580ffa5c008a7d22a1287285d68b7825a2b6b51949ae"
+-- 
+2.25.1
 
-
-On Fri 2. Sep 2022 at 9.41, Alexander Kanavin via lists.openembedded.org
-<alex.kanavin=gmail.com@lists.openembedded.org> wrote:
-
-> On Fri, 2 Sept 2022 at 09:37, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > > > We can however add a hint to check what is in
-> > > > build/conf/templateconf.cfg if the test fails, as it is not obvious
-> > > > that TEMPLATECONF obtained from there takes priority over other
-> > > > sources (which are, in order, TEMPLATECONF passed via environment,
-> > > > then .templateconf next to oe-init-build-env).
-> > >
-> > > Ok, the more I think about this, the more I'm convinced that
-> > > oe-setup-builddir needs a complete refactor.
-> >
-> > That script is meant to be really really simple and push any heavy
-> > lifting off to bitbake or other tools. Ideally we were never even meant
-> > to need such a script and the tools would "just work". I'd prefer it
-> > went away, not rewrite and grow it.
->
-> Rewriting it in python will make it twice (or more) shorter, and the
-> order of templateconfs does need clarity and logic. We can leave the
-> 'config fragments' or anything more advanced out.
->
-> Alex
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#170238):
-> https://lists.openembedded.org/g/openembedded-core/message/170238
-> Mute This Topic: https://lists.openembedded.org/mt/93396426/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---000000000000adaf4205e7af986b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div dir=3D"auto">Ok, I think I overstated things :) a coupl=
-e of small targeted fixes incoming, no python rewrite.</div><div dir=3D"aut=
-o"><br></div><div dir=3D"auto">Alex</div><div dir=3D"auto"><br></div><div d=
-ir=3D"auto"><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_=
-attr">On Fri 2. Sep 2022 at 9.41, Alexander Kanavin via <a href=3D"http://l=
-ists.openembedded.org">lists.openembedded.org</a> &lt;alex.kanavin=3D<a hre=
-f=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.=
-org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-=
-left:1ex;border-left-color:rgb(204,204,204)">On Fri, 2 Sept 2022 at 09:37, =
-Richard Purdie<br>
-&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank"=
->richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt; &gt; &gt; We can however add a hint to check what is in<br>
-&gt; &gt; &gt; build/conf/templateconf.cfg if the test fails, as it is not =
-obvious<br>
-&gt; &gt; &gt; that TEMPLATECONF obtained from there takes priority over ot=
-her<br>
-&gt; &gt; &gt; sources (which are, in order, TEMPLATECONF passed via enviro=
-nment,<br>
-&gt; &gt; &gt; then .templateconf next to oe-init-build-env).<br>
-&gt; &gt;<br>
-&gt; &gt; Ok, the more I think about this, the more I&#39;m convinced that<=
-br>
-&gt; &gt; oe-setup-builddir needs a complete refactor.<br>
-&gt;<br>
-&gt; That script is meant to be really really simple and push any heavy<br>
-&gt; lifting off to bitbake or other tools. Ideally we were never even mean=
-t<br>
-&gt; to need such a script and the tools would &quot;just work&quot;. I&#39=
-;d prefer it<br>
-&gt; went away, not rewrite and grow it.<br>
-<br>
-Rewriting it in python will make it twice (or more) shorter, and the<br>
-order of templateconfs does need clarity and logic. We can leave the<br>
-&#39;config fragments&#39; or anything more advanced out.<br>
-<br>
-Alex<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#170238): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/170238" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/170238</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/93396426/1686=
-489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/93396426/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000adaf4205e7af986b--
 
