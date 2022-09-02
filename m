@@ -1,93 +1,92 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0432EECAAD5
-	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 16:30:57 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.777.1662136247413952555
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26981ECAAD5
+	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 16:50:27 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web08.1007.1662137417463762873
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Sep 2022 09:30:48 -0700
+ Fri, 02 Sep 2022 09:50:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HEq+1nJL;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id s23so1534475wmj.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=EUopUYCf;
+ spf=pass (domain: gmail.com, ip: 209.85.167.46,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f46.google.com with SMTP id q7so4114041lfu.5
         for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Sep 2022 09:30:47 -0700 (PDT)
+ Fri, 02 Sep 2022 09:50:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=MkeGmxQzo4MwUlQfXJg4k2iG8wGlrwMYmA7VwLGLLks=;
-        b=HEq+1nJL2U0LUbRXPHwwjlepQsCuBKKQissvGv6sLmlesl7ZCZi7+ElTldUp83+D+1
-         Y3h5q38uXKjVihSF0WSk02YNP14TQnvZzOy9miWP/8Gbb7Jzq0PCm0C3inMWBWULd7ix
-         UwD/BcS7H6MJnmqw3+3BkW3nBqWh8mW4Sm9c0=
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=kgYKqFIscooRBpLs9HpghSuQbHyxmGjH2LutpDCiVmg=;
+        b=EUopUYCfkql/HiEFwnSIWMtU/EmrjwQr8079a1HL3MREBRpT9UdU/pVHL6yqCZQwiC
+         58q/j9yb/TQI3XlTvbHvLXA7alkFbPRKaMlXdQQBe6qb1E/CVE36sdtysfeq6yROu/5o
+         3Pz9WEUczCCn4ooeqCdedxmq6JBV5dFev3zQQi3pf0gIuvr3bp3IVJ5Z2l5Rn2JR7MYX
+         8AzhPTDDn2RvQNx/9XJy6rfdbtY68bpiy9MFhYYMmtm1d7s8fq7liNAs7LAexBKq8fv5
+         AyXIiQvnamamTcUHVmjU+5e4rvaD6hM1dD3J/8dXz8izGIxniS0mJFlbUwuyRmwSQ+lt
+         ONKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=MkeGmxQzo4MwUlQfXJg4k2iG8wGlrwMYmA7VwLGLLks=;
-        b=K+yO2dt1QtQsJK9JsFecxSqiemftYN/SLv4Q2Wypw6O6oeUebTgy9Q7Af/jcy2Rj4g
-         +F4/AsV+RTFL6/aw5Fc2pqu6Kgq4Jp8aim6PeNpAri6nkz4IeUhq8XSh3UXRQllwl5KS
-         Opyx7Kdoil/Lv44alFUWBtfpSgLpmceSx9FaukQmET4Siht6x0PvGSnXVDO6GPsk9y60
-         PNDFchvNnUFQoR5TnzmDjb6E2JX8zzilaA5bHJ62JP/oVVaXgI5Sbb97lVsfA1zv6B49
-         dZDP4AuzSzuSwMTMBxAphRBUCEL+jspw0zKQMURXBsp4gHhRzkV2Mc6XopfdKYr26fMt
-         xUyw==
-X-Gm-Message-State: ACgBeo3q+Q7JhzUxRHMjr1M14/W/cweUTKbHLVeBdRrICU8tsrZsvy5o
-	5YTfZ7X6SfD2JyeGW4RCJy99Ir2l4s4wUA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=kgYKqFIscooRBpLs9HpghSuQbHyxmGjH2LutpDCiVmg=;
+        b=ij3V+QV1PWWDwLegAJPerupp8sY5eLRXvlFNsTfFi3hFkpRnGtGl6DYidOHnWUS2OG
+         sV9fFFrt0DOul5BrSSWTzi2BBPOlUnJkWpR1gcjhfoi0+B1OZZmPoQbVLmUoFhlOlMSP
+         rh6ln0dAD4FI/U+ZNewJeR6SfCxKpNB5lFoFnwk/W5ZbX7Qtkv3ebzKYPjLRw9WTUHta
+         oxQlpEc4Etc8fkemsPQCOOzeQCFwWv04C1TBSc8LlznNpxmMaHMxW5ZnIhaiJjx1FlVw
+         IDabH+Kc6lAeYDt5/3A7kev7sQMVql4Ml9+F2vgZiagskZYIDEB9vGgnHz6H7d650tJs
+         9h3w==
+X-Gm-Message-State: ACgBeo3OovXx40FVfwrxbB2HQ3spK9PUq6h/mtSO0fY+yr9kddfIowRF
+	fvOPEUKvyqhXuTBIfYT8WH3mqiCfIkoTEC8SXZA=
 X-Google-Smtp-Source: 
- AA6agR64Pl71TL6mKKwPi7IvH3fh0uOriZd5EcoSQQbnpt9c1JW7NhCTZ9ilOl0HDwfQSYCvKyB7Ew==
-X-Received: by 2002:a05:600c:3b0c:b0:3a6:aa0:5966 with SMTP id
- m12-20020a05600c3b0c00b003a60aa05966mr3370491wms.183.1662136245412;
-        Fri, 02 Sep 2022 09:30:45 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:cbec:572b:ff3a:e320])
-        by smtp.gmail.com with ESMTPSA id
- o8-20020a5d62c8000000b00226a5187528sm1933679wrv.48.2022.09.02.09.30.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Sep 2022 09:30:44 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-Subject: [PATCH] kernel: Use consistent make flags for menuconfig
-Date: Fri,  2 Sep 2022 17:30:43 +0100
-Message-Id: <20220902163043.323903-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
+ AA6agR4bE9OF3IRUNVKp0wNQgkIhikOD24DPeJEA+IO0UuL7L6yPjRjvYvHlYUIQ5wSK+TY4ptpMCUH2agC2E7UuuDE=
+X-Received: by 2002:a05:6512:13a4:b0:479:3b9f:f13c with SMTP id
+ p36-20020a05651213a400b004793b9ff13cmr11939084lfa.380.1662137415483; Fri, 02
+ Sep 2022 09:50:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220901142328.268769-1-alex@linutronix.de>
+ <d9ec6fa663d94bcc9229066100a140fc@axis.com>
+ <CANNYZj9cXbFogXaJdTeb2r89-AaPyL3txoJ4xn3ER=Dq7jy0mA@mail.gmail.com>
+ <813962d42b7c46c9a0a8565de787d981@axis.com>
+ <CANNYZj-rx80UFnEAEiVux7Wysvvj2PK05CC6hbosm5=6ymr=xQ@mail.gmail.com>
+ <67b62aafd6e543138160018db7334da3@axis.com>
+In-Reply-To: <67b62aafd6e543138160018db7334da3@axis.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 2 Sep 2022 18:50:02 +0200
+Message-ID: 
+ <CANNYZj81LoXjxCGY=36_WeR7a-gueC_TQiZ34-8Jaq6KHkdcCQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] scripts/oe-setup-builddir: migrate
+ build/conf/templateconf.cfg to new template locations
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 16:30:57 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 16:50:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170258
+ https://lists.openembedded.org/g/openembedded-core/message/170259
 
-We're currently only passing in a subset of the kernel make flags to
-menuconfig. Fix this to be consistent with all the other kernel
-operations since these are becomming increasingly reliant on host
-compilers and flags and target toolchains as well.
+On Fri, 2 Sept 2022 at 17:41, Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+> So based on the documentation, the officially supported ways to
+> configure the template directory is to either specify TEMPLATECONF
+> explicitly or by modifying .templateconf to set a default value.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes-recipe/kernel.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Okay, I read that section, and I still think the requirement to have
+.templateconf next to oe-init-build-env makes it altogether
+impractical as a way to change the default from what poky/oe-core
+prescribes, unless you want to maintain yet another custom script
+doing non-standard magic before a build can start. I'm going to modify
+the section so that TEMPLATECONF passed in explicitly is emphasized as
+the standard method to set the template, and .templateconf is
+described as primarily a fallback to the standard core/poky template.
 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index e752874177e..fca673dd48d 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -650,7 +650,8 @@ addtask savedefconfig after do_configure
- 
- inherit cml1
- 
--KCONFIG_CONFIG_COMMAND:append = " PAHOLE=false LD='${KERNEL_LD}' HOSTLDFLAGS='${BUILD_LDFLAGS}'"
-+# Need LD, HOSTLDFLAGS and more for config operations
-+KCONFIG_CONFIG_COMMAND:append = " ${EXTRA_OEMAKE}"
- 
- EXPORT_FUNCTIONS do_compile do_transform_kernel do_transform_bundled_initramfs do_install do_configure
- 
--- 
-2.34.1
+Maybe we can decouple .templateconf from oe-init-build-env but I don't know how.
 
+Alex
 
