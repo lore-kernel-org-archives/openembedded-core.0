@@ -2,94 +2,120 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86E0FC38145
-	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 14:41:50 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web09.7371.1662129709025133296
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BA84ECAAD5
+	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 14:47:20 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web08.7379.1662130037419532023
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Sep 2022 07:41:49 -0700
+ Fri, 02 Sep 2022 07:47:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dyPSbNg+;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=boT1Rhp5;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id
- h204-20020a1c21d5000000b003a5b467c3abso3453072wmh.5
+Received: by mail-wr1-f45.google.com with SMTP id n17so2628670wrm.4
         for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Sep 2022 07:41:48 -0700 (PDT)
+ Fri, 02 Sep 2022 07:47:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date;
-        bh=DGBbn5v3+pRM135PuArExBYHb+/YeLrC8XzDJSyIDZc=;
-        b=dyPSbNg+BRFq6OpCUmKSRbnJUHdPok5srCDQdNN3MBtcg1ItlLs5TNADXfiEvLThnR
-         2caC6hs/Iy56EEbGwbvBUumjdboopqdXWoLBec5jlVq2iyzJdB+YgesDQhfSsLzgDF6d
-         8yD+w6vCUP/qW4YJ9Inu847zYiJ5OFjXjG5LU=
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date;
+        bh=pYhRRA7mJ0+k5Wb3sl4EYdJQJf04GdCB4RpZSqX0Els=;
+        b=boT1Rhp5LZqTrkGrG65yBsG8YSS/+a3T0gA8H/2cldl5xywyCWrSyUoSmj37RFG3oK
+         lsr2jLDZiNoid/bPjNGiw4ZQv/Ttue+5eXePCAi15Cyc1d6XOjwcIiCF/n/Rccf+1snJ
+         /peCh3JKAajoQIeBvjUzcqhdWZH/6pDW6PlFk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date;
-        bh=DGBbn5v3+pRM135PuArExBYHb+/YeLrC8XzDJSyIDZc=;
-        b=KvsPbxK/xPxbxTEV1yMYKoYGuoKUFQjADjR/5UjmOC1KtKxdL8lKgN3KLJN6aUorxS
-         VMdSBG6a0EybgnDurfNVMaHJwI3HFVVLzhHPl5AFR0O3F/iZdejM3T1f8mmI0UxSiEsM
-         zu0nciyErUWoi4XuWgdthG17MoXd6xE8sPlwDyUeaNPCocgUZKPJBrgk/V8D+JbdtKDT
-         DROooepakhmEEKNBDaIBkVDzu+6Tdjf7nrpBB5LxNkRtz5/T2QnpOJvGXtRuFkCsMkz/
-         pq9iEY+VhG9hi/TlO35nrZPas75wYpI01jW1SMgiXmRACuwBdQcPQDWYC3RCnYnik2HD
-         eYMw==
-X-Gm-Message-State: ACgBeo1jO9rmEhQ/MTQMQ3gJ9Ac6EULLbVV7qLhcgm2SnmTsV1KMRCap
-	dcr9tRoGlDkYI1PrVxMkIPfR3WGg4NmjbQ==
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date;
+        bh=pYhRRA7mJ0+k5Wb3sl4EYdJQJf04GdCB4RpZSqX0Els=;
+        b=fxJXM9ZFvN0lKrqFJSj+BQy9Ykz1By5iivK5dC8pEsZkj+y/kfryPcAiFzWp2oNUL4
+         ebLJ3Q1wVK2YENtBEAb4dO0IiSQwlgTOca+ADyZkMO1yiPdNwM1rXheTLXVMaYj+CBdB
+         qFGxJD8DkAHMh17sQtNiFyKU0BtiIv/JmmA9JKoN8imN4IILaOfKQuu5Yv+SybcVpqf1
+         3G7W9lBXdjLRWqSaNRIUx6Ar5/jdWNo98ip5dVY7DE2sdHqE8X6HdMLLyu1ms6CD+yJV
+         ZbQBmWMrVf81znnjQZb1O0lP+3DhSIMB4CL8RLjEbv9iAWvBoyu3z+sizezu4RWFsnpe
+         9ADg==
+X-Gm-Message-State: ACgBeo2u9FvkUHBeNTllcuQ9IcBEG3bpndZVBtnkAqwtGsD7GtmTWn8d
+	z9PPOO3Hsrcp1j2eIOcEq06i3Q==
 X-Google-Smtp-Source: 
- AA6agR67lHRSmpAh0R7TJTA3wb0yTXvLrCakxNeJlGkVaHIzj5M+lJUy9uygVLuvlK7JJlqYWNKeEg==
-X-Received: by 2002:a05:600c:35d0:b0:3a8:3f16:2c38 with SMTP id
- r16-20020a05600c35d000b003a83f162c38mr3246599wmq.162.1662129707063;
-        Fri, 02 Sep 2022 07:41:47 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:cbec:572b:ff3a:e320])
+ AA6agR6YBYqZJ0bVXupVrbzQ+YqFC49etMPEMpdyJyOFKY+LMeFU6SYqT/INpu+RvpdXTChVAAragQ==
+X-Received: by 2002:a5d:4988:0:b0:226:d424:4b28 with SMTP id
+ r8-20020a5d4988000000b00226d4244b28mr16442895wrq.443.1662130035781;
+        Fri, 02 Sep 2022 07:47:15 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:cbec:572b:ff3a:e320?
+ ([2001:8b0:aba:5f3c:cbec:572b:ff3a:e320])
         by smtp.gmail.com with ESMTPSA id
- p17-20020a5d4e11000000b00225250f2d1bsm1662218wrt.94.2022.09.02.07.41.46
-        for <openembedded-core@lists.openembedded.org>
+ x1-20020a5d6b41000000b002250c35826dsm1727656wrw.104.2022.09.02.07.47.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Sep 2022 07:41:46 -0700 (PDT)
+        Fri, 02 Sep 2022 07:47:15 -0700 (PDT)
+Message-ID: 
+ <ce837e16269eae046f24845d5b353b8a98210294.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] baremetal-image.bbclass: avoid inheriting
+ incompatible IMAGE_CLASSES
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] gcc-multilib-config: Fix i686 toolchain relocation issues
-Date: Fri,  2 Sep 2022 15:41:45 +0100
-Message-Id: <20220902144145.313486-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
+To: Alejandro Hernandez Samaniego <alejandro@enedino.org>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 02 Sep 2022 15:47:14 +0100
+In-Reply-To: <20220901234206.419429-1-alejandro@enedino.org>
+References: <20220901234206.419429-1-alejandro@enedino.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 14:41:50 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 14:47:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170249
+ https://lists.openembedded.org/g/openembedded-core/message/170250
 
-This code wasn't changing the linux.h on i686. Make the entry match that
-for i586 which was correct.
+On Thu, 2022-09-01 at 17:42 -0600, Alejandro Hernandez Samaniego wrote:
+> There could be IMAGE_CLASSES designed to work on images which arent
+> necessarily compatible with baremetal-images, one example is the
+> license_image class which relies on the package managers functionality
+> during do_rootfs, for baremetal images no rootfs is created hence the
+> package manager shouldnt be invoked, we need to avoid inheriting such
+> class to fix this behavior.
+>=20
+> inherit BAREMETAL_IMAGE_CLASSES for baremetal images but set the default
+> to IMAGE_CLASSES, whilst removing undesired classes in an intermediate
+> step to avoid incompatibilities.
+>=20
+> Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.o=
+rg>
+> ---
+>  meta/classes-recipe/baremetal-image.bbclass | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes-recipe/baremetal-image.bbclass b/meta/classes-r=
+ecipe/baremetal-image.bbclass
+> index d3377a92fa..2f07dec4ac 100644
+> --- a/meta/classes-recipe/baremetal-image.bbclass
+> +++ b/meta/classes-recipe/baremetal-image.bbclass
+> @@ -18,8 +18,15 @@
+>  ## Emulate image.bbclass
+>  # Handle inherits of any of the image classes we need
+>  IMAGE_CLASSES ??=3D ""
+> -IMGCLASSES =3D " ${IMAGE_CLASSES}"
+> +BAREMETAL_IMAGE_CLASSES ?=3D " ${IMAGE_CLASSES}"
+> +
+> +# The license_image class relies on package managers used on do_rootfs
+> +# these dont exist for baremetal images since no rootfs is created.
+> +BAREMETAL_IMAGE_CLASSES:remove =3D "license_image"
+> +
+> +IMGCLASSES =3D " ${BAREMETAL_IMAGE_CLASSES}"
+>  inherit ${IMGCLASSES}
+> +
+>  # Set defaults to satisfy IMAGE_FEATURES check
+>  IMAGE_FEATURES ?=3D ""
+>  IMAGE_FEATURES[type] =3D "list"
 
-This fixes problems where the wrong dynamic loader path was used by
-nativesdk-gcc on i686 SDK targets by ensuring SYSTEMLIBS_DIR is replaced
-by %r in the correct header files.
+This is going to become a usability nightmare. Can we patch
+license_image to just silently do nothing for baremetal?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/gcc/gcc-multilib-config.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-index 26bfed9507b..2dbbc23c940 100644
---- a/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-+++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-@@ -154,7 +154,7 @@ python gcc_multilib_setup() {
-     gcc_header_config_files = {
-         'x86_64'    : ['gcc/config/linux.h', 'gcc/config/i386/linux.h', 'gcc/config/i386/linux64.h'],
-         'i586'      : ['gcc/config/linux.h', 'gcc/config/i386/linux.h', 'gcc/config/i386/linux64.h'],
--        'i686'      : ['gcc/config/linux.h', 'gcc/config/i386/linux64.h'],
-+        'i686'      : ['gcc/config/linux.h', 'gcc/config/i386/linux.h', 'gcc/config/i386/linux64.h'],
-         'mips'      : ['gcc/config/linux.h', 'gcc/config/mips/linux.h', 'gcc/config/mips/linux64.h'],
-         'mips64'    : ['gcc/config/linux.h', 'gcc/config/mips/linux.h', 'gcc/config/mips/linux64.h'],
-         'powerpc'   : ['gcc/config/linux.h', 'gcc/config/rs6000/linux64.h'],
--- 
-2.34.1
+Richard
 
 
