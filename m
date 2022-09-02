@@ -1,133 +1,110 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92083C38145
-	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 11:17:59 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web12.5300.1662117472217155574
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAF11C6FA85
+	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 12:02:19 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web12.5629.1662120133383516105
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Sep 2022 04:17:52 -0700
+ Fri, 02 Sep 2022 05:02:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=VCiD02Ms;
- spf=pass (domain: mvista.com, ip: 209.85.214.174,
- mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f174.google.com with SMTP id c2so1563600plo.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=cD/SOncw;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id u17so2040469wrp.3
         for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Sep 2022 04:17:52 -0700 (PDT)
+ Fri, 02 Sep 2022 05:02:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=GqX96Dq5laK5lXBtWFpHXpn/1dHjn8wJl4K+0azcnUk=;
-        b=VCiD02MsSD4JpMgpCXebQfdZp7kRLLKVGlvDGixRfPSCdifRDWUXjJ23IWI2ib9uBF
-         IRiTBnm40ObgszqyVln+poZuVQqm8vzTTV5fUyLRHpqMyz/+iH+uJvTwKQPahQE0yaTU
-         EbdFLdGp1piL4dle9bjzIUJTjvEwNy3/W3lOQ=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=9pnajyWXj3te3uYGomh8dRnnJuf0ygHjtbOcbygdbQQ=;
+        b=cD/SOncw/49SxCByp3ueymWGYE3c6x4/mz65uo6fJ1hv6E/6EbHH7VgWdUvfUac4Q7
+         8RAVRB8ufOK/LnrHUB2/PQq2Dg0RB8LJz3aT7aad6fXJEzWt/kzqd5jKyPh+nlUqdE3q
+         H/my+xGkdURm6VYTWlR3lpfzrWmMLzYI781+Q1PpdGIrW+E3VUp4mCtzGwzQr6PFxHAL
+         feKsSuNzHU4a9kuVL21WX4/tNqdS6dRlg9XwigQyj2OHBTWIt5iERGAU704sfL8R1KVM
+         /xgJEpLX31hrI9Q0F7D1WiRgUWr0WHLZVzMdMAQ7oJD4lP91Vrq6c8pXQBGz93dD++/e
+         XN/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=GqX96Dq5laK5lXBtWFpHXpn/1dHjn8wJl4K+0azcnUk=;
-        b=QlQ0cyHOXautKUhGXYT0jO3n5CHKXNtrWZZzTOndSmj4KbGcEepuHKzVAoCc20LhI5
-         QiWXDDn7NEAKVdyiWAQzHwfEe0F+lmcT2hZHoXivWwE7qamZzKPDGUuiYrtwmswZVRWs
-         RZ4LBoB0qaj7I1E/V2vsRfN8yTjSTocgwvWtSfti/Ps48auNrMGNHIfMajYT/75WxQJ9
-         Q6Xh81Vd8th9CJfXMHm5dKKonCqgHXu6/2OfFe7H/h04Z65MqizSL/A2x5nMrsuSL3EM
-         h2vpr/ylL3AtWZPCIBMmhRMTA2Dk5diwrLzj5d2GLdqnv2ZN9qNV0ph8d7LJ59fOtAJk
-         mj0g==
-X-Gm-Message-State: ACgBeo0hIbfqcaMcYvLIXlnkZuxnj/ciMVfm7v4eQvjqSwdsPzlAhs0q
-	63eSj9phxGpJXYmFDjooD/un1kA9fkQA0w==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=9pnajyWXj3te3uYGomh8dRnnJuf0ygHjtbOcbygdbQQ=;
+        b=SFYXM7Br6HYDhdg/tuUYRf0vAAe+uXx8GzuDgM1S0sxAuWIiIA4G0nwrVz468jklhu
+         ClAQ0dvpcOIzGjniFaAXzC05htOpL9+rOgerosEWUS0VphQasZkcyLsagW1nQ67iScya
+         0RCJz1mAC+siewWbdqTCmkD/CPUIxaB4ypvxCD3Fo9jOov+nd2LhgVUARKrtIbgnmFU9
+         JfXp6zXWLg0E6yowNjgaGp2+Ynl2QFSjmZ9oy10o4QT/S8mOZ9ePePwtlixeEBozWNrW
+         /3slz5/+aNxgYYmwj742rC4l4nrch0tJ5eLkxMKTE2I9iorz/0DmQOWIO28DdbP4+bzZ
+         ynNg==
+X-Gm-Message-State: ACgBeo1q3TC4w4s0S+jLH9zpv1jXuDTmY/IZAmT846sKBMgf4efVDPQD
+	nIyXdmi+j4c97APjzAd59AknbII0MlM=
 X-Google-Smtp-Source: 
- AA6agR6aYhLLr0io7Rh2hLWPu9vnpopumC53ZRvAYHS/r4V/d1idCx/8Gj4G8NuxaxKHMe4Mk0OrNw==
-X-Received: by 2002:a17:90b:1d0b:b0:1f5:72f:652c with SMTP id
- on11-20020a17090b1d0b00b001f5072f652cmr4345001pjb.38.1662117471335;
-        Fri, 02 Sep 2022 04:17:51 -0700 (PDT)
-Received: from MVIN00024 ([150.129.170.187])
+ AA6agR4RBvPG8TEVyXyJ8mg2ipzQtBxXfev+bqeC6JDZ9YiANznGkhyeCrXH8pHmCgMhhvGXrVY3VA==
+X-Received: by 2002:a5d:6d50:0:b0:225:89b2:a03a with SMTP id
+ k16-20020a5d6d50000000b0022589b2a03amr18219673wri.51.1662120131748;
+        Fri, 02 Sep 2022 05:02:11 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
+ [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- m9-20020a17090a4d8900b001f8c532b93dsm1248243pjh.15.2022.09.02.04.17.48
+ t12-20020a05600c198c00b003a2e92edeccsm8802489wmq.46.2022.09.02.05.02.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Sep 2022 04:17:50 -0700 (PDT)
-Received: by MVIN00024 (sSMTP sendmail emulation);
- Fri, 02 Sep 2022 16:47:45 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
+        Fri, 02 Sep 2022 05:02:10 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [dunfell][PATCH] sqlite: CVE-2022-35737 assertion failure
-Date: Fri,  2 Sep 2022 16:47:44 +0530
-Message-Id: <20220902111744.10595-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 2/2] scripts/oe-setup-builddir: write to conf/templateconf.cfg
+ after the build is set up
+Date: Fri,  2 Sep 2022 14:02:02 +0200
+Message-Id: <20220902120202.487119-2-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220902120202.487119-1-alex@linutronix.de>
+References: <20220902120202.487119-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 11:17:59 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 12:02:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170243
+ https://lists.openembedded.org/g/openembedded-core/message/170245
 
-Source: https://www.sqlite.org/
-MR: 120541
-Type: Security Fix
-Disposition: Backport from https://www.sqlite.org/src/info/aab790a16e1bdff7
-ChangeID: cf6d0962be0d1f7d4a5019843da6349eb7f9acda
-Description:
-	 CVE-2022-35737 sqlite: assertion failure via query when compiled with -DSQLITE_ENABLE_STAT4.
+This was done before any of the sanity checks or actual setup, which
+resulted in templateconf.cfg always getting written out, whether it
+would be valid or not, and the user becoming stuck with it.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../sqlite/files/CVE-2022-35737.patch         | 29 +++++++++++++++++++
- meta/recipes-support/sqlite/sqlite3_3.31.1.bb |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2022-35737.patch
+ scripts/oe-setup-builddir | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-support/sqlite/files/CVE-2022-35737.patch b/meta/recipes-support/sqlite/files/CVE-2022-35737.patch
-new file mode 100644
-index 0000000000..341e002913
---- /dev/null
-+++ b/meta/recipes-support/sqlite/files/CVE-2022-35737.patch
-@@ -0,0 +1,29 @@
-+From 2bbf4c999dbb4b520561a57e0bafc19a15562093 Mon Sep 17 00:00:00 2001
-+From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Fri, 2 Sep 2022 11:22:29 +0530
-+Subject: [PATCH] CVE-2022-35737
+diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
+index 8e95f0d94e..d3c7f943e7 100755
+--- a/scripts/oe-setup-builddir
++++ b/scripts/oe-setup-builddir
+@@ -50,10 +50,6 @@ fi
+ 
+ . "$OEROOT"/.templateconf
+ 
+-if [ ! -f "$BUILDDIR/conf/templateconf.cfg" ]; then
+-    echo "$TEMPLATECONF" >"$BUILDDIR/conf/templateconf.cfg"
+-fi
+-
+ # 
+ # $TEMPLATECONF can point to a directory for the template local.conf & bblayers.conf
+ #
+@@ -140,3 +136,7 @@ if [ -z "$OECORENOTESCONF" ]; then
+ fi
+ [ ! -r "$OECORENOTESCONF" ] || cat "$OECORENOTESCONF"
+ unset OECORENOTESCONF
 +
-+Upstream-Status: Backport [https://www.sqlite.org/src/info/aab790a16e1bdff7]
-+CVE: CVE-2022-35737
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ sqlite3.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index f664217..33dfb78 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -28758,7 +28758,8 @@ SQLITE_API void sqlite3_str_vappendf(
-+       case etSQLESCAPE:           /* %q: Escape ' characters */
-+       case etSQLESCAPE2:          /* %Q: Escape ' and enclose in '...' */
-+       case etSQLESCAPE3: {        /* %w: Escape " characters */
-+-        int i, j, k, n, isnull;
-++        i64  i, j, k, n;
-++        int isnull;
-+         int needQuote;
-+         char ch;
-+         char q = ((xtype==etSQLESCAPE3)?'"':'\'');   /* Quote character */
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.31.1.bb b/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
-index 877e80f5a3..3440bf4913 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
-@@ -13,6 +13,7 @@ SRC_URI = "http://www.sqlite.org/2020/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-            file://CVE-2020-13630.patch \
-            file://CVE-2020-13631.patch \
-            file://CVE-2020-13632.patch \
-+           file://CVE-2022-35737.patch \
-            "
- SRC_URI[md5sum] = "2d0a553534c521504e3ac3ad3b90f125"
- SRC_URI[sha256sum] = "62284efebc05a76f909c580ffa5c008a7d22a1287285d68b7825a2b6b51949ae"
++if [ ! -f "$BUILDDIR/conf/templateconf.cfg" ]; then
++    echo "$TEMPLATECONF" >"$BUILDDIR/conf/templateconf.cfg"
++fi
 -- 
-2.25.1
+2.30.2
 
 
