@@ -1,85 +1,171 @@
-Return-Path: <pevik@seznam.cz>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84059ECAAA1
-	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 22:31:38 +0000 (UTC)
-Received: from mxd1.seznam.cz (mxd1.seznam.cz [77.75.78.210])
- by mx.groups.io with SMTP id smtpd.web10.4579.1662157888421998451
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3F0BECAAA1
+	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 22:51:08 +0000 (UTC)
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
+ [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web11.4852.1662159060477506519
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Sep 2022 15:31:29 -0700
+ Fri, 02 Sep 2022 15:51:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@seznam.cz header.s=beta header.b=TfA6PbGs;
- spf=pass (domain: seznam.cz, ip: 77.75.78.210, mailfrom: pevik@seznam.cz)
-Received: from email.seznam.cz
-	by email-smtpc10b.ko.seznam.cz (email-smtpc10b.ko.seznam.cz [10.53.14.45])
-	id 584ccadaee6c7581584b74ad;
-	Sat, 03 Sep 2022 00:31:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seznam.cz; s=beta;
-	t=1662157884; bh=c3qA14aOYNuHUeogPmlxJ+dVaRF9nRSrp5OpfZaePfM=;
-	h=Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	b=TfA6PbGsd1kZ0zS1ziMsCzfYn/fj5mlpOdKod4J4dLU6BKIyNQmlhtUTXp786QisM
-	 b1ob8iaqkkq84b0CaPd7v+yeBFwXPuBuZjRTAfL6dA8hJ9VFW0pshYv+DhyfwXKOwZ
-	 A5+xWElj9ND8QOvcST/FXdu+RsbiD0mEzf5eEhtg=
-Received: from localhost.localdomain (mail.ms-free.net [185.147.46.46])
-	by email-relay11.ko.seznam.cz (Seznam SMTPD 1.3.137) with ESMTP;
-	Sat, 03 Sep 2022 00:31:20 +0200 (CEST)  
-From: Petr Vorel <pevik@seznam.cz>
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=G7TTGYaK;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.175,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f175.google.com with SMTP id bh13so3143993pgb.4
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 02 Sep 2022 15:51:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date;
+        bh=dhf8RUQp+4h1UdsRmupiQj4eatwECILY6rfN4wpOCmo=;
+        b=G7TTGYaKh2VRAI5LcFdrYkbOaBQjYBlAhr2xYnyImE9lO5cjZi4s7j4AEe+Y4bwXSe
+         uWGr+uwLS2TcgtFMILQfxa0Y3qQ1jN3jDDiXeMuuNPTa+N47hg5n4Ph+PuGsFJuLMLYO
+         DbF67CUfuklk16ZuH1pkr5Cexgu7/aEs2X5qhcFCuNEXLl6K4kDiEFCIz2tJjOj5Ebp5
+         GH9Tshy4CQ9MQ8x83Q7JEpli/ToDab0xlsfGEzYrl/AaAPzbopWpi034pPE7jU7FTqET
+         Pjd2yasyiylqYLbCUwftm+Q5UYV4LuCEdUUbcuRA4GbHKmDQV5Xcgop1OyTbMW69WvS6
+         Fbjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date;
+        bh=dhf8RUQp+4h1UdsRmupiQj4eatwECILY6rfN4wpOCmo=;
+        b=4ECKzmHYGQckmCn4uXZ8H93QBClijNUHv/B6SN9r7hxx/K9FipAAHNAAvubHEOzxy6
+         zFHrGfuNQzpIafBbKx12TV74WPtDVAoAc8YftDakHcAIAlttaPdSp3Oubz3IcVFSb6OE
+         s2h2D+s5uG7zgBeQGTSqOoPTcXnICfbj8fKWsRQ/L8q8MyJzTX/y5RjY9DhrDRXE5U3T
+         aXcI+5ha2CDbto9S/9LfQ9gnC9R2wF1kRJuLto6UcIfxDsEtqNw+CYmv01aj0EOf/N0N
+         vOSflmdYSLOE+uizOULluC/hjHtYokbMs/Uvt68qqMFc2fzDQ3I0aCNtjNoOmSZ1tpZG
+         wzlQ==
+X-Gm-Message-State: ACgBeo2TaXHG2TsiZiOWh08bQTLh+wGKeHSkbRHQyWKRU4oeC1uZaUCn
+	GDxlyRoAhQ7CQQkj9Fph3AD+3xRttBO5BeZB
+X-Google-Smtp-Source: 
+ AA6agR5HSto1hf99akYTXmb7kFuDc5yzVu/Nntp2tRtkUsZocbp7/bNYbYxVE/2b7nPemtRILIFZag==
+X-Received: by 2002:a62:1ac1:0:b0:535:87d:d63f with SMTP id
+ a184-20020a621ac1000000b00535087dd63fmr38852229pfa.74.1662159058997;
+        Fri, 02 Sep 2022 15:50:58 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id
+ m15-20020a17090a34cf00b001fb35e4044bsm5679830pjf.40.2022.09.02.15.50.57
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Sep 2022 15:50:58 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Petr Vorel <petr.vorel@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	=?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>,
-	Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/1] ltp: Update list of tests not buildable on musl
-Date: Sat,  3 Sep 2022 00:31:12 +0200
-Message-Id: <20220902223112.972210-1-pevik@seznam.cz>
-X-Mailer: git-send-email 2.37.2
+Subject: [OE-core][kirkstone 00/19] Pull request (cover letter only)
+Date: Fri,  2 Sep 2022 12:50:49 -1000
+Message-Id: <cover.1662158855.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 22:31:38 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 22:51:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170261
+ https://lists.openembedded.org/g/openembedded-core/message/170262
 
-From: Petr Vorel <petr.vorel@gmail.com>
+The following changes since commit 92f122e0c1a7589bec3b628474548aad7fe159b4:
 
-These tests are working on musl, thus not deleted:
+  wic: depend on cross-binutils (2022-08-31 04:16:07 -1000)
 
-* getcontext01.c
-fixed for musl during conversion to the new API in 20220527
-(commit 0f519d0da)
+are available in the Git repository at:
 
-* ebizzy-0.3
-fixed in 20200930 (commit 967612c45)
+  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
 
-Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
----
- meta/recipes-extended/ltp/ltp_20220527.bb | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Alexander Kanavin (1):
+  bind: upgrade 9.18.4 -> 9.18.5
 
-diff --git a/meta/recipes-extended/ltp/ltp_20220527.bb b/meta/recipes-extended/ltp/ltp_20220527.bb
-index 00ff906ded..b657a6adb1 100644
---- a/meta/recipes-extended/ltp/ltp_20220527.bb
-+++ b/meta/recipes-extended/ltp/ltp_20220527.bb
-@@ -150,13 +150,11 @@ remove_broken_musl_sources() {
- 	# sync with upstream
- 	# https://github.com/linux-test-project/ltp/blob/master/ci/alpine.sh#L33
- 	rm -rfv \
--		testcases/kernel/syscalls/confstr/confstr01.c \
- 		testcases/kernel/syscalls/fmtmsg/fmtmsg01.c \
- 		testcases/kernel/syscalls/getcontext/getcontext01.c \
- 		testcases/kernel/syscalls/rt_tgsigqueueinfo/rt_tgsigqueueinfo01.c \
- 		testcases/kernel/syscalls/timer_create/timer_create01.c \
--		testcases/kernel/syscalls/timer_create/timer_create03.c \
--		utils/benchmark/ebizzy-0.3
-+		testcases/kernel/syscalls/timer_create/timer_create03.c
- }
- do_patch[postfuncs] += "remove_broken_musl_sources"
- 
+Andrei Gherzan (4):
+  linux-yocto: Fix COMPATIBLE_MACHINE regex match
+  shadow: Enable subid support
+  rootfspostcommands.py: Cleanup subid backup files generated by
+    shadow-utils
+  shadow: Avoid nss warning/error with musl
+
+Bruce Ashfield (4):
+  linux-yocto/5.15: update to v5.15.60
+  linux-yocto/5.15: update to v5.15.62
+  linux-yocto/5.10: update to v5.10.136
+  linux-yocto/5.10: update to v5.10.137
+
+Khem Raj (5):
+  xinetd: Pass missing -D_GNU_SOURCE
+  watchdog: Include needed system header for function decls
+  pinentry: enable _XOPEN_SOURCE on musl for wchar usage in curses
+  apr: Use correct strerror_r implementation based on libc type
+  gcr: Define _GNU_SOURCE
+
+Mateusz Marciniec (1):
+  util-linux: Remove --enable-raw from EXTRA_OECONF
+
+Pavel Zhukov (1):
+  parselogs: Ignore xf86OpenConsole error
+
+Ross Burton (1):
+  libxml2: wrap xmllint to use the correct XML catalogues
+
+Steve Sakoman (1):
+  lttng-modules: fix build for kernel 5.10.137
+
+ghassaneben (1):
+  sqlite: fix CVE-2022-35737
+
+ meta/lib/oeqa/runtime/cases/parselogs.py      |  1 +
+ meta/lib/rootfspostcommands.py                |  7 ++
+ ...1-avoid-start-failure-with-bind-user.patch |  0
+ ...d-V-and-start-log-hide-build-options.patch |  0
+ ...ching-for-json-headers-searches-sysr.patch |  0
+ .../bind/{bind-9.18.4 => bind-9.18.5}/bind9   |  0
+ .../{bind-9.18.4 => bind-9.18.5}/conf.patch   |  0
+ .../generate-rndc-key.sh                      |  0
+ ...t.d-add-support-for-read-only-rootfs.patch |  0
+ .../make-etc-initd-bind-stop-work.patch       |  0
+ .../named.service                             |  0
+ .../bind/{bind_9.18.4.bb => bind_9.18.5.bb}   |  2 +-
+ meta/recipes-core/libxml/libxml2_2.9.14.bb    |  2 +
+ .../util-linux/util-linux_2.37.4.bb           |  2 +-
+ ...f-message-when-not-in-place-eg.-musl.patch | 27 ++++++
+ meta/recipes-extended/shadow/shadow.inc       |  9 ++
+ ...guard-sys-quota.h-sys-swap.h-and-sys.patch | 37 ++++++++
+ .../watchdog/watchdog_5.16.bb                 |  1 +
+ .../xinetd/xinetd_2.3.15.4.bb                 |  2 +
+ meta/recipes-gnome/gcr/gcr_3.40.0.bb          |  2 +
+ meta/recipes-kernel/linux/linux-yocto-dev.bb  |  2 +-
+ .../linux/linux-yocto-rt_5.10.bb              |  8 +-
+ .../linux/linux-yocto-rt_5.15.bb              |  8 +-
+ .../linux/linux-yocto-tiny_5.10.bb            | 10 +-
+ .../linux/linux-yocto-tiny_5.15.bb            |  8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 26 +++---
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb | 28 +++---
+ ...djust-range-v5.10.137-in-block-probe.patch | 92 +++++++++++++++++++
+ .../lttng/lttng-modules_2.13.4.bb             |  1 +
+ ...CHE_CHECK-for-strerror_r-return-type.patch | 52 +++++++++++
+ meta/recipes-support/apr/apr_1.7.0.bb         |  4 +
+ .../pinentry/pinentry_1.2.0.bb                |  3 +
+ ...riables-in-the-printf-implementation.patch | 26 ++++++
+ 33 files changed, 313 insertions(+), 47 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/0001-avoid-start-failure-with-bind-user.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/bind9 (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/conf.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/generate-rndc-key.sh (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/init.d-add-support-for-read-only-rootfs.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/make-etc-initd-bind-stop-work.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.4 => bind-9.18.5}/named.service (100%)
+ rename meta/recipes-connectivity/bind/{bind_9.18.4.bb => bind_9.18.5.bb} (97%)
+ create mode 100644 meta/recipes-extended/shadow/files/0001-Drop-nsswitch.conf-message-when-not-in-place-eg.-musl.patch
+ create mode 100644 meta/recipes-extended/watchdog/watchdog/0001-shutdown-Do-not-guard-sys-quota.h-sys-swap.h-and-sys.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-adjust-range-v5.10.137-in-block-probe.patch
+ create mode 100644 meta/recipes-support/apr/apr/0001-add-AC_CACHE_CHECK-for-strerror_r-return-type.patch
+ create mode 100644 meta/recipes-support/sqlite/files/0001-sqlite-Increased-the-size-of-loop-variables-in-the-printf-implementation.patch
+
 -- 
-2.37.2
+2.25.1
 
 
