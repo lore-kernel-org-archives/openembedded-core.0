@@ -1,92 +1,85 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <pevik@seznam.cz>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26981ECAAD5
-	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 16:50:27 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web08.1007.1662137417463762873
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84059ECAAA1
+	for <webhook@archiver.kernel.org>; Fri,  2 Sep 2022 22:31:38 +0000 (UTC)
+Received: from mxd1.seznam.cz (mxd1.seznam.cz [77.75.78.210])
+ by mx.groups.io with SMTP id smtpd.web10.4579.1662157888421998451
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Sep 2022 09:50:17 -0700
+ Fri, 02 Sep 2022 15:31:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=EUopUYCf;
- spf=pass (domain: gmail.com, ip: 209.85.167.46,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id q7so4114041lfu.5
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Sep 2022 09:50:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=kgYKqFIscooRBpLs9HpghSuQbHyxmGjH2LutpDCiVmg=;
-        b=EUopUYCfkql/HiEFwnSIWMtU/EmrjwQr8079a1HL3MREBRpT9UdU/pVHL6yqCZQwiC
-         58q/j9yb/TQI3XlTvbHvLXA7alkFbPRKaMlXdQQBe6qb1E/CVE36sdtysfeq6yROu/5o
-         3Pz9WEUczCCn4ooeqCdedxmq6JBV5dFev3zQQi3pf0gIuvr3bp3IVJ5Z2l5Rn2JR7MYX
-         8AzhPTDDn2RvQNx/9XJy6rfdbtY68bpiy9MFhYYMmtm1d7s8fq7liNAs7LAexBKq8fv5
-         AyXIiQvnamamTcUHVmjU+5e4rvaD6hM1dD3J/8dXz8izGIxniS0mJFlbUwuyRmwSQ+lt
-         ONKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=kgYKqFIscooRBpLs9HpghSuQbHyxmGjH2LutpDCiVmg=;
-        b=ij3V+QV1PWWDwLegAJPerupp8sY5eLRXvlFNsTfFi3hFkpRnGtGl6DYidOHnWUS2OG
-         sV9fFFrt0DOul5BrSSWTzi2BBPOlUnJkWpR1gcjhfoi0+B1OZZmPoQbVLmUoFhlOlMSP
-         rh6ln0dAD4FI/U+ZNewJeR6SfCxKpNB5lFoFnwk/W5ZbX7Qtkv3ebzKYPjLRw9WTUHta
-         oxQlpEc4Etc8fkemsPQCOOzeQCFwWv04C1TBSc8LlznNpxmMaHMxW5ZnIhaiJjx1FlVw
-         IDabH+Kc6lAeYDt5/3A7kev7sQMVql4Ml9+F2vgZiagskZYIDEB9vGgnHz6H7d650tJs
-         9h3w==
-X-Gm-Message-State: ACgBeo3OovXx40FVfwrxbB2HQ3spK9PUq6h/mtSO0fY+yr9kddfIowRF
-	fvOPEUKvyqhXuTBIfYT8WH3mqiCfIkoTEC8SXZA=
-X-Google-Smtp-Source: 
- AA6agR4bE9OF3IRUNVKp0wNQgkIhikOD24DPeJEA+IO0UuL7L6yPjRjvYvHlYUIQ5wSK+TY4ptpMCUH2agC2E7UuuDE=
-X-Received: by 2002:a05:6512:13a4:b0:479:3b9f:f13c with SMTP id
- p36-20020a05651213a400b004793b9ff13cmr11939084lfa.380.1662137415483; Fri, 02
- Sep 2022 09:50:15 -0700 (PDT)
+ dkim=pass header.i=@seznam.cz header.s=beta header.b=TfA6PbGs;
+ spf=pass (domain: seznam.cz, ip: 77.75.78.210, mailfrom: pevik@seznam.cz)
+Received: from email.seznam.cz
+	by email-smtpc10b.ko.seznam.cz (email-smtpc10b.ko.seznam.cz [10.53.14.45])
+	id 584ccadaee6c7581584b74ad;
+	Sat, 03 Sep 2022 00:31:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seznam.cz; s=beta;
+	t=1662157884; bh=c3qA14aOYNuHUeogPmlxJ+dVaRF9nRSrp5OpfZaePfM=;
+	h=Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	b=TfA6PbGsd1kZ0zS1ziMsCzfYn/fj5mlpOdKod4J4dLU6BKIyNQmlhtUTXp786QisM
+	 b1ob8iaqkkq84b0CaPd7v+yeBFwXPuBuZjRTAfL6dA8hJ9VFW0pshYv+DhyfwXKOwZ
+	 A5+xWElj9ND8QOvcST/FXdu+RsbiD0mEzf5eEhtg=
+Received: from localhost.localdomain (mail.ms-free.net [185.147.46.46])
+	by email-relay11.ko.seznam.cz (Seznam SMTPD 1.3.137) with ESMTP;
+	Sat, 03 Sep 2022 00:31:20 +0200 (CEST)  
+From: Petr Vorel <pevik@seznam.cz>
+To: openembedded-core@lists.openembedded.org
+Cc: Petr Vorel <petr.vorel@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	=?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>,
+	Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/1] ltp: Update list of tests not buildable on musl
+Date: Sat,  3 Sep 2022 00:31:12 +0200
+Message-Id: <20220902223112.972210-1-pevik@seznam.cz>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-References: <20220901142328.268769-1-alex@linutronix.de>
- <d9ec6fa663d94bcc9229066100a140fc@axis.com>
- <CANNYZj9cXbFogXaJdTeb2r89-AaPyL3txoJ4xn3ER=Dq7jy0mA@mail.gmail.com>
- <813962d42b7c46c9a0a8565de787d981@axis.com>
- <CANNYZj-rx80UFnEAEiVux7Wysvvj2PK05CC6hbosm5=6ymr=xQ@mail.gmail.com>
- <67b62aafd6e543138160018db7334da3@axis.com>
-In-Reply-To: <67b62aafd6e543138160018db7334da3@axis.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 2 Sep 2022 18:50:02 +0200
-Message-ID: 
- <CANNYZj81LoXjxCGY=36_WeR7a-gueC_TQiZ34-8Jaq6KHkdcCQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] scripts/oe-setup-builddir: migrate
- build/conf/templateconf.cfg to new template locations
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 16:50:27 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Sep 2022 22:31:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170259
+ https://lists.openembedded.org/g/openembedded-core/message/170261
 
-On Fri, 2 Sept 2022 at 17:41, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
-> So based on the documentation, the officially supported ways to
-> configure the template directory is to either specify TEMPLATECONF
-> explicitly or by modifying .templateconf to set a default value.
+From: Petr Vorel <petr.vorel@gmail.com>
 
-Okay, I read that section, and I still think the requirement to have
-.templateconf next to oe-init-build-env makes it altogether
-impractical as a way to change the default from what poky/oe-core
-prescribes, unless you want to maintain yet another custom script
-doing non-standard magic before a build can start. I'm going to modify
-the section so that TEMPLATECONF passed in explicitly is emphasized as
-the standard method to set the template, and .templateconf is
-described as primarily a fallback to the standard core/poky template.
+These tests are working on musl, thus not deleted:
 
-Maybe we can decouple .templateconf from oe-init-build-env but I don't know how.
+* getcontext01.c
+fixed for musl during conversion to the new API in 20220527
+(commit 0f519d0da)
 
-Alex
+* ebizzy-0.3
+fixed in 20200930 (commit 967612c45)
+
+Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+---
+ meta/recipes-extended/ltp/ltp_20220527.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/meta/recipes-extended/ltp/ltp_20220527.bb b/meta/recipes-extended/ltp/ltp_20220527.bb
+index 00ff906ded..b657a6adb1 100644
+--- a/meta/recipes-extended/ltp/ltp_20220527.bb
++++ b/meta/recipes-extended/ltp/ltp_20220527.bb
+@@ -150,13 +150,11 @@ remove_broken_musl_sources() {
+ 	# sync with upstream
+ 	# https://github.com/linux-test-project/ltp/blob/master/ci/alpine.sh#L33
+ 	rm -rfv \
+-		testcases/kernel/syscalls/confstr/confstr01.c \
+ 		testcases/kernel/syscalls/fmtmsg/fmtmsg01.c \
+ 		testcases/kernel/syscalls/getcontext/getcontext01.c \
+ 		testcases/kernel/syscalls/rt_tgsigqueueinfo/rt_tgsigqueueinfo01.c \
+ 		testcases/kernel/syscalls/timer_create/timer_create01.c \
+-		testcases/kernel/syscalls/timer_create/timer_create03.c \
+-		utils/benchmark/ebizzy-0.3
++		testcases/kernel/syscalls/timer_create/timer_create03.c
+ }
+ do_patch[postfuncs] += "remove_broken_musl_sources"
+ 
+-- 
+2.37.2
+
 
