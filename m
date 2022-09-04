@@ -1,134 +1,99 @@
-Return-Path: <sundeep.kokkonda@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A1E9C6FA82
-	for <webhook@archiver.kernel.org>; Sun,  4 Sep 2022 07:44:25 +0000 (UTC)
-Subject: Re: [PATCH] rust-cross-canadian: Fix for the issue caused by using
- sdk shell
-To: openembedded-core@lists.openembedded.org
-From: "Sundeep KOKKONDA" <sundeep.kokkonda@gmail.com>
-X-Originating-Location: Hyderabad, Telangana, IN (183.83.147.219)
-X-Originating-Platform: Windows Chrome 105
-User-Agent: GROUPS.IO Web Poster
-MIME-Version: 1.0
-Date: Sun, 04 Sep 2022 00:44:24 -0700
-References: <20220904073238.2707233-1-sundeep.kokkonda@gmail.com>
-In-Reply-To: <20220904073238.2707233-1-sundeep.kokkonda@gmail.com>
-Message-ID: <26835.1662277464684847718@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="p6DW64L4HAWyYHoLqTwy"
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60BD2ECAAD4
+	for <webhook@archiver.kernel.org>; Sun,  4 Sep 2022 12:03:26 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.12782.1662293004127338687
+ for <openembedded-core@lists.openembedded.org>;
+ Sun, 04 Sep 2022 05:03:24 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=7vcM2ZJI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id l65so6191639pfl.8
+        for <openembedded-core@lists.openembedded.org>;
+ Sun, 04 Sep 2022 05:03:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=date:message-id:to:from:subject:from:to:cc:subject:date;
+        bh=mHlY+YvNp1Mdj+C8BBE374HQ7MF78EiquuSGaC7y4sc=;
+        b=7vcM2ZJIUbAowdvxvSP6w5T/0lSJrlgeHp93x/thJtYRg/NLP2L0jwYXTku2ENuG/w
+         49Q7PFQKCz2tLjQiKLL+LEse3O8tTc30kx+a/5uYsymzfhfBwZJedYB1PUmRS6jlloUx
+         pibOJjEzxJ1CWyJtWKwVirqM4OpOZMAhIwejQVNgvDMB+mUQwDFV+/qvHz7HOymA7S90
+         j6I55kmH+0WqKABCfpQK8q+j0qXoVEyzkjNaphC9/ohKTElF7cctQMWBSvXmfC0L6BB9
+         FtnDimGRebkqxXRAQuCHO/Ps9PRbj3dEAACqkS7k7qRkg4BfrefNzkiPs2EDmSh24di9
+         d1vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=date:message-id:to:from:subject:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=mHlY+YvNp1Mdj+C8BBE374HQ7MF78EiquuSGaC7y4sc=;
+        b=Zv/zc1IJONm4vZY74w4WbTJL+KcppVUgjuVlSRC3qheQuV/FTFGH6hSlxrdr+wZ1J0
+         nZzS2QmKllignGbTb4mgg9SygOXXecHkARCxELTuJIFcnj7sNNSQdsCokBIeUio58cEF
+         fWvyrnDtHrY3MefCE22tx+rfPQrsM8JzGQ5idBvPfGIqREPHJg0/Iiv9TlqYG0LT4AX+
+         6t3ST5rCCF4QPU0ay8HeguwLhocj0bCbpgsKnnVMrETSY/u1Fg0OJrVTIm4DzaUNGyNi
+         hkFFS25ZjtlFpftaJZc2g7Ce7Jm7bb628kTDW6RWj+jll34lTIlHF76KxQO7k+I2swQl
+         iJug==
+X-Gm-Message-State: ACgBeo3I9Hv+R97ZEjJPR8BBvOr72ynbjTheukLdfjneInfQjWvY43n/
+	wjvwKj9LLWGJwZ+Vwlg/UKNgbolLJcxoow2l
+X-Google-Smtp-Source: 
+ AA6agR6QK/Ioz8zJYhhC8rfKts36L9U5tkqfyh38Zgy2m1oj8SmnprDdg8LHlWtFSObFl3A68HAB9w==
+X-Received: by 2002:a62:e815:0:b0:538:b74:6e4e with SMTP id
+ c21-20020a62e815000000b005380b746e4emr37309678pfi.39.1662293002727;
+        Sun, 04 Sep 2022 05:03:22 -0700 (PDT)
+Received: from nuc.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id
+ w10-20020a65534a000000b0043014f9a4c9sm4544897pgr.93.2022.09.04.05.03.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Sep 2022 05:03:21 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id CAC2E9608F7; Sun,  4 Sep 2022 02:03:19 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 04 Sep 2022 02:00:01 AM HST
+FROM: steve@sakoman.com
+To: 
+ <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20220904120319.CAC2E9608F7@nuc.router0800d9.com>
+Date: Sun,  4 Sep 2022 02:03:19 -1000 (HST)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 Sep 2022 07:44:25 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 04 Sep 2022 12:03:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170282
+ https://lists.openembedded.org/g/openembedded-core/message/170283
 
---p6DW64L4HAWyYHoLqTwy
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Branch: master
 
-Hello,
+New this week: 8 CVEs
+CVE-2021-35937 (CVSS3: 6.4 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35937 *
+CVE-2021-35938 (CVSS3: 7.8 HIGH): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35938 *
+CVE-2021-35939 (CVSS3: 7.8 HIGH): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35939 *
+CVE-2021-3929 (CVSS3: 8.2 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3929 *
+CVE-2021-4158 (CVSS3: 6.0 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4158 *
+CVE-2022-2953 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2953 *
+CVE-2022-32893 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32893 *
+CVE-2022-38533 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38533 *
 
-Since the issue " https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14892=
- " is sporadically appearing at autobuilder, I could not completely test it=
- on my local machine. This patch is posted here to test it on YP AB machine=
-.
+Removed this week: 3 CVEs
+CVE-2022-2946 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2946 *
+CVE-2022-2980 (CVSS3: 5.5 MEDIUM): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2980 *
+CVE-2022-2982 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2982 *
 
-I ensured the test is passed at my local machine.
+Full list:  Found 9 unpatched CVEs
+CVE-2021-3521 (CVSS3: 4.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3521 *
+CVE-2021-35937 (CVSS3: 6.4 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35937 *
+CVE-2021-35938 (CVSS3: 7.8 HIGH): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35938 *
+CVE-2021-35939 (CVSS3: 7.8 HIGH): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35939 *
+CVE-2021-3929 (CVSS3: 8.2 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3929 *
+CVE-2021-4158 (CVSS3: 6.0 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4158 *
+CVE-2022-2953 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2953 *
+CVE-2022-32893 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32893 *
+CVE-2022-38533 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38533 *
 
->=20
-> SDK testing environment: cortexa57-poky-linux
-> RESULTS:
-> RESULTS - assimp.BuildAssimp.test_assimp: PASSED (78.38s)
-> RESULTS - buildcpio.BuildCpioTest.test_cpio: PASSED (42.25s)
-> RESULTS - buildepoxy.EpoxyTest.test_epoxy: PASSED (18.43s)
-> RESULTS - buildgalculator.GalculatorTest.test_galculator: PASSED (16.29s)
-> RESULTS - buildlzip.BuildLzipTest.test_lzip: PASSED (2.41s)
-> RESULTS - gcc.GccCompileTest.test_gcc_compile: PASSED (0.11s)
-> RESULTS - gcc.GccCompileTest.test_gpp2_compile: PASSED (0.13s)
-> RESULTS - gcc.GccCompileTest.test_gpp_compile: PASSED (0.35s)
-> RESULTS - gcc.GccCompileTest.test_make: PASSED (0.11s)
-> RESULTS - perl.PerlTest.test_perl: PASSED (0.03s)
-> RESULTS - python.Python3Test.test_python3: PASSED (0.04s)
-> RESULTS - rust.RustCompileTest.test_cargo_build: PASSED (0.26s)
-> SUMMARY:
-> core-image-sato sdk
-> (poky-glibc-x86_64-core-image-sato-cortexa57-qemuarm64-toolchain-4.1+snap=
-shot.sh:environment-setup-cortexa57-poky-linux)
-> - Ran 12 tests in 158.803s
-> core-image-sato sdk - OK - All required tests passed (successes=3D12,
-> skipped=3D0, failures=3D0, errors=3D0)
-> NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be rerun
-> and all succeeded.
->=20
->=20
->=20
->=20
-
-Please test the patch on autobuilder and let me know if it is ok.
-
---
-Thanks
-Sundeep K.
-
->=20
->=20
->
-
---p6DW64L4HAWyYHoLqTwy
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hello,<br /><br />Since the issue "<em>https://bugzilla.yoctoproject.org/sh=
-ow_bug.cgi?id=3D14892</em>" is sporadically appearing at autobuilder, I cou=
-ld not completely test it on my local machine. This patch is posted here to=
- test it on YP AB machine.<br /><br />I ensured the test is passed at my lo=
-cal machine.<br /><br />
-<blockquote>
-<div style=3D"line-height: 1.42857;">SDK testing environment: cortexa57-pok=
-y-linux</div>
-<div style=3D"line-height: 1.42857;">RESULTS:</div>
-<div style=3D"line-height: 1.42857;">RESULTS - assimp.BuildAssimp.test_assi=
-mp: PASSED (78.38s)</div>
-<div style=3D"line-height: 1.42857;">RESULTS - buildcpio.BuildCpioTest.test=
-_cpio: PASSED (42.25s)</div>
-<div style=3D"line-height: 1.42857;">RESULTS - buildepoxy.EpoxyTest.test_ep=
-oxy: PASSED (18.43s)</div>
-<div style=3D"line-height: 1.42857;">RESULTS - buildgalculator.GalculatorTe=
-st.test_galculator: PASSED (16.29s)</div>
-<div style=3D"line-height: 1.42857;">RESULTS - buildlzip.BuildLzipTest.test=
-_lzip: PASSED (2.41s)</div>
-<div style=3D"line-height: 1.42857;">RESULTS - gcc.GccCompileTest.test_gcc_=
-compile: PASSED (0.11s)</div>
-<div style=3D"line-height: 1.42857;">RESULTS - gcc.GccCompileTest.test_gpp2=
-_compile: PASSED (0.13s)</div>
-<div style=3D"line-height: 1.42857;">RESULTS - gcc.GccCompileTest.test_gpp_=
-compile: PASSED (0.35s)</div>
-<div style=3D"line-height: 1.42857;">RESULTS - gcc.GccCompileTest.test_make=
-: PASSED (0.11s)</div>
-<div style=3D"line-height: 1.42857;">RESULTS - perl.PerlTest.test_perl: PAS=
-SED (0.03s)</div>
-<div style=3D"line-height: 1.42857;">RESULTS - python.Python3Test.test_pyth=
-on3: PASSED (0.04s)</div>
-<div style=3D"line-height: 1.42857;"><span style=3D"font-weight: bold;">RES=
-ULTS - rust.RustCompileTest.test_cargo_build: PASSED (0.26s)</span></div>
-<div style=3D"line-height: 1.42857;">SUMMARY:</div>
-<div style=3D"line-height: 1.42857;">core-image-sato sdk (poky-glibc-x86_64=
--core-image-sato-cortexa57-qemuarm64-toolchain-4.1+snapshot.sh:environment-=
-setup-cortexa57-poky-linux) - Ran 12 tests in 158.803s</div>
-<div style=3D"line-height: 1.42857;">core-image-sato sdk - OK - All require=
-d tests passed (successes=3D12, skipped=3D0, failures=3D0, errors=3D0)</div=
->
-<div style=3D"line-height: 1.42857;">NOTE: Tasks Summary: Attempted 1 tasks=
- of which 0 didn't need to be rerun and all succeeded.</div>
-<div style=3D"line-height: 1.42857;"><br /><br /></div>
-</blockquote>
-Please test the patch on autobuilder and let me know if it is ok.<br /><br =
-/>--<br />Thanks<br />Sundeep K.<br />
-<blockquote>
-<div style=3D"line-height: 1.42857;">&nbsp;</div>
-</blockquote>
-
---p6DW64L4HAWyYHoLqTwy--
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
