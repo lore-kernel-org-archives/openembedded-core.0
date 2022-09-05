@@ -2,40 +2,40 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 069E3ECAAD3
-	for <webhook@archiver.kernel.org>; Mon,  5 Sep 2022 23:36:16 +0000 (UTC)
-Received: from mailout06.t-online.de (mailout06.t-online.de [194.25.134.19])
- by mx.groups.io with SMTP id smtpd.web10.31393.1662420967173167364
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 259EAECAAA1
+	for <webhook@archiver.kernel.org>; Mon,  5 Sep 2022 23:39:06 +0000 (UTC)
+Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
+ by mx.groups.io with SMTP id smtpd.web08.31196.1662421142756650478
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Sep 2022 16:36:07 -0700
+ Mon, 05 Sep 2022 16:39:03 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.19,
+ spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.85,
  mailfrom: f_l_k@t-online.de)
-Received: from fwd87.dcpf.telekom.de (fwd87.aul.t-online.de [10.223.144.113])
-	by mailout06.t-online.de (Postfix) with SMTP id 0B61F204E
+Received: from fwd70.dcpf.telekom.de (fwd70.aul.t-online.de [10.223.144.96])
+	by mailout11.t-online.de (Postfix) with SMTP id 1704E502C
 	for <openembedded-core@lists.openembedded.org>;
- Tue,  6 Sep 2022 01:35:51 +0200 (CEST)
-Received: from flk-MS-7C91.fritz.box ([84.163.37.201]) by fwd87.t-online.de
+ Tue,  6 Sep 2022 01:39:01 +0200 (CEST)
+Received: from flk-MS-7C91.fritz.box ([84.163.37.201]) by fwd70.t-online.de
 	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1oVLd7-3zISyf0; Tue, 6 Sep 2022 01:35:49 +0200
+	esmtp id 1oVLg0-3MA1Q10; Tue, 6 Sep 2022 01:38:48 +0200
 From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Markus Volk <f_l_k@t-online.de>
-Subject: [oe-core][PATCH] libsdl2: upgrade 2.0.22 -> 2.24.0
-Date: Tue,  6 Sep 2022 01:35:37 +0200
-Message-Id: <20220905233537.5834-1-f_l_k@t-online.de>
+Subject: [oe-core][PATCHv2] libsdl2: upgrade 2.0.22 -> 2.24.0
+Date: Tue,  6 Sep 2022 01:38:41 +0200
+Message-Id: <20220905233841.5953-1-f_l_k@t-online.de>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1662420949-0144746C-50A7B16E/0/0 CLEAN NORMAL
-X-TOI-MSGID: c3e851b9-a2c1-4cdf-95df-ba7bffff5ade
+X-TOI-EXPURGATEID: 150726::1662421128-0144B853-E27CEC50/0/0 CLEAN NORMAL
+X-TOI-MSGID: 68a37145-b453-4f24-a258-7dc655dd8f83
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Sep 2022 23:36:16 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Sep 2022 23:39:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170329
+ https://lists.openembedded.org/g/openembedded-core/message/170330
 
 In addition to lots of bug fixes, here are the major changes in this rele=
 ase:
@@ -160,20 +160,20 @@ h is the safer option on modern macOS.
 
 Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- .../libsdl2/{libsdl2_2.0.22.bb =3D> libsdl2_2.24.0.bb}       | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ .../libsdl2/{libsdl2_2.0.22.bb =3D> libsdl2_2.24.0.bb}         | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
  rename meta/recipes-graphics/libsdl2/{libsdl2_2.0.22.bb =3D> libsdl2_2.2=
-4.0.bb} (92%)
+4.0.bb} (93%)
 
 diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb b/meta/recip=
 es-graphics/libsdl2/libsdl2_2.24.0.bb
-similarity index 92%
+similarity index 93%
 rename from meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb
 rename to meta/recipes-graphics/libsdl2/libsdl2_2.24.0.bb
-index 8519e7f732..284c28f75c 100644
+index 8519e7f732..8cdd08b179 100644
 --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb
 +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.24.0.bb
-@@ -22,15 +22,14 @@ LIC_FILES_CHKSUM:append =3D " ${@bb.utils.contains('P=
+@@ -22,13 +22,12 @@ LIC_FILES_CHKSUM:append =3D " ${@bb.utils.contains('P=
 ACKAGECONFIG', 'arm-neon', 'f
  PROVIDES =3D "virtual/libsdl2"
 =20
@@ -191,11 +191,7 @@ ab9dd87960697f2e"
 +SRC_URI[sha256sum] =3D "91e4c34b1768f92d399b078e171448c6af18cafda743987e=
 d2064a28954d6d97"
 =20
--inherit cmake lib_package binconfig-disabled pkgconfig
-+inherit cmake lib_package binconfig-disabled pkgconfig upstream-version-=
-is-even
-=20
- BINCONFIG =3D "${bindir}/sdl2-config"
+ inherit cmake lib_package binconfig-disabled pkgconfig
 =20
 @@ -43,9 +42,7 @@ EXTRA_OECMAKE =3D "-DSDL_OSS=3DOFF -DSDL_ESD=3DOFF -DSD=
 L_ARTS=3DOFF \
