@@ -2,74 +2,78 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F377C6FA86
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24043C6FA8B
 	for <webhook@archiver.kernel.org>; Mon,  5 Sep 2022 09:03:52 +0000 (UTC)
-Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com
- [85.158.142.112])
- by mx.groups.io with SMTP id smtpd.web09.22588.1662368622160644440
+Received: from mail3.bemta32.messagelabs.com (mail3.bemta32.messagelabs.com
+ [195.245.230.17])
+ by mx.groups.io with SMTP id smtpd.web09.22589.1662368626563994158
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Sep 2022 02:03:42 -0700
+ Mon, 05 Sep 2022 02:03:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=a41eID88;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.112,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=PvQdRPtg;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.17,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1662368620; i=@fujitsu.com;
-	bh=lOLlbHOjchyc09YPBIv7MHWPHQJbI4c6c/BdGz2Vbzs=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=a41eID88Q0g9qTMPxv6wma5o6mJzy0qSOl6wpZr9vgnptLPAz/hOArwR672biRcEL
-	 Iv8nIR67a9LzlsZhYpoiXxxA+UgfSy7ISLpOBGVjFJbNII7cQSGLVE36BHoHoVjIKo
-	 HRe82Ex5OcAcGDMBMSh0rv9175qGMDQ5b/hdbmDkM37lnX/a7qQcuNrIu3wLQVED6X
-	 RtR+bdhK9mbs8YyPLchDolvTteUSj8V5gopxoO4CRcO0KFFhDpetJ+n0Z42rtrpat5
-	 3JXkQRmzfVxqRXAhe1cFF0JjanepnHRO+Gk9KFbQE1Ktf5AqzH8s8JbFsJOIGRV562
-	 tb7Br77HyzbwQ==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrIIsWRWlGSWpSXmKPExsViZ8ORqJu9WzT
-  Z4NIOFYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePF/slMBX/CKtZdZm9gfOHSxcjFISTwmFHi
-  9e6zzBDONSaJRRub2CCc3YwSs6csBnI4OdgE1CSm37rB2sXIwSEioCdx9Z8oSJhZQEXixe8ed
-  hBbWMBaYtWvZ4wgNgtQvHHuVCYQm1fASWLR3zdgYyQEFCSmPHzPDBEXlDg58wkLxBwJiYMvXj
-  BD1ChKzL7czAJhV0g0Tj/EBGGrSVw9t4l5AiP/LCTts5C0L2BkWsVok1SUmZ5RkpuYmaNraGC
-  ga2hoqmtppmtobKiXWKWbqJdaqpuXX1SSoQvklxfrpRYX6xVX5ibnpOjlpZZsYgSGZUpxQvMO
-  xnv7fukdYpTkYFIS5X0/RzRZiC8pP6UyI7E4I76oNCe1+BCjDAeHkgTvyh1AOcGi1PTUirTMH
-  GCMwKQlOHiURHj91wGleYsLEnOLM9MhUqcY7Tmmzv63n5ljOZic+bXtADPHpn1dB5iFWPLy81
-  KlxHk3gUwVAGnLKM2DGwqL6UuMslLCvIwMDAxCPAWpRbmZJajyrxjFORiVhHm5QKbwZOaVwO1
-  +BXQWE9BZdn3CIGeVJCKkpBqY2HWbXH69ap3vOjPxgbiI5TfOK8xLQ3wvOhiKv+X3/BQUU2/2
-  SyaRRaHnbujnKVP+dpx+PKHD0X3HuyXrhSe/c+64+o2/89Kr2W/S1b9Ozzy/nNHAqGThH4+46
-  1e+ngtODSvlPHj6nuryyoMBGxqfLaq9/pJhm71g26OGohx766sSD68vfaxjlL/Z1yBtWpryX9
-  YlBxV9t+pey1mm/fBluu0r0+fP9h1ZVPjWpzmH9fs5+9RbkVk+G5c7FKt+WtfqzMwnullL+9W
-  z/vjwqCh+3os71nJNW2kueuBuap5Rh0nstAheFtVG+VrmhUfb/sjuM7o+M4fdraYvuenCKfUD
-  S7Yn1H51PSF+RqmRKfWJEktxRqKhFnNRcSIAGkk7dmQDAAA=
+	s=170520fj; t=1662368624; i=@fujitsu.com;
+	bh=IzLK6CLsOvvucTmPFYj8c1lrEKZp0ZVgdwnx3+SpTgQ=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=PvQdRPtgxOd34tzf8S7qWc8wu5rheDsmlimDtw1s2q3809eQCSp1GDQ+YlPLAu2Oe
+	 S0XgZaJ8YZn2dSLZ1wXgs9O57XfkfXhtopOg+YCL2lFrwIZ27/JHChdEvKwZNSSKbw
+	 5ysd8HslyG0+tJmUTOMhIGJQ81RylquZSrCjOmlC5NHAtpKbe+JxGrRcF5N5Ck7jaB
+	 nuircwQN7gn6N/pvUyN38xQkQWMfpBqltQPZ3aFlYWjNllpBljT2rMKK4Fc5WWyWRT
+	 DeVySX+9ciVSrpoJtxUyh7rLveePaw+F5uikIxkXpUuJRhcIszG+qCNcZ+EhOgAix5
+	 HHrkKfbBBScpg==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrKIsWRWlGSWpSXmKPExsViZ8ORpFuwWzT
+  Z4PhbXos7P9+xOzB6nNu4gjGAMYo1My8pvyKBNeP2jW7mgrU8FbN35TYw/uLqYuTiEBJ4wCgx
+  9fYlFgjnMpPE8gmPGCGc3YwSi/unATmcHGwCahLTb91g7WLk4BAR0JO4+k8UJMwsoCLx4ncPO
+  4gtLGAp0fNtGSuIzQIUv/r2CSNIOa+Ak8TlWS4gYQkBBYkpD98zg4Q5BZwlTp70AwkLAVUs3f
+  uaCcTmFRCUODnzCQvEdAmJgy9eMEO0KkrMvtzMAmFXSDROP8QEYatJXD23iXkCo+AsJO2zkLQ
+  vYGRaxWiVVJSZnlGSm5iZo2toYKBraGiqa6JrZGypl1ilm6iXWqpbnlpcomuol1herJdaXKxX
+  XJmbnJOil5dasokRGL4pxSzvdzA29f3UO8QoycGkJMr7fo5oshBfUn5KZUZicUZ8UWlOavEhR
+  hkODiUJ3pU7gHKCRanpqRVpmTnAWIJJS3DwKInw+q8DSvMWFyTmFmemQ6ROMdpzfDh0ZS8zx9
+  TZ//YzcywHkzO/th1gFmLJy89LlRLn3QQyVQCkLaM0D24oLPYvMcpKCfMyMjAwCPEUpBblZpa
+  gyr9iFOdgVBLm5QKZwpOZVwK3+xXQWUxAZ9n1CYOcVZKIkJJqYIo4aW+se+LIzQXGq5QfnL7E
+  vCp7u86cO2fE2v2j1rn2c4b0bU7uWFfEubKZ2cnTJG2uW9rBZQ4f4nqnzYvf4NHPc2VpJkuPS
+  K38az7p47lGn8+qvhXOnfB/1l2T+xwe2+Xndt49KMvJErulLts8yvCN/ysJqxv+TMdqljWt0f
+  WYvvjqpBeb51nfT0pPK816Gr6l6azGDolNJTpb+49Flq5Y8emTuAHTRU3dH1azOF4ItW0pir8
+  260DS7jnfIt55G87lYDNd8Ehq8rw5py8t//2suPhM6m1OtU0zExc/fxhd55e/l2vu0W97RQzb
+  o/l83SPclnSeCEvrCbjv0rXUbI3d9bdXzZoVlhvvjPTyTlZiKc5INNRiLipOBABPDJ8feAMAA
+  A==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-8.tower-728.messagelabs.com!1662368619!113092!1
-X-Originating-IP: [62.60.8.97]
+X-Msg-Ref: server-19.tower-585.messagelabs.com!1662368624!513051!1
+X-Originating-IP: [62.60.8.98]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.87.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 28148 invoked from network); 5 Sep 2022 09:03:39 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-8.tower-728.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 5 Sep 2022 09:03:39 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id E0D2A1001A0
+Received: (qmail 25361 invoked from network); 5 Sep 2022 09:03:44 -0000
+Received: from unknown (HELO n03ukasimr03.n03.fujitsu.local) (62.60.8.98)
+  by server-19.tower-585.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 5 Sep 2022 09:03:44 -0000
+Received: from n03ukasimr03.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTP id D043F1B6
 	for <openembedded-core@lists.openembedded.org>;
- Mon,  5 Sep 2022 10:03:38 +0100 (BST)
+ Mon,  5 Sep 2022 10:03:43 +0100 (BST)
 Received: from R01UKEXCASM121.r01.fujitsu.local (R01UKEXCASM121
  [10.183.43.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id D475F10019F
+	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTPS id C53D51B5
 	for <openembedded-core@lists.openembedded.org>;
- Mon,  5 Sep 2022 10:03:38 +0100 (BST)
+ Mon,  5 Sep 2022 10:03:43 +0100 (BST)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Mon, 5 Sep 2022 10:03:36 +0100
+ (TLS) id 15.0.1497.32; Mon, 5 Sep 2022 10:03:42 +0100
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] cracklib: upgrade 2.9.7 -> 2.9.8
-Date: Mon, 5 Sep 2022 17:03:17 +0800
-Message-ID: <1662368601-32265-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] mesa: upgrade 22.1.6 -> 22.1.7
+Date: Mon, 5 Sep 2022 17:03:19 +0800
+Message-ID: <1662368601-32265-3-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1662368601-32265-1-git-send-email-wangmy@fujitsu.com>
+References: <1662368601-32265-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
@@ -81,372 +85,38 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 05 Sep 2022 09:03:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170300
-
-0001-rules-Drop-using-register-keyword.patch
-0002-rules-Correct-parameter-types-to-Debug-calls.patch
-removed since they're included in 2.9.8
+ https://lists.openembedded.org/g/openembedded-core/message/170302
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...01-rules-Drop-using-register-keyword.patch | 278 ------------------
- ...rrect-parameter-types-to-Debug-calls.patch |  40 ---
- .../{cracklib_2.9.7.bb => cracklib_2.9.8.bb}  |   4 +-
- 3 files changed, 1 insertion(+), 321 deletions(-)
- delete mode 100644 meta/recipes-extended/cracklib/cracklib/0001-rules-Drop-using-register-keyword.patch
- delete mode 100644 meta/recipes-extended/cracklib/cracklib/0002-rules-Correct-parameter-types-to-Debug-calls.patch
- rename meta/recipes-extended/cracklib/{cracklib_2.9.7.bb => cracklib_2.9.8.bb} (83%)
+ .../mesa/{mesa-gl_22.1.6.bb => mesa-gl_22.1.7.bb}               | 0
+ meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
+ meta/recipes-graphics/mesa/{mesa_22.1.6.bb => mesa_22.1.7.bb}   | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_22.1.6.bb => mesa-gl_22.1.7.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_22.1.6.bb => mesa_22.1.7.bb} (100%)
 
-diff --git a/meta/recipes-extended/cracklib/cracklib/0001-rules-Drop-using-register-keyword.patch b/meta/recipes-extended/cracklib/cracklib/0001-rules-Drop-using-register-keyword.patch
-deleted file mode 100644
-index a8446653eb..0000000000
---- a/meta/recipes-extended/cracklib/cracklib/0001-rules-Drop-using-register-keyword.patch
-+++ /dev/null
-@@ -1,278 +0,0 @@
--From fe49471cfa7fe0618615c065f4c0ad04e888bf92 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sun, 7 Aug 2022 12:24:39 -0700
--Subject: [PATCH 1/2] rules: Drop using register keyword
--
--This is a deprecated keyword
--
--Upstream-Status: Submitted [https://github.com/cracklib/cracklib/pull/48]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/lib/rules.c | 94 ++++++++++++++++++++++++-------------------------
-- 1 file changed, 47 insertions(+), 47 deletions(-)
--
--diff --git a/lib/rules.c b/lib/rules.c
--index 3a2aa46..6e7a12a 100644
----- a/lib/rules.c
--+++ b/lib/rules.c
--@@ -67,8 +67,8 @@ Suffix(myword, suffix)
--     char *myword;
--     char *suffix;
-- {
---    register int i;
---    register int j;
--+    int i;
--+    int j;
--     i = strlen(myword);
--     j = strlen(suffix);
-- 
--@@ -83,10 +83,10 @@ Suffix(myword, suffix)
-- 
-- char *
-- Reverse(str)			/* return a pointer to a reversal */
---    register char *str;
--+    char *str;
-- {
---    register int i;
---    register int j;
--+    int i;
--+    int j;
--     static char area[STRINGSIZE];
--     j = i = strlen(str);
--     while (*str)
--@@ -99,9 +99,9 @@ Reverse(str)			/* return a pointer to a reversal */
-- 
-- char *
-- Uppercase(str)			/* return a pointer to an uppercase */
---    register char *str;
--+    char *str;
-- {
---    register char *ptr;
--+    char *ptr;
--     static char area[STRINGSIZE];
--     ptr = area;
--     while (*str)
--@@ -116,9 +116,9 @@ Uppercase(str)			/* return a pointer to an uppercase */
-- 
-- char *
-- Lowercase(str)			/* return a pointer to an lowercase */
---    register char *str;
--+    char *str;
-- {
---    register char *ptr;
--+    char *ptr;
--     static char area[STRINGSIZE];
--     ptr = area;
--     while (*str)
--@@ -133,9 +133,9 @@ Lowercase(str)			/* return a pointer to an lowercase */
-- 
-- char *
-- Capitalise(str)			/* return a pointer to an capitalised */
---    register char *str;
--+    char *str;
-- {
---    register char *ptr;
--+    char *ptr;
--     static char area[STRINGSIZE];
--     ptr = area;
-- 
--@@ -152,9 +152,9 @@ Capitalise(str)			/* return a pointer to an capitalised */
-- 
-- char *
-- Pluralise(string)		/* returns a pointer to a plural */
---    register char *string;
--+    char *string;
-- {
---    register int length;
--+    int length;
--     static char area[STRINGSIZE];
--     length = strlen(string);
--     strcpy(area, string);
--@@ -193,11 +193,11 @@ Pluralise(string)		/* returns a pointer to a plural */
-- 
-- char *
-- Substitute(string, old, new)	/* returns pointer to a swapped about copy */
---    register char *string;
---    register char old;
---    register char new;
--+    char *string;
--+    char old;
--+    char new;
-- {
---    register char *ptr;
--+    char *ptr;
--     static char area[STRINGSIZE];
--     ptr = area;
--     while (*string)
--@@ -211,11 +211,11 @@ Substitute(string, old, new)	/* returns pointer to a swapped about copy */
-- 
-- char *
-- Purge(string, target)		/* returns pointer to a purged copy */
---    register char *string;
---    register char target;
--+    char *string;
--+    char target;
-- {
---    register char *ptr;
---    static char area[STRINGSIZE];
--+    char *ptr;
--+    char area[STRINGSIZE];
--     ptr = area;
--     while (*string)
--     {
--@@ -238,11 +238,11 @@ Purge(string, target)		/* returns pointer to a purged copy */
-- 
-- int
-- MatchClass(class, input)
---    register char class;
---    register char input;
--+    char class;
--+    char input;
-- {
---    register char c;
---    register int retval;
--+    char c;
--+    int retval;
--     retval = 0;
-- 
--     switch (class)
--@@ -357,8 +357,8 @@ MatchClass(class, input)
-- 
-- char *
-- PolyStrchr(string, class)
---    register char *string;
---    register char class;
--+    char *string;
--+    char class;
-- {
--     while (*string)
--     {
--@@ -373,11 +373,11 @@ PolyStrchr(string, class)
-- 
-- char *
-- PolySubst(string, class, new)	/* returns pointer to a swapped about copy */
---    register char *string;
---    register char class;
---    register char new;
--+    char *string;
--+    char class;
--+    char new;
-- {
---    register char *ptr;
--+    char *ptr;
--     static char area[STRINGSIZE];
--     ptr = area;
--     while (*string)
--@@ -391,10 +391,10 @@ PolySubst(string, class, new)	/* returns pointer to a swapped about copy */
-- 
-- char *
-- PolyPurge(string, class)	/* returns pointer to a purged copy */
---    register char *string;
---    register char class;
--+    char *string;
--+    char class;
-- {
---    register char *ptr;
--+    char *ptr;
--     static char area[STRINGSIZE];
--     ptr = area;
--     while (*string)
--@@ -433,7 +433,7 @@ Mangle(input, control)		/* returns a pointer to a controlled Mangle */
--     char *control;
-- {
--     int limit;
---    register char *ptr;
--+    char *ptr;
--     static char area[STRINGSIZE * 2] = {0};
--     char area2[STRINGSIZE * 2] = {0};
--     strcpy(area, input);
--@@ -523,7 +523,7 @@ Mangle(input, control)		/* returns a pointer to a controlled Mangle */
-- 		return NULL;
-- 	    } else
-- 	    {
---		register char *string;
--+		char *string;
-- 		string = area;
-- 		while (*(string++));
-- 		string[-1] = *(++ptr);
--@@ -537,7 +537,7 @@ Mangle(input, control)		/* returns a pointer to a controlled Mangle */
-- 		return NULL;
-- 	    } else
-- 	    {
---		register int i;
--+		int i;
-- 		int start;
-- 		int length;
-- 		start = Char2Int(*(++ptr));
--@@ -563,7 +563,7 @@ Mangle(input, control)		/* returns a pointer to a controlled Mangle */
-- 		return NULL;
-- 	    } else
-- 	    {
---		register int i;
--+		int i;
-- 		i = Char2Int(*(++ptr));
-- 		if (i < 0)
-- 		{
--@@ -587,9 +587,9 @@ Mangle(input, control)		/* returns a pointer to a controlled Mangle */
-- 		return NULL;
-- 	    } else
-- 	    {
---		register int i;
---		register char *p1;
---		register char *p2;
--+		int i;
--+		char *p1;
--+		char *p2;
-- 		i = Char2Int(*(++ptr));
-- 		if (i < 0)
-- 		{
--@@ -696,7 +696,7 @@ Mangle(input, control)		/* returns a pointer to a controlled Mangle */
-- 		return NULL;
-- 	    } else
-- 	    {
---		register int i;
--+		int i;
-- 		if ((i = Char2Int(ptr[1])) < 0)
-- 		{
-- 		    Debug(1, "Mangle: '=' weird argument in '%s'\n", control);
--@@ -723,7 +723,7 @@ Mangle(input, control)		/* returns a pointer to a controlled Mangle */
-- 	case RULE_DFIRST:
-- 	    if (area[0])
-- 	    {
---		register int i;
--+		int i;
-- 		for (i = 1; area[i]; i++)
-- 		{
-- 		    area[i - 1] = area[i];
--@@ -735,7 +735,7 @@ Mangle(input, control)		/* returns a pointer to a controlled Mangle */
-- 	case RULE_DLAST:
-- 	    if (area[0])
-- 	    {
---		register int i;
--+		int i;
-- 		for (i = 1; area[i]; i++);
-- 		area[i - 1] = '\0';
-- 	    }
--@@ -771,7 +771,7 @@ Mangle(input, control)		/* returns a pointer to a controlled Mangle */
-- 		return NULL;
-- 	    } else
-- 	    {
---		register int i;
--+		int i;
-- 
-- 		for (i = 0; area[i]; i++);
-- 
--@@ -815,8 +815,8 @@ Mangle(input, control)		/* returns a pointer to a controlled Mangle */
-- 
-- int
-- PMatch(control, string)
---register char *control;
---register char *string;
--+char *control;
--+char *string;
-- {
--     while (*string && *control)
--     {
---- 
--2.37.1
--
-diff --git a/meta/recipes-extended/cracklib/cracklib/0002-rules-Correct-parameter-types-to-Debug-calls.patch b/meta/recipes-extended/cracklib/cracklib/0002-rules-Correct-parameter-types-to-Debug-calls.patch
-deleted file mode 100644
-index a8692b0cca..0000000000
---- a/meta/recipes-extended/cracklib/cracklib/0002-rules-Correct-parameter-types-to-Debug-calls.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From 793921a8ee4ae7f20e1fd2bbec5196bc83176b01 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sun, 7 Aug 2022 12:25:24 -0700
--Subject: [PATCH 2/2] rules: Correct parameter types to Debug() calls
--
--Fixes
--src/lib/rules.c:346:45: error: incompatible integer to pointer conversion passing 'char' to parameter of type 'char *'; take the address with & [-Wint-conversion]
--src/lib/rules.c:804:53: error: incompatible integer to pointer conversion passing 'char' to parameter of type 'char *'; remove * [-Wint-conversion]                                           Debug(1, "Mangle: unknown command %c in %s\n", *ptr, control);
--                                                           ^~~~
--Upstream-Status: Submitted [https://github.com/cracklib/cracklib/pull/48]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/lib/rules.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/lib/rules.c b/lib/rules.c
--index 6e7a12a..4a34f91 100644
----- a/lib/rules.c
--+++ b/lib/rules.c
--@@ -343,7 +343,7 @@ MatchClass(class, input)
-- 	break;
-- 
--     default:
---	Debug(1, "MatchClass: unknown class %c\n", class);
--+	Debug(1, "MatchClass: unknown class %c\n", &class);
-- 	return (0);
-- 	break;
--     }
--@@ -801,7 +801,7 @@ Mangle(input, control)		/* returns a pointer to a controlled Mangle */
-- 	    }
-- 
-- 	default:
---	    Debug(1, "Mangle: unknown command %c in %s\n", *ptr, control);
--+	    Debug(1, "Mangle: unknown command %c in %s\n", ptr, control);
-- 	    return NULL;
-- 	    break;
-- 	}
---- 
--2.37.1
--
-diff --git a/meta/recipes-extended/cracklib/cracklib_2.9.7.bb b/meta/recipes-extended/cracklib/cracklib_2.9.8.bb
-similarity index 83%
-rename from meta/recipes-extended/cracklib/cracklib_2.9.7.bb
-rename to meta/recipes-extended/cracklib/cracklib_2.9.8.bb
-index ffed88ed01..786940a7e0 100644
---- a/meta/recipes-extended/cracklib/cracklib_2.9.7.bb
-+++ b/meta/recipes-extended/cracklib/cracklib_2.9.8.bb
-@@ -12,11 +12,9 @@ EXTRA_OECONF = "--without-python --libdir=${base_libdir}"
- SRC_URI = "git://github.com/cracklib/cracklib;protocol=https;branch=master \
-            file://0001-packlib.c-support-dictionary-byte-order-dependent.patch \
-            file://0002-craklib-fix-testnum-and-teststr-failed.patch \
--           file://0001-rules-Drop-using-register-keyword.patch \
--           file://0002-rules-Correct-parameter-types-to-Debug-calls.patch \
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_22.1.6.bb b/meta/recipes-graphics/mesa/mesa-gl_22.1.7.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_22.1.6.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_22.1.7.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index ea7ed4fd27..729c466554 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -25,7 +25,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-nir-nir_opt_move-fix-ALWAYS_INLINE-compiler-error.patch \
             "
  
--SRCREV = "f83934cf3cced0c9600c7d81332f4169f122a2cf"
-+SRCREV = "d9e8f9f47718539aeba80f90f4e072549926dc9c"
- S = "${WORKDIR}/git/src"
+-SRC_URI[sha256sum] = "22ced061eb9adab8ea35368246c1995c09723f3f71653cd5050c5cec376e671a"
++SRC_URI[sha256sum] = "da838eb2cf11d0e08d0e9944f6bd4d96987fdc59ea2856f8c70a31a82b355d89"
  
- inherit autotools gettext
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_22.1.6.bb b/meta/recipes-graphics/mesa/mesa_22.1.7.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_22.1.6.bb
+rename to meta/recipes-graphics/mesa/mesa_22.1.7.bb
 -- 
 2.25.1
 
