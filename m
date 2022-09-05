@@ -2,75 +2,74 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21017ECAAD5
-	for <webhook@archiver.kernel.org>; Mon,  5 Sep 2022 09:03:52 +0000 (UTC)
-Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com
- [85.158.142.1])
- by mx.groups.io with SMTP id smtpd.web11.22865.1662368629101970036
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0250CECAAD5
+	for <webhook@archiver.kernel.org>; Mon,  5 Sep 2022 09:04:02 +0000 (UTC)
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
+ [195.245.231.3])
+ by mx.groups.io with SMTP id smtpd.web10.22879.1662368631361347472
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Sep 2022 02:03:50 -0700
+ Mon, 05 Sep 2022 02:03:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=ES3g8Ab8;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.1,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=UkgqKQJV;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.3,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1662368627; i=@fujitsu.com;
-	bh=PFG6aHNV1JjHes41OTeQ2b6Jp1G9cfE5uTTPzaDpBP4=;
+	s=170520fj; t=1662368629; i=@fujitsu.com;
+	bh=vcEecCbtwxNr9b3mA8kAF+W4E0qvY7mmxiznGLXMlXg=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=ES3g8Ab8p1vJGgd4OL34n+KIRCqN9YBONTV2eeeNT0vXgoDtPAeers8gpX6nKjMK6
-	 bK2/0344RKVvBoVG8q7M7rLykKfcyrT6abbXJsteuMjvijDbYjr1z9tuXHQKhvgkgd
-	 ecteY0IxKg3Dm7gMSgGu6xV5eoy5L4TXJUiqBTJ5rU2jzD2o5z6Ds8E/kvGeitPjun
-	 sWxgWHdVzyCtGur9HK9pBp4E1Cj5nxi+GNBxjsBvpiB51T+ibM5DyhDp6M3ZWVJDpZ
-	 AmShj1JV/11TJboYPY1PuMcqm4/3YnphTkDYRxYxwgWOf7Lx9yJFBgaqC6+p1mj4Be
-	 +0ONu/jnbtnlw==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJIsWRWlGSWpSXmKPExsViZ8MxSbdot2i
-  yQVerrsWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmtG54BhrwWKxih+f57I1ML4X7mLk4hASeMwo
-  se39bvYuRk4g5xqTxOvVRRCJ3YwSy2csYgJJsAmoSUy/dYO1i5GDQ0RAT+LqP1GQMLOAisSL3
-  z1gvcICthKzN50Hs1mA4rd+NjGD2LwCThJnZuxjA7ElBBQkpjx8zwwyhlPAWeLkST+ItU4SS/
-  e+ZoIoF5Q4OfMJC8R4CYmDL14wQ7QqSsy+3MwCYVdINE4/xARhq0lcPbeJeQKj4Cwk7bOQtC9
-  gZFrFaJtUlJmeUZKbmJmja2hgoGtoaAqkjXWNDM30Eqt0E/VSS3Xz8otKMnQN9RLLi/VSi4v1
-  iitzk3NS9PJSSzYxAsM4pTj9xg7GXft+6R1ilORgUhLlfT9HNFmILyk/pTIjsTgjvqg0J7X4E
-  KMMB4eSBO/KHUA5waLU9NSKtMwcYEzBpCU4eJREeP3XAaV5iwsSc4sz0yFSpxjtOabO/refmW
-  M5mJz5te0AM8emfV0HmIVY8vLzUqXEeTeBTBUAacsozYMbCksBlxhlpYR5GRkYGIR4ClKLcjN
-  LUOVfMYpzMCoJ83KBTOHJzCuB2/0K6CwmoLPs+oRBzipJREhJNTBJHJz5+aH1a57Ny3U1FES0
-  Bd5tfTBjLlfU/pdXb989YxJ8Xn2n3B9vJa1SG6tNwnNZc5rjxcP8zt0wbs39MomlbYFil+YH9
-  rufuEVkjefOW3XOVmldfau1AXNsFM/cW0sWq+9R95Dz+XOoQ2aHxeI755SPX2k+xNVTcv6nC8
-  O6/jdne57c1GJr6DzavOLK9Func5a8rLueUvjyeP057wcrfV66TGXNLQ1eevmO/NT/u1i8f6x
-  96zk/fHLTv94XD5Sq9dkf6mlldx48+CRQL2GWX9o1JubvZ8ydl4f/b/Ow8Wf5pfhhUzHnhOUv
-  Zj9c9njSpfu7LLtjdF/+cFvSsjyafbFroHu07ZauvJXXhCKeKLEUZyQaajEXFScCALn0Mlt8A
-  wAA
+	b=UkgqKQJVyAcBvSUm5kmspJXZCD0lqmgq7uYf/ed2Gn9ugw4MaRCichHUd8EZoG2b1
+	 DPUCryvc7qS10yuexXBTmf4/+UpOvttZbPkxyd+oX9/00UMofMNSgL2nq0/7yR0XgL
+	 0+f4VTp1IEsbM19N0zxCHMtRkPEkIpi/Wgko7g5i1OjzGMSvMB/aOCeckvxOvDXCSW
+	 SjXToH7JwieQ3rPgiv20NRRtTqoPbjxBpCNjrj5ZUusTPglOClotssMRQssmMSkdAh
+	 2/vAGJkIM70GDxp/R2X4a5kyZBj8sIRv2uEYzbpeQaPVoIG7AgcIdwiT/zCaj3BfWr
+	 D6Dn103KrRTXA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrGIsWRWlGSWpSXmKPExsViZ8ORqFuyWzT
+  ZYEavpcWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmnH4yQbmgjscFf/W7GZqYOzg6GLk4hASeMwo
+  cXrOUxYI5xqTxOb7z1khnN2MEnde/WLuYuTkYBNQk5h+6wZQgoNDREBP4uo/UZAws4CKxIvfP
+  ewgtrCAp0TvxtdgNgtQfM3frWA2r4CTxNHr81lBbAkBBYkpD98zg4zhFHCWOHnSDyQsBFSydO
+  9rJohyQYmTM5+wQIyXkDj44gUzRKuixOzLzSwQdoVE4/RDTBC2msTVc5uYJzAKzkLSPgtJ+wJ
+  GplWM1klFmekZJbmJmTm6hgYGuoaGprrGprqGFiZ6iVW6iXqppbrlqcUlukZ6ieXFeqnFxXrF
+  lbnJOSl6eaklmxiBQZxSrLxjB2Pbqp96hxglOZiURHnfzxFNFuJLyk+pzEgszogvKs1JLT7EK
+  MPBoSTBu3IHUE6wKDU9tSItMwcYUTBpCQ4eJRFe/3VAad7igsTc4sx0iNQpRl2OmV/bDjALse
+  Tl56VKifNuApkhAFKUUZoHNwIW3ZcYZaWEeRkZGBiEeApSi3IzS1DlXzGKczAqCfNygUzhycw
+  rgdv0CugIJqAj7PqEQY4oSURISTUwZcXUdxufCRKb/U46OeVNlM6Nvaq//cJ85ufpJ7cE86V5
+  +AkHrX/m9P7us8tKGvf9vj0XUGj/+sVzr1bV1crTl591NxXOqDbfWsDoM3eSULlXMM8fiwMGR
+  RdmyP1rXr5tirbT1wtPFBbdmqackWr/c8K6X+wuyxY97sy7d3InV2qi4QV3q/WzKqsTDZyn3G
+  ktub353aTKfW4Fjbc+v93eeaj1wcmlnxfZ3T7j5sB+umvXWnct5aenTM7PZVB/Xv7Z+HXvkkV
+  R7T2v1/23brtVX3vz509d/fxUHrVVzWz60VMUrz89WP0z4EOud5RArIKrUQabpT17bVmQ61MP
+  ae1jtooL7/18Jvpa/Zzvv2lFSizFGYmGWsxFxYkAvSvHlWkDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-2.tower-745.messagelabs.com!1662368626!261828!1
-X-Originating-IP: [62.60.8.146]
+X-Msg-Ref: server-14.tower-571.messagelabs.com!1662368628!136150!1
+X-Originating-IP: [62.60.8.97]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.87.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 1534 invoked from network); 5 Sep 2022 09:03:46 -0000
-Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-2.tower-745.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 5 Sep 2022 09:03:46 -0000
-Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 1D56D1000C1
+Received: (qmail 12419 invoked from network); 5 Sep 2022 09:03:48 -0000
+Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
+  by server-14.tower-571.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 5 Sep 2022 09:03:48 -0000
+Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id A12B110019A
 	for <openembedded-core@lists.openembedded.org>;
- Mon,  5 Sep 2022 10:03:46 +0100 (BST)
+ Mon,  5 Sep 2022 10:03:48 +0100 (BST)
 Received: from R01UKEXCASM121.r01.fujitsu.local (R01UKEXCASM121
  [10.183.43.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 10A22100078
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 94EB6100198
 	for <openembedded-core@lists.openembedded.org>;
- Mon,  5 Sep 2022 10:03:46 +0100 (BST)
+ Mon,  5 Sep 2022 10:03:48 +0100 (BST)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Mon, 5 Sep 2022 10:03:44 +0100
+ (TLS) id 15.0.1497.32; Mon, 5 Sep 2022 10:03:46 +0100
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] piglit: upgrade to latest revision
-Date: Mon, 5 Sep 2022 17:03:20 +0800
-Message-ID: <1662368601-32265-4-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-dtschema: upgrade 2022.8.1 -> 2022.8.3
+Date: Mon, 5 Sep 2022 17:03:21 +0800
+Message-ID: <1662368601-32265-5-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1662368601-32265-1-git-send-email-wangmy@fujitsu.com>
 References: <1662368601-32265-1-git-send-email-wangmy@fujitsu.com>
@@ -83,70 +82,32 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Sep 2022 09:03:52 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Sep 2022 09:04:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170303
-
-0004-CMakeLists.txt-add-missing-endian.h-check.patch
-removed sinct it's included in new version.
+ https://lists.openembedded.org/g/openembedded-core/message/170304
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...Lists.txt-add-missing-endian.h-check.patch | 25 -------------------
- meta/recipes-graphics/piglit/piglit_git.bb    |  6 ++---
- 2 files changed, 3 insertions(+), 28 deletions(-)
- delete mode 100644 meta/recipes-graphics/piglit/piglit/0004-CMakeLists.txt-add-missing-endian.h-check.patch
+ ...ython3-dtschema_2022.8.1.bb => python3-dtschema_2022.8.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-dtschema_2022.8.1.bb => python3-dtschema_2022.8.3.bb} (83%)
 
-diff --git a/meta/recipes-graphics/piglit/piglit/0004-CMakeLists.txt-add-missing-endian.h-check.patch b/meta/recipes-graphics/piglit/piglit/0004-CMakeLists.txt-add-missing-endian.h-check.patch
-deleted file mode 100644
-index 68f783ebe4..0000000000
---- a/meta/recipes-graphics/piglit/piglit/0004-CMakeLists.txt-add-missing-endian.h-check.patch
-+++ /dev/null
-@@ -1,25 +0,0 @@
--From a8ea135125b284a8a9c965d8091b3d1d9a31849c Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Tue, 5 Apr 2022 16:51:34 +0200
--Subject: [PATCH] CMakeLists.txt: add missing endian.h check
--
--This is needed to actually have HAVE_ENDIAN_H defined properly in config.h.
--
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/piglit/-/merge_requests/648]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- CMakeLists.txt | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 9fb0508da..158fac4bc 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -481,6 +481,7 @@ check_include_file(sys/stat.h  HAVE_SYS_STAT_H)
-- check_include_file(unistd.h    HAVE_UNISTD_H)
-- check_include_file(fcntl.h     HAVE_FCNTL_H)
-- check_include_file(linux/sync_file.h HAVE_LINUX_SYNC_FILE_H)
--+check_include_file(endian.h    HAVE_ENDIAN_H)
-- 
-- if(DEFINED PIGLIT_INSTALL_VERSION)
-- 	set(PIGLIT_INSTALL_VERSION_SUFFIX
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index 29360a246b..f758208c6b 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -10,11 +10,11 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
-            file://0001-cmake-install-bash-completions-in-the-right-place.patch \
-            file://0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch \
-            file://0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch \
--           file://0004-CMakeLists.txt-add-missing-endian.h-check.patch \
--           file://0005-cmake-Don-t-enable-GLX-if-tests-are-disabled.patch"
-+           file://0005-cmake-Don-t-enable-GLX-if-tests-are-disabled.patch \
-+           "
- UPSTREAM_CHECK_COMMITS = "1"
+diff --git a/meta/recipes-devtools/python/python3-dtschema_2022.8.1.bb b/meta/recipes-devtools/python/python3-dtschema_2022.8.3.bb
+similarity index 83%
+rename from meta/recipes-devtools/python/python3-dtschema_2022.8.1.bb
+rename to meta/recipes-devtools/python/python3-dtschema_2022.8.3.bb
+index 38f646e50a..bc819c0dd6 100644
+--- a/meta/recipes-devtools/python/python3-dtschema_2022.8.1.bb
++++ b/meta/recipes-devtools/python/python3-dtschema_2022.8.3.bb
+@@ -7,7 +7,7 @@ inherit pypi setuptools3
  
--SRCREV = "6403e90dc7da02d486906cddab8d02c2552a8d46"
-+SRCREV = "265896c86f90cb72e8f218ba6a3617fca8b9a1e3"
- # (when PV goes above 1.0 remove the trailing r)
- PV = "1.0+gitr${SRCPV}"
+ PYPI_PACKAGE = "dtschema"
  
+-SRC_URI[sha256sum] = "3e56a9920944223d6f93fd51ada19dd8db554ac9182ef52c1c5c9d4966ab30aa"
++SRC_URI[sha256sum] = "128c88a393cd04154cef4d4b10a643e4473ae290b436e8e61d2e97ae8e53255d"
+ 
+ DEPENDS += "python3-setuptools-scm-native"
+ RDEPENDS:${PN} += "python3-ruamel-yaml python3-jsonschema python3-rfc3987"
 -- 
 2.25.1
 
