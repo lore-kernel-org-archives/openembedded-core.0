@@ -1,188 +1,123 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <pavel@zhukoff.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B5C7ECAAD5
-	for <webhook@archiver.kernel.org>; Mon,  5 Sep 2022 16:15:44 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web11.26769.1662394539492472104
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2289DECAAD3
+	for <webhook@archiver.kernel.org>; Mon,  5 Sep 2022 16:26:04 +0000 (UTC)
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by mx.groups.io with SMTP id smtpd.web10.26841.1662395158968645419
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Sep 2022 09:15:40 -0700
+ Mon, 05 Sep 2022 09:25:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=J+dkY8aI;
- spf=pass (domain: axis.com, ip: 195.60.68.18,
- mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1662394540;
-  x=1693930540;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=2XMt9GvcZjS7qVQTC1LtJ/0l/JmLGK9hvODrvQCJjVw=;
-  b=J+dkY8aIanllfotE8/qspAzDNdDHGm9iIt8nCJ8Pg2TjJ3o+P8npSM+Q
-   km/A1nwehrS2yVE8UclriJSEXkPm9RLAPGRnlwpbby/jwNPxH1jP+0FSE
-   2PrK6VJTpQoHVQLxJ1XAfNxVlc27iuw93mCrCX7fwQQ44YhGI//6n+ljU
-   sog8exJKpkVFr8ZmRNQIvF3sz5Ey4sGCPw34mgfpNpS36Up79f0h5CdMg
-   XHPGSMo/l9LtXpWzJ8CLfB6mYvzQWLW9YzJbX7ONwz5O4NaVKluYtD2e+
-   SJgfQYrXpJs+c5Cn5y3AlTnfht+kmxTM0PGyyiv1pru2j0MCs1wyJKzbJ
-   w==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Peter Bergin <peter@berginkonsult.se>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] rootfs-postcommands.bbclass: avoid moving ssh
- host keys if etc is writable
-Thread-Topic: [OE-core] [PATCH] rootfs-postcommands.bbclass: avoid moving ssh
- host keys if etc is writable
-Thread-Index: AQHYwTMiynguO8i9yEC2Y7jRAKy+Fq3Q++1g
-Date: Mon, 5 Sep 2022 16:15:36 +0000
-Message-ID: <dbbb813cd6f64ff2b034ab6968ac328a@axis.com>
-References: <20220905142329.34087-1-peter@berginkonsult.se>
-In-Reply-To: <20220905142329.34087-1-peter@berginkonsult.se>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=fail reason="signature has expired" header.i=@zhukoff.net header.s=fm1
+ header.b=FQR1CQFG;
+ spf=pass (domain: zhukoff.net, ip: 66.111.4.25, mailfrom: pavel@zhukoff.net)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 382155C00A2;
+	Mon,  5 Sep 2022 12:25:58 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Mon, 05 Sep 2022 12:25:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm1; t=1662395158; x=1662481558; bh=Yw+b59SGgmD5t6HYnpwh8EfBC
+	N6miDExj9ebZ3J7slc=; b=FQR1CQFGDHSIHC9gIs/uACdyNWBkszgCFFn0F6EhX
+	FpvMtnWFSmnZTi/d0dgmhhDJh8g6H1mhclENrLLx0G8wUVC7gjKIxtJoMtFxhz6g
+	PBozHFBMZcnuCpOggf2TpreFUpt5Vgf4nMCfIi8wjtQi7ESiG4MAm6LqQluLlEIl
+	zhRY8r8qXfDr6FUr/fHc8QyWqjS0wDkdCtF/ORhR888PycAvLBqT5RfMRMpXsJQs
+	JCWlEqc3n6QiMlUYtqojVplV+QWGkFiHcO2B9KEu90T3OOpxN/udOIifY08PDXs3
+	JWc6dTQKamTEqWAyI3UlJATslia2Y4OMH42fqOKQ4yJ0Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1662395158; x=1662481558; bh=Yw+b59SGgmD5t6HYnpwh8EfBCN6miDExj9e
+	bZ3J7slc=; b=isYAg7GWeVaTvxc13lohj0vOLvJMISB/MO8yKLXJYPFtz1cosls
+	2pEO+/4MhyaW2ZRZV+i9xTFOAJO0ZP1qQTvq8wQ0UYKozcXm8Gw2xjYEyhQE06Kq
+	pAD8pKYWRbh8s3mcBblpb8ZEQSk0Blxn4x6VJAX0Sahghu8ut9NRuaMC13y5cMud
+	GhaOKdxvQ5P0kb4Y76MW9Nt0TZAKnV7ErbEp/KBDxatOxPlFdr0EThN0WETLrzCg
+	U8t1V+JZaZCuT2C0WKb20SOxlc3IkEYMsSZuuwa+tiheXgDEQwGN2gEzMqPUfWdb
+	3lY24IRWIG0ov0gd7L1e0XAFup/bkz/OgxA==
+X-ME-Sender: <xms:FSMWYzN8qNkrbi_5lDHiGG6fTMTO0fg1apFpA3B4gqbbaarAMQrcnw>
+    <xme:FSMWY9_PTA1jULqS8I5D9cMGk_cFYfpvZLE6a_caKgMZs-qyQCBjOlCYTHffEO1I4
+    e5LD5WElAnVHLc3ghU>
+X-ME-Received: 
+ <xmr:FSMWYyQ0a6d6skGtwkNIVcOuf9PuYIel-KqkYH-EO_wypg5Carfn1rssgkaa2iSlU6O0iMSk49CN7hW-0itHdLo>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvfedrvdeliedguddtfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekre
+    dtredttdenucfhrhhomheprfgrvhgvlhcukghhuhhkohhvuceophgrvhgvlhesiihhuhhk
+    ohhffhdrnhgvtheqnecuggftrfgrthhtvghrnhepveefjeekjedugeeltdekjefhtedtfe
+    ejueffheeikedvudfgtdffffelvddvfefhnecuvehluhhsthgvrhfuihiivgeptdenucfr
+    rghrrghmpehmrghilhhfrhhomhepphgrvhgvlhesiihhuhhkohhffhdrnhgvth
+X-ME-Proxy: <xmx:FSMWY3v3kCe4aUHxRdKO9kzKY1gouaCTGiLuh3NQrJmc__kMJvS7eA>
+    <xmx:FSMWY7eluSJ2QWhTxvvOf4dzn6Xf570JMxGhYZpIKHfc2ron0q5sxw>
+    <xmx:FSMWYz2ViIuD4jjXP8mClT7as6wv3g4JZQsOYtfeK5uIqkhSIuPQyw>
+    <xmx:FiMWYzFXg2hyzKoCjKKLmQZxX9Aq6Pmx8GeMSzQEPcPXSk4kq0uC1g>
+Feedback-ID: ib94946c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 5 Sep 2022 12:25:57 -0400 (EDT)
+From: Pavel Zhukov <pavel@zhukoff.net>
+To: openembedded-core@lists.openembedded.org
+Cc: Pavel Zhukov <pavel@zhukoff.net>,
+	Pavel Zhukov <pavel.zhukov@huawei.com>
+Subject: [PATCH v3] core-image.bbclass: Exclude openssh complementary packages
+Date: Mon,  5 Sep 2022 18:24:48 +0200
+Message-Id: <20220905162447.22061-1-pavel@zhukoff.net>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Sep 2022 16:15:44 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Sep 2022 16:26:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170319
+ https://lists.openembedded.org/g/openembedded-core/message/170320
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Peter Bergin
-> Sent: den 5 september 2022 16:23
-> To: openembedded-core@lists.openembedded.org
-> Cc: Peter Bergin <peter@berginkonsult.se>
-> Subject: [OE-core] [PATCH] rootfs-postcommands.bbclass: avoid moving ssh =
-host keys if etc is writable
->=20
-> When using IMAGE_FEATURE read-only-rootfs ssh host keys are moved to vola=
-tile
-> storage. If the feature overlayfs-etc is used in addition to read-only-ro=
-otfs
-> /etc is writable and the move is not wanted. But in the case also the IMA=
-GE_FEATURE
-> stateless-roots is used the keys will be moved as storage of keys should =
-not
+Openssh (main) package may be marked for installation via complementary
+packages mechanism if sftp-server is installed
+and this causes conflict with dropbear [Yocto #14858] [1].
+Excluding openssh complementary packages if packagegroup-core-ssh-dropbear
+is in PACKAGE_INSTALL fixes this issue.
+To install openssh complementary packages in the images with
+ssh-server-dropbear they may be added manually into the list because
+they will be excluded from the installation even if corresonding class
+(dev-pkg or dbg-pkgs) inherited.
 
-Correct "stateless-roots" to "stateless-rootfs".
+[1]
+Error:
+ Problem: problem with installed package dropbear-2020.81-r0.core2_64
+  - package dropbear-2020.81-r0.core2_64 conflicts with openssh provided by openssh-8.9p1-r0.core2_64
+  - package openssh-8.9p1-r0.core2_64 conflicts with dropbear provided by dropbear-2020.81-r0.core2_64
+  - package openssh-ptest-8.9p1-r0.core2_64 requires openssh, but none of the providers can be installed
+  - conflicting requests
+(try to add '--allowerasing' to command line to replace conflicting packages or '--skip-broken' to skip uninstallable packages)
 
-> be wanted in a stateless-rootfs.
->=20
-> This change only takes effect in the case IMAGE_FEATURE contains read-onl=
-y-rootfs.
-> In adddition the following cases are handled:
->=20
->   IMAGE_FEATURES =3D "read-only-rootfs" --> ssh keys/config handled as ro=
- root
->   IMAGE_FEATURES =3D "read-only-rootfs overlayfs-etc" --> ssh keys/config=
- handled as rw root
->   IMAGE_FEATURES =3D "read-only-rootfs stateless-rootfs" --> ssh keys/con=
-fig handled as ro root
->   IMAGE_FEATURES =3D "read-only-rootfs overlayfs-etc stateless-rootfs" --=
-> ssh keys/config handled as ro root
->=20
-> Signed-off-by: Peter Bergin <peter@berginkonsult.se>
-> ---
->  .../rootfs-postcommands.bbclass               | 32 +++++++++++--------
->  1 file changed, 18 insertions(+), 14 deletions(-)
->=20
-> diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass b/meta/class=
-es-recipe/rootfs-postcommands.bbclass
-> index 215e38e33d..367fe07c09 100644
-> --- a/meta/classes-recipe/rootfs-postcommands.bbclass
-> +++ b/meta/classes-recipe/rootfs-postcommands.bbclass
-> @@ -22,7 +22,7 @@ ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains_a=
-ny("IMAGE_FEATURES", [ 'deb
->  # Create /etc/timestamp during image construction to give a reasonably s=
-ane default time setting
->  ROOTFS_POSTPROCESS_COMMAND +=3D "rootfs_update_timestamp; "
->=20
-> -# Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs i=
-s enabled
-> +# Tweak files in /etc if read-only-rootfs is enabled
->  ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("IMAGE_FEATURES", =
-"read-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
->=20
->  # We also need to do the same for the kernel boot parameters,
-> @@ -111,21 +111,25 @@ read_only_rootfs_hook () {
->  	# If we're using openssh and the /etc/ssh directory has no pre-generate=
-d keys,
->  	# we should configure openssh to use the configuration file /etc/ssh/ss=
-hd_config_readonly
->  	# and the keys under /var/run/ssh.
-> -	if [ -d ${IMAGE_ROOTFS}/etc/ssh ]; then
-> -		if [ -e ${IMAGE_ROOTFS}/etc/ssh/ssh_host_rsa_key ]; then
-> -			echo "SYSCONFDIR=3D\${SYSCONFDIR:-/etc/ssh}" >> ${IMAGE_ROOTFS}/etc/d=
-efault/ssh
-> -			echo "SSHD_OPTS=3D" >> ${IMAGE_ROOTFS}/etc/default/ssh
-> -		else
-> -			echo "SYSCONFDIR=3D\${SYSCONFDIR:-/var/run/ssh}" >> ${IMAGE_ROOTFS}/e=
-tc/default/ssh
-> -			echo "SSHD_OPTS=3D'-f /etc/ssh/sshd_config_readonly'" >> ${IMAGE_ROOT=
-FS}/etc/default/ssh
-> +	# If overlayfs-etc is used this is not done as /etc is treated as writa=
-ble
-> +	# If stateless-rootfs is enabled this is always done as we don't want t=
-o save keys then
-> +	if ${@ 'false;' if bb.utils.contains('IMAGE_FEATURES', 'overlayfs-etc',=
- True, False, d) and not bb.utils.contains('IMAGE_FEATURES', 'stateless-roo=
-tfs', True, False, d) else 'true;'} then
+Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
+Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
+---
+ meta/classes-recipe/core-image.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-It is easier to understand the combined if statement if the=20
-conditions of the inner if statements are true when the=20
-conditions of the outer if statement shall be true. Also,=20
-the ";" belongs outside the ${@...}:
-
-	if ${@ 'true' if not bb.utils.contains('IMAGE_FEATURES', 'overlayfs-etc', =
-True, False, d) or bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', =
-True, False, d) else 'false'}; then
-
-> +	    if [ -d ${IMAGE_ROOTFS}/etc/ssh ]; then
-
-Correct the indentation here and below. Indentation of shell=20
-code in OE Core is done using tabs.
-
-> +		    if [ -e ${IMAGE_ROOTFS}/etc/ssh/ssh_host_rsa_key ]; then
-> +			    echo "SYSCONFDIR=3D\${SYSCONFDIR:-/etc/ssh}" >> ${IMAGE_ROOTFS}/e=
-tc/default/ssh
-> +			    echo "SSHD_OPTS=3D" >> ${IMAGE_ROOTFS}/etc/default/ssh
-> +		    else
-> +			    echo "SYSCONFDIR=3D\${SYSCONFDIR:-/var/run/ssh}" >> ${IMAGE_ROOTF=
-S}/etc/default/ssh
-> +			    echo "SSHD_OPTS=3D'-f /etc/ssh/sshd_config_readonly'" >> ${IMAGE_=
-ROOTFS}/etc/default/ssh
-> +		    fi
->  		fi
-> -	fi
->=20
-> -	# Also tweak the key location for dropbear in the same way.
-> -	if [ -d ${IMAGE_ROOTFS}/etc/dropbear ]; then
-> -		if [ ! -e ${IMAGE_ROOTFS}/etc/dropbear/dropbear_rsa_host_key ]; then
-> -			echo "DROPBEAR_RSAKEY_DIR=3D/var/lib/dropbear" >> ${IMAGE_ROOTFS}/etc=
-/default/dropbear
-> -		fi
-> +	    # Also tweak the key location for dropbear in the same way.
-> +	    if [ -d ${IMAGE_ROOTFS}/etc/dropbear ]; then
-> +		    if [ ! -e ${IMAGE_ROOTFS}/etc/dropbear/dropbear_rsa_host_key ]; th=
-en
-> +			    echo "DROPBEAR_RSAKEY_DIR=3D/var/lib/dropbear" >> ${IMAGE_ROOTFS}=
-/etc/default/dropbear
-> +		    fi
-> +	    fi
->  	fi
->=20
->  	if ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "true", "false",=
- d)}; then
-> --
-> 2.34.1
-
-//Peter
+diff --git a/meta/classes-recipe/core-image.bbclass b/meta/classes-recipe/core-image.bbclass
+index 4b5f2c99c4..90d9eb9d3f 100644
+--- a/meta/classes-recipe/core-image.bbclass
++++ b/meta/classes-recipe/core-image.bbclass
+@@ -62,6 +62,10 @@ FEATURE_PACKAGES_hwcodecs = "${MACHINE_HWCODECS}"
+ # IMAGE_FEATURES_REPLACES_foo = 'bar1 bar2'
+ # Including image feature foo would replace the image features bar1 and bar2
+ IMAGE_FEATURES_REPLACES_ssh-server-openssh = "ssh-server-dropbear"
++# Do not install openssh complementary packages if either packagegroup-core-ssh-dropbear or dropbear
++# is installed # to avoid openssh-dropbear conflict
++# see [Yocto #14858] for more information
++PACKAGE_EXCLUDE_COMPLEMENTARY:append = "${@bb.utils.contains_any('PACKAGE_INSTALL', 'packagegroup-core-ssh-dropbear dropbear', 'openssh', '' , d)}"
+ 
+ # IMAGE_FEATURES_CONFLICTS_foo = 'bar1 bar2'
+ # An error exception would be raised if both image features foo and bar1(or bar2) are included
+-- 
+2.37.3
 
 
