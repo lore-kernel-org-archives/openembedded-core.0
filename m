@@ -2,40 +2,40 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 259EAECAAA1
-	for <webhook@archiver.kernel.org>; Mon,  5 Sep 2022 23:39:06 +0000 (UTC)
-Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
- by mx.groups.io with SMTP id smtpd.web08.31196.1662421142756650478
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1809EECAAD3
+	for <webhook@archiver.kernel.org>; Mon,  5 Sep 2022 23:45:06 +0000 (UTC)
+Received: from mailout02.t-online.de (mailout02.t-online.de [194.25.134.17])
+ by mx.groups.io with SMTP id smtpd.web11.31385.1662421499491755162
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Sep 2022 16:39:03 -0700
+ Mon, 05 Sep 2022 16:45:00 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.85,
+ spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.17,
  mailfrom: f_l_k@t-online.de)
-Received: from fwd70.dcpf.telekom.de (fwd70.aul.t-online.de [10.223.144.96])
-	by mailout11.t-online.de (Postfix) with SMTP id 1704E502C
+Received: from fwd75.dcpf.telekom.de (fwd75.aul.t-online.de [10.223.144.101])
+	by mailout02.t-online.de (Postfix) with SMTP id 72CE6246D
 	for <openembedded-core@lists.openembedded.org>;
- Tue,  6 Sep 2022 01:39:01 +0200 (CEST)
-Received: from flk-MS-7C91.fritz.box ([84.163.37.201]) by fwd70.t-online.de
+ Tue,  6 Sep 2022 01:44:57 +0200 (CEST)
+Received: from flk-MS-7C91.fritz.box ([84.163.37.201]) by fwd75.t-online.de
 	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1oVLg0-3MA1Q10; Tue, 6 Sep 2022 01:38:48 +0200
+	esmtp id 1oVLlq-2d3S1x0; Tue, 6 Sep 2022 01:44:50 +0200
 From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Markus Volk <f_l_k@t-online.de>
-Subject: [oe-core][PATCHv2] libsdl2: upgrade 2.0.22 -> 2.24.0
-Date: Tue,  6 Sep 2022 01:38:41 +0200
-Message-Id: <20220905233841.5953-1-f_l_k@t-online.de>
+Subject: [oe-core][PATCHv3] libsdl2: upgrade 2.0.22 -> 2.24.0
+Date: Tue,  6 Sep 2022 01:44:36 +0200
+Message-Id: <20220905234436.6074-1-f_l_k@t-online.de>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1662421128-0144B853-E27CEC50/0/0 CLEAN NORMAL
-X-TOI-MSGID: 68a37145-b453-4f24-a258-7dc655dd8f83
+X-TOI-EXPURGATEID: 150726::1662421490-01453B16-B3A4022A/0/0 CLEAN NORMAL
+X-TOI-MSGID: f4279944-efb4-4d2f-a3f6-0d839ae566be
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Sep 2022 23:39:06 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Sep 2022 23:45:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170330
+ https://lists.openembedded.org/g/openembedded-core/message/170331
 
 In addition to lots of bug fixes, here are the major changes in this rele=
 ase:
@@ -160,11 +160,63 @@ h is the safer option on modern macOS.
 
 Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- .../libsdl2/{libsdl2_2.0.22.bb =3D> libsdl2_2.24.0.bb}         | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ ...ability-to-disable-fb-accel-via-hint.patch | 36 -------------------
+ .../{libsdl2_2.0.22.bb =3D> libsdl2_2.24.0.bb}  |  5 +--
+ 2 files changed, 1 insertion(+), 40 deletions(-)
+ delete mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-video-rest=
+ore-ability-to-disable-fb-accel-via-hint.patch
  rename meta/recipes-graphics/libsdl2/{libsdl2_2.0.22.bb =3D> libsdl2_2.2=
 4.0.bb} (93%)
 
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-video-restore-abi=
+lity-to-disable-fb-accel-via-hint.patch b/meta/recipes-graphics/libsdl2/l=
+ibsdl2/0001-video-restore-ability-to-disable-fb-accel-via-hint.patch
+deleted file mode 100644
+index fc74d30556..0000000000
+--- a/meta/recipes-graphics/libsdl2/libsdl2/0001-video-restore-ability-to=
+-disable-fb-accel-via-hint.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From 14ad91658fd296e34bb9e833281e72c871bfb189 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Tue, 3 May 2022 12:31:50 +0200
+-Subject: [PATCH] video: restore ability to disable fb accel via hint
+-
+-Somewhere in code refactoring between .20 and .22 this check
+-was lost, and so the hint had no effect anymore.
+-
+-Upstream-Status: Submitted [https://github.com/libsdl-org/SDL/pull/5611]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- src/video/SDL_video.c | 8 ++++++++
+- 1 file changed, 8 insertions(+)
+-
+-diff --git a/src/video/SDL_video.c b/src/video/SDL_video.c
+-index 93c803e..cbe7616 100644
+---- a/src/video/SDL_video.c
+-+++ b/src/video/SDL_video.c
+-@@ -2503,6 +2503,14 @@ SDL_CreateWindowFramebuffer(SDL_Window * window)
+-     if (!_this->checked_texture_framebuffer) {
+-         SDL_bool attempt_texture_framebuffer =3D SDL_TRUE;
+-=20
+-+        /* See if the user or application wants to specifically disable=
+ the framebuffer */
+-+        const char *hint =3D SDL_GetHint(SDL_HINT_FRAMEBUFFER_ACCELERAT=
+ION);
+-+        if (hint) {
+-+            if (*hint =3D=3D '0' || SDL_strcasecmp(hint, "false") =3D=3D=
+ 0) {
+-+                attempt_texture_framebuffer =3D SDL_FALSE;
+-+            }
+-+        }
+-+
+-         if (_this->is_dummy) {  /* dummy driver never has GPU support, =
+of course. */
+-             attempt_texture_framebuffer =3D SDL_FALSE;
+-         }
+---=20
+-2.30.2
+-
 diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb b/meta/recip=
 es-graphics/libsdl2/libsdl2_2.24.0.bb
 similarity index 93%
