@@ -1,118 +1,162 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <niko.mauno@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFBC8ECAAD5
-	for <webhook@archiver.kernel.org>; Mon,  5 Sep 2022 11:54:02 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web09.23691.1662378840021655085
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 019A5C54EE9
+	for <webhook@archiver.kernel.org>; Mon,  5 Sep 2022 12:26:43 +0000 (UTC)
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+ (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.51])
+ by mx.groups.io with SMTP id smtpd.web09.23942.1662380797452048291
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Sep 2022 04:54:00 -0700
+ Mon, 05 Sep 2022 05:26:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=I/xM235Q;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id t7so5997944wrm.10
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Sep 2022 04:53:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date;
-        bh=TPvJQtZtrvbjA6U+NxE/Xkj7AdZH4Cs6l+1eJUln+3g=;
-        b=I/xM235QnyIDUJ82Lu6sdzoXpgktDTev6SRmN3lDSTXn4XMgXlvCrLL7b4hY52mvXp
-         /SDac0Dvcr9/KFLSYVj3P/282+eg/f7oYYlCINLNuEISZ4+BCWlJBlRusy2nfB7BUEfd
-         YCvLzE3mrimqKENiJ0ba5nPWi2NP9Ncaevqo4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date;
-        bh=TPvJQtZtrvbjA6U+NxE/Xkj7AdZH4Cs6l+1eJUln+3g=;
-        b=KaOpeHrM15frVCwNFFteV7pMJ6vkpnp1A6ZW4VIWeXB5YMKHwJF1Hv1VLnrAXc3y1Q
-         mn9dKn1eVs8cEIUOPWdwzZ7ZSkdKVXhvqLirEqO71riT1w7wvLnweiYfmLoVTNdPQyKc
-         geCfmyW69s1D/syXWE1Ggg+e6oYeaX6joec5ned86HEqCYx3dgj6yNr4KCsXtJSFpb2m
-         7toA4KJL9mbYkUVAm2fT/tXZcm1iocX8QNLPG/U0227R6OnmI7KLDPYt3beMI8qNcZVh
-         AXqc1nkxe2qvCiiwihp7BumH5sVKkqHLHBaZV2JhW3tZC57Q3o0YnXDOYP5Kcq3GR8nM
-         MRow==
-X-Gm-Message-State: ACgBeo0O5uTGOJFLMsuEkW3ektk7y07uYR/3XoGBNBqHleih1Z0AJ25a
-	QsBEGTL0s1wjsjevZV37ybxOxw==
-X-Google-Smtp-Source: 
- AA6agR4F8DBkgVnk9gukN+AZnYAnes2PvSFycys+u2NXZj6l5EUibr7eqXo/Z7shs8q+KzFIUpZlyw==
-X-Received: by 2002:a5d:6202:0:b0:226:d797:6e29 with SMTP id
- y2-20020a5d6202000000b00226d7976e29mr22270601wru.696.1662378838272;
-        Mon, 05 Sep 2022 04:53:58 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:9134:78de:7ad:e0e5?
- ([2001:8b0:aba:5f3c:9134:78de:7ad:e0e5])
-        by smtp.gmail.com with ESMTPSA id
- x5-20020a5d6505000000b00228634628f1sm5004514wru.110.2022.09.05.04.53.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Sep 2022 04:53:57 -0700 (PDT)
-Message-ID: 
- <c8062dc0c019bd8d09ef417d26cd7e83630baae4.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] rust-cross-canadian: Fix for the linker
- issues caused by using the shell
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>,
-	openembedded-core@lists.openembedded.org, Randy MacLeod
-	 <randy.macleod@windriver.com>
-Date: Mon, 05 Sep 2022 12:53:56 +0100
-In-Reply-To: <8827.1662361955840912678@lists.openembedded.org>
-References: 
-	<a4f110ea41a9653e8fe894fabc7bf5a180bca30f.camel@linuxfoundation.org>
-	 <8827.1662361955840912678@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="body hash did not verify" header.i=@vaisala.com
+ header.s=selector1 header.b=YsJqffPH;
+ spf=pass (domain: vaisala.com, ip: 40.107.15.51,
+ mailfrom: niko.mauno@vaisala.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FtHHwdlfdjhHpytoRaw3sxvjFQMS5ljJq2DlD5DfxchdRoGNUle3fKoPfGC1gUiftBUpIdZWISpMg5Y2NWwxZQaDCWuRrgitDR52ZsIQl9JX8yw5YpisExrkDbBQ308ag6n05rKhMOG2gt2i+5txWpy7WQL5xzfq+YaEPbBw/hXI4+93lKyzxkn/mJrURJ6NFTJUyia2wNkQlGNDtfS9K2/AErfy/PHNYz1I9Ujnl+7AM2iZdhXLSbZ7OCrx5sD0CMdZ6ULFlRkFljAJpedehcpb9CmbqEy42cBUspDZjoYiOTv62TrySrAl2wAgLmfXec99/wKcCHXypfw1OTyfkw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=R4EZa0jULNs4bP/RLpDjmq50aYv1p+IRGDXPW6MQDFY=;
+ b=OacmDAAGevKlSe8hMwQq6sLkn38UwsrrnbGsFTpBy6TfPvtLjWGWpR70gGa+HCflOjD7HR/rC4iuOMblN2oi6jvz5iZ9M8FSOxB4yD4S1ufb/QVw2K+Li0T+lQYoBr6z/zQLgokzD9Q1aKPv4TX0JdBA+6mkC27LL+uGK84HNcOJnLZ0a5l9SL5HTAxUI3GxuOEzQ6RWq2V94XlnhRZpEac4LM18W7SnPCC53fCaaK8a+MCHsFGqYFH8OGTszatxNpxgNm+aVZOSh59DsTpUAmdKMx8PYQYXYjIJAuRo2xI+bteTpoQ1s6etBYLhqBS6YErN+P+RM0wm+LMI5QBh+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
+ dkim=pass header.d=vaisala.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R4EZa0jULNs4bP/RLpDjmq50aYv1p+IRGDXPW6MQDFY=;
+ b=YsJqffPHfNJfdmZSl1NVdAvrvVmwHjN4pBGqritOQOMJQxXwT5VAl9cHToJRrmj+vKB+/1LIghBsKoY95sfOXqyZaULKz1eL7EubPl+o0u9iwMpjIFTC0PzAZdQr6KPR2WcmeZ97BoRk63AnQT7S9GCFtrE0Tr7KkUSF8xMKRk81zCdIhWXZRiKw/ABXWtGD0MhsQ+aDxoGtYUXCA1bLsSartrUyd+Ub0iYXR4/e+IZBrWJoxZjYqEUNbHP7tnpMYBvOMmVc2vxEJYlKjQz9ZVwxcXhrbyQukaP4qsCFkde/hrVs2JOQd2Ym8Zfk5DbsKkem9kmOsqmuZwkr+0LNPw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vaisala.com;
+Received: from PAXPR06MB8579.eurprd06.prod.outlook.com (2603:10a6:102:2b3::22)
+ by VI1PR0602MB2816.eurprd06.prod.outlook.com (2603:10a6:800:b9::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.14; Mon, 5 Sep
+ 2022 12:26:33 +0000
+Received: from PAXPR06MB8579.eurprd06.prod.outlook.com
+ ([fe80::4d86:9fbd:8bb1:3030]) by PAXPR06MB8579.eurprd06.prod.outlook.com
+ ([fe80::4d86:9fbd:8bb1:3030%3]) with mapi id 15.20.5588.010; Mon, 5 Sep 2022
+ 12:26:33 +0000
+From: Niko Mauno <niko.mauno@vaisala.com>
+To: openembedded-core@lists.openembedded.org
+CC: Niko Mauno <niko.mauno@vaisala.com>
+Subject: [PATCH] systemd: Fix unwritable /var/lock when no sysvinit handling
+Date: Mon,  5 Sep 2022 12:26:11 +0000
+Message-ID: <20220905122611.3957244-1-niko.mauno@vaisala.com>
+X-Mailer: git-send-email 2.35.1
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+Content-Type: text/plain
+X-ClientProxiedBy: GV3P280CA0109.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:8::12) To PAXPR06MB8579.eurprd06.prod.outlook.com
+ (2603:10a6:102:2b3::22)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7be3f84f-491e-4d1f-a86a-08da8f39de6f
+X-MS-TrafficTypeDiagnostic: VI1PR0602MB2816:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	oKscPBv4CHJLz0kyTNWj1W8ifh1OCZc+8dPfEQCkZVeIyOQ4VMzhjLOsGpy36e7AMhZgtFmG2WIRR861LbaLYupWVd1SWkWbd1dfF4V86CHcte4euulR2oWCR6ldWzJ/gjash01qgRj4TuVVZ1dunj+nry4E0ywgBh3W+vVoFAgkz8m9o4yIMJHZRlwCHybdMP19ztPBcajL99FOYoHbUxfPG3fP61wwz1arpap3w6N2G9rm8y6Pw0Vm+YJRRuxI3oUYR8oMUemW+4G0EgUSuw/+RqRM6SW1VljiLrfRyDmx1a6VfkJ7LsgUPNRf/ARvp12dvbDs6FBDFYQcG9PV7N7qwtE1aEICwgXrNFnQ4POvFFW4GhA7Y2jAYCaThzx1HQPgVV/RqaubRv+79QUolZJ678Cw9GxVW+ViEbyIVjKAwb3jGKA4DVtbDsbBJ4rDymg2urgDrzqZuCVPHabaQ2L3Zs5gGUm4cXOSDtUWl9HbJma5d/INgOzw0zLE7v4YhK3oGAsju56YGCTzld52jb7cJkoJqK1mV2cyCgPJLSSqeBjOsgLcut+DnnK1D/CAw+P4GGE8QN28agbzBe/j7Og35ZAxGE8raEcsVKaEbXzr5ZXPgjNPxzQnX/QaTGQrZAstHvIuPB33+NwJ18xYmiOV34/t+vzWPcW9rOcsbVybo+rCvydcM3pKEzx7FI0Pf1CAe4v1kp7X+SdLVZQ6x29cMWgaslePqxwCJwXQj8gHC3v9fcqYxOCdW4aKQdWX+E5XqQY5xfBRSyeoRxUIh6loJxpVjg7+oWppGzQEbk0=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR06MB8579.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(366004)(136003)(396003)(376002)(39850400004)(6666004)(26005)(2616005)(5660300002)(6512007)(1076003)(186003)(44832011)(52116002)(8936002)(86362001)(36756003)(966005)(41300700001)(6486002)(478600001)(6506007)(107886003)(83380400001)(4326008)(38100700002)(6916009)(2906002)(66556008)(316002)(8676002)(66476007)(38350700002)(66946007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?nx5AaDQraQ7ZtFlLGHNt//qNbUh4dl8tJTTl7KS4ao4X6x7TQnpeYndrMzp0?=
+ =?us-ascii?Q?YZUEq58SWlhJoZx0E2UngKjE0+zTKA5WCtVmzKmEAGuJ0IN3jsuqlKJaso5P?=
+ =?us-ascii?Q?ezYygEVgYoEF23v3MfH8IjPkoLsHCr7ox1jTU0iTP8NZAGyBjwudgf2cLdjw?=
+ =?us-ascii?Q?iHBe3B9ZLKhtLqAc17yjrogESdrLsutx7tGBC2lol+pDhk9/A7Zj86Rxqo9V?=
+ =?us-ascii?Q?Nixs9k73CrPwlJevwUyeNbCv3uUibBR8p8B6srg2hoE1kwA7oBJGu2Qs6Ign?=
+ =?us-ascii?Q?Nc0lqG24709AK03UIhuh5k33pBdkQjUP5pft/FgmoXcJyvNemvDZzk233qGP?=
+ =?us-ascii?Q?A6Zscf2JOiIS8+vkHLr/crED6mUZlBaM8iY9qGQU8S5mmHO9x9mvL3gA4jaE?=
+ =?us-ascii?Q?oFO+D/eBojLXXcUQqpuXzr8OA92oH2DY1mD/jLZsD4jXtykU+0sFVmqzSJev?=
+ =?us-ascii?Q?M4zateMHj5pYy4wrFawsjlN3RT2QOs3IrOM5LY6Fu2+7rZqsYs5kfTjV1dK+?=
+ =?us-ascii?Q?4CMSiKjxTd45xZKmcmuFeHQ8d//Xp6I6sGJWSN93oVLEAWpIPN3NinMCq+Ia?=
+ =?us-ascii?Q?g5q7OcEyjbqGXqcL1uHmqkpnZXQZ6qDaB/pAScYLvDwb/AbWO0WUryp625ef?=
+ =?us-ascii?Q?5BHh/24WkhKiuGoplUV5sOS20fsANZHBsgtjYHajXIzjBbyFSyoHm1GoWfmS?=
+ =?us-ascii?Q?ruAotaFrahD+hQDsXFv1o4SxI3z+7g5adYbx2LpQN/9RXgAbny7XvCgFdisV?=
+ =?us-ascii?Q?ozdyjD8cxM04NmsB0Fvdp7g2UqGrw6p8Umy2Bv+8QFrZQ5sFiFxT5VlFFltK?=
+ =?us-ascii?Q?65byvIAKldc9i3P2lQT5FKsd9X0wqU0fYAr2MqyJ8UDli7D/nFeHQnyZZPud?=
+ =?us-ascii?Q?nbhBwUGPggI1SYdqs0DLpPw62DGQL+XO3KQVW9CSWjEchjdQrnqlnPME2g6U?=
+ =?us-ascii?Q?n49iivn00zrVenVwE78nKoz/BcCn/HHp5u3Ddni4cTYQgZt00TdvzMNn/zoX?=
+ =?us-ascii?Q?PzeQLKg1aAL9+MeDYo5ps9zVk/rwX737xJRfJRaGqTlyJafa4GdyEa4h5RSw?=
+ =?us-ascii?Q?Xv21/i4qUHf9riiDnhB26DtuYPZCjaHKw31MgWzbAEzrdCuNBUXhaGohm71h?=
+ =?us-ascii?Q?3q+KBQt3l52QpY0GhDlfaAXqHdyLhkwcAJEWzmXFIZ7RkC7li6Npm+y/I5nm?=
+ =?us-ascii?Q?Unxi2aexOMdGORYBC0ETq6E4R8urlz84rVX9DgK/IwL8KuedoceMLseDXQq3?=
+ =?us-ascii?Q?5CfQ/LyXrGeKUmQKiq9kvm5Fs1p3fqBpLczSIXVIS7NXt+WgIP4+7Mmdt1Qg?=
+ =?us-ascii?Q?Km6DCaoWGLHSYeRc8LJCC9k+t11LjJ+ScLAIt0PkBcG22F+905SilXwN+NMl?=
+ =?us-ascii?Q?j7Mgyli4F2z683GsQ17kEq4SzzkIaRsDRMsk8Xs7lSTQucaMgcHQgzR2aPBt?=
+ =?us-ascii?Q?AhZmX9To4rt8FEO15e7pd+irXbHDAS36uCqTeN/QFCLPfrp8NQdkgqaj3R00?=
+ =?us-ascii?Q?9EjzYliw+Gi8okPLvdNF6eHuo7y8bQ/zqgL7sDTdT954lAbRDD9FVq2Maxwy?=
+ =?us-ascii?Q?wV7MW21WUAj+1UMebr76mQ971Slc6DuI65PWjNlNcTWTDFoTH328GjdpmYab?=
+ =?us-ascii?Q?zw=3D=3D?=
+X-OriginatorOrg: vaisala.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 7be3f84f-491e-4d1f-a86a-08da8f39de6f
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR06MB8579.eurprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2022 12:26:33.6301
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ XSsi/TUFSvpSXXJYS/kq0xC4JS4K/nO6wxXWOifzt9PA+p3dRvNhCd5nzUf7+3Z3QT8Q1y1MGCptLqCeO13+7g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0602MB2816
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Sep 2022 11:54:02 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Sep 2022 12:26:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170312
+ https://lists.openembedded.org/g/openembedded-core/message/170313
 
-On Mon, 2022-09-05 at 00:12 -0700, Sundeep KOKKONDA wrote:
-> Using CC args causing linker error "unknown executable format" so I
-> called linker directly.
-> Also, I wrote my initial code without any hardcoded symbols and that
-> test code works in my local machine but when the same code executed
-> in Yocto build environment SIGSEGV faults are reported. And to debug
-> the issue in Yocto build environment the printf/echo outputs are not
-> shown in console/log file. So, I modified my code to check whether
-> this solution works in AB machine or not.
->=20
-> Can you let me know what is the error in AB machine
-> with=C2=A0unsetenv("LD_LIBRARY_PATH"); ? Is it the same relocation error?
+Commit 8089cefed8e83c0348037768c292058f1bcbbbe5 ("systemd: Add
+PACKAGECONFIG for sysvinit") decoupled enabling of systemd's sysvinit
+handling behavior behind a distinct PACKAGECONFIG feature.
 
-The issues would be due to the issues I mentioned in reply to your
-patch on the mailing list. The fixed length string and number of
-arguments issues.
+This new option affects among other things the installing of
+tmpfiles.d/legacy.conf, which is responsible for creating /run/lock
+directory, which is pointed to by /var/lock symlink provided by
+base-files package.
 
-In the interests of moving forward, I put the binary shim in front of
-the shell script which can make the environment manipulations more
-easily.
+In case the option is not enabled, then base-files provided /var/lock
+is a dangling symlink on resulting rootfs, causing problems with
+certain Linux userspace components that rely on existence of writable
+/var/lock directory. As an example:
 
-https://git.yoctoproject.org/poky/commit/?h=3Dmaster-next&id=3D7a1bfb2f800c=
-00d3d2bea9e20e5d31d32f247129
+  # fw_printenv
+  Error opening lock file /var/lock/fw_printenv.lock
 
-The version of the code above seems to work, I ran some tests
-specifically on ubuntu1804.
+Since Filesystem Hierarchy Standard Version 3.0 states in
+https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch05s09.html that
 
-I added in some comments so we know in future why the code is doing
-this.
+  Lock files should be stored within the /var/lock directory structure.
 
-I wondered if we could make that script MIT license rather than GPL-2.0
-just to try and keep our licensing fractionally simpler?
+Ensure the /run/lock directory is always created, so that lock files
+can be stored under /var/lock also when 'sysvinit' handling is
+disabled.
 
-Cheers,
+Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
+---
+ meta/recipes-core/systemd/systemd/00-create-volatile.conf | 1 +
+ 1 file changed, 1 insertion(+)
 
-Richard
-
-
-
-
-
+diff --git a/meta/recipes-core/systemd/systemd/00-create-volatile.conf b/me=
+ta/recipes-core/systemd/systemd/00-create-volatile.conf
+index 87cbe1e7d3..c4277221a2 100644
+--- a/meta/recipes-core/systemd/systemd/00-create-volatile.conf
++++ b/meta/recipes-core/systemd/systemd/00-create-volatile.conf
+@@ -3,5 +3,6 @@
+ # inside /var/log.
+=20
+=20
++d		/run/lock		1777	-	-	-
+ d		/var/volatile/log		-	-	-	-
+ d		/var/volatile/tmp		1777	-	-
+--=20
+2.35.1
 
 
