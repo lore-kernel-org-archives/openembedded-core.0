@@ -1,152 +1,214 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5A41ECAAA1
-	for <webhook@archiver.kernel.org>; Mon,  5 Sep 2022 21:56:55 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.30452.1662415012734677830
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 069E3ECAAD3
+	for <webhook@archiver.kernel.org>; Mon,  5 Sep 2022 23:36:16 +0000 (UTC)
+Received: from mailout06.t-online.de (mailout06.t-online.de [194.25.134.19])
+ by mx.groups.io with SMTP id smtpd.web10.31393.1662420967173167364
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Sep 2022 14:56:53 -0700
+ Mon, 05 Sep 2022 16:36:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gX3+eRzF;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id k9so12896058wri.0
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Sep 2022 14:56:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date;
-        bh=a2vgOy1xAIywJavIT7q42w2CgVg9YurHzb88q/0fRSo=;
-        b=gX3+eRzF9pX5Ch778Y0niiys3ATE37PbphLc3+4Bc7nXNLxO2RfEKm0AohyOvOvIEl
-         ITT3H+dn447dFswl8EUIp93uYe77MDLgtBVty2Qow4eC2HDoItQSgFKpBqoxRHBQgPug
-         BrsjDpl1jZIIxign3dEGjQtY6S5jMqIKbbU/Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=a2vgOy1xAIywJavIT7q42w2CgVg9YurHzb88q/0fRSo=;
-        b=f7+VN+ErV8hShzBAL3I4amRgKryT9iS7a469qUzf9pi7Q4ZIbVYLhMgNAstsEg6DhH
-         Q/BN2wwiRCvVp31dBX9Z6GXjNTAjmh7Q1/cQWjF4YxBWL+9RLFnp5X2DI2R0SEkogKIt
-         PSEs9VTOcj5bGAiDO5ZGXXLJXGXO94OER2EeXIblxyXt8E/5XQq//qUjv8H+UQUPFNxm
-         3zKJ2TKjTOyrqvsmEJv4IG2i9KqhqSPxlCwPDhJfElrUnhc3HL8SXHMH4Nf7+ppufpzE
-         KGQCjguW1Rua81OAR2UVZzJ7lsfJonUnCsQtf7dtGEqO6+FleAzCjUmBEZff0efzepqY
-         Yr/A==
-X-Gm-Message-State: ACgBeo0MFQIo/+uaup/f+UNfqjpLSQGp9BmOwQvSsCeJWI8b2La6ql/A
-	oRlhovBaw/2mMHmPsJQllWjD5g==
-X-Google-Smtp-Source: 
- AA6agR5Ir6EumCKN8p/cV8J/sTYjX+LLLU2dRoXeyxNFWkwO3+WzqckKcT4NPD6reERwtaoDetuORQ==
-X-Received: by 2002:a05:6000:114b:b0:228:ab76:fa00 with SMTP id
- d11-20020a056000114b00b00228ab76fa00mr2735383wrx.628.1662415010802;
-        Mon, 05 Sep 2022 14:56:50 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:334b:5f43:ccfd:79ec?
- ([2001:8b0:aba:5f3c:334b:5f43:ccfd:79ec])
-        by smtp.gmail.com with ESMTPSA id
- bd7-20020a05600c1f0700b003a331c6bffdsm11995268wmb.47.2022.09.05.14.56.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Sep 2022 14:56:50 -0700 (PDT)
-Message-ID: 
- <6e4acb0b302d1d841c765283b12a3b1976d06a51.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v10] Rust Oe-Selftest implementation
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: pgowda cve <pgowda.cve@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com,
-	vinay.m.engg@gmail.com
-Date: Mon, 05 Sep 2022 22:56:49 +0100
-In-Reply-To: 
- <CALY4986Pc-HmuguPuoe=CKXqX8U=cN4VroAaEwSSuUXDsOOLUA@mail.gmail.com>
-References: <20220904063331.82988-1-naveen.gowda@windriver.com>
-	 <071f8e1caf21c6ba8b043f416e07629969e7f213.camel@linuxfoundation.org>
-	 <CALY4986Pc-HmuguPuoe=CKXqX8U=cN4VroAaEwSSuUXDsOOLUA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ dkim=missing;
+ spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.19,
+ mailfrom: f_l_k@t-online.de)
+Received: from fwd87.dcpf.telekom.de (fwd87.aul.t-online.de [10.223.144.113])
+	by mailout06.t-online.de (Postfix) with SMTP id 0B61F204E
+	for <openembedded-core@lists.openembedded.org>;
+ Tue,  6 Sep 2022 01:35:51 +0200 (CEST)
+Received: from flk-MS-7C91.fritz.box ([84.163.37.201]) by fwd87.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1oVLd7-3zISyf0; Tue, 6 Sep 2022 01:35:49 +0200
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Markus Volk <f_l_k@t-online.de>
+Subject: [oe-core][PATCH] libsdl2: upgrade 2.0.22 -> 2.24.0
+Date: Tue,  6 Sep 2022 01:35:37 +0200
+Message-Id: <20220905233537.5834-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+X-TOI-EXPURGATEID: 150726::1662420949-0144746C-50A7B16E/0/0 CLEAN NORMAL
+X-TOI-MSGID: c3e851b9-a2c1-4cdf-95df-ba7bffff5ade
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Sep 2022 21:56:55 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Sep 2022 23:36:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170328
+ https://lists.openembedded.org/g/openembedded-core/message/170329
 
-On Mon, 2022-09-05 at 20:25 +0530, pgowda cve wrote:
-> Hi Richard,
->=20
-> Thanks very much for reviewing the patch and your comments regarding it.
->=20
-> > > thread 'main' panicked at 'RUSTDOC_LIBDIR was not set',
-> > > src/bootstrap/bin/rustdoc.rs:15:48
-> > > note: run with `RUST_BACKTRACE=3D1` environment variable to display a
-> > > backtrace
-> > > error: could not document `core`
->=20
-> I tried on different environments but could not reproduce the error.
-> Can you please share with me the oe-selftest.log file to reproduce and
-> work on it?
+In addition to lots of bug fixes, here are the major changes in this rele=
+ase:
 
-This was on my local build system which shouldn't do anything special
-or interesting, it is a fairly standard OE-Core setup and I doubt the
-selftest will tell you anything more that the piece of it I pasted into
-the email.
+General:
 
-Which MACHINE are you testing using?
+New version numbering scheme, similar to GLib and Flatpak.
+An even number in the minor version (second component) indicates a produc=
+tion-ready stable release such as 2.24.0, which would have been 2.0.24 un=
+der the old system.
+The patchlevel (micro version, third component) indicates a bugfix-only u=
+pdate: for example, 2.24.1 would be a bugfix-only release to fix bugs in =
+2.24.0, without adding new features.
+An odd number in the minor version indicates a prerelease such as 2.23.0.=
+ Stable distributions should not use these prereleases.
+The patchlevel indicates successive prereleases, for example 2.23.1 and 2=
+.23.2 would be prereleases during development of the SDL 2.24.0 stable re=
+lease.
+Added SDL_GetPointDisplayIndex() and SDL_GetRectDisplayIndex() to get the=
+ display associated with a point and rectangle in screen space
+Added SDL_bsearch(), SDL_crc16(), and SDL_utf8strnlen() to the stdlib rou=
+tines
+Added SDL_CPUPauseInstruction() as a macro in SDL_atomic.h
+Added SDL_size_mul_overflow() and SDL_size_add_overflow() for better size=
+ overflow protection
+Added SDL_ResetHint() to reset a hint to the default value
+Added SDL_ResetKeyboard() to reset SDL's internal keyboard state, generat=
+ing key up events for all currently pressed keys
+Added the hint SDL_HINT_MOUSE_RELATIVE_WARP_MOTION to control whether mou=
+se warping generates motion events in relative mode. This hint defaults o=
+ff.
+Added the hint SDL_HINT_TRACKPAD_IS_TOUCH_ONLY to control whether trackpa=
+ds are treated as touch devices or mice. By default touchpads are treated=
+ as mouse input.
+The hint SDL_HINT_JOYSTICK_HIDAPI_JOY_CONS now defaults on
+Added support for mini-gamepad mode for Nintendo Joy-Con controllers usin=
+g the HIDAPI driver
+Added the hint SDL_HINT_JOYSTICK_HIDAPI_COMBINE_JOY_CONS to control wheth=
+er Joy-Con controllers are automatically merged into a unified gamepad wh=
+en using the HIDAPI driver. This hint defaults on.
+The hint SDL_HINT_JOYSTICK_HIDAPI_SWITCH_HOME_LED can be set to a floatin=
+g point value to set the brightness of the Home LED on Nintendo Switch co=
+ntrollers
+Added the hint SDL_HINT_JOYSTICK_HIDAPI_JOYCON_HOME_LED to set the Home L=
+ED brightness for the Nintendo Joy-Con controllers. By default the Home L=
+ED is not modified.
+Added the hint SDL_HINT_JOYSTICK_HIDAPI_SWITCH_PLAYER_LED to control whet=
+her the player LED should be lit on the Nintendo Joy-Con controllers
+Added support for Nintendo Online classic controllers using the HIDAPI dr=
+iver
+Added the hint SDL_HINT_JOYSTICK_HIDAPI_NINTENDO_CLASSIC to control wheth=
+er the HIDAPI driver for Nintendo Online classic controllers should be us=
+ed
+Added support for the NVIDIA Shield Controller to the HIDAPI driver, supp=
+orting rumble and battery status
+Added support for NVIDIA SHIELD controller to the HIDAPI driver, and a hi=
+nt SDL_HINT_JOYSTICK_HIDAPI_SHIELD to control whether this is used
+Added functions to get the platform dependent name for a joystick or game=
+ controller:
+SDL_JoystickPathForIndex()
+SDL_JoystickPath()
+SDL_GameControllerPathForIndex()
+SDL_GameControllerPath()
+Added SDL_GameControllerGetFirmwareVersion() and SDL_JoystickGetFirmwareV=
+ersion(), currently implemented for DualSense(tm) Wireless Controllers us=
+ing HIDAPI
+Added SDL_JoystickAttachVirtualEx() for extended virtual controller suppo=
+rt
+Added joystick event SDL_JOYBATTERYUPDATED for when battery status change=
+s
+Added SDL_GUIDToString() and SDL_GUIDFromString() to convert between SDL =
+GUID and string
+Added SDL_HasLSX() and SDL_HasLASX() to detect LoongArch SIMD support
+Added SDL_GetOriginalMemoryFunctions()
+Added SDL_GetDefaultAudioInfo() to get the name and format of the default=
+ audio device, currently implemented for PipeWire, PulseAudio, WASAPI, an=
+d DirectSound
+Added HIDAPI driver for the NVIDIA SHIELD controller (2017 model) to enab=
+le support for battery status and rumble
+Added support for opening audio devices with 3 or 5 channels (2.1, 4.1). =
+All channel counts from Mono to 7.1 are now supported.
+Rewrote audio channel converters used by SDL_AudioCVT, based on the chann=
+el matrix coefficients used as the default for FAudio voices
+SDL log messages are no longer limited to 4K and can be any length
+Fixed a long-standing calling convention issue with dynapi affecting Open=
+Watcom or OS/2 builds
+Windows:
 
-> > > Something is mangling spaces in your patch. There shouldn't be tabs
-> Modified the complete file to remove TABS and use white spaces.
->=20
-> > > I think this can be merged with the RustSelfTestBase class as I don't
-> Merge with RustSelfTestBase.
->=20
-> > > If we want to change grammar, it should be in a separate patch.
-> Removed it from the patch
->=20
-> > > put that alongside the task definition.
-> Done.
+Added initial support for building for Windows and Xbox with Microsoft's =
+Game Development Kit (GDK), see docs/README-gdk.md for details
+Added a D3D12 renderer implementation and SDL_RenderGetD3D12Device() to r=
+etrieve the D3D12 device associated with it
+Added the hint SDL_HINT_WINDOWS_DPI_AWARENESS to set whether the applicat=
+ion is DPI-aware. This hint must be set before initializing the video sub=
+system
+Added the hint SDL_HINT_WINDOWS_DPI_SCALING to control whether the SDL co=
+ordinates are in DPI-scaled points or pixels
+Added the hint SDL_HINT_DIRECTINPUT_ENABLED to control whether the Direct=
+Input driver should be used
+Added support for SDL_GetAudioDeviceSpec to the DirectSound backend
+Linux:
 
-Thanks.
+Support for XVidMode has been removed, mode changes are only supported us=
+ing the XRandR extension
+Added the hint SDL_HINT_VIDEO_WAYLAND_MODE_EMULATION to control whether t=
+o expose a set of emulated modes in addition to the native resolution mod=
+es available on Wayland
+Added the hint SDL_HINT_KMSDRM_DEVICE_INDEX to specify which KMSDRM devic=
+e to use if the default is not desired
+Added the hint SDL_HINT_LINUX_DIGITAL_HATS to control whether to treat ha=
+ts as digital rather than checking to see if they may be analog
+Added the hint SDL_HINT_LINUX_HAT_DEADZONES to control whether to use dea=
+dzones on analog hats
+macOS:
 
-> All modifications are done as per the review comments.
-> However, I still see that the test PASSes and did not see the mentioned e=
-rror.
->=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> rust.RustSelfTestSystemEmulated.test_rust: PASSED (4812.37s)
-> 2022-09-05 13:43:50,332 - oe-selftest - INFO - SUMMARY:
-> 2022-09-05 13:43:50,332 - oe-selftest - INFO - oe-selftest () - Ran 1
-> test in 4875.349s
-> 2022-09-05 13:43:50,332 - oe-selftest - INFO - oe-selftest - OK - All
-> required tests passed (successes=3D1, skipped=3D0, failures=3D0, errors=
-=3D0)
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> I am using the following command to run the rust-testsuite:-
-> oe-selftest -r rust.RustSelfTestSystemEmulated.test_rust
-> Please let me know if I am missing anything to reproduce the error.
+Bumped minimum OS deployment version to macOS 10.9
+Added SDL_GL_FLOATBUFFERS to allow Cocoa GL contexts to use EDR
+Added the hint SDL_HINT_MAC_OPENGL_ASYNC_DISPATCH to control whether disp=
+atching OpenGL context updates should block the dispatching thread until =
+the main thread finishes processing. This hint defaults to blocking, whic=
+h is the safer option on modern macOS.
 
-That is what I'm using too. I did try an couple of small changes to
-rust to try and improve things and it did get slightly further but not
-much. It does mean my logs are probably going to confuse things more if
-I share them so I need to undo those before I can do that.
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ .../libsdl2/{libsdl2_2.0.22.bb =3D> libsdl2_2.24.0.bb}       | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+ rename meta/recipes-graphics/libsdl2/{libsdl2_2.0.22.bb =3D> libsdl2_2.2=
+4.0.bb} (92%)
 
-I don't know why we're seeing different results but it is a concern.
-
-Were you able to work out if there is anything we can do about the
-hardcoded buildpaths/reproducibility issue?
-
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb b/meta/recip=
+es-graphics/libsdl2/libsdl2_2.24.0.bb
+similarity index 92%
+rename from meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb
+rename to meta/recipes-graphics/libsdl2/libsdl2_2.24.0.bb
+index 8519e7f732..284c28f75c 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.24.0.bb
+@@ -22,15 +22,14 @@ LIC_FILES_CHKSUM:append =3D " ${@bb.utils.contains('P=
+ACKAGECONFIG', 'arm-neon', 'f
+ PROVIDES =3D "virtual/libsdl2"
+=20
+ SRC_URI =3D "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
+-           file://0001-video-restore-ability-to-disable-fb-accel-via-hin=
+t.patch \
+            "
+ SRC_URI:append:class-native =3D " file://0001-Disable-libunwind-in-nativ=
+e-OE-builds-by-not-looking.patch"
+=20
+ S =3D "${WORKDIR}/SDL2-${PV}"
+=20
+-SRC_URI[sha256sum] =3D "fe7cbf3127882e3fc7259a75a0cb585620272c51745d3852=
+ab9dd87960697f2e"
++SRC_URI[sha256sum] =3D "91e4c34b1768f92d399b078e171448c6af18cafda743987e=
+d2064a28954d6d97"
+=20
+-inherit cmake lib_package binconfig-disabled pkgconfig
++inherit cmake lib_package binconfig-disabled pkgconfig upstream-version-=
+is-even
+=20
+ BINCONFIG =3D "${bindir}/sdl2-config"
+=20
+@@ -43,9 +42,7 @@ EXTRA_OECMAKE =3D "-DSDL_OSS=3DOFF -DSDL_ESD=3DOFF -DSD=
+L_ARTS=3DOFF \
+                  -DSDL_PTHREADS=3DON \
+                  -DSDL_RPATH=3DOFF \
+                  -DSDL_SNDIO=3DOFF \
+-                 -DSDL_X11_XVM=3DOFF \
+                  -DSDL_X11_XCURSOR=3DOFF \
+-                 -DSDL_X11_XINERAMA=3DOFF \
+                  -DSDL_X11_XDBE=3DOFF \
+                  -DSDL_X11_XFIXES=3DOFF \
+                  -DSDL_X11_XINPUT=3DOFF \
+--=20
+2.34.1
 
 
