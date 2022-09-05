@@ -1,148 +1,152 @@
-Return-Path: <robert.joslyn@redrectangle.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2A06ECAAD3
-	for <webhook@archiver.kernel.org>; Mon,  5 Sep 2022 19:07:54 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web08.28432.1662404871652449911
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5A41ECAAA1
+	for <webhook@archiver.kernel.org>; Mon,  5 Sep 2022 21:56:55 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web11.30452.1662415012734677830
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Sep 2022 12:07:52 -0700
+ Mon, 05 Sep 2022 14:56:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@redrectangle.org header.s=gm1 header.b=Q/1QaiUp;
- spf=none, err=permanent DNS error (domain: redrectangle.org,
- ip: 217.70.183.196, mailfrom: robert.joslyn@redrectangle.org)
-Received: (Authenticated sender: robert.joslyn@redrectangle.org)
-	by mail.gandi.net (Postfix) with ESMTPSA id 7E991E0003;
-	Mon,  5 Sep 2022 19:07:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redrectangle.org;
-	s=gm1; t=1662404870;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=M88Gye8PCxA1ceEeIz0nKZM9NEl1w5G2JIwEx2HGflQ=;
-	b=Q/1QaiUpASuoAHlpRFTou8Le/yYuTx+POcUiUNjN5sbeRjSNb1YSAqFHTu4Yu/6RhGEbG9
-	KfkyYRNl5kLUp2ZPZigis4SOPpEhQRiliYGafsJ3C+Yg2VL/4cZKW1Rwn3IWsasVfsysVr
-	/jY8QDuQrS/Pkct7zA2qpi28ZQC5RZvs35omwlYtsCOVXIvzjvP3LnsZiOoW3hDKAsvPOT
-	tBKdYUKAHl6q95pd/gWanpzkFfuytiBmFYO13tDsSn70kUTHoF0iU0jQWCcsx0wHJoZJ2v
-	xWg1/WGylsd5VCwPBcGRjTlUEB0ygKMN2n6aZKSDvvh8ih7D51CHtx9+qLGCiw==
-From: Robert Joslyn <robert.joslyn@redrectangle.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Robert Joslyn <robert.joslyn@redrectangle.org>
-Subject: [dunfell][PATCH] curl: Backport patch for CVE-2022-35252
-Date: Mon,  5 Sep 2022 12:07:43 -0700
-Message-Id: <20220905190743.3007812-1-robert.joslyn@redrectangle.org>
-X-Mailer: git-send-email 2.35.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gX3+eRzF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id k9so12896058wri.0
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 05 Sep 2022 14:56:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date;
+        bh=a2vgOy1xAIywJavIT7q42w2CgVg9YurHzb88q/0fRSo=;
+        b=gX3+eRzF9pX5Ch778Y0niiys3ATE37PbphLc3+4Bc7nXNLxO2RfEKm0AohyOvOvIEl
+         ITT3H+dn447dFswl8EUIp93uYe77MDLgtBVty2Qow4eC2HDoItQSgFKpBqoxRHBQgPug
+         BrsjDpl1jZIIxign3dEGjQtY6S5jMqIKbbU/Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=a2vgOy1xAIywJavIT7q42w2CgVg9YurHzb88q/0fRSo=;
+        b=f7+VN+ErV8hShzBAL3I4amRgKryT9iS7a469qUzf9pi7Q4ZIbVYLhMgNAstsEg6DhH
+         Q/BN2wwiRCvVp31dBX9Z6GXjNTAjmh7Q1/cQWjF4YxBWL+9RLFnp5X2DI2R0SEkogKIt
+         PSEs9VTOcj5bGAiDO5ZGXXLJXGXO94OER2EeXIblxyXt8E/5XQq//qUjv8H+UQUPFNxm
+         3zKJ2TKjTOyrqvsmEJv4IG2i9KqhqSPxlCwPDhJfElrUnhc3HL8SXHMH4Nf7+ppufpzE
+         KGQCjguW1Rua81OAR2UVZzJ7lsfJonUnCsQtf7dtGEqO6+FleAzCjUmBEZff0efzepqY
+         Yr/A==
+X-Gm-Message-State: ACgBeo0MFQIo/+uaup/f+UNfqjpLSQGp9BmOwQvSsCeJWI8b2La6ql/A
+	oRlhovBaw/2mMHmPsJQllWjD5g==
+X-Google-Smtp-Source: 
+ AA6agR5Ir6EumCKN8p/cV8J/sTYjX+LLLU2dRoXeyxNFWkwO3+WzqckKcT4NPD6reERwtaoDetuORQ==
+X-Received: by 2002:a05:6000:114b:b0:228:ab76:fa00 with SMTP id
+ d11-20020a056000114b00b00228ab76fa00mr2735383wrx.628.1662415010802;
+        Mon, 05 Sep 2022 14:56:50 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:334b:5f43:ccfd:79ec?
+ ([2001:8b0:aba:5f3c:334b:5f43:ccfd:79ec])
+        by smtp.gmail.com with ESMTPSA id
+ bd7-20020a05600c1f0700b003a331c6bffdsm11995268wmb.47.2022.09.05.14.56.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Sep 2022 14:56:50 -0700 (PDT)
+Message-ID: 
+ <6e4acb0b302d1d841c765283b12a3b1976d06a51.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v10] Rust Oe-Selftest implementation
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: pgowda cve <pgowda.cve@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com,
+	vinay.m.engg@gmail.com
+Date: Mon, 05 Sep 2022 22:56:49 +0100
+In-Reply-To: 
+ <CALY4986Pc-HmuguPuoe=CKXqX8U=cN4VroAaEwSSuUXDsOOLUA@mail.gmail.com>
+References: <20220904063331.82988-1-naveen.gowda@windriver.com>
+	 <071f8e1caf21c6ba8b043f416e07629969e7f213.camel@linuxfoundation.org>
+	 <CALY4986Pc-HmuguPuoe=CKXqX8U=cN4VroAaEwSSuUXDsOOLUA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Sep 2022 19:07:54 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Sep 2022 21:56:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170327
+ https://lists.openembedded.org/g/openembedded-core/message/170328
 
-https://curl.se/docs/CVE-2022-35252.html
+On Mon, 2022-09-05 at 20:25 +0530, pgowda cve wrote:
+> Hi Richard,
+>=20
+> Thanks very much for reviewing the patch and your comments regarding it.
+>=20
+> > > thread 'main' panicked at 'RUSTDOC_LIBDIR was not set',
+> > > src/bootstrap/bin/rustdoc.rs:15:48
+> > > note: run with `RUST_BACKTRACE=3D1` environment variable to display a
+> > > backtrace
+> > > error: could not document `core`
+>=20
+> I tried on different environments but could not reproduce the error.
+> Can you please share with me the oe-selftest.log file to reproduce and
+> work on it?
 
-Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
----
- .../curl/curl/CVE-2022-35252.patch            | 72 +++++++++++++++++++
- meta/recipes-support/curl/curl_7.69.1.bb      |  1 +
- 2 files changed, 73 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-35252.patch
+This was on my local build system which shouldn't do anything special
+or interesting, it is a fairly standard OE-Core setup and I doubt the
+selftest will tell you anything more that the piece of it I pasted into
+the email.
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2022-35252.patch b/meta/recipes-support/curl/curl/CVE-2022-35252.patch
-new file mode 100644
-index 0000000000..a5160c01f4
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2022-35252.patch
-@@ -0,0 +1,72 @@
-+From c9212bdb21f0cc90a1a60dfdbb716deefe78fd40 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Mon, 29 Aug 2022 00:09:17 +0200
-+Subject: [PATCH] cookie: reject cookies with "control bytes"
-+
-+Rejects 0x01 - 0x1f (except 0x09) plus 0x7f
-+
-+Reported-by: Axel Chong
-+
-+Bug: https://curl.se/docs/CVE-2022-35252.html
-+
-+CVE-2022-35252
-+
-+Closes #9381
-+
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/8dfc93e573ca740544a2d79ebb]
-+
-+Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
-+---
-+ lib/cookie.c | 29 +++++++++++++++++++++++++++++
-+ 1 file changed, 29 insertions(+)
-+
-+diff --git a/lib/cookie.c b/lib/cookie.c
-+index a9ad20a..66c7715 100644
-+--- a/lib/cookie.c
-++++ b/lib/cookie.c
-+@@ -412,6 +412,30 @@ static bool bad_domain(const char *domain)
-+   return !strchr(domain, '.') && !strcasecompare(domain, "localhost");
-+ }
-+ 
-++/*
-++  RFC 6265 section 4.1.1 says a server should accept this range:
-++
-++  cookie-octet    = %x21 / %x23-2B / %x2D-3A / %x3C-5B / %x5D-7E
-++
-++  But Firefox and Chrome as of June 2022 accept space, comma and double-quotes
-++  fine. The prime reason for filtering out control bytes is that some HTTP
-++  servers return 400 for requests that contain such.
-++*/
-++static int invalid_octets(const char *p)
-++{
-++  /* Reject all bytes \x01 - \x1f (*except* \x09, TAB) + \x7f */
-++  static const char badoctets[] = {
-++    "\x01\x02\x03\x04\x05\x06\x07\x08\x0a"
-++    "\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14"
-++    "\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f\x7f"
-++  };
-++  size_t vlen, len;
-++  /* scan for all the octets that are *not* in cookie-octet */
-++  len = strcspn(p, badoctets);
-++  vlen = strlen(p);
-++  return (len != vlen);
-++}
-++
-+ /****************************************************************************
-+  *
-+  * Curl_cookie_add()
-+@@ -558,6 +582,11 @@ Curl_cookie_add(struct Curl_easy *data,
-+             badcookie = TRUE;
-+             break;
-+           }
-++          if(invalid_octets(whatptr) || invalid_octets(name)) {
-++            infof(data, "invalid octets in name/value, cookie dropped");
-++            badcookie = TRUE;
-++            break;
-++          }
-+         }
-+         else if(!len) {
-+           /* this was a "<name>=" with no content, and we must allow
-+-- 
-+2.35.1
-+
-diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
-index 7b67b68f1d..ed37094049 100644
---- a/meta/recipes-support/curl/curl_7.69.1.bb
-+++ b/meta/recipes-support/curl/curl_7.69.1.bb
-@@ -38,6 +38,7 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://CVE-2022-32206.patch \
-            file://CVE-2022-32207.patch \
-            file://CVE-2022-32208.patch \
-+           file://CVE-2022-35252.patch \
- "
- 
- SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
--- 
-2.35.1
+Which MACHINE are you testing using?
+
+> > > Something is mangling spaces in your patch. There shouldn't be tabs
+> Modified the complete file to remove TABS and use white spaces.
+>=20
+> > > I think this can be merged with the RustSelfTestBase class as I don't
+> Merge with RustSelfTestBase.
+>=20
+> > > If we want to change grammar, it should be in a separate patch.
+> Removed it from the patch
+>=20
+> > > put that alongside the task definition.
+> Done.
+
+Thanks.
+
+> All modifications are done as per the review comments.
+> However, I still see that the test PASSes and did not see the mentioned e=
+rror.
+>=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> rust.RustSelfTestSystemEmulated.test_rust: PASSED (4812.37s)
+> 2022-09-05 13:43:50,332 - oe-selftest - INFO - SUMMARY:
+> 2022-09-05 13:43:50,332 - oe-selftest - INFO - oe-selftest () - Ran 1
+> test in 4875.349s
+> 2022-09-05 13:43:50,332 - oe-selftest - INFO - oe-selftest - OK - All
+> required tests passed (successes=3D1, skipped=3D0, failures=3D0, errors=
+=3D0)
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> I am using the following command to run the rust-testsuite:-
+> oe-selftest -r rust.RustSelfTestSystemEmulated.test_rust
+> Please let me know if I am missing anything to reproduce the error.
+
+That is what I'm using too. I did try an couple of small changes to
+rust to try and improve things and it did get slightly further but not
+much. It does mean my logs are probably going to confuse things more if
+I share them so I need to undo those before I can do that.
+
+I don't know why we're seeing different results but it is a concern.
+
+Were you able to work out if there is anything we can do about the
+hardcoded buildpaths/reproducibility issue?
+
+Cheers,
+
+Richard
+
+
+
 
 
