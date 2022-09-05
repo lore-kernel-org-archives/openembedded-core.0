@@ -1,148 +1,101 @@
-Return-Path: <pavel@zhukoff.net>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B31BECAAD5
-	for <webhook@archiver.kernel.org>; Mon,  5 Sep 2022 16:32:54 +0000 (UTC)
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by mx.groups.io with SMTP id smtpd.web10.26916.1662395572713655079
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A423AECAAD5
+	for <webhook@archiver.kernel.org>; Mon,  5 Sep 2022 18:21:54 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web08.27933.1662402110019988464
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Sep 2022 09:32:52 -0700
+ Mon, 05 Sep 2022 11:21:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@zhukoff.net header.s=fm1 header.b=m1dROvEH;
- spf=pass (domain: zhukoff.net, ip: 66.111.4.25, mailfrom: pavel@zhukoff.net)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 0E2955C00F8;
-	Mon,  5 Sep 2022 12:32:52 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Mon, 05 Sep 2022 12:32:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; h=
-	cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1662395572; x=1662481972; bh=e+
-	z3I+bB4hjPuLcTC5NWjHgAVA1HsIucmg3N+8+bTZ8=; b=m1dROvEHecID0YDI61
-	749bToszlQHl835Sz0mauEnyerk7NRBC/jOhejxKEgJFGSP2fp6Px28943oHElAp
-	HN3kK+FO7w4/kpo4XjyaSBduX1UDmlUuZHvqNUt8RopwgiAB72K2nyPkYM7YyevY
-	MLNFOpCZ8s7JbIMTgIwkj6orrllKv2CqRO5kMjOMUArcHpupRUUAdcnqGLKMQUX6
-	bPQ9B+sNzD07xUYzA/Y+ixs2vEkwdX+uWHVTEJTKp1M1OvdUzJR2KLEEUs1E6a15
-	C+is0N+P1D8l2KEDxGNzyFEHjIhRoc0HwRSBc4xG1Kb2/lUsaK9MtoG9010Z7rfL
-	TumQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1662395572; x=1662481972; bh=e+z3I+bB4hjPu
-	LcTC5NWjHgAVA1HsIucmg3N+8+bTZ8=; b=ZSx+x1n1rThCxoApuUmDiWg7U1PxA
-	aU4n5SBzMrPDQvZJWDvR3JyAb6Gd/tRtcA82/B1O6Au3z8go3q8lM75gd0mnKuqA
-	HRESwqjvnPEdY+mgCK4JsK/3aocSnZgiIqoPmE6HgFr7SqJEmsB9lRiq1isHe35A
-	1I64Ehom4xhs3RBZ3kPGjJS3qjYPG64Led7X3G/1pjhNk/UCRa1jbJjBdyNFQmgg
-	W/F5wczNrBhBzShRhcgGg0tG7eUCh4miT6unxGEeHVKs2QmifttCZNereVzlMcA1
-	JkP/OasO8TEy6XksOvNaUtfkfwbbosCNUhE2afm42D5Dv7oksfZ//P+/g==
-X-ME-Sender: <xms:syQWY6UcAq2-8F8BREUP9YElQA0i6jTeQpXpX5ZeOB43PDvFmEvywA>
-    <xme:syQWY2mMtFXCPRMvrZGDIM1lFjy3jlefXjGOVFtpIZLNrpjCVcbHaVfVG0vk5vQWp
-    GHt8tGjv6HyqxKj8gU>
-X-ME-Received: 
- <xmr:syQWY-Z2MioVvy6VALLrMawQN0R9Ug0PYLKSFtVZSWs6U7L84flsXvj3lM14n2-tfYN9ctk>
-X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvfedrvdeliedguddtgecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpehffgfhvfevufffrhgjkfggtgesthdtredttdertdenucfhrhhomheprfgr
-    vhgvlhcukghhuhhkohhvuceophgrvhgvlhesiihhuhhkohhffhdrnhgvtheqnecuggftrf
-    grthhtvghrnhepkedtueegheduueekkeeuveehledvffekueehtdfgtedvteefleelgeek
-    geegueegnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghenucevlhhush
-    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghvvghlseiihhhu
-    khhofhhfrdhnvght
-X-ME-Proxy: <xmx:syQWYxWwOqOFnKAvxMJbQRCzIefV-aZrXvm9yAVl9kombEQrIbabvw>
-    <xmx:syQWY0mbz_8JdoVZCfeNkvg7j95TFyI78qByWnNmRdmE6rS5NVYhlQ>
-    <xmx:syQWY2dQG2dACEvhpQyajVeMsfuv27P4yFantonBuU3V4TEIV0sTdQ>
-    <xmx:tCQWY7tK5fl-wc-yPIPd_-wjmYTqRyaUmowXvIAafsyxpgoSeqxJYw>
-Feedback-ID: ib94946c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 5 Sep 2022 12:32:51 -0400 (EDT)
-References: <20220828195405.8213-1-pavel@zhukoff.net>
- <220679d0e3253221aae25368e6ea4583d55e883f.camel@linuxfoundation.org>
-User-agent: mu4e 1.8.7; emacs 28.1
-From: Pavel Zhukov <pavel@zhukoff.net>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2] core-image: Exclude openssh complementary
- packages
-Date: Mon, 05 Sep 2022 18:27:26 +0200
-Reply-To: pavel@zhukoff.net
-In-reply-to: 
- <220679d0e3253221aae25368e6ea4583d55e883f.camel@linuxfoundation.org>
-Message-ID: <87tu5lzssg.fsf@gentoo.zhukoff.net>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=YhG1k0fi;
+ spf=pass (domain: gmail.com, ip: 209.85.128.48,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f48.google.com with SMTP id j26so5666650wms.0
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 05 Sep 2022 11:21:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=kPTE+L7nLrcDhSJ/+M5GWjgNAM/pUSldB7Xy9n/+bF0=;
+        b=YhG1k0fiT9TYmBwLtq1TSKmIYSTnpdSRJiYFq+7ldRM0exzlmxtQqlRx1i1KpJiBVb
+         28ATWuR6ObTra53Zl1F4nW/hTJaF5N+F2qF2reqmdVPS19gPw2j1VaBMJEriR5SYAlzh
+         GeC2aqy1mL/FlNrEK70Q8ntL4Km2R6qo6gJzHA5dJWDV8laFLnc7gj9hM1qzrkiad4vY
+         pRlIf5NPBCN8vdMUeB2cExfUBmUbb1xY5az/64zDsgKkZfFKsBtns/HV+y3w0QopM00v
+         4nqtQJXqxCD9SzMZCu9rypa7/JARDgeewAy08O3GRpW0yo7Zp22cFxbUN2vTEcIxd8hF
+         DglA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=kPTE+L7nLrcDhSJ/+M5GWjgNAM/pUSldB7Xy9n/+bF0=;
+        b=LhECehBxJkvf7VeaXf18xVQ/WQV6ZFRvbjiileFYryVb1MCTF4gvsCT8pB8+TlVrRP
+         d8D1KovXDz9KDtnm2TcgJlnXpuX+dZl6BaMfB4nDSh0qQ4EBfcG9v6/tJytX6jaZLBWi
+         aVdXLG/R2kK3sbXYZok92R22W7yyYZxdOKklNv4TlFK4cbRDODisnsX2vfH8iwp1zwHO
+         prgFIuXtzpPzx4GhEtJBBses3ETPTrI0brywjYKei3Sl1LYNykne5bMQ58Cn7FTdZeBU
+         2dggf8q0G3NoD0skNu88JoGAPVx9hB9gR4toK3OKHv8lboRSRRRCxSJylvse9iWw6MvH
+         98pw==
+X-Gm-Message-State: ACgBeo3wGRninUrJ6rrs8j/OVOYcPR4S+uGCWOypcWqMm+sYkjmp8Gh1
+	sQNleenLgpuVprMil1YJT8uCW5nC80zfrQ==
+X-Google-Smtp-Source: 
+ AA6agR7HkNNQ0x5dtmZKezmo2epGLvBOg6FeC0JT3I3qlX882YpFQiFHUjJXekQOA85DtdA0dOtj6g==
+X-Received: by 2002:a1c:f20d:0:b0:3a8:4176:139b with SMTP id
+ s13-20020a1cf20d000000b003a84176139bmr11103311wmc.177.1662402108510;
+        Mon, 05 Sep 2022 11:21:48 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
+ [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id
+ l12-20020a5d560c000000b0021ef34124ebsm9686031wrv.11.2022.09.05.11.21.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Sep 2022 11:21:48 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 2/2] selftest/cases/bblayers.py: build python3-jsonschema only
+ once
+Date: Mon,  5 Sep 2022 20:21:41 +0200
+Message-Id: <20220905182141.1091053-2-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220905182141.1091053-1-alex@linutronix.de>
+References: <20220905182141.1091053-1-alex@linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Sep 2022 16:32:54 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Sep 2022 18:21:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170321
+ https://lists.openembedded.org/g/openembedded-core/message/170323
 
+setUpLocal runs before every testcase, setUpClass runs only once in
+the beginning.
 
-"Richard Purdie" <richard.purdie@linuxfoundation.org> writes:
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/lib/oeqa/selftest/cases/bblayers.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> On Sun, 2022-08-28 at 21:54 +0200, Pavel Zhukov wrote:
->> Openssh (main) package may be marked for installation via complementary
->> packages mechanism as a dependency of openssh-ptest
->> and this causes conflict with dropbear [Yocto #14858] [1].
->> Excluding openssh complementary packages if ssh-server-dropbear is in
->> DISTRO_FEATURES fixes this issue.
->> To install openssh complementary packages in the images with
->> ssh-server-dropbear they may be added manually into the list because
->> they will be excluded from the installation even if corresonding class
->> (dev-pkg or dbg-pkgs) inherited.
->> 
->> [1]
->> Error:
->>  Problem: problem with installed package dropbear-2020.81-r0.core2_64
->>   - package dropbear-2020.81-r0.core2_64 conflicts with openssh provided by openssh-8.9p1-r0.core2_64
->>   - package openssh-8.9p1-r0.core2_64 conflicts with dropbear provided by dropbear-2020.81-r0.core2_64
->>   - package openssh-ptest-8.9p1-r0.core2_64 requires openssh, but none of the providers can be installed
->>   - conflicting requests
->> (try to add '--allowerasing' to command line to replace conflicting packages or '--skip-broken' to skip uninstallable packages)
->> 
->> Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
->> ---
->>  meta/classes-recipe/core-image.bbclass | 1 +
->>  1 file changed, 1 insertion(+)
->> 
->> diff --git a/meta/classes-recipe/core-image.bbclass b/meta/classes-recipe/core-image.bbclass
->> index 4b5f2c99c4b..fa38ae876d0 100644
->> --- a/meta/classes-recipe/core-image.bbclass
->> +++ b/meta/classes-recipe/core-image.bbclass
->> @@ -78,5 +78,6 @@ CORE_IMAGE_BASE_INSTALL = '\
->>  CORE_IMAGE_EXTRA_INSTALL ?= ""
->>  
->>  IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL}"
->> +PACKAGE_EXCLUDE_COMPLEMENTARY:append = "{@ openssh if 'ssh-server-dropbear' in d.getVar('IMAGE_FEATURES')}"
->
-> This doesn't seem to be correct syntax, e.g. no $ before {@ and I'm not
-> sure that is valid python?
-
-Resent. I should have tested it more carefully.
-I've tested new revision with few cases I'm aware of and it worked.
-
->
-> Cheers,
->
-> Richard
->
->
->
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#170271): https://lists.openembedded.org/g/openembedded-core/message/170271
-> Mute This Topic: https://lists.openembedded.org/mt/93313521/6390638
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [pavel@zhukoff.net]
-> -=-=-=-=-=-=-=-=-=-=-=-
+diff --git a/meta/lib/oeqa/selftest/cases/bblayers.py b/meta/lib/oeqa/selftest/cases/bblayers.py
+index 1dd3046aa6..7321e52472 100644
+--- a/meta/lib/oeqa/selftest/cases/bblayers.py
++++ b/meta/lib/oeqa/selftest/cases/bblayers.py
+@@ -14,7 +14,9 @@ from oeqa.selftest.case import OESelftestTestCase
+ 
+ class BitbakeLayers(OESelftestTestCase):
+ 
+-    def setUpLocal(self):
++    @classmethod
++    def setUpClass(cls):
++        super(BitbakeLayers, cls).setUpClass()
+         bitbake("python3-jsonschema-native")
+         bitbake("-c addto_recipe_sysroot python3-jsonschema-native")
+ 
+-- 
+2.30.2
 
 
