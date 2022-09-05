@@ -1,114 +1,176 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 058D2ECAAD5
-	for <webhook@archiver.kernel.org>; Mon,  5 Sep 2022 09:06:52 +0000 (UTC)
-Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
- [195.245.230.66])
- by mx.groups.io with SMTP id smtpd.web10.22894.1662368806756991996
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 836F7ECAAD3
+	for <webhook@archiver.kernel.org>; Mon,  5 Sep 2022 10:20:02 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web12.23330.1662373198126578160
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Sep 2022 02:06:47 -0700
+ Mon, 05 Sep 2022 03:19:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=ajOVajFn;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.66,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1662368805; i=@fujitsu.com;
-	bh=bDgofYjVENatvsCWSUZMRw4aTPOnHs4wRDeXJ4skfZs=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=ajOVajFn7qsNPNHkQZ37scp3h8YHM2ImuhUFhK3rQ5vXDlHOFC/ysAHII6zJbzp5J
-	 I2iUZV3idTa8EeSXP7bi5Y8kW5FIYnL3dVen67rWCK+f+DYBN0wz9Rm3/3HOcA/OUE
-	 HXgvET2/4IyKOqbuo3oaaZ2d8e4Pw1LrS7uySSDqt9dwhSUcpM5B0KoLEPX4lkIwgO
-	 70JB4+a/F8AUAHC7GDHY59oQR5N2bN/bQ/OgF6BJ2oCKoFmn5lU7jyjk/zPlageXc8
-	 lNIUXBCvHIRhfL6pdg88Q3DfonYwd95LlnOlfQmCHmybCL6dpdzaV3JXZ3bNMjFDt8
-	 YVplqv1BbZF2A==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrKIsWRWlGSWpSXmKPExsViZ8ORpKuyRzT
-  Z4McXXYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePUwilMBQ84Kt7evc3UwNjM0cXIxSEk8IBR
-  oqNjOROEc5lJon/7YnYIZzejxKL191i7GDk52ATUJKbfugFkc3CICOhJXP0nChJmFlCRePG7h
-  x0kLCzgKPF2kjlImAUo3D2njR3E5hVwkjjS9JcNxJYQUJCY8vA9M4jNKeAscefBLCYQWwioZu
-  X+dawQ9YISJ2c+YYEYLyFx8MULZoheRYnZl5tZIOwKicbph5ggbDWJq+c2MU9gFJyFpH0WkvY
-  FjEyrGK2SijLTM0pyEzNzdA0NDHQNDU11TXWNjMz1Eqt0E/VSS3XLU4tLdA31EsuL9VKLi/WK
-  K3OTc1L08lJLNjECQzilmPXxDsY1fT/1DjFKcjApifK+nyOaLMSXlJ9SmZFYnBFfVJqTWnyIU
-  YaDQ0mCd+UOoJxgUWp6akVaZg4wnmDSEhw8SiK8/uuA0rzFBYm5xZnpEKlTjLocM7+2HWAWYs
-  nLz0uVEufdBDJDAKQoozQPbgQsti8xykoJ8zIyMDAI8RSkFuVmlqDKv2IU52BUEublApnCk5l
-  XArfpFdARTEBH2PUJgxxRkoiQkmpgUrqzkn9uooTRqqZ0iZc59S+WcX2zqdVMPP53eQy3wc4F
-  YRNLNqtdLT69+9tyreU3njA4pz6Zs0dQb+fdf56qk2cc2GQ640JbaNSTkw21DzdeuZ9m8WK5u
-  72LtmZm2QV/01kpZ878yT5tcUQr6Sd/So1S5PsIxf12RxQvT561K4/dMWGb288l57Oddjq6/j
-  ocpzz/vbH66f/tBzs+6G4S4ZVxOyHl1bIiVp9zi3C6Ja88+5OilKlu1h8T/uZ5q+34r7o4Yet
-  SV+trirezT0SlbtdwfDmd87Vl+pVn1ScNrn2RmHT1yKxCX4nq5fF17GYna8vil3092H2+sJh/
-  sdnP6P2fj0w6PkPxgtap3/FT+JRYijMSDbWYi4oTAc7baytoAwAA
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-17.tower-587.messagelabs.com!1662368804!134659!1
-X-Originating-IP: [62.60.8.98]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.87.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 32483 invoked from network); 5 Sep 2022 09:06:44 -0000
-Received: from unknown (HELO n03ukasimr03.n03.fujitsu.local) (62.60.8.98)
-  by server-17.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 5 Sep 2022 09:06:44 -0000
-Received: from n03ukasimr03.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTP id 627F41B6
-	for <openembedded-core@lists.openembedded.org>;
- Mon,  5 Sep 2022 10:06:44 +0100 (BST)
-Received: from R01UKEXCASM121.r01.fujitsu.local (R01UKEXCASM121
- [10.183.43.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTPS id 578401B5
-	for <openembedded-core@lists.openembedded.org>;
- Mon,  5 Sep 2022 10:06:44 +0100 (BST)
-Received: from localhost.localdomain (10.167.225.33) by
- R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Mon, 5 Sep 2022 10:06:42 +0100
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-pytest: upgrade 7.1.2 -> 7.1.3
-Date: Mon, 5 Sep 2022 17:06:21 +0800
-Message-ID: <1662368782-32326-3-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1662368782-32326-1-git-send-email-wangmy@fujitsu.com>
-References: <1662368782-32326-1-git-send-email-wangmy@fujitsu.com>
+ dkim=missing;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 42CC0D6E;
+	Mon,  5 Sep 2022 03:20:03 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com
+ (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8DF283F7B4;
+	Mon,  5 Sep 2022 03:19:56 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: nd@arm.com
+Subject: [PATCH] xmlto: remove redundant patches
+Date: Mon,  5 Sep 2022 11:19:53 +0100
+Message-Id: <20220905101953.2513727-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM121.r01.fujitsu.local (10.183.43.173)
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Sep 2022 09:06:52 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Sep 2022 10:20:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170308
+ https://lists.openembedded.org/g/openembedded-core/message/170310
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+0001-Skip-validating-xmlto-output isn't needed as xmllint will use the
+local catalogues correctly now[1].
+
+configure.in-drop-the-test-of-xmllint-and-xsltproc can be dropped if we
+pre-load the result of AC_PATH_PROG with ac_cv_path_XMLLINT.
+
+[1] oe-core 8159b47e7ddddaca57ade2ecf24d8ff9a0abf26a
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../python/{python3-pytest_7.1.2.bb => python3-pytest_7.1.3.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pytest_7.1.2.bb => python3-pytest_7.1.3.bb} (93%)
+ .../0001-Skip-validating-xmlto-output.patch   | 29 ------------------
+ ...rop-the-test-of-xmllint-and-xsltproc.patch | 30 -------------------
+ meta/recipes-devtools/xmlto/xmlto_0.0.28.bb   |  9 ++----
+ 3 files changed, 3 insertions(+), 65 deletions(-)
+ delete mode 100644 meta/recipes-devtools/xmlto/xmlto/0001-Skip-validatin=
+g-xmlto-output.patch
+ delete mode 100644 meta/recipes-devtools/xmlto/xmlto/configure.in-drop-t=
+he-test-of-xmllint-and-xsltproc.patch
 
-diff --git a/meta/recipes-devtools/python/python3-pytest_7.1.2.bb b/meta/recipes-devtools/python/python3-pytest_7.1.3.bb
-similarity index 93%
-rename from meta/recipes-devtools/python/python3-pytest_7.1.2.bb
-rename to meta/recipes-devtools/python/python3-pytest_7.1.3.bb
-index c642d9a232..373f7f35fa 100644
---- a/meta/recipes-devtools/python/python3-pytest_7.1.2.bb
-+++ b/meta/recipes-devtools/python/python3-pytest_7.1.3.bb
-@@ -5,7 +5,7 @@ DESCRIPTION = "The pytest framework makes it easy to write small tests, yet scal
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=bd27e41b6550fe0fc45356d1d81ee37c"
- 
--SRC_URI[sha256sum] = "a06a0425453864a270bc45e71f783330a7428defb4230fb5e6a731fde06ecd45"
-+SRC_URI[sha256sum] = "4f365fec2dff9c1162f834d9f18af1ba13062db0c708bf7b946f8a5c76180c39"
- 
- DEPENDS += "python3-setuptools-scm-native"
- 
--- 
-2.25.1
+diff --git a/meta/recipes-devtools/xmlto/xmlto/0001-Skip-validating-xmlto=
+-output.patch b/meta/recipes-devtools/xmlto/xmlto/0001-Skip-validating-xm=
+lto-output.patch
+deleted file mode 100644
+index c6857a9da51..00000000000
+--- a/meta/recipes-devtools/xmlto/xmlto/0001-Skip-validating-xmlto-output=
+.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From 3deb7a0eded04ab08a9cb2d88526cb1c7b440061 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sun, 14 Aug 2022 00:23:29 -0700
+-Subject: [PATCH] Skip validating xmlto output
+-
+-Avoids network access
+-
+-Upstream-Status: Submitted [https://pagure.io/xmlto/pull-request/11]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- Makefile.am | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index 50fa279..6a2da62 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -68,7 +68,7 @@ EXTRA_DIST =3D xmlto.spec \
+- 	doc/xmlif.xml \
+- 	xmlto.mak
+-=20
+--GEN_MANPAGE =3D FORMAT_DIR=3D$(top_srcdir)/format $(BASH) ./xmlto -o $(=
+@D) man $<
+-+GEN_MANPAGE =3D FORMAT_DIR=3D$(top_srcdir)/format $(BASH) ./xmlto --ski=
+p-validation -o $(@D) man $<
+- man/man1/xmlto.1: doc/xmlto.xml ; $(GEN_MANPAGE)
+- man/man1/xmlif.1: doc/xmlif.xml ; $(GEN_MANPAGE)
+-=20
+---=20
+-2.37.2
+-
+diff --git a/meta/recipes-devtools/xmlto/xmlto/configure.in-drop-the-test=
+-of-xmllint-and-xsltproc.patch b/meta/recipes-devtools/xmlto/xmlto/config=
+ure.in-drop-the-test-of-xmllint-and-xsltproc.patch
+deleted file mode 100644
+index 7cc3cbe0fb2..00000000000
+--- a/meta/recipes-devtools/xmlto/xmlto/configure.in-drop-the-test-of-xml=
+lint-and-xsltproc.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-configure.in: drop the test of xmllint and xsltproc
+-
+-The test is unnecessary, the xmllint and xsltproc were explicitly
+-added to RDEPENDS.
+-
+-Upstream-Status: Inappropriate
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- configure.in | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -42,10 +42,10 @@ AC_ARG_VAR([LOCALE], [Name and path of the `locale' =
+program.])
+- AC_PATH_PROG([LOCALE], [locale], [locale])
+-=20
+- AC_ARG_VAR([XMLLINT], [Name and path of the `xmllint' program.])
+--AC_PATH_PROG([XMLLINT], [xmllint], [xmllint])
+-+dnl AC_PATH_PROG([XMLLINT], [xmllint], [xmllint])
+-=20
+- AC_ARG_VAR([XSLTPROC], [Name and path of the `xsltproc' program.])
+--AC_PATH_PROG([XSLTPROC], [xsltproc], [xsltproc])
+-+dnl AC_PATH_PROG([XSLTPROC], [xsltproc], [xsltproc])
+-=20
+- dnl
+- dnl toolchains
+---=20
+-1.8.1.2
+-
+diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recipes-d=
+evtools/xmlto/xmlto_0.0.28.bb
+index 373eca2454b..5e3fac7a60c 100644
+--- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
++++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
+@@ -8,10 +8,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D59530bdf33659=
+b29e73d4adb9f9f6552"
+=20
+ SRCREV =3D "6fa6a0e07644f20abf2596f78a60112713e11cbe"
+ UPSTREAM_CHECK_COMMITS =3D "1"
+-SRC_URI =3D "git://pagure.io/xmlto.git;protocol=3Dhttps;branch=3Dmaster =
+\
+-           file://configure.in-drop-the-test-of-xmllint-and-xsltproc.pat=
+ch \
+-           file://0001-Skip-validating-xmlto-output.patch \
+-"
++SRC_URI =3D "git://pagure.io/xmlto.git;protocol=3Dhttps;branch=3Dmaster"
+ S =3D "${WORKDIR}/git"
+=20
+ PV .=3D "+0.0.29+git${SRCPV}"
+@@ -34,11 +31,11 @@ RDEPENDS:${PN}:append:class-target =3D " \
+                   libxslt-bin \
+                   coreutils \
+ "
+-CACHED_CONFIGUREVARS +=3D "ac_cv_path_TAIL=3Dtail ac_cv_path_GREP=3Dgrep=
+"
++CACHED_CONFIGUREVARS +=3D "ac_cv_path_TAIL=3Dtail ac_cv_path_GREP=3Dgrep=
+ ac_cv_path_XMLLINT=3Dxmllint ac_cv_path_XSLTPROC=3Dxsltproc"
+=20
+ BBCLASSEXTEND =3D "native"
+=20
+-EXTRA_OECONF:append =3D " BASH=3D/bin/bash GCP=3D/bin/cp XMLLINT=3Dxmlli=
+nt XSLTPROC=3Dxsltproc"
++EXTRA_OECONF:append =3D " BASH=3D/bin/bash GCP=3D/bin/cp"
+=20
+ do_configure:prepend() {
+     (cd ${S} && flex -o xmlif/xmlif.c xmlif/xmlif.l)
+--=20
+2.34.1
 
 
