@@ -1,262 +1,296 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <sjolley.yp.pm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1809EECAAD3
-	for <webhook@archiver.kernel.org>; Mon,  5 Sep 2022 23:45:06 +0000 (UTC)
-Received: from mailout02.t-online.de (mailout02.t-online.de [194.25.134.17])
- by mx.groups.io with SMTP id smtpd.web11.31385.1662421499491755162
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57C6CECAAD3
+	for <webhook@archiver.kernel.org>; Tue,  6 Sep 2022 00:42:46 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web09.31744.1662424963257400067
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Sep 2022 16:45:00 -0700
+ Mon, 05 Sep 2022 17:42:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.17,
- mailfrom: f_l_k@t-online.de)
-Received: from fwd75.dcpf.telekom.de (fwd75.aul.t-online.de [10.223.144.101])
-	by mailout02.t-online.de (Postfix) with SMTP id 72CE6246D
-	for <openembedded-core@lists.openembedded.org>;
- Tue,  6 Sep 2022 01:44:57 +0200 (CEST)
-Received: from flk-MS-7C91.fritz.box ([84.163.37.201]) by fwd75.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1oVLlq-2d3S1x0; Tue, 6 Sep 2022 01:44:50 +0200
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Markus Volk <f_l_k@t-online.de>
-Subject: [oe-core][PATCHv3] libsdl2: upgrade 2.0.22 -> 2.24.0
-Date: Tue,  6 Sep 2022 01:44:36 +0200
-Message-Id: <20220905234436.6074-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=l5ahK+aT;
+ spf=pass (domain: gmail.com, ip: 209.85.210.175,
+ mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pf1-f175.google.com with SMTP id x19so9842250pfr.1
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 05 Sep 2022 17:42:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-language:thread-index:mime-version:message-id:date:subject
+         :to:from:from:to:cc:subject:date;
+        bh=a8Do6iRy0ZxzPn1aasyNKrpj8gT1MokhCi7dt4rm1jw=;
+        b=l5ahK+aTOOclTYjB0d5uUP2Sz7BrhrB1961YsIWQES/rY6pdJuneBS/G+nsLGTTipe
+         rSdULGX1tXIITsFCVAEVBB4DlzLfShJVptb2YSQxo+LK0XRWdck1RzQ5jBY8aSWAz0gl
+         q6vEwMlzh+i6z30vUycrap9IrvGF6BZvq1jgDtTV3JMqydE6DCn9f/U3V0TAkJucdobk
+         um9fT4BxAuFsuegkF3J+wJrDSkGim96P8aIFreKd7q8ISl3W6ujT33CT51So9OaED5Mk
+         V6OzjP55NdIo2jChFrgxorFMGmVYMUEE47AtSlIx3wm7sjboFUWGhro2e6jJQCD99cRM
+         RLDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-language:thread-index:mime-version:message-id:date:subject
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=a8Do6iRy0ZxzPn1aasyNKrpj8gT1MokhCi7dt4rm1jw=;
+        b=1oEoF8K7spGq/Pncr+aFbJbmiC83lTLEjVpWlWJ9mzJ+YJLkg6ihpQJbXGF1yQ9C+a
+         FAJulWKBYgdWS9NfKCO6BjGoO/s52nDEB7ndyBvA84mL06/Um7tboOXkkFZNztWXAW5x
+         I3jTPLr6DUE7/VUK8SATaiqIPfmSGEI1mtZ9Z5/wwoB/NByBD2o7dDk+ohMPAyIXg3qf
+         DJG3axl6SK/8b5kQP5qmcx/PkU8V/OJCyPk5LGbuUG10iO8u+40uTuUHNQKI/oxDiahq
+         hIg7mCSFt62hYcVWV2aJt7Za6cjx7UcSVpHU3qdy7SX9GZpXUEK8bYaFpWteheJKSJO/
+         XaTg==
+X-Gm-Message-State: ACgBeo2HA0B+vR+jOV681qZQcpDgTSpNHTsl6ujJQA8Xe7bJZGJrlFvy
+	r3fItRPi5xMjRnj4TnAMnh6wKy2BEO4=
+X-Google-Smtp-Source: 
+ AA6agR5dkbsphhk2qsQGrqLBAdk+wiU4O84TPSC2GLKUfic6RYGaIXENODKAdqoT91u4NBHb8TfqYg==
+X-Received: by 2002:a65:6cc7:0:b0:42a:4d40:8dc1 with SMTP id
+ g7-20020a656cc7000000b0042a4d408dc1mr44144700pgw.321.1662424962150;
+        Mon, 05 Sep 2022 17:42:42 -0700 (PDT)
+Received: from skjolley ([2600:1011:a118:bb62:142d:90be:cc95:437b])
+        by smtp.gmail.com with ESMTPSA id
+ cp12-20020a170902e78c00b00176ae5c0f3dsm2858049plb.171.2022.09.05.17.42.41
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 05 Sep 2022 17:42:41 -0700 (PDT)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@lists.yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Mon, 5 Sep 2022 17:42:41 -0700
+Message-ID: <014501d8c189$92ee9820$b8cbc860$@gmail.com>
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1662421490-01453B16-B3A4022A/0/0 CLEAN NORMAL
-X-TOI-MSGID: f4279944-efb4-4d2f-a3f6-0d839ae566be
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0146_01D8C14E.E6923120"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQHAuBnZ6ugCMr1yYYNfngcY1rtEXA==
+Content-Language: en-us
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Sep 2022 23:45:06 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Sep 2022 00:42:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170331
+ https://lists.openembedded.org/g/openembedded-core/message/170332
 
-In addition to lots of bug fixes, here are the major changes in this rele=
-ase:
+This is a multipart message in MIME format.
 
-General:
+------=_NextPart_000_0146_01D8C14E.E6923120
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-New version numbering scheme, similar to GLib and Flatpak.
-An even number in the minor version (second component) indicates a produc=
-tion-ready stable release such as 2.24.0, which would have been 2.0.24 un=
-der the old system.
-The patchlevel (micro version, third component) indicates a bugfix-only u=
-pdate: for example, 2.24.1 would be a bugfix-only release to fix bugs in =
-2.24.0, without adding new features.
-An odd number in the minor version indicates a prerelease such as 2.23.0.=
- Stable distributions should not use these prereleases.
-The patchlevel indicates successive prereleases, for example 2.23.1 and 2=
-.23.2 would be prereleases during development of the SDL 2.24.0 stable re=
-lease.
-Added SDL_GetPointDisplayIndex() and SDL_GetRectDisplayIndex() to get the=
- display associated with a point and rectangle in screen space
-Added SDL_bsearch(), SDL_crc16(), and SDL_utf8strnlen() to the stdlib rou=
-tines
-Added SDL_CPUPauseInstruction() as a macro in SDL_atomic.h
-Added SDL_size_mul_overflow() and SDL_size_add_overflow() for better size=
- overflow protection
-Added SDL_ResetHint() to reset a hint to the default value
-Added SDL_ResetKeyboard() to reset SDL's internal keyboard state, generat=
-ing key up events for all currently pressed keys
-Added the hint SDL_HINT_MOUSE_RELATIVE_WARP_MOTION to control whether mou=
-se warping generates motion events in relative mode. This hint defaults o=
-ff.
-Added the hint SDL_HINT_TRACKPAD_IS_TOUCH_ONLY to control whether trackpa=
-ds are treated as touch devices or mice. By default touchpads are treated=
- as mouse input.
-The hint SDL_HINT_JOYSTICK_HIDAPI_JOY_CONS now defaults on
-Added support for mini-gamepad mode for Nintendo Joy-Con controllers usin=
-g the HIDAPI driver
-Added the hint SDL_HINT_JOYSTICK_HIDAPI_COMBINE_JOY_CONS to control wheth=
-er Joy-Con controllers are automatically merged into a unified gamepad wh=
-en using the HIDAPI driver. This hint defaults on.
-The hint SDL_HINT_JOYSTICK_HIDAPI_SWITCH_HOME_LED can be set to a floatin=
-g point value to set the brightness of the Home LED on Nintendo Switch co=
-ntrollers
-Added the hint SDL_HINT_JOYSTICK_HIDAPI_JOYCON_HOME_LED to set the Home L=
-ED brightness for the Nintendo Joy-Con controllers. By default the Home L=
-ED is not modified.
-Added the hint SDL_HINT_JOYSTICK_HIDAPI_SWITCH_PLAYER_LED to control whet=
-her the player LED should be lit on the Nintendo Joy-Con controllers
-Added support for Nintendo Online classic controllers using the HIDAPI dr=
-iver
-Added the hint SDL_HINT_JOYSTICK_HIDAPI_NINTENDO_CLASSIC to control wheth=
-er the HIDAPI driver for Nintendo Online classic controllers should be us=
-ed
-Added support for the NVIDIA Shield Controller to the HIDAPI driver, supp=
-orting rumble and battery status
-Added support for NVIDIA SHIELD controller to the HIDAPI driver, and a hi=
-nt SDL_HINT_JOYSTICK_HIDAPI_SHIELD to control whether this is used
-Added functions to get the platform dependent name for a joystick or game=
- controller:
-SDL_JoystickPathForIndex()
-SDL_JoystickPath()
-SDL_GameControllerPathForIndex()
-SDL_GameControllerPath()
-Added SDL_GameControllerGetFirmwareVersion() and SDL_JoystickGetFirmwareV=
-ersion(), currently implemented for DualSense(tm) Wireless Controllers us=
-ing HIDAPI
-Added SDL_JoystickAttachVirtualEx() for extended virtual controller suppo=
-rt
-Added joystick event SDL_JOYBATTERYUPDATED for when battery status change=
-s
-Added SDL_GUIDToString() and SDL_GUIDFromString() to convert between SDL =
-GUID and string
-Added SDL_HasLSX() and SDL_HasLASX() to detect LoongArch SIMD support
-Added SDL_GetOriginalMemoryFunctions()
-Added SDL_GetDefaultAudioInfo() to get the name and format of the default=
- audio device, currently implemented for PipeWire, PulseAudio, WASAPI, an=
-d DirectSound
-Added HIDAPI driver for the NVIDIA SHIELD controller (2017 model) to enab=
-le support for battery status and rumble
-Added support for opening audio devices with 3 or 5 channels (2.1, 4.1). =
-All channel counts from Mono to 7.1 are now supported.
-Rewrote audio channel converters used by SDL_AudioCVT, based on the chann=
-el matrix coefficients used as the default for FAudio voices
-SDL log messages are no longer limited to 4K and can be any length
-Fixed a long-standing calling convention issue with dynapi affecting Open=
-Watcom or OS/2 builds
-Windows:
+All,
 
-Added initial support for building for Windows and Xbox with Microsoft's =
-Game Development Kit (GDK), see docs/README-gdk.md for details
-Added a D3D12 renderer implementation and SDL_RenderGetD3D12Device() to r=
-etrieve the D3D12 device associated with it
-Added the hint SDL_HINT_WINDOWS_DPI_AWARENESS to set whether the applicat=
-ion is DPI-aware. This hint must be set before initializing the video sub=
-system
-Added the hint SDL_HINT_WINDOWS_DPI_SCALING to control whether the SDL co=
-ordinates are in DPI-scaled points or pixels
-Added the hint SDL_HINT_DIRECTINPUT_ENABLED to control whether the Direct=
-Input driver should be used
-Added support for SDL_GetAudioDeviceSpec to the DirectSound backend
-Linux:
+ 
 
-Support for XVidMode has been removed, mode changes are only supported us=
-ing the XRandR extension
-Added the hint SDL_HINT_VIDEO_WAYLAND_MODE_EMULATION to control whether t=
-o expose a set of emulated modes in addition to the native resolution mod=
-es available on Wayland
-Added the hint SDL_HINT_KMSDRM_DEVICE_INDEX to specify which KMSDRM devic=
-e to use if the default is not desired
-Added the hint SDL_HINT_LINUX_DIGITAL_HATS to control whether to treat ha=
-ts as digital rather than checking to see if they may be analog
-Added the hint SDL_HINT_LINUX_HAT_DEADZONES to control whether to use dea=
-dzones on analog hats
-macOS:
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
 
-Bumped minimum OS deployment version to macOS 10.9
-Added SDL_GL_FLOATBUFFERS to allow Cocoa GL contexts to use EDR
-Added the hint SDL_HINT_MAC_OPENGL_ASYNC_DISPATCH to control whether disp=
-atching OpenGL context updates should block the dispatching thread until =
-the main thread finishes processing. This hint defaults to blocking, whic=
-h is the safer option on modern macOS.
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
+how to create a bugzilla account at:
+<https://bugzilla.yoctoproject.org/createaccount.cgi>
+https://bugzilla.yoctoproject.org/createaccount.cgi
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- ...ability-to-disable-fb-accel-via-hint.patch | 36 -------------------
- .../{libsdl2_2.0.22.bb =3D> libsdl2_2.24.0.bb}  |  5 +--
- 2 files changed, 1 insertion(+), 40 deletions(-)
- delete mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-video-rest=
-ore-ability-to-disable-fb-accel-via-hint.patch
- rename meta/recipes-graphics/libsdl2/{libsdl2_2.0.22.bb =3D> libsdl2_2.2=
-4.0.bb} (93%)
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-video-restore-abi=
-lity-to-disable-fb-accel-via-hint.patch b/meta/recipes-graphics/libsdl2/l=
-ibsdl2/0001-video-restore-ability-to-disable-fb-accel-via-hint.patch
-deleted file mode 100644
-index fc74d30556..0000000000
---- a/meta/recipes-graphics/libsdl2/libsdl2/0001-video-restore-ability-to=
--disable-fb-accel-via-hint.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From 14ad91658fd296e34bb9e833281e72c871bfb189 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Tue, 3 May 2022 12:31:50 +0200
--Subject: [PATCH] video: restore ability to disable fb accel via hint
--
--Somewhere in code refactoring between .20 and .22 this check
--was lost, and so the hint had no effect anymore.
--
--Upstream-Status: Submitted [https://github.com/libsdl-org/SDL/pull/5611]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- src/video/SDL_video.c | 8 ++++++++
-- 1 file changed, 8 insertions(+)
--
--diff --git a/src/video/SDL_video.c b/src/video/SDL_video.c
--index 93c803e..cbe7616 100644
----- a/src/video/SDL_video.c
--+++ b/src/video/SDL_video.c
--@@ -2503,6 +2503,14 @@ SDL_CreateWindowFramebuffer(SDL_Window * window)
--     if (!_this->checked_texture_framebuffer) {
--         SDL_bool attempt_texture_framebuffer =3D SDL_TRUE;
--=20
--+        /* See if the user or application wants to specifically disable=
- the framebuffer */
--+        const char *hint =3D SDL_GetHint(SDL_HINT_FRAMEBUFFER_ACCELERAT=
-ION);
--+        if (hint) {
--+            if (*hint =3D=3D '0' || SDL_strcasecmp(hint, "false") =3D=3D=
- 0) {
--+                attempt_texture_framebuffer =3D SDL_FALSE;
--+            }
--+        }
--+
--         if (_this->is_dummy) {  /* dummy driver never has GPU support, =
-of course. */
--             attempt_texture_framebuffer =3D SDL_FALSE;
--         }
----=20
--2.30.2
--
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb b/meta/recip=
-es-graphics/libsdl2/libsdl2_2.24.0.bb
-similarity index 93%
-rename from meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb
-rename to meta/recipes-graphics/libsdl2/libsdl2_2.24.0.bb
-index 8519e7f732..8cdd08b179 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.24.0.bb
-@@ -22,13 +22,12 @@ LIC_FILES_CHKSUM:append =3D " ${@bb.utils.contains('P=
-ACKAGECONFIG', 'arm-neon', 'f
- PROVIDES =3D "virtual/libsdl2"
-=20
- SRC_URI =3D "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
--           file://0001-video-restore-ability-to-disable-fb-accel-via-hin=
-t.patch \
-            "
- SRC_URI:append:class-native =3D " file://0001-Disable-libunwind-in-nativ=
-e-OE-builds-by-not-looking.patch"
-=20
- S =3D "${WORKDIR}/SDL2-${PV}"
-=20
--SRC_URI[sha256sum] =3D "fe7cbf3127882e3fc7259a75a0cb585620272c51745d3852=
-ab9dd87960697f2e"
-+SRC_URI[sha256sum] =3D "91e4c34b1768f92d399b078e171448c6af18cafda743987e=
-d2064a28954d6d97"
-=20
- inherit cmake lib_package binconfig-disabled pkgconfig
-=20
-@@ -43,9 +42,7 @@ EXTRA_OECMAKE =3D "-DSDL_OSS=3DOFF -DSDL_ESD=3DOFF -DSD=
-L_ARTS=3DOFF \
-                  -DSDL_PTHREADS=3DON \
-                  -DSDL_RPATH=3DOFF \
-                  -DSDL_SNDIO=3DOFF \
--                 -DSDL_X11_XVM=3DOFF \
-                  -DSDL_X11_XCURSOR=3DOFF \
--                 -DSDL_X11_XINERAMA=3DOFF \
-                  -DSDL_X11_XDBE=3DOFF \
-                  -DSDL_X11_XFIXES=3DOFF \
-                  -DSDL_X11_XINPUT=3DOFF \
---=20
-2.34.1
+ 
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 410
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now,  "4.1", "4.2", "4.3", "4.99" and "Future", the more
+pressing/urgent issues being in "4.1" and then "4.2".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_0146_01D8C14E.E6923120
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0058_01D8BBA3.5AA49AF0";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:0 0 0 0 0 0 0 0 0 0;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The triage team is starting to try and =
+collect up and classify bugs which a newcomer to the project would be =
+able to work on in a way which means people can find them. They're being =
+listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a> and how to create a bugzilla account at: <a =
+href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
+style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
+/span></a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 410 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &nbsp;&#8220;4.1&#8221;, =
+&#8220;4.2&#8221;, &#8220;4.3&#8221;, &quot;4.99&quot; and =
+&quot;Future&quot;, the more pressing/urgent issues being in =
+&quot;4.1&quot; and then &#8220;4.2&#8221;.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
+and if a bug is something you would be able to help with either take =
+ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_000_0146_01D8C14E.E6923120--
 
 
