@@ -1,89 +1,67 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94DF6ECAAD5
-	for <webhook@archiver.kernel.org>; Tue,  6 Sep 2022 16:43:48 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web11.1522.1662482620312008177
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BA72ECAAA1
+	for <webhook@archiver.kernel.org>; Tue,  6 Sep 2022 19:05:59 +0000 (UTC)
+Received: from mailout04.t-online.de (mailout04.t-online.de [194.25.134.18])
+ by mx.groups.io with SMTP id smtpd.web09.3456.1662491153735816153
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Sep 2022 09:43:41 -0700
+ Tue, 06 Sep 2022 12:05:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=hasztKHZ;
- spf=pass (domain: axis.com, ip: 195.60.68.18,
- mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1662482621;
-  x=1694018621;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=1vfXyR2msyW3SWQGgliT+F09jhZ0GgKVjXSZBotCFFY=;
-  b=hasztKHZklO25DU9d3gSJER5wBxbTxp98fCGRZAd2SWYeJy8HFxGqSf0
-   QEoFPmTuOQP7kHuownoTKXHFE75g3Z/L/lMncGk2F8OarKJJUVupxpYdI
-   mLO/odg3Dhi/Gvk4rWpy4r5DmQ5P5WCG2DNzhaBxWQ+Q1jVH/7seh6Orl
-   lOAYnHF8SiRfK8g9GiBBohfSbzC3khqiJd7f5ezuECnpmBOf/eshKWwUW
-   FseteB1oILoGBkpqzQeZGEXrR+yMhd2Jq5l/68WAF74cTB8L4IfLTHK0g
-   KJjgrwdFJIHT6trn/xkbdXsSczO1d0aRiiGqFZFoSmJj90gUH5S9bJFA9
-   g==;
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/2] oe-setup-builddir: Keep templateconf.cfg relative if
- $TEMPLATECONF is
-Date: Tue, 6 Sep 2022 18:43:34 +0200
-Message-ID: <20220906164335.2629721-1-pkj@axis.com>
-X-Mailer: git-send-email 2.37.3
+ dkim=missing;
+ spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.18,
+ mailfrom: f_l_k@t-online.de)
+Received: from fwd80.dcpf.telekom.de (fwd80.aul.t-online.de [10.223.144.106])
+	by mailout04.t-online.de (Postfix) with SMTP id 7DD426800;
+	Tue,  6 Sep 2022 21:05:51 +0200 (CEST)
+Received: from [192.168.178.83] ([84.163.37.201]) by fwd80.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1oVdtL-1hCa5A0; Tue, 6 Sep 2022 21:05:48 +0200
+Date: Tue, 06 Sep 2022 21:05:42 +0200
+From: Markus Volk <f_l_k@t-online.de>
+Subject: Re: [oe-core][PATCHv4] libsdl2: update 2.0.22 -> 2.24.0
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Message-Id: <IDYSHR.R6UPN4AFU7HG2@t-online.de>
+In-Reply-To: <17124046E1F6F804.11662@lists.openembedded.org>
+References: <20220906074315.195684-1-f_l_k@t-online.de>
+	<YxcaoKV6sz+dCbGL@mail.local>
+	<17124046E1F6F804.11662@lists.openembedded.org>
+X-Mailer: geary/40.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: multipart/alternative; boundary="=-I3azxWdD+P/wr7aDiOp2"
+X-TOI-EXPURGATEID: 150726::1662491148-0144C2AD-BD512585/0/0 CLEAN NORMAL
+X-TOI-MSGID: 92386818-3db4-410d-81c9-02591b855217
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Sep 2022 16:43:48 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Sep 2022 19:05:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170363
+ https://lists.openembedded.org/g/openembedded-core/message/170365
 
-Before commit 7b96dc80 (scripts/oe-setup-builddir: write to
-conf/templateconf.cfg after the build is set up), the path written to
-templateconf.cfg was relative if $TEMPLATECONF was relative, but
-afterwards it became absolute.
+--=-I3azxWdD+P/wr7aDiOp2
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-Restore the original behavior of saving the relative path to
-templateconf.cfg.
+Am Di, 6. Sep 2022 um 12:57:56 +0200 schrieb Markus Volk 
+<f_l_k@t-online.de>:
+> meta-mingw prohibits opengl and gles2 for libsdl2.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
+I was wondering why GL can't be built for mingw. I don't have a Windows 
+machine here to do tests on and I've never used the mingw toolchain, so 
+I don't know if GL support for nativesdk-libsdl2 would be useful.
 
-These two patches are intended to be applied on top of the three I
-sent earlier today.
+Just in case ... I found out that the only reason for the inability to 
+build opengl, gles2 or vulkan is the fact that mesa is pulled in. 
+virtual/egl, virtual/gbm and virtual/egl are set as rdepends in the 
+PACKAGECONFIG of the libsdl2 recipe. Once these entries are removed, 
+nativesdk-libsdl2 can be built with support for GL.
 
-And in case anyone wonders, yes, I occasionally move entire build
-trees (typically from my SSD to my HDD) so I would prefer the path in
-templateconf.cfg to remain relative.
 
- scripts/oe-setup-builddir | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+--=-I3azxWdD+P/wr7aDiOp2
+Content-Type: text/html; charset=us-ascii
 
-diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
-index b06880c9cb..201cea30bf 100755
---- a/scripts/oe-setup-builddir
-+++ b/scripts/oe-setup-builddir
-@@ -46,7 +46,10 @@ fi
- 
- . "$OEROOT/.templateconf"
- 
--# 
-+# Keep the original TEMPLATECONF before possibly prefixing it with $OEROOT below.
-+ORG_TEMPLATECONF=$TEMPLATECONF
-+
-+#
- # $TEMPLATECONF can point to a directory for the template local.conf & bblayers.conf
- #
- if [ -n "$TEMPLATECONF" ]; then
-@@ -131,5 +134,5 @@ fi
- unset OECORENOTESCONF
- 
- if [ ! -f "$BUILDDIR/conf/templateconf.cfg" ]; then
--    echo "$TEMPLATECONF" >"$BUILDDIR/conf/templateconf.cfg"
-+    echo "$ORG_TEMPLATECONF" >"$BUILDDIR/conf/templateconf.cfg"
- fi
+<div id="geary-body" dir="auto">Am Di, 6. Sep 2022 um 12:57:56 +0200 schrieb Markus Volk &lt;f_l_k@t-online.de&gt;:<br><blockquote type="cite">meta-mingw prohibits opengl and gles2 for libsdl2.</blockquote><div><br></div><div><div>I was wondering why GL can't be built for mingw. I don't have a Windows machine here to do tests on and I've never used the mingw toolchain, so I don't know if GL support for nativesdk-libsdl2 would be useful.&nbsp;</div><div><br></div><div>Just in case ... I found out that the only reason for the inability to build opengl, gles2 or vulkan is the fact that mesa is pulled in. virtual/egl, virtual/gbm and virtual/egl are set as rdepends in the PACKAGECONFIG of the libsdl2 recipe. Once these entries are removed, nativesdk-libsdl2 can be built with support for GL.</div></div></div>
+--=-I3azxWdD+P/wr7aDiOp2--
+
 
