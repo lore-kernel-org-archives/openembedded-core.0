@@ -1,138 +1,271 @@
-Return-Path: <pgowda.cve@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47B06C38145
-	for <webhook@archiver.kernel.org>; Tue,  6 Sep 2022 04:48:43 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
- [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web11.363.1662439715975230532
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10A9FC38145
+	for <webhook@archiver.kernel.org>; Tue,  6 Sep 2022 07:43:34 +0000 (UTC)
+Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
+ by mx.groups.io with SMTP id smtpd.web11.1304.1662450208688595126
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Sep 2022 21:48:36 -0700
+ Tue, 06 Sep 2022 00:43:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=PclPQ9cx;
- spf=pass (domain: gmail.com, ip: 209.85.215.171,
- mailfrom: pgowda.cve@gmail.com)
-Received: by mail-pg1-f171.google.com with SMTP id q63so9580056pga.9
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Sep 2022 21:48:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=Z1q6vzZfGA90ZImj19qHrS99WUOopR2udWZjHsa2p5Q=;
-        b=PclPQ9cxjC0aPP/j36gQGo8gY/Ni35OdRxocLk6sV/IVxiTBqqbco9xgtPAkVGni60
-         ailJVb5F/LRKFv8hMIpPZl/2PlsqygbwfYsUKq4qg1T5vVXdmPg2vTrDMGMB1HSVYNA8
-         AvR3jofklt91jzP2dKdWoBXHkPl4Bz1BiFVrkZpZJaufDBs1ocZE3NwLaacxKVV2ZRNl
-         Qg7J3aa+19GlxeZL3CcNOgb1d8+GPIYWZXegAizKMx0pcXvLFBIMXXoyx4pcB9WkmQ+x
-         3f26Yu2S4qSuCP+fx+jvHJAQrsA88SPeMWFycu5jmjTmdv20u+lKHOakJHVmU6rB3zma
-         g3bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=Z1q6vzZfGA90ZImj19qHrS99WUOopR2udWZjHsa2p5Q=;
-        b=4/kJLQe7MMxaHXETotNRtLUOhBwpd0XksvU95lJVtUp6w6AIv8ZcIyQKsDitmEJ097
-         AtpnuwKQSV4sCcwyCx/CPyJR+hn3tDdu4iiBWW8wZkEo6Mr/2lpWKukGGNXtgDQNNIXE
-         nKD9f3RCGvPQ1X+nnMofdWK9+O17tTdLlIopv5kP/e4s9GN5HLoYpdLQ1o4R7gGOVIs6
-         N/MowxEvgePgNwk9EdgrZVrk87qSq77FNp43xfxoOD4XfU5hmzovxmAy+P123LUUMpqD
-         sABFV63VhqvwCDqz06hylsBGkFFhoIddawz7V+ysZkzGQM2hFX+73A1anuNRG/+OL7au
-         aJIQ==
-X-Gm-Message-State: ACgBeo3j52UEEW/ELmBsquNPHajMGVnHzJ+hqLrJ79U4L+eqCPyqy/Tz
-	1YJ0rLI1NM1v+EEZ4MV44g7JQpEUVxY=
-X-Google-Smtp-Source: 
- AA6agR730AWXDympRo9Uj0gldArgXAMXeeEtz+SNdNLw+LA3K2SCS5IX+Vfh+YR0pVsP/CKcwG2opQ==
-X-Received: by 2002:a63:da49:0:b0:434:459:307e with SMTP id
- l9-20020a63da49000000b004340459307emr12870224pgj.105.1662439715030;
-        Mon, 05 Sep 2022 21:48:35 -0700 (PDT)
-Received: from localhost.localdomain ([49.204.85.206])
-        by smtp.gmail.com with ESMTPSA id
- y187-20020a6264c4000000b0053db6f7d2f1sm3585654pfb.181.2022.09.05.21.48.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Sep 2022 21:48:34 -0700 (PDT)
-From: pgowda.cve@gmail.com
+ dkim=missing;
+ spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.80,
+ mailfrom: f_l_k@t-online.de)
+Received: from fwd87.dcpf.telekom.de (fwd87.aul.t-online.de [10.223.144.113])
+	by mailout01.t-online.de (Postfix) with SMTP id 776E577F1
+	for <openembedded-core@lists.openembedded.org>;
+ Tue,  6 Sep 2022 09:43:26 +0200 (CEST)
+Received: from flk-MS-7C91.fritz.box ([84.163.37.201]) by fwd87.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1oVTEx-0uBkbh0; Tue, 6 Sep 2022 09:43:23 +0200
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Cc: randy.macleod@windriver.com,
-	pgowda <pgowda.cve@gmail.com>
-Subject: [kirkstone][PATCH] binutils : CVE-2022-38533
-Date: Tue,  6 Sep 2022 10:18:26 +0530
-Message-Id: <20220906044826.3104493-1-pgowda.cve@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Markus Volk <f_l_k@t-online.de>
+Subject: [oe-core][PATCHv4] libsdl2: update 2.0.22 -> 2.24.0
+Date: Tue,  6 Sep 2022 09:43:15 +0200
+Message-Id: <20220906074315.195684-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1662450203-0144746C-ED22BDE9/0/0 CLEAN NORMAL
+X-TOI-MSGID: 132b057c-a90a-4d08-bd0d-e4dc1bbc8b72
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Sep 2022 04:48:43 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Sep 2022 07:43:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170335
+ https://lists.openembedded.org/g/openembedded-core/message/170336
 
-From: pgowda <pgowda.cve@gmail.com>
+In addition to lots of bug fixes, here are the major changes in this rele=
+ase:
 
-Upstream-Status: Backport
-[https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=ef186fe54aa6d281a3ff8a9528417e5cc614c797]
+General:
 
-Signed-off-by: pgowda <pgowda.cve@gmail.com>
+New version numbering scheme, similar to GLib and Flatpak.
+An even number in the minor version (second component) indicates a produc=
+tion-ready stable release such as 2.24.0, which would have been 2.0.24 un=
+der the old system.
+The patchlevel (micro version, third component) indicates a bugfix-only u=
+pdate: for example, 2.24.1 would be a bugfix-only release to fix bugs in =
+2.24.0, without adding new features.
+An odd number in the minor version indicates a prerelease such as 2.23.0.=
+ Stable distributions should not use these prereleases.
+The patchlevel indicates successive prereleases, for example 2.23.1 and 2=
+.23.2 would be prereleases during development of the SDL 2.24.0 stable re=
+lease.
+Added SDL_GetPointDisplayIndex() and SDL_GetRectDisplayIndex() to get the=
+ display associated with a point and rectangle in screen space
+Added SDL_bsearch(), SDL_crc16(), and SDL_utf8strnlen() to the stdlib rou=
+tines
+Added SDL_CPUPauseInstruction() as a macro in SDL_atomic.h
+Added SDL_size_mul_overflow() and SDL_size_add_overflow() for better size=
+ overflow protection
+Added SDL_ResetHint() to reset a hint to the default value
+Added SDL_ResetKeyboard() to reset SDL's internal keyboard state, generat=
+ing key up events for all currently pressed keys
+Added the hint SDL_HINT_MOUSE_RELATIVE_WARP_MOTION to control whether mou=
+se warping generates motion events in relative mode. This hint defaults o=
+ff.
+Added the hint SDL_HINT_TRACKPAD_IS_TOUCH_ONLY to control whether trackpa=
+ds are treated as touch devices or mice. By default touchpads are treated=
+ as mouse input.
+The hint SDL_HINT_JOYSTICK_HIDAPI_JOY_CONS now defaults on
+Added support for mini-gamepad mode for Nintendo Joy-Con controllers usin=
+g the HIDAPI driver
+Added the hint SDL_HINT_JOYSTICK_HIDAPI_COMBINE_JOY_CONS to control wheth=
+er Joy-Con controllers are automatically merged into a unified gamepad wh=
+en using the HIDAPI driver. This hint defaults on.
+The hint SDL_HINT_JOYSTICK_HIDAPI_SWITCH_HOME_LED can be set to a floatin=
+g point value to set the brightness of the Home LED on Nintendo Switch co=
+ntrollers
+Added the hint SDL_HINT_JOYSTICK_HIDAPI_JOYCON_HOME_LED to set the Home L=
+ED brightness for the Nintendo Joy-Con controllers. By default the Home L=
+ED is not modified.
+Added the hint SDL_HINT_JOYSTICK_HIDAPI_SWITCH_PLAYER_LED to control whet=
+her the player LED should be lit on the Nintendo Joy-Con controllers
+Added support for Nintendo Online classic controllers using the HIDAPI dr=
+iver
+Added the hint SDL_HINT_JOYSTICK_HIDAPI_NINTENDO_CLASSIC to control wheth=
+er the HIDAPI driver for Nintendo Online classic controllers should be us=
+ed
+Added support for the NVIDIA Shield Controller to the HIDAPI driver, supp=
+orting rumble and battery status
+Added support for NVIDIA SHIELD controller to the HIDAPI driver, and a hi=
+nt SDL_HINT_JOYSTICK_HIDAPI_SHIELD to control whether this is used
+Added functions to get the platform dependent name for a joystick or game=
+ controller:
+SDL_JoystickPathForIndex()
+SDL_JoystickPath()
+SDL_GameControllerPathForIndex()
+SDL_GameControllerPath()
+Added SDL_GameControllerGetFirmwareVersion() and SDL_JoystickGetFirmwareV=
+ersion(), currently implemented for DualSense(tm) Wireless Controllers us=
+ing HIDAPI
+Added SDL_JoystickAttachVirtualEx() for extended virtual controller suppo=
+rt
+Added joystick event SDL_JOYBATTERYUPDATED for when battery status change=
+s
+Added SDL_GUIDToString() and SDL_GUIDFromString() to convert between SDL =
+GUID and string
+Added SDL_HasLSX() and SDL_HasLASX() to detect LoongArch SIMD support
+Added SDL_GetOriginalMemoryFunctions()
+Added SDL_GetDefaultAudioInfo() to get the name and format of the default=
+ audio device, currently implemented for PipeWire, PulseAudio, WASAPI, an=
+d DirectSound
+Added HIDAPI driver for the NVIDIA SHIELD controller (2017 model) to enab=
+le support for battery status and rumble
+Added support for opening audio devices with 3 or 5 channels (2.1, 4.1). =
+All channel counts from Mono to 7.1 are now supported.
+Rewrote audio channel converters used by SDL_AudioCVT, based on the chann=
+el matrix coefficients used as the default for FAudio voices
+SDL log messages are no longer limited to 4K and can be any length
+Fixed a long-standing calling convention issue with dynapi affecting Open=
+Watcom or OS/2 builds
+Windows:
+
+Added initial support for building for Windows and Xbox with Microsoft's =
+Game Development Kit (GDK), see docs/README-gdk.md for details
+Added a D3D12 renderer implementation and SDL_RenderGetD3D12Device() to r=
+etrieve the D3D12 device associated with it
+Added the hint SDL_HINT_WINDOWS_DPI_AWARENESS to set whether the applicat=
+ion is DPI-aware. This hint must be set before initializing the video sub=
+system
+Added the hint SDL_HINT_WINDOWS_DPI_SCALING to control whether the SDL co=
+ordinates are in DPI-scaled points or pixels
+Added the hint SDL_HINT_DIRECTINPUT_ENABLED to control whether the Direct=
+Input driver should be used
+Added support for SDL_GetAudioDeviceSpec to the DirectSound backend
+Linux:
+
+Support for XVidMode has been removed, mode changes are only supported us=
+ing the XRandR extension
+Added the hint SDL_HINT_VIDEO_WAYLAND_MODE_EMULATION to control whether t=
+o expose a set of emulated modes in addition to the native resolution mod=
+es available on Wayland
+Added the hint SDL_HINT_KMSDRM_DEVICE_INDEX to specify which KMSDRM devic=
+e to use if the default is not desired
+Added the hint SDL_HINT_LINUX_DIGITAL_HATS to control whether to treat ha=
+ts as digital rather than checking to see if they may be analog
+Added the hint SDL_HINT_LINUX_HAT_DEADZONES to control whether to use dea=
+dzones on analog hats
+macOS:
+
+Bumped minimum OS deployment version to macOS 10.9
+Added SDL_GL_FLOATBUFFERS to allow Cocoa GL contexts to use EDR
+Added the hint SDL_HINT_MAC_OPENGL_ASYNC_DISPATCH to control whether disp=
+atching OpenGL context updates should block the dispatching thread until =
+the main thread finishes processing. This hint defaults to blocking, whic=
+h is the safer option on modern macOS.
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- .../binutils/binutils-2.38.inc                |  1 +
- .../binutils/0015-CVE-2022-38533.patch        | 36 +++++++++++++++++++
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0015-CVE-2022-38533.patch
+ ...ability-to-disable-fb-accel-via-hint.patch | 36 -------------------
+ .../{libsdl2_2.0.22.bb =3D> libsdl2_2.24.0.bb}  |  7 ++--
+ 2 files changed, 3 insertions(+), 40 deletions(-)
+ delete mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-video-rest=
+ore-ability-to-disable-fb-accel-via-hint.patch
+ rename meta/recipes-graphics/libsdl2/{libsdl2_2.0.22.bb =3D> libsdl2_2.2=
+4.0.bb} (93%)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
-index eed252976a..8aa8295881 100644
---- a/meta/recipes-devtools/binutils/binutils-2.38.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
-@@ -33,5 +33,6 @@ SRC_URI = "\
-      file://0012-Check-for-clang-before-checking-gcc-version.patch \
-      file://0013-Avoid-as-info-race-condition.patch \
-      file://0014-CVE-2019-1010204.patch \
-+     file://0015-CVE-2022-38533.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/0015-CVE-2022-38533.patch b/meta/recipes-devtools/binutils/binutils/0015-CVE-2022-38533.patch
-new file mode 100644
-index 0000000000..5d9ac2cb1f
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0015-CVE-2022-38533.patch
-@@ -0,0 +1,36 @@
-+From ef186fe54aa6d281a3ff8a9528417e5cc614c797 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Sat, 13 Aug 2022 15:32:47 +0930
-+Subject: [PATCH] PR29482 - strip: heap-buffer-overflow
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-video-restore-abi=
+lity-to-disable-fb-accel-via-hint.patch b/meta/recipes-graphics/libsdl2/l=
+ibsdl2/0001-video-restore-ability-to-disable-fb-accel-via-hint.patch
+deleted file mode 100644
+index fc74d30556..0000000000
+--- a/meta/recipes-graphics/libsdl2/libsdl2/0001-video-restore-ability-to=
+-disable-fb-accel-via-hint.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From 14ad91658fd296e34bb9e833281e72c871bfb189 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Tue, 3 May 2022 12:31:50 +0200
+-Subject: [PATCH] video: restore ability to disable fb accel via hint
+-
+-Somewhere in code refactoring between .20 and .22 this check
+-was lost, and so the hint had no effect anymore.
+-
+-Upstream-Status: Submitted [https://github.com/libsdl-org/SDL/pull/5611]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- src/video/SDL_video.c | 8 ++++++++
+- 1 file changed, 8 insertions(+)
+-
+-diff --git a/src/video/SDL_video.c b/src/video/SDL_video.c
+-index 93c803e..cbe7616 100644
+---- a/src/video/SDL_video.c
+-+++ b/src/video/SDL_video.c
+-@@ -2503,6 +2503,14 @@ SDL_CreateWindowFramebuffer(SDL_Window * window)
+-     if (!_this->checked_texture_framebuffer) {
+-         SDL_bool attempt_texture_framebuffer =3D SDL_TRUE;
+-=20
+-+        /* See if the user or application wants to specifically disable=
+ the framebuffer */
+-+        const char *hint =3D SDL_GetHint(SDL_HINT_FRAMEBUFFER_ACCELERAT=
+ION);
+-+        if (hint) {
+-+            if (*hint =3D=3D '0' || SDL_strcasecmp(hint, "false") =3D=3D=
+ 0) {
+-+                attempt_texture_framebuffer =3D SDL_FALSE;
+-+            }
+-+        }
+-+
+-         if (_this->is_dummy) {  /* dummy driver never has GPU support, =
+of course. */
+-             attempt_texture_framebuffer =3D SDL_FALSE;
+-         }
+---=20
+-2.30.2
+-
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb b/meta/recip=
+es-graphics/libsdl2/libsdl2_2.24.0.bb
+similarity index 93%
+rename from meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb
+rename to meta/recipes-graphics/libsdl2/libsdl2_2.24.0.bb
+index ff3e162c49..fd484a0b52 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.24.0.bb
+@@ -22,13 +22,12 @@ LIC_FILES_CHKSUM:append =3D " ${@bb.utils.contains('P=
+ACKAGECONFIG', 'arm-neon', 'f
+ PROVIDES =3D "virtual/libsdl2"
+=20
+ SRC_URI =3D "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
+-           file://0001-video-restore-ability-to-disable-fb-accel-via-hin=
+t.patch \
+            "
+ SRC_URI:append:class-native =3D " file://0001-Disable-libunwind-in-nativ=
+e-OE-builds-by-not-looking.patch"
+=20
+ S =3D "${WORKDIR}/SDL2-${PV}"
+=20
+-SRC_URI[sha256sum] =3D "fe7cbf3127882e3fc7259a75a0cb585620272c51745d3852=
+ab9dd87960697f2e"
++SRC_URI[sha256sum] =3D "91e4c34b1768f92d399b078e171448c6af18cafda743987e=
+d2064a28954d6d97"
+=20
+ inherit cmake lib_package binconfig-disabled pkgconfig upstream-version-=
+is-even
+=20
+@@ -43,9 +42,7 @@ EXTRA_OECMAKE =3D "-DSDL_OSS=3DOFF -DSDL_ESD=3DOFF -DSD=
+L_ARTS=3DOFF \
+                  -DSDL_PTHREADS=3DON \
+                  -DSDL_RPATH=3DOFF \
+                  -DSDL_SNDIO=3DOFF \
+-                 -DSDL_X11_XVM=3DOFF \
+                  -DSDL_X11_XCURSOR=3DOFF \
+-                 -DSDL_X11_XINERAMA=3DOFF \
+                  -DSDL_X11_XDBE=3DOFF \
+                  -DSDL_X11_XFIXES=3DOFF \
+                  -DSDL_X11_XINPUT=3DOFF \
+@@ -82,4 +79,6 @@ PACKAGECONFIG[x11]        =3D "-DSDL_X11=3DON,-DSDL_X11=
+=3DOFF,virtual/libx11 libxext l
+=20
+ CFLAGS:append:class-native =3D " -DNO_SHARED_MEMORY"
+=20
++FILES:${PN} +=3D "${datadir}/licenses/SDL2/LICENSE.txt"
 +
-+	PR 29482
-+	* coffcode.h (coff_set_section_contents): Sanity check _LIB.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=ef186fe54aa6d281a3ff8a9528417e5cc614c797]
-+
-+Signed-off-by: Pgowda <pgowda.cve@gmail.com>
-+
-+---
-+ bfd/coffcode.h | 7 +++++--
-+ 1 file changed, 5 insertions(+), 2 deletions(-)
-+
-+diff --git a/bfd/coffcode.h b/bfd/coffcode.h
-+index 67aaf158ca1..52027981c3f 100644
-+--- a/bfd/coffcode.h
-++++ b/bfd/coffcode.h
-+@@ -4302,10 +4302,13 @@ coff_set_section_contents (bfd * abfd,
-+ 
-+ 	rec = (bfd_byte *) location;
-+ 	recend = rec + count;
-+-	while (rec < recend)
-++	while (recend - rec >= 4)
-+ 	  {
-++	    size_t len = bfd_get_32 (abfd, rec);
-++	    if (len == 0 || len > (size_t) (recend - rec) / 4)
-++	      break;
-++	    rec += len * 4;
-+ 	    ++section->lma;
-+-	    rec += bfd_get_32 (abfd, rec) * 4;
-+ 	  }
-+ 
-+ 	BFD_ASSERT (rec == recend);
--- 
-2.25.1
+ BBCLASSEXTEND =3D "native nativesdk"
+--=20
+2.34.1
 
 
