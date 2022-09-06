@@ -1,73 +1,118 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB3A5ECAAA1
-	for <webhook@archiver.kernel.org>; Tue,  6 Sep 2022 10:58:14 +0000 (UTC)
-Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
- by mx.groups.io with SMTP id smtpd.web12.2543.1662461884609173685
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E33E8ECAAA1
+	for <webhook@archiver.kernel.org>; Tue,  6 Sep 2022 10:59:24 +0000 (UTC)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+ [209.85.208.179])
+ by mx.groups.io with SMTP id smtpd.web08.2640.1662461962990700310
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Sep 2022 03:58:05 -0700
+ Tue, 06 Sep 2022 03:59:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.80,
- mailfrom: f_l_k@t-online.de)
-Received: from fwd72.dcpf.telekom.de (fwd72.aul.t-online.de [10.223.144.98])
-	by mailout01.t-online.de (Postfix) with SMTP id 513367C96;
-	Tue,  6 Sep 2022 12:58:02 +0200 (CEST)
-Received: from [192.168.178.83] ([84.163.37.201]) by fwd72.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1oVWHJ-1gLEau0; Tue, 6 Sep 2022 12:58:01 +0200
-Date: Tue, 06 Sep 2022 12:57:56 +0200
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [oe-core][PATCHv4] libsdl2: update 2.0.22 -> 2.24.0
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Message-Id: <KSBSHR.GBRTTFZ3GOW63@t-online.de>
-In-Reply-To: <YxcaoKV6sz+dCbGL@mail.local>
-References: <20220906074315.195684-1-f_l_k@t-online.de>
-	<YxcaoKV6sz+dCbGL@mail.local>
-X-Mailer: geary/40.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=GD9t7wnt;
+ spf=pass (domain: gmail.com, ip: 209.85.208.179,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f179.google.com with SMTP id x10so11864782ljq.4
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 06 Sep 2022 03:59:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=FeLVb9FxM3bAvv9Mx6rYyN19n/bcgO1bwAGE+9dd8KA=;
+        b=GD9t7wntPHX2zRHhAXGA8oGjbn3LuYo7c/ACkunupqGotZh243DlS4rNwUNWxC33Kg
+         JG8SssYKGdFP1zm9kkuOLXskIOELfvAr+6UANgnb28Q6TZ5862rt44v8BY9QBJGoHWAX
+         uz5MdcFZkEau6iOHE5DBT6o4kZcx2D/Q7WuNCVFex2Xw31FSqIBUjHQUEOTH1lNtKpx7
+         126BJUDetG+khFwczD3jJJVUqBH/vqppCRqiJMbmhOJ/+AM7AViEJwhN9N26+UcmDqGP
+         d4QDnkWwxF6RRPi2YHBtgBKD+me06Xx9X80EHCYjufrFSZ4vkwCHPZ1RlwLkfBy8F4Ht
+         PCag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=FeLVb9FxM3bAvv9Mx6rYyN19n/bcgO1bwAGE+9dd8KA=;
+        b=4yhg4NEP5sRp2qmBZ/xLYr/P1oO0UpqxII3LYZNPQ5UuyyMs1ygP8d5N5X2wxnch1j
+         pLROquFevFa3rBj1Xf9z3Zs//9dtzBxatkzXdHpkAW2B1ycf4TJJj6s2H/zvL+X9dxls
+         1jZaE9O4d/E4Bq/WNowAeCmOZLGKWsvpuG/etqGFv/FaPZyLftrWaGgUQmFicnaeCfi2
+         YO6Et6+c1jjwvKfAS/wEH/G6nucKOrf6xfqy3hs2562lmnEcXjvspY9ihnYVZmdD82sd
+         wqxhxqWUjFq6T5SyviIPA+/I9dcGvA9R74EYcBTddF7rqKaklNvUbCbomnEu14wJU2FK
+         RzhQ==
+X-Gm-Message-State: ACgBeo1fsvr/4R9s0cG0FRft1A/vpNMMhG8Fbp8Cj1ggmn9o8UbV/jJa
+	mK7jsxLedl34GmBDmzI3hxzzi9orUPoLAN/GiXw=
+X-Google-Smtp-Source: 
+ AA6agR6ZXa40kADRUv94RLOwQ/BVAJjE+KfDxf+PlgkQlcr16SKuZ6Dh/tUPLxowG7m/lXoWSv5jLZnw9ngyQyPYqiw=
+X-Received: by 2002:a2e:161d:0:b0:264:87b0:fc7e with SMTP id
+ w29-20020a2e161d000000b0026487b0fc7emr12978178ljd.191.1662461960886; Tue, 06
+ Sep 2022 03:59:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-d2HdfkqU4Tpi3Xr/ni2t"
-X-TOI-EXPURGATEID: 150726::1662461881-01449CE0-2C43EEBB/0/0 CLEAN NORMAL
-X-TOI-MSGID: f0498584-c519-4084-92f6-748e26fb6652
+References: <20220906103614.37073-1-joshua.downer@gmail.com>
+In-Reply-To: <20220906103614.37073-1-joshua.downer@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 6 Sep 2022 12:59:09 +0200
+Message-ID: 
+ <CANNYZj8sQCyaBeGPs7vdDWY4GFWijy5LGV+MMaTV+gnX-h3CcQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] scripts/oe-oe-buildenv-internal: add SCRIPTSDIR
+To: Joshua Downer <joshua.downer@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Sep 2022 10:58:14 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Sep 2022 10:59:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170343
+ https://lists.openembedded.org/g/openembedded-core/message/170344
 
---=-d2HdfkqU4Tpi3Xr/ni2t
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Can you explain the use case please? I'm not sure this should be added
+to core if there are no uses or examples or tests for it.
 
-Am Di, 6. Sep 2022 um 12:02:08 +0200 schrieb Alexandre Belloni 
-<alexandre.belloni@bootlin.com>:
-> | 
-> /home/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/i686-nativesdk-mingw32-w64-mingw32/nativesdk-libsdl2/2.24.0-r0/SDL2-2.24.0/src/video/windows/SDL_windowsvideo.c:247:38: 
-> error: 'WIN_GL_GetDrawableSize' undeclared (first use in this 
-> function); did you mean 'WIN_GetDrawableSize'?
-> |   247 |     device->Vulkan_GetDrawableSize = WIN_GL_GetDrawableSize;
-> |       |                                      ^~~~~~~~~~~~~~~~~~~~~~
-> |       |                                      WIN_GetDrawableSize
+Alex
 
-meta-mingw prohibits opengl and gles2 for libsdl2. Therefore, vulkan 
-cannot be built either. I will add a PACKAGECONFIG for Vulkan to the 
-libsdl2 recipe so we can disable it, and send a patch for meta-mingw to 
-remove vulkan from the libsdl2 PACKAGECONFIG as well.
-
- 
-<https://git.yoctoproject.org/meta-mingw/tree/recipes-graphics/libsdl2/libsdl2_%25.bbappend#n4>
-
-
---=-d2HdfkqU4Tpi3Xr/ni2t
-Content-Type: text/html; charset=us-ascii
-
-<div id="geary-body" dir="auto">Am Di, 6. Sep 2022 um 12:02:08 +0200 schrieb Alexandre Belloni &lt;alexandre.belloni@bootlin.com&gt;:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">| /home/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/i686-nativesdk-mingw32-w64-mingw32/nativesdk-libsdl2/2.24.0-r0/SDL2-2.24.0/src/video/windows/SDL_windowsvideo.c:247:38: error: 'WIN_GL_GetDrawableSize' undeclared (first use in this function); did you mean 'WIN_GetDrawableSize'?
-|   247 |     device-&gt;Vulkan_GetDrawableSize = WIN_GL_GetDrawableSize;
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~
-|       |                                      WIN_GetDrawableSize</div></blockquote><div><br></div><div>meta-mingw prohibits opengl and gles2 for libsdl2. Therefore, vulkan cannot be built either. I will add a PACKAGECONFIG for Vulkan to the libsdl2 recipe so we can disable it, and send a patch for meta-mingw to remove vulkan from the libsdl2 PACKAGECONFIG as well.</div><div><br></div><div>&nbsp;<a href="https://git.yoctoproject.org/meta-mingw/tree/recipes-graphics/libsdl2/libsdl2_%25.bbappend#n4">https://git.yoctoproject.org/meta-mingw/tree/recipes-graphics/libsdl2/libsdl2_%25.bbappend#n4</a></div></div>
---=-d2HdfkqU4Tpi3Xr/ni2t--
-
+On Tue, 6 Sept 2022 at 12:36, Joshua Downer <joshua.downer@gmail.com> wrote:
+>
+> The addition of the SCRIPTSDIR variable allows the user to customize the
+> location of the scripts/ directory. The default remains $OEROOT/scripts.
+>
+> Signed-off-by: Joshua Downer <joshua.downer@gmail.com>
+> ---
+>  scripts/oe-buildenv-internal | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
+> index 485d4c52e1..564b7c8b55 100755
+> --- a/scripts/oe-buildenv-internal
+> +++ b/scripts/oe-buildenv-internal
+> @@ -77,6 +77,11 @@ if [ -z "$BITBAKEDIR" ]; then
+>      test -d "$BITBAKEDIR" || BITBAKEDIR="$OEROOT/../bitbake$BBEXTRA"
+>  fi
+>
+> +if [ -z "$SCRIPTSDIR" ]; then
+> +    SCRIPTSDIR="$OEROOT/scripts"
+> +fi
+> +
+> +SCRIPTSDIR=$(readlink -f "$SCRIPTSDIR")
+>  BITBAKEDIR=$(readlink -f "$BITBAKEDIR")
+>  BUILDDIR=$(readlink -f "$BUILDDIR")
+>  BBPATH=$BUILDDIR
+> @@ -93,7 +98,7 @@ PYTHONPATH=$BITBAKEDIR/lib:$PYTHONPATH
+>  export PYTHONPATH
+>
+>  # Make sure our paths are at the beginning of $PATH
+> -for newpath in "$BITBAKEDIR/bin" "$OEROOT/scripts"; do
+> +for newpath in "$BITBAKEDIR/bin" "$SCRIPTSDIR"; do
+>      # Remove any existences of $newpath from $PATH
+>      PATH=$(echo $PATH | sed -re "s#(^|:)$newpath(:|$)#\2#g;s#^:##")
+>
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#170342): https://lists.openembedded.org/g/openembedded-core/message/170342
+> Mute This Topic: https://lists.openembedded.org/mt/93497736/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
