@@ -2,65 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22F29C38145
-	for <webhook@archiver.kernel.org>; Wed,  7 Sep 2022 14:20:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E3D3C38145
+	for <webhook@archiver.kernel.org>; Wed,  7 Sep 2022 14:20:55 +0000 (UTC)
 Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
  [209.85.214.174])
  by mx.groups.io with SMTP id smtpd.web11.8209.1662560440200858360
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 07:20:40 -0700
+ Wed, 07 Sep 2022 07:20:53 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=mvYphL9C;
+ header.b=dmUjlRyL;
  spf=softfail (domain: sakoman.com, ip: 209.85.214.174,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id x1so10355729plv.5
+Received: by mail-pl1-f174.google.com with SMTP id x1so10356466plv.5
         for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 07:20:40 -0700 (PDT)
+ Wed, 07 Sep 2022 07:20:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=Ig4zRYvph5JNIUAbdYGKvURniGC86q6AFYA63PtWMsw=;
-        b=mvYphL9C4L/FixR/7oZM4cphdbzJGvzpcbAZsdxJ++77+53B/GctQ0Hz8HbtW/bhbM
-         +m3tyOElMfYyfm3hmw1gKymRNMJpuqPa0bHPohI+OVdBjhQW5jcv/L84k3UDK8iAz1/N
-         v8gM7cbAtAgzD3BPNeyJk/yLdCsa+Ij2vIjXKmjcUJVuBsABGBubFXCtAtxv1icxZvSo
-         LUNrkmGVohJnAqKCs8B+siGY4c45GuEr07A8+N/IXDy07Tl7atIWNZyTPgLsBij1WF1H
-         sTyB7RxjNHmus91a++YBEQ4ricxrlkDge4/at8Jephs8ThjJpD5L6+P9xEjS9YkShgIu
-         2qdg==
+        bh=9RV1otr5sAmHuqhdJk7DSik1VqqlWDWd6Vyut8qkvVM=;
+        b=dmUjlRyLVvQHdF9bck3uhIj4H5rwPMooWvqam7adArEfwIgCEAlVtjmD1rJeX65BYh
+         e+dufNc9klbzBPhJrk2C8ioapxK+vA41WWXeKnx4lLysxGZ8JpUN4MOe7cy1LjLM+h/2
+         9dq2riBDvGDsRQWcwzT7RoDLCyEz05MTBFa7szfskmgTUmUsdRlypeIjohaUrrFJmQQh
+         Cl1uPelZjD/PewHzUhta+VT8pZ/6gk5REJIeRT9kGk3LqslvPmAwxYnCaLoTxQaY1W8M
+         rXp6gbrekPJ1v9Mout6dicA0U/Pr8p6o7RdDfSEFj9vVB76bvvbMhL76g9Rs57UdBl97
+         AQnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=Ig4zRYvph5JNIUAbdYGKvURniGC86q6AFYA63PtWMsw=;
-        b=KXSRX+5HUrVUg4XKNqW+z4/9TClUkPJXxy3DgUzio1a/zXKwYE+LGzK8eKTvQJ3tyG
-         3K/R4+rMeIk3KRo+lSeNywYzmcGxRQzk7V8uNwxNQKVxwJnafbqNMBCFXjrz6RvxrAXH
-         8XYGHuL8Pyl1RCPu3/v4DVZXvDii/c1RRJ527vB57ioIVRBjXbGrug4gLmr5Roc4EQZr
-         K63u2hMJ5jsERwkOdeSSr0fVqb4EW7rQYMn1j5RROhKwqvJzYSeDmkCCtE9dNd56AP1A
-         7BQEGmlOTuWlfvyO1liqU4YjvZ1afciK4q9qnJkGuFNvGc8VoEKRgHAo6ZhR/IYw0Y/a
-         Go3g==
-X-Gm-Message-State: ACgBeo0txsYOlSWfPNFCHdXEuHQS6hWUCiT4BFbdeDqJpBLmMK5i9W82
-	x6E04NBW3XN7gwWdJBrECE/RWnTCGoA80xun
+        bh=9RV1otr5sAmHuqhdJk7DSik1VqqlWDWd6Vyut8qkvVM=;
+        b=HZthn+dYionSzj/I3zRaJs5q9Bdmwq5MzgdNTF2i4KsnSztIiBAv+zzJAkMbO+XBuE
+         wy+ZGegavVNKjit6a9j098hjBr7l/2veG45qgf9xo310NwwTTxLrScyEhMIkF4mmwJiz
+         Xt210sZ3H1l0lnEVL0DERziL5uY8gDg8LyKs3FFESEp9eR0jEb9kMeq6SABX2y4FzGvl
+         Z8x9TZfR6uwAFscnFlcco2GXVyIjm6A6twArnK4bF8SQNb4i6zyHs2o+ZAGkp9utDHPK
+         mgD79Pujm9dtpLBjYbeCgmeoT5T8pBbUZk8ZnAIKP/+5k0W5CfNVG52PZn8zVRyP0r8P
+         vO1w==
+X-Gm-Message-State: ACgBeo0l4xibfhUuMw1nQe+/5AlwmhzquthNQLTmwI3U2F/jmFkwlJvI
+	FiqAN4xmxyUdu0dEUfAoAbFMC7U8zvvD/wb4
 X-Google-Smtp-Source: 
- AA6agR64QnbLeSSb/WvsUWmhupoJ1cU80K7v46wTeoDp0LBCfg/68hEyxBW7yRE0xPFDdopKD/uYGA==
-X-Received: by 2002:a17:902:a502:b0:172:5f2a:9e35 with SMTP id
- s2-20020a170902a50200b001725f2a9e35mr3853331plq.79.1662560439148;
-        Wed, 07 Sep 2022 07:20:39 -0700 (PDT)
+ AA6agR7Tr2VbmU7Q1h1ddrOAx+4DBROq1ekgQRvlUgxzomiildvLYjxxAqGA8TiywsaKJ412X76iow==
+X-Received: by 2002:a17:90a:39ca:b0:202:54df:b1a4 with SMTP id
+ k10-20020a17090a39ca00b0020254dfb1a4mr1510495pjf.210.1662560452636;
+        Wed, 07 Sep 2022 07:20:52 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- x13-20020a17090a1f8d00b001f510175984sm14776198pja.41.2022.09.07.07.20.37
+ x13-20020a17090a1f8d00b001f510175984sm14776198pja.41.2022.09.07.07.20.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Sep 2022 07:20:38 -0700 (PDT)
+        Wed, 07 Sep 2022 07:20:51 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 01/24] sqlite: add CVE-2022-35737 patch to
- SRC_URI
-Date: Wed,  7 Sep 2022 04:20:02 -1000
+Subject: [OE-core][kirkstone 07/24] libtasn1: upgrade 4.18.0 -> 4.19.0
+Date: Wed,  7 Sep 2022 04:20:08 -1000
 Message-Id: 
- <f28dc527d4a3e3aa6ef2b446e863264c0e874fa1.1662559557.git.steve@sakoman.com>
+ <005bfa0639724248f2a257cae0108ecd16e7314b.1662559557.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1662559557.git.steve@sakoman.com>
 References: <cover.1662559557.git.steve@sakoman.com>
@@ -69,36 +68,43 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Sep 2022 14:20:45 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Sep 2022 14:20:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170396
+ https://lists.openembedded.org/g/openembedded-core/message/170402
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
+From: wangmy <wangmy@fujitsu.com>
 
-SRC_URI include patch introduced in oe-core commit
-fdc82b2314b580c0135c16b7278ebf8786311dec
+Changelog:
+===========
+- Clarify libtasn1.map license.  Closes: #38.
+- Fix ETYPE_OK out of bounds read.  Closes: #32.
+- Update gnulib files and various maintenance fixes.
 
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit b8f2c6ec61ffcc607a35bd5c11f5020c9b676226)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/sqlite/sqlite3_3.38.5.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../gnutls/{libtasn1_4.18.0.bb => libtasn1_4.19.0.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/gnutls/{libtasn1_4.18.0.bb => libtasn1_4.19.0.bb} (90%)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
-index d56a3a0209..628f630657 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
-@@ -3,7 +3,9 @@ require sqlite3.inc
- LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+diff --git a/meta/recipes-support/gnutls/libtasn1_4.18.0.bb b/meta/recipes-support/gnutls/libtasn1_4.19.0.bb
+similarity index 90%
+rename from meta/recipes-support/gnutls/libtasn1_4.18.0.bb
+rename to meta/recipes-support/gnutls/libtasn1_4.19.0.bb
+index db49adc1c2..5fb8b54c06 100644
+--- a/meta/recipes-support/gnutls/libtasn1_4.18.0.bb
++++ b/meta/recipes-support/gnutls/libtasn1_4.19.0.bb
+@@ -16,7 +16,7 @@ SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
  
--SRC_URI = "http://www.sqlite.org/2022/sqlite-autoconf-${SQLITE_PV}.tar.gz"
-+SRC_URI = "http://www.sqlite.org/2022/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-+           file://0001-sqlite-Increased-the-size-of-loop-variables-in-the-printf-implementation.patch \
-+"
- SRC_URI[sha256sum] = "5af07de982ba658fd91a03170c945f99c971f6955bc79df3266544373e39869c"
+ DEPENDS = "bison-native"
  
- # -19242 is only an issue in specific development branch commits
+-SRC_URI[sha256sum] = "4365c154953563d64c67a024b607d1ee75c6db76e0d0f65709ea80a334cd1898"
++SRC_URI[sha256sum] = "1613f0ac1cf484d6ec0ce3b8c06d56263cc7242f1c23b30d82d23de345a63f7a"
+ 
+ inherit autotools texinfo lib_package gtk-doc
+ 
 -- 
 2.25.1
 
