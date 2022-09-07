@@ -1,358 +1,162 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <sundeep.kokkonda@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E8D3C38145
-	for <webhook@archiver.kernel.org>; Tue,  6 Sep 2022 23:18:21 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web12.1404.1662506295359196309
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E695BECAAA1
+	for <webhook@archiver.kernel.org>; Wed,  7 Sep 2022 02:20:11 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web11.3114.1662517210344736121
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Sep 2022 16:18:15 -0700
+ Tue, 06 Sep 2022 19:20:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=eVx0H0j7;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.47,
- mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f47.google.com with SMTP id lz22so5762145ejb.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jR/3TiUU;
+ spf=pass (domain: gmail.com, ip: 209.85.214.174,
+ mailfrom: sundeep.kokkonda@gmail.com)
+Received: by mail-pl1-f174.google.com with SMTP id s14so3508451plr.4
         for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Sep 2022 16:18:15 -0700 (PDT)
+ Tue, 06 Sep 2022 19:20:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=j/WHvtrbgOfMr5Hh8JAOW/37rgomYfAMRADPiMGHFFU=;
-        b=eVx0H0j7YPZNnwVomH0wZBI1B/XodMuTH9ylX2K7r5BOjw3sadE+RQ8qB/KBR5HDIV
-         i954/Xan+7PgzCWf4QELdefJfXY27gTKq7xo6DJKnpBSDSJ2RkVOpACq9pq1i7I8n9tU
-         Y+hyrV+Byh7aFBfr7z3MukWj/WnrG/XdxsZsnM1BP+My0Ha53izpN28d+Mv3xqeOfTTW
-         F5/Ee0vsjwvfPksiSKWyI7zPJIaxYXIQK/sJYkfT2hfaQ/11xMaWBJQpmdyAZh8IL98X
-         D1DBfX36U3GxaxoGNOzXUBHshY8Pg+ODXSo5+G5mAgbfIsAuNduaM4ulCvS44KUzkdfg
-         EZHA==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=VoAXCAHi/2EP4HWGHqPUq3Jm6whN8uEnPdMaZBzt7nw=;
+        b=jR/3TiUU6XH5gnWtL1sQkR/wmWomA90bjuyMh7ID73TIPItLmWJpDzJuFboypZwvxB
+         C+4U8DdnFCK7FKm8I0Wuhv2n7Ti4f5r5wqm8vYYvg+rnpX0ZPQDBIFI6gE+BWY9m0yZG
+         HrW5bVU+8wfQuNzfD4X1uQM0SxGqxmIy1DtwXPYgijnpers1JuXQHOvX+Kg8OkfGMZhp
+         Y2Q/WCrgKF5vW5MbhiaM3Ycku++FPnPQCuTBNkN/Dzhf7W2gudnc9EmyjPBG8IPkNpfp
+         ULfG24bpkYxPRE4apeaCbaZeycQyXtj6oK3U9zfhkGDtCfG+uuxj9Y+RSPYH5X0opyT8
+         vXPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=j/WHvtrbgOfMr5Hh8JAOW/37rgomYfAMRADPiMGHFFU=;
-        b=EagJT+20Wo+0iTEtIptdbBJfqv2NIvxDM/0zRs3MSx1FQFKryJWX13JueFpAHH42Tx
-         k5YyBtOqQ505MhiO8KiSpJ9oJ2E4ShuHOcMtuR+ok5Kk2mbZC8eWpxBw/L21zgPi8xD3
-         R/UhfPKK8frxOjFu2C/bRV/zxiP0ky+Lo2W7FnOcpI8hqHMpbfZp2HxwAcxL4oOs74Nq
-         +GQgJtiOg2UqLmeEWSGZuhueCA62bFitzkLhGbnTyFl7+7C+AkLsrDwOpEgdq5cNjH7p
-         hS0eisZrRbluZJJdUj8uvf6CO3VQzs1qpg/UtLqmTM8Dv55u1kx2Q0ASHmfBlkzYaD4K
-         57Hg==
-X-Gm-Message-State: ACgBeo1CqzbY06Csefw+ZhPJQgvphHWgBAt+otGxRIGtKbzr5+w7cc1k
-	0o1Qoi4qcjzRkkK/YURzlNdFcrdr37kz1mvjpo0vVA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=VoAXCAHi/2EP4HWGHqPUq3Jm6whN8uEnPdMaZBzt7nw=;
+        b=wUcIwyC+Hnb1unVqe1vg8f8rD1YFX3EJ3skQZba4VaA9eCgbEaoCWN+AHRT4VGVky2
+         IiKZYw95aN58LuyNvWxcJj8xlqxTg2ZqqnhWDE/v5C0thLFS+8Nd9i97P/SQpUJ57fDF
+         zLz7FM6jD58pCkQMwxGAt99IUYEzxMfW0k0RnLBfkwlCm+GOb6+DDSWviNwqBE85QqWP
+         waf3AcexNBYRj/7iNPV/zSbfr4zkrSsLxpsQCi2Iq+cXwkuo95YEwK/wgMYKYA1I9yzH
+         bdCpgN4GKaNGqL8yl9UaO/797GnvnFHnoTQUftHkOOWA3lLE/HySZOE1uOAG5Acywkfk
+         E2RA==
+X-Gm-Message-State: ACgBeo0x2C5p0nuRTVYoQeJgL3nIA8ceYO1FOanKqncnQUOOnJr14Ajm
+	aFPIwPsQM1vRu7fyNegv8UX6/0vgsd5ugg==
 X-Google-Smtp-Source: 
- AA6agR4e8kutR73DvNMDUfvKdVvUNVa9CmaI3oADbOrgV8eVeLAk83VFT2wvVrKA8Tpx6RV7I+97akwC6YvEiNuKOqI=
-X-Received: by 2002:a17:906:58cc:b0:74f:f27a:e8a6 with SMTP id
- e12-20020a17090658cc00b0074ff27ae8a6mr559259ejs.18.1662506293558; Tue, 06 Sep
- 2022 16:18:13 -0700 (PDT)
+ AA6agR71H+5QeMEksgdoZytmCWLQNhlroZUwy/g9YiKpQaBGku5aFaWbEdY4AoyBSMCvRNCixtASIA==
+X-Received: by 2002:a17:902:8643:b0:172:e067:d7ac with SMTP id
+ y3-20020a170902864300b00172e067d7acmr1317890plt.164.1662517209346;
+        Tue, 06 Sep 2022 19:20:09 -0700 (PDT)
+Received: from localhost.localdomain ([49.204.85.206])
+        by smtp.gmail.com with ESMTPSA id
+ s8-20020a170902ea0800b001755f43bc22sm10768832plg.175.2022.09.06.19.20.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Sep 2022 19:20:08 -0700 (PDT)
+From: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: rwmacleod@gmail.com,
+	umesh.kalappa0@gmail.com,
+	pgowda.cve@gmail.com,
+	shivams@gmail.com,
+	Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+Subject: [PATCH V2] rust-cross-canadian: Fix for the issue caused by using sdk
+ shell
+Date: Wed,  7 Sep 2022 07:48:17 +0530
+Message-Id: <20220907021817.3309235-1-sundeep.kokkonda@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220905130608.9341-1-ranjitsinh.rathod@kpit.com>
-In-Reply-To: <20220905130608.9341-1-ranjitsinh.rathod@kpit.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 6 Sep 2022 13:18:02 -1000
-Message-ID: 
- <CAOSpxda695me_a+bY92tT33SzV0oZTHvDJofJxnqO2PFqPYnGw@mail.gmail.com>
-Subject: Re: [OE-Core][dunfell][PATCH 1/2] libarchive: Fix CVE-2021-23177
- issue
-To: ranjitsinh.rathod@kpit.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Sep 2022 23:18:21 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Sep 2022 02:20:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170367
+ https://lists.openembedded.org/g/openembedded-core/message/170368
 
-On Mon, Sep 5, 2022 at 3:06 AM Ranjitsinh Rathod via
-lists.openembedded.org
-<ranjitsinh.rathod=3Dkpit.com@lists.openembedded.org> wrote:
->
-> Add patch to fix CVE-2021-23177 issue for libarchive
-> Link: http://deb.debian.org/debian/pool/main/liba/libarchive/libarchive_3=
-.4.3-2+deb11u1.debian.tar.xz
+[YOCTO #14892]
+This is a fix for the fix in YOCTO #14878. When the shebang is more than
+128 characters the default shell /bin/sh is used instead of SDK shell as
+a fallback, which causes problems with LD_LIBRARY_PATH. With this patch
+shell usage is avoided as we use a C wrapper and unset LD_LIBRARY_PATH
+that way.
 
-Fails to build with this patch:
+Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+---
+ .../rust/files/target-rust-ccld.c             | 21 +++++++++++++++++++
+ .../rust/rust-cross-canadian.inc              | 20 +++++++++++++++---
+ 2 files changed, 38 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/rust/files/target-rust-ccld.c
 
-NOTE: Applying patch 'CVE-2021-23177.patch'
-(../meta/recipes-extended/libarchive/libarchive/CVE-2021-23177.patch)
-ERROR: Applying patch 'CVE-2021-23177.patch' on target directory
-'TOPDIR/tmp/work/x86_64-linux/libarchive-native/3.4.2-r0/libarchive-3.4.2'
-Command Error: 'quilt --quiltrc
-TOPDIR/tmp/work/x86_64-linux/libarchive-native/3.4.2-r0/recipe-sysroot-nati=
-ve/etc/quiltrc
-push' exited with 0  Output:
-Applying patch CVE-2021-23177.patch
-patching file libarchive/archive_disk_acl_freebsd.c
-Hunk #1 succeeded at 319 with fuzz 1.
-Hunk #2 FAILED at 364.
-Hunk #3 FAILED at 542.
-Hunk #4 FAILED at 677.
-Hunk #5 FAILED at 693.
-4 out of 5 hunks FAILED -- rejects in file libarchive/archive_disk_acl_free=
-bsd.c
-patching file libarchive/archive_disk_acl_linux.c
-Hunk #1 FAILED at 343.
-Hunk #2 succeeded at 455 with fuzz 1.
-Hunk #3 FAILED at 488.
-Hunk #4 FAILED at 727.
-3 out of 4 hunks FAILED -- rejects in file libarchive/archive_disk_acl_linu=
-x.c
-patching file libarchive/archive_disk_acl_sunos.c
-Hunk #1 succeeded at 443 with fuzz 1.
-Hunk #2 FAILED at 467.
-Hunk #3 FAILED at 492.
-Hunk #4 FAILED at 801.
-Hunk #5 FAILED at 810.
-4 out of 5 hunks FAILED -- rejects in file libarchive/archive_disk_acl_suno=
-s.c
-Patch CVE-2021-23177.patch does not apply (enforce with -f)
-DEBUG: Python function patch_do_patch finished
-DEBUG: Python function do_patch finished
+diff --git a/meta/recipes-devtools/rust/files/target-rust-ccld.c b/meta/recipes-devtools/rust/files/target-rust-ccld.c
+new file mode 100644
+index 0000000000..fa98c1dbd7
+--- /dev/null
++++ b/meta/recipes-devtools/rust/files/target-rust-ccld.c
+@@ -0,0 +1,21 @@
++/*
++*
++* Copyright (C) 2022      Wind River Systems
++*
++* SPDX-License-Identifier: MIT
++*
++*/
++
++#include <string.h>
++#include <stdlib.h>
++#include <unistd.h>
++
++int main (int argc, char *argv[])
++{
++    unsetenv("LD_LIBRARY_PATH");
++    execvp("target-rust-ccld-wrapper", argv);
++
++    return 0;
++}
++
++
+diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/recipes-devtools/rust/rust-cross-canadian.inc
+index 7bf75a4712..7536579313 100644
+--- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
++++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
+@@ -7,13 +7,18 @@ LICENSE = "MIT"
+ 
+ MODIFYTOS = "0"
+ 
++DEPENDS += "virtual/${SDK_PREFIX}gcc-crosssdk virtual/nativesdk-libc virtual/nativesdk-${SDK_PREFIX}compilerlibs"
++
++SRC_URI += "file://target-rust-ccld.c"
++LIC_FILES_CHKSUM = "file://target-rust-ccld.c;md5=b6bc5662440675fd7d64688087a2f679;endline=7"
++S = "${WORKDIR}"
++
+ # Need to use our SDK's sh here, see #14878
+ create_sdk_wrapper () {
+         file="$1"
+         shift
+-
+         cat <<- EOF > "${file}"
+-		#!${base_prefix}/bin/sh
++		#!/bin/sh
+ 		\$$1 \$@
+ 		EOF
+ 
+@@ -32,8 +37,17 @@ do_install () {
+     install -m 0644 "${RUST_TARGETS_DIR}/${RUST_TARGET_SYS}.json" "${RUSTLIB_DIR}"
+ 
+     # Uses SDK's CC as linker so linked binaries works out of box.
++    # We have a problem as rust sets LD_LIBRARY_PATH and this will break running host
++    # binaries (even /bin/sh) in the SDK as they detect a newer glibc from the SDK
++    # in those paths and we hit symbol errors. We saw particular problems with symbol
++    # mismatch on ubuntu1804 during development. To avoid this we have an SDK built
++    # binary which unsets LD_LIBRARY_PATH, which can then call the wrapper script
++    # where the context is easier to do the env maniupations needed
+     install -d ${SYS_BINDIR}
+-    create_sdk_wrapper "${SYS_BINDIR}/target-rust-ccld" "CC"
++    outfile="${SYS_BINDIR}/target-rust-ccld"
++    ${CC} ${WORKDIR}/target-rust-ccld.c -o $outfile
++    chmod +x "$outfile"
++    create_sdk_wrapper "${SYS_BINDIR}/target-rust-ccld-wrapper" "CC"
+ 
+     ENV_SETUP_DIR=${D}${base_prefix}/environment-setup.d
+     mkdir "${ENV_SETUP_DIR}"
+-- 
+2.25.1
 
-I'm going to drop both patches in the series and await a v2.
-
-Steve
-
-> Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-> ---
->  .../libarchive/CVE-2021-23177.patch           | 183 ++++++++++++++++++
->  .../libarchive/libarchive_3.4.2.bb            |   1 +
->  2 files changed, 184 insertions(+)
->  create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2021-=
-23177.patch
->
-> diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2021-23177.p=
-atch b/meta/recipes-extended/libarchive/libarchive/CVE-2021-23177.patch
-> new file mode 100644
-> index 0000000000..555c7a47f7
-> --- /dev/null
-> +++ b/meta/recipes-extended/libarchive/libarchive/CVE-2021-23177.patch
-> @@ -0,0 +1,183 @@
-> +Description: Fix handling of symbolic link ACLs
-> + Published as CVE-2021-23177
-> +Origin: upstream, https://github.com/libarchive/libarchive/commit/fba4f1=
-23cc456d2b2538f811bb831483bf336bad
-> +Bug-Debian: https://bugs.debian.org/1001986
-> +Author: Martin Matuska <martin@matuska.org>
-> +Last-Updated: 2021-12-20
-> +
-> +CVE: CVE-2021-23177
-> +Upstream-Status: Backport [http://deb.debian.org/debian/pool/main/liba/l=
-ibarchive/libarchive_3.4.3-2+deb11u1.debian.tar.xz]
-> +Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-> +
-> +--- a/libarchive/archive_disk_acl_freebsd.c
-> ++++ b/libarchive/archive_disk_acl_freebsd.c
-> +@@ -319,7 +319,7 @@
-> +
-> + static int
-> + set_acl(struct archive *a, int fd, const char *name,
-> +-    struct archive_acl *abstract_acl,
-> ++    struct archive_acl *abstract_acl, __LA_MODE_T mode,
-> +     int ae_requested_type, const char *tname)
-> + {
-> +       int              acl_type =3D 0;
-> +@@ -364,6 +364,13 @@
-> +               return (ARCHIVE_FAILED);
-> +       }
-> +
-> ++      if (acl_type =3D=3D ACL_TYPE_DEFAULT && !S_ISDIR(mode)) {
-> ++              errno =3D EINVAL;
-> ++              archive_set_error(a, errno,
-> ++                  "Cannot set default ACL on non-directory");
-> ++              return (ARCHIVE_WARN);
-> ++      }
-> ++
-> +       acl =3D acl_init(entries);
-> +       if (acl =3D=3D (acl_t)NULL) {
-> +               archive_set_error(a, errno,
-> +@@ -542,7 +549,10 @@
-> +       else if (acl_set_link_np(name, acl_type, acl) !=3D 0)
-> + #else
-> +       /* FreeBSD older than 8.0 */
-> +-      else if (acl_set_file(name, acl_type, acl) !=3D 0)
-> ++      else if (S_ISLNK(mode)) {
-> ++          /* acl_set_file() follows symbolic links, skip */
-> ++          ret =3D ARCHIVE_OK;
-> ++      } else if (acl_set_file(name, acl_type, acl) !=3D 0)
-> + #endif
-> +       {
-> +               if (errno =3D=3D EOPNOTSUPP) {
-> +@@ -677,14 +687,14 @@
-> +           & ARCHIVE_ENTRY_ACL_TYPE_POSIX1E) !=3D 0) {
-> +               if ((archive_acl_types(abstract_acl)
-> +                   & ARCHIVE_ENTRY_ACL_TYPE_ACCESS) !=3D 0) {
-> +-                      ret =3D set_acl(a, fd, name, abstract_acl,
-> ++                      ret =3D set_acl(a, fd, name, abstract_acl, mode,
-> +                           ARCHIVE_ENTRY_ACL_TYPE_ACCESS, "access");
-> +                       if (ret !=3D ARCHIVE_OK)
-> +                               return (ret);
-> +               }
-> +               if ((archive_acl_types(abstract_acl)
-> +                   & ARCHIVE_ENTRY_ACL_TYPE_DEFAULT) !=3D 0)
-> +-                      ret =3D set_acl(a, fd, name, abstract_acl,
-> ++                      ret =3D set_acl(a, fd, name, abstract_acl, mode,
-> +                           ARCHIVE_ENTRY_ACL_TYPE_DEFAULT, "default");
-> +
-> +               /* Simultaneous POSIX.1e and NFSv4 is not supported */
-> +@@ -693,7 +703,7 @@
-> + #if ARCHIVE_ACL_FREEBSD_NFS4
-> +       else if ((archive_acl_types(abstract_acl) &
-> +           ARCHIVE_ENTRY_ACL_TYPE_NFS4) !=3D 0) {
-> +-              ret =3D set_acl(a, fd, name, abstract_acl,
-> ++              ret =3D set_acl(a, fd, name, abstract_acl, mode,
-> +                   ARCHIVE_ENTRY_ACL_TYPE_NFS4, "nfs4");
-> +       }
-> + #endif
-> +--- a/libarchive/archive_disk_acl_linux.c
-> ++++ b/libarchive/archive_disk_acl_linux.c
-> +@@ -343,6 +343,11 @@
-> +               return (ARCHIVE_FAILED);
-> +       }
-> +
-> ++      if (S_ISLNK(mode)) {
-> ++              /* Linux does not support RichACLs on symbolic links */
-> ++              return (ARCHIVE_OK);
-> ++      }
-> ++
-> +       richacl =3D richacl_alloc(entries);
-> +       if (richacl =3D=3D NULL) {
-> +               archive_set_error(a, errno,
-> +@@ -455,7 +460,7 @@
-> + #if ARCHIVE_ACL_LIBACL
-> + static int
-> + set_acl(struct archive *a, int fd, const char *name,
-> +-    struct archive_acl *abstract_acl,
-> ++    struct archive_acl *abstract_acl, __LA_MODE_T mode,
-> +     int ae_requested_type, const char *tname)
-> + {
-> +       int              acl_type =3D 0;
-> +@@ -488,6 +493,18 @@
-> +               return (ARCHIVE_FAILED);
-> +       }
-> +
-> ++      if (S_ISLNK(mode)) {
-> ++              /* Linux does not support ACLs on symbolic links */
-> ++              return (ARCHIVE_OK);
-> ++      }
-> ++
-> ++      if (acl_type =3D=3D ACL_TYPE_DEFAULT && !S_ISDIR(mode)) {
-> ++              errno =3D EINVAL;
-> ++              archive_set_error(a, errno,
-> ++                  "Cannot set default ACL on non-directory");
-> ++              return (ARCHIVE_WARN);
-> ++      }
-> ++
-> +       acl =3D acl_init(entries);
-> +       if (acl =3D=3D (acl_t)NULL) {
-> +               archive_set_error(a, errno,
-> +@@ -727,14 +744,14 @@
-> +           & ARCHIVE_ENTRY_ACL_TYPE_POSIX1E) !=3D 0) {
-> +               if ((archive_acl_types(abstract_acl)
-> +                   & ARCHIVE_ENTRY_ACL_TYPE_ACCESS) !=3D 0) {
-> +-                      ret =3D set_acl(a, fd, name, abstract_acl,
-> ++                      ret =3D set_acl(a, fd, name, abstract_acl, mode,
-> +                           ARCHIVE_ENTRY_ACL_TYPE_ACCESS, "access");
-> +                       if (ret !=3D ARCHIVE_OK)
-> +                               return (ret);
-> +               }
-> +               if ((archive_acl_types(abstract_acl)
-> +                   & ARCHIVE_ENTRY_ACL_TYPE_DEFAULT) !=3D 0)
-> +-                      ret =3D set_acl(a, fd, name, abstract_acl,
-> ++                      ret =3D set_acl(a, fd, name, abstract_acl, mode,
-> +                           ARCHIVE_ENTRY_ACL_TYPE_DEFAULT, "default");
-> +       }
-> + #endif        /* ARCHIVE_ACL_LIBACL */
-> +--- a/libarchive/archive_disk_acl_sunos.c
-> ++++ b/libarchive/archive_disk_acl_sunos.c
-> +@@ -443,7 +443,7 @@
-> +
-> + static int
-> + set_acl(struct archive *a, int fd, const char *name,
-> +-    struct archive_acl *abstract_acl,
-> ++    struct archive_acl *abstract_acl, __LA_MODE_T mode,
-> +     int ae_requested_type, const char *tname)
-> + {
-> +       aclent_t         *aclent;
-> +@@ -467,7 +467,6 @@
-> +       if (entries =3D=3D 0)
-> +               return (ARCHIVE_OK);
-> +
-> +-
-> +       switch (ae_requested_type) {
-> +       case ARCHIVE_ENTRY_ACL_TYPE_POSIX1E:
-> +               cmd =3D SETACL;
-> +@@ -492,6 +491,12 @@
-> +               return (ARCHIVE_FAILED);
-> +       }
-> +
-> ++        if (S_ISLNK(mode)) {
-> ++                /* Skip ACLs on symbolic links */
-> ++              ret =3D ARCHIVE_OK;
-> ++              goto exit_free;
-> ++        }
-> ++
-> +       e =3D 0;
-> +
-> +       while (archive_acl_next(a, abstract_acl, ae_requested_type, &ae_t=
-ype,
-> +@@ -801,7 +806,7 @@
-> +       if ((archive_acl_types(abstract_acl)
-> +           & ARCHIVE_ENTRY_ACL_TYPE_POSIX1E) !=3D 0) {
-> +               /* Solaris writes POSIX.1e access and default ACLs togeth=
-er */
-> +-              ret =3D set_acl(a, fd, name, abstract_acl,
-> ++              ret =3D set_acl(a, fd, name, abstract_acl, mode,
-> +                   ARCHIVE_ENTRY_ACL_TYPE_POSIX1E, "posix1e");
-> +
-> +               /* Simultaneous POSIX.1e and NFSv4 is not supported */
-> +@@ -810,7 +815,7 @@
-> + #if ARCHIVE_ACL_SUNOS_NFS4
-> +       else if ((archive_acl_types(abstract_acl) &
-> +           ARCHIVE_ENTRY_ACL_TYPE_NFS4) !=3D 0) {
-> +-              ret =3D set_acl(a, fd, name, abstract_acl,
-> ++              ret =3D set_acl(a, fd, name, abstract_acl, mode,
-> +                   ARCHIVE_ENTRY_ACL_TYPE_NFS4, "nfs4");
-> +       }
-> + #endif
-> diff --git a/meta/recipes-extended/libarchive/libarchive_3.4.2.bb b/meta/=
-recipes-extended/libarchive/libarchive_3.4.2.bb
-> index b7426a1be8..d8ed80686b 100644
-> --- a/meta/recipes-extended/libarchive/libarchive_3.4.2.bb
-> +++ b/meta/recipes-extended/libarchive/libarchive_3.4.2.bb
-> @@ -36,6 +36,7 @@ SRC_URI =3D "http://libarchive.org/downloads/libarchive=
--${PV}.tar.gz \
->             file://CVE-2021-36976-1.patch \
->             file://CVE-2021-36976-2.patch \
->             file://CVE-2021-36976-3.patch \
-> +           file://CVE-2021-23177.patch \
->  "
->
->  SRC_URI[md5sum] =3D "d953ed6b47694dadf0e6042f8f9ff451"
-> --
-> 2.17.1
->
-> This message contains information that may be privileged or confidential =
-and is the property of the KPIT Technologies Ltd. It is intended only for t=
-he person to whom it is addressed. If you are not the intended recipient, y=
-ou are not authorized to read, print, retain copy, disseminate, distribute,=
- or use this message or any part thereof. If you receive this message in er=
-ror, please notify the sender immediately and delete all copies of this mes=
-sage. KPIT Technologies Ltd. does not accept any liability for virus infect=
-ed mails.
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#170314): https://lists.openembedded.org/g/openembedde=
-d-core/message/170314
-> Mute This Topic: https://lists.openembedded.org/mt/93477934/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
