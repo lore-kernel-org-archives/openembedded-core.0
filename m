@@ -1,162 +1,168 @@
-Return-Path: <sundeep.kokkonda@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E695BECAAA1
-	for <webhook@archiver.kernel.org>; Wed,  7 Sep 2022 02:20:11 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web11.3114.1662517210344736121
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0852CECAAA1
+	for <webhook@archiver.kernel.org>; Wed,  7 Sep 2022 02:34:42 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web12.3275.1662518073884511391
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Sep 2022 19:20:10 -0700
+ Tue, 06 Sep 2022 19:34:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jR/3TiUU;
- spf=pass (domain: gmail.com, ip: 209.85.214.174,
- mailfrom: sundeep.kokkonda@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id s14so3508451plr.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=h7ThHQ9m;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id 9so9899831plj.11
         for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Sep 2022 19:20:10 -0700 (PDT)
+ Tue, 06 Sep 2022 19:34:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=VoAXCAHi/2EP4HWGHqPUq3Jm6whN8uEnPdMaZBzt7nw=;
-        b=jR/3TiUU6XH5gnWtL1sQkR/wmWomA90bjuyMh7ID73TIPItLmWJpDzJuFboypZwvxB
-         C+4U8DdnFCK7FKm8I0Wuhv2n7Ti4f5r5wqm8vYYvg+rnpX0ZPQDBIFI6gE+BWY9m0yZG
-         HrW5bVU+8wfQuNzfD4X1uQM0SxGqxmIy1DtwXPYgijnpers1JuXQHOvX+Kg8OkfGMZhp
-         Y2Q/WCrgKF5vW5MbhiaM3Ycku++FPnPQCuTBNkN/Dzhf7W2gudnc9EmyjPBG8IPkNpfp
-         ULfG24bpkYxPRE4apeaCbaZeycQyXtj6oK3U9zfhkGDtCfG+uuxj9Y+RSPYH5X0opyT8
-         vXPg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=GFJkiCHxTi/wFPvaaOcDG335331QPgVej3aHVSoZRPk=;
+        b=h7ThHQ9m8TfCEv21tRCLVj+8sjW28k3/bFtB8DuwICWDkAmHJP1/dUbFv+y3dpZ9JS
+         4gI88zP8unpQJSw7F8eaoB9iJy/WBGL2M55g9hgXgpL21bEHsWey0LrEPsxOQif0KYTa
+         iue1+40AUKDQZzaq3Hd95DfpaOBPRHkhXskfLK9CkVFBJlcg8yR5NV0y2RVP0Xt1KM9r
+         71ErUYJ/czvLQa+AcwRML2a1a7WMwsybclGb0UywsB6fCP4XAWD8HmsqYVFlpx85yFlP
+         J5EJyBv3rbJ/PP3YQe9VyH9/se6utwYium6MfugNVyLnKgys+AfufRJsr/cevSGtOC12
+         un3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=VoAXCAHi/2EP4HWGHqPUq3Jm6whN8uEnPdMaZBzt7nw=;
-        b=wUcIwyC+Hnb1unVqe1vg8f8rD1YFX3EJ3skQZba4VaA9eCgbEaoCWN+AHRT4VGVky2
-         IiKZYw95aN58LuyNvWxcJj8xlqxTg2ZqqnhWDE/v5C0thLFS+8Nd9i97P/SQpUJ57fDF
-         zLz7FM6jD58pCkQMwxGAt99IUYEzxMfW0k0RnLBfkwlCm+GOb6+DDSWviNwqBE85QqWP
-         waf3AcexNBYRj/7iNPV/zSbfr4zkrSsLxpsQCi2Iq+cXwkuo95YEwK/wgMYKYA1I9yzH
-         bdCpgN4GKaNGqL8yl9UaO/797GnvnFHnoTQUftHkOOWA3lLE/HySZOE1uOAG5Acywkfk
-         E2RA==
-X-Gm-Message-State: ACgBeo0x2C5p0nuRTVYoQeJgL3nIA8ceYO1FOanKqncnQUOOnJr14Ajm
-	aFPIwPsQM1vRu7fyNegv8UX6/0vgsd5ugg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=GFJkiCHxTi/wFPvaaOcDG335331QPgVej3aHVSoZRPk=;
+        b=tTEx8Zca6O19V1HjmiATtWvv3wjoRfatQpiWN4BKYkxXzOfgxaetP/Jfnt83M6cn1R
+         S6qLza0XIs/yISDfwVjwUBzEuOciUE2LIG41daivJdxQRuuhden4F/AhiW8f3ZJhTQWM
+         ArUjjY0pLYunrLl3a0tFziQ7gKKPAdhN5vp/LjXMYuyopjo63lu3PSszNCUSatpihADq
+         iDzcz+AKJEzluAWUjjZsh7p4gM3+hVxBJHDcNCO+R8mH1hyp8X1NSvQ2TL92frlCx5TI
+         KO55PInszUTwD0SmDB2bryVvJfM6remUhcSb43d29vVYKqof3ZfpEHZeLM0zkAk/xksq
+         gv9A==
+X-Gm-Message-State: ACgBeo1uysKjEhGMzg7ltNbgvxfLG5LjjWEyw3RoZh8RjG6mxre4CUhk
+	QE+1MRJXNQMdI1M5rmkJUrcNow2sbK7ABhTFndU=
 X-Google-Smtp-Source: 
- AA6agR71H+5QeMEksgdoZytmCWLQNhlroZUwy/g9YiKpQaBGku5aFaWbEdY4AoyBSMCvRNCixtASIA==
-X-Received: by 2002:a17:902:8643:b0:172:e067:d7ac with SMTP id
- y3-20020a170902864300b00172e067d7acmr1317890plt.164.1662517209346;
-        Tue, 06 Sep 2022 19:20:09 -0700 (PDT)
-Received: from localhost.localdomain ([49.204.85.206])
-        by smtp.gmail.com with ESMTPSA id
- s8-20020a170902ea0800b001755f43bc22sm10768832plg.175.2022.09.06.19.20.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Sep 2022 19:20:08 -0700 (PDT)
-From: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: rwmacleod@gmail.com,
-	umesh.kalappa0@gmail.com,
-	pgowda.cve@gmail.com,
-	shivams@gmail.com,
-	Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
-Subject: [PATCH V2] rust-cross-canadian: Fix for the issue caused by using sdk
- shell
-Date: Wed,  7 Sep 2022 07:48:17 +0530
-Message-Id: <20220907021817.3309235-1-sundeep.kokkonda@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ AA6agR4PCJfhYx5EpJpkQrzjlEsRJF71053BV/zdDMA1d1YHFCkmjBL6ODeuJGitJo5lo2qpDzGb4keIRD3T3Lix7Dc=
+X-Received: by 2002:a17:90b:3912:b0:1fe:34a0:e74c with SMTP id
+ ob18-20020a17090b391200b001fe34a0e74cmr28599043pjb.233.1662518073137; Tue, 06
+ Sep 2022 19:34:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220720113043.196185-1-jose.quaresma@foundries.io>
+In-Reply-To: <20220720113043.196185-1-jose.quaresma@foundries.io>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 6 Sep 2022 22:34:22 -0400
+Message-ID: 
+ <CADkTA4Mkr874wEBnFEhAogHZSc0pqcs97k4KPTm7=KYj45QTGQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] kernel.bbclass: Add shared_workdir_prepare task
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, ricardo@foundries.io,
+	Jose Quaresma <jose.quaresma@foundries.io>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Sep 2022 02:20:11 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Sep 2022 02:34:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170368
+ https://lists.openembedded.org/g/openembedded-core/message/170369
 
-[YOCTO #14892]
-This is a fix for the fix in YOCTO #14878. When the shebang is more than
-128 characters the default shell /bin/sh is used instead of SDK shell as
-a fallback, which causes problems with LD_LIBRARY_PATH. With this patch
-shell usage is avoided as we use a C wrapper and unset LD_LIBRARY_PATH
-that way.
+Sorry for the late reply, but we were discussing this patch on IRC
+today, and I wanted
+to follow up with some questions / clarifications.
 
-Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
----
- .../rust/files/target-rust-ccld.c             | 21 +++++++++++++++++++
- .../rust/rust-cross-canadian.inc              | 20 +++++++++++++++---
- 2 files changed, 38 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-devtools/rust/files/target-rust-ccld.c
+On Wed, Jul 20, 2022 at 7:30 AM Jose Quaresma <quaresma.jose@gmail.com> wrote:
+>
+> The task do_compile_kernelmodules runs after the shared_workdir and
+> is installing some files in STAGING_KERNEL_BUILDDIR, this can races
+> in other recipes that depends on "virtual/kernel:do_shared_workdir"
+> as the STAGING_KERNEL_BUILDDIR is not fully populated when the
+> shared_workdir task ends.
 
-diff --git a/meta/recipes-devtools/rust/files/target-rust-ccld.c b/meta/recipes-devtools/rust/files/target-rust-ccld.c
-new file mode 100644
-index 0000000000..fa98c1dbd7
---- /dev/null
-+++ b/meta/recipes-devtools/rust/files/target-rust-ccld.c
-@@ -0,0 +1,21 @@
-+/*
-+*
-+* Copyright (C) 2022      Wind River Systems
-+*
-+* SPDX-License-Identifier: MIT
-+*
-+*/
-+
-+#include <string.h>
-+#include <stdlib.h>
-+#include <unistd.h>
-+
-+int main (int argc, char *argv[])
-+{
-+    unsetenv("LD_LIBRARY_PATH");
-+    execvp("target-rust-ccld-wrapper", argv);
-+
-+    return 0;
-+}
-+
-+
-diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-index 7bf75a4712..7536579313 100644
---- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
-+++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-@@ -7,13 +7,18 @@ LICENSE = "MIT"
- 
- MODIFYTOS = "0"
- 
-+DEPENDS += "virtual/${SDK_PREFIX}gcc-crosssdk virtual/nativesdk-libc virtual/nativesdk-${SDK_PREFIX}compilerlibs"
-+
-+SRC_URI += "file://target-rust-ccld.c"
-+LIC_FILES_CHKSUM = "file://target-rust-ccld.c;md5=b6bc5662440675fd7d64688087a2f679;endline=7"
-+S = "${WORKDIR}"
-+
- # Need to use our SDK's sh here, see #14878
- create_sdk_wrapper () {
-         file="$1"
-         shift
--
-         cat <<- EOF > "${file}"
--		#!${base_prefix}/bin/sh
-+		#!/bin/sh
- 		\$$1 \$@
- 		EOF
- 
-@@ -32,8 +37,17 @@ do_install () {
-     install -m 0644 "${RUST_TARGETS_DIR}/${RUST_TARGET_SYS}.json" "${RUSTLIB_DIR}"
- 
-     # Uses SDK's CC as linker so linked binaries works out of box.
-+    # We have a problem as rust sets LD_LIBRARY_PATH and this will break running host
-+    # binaries (even /bin/sh) in the SDK as they detect a newer glibc from the SDK
-+    # in those paths and we hit symbol errors. We saw particular problems with symbol
-+    # mismatch on ubuntu1804 during development. To avoid this we have an SDK built
-+    # binary which unsets LD_LIBRARY_PATH, which can then call the wrapper script
-+    # where the context is easier to do the env maniupations needed
-     install -d ${SYS_BINDIR}
--    create_sdk_wrapper "${SYS_BINDIR}/target-rust-ccld" "CC"
-+    outfile="${SYS_BINDIR}/target-rust-ccld"
-+    ${CC} ${WORKDIR}/target-rust-ccld.c -o $outfile
-+    chmod +x "$outfile"
-+    create_sdk_wrapper "${SYS_BINDIR}/target-rust-ccld-wrapper" "CC"
- 
-     ENV_SETUP_DIR=${D}${base_prefix}/environment-setup.d
-     mkdir "${ENV_SETUP_DIR}"
+I remember considering this when we did the update of the module.lds in
+do_compile_kernemodules(), but we had at the time (and still do) use cases
+that there are no modules, so there isn't always an update to the shared_workdir
+
+Is that the race that you were seeing ? And dependent builds are seeing
+missing elements of it ? Or is there something else ?
+
+We also were (and also still are) concerned about making the already long
+kernel build dependency even longer, without a way to at least allow
+recipe authors that know what they are doing, to avoid the extra time required
+for modules to build.
+
+Which leads to one question. Tasks that do need module.lds or update it,
+could just use do_compile_kernelmodules() as their explicit dependency.
+Was that considered and did meet the need ? Admittedly doing that leaves
+a gap that a new developer could shoot through and cause themselves
+some failures or subtle mis-behaviour.
+
+>
+> To address this issue a new task is added in place of the previows one
+> so the shared_workdir will run after the do_compile_kernelmodules and
+> the new shared_workdir_prepare will replce of the old shared_workdir.
+>
+> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> ---
+>  meta/classes/kernel.bbclass | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 5d2f17c3be..5558769c92 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -504,7 +504,8 @@ do_kernel_version_sanity_check() {
+>         exit 0
+>  }
+>
+> -addtask shared_workdir after do_compile before do_compile_kernelmodules
+> +addtask shared_workdir_prepare after do_compile before do_compile_kernelmodules
+> +addtask shared_workdir after do_compile_kernelmodules
+
+Assuming that we do go for the extra compilation in the default shared_workdir
+dependency chain, can't we just change shared_workdir to be after
+do_compile_kernelmodules
+for a smaller footprint change ? ... unless the
+do_compile_kernelmodules() are using
+part of the shared_workdir for its build, but I don't recall that
+being the case.
+
+Bruce
+
+>  addtask shared_workdir_setscene
+>
+>  do_shared_workdir_setscene () {
+> @@ -520,10 +521,16 @@ emit_depmod_pkgdata() {
+>
+>  PACKAGEFUNCS += "emit_depmod_pkgdata"
+>
+> -do_shared_workdir[cleandirs] += " ${STAGING_KERNEL_BUILDDIR}"
+>  do_shared_workdir () {
+>         cd ${B}
+>
+> +       kerneldir=${STAGING_KERNEL_BUILDDIR}
+> +}
+> +
+> +do_shared_workdir_prepare[cleandirs] += " ${STAGING_KERNEL_BUILDDIR}"
+> +do_shared_workdir_prepare () {
+> +       cd ${B}
+> +
+>         kerneldir=${STAGING_KERNEL_BUILDDIR}
+>         install -d $kerneldir
+>
+> --
+> 2.37.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#168359): https://lists.openembedded.org/g/openembedded-core/message/168359
+> Mute This Topic: https://lists.openembedded.org/mt/92502346/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+
+
 -- 
-2.25.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
