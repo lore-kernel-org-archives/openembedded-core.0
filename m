@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DE40C38145
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1514FC54EE9
 	for <webhook@archiver.kernel.org>; Wed,  7 Sep 2022 14:21:25 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web12.8356.1662560445113510708
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web09.8331.1662560478505957919
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 07:21:22 -0700
+ Wed, 07 Sep 2022 07:21:18 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=WYyVPyrb;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49,
+ header.b=YHW25gPR;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id fv3so8598287pjb.0
+Received: by mail-pl1-f170.google.com with SMTP id t3so9638668ply.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 07:21:22 -0700 (PDT)
+ Wed, 07 Sep 2022 07:21:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=z1T3JNdMO4gz0n5/kHOtKJCw54dQ/OtyMzg5deH//F0=;
-        b=WYyVPyrb3cTvTTkpC/kC68PiIj+qixc6fiLCv6ignAyH8hc+wV+jh6fRGZok77SoCk
-         a1XsFyt4BdhFASbtbzeSzVLSQPvft025NP1QwsPxaxh+TPq6iuRODcwaZkCN/CMr8zwE
-         q6Ysa2d1GL51LTxmhPytLCv7bVqgU3WfQgn1RmRFnkesKkh/FWamaqkJtGFxFyRinLmp
-         rKU4TN//+210AMmgNCt8+p6vMMkGKyEPCqtcavciOgkwXLfEyPSpPLsY/ntb99Fufp7D
-         F1X1ei+E7V/yLFPizW2uI8WF6RcVYQYJSQH6GNTO6Miu07/i3DKNd7osN1CYNAET3P2m
-         QEhQ==
+        bh=IkrBG6XVVeuFhpkpS9fXYi14y2ECmRyqavZqgqfu6s8=;
+        b=YHW25gPRDF6t0iWXEKB3NIjw1UAjAIqbPSq0I1xzuaCmoRrqJGu/OGC27nqP4kp6A2
+         3hgJrQ3O7BcAgYHsvfk62sS0pxw5gRIGh+WmnNBSxAgfBHMoZQWxsjowPufDI8CqyVgY
+         fp3HHASe+kbmFA/Yz0c1DrFiLGhSnUrth9kh9upf8KSa0FFGLb/qIbYjOd6iiAHaf8Bx
+         aLuL1osHsGwgbA1X8xhOUSTsyAQH+VeP4RNWguqlB4g4GnNu2+l8sF0ZmGb/3yjDGngo
+         +ceDTp8y4wRXU7h1/KKe2CjLZbKJw/cTDMLypQ7ly3F/Dr0izQc0OLTEYcG71g0Rhoc1
+         rtKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=z1T3JNdMO4gz0n5/kHOtKJCw54dQ/OtyMzg5deH//F0=;
-        b=aQy/hjdHQNZK35qwY/0thdyBzvPOxV8t4phHC0xX6+ypHq8RD8JQMt7OOS8o3M9ggY
-         MbBUJVUAsRr47+5IW2x+gs0OeAg+dcTytYa5yP0pzZZJJfp9aGgR8rudDsGRW7G6n0Zz
-         K0lKJwhjVpUCaP4M9DlBnWQ6BlQFPja8tpV6JQ7KNtJ8W3KfCyeLb6Bh05sU5qc10f8E
-         Zi40o7PWy8TN5GQsaJYNQHBEYUrJX27zCjN8bi3XR/YuB58v2o0PMbwlQveMLjNyWsrF
-         XnyQopRVO457SoXl0YGxlOH3TLcM8KA0hSO8wBG+eAVt3yb3d54owk7IYN3aGe3Iz9lW
-         U9yA==
-X-Gm-Message-State: ACgBeo34sPRRF48FA6pw9ZjxL0BMkXDNuSZVEJDx6/soBHAi41knjS+c
-	MmhfMOroRoRet9u1kUMqn3BNpXtoSsmBrgeA
+        bh=IkrBG6XVVeuFhpkpS9fXYi14y2ECmRyqavZqgqfu6s8=;
+        b=rEmCWt5B+DNcTx6p/hRgSsVM+VyfkDPaI9pISMts/FvDjeVHPnQU5M+uL/zsbvWcR8
+         ks9gUmJUcwemWP6m7c1XWvbOB5Qkh5Caawubr1aUOqyVf96ATNhR0sjA4lqM3CD1Prrc
+         d+gZG4FXK110DDNtkYqgc5jVpZeMkUdRjOntzmsXcgK2n+enhrk4nSjcH2o1NQ1NtkUY
+         fiNE+OxioMtCLvi8r0cMbT1gqCbLsCxW8YqvcVCT1xEmbnYnQd/kdBJNeJz9Pdt21amh
+         7MCIK/HHcibi4ySGCkSAlxYqq4ZtgmtliwOZDq8Eoz9V5UjLBEGudpFK677k+ClzBr1J
+         Ja4A==
+X-Gm-Message-State: ACgBeo2umNeWF7A4JZW4nDeZCTMgRzWg38YhcYkFPkh9bPyuuWlLCkaP
+	s7oHo2PooSo+jJuJTUxFlWOEtco/PN554rpm
 X-Google-Smtp-Source: 
- AA6agR4aPVBg473RGH9fvPNr99fFjT1CqenPwF0c86K8D3cryjwt47NsfOZ006sL/oqY0xs4sQ1Qsg==
-X-Received: by 2002:a17:902:720c:b0:172:a1ff:8c21 with SMTP id
- ba12-20020a170902720c00b00172a1ff8c21mr4181730plb.159.1662560481680;
-        Wed, 07 Sep 2022 07:21:21 -0700 (PDT)
+ AA6agR6HJTBW4J8W9m04I6/B1dZ7g9m5h1Iqk8cJexgLN3xlNquZld/xoikCTiiG3Uka4KxKiDIf7Q==
+X-Received: by 2002:a17:90b:2745:b0:1fb:1666:80f6 with SMTP id
+ qi5-20020a17090b274500b001fb166680f6mr30700735pjb.103.1662560477468;
+        Wed, 07 Sep 2022 07:21:17 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- x13-20020a17090a1f8d00b001f510175984sm14776198pja.41.2022.09.07.07.21.20
+ x13-20020a17090a1f8d00b001f510175984sm14776198pja.41.2022.09.07.07.21.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Sep 2022 07:21:21 -0700 (PDT)
+        Wed, 07 Sep 2022 07:21:16 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 20/24] npm: replace 'npm pack' call by 'tar czf'
-Date: Wed,  7 Sep 2022 04:20:21 -1000
+Subject: [OE-core][kirkstone 18/24] meta: introduce UBOOT_MKIMAGE_KERNEL_TYPE
+Date: Wed,  7 Sep 2022 04:20:19 -1000
 Message-Id: 
- <8a83fbca45a74c30265168767a716e1a272df89b.1662559557.git.steve@sakoman.com>
+ <a4dfcb15ee2c1349718425eef333f3bc84c2de41.1662559557.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1662559557.git.steve@sakoman.com>
 References: <cover.1662559557.git.steve@sakoman.com>
@@ -70,79 +70,99 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 07 Sep 2022 14:21:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170415
+ https://lists.openembedded.org/g/openembedded-core/message/170413
 
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+From: Ming Liu <liu.ming50@gmail.com>
 
-'npm pack' is a maintainer tool which tries to execute 'prepare'
-and similar scripts.  This fails usually in OE because it requires
-completely installed 'node_modules'.
+Sometimes an end user might want to choose another kernel type argument
+for uboot-mkimage other than "kernel", for instance: "kernel_noload".
 
-Earlier nodejs versions supported an undocumented 'ignore-scripts'
-option.  This has been removed in nodejs 16.
+Let's introduce a variable UBOOT_MKIMAGE_KERNEL_TYPE to support that,
+and it could be used by BSP layers as well.
 
-We could patch 'package.json' and remove the unwanted scripts.  But
-this might complicate local workflows (applying patches) and installed
-packages will contain the modified 'package.json'.
+(From OE-Core rev: e288686e97de1265eeeaf452141e1473867efb1b)
 
-Instead of, package it manually by 'tar czf'.  As a sideeffect,
-'do_configure' is running much faster now.
-
-Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 68b480d64ffb6750699cc8fa00d2ac0bc6a2e58a)
+(cherry picked from commit 4eb7bbcc2f08b25387a15b7e4a89ef199783c973)
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/npm.bbclass | 35 +++++++++++++++++++++++++++++------
- 1 file changed, 29 insertions(+), 6 deletions(-)
+ meta/classes/kernel-fitimage.bbclass     | 2 +-
+ meta/classes/kernel-uboot.bbclass        | 3 +++
+ meta/classes/kernel-uimage.bbclass       | 2 +-
+ meta/lib/oeqa/selftest/cases/fitimage.py | 4 +++-
+ 4 files changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-index ba50fcac20..91f8f36b0d 100644
---- a/meta/classes/npm.bbclass
-+++ b/meta/classes/npm.bbclass
-@@ -57,13 +57,36 @@ def npm_global_configs(d):
-     configs.append(("cache", d.getVar("NPM_CACHE")))
-     return configs
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index 56d71ba8fa..7b16633f6f 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -148,7 +148,7 @@ fitimage_emit_section_kernel() {
+                 kernel-$2 {
+                         description = "Linux kernel";
+                         data = /incbin/("$3");
+-                        type = "kernel";
++                        type = "${UBOOT_MKIMAGE_KERNEL_TYPE}";
+                         arch = "${UBOOT_ARCH}";
+                         os = "linux";
+                         compression = "$4";
+diff --git a/meta/classes/kernel-uboot.bbclass b/meta/classes/kernel-uboot.bbclass
+index 2facade818..1bc98e042d 100644
+--- a/meta/classes/kernel-uboot.bbclass
++++ b/meta/classes/kernel-uboot.bbclass
+@@ -2,6 +2,9 @@
+ FIT_KERNEL_COMP_ALG ?= "gzip"
+ FIT_KERNEL_COMP_ALG_EXTENSION ?= ".gz"
  
-+## 'npm pack' runs 'prepare' and 'prepack' scripts. Support for
-+## 'ignore-scripts' which prevents this behavior has been removed
-+## from nodejs 16.  Use simple 'tar' instead of.
- def npm_pack(env, srcdir, workdir):
--    """Run 'npm pack' on a specified directory"""
--    import shlex
--    cmd = "npm pack %s" % shlex.quote(srcdir)
--    args = [("ignore-scripts", "true")]
--    tarball = env.run(cmd, args=args, workdir=workdir).strip("\n")
--    return os.path.join(workdir, tarball)
-+    """Emulate 'npm pack' on a specified directory"""
-+    import subprocess
-+    import os
-+    import json
++# Kernel image type passed to mkimage (i.e. kernel kernel_noload...)
++UBOOT_MKIMAGE_KERNEL_TYPE ?= "kernel"
 +
-+    src = os.path.join(srcdir, 'package.json')
-+    with open(src) as f:
-+        j = json.load(f)
-+
-+    # base does not really matter and is for documentation purposes
-+    # only.  But the 'version' part must exist because other parts of
-+    # the bbclass rely on it.
-+    base = j['name'].split('/')[-1]
-+    tarball = os.path.join(workdir, "%s-%s.tgz" % (base, j['version']));
-+
-+    # TODO: real 'npm pack' does not include directories while 'tar'
-+    # does.  But this does not seem to matter...
-+    subprocess.run(['tar', 'czf', tarball,
-+                    '--exclude', './node-modules',
-+                    '--exclude-vcs',
-+                    '--transform', 's,^\./,package/,',
-+                    '--mtime', '1985-10-26T08:15:00.000Z',
-+                    '.'],
-+                   check = True, cwd = srcdir)
-+
-+    return tarball
+ uboot_prep_kimage() {
+ 	if [ -e arch/${ARCH}/boot/compressed/vmlinux ]; then
+ 		vmlinux_path="arch/${ARCH}/boot/compressed/vmlinux"
+diff --git a/meta/classes/kernel-uimage.bbclass b/meta/classes/kernel-uimage.bbclass
+index cedb4fa070..2e661ea916 100644
+--- a/meta/classes/kernel-uimage.bbclass
++++ b/meta/classes/kernel-uimage.bbclass
+@@ -30,6 +30,6 @@ do_uboot_mkimage() {
+ 			awk '$3=="${UBOOT_ENTRYSYMBOL}" {print "0x"$1;exit}'`
+ 	fi
  
- python npm_do_configure() {
-     """
+-	uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${B}/arch/${ARCH}/boot/uImage
++	uboot-mkimage -A ${UBOOT_ARCH} -O linux -T ${UBOOT_MKIMAGE_KERNEL_TYPE} -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${B}/arch/${ARCH}/boot/uImage
+ 	rm -f linux.bin
+ }
+diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+index e6bfd1257e..d732a9020d 100644
+--- a/meta/lib/oeqa/selftest/cases/fitimage.py
++++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+@@ -738,6 +738,7 @@ UBOOT_LOADADDRESS = "0x80000000"
+ UBOOT_DTB_LOADADDRESS = "0x82000000"
+ UBOOT_ARCH = "arm"
+ UBOOT_MKIMAGE_DTCOPTS = "-I dts -O dtb -p 2000"
++UBOOT_MKIMAGE_KERNEL_TYPE = "kernel"
+ UBOOT_EXTLINUX = "0"
+ FIT_GENERATE_KEYS = "1"
+ KERNEL_IMAGETYPE_REPLACEMENT = "zImage"
+@@ -763,6 +764,7 @@ FIT_HASH_ALG = "sha256"
+ 
+         kernel_load = str(get_bb_var('UBOOT_LOADADDRESS'))
+         kernel_entry = str(get_bb_var('UBOOT_ENTRYPOINT'))
++        kernel_type = str(get_bb_var('UBOOT_MKIMAGE_KERNEL_TYPE'))
+         kernel_compression = str(get_bb_var('FIT_KERNEL_COMP_ALG'))
+         uboot_arch = str(get_bb_var('UBOOT_ARCH'))
+         fit_hash_alg = str(get_bb_var('FIT_HASH_ALG'))
+@@ -775,7 +777,7 @@ FIT_HASH_ALG = "sha256"
+             'kernel-1 {',
+             'description = "Linux kernel";',
+             'data = /incbin/("linux.bin");',
+-            'type = "kernel";',
++            'type = "' + kernel_type + '";',
+             'arch = "' + uboot_arch + '";',
+             'os = "linux";',
+             'compression = "' + kernel_compression + '";',
 -- 
 2.25.1
 
