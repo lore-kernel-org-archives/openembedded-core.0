@@ -2,65 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10C3CC38145
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14F24C54EE9
 	for <webhook@archiver.kernel.org>; Wed,  7 Sep 2022 14:21:35 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web08.8309.1662560471939568119
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
+ [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web11.8219.1662560486374444602
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 07:21:32 -0700
+ Wed, 07 Sep 2022 07:21:26 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=szMJhshz;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43,
+ header.b=GA7csQJL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.173,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id
- p1-20020a17090a2d8100b0020040a3f75eso10024957pjd.4
+Received: by mail-pg1-f173.google.com with SMTP id s206so13739593pgs.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 07:21:32 -0700 (PDT)
+ Wed, 07 Sep 2022 07:21:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=/GIO0QsPNYUHwpfZC5pkeVs6z/T/+qWGrRrnPF2MJC8=;
-        b=szMJhshzHirMNpc3FzbwvM7B5qlAA4f7L/tmd8zxZEV/sit+EfiLcVmyusVH8AE3lO
-         IgTQ+DYqedgk4KqJpTDglk8HFnmMOiVNQrbOmb/v0KfKhiC7om7e8pA0yvsLQHfyrv00
-         7b5IAKrB9LSl0DkcWZ5jwvKk9qoOCsiHjrJj36v8RiMmkaFNNVk7VywCnb2rH6eHHIB7
-         z1rCVMY4U3GzrtBOlAgJfTl1JhBjD4LrEBoAePUA+yyH5gbE/yGEUOcSekB/jHXw5spb
-         yPscZYjU1lKX5799vcQE/xtb+6P073MfTUiTuxrYkcH31QKc2t4y9cowbuiTskd33cvD
-         49CQ==
+        bh=tk+Bhq6O5XWtHWn07voD88OoQkYwPLO76jFl3H0DtCc=;
+        b=GA7csQJLiuljODzcM3utazIFD8QtKSKl/LmK6u1v4lPP6k8UjkA7x4+hEXq2S6CfqU
+         Qve5MkrDTy0cUO4rlqujOvxz1XTILEeHUZx3tpRF9pU+EAD5kpwu09pkNHgnsbxV3mjO
+         qj9+EdP3VkKHRDSzuuwg1suNJRQP1N4BOmPicL8f5WqP1yyHt5W/FoMlOoSuMHf1us9F
+         VkCutujC13rWEtPgoihpbRvcwPPIhMptrcEtIMQua9jtnCxFMS972+o+JL4Y9XN44KUf
+         9Utrzx148XIdr0jp9XaDpeCNl0Ux6EBMasuAaqWu5ij8/uv1VFPm8JljjeHEy41xsa8H
+         HX0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=/GIO0QsPNYUHwpfZC5pkeVs6z/T/+qWGrRrnPF2MJC8=;
-        b=WYjuqEruOQJjZVQJqXCT6+XqnzJppey0QC1cwjdPswzDeGfbgNvaI9f7xaIF0GBwYZ
-         jRnJqOhu7essz56f8zDM1eUnFC0ZEKZF2dIL5kYtjMeTz1UdT6FfTdPffIqBVea1jN6r
-         RZ4adel139o2wT4KsQCUyfSIzrjKcTflvtn68wntwrmC9CfUHM+6prwUIMg75o5YJT+6
-         Aq9RjHmE5575VJNMNCixzZV+/mnAcvJOe6Pd5zbXIGBGNidroHcrp5LKqsCSXNUc5rZB
-         LMWBHtyBrz9rtK1REBldZT2r0x4VWyzc/uicCpiMQOBEoFaoMqdHzKzxAaSTKGEgWCKK
-         gi0w==
-X-Gm-Message-State: ACgBeo1NG7JHutAllapL90a90OPfceMP+qdEidEpyiWZLjwOG/mHl6U9
-	qqsaflxu0/KUtT7Cyzv4rwwTtmtUYS71twZg
+        bh=tk+Bhq6O5XWtHWn07voD88OoQkYwPLO76jFl3H0DtCc=;
+        b=LwlRdCyBzwN7gUdhRgdV78OYBfsy4atW0oCuUe6OFqRHgodUSXnhNTt88igbjY+LrB
+         FBbb0R5d32L8w04HUQnjJ+m4t9JUDb6Vdv+mx9e7vvwOmkrBNnY1wCNGzNVwmINoRx5j
+         oYEA4UCOkO3tKNR9w41laM8z0Bl/BO1KCtLoA5+jTweesuxXNDzT8jyqB5E/x8y8tZiz
+         rLf6mETyK+bd1sj0sDX6aOhUQ/gLJXFh536GT3Nz1ZHTHi7GLnKQ+4YaTfnOlT3SOkMr
+         OpJCEaUE21lpIl8gBFUDUbta7i0pS/yV03DQElIIA4ulTi+hkPfivkIYI1D06CkZL8cR
+         MFyg==
+X-Gm-Message-State: ACgBeo0JU4IDyFFLQudXnDESY/r00oYDVueELieWeSsD7TkbqRmAbAex
+	ASvHYMJD+lEE86jobJbqigAW9AUxfB03Q5Lb
 X-Google-Smtp-Source: 
- AA6agR7Xy6HIttLnuvyhbMZadMaCU7b+EKLg+67qE0Tl96QhII0YrgkxgmCSS3HEQZ9hhEcMrAcqLg==
-X-Received: by 2002:a17:902:f68d:b0:172:a34c:ff96 with SMTP id
- l13-20020a170902f68d00b00172a34cff96mr4282664plg.26.1662560491576;
-        Wed, 07 Sep 2022 07:21:31 -0700 (PDT)
+ AA6agR4HnqCq7aNyXroGRiX+6cgGvjaPVAWqJ+rAFgCIpCNBPcE1MmxW+h3qISA7XgakK22UVyU6NA==
+X-Received: by 2002:a05:6a00:2393:b0:53a:c7a3:16f3 with SMTP id
+ f19-20020a056a00239300b0053ac7a316f3mr4006082pfc.17.1662560485420;
+        Wed, 07 Sep 2022 07:21:25 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- x13-20020a17090a1f8d00b001f510175984sm14776198pja.41.2022.09.07.07.21.30
+ x13-20020a17090a1f8d00b001f510175984sm14776198pja.41.2022.09.07.07.21.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Sep 2022 07:21:31 -0700 (PDT)
+        Wed, 07 Sep 2022 07:21:24 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 24/24] npm: use npm_registry to cache package
-Date: Wed,  7 Sep 2022 04:20:25 -1000
+Subject: [OE-core][kirkstone 21/24] npm: return content of 'package.json' in
+ 'npm_pack'
+Date: Wed,  7 Sep 2022 04:20:22 -1000
 Message-Id: 
- <bfce90b1260d07f01a8dc2998c9e63ca36d4ebbe.1662559557.git.steve@sakoman.com>
+ <2f5c53745b4420dac9198ec013c6653b3e339a6b.1662559557.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1662559557.git.steve@sakoman.com>
 References: <cover.1662559557.git.steve@sakoman.com>
@@ -71,82 +71,61 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 07 Sep 2022 14:21:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170419
+ https://lists.openembedded.org/g/openembedded-core/message/170416
 
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 
-With nodejs 16, the simple 'npm cache add' approach does not work
-anymore because its fetcher implementation downloads also meta
-information from the registry.
-
-We have to generate these information and add them to the cache.
-There is no direct support in 'npm' for task so we have to implement
-it manually.
-
-This implementation consists of a openembedded python module (in
-oe-core) and a nodejs version specific helper (in oe-meta).
+We have to read 'package.json' to calculate the name of the tarball.
+This content is interesting for later patches.
 
 Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 019b9c341d539939098962c228c1fd5c99331312)
+(cherry picked from commit d67367e389c492ae90f9021066d6a4d5ebcf68e5)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/npm.bbclass | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ meta/classes/npm.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-index 11c80a738e..8379c7b988 100644
+index 91f8f36b0d..014f793450 100644
 --- a/meta/classes/npm.bbclass
 +++ b/meta/classes/npm.bbclass
-@@ -19,7 +19,7 @@
+@@ -86,7 +86,7 @@ def npm_pack(env, srcdir, workdir):
+                     '.'],
+                    check = True, cwd = srcdir)
  
- inherit python3native
+-    return tarball
++    return (tarball, j)
  
--DEPENDS:prepend = "nodejs-native "
-+DEPENDS:prepend = "nodejs-native nodejs-oe-cache-native "
- RDEPENDS:${PN}:append:class-target = " nodejs"
- 
- EXTRA_OENPM = ""
-@@ -46,6 +46,7 @@ NPM_ARCH ?= "${@npm_target_arch_map(d.getVar("TARGET_ARCH"))}"
- NPM_PACKAGE = "${WORKDIR}/npm-package"
- NPM_CACHE = "${WORKDIR}/npm-cache"
- NPM_BUILD = "${WORKDIR}/npm-build"
-+NPM_REGISTRY = "${WORKDIR}/npm-registry"
- 
- def npm_global_configs(d):
-     """Get the npm global configuration"""
-@@ -109,16 +110,18 @@ python npm_do_configure() {
-     from bb.fetch2.npm import npm_unpack
-     from bb.fetch2.npmsw import foreach_dependencies
-     from bb.progress import OutOfProgressHandler
-+    from oe.npm_registry import NpmRegistry
- 
-     bb.utils.remove(d.getVar("NPM_CACHE"), recurse=True)
-     bb.utils.remove(d.getVar("NPM_PACKAGE"), recurse=True)
- 
-     env = NpmEnvironment(d, configs=npm_global_configs(d))
-+    registry = NpmRegistry(d.getVar('NPM_REGISTRY'), d.getVar('NPM_CACHE'))
- 
--    def _npm_cache_add(tarball):
--        """Run 'npm cache add' for a specified tarball"""
--        cmd = "npm cache add %s" % shlex.quote(tarball)
--        env.run(cmd)
-+    def _npm_cache_add(tarball, pkg):
-+        """Add tarball to local registry and register it in the
-+           cache"""
-+        registry.add_pkg(tarball, pkg)
- 
-     def _npm_integrity(tarball):
-         """Return the npm integrity of a specified tarball"""
-@@ -182,7 +185,7 @@ python npm_do_configure() {
+ python npm_do_configure() {
+     """
+@@ -186,7 +186,7 @@ python npm_do_configure() {
+         with tempfile.TemporaryDirectory() as tmpdir:
              # Add the dependency to the npm cache
              destdir = os.path.join(d.getVar("S"), destsuffix)
-             (tarball, pkg) = npm_pack(env, destdir, tmpdir)
--            _npm_cache_add(tarball)
-+            _npm_cache_add(tarball, pkg)
+-            tarball = npm_pack(env, destdir, tmpdir)
++            (tarball, pkg) = npm_pack(env, destdir, tmpdir)
+             _npm_cache_add(tarball)
              # Add its signature to the cached shrinkwrap
              dep = _npmsw_dependency_dict(cached_shrinkwrap, deptree)
-             dep["version"] = pkg['version']
+@@ -207,7 +207,7 @@ python npm_do_configure() {
+ 
+     # Configure the main package
+     with tempfile.TemporaryDirectory() as tmpdir:
+-        tarball = npm_pack(env, d.getVar("S"), tmpdir)
++        (tarball, _) = npm_pack(env, d.getVar("S"), tmpdir)
+         npm_unpack(tarball, d.getVar("NPM_PACKAGE"), d)
+ 
+     # Configure the cached manifest file and cached shrinkwrap file
+@@ -280,7 +280,7 @@ python npm_do_compile() {
+         args.append(("build-from-source", "true"))
+ 
+         # Pack and install the main package
+-        tarball = npm_pack(env, d.getVar("NPM_PACKAGE"), tmpdir)
++        (tarball, _) = npm_pack(env, d.getVar("NPM_PACKAGE"), tmpdir)
+         cmd = "npm install %s %s" % (shlex.quote(tarball), d.getVar("EXTRA_OENPM"))
+         env.run(cmd, args=args)
+ }
 -- 
 2.25.1
 
