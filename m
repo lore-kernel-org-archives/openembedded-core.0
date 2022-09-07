@@ -2,65 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14F24C54EE9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B600C6FA8A
 	for <webhook@archiver.kernel.org>; Wed,  7 Sep 2022 14:21:35 +0000 (UTC)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
- [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web11.8219.1662560486374444602
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web09.8334.1662560488595025869
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 07:21:26 -0700
+ Wed, 07 Sep 2022 07:21:28 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=GA7csQJL;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.173,
+ header.b=i23MqRNG;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f173.google.com with SMTP id s206so13739593pgs.3
+Received: by mail-pf1-f175.google.com with SMTP id y136so9845557pfb.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 07:21:26 -0700 (PDT)
+ Wed, 07 Sep 2022 07:21:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=tk+Bhq6O5XWtHWn07voD88OoQkYwPLO76jFl3H0DtCc=;
-        b=GA7csQJLiuljODzcM3utazIFD8QtKSKl/LmK6u1v4lPP6k8UjkA7x4+hEXq2S6CfqU
-         Qve5MkrDTy0cUO4rlqujOvxz1XTILEeHUZx3tpRF9pU+EAD5kpwu09pkNHgnsbxV3mjO
-         qj9+EdP3VkKHRDSzuuwg1suNJRQP1N4BOmPicL8f5WqP1yyHt5W/FoMlOoSuMHf1us9F
-         VkCutujC13rWEtPgoihpbRvcwPPIhMptrcEtIMQua9jtnCxFMS972+o+JL4Y9XN44KUf
-         9Utrzx148XIdr0jp9XaDpeCNl0Ux6EBMasuAaqWu5ij8/uv1VFPm8JljjeHEy41xsa8H
-         HX0g==
+        bh=pzFnDsckVK9zeMjU5yxJI5KqJpdkLmejGLZl0W5jw0s=;
+        b=i23MqRNGq2HF3uZvl//iEQ8mGoTXCKZBYVT92b31IhjWIucVCpmf6377HoRqRYYBpW
+         H/rGxLiaij4Gr3M3LwANhWHEba7c5TH6/UWzWpW/V86NDldAjgBeAGTy9x0G4m/Tb7zL
+         gQIUKoAs6DHe6jlp6KHVr2GD9V2dcRH7zMpYyOfEKFKWf7gmfZ1+3ffbRBmjj0MAn7xx
+         hDI0ixvCr80ee9Bp2FxzXYsgkNa8w2W+r17hG48WOCZwjF5Oyp0UUGHn7L4QxkpS3BBO
+         4Mx4nL9hjx9YSZVqS51hbpF6JwVQxhmIzOjsURqvvmRTKK/b249F2rv3gCCBXr17Cfo3
+         7gwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=tk+Bhq6O5XWtHWn07voD88OoQkYwPLO76jFl3H0DtCc=;
-        b=LwlRdCyBzwN7gUdhRgdV78OYBfsy4atW0oCuUe6OFqRHgodUSXnhNTt88igbjY+LrB
-         FBbb0R5d32L8w04HUQnjJ+m4t9JUDb6Vdv+mx9e7vvwOmkrBNnY1wCNGzNVwmINoRx5j
-         oYEA4UCOkO3tKNR9w41laM8z0Bl/BO1KCtLoA5+jTweesuxXNDzT8jyqB5E/x8y8tZiz
-         rLf6mETyK+bd1sj0sDX6aOhUQ/gLJXFh536GT3Nz1ZHTHi7GLnKQ+4YaTfnOlT3SOkMr
-         OpJCEaUE21lpIl8gBFUDUbta7i0pS/yV03DQElIIA4ulTi+hkPfivkIYI1D06CkZL8cR
-         MFyg==
-X-Gm-Message-State: ACgBeo0JU4IDyFFLQudXnDESY/r00oYDVueELieWeSsD7TkbqRmAbAex
-	ASvHYMJD+lEE86jobJbqigAW9AUxfB03Q5Lb
+        bh=pzFnDsckVK9zeMjU5yxJI5KqJpdkLmejGLZl0W5jw0s=;
+        b=Q3rvsZpP0fSOsimbrUNKWkcplRBW5rI0QQuG8RegWTyJIVNn9uYfMgkNNBKWIeKD1N
+         aH4k9VA4boFv58g63s1zR53jheHw+4Wu5RunnPY4Ig/d+HeBWYV6Xjy9EF4cguEvnbVW
+         j7jDk6jT/zabvF1Ni5WbKY6qcxyh9Fnx76YsFpf2YFypA1sDa1SZXgP1/35ZJB8Pfsoz
+         A1wopwFyNa6xhXaVgKNfHJM0cSgsOXwICzuhPZ9Z0T2kGECEIkdyixWaRCM+Y3Y+kfog
+         FQXVnTXTgSKCav7+DKeHBK3t5aEKb4+itP9vzmaMkURDOWepWNnbyR3T8mEnXa+SXE6q
+         0Cvw==
+X-Gm-Message-State: ACgBeo22GSGKWqeW8dsoWYC14YtflYGIAKhbjvz29nK2//9nxisamV8d
+	8gPReWrQ4dKNwMuxvlFJFxk+1eaFOEx6vcl0
 X-Google-Smtp-Source: 
- AA6agR4HnqCq7aNyXroGRiX+6cgGvjaPVAWqJ+rAFgCIpCNBPcE1MmxW+h3qISA7XgakK22UVyU6NA==
-X-Received: by 2002:a05:6a00:2393:b0:53a:c7a3:16f3 with SMTP id
- f19-20020a056a00239300b0053ac7a316f3mr4006082pfc.17.1662560485420;
-        Wed, 07 Sep 2022 07:21:25 -0700 (PDT)
+ AA6agR4tTj+EtaeIRU8BKcEAP5fehwNWMgLO1dfe3WRR2dWGt8Ph0zuQfe3gyXM7dHxJt2EiBhp02A==
+X-Received: by 2002:a62:1b12:0:b0:536:715c:4d96 with SMTP id
+ b18-20020a621b12000000b00536715c4d96mr4080422pfb.77.1662560487595;
+        Wed, 07 Sep 2022 07:21:27 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- x13-20020a17090a1f8d00b001f510175984sm14776198pja.41.2022.09.07.07.21.22
+ x13-20020a17090a1f8d00b001f510175984sm14776198pja.41.2022.09.07.07.21.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Sep 2022 07:21:24 -0700 (PDT)
+        Wed, 07 Sep 2022 07:21:27 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 21/24] npm: return content of 'package.json' in
- 'npm_pack'
-Date: Wed,  7 Sep 2022 04:20:22 -1000
+Subject: [OE-core][kirkstone 22/24] npm: take 'version' directly from
+ 'package.json'
+Date: Wed,  7 Sep 2022 04:20:23 -1000
 Message-Id: 
- <2f5c53745b4420dac9198ec013c6653b3e339a6b.1662559557.git.steve@sakoman.com>
+ <81ad70619017570779adbc1ca928b2412ad9bce7.1662559557.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1662559557.git.steve@sakoman.com>
 References: <cover.1662559557.git.steve@sakoman.com>
@@ -71,61 +71,46 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 07 Sep 2022 14:21:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170416
+ https://lists.openembedded.org/g/openembedded-core/message/170417
 
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 
-We have to read 'package.json' to calculate the name of the tarball.
-This content is interesting for later patches.
+We know the content of 'package.json' from earlier patches; there is
+no need to parse the tarball name to extract the version.
 
 Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d67367e389c492ae90f9021066d6a4d5ebcf68e5)
+(cherry picked from commit f553e528e76f7e3925ed1c0950d96e73aec37da9)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/npm.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/classes/npm.bbclass | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-index 91f8f36b0d..014f793450 100644
+index 014f793450..11c80a738e 100644
 --- a/meta/classes/npm.bbclass
 +++ b/meta/classes/npm.bbclass
-@@ -86,7 +86,7 @@ def npm_pack(env, srcdir, workdir):
-                     '.'],
-                    check = True, cwd = srcdir)
+@@ -125,11 +125,6 @@ python npm_do_configure() {
+         sha512 = bb.utils.sha512_file(tarball)
+         return "sha512-" + base64.b64encode(bytes.fromhex(sha512)).decode()
  
--    return tarball
-+    return (tarball, j)
- 
- python npm_do_configure() {
-     """
-@@ -186,7 +186,7 @@ python npm_do_configure() {
-         with tempfile.TemporaryDirectory() as tmpdir:
-             # Add the dependency to the npm cache
-             destdir = os.path.join(d.getVar("S"), destsuffix)
--            tarball = npm_pack(env, destdir, tmpdir)
-+            (tarball, pkg) = npm_pack(env, destdir, tmpdir)
+-    def _npm_version(tarball):
+-        """Return the version of a specified tarball"""
+-        regex = r"-(\d+\.\d+\.\d+(-.*)?(\+.*)?)\.tgz"
+-        return re.search(regex, tarball).group(1)
+-
+     def _npmsw_dependency_dict(orig, deptree):
+         """
+         Return the sub dictionary in the 'orig' dictionary corresponding to the
+@@ -190,7 +185,7 @@ python npm_do_configure() {
              _npm_cache_add(tarball)
              # Add its signature to the cached shrinkwrap
              dep = _npmsw_dependency_dict(cached_shrinkwrap, deptree)
-@@ -207,7 +207,7 @@ python npm_do_configure() {
- 
-     # Configure the main package
-     with tempfile.TemporaryDirectory() as tmpdir:
--        tarball = npm_pack(env, d.getVar("S"), tmpdir)
-+        (tarball, _) = npm_pack(env, d.getVar("S"), tmpdir)
-         npm_unpack(tarball, d.getVar("NPM_PACKAGE"), d)
- 
-     # Configure the cached manifest file and cached shrinkwrap file
-@@ -280,7 +280,7 @@ python npm_do_compile() {
-         args.append(("build-from-source", "true"))
- 
-         # Pack and install the main package
--        tarball = npm_pack(env, d.getVar("NPM_PACKAGE"), tmpdir)
-+        (tarball, _) = npm_pack(env, d.getVar("NPM_PACKAGE"), tmpdir)
-         cmd = "npm install %s %s" % (shlex.quote(tarball), d.getVar("EXTRA_OENPM"))
-         env.run(cmd, args=args)
- }
+-            dep["version"] = _npm_version(tarball)
++            dep["version"] = pkg['version']
+             dep["integrity"] = _npm_integrity(tarball)
+             if params.get("dev", False):
+                 dep["dev"] = True
 -- 
 2.25.1
 
