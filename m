@@ -1,121 +1,98 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D67BECAAD3
-	for <webhook@archiver.kernel.org>; Wed,  7 Sep 2022 08:57:53 +0000 (UTC)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by mx.groups.io with SMTP id smtpd.web10.5480.1662541069589133591
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B27FFC38145
+	for <webhook@archiver.kernel.org>; Wed,  7 Sep 2022 09:15:43 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web11.5581.1662542137187251543
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 01:57:50 -0700
+ Wed, 07 Sep 2022 02:15:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=n5QlBZEh;
- spf=pass (domain: gmail.com, ip: 209.85.167.52,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f52.google.com with SMTP id f11so7356622lfa.6
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eXabAQUM;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id k9so19368155wri.0
         for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 01:57:49 -0700 (PDT)
+ Wed, 07 Sep 2022 02:15:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=2fACob7j4VnIXOglJMTZrSo6DQp8o2KvX8kG4JgjzkQ=;
-        b=n5QlBZEhUaUz5MVCeeiHjE6faH8YnBn6kNue5gauPZPYsK55omwi2P+gsIeMwslU6e
-         fKomewH7I7keMpp+U5/fGUHQxPlUbLpgZbHydWoF5g8gI2Xlc3SqJt7OO/CRnRiP1KP3
-         r5mfHHv+ctP66/qU/oDh8jfd7bL0kMvFrndnK2vaG8iDhq+qavvJDK2Nn4ur8OSLjx30
-         aK8b1h+LUBDHq+jZqLiiM/spauyeRGavIDb2CoxMNgQAH+P9Hxu0h2fwbbBqq35Hi4eW
-         epFAKKhvhRclgHwsSPpr1kaVxdguvi3zl9dPwyXbuQ84WD6hA1yr6QD6hg1U4VmSHLNA
-         0UKw==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date;
+        bh=0/rUAA4ZMAwiI2IY8BZgke2ovV0FsSvCM3n5UzFyi7E=;
+        b=eXabAQUMNDoJxSRqJaZj4WOMxUzkfi6oORfnQXTyuwJ3WGkIAVXpPi++l29ZLkwNW/
+         GWuRhNkmNzfUaOo8peGKZDl+KXb+Q5kSYbvpPoyIielNtGXJkLfWXfOGsloEQXSy5JIp
+         oEyC9nvro6IYWrlPfQwr+jbPazvdTog0frDo4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=2fACob7j4VnIXOglJMTZrSo6DQp8o2KvX8kG4JgjzkQ=;
-        b=O0qUnC5PtztqZrQT/+WN2cYTS277VHXKUP3bFB8+iVYo1lIiH5ZX5aAyOKGMcyQrO9
-         qx7WCm8jfuKW4EQeJQO+q7F+bHQDwNCjUg2BQSr3z3Qxz371OYrogjRBWk9QsMIDX8KX
-         YRq67krssPKXB5HNqT+Im55o1JQQe6wgq7aOdJazJ1AhzpUKgVf30pfde+XtB3otCPdl
-         GMoEDV/faT62zCO5RKn9Qs5eyWNBx/sb69TTfZ7SeskU9uZi3N/ezxn53VidZgVSwpCf
-         F2LLsBoaHrrsIGq0016yuCPq+sJoKR8gx+d5TzLYVJ6bO4aBdRiewK+XmDqgogmHWgL5
-         hW1Q==
-X-Gm-Message-State: ACgBeo0wDICHEffse6sfjamh5hhVbUHAagcouFfmF4qI5Uxuw+iTBjo7
-	Bkqgs1TINi/EPEu4O8hCRv5zCwlrM3kyWvzEdzk=
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=0/rUAA4ZMAwiI2IY8BZgke2ovV0FsSvCM3n5UzFyi7E=;
+        b=EPAMHuj48VvhC/Piya47xXp6PQTKkh76ndGk09Qg7P3/7brUg2C/AztWMwworXfbjk
+         lw2iJlKx0pZE92Wbc6lcYFUwXYS5FT9u3K4apPx/7MvaoZMzbah9MmhJxcJRFbrKVNPo
+         6Z6J4ljYCD1p2Y/BWCTZ6pZUtY/BkEQhm3K0XxWMZy+X5ikFUCsMh3EcYEkqYviEwMjh
+         0ZAtrKh+6AH9Yfl/x+omQAGdAix0X4ZF16jrpbsU5wmT6qZGNty/UR+flURnvad0JML0
+         ubqf6HZTUjxGajxQJqPO9xpDCJIUIzcjhlyXA3nLHTzadRJFlw1qpEk5rUQ7uYLNXRwB
+         xtfw==
+X-Gm-Message-State: ACgBeo0+B4K/27OLSwkBeJl96Xzh3AwuopUhReB8HJopn12un2ZtoTRU
+	y1DT8Ym5gkfBG7I8jcs5eZfVyw==
 X-Google-Smtp-Source: 
- AA6agR7VcawcxXlSNq2+W5nJntI7Pax/oVsnxSAM7qZMG16o61aCCdw7YeD9o0zGbI5rXYZv7irR+IBd/ElMhWDMtX0=
-X-Received: by 2002:ac2:519c:0:b0:494:9f3e:3c5 with SMTP id
- u28-20020ac2519c000000b004949f3e03c5mr742835lfi.665.1662541067508; Wed, 07
- Sep 2022 01:57:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220905182141.1091053-1-alex@linutronix.de>
- <87leqwztwp.fsf@jogness.linutronix.de>
- <171241B5563541EC.6347@lists.openembedded.org>
- <CANNYZj_sTxPuZtdVk68A8AGqwnT6=RNXmJ6u1LVuc6BQiHRvkw@mail.gmail.com>
- <6632fb17a872496ea3b7a61a42f2ae06@axis.com>
- <17124592CD5AC7E6.32046@lists.openembedded.org>
-In-Reply-To: <17124592CD5AC7E6.32046@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 7 Sep 2022 10:57:35 +0200
+ AA6agR6+Yc3yDG89dtXlMlF3WoY6w4soey5XncpwjaaUHwiSSuU2qbyng6wj8z1YJd8VGApiQkL/+g==
+X-Received: by 2002:a05:6000:2c4:b0:225:6782:5755 with SMTP id
+ o4-20020a05600002c400b0022567825755mr1512603wry.299.1662542135552;
+        Wed, 07 Sep 2022 02:15:35 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:eb69:bb70:edb:6315?
+ ([2001:8b0:aba:5f3c:eb69:bb70:edb:6315])
+        by smtp.gmail.com with ESMTPSA id
+ i17-20020a1c5411000000b003a1980d55c4sm24839521wmb.47.2022.09.07.02.15.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Sep 2022 02:15:34 -0700 (PDT)
 Message-ID: 
- <CANNYZj-7S4TRv4oG_-OQs7Ut97p30zoD7q3YMSPDpSGRgjjzeQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] oe-setup-build: add a tool for discovering
- config templates and setting up builds
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
- John Ogness <john.ogness@linutronix.de>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
+ <86b2113a64d9432126fe69f7fa15d7372ee5460d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/2] oe-setup-build: add a tool for
+ discovering config templates and setting up builds
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Date: Wed, 07 Sep 2022 10:15:33 +0100
+In-Reply-To: <20220905182141.1091053-1-alex@linutronix.de>
+References: <20220905182141.1091053-1-alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Sep 2022 08:57:53 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Sep 2022 09:15:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170376
+ https://lists.openembedded.org/g/openembedded-core/message/170377
 
-Alright, v2 is out. Changes are: switch to subcommands, and use 'build
-environment' or 'build directory' in place of ambigous 'build'.
+On Mon, 2022-09-05 at 20:21 +0200, Alexander Kanavin wrote:
+> This is the last (I believe) piece of the puzzle in setting up builds
+> from nothing without having to write custom scripts or use external
+> tools.
+>=20
+> After layers have been fetched and placed into their respective=C2=A0
+> locations, one would surely want to proceed to the actual build, and=C2=
+=A0
+> here's how:
 
-Alex
+To set expectations, I'm probably not going to merge this for 4.1. I
+think we've taken some really good steps in the direction we need so
+far but we don't want to rush this. I haven't had the time needed to
+look at these patches properly due to everything else that was
+breaking.
 
-On Tue, 6 Sept 2022 at 14:35, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
->
-> On Tue, 6 Sept 2022 at 14:25, Peter Kjellerstedt
-> <peter.kjellerstedt@axis.com> wrote:
->
-> > Given that the tool is called oe-setup-build and not oe-discover-build,
-> > making the discovery mode the default is actually a bit weird.
-> > Subcommands sounds fine to me though. Maybe you should call it
-> > oe-build-env instead, since it has multiple modes?
->
-> I'd like to keep it within 'oe-setup-..' family though:
-> oe-setup-layers, oe-setup-build, and then later oe-setup as a general
-> integrated one-stop thing that ties it all together:
->
-> oe-setup kirkstone
-> oe-setup master +docker +systemd
-> oe-setup yoe riscv64
-> oe-setup webos
-> oe-setup some-custom.json
->
-> Like RP suggested.
->
-> I think having discovery functionality in something called 'setup' is
-> actually fine, as the setup actually happens from the available
-> choices, and one would want to know about them first.
->
-> I'll certainly switch to subcommands; this will allow adding config
-> fragment management as well.
->
-> Alex
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#170351): https://lists.openembedded.org/g/openembedded-core/message/170351
-> Mute This Topic: https://lists.openembedded.org/mt/93485066/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+That doesn't stop review ad refining the patches ready for 4.2 opening.
+I'm open to representations if everyone thinks this is ready but I get
+the feeling many are distracted atm.
+
+Cheers,
+
+Richard
 
