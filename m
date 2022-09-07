@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13563C38145
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 193A5C6FA89
 	for <webhook@archiver.kernel.org>; Wed,  7 Sep 2022 14:21:05 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web08.8302.1662560463065190118
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web11.8213.1662560458100920405
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 07:21:03 -0700
+ Wed, 07 Sep 2022 07:20:58 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=eeMIxt2a;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182,
+ header.b=7rQ7qN32;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.41,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id 65so4552435pfx.0
+Received: by mail-pj1-f41.google.com with SMTP id q3so14698746pjg.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 07:21:03 -0700 (PDT)
+ Wed, 07 Sep 2022 07:20:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=fxg137MTz6c1D1tR5/r2OOq97gA9LlRczr24yyEK3zw=;
-        b=eeMIxt2aqITcH52obYGNmBrqAdXoEFb0WKj5kzbpy5cgewRKtdUvxVRHBmpsfcT6pr
-         2tnvuI52bNm2aDznSo87W+ImrXc4fzTy5RxXHqwJF0CM4ZkiDYTmDaAUyr1lVW5nobvi
-         mCp+9ZGyJjvCKofepmNaoaNNALuaGWih5i+03DPJ0BsUSAJLsu0wG69Spk9g01HWgyqW
-         3yCe0RbGlnuFABhyYvrLjPzZassBbMLcLDCuMxkqyK+shUpwpT9q3eC7TSo3N0dPz30u
-         MjNLRdCjAYonqrymENjIB4hLQrVr1Da4qtN+GFCbwVqv2dnsKdraSyO2+8z2FdU+5h2g
-         E7OA==
+        bh=Fz1Ct8N5aGEd2zhRwUzxFEUsw+YhF4GXf44X38z8xOQ=;
+        b=7rQ7qN32LTHBD41/NoKL/vSMSxtsMDtiy30ZL1WXs2LYJNXoKodxUKirOBWjf4cPjw
+         BI3AVQduDGGCLrSXuYxH5RAMk0MNj3rO1DU0ykVgL/XqQTRGJL/Hd0N9y/cvqr5AROqd
+         pYgA+tSOEYCH7rPVftHgWIG431ud7nifHJ7GGb5kS2e9zdZ3q0LE3CK4SMlT3/PRL6Xa
+         yvrmbnZqV0KTT8gTGBPhp0gT67LcyPaHLUsE9W1ROUAWQqsQmsorViNTEGspTi9cl2h/
+         XWmDobZjuYV2B/N9uNSztg3V4cwRU4HDUyHS3JeCuedHOIPnVJqBaRkHFOijSWn6HNaR
+         w38w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=fxg137MTz6c1D1tR5/r2OOq97gA9LlRczr24yyEK3zw=;
-        b=mdLevYq5ztw+KR8nJh2NrD1GJsh+WrKYY6AQ0WracPhtODxbBQH+wGDhHBvVKIlh2e
-         Cag27+/aZyU0m0uNoVbW4tonMuRhlgeS8Wy6w59eN0fuIs5RUtgKUODPKqqoJiOKLcie
-         ihm8nyPViAXg1zKCOMTo1bsDd0rNIkg2CrQmsRvx6+Rzf03icgkrA8jqo3Ce0mIL3t7u
-         uVUN5FnN9/XNaojV6+OFzwa4MB+IgP7fzXdvjX2SUSpAvtrZk38g34UNHdp+ObcQb2Ou
-         uqjnEaLG/P0E/vM1nX6KZPb0VC4nkaFbLV95yIuIgnFd0vxzBlQJ0XeNgWM13iF1Ijdn
-         kg/g==
-X-Gm-Message-State: ACgBeo2WdjDA/GxA1rZbQsFdbDZAZirKR5Em5rD+wlSCUgMgCBeCUZq8
-	4wdgSkdMnuDb7qlwkNCUAUGCj7LpRTBvYYR0
+        bh=Fz1Ct8N5aGEd2zhRwUzxFEUsw+YhF4GXf44X38z8xOQ=;
+        b=n9VpXdkAKfP/DdJpGCCMpkVk1jbP/mN6pBawhARuKaZuMgsw8atsrX81yN+4t0Chf6
+         TeurIpaKVBi6tDlFfwAjgZgbnfz/Z2l8FfY+szSfX5JemlUEzgCsl0jGgHBAkNHXMIcJ
+         +pX0X3FQwAhHgQ6+MINVP/M7NR+oL2JyqaJE1qKF59gZ9XvXl2THZBatwj0K2ZviEvb2
+         CBzfu3Cv6SKeMZYcNXmwQzdYkheVnnU8ciSkk+nlPFz1rxfNSPuAwtkxnF0W3otD6q9L
+         97HTWvfLYyiYE6pLODGI1gAjG+SDuc17Y+unicSzhf1/6k0jiXQUvPHAocHNaWWUNg8Q
+         Qrdg==
+X-Gm-Message-State: ACgBeo2zofdNR1dkBtEkYH7MfYFCmIFNvIZj2/72mCUfGGMmCjitysMe
+	XMsWiB884lF9F+4Ndr020/EqpYAMCKYjBHWA
 X-Google-Smtp-Source: 
- AA6agR6gbo5MweFgip4RyoNChUTQvZFmAmrgrJqadR/PGJ/UmFz46icnreL0HGwfIsWLKWFxSpH5yA==
-X-Received: by 2002:a63:86c6:0:b0:434:fe98:9f8a with SMTP id
- x189-20020a6386c6000000b00434fe989f8amr1456243pgd.541.1662560461922;
-        Wed, 07 Sep 2022 07:21:01 -0700 (PDT)
+ AA6agR5067hiDWphgV8EzmURNRUJnajIAY0s7pQhFZHePnWHLA0G/1jOi2nN1IOaSJZ3SepmczJUZQ==
+X-Received: by 2002:a17:903:2c7:b0:16c:ebf6:db22 with SMTP id
+ s7-20020a17090302c700b0016cebf6db22mr3858568plk.16.1662560457124;
+        Wed, 07 Sep 2022 07:20:57 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- x13-20020a17090a1f8d00b001f510175984sm14776198pja.41.2022.09.07.07.21.00
+ x13-20020a17090a1f8d00b001f510175984sm14776198pja.41.2022.09.07.07.20.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Sep 2022 07:21:01 -0700 (PDT)
+        Wed, 07 Sep 2022 07:20:56 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 11/24] lz4: upgrade 1.9.3 -> 1.9.4
-Date: Wed,  7 Sep 2022 04:20:12 -1000
+Subject: [OE-core][kirkstone 09/24] libwpe: upgrade 1.12.2 -> 1.12.3
+Date: Wed,  7 Sep 2022 04:20:10 -1000
 Message-Id: 
- <8883d3992078ae24c2601ebf844223fa6e056ded.1662559557.git.steve@sakoman.com>
+ <f10345e445dd2b7bee1cc3dda6a80e8ab1a5e5f9.1662559557.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1662559557.git.steve@sakoman.com>
 References: <cover.1662559557.git.steve@sakoman.com>
@@ -70,91 +70,95 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 07 Sep 2022 14:21:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170406
+ https://lists.openembedded.org/g/openembedded-core/message/170404
 
 From: wangmy <wangmy@fujitsu.com>
 
-CVE-2021-3520.patch
-removed since it's included in 1.9.4
+Changelog:
+  Fix the build when using Clang's libc++ or the Musl libc.
 
-License-Update:
-  Copyright year updated to 2020
-  description of 3rd party applications changed
+0001-Fix-build-failure-due-to-libc-using-libc-functions.patch
+removed since it's included in 1.12.3
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit f95c66050bc69af7769d1868b0118cefb24e5b0d)
+(cherry picked from commit f8d8cc58c9b9c221158414be186bc12aa5d80e91)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../lz4/files/CVE-2021-3520.patch             | 27 -------------------
- .../lz4/{lz4_1.9.3.bb => lz4_1.9.4.bb}        | 10 +++----
- 2 files changed, 4 insertions(+), 33 deletions(-)
- delete mode 100644 meta/recipes-support/lz4/files/CVE-2021-3520.patch
- rename meta/recipes-support/lz4/{lz4_1.9.3.bb => lz4_1.9.4.bb} (78%)
+ ...ure-due-to-libc-using-libc-functions.patch | 42 -------------------
+ .../{libwpe_1.12.2.bb => libwpe_1.12.3.bb}    |  6 +--
+ 2 files changed, 2 insertions(+), 46 deletions(-)
+ delete mode 100644 meta/recipes-sato/webkit/libwpe/0001-Fix-build-failure-due-to-libc-using-libc-functions.patch
+ rename meta/recipes-sato/webkit/{libwpe_1.12.2.bb => libwpe_1.12.3.bb} (72%)
 
-diff --git a/meta/recipes-support/lz4/files/CVE-2021-3520.patch b/meta/recipes-support/lz4/files/CVE-2021-3520.patch
+diff --git a/meta/recipes-sato/webkit/libwpe/0001-Fix-build-failure-due-to-libc-using-libc-functions.patch b/meta/recipes-sato/webkit/libwpe/0001-Fix-build-failure-due-to-libc-using-libc-functions.patch
 deleted file mode 100644
-index 5ac8f6691f..0000000000
---- a/meta/recipes-support/lz4/files/CVE-2021-3520.patch
+index 6d27b4835d..0000000000
+--- a/meta/recipes-sato/webkit/libwpe/0001-Fix-build-failure-due-to-libc-using-libc-functions.patch
 +++ /dev/null
-@@ -1,27 +0,0 @@
--From 8301a21773ef61656225e264f4f06ae14462bca7 Mon Sep 17 00:00:00 2001
--From: Jasper Lievisse Adriaanse <j@jasper.la>
--Date: Fri, 26 Feb 2021 15:21:20 +0100
--Subject: [PATCH] Fix potential memory corruption with negative memmove() size
+@@ -1,42 +0,0 @@
+-From ccf8a58c3536ca0e62748e0ea477514e14d821bc Mon Sep 17 00:00:00 2001
+-From: Adrian Perez de Castro <aperez@igalia.com>
+-Date: Thu, 4 Aug 2022 12:19:05 +0300
+-Subject: [PATCH] Fix build failure due to libc++ using libc functions
+-
+-Include the "alloc-private.h" header after the C++ standard library
+-headers. This sidesteps build failures caused by implementations of
+-std::map and std::string which use libc memory allocation functions
+-in expanded templates after they have been marked with the "poison"
+-pragma.
+-
+-Fixes #115
 -
 -Upstream-Status: Backport
--https://github.com/lz4/lz4/commit/8301a21773ef61656225e264f4f06ae14462bca7#diff-7055e9cf14c488aea9837aaf9f528b58ee3c22988d7d0d81d172ec62d94a88a7
--CVE: CVE-2021-3520
--Signed-off-by: Armin Kuster <akuster@mvista.com>
--
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ----
-- lib/lz4.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+- src/pasteboard-generic.cpp | 9 ++++++---
+- 1 file changed, 6 insertions(+), 3 deletions(-)
 -
--Index: git/lib/lz4.c
--===================================================================
----- git.orig/lib/lz4.c
--+++ git/lib/lz4.c
--@@ -1665,7 +1665,7 @@ LZ4_decompress_generic(
--                  const size_t dictSize         /* note : = 0 if noDict */
--                  )
-- {
---    if (src == NULL) { return -1; }
--+    if ((src == NULL) || (outputSize < 0)) { return -1; }
+-diff --git a/src/pasteboard-generic.cpp b/src/pasteboard-generic.cpp
+-index 86fe4ee..a357027 100644
+---- a/src/pasteboard-generic.cpp
+-+++ b/src/pasteboard-generic.cpp
+-@@ -26,12 +26,15 @@
 - 
--     {   const BYTE* ip = (const BYTE*) src;
--         const BYTE* const iend = ip + srcSize;
-diff --git a/meta/recipes-support/lz4/lz4_1.9.3.bb b/meta/recipes-support/lz4/lz4_1.9.4.bb
-similarity index 78%
-rename from meta/recipes-support/lz4/lz4_1.9.3.bb
-rename to meta/recipes-support/lz4/lz4_1.9.4.bb
-index 129a86b681..a2a178bab5 100644
---- a/meta/recipes-support/lz4/lz4_1.9.3.bb
-+++ b/meta/recipes-support/lz4/lz4_1.9.4.bb
-@@ -3,18 +3,16 @@ DESCRIPTION = "LZ4 is a very fast lossless compression algorithm, providing comp
- HOMEPAGE = "https://github.com/lz4/lz4"
+- #include "pasteboard-private.h"
+- 
+--#include "alloc-private.h"
+--#include <cstdlib>
+--#include <cstring>
+- #include <map>
+- #include <string>
+- 
+-+// We need to include this header last, in order to avoid template expansions
+-+// from the C++ standard library happening after it forbids usage of the libc
+-+// memory functions.
+-+#include "alloc-private.h"
+-+#include <cstring>
+-+
+- namespace Generic {
+- using Pasteboard = std::map<std::string, std::string>;
+- }
+diff --git a/meta/recipes-sato/webkit/libwpe_1.12.2.bb b/meta/recipes-sato/webkit/libwpe_1.12.3.bb
+similarity index 72%
+rename from meta/recipes-sato/webkit/libwpe_1.12.2.bb
+rename to meta/recipes-sato/webkit/libwpe_1.12.3.bb
+index e23a9ac32d..77ca517ef7 100644
+--- a/meta/recipes-sato/webkit/libwpe_1.12.2.bb
++++ b/meta/recipes-sato/webkit/libwpe_1.12.3.bb
+@@ -10,10 +10,8 @@ inherit cmake features_check pkgconfig
  
- LICENSE = "BSD-2-Clause | GPL-2.0-only"
--LIC_FILES_CHKSUM = "file://lib/LICENSE;md5=ebc2ea4814a64de7708f1571904b32cc \
-+LIC_FILES_CHKSUM = "file://lib/LICENSE;md5=5cd5f851b52ec832b10eedb3f01f885a \
-                     file://programs/COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://LICENSE;md5=d57c0d21cb917fb4e0af2454aa48b956 \
-+                    file://LICENSE;md5=c5cc3cd6f9274b4d32988096df9c3ec3 \
-                     "
+ REQUIRED_DISTRO_FEATURES = "opengl"
  
- PE = "1"
- 
--SRCREV = "d44371841a2f1728a3f36839fd4b7e872d0927d3"
-+SRCREV = "5ff839680134437dbf4678f3d0c7b371d84f4964"
- 
--SRC_URI = "git://github.com/lz4/lz4.git;branch=release;protocol=https \
--           file://CVE-2021-3520.patch \
+-SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz \
+-           file://0001-Fix-build-failure-due-to-libc-using-libc-functions.patch \
 -           "
-+SRC_URI = "git://github.com/lz4/lz4.git;branch=release;protocol=https"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
+-SRC_URI[sha256sum] = "4ac4fd0a8b562b721bffd0f46ae9f06c2b5a3114407581978be875a9d651642a"
++SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
++SRC_URI[sha256sum] = "b84fdbfbc849ce4fdf084bb28b58e5463b1b4b6cc8f200dc77b41f8545d5329d"
  
- S = "${WORKDIR}/git"
+ # This is a tweak of upstream-version-is-even needed because
+ # ipstream directory contains tarballs for other components as well.
 -- 
 2.25.1
 
