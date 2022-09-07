@@ -1,156 +1,88 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9FD2ECAAD3
-	for <webhook@archiver.kernel.org>; Wed,  7 Sep 2022 09:34:43 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web09.5789.1662543280217712168
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6549C38145
+	for <webhook@archiver.kernel.org>; Wed,  7 Sep 2022 09:43:03 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web10.5726.1662543774982807291
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 02:34:40 -0700
+ Wed, 07 Sep 2022 02:42:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=onylPtPO;
- spf=pass (domain: gmail.com, ip: 209.85.208.174,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f174.google.com with SMTP id p5so2227898ljc.13
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=f7n53/6T;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id c11so15224744wrp.11
         for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 02:34:39 -0700 (PDT)
+ Wed, 07 Sep 2022 02:42:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=Q8Q/VgN9fYnBYZWVXjojz5EswbwjuZJ6C5kF/yC1NDY=;
-        b=onylPtPOX0vqNZxv9K0LjiXwDOPsjsDB6TUXZgy9E5f/wGsyn1N2UGd8rOF3lCf0W1
-         3WrB66zYHuqPCpOmXIl0yQSN9YrTLwy4zBeQtAIOfkFVnlhYxrFG5KWOlGdR3587MC3y
-         ZrT7qhkLy1qpdCURJmVtvYb/wva6sjxclrcJoaJNdDgwDkuzLHCNIfrh9LF7HCHR9PK1
-         x283mk/B4ngVc6XLBfMhg3OKYHHk1sawr2wiYJ14kT1Q8iOQawmaQdFjFI0aWNUQ9/w+
-         7gGPfqTXefrH4WeGaIz2Koh6niXPlZmt2wzrg69/g6l2ib1qCNijAyQUS1kXVyAYSTAe
-         DNuA==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date;
+        bh=Xr04gE9MsZAzFXxR66JtomFxS1X6mHMY5+jl80W9d+g=;
+        b=f7n53/6ToAY5AqGiuGuGdBk6bebxx5m1CBcI5MFSWKPNdL4/VtwTIh0/nOcYwHtHnh
+         C1tKwHd16AA0L9OEs2/r8ZPpg5WQ6ib9lJi9Z4Vjvg217bOX2tMgaNs4XokHmVJ8icKl
+         KiBKfTOBkNGek4OD0mntB+9jtMLaq/ob/nGMg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=Q8Q/VgN9fYnBYZWVXjojz5EswbwjuZJ6C5kF/yC1NDY=;
-        b=ZFAZZdz+JAYqhdQCKkvst4A9pUiLAFmDxDXQyFNTIK7pMZ5GrSFdtB+ihlzwP0CbrU
-         +jz9Ka0ze3Qg3nxw3KVKXo9BLOWkX8gsFjAbbayiy68w5aS+RtPnT0SXuTIIFcD8N+KC
-         GYFoSJSglmifsjs8yKusYtcDEENlO7pLfPR1rulif1BpfWQc1fe2uI08Yfm/YLsZEzEd
-         qd9Hno6pPsk2Wriem9MLCdlRndfxC31LFuSkVAA6iZMcioJLKH9aZb/Ni4ryeiCMvOIy
-         6jOR3enb4Qt7FzfrrsYd2KNSI6idVtou81I4o+cmFsjYXsD1twAvjdh7ufoFRtFq5Bw4
-         k5BA==
-X-Gm-Message-State: ACgBeo1LFRVRF4uQYb7B/7axIBRsXcjmOHYX2MWFtWkVTT7PRXe9iQ4M
-	CCGI63QQtMAWPYlp+mz+ALgxF/gW+PNeJnGVZRE=
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=Xr04gE9MsZAzFXxR66JtomFxS1X6mHMY5+jl80W9d+g=;
+        b=wKD7oG5Z6Cp1rb2z+1CzbwasMDrkXkwSErx7ZAlqXtBFMnXcHLvWB0wBYoECdyt7Uc
+         Slc5a5KXVYmV5UXH5pCa77PbJp6M2ziAzdiskt66R3wuno2Dz1Z9hX059TPucjWqx2Yy
+         W2s1Yqtfro2I25Kk61vRFkgLZazr/iWbkhDRvCEL7kBtW2x4iXba9wtbhUsACfciGHfi
+         7t8OyEbSL+CpVeZGdYyCwIrtUTltfKw7IZDwtijnzvhU+G5h2g9IHqLanGiJ+EAgPlT5
+         hPWZbfGe5ulOei4f/R1VE2oPRFktcDeL7AbYNeawPOPiReiuXH1tjKp7I9PmxFRDP2C7
+         zjoA==
+X-Gm-Message-State: ACgBeo3U184mAJ+o38xj8No8ylsVKH/2Wfumnn06w7R3v2Zo/OABXTdj
+	u9Fs3wv73X0oaMFsMqHafShd3A==
 X-Google-Smtp-Source: 
- AA6agR4IdvDDovAFvHqD/aAZxcl2IWoOZg+ZXmXeal7vxwDWHV/s2XOjiZ+qe0s1Tw9m2hCkv5FhOGkRpXSZeZ9x41M=
-X-Received: by 2002:a2e:9415:0:b0:25e:477b:adc9 with SMTP id
- i21-20020a2e9415000000b0025e477badc9mr674335ljh.109.1662543278144; Wed, 07
- Sep 2022 02:34:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220907071155.2807336-1-niko.mauno@vaisala.com>
- <CANNYZj-8LsBC3B0ubeGXfKY4bVS8==-x=SQc60DhXY3N13u-Tw@mail.gmail.com>
- <9de9c193-56b7-da1e-f4f9-d43a111de0f1@vaisala.com>
-In-Reply-To: <9de9c193-56b7-da1e-f4f9-d43a111de0f1@vaisala.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 7 Sep 2022 11:34:26 +0200
+ AA6agR7bKcFetc4XcdRTFc4g4hnpki4i9tVb05vL7Tt3mc0SIDOOdcQzRrRMAdLKKAgpwvER2lsBRw==
+X-Received: by 2002:adf:d1ce:0:b0:226:ef46:838 with SMTP id
+ b14-20020adfd1ce000000b00226ef460838mr1519116wrd.67.1662543773324;
+        Wed, 07 Sep 2022 02:42:53 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:eb69:bb70:edb:6315?
+ ([2001:8b0:aba:5f3c:eb69:bb70:edb:6315])
+        by smtp.gmail.com with ESMTPSA id
+ s29-20020adfa29d000000b00229533a5391sm1461457wra.68.2022.09.07.02.42.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Sep 2022 02:42:52 -0700 (PDT)
 Message-ID: 
- <CANNYZj92jmRd3SF19r=o8aUfgpOJPxAL=AOQW=7EWW3px484wA@mail.gmail.com>
+ <68628e983b7482d998c282a07dab4817a4e786d8.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH] systemd: Add 'default-dns-fallback'
  PACKAGECONFIG option
-To: Niko Mauno <niko.mauno@vaisala.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Niko Mauno
+	 <niko.mauno@vaisala.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 07 Sep 2022 10:42:51 +0100
+In-Reply-To: 
+ <CANNYZj92jmRd3SF19r=o8aUfgpOJPxAL=AOQW=7EWW3px484wA@mail.gmail.com>
+References: <20220907071155.2807336-1-niko.mauno@vaisala.com>
+	 <CANNYZj-8LsBC3B0ubeGXfKY4bVS8==-x=SQc60DhXY3N13u-Tw@mail.gmail.com>
+	 <9de9c193-56b7-da1e-f4f9-d43a111de0f1@vaisala.com>
+	 <CANNYZj92jmRd3SF19r=o8aUfgpOJPxAL=AOQW=7EWW3px484wA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Sep 2022 09:34:43 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Sep 2022 09:43:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170382
+ https://lists.openembedded.org/g/openembedded-core/message/170383
 
-Thanks, I think it's more clear this way. PACKAGECONFIGs that do
-nothing when on, and something when off are harder to grasp.
+On Wed, 2022-09-07 at 11:34 +0200, Alexander Kanavin wrote:
+> Thanks, I think it's more clear this way. PACKAGECONFIGs that do
+> nothing when on, and something when off are harder to grasp.
 
-Alex
+Thanks, I agree this looks better FWIW :)
 
-On Wed, 7 Sept 2022 at 11:28, Niko Mauno <niko.mauno@vaisala.com> wrote:
->
-> Thanks, felt ambiguous first about using negation.
-> Fixed in v3:
-> https://patchwork.yoctoproject.org/project/oe-core/patch/20220907092333.3=
-248421-1-niko.mauno@vaisala.com/
->
-> -Niko
->
-> On 7.9.2022 10.26, Alexander Kanavin wrote:
-> > I would rather invert this, and define 'no-dns-fallback', off by defaul=
-t.
-> >
-> > Alex
-> >
-> > On Wed, 7 Sept 2022 at 09:12, niko.mauno@vaisala.com via
-> > lists.openembedded.org <niko.mauno=3Dvaisala.com@lists.openembedded.org=
->
-> > wrote:
-> >>
-> >> systemd defines a default set of fallback DNS servers in
-> >> https://github.com/systemd/systemd/blob/v251/meson_options.txt#L328-L3=
-30
-> >>
-> >> By adding a PACKAGECONFIG knob providing a convenient way to opt out,
-> >> and then removing that value from systemd's PACKAGECONFIG, the output
-> >> from runtime 'resolvectl status' command no longer contains the
-> >> following line:
-> >>
-> >>    Fallback DNS Servers: 1.1.1.1#cloudflare-dns.com 8.8.8.8#dns.google=
- 1.0.0.1#cloudflare-dns.com 8.8.4.4#dns.google 2606:4700:4700::1111#cloudfl=
-are-dns.com 2001:4860:4860::8888#dns.google 2606:4700:4700::1001#cloudflare=
--dns.com 2001:4860:4860::8844#dns.google
-> >>
-> >> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
-> >> ---
-> >>   meta/recipes-core/systemd/systemd_251.4.bb | 2 ++
-> >>   1 file changed, 2 insertions(+)
-> >>
-> >> diff --git a/meta/recipes-core/systemd/systemd_251.4.bb b/meta/recipes=
--core/systemd/systemd_251.4.bb
-> >> index 8497e24af9..0f30b7dbb3 100644
-> >> --- a/meta/recipes-core/systemd/systemd_251.4.bb
-> >> +++ b/meta/recipes-core/systemd/systemd_251.4.bb
-> >> @@ -64,6 +64,7 @@ PACKAGECONFIG ??=3D " \
-> >>       ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', '', 'link-ud=
-ev-shared', d)} \
-> >>       backlight \
-> >>       binfmt \
-> >> +    default-dns-fallback \
-> >>       gshadow \
-> >>       hibernate \
-> >>       hostnamed \
-> >> @@ -129,6 +130,7 @@ PACKAGECONFIG[coredump] =3D "-Dcoredump=3Dtrue,-Dc=
-oredump=3Dfalse"
-> >>   PACKAGECONFIG[cryptsetup] =3D "-Dlibcryptsetup=3Dtrue,-Dlibcryptsetu=
-p=3Dfalse,cryptsetup,,cryptsetup"
-> >>   PACKAGECONFIG[tpm2] =3D "-Dtpm2=3Dtrue,-Dtpm2=3Dfalse,tpm2-tss,tpm2-=
-tss libtss2 libtss2-tcti-device"
-> >>   PACKAGECONFIG[dbus] =3D "-Ddbus=3Dtrue,-Ddbus=3Dfalse,dbus"
-> >> +PACKAGECONFIG[default-dns-fallback] =3D ",-Ddns-servers=3D"
-> >>   PACKAGECONFIG[efi] =3D "-Defi=3Dtrue,-Defi=3Dfalse"
-> >>   PACKAGECONFIG[gnu-efi] =3D "-Dgnu-efi=3Dtrue -Defi-libdir=3D${STAGIN=
-G_LIBDIR} -Defi-includedir=3D${STAGING_INCDIR}/efi,-Dgnu-efi=3Dfalse,gnu-ef=
-i"
-> >>   PACKAGECONFIG[elfutils] =3D "-Delfutils=3Dtrue,-Delfutils=3Dfalse,el=
-futils"
-> >> --
-> >> 2.35.1
-> >>
-> >>
-> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >> Links: You receive all messages sent to this group.
-> >> View/Reply Online (#170370): https://lists.openembedded.org/g/openembe=
-dded-core/message/170370
-> >> Mute This Topic: https://lists.openembedded.org/mt/93520181/1686489
-> >> Group Owner: openembedded-core+owner@lists.openembedded.org
-> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
-> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >>
+Cheers,
+
+Richard
 
