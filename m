@@ -2,65 +2,66 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 086C4C38145
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E303C54EE9
 	for <webhook@archiver.kernel.org>; Wed,  7 Sep 2022 14:21:15 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web12.8356.1662560445113510708
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
+ [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web08.8309.1662560471939568119
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 07:21:14 -0700
+ Wed, 07 Sep 2022 07:21:12 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=c/iU1bti;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49,
+ header.b=t1Q2gS0E;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.43,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id fv3so8597896pjb.0
+Received: by mail-pj1-f43.google.com with SMTP id
+ p1-20020a17090a2d8100b0020040a3f75eso10023875pjd.4
         for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 07:21:14 -0700 (PDT)
+ Wed, 07 Sep 2022 07:21:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=ju31NVRh00hUomPemkXaZN5Q4dlD15WJQyk+Ldkxp7E=;
-        b=c/iU1btiEDgX4duD6DBQ7Vioe+XPcasfbb7qu8vrGC5UaynW45UNyK60oBPp4BuOTq
-         Zep1DmaU2aptTu+EQz7IU38dwb53JFG5sC3S0Xxfnxtp0KAK9ChfDqBkFxWQMxA7TBJZ
-         chL2kNEYPhiCNm7O+8Um0XZ47xan9xTErrPhyviMW6af41n1gqjKvTUnXwQInUTZQepT
-         7cvHOWlghbgFDZH+gN633UKS/1PtNFxUVoj3I5jq5L/E0IU+HIZctDgy2fe2Swtef7ho
-         AZvL57xu1wYukepruV1BPcAyPgG6PCaJBmMnoS8180Yj7zsYA7bJDEwqlkfAcLmNRSF4
-         3GBw==
+        bh=zlREAsnoiOPB0R49ESP+hr+PIeGNyDMLft+qAHJvRo8=;
+        b=t1Q2gS0EBJzFAYreE9i9Nz0WiCF/bRlvIPcRNURqXtdMOCtbu5I7zGu7OED3zi6iJ0
+         MSoV219GFsWTYrgjDP0KzSJUT1pNYEZzgLc5F74KlaJkmpN9iCfD2AakeLHkpKeiBDME
+         RujVoo+CIHDgUFmZzi6v7UuVzZUEt9I5unNSaYo9+DtDEUt6KU8lUCJWzJHpM1hmjPjV
+         JT6BHxi3ZGVtZ8MpIuPK68BKF5RFN3sqZHMz/qnbpZZfxg5/EsYJDKoR3mjTH+HSpCbC
+         c9XvqIEL7cD6C0pWXpN3rwOzLh8rTJiGuuaIjrncfett+sp0jzz8yXo3d5jY3ONOmTL8
+         xjjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=ju31NVRh00hUomPemkXaZN5Q4dlD15WJQyk+Ldkxp7E=;
-        b=Nyu78s4jRFLOnLDjPHsf6VTcQL91VFqBTA/uhCOCz0saZKgQ5NB7wH4gVWMvXG2L5a
-         Hc6wBwCHv3N2zwHRb4/HUetWWro8F25hKMoCl66UE/tL/8kC0ajbT/YObe94q+Gfoyut
-         l4G7cxirm05KCkBGj1GrKZ9vVOlunW6+eZCsY6zLfPM42+00sGzzMDDbRLa2Gl4yPjGT
-         h6EeEDiW2+80OCl7CqumhCdYRKqUs2OnIWSWdBdlChhIrf06zOSraSslCMj/fCwm7fXZ
-         XWVnXsfhuknx0tzRoP3kB6NrVWcunc1yM2++qE9PssiCI7K0MM1GGHqEXknZqK6kwWFb
-         lT1Q==
-X-Gm-Message-State: ACgBeo1Puq72bV1fIm46h3Dd5B4cs4HbcmIqGsXk9SaCOvooTR+Sjz+v
-	jjGkE6er6o6/st3fjyJimdDgU7S9tuw9R6d0
+        bh=zlREAsnoiOPB0R49ESP+hr+PIeGNyDMLft+qAHJvRo8=;
+        b=AROC1GobxRny9TGxhaNNQGFpiMuce6LM3JWZ/QnlOR1j4g0ncT/vzw96JL8qRSFNZF
+         5fLmt5wgkZ6cwxuI62XcCB/i2byghar6ks3J9OqQj/H3pU4HyJc48kzswbSY78rK2OZi
+         7QNFkRO5vEW4LqRdk1pLgDApS7fsxfQh9JPA482znIVhoSLuhJGZo2MIo75SseVLhbFu
+         ELQLWnZ4uXeOVDDxx2oztgtE1teTxdYryPwi7hFvchcJrjMvYPDvjt0btcPVizyIZKVb
+         ZD8O18Q4w3K3auN5qMYUI4//HLe8n6yKk47UpVAhLi0e+08Z2BRJ73FKs6j8rVW9TQAw
+         bK8Q==
+X-Gm-Message-State: ACgBeo1Zauyj5lOkRbgpk4r5XgPO/9ChHTYoWclGiVnpi9jnOkXAVqlj
+	Dcix4Os4T+5C860eBrIOUWb7A/J5c3Iyzedr
 X-Google-Smtp-Source: 
- AA6agR6gG2iS1e1aZ+2taHOUc805IZeIflPaHx1yDPqzh7LjtYLU8Za4knZ20WtNRLesI8W3JvViOw==
-X-Received: by 2002:a17:90b:4f91:b0:1cd:3a73:3a5d with SMTP id
- qe17-20020a17090b4f9100b001cd3a733a5dmr4304342pjb.98.1662560473467;
-        Wed, 07 Sep 2022 07:21:13 -0700 (PDT)
+ AA6agR6LpCXYQTtS1vYriY/Yg9nQ9w2FIL/B7Z665OHssEBXp3JZV6dei4avlU9JGg3poDypfOJ2TA==
+X-Received: by 2002:a17:90b:3a8d:b0:1fb:1487:1cca with SMTP id
+ om13-20020a17090b3a8d00b001fb14871ccamr4294447pjb.196.1662560470942;
+        Wed, 07 Sep 2022 07:21:10 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- x13-20020a17090a1f8d00b001f510175984sm14776198pja.41.2022.09.07.07.21.11
+ x13-20020a17090a1f8d00b001f510175984sm14776198pja.41.2022.09.07.07.21.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Sep 2022 07:21:12 -0700 (PDT)
+        Wed, 07 Sep 2022 07:21:09 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 16/24] pseudo: Update to include recent upstream
- minor fixes
-Date: Wed,  7 Sep 2022 04:20:17 -1000
+Subject: [OE-core][kirkstone 15/24] bitbake.conf: set BB_DEFAULT_UMASK using
+ ??=
+Date: Wed,  7 Sep 2022 04:20:16 -1000
 Message-Id: 
- <fa5e99a57093877cb2332826ac8e9dae21d30b74.1662559557.git.steve@sakoman.com>
+ <4d603ccf0713ade69d98e452b991a4d1d71c144a.1662559557.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1662559557.git.steve@sakoman.com>
 References: <cover.1662559557.git.steve@sakoman.com>
@@ -71,37 +72,43 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 07 Sep 2022 14:21:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170411
+ https://lists.openembedded.org/g/openembedded-core/message/170410
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
 
-Pull in some minor fixes:
+Currently, there's no way for the user's site.conf, local.conf or
+similar to set BB_DEFAULT_UMASK, because those files are included by
+bitbake.conf prior to the unconditional assignment of
+BB_DEFAULT_UMASK. To make that possible, use a weak default assignment
+instead. This is also consistent with most other variable assignments
+in the lower half of bitbake.conf.
 
- pseudo_util: Silence symlink errors and fix resolution bug
- ports/linux: Remove build dependency on libattr
- Minor build fixes
- pseudo_util: Fix resolving relative paths from "/"
+I believe the risk of a regression is very small; it would require
+something like somebody having a definition of BB_DEFAULT_UMASK in a
+local configuration file, and having been relying on that _not_ taking
+effect.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c57d0c57d00cdef622dab3bf783a10d52f8d9ffb)
+Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+(cherry picked from commit e3dbded499f0bd1e71abb0650ae98fd9ade94250)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
+ meta/conf/bitbake.conf | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index e7ef6a730c..c34580b4ff 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -13,7 +13,7 @@ SRC_URI:append:class-nativesdk = " \
-     file://older-glibc-symbols.patch"
- SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 2a3cf6f8aa..516a30c963 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -924,7 +924,7 @@ SHELL[unexport] = "1"
+ TRANSLATED_TARGET_ARCH ??= "${@d.getVar('TARGET_ARCH').replace("_", "-")}"
  
--SRCREV = "2b4b88eb513335b0ece55fe51854693d9b20de35"
-+SRCREV = "c9670c27ff67ab899007ce749254b16091577e55"
- S = "${WORKDIR}/git"
- PV = "1.9.0+git${SRCPV}"
+ # Set a default umask to use for tasks for determinism
+-BB_DEFAULT_UMASK = "022"
++BB_DEFAULT_UMASK ??= "022"
  
+ # Complete output from bitbake
+ BB_CONSOLELOG ?= "${LOG_DIR}/cooker/${MACHINE}/${DATETIME}.log"
 -- 
 2.25.1
 
