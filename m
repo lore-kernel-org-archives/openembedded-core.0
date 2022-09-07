@@ -1,134 +1,129 @@
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <3a0627d1-c3c5-aad6-cd3e-a6dc6e310f07@berginkonsult.se>
-Date: Tue, 23 Aug 2022 22:38:00 +0200
+From: "Steve Sakoman" <steve@sakoman.com>
+Subject: [OE-core][kirkstone 00/24] Patch review
+Date: Wed,  7 Sep 2022 04:20:01 -1000
+Message-Id: <cover.1662559557.git.steve@sakoman.com>
 MIME-Version: 1.0
-Subject: Re: [OE-core] [PATCH] rust-cross-canadian: rename shell variables for easier appends
-References: <20220823110227.68348-1-peter@berginkonsult.se>
- <CAP9ODKoRj+aqcdH6uFN0xZEeMJ2y=8e931vGTFFxgQsXh=pO6Q@mail.gmail.com>
-From: "Peter Bergin" <peter@berginkonsult.se>
-In-Reply-To: <CAP9ODKoRj+aqcdH6uFN0xZEeMJ2y=8e931vGTFFxgQsXh=pO6Q@mail.gmail.com>
-Content-Type: multipart/alternative;
- boundary="------------owzos0UGDSyyjIcu0gHIZk4u"
-Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
 To: openembedded-core@lists.openembedded.org
 
---------------owzos0UGDSyyjIcu0gHIZk4u
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: 8bit
+Please review this set of patches for kirkstone and have comments back by
+end of day Friday.
 
-Hi Otavio,
+Passed a-full on autobuilder:
 
-On 2022-08-23 16:03, Otavio Salvador wrote:
->
->
-> Em ter., 23 de ago. de 2022 às 08:02, Peter Bergin 
-> <peter@berginkonsult.se> escreveu:
->
->     Make unique shell variable names for cargo and rust
->     setup scripts. This change will make it easier to append to the
->     scripts in a bbappend file by using the variable for the script.
->     Before this change it was only possible for the last script as
->     they shared the same variable name.
->
->     Signed-off-by: Peter Bergin <peter@berginkonsult.se>
->
->
-> Why do you want to append them?
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4192
 
-In my particular case the rust application I'm building against the SDK 
-is using the crate prost-build (https://crates.io/crates/prost-build) 
-that is used to generate code from .proto files. It is using the tool 
-protoc from protobuf and in order to get it working the variable PROTOC 
-needs to be set. Then my solution was to add that variable to 
-environment-setup.d/rust.sh in the SDK as I thought that was an easy 
-solution and rust.sh is in some way connected to the variable setting. 
-Then looking in to do_install of rust-cross-canadian I saw that the 
-variable ENV_SETUP_SH is first used for rust.sh then for cargo.sh so I 
-could not use it to point out rust.sh. Then I had the idea that it would 
-be better to have one variable for rust.sh and one for cargo.sh.
+The following changes since commit 2363d69d687fc8e53a7c97bf5300e59c9a04f22e:
 
-No strong opinion if this is a good solution or not. I can find other 
-solutions of course. If this break things for other people I hope it 
-will not be accepted. Just wanted to share if it can also help others.
+  gcr: Define _GNU_SOURCE (2022-09-03 13:09:42 +0100)
 
-Best regards,
-/Peter
+are available in the Git repository at:
 
+  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
 
---------------owzos0UGDSyyjIcu0gHIZk4u
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Alex Stewart (1):
+  maintainers: update opkg maintainer
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Hi Otavio,<br>
-    </p>
-    <div class="moz-cite-prefix">On 2022-08-23 16:03, Otavio Salvador
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAP9ODKoRj+aqcdH6uFN0xZEeMJ2y=8e931vGTFFxgQsXh=pO6Q@mail.gmail.com">
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-      <div dir="ltr">
-        <div dir="ltr"><br>
-        </div>
-        <br>
-        <div class="gmail_quote">
-          <div dir="ltr" class="gmail_attr">Em ter., 23 de ago. de 2022
-            às 08:02, Peter Bergin &lt;<a
-              href="mailto:peter@berginkonsult.se"
-              moz-do-not-send="true" class="moz-txt-link-freetext">peter@berginkonsult.se</a>&gt;
-            escreveu:<br>
-          </div>
-          <blockquote class="gmail_quote" style="margin:0px 0px 0px
-            0.8ex;border-left:1px solid
-            rgb(204,204,204);padding-left:1ex">Make unique shell
-            variable names for cargo and rust<br>
-            setup scripts. This change will make it easier to append to
-            the<br>
-            scripts in a bbappend file by using the variable for the
-            script.<br>
-            Before this change it was only possible for the last script
-            as<br>
-            they shared the same variable name.<br>
-            <br>
-            Signed-off-by: Peter Bergin &lt;<a
-              href="mailto:peter@berginkonsult.se" target="_blank"
-              moz-do-not-send="true" class="moz-txt-link-freetext">peter@berginkonsult.se</a>&gt;<br>
-          </blockquote>
-          <div><br>
-          </div>
-          <div>Why do you want to append them?</div>
-        </div>
-      </div>
-    </blockquote>
-    <p>In my particular case the rust application I'm building against
-      the SDK is using the crate prost-build
-      (<a class="moz-txt-link-freetext" href="https://crates.io/crates/prost-build">https://crates.io/crates/prost-build</a>) that is used to generate
-      code from .proto files. It is using the tool protoc from protobuf
-      and in order to get it working the variable PROTOC needs to be
-      set. Then my solution was to add that variable to
-      environment-setup.d/rust.sh in the SDK as I thought that was an
-      easy solution and rust.sh is in some way connected to the variable
-      setting. Then looking in to do_install of rust-cross-canadian I
-      saw that the variable ENV_SETUP_SH is first used for rust.sh then
-      for cargo.sh so I could not use it to point out rust.sh. Then I
-      had the idea that it would be better to have one variable for
-      rust.sh and one for cargo.sh.</p>
-    <p>No strong opinion if this is a good solution or not. I can find
-      other solutions of course. If this break things for other people I
-      hope it will not be accepted. Just wanted to share if it can also
-      help others.</p>
-    <p>Best regards,<br>
-      /Peter<br>
-    </p>
-    <br>
-  </body>
-</html>
+Chee Yang Lee (1):
+  sqlite: add CVE-2022-35737 patch to SRC_URI
 
---------------owzos0UGDSyyjIcu0gHIZk4u--
+Enrico Scholz (5):
+  npm: replace 'npm pack' call by 'tar czf'
+  npm: return content of 'package.json' in 'npm_pack'
+  npm: take 'version' directly from 'package.json'
+  lib:npm_registry: initial checkin
+  npm: use npm_registry to cache package
+
+Joshua Watt (1):
+  classes: cve-check: Get shared database lock
+
+Khem Raj (1):
+  apr: Cache configure tests which use AC_TRY_RUN
+
+LUIS ENRIQUEZ (1):
+  kernel-fitimage.bbclass: add padding algorithm property in config
+    nodes
+
+Ming Liu (1):
+  meta: introduce UBOOT_MKIMAGE_KERNEL_TYPE
+
+Rasmus Villemoes (1):
+  bitbake.conf: set BB_DEFAULT_UMASK using ??=
+
+Richard Purdie (2):
+  vim: Upgrade 9.0.0242 -> 9.0.0341
+  pseudo: Update to include recent upstream minor fixes
+
+Robert Joslyn (1):
+  curl: Backport patch for CVE-2022-35252
+
+Ross Burton (1):
+  cve-check: close cursors as soon as possible
+
+Ulrich Ölmann (1):
+  scripts/runqemu.README: fix typos and trailing whitespaces
+
+Yang Xu (1):
+  insane.bbclass: Skip patches not in oe-core by full path
+
+pgowda (1):
+  binutils : CVE-2022-38533
+
+wangmy (5):
+  libtasn1: upgrade 4.18.0 -> 4.19.0
+  liburcu: upgrade 0.13.1 -> 0.13.2
+  libwpe: upgrade 1.12.2 -> 1.12.3
+  libatomic-ops: upgrade 7.6.12 -> 7.6.14
+  lz4: upgrade 1.9.3 -> 1.9.4
+
+ meta/classes/cve-check.bbclass                |  36 ++--
+ meta/classes/insane.bbclass                   |   3 +-
+ meta/classes/kernel-fitimage.bbclass          |   4 +-
+ meta/classes/kernel-uboot.bbclass             |   3 +
+ meta/classes/kernel-uimage.bbclass            |   2 +-
+ meta/classes/npm.bbclass                      |  63 ++++---
+ meta/classes/uboot-sign.bbclass               |   3 +
+ meta/conf/bitbake.conf                        |   2 +-
+ meta/conf/distro/include/maintainers.inc      |   8 +-
+ meta/lib/oe/npm_registry.py                   | 169 ++++++++++++++++++
+ meta/lib/oeqa/selftest/cases/fitimage.py      |   4 +-
+ .../recipes-core/meta/cve-update-db-native.bb |  51 +++---
+ .../binutils/binutils-2.38.inc                |   1 +
+ .../binutils/0015-CVE-2022-38533.patch        |  36 ++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |   2 +-
+ ...ure-due-to-libc-using-libc-functions.patch |  42 -----
+ .../{libwpe_1.12.2.bb => libwpe_1.12.3.bb}    |   6 +-
+ ...-runtime-test-for-mmap-that-can-map-.patch |  62 +++++++
+ meta/recipes-support/apr/apr_1.7.0.bb         |  15 +-
+ .../curl/curl/CVE-2022-35252.patch            |  72 ++++++++
+ meta/recipes-support/curl/curl_7.82.0.bb      |   1 +
+ ...{libtasn1_4.18.0.bb => libtasn1_4.19.0.bb} |   2 +-
+ ...-ops_7.6.12.bb => libatomic-ops_7.6.14.bb} |   4 +-
+ .../{liburcu_0.13.1.bb => liburcu_0.13.2.bb}  |   2 +-
+ .../lz4/files/CVE-2021-3520.patch             |  27 ---
+ .../lz4/{lz4_1.9.3.bb => lz4_1.9.4.bb}        |  10 +-
+ meta/recipes-support/sqlite/sqlite3_3.38.5.bb |   4 +-
+ meta/recipes-support/vim/vim.inc              |   4 +-
+ scripts/runqemu.README                        |  16 +-
+ 29 files changed, 489 insertions(+), 165 deletions(-)
+ create mode 100644 meta/lib/oe/npm_registry.py
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0015-CVE-2022-38533.patch
+ delete mode 100644 meta/recipes-sato/webkit/libwpe/0001-Fix-build-failure-due-to-libc-using-libc-functions.patch
+ rename meta/recipes-sato/webkit/{libwpe_1.12.2.bb => libwpe_1.12.3.bb} (72%)
+ create mode 100644 meta/recipes-support/apr/apr/0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-35252.patch
+ rename meta/recipes-support/gnutls/{libtasn1_4.18.0.bb => libtasn1_4.19.0.bb} (90%)
+ rename meta/recipes-support/libatomic-ops/{libatomic-ops_7.6.12.bb => libatomic-ops_7.6.14.bb} (80%)
+ rename meta/recipes-support/liburcu/{liburcu_0.13.1.bb => liburcu_0.13.2.bb} (91%)
+ delete mode 100644 meta/recipes-support/lz4/files/CVE-2021-3520.patch
+ rename meta/recipes-support/lz4/{lz4_1.9.3.bb => lz4_1.9.4.bb} (78%)
+
+-- 
+2.25.1
+
