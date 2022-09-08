@@ -1,132 +1,102 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C29FC54EE9
-	for <webhook@archiver.kernel.org>; Thu,  8 Sep 2022 14:09:11 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
- [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web11.6077.1662646150849006720
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6781CC38145
+	for <webhook@archiver.kernel.org>; Thu,  8 Sep 2022 15:13:16 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web09.334.1662649986859863446
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Sep 2022 07:09:10 -0700
+ Thu, 08 Sep 2022 08:13:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=m3sbp6w2;
- spf=pass (domain: gmail.com, ip: 209.85.210.172,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pf1-f172.google.com with SMTP id l65so18041953pfl.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eoq+qjGF;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id 9so14976991plj.11
         for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Sep 2022 07:09:10 -0700 (PDT)
+ Thu, 08 Sep 2022 08:13:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=O4/PkbG36D7gf9IO26CtJnquBQRrXrDdWnfHwBL6J+o=;
-        b=m3sbp6w2Tji3/RD4XstXocnDTTigheP0hJoLfZ7GBN5XjPSxLBVPjhZPTGyk1NTCT4
-         /4XgsVUBSPKyaPwmI5ZampI8C02vdeXo+OLN8NE27A1UlqutvIzH4D2cxyLRoI3k2+UG
-         lrMLdpqB08Eofqd6f/j8SP4OEvu7kQ4xAcQwk+Fw0HK0sfVHbz2GTzkV5YY6Ab+YhVBA
-         LAGVpmK6889Bv26raHC3IN8hEGxCPlI+VJT1vWCZ28G7o130qlCUNXa0OIYtZ3dCmp0m
-         U+J1IMA2JND6gKgwvMarmol9CNtTr7xNidTEoOOJTrTlyaD3Q1FUVfy7K/lvWQKBfJM2
-         OYcw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=GGNbtZBVesQTBNmHMbax/TBQag1M6d7L6JeAYtS/BEk=;
+        b=eoq+qjGFZX8G4b04RkULumcJSO/RHrelT12KlVMQ6G4Kba7E2qx0aTVkv7F11Bbzx4
+         wpcZZC45dvByibehHHjkYZJq/VDj4Y4oPS5pxUBcuuW0X6OF2xC10iWubacDYQguPfcl
+         5SE2zJwRdUUOaktSGTrcOiJVMviurcsORbcEG4Xso7ogCO+L8ilqb9jXD8K0T8I16sSF
+         eYzJmTjs4KwZ/bSmweo5B6VaJh0ej7CPJEL+eKwS2yTQiKogHA8cJ5zYkL+SgnTltTHF
+         /wt4klWEEWll3MgDypT9CsX09RyAlNULid7JVLrwJdWpjM34lOHbUM7jmf5wy4JGcpjB
+         Z7Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=O4/PkbG36D7gf9IO26CtJnquBQRrXrDdWnfHwBL6J+o=;
-        b=4PglOoJh4sUXgS68cdFWnlm2xrD5QwsZHzHXwcv1VpVAAzq005zHAwNYDFJxEHuPzh
-         Tn1V3MKfRu8w1eavK4xq5zkbM+VvW8xnYGcLUVY2KPZWOcykJbrIDsc0g4kk3Cx6U+AO
-         Pkm9lHgWDJ3g5F2lCz4GlxtAwdWfi1pfyPjs+hRPFHBsfAzm5VOVgX8qAzm5p/agRrRx
-         qNLDftuKdIFA4PsPU581Uw5WAQIgfzt+fsDn2EOglZy4w/JD1+nauPQm8dDrF+BT3enw
-         NvtDVwyd8NMSz7fXRrzy/q1w/BlGIkcvlsA+ZpgmAjH5H41nYm+0X5E9QGeYMwZV/z1L
-         8fXQ==
-X-Gm-Message-State: ACgBeo25wCKbCcrFguxXwJzEFlGffS/JYGOWLHz+B4pWHXKWkSrj05OW
-	Jp7X6U2rr8hJey19WSgo7RHzsJ4z4ABm4JEaUw4=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=GGNbtZBVesQTBNmHMbax/TBQag1M6d7L6JeAYtS/BEk=;
+        b=luSOdX1RauiiwdbBIIsxBqinU+kNC1lAfn7ZHzS/hbvJc1U+3uHpm3ngaepMgECsRx
+         YPRbL+gfXK+L+lJN4rqkDjsuDNdw0FJAz5kBhU3FbygpLOUnE5n4sgszV/PLSVN0NrkX
+         FIj+IyNk0O6HsPfWNBUAgh8nOf42dfruahoJSBazskiB7tponmmfFj36WHrftjG+4Fzv
+         RxYeLUeMCIUfPNC4cfd3wFTLLrlhVqUMYnpMZuSn2QlYsFv0qbVY8YAVciVj6LLOgQ2g
+         1Ext/WTGdKKK/BR7S+XsK6sOMXzDgwMHPmc42gWcyY01S3BWwEGTO6kvNn+sd9v2TYAI
+         fjFg==
+X-Gm-Message-State: ACgBeo01NrNmi9G2Vp05HAFhzc/is129dhn15dePcbMuX8rq+EFG8odE
+	V8dIYaYpayU20/sx98JiscpLWMwHfl4MNQ==
 X-Google-Smtp-Source: 
- AA6agR5MWkS8PFRUCpL1KoNID2wVKEWRD2/D8NNu0Ix408PQ1dHYOdvGZi3qDpBq1Ch5z/ckBOs1HN2Joe+h4qnZ+Sw=
-X-Received: by 2002:a05:6a00:e8a:b0:535:cc5c:3d87 with SMTP id
- bo10-20020a056a000e8a00b00535cc5c3d87mr9345269pfb.24.1662646150255; Thu, 08
- Sep 2022 07:09:10 -0700 (PDT)
+ AA6agR5mFc/hkgJF9c1Qu6pkdDOaCmH2lxJcqPoKs5GWIh7STjXCQvCLGty+8KuDJmqBa/NiXByfjQ==
+X-Received: by 2002:a17:903:110f:b0:171:3afa:e688 with SMTP id
+ n15-20020a170903110f00b001713afae688mr9565393plh.162.1662649986006;
+        Thu, 08 Sep 2022 08:13:06 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::1761])
+        by smtp.gmail.com with ESMTPSA id
+ a5-20020aa795a5000000b0053e199aa99bsm6827524pfk.220.2022.09.08.08.13.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Sep 2022 08:13:05 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] rust: Use variable to specify extra tools to install
+Date: Thu,  8 Sep 2022 08:13:03 -0700
+Message-Id: <20220908151303.2592885-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <20220907220535.3017588-1-raj.khem@gmail.com>
- <YxnypGsRgsp6Uaxt@mail.local>
-In-Reply-To: <YxnypGsRgsp6Uaxt@mail.local>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 8 Sep 2022 10:08:58 -0400
-Message-ID: 
- <CADkTA4P4MKW6XG1Sdeac-NQHuk_mMWDPuhjXj4HN-wnOw4z0rw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] linux-yocto: Enable mdio for qemu
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Sep 2022 14:09:11 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Sep 2022 15:13:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170461
+ https://lists.openembedded.org/g/openembedded-core/message/170462
 
-On Thu, Sep 8, 2022 at 9:48 AM Alexandre Belloni
-<alexandre.belloni@bootlin.com> wrote:
->
-> Hi,
->
-> This caused many failures like this one:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/5847/steps/11/logs/stdio
->
+All architectures may not support same set of tools, therefore use a
+variable to specify this. E.g. on riscv32 only cargo-clippy is buildable
+right now.
 
-Technically not an error, only an error in the eyes of the stricter testing.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/rust/rust_1.63.0.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Khem: Let me queue the patch here, and I'll add a mask for that
-warning, since in this case =y is as good as =m
-
-Bruce
-
-> On 07/09/2022 15:05:35-0700, Khem Raj wrote:
-> > There are package like mdio-netlink in meta-oe which need this feature
-> > to be available, it has started to fail with 5.19
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > ---
-> >  meta/recipes-kernel/linux/linux-yocto_5.19.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-kernel/linux/linux-yocto_5.19.bb b/meta/recipes-kernel/linux/linux-yocto_5.19.bb
-> > index 0ff28aa952..e96395d1bb 100644
-> > --- a/meta/recipes-kernel/linux/linux-yocto_5.19.bb
-> > +++ b/meta/recipes-kernel/linux/linux-yocto_5.19.bb
-> > @@ -56,7 +56,7 @@ COMPATIBLE_MACHINE = "^(qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemuppc64|qe
-> >  # Functionality flags
-> >  KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
-> >  KERNEL_FEATURES:append = " ${KERNEL_EXTRA_FEATURES}"
-> > -KERNEL_FEATURES:append:qemuall=" cfg/virtio.scc features/drm-bochs/drm-bochs.scc"
-> > +KERNEL_FEATURES:append:qemuall=" cfg/virtio.scc features/drm-bochs/drm-bochs.scc cfg/net/mdio.scc"
-> >  KERNEL_FEATURES:append:qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
-> >  KERNEL_FEATURES:append:qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
-> >  KERNEL_FEATURES:append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "", d)}"
-> > --
-> > 2.37.3
-> >
->
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#170431): https://lists.openembedded.org/g/openembedded-core/message/170431
-> > Mute This Topic: https://lists.openembedded.org/mt/93535950/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
-
-
-
+diff --git a/meta/recipes-devtools/rust/rust_1.63.0.bb b/meta/recipes-devtools/rust/rust_1.63.0.bb
+index cf6468d212..2f70b33c29 100644
+--- a/meta/recipes-devtools/rust/rust_1.63.0.bb
++++ b/meta/recipes-devtools/rust/rust_1.63.0.bb
+@@ -62,13 +62,15 @@ rust_do_install:class-nativesdk() {
+     rm ${D}${libdir}/rustlib/manifest*
+ }
+ 
++EXTRA_TOOLS ?= "cargo-clippy clippy-driver rustfmt"
++EXTRA_TOOLS:remove:riscv32 = "cargo-driver rustfmt"
+ rust_do_install:class-target() {
+     export PSEUDO_UNLOAD=1
+     rust_runx install
+     unset PSEUDO_UNLOAD
+ 
+     install -d ${D}${bindir}
+-    for i in cargo-clippy clippy-driver rustfmt; do
++    for i in ${EXTRA_TOOLS}; do
+         cp build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/release/$i ${D}${bindir}
+         chrpath -r "\$ORIGIN/../lib" ${D}${bindir}/$i
+     done
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.37.3
+
 
