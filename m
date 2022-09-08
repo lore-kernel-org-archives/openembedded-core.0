@@ -1,256 +1,233 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <mingli.yu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 233F2ECAAD3
-	for <webhook@archiver.kernel.org>; Thu,  8 Sep 2022 02:29:38 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web09.713.1662604173541267808
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEE70C38145
+	for <webhook@archiver.kernel.org>; Thu,  8 Sep 2022 04:16:48 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
+ [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.1459.1662610596824456851
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 19:29:33 -0700
+ Wed, 07 Sep 2022 21:16:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=A2OSiPT9;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178,
- mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id l10so3188066plb.10
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 19:29:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=CYzi4rd7PTjcuhBd0RbDN36p0giOrfOkrEJPYwUSL8I=;
-        b=A2OSiPT9EYAzkS+7+ZAZzM3VzgMlfxp1WGTd6TG+/TYmLoKWNumlQ4/Beo5AfK/aAP
-         ELlpkFMMuTjBg8O/H2c0/huX+ptm43qyYnWrqvKluT0o5Od6cVs0R6DRyOAQv+/CzsTg
-         XUurfUEj1hfWT+l+7lxAFdfrF7NTXFmxHkhnWkEUToYaD00ptVh47KNrE8/l3RnxHgyV
-         dDLCUyGojZcxcsKos/nibAsR9597uA3yhiVaX5NgJz1E/0nMmTt1bpPm5SwzqH4iwYb3
-         BDie0fEYKWJu2O+ONeFsX5kytbBjG8HC/7HKggxKxmLVaq1+laxqmDlSvfmUzIXWfR4A
-         hOUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=CYzi4rd7PTjcuhBd0RbDN36p0giOrfOkrEJPYwUSL8I=;
-        b=rZjILNfmB/bMgUkSyl+YO7DbKlp5QtQpkQ0RFwotWxXmcYUyh4AfiWgg7GLi77HRK4
-         IUSlhy0TUsQGlEka7Gq8lFlJ1KpdnNL8VF7WqwTPtJIkuPSgdlWIdYjYtgx5JZNII7gN
-         gRnbGij6GeXkglwX4W4s4fbrd6zqNL5HOlhUVp4abOf0W7sWMQOGBUUlPp6gTMKMCnOD
-         X9Doe348JOkJiV0pnKUlnLv+z5svU20e9UCyDlGfWDf/tD035ihSrk8qd3594lrHeHaM
-         8bt7bd6+1+k4UApFEgnOPdZyoVu1/mGCcq15lfDtSzrYsoZbndNTrgtqEHh7bx9XNz8D
-         zyAA==
-X-Gm-Message-State: ACgBeo3DdRJBwfHGK3eq3zr7VN10sEh+RQaiNZy36hROe4uVW8ALv5Sl
-	lgdJo15lq0Kf271EMaqiGtvZKzEniYEFq0tx
-X-Google-Smtp-Source: 
- AA6agR6s7fYBI0Dx2fQjzkRXHBFsQpE4U9jopZcb+3E5s6pRTJtOMTVzC2VukpbicV8qWD9LuwjgZw==
-X-Received: by 2002:a17:90a:5b0d:b0:1fe:3769:5fb8 with SMTP id
- o13-20020a17090a5b0d00b001fe37695fb8mr1724249pji.152.1662604172400;
-        Wed, 07 Sep 2022 19:29:32 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id
- b11-20020a170902d50b00b0016c0c82e85csm1901398plg.75.2022.09.07.19.29.31
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Sep 2022 19:29:31 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 6/7] cve-check: close cursors as soon as possible
-Date: Wed,  7 Sep 2022 16:28:31 -1000
-Message-Id: 
- <48742ddf4d0acd419c8ffb8f22124ed525efc2d9.1662603861.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1662603861.git.steve@sakoman.com>
-References: <cover.1662603861.git.steve@sakoman.com>
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=fluyyhHO;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.166.238,
+ mailfrom: prvs=6250d0c078=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
+ 2884Ga36013311
+	for <openembedded-core@lists.openembedded.org>;
+ Wed, 7 Sep 2022 21:16:36 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=message-id : date
+ : subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=PPS06212021;
+ bh=p1Ef+BXU07+YuZgEr7YLfs4GQ2BNeDGu1r+Ffa4X62M=;
+ b=fluyyhHO7RwjPabU7v8hZopfTLNx0XGFlHZgkyoGl2OSQsbNB717/2RXFFsMmCHdJdkF
+ YxJheFGNQaSDfx88Vm9Kc+03D5PsIdH8/1pIo9YM8nu9WMdMXbCfAUAeK+KzcOY3fX/r
+ 7ssa+aI22/Cf9Lj4NG9GPKMW/1F1x8F8h0789yGDpv3bbuRLCbykEpKd7ecdzNcw3rud
+ f/eDtRce2jY+KmkJ2ylhFzezI2M04PVGIqCDmMB3Jx+ShP+foP0nEbAWgBI+0hNG1VgK
+ LqIYTan/U+Of7Br8Xxu4gmjPVT3tGInTlzCd9eWWAS20m0FrVLRSQzxFC1+JmmoBJUn1 KQ==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jeh32hc8u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Wed, 07 Sep 2022 21:16:36 -0700
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2884GVvG012451
+	for <openembedded-core@lists.openembedded.org>;
+ Wed, 7 Sep 2022 21:16:35 -0700
+Received: from nam11-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2171.outbound.protection.outlook.com [104.47.56.171])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jeh32hc8t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 07 Sep 2022 21:16:35 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hTBrim6VZo+jMDtf8qnWKpFMxB6J0EToKG0iguZ9WfzuH/TRY4XUE2ggckbYu6zhCaIKx6LlEwtr4bg64tbh4rDg1tSLnewiqObK35yJ/3Rn/835CKy9hSR7rRLvy6unYrH3C8kFJbfgCX4LRgbYwrIbnB69Uw3X7P7KzM8viqBTPxAKr631mA0FQx4epnU2wRamc1IKT9Am7uLKCBSBDFtTcTZvn8neLvAv1IsdOugAifbnBm8FPJl+F0JDT7+MHFCq39YPigPoxQgquVsW0rQan82Ppy68KOJQPwQdgtB4sZuzb0pTVBRVeVcV9ZOCVh8F/iDAv3inwC+5FGSX3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p1Ef+BXU07+YuZgEr7YLfs4GQ2BNeDGu1r+Ffa4X62M=;
+ b=iEK5+CRKfSwgztm64shAhapiOe1GkbbyaWGOnr+N3OrbgkebIwG8BeQcTzDvqlOPhrLT1H6sQBZj78ghuRMmarerpts4I8ZMmuM6YY9htzDjnm3qqJaa503srDcoFfsoUMABBIsL6iuSuWgmYuFe4jbYUgJfHGkJWqvfeTIcVvMWUeyRJuDjGetlkLJi5/hDakvYOO/rXMraLLvUaoMCuOmL2uC6VNp6sR/ffXQHwmQ5KPXDl88IvmqDZC80iigk5sYf7TLPNdf3jcbwhC5ShqBpg6rLXTL/EJMl9QSdTKa4MYRmqwN/y+Mg9llslvwY1L+WcS+M0bJHMqSny91rMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
+ by DM4PR11MB6240.namprd11.prod.outlook.com (2603:10b6:8:a6::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5588.14; Thu, 8 Sep 2022 04:16:34 +0000
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::1ce8:cf77:de7b:2203]) by CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::1ce8:cf77:de7b:2203%6]) with mapi id 15.20.5612.014; Thu, 8 Sep 2022
+ 04:16:33 +0000
+Message-ID: <4af7cd6a-117a-d952-7701-3c5000d81936@windriver.com>
+Date: Thu, 8 Sep 2022 12:16:26 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [OE-core] [PATCH] webkitgtk: Update to 2.6.37
+Content-Language: en-US
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20220903092100.3544874-1-raj.khem@gmail.com>
+ <468d4b98-b086-c5db-281d-678c21522492@windriver.com>
+ <CAMKF1sqBszEhk9GwnQJ_496Vpki5JftokgUfSJPBcYyp_TNnNg@mail.gmail.com>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+In-Reply-To: 
+ <CAMKF1sqBszEhk9GwnQJ_496Vpki5JftokgUfSJPBcYyp_TNnNg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SL2PR04CA0021.apcprd04.prod.outlook.com
+ (2603:1096:100:2d::33) To CO1PR11MB5009.namprd11.prod.outlook.com
+ (2603:10b6:303:9e::11)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PR11MB5009:EE_|DM4PR11MB6240:EE_
+X-MS-Office365-Filtering-Correlation-Id: c7b547ff-296e-4770-ebf2-08da9150ea0e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	qd2dmbQdWJ/SeyJkGAZShV56wekLiz15k9/+11XsgqnHec59KgBTqGD17m2Y0Q2/anAw6Xk6fLEySxitLM5UpYc+opBV7s1pgdpu37cTSamLnT8GegKvmUmGrhzwun9ervWNB6VOCy95h3eOvdCRj2+z/VKgJG0XgewgsuUAP2c+7G+q5owg9taJaNykY/JLnm7YZRL4x2mDyx9/R/9fIy0zW+4273Pez4Q5RTdiWIv5WEEx2150yRKs46P2TlljfoOSKTk4dge76LR/7ZeNmS/xr9eyL1vyfGROjLNTYQBe5Uex75A7NpSo5U8WELAoxmIMv5eyXi0457emAaAidKKKyps0qMs1PMTQ5yNPcjMwHUmhk7wUsHqkB2yf+IyaqYTehx1AqUgQLjrZV3KUQPu5P86QSEvOvOoSkLpMoa7R4QoFqnS5ED9i6z5OBe/OgdlTj3/X/I3fGupYuVu53ETM4g9t5VNl3whtNsWR1EN8Imszit5Bbp7SOlIUTM0/S53mwHT1qDnE1pb+Erwf61/wWaykmH6xyiw7xXo4P9kft4Oe1WhoehyabOyXpyyJX+0AOQbKIu15bw2dTP7R51yXjitfEzChn35MBlQ9DhPGnKx1cmryGozM9iGSq04n4RaV2up0Gg29i7OSViucTZgavcpyHtjXua8psHOC8waGpeWFQN/luetVs0kPZMQE5f8bXU90tQzdKEHR3XL55gUlBCIzmccXyfWRJVa3DHu20StTfqTItPcW4ySCb8d04m4uYkdSMD5jijYj7hxwjJTQqeK+WPWwwSEqXkPV4PTA4SzvPEzgCLu8UWtidKVyGL5DjkPUhmjEZJ8cPFtmkGmmfUdtOnyMiqeaJLHtlwc=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(39850400004)(376002)(346002)(366004)(136003)(478600001)(26005)(2616005)(38100700002)(966005)(6486002)(6512007)(53546011)(31686004)(186003)(6666004)(41300700001)(6506007)(316002)(66476007)(8676002)(2906002)(15650500001)(66556008)(5660300002)(8936002)(4326008)(66946007)(6916009)(36756003)(83380400001)(31696002)(86362001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?Z3VabmplejJSTGhMNEphUjJJeU1na2tVL2c1YlMwU0VPZ1BpelVqVEY0ZVFt?=
+ =?utf-8?B?TitqQlN4MkhoMnFVSms3eWhWQmZCR2ZzME1YdXN5RUI5WVFmTTdwdVNPbHJR?=
+ =?utf-8?B?L3JobjlHVjhOLzFaTEVYWG0zY29Fd25LTmRTRzk4WWxPS1Y1SVRlcmhFR1U5?=
+ =?utf-8?B?NlNpSThkQXNpODRlRzAvZnFSc0U5Wnkxa3pLSkRWYk5ERnp3ZUJ5TS9FN3NL?=
+ =?utf-8?B?R1JVN2ZwdnVURHBnZ3daSXRTRnlCNEZvZ0FTbG9zMEJZanI3VnoxWEw5RjhU?=
+ =?utf-8?B?SldUT01qMTg3TmdvQnFQVmZ2VDYrZDVQSCtJdkhEbXdxdDI2YVRuc0pSS3hW?=
+ =?utf-8?B?UjVGMGNNMkZPa3dCcWNWaTFWR0c4K2dMYWNMZFk4R0tka2w2cHlQaFdjdEcx?=
+ =?utf-8?B?OHJxcUF3MVdXR1Buc3VhZEUrcUl5enp4OVZEdHBHR002clEwMWNGWWg4WUky?=
+ =?utf-8?B?VWdyUlF6eTFwaHJQWllSVm1IeWZQbWwyU0haT2lYOGdZZlFPekVyUmdlWmJR?=
+ =?utf-8?B?TlhrOE93bTBqSEZPR2xTRmZUZElXcW1mNzlPS2xtS2JnaHE2eWYwQTRCK2Vx?=
+ =?utf-8?B?TDgrMXd1N29SWVVzZUVsc1pncU5zQis3Tk0rUmlja2JsQ0dmc2x6blF5S0o5?=
+ =?utf-8?B?bVg0dWo4UDRnaXBFUWxuWE1kZHBSM2sxSGNVZU5jODNTMERtbDBJMTZURm9N?=
+ =?utf-8?B?TXZDaUJrSHMxS0Z3RVVnNFQxUmtSREZtQ3M1Z3hWZURvVVhESjhYZlFCYVhK?=
+ =?utf-8?B?V0NKTnBPZnpLTDhXczJ4YzBRQUZHejI4M1RmZXpBRkxBcWVmcDE3OTZmSDdR?=
+ =?utf-8?B?elB1Q0hyTHB5UDdUZ0dscUxZU2pyYVBOTzM4ZGJ4S0t0eFVObUdlUVpRNzZr?=
+ =?utf-8?B?Yy90dWlRc0grTmlkd1dOUjU4bDVJdGhBbHhLWWFrVG54Y1dZa2xuaWY5VXlz?=
+ =?utf-8?B?SkpxVDBjSm01YUZQdWhWRHdTMTZDZTJwamdIekl0MW9IOGREMnRYdFJueXdQ?=
+ =?utf-8?B?M0oxMkJqY0tkMmxkcnFmOERBZHpHcFYxQ0dKSEVwdVBPWngraUNsRDlwR1Zj?=
+ =?utf-8?B?cEhQcUpsd3dlUmlqQUhIekY4d2tNcEFIK1MwUWpxWUp2eXJiOFB2ODlMdnlH?=
+ =?utf-8?B?S2I1cDZYa3VmSy9Xb1BCN2xYbklwWG1GaHBmclBHamYrZ2tyWTJKUTk3NC9z?=
+ =?utf-8?B?d2U2djFLRFQyaC9obXljZi9Va2hRRDI1c3hMYVZ0ZTVMdUVEUzZHeVQzWnU4?=
+ =?utf-8?B?SU5TSXJESVIyZWpaaExGM3g4NFRLSHErU2c5SklpemdNTzVDNitrL3lPWXRv?=
+ =?utf-8?B?amw3ZHAxVmY0MzRaTWJtUGZ1dGFzZEdrY0NJWVVENDFnN2tNUnBxcUxvZVcv?=
+ =?utf-8?B?dC94NDB6MnBiQ1Y4dnRieCtUd3R3a1o1eTVmUkVaYmxXbDQ0NGJZa3ZwZXdZ?=
+ =?utf-8?B?Vk5qRFcwUGRvMmo4QnlUZ2tXMWN0YStvNEFnRlgyMHp0YlBMczduTmZ0Mno0?=
+ =?utf-8?B?WEphVDZScWd2K3VqMnVYUVJTNDg2cUErU0NqcXpsa1JhaUYvN1c4cjY2RXc5?=
+ =?utf-8?B?cTVTM214aFFBTHRwYnpoTktTbnV1U1p2dkl2REgxU01JV2puRVMxanJpZjNn?=
+ =?utf-8?B?UG1uZERrUjQweHZUbDBHbG5QWVI3REFBazhLWlR1Y2ZJRWF3N1Jvc1Q2bmh6?=
+ =?utf-8?B?YkZ6Um9adWx2QTdZZklBb0VqZFVVK21wYThyQWdtQkNyek44L0hkTEZPQTlW?=
+ =?utf-8?B?dkh2M0VKQ01qVlVRR0FwYzRUckd1c29jZHdTYzVvbkpKSEczQmVnS01qYXpG?=
+ =?utf-8?B?czV5TGZZc040R2ZlcGZOclp4YWY0eHdpdGxJZkNtSjRlVEFlVWlrZ2JKSEYv?=
+ =?utf-8?B?TG9YdGlaeTFJMEMwVmNPRDl5RzY0NDYwUHp3d2VIcmFjdVNWN0hUdEcxZHF5?=
+ =?utf-8?B?T2U3VndKQnhrV2l1QWw3cmZrbDFJUjV6R0J2VzI3RUlacWNhb0dsUEdIb0R4?=
+ =?utf-8?B?cW5CUURqMmZ0OWQ2YVlCYzhqckRNejBVYXBVM2t5cnUwcGVYU2NoWmx4RW9E?=
+ =?utf-8?B?dXNBZ0FVZzRiQk5tKzk1STErYllaaGkrSTFhVGJvcnFaZkFseFBWWlBFWGk5?=
+ =?utf-8?Q?D6qYdLgocujUF/zHM19VjGNK2?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ c7b547ff-296e-4770-ebf2-08da9150ea0e
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2022 04:16:33.8634
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ jQXuve8zBbn+ipa/x/VAVlXtcKuTvt9Wv2q0mSKdvyBsj7E7VWaAnvlVFEq7H8+atAopyq8yLBQAohPFS/1hPg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6240
+X-Proofpoint-GUID: 2IDu0LNmZBuJcBLGbeHmN0ANK-HjHx37
+X-Proofpoint-ORIG-GUID: 2rMYXvc-UrXDx7ErJzWTHJm4FZBkgbNc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-08_02,2022-09-07_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ lowpriorityscore=0 impostorscore=0 suspectscore=0 mlxlogscore=999
+ spamscore=0 bulkscore=0 priorityscore=1501 adultscore=0 phishscore=0
+ malwarescore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2209080014
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Sep 2022 02:29:38 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Sep 2022 04:16:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170445
+ https://lists.openembedded.org/g/openembedded-core/message/170447
 
-From: Ross Burton <ross.burton@arm.com>
+Hi Khem,
 
-We can have multiple processes reading the database at the same time, and
-cursors only release their locks when they're garbage collected.
+On 9/8/22 10:19, Khem Raj wrote:
+> [Please note: This e-mail is from an EXTERNAL e-mail address]
+> 
+> On Wed, Sep 7, 2022 at 6:43 PM Yu, Mingli <mingli.yu@windriver.com> wrote:
+>>
+>>
+>> Fail to build on beaglebone-yocto.
+>>
+>> /build/tmp-glibc/work/cortexa8hf-neon-wrs-linux-gnueabi/webkitgtk/2.36.7-r0/webkitgtk-2.36.7/Source/W
+>> ebCore/platform/graphics/filters/FELighting.h:72:41: error:
+>> 'LightingData' does not name a type
+>>      72 |     inline void platformApplyNeon(const LightingData&, const
+>> LightSource::PaintingData&);
+>>         |                                         ^~~~~~~~~~~~
+>>
+> 
+> there is a proposed patch upstream. I have taken that and applied. The
+> patch is on ml.
+> while you are at it. Please test that patch out and report if the
+> issue is solved.
 
-This might be the cause of random sqlite errors on the autobuilder, so
-explicitly close the cursors when we're done with them.
+Which patch is supposed to resolve the issue on the mail list?
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-(cherry picked from commit 5d2e90e4a58217a943ec21140bc2ecdd4357a98a)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/classes/cve-check.bbclass                | 13 +++--
- .../recipes-core/meta/cve-update-db-native.bb | 51 ++++++++++---------
- 2 files changed, 37 insertions(+), 27 deletions(-)
+Thanks,
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index c0d4e2a972..4fc4e545e4 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -290,7 +290,8 @@ def check_cves(d, patched_cves):
-             vendor = "%"
- 
-         # Find all relevant CVE IDs.
--        for cverow in conn.execute("SELECT DISTINCT ID FROM PRODUCTS WHERE PRODUCT IS ? AND VENDOR LIKE ?", (product, vendor)):
-+        cve_cursor = conn.execute("SELECT DISTINCT ID FROM PRODUCTS WHERE PRODUCT IS ? AND VENDOR LIKE ?", (product, vendor))
-+        for cverow in cve_cursor:
-             cve = cverow[0]
- 
-             if cve in cve_whitelist:
-@@ -309,7 +310,8 @@ def check_cves(d, patched_cves):
-             vulnerable = False
-             ignored = False
- 
--            for row in conn.execute("SELECT * FROM PRODUCTS WHERE ID IS ? AND PRODUCT IS ? AND VENDOR LIKE ?", (cve, product, vendor)):
-+            product_cursor = conn.execute("SELECT * FROM PRODUCTS WHERE ID IS ? AND PRODUCT IS ? AND VENDOR LIKE ?", (cve, product, vendor))
-+            for row in product_cursor:
-                 (_, _, _, version_start, operator_start, version_end, operator_end) = row
-                 #bb.debug(2, "Evaluating row " + str(row))
-                 if cve in cve_whitelist:
-@@ -353,10 +355,12 @@ def check_cves(d, patched_cves):
-                         bb.note("%s-%s is vulnerable to %s" % (pn, real_pv, cve))
-                         cves_unpatched.append(cve)
-                     break
-+            product_cursor.close()
- 
-             if not vulnerable:
-                 bb.note("%s-%s is not vulnerable to %s" % (pn, real_pv, cve))
-                 patched_cves.add(cve)
-+        cve_cursor.close()
- 
-         if not cves_in_product:
-             bb.note("No CVE records found for product %s, pn %s" % (product, pn))
-@@ -378,14 +382,15 @@ def get_cve_info(d, cves):
-     conn = sqlite3.connect(db_file, uri=True)
- 
-     for cve in cves:
--        for row in conn.execute("SELECT * FROM NVD WHERE ID IS ?", (cve,)):
-+        cursor = conn.execute("SELECT * FROM NVD WHERE ID IS ?", (cve,))
-+        for row in cursor:
-             cve_data[row[0]] = {}
-             cve_data[row[0]]["summary"] = row[1]
-             cve_data[row[0]]["scorev2"] = row[2]
-             cve_data[row[0]]["scorev3"] = row[3]
-             cve_data[row[0]]["modified"] = row[4]
-             cve_data[row[0]]["vector"] = row[5]
--
-+        cursor.close()
-     conn.close()
-     return cve_data
- 
-diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index a49f446a53..85874ead01 100644
---- a/meta/recipes-core/meta/cve-update-db-native.bb
-+++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -65,9 +65,7 @@ python do_fetch() {
- 
-     # Connect to database
-     conn = sqlite3.connect(db_file)
--    c = conn.cursor()
--
--    initialize_db(c)
-+    initialize_db(conn)
- 
-     with bb.progress.ProgressHandler(d) as ph, open(os.path.join(d.getVar("TMPDIR"), 'cve_check'), 'a') as cve_f:
-         total_years = date.today().year + 1 - YEAR_START
-@@ -96,18 +94,20 @@ python do_fetch() {
-                     return
- 
-             # Compare with current db last modified date
--            c.execute("select DATE from META where YEAR = ?", (year,))
--            meta = c.fetchone()
-+            cursor = conn.execute("select DATE from META where YEAR = ?", (year,))
-+            meta = cursor.fetchone()
-+            cursor.close()
-+
-             if not meta or meta[0] != last_modified:
-                 # Clear products table entries corresponding to current year
--                c.execute("delete from PRODUCTS where ID like ?", ('CVE-%d%%' % year,))
-+                conn.execute("delete from PRODUCTS where ID like ?", ('CVE-%d%%' % year,)).close()
- 
-                 # Update db with current year json file
-                 try:
-                     response = urllib.request.urlopen(json_url)
-                     if response:
--                        update_db(c, gzip.decompress(response.read()).decode('utf-8'))
--                    c.execute("insert or replace into META values (?, ?)", [year, last_modified])
-+                        update_db(conn, gzip.decompress(response.read()).decode('utf-8'))
-+                    conn.execute("insert or replace into META values (?, ?)", [year, last_modified]).close()
-                 except urllib.error.URLError as e:
-                     cve_f.write('Warning: CVE db update error, CVE data is outdated.\n\n')
-                     bb.warn("Cannot parse CVE data (%s), update failed" % e.reason)
-@@ -125,21 +125,26 @@ do_fetch[lockfiles] += "${CVE_CHECK_DB_FILE_LOCK}"
- do_fetch[file-checksums] = ""
- do_fetch[vardeps] = ""
- 
--def initialize_db(c):
--    c.execute("CREATE TABLE IF NOT EXISTS META (YEAR INTEGER UNIQUE, DATE TEXT)")
-+def initialize_db(conn):
-+    with conn:
-+        c = conn.cursor()
-+
-+        c.execute("CREATE TABLE IF NOT EXISTS META (YEAR INTEGER UNIQUE, DATE TEXT)")
-+
-+        c.execute("CREATE TABLE IF NOT EXISTS NVD (ID TEXT UNIQUE, SUMMARY TEXT, \
-+            SCOREV2 TEXT, SCOREV3 TEXT, MODIFIED INTEGER, VECTOR TEXT)")
- 
--    c.execute("CREATE TABLE IF NOT EXISTS NVD (ID TEXT UNIQUE, SUMMARY TEXT, \
--        SCOREV2 TEXT, SCOREV3 TEXT, MODIFIED INTEGER, VECTOR TEXT)")
-+        c.execute("CREATE TABLE IF NOT EXISTS PRODUCTS (ID TEXT, \
-+            VENDOR TEXT, PRODUCT TEXT, VERSION_START TEXT, OPERATOR_START TEXT, \
-+            VERSION_END TEXT, OPERATOR_END TEXT)")
-+        c.execute("CREATE INDEX IF NOT EXISTS PRODUCT_ID_IDX on PRODUCTS(ID);")
- 
--    c.execute("CREATE TABLE IF NOT EXISTS PRODUCTS (ID TEXT, \
--        VENDOR TEXT, PRODUCT TEXT, VERSION_START TEXT, OPERATOR_START TEXT, \
--        VERSION_END TEXT, OPERATOR_END TEXT)")
--    c.execute("CREATE INDEX IF NOT EXISTS PRODUCT_ID_IDX on PRODUCTS(ID);")
-+        c.close()
- 
--def parse_node_and_insert(c, node, cveId):
-+def parse_node_and_insert(conn, node, cveId):
-     # Parse children node if needed
-     for child in node.get('children', ()):
--        parse_node_and_insert(c, child, cveId)
-+        parse_node_and_insert(conn, child, cveId)
- 
-     def cpe_generator():
-         for cpe in node.get('cpe_match', ()):
-@@ -196,9 +201,9 @@ def parse_node_and_insert(c, node, cveId):
-                     # Save processing by representing as -.
-                     yield [cveId, vendor, product, '-', '', '', '']
- 
--    c.executemany("insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)", cpe_generator())
-+    conn.executemany("insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)", cpe_generator()).close()
- 
--def update_db(c, jsondata):
-+def update_db(conn, jsondata):
-     import json
-     root = json.loads(jsondata)
- 
-@@ -222,12 +227,12 @@ def update_db(c, jsondata):
-             accessVector = accessVector or "UNKNOWN"
-             cvssv3 = 0.0
- 
--        c.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?)",
--                [cveId, cveDesc, cvssv2, cvssv3, date, accessVector])
-+        conn.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?)",
-+                [cveId, cveDesc, cvssv2, cvssv3, date, accessVector]).close()
- 
-         configurations = elt['configurations']['nodes']
-         for config in configurations:
--            parse_node_and_insert(c, config, cveId)
-+            parse_node_and_insert(conn, config, cveId)
- 
- 
- do_fetch[nostamp] = "1"
--- 
-2.25.1
-
+> 
+>> Thanks,
+>>
+>> On 9/3/22 17:21, Khem Raj wrote:
+>>> [Please note: This e-mail is from an EXTERNAL e-mail address]
+>>>
+>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>> ---
+>>>    .../webkit/{webkitgtk_2.36.6.bb => webkitgtk_2.36.7.bb}        | 3 +--
+>>>    1 file changed, 1 insertion(+), 2 deletions(-)
+>>>    rename meta/recipes-sato/webkit/{webkitgtk_2.36.6.bb => webkitgtk_2.36.7.bb} (98%)
+>>>
+>>> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.6.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
+>>> similarity index 98%
+>>> rename from meta/recipes-sato/webkit/webkitgtk_2.36.6.bb
+>>> rename to meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
+>>> index 37b977f9ba..026e24ae39 100644
+>>> --- a/meta/recipes-sato/webkit/webkitgtk_2.36.6.bb
+>>> +++ b/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
+>>> @@ -16,8 +16,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+>>>               file://reproducibility.patch \
+>>>               file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch \
+>>>               "
+>>> -
+>>> -SRC_URI[sha256sum] = "1193bc821946336776f0dfa5e0dca5651f1e57157eda12da4721d2441f24a61a"
+>>> +SRC_URI[sha256sum] = "0c260cf2b32f0481d017670dfed1b61e554967cd067195606c9f9eb5fe731743"
+>>>
+>>>    inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
+>>>
+>>> --
+>>> 2.37.3
+>>>
+>>>
+>>>
+>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>> Links: You receive all messages sent to this group.
+>>> View/Reply Online (#170267): https://lists.openembedded.org/g/openembedded-core/message/170267
+>>> Mute This Topic: https://lists.openembedded.org/mt/93436476/3618448
+>>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mingli.yu@windriver.com]
+>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>>
 
