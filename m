@@ -1,105 +1,159 @@
-Return-Path: <rak3033@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 660FFC38145
-	for <webhook@archiver.kernel.org>; Thu,  8 Sep 2022 06:58:39 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
- [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web12.2399.1662620315783454883
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FE5DECAAD5
+	for <webhook@archiver.kernel.org>; Thu,  8 Sep 2022 07:06:29 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.2382.1662620783328185412
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 23:58:35 -0700
+ Thu, 08 Sep 2022 00:06:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=E+YqhM1t;
- spf=pass (domain: gmail.com, ip: 209.85.210.180, mailfrom: rak3033@gmail.com)
-Received: by mail-pf1-f180.google.com with SMTP id 145so17002546pfw.4
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HFKGK3hO;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 186-20020a1c02c3000000b003b26feb5c6bso955502wmc.5
         for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 23:58:35 -0700 (PDT)
+ Thu, 08 Sep 2022 00:06:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date;
-        bh=BC0B0W8fq3ieF3o69jUQx/O/48WC2ZrZ+2zskk6qxIA=;
-        b=E+YqhM1tK5EkkIDQmW7fKXki6XqBJI0DEKcJDvrWW3iAzVren5KpPH4er2xysfLjNF
-         VIPKX++MB8xo27dBBOW4P8g5AbBAYBgDzpokXkbXUKk5yulQ6RfMwmUTaznomwznGu15
-         i4D90tghQZl8nYaJzDGo+EApUhc704PdL3e0jYPqop2xeWk10VypNdpADPrV1mMV+mKD
-         L12JbHlS7CyBO5hXzpLmwWj1zwuYu/+8kAx165dMFiyKFBsAZASNI4xU/vFdmJpghfCP
-         r6SWjcj82P3KIwnrFPdO2dcf9qvBhU+lYS5o4EiaP0XFvaybI5coACdYqoxQaeFPbqhr
-         PfhA==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date;
+        bh=8dVkUi3gYa+4qqdCs9Q++15m0TPhDIxXWiPIOKL6qgM=;
+        b=HFKGK3hOSeWr0fCYJr+9BElfxU/hh4VxIykvB0LTtEvdhDqgl8dtnAw/AtBp0Asn+L
+         4tbnh0/vpjUhmynWfvkk+w3AFZo81lxMeBlBcUYw7iF5PPdRzSRnkKob/pgRzR61BeW0
+         Q9cXgvW228RmCAFDhsRGqQQ80dm2iU/JmerjU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=BC0B0W8fq3ieF3o69jUQx/O/48WC2ZrZ+2zskk6qxIA=;
-        b=wKafQN5qciOcWtECP90l9PGaECdqkMSJB06mc301TxfP2Je/ZxYhCZbJQp8WfR22jz
-         NQeJUl55dwVnsHa0IQix5fg7OYkQ70RDovHhyUYlAHTOp8BJ0pVPgLr7bmsc5gdFVd3u
-         105seXpOgaJlPEdiAlwcGYeA+6K5yDJgewjb6/IxT4PrHs3R21knClVCxZulNfvUUr5W
-         bnkH7HJBKFKNPO+o59ScCEPcRxT8dEp4Q5JUX5hasKVZj2OXzC53cyb0Xig6R02FdHn0
-         p29PI45gAH4Z7gWZid/ZNxkBXrtq+NDXW0AlN6YehKnzi0PZFCbKrxoSx3UPxcXp5DYj
-         bfxg==
-X-Gm-Message-State: ACgBeo2TgUptZxV3vKE1DFCkvYNlmusCcJ2WDjEikC2KF5rJkicc6rHE
-	wv0vppd1GlMr2vm01LAXGfOpi2Eoc6WqBg==
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=8dVkUi3gYa+4qqdCs9Q++15m0TPhDIxXWiPIOKL6qgM=;
+        b=cQxEz4yBp2d1WjJCemG08L0jgLASBceysu1gzZcFf0EALlzPaxP3ctuuGU6Ep3CcRt
+         vQhgEX7+lYaeT6kMb798BdurxzYC3zRkGWb+xhwWYz/wJyxFQ4/HP9TAkION7l47FgYG
+         lpbzO+VKg4gWjdsSDTLw3H1BMj3rX0rzrClKHKXcjAxxJT3vnOnStdFhk09xicDBtoy4
+         zRAW0e75kodf5pW2byYy0QNBDjkcZe7v5bVRn6T1UKohpc6WnW6WuPsqQueuzYCPsK7h
+         NGd5hk4K/zwCXlGVIkisNkjfSWHXXqs6JUMHnj3Zpl1SxU8mfG7MK6BvucHCg4QENGIs
+         JoKQ==
+X-Gm-Message-State: ACgBeo2AJKQbsS/KJfULSbBDbtUDyM5/fB2iA8MJdHnfKChIm/YSLqzS
+	5REPZqn+fE5oiIXdWsnmiukKWQ==
 X-Google-Smtp-Source: 
- AA6agR4QGMR+EF3oTMuSpnX9/soCuKaWDYMyXm6m4JpELJyhZQFmLntxIyguoLBYVWX1yl9GimtSHw==
-X-Received: by 2002:aa7:9f50:0:b0:53e:7cf9:e074 with SMTP id
- h16-20020aa79f50000000b0053e7cf9e074mr6147603pfr.58.1662620315000;
-        Wed, 07 Sep 2022 23:58:35 -0700 (PDT)
-Received: from localhost.localdomain
- ([2401:4900:33c3:2e02:685a:a9a:ac71:934b])
+ AA6agR7Ujhy8xycxT5cXml4dhAiL0GMpz7COQ048jtn3+9aAuu5inNfgKTwFp0HhU3YBVhcXPDQXHg==
+X-Received: by 2002:a05:600c:17d0:b0:3a6:8235:504e with SMTP id
+ y16-20020a05600c17d000b003a68235504emr1111272wmo.58.1662620781585;
+        Thu, 08 Sep 2022 00:06:21 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:fb2f:2689:d815:bfce?
+ ([2001:8b0:aba:5f3c:fb2f:2689:d815:bfce])
         by smtp.gmail.com with ESMTPSA id
- ay6-20020a17090b030600b00200b12f2bf3sm909154pjb.51.2022.09.07.23.58.32
+ n3-20020a05600c4f8300b003a54d610e5fsm1861277wmq.26.2022.09.08.00.06.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Sep 2022 23:58:34 -0700 (PDT)
-From: Riyaz Khan <rak3033@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	rak3033@gmail.com
-Cc: ranjitsinh.rathod@kpit.com,
-	riyaz.khan@kpit.com,
-	Riyaz Khan <Riyaz.Khan@kpit.com>
-Subject: [meta][dunfell][PATCH 2/2] sdbus-c++-tools: Upgrade sdbus-c++-tools
- 1.1.0 to 1.2.0
-Date: Thu,  8 Sep 2022 12:27:57 +0530
-Message-Id: <20220908065757.27272-2-rak3033@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220908065757.27272-1-rak3033@gmail.com>
-References: <20220908065757.27272-1-rak3033@gmail.com>
+        Thu, 08 Sep 2022 00:06:21 -0700 (PDT)
+Message-ID: 
+ <e753b255ee9b312db11f0341c12d3e6d3d766bb2.camel@linuxfoundation.org>
+Subject: Re: [PATCH v11] Rust Oe-Selftest implementation
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: pgowda.cve@gmail.com, openembedded-core@lists.openembedded.org
+Cc: randy.macleod@windriver.com, Vinay Kumar <vinay.m.engg@gmail.com>
+Date: Thu, 08 Sep 2022 08:06:19 +0100
+In-Reply-To: <20220907145741.4131-1-pgowda.cve@gmail.com>
+References: <20220907145741.4131-1-pgowda.cve@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Sep 2022 06:58:39 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Sep 2022 07:06:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170452
+ https://lists.openembedded.org/g/openembedded-core/message/170453
 
-From: Riyaz Khan <Riyaz.Khan@kpit.com>
+On Wed, 2022-09-07 at 20:27 +0530, pgowda.cve@gmail.com wrote:
+> From: pgowda <pgowda.cve@gmail.com>
+>=20
+> The patch implements Rust testing framework similar to other selftest,
+> specifically the gcc selftest in OE. It uses the client and server
+> based method to test the binaries for cross-target on the image.
+> The test framework is a wrapper around the Rust build system as ./x.py
+> test. It tests many functionalities of Rust distribution like tools,
+> documentation, libraries, packages, tools, Cargo, Crater etc.
+> Please refer the following link for detailed description of Rust
+> testing:-
+> https://rustc-dev-guide.rust-lang.org/tests/intro.html#tool-tests
+>=20
+> To support the rust tests in oe-core, the following functions were
+> added:-
+> setup_cargo_environment(): Build bootstrap and some early stage tools.
+> do_rust_setup_snapshot(): Install the snapshot version of rust binaries.
+> do_configure(): To generate config.toml
+> do_compile(): To build "remote-test-server" for qemu target image.
+>=20
+> Approximate Number of Tests Run in the Rust Testsuite :- 18000
+> Approximate Number of Tests that FAIL in bitbake environment :- 100-150
+> Normally majority of the testcases are present in major folder "test/"
+> It contributes to more than 80% of the testcases present in Rust test
+> framework. These tests pass as expected on any Rust versions without
+> much fuss. The tests that fail are of less important and contribute to
+> less than 2% of the total testcases. These minor tests are observed to
+> work on some versions and fail on others. They have to be added, ignored
+> or excluded for different versions as per the behavior.
+> These tests have been ignored or excluded in the Rust selftest
+> environment to generate success of completing the testsuite.
+>=20
+> These tests work in parallel mode even in the skipped test mode as
+> expected. Although the patch to disable tests is large, it is very simple
+> in that it only disables tests. When updating to a newer version of Rust,
+> the patch can usually be ported in a day.
+>=20
+> Signed-off-by: pgowda <pgowda.cve@gmail.com>
+> Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+> ---
+>  meta/lib/oeqa/selftest/cases/rust.py          |  54 ++
+>  meta/recipes-devtools/rust/rust-source.inc    |   3 +-
+>  meta/recipes-devtools/rust/rust.inc           |   1 +
+>  .../rust/rust/rust-oe-selftest.patch          | 508 ++++++++++++++++++
+>  meta/recipes-devtools/rust/rust_1.63.0.bb     |   5 +
+>  5 files changed, 570 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/lib/oeqa/selftest/cases/rust.py
+>  create mode 100644 meta/recipes-devtools/rust/rust/rust-oe-selftest.patc=
+h
 
-Update SHA value in SRCREV.
+I ran this through some testing on the autobuilder. The first time was
+ok, it only ran on qemux86 and qemux86-64 as it was only enabled for
+toolchain-system but ran successfully.=C2=A0
 
-Reference link:
-https://github.com/Kistler-Group/sdbus-cpp/releases/tag/v1.2.0
+On the second run I added @OETestTag("toolchain-user") as well which
+meant it ran for arm/mips/powerpc. It looks like there was one worrying
+intermittent failure:
 
-Signed-off-by: Riyaz Khan <rak3033@gmail.com>
----
- .../{sdbus-c++-tools_1.1.0.bb => sdbus-c++-tools_1.2.0.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta-oe/recipes-core/sdbus-c++/{sdbus-c++-tools_1.1.0.bb => sdbus-c++-tools_1.2.0.bb} (88%)
+qemux86-64 intermittent issue:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/73/builds/5788/step=
+s/19/logs/stdio
 
-diff --git a/meta-oe/recipes-core/sdbus-c++/sdbus-c++-tools_1.1.0.bb b/meta-oe/recipes-core/sdbus-c++/sdbus-c++-tools_1.2.0.bb
-similarity index 88%
-rename from meta-oe/recipes-core/sdbus-c++/sdbus-c++-tools_1.1.0.bb
-rename to meta-oe/recipes-core/sdbus-c++/sdbus-c++-tools_1.2.0.bb
-index 01f66c3f2..27b965ac1 100644
---- a/meta-oe/recipes-core/sdbus-c++/sdbus-c++-tools_1.1.0.bb
-+++ b/meta-oe/recipes-core/sdbus-c++/sdbus-c++-tools_1.2.0.bb
-@@ -8,7 +8,7 @@ inherit cmake
- 
- DEPENDS += "expat"
- 
--SRCREV = "bca8e81037766a0454740c40307eea32831c101f"
-+SRCREV = "751c1addc4fd2f949a466f488c1b7de2ca3b76dc"
- SRC_URI = "git://github.com/Kistler-Group/sdbus-cpp.git;protocol=https;branch=master;subpath=tools"
- 
- S = "${WORKDIR}/tools"
--- 
-2.17.1
+and then some arch specific failures:
+
+qemuppc failed in the test:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/5790/step=
+s/19/logs/stdio
+
+qemumips64 failed in the test:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/74/builds/5786/step=
+s/20/logs/stdio
+
+qemumips failed in the test:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/5804/step=
+s/20/logs/stdio
+
+qemuarm64, qemuarm and qemux86 passed on this run.
+
+We need to understand and fix that qemux86-64 intermittent issue before
+this can merge. I wasn't sure what we want to do with mips and ppc.
+
+Cheers,
+
+Richard
 
 
