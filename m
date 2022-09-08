@@ -1,124 +1,93 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AD00C54EE9
-	for <webhook@archiver.kernel.org>; Thu,  8 Sep 2022 19:29:27 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web10.438.1662665365449394386
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F483C54EE9
+	for <webhook@archiver.kernel.org>; Thu,  8 Sep 2022 21:09:28 +0000 (UTC)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+ [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web08.1687.1662671364589387297
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Sep 2022 12:29:25 -0700
+ Thu, 08 Sep 2022 14:09:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=0+Laa+uF;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.49,
- mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f49.google.com with SMTP id fy31so40428901ejc.6
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=D3ggP94K;
+ spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f52.google.com with SMTP id fv3so12877965pjb.0
         for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Sep 2022 12:29:25 -0700 (PDT)
+ Thu, 08 Sep 2022 14:09:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=2nyROtRqODg3lUNrSLJcBd3R0tfFObqRswsLQyAmGhw=;
-        b=0+Laa+uFgIo7kP/hXKCT8QXTKRi/r2B2PhMYPLuPh4IYU9cXjh/K2cHVoiqfbPq9My
-         fOIzk7EvjYOa/XC7vIU+fLunuL2iw7vybOYCv6ll8EvSjDjnDdKPdVwzuZ04UzWkR7Ef
-         X8K+bfD8/SuhXMetanPNRvXQ/DSrdTTQr4qyb5FjgH+T2D5OexHOhUNGnIVKgsrLVQAn
-         AXQwVJ6JFUCHPaymuchU5tD780o33PMaPf8/8gOGf5PZG7vhx2LK6GK+aNvQmdEDCr+7
-         x0kjh1JupPf2rmu3eaDwucjIUVc+QJJCgZJ4q/fMLtmCA7Bf3MjWKqqTja/tmCvMTFbl
-         SF5g==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=BnuAz/5GqkPsMMPbaLkp5J4KzYAuC2npRgKoDEleQpI=;
+        b=D3ggP94KTmYvSuqB0QA4Qk/fT8Zu6qqjt7TX7NwBGf7s05mJRjzmqVTTX5ncP66NSX
+         9UiLX73NV03pZ0pOUVHs46in6A17ppoq/g1PNI/fp/LEWpud7OoTl2hjKKljCPDg+MSX
+         8fIzz4CeRGXR0oLOJu4aodEKE7uEqCTTnGHQqWTonz6WZWv+5W/BH/+kTMlFQjb3Tt7h
+         da5JmmcMciDxEp9sKFN7qSAytDBcpE3ytP4V6R+lK4SlzcR8AXC6MFWTVqaUNV6acTVK
+         3kVtiRb3QB420Dkl6mIfeSTlf/EQ3DKz8cELFwaY7DWmb82sU8XsHck5gcxwI9pkUAAo
+         Ggjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=2nyROtRqODg3lUNrSLJcBd3R0tfFObqRswsLQyAmGhw=;
-        b=JmkSIPgehVC7J7OWAb76mK8DsJxESPsNvXS8cxqIOWF8XdX21RtvBUjyMmHhazZvOO
-         cSEtxwXYblVHwcYyHK/KXITpX+KD86vh7vfiTGPXThkbIoHa3A4Nf7vM98w7le927HUU
-         /9mq9H5M5u49PCa7HOsRW5H7c8+6lIRABbqpFoDSXfh2G6wlOaVyn4PMA0t6qVNdkq5Y
-         MbG6t2NowRKyMredP2u0w7xjsrgIEK8XfSfN6vONj1NIPkrPRVfxqnq3K0qCyu+Ylvw9
-         7lIpoQRH6JElx8HCsr/k8IXJUGMBbcthfLb0Woeq9MhgmtWjw+o9rcdwTp1TEaMIKKhY
-         qveQ==
-X-Gm-Message-State: ACgBeo2Gxf9UmTmj6yf6tdqsDA8aHSiRqDouIbQgHCSPUZkY0VuFzTJq
-	MwPLCa/ak5BBxN248ipjhXQrSc1TwKTG7t6ixF7lxg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=BnuAz/5GqkPsMMPbaLkp5J4KzYAuC2npRgKoDEleQpI=;
+        b=aOot4jnGsXXSdGXS5IyyXBuXItaUS5pInBANJMgInd4XID4NSFQqvfg87nTPLGATQv
+         J9rij3GFtYX8vVO/6vUqKKw5w9JNMMl6dIg76et53y+kGhcuFuzaH2J64S05HuXhEUWs
+         tdMLrJ9f2y6Y+txZRPtklTpiMxv5MVPVUC18wKBlIwHPsMfnNzxHeM4e86s9pAFU9ZAn
+         ZpjsMrVWJf/eF0mhwTqO3dqp75efOe7KbFAqVYbG5vnuHXbwalmcWY1U1uHQOCtiZPI5
+         K+KJxbU/1lLEmMJa4GSlIrbGyP48lROiKHgjrRoSoQtfEBTs9Fb96pbx2xqmKiZe2NbW
+         eHBA==
+X-Gm-Message-State: ACgBeo13YKm4EYbM+Hv/x6K4m23zLbwEe0z8qehftcravI3uph0YiFWY
+	7UC8Jx+44tEOMkbYm8E0Z84AvKiiMEg8zw==
 X-Google-Smtp-Source: 
- AA6agR6z83IGQO8izySLIRfymuCDg51pXQXTgMlNkktGQPVork3Z2M+1kOyKGYxXdDH3wtr7NG7pAYzTlIdaqbsicvI=
-X-Received: by 2002:a17:907:8a1a:b0:731:6475:68f7 with SMTP id
- sc26-20020a1709078a1a00b00731647568f7mr7005865ejc.359.1662665363772; Thu, 08
- Sep 2022 12:29:23 -0700 (PDT)
+ AA6agR4Kf76mX9QylLAYORq6I1dF6I+PLu5szMzIZu4ykbARddRTPVmAzb4vYHPHlmssKNWUHImT3w==
+X-Received: by 2002:a17:902:9b93:b0:171:53b4:56fe with SMTP id
+ y19-20020a1709029b9300b0017153b456femr10385686plp.92.1662671363766;
+        Thu, 08 Sep 2022 14:09:23 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::1761])
+        by smtp.gmail.com with ESMTPSA id
+ u189-20020a6279c6000000b0052d33bf14d6sm61088pfc.63.2022.09.08.14.09.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Sep 2022 14:09:23 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] gobject-introspection: Do not hardcode objdump name
+Date: Thu,  8 Sep 2022 14:09:20 -0700
+Message-Id: <20220908210920.1100783-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <171248C99AA15227.20375@lists.openembedded.org>
- <5780cdfd47d24795ac023cdf6fa56185@axis.com>
-In-Reply-To: <5780cdfd47d24795ac023cdf6fa56185@axis.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Thu, 8 Sep 2022 09:29:12 -1000
-Message-ID: 
- <CAOSpxdYX2R1NTKWnb4jPVgUismgaJEyPZzeGy4gz6eMxbJH=jQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] cairo: Adapt the license information based on
- what is being built
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Sep 2022 19:29:27 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Sep 2022 21:09:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170472
+ https://lists.openembedded.org/g/openembedded-core/message/170473
 
-On Thu, Sep 8, 2022 at 6:44 AM Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->
-> Please cherry-pick this to Kirkstone.
+Use OBJDUMP variable in the script, this helps in using the lddwrapper
+with recipes which maybe using different objdump tools e.g.l
+llvm-objdump or vice-versa
 
-Will do!
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../gobject-introspection/gobject-introspection_1.72.0.bb       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Steve
->
-> //Peter
->
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> > Sent: den 6 september 2022 15:34
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCH] cairo: Adapt the license information based on what is being built
-> >
-> > If the "trace" PACKAGECONFIG is removed to disable cairo-trace (the
-> > only part of the code licensed as GPL-3.0), we can adapt the licenses
-> > for cairo-dbg and cairo-src so that they do not include
-> > "GPL-3.0-or-later" and thus they can be used also when, e.g., GPL-3.0
-> > is blacklisted in INCOMPATIBLE_LICENSE. Also drop the GPL-3.0 license
-> > text from LIC_FILES_CHKSUM in this case.
-> >
-> > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > ---
-> >
-> > This applies the suggestion from commit f763b906 (cairo: Add missing
-> > GPLv3 license checksum entry). I have verified that when disabling the
-> > trace PACKAGECONFIG, then there is no trace (no pun intended) of the
-> > GPL-3.0 code in the -dbg and -src packages.
-> >
-> >  meta/recipes-graphics/cairo/cairo_1.16.0.bb | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-> > index 67081bb8cb..ffb813d290 100644
-> > --- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-> > +++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-> > @@ -17,9 +17,13 @@ LICENSE:${PN}-doc = "MPL-1.1 | LGPL-2.1-only"
-> >  LICENSE:${PN}-gobject = "MPL-1.1 | LGPL-2.1-only"
-> >  LICENSE:${PN}-script-interpreter = "MPL-1.1 | LGPL-2.1-only"
-> >  LICENSE:${PN}-perf-utils = "GPL-3.0-or-later"
-> > +# Adapt the licenses for cairo-dbg and cairo-src depending on whether
-> > +# cairo-trace is being built.
-> > +LICENSE:${PN}-dbg = "(MPL-1.1 | LGPL-2.1-only)${@bb.utils.contains('PACKAGECONFIG', 'trace', ' & GPL-3.0-or-later', '', d)}"
-> > +LICENSE:${PN}-src = "(MPL-1.1 | LGPL-2.1-only)${@bb.utils.contains('PACKAGECONFIG', 'trace', ' & GPL-3.0-or-later', '', d)}"
-> >
-> >  LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77 \
-> > -                    file://util/cairo-trace/COPYING-GPL-3;md5=d32239bcb673463ab874e80d47fae504"
-> > +                    ${@bb.utils.contains('PACKAGECONFIG', 'trace', 'file://util/cairo-trace/COPYING-GPL-3;md5=d32239bcb673463ab874e80d47fae504', '', d)}"
-> >
-> >
-> >  DEPENDS = "fontconfig glib-2.0 libpng pixman zlib"
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb
+index 9a47e908b7..d935cbd905 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb
+@@ -103,7 +103,7 @@ EOF
+         # for a different architecture
+         cat > ${B}/g-ir-scanner-lddwrapper << EOF
+ #!/bin/sh
+-$OBJDUMP -p "\$@"
++\$OBJDUMP -p "\$@"
+ EOF
+         chmod +x ${B}/g-ir-scanner-lddwrapper
+ 
+-- 
+2.37.3
+
 
