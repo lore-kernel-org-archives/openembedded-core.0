@@ -2,102 +2,126 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77B95C54EE9
-	for <webhook@archiver.kernel.org>; Thu,  8 Sep 2022 18:48:46 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web11.481.1662662920108441940
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A033C38145
+	for <webhook@archiver.kernel.org>; Thu,  8 Sep 2022 18:52:26 +0000 (UTC)
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com
+ [209.85.160.46])
+ by mx.groups.io with SMTP id smtpd.web09.528.1662663137468345637
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Sep 2022 11:48:40 -0700
+ Thu, 08 Sep 2022 11:52:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CB7fxsg7;
- spf=pass (domain: gmail.com, ip: 209.85.214.171,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id l10so5543661plb.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VpVlBS6J;
+ spf=pass (domain: gmail.com, ip: 209.85.160.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f46.google.com with SMTP id
+ 586e51a60fabf-127dca21a7dso19535087fac.12
         for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Sep 2022 11:48:40 -0700 (PDT)
+ Thu, 08 Sep 2022 11:52:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=MKr5lfRJox/Xh6yTegHQ7ic7kJKcPMO55WmyZ4pobUQ=;
-        b=CB7fxsg7bUgbT5JuZNF/U3tVBOyRHKCKLc7T8vM6eHPYtub0ibO3bNCQG3K+tHKRUp
-         KgNp5FlpyuBRX5w/CPY05iEXTdsJoHbQRqrqTX0yQAGRIb90JW5aTWScqbFWfpBd58NJ
-         HchvUqhmwDDmIBKic6Z4NX0V0op4JSTe+EdSnTSfIbD7+aV36iW6E+b/Z0rJXyZPg2UC
-         QPQccbSmmd5m9tHFXGaSGw0lrLyncmkNen4RJQV6NIu5FTVpAI6c3Z7n5+DuOTnbFTRa
-         IM1b182H/Fdwym0XFFlQitdYJgt7WjrEP9uSOhONu46zY0CU+eiqFJxImSbn6LiqOW04
-         qyyw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=uOy/QDZWqRkIUM16lDv8EKQmrAjkVAvYzQSSCOYQSQI=;
+        b=VpVlBS6JK8TvfCEsYzOq+EjctB0/dnhLJ7EPnrcOnLcARf+7CPQrP2yTc0rQz1Bhkl
+         tnXKBkaB2S4GJi9mSe1kA48bsgiCfzokzxuFykRQGc1yhbD/ySDNKgDbs3VRfPOrTNYU
+         rTQ3ZM9maND6dAAHZ4IIM0dmQgr4qSANXe76kzoe7XOOtJ2X/wcCnjI9NLVk8FKmawvb
+         x/fMZeH7rXSarh9Wd3uRsEC4vlXe+IGl3z97JdxGsd7i9pO2cX14hD9Ij5YaaLUOVZzo
+         hm/GSelruXpFQV5HsJCYqWaVzGaPdATGGiQUM5/j4Bt1rYhxbWsQzfrihh0DfH1AfZbQ
+         dWkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=MKr5lfRJox/Xh6yTegHQ7ic7kJKcPMO55WmyZ4pobUQ=;
-        b=yB7bsk3QW9QmpRenF2FnL4x8qDKhElOSck3vtiOaQ2SeIq86qnjxVTbJML/qPIesDI
-         T/o/pyWyVV+L+Ixbi6bwpbcFrYST1OLzM5KAXXPLP0i6fXJ6rQNrnB6PAsBNNBXGEJrD
-         tqq0AHJTA/cV4lXHdJZ/REIRmROygAgd5s5wh2EWOwgnvs5VY/8RCR7rsK0kZ67mjKma
-         YMpWCsqS2YEkYYkQYNYiYqkbC23nyxXztOK9FkyIYyC0U68foSBqzzV7zYk5P2DxXmZk
-         HABllDflfNa+dccQehPdP8HsuwmKhHWiEmsaLtR/CEmCztfRR3DOLGUx/kvk4h6LWFx/
-         W7SA==
-X-Gm-Message-State: ACgBeo0WAYyJn/bCPKkTaXwfFepCf4kda9XtCamNSNDcYgp9lBv02Nj+
-	wT+/McYzhqhYe4UbNpBoiMwyDW2SLUDtnw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=uOy/QDZWqRkIUM16lDv8EKQmrAjkVAvYzQSSCOYQSQI=;
+        b=tLe9yWC8hsv2/fwN8YmZLUIbKZ4ed3hnznnnik8ySmQTrhjtSIbzJDc1/rHBD6/Z1v
+         T7sbiGBgR3F2aWR08ugGDfaOcrwuN4VW2wVbOnN2sODvXWN+bwoFNRyj8LmnKJSMkQeP
+         1o412tEUxU2i+iSDRVFd10v8Bmfj7HPhcbTjSWHXbwk4g7aZv6V6OE7XVNl48CT5L9nK
+         eblPNJ7cKIGnlu8m5LkE4rj0bDidaWAlc95Ereo2uLq7K5cgAqfDUguDcKIWTcz57Ppu
+         YTk5RGoc0lSdYL5uD/XZD7Gip250OGreEFHtZHvhI6xchDKyVTDuy0nAprVUzuTGEH0+
+         NLwQ==
+X-Gm-Message-State: ACgBeo0TWgQr01vZJz375WkWaHYkY8/Sj2KVXHTmmAudHoM/Q6bDqqPQ
+	vXEzSf+EDkjIuajMepL6pimD9/AiiPwj8oFxgHU=
 X-Google-Smtp-Source: 
- AA6agR55Ow0QxixhuA6PBWjraKtqj0YQsTgoewvBnr/nb5N/I1nY1OLsaJVEuW7xmw/HGimLU3zddw==
-X-Received: by 2002:a17:902:ced0:b0:172:e189:f709 with SMTP id
- d16-20020a170902ced000b00172e189f709mr9629679plg.63.1662662919201;
-        Thu, 08 Sep 2022 11:48:39 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::1761])
-        by smtp.gmail.com with ESMTPSA id
- i67-20020a626d46000000b0053e7d3b8d6dsm4215549pfc.1.2022.09.08.11.48.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Sep 2022 11:48:38 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] binutils-cross-canadian: Do not package gprofng.rc
-Date: Thu,  8 Sep 2022 11:48:36 -0700
-Message-Id: <20220908184836.3612384-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.37.3
+ AA6agR5Xgj9g4wAynRClgGu6+pqSQWAe2Xy7bcY5dHChT6HSSP8fHGyeIznaScOq9WcDwkLyLG5SRqxdHGm/7BVKW3o=
+X-Received: by 2002:a05:6870:b00b:b0:127:2d3d:3c16 with SMTP id
+ y11-20020a056870b00b00b001272d3d3c16mr2655935oae.262.1662663136759; Thu, 08
+ Sep 2022 11:52:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220907231417.3274392-1-raj.khem@gmail.com>
+ <YxnzAV6GoTKNwboH@mail.local>
+In-Reply-To: <YxnzAV6GoTKNwboH@mail.local>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 8 Sep 2022 11:51:50 -0700
+Message-ID: 
+ <CAMKF1sqmm6O26wF56iuJySBfMFrWacXqz8Kd5ZsEHq9g5v=JPA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] binutils-cross-canadian: Do not package
+ gprofng.rc
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Sep 2022 18:48:46 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Sep 2022 18:52:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170470
+ https://lists.openembedded.org/g/openembedded-core/message/170471
 
-This file is already packaged via nativesdk-gprofng and can cause
-populate SDK conflicts
+Thanks Alex,
 
-Also delete the etc directory if its empty it can still cause packaging
-QA errors
+sent a v2 which should address it.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Delete empty etc dir as well
-
- meta/recipes-devtools/binutils/binutils-cross-canadian.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-index 4e8f10c1c4..12e7d77d8d 100644
---- a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-+++ b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-@@ -23,10 +23,10 @@ do_install () {
- 	rm -f ${D}${libdir}/libiberty*
- 	rm -f ${D}${libdir}/libopcodes*
- 	rm -f ${D}${includedir}/*.h
--	
-+	rm -f ${D}${sysconfdir}/gprofng.rc
-+	rmdir ${D}${sysconfdir} || :
-+
- 	cross_canadian_bindirlinks
- }
- 
--FILES:${PN} += "${sysconfdir}/gprofng.rc"
--
- BBCLASSEXTEND = ""
--- 
-2.37.3
-
+On Thu, Sep 8, 2022 at 6:49 AM Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
+>
+> Hi,
+>
+> This caused failures similar to this one:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/4110/steps/14/logs/stdio
+>
+> Full list here:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4203
+>
+> On 07/09/2022 16:14:16-0700, Khem Raj wrote:
+> > This file is already packaged via nativesdk-gprofng and can cause
+> > populate SDK conflicts
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/recipes-devtools/binutils/binutils-cross-canadian.inc | 3 +--
+> >  1 file changed, 1 insertion(+), 2 deletions(-)
+> >
+> > diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
+> > index 4e8f10c1c4..c18468ad50 100644
+> > --- a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
+> > +++ b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
+> > @@ -23,10 +23,9 @@ do_install () {
+> >       rm -f ${D}${libdir}/libiberty*
+> >       rm -f ${D}${libdir}/libopcodes*
+> >       rm -f ${D}${includedir}/*.h
+> > +        rm -f ${D}${sysconfdir}/gprofng.rc
+> >
+> >       cross_canadian_bindirlinks
+> >  }
+> >
+> > -FILES:${PN} += "${sysconfdir}/gprofng.rc"
+> > -
+> >  BBCLASSEXTEND = ""
+> > --
+> > 2.37.3
+> >
+>
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#170433): https://lists.openembedded.org/g/openembedded-core/message/170433
+> > Mute This Topic: https://lists.openembedded.org/mt/93537151/3617179
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
+>
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
