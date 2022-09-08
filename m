@@ -1,233 +1,330 @@
-Return-Path: <mingli.yu@windriver.com>
+Return-Path: <virendra.thakur@kpit.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEE70C38145
-	for <webhook@archiver.kernel.org>; Thu,  8 Sep 2022 04:16:48 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.1459.1662610596824456851
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04744C38145
+	for <webhook@archiver.kernel.org>; Thu,  8 Sep 2022 05:04:39 +0000 (UTC)
+Received: from IND01-MAX-obe.outbound.protection.outlook.com
+ (IND01-MAX-obe.outbound.protection.outlook.com [40.107.222.79])
+ by mx.groups.io with SMTP id smtpd.web08.1821.1662613476597086017
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 21:16:38 -0700
+ Wed, 07 Sep 2022 22:04:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=fluyyhHO;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=6250d0c078=mingli.yu@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 2884Ga36013311
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 7 Sep 2022 21:16:36 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=message-id : date
- : subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=p1Ef+BXU07+YuZgEr7YLfs4GQ2BNeDGu1r+Ffa4X62M=;
- b=fluyyhHO7RwjPabU7v8hZopfTLNx0XGFlHZgkyoGl2OSQsbNB717/2RXFFsMmCHdJdkF
- YxJheFGNQaSDfx88Vm9Kc+03D5PsIdH8/1pIo9YM8nu9WMdMXbCfAUAeK+KzcOY3fX/r
- 7ssa+aI22/Cf9Lj4NG9GPKMW/1F1x8F8h0789yGDpv3bbuRLCbykEpKd7ecdzNcw3rud
- f/eDtRce2jY+KmkJ2ylhFzezI2M04PVGIqCDmMB3Jx+ShP+foP0nEbAWgBI+0hNG1VgK
- LqIYTan/U+Of7Br8Xxu4gmjPVT3tGInTlzCd9eWWAS20m0FrVLRSQzxFC1+JmmoBJUn1 KQ==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jeh32hc8u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 21:16:36 -0700
-Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2884GVvG012451
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 7 Sep 2022 21:16:35 -0700
-Received: from nam11-co1-obe.outbound.protection.outlook.com
- (mail-co1nam11lp2171.outbound.protection.outlook.com [104.47.56.171])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jeh32hc8t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 07 Sep 2022 21:16:35 -0700
+ dkim=pass header.i=@kpit.com header.s=selector1 header.b=dhTR8dz0;
+ spf=pass (domain: kpit.com, ip: 40.107.222.79,
+ mailfrom: virendra.thakur@kpit.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hTBrim6VZo+jMDtf8qnWKpFMxB6J0EToKG0iguZ9WfzuH/TRY4XUE2ggckbYu6zhCaIKx6LlEwtr4bg64tbh4rDg1tSLnewiqObK35yJ/3Rn/835CKy9hSR7rRLvy6unYrH3C8kFJbfgCX4LRgbYwrIbnB69Uw3X7P7KzM8viqBTPxAKr631mA0FQx4epnU2wRamc1IKT9Am7uLKCBSBDFtTcTZvn8neLvAv1IsdOugAifbnBm8FPJl+F0JDT7+MHFCq39YPigPoxQgquVsW0rQan82Ppy68KOJQPwQdgtB4sZuzb0pTVBRVeVcV9ZOCVh8F/iDAv3inwC+5FGSX3A==
+ b=MpMRsAUKEDbkR+9OrBeQVGrNrCx+28/0MFhP78YKIGJjBIVkxTGFZ+BLoaxGYn55GqaaALa0HE9WikOPEhbvGjQI7ZfpUeQceDhlYluc3U+6Razar1ddZ/gTk1o3inu38B17++Vq7tkCGM8IWW5Rqs5PtgpErM1xmnVWdPFhwt08IxR3i4sroG8blFxd01AzPpLdrcM6wE5SZpkqR1fq+DCotmF/0sHdBMmBI3pmKfZrjX85K3slirJOqA+UWC0xtYhQptNyZ18A6speZGGBbglfAoEPa4Ry0XJWb2zWKToZj9zdhTXaMAe2ZNUpNVKeGv6VnPbNx1lv2Ai+RxjSmA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p1Ef+BXU07+YuZgEr7YLfs4GQ2BNeDGu1r+Ffa4X62M=;
- b=iEK5+CRKfSwgztm64shAhapiOe1GkbbyaWGOnr+N3OrbgkebIwG8BeQcTzDvqlOPhrLT1H6sQBZj78ghuRMmarerpts4I8ZMmuM6YY9htzDjnm3qqJaa503srDcoFfsoUMABBIsL6iuSuWgmYuFe4jbYUgJfHGkJWqvfeTIcVvMWUeyRJuDjGetlkLJi5/hDakvYOO/rXMraLLvUaoMCuOmL2uC6VNp6sR/ffXQHwmQ5KPXDl88IvmqDZC80iigk5sYf7TLPNdf3jcbwhC5ShqBpg6rLXTL/EJMl9QSdTKa4MYRmqwN/y+Mg9llslvwY1L+WcS+M0bJHMqSny91rMA==
+ bh=F56Oe4ZQk3MIxiXGySkonLfgoN4qmcqfDeD+cQ2MGOE=;
+ b=lGur+uN94Kv/HBi2vzSyw4bsNYD3+2RIVJFP8Y3PVTfsHJ7sg/UPuWly69aeneWOtsmm6C1sD6LJRgfilWMaoHeZaaNpTK66ib6vkqryrMgdJturCo6sAvdzplefkQDA/Er8ix8AGruyVJtsR8GswfhUf/UpAPdkbVABJznWT4BMC+DYJewcghmYl/y7XzcTEL42A/XRvdJim1DDHidSrXWyZH1EqRbf3r1mZS0ZZMAQGqVssx9fF6zQ4x9He5QlDD0eeKW13CRDpOD1u6t5bvyF+N9dGTJdmkSFyKV1bFsStYKcqeHMqzD4wFrrBqV8K9Vltap9HPJ1zuwDDFmO8g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
- by DM4PR11MB6240.namprd11.prod.outlook.com (2603:10b6:8:a6::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5588.14; Thu, 8 Sep 2022 04:16:34 +0000
-Received: from CO1PR11MB5009.namprd11.prod.outlook.com
- ([fe80::1ce8:cf77:de7b:2203]) by CO1PR11MB5009.namprd11.prod.outlook.com
- ([fe80::1ce8:cf77:de7b:2203%6]) with mapi id 15.20.5612.014; Thu, 8 Sep 2022
- 04:16:33 +0000
-Message-ID: <4af7cd6a-117a-d952-7701-3c5000d81936@windriver.com>
-Date: Thu, 8 Sep 2022 12:16:26 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [OE-core] [PATCH] webkitgtk: Update to 2.6.37
-Content-Language: en-US
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-References: <20220903092100.3544874-1-raj.khem@gmail.com>
- <468d4b98-b086-c5db-281d-678c21522492@windriver.com>
- <CAMKF1sqBszEhk9GwnQJ_496Vpki5JftokgUfSJPBcYyp_TNnNg@mail.gmail.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-In-Reply-To: 
- <CAMKF1sqBszEhk9GwnQJ_496Vpki5JftokgUfSJPBcYyp_TNnNg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SL2PR04CA0021.apcprd04.prod.outlook.com
- (2603:1096:100:2d::33) To CO1PR11MB5009.namprd11.prod.outlook.com
- (2603:10b6:303:9e::11)
+ smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
+ dkim=pass header.d=kpit.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F56Oe4ZQk3MIxiXGySkonLfgoN4qmcqfDeD+cQ2MGOE=;
+ b=dhTR8dz0mDOScqmwJn4fZjtcWd/13uhHXosx4fpNP3GE/HlLpRh/MeyDpMSl7O3LvYmYpJSC2MHqYyQ3fz+B2EeUfj/N14UteWTSPhFLwt2pfDDiE3HcgSqDT2T1skZ9yHWcAejsWPdZAM+yCmYieM7QuZfq23AITBGRQtzfAHY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=kpit.com;
+Received: from MAXPR01MB4327.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:3::12)
+ by PN3PR01MB5434.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:6f::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.12; Thu, 8 Sep
+ 2022 05:04:31 +0000
+Received: from MAXPR01MB4327.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::2427:1977:88:b63b]) by MAXPR01MB4327.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::2427:1977:88:b63b%3]) with mapi id 15.20.5612.014; Thu, 8 Sep 2022
+ 05:04:31 +0000
+From: Virendra Thakur <virendra.thakur@kpit.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Virendra Thakur <virendrak@kpit.com>
+Subject: [OE-Core][dunfell][PATCH] tiff: Fix for CVE-2022-2867/8/9
+Date: Thu,  8 Sep 2022 10:34:09 +0530
+Message-Id: <20220908050409.17606-1-virendra.thakur@kpit.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: BMXP287CA0009.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:b00:2c::15) To MAXPR01MB4327.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:3::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PR11MB5009:EE_|DM4PR11MB6240:EE_
-X-MS-Office365-Filtering-Correlation-Id: c7b547ff-296e-4770-ebf2-08da9150ea0e
+X-MS-TrafficTypeDiagnostic: MAXPR01MB4327:EE_|PN3PR01MB5434:EE_
+X-MS-Office365-Filtering-Correlation-Id: c488292c-b24b-4d33-e614-08da91579d2e
+Content-Transfer-Encoding: quoted-printable
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	qd2dmbQdWJ/SeyJkGAZShV56wekLiz15k9/+11XsgqnHec59KgBTqGD17m2Y0Q2/anAw6Xk6fLEySxitLM5UpYc+opBV7s1pgdpu37cTSamLnT8GegKvmUmGrhzwun9ervWNB6VOCy95h3eOvdCRj2+z/VKgJG0XgewgsuUAP2c+7G+q5owg9taJaNykY/JLnm7YZRL4x2mDyx9/R/9fIy0zW+4273Pez4Q5RTdiWIv5WEEx2150yRKs46P2TlljfoOSKTk4dge76LR/7ZeNmS/xr9eyL1vyfGROjLNTYQBe5Uex75A7NpSo5U8WELAoxmIMv5eyXi0457emAaAidKKKyps0qMs1PMTQ5yNPcjMwHUmhk7wUsHqkB2yf+IyaqYTehx1AqUgQLjrZV3KUQPu5P86QSEvOvOoSkLpMoa7R4QoFqnS5ED9i6z5OBe/OgdlTj3/X/I3fGupYuVu53ETM4g9t5VNl3whtNsWR1EN8Imszit5Bbp7SOlIUTM0/S53mwHT1qDnE1pb+Erwf61/wWaykmH6xyiw7xXo4P9kft4Oe1WhoehyabOyXpyyJX+0AOQbKIu15bw2dTP7R51yXjitfEzChn35MBlQ9DhPGnKx1cmryGozM9iGSq04n4RaV2up0Gg29i7OSViucTZgavcpyHtjXua8psHOC8waGpeWFQN/luetVs0kPZMQE5f8bXU90tQzdKEHR3XL55gUlBCIzmccXyfWRJVa3DHu20StTfqTItPcW4ySCb8d04m4uYkdSMD5jijYj7hxwjJTQqeK+WPWwwSEqXkPV4PTA4SzvPEzgCLu8UWtidKVyGL5DjkPUhmjEZJ8cPFtmkGmmfUdtOnyMiqeaJLHtlwc=
+	ao9xB5shkt4sbTSbYVWdpFF5mTjqVBl3RbdJUWQNNBpNCrsWqE6VuMjw9ML57CXl1CzXL6yn3VdHkw5LZzQPX+aRj4V8aTx6Tj80X5/FCMynJ80+Qju0jNE8SsMDDOz8QcMSNj78FrgUwnC4nzU7tXCtGdBWln2tN4F4IS9hEkJi06fJU5JERPBp1MlrY7tJiaYE7CfX03URVC9qEvOhtz27N3l6xuKxSncoRnXDLoxBiwW0W5F5esT6xhKTPY6jNB2AFUsCW6zA5w9Hr01cSKnCI4P6x/KKfrWmRplCTAWGABlOL1BvXFPhH9KnA4QaHb89ITD6uB2iHK+eBgnpCIaSdUGPBCKgCio+aNMhNiKxUw/OKOo2i9sqrrW5k2+zKHQY7mHlcQ6BP8tr3PkKnp7QijifVgUF+yrjf4V5Uy8FskczCA/bdBSceLHCdlDSzSYyDgF7WxhosH2wuBIjQkKIfhBZTW8e6LKb5rlqbGwjOxVEJmAE6pQFa+rUwGMfvVtRVRtSR6i7yISJb72efD/E5VSotn2MOyhxufPYCgY8PlZ6lkOf6wAytfkaDlvfuA/pUlYd9Ns22yvpyCs8DqknSyCHLhtIjtUabqT2iOYR3MmsdX3lZ/nYqTYcP8+k6aKpuvWKOK+PuUYeWsGcFMXMQHblMG3ITsOt/dX3GVeDDzyPNczbJQIMuaPGd4BGs10XrXy5zbJkTGzb7Ey+T4YdsBvjLLHgHwjGI94c0lUyUe5j9oYWGGm7fRUU21oDrQEpnhCTi0gw5UV/2pPMS6qVd8UjPiGgD1qHlfYtXFQ=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(39850400004)(376002)(346002)(366004)(136003)(478600001)(26005)(2616005)(38100700002)(966005)(6486002)(6512007)(53546011)(31686004)(186003)(6666004)(41300700001)(6506007)(316002)(66476007)(8676002)(2906002)(15650500001)(66556008)(5660300002)(8936002)(4326008)(66946007)(6916009)(36756003)(83380400001)(31696002)(86362001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MAXPR01MB4327.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(39860400002)(376002)(396003)(366004)(136003)(26005)(6512007)(52116002)(478600001)(6506007)(41300700001)(6666004)(107886003)(86362001)(6486002)(38350700002)(38100700002)(186003)(1076003)(2616005)(83380400001)(66574015)(8936002)(44832011)(36756003)(66946007)(5660300002)(316002)(66476007)(66556008)(8676002)(4326008)(2906002)(6916009)(84970400001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?Z3VabmplejJSTGhMNEphUjJJeU1na2tVL2c1YlMwU0VPZ1BpelVqVEY0ZVFt?=
- =?utf-8?B?TitqQlN4MkhoMnFVSms3eWhWQmZCR2ZzME1YdXN5RUI5WVFmTTdwdVNPbHJR?=
- =?utf-8?B?L3JobjlHVjhOLzFaTEVYWG0zY29Fd25LTmRTRzk4WWxPS1Y1SVRlcmhFR1U5?=
- =?utf-8?B?NlNpSThkQXNpODRlRzAvZnFSc0U5Wnkxa3pLSkRWYk5ERnp3ZUJ5TS9FN3NL?=
- =?utf-8?B?R1JVN2ZwdnVURHBnZ3daSXRTRnlCNEZvZ0FTbG9zMEJZanI3VnoxWEw5RjhU?=
- =?utf-8?B?SldUT01qMTg3TmdvQnFQVmZ2VDYrZDVQSCtJdkhEbXdxdDI2YVRuc0pSS3hW?=
- =?utf-8?B?UjVGMGNNMkZPa3dCcWNWaTFWR0c4K2dMYWNMZFk4R0tka2w2cHlQaFdjdEcx?=
- =?utf-8?B?OHJxcUF3MVdXR1Buc3VhZEUrcUl5enp4OVZEdHBHR002clEwMWNGWWg4WUky?=
- =?utf-8?B?VWdyUlF6eTFwaHJQWllSVm1IeWZQbWwyU0haT2lYOGdZZlFPekVyUmdlWmJR?=
- =?utf-8?B?TlhrOE93bTBqSEZPR2xTRmZUZElXcW1mNzlPS2xtS2JnaHE2eWYwQTRCK2Vx?=
- =?utf-8?B?TDgrMXd1N29SWVVzZUVsc1pncU5zQis3Tk0rUmlja2JsQ0dmc2x6blF5S0o5?=
- =?utf-8?B?bVg0dWo4UDRnaXBFUWxuWE1kZHBSM2sxSGNVZU5jODNTMERtbDBJMTZURm9N?=
- =?utf-8?B?TXZDaUJrSHMxS0Z3RVVnNFQxUmtSREZtQ3M1Z3hWZURvVVhESjhYZlFCYVhK?=
- =?utf-8?B?V0NKTnBPZnpLTDhXczJ4YzBRQUZHejI4M1RmZXpBRkxBcWVmcDE3OTZmSDdR?=
- =?utf-8?B?elB1Q0hyTHB5UDdUZ0dscUxZU2pyYVBOTzM4ZGJ4S0t0eFVObUdlUVpRNzZr?=
- =?utf-8?B?Yy90dWlRc0grTmlkd1dOUjU4bDVJdGhBbHhLWWFrVG54Y1dZa2xuaWY5VXlz?=
- =?utf-8?B?SkpxVDBjSm01YUZQdWhWRHdTMTZDZTJwamdIekl0MW9IOGREMnRYdFJueXdQ?=
- =?utf-8?B?M0oxMkJqY0tkMmxkcnFmOERBZHpHcFYxQ0dKSEVwdVBPWngraUNsRDlwR1Zj?=
- =?utf-8?B?cEhQcUpsd3dlUmlqQUhIekY4d2tNcEFIK1MwUWpxWUp2eXJiOFB2ODlMdnlH?=
- =?utf-8?B?S2I1cDZYa3VmSy9Xb1BCN2xYbklwWG1GaHBmclBHamYrZ2tyWTJKUTk3NC9z?=
- =?utf-8?B?d2U2djFLRFQyaC9obXljZi9Va2hRRDI1c3hMYVZ0ZTVMdUVEUzZHeVQzWnU4?=
- =?utf-8?B?SU5TSXJESVIyZWpaaExGM3g4NFRLSHErU2c5SklpemdNTzVDNitrL3lPWXRv?=
- =?utf-8?B?amw3ZHAxVmY0MzRaTWJtUGZ1dGFzZEdrY0NJWVVENDFnN2tNUnBxcUxvZVcv?=
- =?utf-8?B?dC94NDB6MnBiQ1Y4dnRieCtUd3R3a1o1eTVmUkVaYmxXbDQ0NGJZa3ZwZXdZ?=
- =?utf-8?B?Vk5qRFcwUGRvMmo4QnlUZ2tXMWN0YStvNEFnRlgyMHp0YlBMczduTmZ0Mno0?=
- =?utf-8?B?WEphVDZScWd2K3VqMnVYUVJTNDg2cUErU0NqcXpsa1JhaUYvN1c4cjY2RXc5?=
- =?utf-8?B?cTVTM214aFFBTHRwYnpoTktTbnV1U1p2dkl2REgxU01JV2puRVMxanJpZjNn?=
- =?utf-8?B?UG1uZERrUjQweHZUbDBHbG5QWVI3REFBazhLWlR1Y2ZJRWF3N1Jvc1Q2bmh6?=
- =?utf-8?B?YkZ6Um9adWx2QTdZZklBb0VqZFVVK21wYThyQWdtQkNyek44L0hkTEZPQTlW?=
- =?utf-8?B?dkh2M0VKQ01qVlVRR0FwYzRUckd1c29jZHdTYzVvbkpKSEczQmVnS01qYXpG?=
- =?utf-8?B?czV5TGZZc040R2ZlcGZOclp4YWY0eHdpdGxJZkNtSjRlVEFlVWlrZ2JKSEYv?=
- =?utf-8?B?TG9YdGlaeTFJMEMwVmNPRDl5RzY0NDYwUHp3d2VIcmFjdVNWN0hUdEcxZHF5?=
- =?utf-8?B?T2U3VndKQnhrV2l1QWw3cmZrbDFJUjV6R0J2VzI3RUlacWNhb0dsUEdIb0R4?=
- =?utf-8?B?cW5CUURqMmZ0OWQ2YVlCYzhqckRNejBVYXBVM2t5cnUwcGVYU2NoWmx4RW9E?=
- =?utf-8?B?dXNBZ0FVZzRiQk5tKzk1STErYllaaGkrSTFhVGJvcnFaZkFseFBWWlBFWGk5?=
- =?utf-8?Q?D6qYdLgocujUF/zHM19VjGNK2?=
-X-OriginatorOrg: windriver.com
+	=?us-ascii?Q?0f1onunwpmUro6CnvGzKTclHbdWUCVMKtPeHCbILIUfP7lOcL2BwWaW4Q+5R?=
+ =?us-ascii?Q?1GD6u0N+cWYfq1GmyYudvyRmHYkU6056pR3CRGtTy2knbWfQ9eHXPaZgvVAy?=
+ =?us-ascii?Q?qNBUq+Dsz9YAPvaaN3IoHo9M9Ke+VGn1s4UYGjWtQtDSmcflZ6ZOSLG2GXov?=
+ =?us-ascii?Q?DmX9thF0NBMvDzouppb5qBBjgw8geSC48qxTEnJUUJLSL3UXWpRi2JlOQG49?=
+ =?us-ascii?Q?NXJoelQeAWIDhluIR02nS44tDNE5A2LSMrmOjFOmpvXCEXJEh2eFNEJDdh4A?=
+ =?us-ascii?Q?rEdcdyLA1ob+kfUy3mhWZyW8mytWWOH9/+UaPLChNFBPrVQYQbNIJGhlUk04?=
+ =?us-ascii?Q?FVZuPSG36gViNjnD2HLJvZqobXTPJFT/Yq2xER/NmsNkxdNu7lPXVqpAEOFI?=
+ =?us-ascii?Q?Vy9GMo7ukLAp0sRev5dIrZHadLIQ7Z7UWbKGK5JzKzgLAzF2DMYEMpytputI?=
+ =?us-ascii?Q?knSb9su8OES8QQ+m8h75HW9Xnhx+zMwYLXqo5EskFKToMgS2mHe9gB3mi27x?=
+ =?us-ascii?Q?YEKhixHBD/d2lYhKW3wQ/0V4dEX6XVYoOh9aOpGba1Az5ENjCMFPhfZWiBQ1?=
+ =?us-ascii?Q?O2VynzrLOVw9cXe4ObtIDZjG4ZlBAUnRreHkGoyO4pENiWtR9vL8jC5I1gC7?=
+ =?us-ascii?Q?yfsJHiuER51rvNzcLHlncNtz6Zr0d+f7zr7eK+58UQj023uOpYzAVWfTRgRf?=
+ =?us-ascii?Q?o8709UIptbqgQwG9zp6VbGrfkoW4vAv5s2y+3XELgdCVhGiFLg+Kq8yWKMcf?=
+ =?us-ascii?Q?oNSjxm4FV5Om740qpzdokaqSoolnPs0nXS6aI9onWP7KyNBT50w2OgzKkA3u?=
+ =?us-ascii?Q?jADunnBFglqfW3n53rBjJl5Atu1aCxiDVtg/kVS0MNERIJHveWlUANvRJu9F?=
+ =?us-ascii?Q?Stya3y2OcyMaGD/9E+zUmS00QKSnYU055auzawsV4cXqUGYBK86pfkArSXSl?=
+ =?us-ascii?Q?01J6h6FwBIpNW49BtOjWJiRjw3uQUobd2Lsbfe+0Xu4dmZ1LykrNOHA+n35R?=
+ =?us-ascii?Q?yr71r9c9nSeYxPgrsuPTCNgUCTplHN1N8Q9urEeMGl8VPnSwPqJCOG7/f5fB?=
+ =?us-ascii?Q?fvgxMbfYBvxIWFv9nljHu5HL/7KMJ+UBjx86aB74HUy1nihrCV+YrttxxS0v?=
+ =?us-ascii?Q?P2ITbKJ8/RjHa8e4ePwnnOqkGBn0F1/yh64D6yZmC0FaqPx5mtndPYT59BOT?=
+ =?us-ascii?Q?fp84yewe8N4BXtrh+7vqNpeqkJ81epofqOyeaeAr7Cqs9lcwoPFAa+sSaq1N?=
+ =?us-ascii?Q?uNX2zLa0fjlyKM1aMGzKJ0YXVSCj92JQtEjIK88jtK4i65lVWzVbYSMu4SGu?=
+ =?us-ascii?Q?qq93va66xbVCb+l2WF3BDenYXTyJpcTx6dPpyd6BGPcsNxLFmKa33IcgxT4m?=
+ =?us-ascii?Q?l8lmoc2fjEmOEQxXsOZOoTcA8v/cVtA93FEBODtq3s4Kyp9lqtxRdGtwtg7j?=
+ =?us-ascii?Q?iSgQ9NoTqWrPHMchsMHECJA6ljuUYo73uSfAg5LT69Ls7b7K5bjXXtf8oQ7d?=
+ =?us-ascii?Q?JtdMb6X+p79vxkZ+tZJprU9Jto3EkpcR3W9F7AixjZ2VZLKWW2UcY2n9E0sX?=
+ =?us-ascii?Q?ZXBeZ+UkLxWfetQFjmbQkcJ94YLSySzP8Y9NyhoA?=
+X-OriginatorOrg: kpit.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- c7b547ff-296e-4770-ebf2-08da9150ea0e
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
+ c488292c-b24b-4d33-e614-08da91579d2e
+X-MS-Exchange-CrossTenant-AuthSource: MAXPR01MB4327.INDPRD01.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2022 04:16:33.8634
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2022 05:04:31.3812
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- jQXuve8zBbn+ipa/x/VAVlXtcKuTvt9Wv2q0mSKdvyBsj7E7VWaAnvlVFEq7H8+atAopyq8yLBQAohPFS/1hPg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6240
-X-Proofpoint-GUID: 2IDu0LNmZBuJcBLGbeHmN0ANK-HjHx37
-X-Proofpoint-ORIG-GUID: 2rMYXvc-UrXDx7ErJzWTHJm4FZBkgbNc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-08_02,2022-09-07_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- lowpriorityscore=0 impostorscore=0 suspectscore=0 mlxlogscore=999
- spamscore=0 bulkscore=0 priorityscore=1501 adultscore=0 phishscore=0
- malwarescore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2209080014
+ DV5fyArzlPOLlid6dt5BH6S7sUsMM5uvWswxrZIlK5EtZVyds8S3FxNsKLdgS9uschD/AO4Ug+Y+EJx3rNmN0w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB5434
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Sep 2022 04:16:48 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Sep 2022 05:04:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170447
+ https://lists.openembedded.org/g/openembedded-core/message/170448
 
-Hi Khem,
+From: Virendra Thakur <virendrak@kpit.com>
 
-On 9/8/22 10:19, Khem Raj wrote:
-> [Please note: This e-mail is from an EXTERNAL e-mail address]
-> 
-> On Wed, Sep 7, 2022 at 6:43 PM Yu, Mingli <mingli.yu@windriver.com> wrote:
->>
->>
->> Fail to build on beaglebone-yocto.
->>
->> /build/tmp-glibc/work/cortexa8hf-neon-wrs-linux-gnueabi/webkitgtk/2.36.7-r0/webkitgtk-2.36.7/Source/W
->> ebCore/platform/graphics/filters/FELighting.h:72:41: error:
->> 'LightingData' does not name a type
->>      72 |     inline void platformApplyNeon(const LightingData&, const
->> LightSource::PaintingData&);
->>         |                                         ^~~~~~~~~~~~
->>
-> 
-> there is a proposed patch upstream. I have taken that and applied. The
-> patch is on ml.
-> while you are at it. Please test that patch out and report if the
-> issue is solved.
+Add Patch to fix CVE-2022-2867, CVE-2022-2868
+CVE-2022-2869
 
-Which patch is supposed to resolve the issue on the mail list?
+Signed-off-by: Virendra Thakur <virendrak@kpit.com>
+---
+ ...022-2867-CVE-2022-2868-CVE-2022-2869.patch | 159 ++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |   1 +
+ 2 files changed, 160 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-2867-CVE=
+-2022-2868-CVE-2022-2869.patch
 
-Thanks,
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-2867-CVE-2022-2=
+868-CVE-2022-2869.patch b/meta/recipes-multimedia/libtiff/files/CVE-2022-28=
+67-CVE-2022-2868-CVE-2022-2869.patch
+new file mode 100644
+index 0000000000..131ff94119
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2022-2867-CVE-2022-2868-CVE=
+-2022-2869.patch
+@@ -0,0 +1,159 @@
++From 07d79fcac2ead271b60e32aeb80f7b4f3be9ac8c Mon Sep 17 00:00:00 2001
++From: Su Laus <sulau@freenet.de>
++Date: Wed, 9 Feb 2022 21:31:29 +0000
++Subject: [PATCH] tiffcrop.c: Fix issue #352 heap-buffer-overflow by correc=
+ting
++ uint32_t underflow.
++
++CVE: CVE-2022-2867 CVE-2022-2868 CVE-2022-2869
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/07d=
+79fcac2ead271b60e32aeb80f7b4f3be9ac8c]
++Signed-off-by: Virendra Thakur <virendrak@kpit.com>
++---
++Index: tiff-4.1.0/tools/tiffcrop.c
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++--- tiff-4.1.0.orig/tools/tiffcrop.c
+++++ tiff-4.1.0/tools/tiffcrop.c
++@@ -5153,29 +5153,45 @@ computeInputPixelOffsets(struct crop_mas
++       y1 =3D _TIFFClampDoubleToUInt32(crop->corners[i].Y1);
++       y2 =3D _TIFFClampDoubleToUInt32(crop->corners[i].Y2);
++       }
++-      if (x1 < 1)
++-        crop->regionlist[i].x1 =3D 0;
++-      else
++-        crop->regionlist[i].x1 =3D (uint32) (x1 - 1);
+++      /* a) Region needs to be within image sizes 0.. width-1; 0..length-=
+1
+++       * b) Corners are expected to be submitted as top-left to bottom-ri=
+ght.
+++       *    Therefore, check that and reorder input.
+++       * (be aware x,y are already casted to (uint32_t) and avoid (0 - 1)=
+ )
+++       */
+++      uint32_t aux;
+++      if (x1 > x2) {
+++        aux =3D x1;
+++        x1 =3D x2;
+++        x2 =3D aux;
+++      }
+++      if (y1 > y2) {
+++        aux =3D y1;
+++        y1 =3D y2;
+++        y2 =3D aux;
+++      }
+++      if (x1 > image->width - 1)
+++        crop->regionlist[i].x1 =3D image->width - 1;
+++      else if (x1 > 0)
+++        crop->regionlist[i].x1 =3D (uint32_t)(x1 - 1);
++
++       if (x2 > image->width - 1)
++         crop->regionlist[i].x2 =3D image->width - 1;
++-      else
++-        crop->regionlist[i].x2 =3D (uint32) (x2 - 1);
++-      zwidth  =3D crop->regionlist[i].x2 - crop->regionlist[i].x1 + 1;
++-
++-      if (y1 < 1)
++-        crop->regionlist[i].y1 =3D 0;
++-      else
++-        crop->regionlist[i].y1 =3D (uint32) (y1 - 1);
+++      else if (x2 > 0)
+++        crop->regionlist[i].x2 =3D (uint32_t)(x2 - 1);
+++
+++      zwidth =3D crop->regionlist[i].x2 - crop->regionlist[i].x1 + 1;
+++
+++      if (y1 > image->length - 1)
+++        crop->regionlist[i].y1 =3D image->length - 1;
+++      else if (y1 > 0)
+++        crop->regionlist[i].y1 =3D (uint32_t)(y1 - 1);
++
++       if (y2 > image->length - 1)
++         crop->regionlist[i].y2 =3D image->length - 1;
++-      else
++-        crop->regionlist[i].y2 =3D (uint32) (y2 - 1);
++-
++-      zlength =3D crop->regionlist[i].y2 - crop->regionlist[i].y1 + 1;
+++      else if (y2 > 0)
+++        crop->regionlist[i].y2 =3D (uint32_t)(y2 - 1);
++
+++      zlength =3D crop->regionlist[i].y2 - crop->regionlist[i].y1 + 1;
++       if (zwidth > max_width)
++         max_width =3D zwidth;
++       if (zlength > max_length)
++@@ -5205,7 +5221,7 @@ computeInputPixelOffsets(struct crop_mas
++       }
++       }
++     return (0);
++-    }
+++    }  /* crop_mode =3D=3D CROP_REGIONS */
++
++   /* Convert crop margins into offsets into image
++    * Margins are expressed as pixel rows and columns, not bytes
++@@ -5241,7 +5257,7 @@ computeInputPixelOffsets(struct crop_mas
++       bmargin =3D (uint32) 0;
++       return (-1);
++       }
++-    }
+++    }  /* crop_mode =3D=3D CROP_MARGINS */
++   else
++     { /* no margins requested */
++     tmargin =3D (uint32) 0;
++@@ -5332,24 +5348,23 @@ computeInputPixelOffsets(struct crop_mas
++   off->endx   =3D endx;
++   off->endy   =3D endy;
++
++-  crop_width  =3D endx - startx + 1;
++-  crop_length =3D endy - starty + 1;
++-
++-  if (crop_width <=3D 0)
+++  if (endx + 1 <=3D startx)
++     {
++     TIFFError("computeInputPixelOffsets",
++                "Invalid left/right margins and /or image crop width reque=
+sted");
++     return (-1);
++     }
+++  crop_width  =3D endx - startx + 1;
++   if (crop_width > image->width)
++     crop_width =3D image->width;
++
++-  if (crop_length <=3D 0)
+++  if (endy + 1 <=3D starty)
++     {
++     TIFFError("computeInputPixelOffsets",
++               "Invalid top/bottom margins and /or image crop length reque=
+sted");
++     return (-1);
++     }
+++  crop_length =3D endy - starty + 1;
++   if (crop_length > image->length)
++     crop_length =3D image->length;
++
++@@ -5449,10 +5464,17 @@ getCropOffsets(struct image_data *image,
++   else
++     crop->selections =3D crop->zones;
++
++-  for (i =3D 0; i < crop->zones; i++)
+++  /* Initialize regions iterator i */
+++  i =3D 0;
+++  for (int j =3D 0; j < crop->zones; j++)
++     {
++-    seg =3D crop->zonelist[i].position;
++-    total =3D crop->zonelist[i].total;
+++    seg =3D crop->zonelist[j].position;
+++    total =3D crop->zonelist[j].total;
+++
+++    /* check for not allowed zone cases like 0:0; 4:3; etc. and skip that=
+ input */
+++    if (seg =3D=3D 0 || total =3D=3D 0 || seg > total) {
+++        continue;
+++    }
++
++     switch (crop->edge_ref)
++       {
++@@ -5581,8 +5603,11 @@ getCropOffsets(struct image_data *image,
++                     i + 1, (uint32)zwidth, (uint32)zlength,
++                   crop->regionlist[i].x1, crop->regionlist[i].x2,
++                     crop->regionlist[i].y1, crop->regionlist[i].y2);
+++  /* increment regions iterator */
+++  i++;
++     }
++-
+++    /* set number of generated regions out of given zones */
+++    crop->selections =3D i;
++   return (0);
++   } /* end getCropOffsets */
++
++--
++GitLab
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb b/meta/recipes-m=
+ultimedia/libtiff/tiff_4.1.0.bb
+index c061d2aaac..93a35230d6 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+@@ -26,6 +26,7 @@ SRC_URI =3D "http://download.osgeo.org/libtiff/tiff-${PV}=
+.tar.gz \
+            file://CVE-2022-0924.patch \
+            file://CVE-2022-2056-CVE-2022-2057-CVE-2022-2058.patch \
+            file://CVE-2022-34526.patch \
++           file://CVE-2022-2867-CVE-2022-2868-CVE-2022-2869.patch \
+           "
+ SRC_URI[md5sum] =3D "2165e7aba557463acc0664e71a3ed424"
+ SRC_URI[sha256sum] =3D "5d29f32517dadb6dbcd1255ea5bbc93a2b54b94fbf83653b4d=
+65c7d6775b8634"
+--
+2.17.1
 
-> 
->> Thanks,
->>
->> On 9/3/22 17:21, Khem Raj wrote:
->>> [Please note: This e-mail is from an EXTERNAL e-mail address]
->>>
->>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> ---
->>>    .../webkit/{webkitgtk_2.36.6.bb => webkitgtk_2.36.7.bb}        | 3 +--
->>>    1 file changed, 1 insertion(+), 2 deletions(-)
->>>    rename meta/recipes-sato/webkit/{webkitgtk_2.36.6.bb => webkitgtk_2.36.7.bb} (98%)
->>>
->>> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.6.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
->>> similarity index 98%
->>> rename from meta/recipes-sato/webkit/webkitgtk_2.36.6.bb
->>> rename to meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
->>> index 37b977f9ba..026e24ae39 100644
->>> --- a/meta/recipes-sato/webkit/webkitgtk_2.36.6.bb
->>> +++ b/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
->>> @@ -16,8 +16,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
->>>               file://reproducibility.patch \
->>>               file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch \
->>>               "
->>> -
->>> -SRC_URI[sha256sum] = "1193bc821946336776f0dfa5e0dca5651f1e57157eda12da4721d2441f24a61a"
->>> +SRC_URI[sha256sum] = "0c260cf2b32f0481d017670dfed1b61e554967cd067195606c9f9eb5fe731743"
->>>
->>>    inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
->>>
->>> --
->>> 2.37.3
->>>
->>>
->>>
->>> -=-=-=-=-=-=-=-=-=-=-=-
->>> Links: You receive all messages sent to this group.
->>> View/Reply Online (#170267): https://lists.openembedded.org/g/openembedded-core/message/170267
->>> Mute This Topic: https://lists.openembedded.org/mt/93436476/3618448
->>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mingli.yu@windriver.com]
->>> -=-=-=-=-=-=-=-=-=-=-=-
->>>
+This message contains information that may be privileged or confidential an=
+d is the property of the KPIT Technologies Ltd. It is intended only for the=
+ person to whom it is addressed. If you are not the intended recipient, you=
+ are not authorized to read, print, retain copy, disseminate, distribute, o=
+r use this message or any part thereof. If you receive this message in erro=
+r, please notify the sender immediately and delete all copies of this messa=
+ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
+ mails.
 
