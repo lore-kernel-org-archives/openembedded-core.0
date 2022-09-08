@@ -1,412 +1,177 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <rak3033@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1538CC38145
-	for <webhook@archiver.kernel.org>; Thu,  8 Sep 2022 05:32:19 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web08.1951.1662615133844202013
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7627AECAAD5
+	for <webhook@archiver.kernel.org>; Thu,  8 Sep 2022 06:58:29 +0000 (UTC)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+ [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web09.2390.1662620302124813607
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 22:32:14 -0700
+ Wed, 07 Sep 2022 23:58:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=JjIhsEY7;
- spf=pass (domain: gmail.com, ip: 209.85.214.180,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f180.google.com with SMTP id p18so16736616plr.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZQI+ygC/;
+ spf=pass (domain: gmail.com, ip: 209.85.215.177, mailfrom: rak3033@gmail.com)
+Received: by mail-pg1-f177.google.com with SMTP id t65so4901523pgt.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Sep 2022 22:32:13 -0700 (PDT)
+ Wed, 07 Sep 2022 23:58:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=Gdw9fs9aBI3rWthXSSdBytFqn89RBoABK9VigsXyO/c=;
-        b=JjIhsEY790ByrN43i1o29nH0dDcT5TB3P+tFmrREh8od8R7kG4voxZjD0E8J32Ht2n
-         WIxGQuSgIBvr/ElQIlgdvy+cakczRVqGdIupGVZ8rdF+YVzAZkEptn5e2OyH31274UFj
-         jXq0ptFmHno9z+taJT19soOy72uoASLpgRCYuExV+yQGt4oOjqcS+iC9r2frsd1cnFvG
-         /LrLJePv63oJgbQqrsafdLUjNDrUGkvS2AnbbS5uhoxQh+DKlDB3Fl+za/tJM7LOYmR5
-         bCMTOtbsiiHUQkpZGCXQJWOMnnp0GaPNHNxpc2OBa+CWvAD0Jp3Z2SDij41peCNRzJCz
-         pArQ==
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=DvYFEQA4w2CVJGVIWnnjXLZ7axtabunO3TOb1N9OTzA=;
+        b=ZQI+ygC/vCPAzRF2gkOxurGqz4O8ylPl9Buv1o+MrJ5vT/tslKwVMMXiDl3Xw9XKdb
+         WyivwQ1/9kN8BM620JgiafRQ5kZvMYIicase95fMcEZEeiH4z4ot+c774r3vdRkYTYm8
+         Hgc/4jEzDla8PpcOwcp2+FbCRnCSS3TkYwRJQ8LDQgbAI9a5vKyF+F0UXw/OIbRmjFDB
+         RoPKb/G7k1gpcbOdVhzrkDEx3dh6aJrZXMlFUEJMgsMMF6vMia6fSP0mb8rHob1Y6YOP
+         sP3L4oSVg45gVXdatMNn0SkOEyirYoiftubAu80CLDXBsjC5iQKx1+zueDKpHwy1v5Um
+         kh7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=Gdw9fs9aBI3rWthXSSdBytFqn89RBoABK9VigsXyO/c=;
-        b=IXt73Q4bAoZq/+EXqbGZ/SP7rViNkUREykDfJWtVWq8RnoFKJ+6ObAj8FWJGE8hoOy
-         4NguXuzpaLWjVpH5GLZ1EpB0T28Br1hLvOQOppnzwI6GtUpqIu79hZGULYEgUU9/YJfD
-         TASUZEaDJZQuFVh107IEPJJeTFZbf/koOsD/IlDe1RQpV25LueQToe9MbOHjTrYbKxqO
-         5HIUfcffDwMaR1SuwLVPYS3kBQ8KVhB/oX85c8lCPhZJzY3azufvGPf9lnq9JqVbvipN
-         8aTcojWx2cwALA/yXH8LGSzXQLRjp8Oj+yyizeOlgI6BsP7eJ+6aMQDMzOXlxg6zKVUQ
-         KBsA==
-X-Gm-Message-State: ACgBeo2NVONjpZUfUVi/X6LEglxZ0dmSa/+NsmosCyySPyaEoTKbIrlC
-	wR6HZfGvYODAqC4FKS0xy01IYJR5F8QnYQ==
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=DvYFEQA4w2CVJGVIWnnjXLZ7axtabunO3TOb1N9OTzA=;
+        b=tefZD61IQzdKJBag5jTPQ9asBTUtjcO7xCgPxt55jemjzLl34AW5VCucXRjYYtaZKu
+         G5pD0kXr1JMe3Wi3mSzojqPo5XfzfdEs/uVnxgT7BpZIXFU98UcvgJcZBjW/3SODNSBw
+         i4ontfotT/2cYtncYv5aKThc6FBjpWNFVb/VtSHTv1mHsSN71+DddAwW1o80DSozvry2
+         0AdD+w6wVKsdltEn5xjj7tBMeY3czZr76fPV8yP4KfeVKy4gtvxmbJsgeWXYszraxQkR
+         g2d2UdsbNsg5A6irtiChW2D14rHsZAam3cxAlmtXrqZPBYF67VYuc/qh6KtWWADry1v4
+         2gvg==
+X-Gm-Message-State: ACgBeo3bzWWkzywgr1lwYkGve250s6934tdg7tFovXh/HNEnPxvjYX1D
+	RnFIJ3n/Fmj3f+uR7bXBOoO17HFwvgLWcQ==
 X-Google-Smtp-Source: 
- AA6agR66B8LxW6Kcut8j8yptp7P/fWgK8S7nD1wC3MuG23auYVzS8D+7JDPFnGzMGCjTVdelEMPNeQ==
-X-Received: by 2002:a17:902:e841:b0:177:82b6:e6f7 with SMTP id
- t1-20020a170902e84100b0017782b6e6f7mr5695973plg.66.1662615103182;
-        Wed, 07 Sep 2022 22:31:43 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::1761])
+ AA6agR4XHTooHCloLBBxN2KYFIQgtpKMweoe0VG8r0Vdxzy2WMWDPLlsOT0UNoAWzrZFDiJkrWr2ow==
+X-Received: by 2002:a63:5b16:0:b0:42a:8c1b:819a with SMTP id
+ p22-20020a635b16000000b0042a8c1b819amr6504243pgb.424.1662620301154;
+        Wed, 07 Sep 2022 23:58:21 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2401:4900:33c3:2e02:685a:a9a:ac71:934b])
         by smtp.gmail.com with ESMTPSA id
- a3-20020a17090abe0300b001f1f5e812e9sm753613pjs.20.2022.09.07.22.31.42
+ ay6-20020a17090b030600b00200b12f2bf3sm909154pjb.51.2022.09.07.23.58.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Sep 2022 22:31:42 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Mingli Yu <mingli.yu@windriver.com>
-Subject: [PATCH v2] webkitgtk: Fix build on 32bit arm
-Date: Wed,  7 Sep 2022 22:31:40 -0700
-Message-Id: <20220908053140.660738-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.37.3
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Wed, 07 Sep 2022 23:58:20 -0700 (PDT)
+From: Riyaz Khan <rak3033@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	rak3033@gmail.com
+Cc: ranjitsinh.rathod@kpit.com,
+	riyaz.khan@kpit.com,
+	Riyaz Khan <Riyaz.Khan@kpit.com>
+Subject: [meta][dunfell][PATCH 1/2] sdbus-c++: Upgrade sdbus-c++ 1.1.0 to
+ 1.2.0
+Date: Thu,  8 Sep 2022 12:27:56 +0530
+Message-Id: <20220908065757.27272-1-rak3033@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Sep 2022 05:32:19 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Sep 2022 06:58:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170450
+ https://lists.openembedded.org/g/openembedded-core/message/170451
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Mingli Yu <mingli.yu@windriver.com>
+From: Riyaz Khan <Riyaz.Khan@kpit.com>
+
+Add SHA value in SRCREV and remove
+7f437a6e06d2ec3abd3e2fd1101ab6aab386bc44.patch as this this patch is
+already part of 1.2.0 Source.
+
+Reference link:
+https://github.com/Kistler-Group/sdbus-cpp/releases/tag/v1.2.0
+
+Signed-off-by: Riyaz Khan <rak3033@gmail.com>
 ---
-v2: Fix commit msg format
+ ...7a6e06d2ec3abd3e2fd1101ab6aab386bc44.patch | 54 -------------------
+ .../run-ptest                                 |  0
+ ...{sdbus-c++_1.1.0.bb => sdbus-c++_1.2.0.bb} |  5 +-
+ 3 files changed, 2 insertions(+), 57 deletions(-)
+ delete mode 100644 meta-oe/recipes-core/sdbus-c++/sdbus-c++-1.1.0/7f437a6e06d2ec3abd3e2fd1101ab6aab386bc44.patch
+ rename meta-oe/recipes-core/sdbus-c++/{sdbus-c++-1.1.0 => sdbus-c++-1.2.0}/run-ptest (100%)
+ rename meta-oe/recipes-core/sdbus-c++/{sdbus-c++_1.1.0.bb => sdbus-c++_1.2.0.bb} (91%)
 
- ...44e17d258106617b0e6d783d073b188a2548.patch | 311 ++++++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.36.7.bb  |   1 +
- 2 files changed, 312 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
-
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch b/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
-new file mode 100644
-index 0000000000..204f76633f
---- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
-@@ -0,0 +1,311 @@
-+From 0d3344e17d258106617b0e6d783d073b188a2548 Mon Sep 17 00:00:00 2001
-+From: Adrian Perez de Castro <aperez@igalia.com>
-+Date: Thu, 2 Jun 2022 11:19:06 +0300
-+Subject: [PATCH] [ARM][NEON] FELightningNEON.cpp fails to build, NEON fast
-+ path seems unused https://bugs.webkit.org/show_bug.cgi?id=241182
-+
-+Reviewed by NOBODY (OOPS!).
-+
-+Move the NEON fast path for the SVG lighting filter effects into
-+FELightingSoftwareApplier, and arrange to actually use them by
-+forwarding calls to applyPlatformGeneric() into applyPlatformNeon().
-+
-+Some changes were needed to adapt platformApplyNeon() to the current
-+state of filters after r286140. This was not detected because the code
-+bitrotted due to it being guarded with CPU(ARM_TRADITIONAL), which does
-+not get used much these days: CPU(ARM_THUMB2) is more common. It should
-+be possible to use the NEON fast paths also in Thumb mode, but that is
-+left for a follow-up fix.
-+
-+* Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp:
-+(WebCore::FELightingSoftwareApplier::platformApplyNeonWorker):
-+(WebCore::FELightingSoftwareApplier::getPowerCoefficients):
-+(WebCore::FELighting::platformApplyNeonWorker): Deleted.
-+(WebCore::FELighting::getPowerCoefficients): Deleted.
-+* Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h:
-+(WebCore::FELightingSoftwareApplier::applyPlatformNeon):
-+(WebCore::FELighting::platformApplyNeon): Deleted.
-+* Source/WebCore/platform/graphics/filters/DistantLightSource.h:
-+* Source/WebCore/platform/graphics/filters/FELighting.h:
-+* Source/WebCore/platform/graphics/filters/PointLightSource.h:
-+* Source/WebCore/platform/graphics/filters/SpotLightSource.h:
-+* Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h:
-+---
-+Upstream-Status: Submitted [https://github.com/WebKit/WebKit/pull/1233]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+ .../cpu/arm/filters/FELightingNEON.cpp        |  4 +-
-+ .../graphics/cpu/arm/filters/FELightingNEON.h | 54 +++++++++----------
-+ .../graphics/filters/DistantLightSource.h     |  4 ++
-+ .../platform/graphics/filters/FELighting.h    |  7 ---
-+ .../graphics/filters/PointLightSource.h       |  4 ++
-+ .../graphics/filters/SpotLightSource.h        |  4 ++
-+ .../software/FELightingSoftwareApplier.h      | 16 ++++++
-+ 7 files changed, 57 insertions(+), 36 deletions(-)
-+
-+diff --git a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp
-+index f6ff8c20a5a8..42a97ffc5372 100644
-+--- a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp
-++++ b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp
-+@@ -49,7 +49,7 @@ short* feLightingConstantsForNeon()
-+     return s_FELightingConstantsForNeon;
-+ }
-+ 
-+-void FELighting::platformApplyNeonWorker(FELightingPaintingDataForNeon* parameters)
-++void FELightingSoftwareApplier::platformApplyNeonWorker(FELightingPaintingDataForNeon* parameters)
-+ {
-+     neonDrawLighting(parameters);
-+ }
-+@@ -464,7 +464,7 @@ TOSTRING(neonDrawLighting) ":" NL
-+     "b .lightStrengthCalculated" NL
-+ ); // NOLINT
-+ 
-+-int FELighting::getPowerCoefficients(float exponent)
-++int FELightingSoftwareApplier::getPowerCoefficients(float exponent)
-+ {
-+     // Calling a powf function from the assembly code would require to save
-+     // and reload a lot of NEON registers. Since the base is in range [0..1]
-+diff --git a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h
-+index b17c603d40d3..c6d17f573eca 100644
-+--- a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h
-++++ b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h
-+@@ -24,14 +24,15 @@
-+  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-+  */
-+ 
-+-#ifndef FELightingNEON_h
-+-#define FELightingNEON_h
-++#pragma once
-+ 
-+ #if CPU(ARM_NEON) && CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
-+ 
-+-#include "FELighting.h"
-++#include "FELightingSoftwareApplier.h"
-++#include "ImageBuffer.h"
-+ #include "PointLightSource.h"
-+ #include "SpotLightSource.h"
-++#include <wtf/ObjectIdentifier.h>
-+ #include <wtf/ParallelJobs.h>
-+ 
-+ namespace WebCore {
-+@@ -93,14 +94,14 @@ extern "C" {
-+ void neonDrawLighting(FELightingPaintingDataForNeon*);
-+ }
-+ 
-+-inline void FELighting::platformApplyNeon(const LightingData& data, const LightSource::PaintingData& paintingData)
-++inline void FELightingSoftwareApplier::applyPlatformNeon(const FELightingSoftwareApplier::LightingData& data, const LightSource::PaintingData& paintingData)
-+ {
-+-    alignas(16) FELightingFloatArgumentsForNeon floatArguments;
-+-    FELightingPaintingDataForNeon neonData = {
-+-        data.pixels->data(),
-++    WebCore::FELightingFloatArgumentsForNeon alignas(16) floatArguments;
-++    WebCore::FELightingPaintingDataForNeon neonData = {
-++        data.pixels->bytes(),
-+         1,
-+-        data.widthDecreasedByOne - 1,
-+-        data.heightDecreasedByOne - 1,
-++        data.width - 2,
-++        data.height - 2,
-+         0,
-+         0,
-+         0,
-+@@ -111,23 +112,23 @@ inline void FELighting::platformApplyNeon(const LightingData& data, const LightS
-+     // Set light source arguments.
-+     floatArguments.constOne = 1;
-+ 
-+-    auto color = m_lightingColor.toColorTypeLossy<SRGBA<uint8_t>>().resolved();
-++    auto color = data.lightingColor.toColorTypeLossy<SRGBA<uint8_t>>().resolved();
-+ 
-+     floatArguments.colorRed = color.red;
-+     floatArguments.colorGreen = color.green;
-+     floatArguments.colorBlue = color.blue;
-+     floatArguments.padding4 = 0;
-+ 
-+-    if (m_lightSource->type() == LS_POINT) {
-++    if (data.lightSource->type() == LS_POINT) {
-+         neonData.flags |= FLAG_POINT_LIGHT;
-+-        PointLightSource& pointLightSource = static_cast<PointLightSource&>(m_lightSource.get());
-++        const auto& pointLightSource = *static_cast<const PointLightSource*>(data.lightSource);
-+         floatArguments.lightX = pointLightSource.position().x();
-+         floatArguments.lightY = pointLightSource.position().y();
-+         floatArguments.lightZ = pointLightSource.position().z();
-+         floatArguments.padding2 = 0;
-+-    } else if (m_lightSource->type() == LS_SPOT) {
-++    } else if (data.lightSource->type() == LS_SPOT) {
-+         neonData.flags |= FLAG_SPOT_LIGHT;
-+-        SpotLightSource& spotLightSource = static_cast<SpotLightSource&>(m_lightSource.get());
-++        const auto& spotLightSource = *static_cast<const SpotLightSource*>(data.lightSource);
-+         floatArguments.lightX = spotLightSource.position().x();
-+         floatArguments.lightY = spotLightSource.position().y();
-+         floatArguments.lightZ = spotLightSource.position().z();
-+@@ -145,7 +146,7 @@ inline void FELighting::platformApplyNeon(const LightingData& data, const LightS
-+         if (spotLightSource.specularExponent() == 1)
-+             neonData.flags |= FLAG_CONE_EXPONENT_IS_1;
-+     } else {
-+-        ASSERT(m_lightSource->type() == LS_DISTANT);
-++        ASSERT(data.lightSource->type() == LS_DISTANT);
-+         floatArguments.lightX = paintingData.initialLightingData.lightVector.x();
-+         floatArguments.lightY = paintingData.initialLightingData.lightVector.y();
-+         floatArguments.lightZ = paintingData.initialLightingData.lightVector.z();
-+@@ -155,38 +156,39 @@ inline void FELighting::platformApplyNeon(const LightingData& data, const LightS
-+     // Set lighting arguments.
-+     floatArguments.surfaceScale = data.surfaceScale;
-+     floatArguments.minusSurfaceScaleDividedByFour = -data.surfaceScale / 4;
-+-    if (m_lightingType == FELighting::DiffuseLighting)
-+-        floatArguments.diffuseConstant = m_diffuseConstant;
-++    if (data.filterType == FilterEffect::Type::FEDiffuseLighting)
-++        floatArguments.diffuseConstant = data.diffuseConstant;
-+     else {
-+         neonData.flags |= FLAG_SPECULAR_LIGHT;
-+-        floatArguments.diffuseConstant = m_specularConstant;
-+-        neonData.specularExponent = getPowerCoefficients(m_specularExponent);
-+-        if (m_specularExponent == 1)
-++        floatArguments.diffuseConstant = data.specularConstant;
-++        neonData.specularExponent = getPowerCoefficients(data.specularExponent);
-++        if (data.specularExponent == 1)
-+             neonData.flags |= FLAG_SPECULAR_EXPONENT_IS_1;
-+     }
-+     if (floatArguments.diffuseConstant == 1)
-+         neonData.flags |= FLAG_DIFFUSE_CONST_IS_1;
-+ 
-+-    int optimalThreadNumber = ((data.widthDecreasedByOne - 1) * (data.heightDecreasedByOne - 1)) / s_minimalRectDimension;
-++    static constexpr int minimalRectDimension = 100 * 100; // Empirical data limit for parallel jobs
-++    int optimalThreadNumber = ((data.width - 2) * (data.height - 2)) / minimalRectDimension;
-+     if (optimalThreadNumber > 1) {
-+         // Initialize parallel jobs
-+-        ParallelJobs<FELightingPaintingDataForNeon> parallelJobs(&WebCore::FELighting::platformApplyNeonWorker, optimalThreadNumber);
-++        ParallelJobs<FELightingPaintingDataForNeon> parallelJobs(&FELightingSoftwareApplier::platformApplyNeonWorker, optimalThreadNumber);
-+ 
-+         // Fill the parameter array
-+         int job = parallelJobs.numberOfJobs();
-+         if (job > 1) {
-+             int yStart = 1;
-+-            int yStep = (data.heightDecreasedByOne - 1) / job;
-++            int yStep = (data.height - 2) / job;
-+             for (--job; job >= 0; --job) {
-+                 FELightingPaintingDataForNeon& params = parallelJobs.parameter(job);
-+                 params = neonData;
-+                 params.yStart = yStart;
-+-                params.pixels += (yStart - 1) * (data.widthDecreasedByOne + 1) * 4;
-++                params.pixels += (yStart - 1) * data.width * 4;
-+                 if (job > 0) {
-+                     params.absoluteHeight = yStep;
-+                     yStart += yStep;
-+                 } else
-+-                    params.absoluteHeight = data.heightDecreasedByOne - yStart;
-++                    params.absoluteHeight = (data.height - 1) - yStart;
-+             }
-+             parallelJobs.execute();
-+             return;
-+@@ -199,5 +201,3 @@ inline void FELighting::platformApplyNeon(const LightingData& data, const LightS
-+ } // namespace WebCore
-+ 
-+ #endif // CPU(ARM_NEON) && COMPILER(GCC_COMPATIBLE)
-+-
-+-#endif // FELightingNEON_h
-+diff --git a/Source/WebCore/platform/graphics/filters/DistantLightSource.h b/Source/WebCore/platform/graphics/filters/DistantLightSource.h
-+index 0660143fc1cf..2b1e86d99fa4 100644
-+--- a/Source/WebCore/platform/graphics/filters/DistantLightSource.h
-++++ b/Source/WebCore/platform/graphics/filters/DistantLightSource.h
-+@@ -25,6 +25,10 @@
-+ #include "LightSource.h"
-+ #include <wtf/Ref.h>
-+ 
-++namespace WTF {
-++class TextStream;
-++} // namespace WTF
-++
-+ namespace WebCore {
-+ 
-+ class DistantLightSource : public LightSource {
-+diff --git a/Source/WebCore/platform/graphics/filters/FELighting.h b/Source/WebCore/platform/graphics/filters/FELighting.h
-+index 0c073bc13f8c..e0db00545c17 100644
-+--- a/Source/WebCore/platform/graphics/filters/FELighting.h
-++++ b/Source/WebCore/platform/graphics/filters/FELighting.h
-+@@ -35,8 +35,6 @@
-+ 
-+ namespace WebCore {
-+ 
-+-struct FELightingPaintingDataForNeon;
-+-
-+ class FELighting : public FilterEffect {
-+ public:
-+     const Color& lightingColor() const { return m_lightingColor; }
-+@@ -67,11 +65,6 @@ class FELighting : public FilterEffect {
-+ 
-+     std::unique_ptr<FilterEffectApplier> createSoftwareApplier() const override;
-+ 
-+-#if CPU(ARM_NEON) && CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
-+-    static int getPowerCoefficients(float exponent);
-+-    inline void platformApplyNeon(const LightingData&, const LightSource::PaintingData&);
-+-#endif
-+-
-+     Color m_lightingColor;
-+     float m_surfaceScale;
-+     float m_diffuseConstant;
-+diff --git a/Source/WebCore/platform/graphics/filters/PointLightSource.h b/Source/WebCore/platform/graphics/filters/PointLightSource.h
-+index 5c9c7fb783e6..e53aa012ac1c 100644
-+--- a/Source/WebCore/platform/graphics/filters/PointLightSource.h
-++++ b/Source/WebCore/platform/graphics/filters/PointLightSource.h
-+@@ -26,6 +26,10 @@
-+ #include "LightSource.h"
-+ #include <wtf/Ref.h>
-+ 
-++namespace WTF {
-++class TextStream;
-++} // namespace WTF
-++
-+ namespace WebCore {
-+ 
-+ class PointLightSource : public LightSource {
-+diff --git a/Source/WebCore/platform/graphics/filters/SpotLightSource.h b/Source/WebCore/platform/graphics/filters/SpotLightSource.h
-+index 04e331ec4ec0..763c8d400b00 100644
-+--- a/Source/WebCore/platform/graphics/filters/SpotLightSource.h
-++++ b/Source/WebCore/platform/graphics/filters/SpotLightSource.h
-+@@ -26,6 +26,10 @@
-+ #include "LightSource.h"
-+ #include <wtf/Ref.h>
-+ 
-++namespace WTF {
-++class TextStream;
-++} // namespace WTF
-++
-+ namespace WebCore {
-+ 
-+ class SpotLightSource : public LightSource {
-+diff --git a/Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h b/Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h
-+index c974d92115ff..e2896660cfbd 100644
-+--- a/Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h
-++++ b/Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h
-+@@ -36,6 +36,7 @@
-+ namespace WebCore {
-+ 
-+ class FELighting;
-++struct FELightingPaintingDataForNeon;
-+ 
-+ class FELightingSoftwareApplier final : public FilterEffectConcreteApplier<FELighting> {
-+     WTF_MAKE_FAST_ALLOCATED;
-+@@ -132,8 +133,23 @@ class FELightingSoftwareApplier final : public FilterEffectConcreteApplier<FELig
-+ 
-+     static void applyPlatformGenericPaint(const LightingData&, const LightSource::PaintingData&, int startY, int endY);
-+     static void applyPlatformGenericWorker(ApplyParameters*);
-++
-++#if CPU(ARM_NEON) && CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
-++    static int getPowerCoefficients(float exponent);
-++    static void platformApplyNeonWorker(FELightingPaintingDataForNeon*);
-++    inline static void applyPlatformNeon(const LightingData&, const LightSource::PaintingData&);
-++
-++    inline static void applyPlatformGeneric(const LightingData& data, const LightSource::PaintingData& paintingData)
-++    {
-++        applyPlatformNeon(data, paintingData);
-++    }
-++#else
-+     static void applyPlatformGeneric(const LightingData&, const LightSource::PaintingData&);
-++#endif
-++
-+     static void applyPlatform(const LightingData&);
-+ };
-+ 
-+ } // namespace WebCore
-++
-++#include "FELightingNEON.h"
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
-index 47e52e25da..76b119c9c7 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
-@@ -16,6 +16,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://reproducibility.patch \
-            file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch \
-            file://fix-gstreamer-include-paths.patch \
-+           file://0d3344e17d258106617b0e6d783d073b188a2548.patch \
-            "
- SRC_URI[sha256sum] = "0c260cf2b32f0481d017670dfed1b61e554967cd067195606c9f9eb5fe731743"
+diff --git a/meta-oe/recipes-core/sdbus-c++/sdbus-c++-1.1.0/7f437a6e06d2ec3abd3e2fd1101ab6aab386bc44.patch b/meta-oe/recipes-core/sdbus-c++/sdbus-c++-1.1.0/7f437a6e06d2ec3abd3e2fd1101ab6aab386bc44.patch
+deleted file mode 100644
+index 641935f68..000000000
+--- a/meta-oe/recipes-core/sdbus-c++/sdbus-c++-1.1.0/7f437a6e06d2ec3abd3e2fd1101ab6aab386bc44.patch
++++ /dev/null
+@@ -1,54 +0,0 @@
+-commit 7f437a6e06d2ec3abd3e2fd1101ab6aab386bc44
+-Author: Stanislav Angelovic <stanislav.angelovic@siemens.com>
+-Date:   Thu Jan 27 13:38:19 2022 +0100
+-
+-    fix(tests): printer for std::chrono in googletest v1.11.0
+-
+-diff --git a/tests/CMakeLists.txt b/tests/CMakeLists.txt
+-index fbf198c..ec42e55 100644
+---- a/tests/CMakeLists.txt
+-+++ b/tests/CMakeLists.txt
+-@@ -19,7 +19,7 @@ if (NOT TARGET GTest::gmock)
+-     if (NOT TARGET GTest::gmock)
+-         include(FetchContent)
+- 
+--        message("Fetching googletest...")
+-+        message("Fetching googletest v${GOOGLETEST_VERSION}...")
+-         FetchContent_Declare(googletest
+-                             GIT_REPOSITORY ${GOOGLETEST_GIT_REPO}
+-                             GIT_TAG        release-${GOOGLETEST_VERSION}
+-diff --git a/tests/integrationtests/Defs.h b/tests/integrationtests/Defs.h
+-index 2f129a4..2bfc7c9 100644
+---- a/tests/integrationtests/Defs.h
+-+++ b/tests/integrationtests/Defs.h
+-@@ -56,20 +56,18 @@ const bool DEFAULT_BLOCKING_VALUE{true};
+- 
+- constexpr const double DOUBLE_VALUE{3.24L};
+- 
+--/** Duration stream operator for human readable gtest value output.
+-- *
+-- * Note that the conversion to double is lossy if the input type has 64 or more bits.
+-- * This is ok for our integration tests because they don't have very
+-- * accurate timing requirements.
+-- *
+-- * @return human readable duration in seconds
+-- */
+-+}}
+-+
+-+namespace testing::internal {
+-+
+-+// Printer for std::chrono::duration types.
+-+// This is a workaround, since it's not a good thing to add this to std namespace.
+- template< class Rep, class Period >
+--static std::ostream& operator<<(std::ostream& os, const std::chrono::duration<Rep, Period>& d)
+--{
+-+void PrintTo(const ::std::chrono::duration<Rep, Period>& d, ::std::ostream* os) {
+-     auto seconds = std::chrono::duration_cast<std::chrono::duration<double>>(d);
+--    return os << seconds.count() << " s";
+-+    *os << seconds.count() << "s";
+-+}
+-+
+- }
+--}}
+- 
+- #endif /* SDBUS_CPP_INTEGRATIONTESTS_DEFS_H_ */
+diff --git a/meta-oe/recipes-core/sdbus-c++/sdbus-c++-1.1.0/run-ptest b/meta-oe/recipes-core/sdbus-c++/sdbus-c++-1.2.0/run-ptest
+similarity index 100%
+rename from meta-oe/recipes-core/sdbus-c++/sdbus-c++-1.1.0/run-ptest
+rename to meta-oe/recipes-core/sdbus-c++/sdbus-c++-1.2.0/run-ptest
+diff --git a/meta-oe/recipes-core/sdbus-c++/sdbus-c++_1.1.0.bb b/meta-oe/recipes-core/sdbus-c++/sdbus-c++_1.2.0.bb
+similarity index 91%
+rename from meta-oe/recipes-core/sdbus-c++/sdbus-c++_1.1.0.bb
+rename to meta-oe/recipes-core/sdbus-c++/sdbus-c++_1.2.0.bb
+index 107dbc6c9..75cd81553 100644
+--- a/meta-oe/recipes-core/sdbus-c++/sdbus-c++_1.1.0.bb
++++ b/meta-oe/recipes-core/sdbus-c++/sdbus-c++_1.2.0.bb
+@@ -16,11 +16,10 @@ PACKAGECONFIG[with-tests] = "-DBUILD_TESTS=ON -DTESTS_INSTALL_PATH=${libdir}/${B
  
+ DEPENDS += "expat"
+ 
+-SRCREV = "bca8e81037766a0454740c40307eea32831c101f"
++SRCREV = "751c1addc4fd2f949a466f488c1b7de2ca3b76dc"
+ 
+ SRC_URI = "git://github.com/Kistler-Group/sdbus-cpp.git;protocol=https;branch=master"
+-SRC_URI += "file://run-ptest \
+-            file://7f437a6e06d2ec3abd3e2fd1101ab6aab386bc44.patch "
++SRC_URI += "file://run-ptest"
+ 
+ EXTRA_OECMAKE = "-DBUILD_CODE_GEN=OFF \
+                  -DBUILD_DOC=ON \
 -- 
-2.37.3
+2.17.1
 
 
