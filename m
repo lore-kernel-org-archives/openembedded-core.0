@@ -2,111 +2,108 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8356ECAAA1
-	for <webhook@archiver.kernel.org>; Fri,  9 Sep 2022 11:20:46 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web11.13.1662722436870243724
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE751C6FA82
+	for <webhook@archiver.kernel.org>; Fri,  9 Sep 2022 11:25:35 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web11.1.1662722727383369591
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Sep 2022 04:20:37 -0700
+ Fri, 09 Sep 2022 04:25:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fRJ8tp2r;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QGFebugl;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id
- d12-20020a05600c34cc00b003a83d20812fso1072924wmq.1
+Received: by mail-wr1-f50.google.com with SMTP id b17so2225497wrq.3
         for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Sep 2022 04:20:36 -0700 (PDT)
+ Fri, 09 Sep 2022 04:25:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date;
-        bh=Ctm1slHRs2vReDoLGP9GO9QwP9JfFSS+5ot7OxI/5MA=;
-        b=fRJ8tp2rhapfsRM3S5pqEydXvnMPtINn8vuVTEcmHt7VU3G+t15/IOYUykGt61bJMX
-         OJr1olzLViHwb0VoonXyelTwD/75xxUT1q8rma0KUipFlG5AIqZral2jOWO3D3JaP5dM
-         Tzas03/1vm/XAeMwrraKsU+DxJoe/wcW5DJAE=
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date;
+        bh=CPDLD6ehGGFD15TO1o5cweSo6L4+KfgGe+M6KcGFmas=;
+        b=QGFebuglCT+5TOaXV7/X8+cAtrRxHeHZEvO84vMEpCVWC0yT/CgLzB5OWsIB4V0jhA
+         9jAqE40+lFba7FFPLlSfxygGXX+RMFcjDJyDn9KiUre+O49PhkXEKclxyCvaTaraOQ+U
+         D5y9TEJpblwml0HV1w2KFMQIHXCIv1PiVvt+I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=Ctm1slHRs2vReDoLGP9GO9QwP9JfFSS+5ot7OxI/5MA=;
-        b=2dQSX7lfq6f1BAdZRIHu5pMLBrd0rwWTwM/yqg8B7mIEcMoCOzG/CEey0KKlFk75h6
-         C7UdA76GpQq+IQkiRip1W6BpdLzvdGrTk6kObAy99XxY1CJnFnSkvZ2km7ZOsbRCdoYf
-         asi3q6nJI7Fgw8pfV6MxqD7A3H6Nu4WuKg1U5cDUUC+iPyrmN+kAElZFCqaGEaf2U0Tu
-         5a7po1WH5tXE65Fq9otmoskFx3Qn8jP1mjZ/GDci7uNdmWjnp046l3XGJmsaPXDDoPAl
-         LPf++0jpE2g75kKiq2v0Q+pNrGe7hHiqPmgibVcKmNSJZNmLt8bNVVCyTiL2LE5TNH3s
-         KjBQ==
-X-Gm-Message-State: ACgBeo1Qp7Buj4pnOy2+p8uWvExNV954tjqTsRwAsazkHA6dP7rEhyDU
-	y6bmUm81dbrjrdrBp5sedjN8mg==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=CPDLD6ehGGFD15TO1o5cweSo6L4+KfgGe+M6KcGFmas=;
+        b=rokRfErtyTLeA6y+8H6nBSOUtm1ygoizvvozM807U4h/xqDIE+Tq1yaTxJ4XVAbNT1
+         sd2g9mHkKmp7byTwt1BG6XIIsu6LqENd1qjZkbN052QN+HWpXl7DDMV00hbxkCINqLoL
+         7lb09zfEGCfhoP0sX437EID2ueBk9WPgGLx6ucfC0uC5BiSxPARsMRQJXlEuSE+3fFWC
+         tQuOUfNQU9Nwts0b+i34B5ykleQb0HvW1/XfEqQimX5tCysrECfLVpviDP5qUkZhnf7s
+         8L46/xDOCQZY1R2dziRnjQ0gTF49UPaUR8KtDZFOFGOZuyZMs6z+d33vscIhGLy4iVRt
+         AR/g==
+X-Gm-Message-State: ACgBeo1i/yWSRTqo3rnoPg5qNBdw6IcFbDs1LF1da3MKhd5cPNHbFpil
+	CSvJ4pRb0AY0zFd2nJ01b2TE7vIrn8THvA==
 X-Google-Smtp-Source: 
- AA6agR6wXWBKzuEZvWkeX7DbRtJG0Zs7C8hlGBt0sQHiAcu//McV9Sy2mi8TjJQ2lE+L8IRl/UILjw==
-X-Received: by 2002:a05:600c:15c5:b0:3a5:b800:3c53 with SMTP id
- v5-20020a05600c15c500b003a5b8003c53mr5092681wmf.176.1662722435156;
-        Fri, 09 Sep 2022 04:20:35 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:52ef:c9b0:71c9:e992?
- ([2001:8b0:aba:5f3c:52ef:c9b0:71c9:e992])
+ AA6agR75mGL7rUwmmAtGbK+h/n+wV+n87crb59VbaF0098VQMUSvm4S3I/wE6KTFrGqNnb03EMkL6A==
+X-Received: by 2002:a5d:60ca:0:b0:228:d77e:4b25 with SMTP id
+ x10-20020a5d60ca000000b00228d77e4b25mr7893554wrt.139.1662722725551;
+        Fri, 09 Sep 2022 04:25:25 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:52ef:c9b0:71c9:e992])
         by smtp.gmail.com with ESMTPSA id
- bh16-20020a05600c3d1000b003a60ff7c082sm393937wmb.15.2022.09.09.04.20.34
+ z5-20020a05600c0a0500b003a540fef440sm527625wmp.1.2022.09.09.04.25.24
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Sep 2022 04:20:34 -0700 (PDT)
-Message-ID: 
- <1b7fce81bcc901c50f7a5042fb2bb94a81839896.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH][honister] mobile-broadband-provider-info:
- update branch name in SRC_URI
+        Fri, 09 Sep 2022 04:25:25 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross.burton@arm.com>,
-	openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Date: Fri, 09 Sep 2022 12:20:32 +0100
-In-Reply-To: <20220909103754.3036413-1-ross.burton@arm.com>
-References: <20220909103754.3036413-1-ross.burton@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/2] qemurunner: Update to match qmp changes
+Date: Fri,  9 Sep 2022 12:25:23 +0100
+Message-Id: <20220909112523.648717-2-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220909112523.648717-1-richard.purdie@linuxfoundation.org>
+References: <20220909112523.648717-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Sep 2022 11:20:46 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Sep 2022 11:25:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170486
+ https://lists.openembedded.org/g/openembedded-core/message/170487
 
-On Fri, 2022-09-09 at 11:37 +0100, Ross Burton wrote:
-> The master branch has been renamed to main and now master no longer
-> exists, so fetches that don't use a source mirror will fail.
->=20
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  .../mobile-broadband-provider-info_git.bb                       | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/mob=
-ile-broadband-provider-info_git.bb b/meta/recipes-connectivity/mobile-broad=
-band-provider-info/mobile-broadband-provider-info_git.bb
-> index 4246f4dcbd3..3b170f4fdd2 100644
-> --- a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-bro=
-adband-provider-info_git.bb
-> +++ b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-bro=
-adband-provider-info_git.bb
-> @@ -8,7 +8,7 @@ SRCREV =3D "11f2247eccd3c161b8fd9b41143862e9fb81193c"
->  PV =3D "20210805"
->  PE =3D "1"
-> =20
-> -SRC_URI =3D "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info=
-.git;protocol=3Dhttps;branch=3Dmaster"
-> +SRC_URI =3D "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info=
-.git;protocol=3Dhttps;branch=3Dmain"
->  S =3D "${WORKDIR}/git"
-> =20
->  inherit autotools
+Upstream made changes to the qmp module. We need to use the legacy one
+for now since that matches the interface we use, ultimately we likely
+need to update our code.
 
-The trouble is if I merged this, it would open the floodgates on other
-patches...
+Also fix the generic exception handler to show the actual exception
+which helps debugging when something does break.
 
-Cheers,
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/utils/qemurunner.py | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-Richard
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 4c3d2010fb6..07018b7de8b 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -188,8 +188,8 @@ class QemuRunner:
+         importlib.invalidate_caches()
+         try:
+             qmp = importlib.import_module("qmp")
+-        except:
+-            self.logger.error("qemurunner: qmp.py missing, please ensure it's installed")
++        except Exception as e:
++            self.logger.error("qemurunner: qmp.py missing, please ensure it's installed (%s)" % str(e))
+             return False
+         # Path relative to tmpdir used as cwd for qemu below to avoid unix socket path length issues
+         qmp_file = "." + next(tempfile._get_candidate_names())
+@@ -325,7 +325,8 @@ class QemuRunner:
+         try:
+             os.chdir(os.path.dirname(qmp_port))
+             try:
+-               self.qmp = qmp.QEMUMonitorProtocol(os.path.basename(qmp_port))
++               from qmp.legacy import QEMUMonitorProtocol
++               self.qmp = QEMUMonitorProtocol(os.path.basename(qmp_port))
+             except OSError as msg:
+                 self.logger.warning("Failed to initialize qemu monitor socket: %s File: %s" % (msg, msg.filename))
+                 return False
+-- 
+2.34.1
 
 
