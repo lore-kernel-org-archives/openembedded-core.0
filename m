@@ -1,103 +1,84 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <otavio@ossystems.com.br>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A8F9ECAAD3
-	for <webhook@archiver.kernel.org>; Fri,  9 Sep 2022 14:33:06 +0000 (UTC)
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com
- [209.85.160.52])
- by mx.groups.io with SMTP id smtpd.web09.1929.1662733985958309389
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E68F4ECAAD3
+	for <webhook@archiver.kernel.org>; Fri,  9 Sep 2022 15:12:33 +0000 (UTC)
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com
+ [209.85.160.53])
+ by mx.groups.io with SMTP id smtpd.web11.142.1662736352941022733
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Sep 2022 07:33:06 -0700
+ Fri, 09 Sep 2022 08:12:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jzkLx3px;
- spf=pass (domain: gmail.com, ip: 209.85.160.52,
- mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f52.google.com with SMTP id
- 586e51a60fabf-12803ac8113so4332263fac.8
+ dkim=missing;
+ spf=pass (domain: gmail.com, ip: 209.85.160.53, mailfrom: otavio.salvador@gmail.com)
+Received: by mail-oa1-f53.google.com with SMTP id
+ 586e51a60fabf-1274ec87ad5so4743657fac.0
         for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Sep 2022 07:33:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=VEXZ7Hea2UURQHPr1Alkj8Pb8s7fQtR7QOr+IoWBEWs=;
-        b=jzkLx3pxgRYcQ+UIcW2NyWeVVng0H12WFpM9ZvBDf+36oY0pkwkfl4KmMo0a1RI8Fm
-         CofGXVD5U0GCejJB1IONu3IJqkbFr5xoqoDyqrbGpQqXa5K2a+sFl4Z9TZLkFeBszlBj
-         qUMxuRhtXbT1pIel+y0/dJrlUGYkWqJ/ErTTNyZpMVKUlXX5BJalieJ48Bc7O7vBC/ZN
-         C60Q6Z1k67TGyarBDwIqyWMcgKgESF77N6sOMZX9tUs0cJcx1wiO4kh5J5FJsHdSlN8K
-         KlA0WIufLbaI+J5VM9VXcDPpn7s4y32IeFiBameKkl+zw1mF7OyHU3OryfLO+JsoCeCU
-         GgiQ==
+ Fri, 09 Sep 2022 08:12:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=VEXZ7Hea2UURQHPr1Alkj8Pb8s7fQtR7QOr+IoWBEWs=;
-        b=FeUeewOX8SlAGJApoDWUcUox40xiUr23qU9vzou/hLyUiKdsLdq1BJKCDOnYsg/ZLd
-         SCmueV0XgJuLPXcYzbVPPB6AHBMbX/sDcuJQiM7/Y84VOfSJ15PBznkm3rZ9ujon+z+S
-         XLqifyc7bHRtCq3V3uaYLqKcsmITvr1adpig926IEib/TKWy4tyCWePLHXZtu0xXdpI+
-         I8sYzEKsridi2mXdmlqlnljCJ3ck1DfkuUSHyt3rY9ljGiTcmMuPTuXzTVpahm3CFTwU
-         1bbQav6eRnyBBzPPE3AjhnrrhtRKbTn4xXcbomN0Hi4iCELcxkKUJPNEPi6cD4ZkYCXa
-         f08g==
-X-Gm-Message-State: ACgBeo0lCzOE02DynPTZWw7JgYRpfOehnIQhivWrUOd0x4M8zoB7DOrb
-	D3QxFRbm0bxpCIvr75R/ROhq+ixk34I=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date;
+        bh=7hvjGIiFLIS66tE7VnjVzRX80lGAZr5sSEUa8El4eqI=;
+        b=gr0BDSrhaK/mQu/OBN3PPrIccThqxopIpcETXwpXlcIMLmEHhCWywBu/kRqDGoPQzZ
+         nwIMomFTC7ko3m0YXNaO4cL1PFZ7fbUyfigzyk4Ai/AHjlt9JXss4I8NQ3viLubjrlSS
+         IZjefc2CRvkRdTyGbGbMb1ScZuvsc8gTwVj6UFsq/DaGPioR/yyCGLmJLqAaTHc696Xo
+         N4Ig0bS8wiRJgP3r4PRlr97wCWaR1ogeRc2zj/ACzk/8/8isrzahfGcTSyped9wUkKc3
+         55hm8OHf7RJ907/B3GGjmD5uk0pelhYsi+bf8jWSDmY8VwDeYE+fX1WQ4hCJbCOdgfYH
+         jGWA==
+X-Gm-Message-State: ACgBeo0irylzXzQxB1hP13YUvqzbxeXzlF/nNkXx4vRLh1XnTpOuMzph
+	fuSPlFVDOQ8sd2FziFrWJtHU2+xH4ZQSfQ==
 X-Google-Smtp-Source: 
- AA6agR5ulebhfAOWMK5L7kyTzo8ccnB1dNhlbROesOueFk8szjj9/GEQrJnmm6R7BADd+zvoCdAGaA==
-X-Received: by 2002:a05:6808:30a0:b0:34f:656c:1909 with SMTP id
- bl32-20020a05680830a000b0034f656c1909mr269543oib.115.1662733984777;
-        Fri, 09 Sep 2022 07:33:04 -0700 (PDT)
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+ AA6agR4ExipSqcdRXW7j3mO2C2v+v5iKfl9Ow0BmS2nePwYM6ULeqGuMfXtopHj/ZuzzK7Qr1enJwA==
+X-Received: by 2002:a05:6870:9a12:b0:127:8a31:2d79 with SMTP id
+ fo18-20020a0568709a1200b001278a312d79mr5151397oab.216.1662736351530;
+        Fri, 09 Sep 2022 08:12:31 -0700 (PDT)
+Received: from localhost ([2804:d51:59d2:bc00:b685:e4bb:923a:3aa0])
         by smtp.gmail.com with ESMTPSA id
- f17-20020a056830205100b00636e9a0cce5sm319603otp.60.2022.09.09.07.33.03
+ o3-20020a056871078300b0010830c24aaasm451406oap.56.2022.09.09.08.12.29
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Sep 2022 07:33:04 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+        Fri, 09 Sep 2022 08:12:30 -0700 (PDT)
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] oeqa: qemurunner: Report UNIX Epoch timestamp on
- login
-Date: Fri,  9 Sep 2022 09:33:01 -0500
-Message-Id: <20220909143301.3363777-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.33.0
+Subject: [PATCH v2] rust-hello-world: move to recipes-extended
+Date: Fri,  9 Sep 2022 12:12:21 -0300
+Message-Id: <20220909151221.434124-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Sep 2022 14:33:06 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Sep 2022 15:12:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170490
+ https://lists.openembedded.org/g/openembedded-core/message/170491
 
-Updates the log message printed when login banner is seen in QEMU to
-report the UNIX Epoch time in addition to the human readable time. This
-makes it much easier and accurate to correlate logs with the guest, in
-particular with the guest journalctl which prints log timestamps in
-human readable format and the oeqa SSH debug logging which prints the
-UNIX Epoch.
+There is no need to have a single recipe in recipes-example; moving it
+to recipes-extended allow it being use inside QA tests.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/lib/oeqa/utils/qemurunner.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 07018b7de8..948f8adc9f 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -472,9 +472,9 @@ class QemuRunner:
-                             self.server_socket = qemusock
-                             stopread = True
-                             reachedlogin = True
--                            self.logger.debug("Reached login banner in %s seconds (%s)" %
-+                            self.logger.debug("Reached login banner in %s seconds (%s, %s)" %
-                                               (time.time() - (endtime - self.boottime),
--                                              time.strftime("%D %H:%M:%S")))
-+                                              time.strftime("%D %H:%M:%S"), time.time()))
-                     else:
-                         # no need to check if reachedlogin unless we support multiple connections
-                         self.logger.debug("QEMU socket disconnected before login banner reached. (%s)" %
+Changes in v2:
+- move from recipes-example to recipes-extended
+
+ .../rust-example}/rust-hello-world/0001-enable-LTO.patch          | 0
+ .../rust-example}/rust-hello-world_git.bb                         | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ rename meta/{recipes-example/rust-hello-world => recipes-extended/rust-example}/rust-hello-world/0001-enable-LTO.patch (100%)
+ rename meta/{recipes-example/rust-hello-world => recipes-extended/rust-example}/rust-hello-world_git.bb (100%)
+
+diff --git a/meta/recipes-example/rust-hello-world/rust-hello-world/0001-enable-LTO.patch b/meta/recipes-extended/rust-example/rust-hello-world/0001-enable-LTO.patch
+similarity index 100%
+rename from meta/recipes-example/rust-hello-world/rust-hello-world/0001-enable-LTO.patch
+rename to meta/recipes-extended/rust-example/rust-hello-world/0001-enable-LTO.patch
+diff --git a/meta/recipes-example/rust-hello-world/rust-hello-world_git.bb b/meta/recipes-extended/rust-example/rust-hello-world_git.bb
+similarity index 100%
+rename from meta/recipes-example/rust-hello-world/rust-hello-world_git.bb
+rename to meta/recipes-extended/rust-example/rust-hello-world_git.bb
 -- 
-2.33.0
+2.37.2
 
 
