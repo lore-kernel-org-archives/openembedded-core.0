@@ -1,99 +1,130 @@
-Return-Path: <jacob.kroon@gmail.com>
+Return-Path: <armccurdy@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A094ECAAD3
-	for <webhook@archiver.kernel.org>; Fri,  9 Sep 2022 17:05:37 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web08.366.1662743128823167560
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CC9EECAAA1
+	for <webhook@archiver.kernel.org>; Fri,  9 Sep 2022 19:51:46 +0000 (UTC)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ by mx.groups.io with SMTP id smtpd.web09.369.1662753101752036375
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Sep 2022 10:05:29 -0700
+ Fri, 09 Sep 2022 12:51:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Gk7r4uEd;
- spf=pass (domain: gmail.com, ip: 209.85.167.48,
- mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id o2so1603397lfc.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=hxcIeskA;
+ spf=pass (domain: gmail.com, ip: 209.85.208.44,
+ mailfrom: armccurdy@gmail.com)
+Received: by mail-ed1-f44.google.com with SMTP id z97so4076014ede.8
         for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Sep 2022 10:05:28 -0700 (PDT)
+ Fri, 09 Sep 2022 12:51:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=kAfUjQGm4D3w779caZ08vxUFNJIriSinoi5DmfHMvhM=;
-        b=Gk7r4uEdvTc4J6Dfg/KmhbgpkDLy+Aixh6GOhHoWw2Bpqir0U8qzJL4k1sPo4NgG5Y
-         ATZxdTxJp5WNcumRo31Gfaekk/R6Zyo699o5YXmhyQUCtXIyrWAc0HlCZZGsbAyblGZS
-         JGKwLLGgUaDURYB9PhySFxHgXvy1UDaQheqDw6v96D+FPH9zHbfdoUNEYL5Mqeb+Z0aq
-         Qp41oqMzoddUA4uWWCHQUZGoxo46zoMjGYK1dSJfuHgBRQsxM318CMLy4I/BzqQzuyQH
-         lYCXo6YVS6xQDBPECjBVpNz3+Toya/ONQ7nNSOd2i7otVR950ick1f+GMclTbryA7ee+
-         433Q==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=wOLVSLDy/5qshCk9o39mVd2fxzSGWi2Ig2biiyvwCaY=;
+        b=hxcIeskAZj5s1CfQEtvLd8uixo2TBpy6xJtOnSHWvidU+JoGN1TWda8bVOURjUKbGK
+         lmCOYvp3JBGydeTOIZwHRlhAfXnDDrMoHfB5UKNSXWTKteRgVx3OYphopqbeBFN9t1BG
+         A2nIxqRF2E4iaKFuXQyENQC7jzVQ5YWwqc9OvryNVgTHA37NCajDvROASN0gdfK85RZL
+         rAuqVV1VlZpOT2wKSTUdjtdn+DG/6IbPI/kK/hHqtO0B9ukzmABhv8FL1ctIyE4NhWTz
+         ERYVDEFV9hm8FiIyYszCOh207e9PCqwxryFi4YBDXFBkb6STr6aywY/QJjwy0I6qWC5X
+         vM1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=kAfUjQGm4D3w779caZ08vxUFNJIriSinoi5DmfHMvhM=;
-        b=33knQ/V/kk3bgB7fx/U5QbdM2RPFRjUW/CG3LcEC19yLmF+w3mcpUOjdf7ry1+BYHv
-         E95fCvYBaY84em/r/i4HE8bu15X/kjQpNd/LEERuElQAyuJVi1TKWIf3Km8szuxoBQgI
-         CGMjjsIHQRcRkTbzSgCXeEG4L/43b2xlIdbjVE0ESSkkvmX0Y+m74GoUaU4q7z/gNHy4
-         MerCKutggIogKnHBHrXvoz2SdZOBmLu5iOgDU8bLr6fpnmpuvqyDJxJ5wHaYxeqpuLcT
-         21JH9itKD27CqT9Uewkgby+n6yfA3fL1kA+PlW4ohjNkodmlcjc+eFaqZ6m9yjv1YNx1
-         EDPA==
-X-Gm-Message-State: ACgBeo2IYsu2UttN/pm//N7IwLC9Vl7O3/PtxVVfXCWBIDQXLOWE7xgo
-	5AlggTX+Y+TPOUVeDftMYa4=
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=wOLVSLDy/5qshCk9o39mVd2fxzSGWi2Ig2biiyvwCaY=;
+        b=obKi8sytiGottc6MV+ipbv0vst19B+uPihjTdXzLRwljDY5UN2CTQDdASwaXRygfnv
+         71AswnHLmWMnS2CpJ5qTn37BHAebJEEqGo2F9SaEHyshelfQa4LmsLK0InylUBYwM+Fv
+         EzAT40Jm9TlumTUvhD6orn7FjgXrAb/M7k5ay26wqR8+hJ7E1LlZb3l8LxwV00a4itAM
+         lpaomKPlA0F/8/XoV0CD13xuzUwXTeMnB4rp4XwedF258F2OooETXqT+8dItBLuc4Pxr
+         x/ivwNqbFP1e2VMUdQJ6Tv+bDXPHNXPHaZR9Twb2p7tGtQcYqssM8pOYLxQYetQgCZ3C
+         /vQA==
+X-Gm-Message-State: ACgBeo3JO37D/7sMjwxRraGanu1qAL1yqAjMPu6SC0zQvbLFgG5mbhdf
+	OtVQ9gGAyozF9x97aPFKr4Iz9aGJVVPLzt0vHBo=
 X-Google-Smtp-Source: 
- AA6agR5CpwpX6sxbjrju+fvi+cU00Jm2lhHJCruf3olQlYv/mMO1jDV9DSY3mfZ1AZMrz7vPM1L/9A==
-X-Received: by 2002:a05:6512:31d6:b0:498:f7be:aee6 with SMTP id
- j22-20020a05651231d600b00498f7beaee6mr1470702lfe.667.1662743126845;
-        Fri, 09 Sep 2022 10:05:26 -0700 (PDT)
-Received: from [192.168.10.102] (89-253-118-72.customers.ownit.se.
- [89.253.118.72])
-        by smtp.gmail.com with ESMTPSA id
- y10-20020ac2420a000000b0048b23c609c9sm152802lfh.102.2022.09.09.10.05.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Sep 2022 10:05:25 -0700 (PDT)
-Message-ID: <890e5f59-6541-8e87-c57e-f448f444d631@gmail.com>
-Date: Fri, 9 Sep 2022 19:05:24 +0200
+ AA6agR6dyiZgt5jfQF8wXYojnNB4oeBGfWdwG4UhYgnrN8L7SKkiqEI67REgdfJa5Vo5R96oz620Qn2obSw/Php3X8s=
+X-Received: by 2002:aa7:d34e:0:b0:44e:8d4b:6e02 with SMTP id
+ m14-20020aa7d34e000000b0044e8d4b6e02mr13124675edr.306.1662753100079; Fri, 09
+ Sep 2022 12:51:40 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [OE-core] [PATCH] libxml2: don't override XML_CATALOG_FILES in
- xmllint wrapper if already set
-Content-Language: en-US
-To: Ross Burton <ross.burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>,
- "schnitzeltony@gmail.com" <schnitzeltony@gmail.com>
-References: <20220909163640.1985612-1-ross.burton@arm.com>
- <aec9d2b3-bb3a-cae0-ebab-d5b4f5481f96@gmail.com>
- <8B8690ED-C7A3-4CC4-9D37-1BC5397DCA4C@arm.com>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-In-Reply-To: <8B8690ED-C7A3-4CC4-9D37-1BC5397DCA4C@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220909165204.12656-1-raj.khem@gmail.com>
+In-Reply-To: <20220909165204.12656-1-raj.khem@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 9 Sep 2022 12:51:23 -0700
+Message-ID: 
+ <CAJ86T=VFBpQku9_Kh52u8jveG7XHxXEEDEaLcs+toYFDopKGzg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3] bitbake.conf: Define TC_CXX_RUNTIME
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Sep 2022 17:05:37 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Sep 2022 19:51:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170503
+ https://lists.openembedded.org/g/openembedded-core/message/170504
 
-On 9/9/22 19:00, Ross Burton wrote:
->>>   -	create_wrapper ${D}${bindir}/xmllint XML_CATALOG_FILES=${sysconfdir}/xml/catalog
->>> +	create_wrapper ${D}${bindir}/xmllint 'XML_CATALOG_FILES=${XML_CATALOG_FILES:-${sysconfdir}/xml/catalog}'
->>
->> That ...:-${sysconfdir}/... looks odd. Is that hyphen intentional ?
-> 
-> Yes:
-> 
->       ${parameter:-word}    Use Default Values.  If parameter is unset or null, the expansion of word is substituted; otherwise, the value of
->                             parameter is substituted.
-> 
-> Ross
-> 
+On Fri, Sep 9, 2022 at 9:52 AM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> This variable is used to denote the C/C++ compiler runtime to use.
+> Right now there are few alternatives out of the core which could
+> use this variable to define this property, the values it can take
+> are 'gnu' for gcc runtime. 'llvm' for using compiler-rt+libc++ and
+> 'android' to use android runtime. Default settings is to use gnu
+> which is current silent default also.
 
-Aha, very nice, sorry for the noise.
+Seems like you made a conscious decision to refer to the gcc runtime
+library as "gnu" instead of "gcc". What was the reasoning? Using "gcc"
+would seem to be clearer unless it clashes with some gcc upstream
+naming convention.
 
-Jacob
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> v2: Document the variable
+> v3: Rename to TC_CXX_RUNTIME
+>
+>  documentation/ref-manual/variables.rst | 6 ++++++
+>  meta/conf/bitbake.conf                 | 1 +
+>  2 files changed, 7 insertions(+)
+>
+> diff --git a/documentation/ref-manual/variables.rst b/documentation/ref-manual/variables.rst
+> index cf817e9540..2d28c3d2f7 100644
+> --- a/documentation/ref-manual/variables.rst
+> +++ b/documentation/ref-manual/variables.rst
+> @@ -7973,6 +7973,12 @@ system and gives an overview of their function and contents.
+>        toolchain. You can use ``meta-sourcery`` as a template for adding
+>        support for other external toolchains.
+>
+> +   :term:`TC_CXX_RUNTIME`
+> +      Specifies the C/C++ STL and runtime variant to use during
+> +      the build process. Default value is 'gnu'
+> +
+> +      You can select "gnu", "llvm", or "android".
+> +
+>     :term:`TEMPLATECONF`
+>        Specifies the directory used by the build system to find templates
+>        from which to build the ``bblayers.conf`` and ``local.conf`` files.
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 52a36d788b..62cdd9aa9c 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -389,6 +389,7 @@ FILESYSTEM_PERMS_TABLES ?= "${@'files/fs-perms.txt' if oe.types.boolean(d.getVar
+>
+>  TCMODE ??= "default"
+>  TCLIBC ??= "glibc"
+> +TC_CXX_RUNTIME ??= "gnu"
+>  TMPDIR ?= "${TOPDIR}/tmp"
+>
+>  CACHE = "${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@['', '/' + str(d.getVar('MACHINE'))][bool(d.getVar('MACHINE'))]}${@['', '/' + str(d.getVar('SDKMACHINE'))][bool(d.getVar('SDKMACHINE'))]}"
+> --
+> 2.37.3
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#170499): https://lists.openembedded.org/g/openembedded-core/message/170499
+> Mute This Topic: https://lists.openembedded.org/mt/93577585/3619030
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [armccurdy@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
