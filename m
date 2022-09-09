@@ -1,116 +1,102 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CB28ECAAA1
-	for <webhook@archiver.kernel.org>; Fri,  9 Sep 2022 16:42:47 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.107.1662741763706288638
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78061ECAAD3
+	for <webhook@archiver.kernel.org>; Fri,  9 Sep 2022 16:49:47 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.172.1662742179792030128
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Sep 2022 09:42:43 -0700
+ Fri, 09 Sep 2022 09:49:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pW3HZGb2;
- spf=pass (domain: gmail.com, ip: 209.85.214.182,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f182.google.com with SMTP id x1so2318515plv.5
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bSdaaBaJ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id
+ az24-20020a05600c601800b003a842e4983cso1824622wmb.0
         for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Sep 2022 09:42:43 -0700 (PDT)
+ Fri, 09 Sep 2022 09:49:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=/4DEIe95zkucqWu0ApOjPsp7trjXAhtvRNTLRasyp78=;
-        b=pW3HZGb2FMAxNfdFlpo4UEYKbDDLFUq9iDrYu4C2KQAtR50nwt+mMQXnPuzjf3h8fo
-         1zykNYWj0vxZy0bQZMQ6RiaLotSB3B+kpNMDNxc/3RrP5IpccAynJ+kHQ4ibmWY5Egpr
-         etn2JbogFstRdfhpdK4uLxY7niSo603e7Eg+grUFGaVkoCH8VTCuR4KkbKX2fC+TXShs
-         XvnqUaTVDL2RnZeTe4oNUxRy/Hyer7i8gRADBRu5xZbgO0DkfAN8PC4Y5DnL7ia12b9h
-         +Obhh7FtGYyYUd2O4a92TcpM/vel7xNRrrlStUugz+GvuqiCsuG1gzHwvXG6USrs7ZvV
-         Ft+A==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date;
+        bh=cxWQvghGRCpdO6Pi82MOknSM3jR0z5/KjNqt/gD92uU=;
+        b=bSdaaBaJsiB7iJur82NRdMFJfyl3WzvQ2hSqqN19JOdV2oRayH4gBlzPRpc79C1oD0
+         uKpFqGLTxyE7RBkitBK16YeegvP+vqXlKDTsDbZnV5MNYgJLODvslcNHUFS0LtgzvGKS
+         Cgw48Top17BKT4brEIkmIzQ4kQWO+OldIaLrs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=/4DEIe95zkucqWu0ApOjPsp7trjXAhtvRNTLRasyp78=;
-        b=wg+oejdQWXpdUcjm1Cscs8GY6FPHR3dk+yfd0D/nFdYOWyzmOMs1oo1nN2IAJlec06
-         9cDBtFyRzarZHz3aRvI1YreRuFD73965BRRwxxHYjhkTNVALVZcQODBnXbeyK8RSw3aX
-         9EYQuUU6eSez9SHTVEiw0URrPZRtbkHWIsZBKGrykOUZxfsGHMf1K3YyBIZe5edA/RyO
-         hD8s+vqlcaX7y6mnPI0HmeC3SJLqVTjFwl/8mayEt+54eQvnOee00amHq9usTAZANhOl
-         tnxgWSVql54r0Aw/vAn+XAhdFGSemF5F/FVdJdVV23gqGuhWTYL+nBkvO2r+bWCm4g+l
-         i9tA==
-X-Gm-Message-State: ACgBeo3u1fDKBPVOtY1pxEElpdQ/xUHvN5JZClXSpxhLzytuF55xYU/H
-	+K5Gx0QUl3JmFgzl0D5boifCMN2XvWFVaw==
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=cxWQvghGRCpdO6Pi82MOknSM3jR0z5/KjNqt/gD92uU=;
+        b=j++ZcdeTZkoVFOMbK4hDicW8TYfo3j9nEX03x3LUFi/Ts3Dlbv//nkntNygSdU86de
+         V5kkXl+aS084N8EmdgVxFb7jTYyCkT6sez6QviILQKoS4WTzr/W+RHpYJypVWXHjCVJ0
+         hlaXSURPnj/Kn9APjAShqYdUtIDQCFn16jgWQ3IuyH9CcKUv1aiqDcVmz5gzG1G+ZAIP
+         KqRosPOTZUNNy8fEJsBCfPcA5TKgmYFwhDSvet1Vu8V67TUs017q6tC0uTdDW/TT+hty
+         kqJLepoWKfdVDqHOx1yKTtFUP3NffY8699MTqh6InZOeqG+lOdR9Ndepvu5xkbwNplZM
+         1yVg==
+X-Gm-Message-State: ACgBeo0eNnpt1x/A3l1GVMbQJUT9NpXkm26hirpSpeeSMUQ/N8DIuSpq
+	zjN6VuXElxmwA7h/en7Hsyc34A==
 X-Google-Smtp-Source: 
- AA6agR7a3e0clRI3x6Dil1NpWC44aE53Zmz1iCScQ8gRz2Gmx756Ta/MSEcSW/R1O3dYUqha534+ig==
-X-Received: by 2002:a17:903:2104:b0:176:a9ef:418b with SMTP id
- o4-20020a170903210400b00176a9ef418bmr14404802ple.134.1662741762769;
-        Fri, 09 Sep 2022 09:42:42 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::1761])
+ AA6agR6N9pmQkjlPfcqNZ5s8b2Ofs4x7Ac9XPpNcvCTG09jyY2ZmOPPatFYroLkFe4IYcrtLUf5TXA==
+X-Received: by 2002:a1c:5401:0:b0:3b4:621f:6f49 with SMTP id
+ i1-20020a1c5401000000b003b4621f6f49mr1301231wmb.127.1662742177973;
+        Fri, 09 Sep 2022 09:49:37 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:52ef:c9b0:71c9:e992?
+ ([2001:8b0:aba:5f3c:52ef:c9b0:71c9:e992])
         by smtp.gmail.com with ESMTPSA id
- i10-20020a17090a4b8a00b001f510175984sm623408pjh.41.2022.09.09.09.42.42
+ v12-20020adfe4cc000000b00228c8ed21c8sm967807wrm.17.2022.09.09.09.49.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Sep 2022 09:42:42 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] bitbake.conf: Define TCXXRUNTIME
-Date: Fri,  9 Sep 2022 09:42:40 -0700
-Message-Id: <20220909164240.3890113-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.37.3
+        Fri, 09 Sep 2022 09:49:37 -0700 (PDT)
+Message-ID: 
+ <833b85038912859a815e58ed789b9c7be5689c5c.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] rust-hello-world: move to recipes-extended
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Otavio Salvador <otavio@ossystems.com.br>, Patches and discussions
+	about the oe-core layer <openembedded-core@lists.openembedded.org>
+Date: Fri, 09 Sep 2022 17:49:36 +0100
+In-Reply-To: 
+ <CAP9ODKqjc8VuRCVoBZLG7+e2aYZRjnQ4LRFMLZcot3-7V0jCrQ@mail.gmail.com>
+References: <20220909151221.434124-1-otavio@ossystems.com.br>
+	 <f1f703776907dd518e83f15cc333c99094241cac.camel@linuxfoundation.org>
+	 <CAP9ODKqjc8VuRCVoBZLG7+e2aYZRjnQ4LRFMLZcot3-7V0jCrQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Sep 2022 16:42:47 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Sep 2022 16:49:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170497
+ https://lists.openembedded.org/g/openembedded-core/message/170498
 
-This variable is used to denote the C/C++ compiler runtime to use.
-Right now there are few alternatives out of the core which could
-use this variable to define this property, the values it can take
-are 'gnu' for gcc runtime. 'llvm' for using compiler-rt+libc++ and
-'android' to use android runtime. Default settings is to use gnu
-which is current silent default also.
+On Fri, 2022-09-09 at 13:14 -0300, Otavio Salvador wrote:
+>=20
+>=20
+> Em sex., 9 de set. de 2022 =C3=A0s 12:16, Richard Purdie
+> <richard.purdie@linuxfoundation.org> escreveu:
+> > On Fri, 2022-09-09 at 12:12 -0300, Otavio Salvador wrote:
+> > > There is no need to have a single recipe in recipes-example;
+> > > moving it
+> > > to recipes-extended allow it being use inside QA tests.
+> >=20
+> > I'm a bit puzzled why it doesn't work from it's current location?
+> >=20
+>=20
+>=20
+> It does but=C2=A0 recipes-example only has this recipe.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Document the variable
 
- documentation/ref-manual/variables.rst | 6 ++++++
- meta/conf/bitbake.conf                 | 1 +
- 2 files changed, 7 insertions(+)
+That makes the commit message a bit misleading then as it doesn't fix
+any QA test.
 
-diff --git a/documentation/ref-manual/variables.rst b/documentation/ref-manual/variables.rst
-index cf817e9540..926b8010e0 100644
---- a/documentation/ref-manual/variables.rst
-+++ b/documentation/ref-manual/variables.rst
-@@ -7973,6 +7973,12 @@ system and gives an overview of their function and contents.
-       toolchain. You can use ``meta-sourcery`` as a template for adding
-       support for other external toolchains.
- 
-+   :term:`TCXXRUNTIME`
-+      Specifies the C/C++ STL and runtime variant to use during
-+      the build process. Default value is 'gnu'
-+
-+      You can select "gnu", "llvm", or "android".
-+
-    :term:`TEMPLATECONF`
-       Specifies the directory used by the build system to find templates
-       from which to build the ``bblayers.conf`` and ``local.conf`` files.
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 52a36d788b..e88dc2b5bf 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -389,6 +389,7 @@ FILESYSTEM_PERMS_TABLES ?= "${@'files/fs-perms.txt' if oe.types.boolean(d.getVar
- 
- TCMODE ??= "default"
- TCLIBC ??= "glibc"
-+TCXXRUNTIME ??= "gnu"
- TMPDIR ?= "${TOPDIR}/tmp"
- 
- CACHE = "${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@['', '/' + str(d.getVar('MACHINE'))][bool(d.getVar('MACHINE'))]}${@['', '/' + str(d.getVar('SDKMACHINE'))][bool(d.getVar('SDKMACHINE'))]}"
--- 
-2.37.3
+Cheers,
+
+Richard
 
 
