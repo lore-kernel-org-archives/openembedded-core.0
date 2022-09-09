@@ -1,84 +1,81 @@
-Return-Path: <otavio@ossystems.com.br>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E68F4ECAAD3
-	for <webhook@archiver.kernel.org>; Fri,  9 Sep 2022 15:12:33 +0000 (UTC)
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com
- [209.85.160.53])
- by mx.groups.io with SMTP id smtpd.web11.142.1662736352941022733
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 074A3ECAAD3
+	for <webhook@archiver.kernel.org>; Fri,  9 Sep 2022 15:16:44 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web08.187.1662736602287259859
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Sep 2022 08:12:33 -0700
+ Fri, 09 Sep 2022 08:16:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: gmail.com, ip: 209.85.160.53, mailfrom: otavio.salvador@gmail.com)
-Received: by mail-oa1-f53.google.com with SMTP id
- 586e51a60fabf-1274ec87ad5so4743657fac.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Qx2yK3SB;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id h1so1637742wmd.3
         for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Sep 2022 08:12:32 -0700 (PDT)
+ Fri, 09 Sep 2022 08:16:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date;
+        bh=uT5sl5bgqmu86F0TypZi5HiIOSsCtADbkMavIURmOHY=;
+        b=Qx2yK3SBqW2WocCH9wpuAkfdg17fCWhdhtl0QgOsQU5KeJNxW8Rm1F2Ekk0cxoxedy
+         Roh3F3IITYtC3/k8vPkgmBHwGnQTJjXR8kEEEhIdEYAdcYDSZ/7DGjcdrRVCvDxZ7avg
+         kQphM2lr6+JQtKhLMakBkx80009ve0wvSngWs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date;
-        bh=7hvjGIiFLIS66tE7VnjVzRX80lGAZr5sSEUa8El4eqI=;
-        b=gr0BDSrhaK/mQu/OBN3PPrIccThqxopIpcETXwpXlcIMLmEHhCWywBu/kRqDGoPQzZ
-         nwIMomFTC7ko3m0YXNaO4cL1PFZ7fbUyfigzyk4Ai/AHjlt9JXss4I8NQ3viLubjrlSS
-         IZjefc2CRvkRdTyGbGbMb1ScZuvsc8gTwVj6UFsq/DaGPioR/yyCGLmJLqAaTHc696Xo
-         N4Ig0bS8wiRJgP3r4PRlr97wCWaR1ogeRc2zj/ACzk/8/8isrzahfGcTSyped9wUkKc3
-         55hm8OHf7RJ907/B3GGjmD5uk0pelhYsi+bf8jWSDmY8VwDeYE+fX1WQ4hCJbCOdgfYH
-         jGWA==
-X-Gm-Message-State: ACgBeo0irylzXzQxB1hP13YUvqzbxeXzlF/nNkXx4vRLh1XnTpOuMzph
-	fuSPlFVDOQ8sd2FziFrWJtHU2+xH4ZQSfQ==
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date;
+        bh=uT5sl5bgqmu86F0TypZi5HiIOSsCtADbkMavIURmOHY=;
+        b=0MyWqwkeMm3XF/Yf28hzcfojXEJsC0hxIPheBq61lGzPrbpa3DMBgZcIJjzlMcxuCy
+         1VYhmyit2jWkHkX+bvzJZzLs2NvcsbGkhfC9XzqBXUTIznJdY+vNZI7bk/+HlJYE0Rkl
+         rRGCpa1Z9Aa4b7aJtr7LGZO6KGLFmg0WDIyw1ybPTtjB9/eSIBQEKshGzNmJMbXEyvB3
+         4bdLVRwDDVt5y7mhIkI9nByZgO/pRzlf5pSStMzikDftD4SRfy2X7Gpcv+oa+VmXFk5w
+         U70GVubTQHYOU7/tLGWAO3nBAzrkG+IlWGfMI94OdrVAwX+XsPL6yJvX4NAz4SqIkxCW
+         vXkQ==
+X-Gm-Message-State: ACgBeo3AIb3qi3bb8OxYnIyQcNcRwxL5lUOr2rn7wn1G9ysalvf6Bluz
+	Irpp1DjUVuS7iWSaqmNeLHtZVg==
 X-Google-Smtp-Source: 
- AA6agR4ExipSqcdRXW7j3mO2C2v+v5iKfl9Ow0BmS2nePwYM6ULeqGuMfXtopHj/ZuzzK7Qr1enJwA==
-X-Received: by 2002:a05:6870:9a12:b0:127:8a31:2d79 with SMTP id
- fo18-20020a0568709a1200b001278a312d79mr5151397oab.216.1662736351530;
-        Fri, 09 Sep 2022 08:12:31 -0700 (PDT)
-Received: from localhost ([2804:d51:59d2:bc00:b685:e4bb:923a:3aa0])
+ AA6agR5xPOKWDt65mpVdl92X16/lUkIjww82H4LsV3sFVma4qZqP7lgawfk1LTY2wSxdX1c3qb48Rg==
+X-Received: by 2002:a05:600c:22cd:b0:3a6:7b62:3778 with SMTP id
+ 13-20020a05600c22cd00b003a67b623778mr5896513wmg.45.1662736600775;
+        Fri, 09 Sep 2022 08:16:40 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:52ef:c9b0:71c9:e992?
+ ([2001:8b0:aba:5f3c:52ef:c9b0:71c9:e992])
         by smtp.gmail.com with ESMTPSA id
- o3-20020a056871078300b0010830c24aaasm451406oap.56.2022.09.09.08.12.29
-        for <openembedded-core@lists.openembedded.org>
+ t6-20020adfeb86000000b0021f0ff1bc6csm809554wrn.41.2022.09.09.08.16.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Sep 2022 08:12:30 -0700 (PDT)
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] rust-hello-world: move to recipes-extended
-Date: Fri,  9 Sep 2022 12:12:21 -0300
-Message-Id: <20220909151221.434124-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.37.2
+        Fri, 09 Sep 2022 08:16:40 -0700 (PDT)
+Message-ID: 
+ <f1f703776907dd518e83f15cc333c99094241cac.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] rust-hello-world: move to recipes-extended
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 09 Sep 2022 16:16:39 +0100
+In-Reply-To: <20220909151221.434124-1-otavio@ossystems.com.br>
+References: <20220909151221.434124-1-otavio@ossystems.com.br>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Sep 2022 15:12:33 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Sep 2022 15:16:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170491
+ https://lists.openembedded.org/g/openembedded-core/message/170492
 
-There is no need to have a single recipe in recipes-example; moving it
-to recipes-extended allow it being use inside QA tests.
+On Fri, 2022-09-09 at 12:12 -0300, Otavio Salvador wrote:
+> There is no need to have a single recipe in recipes-example; moving it
+> to recipes-extended allow it being use inside QA tests.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+I'm a bit puzzled why it doesn't work from it's current location?
 
-Changes in v2:
-- move from recipes-example to recipes-extended
+Cheers,
 
- .../rust-example}/rust-hello-world/0001-enable-LTO.patch          | 0
- .../rust-example}/rust-hello-world_git.bb                         | 0
- 2 files changed, 0 insertions(+), 0 deletions(-)
- rename meta/{recipes-example/rust-hello-world => recipes-extended/rust-example}/rust-hello-world/0001-enable-LTO.patch (100%)
- rename meta/{recipes-example/rust-hello-world => recipes-extended/rust-example}/rust-hello-world_git.bb (100%)
-
-diff --git a/meta/recipes-example/rust-hello-world/rust-hello-world/0001-enable-LTO.patch b/meta/recipes-extended/rust-example/rust-hello-world/0001-enable-LTO.patch
-similarity index 100%
-rename from meta/recipes-example/rust-hello-world/rust-hello-world/0001-enable-LTO.patch
-rename to meta/recipes-extended/rust-example/rust-hello-world/0001-enable-LTO.patch
-diff --git a/meta/recipes-example/rust-hello-world/rust-hello-world_git.bb b/meta/recipes-extended/rust-example/rust-hello-world_git.bb
-similarity index 100%
-rename from meta/recipes-example/rust-hello-world/rust-hello-world_git.bb
-rename to meta/recipes-extended/rust-example/rust-hello-world_git.bb
--- 
-2.37.2
-
+Richard
 
