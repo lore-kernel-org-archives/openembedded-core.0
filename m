@@ -2,50 +2,50 @@ Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73527C6FA86
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72A3BECAAA1
 	for <webhook@archiver.kernel.org>; Fri,  9 Sep 2022 22:04:56 +0000 (UTC)
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
  [66.111.4.28])
- by mx.groups.io with SMTP id smtpd.web12.1917.1662761089218652578
+ by mx.groups.io with SMTP id smtpd.web09.1844.1662761094118589692
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Sep 2022 15:04:49 -0700
+ Fri, 09 Sep 2022 15:04:54 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm3
- header.b=pKOpJn8M;
+ header.b=l3Xp9ebG;
  spf=pass (domain: gherzan.com, ip: 66.111.4.28, mailfrom: andrei@gherzan.com)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 83FE55C00C8;
-	Fri,  9 Sep 2022 18:04:48 -0400 (EDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 992285C00F7;
+	Fri,  9 Sep 2022 18:04:51 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Fri, 09 Sep 2022 18:04:48 -0400
+  by compute4.internal (MEProxy); Fri, 09 Sep 2022 18:04:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1662761088; x=1662847488; bh=Jd
-	tBRA3D1VkV0s2yVyatoW1Bw3ecwfMpkhy+8e4AhHY=; b=pKOpJn8MVCSKjUI3un
-	JvrG83rs2xQY/3EbO0ZHFUEWOVz3Wcf93KkFa1TPtIb92S+s0WB4ZZiYq9Sh/5x7
-	hw303wSEQ2YoMdzD8JnQrfuYKpCx/eAmeyP7/DGuEQap8+7Zzf9q0zIdJAIjiXG5
-	8LTTQ4BGKqP0vtsXUd3uPNwi6QbGEAGO4Kl+aRuH4abdJD73vCL7ru1OLPkVhGqZ
-	UGX5KgUDlV4bsKDfeuTGSmuJjaVYw8S67WZ55f24DVpOMrCPznn15s8MI7Y6nf2E
-	WzlgdPK6qjBc1pbyQ7ntpuryxw66VgFKPGfgdyLJRsRgn2A5bUDOCkfYcfT7fVc1
-	K4nA==
+	:subject:subject:to:to; s=fm3; t=1662761091; x=1662847491; bh=CD
+	U0VDdSa6Cki/cPLSH2NZRjhMuZ2t6g0GaG/DSATIQ=; b=l3Xp9ebGvSo89WERB0
+	p36FlxgXuk1AF5F73GWaEzYaq23SnHftbticjG9fYPp/2c7iYrzd4o7Aov1D6r/x
+	FWnzVFhIHw5j9SDw2kDPK63HU1QpyX7UHQyA2ikB8/gnG64+F7fnVXAU5dWWzn+J
+	/Qc+3YNxbmVx1ABbry+v8fPwvqKzJ8qcryvqXSJqp+j96ub92Gcn25oEC8ff9n5p
+	rTiEY07BlIv31LroeaEBVOuA7+HrqasTfpVqloZtpw74d6oR3IN8FBhq9lR3pzcq
+	OtPW1gJSpX92NC1j+464z7tYSqwI1Ii3u9ymoXYoSNfgebxGdpQxb2e9gspwz/uk
+	Graw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1662761088; x=1662847488; bh=JdtBRA3D1VkV0
-	s2yVyatoW1Bw3ecwfMpkhy+8e4AhHY=; b=n3a6tWsB9PZA4Y32eiuZLgJDv72GN
-	nnQem39tRFspHP5VFR/xDCiNol10aZsgFCfqmMRoI5/PjS1aVZW15mF+NtI2HjWX
-	+UoUgBZ+XiKVRqeDwLSAMyZesc6t+cQMb+ey0obGpbsywVmK/UtzFsuCESQZMDpe
-	6Q3iBiA7m2aE8wwGszCmmXMfXx3vyYqW14c1Pe8NgEKfr6E5MnS09mhv7F04EhwV
-	TlZ8YYyLX3YlsWoXMNy9HvmYb+K31/FAyAgZltPO7DmrL5SGhekBnk7FO1WDyQP6
-	8dQ+8oOEHwIOPnD1/RGeTlGC+RnPVIB/dv/aLc3hh1Pqhq/JbiYMzxC+g==
-X-ME-Sender: <xms:gLgbYypEa3Vgjx14ZUKzYMf5MscBGnaq9oddyN22mwob5uH_Oq9gbQ>
-    <xme:gLgbYwrel-jV61TOyTmX93AUCa2q0hPDPoNxVtyFKtSO6kKv32ztxF1MVaTwfIEA2
-    Jo0VAuoEasPj_4WWQ4>
+	:x-sasl-enc; s=fm2; t=1662761091; x=1662847491; bh=CDU0VDdSa6Cki
+	/cPLSH2NZRjhMuZ2t6g0GaG/DSATIQ=; b=cHDm+a6JwBw+OHm6ibNj+8oGgCKL9
+	GX+8iX5++WW+6ydyVFKxqdB4kQYlpWsh12PH+hF6Azxk8VrOHhOmLMh1fMZZIu61
+	KXquFap7Q7HFKo9lYaDzoPUReVE3rmiN2HyWTFuOw0ToCnHRPZSx4LXxQRe42oyP
+	IaBuRgWePg6qwWb+1QI/slN+91c+UHBvzT+C6HvtTrzQbqGkhIi7RpRS0842c0Nz
+	GZ3lLMUHE4hdHTLjdPNNgtYLiR89p3QmKBKKlTSM3Ac6wmIifIfkuGjmgqmTo5pj
+	tGcVYLIDaFyzeIpY0lejJi0I8T7wzHbN7T/YbA5sxO0vGXRI7jC8R6iaw==
+X-ME-Sender: <xms:g7gbYxLe0dNLlcDoxxdgTIFwWW4AcFfTy7Cntrw4ApQL_F1OrzmP-A>
+    <xme:g7gbY9LVbVr5EsZnnZQidFGyVEN-oVtpDV7CTWTLgP3HIPZyv9l2apZKpeK6hgYq5
+    7UukHmx62RKwld7K9g>
 X-ME-Received: 
- <xmr:gLgbY3Pevs42lfJDEEck-UrPSdZ45RcCXnJFu9zYzF_-6YG3LX_1kuUD46fMGTbyRZk0VPiNb7ncGO3HE-XlZ8gAYZgm3GAraKFbJoFvdKbhlL0r3pTjEGOX>
+ <xmr:g7gbY5sO11-67r-vwTJ44SRKImfNew-pCeVq57yqnlb-E2-9E9IeEXz-FAUxrfTuZLZLuDUYx8t89RhQSO8iqxPdbZE_Tr8359Ihu_1DzEz2E2duyVcgwEse>
 X-ME-Proxy-Cause: 
  gggruggvucftvghtrhhoucdtuddrgedvfedrfedtiedgtdeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
@@ -55,21 +55,21 @@ X-ME-Proxy-Cause:
     ejleeiffejgffgkeeggfffgfffieeffeeghefhtdffnecuvehluhhsthgvrhfuihiivgep
     tdenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvghisehghhgvrhiirghnrdgtoh
     hm
-X-ME-Proxy: <xmx:gLgbYx51B5Stwyh0zswzZb7JbWWvCwmXzVuSlF95BJ0nSUuDbVuUZg>
-    <xmx:gLgbYx6WUfJXPk9cth-QNwsZWcxMcADdBb8hJA-OO8-FFBnwje24dg>
-    <xmx:gLgbYxh7KmJo-94MkZ40UJSnzlr3obLMmrciWENnn12bWkg9cgh82A>
-    <xmx:gLgbYzTGYGHZ8ivQcGpZiBOZd6Qk8WIUcqBH4v69cL8fp6gVOUkkCQ>
+X-ME-Proxy: <xmx:g7gbYybmdyvAv42oFKXmAJNUFTY-ciXHGxY-zr2i8-pYpImwfBpMvw>
+    <xmx:g7gbY4bmHpYUvJgoPhlrdpMfbbtDGq7nI-Kv7-gkE9NNrfzNHkntRQ>
+    <xmx:g7gbY2Ans-Ypaz4HVwWl0nuMfZj17BVH0-knG0F-22akqOK8bOynMg>
+    <xmx:g7gbYzxQOwtCFI5lzgYVP1zghEm0NzOr1RxVYnGkNthxyaBVtvq_cg>
 Feedback-ID: i68994715:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 9 Sep 2022 18:04:47 -0400 (EDT)
+ 9 Sep 2022 18:04:50 -0400 (EDT)
 From: Andrei Gherzan <andrei@gherzan.com>
 To: openembedded-core@lists.openembedded.org
 Cc: andrei@gherzan.com,
 	Andrei Gherzan <andrei.gherzan@huawei.com>
-Subject: [PATCH 2/4] kernel.bbclass: Pass the kernel package name to
- depmodwrapper
-Date: Sat, 10 Sep 2022 00:04:23 +0200
-Message-Id: <20220909220425.2737985-2-andrei@gherzan.com>
+Subject: [PATCH 4/4] rootfs.py: Run depmod(wrapper) against each compiled
+ kernel
+Date: Sat, 10 Sep 2022 00:04:25 +0200
+Message-Id: <20220909220425.2737985-4-andrei@gherzan.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220909220425.2737985-1-andrei@gherzan.com>
 References: <20220909220425.2737985-1-andrei@gherzan.com>
@@ -80,31 +80,70 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 09 Sep 2022 22:04:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170506
+ https://lists.openembedded.org/g/openembedded-core/message/170508
 
 From: Andrei Gherzan <andrei.gherzan@huawei.com>
 
-This makes sure that the postinstall script it using the right kernel
-paths.
+We run depmod (through depmodwrapper) at the end of the rootfs
+generation process. This part of the process assumes in its current
+implementation that the kernel package name is always 'kernel' and that
+there is only one set of kernel modules for which we need to generate
+the modules.dep and map files.
+
+The kernel package name can be configured via a variable
+(KERNEL_PACKAGE_NAME) and becomes a namespace that enables the build
+system to deal with multiple compiled kernel recipes. This patch checks
+for all the depmod pkgdata and runs depmod for each of the detected
+kernel versions/kernel package name.
 
 Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
 ---
- meta/classes-recipe/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/rootfs.py | 28 +++++++++++++++++++---------
+ 1 file changed, 19 insertions(+), 9 deletions(-)
 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index de1b80d0ae..e4e69e0763 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -677,7 +677,7 @@ pkg_postinst:${KERNEL_PACKAGE_NAME}-base () {
- 		mkdir -p $D/lib/modules/${KERNEL_VERSION}
- 	fi
- 	if [ -n "$D" ]; then
--		depmodwrapper -a -b $D ${KERNEL_VERSION}
-+		depmodwrapper -a -b $D ${KERNEL_VERSION} ${KERNEL_PACKAGE_NAME}
- 	else
- 		depmod -a ${KERNEL_VERSION}
- 	fi
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 0b9911e3a6..a02dddf23d 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -325,19 +325,29 @@ class Rootfs(object, metaclass=ABCMeta):
+             bb.note("No Kernel Modules found, not running depmod")
+             return
+ 
+-        kernel_abi_ver_file = oe.path.join(self.d.getVar('PKGDATA_DIR'), "kernel-depmod",
+-                                           'kernel-abiversion')
+-        if not os.path.exists(kernel_abi_ver_file):
+-            bb.fatal("No kernel-abiversion file found (%s), cannot run depmod, aborting" % kernel_abi_ver_file)
++        pkgdatadir = self.d.getVar('PKGDATA_DIR')
+ 
+-        with open(kernel_abi_ver_file) as f:
+-            kernel_ver = f.read().strip(' \n')
++        # PKGDATA_DIR can include multiple kernels so we run depmod for each
++        # one of them.
++        for direntry in os.listdir(pkgdatadir):
++            match = re.match('(.*)-depmod', direntry)
++            if not match:
++                continue
++            kernel_package_name = match.group(1)
++
++            kernel_abi_ver_file = oe.path.join(pkgdatadir, direntry, kernel_package_name + '-abiversion')
++            if not os.path.exists(kernel_abi_ver_file):
++                bb.fatal("No kernel-abiversion file found (%s), cannot run depmod, aborting" % kernel_abi_ver_file)
++
++            with open(kernel_abi_ver_file) as f:
++                kernel_ver = f.read().strip(' \n')
+ 
+-        versioned_modules_dir = os.path.join(self.image_rootfs, modules_dir, kernel_ver)
++            versioned_modules_dir = os.path.join(self.image_rootfs, modules_dir, kernel_ver)
+ 
+-        bb.utils.mkdirhier(versioned_modules_dir)
++            bb.utils.mkdirhier(versioned_modules_dir)
+ 
+-        self._exec_shell_cmd(['depmodwrapper', '-a', '-b', self.image_rootfs, kernel_ver])
++            bb.note("Running depmodwrapper for %s ..." % versioned_modules_dir)
++            self._exec_shell_cmd(['depmodwrapper', '-a', '-b', self.image_rootfs, kernel_ver, kernel_package_name])
+ 
+     """
+     Create devfs:
 -- 
 2.25.1
 
