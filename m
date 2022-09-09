@@ -1,117 +1,109 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <jacob.kroon@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F173ECAAD3
-	for <webhook@archiver.kernel.org>; Fri,  9 Sep 2022 16:52:17 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web12.212.1662742327592833130
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80A6AECAAA1
+	for <webhook@archiver.kernel.org>; Fri,  9 Sep 2022 16:54:07 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by mx.groups.io with SMTP id smtpd.web08.231.1662742438925349914
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Sep 2022 09:52:07 -0700
+ Fri, 09 Sep 2022 09:53:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=HIxcarNR;
- spf=pass (domain: gmail.com, ip: 209.85.210.174,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f174.google.com with SMTP id z187so2174451pfb.12
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VaMiIKSR;
+ spf=pass (domain: gmail.com, ip: 209.85.167.43,
+ mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lf1-f43.google.com with SMTP id w8so3684439lft.12
         for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Sep 2022 09:52:07 -0700 (PDT)
+ Fri, 09 Sep 2022 09:53:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=hjNkXARpZNI6OQHyyEMTVRYZL3nRg3i2Fl07F9EBNA4=;
-        b=HIxcarNRYgg28VdMxHxiiAYlObHBY/IHt3ZSnuEqc8pjytpuJUokogdjS+jvyLF8gL
-         LeJGjRSo2MOTxyyXiA1bJmFrmgErDon37x2FCsn3j59VknsVKObebpfQKp6ARiVjGEAe
-         D4+JuEfJ/ModpW4znDMGoPQMK+k8eIJMK9J0rPB0rqu1rr7/t05V08XPybUECYnSCo92
-         jadx9g/dDtR86J7JLg9q2z0+AJF76GsVJc03Chz0NfDLC0h+ehPhp+3PRoFQQnEM6Po6
-         AtvInSYUv4pEZ4LOnPDdzcZOQuQEVEVW2cqb3JOY0bt2hnfexf1zL3R62ixObhNuddlV
-         jP5A==
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=21gLaCDL/KEK4lYkOk084bMfjn7Upr7b8LlhiIZKHNo=;
+        b=VaMiIKSRpCt4k7bZBNpx4pUqCGsCfl88qLP2qeHd3kn3NvPNtSDSAepSy7X9/+egEK
+         rz1oMgCB42EfrwkpEaMlb+NlQyXcpVDsctOmJVXgtBqA+z8Z5NLb6JLUzPouwrp7uutT
+         Co4/Fr/Izl1IB9bnXu0zPtYGE2FvWoBHcdLAbwdJimmy5+5esPeKKp1IphC0a/H1c3yU
+         hbQXawg9bVN0GO83doeFWtSOjovU6AbYBQhwA7VIUgSELRCANNDbTAGS812Ikh2xuuEj
+         LVWLlgbGdzDH6OM8wQtuDCJSolMtPDWFwng8JE2lB2eetZnR9u7uE8T46/6lA5fJirgn
+         Su+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=hjNkXARpZNI6OQHyyEMTVRYZL3nRg3i2Fl07F9EBNA4=;
-        b=DOoHPnTql05tfq81IvwUMnxfalYxaismUNtLsuMDfxJOw/hsfoqWhwt+Zpg0BKEZ+h
-         KZE2Oni031obl+TuIwXLk9AjK6EPnraRmsRjzPpFe7aDiWCO/NI/FzRSJPeXPDJt352G
-         BxOoa6jh8Ulq/EuOF9C3WcbODJJjjYS3tAUWoe80YoI9ydP21dfFPHKrIIW474xBFJoI
-         qHZc2zUNYPB94thDZ/hRnUdkTiCMe8/610N4/zhOkJywl2IqOSDYlMnz0yN+0lbHd6Mf
-         bdPCRoKuba28pz1ytl3LWIVv3z7DwVDduE+30J33lwTBAQXeC7kSB+nAJOr4Qd2Ne91A
-         myqA==
-X-Gm-Message-State: ACgBeo3aFLcbtqh0AJJ0QZfpAlk6zQ2IjHox/ojdX03EuhaLbgtDMMAO
-	0ON2L0wZgCexMCtwgs7+NsuyweJKBaIMRg==
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=21gLaCDL/KEK4lYkOk084bMfjn7Upr7b8LlhiIZKHNo=;
+        b=QqFdwhTrfTvbL9k1EtLjsKmmBBR75l6KvdAH1Asu+KZZ7DeMgV0+Y9pQaPS6T538RH
+         5yGeWvbgEM8pAmWrnfpAnULtUc6Npjzi2fzUriLOAWOKM0V7mAhod8EuD3hssan8A1aO
+         OblcjnhVH1vYH9gSVWnicDIPLaEY41cXnfpmIddaatpjPOGdUfX6vPYGNDiIBde0dePc
+         BtoLjJbtM1rqDSXrgCpgwP1dGtgz0qLGdFlV9qPMjNF30HWeImJjSGWF4ZDK7VqnbZwL
+         fDPASkVIfXgwN3Ipm8eH6JkmXNVHLvl5AJjOXSRK4pO97RelvrAFR/gClZfbmNdRwW2Z
+         UQdQ==
+X-Gm-Message-State: ACgBeo22Wy+ru2lc7VdIXpITNem/Lg9zjHryU4d05lwrtHHRFspAQWY7
+	xpt1R+MZArzIJpJZMGsw8yk=
 X-Google-Smtp-Source: 
- AA6agR6ColZtRY2TLkdSO6fHk/QDuJ1ew7dNskPb3TbXPiBd1rvYwXPTAym9HXvhbUYpV+ooyBELLw==
-X-Received: by 2002:a63:1a26:0:b0:42c:ffa:2f0b with SMTP id
- a38-20020a631a26000000b0042c0ffa2f0bmr13252555pga.138.1662742326791;
-        Fri, 09 Sep 2022 09:52:06 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::1761])
+ AA6agR4PgdUrfRW1u5eAvwPRL0FqiF4dgjv36KqdN8LRWxPzeQ9ShUti01MtRpmoAYFpzruM7C5M3A==
+X-Received: by 2002:a19:e00d:0:b0:492:e5a5:588b with SMTP id
+ x13-20020a19e00d000000b00492e5a5588bmr4503158lfg.243.1662742436919;
+        Fri, 09 Sep 2022 09:53:56 -0700 (PDT)
+Received: from [192.168.10.102] (89-253-118-72.customers.ownit.se.
+ [89.253.118.72])
         by smtp.gmail.com with ESMTPSA id
- g15-20020a63200f000000b0043087a64bd5sm740610pgg.10.2022.09.09.09.52.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Sep 2022 09:52:06 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v3] bitbake.conf: Define TC_CXX_RUNTIME
-Date: Fri,  9 Sep 2022 09:52:04 -0700
-Message-Id: <20220909165204.12656-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.37.3
+ g15-20020a2eb5cf000000b0026a9c8833d3sm138348ljn.129.2022.09.09.09.53.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Sep 2022 09:53:56 -0700 (PDT)
+Message-ID: <aec9d2b3-bb3a-cae0-ebab-d5b4f5481f96@gmail.com>
+Date: Fri, 9 Sep 2022 18:53:55 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [OE-core] [PATCH] libxml2: don't override XML_CATALOG_FILES in
+ xmllint wrapper if already set
+To: Ross Burton <ross.burton@arm.com>,
+ openembedded-core@lists.openembedded.org
+Cc: schnitzeltony@gmail.com
+References: <20220909163640.1985612-1-ross.burton@arm.com>
+Content-Language: en-US
+From: Jacob Kroon <jacob.kroon@gmail.com>
+In-Reply-To: <20220909163640.1985612-1-ross.burton@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Sep 2022 16:52:17 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Sep 2022 16:54:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170499
+ https://lists.openembedded.org/g/openembedded-core/message/170500
 
-This variable is used to denote the C/C++ compiler runtime to use.
-Right now there are few alternatives out of the core which could
-use this variable to define this property, the values it can take
-are 'gnu' for gcc runtime. 'llvm' for using compiler-rt+libc++ and
-'android' to use android runtime. Default settings is to use gnu
-which is current silent default also.
+On 9/9/22 18:36, Ross Burton wrote:
+> The KDE build uses custom catalogs by setting XML_CATALOG_FILES, so this
+> wrapper should not override that value if it has already been set.
+> 
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>   meta/recipes-core/libxml/libxml2_2.9.14.bb | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+> index 2b2289e38a6..165c92d4114 100644
+> --- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
+> +++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+> @@ -121,7 +121,7 @@ do_install:append:class-native () {
+>   	# Docs are not needed in the native case
+>   	rm ${D}${datadir}/gtk-doc -rf
+>   
+> -	create_wrapper ${D}${bindir}/xmllint XML_CATALOG_FILES=${sysconfdir}/xml/catalog
+> +	create_wrapper ${D}${bindir}/xmllint 'XML_CATALOG_FILES=${XML_CATALOG_FILES:-${sysconfdir}/xml/catalog}'
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Document the variable
-v3: Rename to TC_CXX_RUNTIME
+That ...:-${sysconfdir}/... looks odd. Is that hyphen intentional ?
 
- documentation/ref-manual/variables.rst | 6 ++++++
- meta/conf/bitbake.conf                 | 1 +
- 2 files changed, 7 insertions(+)
+>   }
+>   
+>   BBCLASSEXTEND = "native nativesdk"
+> 
+> 
+> 
 
-diff --git a/documentation/ref-manual/variables.rst b/documentation/ref-manual/variables.rst
-index cf817e9540..2d28c3d2f7 100644
---- a/documentation/ref-manual/variables.rst
-+++ b/documentation/ref-manual/variables.rst
-@@ -7973,6 +7973,12 @@ system and gives an overview of their function and contents.
-       toolchain. You can use ``meta-sourcery`` as a template for adding
-       support for other external toolchains.
- 
-+   :term:`TC_CXX_RUNTIME`
-+      Specifies the C/C++ STL and runtime variant to use during
-+      the build process. Default value is 'gnu'
-+
-+      You can select "gnu", "llvm", or "android".
-+
-    :term:`TEMPLATECONF`
-       Specifies the directory used by the build system to find templates
-       from which to build the ``bblayers.conf`` and ``local.conf`` files.
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 52a36d788b..62cdd9aa9c 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -389,6 +389,7 @@ FILESYSTEM_PERMS_TABLES ?= "${@'files/fs-perms.txt' if oe.types.boolean(d.getVar
- 
- TCMODE ??= "default"
- TCLIBC ??= "glibc"
-+TC_CXX_RUNTIME ??= "gnu"
- TMPDIR ?= "${TOPDIR}/tmp"
- 
- CACHE = "${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@['', '/' + str(d.getVar('MACHINE'))][bool(d.getVar('MACHINE'))]}${@['', '/' + str(d.getVar('SDKMACHINE'))][bool(d.getVar('SDKMACHINE'))]}"
--- 
-2.37.3
-
+Jacob
 
