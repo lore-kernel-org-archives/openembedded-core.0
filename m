@@ -1,87 +1,365 @@
-Return-Path: <otavio@ossystems.com.br>
+Return-Path: <joel.winarske@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E27BC6FA82
-	for <webhook@archiver.kernel.org>; Sat, 10 Sep 2022 20:24:48 +0000 (UTC)
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com
- [209.85.160.45])
- by mx.groups.io with SMTP id smtpd.web08.3443.1662841482474809792
- for <openembedded-core@lists.openembedded.org>;
- Sat, 10 Sep 2022 13:24:42 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66132C6FA82
+	for <webhook@archiver.kernel.org>; Sun, 11 Sep 2022 01:01:19 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web10.5779.1662858072041847214
+ for <Openembedded-core@lists.openembedded.org>;
+ Sat, 10 Sep 2022 18:01:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: gmail.com, ip: 209.85.160.45, mailfrom: otavio.salvador@gmail.com)
-Received: by mail-oa1-f45.google.com with SMTP id
- 586e51a60fabf-1279948d93dso12846458fac.10
-        for <openembedded-core@lists.openembedded.org>;
- Sat, 10 Sep 2022 13:24:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ij9BSPSa;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49,
+ mailfrom: joel.winarske@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id dv25so12480470ejb.12
+        for <Openembedded-core@lists.openembedded.org>;
+ Sat, 10 Sep 2022 18:01:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date;
+        bh=aIAeZsG5eHbIopwxGTAsKX3zqs0X8npyiNIkJNJZkK8=;
+        b=ij9BSPSa7h6lQP4bHIYfW7jqrs4Ga83m9rOZRfYsgx1D4Ba6gB8eGRUzes37a/Xe6A
+         +pC3yPzF5RHS9eXJ1f/eaP5C7SWMm9j2dYdOicwSO6skU2NqvmfRcT7Id6DEVmzC1q35
+         u4/Wqe662NNobm0EHj4rWnVe/SKAkqGUEZcgo/SaTfBszBcQZl7ybtTnggqb9FAnhYWN
+         +Adbg03YpMEQfcz7Aw52NaPGBVMhddscy51ZMB8F9H8JgyHGS5HNk2okNl/8iyShCDmE
+         EtpTDwZxs7k4vA9GpE+Wpxr2/mzycHv/UcXpC8AaZkm3iL0lVlc4o98rjwakr+oT6voh
+         397Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date;
-        bh=H9BOz/VSIlOT6gNTqCz/03Wi+p/Dzo6V307Fd1pVNpE=;
-        b=7o1UCz3S207ZZ4ZK+Bqo9yWYlLYax+Cgp7CDkEseRDSS5zS2PBo/Eo9GWO+rReR79r
-         bXd55v2+hL0BqgrNDRiS2n8vf+49EBtETLu4IKl7zMlNyAOXy0eVhlvH9AoLLKtF1hH/
-         E6HrTrcEOR0p+hS4A7kWLKSrRG+499X602nq/n0eo/8JlnibSnl3efdt7JFcEp+kn4gD
-         vReUybNk0FRXxyBHcmEe0ajv0clC66PdLuQsENhGMPK9yPM3ug9iHJkUcoIhwRzpRkW8
-         lNsp5KrKRz2HREAJDXZiLxBvZWPUEE3CegTELJOIQZM125PS1QZ5HlreLDRx8DV9Vr20
-         CYNQ==
-X-Gm-Message-State: ACgBeo1EiHAejB+bAdBmBiGDLc7SuvIsnspC3xH9YUPpAeRIqdwWMRlS
-	wdLKs7539xP/slDZ7DXbSqStP3n3CokOPg==
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=aIAeZsG5eHbIopwxGTAsKX3zqs0X8npyiNIkJNJZkK8=;
+        b=ak+yhPevzL8GVf5p9v5ztXmLrCPRsExJhw4LQQ52Gf8UUcJ8Foanbz8FmYS9wRcPh9
+         jWfKIqznaLhNu3AjXr+BKhuv+h375J4Ba0u78VR7FsaGRhbcp+utsLnHkb/1n1wE9501
+         NuNLm2Np6qxB5NAS8KF8JtTIkez7W2G/cA6oUTcT+Zzr0szcq00M67IanRJ3ZOdRapNk
+         7GTViWmFBu+ZA6sKOEL3mYDO8QOlR2oxV5ae+rhTtUB7beHEzbnS9hvNjRBUfRabmy7Y
+         C3et1Gq2KjJ1enAniIAfwNQd7dNBVIw2jnoHcN0HBz/UsB24kBbIuIInEZv3lNKnd4mz
+         ye9g==
+X-Gm-Message-State: ACgBeo1qYHzbhO9AlmUNi4utlSSlDycp+cCxzQbWGuaHJ+DOjHrR3y+2
+	wTJYPL+ETLPkoyDPfrXWhc/+t4Lby0eU6UlGIkAbo9uGqYU=
 X-Google-Smtp-Source: 
- AA6agR6qu5fhsvjlsMasI9sLXYMi0wpdDy1ew0zLsthERTmphr7kGRb8tkXZhWZb4eTGtI+QAq9l9g==
-X-Received: by 2002:a05:6870:40d4:b0:113:82d9:e0f0 with SMTP id
- l20-20020a05687040d400b0011382d9e0f0mr8222535oal.194.1662841480862;
-        Sat, 10 Sep 2022 13:24:40 -0700 (PDT)
-Received: from localhost ([2804:d51:59d2:bc00:35cb:2777:e70e:4140])
-        by smtp.gmail.com with ESMTPSA id
- h20-20020a9d6414000000b0061d31170573sm1849173otl.20.2022.09.10.13.24.38
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Sep 2022 13:24:39 -0700 (PDT)
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3] rust-hello-world: move to recipes-extended
-Date: Sat, 10 Sep 2022 17:24:31 -0300
-Message-Id: <20220910202431.564584-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.37.2
+ AA6agR5Ejz+9Gz7wywx0M4KsQZLNFCrQ6oLrdHW6dNLQL3IhS/8sjf+uygpes/QKnp6SUasZe25Z8NTTyIvhlVd5Dhs=
+X-Received: by 2002:a17:907:94c2:b0:73d:c534:1ac0 with SMTP id
+ dn2-20020a17090794c200b0073dc5341ac0mr14489638ejc.461.1662858070289; Sat, 10
+ Sep 2022 18:01:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Joel Winarske <joel.winarske@gmail.com>
+Date: Sat, 10 Sep 2022 18:00:59 -0700
+Message-ID: 
+ <CABKMkP+m5xNYv5aDL-YM=xbaOx+dnYEiZQbMm4wFmk=FTB+M1Q@mail.gmail.com>
+Subject: Kirkstone Rust - native only error
+To: OE-core <Openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000097713905e85c5065"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 10 Sep 2022 20:24:48 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 11 Sep 2022 01:01:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170513
+ https://lists.openembedded.org/g/openembedded-core/message/170514
 
-There is no need to have a single recipe in recipes-example; moving it
-to recipes-extended put it with other recipes.
+--00000000000097713905e85c5065
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+I'm putting together a recipe that requires two passes, native, then
+target.  I'm hitting a python error only in the native pass.  I can cross
+compile the tool without error, so the problem is  isolated to native.  Any
+ideas?
 
-Changes in v3:
-- rework commit log
+Recipe is progress:
+https://github.com/meta-flutter/meta-flutter/blob/jw/membrane/recipes-devtools/membrane/membrane-example_git.bb
 
-Changes in v2:
-- move from recipes-example to recipes-extended
+Thanks,
+Joel
 
- .../rust-example}/rust-hello-world/0001-enable-LTO.patch          | 0
- .../rust-example}/rust-hello-world_git.bb                         | 0
- 2 files changed, 0 insertions(+), 0 deletions(-)
- rename meta/{recipes-example/rust-hello-world => recipes-extended/rust-example}/rust-hello-world/0001-enable-LTO.patch (100%)
- rename meta/{recipes-example/rust-hello-world => recipes-extended/rust-example}/rust-hello-world_git.bb (100%)
+| error: linking with
+`/__w/meta-flutter/yocto-kirkstone/build/tmp/work/x86_64-linux/membrane-example-native/git.AUTOINC+4e788100fc-r0/wrapper/target-
+rust-ccld` failed: exit status: 1
+528
+<https://github.com/meta-flutter/meta-flutter/runs/8288580694?check_suite_focus=true#step:9:529>|
+|
+529
+<https://github.com/meta-flutter/meta-flutter/runs/8288580694?check_suite_focus=true#step:9:530>|
+= note:
+"/__w/meta-flutter/yocto-kirkstone/build/tmp/work/x86_64-linux/membrane-example-native/git.AUTOINC+4e788100fc-r0/wrapper/target-
+rust-ccld"
+"/__w/meta-flutter/yocto-kirkstone/build/tmp/work/x86_64-linux/membrane-example-native/git.AUTOINC+4e788100fc-r0/build/target/debug/build/parking_lot_core-e7575e9f22c0f65d/build_script_build-e7575e9f22c0f65d.build_script_build.c34fd75e-cgu.0.rcgu.o"
+"/__w/meta-flutter/yocto-kirkstone/build/tmp/work/x86_64-linux/membrane-example-native/git.AUTOINC+4e788100fc-r0/build/target/debug/build/parking_lot_core-e7575e9f22c0f65d/build_script_build-e7575e9f22c0f65d.build_script_build.c34fd75e-cgu.1.rcgu.o"
+"/__w/meta-flutter/yocto-kirkstone/build/tmp/work/x86_64-linux/membrane-example-native/git.AUTOINC+4e788100fc-r0/build/target/debug/build/parking_lot_core-e7575e9f22c0f65d/build_script_build-e7575e9f22c0f65d.build_script_build.c34fd75e-cgu.10.rcgu.o"
+"/__w/meta-flutter/yocto-kirkstone/build/tmp/work/x86_64-linux/membrane-example-native/git.AUTOINC+4e788100fc-r0/build/tar...
 
-diff --git a/meta/recipes-example/rust-hello-world/rust-hello-world/0001-enable-LTO.patch b/meta/recipes-extended/rust-example/rust-hello-world/0001-enable-LTO.patch
-similarity index 100%
-rename from meta/recipes-example/rust-hello-world/rust-hello-world/0001-enable-LTO.patch
-rename to meta/recipes-extended/rust-example/rust-hello-world/0001-enable-LTO.patch
-diff --git a/meta/recipes-example/rust-hello-world/rust-hello-world_git.bb b/meta/recipes-extended/rust-example/rust-hello-world_git.bb
-similarity index 100%
-rename from meta/recipes-example/rust-hello-world/rust-hello-world_git.bb
-rename to meta/recipes-extended/rust-example/rust-hello-world_git.bb
--- 
-2.37.2
+530
+<https://github.com/meta-flutter/meta-flutter/runs/8288580694?check_suite_focus=true#step:9:531>|
+= note: Traceback (most recent call last):
+531
+<https://github.com/meta-flutter/meta-flutter/runs/8288580694?check_suite_focus=true#step:9:532>|
+File
+"/__w/meta-flutter/yocto-kirkstone/build/tmp/work/x86_64-linux/membrane-example-native/git.AUTOINC+4e788100fc-r0/wrapper/target-
+rust-ccld", line 6, in <module>
+532
+<https://github.com/meta-flutter/meta-flutter/runs/8288580694?check_suite_focus=true#step:9:533>|
+os.execvp(binary, args)
+533
+<https://github.com/meta-flutter/meta-flutter/runs/8288580694?check_suite_focus=true#step:9:534>|
+File
+"/__w/meta-flutter/yocto-kirkstone/build/tmp/work/x86_64-linux/membrane-example-native/git.AUTOINC+4e788100fc-r0/recipe-sysroot-native/usr/lib/python3.10/os.py",
+line 574, in execvp
+534
+<https://github.com/meta-flutter/meta-flutter/runs/8288580694?check_suite_focus=true#step:9:535>|
+_execvpe(file, args)
+535
+<https://github.com/meta-flutter/meta-flutter/runs/8288580694?check_suite_focus=true#step:9:536>|
+File
+"/__w/meta-flutter/yocto-kirkstone/build/tmp/work/x86_64-linux/membrane-example-native/git.AUTOINC+4e788100fc-r0/recipe-sysroot-native/usr/lib/python3.10/os.py",
+line 616, in _execvpe
+536
+<https://github.com/meta-flutter/meta-flutter/runs/8288580694?check_suite_focus=true#step:9:537>|
+raise last_exc
+537
+<https://github.com/meta-flutter/meta-flutter/runs/8288580694?check_suite_focus=true#step:9:538>|
+File
+"/__w/meta-flutter/yocto-kirkstone/build/tmp/work/x86_64-linux/membrane-example-native/git.AUTOINC+4e788100fc-r0/recipe-sysroot-native/usr/lib/python3.10/os.py",
+line 607, in _execvpe
+538
+<https://github.com/meta-flutter/meta-flutter/runs/8288580694?check_suite_focus=true#step:9:539>|
+exec_func(fullname, *argrest)
+539
+<https://github.com/meta-flutter/meta-flutter/runs/8288580694?check_suite_focus=true#step:9:540>|
+FileNotFoundError: [Errno 2] No such file or directory
 
+--00000000000097713905e85c5065
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>I&#39;m putting together a recipe that requires two p=
+asses, native, then target.=C2=A0 I&#39;m hitting a python error only in th=
+e native pass.=C2=A0 I can cross compile the tool without error, so the pro=
+blem is =C2=A0isolated to native.=C2=A0 Any ideas?<br></div><div><br></div>=
+<div>Recipe is progress:</div><div><a href=3D"https://github.com/meta-flutt=
+er/meta-flutter/blob/jw/membrane/recipes-devtools/membrane/membrane-example=
+_git.bb">https://github.com/meta-flutter/meta-flutter/blob/jw/membrane/reci=
+pes-devtools/membrane/membrane-example_git.bb</a><br></div><div><br></div><=
+div>Thanks,</div><div>Joel</div><div><div><br></div><div><div style=3D"box-=
+sizing:border-box;color:rgb(201,209,217);font-family:ui-monospace,SFMono-Re=
+gular,&quot;SF Mono&quot;,Menlo,Consolas,&quot;Liberation Mono&quot;,monosp=
+ace;font-size:12px"><div class=3D"gmail-js-check-step-line gmail-CheckStep-=
+line gmail-d-flex gmail-log-line-plain" style=3D"box-sizing:border-box;line=
+-height:20px;display:flex"><span class=3D"gmail-CheckStep-line-content gmai=
+l-d-inline-block gmail-flex-auto gmail-ml-3 gmail-js-check-line-content" st=
+yle=3D"box-sizing:border-box;overflow-x:auto;white-space:pre-wrap;margin-le=
+ft:16px;display:inline-block"><span class=3D"gmail-" style=3D"box-sizing:bo=
+rder-box">| error: linking with `/__w/meta-flutter/yocto-kirkstone/build/tm=
+p/work/x86_64-linux/membrane-example-native/git.AUTOINC+4e788100fc-r0/wrapp=
+er/target-<span class=3D"gmail-dt-fm" style=3D"box-sizing:border-box;paddin=
+g-top:2px;padding-bottom:1px;border-radius:2px">rust</span>-ccld` failed: e=
+xit status: 1
+</span></span></div></div><div style=3D"box-sizing:border-box;color:rgb(201=
+,209,217);font-family:ui-monospace,SFMono-Regular,&quot;SF Mono&quot;,Menlo=
+,Consolas,&quot;Liberation Mono&quot;,monospace;font-size:12px"><div class=
+=3D"gmail-js-check-step-line gmail-CheckStep-line gmail-d-flex gmail-log-li=
+ne-plain" style=3D"box-sizing:border-box;line-height:20px;display:flex"><a =
+class=3D"gmail-CheckStep-line-number gmail-d-inline-block gmail-text-mono g=
+mail-text-normal gmail-flex-shrink-0" href=3D"https://github.com/meta-flutt=
+er/meta-flutter/runs/8288580694?check_suite_focus=3Dtrue#step:9:529" style=
+=3D"box-sizing:border-box;text-decoration:none;width:48px;overflow:hidden;t=
+ext-align:right;text-overflow:ellipsis;white-space:nowrap;display:inline-bl=
+ock">528</a><span class=3D"gmail-CheckStep-line-content gmail-d-inline-bloc=
+k gmail-flex-auto gmail-ml-3 gmail-js-check-line-content" style=3D"box-sizi=
+ng:border-box;overflow-x:auto;white-space:pre-wrap;margin-left:16px;display=
+:inline-block"><span class=3D"gmail-" style=3D"box-sizing:border-box">|   |
+</span></span></div></div><div style=3D"box-sizing:border-box;color:rgb(201=
+,209,217);font-family:ui-monospace,SFMono-Regular,&quot;SF Mono&quot;,Menlo=
+,Consolas,&quot;Liberation Mono&quot;,monospace;font-size:12px"><div class=
+=3D"gmail-js-check-step-line gmail-CheckStep-line gmail-d-flex gmail-log-li=
+ne-plain" style=3D"box-sizing:border-box;line-height:20px;display:flex"><a =
+class=3D"gmail-CheckStep-line-number gmail-d-inline-block gmail-text-mono g=
+mail-text-normal gmail-flex-shrink-0" href=3D"https://github.com/meta-flutt=
+er/meta-flutter/runs/8288580694?check_suite_focus=3Dtrue#step:9:530" style=
+=3D"box-sizing:border-box;text-decoration:none;width:48px;overflow:hidden;t=
+ext-align:right;text-overflow:ellipsis;white-space:nowrap;display:inline-bl=
+ock">529</a><span class=3D"gmail-CheckStep-line-content gmail-d-inline-bloc=
+k gmail-flex-auto gmail-ml-3 gmail-js-check-line-content" style=3D"box-sizi=
+ng:border-box;overflow-x:auto;white-space:pre-wrap;margin-left:16px;display=
+:inline-block"><span class=3D"gmail-" style=3D"box-sizing:border-box">|   =
+=3D note: &quot;/__w/meta-flutter/yocto-kirkstone/build/tmp/work/x86_64-lin=
+ux/membrane-example-native/git.AUTOINC+4e788100fc-r0/wrapper/target-<span c=
+lass=3D"gmail-dt-fm" style=3D"box-sizing:border-box;padding-top:2px;padding=
+-bottom:1px;border-radius:2px">rust</span>-ccld&quot; &quot;/__w/meta-flutt=
+er/yocto-kirkstone/build/tmp/work/x86_64-linux/membrane-example-native/git.=
+AUTOINC+4e788100fc-r0/build/target/debug/build/parking_lot_core-e7575e9f22c=
+0f65d/build_script_build-e7575e9f22c0f65d.build_script_build.c34fd75e-cgu.0=
+.rcgu.o&quot; &quot;/__w/meta-flutter/yocto-kirkstone/build/tmp/work/x86_64=
+-linux/membrane-example-native/git.AUTOINC+4e788100fc-r0/build/target/debug=
+/build/parking_lot_core-e7575e9f22c0f65d/build_script_build-e7575e9f22c0f65=
+d.build_script_build.c34fd75e-cgu.1.rcgu.o&quot; &quot;/__w/meta-flutter/yo=
+cto-kirkstone/build/tmp/work/x86_64-linux/membrane-example-native/git.AUTOI=
+NC+4e788100fc-r0/build/target/debug/build/parking_lot_core-e7575e9f22c0f65d=
+/build_script_build-e7575e9f22c0f65d.build_script_build.c34fd75e-cgu.10.rcg=
+u.o&quot; &quot;/__w/meta-flutter/yocto-kirkstone/build/tmp/work/x86_64-lin=
+ux/membrane-example-native/git.AUTOINC+4e788100fc-r0/build/tar...
+</span></span></div></div><div style=3D"box-sizing:border-box;color:rgb(201=
+,209,217);font-family:ui-monospace,SFMono-Regular,&quot;SF Mono&quot;,Menlo=
+,Consolas,&quot;Liberation Mono&quot;,monospace;font-size:12px"><div class=
+=3D"gmail-js-check-step-line gmail-CheckStep-line gmail-d-flex gmail-log-li=
+ne-plain" style=3D"box-sizing:border-box;line-height:20px;display:flex"><a =
+class=3D"gmail-CheckStep-line-number gmail-d-inline-block gmail-text-mono g=
+mail-text-normal gmail-flex-shrink-0" href=3D"https://github.com/meta-flutt=
+er/meta-flutter/runs/8288580694?check_suite_focus=3Dtrue#step:9:531" style=
+=3D"box-sizing:border-box;text-decoration:none;width:48px;overflow:hidden;t=
+ext-align:right;text-overflow:ellipsis;white-space:nowrap;display:inline-bl=
+ock">530</a><span class=3D"gmail-CheckStep-line-content gmail-d-inline-bloc=
+k gmail-flex-auto gmail-ml-3 gmail-js-check-line-content" style=3D"box-sizi=
+ng:border-box;overflow-x:auto;white-space:pre-wrap;margin-left:16px;display=
+:inline-block"><span class=3D"gmail-" style=3D"box-sizing:border-box">|   =
+=3D note: Traceback (most recent call last):
+</span></span></div></div><div style=3D"box-sizing:border-box;color:rgb(201=
+,209,217);font-family:ui-monospace,SFMono-Regular,&quot;SF Mono&quot;,Menlo=
+,Consolas,&quot;Liberation Mono&quot;,monospace;font-size:12px"><div class=
+=3D"gmail-js-check-step-line gmail-CheckStep-line gmail-d-flex gmail-log-li=
+ne-plain" style=3D"box-sizing:border-box;line-height:20px;display:flex"><a =
+class=3D"gmail-CheckStep-line-number gmail-d-inline-block gmail-text-mono g=
+mail-text-normal gmail-flex-shrink-0" href=3D"https://github.com/meta-flutt=
+er/meta-flutter/runs/8288580694?check_suite_focus=3Dtrue#step:9:532" style=
+=3D"box-sizing:border-box;text-decoration:none;width:48px;overflow:hidden;t=
+ext-align:right;text-overflow:ellipsis;white-space:nowrap;display:inline-bl=
+ock">531</a><span class=3D"gmail-CheckStep-line-content gmail-d-inline-bloc=
+k gmail-flex-auto gmail-ml-3 gmail-js-check-line-content" style=3D"box-sizi=
+ng:border-box;overflow-x:auto;white-space:pre-wrap;margin-left:16px;display=
+:inline-block"><span class=3D"gmail-" style=3D"box-sizing:border-box">|    =
+         File &quot;/__w/meta-flutter/yocto-kirkstone/build/tmp/work/x86_64=
+-linux/membrane-example-native/git.AUTOINC+4e788100fc-r0/wrapper/target-<sp=
+an class=3D"gmail-dt-fm" style=3D"box-sizing:border-box;padding-top:2px;pad=
+ding-bottom:1px;border-radius:2px">rust</span>-ccld&quot;, line 6, in &lt;m=
+odule&gt;
+</span></span></div></div><div style=3D"box-sizing:border-box;color:rgb(201=
+,209,217);font-family:ui-monospace,SFMono-Regular,&quot;SF Mono&quot;,Menlo=
+,Consolas,&quot;Liberation Mono&quot;,monospace;font-size:12px"><div class=
+=3D"gmail-js-check-step-line gmail-CheckStep-line gmail-d-flex gmail-log-li=
+ne-plain" style=3D"box-sizing:border-box;line-height:20px;display:flex"><a =
+class=3D"gmail-CheckStep-line-number gmail-d-inline-block gmail-text-mono g=
+mail-text-normal gmail-flex-shrink-0" href=3D"https://github.com/meta-flutt=
+er/meta-flutter/runs/8288580694?check_suite_focus=3Dtrue#step:9:533" style=
+=3D"box-sizing:border-box;text-decoration:none;width:48px;overflow:hidden;t=
+ext-align:right;text-overflow:ellipsis;white-space:nowrap;display:inline-bl=
+ock">532</a><span class=3D"gmail-CheckStep-line-content gmail-d-inline-bloc=
+k gmail-flex-auto gmail-ml-3 gmail-js-check-line-content" style=3D"box-sizi=
+ng:border-box;overflow-x:auto;white-space:pre-wrap;margin-left:16px;display=
+:inline-block"><span class=3D"gmail-" style=3D"box-sizing:border-box">|    =
+           os.execvp(binary, args)
+</span></span></div></div><div style=3D"box-sizing:border-box;color:rgb(201=
+,209,217);font-family:ui-monospace,SFMono-Regular,&quot;SF Mono&quot;,Menlo=
+,Consolas,&quot;Liberation Mono&quot;,monospace;font-size:12px"><div class=
+=3D"gmail-js-check-step-line gmail-CheckStep-line gmail-d-flex gmail-log-li=
+ne-plain" style=3D"box-sizing:border-box;line-height:20px;display:flex"><a =
+class=3D"gmail-CheckStep-line-number gmail-d-inline-block gmail-text-mono g=
+mail-text-normal gmail-flex-shrink-0" href=3D"https://github.com/meta-flutt=
+er/meta-flutter/runs/8288580694?check_suite_focus=3Dtrue#step:9:534" style=
+=3D"box-sizing:border-box;text-decoration:none;width:48px;overflow:hidden;t=
+ext-align:right;text-overflow:ellipsis;white-space:nowrap;display:inline-bl=
+ock">533</a><span class=3D"gmail-CheckStep-line-content gmail-d-inline-bloc=
+k gmail-flex-auto gmail-ml-3 gmail-js-check-line-content" style=3D"box-sizi=
+ng:border-box;overflow-x:auto;white-space:pre-wrap;margin-left:16px;display=
+:inline-block"><span class=3D"gmail-" style=3D"box-sizing:border-box">|    =
+         File &quot;/__w/meta-flutter/yocto-kirkstone/build/tmp/work/x86_64=
+-linux/membrane-example-native/git.AUTOINC+4e788100fc-r0/recipe-sysroot-nat=
+ive/usr/lib/python3.10/os.py&quot;, line 574, in execvp
+</span></span></div></div><div style=3D"box-sizing:border-box;color:rgb(201=
+,209,217);font-family:ui-monospace,SFMono-Regular,&quot;SF Mono&quot;,Menlo=
+,Consolas,&quot;Liberation Mono&quot;,monospace;font-size:12px"><div class=
+=3D"gmail-js-check-step-line gmail-CheckStep-line gmail-d-flex gmail-log-li=
+ne-plain" style=3D"box-sizing:border-box;line-height:20px;display:flex"><a =
+class=3D"gmail-CheckStep-line-number gmail-d-inline-block gmail-text-mono g=
+mail-text-normal gmail-flex-shrink-0" href=3D"https://github.com/meta-flutt=
+er/meta-flutter/runs/8288580694?check_suite_focus=3Dtrue#step:9:535" style=
+=3D"box-sizing:border-box;text-decoration:none;width:48px;overflow:hidden;t=
+ext-align:right;text-overflow:ellipsis;white-space:nowrap;display:inline-bl=
+ock">534</a><span class=3D"gmail-CheckStep-line-content gmail-d-inline-bloc=
+k gmail-flex-auto gmail-ml-3 gmail-js-check-line-content" style=3D"box-sizi=
+ng:border-box;overflow-x:auto;white-space:pre-wrap;margin-left:16px;display=
+:inline-block"><span class=3D"gmail-" style=3D"box-sizing:border-box">|    =
+           _execvpe(file, args)
+</span></span></div></div><div style=3D"box-sizing:border-box;color:rgb(201=
+,209,217);font-family:ui-monospace,SFMono-Regular,&quot;SF Mono&quot;,Menlo=
+,Consolas,&quot;Liberation Mono&quot;,monospace;font-size:12px"><div class=
+=3D"gmail-js-check-step-line gmail-CheckStep-line gmail-d-flex gmail-log-li=
+ne-plain" style=3D"box-sizing:border-box;line-height:20px;display:flex"><a =
+class=3D"gmail-CheckStep-line-number gmail-d-inline-block gmail-text-mono g=
+mail-text-normal gmail-flex-shrink-0" href=3D"https://github.com/meta-flutt=
+er/meta-flutter/runs/8288580694?check_suite_focus=3Dtrue#step:9:536" style=
+=3D"box-sizing:border-box;text-decoration:none;width:48px;overflow:hidden;t=
+ext-align:right;text-overflow:ellipsis;white-space:nowrap;display:inline-bl=
+ock">535</a><span class=3D"gmail-CheckStep-line-content gmail-d-inline-bloc=
+k gmail-flex-auto gmail-ml-3 gmail-js-check-line-content" style=3D"box-sizi=
+ng:border-box;overflow-x:auto;white-space:pre-wrap;margin-left:16px;display=
+:inline-block"><span class=3D"gmail-" style=3D"box-sizing:border-box">|    =
+         File &quot;/__w/meta-flutter/yocto-kirkstone/build/tmp/work/x86_64=
+-linux/membrane-example-native/git.AUTOINC+4e788100fc-r0/recipe-sysroot-nat=
+ive/usr/lib/python3.10/os.py&quot;, line 616, in _execvpe
+</span></span></div></div><div style=3D"box-sizing:border-box;color:rgb(201=
+,209,217);font-family:ui-monospace,SFMono-Regular,&quot;SF Mono&quot;,Menlo=
+,Consolas,&quot;Liberation Mono&quot;,monospace;font-size:12px"><div class=
+=3D"gmail-js-check-step-line gmail-CheckStep-line gmail-d-flex gmail-log-li=
+ne-plain" style=3D"box-sizing:border-box;line-height:20px;display:flex"><a =
+class=3D"gmail-CheckStep-line-number gmail-d-inline-block gmail-text-mono g=
+mail-text-normal gmail-flex-shrink-0" href=3D"https://github.com/meta-flutt=
+er/meta-flutter/runs/8288580694?check_suite_focus=3Dtrue#step:9:537" style=
+=3D"box-sizing:border-box;text-decoration:none;width:48px;overflow:hidden;t=
+ext-align:right;text-overflow:ellipsis;white-space:nowrap;display:inline-bl=
+ock">536</a><span class=3D"gmail-CheckStep-line-content gmail-d-inline-bloc=
+k gmail-flex-auto gmail-ml-3 gmail-js-check-line-content" style=3D"box-sizi=
+ng:border-box;overflow-x:auto;white-space:pre-wrap;margin-left:16px;display=
+:inline-block"><span class=3D"gmail-" style=3D"box-sizing:border-box">|    =
+           raise last_exc
+</span></span></div></div><div style=3D"box-sizing:border-box;color:rgb(201=
+,209,217);font-family:ui-monospace,SFMono-Regular,&quot;SF Mono&quot;,Menlo=
+,Consolas,&quot;Liberation Mono&quot;,monospace;font-size:12px"><div class=
+=3D"gmail-js-check-step-line gmail-CheckStep-line gmail-d-flex gmail-log-li=
+ne-plain" style=3D"box-sizing:border-box;line-height:20px;display:flex"><a =
+class=3D"gmail-CheckStep-line-number gmail-d-inline-block gmail-text-mono g=
+mail-text-normal gmail-flex-shrink-0" href=3D"https://github.com/meta-flutt=
+er/meta-flutter/runs/8288580694?check_suite_focus=3Dtrue#step:9:538" style=
+=3D"box-sizing:border-box;text-decoration:none;width:48px;overflow:hidden;t=
+ext-align:right;text-overflow:ellipsis;white-space:nowrap;display:inline-bl=
+ock">537</a><span class=3D"gmail-CheckStep-line-content gmail-d-inline-bloc=
+k gmail-flex-auto gmail-ml-3 gmail-js-check-line-content" style=3D"box-sizi=
+ng:border-box;overflow-x:auto;white-space:pre-wrap;margin-left:16px;display=
+:inline-block"><span class=3D"gmail-" style=3D"box-sizing:border-box">|    =
+         File &quot;/__w/meta-flutter/yocto-kirkstone/build/tmp/work/x86_64=
+-linux/membrane-example-native/git.AUTOINC+4e788100fc-r0/recipe-sysroot-nat=
+ive/usr/lib/python3.10/os.py&quot;, line 607, in _execvpe
+</span></span></div></div><div style=3D"box-sizing:border-box;color:rgb(201=
+,209,217);font-family:ui-monospace,SFMono-Regular,&quot;SF Mono&quot;,Menlo=
+,Consolas,&quot;Liberation Mono&quot;,monospace;font-size:12px"><div class=
+=3D"gmail-js-check-step-line gmail-CheckStep-line gmail-d-flex gmail-log-li=
+ne-plain" style=3D"box-sizing:border-box;line-height:20px;display:flex"><a =
+class=3D"gmail-CheckStep-line-number gmail-d-inline-block gmail-text-mono g=
+mail-text-normal gmail-flex-shrink-0" href=3D"https://github.com/meta-flutt=
+er/meta-flutter/runs/8288580694?check_suite_focus=3Dtrue#step:9:539" style=
+=3D"box-sizing:border-box;text-decoration:none;width:48px;overflow:hidden;t=
+ext-align:right;text-overflow:ellipsis;white-space:nowrap;display:inline-bl=
+ock">538</a><span class=3D"gmail-CheckStep-line-content gmail-d-inline-bloc=
+k gmail-flex-auto gmail-ml-3 gmail-js-check-line-content" style=3D"box-sizi=
+ng:border-box;overflow-x:auto;white-space:pre-wrap;margin-left:16px;display=
+:inline-block"><span class=3D"gmail-" style=3D"box-sizing:border-box">|    =
+           exec_func(fullname, *argrest)
+</span></span></div></div><div style=3D"box-sizing:border-box;color:rgb(201=
+,209,217);font-family:ui-monospace,SFMono-Regular,&quot;SF Mono&quot;,Menlo=
+,Consolas,&quot;Liberation Mono&quot;,monospace;font-size:12px"><div class=
+=3D"gmail-js-check-step-line gmail-CheckStep-line gmail-d-flex gmail-log-li=
+ne-plain" style=3D"box-sizing:border-box;line-height:20px;display:flex"><a =
+class=3D"gmail-CheckStep-line-number gmail-d-inline-block gmail-text-mono g=
+mail-text-normal gmail-flex-shrink-0" href=3D"https://github.com/meta-flutt=
+er/meta-flutter/runs/8288580694?check_suite_focus=3Dtrue#step:9:540" style=
+=3D"box-sizing:border-box;text-decoration:none;width:48px;overflow:hidden;t=
+ext-align:right;text-overflow:ellipsis;white-space:nowrap;display:inline-bl=
+ock">539</a><span class=3D"gmail-CheckStep-line-content gmail-d-inline-bloc=
+k gmail-flex-auto gmail-ml-3 gmail-js-check-line-content" style=3D"box-sizi=
+ng:border-box;overflow-x:auto;white-space:pre-wrap;margin-left:16px;display=
+:inline-block"><span class=3D"gmail-" style=3D"box-sizing:border-box">|    =
+       FileNotFoundError: [Errno 2] No such file or directory</span></span>=
+</div></div><div><br></div><div><br></div></div></div></div>
+
+--00000000000097713905e85c5065--
 
