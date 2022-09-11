@@ -1,103 +1,108 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84B44ECAAA1
-	for <webhook@archiver.kernel.org>; Sun, 11 Sep 2022 08:48:11 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web08.8117.1662886081937433859
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED610C54EE9
+	for <webhook@archiver.kernel.org>; Sun, 11 Sep 2022 14:02:42 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+ [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web12.10131.1662904962011331085
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Sep 2022 01:48:02 -0700
+ Sun, 11 Sep 2022 07:02:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=KqLV7Wlf;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=6253cbd39a=kai.kang@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 28B8m1Cc027061
-	for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Sep 2022 01:48:01 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to :
- subject : date : message-id : mime-version : content-type; s=PPS06212021;
- bh=qMvTgDKb+4bVsMeK5zw+iNmuPCEqnrQNMOLKXhR57Y4=;
- b=KqLV7WlffGbZBqM/fMZXGbdvXXwYsypOIWJ+E5vOGcI6nWYD4foQ8OUUNWc5Tswf6Btp
- fKNriS6fKGKMX/uK5gVg81+pR25C8uqrxKva/kph2MOR/ax1616XM13JppHxvq4u0bbo
- GPFuCLSI9vr/inJUAZ2vMdyQY4wT++Wo68NrJ5SAT/WfMXJ4LL4M54QiBapoFmIVCuSQ
- hPRG4yOdg82RlZMzpVFlZOhQW9p4trvPmORa9B0QoxKquLQig7Srx7nLWWnuotU6nrWM
- 8L2poHRYo/qtGPMo1sLx/DhTxgMbC72mk2/lDMX4tvNzKJKhFj/0TMrTEjZmJNCvnN7W iA==
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com
- [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jgnv68uwk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Sep 2022 01:48:01 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Sun, 11 Sep 2022 01:48:00 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Sun, 11 Sep 2022 01:48:00 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] binutils: update USE_ALTERNATIVES_FOR for symlink files
-Date: Sun, 11 Sep 2022 16:47:56 +0800
-Message-ID: <20220911084756.10315-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-GUID: 015RB3EtsDe18lMLpDlLNbLpsvaQDtXH
-X-Proofpoint-ORIG-GUID: 015RB3EtsDe18lMLpDlLNbLpsvaQDtXH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-11_04,2022-09-09_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- lowpriorityscore=0 mlxlogscore=636 mlxscore=0 spamscore=0 adultscore=0
- impostorscore=0 malwarescore=0 priorityscore=1501 phishscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2209110034
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=sHTqREpO;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.181,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f181.google.com with SMTP id j12so6181074pfi.11
+        for <openembedded-core@lists.openembedded.org>;
+ Sun, 11 Sep 2022 07:02:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=date:message-id:to:from:subject:from:to:cc:subject:date;
+        bh=WWEtmUe3lNyseybqyFhLhJa+uDuYfHHv4Tn85hYBlCQ=;
+        b=sHTqREpOlo6guWeQJY1w1HsaFYzW+PFkZ9lG/lbQtxlRRbJNnFGrftOVtl0I01uTb1
+         i9Ib14rt3Ht4EhjEauGJpMBBbMzcyZe52fSZhZkGXznjyvnidYGXDNywA37weDpC2rIZ
+         OOw7cWSivTsUMppJN3tptbAhUQhmQUNOJ6e7ohXL8YStCHhR933BoVwyv8Q4EQpLqav4
+         M1GhGxvPzz1c1Tz8OlI12gIWZvCcRNTSJ8R+1GXQm2+JOWaOaiKVbxmfuPpKF4iKzMFA
+         dO0/7DHaTesmNVGtP0tZh2HVgjtqqA1pncasJzi/w4OHZDh92dHNOuf2p+dT3S7cpITg
+         tNCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=date:message-id:to:from:subject:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=WWEtmUe3lNyseybqyFhLhJa+uDuYfHHv4Tn85hYBlCQ=;
+        b=eCq/6OY/JKuBVNdpjc5NuWi8vZczc0/Tg5gWLelF+H1AibuTh1nPP+pWCgVwGpNk74
+         rJm/oqUFhbuzjGw8w8YVibL0wAIF+4aVJ2+SvjHQSKvphs/ql/OVkVaOR09sM7Y5AQc3
+         kMwexjQCSxbs01C2HzUBRrgqZNaUiG1FC5ZdGz0ReM0ECiqaixnqMEEsnhLFpDfnt2K/
+         Dz0sOR3FevinwIil+6v1M6VbPobnvPREBDvADBjmzIIhURRzM/hq8KracTB5G+vtDNjw
+         GrR+r84uSLAjMtrv4YxRTr10UfivIiy950YeqFSxPBAze96cgKjRUUQoElXyQnHQ10kC
+         TRwg==
+X-Gm-Message-State: ACgBeo2hKFQibyXBZNbgqjbaJYWXsJa/DXw3GGRvdndrKWcWMkyzNcdq
+	5jNXH7pQaNsBwWc7nQv4ZExYeJFzYzac5IiL
+X-Google-Smtp-Source: 
+ AA6agR5UlzqeVt5DFVbgO2jRCllmy/ifNqP70V+3nu3+YTAGJIjRNv9yg2djGrT/Rhg4Q1NrmWCmwA==
+X-Received: by 2002:a05:6a00:16d6:b0:53b:3e58:1c6f with SMTP id
+ l22-20020a056a0016d600b0053b3e581c6fmr23324256pfc.7.1662904960908;
+        Sun, 11 Sep 2022 07:02:40 -0700 (PDT)
+Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
+ [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id
+ d13-20020a17090ad3cd00b001ef8ab65052sm3524725pjw.11.2022.09.11.07.02.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Sep 2022 07:02:40 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 1ECB1960B01; Sun, 11 Sep 2022 04:02:38 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 11 Sep 2022 04:00:01 AM HST
+FROM: steve@sakoman.com
+To: 
+ <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20220911140238.1ECB1960B01@nuc.router0800d9.com>
+Date: Sun, 11 Sep 2022 04:02:38 -1000 (HST)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 Sep 2022 08:48:11 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 11 Sep 2022 14:02:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170517
+ https://lists.openembedded.org/g/openembedded-core/message/170518
 
-From: Kai Kang <kai.kang@windriver.com>
+Branch: master
 
-It provides more binary files by binutils 2.39. Then add them to
-USE_ALTERNATIVES_FOR as others to handle symlink files via
-update-alternative mechanism.
+New this week: 10 CVEs
+CVE-2020-35538 (CVSS3: 5.5 MEDIUM): libjpeg-turbo:libjpeg-turbo-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35538 *
+CVE-2022-1354 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1354 *
+CVE-2022-1355 (CVSS3: 6.1 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1355 *
+CVE-2022-3099 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3099 *
+CVE-2022-3134 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3134 *
+CVE-2022-38126 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38126 *
+CVE-2022-38127 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38127 *
+CVE-2022-38128 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38128 *
+CVE-2022-39028 (CVSS3: 7.5 HIGH): inetutils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39028 *
+CVE-2022-39046 (CVSS3: 5.3 MEDIUM): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39046 *
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-devtools/binutils/binutils.inc | 6 ++++++
- 1 file changed, 6 insertions(+)
+Removed this week: 4 CVEs
+CVE-2021-3929 (CVSS3: 8.2 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3929 *
+CVE-2022-2953 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2953 *
+CVE-2022-32893 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32893 *
+CVE-2022-38533 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38533 *
 
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index 789c8bec21..9d33a64371 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -47,7 +47,13 @@ USE_ALTERNATIVES_FOR = " \
- 	as \
- 	c++filt \
- 	elfedit \
-+	gp-archive \
-+	gp-collect-app \
-+	gp-display-html \
-+	gp-display-src \
-+	gp-display-text \
- 	gprof \
-+	gprofng \
- 	ld \
- 	ld.bfd \
- 	${LDGOLD_ALTS} \
--- 
-2.17.1
+Full list:  Found 15 unpatched CVEs
+CVE-2020-35538 (CVSS3: 5.5 MEDIUM): libjpeg-turbo:libjpeg-turbo-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35538 *
+CVE-2021-3521 (CVSS3: 4.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3521 *
+CVE-2021-35937 (CVSS3: 6.4 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35937 *
+CVE-2021-35938 (CVSS3: 7.8 HIGH): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35938 *
+CVE-2021-35939 (CVSS3: 7.8 HIGH): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35939 *
+CVE-2021-4158 (CVSS3: 6.0 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4158 *
+CVE-2022-1354 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1354 *
+CVE-2022-1355 (CVSS3: 6.1 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1355 *
+CVE-2022-3099 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3099 *
+CVE-2022-3134 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3134 *
+CVE-2022-38126 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38126 *
+CVE-2022-38127 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38127 *
+CVE-2022-38128 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38128 *
+CVE-2022-39028 (CVSS3: 7.5 HIGH): inetutils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39028 *
+CVE-2022-39046 (CVSS3: 5.3 MEDIUM): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39046 *
 
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
