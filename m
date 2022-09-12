@@ -1,119 +1,107 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EDA0ECAAD5
-	for <webhook@archiver.kernel.org>; Mon, 12 Sep 2022 14:58:30 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web12.8733.1662994707638890434
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76105ECAAD5
+	for <webhook@archiver.kernel.org>; Mon, 12 Sep 2022 15:06:40 +0000 (UTC)
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com
+ [209.85.210.43])
+ by mx.groups.io with SMTP id smtpd.web08.8817.1662995199150049778
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Sep 2022 07:58:28 -0700
+ Mon, 12 Sep 2022 08:06:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KA5FuDG5;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id
- d12-20020a05600c34cc00b003a83d20812fso7402449wmq.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=baOFwPg4;
+ spf=pass (domain: gmail.com, ip: 209.85.210.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f43.google.com with SMTP id
+ l7-20020a056830154700b0065563d564dfso6021916otp.0
         for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Sep 2022 07:58:27 -0700 (PDT)
+ Mon, 12 Sep 2022 08:06:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date;
-        bh=h1mpYK1y3ClY/MY4MIAE+B0Su9FG2+G/QDd5eLs1vDc=;
-        b=KA5FuDG5l+tRjcWOnW4UDWCUp8EEoLaXl0nNstACa6gVm9ZQGKOu+3CHGPkhuW0hSN
-         mrzdAxyUXHslIY/lVJvUrGXiHQZ4N1oT3uzYcSanVTSRhZZxPRnPS7AuTCC+EGJZyfq7
-         EqSeqkWN4aoK9wE5TIpU1/G2RQ5EQfzumZcZo=
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=YuimLD1F6M8On9yoJkvxFly7gt3Ea2xynbutqY7kCXM=;
+        b=baOFwPg422J2Zmn3XNoXpA3E1Uksz9D11Xh3mFt9HqiHn71Om8G7Z2kLvxvFUCOPUa
+         omWBNYWjZBzHYvVbWPvcQo1Ux0qIOR0/YNJ6Xvch2Y3y4wvaAB+Y/K9iCMWCtxgc/MKY
+         GuoymUA+NQAK9O0sTSSwQloYspdgIhiAVAGPJDblppDjjSEev3wOhQPfLldiIsoU1OFJ
+         PKNpGe1SDFR8ScddRDHpF6Z0juLEd7AozRhSR+5uqqXZT9Ko1zsw1FXwMrNm+XS6LcwV
+         IqPqYTU35YdfDdpX8a8ubODmCmlgknaPRNBcKmvpC74jaQ6H7EdALNsNamFva3COCM9G
+         vQ4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date;
-        bh=h1mpYK1y3ClY/MY4MIAE+B0Su9FG2+G/QDd5eLs1vDc=;
-        b=pj+Ka+or1XpmM4RB6s06Ckza4pcx10/tNeFUACm+Snf5ZiMa8Tq9bojibfzUYH8dBc
-         6a0b6AJttRVP4maY945EbaR36h6Us4kkkpXEVduk3+yxd/AGzDObERmgrQ9c6V6egWys
-         h1K9wSi+c7bLfjLoravFrNOSFy5KO2lczhClDXnStqKp02MPcKTledNeSo91oocQXoNw
-         LM+/nEeciDFJsXGHKUdxS7kHLvbKyxxmqmStO1HRGNt/k14QYD/iKegh63KF1LdToPIr
-         tkzflfvrLtblXpPdaiLbgADNRsHfWK1na0Fc7GaWNC9sXjEnBP2h4abMjR4ajtdHy7dp
-         YvcQ==
-X-Gm-Message-State: ACgBeo3MaXMobuOfX4QAFtkckeMmiV1KFpkIZrUmWspsE2z7kLycyakA
-	hy8duDWFAyCX7jQUu1YLT23eog==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=YuimLD1F6M8On9yoJkvxFly7gt3Ea2xynbutqY7kCXM=;
+        b=rT8TNFUCFRnzQRjfEAypT7EA6iFTve2dn2gzCkDYRNwtVNvNlwYSpJY3W/8Ov0hrwJ
+         qaDl/FfFr8gIZf5GjbbdWJoo2CUqpAO0c35xgBbDoDWUjEgIS53nXqOw3cn62UDFolDz
+         7QY8cA72fBdJzwD00Fag2XXYK4HMeBIbBcArB4YG5RWfqfXjVes+CA0OJhcZEWg/mcdB
+         LVaYuKehtZmLZPK8b4fIpH/UWjmyu7aO1zSa6wsym2hlBAx/nZk9Dq1Dfpf7QFw01BgN
+         rjWPfyW3jNZfGACjs1InlISjJU7U4Zun8wDbhenwYwLPNfuvXgWTQbtI2fPgajy1+QU9
+         QXPg==
+X-Gm-Message-State: ACgBeo2WtNdUwLGk9iIHubA3bfJ7dQ9WHEWf6JnXv64vOsqSzGwPlIOB
+	VCYw0TsefUHq+lIo6/5HPZRtj5/HJNCVzJk4bog=
 X-Google-Smtp-Source: 
- AA6agR6hZ8gznnoyPdz7q0oNgKKhBIEpc2wWbujj9ehODJY/gBCKqA+eyFwY5ME1NCdSRZsUh/hxgg==
-X-Received: by 2002:a7b:c2a9:0:b0:3a6:2400:722c with SMTP id
- c9-20020a7bc2a9000000b003a62400722cmr14207139wmk.108.1662994705805;
-        Mon, 12 Sep 2022 07:58:25 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e7a0:efc:484a:7ca5?
- ([2001:8b0:aba:5f3c:e7a0:efc:484a:7ca5])
-        by smtp.gmail.com with ESMTPSA id
- o22-20020a05600c511600b003a5b6086381sm10526225wms.48.2022.09.12.07.58.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Sep 2022 07:58:25 -0700 (PDT)
-Message-ID: 
- <25a7f967e61230b78da3b59dd687e82aca414f82.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] binutils: update USE_ALTERNATIVES_FOR for
- symlink files
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: kai <kai.kang@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 12 Sep 2022 15:58:23 +0100
-In-Reply-To: <20220911084756.10315-1-kai.kang@windriver.com>
-References: <20220911084756.10315-1-kai.kang@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ AA6agR5YO5C6noNW997eBIW2mFQZJ3KN2n4f0QyJqZkC045ijiktXL9Gt+6AXZbrJZY/kA5bnNyK0ruPfR2XcPNlaS4=
+X-Received: by 2002:a9d:5781:0:b0:655:f401:5a18 with SMTP id
+ q1-20020a9d5781000000b00655f4015a18mr1507443oth.111.1662995198172; Mon, 12
+ Sep 2022 08:06:38 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220912092122.2020942-1-ptsneves@gmail.com>
+In-Reply-To: <20220912092122.2020942-1-ptsneves@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 12 Sep 2022 08:06:12 -0700
+Message-ID: 
+ <CAMKF1srjyVGO1fcUkxzO0qM8zotmqOp_FRYMpD2U14JkmPdvvQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/1] watchdog: Remove unneeded tirpc dependency
+To: Paulo Neves <ptsneves@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Sep 2022 14:58:30 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Sep 2022 15:06:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170536
+ https://lists.openembedded.org/g/openembedded-core/message/170537
 
-On Sun, 2022-09-11 at 16:47 +0800, kai wrote:
-> From: Kai Kang <kai.kang@windriver.com>
->=20
-> It provides more binary files by binutils 2.39. Then add them to
-> USE_ALTERNATIVES_FOR as others to handle symlink files via
-> update-alternative mechanism.
->=20
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+On Mon, Sep 12, 2022 at 2:21 AM Paulo Neves <ptsneves@gmail.com> wrote:
+>
+> watchdog code does not have any dependency on rpc code,
+> therefore the dependency and flags to try to use it are
+> removed.
+>
+> Signed-off-by: Paulo Neves <ptsneves@gmail.com>
 > ---
->  meta/recipes-devtools/binutils/binutils.inc | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-d=
-evtools/binutils/binutils.inc
-> index 789c8bec21..9d33a64371 100644
-> --- a/meta/recipes-devtools/binutils/binutils.inc
-> +++ b/meta/recipes-devtools/binutils/binutils.inc
-> @@ -47,7 +47,13 @@ USE_ALTERNATIVES_FOR =3D " \
->  	as \
->  	c++filt \
->  	elfedit \
-> +	gp-archive \
-> +	gp-collect-app \
-> +	gp-display-html \
-> +	gp-display-src \
-> +	gp-display-text \
->  	gprof \
-> +	gprofng \
->  	ld \
->  	ld.bfd \
->  	${LDGOLD_ALTS} \
+>  meta/recipes-extended/watchdog/watchdog_5.16.bb | 4 ----
+>  1 file changed, 4 deletions(-)
+>
+> diff --git a/meta/recipes-extended/watchdog/watchdog_5.16.bb b/meta/recipes-extended/watchdog/watchdog_5.16.bb
+> index 26fcc10487..6031dcaa16 100644
+> --- a/meta/recipes-extended/watchdog/watchdog_5.16.bb
+> +++ b/meta/recipes-extended/watchdog/watchdog_5.16.bb
+> @@ -28,10 +28,6 @@ UPSTREAM_CHECK_REGEX = "/watchdog/(?P<pver>(\d+[\.\-_]*)+)/"
+>
+>  inherit autotools update-rc.d systemd pkgconfig
+>
+> -DEPENDS += "libtirpc"
+> -CFLAGS += "-I${STAGING_INCDIR}/tirpc"
+> -LDFLAGS += "-ltirpc"
+> -
 
-This throws tons of warnings:
+does musl build works too ?
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4219
-
-e.g.:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/5896/step=
-s/12/logs/warnings
-
-but many more.
-
-Cheers,
-
-Richard
+>  EXTRA_OECONF += " --disable-nfs "
+>  CACHED_CONFIGUREVARS += "ac_cv_path_PATH_SENDMAIL=${sbindir}/sendmail"
+>
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#170533): https://lists.openembedded.org/g/openembedded-core/message/170533
+> Mute This Topic: https://lists.openembedded.org/mt/93628579/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
