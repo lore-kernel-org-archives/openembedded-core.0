@@ -1,119 +1,89 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81D51C6FA82
-	for <webhook@archiver.kernel.org>; Mon, 12 Sep 2022 19:23:28 +0000 (UTC)
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com
- [209.85.160.41])
- by mx.groups.io with SMTP id smtpd.web09.212.1663010604596369981
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B80EAC6FA83
+	for <webhook@archiver.kernel.org>; Mon, 12 Sep 2022 20:01:18 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
+ [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web09.728.1663012875665494951
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Sep 2022 12:23:24 -0700
+ Mon, 12 Sep 2022 13:01:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gCsorTON;
- spf=pass (domain: gmail.com, ip: 209.85.160.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f41.google.com with SMTP id
- 586e51a60fabf-1225219ee46so26091745fac.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BsZ3mxbL;
+ spf=pass (domain: gmail.com, ip: 209.85.208.178,
+ mailfrom: rybczynska@gmail.com)
+Received: by mail-lj1-f178.google.com with SMTP id v6so11909838ljj.0
         for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Sep 2022 12:23:24 -0700 (PDT)
+ Mon, 12 Sep 2022 13:01:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=jdxn36B5lGFeSB44IwEpQKZfK3v6SKRflhQ+keAnoz0=;
-        b=gCsorTONfy8ttGzssVTapmgW184IHC9opTwPCtX0IoyFTe0XmjQwWnItkXOWLiq66R
-         3CQAsuaJiTZh0N+C1gvKmApaIW6mlav9scp48fOfrSB0c3l7KsjY79budCXFp0mYP21i
-         D5ffcxUKbceGRfZcdh6qlkXa6NciZnG4MZuZ5wjFYUI+hXA/iUIOoYbxiAMKPk6v5be1
-         8NGb9PEPXk9C28Fwq5Q+yfllI5FqsHi6lxruWNIFKexuQFbTJ9btvp4ROJ6qJhLvtzqd
-         IwVTZWtdmrxuBPygz0a2PTePHPjyw/RGtYYXX5SmV8flQvIpoZ9YjQRwYXNLu2rEkbFa
-         4umg==
+        bh=4LXOx/f1j2KqYInEFFm3xKMlpQe/XmH8PeU5Dc5RS6I=;
+        b=BsZ3mxbLzBlkk699nEUepNdMuxGncQRIp9gxk3RVWvzJIzc4aPnknEMIuJR6go4+bq
+         SbahB7gpaTXDCWCyPf4zgslo3ckZOgsLEnXD1ZnAWPGE7EkbCkFN+M7GJya2lX3FnOZO
+         SHHsi7QfBcFlxBlgyS1B0llYSJSdkKMZuebqijf+E77sqJ6YXEqRZsKO1IAiNJXNoS9R
+         zld8QVPbuHxVYZ61LXEQrMLx7aNb5Tyow2X8EvL//Wo7krfIg/ltPG7NpWANWhjLvJlT
+         tXPGp3iES5rH69D8oddvoveECcE+27vcOQoN5h3PTb1NnX2boMKj6PDXq/3wmYVfH+Q0
+         zstA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=jdxn36B5lGFeSB44IwEpQKZfK3v6SKRflhQ+keAnoz0=;
-        b=Jwk+oD/Hgy89SiO+9Pp2UNjuCVFE+L5IRXg9yUQFUYjgxLckQayxdc1cukT7PkBltJ
-         DCJTTN49vUa4Yhq1pAyK3/gwwe6zRnSdLXe7InQ5hRjgD7e+mfTWg/WWGhv8zM8zEE8R
-         13LdXCvRG/qMU/sPFb09/ZYVCkGixcVBSZ/9p4uYQmBPaeYVqXZi6sWysYqNt3MM1B99
-         S7a5EniDEg9qP0ia7zDR3/euNLVrvdkdIwJiwPgaBbAiguCJoxuJ0Zt/MNcWO4tUF7kE
-         prOV0B1RF1ZX3tIf2PHrJMTcxkBSM3+OIVxKnmypPCTXBHG0HeBw88I7+DTWisZQWfO2
-         AyrA==
-X-Gm-Message-State: ACgBeo2khEmw9QFvTb6k/entrIA3TzsgjyBpQe9EIu8MYaMe01D1CW53
-	QPjUB14jkgZYTMAkB0uUSSGYr5dSdql900FaqSk=
+        bh=4LXOx/f1j2KqYInEFFm3xKMlpQe/XmH8PeU5Dc5RS6I=;
+        b=l1PbVLR+HfIAtdQajZ26Y0f0BEUSuBQaLeMeg7Sqfe6SMI306cVBO/TyiemrSV7dKy
+         Zew71qWlSzQH3e5loF6wZNUHEiO2/2CCdSYlHR4Qh184iKSq86F1wKvLaFH4/dpi9AH1
+         l8L+qcZaYDZtzGqE6szfw55If/bhg0hyKIlNY6anT86897Hxt7GD3pcLYD3fBNpAZfxz
+         Sv6YsbjMzNlzMcmBi9VcHm4Tc6CuDB8l55R/txxp9hNlznr4Kp/+x5xiy13uJfMhSwo7
+         ntu78NrcwmAMDMk7XDRt4jRKW/LBSIoJXW5tomkecNEeiQySI+iaiOx96G1BRG8DGner
+         ep7A==
+X-Gm-Message-State: ACgBeo1rrrMm4jTFXnphBY3or8Rdj9bUWo7tNETk+uhCg6shO5/P4/Hh
+	78vyr4cpIpDeXpwN0VSnMCbgcReH7M+3Cp34/pk=
 X-Google-Smtp-Source: 
- AA6agR5xUgcmmG5GSM7bU252hdlqkVpR8pnu+GfcL0eUhtR0dYO14gaJ5U3eFfm/USRnNLnV4/w2TedXfV4tpBJGkAI=
-X-Received: by 2002:a05:6808:17a6:b0:344:eaa9:24e8 with SMTP id
- bg38-20020a05680817a600b00344eaa924e8mr9455406oib.55.1663010603791; Mon, 12
- Sep 2022 12:23:23 -0700 (PDT)
+ AA6agR4K12fK2x9PCkmaAtvO/Xgk8KczxiNpUV1JyAYL7tK26KOTV2NW/Ua1kQI0jiGmfvDaJPGcY5yUQZ377ZlkfnU=
+X-Received: by 2002:a2e:a887:0:b0:25e:3174:fb67 with SMTP id
+ m7-20020a2ea887000000b0025e3174fb67mr7825400ljq.337.1663012873538; Mon, 12
+ Sep 2022 13:01:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220912092122.2020942-1-ptsneves@gmail.com>
- <CAMKF1srjyVGO1fcUkxzO0qM8zotmqOp_FRYMpD2U14JkmPdvvQ@mail.gmail.com>
- <36784d61-0e16-32b8-9e44-99833170e595@gmail.com>
-In-Reply-To: <36784d61-0e16-32b8-9e44-99833170e595@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 12 Sep 2022 12:22:57 -0700
+References: 
+ <CAOSpxdY3j8DAsOQGhG9w1BJi+2ao4sO_KLvbkxX70fwbq8BfzQ@mail.gmail.com>
+ <CAApg2=RssQ94dKngx=5ph_QbyZsWnqS7LRJ9rg67Q6b6bZbMWw@mail.gmail.com>
+ <CA+chaQcks8Dmpp0zgizGfqSsRbp+YxMMvsgmae6YutVP5mar4A@mail.gmail.com>
+ <CAOSpxdbSd4RwWPmw3mDq6KBjrbhEqNhUpcH-hNCcKkMTLQQJ9A@mail.gmail.com>
+In-Reply-To: 
+ <CAOSpxdbSd4RwWPmw3mDq6KBjrbhEqNhUpcH-hNCcKkMTLQQJ9A@mail.gmail.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Mon, 12 Sep 2022 22:01:01 +0200
 Message-ID: 
- <CAMKF1spu4U3jFukipQkc3GvYpq9pTsnTHZwK2rXKYc1CoHz+Gw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/1] watchdog: Remove unneeded tirpc dependency
-To: Paulo Neves <ptsneves@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
+ <CAApg2=TAFnSuPZ6OF6a-+nooqYB7d42VNjKCMFVLJaW4DdbS+A@mail.gmail.com>
+Subject: Re: [OE-core] CVE raffle: collision avoidance
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Sep 2022 19:23:28 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Sep 2022 20:01:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170544
+ https://lists.openembedded.org/g/openembedded-core/message/170545
 
-On Mon, Sep 12, 2022 at 12:08 PM Paulo Neves <ptsneves@gmail.com> wrote:
+On Mon, Sep 12, 2022 at 9:16 PM Steve Sakoman <steve@sakoman.com> wrote:
 >
-> it should as there is no rpc code in the project as far as i scanned. I
-> built it with musl successfully.
-
-OK thanks for confirming.
-
->
-> Paulo Neves
->
-> On 9/12/22 17:06, Khem Raj wrote:
-> > On Mon, Sep 12, 2022 at 2:21 AM Paulo Neves <ptsneves@gmail.com> wrote:
-> >> watchdog code does not have any dependency on rpc code,
-> >> therefore the dependency and flags to try to use it are
-> >> removed.
-> >>
-> >> Signed-off-by: Paulo Neves <ptsneves@gmail.com>
-> >> ---
-> >>   meta/recipes-extended/watchdog/watchdog_5.16.bb | 4 ----
-> >>   1 file changed, 4 deletions(-)
-> >>
-> >> diff --git a/meta/recipes-extended/watchdog/watchdog_5.16.bb b/meta/recipes-extended/watchdog/watchdog_5.16.bb
-> >> index 26fcc10487..6031dcaa16 100644
-> >> --- a/meta/recipes-extended/watchdog/watchdog_5.16.bb
-> >> +++ b/meta/recipes-extended/watchdog/watchdog_5.16.bb
-> >> @@ -28,10 +28,6 @@ UPSTREAM_CHECK_REGEX = "/watchdog/(?P<pver>(\d+[\.\-_]*)+)/"
-> >>
-> >>   inherit autotools update-rc.d systemd pkgconfig
-> >>
-> >> -DEPENDS += "libtirpc"
-> >> -CFLAGS += "-I${STAGING_INCDIR}/tirpc"
-> >> -LDFLAGS += "-ltirpc"
-> >> -
-> > does musl build works too ?
+> On Mon, Sep 12, 2022 at 8:57 AM Martin Jansa <martin.jansa@gmail.com> wrote:
 > >
-> >>   EXTRA_OECONF += " --disable-nfs "
-> >>   CACHED_CONFIGUREVARS += "ac_cv_path_PATH_SENDMAIL=${sbindir}/sendmail"
-> >>
-> >> --
-> >> 2.25.1
-> >>
-> >>
-> >> -=-=-=-=-=-=-=-=-=-=-=-
-> >> Links: You receive all messages sent to this group.
-> >> View/Reply Online (#170533): https://lists.openembedded.org/g/openembedded-core/message/170533
-> >> Mute This Topic: https://lists.openembedded.org/mt/93628579/1997914
-> >> Group Owner: openembedded-core+owner@lists.openembedded.org
-> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> >> -=-=-=-=-=-=-=-=-=-=-=-
-> >>
+> > You mean this list?
+> > https://lists.yoctoproject.org/g/yocto-security/message/655
 >
+> Yes, I assumed everyone was aware of the weekly CVE list!  Did you
+> have something else in mind?
+
+Sorry for the confusion. I meant that exact list and suggested to use
+it as a reservation list without manually looking into this thread and
+verifying with the three different CVE emails.
+
+Kind regards,
+Marta
 
