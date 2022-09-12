@@ -1,96 +1,126 @@
-Return-Path: <ptsneves@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE8B4ECAAA1
-	for <webhook@archiver.kernel.org>; Mon, 12 Sep 2022 09:21:48 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web10.5428.1662974501631630941
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E455CECAAD5
+	for <webhook@archiver.kernel.org>; Mon, 12 Sep 2022 09:43:48 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.5580.1662975824647593483
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Sep 2022 02:21:42 -0700
+ Mon, 12 Sep 2022 02:43:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gwAaVqfu;
- spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: ptsneves@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id f14so12836722lfg.5
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D/o7czau;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id e18so545175wmq.3
         for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Sep 2022 02:21:41 -0700 (PDT)
+ Mon, 12 Sep 2022 02:43:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=041AxFnJfE1D17htN9WY/aIfRjQc9YD0mOspJOGvBro=;
-        b=gwAaVqfu4K8buAjHn8vnhAhkqvhsf4m/MBelkhsLslpEaCt7mDKUiBISfvzCescUy8
-         G+fv/mAlfQLrejZgRSLDhYb5hwA9cmoJ8HS6kMxY3HgiAWF6CQsWFLqpR2+fQuQ31rMq
-         DqWiGx/aOkwO58KZe92in4OBysu2eaQLYXfiiRc5NQbOFnflHf4J5lS3wmL/WgvAZwlt
-         ofZOR9RRY76bpTQnVAQRSkgXglhGx9KTYex7rcQ9Vkwpt6Oz1KRR0Lkg9GiNBmme3Mgo
-         kceaqhRIXYj5M8mjUP15LVirA1uuaBKUMVvlF5vl0zpttCV+x6Xsr6Tv21oFmWp0RWSK
-         tY/w==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date;
+        bh=AVBxVUWgyKiBN7+yMx6ycbKE53iSjrawGl3W4DVHNcI=;
+        b=D/o7czaufCJS2KsKRR2a9SSw/udq0Um4VCV+NA7UptTfWQOZQFy7B07Abuu/cYGtTU
+         uhzxpJha6yDZiwQ7vSUvT8IbUOy2C0zucxBas0Gwxq/sH+5nsGvrzsOfaWhhCJwZT6ZU
+         PmxVSJiT/dRoczYM44br55mjsmAFCnk4lNmIg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=041AxFnJfE1D17htN9WY/aIfRjQc9YD0mOspJOGvBro=;
-        b=X6PgcaT7kRBC6jjullXd0RbrWRH2/VVT9g6JXQKliLh/OJXhmXAlGWeOHZAhewK0I5
-         0SsVEq7HmMomRkf7UkSNopdtF1EEFPQcw77UDgnEd3zuJM0EFPI9vCB60ohvxJj3d064
-         OtSa7yO1fjjh+bovpLw9cvuQKWL96BFEj/WL/VESTKfRfrDSKKzVv1XeeNxZZdoAlNwy
-         q9BKEGtpuC+XldoDBDZE1BUs9gq8OLNhj/oDRri0XrGmqk5fjF03ClO9St2hBFv+9LuH
-         FOW2c9wu8+gHljYXdLiaMVLM9rHfhIq8S/BiFspmoozB/J7d1n+pS+rEFtz6QeiJrMmZ
-         z4lQ==
-X-Gm-Message-State: ACgBeo2P73CgG8dOKZixi9Vnt2kiHTi4QdUhZ/QeJa7paAqfp6fj9afE
-	B0KC2PKIxmiQvYRPZot3Pe8CE3k6bv95
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=AVBxVUWgyKiBN7+yMx6ycbKE53iSjrawGl3W4DVHNcI=;
+        b=nBZJg8jxmeNi6NwpowdO9qVoguACqqZwblNd740UULV3Cf5cgYPNn9XJ7ce4cd7NSk
+         rYRwYHOycukADWN+W6GrLcTWa0qRkppu1fHsGVOPTLHfV64aT9nN/tBGwhEzeKdwKJ1c
+         7xbsrJzqrqP09J4SY5wj43rP+uKUF3yHrh1Z7r6Va/C21RlqbJVIJQ02vmCVeTrr9vMZ
+         dXE4UHKLaNyZM8ZMZ2Jg/+kal1vRDzdmOoKX8eEeRkl2dpq4aZtykTBVoFMIgIVFY6e0
+         KvHjLst8x3X8YgU7OdFwnV/8cDtdlnJks2vSPhEGURmcgCgur/V2X4cH4mve3JxfKinO
+         4YUw==
+X-Gm-Message-State: ACgBeo3haoyvZvH07NWWx++o949EyrQidSdRu6qvV1OMQojoL17ZQFWz
+	+I2aUo73prUtQYK7z7Fapos2Hg==
 X-Google-Smtp-Source: 
- AA6agR7bPKDyUCZJwVwJiy1McQq+MZQPa5hnvyTizgh/6xO2Ahg/0/uK2IYIfH2TmLGZhQ2jlOGy8g==
-X-Received: by 2002:a05:6512:33c6:b0:497:9df1:a25a with SMTP id
- d6-20020a05651233c600b004979df1a25amr8108562lfg.562.1662974499445;
-        Mon, 12 Sep 2022 02:21:39 -0700 (PDT)
-Received: from localhost.localdomain
- (031011128148.dynamic-3-poz-k-0-2-0.vectranet.pl. [31.11.128.148])
+ AA6agR7bteKxPmIsfGMhfK5uQqdzlxlDExmvgVeVeyV6HMN0qXK9hsPhtNtminNc4cVxlPJvtr5R9w==
+X-Received: by 2002:a05:600c:1e24:b0:3b4:6c1e:8bb7 with SMTP id
+ ay36-20020a05600c1e2400b003b46c1e8bb7mr7012604wmb.1.1662975822791;
+        Mon, 12 Sep 2022 02:43:42 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e7a0:efc:484a:7ca5?
+ ([2001:8b0:aba:5f3c:e7a0:efc:484a:7ca5])
         by smtp.gmail.com with ESMTPSA id
- c7-20020a2e9d87000000b00261eb75fa5dsm983614ljj.41.2022.09.12.02.21.38
+ n2-20020a5d4c42000000b002250c35826dsm6793362wrt.104.2022.09.12.02.43.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Sep 2022 02:21:38 -0700 (PDT)
-From: Paulo Neves <ptsneves@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Paulo Neves <ptsneves@gmail.com>
-Subject: [PATCH 1/1] watchdog: Remove unneeded tirpc dependency
-Date: Mon, 12 Sep 2022 11:21:22 +0200
-Message-Id: <20220912092122.2020942-1-ptsneves@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 12 Sep 2022 02:43:36 -0700 (PDT)
+Message-ID: 
+ <c36da2945102cf2e0b90562bedcedb83687cc3fd.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] libxml2: don't override XML_CATALOG_FILES in
+ xmllint wrapper if already set
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross.burton@arm.com>,
+	openembedded-core@lists.openembedded.org
+Cc: schnitzeltony@gmail.com
+Date: Mon, 12 Sep 2022 10:43:35 +0100
+In-Reply-To: <1713EE7A59F012D9.1776@lists.openembedded.org>
+References: <20220909163640.1985612-1-ross.burton@arm.com>
+	 <17135317F9CABC3C.4025@lists.openembedded.org>
+	 <1713EE7A59F012D9.1776@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Sep 2022 09:21:48 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Sep 2022 09:43:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170533
+ https://lists.openembedded.org/g/openembedded-core/message/170534
 
-watchdog code does not have any dependency on rpc code,
-therefore the dependency and flags to try to use it are
-removed.
+On Sun, 2022-09-11 at 23:21 +0100, Richard Purdie via
+lists.openembedded.org wrote:
+> On Fri, 2022-09-09 at 23:54 +0100, Richard Purdie via
+> lists.openembedded.org wrote:
+> > On Fri, 2022-09-09 at 17:36 +0100, Ross Burton wrote:
+> > > The KDE build uses custom catalogs by setting XML_CATALOG_FILES, so t=
+his
+> > > wrapper should not override that value if it has already been set.
+> > >=20
+> > > Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > > ---
+> > >  meta/recipes-core/libxml/libxml2_2.9.14.bb | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipe=
+s-core/libxml/libxml2_2.9.14.bb
+> > > index 2b2289e38a6..165c92d4114 100644
+> > > --- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
+> > > +++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+> > > @@ -121,7 +121,7 @@ do_install:append:class-native () {
+> > >  	# Docs are not needed in the native case
+> > >  	rm ${D}${datadir}/gtk-doc -rf
+> > > =20
+> > > -	create_wrapper ${D}${bindir}/xmllint XML_CATALOG_FILES=3D${sysconfd=
+ir}/xml/catalog
+> > > +	create_wrapper ${D}${bindir}/xmllint 'XML_CATALOG_FILES=3D${XML_CAT=
+ALOG_FILES:-${sysconfdir}/xml/catalog}'
+> > >  }
+> >=20
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/69/builds/5823/=
+steps/24/logs/stdio
+>=20
+>=20
+> Dependency on variable XML_CATALOG_FILES:-/media/build1/poky/build-st-282=
+284/tmp-sstatesamehash/work/x86_64-linux/libxml2-native/2.9.14-r0/recipe-sy=
+sroot-native/etc/xml/catalog was added
+> Dependency on Variable XML_CATALOG_FILES:-/media/build1/poky/build-st-282=
+284/tmp-sstatesamehash2/work/x86_64-linux/libxml2-native/2.9.14-r0/recipe-s=
+ysroot-native/etc/xml/catalog was removed
+>=20
+> i.e. it is expanding the variable in the keyname!
 
-Signed-off-by: Paulo Neves <ptsneves@gmail.com>
----
- meta/recipes-extended/watchdog/watchdog_5.16.bb | 4 ----
- 1 file changed, 4 deletions(-)
+I tweaked the patch to exclude this variable for now. We probably need
+to think a bit more about what bitbake is considering a variable name
+though...
 
-diff --git a/meta/recipes-extended/watchdog/watchdog_5.16.bb b/meta/recipes-extended/watchdog/watchdog_5.16.bb
-index 26fcc10487..6031dcaa16 100644
---- a/meta/recipes-extended/watchdog/watchdog_5.16.bb
-+++ b/meta/recipes-extended/watchdog/watchdog_5.16.bb
-@@ -28,10 +28,6 @@ UPSTREAM_CHECK_REGEX = "/watchdog/(?P<pver>(\d+[\.\-_]*)+)/"
- 
- inherit autotools update-rc.d systemd pkgconfig
- 
--DEPENDS += "libtirpc"
--CFLAGS += "-I${STAGING_INCDIR}/tirpc"
--LDFLAGS += "-ltirpc"
--
- EXTRA_OECONF += " --disable-nfs "
- CACHED_CONFIGUREVARS += "ac_cv_path_PATH_SENDMAIL=${sbindir}/sendmail"
- 
--- 
-2.25.1
+Cheers,
 
+Richard
 
