@@ -1,165 +1,124 @@
-Return-Path: <niko.mauno@vaisala.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63841C6FA82
-	for <webhook@archiver.kernel.org>; Tue, 13 Sep 2022 11:28:59 +0000 (UTC)
-Received: from EUR02-VE1-obe.outbound.protection.outlook.com
- (EUR02-VE1-obe.outbound.protection.outlook.com [40.107.2.67])
- by mx.groups.io with SMTP id smtpd.web11.3472.1663068525772265004
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88F2CC6FA89
+	for <webhook@archiver.kernel.org>; Tue, 13 Sep 2022 12:24:49 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web08.3989.1663071882397539322
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 04:28:46 -0700
+ Tue, 13 Sep 2022 05:24:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@vaisala.com
- header.s=selector1 header.b=BEuqGi6z;
- spf=pass (domain: vaisala.com, ip: 40.107.2.67,
- mailfrom: niko.mauno@vaisala.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jGAlzxq/bjf+U4DJlwx8wvxOihcMA2NrQ+khhREOnpuWIiU8BOuk3oFwB8Nun292N8ys7eJgPq+XrA5DQci1xta+Zp4tY7agNhKrLPNPmt55Svv3+03W6i8YwMorBL6jCJCPETmNKatyDvX1Ma8JNSM0bQC+K5A4X5mx6BLG7siLobNa3ezAmlvC5BsX4tM1kfmDoQvbU4zo5OQS+nwsvicRiXQqjyBXLFHp9cZS7Bl9lRntXdSnLHZIYIjNRCTYLWJHajHOJbALuay6zHJ56Xzn43OlhnH5f4jIGbM2PVG8dO4d0t+h9rrOn3EYONtQeCGykwsZYljERT4u0BbkYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Gzp21Cmmk49HvNy9l/tN20JJ0WjtD4mkef2weYFEasg=;
- b=LPklAvMO+JRw2VrBVn150LZuhMpXIYliv7l0zDbJeCC1Hh/oL7/26i82BaxSFJMNGLL31YTOFBCZlLJFwOKyF2xiQXfMNX2ReOMPj53h4RI+KMmjxaOh5ie+hl/IKWZPAI2QIzAc2elOhlbtPmI0TvilCaUVSb6+lI/eNuyOUTt4LrWV8CE/C8/5i5Nts9VeEGTbl7WmpHeBt7jf5CKhRZ6gsNCL+7PByjRSzFdHgOgGh+YSbTLda1PuVQ5fp1E+r8raF0w56e9XtcCGwBPYKnc4Yuee89rO6CMAB/+THnk8KQhpyJ7xsMUv3LaJNKV8bp9OZ09YjFtcqZ6blyKl1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
- dkim=pass header.d=vaisala.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Gzp21Cmmk49HvNy9l/tN20JJ0WjtD4mkef2weYFEasg=;
- b=BEuqGi6zZQn6rnewIbr/F1ZvEcTblr8zmaLHeX7mQZ+WXHQtFdaED7CzfwOyZ/PnNWy9x28DVZDFhq2FfDKxJc6eKzDtb1yXM8Wj3HOXda9Les2xxLN9BaxrNaNOZJ5TG3Hfhlr33VEETr8eu/tDfNr9uR11X8c+Ar/SZXNWLdpR6sItETw9kc8Vv7b4lxgRqQcUi8+5dn7ufOPSct8kpGC7wL9Uy7qEfv3xsA66dMUUMVUchReqyowTXvZPw6G/X47OBXEVFnFzcRz9R116GwDoE9YmmX8fIzE+RdGFRjPwB2VlzjtIZNU+4suqix/jiVjjFoq5f7+BBnk8CgqLGg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vaisala.com;
-Received: from PAXPR06MB8579.eurprd06.prod.outlook.com (2603:10a6:102:2b3::22)
- by HE1PR0601MB2172.eurprd06.prod.outlook.com (2603:10a6:3:28::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.19; Tue, 13 Sep
- 2022 11:28:41 +0000
-Received: from PAXPR06MB8579.eurprd06.prod.outlook.com
- ([fe80::28bb:5222:3452:fafa]) by PAXPR06MB8579.eurprd06.prod.outlook.com
- ([fe80::28bb:5222:3452:fafa%6]) with mapi id 15.20.5612.022; Tue, 13 Sep 2022
- 11:28:41 +0000
-From: Niko Mauno <niko.mauno@vaisala.com>
-To: openembedded-core@lists.openembedded.org
-CC: steve@sakoman.com,
-	"niko.mauno@vaisala.com" <niko.mauno@vaisala.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [kirkstone][PATCH 2/2] systemd: Add 'no-dns-fallback' PACKAGECONFIG
- option
-Date: Tue, 13 Sep 2022 11:28:28 +0000
-Message-ID: <20220913112828.1458038-2-niko.mauno@vaisala.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220913112828.1458038-1-niko.mauno@vaisala.com>
-References: <20220913112828.1458038-1-niko.mauno@vaisala.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=R0/BHxPq;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id
+ n23-20020a7bc5d7000000b003a62f19b453so13280411wmk.3
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 13 Sep 2022 05:24:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date;
+        bh=l+esPQ+Bq+zx8t+H/VtnQUtHuAxx0h2h+9vpB4Esa7c=;
+        b=R0/BHxPqbsbpn9ojj34WVW2JhL0HS5DqmyKtu5oi2iHzjuQP5PbvpkKrL+jmyxGfWr
+         KVCc9X3h3bpRuEzdFyb7PjnOOe0q3yMqQhk9866/UbSUyw7UNGRADpQDpSu8EoCWyXta
+         DH5Lueekt+jHxuqGigZxifv+fZDUZrW8ntJ7k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=l+esPQ+Bq+zx8t+H/VtnQUtHuAxx0h2h+9vpB4Esa7c=;
+        b=kUAlMy/8InY/5k+MkQqBVXYQHyoYjzubKCcjaLaZueSmBD8CZ4//8Zmc32pfzlWXm/
+         1mEWP9q9QVknhIldCisDvgTPI8TRKij+u02I3PIPfa+QTwR6BO8M2YiN3z9lT1SdwSus
+         cOJo1MmMuQXfjzOgkjzBIRikTpbUnG6D28nvy45lOfs3sNGCJpQcc5BRHa2apyqMCgDG
+         hCearlGLpK5Bepb+BK6ZwJsVnOMSJ8CN0Wigad4r4ghl9t6ZsICfGhLDg2hM2MXc4nKF
+         D39nEZ/NTBGFL/6sMobWevwcY5/dHKIeYWZerH2LJCO4mVouyXDqMtr49l6k5Zsw3iKc
+         GTdg==
+X-Gm-Message-State: ACgBeo2ZB2iyvsMjrFHwTgUmXN0sZHoT2G5NpN7FyY57VgFslbNXKMb8
+	IX3//ITnfCdKwg2IeoQzFFvUFQ==
+X-Google-Smtp-Source: 
+ AA6agR4rXFHvu7hZELUcxJJxFychSTaGEAZnv+G+WHpXGIRvgwRRn+5OMWBOEdURhqBHRBLfhQLZqA==
+X-Received: by 2002:a05:600c:46c6:b0:3b4:61ad:17df with SMTP id
+ q6-20020a05600c46c600b003b461ad17dfmr2297646wmo.107.1663071880762;
+        Tue, 13 Sep 2022 05:24:40 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:b740:75b6:5b77:5982?
+ ([2001:8b0:aba:5f3c:b740:75b6:5b77:5982])
+        by smtp.gmail.com with ESMTPSA id
+ h17-20020a05600c2cb100b003a5ca627333sm14345501wmc.8.2022.09.13.05.24.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Sep 2022 05:24:40 -0700 (PDT)
+Message-ID: 
+ <41df899720a40675568c55a571308c9624ef5d2e.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] python3-cryptography: workaround broken
+ native functionality
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mikko Rapeli <mikko.rapeli@linaro.org>
+Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Sep 2022 13:24:39 +0100
+In-Reply-To: 
+ <CAJFpGrMqa3hk=QL56zFgZBHiJn173Wocz7a5AH=2a9=Eny1tog@mail.gmail.com>
+References: <20220913093452.47839-1-mikko.rapeli@linaro.org>
+	 <0d0f3e3d53f675a0edff4e1582b33998288c95e6.camel@linuxfoundation.org>
+	 <CAJFpGrO=Kd5qTgUQRbzcX3kYuCZKJNayxA6puVXAc_W=ATN6Pg@mail.gmail.com>
+	 <7a1aa96b6b8883d47234c198992963c25b3ff6cd.camel@linuxfoundation.org>
+	 <CAJFpGrMqa3hk=QL56zFgZBHiJn173Wocz7a5AH=2a9=Eny1tog@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: GV3P280CA0004.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:b::18) To PAXPR06MB8579.eurprd06.prod.outlook.com
- (2603:10a6:102:2b3::22)
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR06MB8579:EE_|HE1PR0601MB2172:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9c1905e6-8836-4bb5-97d4-08da957b1c37
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	VF4rICHvyPUGRH4/kg96DBk2ZmGI9l1imoUaMZEA8ykwb/WCVpO6u88hjt0hfH6BtKlMiR4UgihrjXvJvQ5P7qTko/b+8QvcdfTYBJ/S9fSsKEloomUDNWmznOoWljYCMo9L12SwL1KIkwHkBQent+96qBPGVJOiRP7dmfgCUXUTa5TurLauaKm/iZRZHqq9G0raVnXSiE9jVvPNnHg6rujlXI6VooR0fnigUyAZUXOvJC6iP9pa+F9RvWlX3fbeZjsQSoLKnZLCcBLZ1uJE86Ttf//F6nDzXaHd7d54a1FX0a4hLDPixgYcxvTGWSiQCC2zuh3dbwzO126kzXKiaTUCwsZYQSmroqDZF6H+N1lP91uAmGNehPxO7zaD5adM+UwNw4EXrRMs0ip4zPJAFLXKcULqK17IY1+wlqCjEoOQ5FvGxjMktu0nTtP2XbhjqED4SQaPHbOjuy0q3dqFIXpf5X2GlinWivf38Ql80gf37lSQoXOfo13gWuew1/zgXoUrbWITj8j9F+p7r+8FWex+zW/Re5QPW+x0A9THuJjJzt1jcUuTsrDCr+l/VIdVhJLTq9aN8ng8o3oy7OZ3miaXI2GSz8likZIXAU0Gan/hz87F+HN0LHEJczLU3iMv3e7i6hGF5uCt34TDQDymebew4e5F3Jaevg/w+QXKVOqYb/cMIH38PMMqMP+1EYGleboFHelCx8YjNWfewbfiDMpfqGYoJHWpQ5tZAAnRD5mGYthXdyBptdbHUb4LxfFMoRweEriDDtgaRsdk+aMSgofaVq4r0oGJPUACLs/qvbQ=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR06MB8579.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(39850400004)(376002)(346002)(396003)(366004)(451199015)(54906003)(6916009)(1076003)(186003)(2616005)(41300700001)(66556008)(6666004)(66476007)(26005)(4326008)(5660300002)(38100700002)(316002)(52116002)(6512007)(44832011)(6506007)(36756003)(6486002)(966005)(86362001)(478600001)(8936002)(66946007)(2906002)(8676002)(38350700002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?FH3ay33k9fui10g0W23qgLe5/ecwd0/+iiSsy8o/PjOlDq5tglnoStd2v8zy?=
- =?us-ascii?Q?S17mo4RT3X6zVf16NT5mgcf8QFSemor1gnGLKibOn0A4KBrrz5IzYzDPgDGt?=
- =?us-ascii?Q?2v2Oq8foY1StBrg2cP7gtadZf9TtuyEpJZavVpogOAwPwLeJwWzBCMMvQTeE?=
- =?us-ascii?Q?KcCtCRNjBhpyrKIrXJ6sSsqm6/qv/rh2QBcpqWhEBIP8TovYruBTRHTWjlDm?=
- =?us-ascii?Q?8VSwiFEA1EJbEz68tyMQs8BlX/95TayYGaqHFWZu62l7SZC3sjXeExxdw9yF?=
- =?us-ascii?Q?ZXvKnWDTUAWYd677/r3TJvT1BHuT6DHjwGknJXWdoXZtE8RTvcgToVDpOg/9?=
- =?us-ascii?Q?yFVzBiibNdfd+m0HGFSNQdI/Et0dRQdAipf9lGpx2a4VN8frSSaTdpUILWG3?=
- =?us-ascii?Q?xF/KEvDkXysLotoxPhtJgLxWE4bWZuAnHAmqAUkONlI8DyPsswNfSTQcvPUr?=
- =?us-ascii?Q?XgaWaxAF2+r/Ci0Wl/I26i3ICsIjmekz/5pcBTd8Md2AI0DCxOE4/HnLz2I9?=
- =?us-ascii?Q?2B7uRiALZIJ3OfP7QeSq9DPQY5BPHy0WTuPPwh3YhWLpp+7WZ5XjGnbJ3IB4?=
- =?us-ascii?Q?mcO69KQA21waRN2TSxt6pkOVf9v+TC5aY5Jb2t6e8g/fLoiJiApVojI/Ab4m?=
- =?us-ascii?Q?hTGK85BlFtiI5kJoOpeSiM0bSGySHKbsrag6kIcxvxHWKIWpf0mXfSVxs8g8?=
- =?us-ascii?Q?KmFpYstWuBGSKBtGH8p8ZuvCimgo4AgCa5AS8ejtQGMDhitxViJDrI02ciIs?=
- =?us-ascii?Q?TlonFCeY9JkF+pr2omb5v2TYxMlUBqECN5cePXR7ue9qTZ0ssvextH0M+4BJ?=
- =?us-ascii?Q?JnlSOjUt5fbEruU8OAbaNcGEi919gb4cPSRJeE7h8Xlv8v4psjDk3Rg5+oGf?=
- =?us-ascii?Q?DKTQJUHcrspJAjQAngVQt/KBr3/fa/3aQNIe4PgB/BPI8ukwL7Rsao9sqsB9?=
- =?us-ascii?Q?5wNiGX8uc/5Jjl5R+wuo8ZJ8wa/LECAda0Rk4BWO31gPhzQoSgqKMXwpLCt1?=
- =?us-ascii?Q?hCOVnOVjlwyBI8Z4EihZ8fMG/NJoXi14eUWPA2pi3GCrhDfTS+R/XkZMIZia?=
- =?us-ascii?Q?N3C+YNMFoLXoGGv6n0oOA/YhOURCTP3QRg4OQXIgH9vmq8Blce9ejNEh6DlP?=
- =?us-ascii?Q?c/Us8qd3AUvMD5/ToH9nYe/ADqK4QHKFHBvcy4oe0xNliWAZdXChCz+qzi4Q?=
- =?us-ascii?Q?LVU1FWacyAEckZ8mXWuJ9ViaxHF3YK4zEGW77ZRcdqr6WxhgAOg4k406ynv2?=
- =?us-ascii?Q?ANf2BSFirkMYQp1T8wnA4vrbgfk+E12x7nmsjPHtLvekK8XaD44YHXf9PQ/8?=
- =?us-ascii?Q?bhXQUzL+rhUwCy4TkuTyo1vDA+tI/fTu+6HROos4oK91sY6GfXBr/r5h+PdC?=
- =?us-ascii?Q?R+CGRfQLNHo62aX66ZxJOIQWpfxrMcpqhWJXv8Qx1iQK9c3oB8kFNDMhdPRc?=
- =?us-ascii?Q?q4WqvyGVH0onrqeeN3AczCm8FxotTAnjGGbwEnxK3Z8gLYQaA0Id/qmIEcR8?=
- =?us-ascii?Q?CWfmV8x/57QZH5V6gH8gs9x5lTUSTmGJ7cUlYHUNKYSILWyiBEz2Wg21X1Of?=
- =?us-ascii?Q?WVf0zS26oNp7732fw36WqD93ap7+3j2NChNVQ6okcZJnYmKKJK4uiBJEzyOJ?=
- =?us-ascii?Q?Eg=3D=3D?=
-X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 9c1905e6-8836-4bb5-97d4-08da957b1c37
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR06MB8579.eurprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2022 11:28:41.4517
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- 2vOzXDvQw3L4d/0mdeZKdh8nSNVJRNXD3ico3+GkOwn7qwB59RghbQkt66ropA2loV1Fyneacfh+3LdJ7Go/Tg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0601MB2172
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Sep 2022 11:28:59 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Sep 2022 12:24:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170573
+ https://lists.openembedded.org/g/openembedded-core/message/170574
 
-From: "niko.mauno@vaisala.com" <niko.mauno@vaisala.com>
+On Tue, 2022-09-13 at 14:13 +0300, Mikko Rapeli wrote:
+> On Tue, 13 Sept 2022 at 13:34, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > Are you using uninative? I'd have expected glibc and pthreads to come
+> > from there rather than the host.
+>=20
+> Yes, using uninative, not host libc, sorry. Added full list of
+> openat()'d files to the end of this email, from master branch with
+> this patch applied.
+> Delta to without this patch is just a few python modules. I can't see
+> anything wrong in that list.
 
-systemd defines a default set of fallback DNS servers in
-https://github.com/systemd/systemd/blob/v251/meson_options.txt#L328-L330
+It looks correct to me too.
 
-By adding a PACKAGECONFIG knob providing a convenient way to opt out,
-and then adding that value to systemd's PACKAGECONFIG, the output from
-runtime 'resolvectl status' command no longer contains the following
-line:
+It is weird it is ubuntu 18.04 as we had a lot of problems with the
+rust SDK work specifically on that platform. The problem there was rust
+running things with LD_LIBRARY_PATH set which meant host tools tried to
+use the SDK sysroot libs which then broke in interesting ways. It was
+specific to the form of the version mismatch on 18.04.
 
-  Fallback DNS Servers: 1.1.1.1#cloudflare-dns.com 8.8.8.8#dns.google 1.0.0=
-.1#cloudflare-dns.com 8.8.4.4#dns.google 2606:4700:4700::1111#cloudflare-dn=
-s.com 2001:4860:4860::8888#dns.google 2606:4700:4700::1001#cloudflare-dns.c=
-om 2001:4860:4860::8844#dns.google
+I have no idea if there is a connection, your strace output certainly
+suggests not.
+>=20
+> > > And then in bitbake -c devshell busybox:
+> > >=20
+> > > # python3 -c  "from OpenSSL import crypto"
+> > >=20
+> > > I guess there is no way to add a test like that for python3-cryptogra=
+phy-native?
+> >=20
+> > You could probably put that in do_configure to test it?
+>=20
+> Yes, on my layer and recipes I can do this. But I'd rather upstream
+> the test to python3-cryprography-native or somewhere else but I guess
+> native recipes don't have selftests or similar.
 
-(From OE-Core rev: 2b300d6b9ec6288a99d9dacb24a86949caf99e55)
+I was wondering about putting something into upstream recipe...
 
-Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-core/systemd/systemd_250.5.bb | 1 +
- 1 file changed, 1 insertion(+)
+We do somehow need to get more information about what is breaking here
+:/.
 
-diff --git a/meta/recipes-core/systemd/systemd_250.5.bb b/meta/recipes-core=
-/systemd/systemd_250.5.bb
-index 9923312830..5d568f639e 100644
---- a/meta/recipes-core/systemd/systemd_250.5.bb
-+++ b/meta/recipes-core/systemd/systemd_250.5.bb
-@@ -165,6 +165,7 @@ PACKAGECONFIG[manpages] =3D "-Dman=3Dtrue,-Dman=3Dfalse=
-,libxslt-native xmlto-native do
- PACKAGECONFIG[microhttpd] =3D "-Dmicrohttpd=3Dtrue,-Dmicrohttpd=3Dfalse,li=
-bmicrohttpd"
- PACKAGECONFIG[myhostname] =3D "-Dnss-myhostname=3Dtrue,-Dnss-myhostname=3D=
-false,,libnss-myhostname"
- PACKAGECONFIG[networkd] =3D "-Dnetworkd=3Dtrue,-Dnetworkd=3Dfalse"
-+PACKAGECONFIG[no-dns-fallback] =3D "-Ddns-servers=3D"
- PACKAGECONFIG[nss] =3D "-Dnss-systemd=3Dtrue,-Dnss-systemd=3Dfalse"
- PACKAGECONFIG[nss-mymachines] =3D "-Dnss-mymachines=3Dtrue,-Dnss-mymachine=
-s=3Dfalse"
- PACKAGECONFIG[nss-resolve] =3D "-Dnss-resolve=3Dtrue,-Dnss-resolve=3Dfalse=
-"
---=20
-2.35.1
+Cheers,
 
+Richard
 
