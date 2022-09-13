@@ -1,280 +1,251 @@
-Return-Path: <sakib.sajal@windriver.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB18BC54EE9
-	for <webhook@archiver.kernel.org>; Tue, 13 Sep 2022 15:58:30 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web08.6603.1663084708049143110
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02146ECAAD8
+	for <webhook@archiver.kernel.org>; Tue, 13 Sep 2022 16:49:11 +0000 (UTC)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web12.7208.1663087743133375102
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 08:58:28 -0700
+ Tue, 13 Sep 2022 09:49:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=UHv0zwfw;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=625567b1a6=sakib.sajal@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 28DDG5Sn021373
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 08:58:27 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS06212021;
- bh=1a3OdpjxvyVOeAIjfZMREM1uPpwbUpXvIAdEZVjspjc=;
- b=UHv0zwfw9DbDwH+OvKdMJWM8GNFjAA0qV2sIXqOK43Q4x9MQ5LPGCQOkUxGVE0X9cFat
- 8HFk7z1JQ+vyWxZOvjyAakz8eV649JLUCVP+x+iuu/9HNovEX2przWKGj+7/B6TRmaey
- gzlLmzX3Ls/nVZNYqQQiOY3O8on7wx1SWhl9Ce6XwGolyFEtM9FVzpiad4fsTADBEP18
- Qz8GOcksdoOwQL+tc/IERp7wYVsLnK88gqqdx2UBzKo/MDRfdD5CvfFmrK+hE/cxQHYj
- +fDnmWBo6t3A1J0+xD2TZSCPYSVhJy0pY5cIQLKR+vBqdkekZYcbdnXdoa0Wt/AYPAZF Rw==
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com
- [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jgnv6b7py-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 08:58:27 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Tue, 13 Sep 2022 08:58:22 -0700
-Received: from localhost.localdomain (128.224.73.106) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Tue, 13 Sep 2022 08:58:22 -0700
-From: Sakib Sajal <sakib.sajal@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [kirkstone][PATCH 1/2] lighttpd: upgrade 1.4.64 -> 1.4.65
-Date: Tue, 13 Sep 2022 11:58:17 -0400
-Message-ID: <20220913155818.17235-1-sakib.sajal@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=HBv9AWC0;
+ spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f42.google.com with SMTP id fv3so11935681pjb.0
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 13 Sep 2022 09:49:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=1xqOaqsd4AJruylBrAALDn1FF1oXRGE4cw28nMEH2Lw=;
+        b=HBv9AWC0Ey61D1BnhsC68Be4aP81rCW5wYEruRiSjgjog+JzB7ahBVa6Pc57JKSwDZ
+         NrRTtuGwqY42QRS+FiO9U6KOfXf1VFX6Pu+L9PD7qUvPYfrM/L+TG+L8C5CrHbLhYbJK
+         TUy30fPcsjIHz7BzpCKd2vCQR7G2XFBt0wixGeAObLLHdNRRGJ8YbH6lNly+9nwUi1ei
+         aEg6rbUNSCMeR3m5pLgXXLiVsbJHZ8VmJvgD9Y7W3xzhRpKoh3xsyVUjnwaAz9fgfD9x
+         MjkMY9rHokjND0tBGZHGQ81cPgcdw0P49dJCR08Inqfp1GCPqmregJgXsmZfuHPQGMc5
+         rlkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=1xqOaqsd4AJruylBrAALDn1FF1oXRGE4cw28nMEH2Lw=;
+        b=l3PPf472+Ih4/ilXriG9x53ljDBTOHGEYAqkUYNuyBbOMlKZ6ThlzmuwTgTgjAhmOU
+         OHuKaaWAa4+w/7lRZQFtGu3hsQpK+X02ELDseA3G8uHotcGC4cqRMD9deV1AT0LeHEHg
+         zzTv60cl++L7Fsj8ATRhSBI3ol8YJLVtFWH1v7+QGWciNo2hDcx97Fnxe/yPKZ1FhaB8
+         rkqkACY3kV0X0MMPEgZUJ6cK2li53Voh6AWYbNy4CMaVNEgS9PBtZj4mJnapQc18xP5m
+         g/iok75xN/cYNA/FEYxPy+TMFFyH1DIe0EnKChr3xUTPbQQK2cq4CiVy9rXaD727tE3D
+         4dbA==
+X-Gm-Message-State: ACgBeo3TWr0riguWYIFkHk+1w+2X+h6GBD9QORe+q8pb9hjpi78rfWUp
+	kQzQ7HhDVksdUmuYhv/7IRziRkG0xPgPtw==
+X-Google-Smtp-Source: 
+ AA6agR4fhX3GM/bUMJd9V/53CHnL7lQGE6vtT/HOzogHf9+/i50dlV7le0O1bZi25MpvAKyhX610sQ==
+X-Received: by 2002:a17:902:d491:b0:178:2cc3:a4c6 with SMTP id
+ c17-20020a170902d49100b001782cc3a4c6mr11670400plg.46.1663087742071;
+        Tue, 13 Sep 2022 09:49:02 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::8fc7])
+        by smtp.gmail.com with ESMTPSA id
+ k14-20020a17090a590e00b001f216407204sm7393588pji.36.2022.09.13.09.49.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Sep 2022 09:49:01 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] elfutils: Enable ptests on musl targets
+Date: Tue, 13 Sep 2022 09:48:59 -0700
+Message-Id: <20220913164859.2688850-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: 9rJ8GMCzTCwcFcSoMn0yT4dW5AnIGhrM
-X-Proofpoint-ORIG-GUID: 9rJ8GMCzTCwcFcSoMn0yT4dW5AnIGhrM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-13_09,2022-09-13_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- lowpriorityscore=0 mlxlogscore=999 mlxscore=0 spamscore=0 adultscore=0
- impostorscore=0 malwarescore=0 priorityscore=1501 phishscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2209130073
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Sep 2022 15:58:30 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Sep 2022 16:49:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170600
+ https://lists.openembedded.org/g/openembedded-core/message/170602
 
-From: wangmy <wangmy@fujitsu.com>
-
-Changelog:
-==========
-  * [build] meson: fix typo in variable name
-  * [build] autoconf: report if building with zstd
-  * [build] meson -Dlua_version=... to specify lua ver
-  * [core] avoid CCRandomGenerateBytes on MacOS <10.12 (fixes #3140)
-  * [core] use diff var name w/ CCRandomGenerateBytes (fixes #3141)
-  * [core] parse conf cmds with SHELL or /bin/sh
-  * [core] fix HMAC with openssl 3.0
-  * [mod_webdav] no COPYFILE_CLONE_FORCE on OSX <10.12 (fixes #3142)
-  * [mod_deflate] fix to return 304 with If-None-Match (fixes #3143)
-  * [core] Illumos epoll incompatible w/ lighttpd impl
-  * [core] feature flag to allow Range w/ HTTP/1.0
-  * [mod_mbedtls] set usekeysize for mbedtls 3.2.0+
-  * [mod_deflate] collect mmap code
-  * [mod_deflate] prototype using libdeflate w/ mmap
-  * [mod_deflate] --with-libdeflate to use libdeflate
-  * [mod_deflate] mark input bytes const
-  * [core] sys-setjmp.[ch]
-  * [mod_magnet] check lighty.result.content b4 setjmp
-  * [core] include guard consistency in sys-time.h
-  * [core] network_write_file_chunk_remap separate fn
-  * [multiple] use new sys_setjmp_eval3() interface
-  * [multiple] pedantic chunk.c checks for 0-len chunk
-  * [multiple] shared code for struct chunk and mmap
-  * [mod_deflate] use pread if available
-  * [mod_deflate] improve loop compressing file chunk
-  * [core] prep server_tag at startup for h2 resp hdr
-  * [mod_magnet] defer req_env init unless needed
-  * [mod_magnet] reset after error attaching content
-  * [mod_magnet] lua_tointegerx() avoids raising error
-  * [mod_mbedtls] use newer mbedtls 3.2.0+ interfaces
-  * [mod_magnet] adjust hot path for more inlining
-  * [mod_magnet] collect chk for magnet lua_State init
-  * [mod_magnet] use type returned from lua_getfield()
-  * [core] chunk_file_pread() to wrap pread()
-  * [core] disable keep-alive if forcing HTTP/1.0 resp
-  * [mod_magnet] use lua_getextraspace() to store r
-  * [core] fall back to getauxval(AT_RANDOM), if avail
-  * [mod_magnet] keep message handler on stack
-  * [doc] update external links
-  * [mod_magnet] pass lighty table index, defer pops
-  * [mod_magnet] clear and reuse script-env table
-  * [mod_magnet] clear stack when reloading script
-  * [mod_magnet] use lua_isnoneornil() in interfaces
-  * [mod_magnet] fix lighty.c.cookie_tokens()
-  * [mod_magnet] fix lighty.c.urldec_query()
-  * [mod_magnet] remove duplicated NULL checks
-  * [mod_magnet] adjust magnet_lighty_result_get()
-  * [mod_magnet] magnet_tmpbuf_acquire(),release()
-  * [mod_magnet] lighty.c.quotedenc(),dec() funcs
-  * [mod_magnet] fix header,content legacy table clear
-  * [mod_cgi] cgi.local-redir request_reset thru fnptr
-  * [core] isolate plugins_*() funcs to main server
-  * [mod_wolfssl] wolfssl v5.0.0 defines DH_set0_pqg()
-  * [mod_auth] save letter-case diff in require config
-  * [mod_magnet] magnet_push_quoted_string shared code
-  * [mod_magnet] lighty.c.header_tokens convenience fn
-  * [core] fill in un.sun_path after accept() (fixes #3147)
-  * [mod_extforward] adjust trust check for HTTP/2
-  * [mod_proxy] adjust handling of legacy X-* headers
-  * [core] permit env w/ blank value (fix regression)
-  * [TLS] consistent debug.log-ssl-noise config type
-  * [mod_magnet] allow removal of req_env elt via nil
-  * [core] compiler workarounds for very old gcc,glibc
-  * [mod_mbedtls] use newer mbedtls 3.2.0+ interfaces
-  * [mod_ssi] check http_chunk_transfer_cqlen for err
-  * [core] chunkqueue_steal() handle unexpected 0 len
-  * [core] discard DATA from REFUSED_STREAM at h2 init
-  * [multiple] WebSockets over HTTP/2 (fixes #3151)
-  * [multiple] immed connect to backend for streaming
-  * [core] ensure socket ready before checking connect
-  * [core] reduce trace on Upgrade backend connection
-  * [core] adjust when TCP_CORK used on TLS connection
-  * [mod_cgi] disable input optim if might Upgrade
-  * [mod_cgi] immed start CGI if Upgrade
-  * [mod_wolfssl] wolfssl v5.0.0 adds ASN1_TIME_diff()
-  * [mod_openssl] libressl v3.5.0 adds ASN1_TIME_diff
-  * [TLS] warn if leaf cert read is inactive/expired
-  * [core] stricter conformance w/ upcoming HTTP/2 rev
-  * [build] -D_DEFAULT_SOURCE consistency in builds
-  * [mod_extforward] support addtl IPv6 syntax w/ "[]"
-  * [core] build fix for cygwin and lmingw
-  * [core] short-circuit earlier parsing h2 trailers
-  * [core] reformat h2.h for cleaner enum additions
-  * [core] consolidate trace for log-state-handling
-  * [core] request_config bitmasks for smaller struct
-  * [core] prefix (=^), suffix (=$) config conditions (fixes #3153)
-  * [core] tighten config parsing loop
-  * [core] convert simple config cond regex to pre/sfx
-  * [tests] able to run tests when built w/o pcre
-  * [core] allow redirect,rewrite ext subst w/o pcre
-  * [mod_sockproxy] reset http vers, avoid rare crash (fixes #3152)
-  * [core] HTTP/2 PRIORITY_UPDATE frame (experimental)
-  * [core] send HTTP/2 SETTINGS_NO_RFC7540_PRIORITIES
-  * [core] stricter check of HTTP/2 GOAWAY frame size
-  * [mod_mbedtls] use newer mbedtls 3.2.0+ interfaces
-  * [mod_webdav] opt for partial PUT via copy/rename
-  * [core] quiet compiler warning
-  * [multiple] recognize HTTP QUERY method
-  * [multiple] limit scope of socket config options
-  * [core] fix config typo reading large int from str
-  * [core] h2 prio sort urgency, incr, then stream id
-  * [core] send Priority resp hdr w/ .css, .js re-prio
-  * [multiple] reset http vers, avoid rare crash (fixes #3152)
-  * [core] delay response to http auth invalid creds
-  * [core] connection_state_machine_h2 only if con->h2
-  * [core] default server.max-keep-alive-requests 1000
-  * [mod_magnet] set script env in func first upvalue
-  * [mod_magnet] rewrite lighty.r as table of userdata
-  * [mod_status] con->h2 instead of r->http_version
-  * [mod_setenv] cleanup user-provided hdr sloppiness
-  * [core] remove func decls duplicated in plugin.h
-  * [mod_status] fix counting of HTTP/2 bytes written
-  * [mod_magnet] no local server port on unix domain
-  * [mod_extforward] unix domain socket pedantic chks
-  * [core] sketch support for abstract sockets
-  * [mod_magnet] magnet_plugin_stats_table() fn
-  * [mod_magnet] magnet_script_setup_global_state() fn
-  * [mod_magnet] lighty.server.* table w/ new function
-  * [mod_accesslog] do not double-count hdr len in %I
-  * [mod_magnet] reduce magnet_env_get_id() scanning
-  * [mod_magnet] tighten magnet_env_get_buffer_by_id()
-  * [mod_status] reusable code for r->state strings
-  * [core] reusable code for r->state strings
-  * [mod_magnet] expose r->state to lua scripts
-  * [mod_magnet] tighten magnet_env_set()
-  * [mod_magnet] lighty.r.req_item[] accessors
-  * [mod_magnet] expose r->keep_alive to lua scripts
-  * [mod_magnet] lighty.c.hrtime high-resolution time
-  * [mod_magnet] lighty.r.resp_body.get
-  * [mod_magnet] deprecate r.req_attr["response.*]
-  * [mod_magnet] separate funcs for uri_path_raw
-  * [mod_magnet] lighty.c.stat high precision time
-  * [mod_magnet] format multiline err traceback
-  * [mod_magnet] adjust p->conf.stage checks
-  * [mod_magnet] further isolate legacy API result tbl
-  * [core] buffer_append_char() convenience func
-  * [mod_accesslog] accesslog.escaping = "json"
-  * [multiple] use buffer_append_char()
-  * [mod_accesslog] remove begin/end tags from %{}t
-  * [core] fix configparser_simplify_regex() comment
-  * [multiple] simplify bytes_in/bytes_out accounting
-  * [mod_accesslog] reorder fields in switch()
-  * [core] remove unused srv->con_* counters
-  * [mod_magnet] read-only access to r->server_name
-  * [core] buffer_append_bs_escaped()
-  * [core] buffer_append_string_c_escaped ASCII optim
-  * [mod_magnet] backspace-escape encode/decode
-  * [mod_status] display HTTP/2 control stream w/ reqs
-  * [multiple] use preferred syntax for Content-Type
-  * [doc] regenerate doc/config/conf.d/mime.conf
-  * [multiple] rename status_counter -> plugin_stats
-  * [core] feature-flag server.metrics-high-precision
-  * [mod_magnet] quiet coverity false positive
-  * [mod_wolfssl] compile fix for OpenWRT
-  * [mod_webdav] If-None-Match: * on non-existent
-  * [mod_magnet] r.req_body .collect .get .set .add
-  * [mod_cgi] fix detection of failing error handler (fixes #3157)
-  * [core] "url-invalid-utf8-reject" normalization opt
-  * [mod_magnet] skip req body collect warn if modsec3
-  * [build] update descriptions to remove old lua ver
-  * [core] use current dir if context->basedir blank
-  * [multiple] application/javascript text/javascript
-  * [core] reset internal flags after graceful restart
-  * [TLS] inherit ssl.engine from global scope
-  * [core] avoid server.use-ipv6 warning after SIGUSR1
-  * [mod_webdav] alt handling PROPFIND on collection
-  * [mod_mbedtls] fix crt chain construction logic
-  * [core] h2 SETTINGS_INITIAL_WINDOW_SIZE 64k (fixes #3089)
-  * [core] increase session window size to 256k
-  * [core] h2: avoid sending small WINDOW_UPDATE frames
-  * [core] h2: avoid sending tiny DATA frames
-  * [core] update cached tables with Priority header
-  * [tests] test stubs for http_header.c and http_kv.c
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 47188fa0dc19f160085554360c81bd9f363837d5)
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../lighttpd/{lighttpd_1.4.64.bb => lighttpd_1.4.65.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/lighttpd/{lighttpd_1.4.64.bb => lighttpd_1.4.65.bb} (97%)
+ .../elfutils/elfutils_0.187.bb                |   2 +-
+ ...Add-libeu-to-tests-needing-error-API.patch | 147 ++++++++++++++++++
+ 2 files changed, 148 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/elfutils/files/0001-tests-Add-libeu-to-tests-needing-error-API.patch
 
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.64.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.65.bb
-similarity index 97%
-rename from meta/recipes-extended/lighttpd/lighttpd_1.4.64.bb
-rename to meta/recipes-extended/lighttpd/lighttpd_1.4.65.bb
-index 8d2e77e011..10aa27f072 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.64.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.65.bb
-@@ -19,7 +19,7 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
-            file://lighttpd \
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.187.bb b/meta/recipes-devtools/elfutils/elfutils_0.187.bb
+index 561112c580..aadff1a03c 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.187.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.187.bb
+@@ -21,6 +21,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+            file://run-ptest \
+            file://ptest.patch \
+            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
++           file://0001-tests-Add-libeu-to-tests-needing-error-API.patch \
             "
+ SRC_URI:append:libc-musl = " \
+            file://0003-musl-utils.patch \
+@@ -29,7 +30,6 @@ SRC_URI:append:libc-musl = " \
+ SRC_URI[sha256sum] = "e70b0dfbe610f90c4d1fe0d71af142a4e25c3c4ef9ebab8d2d72b65159d454c8"
  
--SRC_URI[sha256sum] = "e1489d9fa7496fbf2e071c338b593b2300d38c23f1e5967e52c9ef482e1b0e26"
-+SRC_URI[sha256sum] = "bf0fa68a629fbc404023a912b377e70049331d6797bcbb4b3e8df4c3b42328be"
+ inherit autotools gettext ptest pkgconfig
+-PTEST_ENABLED:libc-musl = "0"
  
- DEPENDS = "virtual/crypt"
+ EXTRA_OECONF = "--program-prefix=eu-"
  
+diff --git a/meta/recipes-devtools/elfutils/files/0001-tests-Add-libeu-to-tests-needing-error-API.patch b/meta/recipes-devtools/elfutils/files/0001-tests-Add-libeu-to-tests-needing-error-API.patch
+new file mode 100644
+index 0000000000..7c1bc87cbf
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/files/0001-tests-Add-libeu-to-tests-needing-error-API.patch
+@@ -0,0 +1,147 @@
++From c05c787070a390a2061bfcb845e1e35e8b1373b3 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 13 Sep 2022 09:33:00 -0700
++Subject: [PATCH] tests: Add libeu to tests needing error() API
++
++A local error() impelmentation is used when libc does not provide it,
++therefore link in libeu.a which contains this function in tests needing
++error() API
++
++Upstream-Status: Submitted [https://sourceware.org/pipermail/elfutils-devel/2022q3/005375.html]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ tests/Makefile.am | 60 +++++++++++++++++++++++------------------------
++ 1 file changed, 30 insertions(+), 30 deletions(-)
++
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index 3943e17..1acc49b 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -638,17 +638,17 @@ libeu = ../lib/libeu.a
++ arextract_LDADD = $(libelf)
++ arsymtest_LDADD = $(libelf)
++ newfile_LDADD = $(libelf)
++-saridx_LDADD = $(libelf)
+++saridx_LDADD = $(libeu) $(libelf)
++ scnnames_LDADD = $(libelf)
++-sectiondump_LDADD = $(libelf)
+++sectiondump_LDADD = $(libeu) $(libelf)
++ showptable_LDADD = $(libelf)
++ hash_LDADD = $(libelf)
++ test_nlist_CFLAGS =-g -O0 $(EXTRA_NLIST_CFLAGS)
++ test_nlist_LDADD = $(libelf)
++ msg_tst_LDADD = $(libelf)
++ newscn_LDADD = $(libelf)
++-early_offscn_LDADD = $(libelf)
++-ecp_LDADD = $(libelf)
+++early_offscn_LDADD = $(libeu) $(libelf)
+++ecp_LDADD = $(libeu) $(libelf)
++ update1_LDADD = $(libelf)
++ update2_LDADD = $(libelf)
++ update3_LDADD = $(libdw) $(libelf)
++@@ -662,12 +662,12 @@ get_files_LDADD = $(libdw) $(libelf)
++ next_files_LDADD = $(libdw) $(libelf)
++ get_aranges_LDADD = $(libdw) $(libelf)
++ allfcts_LDADD = $(libdw) $(libelf)
++-line2addr_LDADD = $(libdw) $(argp_LDADD)
++-addrscopes_LDADD = $(libdw) $(argp_LDADD)
++-funcscopes_LDADD = $(libdw) $(argp_LDADD)
++-funcretval_LDADD = $(libdw) $(argp_LDADD)
++-allregs_LDADD = $(libdw) $(argp_LDADD)
++-find_prologues_LDADD = $(libdw) $(argp_LDADD)
+++line2addr_LDADD = $(libeu) $(libdw) $(argp_LDADD)
+++addrscopes_LDADD = $(libeu) $(libdw) $(argp_LDADD)
+++funcscopes_LDADD = $(libeu) $(libdw) $(argp_LDADD)
+++funcretval_LDADD = $(libeu) $(libdw) $(argp_LDADD)
+++allregs_LDADD = $(libeu) $(libdw) $(argp_LDADD)
+++find_prologues_LDADD = $(libeu) $(libdw) $(argp_LDADD)
++ #show_ciefde_LDADD = ../libdwarf/libdwarf.so $(libelf)
++ asm_tst1_LDADD = $(libasm) $(libebl) $(libelf) $(libdw)
++ asm_tst2_LDADD = $(libasm) $(libebl) $(libelf) $(libdw)
++@@ -678,19 +678,19 @@ asm_tst6_LDADD = $(libasm) $(libebl) $(libelf) $(libdw)
++ asm_tst7_LDADD = $(libasm) $(libebl) $(libelf) $(libdw)
++ asm_tst8_LDADD = $(libasm) $(libebl) $(libelf) $(libdw)
++ asm_tst9_LDADD = $(libasm) $(libebl) $(libelf) $(libdw)
++-dwflmodtest_LDADD = $(libdw) $(libebl) $(libelf) $(argp_LDADD)
++-rdwrmmap_LDADD = $(libelf)
+++dwflmodtest_LDADD = $(libeu) $(libdw) $(libebl) $(libelf) $(argp_LDADD)
+++rdwrmmap_LDADD = $(libeu) $(libelf)
++ dwfl_bug_addr_overflow_LDADD = $(libdw) $(libebl) $(libelf)
++ arls_LDADD = $(libelf)
++-dwfl_bug_fd_leak_LDADD = $(libdw) $(libebl) $(libelf)
+++dwfl_bug_fd_leak_LDADD = $(libeu) $(libdw) $(libebl) $(libelf)
++ dwfl_bug_report_LDADD = $(libdw) $(libebl) $(libelf)
++-dwfl_bug_getmodules_LDADD = $(libdw) $(libebl) $(libelf)
++-dwfl_addr_sect_LDADD = $(libdw) $(libebl) $(libelf) $(argp_LDADD)
+++dwfl_bug_getmodules_LDADD = $(libeu) $(libdw) $(libebl) $(libelf)
+++dwfl_addr_sect_LDADD = $(libeu) $(libdw) $(libebl) $(libelf) $(argp_LDADD)
++ dwarf_getmacros_LDADD = $(libdw)
++ dwarf_ranges_LDADD = $(libdw)
++ dwarf_getstring_LDADD = $(libdw)
++ addrcfi_LDADD = $(libdw) $(libebl) $(libelf) $(argp_LDADD)
++-dwarfcfi_LDADD = $(libdw) $(libelf)
+++dwarfcfi_LDADD = $(libeu) $(libdw) $(libelf)
++ test_flag_nobits_LDADD = $(libelf)
++ rerequest_tag_LDADD = $(libdw)
++ alldts_LDADD = $(libdw) $(libelf)
++@@ -699,35 +699,35 @@ typeiter2_LDADD = $(libdw) $(libelf)
++ low_high_pc_LDADD = $(libdw) $(libelf) $(argp_LDADD)
++ test_elf_cntl_gelf_getshdr_LDADD = $(libelf)
++ dwflsyms_LDADD = $(libdw) $(libelf) $(argp_LDADD)
++-dwfllines_LDADD = $(libdw) $(libelf) $(argp_LDADD)
++-dwfl_report_elf_align_LDADD = $(libdw)
+++dwfllines_LDADD = $(libeu) $(libdw) $(libelf) $(argp_LDADD)
+++dwfl_report_elf_align_LDADD = $(libeu) $(libdw)
++ dwfl_report_segment_contiguous_LDADD = $(libdw) $(libebl) $(libelf)
++-varlocs_LDADD = $(libdw) $(libelf) $(argp_LDADD)
++-backtrace_LDADD = $(libdw) $(libelf) $(argp_LDADD)
+++varlocs_LDADD = $(libeu) $(libdw) $(libelf) $(argp_LDADD)
+++backtrace_LDADD = $(libeu) $(libdw) $(libelf) $(argp_LDADD)
++ # backtrace-child-biarch also uses those *_CFLAGS and *_LDLAGS variables:
++ backtrace_child_CFLAGS = $(fpie_CFLAGS)
++ backtrace_child_LDFLAGS = -pie -pthread
++ backtrace_child_biarch_SOURCES = backtrace-child.c
++-backtrace_data_LDADD = $(libdw) $(libelf)
+++backtrace_data_LDADD = $(libeu) $(libdw) $(libelf)
++ backtrace_dwarf_CFLAGS = -Wno-unused-parameter
++-backtrace_dwarf_LDADD = $(libdw) $(libelf)
++-debuglink_LDADD = $(libdw) $(libelf)
++-debugaltlink_LDADD = $(libdw) $(libelf)
++-buildid_LDADD = $(libdw) $(libelf)
+++backtrace_dwarf_LDADD = $(libeu) $(libdw) $(libelf)
+++debuglink_LDADD = $(libeu) $(libdw) $(libelf)
+++debugaltlink_LDADD = $(libeu) $(libdw) $(libelf)
+++buildid_LDADD = $(libeu) $(libdw) $(libelf)
++ deleted_LDADD = ./deleted-lib.so
++ deleted_lib_so_LDFLAGS = -shared
++ deleted_lib_so_CFLAGS = $(fpic_CFLAGS) -fasynchronous-unwind-tables
++ aggregate_size_LDADD = $(libdw) $(libelf) $(argp_LDADD)
++ peel_type_LDADD = $(libdw) $(libelf) $(argp_LDADD)
++-vdsosyms_LDADD = $(libdw) $(libelf)
++-getsrc_die_LDADD = $(libdw) $(libelf)
+++vdsosyms_LDADD = $(libeu) $(libdw) $(libelf)
+++getsrc_die_LDADD = $(libeu) $(libdw) $(libelf)
++ strptr_LDADD = $(libelf)
++ newdata_LDADD = $(libelf)
++ elfstrtab_LDADD = $(libelf)
++-dwfl_proc_attach_LDADD = $(libdw)
+++dwfl_proc_attach_LDADD = $(libeu) $(libdw)
++ dwfl_proc_attach_LDFLAGS = -pthread -rdynamic $(AM_LDFLAGS)
++ elfshphehdr_LDADD =$(libelf)
++-elfstrmerge_LDADD = $(libdw) $(libelf)
+++elfstrmerge_LDADD = $(libeu) $(libdw) $(libelf)
++ dwelfgnucompressed_LDADD = $(libelf) $(libdw)
++ elfgetchdr_LDADD = $(libelf) $(libdw)
++ elfgetzdata_LDADD = $(libelf)
++@@ -743,7 +743,7 @@ get_units_split_LDADD = $(libdw)
++ attr_integrate_skel_LDADD = $(libdw)
++ all_dwarf_ranges_LDADD = $(libdw)
++ unit_info_LDADD = $(libdw)
++-next_cfi_LDADD = $(libelf) $(libdw)
+++next_cfi_LDADD = $(libeu) $(libelf) $(libdw)
++ elfcopy_LDADD = $(libelf)
++ addsections_LDADD = $(libelf)
++ debuginfod_build_id_find_LDADD = $(libelf) $(libdw)
++-- 
++2.37.3
++
 -- 
-2.25.1
+2.37.3
 
 
