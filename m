@@ -2,65 +2,66 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31714C54EE9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F8D5C6FA82
 	for <webhook@archiver.kernel.org>; Tue, 13 Sep 2022 14:18:50 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
- [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web11.5130.1663078721050553349
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web12.5285.1663078725888225045
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 07:18:41 -0700
+ Tue, 13 Sep 2022 07:18:46 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=jIC5Pnuf;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.172,
+ header.b=qsOi5OHc;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f172.google.com with SMTP id iw17so12010420plb.0
+Received: by mail-pj1-f47.google.com with SMTP id
+ j6-20020a17090a694600b00200bba67dadso11479786pjm.5
         for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 07:18:40 -0700 (PDT)
+ Tue, 13 Sep 2022 07:18:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=zzRfnIiypUb0BwBbbfBg+1lQ9DY5EDnQ4OLYgYe9/BA=;
-        b=jIC5PnufCwid6UrT86QI0zYi1KiAxYh2h/OFud731awhblv41H99t2r/oOLYbi4UPP
-         jLbftHH0hBnaJbu7WnWH7M24UCQZV/XXMncTzUEllZOiNsPHOBImlOfoZC4bWyy8sU+b
-         QlPFUk6jds/TmQMzRnBUaQZAONqIN17P92Wz0KpcEkacHY27KVmBe3OGsjb4Dz///8LI
-         BhfcVljekFFDiyAQeAgGH6pzlcZVnfPtvxnwwU7nwJuHHx/4cH+juFYLzaOqWf70I+3r
-         N3YZLT0dN9OSN9dT6zHUJmN6eA2ifFSfwR+kM059OxzdbP3OJRzgGj9hSeKXRUXJQL42
-         zh1Q==
+        bh=g5VXro3t8aFCjWjI5lvO81ceEShEBSoVL03m+Wy5buY=;
+        b=qsOi5OHc6JYs7MHccgvFucoOG4ey867WrNdxIV8uThcHEZJzqtSTcKc2V9RvbsaapD
+         fO0QTvXVtdl44R6+xuYrxEEpBc7tQaetXv9tWKWF/nJxWeQsjWjlZaWnrgXAFW1qw5Sb
+         twLYISHWjahcgoftW5ymTKkSfrW1ENc3d+ndB8uD+8e2C2MuH8sIZ3ZKL6l4J65gLPBp
+         aEGHYkKXyVL76dumKboh7fHkEBKY5iX7lDk6EUUfnUkAxOesKlr4LmWMm3ueHYcdjS6z
+         4KzgcxbvkrfzmLxu14oXJuUJ0I+784vv7lInO3DxJyRysO3huvFPB8alY43pcz1cux6x
+         tgTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=zzRfnIiypUb0BwBbbfBg+1lQ9DY5EDnQ4OLYgYe9/BA=;
-        b=6GDrK/sg7yCPR6DS/QvxHKYSQ6e5+B+5VAIUJ4UfZXuKq12YZKz1o9FOUzLnHMsdEd
-         gQY2jfCrPL33R4sdkx7sxM34vOpAbvEfDwOX+hXFmEYnAr7pIN2KL2KyVvwXEkbvyFK9
-         v39VhWN9JW9nURPdlwoR5VAOYL6/Qi+YNO7dkBUCE9j+d0W/XUplePCsdhYy3mZfb8oZ
-         SgCCfRRNlmdJO5+EHoxmq03tSHQ61C9pCaLZRGUY3GJ+pdHRy6voXLOLGiuSlPFctnt+
-         gNmvzunBudn/4UHwKHDtrRTNCzZIt3udRUmQ/jFodftemb95pgr+C1tjwIDjq2unTQg9
-         O0ig==
-X-Gm-Message-State: ACgBeo0s7v6l9n+tKbUnM/SdRYSkpERzfowdyYPsHknZ5gwvoGN//wjW
-	fVEccOEyHyuTcJIDnJRKpPdxmVYurJw/zgsq
+        bh=g5VXro3t8aFCjWjI5lvO81ceEShEBSoVL03m+Wy5buY=;
+        b=XLPJIMyJHwvFQeDevIBI1LgOGdKYp1CPSZf17uy8UEp1eu2idFkBU8/Gd5mE8ZkY1S
+         Od94SlFj0JezxNG/7n8nzX+pAmEiELRdxYSU1bGZy5rY3VzbcjjFwvbapnyaA3e/j8JV
+         DIedN9A+EFXy7ONIuH6K5SDAqXwSy3JNn4iiaLVYHgEnsPgzkiMK+5hf1B5cIsq4eXJs
+         KU9NjF6OVbGKFEzAOQcRKqh+hyIVKAmhzucWZAEiQir0F4dXGrolMG+XLnIT0YNd4l6B
+         sIExGACD4THNzy4A3fEgVMdhb6KczjlpSe2n8ALJbKpYq57LVwO77IMCm/AjhCprpItx
+         25MA==
+X-Gm-Message-State: ACgBeo3sXagqox0bpHbdpyZ01vGIgAlhdXxfOiUh8sN3gJkQt7ljEA5T
+	N5yMVwSQHmgg2rmtLian6c8aMiw6NZy75VxC
 X-Google-Smtp-Source: 
- AA6agR5AYcAnP9V9tK7say8hSyy9/VpFx5cavEEG9mOpG2LbZ5BN3HwZVBf3cd9kCM6QnfiJDHbqtQ==
-X-Received: by 2002:a17:902:b08b:b0:178:48b6:f5a8 with SMTP id
- p11-20020a170902b08b00b0017848b6f5a8mr3129865plr.3.1663078719949;
-        Tue, 13 Sep 2022 07:18:39 -0700 (PDT)
+ AA6agR524eJnYewOXPIEnW36FHcOITsUQCBMrrqI1vTfRnFrpp7ducHfCXytVN+k7VX48n8Oi7fzKg==
+X-Received: by 2002:a17:903:228c:b0:178:3bc7:8a3f with SMTP id
+ b12-20020a170903228c00b001783bc78a3fmr7200743plh.88.1663078724710;
+        Tue, 13 Sep 2022 07:18:44 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- g11-20020aa796ab000000b0053bf1f90188sm8086424pfk.176.2022.09.13.07.18.38
+ g11-20020aa796ab000000b0053bf1f90188sm8086424pfk.176.2022.09.13.07.18.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Sep 2022 07:18:39 -0700 (PDT)
+        Tue, 13 Sep 2022 07:18:44 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 12/16] cairo: Adapt the license information based
- on what is being built
-Date: Tue, 13 Sep 2022 04:17:53 -1000
+Subject: [OE-core][kirkstone 14/16] externalsrc: Don't wipe out src dir when
+ EXPORT_FUNCTIONS is used.
+Date: Tue, 13 Sep 2022 04:17:55 -1000
 Message-Id: 
- <654d3542afa8082ef8ec9c34e3f27bc9f22ba2b4.1663078051.git.steve@sakoman.com>
+ <70f7575bfe7e3b136125b1db7ad5549074e7fd1c.1663078051.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1663078051.git.steve@sakoman.com>
 References: <cover.1663078051.git.steve@sakoman.com>
@@ -71,45 +72,64 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 13 Sep 2022 14:18:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170591
+ https://lists.openembedded.org/g/openembedded-core/message/170593
 
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+From: Kristian Amlie <kristian.amlie@northern.tech>
 
-If the "trace" PACKAGECONFIG is removed to disable cairo-trace (the
-only part of the code licensed as GPL-3.0), we can adapt the licenses
-for cairo-dbg and cairo-src so that they do not include
-"GPL-3.0-or-later" and thus they can be used also when, e.g., GPL-3.0
-is blacklisted in INCOMPATIBLE_LICENSE. Also drop the GPL-3.0 license
-text from LIC_FILES_CHKSUM in this case.
+When 73fa855f6af5ef9c3 was introduced, the "cleandirs" variable flag
+started applying to functions exported using EXPORT_FUNCTIONS.
+The externalsrc class is supposed to remove cleandirs in order to
+prevent wiping out an external src folder (home directory?), but
+doesn't take the previous point into account. The result is that
+cleandirs is still in effect.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To fix this, apply the cleandirs manipulation to all variables, not
+just predefined ones. This is expensive, but since it executes inside
+an `if externalsrc` clause, and EXTERNALSRC is usually only set for
+specific single recipes, it won't affect most recipes.
+
+Richard Purdie <richard.purdie@linuxfoundation.org> is the original
+author of this patch. I just submitted it under my name for blame
+purposes, and also we have been testing it a lot in my company.
+
+This is the original discussion:
+https://lists.openembedded.org/g/openembedded-core/topic/91374926
+
+Signed-off-by: Kristian Amlie <kristian.amlie@northern.tech>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4f0ea44c80f297d00349b7d3cf9438145aec8a74)
+(cherry picked from commit 74ad497a55007960a4869905878e3ccbd11e4369)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-graphics/cairo/cairo_1.16.0.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/classes/externalsrc.bbclass | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-index 67081bb8cb..ffb813d290 100644
---- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-@@ -17,9 +17,13 @@ LICENSE:${PN}-doc = "MPL-1.1 | LGPL-2.1-only"
- LICENSE:${PN}-gobject = "MPL-1.1 | LGPL-2.1-only"
- LICENSE:${PN}-script-interpreter = "MPL-1.1 | LGPL-2.1-only"
- LICENSE:${PN}-perf-utils = "GPL-3.0-or-later"
-+# Adapt the licenses for cairo-dbg and cairo-src depending on whether
-+# cairo-trace is being built.
-+LICENSE:${PN}-dbg = "(MPL-1.1 | LGPL-2.1-only)${@bb.utils.contains('PACKAGECONFIG', 'trace', ' & GPL-3.0-or-later', '', d)}"
-+LICENSE:${PN}-src = "(MPL-1.1 | LGPL-2.1-only)${@bb.utils.contains('PACKAGECONFIG', 'trace', ' & GPL-3.0-or-later', '', d)}"
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index 90792a737b..8136d25cb1 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -90,16 +90,18 @@ python () {
+                 # Since configure will likely touch ${S}, ensure only we lock so one task has access at a time
+                 d.appendVarFlag(task, "lockfiles", " ${S}/singletask.lock")
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77 \
--                    file://util/cairo-trace/COPYING-GPL-3;md5=d32239bcb673463ab874e80d47fae504"
-+                    ${@bb.utils.contains('PACKAGECONFIG', 'trace', 'file://util/cairo-trace/COPYING-GPL-3;md5=d32239bcb673463ab874e80d47fae504', '', d)}"
+-            for funcname in [task, "base_" + task, "kernel_" + task]:
++        for v in d.keys():
++            cleandirs = d.getVarFlag(v, "cleandirs", False)
++            if cleandirs:
+                 # We do not want our source to be wiped out, ever (kernel.bbclass does this for do_clean)
+-                cleandirs = oe.recipeutils.split_var_value(d.getVarFlag(funcname, 'cleandirs', False) or '')
++                cleandirs = oe.recipeutils.split_var_value(cleandirs)
+                 setvalue = False
+                 for cleandir in cleandirs[:]:
+                     if oe.path.is_path_parent(externalsrc, d.expand(cleandir)):
+                         cleandirs.remove(cleandir)
+                         setvalue = True
+                 if setvalue:
+-                    d.setVarFlag(funcname, 'cleandirs', ' '.join(cleandirs))
++                    d.setVarFlag(v, 'cleandirs', ' '.join(cleandirs))
  
- 
- DEPENDS = "fontconfig glib-2.0 libpng pixman zlib"
+         fetch_tasks = ['do_fetch', 'do_unpack']
+         # If we deltask do_patch, there's no dependency to ensure do_unpack gets run, so add one
 -- 
 2.25.1
 
