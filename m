@@ -1,388 +1,295 @@
-Return-Path: <chee.yang.lee@intel.com>
+Return-Path: <sjolley.yp.pm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB03CC6FA83
-	for <webhook@archiver.kernel.org>; Tue, 13 Sep 2022 00:32:09 +0000 (UTC)
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by mx.groups.io with SMTP id smtpd.web09.3520.1663029127616196178
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 160CCC6FA82
+	for <webhook@archiver.kernel.org>; Tue, 13 Sep 2022 00:38:20 +0000 (UTC)
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
+ [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web12.3625.1663029493946666018
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Sep 2022 17:32:07 -0700
+ Mon, 12 Sep 2022 17:38:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=ZdZtM3Ck;
- spf=pass (domain: intel.com, ip: 192.55.52.115,
- mailfrom: chee.yang.lee@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663029127; x=1694565127;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=YesnYAhf6TlPtrZ5H3vl3lGGlWCQUrozbFowTZ2hGk8=;
-  b=ZdZtM3CkejY02YKaAHsLNMSIsqEZBswEq7lL6r5qmWu/cV+hjNc1Yh+d
-   3/d1W1X71HJHUTVoQc3ykBi7xU5ZjJPIk/scdPHJS64jeOQSRnawlJwPC
-   2AuKpQgOjGT9X59SGXTUUjwxpIiwwcXEZvJH9KmLYHNEho6GQcGm1bFjD
-   wJSfskNTIt909Dn4h1oxSGXz1assocCQkGzeGqau/IxVBhpYHgUPAf5Sr
-   /jZJp4crCm+UjgIvF3Lmkd6CMZF4dbhVp1pSkKBdIxVx//MUWkckpIecA
-   4HzWSoaTOc2rUjRTiqkXgvAWsDbICVxShd6wBeIzfO9uk5Jiov4rUp96l
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10468"; a="298005295"
-X-IronPort-AV: E=Sophos;i="5.93,311,1654585200";
-   d="scan'208";a="298005295"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2022 17:32:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,311,1654585200";
-   d="scan'208";a="567375192"
-Received: from andromeda02.png.intel.com ([10.221.253.198])
-  by orsmga003.jf.intel.com with ESMTP; 12 Sep 2022 17:32:05 -0700
-From: chee.yang.lee@intel.com
-To: openembedded-core@lists.openembedded.org
-Subject: [dunfell][PATCH] tiff: Security fixes CVE-2022-1354 and CVE-2022-1355
-Date: Tue, 13 Sep 2022 08:32:05 +0800
-Message-Id: <20220913003205.86537-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.36.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=aaSwSk+2;
+ spf=pass (domain: gmail.com, ip: 209.85.215.173,
+ mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pg1-f173.google.com with SMTP id g4so9847525pgc.0
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 12 Sep 2022 17:38:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-language:thread-index:mime-version:message-id:date:subject
+         :to:from:from:to:cc:subject:date;
+        bh=ATpdQRAwJvAF80nzl4mZbPCRnKal7hou4vz/+/dGdR0=;
+        b=aaSwSk+28DwNZgSSTNqxzkGdXF34N3AKEBze8qubSLiWsSKHZ88Nr088L5CgyDQ9Cd
+         tJLJ29A0P1cUYL2Owg92g8vIBUJ58R/aw7VGzZ/MxKCXmPXn6VIBXaaRzBQ+0mQryx1c
+         THF6/hJErgk3TPs7wrOMJeEVnjN+t2CiVUKtK6NHH1RRQBh1eCU8POFArL+/U6GvKqQE
+         OZqGL0ZGEpUWQKmD5IH/LrfXIYB5jTu7W8IOhU17W519U2ppf8U04L5Y0UTZV6JGou6N
+         4ETYA39AhC15oUl3INBE3s6TOv1a0ysEXeI7cbBgGZ6+785d1bQ30NzBIH3Inr/M6O0N
+         AxwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-language:thread-index:mime-version:message-id:date:subject
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=ATpdQRAwJvAF80nzl4mZbPCRnKal7hou4vz/+/dGdR0=;
+        b=qcN1O8DXVrsj+fi2s2Mza7s07te3ILnDQGlVi++/ZBJsEVls20rAsHeQ19Dv3WBmkR
+         rVIgvpPJLIYbteSHV4BA6qQD9bzLm/Xt5IaZuWAG/Sbv4nrOrAam+Ifdq0alb1UiOX0D
+         memgirxwDInejQk3J67yOriTczvayA35Q5UgFU1QIdfwg4YtEk70pTtBuwDEfEi3C8LS
+         gUD6eix3Fpgw9tef/wUCGsRoRnmQqw/nHpSCMgBidSlZtlSA0jO930lXxN5YUCtNjM5e
+         YiGjPHYXXRPbGayd0AWUOpJ6OyIS/yORgPpKElykvoYHnOztkuKqsXJgJYfkoeGeABHN
+         xxcQ==
+X-Gm-Message-State: ACgBeo3p/So2y01Gwe0nmFaJMUiuFoP4KNQ+03wJPMo/NxjwADJC0vrd
+	+dM3xEoMErkscGbQ+sVrqT+VO3zFiZU=
+X-Google-Smtp-Source: 
+ AA6agR4gMCoLRm/f4iCBlkj8TX+cl+JVBSD6Vr0klUaHLJJu6N0NykqAqvjIwba3/HGrFwGUzahSkQ==
+X-Received: by 2002:a63:fa4f:0:b0:438:e26d:5ec with SMTP id
+ g15-20020a63fa4f000000b00438e26d05ecmr8613608pgk.361.1663029493020;
+        Mon, 12 Sep 2022 17:38:13 -0700 (PDT)
+Received: from skjolley ([2600:1011:a118:bb62:293c:e2d4:1418:7020])
+        by smtp.gmail.com with ESMTPSA id
+ q8-20020a170902dac800b0017832c8cc85sm2990966plx.292.2022.09.12.17.38.10
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 12 Sep 2022 17:38:11 -0700 (PDT)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@lists.yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Mon, 12 Sep 2022 17:38:11 -0700
+Message-ID: <009301d8c709$1a949d90$4fbdd8b0$@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0094_01D8C6CE.6E35ECA0"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQJBoTZyjdjvJd2etYTnVlTmyBLvFw==
+Content-Language: en-us
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Sep 2022 00:32:09 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Sep 2022 00:38:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170550
+ https://lists.openembedded.org/g/openembedded-core/message/170551
 
-From: Yi Zhao <yi.zhao@windriver.com>
+This is a multipart message in MIME format.
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2022-1354
-https://security-tracker.debian.org/tracker/CVE-2022-1354
+------=_NextPart_000_0094_01D8C6CE.6E35ECA0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-https://nvd.nist.gov/vuln/detail/CVE-2022-1355
-https://security-tracker.debian.org/tracker/CVE-2022-1355
+All,
 
-Patches from:
+ 
 
-CVE-2022-1354:
-https://gitlab.com/libtiff/libtiff/-/commit/87f580f39011109b3bb5f6eca13fac543a542798
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
 
-CVE-2022-1355:
-https://gitlab.com/libtiff/libtiff/-/commit/c1ae29f9ebacd29b7c3e0c7db671af7db3584bc2
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
+how to create a bugzilla account at:
+<https://bugzilla.yoctoproject.org/createaccount.cgi>
+https://bugzilla.yoctoproject.org/createaccount.cgi
 
-(From OE-Core rev: 6c373c041f1dd45458866408d1ca16d47cacbd86)
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
----
- .../libtiff/tiff/CVE-2022-1354.patch          | 212 ++++++++++++++++++
- .../libtiff/tiff/CVE-2022-1355.patch          |  62 +++++
- meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |   2 +
- 3 files changed, 276 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-1354.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-1355.patch
+ 
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1354.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1354.patch
-new file mode 100644
-index 0000000000..71b85cac10
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1354.patch
-@@ -0,0 +1,212 @@
-+From 87881e093691a35c60b91cafed058ba2dd5d9807 Mon Sep 17 00:00:00 2001
-+From: Even Rouault <even.rouault@spatialys.com>
-+Date: Sun, 5 Dec 2021 14:37:46 +0100
-+Subject: [PATCH] TIFFReadDirectory: fix OJPEG hack (fixes #319)
-+
-+to avoid having the size of the strip arrays inconsistent with the
-+number of strips returned by TIFFNumberOfStrips(), which may cause
-+out-ouf-bounds array read afterwards.
-+
-+One of the OJPEG hack that alters SamplesPerPixel may influence the
-+number of strips. Hence compute tif_dir.td_nstrips only afterwards.
-+
-+CVE: CVE-2022-1354
-+
-+Upstream-Status: Backport
-+[https://gitlab.com/libtiff/libtiff/-/commit/87f580f39011109b3bb5f6eca13fac543a542798]
-+
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-+---
-+ libtiff/tif_dirread.c | 162 ++++++++++++++++++++++--------------------
-+ 1 file changed, 83 insertions(+), 79 deletions(-)
-+
-+diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-+index 8f434ef5..14c031d1 100644
-+--- a/libtiff/tif_dirread.c
-++++ b/libtiff/tif_dirread.c
-+@@ -3794,50 +3794,7 @@ TIFFReadDirectory(TIFF* tif)
-+ 		MissingRequired(tif,"ImageLength");
-+ 		goto bad;
-+ 	}
-+-	/*
-+-	 * Setup appropriate structures (by strip or by tile)
-+-	 */
-+-	if (!TIFFFieldSet(tif, FIELD_TILEDIMENSIONS)) {
-+-		tif->tif_dir.td_nstrips = TIFFNumberOfStrips(tif);  
-+-		tif->tif_dir.td_tilewidth = tif->tif_dir.td_imagewidth;
-+-		tif->tif_dir.td_tilelength = tif->tif_dir.td_rowsperstrip;
-+-		tif->tif_dir.td_tiledepth = tif->tif_dir.td_imagedepth;
-+-		tif->tif_flags &= ~TIFF_ISTILED;
-+-	} else {
-+-		tif->tif_dir.td_nstrips = TIFFNumberOfTiles(tif);
-+-		tif->tif_flags |= TIFF_ISTILED;
-+-	}
-+-	if (!tif->tif_dir.td_nstrips) {
-+-		TIFFErrorExt(tif->tif_clientdata, module,
-+-		    "Cannot handle zero number of %s",
-+-		    isTiled(tif) ? "tiles" : "strips");
-+-		goto bad;
-+-	}
-+-	tif->tif_dir.td_stripsperimage = tif->tif_dir.td_nstrips;
-+-	if (tif->tif_dir.td_planarconfig == PLANARCONFIG_SEPARATE)
-+-		tif->tif_dir.td_stripsperimage /= tif->tif_dir.td_samplesperpixel;
-+-	if (!TIFFFieldSet(tif, FIELD_STRIPOFFSETS)) {
-+-#ifdef OJPEG_SUPPORT
-+-		if ((tif->tif_dir.td_compression==COMPRESSION_OJPEG) &&
-+-		    (isTiled(tif)==0) &&
-+-		    (tif->tif_dir.td_nstrips==1)) {
-+-			/*
-+-			 * XXX: OJPEG hack.
-+-			 * If a) compression is OJPEG, b) it's not a tiled TIFF,
-+-			 * and c) the number of strips is 1,
-+-			 * then we tolerate the absence of stripoffsets tag,
-+-			 * because, presumably, all required data is in the
-+-			 * JpegInterchangeFormat stream.
-+-			 */
-+-			TIFFSetFieldBit(tif, FIELD_STRIPOFFSETS);
-+-		} else
-+-#endif
-+-        {
-+-			MissingRequired(tif,
-+-				isTiled(tif) ? "TileOffsets" : "StripOffsets");
-+-			goto bad;
-+-		}
-+-	}
-++
-+ 	/*
-+ 	 * Second pass: extract other information.
-+ 	 */
-+@@ -4042,41 +3999,6 @@ TIFFReadDirectory(TIFF* tif)
-+ 			} /* -- if (!dp->tdir_ignore) */
-+ 		} /* -- for-loop -- */
-+ 
-+-        if( tif->tif_mode == O_RDWR &&
-+-            tif->tif_dir.td_stripoffset_entry.tdir_tag != 0 &&
-+-            tif->tif_dir.td_stripoffset_entry.tdir_count == 0 &&
-+-            tif->tif_dir.td_stripoffset_entry.tdir_type == 0 &&
-+-            tif->tif_dir.td_stripoffset_entry.tdir_offset.toff_long8 == 0 &&
-+-            tif->tif_dir.td_stripbytecount_entry.tdir_tag != 0 &&
-+-            tif->tif_dir.td_stripbytecount_entry.tdir_count == 0 &&
-+-            tif->tif_dir.td_stripbytecount_entry.tdir_type == 0 &&
-+-            tif->tif_dir.td_stripbytecount_entry.tdir_offset.toff_long8 == 0 )
-+-        {
-+-            /* Directory typically created with TIFFDeferStrileArrayWriting() */
-+-            TIFFSetupStrips(tif);
-+-        }
-+-        else if( !(tif->tif_flags&TIFF_DEFERSTRILELOAD) )
-+-        {
-+-            if( tif->tif_dir.td_stripoffset_entry.tdir_tag != 0 )
-+-            {
-+-                if (!TIFFFetchStripThing(tif,&(tif->tif_dir.td_stripoffset_entry),
-+-                                         tif->tif_dir.td_nstrips,
-+-                                         &tif->tif_dir.td_stripoffset_p))
-+-                {
-+-                    goto bad;
-+-                }
-+-            }
-+-            if( tif->tif_dir.td_stripbytecount_entry.tdir_tag != 0 )
-+-            {
-+-                if (!TIFFFetchStripThing(tif,&(tif->tif_dir.td_stripbytecount_entry),
-+-                                         tif->tif_dir.td_nstrips,
-+-                                         &tif->tif_dir.td_stripbytecount_p))
-+-                {
-+-                    goto bad;
-+-                }
-+-            }
-+-        }
-+-
-+ 	/*
-+ 	 * OJPEG hack:
-+ 	 * - If a) compression is OJPEG, and b) photometric tag is missing,
-+@@ -4147,6 +4069,88 @@ TIFFReadDirectory(TIFF* tif)
-+ 		}
-+ 	}
-+ 
-++	/*
-++	 * Setup appropriate structures (by strip or by tile)
-++	 * We do that only after the above OJPEG hack which alters SamplesPerPixel
-++	 * and thus influences the number of strips in the separate planarconfig.
-++	 */
-++	if (!TIFFFieldSet(tif, FIELD_TILEDIMENSIONS)) {
-++		tif->tif_dir.td_nstrips = TIFFNumberOfStrips(tif);  
-++		tif->tif_dir.td_tilewidth = tif->tif_dir.td_imagewidth;
-++		tif->tif_dir.td_tilelength = tif->tif_dir.td_rowsperstrip;
-++		tif->tif_dir.td_tiledepth = tif->tif_dir.td_imagedepth;
-++		tif->tif_flags &= ~TIFF_ISTILED;
-++	} else {
-++		tif->tif_dir.td_nstrips = TIFFNumberOfTiles(tif);
-++		tif->tif_flags |= TIFF_ISTILED;
-++	}
-++	if (!tif->tif_dir.td_nstrips) {
-++		TIFFErrorExt(tif->tif_clientdata, module,
-++		    "Cannot handle zero number of %s",
-++		    isTiled(tif) ? "tiles" : "strips");
-++		goto bad;
-++	}
-++	tif->tif_dir.td_stripsperimage = tif->tif_dir.td_nstrips;
-++	if (tif->tif_dir.td_planarconfig == PLANARCONFIG_SEPARATE)
-++		tif->tif_dir.td_stripsperimage /= tif->tif_dir.td_samplesperpixel;
-++	if (!TIFFFieldSet(tif, FIELD_STRIPOFFSETS)) {
-++#ifdef OJPEG_SUPPORT
-++		if ((tif->tif_dir.td_compression==COMPRESSION_OJPEG) &&
-++		    (isTiled(tif)==0) &&
-++		    (tif->tif_dir.td_nstrips==1)) {
-++			/*
-++			 * XXX: OJPEG hack.
-++			 * If a) compression is OJPEG, b) it's not a tiled TIFF,
-++			 * and c) the number of strips is 1,
-++			 * then we tolerate the absence of stripoffsets tag,
-++			 * because, presumably, all required data is in the
-++			 * JpegInterchangeFormat stream.
-++			 */
-++			TIFFSetFieldBit(tif, FIELD_STRIPOFFSETS);
-++		} else
-++#endif
-++        {
-++			MissingRequired(tif,
-++				isTiled(tif) ? "TileOffsets" : "StripOffsets");
-++			goto bad;
-++		}
-++	}
-++
-++        if( tif->tif_mode == O_RDWR &&
-++            tif->tif_dir.td_stripoffset_entry.tdir_tag != 0 &&
-++            tif->tif_dir.td_stripoffset_entry.tdir_count == 0 &&
-++            tif->tif_dir.td_stripoffset_entry.tdir_type == 0 &&
-++            tif->tif_dir.td_stripoffset_entry.tdir_offset.toff_long8 == 0 &&
-++            tif->tif_dir.td_stripbytecount_entry.tdir_tag != 0 &&
-++            tif->tif_dir.td_stripbytecount_entry.tdir_count == 0 &&
-++            tif->tif_dir.td_stripbytecount_entry.tdir_type == 0 &&
-++            tif->tif_dir.td_stripbytecount_entry.tdir_offset.toff_long8 == 0 )
-++        {
-++            /* Directory typically created with TIFFDeferStrileArrayWriting() */
-++            TIFFSetupStrips(tif);
-++        }
-++        else if( !(tif->tif_flags&TIFF_DEFERSTRILELOAD) )
-++        {
-++            if( tif->tif_dir.td_stripoffset_entry.tdir_tag != 0 )
-++            {
-++                if (!TIFFFetchStripThing(tif,&(tif->tif_dir.td_stripoffset_entry),
-++                                         tif->tif_dir.td_nstrips,
-++                                         &tif->tif_dir.td_stripoffset_p))
-++                {
-++                    goto bad;
-++                }
-++            }
-++            if( tif->tif_dir.td_stripbytecount_entry.tdir_tag != 0 )
-++            {
-++                if (!TIFFFetchStripThing(tif,&(tif->tif_dir.td_stripbytecount_entry),
-++                                         tif->tif_dir.td_nstrips,
-++                                         &tif->tif_dir.td_stripbytecount_p))
-++                {
-++                    goto bad;
-++                }
-++            }
-++        }
-++
-+ 	/*
-+ 	 * Make sure all non-color channels are extrasamples.
-+ 	 * If it's not the case, define them as such.
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1355.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1355.patch
-new file mode 100644
-index 0000000000..e59f5aad55
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1355.patch
-@@ -0,0 +1,62 @@
-+From fb1db384959698edd6caeea84e28253d272a0f96 Mon Sep 17 00:00:00 2001
-+From: Su_Laus <sulau@freenet.de>
-+Date: Sat, 2 Apr 2022 22:33:31 +0200
-+Subject: [PATCH] tiffcp: avoid buffer overflow in "mode" string (fixes #400)
-+
-+CVE: CVE-2022-1355
-+
-+Upstream-Status: Backport
-+[https://gitlab.com/libtiff/libtiff/-/commit/c1ae29f9ebacd29b7c3e0c7db671af7db3584bc2]
-+
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-+---
-+ tools/tiffcp.c | 25 ++++++++++++++++++++-----
-+ 1 file changed, 20 insertions(+), 5 deletions(-)
-+
-+diff --git a/tools/tiffcp.c b/tools/tiffcp.c
-+index fd129bb7..8d944ff6 100644
-+--- a/tools/tiffcp.c
-++++ b/tools/tiffcp.c
-+@@ -274,19 +274,34 @@ main(int argc, char* argv[])
-+ 			deftilewidth = atoi(optarg);
-+ 			break;
-+ 		case 'B':
-+-			*mp++ = 'b'; *mp = '\0';
-++			if (strlen(mode) < (sizeof(mode) - 1))
-++			{
-++				*mp++ = 'b'; *mp = '\0';
-++			}
-+ 			break;
-+ 		case 'L':
-+-			*mp++ = 'l'; *mp = '\0';
-++			if (strlen(mode) < (sizeof(mode) - 1))
-++			{
-++				*mp++ = 'l'; *mp = '\0';
-++			}
-+ 			break;
-+ 		case 'M':
-+-			*mp++ = 'm'; *mp = '\0';
-++			if (strlen(mode) < (sizeof(mode) - 1))
-++			{
-++				*mp++ = 'm'; *mp = '\0';
-++			}
-+ 			break;
-+ 		case 'C':
-+-			*mp++ = 'c'; *mp = '\0';
-++			if (strlen(mode) < (sizeof(mode) - 1))
-++			{
-++				*mp++ = 'c'; *mp = '\0';
-++			}
-+ 			break;
-+ 		case '8':
-+-			*mp++ = '8'; *mp = '\0';
-++			if (strlen(mode) < (sizeof(mode)-1))
-++			{
-++				*mp++ = '8'; *mp = '\0';
-++			}
-+ 			break;
-+ 		case 'x':
-+ 			pageInSeq = 1;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
-index c061d2aaac..e5c226b5cd 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
-@@ -26,6 +26,8 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2022-0924.patch \
-            file://CVE-2022-2056-CVE-2022-2057-CVE-2022-2058.patch \
-            file://CVE-2022-34526.patch \
-+           file://CVE-2022-1354.patch \
-+           file://CVE-2022-1355.patch \
-           "
- SRC_URI[md5sum] = "2165e7aba557463acc0664e71a3ed424"
- SRC_URI[sha256sum] = "5d29f32517dadb6dbcd1255ea5bbc93a2b54b94fbf83653b4d65c7d6775b8634"
--- 
-2.36.1
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 410
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now,  "4.1", "4.2", "4.3", "4.99" and "Future", the more
+pressing/urgent issues being in "4.1" and then "4.2".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_0094_01D8C6CE.6E35ECA0
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0146_01D8C14E.E6923120";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The triage team is starting to try and =
+collect up and classify bugs which a newcomer to the project would be =
+able to work on in a way which means people can find them. They're being =
+listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a> and how to create a bugzilla account at: <a =
+href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
+style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
+/span></a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 410 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &nbsp;&#8220;4.1&#8221;, =
+&#8220;4.2&#8221;, &#8220;4.3&#8221;, &quot;4.99&quot; and =
+&quot;Future&quot;, the more pressing/urgent issues being in =
+&quot;4.1&quot; and then &#8220;4.2&#8221;.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
+and if a bug is something you would be able to help with either take =
+ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_000_0094_01D8C6CE.6E35ECA0--
 
 
