@@ -1,161 +1,178 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C68DAC6FA82
-	for <webhook@archiver.kernel.org>; Tue, 13 Sep 2022 09:32:48 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web08.2660.1663061566113376592
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF250C54EE9
+	for <webhook@archiver.kernel.org>; Tue, 13 Sep 2022 09:35:28 +0000 (UTC)
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+ by mx.groups.io with SMTP id smtpd.web10.2771.1663061705027847457
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 02:32:46 -0700
+ Tue, 13 Sep 2022 02:35:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UsBdHRA4;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id h8so12808697wrf.3
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 02:32:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date;
-        bh=LVmWAOaTIbY2ClO2bP3WC0GJGJb7kmKefk/WgQ3s5+E=;
-        b=UsBdHRA4Oa1rvabufOo9MK0VkEIBdLVKhPD5D7DFWtFyiy9x67dUWMy4A5c1LeWqBj
-         OlSw3xwipcjhkDq4Z/rH/RwEWGWrXUXrZATdQk2DDKQ7I0BLIfPzAUZLGCJkEgXCe5r/
-         6PIpcH4lpE8Uo+uemaVIxKErjHZznGZBxND+U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date;
-        bh=LVmWAOaTIbY2ClO2bP3WC0GJGJb7kmKefk/WgQ3s5+E=;
-        b=nHvID5S+MU9Be2MFVaNFt66SO5MkUL782ISUAYLndzf5vfuFmZPcrMPYY+s9euAWPo
-         JHiWgAFIuaprCGsONhFvPWOM465bHXnIKjENLJ495IlkcytWlQKfF6QolbgwIiCNcvqJ
-         6RwLvWA/y1cneszS6WsiwrVDFc2wk8bbSaT/m6La5QLuPQaKiZK4bt5eCYRpCVPd0Jz6
-         TwNIKQmn5jVx9njc4C52YJG5F4irGiTr4lzgsgEDSMVj+q3qnTWkfkJqr1n42XPyj1v+
-         IDOdsGFWOzkybBetSd0unnLSAPSH8pMAdcZvT+eQLd4h4afnwzMlCFgsYo991uWzMLJ+
-         fR2g==
-X-Gm-Message-State: ACgBeo2WORHvCYt47CpbaH3O8mG5LlJQzm3GgMzKZLuqQpOjYU513Dna
-	wL4980jK/kwTYiQPBFYqZA5yRJfKAXPzoQ==
-X-Google-Smtp-Source: 
- AA6agR5l+qGDgMItx+UeaRiEMGjq4IBnLwfZRtwTMiyaIcHe+3Sf2X6fwNPiUIxC/X9c+AX9oOyz5w==
-X-Received: by 2002:a5d:6da5:0:b0:222:4634:6a4e with SMTP id
- u5-20020a5d6da5000000b0022246346a4emr18029196wrs.172.1663061563908;
-        Tue, 13 Sep 2022 02:32:43 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:b740:75b6:5b77:5982])
-        by smtp.gmail.com with ESMTPSA id
- j8-20020a5d5648000000b00228bf773b1fsm9894954wrw.7.2022.09.13.02.32.43
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Sep 2022 02:32:43 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ dkim=missing;
+ spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25,
+ mailfrom: mcfrisk@lakka.kapsi.fi)
+Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
+	by mail.kapsi.fi with esmtps  (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1oY2Jp-00DSXU-Lw; Tue, 13 Sep 2022 12:35:02 +0300
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.92)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1oY2Jp-000Cia-JX; Tue, 13 Sep 2022 12:35:01 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] selftest/qemurunner: Work around possible control character
- contamination
-Date: Tue, 13 Sep 2022 10:32:42 +0100
-Message-Id: <20220913093242.952083-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH] python3-cryptography: workaround broken native functionality
+Date: Tue, 13 Sep 2022 12:34:52 +0300
+Message-Id: <20220913093452.47839-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Rspam-Score: 1.8 (+)
+X-Rspam-Report: Action: no action
+ Symbol: RCVD_TLS_LAST(0.00)
+ Symbol: ARC_NA(0.00)
+ Symbol: DMARC_POLICY_SOFTFAIL(0.10)
+ Symbol: FROM_HAS_DN(0.00)
+ Symbol: TO_DN_SOME(0.00)
+ Symbol: R_MISSING_CHARSET(0.50)
+ Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
+ Symbol: MIME_GOOD(-0.10)
+ Symbol: RCPT_COUNT_TWO(0.00)
+ Symbol: MID_CONTAINS_FROM(1.00)
+ Symbol: R_SPF_NA(0.00)
+ Symbol: FORGED_SENDER(0.30)
+ Symbol: R_DKIM_NA(0.00)
+ Symbol: MIME_TRACE(0.00)
+ Symbol: ASN(0.00)
+ Symbol: FROM_NEQ_ENVFROM(0.00)
+ Symbol: RCVD_COUNT_TWO(0.00)
+ Message-ID: 20220913093452.47839-1-mikko.rapeli@linaro.org
+X-SA-Exim-Connect-IP: 2001:67c:1be8::11
+X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Sep 2022 09:32:48 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Sep 2022 09:35:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170561
+ https://lists.openembedded.org/g/openembedded-core/message/170562
 
-Using a binary string as the login banner search expression is fraught with
-risks. We've seen cases on the autobuilder where "login:" is clearly shown
-but the code hasn't triggered. The most likely cause is hidden control characters
-in the output causing the search to fail.
+The python3-cryptography-native builds work but are functionally broken
+on Ubuntu 18.04 build host since the update from 3.3.2 in
+meta-openembedded/meta-python. If recipe needs and DEPENDS on
+python3-cryptography-native for signing use cases, loading
+the python modules fails:
 
-Take the opportunity to remove the horrible binary string search, at the expense of
-decoding the bootlog multiple times.
+$ python3 -c  "from OpenSSL import crypto"
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/OpenSSL/__init__.py", line 8, in <module>
+    from OpenSSL import crypto, SSL
+  File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/OpenSSL/crypto.py", line 11, in <module>
+    from OpenSSL._util import (
+  File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/OpenSSL/_util.py", line 5, in <module>
+    from cryptography.hazmat.bindings.openssl.binding import Binding
+  File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/cryptography/hazmat/bindings/openssl/binding.py", line 228, in <module>
+    Binding.init_static_locks()
+  File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/cryptography/hazmat/bindings/openssl/binding.py", line 188, in init_static_locks
+    cls._ensure_ffi_initialized()
+  File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/cryptography/hazmat/bindings/openssl/binding.py", line 176, in _ensure_ffi_initialized
+    _openssl_assert(
+  File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/cryptography/hazmat/bindings/openssl/binding.py", line 90, in _openssl_assert
+    raise InternalError(
+cryptography.exceptions.InternalError: Unknown OpenSSL error. This error is commonly encountered when another library is not cleaning up the OpenSSL error stack. If you are using cryptography with another library that uses OpenSSL try disabling it before reporting a bug. Otherwise please file an issue at https://github.com/pyca/cryptography/issues with information on how to reproduce this. ([_OpenSSLErrorWithText(code=310378599, lib=37, reason=103, reason_text=b'error:12800067:DSO support routines::could not load the shared library'), _OpenSSLErrorWithText(code=310378599, lib=37, reason=103, reason_text=b'error:12800067:DSO support routines::could not load the shared library'), _OpenSSLErrorWithText(code=126615813, lib=15, reason=786693, reason_text=b'error:078C0105:common libcrypto routines::init fail')])
 
-Tweak the logging so we can know which log was printed (self.msg or bootlog)
-just in case this isn't the issue and we need more information in future.
+This hacky patch enables enough functionality in
+python3-cryptography-native to work so that basic secure boot
+signing use cases work again.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- meta/classes-recipe/testimage.bbclass |  6 +-----
- meta/lib/oeqa/utils/qemurunner.py     | 21 +++++++++++++--------
- 2 files changed, 14 insertions(+), 13 deletions(-)
+ ...3-cryptography_hack_to_remove_legacy.patch | 54 +++++++++++++++++++
+ .../python/python3-cryptography_37.0.4.bb     |  5 ++
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-cryptography/python3-cryptography_hack_to_remove_legacy.patch
 
-diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
-index 8d2fab21dff..819c7d2bf4c 100644
---- a/meta/classes-recipe/testimage.bbclass
-+++ b/meta/classes-recipe/testimage.bbclass
-@@ -189,11 +189,7 @@ def get_testimage_boot_patterns(d):
-                     search_login_succeeded,search_cmd_finished\n Make sure your TESTIMAGE_BOOT_PATTERNS=%s \
-                     contains an accepted flag.' % d.getVar('TESTIMAGE_BOOT_PATTERNS'))
-                     return
--                # We know boot prompt is searched through in binary format, others might be expressions
--                if flag == 'search_reached_prompt':
--                    boot_patterns[flag] = flagval.encode()
--                else:
--                    boot_patterns[flag] = flagval.encode().decode('unicode-escape')
-+                boot_patterns[flag] = flagval.encode().decode('unicode-escape')
-     return boot_patterns
- 
- 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 948f8adc9f1..6a85f57e498 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -85,7 +85,7 @@ class QemuRunner:
-         accepted_patterns = ['search_reached_prompt', 'send_login_user', 'search_login_succeeded', 'search_cmd_finished']
-         default_boot_patterns = defaultdict(str)
-         # Default to the usual paterns used to communicate with the target
--        default_boot_patterns['search_reached_prompt'] = b' login:'
-+        default_boot_patterns['search_reached_prompt'] = ' login:'
-         default_boot_patterns['send_login_user'] = 'root\n'
-         default_boot_patterns['search_login_succeeded'] = r"root@[a-zA-Z0-9\-]+:~#"
-         default_boot_patterns['search_cmd_finished'] = r"[a-zA-Z0-9]+@[a-zA-Z0-9\-]+:~#"
-@@ -109,12 +109,15 @@ class QemuRunner:
-             sock.close()
-             raise
- 
-+    def decode_qemulog(self, todecode):
-+        # Sanitize the data received from qemu as it may contain control characters
-+        msg = todecode.decode("utf-8", errors='ignore')
-+        msg = re_control_char.sub('', msg)
-+        return msg
+diff --git a/meta/recipes-devtools/python/python3-cryptography/python3-cryptography_hack_to_remove_legacy.patch b/meta/recipes-devtools/python/python3-cryptography/python3-cryptography_hack_to_remove_legacy.patch
+new file mode 100644
+index 0000000000..74b1cff248
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-cryptography/python3-cryptography_hack_to_remove_legacy.patch
+@@ -0,0 +1,54 @@
++python3-cryptography: ignore broken legacy providers
 +
-     def log(self, msg):
-         if self.logfile:
--            # It is needed to sanitize the data received from qemu
--            # because is possible to have control characters
--            msg = msg.decode("utf-8", errors='ignore')
--            msg = re_control_char.sub('', msg)
-+            msg = self.decode_qemulog(msg)
-             self.msg += msg
-             with codecs.open(self.logfile, "a", encoding="utf-8") as f:
-                 f.write("%s" % msg)
-@@ -468,7 +471,9 @@ class QemuRunner:
-                             self.log(data)
- 
-                         data = b''
--                        if self.boot_patterns['search_reached_prompt'] in bootlog:
++These are broken on python3-cryptography-native builds
++since update from python3-cryptography 3.3.2 in meta-openembedded/meta-python
++to the new rust based versions 35 and newer.
 +
-+                        decodedlog = self.decode_qemulog(bootlog)
-+                        if self.boot_patterns['search_reached_prompt'] in decodedlog:
-                             self.server_socket = qemusock
-                             stopread = True
-                             reachedlogin = True
-@@ -488,10 +493,10 @@ class QemuRunner:
-                 self.logger.warning("Target didn't reach login banner in %d seconds (%s)" %
-                                   (self.boottime, time.strftime("%D %H:%M:%S")))
-             tail = lambda l: "\n".join(l.splitlines()[-25:])
--            bootlog = bootlog.decode("utf-8")
-+            bootlog = self.decode_qemulog(bootlog)
-             # in case bootlog is empty, use tail qemu log store at self.msg
-             lines = tail(bootlog if bootlog else self.msg)
--            self.logger.warning("Last 25 lines of text:\n%s" % lines)
-+            self.logger.warning("Last 25 lines of text (%d):\n%s" % (len(bootlog), lines))
-             self.logger.warning("Check full boot log: %s" % self.logfile)
-             self._dump_host()
-             self.stop()
++Test case on Ubuntu 18.04 build host, a recipe which needs
++python3-cryptography-native for e.g. signing secure boot binaries:
++
++# python3 -c  "from OpenSSL import crypto"
++Traceback (most recent call last):
++  File "<string>", line 1, in <module>
++  File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/OpenSSL/__init__.py", line 8, in <module>
++    from OpenSSL import crypto, SSL
++  File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/OpenSSL/crypto.py", line 11, in <module>
++    from OpenSSL._util import (
++  File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/OpenSSL/_util.py", line 5, in <module>
++    from cryptography.hazmat.bindings.openssl.binding import Binding
++  File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/cryptography/hazmat/bindings/openssl/binding.py", line 228, in <module>
++    Binding.init_static_locks()
++  File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/cryptography/hazmat/bindings/openssl/binding.py", line 188, in init_static_locks
++    cls._ensure_ffi_initialized()
++  File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/cryptography/hazmat/bindings/openssl/binding.py", line 176, in _ensure_ffi_initialized
++    _openssl_assert(
++  File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/cryptography/hazmat/bindings/openssl/binding.py", line 90, in _openssl_assert
++    raise InternalError(
++cryptography.exceptions.InternalError: Unknown OpenSSL error. This error is commonly encountered when another library is not cleaning up the OpenSSL error stack. If you are using cryptography with another library that uses OpenSSL try disabling it before reporting a bug. Otherwise please file an issue at https://github.com/pyca/cryptography/issues with information on how to reproduce this. ([_OpenSSLErrorWithText(code=310378599, lib=37, reason=103, reason_text=b'error:12800067:DSO support routines::could not load the shared library'), _OpenSSLErrorWithText(code=310378599, lib=37, reason=103, reason_text=b'error:12800067:DSO support routines::could not load the shared library'), _OpenSSLErrorWithText(code=126615813, lib=15, reason=786693, reason_text=b'error:078C0105:common libcrypto routines::init fail')])
++
++With this hacky patch, the needed signing functions of
++python3-cryptography-native still work.
++
++Upstream-Status: Inappropriate
++
++Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
++
++diff --git a/src/cryptography/hazmat/bindings/openssl/binding.py b/src/cryptography/hazmat/bindings/openssl/binding.py
++index a6fbc94..fffb669 100644
++--- a/src/cryptography/hazmat/bindings/openssl/binding.py
+++++ b/src/cryptography/hazmat/bindings/openssl/binding.py
++@@ -173,9 +173,11 @@ class Binding:
++                     cls._legacy_provider = cls.lib.OSSL_PROVIDER_load(
++                         cls.ffi.NULL, b"legacy"
++                     )
++-                    _openssl_assert(
++-                        cls.lib, cls._legacy_provider != cls.ffi.NULL
++-                    )
+++                    # HACK: for some reason this check is failing on native
+++                    # but maybe it doesn't harm to break old, broken ciphers
+++                    #_openssl_assert(
+++                    #    cls.lib, cls._legacy_provider != cls.ffi.NULL
+++                    #)
++                     cls._default_provider = cls.lib.OSSL_PROVIDER_load(
++                         cls.ffi.NULL, b"default"
++                     )
+diff --git a/meta/recipes-devtools/python/python3-cryptography_37.0.4.bb b/meta/recipes-devtools/python/python3-cryptography_37.0.4.bb
+index c91a8c7771..116871cd0b 100644
+--- a/meta/recipes-devtools/python/python3-cryptography_37.0.4.bb
++++ b/meta/recipes-devtools/python/python3-cryptography_37.0.4.bb
+@@ -63,6 +63,11 @@ SRC_URI += "file://run-ptest \
+            crate://crates.io/winapi/0.3.9 \
+            "
+ 
++# workaround for native builds to get some of the signing functions working
++SRC_URI:append:class-native = " \
++           file://python3-cryptography_hack_to_remove_legacy.patch \
++"
++
+ inherit pypi python_setuptools3_rust
+ 
+ DEPENDS += " \
 -- 
-2.34.1
+2.17.1
 
 
