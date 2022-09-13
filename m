@@ -2,66 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F8D5C6FA82
-	for <webhook@archiver.kernel.org>; Tue, 13 Sep 2022 14:18:50 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web12.5285.1663078725888225045
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A9E6C54EE9
+	for <webhook@archiver.kernel.org>; Tue, 13 Sep 2022 14:19:00 +0000 (UTC)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web11.5130.1663078721050553349
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 07:18:46 -0700
+ Tue, 13 Sep 2022 07:18:50 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=qsOi5OHc;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.47,
+ header.b=rGiPsQRP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.172,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f47.google.com with SMTP id
- j6-20020a17090a694600b00200bba67dadso11479786pjm.5
+Received: by mail-pl1-f172.google.com with SMTP id iw17so12010850plb.0
         for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 07:18:45 -0700 (PDT)
+ Tue, 13 Sep 2022 07:18:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=g5VXro3t8aFCjWjI5lvO81ceEShEBSoVL03m+Wy5buY=;
-        b=qsOi5OHc6JYs7MHccgvFucoOG4ey867WrNdxIV8uThcHEZJzqtSTcKc2V9RvbsaapD
-         fO0QTvXVtdl44R6+xuYrxEEpBc7tQaetXv9tWKWF/nJxWeQsjWjlZaWnrgXAFW1qw5Sb
-         twLYISHWjahcgoftW5ymTKkSfrW1ENc3d+ndB8uD+8e2C2MuH8sIZ3ZKL6l4J65gLPBp
-         aEGHYkKXyVL76dumKboh7fHkEBKY5iX7lDk6EUUfnUkAxOesKlr4LmWMm3ueHYcdjS6z
-         4KzgcxbvkrfzmLxu14oXJuUJ0I+784vv7lInO3DxJyRysO3huvFPB8alY43pcz1cux6x
-         tgTA==
+        bh=YqW67nW6bTkFGqHQNfcK7tWsIBnLWJR7yEiV43TxJkA=;
+        b=rGiPsQRPXuPWvj7gOLn9Aer7mmSlugFdQDFDlKVhc1LPrQAxRcUph1FOaORmTvtH+4
+         zNrZsaDnkn8aMersDz4OtmmAo6tZ73hnEqUGHc1rJVIqAFtaqlUULxxQ0L6rWdOP0J8z
+         84k8dKTTyuqseCaBCnch7Onqd1Gq6rXT9a8IDyZntEEhNA4u+DFf2GM6ax+NiAT2/JUe
+         3kyysRZcmEL52tCOCcMGLw0abGwjKn1VK7sLk/+SzdsuHNW9DHjMFk2IIbLYipbsH8m6
+         MdSLr+q66OW+tMRe17rAC0Gx5GSCCXF8AoEbpQUoNI/xprDlH15yjrw1FSwlUZh8bo/D
+         uwDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=g5VXro3t8aFCjWjI5lvO81ceEShEBSoVL03m+Wy5buY=;
-        b=XLPJIMyJHwvFQeDevIBI1LgOGdKYp1CPSZf17uy8UEp1eu2idFkBU8/Gd5mE8ZkY1S
-         Od94SlFj0JezxNG/7n8nzX+pAmEiELRdxYSU1bGZy5rY3VzbcjjFwvbapnyaA3e/j8JV
-         DIedN9A+EFXy7ONIuH6K5SDAqXwSy3JNn4iiaLVYHgEnsPgzkiMK+5hf1B5cIsq4eXJs
-         KU9NjF6OVbGKFEzAOQcRKqh+hyIVKAmhzucWZAEiQir0F4dXGrolMG+XLnIT0YNd4l6B
-         sIExGACD4THNzy4A3fEgVMdhb6KczjlpSe2n8ALJbKpYq57LVwO77IMCm/AjhCprpItx
-         25MA==
-X-Gm-Message-State: ACgBeo3sXagqox0bpHbdpyZ01vGIgAlhdXxfOiUh8sN3gJkQt7ljEA5T
-	N5yMVwSQHmgg2rmtLian6c8aMiw6NZy75VxC
+        bh=YqW67nW6bTkFGqHQNfcK7tWsIBnLWJR7yEiV43TxJkA=;
+        b=Q6MwT3VLArFxxZu94su0ECU1ZuzalwrODx1BlnHBYIkx9IxY7RFxFnlxw8LqMS5rXB
+         4yn64u/ki0w+1DrM4lxjNnQuKwuefi6dUAUEsw2cokRTAuynjIAhtdKKB6N1xZJg8unU
+         5hoCoUNUyXLO8Duw8FnC67C9W92TZAXlJpeuKOnGk+1qswHfsJ/VvrfzN2fIl78/YmXa
+         XEoNjgreW/evalATKqOp8V6wdDBGvMFJGlUmHpHrJgHH+SJtqUe+bD3gFOVfS2ydNVpm
+         9HSc3yVU1x6qp+ycMDfuZZOzZTaV/DLkf/0mdsGr80PHfnuRjI0J8d0wVHZJkRMU54L4
+         7o6A==
+X-Gm-Message-State: ACgBeo3OIkjCtfV5s/D3O89cny5Jshtdpn023bVibdAQ4cUZab54Wn0e
+	DnNsnPtW5yqzr0q8JVr/HAxULRy1psW25HNA
 X-Google-Smtp-Source: 
- AA6agR524eJnYewOXPIEnW36FHcOITsUQCBMrrqI1vTfRnFrpp7ducHfCXytVN+k7VX48n8Oi7fzKg==
-X-Received: by 2002:a17:903:228c:b0:178:3bc7:8a3f with SMTP id
- b12-20020a170903228c00b001783bc78a3fmr7200743plh.88.1663078724710;
-        Tue, 13 Sep 2022 07:18:44 -0700 (PDT)
+ AA6agR7avrR7P5p2H8to/2gDFk6vVKW5zf8soDnx/2IuZ7/kErdw2YhaLgNCdRXKNQFRilch0vl9pw==
+X-Received: by 2002:a17:90a:e644:b0:200:2f9a:bd0a with SMTP id
+ ep4-20020a17090ae64400b002002f9abd0amr4240541pjb.88.1663078729853;
+        Tue, 13 Sep 2022 07:18:49 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- g11-20020aa796ab000000b0053bf1f90188sm8086424pfk.176.2022.09.13.07.18.43
+ g11-20020aa796ab000000b0053bf1f90188sm8086424pfk.176.2022.09.13.07.18.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Sep 2022 07:18:44 -0700 (PDT)
+        Tue, 13 Sep 2022 07:18:49 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 14/16] externalsrc: Don't wipe out src dir when
- EXPORT_FUNCTIONS is used.
-Date: Tue, 13 Sep 2022 04:17:55 -1000
+Subject: [OE-core][kirkstone 16/16] runqemu: display host uptime when starting
+Date: Tue, 13 Sep 2022 04:17:57 -1000
 Message-Id: 
- <70f7575bfe7e3b136125b1db7ad5549074e7fd1c.1663078051.git.steve@sakoman.com>
+ <08406e03abddc7290c0c2296aa179725a58155d3.1663078051.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1663078051.git.steve@sakoman.com>
 References: <cover.1663078051.git.steve@sakoman.com>
@@ -70,66 +68,48 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Sep 2022 14:18:50 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Sep 2022 14:19:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170593
+ https://lists.openembedded.org/g/openembedded-core/message/170595
 
-From: Kristian Amlie <kristian.amlie@northern.tech>
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-When 73fa855f6af5ef9c3 was introduced, the "cleandirs" variable flag
-started applying to functions exported using EXPORT_FUNCTIONS.
-The externalsrc class is supposed to remove cleandirs in order to
-prevent wiping out an external src folder (home directory?), but
-doesn't take the previous point into account. The result is that
-cleandirs is still in effect.
+In order to be able to debug issues on the host that have an impact on the
+guest, it is useful to get the uptime of the host while starting so we can
+match with the events in dmesg. Also include the uptime when cleaning up.
 
-To fix this, apply the cleandirs manipulation to all variables, not
-just predefined ones. This is expensive, but since it executes inside
-an `if externalsrc` clause, and EXTERNALSRC is usually only set for
-specific single recipes, it won't affect most recipes.
-
-Richard Purdie <richard.purdie@linuxfoundation.org> is the original
-author of this patch. I just submitted it under my name for blame
-purposes, and also we have been testing it a lot in my company.
-
-This is the original discussion:
-https://lists.openembedded.org/g/openembedded-core/topic/91374926
-
-Signed-off-by: Kristian Amlie <kristian.amlie@northern.tech>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 74ad497a55007960a4869905878e3ccbd11e4369)
+(cherry picked from commit 2d96499823f7de6e16a461426491e015ba63c1ec)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/externalsrc.bbclass | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ scripts/runqemu | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index 90792a737b..8136d25cb1 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -90,16 +90,18 @@ python () {
-                 # Since configure will likely touch ${S}, ensure only we lock so one task has access at a time
-                 d.appendVarFlag(task, "lockfiles", " ${S}/singletask.lock")
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 24c4a40b50..1525081ad5 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -1500,6 +1500,9 @@ class BaseConfig(object):
+         cmd = "%s %s" % (self.qemu_opt, kernel_opts)
+         cmds = shlex.split(cmd)
+         logger.info('Running %s\n' % cmd)
++        with open('/proc/uptime', 'r') as f:
++            uptime_seconds = f.readline().split()[0]
++        logger.info('Host uptime: %s\n' % uptime_seconds)
+         pass_fds = []
+         if self.taplock_descriptor:
+             pass_fds = [self.taplock_descriptor.fileno()]
+@@ -1523,6 +1526,9 @@ class BaseConfig(object):
+         signal.signal(signal.SIGTERM, signal.SIG_IGN)
  
--            for funcname in [task, "base_" + task, "kernel_" + task]:
-+        for v in d.keys():
-+            cleandirs = d.getVarFlag(v, "cleandirs", False)
-+            if cleandirs:
-                 # We do not want our source to be wiped out, ever (kernel.bbclass does this for do_clean)
--                cleandirs = oe.recipeutils.split_var_value(d.getVarFlag(funcname, 'cleandirs', False) or '')
-+                cleandirs = oe.recipeutils.split_var_value(cleandirs)
-                 setvalue = False
-                 for cleandir in cleandirs[:]:
-                     if oe.path.is_path_parent(externalsrc, d.expand(cleandir)):
-                         cleandirs.remove(cleandir)
-                         setvalue = True
-                 if setvalue:
--                    d.setVarFlag(funcname, 'cleandirs', ' '.join(cleandirs))
-+                    d.setVarFlag(v, 'cleandirs', ' '.join(cleandirs))
- 
-         fetch_tasks = ['do_fetch', 'do_unpack']
-         # If we deltask do_patch, there's no dependency to ensure do_unpack gets run, so add one
+         logger.info("Cleaning up")
++        with open('/proc/uptime', 'r') as f:
++            uptime_seconds = f.readline().split()[0]
++        logger.info('Host uptime: %s\n' % uptime_seconds)
+         if self.cleantap:
+             cmd = ('sudo', self.qemuifdown, self.tap, self.bindir_native)
+             logger.debug('Running %s' % str(cmd))
 -- 
 2.25.1
 
