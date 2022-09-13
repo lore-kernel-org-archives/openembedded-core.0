@@ -1,89 +1,136 @@
-Return-Path: <ecordonnier@snapchat.com>
+Return-Path: <florin.diaconescu009@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2F30C54EE9
-	for <webhook@archiver.kernel.org>; Tue, 13 Sep 2022 12:39:19 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web12.4170.1663072757181187282
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7910C6FA82
+	for <webhook@archiver.kernel.org>; Tue, 13 Sep 2022 12:48:39 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web11.4147.1663073311965405184
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 05:39:17 -0700
+ Tue, 13 Sep 2022 05:48:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snapchat.com header.s=google header.b=C1AaPSmA;
- spf=pass (domain: snapchat.com, ip: 209.85.210.171,
- mailfrom: ecordonnier@snapchat.com)
-Received: by mail-pf1-f171.google.com with SMTP id j12so11618266pfi.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VVuA9ke5;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42,
+ mailfrom: florin.diaconescu009@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id wc11so12710646ejb.4
         for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 05:39:17 -0700 (PDT)
+ Tue, 13 Sep 2022 05:48:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snapchat.com; s=google;
+        d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date;
-        bh=BaODi1lbudpJq9stft4x2FTOJE6F2jauMCs0K+LzpTo=;
-        b=C1AaPSmA5xbYbbWgaEY/RZ6KJHJg/6edMthhdkNjmYY+Syc3IgfjVf/s8AxB2fD791
-         216HdfIECSQt9q9bjTZ4DFTXyNuhvsUTkRQZaZBwlnH6QBFPDsVquAwEKKj2yITOo6os
-         3f28NBArBx6NvyRPmBfjMerE+1oeDCRRbQU+s=
+        bh=RQI/eoOdSHPTRN5OFJqz2GqrbMYy+7XNCRgcXKcX5Ug=;
+        b=VVuA9ke54yNkiqVe25r/msozI8qm1VfCBKokxSm7m6DgZDPw+eZ8ElHnslVN+1y85k
+         4Gbo1AYRFHPgeGZ8vlEVa1Y1lP7/NkBVwFkLvTZXxyuX25hEVh35dGYupIcGb5hPCME2
+         Sg7z6Z5elF6wmyeqwcsVfyCtEh8ioK2PyQSL8XBmvCVwpjxqb9gjeK4ZQ/fZDTOguV0/
+         nEVNchPi+DX0eVh6qFhCvkOjxb1PAKVcbMeA0NWmsIEwbRVNIcYsxJDYWGG+rr6/a351
+         eqEiF0fjber89wXRoBwDwrnX2DWwYoNsHuc/lV4iTg1n+bSmQOMWslDetgoyrbmY+k+4
+         T7Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=BaODi1lbudpJq9stft4x2FTOJE6F2jauMCs0K+LzpTo=;
-        b=3Dp2GfhQKbyc94o6d9m33WmN6WNK8klm5Z9pmOnN5rPa98xm8RG6hcZIncYiKxOzz3
-         BgPZykWwRu9KvPpjB3mmTyx/F7mIvUP04ZIMUbqG8hp9Eu+nAj8/sOPVFf5ab63aPYgD
-         NWd9jnMn5+EaEoGbkJJ/Ylljb4ML78KwTbbA8MvQBRNK1TEtgocRXO62rBj6rqy9AO7a
-         IsyVXqcvpj8rfdkyXBOCyyswfwnOfmMAf/Bk72L0ee1z0GS1a35U8jV+bcNgnY73kT6u
-         KFWkimldew3z0zmKDGNrcrM9CZcIGldorbD0m4DZrJjEySt/PJ0XLGfJyZkHFKYNGRl7
-         Px3Q==
-X-Gm-Message-State: ACgBeo1bvZ0t4L+d28UkSTD8NYpAiKy56WZzxyAsoKY3lTMTV2cJgQUn
-	EUsx3+ZQmL31fC/2+7CkGQZFKNz8omlXyXWc
+        bh=RQI/eoOdSHPTRN5OFJqz2GqrbMYy+7XNCRgcXKcX5Ug=;
+        b=hXKm/n0cAGbenkILDkX0YYfzcTNxGfG9EAMjvtgzSYaKy0atZ6B+JRyyuP8u0hZrgl
+         dcXDqq7n2X37zUiWBx6jhEMVxpGk0K3ooPQ+DJLenGqZxENCX1IzhYLQlUSXHRmyp1lt
+         v0NvGjuNg9YtPuitYNItGM1ugO9W5Jj8kd3rpZ10N6+DFOenZMxsCL+RNNFIkZeYpqAj
+         NQ4spCYvq2ujjf0YPNV9Z6BxuALxhfAiMLh15XoWr+sakGyvpvAXDDmex5s008xX9b1u
+         amKrvXLuN+6ZStW3xQcA4Wn0nnqnqgCI3Rgo5RhXrDN2GuKbyzlo+GK9rRsgEE1RYM4W
+         jRsQ==
+X-Gm-Message-State: ACgBeo2NcUS+F+QF2aqI8McLlCHNNd2XeQdvhXF0ONsUAhNAxuMRnh92
+	7bbF8CNCucX4pOrZULGIS/qfq2TY49OA8w==
 X-Google-Smtp-Source: 
- AA6agR7jbGpHGtce4fGtb4VAYjhvqKaPdJ5Xsv/A4GT662dmlGVHjMF6jSUVqIyXs3OI95LW3HvdRA==
-X-Received: by 2002:a63:44:0:b0:42d:706a:b57a with SMTP id
- 65-20020a630044000000b0042d706ab57amr27372339pga.108.1663072756327;
-        Tue, 13 Sep 2022 05:39:16 -0700 (PDT)
-Received: from lj8k2dq3.sc-core.net ([213.86.25.14])
+ AA6agR5bN+N+JiUxSSWl7glUGLsm0hqy4GbAbcQi4+Ym2Ic6ywplZQJP4Jl2EPh7+XCjR96Ik9NpTw==
+X-Received: by 2002:a17:907:3daa:b0:77a:3e30:bad0 with SMTP id
+ he42-20020a1709073daa00b0077a3e30bad0mr13527537ejc.144.1663073309789;
+        Tue, 13 Sep 2022 05:48:29 -0700 (PDT)
+Received: from FDIACONESCU-KS0.lenovo.com ([84.232.223.213])
         by smtp.gmail.com with ESMTPSA id
- ik24-20020a170902ab1800b00172eb493487sm8239132plb.167.2022.09.13.05.39.14
+ kx25-20020a170907775900b0073d70df6e56sm6013472ejc.138.2022.09.13.05.48.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Sep 2022 05:39:15 -0700 (PDT)
-From: Etienne Cordonnier <ecordonnier@snapchat.com>
-X-Google-Original-From: Etienne Cordonnier <ecordonnier@snap.com>
+        Tue, 13 Sep 2022 05:48:29 -0700 (PDT)
+From: Florin Diaconescu <florin.diaconescu009@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Etienne Cordonnier <ecordonnier@snap.com>
-Subject: [PATCH] python3: add PACKAGECONFIG[editline]
-Date: Tue, 13 Sep 2022 14:39:10 +0200
-Message-Id: <20220913123910.3428647-1-ecordonnier@snap.com>
-X-Mailer: git-send-email 2.36.1.vfs.0.0
+Cc: Florin Diaconescu <florin.diaconescu009@gmail.com>
+Subject: [dunfell][PATCH] binutils : CVE-2022-38533
+Date: Tue, 13 Sep 2022 15:45:43 +0300
+Message-Id: <20220913124542.1403-1-florin.diaconescu009@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Sep 2022 12:39:19 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Sep 2022 12:48:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170576
+ https://lists.openembedded.org/g/openembedded-core/message/170577
 
-editline is a BSD alternative for readline which is GPLv3.
+Upstream-Status: Backport
+[https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=ef186fe54aa6d281a3ff8a9528417e5cc614c797]
 
-Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+Signed-off-by: Florin Diaconescu <florin.diaconescu009@gmail.com>
 ---
- meta/recipes-devtools/python/python3_3.10.6.bb | 1 +
- 1 file changed, 1 insertion(+)
+ .../binutils/binutils-2.34.inc                |  1 +
+ .../binutils/binutils/CVE-2022-38533.patch    | 37 +++++++++++++++++++
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2022-38533.patch
 
-diff --git a/meta/recipes-devtools/python/python3_3.10.6.bb b/meta/recipes-devtools/python/python3_3.10.6.bb
-index 1b28728732..6c4ef5c7d1 100644
---- a/meta/recipes-devtools/python/python3_3.10.6.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.6.bb
-@@ -105,6 +105,7 @@ PACKAGECONFIG:class-target ??= "readline gdbm ${@bb.utils.filter('DISTRO_FEATURE
- PACKAGECONFIG:class-native ??= "readline gdbm"
- PACKAGECONFIG:class-nativesdk ??= "readline gdbm"
- PACKAGECONFIG[readline] = ",,readline"
-+PACKAGECONFIG[editline] = "--with-readline=editline,,libedit"
- # Use profile guided optimisation by running PyBench inside qemu-user
- PACKAGECONFIG[pgo] = "--enable-optimizations,,qemu-native"
- PACKAGECONFIG[tk] = ",,tk"
+diff --git a/meta/recipes-devtools/binutils/binutils-2.34.inc b/meta/recipes-devtools/binutils/binutils-2.34.inc
+index 6a55de2d45..ff0d467132 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.34.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.34.inc
+@@ -52,5 +52,6 @@ SRC_URI = "\
+      file://CVE-2021-3549.patch \
+      file://CVE-2020-16593.patch \
+      file://0001-CVE-2021-45078.patch \
++     file://CVE-2022-38533.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2022-38533.patch b/meta/recipes-devtools/binutils/binutils/CVE-2022-38533.patch
+new file mode 100644
+index 0000000000..102d65f8a6
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2022-38533.patch
+@@ -0,0 +1,37 @@
++From ef186fe54aa6d281a3ff8a9528417e5cc614c797 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Sat, 13 Aug 2022 15:32:47 +0930
++Subject: [PATCH] PR29482 - strip: heap-buffer-overflow
++
++	PR 29482
++	* coffcode.h (coff_set_section_contents): Sanity check _LIB.
++
++CVE: CVE-2022-38533
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=ef186fe54aa6d281a3ff8a9528417e5cc614c797]
++
++Signed-off-by: Florin Diaconescu <florin.diaconescu009@gmail.com>
++
++---
++ bfd/coffcode.h | 7 +++++--
++ 1 file changed, 5 insertions(+), 2 deletions(-)
++
++diff --git a/bfd/coffcode.h b/bfd/coffcode.h
++index dec2e9c6370..75c18d88602 100644
++--- a/bfd/coffcode.h
+++++ b/bfd/coffcode.h
++@@ -4170,10 +4170,13 @@ coff_set_section_contents (bfd * abfd,
++ 
++ 	rec = (bfd_byte *) location;
++ 	recend = rec + count;
++-	while (rec < recend)
+++	while (recend - rec >= 4)
++ 	  {
+++	    size_t len = bfd_get_32 (abfd, rec);
+++	    if (len == 0 || len > (size_t) (recend - rec) / 4)
+++	      break;
+++	    rec += len * 4;
++ 	    ++section->lma;
++-	    rec += bfd_get_32 (abfd, rec) * 4;
++ 	  }
++ 
++ 	BFD_ASSERT (rec == recend);
 -- 
-2.36.1.vfs.0.0
+2.25.1
 
 
