@@ -2,65 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30832C6FA8D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FC9DC6FA89
 	for <webhook@archiver.kernel.org>; Tue, 13 Sep 2022 14:18:30 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
- [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web09.5359.1663078707858202802
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+ [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web12.5276.1663078700685426541
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 07:18:27 -0700
+ Tue, 13 Sep 2022 07:18:20 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=exKuuPc7;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180,
+ header.b=qAQQwrvc;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.176,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id y127so11908836pfy.5
+Received: by mail-pf1-f176.google.com with SMTP id d82so11892072pfd.10
         for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 07:18:27 -0700 (PDT)
+ Tue, 13 Sep 2022 07:18:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=G1J61YBQ/0d+wUxUrsu+nNt6tOD2S9swLe7hxv0jGLk=;
-        b=exKuuPc7GEHQyPpBV0VTxJgR93R7L3Y4tkzMJniqS3DGo78RnsFwDVUOurcRo3xqea
-         6tLo+U4t1C52NRGfnSTblSlplfI4fpQdlTHYZ5PH+USi/5Jfr2NwTH+JbggRaXmVihiI
-         vWtiAV4dN2GLFlY+E8iqDCsRCSOxlqRFGd8SncrmRsxGgYZrw0NwPKjzgaV8SUef8WaF
-         BskI5v90weQIgl4SVPJyX1fG5jwfOdCap3d7ILSKddJ43OoU0wYnIhUPBc+UdU4cw+jb
-         UjU3c0EnFxMMpGeXhSXjW+BX4T6tM/MOEnj8BvXPSZcCTsJEU+QSSoTuO1YUrBVJtBbP
-         4lgQ==
+        bh=TIwC8s6hSovcoczmtLwdjXevcATp821BSacZEnE25p0=;
+        b=qAQQwrvceZuNbTleyKqFMgfijt8hFirk0dp4I/zHWDbTMIceMIRnDR58SlBfAuOdFY
+         MseA4gg+jGugO0if159/Vp9L1E4tgFY/NOcwGxD5cU1r62PYIVk8Cd7932KJbqN7vLoR
+         v4r13LVmN9V79tAoBHulVS0EbL/G64urXdtqFjpWfSSaw2juVXL8Bd6j5wRuwJZes3HQ
+         7IeBXEqwsEXB7FJrE7/I1x4juA6DuAxRuK7aDFsbHt3DXLhaRogoXH+VXITxTpQTQ4gA
+         KbeoYsou21rjJHVR6nwGF3NfiRFDiSCjJwK9tc4+kaSxTq+Ou7ifSebI13Xjt9FzTBtk
+         8VMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=G1J61YBQ/0d+wUxUrsu+nNt6tOD2S9swLe7hxv0jGLk=;
-        b=7l48fg8lUyQDdFE07nzGsrb1TDa+t1skVn6w9YIIo2MsnB00epFXz2ewap5qTw6t/U
-         qm7NgP1biHXODGm8MUs7isyL5oCZHXRJFE0gBjANwXKoqqGO4XU5X16rxF9FOUoC3eTq
-         mhcSKDC6QD4+0wN480GU3AkI8d/5bzV3yw4+NGVWSV9o44EB7zBahkjIhhCfulcvBsS/
-         jHOK63oGr94XdgUA7H6nv8UkyCwv6aBCLUJQdjOL9d6Wjk/wz/R1ErAlhfaEa8m9woLt
-         a33LScUzcYbGW42wnfxa5zrg6saInKrbxu9Q/t2gQ3AddTMI+XRm3i70F34+snGymcUL
-         cz1Q==
-X-Gm-Message-State: ACgBeo0AiTUNu1Bbxc8XIOgP27Rhdsr6TdHCLk22qVIaNtph2HqlQ249
-	vwpzfMx7+EjYQ8P8Y5rnFrtzfBlYdFIkvufa
+        bh=TIwC8s6hSovcoczmtLwdjXevcATp821BSacZEnE25p0=;
+        b=azPnH3JJJGOW7kU7rbtrvvvMKucR1cIn+csFaLLy+Co/FXGPmizJPl9AQTmZRnAmGA
+         vQupQbAT0mh2kWokzHWHMuZ/S6Bp0r3Z3OzTXomW84oJq58I4fI2blvNpIkLD7M2v7iV
+         mgPTKosE6ImHzBKGRIHROshrGl/hAI0s63cW4ReQubakUvJK4ugHCVnqm/Ag2NCkVZq/
+         /Mr4rT34X2UP78l5bhYSztlcCrZPGdY5NO3YYN+lPXlzuPHcZO/HBGE+97nFXUfuDcY0
+         SvxnpADn6gPmFI/E/esciFCDP6pO4xX3PHmqVGz+5AFL91QAv2/uXO+e84Vz2jQaPg8E
+         JqBQ==
+X-Gm-Message-State: ACgBeo3gNvzMuAV+B4QSrTkGQhWp4+Fuclvig/yVfU7JBEN6jqPwHUDg
+	KxOSEbPAbAU7Gd5g/b6nhNckAIFdpO1dlZbZ
 X-Google-Smtp-Source: 
- AA6agR5YGAXNZqPlNjgSgzphwAfA0+NjKUn4kzVngvKWt/kfGOIqV7UbItCvm+qCDd1In1sdRnXz2w==
-X-Received: by 2002:a62:6347:0:b0:531:c5a7:b209 with SMTP id
- x68-20020a626347000000b00531c5a7b209mr33009029pfb.60.1663078706892;
-        Tue, 13 Sep 2022 07:18:26 -0700 (PDT)
+ AA6agR7QsU1gZSZYLJVnenCicNENxW7nH4lh4wLuWXZWap3+YEKqQTjSzzsKurDTrkr0dvM8YGWMQg==
+X-Received: by 2002:a63:231c:0:b0:434:9c3b:546e with SMTP id
+ j28-20020a63231c000000b004349c3b546emr28614512pgj.593.1663078699544;
+        Tue, 13 Sep 2022 07:18:19 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- g11-20020aa796ab000000b0053bf1f90188sm8086424pfk.176.2022.09.13.07.18.25
+ g11-20020aa796ab000000b0053bf1f90188sm8086424pfk.176.2022.09.13.07.18.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Sep 2022 07:18:26 -0700 (PDT)
+        Tue, 13 Sep 2022 07:18:19 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 06/16] kernel: Use consistent make flags for
- menuconfig
-Date: Tue, 13 Sep 2022 04:17:47 -1000
+Subject: [OE-core][kirkstone 03/16] ruby: drop capstone support
+Date: Tue, 13 Sep 2022 04:17:44 -1000
 Message-Id: 
- <e36f3c3c7de052945edbb62bb2d6de7639360c47.1663078051.git.steve@sakoman.com>
+ <fe8e54576e97ef7c4845889f3e8bb53f524c0611.1663078051.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1663078051.git.steve@sakoman.com>
 References: <cover.1663078051.git.steve@sakoman.com>
@@ -71,36 +70,84 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 13 Sep 2022 14:18:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170585
+ https://lists.openembedded.org/g/openembedded-core/message/170582
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-We're currently only passing in a subset of the kernel make flags to
-menuconfig. Fix this to be consistent with all the other kernel
-operations since these are becomming increasingly reliant on host
-compilers and flags and target toolchains as well.
+Upstream dropped capstone support and this also causing us
+reproducibility issues.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8c616bc090d1834a21073a33209323220c05d2e5)
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit d2496a904a7099ef0de818180820ad7b40843a08)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/kernel.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ ...001-Remove-dependency-on-libcapstone.patch | 36 +++++++++++++++++++
+ meta/recipes-devtools/ruby/ruby_3.1.2.bb      |  2 +-
+ 2 files changed, 37 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/0001-Remove-dependency-on-libcapstone.patch
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index aca03fc071..8dff68612d 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -637,7 +637,8 @@ addtask savedefconfig after do_configure
+diff --git a/meta/recipes-devtools/ruby/ruby/0001-Remove-dependency-on-libcapstone.patch b/meta/recipes-devtools/ruby/ruby/0001-Remove-dependency-on-libcapstone.patch
+new file mode 100644
+index 0000000000..5d0f8fcc09
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/0001-Remove-dependency-on-libcapstone.patch
+@@ -0,0 +1,36 @@
++From 222203297966f312109e8eaa2520f2cf2f59c09d Mon Sep 17 00:00:00 2001
++From: Alan Wu <XrXr@users.noreply.github.com>
++Date: Thu, 31 Mar 2022 17:26:28 -0400
++Subject: [PATCH] Remove dependency on libcapstone
++
++We have received reports of build failures due to this configuration
++check modifying compile flags. Since only YJIT devs use this library
++we can remove it to make Ruby easier to build for users.
++
++See: https://github.com/rbenv/ruby-build/discussions/1933
++
++Upstream-Status: Backport
++---
++ configure.ac | 9 ---------
++ 1 file changed, 9 deletions(-)
++
++Index: ruby-3.1.2/configure.ac
++===================================================================
++--- ruby-3.1.2.orig/configure.ac
+++++ ruby-3.1.2/configure.ac
++@@ -1244,15 +1244,6 @@ AC_CHECK_LIB(dl, dlopen)	# Dynamic linki
++ AC_CHECK_LIB(dld, shl_load)	# Dynamic linking for HP-UX
++ AC_CHECK_LIB(socket, shutdown)  # SunOS/Solaris
++ 
++-if pkg-config --exists capstone; then
++-   CAPSTONE_CFLAGS=`pkg-config --cflags capstone`
++-   CAPSTONE_LIB_L=`pkg-config --libs-only-L capstone`
++-   LDFLAGS="$LDFLAGS $CAPSTONE_LIB_L"
++-   CFLAGS="$CFLAGS $CAPSTONE_CFLAGS"
++-fi
++-
++-AC_CHECK_LIB(capstone, cs_open) # Capstone disassembler for debugging YJIT
++-
++ dnl Checks for header files.
++ AC_HEADER_DIRENT
++ dnl AC_HEADER_STDC has been checked in AC_USE_SYSTEM_EXTENSIONS
+diff --git a/meta/recipes-devtools/ruby/ruby_3.1.2.bb b/meta/recipes-devtools/ruby/ruby_3.1.2.bb
+index 6fc1f53b18..387bfa9b44 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.1.2.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.1.2.bb
+@@ -12,6 +12,7 @@ SRC_URI += " \
+            file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch \
+            file://0006-Make-gemspecs-reproducible.patch \
+            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch \
++           file://0001-Remove-dependency-on-libcapstone.patch \
+            "
  
- inherit cml1
+ SRC_URI[sha256sum] = "61843112389f02b735428b53bb64cf988ad9fb81858b8248e22e57336f24a83e"
+@@ -25,7 +26,6 @@ PACKAGECONFIG[ipv6] = "--enable-ipv6, --disable-ipv6,"
+ # rdoc is off by default due to non-reproducibility reported in
+ # https://bugs.ruby-lang.org/issues/18456
+ PACKAGECONFIG[rdoc] = "--enable-install-rdoc,--disable-install-rdoc,"
+-PACKAGECONFIG[capstone] = "--with-capstone=yes, --with-capstone=no"
  
--KCONFIG_CONFIG_COMMAND:append = " PAHOLE=false LD='${KERNEL_LD}' HOSTLDFLAGS='${BUILD_LDFLAGS}'"
-+# Need LD, HOSTLDFLAGS and more for config operations
-+KCONFIG_CONFIG_COMMAND:append = " ${EXTRA_OEMAKE}"
- 
- EXPORT_FUNCTIONS do_compile do_transform_kernel do_transform_bundled_initramfs do_install do_configure
- 
+ EXTRA_OECONF = "\
+     --disable-versioned-paths \
 -- 
 2.25.1
 
