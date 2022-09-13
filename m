@@ -2,65 +2,63 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D320DC6FA82
-	for <webhook@archiver.kernel.org>; Tue, 13 Sep 2022 09:58:18 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web09.2983.1663063092279968514
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF6A1C6FA8A
+	for <webhook@archiver.kernel.org>; Tue, 13 Sep 2022 10:01:58 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.2809.1663063317071477053
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 02:58:12 -0700
+ Tue, 13 Sep 2022 03:01:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=K9OQ4yJO;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=T2183GS3;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id cc5so10065972wrb.6
+Received: by mail-wr1-f41.google.com with SMTP id bj14so19878993wrb.12
         for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 02:58:12 -0700 (PDT)
+ Tue, 13 Sep 2022 03:01:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date;
-        bh=nSwFYl+O2LZI1Jp/wJd7S4wmlb2fHfhv+qcRjoGUfWI=;
-        b=K9OQ4yJO+TlHkeFgmgwkLlZ5Sk3U4yDnPGFGcm6/BM5lItpFXD5uu8LFRTlIMcVniX
-         jSWad6R7udVnWkJEkMvaOJcVHgl+UL8rfXDoYgqDmhDsfukH8GBrBg9Yx2jSfxpn82e7
-         i0xxKCqW182fuub7weVF02TlgZd4FqrQj9Dt0=
+        bh=CENYTjEiq1vmrqySnB2DvKt9sSchfvE2B9iBW9SS0/A=;
+        b=T2183GS3iaFiXvni456Df0cEUTXqbGzKlo8ZZBJfSKmxeWsuhnr/HPfopGkcFul/Mc
+         RPUB2qgqPIC1vOTkz8ga4fYp+XldmIgPw8FMMsQW7qKvVmipBVGW2qoYjXFiwZAOfafe
+         PR+u7eXNV5dc/XvjE1QZuGI3ATd4KJOCRDPwI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
          :to:cc:subject:date;
-        bh=nSwFYl+O2LZI1Jp/wJd7S4wmlb2fHfhv+qcRjoGUfWI=;
-        b=s17KF7x/Q7beCYfvA1A8JETiUOj48lDCf0hrB0zSRn+l8BbytuKxPCmv3kQIM/Sqf0
-         pmrr21MmtzZTdhzo1QfioBls1LTa3cNI0G5xlKK3k4uKN4d1TPjlPpDMA/Hnh2HAWglJ
-         GihGs6ouP8ljrCZspPRs4La9lOBBlqTvUyZNm6YAlgSAaAxuztczJN4hF9eW1qFB7Pjy
-         LsZ1m8N0EvxmULRXGhpNJrZaD7TukiipqOsYpur1arnV7+mZYPwr9+sSglYWehM9gN2B
-         4mGLTEZoYrhCsDptDR5VfGfpVkWUrxfkqc2owberRoEvs984UdrC4CvNZswxdZOJfL5o
-         6Dwg==
-X-Gm-Message-State: ACgBeo3RmmfAKgyZl+3pfOUE6W57MGz7lLrOtRKZ2rlgC7Dne+vYf40h
-	an0T9p9t5aTwmqWTDDgmtgLSmw==
+        bh=CENYTjEiq1vmrqySnB2DvKt9sSchfvE2B9iBW9SS0/A=;
+        b=PDLt67lqIhMD0ZUdjBLkgBa9dLYYL+pd75m04BLpSyekdTSR8Whivjd3wZ+e0vhCfi
+         Lf2CNzbo/MBO/U9RLXxCoccCj+2syNgkKUosGKgx/Lbe4P9AA0xLPV6hKEYdeLGpM9gW
+         4pG8wn9Ay9ejhTBrPskcj2V+4VU0rAdGeinrJKKV9XeyvA3XDWwo0XdQhX/ihHA+QSMB
+         +G5YrC9pZWvKYN3qB3bBzcWScY+ZKbfcQBrh+w3YBzzWhof8NposZpudzSnhNKfi1wD7
+         g2a5N/j4ctZZh4IXybuuld0Qs7JI2igIaczAypOUzGLAUb8b04OIV9vdu+j5/yfdbaR5
+         6KpQ==
+X-Gm-Message-State: ACgBeo1CrL2Qh7OpJgVGFFMihJCqFYJyDv0S9f+l4WH9Uzyij+Y6ZnEo
+	qc7EQRUJST20qvmXvN1xlgxJA0oRN2M98Q==
 X-Google-Smtp-Source: 
- AA6agR6HuAzuGZkSt0/uW4o55At7GJopESDzvkhaVEVQpv5F4IzZ6YnOul7ts8/wYBIOF7YaOlm/3Q==
-X-Received: by 2002:a5d:6050:0:b0:228:6128:b0fb with SMTP id
- j16-20020a5d6050000000b002286128b0fbmr17060343wrt.424.1663063090422;
-        Tue, 13 Sep 2022 02:58:10 -0700 (PDT)
+ AA6agR6RTzHh1zMI/wKxew7XOktD+QGdeU96F6iHhIAUXC8NWNlGAL+h1uAsQheepRPXme3HngKgBg==
+X-Received: by 2002:a5d:408b:0:b0:228:9c95:3b66 with SMTP id
+ o11-20020a5d408b000000b002289c953b66mr18067427wrp.90.1663063315004;
+        Tue, 13 Sep 2022 03:01:55 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:b740:75b6:5b77:5982?
  ([2001:8b0:aba:5f3c:b740:75b6:5b77:5982])
         by smtp.gmail.com with ESMTPSA id
- q3-20020a05600000c300b00228d6edade0sm9934019wrx.46.2022.09.13.02.58.09
+ a12-20020a5d570c000000b00228dd80d78asm9794942wrv.86.2022.09.13.03.01.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Sep 2022 02:58:09 -0700 (PDT)
+        Tue, 13 Sep 2022 03:01:54 -0700 (PDT)
 Message-ID: 
- <e220d9fadbb7716ce422dd031130a1dd58b41386.camel@linuxfoundation.org>
-Subject: Re: [OE-core] OE-core CVE metrics for master on Sun 11 Sep 2022
- 04:00:01 AM HST
+ <0d0f3e3d53f675a0edff4e1582b33998288c95e6.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] python3-cryptography: workaround broken
+ native functionality
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, Steve Sakoman <steve@sakoman.com>,
-	openembedded-core@lists.openembedded.org,
-	yocto-security@lists.yoctoproject.org
-Date: Tue, 13 Sep 2022 10:58:09 +0100
-In-Reply-To: <54a93e27-ba69-ae00-bf9d-dfa8b051b3a3@gmail.com>
-References: <20220911140238.1ECB1960B01@nuc.router0800d9.com>
-	 <54a93e27-ba69-ae00-bf9d-dfa8b051b3a3@gmail.com>
+To: Mikko Rapeli <mikko.rapeli@linaro.org>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 13 Sep 2022 11:01:54 +0100
+In-Reply-To: <20220913093452.47839-1-mikko.rapeli@linaro.org>
+References: <20220913093452.47839-1-mikko.rapeli@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.1-0ubuntu1 
@@ -68,81 +66,82 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Sep 2022 09:58:18 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Sep 2022 10:01:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170565
+ https://lists.openembedded.org/g/openembedded-core/message/170566
 
-On Mon, 2022-09-12 at 18:45 -0700, Khem Raj wrote:
-> On 9/11/22 7:02 AM, Steve Sakoman wrote:
-> > Branch: master
-> >=20
-> > New this week: 10 CVEs
-> > CVE-2020-35538 (CVSS3: 5.5 MEDIUM): libjpeg-turbo:libjpeg-turbo-native =
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2020-35538 *
-> > CVE-2022-1354 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/v=
-uln/detail?vulnId=3DCVE-2022-1354 *
-> > CVE-2022-1355 (CVSS3: 6.1 MEDIUM): tiff https://web.nvd.nist.gov/view/v=
-uln/detail?vulnId=3DCVE-2022-1355 *
-> > CVE-2022-3099 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln=
-/detail?vulnId=3DCVE-2022-3099 *
-> > CVE-2022-3134 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln=
-/detail?vulnId=3DCVE-2022-3134 *
-> > CVE-2022-38126 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:b=
-inutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE=
--2022-38126 *
-> > CVE-2022-38127 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:b=
-inutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE=
--2022-38127 *
-> > CVE-2022-38128 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:b=
-inutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE=
--2022-38128 *
-> > CVE-2022-39028 (CVSS3: 7.5 HIGH): inetutils https://web.nvd.nist.gov/vi=
-ew/vuln/detail?vulnId=3DCVE-2022-39028 *
-> > CVE-2022-39046 (CVSS3: 5.3 MEDIUM): glibc https://web.nvd.nist.gov/view=
-/vuln/detail?vulnId=3DCVE-2022-39046 *
-> >=20
-> > Removed this week: 4 CVEs
-> > CVE-2021-3929 (CVSS3: 8.2 HIGH): qemu:qemu-native:qemu-system-native ht=
-tps://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2021-3929 *
-> > CVE-2022-2953 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/v=
-uln/detail?vulnId=3DCVE-2022-2953 *
-> > CVE-2022-32893 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/vi=
-ew/vuln/detail?vulnId=3DCVE-2022-32893 *
-> > CVE-2022-38533 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:b=
-inutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE=
--2022-38533 *
-> >=20
-> > Full list:  Found 15 unpatched CVEs
-> > CVE-2020-35538 (CVSS3: 5.5 MEDIUM): libjpeg-turbo:libjpeg-turbo-native =
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2020-35538 *
+On Tue, 2022-09-13 at 12:34 +0300, Mikko Rapeli wrote:
+> The python3-cryptography-native builds work but are functionally broken
+> on Ubuntu 18.04 build host since the update from 3.3.2 in
+> meta-openembedded/meta-python. If recipe needs and DEPENDS on
+> python3-cryptography-native for signing use cases, loading
+> the python modules fails:
 >=20
-> We are at 2.1.4 in master and this was fixed in 2.0.6 via=20
-> https://github.com/libjpeg-turbo/libjpeg-turbo/commit/9120a247436e84c0b4e=
-ea828cb11e8f665fcde30=20
-> so I wonder why its being flagged.
-
-The CVE entry says 2.0.5 onwards. I've emailed them to suggest it apply
-to 2.0.5 only as 2.0.6 is fixed.
-
-> > CVE-2021-3521 (CVSS3: 4.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.=
-gov/view/vuln/detail?vulnId=3DCVE-2021-3521 *
-> > CVE-2021-35937 (CVSS3: 6.4 MEDIUM): rpm:rpm-native https://web.nvd.nist=
-.gov/view/vuln/detail?vulnId=3DCVE-2021-35937 *
-> > CVE-2021-35938 (CVSS3: 7.8 HIGH): rpm:rpm-native https://web.nvd.nist.g=
-ov/view/vuln/detail?vulnId=3DCVE-2021-35938 *
-> > CVE-2021-35939 (CVSS3: 7.8 HIGH): rpm:rpm-native https://web.nvd.nist.g=
-ov/view/vuln/detail?vulnId=3DCVE-2021-35939 *
-> > CVE-2021-4158 (CVSS3: 6.0 MEDIUM): qemu:qemu-native:qemu-system-native =
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2021-4158 *
-> > CVE-2022-1354 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/v=
-uln/detail?vulnId=3DCVE-2022-1354 *
-> > CVE-2022-1355 (CVSS3: 6.1 MEDIUM): tiff https://web.nvd.nist.gov/view/v=
-uln/detail?vulnId=3DCVE-2022-1355 *
+> $ python3 -c  "from OpenSSL import crypto"
+> Traceback (most recent call last):
+>   File "<string>", line 1, in <module>
+>   File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/b=
+usybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/Ope=
+nSSL/__init__.py", line 8, in <module>
+>     from OpenSSL import crypto, SSL
+>   File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/b=
+usybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/Ope=
+nSSL/crypto.py", line 11, in <module>
+>     from OpenSSL._util import (
+>   File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/b=
+usybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/Ope=
+nSSL/_util.py", line 5, in <module>
+>     from cryptography.hazmat.bindings.openssl.binding import Binding
+>   File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/b=
+usybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/cry=
+ptography/hazmat/bindings/openssl/binding.py", line 228, in <module>
+>     Binding.init_static_locks()
+>   File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/b=
+usybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/cry=
+ptography/hazmat/bindings/openssl/binding.py", line 188, in init_static_loc=
+ks
+>     cls._ensure_ffi_initialized()
+>   File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/b=
+usybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/cry=
+ptography/hazmat/bindings/openssl/binding.py", line 176, in _ensure_ffi_ini=
+tialized
+>     _openssl_assert(
+>   File "/home/builder/poky/build_kirkstone/tmp/work/core2-64-poky-linux/b=
+usybox/1.35.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/cry=
+ptography/hazmat/bindings/openssl/binding.py", line 90, in _openssl_assert
+>     raise InternalError(
+> cryptography.exceptions.InternalError: Unknown OpenSSL error. This error =
+is commonly encountered when another library is not cleaning up the OpenSSL=
+ error stack. If you are using cryptography with another library that uses =
+OpenSSL try disabling it before reporting a bug. Otherwise please file an i=
+ssue at https://github.com/pyca/cryptography/issues with information on how=
+ to reproduce this. ([_OpenSSLErrorWithText(code=3D310378599, lib=3D37, rea=
+son=3D103, reason_text=3Db'error:12800067:DSO support routines::could not l=
+oad the shared library'), _OpenSSLErrorWithText(code=3D310378599, lib=3D37,=
+ reason=3D103, reason_text=3Db'error:12800067:DSO support routines::could n=
+ot load the shared library'), _OpenSSLErrorWithText(code=3D126615813, lib=
+=3D15, reason=3D786693, reason_text=3Db'error:078C0105:common libcrypto rou=
+tines::init fail')])
 >=20
-> there is a patch on ml for this.
+> This hacky patch enables enough functionality in
+> python3-cryptography-native to work so that basic secure boot
+> signing use cases work again.
+>=20
+> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> ---
+>  ...3-cryptography_hack_to_remove_legacy.patch | 54 +++++++++++++++++++
+>  .../python/python3-cryptography_37.0.4.bb     |  5 ++
+>  2 files changed, 59 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/python3-cryptography/pyt=
+hon3-cryptography_hack_to_remove_legacy.patch
 
-The version restrictions on those are also wrong. I've sent email to
-correct them.
+I'm very nervous about taking a patch like this as it would be near
+impossible to tell when we still need it or not and it has zero chance
+of making it upstream.
+
+Do we know how the openssl library is breaking internally? Is this some
+kind of glibc or loader mismatch? Is it mixing up our sysroot ssl
+library with the host one somehow?
 
 Cheers,
 
