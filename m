@@ -2,65 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FD4AC6FA89
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FD1AC6FA82
 	for <webhook@archiver.kernel.org>; Tue, 13 Sep 2022 14:18:40 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
- [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web10.5365.1663078718947868124
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web12.5278.1663078710036554503
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 07:18:39 -0700
+ Tue, 13 Sep 2022 07:18:30 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=muYjSltp;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.51,
+ header.b=3Yp7+xEN;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f51.google.com with SMTP id o23so10187037pji.4
+Received: by mail-pl1-f180.google.com with SMTP id b21so11971605plz.7
         for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 07:18:38 -0700 (PDT)
+ Tue, 13 Sep 2022 07:18:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=cIFtsl5vG92zsg3L+2kKsxk/ipxoRLjd3oaRKVxX18I=;
-        b=muYjSltpByGJ2ylK4uYr14/P/g816xuhz6C6bWb7htXYrrlkNRU+0BQ71esBAu3hUL
-         CURrej1osE88oiONIj/KpbXbCNyY6bXyLT1g32nlAaLL1qHCTzKQwz8/4HEqnb1YQG+J
-         y0YWzjkV5jqMyJOwn8goCsoTBHbPTv7MMrusnkz6n9CdIoz8S6nGTnSqEmah6Vvi1z4C
-         GWaBWF8DvUEkCdx/F4PV5BvOKSrZMT5HlQOzqzjnjYyfif7hChiYO+e/vfAu1WUJCLWr
-         +H0ueFj7lK/k5hdfH0YO3hr+ZPmeLPtrYjtqozB2Byj7KJiift7u840e9avkQ28k1WcJ
-         SZ+A==
+        bh=BVemcmZRxNCWoBiM7hbQ5TJR9ko4A5+Yu1skZwzBCvw=;
+        b=3Yp7+xENqB6ooBLiIUl2gbcGsqiBESyXLB3Whj/f5IjLteIlIv/QYgyu3Mn7fGUN1+
+         wUWxguN2IeHAZ9G98UBQthudEDzO3YUu6ab0OpOSYU8dKS/Wi4qVK86s/Chyyqk8k0D4
+         oAh+6DMolkAqz4WLpxSI+xqfpLCS1gd2uObRGJbLrPuVISkydSSmbLc9C4KUspTLdEYZ
+         vSdIg7OmcIiNKJWjT2bSxj2ArmcBiRi58slZ1oMse70lntMiX1BuuhrPvpBeVd8GWqJ3
+         O3qgU9luWd1TbCDKwG/6XMdHnXkR0bqwArMzH7NWXca5DExIEIHMsi43qSPWaB/++H8L
+         ipdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=cIFtsl5vG92zsg3L+2kKsxk/ipxoRLjd3oaRKVxX18I=;
-        b=WkX2PMuEdufHAjwz5/Fajv0o8D+5c12nqkOs7IkM8cByKcuO7UuKFD+t8FScklkOiD
-         YjrIq+x9TzrrKKgs7kBKB7n6O3muhZYB+/al7MoOUEBJBpsmw0KejaQB+aV4Ac3fSlHq
-         tnbdkbXHMe9FQBnLY+pzIZmZOtv7FZpeNNlMmtgs5xGtPqvBG7R1oHd8jHQNmkotLaIP
-         +YbiP1jC8Qo1vvjJtgVIX3UJOPzkPsZxMGEiG2sS9hdq0qLMTQ0QZ/GfjAg9Q4gKg3hi
-         qpFndlcn9XZBxI/WORI+NphaOFHDvpiZ0V4s7mqXjKQz8I0hku3n3U8pANPzy80tLSPW
-         BVcA==
-X-Gm-Message-State: ACgBeo3XHNhlGnxDPODVh9Q8lSZwlEnglr4fumdaCtK1fiYQ/3zCKiTh
-	u2VBntHGJbpVCB0uIyZaruRi0pLI+tcapWhw
+        bh=BVemcmZRxNCWoBiM7hbQ5TJR9ko4A5+Yu1skZwzBCvw=;
+        b=mlzfWfJpP9ZrHLVU5isakF6YB2REvm9l8JGpEcZY6E+mOC33YoGp4oGx5Osag9u93H
+         7cQYnS82GHs8iLfkpKDbYKIyPAx9LiqbtBCYJRSXzRzBOs93UOxH0EENkddQ5N47qiH0
+         AHYz7t3EOfZA+UsJf79R2E81ek9Jt/Fo+6NMi9y7Eb6ST25XnN08GvzNYpFYh5SLN1vI
+         4ucnnwyvfdpae+ZTp8HQLK2dj3iMpc0f9ef0TCQ6RAjW1D8Dl9d2xNpUXAHmulOccmbj
+         t7A2IHD1EezTRn7ZsQj+RWd5oJlJNGu4GyCcDoRt+4Y14cbVMRpVA9Mm8N6Vr7k+8ajQ
+         SDLg==
+X-Gm-Message-State: ACgBeo0LFUYwbIknpw/IIMU2kNWpJ4SRtIdR4aq2E4Ti5sG3ohU+1sJ0
+	IjeKQ+P5pp3vTNM3VA8EYXuj4K6u53C44ILa
 X-Google-Smtp-Source: 
- AA6agR4FnEGrX7vDXGfwKiHAmABRZaSO9hkGJKhfyrShRGVFM1TAdhpbtkSv8Qwc4Z6W072r0+6JJQ==
-X-Received: by 2002:a17:90a:28a5:b0:200:43bc:5728 with SMTP id
- f34-20020a17090a28a500b0020043bc5728mr4214177pjd.188.1663078717920;
-        Tue, 13 Sep 2022 07:18:37 -0700 (PDT)
+ AA6agR6TIlCP6FEScmWQcxRBsxuPLfYWPFzkwVzMg7T0dHsN79F6/AC4lZ13LaYfkpMKyvltpfmyeg==
+X-Received: by 2002:a17:902:b286:b0:176:979b:9f73 with SMTP id
+ u6-20020a170902b28600b00176979b9f73mr32886135plr.126.1663078709041;
+        Tue, 13 Sep 2022 07:18:29 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- g11-20020aa796ab000000b0053bf1f90188sm8086424pfk.176.2022.09.13.07.18.36
+ g11-20020aa796ab000000b0053bf1f90188sm8086424pfk.176.2022.09.13.07.18.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Sep 2022 07:18:37 -0700 (PDT)
+        Tue, 13 Sep 2022 07:18:28 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 11/16] rootfs-postcommands.bbclass: avoid moving
- ssh host keys if etc is writable
-Date: Tue, 13 Sep 2022 04:17:52 -1000
+Subject: [OE-core][kirkstone 07/16] autoconf: Fix strict prototype errors in
+ generated tests
+Date: Tue, 13 Sep 2022 04:17:48 -1000
 Message-Id: 
- <31cff4d182faed31747d00cc82c1cf0a05a81431.1663078051.git.steve@sakoman.com>
+ <7863774e4f436a5aefa86f7fe0d4dec6c336e8db.1663078051.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1663078051.git.steve@sakoman.com>
 References: <cover.1663078051.git.steve@sakoman.com>
@@ -71,82 +71,105 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 13 Sep 2022 14:18:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170590
+ https://lists.openembedded.org/g/openembedded-core/message/170586
 
-From: Peter Bergin <peter@berginkonsult.se>
+From: Khem Raj <raj.khem@gmail.com>
 
-When using IMAGE_FEATURE read-only-rootfs ssh host keys are moved to volatile
-storage. If the feature overlayfs-etc is used in addition to read-only-rootfs
-/etc is writable and the move is not wanted. But in the case also the IMAGE_FEATURE
-stateless-rootfs is used the keys will be moved as storage of keys should not
-be wanted in a stateless-rootfs.
+This will fix issues with autoconf tests which fail due to lacking
+prototypes
 
-This change only takes effect in the case IMAGE_FEATURE contains read-only-rootfs.
-In adddition the following cases are handled:
-
-  IMAGE_FEATURES = "read-only-rootfs" --> ssh keys/config handled as ro root
-  IMAGE_FEATURES = "read-only-rootfs overlayfs-etc" --> ssh keys/config handled as rw root
-  IMAGE_FEATURES = "read-only-rootfs stateless-rootfs" --> ssh keys/config handled as ro root
-  IMAGE_FEATURES = "read-only-rootfs overlayfs-etc stateless-rootfs" --> ssh keys/config handled as ro root
-
-Signed-off-by: Peter Bergin <peter@berginkonsult.se>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d2ad7aa1f2153955adc044ea4eb11c48086a01d1)
+(cherry picked from commit eb477854ba230d8a8370f24880bd421607399e5a)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/rootfs-postcommands.bbclass | 30 ++++++++++++++----------
- 1 file changed, 17 insertions(+), 13 deletions(-)
+ ...totype-for-functions-with-no-paramet.patch | 64 +++++++++++++++++++
+ .../autoconf/autoconf_2.71.bb                 |  1 +
+ 2 files changed, 65 insertions(+)
+ create mode 100644 meta/recipes-devtools/autoconf/autoconf/0001-specify-void-prototype-for-functions-with-no-paramet.patch
 
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index a59d9b5878..5c0b3ec37c 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -14,7 +14,7 @@ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'deb
- # Create /etc/timestamp during image construction to give a reasonably sane default time setting
- ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp; "
- 
--# Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs is enabled
-+# Tweak files in /etc if read-only-rootfs is enabled
- ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
- 
- # We also need to do the same for the kernel boot parameters,
-@@ -103,20 +103,24 @@ read_only_rootfs_hook () {
- 	# If we're using openssh and the /etc/ssh directory has no pre-generated keys,
- 	# we should configure openssh to use the configuration file /etc/ssh/sshd_config_readonly
- 	# and the keys under /var/run/ssh.
--	if [ -d ${IMAGE_ROOTFS}/etc/ssh ]; then
--		if [ -e ${IMAGE_ROOTFS}/etc/ssh/ssh_host_rsa_key ]; then
--			echo "SYSCONFDIR=\${SYSCONFDIR:-/etc/ssh}" >> ${IMAGE_ROOTFS}/etc/default/ssh
--			echo "SSHD_OPTS=" >> ${IMAGE_ROOTFS}/etc/default/ssh
--		else
--			echo "SYSCONFDIR=\${SYSCONFDIR:-/var/run/ssh}" >> ${IMAGE_ROOTFS}/etc/default/ssh
--			echo "SSHD_OPTS='-f /etc/ssh/sshd_config_readonly'" >> ${IMAGE_ROOTFS}/etc/default/ssh
-+	# If overlayfs-etc is used this is not done as /etc is treated as writable
-+	# If stateless-rootfs is enabled this is always done as we don't want to save keys then
-+	if ${@ 'true' if not bb.utils.contains('IMAGE_FEATURES', 'overlayfs-etc', True, False, d) or bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d) else 'false'}; then
-+		if [ -d ${IMAGE_ROOTFS}/etc/ssh ]; then
-+			if [ -e ${IMAGE_ROOTFS}/etc/ssh/ssh_host_rsa_key ]; then
-+				echo "SYSCONFDIR=\${SYSCONFDIR:-/etc/ssh}" >> ${IMAGE_ROOTFS}/etc/default/ssh
-+				echo "SSHD_OPTS=" >> ${IMAGE_ROOTFS}/etc/default/ssh
-+			else
-+				echo "SYSCONFDIR=\${SYSCONFDIR:-/var/run/ssh}" >> ${IMAGE_ROOTFS}/etc/default/ssh
-+				echo "SSHD_OPTS='-f /etc/ssh/sshd_config_readonly'" >> ${IMAGE_ROOTFS}/etc/default/ssh
-+			fi
- 		fi
--	fi
- 
--	# Also tweak the key location for dropbear in the same way.
--	if [ -d ${IMAGE_ROOTFS}/etc/dropbear ]; then
--		if [ ! -e ${IMAGE_ROOTFS}/etc/dropbear/dropbear_rsa_host_key ]; then
--			echo "DROPBEAR_RSAKEY_DIR=/var/lib/dropbear" >> ${IMAGE_ROOTFS}/etc/default/dropbear
-+		# Also tweak the key location for dropbear in the same way.
-+		if [ -d ${IMAGE_ROOTFS}/etc/dropbear ]; then
-+			if [ ! -e ${IMAGE_ROOTFS}/etc/dropbear/dropbear_rsa_host_key ]; then
-+				echo "DROPBEAR_RSAKEY_DIR=/var/lib/dropbear" >> ${IMAGE_ROOTFS}/etc/default/dropbear
-+			fi
- 		fi
- 	fi
+diff --git a/meta/recipes-devtools/autoconf/autoconf/0001-specify-void-prototype-for-functions-with-no-paramet.patch b/meta/recipes-devtools/autoconf/autoconf/0001-specify-void-prototype-for-functions-with-no-paramet.patch
+new file mode 100644
+index 0000000000..4d8aa296cd
+--- /dev/null
++++ b/meta/recipes-devtools/autoconf/autoconf/0001-specify-void-prototype-for-functions-with-no-paramet.patch
+@@ -0,0 +1,64 @@
++From 7ccfea413216bddd988823acf4e93421ea0f7f9f Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 16 Aug 2022 18:35:45 -0700
++Subject: [PATCH] specify void prototype for functions with no parameters
++
++Compilers defaulting to C99 flag such functions as warning which fails
++to compile when using -Werror
++
++Fixes
++error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
++
++Upstream-Status: Submitted [https://lists.gnu.org/archive/html/autoconf-patches/2022-08/msg00003.html]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ lib/autoconf/c.m4 | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++--- a/lib/autoconf/c.m4
+++++ b/lib/autoconf/c.m4
++@@ -127,7 +127,7 @@ m4_if([$2], [main], ,
++ [/* Override any GCC internal prototype to avoid an error.
++    Use char because int might match the return type of a GCC
++    builtin and then its argument prototype would still apply.  */
++-char $2 ();])], [return $2 ();])])
+++char $2 (void);])], [return $2 ();])])
++ 
++ 
++ # AC_LANG_FUNC_LINK_TRY(C)(FUNCTION)
++@@ -151,7 +151,7 @@ m4_define([AC_LANG_FUNC_LINK_TRY(C)],
++ #define $1 innocuous_$1
++ 
++ /* System header to define __stub macros and hopefully few prototypes,
++-   which can conflict with char $1 (); below.  */
+++   which can conflict with char $1 (void); below.  */
++ 
++ #include <limits.h>
++ #undef $1
++@@ -162,7 +162,7 @@ m4_define([AC_LANG_FUNC_LINK_TRY(C)],
++ #ifdef __cplusplus
++ extern "C"
++ #endif
++-char $1 ();
+++char $1 (void);
++ /* The GNU C library defines this for functions which it implements
++     to always fail with ENOSYS.  Some functions are actually named
++     something starting with __ and the normal name is an alias.  */
++@@ -252,7 +252,7 @@ dnl other built-in extern "C" functions,
++ dnl when it actually happens.
++ [AC_LANG_PROGRAM([[$1
++ namespace conftest {
++-  extern "C" int $2 ();
+++  extern "C" int $2 (void);
++ }]],
++ [[return conftest::$2 ();]])])
++ 
++@@ -2457,7 +2457,7 @@ using std::strcmp;
++ 
++ namespace {
++ 
++-void test_exception_syntax()
+++void test_exception_syntax(void)
++ {
++   try {
++     throw "test";
+diff --git a/meta/recipes-devtools/autoconf/autoconf_2.71.bb b/meta/recipes-devtools/autoconf/autoconf_2.71.bb
+index 799191e2ca..239b268119 100644
+--- a/meta/recipes-devtools/autoconf/autoconf_2.71.bb
++++ b/meta/recipes-devtools/autoconf/autoconf_2.71.bb
+@@ -18,6 +18,7 @@ SRC_URI = "${GNU_MIRROR}/autoconf/${BP}.tar.gz \
+            file://preferbash.patch \
+            file://autotest-automake-result-format.patch \
+            file://man-host-perl.patch \
++           file://0001-specify-void-prototype-for-functions-with-no-paramet.patch \
+            "
+ SRC_URI:append:class-native = " file://no-man.patch"
  
 -- 
 2.25.1
