@@ -1,106 +1,151 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD8BDECAAD8
-	for <webhook@archiver.kernel.org>; Wed, 14 Sep 2022 08:42:22 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web12.3953.1663144938816481518
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A194AECAAD8
+	for <webhook@archiver.kernel.org>; Wed, 14 Sep 2022 08:43:12 +0000 (UTC)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web10.3926.1663144988316017793
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Sep 2022 01:42:19 -0700
+ Wed, 14 Sep 2022 01:43:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=UyeEmE0J;
- spf=pass (domain: gmail.com, ip: 209.85.167.45,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id k10so24025404lfm.4
+ dkim=pass header.i=@linaro.org header.s=google header.b=e8yaZPjc;
+ spf=pass (domain: linaro.org, ip: 209.85.216.44,
+ mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-pj1-f44.google.com with SMTP id
+ m10-20020a17090a730a00b001fa986fd8eeso18249694pjk.0
         for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Sep 2022 01:42:18 -0700 (PDT)
+ Wed, 14 Sep 2022 01:43:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linaro.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=K1RnX1jyuOoc8tc9S2rxG4qYjib8JThPhCnpXKyBRmQ=;
-        b=UyeEmE0JLiGXHeRjtHH4KF7n0cuREvpokHdm2uoYqLHrTRVhQeGfrC6+YeBaS4Ap1w
-         Csc3luqanI+ezvndqRWrrd9RHwM/qxD+CQL4swzHYq7OscYRZ2DJTBxMy3Vo+7YGJ7SU
-         gexI0lzW5qnL65V/oRsclUCh2vUt42xEIFf4esrhFCbp9OZ7VLrv8pWVWPZyju5aVXv7
-         7Cut7pFe002Y4oc3b2MtIyyXTB8K4k/dPRzc05ByffKxOzup7bkR3pNKkNKxGuV0X6kB
-         RSfa64RPfdpvZDHcPd8sgpJlnAIpsfe6E6Zn+fdfa+JnXkUF+mCKzaVatvixXKTIXgME
-         m5sg==
+        bh=rN0zX5nHXB9fKLNTJOC1exlqmhliX9aObV3wdKyn3nk=;
+        b=e8yaZPjcg8INCnp6kk56QdxN6mEUVwnx79c3g5I9dCGnvSsABxTDHLpxpRpoHaCuHG
+         N+mMtwbGnssf/PRWppQX3dt/7hc+lJYdSP8MlGGX/Pk4ZsEbamWIOFaN2ch7aemnMd26
+         6LtRTPtbVa6NaW+QMRJ2mp4F9bN+ROo+w345bpFKP7RjXBg2hTJtzrKLUhF4G+oUSZ9X
+         r8FbQnKgwJ48MLD0/5bzU7/Dp7311a0kyy8EOQwIRQQG7soU6+YNNEUiJbxzl8zsFoaS
+         Klm6/9njz32NN07hWc33BEB4GLuNHS369CH+WigRpjaTpMucvBq/X4BxG65O0FdZ6N5y
+         GeuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=K1RnX1jyuOoc8tc9S2rxG4qYjib8JThPhCnpXKyBRmQ=;
-        b=mMvaCXeX2GtFj3CG8rGQMnV5aj079jklpaVzUpPhAMiqqADAFZxgsGmf+Bh3jWrQe9
-         0Ewz76+/MUvNSS69R6ZBb/Og599IISUvToOQgs0Lz7f5Yp/srfXRZC3RCuUmIDE8tuK0
-         0c89pYuExhnxvG1HOE2u1yn5ucyRuvL6hqOMAuvEmDcluTYPKL3zFmijD5phrmNkVGn6
-         YzFWLs9PQS6Vbz/6teMn9w1YbKkY1E2czZ4I5BL6aqvs3VqnkGwfPmMlYaE1f/LJ2WjC
-         EJ61aWHr8SbfqPkV2lyM6uYhOwPPF+Wgh3rPAes3IMqBTlrumZilsQPWQIwc+lVNNXyV
-         l2Sg==
-X-Gm-Message-State: ACgBeo0bYddKG2jz351Kgs/2p49TVJgmtCC4R2q/vHRqkzVAG8xQmmEI
-	7PpDvIAZhGTIfHMa4r1Uay5+B32V8adAvV917YM=
+        bh=rN0zX5nHXB9fKLNTJOC1exlqmhliX9aObV3wdKyn3nk=;
+        b=uOG9SgmF0IUNjSHUZ2rpvxsEmF5yONL1wN/aVSO6jrcuAUVBUG1E/qkunACbXtx8xs
+         VHdEv6vjKRpZGXvmu8rVxEFNxiaJv8jCIQ1ibwhLmyxusyP/dDXbfSzdZJe06Zsh2NuP
+         UpAy20aHmj+61KozU8PN0mCsWc3ZTiDDMmsk2zSZPZCzlCwh8o2jHH6v2qvk7KOkUv+k
+         yKXFs4rB+9WtzD8OSeGYOef5+JhHMEwoOb6NxyflSPLuu0gEh2zC6R0hI/2gIDe1P3k0
+         FgY1w1QgkFYThw64TtqOSdUaxXf+/AUXZ2UErrRdI0XtXAcfaHURR8gg2w2FxMQV9FTQ
+         bn8g==
+X-Gm-Message-State: ACgBeo24W9u7jfZq9mNzCl1IZ7WD2D69UdAoQcigaitHloTYPxow7MA+
+	L2rBiUuSzKrZpox1NzCK/iOY9CxeX/J8o3pNJV5hFA==
 X-Google-Smtp-Source: 
- AA6agR42l05dFKZLEBaf8g0DU4n+xJBSKSzCWqb1zlGpZQ1xzhptfhBMrSv9LjGZyWHnlaObadpiQEehBtdRdcpJI3A=
-X-Received: by 2002:a05:6512:1283:b0:499:d0a3:3ca8 with SMTP id
- u3-20020a056512128300b00499d0a33ca8mr5950447lfs.665.1663144936755; Wed, 14
- Sep 2022 01:42:16 -0700 (PDT)
+ AA6agR5W3M4znEMaIal3OQrPSwj2XpaRfsfqWdcdX0WMZAt17aF0ZxwptOOZb/1OZibyFlQMeuN9bYkiL5QHPzGOdvY=
+X-Received: by 2002:a17:902:f08a:b0:176:b477:8be0 with SMTP id
+ p10-20020a170902f08a00b00176b4778be0mr36514995pla.66.1663144987627; Wed, 14
+ Sep 2022 01:43:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220831111401.3330342-1-alex@linutronix.de>
- <e73f356f-87dd-2aba-7445-2f93ad6bf145@windriver.com>
- <CANNYZj-fLHiNEOLzp5etSQRwtNb55kHa4k02jzRRm=c3dohULA@mail.gmail.com>
- <6917e065-3b17-a57e-f862-90366717106b@windriver.com>
- <CANNYZj_OqjRgsQQwQditr1iHCM1RkZak-hFG-zEsqPmMfdNd_A@mail.gmail.com>
- <8e5b3cc0-bf66-fb7c-0199-ae6766c76cc8@windriver.com>
- <CANNYZj8owg_f1=g6VWVo-S6Qhq8VOgeYiGwQgNYQ5-GmbP8OTQ@mail.gmail.com>
- <8f083713-d00a-2393-3b74-35491e830bb0@windriver.com>
-In-Reply-To: <8f083713-d00a-2393-3b74-35491e830bb0@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 14 Sep 2022 10:42:05 +0200
+References: <20220913093452.47839-1-mikko.rapeli@linaro.org>
+ <0d0f3e3d53f675a0edff4e1582b33998288c95e6.camel@linuxfoundation.org>
+ <CAJFpGrO=Kd5qTgUQRbzcX3kYuCZKJNayxA6puVXAc_W=ATN6Pg@mail.gmail.com>
+ <7a1aa96b6b8883d47234c198992963c25b3ff6cd.camel@linuxfoundation.org>
+ <CAJFpGrMqa3hk=QL56zFgZBHiJn173Wocz7a5AH=2a9=Eny1tog@mail.gmail.com>
+ <41df899720a40675568c55a571308c9624ef5d2e.camel@linuxfoundation.org>
+ <CAJFpGrNM3sqj0o0L3CtNOtiLsq=++sbxun5eGXZHPN+A-oT3Zg@mail.gmail.com>
+ <CANNYZj8FpujQ+D3xc+g63LMJahyY2NRZK0KQpp2m=L2L9Jadow@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj8FpujQ+D3xc+g63LMJahyY2NRZK0KQpp2m=L2L9Jadow@mail.gmail.com>
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+Date: Wed, 14 Sep 2022 11:43:10 +0300
 Message-ID: 
- <CANNYZj9nK6OXGEb0qHHSUz_UYn8QZt9ZSk5e_i-A76RPqMG8kw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/7] scripts/oe-setup-builddir: add a check that
- TEMPLATECONF is valid
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
+ <CAJFpGrN4DzOqFsq-HLgdonuNuLFKTyb1BKRg=_6btzjjtN+eOg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] python3-cryptography: workaround broken native
+ functionality
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Sep 2022 08:42:22 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Sep 2022 08:43:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170643
+ https://lists.openembedded.org/g/openembedded-core/message/170644
 
-On Wed, 14 Sept 2022 at 10:17, ChenQi <Qi.Chen@windriver.com> wrote:
-> The codes are in: https://github.com/WindRiver-Labs/wrlinux-x
->
-> e.g.
->
-> ./wrlinux-x/setup.sh --all-layers (this pulls down all supported layers)
->
-> ./wrlinux-x/setup.sh --all-layers --dl-layers (this pulls down all
-> supported layers, together with their needed tarballs/git repos)
->
-> ./wrlinux-x/setup.sh (this pulls down the default list of layers)
->
-> ./wrlinux-x/setup.sh --layers meta-xxx (this pulls down the default list
-> of layers + meta-xxx and its dependencies)
->
-> And the final list of layers are in
-> <project_dir>/config/bblayers.conf.sample, which will be updated if
-> needed when re-running the setup.sh script.
+On Wed, 14 Sept 2022 at 11:19, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+> I can only think of patching openssl to pick up a oe-specific
+> environment variable pointing to staging_libdir_native - making a
+> wrapper for every native binary that sets those variables doesn't seem
+> feasible.
 
-May I suggest that the tool skips the bblayers.conf.sample step
-altogether, and simply writes the desired layers directly into
-bblayers.conf? It can do this with 'bitbake-layers add-layer'. Is
-there a need for doing the intermediate step of generating the
-template?
+Hmm. I'm a bit worried that things like git, subversion, http clients
+using openssl shared libraries are
+not configured correctly to check certificates.
 
-Just to be clear where I am coming from: anything in TEMPLATECONF must
-not be auto-generated during build setup, and must be under version
-control. We are trying to standardize layer setup and configuration
-handling, and this would be a necessary step towards that.
+The default use cases in shared library work, only the legacy module
+is tricky to find. But config
+and certificate store are tricky.
 
-Alex
+Basically without the cert paths TLS connections don't verify verify:
+
+# OPENSSL_CONF="" OPENSSL_ENGINES="" OPENSSL_MODULES=""
+SSL_CERT_DIR="" SSL_CERT_FILE="" openssl.real s_client -connect
+www.google.com:443 < /dev/null | grep ^Verification
+depth=2 C = US, O = Google Trust Services LLC, CN = GTS Root R1
+verify error:num=20:unable to get local issuer certificate
+verify return:1
+depth=1 C = US, O = Google Trust Services LLC, CN = GTS CA 1C3
+verify return:1
+depth=0 CN = www.google.com
+verify return:1
+DONE
+Verification error: unable to get local issuer certificate
+
+With the openssl wrapper and if those variables are set correcty for
+the native sysroot paths, then certs get verified:
+
+# openssl s_client -connect www.google.com:443 < /dev/null | grep ^Verification
+depth=2 C = US, O = Google Trust Services LLC, CN = GTS Root R1
+verify return:1
+depth=1 C = US, O = Google Trust Services LLC, CN = GTS CA 1C3
+verify return:1
+depth=0 CN = www.google.com
+verify return:1
+DONE
+Verification: OK
+
+For example subversion-native doesn't work without the certs and hangs
+on the question:
+
+# OPENSSL_CONF="" OPENSSL_ENGINES="" OPENSSL_MODULES=""
+SSL_CERT_DIR="" SSL_CERT_FILE="" svn co https://www.google.com
+Error validating server certificate for 'https://www.google.com:443':
+ - The certificate is not issued by a trusted authority. Use the
+   fingerprint to validate the certificate manually!
+Certificate information:
+ - Hostname: www.google.com
+ - Valid: from Aug 29 08:20:19 2022 GMT until Nov 21 08:20:18 2022 GMT
+ - Issuer: GTS CA 1C3, Google Trust Services LLC, US
+ - Fingerprint: BB:17:2A:6B:F5:43:2C:2B:53:D6:EC:11:21:D3:54:EF:9A:95:19:33
+(R)eject, accept (t)emporarily or accept (p)ermanently?
+
+If the openssl variables are set it works:
+
+# set|grep SSL
+OPENSSL_CONF=/home/builder/poky/build_master/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/recipe-sysroot-native/usr/lib/ssl-3/openssl.cnf
+OPENSSL_ENGINES=/home/builder/poky/build_master/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/recipe-sysroot-native/usr/lib/engines-3
+OPENSSL_MODULES=/home/builder/poky/build_master/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/recipe-sysroot-native/usr/lib/ossl-modules
+SSL_CERT_DIR=/home/builder/poky/build_master/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/recipe-sysroot-native/usr/lib/ssl-3/certs
+SSL_CERT_FILE=/home/builder/poky/build_master/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/recipe-sysroot-native/usr/lib/ssl-3/cert.pem
+# svn co https://www.google.com
+svn: E170013: Unable to connect to a repository at URL 'https://www.google.com'
+svn: E175015: The HTTP method 'OPTIONS' is not allowed on '/'
+
+Wrappers here and there doesn't seem like a good idea..
+
+Cheers,
+
+-Mikko
 
