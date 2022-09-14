@@ -1,97 +1,93 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 469ABC6FA82
-	for <webhook@archiver.kernel.org>; Wed, 14 Sep 2022 21:20:07 +0000 (UTC)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.web10.2639.1663190401041426713
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 279C7C6FA82
+	for <webhook@archiver.kernel.org>; Wed, 14 Sep 2022 23:40:48 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web12.4045.1663198842032372474
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Sep 2022 14:20:01 -0700
+ Wed, 14 Sep 2022 16:40:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pF07VKGj;
- spf=pass (domain: gmail.com, ip: 209.85.208.42,
- mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ed1-f42.google.com with SMTP id y8so17221090edc.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=WHAw+zVP;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id x1so16666013plv.5
         for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Sep 2022 14:20:00 -0700 (PDT)
+ Wed, 14 Sep 2022 16:40:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:user-agent:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date;
-        bh=eotugnmc+FsjRoWJgtMwlYS+8sSatwJq/eFDRS7hvpo=;
-        b=pF07VKGjyTsjLhYdu72F+T78FTwX1I8L8URQahHhP9N1JUPALhsXiK90CqsF7ygQaL
-         BMYy0MAzrFI5nUMZ2S5taESzn0TvFGaE4cmlwugWVD8kUC2gd0JjjChFukb0neatrtcx
-         dwUYlESRQbnjHaiECSNgbtUt26yl8yy12Jn1+pBGxeXAGNfO3QfbmU42Caz8IKcDBv24
-         pzNCix9kDkv+OsEGGAB1VK5W7A68aWSllMO+8KAa9NEwyM0YtfCgaAYEOGO+Y8SixOS0
-         eQHMnFnCkLHF1HFGH+XVf/hgUbLtmlmmjJHCuBLcgq8gfAV/JoP6B2nVkn56VNaS14A9
-         NNfg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=dz7S/h7Mfff4bASLDTJd7haxfLuSiD1KLmAVNWtg0V8=;
+        b=WHAw+zVPHonfyrO4h1QhjWi3HEx8bPnDSAXbKutZhH13j3g8O6mpQ6hPrb1o1P9tfF
+         GnQKlxPaf2/NkfQlnBiUiQKMj/viNhSi10AvKfpbUvWMdZNawKjLyM03MrdGCgGHX2kh
+         tZIGn3mYg1P4RYM1QyDiC6mkG3PXPAgdyzwD20aozdE9Ya9+9MgiukZkudvSOVcbmG88
+         xSOkqsojDFzQaTlli8yalZOWyPd45KfpxdNqK4UOKopSSunk+yOP73aEHlcWFPZWYo2n
+         OAH/OEfsXCBClMfRYDSoZ+oH6cRu5KrYHWFdzbThDO8wjTShjl6LdYX3zJ6mZXTRy5N1
+         MLyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:user-agent:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date;
-        bh=eotugnmc+FsjRoWJgtMwlYS+8sSatwJq/eFDRS7hvpo=;
-        b=JpdkDrFGtq3hrR8cenTDoVpqA4ahFE6Rp4jbxjPfTKcae5Bz/Ny1zn398W29NUB4bB
-         UHZz+rHR4RRXol35xEmbhSVOI0es3Nh5bDEuwNZOnzClv2LUOPjE0XOVfHii6Fr8NcZ2
-         X2sQmBbDZZYKJldIbIrcIC19BTZwHWFELv1bSNNP53E8tybuD2CabaoEMvq6W7aE4/pY
-         Zo4SB/BZEFuH+W6GA5l0vpIPaYwT28xsqFLgg8YluJ6EPDO5jLUO8u7mAzwDQDb16dEH
-         fkNGn4tYG5XLAClOk60T2LkkZbRFefli2FkbNiS4TGn7X1TxG95N0QNWKptLzKbFPt48
-         VnGQ==
-X-Gm-Message-State: ACgBeo3frxp1iMhjuD3q/wwwnsJ/jxC6s9PlKN+Op68kAx/t7CYCIOYe
-	IFoej/LSsCDyxP3W5TLQkQ4=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=dz7S/h7Mfff4bASLDTJd7haxfLuSiD1KLmAVNWtg0V8=;
+        b=24YU4P7+lSzX26jdzFmW8p8k1COrPLRrX8ejPO0Zpd+TUYES1LyPTYYjVxzvtviGkr
+         5dPLPzBUTj4eCNS6HwSEuUYmiGPSD74hlw4PZstKCYcRAf8BSbDosDImmW/W+z6yQmcq
+         R5+m61fSFYm2bpETkrz82llW9iyR81hEhrV7zl7ujBLevO4pfUa0PL/ApPwTJaqecbZF
+         6mczG9rlbndUz8X3j5Gl7BqO8xdrzPnIfMDmCrqMspjAuoDBitZ2diubvSSwAgH8L3Z8
+         4nT9WbE9XDxgOvcktU8wNAUVn7DLqdNgkNVNoOySPBfLKO9DbUSBrhdp1YWUtUVhvI+K
+         Y/lQ==
+X-Gm-Message-State: ACrzQf3FmXHzYo/zSd5gOYt+57Jqw/NSHMIGeX8gTSZHT0UseyFzXddb
+	8wiA2Cr83yisIYr57V7B/5DgN4trKRMtHA==
 X-Google-Smtp-Source: 
- AA6agR5G/WZpIuVmDc2RSk2SAjcwP677bH64x2MNdKGUx/W46OE0jdARffuDw9NCs2Crg76aCG7hoA==
-X-Received: by 2002:a05:6402:3988:b0:44e:6f08:ddfb with SMTP id
- fk8-20020a056402398800b0044e6f08ddfbmr31664281edb.89.1663190399225;
-        Wed, 14 Sep 2022 14:19:59 -0700 (PDT)
-Received: from md2ramxc.ad001.siemens.net ([62.32.0.69])
+ AMsMyM7P11eD/llTNAv88X8G4/DlXTk7Z74FQWFFSa+FVkb9s27I/xhtXZuzxlFu6u3pE2Ks8f+y9Q==
+X-Received: by 2002:a17:90b:4b8b:b0:203:203:3365 with SMTP id
+ lr11-20020a17090b4b8b00b0020302033365mr7450201pjb.19.1663198841055;
+        Wed, 14 Sep 2022 16:40:41 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::ec90])
         by smtp.gmail.com with ESMTPSA id
- f13-20020a17090631cd00b0071cef6c53aesm8138356ejf.0.2022.09.14.14.19.57
+ q17-20020a170902f35100b00172b87d9770sm11203830ple.81.2022.09.14.16.40.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Sep 2022 14:19:58 -0700 (PDT)
-Message-ID: <04dc909a54c792368fa9285f32160c4c3e39ae8d.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH v3 2/2] nfs-ganesha: Replace unfs3 with
- nfs-ganesha
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-To: Paulo Neves <ptsneves@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 14 Sep 2022 23:19:56 +0200
-In-Reply-To: <17143CF1C30D4B98.24896@lists.openembedded.org>
-References: <20220828174356.3074391-1-ptsneves@gmail.com>
-	 <20220828174356.3074391-2-ptsneves@gmail.com>
-	 <17143CF1C30D4B98.24896@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+        Wed, 14 Sep 2022 16:40:40 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] curl: Add missing perl modules in ptest rdepends
+Date: Wed, 14 Sep 2022 16:40:38 -0700
+Message-Id: <20220914234038.1198540-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Sep 2022 21:20:07 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Sep 2022 23:40:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170675
+ https://lists.openembedded.org/g/openembedded-core/message/170676
 
-Hi Paulo
+These modules outside of perl-modules are necessary to run curl-ptests
 
-Is it possible to do the transition from unfsd to nfs-ganesha step by
-step?
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-support/curl/curl_7.85.0.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-   1. Add nfs-ganesha
-   2. Refactor runqemu-export-rootfs to work with ganesha.nfsd instead
-      of unfsd.
-   3. Remove unfs3
-
-My conclusion so far is that just removing the unfs3 recipe would break
-runqemu-export-rootfs and some features of runqemu. Therefore I would
-suggest that you send a V4 which only adds nfs-ganesha as a first step.
-Note: There is also a typo: The "-D" from USE_ACL_MAPPING=OFF is
-missing.
-
-Regards,
-Adrian
-
-
+diff --git a/meta/recipes-support/curl/curl_7.85.0.bb b/meta/recipes-support/curl/curl_7.85.0.bb
+index 3b55830415..ad6a5175bc 100644
+--- a/meta/recipes-support/curl/curl_7.85.0.bb
++++ b/meta/recipes-support/curl/curl_7.85.0.bb
+@@ -100,7 +100,8 @@ do_install_ptest() {
+ 	cp -rf ${D}${bindir}/curl-config ${D}${PTEST_PATH}
+ }
+ 
+-RDEPENDS:${PN}-ptest += "bash perl-modules"
++RDEPENDS:${PN}-ptest += "bash perl-modules perl-module-time-hires perl-module-digest-md5 \
++                         perl-module-digest perl-module-ipc-open2"
+ 
+ PACKAGES =+ "lib${BPN}"
+ 
+-- 
+2.37.3
 
 
