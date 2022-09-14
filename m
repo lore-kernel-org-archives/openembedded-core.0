@@ -2,64 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 432DFC6FA86
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43281C54EE9
 	for <webhook@archiver.kernel.org>; Wed, 14 Sep 2022 02:26:30 +0000 (UTC)
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
- [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web11.1790.1663122383210231220
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.1788.1663122379267986142
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 19:26:23 -0700
+ Tue, 13 Sep 2022 19:26:21 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=rC2P1Hvk;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.176,
+ header.b=WMfCn0fe;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f176.google.com with SMTP id bh13so13049136pgb.4
+Received: by mail-pl1-f176.google.com with SMTP id b21so13703018plz.7
         for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 19:26:23 -0700 (PDT)
+ Tue, 13 Sep 2022 19:26:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=kjFgVOmRytCE1DgIntT80nOHDFyElxQeAoID7z/PAAk=;
-        b=rC2P1Hvkz2940uRkUsVppsoQKhFFbyQCD7uEHDCxgu9XkKE6s3vpBrMQvyTfw7vobf
-         NfwoFNwFSYq1FIFJrAzAQtrMInX4y7BYmaIEPDa5S1dz36slZsSucwCD9Ko1bi/qMDU8
-         5+ckc8+0hFjuuTT+5UJwXBQO2eFicCgBiPKfQqF/allk3FhhRRmDHGNHlhLpX8DZsmcM
-         HnXGTm+QOJKf5X79hP3S5hU3vil5o3XOcEQuo5kZ4IRw+LmQg7Tk/a6ZqBj2JkSBM7Ma
-         8ANHO6Y6K+wavCsHG6/fv6UwfhRWEDakkc7R9J9TnVi8JVjwYs213SjRUSF1wMwSDrNd
-         bN0Q==
+        bh=TpjW3N1clB3i3nrCPwVh1SZAU5PhSyoBE3LDBqFYKMo=;
+        b=WMfCn0feouseTzOJ99AeQYYFR3iTjS2wB6uPjOrB6B1oMcn2YW9V/NuUbM8cT5q/06
+         FtGJjh2UhH2XRn5kSK6YZHQnt7uGc3FzyqFTajZeuifnMoLuL5115P/BB9JYdkkzWjpw
+         gn2GfT8+Y5ptL0ZjbN0BfQW+CTH/0jWmhUiPXSOMwfUofkCcX5FB1Q/YHEz2x4+qO+80
+         IdL7UZk2TbI4avDgUb7tO483l+ubmeEo6RdFhd4V+U/4uSFfHYV7qDraB6OJDMxuLf8F
+         rFOO074brOHe31u9h/zgBo3Mbkq69SMipvQHoelLRFWViNnK/Rwz8cwKXKIYGNv5F2We
+         5eBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=kjFgVOmRytCE1DgIntT80nOHDFyElxQeAoID7z/PAAk=;
-        b=DGDNJFioHf21gMVBD9+jVQkuld7DU3MdEcUyqBdBvH09BlA78zhqPehVr7pc1xvBMX
-         jzrjNGc3VbNrgCj6OZ+2EjSacZ6GQR6hoy1V5L0bTmAg+RdNLzE+NpbKeNaNVuoRrWuP
-         SLyfgOsXjRPjl0836BBzfboMTGz2nPqRDqBI+ZYY8stGo0QExkT/vJmgvI4gSZ4te6ip
-         I+tuw3Sxw57/OIlO8xq8SLfjFjFmFYbYIhKcpYhkGoR9SUTB8Vtxo/u7WpsMcYf3mYkJ
-         XOMGIZC5LI9FVN8uLtGdTUEFS1JMMnAPKw5Oxb1hV85lVk2SE2/D2eHdw/n8NLnBq3YF
-         bnXw==
-X-Gm-Message-State: ACgBeo0YO7B94Hsd29Neuz8Q4Ic72/ivKTyF+DlGME9eX9lHJGTwij2v
-	Pm6iB2LTu3tUfQaDketeEDMckI+fFUdhdmux
+        bh=TpjW3N1clB3i3nrCPwVh1SZAU5PhSyoBE3LDBqFYKMo=;
+        b=w2WZG/Qe6skYwt2JyeEof6zJRVgi+XVyoAHsg2mfUPvjdCnhHkoWrE05tw+4MFcluH
+         XruqgQUI/+M6KEHcPfmbtL+rsRiRr2V+8a8m4pY6CFJdT6vj6sqHIZ/f2qgMMLYj0cu/
+         xdTZDPNy7+vrum2npZHY8JM+/e+OID+JuPDI9yqLPlOClqqx837Wm4vt1hKmQZWRAB1R
+         KgJm+vprUw/nnGu3qVpZaYZ0SVICSMNyXGHm4Dqw9tOK/zjchXmqcGGSoadORbHNURAa
+         HYxUIfOr/S5C0iThM9R+Y2CQyxrC+nqLybVi65yH4IvDjstuZ4KwOliQbWd7gwEb9K5I
+         c+Pg==
+X-Gm-Message-State: ACrzQf1brRFKuXFaxg8W4TTV3G0HHPCr2kvERBnanNs+KeiC52N0NIMr
+	tbUpgiH94flyUFV2YH6FHviET+pEB3790Hbp
 X-Google-Smtp-Source: 
- AA6agR626KkkBFT1qO1aJ6a/5v4goIW9ZdVRAmzut4UBUnEK4LKk90WNp5z2bXFzynZlDQ2rq/rHbA==
-X-Received: by 2002:a05:6a00:1308:b0:53a:9663:1c19 with SMTP id
- j8-20020a056a00130800b0053a96631c19mr35835474pfu.60.1663122382229;
-        Tue, 13 Sep 2022 19:26:22 -0700 (PDT)
+ AA6agR7ZNOr3gH0viPtq+U6rK/ZeWu6pTTJLCkCfDumEbU4MeWv5vvFz8fVo+vgjjx3SRYFx0zYKnA==
+X-Received: by 2002:a17:90a:4a91:b0:1fd:64ce:f8d5 with SMTP id
+ f17-20020a17090a4a9100b001fd64cef8d5mr2331243pjh.40.1663122380264;
+        Tue, 13 Sep 2022 19:26:20 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- s14-20020a65644e000000b00438fe64d61esm5259871pgv.0.2022.09.13.19.26.21
+ s14-20020a65644e000000b00438fe64d61esm5259871pgv.0.2022.09.13.19.26.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Sep 2022 19:26:21 -0700 (PDT)
+        Tue, 13 Sep 2022 19:26:19 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 9/9] binutils : CVE-2022-38533
-Date: Tue, 13 Sep 2022 16:25:19 -1000
+Subject: [OE-core][dunfell 8/9] systemd: Add 'no-dns-fallback' PACKAGECONFIG
+ option
+Date: Tue, 13 Sep 2022 16:25:18 -1000
 Message-Id: 
- <2cf26e2e5a83d2b2efd01de34c11da07eeb9c8f9.1663122098.git.steve@sakoman.com>
+ <834ccad676b3d8d58d1a66bbe813a331599435b4.1663122098.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1663122098.git.steve@sakoman.com>
 References: <cover.1663122098.git.steve@sakoman.com>
@@ -70,75 +71,41 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 14 Sep 2022 02:26:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170627
+ https://lists.openembedded.org/g/openembedded-core/message/170626
 
-From: Florin Diaconescu <florin.diaconescu009@gmail.com>
+From: "niko.mauno@vaisala.com" <niko.mauno@vaisala.com>
 
-Upstream-Status: Backport
-[https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=ef186fe54aa6d281a3ff8a9528417e5cc614c797]
+systemd defines a default set of fallback DNS servers in
+https://github.com/systemd/systemd/blob/v251/meson_options.txt#L328-L330
 
-Signed-off-by: Florin Diaconescu <florin.diaconescu009@gmail.com>
+By adding a PACKAGECONFIG knob providing a convenient way to opt out,
+and then adding that value to systemd's PACKAGECONFIG, the output from
+runtime 'resolvectl status' command no longer contains the following
+line:
+
+  Fallback DNS Servers: 1.1.1.1#cloudflare-dns.com 8.8.8.8#dns.google 1.0.0.1#cloudflare-dns.com 8.8.4.4#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2001:4860:4860::8888#dns.google 2606:4700:4700::1001#cloudflare-dns.com 2001:4860:4860::8844#dns.google
+
+(From OE-Core rev: 2b300d6b9ec6288a99d9dacb24a86949caf99e55)
+
+Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../binutils/binutils-2.34.inc                |  1 +
- .../binutils/binutils/CVE-2022-38533.patch    | 37 +++++++++++++++++++
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2022-38533.patch
+ meta/recipes-core/systemd/systemd_244.5.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.34.inc b/meta/recipes-devtools/binutils/binutils-2.34.inc
-index 6a55de2d45..ff0d467132 100644
---- a/meta/recipes-devtools/binutils/binutils-2.34.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.34.inc
-@@ -52,5 +52,6 @@ SRC_URI = "\
-      file://CVE-2021-3549.patch \
-      file://CVE-2020-16593.patch \
-      file://0001-CVE-2021-45078.patch \
-+     file://CVE-2022-38533.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2022-38533.patch b/meta/recipes-devtools/binutils/binutils/CVE-2022-38533.patch
-new file mode 100644
-index 0000000000..102d65f8a6
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2022-38533.patch
-@@ -0,0 +1,37 @@
-+From ef186fe54aa6d281a3ff8a9528417e5cc614c797 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Sat, 13 Aug 2022 15:32:47 +0930
-+Subject: [PATCH] PR29482 - strip: heap-buffer-overflow
-+
-+	PR 29482
-+	* coffcode.h (coff_set_section_contents): Sanity check _LIB.
-+
-+CVE: CVE-2022-38533
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=ef186fe54aa6d281a3ff8a9528417e5cc614c797]
-+
-+Signed-off-by: Florin Diaconescu <florin.diaconescu009@gmail.com>
-+
-+---
-+ bfd/coffcode.h | 7 +++++--
-+ 1 file changed, 5 insertions(+), 2 deletions(-)
-+
-+diff --git a/bfd/coffcode.h b/bfd/coffcode.h
-+index dec2e9c6370..75c18d88602 100644
-+--- a/bfd/coffcode.h
-++++ b/bfd/coffcode.h
-+@@ -4170,10 +4170,13 @@ coff_set_section_contents (bfd * abfd,
-+ 
-+ 	rec = (bfd_byte *) location;
-+ 	recend = rec + count;
-+-	while (rec < recend)
-++	while (recend - rec >= 4)
-+ 	  {
-++	    size_t len = bfd_get_32 (abfd, rec);
-++	    if (len == 0 || len > (size_t) (recend - rec) / 4)
-++	      break;
-++	    rec += len * 4;
-+ 	    ++section->lma;
-+-	    rec += bfd_get_32 (abfd, rec) * 4;
-+ 	  }
-+ 
-+ 	BFD_ASSERT (rec == recend);
+diff --git a/meta/recipes-core/systemd/systemd_244.5.bb b/meta/recipes-core/systemd/systemd_244.5.bb
+index a648272bc0..f3e5395465 100644
+--- a/meta/recipes-core/systemd/systemd_244.5.bb
++++ b/meta/recipes-core/systemd/systemd_244.5.bb
+@@ -162,6 +162,7 @@ PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,libxslt-native xmlto-native do
+ PACKAGECONFIG[microhttpd] = "-Dmicrohttpd=true,-Dmicrohttpd=false,libmicrohttpd"
+ PACKAGECONFIG[myhostname] = "-Dnss-myhostname=true,-Dnss-myhostname=false,,libnss-myhostname"
+ PACKAGECONFIG[networkd] = "-Dnetworkd=true,-Dnetworkd=false"
++PACKAGECONFIG[no-dns-fallback] = "-Ddns-servers="
+ PACKAGECONFIG[nss] = "-Dnss-systemd=true,-Dnss-systemd=false"
+ PACKAGECONFIG[nss-mymachines] = "-Dnss-mymachines=true,-Dnss-mymachines=false"
+ PACKAGECONFIG[nss-resolve] = "-Dnss-resolve=true,-Dnss-resolve=false"
 -- 
 2.25.1
 
