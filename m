@@ -1,530 +1,260 @@
-Return-Path: <mingli.yu@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 832BCECAAD8
-	for <webhook@archiver.kernel.org>; Wed, 14 Sep 2022 05:30:01 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
- [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web12.2904.1663133391426406736
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA433ECAAD8
+	for <webhook@archiver.kernel.org>; Wed, 14 Sep 2022 05:49:51 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
+ [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web09.2933.1663134585459956928
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 22:29:52 -0700
+ Tue, 13 Sep 2022 22:49:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=tBaimZN1;
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=MPz7cZgd;
  spf=permerror,
  err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.178.238,
- mailfrom: prvs=62563eda0f=mingli.yu@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+ invalid domain name (domain: windriver.com, ip: 205.220.166.238,
+ mailfrom: prvs=6256f4cbec=qi.chen@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
 	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 28E5ODtp010203
-	for <openembedded-core@lists.openembedded.org>; Wed, 14 Sep 2022 05:29:50 GMT
+ 28E5HV0m018395
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 13 Sep 2022 22:49:45 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
  h=message-id : date
  : subject : to : cc : references : from : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=PPS06212021;
- bh=38M/Z+xESNYY6HwFfJYKei5paDng0LkgFJO3qmGd+Yo=;
- b=tBaimZN1h/lYDNGsPpjRU4VvMsrkMDfVheo2vJCvmpG09HNO0NgrD7hW0qtwzY2CSXlH
- fz2dhn/c7vGmB+LD/FEl+Zk8QkQxF33nmD4vPPfCbgSWldV4x1+jNj/sFQBi3TmUuevy
- kiWdX10kr2mh1EYZKSUv2H8/8pDe2HS7cmwXrPcdchNqo0HfMg1KSt0eUBpFa9Gl0jsl
- tIoMLZ1meX2iVLiLJdmeS6/7Dl3ziYEJTIy3vVUqq+cL6qJxzdUmjWANnt6uhBGwC+SB
- E8A+l7Tt6COrUpLCdZjQvmDVo3te03FL0f3QuJywNz0qHrdZVxgZeHUJ06Df3BqwSx1S 9Q==
+ bh=tiERiK6LS1aTLLOM77T0Re60gMYNjlcJ7TMVld4Tb3w=;
+ b=MPz7cZgdiP+AHR6bFAjClPuGTW7z42OtF6YOi5NhLP1p78NQz3id4IYBiRIk6sb+HuCM
+ 19Nik7mpeyhCO/DPJ9nFpOrm5FdK6yLe4CXx4DBy1nqH3Ef8/Oy6JdtUlf0XzKgy5zuX
+ hZwTBIoGk3HulncfF7Uc4BA7wCF0EODP/+FQv/xot7FsmiMcmrR5mQ9yGomvhhNPMWv/
+ IdpsoyzJLe9eyTdC8mEo3BCv9ExtKdYKPDvO5XFdq1wEKHutgLpe6l5RImfc3VUPu4Lo
+ wIEnv3rPOvY7BpyPFz1hNl9MUymS+xKkZvj5y/WcMMX97h4g3pyMHJP/EW2hEHSYx8wG 8g==
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jk4v7851u-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jk4pdr731-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Sep 2022 05:29:50 +0000
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28E5TnfD021989
-	for <openembedded-core@lists.openembedded.org>; Wed, 14 Sep 2022 05:29:49 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2171.outbound.protection.outlook.com [104.47.55.171])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jk4v7851t-1
+ Tue, 13 Sep 2022 22:49:44 -0700
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28E5nivD031826
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 13 Sep 2022 22:49:44 -0700
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jk4pdr730-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 14 Sep 2022 05:29:49 +0000
+	Tue, 13 Sep 2022 22:49:44 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=apm9MdoyYoHBsz60hCEZGj6TbLxWAY2IpTY6zV/vb9LDk6Z4kBhsFWTjoSbjpuWm00/+QP4yCT9B1HcxiCRuwbQDaFp8hVbOQQw7aBafsL6bLKJlt85DmvxEwxGkNUfcimABBawOIspCxzKl5QoE/6aPY2yzDpz3exTQJVlQqjndyDjrMg2QSr85WvcmgAF4wJbaLK+oO9IAXaCl7mHZ1DScdinRgzZxMtdYDUvjWP0UeB7/qoa/8YxVKeOq84v9PpC5E/V3DZiXOa3Gt0jxg/TqVCb55FNKXziEIIFb7zLMaL8scm2cnLYyLBrLZtUWFeSxDUfuDaizLrwsiUOSYQ==
+ b=a1XWOMoO61SachWuOO3zyQOA9SdWwrotaILDq7Tfzsf0NRNZbqP6eBwFJmBCi0JEbwssq5b5wfAO7Ae2NUxxgUZUTi4hUPSjJT607kZuJCm04fOzEsSqiOCrRolU/wpitKk6voymmqp1GGegbq/hNc80wQXd2EH4k5pTjviCdToOX8oLRrVhrM712ajxqIRcZsrHttRh6c1i+mNdQH+Kgjpu229xIDhORMeGNUKH/n1BOTNEb8Rm39+WGUzb6AqY5kiqmn6rgzkB7kehOZ7+UtNMg59gvrf2foxlktQF2wi4AgCvsg2Fxqj03wGrZXjyztOVlRUDK2LFRj8Szoku0g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=38M/Z+xESNYY6HwFfJYKei5paDng0LkgFJO3qmGd+Yo=;
- b=bcKMPB5O1tKvuBsHGgjJIdRWcSF5qKhu3dAcmCnIH06cJboYfShWSeLyCKECwfwtwADd1F5p2evmhvNKYEIYCteYa+oVyXQJuPLOl2oI/6hHi4IbI5cDKFdDve+//iYasAcYNSR+o7myIASltwLKjJ8dn/awX+/MQXqNKE1dfdHA8e63FY1FFj9xr/lGGNd/Ppq/Wpll90/SyiCjVwcbhLR4l7JStK+AtcGZ1u4jZ1G1Vh/D1Ap6ujEXfZjOrwPp/F38U2VZWKENYUDq6/hvZbIHtdgHhhVt7wgWDqqEGbBwTxklcmX0FYaw5+km7XkTZ7aZpmMovuaANhJndLlF8A==
+ bh=tiERiK6LS1aTLLOM77T0Re60gMYNjlcJ7TMVld4Tb3w=;
+ b=V0s6WalQK0ZSNHG4hG3IRvQoJhmO+4kV6jIxgWi2qU5G8d2WsuFXuDHs8vQwRzViby9vp/QmYwsJ2L+2Ys2RJaOrD0ayHi0DTHCIxuaC0uvLyCKbP+jOGa7C8SMrEArW0V7OY6U2v1sdQdTnVQHGzINkYu3MAvZg5m7+NUduf6PE+j/lhoGz0Gw0KZvYDIy1B2htRLaMauOZaMEpuEDfGnvXumerIQ/II6iiO3Ep834zWJ5oHsMBRXpn7Sp55Xq6m9biF936AOQZJbBcyRNWTkPQFxxAfGWefKxgh2km4FCep0adEA3TJHjYfxBmK8x5LwH6uh31SrSuvJ5whvv5CA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
- by SA1PR11MB6848.namprd11.prod.outlook.com (2603:10b6:806:29c::14) with
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by SJ0PR11MB5867.namprd11.prod.outlook.com (2603:10b6:a03:42a::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.20; Wed, 14 Sep
- 2022 05:29:46 +0000
-Received: from CO1PR11MB5009.namprd11.prod.outlook.com
- ([fe80::1ce8:cf77:de7b:2203]) by CO1PR11MB5009.namprd11.prod.outlook.com
- ([fe80::1ce8:cf77:de7b:2203%6]) with mapi id 15.20.5612.022; Wed, 14 Sep 2022
- 05:29:45 +0000
-Message-ID: <3999b5e6-95d5-1176-6040-55faea11a3a5@windriver.com>
-Date: Wed, 14 Sep 2022 13:29:38 +0800
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.22; Wed, 14 Sep
+ 2022 05:49:42 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::c112:6e86:1bdf:66ed]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::c112:6e86:1bdf:66ed%3]) with mapi id 15.20.5612.022; Wed, 14 Sep 2022
+ 05:49:42 +0000
+Message-ID: <6917e065-3b17-a57e-f862-90366717106b@windriver.com>
+Date: Wed, 14 Sep 2022 13:49:35 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v3] webkitgtk: Fix build on 32bit arm
+ Thunderbird/91.9.1
+Subject: Re: [OE-core] [PATCH 1/7] scripts/oe-setup-builddir: add a check that
+ TEMPLATECONF is valid
 Content-Language: en-US
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-References: <20220908214554.1117287-1-raj.khem@gmail.com>
- <99ce1274-dcd0-8392-fc88-9f1122870049@windriver.com>
- <CAMKF1so_7GfQBYtTu8V4c5K=wnjq64HR=AYHhjSa7Uc7KkX7_w@mail.gmail.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+        Alexander Kanavin <alex@linutronix.de>
+References: <20220831111401.3330342-1-alex@linutronix.de>
+ <e73f356f-87dd-2aba-7445-2f93ad6bf145@windriver.com>
+ <CANNYZj-fLHiNEOLzp5etSQRwtNb55kHa4k02jzRRm=c3dohULA@mail.gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
 In-Reply-To: 
- <CAMKF1so_7GfQBYtTu8V4c5K=wnjq64HR=AYHhjSa7Uc7KkX7_w@mail.gmail.com>
+ <CANNYZj-fLHiNEOLzp5etSQRwtNb55kHa4k02jzRRm=c3dohULA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SL2PR01CA0011.apcprd01.prod.exchangelabs.com
- (2603:1096:100:41::23) To CO1PR11MB5009.namprd11.prod.outlook.com
- (2603:10b6:303:9e::11)
+X-ClientProxiedBy: TYAPR01CA0017.jpnprd01.prod.outlook.com (2603:1096:404::29)
+ To CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PR11MB5009:EE_|SA1PR11MB6848:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3b6ef62a-d324-46a8-ff71-08da96122247
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|SJ0PR11MB5867:EE_
+X-MS-Office365-Filtering-Correlation-Id: 30335d18-27db-47ff-07ae-08da9614ebaf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	mFRndSmyeOxKPW4H7MVkOXB0NLZVh3V2o7GQacw63Pgmh+s22cadWMFJ38ZMwA0hVTR1G1ih/gYijAADmNjv1YxKgZRGxCnESFaiu5sLyrZ94xxagAlxTMWDPqnO0SvpIQmV8thrPQKbEhCyDAGXUNYUST+FXlEYps0yxxH6THi4spWbxYUb4uhFNOb2uttVaopjJ9m1Y7HxePSX8Rf4m6ap9s/UaW2VwOGfiqliAwi+moBBpEZQxCROuaim0K1kCev/vtjvNCpuY0QPM1oztceaVMXiqkCIY80owjwb6Sqh/lDWdTL6lGKeG9MQgXo03nKKhVTpmoUAF59zj7KVW3gpKtQMmj3FYldZule42jcvlJv7gGXAPIxFR0QiYtJ+05gEzcXUBJoWWwWnCe12Q+YNK5WA49DhzMFIO6gal7BNCg6wlNGqxAUxg30n0fMMBeqyfPAgDPs8SvZKa7eChdjeckMAdg3tQR2DFrUHI8qLfTUz3RxZ58vrAR+26Sa6EoHsTquC/dBtco+GanhLeipNNObHGv72vx/0Pp1XdEEF5sNbAf3bJOFXGWPTGYEYR7/sGR6hdwtCjj4lw21RWOKqoAJU+4ySRJ7m/V++KR1z0bfLi7ADppXap75KK0q4yZN/DANIJ2lYdLMrnAWooftjMCPgfypHAjcv4uVaYl1UHgwJd8wHVvzvFI0PS1OT2XOU3aGoFYkbHqnGZiJ+jE2V2KbtRyxhamajSq35Jt488uFtps1FdEnuP4n7CKA+ruuOItADjl/Pf97XG+bqV8rq6ZOcUP56vOJSA0PBo04IvMQxTD4aqOU7wux1E5baTNm+l2ZtLmvJIkHla1pOliXoBYyxqD5q0bnOaf2e/FM=
+	jqvJ3//QKvP5B2UKHjp8frwLJ8eLh79AKp+QSyBLEEPlDEXm70b0uJOI/iI7Z33uupSPzIksjdL1ChOtouzg4XuUK4werfUBVHW0+GJXo8oitdPGg8IgnTRV+QmVHnj0qWIq41IlZIKqfJGXR2LhvoQn3lBS+PLNDaczEmvzfiUHDPuC58JrLMiOs2+n39dI7bDnG82jnwIh06l42Z1oGtSDcTSLJGlV6Ly18WsrL0W20wra7l+YWufdOWb7qFZ5zGzLQEWuIKuRffpMUsXqXJnIcsPfqc0qVH6Lv7O/Cj1X8GH81pfTOkom5n20HjirTTqYNE/fHl6oCX7pM7l+bHWuINS6FENxDJRPmnOtIstpktdKP/6t4Hq9etbZmPwwXo9RY/Nzl+m5MUSRgBKAiVot5xp92exwDUxI+kna4cAlIZeHO1gL+TmTGwy52eTw4zrMrjitG4YFAmRVhPDibX/VqlhQHtyz0D4tQPrPTvf/r35iHIZQZOhkVfwNnaHuxrhrAvinzbhlrLsaNtha5Dssg2/LrEwgDtGAmR6F9O1Y1gO6roIPwx1BRaT9Bv/F51WiCKJwUlD/DhOtkLYIAfzUt8JaegIBnMO4SePZJoJoYSMJ3oL+wvNT6Er6W2alAFKCM1Ot7DiRiszoPoTiSYlNNGLOW5+oCpUdNZFSwyvW5o4WzTRVSf6/2kTzO0auwfnibFwGIq17RL+JMMz59fpNoWwDmX4Uqz25h86TU+AMGILuUjZ8zGkAMO01qsPPOnNTHx/r/qsEbqFXv3XgMlS56z4239BMRaRPe+QocfPFsXIQfnD5SLCDjeSBJ6WhmgIuv+eBzf8rZu7q7SeUOyrIGhfeUWQN/RWeUIi+ssA=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(396003)(346002)(136003)(39850400004)(376002)(451199015)(26005)(66946007)(478600001)(186003)(966005)(31686004)(6666004)(8936002)(6486002)(86362001)(66556008)(38100700002)(53546011)(2616005)(66476007)(41300700001)(6512007)(5660300002)(83380400001)(316002)(2906002)(6506007)(4326008)(6916009)(36756003)(31696002)(8676002)(30864003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(136003)(396003)(39850400004)(376002)(346002)(451199015)(4326008)(6512007)(8676002)(53546011)(83380400001)(36756003)(31696002)(6486002)(2906002)(54906003)(6666004)(5660300002)(2616005)(478600001)(966005)(316002)(186003)(66556008)(31686004)(66946007)(6506007)(41300700001)(66476007)(26005)(8936002)(6916009)(86362001)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?bGs3VS9TZUpKZ3BRQ1ovVEV2NUNpR3BHOFYrK25VMFNBdm1EZW45UzA0d3ZU?=
- =?utf-8?B?dGcvZ0VXMHJBVVEvQWRhRmFFR3dvcFFmaytBdHhxVmV2MVVNbWdtRVNLV0JT?=
- =?utf-8?B?clV6dmRrUE5DY3Z4NG5rbm9RaGZBcXF5NjZYZG05cnJWWHd0VWVDT1EraW9I?=
- =?utf-8?B?SmJDUWFmcVJsRlVWeDh0SnMycjJyOUhDNFE4KzhmLzdqb0I4bTRaTlhZUU9u?=
- =?utf-8?B?d0F6UVNRQ05NaUxSeklPTVlEK2NMS0RFMjcrbmU4MlROQVJCKzNFbUJqME9a?=
- =?utf-8?B?bVFBa09ScURNMXdYdDZvT2NmVEZPaS9Ma0NYWUI1Tk1rb3dhMFpoc0l4WXpT?=
- =?utf-8?B?M2xJUGZ6YTZFMnNHUmh4bDFmQWJzNFRFcUNUNUd5ZHpMdzlZVFdWR3lnaW1I?=
- =?utf-8?B?WUEwM1NuZnN2ZnpFb2IxcUQyRWYrL1lUeXVxWEhGU2FaOXJuSDU2QzRDWFpL?=
- =?utf-8?B?NTVXVy9Fb1paME9nYXZZZWhtOGhSalNENEF2KzJ0Uk1ZTHMrYUlJQU5uUEQy?=
- =?utf-8?B?NVlKVVgwWjFEV2hPbXVMY3YrWHZneXd3MzgvS2UvZ1IzTWxjZncvUkN3VjVP?=
- =?utf-8?B?aWo0aTV4TGppWjNndmVOQlg1WWRCSm83YkE1MlhaQmZqM21lNTh0MXhrcDhP?=
- =?utf-8?B?WVRBMlF1bXBQM3Nac3Y4aTF0cDN6bDl4OExQMTdEdFRpZVZBZFFBYlpxYU9J?=
- =?utf-8?B?ODRGY1NPcTk1ell6UVJ6bTlJZ294Mm5BVjgyVFVkMlRCbjM1VWhBL2hhWFdF?=
- =?utf-8?B?QnpYb3dtK2ZFWXBzOUMvdkhORjJsUUI5YUtFbm80MnpGMWVzdGthSjhiUW1Y?=
- =?utf-8?B?Z01jcm5sMjA4eTBEYlpIRkNlK1dFVU1oRktURlZ2TnErVzhsL21GY3BCaElQ?=
- =?utf-8?B?S2hMb0xnUWdNS1pUZXkzeExKK0dxdGNBVGZycDh4azkxR0JIZHZKdkxQTFZq?=
- =?utf-8?B?dGl2dUNzTmdBcFZHSFc4SmozQU91NWlySXVCMlBvQWJSVGhGcWVwczZQVFkv?=
- =?utf-8?B?ZzFUT0RLS3F1dlVzTUZaaTAzTWxRYjh1Zzh1V2lBWnhtaGtrOTZ4T1VZanJW?=
- =?utf-8?B?V3pWSGhaNHIvNzdma0ZuL1dncVZDUHFsUk1qTjlFb2JEWkwyZjd5cHcyNlpY?=
- =?utf-8?B?Q3UxNnlGZFFQSkpvTVdzUkRwZlJ4eXY1WVFaUmNwWHZubmlsWi91emNpQ2pu?=
- =?utf-8?B?VGt4VzYrc0lLeWJ2RW1NR2s4NEVSNTQrRFhtYW9OeFpsRmVXQnU0M0tOZ3VE?=
- =?utf-8?B?OHpxdWlaSGpkNnhxc3VsbmFoUUd6c2xmMjF6bXNHT1VaS0lrN3A2d2Uxaksv?=
- =?utf-8?B?K2JxZWkwWnluVWxNSnBzaTdXQXRSeTVybmZSMzlpRzU0dTREbEdQV1crREQ1?=
- =?utf-8?B?aFFJbENHRktydXk5WjVaNWQyMVYzMGNaVjkxY3FMZy9oNGNzejhxQVArOTM0?=
- =?utf-8?B?bG1IZG92ZW9hU09QclJYbkVneWU2QnJlTnhSRkRzd1ZlOGsrdHBMSXV5OCsw?=
- =?utf-8?B?REs2aWNwcmYvWkRTVEx1VUpzTVdRYmVzandjbGZQOUlMTnNLMzI5SkxPV3Qw?=
- =?utf-8?B?dERGaDJQVDJYVkk2R1BWRm11aHhSVkRJOXJNMHJSTVNEaFpoV090TWRGZ0Yr?=
- =?utf-8?B?WUYrZXNjaS9UbTJzTk9uMjhEbVF0Y2FyMzE4WXlXdVBvbmIrUDZ4YVQ1Tm8w?=
- =?utf-8?B?b3VjUzVqazIrY1Fxa0g0MlZLLzhMaDRqY1Y5elB2QXU0OWh6aGNZWkU2cUg1?=
- =?utf-8?B?aENJdk55cG9YeWtqdkZyTFZlbldWUjB1TUQ0aXVWMituM2g3YlFrWUExOVh4?=
- =?utf-8?B?d2dxbXB5ajBwSnpWOEFxMllHOE8wVGVySjJ3ZUdOb2JpM1Bxd3c4ZDBHVVd0?=
- =?utf-8?B?SFVrbnBSWmRKUS94VE9wRkVKZno3RFlQVHpGZjkzenRXR05rTWhSVWVEYWU5?=
- =?utf-8?B?a0dIY0Z0Vk9mSDJTTCtIb2JLM3c3eU1SeWFrZ0thZHBtK3lvclptTjJaVE82?=
- =?utf-8?B?U0RaclErMGJtMVZEN0JNbThwTkppYnZrUEg4UHRxalVnaE1ka3FJYTBLZjJS?=
- =?utf-8?B?TjIvWjVaRWdlZ1FPV3h3K3BGa1h1R2dhRXAza2lHdWhFbGtSWFBqTDNFM0ZZ?=
- =?utf-8?Q?X14z7Xd+3WqWmf3/BFQyPaf9s?=
+	=?utf-8?B?ZUlkS2NkRVhkYnEveWR2eThGeUIra2gzcDJXUjdkNGJDZkRKbXVMUFg1YWNY?=
+ =?utf-8?B?UThLM20xN1FVOFZCRG5DVmhzdWpud1hFWmdOVUlCaFUyMnJKWjFZdjAzd1l3?=
+ =?utf-8?B?QnR3OXRsRURpUSs4aW84c09Wd1VrN1l4NFduS1VJbW4xQkVzNm1jRm8yKzJS?=
+ =?utf-8?B?ZnpjYzBOU2VsV0RLUXFWTCsrayttdGpOQUhKNkQ3SEJ5SCtUenphdWpaWXZW?=
+ =?utf-8?B?Ri84VWlJRnQ1RW5iNlZBZVBBYUFvTlM5TFA4Smw0eTJZYUt0dTUzOHNpVjY1?=
+ =?utf-8?B?WmQyTGhKU25hbk5nWjBjZHV6cFJMbTJlV2NDTWFwVHExaUdVNVQrdHN1NVRP?=
+ =?utf-8?B?WUVqdDRTZ24yMUVUZEpPMWZBd0hBM3gzazZJK3BPbjB2ZldVZ0hwNUdGcVMv?=
+ =?utf-8?B?c1Y2algweDRINkMyeEdIZWttQnN5NThpb09UWFNzbElZRk9xQWRGclMrMHhk?=
+ =?utf-8?B?QU4zckZnazMrdDY3VlZWeTJjdW0ySWZleXhBTGt5NlV1VmRjZ1ZEYXBBRlZS?=
+ =?utf-8?B?Tno2Wlp2cjRyQW9kb1hUZFl4Y3ZYcVp1UTYzRFJBK0JJbkkzdVFLRU83RTZx?=
+ =?utf-8?B?VStCTjVLYXg0M2hWZGRjQVVQeDNpdk9STTZ5NEZmTVRKUFFrQW9mVVBHeDJT?=
+ =?utf-8?B?UFFrZ3BBTUdPelNGMW5pSjBKVElLNFlNMWdWQ2hodmpxdUVTRkR1SHFua3F6?=
+ =?utf-8?B?THpDVklMRXNGZnZMRmxPSDN0QWtJT2FOL3hrd05YaG9wNmYySFBMOEZiWGZ3?=
+ =?utf-8?B?clBQUUY0Z0ZZL0NNV3hIUlJrZm1MZGovQktRWjV0amtNL3JNelVpR09NbVp0?=
+ =?utf-8?B?WjVoSXpOZ21PWHRZdzhTRllCa1JoV3FNQmtDdHlOdmtYelBmMW40alVVZGdG?=
+ =?utf-8?B?ZkpCUW1PMTc2ayt5RVhSdTFYS3VSK3hNUG1CU1Z2YmIvaE1XcnJxL2E0T002?=
+ =?utf-8?B?d1REdS9GZzVFOEJwOUprTFB2RnBaZUZIQWMzd00wdXgxeVVBTzJvWmtSWDkw?=
+ =?utf-8?B?VWdVZGllRld3TjdoVFA2MGErdmtORldSbDd6L3c4SnhmVC9OZWxyVTJLa2Rq?=
+ =?utf-8?B?T3I0TUxwTW9EUktpV014cEZKVi9zdW1XZitua0pnVG9TUUpzUmthdlR0dmxF?=
+ =?utf-8?B?czQ4SlpXUjJ1aFNHdW1nUFBTSVl1Zm1FUDZUYnNVMFVKYlo0UmNXNkI0Vnlr?=
+ =?utf-8?B?M3FRTXdjSXgxSGxsbG9kbThWc2k0VUtuMUtGMVI0bEExUG5lZ3pOVW5nMWtU?=
+ =?utf-8?B?Zk1Wb1hKeUlvLzR3blFiUVFBR1VwaXZjemZPSEhNTXlTbk9WaDUwTFJReVdp?=
+ =?utf-8?B?Q0JjODFlVlBFUEFTZEEyNzNPS1M3OFluN1FXa3RzQkp4emcxM3JCRWI3Z2hW?=
+ =?utf-8?B?eGw0TEJrcEMyOXBWNXZLSzJZU2MrS3JXZm1mMDdpSEVoQ2RDeHNXTzJiSnZ0?=
+ =?utf-8?B?bnV5Kzh5Z1hJaFZvWWh1cXI2aitBUDJPd2F3cXBxdmdIakFNZWdNNi9ZbTVm?=
+ =?utf-8?B?NVhTVWpMZWhhZXdTczNMaGlvdWJlaWJLajhBdkNiWUdpUWMwY0tQU2pnNElR?=
+ =?utf-8?B?TnN3VXcwdUR0V0VJNVk4aHBYVHhUUStPQXdnenR3Rnk4ZEVGL3AvMXRwTFdI?=
+ =?utf-8?B?TUdFRkk3bE9LMW03WUFSa3FMbGZEZzcyS2VPWE9pdXRQSEk0cVI2UTZyeEU5?=
+ =?utf-8?B?SGZRVHZFUlQwZXlUQXgyaThmTkhGSWRDWUYwaElCcFl4V1grMnVVcEdBVWJm?=
+ =?utf-8?B?aUZrTGowUHU1ZnVJbkVMcFdDN3Y2SFVPelgybEFuRy9RUDlweDVCZGpNSjVF?=
+ =?utf-8?B?RzJLMGRJVVNsa3YzWE56cFZFRTVsWHp4N3NxQTA0cVVoTTlvem11ajY0bHdE?=
+ =?utf-8?B?U0ZoZll1ajJHMUJNb2MxZXFuZVFxM1lueWd6Y3I1bFhvQ0dQZTlLNmRnVmVO?=
+ =?utf-8?B?R3RqRVJJZ0NheDdCazlnNmFEakgyQ0dLT2FBbVM0NVp1WU1mTzdoWnB0WkNX?=
+ =?utf-8?B?dWxxaXpMeXBtbWZoMGovSnZNNVJlaUFQZUtOT2xSVmxNcDVnVUNPaXVNQjZ3?=
+ =?utf-8?B?TGpiM01DVDBjYTNvS3NJWElNVHlCRzBoaGh3a2xlMHFzVDJIRlpGbzJUVkpK?=
+ =?utf-8?Q?mEP8/osVNsYGlLi5aqFrYJjtK?=
 X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 3b6ef62a-d324-46a8-ff71-08da96122247
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
+ 30335d18-27db-47ff-07ae-08da9614ebaf
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2022 05:29:45.6161
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2022 05:49:42.6005
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- YX41tEMi+iL+QgfzVYXf0hvvAFbCIqMMl9wOUizfH/mehAnxSObsOWvSTeAsGhGLcTTPiG2bVtM83fhETOHuVA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6848
-X-Proofpoint-GUID: ifQiyeUMe02Czy3J1zDt2Du9gFzFNMq5
-X-Proofpoint-ORIG-GUID: CRuAmlZwtVFhKEpW2QJ8RrrtXGYSdwCW
+ DG3bPYOTCClJ6h0atJIUS/qR8Ra5FRQeWPGSpj7TFDgVCJMTfMbv7jy/oifDpJ32wg8rGgI1C/CrqSus0yAHfg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5867
+X-Proofpoint-ORIG-GUID: oPeb0rQmw_XPyazyRcCyHcdFP8CA7YXj
+X-Proofpoint-GUID: r6GVca1SqrEsZkza0l8Rmi-lVilRnCAO
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
  definitions=2022-09-14_02,2022-09-13_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0
- impostorscore=0 suspectscore=0 priorityscore=1501 mlxscore=0 spamscore=0
- mlxlogscore=999 phishscore=0 adultscore=0 lowpriorityscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2208220000
- definitions=main-2209140025
+ impostorscore=0 phishscore=0
+ lowpriorityscore=0 bulkscore=0 malwarescore=0 mlxscore=0 spamscore=0
+ mlxlogscore=999 priorityscore=1501 adultscore=0 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2208220000 definitions=main-2209140027
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Sep 2022 05:30:01 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Sep 2022 05:49:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170632
+ https://lists.openembedded.org/g/openembedded-core/message/170633
+
+On 9/14/22 13:00, Alexander Kanavin wrote:
+> Hello,
+>
+> this is done for reasons of discoverability and consistency with
+> machine and distro definitions: they all should be under
+> meta-somelayer/conf/. This way both tools and humans can easily find
+> the config templates, and be certain that this is the only location..
+>
+> Alex
+
+Hi Alex,
+
+I'm reluctant to agree that this is like machine and distro, because 
+it's a hard requirement that machine and distro definitions be under 
+some layer, otherwise how can bitbake get info about it? But 
+TEMPLATECONF seems to be a different case, it could be everywhere 
+because it's used by the project setup script.
+
+In our case, the TEMPLATECONF is <project_dir>/config/, and layers are 
+<project_dir>/<layer>/. This directory hierarchy has been working for 
+years until recent changes.
+
+Do you think such directory hierarchy makes sense? How about we deleting 
+such check if there's no strong technical reason to do so? By 'strong 
+technical reason', I mean that some codes in oe-core are written based 
+on this assumption (this is the part I'm sure about).
+
+Regards,
+
+Qi
 
 
-
-On 9/14/22 11:02, Khem Raj wrote:
-> [Please note: This e-mail is from an EXTERNAL e-mail address]
-> 
-> On Tue, Sep 13, 2022 at 7:25 PM Yu, Mingli <mingli.yu@windriver.com> wrote:
+> On Wed, 14 Sept 2022 at 05:27, ChenQi <Qi.Chen@windriver.com> wrote:
+>> Hi Alex,
 >>
->> Still failed on beaglebone-yocto:
+>> Why must TEMPLATECONF be under a layer?
 >>
->> /build/tmp-glibc/work/cortexa8hf-neon-wrs-linux-gnueabi/webkitgtk/2.36.7-r0/webkitgtk-2.36.7/Source/W
->> ebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp:38:8: error:
->> standard attributes in middle of decl-specifiers
->>      38 | static alignas(16) short s_FELightingConstantsForNeon[] = {
->>         |        ^~~~~~~
+>> Regards,
+>> Qi
 >>
-> 
-
-> What is your -j value ? please give 4GB per core of memory for
-> webkitgtk to build.
-
-Not specify the -j value explicitly at first and it still failed with 
-the same error even specify the -j value as you mentioned.
-
-
-/build/tmp-glibc/work/cortexa8hf-neon-wrs-linux-gnueabi/webkitgtk/2.36.7-r0/webkitgtk-2.36.7/Source/W
-ebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp:38:8: error: 
-standard attributes in middle of decl-specifiers
-    38 | static alignas(16) short s_FELightingConstantsForNeon[] = {
-       |        ^~~~~~~
-
-
-Thanks,
-
-> 
->> Thanks,
->>
->> On 9/9/22 05:45, Khem Raj wrote:
->>> [Please note: This e-mail is from an EXTERNAL e-mail address]
+>> On 8/31/22 19:13, Alexander Kanavin wrote:
+>>> specifically that ../../layer.conf exists, and that second-from-last
+>>> component in the path is 'templates'.
 >>>
->>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> Cc: Mingli Yu <mingli.yu@windriver.com>
+>>> This requires tweaking template.conf creation in eSDK bbclass, as
+>>> we need to ensure that the path in it is valid, and exists
+>>> (which may not be the case if the SDK is poky-based).
+>>>
+>>> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 >>> ---
->>> v2: Fix commit msg format
->>> v3: Apply suggestion from https://github.com/WebKit/WebKit/pull/1233#discussion_r915217428
+>>>    meta/classes-recipe/populate_sdk_ext.bbclass | 3 ++-
+>>>    scripts/oe-setup-builddir                    | 5 +++++
+>>>    2 files changed, 7 insertions(+), 1 deletion(-)
 >>>
->>>    ...44e17d258106617b0e6d783d073b188a2548.patch | 296 ++++++++++++++++++
->>>    meta/recipes-sato/webkit/webkitgtk_2.36.7.bb  |   1 +
->>>    2 files changed, 297 insertions(+)
->>>    create mode 100644 meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
+>>> diff --git a/meta/classes-recipe/populate_sdk_ext.bbclass b/meta/classes-recipe/populate_sdk_ext.bbclass
+>>> index 56e24c4eed..925cb313fc 100644
+>>> --- a/meta/classes-recipe/populate_sdk_ext.bbclass
+>>> +++ b/meta/classes-recipe/populate_sdk_ext.bbclass
+>>> @@ -438,7 +438,8 @@ python copy_buildsystem () {
+>>>        else:
+>>>            # Write a templateconf.cfg
+>>>            with open(baseoutpath + '/conf/templateconf.cfg', 'w') as f:
+>>> -            f.write('meta/conf\n')
+>>> +            f.write('meta/conf/templates/default\n')
+>>> +        os.makedirs(os.path.join(baseoutpath, core_meta_subdir, 'conf/templates/default'), exist_ok=True)
 >>>
->>> diff --git a/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch b/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
->>> new file mode 100644
->>> index 0000000000..32f92f7ff5
->>> --- /dev/null
->>> +++ b/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
->>> @@ -0,0 +1,296 @@
->>> +From 0d3344e17d258106617b0e6d783d073b188a2548 Mon Sep 17 00:00:00 2001
->>> +From: Adrian Perez de Castro <aperez@igalia.com>
->>> +Date: Thu, 2 Jun 2022 11:19:06 +0300
->>> +Subject: [PATCH] [ARM][NEON] FELightningNEON.cpp fails to build, NEON fast
->>> + path seems unused https://bugs.webkit.org/show_bug.cgi?id=241182
->>> +
->>> +Reviewed by NOBODY (OOPS!).
->>> +
->>> +Move the NEON fast path for the SVG lighting filter effects into
->>> +FELightingSoftwareApplier, and arrange to actually use them by
->>> +forwarding calls to applyPlatformGeneric() into applyPlatformNeon().
->>> +
->>> +Some changes were needed to adapt platformApplyNeon() to the current
->>> +state of filters after r286140. This was not detected because the code
->>> +bitrotted due to it being guarded with CPU(ARM_TRADITIONAL), which does
->>> +not get used much these days: CPU(ARM_THUMB2) is more common. It should
->>> +be possible to use the NEON fast paths also in Thumb mode, but that is
->>> +left for a follow-up fix.
->>> +
->>> +* Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp:
->>> +(WebCore::FELightingSoftwareApplier::platformApplyNeonWorker):
->>> +(WebCore::FELightingSoftwareApplier::getPowerCoefficients):
->>> +(WebCore::FELighting::platformApplyNeonWorker): Deleted.
->>> +(WebCore::FELighting::getPowerCoefficients): Deleted.
->>> +* Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h:
->>> +(WebCore::FELightingSoftwareApplier::applyPlatformNeon):
->>> +(WebCore::FELighting::platformApplyNeon): Deleted.
->>> +* Source/WebCore/platform/graphics/filters/DistantLightSource.h:
->>> +* Source/WebCore/platform/graphics/filters/FELighting.h:
->>> +* Source/WebCore/platform/graphics/filters/PointLightSource.h:
->>> +* Source/WebCore/platform/graphics/filters/SpotLightSource.h:
->>> +* Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h:
->>> +---
->>> +Upstream-Status: Submitted [https://github.com/WebKit/WebKit/pull/1233]
->>> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> +
->>> + .../cpu/arm/filters/FELightingNEON.cpp        |  4 +-
->>> + .../graphics/cpu/arm/filters/FELightingNEON.h | 54 +++++++++----------
->>> + .../graphics/filters/DistantLightSource.h     |  4 ++
->>> + .../platform/graphics/filters/FELighting.h    |  7 ---
->>> + .../graphics/filters/PointLightSource.h       |  4 ++
->>> + .../graphics/filters/SpotLightSource.h        |  4 ++
->>> + .../software/FELightingSoftwareApplier.h      | 16 ++++++
->>> + 7 files changed, 57 insertions(+), 36 deletions(-)
->>> +
->>> +--- a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp
->>> ++++ b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp
->>> +@@ -49,7 +49,7 @@ short* feLightingConstantsForNeon()
->>> +     return s_FELightingConstantsForNeon;
->>> + }
->>> +
->>> +-void FELighting::platformApplyNeonWorker(FELightingPaintingDataForNeon* parameters)
->>> ++void FELightingSoftwareApplier::platformApplyNeonWorker(FELightingPaintingDataForNeon* parameters)
->>> + {
->>> +     neonDrawLighting(parameters);
->>> + }
->>> +@@ -464,7 +464,7 @@ TOSTRING(neonDrawLighting) ":" NL
->>> +     "b .lightStrengthCalculated" NL
->>> + ); // NOLINT
->>> +
->>> +-int FELighting::getPowerCoefficients(float exponent)
->>> ++int FELightingSoftwareApplier::getPowerCoefficients(float exponent)
->>> + {
->>> +     // Calling a powf function from the assembly code would require to save
->>> +     // and reload a lot of NEON registers. Since the base is in range [0..1]
->>> +--- a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h
->>> ++++ b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h
->>> +@@ -24,14 +24,15 @@
->>> +  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
->>> +  */
->>> +
->>> +-#ifndef FELightingNEON_h
->>> +-#define FELightingNEON_h
->>> ++#pragma once
->>> +
->>> + #if CPU(ARM_NEON) && CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
->>> +
->>> +-#include "FELighting.h"
->>> ++#include "FELightingSoftwareApplier.h"
->>> ++#include "ImageBuffer.h"
->>> + #include "PointLightSource.h"
->>> + #include "SpotLightSource.h"
->>> ++#include <wtf/ObjectIdentifier.h>
->>> + #include <wtf/ParallelJobs.h>
->>> +
->>> + namespace WebCore {
->>> +@@ -93,14 +94,14 @@ extern "C" {
->>> + void neonDrawLighting(FELightingPaintingDataForNeon*);
->>> + }
->>> +
->>> +-inline void FELighting::platformApplyNeon(const LightingData& data, const LightSource::PaintingData& paintingData)
->>> ++inline void FELightingSoftwareApplier::applyPlatformNeon(const FELightingSoftwareApplier::LightingData& data, const LightSource::PaintingData& paintingData)
->>> + {
->>> +-    alignas(16) FELightingFloatArgumentsForNeon floatArguments;
->>> +-    FELightingPaintingDataForNeon neonData = {
->>> ++    WebCore::FELightingFloatArgumentsForNeon alignas(16) floatArguments;
->>> ++    WebCore::FELightingPaintingDataForNeon neonData = {
->>> +         data.pixels->data(),
->>> +         1,
->>> +-        data.widthDecreasedByOne - 1,
->>> +-        data.heightDecreasedByOne - 1,
->>> ++        data.width - 2,
->>> ++        data.height - 2,
->>> +         0,
->>> +         0,
->>> +         0,
->>> +@@ -111,23 +112,23 @@ inline void FELighting::platformApplyNeo
->>> +     // Set light source arguments.
->>> +     floatArguments.constOne = 1;
->>> +
->>> +-    auto color = m_lightingColor.toColorTypeLossy<SRGBA<uint8_t>>().resolved();
->>> ++    auto color = data.lightingColor.toColorTypeLossy<SRGBA<uint8_t>>().resolved();
->>> +
->>> +     floatArguments.colorRed = color.red;
->>> +     floatArguments.colorGreen = color.green;
->>> +     floatArguments.colorBlue = color.blue;
->>> +     floatArguments.padding4 = 0;
->>> +
->>> +-    if (m_lightSource->type() == LS_POINT) {
->>> ++    if (data.lightSource->type() == LS_POINT) {
->>> +         neonData.flags |= FLAG_POINT_LIGHT;
->>> +-        PointLightSource& pointLightSource = static_cast<PointLightSource&>(m_lightSource.get());
->>> ++        const auto& pointLightSource = *static_cast<const PointLightSource*>(data.lightSource);
->>> +         floatArguments.lightX = pointLightSource.position().x();
->>> +         floatArguments.lightY = pointLightSource.position().y();
->>> +         floatArguments.lightZ = pointLightSource.position().z();
->>> +         floatArguments.padding2 = 0;
->>> +-    } else if (m_lightSource->type() == LS_SPOT) {
->>> ++    } else if (data.lightSource->type() == LS_SPOT) {
->>> +         neonData.flags |= FLAG_SPOT_LIGHT;
->>> +-        SpotLightSource& spotLightSource = static_cast<SpotLightSource&>(m_lightSource.get());
->>> ++        const auto& spotLightSource = *static_cast<const SpotLightSource*>(data.lightSource);
->>> +         floatArguments.lightX = spotLightSource.position().x();
->>> +         floatArguments.lightY = spotLightSource.position().y();
->>> +         floatArguments.lightZ = spotLightSource.position().z();
->>> +@@ -145,7 +146,7 @@ inline void FELighting::platformApplyNeo
->>> +         if (spotLightSource.specularExponent() == 1)
->>> +             neonData.flags |= FLAG_CONE_EXPONENT_IS_1;
->>> +     } else {
->>> +-        ASSERT(m_lightSource->type() == LS_DISTANT);
->>> ++        ASSERT(data.lightSource->type() == LS_DISTANT);
->>> +         floatArguments.lightX = paintingData.initialLightingData.lightVector.x();
->>> +         floatArguments.lightY = paintingData.initialLightingData.lightVector.y();
->>> +         floatArguments.lightZ = paintingData.initialLightingData.lightVector.z();
->>> +@@ -155,38 +156,39 @@ inline void FELighting::platformApplyNeo
->>> +     // Set lighting arguments.
->>> +     floatArguments.surfaceScale = data.surfaceScale;
->>> +     floatArguments.minusSurfaceScaleDividedByFour = -data.surfaceScale / 4;
->>> +-    if (m_lightingType == FELighting::DiffuseLighting)
->>> +-        floatArguments.diffuseConstant = m_diffuseConstant;
->>> ++    if (data.filterType == FilterEffect::Type::FEDiffuseLighting)
->>> ++        floatArguments.diffuseConstant = data.diffuseConstant;
->>> +     else {
->>> +         neonData.flags |= FLAG_SPECULAR_LIGHT;
->>> +-        floatArguments.diffuseConstant = m_specularConstant;
->>> +-        neonData.specularExponent = getPowerCoefficients(m_specularExponent);
->>> +-        if (m_specularExponent == 1)
->>> ++        floatArguments.diffuseConstant = data.specularConstant;
->>> ++        neonData.specularExponent = getPowerCoefficients(data.specularExponent);
->>> ++        if (data.specularExponent == 1)
->>> +             neonData.flags |= FLAG_SPECULAR_EXPONENT_IS_1;
->>> +     }
->>> +     if (floatArguments.diffuseConstant == 1)
->>> +         neonData.flags |= FLAG_DIFFUSE_CONST_IS_1;
->>> +
->>> +-    int optimalThreadNumber = ((data.widthDecreasedByOne - 1) * (data.heightDecreasedByOne - 1)) / s_minimalRectDimension;
->>> ++    static constexpr int minimalRectDimension = 100 * 100; // Empirical data limit for parallel jobs
->>> ++    int optimalThreadNumber = ((data.width - 2) * (data.height - 2)) / minimalRectDimension;
->>> +     if (optimalThreadNumber > 1) {
->>> +         // Initialize parallel jobs
->>> +-        ParallelJobs<FELightingPaintingDataForNeon> parallelJobs(&WebCore::FELighting::platformApplyNeonWorker, optimalThreadNumber);
->>> ++        ParallelJobs<FELightingPaintingDataForNeon> parallelJobs(&FELightingSoftwareApplier::platformApplyNeonWorker, optimalThreadNumber);
->>> +
->>> +         // Fill the parameter array
->>> +         int job = parallelJobs.numberOfJobs();
->>> +         if (job > 1) {
->>> +             int yStart = 1;
->>> +-            int yStep = (data.heightDecreasedByOne - 1) / job;
->>> ++            int yStep = (data.height - 2) / job;
->>> +             for (--job; job >= 0; --job) {
->>> +                 FELightingPaintingDataForNeon& params = parallelJobs.parameter(job);
->>> +                 params = neonData;
->>> +                 params.yStart = yStart;
->>> +-                params.pixels += (yStart - 1) * (data.widthDecreasedByOne + 1) * 4;
->>> ++                params.pixels += (yStart - 1) * data.width * 4;
->>> +                 if (job > 0) {
->>> +                     params.absoluteHeight = yStep;
->>> +                     yStart += yStep;
->>> +                 } else
->>> +-                    params.absoluteHeight = data.heightDecreasedByOne - yStart;
->>> ++                    params.absoluteHeight = (data.height - 1) - yStart;
->>> +             }
->>> +             parallelJobs.execute();
->>> +             return;
->>> +@@ -199,5 +201,3 @@ inline void FELighting::platformApplyNeo
->>> + } // namespace WebCore
->>> +
->>> + #endif // CPU(ARM_NEON) && COMPILER(GCC_COMPATIBLE)
->>> +-
->>> +-#endif // FELightingNEON_h
->>> +--- a/Source/WebCore/platform/graphics/filters/DistantLightSource.h
->>> ++++ b/Source/WebCore/platform/graphics/filters/DistantLightSource.h
->>> +@@ -25,6 +25,10 @@
->>> + #include "LightSource.h"
->>> + #include <wtf/Ref.h>
->>> +
->>> ++namespace WTF {
->>> ++class TextStream;
->>> ++} // namespace WTF
->>> ++
->>> + namespace WebCore {
->>> +
->>> + class DistantLightSource : public LightSource {
->>> +--- a/Source/WebCore/platform/graphics/filters/FELighting.h
->>> ++++ b/Source/WebCore/platform/graphics/filters/FELighting.h
->>> +@@ -35,8 +35,6 @@
->>> +
->>> + namespace WebCore {
->>> +
->>> +-struct FELightingPaintingDataForNeon;
->>> +-
->>> + class FELighting : public FilterEffect {
->>> + public:
->>> +     const Color& lightingColor() const { return m_lightingColor; }
->>> +@@ -67,11 +65,6 @@ protected:
->>> +
->>> +     std::unique_ptr<FilterEffectApplier> createSoftwareApplier() const override;
->>> +
->>> +-#if CPU(ARM_NEON) && CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
->>> +-    static int getPowerCoefficients(float exponent);
->>> +-    inline void platformApplyNeon(const LightingData&, const LightSource::PaintingData&);
->>> +-#endif
->>> +-
->>> +     Color m_lightingColor;
->>> +     float m_surfaceScale;
->>> +     float m_diffuseConstant;
->>> +--- a/Source/WebCore/platform/graphics/filters/PointLightSource.h
->>> ++++ b/Source/WebCore/platform/graphics/filters/PointLightSource.h
->>> +@@ -26,6 +26,10 @@
->>> + #include "LightSource.h"
->>> + #include <wtf/Ref.h>
->>> +
->>> ++namespace WTF {
->>> ++class TextStream;
->>> ++} // namespace WTF
->>> ++
->>> + namespace WebCore {
->>> +
->>> + class PointLightSource : public LightSource {
->>> +--- a/Source/WebCore/platform/graphics/filters/SpotLightSource.h
->>> ++++ b/Source/WebCore/platform/graphics/filters/SpotLightSource.h
->>> +@@ -26,6 +26,10 @@
->>> + #include "LightSource.h"
->>> + #include <wtf/Ref.h>
->>> +
->>> ++namespace WTF {
->>> ++class TextStream;
->>> ++} // namespace WTF
->>> ++
->>> + namespace WebCore {
->>> +
->>> + class SpotLightSource : public LightSource {
->>> +--- a/Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h
->>> ++++ b/Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h
->>> +@@ -36,6 +36,7 @@
->>> + namespace WebCore {
->>> +
->>> + class FELighting;
->>> ++struct FELightingPaintingDataForNeon;
->>> +
->>> + class FELightingSoftwareApplier final : public FilterEffectConcreteApplier<FELighting> {
->>> +     WTF_MAKE_FAST_ALLOCATED;
->>> +@@ -132,8 +133,23 @@ private:
->>> +
->>> +     static void applyPlatformGenericPaint(const LightingData&, const LightSource::PaintingData&, int startY, int endY);
->>> +     static void applyPlatformGenericWorker(ApplyParameters*);
->>> ++
->>> ++#if CPU(ARM_NEON) && CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
->>> ++    static int getPowerCoefficients(float exponent);
->>> ++    static void platformApplyNeonWorker(FELightingPaintingDataForNeon*);
->>> ++    inline static void applyPlatformNeon(const LightingData&, const LightSource::PaintingData&);
->>> ++
->>> ++    inline static void applyPlatformGeneric(const LightingData& data, const LightSource::PaintingData& paintingData)
->>> ++    {
->>> ++        applyPlatformNeon(data, paintingData);
->>> ++    }
->>> ++#else
->>> +     static void applyPlatformGeneric(const LightingData&, const LightSource::PaintingData&);
->>> ++#endif
->>> ++
->>> +     static void applyPlatform(const LightingData&);
->>> + };
->>> +
->>> + } // namespace WebCore
->>> ++
->>> ++#include "FELightingNEON.h"
->>> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
->>> index 47e52e25da..76b119c9c7 100644
->>> --- a/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
->>> +++ b/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
->>> @@ -16,6 +16,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
->>>               file://reproducibility.patch \
->>>               file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch \
->>>               file://fix-gstreamer-include-paths.patch \
->>> +           file://0d3344e17d258106617b0e6d783d073b188a2548.patch \
->>>               "
->>>    SRC_URI[sha256sum] = "0c260cf2b32f0481d017670dfed1b61e554967cd067195606c9f9eb5fe731743"
+>>>        # Ensure any variables set from the external environment (by way of
+>>>        # BB_ENV_PASSTHROUGH_ADDITIONS) are set in the SDK's configuration
+>>> diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
+>>> index 5d644168cb..bf832ee0ca 100755
+>>> --- a/scripts/oe-setup-builddir
+>>> +++ b/scripts/oe-setup-builddir
+>>> @@ -61,6 +61,11 @@ if [ -n "$TEMPLATECONF" ]; then
+>>>                echo >&2 "Error: TEMPLATECONF value points to nonexistent directory '$TEMPLATECONF'"
+>>>                exit 1
+>>>            fi
+>>> +        templatesdir=$(python3 -c "import sys; print(sys.argv[1].strip('/').split('/')[-2])" $TEMPLATECONF)
+>>> +        if [ ! -f "$TEMPLATECONF/../../layer.conf" -o $templatesdir != "templates" ]; then
+>>> +            echo >&2 "Error: TEMPLATECONF value (which is $TEMPLATECONF) must point to meta-some-layer/conf/templates/template-name"
+>>> +            exit 1
+>>> +        fi
+>>>        fi
+>>>        OECORELAYERCONF="$TEMPLATECONF/bblayers.conf.sample"
+>>>        OECORELOCALCONF="$TEMPLATECONF/local.conf.sample"
 >>>
->>> --
->>> 2.37.3
+>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>> Links: You receive all messages sent to this group.
+>>> View/Reply Online (#170101): https://lists.openembedded.org/g/openembedded-core/message/170101
+>>> Mute This Topic: https://lists.openembedded.org/mt/93368468/3618072
+>>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [Qi.Chen@windriver.com]
+>>> -=-=-=-=-=-=-=-=-=-=-=-
 >>>
+
 
