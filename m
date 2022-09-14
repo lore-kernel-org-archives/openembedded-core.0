@@ -1,260 +1,543 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <chee.yang.lee@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA433ECAAD8
-	for <webhook@archiver.kernel.org>; Wed, 14 Sep 2022 05:49:51 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web09.2933.1663134585459956928
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8F11ECAAD3
+	for <webhook@archiver.kernel.org>; Wed, 14 Sep 2022 06:04:21 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by mx.groups.io with SMTP id smtpd.web09.3022.1663135454287556282
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 22:49:45 -0700
+ Tue, 13 Sep 2022 23:04:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=MPz7cZgd;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=6256f4cbec=qi.chen@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 28E5HV0m018395
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 22:49:45 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=message-id : date
- : subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=tiERiK6LS1aTLLOM77T0Re60gMYNjlcJ7TMVld4Tb3w=;
- b=MPz7cZgdiP+AHR6bFAjClPuGTW7z42OtF6YOi5NhLP1p78NQz3id4IYBiRIk6sb+HuCM
- 19Nik7mpeyhCO/DPJ9nFpOrm5FdK6yLe4CXx4DBy1nqH3Ef8/Oy6JdtUlf0XzKgy5zuX
- hZwTBIoGk3HulncfF7Uc4BA7wCF0EODP/+FQv/xot7FsmiMcmrR5mQ9yGomvhhNPMWv/
- IdpsoyzJLe9eyTdC8mEo3BCv9ExtKdYKPDvO5XFdq1wEKHutgLpe6l5RImfc3VUPu4Lo
- wIEnv3rPOvY7BpyPFz1hNl9MUymS+xKkZvj5y/WcMMX97h4g3pyMHJP/EW2hEHSYx8wG 8g==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jk4pdr731-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 22:49:44 -0700
-Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28E5nivD031826
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 22:49:44 -0700
-Received: from nam10-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jk4pdr730-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 13 Sep 2022 22:49:44 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a1XWOMoO61SachWuOO3zyQOA9SdWwrotaILDq7Tfzsf0NRNZbqP6eBwFJmBCi0JEbwssq5b5wfAO7Ae2NUxxgUZUTi4hUPSjJT607kZuJCm04fOzEsSqiOCrRolU/wpitKk6voymmqp1GGegbq/hNc80wQXd2EH4k5pTjviCdToOX8oLRrVhrM712ajxqIRcZsrHttRh6c1i+mNdQH+Kgjpu229xIDhORMeGNUKH/n1BOTNEb8Rm39+WGUzb6AqY5kiqmn6rgzkB7kehOZ7+UtNMg59gvrf2foxlktQF2wi4AgCvsg2Fxqj03wGrZXjyztOVlRUDK2LFRj8Szoku0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tiERiK6LS1aTLLOM77T0Re60gMYNjlcJ7TMVld4Tb3w=;
- b=V0s6WalQK0ZSNHG4hG3IRvQoJhmO+4kV6jIxgWi2qU5G8d2WsuFXuDHs8vQwRzViby9vp/QmYwsJ2L+2Ys2RJaOrD0ayHi0DTHCIxuaC0uvLyCKbP+jOGa7C8SMrEArW0V7OY6U2v1sdQdTnVQHGzINkYu3MAvZg5m7+NUduf6PE+j/lhoGz0Gw0KZvYDIy1B2htRLaMauOZaMEpuEDfGnvXumerIQ/II6iiO3Ep834zWJ5oHsMBRXpn7Sp55Xq6m9biF936AOQZJbBcyRNWTkPQFxxAfGWefKxgh2km4FCep0adEA3TJHjYfxBmK8x5LwH6uh31SrSuvJ5whvv5CA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by SJ0PR11MB5867.namprd11.prod.outlook.com (2603:10b6:a03:42a::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.22; Wed, 14 Sep
- 2022 05:49:42 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::c112:6e86:1bdf:66ed]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::c112:6e86:1bdf:66ed%3]) with mapi id 15.20.5612.022; Wed, 14 Sep 2022
- 05:49:42 +0000
-Message-ID: <6917e065-3b17-a57e-f862-90366717106b@windriver.com>
-Date: Wed, 14 Sep 2022 13:49:35 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [OE-core] [PATCH 1/7] scripts/oe-setup-builddir: add a check that
- TEMPLATECONF is valid
-Content-Language: en-US
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-        Alexander Kanavin <alex@linutronix.de>
-References: <20220831111401.3330342-1-alex@linutronix.de>
- <e73f356f-87dd-2aba-7445-2f93ad6bf145@windriver.com>
- <CANNYZj-fLHiNEOLzp5etSQRwtNb55kHa4k02jzRRm=c3dohULA@mail.gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-In-Reply-To: 
- <CANNYZj-fLHiNEOLzp5etSQRwtNb55kHa4k02jzRRm=c3dohULA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: TYAPR01CA0017.jpnprd01.prod.outlook.com (2603:1096:404::29)
- To CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=dHr//Lnh;
+ spf=pass (domain: intel.com, ip: 192.55.52.136,
+ mailfrom: chee.yang.lee@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663135454; x=1694671454;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=88FuXmytRxaQp0FkAvv2BBEBoNV2pGrj13zILDOL8m4=;
+  b=dHr//Lnh33vc32zx5VZXADs6dbZCo//bZZlL0ds8sUxxeaRtChpCDpRz
+   gDmZ8fxCTdUhkMDUtD3FSltF0wD7HWaFmxBJZ1VSAdTHKCGS/I4Pn7HJo
+   t7WHPhNRlZaL86gn6bbyixZ/06N+KyoViN8xBvb4xdbQizGFeopbIrLvM
+   5VOMnLcWomkC6ZY4IhTxzN3wLEOfkbSlRNsH+9DQyD/saf9tuTQ5N7u4v
+   okP3L5vC+uMBUvBl+j1a/lwqkwGW3s56BFPGpRMnBdMGMOWSq6bgEOAUx
+   qBeM3Bz4i8ll8+U0WJdKCrYrBqlgYusSiDmSM0z1X7Cre0JBZtUOvRCPp
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10469"; a="278073657"
+X-IronPort-AV: E=Sophos;i="5.93,313,1654585200";
+   d="scan'208";a="278073657"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2022 23:04:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,313,1654585200";
+   d="scan'208";a="742442665"
+Received: from andromeda02.png.intel.com ([10.221.253.198])
+  by orsmga004.jf.intel.com with ESMTP; 13 Sep 2022 23:04:12 -0700
+From: chee.yang.lee@intel.com
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH][dunfell 1/2] gst-plugins-good: fix several CVE
+Date: Wed, 14 Sep 2022 14:04:10 +0800
+Message-Id: <20220914060411.20436-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|SJ0PR11MB5867:EE_
-X-MS-Office365-Filtering-Correlation-Id: 30335d18-27db-47ff-07ae-08da9614ebaf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	jqvJ3//QKvP5B2UKHjp8frwLJ8eLh79AKp+QSyBLEEPlDEXm70b0uJOI/iI7Z33uupSPzIksjdL1ChOtouzg4XuUK4werfUBVHW0+GJXo8oitdPGg8IgnTRV+QmVHnj0qWIq41IlZIKqfJGXR2LhvoQn3lBS+PLNDaczEmvzfiUHDPuC58JrLMiOs2+n39dI7bDnG82jnwIh06l42Z1oGtSDcTSLJGlV6Ly18WsrL0W20wra7l+YWufdOWb7qFZ5zGzLQEWuIKuRffpMUsXqXJnIcsPfqc0qVH6Lv7O/Cj1X8GH81pfTOkom5n20HjirTTqYNE/fHl6oCX7pM7l+bHWuINS6FENxDJRPmnOtIstpktdKP/6t4Hq9etbZmPwwXo9RY/Nzl+m5MUSRgBKAiVot5xp92exwDUxI+kna4cAlIZeHO1gL+TmTGwy52eTw4zrMrjitG4YFAmRVhPDibX/VqlhQHtyz0D4tQPrPTvf/r35iHIZQZOhkVfwNnaHuxrhrAvinzbhlrLsaNtha5Dssg2/LrEwgDtGAmR6F9O1Y1gO6roIPwx1BRaT9Bv/F51WiCKJwUlD/DhOtkLYIAfzUt8JaegIBnMO4SePZJoJoYSMJ3oL+wvNT6Er6W2alAFKCM1Ot7DiRiszoPoTiSYlNNGLOW5+oCpUdNZFSwyvW5o4WzTRVSf6/2kTzO0auwfnibFwGIq17RL+JMMz59fpNoWwDmX4Uqz25h86TU+AMGILuUjZ8zGkAMO01qsPPOnNTHx/r/qsEbqFXv3XgMlS56z4239BMRaRPe+QocfPFsXIQfnD5SLCDjeSBJ6WhmgIuv+eBzf8rZu7q7SeUOyrIGhfeUWQN/RWeUIi+ssA=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(136003)(396003)(39850400004)(376002)(346002)(451199015)(4326008)(6512007)(8676002)(53546011)(83380400001)(36756003)(31696002)(6486002)(2906002)(54906003)(6666004)(5660300002)(2616005)(478600001)(966005)(316002)(186003)(66556008)(31686004)(66946007)(6506007)(41300700001)(66476007)(26005)(8936002)(6916009)(86362001)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?ZUlkS2NkRVhkYnEveWR2eThGeUIra2gzcDJXUjdkNGJDZkRKbXVMUFg1YWNY?=
- =?utf-8?B?UThLM20xN1FVOFZCRG5DVmhzdWpud1hFWmdOVUlCaFUyMnJKWjFZdjAzd1l3?=
- =?utf-8?B?QnR3OXRsRURpUSs4aW84c09Wd1VrN1l4NFduS1VJbW4xQkVzNm1jRm8yKzJS?=
- =?utf-8?B?ZnpjYzBOU2VsV0RLUXFWTCsrayttdGpOQUhKNkQ3SEJ5SCtUenphdWpaWXZW?=
- =?utf-8?B?Ri84VWlJRnQ1RW5iNlZBZVBBYUFvTlM5TFA4Smw0eTJZYUt0dTUzOHNpVjY1?=
- =?utf-8?B?WmQyTGhKU25hbk5nWjBjZHV6cFJMbTJlV2NDTWFwVHExaUdVNVQrdHN1NVRP?=
- =?utf-8?B?WUVqdDRTZ24yMUVUZEpPMWZBd0hBM3gzazZJK3BPbjB2ZldVZ0hwNUdGcVMv?=
- =?utf-8?B?c1Y2algweDRINkMyeEdIZWttQnN5NThpb09UWFNzbElZRk9xQWRGclMrMHhk?=
- =?utf-8?B?QU4zckZnazMrdDY3VlZWeTJjdW0ySWZleXhBTGt5NlV1VmRjZ1ZEYXBBRlZS?=
- =?utf-8?B?Tno2Wlp2cjRyQW9kb1hUZFl4Y3ZYcVp1UTYzRFJBK0JJbkkzdVFLRU83RTZx?=
- =?utf-8?B?VStCTjVLYXg0M2hWZGRjQVVQeDNpdk9STTZ5NEZmTVRKUFFrQW9mVVBHeDJT?=
- =?utf-8?B?UFFrZ3BBTUdPelNGMW5pSjBKVElLNFlNMWdWQ2hodmpxdUVTRkR1SHFua3F6?=
- =?utf-8?B?THpDVklMRXNGZnZMRmxPSDN0QWtJT2FOL3hrd05YaG9wNmYySFBMOEZiWGZ3?=
- =?utf-8?B?clBQUUY0Z0ZZL0NNV3hIUlJrZm1MZGovQktRWjV0amtNL3JNelVpR09NbVp0?=
- =?utf-8?B?WjVoSXpOZ21PWHRZdzhTRllCa1JoV3FNQmtDdHlOdmtYelBmMW40alVVZGdG?=
- =?utf-8?B?ZkpCUW1PMTc2ayt5RVhSdTFYS3VSK3hNUG1CU1Z2YmIvaE1XcnJxL2E0T002?=
- =?utf-8?B?d1REdS9GZzVFOEJwOUprTFB2RnBaZUZIQWMzd00wdXgxeVVBTzJvWmtSWDkw?=
- =?utf-8?B?VWdVZGllRld3TjdoVFA2MGErdmtORldSbDd6L3c4SnhmVC9OZWxyVTJLa2Rq?=
- =?utf-8?B?T3I0TUxwTW9EUktpV014cEZKVi9zdW1XZitua0pnVG9TUUpzUmthdlR0dmxF?=
- =?utf-8?B?czQ4SlpXUjJ1aFNHdW1nUFBTSVl1Zm1FUDZUYnNVMFVKYlo0UmNXNkI0Vnlr?=
- =?utf-8?B?M3FRTXdjSXgxSGxsbG9kbThWc2k0VUtuMUtGMVI0bEExUG5lZ3pOVW5nMWtU?=
- =?utf-8?B?Zk1Wb1hKeUlvLzR3blFiUVFBR1VwaXZjemZPSEhNTXlTbk9WaDUwTFJReVdp?=
- =?utf-8?B?Q0JjODFlVlBFUEFTZEEyNzNPS1M3OFluN1FXa3RzQkp4emcxM3JCRWI3Z2hW?=
- =?utf-8?B?eGw0TEJrcEMyOXBWNXZLSzJZU2MrS3JXZm1mMDdpSEVoQ2RDeHNXTzJiSnZ0?=
- =?utf-8?B?bnV5Kzh5Z1hJaFZvWWh1cXI2aitBUDJPd2F3cXBxdmdIakFNZWdNNi9ZbTVm?=
- =?utf-8?B?NVhTVWpMZWhhZXdTczNMaGlvdWJlaWJLajhBdkNiWUdpUWMwY0tQU2pnNElR?=
- =?utf-8?B?TnN3VXcwdUR0V0VJNVk4aHBYVHhUUStPQXdnenR3Rnk4ZEVGL3AvMXRwTFdI?=
- =?utf-8?B?TUdFRkk3bE9LMW03WUFSa3FMbGZEZzcyS2VPWE9pdXRQSEk0cVI2UTZyeEU5?=
- =?utf-8?B?SGZRVHZFUlQwZXlUQXgyaThmTkhGSWRDWUYwaElCcFl4V1grMnVVcEdBVWJm?=
- =?utf-8?B?aUZrTGowUHU1ZnVJbkVMcFdDN3Y2SFVPelgybEFuRy9RUDlweDVCZGpNSjVF?=
- =?utf-8?B?RzJLMGRJVVNsa3YzWE56cFZFRTVsWHp4N3NxQTA0cVVoTTlvem11ajY0bHdE?=
- =?utf-8?B?U0ZoZll1ajJHMUJNb2MxZXFuZVFxM1lueWd6Y3I1bFhvQ0dQZTlLNmRnVmVO?=
- =?utf-8?B?R3RqRVJJZ0NheDdCazlnNmFEakgyQ0dLT2FBbVM0NVp1WU1mTzdoWnB0WkNX?=
- =?utf-8?B?dWxxaXpMeXBtbWZoMGovSnZNNVJlaUFQZUtOT2xSVmxNcDVnVUNPaXVNQjZ3?=
- =?utf-8?B?TGpiM01DVDBjYTNvS3NJWElNVHlCRzBoaGh3a2xlMHFzVDJIRlpGbzJUVkpK?=
- =?utf-8?Q?mEP8/osVNsYGlLi5aqFrYJjtK?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 30335d18-27db-47ff-07ae-08da9614ebaf
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2022 05:49:42.6005
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- DG3bPYOTCClJ6h0atJIUS/qR8Ra5FRQeWPGSpj7TFDgVCJMTfMbv7jy/oifDpJ32wg8rGgI1C/CrqSus0yAHfg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5867
-X-Proofpoint-ORIG-GUID: oPeb0rQmw_XPyazyRcCyHcdFP8CA7YXj
-X-Proofpoint-GUID: r6GVca1SqrEsZkza0l8Rmi-lVilRnCAO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-14_02,2022-09-13_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0
- lowpriorityscore=0 bulkscore=0 malwarescore=0 mlxscore=0 spamscore=0
- mlxlogscore=999 priorityscore=1501 adultscore=0 suspectscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2208220000 definitions=main-2209140027
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Sep 2022 05:49:51 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Sep 2022 06:04:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170633
+ https://lists.openembedded.org/g/openembedded-core/message/170634
 
-On 9/14/22 13:00, Alexander Kanavin wrote:
-> Hello,
->
-> this is done for reasons of discoverability and consistency with
-> machine and distro definitions: they all should be under
-> meta-somelayer/conf/. This way both tools and humans can easily find
-> the config templates, and be certain that this is the only location..
->
-> Alex
+From: Chee Yang Lee <chee.yang.lee@intel.com>
 
-Hi Alex,
+backport fix for:
+CVE-2022-1920
+CVE-2022-1921
+CVE-2022-1922
+CVE-2022-1923
+CVE-2022-1924
+CVE-2022-1925
+CVE-2022-2122
 
-I'm reluctant to agree that this is like machine and distro, because 
-it's a hard requirement that machine and distro definitions be under 
-some layer, otherwise how can bitbake get info about it? But 
-TEMPLATECONF seems to be a different case, it could be everywhere 
-because it's used by the project setup script.
+also set ignore at gstreamer1.0_1.16.3.bb
 
-In our case, the TEMPLATECONF is <project_dir>/config/, and layers are 
-<project_dir>/<layer>/. This directory hierarchy has been working for 
-years until recent changes.
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+---
+ .../CVE-2022-1920.patch                       |  59 +++++
+ .../CVE-2022-1921.patch                       |  69 ++++++
+ .../CVE-2022-1922-1923-1924-1925.patch        | 214 ++++++++++++++++++
+ .../CVE-2022-2122.patch                       |  60 +++++
+ .../gstreamer1.0-plugins-good_1.16.3.bb       |   4 +
+ .../gstreamer/gstreamer1.0_1.16.3.bb          |   7 +
+ 6 files changed, 413 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2022-1920.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2022-1921.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2022-1922-1923-1924-1925.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2022-2122.patch
 
-Do you think such directory hierarchy makes sense? How about we deleting 
-such check if there's no strong technical reason to do so? By 'strong 
-technical reason', I mean that some codes in oe-core are written based 
-on this assumption (this is the part I'm sure about).
-
-Regards,
-
-Qi
-
-
-> On Wed, 14 Sept 2022 at 05:27, ChenQi <Qi.Chen@windriver.com> wrote:
->> Hi Alex,
->>
->> Why must TEMPLATECONF be under a layer?
->>
->> Regards,
->> Qi
->>
->> On 8/31/22 19:13, Alexander Kanavin wrote:
->>> specifically that ../../layer.conf exists, and that second-from-last
->>> component in the path is 'templates'.
->>>
->>> This requires tweaking template.conf creation in eSDK bbclass, as
->>> we need to ensure that the path in it is valid, and exists
->>> (which may not be the case if the SDK is poky-based).
->>>
->>> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
->>> ---
->>>    meta/classes-recipe/populate_sdk_ext.bbclass | 3 ++-
->>>    scripts/oe-setup-builddir                    | 5 +++++
->>>    2 files changed, 7 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/meta/classes-recipe/populate_sdk_ext.bbclass b/meta/classes-recipe/populate_sdk_ext.bbclass
->>> index 56e24c4eed..925cb313fc 100644
->>> --- a/meta/classes-recipe/populate_sdk_ext.bbclass
->>> +++ b/meta/classes-recipe/populate_sdk_ext.bbclass
->>> @@ -438,7 +438,8 @@ python copy_buildsystem () {
->>>        else:
->>>            # Write a templateconf.cfg
->>>            with open(baseoutpath + '/conf/templateconf.cfg', 'w') as f:
->>> -            f.write('meta/conf\n')
->>> +            f.write('meta/conf/templates/default\n')
->>> +        os.makedirs(os.path.join(baseoutpath, core_meta_subdir, 'conf/templates/default'), exist_ok=True)
->>>
->>>        # Ensure any variables set from the external environment (by way of
->>>        # BB_ENV_PASSTHROUGH_ADDITIONS) are set in the SDK's configuration
->>> diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
->>> index 5d644168cb..bf832ee0ca 100755
->>> --- a/scripts/oe-setup-builddir
->>> +++ b/scripts/oe-setup-builddir
->>> @@ -61,6 +61,11 @@ if [ -n "$TEMPLATECONF" ]; then
->>>                echo >&2 "Error: TEMPLATECONF value points to nonexistent directory '$TEMPLATECONF'"
->>>                exit 1
->>>            fi
->>> +        templatesdir=$(python3 -c "import sys; print(sys.argv[1].strip('/').split('/')[-2])" $TEMPLATECONF)
->>> +        if [ ! -f "$TEMPLATECONF/../../layer.conf" -o $templatesdir != "templates" ]; then
->>> +            echo >&2 "Error: TEMPLATECONF value (which is $TEMPLATECONF) must point to meta-some-layer/conf/templates/template-name"
->>> +            exit 1
->>> +        fi
->>>        fi
->>>        OECORELAYERCONF="$TEMPLATECONF/bblayers.conf.sample"
->>>        OECORELOCALCONF="$TEMPLATECONF/local.conf.sample"
->>>
->>> -=-=-=-=-=-=-=-=-=-=-=-
->>> Links: You receive all messages sent to this group.
->>> View/Reply Online (#170101): https://lists.openembedded.org/g/openembedded-core/message/170101
->>> Mute This Topic: https://lists.openembedded.org/mt/93368468/3618072
->>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [Qi.Chen@windriver.com]
->>> -=-=-=-=-=-=-=-=-=-=-=-
->>>
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2022-1920.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2022-1920.patch
+new file mode 100644
+index 0000000000..ee33c5564d
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2022-1920.patch
+@@ -0,0 +1,59 @@
++From cf887f1b8e228bff6e19829e6d03995d70ad739d Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
++Date: Wed, 18 May 2022 10:23:15 +0300
++Subject: [PATCH] matroskademux: Avoid integer-overflow resulting in heap
++ corruption in WavPack header handling code
++
++blocksize + WAVPACK4_HEADER_SIZE might overflow gsize, which then
++results in allocating a very small buffer. Into that buffer blocksize
++data is memcpy'd later which then causes out of bound writes and can
++potentially lead to anything from crashes to remote code execution.
++
++Thanks to Adam Doupe for analyzing and reporting the issue.
++
++CVE: CVE-2022-1920
++
++https://gstreamer.freedesktop.org/security/sa-2022-0004.html
++
++Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/1226
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/2612>
++
++https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/0df0dd7fe388174e4835eda4526b47f470a56370
++Upstream-Status: Backport
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++---
++ .../gst/matroska/matroska-demux.c     | 10 +++++++++-
++ 1 file changed, 9 insertions(+), 1 deletion(-)
++
++diff --git a/gst/matroska/matroska-demux.c b/gst/matroska/matroska-demux.c
++index 64cc6be60be..01d754c3eb9 100644
++--- a/gst/matroska/matroska-demux.c
+++++ b/gst/matroska/matroska-demux.c
++@@ -3933,7 +3933,8 @@ gst_matroska_demux_add_wvpk_header (GstElement * element,
++   } else {
++     guint8 *outdata = NULL;
++     gsize buf_size, size;
++-    guint32 block_samples, flags, crc, blocksize;
+++    guint32 block_samples, flags, crc;
+++    gsize blocksize;
++     GstAdapter *adapter;
++ 
++     adapter = gst_adapter_new ();
++@@ -3974,6 +3975,13 @@ gst_matroska_demux_add_wvpk_header (GstElement * element,
++         return GST_FLOW_ERROR;
++       }
++ 
+++      if (blocksize > G_MAXSIZE - WAVPACK4_HEADER_SIZE) {
+++        GST_ERROR_OBJECT (element, "Too big wavpack buffer");
+++        gst_buffer_unmap (*buf, &map);
+++        g_object_unref (adapter);
+++        return GST_FLOW_ERROR;
+++      }
+++
++       g_assert (newbuf == NULL);
++ 
++       newbuf =
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2022-1921.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2022-1921.patch
+new file mode 100644
+index 0000000000..99dbb2b1b0
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2022-1921.patch
+@@ -0,0 +1,69 @@
++From f503caad676971933dc0b52c4b313e5ef0d6dbb0 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
++Date: Wed, 18 May 2022 12:00:48 +0300
++Subject: [PATCH] avidemux: Fix integer overflow resulting in heap corruption
++ in DIB buffer inversion code
++
++Check that width*bpp/8 doesn't overflow a guint and also that
++height*stride fits into the provided buffer without overflowing.
++
++Thanks to Adam Doupe for analyzing and reporting the issue.
++
++CVE: CVE-2022-1921
++
++See https://gstreamer.freedesktop.org/security/sa-2022-0001.html
++
++Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/1224
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/2608>
++
++https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/f503caad676971933dc0b52c4b313e5ef0d6dbb0
++Upstream-Status: Backport
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++---
++ .../gst/avi/gstavidemux.c      | 17 ++++++++++++++---
++ 1 file changed, 14 insertions(+), 3 deletions(-)
++
++diff --git a/gst/avi/gstavidemux.c b/gst/avi/gstavidemux.c
++index eafe865494c..0d18a6495c7 100644
++--- a/gst/avi/gstavidemux.c
+++++ b/gst/avi/gstavidemux.c
++@@ -4973,8 +4973,8 @@ swap_line (guint8 * d1, guint8 * d2, guint8 * tmp, gint bytes)
++ static GstBuffer *
++ gst_avi_demux_invert (GstAviStream * stream, GstBuffer * buf)
++ {
++-  gint y, w, h;
++-  gint bpp, stride;
+++  guint y, w, h;
+++  guint bpp, stride;
++   guint8 *tmp = NULL;
++   GstMapInfo map;
++   guint32 fourcc;
++@@ -5001,12 +5001,23 @@ gst_avi_demux_invert (GstAviStream * stream, GstBuffer * buf)
++   h = stream->strf.vids->height;
++   w = stream->strf.vids->width;
++   bpp = stream->strf.vids->bit_cnt ? stream->strf.vids->bit_cnt : 8;
+++
+++  if ((guint64) w * ((guint64) bpp / 8) > G_MAXUINT - 4) {
+++    GST_WARNING ("Width x stride overflows");
+++    return buf;
+++  }
+++
+++  if (w == 0 || h == 0) {
+++    GST_WARNING ("Zero width or height");
+++    return buf;
+++  }
+++
++   stride = GST_ROUND_UP_4 (w * (bpp / 8));
++ 
++   buf = gst_buffer_make_writable (buf);
++ 
++   gst_buffer_map (buf, &map, GST_MAP_READWRITE);
++-  if (map.size < (stride * h)) {
+++  if (map.size < ((guint64) stride * (guint64) h)) {
++     GST_WARNING ("Buffer is smaller than reported Width x Height x Depth");
++     gst_buffer_unmap (buf, &map);
++     return buf;
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2022-1922-1923-1924-1925.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2022-1922-1923-1924-1925.patch
+new file mode 100644
+index 0000000000..ebffbc473d
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2022-1922-1923-1924-1925.patch
+@@ -0,0 +1,214 @@
++From ad6012159acf18c6b5c0f4edf037e8c9a2dbc966 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
++Date: Wed, 18 May 2022 11:24:37 +0300
++Subject: [PATCH] matroskademux: Fix integer overflows in zlib/bz2/etc
++ decompression code
++
++Various variables were of smaller types than needed and there were no
++checks for any overflows when doing additions on the sizes. This is all
++checked now.
++
++In addition the size of the decompressed data is limited to 120MB now as
++any larger sizes are likely pathological and we can avoid out of memory
++situations in many cases like this.
++
++Also fix a bug where the available output size on the next iteration in
++the zlib/bz2 decompression code was provided too large and could
++potentially lead to out of bound writes.
++
++Thanks to Adam Doupe for analyzing and reporting the issue.
++
++CVE: CVE-2022-1922, CVE-2022-1923, CVE-2022-1924, CVE-2022-1925
++
++https://gstreamer.freedesktop.org/security/sa-2022-0002.html
++
++Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/1225
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/2610>
++
++CVE: CVE-2022-1922 CVE-2022-1923 CVE-2022-1924 CVE-2022-1925
++https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/ad6012159acf18c6b5c0f4edf037e8c9a2dbc966
++Upstream-Status: Backport
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++---
++ .../gst/matroska/matroska-read-common.c       | 76 +++++++++++++++----
++ 1 file changed, 61 insertions(+), 15 deletions(-)
++
++diff --git a/gst/matroska/matroska-read-common.c b/gst/matroska/matroska-read-common.c
++index eb317644cc5..6fadbba9567 100644
++--- a/gst/matroska/matroska-read-common.c
+++++ b/gst/matroska/matroska-read-common.c
++@@ -70,6 +70,10 @@ typedef struct
++   gboolean audio_only;
++ } TargetTypeContext;
++ 
+++/* 120MB as maximum decompressed data size. Anything bigger is likely
+++ * pathological, and like this we avoid out of memory situations in many cases
+++ */
+++#define MAX_DECOMPRESS_SIZE (120 * 1024 * 1024)
++ 
++ static gboolean
++ gst_matroska_decompress_data (GstMatroskaTrackEncoding * enc,
++@@ -77,19 +81,23 @@ gst_matroska_decompress_data (GstMatroskaTrackEncoding * enc,
++     GstMatroskaTrackCompressionAlgorithm algo)
++ {
++   guint8 *new_data = NULL;
++-  guint new_size = 0;
+++  gsize new_size = 0;
++   guint8 *data = *data_out;
++-  guint size = *size_out;
+++  const gsize size = *size_out;
++   gboolean ret = TRUE;
++ 
+++  if (size > G_MAXUINT32) {
+++    GST_WARNING ("too large compressed data buffer.");
+++    ret = FALSE;
+++    goto out;
+++  }
+++
++   if (algo == GST_MATROSKA_TRACK_COMPRESSION_ALGORITHM_ZLIB) {
++ #ifdef HAVE_ZLIB
++     /* zlib encoded data */
++     z_stream zstream;
++-    guint orig_size;
++     int result;
++ 
++-    orig_size = size;
++     zstream.zalloc = (alloc_func) 0;
++     zstream.zfree = (free_func) 0;
++     zstream.opaque = (voidpf) 0;
++@@ -99,8 +107,8 @@ gst_matroska_decompress_data (GstMatroskaTrackEncoding * enc,
++       goto out;
++     }
++     zstream.next_in = (Bytef *) data;
++-    zstream.avail_in = orig_size;
++-    new_size = orig_size;
+++    zstream.avail_in = size;
+++    new_size = size;
++     new_data = g_malloc (new_size);
++     zstream.avail_out = new_size;
++     zstream.next_out = (Bytef *) new_data;
++@@ -114,10 +122,18 @@ gst_matroska_decompress_data (GstMatroskaTrackEncoding * enc,
++         break;
++       }
++ 
+++      if (new_size > G_MAXSIZE - 4096 || new_size + 4096 > MAX_DECOMPRESS_SIZE) {
+++        GST_WARNING ("too big decompressed data");
+++        result = Z_MEM_ERROR;
+++        break;
+++      }
+++
++       new_size += 4096;
++       new_data = g_realloc (new_data, new_size);
++       zstream.next_out = (Bytef *) (new_data + zstream.total_out);
++-      zstream.avail_out += 4096;
+++      /* avail_out is an unsigned int */
+++      g_assert (new_size - zstream.total_out <= G_MAXUINT);
+++      zstream.avail_out = new_size - zstream.total_out;
++     } while (zstream.avail_in > 0);
++ 
++     if (result != Z_STREAM_END) {
++@@ -137,13 +153,11 @@ gst_matroska_decompress_data (GstMatroskaTrackEncoding * enc,
++ #ifdef HAVE_BZ2
++     /* bzip2 encoded data */
++     bz_stream bzstream;
++-    guint orig_size;
++     int result;
++ 
++     bzstream.bzalloc = NULL;
++     bzstream.bzfree = NULL;
++     bzstream.opaque = NULL;
++-    orig_size = size;
++ 
++     if (BZ2_bzDecompressInit (&bzstream, 0, 0) != BZ_OK) {
++       GST_WARNING ("bzip2 initialization failed.");
++@@ -152,8 +166,8 @@ gst_matroska_decompress_data (GstMatroskaTrackEncoding * enc,
++     }
++ 
++     bzstream.next_in = (char *) data;
++-    bzstream.avail_in = orig_size;
++-    new_size = orig_size;
+++    bzstream.avail_in = size;
+++    new_size = size;
++     new_data = g_malloc (new_size);
++     bzstream.avail_out = new_size;
++     bzstream.next_out = (char *) new_data;
++@@ -167,17 +181,31 @@ gst_matroska_decompress_data (GstMatroskaTrackEncoding * enc,
++         break;
++       }
++ 
+++      if (new_size > G_MAXSIZE - 4096 || new_size + 4096 > MAX_DECOMPRESS_SIZE) {
+++        GST_WARNING ("too big decompressed data");
+++        result = BZ_MEM_ERROR;
+++        break;
+++      }
+++
++       new_size += 4096;
++       new_data = g_realloc (new_data, new_size);
++-      bzstream.next_out = (char *) (new_data + bzstream.total_out_lo32);
++-      bzstream.avail_out += 4096;
+++      bzstream.next_out =
+++          (char *) (new_data + ((guint64) bzstream.total_out_hi32 << 32) +
+++          bzstream.total_out_lo32);
+++      /* avail_out is an unsigned int */
+++      g_assert (new_size - ((guint64) bzstream.total_out_hi32 << 32) +
+++          bzstream.total_out_lo32 <= G_MAXUINT);
+++      bzstream.avail_out =
+++          new_size - ((guint64) bzstream.total_out_hi32 << 32) +
+++          bzstream.total_out_lo32;
++     } while (bzstream.avail_in > 0);
++ 
++     if (result != BZ_STREAM_END) {
++       ret = FALSE;
++       g_free (new_data);
++     } else {
++-      new_size = bzstream.total_out_lo32;
+++      new_size =
+++          ((guint64) bzstream.total_out_hi32 << 32) + bzstream.total_out_lo32;
++     }
++     BZ2_bzDecompressEnd (&bzstream);
++ 
++@@ -189,7 +217,13 @@ gst_matroska_decompress_data (GstMatroskaTrackEncoding * enc,
++   } else if (algo == GST_MATROSKA_TRACK_COMPRESSION_ALGORITHM_LZO1X) {
++     /* lzo encoded data */
++     int result;
++-    int orig_size, out_size;
+++    gint orig_size, out_size;
+++
+++    if (size > G_MAXINT) {
+++      GST_WARNING ("too large compressed data buffer.");
+++      ret = FALSE;
+++      goto out;
+++    }
++ 
++     orig_size = size;
++     out_size = size;
++@@ -203,6 +237,11 @@ gst_matroska_decompress_data (GstMatroskaTrackEncoding * enc,
++       result = lzo1x_decode (new_data, &out_size, data, &orig_size);
++ 
++       if (orig_size > 0) {
+++        if (new_size > G_MAXINT - 4096 || new_size + 4096 > MAX_DECOMPRESS_SIZE) {
+++          GST_WARNING ("too big decompressed data");
+++          result = LZO_ERROR;
+++          break;
+++        }
++         new_size += 4096;
++         new_data = g_realloc (new_data, new_size);
++       }
++@@ -221,6 +260,13 @@ gst_matroska_decompress_data (GstMatroskaTrackEncoding * enc,
++   } else if (algo == GST_MATROSKA_TRACK_COMPRESSION_ALGORITHM_HEADERSTRIP) {
++     /* header stripped encoded data */
++     if (enc->comp_settings_length > 0) {
+++      if (size > G_MAXSIZE - enc->comp_settings_length
+++          || size + enc->comp_settings_length > MAX_DECOMPRESS_SIZE) {
+++        GST_WARNING ("too big decompressed data");
+++        ret = FALSE;
+++        goto out;
+++      }
+++
++       new_data = g_malloc (size + enc->comp_settings_length);
++       new_size = size + enc->comp_settings_length;
++ 
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2022-2122.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2022-2122.patch
+new file mode 100644
+index 0000000000..f4d38c270e
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2022-2122.patch
+@@ -0,0 +1,60 @@
++From 14d306da6da51a762c4dc701d161bb52ab66d774 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
++Date: Mon, 30 May 2022 10:15:37 +0300
++Subject: [PATCH] qtdemux: Fix integer overflows in zlib decompression code
++
++Various variables were of smaller types than needed and there were no
++checks for any overflows when doing additions on the sizes. This is all
++checked now.
++
++In addition the size of the decompressed data is limited to 200MB now as
++any larger sizes are likely pathological and we can avoid out of memory
++situations in many cases like this.
++
++Also fix a bug where the available output size on the next iteration in
++the zlib decompression code was provided too large and could
++potentially lead to out of bound writes.
++
++Thanks to Adam Doupe for analyzing and reporting the issue.
++
++CVE: tbd
++
++https://gstreamer.freedesktop.org/security/sa-2022-0003.html
++
++Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/1225
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/2610>
++
++https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/14d306da6da51a762c4dc701d161bb52ab66d774
++CVE: CVE-2022-2122
++Upstream-Status: Backport
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++---
++ gst/isomp4/qtdemux.c | 8 +++++++-
++ 1 file changed, 7 insertions(+), 1 deletion(-)
++
++diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
++index 7cc346b1e63..97ba0799a8d 100644
++--- a/gst/isomp4/qtdemux.c
+++++ b/gst/isomp4/qtdemux.c
++@@ -7905,10 +7905,16 @@ qtdemux_inflate (void *z_buffer, guint z_length, guint * length)
++       break;
++     }
++ 
+++    if (*length > G_MAXUINT - 4096 || *length > QTDEMUX_MAX_SAMPLE_INDEX_SIZE) {
+++      GST_WARNING ("too big decompressed data");
+++      ret = Z_MEM_ERROR;
+++      break;
+++    }
+++
++     *length += 4096;
++     buffer = (guint8 *) g_realloc (buffer, *length);
++     z.next_out = (Bytef *) (buffer + z.total_out);
++-    z.avail_out += 4096;
+++    z.avail_out += *length - z.total_out;
++   } while (z.avail_in > 0);
++ 
++   if (ret != Z_STREAM_END) {
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb
+index 1038cbf224..831a317a82 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb
+@@ -10,6 +10,10 @@ SRC_URI = " \
+             file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
+             file://CVE-2021-3497.patch \
+             file://CVE-2021-3498.patch \
++            file://CVE-2022-1920.patch \
++            file://CVE-2022-1921.patch \
++            file://CVE-2022-1922-1923-1924-1925.patch \
++            file://CVE-2022-2122.patch \
+             "
+ 
+ SRC_URI[md5sum] = "c79b6c2f8eaadb2bb66615b694db399e"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.3.bb
+index 966a904eef..14793b7fdf 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.3.bb
+@@ -83,5 +83,12 @@ CVE_CHECK_WHITELIST += "CVE-2021-3522"
+ # so we need to ignore the false hits
+ CVE_CHECK_WHITELIST += "CVE-2021-3497"
+ CVE_CHECK_WHITELIST += "CVE-2021-3498"
++CVE_CHECK_WHITELIST += "CVE-2022-1920"
++CVE_CHECK_WHITELIST += "CVE-2022-1921"
++CVE_CHECK_WHITELIST += "CVE-2022-1922"
++CVE_CHECK_WHITELIST += "CVE-2022-1923"
++CVE_CHECK_WHITELIST += "CVE-2022-1924"
++CVE_CHECK_WHITELIST += "CVE-2022-1925"
++CVE_CHECK_WHITELIST += "CVE-2022-2122"
+ 
+ require gstreamer1.0-ptest.inc
+-- 
+2.36.1
 
 
