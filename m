@@ -1,312 +1,198 @@
-Return-Path: <sakoman@gmail.com>
+Return-Path: <alex.stewart@ni.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9952EECAAD3
-	for <webhook@archiver.kernel.org>; Wed, 14 Sep 2022 15:15:29 +0000 (UTC)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com
- [209.85.217.49])
- by mx.groups.io with SMTP id smtpd.web08.627.1663168522375472941
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE198C6FA82
+	for <webhook@archiver.kernel.org>; Wed, 14 Sep 2022 15:30:09 +0000 (UTC)
+Received: from mx0b-00010702.pphosted.com (mx0b-00010702.pphosted.com
+ [148.163.158.57])
+ by mx.groups.io with SMTP id smtpd.web08.812.1663169402044659060
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Sep 2022 08:15:22 -0700
+ Wed, 14 Sep 2022 08:30:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=RJplzthS;
- spf=pass (domain: gmail.com, ip: 209.85.217.49, mailfrom: sakoman@gmail.com)
-Received: by mail-vs1-f49.google.com with SMTP id 67so16246200vsv.2
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Sep 2022 08:15:22 -0700 (PDT)
+ dkim=pass header.i=@ni.com header.s=pps11062020 header.b=tbmH+KGI;
+ spf=pass (domain: ni.com, ip: 148.163.158.57,
+ mailfrom: prvs=6256703cc6=alex.stewart@ni.com)
+Received: from pps.filterd (m0239463.ppops.net [127.0.0.1])
+	by mx0b-00010702.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
+ 28E83gML012751;
+	Wed, 14 Sep 2022 10:30:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com;
+ h=message-id : date : to :
+ cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version : subject; s=PPS11062020;
+ bh=EnF4IWlEPH0K6n/S5ZigDT6x0uRTqwMwigUkEHSnkfs=;
+ b=tbmH+KGILk8/0bCRYjb6RtY5AfFpF1CVPVdw40lzZzBuE40SMBwJ3dcArLeK0WoDWlTL
+ 338ju5dbWARbjtkU8duqYZcDaSWMsRKl0ACTXe4ENVbpjOIjwuctEzbNo+2mjAbkbf2j
+ z9kc1w2JwIvnWS5+OypxRTjc1phSrjXyVFiW0nW9FfybePfAux7GWj3Q+zwyO4mufxc0
+ sYgqsxkVfhf3Z4rcR5OH7DddcJF0sip+VGTQluSDVMQJw4bUTtl+dTu8DVcyeJWEoemc
+ tb0UkaJ/TPB21NBBcGXsi1L4dFhMJCDnXjc0k/wQEdgqnsX1C5p88GOCKFJpWQeNHOxX 5A==
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
+	by mx0b-00010702.pphosted.com (PPS) with ESMTPS id 3jjya71v0w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Sep 2022 10:30:00 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q8IPIDyqs7DErooK7Hi0moNPeNeT5ceAbE62vI8XxM34UDj+RRWYyNl6sKrNDdBvYLGvqGlkVxPjgd93y3CdgXeJdG7bqlDKvfwXz7xbayoLlHT8BcvE8lIxipOrbXn435dv2HbZ8Q0aWZDnSYIGWqe6vqSKa3u+Rdmzs6U+r5PmPq4VfxCc65m9KOx+1rzi6WMlH7V0K6/flJt458BYS66Mwj7fUP6AmbyDam0LarPIExV4RADYWvQnUnyxtTCTH9MUvERFJn9OaQqABx9y3zEOnZp5wmqY0W7F449ONXZ3F6kY2jQWZIusdHwy4b3PxIyLGpVoocTgeWERPLD3wQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EnF4IWlEPH0K6n/S5ZigDT6x0uRTqwMwigUkEHSnkfs=;
+ b=SkEcUqqoyfGCmsq0NiZrxnoRDwwWRfkv+ld6K2jKQGc8U+CSvpFit/hq60N+1HGlFyR3ad2HDRKAJc1st/Eq+XgxI4lWVcyA9f4KUq4wNGEiisgPOO3rKS+9zsUQCr+Q0k8lso73UlOo24Z9JMCSb8kBHwvUZEyBXNas9lZXRmwuLNEPLd4i2S1MqewIUE5o10JQen5Jw8aunoEe5SKq6NWFo7OThEi2BhPQ2jkYkpBT0BWMF079lOo4KLmavrwThvs1F35ABSI6pf1CdKz8PxiLIo/dM358Zp5RbLPoVzkcETFcemopx+b2RobdJgob2lYRwJCQSYbQqcVWqX35wg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ni.com; dmarc=pass action=none header.from=ni.com; dkim=pass
+ header.d=ni.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=vBKI4/DCSKin3XrJvMgoLBqHqeNrHtpDoJ3/nxkKrlg=;
-        b=RJplzthSrEwxrW73STBK+uTgi8OQ9oGdlndo9PbBTY/Apn7slrSKWq2bcUWB2CaoMs
-         YXU6yyMIX72ORTWsIsQ9k7Tis/Ed3XR6rtte0+FnTlO36ALglJuF/aQGBy4WdIxrf5sd
-         2/Rc4dLT2iC01dKtD2P3A7xQSE/gccCxLcj4XuucIKbnX6YIXxy0d/J6FYHSKjBM/EJg
-         ztfOOQkauVJC8qH/f71R+W1YaL5rVedRr8peVgvQhOxDXKka0V2NlIOQbb6obUUrRCtT
-         AcbkuKQKGaiujjWT/oSOuXP+qPY7OLOgbVKNueofkNLSD+d6gZ2qp0h+AnDCa5yaqNE7
-         x+Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=vBKI4/DCSKin3XrJvMgoLBqHqeNrHtpDoJ3/nxkKrlg=;
-        b=GIHzeK+TWnhF9UjmdqlVewvbyl4v9TsXsBlFeQOHS1CJjtHjobAPtoLZ8GBsry5YPl
-         CAdB1hvwbjN77PURs59KJvrmO9QOZw5IeXovs++CyPGXQl1v3Bg8UkMAwvKsXpMSXnCf
-         tOGs5nPA8HfbeU0xAhuGh//sPD0EGyez58nFUublZKeuVeITVVMjmmzkNjDKmxsKfMV7
-         jOYGaNtK97OIIBKU5K+evdB8mF58u6PAj5v5dsedZfUnHfihS693nC3Oqr5FJU4P2zb/
-         gZFsTBBTCdTvW0+0Eg+TgGpK8z2AS9PDC2DTKZGWSpEHnyXc+zSUaRpygeGHWaN5l9i4
-         fwdQ==
-X-Gm-Message-State: ACgBeo2H17ATTs/K93IuJj1TLSfDb030HgQDYVbwNUWPZ51GQ2FgcQLy
-	RtmPaj7AB2el9YC4tQMpkBarpE9WZkJ5EQJNeLaXOORE
-X-Google-Smtp-Source: 
- AA6agR7n4i63FHFRv++pkmIIR6Uo6v8VWnha3vL9FTTR7CIX1asY5IwDm7iUu4xIb/EsHg+MIL7PGMkYIWcnxSodwfo=
-X-Received: by 2002:a67:7001:0:b0:398:95a7:c113 with SMTP id
- l1-20020a677001000000b0039895a7c113mr4479236vsc.73.1663168521208; Wed, 14 Sep
- 2022 08:15:21 -0700 (PDT)
+ d=nio365.onmicrosoft.com; s=selector2-nio365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EnF4IWlEPH0K6n/S5ZigDT6x0uRTqwMwigUkEHSnkfs=;
+ b=X5HL1uYUgj+ZTYhbearqWrwzM6EuYU2L53Enh4ALB5gEeDSuvqp4etAL44jYmjvDw7XRadHylYGqpAv2vj4yCCoe8cQGMAefB8/cpZHOQEpkKD7TL4cSDbF8wgf508npcsJmHZeCzr9RBgFuTgE/w1zcK8AWeTdeEn6VHt+L7Fo=
+Received: from SN6PR04MB5151.namprd04.prod.outlook.com (2603:10b6:805:90::25)
+ by BYAPR04MB4118.namprd04.prod.outlook.com (2603:10b6:a02:f7::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.16; Wed, 14 Sep
+ 2022 15:29:58 +0000
+Received: from SN6PR04MB5151.namprd04.prod.outlook.com
+ ([fe80::cdb:af23:81f5:620]) by SN6PR04MB5151.namprd04.prod.outlook.com
+ ([fe80::cdb:af23:81f5:620%6]) with mapi id 15.20.5612.022; Wed, 14 Sep 2022
+ 15:29:58 +0000
+Message-ID: <e8cb6729-07f0-5cd5-2e5a-31b48d02de68@ni.com>
+Date: Wed, 14 Sep 2022 10:29:47 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+To: ecordonnier@snapchat.com, openembedded-core@lists.openembedded.org
+Cc: Etienne Cordonnier <ecordonnier@snap.com>,
+        Alex Feinman <afeinman@snap.com>
+References: <20220914095945.2046769-1-ecordonnier@snap.com>
+Content-Language: en-US
+From: Alex Stewart <alex.stewart@ni.com>
+Organization: National Instruments Corp.
+In-Reply-To: <20220914095945.2046769-1-ecordonnier@snap.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA1P222CA0014.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:22c::23) To SN6PR04MB5151.namprd04.prod.outlook.com
+ (2603:10b6:805:90::25)
 MIME-Version: 1.0
-References: <17149C4A25D72AE1.21543@lists.openembedded.org>
- <20220914072059.3509603-1-mingli.yu@windriver.com>
- <29755fd3-a605-6c2a-a703-a68a7b928d86@windriver.com>
-In-Reply-To: <29755fd3-a605-6c2a-a703-a68a7b928d86@windriver.com>
-From: Steve Sakoman <sakoman@gmail.com>
-Date: Wed, 14 Sep 2022 05:15:10 -1000
-Message-ID: 
- <CAGDS+nmea461vEQsNep9axJEUKgXUJK_vhBEyjNYAGNSiGYwcg@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH v2] busybox: add devmem 128-bit
- support
-To: Randy MacLeod <randy.macleod@windriver.com>
-Cc: "Yu, Mingli" <mingli.yu@windriver.com>,
- openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR04MB5151:EE_|BYAPR04MB4118:EE_
+X-MS-Office365-Filtering-Correlation-Id: dcd46159-f6ed-41ca-de25-08da9665fb5d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	M4hxcx8LH1cfVB4oWtdIWyC1kkRstXy2eGOUNRED4/MHpKVPlgRNaM/QI5cbmV4y92rzICxXz1tPwBvKlzVIHHL4nQeXudYRYvrh3Mo2JiVlZ5y6PLE8r6mf/DzmYmvOfsk9wJBPbMw8OFH6E3O0Qndpcwxxp/tFHvU1IqGbFSd18wcD+taR9hh14sKG8/RQwhgKrPz0hYL8d0gIpOGHHYo5JCcKEAfdTG3y3ZcfLZbpZp/Rj+JCbX16W0VYBK4O7b7xrwu318q8PAuIGEsBn1+hA0IRcAX6LPlgaJ9bfNrkrYuSKXulU+XLxc0keQoLnfY75WC5uqWfapFl0Uq7OtALKnbUVzvhK/FAcFpDTGWapIDISWBH0wD+0mO2WIwzfafN1498oSQisIrA/A4pD/bEoR+OARf5CZzhj1f42CKlsnl0ybHt/yGoEI2voKuyhQRa6P+yQphTkbqxRKn2/PdFQVN9VPNPi+pHdymRM/sMMvwBqJ8yR0+GtUkLFik3MIdfKoXQ1V+Ozrvqw7UFd1Hk0VjpQvbXr+/ePtw6Pc61cqdDzRxftde0+sq8pa1OVnkoXS4D+DP+POQllVxjjXQ/ozcMaOQVBI1PjZz6gGiVa8j1OtWHiywWhgC1c/kz3WLXVMBONNjvtVpYEE9OTUmf9O/QSUFmnfjqWFYWwmV/hEKIMkujSXsve2/ETp/C63+/piDiB2Te2pU7Hacc3aVp8DGoI8Y0KiUkj+2fJ2mNrUby/u+koA2BF/Pm5O8j/OL1PfI+0OhWgc2Rai7aIRjH8v0agmdKpi0mBwTOWH/CuoldsMQuOlzJweWLzFqrcAtuF8ltgKFDbcxYAkEPsw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR04MB5151.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(346002)(39860400002)(366004)(396003)(376002)(136003)(451199015)(36916002)(31696002)(966005)(86362001)(31686004)(6666004)(6512007)(6506007)(53546011)(36756003)(186003)(8676002)(38100700002)(4326008)(2906002)(54906003)(66946007)(316002)(66556008)(6486002)(8936002)(478600001)(26005)(83380400001)(66476007)(5660300002)(41300700001)(2616005)(44832011)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?S1BtajJHdi9HejR3ZTh2VEgyY1JoaDQvYWF0M2xHZXhtR1VzVURFMzNwbnZu?=
+ =?utf-8?B?WEFISllpZW1rcFRhdmRYaExGTVF3ci8vVUpwZEpNYVU2cmtYaGVBRnVIK0VE?=
+ =?utf-8?B?OGcvUlZ6VndaUG1OOGErQXZVNjZnWmZwTzdWVGZTd1d1T1g5RENVd2gveW1D?=
+ =?utf-8?B?MXgwdDBHRk5QZWhnRDFnZ0N5c3dlbnY4ZUFpaWtlUXViOXloWmtWc0VBTDFm?=
+ =?utf-8?B?b0lUZ0M0cE1uQm1WSDJzeU9uRm1OT05HWmtkOHYwZ01Ya1U4THZJV01JRnlD?=
+ =?utf-8?B?NkloY2l4YVl1VmNEWHNrVWVIUjc0SFhndTlWVVcxZDdaU2dLMGJ5aENyU3Yv?=
+ =?utf-8?B?Y1N4RkJJK2prKzlnKzVyelkvNzRzcjJNUVNuVnIxN3Q1YWcvbWQ2bWxPYkta?=
+ =?utf-8?B?TDE5SkE0cjNxekU0a0Z0WUhDeTRnNHJxbmJNR2ZDWlIwek1BZTFnZEh6OHlP?=
+ =?utf-8?B?bXh6eGp5dllJTDJFV3RvK3VJRzgxaTdXdlNwZUpVZ2c0UmdldkFqUitDZXh6?=
+ =?utf-8?B?YkxhN3FRa0NUQ3NKeWovUVFLekVvOVl3dHR1NXpCdHovdkY3eDg2c1ZwUVRJ?=
+ =?utf-8?B?dmxjTnoveFBIU1MzdUtNSmRTZ3JvdmRNZGpSNktlMjVLYlBxbkgySjRjN3RP?=
+ =?utf-8?B?bjlVcVA0N3Q1V1AzSUpwUElPS0xCY1ZucngrZjRnQ1hkSmZwN2JxY2FoOVNa?=
+ =?utf-8?B?VmlWZEZhcERZcUozbWFEOEowWW5PNDlZSUNnanZuZHk3WEZpeUpvVjBMVXJm?=
+ =?utf-8?B?ZkpYOUVld1NoQkdncnRmNk54aXZzQXBvS0JMbklLOXJSbDRQbkNGNkpaUE0v?=
+ =?utf-8?B?R3VLWHF2Mm5DZ3NscktjZnNncjVuNjh4eG9XS3FMdGw2dWFvcFJaQWlWUXo5?=
+ =?utf-8?B?QzF2V3IwZTVENGtXTkNmOTNhSnFlM2V1SnBHV1lseVBRakxLWVhhYzNRMzFZ?=
+ =?utf-8?B?UWZETDVwU3o2OHJCR0pweEZ6N2Y4ODBXY0JGRWhWMU9oSHJWNEtlaEFsQmEz?=
+ =?utf-8?B?WVdhTEZXTEFaaHlEVlprMnZuVlZ3dHV3UXAvaG5uV2dKdGJRWG0rb2FvMUFP?=
+ =?utf-8?B?Y2h3QzRCNGJyRCtRL3lUcDRaTzNpV0lVNU56amNrVWN0dGoraHJCNjFPTDRZ?=
+ =?utf-8?B?aUN3NzZHb1huaEZZWmJZSDVFK2I1cVJYMDNkamR3amJsVnFJdmJQZmdIaC9u?=
+ =?utf-8?B?UVo3bDJ2UUgzdXVrRHNHOUM5WmJRNS9OeHNTMFE0eXROeEtkMFdLRmJHclhs?=
+ =?utf-8?B?RTBGZFpkeWRMUEMrSGdza0g4SFB1YytacTdrRXVZVWZaM2swenlBSkJEcGh3?=
+ =?utf-8?B?VWVNSTdYYjRwT3hjSDdlYmwyWndzOVdHSDNaLzYrMzNOakROblRITlRnSjhS?=
+ =?utf-8?B?YzByODhrYjhHQVhISi90K1p2QzBIL3Z6d1AzbFhqQnFkMFlWQldvdlBpUkZi?=
+ =?utf-8?B?VjNDUHZNZXlhS0pDak80dERlUW9DVkx3UStBOTZZRW9nVWdkRDU3bmM4SFdG?=
+ =?utf-8?B?VDJDcTNjK0h0dUxvUzlobHM5K29ub3R1VTgrcTNTak5yc214ZFZRS1dTSWRn?=
+ =?utf-8?B?WDJNcmpUWmFOVVAxTHhadXMxdGE5UHdka2hYNmxxOUQwZWg2ekpKd1JEM0R3?=
+ =?utf-8?B?TnlWVnV5cjF1bi9LcnRJRkZiVGVwRXUwZDc5bkk4QS81b3J1b251TEV6TFN5?=
+ =?utf-8?B?TzhzYTlYYU85cmROQ2Y5MzczeUtBbDRFY2NmTWxFNFZiQTZhTWowUlc0aG5E?=
+ =?utf-8?B?WFdOc21jeEdoby9hUDRJUkZMSWRNeGF1YWV0TThVUkhqb3lPY1RrUnNFdlZn?=
+ =?utf-8?B?K2NRZHVUR0VGaGg0VDJoYkRqL1hHKzAxMkFVaytYNlQvWk5Ib3lEaXNmNzNE?=
+ =?utf-8?B?MTBKTUlndDVpRTZLUU9rZ0JKSWdhaENQRWk3WmJobWo4anJobUZpdGRyOUxH?=
+ =?utf-8?B?MmdrUHI0OCtyMXVlZmpWYjhuenpLaU9VUURVK0J4eFBZS3NlTmNHVDFtVHZ3?=
+ =?utf-8?B?WVZmUlB5ZnVxRXJrOStpczdLRzNBeVFhSWJTOWhIdTl6ZU5Sc3RqanFEa1VH?=
+ =?utf-8?B?Vkl1Vmg5UDZzaWI2VXVxU3lGeEZuTFNFZFYxRnJMRmVzTGNMQUlKOCs5Wkdu?=
+ =?utf-8?Q?3aVfZhgOayyEY3JXvOQ1a9URj?=
+X-OriginatorOrg: ni.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ dcd46159-f6ed-41ca-de25-08da9665fb5d
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR04MB5151.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2022 15:29:58.1005
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ XB8p+QvBGa5LskAiFXF1OL9isSGJNTpYnkqZzt8V7aWjw38LFu5uCzBkZIYgGjh4ZMgEorVC2SIKKw/RtqptoA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB4118
+X-Proofpoint-ORIG-GUID: bZY3jPKkQFb_NZteEfcVSugqhwf7IXUe
+X-Proofpoint-GUID: bZY3jPKkQFb_NZteEfcVSugqhwf7IXUe
+Subject: Re: [OE-core] [PATCH v2] opkg: add option for zstd support
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-14_06,2022-09-14_04,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
+ score=30 clxscore=1015
+ adultscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0 mlxlogscore=714
+ priorityscore=1501 phishscore=0 suspectscore=0 impostorscore=0 spamscore=0
+ mlxscore=0 classifier=spam adjust=30 reason=mlx scancount=1
+ engine=8.12.0-2208220000 definitions=main-2209140075
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Sep 2022 15:15:29 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Sep 2022 15:30:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170662
+ https://lists.openembedded.org/g/openembedded-core/message/170663
 
-On Wed, Sep 14, 2022 at 4:08 AM Randy MacLeod
-<randy.macleod@windriver.com> wrote:
->
-> On 2022-09-14 03:20, Yu, Mingli wrote:
->
-> From: Mingli Yu <mingli.yu@windriver.com>
->
-> Add devmem 128-bit support [1].
->
-> We should merge to master as well but I don't think we need to enable devmem, especially in kirkstone.
-> If a user wants to do that, that's fine.
+ACK from me.
 
-IIf this is also suitable for master, then the patch should be
-resubmitted for master and I can then cherry-pick to kirkstone.
-
-Steve
-
+On 9/14/22 04:59, Etienne Cordonnier via lists.openembedded.org wrote:
+> This allows the use of zstd for opkg packages by using OPKGBUILDCMD:
+> OPKGBUILDCMD = "opkg-build -Z zstd"
 >
-> My notes:
->
-> I think that back-porting this commit is low risk since it only adds a new, non-default ability in a compatible manner and
-> more importantly 'devmem' is NOT built by default. Therefore, other users are not affected by including this patch.
->
-> devmem is a small program that reads and writes from physical memory using /dev/mem.
->
-> Usage is:
->
-> $ busybox devmem --help
-> ...
-> Usage: devmem ADDRESS [WIDTH [VALUE]]
-> Read/write from physical address
->     ADDRESS    Address to act upon
->     WIDTH    Width (8/16/...)
->     VALUE    Data to be written
->
->
->
-> This commit adds 128 bit as a supported WIDTH.
->
-> The patch cherry-picks back to 1.35.0 cleanly and doesn't require pulling in any other commits.
-> It does add new functionality but the patch is written such that if _SIZEOF_INT128_ isn't define, the code is practically unchanged.
->
->
-> There hasn't been a release of busybox since Dec 2021 so we should backport this patch to oe-core/master and oe-core/kirkstone.
->
->
->
-> [1] https://git.busybox.net/busybox/commit/?id=d432049f288c9acdc4a7caa729c68ceba3c5dca1
->
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> Signed-off-by: Alex Feinman <afeinman@snap.com>
+> Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
 > ---
->  .../0001-devmem-add-128-bit-width.patch       | 128 ++++++++++++++++++
->  meta/recipes-core/busybox/busybox/defconfig   |   2 +-
->  meta/recipes-core/busybox/busybox_1.35.0.bb   |   1 +
->  3 files changed, 130 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-core/busybox/busybox/0001-devmem-add-128-bit-width.patch
+>   meta/recipes-devtools/opkg/opkg_0.6.0.bb | 1 +
+>   1 file changed, 1 insertion(+)
 >
-> diff --git a/meta/recipes-core/busybox/busybox/0001-devmem-add-128-bit-width.patch b/meta/recipes-core/busybox/busybox/0001-devmem-add-128-bit-width.patch
-> new file mode 100644
-> index 0000000000..985e2bf1d9
-> --- /dev/null
-> +++ b/meta/recipes-core/busybox/busybox/0001-devmem-add-128-bit-width.patch
-> @@ -0,0 +1,128 @@
-> +From d432049f288c9acdc4a7caa729c68ceba3c5dca1 Mon Sep 17 00:00:00 2001
-> +From: Aaro Koskinen <aaro.koskinen@nokia.com>
-> +Date: Thu, 25 Aug 2022 18:47:02 +0300
-> +Subject: [PATCH] devmem: add 128-bit width
-> +
-> +Add 128-bit width if the compiler provides the needed type.
-> +
-> +function                                             old     new   delta
-> +devmem_main                                          405     464     +59
-> +.rodata                                           109025  109043     +18
-> +------------------------------------------------------------------------------
-> +(add/remove: 0/0 grow/shrink: 2/0 up/down: 77/0)               Total: 77 bytes
-> +
-> +Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=d432049f288c9acdc4a7caa729c68ceba3c5dca1]
-> +
-> +Signed-off-by: Aaro Koskinen <aaro.koskinen@nokia.com>
-> +Signed-off-by: Aaro Koskinen <aaro.koskinen@iki.fi>
-> +Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-> +Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> +---
-> + miscutils/devmem.c | 68 ++++++++++++++++++++++++++++++----------------
-> + 1 file changed, 44 insertions(+), 24 deletions(-)
-> +
-> +diff --git a/miscutils/devmem.c b/miscutils/devmem.c
-> +index f9f0276bc..f21621bd6 100644
-> +--- a/miscutils/devmem.c
-> ++++ b/miscutils/devmem.c
-> +@@ -29,7 +29,6 @@ int devmem_main(int argc UNUSED_PARAM, char **argv)
-> + {
-> + void *map_base, *virt_addr;
-> + uint64_t read_result;
-> +- uint64_t writeval = writeval; /* for compiler */
-> + off_t target;
-> + unsigned page_size, mapped_size, offset_in_page;
-> + int fd;
-> +@@ -64,9 +63,6 @@ int devmem_main(int argc UNUSED_PARAM, char **argv)
-> + width = strchrnul(bhwl, (argv[2][0] | 0x20)) - bhwl;
-> + width = sizes[width];
-> + }
-> +- /* VALUE */
-> +- if (argv[3])
-> +- writeval = bb_strtoull(argv[3], NULL, 0);
-> + } else { /* argv[2] == NULL */
-> + /* make argv[3] to be a valid thing to fetch */
-> + argv--;
-> +@@ -96,28 +92,46 @@ int devmem_main(int argc UNUSED_PARAM, char **argv)
-> + virt_addr = (char*)map_base + offset_in_page;
-> +
-> + if (!argv[3]) {
-> +- switch (width) {
-> +- case 8:
-> +- read_result = *(volatile uint8_t*)virt_addr;
-> +- break;
-> +- case 16:
-> +- read_result = *(volatile uint16_t*)virt_addr;
-> +- break;
-> +- case 32:
-> +- read_result = *(volatile uint32_t*)virt_addr;
-> +- break;
-> +- case 64:
-> +- read_result = *(volatile uint64_t*)virt_addr;
-> +- break;
-> +- default:
-> +- bb_simple_error_msg_and_die("bad width");
-> ++#ifdef __SIZEOF_INT128__
-> ++ if (width == 128) {
-> ++ unsigned __int128 rd =
-> ++ *(volatile unsigned __int128 *)virt_addr;
-> ++ printf("0x%016llX%016llX\n",
-> ++ (unsigned long long)(uint64_t)(rd >> 64),
-> ++ (unsigned long long)(uint64_t)rd
-> ++ );
-> ++ } else
-> ++#endif
-> ++ {
-> ++ switch (width) {
-> ++ case 8:
-> ++ read_result = *(volatile uint8_t*)virt_addr;
-> ++ break;
-> ++ case 16:
-> ++ read_result = *(volatile uint16_t*)virt_addr;
-> ++ break;
-> ++ case 32:
-> ++ read_result = *(volatile uint32_t*)virt_addr;
-> ++ break;
-> ++ case 64:
-> ++ read_result = *(volatile uint64_t*)virt_addr;
-> ++ break;
-> ++ default:
-> ++ bb_simple_error_msg_and_die("bad width");
-> ++ }
-> ++// printf("Value at address 0x%"OFF_FMT"X (%p): 0x%llX\n",
-> ++// target, virt_addr,
-> ++// (unsigned long long)read_result);
-> ++ /* Zero-padded output shows the width of access just done */
-> ++ printf("0x%0*llX\n", (width >> 2), (unsigned long long)read_result);
-> + }
-> +-// printf("Value at address 0x%"OFF_FMT"X (%p): 0x%llX\n",
-> +-// target, virt_addr,
-> +-// (unsigned long long)read_result);
-> +- /* Zero-padded output shows the width of access just done */
-> +- printf("0x%0*llX\n", (width >> 2), (unsigned long long)read_result);
-> + } else {
-> ++ /* parse VALUE */
-> ++#ifdef __SIZEOF_INT128__
-> ++ unsigned __int128 writeval = strtoumax(argv[3], NULL, 0);
-> ++#else
-> ++ uint64_t writeval = bb_strtoull(argv[3], NULL, 0);
-> ++#endif
-> + switch (width) {
-> + case 8:
-> + *(volatile uint8_t*)virt_addr = writeval;
-> +@@ -135,6 +149,12 @@ int devmem_main(int argc UNUSED_PARAM, char **argv)
-> + *(volatile uint64_t*)virt_addr = writeval;
-> + // read_result = *(volatile uint64_t*)virt_addr;
-> + break;
-> ++#ifdef __SIZEOF_INT128__
-> ++ case 128:
-> ++ *(volatile unsigned __int128 *)virt_addr = writeval;
-> ++// read_result = *(volatile uint64_t*)virt_addr;
-> ++ break;
-> ++#endif
-> + default:
-> + bb_simple_error_msg_and_die("bad width");
-> + }
-> +--
-> +2.25.1
-> +
-> diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
-> index 5e1e1f5638..58d393ad87 100644
-> --- a/meta/recipes-core/busybox/busybox/defconfig
-> +++ b/meta/recipes-core/busybox/busybox/defconfig
-> @@ -782,7 +782,7 @@ CONFIG_FEATURE_CROND_DIR=""
->  # CONFIG_DEVFSD_FG_NP is not set
->  # CONFIG_DEVFSD_VERBOSE is not set
->  # CONFIG_FEATURE_DEVFS is not set
-> -# CONFIG_DEVMEM is not set
-> +CONFIG_DEVMEM=y
->
-> As mentioned above, I don't think we need to enable DEVMEM but only
->
-> carry this small patch.
->
-> Thanks,
->
-> ../Randy
->
->
->  # CONFIG_FBSPLASH is not set
->  # CONFIG_FLASH_ERASEALL is not set
->  # CONFIG_FLASH_LOCK is not set
-> diff --git a/meta/recipes-core/busybox/busybox_1.35.0.bb b/meta/recipes-core/busybox/busybox_1.35.0.bb
-> index edf896485e..e9ca6fdb1a 100644
-> --- a/meta/recipes-core/busybox/busybox_1.35.0.bb
-> +++ b/meta/recipes-core/busybox/busybox_1.35.0.bb
-> @@ -50,6 +50,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
->             file://0001-libbb-sockaddr2str-ensure-only-printable-characters-.patch \
->             file://0002-nslookup-sanitize-all-printed-strings-with-printable.patch \
->             file://CVE-2022-30065.patch \
-> +           file://0001-devmem-add-128-bit-width.patch \
->             "
->  SRC_URI:append:libc-musl = " file://musl.cfg "
->
->
->
->
->
-> --
-> # Randy MacLeod
-> # Wind River Linux
->
+> diff --git a/meta/recipes-devtools/opkg/opkg_0.6.0.bb b/meta/recipes-devtools/opkg/opkg_0.6.0.bb
+> index 7b351e8123..4cd589cd29 100644
+> --- a/meta/recipes-devtools/opkg/opkg_0.6.0.bb
+> +++ b/meta/recipes-devtools/opkg/opkg_0.6.0.bb
+> @@ -39,6 +39,7 @@ PACKAGECONFIG[gpg] = "--enable-gpg,--disable-gpg,\
+>   PACKAGECONFIG[curl] = "--enable-curl,--disable-curl,curl"
+>   PACKAGECONFIG[ssl-curl] = "--enable-ssl-curl,--disable-ssl-curl,curl openssl"
+>   PACKAGECONFIG[sha256] = "--enable-sha256,--disable-sha256"
+> +PACKAGECONFIG[zstd] = "--enable-zstd,--disable-zstd,zstd"
+>   PACKAGECONFIG[libsolv] = "--with-libsolv,--without-libsolv,libsolv"
+>   
+>   EXTRA_OECONF:class-native = "--localstatedir=/${@os.path.relpath('${localstatedir}', '${STAGING_DIR_NATIVE}')} --sysconfdir=/${@os.path.relpath('${sysconfdir}', '${STAGING_DIR_NATIVE}')}"
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#170658): https://lists.openembedded.org/g/openembedded-core/message/170658
-> Mute This Topic: https://lists.openembedded.org/mt/93673250/3617601
+> View/Reply Online (#170651): https://urldefense.com/v3/__https://lists.openembedded.org/g/openembedded-core/message/170651__;!!FbZ0ZwI3Qg!s3ge2JNZe1G9vmQ-fsPaqWDO_Q31zeo7xvWaZyozqBUutvc_pqEPJh9YF4LJ284aTwx9LfkjOxEp2dzr_MM3cnXkAnz9-fO-i2Da$
+> Mute This Topic: https://urldefense.com/v3/__https://lists.openembedded.org/mt/93674358/3616788__;!!FbZ0ZwI3Qg!s3ge2JNZe1G9vmQ-fsPaqWDO_Q31zeo7xvWaZyozqBUutvc_pqEPJh9YF4LJ284aTwx9LfkjOxEp2dzr_MM3cnXkAnz9-WZqAqb8$
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [sakoman@gmail.com]
+> Unsubscribe: https://urldefense.com/v3/__https://lists.openembedded.org/g/openembedded-core/unsub__;!!FbZ0ZwI3Qg!s3ge2JNZe1G9vmQ-fsPaqWDO_Q31zeo7xvWaZyozqBUutvc_pqEPJh9YF4LJ284aTwx9LfkjOxEp2dzr_MM3cnXkAnz9-a4JRFlg$   [alex.stewart@ni.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
 >
+
+-- 
+Alex Stewart
+Software Engineer - NI Real-Time OS
+NI (National Instruments)
+
+alex.stewart@ni.com
+
 
