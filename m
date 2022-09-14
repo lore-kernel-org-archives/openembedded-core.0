@@ -2,64 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51741C6FA89
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51795C6FA8D
 	for <webhook@archiver.kernel.org>; Wed, 14 Sep 2022 02:26:20 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web09.1755.1663122372909214641
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web11.1787.1663122374977306337
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 19:26:13 -0700
+ Tue, 13 Sep 2022 19:26:15 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=mnbVTwxG;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182,
+ header.b=a3WJq6Z1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.51,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id e5so13506704pfl.2
+Received: by mail-pj1-f51.google.com with SMTP id
+ j6-20020a17090a694600b00200bba67dadso13065289pjm.5
         for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 19:26:12 -0700 (PDT)
+ Tue, 13 Sep 2022 19:26:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=oAwnqHrvrnS+SyGh8ETlN+8EktBa5eaUHD+Dt6xr1Ws=;
-        b=mnbVTwxGZy3PVJKefAUjym+2jBHsPmpNB6Dee2Zz/MUfkpsg3otar+w2mNn62/6Daw
-         RyRMNys0u+P0ZaoMAIHMjoXd8CVuoue1isWOeNo+ZAv3YUDj/Re0+wluNd64e21BSFlE
-         s+TvVnWcNlDSE1WwScKJ0ZHVdnf2TwiTnnws7KrZIChJARvN3L6HVAoumEZjPL7lRvQz
-         iMHXa7N5omw8FrcKEQKcSrOQH80zHihFI/mooTgUIktNxke1DlVPBWgVVxiMqTfl348p
-         idQv+y10ShDK5q8XQzpFdC1SDrF+eI4nU8Xv2fAJFboXLLGm2Z3VCI3x0DWfsNn+F3an
-         fm+w==
+        bh=RldTtulFJLWQRnanyiQdDoxY2RswPlDD6vojyODelVs=;
+        b=a3WJq6Z1hMnOK2ylE2IRH62Zi9mmmirsnhLcRbdFsaQ2Ht3wvd6aXsFkmYEp2gcOlQ
+         O6VuCoHpsrJYR/ZBq00+/cU8lwhoc9ZCbC3o7YYYbBr9uq4Vgo+n57MPuBIWTH0SDV85
+         6GoO8iq2hY9K122csm00JjZzh0YmIYYP7Oc2uR8uXgSeiqQ77PjS2ifaJGPlPyGKY2sG
+         ibYOUTnq9zMe9hIqaJB6UhO7CtkzXdENEEJ2YDTqAbAZcPubMWEcZBZ1x5vbmnQpwktc
+         RB9Gec1UKptZcHx3je3otMYtIs/AwNieBCoqMv16Gluuq/IyJsI2tQvWfY3sM/uUG77Q
+         zVlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=oAwnqHrvrnS+SyGh8ETlN+8EktBa5eaUHD+Dt6xr1Ws=;
-        b=PBrey8fqHj/+rRB+E+le4UN7rcEfJ576b0XTOtGGMjE+ULINWdJ/ixgb0rqOpJgA3p
-         ov09Tj78F12REIpEhYdLEyXP7GJxxy63ZtKft8p+G7by36b/azJR8c8dXS3JNtAGVIMd
-         ztaBUTrCh3JAXiNkwOzGk47vQge1nftLf9YuNYFnLfLk3cOLRdLO0ClMzDkpYNYTWgXW
-         fg4wVi8+tCcFbPg3wpDbLCMxd87rYs1oHLhUDhZDVOx6VA3ixLv2ZXU9ILj77ya2EXgj
-         3BgBv5Jes6mI3wc+uS6PGG+EzB9VPHjyLKDm0t88gALQcibDOZYtz8dtNsDmEoxJcFap
-         3x4g==
-X-Gm-Message-State: ACgBeo31DbIDJa1w5gai6hwXLdRAHAQ7quvUfCrtP/f3GA+Lo6KUU+kK
-	SrqUAg4oHTqkxgUxhT/7hOnQ1/7eJ3yJsjx2
+        bh=RldTtulFJLWQRnanyiQdDoxY2RswPlDD6vojyODelVs=;
+        b=p0ATBWcu8qhp75p2Bl34mF2rNFzFR5sC8lYngZ7lfdwyYvcEkRWnd1TbsJcLrk/eVv
+         IHUuqon1ZLb6B9qBSAanuSsQcSSp0tNTPOqVuOuTTFMymKRmJqhQEOi3+hvLhs0Q1T5H
+         gspfmXKM5qbBOlXgjRkMJOGmU7IgSOeI6Ty1z1cQP6u7dR74AEVNLHDJVak7yfsVIRXZ
+         ICWvZwzBhjMTAmEY/f8HzLfJsq4yiw2RPqtGBt7XpTHLizjZ3TBKAoPDU4FPSE5dmfd+
+         3c6+eshooJnuNdN3PREXcmuxqx+3/z8vLwjJVATFqgt9TtffLSuv4RkikbI93P1Eppre
+         lbAA==
+X-Gm-Message-State: ACrzQf1ybtundJFLTaobWVwuu/xybbpyjxh02hkgURvYHGYQh3DYrHYq
+	KSg3Ejk1HdrpNwa55xRKurHZgW2L0MQlgpo7
 X-Google-Smtp-Source: 
- AA6agR4g1cs0Pv6bZYBqTxdUV+htXGR0DcxB/1HXS7UxctYr+SrtWYWSP7xZTmwngccISPEjhZok5w==
-X-Received: by 2002:a05:6a00:852:b0:544:5907:7520 with SMTP id
- q18-20020a056a00085200b0054459077520mr10854134pfk.31.1663122371844;
-        Tue, 13 Sep 2022 19:26:11 -0700 (PDT)
+ AMsMyM45Ca9joghytq4MeA0GisIotQymo92FnvP+4vIIMP2C1A+1F/pzmMI2Zo8oRaK8sjdQDWoiXA==
+X-Received: by 2002:a17:90b:1e0a:b0:202:e897:9bb3 with SMTP id
+ pg10-20020a17090b1e0a00b00202e8979bb3mr2282086pjb.169.1663122374016;
+        Tue, 13 Sep 2022 19:26:14 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- s14-20020a65644e000000b00438fe64d61esm5259871pgv.0.2022.09.13.19.26.10
+ s14-20020a65644e000000b00438fe64d61esm5259871pgv.0.2022.09.13.19.26.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Sep 2022 19:26:11 -0700 (PDT)
+        Tue, 13 Sep 2022 19:26:13 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 4/9] connman: fix CVE-2022-32292
-Date: Tue, 13 Sep 2022 16:25:14 -1000
+Subject: [OE-core][dunfell 5/9] gnutls: fix CVE-2021-4209
+Date: Tue, 13 Sep 2022 16:25:15 -1000
 Message-Id: 
- <380b6fb2583f875aad0cb28c91b1531e63eb2eeb.1663122098.git.steve@sakoman.com>
+ <d08031bffafbd2df7e938d5599af9e818bddba04.1663122098.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1663122098.git.steve@sakoman.com>
 References: <cover.1663122098.git.steve@sakoman.com>
@@ -70,73 +71,73 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 14 Sep 2022 02:26:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170622
+ https://lists.openembedded.org/g/openembedded-core/message/170623
 
 From: Chee Yang Lee <chee.yang.lee@intel.com>
 
 Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../connman/connman/CVE-2022-32292.patch      | 37 +++++++++++++++++++
- .../connman/connman_1.37.bb                   |  1 +
+ .../gnutls/gnutls/CVE-2021-4209.patch         | 37 +++++++++++++++++++
+ meta/recipes-support/gnutls/gnutls_3.6.14.bb  |  1 +
  2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2022-32292.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2021-4209.patch
 
-diff --git a/meta/recipes-connectivity/connman/connman/CVE-2022-32292.patch b/meta/recipes-connectivity/connman/connman/CVE-2022-32292.patch
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2021-4209.patch b/meta/recipes-support/gnutls/gnutls/CVE-2021-4209.patch
 new file mode 100644
-index 0000000000..74a739d6a2
+index 0000000000..0bcb55e573
 --- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/CVE-2022-32292.patch
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2021-4209.patch
 @@ -0,0 +1,37 @@
-+From d1a5ede5d255bde8ef707f8441b997563b9312bd Mon Sep 17 00:00:00 2001
-+From: Nathan Crandall <ncrandall@tesla.com>
-+Date: Tue, 12 Jul 2022 08:56:34 +0200
-+Subject: gweb: Fix OOB write in received_data()
++From 3db352734472d851318944db13be73da61300568 Mon Sep 17 00:00:00 2001
++From: Daiki Ueno <ueno@gnu.org>
++Date: Wed, 22 Dec 2021 09:12:25 +0100
++Subject: [PATCH] wrap_nettle_hash_fast: avoid calling _update with zero-length
++ input
 +
-+There is a mismatch of handling binary vs. C-string data with memchr
-+and strlen, resulting in pos, count, and bytes_read to become out of
-+sync and result in a heap overflow.  Instead, do not treat the buffer
-+as an ASCII C-string. We calculate the count based on the return value
-+of memchr, instead of strlen.
++As Nettle's hash update functions internally call memcpy, providing
++zero-length input may cause undefined behavior.
 +
-+Fixes: CVE-2022-32292
++Signed-off-by: Daiki Ueno <ueno@gnu.org>
 +
++https://gitlab.com/gnutls/gnutls/-/commit/3db352734472d851318944db13be73da61300568
 +Upstream-Status: Backport
-+https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=d1a5ede5d255bde8ef707f8441b997563b9312b
-+CVE: CVE-2022-32292
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
++CVE: CVE-2021-4209
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 +---
-+ gweb/gweb.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ lib/nettle/mac.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
 +
-+diff --git a/gweb/gweb.c b/gweb/gweb.c
-+index 12fcb1d8..13c6c5f2 100644
-+--- a/gweb/gweb.c
-++++ b/gweb/gweb.c
-+@@ -918,7 +918,7 @@ static gboolean received_data(GIOChannel *channel, GIOCondition cond,
-+ 		}
++diff --git a/lib/nettle/mac.c b/lib/nettle/mac.c
++index f9d4d7a8df..35e070fab0 100644
++--- a/lib/nettle/mac.c
+++++ b/lib/nettle/mac.c
++@@ -788,7 +788,9 @@ static int wrap_nettle_hash_fast(gnutls_digest_algorithm_t algo,
++ 	if (ret < 0)
++ 		return gnutls_assert_val(ret);
 + 
-+ 		*pos = '\0';
-+-		count = strlen((char *) ptr);
-++		count = pos - ptr;
-+ 		if (count > 0 && ptr[count - 1] == '\r') {
-+ 			ptr[--count] = '\0';
-+ 			bytes_read--;
++-	ctx.update(&ctx, text_size, text);
+++	if (text_size > 0) {
+++		ctx.update(&ctx, text_size, text);
+++	}
++ 	ctx.digest(&ctx, ctx.length, digest);
++ 
++ 	return 0;
 +-- 
-+cgit 
++GitLab
 +
-diff --git a/meta/recipes-connectivity/connman/connman_1.37.bb b/meta/recipes-connectivity/connman/connman_1.37.bb
-index bdd1e590ec..4f22c7ad49 100644
---- a/meta/recipes-connectivity/connman/connman_1.37.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.37.bb
-@@ -12,6 +12,7 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-             file://CVE-2021-33833.patch \
-             file://CVE-2022-23096-7.patch \
-             file://CVE-2022-23098.patch \
-+            file://CVE-2022-32292.patch \
+diff --git a/meta/recipes-support/gnutls/gnutls_3.6.14.bb b/meta/recipes-support/gnutls/gnutls_3.6.14.bb
+index e9af71c7bd..f1757871ce 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.6.14.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.6.14.bb
+@@ -26,6 +26,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://CVE-2021-20231.patch \
+            file://CVE-2021-20232.patch \
+            file://CVE-2022-2509.patch \
++           file://CVE-2021-4209.patch \
  "
  
- SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
+ SRC_URI[sha256sum] = "5630751adec7025b8ef955af4d141d00d252a985769f51b4059e5affa3d39d63"
 -- 
 2.25.1
 
