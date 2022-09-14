@@ -1,414 +1,235 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <mingli.yu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ABB0C54EE9
-	for <webhook@archiver.kernel.org>; Wed, 14 Sep 2022 03:02:50 +0000 (UTC)
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com
- [209.85.160.45])
- by mx.groups.io with SMTP id smtpd.web10.2013.1663124569032001000
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB9ACECAAD3
+	for <webhook@archiver.kernel.org>; Wed, 14 Sep 2022 03:26:50 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
+ [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.2206.1663126003817259984
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 20:02:49 -0700
+ Tue, 13 Sep 2022 20:26:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BEERy5BN;
- spf=pass (domain: gmail.com, ip: 209.85.160.45, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f45.google.com with SMTP id
- 586e51a60fabf-127dca21a7dso37426907fac.12
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Sep 2022 20:02:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=WCxFKyGf8LybP+GqZvyBLLU45/eVwokyQwzg2FOOqSg=;
-        b=BEERy5BNHoZfJYU3m65QbVrH4ItgQ4Ui4hxWEfX2HSKfE6//RTIykBnZZinSSaSLGx
-         id+xAISwSIThDlyJKmiSuVh0ARiOiI8Y7m0EEMbqHdXRtGRFztenQW/vuvPAKH7WP5Wb
-         2RAoD1A0ehT57oxX6K+4D65BO+MTzHBIkjMZUM/76Omva1IDneVmK3rl6m3yL3j6OPrg
-         eLsSQglLGY5M509U5jrpeqOZdC+3hW6LyPmvmpMXvV9HvSAaiLsB2Xv1YPv3919zrChT
-         Je+KA/GOEPq0PnTIBXNiJHxQdZPgAXh4NuCeHg6PGEd3h4hOaUmZOEwA8rmHoSlvUOTN
-         deWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=WCxFKyGf8LybP+GqZvyBLLU45/eVwokyQwzg2FOOqSg=;
-        b=7kwfrKhiCcMAhVLeqdRHvv2NOa4F9TEZVZPnU/tEpb1R3in1l3uqlF1fXL7jt+ITeX
-         sCVWf8hzFb+VmwQOE/5ahUiUaVBz4O6t3whWYL3DAqgfOvST4Xpjmun41wX/zImuhqL4
-         tzZ1LrOkyVx+FqLD3mVMP6OtXmjhIogIoVnuC0v/HrXPxUYkxjESVrIKDQHKRnnFZbLh
-         qeb4EUbxVFTqXT/q7dCn0tWN/x5rYoeiDfutjWPZ4wXIkq+10Unr56jF44JHP+JLNjyL
-         blEVdqCGWdnVhRBQdAP6g9/hKGUqSV/1Vh/EG/vEqLBBWdljG8Jbm+7G87ORzPl9z52n
-         POfw==
-X-Gm-Message-State: ACgBeo3BJ8ET3HmUvXg6ccQhLHpFLnzSBWDcRyEQPPho+8YbytqrqUBf
-	ECeXA4MwNItfNIUx+8yEkzeDEI5JOeqFHx732G4=
-X-Google-Smtp-Source: 
- AA6agR4JODmC5UqZZCkDEfnUZ/QBfGR/1b/+RUMZIxYuIbAvzfXlbeN9zIBlQ7Wc380WCmxc3Lo6ZvZuLgkFaialojE=
-X-Received: by 2002:a05:6808:17a6:b0:344:eaa9:24e8 with SMTP id
- bg38-20020a05680817a600b00344eaa924e8mr966544oib.55.1663124568018; Tue, 13
- Sep 2022 20:02:48 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=rs2Cmt0J;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.166.238,
+ mailfrom: prvs=62563eda0f=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
+ 28E2sKuf015056
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 13 Sep 2022 20:26:43 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=from : to :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=PPS06212021;
+ bh=6MULbnK6UrQeQF4EsWJ8NTa/E84lgshVBoCpgdnuXwE=;
+ b=rs2Cmt0JmH6TZBwvo5TCI70LaztVrSYn6pjn2Tz6SaE1N9yiCxbynSMroq3SsSIn/el7
+ JToHOZPoS4ThXvCRzF/R7V+KpY+g/gMMKTWDomHBZMzHmO+iS/T1AdlJvc/7ryi+H//1
+ Msg8S4aXbdSv+ibvxuRvCw5syv3jJ4YOFKoG6/ZPvBzJH/62+hTW5uWCvd/sj1XZI1iF
+ w2e8y3MEntDPT3fMZzQBiwJ4vgDI/3LRvQjvIyFK5oHYDUqAQg+aFac8HUbybFWkP1ct
+ uDWflyp7C7eBYGRXnUjEQrAwbuDhJGGV86HNoRiCkg2pordMTYJGCjzlPxyrAq70srRL YA==
+Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com
+ [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jk4pdr44j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 13 Sep 2022 20:26:43 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 13 Sep 2022 20:26:42 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Tue, 13 Sep 2022 20:26:42 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [kirkstone][PATCH] busybox: add devmem 128-bit support
+Date: Wed, 14 Sep 2022 11:26:41 +0800
+Message-ID: <20220914032641.945364-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220908214554.1117287-1-raj.khem@gmail.com>
- <99ce1274-dcd0-8392-fc88-9f1122870049@windriver.com>
-In-Reply-To: <99ce1274-dcd0-8392-fc88-9f1122870049@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 13 Sep 2022 20:02:22 -0700
-Message-ID: 
- <CAMKF1so_7GfQBYtTu8V4c5K=wnjq64HR=AYHhjSa7Uc7KkX7_w@mail.gmail.com>
-Subject: Re: [PATCH v3] webkitgtk: Fix build on 32bit arm
-To: "Yu, Mingli" <mingli.yu@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: wDU2fdPT4BjNov1BmV4cedJgF7PuSBPD
+X-Proofpoint-GUID: wDU2fdPT4BjNov1BmV4cedJgF7PuSBPD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-13_12,2022-09-13_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0
+ lowpriorityscore=0 bulkscore=0 malwarescore=0 mlxscore=0 spamscore=0
+ mlxlogscore=999 priorityscore=1501 adultscore=0 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2208220000 definitions=main-2209140015
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Sep 2022 03:02:50 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Sep 2022 03:26:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170628
+ https://lists.openembedded.org/g/openembedded-core/message/170629
 
-On Tue, Sep 13, 2022 at 7:25 PM Yu, Mingli <mingli.yu@windriver.com> wrote:
->
-> Still failed on beaglebone-yocto:
->
-> /build/tmp-glibc/work/cortexa8hf-neon-wrs-linux-gnueabi/webkitgtk/2.36.7-r0/webkitgtk-2.36.7/Source/W
-> ebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp:38:8: error:
-> standard attributes in middle of decl-specifiers
->     38 | static alignas(16) short s_FELightingConstantsForNeon[] = {
->        |        ^~~~~~~
->
+From: Mingli Yu <mingli.yu@windriver.com>
 
-What is your -j value ? please give 4GB per core of memory for
-webkitgtk to build.
+Add devmem 128-bit support [1].
 
-> Thanks,
->
-> On 9/9/22 05:45, Khem Raj wrote:
-> > [Please note: This e-mail is from an EXTERNAL e-mail address]
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > Cc: Mingli Yu <mingli.yu@windriver.com>
-> > ---
-> > v2: Fix commit msg format
-> > v3: Apply suggestion from https://github.com/WebKit/WebKit/pull/1233#discussion_r915217428
-> >
-> >   ...44e17d258106617b0e6d783d073b188a2548.patch | 296 ++++++++++++++++++
-> >   meta/recipes-sato/webkit/webkitgtk_2.36.7.bb  |   1 +
-> >   2 files changed, 297 insertions(+)
-> >   create mode 100644 meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
-> >
-> > diff --git a/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch b/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
-> > new file mode 100644
-> > index 0000000000..32f92f7ff5
-> > --- /dev/null
-> > +++ b/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
-> > @@ -0,0 +1,296 @@
-> > +From 0d3344e17d258106617b0e6d783d073b188a2548 Mon Sep 17 00:00:00 2001
-> > +From: Adrian Perez de Castro <aperez@igalia.com>
-> > +Date: Thu, 2 Jun 2022 11:19:06 +0300
-> > +Subject: [PATCH] [ARM][NEON] FELightningNEON.cpp fails to build, NEON fast
-> > + path seems unused https://bugs.webkit.org/show_bug.cgi?id=241182
-> > +
-> > +Reviewed by NOBODY (OOPS!).
-> > +
-> > +Move the NEON fast path for the SVG lighting filter effects into
-> > +FELightingSoftwareApplier, and arrange to actually use them by
-> > +forwarding calls to applyPlatformGeneric() into applyPlatformNeon().
-> > +
-> > +Some changes were needed to adapt platformApplyNeon() to the current
-> > +state of filters after r286140. This was not detected because the code
-> > +bitrotted due to it being guarded with CPU(ARM_TRADITIONAL), which does
-> > +not get used much these days: CPU(ARM_THUMB2) is more common. It should
-> > +be possible to use the NEON fast paths also in Thumb mode, but that is
-> > +left for a follow-up fix.
-> > +
-> > +* Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp:
-> > +(WebCore::FELightingSoftwareApplier::platformApplyNeonWorker):
-> > +(WebCore::FELightingSoftwareApplier::getPowerCoefficients):
-> > +(WebCore::FELighting::platformApplyNeonWorker): Deleted.
-> > +(WebCore::FELighting::getPowerCoefficients): Deleted.
-> > +* Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h:
-> > +(WebCore::FELightingSoftwareApplier::applyPlatformNeon):
-> > +(WebCore::FELighting::platformApplyNeon): Deleted.
-> > +* Source/WebCore/platform/graphics/filters/DistantLightSource.h:
-> > +* Source/WebCore/platform/graphics/filters/FELighting.h:
-> > +* Source/WebCore/platform/graphics/filters/PointLightSource.h:
-> > +* Source/WebCore/platform/graphics/filters/SpotLightSource.h:
-> > +* Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h:
-> > +---
-> > +Upstream-Status: Submitted [https://github.com/WebKit/WebKit/pull/1233]
-> > +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > +
-> > + .../cpu/arm/filters/FELightingNEON.cpp        |  4 +-
-> > + .../graphics/cpu/arm/filters/FELightingNEON.h | 54 +++++++++----------
-> > + .../graphics/filters/DistantLightSource.h     |  4 ++
-> > + .../platform/graphics/filters/FELighting.h    |  7 ---
-> > + .../graphics/filters/PointLightSource.h       |  4 ++
-> > + .../graphics/filters/SpotLightSource.h        |  4 ++
-> > + .../software/FELightingSoftwareApplier.h      | 16 ++++++
-> > + 7 files changed, 57 insertions(+), 36 deletions(-)
-> > +
-> > +--- a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp
-> > ++++ b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp
-> > +@@ -49,7 +49,7 @@ short* feLightingConstantsForNeon()
-> > +     return s_FELightingConstantsForNeon;
-> > + }
-> > +
-> > +-void FELighting::platformApplyNeonWorker(FELightingPaintingDataForNeon* parameters)
-> > ++void FELightingSoftwareApplier::platformApplyNeonWorker(FELightingPaintingDataForNeon* parameters)
-> > + {
-> > +     neonDrawLighting(parameters);
-> > + }
-> > +@@ -464,7 +464,7 @@ TOSTRING(neonDrawLighting) ":" NL
-> > +     "b .lightStrengthCalculated" NL
-> > + ); // NOLINT
-> > +
-> > +-int FELighting::getPowerCoefficients(float exponent)
-> > ++int FELightingSoftwareApplier::getPowerCoefficients(float exponent)
-> > + {
-> > +     // Calling a powf function from the assembly code would require to save
-> > +     // and reload a lot of NEON registers. Since the base is in range [0..1]
-> > +--- a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h
-> > ++++ b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h
-> > +@@ -24,14 +24,15 @@
-> > +  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-> > +  */
-> > +
-> > +-#ifndef FELightingNEON_h
-> > +-#define FELightingNEON_h
-> > ++#pragma once
-> > +
-> > + #if CPU(ARM_NEON) && CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
-> > +
-> > +-#include "FELighting.h"
-> > ++#include "FELightingSoftwareApplier.h"
-> > ++#include "ImageBuffer.h"
-> > + #include "PointLightSource.h"
-> > + #include "SpotLightSource.h"
-> > ++#include <wtf/ObjectIdentifier.h>
-> > + #include <wtf/ParallelJobs.h>
-> > +
-> > + namespace WebCore {
-> > +@@ -93,14 +94,14 @@ extern "C" {
-> > + void neonDrawLighting(FELightingPaintingDataForNeon*);
-> > + }
-> > +
-> > +-inline void FELighting::platformApplyNeon(const LightingData& data, const LightSource::PaintingData& paintingData)
-> > ++inline void FELightingSoftwareApplier::applyPlatformNeon(const FELightingSoftwareApplier::LightingData& data, const LightSource::PaintingData& paintingData)
-> > + {
-> > +-    alignas(16) FELightingFloatArgumentsForNeon floatArguments;
-> > +-    FELightingPaintingDataForNeon neonData = {
-> > ++    WebCore::FELightingFloatArgumentsForNeon alignas(16) floatArguments;
-> > ++    WebCore::FELightingPaintingDataForNeon neonData = {
-> > +         data.pixels->data(),
-> > +         1,
-> > +-        data.widthDecreasedByOne - 1,
-> > +-        data.heightDecreasedByOne - 1,
-> > ++        data.width - 2,
-> > ++        data.height - 2,
-> > +         0,
-> > +         0,
-> > +         0,
-> > +@@ -111,23 +112,23 @@ inline void FELighting::platformApplyNeo
-> > +     // Set light source arguments.
-> > +     floatArguments.constOne = 1;
-> > +
-> > +-    auto color = m_lightingColor.toColorTypeLossy<SRGBA<uint8_t>>().resolved();
-> > ++    auto color = data.lightingColor.toColorTypeLossy<SRGBA<uint8_t>>().resolved();
-> > +
-> > +     floatArguments.colorRed = color.red;
-> > +     floatArguments.colorGreen = color.green;
-> > +     floatArguments.colorBlue = color.blue;
-> > +     floatArguments.padding4 = 0;
-> > +
-> > +-    if (m_lightSource->type() == LS_POINT) {
-> > ++    if (data.lightSource->type() == LS_POINT) {
-> > +         neonData.flags |= FLAG_POINT_LIGHT;
-> > +-        PointLightSource& pointLightSource = static_cast<PointLightSource&>(m_lightSource.get());
-> > ++        const auto& pointLightSource = *static_cast<const PointLightSource*>(data.lightSource);
-> > +         floatArguments.lightX = pointLightSource.position().x();
-> > +         floatArguments.lightY = pointLightSource.position().y();
-> > +         floatArguments.lightZ = pointLightSource.position().z();
-> > +         floatArguments.padding2 = 0;
-> > +-    } else if (m_lightSource->type() == LS_SPOT) {
-> > ++    } else if (data.lightSource->type() == LS_SPOT) {
-> > +         neonData.flags |= FLAG_SPOT_LIGHT;
-> > +-        SpotLightSource& spotLightSource = static_cast<SpotLightSource&>(m_lightSource.get());
-> > ++        const auto& spotLightSource = *static_cast<const SpotLightSource*>(data.lightSource);
-> > +         floatArguments.lightX = spotLightSource.position().x();
-> > +         floatArguments.lightY = spotLightSource.position().y();
-> > +         floatArguments.lightZ = spotLightSource.position().z();
-> > +@@ -145,7 +146,7 @@ inline void FELighting::platformApplyNeo
-> > +         if (spotLightSource.specularExponent() == 1)
-> > +             neonData.flags |= FLAG_CONE_EXPONENT_IS_1;
-> > +     } else {
-> > +-        ASSERT(m_lightSource->type() == LS_DISTANT);
-> > ++        ASSERT(data.lightSource->type() == LS_DISTANT);
-> > +         floatArguments.lightX = paintingData.initialLightingData.lightVector.x();
-> > +         floatArguments.lightY = paintingData.initialLightingData.lightVector.y();
-> > +         floatArguments.lightZ = paintingData.initialLightingData.lightVector.z();
-> > +@@ -155,38 +156,39 @@ inline void FELighting::platformApplyNeo
-> > +     // Set lighting arguments.
-> > +     floatArguments.surfaceScale = data.surfaceScale;
-> > +     floatArguments.minusSurfaceScaleDividedByFour = -data.surfaceScale / 4;
-> > +-    if (m_lightingType == FELighting::DiffuseLighting)
-> > +-        floatArguments.diffuseConstant = m_diffuseConstant;
-> > ++    if (data.filterType == FilterEffect::Type::FEDiffuseLighting)
-> > ++        floatArguments.diffuseConstant = data.diffuseConstant;
-> > +     else {
-> > +         neonData.flags |= FLAG_SPECULAR_LIGHT;
-> > +-        floatArguments.diffuseConstant = m_specularConstant;
-> > +-        neonData.specularExponent = getPowerCoefficients(m_specularExponent);
-> > +-        if (m_specularExponent == 1)
-> > ++        floatArguments.diffuseConstant = data.specularConstant;
-> > ++        neonData.specularExponent = getPowerCoefficients(data.specularExponent);
-> > ++        if (data.specularExponent == 1)
-> > +             neonData.flags |= FLAG_SPECULAR_EXPONENT_IS_1;
-> > +     }
-> > +     if (floatArguments.diffuseConstant == 1)
-> > +         neonData.flags |= FLAG_DIFFUSE_CONST_IS_1;
-> > +
-> > +-    int optimalThreadNumber = ((data.widthDecreasedByOne - 1) * (data.heightDecreasedByOne - 1)) / s_minimalRectDimension;
-> > ++    static constexpr int minimalRectDimension = 100 * 100; // Empirical data limit for parallel jobs
-> > ++    int optimalThreadNumber = ((data.width - 2) * (data.height - 2)) / minimalRectDimension;
-> > +     if (optimalThreadNumber > 1) {
-> > +         // Initialize parallel jobs
-> > +-        ParallelJobs<FELightingPaintingDataForNeon> parallelJobs(&WebCore::FELighting::platformApplyNeonWorker, optimalThreadNumber);
-> > ++        ParallelJobs<FELightingPaintingDataForNeon> parallelJobs(&FELightingSoftwareApplier::platformApplyNeonWorker, optimalThreadNumber);
-> > +
-> > +         // Fill the parameter array
-> > +         int job = parallelJobs.numberOfJobs();
-> > +         if (job > 1) {
-> > +             int yStart = 1;
-> > +-            int yStep = (data.heightDecreasedByOne - 1) / job;
-> > ++            int yStep = (data.height - 2) / job;
-> > +             for (--job; job >= 0; --job) {
-> > +                 FELightingPaintingDataForNeon& params = parallelJobs.parameter(job);
-> > +                 params = neonData;
-> > +                 params.yStart = yStart;
-> > +-                params.pixels += (yStart - 1) * (data.widthDecreasedByOne + 1) * 4;
-> > ++                params.pixels += (yStart - 1) * data.width * 4;
-> > +                 if (job > 0) {
-> > +                     params.absoluteHeight = yStep;
-> > +                     yStart += yStep;
-> > +                 } else
-> > +-                    params.absoluteHeight = data.heightDecreasedByOne - yStart;
-> > ++                    params.absoluteHeight = (data.height - 1) - yStart;
-> > +             }
-> > +             parallelJobs.execute();
-> > +             return;
-> > +@@ -199,5 +201,3 @@ inline void FELighting::platformApplyNeo
-> > + } // namespace WebCore
-> > +
-> > + #endif // CPU(ARM_NEON) && COMPILER(GCC_COMPATIBLE)
-> > +-
-> > +-#endif // FELightingNEON_h
-> > +--- a/Source/WebCore/platform/graphics/filters/DistantLightSource.h
-> > ++++ b/Source/WebCore/platform/graphics/filters/DistantLightSource.h
-> > +@@ -25,6 +25,10 @@
-> > + #include "LightSource.h"
-> > + #include <wtf/Ref.h>
-> > +
-> > ++namespace WTF {
-> > ++class TextStream;
-> > ++} // namespace WTF
-> > ++
-> > + namespace WebCore {
-> > +
-> > + class DistantLightSource : public LightSource {
-> > +--- a/Source/WebCore/platform/graphics/filters/FELighting.h
-> > ++++ b/Source/WebCore/platform/graphics/filters/FELighting.h
-> > +@@ -35,8 +35,6 @@
-> > +
-> > + namespace WebCore {
-> > +
-> > +-struct FELightingPaintingDataForNeon;
-> > +-
-> > + class FELighting : public FilterEffect {
-> > + public:
-> > +     const Color& lightingColor() const { return m_lightingColor; }
-> > +@@ -67,11 +65,6 @@ protected:
-> > +
-> > +     std::unique_ptr<FilterEffectApplier> createSoftwareApplier() const override;
-> > +
-> > +-#if CPU(ARM_NEON) && CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
-> > +-    static int getPowerCoefficients(float exponent);
-> > +-    inline void platformApplyNeon(const LightingData&, const LightSource::PaintingData&);
-> > +-#endif
-> > +-
-> > +     Color m_lightingColor;
-> > +     float m_surfaceScale;
-> > +     float m_diffuseConstant;
-> > +--- a/Source/WebCore/platform/graphics/filters/PointLightSource.h
-> > ++++ b/Source/WebCore/platform/graphics/filters/PointLightSource.h
-> > +@@ -26,6 +26,10 @@
-> > + #include "LightSource.h"
-> > + #include <wtf/Ref.h>
-> > +
-> > ++namespace WTF {
-> > ++class TextStream;
-> > ++} // namespace WTF
-> > ++
-> > + namespace WebCore {
-> > +
-> > + class PointLightSource : public LightSource {
-> > +--- a/Source/WebCore/platform/graphics/filters/SpotLightSource.h
-> > ++++ b/Source/WebCore/platform/graphics/filters/SpotLightSource.h
-> > +@@ -26,6 +26,10 @@
-> > + #include "LightSource.h"
-> > + #include <wtf/Ref.h>
-> > +
-> > ++namespace WTF {
-> > ++class TextStream;
-> > ++} // namespace WTF
-> > ++
-> > + namespace WebCore {
-> > +
-> > + class SpotLightSource : public LightSource {
-> > +--- a/Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h
-> > ++++ b/Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h
-> > +@@ -36,6 +36,7 @@
-> > + namespace WebCore {
-> > +
-> > + class FELighting;
-> > ++struct FELightingPaintingDataForNeon;
-> > +
-> > + class FELightingSoftwareApplier final : public FilterEffectConcreteApplier<FELighting> {
-> > +     WTF_MAKE_FAST_ALLOCATED;
-> > +@@ -132,8 +133,23 @@ private:
-> > +
-> > +     static void applyPlatformGenericPaint(const LightingData&, const LightSource::PaintingData&, int startY, int endY);
-> > +     static void applyPlatformGenericWorker(ApplyParameters*);
-> > ++
-> > ++#if CPU(ARM_NEON) && CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
-> > ++    static int getPowerCoefficients(float exponent);
-> > ++    static void platformApplyNeonWorker(FELightingPaintingDataForNeon*);
-> > ++    inline static void applyPlatformNeon(const LightingData&, const LightSource::PaintingData&);
-> > ++
-> > ++    inline static void applyPlatformGeneric(const LightingData& data, const LightSource::PaintingData& paintingData)
-> > ++    {
-> > ++        applyPlatformNeon(data, paintingData);
-> > ++    }
-> > ++#else
-> > +     static void applyPlatformGeneric(const LightingData&, const LightSource::PaintingData&);
-> > ++#endif
-> > ++
-> > +     static void applyPlatform(const LightingData&);
-> > + };
-> > +
-> > + } // namespace WebCore
-> > ++
-> > ++#include "FELightingNEON.h"
-> > diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
-> > index 47e52e25da..76b119c9c7 100644
-> > --- a/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
-> > +++ b/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
-> > @@ -16,6 +16,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-> >              file://reproducibility.patch \
-> >              file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch \
-> >              file://fix-gstreamer-include-paths.patch \
-> > +           file://0d3344e17d258106617b0e6d783d073b188a2548.patch \
-> >              "
-> >   SRC_URI[sha256sum] = "0c260cf2b32f0481d017670dfed1b61e554967cd067195606c9f9eb5fe731743"
-> >
-> > --
-> > 2.37.3
-> >
+[1] https://git.busybox.net/busybox/commit/?id=d432049f288c9acdc4a7caa729c68ceba3c5dca1
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ .../0001-devmem-add-128-bit-width.patch       | 128 ++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.35.0.bb   |   1 +
+ 2 files changed, 129 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-devmem-add-128-bit-width.patch
+
+diff --git a/meta/recipes-core/busybox/busybox/0001-devmem-add-128-bit-width.patch b/meta/recipes-core/busybox/busybox/0001-devmem-add-128-bit-width.patch
+new file mode 100644
+index 0000000000..985e2bf1d9
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/0001-devmem-add-128-bit-width.patch
+@@ -0,0 +1,128 @@
++From d432049f288c9acdc4a7caa729c68ceba3c5dca1 Mon Sep 17 00:00:00 2001
++From: Aaro Koskinen <aaro.koskinen@nokia.com>
++Date: Thu, 25 Aug 2022 18:47:02 +0300
++Subject: [PATCH] devmem: add 128-bit width
++
++Add 128-bit width if the compiler provides the needed type.
++
++function                                             old     new   delta
++devmem_main                                          405     464     +59
++.rodata                                           109025  109043     +18
++------------------------------------------------------------------------------
++(add/remove: 0/0 grow/shrink: 2/0 up/down: 77/0)               Total: 77 bytes
++
++Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=d432049f288c9acdc4a7caa729c68ceba3c5dca1]
++
++Signed-off-by: Aaro Koskinen <aaro.koskinen@nokia.com>
++Signed-off-by: Aaro Koskinen <aaro.koskinen@iki.fi>
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ miscutils/devmem.c | 68 ++++++++++++++++++++++++++++++----------------
++ 1 file changed, 44 insertions(+), 24 deletions(-)
++
++diff --git a/miscutils/devmem.c b/miscutils/devmem.c
++index f9f0276bc..f21621bd6 100644
++--- a/miscutils/devmem.c
+++++ b/miscutils/devmem.c
++@@ -29,7 +29,6 @@ int devmem_main(int argc UNUSED_PARAM, char **argv)
++ {
++ 	void *map_base, *virt_addr;
++ 	uint64_t read_result;
++-	uint64_t writeval = writeval; /* for compiler */
++ 	off_t target;
++ 	unsigned page_size, mapped_size, offset_in_page;
++ 	int fd;
++@@ -64,9 +63,6 @@ int devmem_main(int argc UNUSED_PARAM, char **argv)
++ 			width = strchrnul(bhwl, (argv[2][0] | 0x20)) - bhwl;
++ 			width = sizes[width];
++ 		}
++-		/* VALUE */
++-		if (argv[3])
++-			writeval = bb_strtoull(argv[3], NULL, 0);
++ 	} else { /* argv[2] == NULL */
++ 		/* make argv[3] to be a valid thing to fetch */
++ 		argv--;
++@@ -96,28 +92,46 @@ int devmem_main(int argc UNUSED_PARAM, char **argv)
++ 	virt_addr = (char*)map_base + offset_in_page;
++ 
++ 	if (!argv[3]) {
++-		switch (width) {
++-		case 8:
++-			read_result = *(volatile uint8_t*)virt_addr;
++-			break;
++-		case 16:
++-			read_result = *(volatile uint16_t*)virt_addr;
++-			break;
++-		case 32:
++-			read_result = *(volatile uint32_t*)virt_addr;
++-			break;
++-		case 64:
++-			read_result = *(volatile uint64_t*)virt_addr;
++-			break;
++-		default:
++-			bb_simple_error_msg_and_die("bad width");
+++#ifdef __SIZEOF_INT128__
+++		if (width == 128) {
+++			unsigned __int128 rd =
+++				*(volatile unsigned __int128 *)virt_addr;
+++			printf("0x%016llX%016llX\n",
+++				(unsigned long long)(uint64_t)(rd >> 64),
+++				(unsigned long long)(uint64_t)rd
+++			);
+++		} else
+++#endif
+++		{
+++			switch (width) {
+++			case 8:
+++				read_result = *(volatile uint8_t*)virt_addr;
+++				break;
+++			case 16:
+++				read_result = *(volatile uint16_t*)virt_addr;
+++				break;
+++			case 32:
+++				read_result = *(volatile uint32_t*)virt_addr;
+++				break;
+++			case 64:
+++				read_result = *(volatile uint64_t*)virt_addr;
+++				break;
+++			default:
+++				bb_simple_error_msg_and_die("bad width");
+++			}
+++//			printf("Value at address 0x%"OFF_FMT"X (%p): 0x%llX\n",
+++//				target, virt_addr,
+++//				(unsigned long long)read_result);
+++			/* Zero-padded output shows the width of access just done */
+++			printf("0x%0*llX\n", (width >> 2), (unsigned long long)read_result);
++ 		}
++-//		printf("Value at address 0x%"OFF_FMT"X (%p): 0x%llX\n",
++-//			target, virt_addr,
++-//			(unsigned long long)read_result);
++-		/* Zero-padded output shows the width of access just done */
++-		printf("0x%0*llX\n", (width >> 2), (unsigned long long)read_result);
++ 	} else {
+++		/* parse VALUE */
+++#ifdef __SIZEOF_INT128__
+++		unsigned __int128 writeval = strtoumax(argv[3], NULL, 0);
+++#else
+++		uint64_t writeval = bb_strtoull(argv[3], NULL, 0);
+++#endif
++ 		switch (width) {
++ 		case 8:
++ 			*(volatile uint8_t*)virt_addr = writeval;
++@@ -135,6 +149,12 @@ int devmem_main(int argc UNUSED_PARAM, char **argv)
++ 			*(volatile uint64_t*)virt_addr = writeval;
++ //			read_result = *(volatile uint64_t*)virt_addr;
++ 			break;
+++#ifdef __SIZEOF_INT128__
+++		case 128:
+++			*(volatile unsigned __int128 *)virt_addr = writeval;
+++//			read_result = *(volatile uint64_t*)virt_addr;
+++			break;
+++#endif
++ 		default:
++ 			bb_simple_error_msg_and_die("bad width");
++ 		}
++-- 
++2.25.1
++
+diff --git a/meta/recipes-core/busybox/busybox_1.35.0.bb b/meta/recipes-core/busybox/busybox_1.35.0.bb
+index edf896485e..e9ca6fdb1a 100644
+--- a/meta/recipes-core/busybox/busybox_1.35.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.35.0.bb
+@@ -50,6 +50,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://0001-libbb-sockaddr2str-ensure-only-printable-characters-.patch \
+            file://0002-nslookup-sanitize-all-printed-strings-with-printable.patch \
+            file://CVE-2022-30065.patch \
++           file://0001-devmem-add-128-bit-width.patch \
+            "
+ SRC_URI:append:libc-musl = " file://musl.cfg "
+ 
+-- 
+2.25.1
+
 
