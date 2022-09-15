@@ -1,93 +1,158 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 279C7C6FA82
-	for <webhook@archiver.kernel.org>; Wed, 14 Sep 2022 23:40:48 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web12.4045.1663198842032372474
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99310C6FA82
+	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 01:07:08 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web09.5002.1663204026496790213
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Sep 2022 16:40:42 -0700
+ Wed, 14 Sep 2022 18:07:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=WHAw+zVP;
- spf=pass (domain: gmail.com, ip: 209.85.214.181,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id x1so16666013plv.5
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Sep 2022 16:40:41 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=IRjsEx4T;
+ spf=pass (domain: axis.com, ip: 195.60.68.18,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=dz7S/h7Mfff4bASLDTJd7haxfLuSiD1KLmAVNWtg0V8=;
-        b=WHAw+zVPHonfyrO4h1QhjWi3HEx8bPnDSAXbKutZhH13j3g8O6mpQ6hPrb1o1P9tfF
-         GnQKlxPaf2/NkfQlnBiUiQKMj/viNhSi10AvKfpbUvWMdZNawKjLyM03MrdGCgGHX2kh
-         tZIGn3mYg1P4RYM1QyDiC6mkG3PXPAgdyzwD20aozdE9Ya9+9MgiukZkudvSOVcbmG88
-         xSOkqsojDFzQaTlli8yalZOWyPd45KfpxdNqK4UOKopSSunk+yOP73aEHlcWFPZWYo2n
-         OAH/OEfsXCBClMfRYDSoZ+oH6cRu5KrYHWFdzbThDO8wjTShjl6LdYX3zJ6mZXTRy5N1
-         MLyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=dz7S/h7Mfff4bASLDTJd7haxfLuSiD1KLmAVNWtg0V8=;
-        b=24YU4P7+lSzX26jdzFmW8p8k1COrPLRrX8ejPO0Zpd+TUYES1LyPTYYjVxzvtviGkr
-         5dPLPzBUTj4eCNS6HwSEuUYmiGPSD74hlw4PZstKCYcRAf8BSbDosDImmW/W+z6yQmcq
-         R5+m61fSFYm2bpETkrz82llW9iyR81hEhrV7zl7ujBLevO4pfUa0PL/ApPwTJaqecbZF
-         6mczG9rlbndUz8X3j5Gl7BqO8xdrzPnIfMDmCrqMspjAuoDBitZ2diubvSSwAgH8L3Z8
-         4nT9WbE9XDxgOvcktU8wNAUVn7DLqdNgkNVNoOySPBfLKO9DbUSBrhdp1YWUtUVhvI+K
-         Y/lQ==
-X-Gm-Message-State: ACrzQf3FmXHzYo/zSd5gOYt+57Jqw/NSHMIGeX8gTSZHT0UseyFzXddb
-	8wiA2Cr83yisIYr57V7B/5DgN4trKRMtHA==
-X-Google-Smtp-Source: 
- AMsMyM7P11eD/llTNAv88X8G4/DlXTk7Z74FQWFFSa+FVkb9s27I/xhtXZuzxlFu6u3pE2Ks8f+y9Q==
-X-Received: by 2002:a17:90b:4b8b:b0:203:203:3365 with SMTP id
- lr11-20020a17090b4b8b00b0020302033365mr7450201pjb.19.1663198841055;
-        Wed, 14 Sep 2022 16:40:41 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::ec90])
-        by smtp.gmail.com with ESMTPSA id
- q17-20020a170902f35100b00172b87d9770sm11203830ple.81.2022.09.14.16.40.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Sep 2022 16:40:40 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] curl: Add missing perl modules in ptest rdepends
-Date: Wed, 14 Sep 2022 16:40:38 -0700
-Message-Id: <20220914234038.1198540-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.37.3
+  d=axis.com; q=dns/txt; s=axis-central1; t=1663204027;
+  x=1694740027;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=s7gohh5x2Wlpm0FuNtaXsYOpFBG0Rxg+OpbuDgt+WB8=;
+  b=IRjsEx4TR1RhyPUZ11ToYYj48OT3CHG7gGA4SWkOCV8O9gUUwxByrN7j
+   QxgTtQK4Vmm4HrnUYvuo+FJbxfw0OF8VpkFdGcief3qNGtEJ/d9frJwFK
+   hTnO//b3eTW+NfWD+hGWhhWZXEbd9/B16AZmTE7SMn6MfutWKyaEdJMS5
+   mEjKemJudgwm9gxL003vjABjAODN3Us8RDeYazHWBgJ+zVYTmV6FQKsB2
+   q9OTxL/s645Vrop9/oYGaAXCl8W8FyNHnhuifux86TuMp0S3rvp2Z5N4f
+   FoFvW5glr94prUaKT3CzR4qhWUFZ1oSOtV480iyCambFc49EEyxmgvixU
+   Q==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, ChenQi <Qi.Chen@windriver.com>
+CC: OE-core <openembedded-core@lists.openembedded.org>, Alexander Kanavin
+	<alex@linutronix.de>
+Subject: RE: [OE-core] [PATCH 1/7] scripts/oe-setup-builddir: add a check that
+ TEMPLATECONF is valid
+Thread-Topic: [OE-core] [PATCH 1/7] scripts/oe-setup-builddir: add a check
+ that TEMPLATECONF is valid
+Thread-Index: 
+ AQHYvSrQCcgb4edBN0auXSkBYnBdhq3eOAmAgAAZ4oCAAA3BgIAADe+AgAARgQCAAAYZgIAAA9UAgAAG1YCAAR65kA==
+Date: Thu, 15 Sep 2022 01:07:03 +0000
+Message-ID: <e0a16812e51d41ada44bd388dea8a90b@axis.com>
+References: <20220831111401.3330342-1-alex@linutronix.de>
+ <e73f356f-87dd-2aba-7445-2f93ad6bf145@windriver.com>
+ <CANNYZj-fLHiNEOLzp5etSQRwtNb55kHa4k02jzRRm=c3dohULA@mail.gmail.com>
+ <6917e065-3b17-a57e-f862-90366717106b@windriver.com>
+ <CANNYZj_OqjRgsQQwQditr1iHCM1RkZak-hFG-zEsqPmMfdNd_A@mail.gmail.com>
+ <8e5b3cc0-bf66-fb7c-0199-ae6766c76cc8@windriver.com>
+ <CANNYZj8owg_f1=g6VWVo-S6Qhq8VOgeYiGwQgNYQ5-GmbP8OTQ@mail.gmail.com>
+ <8f083713-d00a-2393-3b74-35491e830bb0@windriver.com>
+ <CANNYZj9nK6OXGEb0qHHSUz_UYn8QZt9ZSk5e_i-A76RPqMG8kw@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj9nK6OXGEb0qHHSUz_UYn8QZt9ZSk5e_i-A76RPqMG8kw@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Sep 2022 23:40:48 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 01:07:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170676
+ https://lists.openembedded.org/g/openembedded-core/message/170677
 
-These modules outside of perl-modules are necessary to run curl-ptests
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-support/curl/curl_7.85.0.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-support/curl/curl_7.85.0.bb b/meta/recipes-support/curl/curl_7.85.0.bb
-index 3b55830415..ad6a5175bc 100644
---- a/meta/recipes-support/curl/curl_7.85.0.bb
-+++ b/meta/recipes-support/curl/curl_7.85.0.bb
-@@ -100,7 +100,8 @@ do_install_ptest() {
- 	cp -rf ${D}${bindir}/curl-config ${D}${PTEST_PATH}
- }
- 
--RDEPENDS:${PN}-ptest += "bash perl-modules"
-+RDEPENDS:${PN}-ptest += "bash perl-modules perl-module-time-hires perl-module-digest-md5 \
-+                         perl-module-digest perl-module-ipc-open2"
- 
- PACKAGES =+ "lib${BPN}"
- 
--- 
-2.37.3
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIEFsZXhhbmRlciBLYW5hdmluDQo+IFNlbnQ6IGRlbiAx
+NCBzZXB0ZW1iZXIgMjAyMiAwOTo0Mg0KPiBUbzogQ2hlblFpIDxRaS5DaGVuQHdpbmRyaXZlci5j
+b20+DQo+IENjOiBPRS1jb3JlIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnPjsgQWxleGFuZGVyIEthbmF2aW4NCj4gPGFsZXhAbGludXRyb25peC5kZT4NCj4gU3ViamVj
+dDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMS83XSBzY3JpcHRzL29lLXNldHVwLWJ1aWxkZGlyOiBh
+ZGQgYSBjaGVjaw0KPiB0aGF0IFRFTVBMQVRFQ09ORiBpcyB2YWxpZA0KPiANCj4gT24gV2VkLCAx
+NCBTZXB0IDIwMjIgYXQgMTA6MTcsIENoZW5RaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPiB3cm90
+ZToNCj4gPiBUaGUgY29kZXMgYXJlIGluOiBodHRwczovL2dpdGh1Yi5jb20vV2luZFJpdmVyLUxh
+YnMvd3JsaW51eC14DQo+ID4NCj4gPiBlLmcuDQo+ID4NCj4gPiAuL3dybGludXgteC9zZXR1cC5z
+aCAtLWFsbC1sYXllcnMgKHRoaXMgcHVsbHMgZG93biBhbGwgc3VwcG9ydGVkIGxheWVycykNCj4g
+Pg0KPiA+IC4vd3JsaW51eC14L3NldHVwLnNoIC0tYWxsLWxheWVycyAtLWRsLWxheWVycyAodGhp
+cyBwdWxscyBkb3duIGFsbA0KPiA+IHN1cHBvcnRlZCBsYXllcnMsIHRvZ2V0aGVyIHdpdGggdGhl
+aXIgbmVlZGVkIHRhcmJhbGxzL2dpdCByZXBvcykNCj4gPg0KPiA+IC4vd3JsaW51eC14L3NldHVw
+LnNoICh0aGlzIHB1bGxzIGRvd24gdGhlIGRlZmF1bHQgbGlzdCBvZiBsYXllcnMpDQo+ID4NCj4g
+PiAuL3dybGludXgteC9zZXR1cC5zaCAtLWxheWVycyBtZXRhLXh4eCAodGhpcyBwdWxscyBkb3du
+IHRoZSBkZWZhdWx0IGxpc3QNCj4gPiBvZiBsYXllcnMgKyBtZXRhLXh4eCBhbmQgaXRzIGRlcGVu
+ZGVuY2llcykNCj4gPg0KPiA+IEFuZCB0aGUgZmluYWwgbGlzdCBvZiBsYXllcnMgYXJlIGluDQo+
+ID4gPHByb2plY3RfZGlyPi9jb25maWcvYmJsYXllcnMuY29uZi5zYW1wbGUsIHdoaWNoIHdpbGwg
+YmUgdXBkYXRlZCBpZg0KPiA+IG5lZWRlZCB3aGVuIHJlLXJ1bm5pbmcgdGhlIHNldHVwLnNoIHNj
+cmlwdC4NCj4gDQo+IE1heSBJIHN1Z2dlc3QgdGhhdCB0aGUgdG9vbCBza2lwcyB0aGUgYmJsYXll
+cnMuY29uZi5zYW1wbGUgc3RlcA0KPiBhbHRvZ2V0aGVyLCBhbmQgc2ltcGx5IHdyaXRlcyB0aGUg
+ZGVzaXJlZCBsYXllcnMgZGlyZWN0bHkgaW50bw0KPiBiYmxheWVycy5jb25mPyBJdCBjYW4gZG8g
+dGhpcyB3aXRoICdiaXRiYWtlLWxheWVycyBhZGQtbGF5ZXInLiBJcw0KPiB0aGVyZSBhIG5lZWQg
+Zm9yIGRvaW5nIHRoZSBpbnRlcm1lZGlhdGUgc3RlcCBvZiBnZW5lcmF0aW5nIHRoZQ0KPiB0ZW1w
+bGF0ZT8NCg0KSSBrbm93IHlvdSBoYXZlIHN1Z2dlc3RlZCB0aGlzIHRvIG1lIHRvbyBhcyB3ZSB1
+c2UgYSBzaW1pbGFyIHNldHVwIHRvIA0KZ2VuZXJhdGUgdGhlIGJibGF5ZXJzLmNvbmYuc2FtcGxl
+IGZpbGUgYmFzZWQgb24gdGhlIGxheWVycyB0aGF0IHJlcG8gDQpoYXMgY2hlY2tlZCBvdXQgaW4g
+b3VyIGVudmlyb25tZW50LCBhbmQgbm93IEkgcmVhbGl6ZWQgd2h5IHRoaXMgaXMgbm90IA0KYXMg
+c2ltcGxlIGFzIGl0IHNlZW1zLiBUaGUgcHJvYmxlbSAoYXQgbGVhc3QgaW4gb3VyIGNhc2UpIGlz
+IHRoYXQgd2UgDQpydW4gYXMgYSB3cmFwcGVyIGFyb3VuZCBvZS1pbml0LWJ1aWxkLWVudi4gVGhp
+cyBtZWFucyB0aGF0IGJlZm9yZSB0aGUgDQp3cmFwcGVyIHNvdXJjZXMgb2UtaW5pdC1idWlsZC1l
+bnYsIHRoZSBidWlsZCBkaXJlY3RvcnkgYW5kIHRodXMgdGhlIA0KY29uZiBkaXJlY3RvcnkgaW5z
+aWRlIGl0ICh3aGVyZSB0aGUgYmJsYXllcnMuY29uZiBmaWxlIGlzIHN1cHBvc2VkIHRvIA0KZ28p
+IG1heSBub3QgZXhpc3QuIEFuZCBhZnRlciBpdCBoYXMgc291cmNlZCBvZS1pbml0LWJ1aWxkLWVu
+diBpdCBpcyANCnRvbyBsYXRlIGFzIHRoZSBiYmxheWVycy5jb25mIGZpbGUgbmVlZHMgdG8gZXhp
+c3RzIGJlZm9yZS4gU28gdG8gY3JlYXRlIA0KdGhlIGJibGF5ZXJzLmNvbmYgZmlsZSwgdGhlIHdy
+YXBwZXIgd291bGQgaGF2ZSB0byBkdXBsaWNhdGUgYWxsIHRoZSANCm5vbi10cml2aWFsIGNvZGUg
+aW4gb2Utc2V0dXAtYnVpbGRkaXIgdGhhdCBkZXRlcm1pbmVzIHdoYXQgdGhlIGJ1aWxkIA0KZGly
+ZWN0b3J5IHNob3VsZCBiZSBjYWxsZWQuIEFuZCB3aGlsZSB0aGlzIG9mIGNvdXJzZSBpcyBwb3Nz
+aWJsZSB0byANCmRvLCBpdCBtZWFucyBkdXBsaWNhdGluZyBjb2RlIHRoYXQgaXMgaW50ZXJuYWwg
+dG8gYml0YmFrZSwgYW5kIHJpc2tpbmcgDQptaXNzaW5nIGltcG9ydGFudCBjaGFuZ2VzIHRvIHRo
+ZSB1cHN0cmVhbSBjb2RlIGluIHRoZSBmdXR1cmUuIFRodXMgaXQgDQppcyBtdWNoIGVhc2llciBh
+bmQgc2FmZXIgdG8gZ2VuZXJhdGUgdGhlIHRlbXBsYXRlIGZpbGVzIGFuZCBsZXQgDQpvZS1pbml0
+LWJ1aWxkLWVudiBkbyBpdHMgam9iLg0KDQo+IA0KPiBKdXN0IHRvIGJlIGNsZWFyIHdoZXJlIEkg
+YW0gY29taW5nIGZyb206IGFueXRoaW5nIGluIFRFTVBMQVRFQ09ORiBtdXN0DQo+IG5vdCBiZSBh
+dXRvLWdlbmVyYXRlZCBkdXJpbmcgYnVpbGQgc2V0dXAsIGFuZCBtdXN0IGJlIHVuZGVyIHZlcnNp
+b24NCj4gY29udHJvbC4gV2UgYXJlIHRyeWluZyB0byBzdGFuZGFyZGl6ZSBsYXllciBzZXR1cCBh
+bmQgY29uZmlndXJhdGlvbg0KPiBoYW5kbGluZywgYW5kIHRoaXMgd291bGQgYmUgYSBuZWNlc3Nh
+cnkgc3RlcCB0b3dhcmRzIHRoYXQuDQoNCldoZXJlIEkgKGFuZCBhcHBhcmVudGx5IFdpbmRSaXZl
+cikgYXJlIGNvbWluZyBmcm9tLCB0aGUgZGVjaXNpb24gb24gd2hhdCANCmxheWVycyBhcmUgcGFy
+dCBvZiB0aGUgY29uZmlndXJhdGlvbiBpcyBub3Qgc29tZXRoaW5nIGEgc3BlY2lmaWMgbGF5ZXIg
+DQppcyByZXNwb25zaWJsZSBmb3IuIEkuZS4sIGluIG91ciBzZXR1cCB3ZSBmZXRjaCB0aGUgbGF5
+ZXJzIHdlIHdhbnQgZm9yIA0KYSBidWlsZCwgd3JpdGUgdGhlIGxpc3Qgb2YgbGF5ZXJzIHRvIGJi
+bGF5ZXJzLmNvbmYuc2FtcGxlIGFuZCBzb3VyY2UgDQpvZS1pbml0LWJ1aWxkLWVudi4gV2l0aCB5
+b3VyIHNldHVwLCBpZiBJIHdhbnQgYSBwcm9qZWN0IHdpdGggdGhlIHR3byANCmxheWVycyBtZXRh
+LWEgYW5kIG1ldGEtYiwgSSB3b3VsZCBhbHNvIGhhdmUgdG8gY3JlYXRlIGEgbGF5ZXIgbWV0YS14
+IA0Kd2hlcmUgSSBjcmVhdGUgYSBzdGF0aWMgYmJsYXllcnMuY29uZi5zYW1wbGUgZmlsZSB0aGF0
+IGxpc3RzIHRoZXNlIA0KdGhyZWUgbGF5ZXJzLiBUaGVuLCBpZiBhbm90aGVyIHByb2plY3Qgd2Fu
+dHMgdG8gdXNlIG1ldGEtYSBhbmQgbWV0YS1jLCANCnRoZXkgd291bGQgaGF2ZSB0byBhZGQgYSBz
+ZWNvbmQgc3RhdGljIGJibGF5ZXJzLmNvbmYuc2FtcGxlIGZpbGUgaW4gDQptZXRhLXggdGhhdCBs
+aXN0cyB0aG9zZSB0aHJlZSBsYXllcnMuIEJhc2ljYWxseSBldmVyeSB0aW1lIHRoZXJlIGlzIGEg
+DQpuZXcgY29tYmluYXRpb24gb2YgbGF5ZXJzIGZldGNoZWQsIHRoZXJlIHdvdWxkIGFsc28gaGF2
+ZSB0byBiZSBhIA0KZHVwbGljYXRlIG9mIHRoZSBpbmZvcm1hdGlvbiBpbiBhIHN0YXRpYyBiYmxh
+eWVycy5jb25mLnNhbXBsZSBmaWxlIA0Kc29tZXdoZXJlLiBJIGFtIHByb2JhYmx5IG1pc3Npbmcg
+c29tZXRoaW5nIGhlcmUsIGJ1dCB0byBtZSB0aGlzIHNlZW1zIA0Kc3Vib3B0aW1hbC4gSWYgdGhl
+IGxpc3Qgb2YgbGF5ZXJzIGluIHRoZSBzdGF0aWMgZmlsZSBoYWQgYmVlbiB1c2VkIHRvIA0KZmV0
+Y2ggdGhlIGxheWVycywgSSB3b3VsZCBiZXR0ZXIgdW5kZXJzdGFuZCBpdCwgYnV0IHRoZW4gdGhl
+IHByb2JsZW0gDQpiZWNvbWVzIHRoYXQgdGhlIGxpc3QgaXMgbm93IGluIG9uZSBvZiB0aGUgYXJi
+aXRyYXJ5IGxheWVycyB0aGF0IGFyZSANCnN1cHBvc2VkIHRvIGJlIGZldGNoZWQuDQoNCkZvciBy
+ZWZlcmVuY2UsIHRvZGF5IHdoZW4gb25lIG9mIG91ciB0ZWFtcyBzdGFydCBhIG5ldyBkZXZlbG9w
+bWVudCANCnByb2plY3QsIHdoYXQgdGhleSBkbyBpcyB0aGV5IGNyZWF0ZSBhIHNwZWNpZmljIGxh
+eWVyIChlLmcuLCBtZXRhLWZvbykgDQpmb3IgdGhhdCBwcm9qZWN0IHdoZXJlIHRoZXkgY2FuIGRv
+IGFsbCB0aGVpciBkZXZlbG9wbWVudCB3b3JrIGFuZCANCmV4cGVyaW1lbnRhdGlvbiB1bnRpbCBp
+dCBpcyB0aW1lIGZvciB0aGVtIHRvIGludGVncmF0ZSB0byBvdXIgbWFpbiANCnBsYXRmb3JtIChy
+ZWZlcnJlZCB0byBhcyBjZnAvY2ZwLnhtbCBiZWxvdykuIFRoZW4gdGhleSBjcmVhdGUgYSByZXBv
+IA0KbWFuaWZlc3QgdGhhdCBsb29rcyBsaWtlOiANCg0KPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNv
+ZGluZz0iVVRGLTgiPz4NCjxtYW5pZmVzdD4NCiAgPGluY2x1ZGUgbmFtZT0iY2ZwL2NmcC54bWwi
+Lz4NCg0KICA8cHJvamVjdCBwYXRoPSJtZXRhLWZvbyIgbmFtZT0ibGF5ZXJzL3Byb2plY3RzL21l
+dGEtZm9vIiByZXZpc2lvbj0ibWFzdGVyIi8+DQo8L21hbmlmZXN0Pg0KDQppbiBvdXIgbWFuaWZl
+c3QgcmVwb3NpdG9yeS4gVGhpcyBzaW1wbGUgbWFuaWZlc3QgaXMgYWxsIHRoZSBwcm9qZWN0IA0K
+dGVhbSBuZWVkcyB0byBjcmVhdGUgdG8gYnVpbGQgd2l0aCB0aGVpciBwcm9qZWN0IHNwZWNpZmlj
+IGxheWVyLiBJdCANCmFsc28gbWVhbnMgdGhhdCB0aGUgb25seSBpbnB1dCB0byBvdXIgSmVua2lu
+cyBqb2JzIHRvIGJ1aWxkIGZvciB0aGlzIA0KcHJvamVjdCAoaW5zdGVhZCBvZiB0aGUgbWFpbiBw
+bGF0Zm9ybSkgaXMgdGhlIG5hbWUgb2YgdGhlIHByb2plY3QncyANCnJlcG8gbWFuaWZlc3QuIEl0
+IGFsc28gbWVhbnMgdGhhdCBpZiB3ZSBtYWtlIGFueSBjaGFuZ2VzIHRvIHRoZSBtYWluIA0KcGxh
+dGZvcm0sIGUuZy4sIGFkZCBhIG5ldyBsYXllciAod2hpY2ggaXMgYSBvbmUgbGluZSBjaGFuZ2Ug
+dG8gdGhlIA0KY2ZwLnhtbCBtYW5pZmVzdCksIGFsbCBwcm9qZWN0cyB3aWxsIGF1dG9tYXRpY2Fs
+bHkgZ2V0IGFuZCB1c2UgdGhhdCANCm5ldyBsYXllciB3aXRob3V0IGhhdmluZyB0byBtYWtlIGFu
+eSBjaGFuZ2VzIHRvIGFsbCB0aGUgcHJvamVjdCANCm1hbmlmZXN0cy4NCg0KPiANCj4gQWxleA0K
+DQovL1BldGVyDQoNCg==
 
