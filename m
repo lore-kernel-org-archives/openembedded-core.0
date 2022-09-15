@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA4A2CCA473
-	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 14:18:43 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com
- (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web08.10729.1663251513125131822
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D70FECAA2F
+	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 14:18:44 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com
+ (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.10620.1663251512674829198
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Sep 2022 07:18:33 -0700
+ Thu, 15 Sep 2022 07:18:32 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Ggm7/R+O;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193,
- mailfrom: 010101834183fd0e-bc118041-5357-4c45-ad5c-0b2675a41c1e-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=keK8zkIN;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
+ mailfrom: 010101834183fa34-c5f5168a-fe4a-44b9-8653-3c5e8eef9a1a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1663251512;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=6ERcvDMWiO2/BUYj2qVzeykvuiHOlFi1AxLaA7TT+CM=;
-	b=Ggm7/R+OwXzuBTjImzTQlKGSYtrJNhhdngd28ZjDzx3RiRe0DIxhrku//4E/IuwL
-	CkRrHvLzru1yMceRKcBBZyiZ9j3crY7f2nnihYPWCpVWedwrhhTtucDeMFBFjH/8Fgh
-	q7cshkbwsUvtNfH4HlSIMxE3H9R7h6ir1CY/Xz6o=
+	bh=eNRZvxHgLBK0mrezeDjiVVhCPPfxYTFtcXEWsgkVmQU=;
+	b=keK8zkINli+scWic/S2a2R98PgABuukVBTyoevfdO1h3EGWaz8+Cty1W/yl0riSY
+	wh0PqZp9POKEYQRO7USTxZehfAu7QGXNGQPiTVf6keyhsC7xvmazRtsX8JfkUCqUkiw
+	aumiIg0Qm8K8M9CZjfxAkO7QzGjg/iTYz3WxRfDU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1663251512;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=6ERcvDMWiO2/BUYj2qVzeykvuiHOlFi1AxLaA7TT+CM=;
-	b=e2Amhf4EqxcuUDyvipYWJBFKFfyTmsEqFgDx6/rC+LTWUiuSKVDyEJbAqpMWcRXR
-	JP5S5Yau48kdGF+bk7jYqMqwpTvRBBuRDnYpLSbfC/HNyzcESPik5fqAlEb3ZZgh/uW
-	xxdmsSss5J3XKKSMcPCtd9M4jXr5nQtHCXPskZB4=
-Content-Type: multipart/mixed; boundary="===============0112586546180996967=="
+	bh=eNRZvxHgLBK0mrezeDjiVVhCPPfxYTFtcXEWsgkVmQU=;
+	b=UQLwPeUHK5v6vIDs8jdaQV8STUZWnxos0FMifUIVASVQDOJ9wKneTigvZey+hUHR
+	UMLsqlOe6yK49pyBoj7NDqG7IoHO6nEEwkPGFsBvhNx9gSdJZiSH2SKKvClbNmIHLG6
+	Y0+fxAopoYrz5mQ/vG+iCF/w8K7tmr1MZNnth4Ck=
+Content-Type: multipart/mixed; boundary="===============5161045723998905348=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Pascal Bach <pascal.bach@siemens.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-cryptography-vectors: upgrading to 38.0.1 SUCCEEDED
+Subject: [AUH] cmake: upgrading to 3.24.2 FAILED
 Message-ID: 
- <010101834183fd0e-bc118041-5357-4c45-ad5c-0b2675a41c1e-000000@us-west-2.amazonses.com>
-Date: Thu, 15 Sep 2022 14:18:32 +0000
+ <010101834183fa34-c5f5168a-fe4a-44b9-8653-3c5e8eef9a1a-000000@us-west-2.amazonses.com>
+Date: Thu, 15 Sep 2022 14:18:31 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.09.15-54.240.27.193
+X-SES-Outgoing: 2022.09.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 14:18:43 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 14:18:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170715
+ https://lists.openembedded.org/g/openembedded-core/message/170704
 
---===============0112586546180996967==
+--===============5161045723998905348==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-cryptography-vectors* to *38.0.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *cmake* to *3.24.2* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-python3-cryptography-vectors-upgrade-37.0.4-38.0.1.patch
+    - apply the patch: git am 0001-cmake-upgrade-3.24.0-3.24.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,105 +81,199 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============0112586546180996967==
+--===============5161045723998905348==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1661 entries from dependency cache.
+Parsing recipes...
+Summary: There was 1 WARNING message.
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake-native_3.24.0.bb: Unable to get checksum for cmake-native SRC_URI entry OEToolchainConfig.cmake: file could not be found
+The following paths were searched:
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake-3.24.0/poky/OEToolchainConfig.cmake
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake/poky/OEToolchainConfig.cmake
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/files/poky/OEToolchainConfig.cmake
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake-3.24.0/OEToolchainConfig.cmake
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/files/OEToolchainConfig.cmake
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake-3.24.0/x86-64/OEToolchainConfig.cmake
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake/x86-64/OEToolchainConfig.cmake
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/files/x86-64/OEToolchainConfig.cmake
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake-3.24.0/OEToolchainConfig.cmake
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/files/OEToolchainConfig.cmake
+ERROR: Parsing halted due to errors, see error messages above
+
+--===============5161045723998905348==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-cryptography-vectors-upgrade-37.0.4-38.0.1.patch"
+ filename="0001-cmake-upgrade-3.24.0-3.24.2.patch"
 
-RnJvbSBiMWFjN2FiOWRhYTg5YTBkNTA0OTk1MDMyYWIzODIxYTc4OGQ4ZWI1IE1vbiBTZXAgMTcg
+RnJvbSAxN2Y0OTRlNTA0OTU0ZTZiMjljMzhmM2EwNzM1OGViMjA2YWY0MWNiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgU2VwIDIwMjIgMDk6NDY6MzMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWNyeXB0b2dyYXBoeS12ZWN0b3JzOiB1cGdyYWRlIDM3LjAuNCAtPiAzOC4wLjEKCi0t
-LQogLi4udmVjdG9yc18zNy4wLjQuYmIgPT4gcHl0aG9uMy1jcnlwdG9ncmFwaHktdmVjdG9yc18z
-OC4wLjEuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0
-aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1jcnlw
-dG9ncmFwaHktdmVjdG9yc18zNy4wLjQuYmIgPT4gcHl0aG9uMy1jcnlwdG9ncmFwaHktdmVjdG9y
-c18zOC4wLjEuYmJ9ICg5MCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLWNyeXB0b2dyYXBoeS12ZWN0b3JzXzM3LjAuNC5iYiBiL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFwaHktdmVjdG9yc18zOC4wLjEuYmIK
-c2ltaWxhcml0eSBpbmRleCA5MCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLWNyeXB0b2dyYXBoeS12ZWN0b3JzXzM3LjAuNC5iYgpyZW5hbWUgdG8gbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNyeXB0b2dyYXBoeS12ZWN0b3JzXzM4
-LjAuMS5iYgppbmRleCAyNzBkOGNlY2E2Li40M2U5NmI0ODQ0IDEwMDY0NAotLS0gYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3J5cHRvZ3JhcGh5LXZlY3RvcnNfMzcuMC40
-LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFw
-aHktdmVjdG9yc18zOC4wLjEuYmIKQEAgLTksNyArOSw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAi
-ZmlsZTovL0xJQ0VOU0U7bWQ1PThjMzYxN2RiNGZiNmZhZTAxZjFkMjUzYWI5MTUxMWU0IFwKICMg
-Tk9URTogTWFrZSBzdXJlIHRvIGtlZXAgdGhpcyByZWNpcGUgYXQgdGhlIHNhbWUgdmVyc2lvbiBh
-cyBweXRob24zLWNyeXB0b2dyYXBoeQogIyAgICAgICBVcGdyYWRlIGJvdGggcmVjaXBlcyBhdCB0
-aGUgc2FtZSB0aW1lCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI1YTYxNDAwNTEwZTI4OTM3YTU2
-NTRiNDBjNmVhNGUzZTU5M2M1YWFmMGMyMDgxYzViOTEyZjBlN2NmODgzZWE4IgorU1JDX1VSSVtz
-aGEyNTZzdW1dID0gIjA0MzFmZDEwN2MxZmJhZDAzNzc3MDRhNzA1MTk0NWIzYjM5MTE2OWZkZGM0
-ZjZmYTBiZDRlZGM2YjZlMjM1ZGQiCiAKIFBZUElfUEFDS0FHRSA9ICJjcnlwdG9ncmFwaHlfdmVj
-dG9ycyIKIAotLSAKMi4zMS4xCgo=
+CkRhdGU6IFRodSwgMTUgU2VwIDIwMjIgMDc6MjA6MDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
+bWFrZTogdXBncmFkZSAzLjI0LjAgLT4gMy4yNC4yCgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9jbWFrZS9jbWFrZS5pbmMgICAgICAgICB8ICAyICstCiAuLi5zdGVtLXVzZS1vZS1lbnZpcm9u
+bWVudC12YXJzLXRvLWxvYWQucGF0Y2ggfCAgNCArLS0KIC4uLi9jbWFrZS9jbWFrZS9PRVRvb2xj
+aGFpbkNvbmZpZy5jbWFrZSAgICAgICB8IDIwIC0tLS0tLS0tLS0tCiAuLi4vY21ha2UvU0RLVG9v
+bGNoYWluQ29uZmlnLmNtYWtlLnRlbXBsYXRlICAgfCAzMSAtLS0tLS0tLS0tLS0tLS0tLQogLi4u
+L2NtYWtlL2NtYWtlL2NtYWtlLXNldHVwLnB5ICAgICAgICAgICAgICAgIHwgMzMgLS0tLS0tLS0t
+LS0tLS0tLS0tLQogLi4uL2NtYWtlL2NtYWtlL2Vudmlyb25tZW50LmQtY21ha2Uuc2ggICAgICAg
+IHwgIDIgLS0KIC4uLi97Y21ha2VfMy4yNC4wLmJiID0+IGNtYWtlXzMuMjQuMi5iYn0gICAgICB8
+IDEzICsrKy0tLS0tCiA3IGZpbGVzIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgOTcgZGVsZXRp
+b25zKC0pCiBkZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2Nt
+YWtlL09FVG9vbGNoYWluQ29uZmlnLmNtYWtlCiBkZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlL1NES1Rvb2xjaGFpbkNvbmZpZy5jbWFrZS50ZW1wbGF0
+ZQogZGVsZXRlIG1vZGUgMTAwNzU1IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS9j
+bWFrZS1zZXR1cC5weQogZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9j
+bWFrZS9jbWFrZS9lbnZpcm9ubWVudC5kLWNtYWtlLnNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL2NtYWtlL3tjbWFrZV8zLjI0LjAuYmIgPT4gY21ha2VfMy4yNC4yLmJifSAoODYlKQoK
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS5pbmMgYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UuaW5jCmluZGV4IGQ2NGFmZmZkYzEuLjFlZGU4
+ZWVlNjEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS5pbmMK
+KysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLmluYwpAQCAtMjEsNyArMjEs
+NyBAQCBTUkNfVVJJID0gImh0dHBzOi8vY21ha2Uub3JnL2ZpbGVzL3Yke0NNQUtFX01BSk9SX1ZF
+UlNJT059L2NtYWtlLSR7UFZ9LnRhci5neiBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDA0LUZhaWwt
+c2lsZW50bHktaWYtc3lzdGVtLVF0LWluc3RhbGxhdGlvbi1pcy1icm9rZW4ucGF0Y2ggXAogIgog
+Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYzJiNjFmN2NkZWNiMTU3NmNhZDI1ZjkxOGE4ZjQyYjg2
+ODVkODhhODMyZmQ0YjYyYjllMGZhMzJlOTE1YTY1OCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIw
+ZDkwMjBmMDZmM2RkZjE3ZmI1MzdkYzIyOGUxYTU2YzkyN2VlNTA2YjQ4NmY1NWZlMmRjMTlmNjli
+ZjBjOGRiIgogCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJjbWFrZS0oP1A8cHZlcj5cZCsoXC5c
+ZCspKylcLnRhciIKIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2Nt
+YWtlLzAwMDEtQ01ha2VEZXRlcm1pbmVTeXN0ZW0tdXNlLW9lLWVudmlyb25tZW50LXZhcnMtdG8t
+bG9hZC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS8wMDAxLUNNYWtl
+RGV0ZXJtaW5lU3lzdGVtLXVzZS1vZS1lbnZpcm9ubWVudC12YXJzLXRvLWxvYWQucGF0Y2gKaW5k
+ZXggOWEyMjg3ZjUxNy4uYjk5OGVlODczYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL2NtYWtlL2NtYWtlLzAwMDEtQ01ha2VEZXRlcm1pbmVTeXN0ZW0tdXNlLW9lLWVudmlyb25t
+ZW50LXZhcnMtdG8tbG9hZC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2Uv
+Y21ha2UvMDAwMS1DTWFrZURldGVybWluZVN5c3RlbS11c2Utb2UtZW52aXJvbm1lbnQtdmFycy10
+by1sb2FkLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA4OWY2Yzg0NmYwMmFkNmQzMGI5ZWJi
+N2VhYWFhNGZiNmY5Y2VjMDU0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBhMDQ0NzNj
+MDZhZjZjNmI3YjcwNjFkNjgzZTA4YzNjMjA0OWM3OGVjIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQogRnJvbTogQ29keSBQIFNjaGFmZXIgPGRldkBjb2R5cHMuY29tPgogRGF0ZTogVGh1LCAyNyBB
+cHIgMjAxNyAxMTozNTowNSAtMDQwMAogU3ViamVjdDogW1BBVENIXSBDTWFrZURldGVybWluZVN5
+c3RlbTogdXNlIG9lIGVudmlyb25tZW50IHZhcnMgdG8gbG9hZCBkZWZhdWx0CkBAIC0yNSw3ICsy
+NSw3IEBAIFNpZ25lZC1vZmYtYnk6IE90YXZpbyBTYWx2YWRvciA8b3RhdmlvQG9zc3lzdGVtcy5j
+b20uYnI+CiAgMSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKQogCiBkaWZmIC0tZ2l0IGEv
+TW9kdWxlcy9DTWFrZURldGVybWluZVN5c3RlbS5jbWFrZSBiL01vZHVsZXMvQ01ha2VEZXRlcm1p
+bmVTeXN0ZW0uY21ha2UKLWluZGV4IDhjN2FmMDY3Li5hZGUyYjE4OSAxMDA2NDQKK2luZGV4IDJj
+MmMyYWMzLi5mYWU0Zjk3ZiAxMDA2NDQKIC0tLSBhL01vZHVsZXMvQ01ha2VEZXRlcm1pbmVTeXN0
+ZW0uY21ha2UKICsrKyBiL01vZHVsZXMvQ01ha2VEZXRlcm1pbmVTeXN0ZW0uY21ha2UKIEBAIC0x
+MTIsNiArMTEyLDEzIEBAIGVsc2UoKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2NtYWtlL2NtYWtlL09FVG9vbGNoYWluQ29uZmlnLmNtYWtlIGIvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL2NtYWtlL2NtYWtlL09FVG9vbGNoYWluQ29uZmlnLmNtYWtlCmRlbGV0ZWQgZmlsZSBtb2Rl
+IDEwMDY0NAppbmRleCBkNmExZTA0NjRjLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9jbWFrZS9jbWFrZS9PRVRvb2xjaGFpbkNvbmZpZy5jbWFrZQorKysgL2Rldi9udWxs
+CkBAIC0xLDIwICswLDAgQEAKLXNldCggQ01BS0VfU1lTVEVNX05BTUUgTGludXggKQotc2V0KCBD
+TUFLRV9DX0ZMQUdTICRFTlZ7Q0ZMQUdTfSBDQUNIRSBTVFJJTkcgIiIgRk9SQ0UgKQotc2V0KCBD
+TUFLRV9DWFhfRkxBR1MgJEVOVntDWFhGTEFHU30gIENBQ0hFIFNUUklORyAiIiBGT1JDRSApCi1z
+ZXQoIENNQUtFX1NZU1JPT1QgJEVOVntPRUNPUkVfVEFSR0VUX1NZU1JPT1R9ICkKLQotc2V0KCBD
+TUFLRV9GSU5EX1JPT1RfUEFUSCAkRU5We09FQ09SRV9UQVJHRVRfU1lTUk9PVH0gKQotc2V0KCBD
+TUFLRV9GSU5EX1JPT1RfUEFUSF9NT0RFX1BST0dSQU0gTkVWRVIgKQotc2V0KCBDTUFLRV9GSU5E
+X1JPT1RfUEFUSF9NT0RFX0xJQlJBUlkgT05MWSApCi1zZXQoIENNQUtFX0ZJTkRfUk9PVF9QQVRI
+X01PREVfSU5DTFVERSBPTkxZICkKLXNldCggQ01BS0VfRklORF9ST09UX1BBVEhfTU9ERV9QQUNL
+QUdFIE9OTFkgKQotCi1zZXQoQ01BS0VfRklORF9MSUJSQVJZX0NVU1RPTV9MSUJfU1VGRklYICIk
+RU5We09FX0NNQUtFX0ZJTkRfTElCUkFSWV9DVVNUT01fTElCX1NVRkZJWH0iKQotCi1zZXQoIENN
+QUtFX1NZU1RFTV9QUk9DRVNTT1IgJEVOVntPRUNPUkVfVEFSR0VUX0FSQ0h9ICkKLQotIyBJbmNs
+dWRlIHRoZSB0b29sY2hhaW4gY29uZmlndXJhdGlvbiBzdWJzY3JpcHRzCi1maWxlKCBHTE9CIHRv
+b2xjaGFpbl9jb25maWdfZmlsZXMgIiR7Q01BS0VfQ1VSUkVOVF9MSVNUX0ZJTEV9LmQvKi5jbWFr
+ZSIgKQotZm9yZWFjaChjb25maWcgJHt0b29sY2hhaW5fY29uZmlnX2ZpbGVzfSkKLSAgICBpbmNs
+dWRlKCR7Y29uZmlnfSkKLWVuZGZvcmVhY2goKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL2NtYWtlL2NtYWtlL1NES1Rvb2xjaGFpbkNvbmZpZy5jbWFrZS50ZW1wbGF0ZSBiL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS9TREtUb29sY2hhaW5Db25maWcuY21ha2Uu
+dGVtcGxhdGUKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IGM2OTU2OWE4NDMuLjAwMDAw
+MDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlL1NES1Rvb2xjaGFp
+bkNvbmZpZy5jbWFrZS50ZW1wbGF0ZQorKysgL2Rldi9udWxsCkBAIC0xLDMxICswLDAgQEAKLXNl
+dChTREtfSU5TVEFMTF9ESVIgIiR7Q01BS0VfQ1VSUkVOVF9MSVNUX0RJUn0vLi4vLi4vLi4vLi4v
+Li4iKQotc2V0KEhPU1RfU1lTUk9PVCAgICAiJHtTREtfSU5TVEFMTF9ESVJ9L3N5c3Jvb3RzL0BP
+RUNPUkVfU0RLX1NZUyIpCi1zZXQoVEFSR0VUX1NZU1JPT1QgICIke1NES19JTlNUQUxMX0RJUn0v
+c3lzcm9vdHMvQE9FQ09SRV9UQVJHRVRfU1lTIikKLXNldChIT1NUX0JJTiAgICAgICAgIiR7SE9T
+VF9TWVNST09UfS91c3IvYmluIikKLXNldChUT09MQ0hBSU5fTkFNRSAgIkBPRUNPUkVfVEFSR0VU
+X0FMSUFTIikKLXNldChHQ0NfRElSICAgICAgICAgIiR7SE9TVF9CSU59LyR7VE9PTENIQUlOX05B
+TUV9IikKLQotc2V0KENNQUtFX1NZU1RFTV9OQU1FICAgICAgIExpbnV4KQotc2V0KENNQUtFX1NZ
+U1RFTV9QUk9DRVNTT1IgIkBPRUNPUkVfVEFSR0VUX0FSQ0giKQotCi1zZXQoQ01BS0VfQ19DT01Q
+SUxFUiAgICAiJHtHQ0NfRElSfS8ke1RPT0xDSEFJTl9OQU1FfS1nY2MiKQotc2V0KENNQUtFX0NY
+WF9DT01QSUxFUiAgIiR7R0NDX0RJUn0vJHtUT09MQ0hBSU5fTkFNRX0tZysrIikKLQotc2V0KEFS
+Q0hfRkxBR1MgICAgICAgICAgIkBPRUNPUkVfVFVORV9DQ0FSR1MiKQotc2V0KENNQUtFX0NfRkxB
+R1MgICAgICAgIiR7QVJDSF9GTEFHU30iIENBQ0hFIFNUUklORyAiIiBGT1JDRSApCi1zZXQoQ01B
+S0VfQ1hYX0ZMQUdTICAgICAiJHtBUkNIX0ZMQUdTfSIgQ0FDSEUgU1RSSU5HICIiIEZPUkNFICkK
+LXNldChDTUFLRV9BU01fRkxBR1MgICAgICR7Q01BS0VfQ19GTEFHU30gQ0FDSEUgU1RSSU5HICIi
+IEZPUkNFICkKLXNldChDTUFLRV9MREZMQUdTX0ZMQUdTICR7Q01BS0VfQ19GTEFHU30gQ0FDSEUg
+U1RSSU5HICIiIEZPUkNFICkKLQotc2V0KENNQUtFX1NZU1JPT1QgIiR7VEFSR0VUX1NZU1JPT1R9
+IikKLQotc2V0KENNQUtFX0ZJTkRfUk9PVF9QQVRIICIke1RBUkdFVF9TWVNST09UfSIgKQotCi1z
+ZXQoQ01BS0VfRklORF9ST09UX1BBVEhfTU9ERV9QUk9HUkFNIE5FVkVSICkKLXNldChDTUFLRV9G
+SU5EX1JPT1RfUEFUSF9NT0RFX0xJQlJBUlkgT05MWSApCi1zZXQoQ01BS0VfRklORF9ST09UX1BB
+VEhfTU9ERV9JTkNMVURFIE9OTFkgKQotc2V0KENNQUtFX0ZJTkRfUk9PVF9QQVRIX01PREVfUEFD
+S0FHRSBPTkxZICkKLQotc2V0KENNQUtFX0ZJTkRfTElCUkFSWV9DVVNUT01fTElCX1NVRkZJWCAi
+IikKLQotc2V0KENNQUtFX1BST0dSQU1fUEFUSCAiJHtIT1NUX1NZU1JPT1R9L3Vzci9iaW4iIENB
+Q0hFIFNUUklORyAiIiBGT1JDRSkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9j
+bWFrZS9jbWFrZS9jbWFrZS1zZXR1cC5weSBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9j
+bWFrZS9jbWFrZS1zZXR1cC5weQpkZWxldGVkIGZpbGUgbW9kZSAxMDA3NTUKaW5kZXggYWY1ODdh
+NDRjYy4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2Uv
+Y21ha2Utc2V0dXAucHkKKysrIC9kZXYvbnVsbApAQCAtMSwzMyArMCwwIEBACi0jIS91c3IvYmlu
+L2VudiBweXRob24zCi0KLWltcG9ydCBvcwotaW1wb3J0IHN0cmluZwotaW1wb3J0IHN5cwotCi1j
+bGFzcyBUZW1wbGF0ZShzdHJpbmcuVGVtcGxhdGUpOgotICAgIGRlbGltaXRlciA9ICJAIgotCi1j
+bGFzcyBFbnZpcm9uKCk6Ci0gICAgZGVmIF9fZ2V0aXRlbV9fKHNlbGYsIG5hbWUpOgotICAgICAg
+ICBpZiBuYW1lID09ICJPRUNPUkVfU0RLX1NZUyI6Ci0gICAgICAgICAgICByZXR1cm4gIG9zLnBh
+dGguYmFzZW5hbWUob3MuZW52aXJvblsiT0VDT1JFX05BVElWRV9TWVNST09UIl0pCi0gICAgICAg
+IGVsaWYgbmFtZSA9PSAiT0VDT1JFX1RBUkdFVF9TWVMiOgotICAgICAgICAgICAgcmV0dXJuICBv
+cy5wYXRoLmJhc2VuYW1lKG9zLmVudmlyb25bIk9FQ09SRV9UQVJHRVRfU1lTUk9PVCJdKQotICAg
+ICAgICBlbGlmIG5hbWUgPT0gIk9FQ09SRV9UQVJHRVRfQUxJQVMiOgotICAgICAgICAgICAgcmV0
+dXJuICBvcy5wYXRoLmJhc2VuYW1lKG9zLmVudmlyb25bIlRBUkdFVF9QUkVGSVgiXS5zdHJpcCgi
+LSIpKQotICAgICAgICBlbHNlOgotICAgICAgICAgICAgcmV0dXJuICBvcy5lbnZpcm9uW25hbWVd
+Ci0KLXRyeToKLSAgICBzeXNyb290ID0gb3MuZW52aXJvblsnT0VDT1JFX05BVElWRV9TWVNST09U
+J10KLWV4Y2VwdCBLZXlFcnJvcjoKLSAgICBwcmludCgiTm90IGluIGVudmlyb25tZW50IHNldHVw
+LCBiYWlsaW5nIikKLSAgICBzeXMuZXhpdCgxKQotCi10ZW1wbGF0ZV9maWxlID0gb3MucGF0aC5q
+b2luKHN5c3Jvb3QsICd1c3Ivc2hhcmUvY21ha2UvU0RLVG9vbGNoYWluQ29uZmlnLmNtYWtlLnRl
+bXBsYXRlJykKLWNyb3NzX2ZpbGUgPSBvcy5wYXRoLmpvaW4oc3lzcm9vdCwgJ3Vzci9zaGFyZS9j
+bWFrZS8lcy10b29sY2hhaW4uY21ha2UnICUgKG9zLnBhdGguYmFzZW5hbWUob3MuZW52aXJvblsi
+T0VDT1JFX1RBUkdFVF9TWVNST09UIl0pKSkKLXdpdGggb3Blbih0ZW1wbGF0ZV9maWxlKSBhcyBp
+bl9maWxlOgotICAgIHRlbXBsYXRlID0gaW5fZmlsZS5yZWFkKCkKLSAgICBvdXRwdXQgPSBUZW1w
+bGF0ZSh0ZW1wbGF0ZSkuc3Vic3RpdHV0ZShFbnZpcm9uKCkpCi0gICAgd2l0aCBvcGVuKGNyb3Nz
+X2ZpbGUsICJ3IikgYXMgb3V0X2ZpbGU6Ci0gICAgICAgIG91dF9maWxlLndyaXRlKG91dHB1dCkK
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS9lbnZpcm9ubWVu
+dC5kLWNtYWtlLnNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlL2Vudmlyb25t
+ZW50LmQtY21ha2Uuc2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDdiZGIxOWZiNmMu
+LjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlL2Vudmly
+b25tZW50LmQtY21ha2Uuc2gKKysrIC9kZXYvbnVsbApAQCAtMSwyICswLDAgQEAKLWV4cG9ydCBP
+RV9DTUFLRV9UT09MQ0hBSU5fRklMRT0iJE9FQ09SRV9OQVRJVkVfU1lTUk9PVC91c3Ivc2hhcmUv
+Y21ha2UvT0VUb29sY2hhaW5Db25maWcuY21ha2UiCi1leHBvcnQgT0VfQ01BS0VfRklORF9MSUJS
+QVJZX0NVU1RPTV9MSUJfU1VGRklYPSJgZWNobyAkT0VDT1JFX0JBU0VMSUIgfCBzZWQgLWUgcy9s
+aWIvL2AiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2VfMy4y
+NC4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlXzMuMjQuMi5iYgpzaW1p
+bGFyaXR5IGluZGV4IDg2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2Uv
+Y21ha2VfMy4yNC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21h
+a2VfMy4yNC4yLmJiCmluZGV4IGJiN2VkODNlMzAuLmYyNmJkMGFmYjcgMTAwNjQ0Ci0tLSBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZV8zLjI0LjAuYmIKKysrIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlXzMuMjQuMi5iYgpAQCAtNCwxNCArNCw2IEBAIGluaGVy
+aXQgY21ha2UgYmFzaC1jb21wbGV0aW9uCiAKIERFUEVORFMgKz0gImN1cmwgZXhwYXQgemxpYiBs
+aWJhcmNoaXZlIHh6IG5jdXJzZXMgYnppcDIiCiAKLVNSQ19VUkk6YXBwZW5kOmNsYXNzLW5hdGl2
+ZXNkayA9ICIgXAotICAgIGZpbGU6Ly9PRVRvb2xjaGFpbkNvbmZpZy5jbWFrZSBcCi0gICAgZmls
+ZTovL1NES1Rvb2xjaGFpbkNvbmZpZy5jbWFrZS50ZW1wbGF0ZSBcCi0gICAgZmlsZTovL2NtYWtl
+LXNldHVwLnB5IFwKLSAgICBmaWxlOi8vZW52aXJvbm1lbnQuZC1jbWFrZS5zaCBcCi0gICAgZmls
+ZTovLzAwMDEtQ01ha2VEZXRlcm1pbmVTeXN0ZW0tdXNlLW9lLWVudmlyb25tZW50LXZhcnMtdG8t
+bG9hZC5wYXRjaCBcCi0iCi0KIExJQ0VOU0U6YXBwZW5kID0gIiAmIEJTRC0xLUNsYXVzZSAmIE1J
+VCIKIExJQ19GSUxFU19DSEtTVU06YXBwZW5kID0gIiBcCiAgICAgZmlsZTovL1V0aWxpdGllcy9j
+bWpzb25jcHAvTElDRU5TRTttZDU9NWQ3M2MxNjVhMGY5ZTg2YTEzNDJmMzJkMTllYzU5MjYgXApA
+QCAtMzQsNiArMjYsMTEgQEAgcHl0aG9uICgpIHsKICAgICBkLnNldFZhcigiZG9jZGlyX3N0cmlw
+cGVkIiwgZG9jZGlyX3N0cmlwcGVkKQogfQogCitTUkNfVVJJICs9ICJodHRwczovL2NtYWtlLm9y
+Zy9maWxlcy92JHtDTUFLRV9NQUpPUl9WRVJTSU9OfS9jbWFrZS0ke1BWfS50YXIuZ3ogXAorICAg
+ICAgICAgICBmaWxlOi8vMDAwMy1jbWFrZS1zdXBwb3J0LU9wZW5FbWJlZGRlZC1RdDQtdG9vbC1i
+aW5hcnktbmFtZXMucGF0Y2ggXAorICAgICAgICAgICBmaWxlOi8vMDAwNC1GYWlsLXNpbGVudGx5
+LWlmLXN5c3RlbS1RdC1pbnN0YWxsYXRpb24taXMtYnJva2VuLnBhdGNoIFwKKyAgICAgICAgICAg
+ZmlsZTovLzAwMDEtQ01ha2VEZXRlcm1pbmVTeXN0ZW0tdXNlLW9lLWVudmlyb25tZW50LXZhcnMt
+dG8tbG9hZC5wYXRjaCBcCisgICAgICAgICAgICIKIEVYVFJBX09FQ01BS0U9IiBcCiAgICAgLURD
+TUFLRV9ET0NfRElSPSR7ZG9jZGlyX3N0cmlwcGVkfS9jbWFrZS0ke0NNQUtFX01BSk9SX1ZFUlNJ
+T059IFwKICAgICAtRENNQUtFX1VTRV9TWVNURU1fTElCUkFSSUVTPTEgXAotLSAKMi4zMS4xCgo=
 
---===============0112586546180996967==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: FILELIST: directory renamed /usr/lib/python3.10/site-packages/cryptography_vectors-37.0.4.dist-info -> /usr/lib/python3.10/site-packages/cryptography_vectors-38.0.1.dist-info, removed "/usr/lib/python3.10/site-packages/cryptography_vectors/__pycache__/__about__.cpython-39.pyc /usr/lib/python3.10/site-packages/cryptography_vectors/__pycache__/__init__.cpython-39.pyc", added "/usr/lib/python3.10/site-packages/cryptography_vectors/x509/badssl-sct-anonymous-sig.der /usr/lib/python3.10/site-packages/cryptography_vectors/x509/custom/rsa_pss_cert.pem /usr/lib/python3.10/site-packages/cryptography_vectors/x509/custom/crl_bad_version.pem /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048_pub.der /usr/lib/python3.10/site-packages/cryptography_vectors/x509/requests/bad-version.pem /usr/lib/python3.10/site-packages/cryptography_vectors/ciphers/AES/OCB3/openssl.txt /usr/lib/py
- thon3.10/site-packages/cryptography_vectors/x509/custom/crl_almost_10k.pem /usr/lib/python3.10/site-packages/cryptography_vectors/x509/badssl-sct-none-hash.der /usr/lib/python3.10/site-packages/cryptography_vectors/x509/requests/long-form-attribute.pem /usr/lib/python3.10/site-packages/cryptography_vectors/x509/cryptography-scts-tbs-precert.der /usr/lib/python3.10/site-packages/cryptography_vectors/x509/custom/long-form-name-attribute.pem"
-Changes to packages/core2-32-poky-linux/python3-cryptography-vectors (sysroot):
-  /usr/lib/python3.10/site-packages/cryptography_vectors-37.0.4.dist-info moved to /usr/lib/python3.10/site-packages/cryptography_vectors-38.0.1.dist-info
-  /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048_pub.der was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/ciphers/AES/OCB3/openssl.txt was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/badssl-sct-anonymous-sig.der was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/badssl-sct-none-hash.der was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/cryptography-scts-tbs-precert.der was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/custom/crl_almost_10k.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/custom/crl_bad_version.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/custom/long-form-name-attribute.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/custom/rsa_pss_cert.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/requests/bad-version.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/requests/long-form-attribute.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/__pycache__/__about__.cpython-39.pyc was removed
-  /usr/lib/python3.10/site-packages/cryptography_vectors/__pycache__/__init__.cpython-39.pyc was removed
-
---===============0112586546180996967==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/python3-cryptography-vectors: PV changed from "37.0.4" to "38.0.1"
-packages/core2-32-poky-linux/python3-cryptography-vectors: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/cryptography_vectors/cryptography_vectors-37.0.4.tar.gz" to "https://files.pythonhosted.org/packages/source/c/cryptography_vectors/cryptography_vectors-38.0.1.tar.gz"
-packages/core2-32-poky-linux/python3-cryptography-vectors: PKGV changed from 37.0.4 [default] to 38.0.1 [default]
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dbg: PV changed from "37.0.4" to "38.0.1"
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dbg: PKGV changed from 37.0.4 [default] to 38.0.1 [default]
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dev: PV changed from "37.0.4" to "38.0.1"
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dev: PKGV changed from 37.0.4 [default] to 38.0.1 [default]
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-doc: PV changed from "37.0.4" to "38.0.1"
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-doc: PKGV changed from 37.0.4 [default] to 38.0.1 [default]
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-locale: PV changed from "37.0.4" to "38.0.1"
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-locale: PKGV changed from 37.0.4 [default] to 38.0.1 [default]
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-src: PV changed from "37.0.4" to "38.0.1"
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-src: PKGV changed from 37.0.4 [default] to 38.0.1 [default]
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-staticdev: PV changed from "37.0.4" to "38.0.1"
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-staticdev: PKGV changed from 37.0.4 [default] to 38.0.1 [default]
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: PV changed from "37.0.4" to "38.0.1"
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: FILELIST: directory renamed /usr/lib/python3.10/site-packages/cryptography_vectors-37.0.4.dist-info -> /usr/lib/python3.10/site-packages/cryptography_vectors-38.0.1.dist-info, removed "/usr/lib/python3.10/site-packages/cryptography_vectors/__pycache__/__about__.cpython-39.pyc /usr/lib/python3.10/site-packages/cryptography_vectors/__pycache__/__init__.cpython-39.pyc", added "/usr/lib/python3.10/site-packages/cryptography_vectors/x509/badssl-sct-none-hash.der /usr/lib/python3.10/site-packages/cryptography_vectors/x509/custom/rsa_pss_cert.pem /usr/lib/python3.10/site-packages/cryptography_vectors/ciphers/AES/OCB3/openssl.txt /usr/lib/python3.10/site-packages/cryptography_vectors/x509/custom/crl_bad_version.pem /usr/lib/python3.10/site-packages/cryptography_vectors/x509/custom/crl_almost_10k.pem /usr/lib/python3.10/site-packages/cryptography_vectors/x509/cryptography-scts-tbs-precert.der /usr/lib/pyth
- on3.10/site-packages/cryptography_vectors/x509/requests/bad-version.pem /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048_pub.der /usr/lib/python3.10/site-packages/cryptography_vectors/x509/custom/long-form-name-attribute.pem /usr/lib/python3.10/site-packages/cryptography_vectors/x509/requests/long-form-attribute.pem /usr/lib/python3.10/site-packages/cryptography_vectors/x509/badssl-sct-anonymous-sig.der"
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: PKGV changed from 37.0.4 [default] to 38.0.1 [default]
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: PKGSIZE changed from 74825906 to 75124827 (+0%)
-Changes to packages/core2-32-poky-linux/python3-cryptography-vectors (sysroot):
-  /usr/lib/python3.10/site-packages/cryptography_vectors-37.0.4.dist-info moved to /usr/lib/python3.10/site-packages/cryptography_vectors-38.0.1.dist-info
-  /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048_pub.der was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/ciphers/AES/OCB3/openssl.txt was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/badssl-sct-anonymous-sig.der was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/badssl-sct-none-hash.der was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/cryptography-scts-tbs-precert.der was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/custom/crl_almost_10k.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/custom/crl_bad_version.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/custom/long-form-name-attribute.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/custom/rsa_pss_cert.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/requests/bad-version.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/requests/long-form-attribute.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/__pycache__/__about__.cpython-39.pyc was removed
-  /usr/lib/python3.10/site-packages/cryptography_vectors/__pycache__/__init__.cpython-39.pyc was removed
-
---===============0112586546180996967==--
+--===============5161045723998905348==--
 
