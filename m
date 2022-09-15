@@ -1,123 +1,129 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37C89ECAAD3
-	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 12:16:52 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web12.9074.1663244202752955451
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F642ECAAD3
+	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 12:51:12 +0000 (UTC)
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by mx.groups.io with SMTP id smtpd.web08.9667.1663246266153160556
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Sep 2022 05:16:43 -0700
+ Thu, 15 Sep 2022 05:51:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=enihne9z;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id l8so8384142wmi.2
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Sep 2022 05:16:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date;
-        bh=Hb+7A/mEVZ2U+wD+YDo4xZILhtPD2/AwSTJP67UixzU=;
-        b=enihne9zlaxblQQ+U0dU69d8kuOflB1kFVW1vKCTjI/aWbkD1ZI2j3dg6mxBRd8H46
-         F9E35oVQDJt6flYI5FzQg+GU5TTHm/m6MMRJyxFKn3TC6NWEO3xN8BRnI/7eo1RYlR7y
-         2pxaacNQmM8BtbANoH8xREUI/IMO4X69dy4ds=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date;
-        bh=Hb+7A/mEVZ2U+wD+YDo4xZILhtPD2/AwSTJP67UixzU=;
-        b=m8VwsMVg2M0Fu8HroRExNNxmUDD2U3KBi2N9xr8mtn6hIsfPOM5dT+xuipZIFkr5KY
-         Cwi0ETThp1lk3G383gNVxiAeSIvf697Pr03Undy6NLzVKxYdQjylftpEUTmwTc40T4D8
-         SwdNcxu9D3GlItr2uM1EHdGBrbo8M+zikSeiHsBcJeZS+n4Lwz7Pllvm3euLOb1yCyg/
-         aXvYsSfF+E56bFu8q+BvZiwIZpuJ7ObS92uFWF8uSc0qgpgNWfwqelQ7AN9nitRZYwUm
-         JskgNufHFOLIRetYoMhH+OaLffqXIpSpOfaFEtFlkLJQOwJVdEUL6QKlFP4hXMl7BLif
-         7Phg==
-X-Gm-Message-State: ACgBeo3YLcqEkc8mnvbCJtfqgNpeSPvGqP5zjr0yB+lgST/BOGdozEa8
-	p1PVRk8miHu67FDG5A2dTe+lQg==
-X-Google-Smtp-Source: 
- AA6agR51/ghz7rYzA4tFGN9t3wawy6ntXHi23DDxxPOutxuchsxWxyWRx5dNgGADCYSQeu+MH8yAbA==
-X-Received: by 2002:a05:600c:4651:b0:3b3:3f99:4ad6 with SMTP id
- n17-20020a05600c465100b003b33f994ad6mr6619216wmo.90.1663244200998;
-        Thu, 15 Sep 2022 05:16:40 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e07:270e:85c1:e593?
- ([2001:8b0:aba:5f3c:e07:270e:85c1:e593])
-        by smtp.gmail.com with ESMTPSA id
- l3-20020a5d4bc3000000b0022ac12fff29sm2456463wrt.65.2022.09.15.05.16.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Sep 2022 05:16:40 -0700 (PDT)
-Message-ID: 
- <e0ece56dc5b05480313c5eee78a3d31081478687.camel@linuxfoundation.org>
-Subject: Re: [Openembedded-architecture] Adding more information to the SBOM
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Marta Rybczynska <rybczynska@gmail.com>, OE-core
-	 <openembedded-core@lists.openembedded.org>,
-	openembedded-architecture@lists.openembedded.org, Joshua Watt
-	 <JPEWhacker@gmail.com>
-Date: Thu, 15 Sep 2022 13:16:39 +0100
-In-Reply-To: 
- <CAApg2=Q0+GqNVfyhnnadaEhXUB67_vbf5=ukKHdD8xRHqSOptg@mail.gmail.com>
-References: 
-	<CAApg2=Q0+GqNVfyhnnadaEhXUB67_vbf5=ukKHdD8xRHqSOptg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm3
+ header.b=vOv+c/cS;
+ spf=pass (domain: gherzan.com, ip: 64.147.123.21,
+ mailfrom: andrei@gherzan.com)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 2633C32000F9;
+	Thu, 15 Sep 2022 08:51:05 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Thu, 15 Sep 2022 08:51:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm3; t=1663246264; x=1663332664; bh=fBYfR57yxCkFfRiv1+CdPhxLC
+	DyLVbw34+JDNk48U3k=; b=vOv+c/cSJHKGmJtU8hYsBIJ0lOQJewpbyBsowTHng
+	kZHMP2/CaIzgnm7yZwqcAKJaXysEDiZdjFjMct1Mn9WlUuVJO7Ne3dAKFAVKdzu6
+	4QGelto/iO7/YrgEiD3cN1X/HbzaoY8XWh4FMYCdY/LH02cWsa1eyjdL6CVsxLxO
+	pjBEdnzN3lF0k0HhejfDu8BVz659/AZ3u8WlNZ+ydog/3J0285MPxu3wgoTAByGF
+	iupa/QLFovduW2v6FNuvcLR3lteq1YmBVSLQA/l9CiYRQo70jsmfdEg25v46RwUf
+	pJUMssnE0Yb8A0HVYGGdNtpc/ydDm3rVp9n1DlIFZGTDg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1663246264; x=1663332664; bh=fBYfR57yxCkFfRiv1+CdPhxLCDyLVbw34+J
+	DNk48U3k=; b=ElwkPV/YwPjFXhABUVZdgEjYUJkfyzKzQjqbxzcQZk6D+O2kPa7
+	3m6FCKE2JV1DIVAwQopay5oYaxnaBnjzUfUJ/NexgPdbFPkEvKWK09Jrf5NCQJNi
+	1FwD56u8wfh5GqGetgKvz7nqmpj+PFmoJnwvmVVdv2gI/ogjJRA6YHn8qstiGB/3
+	wTqgAxvXDAcd4akC96z9eU/HckJDzDWntGKEq8aIJnk4nq53kMqMJ8wfEY/hYBG1
+	HmfuGsxHpSh0ck6TO6A3W6Y95vePPYysaOLp9pPMfjlGDQbnDMsPMSlmtteEoZ2V
+	QSj+0LzsNP5bDOeyrsyUvMW1xeXB7yTrr/Q==
+X-ME-Sender: <xms:uB8jY7zOltfKy90hxJCWWq_FEcgW2-e3K4eGdMDZExhHUTM6sqU42g>
+    <xme:uB8jYzQKOS5SDc1tYjlT5lScQ0T0jmwmH5Ah529WCztwBB9WB_DerG2lRioqTJTbJ
+    2iouiGmnE9IacRrQ28>
+X-ME-Received: 
+ <xmr:uB8jY1VoxGQ_Vsz4oPEDVasq1Q823LSu4VIm0NJwhKZg2H8TL0RAatgNoQrgZe_7EI5dQIPGLYdeGVjhI92dmYMZrCxRChPkQ_Y31r5TLeeeQv5Vi7cgIwrx>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvfedrfedukedgheekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpeetnhgurhgvihcuifhhvghriigrnhcuoegrnhgurhgvihesghhh
+    vghriigrnhdrtghomheqnecuggftrfgrthhtvghrnhepieejlefhveevleffveegfeetle
+    ejtedvgeejtddthefhhfdtiefhveegffeggeeknecuvehluhhsthgvrhfuihiivgeptden
+    ucfrrghrrghmpehmrghilhhfrhhomheprghnughrvghisehghhgvrhiirghnrdgtohhm
+X-ME-Proxy: <xmx:uB8jY1g2nIaULgEjvq6f3wIr2Q03HH9MsxVXABT3i07mlW_eUdCMAg>
+    <xmx:uB8jY9D3uU68xjGZnzYge7JCAXWiYI3b1uoe3bS8gcMLT3UDR-YCsA>
+    <xmx:uB8jY-L_ee5_NfbxUV5VSBfGAUY562ZOx7SqD-_DvyVjkn1iacEm8w>
+    <xmx:uB8jY6608v3ZO_gJrIsMBK6ZQ-8uX7v1-ileGmUMnJt0DcYFkWGQ0Q>
+Feedback-ID: i68994715:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 15 Sep 2022 08:51:03 -0400 (EDT)
+From: Andrei Gherzan <andrei@gherzan.com>
+To: openembedded-core@lists.openembedded.org
+Cc: andrei@gherzan.com,
+	Andrei Gherzan <andrei.gherzan@huawei.com>
+Subject: [PATCH] grub: Allow build on armv7ve/a with softfp
+Date: Thu, 15 Sep 2022 14:50:45 +0200
+Message-Id: <20220915125045.1641790-1-andrei@gherzan.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 12:16:52 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 12:51:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170693
+ https://lists.openembedded.org/g/openembedded-core/message/170694
 
-On Wed, 2022-09-14 at 16:16 +0200, Marta Rybczynska wrote:
-> The sources with a long README are available at
-> https://gitlab.eclipse.org/eclipse/oniro-compliancetoolchain/toolchain/ti=
-nfoilhat/-/tree/srctracker/srctracker
->=20
-> What do you think of this work? Would it be of interest to integrate
-> into YP at some point? Shall we discuss this?
+From: Andrei Gherzan <andrei.gherzan@huawei.com>
 
-I had a look at this and was a bit puzzled by some of it.
+Grub tries to force the compilation in softfp mode for some known target
+CPU. That is because it doesn't use floats or doubles and there are
+known limitations of using a configuration with hardfp. There are though
+target CPUs that grub won't know how to configure failing with something
+similar to:
 
-I can see the issues you'd have if you want to separate the unpatched
-source from the patches and know which files had patches applied as
-that is hard to track. There would be significiant overhead in trying
-to process and store that information in the unpack/patch steps and the
-archiver class does some of that already. It is messy, hard and doens't
-perform well. I'm reluctant to force everyone to do it as a result but
-that can also result in multiple code paths and when you have that, the
-result is that one breaks :(.
+| checking for options to get soft-float... no
+| configure: error: could not force soft-float
 
-I also can see the issue with multiple sources in SRC_URI, although you
-should be able to map those back if you assume subtrees are "owned" by
-given SRC_URI entries. I suspect there may be a SPDX format limit in
-documenting that piece?
+This change relaxes a bit the COMPATIBLE_HOST restriction to only apply
+for hardfp configuration even for arm7ve/a.
 
-Where I became puzzled is where you say "Information about debug
-sources for each actual binary file is then taken from
-tmp/pkgdata/<machine>/extended/*.json.zstd". This is the data we added
-and use for the spdx class so you shouldn't need to reinvent that
-piece. It should be the exact same data the spdx class uses.
+Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+---
+ meta/recipes-bsp/grub/grub2.inc | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-I was also puzzled about the difference between rpm and the other
-package backends. The exact same files are packaged by all the package
-backends so the checksums from do_package should be fine.
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index 47ea561002..6c9952d2d7 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -43,9 +43,18 @@ CVE_CHECK_IGNORE += "CVE-2021-46705"
+ 
+ DEPENDS = "flex-native bison-native gettext-native"
+ 
+-COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*|riscv.*)-(linux.*|freebsd.*)'
+-COMPATIBLE_HOST:armv7a = 'null'
+-COMPATIBLE_HOST:armv7ve = 'null'
++GRUB_COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*|riscv.*)-(linux.*|freebsd.*)'
++COMPATIBLE_HOST = "${GRUB_COMPATIBLE_HOST}"
++# Grub doesn't support hard float toolchain and won't be able to forcefully
++# disable it on some of the target CPUs. See 'configure.ac' for
++# supported/unsupported CPUs in hardfp.
++COMPATIBLE_HOST:armv7a = "${@'null' if d.getVar('TUNE_CCARGS_MFLOAT') == 'hardfp' else d.getVar('GRUB_COMPATIBLE_HOST')}"
++COMPATIBLE_HOST:armv7ve = "${@'null' if d.getVar('TUNE_CCARGS_MFLOAT') == 'hardfp' else d.getVar('GRUB_COMPATIBLE_HOST')}"
++
++# Grub doesn't use float or doubles and tries to disable forcefully floating
++# point at configure time. That dynamic flags configuration doesn't always work
++# (for example on arm 32bit) so force the compilation in softfp.
++TUNE_CCARGS_MFLOAT:class-target = "softfp"
+ 
+ # configure.ac has code to set this automagically from the target tuple
+ # but the OE freeform one (core2-foo-bar-linux) don't work with that.
+-- 
+2.25.1
 
-
-For the source issues above it basically it comes down to how much
-"pain" we want to push onto all users for the sake of adding in this
-data. Unfortunately it is data which many won't need or use and
-different legal departments do have different requirements. Experience
-with archiver.bbclass shows that multiple codepaths doing these things
-is a nightmare to keep working, particularly for corner cases which do
-interesting things with the code (externalsrc, gcc shared workdir, the
-kernel and more).
-
-Cheers,
-
-Richard
 
