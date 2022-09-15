@@ -2,127 +2,150 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C73FEC32771
-	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 23:26:35 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web09.138.1663284386597850442
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDB0FECAAA1
+	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 23:28:15 +0000 (UTC)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web10.128.1663284489636388104
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Sep 2022 16:26:27 -0700
+ Thu, 15 Sep 2022 16:28:09 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=1UnPnllR;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174,
+ header.b=e9wXVO7H;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.42,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id w20so7745041ply.12
+Received: by mail-pj1-f42.google.com with SMTP id
+ q9-20020a17090a178900b0020265d92ae3so23880807pja.5
         for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Sep 2022 16:26:26 -0700 (PDT)
+ Thu, 15 Sep 2022 16:28:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date;
-        bh=t3cCR+bi1Cndob0AnLqhAqSFp/OvhVyqqjBO8Y/tZOo=;
-        b=1UnPnllRa7yg+QYWaZPk7NjL9oyx4Yi/QGzLTQjE3NTBGHEfQMkV/b6wk9kd8IYFtx
-         +AsdcdSmJgXt2t1I8Tk+sjMR1yKEkIUoHHpeuGTDB+d6MEwga6mtX83S2Eiti8fIhXNo
-         0KkRqCO8346c6epqLH1DmEt645vu+9eJsYUA1/L0XCZzet1Su+pnKx5yoFCdRTP53aTG
-         5kjshqV30ONVEdHCkGxrDO7rreR5VMrA8hq+J6Gl0qRQK0qxjKqnU4nGbB4LUp9Erzt4
-         y5nwwPbvl7OXR66qtWc9vjqJ0QmCSVYCpa4VvmRlFsgjZ6vrSlwLRaKKX0CbAWsrWJU3
-         NO8w==
+        bh=o5y9hMv6eucuckWE0YIZk66g4VebdGh93fYh6lgSmeg=;
+        b=e9wXVO7HL+aYcVyxCsHbjOnVjGxyKkLNMN3DyPPGJG9lTjZbIbehHSy2XXYf+YT9d6
+         Ry6RHZC0268JzpnceXehZbn8HaQIOfDhLklz7ZHPQPGmW5qT/CpSdZ97AwKR2V39qDVf
+         4aP/qrX0xUE1XaeOPRZokb4TbfKHD5d87h+MNdXpP4gbCIaXfrk9O0VMZjRSGuioARKs
+         /CsAoUP3psZBENLMwR/r7CNYbylSGZuQsPKYa6XzNssKE2dF4NF47uhK690KJJjsdFYH
+         y6SU2Fkcoo67xuqb6abfegRfbISJuUpC4MjrRa2eZJFK6OCozuxiWqNZje3U1M93wint
+         oenA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date;
-        bh=t3cCR+bi1Cndob0AnLqhAqSFp/OvhVyqqjBO8Y/tZOo=;
-        b=VN436nuB0SvA2uih2nivhav+lmQVc9wjXWWECS97PVHjEpDhmIZ83OSriSHud2Ec9F
-         +cEoCWoaElKj4Sun2bQHihDCnfBpgM4OmsnV6ny/GHrZ5uztzEG9qPGofOkXH0+a+1Gg
-         7V4evx0TDSMk3edOkZRzUUrJ5SfVuo8qUFGuItgxmA8yx2MsaVVaIFMfjcGM5Jq2byc9
-         g0Zrfbt4Od2e45exMIuB8+7Q6ooomDjdMEskO+2OxQMbNQSmXgke0rdi2d8eLVDOUP1C
-         iyhJX+mCtZXyFdpPMnrHrmxBRSyG84o+Gh0w1mTa2okRMFhFQez1BS8KPkwdjLVyMPF1
-         0lQw==
-X-Gm-Message-State: ACrzQf1XVzwbbi+re4k31WZ8TmX1YPxqeJNZ0tqQndvKA2LlX6IjLXrA
-	Gl4B5+5IMF+yjCGBzs7Eg9nRJqACpSilmqsR
+        bh=o5y9hMv6eucuckWE0YIZk66g4VebdGh93fYh6lgSmeg=;
+        b=5q7uwEzCo1hdcHBXIJO9zsgAdS6Aru4Oo4uU+UytXbU3zWCH53xrS9kXXF+h8j+ery
+         XHSQw30xnCoYNbZL9P7eEH+1mcoyyaOSBijFCvKtEz+/m8u7F+qS/QrBn8eAw9sVDBuz
+         eIG9mUJSCUA0YdFp7zZCj/R7c2q6G6w45iK/BzJ3JDG9eJDBC/ue/JPzUYCW/wSdCZDD
+         tD6g0mf5pl5+IIN0D6rksoMyZwLFyghsFx6X6WceF05Ham8/widgJ0gwt1M2C/FKwWVI
+         c9FUuyKVmEFDTz/M3k3UU50/85MIlUuFPdypcfFtdmT+6GHjcoPYV0XZglQjsqxZSHCO
+         oDig==
+X-Gm-Message-State: ACrzQf1izFsmlpXraxJXJhBbNY7M59JMRvbnGU9He61Ns08lTW5d0qWi
+	ryETiNBVN61cVasyn7Hxmnqorc79flVMQ+uF
 X-Google-Smtp-Source: 
- AMsMyM6IP72rw8hp32jlju4YM5TxNlwP54LYkFB9pVyQIRp+r1/I+jO1E1BFpk7+CWMIXY1TQEpusg==
-X-Received: by 2002:a17:902:da8b:b0:178:391d:d0b1 with SMTP id
- j11-20020a170902da8b00b00178391dd0b1mr1919991plx.32.1663284385325;
-        Thu, 15 Sep 2022 16:26:25 -0700 (PDT)
+ AMsMyM5SUuEfkOwpHA/0A9nd9prkRabcXYJx7LmXqE/PjuyU+3azMF3yZom34bDKACPTzyXbcGT3XA==
+X-Received: by 2002:a17:903:291:b0:172:f018:cdce with SMTP id
+ j17-20020a170903029100b00172f018cdcemr1800391plr.91.1663284488547;
+        Thu, 15 Sep 2022 16:28:08 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- fs4-20020a17090af28400b00203059fc75bsm184450pjb.5.2022.09.15.16.26.24
+ h185-20020a6283c2000000b0053e607a6bf0sm13032110pfe.43.2022.09.15.16.28.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Sep 2022 16:26:24 -0700 (PDT)
+        Thu, 15 Sep 2022 16:28:08 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/9] Pull request (cover letter only)
-Date: Thu, 15 Sep 2022 13:26:15 -1000
-Message-Id: <cover.1663284294.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 00/16] Pull request (cover letter only)
+Date: Thu, 15 Sep 2022 13:27:59 -1000
+Message-Id: <cover.1663284424.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 23:26:35 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 23:28:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170777
+ https://lists.openembedded.org/g/openembedded-core/message/170778
 
-The following changes since commit c9a9d5a1f7fbe88422ccee542a89afbc4c5336e4:
+The following changes since commit bfce90b1260d07f01a8dc2998c9e63ca36d4ebbe:
 
-  vim: Upgrade 9.0.0242 -> 9.0.0341 (2022-09-07 04:40:43 -1000)
+  npm: use npm_registry to cache package (2022-09-06 07:10:59 -1000)
 
 are available in the Git repository at:
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
 
-Chee Yang Lee (3):
-  connman: fix CVE-2022-32292
-  gnutls: fix CVE-2021-4209
-  virglrenderer: fix CVE-2022-0135
+Alejandro Hernandez Samaniego (1):
+  rootfs.py: dont try to list installed packages for baremetal images
 
-Florin Diaconescu (1):
-  binutils : CVE-2022-38533
+Alexandre Belloni (2):
+  ruby: drop capstone support
+  runqemu: display host uptime when starting
 
-Khan@kpit.com (1):
-  python3: Fix CVE-2021-28861 for python3
+Joshua Watt (1):
+  oeqa: qemurunner: Report UNIX Epoch timestamp on login
 
-Virendra Thakur (1):
-  tiff: Fix for CVE-2022-2867/8/9
+Khem Raj (2):
+  autoconf: Fix strict prototype errors in generated tests
+  autoconf: Update K & R stype functions
 
-Yi Zhao (1):
-  tiff: Security fixes CVE-2022-1354 and CVE-2022-1355
+Kristian Amlie (1):
+  externalsrc: Don't wipe out src dir when EXPORT_FUNCTIONS is used.
 
-niko.mauno@vaisala.com (2):
-  systemd: Fix unwritable /var/lock when no sysvinit handling
-  systemd: Add 'no-dns-fallback' PACKAGECONFIG option
+Martin Jansa (1):
+  libxml2: Port gentest.py to Python-3
 
- .../connman/connman/CVE-2022-32292.patch      |  37 +++
- .../connman/connman_1.37.bb                   |   1 +
- .../systemd/systemd/00-create-volatile.conf   |   1 +
- meta/recipes-core/systemd/systemd_244.5.bb    |   1 +
- .../binutils/binutils-2.34.inc                |   1 +
- .../binutils/binutils/CVE-2022-38533.patch    |  37 +++
- .../python/python3/CVE-2021-28861.patch       | 135 +++++++++++
- .../recipes-devtools/python/python3_3.8.13.bb |   1 +
- .../virglrenderer/CVE-2022-0135.patch         | 100 +++++++++
- .../virglrenderer/virglrenderer_0.8.2.bb      |   1 +
- ...022-2867-CVE-2022-2868-CVE-2022-2869.patch | 159 +++++++++++++
- .../libtiff/tiff/CVE-2022-1354.patch          | 212 ++++++++++++++++++
- .../libtiff/tiff/CVE-2022-1355.patch          |  62 +++++
- meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |   3 +
- .../gnutls/gnutls/CVE-2021-4209.patch         |  37 +++
- meta/recipes-support/gnutls/gnutls_3.6.14.bb  |   1 +
- 16 files changed, 789 insertions(+)
- create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2022-32292.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2022-38533.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2021-28861.patch
- create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2022-0135.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-2867-CVE-2022-2868-CVE-2022-2869.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-1354.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-1355.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2021-4209.patch
+Pavel Zhukov (1):
+  core-image.bbclass: Exclude openssh complementary packages
+
+Peter Bergin (1):
+  rootfs-postcommands.bbclass: avoid moving ssh host keys if etc is
+    writable
+
+Peter Kjellerstedt (1):
+  cairo: Adapt the license information based on what is being built
+
+Richard Purdie (3):
+  gcc-multilib-config: Fix i686 toolchain relocation issues
+  kernel: Always set CC and LD for the kernel build
+  kernel: Use consistent make flags for menuconfig
+
+wangmy (2):
+  cracklib: upgrade 2.9.7 -> 2.9.8
+  vala: upgrade 0.56.2 -> 0.56.3
+
+ meta/classes/core-image.bbclass               |   4 +
+ meta/classes/externalsrc.bbclass              |   8 +-
+ meta/classes/kernel.bbclass                   |  16 +-
+ meta/classes/rootfs-postcommands.bbclass      |  30 +-
+ meta/lib/oe/rootfs.py                         |   4 +
+ meta/lib/oeqa/utils/qemurunner.py             |   4 +-
+ .../0001-Port-gentest.py-to-Python-3.patch    | 814 ++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.14.bb    |  11 +
+ ...ilers-that-moan-about-K-R-func-decls.patch | 138 +++
+ .../autoconf/autoconf_2.71.bb                 |   1 +
+ .../gcc/gcc-multilib-config.inc               |   2 +-
+ ...001-Remove-dependency-on-libcapstone.patch |  36 +
+ meta/recipes-devtools/ruby/ruby_3.1.2.bb      |   2 +-
+ meta/recipes-devtools/vala/vala_0.56.2.bb     |   3 -
+ meta/recipes-devtools/vala/vala_0.56.3.bb     |   3 +
+ ...01-rules-Drop-using-register-keyword.patch | 278 ------
+ ...rrect-parameter-types-to-Debug-calls.patch |  40 -
+ .../{cracklib_2.9.7.bb => cracklib_2.9.8.bb}  |   4 +-
+ meta/recipes-graphics/cairo/cairo_1.16.0.bb   |   6 +-
+ scripts/runqemu                               |   6 +
+ 20 files changed, 1058 insertions(+), 352 deletions(-)
+ create mode 100644 meta/recipes-core/libxml/libxml2/0001-Port-gentest.py-to-Python-3.patch
+ create mode 100644 meta/recipes-devtools/autoconf/autoconf/0001-Port-to-compilers-that-moan-about-K-R-func-decls.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/0001-Remove-dependency-on-libcapstone.patch
+ delete mode 100644 meta/recipes-devtools/vala/vala_0.56.2.bb
+ create mode 100644 meta/recipes-devtools/vala/vala_0.56.3.bb
+ delete mode 100644 meta/recipes-extended/cracklib/cracklib/0001-rules-Drop-using-register-keyword.patch
+ delete mode 100644 meta/recipes-extended/cracklib/cracklib/0002-rules-Correct-parameter-types-to-Debug-calls.patch
+ rename meta/recipes-extended/cracklib/{cracklib_2.9.7.bb => cracklib_2.9.8.bb} (83%)
 
 -- 
 2.25.1
