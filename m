@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D78B0C6FA93
-	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 14:18:42 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com
- (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.10623.1663251513209410086
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 016DDC6FA97
+	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 14:18:43 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com
+ (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.10620.1663251512674829198
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Sep 2022 07:18:35 -0700
+ Thu, 15 Sep 2022 07:18:33 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Kcc0zoBJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
- mailfrom: 0101018341840316-40fde4cf-50d7-43d7-9eb1-d1bc76e38266-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=FBEXW+6E;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
+ mailfrom: 010101834183ff37-b2e5cacc-2108-46a2-99c4-dfa52eaff5d6-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1663251514;
+	t=1663251513;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=BunDZew371/ORqFgZ1+zW2sUvrB1bMsyy3Yb1voxu8s=;
-	b=Kcc0zoBJCzP+vkieMl0yhv/2GXf5lqpRpSzaD6k5FnXHATOVhluOvsHiZM+MdaKq
-	KNd7Kja7g0EixjOt8EyNAjd7RF0h+jbDjMd+xzZ2pxbvXuPxdljMEYvcB4doaXG3o/i
-	NSLOXA6+YRZ0IEVY8HBkLzuMnNNw8J3Vm1EGVTRA=
+	bh=EmMrrZ5IWwXhlixDP7/3jXt76waAKdFtOv1+fw/KIqM=;
+	b=FBEXW+6EqleA0VWpMGNSwGjK5o+Qs402wEBwNmucEv7xh3RwoUiYsMyvKBy42U0J
+	gwmFyfR3Dxq2ubjAnGeWBYBQYrfM6z/24/Zw2SUsh3Vep5jlQkJajGAthzkwiXKdsS/
+	Ug0zvOW/jTo+gv/p2bcTVQnVOLPK9NuC1EHPitDw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1663251514;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1663251513;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=BunDZew371/ORqFgZ1+zW2sUvrB1bMsyy3Yb1voxu8s=;
-	b=GlLTIAB+/wySf3unrGmYRWjokMhYDwRnCzz5qZNWDnOkC9QkhPoYXF2TLK2sRSZJ
-	hHECLT8+beh+AZ9llk3vuxdoCnPpYrYRWoDmu/OzACOa4yzdA9qH0QNK90zJJOpnhuZ
-	lOF3KQXgUyHCpi4LhFPVlhiytT4/K2Vud0vJZWLE=
-Content-Type: multipart/mixed; boundary="===============6136330267237481581=="
+	bh=EmMrrZ5IWwXhlixDP7/3jXt76waAKdFtOv1+fw/KIqM=;
+	b=R/BgkD083e+y8e410fqFRevmaTjtlc5dXGaHy17ssnG7ZA3NA4+94DvzZoKfYNCv
+	egurCz/lB3R5aZnLFpiEk97KG5FtBGy+Ju5fYsaXAeDwvzjZ9+KWRL1GhF69Gi0YKhI
+	X3km6uFKderS03pCGvQpgeE99z0w/GCNpvV1XVCA=
+Content-Type: multipart/mixed; boundary="===============5707123205012784131=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libjitterentropy: upgrading to 3.4.1 SUCCEEDED
+Subject: [AUH] gawk: upgrading to 5.2.0 FAILED
 Message-ID: 
- <0101018341840316-40fde4cf-50d7-43d7-9eb1-d1bc76e38266-000000@us-west-2.amazonses.com>
-Date: Thu, 15 Sep 2022 14:18:34 +0000
+ <010101834183ff37-b2e5cacc-2108-46a2-99c4-dfa52eaff5d6-000000@us-west-2.amazonses.com>
+Date: Thu, 15 Sep 2022 14:18:33 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.09.15-54.240.27.192
+X-SES-Outgoing: 2022.09.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 14:18:42 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 14:18:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170763
+ https://lists.openembedded.org/g/openembedded-core/message/170722
 
---===============6136330267237481581==
+--===============5707123205012784131==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,101 +56,99 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libjitterentropy* to *3.4.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *gawk* to *5.2.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-libjitterentropy-upgrade-3.4.0-3.4.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe gawk failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1661 entries from dependency cache.
+
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-5a3a01473ad8bdd83955e9aa92a3fadab1bc2ae3"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:5a3a01473ad8bdd83955e9aa92a3fadab1bc2ae3"
+workspace            = "master:6a27236fed8e7c27974c2313366bdbfd8edfa927"
+
+Initialising tasks...done.
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1661 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 886 .bb files complete (884 cached, 2 parsed). 1662 targets, 35 skipped, 0 masked, 0 errors.
+
+Summary: There was 1 WARNING message.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-5a3a01473ad8bdd83955e9aa92a3fadab1bc2ae3"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:5a3a01473ad8bdd83955e9aa92a3fadab1bc2ae3"
+workspace            = "master:6a27236fed8e7c27974c2313366bdbfd8edfa927"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  33% |############                        | ETA:  0:00:00
+Adding changed files:  67% |########################            | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://ftp.gnu.org/gnu/gawk/gawk-5.2.0.tar.gz...
+INFO: Rebasing devtool onto 815fe58e75a78a15326342ce4b76e051b8c2c2cc
+WARNING: Command 'git rebase 815fe58e75a78a15326342ce4b76e051b8c2c2cc' failed:
+Auto-merging test/Maketests
+CONFLICT (content): Merge conflict in test/Maketests
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gawk
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/gawk/gawk_5.2.0.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============6136330267237481581==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy-doc: PKGSIZE changed from 3731 to 4204 (+13%)
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy: FILELIST: removed "/usr/lib/libjitterentropy.so.3.4.0", added "/usr/lib/libjitterentropy.so.3.4.1"
-Changes to packages/core2-32-poky-linux/libjitterentropy (sysroot):
-  /usr/lib/libjitterentropy.so.3 changed symlink target from libjitterentropy.so.3.4.0 to libjitterentropy.so.3.4.1
-  /usr/lib/libjitterentropy.so.3.4.0 moved to /usr/lib/libjitterentropy.so.3.4.1
-
---===============6136330267237481581==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/libjitterentropy: PV changed from "3.4.0" to "3.4.1"
-packages/core2-32-poky-linux/libjitterentropy: PKGV changed from 3.4.0 [default] to 3.4.1 [default]
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy-dbg: PV changed from "3.4.0" to "3.4.1"
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy-dbg: PKGSIZE changed from 48272 to 48364 (+0%)
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy-dbg: FILELIST: removed "/usr/lib/.debug/libjitterentropy.so.3.4.0", added "/usr/lib/.debug/libjitterentropy.so.3.4.1"
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy-dbg: PKGV changed from 3.4.0 [default] to 3.4.1 [default]
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy-dev: PV changed from "3.4.0" to "3.4.1"
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy-dev: PKGSIZE changed from 27915 to 29072 (+4%)
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy-dev: PKGV changed from 3.4.0 [default] to 3.4.1 [default]
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy-doc: PV changed from "3.4.0" to "3.4.1"
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy-doc: PKGSIZE changed from 3731 to 4204 (+13%)
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy-doc: PKGV changed from 3.4.0 [default] to 3.4.1 [default]
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy-locale: PV changed from "3.4.0" to "3.4.1"
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy-locale: PKGV changed from 3.4.0 [default] to 3.4.1 [default]
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy-src: PV changed from "3.4.0" to "3.4.1"
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy-src: PKGSIZE changed from 107839 to 109257 (+1%)
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy-src: PKGV changed from 3.4.0 [default] to 3.4.1 [default]
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy-staticdev: PV changed from "3.4.0" to "3.4.1"
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy-staticdev: PKGV changed from 3.4.0 [default] to 3.4.1 [default]
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy: PV changed from "3.4.0" to "3.4.1"
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy: FILELIST: removed "/usr/lib/libjitterentropy.so.3.4.0", added "/usr/lib/libjitterentropy.so.3.4.1"
-packages/core2-32-poky-linux/libjitterentropy/libjitterentropy: PKGV changed from 3.4.0 [default] to 3.4.1 [default]
-Changes to packages/core2-32-poky-linux/libjitterentropy (sysroot):
-  /usr/lib/libjitterentropy.so.3 changed symlink target from libjitterentropy.so.3.4.0 to libjitterentropy.so.3.4.1
-  /usr/lib/libjitterentropy.so.3.4.0 moved to /usr/lib/libjitterentropy.so.3.4.1
-
---===============6136330267237481581==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libjitterentropy-upgrade-3.4.0-3.4.1.patch"
-
-RnJvbSBkZjNiZmVkZDJhNDllMjU2ZWVkMzQwYjMxMDA3OWE4OWIzOTc3ZWFjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgU2VwIDIwMjIgMTM6MzI6NTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJqaXR0ZXJlbnRyb3B5OiB1cGdyYWRlIDMuNC4wIC0+IDMuNC4xCgotLS0KIC4uLi97bGliaml0
-dGVyZW50cm9weV8zLjQuMC5iYiA9PiBsaWJqaXR0ZXJlbnRyb3B5XzMuNC4xLmJifSAgICB8IDIg
-Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
-IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmppdHRlcmVudHJvcHkve2xpYmppdHRlcmVudHJvcHlf
-My40LjAuYmIgPT4gbGliaml0dGVyZW50cm9weV8zLjQuMS5iYn0gKDk1JSkKCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJqaXR0ZXJlbnRyb3B5L2xpYmppdHRlcmVudHJvcHlf
-My40LjAuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJqaXR0ZXJlbnRyb3B5L2xpYmppdHRl
-cmVudHJvcHlfMy40LjEuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvbGliaml0dGVyZW50cm9weS9saWJqaXR0ZXJlbnRyb3B5XzMuNC4wLmJi
-CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJqaXR0ZXJlbnRyb3B5L2xpYmppdHRl
-cmVudHJvcHlfMy40LjEuYmIKaW5kZXggMWQyOTFjYzM1Ny4uM2ZiOGM2YjE0NyAxMDA2NDQKLS0t
-IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliaml0dGVyZW50cm9weS9saWJqaXR0ZXJlbnRyb3B5
-XzMuNC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmppdHRlcmVudHJvcHkvbGli
-aml0dGVyZW50cm9weV8zLjQuMS5iYgpAQCAtMTAsNyArMTAsNyBAQCBMSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9MSUNFTlNFO21kNT02NGE4NzE4MDkwODU0MDYyMGNlMzY0YjVlNjliM2IwMyBc
-CiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9MSUNFTlNFLmJzZDttZDU9NjZhNWNlZGFmNjJj
-NGIyNjM3MDI1ZjA0OWY5YjgyNmYgXAogICAgICAgICAgICAgICAgICAgICAiCiBTUkNfVVJJID0g
-ImdpdDovL2dpdGh1Yi5jb20vc211ZWxsZXJERC9qaXR0ZXJlbnRyb3B5LWxpYnJhcnkuZ2l0O2Jy
-YW5jaD1tYXN0ZXI7cHJvdG9jb2w9aHR0cHMiCi1TUkNSRVYgPSAiMmU1MDE5Y2ZlNjMwMzhmYWFh
-NDA1Y2U1MzcxNWVmZmU0ZWE1ODBlNCIKK1NSQ1JFViA9ICI0NTQ0ZTExMzIwMTM4YWMwMjc5N2Fm
-ODE3NjZmNDQ3NmE3MWJiMDlmIgogUyA9ICIke1dPUktESVJ9L2dpdCIKIAogIyByZW1vdmUgYXQg
-bmV4dCB2ZXJzaW9uIHVwZ3JhZGUgb3Igd2hlbiBvdXRwdXQgY2hhbmdlcwotLSAKMi4zMS4xCgo=
-
---===============6136330267237481581==--
+--===============5707123205012784131==--
 
