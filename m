@@ -1,216 +1,160 @@
-Return-Path: <Ruiqiang.Hao@windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 443F1ECAAD3
-	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 08:58:01 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
- [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web09.7957.1663232273787148402
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6098AECAAA1
+	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 09:20:51 +0000 (UTC)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+ [209.85.208.181])
+ by mx.groups.io with SMTP id smtpd.web12.7789.1663233641654109275
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Sep 2022 01:57:54 -0700
+ Thu, 15 Sep 2022 02:20:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=KI/SE5xV;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.178.238,
- mailfrom: prvs=62576d9b82=ruiqiang.hao@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 28F8YFxk004671
-	for <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 08:57:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=ywa87SJMpRPSASh9Dd1r0fmc79sZp7AmJhI/bQd4Eaw=;
- b=KI/SE5xV1v+0flmgnSZr4um04PKUPsF2aUw4uTMJMgRn+4JtefItuccLVEbrQRuqLDPA
- OhaFRUCTnLneQKOMERBBAAtMxkWHPWuUEJqy9Y852YEBUxD4s7UAP+kmTxv1MkPC5JVG
- 8otuiWEq9r71NXllTZ/vMoNL+GXYl62ukmZ64UgbKlcNNR5bcw10ECbtVxAz9bUEoXGX
- /nqnkux4ytgq4y38k9DIyS+N/p2smA1XfpyKf2jHSpayFsivnN/E5X39NfeNZMLVKugE
- tfYFVj8dElhpn8nRoomEAouqC5j/0l9gjdSe9GkRlPpTwNIIaL7JhLeW//2fi7gs166v xA==
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2106.outbound.protection.outlook.com [104.47.70.106])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jk4tnh6ud-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Sep 2022 08:57:52 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oPW4afceGfC1ZzKLFrSV+1soXdIR6lXDIvkQ6MXujRmdmtYrAJt0u0BtihpZlUq8IwIxo631RGnoTWoBLzQvMxWGg+FAUHWqDIoiaJL5mHipKjOy0eYVwoq/xn0l97UwUU6ACrrzP47OugR3YRLADcwB0fA3cpbDS022GWmpGdb34eIXCUFBvgpRRz5TXmDRsuY+8yW+HT3DgdfXid1kMVQqHRG2dFGkhEeUY2N0j6rLK0OuqRtUhXuohgJlg7Y7fcSPU1Q+gCkFNeOQwmdl64xqbcGNFAn8+UzHg/XIF8IZ01aT40edDu7cXrMyOPRJWQY+IJ9jRUNjmxYGVSRawQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ywa87SJMpRPSASh9Dd1r0fmc79sZp7AmJhI/bQd4Eaw=;
- b=PUx44oeF4HF9cADwJQIP0EQAWRv1YYfEZijsIk5gIWR46LNlBHkpFfoYR1C4H2YJM3CN2pHEaUAJDZsCppPsiL4gvwQUt94+2a07NDUX9eV9LQfwftzmg5RU0JCM80C5WmH3XRxze5TWQRQp8gzuj5EizBsWVMMDPjyeaa54E9yqT6ysKby0jUuouj10UhCb5Z2QAkFEdL/NiXfkDEvVSEE1lU2mer5F/pXkacXYeS5Yk1JjStfyuU78JllIICWStwpdYF2GjWDca+dzDDPwQZOMNbI2qmAcp3FuJHF172blx35dn+67VzBHDk3x61gF9Kc2omtEK9v0RtsKzHUZ2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from BY5PR11MB4166.namprd11.prod.outlook.com (2603:10b6:a03:191::25)
- by CH3PR11MB7323.namprd11.prod.outlook.com (2603:10b6:610:152::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.22; Thu, 15 Sep
- 2022 08:57:50 +0000
-Received: from BY5PR11MB4166.namprd11.prod.outlook.com
- ([fe80::d4dd:9fdc:39a1:5f02]) by BY5PR11MB4166.namprd11.prod.outlook.com
- ([fe80::d4dd:9fdc:39a1:5f02%5]) with mapi id 15.20.5612.022; Thu, 15 Sep 2022
- 08:57:50 +0000
-From: Ruiqiang Hao <ruiqiang.hao@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH] tune-neoversen2: support tune-neoversen2 base on
- armv9a
-Date: Thu, 15 Sep 2022 16:56:50 +0800
-Message-Id: <20220915085650.3626434-1-ruiqiang.hao@windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI1PR02CA0024.apcprd02.prod.outlook.com
- (2603:1096:4:1f4::12) To BY5PR11MB4166.namprd11.prod.outlook.com
- (2603:10b6:a03:191::25)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=JYHPQKhQ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.181,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f181.google.com with SMTP id z20so21443705ljq.3
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 15 Sep 2022 02:20:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=S55TJ9/CoaziKfL8dPr2h6G2TS8VFWUB/a1mjwwhOtE=;
+        b=JYHPQKhQblnpjrILs0x8+HaUnwWCLuCEVv8GS7rGVJZCJNP2+9odXmGecn4pJPtKyN
+         lxtxf61RMkA/nH7JD34j+58ph+FC6LBhmkxTIeWO3Gda2E9kaUydVklfHN652vKmKMno
+         +C3MKRvb867xpialM4p4lD+Qo2akhcccxfHejghxjbk6Z8G2Uwbf8M4ONmfEwWqQAGcu
+         o0jlvYBzyjqUlFn6ufT0Wo7b7t4xrOW84TKeAUUvxA1UppwRHLXSU3NV5aN50+vQN0yL
+         PxLCTNACY2KCSaX4V7zZrTkADwXBfviITCiXZbv33g7SH5y3pQnGycHkYrV2BjCfQalJ
+         YjYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=S55TJ9/CoaziKfL8dPr2h6G2TS8VFWUB/a1mjwwhOtE=;
+        b=LiW+Ti52EQ82lnT8gCL5ZvcAN2cD4tlqwrtZDCteLIlyjMxVkjkCoqqXwll0rIhcn4
+         cwEFHIFKZ5dN95tPeZeCm8Cv+x348tIj9HgfrO7izEnBq6mvMCTsR1xyke+rmhvqqc93
+         jwuiERmqvc7WLjoy4GACABt+Rr7mtcUfBSHFdXnzDr6oUIJOwzwmfZFYO8iIq0k1cBO0
+         TMIFNzBikYU2u6JTKSFHKm3/pPl4FrizhwFLXRxM7RtIWne+HDNyVTblsSIZ2mxYWMTd
+         BWuSUY3YKFK89xlJtE0o+XYqVDEkxAfEtMJpbKG/m4/1IxmTNTvEku5Em5R5eQw192JW
+         YoYQ==
+X-Gm-Message-State: ACgBeo3yXJgcs8xKxpN/Za43ngiYD2vIICysPLvwr7I/Wtl4nvDgavzm
+	yhdMh3TbKPrjlynhBb7XOlJmopgDPkJTHGfo8uE=
+X-Google-Smtp-Source: 
+ AA6agR4b+Y4XyPKOW/Jl9sFK4/uOSiqX3KYotxv8qqYmms1ir6lBrZTC9r3SPXjTt923Q8lKpgexGbXZ+X8nguhcOGs=
+X-Received: by 2002:a05:651c:1787:b0:261:c1ff:4407 with SMTP id
+ bn7-20020a05651c178700b00261c1ff4407mr11851052ljb.257.1663233639828; Thu, 15
+ Sep 2022 02:20:39 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4166:EE_|CH3PR11MB7323:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9ccff3d3-7cd1-4e6a-9a6f-08da96f85e0d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	8nlilT4Y8U7ePf5KGCDyWRe4hWRkp8zaaXYD9LUgpDKwUX3+fiAE/i2AGLS7XRnQan5hrSaadsMwW+559Ji6Iytiy5yicP7HLRai9q0uPL8Z4p9zaxslkLV9lVJC4bvTfYsnBXKS7pBYXvuhqC26ozpYhQIVkiUd6MheU4b0XZXisbwNyK/wUjnFJNZJw9uKybbcHMb63C342J9Y95rVlpGy8RUTCtn+5187tWB6SesOfErmNl6vqp63ILNrXfXHqnJx1i52muv3Vpqaw3lC5IhTcENAP7vJoQe5kNQ6pB51OyT2j8Fv5wU7z50809EgIjxixOPJwS+h41pliaPS/Ai9ho6/lmrMA5l1xssoZ6g2NaNs438O9C9JCCHbBrR8TifWyv4GX2TWTruZLFGM9WTpiBx40vClafXMTDORYceUOIt4g/ILi1yLydLzm1iRRQelfwZmK5hb8yIty+qLhzdjIKcWdtKYzlXObrMSq4UUwx1vflkQQn5uSJQVgnT/JFcQ/65q+B1jH6l/k+H1DFYxl+l1i+chVTpIbUopIAg+XDItESYkIW9LWIJh2tRTIHWCDeTWaJVtONFpzyBnwvfkXBlv5kmiUF0dwhoXY3xzc+taPxxiFu+m0TC84FlPCvAElW6HWACLuhTzCjCmD/HFSAZ1j0vqqFaiYRgivUa77s+LjIDXl9a/KEWjxKd3gUFW0rWuK5uskJkDF3K+SWDH4SdY/dNzP5dQrUXylzLMx4J6JA1qRzkHWaFSo7womfHeo/9sY6nHQRXDP/zQZA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4166.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(39850400004)(376002)(366004)(136003)(396003)(451199015)(6506007)(2616005)(5660300002)(8936002)(186003)(1076003)(52116002)(36756003)(83380400001)(6486002)(478600001)(66556008)(66946007)(38350700002)(38100700002)(8676002)(66476007)(86362001)(41300700001)(316002)(6916009)(2906002)(6512007)(44832011)(26005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?nlDApCBFhuw41MPa4fIrV/S3gK10DwhQuskexQf5caQqNJx3vETNbq8hQpRZ?=
- =?us-ascii?Q?SKd+6/xX2fenAijPQrohtAvZ/XtIonHcjKXap15FeSua5CPaixPXJn5i25b/?=
- =?us-ascii?Q?vT242eGmB8FBSIZUyrfwe2x7X/Eyxdg+3hQDHuFQlPL9XJ74F7jLY5PGzc48?=
- =?us-ascii?Q?BgvMliVGzCFQHAKIBnOyzh+ZI2aRF8PPnHWM0xDSSnjpky7nq4TXU9MBi/bn?=
- =?us-ascii?Q?/55x6xHiP3MzTWOZyhTPoV/h3cA+myrThjbQeGVXqEuQ8PidQOFYKJPjDq1G?=
- =?us-ascii?Q?3sv3QlBFa7In3PcV11gFZC1NyfkrDl7zGFO01U9dVp2ugDXA+eOt4mEQhi8D?=
- =?us-ascii?Q?jLBvzsAyCazT063fQHZdIKhG3A9t6rpnudtGU5LOmXuIZssPRIE4pq8Y6fR/?=
- =?us-ascii?Q?LMfvX7iBS+00+l2Ww2pmfAG4dwwKaNuiWMqILUPL3fYMJm+kMssvIPVQWWEh?=
- =?us-ascii?Q?KGjS+30iDKsPOMDsx9rw3iLaP7VUw0XXySimwUUSBWkCwuFEOM3g7n1ZjSG0?=
- =?us-ascii?Q?9Hut1GbADMEAzE7YMStHeLAREQ/Ft2rluOKyxe08FZlD3PewxwaPBbStzpJ2?=
- =?us-ascii?Q?vHqTcTebqts2Dhj4GZjKdjHQNOI0nREwIc2UG74D9Riq6z5Wzjn6Omg1ydVm?=
- =?us-ascii?Q?SYes+YBam0Aml1NJ0Vl4Yw3FC0CnR/CFA7Pet/hTtYxwDCX9AlLrgr8l2vBg?=
- =?us-ascii?Q?6oXsXBvZSvgUpMSaO+dE8Sc/mtHma05nJQmovPmUevU++lBoPFUNrEMfp68q?=
- =?us-ascii?Q?L1xtccc+12ksoTj4qpw6+gIBif6+G4veMb3v5DSoJRawg8xXdJuituyPJOlI?=
- =?us-ascii?Q?mN9yr/4Z4QCxgRQfSitXcfE2UHQOw+LQ9OQD9KIylfJVvg9Wo8glsr8dcvQm?=
- =?us-ascii?Q?p25gLgCISpPLBfxZqZSBCRhJ/5HxvLc2G0XgbReNiaXk723WT6/aA+unVp3C?=
- =?us-ascii?Q?V2ghBltf9RkES1aoLvQexucuPFp9+1TeXVGioRWxlP3fBo/wzjT36YAQj3Og?=
- =?us-ascii?Q?j6cCDZC66tWBYPXoaR8VlH5I8cuKnoM5xU6DJGKdNC8qcv3twn0+1Pm11aP7?=
- =?us-ascii?Q?Qc5x3kIH8lg6bznhOvKo96P/EdnbhIEhgiZNztPqQF7hs3yKtGf7uFCJibnE?=
- =?us-ascii?Q?XexEGca2R64usis3MAAxXtG29dY3HDxRQHudrrJzfK1kWsI+XW9odQIspZfs?=
- =?us-ascii?Q?0OHB9asFW3PXuvgFeG7RuAiMvHCim+S3eXsqUvL9lYj4Pag6yldDvHXbd3Nl?=
- =?us-ascii?Q?gQVJikiVQhCPyaMt7T5hMAj9Ynwwy1nPZFSeIOdtQFiUS45ZM4xcluCXyDdf?=
- =?us-ascii?Q?bfVOIFnjQcjtFWuR66Bv/tyOdAaz9bnDfm0n2X9YSev1E0lTVthrjMokVP1o?=
- =?us-ascii?Q?cNLAp9HuhbFfvCTv/Jx9nllNni56Pry9tTS86IDSeZfH8QRF6snphM+7yBNC?=
- =?us-ascii?Q?vs9zcsBe6SzOT4kNvzZ/d8A9pa00bVjZyfVdieMuogpbRAmFa4nyp/yPEPhv?=
- =?us-ascii?Q?608YNpCCl0FQ3SY6DPnae58H288KhSxtmoto1WMBg/3dCqmG98ryv3XY0ftH?=
- =?us-ascii?Q?eM20bBpBs39paIoG8G1W6sphzQH8SHd+lDCaFfYNJpbQ+sKHvH5J8oB1YbLx?=
- =?us-ascii?Q?jA=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 9ccff3d3-7cd1-4e6a-9a6f-08da96f85e0d
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4166.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2022 08:57:50.2851
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- bkT59Gcbo95z6PvrnC/Z80Eg89MymAKHDoIeDg7+w0vEYHcAFkNGaSoJfOkjbmQ+MYKFVyFu3dy5Xq9fJZ6fhIGERpzH+ASgqDxeLmp0xc8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7323
-X-Proofpoint-GUID: BfCWvH3lE3Pp3ztyL4uanImRc69PbkjS
-X-Proofpoint-ORIG-GUID: BfCWvH3lE3Pp3ztyL4uanImRc69PbkjS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-15_04,2022-09-14_04,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 malwarescore=0 adultscore=0 phishscore=0 mlxlogscore=503
- suspectscore=0 impostorscore=0 priorityscore=1501 spamscore=0
- clxscore=1015 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2208220000 definitions=main-2209150048
+References: <20220831111401.3330342-1-alex@linutronix.de>
+ <e73f356f-87dd-2aba-7445-2f93ad6bf145@windriver.com>
+ <CANNYZj-fLHiNEOLzp5etSQRwtNb55kHa4k02jzRRm=c3dohULA@mail.gmail.com>
+ <6917e065-3b17-a57e-f862-90366717106b@windriver.com>
+ <CANNYZj_OqjRgsQQwQditr1iHCM1RkZak-hFG-zEsqPmMfdNd_A@mail.gmail.com>
+ <8e5b3cc0-bf66-fb7c-0199-ae6766c76cc8@windriver.com>
+ <CANNYZj8owg_f1=g6VWVo-S6Qhq8VOgeYiGwQgNYQ5-GmbP8OTQ@mail.gmail.com>
+ <8f083713-d00a-2393-3b74-35491e830bb0@windriver.com>
+ <CANNYZj9nK6OXGEb0qHHSUz_UYn8QZt9ZSk5e_i-A76RPqMG8kw@mail.gmail.com>
+ <e0a16812e51d41ada44bd388dea8a90b@axis.com>
+In-Reply-To: <e0a16812e51d41ada44bd388dea8a90b@axis.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 15 Sep 2022 11:20:29 +0200
+Message-ID: 
+ <CANNYZj9_wrEF7OvWYFX090ET1cG0cfK4w0J44a8zMHX6DRHYVQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/7] scripts/oe-setup-builddir: add a check that
+ TEMPLATECONF is valid
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: ChenQi <Qi.Chen@windriver.com>,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 08:58:01 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 09:20:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170682
+ https://lists.openembedded.org/g/openembedded-core/message/170683
 
-From: Ruiqiang Hao <Ruiqiang.Hao@windriver.com>
+On Thu, 15 Sept 2022 at 03:07, Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+> I know you have suggested this to me too as we use a similar setup to
+> generate the bblayers.conf.sample file based on the layers that repo
+> has checked out in our environment, and now I realized why this is not
+> as simple as it seems. The problem (at least in our case) is that we
+> run as a wrapper around oe-init-build-env. This means that before the
+> wrapper sources oe-init-build-env, the build directory and thus the
+> conf directory inside it (where the bblayers.conf file is supposed to
+> go) may not exist. And after it has sourced oe-init-build-env it is
+> too late as the bblayers.conf file needs to exists before. So to create
+> the bblayers.conf file, the wrapper would have to duplicate all the
+> non-trivial code in oe-setup-builddir that determines what the build
+> directory should be called. And while this of course is possible to
+> do, it means duplicating code that is internal to bitbake, and risking
+> missing important changes to the upstream code in the future. Thus it
+> is much easier and safer to generate the template files and let
+> oe-init-build-env do its job.
 
-We supported neoversen2 base on armv8.5a in the past, add tune include
-for armv9a and support neoversen2 base on armv9a.
+Wait, I have to ask for details here. What is the non-trivial code
+specifically? Isn't it simply
 
-Signed-off-by: Ruiqiang Hao <Ruiqiang.Hao@windriver.com>
----
- meta/conf/machine/include/arm/arch-armv9a.inc | 28 +++++++++++++++++++
- .../include/arm/armv9a/tune-neoversen2.inc    | 10 +++----
- 2 files changed, 32 insertions(+), 6 deletions(-)
- create mode 100644 meta/conf/machine/include/arm/arch-armv9a.inc
+mkdir -p builddir/conf
+write_out bblayers.conf
 
-diff --git a/meta/conf/machine/include/arm/arch-armv9a.inc b/meta/conf/machine/include/arm/arch-armv9a.inc
-new file mode 100644
-index 0000000000..c38d6cfdf6
---- /dev/null
-+++ b/meta/conf/machine/include/arm/arch-armv9a.inc
-@@ -0,0 +1,28 @@
-+DEFAULTTUNE ?= "armv9a-crc"
-+
-+TUNEVALID[armv9a] = "Enable instructions for ARMv9-a"
-+TUNE_CCARGS_MARCH .= "${@bb.utils.contains('TUNE_FEATURES', 'armv9a', ' -march=armv9-a', '', d)}"
-+MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv9a', 'armv9a:', '', d)}"
-+
-+require conf/machine/include/arm/arch-arm64.inc
-+require conf/machine/include/arm/feature-arm-crc.inc
-+require conf/machine/include/arm/feature-arm-crypto.inc
-+
-+# Little Endian base configs
-+AVAILTUNES += "armv9a armv9a-crc armv9a-crc-crypto armv9a-crypto"
-+ARMPKGARCH:tune-armv9a                    ?= "armv9a"
-+ARMPKGARCH:tune-armv9a-crc                ?= "armv9a"
-+ARMPKGARCH:tune-armv9a-crypto             ?= "armv9a"
-+ARMPKGARCH:tune-armv9a-crc-crypto         ?= "armv9a"
-+TUNE_FEATURES:tune-armv9a                  = "aarch64 armv9a"
-+TUNE_FEATURES:tune-armv9a-crc              = "${TUNE_FEATURES:tune-armv9a} crc"
-+TUNE_FEATURES:tune-armv9a-crypto           = "${TUNE_FEATURES:tune-armv9a} crypto"
-+TUNE_FEATURES:tune-armv9a-crc-crypto       = "${TUNE_FEATURES:tune-armv9a-crc} crypto"
-+PACKAGE_EXTRA_ARCHS:tune-armv9a            = "aarch64 armv9a"
-+PACKAGE_EXTRA_ARCHS:tune-armv9a-crc        = "${PACKAGE_EXTRA_ARCHS:tune-armv9a} armv9a-crc"
-+PACKAGE_EXTRA_ARCHS:tune-armv9a-crypto     = "${PACKAGE_EXTRA_ARCHS:tune-armv9a} armv9a-crypto"
-+PACKAGE_EXTRA_ARCHS:tune-armv9a-crc-crypto = "${PACKAGE_EXTRA_ARCHS:tune-armv9a-crc} armv9a-crypto armv9a-crc-crypto"
-+BASE_LIB:tune-armv9a                       = "lib64"
-+BASE_LIB:tune-armv9a-crc                   = "lib64"
-+BASE_LIB:tune-armv9a-crypto                = "lib64"
-+BASE_LIB:tune-armv9a-crc-crypto            = "lib64"
-diff --git a/meta/conf/machine/include/arm/armv9a/tune-neoversen2.inc b/meta/conf/machine/include/arm/armv9a/tune-neoversen2.inc
-index 36355f7bed..d26ab25e48 100644
---- a/meta/conf/machine/include/arm/armv9a/tune-neoversen2.inc
-+++ b/meta/conf/machine/include/arm/armv9a/tune-neoversen2.inc
-@@ -6,17 +6,15 @@ DEFAULTTUNE ?= "neoversen2"
- TUNEVALID[neoversen2] = "Enable Neoverse-N2 specific processor optimizations"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'neoversen2', ' -mcpu=neoverse-n2', '', d)}"
- 
--# Even though the Neoverse N2 core implemnts the Arm v9.0-A architecture,
--# but the support of it in GCC is based on the Arm v8.5-A architecture.
--require conf/machine/include/arm/arch-armv8-5a.inc
-+require conf/machine/include/arm/arch-armv9a.inc
- 
- # Little Endian base configs
- AVAILTUNES                                         += "neoversen2 neoversen2-crypto"
- ARMPKGARCH:tune-neoversen2                          = "neoversen2"
- ARMPKGARCH:tune-neoversen2-crypto                   = "neoversen2-crypto"
--TUNE_FEATURES:tune-neoversen2                       = "${TUNE_FEATURES:tune-armv8-5a} neoversen2"
-+TUNE_FEATURES:tune-neoversen2                       = "${TUNE_FEATURES:tune-armv9a} neoversen2"
- TUNE_FEATURES:tune-neoversen2-crypto                = "${TUNE_FEATURES:tune-neoversen2} crypto"
--PACKAGE_EXTRA_ARCHS:tune-neoversen2                 = "${PACKAGE_EXTRA_ARCHS:tune-armv8-5a} neoversen2"
--PACKAGE_EXTRA_ARCHS:tune-neoversen2-crypto          = "${PACKAGE_EXTRA_ARCHS:tune-armv8-5a-crypto} neoversen2 neoversen2-crypto"
-+PACKAGE_EXTRA_ARCHS:tune-neoversen2                 = "${PACKAGE_EXTRA_ARCHS:tune-armv9a} neoversen2"
-+PACKAGE_EXTRA_ARCHS:tune-neoversen2-crypto          = "${PACKAGE_EXTRA_ARCHS:tune-armv9a-crypto} neoversen2 neoversen2-crypto"
- BASE_LIB:tune-neoversen2                            = "lib64"
- BASE_LIB:tune-neoversen2-crypto                     = "lib64"
--- 
-2.34.1
+where builddir is the same argument that is passed to
+oe-init-build-env? Something doesn't compute here for me.
 
+> Where I (and apparently WindRiver) are coming from, the decision on what
+> layers are part of the configuration is not something a specific layer
+> is responsible for. I.e., in our setup we fetch the layers we want for
+> a build, write the list of layers to bblayers.conf.sample and source
+> oe-init-build-env. With your setup, if I want a project with the two
+> layers meta-a and meta-b, I would also have to create a layer meta-x
+> where I create a static bblayers.conf.sample file that lists these
+> three layers. Then, if another project wants to use meta-a and meta-c,
+> they would have to add a second static bblayers.conf.sample file in
+> meta-x that lists those three layers. Basically every time there is a
+> new combination of layers fetched, there would also have to be a
+> duplicate of the information in a static bblayers.conf.sample file
+> somewhere. I am probably missing something here, but to me this seems
+> suboptimal. If the list of layers in the static file had been used to
+> fetch the layers, I would better understand it, but then the problem
+> becomes that the list is now in one of the arbitrary layers that are
+> supposed to be fetched.
+
+The idea is that yes, every possible combination of layers needs its
+own template, and it goes under version control into a layer.
+Typically this would be a layer that is common to all of your build
+configurations (which is meta-a in the above example - *not* meta-x)
+and that is where the templates go. Do you have such a layer?
+
+I also have to ask, what prevents you from simply listing all of the
+layers in a single unified bblayers.conf.sample. Do they step on each
+other? How?
+
+I also need to remind you that bblayers.conf(.sample) does support
+includes, so you can implement a structured hierarchy of layer config
+fragments, where the common bits are only written once.
+
+Basically, there are alternatives, and I think all of them are better
+than writing out the list of layers just before setting up a build
+with a custom script.
+
+> in our manifest repository. This simple manifest is all the project
+> team needs to create to build with their project specific layer. It
+> also means that the only input to our Jenkins jobs to build for this
+> project (instead of the main platform) is the name of the project's
+> repo manifest. It also means that if we make any changes to the main
+> platform, e.g., add a new layer (which is a one line change to the
+> cfp.xml manifest), all projects will automatically get and use that
+> new layer without having to make any changes to all the project
+> manifests.
+
+This is somewhat tangential, as it is about extending the default
+layer setup config, not the combinations of layers in the build
+configuration. So far, the json is not extensible, but we can think
+about how to extend and overlay it too. As far as development in
+meta-foo goes, the templates (including layer lists) for it can be
+hosted there, until the layer 'graduates' into the common structure.
+
+Alex
 
