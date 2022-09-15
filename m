@@ -2,52 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A82CC6FA9C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 465B2C6FD1D
 	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 14:18:43 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com
- (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web08.10736.1663251514832180960
+Received: from a27-29.smtp-out.us-west-2.amazonses.com
+ (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web12.10520.1663251512770482893
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Sep 2022 07:18:34 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=STm5uUWO;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
- mailfrom: 010101834184026c-6b47da6d-116d-4ee2-b3da-a64762c4bb66-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=W2u72zkf;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29,
+ mailfrom: 0101018341840050-58404ebc-29e3-403c-9895-14a2510a8bb8-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1663251514;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=ldpTcKB2mOQhZ9j+m38LDb4qQbVoiKL4o1XzgwHYlkU=;
-	b=STm5uUWOCHz9b6mkG9jwr3s/0YQb/4vDxKYGRTTZqQmSAACh0rsFCX/AMaTKDELb
-	CaScn7Sdz8/7le8OGX7b3hc+PNfmvZjPTvJUp2zbgh0i3WcJoEc0QWQJbFRhA+6lmC/
-	JAjczt7f8XlbfrCGoGRLNZyI5STvuDCNMZAMz1Ac=
+	t=1663251513;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=AHdkIzKvD9cQbZ+LNCytzmefNVmP7yoPSI5E1jEPNSA=;
+	b=W2u72zkfPpKsUo0V3vN0xEmojTuufByME0fMAMTiGVDboN7nziotQsvP6Micn7iD
+	t9SkxJnL+A8hjZ2+KCw/VQ/fHyZcEoTeZ/AAxCp4yly1mSZWnUFf3Q4iYPfxpj36rr3
+	Ri2aAOUdHVaCSBse7yMaOHjMZv0OQv7TwoNrJtE8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1663251514;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=ldpTcKB2mOQhZ9j+m38LDb4qQbVoiKL4o1XzgwHYlkU=;
-	b=QGbCzOp0GSoXDZhqZaaHyFRusnLYd4Yq8bGxN95MnXYhT0QWNQTisTTMYhX5IrPC
-	zE7tU3Mm5TNTmuRrpvK+uj0jfPiEIWBEcKFaPzVZJ1T4kZWni59n4gB3xt8F11diJel
-	zpwLFUb6jI1JIDVgWxoZ0RtgivM46yb3JUzcRhjo=
-Content-Type: multipart/mixed; boundary="===============4368664966129388157=="
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1663251513;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=AHdkIzKvD9cQbZ+LNCytzmefNVmP7yoPSI5E1jEPNSA=;
+	b=JtMVDLmIHhOjeBEF3s4WqfmPpRcQ52vNeo7K5TMJs+8lvMT/syNGYX9CtnyIyzbR
+	6wATAkkd2I5hAu7Zj89vpd8olJiQwO0VvdNdMrUsQUfdvZFmaB/d4lm73tC4OW4ZQ1A
+	JnW7JaeuaRMdP2N/nCdsr4LaYqgGXolJXajcWbO8=
+Content-Type: multipart/mixed; boundary="===============4712599931409969671=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] flac: upgrading to 1.4.0 FAILED
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] mesa: upgrading to 22.1.7 SUCCEEDED
 Message-ID: 
- <010101834184026c-6b47da6d-116d-4ee2-b3da-a64762c4bb66-000000@us-west-2.amazonses.com>
-Date: Thu, 15 Sep 2022 14:18:34 +0000
+ <0101018341840050-58404ebc-29e3-403c-9895-14a2510a8bb8-000000@us-west-2.amazonses.com>
+Date: Thu, 15 Sep 2022 14:18:33 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.09.15-54.240.27.33
+X-SES-Outgoing: 2022.09.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 14:18:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170748
+ https://lists.openembedded.org/g/openembedded-core/message/170744
 
---===============4368664966129388157==
+--===============4712599931409969671==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -55,90 +56,129 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *flac* to *1.4.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *mesa* to *22.1.7* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-mesa-upgrade-22.1.6-22.1.7.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade flac -V 1.4.0
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1661 entries from dependency cache.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-9d876aef9fa79cc72cea6a457109a82253e6e4a8"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:9d876aef9fa79cc72cea6a457109a82253e6e4a8"
-workspace            = "master:6a27236fed8e7c27974c2313366bdbfd8edfa927"
-
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 21 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1661 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 886 .bb files complete (884 cached, 2 parsed). 1662 targets, 35 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-9d876aef9fa79cc72cea6a457109a82253e6e4a8"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:9d876aef9fa79cc72cea6a457109a82253e6e4a8"
-workspace            = "master:6a27236fed8e7c27974c2313366bdbfd8edfa927"
-
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 17 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching http://downloads.xiph.org/releases/flac/flac-1.4.0.tar.xz...
-ERROR: Execution of 'git add -f -A "CHANGELOG.md" "README.md" "cmake/CheckA64NEON.c.in" "cmake/CheckA64NEON.cmake" "cmake/CheckAttribute.c.in" "cmake/CheckAttribute.cmake" "cmake/CheckVSX.c.in" "cmake/CheckVSX.cmake" "doc/images/Makefile.am" "doc/images/Makefile.in" "doc/images/logo.svg" "doc/images/logo130.gif" "man/flac.md" "man/metaflac.md" "oss-fuzz/Readme.md" "oss-fuzz/fuzzer_common.h" "oss-fuzz/fuzzer_decoder.cc" "oss-fuzz/fuzzer_encoder.cc" "oss-fuzz/fuzzer_encoder.dict" "oss-fuzz/fuzzer_encoder_v2.cc" "oss-fuzz/fuzzer_metadata.cc" "oss-fuzz/fuzzer_seek.cc" "src/libFLAC/deduplication/lpc_compute_autocorrelation_intrin.c" "src/libFLAC/deduplication/lpc_compute_autocorrelation_intrin_neon.c" "src/libFLAC/deduplication/lpc_compute_autocorrelation_intrin_sse2.c" "src/libFLAC/deduplication/lpc_compute_autocorrelation_intrin_vsx.c" "src/libFLAC/lpc_intrin_fma.c" "src/libFLAC/lpc_intrin_neon.c" ""test/flac-to-flac-metadata-test-files/Pr\303\270ve.flac"" ""test/flac-to-flac-metadata-t
- est-files/\327\251\327\234\327\225\327\235.flac"" ""test/flac-to-flac-metadata-test-files/\360\237\244\224.flac"" "AUTHORS" "CMakeLists.txt" "COPYING.Xiph" "FLAC-vs2005.sln" "FLAC.sln" "Makefile.am" "Makefile.deps" "Makefile.in" "Makefile.lite" "README" "aclocal.m4" "ar-lib" "build/Makefile.am" "build/Makefile.in" "build/compile.mk" "build/config.mk" "build/exe.mk" "build/lib.mk" "cmake/CheckCPUArch.cmake" "cmake/UseSystemExtensions.cmake" "compile" "config.cmake.h.in" "config.guess" "config.h.in" "config.sub" "configure" "configure.ac" "depcomp" "doc/CMakeLists.txt" "doc/Doxyfile.in" "doc/FLAC.tag" "doc/Makefile.am" "doc/Makefile.in" "doc/Makefile.lite" "doc/doxygen.footer.html" "doc/doxygen.header.html" "doc/html/Makefile.am" "doc/html/Makefile.in" "doc/html/api/FLAC_09_09_2all_8h_source.html" "doc/html/api/FLAC_09_09_2export_8h.html" "doc/html/api/FLAC_09_09_2export_8h_source.html" "doc/html/api/FLAC_09_09_2metadata_8h.html" "doc/html/api/FLAC_09_09_2metadata_8h_source.html" "doc
- /html/api/FLAC_2all_8h_source.html" "doc/html/api/FLAC_2export_8h.html" "doc/html/api/FLAC_2export_8h_source.html" "doc/html/api/FLAC_2metadata_8h.html" "doc/html/api/FLAC_2metadata_8h_source.html" "doc/html/api/annotated.html" "doc/html/api/assert_8h_source.html" "doc/html/api/bc_s.png" "doc/html/api/bdwn.png" "doc/html/api/callback_8h.html" "doc/html/api/callback_8h_source.html" "doc/html/api/classFLAC_1_1Decoder_1_1File-members.html" "doc/html/api/classFLAC_1_1Decoder_1_1File.html" "doc/html/api/classFLAC_1_1Decoder_1_1File.png" "doc/html/api/classFLAC_1_1Decoder_1_1Stream-members.html" "doc/html/api/classFLAC_1_1Decoder_1_1Stream.html" "doc/html/api/classFLAC_1_1Decoder_1_1Stream.png" "doc/html/api/classFLAC_1_1Decoder_1_1Stream_1_1State-members.html" "doc/html/api/classFLAC_1_1Decoder_1_1Stream_1_1State.html" "doc/html/api/classFLAC_1_1Encoder_1_1File-members.html" "doc/html/api/classFLAC_1_1Encoder_1_1File.html" "doc/html/api/classFLAC_1_1Encoder_1_1File.png" "doc/html/api/cla
- ssFLAC_1_1Encoder_1_1Stream-members.html" "doc/html/api/classFLAC_1_1Encoder_1_1Stream.html" "doc/html/api/classFLAC_1_1Encoder_1_1Stream.png" "doc/html/api/classFLAC_1_1Encoder_1_1Stream_1_1State-members.html"' failed with exit code 128:
-fatal: pathspec 'test/flac-to-flac-metadata-test-files/Pr303270ve.flac' did not match any files
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============4368664966129388157==--
+--===============4712599931409969671==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/mesa: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa: SRC_URI changed from "https://mesa.freedesktop.org/archive/mesa-22.1.6.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0002-meson.build-make-TLS-ELF-optional.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch file://0001-util-format-Check-for-NEON-before-using-it.patch file://0001-Revert-egl-wayland-deprecate-drm_handle_format-and-d.patch file://0001-swrast_kms-use-swkmsDRI2Extension-instead-of-driDRI2.patch file://0001-nir-nir_opt_move-fix-ALWAYS_INLINE-compiler-error.patch" to "https://mesa.freedesktop.org/archive/mesa-22.1.7.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0002-meson.build-make-TLS-ELF-optional.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch file://0001-util-format-Check-for-NEON-before-using
+ -it.patch file://0001-Revert-egl-wayland-deprecate-drm_handle_format-and-d.patch file://0001-swrast_kms-use-swkmsDRI2Extension-instead-of-driDRI2.patch file://0001-nir-nir_opt_move-fix-ALWAYS_INLINE-compiler-error.patch"
+packages/core2-32-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libegl-mesa-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libegl-mesa: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libegl-mesa: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libgbm-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libgbm-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libgbm: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libgbm: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libgl-mesa-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libgl-mesa: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libgl-mesa: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libglapi-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libglapi-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libglapi: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libglapi: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libgles1-mesa-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libgles1-mesa: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libgles1-mesa: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libgles2-mesa-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libgles2-mesa: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libgles2-mesa: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libgles3-mesa-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libgles3-mesa-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libgles3-mesa: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libgles3-mesa: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libopencl-mesa-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libopencl-mesa-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libopencl-mesa: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libopencl-mesa: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libosmesa-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libosmesa-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libosmesa: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libosmesa: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libxatracker-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libxatracker-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/libxatracker: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/libxatracker: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 123463980 to 123484676 (+0%)
+packages/core2-32-poky-linux/mesa/mesa-dbg: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/mesa-dbg: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/mesa-dev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/mesa-dev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/mesa-doc: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/mesa-doc: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/mesa-locale: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/mesa-locale: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/mesa-megadriver: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/mesa-megadriver: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/mesa-src: PKGSIZE changed from 87181988 to 87187458 (+0%)
+packages/core2-32-poky-linux/mesa/mesa-src: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/mesa-src: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/mesa-staticdev: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/mesa-staticdev: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/mesa-vdpau-drivers: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/mesa-vdpau-drivers: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "22.1.6" to "22.1.7"
+packages/core2-32-poky-linux/mesa/mesa: PKGV changed from 22.1.6 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/mesa/mesa: PV changed from "22.1.6" to "22.1.7"
+
+--===============4712599931409969671==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-mesa-upgrade-22.1.6-22.1.7.patch"
+
+RnJvbSA0OTIyMzllYTZlYzAxYjE5Mzg2OWZiMTg0YjUzMTIwM2JkZmQxMjdiIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTUgU2VwIDIwMjIgMTE6MDk6MjIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
+ZXNhOiB1cGdyYWRlIDIyLjEuNiAtPiAyMi4xLjcKCi0tLQogbWV0YS9yZWNpcGVzLWdyYXBoaWNz
+L21lc2EvbWVzYS5pbmMgICAgICAgICAgICAgICAgICAgICAgICAgICB8IDIgKy0KIG1ldGEvcmVj
+aXBlcy1ncmFwaGljcy9tZXNhL3ttZXNhXzIyLjEuNi5iYiA9PiBtZXNhXzIyLjEuNy5iYn0gfCAw
+CiAyIGZpbGVzIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2Eve21lc2FfMjIuMS42LmJiID0+IG1lc2FfMjIuMS43
+LmJifSAoMTAwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNh
+LmluYyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2EuaW5jCmluZGV4IGVhN2VkNGZk
+MjcuLjcyOWM0NjY1NTQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21l
+c2EuaW5jCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2EuaW5jCkBAIC0yNSw3
+ICsyNSw3IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9tZXNhLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZl
+L21lc2EtJHtQVn0udGFyLnh6IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtbmlyLW5pcl9vcHRf
+bW92ZS1maXgtQUxXQVlTX0lOTElORS1jb21waWxlci1lcnJvci5wYXRjaCBcCiAgICAgICAgICAg
+ICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjIyY2VkMDYxZWI5YWRhYjhlYTM1MzY4MjQ2YzE5
+OTVjMDk3MjNmM2Y3MTY1M2NkNTA1MGM1Y2VjMzc2ZTY3MWEiCitTUkNfVVJJW3NoYTI1NnN1bV0g
+PSAiZGE4MzhlYjJjZjExZDBlMDhkMGU5OTQ0ZjZiZDRkOTY5ODdmZGM1OWVhMjg1NmY4YzcwYTMx
+YTgyYjM1NWQ4OSIKIAogVVBTVFJFQU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAibWVzYS0oP1A8cHZl
+cj5cZCsoXC5cZCspKykiCiAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNh
+L21lc2FfMjIuMS42LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYV8yMi4xLjcu
+YmIKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGlj
+cy9tZXNhL21lc2FfMjIuMS42LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVz
+YS9tZXNhXzIyLjEuNy5iYgotLSAKMi4zMS4xCgo=
+
+--===============4712599931409969671==--
 
