@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD507C83013
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A933BC6FD38
 	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 14:18:43 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com
- (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web12.10521.1663251513003215353
+Received: from a27-30.smtp-out.us-west-2.amazonses.com
+ (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.10624.1663251513345872547
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Sep 2022 07:18:33 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=XzBnzxo1;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193,
- mailfrom: 010101834183fb27-2a42d1c9-448e-4ced-b63f-d0dc5017a29e-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Eu8ljmg3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
+ mailfrom: 010101834183fb90-93ff646b-5992-403c-bac2-c9c7baf6493c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1663251512;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Hh6zUOK/gQlp6rzlSWr4LP0bXDHGYbxmbBC27M9Ss5o=;
-	b=XzBnzxo1mWo6YwaFdbMb93thVF3YEzD8ZwP/hoZtyG85rPy17XtKvQSTDZfWm4kH
-	8Pp1h7WfD4oUH4NJA8SEJAvHeehW6WzzZ/6TOB4H77RnFU3N/EU/wd31B6/YqyfIl18
-	hTG/0Nr0axnoFoQjtL4q+eW/Y0I9wDOK/a3aEWjo=
+	bh=T2LJOU8Ug6RDfHWaocWT1Bw+1JRsueyiNeDsrqMqV0c=;
+	b=Eu8ljmg3PoCVJYh9zfSSpPSLlhl1tKa7cDJ1/Y34MpfrphkIwJ9vvmI8W0KPjxRz
+	9mbrsTePHrgkdzoIOUzpV2KViAE6e0CsrUWPPAy0XVzcX8qY4ZfCKrJiRo19IrcRyxH
+	zkO8KQGu4KE7pmZMc7FaROJjFLfjgWpxxxso0S8M=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1663251512;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Hh6zUOK/gQlp6rzlSWr4LP0bXDHGYbxmbBC27M9Ss5o=;
-	b=d8MNjRSsaso/nGDcCpD6jjOjUuS8sYukoRz0dNUytUl9STKkZXKis5/kjKk/7KfQ
-	nVQ/9iTDGCkGrcB8lMX5u24wqAtCkNXy/f7RoJRrcJlyLzta9qfZH9yLsUWV39Y/JxF
-	YA2BSUIahouVlhSi2+vRVuEd0Jh+1y1MSo/F/Ulk=
-Content-Type: multipart/mixed; boundary="===============0832773295097615627=="
+	bh=T2LJOU8Ug6RDfHWaocWT1Bw+1JRsueyiNeDsrqMqV0c=;
+	b=GdBeiWaU5kr5oe1fmKkhSfVLwdF5ddHBPvwxHZfiFwzhj07jpMK+16NTLJCYOTrI
+	2Usb2blKK3TWYWY2tfMalH2zXfvnV/oKIux5FDlT6llM++m3AH7fJEs4FaIeZHKdrEn
+	84Az+BUHAzd/3fVQ2+ywaMrejgTdqRgxG/qnbG6s=
+Content-Type: multipart/mixed; boundary="===============8705207337418106426=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Wang Mingyu <wangmy@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] file: upgrading to 5.43 SUCCEEDED
+Subject: [AUH] librepo: upgrading to 1.14.5 SUCCEEDED
 Message-ID: 
- <010101834183fb27-2a42d1c9-448e-4ced-b63f-d0dc5017a29e-000000@us-west-2.amazonses.com>
+ <010101834183fb90-93ff646b-5992-403c-bac2-c9c7baf6493c-000000@us-west-2.amazonses.com>
 Date: Thu, 15 Sep 2022 14:18:32 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.09.15-54.240.27.193
+X-SES-Outgoing: 2022.09.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 14:18:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170713
+ https://lists.openembedded.org/g/openembedded-core/message/170728
 
---===============0832773295097615627==
+--===============8705207337418106426==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *file* to *5.43* has Succeeded.
+that the automatic attempt to upgrade the recipe *librepo* to *1.14.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-file-upgrade-5.42-5.43.patch
+    - apply the patch: git am 0001-librepo-upgrade-1.14.4-1.14.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,7 +75,7 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============0832773295097615627==
+--===============8705207337418106426==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1435,32 +1435,31 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
 
---===============0832773295097615627==
+--===============8705207337418106426==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/file/file-dbg: PKGV changed from 5.42 [default] to 5.43 [default]
-packages/core2-32-poky-linux/file/file-dbg: PKGSIZE changed from 516616 to 522380 (+1%)
-packages/core2-32-poky-linux/file/file-dbg: PV changed from "5.42" to "5.43"
-packages/core2-32-poky-linux/file/file-dev: PKGV changed from 5.42 [default] to 5.43 [default]
-packages/core2-32-poky-linux/file/file-dev: PV changed from "5.42" to "5.43"
-packages/core2-32-poky-linux/file/file-doc: PKGV changed from 5.42 [default] to 5.43 [default]
-packages/core2-32-poky-linux/file/file-doc: PKGSIZE changed from 57608 to 57701 (+0%)
-packages/core2-32-poky-linux/file/file-doc: PV changed from "5.42" to "5.43"
-packages/core2-32-poky-linux/file/file-locale: PKGV changed from 5.42 [default] to 5.43 [default]
-packages/core2-32-poky-linux/file/file-locale: PV changed from "5.42" to "5.43"
-packages/core2-32-poky-linux/file/file-src: PKGV changed from 5.42 [default] to 5.43 [default]
-packages/core2-32-poky-linux/file/file-src: PKGSIZE changed from 499766 to 504794 (+1%)
-packages/core2-32-poky-linux/file/file-src: PV changed from "5.42" to "5.43"
-packages/core2-32-poky-linux/file/file-staticdev: PKGV changed from 5.42 [default] to 5.43 [default]
-packages/core2-32-poky-linux/file/file-staticdev: PV changed from "5.42" to "5.43"
-packages/core2-32-poky-linux/file/file: PKGV changed from 5.42 [default] to 5.43 [default]
-packages/core2-32-poky-linux/file/file: PKGSIZE changed from 7955473 to 8166409 (+3%)
-packages/core2-32-poky-linux/file/file: PV changed from "5.42" to "5.43"
-packages/core2-32-poky-linux/file: PKGV changed from 5.42 [default] to 5.43 [default]
-packages/core2-32-poky-linux/file: PV changed from "5.42" to "5.43"
+packages/core2-32-poky-linux/librepo: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
+packages/core2-32-poky-linux/librepo: SRC_URI changed from "git://github.com/rpm-software-management/librepo.git;branch=master;protocol=https file://0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch file://0001-metadata_downloader-Include-unistd.h-for-lseek.patch" to "git://github.com/rpm-software-management/librepo.git;branch=master;protocol=https file://0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch"
+packages/core2-32-poky-linux/librepo: PV changed from "1.14.4" to "1.14.5"
+packages/core2-32-poky-linux/librepo/librepo-dbg: PKGSIZE changed from 617500 to 617616 (+0%)
+packages/core2-32-poky-linux/librepo/librepo-dbg: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
+packages/core2-32-poky-linux/librepo/librepo-dbg: PV changed from "1.14.4" to "1.14.5"
+packages/core2-32-poky-linux/librepo/librepo-dev: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
+packages/core2-32-poky-linux/librepo/librepo-dev: PV changed from "1.14.4" to "1.14.5"
+packages/core2-32-poky-linux/librepo/librepo-doc: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
+packages/core2-32-poky-linux/librepo/librepo-doc: PV changed from "1.14.4" to "1.14.5"
+packages/core2-32-poky-linux/librepo/librepo-locale: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
+packages/core2-32-poky-linux/librepo/librepo-locale: PV changed from "1.14.4" to "1.14.5"
+packages/core2-32-poky-linux/librepo/librepo-src: PKGSIZE changed from 705921 to 705968 (+0%)
+packages/core2-32-poky-linux/librepo/librepo-src: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
+packages/core2-32-poky-linux/librepo/librepo-src: PV changed from "1.14.4" to "1.14.5"
+packages/core2-32-poky-linux/librepo/librepo-staticdev: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
+packages/core2-32-poky-linux/librepo/librepo-staticdev: PV changed from "1.14.4" to "1.14.5"
+packages/core2-32-poky-linux/librepo/librepo: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
+packages/core2-32-poky-linux/librepo/librepo: PV changed from "1.14.4" to "1.14.5"
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2815,31 +2814,67 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
 
---===============0832773295097615627==
+--===============8705207337418106426==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-file-upgrade-5.42-5.43.patch"
+Content-Disposition: attachment;
+ filename="0001-librepo-upgrade-1.14.4-1.14.5.patch"
 
-RnJvbSBjZjIzN2JlM2E4ZTAzMzlkNTczODI1OWViNjY4MDhhZTVkODMyODFmIE1vbiBTZXAgMTcg
+RnJvbSAwZmJiY2I4NTZiYjA4MTg2YjRmNTlkOWE4Y2E4MTExNzBkM2RhNGQ0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgU2VwIDIwMjIgMDg6MTE6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBm
-aWxlOiB1cGdyYWRlIDUuNDIgLT4gNS40MwoKLS0tCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZmls
-ZS97ZmlsZV81LjQyLmJiID0+IGZpbGVfNS40My5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwg
-MSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvZmlsZS97ZmlsZV81LjQyLmJiID0+IGZpbGVfNS40My5iYn0gKDk3JSkKCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZmlsZS9maWxlXzUuNDIuYmIgYi9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvZmlsZS9maWxlXzUuNDMuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZy
-b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2ZpbGUvZmlsZV81LjQyLmJiCnJlbmFtZSB0byBtZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvZmlsZS9maWxlXzUuNDMuYmIKaW5kZXggOGVmY2YwOWM5Yy4uMTAy
-ZDBmZGEyNiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2ZpbGUvZmlsZV81LjQy
-LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9maWxlL2ZpbGVfNS40My5iYgpAQCAtMTMs
-NyArMTMsNyBAQCBERVBFTkRTOmNsYXNzLW5hdGl2ZSA9ICJiemlwMi1yZXBsYWNlbWVudC1uYXRp
-dmUiCiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9maWxlL2ZpbGUuZ2l0O2JyYW5jaD1t
-YXN0ZXI7cHJvdG9jb2w9aHR0cHMiCiAKLVNSQ1JFViA9ICJhNDJiMzg2OTA1NzlkZTIzNDAzZTBh
-ZmY5YjdiMmY5Y2RmNTVmNTM0IgorU1JDUkVWID0gIjAxMTc3OGEyODc3Zjc1NTk3ZWQ4M2MxYTI3
-MTZkOTE3NzcwOTIwZWUiCiBTID0gIiR7V09SS0RJUn0vZ2l0IgogCiBpbmhlcml0IGF1dG90b29s
-cyB1cGRhdGUtYWx0ZXJuYXRpdmVzCi0tIAoyLjMxLjEKCg==
+CkRhdGU6IFRodSwgMTUgU2VwIDIwMjIgMDg6NDI6NTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJyZXBvOiB1cGdyYWRlIDEuMTQuNCAtPiAxLjE0LjUKCi0tLQogLi4ub3dubG9hZGVyLUluY2x1
+ZGUtdW5pc3RkLmgtZm9yLWxzZWVrLnBhdGNoIHwgMzQgLS0tLS0tLS0tLS0tLS0tLS0tLQogLi4u
+L3tsaWJyZXBvXzEuMTQuNC5iYiA9PiBsaWJyZXBvXzEuMTQuNS5iYn0gIHwgIDMgKy0KIDIgZmls
+ZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDM2IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUg
+MTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJyZXBvL2xpYnJlcG8vMDAwMS1tZXRhZGF0
+YV9kb3dubG9hZGVyLUluY2x1ZGUtdW5pc3RkLmgtZm9yLWxzZWVrLnBhdGNoCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJlcG8ve2xpYnJlcG9fMS4xNC40LmJiID0+IGxpYnJlcG9f
+MS4xNC41LmJifSAoODclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJy
+ZXBvL2xpYnJlcG8vMDAwMS1tZXRhZGF0YV9kb3dubG9hZGVyLUluY2x1ZGUtdW5pc3RkLmgtZm9y
+LWxzZWVrLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJlcG8vbGlicmVwby8wMDAx
+LW1ldGFkYXRhX2Rvd25sb2FkZXItSW5jbHVkZS11bmlzdGQuaC1mb3ItbHNlZWsucGF0Y2gKZGVs
+ZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDIyYjMxMTBhNjEuLjAwMDAwMDAwMDAKLS0tIGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJlcG8vbGlicmVwby8wMDAxLW1ldGFkYXRhX2Rvd25s
+b2FkZXItSW5jbHVkZS11bmlzdGQuaC1mb3ItbHNlZWsucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAt
+MSwzNCArMCwwIEBACi1Gcm9tIDVjNjNlYzJlMmQ0NzI2MjY4YWNlODVlNWM2MTcyN2NiZDgxMWQ5
+ODIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21h
+aWwuY29tPgotRGF0ZTogU2F0LCAyNyBBdWcgMjAyMiAwOTowMDoyNCAtMDcwMAotU3ViamVjdDog
+W1BBVENIXSBtZXRhZGF0YV9kb3dubG9hZGVyOiBJbmNsdWRlIHVuaXN0ZC5oIGZvciBsc2Vlaygp
+Ci0KLVRoaXMgaXMgZm91bmQgd2hlbiBjb21waWxpbmcgb24gbXVzbCBzeXN0ZW1zCi0KLUZpeGVz
+Ci0KLW1ldGFkYXRhX2Rvd25sb2FkZXIuYzozMzE6OTogZXJyb3I6IGNhbGwgdG8gdW5kZWNsYXJl
+ZCBmdW5jdGlvbiAnbHNlZWsnOyBJU08gQzk5IGFuZCBsYXRlciBkbyBub3Qgc3VwcG9ydCBpbXBs
+aWNpdCBmdW5jdGlvbiBkZWNsYXJhdGlvbnMgWy1XaW1wbGljaXQtZnVuY3Rpb24tZGVjbGFyYXRp
+b25dCi0gICAgICAgIGxzZWVrKGZkX3ZhbHVlLCBTRUVLX1NFVCwgMCk7Ci0gICAgICAgIF4KLQot
+VXBzdHJlYW0tU3RhdHVzOiBTdWJtaXR0ZWQgW2h0dHBzOi8vZ2l0aHViLmNvbS9ycG0tc29mdHdh
+cmUtbWFuYWdlbWVudC9saWJyZXBvL3B1bGwvMjYzXQotU2lnbmVkLW9mZi1ieTogS2hlbSBSYWog
+PHJhai5raGVtQGdtYWlsLmNvbT4KLS0tLQotIGxpYnJlcG8vbWV0YWRhdGFfZG93bmxvYWRlci5j
+IHwgMSArCi0gMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCi0KLWRpZmYgLS1naXQgYS9s
+aWJyZXBvL21ldGFkYXRhX2Rvd25sb2FkZXIuYyBiL2xpYnJlcG8vbWV0YWRhdGFfZG93bmxvYWRl
+ci5jCi1pbmRleCAxMjNjNzdiLi42NjA0MjU1IDEwMDY0NAotLS0tIGEvbGlicmVwby9tZXRhZGF0
+YV9kb3dubG9hZGVyLmMKLSsrKyBiL2xpYnJlcG8vbWV0YWRhdGFfZG93bmxvYWRlci5jCi1AQCAt
+MjQsNiArMjQsNyBAQAotICNpbmNsdWRlIDxhc3NlcnQuaD4KLSAjaW5jbHVkZSA8c3RyaW5nLmg+
+Ci0gI2luY2x1ZGUgPGVycm5vLmg+Ci0rI2luY2x1ZGUgPHVuaXN0ZC5oPgotICNpbmNsdWRlIDxz
+eXMvc3RhdC5oPgotIAotICNpbmNsdWRlICJsaWJyZXBvL2xpYnJlcG8uaCIKLS0tIAotMi4zNy4y
+Ci0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJyZXBvL2xpYnJlcG9fMS4x
+NC40LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJlcG8vbGlicmVwb18xLjE0LjUuYmIK
+c2ltaWxhcml0eSBpbmRleCA4NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xp
+YnJlcG8vbGlicmVwb18xLjE0LjQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9s
+aWJyZXBvL2xpYnJlcG9fMS4xNC41LmJiCmluZGV4IDJiOGJkMTMyZjMuLjQ2Y2ZjZTUzZmYgMTAw
+NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJyZXBvL2xpYnJlcG9fMS4xNC40LmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJyZXBvL2xpYnJlcG9fMS4xNC41LmJiCkBA
+IC04LDEwICs4LDkgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9NGZi
+ZDY1MzgwY2RkMjU1OTUxMDc5MDA4YjM2NDUxNmMiCiBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5j
+b20vcnBtLXNvZnR3YXJlLW1hbmFnZW1lbnQvbGlicmVwby5naXQ7YnJhbmNoPW1hc3Rlcjtwcm90
+b2NvbD1odHRwcyBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAyLURvLW5vdC10cnktdG8tb2J0YWlu
+LVBZVEhPTl9JTlNUQUxMX0RJUi1ieS1ydW5uaW5nLXAucGF0Y2ggXAogICAgICAgICAgICBmaWxl
+Oi8vMDAwNC1TZXQtZ3BnbWUtdmFyaWFibGVzLXdpdGgtcGtnLWNvbmZpZy1ub3Qtd2l0aC1jbWFr
+ZS1tLnBhdGNoIFwKLSAgICAgICAgICAgZmlsZTovLzAwMDEtbWV0YWRhdGFfZG93bmxvYWRlci1J
+bmNsdWRlLXVuaXN0ZC5oLWZvci1sc2Vlay5wYXRjaCBcCiAgICAgICAgICAgICIKIAotU1JDUkVW
+ID0gIjJiZDEwNDFjNzQxYzg1YmMxOTZjYTAxZGNjYTFlYWU2MDk5ZWI3NDIiCitTUkNSRVYgPSAi
+ZjRiOTE1YmU1ZTA0ZTg4MjYzMDk3ZjY1YWRkZmNhYzU5MTlmZWY0MSIKIAogUyA9ICIke1dPUktE
+SVJ9L2dpdCIKIAotLSAKMi4zMS4xCgo=
 
---===============0832773295097615627==--
+--===============8705207337418106426==--
 
