@@ -2,81 +2,81 @@ Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F642ECAAD3
-	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 12:51:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BC0CECAAA1
+	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 12:59:52 +0000 (UTC)
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
  [64.147.123.21])
- by mx.groups.io with SMTP id smtpd.web08.9667.1663246266153160556
+ by mx.groups.io with SMTP id smtpd.web10.9652.1663246784558217798
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Sep 2022 05:51:06 -0700
+ Thu, 15 Sep 2022 05:59:44 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm3
- header.b=vOv+c/cS;
+ header.b=pPGD2Nis;
  spf=pass (domain: gherzan.com, ip: 64.147.123.21,
  mailfrom: andrei@gherzan.com)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id 2633C32000F9;
-	Thu, 15 Sep 2022 08:51:05 -0400 (EDT)
+	by mailout.west.internal (Postfix) with ESMTP id 938783200B17;
+	Thu, 15 Sep 2022 08:59:43 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Thu, 15 Sep 2022 08:51:05 -0400
+  by compute2.internal (MEProxy); Thu, 15 Sep 2022 08:59:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
 	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm3; t=1663246264; x=1663332664; bh=fBYfR57yxCkFfRiv1+CdPhxLC
-	DyLVbw34+JDNk48U3k=; b=vOv+c/cSJHKGmJtU8hYsBIJ0lOQJewpbyBsowTHng
-	kZHMP2/CaIzgnm7yZwqcAKJaXysEDiZdjFjMct1Mn9WlUuVJO7Ne3dAKFAVKdzu6
-	4QGelto/iO7/YrgEiD3cN1X/HbzaoY8XWh4FMYCdY/LH02cWsa1eyjdL6CVsxLxO
-	pjBEdnzN3lF0k0HhejfDu8BVz659/AZ3u8WlNZ+ydog/3J0285MPxu3wgoTAByGF
-	iupa/QLFovduW2v6FNuvcLR3lteq1YmBVSLQA/l9CiYRQo70jsmfdEg25v46RwUf
-	pJUMssnE0Yb8A0HVYGGdNtpc/ydDm3rVp9n1DlIFZGTDg==
+	 s=fm3; t=1663246783; x=1663333183; bh=8fy8zUP9Oltox+/MX+RGlT2b7
+	nGuWDHdWLOfQjR82qQ=; b=pPGD2NisUZcUXZ6X4CVzB3L6d7qX78qFas3EfGcFn
+	q39MWjnoqmXlhZZy7ZGMre2i69bQaihpzqyS5tnCfenO7zNcw4c+lojD6bPeaAKB
+	OErTx5p+Nuc9TAgVSOLRMi3OIOTpMSshqU4EAHvRt+TyZwEDxzRlM6SXQVQwEhnv
+	LT6J1jJjp/amRNaj+xn5f1NtwoO6csAxIfgosmO6t+KzWHD1Fey7Bht4+RUoro+E
+	wkh/iVX1LbtHrixWwPUfZHGZYGHy6V1Yo0Ua/n9amgkP+ksnw3MysOkhALnfvMl7
+	50hZDTGEfdwUVzgV91x2C/qmObFrrwsDuddTlEekRyHgQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:message-id
 	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
 	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1663246264; x=1663332664; bh=fBYfR57yxCkFfRiv1+CdPhxLCDyLVbw34+J
-	DNk48U3k=; b=ElwkPV/YwPjFXhABUVZdgEjYUJkfyzKzQjqbxzcQZk6D+O2kPa7
-	3m6FCKE2JV1DIVAwQopay5oYaxnaBnjzUfUJ/NexgPdbFPkEvKWK09Jrf5NCQJNi
-	1FwD56u8wfh5GqGetgKvz7nqmpj+PFmoJnwvmVVdv2gI/ogjJRA6YHn8qstiGB/3
-	wTqgAxvXDAcd4akC96z9eU/HckJDzDWntGKEq8aIJnk4nq53kMqMJ8wfEY/hYBG1
-	HmfuGsxHpSh0ck6TO6A3W6Y95vePPYysaOLp9pPMfjlGDQbnDMsPMSlmtteEoZ2V
-	QSj+0LzsNP5bDOeyrsyUvMW1xeXB7yTrr/Q==
-X-ME-Sender: <xms:uB8jY7zOltfKy90hxJCWWq_FEcgW2-e3K4eGdMDZExhHUTM6sqU42g>
-    <xme:uB8jYzQKOS5SDc1tYjlT5lScQ0T0jmwmH5Ah529WCztwBB9WB_DerG2lRioqTJTbJ
-    2iouiGmnE9IacRrQ28>
+	1663246783; x=1663333183; bh=8fy8zUP9Oltox+/MX+RGlT2b7nGuWDHdWLO
+	fQjR82qQ=; b=W91hc14B0hZrJqdZ7RzsHocZYAWllb/kRPuafSzCeibosqPaAI0
+	ngor5NeamORaN9T2lKMT6J4IhTXiNiamgD9DaWecUqqmb/gW5MnFYnHGfyfNmFlN
+	5TboMXWG8TVdrv2pE30y79HN22dq+iRwrapL6y4lukjRwxZkS8R9GaTsL8QwCTpQ
+	9UBQFmbTdZKjWtqGFH/yGgf2qLAQ/3Im6LMNmWEyqvCm/JI7laQ8F8jU/Bhw6PKa
+	BCYvd0IPD+Tr7OSEvUIdMMNwJ//0sTNQWlffxH/3HcSpcmrqy0IIgMASiiXOuQgJ
+	5Ow1WwdUCYhS8IMpCIxXY2bxvhgdhed4tQA==
+X-ME-Sender: <xms:viEjY3TweZhM4iM1Y8HtAeHQuM9VApoqjA0PvlCCF_H1IQxHa_hkBg>
+    <xme:viEjY4y12QQKu_8OMuDDUnLJI-WBvRHGZMyl0iOMaLFmrR0lwPYOhLESqOwtLVU3n
+    gzNetKdpWKFENbzcaQ>
 X-ME-Received: 
- <xmr:uB8jY1VoxGQ_Vsz4oPEDVasq1Q823LSu4VIm0NJwhKZg2H8TL0RAatgNoQrgZe_7EI5dQIPGLYdeGVjhI92dmYMZrCxRChPkQ_Y31r5TLeeeQv5Vi7cgIwrx>
+ <xmr:viEjY81sPmYIuDoD6c8rZBlGMPNsUR431mBFoblQxCFwfM3kEKuVX8yr454976WheWP-qGUmLKaQTbBWYjwzfeY_16U90DnHfYMLJ5-bbLMVVcHTdWwiqBK5>
 X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvfedrfedukedgheekucetufdoteggodetrfdotf
+ gggruggvucftvghtrhhoucdtuddrgedvfedrfedukedgiedtucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
     ertddtnecuhfhrohhmpeetnhgurhgvihcuifhhvghriigrnhcuoegrnhgurhgvihesghhh
     vghriigrnhdrtghomheqnecuggftrfgrthhtvghrnhepieejlefhveevleffveegfeetle
     ejtedvgeejtddthefhhfdtiefhveegffeggeeknecuvehluhhsthgvrhfuihiivgeptden
     ucfrrghrrghmpehmrghilhhfrhhomheprghnughrvghisehghhgvrhiirghnrdgtohhm
-X-ME-Proxy: <xmx:uB8jY1g2nIaULgEjvq6f3wIr2Q03HH9MsxVXABT3i07mlW_eUdCMAg>
-    <xmx:uB8jY9D3uU68xjGZnzYge7JCAXWiYI3b1uoe3bS8gcMLT3UDR-YCsA>
-    <xmx:uB8jY-L_ee5_NfbxUV5VSBfGAUY562ZOx7SqD-_DvyVjkn1iacEm8w>
-    <xmx:uB8jY6608v3ZO_gJrIsMBK6ZQ-8uX7v1-ileGmUMnJt0DcYFkWGQ0Q>
+X-ME-Proxy: <xmx:viEjY3DtM_bMmdcyN9TvrcAAEPTlXxRvvgrM3tQmR8AcnBapnsJqFA>
+    <xmx:viEjYwh98rqkG9wKEBqwTyrPRt2_5nZmgibLmIa6aPg08GY8GaufvA>
+    <xmx:viEjY7oI2yldVF0GDquom4525J7UY_1nHE-b-n1RDMfZe4QpSByBdQ>
+    <xmx:vyEjY8Y2sfm2Sc9pDWBtO0t_aUsmEYbMACSf2y1qzbsoqc2DjL2_EA>
 Feedback-ID: i68994715:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 15 Sep 2022 08:51:03 -0400 (EDT)
+ 15 Sep 2022 08:59:41 -0400 (EDT)
 From: Andrei Gherzan <andrei@gherzan.com>
 To: openembedded-core@lists.openembedded.org
 Cc: andrei@gherzan.com,
 	Andrei Gherzan <andrei.gherzan@huawei.com>
-Subject: [PATCH] grub: Allow build on armv7ve/a with softfp
-Date: Thu, 15 Sep 2022 14:50:45 +0200
-Message-Id: <20220915125045.1641790-1-andrei@gherzan.com>
+Subject: [PATCH v2] grub: Allow build on armv7ve/a with softfp
+Date: Thu, 15 Sep 2022 14:59:23 +0200
+Message-Id: <20220915125922.1666515-1-andrei@gherzan.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 12:51:12 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 12:59:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170694
+ https://lists.openembedded.org/g/openembedded-core/message/170695
 
 From: Andrei Gherzan <andrei.gherzan@huawei.com>
 
@@ -94,14 +94,14 @@ for hardfp configuration even for arm7ve/a.
 
 Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
 ---
- meta/recipes-bsp/grub/grub2.inc | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ meta/recipes-bsp/grub/grub2.inc | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 47ea561002..6c9952d2d7 100644
+index 47ea561002..e257c31235 100644
 --- a/meta/recipes-bsp/grub/grub2.inc
 +++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -43,9 +43,18 @@ CVE_CHECK_IGNORE += "CVE-2021-46705"
+@@ -43,9 +43,13 @@ CVE_CHECK_IGNORE += "CVE-2021-46705"
  
  DEPENDS = "flex-native bison-native gettext-native"
  
@@ -115,11 +115,6 @@ index 47ea561002..6c9952d2d7 100644
 +# supported/unsupported CPUs in hardfp.
 +COMPATIBLE_HOST:armv7a = "${@'null' if d.getVar('TUNE_CCARGS_MFLOAT') == 'hardfp' else d.getVar('GRUB_COMPATIBLE_HOST')}"
 +COMPATIBLE_HOST:armv7ve = "${@'null' if d.getVar('TUNE_CCARGS_MFLOAT') == 'hardfp' else d.getVar('GRUB_COMPATIBLE_HOST')}"
-+
-+# Grub doesn't use float or doubles and tries to disable forcefully floating
-+# point at configure time. That dynamic flags configuration doesn't always work
-+# (for example on arm 32bit) so force the compilation in softfp.
-+TUNE_CCARGS_MFLOAT:class-target = "softfp"
  
  # configure.ac has code to set this automagically from the target tuple
  # but the OE freeform one (core2-foo-bar-linux) don't work with that.
