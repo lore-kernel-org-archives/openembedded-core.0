@@ -1,213 +1,102 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <arnis.juraga@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4EFCECAAA1
-	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 22:59:56 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web12.16809.1663282794047777208
- for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Sep 2022 15:59:54 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=a+jE9sqd;
- spf=pass (domain: axis.com, ip: 195.60.68.17,
- mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1663282794;
-  x=1694818794;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=xmgbXL0h3DibEBpK4oNiBgHonfS9/Rg2p8hZ1WykJj0=;
-  b=a+jE9sqdR25UuYx6v256x9qvQkIvMkdfatX5nXecpK4Gkv3yOGTzDvdb
-   J03Bt+IlGVrkvlLGurl9SZPAy2hlFkUm67EvjKJawEAj+YS4urlAprp9j
-   YkKIFreQWyP/a3XJjtjLGMsR3kSNiuEIhyBj+M+VwJSkiPhf4htJWP4Wc
-   huSvrq5MNQaeB4UFB5HlR4lDX+zv/L7BYgj6w4D6oAbcYPs54gYX8tzAB
-   IN+4huFuebWJBoMMQXfuhHGMvg9JFmu4FOeQba+Wdm97gMfwYJK4K9Ger
-   7qbuvkCEIhMfIyzlatoWdGVtvRMlmVsl4BwKrdpNy1UVdxCQcqhZvPoMl
-   w==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: ChenQi <Qi.Chen@windriver.com>, OE-core
-	<openembedded-core@lists.openembedded.org>, Alexander Kanavin
-	<alex@linutronix.de>
-Subject: RE: [OE-core] [PATCH 1/7] scripts/oe-setup-builddir: add a check that
- TEMPLATECONF is valid
-Thread-Topic: [OE-core] [PATCH 1/7] scripts/oe-setup-builddir: add a check
- that TEMPLATECONF is valid
-Thread-Index: 
- AQHYvSrQCcgb4edBN0auXSkBYnBdhq3eOAmAgAAZ4oCAAA3BgIAADe+AgAARgQCAAAYZgIAAA9UAgAAG1YCAAR65kIAAflaAgADz18A=
-Date: Thu, 15 Sep 2022 22:59:51 +0000
-Message-ID: <32f1549da2dd46e98476e2543be0746a@axis.com>
-References: <20220831111401.3330342-1-alex@linutronix.de>
- <e73f356f-87dd-2aba-7445-2f93ad6bf145@windriver.com>
- <CANNYZj-fLHiNEOLzp5etSQRwtNb55kHa4k02jzRRm=c3dohULA@mail.gmail.com>
- <6917e065-3b17-a57e-f862-90366717106b@windriver.com>
- <CANNYZj_OqjRgsQQwQditr1iHCM1RkZak-hFG-zEsqPmMfdNd_A@mail.gmail.com>
- <8e5b3cc0-bf66-fb7c-0199-ae6766c76cc8@windriver.com>
- <CANNYZj8owg_f1=g6VWVo-S6Qhq8VOgeYiGwQgNYQ5-GmbP8OTQ@mail.gmail.com>
- <8f083713-d00a-2393-3b74-35491e830bb0@windriver.com>
- <CANNYZj9nK6OXGEb0qHHSUz_UYn8QZt9ZSk5e_i-A76RPqMG8kw@mail.gmail.com>
- <e0a16812e51d41ada44bd388dea8a90b@axis.com>
- <CANNYZj9_wrEF7OvWYFX090ET1cG0cfK4w0J44a8zMHX6DRHYVQ@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj9_wrEF7OvWYFX090ET1cG0cfK4w0J44a8zMHX6DRHYVQ@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBD1AECAAA1
+	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 23:05:16 +0000 (UTC)
+Subject: sstate cache SSTATE_PKG generation will silently fail,
+ if hardlinking is not supported on the file system #bitbake
+To: openembedded-core@lists.openembedded.org
+From: "Arnis" <arnis.juraga@gmail.com>
+X-Originating-Location: GB (62.209.33.82)
+X-Originating-Platform: Windows Firefox 103
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
+Date: Thu, 15 Sep 2022 16:05:14 -0700
+Message-ID: <2xfY.1663283114373399868.FjIK@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="u9RMnozPt6iCSwD1iSNi"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 22:59:56 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 23:05:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170774
+ https://lists.openembedded.org/g/openembedded-core/message/170775
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8
-YWxleC5rYW5hdmluQGdtYWlsLmNvbT4NCj4gU2VudDogZGVuIDE1IHNlcHRlbWJlciAyMDIyIDEw
-OjIwDQo+IFRvOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNv
-bT4NCj4gQ2M6IENoZW5RaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPjsgT0UtY29yZSA8b3BlbmVt
-YmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+OyBBbGV4YW5kZXIgS2FuYXZp
-biA8YWxleEBsaW51dHJvbml4LmRlPg0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAx
-LzddIHNjcmlwdHMvb2Utc2V0dXAtYnVpbGRkaXI6IGFkZCBhIGNoZWNrDQo+IHRoYXQgVEVNUExB
-VEVDT05GIGlzIHZhbGlkDQo+IA0KPiBPbiBUaHUsIDE1IFNlcHQgMjAyMiBhdCAwMzowNywgUGV0
-ZXIgS2plbGxlcnN0ZWR0DQo+IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+IHdyb3RlOg0K
-PiA+IEkga25vdyB5b3UgaGF2ZSBzdWdnZXN0ZWQgdGhpcyB0byBtZSB0b28gYXMgd2UgdXNlIGEg
-c2ltaWxhciBzZXR1cCB0bw0KPiA+IGdlbmVyYXRlIHRoZSBiYmxheWVycy5jb25mLnNhbXBsZSBm
-aWxlIGJhc2VkIG9uIHRoZSBsYXllcnMgdGhhdCByZXBvDQo+ID4gaGFzIGNoZWNrZWQgb3V0IGlu
-IG91ciBlbnZpcm9ubWVudCwgYW5kIG5vdyBJIHJlYWxpemVkIHdoeSB0aGlzIGlzIG5vdA0KPiA+
-IGFzIHNpbXBsZSBhcyBpdCBzZWVtcy4gVGhlIHByb2JsZW0gKGF0IGxlYXN0IGluIG91ciBjYXNl
-KSBpcyB0aGF0IHdlDQo+ID4gcnVuIGFzIGEgd3JhcHBlciBhcm91bmQgb2UtaW5pdC1idWlsZC1l
-bnYuIFRoaXMgbWVhbnMgdGhhdCBiZWZvcmUgdGhlDQo+ID4gd3JhcHBlciBzb3VyY2VzIG9lLWlu
-aXQtYnVpbGQtZW52LCB0aGUgYnVpbGQgZGlyZWN0b3J5IGFuZCB0aHVzIHRoZQ0KPiA+IGNvbmYg
-ZGlyZWN0b3J5IGluc2lkZSBpdCAod2hlcmUgdGhlIGJibGF5ZXJzLmNvbmYgZmlsZSBpcyBzdXBw
-b3NlZCB0bw0KPiA+IGdvKSBtYXkgbm90IGV4aXN0LiBBbmQgYWZ0ZXIgaXQgaGFzIHNvdXJjZWQg
-b2UtaW5pdC1idWlsZC1lbnYgaXQgaXMNCj4gPiB0b28gbGF0ZSBhcyB0aGUgYmJsYXllcnMuY29u
-ZiBmaWxlIG5lZWRzIHRvIGV4aXN0cyBiZWZvcmUuIFNvIHRvIGNyZWF0ZQ0KPiA+IHRoZSBiYmxh
-eWVycy5jb25mIGZpbGUsIHRoZSB3cmFwcGVyIHdvdWxkIGhhdmUgdG8gZHVwbGljYXRlIGFsbCB0
-aGUNCj4gPiBub24tdHJpdmlhbCBjb2RlIGluIG9lLXNldHVwLWJ1aWxkZGlyIHRoYXQgZGV0ZXJt
-aW5lcyB3aGF0IHRoZSBidWlsZA0KPiA+IGRpcmVjdG9yeSBzaG91bGQgYmUgY2FsbGVkLiBBbmQg
-d2hpbGUgdGhpcyBvZiBjb3Vyc2UgaXMgcG9zc2libGUgdG8NCj4gPiBkbywgaXQgbWVhbnMgZHVw
-bGljYXRpbmcgY29kZSB0aGF0IGlzIGludGVybmFsIHRvIGJpdGJha2UsIGFuZCByaXNraW5nDQo+
-ID4gbWlzc2luZyBpbXBvcnRhbnQgY2hhbmdlcyB0byB0aGUgdXBzdHJlYW0gY29kZSBpbiB0aGUg
-ZnV0dXJlLiBUaHVzIGl0DQo+ID4gaXMgbXVjaCBlYXNpZXIgYW5kIHNhZmVyIHRvIGdlbmVyYXRl
-IHRoZSB0ZW1wbGF0ZSBmaWxlcyBhbmQgbGV0DQo+ID4gb2UtaW5pdC1idWlsZC1lbnYgZG8gaXRz
-IGpvYi4NCj4gDQo+IFdhaXQsIEkgaGF2ZSB0byBhc2sgZm9yIGRldGFpbHMgaGVyZS4gV2hhdCBp
-cyB0aGUgbm9uLXRyaXZpYWwgY29kZQ0KPiBzcGVjaWZpY2FsbHk/IElzbid0IGl0IHNpbXBseQ0K
-PiANCj4gbWtkaXIgLXAgYnVpbGRkaXIvY29uZg0KPiB3cml0ZV9vdXQgYmJsYXllcnMuY29uZg0K
-PiANCj4gd2hlcmUgYnVpbGRkaXIgaXMgdGhlIHNhbWUgYXJndW1lbnQgdGhhdCBpcyBwYXNzZWQg
-dG8NCj4gb2UtaW5pdC1idWlsZC1lbnY/IFNvbWV0aGluZyBkb2Vzbid0IGNvbXB1dGUgaGVyZSBm
-b3IgbWUuDQoNClNpbmNlIG91ciBjb2RlIGlzIGEgd3JhcHBlciBhcm91bmQgb2UtaW5pdC1idWls
-ZC1lbnYsIGl0IHdvdWxkIGhhdmUgdG8gZG8gDQp0aGUgZXhhY3Qgc2FtZSBjYWxjdWxhdGlvbnMg
-YXMgYXJlIGRvbmUgaW4gb2Utc2V0dXAtYnVpbGRkaXIsIGFuZCBpZiB5b3UgDQpsb29rIGF0IHRo
-YXQgc2NyaXB0LCB5b3Ugd2lsbCBzZWUgdGhhdCB0aGVyZSBhcmUgYWN0dWFsbHkgcXVpdGUgYSBs
-b3Qgb2YgDQpvcHRpb25zIHRvIGRldGVybWluZSB0aGUgbmFtZSBvZiB0aGUgYnVpbGQgZGlyZWN0
-b3J5Lg0KDQo+IA0KPiA+IFdoZXJlIEkgKGFuZCBhcHBhcmVudGx5IFdpbmRSaXZlcikgYXJlIGNv
-bWluZyBmcm9tLCB0aGUgZGVjaXNpb24gb24gd2hhdA0KPiA+IGxheWVycyBhcmUgcGFydCBvZiB0
-aGUgY29uZmlndXJhdGlvbiBpcyBub3Qgc29tZXRoaW5nIGEgc3BlY2lmaWMgbGF5ZXINCj4gPiBp
-cyByZXNwb25zaWJsZSBmb3IuIEkuZS4sIGluIG91ciBzZXR1cCB3ZSBmZXRjaCB0aGUgbGF5ZXJz
-IHdlIHdhbnQgZm9yDQo+ID4gYSBidWlsZCwgd3JpdGUgdGhlIGxpc3Qgb2YgbGF5ZXJzIHRvIGJi
-bGF5ZXJzLmNvbmYuc2FtcGxlIGFuZCBzb3VyY2UNCj4gPiBvZS1pbml0LWJ1aWxkLWVudi4gV2l0
-aCB5b3VyIHNldHVwLCBpZiBJIHdhbnQgYSBwcm9qZWN0IHdpdGggdGhlIHR3bw0KPiA+IGxheWVy
-cyBtZXRhLWEgYW5kIG1ldGEtYiwgSSB3b3VsZCBhbHNvIGhhdmUgdG8gY3JlYXRlIGEgbGF5ZXIg
-bWV0YS14DQo+ID4gd2hlcmUgSSBjcmVhdGUgYSBzdGF0aWMgYmJsYXllcnMuY29uZi5zYW1wbGUg
-ZmlsZSB0aGF0IGxpc3RzIHRoZXNlDQo+ID4gdGhyZWUgbGF5ZXJzLiBUaGVuLCBpZiBhbm90aGVy
-IHByb2plY3Qgd2FudHMgdG8gdXNlIG1ldGEtYSBhbmQgbWV0YS1jLA0KPiA+IHRoZXkgd291bGQg
-aGF2ZSB0byBhZGQgYSBzZWNvbmQgc3RhdGljIGJibGF5ZXJzLmNvbmYuc2FtcGxlIGZpbGUgaW4N
-Cj4gPiBtZXRhLXggdGhhdCBsaXN0cyB0aG9zZSB0aHJlZSBsYXllcnMuIEJhc2ljYWxseSBldmVy
-eSB0aW1lIHRoZXJlIGlzIGENCj4gPiBuZXcgY29tYmluYXRpb24gb2YgbGF5ZXJzIGZldGNoZWQs
-IHRoZXJlIHdvdWxkIGFsc28gaGF2ZSB0byBiZSBhDQo+ID4gZHVwbGljYXRlIG9mIHRoZSBpbmZv
-cm1hdGlvbiBpbiBhIHN0YXRpYyBiYmxheWVycy5jb25mLnNhbXBsZSBmaWxlDQo+ID4gc29tZXdo
-ZXJlLiBJIGFtIHByb2JhYmx5IG1pc3Npbmcgc29tZXRoaW5nIGhlcmUsIGJ1dCB0byBtZSB0aGlz
-IHNlZW1zDQo+ID4gc3Vib3B0aW1hbC4gSWYgdGhlIGxpc3Qgb2YgbGF5ZXJzIGluIHRoZSBzdGF0
-aWMgZmlsZSBoYWQgYmVlbiB1c2VkIHRvDQo+ID4gZmV0Y2ggdGhlIGxheWVycywgSSB3b3VsZCBi
-ZXR0ZXIgdW5kZXJzdGFuZCBpdCwgYnV0IHRoZW4gdGhlIHByb2JsZW0NCj4gPiBiZWNvbWVzIHRo
-YXQgdGhlIGxpc3QgaXMgbm93IGluIG9uZSBvZiB0aGUgYXJiaXRyYXJ5IGxheWVycyB0aGF0IGFy
-ZQ0KPiA+IHN1cHBvc2VkIHRvIGJlIGZldGNoZWQuDQo+IA0KPiBUaGUgaWRlYSBpcyB0aGF0IHll
-cywgZXZlcnkgcG9zc2libGUgY29tYmluYXRpb24gb2YgbGF5ZXJzIG5lZWRzIGl0cw0KPiBvd24g
-dGVtcGxhdGUsIGFuZCBpdCBnb2VzIHVuZGVyIHZlcnNpb24gY29udHJvbCBpbnRvIGEgbGF5ZXIu
-DQoNClRoaXMgc2VlbXMgaW5jcmVkaWJseSBpbmZsZXhpYmxlIGlmIHlvdSBoYXZlIG1hbnkgb3B0
-aW9uYWwgbGF5ZXJzLiANCldlIHVzZSByZXBvJ3MgLS1ncm91cHMgb3B0aW9uIHRvIGhhbmRsZSBv
-cHRpb25hbCBsYXllcnMuIFRoaXMgbWVhbnMgDQp3ZSBjYW4sIGUuZy4sIHVzZSBvbmUgbWFuaWZl
-c3QgdG8gYnVpbGQgdGhlIG1haW4gZmlybXdhcmUsIGJ1dCBhbHNvIA0KdG8gYnVpbGQgc3BlY2lh
-bCBmaXJtd2FyZSBmb3IgcHJvZHVjdGlvbiB0ZXN0aW5nIGJ5IGFkZGluZyBhbiBvcHRpb24gDQp0
-byByZXBvLCB0ZWxsaW5nIGl0IHRvIGZldGNoIGFuIGV4dHJhIGxheWVyLiBUaGlzIGFsc28gbWVh
-bnMgdGhhdCBhbGwgDQp0aGUgcHJvamVjdCBtYW5pZmVzdHMgZG9uJ3QgbmVlZCB0byBleGlzdCBp
-biB0d28gdmVyc2lvbnMgKG9uZSBmb3IgDQp0aGUgbWFpbiBmaXJtd2FyZSBhbmQgb25lIGZvciB0
-aGUgcHJvZHVjdGlvbiB0ZXN0aW5nKSBhcyB0aGlzIGlzIA0KaGFuZGxlZCBieSB0aGUgYmFzZSBt
-YW5pZmVzdC4gDQoNCldpdGggeW91ciBzb2x1dGlvbiwgZXZlcnkgcHJvamVjdCB3b3VsZCBoYXZl
-IHRvIGNyZWF0ZSB0d28gdGVtcGxhdGVzIA0KdG8gY292ZXIgdGhpcy4gQW5kIGlmIHdlIGFkZCBh
-bm90aGVyIG9wdGlvbmFsIGxheWVyICh3ZSBjdXJyZW50bHkgZG9uJ3QgDQpoYXZlIG9uZSwgYnV0
-IHdlIHVzZWQgdG8gZG8pLCB0aGVuIHdlIHdvdWxkIGhhdmUgdG8gYWRkIG9uZSBvciB0d28gDQpt
-b3JlIHRlbXBsYXRlcyBhbmQgc28gb24uDQoNCkFsc28sIGlmIHdlIGRlY2lkZSB0byBhZGQgYSBs
-YXllciB0byB0aGUgYmFzZSBwbGF0Zm9ybSwgdGhlbiBhbGwgdGhlIA0KcHJvamVjdCB0ZW1wbGF0
-ZXMgYXJlIGJyb2tlbiB1bnRpbCBzb21lb25lIHVwZGF0ZXMgdGhlbSBhbGwuIEJ1dCBzaW5jZSAN
-CnRoZXkgd291bGQgYmUgaW4gdGhlIHByb2plY3QgbGF5ZXJzLCB0aGF0IGlzIG5vdCBzb21ldGhp
-bmcgdGhhdCBJIGFzIA0KdGhlIG1haW50YWluZXIgb2YgdGhlIGJhc2UgcGxhdGZvcm0gY2FuIGRv
-Lg0KDQo+IFR5cGljYWxseSB0aGlzIHdvdWxkIGJlIGEgbGF5ZXIgdGhhdCBpcyBjb21tb24gdG8g
-YWxsIG9mIHlvdXIgYnVpbGQNCj4gY29uZmlndXJhdGlvbnMgKHdoaWNoIGlzIG1ldGEtYSBpbiB0
-aGUgYWJvdmUgZXhhbXBsZSAtICpub3QqIG1ldGEteCkNCj4gYW5kIHRoYXQgaXMgd2hlcmUgdGhl
-IHRlbXBsYXRlcyBnby4gRG8geW91IGhhdmUgc3VjaCBhIGxheWVyPw0KDQpXZWxsLCB3ZSBkbyBm
-b3IgdGhlIGJhc2UgcGxhdGZvcm0sIGJ1dCB0aGVuIHRoZSBwcm9qZWN0IHRlbXBsYXRlcyB3b3Vs
-ZCANCmhhdmUgdG8gYmUgaW4gdGhlIHByb2plY3QgbGF5ZXJzLg0KDQpJIGtub3cgeW91IGFyZSBj
-dXJyZW50bHkgbm90IHNvbHZpbmcgdGhlIHByb2JsZW0gb2YgYWN0dWFsbHkgZmV0Y2hpbmcgDQp0
-aGUgbGF5ZXJzLCBidXQgSSBkbyBub3QgdW5kZXJzdGFuZCBob3cgeW91IGFyZSBwbGFubmluZyB0
-byB0aGF0IHdoZW4gDQp0aGUgZGVmaW5pdGlvbiBvZiB3aGF0IGxheWVycyB0byB1c2UgaXMgaW5z
-aWRlIHNvbWUgcmFuZG9tIGxheWVyLiBBbmQgDQphIHNvbHV0aW9uIHRoYXQgd291bGQgZmV0Y2gg
-YWxsIGxheWVycyB3b3VsZCBkZWZpbml0ZWx5IG5vdCBiZSB1c2FibGUgDQpieSB1cyBhdCBsZWFz
-dC4gV2hpY2ggbWVhbnMgdGhhdCB0byBzZXR1cCBhIHJhbmRvbSBwcm9kdWN0IEkgd291bGQgDQph
-Y3R1YWxseSBuZWVkIHRvIGhhdmUgaW5zaWRlIGtub3dsZWRnZSBvZiB3aGljaCBsYXllciBhY3R1
-YWxseSBoYXBwZW5zIA0KdG8gaGF2ZSB0aGUgbGlzdCBvZiB3aGF0IGxheWVycyBhcmUgbmVlZGVk
-IGZvciB0aGF0IHByb2R1Y3QuDQoNCk9yIGFyZSB5b3UgcGxhbm5pbmcgb24gaGF2aW5nIHNvbWUg
-ZGVmaW5pdGlvbiBvZiB3aGF0IGxheWVycyB0byBmZXRjaCANCm91dHNpZGUgdGhlIGxheWVycyAo
-d2hlcmUgSSB0aGluayBpdCBiZWxvbmdzKT8gVGhlbiB3aHkgd291bGQgb25lIHdhbnQgDQp0byBo
-YXZlIGR1cGxpY2F0ZSBpbmZvcm1hdGlvbiBpbiBvbmUgb2YgdGhlIGZldGNoZWQgbGF5ZXJzIHRv
-IHNldHVwIA0KdGhlIEJCTEFZRVJTIHZhcmlhYmxlPw0KDQo+IA0KPiBJIGFsc28gaGF2ZSB0byBh
-c2ssIHdoYXQgcHJldmVudHMgeW91IGZyb20gc2ltcGx5IGxpc3RpbmcgYWxsIG9mIHRoZQ0KPiBs
-YXllcnMgaW4gYSBzaW5nbGUgdW5pZmllZCBiYmxheWVycy5jb25mLnNhbXBsZS4gRG8gdGhleSBz
-dGVwIG9uIGVhY2gNCj4gb3RoZXI/IEhvdz8NCg0KVGhlIHByb2plY3QgbGF5ZXJzIGNhbiBkZWZp
-bml0ZWx5IHN0ZXAgb24gZWFjaCBvdGhlci4gV2UgYWxzbyBoYXZlIHNvbWUgDQpsYXllcnMgdGhh
-dCBtb2RpZnkgdGhlIGJ1aWxkIGNvbXBsZXRlbHkgYnkgYmVpbmcgaW5jbHVkZWQgKHRoZXkgYXJl
-IA0Kb2J2aW91c2x5IG5vdCBZb2N0byBDb21wYXRpYmxlIGFzIHRoZXJlIGlzIG5vIHJlYXNvbiBm
-b3IgdGhlbSB0byBiZSwgDQpnaXZlbiB0aGF0IHdlIG9ubHkgZmV0Y2ggYW5kIGluY2x1ZGUgdGhl
-IGxheWVycyBpbiBvdXIgYnVpbGRzIHRoYXQgYXJlIA0KYWN0dWFsbHkgdXNlZCkuDQoNCj4gDQo+
-IEkgYWxzbyBuZWVkIHRvIHJlbWluZCB5b3UgdGhhdCBiYmxheWVycy5jb25mKC5zYW1wbGUpIGRv
-ZXMgc3VwcG9ydA0KPiBpbmNsdWRlcywgc28geW91IGNhbiBpbXBsZW1lbnQgYSBzdHJ1Y3R1cmVk
-IGhpZXJhcmNoeSBvZiBsYXllciBjb25maWcNCj4gZnJhZ21lbnRzLCB3aGVyZSB0aGUgY29tbW9u
-IGJpdHMgYXJlIG9ubHkgd3JpdHRlbiBvbmNlLg0KDQpBRkFJSywgb2UtaW5pdC1idWlsZC1lbnYg
-ZG9lcyBub3Qgc3VwcG9ydCB0aGF0LiBJdCB3aWxsIG9ubHkgcmVwbGFjZSANCiMjT0VST09UIyMg
-aW4gdGhlIGJibGF5ZXJzLmNvbmYuc2FtcGxlIGZpbGUuDQoNCj4gDQo+IEJhc2ljYWxseSwgdGhl
-cmUgYXJlIGFsdGVybmF0aXZlcywgYW5kIEkgdGhpbmsgYWxsIG9mIHRoZW0gYXJlIGJldHRlcg0K
-PiB0aGFuIHdyaXRpbmcgb3V0IHRoZSBsaXN0IG9mIGxheWVycyBqdXN0IGJlZm9yZSBzZXR0aW5n
-IHVwIGEgYnVpbGQNCj4gd2l0aCBhIGN1c3RvbSBzY3JpcHQuDQoNCkkgY2Fubm90IGZvciB0aGUg
-bGlmZSBvZiBtZSBzZWUgaG93IHlvdXIgc29sdXRpb24gaXMgYmV0dGVyIGluIGFueSB3YXkgDQp0
-aGFuIHRoZSBvbmUgd2UgaGF2ZS4gSW4gb3VyIHNvbHV0aW9uIHdlIGhhdmUgc2ltcGxlLCBoaWVy
-YXJjaGljYWwgDQptYW5pZmVzdHMgdGhhdCBzcGVjaWZ5IHdoYXQgbGF5ZXJzIGFyZSB0byBiZSB1
-c2VkLiBUaGVuIHRoZSBpbml0IHNjcmlwdHMgDQphdXRvbWF0aWNhbGx5IHNldCB1cCB0aGUgYml0
-YmFrZSBlbnZpcm9ubWVudCB0byB1c2UgdGhvc2UgbGF5ZXJzLiBBbGwgDQp0aGUgbWFuaWZlc3Rz
-IGFyZSBpbiBvbmUgcmVwb3NpdG9yeS4gQWRkaW5nIGEgbGF5ZXIgdG8gdGhlIHBsYXRmb3JtIG1l
-YW5zIA0KYWRkaW5nIG9uZSBsaW5lIHRvIG9uZSBtYW5pZmVzdC4gQWRkaW5nIGEgbmV3IHByb2pl
-Y3QgbWVhbnMgYWRkaW5nIG9uZSANCm1hbmlmZXN0ICh3aXRoIGJhc2ljYWxseSBvbmUgbGluZSBz
-cGVjaWZ5aW5nIHRoZSBwcm9qZWN0IGxheWVyKS4NCg0KPiANCj4gPiBpbiBvdXIgbWFuaWZlc3Qg
-cmVwb3NpdG9yeS4gVGhpcyBzaW1wbGUgbWFuaWZlc3QgaXMgYWxsIHRoZSBwcm9qZWN0DQo+ID4g
-dGVhbSBuZWVkcyB0byBjcmVhdGUgdG8gYnVpbGQgd2l0aCB0aGVpciBwcm9qZWN0IHNwZWNpZmlj
-IGxheWVyLiBJdA0KPiA+IGFsc28gbWVhbnMgdGhhdCB0aGUgb25seSBpbnB1dCB0byBvdXIgSmVu
-a2lucyBqb2JzIHRvIGJ1aWxkIGZvciB0aGlzDQo+ID4gcHJvamVjdCAoaW5zdGVhZCBvZiB0aGUg
-bWFpbiBwbGF0Zm9ybSkgaXMgdGhlIG5hbWUgb2YgdGhlIHByb2plY3Qncw0KPiA+IHJlcG8gbWFu
-aWZlc3QuIEl0IGFsc28gbWVhbnMgdGhhdCBpZiB3ZSBtYWtlIGFueSBjaGFuZ2VzIHRvIHRoZSBt
-YWluDQo+ID4gcGxhdGZvcm0sIGUuZy4sIGFkZCBhIG5ldyBsYXllciAod2hpY2ggaXMgYSBvbmUg
-bGluZSBjaGFuZ2UgdG8gdGhlDQo+ID4gY2ZwLnhtbCBtYW5pZmVzdCksIGFsbCBwcm9qZWN0cyB3
-aWxsIGF1dG9tYXRpY2FsbHkgZ2V0IGFuZCB1c2UgdGhhdA0KPiA+IG5ldyBsYXllciB3aXRob3V0
-IGhhdmluZyB0byBtYWtlIGFueSBjaGFuZ2VzIHRvIGFsbCB0aGUgcHJvamVjdA0KPiA+IG1hbmlm
-ZXN0cy4NCj4gDQo+IFRoaXMgaXMgc29tZXdoYXQgdGFuZ2VudGlhbCwgYXMgaXQgaXMgYWJvdXQg
-ZXh0ZW5kaW5nIHRoZSBkZWZhdWx0DQo+IGxheWVyIHNldHVwIGNvbmZpZywgbm90IHRoZSBjb21i
-aW5hdGlvbnMgb2YgbGF5ZXJzIGluIHRoZSBidWlsZA0KPiBjb25maWd1cmF0aW9uLiBTbyBmYXIs
-IHRoZSBqc29uIGlzIG5vdCBleHRlbnNpYmxlLCBidXQgd2UgY2FuIHRoaW5rDQo+IGFib3V0IGhv
-dyB0byBleHRlbmQgYW5kIG92ZXJsYXkgaXQgdG9vLiBBcyBmYXIgYXMgZGV2ZWxvcG1lbnQgaW4N
-Cj4gbWV0YS1mb28gZ29lcywgdGhlIHRlbXBsYXRlcyAoaW5jbHVkaW5nIGxheWVyIGxpc3RzKSBm
-b3IgaXQgY2FuIGJlDQo+IGhvc3RlZCB0aGVyZSwgdW50aWwgdGhlIGxheWVyICdncmFkdWF0ZXMn
-IGludG8gdGhlIGNvbW1vbiBzdHJ1Y3R1cmUuDQo+IA0KPiBBbGV4DQoNCi8vUGV0ZXINCg0K
+--u9RMnozPt6iCSwD1iSNi
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+I have faced a problem today that sstate-cache `${SSTATE_PKG}` generation w=
+ill silently fail on the file systems no supporting hard linking.
+I've faced this problem on cloud-based Kubernetes cluster, where persistent=
+ volume is mounted to Docker containers as shared sstate-cache location.
+
+Because of https://git.openembedded.org/ openembedded-core/commit/?id=3D 55=
+2197a0c4c9f75a9177c00b197ea9 1296ed9fc4 ( https://git.openembedded.org/open=
+embedded-core/commit/?id=3D552197a0c4c9f75a9177c00b197ea91296ed9fc4 ) chang=
+e
+
++ ln $TFILE ${SSTATE_PKG} || true
+
+this will leave sstate folder with only `*...tar.zst.siginfo` files generat=
+ed, but no "*...tar.zst"
+
+As a temporary solution, I have replaced it with
+
++ cp $TFILE ${SSTATE_PKG}
+
+which obviously is not ideal.
+
+What would you suggest?
+
+--u9RMnozPt6iCSwD1iSNi
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>Hi, </div>
+<div>&nbsp;</div>
+<div>I have faced a problem today that sstate-cache `${SSTATE_PKG}` generat=
+ion will silently fail on the file systems no supporting hard linking. </di=
+v>
+<div>I've faced this problem on cloud-based Kubernetes cluster, where persi=
+stent volume is mounted to Docker containers as shared sstate-cache locatio=
+n.</div>
+<div>&nbsp;</div>
+<div>Because of <a href=3D"https://git.openembedded.org/openembedded-core/c=
+ommit/?id=3D552197a0c4c9f75a9177c00b197ea91296ed9fc4" target=3D"_blank" rel=
+=3D"noopener" data-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps:=
+//git.openembedded.org/openembedded-core/commit/?id%3D552197a0c4c9f75a9177c=
+00b197ea91296ed9fc4&amp;source=3Dgmail&amp;ust=3D1663369360388000&amp;usg=
+=3DAOvVaw19thelkdCQU5WmqxxPYoSj">https://git.openembedded.org/<wbr />openem=
+bedded-core/commit/?id=3D<wbr />552197a0c4c9f75a9177c00b197ea9<wbr />1296ed=
+9fc4</a> change </div>
+<div>&nbsp;</div>
+<div><span style=3D"color: #008000; font-family: monospace; font-size: 13.3=
+333px; font-style: normal; font-variant-ligatures: normal; font-variant-cap=
+s: normal; font-weight: 400; letter-spacing: normal; text-align: start; tex=
+t-indent: 0px; text-transform: none; white-space: pre-wrap; word-spacing: 0=
+px; background-color: #ffffff; text-decoration-style: initial; text-decorat=
+ion-color: initial; display: inline; float: none;">+ ln $TFILE ${SSTATE_PKG=
+} || true</span> </div>
+<div>&nbsp;</div>
+<div>this will leave sstate folder with only `*...tar.zst.siginfo` files ge=
+nerated, but no "*...tar.zst" </div>
+<div>&nbsp;</div>
+<div>As a temporary solution, I have replaced it with</div>
+<div>&nbsp;</div>
+<div><span style=3D"color: #008000; font-family: monospace; font-size: 13.3=
+333px; font-style: normal; font-variant-ligatures: normal; font-variant-cap=
+s: normal; font-weight: 400; letter-spacing: normal; text-align: start; tex=
+t-indent: 0px; text-transform: none; white-space: pre-wrap; word-spacing: 0=
+px; background-color: #ffffff; text-decoration-style: initial; text-decorat=
+ion-color: initial; display: inline; float: none;">+ cp $TFILE ${SSTATE_PKG=
+}</span></div>
+<div>&nbsp;</div>
+<div>which obviously is not ideal.</div>
+<div>&nbsp;</div>
+What would you suggest?
+
+--u9RMnozPt6iCSwD1iSNi--
 
