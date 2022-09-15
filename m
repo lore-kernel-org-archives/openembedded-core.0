@@ -1,135 +1,107 @@
-Return-Path: <pgowda.cve@gmail.com>
+Return-Path: <sundeep.kokkonda@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED525ECAAA1
-	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 11:01:41 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web11.8616.1663239692396289118
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED489ECAAD3
+	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 11:15:11 +0000 (UTC)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web12.8579.1663240510941387074
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Sep 2022 04:01:32 -0700
+ Thu, 15 Sep 2022 04:15:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=fSMx+K05;
- spf=pass (domain: gmail.com, ip: 209.85.216.42,
- mailfrom: pgowda.cve@gmail.com)
-Received: by mail-pj1-f42.google.com with SMTP id
- x1-20020a17090ab00100b001fda21bbc90so21975136pjq.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=G/IenIvC;
+ spf=pass (domain: gmail.com, ip: 209.85.216.49,
+ mailfrom: sundeep.kokkonda@gmail.com)
+Received: by mail-pj1-f49.google.com with SMTP id
+ o70-20020a17090a0a4c00b00202f898fa86so7763851pjo.2
         for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Sep 2022 04:01:32 -0700 (PDT)
+ Thu, 15 Sep 2022 04:15:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date;
-        bh=ljDS5WcC5ts4d3WUT3enAHHK6gh/D6/ru2CwVpEWq0E=;
-        b=fSMx+K05UVXPQdv7ECAHbcBX9QvuqWQgsmvr6v5NAEDICADncddKISFD/Y/bGfdLKE
-         lwSfXjqU4cqExwxoag0F6xHgrFB0sO96PFzRX3/MgIZqaM02qQEIbCceohkllYV87gJv
-         +h2DtvKuCPhbdnBTU5/iwtE68Jg3PpqYliMcmyiXQNXMfgmDQ/s5uUxOb1ObVhchjPjd
-         Cii4qwF5Y5YhTqoO3yMmVbOAHlNKk0RNUkPk5V06iAGweRX8vvTfRFzVCVh+fdANfaRm
-         U7IX/QzM18v+VlU7ZFN7FlPyJpivglHa5q45BuMTbnOasiEqNilxVqffdpY/Zjjzqu05
-         dS5w==
+        bh=TNOJuzVriKbrX/4gtRubz8WSxGc7H7ZZ7HHAsePm+oE=;
+        b=G/IenIvC1sPnmuuiBsXPC5dH9ndy7/wDFb3wnXC//lQsu2vRDifrmc1cLVr/c9I3sj
+         wMHIT7FWSt/laITKW507os+7n0ZcmRZTryk0BP3qAwUu9Id6D8Ks67KhrDvgE3H+ChGI
+         HqZjuRT0oFlKohA3MIomqHUz1uOj3YeTdLt78KyRDPGBGwedN6Neckd/6TnrDKOU1Ltk
+         JG0IGqI5/y+Wb/uyvwDFdC9RJhzJdR3VYMmiM7J5WxfpA+hRAQeR8+UMkYTYEn5Dh9fU
+         begyzDv9iNFGYnFJNbFQXzDo9mTQGQaZn3xN7KOVqrnF6QJO5NplmT+iziQNTsZ8yZ9G
+         ErlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=ljDS5WcC5ts4d3WUT3enAHHK6gh/D6/ru2CwVpEWq0E=;
-        b=MkIjyfg06mwtq6wAdhozBFtREWFSaFLHqVk52lPdrm27HQhurTDKsd/rOWjRVBDSn4
-         DKPdzq9A44wAmxg2eaIPmxk5lczFOSGKELLJJwWFFtc0vF1KFivdqKVGq9PzKzBQeN7o
-         Wl3A1ZdhqiGqwNek07H+keVs8/k6ANqr5bmV4MR3thVRb3HEQUk4P0mfBCyD9kb8lisG
-         gdIpdJAcvSOKLcKYWaaVFrq/qR647DDIn/4RUlUR3py5bxdROKaT6PoeFimd7rqawCGx
-         fYhbU0Air0WDkOs9JJydWp3NPFbq2DkNF/qpcJbI4LGZbj5+if5IOclVVc+czkNWwMSr
-         PL1w==
-X-Gm-Message-State: ACrzQf0ux/XVhQDaj+7Yrmk/lNenFTly/wPtCVY/mVlK1mVrI89fgj7e
-	51FkQhHpEyZ34KKeuw5myG+iccxELHM=
+        bh=TNOJuzVriKbrX/4gtRubz8WSxGc7H7ZZ7HHAsePm+oE=;
+        b=c8U1VsT2j98BU5H13rJ1kWPvQQ/VmqUxlgp+9qxhfXbOD6d1jysTUzPAc0bZ2eGb3N
+         vC8gPTsEeYU6EiyAG3uVmz1bih2fne/xh4ABCRARkVMVwCV+Ivz9+bmEH2G0OMc7ix1h
+         IGUNExtm2JdQWFeFBp7+CsMsV/aFwvvhV1T8d5LYre7gL5SXfCX8o8JF/Mb2rb5gzqbh
+         fgNZnape28a5FZmCEg/BwsZXR/EPlFWueC4TXrFM0IG6dcjCNIy102TspPRV9GNmfW3G
+         xj5hiE+iSDVLvLqh+HaM7IypmSe39fYLt5034q24oIes6YnXTs7bQ6MlyJBrc9ZeeWxt
+         j31Q==
+X-Gm-Message-State: ACrzQf36/Pt28ujX4HmI0vUBYN9NnwpJD+4iW5m833QTt7SFLjwAN+1L
+	fseFpViMubyuxs3U0ZvdWF4cf4w2Xus=
 X-Google-Smtp-Source: 
- AMsMyM7QsrMPc0KSqgplwrPQ83ReUYHt2LPBMXz/K6Vj1ZdO4wvQZxr9fl6Cgh+PddHrjnrWpbuMLg==
-X-Received: by 2002:a17:90a:a088:b0:1fb:6f0a:96bb with SMTP id
- r8-20020a17090aa08800b001fb6f0a96bbmr10026102pjp.190.1663239691491;
-        Thu, 15 Sep 2022 04:01:31 -0700 (PDT)
+ AMsMyM4cd35OKURabRJWfNIBUiN+4rnXh/ffYqRS0OiR8VtkaG3FOw+WmaBNTyoAH3i7TIhFZj8Tyg==
+X-Received: by 2002:a17:90a:a60b:b0:200:919a:55a1 with SMTP id
+ c11-20020a17090aa60b00b00200919a55a1mr10158484pjq.194.1663240509853;
+        Thu, 15 Sep 2022 04:15:09 -0700 (PDT)
 Received: from localhost.localdomain ([49.204.85.206])
         by smtp.gmail.com with ESMTPSA id
- x1-20020aa79a41000000b00536b2483aedsm10377881pfj.199.2022.09.15.04.01.29
+ k8-20020a170902c40800b00176a715653dsm12872187plk.145.2022.09.15.04.15.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Sep 2022 04:01:31 -0700 (PDT)
-From: pgowda.cve@gmail.com
+        Thu, 15 Sep 2022 04:15:09 -0700 (PDT)
+From: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: randy.macleod@windriver.com,
-	pgowda <pgowda.cve@gmail.com>
-Subject: [kirkstone][PATCH] binutils - CVE-2022-38126
-Date: Thu, 15 Sep 2022 16:31:25 +0530
-Message-Id: <20220915110125.2121125-1-pgowda.cve@gmail.com>
+Cc: rwmacleod@gmail.com,
+	umesh.kalappa0@gmail.com,
+	pgowda.cve@gmail.com,
+	shivams@gmail.com,
+	Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+Subject: [kirkstone] glibc : stable 2.35 branch updates.
+Date: Thu, 15 Sep 2022 16:44:40 +0530
+Message-Id: <20220915111440.2121310-1-sundeep.kokkonda@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 11:01:41 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 11:15:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170686
+ https://lists.openembedded.org/g/openembedded-core/message/170687
 
-From: pgowda <pgowda.cve@gmail.com>
+Below commits on glibc-2.35 development branch are updated.
 
-Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=e3e5ae049371a27fd1737aba946fe26d06e029b5]
+f8ad66a4ca nscd: Fix netlink cache invalidation if epoll is used [BZ #29415]
+9e960717e1 Apply asm redirections in wchar.h before first use
+577c2fc7f3 elf: Call __libc_early_init for reused namespaces (bug 29528)
+83f1d9851e NEWS: Add entry for bug 28846
+cbd8685e82 socket: Check lengths before advancing pointer in CMSG_NXTHDR
+4bafc4001d alpha: Fix generic brk system call emulation in __brk_call (bug 29490)
+37fd2ac665 stdlib: Fixup mbstowcs NULL __dst handling. [BZ #29279]
+a1ec4157bc stdlib: Remove attr_write from mbstows if dst is NULL [BZ: 29265]
+813a8d0171 Update syscall lists for Linux 5.19
+e200127c6c riscv: Update rv64 libm test ulps
+8c172a6cb0 dlfcn: Pass caller pointer to static dlopen implementation (bug 29446)
 
-Signed-off-by: pgowda <pgowda.cve@gmail.com>
+Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
 ---
- .../binutils/binutils-2.38.inc                |  1 +
- .../binutils/0016-CVE-2022-38126.patch        | 34 +++++++++++++++++++
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0016-CVE-2022-38126.patch
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
-index 8aa8295881..2ddeb0ed39 100644
---- a/meta/recipes-devtools/binutils/binutils-2.38.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
-@@ -34,5 +34,6 @@ SRC_URI = "\
-      file://0013-Avoid-as-info-race-condition.patch \
-      file://0014-CVE-2019-1010204.patch \
-      file://0015-CVE-2022-38533.patch \
-+     file://0016-CVE-2022-38126.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/0016-CVE-2022-38126.patch b/meta/recipes-devtools/binutils/binutils/0016-CVE-2022-38126.patch
-new file mode 100644
-index 0000000000..8200e28a81
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0016-CVE-2022-38126.patch
-@@ -0,0 +1,34 @@
-+From e3e5ae049371a27fd1737aba946fe26d06e029b5 Mon Sep 17 00:00:00 2001
-+From: Nick Clifton <nickc@redhat.com>
-+Date: Mon, 27 Jun 2022 13:43:02 +0100
-+Subject: [PATCH] Replace a run-time assertion failure with a warning message
-+ when parsing corrupt DWARF data.
-+
-+	PR 29289
-+	* dwarf.c (display_debug_names): Replace assert with a warning
-+	message.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=e3e5ae049371a27fd1737aba946fe26d06e029b5]
-+
-+Signed-off-by: Pgowda <pgowda.cve@gmail.com>
-+---
-+ binutils/dwarf.c   | 7 ++++++-
-+
-+diff --git a/binutils/dwarf.c b/binutils/dwarf.c
-+index 37b477b886d..b99c56987da 100644
-+--- a/binutils/dwarf.c
-++++ b/binutils/dwarf.c
-+@@ -9802,7 +9802,12 @@ display_debug_names (struct dwarf_sectio
-+       printf (_("Out of %lu items there are %zu bucket clashes"
-+ 		" (longest of %zu entries).\n"),
-+ 	      (unsigned long) name_count, hash_clash_count, longest_clash);
-+-      assert (name_count == buckets_filled + hash_clash_count);
-++
-++      if (name_count != buckets_filled + hash_clash_count)
-++	warn (_("The name_count (%lu) is not the same as the used bucket_count (%lu) + the hash clash count (%lu)"),
-++	      (unsigned long) name_count,
-++	      (unsigned long) buckets_filled,
-++	      (unsigned long) hash_clash_count);
-+ 
-+       struct abbrev_lookup_entry
-+       {
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index ccb41e5af6..d3cea19f9c 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.35/master"
+ PV = "2.35"
+-SRCREV_glibc ?= "0e5b239f45992e4b54c6f946ecb0c410afc8bb08"
++SRCREV_glibc ?= "f8ad66a4cab14ed294bf50e7a9eddb73da6cf307"
+ SRCREV_localedef ?= "794da69788cbf9bf57b59a852f9f11307663fa87"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
 -- 
 2.25.1
 
