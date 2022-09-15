@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5BA1C6FA8A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5B67C6FA89
 	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 14:18:42 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com
- (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web08.10725.1663251512687298215
+Received: from a27-193.smtp-out.us-west-2.amazonses.com
+ (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web09.10892.1663251512514775690
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Sep 2022 07:18:32 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=bAG3weiz;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
- mailfrom: 010101834183f82c-582675e6-2de5-4ddd-9260-604686e65cb5-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=WDmHU2G0;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193,
+ mailfrom: 010101834183f895-95789d1e-2a78-42fd-9379-35f70d8373de-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1663251511;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=nV3slNl8q6zOEiTSojN1le+6NxpjEU1Hk9RcwpVYYdI=;
-	b=bAG3weizSj+JdMr5aRxWdt07fpudbxOtOjpLZVWN8QXq3g2xiorJgw83VErcf4RH
-	jsmIxsXbKnFoCM0aYO+rermpBrJkfKBYdwEL7ePaRy/WU6oc2WMTdNzwYlAxOG8IrkM
-	wVJEqkjzIA3xIW4og6hedcrbnwNuWOko7HwlKyTg=
+	bh=9Efr5M/W2m8EbAAlJ9te+CrPiRfYgbLTwWPaFUyEYSA=;
+	b=WDmHU2G0ZX1rECCJ57Ou6mMDluIbYkYIsDMhKGq0JSa4Iej6mNOK0l7I+KwGyWP0
+	D6K03JpliM21ZvcOnqmmk9VkIdK6IEkauWtXxBdRvnhNKbxiz89zbxVVUfhFqqUGYvO
+	FuLgK1ZpOk5EIJ+Av/eeV7hLMxZrJH90U1SP4heQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1663251511;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=nV3slNl8q6zOEiTSojN1le+6NxpjEU1Hk9RcwpVYYdI=;
-	b=GySj2LigaiAAZng3dKy2M2Yv8rFlzQuNkT4KplsPdnLBVipfzf1AjmIsO6PDvOY9
-	H+UHW+VVmScUmouY2jCsn4/OtBqumHZQcOdwLZNqkYGFDzDVPrCwiAM+xZFwsE0TMe+
-	D1uZUqdtKjiPdYPNuGZt7Qudfx2tQ6JBubr6OnK0=
-Content-Type: multipart/mixed; boundary="===============3312660516802883576=="
+	bh=9Efr5M/W2m8EbAAlJ9te+CrPiRfYgbLTwWPaFUyEYSA=;
+	b=OdGhJAt9xqm61w7QjKH/oX0cv+arrO8ADnq3ny3KGVg4Cie9cXDlhbzZ2aactrmv
+	WLWjvnf7TzUS33GGPo/+8mnlI/L/WocmVGQdJeQx2YY9bZYNpo/Hb1GvWjfrtRwr2Q5
+	n4ZqaIGwL3Y90cHscrSIUtv/wrAqyL89oS+vqjms=
+Content-Type: multipart/mixed; boundary="===============0063656448415054889=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Wang Mingyu <wangmy@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] init-system-helpers: upgrading to 1.65. SUCCEEDED
+Subject: [AUH] btrfs-tools: upgrading to 5.19.1 SUCCEEDED
 Message-ID: 
- <010101834183f82c-582675e6-2de5-4ddd-9260-604686e65cb5-000000@us-west-2.amazonses.com>
+ <010101834183f895-95789d1e-2a78-42fd-9379-35f70d8373de-000000@us-west-2.amazonses.com>
 Date: Thu, 15 Sep 2022 14:18:31 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.09.15-54.240.27.33
+X-SES-Outgoing: 2022.09.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 14:18:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170706
+ https://lists.openembedded.org/g/openembedded-core/message/170702
 
---===============3312660516802883576==
+--===============0063656448415054889==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *init-system-helpers* to *1.65.* has Succeeded.
+that the automatic attempt to upgrade the recipe *btrfs-tools* to *5.19.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-init-system-helpers-upgrade-1.64-1.65.patch
+    - apply the patch: git am 0001-btrfs-tools-upgrade-5.19-5.19.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,63 +75,92 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3312660516802883576==
+--===============0063656448415054889==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/btrfs-tools (sysroot):
+  /usr/lib/python3.10/site-packages/btrfsutil-5.19.1-py3.10.egg-info was added
+  /usr/lib/python3.10/site-packages/btrfsutil-5.19.1-py3.10.egg-info/dependency_links.txt was added
+  /usr/lib/python3.10/site-packages/btrfsutil-5.19.1-py3.10.egg-info/PKG-INFO was added
+  /usr/lib/python3.10/site-packages/btrfsutil-5.19.1-py3.10.egg-info/SOURCES.txt was added
+  /usr/lib/python3.10/site-packages/btrfsutil-5.19.1-py3.10.egg-info/top_level.txt was added
+  /usr/lib/python3.10/site-packages/btrfsutil-5.19-py3.10.egg-info was removed
+  /usr/lib/python3.10/site-packages/btrfsutil-5.19-py3.10.egg-info/dependency_links.txt was removed
+  /usr/lib/python3.10/site-packages/btrfsutil-5.19-py3.10.egg-info/PKG-INFO was removed
+  /usr/lib/python3.10/site-packages/btrfsutil-5.19-py3.10.egg-info/SOURCES.txt was removed
+  /usr/lib/python3.10/site-packages/btrfsutil-5.19-py3.10.egg-info/top_level.txt was removed
+
+--===============0063656448415054889==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-dbg: PKGV changed from 1.64 [default] to 1.65. [default]
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-dbg: PV changed from "1.64" to "1.65."
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-dev: PKGV changed from 1.64 [default] to 1.65. [default]
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-dev: PV changed from "1.64" to "1.65."
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-doc: PKGV changed from 1.64 [default] to 1.65. [default]
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-doc: PV changed from "1.64" to "1.65."
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-invoke-rc.d: PKGV changed from 1.64 [default] to 1.65. [default]
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-invoke-rc.d: PV changed from "1.64" to "1.65."
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-locale: PKGV changed from 1.64 [default] to 1.65. [default]
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-locale: PV changed from "1.64" to "1.65."
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-service: PKGV changed from 1.64 [default] to 1.65. [default]
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-service: PV changed from "1.64" to "1.65."
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-src: PKGV changed from 1.64 [default] to 1.65. [default]
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-src: PV changed from "1.64" to "1.65."
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-staticdev: PKGV changed from 1.64 [default] to 1.65. [default]
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-staticdev: PV changed from "1.64" to "1.65."
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers: PKGV changed from 1.64 [default] to 1.65. [default]
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers: PV changed from "1.64" to "1.65."
-packages/core2-32-poky-linux/init-system-helpers: PKGV changed from 1.64 [default] to 1.65. [default]
-packages/core2-32-poky-linux/init-system-helpers: PV changed from "1.64" to "1.65."
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dbg: PV changed from "5.19" to "5.19.1"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGV changed from 5.19 [default] to 5.19.1 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGSIZE changed from 17301028 to 17362820 (+0%)
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dev: PV changed from "5.19" to "5.19.1"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dev: PKGV changed from 5.19 [default] to 5.19.1 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dev: PKGSIZE changed from 208433 to 208437 (+0%)
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-doc: PV changed from "5.19" to "5.19.1"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-doc: PKGV changed from 5.19 [default] to 5.19.1 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-locale: PV changed from "5.19" to "5.19.1"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-locale: PKGV changed from 5.19 [default] to 5.19.1 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-src: PV changed from "5.19" to "5.19.1"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-src: PKGV changed from 5.19 [default] to 5.19.1 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-src: PKGSIZE changed from 3628027 to 3643216 (+0%)
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-staticdev: PV changed from "5.19" to "5.19.1"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-staticdev: PKGV changed from 5.19 [default] to 5.19.1 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools: PV changed from "5.19" to "5.19.1"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools: PKGV changed from 5.19 [default] to 5.19.1 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools: PKGSIZE changed from 6098401 to 6127331 (+0%)
+packages/core2-32-poky-linux/btrfs-tools: PV changed from "5.19" to "5.19.1"
+packages/core2-32-poky-linux/btrfs-tools: PKGV changed from 5.19 [default] to 5.19.1 [default]
+Changes to packages/core2-32-poky-linux/btrfs-tools (sysroot):
+  /usr/lib/python3.10/site-packages/btrfsutil-5.19.1-py3.10.egg-info was added
+  /usr/lib/python3.10/site-packages/btrfsutil-5.19.1-py3.10.egg-info/dependency_links.txt was added
+  /usr/lib/python3.10/site-packages/btrfsutil-5.19.1-py3.10.egg-info/PKG-INFO was added
+  /usr/lib/python3.10/site-packages/btrfsutil-5.19.1-py3.10.egg-info/SOURCES.txt was added
+  /usr/lib/python3.10/site-packages/btrfsutil-5.19.1-py3.10.egg-info/top_level.txt was added
+  /usr/lib/python3.10/site-packages/btrfsutil-5.19-py3.10.egg-info was removed
+  /usr/lib/python3.10/site-packages/btrfsutil-5.19-py3.10.egg-info/dependency_links.txt was removed
+  /usr/lib/python3.10/site-packages/btrfsutil-5.19-py3.10.egg-info/PKG-INFO was removed
+  /usr/lib/python3.10/site-packages/btrfsutil-5.19-py3.10.egg-info/SOURCES.txt was removed
+  /usr/lib/python3.10/site-packages/btrfsutil-5.19-py3.10.egg-info/top_level.txt was removed
 
---===============3312660516802883576==
+--===============0063656448415054889==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-init-system-helpers-upgrade-1.64-1.65.patch"
+ filename="0001-btrfs-tools-upgrade-5.19-5.19.1.patch"
 
-RnJvbSAwY2UzNzYzZWJkZjgxMzQzZGY2ZDRjNmU1OGVlZDkyNGUxNGZkMzkyIE1vbiBTZXAgMTcg
+RnJvbSA3NDQ4MmM1MmE1YmNiMDQ3OTk2NWJkNGZlMzkyN2ZjN2U0MmM0MDlmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgU2VwIDIwMjIgMDY6NDk6MTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBp
-bml0LXN5c3RlbS1oZWxwZXJzOiB1cGdyYWRlIDEuNjQgLT4gMS42NS4KCi0tLQogLi4uaW5pdC1z
-eXN0ZW0taGVscGVyc18xLjY0LmJiID0+IGluaXQtc3lzdGVtLWhlbHBlcnNfMS42NS4uYmJ9IHwg
-MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLWNvcmUvaW5pdHNjcmlwdHMve2luaXQtc3lzdGVtLWhlbHBlcnNfMS42
-NC5iYiA9PiBpbml0LXN5c3RlbS1oZWxwZXJzXzEuNjUuLmJifSAoOTYlKQoKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1jb3JlL2luaXRzY3JpcHRzL2luaXQtc3lzdGVtLWhlbHBlcnNfMS42NC5i
-YiBiL21ldGEvcmVjaXBlcy1jb3JlL2luaXRzY3JpcHRzL2luaXQtc3lzdGVtLWhlbHBlcnNfMS42
-NS4uYmIKc2ltaWxhcml0eSBpbmRleCA5NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvcmUv
-aW5pdHNjcmlwdHMvaW5pdC1zeXN0ZW0taGVscGVyc18xLjY0LmJiCnJlbmFtZSB0byBtZXRhL3Jl
-Y2lwZXMtY29yZS9pbml0c2NyaXB0cy9pbml0LXN5c3RlbS1oZWxwZXJzXzEuNjUuLmJiCmluZGV4
-IDIyZGRkNjg0MGYuLmM1MDk0OGY0OTQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2lu
-aXRzY3JpcHRzL2luaXQtc3lzdGVtLWhlbHBlcnNfMS42NC5iYgorKysgYi9tZXRhL3JlY2lwZXMt
-Y29yZS9pbml0c2NyaXB0cy9pbml0LXN5c3RlbS1oZWxwZXJzXzEuNjUuLmJiCkBAIC0xNiw3ICsx
-Niw3IEBAIFNFQ1RJT04gPSAiYmFzZSIKIExJQ0VOU0UgPSAiQlNELTMtQ2xhdXNlICYgR1BMLTIu
-MC1vbmx5IgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vZGViaWFuL2NvcHlyaWdodDttZDU9
-YzRlYzIwYWExNThmYTlkZTI2ZWUxYWNjZjc4ZGNhYWUiCiAKLVNSQ1JFViA9ICJjNDQwODkzMDUx
-NDA2YzExZjBhMzE1MDU4OTM5NjU3ZDU5MzdiZTRmIgorU1JDUkVWID0gImVmZjZjMjczNTI1MTQ2
-MjJmYjFjMzA5OGNkZjljZWJiOTdjMmRiNjkiCiBTUkNfVVJJID0gImdpdDovL3NhbHNhLmRlYmlh
-bi5vcmcvZGViaWFuL2luaXQtc3lzdGVtLWhlbHBlcnMuZ2l0O3Byb3RvY29sPWh0dHBzO2JyYW5j
-aD1tYXN0ZXIiCiAKIFMgPSAiJHtXT1JLRElSfS9naXQiCi0tIAoyLjMxLjEKCg==
+CkRhdGU6IFRodSwgMTUgU2VwIDIwMjIgMDc6MDc6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
+dHJmcy10b29sczogdXBncmFkZSA1LjE5IC0+IDUuMTkuMQoKLS0tCiAuLi4vYnRyZnMtdG9vbHMv
+e2J0cmZzLXRvb2xzXzUuMTkuYmIgPT4gYnRyZnMtdG9vbHNfNS4xOS4xLmJifSAgfCAyICstCiAx
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMve2J0cmZzLXRvb2xzXzUuMTkuYmIgPT4gYnRy
+ZnMtdG9vbHNfNS4xOS4xLmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9idHJmcy10b29scy9idHJmcy10b29sc181LjE5LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzUuMTkuMS5iYgpzaW1pbGFyaXR5IGluZGV4IDk4
+JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9v
+bHNfNS4xOS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0
+cmZzLXRvb2xzXzUuMTkuMS5iYgppbmRleCA0ZjExNmE4NWFjLi5kYjgwMjZlMGYwIDEwMDY0NAot
+LS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNS4xOS5i
+YgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNS4x
+OS4xLmJiCkBAIC0xOCw3ICsxOCw3IEBAIERFUEVORFMgPSAidXRpbC1saW51eCB6bGliIgogU1JD
+X1VSSSA9ICJnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQva2Rh
+dmUvYnRyZnMtcHJvZ3MuZ2l0O2JyYW5jaD1tYXN0ZXIgXAogICAgICAgICAgICBmaWxlOi8vMDAw
+MS1BZGQtYS1wb3NzaWJpbGl0eS10by1zcGVjaWZ5LXdoZXJlLXB5dGhvbi1tb2R1bGVzLWFyLnBh
+dGNoIFwKICAgICAgICAgICAgIgotU1JDUkVWID0gIjk2YjgzYjE2MTU4ZjNiODcwMzcwODU3NjFi
+ZjIxMmU5NTg0NzM3NjciCitTUkNSRVYgPSAiZTFkOWRhYjMyNmUwNDM2OTZlNjY0OGFiYTRjY2Y5
+MDg3NGQxZDNkMSIKIFMgPSAiJHtXT1JLRElSfS9naXQiCiAKIFBBQ0tBR0VDT05GSUcgPz89ICIg
+XAotLSAKMi4zMS4xCgo=
 
---===============3312660516802883576==--
+--===============0063656448415054889==--
 
