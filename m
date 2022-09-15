@@ -2,53 +2,52 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72A48C6FD27
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57F5EC6FD21
 	for <webhook@archiver.kernel.org>; Thu, 15 Sep 2022 14:18:43 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com
- (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.10625.1663251513868395778
+Received: from a27-29.smtp-out.us-west-2.amazonses.com
+ (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web12.10535.1663251514646511709
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Sep 2022 07:18:33 -0700
+ Thu, 15 Sep 2022 07:18:34 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=nmsCVqgU;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191,
- mailfrom: 010101834183fe35-a4c68c03-66fb-4d9d-b78d-c8084b11e162-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Y2VXf+K1;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29,
+ mailfrom: 01010183418401d4-e72f233e-dd38-48e8-a076-42dae3fdfefa-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1663251513;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=RFlA+PQ/iNLy5udSyucChoOOWW6XgH/4Ep8DchhQV9o=;
-	b=nmsCVqgU/ufKCncuw5yx9YCqsm6P9mVNULOhThIpM5dXTFQKwlXynPozBvYLOpfM
-	ZcogAE2jzsdrZbCnQD3UfefjThdTJOdfYCMWwEVAems61vPEHtAAP2ynqSSdGhKmjaY
-	qeNgXaqTaaNO0AWvdkNCLIxb+CT2jgEtbmVPIbtY=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=P6wL0TYCCoc74j6Hp4VnNqGzJK3KjOk7OlW0UCdJwd8=;
+	b=Y2VXf+K1ElojinlQOvbsgEdj3j2qG8CYmpF2nWLWcTnT2jVKNMNrueaGnnHCK4Tf
+	f2utRPtXPZHUgSUjr0xobl1EInQEpLNEFaf9JtmvkHCH/ZRdx31VOrKCVtvWI1KupsU
+	CE5sYPvJrPuS86Pl3AM2oBGLA1NsuPni7mTTgtlM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1663251513;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=RFlA+PQ/iNLy5udSyucChoOOWW6XgH/4Ep8DchhQV9o=;
-	b=BQXHXfsCru3ZaQWIHf+EGttW5/jGHBz4ul9f7/L4P99nIy2YjiuI21atNse69wMh
-	CqW1X/XtNI7aQTfw1LrNpTwFBNMRY0UET1+UmZcBsEHeo8xGXb6ac42I54FE5z4rYkq
-	+Jvs2Yr17JroX3xsuY7jXP3ZtPwcm6ffHbtfzmmU=
-Content-Type: multipart/mixed; boundary="===============0169644215687428617=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=P6wL0TYCCoc74j6Hp4VnNqGzJK3KjOk7OlW0UCdJwd8=;
+	b=KkIO34gG7X3A8c/Oc7fOgj2eS1xLEzd7qKCuGQMNLsVUGpBcY2jRQhAUwADoCEah
+	roDL2k2bUAceX4SxP0CNRkMNJW9qDhRON10qJlXFrY3AVaFwE+c28/XNIVzdaKi0MRh
+	I2xKxCgCKVGNcEFquHKVg2oIkUcmPKjNpw5hLz1E=
+Content-Type: multipart/mixed; boundary="===============7849737073223527778=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-psutil: upgrading to 5.9.2 SUCCEEDED
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] libxft: upgrading to 2.3.6 FAILED
 Message-ID: 
- <010101834183fe35-a4c68c03-66fb-4d9d-b78d-c8084b11e162-000000@us-west-2.amazonses.com>
+ <01010183418401d4-e72f233e-dd38-48e8-a076-42dae3fdfefa-000000@us-west-2.amazonses.com>
 Date: Thu, 15 Sep 2022 14:18:33 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.09.15-54.240.27.191
+X-SES-Outgoing: 2022.09.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Sep 2022 14:18:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170733
+ https://lists.openembedded.org/g/openembedded-core/message/170758
 
---===============0169644215687428617==
+--===============7849737073223527778==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,101 +55,90 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-psutil* to *5.9.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *libxft* to *2.3.6* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-psutil-upgrade-5.9.1-5.9.2.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade libxft -V 2.3.6
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1661 entries from dependency cache.
+
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-49fd110dffda7d667e9fef75365e1825a731070f"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:49fd110dffda7d667e9fef75365e1825a731070f"
+workspace            = "master:6a27236fed8e7c27974c2313366bdbfd8edfa927"
+
+Initialising tasks...done.
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1661 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 886 .bb files complete (884 cached, 2 parsed). 1662 targets, 35 skipped, 0 masked, 0 errors.
+
+Summary: There was 1 WARNING message.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-49fd110dffda7d667e9fef75365e1825a731070f"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:49fd110dffda7d667e9fef75365e1825a731070f"
+workspace            = "master:6a27236fed8e7c27974c2313366bdbfd8edfa927"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+WARNING: Failed to fetch URL https://www.x.org/releases//individual/lib/libXft-2.3.6.tar.bz2, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://www.x.org/releases//individual/lib/libXft-2.3.6.tar.bz2...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-t42jfpno/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-t42jfpno/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-t42jfpno/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-t42jfpno/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-t42jfpno/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-t42j
+ fpno/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -O /home/pokybuild/yocto-worker/auh/build/build/build/downloads/libXft-2.3.6.tar.bz2.tmp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://www.x.org/releases//individual/lib/libXft-2.3.6.tar.bz2' --progress=dot -v failed with exit code 8, no output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://www.x.org/releases//individual/lib/libXft-2.3.6.tar.bz2')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-t42jfpno/work/temp/log.do_fetch.1855049
+ERROR: Failed to fetch URL https://www.x.org/releases//individual/lib/libXft-2.3.6.tar.bz2
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============0169644215687428617==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-tests: FILELIST: removed "/usr/lib/python3.10/site-packages/psutil/tests/__pycache__/foo.cpython-310.pyc /usr/lib/python3.10/site-packages/psutil/tests/foo.py"
-Changes to packages/core2-32-poky-linux/python3-psutil (sysroot):
-  /usr/lib/python3.10/site-packages/psutil-5.9.1.dist-info moved to /usr/lib/python3.10/site-packages/psutil-5.9.2.dist-info
-  /usr/lib/python3.10/site-packages/psutil/tests/foo.py was removed
-  /usr/lib/python3.10/site-packages/psutil/tests/__pycache__/foo.cpython-310.pyc was removed
-
---===============0169644215687428617==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/python3-psutil: PKGV changed from 5.9.1 [default] to 5.9.2 [default]
-packages/core2-32-poky-linux/python3-psutil: PV changed from "5.9.1" to "5.9.2"
-packages/core2-32-poky-linux/python3-psutil: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/psutil/psutil-5.9.1.tar.gz" to "https://files.pythonhosted.org/packages/source/p/psutil/psutil-5.9.2.tar.gz"
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-dbg: PKGSIZE changed from 107268 to 107508 (+0%)
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-dbg: PKGV changed from 5.9.1 [default] to 5.9.2 [default]
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-dbg: PV changed from "5.9.1" to "5.9.2"
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-dev: PKGV changed from 5.9.1 [default] to 5.9.2 [default]
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-dev: PV changed from "5.9.1" to "5.9.2"
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-doc: PKGV changed from 5.9.1 [default] to 5.9.2 [default]
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-doc: PV changed from "5.9.1" to "5.9.2"
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-locale: PKGV changed from 5.9.1 [default] to 5.9.2 [default]
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-locale: PV changed from "5.9.1" to "5.9.2"
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-src: PKGSIZE changed from 54682 to 55004 (+1%)
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-src: PKGV changed from 5.9.1 [default] to 5.9.2 [default]
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-src: PV changed from "5.9.1" to "5.9.2"
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-staticdev: PKGV changed from 5.9.1 [default] to 5.9.2 [default]
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-staticdev: PV changed from "5.9.1" to "5.9.2"
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-tests: FILELIST: removed "/usr/lib/python3.10/site-packages/psutil/tests/foo.py /usr/lib/python3.10/site-packages/psutil/tests/__pycache__/foo.cpython-310.pyc"
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-tests: PKGSIZE changed from 864960 to 864816 (-0%)
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-tests: PKGV changed from 5.9.1 [default] to 5.9.2 [default]
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-tests: PV changed from "5.9.1" to "5.9.2"
-packages/core2-32-poky-linux/python3-psutil/python3-psutil: PKGSIZE changed from 679290 to 679291 (+0%)
-packages/core2-32-poky-linux/python3-psutil/python3-psutil: PKGV changed from 5.9.1 [default] to 5.9.2 [default]
-packages/core2-32-poky-linux/python3-psutil/python3-psutil: PV changed from "5.9.1" to "5.9.2"
-Changes to packages/core2-32-poky-linux/python3-psutil (sysroot):
-  /usr/lib/python3.10/site-packages/psutil-5.9.1.dist-info moved to /usr/lib/python3.10/site-packages/psutil-5.9.2.dist-info
-  /usr/lib/python3.10/site-packages/psutil/tests/foo.py was removed
-  /usr/lib/python3.10/site-packages/psutil/tests/__pycache__/foo.cpython-310.pyc was removed
-
---===============0169644215687428617==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-psutil-upgrade-5.9.1-5.9.2.patch"
-
-RnJvbSAwNGRiYzA3YTQ0OGQ2MGE0NjA2Njc4ZGRjMDkzYzRmNDY3MGI3MTliIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgU2VwIDIwMjIgMTA6Mjk6NDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXBzdXRpbDogdXBncmFkZSA1LjkuMSAtPiA1LjkuMgoKLS0tCiAuLi4vcHl0aG9uL3tw
-eXRob24zLXBzdXRpbF81LjkuMS5iYiA9PiBweXRob24zLXBzdXRpbF81LjkuMi5iYn0gfCAyICst
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXBzdXRpbF81LjkuMS5iYiA9PiBw
-eXRob24zLXBzdXRpbF81LjkuMi5iYn0gKDg3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHN1dGlsXzUuOS4xLmJiIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob24zLXBzdXRpbF81LjkuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDg3
-JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHN1dGls
-XzUuOS4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
-cHN1dGlsXzUuOS4yLmJiCmluZGV4IDA0YjZmYjAyZGUuLjViMzEwMTQ2NTcgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wc3V0aWxfNS45LjEuYmIKKysr
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBzdXRpbF81LjkuMi5iYgpA
-QCAtMyw3ICszLDcgQEAgTElDRU5TRSA9ICJCU0QtMy1DbGF1c2UiCiBMSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9MSUNFTlNFO21kNT1lMzVmZDlmMjcxZDE5ZDVmNzQyZjIwYTlkMWY4YmI4YiIK
-IEhPTUVQQUdFID0gImh0dHBzOi8vcHlwaS5vcmcvcHJvamVjdC9wc3V0aWwvIgogCi1TUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiNTdmMTgxOWI1ZDllOTVjZGZiMGM4ODFhOGE1YjdkNTQyZWQwYjdjNTIy
-ZDU3NTcwNmE4MGJlZGM4NDhjODk1NCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJmZWI4NjFhMTBi
-NmMzYmIwMDcwMTA2M2IzN2U0YWZjNzU0ZjgyMTdmMGYwOWM0MjI4MDU4NmJkNmFjNzEyYjVjIgog
-CiBpbmhlcml0IHB5cGkgc2V0dXB0b29sczMKIAotLSAKMi4zMS4xCgo=
-
---===============0169644215687428617==--
+--===============7849737073223527778==--
 
