@@ -1,113 +1,109 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 665CCECAAD8
-	for <webhook@archiver.kernel.org>; Fri, 16 Sep 2022 09:26:38 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web11.4036.1663320388687954933
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D4F8ECAAD8
+	for <webhook@archiver.kernel.org>; Fri, 16 Sep 2022 09:26:48 +0000 (UTC)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
+ [209.85.128.175])
+ by mx.groups.io with SMTP id smtpd.web11.4039.1663320401711482488
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Sep 2022 02:26:29 -0700
+ Fri, 16 Sep 2022 02:26:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=d1MGWXuw;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id t7so35004959wrm.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eiFzeCJy;
+ spf=pass (domain: gmail.com, ip: 209.85.128.175,
+ mailfrom: dbaryshkov@gmail.com)
+Received: by mail-yw1-f175.google.com with SMTP id
+ 00721157ae682-3378303138bso252471137b3.9
         for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Sep 2022 02:26:28 -0700 (PDT)
+ Fri, 16 Sep 2022 02:26:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date;
-        bh=rbXbsiv9IPm7fVDaH3uc1Ml9Jf/7osCPluC9I07dm7g=;
-        b=d1MGWXuwggeAIpQCqoNc2tfeVWMempnFW9BBKX6ohhP7ht8/KFwqZx/uA3XT4Xq2g9
-         6DBOlNXuXtlsqKC9l1CFAVP4d0qA1KZ9MXuvut+L5G9bU7yL/whjjCR7lmIG5wWxx1CW
-         ieECvhLM+IFsS5FGFEqeVRRCot3uu5WpaStQI=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date;
+        bh=qatQ66muNI/G5NbTfG1gZUwujc0q1jizuWk2teD0bqI=;
+        b=eiFzeCJyhb7NRZ0vGhcbm0wy5VMcRDBKhvgW6hseUAYxKr+8eyozqA+a41GkzyxjkC
+         XKBm6zoXLDpQwJyRxIumVb8JqkNMnqkFpakA4IwPrkNExf+FeEGZL50m6K3E9hKMEUsj
+         Ky7LAfdwn/PAXKk2eOotYi/VTuQ5hx3YGQy1nlQgDb1UTlNdMFzR7HmrDochPxPZkSlH
+         x/OwSCTwb/PREV+84ucapwzBNK0UeI3e8FsAYRIe6U+PBnueuukAxSBTHBtNjmh6f48R
+         8oY7u8kPFHNVTjOyYN+ZTf27MWkubKJJuipvgSBl9xEVOdAW7YvwQaXMPOBGxAwiG/v6
+         0K9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date;
-        bh=rbXbsiv9IPm7fVDaH3uc1Ml9Jf/7osCPluC9I07dm7g=;
-        b=iRqStn1l/AYZbPZKfP+uqsk2weHDJjb2G94hhErFnDw1lAn1wDegqwKIXWhlgvrDR3
-         73CAo9W6wElVpiMlIwdaINMGHPfV6qEbfyfo1Nkv/30boB8T6/CYNVohwc0mwID6OdLw
-         d0+E78P8G2c12cr1SVZ3btE8xo4CbNPLcYzjd4Ru+O7pRi2cJH4o//GHT2E2HMQCX0kL
-         ujaLaFBdVcbbjXlUqR/V/3agFmtKcjI8MoptZ0GRo5OvXZlR7thZxlGqz54cPtygc2Zv
-         ek9zyxNlDBhi38g6U5mfDM9fYn/NKgUPowWovGiW8+dHXzKA0X3kdhpq9vLr0hcbaUE8
-         nERw==
-X-Gm-Message-State: ACrzQf20fY6RTm98x7ipdH0S351qX2TD8HVwL49B0dBh/q7vLF/Ecm62
-	7QCIX4iCX2/ubZKaks9cNLzhbA==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=qatQ66muNI/G5NbTfG1gZUwujc0q1jizuWk2teD0bqI=;
+        b=SAHUCNh92lLh6PmCKpxKZbyH9Pi2RC6ibjMDL/6xVK6oabqwQ7z0HtVuWtjSENkDL6
+         CU4W1zSoqlG7OJBx+v9cjZbBlZKCpB7R/ka8ef5jvbBxP5gIpw6KsaM71Wj5+LrAh+fl
+         2IQX0hFDBO1Dh1HI1xgnokaP7ncUqBu0filNgH66kTGPRsDX2oGC+3DDUidWoVsxQ0ZX
+         r7KKR7C24lMMmdHQdA1ighBHd0iPzT/3qizhEH1MYFefUvqxIhjM2M5JzV1W2tiUt9JC
+         PrRRfugJHQZDThO5nv1QqGJEShkUPSvY1SGTtTApBDV0YBxJRepG+7ScG2xOU5g6zfqa
+         5+oA==
+X-Gm-Message-State: ACrzQf0lSPYSa+ULYhH0zML06rFn4kvelwsy35drqBf/hHhXiHljLFVV
+	xuvesYJkXamgD0Ek5+4Z++p9esoBbTevi5PYHqs=
 X-Google-Smtp-Source: 
- AMsMyM7fsop9e9Qksi9uL7py2Koocym+IfgtIOJQqjpyNUul0UgmSVlJAvXVPclCHYyCsAH7g+XuaA==
-X-Received: by 2002:adf:cc92:0:b0:22a:361c:20b1 with SMTP id
- p18-20020adfcc92000000b0022a361c20b1mr2182589wrj.691.1663320387064;
-        Fri, 16 Sep 2022 02:26:27 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:816c:1950:863b:51c?
- ([2001:8b0:aba:5f3c:816c:1950:863b:51c])
-        by smtp.gmail.com with ESMTPSA id
- p5-20020a05600c358500b003a608d69a64sm1737765wmq.21.2022.09.16.02.26.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Sep 2022 02:26:26 -0700 (PDT)
+ AMsMyM6ogIkVwAyGFbYXzPhNHvyK7vdmGRDcukqc/BrSyJ1VmDK1+g8atgG+XW7W311U4jiVADefLOsOyruZRm73L7Y=
+X-Received: by 2002:a81:6756:0:b0:345:525e:38 with SMTP id
+ b83-20020a816756000000b00345525e0038mr3594985ywc.47.1663320400815;
+ Fri, 16 Sep 2022 02:26:40 -0700 (PDT)
+MIME-Version: 1.0
+References: 
+ <0101018341840303-0b2daec8-9d75-4213-9067-f3d9092f7bca-000000@us-west-2.amazonses.com>
+In-Reply-To: 
+ <0101018341840303-0b2daec8-9d75-4213-9067-f3d9092f7bca-000000@us-west-2.amazonses.com>
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
+Date: Fri, 16 Sep 2022 12:26:29 +0300
 Message-ID: 
- <1666cae38231ae6fdd98132c1e473eaac90cdc4b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] sstate cache SSTATE_PKG generation will silently
- fail, if hardlinking is not supported on the file system #bitbake
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Arnis <arnis.juraga@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 16 Sep 2022 10:26:24 +0100
-In-Reply-To: <2xfY.1663283114373399868.FjIK@lists.openembedded.org>
-References: <2xfY.1663283114373399868.FjIK@lists.openembedded.org>
+ <CALT56yP0sutR1zeU=H1Bs3M5zFnN0ZUJF-fLDw5LNsA+tegHeA@mail.gmail.com>
+Subject: Re: [OE-core] [AUH] linux-firmware: upgrading to 20220913 SUCCEEDED
+To: Auto Upgrade Helper <auh@yoctoproject.org>
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Sep 2022 09:26:38 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Sep 2022 09:26:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170783
+ https://lists.openembedded.org/g/openembedded-core/message/170784
 
-On Thu, 2022-09-15 at 16:05 -0700, Arnis wrote:
-> Hi,=20
-> =C2=A0
-> I have faced a problem today that sstate-cache `${SSTATE_PKG}`
-> generation will silently fail on the file systems no supporting hard
-> linking.=20
-> I've faced this problem on cloud-based Kubernetes cluster, where
-> persistent volume is mounted to Docker containers as shared sstate-
-> cache location.
-> =C2=A0
-> Because of
-> https://git.openembedded.org/openembedded-core/commit/?id=3D552197a0c4c9f=
-75a9177c00b197ea91296ed9fc4
->  change=20
-> =C2=A0
-> + ln $TFILE ${SSTATE_PKG} || true
-> =C2=A0
-> this will leave sstate folder with only `*...tar.zst.siginfo` files
-> generated, but no "*...tar.zst"=20
-> =C2=A0
-> As a temporary solution, I have replaced it with
-> =C2=A0
-> + cp $TFILE ${SSTATE_PKG}
-> =C2=A0
-> which obviously is not ideal.
-> =C2=A0
-> What would you suggest?
+Hi,
 
-Unfortunately that code is rather critical as it is attempting to move
-files into position atomically and not use lockfiles or hold locks.
+=D1=87=D1=82, 15 =D1=81=D0=B5=D0=BD=D1=82. 2022 =D0=B3. =D0=B2 17:19, Auto =
+Upgrade Helper <auh@yoctoproject.org>:
+>
+> Hello,
+>
+> this email is a notification from the Auto Upgrade Helper
+> that the automatic attempt to upgrade the recipe *linux-firmware* to *202=
+20913* has Succeeded.
+>
+> Next steps:
+>     - apply the patch: git am 0001-linux-firmware-upgrade-20220708-202209=
+13.patch
 
-Failing silently is bad, we should probably add a check the file exists
-afterwards and error if it doens't.
+Note, the patch again rewrites the LIC_FILES_CHKSUM, which results in
+dropping the separate WHENCE_CHECKSUM variable.
+Can we please teach the autoupgrader to handle such cases and to keep
+the LIC_FILES_CHKSUM if it contains anything other than the raw value?
 
-That wouldn't solve your issue with that filesystem would make people
-aware of it.
+>     - check the changes to upstream patches and summarize them in the com=
+mit message,
+>     - compile an image that contains the package
+>     - perform some basic sanity tests
+>     - amend the patch and sign it off: git commit -s --reset-author --ame=
+nd
+>     - send it to the appropriate mailing list
+>
+> Alternatively, if you believe the recipe should not be upgraded at this t=
+ime,
+> you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+> automatic upgrades would no longer be attempted.
 
-Cheers,
 
-Richard
-
+--=20
+With best wishes
+Dmitry
 
