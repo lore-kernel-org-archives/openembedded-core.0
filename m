@@ -1,45 +1,75 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <samuli.piippo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Steve Sakoman" <steve@sakoman.com>
-Subject: [OE-core][kirkstone 07/28] cve-check: Don't use f-strings
-Date: Tue, 23 Aug 2022 12:35:19 -1000
-Message-Id: <057a6f826bd45ebf240df47f0baf7c8027f5711c.1661293746.git.steve@sakoman.com>
-In-Reply-To: <cover.1661293745.git.steve@sakoman.com>
-References: <cover.1661293745.git.steve@sakoman.com>
+From: "Samuli Piippo" <samuli.piippo@gmail.com>
+Subject: [PATCH 2/2] gcc-cross-canadian: add default plugin linker
+Date: Fri, 16 Sep 2022 07:41:05 +0000
+Message-Id: <20220916074105.215147-2-samuli.piippo@qt.io>
+In-Reply-To: <20220916074105.215147-1-samuli.piippo@qt.io>
+References: <20220916074105.215147-1-samuli.piippo@qt.io>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
 To: openembedded-core@lists.openembedded.org
 
-From: Ernst Sjöstrand <ernstp@gmail.com>
+Fix multilib sdk issue where gcc is unable to find linker. Previous
+fix was in cdd86896c8d29135f937968e9aa07f919cf543d3 using real-ld
+symlink, but that prevented switching between bfd and gold linkers.
 
-Since we're keeping cve-check aligned between the active branches,
-and dunfell is supported on Python 3.5, we can't use f-strings.
+Running compiler with debug arguments shows that collect2 tries and
+fails to find linker using the multilib triples:
 
-Signed-off-by: Ernst Sjöstrand <ernstp@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1821cf7464cbba521b55a9c128fe8812c0cc5eca)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+  $ $CC -v -Wl,-debug
+  ...
+  Looking for 'real-ld'
+  Looking for 'collect-ld'
+  Looking for 'mips-oemllib32-linux-ld'
+  Looking for 'mips-oe-linux-mips-oemllib32-linux-ld'
+  ...
+  collect2 version 12.2.0
+  ld_file_name        = not found
+  ...
+  collect2: fatal error: cannot find ‘ld’
+
+Using --with-plugin-ld=ld in gcc-cross-canadian builds to set default
+linker name for collect2, lets it find the linker correctly:
+
+  Looking for 'real-ld'
+  Looking for 'collect-ld'
+  Looking for 'ld'
+  ...
+  collect2 version 12.2.0
+  ld_file_name        = /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/libexec/mips-oe-linux/gcc/mips-oe-linux/12.2.0/ld
+
+Swith between bfd and gold linker works as expected now:
+
+  $ $CC -v -Wl,-debug -fuse-ld=gold
+  ...
+  Looking for 'real-ld'
+  Looking for 'collect-ld'
+  Looking for 'ld.gold'
+  ...
+  collect2 version 12.2.0
+  ld_file_name        = /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/libexec/i686-oe-linux/gcc/i686-oe-linux/12.2.0/ld.gold
+
+Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
 ---
- meta/lib/oe/cve_check.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
-index aa06497727..f40f16d7ab 100644
---- a/meta/lib/oe/cve_check.py
-+++ b/meta/lib/oe/cve_check.py
-@@ -143,7 +143,7 @@ def get_cpe_ids(cve_product, version):
-         else:
-             vendor = "*"
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+index 38c972aa7c..c36e4cba81 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+@@ -9,6 +9,7 @@ GCCMULTILIB = "--enable-multilib"
  
--        cpe_id = f'cpe:2.3:a:{vendor}:{product}:{version}:*:*:*:*:*:*:*'
-+        cpe_id = 'cpe:2.3:a:{}:{}:{}:*:*:*:*:*:*:*'.format(vendor, product, version)
-         cpe_ids.append(cpe_id)
+ require gcc-configure-common.inc
  
-     return cpe_ids
++EXTRA_OECONF += "--with-plugin-ld=ld"
+ EXTRA_OECONF_PATHS = "\
+     --with-gxx-include-dir=/not/exist${target_includedir}/c++/${BINV} \
+     --with-build-time-tools=${STAGING_DIR_NATIVE}${prefix_native}/${TARGET_SYS}/bin \
 -- 
 2.25.1
 
