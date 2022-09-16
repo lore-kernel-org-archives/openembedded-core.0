@@ -2,59 +2,58 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48271C6FA91
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C096C6FA86
 	for <webhook@archiver.kernel.org>; Fri, 16 Sep 2022 12:28:09 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web12.5258.1663331280520581141
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web12.5259.1663331280771979103
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Sep 2022 05:28:00 -0700
+ Fri, 16 Sep 2022 05:28:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=as7qwuK8;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PFpqkavK;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id
- u15-20020a05600c19cf00b003b4acef34b1so3175681wmq.4
+Received: by mail-wr1-f44.google.com with SMTP id c11so35779454wrp.11
         for <openembedded-core@lists.openembedded.org>;
  Fri, 16 Sep 2022 05:28:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=uE0O5JKED4puUv5GyMSRJBpTvmLXSClC3TwXOQahHBE=;
-        b=as7qwuK8q5ciTLXmSZzVjIJdVDyCCcNuuR4ElB/RmIBGc1c8TP0vW++0imep0gajXQ
-         wMRGfpJhynUz17xI608oFtT9pNUc4tvsYANMJ7wi4QyJvbYxBFHvmULcaMJFy63E/Mzp
-         YA/upi8NrzVppSHRPI6DRhYOmInNrOsFw00jI=
+        bh=zBKl/HzF6oqFshwFLy9RnAxmIVPe0iqfQKIQ5D08ZtM=;
+        b=PFpqkavKMfZILhhJfpnBJlGvl+lCXcr1ihBzqzJ1E6Wcwf0P36e3WSur5JUVxQT4h+
+         avv+KdvOdE6dLWEr6tTe9a+DQEQ4cldYqa2Ad2b1nEQomxyzZeCRlvJGtMJuAoBssSfi
+         iDVcFSzaD5UNa5oVYpAkZrbrWQnPkPAtBBIVs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=uE0O5JKED4puUv5GyMSRJBpTvmLXSClC3TwXOQahHBE=;
-        b=AhpM3kwab1aNY4S29/uYShDihi6TBtz1hcUpuLsBFLg5tM2wZkbedSzS0NNhIOWNvW
-         h2+Sf0OD0xxVeDsU5SixBTMOQl7QmMmw0YgmdzbCJSJDwCU5alJN+mAaMvgn1fveMPld
-         /25GxF66uojZAkHfp3KzcclljIL8OW0SlfftASv6nKu7jQ7I92gpwDNgTr4CGH9AfUbi
-         tD86KfS7ICZILPmIaZV+QIiJd9X+APcBiOBB08+0XDqRmAteJoXTN6ew7xlq9p/yfuhv
-         ff1u3uaFKgJrBLm1TYomK2KjSnyi4H+i5kvI5jenODwZr4kkERlSI9Gnq+wLin27aaJ2
-         e7Xw==
-X-Gm-Message-State: ACgBeo1TR7knLa4oVleO/HQXuldPtdHEmZzp5cxeLOpuM+aLaHpF+7jT
-	yWBZaKzZ6W6eWE/TTH4JoRLtYjkv7l7oHA==
+        bh=zBKl/HzF6oqFshwFLy9RnAxmIVPe0iqfQKIQ5D08ZtM=;
+        b=miMOH9O7H3NBiUehFoM1MKhLKzvM3rKVLEAnScolURPKRhZ3uc8cXi8UzhJA5iVeUz
+         32oo/RzbnzSMOWvHTazj9cuTLijngkYqpH/8wI61hK1XmTgpEVk4wGbSbz+OGrr4zwvS
+         xsNZH3jxtLGWS1RYI32sVT4ZVNV+ABrHdpKth15lvWL53Ckm+f5lWwi5xkCaNlUEtNTx
+         x4aWt7jRfWn1WBHSet6GjFgV/f+b4H6yGkB2LViJLORGq7LMEzOxpJPbpqgrPFkbUQI4
+         2+C2a9UdDbzM3vXaQ6bdgw+E3mHPNM8fGDsTSTqV8ILC1k+AsocC5bRmIxjdfIIAd+DP
+         ZscQ==
+X-Gm-Message-State: ACrzQf2RS0KxL8Q05uVqdPKwzCL3VktJQM61qUQds9XyUjKjIlbeBF/p
+	nlAOWyfdnEg/Vq9IlA2XrCimhxUC5wVlbg==
 X-Google-Smtp-Source: 
- AA6agR72icJGqYlh6M7Szj41S3AFXe1sdDe8C0jxCpTkAiR0p27KDhuNy57W/gSkYtUqF3GgM1CKCw==
-X-Received: by 2002:a05:600c:4f82:b0:3b4:9f2f:430b with SMTP id
- n2-20020a05600c4f8200b003b49f2f430bmr9605426wmq.16.1663331278301;
-        Fri, 16 Sep 2022 05:27:58 -0700 (PDT)
+ AMsMyM7J00Y5Z54eX4xWrmf4moklY9ainUs2ea/tz1sjDisBv94HG+imryhKOsilotLgV3rRsUfrJw==
+X-Received: by 2002:a05:6000:11d0:b0:228:8d5d:f2e9 with SMTP id
+ i16-20020a05600011d000b002288d5df2e9mr2720545wrx.207.1663331279066;
+        Fri, 16 Sep 2022 05:27:59 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:816c:1950:863b:51c])
         by smtp.gmail.com with ESMTPSA id
- y6-20020a7bcd86000000b003b33de17577sm1988312wmj.13.2022.09.16.05.27.57
+ y6-20020a7bcd86000000b003b33de17577sm1988312wmj.13.2022.09.16.05.27.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Sep 2022 05:27:57 -0700 (PDT)
+        Fri, 16 Sep 2022 05:27:58 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/4] oetest: Drop getResults usage from oeRuntimeTest
-Date: Fri, 16 Sep 2022 13:27:54 +0100
-Message-Id: <20220916122756.1191173-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 3/4] oeqa/utils/decorators: Drop unused decorators
+Date: Fri, 16 Sep 2022 13:27:55 +0100
+Message-Id: <20220916122756.1191173-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220916122756.1191173-1-richard.purdie@linuxfoundation.org>
 References: <20220916122756.1191173-1-richard.purdie@linuxfoundation.org>
@@ -65,53 +64,76 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Sep 2022 12:28:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170788
+ https://lists.openembedded.org/g/openembedded-core/message/170789
 
-Despite the name, this code is only used from testexport and the function
-in question is broken on python 3.8 onwards. Since nobody is using it
-and the failure log handling here is of questionable benefit anyway, drop it.
-We should be using the same code for normal test runs and testexport,
-not having two different codepaths.
+These decorators aren't used anywhere in core and broke from python 3.8
+onwards. The code implementing them (in getResults) is pretty horrible
+and I'm happy to see them and it removed.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/oetest.py | 16 +---------------
- 1 file changed, 1 insertion(+), 15 deletions(-)
+ meta/lib/oeqa/utils/decorators.py | 48 -------------------------------
+ 1 file changed, 48 deletions(-)
 
-diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index cf2cb30a3e2..cf417db0d42 100644
---- a/meta/lib/oeqa/oetest.py
-+++ b/meta/lib/oeqa/oetest.py
-@@ -28,7 +28,7 @@ try:
-     import oeqa.sdkext
- except ImportError:
-     pass
--from oeqa.utils.decorators import LogResults, gettag, getResults
-+from oeqa.utils.decorators import LogResults, gettag
+diff --git a/meta/lib/oeqa/utils/decorators.py b/meta/lib/oeqa/utils/decorators.py
+index aabf4110cbe..9627b353033 100644
+--- a/meta/lib/oeqa/utils/decorators.py
++++ b/meta/lib/oeqa/utils/decorators.py
+@@ -53,54 +53,6 @@ class getResults(object):
+     def getSkipList(self):
+         return self.skiplist
  
- logger = logging.getLogger("BitBake")
- 
-@@ -109,20 +109,6 @@ class oeRuntimeTest(oeTest):
-     def tearDown(self):
-         # Uninstall packages in the DUT
-         self.tc.install_uninstall_packages(self.id(), False)
+-class skipIfFailure(object):
 -
--        res = getResults()
--        # If a test fails or there is an exception dump
--        # for QemuTarget only
--        if (type(self.target).__name__ == "QemuTarget" and
--                (self.id() in res.getErrorList() or
--                self.id() in  res.getFailList())):
--            self.tc.host_dumper.create_dir(self._testMethodName)
--            self.tc.host_dumper.dump_host()
--            self.target.target_dumper.dump_target(
--                    self.tc.host_dumper.dump_dir)
--            print ("%s dump data stored in %s" % (self._testMethodName,
--                     self.tc.host_dumper.dump_dir))
+-    def __init__(self,testcase):
+-        self.testcase = testcase
 -
-         self.tearDownLocal()
- 
-     # Method to be run after tearDown and implemented by child classes
+-    def __call__(self,f):
+-        @wraps(f)
+-        def wrapped_f(*args, **kwargs):
+-            res = getResults()
+-            if self.testcase in (res.getFailList() or res.getErrorList()):
+-                raise unittest.SkipTest("Testcase dependency not met: %s" % self.testcase)
+-            return f(*args, **kwargs)
+-        wrapped_f.__name__ = f.__name__
+-        return wrapped_f
+-
+-class skipIfSkipped(object):
+-
+-    def __init__(self,testcase):
+-        self.testcase = testcase
+-
+-    def __call__(self,f):
+-        @wraps(f)
+-        def wrapped_f(*args, **kwargs):
+-            res = getResults()
+-            if self.testcase in res.getSkipList():
+-                raise unittest.SkipTest("Testcase dependency not met: %s" % self.testcase)
+-            return f(*args, **kwargs)
+-        wrapped_f.__name__ = f.__name__
+-        return wrapped_f
+-
+-class skipUnlessPassed(object):
+-
+-    def __init__(self,testcase):
+-        self.testcase = testcase
+-
+-    def __call__(self,f):
+-        @wraps(f)
+-        def wrapped_f(*args, **kwargs):
+-            res = getResults()
+-            if self.testcase in res.getSkipList() or \
+-                    self.testcase in res.getFailList() or \
+-                    self.testcase in res.getErrorList():
+-                raise unittest.SkipTest("Testcase dependency not met: %s" % self.testcase)
+-            return f(*args, **kwargs)
+-        wrapped_f.__name__ = f.__name__
+-        wrapped_f._depends_on = self.testcase
+-        return wrapped_f
+-
+ class testcase(object):
+     def __init__(self, test_case):
+         self.test_case = test_case
 -- 
 2.34.1
 
