@@ -1,177 +1,187 @@
-Return-Path: <alberto@pianon.eu>
+Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A106ECAAA1
-	for <webhook@archiver.kernel.org>; Fri, 16 Sep 2022 15:19:00 +0000 (UTC)
-Received: from server3.justice4all.it (server3.justice4all.it [95.217.19.36])
- by mx.groups.io with SMTP id smtpd.web09.7405.1663341534301706575
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BB97ECAAA1
+	for <webhook@archiver.kernel.org>; Fri, 16 Sep 2022 15:52:30 +0000 (UTC)
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by mx.groups.io with SMTP id smtpd.web11.7799.1663343541325700381
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Sep 2022 08:18:56 -0700
+ Fri, 16 Sep 2022 08:52:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@pianon.eu
- header.s=mail20151219 header.b=s+qUpyFe;
- spf=pass (domain: pianon.eu, ip: 95.217.19.36, mailfrom: alberto@pianon.eu)
-Received: from localhost (localhost [127.0.0.1])
-	by server3.justice4all.it (Postfix) with ESMTP id C4E525C0096;
-	Fri, 16 Sep 2022 17:18:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=pianon.eu; h=
-	message-id:user-agent:references:in-reply-to:subject:subject
-	:from:from:date:date:content-transfer-encoding:content-type
-	:content-type:mime-version; s=mail20151219; t=1663341531; x=
-	1665155932; bh=h02lAeJxiRmKnr+UMaovWR/VBe1vhGpsyqltpjtxQu8=; b=s
-	+qUpyFei9RGY2F9dCp6K37FPcCaQqol/OigCoR+OqWAloi9blugLfWRPemINqXzw
-	QrDr3HsrQ7aIHzrdJjd02S2A1VYhiITtHR4P7RIOkO4gSzfduEj8pQonO9Vp0bN5
-	8OI1y795lNJhFBdkVtjTytpDxNhSPv7YHXjK+incyw=
-X-Virus-Scanned: Debian amavisd-new at server3.justice4all.it
-Received: from server3.justice4all.it ([127.0.0.1])
-	by localhost (server3.justice4all.it [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id VtY23Tsxbfrl; Fri, 16 Sep 2022 17:18:51 +0200 (CEST)
-Received: from pianon.eu (localhost [127.0.0.1])
-	(Authenticated sender: alberto@pianon.eu)
-	by server3.justice4all.it (Postfix) with ESMTPA id 16E9D5C0095;
-	Fri, 16 Sep 2022 17:18:51 +0200 (CEST)
+ dkim=missing;
+ spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57,
+ mailfrom: mark.hatle@kernel.crashing.org)
+Received: from [192.168.2.236] ([70.99.78.137])
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 28GFo0Oj013310;
+	Fri, 16 Sep 2022 10:50:00 -0500
+Message-ID: <4c2cee7b-2e17-adc6-f603-86c78468cc55@kernel.crashing.org>
+Date: Fri, 16 Sep 2022 10:49:58 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Fri, 16 Sep 2022 17:18:50 +0200
-From: Alberto Pianon <alberto@pianon.eu>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Marta Rybczynska <rybczynska@gmail.com>, OE-core
- <openembedded-core@lists.openembedded.org>,
- openembedded-architecture@lists.openembedded.org, Joshua Watt
- <JPEWhacker@gmail.com>, 'Carlo Piana' <carlo@piana.eu>,
- davide.ricci@huawei.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
 Subject: Re: [Openembedded-architecture] Adding more information to the SBOM
-In-Reply-To: 
- <e0ece56dc5b05480313c5eee78a3d31081478687.camel@linuxfoundation.org>
+Content-Language: en-US
+To: Alberto Pianon <alberto@pianon.eu>,
+        Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Marta Rybczynska <rybczynska@gmail.com>,
+        OE-core <openembedded-core@lists.openembedded.org>,
+        openembedded-architecture@lists.openembedded.org,
+        Joshua Watt <JPEWhacker@gmail.com>, "'Carlo Piana'" <carlo@piana.eu>,
+        davide.ricci@huawei.com
 References: 
  <CAApg2=Q0+GqNVfyhnnadaEhXUB67_vbf5=ukKHdD8xRHqSOptg@mail.gmail.com>
  <e0ece56dc5b05480313c5eee78a3d31081478687.camel@linuxfoundation.org>
-User-Agent: Roundcube Webmail/1.4.1
-Message-ID: <10e816efb661938db17c512199720580@pianon.eu>
-X-Sender: alberto@pianon.eu
+ <10e816efb661938db17c512199720580@pianon.eu>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+In-Reply-To: <10e816efb661938db17c512199720580@pianon.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Sep 2022 15:19:00 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Sep 2022 15:52:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170791
+ https://lists.openembedded.org/g/openembedded-core/message/170792
 
-Hi Richard,
 
-thank you for your reply, you gave me very interesting cues to think
-about. I'll reply in reverse/importance order
 
-Il 2022-09-15 14:16 Richard Purdie wrote:
+On 9/16/22 10:18 AM, Alberto Pianon wrote:
+
+... trimmed ...
+
+>> I also can see the issue with multiple sources in SRC_URI, although you
+>> should be able to map those back if you assume subtrees are "owned" by
+>> given SRC_URI entries. I suspect there may be a SPDX format limit in
+>> documenting that piece?
 > 
-> For the source issues above it basically it comes down to how much
-> "pain" we want to push onto all users for the sake of adding in this
-> data. Unfortunately it is data which many won't need or use and
-> different legal departments do have different requirements.
-
-We didn't paint the overall picture sufficiently well, therefore our
-requirements may come across as coming from a particularly pedantic
-legal department; my fault :)
-
-Oniro is not "yet another commercial Yocto project", we are not a legal
-department (even if we are experienced FLOSS lawyers and auditors, the
-most prominent of whom is Carlo Piana -- cc'ed -- former general counsel
-of FSFE and member of OSI Board).
-
-Our rather ambitious goal is not limited to Oniro, and consists in doing
-compliance in the open source way and both setting an example and
-providing guidance and material for others to benefit from our effort.
-Our work will therefore be shared (and possibly improved by others) not
-only with Oniro-based projects but also with any Yocto project. Among
-other things, the most relevant bit of work that we want to share is
-**fully reviewed license information** and other legal metadata about a
-whole bunch of open source components commonly used in Yocto projects.
-
-To do that in a **scalable and fully automated way**, we need that Yocto
-collects some information that is currently disposed of (or simply not
-collected) at build time.
-
-Oniro Project Leader, Davide Ricci - cc'ed - strongly encouraged us to
-seek for feedback from you in order to find out the best way to do it.
-
-Maybe organizing a call would be more convenient than discussing
-background and requirements here, if you (and others) are available.
-
-
-> Experience
-> with archiver.bbclass shows that multiple codepaths doing these things
-> is a nightmare to keep working, particularly for corner cases which do
-> interesting things with the code (externalsrc, gcc shared workdir, the
-> kernel and more).
+> I'm replying in reverse order:
 > 
-> I had a look at this and was a bit puzzled by some of it.
+> - there is a SPDX format limit, but it is by design: a SPDX package
+>     entity is a single sw distribution unit, so it may have only one
+>     downloadLocation; if you have more than one downloadLocation, you must
+>     have more than one SPDX package, according to SPDX specs;
+
+I think my interpretation of this is different.  I've got a view of 'sourcing 
+materials', and then verifying the are what we think they are and can be used 
+the way we want.  The "upstream sources" (and patches) are really just 'raw 
+materials' that we use the Yocto Project to combined to create "the source".
+
+So for the purpose of the SPDX, each upstream source _may_ have a corresponding 
+SPDX, but for the binaries their source is the combined unit.. not multiple 
+SPDXes.  Think of it something like:
+
+upstream source1 - SPDX
+upstream source2 - SPDX
+upstream patch
+recipe patch1
+recipe patch2
+
+In the above, each of those items would be combined by the recipe system to 
+construct the source used to build an individual recipe (and collection of 
+packages).  Automation _IS_ used to combine the components [unpack/fetch] and 
+_MAY_ be used to generated a combined SPDX.
+
+So your "upstream" location for this recipe is the local machine's source 
+archive.  The SPDX for the local recipe files can merge the SPDX information 
+they know (and if it's at a file level) can use checksums to identify the items 
+not captured/modified by the patches for further review (either manual or 
+automation like fossology).  In the case where an upstream has SPDX data, you 
+should be able to inherit MOST files this way... but the output is specific to 
+your configuration and patches.
+
+1 - SPDX |
+2 - SPDX |
+patch    |---> recipe specific SPDX
+patch    |
+patch    |
+
+In some cases someone may want to generate SPDX data for the 3 patches, but that 
+may or may not be useful in this context.
+
+> - I understand that my solution is a bit hacky; but IMHO any other
+>     *post-mortem* solution would be far more hacky; the real solution
+>     would be collecting required information directly in do_fetch and
+>     do_unpack
+
+I've not looked at the current SPDX spec, but past versions has a notes section. 
+  Assuming this is still present you can use it to reference back to how this 
+component was constructed and the upstream source URIs (and SPDX files) you used 
+for processing.
+
+This way nothing really changes in do_fetch or do_unpack.  (You may want to find 
+a way to capture file checksums and what the source was for a particular file.. 
+but it may not really be necessary!)
+
+> - I also understand that we should reduce pain, otherwise nobody would
+>     use our solution; the simplest and cleanest way I can think about is
+>     collecting just package (in the SPDX sense) files' relative paths and
+>     checksums at every stage (fetch, unpack, patch, package), and leave
+>     data processing (i.e. mapping upstream source packages -> recipe's
+>     WORKDIR package -> debug source package -> binary packages -> binary
+>     image) to a separate tool, that may use (just a thought) a graph
+>     database to process things more efficiently.
+
+Even it do_patch nothing really changes, other then again you may want to 
+capture checksums to identify thingsthat need further processing.
+
+
+This approach greatly simplifies things, and gives people doing code reviews the 
+insight into what is the source used when shipping the binaries (which is really 
+an important aspect of this), as well as which recipe and "build" (really 
+fetch/unpack/patch) were used to construct the sources.  If they want to 
+investigate the sources further back to their provider, then the notes would 
+have the information for that, and you could transition back to the "raw 
+materials" providers.
+
+>>
+>> Where I became puzzled is where you say "Information about debug
+>> sources for each actual binary file is then taken from
+>> tmp/pkgdata/<machine>/extended/*.json.zstd". This is the data we added
+>> and use for the spdx class so you shouldn't need to reinvent that
+>> piece. It should be the exact same data the spdx class uses.
+>>
 > 
-> I can see the issues you'd have if you want to separate the unpatched
-> source from the patches and know which files had patches applied as
-> that is hard to track. There would be significiant overhead in trying
-> to process and store that information in the unpack/patch steps and the
-> archiver class does some of that already. It is messy, hard and doens't
-> perform well. I'm reluctant to force everyone to do it as a result but
-> that can also result in multiple code paths and when you have that, the
-> result is that one breaks :(.
+> you're right, but in the context of a POC it was easier to extract them
+> directly from json files than from SPDX data :) It's just a POC to show
+> that required information may be retrieved in some way, implementation
+> details do not matter
 > 
-> I also can see the issue with multiple sources in SRC_URI, although you
-> should be able to map those back if you assume subtrees are "owned" by
-> given SRC_URI entries. I suspect there may be a SPDX format limit in
-> documenting that piece?
-
-I'm replying in reverse order:
-
-- there is a SPDX format limit, but it is by design: a SPDX package
-   entity is a single sw distribution unit, so it may have only one
-   downloadLocation; if you have more than one downloadLocation, you must
-   have more than one SPDX package, according to SPDX specs;
-
-- I understand that my solution is a bit hacky; but IMHO any other
-   *post-mortem* solution would be far more hacky; the real solution
-   would be collecting required information directly in do_fetch and
-   do_unpack
-
-- I also understand that we should reduce pain, otherwise nobody would
-   use our solution; the simplest and cleanest way I can think about is
-   collecting just package (in the SPDX sense) files' relative paths and
-   checksums at every stage (fetch, unpack, patch, package), and leave
-   data processing (i.e. mapping upstream source packages -> recipe's
-   WORKDIR package -> debug source package -> binary packages -> binary
-   image) to a separate tool, that may use (just a thought) a graph
-   database to process things more efficiently.
-
-
+>> I was also puzzled about the difference between rpm and the other
+>> package backends. The exact same files are packaged by all the package
+>> backends so the checksums from do_package should be fine.
+>>
 > 
-> Where I became puzzled is where you say "Information about debug
-> sources for each actual binary file is then taken from
-> tmp/pkgdata/<machine>/extended/*.json.zstd". This is the data we added
-> and use for the spdx class so you shouldn't need to reinvent that
-> piece. It should be the exact same data the spdx class uses.
+> Here I may miss some piece of information. I looked at files in
+> tmp/pkgdata but I couldn't find package file checksums anywhere: that is
+> why I parsed rpm packages. But if such checksums were already available
+> somewhere in tmp/pkgdata, it wouldn't be necessary to parse rpm packages
+> at all... Could you point me to what I'm (maybe) missing here? Thanks!
+
+file checksumming is expensive.  There are checksums available to individual 
+packaging engines, as well as aggregate checksums for "hash equivalency".. but 
+I'm not aware of any per-file checksum that is stored.
+
+You definitely shouldn't be parsing packages of any type (rpm or otherwise), as 
+packages are truly optional.  It's the binaries that matter here.
+
+--Mark
+
+> In any case, thank you much so for all your insights, they were
+> super-useful!
 > 
-
-you're right, but in the context of a POC it was easier to extract them
-directly from json files than from SPDX data :) It's just a POC to show
-that required information may be retrieved in some way, implementation
-details do not matter
-
-> I was also puzzled about the difference between rpm and the other
-> package backends. The exact same files are packaged by all the package
-> backends so the checksums from do_package should be fine.
+> Cheers,
 > 
-
-Here I may miss some piece of information. I looked at files in
-tmp/pkgdata but I couldn't find package file checksums anywhere: that is
-why I parsed rpm packages. But if such checksums were already available
-somewhere in tmp/pkgdata, it wouldn't be necessary to parse rpm packages
-at all... Could you point me to what I'm (maybe) missing here? Thanks!
-
-In any case, thank you much so for all your insights, they were
-super-useful!
-
-Cheers,
-
-Alberto
+> Alberto
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#1640): https://lists.openembedded.org/g/openembedded-architecture/message/1640
+> Mute This Topic: https://lists.openembedded.org/mt/93678489/3616948
+> Group Owner: openembedded-architecture+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-architecture/unsub [mark.hatle@kernel.crashing.org]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
