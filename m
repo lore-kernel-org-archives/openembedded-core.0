@@ -2,58 +2,58 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB227C6FA92
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD969C6FA86
 	for <webhook@archiver.kernel.org>; Fri, 16 Sep 2022 21:08:34 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web12.896.1663362508609705737
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web09.893.1663362513532199412
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Sep 2022 14:08:28 -0700
+ Fri, 16 Sep 2022 14:08:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WHK92GA6;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AKzTnRH9;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id n10so7348876wrw.12
+Received: by mail-wr1-f50.google.com with SMTP id d2so2383626wrq.2
         for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Sep 2022 14:08:28 -0700 (PDT)
+ Fri, 16 Sep 2022 14:08:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=k3ikHkq+zhcD6z3qOoLwlotK2XlEivA3N/IuRIaeipI=;
-        b=WHK92GA6iedGC92XAJpJCZFLWA8oGpoBjV5j7lNOm09w8kV7Dwuwo0Kcvf0wEuI3mo
-         Mdogk3WTm4lIo1uBgnH8lRTNWOr7NWWSWit8XcQ9Ey7S9Fhqic0BUP960oU6xhcSnfmE
-         HS92mxm+YOzQ7NI3F+3lDhGvTqmP8Hufv/Kfs=
+        bh=ZDyAcdsjELjQQVPAZBCkJJYUpRgGVH5BTu+8AIdsSO0=;
+        b=AKzTnRH9tvq2FRloKG/Ne7U9Hcd1P8T8/AadjRIuehZTSeuRBzIHSkY3hH7ClBtgtJ
+         wTQnMeoFTKjHafOV+Mrz1oTA9GhBwbDUvD0q6eTPDBGZRlbcffOfX73hkA/9PllKXlWj
+         O/UEVunSONylcJPRBCtd9x2+4W1UB1IO3HMQw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=k3ikHkq+zhcD6z3qOoLwlotK2XlEivA3N/IuRIaeipI=;
-        b=Vhac4ott99jSUzO9xGS0Z/NmjvjU/JE35Clc6G3+4JGs1nXWd765XDkLHH2M97tAKb
-         HODuXqxBPdzDMZdunzh3BVKALQQxpFNJWFBst+s29UndPYfCid3y4kGTH127dOvOhoXw
-         3znrOCX2g845o1uhLLOcroHcieRsHJVrHHECcMDvKxyx+dCaUzr4MPxJ8ejh5VvGRBwc
-         dpbD4G0qtzgUlOXt53GKyBlZ95BHrAbVsPI626ZejJxLwB9oF2C9bLXIIjVzfZiLEdoc
-         I7kDmBAKxvjGi/kMzr6FHarwdGIQFWAsIMqFBDjr8g62aT9ICuar7P14xJDMJuNGZAC9
-         FYaw==
-X-Gm-Message-State: ACrzQf30LTc9/IS6Sp5yvwIeUw0NW68pffWHpaBeDo8cPhQaQUV+zO4H
-	cIWuHnm007uVVQZ/3Y2zmDEEw8VyFXf3fw==
+        bh=ZDyAcdsjELjQQVPAZBCkJJYUpRgGVH5BTu+8AIdsSO0=;
+        b=ps3fJAO5YcRa9YrLNMDV1d1Ot9vlh23uZaoRwKR5utSbKGz/xhzFs688NYTZN76ZfC
+         DLvnJpulyTAQYhBnrRP4mQSY9jwa6Om6g0k7bkUPsNIRkbs3dal08yTgfJJAOy7dhrsa
+         dZyWKw97852UPP8NAzRdEdNSps+9mv7iprqZ8QOgGvG6QCXZypxSmtXRxCJY7MKjskUK
+         Esm3dhVRoMLrayeE+/uNqxkr7OWvqO5i3LezYODaeh8RJewDBQms1vOMBD9RCLczhFpe
+         fx8fkVrTCw2ClFaS0Os3csd/YMf/G+SHTckZia4U9M4yICIi2U8/pkNWdtxDT6lwlALa
+         i4Tw==
+X-Gm-Message-State: ACrzQf3nkR9Tcm/GAg95xfWfxQTqYV1Nnh+RiafIbhrQz3uHU8vFqD9J
+	Vitv2HtmVj61bDdcisjN0towRi86xxrRhg==
 X-Google-Smtp-Source: 
- AMsMyM6PEaNXH3hyV+kISwHiOrWd/zO43XVygZiA4aB2mnwzObhsMEwHRTSydLthzJrKAov87y73Qg==
-X-Received: by 2002:a05:6000:168e:b0:22a:4e45:7469 with SMTP id
- y14-20020a056000168e00b0022a4e457469mr3729766wrd.681.1663362506891;
-        Fri, 16 Sep 2022 14:08:26 -0700 (PDT)
+ AMsMyM7nx7Uo1wG7TTvpQe9CS+cN3+W4Xh8hiEUmCa3H+qnImZeI+h0jbw/BJ4CXxDEB5mNLvWVgJw==
+X-Received: by 2002:adf:d4c9:0:b0:228:de3a:220f with SMTP id
+ w9-20020adfd4c9000000b00228de3a220fmr4142334wrk.597.1663362511398;
+        Fri, 16 Sep 2022 14:08:31 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:2f11:4b9d:cda7:29e6])
         by smtp.gmail.com with ESMTPSA id
- j16-20020a05600c191000b003a8434530bbsm3411533wmq.13.2022.09.16.14.08.25
+ j16-20020a05600c191000b003a8434530bbsm3411533wmq.13.2022.09.16.14.08.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Sep 2022 14:08:25 -0700 (PDT)
+        Fri, 16 Sep 2022 14:08:30 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 08/24] file: upgrade 5.42 -> 5.43
-Date: Fri, 16 Sep 2022 22:08:02 +0100
-Message-Id: <20220916210818.1228761-8-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 11/24] python3-hatchling: upgrade 1.8.1 -> 1.9.0
+Date: Fri, 16 Sep 2022 22:08:05 +0100
+Message-Id: <20220916210818.1228761-11-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220916210818.1228761-1-richard.purdie@linuxfoundation.org>
 References: <20220916210818.1228761-1-richard.purdie@linuxfoundation.org>
@@ -64,30 +64,30 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Sep 2022 21:08:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170806
+ https://lists.openembedded.org/g/openembedded-core/message/170809
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/file/{file_5.42.bb => file_5.43.bb} | 2 +-
+ .../{python3-hatchling_1.8.1.bb => python3-hatchling_1.9.0.bb}  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/file/{file_5.42.bb => file_5.43.bb} (97%)
+ rename meta/recipes-devtools/python/{python3-hatchling_1.8.1.bb => python3-hatchling_1.9.0.bb} (85%)
 
-diff --git a/meta/recipes-devtools/file/file_5.42.bb b/meta/recipes-devtools/file/file_5.43.bb
-similarity index 97%
-rename from meta/recipes-devtools/file/file_5.42.bb
-rename to meta/recipes-devtools/file/file_5.43.bb
-index 8efcf09c9c6..102d0fda26f 100644
---- a/meta/recipes-devtools/file/file_5.42.bb
-+++ b/meta/recipes-devtools/file/file_5.43.bb
-@@ -13,7 +13,7 @@ DEPENDS:class-native = "bzip2-replacement-native"
+diff --git a/meta/recipes-devtools/python/python3-hatchling_1.8.1.bb b/meta/recipes-devtools/python/python3-hatchling_1.9.0.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-hatchling_1.8.1.bb
+rename to meta/recipes-devtools/python/python3-hatchling_1.9.0.bb
+index bfdb664715d..011f5ed1101 100644
+--- a/meta/recipes-devtools/python/python3-hatchling_1.8.1.bb
++++ b/meta/recipes-devtools/python/python3-hatchling_1.9.0.bb
+@@ -8,7 +8,7 @@ inherit pypi python_hatchling
+ DEPENDS += "python3-pluggy-native python3-tomli-native python3-pathspec-native python3-packaging-native python3-editables-native"
+ DEPENDS:remove:class-native = "python3-hatchling-native"
  
- SRC_URI = "git://github.com/file/file.git;branch=master;protocol=https"
+-SRC_URI[sha256sum] = "448b04b23faed669b2b565b998ac955af4feea66c5deed3a1212ac9399d2e1cd"
++SRC_URI[sha256sum] = "b57c7362f437b9426e4b94228a21d2ac5804fbb2abcb01adde2544a35bb303cd"
  
--SRCREV = "a42b38690579de23403e0aff9b7b2f9cdf55f534"
-+SRCREV = "011778a2877f75597ed83c1a2716d917770920ee"
- S = "${WORKDIR}/git"
- 
- inherit autotools update-alternatives
+ do_compile:prepend() {
+     export PYTHONPATH=src
 -- 
 2.34.1
 
