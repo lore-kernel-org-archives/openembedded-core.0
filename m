@@ -2,58 +2,59 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 065D4C6FA90
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 113E1C6FA93
 	for <webhook@archiver.kernel.org>; Fri, 16 Sep 2022 21:08:45 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web12.896.1663362508609705737
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.877.1663362517387790911
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Sep 2022 14:08:38 -0700
+ Fri, 16 Sep 2022 14:08:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=W/HeK0mR;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GpMuQyXW;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id n10so7349362wrw.12
+Received: by mail-wm1-f47.google.com with SMTP id
+ r133-20020a1c448b000000b003b494ffc00bso54248wma.0
         for <openembedded-core@lists.openembedded.org>;
  Fri, 16 Sep 2022 14:08:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=oCd0WnjHYqWH/Rm5v0suLFr1vYTwtxnJtZi09Ip3n5w=;
-        b=W/HeK0mRrmar3KGS1giCmXCjKTSjzLJXml3lUpsn+C9zTpABthXDgA/xvMef2wnv8H
-         S2lk+ANI9roNMacFO7CsMTCpPS8uE3w0PJ2kBMGM5wt1aEA7FREYZcM817ghgN+iYizg
-         fnQGdlOwaE/gTYoO62e/C4x/v7Ar33th4xN/A=
+        bh=U3YxdzyOjGtcuZJP6A/u3xvQIPTz8BOnm7hnXCEYgWI=;
+        b=GpMuQyXWUOZfa5M00dcm/g9SQfCAO4ZpriO/iypAov/DFPlVX80C66IN9Ls1WITFyq
+         XJiu7XjY7gIAidledwysoFNKpRvJyVswh+vggmmMs7TACCCYPsiWgQaHYhAGRXOFj3/+
+         9XJXuz0XFjWyj5i4pi9n2b0CAAN6ukqCRMuf0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=oCd0WnjHYqWH/Rm5v0suLFr1vYTwtxnJtZi09Ip3n5w=;
-        b=WrwnthUsm8ZlVPQyVG/cLUHt+A+yeqt2bdCKx1H0E9qSHYe9hPVhcPx+KRlyOSQOEb
-         uYi5JcTMEBpA/Cke84F2BKTf4OsGPkglKi/xIdzVaCN75jqcKQbuay650FUNy4l8jRLI
-         /j47aIdYX4TveXX5G8TnrJOwqb3o6FlH2ubSeGgbYNoleyuJv4usfpZoYGlNMlwIbBax
-         tPK7QlMqZFGKcPWQEQPOY6TNDlWNG1qM3btGsO/ZhS+BxBHjprjIMD+bdrkW7iJVZtmq
-         YUCnNJBaaz5ohbu8k/7mAIbbkZBR0IXHtjJ7YoyZy2D1bodtewDrYc1mKXfHkIJwtCub
-         EvTA==
-X-Gm-Message-State: ACrzQf1PN/5E+Up+pnXAqUARHZsmkdLcgxPhh/BG9vBnVemKc5qpfq7r
-	DCpsRbpQDH2AZvt3QQKWZDiR5FiYI2D79w==
+        bh=U3YxdzyOjGtcuZJP6A/u3xvQIPTz8BOnm7hnXCEYgWI=;
+        b=x8t6uXLYXlgRa0YS4f1DFlVY0xDAFD2OPgp46bihC2tkPxL92VnfcDvo/DX/p5wDKR
+         goJc3DE+3kKF3kKwW1sUqdzfuPbBj38LWxkI7R+cPksburIG9Ab5oTmS70EPhrhauDo7
+         5cqZQ8geeJ3xhHfMWGHIAqoeTga2twGV+oUozjJyy11X9L/fA8EnA2UgH5+dHMb5tRvy
+         9vjEOzYXO2wExASjSPehf+nUCWlQ/g1B6pXGT8tsiJEmnis/E66V1nYOAdW3wD2YGFm9
+         a3AgT356fRiyT0h8/AIC1s7Era0A79G92xteIwHPOA3JlAmtBgKeAdrvmXBl8aPVQqAu
+         XaNg==
+X-Gm-Message-State: ACgBeo3Xkcxr4SwKXtMNlM3Ygy4KFKO89C5b1bFl1W8N3dwes8FO6k9B
+	o/Iv0FJMZkRKd62GeMJjkKEZIqWZdFvM7g==
 X-Google-Smtp-Source: 
- AMsMyM6qjzT6aZ/3U91tefDSC4ZGpCu9hujpW6V8eht4K0am5FJSg3ncTBQE7Q1i5Ug1FCjzwm0A/A==
-X-Received: by 2002:adf:eb89:0:b0:22a:c7fc:27c8 with SMTP id
- t9-20020adfeb89000000b0022ac7fc27c8mr4094065wrn.397.1663362516905;
-        Fri, 16 Sep 2022 14:08:36 -0700 (PDT)
+ AA6agR7+GKS9czPYutFDAb/k1sx59puVlb/QDcum/hJjjzGh1OCoidG7mZT6mffESXjyfqiG3M5QOw==
+X-Received: by 2002:a05:600c:2747:b0:3b4:708a:f66a with SMTP id
+ 7-20020a05600c274700b003b4708af66amr11041394wmw.146.1663362515587;
+        Fri, 16 Sep 2022 14:08:35 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:2f11:4b9d:cda7:29e6])
         by smtp.gmail.com with ESMTPSA id
- j16-20020a05600c191000b003a8434530bbsm3411533wmq.13.2022.09.16.14.08.35
+ j16-20020a05600c191000b003a8434530bbsm3411533wmq.13.2022.09.16.14.08.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Sep 2022 14:08:36 -0700 (PDT)
+        Fri, 16 Sep 2022 14:08:35 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 15/24] python3-hypothesis: upgrade 6.46.11 -> 6.54.5
-Date: Fri, 16 Sep 2022 22:08:09 +0100
-Message-Id: <20220916210818.1228761-15-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 14/24] librepo: upgrade 1.14.4 -> 1.14.5
+Date: Fri, 16 Sep 2022 22:08:08 +0100
+Message-Id: <20220916210818.1228761-14-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220916210818.1228761-1-richard.purdie@linuxfoundation.org>
 References: <20220916210818.1228761-1-richard.purdie@linuxfoundation.org>
@@ -64,30 +65,75 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Sep 2022 21:08:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170813
+ https://lists.openembedded.org/g/openembedded-core/message/170812
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...thon3-hypothesis_6.46.11.bb => python3-hypothesis_6.54.5.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.46.11.bb => python3-hypothesis_6.54.5.bb} (91%)
+ ...ownloader-Include-unistd.h-for-lseek.patch | 34 -------------------
+ .../{librepo_1.14.4.bb => librepo_1.14.5.bb}  |  3 +-
+ 2 files changed, 1 insertion(+), 36 deletions(-)
+ delete mode 100644 meta/recipes-devtools/librepo/librepo/0001-metadata_downloader-Include-unistd.h-for-lseek.patch
+ rename meta/recipes-devtools/librepo/{librepo_1.14.4.bb => librepo_1.14.5.bb} (87%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.46.11.bb b/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.46.11.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb
-index 1d9772d4ff0..9adb614493e 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.46.11.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+diff --git a/meta/recipes-devtools/librepo/librepo/0001-metadata_downloader-Include-unistd.h-for-lseek.patch b/meta/recipes-devtools/librepo/librepo/0001-metadata_downloader-Include-unistd.h-for-lseek.patch
+deleted file mode 100644
+index 22b3110a617..00000000000
+--- a/meta/recipes-devtools/librepo/librepo/0001-metadata_downloader-Include-unistd.h-for-lseek.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From 5c63ec2e2d4726268ace85e5c61727cbd811d982 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sat, 27 Aug 2022 09:00:24 -0700
+-Subject: [PATCH] metadata_downloader: Include unistd.h for lseek()
+-
+-This is found when compiling on musl systems
+-
+-Fixes
+-
+-metadata_downloader.c:331:9: error: call to undeclared function 'lseek'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+-        lseek(fd_value, SEEK_SET, 0);
+-        ^
+-
+-Upstream-Status: Submitted [https://github.com/rpm-software-management/librepo/pull/263]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- librepo/metadata_downloader.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/librepo/metadata_downloader.c b/librepo/metadata_downloader.c
+-index 123c77b..6604255 100644
+---- a/librepo/metadata_downloader.c
+-+++ b/librepo/metadata_downloader.c
+-@@ -24,6 +24,7 @@
+- #include <assert.h>
+- #include <string.h>
+- #include <errno.h>
+-+#include <unistd.h>
+- #include <sys/stat.h>
+- 
+- #include "librepo/librepo.h"
+--- 
+-2.37.2
+-
+diff --git a/meta/recipes-devtools/librepo/librepo_1.14.4.bb b/meta/recipes-devtools/librepo/librepo_1.14.5.bb
+similarity index 87%
+rename from meta/recipes-devtools/librepo/librepo_1.14.4.bb
+rename to meta/recipes-devtools/librepo/librepo_1.14.5.bb
+index 2b8bd132f35..46cfce53ff6 100644
+--- a/meta/recipes-devtools/librepo/librepo_1.14.4.bb
++++ b/meta/recipes-devtools/librepo/librepo_1.14.5.bb
+@@ -8,10 +8,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ SRC_URI = "git://github.com/rpm-software-management/librepo.git;branch=master;protocol=https \
+            file://0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch \
+            file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch \
+-           file://0001-metadata_downloader-Include-unistd.h-for-lseek.patch \
+            "
  
--SRC_URI[sha256sum] = "f5c1cf61b24b094355577a6b8fbbb8eb54c1b0216fbc0519af97c46bddf43c42"
-+SRC_URI[sha256sum] = "8a9056825695f415bfad4e808ae719fc01383a9ab659775319724365afcc7ec7"
+-SRCREV = "2bd1041c741c85bc196ca01dcca1eae6099eb742"
++SRCREV = "f4b915be5e04e88263097f65addfcac5919fef41"
  
- RDEPENDS:${PN} += " \
-     python3-attrs \
+ S = "${WORKDIR}/git"
+ 
 -- 
 2.34.1
 
