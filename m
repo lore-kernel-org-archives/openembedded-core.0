@@ -1,104 +1,156 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <andrey.konovalov@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C249C6FA86
-	for <webhook@archiver.kernel.org>; Sat, 17 Sep 2022 08:17:18 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web09.3964.1663402636301819305
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C3A8C6FA8B
+	for <webhook@archiver.kernel.org>; Sat, 17 Sep 2022 11:56:59 +0000 (UTC)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web10.5148.1663415815375419455
  for <openembedded-core@lists.openembedded.org>;
- Sat, 17 Sep 2022 01:17:16 -0700
+ Sat, 17 Sep 2022 04:56:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=kTujjqDz;
- spf=pass (domain: gmail.com, ip: 209.85.167.50,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f50.google.com with SMTP id w8so39044239lft.12
+ dkim=pass header.i=@linaro.org header.s=google header.b=TDUm5DmU;
+ spf=pass (domain: linaro.org, ip: 209.85.167.44,
+ mailfrom: andrey.konovalov@linaro.org)
+Received: by mail-lf1-f44.google.com with SMTP id a8so39486992lff.13
         for <openembedded-core@lists.openembedded.org>;
- Sat, 17 Sep 2022 01:17:16 -0700 (PDT)
+ Sat, 17 Sep 2022 04:56:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=XF5GN6TSWpJp1f038T139hxpp4tnWfxh4dFLMdFWylw=;
-        b=kTujjqDzQEzHeTLkSqkkmZltoMF4fQjqQiQ2c5PlN8hiTzXChyfkmJgKU5qgsdrANN
-         PfYGHzSRWKesgOE+07tVHlNVyBsFHshhWKu+luHlA9dpUgATiQ51Isch95Jlgf0c72eE
-         ALtrTDBtUxBPF1/ij6D8qW+n829qAmXur+QeGvMZWR2kHvLCg3ZD5dS7clClPbaYPvPj
-         lojqcmLtBkDGxTgTO+8eHTWPMh0H2i9lZf1P/k2rzESvOf42KX1kUWZqpwjGYTD0s7yb
-         2dQYtbGpQ1YXvJLSBTKFHP+JJmur3UFEK46DzbQZJvcsurf5B0F4I4P9R6vgGmLaIzuv
-         LkSQ==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=kJlQN/eVvItWwBRby1UdRoGXU8YvVzuauaefDhBLuEU=;
+        b=TDUm5DmUYM2oaBpfGnCd3lECn/1FEwA2Cz9815VpzfSSCunH2WTTZCFQ58Ng0IZOd7
+         D8GRfaXxhqHj5EuyeTknIymQ0V+f7rh02Da9Uff9E2a17cvQ0oge1ob2SwI4NIgFsdoY
+         KNUPeye0n2X5LB79imukr31otFmr8Z/r6muPW99b/hse9VcvUjYLMp97xf0/TiOxmQ0/
+         qfEWRDQSapirDQPRsu9qbIW5DpSML06ZLASPcSuv85DA79L4sS/qWAg5jwM9UR1v+sxl
+         25wntl83rqQdJ+MRYFbXdTKFLXY3InOWpSq4WTdS0bqY9AucRpJBSMsuEsAp0CZAA6Mj
+         cpGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=XF5GN6TSWpJp1f038T139hxpp4tnWfxh4dFLMdFWylw=;
-        b=0R9dEGxd7EYA2L/ezhPh6RB+FuMQrfIIdImqud+0xGz2E80OGVFiNVg0H2cvgJC3x6
-         HLdIj/QL7TzpmBWg1Uvt2VzzjccXtN3Z1x4rDNXmgYGvnFltYjX9pT3VZqpL3FAofPtY
-         LyzfMGos3cX88dC7aJxTZKvALczKFZ1g7KIayTUGdoPLzKLD7Is0jhjgN/K6l+z5xd9D
-         g0HAllt+Vz1AlzLns05bNznPnwb4I5D3YrgHInyFXR1PCO2HHHPVoi13wZ3DwhBOfadV
-         5SVjNxhoCHJ+pKLUzeQtmpomupfemRWh6szQmt+yVA2/nryxc+SNjm5BUWjAUpF3zHED
-         98tg==
-X-Gm-Message-State: ACrzQf1JEUIXN0b1tTVB2J8kz5WxArFof5TRlDVwpuUCId4Cl7zXz8Jc
-	t9kMKwt9Ek0vzA7vnbt4sBr435k98LCgXXoMcwQ=
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=kJlQN/eVvItWwBRby1UdRoGXU8YvVzuauaefDhBLuEU=;
+        b=38cEcHW1uImXhx+iKOtRd9lvLoaf21nur901IAXgOpZvLTO0qcFUMCpqN2b1ZePldU
+         W6KYv57nZWj3wBR8nfuya9n/Eyl5ratf7IpJYjGH+vD1gVdQ7R85L2SxYmv8+6k2mLNa
+         DfWQEcvASpGM8n3B1rLVnu2zo30x4PGebp13DrQRt9cUi8jxEWDao1ifDBIb8URu/Zhu
+         IiBpf/OvyHW8cxfx9yiAVee8IFmTlB+veGeRpprRHy0U6mcs0QfHOxZxrOi52geEL8wy
+         F9pCt5PoQX7Xl9iecUMlJYjh6kSRz4yhD/7gupsGiZ9lhN8QkGxLgqWpgT6jGpHjgZ/C
+         iq0g==
+X-Gm-Message-State: ACrzQf1L83zfrKrb0JfogNKWdNR0bnxsl5OsSoL3UluMcHG0IC46qUtc
+	aIYZQ7wP/HtjUevE1dZjfJXFwce+bMQR9A==
 X-Google-Smtp-Source: 
- AMsMyM6U3ITTaylOa/HEJVZMO1TheMywhm5CA+4rpwVJc8Cz2wtRx11DlfRqO4KNpNYi/omFkXvicT2OzDpULMd3O3g=
-X-Received: by 2002:a05:6512:1283:b0:499:d0a3:3ca8 with SMTP id
- u3-20020a056512128300b00499d0a33ca8mr2757585lfs.665.1663402634186; Sat, 17
- Sep 2022 01:17:14 -0700 (PDT)
+ AMsMyM6aZDUIl5VnF3E53+acF9BPnkqvaMV6A/gEtD390Mzl2FgImBoE50R366R5dShLg+gQ2i/FaA==
+X-Received: by 2002:a05:6512:3c8d:b0:49a:d44b:41d with SMTP id
+ h13-20020a0565123c8d00b0049ad44b041dmr3129928lfv.690.1663415813751;
+        Sat, 17 Sep 2022 04:56:53 -0700 (PDT)
+Received: from localhost.localdomain (128-69-252-44.broadband.corbina.ru.
+ [128.69.252.44])
+        by smtp.googlemail.com with ESMTPSA id
+ y24-20020a199158000000b00492c017de43sm4077663lfj.127.2022.09.17.04.56.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Sep 2022 04:56:53 -0700 (PDT)
+From: Andrey Konovalov <andrey.konovalov@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Andrey Konovalov <andrey.konovalov@linaro.org>
+Subject: [RFC][PATCH 1/1] mesa: fix building OpenCL programs
+Date: Sat, 17 Sep 2022 14:56:42 +0300
+Message-Id: <20220917115642.766941-2-andrey.konovalov@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220917115642.766941-1-andrey.konovalov@linaro.org>
+References: <20220917115642.766941-1-andrey.konovalov@linaro.org>
 MIME-Version: 1.0
-References: <20220831111401.3330342-1-alex@linutronix.de>
- <e73f356f-87dd-2aba-7445-2f93ad6bf145@windriver.com>
- <CANNYZj-fLHiNEOLzp5etSQRwtNb55kHa4k02jzRRm=c3dohULA@mail.gmail.com>
- <6917e065-3b17-a57e-f862-90366717106b@windriver.com>
- <CANNYZj_OqjRgsQQwQditr1iHCM1RkZak-hFG-zEsqPmMfdNd_A@mail.gmail.com>
- <8e5b3cc0-bf66-fb7c-0199-ae6766c76cc8@windriver.com>
- <CANNYZj8owg_f1=g6VWVo-S6Qhq8VOgeYiGwQgNYQ5-GmbP8OTQ@mail.gmail.com>
- <8f083713-d00a-2393-3b74-35491e830bb0@windriver.com>
- <CANNYZj9nK6OXGEb0qHHSUz_UYn8QZt9ZSk5e_i-A76RPqMG8kw@mail.gmail.com>
- <e0a16812e51d41ada44bd388dea8a90b@axis.com>
- <CANNYZj9_wrEF7OvWYFX090ET1cG0cfK4w0J44a8zMHX6DRHYVQ@mail.gmail.com>
- <32f1549da2dd46e98476e2543be0746a@axis.com>
- <CANNYZj-tPjxFn9-BDDsr4vg4f8WTU4apVJo_=_TqKpuvjf93QA@mail.gmail.com>
- <e13500864aec4656b1dc14c92947a659@axis.com>
-In-Reply-To: <e13500864aec4656b1dc14c92947a659@axis.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 17 Sep 2022 10:17:02 +0200
-Message-ID: 
- <CANNYZj-f_T_7aJGLvgLYW+4+7-UHC6=K8g_GRfXJOgW6S+oBqQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/7] scripts/oe-setup-builddir: add a check that
- TEMPLATECONF is valid
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: ChenQi <Qi.Chen@windriver.com>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 17 Sep 2022 08:17:18 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 17 Sep 2022 11:56:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170826
+ https://lists.openembedded.org/g/openembedded-core/message/170828
 
-On Sat, 17 Sept 2022 at 02:06, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
-> Sorry, my fault. I forgot that while the build directory is created
-> in oe-setup-builddir, the path that is used is actually determined in
-> oe-buildenv-internal, line 42-81. And this is the part that I would
-> have to duplicate. Now, I do not need all of it (it can be reduced to
-> 19 lines), but it still means I am duplicating the logic from OE-Core
-> and if that changes, we may or may not notice...
+When building an OpenCL program clover needs to locate opencl-c.h
+include file. This include file location is passed via cpp args using
+CLANG_RESOURCE_DIR macro. To set CLANG_RESOURCE_DIR value meson currently
+uses "$(llvm-config --libdir)" which results in path to sysroot included
+into CLANG_RESOURCE_DIR. Then clBuildProgram() fails with
+"fatal error: 'opencl-c.h' file not found".
 
-Then you can do it in the opposite order through the official tooling:
+Work this around by using '/usr/lib' instead of the libdir value
+exported by LLVM.
 
-. oe-init-build-env (against a template with a lowest common
-denominator set of layers, perhaps even one from poky)
-bitbake-layers add-layer /path/to/meta-b
-bitbake-layers add-layer /path/to/meta-c
-...
+Microsoft/Intel CLC should suffer from the same issue, and the similar
+workaround should work in this case too.
 
-This is better, as it avoids having to write bblayers.conf[.template]
-directly. You say you don't want to duplicate the script logic; you
-should try to avoid duplicating the content of config files too then.
+Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
+---
+ ...-meson.CLANG_RESOURCE_DIR-workaround.patch | 42 +++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa.inc           |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-graphics/mesa/files/0001-meson.CLANG_RESOURCE_DIR-workaround.patch
 
-Alex
+diff --git a/meta/recipes-graphics/mesa/files/0001-meson.CLANG_RESOURCE_DIR-workaround.patch b/meta/recipes-graphics/mesa/files/0001-meson.CLANG_RESOURCE_DIR-workaround.patch
+new file mode 100644
+index 0000000000..db60fe407f
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0001-meson.CLANG_RESOURCE_DIR-workaround.patch
+@@ -0,0 +1,42 @@
++From: Andrey Konovalov <andrey.konovalov@linaro.org>
++Date: Fri, 16 Sep 2022 16:58:20 +0000
++Subject: [PATCH] CLANG_RESOURCE_DIR workaround
++
++Setting CLANG_RESOURCE_DIR to "$(llvm-config --libdir)something"
++results in clBuildProgram() error when an OpenCL program is being
++built on the target. The reason is that $(llvm-config --libdir) output
++includes path to the sysroot directory.
++
++Work this around by using '/usr/lib' instead of the libdir value
++exported by LLVM.
++
++Upstream-Status: Inappropriate
++Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
++
++---
++
++--- a/src/gallium/frontends/clover/meson.build	2022-09-16 10:24:55.910577158 +0000
+++++ b/src/gallium/frontends/clover/meson.build	2022-09-16 10:28:13.112804197 +0000
++@@ -71,8 +71,7 @@ libclllvm = static_library(
++     clover_opencl_cpp_args,
++     clover_spirv_cpp_args,
++     '-DCLANG_RESOURCE_DIR="@0@"'.format(join_paths(
++-      dep_llvm.get_variable(cmake : 'LLVM_LIBRARY_DIR', configtool: 'libdir'), 'clang',
++-      dep_llvm.version(), 'include',
+++      '/usr/lib', 'clang', dep_llvm.version(), 'include',
++     )),
++   ],
++   gnu_symbol_visibility : 'hidden',
++--- a/src/compiler/clc/meson.build	2022-09-16 16:40:10.641735401 +0000
+++++ b/src/compiler/clc/meson.build	2022-09-16 16:50:18.095700452 +0000
++@@ -39,7 +39,9 @@ files_libclc = files(
++   'clc_helpers.cpp',
++ )
++ 
++-_libclc_cpp_args = ['-DCLANG_RESOURCE_DIR="@0@"'.format(clang_resource_dir)]
+++_libclc_cpp_args = ['-DCLANG_RESOURCE_DIR="@0@"'.format(join_paths(
+++                       '/usr/lib', 'clang', dep_llvm.version(), 'include'
+++                    ))]
++ if with_microsoft_clc
++   _libclc_cpp_args += ['-DUSE_STATIC_OPENCL_C_H=1']
++ endif
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index ea7ed4fd27..0a2fb2150d 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -23,6 +23,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-Revert-egl-wayland-deprecate-drm_handle_format-and-d.patch \
+            file://0001-swrast_kms-use-swkmsDRI2Extension-instead-of-driDRI2.patch \
+            file://0001-nir-nir_opt_move-fix-ALWAYS_INLINE-compiler-error.patch \
++           file://0001-meson.CLANG_RESOURCE_DIR-workaround.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "22ced061eb9adab8ea35368246c1995c09723f3f71653cd5050c5cec376e671a"
+-- 
+2.25.1
+
 
