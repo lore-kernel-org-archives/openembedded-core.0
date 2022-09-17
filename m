@@ -1,117 +1,70 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B75AC6FA82
-	for <webhook@archiver.kernel.org>; Sat, 17 Sep 2022 14:04:30 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web09.6220.1663423464581254039
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58456C54EE9
+	for <webhook@archiver.kernel.org>; Sat, 17 Sep 2022 14:36:00 +0000 (UTC)
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by mx.groups.io with SMTP id smtpd.web10.6412.1663425350650896254
  for <openembedded-core@lists.openembedded.org>;
- Sat, 17 Sep 2022 07:04:24 -0700
+ Sat, 17 Sep 2022 07:35:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GwqjqPVG;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id t14so40302033wrx.8
-        for <openembedded-core@lists.openembedded.org>;
- Sat, 17 Sep 2022 07:04:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date;
-        bh=+cLl5OFMskO3/J8ShdbMONMVQr0QznyYrhWfzM9nxZc=;
-        b=GwqjqPVGTwk10LWzAewMLuDpw6FqVuUe73RCQk7LCdBOXKEv4p64R/2st5NPAcQE0o
-         UQLfs5Dna3rkYutPQGvX/9GYzkV11EQCVaM9UgOez1SLnDq6Avl49fZtLvBzgtmdFn86
-         r6oKYvRnrr8S1HxRaykci/bLMKC/ZfPCDibwU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=+cLl5OFMskO3/J8ShdbMONMVQr0QznyYrhWfzM9nxZc=;
-        b=I/RhR3HFJKkBdU8KdJ3BPXsv83Vt6bduHaAVpnX1pNHxrUJEddtx/XWwG206Uk9VsG
-         /dzuC75QaxxBf+/kTZRonNTy5RGmghW/iEEDHXpjIimonAabW7qV2NeP5CDhBy/Qo6FK
-         SFrP153DW1ZrFVjNmqfLDt5kTc9Bo9OVWPNht0KHXIaRKaxFKci4BDBkPzZIW+eJM0mV
-         fOZ/gWRgYBJ/HCch15CUo5GM/rC92ST0hI38KBuH4gII2AKocvM53WAXTcOQ8cc3Qs1i
-         8vOmFqwh5fBNwD5IwXHEcWUhIyRoxGb2qPS7PJRZZ2mue5NVGjmTM0IgmtJ/SqmLN421
-         fkCQ==
-X-Gm-Message-State: ACrzQf3S1MzMC23YiakZjmDVWlit21cbPAHN7KAuKg/751pDcL6wtoxS
-	pA5uPDpf9bJLZpuxLfgvb6vVIw==
-X-Google-Smtp-Source: 
- AMsMyM4Iahctj9l3q7dfAKmDq4PemA24Ck6t2pSLOVMfT3Lswz3/WnMA2noK8KgVuFG/goV68kd1Vw==
-X-Received: by 2002:a5d:59c3:0:b0:22a:4463:5a3a with SMTP id
- v3-20020a5d59c3000000b0022a44635a3amr5505655wry.123.1663423462883;
-        Sat, 17 Sep 2022 07:04:22 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:2f11:4b9d:cda7:29e6?
- ([2001:8b0:aba:5f3c:2f11:4b9d:cda7:29e6])
-        by smtp.gmail.com with ESMTPSA id
- n13-20020a7bcbcd000000b003a60bc8ae8fsm6066487wmi.21.2022.09.17.07.04.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Sep 2022 07:04:22 -0700 (PDT)
-Message-ID: 
- <7af0d3563301632f007852d58c406d507f70fe2e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC PATCH] python3: update 3.10.6 -> 3.11.0rc2
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Date: Sat, 17 Sep 2022 15:04:21 +0100
-In-Reply-To: <20220914120421.551923-1-alex@linutronix.de>
-References: <20220914120421.551923-1-alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ dkim=missing;
+ spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57,
+ mailfrom: mark.hatle@kernel.crashing.org)
+Received: from [192.168.2.236] ([70.99.78.137])
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 28HEZmsJ018538;
+	Sat, 17 Sep 2022 09:35:49 -0500
+Message-ID: <ab69fff9-bdb5-1a6d-18ce-b22f737e4c07@kernel.crashing.org>
+Date: Sat, 17 Sep 2022 09:35:47 -0500
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
+Subject: Re: [OE-core] wic/wks boot using labels instead of partitions
+Content-Language: en-US
+To: Markus Volk <f_l_k@t-online.de>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <28322394-c2dd-fc69-be32-466d0cf14906@kernel.crashing.org>
+ <GACCIR.4ITKNYY5Z8AC3@t-online.de>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+In-Reply-To: <GACCIR.4ITKNYY5Z8AC3@t-online.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 17 Sep 2022 14:04:30 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 17 Sep 2022 14:36:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170835
+ https://lists.openembedded.org/g/openembedded-core/message/170836
 
-On Wed, 2022-09-14 at 14:04 +0200, Alexander Kanavin wrote:
-> The semaphore fix has landed and is available from 3.11 onwards:
-> https://github.com/python/cpython/commit/1ee0f94d16f150356a4b9b0a39d44ba1=
-d2d5b9fc
->=20
-> 3.11 release schedule: https://peps.python.org/pep-0664/
->=20
-> Drop 0001-Mitigate-the-race-condition-in-testSockName.patch
-> as it is merged upstream.
->=20
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  meta/classes-recipe/python3-dir.bbclass       |  2 +-
->  ...ib-termcap-to-linker-flags-to-avoid-.patch |  8 ++--
->  ...-search-system-for-headers-libraries.patch |  6 +--
->  ...-use-prefix-value-from-build-configu.patch | 14 +++---
->  ...e-the-race-condition-in-testSockName.patch | 47 -------------------
->  ...sts-due-to-load-variability-on-YP-AB.patch | 18 +++----
->  ...FLAG_REF-always-for-interned-strings.patch | 33 -------------
->  ...-detection-of-mips-architecture-for-.patch | 33 ++++++++++---
->  ...fig-append-STAGING_LIBDIR-python-sys.patch |  6 +--
->  ...asename-to-replace-CC-for-checking-c.patch | 44 ++++++++---------
->  ...tutils-prefix-is-inside-staging-area.patch | 10 ++--
->  .../python3/avoid_warning_about_tkinter.patch | 21 ++++-----
->  .../python/python3/crosspythonpath.patch      | 22 ++++-----
->  .../python/python3/makerace.patch             | 10 ++--
->  ...python3_3.10.6.bb =3D> python3_3.11.0rc2.bb} | 13 ++---
->  15 files changed, 112 insertions(+), 175 deletions(-)
->  delete mode 100644 meta/recipes-devtools/python/python3/0001-Mitigate-th=
-e-race-condition-in-testSockName.patch
->  delete mode 100644 meta/recipes-devtools/python/python3/0001-Use-FLAG_RE=
-F-always-for-interned-strings.patch
->  rename meta/recipes-devtools/python/{python3_3.10.6.bb =3D> python3_3.11=
-.0rc2.bb} (97%)
+Thank you, this worked perfectly.
 
-It is good to have this ready but given the timing of the final release
-compared to ours, and the knock on implications of a python version
-change on other layers, I'm likely to hold this until the next release
-unless there is a pressing reason we need it.
-
-Cheers,
-
-Richard
+On 9/17/22 1:20 AM, Markus Volk wrote:
+> --use-label
+> 
+> This should do it.
+> 
+> Am Fr, 16. Sep 2022 um 16:41:48 -0500 schrieb Mark Hatle 
+> <mark.hatle@kernel.crashing.org>:
+>> Is there a way to tell the _generated_ fstab to use labels to boot and not 
+>> hard coded partitions? If I remove the --ondisk <device> attribute from the 
+>> wks file it defaults to /dev/sda. What I tried was: part /boot --source 
+>> bootimg-partition --fstype=vfat --label boot --active --align 4 size 16 part / 
+>> --source rootfs --fstype=ext4 --label root --align 4 If I manually add 
+>> --no-fstab-update to the wks entries and add the following to the system 
+>> default fstab: LABEL=boot /boot vfat default 0 2 This works. But I'd like to 
+>> automate it within the wks. (Alternatively I could use uuid instead of label 
+>> booting, but either case, I need to only boot with the uuid or label -- not 
+>> the partition as the location of the disk can change.) --Mark
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#170825): https://lists.openembedded.org/g/openembedded-core/message/170825
+> Mute This Topic: https://lists.openembedded.org/mt/93732744/3616948
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mark.hatle@kernel.crashing.org]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
