@@ -2,63 +2,64 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A9A2C54EE9
-	for <webhook@archiver.kernel.org>; Sat, 17 Sep 2022 13:58:10 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.6070.1663423080942563868
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B75AC6FA82
+	for <webhook@archiver.kernel.org>; Sat, 17 Sep 2022 14:04:30 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web09.6220.1663423464581254039
  for <openembedded-core@lists.openembedded.org>;
- Sat, 17 Sep 2022 06:58:01 -0700
+ Sat, 17 Sep 2022 07:04:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QiTuBZ4t;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GwqjqPVG;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id z6so7779965wrq.1
+Received: by mail-wr1-f53.google.com with SMTP id t14so40302033wrx.8
         for <openembedded-core@lists.openembedded.org>;
- Sat, 17 Sep 2022 06:58:00 -0700 (PDT)
+ Sat, 17 Sep 2022 07:04:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date;
-        bh=ens/T9cq6OxMjZXdEvSXZUHKK8nV8V4gzoE9+50zIv4=;
-        b=QiTuBZ4tteOv8iXKME8y0Fk09RCUA5tXiP9iaDjL2N0daQbpUUMGGvLIRPYqu9CFPx
-         J8NWRD50C/1yt8Cw35xePFtIwfVj0EDxmpP6aCcWxzJkJbZcMrGUNWF2TTzdXPNm7nMo
-         vK8cgJBc8eWGRqzeLJdmv6MXE8XAwbDOwytug=
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date;
+        bh=+cLl5OFMskO3/J8ShdbMONMVQr0QznyYrhWfzM9nxZc=;
+        b=GwqjqPVGTwk10LWzAewMLuDpw6FqVuUe73RCQk7LCdBOXKEv4p64R/2st5NPAcQE0o
+         UQLfs5Dna3rkYutPQGvX/9GYzkV11EQCVaM9UgOez1SLnDq6Avl49fZtLvBzgtmdFn86
+         r6oKYvRnrr8S1HxRaykci/bLMKC/ZfPCDibwU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date;
-        bh=ens/T9cq6OxMjZXdEvSXZUHKK8nV8V4gzoE9+50zIv4=;
-        b=Iesq664pM2ix0m4mmgGjzxGu90Xf6/Q5TCMaQLYUU+Mcf7Zs4O61GnEjJDIzeTRJJx
-         upIr2d2oxVEQbVnk0kVNJb2k9q5P5USFFY8aqEx0qzOb5cXscu7+nLtmNJc/VkZOQHnO
-         s7BT/WVpU2qqcP/kdeXXji3z9MWsBBhFgpuxUH8p/4opJtQpyaCUThoS7hXeh6sKuDg6
-         Gj0VjLFdpuukAYsbDw21zGkpDegxb0jcSUm8KkDHDpCHdR6NM/qEq/eq5nGodM9MT1Q2
-         IeGri1vY2qn9Ep7QeRx0VKIu9R9pJUjNZGbga1NuHRC7DFm7ZLwUj7MECo6BZZfuNRjm
-         W69g==
-X-Gm-Message-State: ACrzQf0hYY0Gtzpg623yx0jF84CdDubvPkAXVRV04NNQxYqHmXmOvlwG
-	We9Z+RsAsM1PijV7Kn7MLji5QA==
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=+cLl5OFMskO3/J8ShdbMONMVQr0QznyYrhWfzM9nxZc=;
+        b=I/RhR3HFJKkBdU8KdJ3BPXsv83Vt6bduHaAVpnX1pNHxrUJEddtx/XWwG206Uk9VsG
+         /dzuC75QaxxBf+/kTZRonNTy5RGmghW/iEEDHXpjIimonAabW7qV2NeP5CDhBy/Qo6FK
+         SFrP153DW1ZrFVjNmqfLDt5kTc9Bo9OVWPNht0KHXIaRKaxFKci4BDBkPzZIW+eJM0mV
+         fOZ/gWRgYBJ/HCch15CUo5GM/rC92ST0hI38KBuH4gII2AKocvM53WAXTcOQ8cc3Qs1i
+         8vOmFqwh5fBNwD5IwXHEcWUhIyRoxGb2qPS7PJRZZ2mue5NVGjmTM0IgmtJ/SqmLN421
+         fkCQ==
+X-Gm-Message-State: ACrzQf3S1MzMC23YiakZjmDVWlit21cbPAHN7KAuKg/751pDcL6wtoxS
+	pA5uPDpf9bJLZpuxLfgvb6vVIw==
 X-Google-Smtp-Source: 
- AMsMyM4QO/nJSUyy9qlcbPOX8c/dM2PjyVdKuiQRObb5EcrsGunHv+aAz+yt+/UusbjHh8weV+F0ow==
-X-Received: by 2002:a5d:5289:0:b0:225:4852:4248 with SMTP id
- c9-20020a5d5289000000b0022548524248mr5476278wrv.228.1663423079174;
-        Sat, 17 Sep 2022 06:57:59 -0700 (PDT)
+ AMsMyM4Iahctj9l3q7dfAKmDq4PemA24Ck6t2pSLOVMfT3Lswz3/WnMA2noK8KgVuFG/goV68kd1Vw==
+X-Received: by 2002:a5d:59c3:0:b0:22a:4463:5a3a with SMTP id
+ v3-20020a5d59c3000000b0022a44635a3amr5505655wry.123.1663423462883;
+        Sat, 17 Sep 2022 07:04:22 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:2f11:4b9d:cda7:29e6?
  ([2001:8b0:aba:5f3c:2f11:4b9d:cda7:29e6])
         by smtp.gmail.com with ESMTPSA id
- t66-20020a1c4645000000b003a540fef440sm6092435wma.1.2022.09.17.06.57.58
+ n13-20020a7bcbcd000000b003a60bc8ae8fsm6066487wmi.21.2022.09.17.07.04.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Sep 2022 06:57:58 -0700 (PDT)
+        Sat, 17 Sep 2022 07:04:22 -0700 (PDT)
 Message-ID: 
- <19ed5421370187b39ce055f742d6134439eab87b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC][PATCH 1/1] mesa: fix building OpenCL programs
+ <7af0d3563301632f007852d58c406d507f70fe2e.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RFC PATCH] python3: update 3.10.6 -> 3.11.0rc2
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andrey Konovalov <andrey.konovalov@linaro.org>,
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
 	openembedded-core@lists.openembedded.org
-Date: Sat, 17 Sep 2022 14:57:56 +0100
-In-Reply-To: <20220917115642.766941-2-andrey.konovalov@linaro.org>
-References: <20220917115642.766941-1-andrey.konovalov@linaro.org>
-	 <20220917115642.766941-2-andrey.konovalov@linaro.org>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Date: Sat, 17 Sep 2022 15:04:21 +0100
+In-Reply-To: <20220914120421.551923-1-alex@linutronix.de>
+References: <20220914120421.551923-1-alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.1-0ubuntu1 
@@ -66,91 +67,49 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 17 Sep 2022 13:58:10 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 17 Sep 2022 14:04:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170834
+ https://lists.openembedded.org/g/openembedded-core/message/170835
 
-On Sat, 2022-09-17 at 14:56 +0300, Andrey Konovalov wrote:
-> When building an OpenCL program clover needs to locate opencl-c.h
-> include file. This include file location is passed via cpp args using
-> CLANG_RESOURCE_DIR macro. To set CLANG_RESOURCE_DIR value meson currently
-> uses "$(llvm-config --libdir)" which results in path to sysroot included
-> into CLANG_RESOURCE_DIR. Then clBuildProgram() fails with
-> "fatal error: 'opencl-c.h' file not found".
+On Wed, 2022-09-14 at 14:04 +0200, Alexander Kanavin wrote:
+> The semaphore fix has landed and is available from 3.11 onwards:
+> https://github.com/python/cpython/commit/1ee0f94d16f150356a4b9b0a39d44ba1=
+d2d5b9fc
 >=20
-> Work this around by using '/usr/lib' instead of the libdir value
-> exported by LLVM.
+> 3.11 release schedule: https://peps.python.org/pep-0664/
 >=20
-> Microsoft/Intel CLC should suffer from the same issue, and the similar
-> workaround should work in this case too.
+> Drop 0001-Mitigate-the-race-condition-in-testSockName.patch
+> as it is merged upstream.
 >=20
-> Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 > ---
->  ...-meson.CLANG_RESOURCE_DIR-workaround.patch | 42 +++++++++++++++++++
->  meta/recipes-graphics/mesa/mesa.inc           |  1 +
->  2 files changed, 43 insertions(+)
->  create mode 100644 meta/recipes-graphics/mesa/files/0001-meson.CLANG_RES=
-OURCE_DIR-workaround.patch
->=20
-> diff --git a/meta/recipes-graphics/mesa/files/0001-meson.CLANG_RESOURCE_D=
-IR-workaround.patch b/meta/recipes-graphics/mesa/files/0001-meson.CLANG_RES=
-OURCE_DIR-workaround.patch
-> new file mode 100644
-> index 0000000000..db60fe407f
-> --- /dev/null
-> +++ b/meta/recipes-graphics/mesa/files/0001-meson.CLANG_RESOURCE_DIR-work=
-around.patch
-> @@ -0,0 +1,42 @@
-> +From: Andrey Konovalov <andrey.konovalov@linaro.org>
-> +Date: Fri, 16 Sep 2022 16:58:20 +0000
-> +Subject: [PATCH] CLANG_RESOURCE_DIR workaround
-> +
-> +Setting CLANG_RESOURCE_DIR to "$(llvm-config --libdir)something"
-> +results in clBuildProgram() error when an OpenCL program is being
-> +built on the target. The reason is that $(llvm-config --libdir) output
-> +includes path to the sysroot directory.
-> +
-> +Work this around by using '/usr/lib' instead of the libdir value
-> +exported by LLVM.
-> +
-> +Upstream-Status: Inappropriate
-> +Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
-> +
-> +---
-> +
-> +--- a/src/gallium/frontends/clover/meson.build	2022-09-16 10:24:55.91057=
-7158 +0000
-> ++++ b/src/gallium/frontends/clover/meson.build	2022-09-16 10:28:13.11280=
-4197 +0000
-> +@@ -71,8 +71,7 @@ libclllvm =3D static_library(
-> +     clover_opencl_cpp_args,
-> +     clover_spirv_cpp_args,
-> +     '-DCLANG_RESOURCE_DIR=3D"@0@"'.format(join_paths(
-> +-      dep_llvm.get_variable(cmake : 'LLVM_LIBRARY_DIR', configtool: 'li=
-bdir'), 'clang',
-> +-      dep_llvm.version(), 'include',
-> ++      '/usr/lib', 'clang', dep_llvm.version(), 'include',
-> +     )),
-> +   ],
-> +   gnu_symbol_visibility : 'hidden',
-> +--- a/src/compiler/clc/meson.build	2022-09-16 16:40:10.641735401 +0000
-> ++++ b/src/compiler/clc/meson.build	2022-09-16 16:50:18.095700452 +0000
-> +@@ -39,7 +39,9 @@ files_libclc =3D files(
-> +   'clc_helpers.cpp',
-> + )
-> +=20
-> +-_libclc_cpp_args =3D ['-DCLANG_RESOURCE_DIR=3D"@0@"'.format(clang_resou=
-rce_dir)]
-> ++_libclc_cpp_args =3D ['-DCLANG_RESOURCE_DIR=3D"@0@"'.format(join_paths(
-> ++                       '/usr/lib', 'clang', dep_llvm.version(), 'includ=
-e'
-> ++                    ))]
-> + if with_microsoft_clc
-> +   _libclc_cpp_args +=3D ['-DUSE_STATIC_OPENCL_C_H=3D1']
-> + endif
+>  meta/classes-recipe/python3-dir.bbclass       |  2 +-
+>  ...ib-termcap-to-linker-flags-to-avoid-.patch |  8 ++--
+>  ...-search-system-for-headers-libraries.patch |  6 +--
+>  ...-use-prefix-value-from-build-configu.patch | 14 +++---
+>  ...e-the-race-condition-in-testSockName.patch | 47 -------------------
+>  ...sts-due-to-load-variability-on-YP-AB.patch | 18 +++----
+>  ...FLAG_REF-always-for-interned-strings.patch | 33 -------------
+>  ...-detection-of-mips-architecture-for-.patch | 33 ++++++++++---
+>  ...fig-append-STAGING_LIBDIR-python-sys.patch |  6 +--
+>  ...asename-to-replace-CC-for-checking-c.patch | 44 ++++++++---------
+>  ...tutils-prefix-is-inside-staging-area.patch | 10 ++--
+>  .../python3/avoid_warning_about_tkinter.patch | 21 ++++-----
+>  .../python/python3/crosspythonpath.patch      | 22 ++++-----
+>  .../python/python3/makerace.patch             | 10 ++--
+>  ...python3_3.10.6.bb =3D> python3_3.11.0rc2.bb} | 13 ++---
+>  15 files changed, 112 insertions(+), 175 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/python/python3/0001-Mitigate-th=
+e-race-condition-in-testSockName.patch
+>  delete mode 100644 meta/recipes-devtools/python/python3/0001-Use-FLAG_RE=
+F-always-for-interned-strings.patch
+>  rename meta/recipes-devtools/python/{python3_3.10.6.bb =3D> python3_3.11=
+.0rc2.bb} (97%)
 
-libdir might not be /usr/lib so this isn't always going to be
-correct...
+It is good to have this ready but given the timing of the final release
+compared to ours, and the knock on implications of a python version
+change on other layers, I'm likely to hold this until the next release
+unless there is a pressing reason we need it.
 
 Cheers,
 
