@@ -1,92 +1,162 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <andrey.konovalov@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD641C54EE9
-	for <webhook@archiver.kernel.org>; Sun, 18 Sep 2022 10:15:20 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web10.7353.1663496119696925184
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01748C54EE9
+	for <webhook@archiver.kernel.org>; Sun, 18 Sep 2022 11:58:40 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by mx.groups.io with SMTP id smtpd.web12.7999.1663502311487163583
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Sep 2022 03:15:20 -0700
+ Sun, 18 Sep 2022 04:58:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TjFCC9v1;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id bq9so42778743wrb.4
+ dkim=pass header.i=@linaro.org header.s=google header.b=LVXx2e8p;
+ spf=pass (domain: linaro.org, ip: 209.85.167.43,
+ mailfrom: andrey.konovalov@linaro.org)
+Received: by mail-lf1-f43.google.com with SMTP id k10so42523651lfm.4
         for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Sep 2022 03:15:19 -0700 (PDT)
+ Sun, 18 Sep 2022 04:58:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date;
-        bh=d3w21Euojxa1F+AET/iNpX3/dRk36GchqF2LC/vpKq4=;
-        b=TjFCC9v1rDmK2cDwlaicZWlKs9Q2KOdURSssGGOHHNvig6lc1guFCWjNN8P8RmjSEv
-         vIOGg7CPy4bpbom4jZpnMgYvO+7nyx0RqbYEQDN8vuGhDzuPV89mMojF0h3vYIt3TubS
-         uPaz74xSg5a3IpQho1XixAxe23bKwxCCJ8djQ=
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=NC/IiINIzAqJ482YgmMRidXRKp2g3QaeBYINb/EGdEk=;
+        b=LVXx2e8pe8SBiYco7ZbojTqxUmkRTO8y+xwKbpuuibCL5gdBBM+xd/LfXXllQUn4oL
+         hBZz6F5ORr7pIva2/FQpG/g3G/vXhuGvYyOBfp3pducxpP//j9+OfctN/VtxMJsh575O
+         lRAspPreXdXZBaRsA48qPRkGxd1MFb3Lt7LiCNRc2Hn/Set/mPTC0lNYUV37xaDPqwXt
+         rqeGgFAQFxMc/bA5T0siqG3SAnMRMS/0s1JVxr5csbc4nAg6qwRho8wJDFTYZnzoeB5s
+         1hRQQwFf0n7R4UUqxtNNB0ZcmmthSEGqNcdxBotr9MEz0/5zSrZF41q6hbpAOt13UVY2
+         8XDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date;
-        bh=d3w21Euojxa1F+AET/iNpX3/dRk36GchqF2LC/vpKq4=;
-        b=q81FN5WDicpDG+hoVMimoyOGnDnUk1kGVwG4dLCAvem9dW50RMie1n+De4rYhooDia
-         sMvQQ1HVWRzGDukGMh+1XTKLrq+lvVOaPzt5WXrU8csLPerXKYeHpRf1WFxpZc55F0vC
-         /Wso3Sdi8G30rdF1EHFWOI8gYRYqfxkwXQW6qWfiCpX2OvbrQjFmTFRvpuGBkgVks02q
-         iYmbgoxfWC073GnSj1w3dd5LLsy6DDdC39LYEAqqJvXTb5nj86XwJBMoLh2qtA5sAw5G
-         PGwwoU49gkMJZZ1Y9Qm8wyHygmncqYDGQwapwj3GFyQKR5Xjw5mLR6PWZD1OyExUXbGM
-         HHxg==
-X-Gm-Message-State: ACrzQf3AoRjNOstqHf2yqxQ4PKMHNq0hikqPh86jFqMf/RR7TFHgCCZD
-	Dq8TQ/25ldGMdUFIFyqJAYanwPBj6xiQqg==
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=NC/IiINIzAqJ482YgmMRidXRKp2g3QaeBYINb/EGdEk=;
+        b=G42loYz2NN54CSEHybwKUwz/6aB1Pzcr5Px65HSq9t4q/r9/P31hBbQDd/s//fncvl
+         Hd/YAN+YlPg3hij7bDy98xIqPNpgSJ6QOhyN+/WSldrZVuXghdqfWEOzLUkTPGW3tweS
+         oL5t163OMzx8vbOfuJ5zKL3UkVE6dOuhobuVOdH0xbEXIpa0QfhbWAyLpvDNFkaUv2Fp
+         M0d3Nb7D2Hn8Zgfuh9VZc/GIoe3E0MAm6XA8utWqUY4iO/RH+0eZPRHV0JCJiBlOSSMd
+         Y3J6OmM5imHAKS0+Fj1HZP/KzxjmchQtp7vKiVzKfM6J56Cdy2FheLjpchRQNqN+xAE6
+         XwsA==
+X-Gm-Message-State: ACrzQf0RnD50oYT1jv4iNpF0laKtJ6EXkCGQihX19oUGDaW4N6+KpOcA
+	XLjeqKLNxI0c8ROLOzfIxsvRrA==
 X-Google-Smtp-Source: 
- AMsMyM5LXMREeI90mnAkVeJr7BubL9u8r0EcG6AiT+bxWcNg1XuGKvsby47jl1jno6mCsCMdkkW46Q==
-X-Received: by 2002:a5d:5846:0:b0:22a:f7d2:9045 with SMTP id
- i6-20020a5d5846000000b0022af7d29045mr1704992wrf.250.1663496117713;
-        Sun, 18 Sep 2022 03:15:17 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:2ac4:7676:6c59:33f0?
- ([2001:8b0:aba:5f3c:2ac4:7676:6c59:33f0])
+ AMsMyM4bHuG6L5z13+b2P/0aaO1enPb9aXxTVcK7Qq3FSNytBPDnk9NL2d2iMQgbY/lCfctN2QD8lQ==
+X-Received: by 2002:a05:6512:3295:b0:497:a156:795a with SMTP id
+ p21-20020a056512329500b00497a156795amr4233965lfe.345.1663502309829;
+        Sun, 18 Sep 2022 04:58:29 -0700 (PDT)
+Received: from [192.168.118.20] (128-69-252-44.broadband.corbina.ru.
+ [128.69.252.44])
         by smtp.gmail.com with ESMTPSA id
- u16-20020a5d6ad0000000b0022a3517d3besm10346064wrw.5.2022.09.18.03.15.16
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Sep 2022 03:15:16 -0700 (PDT)
-Message-ID: 
- <4509b1f970eb8a6561f60f752d64105a1d4d5e7e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 4/4] rpm: Upgrade 4.17.1 -> 4.18rc1
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 18 Sep 2022 11:15:15 +0100
-In-Reply-To: <1715AA01EDB7F002.25944@lists.openembedded.org>
-References: <20220917134914.1299532-1-richard.purdie@linuxfoundation.org>
-	 <1715AA01EDB7F002.25944@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ w11-20020a05651234cb00b004948b667d95sm4640108lfr.265.2022.09.18.04.58.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 18 Sep 2022 04:58:29 -0700 (PDT)
+Message-ID: <70c0e468-79e9-8e00-a27a-4990cffaf10a@linaro.org>
+Date: Sun, 18 Sep 2022 14:58:28 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [OE-core] [RFC][PATCH 1/1] mesa: fix building OpenCL programs
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20220917115642.766941-1-andrey.konovalov@linaro.org>
+ <20220917115642.766941-2-andrey.konovalov@linaro.org>
+ <19ed5421370187b39ce055f742d6134439eab87b.camel@linuxfoundation.org>
+From: Andrey Konovalov <andrey.konovalov@linaro.org>
+In-Reply-To: 
+ <19ed5421370187b39ce055f742d6134439eab87b.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 18 Sep 2022 10:15:20 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 18 Sep 2022 11:58:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170844
+ https://lists.openembedded.org/g/openembedded-core/message/170846
 
-On Sat, 2022-09-17 at 14:49 +0100, Richard Purdie via
-lists.openembedded.org wrote:
-> rpm is close to release and give our release timings, update to the
-> rc1 of 4.18.
->=20
-> Includes fixes for CVE-2021-35937, CVE-2021-35938 and CVE-2021-35939
-> which can't be easily backported.
->=20
-> Refresh patches and drop the error.h patch as error() no longer used.
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+On 9/17/22 16:57, Richard Purdie wrote:
+> On Sat, 2022-09-17 at 14:56 +0300, Andrey Konovalov wrote:
+>> When building an OpenCL program clover needs to locate opencl-c.h
+>> include file. This include file location is passed via cpp args using
+>> CLANG_RESOURCE_DIR macro. To set CLANG_RESOURCE_DIR value meson currently
+>> uses "$(llvm-config --libdir)" which results in path to sysroot included
+>> into CLANG_RESOURCE_DIR. Then clBuildProgram() fails with
+>> "fatal error: 'opencl-c.h' file not found".
+>>
+>> Work this around by using '/usr/lib' instead of the libdir value
+>> exported by LLVM.
+>>
+>> Microsoft/Intel CLC should suffer from the same issue, and the similar
+>> workaround should work in this case too.
+>>
+>> Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
+>> ---
+>>   ...-meson.CLANG_RESOURCE_DIR-workaround.patch | 42 +++++++++++++++++++
+>>   meta/recipes-graphics/mesa/mesa.inc           |  1 +
+>>   2 files changed, 43 insertions(+)
+>>   create mode 100644 meta/recipes-graphics/mesa/files/0001-meson.CLANG_RESOURCE_DIR-workaround.patch
+>>
+>> diff --git a/meta/recipes-graphics/mesa/files/0001-meson.CLANG_RESOURCE_DIR-workaround.patch b/meta/recipes-graphics/mesa/files/0001-meson.CLANG_RESOURCE_DIR-workaround.patch
+>> new file mode 100644
+>> index 0000000000..db60fe407f
+>> --- /dev/null
+>> +++ b/meta/recipes-graphics/mesa/files/0001-meson.CLANG_RESOURCE_DIR-workaround.patch
+>> @@ -0,0 +1,42 @@
+>> +From: Andrey Konovalov <andrey.konovalov@linaro.org>
+>> +Date: Fri, 16 Sep 2022 16:58:20 +0000
+>> +Subject: [PATCH] CLANG_RESOURCE_DIR workaround
+>> +
+>> +Setting CLANG_RESOURCE_DIR to "$(llvm-config --libdir)something"
+>> +results in clBuildProgram() error when an OpenCL program is being
+>> +built on the target. The reason is that $(llvm-config --libdir) output
+>> +includes path to the sysroot directory.
+>> +
+>> +Work this around by using '/usr/lib' instead of the libdir value
+>> +exported by LLVM.
+>> +
+>> +Upstream-Status: Inappropriate
+>> +Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
+>> +
+>> +---
+>> +
+>> +--- a/src/gallium/frontends/clover/meson.build	2022-09-16 10:24:55.910577158 +0000
+>> ++++ b/src/gallium/frontends/clover/meson.build	2022-09-16 10:28:13.112804197 +0000
+>> +@@ -71,8 +71,7 @@ libclllvm = static_library(
+>> +     clover_opencl_cpp_args,
+>> +     clover_spirv_cpp_args,
+>> +     '-DCLANG_RESOURCE_DIR="@0@"'.format(join_paths(
+>> +-      dep_llvm.get_variable(cmake : 'LLVM_LIBRARY_DIR', configtool: 'libdir'), 'clang',
+>> +-      dep_llvm.version(), 'include',
+>> ++      '/usr/lib', 'clang', dep_llvm.version(), 'include',
+>> +     )),
+>> +   ],
+>> +   gnu_symbol_visibility : 'hidden',
+>> +--- a/src/compiler/clc/meson.build	2022-09-16 16:40:10.641735401 +0000
+>> ++++ b/src/compiler/clc/meson.build	2022-09-16 16:50:18.095700452 +0000
+>> +@@ -39,7 +39,9 @@ files_libclc = files(
+>> +   'clc_helpers.cpp',
+>> + )
+>> +
+>> +-_libclc_cpp_args = ['-DCLANG_RESOURCE_DIR="@0@"'.format(clang_resource_dir)]
+>> ++_libclc_cpp_args = ['-DCLANG_RESOURCE_DIR="@0@"'.format(join_paths(
+>> ++                       '/usr/lib', 'clang', dep_llvm.version(), 'include'
+>> ++                    ))]
+>> + if with_microsoft_clc
+>> +   _libclc_cpp_args += ['-DUSE_STATIC_OPENCL_C_H=1']
+>> + endif
+> 
+> libdir might not be /usr/lib so this isn't always going to be
+> correct...
 
-Looks like the changes upstream (probably related to the security fixes
-) lock up during do_rootfs and do_populate_sdk in
-rpmPackageFilesInstall() which calls into pseudo's openat64.
+I see. Will look for a better option then just hardcoded '/usr/lib' then.
 
-Cheers,
+Thanks,
+Andrey
 
-Richard
+> Cheers,
+> 
+> Richard
 
