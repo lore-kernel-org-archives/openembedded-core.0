@@ -2,12 +2,12 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 185ACC54EE9
-	for <webhook@archiver.kernel.org>; Mon, 19 Sep 2022 14:53:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13453C54EE9
+	for <webhook@archiver.kernel.org>; Mon, 19 Sep 2022 14:53:47 +0000 (UTC)
 Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web10.110.1663599207937966196
+ by mx.groups.io with SMTP id smtpd.web11.135.1663599217475251169
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Sep 2022 07:53:28 -0700
+ Mon, 19 Sep 2022 07:53:37 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25,
@@ -17,17 +17,18 @@ Received: from kapsi.fi ([91.232.154.11] helo=lakka.kapsi.fi)
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1oaHg2-00EQnF-RK; Mon, 19 Sep 2022 17:23:15 +0300
+	id 1oaHg4-00EQnT-Sm; Mon, 19 Sep 2022 17:23:17 +0300
 Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.92)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1oaHg2-000734-P5; Mon, 19 Sep 2022 17:23:14 +0300
+	id 1oaHg4-000773-Qg; Mon, 19 Sep 2022 17:23:16 +0300
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Mikko Rapeli <mikko.rapeli@linaro.org>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [kirkstone][PATCH v1 2/5] glibc-tests: use += instead of :append
-Date: Mon, 19 Sep 2022 17:23:05 +0300
-Message-Id: <20220919142308.26441-2-mikko.rapeli@linaro.org>
+Subject: [kirkstone][PATCH v1 5/5] linux-libc-headers: switch from
+ SRC_URI:append to SRC_URI +=
+Date: Mon, 19 Sep 2022 17:23:08 +0300
+Message-Id: <20220919142308.26441-5-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220919142308.26441-1-mikko.rapeli@linaro.org>
 References: <20220919142308.26441-1-mikko.rapeli@linaro.org>
@@ -53,51 +54,42 @@ X-Rspam-Report: Action: no action
  Symbol: FROM_NEQ_ENVFROM(0.00)
  Symbol: BAYES_HAM(-3.00)
  Symbol: RCVD_COUNT_TWO(0.00)
- Message-ID: 20220919142308.26441-2-mikko.rapeli@linaro.org
+ Message-ID: 20220919142308.26441-5-mikko.rapeli@linaro.org
 X-SA-Exim-Connect-IP: 91.232.154.11
 X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Sep 2022 14:53:37 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Sep 2022 14:53:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170875
+ https://lists.openembedded.org/g/openembedded-core/message/170877
 
-:append can not be modified in bbappends and thus += is
-better in re-usable, generic layers and recipes.
+The :append can not be removed via bbappends in custom layers so it's
+better to use += appends when ever possible.
 
-(From OE-Core rev: da88406ba592504a718f516b985adc0d4553080d)
+(From OE-Core rev: 6604795a3f7e53fd748d4103b521d8baf35cf7be)
 
 Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c9676445c942b95cc2bb71085d1648c02d774479)
+(cherry picked from commit ab9f6d205f655cffa2c75d89ba0456fa0586480c)
 ---
- meta/recipes-core/glibc/glibc-tests_2.35.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../linux-libc-headers/linux-libc-headers_5.16.bb               | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-tests_2.35.bb b/meta/recipes-core/glibc/glibc-tests_2.35.bb
-index 96d0569ff6..97d5dc29a3 100644
---- a/meta/recipes-core/glibc/glibc-tests_2.35.bb
-+++ b/meta/recipes-core/glibc/glibc-tests_2.35.bb
-@@ -4,7 +4,7 @@ require glibc-tests.inc
- inherit ptest features_check
- REQUIRED_DISTRO_FEATURES = "ptest"
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb
+index c64629d094..d5039264c4 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb
+@@ -7,7 +7,7 @@ SRC_URI:append:libc-musl = "\
+     file://0001-include-linux-stddef.h-in-swab.h-uapi-header.patch \
+    "
  
--SRC_URI:append = " \
-+SRC_URI += " \
- 	file://reproducible-paths.patch \
- 	file://run-ptest \
+-SRC_URI:append = "\
++SRC_URI += "\
+     file://0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch \
+     file://0001-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch \
  "
-@@ -30,7 +30,7 @@ python __anonymous() {
- RPROVIDES:${PN} = "${PN}"
- RRECOMMENDS:${PN} = ""
- RDEPENDS:${PN} = " glibc sed"
--DEPENDS:append = " sed"
-+DEPENDS += "sed"
- 
- export oe_srcdir="${exec_prefix}/src/debug/glibc/${PV}/"
- 
 -- 
 2.17.1
 
