@@ -1,170 +1,90 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90885C54EE9
-	for <webhook@archiver.kernel.org>; Tue, 20 Sep 2022 07:34:16 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
- [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web11.9137.1663659251042392350
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F19EC54EE9
+	for <webhook@archiver.kernel.org>; Tue, 20 Sep 2022 09:39:37 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web11.9869.1663666775984195233
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Sep 2022 00:34:11 -0700
+ Tue, 20 Sep 2022 02:39:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=P6ey3YN2;
- spf=pass (domain: linaro.org, ip: 209.85.216.46,
- mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-pj1-f46.google.com with SMTP id
- s14-20020a17090a6e4e00b0020057c70943so9923258pjm.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ja+pIHIL;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id e16so3302245wrx.7
         for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Sep 2022 00:34:10 -0700 (PDT)
+ Tue, 20 Sep 2022 02:39:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=iQcugTRN+0cQ3ypjYBquepcgzSYY4wcsUYPn2oEE1h0=;
-        b=P6ey3YN23kM87GY9pXfDMV8y5Y64XBLsHTJs7WylpuwRksDMPhd7/46sgvm2HM9Qwf
-         w3KJrWFUQSm2ATfm78HITRJ61SJ6aYWIeG2An97RaTay6lbylU+buCEcpmd6oZhcQxSE
-         VeIxFBkdgVC1+8qGmYm9eKqkluzyJruFI8Dg5bYUlSbKmhnRdOUDZbXHCcz/WYVJUDCj
-         z0RtlApQM3SzAqp+eU2tdtA0FE081oxUUzTZa/t/AMGhpSxjTRXSjCLyKGWzlIQLZbSi
-         fsRQSmknP2KvnTewSYSVnfbIDLxO69leGVK9Ts2z2zXjyVux/LSzLIREjQvjWIyvmw/3
-         mS9w==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date;
+        bh=B5pV9qrTusjLrk39ORo/hC9YuENHJOr/TgZWXMCgf2U=;
+        b=Ja+pIHILJBjl4SyB/xdsZalDESnPxMYy5oKoVcin8+vWRR+IsUJt5adZQP2h3BSJSX
+         u+0JTQhCd/YuepXz4sZSqXtve0jBLkX2lM8jhHxXdha6NjZ+wHslg8qFQ6GP72S5I7Rx
+         ywr9yG6XlSkXBAy42vNmanB9WRfuwuRMNJ3Oo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=iQcugTRN+0cQ3ypjYBquepcgzSYY4wcsUYPn2oEE1h0=;
-        b=4TcFrp6/VxbMZ2pbB9lNWP3BCvqnx1ygagNdRLHTuLPkBrXIkMlzAK1h06HfqkYX9/
-         Oqce7oKNWFSN1b+a+07n2O57lFMwnmHVvSwi5BF8PvsS9S+ttGqOgpTM0sb6nf5sr6Yj
-         hwX0W/W+tWqzRDKHVy4eJGFjYHbs+sscM7+sv1pl3vSFKYOvURE0tlkXTY+xKQ1ihIYu
-         n3eoZFUuc+eZAP7cagR6BRFTZzzO7S5rH86dyA3tPEzpKinzsaoRncC1od3qulocZsXr
-         ECwbX3Lo0ctOqo6Wsmf2AcCwJmOaMYTsmhUJpqma7yQD3C47g1KH0J1PwOVaw5PKiLNZ
-         y8/w==
-X-Gm-Message-State: ACrzQf2Wvs+3VslOOSKPkhczN2p4eUmYpLrSlJ2TVALL//jgnjHxTUTG
-	YfhqgaOG3Mmr6ZoeKEg0XnfSL/XDTzn0TUwU8A6DmQ==
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date;
+        bh=B5pV9qrTusjLrk39ORo/hC9YuENHJOr/TgZWXMCgf2U=;
+        b=WVomAFO8dn4vWhtdwDT2BjUJjEQJSUISNtKs6rScEt8uy+z5vQPoy0WLvbGKrBRntJ
+         XgDoJMsCKiy4s7CHAU08fUVpHRDDTrYYzd/OVl4nkFcTBjsz7TVSmlZeffUCjKuy5iX5
+         +qRSPgs/mwLTx3vygPPBzwqa4jA0FCF6YRSsPBBU2aKD30d6YMJRJtOcKsZlDOF+PAOl
+         BqVd5+uH2xSibbF7O7lRufyZY0D8OpSGzd8mwm8srRgj81n4lWZ7socVW9nRLtLPn3ab
+         SFWVamCIZtyWuiSHG7T73LUTzPEQSPrhLIbl93wQh8u6aL3ZGYoW50R6tXBTP+mjcJGy
+         JWqg==
+X-Gm-Message-State: ACrzQf0a2HV10bdYgt7znt6id2NKAmI3exw7/m3ae6mySFVmdbCJIYYT
+	3eIDTNjejyXiz4+wysWOQ4Y6UA==
 X-Google-Smtp-Source: 
- AMsMyM7jdjOfb4UOdN7KmcKLA8NhJ7WMY2FqdBBkwh6kHOPlKlbjg61BYysrah5lWGQ9VyJWjSuK0nusiBR1AZU6WGo=
-X-Received: by 2002:a17:902:f08a:b0:176:b477:8be0 with SMTP id
- p10-20020a170902f08a00b00176b4778be0mr3761162pla.66.1663659250329; Tue, 20
- Sep 2022 00:34:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220912073221.16601-1-mikko.rapeli@linaro.org>
- <f0c891d5-ccdd-41fb-97b9-ce987818e18f@theobroma-systems.com>
- <1a076f35-655f-bf9a-cb11-8489958ea829@bootlin.com>
-In-Reply-To: <1a076f35-655f-bf9a-cb11-8489958ea829@bootlin.com>
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-Date: Tue, 20 Sep 2022 10:34:20 +0300
+ AMsMyM5YnY//wnA+SrMjV1m2WmMxTWjf/b8g7/3hz68SWMn7o0Y8QZl3GJau6HvpXVn8/X2yq8mfjQ==
+X-Received: by 2002:a5d:4887:0:b0:226:ed34:7bbd with SMTP id
+ g7-20020a5d4887000000b00226ed347bbdmr12701893wrq.561.1663666774174;
+        Tue, 20 Sep 2022 02:39:34 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:d363:331f:b5a4:a50a?
+ ([2001:8b0:aba:5f3c:d363:331f:b5a4:a50a])
+        by smtp.gmail.com with ESMTPSA id
+ n33-20020a05600c3ba100b003b3401f1e24sm1910155wms.28.2022.09.20.02.39.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Sep 2022 02:39:32 -0700 (PDT)
 Message-ID: 
- <CAJFpGrOS39UfH6gOZ6GpvaKxV9pk4M5FOYp+zhAhEvzpN1NsyQ@mail.gmail.com>
-Subject: Re: [OE-core] [docs] [PATCH 1/7] common-tasks.rst: remove
- SRC_URI:append from examples
-To: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Cc: quentin.schulz@theobroma-systems.com,
-	openembedded-core@lists.openembedded.org, docs@lists.yoctoproject.org
+ <66d8e5eed72d41461ea5ca8367480404f26f182b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] gcompat: Add __getauxval wrapper needed on
+ aarch64
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Tue, 20 Sep 2022 10:39:30 +0100
+In-Reply-To: <20220917211339.2536726-1-raj.khem@gmail.com>
+References: <20220917211339.2536726-1-raj.khem@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Sep 2022 07:34:16 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Sep 2022 09:39:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170887
+ https://lists.openembedded.org/g/openembedded-core/message/170888
 
-Hi,
+On Sat, 2022-09-17 at 14:13 -0700, Khem Raj wrote:
+> Update SRCREV to bring in few bug fixes
+> Install a .so symlink which could be used during linking
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  .../musl/gcompat/0001-auxv-new-module.patch   | 59 +++++++++++++++++++
+>  meta/recipes-core/musl/gcompat_git.bb         |  6 +-
+>  2 files changed, 63 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-core/musl/gcompat/0001-auxv-new-module.p=
+atch
 
-On Mon, 19 Sept 2022 at 23:35, Michael Opdenacker
-<michael.opdenacker@bootlin.com> wrote:
->
-> Mikko, thanks for the patch series.
-> Quentin, thanks for the review.
->
-> Indeed, I think that the description of the commit should be improved
-> too. See below.
->
-> On 9/19/22 16:04, Quentin Schulz via lists.openembedded.org wrote:
-> > Hi Mikko,
-> >
-> > On 9/12/22 09:32, Mikko Rapeli wrote:
-> >> Using SRC_URI:append without recipe, machine or architecture
-> >> specific limitations makes the :append'ed text unremovable
-> >> and thus users and custom layers can not change the variable
-> >> anymore. This makes it hard to e.g. override SRC_URI completely
-> >> in a bbappend to update the full recipe to a newer version.
-> >> Thus common, reusable layers which users are meant to re-use and
-> >> customize should not use SRC_URI:append but SRC_URI += instead.
->
->
-> What the following text instead?
->
-> Using SRC_URI:append without recipe, machine or architecture specific
-> limitations makes the :append'ed text more difficult to override than if
-> the "+=" operator was used. This makes it hard for example to override
-> SRC_URI completely in a bbappend to update the full recipe to a newer
-> version. Thus common, reusable layers which users are meant to re-use
-> and customize should not use SRC_URI:append but SRC_URI += instead.
-
-Ok, will send a v2 with this.
-
-> >>
-> >> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> >> ---
-> >>   documentation/dev-manual/common-tasks.rst | 9 +++++----
-> >>   1 file changed, 5 insertions(+), 4 deletions(-)
-> >>
-> >> diff --git a/documentation/dev-manual/common-tasks.rst
-> >> b/documentation/dev-manual/common-tasks.rst
-> >> index b08a55331d..3112f9b893 100644
-> >> --- a/documentation/dev-manual/common-tasks.rst
-> >> +++ b/documentation/dev-manual/common-tasks.rst
-> >> @@ -2577,7 +2577,7 @@ chapter of the BitBake User Manual.
-> >>           S = "${WORKDIR}/postfix-${PV}"
-> >>         CFLAGS += "-DNO_ASM"
-> >> -      SRC_URI:append = " file://fixup.patch"
-> >> +      CFLAGS:append = " --enable-important-feature"
->
->
-> Didn't you mean
-> +     SRC_URI += "file://fixup.patch"
->
-> instead here?
-
-No. The sample code shows how to use variables so it needs an :append example
-but SRC_URI is not good use for :append's. Hence I changed it to CFLAGS:append.
-
-> >>     -  *Functions:* Functions provide a series of actions to be
-> >> performed.
-> >>      You usually use functions to override the default implementation
-> >> of a
-> >> @@ -2708,19 +2708,20 @@ in the BitBake User Manual.
-> >>      to existing variables. This operator does not add any additional
-> >>      space. Also, the operator is applied after all the ``+=``, and
-> >> ``=+``
-> >>      operators have been applied and after all ``=`` assignments have
-> >> -   occurred.
-> >> +   occurred. This means that if ``:append`` is used, that text can
-> >> not be
-> >> +   removed.
-> >
-> > Pedantic: it can, with :remove. One should try really hard to not use
-> > it though.
->
->
-> What about...
->
-> "This means that if ``:append`` is used in a recipe, it cannot only be
-> overridden by another layer using the  special ``:remove`` operator,
-> which in turn will prevent further layers from adding it back."
->
-> I'm not very happy with this wording, because ":remove" hasn't been
-> introduced at this stage in this section. Maybe we should add a link
-> to https://docs.yoctoproject.org/bitbake/bitbake-user-manual/bitbake-user-manual-metadata.html#conditional-syntax-overrides
->
-> Any thoughts?
-
-I'll send v2 with this version.
-
-I'd like to get rid of all SRC_URI:append's in documentation
-since that bad practice already ended in various recipes in poky master
-and kirkstone branches.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/5873
+https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/5890
 
 Cheers,
--Mikko
+
+Richard
 
