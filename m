@@ -2,176 +2,214 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53032C6FA82
-	for <webhook@archiver.kernel.org>; Wed, 21 Sep 2022 02:23:39 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
- [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web11.1960.1663727016061141755
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 624DAC54EE9
+	for <webhook@archiver.kernel.org>; Wed, 21 Sep 2022 02:25:39 +0000 (UTC)
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com
+ [209.85.219.43])
+ by mx.groups.io with SMTP id smtpd.web12.1995.1663727132783471371
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Sep 2022 19:23:36 -0700
+ Tue, 20 Sep 2022 19:25:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=i06xdbY+;
- spf=pass (domain: gmail.com, ip: 209.85.210.178,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f178.google.com with SMTP id b23so4489402pfp.9
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=YFtQ++Co;
+ spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f43.google.com with SMTP id v15so3464424qvi.11
         for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Sep 2022 19:23:36 -0700 (PDT)
+ Tue, 20 Sep 2022 19:25:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=jCFILOADSXgqhSfMEaDSS70IA/gT9TTzcroX0Tdzvo8=;
-        b=i06xdbY+8JFDswCu+2EGBMDwqnq7Vkc75iNKCEIvbJRwCnavrHu63kQfgDNiHEVoo4
-         jn3dHE7a+w/bQ6wcC7MuLuO0mRhxBjfxZGHReozKc+GhmitUDlLPO+2rM8G2+fN+YBqs
-         8fa+bcVmoPpBKZ/HvCWtArr0bii9+Y5iosXKVCnnHUj/MHuerv2QCs0584fu7XDtpZgf
-         kEATJ6fitdB6t+7C3JV4lBVUsOEOz8/Lk6L4bivUEP2O98XVrhQyCbGatGidbnYQ8BlX
-         3BkHdck1lA2EBHV3Q/7erxaG4WE/n7ChL17i22s6vc+qCLLLSFualX/r4+uGwoDaW4XJ
-         VAfw==
+        h=in-reply-to:autocrypt:from:content-language:references:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date;
+        bh=hbEB2n4hiZLrsBOSsuXUFR3bvw4BXGI5zOD0DdEe2iU=;
+        b=YFtQ++CoJB/2aqyEBj+4PBFJXh/pmHnMZOWpSeKZySaxCQj2Nc41pkjR8gNS7dq9N2
+         8sjgsCF3MV2dQ8yURDU4H3bi2Q//aNi9EPws1+zVOTzsKS8YkXNqbSvt7x/cGFdViw3x
+         6w+o9e2Wt1X2mrlEHEbRR4r79k7dyU3v/rXtB/g/TAdHutm3tT3/86HfklLibG7ntuh+
+         HurVubenZyLFKhboJ574cvzOzpYD6C4PogazSjr4irbRKIaQfJsG2vONS9PedYpH+wBA
+         EK7FAwBjP4WYG0BHv4WBm2nxf57Fo3voYAVSrGniW0I4+pdsPFGpJtpA5wcu7lNtcXiL
+         7l+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=jCFILOADSXgqhSfMEaDSS70IA/gT9TTzcroX0Tdzvo8=;
-        b=HOGh0zlos69Q4Jn52dUpbMqDV8TXOxT4pB5aJBvnoXN2pnD8XK1egIdMBfO6odh377
-         nsz6WJe8L34tUoBXeif9DJbeCvabzc5CFkUjRXnQluhV3hmV83IZcbC3dqvX+3AUFx9q
-         IpLFpecx/H5kXUYygz80Pg2JRAzr8wQKppWALH9RRGBvSBlzRXZeGcaoTARRvgK+khYA
-         toctA3kbHhHtaldWb+38sdmM6FKm/KujQ8Kh5XrjLCqdrSm342KKfDoFRU1wrgEAGVP/
-         QINzR4qwlniQzsbgLizZPlUgDQcxCsHgnqjNH38C3pnhm0+BJcaTJC/ijPCSY+MIyLKx
-         XKFA==
-X-Gm-Message-State: ACrzQf1TVIroWfy28ye/XvP5j2JxBaRvgbh2p8mpvIBEaP+5zjkvytnt
-	lpebsYM0OCJ1Jxt/TtnKhpVXk45qW3boBQ==
+        h=in-reply-to:autocrypt:from:content-language:references:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date;
+        bh=hbEB2n4hiZLrsBOSsuXUFR3bvw4BXGI5zOD0DdEe2iU=;
+        b=8PIPTfgzdcFNS+nD3Va1rC3BadvaiRx+AhAyGAt9Jh4aSRu+e4STI4aez1nUdxLiSM
+         aGRZ1lxkA6dVT1uyuCclFr9FwRssU7QJiughDseUWqspdG6V7FTl1HCiMwRk+2PVKn68
+         B2wZUMqzK/y0RuTWPuz3eX+O7bWR51r8RN2cEjBOh/9ADCMWrg6wtRbwm8o8kHexrvW8
+         fAwhwRnH/pv7Y2dqs8XuDBJmwQYh1e67QP+07QrUGMYnFVL0ex1YW0qSg+siJK59orLA
+         /rbcfZKSJvo7G5psQPI8q9+MGLbabfL3rYxuGHUXa6YOjd8ItwwFNPu7oeb/9o0+uY3m
+         YThw==
+X-Gm-Message-State: ACrzQf2RolqCBNdWzLCwXMa4N1Dm1fswaLs2mnLke0/EhbNsYWjl8vIV
+	xzXCUQoBgOU4KqloO5kAyHdVe7P60B9SWw==
 X-Google-Smtp-Source: 
- AMsMyM5FPhcw2cp18x4MRoPBGvyLSkZduYPV4Lf3gDjjk5HM+S7GVuxc0EtrMiAlWmQCUUKX/cW/Fw==
-X-Received: by 2002:a65:5683:0:b0:41c:b103:6037 with SMTP id
- v3-20020a655683000000b0041cb1036037mr22538008pgs.367.1663727015143;
-        Tue, 20 Sep 2022 19:23:35 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::7ab3])
+ AMsMyM4NbS3a9KaN3Sx0/l5m1sE7YRIr2VOjasraOOBYwur82WOSrDIirZlJBbP8aco1O3RItz0K4w==
+X-Received: by 2002:ad4:5f0f:0:b0:4ac:b4f8:895e with SMTP id
+ fo15-20020ad45f0f000000b004acb4f8895emr21370215qvb.75.1663727131620;
+        Tue, 20 Sep 2022 19:25:31 -0700 (PDT)
+Received: from [172.20.4.65] ([192.210.27.131])
         by smtp.gmail.com with ESMTPSA id
- a5-20020aa795a5000000b0054095e1b2e5sm620145pfk.215.2022.09.20.19.23.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Sep 2022 19:23:34 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] gcompat: Add __getauxval wrapper needed on aarch64
-Date: Tue, 20 Sep 2022 19:23:32 -0700
-Message-Id: <20220921022332.3890912-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.37.3
+ o13-20020a05620a2a0d00b006baef6daa45sm1017207qkp.119.2022.09.20.19.25.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Sep 2022 19:25:31 -0700 (PDT)
+Message-ID: <8fb9e2b8-fac4-02f6-22b0-797986b178e4@gmail.com>
+Date: Tue, 20 Sep 2022 22:25:29 -0400
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.2.2
+Subject: Re: [OE-core] [PATCH] gcompat: Add __getauxval wrapper needed on
+ aarch64
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20220917211339.2536726-1-raj.khem@gmail.com>
+ <66d8e5eed72d41461ea5ca8367480404f26f182b.camel@linuxfoundation.org>
+Content-Language: en-US
+From: Khem Raj <raj.khem@gmail.com>
+Autocrypt: addr=raj.khem@gmail.com; keydata=
+ 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
+In-Reply-To: 
+ <66d8e5eed72d41461ea5ca8367480404f26f182b.camel@linuxfoundation.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Db9l800GailVuiynyANADUBC"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 Sep 2022 02:23:39 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 21 Sep 2022 02:25:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170917
+ https://lists.openembedded.org/g/openembedded-core/message/170918
 
-Update SRCREV to bring in few bug fixes
-Install a .so symlink which could be used during linking
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Db9l800GailVuiynyANADUBC
+Content-Type: multipart/mixed; boundary="------------9Ubzw05aSldOie2II0mjJ5OI";
+ protected-headers="v1"
+From: Khem Raj <raj.khem@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+Message-ID: <8fb9e2b8-fac4-02f6-22b0-797986b178e4@gmail.com>
+Subject: Re: [OE-core] [PATCH] gcompat: Add __getauxval wrapper needed on
+ aarch64
+References: <20220917211339.2536726-1-raj.khem@gmail.com>
+ <66d8e5eed72d41461ea5ca8367480404f26f182b.camel@linuxfoundation.org>
+In-Reply-To: <66d8e5eed72d41461ea5ca8367480404f26f182b.camel@linuxfoundation.org>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Symlink should point to base_libdir not libdir
+--------------9Ubzw05aSldOie2II0mjJ5OI
+Content-Type: multipart/mixed; boundary="------------72053L33HfUj3PUD5071GsxS"
 
- .../musl/gcompat/0001-auxv-new-module.patch   | 59 +++++++++++++++++++
- meta/recipes-core/musl/gcompat_git.bb         |  6 +-
- 2 files changed, 63 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/musl/gcompat/0001-auxv-new-module.patch
+--------------72053L33HfUj3PUD5071GsxS
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/meta/recipes-core/musl/gcompat/0001-auxv-new-module.patch b/meta/recipes-core/musl/gcompat/0001-auxv-new-module.patch
-new file mode 100644
-index 0000000000..ee292f3841
---- /dev/null
-+++ b/meta/recipes-core/musl/gcompat/0001-auxv-new-module.patch
-@@ -0,0 +1,59 @@
-+From aecd42801904462501a890d173648e4e826eda19 Mon Sep 17 00:00:00 2001
-+From: "A. Wilcox" <AWilcox@Wilcox-Tech.com>
-+Date: Sat, 23 Oct 2021 23:29:40 -0500
-+Subject: [PATCH] auxv: new module
-+
-+Adds `__getauxval` wrapper, needed for Parallels Tools GUI installer.
-+
-+Upstream-Status: Submitted [https://git.adelielinux.org/adelie/gcompat/-/commit/e860a38a88c7ea148ee15976136a1f83ea13f8e0]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ CHANGELOG.rst     | 5 +++++
-+ Makefile          | 1 +
-+ libgcompat/auxv.c | 6 ++++++
-+ 3 files changed, 12 insertions(+)
-+ create mode 100644 libgcompat/auxv.c
-+
-+diff --git a/CHANGELOG.rst b/CHANGELOG.rst
-+index ce6859b..c3a9cee 100644
-+--- a/CHANGELOG.rst
-++++ b/CHANGELOG.rst
-+@@ -11,6 +11,11 @@
-+ 1.1 (202?-??-??)
-+ ================
-+ 
-++auxv
-++----
-++
-++* Add __getauxval wrapper for getauxval.
-++
-+ locale
-+ ------
-+ 
-+diff --git a/Makefile b/Makefile
-+index cbb7634..1893cc1 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -2,6 +2,7 @@ LIBGCOMPAT_INCLUDE = \
-+ 	libgcompat/alias.h \
-+ 	libgcompat/internal.h
-+ LIBGCOMPAT_SRC = \
-++	libgcompat/auxv.c		\
-+ 	libgcompat/ctype.c		\
-+ 	libgcompat/cxx_thread.c		\
-+ 	libgcompat/dlfcn.c		\
-+diff --git a/libgcompat/auxv.c b/libgcompat/auxv.c
-+new file mode 100644
-+index 0000000..01de376
-+--- /dev/null
-++++ b/libgcompat/auxv.c
-+@@ -0,0 +1,6 @@
-++#include <sys/auxv.h> /* getauxval */
-++
-++unsigned long __getauxval(unsigned long value)
-++{
-++	return getauxval(value);
-++}
-+-- 
-+2.37.3
-+
-diff --git a/meta/recipes-core/musl/gcompat_git.bb b/meta/recipes-core/musl/gcompat_git.bb
-index b051e43b6c..773263809b 100644
---- a/meta/recipes-core/musl/gcompat_git.bb
-+++ b/meta/recipes-core/musl/gcompat_git.bb
-@@ -8,12 +8,13 @@ LICENSE = "NCSA"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=eb33ef4af05a9c7602843afb7adfe792"
- 
- SRC_URI = "git://git.adelielinux.org/adelie/gcompat.git;protocol=https;branch=current \
--          "
-+           file://0001-auxv-new-module.patch \
-+           "
- SRC_URI:append:powerpc = "\
-            file://0001-make-Static-PIE-does-not-work-on-musl-ppc.patch \
-            "
- PV = "1.0.0+1.1+git${SRCPV}"
--SRCREV = "4d6a5156a6eb7f56b30d93853a872e36dadde81b"
-+SRCREV = "c6921a1aa454bb87671f9bd1ecfe47d80d1620aa"
- 
- S = "${WORKDIR}/git"
- 
-@@ -42,6 +43,7 @@ do_install () {
- 		install -d ${D}${nonarch_base_libdir}${SITEINFO_BITS}
- 		ln -rs ${D}${GLIBC_LDSO} ${D}${nonarch_base_libdir}${SITEINFO_BITS}/`basename ${GLIBC_LDSO}`
- 	fi
-+	ln -sf ${base_libdir}/libgcompat.so.0 ${D}${libdir}/libgcompat.so
- }
- 
- FILES:${PN} += "${nonarch_base_libdir}${SITEINFO_BITS}"
--- 
-2.37.3
+T24gOS8yMC8yMiA1OjM5IEFNLCBSaWNoYXJkIFB1cmRpZSB3cm90ZToNCj4gT24gU2F0LCAy
+MDIyLTA5LTE3IGF0IDE0OjEzIC0wNzAwLCBLaGVtIFJhaiB3cm90ZToNCj4+IFVwZGF0ZSBT
+UkNSRVYgdG8gYnJpbmcgaW4gZmV3IGJ1ZyBmaXhlcw0KPj4gSW5zdGFsbCBhIC5zbyBzeW1s
+aW5rIHdoaWNoIGNvdWxkIGJlIHVzZWQgZHVyaW5nIGxpbmtpbmcNCj4+DQo+PiBTaWduZWQt
+b2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPg0KPj4gLS0tDQo+PiAgIC4u
+Li9tdXNsL2djb21wYXQvMDAwMS1hdXh2LW5ldy1tb2R1bGUucGF0Y2ggICB8IDU5ICsrKysr
+KysrKysrKysrKysrKysNCj4+ICAgbWV0YS9yZWNpcGVzLWNvcmUvbXVzbC9nY29tcGF0X2dp
+dC5iYiAgICAgICAgIHwgIDYgKy0NCj4+ICAgMiBmaWxlcyBjaGFuZ2VkLCA2MyBpbnNlcnRp
+b25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9y
+ZWNpcGVzLWNvcmUvbXVzbC9nY29tcGF0LzAwMDEtYXV4di1uZXctbW9kdWxlLnBhdGNoDQo+
+IA0KPiBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1
+aWxkZXJzLzY0L2J1aWxkcy81ODczDQo+IGh0dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9q
+ZWN0Lm9yZy90eXBob29uLyMvYnVpbGRlcnMvNDUvYnVpbGRzLzU4OTANCj4gDQoNClllYWgg
+bXkgYmFkLCBZb2UgZGlzdHJvIHVzZXMgdXNybWVyZ2UgZmVhdHVyZSwgYW5kIEkgZm9yZ290
+IHRoZSBtYWluIA0KbGlicmFyeSBpcyBpbnN0YWxsZWQgaW4gYmFzZV9saWJkaXIgYW5kIG5v
+dCBsaWJkaXIsIHNlbnQgYSB2MiB3aXRoIHRoaXMgDQpjaGFuZ2VkDQoNCj4gQ2hlZXJzLA0K
+PiANCj4gUmljaGFyZA0K
+--------------72053L33HfUj3PUD5071GsxS
+Content-Type: application/pgp-keys; name="OpenPGP_0xBB053355919D3314.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xBB053355919D3314.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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
+//VuX4EDPW3CZmbPy6U=3D
+=3D+jUt
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------72053L33HfUj3PUD5071GsxS--
+
+--------------9Ubzw05aSldOie2II0mjJ5OI--
+
+--------------Db9l800GailVuiynyANADUBC
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wmMEABEIACMWIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCYyp2GQUDAAAAAAAKCRC7BTNVkZ0zFBVV
+AKCQjjMI4/mR5YXFxbJDgVWM/rSfcQCgigPeHTE0a21Yem3aEJbDaACF/bw=
+=97E/
+-----END PGP SIGNATURE-----
+
+--------------Db9l800GailVuiynyANADUBC--
 
