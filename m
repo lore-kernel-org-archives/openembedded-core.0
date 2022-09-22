@@ -1,136 +1,163 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C275ECAAD8
-	for <webhook@archiver.kernel.org>; Thu, 22 Sep 2022 20:32:58 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web10.189.1663878777051325787
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB55FC6FA82
+	for <webhook@archiver.kernel.org>; Thu, 22 Sep 2022 21:48:08 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web08.1051.1663883287964025050
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Sep 2022 13:32:57 -0700
+ Thu, 22 Sep 2022 14:48:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=A80PZx9g;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id ay36so7559078wmb.0
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=rOZAFUQw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.50,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f50.google.com with SMTP id q3so11118509pjg.3
         for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Sep 2022 13:32:56 -0700 (PDT)
+ Thu, 22 Sep 2022 14:48:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date;
-        bh=daIAvtXsPPAUBuL23PiVZPBS/uQTK29ncFOf3hvafN8=;
-        b=A80PZx9g4i7h78xPodXktV6/ZZnZR+y0dLzguhLPfJVl+b5liIGrLNKpaoNtI6o6u7
-         3Nz3To8fbOdkZ9dfTkPOdYRNZXTnSdoBZ7Cmkb5Gz72ZTDMXCLHivc+/SmYd6s8YXWId
-         3iUeplnOIVCbXPadJlEVO8sI/eb1gTyeKqz7c=
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date;
+        bh=Zf9EoMkycth4OkcUJ5VwsOYMHk54tYnOeQqw2+pzk4g=;
+        b=rOZAFUQwskmB9njRe+Ye9xtHAYOYYwTzf0kjM8PD0J4Cy1rc8SQekZH9YbY4YbdGuF
+         XjONXLMYDh2knE1kZpR3wJLa6bN+a8amdNuEu8KVdCtzL1gfL2/StB2gIm6jI8hhq6rh
+         /W5XPeKSSEavN63QfxBB/BJPbQ1toxwcCkyHbb8BE7gLUOLRbE4E/eVbw/tBjNR/Je4H
+         nXJuK2lVLdyvKv/9rKjRCTbXFBr4NbhFxkGuDebhfQ80rjv8BgnpK29bFNv5e/OHWX+L
+         p/XAars+xtIoGf8gMVRHXz+3D/6MxK70T49ff114yxVnR4G/2ZhTbRp6Cpcdw/L1ic2v
+         NJTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=daIAvtXsPPAUBuL23PiVZPBS/uQTK29ncFOf3hvafN8=;
-        b=1X+UzRKRDr59H/uiIATwoC5kHZ0Zgrr0cqXEoGfzkgQXXaCUNOWr6lptDhJZ1/D5vk
-         l6mIgyq7G69AozBnI/uSeQ2qi4hqzHmXgSUWkEKtSfR8CIoAlD1jbnoIltQKBZNdy700
-         2MgGNu+QUHTWvhq0ARpLEZCBt6xEwKEQqy9RTKi7tkvJdqDbceiqbJkCwmFuayZDLXT8
-         qI7pLZKSFbpVsv1zyTEiJq9WnQ+45eEsa6degL7uwRf4z+l8rJtTObjnAwo1CQBsLFuC
-         2d2b9q/3TSOrm0MrVTmcK3E1uIU4UOPjjKapwtgHB0BTGoKrR2cpK6rzYav8MlANGyLo
-         cOhg==
-X-Gm-Message-State: ACrzQf2B8waLK+3v2SHrdDXl4d1JR76oKH1R6vX2TTyfYNvy+4ZkdtZ8
-	fh3mYJ/8WV/b153iqUm/DYtSVw==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=Zf9EoMkycth4OkcUJ5VwsOYMHk54tYnOeQqw2+pzk4g=;
+        b=yM1aVBvBsIDe95J8JWaIBfBTqyAjT+Nj1FYblW3RnFauNUo0K1A8GLCealQyQng7UA
+         jPvttcgWfDShVcN3yHDCDOdKiA/IwG7/Znlht7lHank3HZxDu0tsIA4LGiKpm/ICIRw/
+         VM29VTZ1OkZkZmP7KCDYSDRtQZNaQcCDVbllweIlsdBjM1Ga4ymKaI6NsDskR5tKjirf
+         kFVp/wWUNlspAfCEh2qj7zhHjiF3e3M3QyNT+rXZiYVmLoob8mzfAnNc7NLSLlW3NXDr
+         m6KChXdwl+9e/X5fbGBAsno2qjFGH5o+ag918tudA1b5M6bcpeqe4eXbhUE9ZsTJy6o+
+         qwMQ==
+X-Gm-Message-State: ACrzQf2vMtDjnrpyZdymBSxlycJvXOFXUsBO7FgS+iE0SPqXg7i2D+67
+	yorbOP/cfXnTRao7tAkDZzTQ6L/g+KpM1MT+
 X-Google-Smtp-Source: 
- AMsMyM5/VmVJ1o62eLr4wnvtXDKHRx4STqkbC4dCXBtmb+l+tX7ZadQHFwIZv+ZbHDQiP/4etYilkw==
-X-Received: by 2002:a05:600c:19cc:b0:3b4:b15a:7df with SMTP id
- u12-20020a05600c19cc00b003b4b15a07dfmr3631468wmq.185.1663878775132;
-        Thu, 22 Sep 2022 13:32:55 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:7946:c7c6:1ddc:ce8e?
- ([2001:8b0:aba:5f3c:7946:c7c6:1ddc:ce8e])
+ AMsMyM5cGROHa19xz9eSC9FcQmOGsDBpKoF82d6SO6bGgS62n6plVYMCYQmabW63RIdO3v5g/sZdMg==
+X-Received: by 2002:a17:903:124f:b0:178:9234:370b with SMTP id
+ u15-20020a170903124f00b001789234370bmr5321442plh.103.1663883286993;
+        Thu, 22 Sep 2022 14:48:06 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- f12-20020adffccc000000b0022afddab5dfsm6031726wrs.7.2022.09.22.13.32.54
+ u4-20020a170902714400b0016ee4b0bd60sm4574813plm.166.2022.09.22.14.48.05
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Sep 2022 13:32:54 -0700 (PDT)
-Message-ID: 
- <c78bac9a0a53243336d237bc5f6d51758f5a5dfe.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode
- invalid paths for templates
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Peter Kjellerstedt
-	 <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Sep 2022 21:32:50 +0100
-In-Reply-To: 
- <CANNYZj__Gud2xeWrtK=tZaY_BGQ2d4tVVJLfZt4R0aqzUadK-A@mail.gmail.com>
-References: <20220922124708.2218995-1-pkj@axis.com>
-	 <20220922124708.2218995-2-pkj@axis.com>
-	 <28947223c26b05f58c4b6cd13919b025617318a2.camel@linuxfoundation.org>
-	 <ee0aa31d5fa34a5ba889e3518d8b2a95@axis.com>
-	 <CANNYZj__Gud2xeWrtK=tZaY_BGQ2d4tVVJLfZt4R0aqzUadK-A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+        Thu, 22 Sep 2022 14:48:06 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 3/5] expat: Fix CVE-2022-40674
+Date: Thu, 22 Sep 2022 11:47:48 -1000
+Message-Id: 
+ <4efa4490becea956a62d45e1476f7b602be53eee.1663883154.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1663883154.git.steve@sakoman.com>
+References: <cover.1663883154.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 Sep 2022 20:32:58 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 22 Sep 2022 21:48:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170988
+ https://lists.openembedded.org/g/openembedded-core/message/170992
 
-On Thu, 2022-09-22 at 17:52 +0200, Alexander Kanavin wrote:
-> .templateconf is not the way to specify the location of custom
-> templates, and never was.
+From: Virendra Thakur <virendrak@kpit.com>
 
-That much isn't true. It was a way this has been done, it was suggested
-as a way people do it and it was even documented as such. The original
-commit does make the intent clear:
+Add patch file to fix CVE-2022-40674
 
-https://git.yoctoproject.org/poky/commit/.templateconf?id=3D614faa66a442069=
-b8cd81ee74a01ecc5d73870d9
+Link: https://github.com/libexpat/libexpat/pull/629/commits/4a32da87e931ba54393d465bb77c40b5c33d343b
 
-I think the key point is that it has been of limited use as it requires
-a custom repo due to the use of OEROOT. Where you had a custom repo, it
-was fine to use. Poky was one example.
+Signed-off-by: Virendra Thakur <virendrak@kpit.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../expat/expat/CVE-2022-40674.patch          | 53 +++++++++++++++++++
+ meta/recipes-core/expat/expat_2.2.9.bb        |  1 +
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2022-40674.patch
 
-I haven't read back through the discussions but I suspect Peter must
-have some kind of custom repo setup like that to be able to alter files
-in OEROOT.
-
-> It got added to documentation by misunderstanding,
-
-Again, I'm not sure about that. I think at the time, when layers were
-much newer things and technology was more in flux, we did think this
-was a valid customisation. At the time we were suggesting people might
-want to use tools like combo-layer to mess with repos.
-
-What the documentation doesn't make clear is that this trick only works
-for repo alterations as far as I can see.
-
-Since we don't recommend such repo alterations now and combo-layer is
-pretty dead, the code is of limited use and I do think it probably
-should be removed. I therefore don't like adding complexity to
-something which really shouldn't be there at all. I appreciate this
-does looks like it creates a challenge for Peter's situation though.
-
-I have put off touching this particular area of code since I know there
-will be a ton of problems exactly like this. The success or failure of
-such changes does depend on how the migration is handled. A large part
-of this is communication and to some extend negotiation too. The fact
-I'm having to start trying to understand all the details is the
-situation I didn't really want to be in.=C2=A0
-
-I suspect to get anywhere I now need to go and read all the previous
-threads to then try and unravel this :/.
-
-Peter: is there a pointer you can give to the setup you're using?
-
-Cheers,
-
-Richard
-
-
-
-
+diff --git a/meta/recipes-core/expat/expat/CVE-2022-40674.patch b/meta/recipes-core/expat/expat/CVE-2022-40674.patch
+new file mode 100644
+index 0000000000..8b95f5f198
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2022-40674.patch
+@@ -0,0 +1,53 @@
++From 4a32da87e931ba54393d465bb77c40b5c33d343b Mon Sep 17 00:00:00 2001
++From: Rhodri James <rhodri@wildebeest.org.uk>
++Date: Wed, 17 Aug 2022 18:26:18 +0100
++Subject: [PATCH] Ensure raw tagnames are safe exiting internalEntityParser
++
++It is possible to concoct a situation in which parsing is
++suspended while substituting in an internal entity, so that
++XML_ResumeParser directly uses internalEntityProcessor as
++its processor.  If the subsequent parse includes some unclosed
++tags, this will return without calling storeRawNames to ensure
++that the raw versions of the tag names are stored in memory other
++than the parse buffer itself.  If the parse buffer is then changed
++or reallocated (for example if processing a file line by line),
++badness will ensue.
++
++This patch ensures storeRawNames is always called when needed
++after calling doContent.  The earlier call do doContent does
++not need the same protection; it only deals with entity
++substitution, which cannot leave unbalanced tags, and in any
++case the raw names will be pointing into the stored entity
++value not the parse buffer.
++
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/4a32da87e931ba54393d465bb77c40b5c33d343b]
++CVE: CVE-2022-40674
++Signed-off-by: Virendra Thakur <virendrak@kpit.com>
++---
++ expat/lib/xmlparse.c | 13 +++++++++----
++ 1 file changed, 9 insertions(+), 4 deletions(-)
++
++Index: expat/lib/xmlparse.c
++===================================================================
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -5657,10 +5657,15 @@ internalEntityProcessor(XML_Parser parse
++   {
++     parser->m_processor = contentProcessor;
++     /* see externalEntityContentProcessor vs contentProcessor */
++-    return doContent(parser, parser->m_parentParser ? 1 : 0, parser->m_encoding,
++-                     s, end, nextPtr,
++-                     (XML_Bool)! parser->m_parsingStatus.finalBuffer,
++-                     XML_ACCOUNT_DIRECT);
+++    result = doContent(parser, parser->m_parentParser ? 1 : 0,
+++                       parser->m_encoding, s, end, nextPtr,
+++                       (XML_Bool)! parser->m_parsingStatus.finalBuffer,
+++                       XML_ACCOUNT_DIRECT);
+++    if (result == XML_ERROR_NONE) {
+++      if (! storeRawNames(parser))
+++        return XML_ERROR_NO_MEMORY;
+++    }
+++    return result;
++   }
++ }
++ 
+diff --git a/meta/recipes-core/expat/expat_2.2.9.bb b/meta/recipes-core/expat/expat_2.2.9.bb
+index f50e535922..578edfcbff 100644
+--- a/meta/recipes-core/expat/expat_2.2.9.bb
++++ b/meta/recipes-core/expat/expat_2.2.9.bb
+@@ -20,6 +20,7 @@ SRC_URI = "git://github.com/libexpat/libexpat.git;protocol=https;branch=master \
+            file://CVE-2022-25314.patch \
+            file://CVE-2022-25315.patch \
+            file://libtool-tag.patch \
++           file://CVE-2022-40674.patch \
+          "
+ 
+ SRCREV = "a7bc26b69768f7fb24f0c7976fae24b157b85b13"
+-- 
+2.25.1
 
 
