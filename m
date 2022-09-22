@@ -1,230 +1,116 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CF3AC6FA82
-	for <webhook@archiver.kernel.org>; Thu, 22 Sep 2022 13:17:16 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web11.6972.1663852627990702258
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85E18C54EE9
+	for <webhook@archiver.kernel.org>; Thu, 22 Sep 2022 13:26:06 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web09.7062.1663853158929921285
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Sep 2022 06:17:08 -0700
+ Thu, 22 Sep 2022 06:25:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=msSufYYR;
- spf=pass (domain: gmail.com, ip: 209.85.221.43,
- mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id r7so15543570wrm.2
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Sep 2022 06:17:07 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=UbdIuCuR;
+ spf=pass (domain: axis.com, ip: 195.60.68.18,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=hVlxLx/eJ7iOxq1+Z4b09SXa/DvUIO+VT3STF9JZkVw=;
-        b=msSufYYRvI0UxDQw1SlY0JEmH2kktLlcVYYWFyKGxtA9JKwlE2HX6YgwccZJarjtPz
-         qH3JKieY76bTkjLa8uBD6JoqZkOG4ulJcseosilrkWyRQrEpIrfzIML4p988BMwgzE3C
-         PSQIIifc5vwblYkmHizeVFVW/6OD+h8wEN6ZjJQveX5qseslDZfhLbd30akKQWXWGUhH
-         S0MgFNhXol94ywwIO6mPJM/u9xkFbz423bgubVIDX51KgQrIYAYSjz+6DIeOKl4DieNS
-         CTMcc8Rop4ur2BJVriBdkavy0F9g7HJ7EMkklZX1qwfSLfixKMd+5OIPEFDhibHnT7Hc
-         Rw7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=hVlxLx/eJ7iOxq1+Z4b09SXa/DvUIO+VT3STF9JZkVw=;
-        b=wYLA1ZnEgBUzSJ4luEEa1HLVjAblggwK8f2zMQ1LhhKBsKULmmzFWQ0vrvJ+ZOg7qD
-         aJkvqGRqnopq58f7GsFSEYntKUOc0fDN4oT9yDlh2KN0gggU9ZBs7ZhSsyFkS+bM048/
-         +0mwPVFAt1PBvr+Xc8RHFji2uMjGSDdMXwYKmJqH8ob6F9H/T4SBRJ3Bw6jQ6dZcUqhV
-         Sn+R8k3Ec0pRZczVXuBMNbzZ6FLowJOWbRdCknf6Pu9Z+g+os2CfygI84TOBsLRf5VnF
-         iJUboLEMx0uCUNPZUzZnpVyKTVGasiGHijUhdVz6Cy6UFh1JNCBcisR3sF6dmgjgaVmL
-         +mHQ==
-X-Gm-Message-State: ACrzQf1bLzaZ3Wnplt6who2tCLwIepAX2eqPeqZFgXQYwPYP7abwylKI
-	ojLw5NV4x6q1QtsLTdgMQRB3pEbVqzHg8TlRl1I=
-X-Google-Smtp-Source: 
- AMsMyM6oSH4sYa1sCOpTPGOPkKpGdz4Urj2u2EmPKpScCLPevUvV/OkH8ZUV54qffQpDUvV551EXra22QZXrjefZ8Sc=
-X-Received: by 2002:a5d:678a:0:b0:22a:c9d9:443d with SMTP id
- v10-20020a5d678a000000b0022ac9d9443dmr1966651wru.129.1663852626309; Thu, 22
- Sep 2022 06:17:06 -0700 (PDT)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1663853159;
+  x=1695389159;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=TRXHH9RTWyBRizSy7DGbF5yg6rQJTOquF4poJb5na+U=;
+  b=UbdIuCuR2hSJUnKkpjLJkLW3ZD300Mw473paq+6oVTsRD7VduCFV3mkh
+   lZrCaPvDzfKpXOlOVsaXWR5IqrWqXaf5CEpiiHBgVgM4Rxfdr7AhIzWZH
+   u4xoebcWEx36b0AaXGreys306m9MtJlgPjrJMUFqT5clwOJ+4PkOTnZV2
+   B/zff1kDW8bslnkJsgG92KyKpmEQWfNgkn9mhUMhvZIppd6RhZnBpc9J1
+   2dO1pWp+24RwXyrnqu33C5p6dUe9nR2OOZxzIAlcdZWuo8mbGOPwmblYt
+   a51T3vOTUjxvwIPNaLQoNlgjUyj7yRHmROkiLIFH5xZYzw/8zDVj0Snqx
+   Q==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
+ paths for templates
+Thread-Topic: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
+ paths for templates
+Thread-Index: AQHYzoU23gOhP1a3LUCPmQBsEwAbcq3rbfEA
+Date: Thu, 22 Sep 2022 13:25:56 +0000
+Message-ID: <ee0aa31d5fa34a5ba889e3518d8b2a95@axis.com>
+References: <20220922124708.2218995-1-pkj@axis.com>
+	 <20220922124708.2218995-2-pkj@axis.com>
+ <28947223c26b05f58c4b6cd13919b025617318a2.camel@linuxfoundation.org>
+In-Reply-To: 
+ <28947223c26b05f58c4b6cd13919b025617318a2.camel@linuxfoundation.org>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20220922122402.32710-1-mikko.rapeli@linaro.org>
- <20220922122402.32710-2-mikko.rapeli@linaro.org>
-In-Reply-To: <20220922122402.32710-2-mikko.rapeli@linaro.org>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 22 Sep 2022 15:16:53 +0200
-Message-ID: 
- <CA+chaQf=ySOYLMvPJ-yLUzWopMoA+w+4RWntYx2FR4XVSKDe7A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] git-describe.bbclass: add new class for
- "git describe --tags --allways --dirty"
-To: Mikko Rapeli <mikko.rapeli@linaro.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000bff6ae05e943e011"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 Sep 2022 13:17:16 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 22 Sep 2022 13:26:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170980
+ https://lists.openembedded.org/g/openembedded-core/message/170981
 
---000000000000bff6ae05e943e011
-Content-Type: text/plain; charset="UTF-8"
-
-It would be nice to somehow consolidate this new bbclass with
-https://git.openembedded.org/meta-openembedded/tree/meta-oe/classes/gitpkgv.bbclass
-https://git.openembedded.org/meta-openembedded/tree/meta-oe/classes/gitver.bbclass
-
-and at least move the various git "wrapper" functions to lib/oe for better
-reuse.
-
-On Thu, Sep 22, 2022 at 2:24 PM Mikko Rapeli <mikko.rapeli@linaro.org>
-wrote:
-
-> Output from git_describe() function can then be used in various places
-> and from various git trees to create a user friend(lier) name to builds.
-> Examples where this could be used is BUILD_ID, SDK_VERSION and
-> IMAGE_VERSION_SUFFIX.
->
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> ---
->  meta/classes/git-describe.bbclass | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
->  create mode 100644 meta/classes/git-describe.bbclass
->
-> diff --git a/meta/classes/git-describe.bbclass
-> b/meta/classes/git-describe.bbclass
-> new file mode 100644
-> index 0000000000..3a2b06b3fd
-> --- /dev/null
-> +++ b/meta/classes/git-describe.bbclass
-> @@ -0,0 +1,24 @@
-> +# Defines a simple function which calls 'git describe --tags --always
-> --dirty'
-> +# on specified directory and returns the string.
-> +#
-> +# Can be used for example to easily generate a BUILD_ID in local.conf if
-> +# TOPDIR build directory is under the main git tree for the project:
-> +# INHERIT += "git-describe"
-> +# BUILD_ID = "${@git_describe("${TOPDIR}/../meta-mylayer", d)}"
-> +# # BUILD_ID to /etc/os-release
-> +# OS_RELEASE_FIELDS:append:pn-os-release = " BUILD_ID"
-> +# # Add os-release to all images
-> +# IMAGE_INSTALL:append = " os-release"
-> +# # BUILD_ID to image file name
-> +# IMAGE_VERSION_SUFFIX = "-${BUILD_ID}"
-> +# # BUILD_ID to SDK file names and paths
-> +# SDK_VERSION = "${BUILD_ID}"
-> +
-> +def git_describe(p, d):
-> +    import bb.process
-> +    try:
-> +        describe, _ = bb.process.run('git describe --tags --always
-> --dirty', cwd=p)
-> +    except bb.process.ExecutionError:
-> +        describe = ''
-> +    return describe.strip()
-> +
-> --
-> 2.17.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#170970):
-> https://lists.openembedded.org/g/openembedded-core/message/170970
-> Mute This Topic: https://lists.openembedded.org/mt/93847068/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> Martin.Jansa@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---000000000000bff6ae05e943e011
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">It would be nice to somehow consolidate this new bbclass w=
-ith<div><a href=3D"https://git.openembedded.org/meta-openembedded/tree/meta=
--oe/classes/gitpkgv.bbclass">https://git.openembedded.org/meta-openembedded=
-/tree/meta-oe/classes/gitpkgv.bbclass</a><br></div><div><a href=3D"https://=
-git.openembedded.org/meta-openembedded/tree/meta-oe/classes/gitver.bbclass"=
->https://git.openembedded.org/meta-openembedded/tree/meta-oe/classes/gitver=
-.bbclass</a><br></div><div><br></div><div>and at least move the various git=
- &quot;wrapper&quot; functions to lib/oe for better reuse.</div></div><br><=
-div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep=
- 22, 2022 at 2:24 PM Mikko Rapeli &lt;<a href=3D"mailto:mikko.rapeli@linaro=
-.org">mikko.rapeli@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">Output from git_describe() function can then b=
-e used in various places<br>
-and from various git trees to create a user friend(lier) name to builds.<br=
->
-Examples where this could be used is BUILD_ID, SDK_VERSION and<br>
-IMAGE_VERSION_SUFFIX.<br>
-<br>
-Signed-off-by: Mikko Rapeli &lt;<a href=3D"mailto:mikko.rapeli@linaro.org" =
-target=3D"_blank">mikko.rapeli@linaro.org</a>&gt;<br>
----<br>
-=C2=A0meta/classes/git-describe.bbclass | 24 ++++++++++++++++++++++++<br>
-=C2=A01 file changed, 24 insertions(+)<br>
-=C2=A0create mode 100644 meta/classes/git-describe.bbclass<br>
-<br>
-diff --git a/meta/classes/git-describe.bbclass b/meta/classes/git-describe.=
-bbclass<br>
-new file mode 100644<br>
-index 0000000000..3a2b06b3fd<br>
---- /dev/null<br>
-+++ b/meta/classes/git-describe.bbclass<br>
-@@ -0,0 +1,24 @@<br>
-+# Defines a simple function which calls &#39;git describe --tags --always =
---dirty&#39;<br>
-+# on specified directory and returns the string.<br>
-+#<br>
-+# Can be used for example to easily generate a BUILD_ID in local.conf if<b=
-r>
-+# TOPDIR build directory is under the main git tree for the project:<br>
-+# INHERIT +=3D &quot;git-describe&quot;<br>
-+# BUILD_ID =3D &quot;${@git_describe(&quot;${TOPDIR}/../meta-mylayer&quot;=
-, d)}&quot;<br>
-+# # BUILD_ID to /etc/os-release<br>
-+# OS_RELEASE_FIELDS:append:pn-os-release =3D &quot; BUILD_ID&quot;<br>
-+# # Add os-release to all images<br>
-+# IMAGE_INSTALL:append =3D &quot; os-release&quot;<br>
-+# # BUILD_ID to image file name<br>
-+# IMAGE_VERSION_SUFFIX =3D &quot;-${BUILD_ID}&quot;<br>
-+# # BUILD_ID to SDK file names and paths<br>
-+# SDK_VERSION =3D &quot;${BUILD_ID}&quot;<br>
-+<br>
-+def git_describe(p, d):<br>
-+=C2=A0 =C2=A0 import bb.process<br>
-+=C2=A0 =C2=A0 try:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 describe, _ =3D bb.process.run(&#39;git descri=
-be --tags --always --dirty&#39;, cwd=3Dp)<br>
-+=C2=A0 =C2=A0 except bb.process.ExecutionError:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 describe =3D &#39;&#39;<br>
-+=C2=A0 =C2=A0 return describe.strip()<br>
-+<br>
--- <br>
-2.17.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#170970): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/170970" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/170970</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/93847068/3617=
-156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/93847068/3617156</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
-rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000bff6ae05e943e011--
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
+aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDIyIHNlcHRlbWJl
+ciAyMDIyIDE1OjE0DQo+IFRvOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVk
+dEBheGlzLmNvbT47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4g
+U3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMi8yXSBvZS1zZXR1cC1idWlsZGRpcjogRG8g
+bm90IGhhcmRjb2RlIGludmFsaWQgcGF0aHMgZm9yIHRlbXBsYXRlcw0KPiANCj4gT24gVGh1LCAy
+MDIyLTA5LTIyIGF0IDE0OjQ3ICswMjAwLCBQZXRlciBLamVsbGVyc3RlZHQgd3JvdGU6DQo+ID4g
+UHJldmlvdXNseSwgdGhlIHBhdGhzICJtZXRhL2NvbmYiIGFuZCAibWV0YS1wb2t5L2NvbmYiIHdl
+cmUgaGFyZGNvZGVkDQo+ID4gYXMgaW52YWxpZCBwYXRocyBmb3IgdGVtcGxhdGVzLiBIb3dldmVy
+LCB0aGlzIGlzIHN1Ym9wdGltYWwgZm9yIG90aGVyDQo+ID4gZGlzdHJvcyB0aGF0IGFyZSBzZXR1
+cCBzaW1pbGFybHkgdG8gUG9reS4gSW5zdGVhZCwgYWRkIHN1cHBvcnQgZm9yIGENCj4gPiBuZXcg
+dmFyaWFibGUgSU5WQUxJRF9URU1QTEFURUNPTkZTLCB3aGljaCB0YWtlcyBhIGxpc3Qgb2YgaW52
+YWxpZA0KPiA+IHBhdGhzLiAgSXQgaXMgZXhwZWN0ZWQgdGhhdCB0aGlzIHZhcmlhYmxlIGlzIHNl
+dCBpbiB0aGUgLnRlbXBsYXRlY29uZg0KPiA+IGZpbGUgdG9nZXRoZXIgd2l0aCB0aGUgZGVmYXVs
+dCB2YWx1ZSBmb3IgVEVNUExBVEVDT05GLCB0eXBpY2FsbHkgYXQNCj4gPiB0aGUgc2FtZSB0aW1l
+IHRoYXQgVEVNUExBVEVDT05GIGlzIHVwZGF0ZWQgdG8gbWF0Y2ggdGhlIG5ldw0KPiA+IHJlcXVp
+cmVtZW50cy4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0
+ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KPiA+IC0tLQ0KPiA+ICBzY3JpcHRzL29lLXNldHVw
+LWJ1aWxkZGlyIHwgMjEgKysrKysrKysrKysrKy0tLS0tLS0tDQo+ID4gIDEgZmlsZSBjaGFuZ2Vk
+LCAxMyBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBh
+L3NjcmlwdHMvb2Utc2V0dXAtYnVpbGRkaXIgYi9zY3JpcHRzL29lLXNldHVwLWJ1aWxkZGlyDQo+
+ID4gaW5kZXggMjI1OTE5YmU5Mi4uYzExNDhkYWY0ZiAxMDA3NTUNCj4gPiAtLS0gYS9zY3JpcHRz
+L29lLXNldHVwLWJ1aWxkZGlyDQo+ID4gKysrIGIvc2NyaXB0cy9vZS1zZXR1cC1idWlsZGRpcg0K
+PiA+IEBAIC0zNCwxNCArMzQsMTkgQEAgY2htb2QgLXN0ICIkQlVJTERESVIvY29uZiIgMj4vZGV2
+L251bGwgfHwgZWNobyAiV0FSTklORzogdW5hYmxlIHRvIGNobW9kICRCVUlMREQNCj4gPg0KPiA+
+ICBjZCAiJEJVSUxERElSIiB8fCBkaWUgIkZhaWxlZCB0byBjaGFuZ2UgZGlyZWN0b3J5IHRvICRC
+VUlMRERJUiEiDQo+ID4NCj4gPiAtaWYgWyAteiAiJFRFTVBMQVRFQ09ORiIgXSAmJiBbIC1mICIk
+QlVJTERESVIvY29uZi90ZW1wbGF0ZWNvbmYuY2ZnIiBdOyB0aGVuDQo+ID4gLSAgICBURU1QTEFU
+RUNPTkY9JChjYXQgIiRCVUlMRERJUi9jb25mL3RlbXBsYXRlY29uZi5jZmciKQ0KPiA+IC0gICAg
+IyBUaGUgZm9sbG93aW5nIHR3byBhcmUgbm8gbG9uZ2VyIHZhbGlkOyB1bnNldHRpbmcgdGhlbSB3
+aWxsIGF1dG9tYXRpY2FsbHkgZ2V0IHRoZW0gcmVwbGFjZWQNCj4gPiAtICAgICMgd2l0aCBjb3Jy
+ZWN0IG9uZXMuDQo+ID4gLSAgICBpZiBbICIkVEVNUExBVEVDT05GIiA9IG1ldGEvY29uZiBdIHx8
+IFsgIiRURU1QTEFURUNPTkYiID0gbWV0YS1wb2t5L2NvbmYgXTsgdGhlbg0KPiA+IC0gICAgICAg
+IHVuc2V0IFRFTVBMQVRFQ09ORg0KPiA+IC0gICAgICAgIHJtICIkQlVJTERESVIvY29uZi90ZW1w
+bGF0ZWNvbmYuY2ZnIg0KPiA+IC0gICAgZmkNCj4gPiArVEVNUExBVEVDT05GX0NGRz0iJEJVSUxE
+RElSL2NvbmYvdGVtcGxhdGVjb25mLmNmZyINCj4gPiAraWYgWyAteiAiJFRFTVBMQVRFQ09ORiIg
+XSAmJiBbIC1mICIkVEVNUExBVEVDT05GX0NGRyIgXTsgdGhlbg0KPiA+ICsgICAgVEVNUExBVEVD
+T05GPSQoY2F0ICIkVEVNUExBVEVDT05GX0NGRyIpDQo+ID4gKyAgICAjIFVuc2V0IFRFTVBMQVRF
+Q09ORiBpZiBpdCBpcyBzZXQgdG8gYSBrbm93biBpbnZhbGlkIHZhbHVlIHRvIGhhdmUgaXQNCj4g
+PiArICAgICMgYXV0b21hdGljYWxseSByZXBsYWNlZCB3aXRoIGEgY29ycmVjdCBvbmUuDQo+ID4g
+KyAgICBmb3IgZGlyIGluICRJTlZBTElEX1RFTVBMQVRFQ09ORlM7IGRvDQo+ID4gKyAgICAgICAg
+aWYgWyAiJFRFTVBMQVRFQ09ORiIgPSAiJGRpciIgXTsgdGhlbg0KPiA+ICsgICAgICAgICAgIGVj
+aG8gIldBUk5JTkc6IFJlbW92aW5nICRURU1QTEFURUNPTkZfQ0ZHIGFzIGl0IGNvbnRhaW5lZCB0
+aGUgaW52YWxpZCB2YWx1ZSAnJFRFTVBMQVRFQ09ORiciDQo+ID4gKyAgICAgICAgICAgdW5zZXQg
+VEVNUExBVEVDT05GDQo+ID4gKyAgICAgICAgICAgcm0gIiRURU1QTEFURUNPTkZfQ0ZHIg0KPiA+
+ICsJICAgYnJlYWs7DQo+ID4gKyAgICAgICAgZmkNCj4gPiArICAgIGRvbmUNCj4gPiAgZmkNCj4g
+DQo+IEkndmUgYmVlbiB0cnlpbmcgdG8ga2VlcCBvdXQgdGhpcyBkaXNjdXNzaW9uIGJ1dCBJIHJl
+YWxseSBkb24ndCBsaWtlDQo+IHBpbGluZyBpbiBtb3JlIGNvbXBsZXhpdHkgYW5kIG1vcmUgdGhp
+bmdzIHdlIGhhdmUgdG8gc3VwcG9ydCBiZWNhdXNlIG9mDQo+IGEgbGVnYWN5IGNvZGUgcGF0aCB3
+ZSdyZSB0cnlpbmcgdG8gb2Jzb2xldGUuDQo+IA0KPiBJIGFsc28gc3VzcGVjdCB0aGlzIGlzIGdv
+aW5nIHRvIGJlIHVzZWQgdG8gInN1YnZlcnQiIHRoZSBtb3ZlIHRvIHRyeQ0KPiBhbmQgc3RhbmRh
+cmRpc2UgYW5kIGlmIHRoYXQgaGFwcGVucywgd2UgbWF5IGFzIHdlbGwgbm90IGhhdmUgYm90aGVy
+ZWQNCj4gbWFraW5nIGNoYW5nZXMgYXQgYWxsIDooLg0KPiANCj4gQXMgc3VjaCBJJ20gd29ycmll
+ZCBhYm91dCB0aGlzIGRpcmVjdGlvbi4NCj4gDQo+IENoZWVycywNCj4gDQo+IFJpY2hhcmQNCg0K
+QWxsIEkgd2FudCBpcyB0byByZW1vdmUgdGhlIGhhcmRjb2RlZCBzdXBlcmZpY2lhbCBsaW1pdGF0
+aW9ucyBhbmQgDQphbGxvdyB1cyB0aGF0IHByb3ZpZGUgZGlzdHJvcyBzZXR1cCBqdXN0IGFzIFBv
+a3kgaXMgc2V0dXAgdG8gY29udGludWUgDQp0byBkbyBzby4NCg0KLy9QZXRlcg0KDQo=
 
