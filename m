@@ -1,116 +1,92 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85E18C54EE9
-	for <webhook@archiver.kernel.org>; Thu, 22 Sep 2022 13:26:06 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web09.7062.1663853158929921285
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1C28C6FA82
+	for <webhook@archiver.kernel.org>; Thu, 22 Sep 2022 13:43:46 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web09.7270.1663854218617875547
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Sep 2022 06:25:59 -0700
+ Thu, 22 Sep 2022 06:43:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=UbdIuCuR;
- spf=pass (domain: axis.com, ip: 195.60.68.18,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@linaro.org header.s=google header.b=kSaP7bH2;
+ spf=pass (domain: linaro.org, ip: 209.85.214.181,
+ mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-pl1-f181.google.com with SMTP id l10so8806207plb.10
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 22 Sep 2022 06:43:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1663853159;
-  x=1695389159;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=TRXHH9RTWyBRizSy7DGbF5yg6rQJTOquF4poJb5na+U=;
-  b=UbdIuCuR2hSJUnKkpjLJkLW3ZD300Mw473paq+6oVTsRD7VduCFV3mkh
-   lZrCaPvDzfKpXOlOVsaXWR5IqrWqXaf5CEpiiHBgVgM4Rxfdr7AhIzWZH
-   u4xoebcWEx36b0AaXGreys306m9MtJlgPjrJMUFqT5clwOJ+4PkOTnZV2
-   B/zff1kDW8bslnkJsgG92KyKpmEQWfNgkn9mhUMhvZIppd6RhZnBpc9J1
-   2dO1pWp+24RwXyrnqu33C5p6dUe9nR2OOZxzIAlcdZWuo8mbGOPwmblYt
-   a51T3vOTUjxvwIPNaLQoNlgjUyj7yRHmROkiLIFH5xZYzw/8zDVj0Snqx
-   Q==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
- paths for templates
-Thread-Topic: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
- paths for templates
-Thread-Index: AQHYzoU23gOhP1a3LUCPmQBsEwAbcq3rbfEA
-Date: Thu, 22 Sep 2022 13:25:56 +0000
-Message-ID: <ee0aa31d5fa34a5ba889e3518d8b2a95@axis.com>
-References: <20220922124708.2218995-1-pkj@axis.com>
-	 <20220922124708.2218995-2-pkj@axis.com>
- <28947223c26b05f58c4b6cd13919b025617318a2.camel@linuxfoundation.org>
-In-Reply-To: 
- <28947223c26b05f58c4b6cd13919b025617318a2.camel@linuxfoundation.org>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=fY9ORKxRTKOc09DqqaKvu9QaqC5/GuK2JnWbA+NYIeQ=;
+        b=kSaP7bH2LOfiYY82CtRLjIxK0chzPJsFYSAYTI3Nil8zg/H8Pu4sPk1Zoui418Fn4c
+         9lwlJ9qW5Xo3hPSMmTKqtvumrasu6jKkq4X4WcFfXfqb1Zg9tHnXcQWwBXJIVnVk1KuE
+         1uj8ahtWV8vSzKnQr5K3HSGgylhuJrxlfbkgXBHnFc8sObHT2W0ryLSRgRGz8Maw8g9j
+         tvI95OoBvtnNq4cwXhIsnsMvh8udVJNRnWyQFLLzjLhPInuNYqT2rm0HeyK6bCGJKdkC
+         KiaFe1ysUdrdPZkWis9J4b9rMmFQ8Stt9UPOJ6t8sjDP3v+aztJUDgRwENr5MHVJO8ZT
+         Af5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=fY9ORKxRTKOc09DqqaKvu9QaqC5/GuK2JnWbA+NYIeQ=;
+        b=LO6OnYvpAiVmAuuqlGpgscfkefrjeptEnnigqD9HHdz8UV6zQT5ZeqSrEE3WXqNwXN
+         ro62E52o1+4CCwcDVqy2LMmznuay3XhmBlxO8am6RxlJmJS2vgiXWqEC/OuzDwxN3y1+
+         8C7UjYkRIIp7w9qFqITRyFv/T/gTgtvhUDixJXCpdlw2nbqkKQ74l+D0pavYgb5lhauB
+         z9OKfefSjt0PTkCYE4IalN7SXe4b6GF7rPKIP47k9dIItNaslZQBz5oL83cJlLjypEJj
+         /IsI392UjJywY5mCbh6OzeTLUoDafy1BFSVWm9Cl5tktOWRrzHM2Qej3wI9u8ZE3Sti6
+         jkvg==
+X-Gm-Message-State: ACrzQf1LwhO6q8tnKwNm64lJTzALKRlNY3I/BPoQpN9z5UAUkdCgAaBk
+	rUdjoTB/UrUEjVAa3OTjRrcBoP+GIn+n20M2BdP+Bw==
+X-Google-Smtp-Source: 
+ AMsMyM4D4AH8ZIG3Q/nzJD4VAHPOhpgmzTkP7/8tG61D14KDdKgV3PqqAaz3D1r6ny4oPbvMCoVV7H5TB2Z+ljVFBn4=
+X-Received: by 2002:a17:90b:17cd:b0:202:ee1c:9578 with SMTP id
+ me13-20020a17090b17cd00b00202ee1c9578mr15550836pjb.87.1663854217977; Thu, 22
+ Sep 2022 06:43:37 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220922122402.32710-1-mikko.rapeli@linaro.org>
+ <A7BB2455-96E4-4403-8E60-AE010F0AF124@arm.com>
+ <36a2e82978462cfcd53ae5228ead7dc8b3ce4603.camel@rpsys.net>
+In-Reply-To: <36a2e82978462cfcd53ae5228ead7dc8b3ce4603.camel@rpsys.net>
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+Date: Thu, 22 Sep 2022 16:43:50 +0300
+Message-ID: 
+ <CAJFpGrPS+uuihkS0+E0+gPoPFB8wRNEsLZSgVWG_zR4C8EeNiQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] poky.conf: allow changes to DISTRO_VERSION,
+ SDK_VERSION and MAINTAINER
+To: Richard Purdie <rpurdie@rpsys.net>
+Cc: Ross Burton <ross.burton@arm.com>,
+	"openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 Sep 2022 13:26:06 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 22 Sep 2022 13:43:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170981
+ https://lists.openembedded.org/g/openembedded-core/message/170982
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
-aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDIyIHNlcHRlbWJl
-ciAyMDIyIDE1OjE0DQo+IFRvOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVk
-dEBheGlzLmNvbT47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4g
-U3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMi8yXSBvZS1zZXR1cC1idWlsZGRpcjogRG8g
-bm90IGhhcmRjb2RlIGludmFsaWQgcGF0aHMgZm9yIHRlbXBsYXRlcw0KPiANCj4gT24gVGh1LCAy
-MDIyLTA5LTIyIGF0IDE0OjQ3ICswMjAwLCBQZXRlciBLamVsbGVyc3RlZHQgd3JvdGU6DQo+ID4g
-UHJldmlvdXNseSwgdGhlIHBhdGhzICJtZXRhL2NvbmYiIGFuZCAibWV0YS1wb2t5L2NvbmYiIHdl
-cmUgaGFyZGNvZGVkDQo+ID4gYXMgaW52YWxpZCBwYXRocyBmb3IgdGVtcGxhdGVzLiBIb3dldmVy
-LCB0aGlzIGlzIHN1Ym9wdGltYWwgZm9yIG90aGVyDQo+ID4gZGlzdHJvcyB0aGF0IGFyZSBzZXR1
-cCBzaW1pbGFybHkgdG8gUG9reS4gSW5zdGVhZCwgYWRkIHN1cHBvcnQgZm9yIGENCj4gPiBuZXcg
-dmFyaWFibGUgSU5WQUxJRF9URU1QTEFURUNPTkZTLCB3aGljaCB0YWtlcyBhIGxpc3Qgb2YgaW52
-YWxpZA0KPiA+IHBhdGhzLiAgSXQgaXMgZXhwZWN0ZWQgdGhhdCB0aGlzIHZhcmlhYmxlIGlzIHNl
-dCBpbiB0aGUgLnRlbXBsYXRlY29uZg0KPiA+IGZpbGUgdG9nZXRoZXIgd2l0aCB0aGUgZGVmYXVs
-dCB2YWx1ZSBmb3IgVEVNUExBVEVDT05GLCB0eXBpY2FsbHkgYXQNCj4gPiB0aGUgc2FtZSB0aW1l
-IHRoYXQgVEVNUExBVEVDT05GIGlzIHVwZGF0ZWQgdG8gbWF0Y2ggdGhlIG5ldw0KPiA+IHJlcXVp
-cmVtZW50cy4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0
-ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KPiA+IC0tLQ0KPiA+ICBzY3JpcHRzL29lLXNldHVw
-LWJ1aWxkZGlyIHwgMjEgKysrKysrKysrKysrKy0tLS0tLS0tDQo+ID4gIDEgZmlsZSBjaGFuZ2Vk
-LCAxMyBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBh
-L3NjcmlwdHMvb2Utc2V0dXAtYnVpbGRkaXIgYi9zY3JpcHRzL29lLXNldHVwLWJ1aWxkZGlyDQo+
-ID4gaW5kZXggMjI1OTE5YmU5Mi4uYzExNDhkYWY0ZiAxMDA3NTUNCj4gPiAtLS0gYS9zY3JpcHRz
-L29lLXNldHVwLWJ1aWxkZGlyDQo+ID4gKysrIGIvc2NyaXB0cy9vZS1zZXR1cC1idWlsZGRpcg0K
-PiA+IEBAIC0zNCwxNCArMzQsMTkgQEAgY2htb2QgLXN0ICIkQlVJTERESVIvY29uZiIgMj4vZGV2
-L251bGwgfHwgZWNobyAiV0FSTklORzogdW5hYmxlIHRvIGNobW9kICRCVUlMREQNCj4gPg0KPiA+
-ICBjZCAiJEJVSUxERElSIiB8fCBkaWUgIkZhaWxlZCB0byBjaGFuZ2UgZGlyZWN0b3J5IHRvICRC
-VUlMRERJUiEiDQo+ID4NCj4gPiAtaWYgWyAteiAiJFRFTVBMQVRFQ09ORiIgXSAmJiBbIC1mICIk
-QlVJTERESVIvY29uZi90ZW1wbGF0ZWNvbmYuY2ZnIiBdOyB0aGVuDQo+ID4gLSAgICBURU1QTEFU
-RUNPTkY9JChjYXQgIiRCVUlMRERJUi9jb25mL3RlbXBsYXRlY29uZi5jZmciKQ0KPiA+IC0gICAg
-IyBUaGUgZm9sbG93aW5nIHR3byBhcmUgbm8gbG9uZ2VyIHZhbGlkOyB1bnNldHRpbmcgdGhlbSB3
-aWxsIGF1dG9tYXRpY2FsbHkgZ2V0IHRoZW0gcmVwbGFjZWQNCj4gPiAtICAgICMgd2l0aCBjb3Jy
-ZWN0IG9uZXMuDQo+ID4gLSAgICBpZiBbICIkVEVNUExBVEVDT05GIiA9IG1ldGEvY29uZiBdIHx8
-IFsgIiRURU1QTEFURUNPTkYiID0gbWV0YS1wb2t5L2NvbmYgXTsgdGhlbg0KPiA+IC0gICAgICAg
-IHVuc2V0IFRFTVBMQVRFQ09ORg0KPiA+IC0gICAgICAgIHJtICIkQlVJTERESVIvY29uZi90ZW1w
-bGF0ZWNvbmYuY2ZnIg0KPiA+IC0gICAgZmkNCj4gPiArVEVNUExBVEVDT05GX0NGRz0iJEJVSUxE
-RElSL2NvbmYvdGVtcGxhdGVjb25mLmNmZyINCj4gPiAraWYgWyAteiAiJFRFTVBMQVRFQ09ORiIg
-XSAmJiBbIC1mICIkVEVNUExBVEVDT05GX0NGRyIgXTsgdGhlbg0KPiA+ICsgICAgVEVNUExBVEVD
-T05GPSQoY2F0ICIkVEVNUExBVEVDT05GX0NGRyIpDQo+ID4gKyAgICAjIFVuc2V0IFRFTVBMQVRF
-Q09ORiBpZiBpdCBpcyBzZXQgdG8gYSBrbm93biBpbnZhbGlkIHZhbHVlIHRvIGhhdmUgaXQNCj4g
-PiArICAgICMgYXV0b21hdGljYWxseSByZXBsYWNlZCB3aXRoIGEgY29ycmVjdCBvbmUuDQo+ID4g
-KyAgICBmb3IgZGlyIGluICRJTlZBTElEX1RFTVBMQVRFQ09ORlM7IGRvDQo+ID4gKyAgICAgICAg
-aWYgWyAiJFRFTVBMQVRFQ09ORiIgPSAiJGRpciIgXTsgdGhlbg0KPiA+ICsgICAgICAgICAgIGVj
-aG8gIldBUk5JTkc6IFJlbW92aW5nICRURU1QTEFURUNPTkZfQ0ZHIGFzIGl0IGNvbnRhaW5lZCB0
-aGUgaW52YWxpZCB2YWx1ZSAnJFRFTVBMQVRFQ09ORiciDQo+ID4gKyAgICAgICAgICAgdW5zZXQg
-VEVNUExBVEVDT05GDQo+ID4gKyAgICAgICAgICAgcm0gIiRURU1QTEFURUNPTkZfQ0ZHIg0KPiA+
-ICsJICAgYnJlYWs7DQo+ID4gKyAgICAgICAgZmkNCj4gPiArICAgIGRvbmUNCj4gPiAgZmkNCj4g
-DQo+IEkndmUgYmVlbiB0cnlpbmcgdG8ga2VlcCBvdXQgdGhpcyBkaXNjdXNzaW9uIGJ1dCBJIHJl
-YWxseSBkb24ndCBsaWtlDQo+IHBpbGluZyBpbiBtb3JlIGNvbXBsZXhpdHkgYW5kIG1vcmUgdGhp
-bmdzIHdlIGhhdmUgdG8gc3VwcG9ydCBiZWNhdXNlIG9mDQo+IGEgbGVnYWN5IGNvZGUgcGF0aCB3
-ZSdyZSB0cnlpbmcgdG8gb2Jzb2xldGUuDQo+IA0KPiBJIGFsc28gc3VzcGVjdCB0aGlzIGlzIGdv
-aW5nIHRvIGJlIHVzZWQgdG8gInN1YnZlcnQiIHRoZSBtb3ZlIHRvIHRyeQ0KPiBhbmQgc3RhbmRh
-cmRpc2UgYW5kIGlmIHRoYXQgaGFwcGVucywgd2UgbWF5IGFzIHdlbGwgbm90IGhhdmUgYm90aGVy
-ZWQNCj4gbWFraW5nIGNoYW5nZXMgYXQgYWxsIDooLg0KPiANCj4gQXMgc3VjaCBJJ20gd29ycmll
-ZCBhYm91dCB0aGlzIGRpcmVjdGlvbi4NCj4gDQo+IENoZWVycywNCj4gDQo+IFJpY2hhcmQNCg0K
-QWxsIEkgd2FudCBpcyB0byByZW1vdmUgdGhlIGhhcmRjb2RlZCBzdXBlcmZpY2lhbCBsaW1pdGF0
-aW9ucyBhbmQgDQphbGxvdyB1cyB0aGF0IHByb3ZpZGUgZGlzdHJvcyBzZXR1cCBqdXN0IGFzIFBv
-a3kgaXMgc2V0dXAgdG8gY29udGludWUgDQp0byBkbyBzby4NCg0KLy9QZXRlcg0KDQo=
+Hi,
+
+Thanks for the feedback. My product isn't a real one, it's actually
+some meta layers to be used
+by others to create real products.
+
+The reason for using poky.conf distro is to stay as close to it as
+possible. But I still need to know
+what is the output of my builds vs. something else from poky.
+
+If chaning these veriables from local.conf is bad practice, then I
+need to find other possibilities, like
+the custom distro config (maybe move away from kas). But the aim is to
+do as few changes to
+poky as possible.
+
+Cheers,
+
+-Mikko
+Cheers,
+-Mikko
 
