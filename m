@@ -2,67 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB55FC6FA82
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E90EBECAAD8
 	for <webhook@archiver.kernel.org>; Thu, 22 Sep 2022 21:48:08 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web08.1051.1663883287964025050
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web09.1016.1663883280568151357
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Sep 2022 14:48:08 -0700
+ Thu, 22 Sep 2022 14:48:00 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=rOZAFUQw;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.50,
+ header.b=AJrvYixo;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f50.google.com with SMTP id q3so11118509pjg.3
+Received: by mail-pf1-f179.google.com with SMTP id a80so10580057pfa.4
         for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Sep 2022 14:48:07 -0700 (PDT)
+ Thu, 22 Sep 2022 14:48:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=Zf9EoMkycth4OkcUJ5VwsOYMHk54tYnOeQqw2+pzk4g=;
-        b=rOZAFUQwskmB9njRe+Ye9xtHAYOYYwTzf0kjM8PD0J4Cy1rc8SQekZH9YbY4YbdGuF
-         XjONXLMYDh2knE1kZpR3wJLa6bN+a8amdNuEu8KVdCtzL1gfL2/StB2gIm6jI8hhq6rh
-         /W5XPeKSSEavN63QfxBB/BJPbQ1toxwcCkyHbb8BE7gLUOLRbE4E/eVbw/tBjNR/Je4H
-         nXJuK2lVLdyvKv/9rKjRCTbXFBr4NbhFxkGuDebhfQ80rjv8BgnpK29bFNv5e/OHWX+L
-         p/XAars+xtIoGf8gMVRHXz+3D/6MxK70T49ff114yxVnR4G/2ZhTbRp6Cpcdw/L1ic2v
-         NJTw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date;
+        bh=n/hAvNP6IjZnzTr9bbZXajV8XnYxyss34MQchpaVRyI=;
+        b=AJrvYixoDeCQw610e6V5miOsQqTDZ0b8ck5bEbVvL0r6kmwPzfx+OfSKIeJYCxNxDV
+         Upp+oyV5qVs5nbSCxN7LqT+V0V0MsBY7CzXXnmo+7MguFzOuAkWi83JHcK+9m+zm2dem
+         +Aus4dXaU2VlEXcRfo2D+z5fcWT7lhFPw7R7WeBqj1Eue79i1/pOG9s/UHYb1qC2OkOl
+         wtLrKm+qfHiMFbnCQVVXEXFWCwX7p4CELVa1hBbRYAuLl6r1/2JnbPn41nlnCB9EUhUT
+         thwiHPqGJTI58VQchx6g30txVZodDxbzRpiRUJgpy+lC1KcGaGgMppUpvmuN0W/UPR2e
+         WLkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=Zf9EoMkycth4OkcUJ5VwsOYMHk54tYnOeQqw2+pzk4g=;
-        b=yM1aVBvBsIDe95J8JWaIBfBTqyAjT+Nj1FYblW3RnFauNUo0K1A8GLCealQyQng7UA
-         jPvttcgWfDShVcN3yHDCDOdKiA/IwG7/Znlht7lHank3HZxDu0tsIA4LGiKpm/ICIRw/
-         VM29VTZ1OkZkZmP7KCDYSDRtQZNaQcCDVbllweIlsdBjM1Ga4ymKaI6NsDskR5tKjirf
-         kFVp/wWUNlspAfCEh2qj7zhHjiF3e3M3QyNT+rXZiYVmLoob8mzfAnNc7NLSLlW3NXDr
-         m6KChXdwl+9e/X5fbGBAsno2qjFGH5o+ag918tudA1b5M6bcpeqe4eXbhUE9ZsTJy6o+
-         qwMQ==
-X-Gm-Message-State: ACrzQf2vMtDjnrpyZdymBSxlycJvXOFXUsBO7FgS+iE0SPqXg7i2D+67
-	yorbOP/cfXnTRao7tAkDZzTQ6L/g+KpM1MT+
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date;
+        bh=n/hAvNP6IjZnzTr9bbZXajV8XnYxyss34MQchpaVRyI=;
+        b=fDMO2gnoKTekIGS40IZtSkj0Z4P4oURrkHZptjNIFpBv0FHaSKLF6ydwXtwre3nO6O
+         LJ27sjeBIoadB2jKV3JlkzAY0qntDRrlP5dHdDlMVa2xZzau4A0tMIJew1/xmmNXY4Dx
+         I3z8IcS8QJliV4huSpCnyI/ka1beZjW3Xaewn+13tmH94Sr4pnbPKlv0u9siFlKEhDUM
+         80P1wnPIOVweRN6pcaLYSt2082AH7y8fPmBvd7CeVM+ekuDZnvlFT4X1FRPwdo1f665M
+         1f3wAR8IWiWwFKU+JrDu9Y/MSY4Hn16ZzujeEZzOGmkAy0OwTahDFBB6LUTo5cu4n35p
+         TPvA==
+X-Gm-Message-State: ACrzQf3TkhwMMGpNw4+o6GSmOSstFYOM50xlJhdVfSb8R1796ztUAVbT
+	73gmNIm3RSYrdkBdYujP8DSs+H3OxHa+nwBn
 X-Google-Smtp-Source: 
- AMsMyM5cGROHa19xz9eSC9FcQmOGsDBpKoF82d6SO6bGgS62n6plVYMCYQmabW63RIdO3v5g/sZdMg==
-X-Received: by 2002:a17:903:124f:b0:178:9234:370b with SMTP id
- u15-20020a170903124f00b001789234370bmr5321442plh.103.1663883286993;
-        Thu, 22 Sep 2022 14:48:06 -0700 (PDT)
+ AMsMyM44yxgrSiv0Kp1yQCIbXudIwCbWQoouFl4ovopTSkJE4fSAKVsDtIcHMe1GZc98twLXjWrqmg==
+X-Received: by 2002:a63:2a82:0:b0:43c:1ef8:4093 with SMTP id
+ q124-20020a632a82000000b0043c1ef84093mr3162101pgq.251.1663883279496;
+        Thu, 22 Sep 2022 14:47:59 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- u4-20020a170902714400b0016ee4b0bd60sm4574813plm.166.2022.09.22.14.48.05
+ u4-20020a170902714400b0016ee4b0bd60sm4574813plm.166.2022.09.22.14.47.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Sep 2022 14:48:06 -0700 (PDT)
+        Thu, 22 Sep 2022 14:47:58 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 3/5] expat: Fix CVE-2022-40674
-Date: Thu, 22 Sep 2022 11:47:48 -1000
-Message-Id: 
- <4efa4490becea956a62d45e1476f7b602be53eee.1663883154.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 0/5] Patch review
+Date: Thu, 22 Sep 2022 11:47:45 -1000
+Message-Id: <cover.1663883154.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1663883154.git.steve@sakoman.com>
-References: <cover.1663883154.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -70,93 +66,51 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 22 Sep 2022 21:48:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170992
+ https://lists.openembedded.org/g/openembedded-core/message/170989
 
-From: Virendra Thakur <virendrak@kpit.com>
+Please review this set of patches for dunfell and have comments back by
+end of day Friday.
 
-Add patch file to fix CVE-2022-40674
+Passed a-full on autobuilder:
 
-Link: https://github.com/libexpat/libexpat/pull/629/commits/4a32da87e931ba54393d465bb77c40b5c33d343b
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4259
 
-Signed-off-by: Virendra Thakur <virendrak@kpit.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../expat/expat/CVE-2022-40674.patch          | 53 +++++++++++++++++++
- meta/recipes-core/expat/expat_2.2.9.bb        |  1 +
- 2 files changed, 54 insertions(+)
+The following changes since commit f547c9610f8c17c3da9ca3f7a79902d2ffbfca49:
+
+  qemu: Add PACKAGECONFIG for brlapi (2022-09-20 11:09:59 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Bruce Ashfield (2):
+  linux-yocto/5.4: update to v5.4.212
+  linux-yocto/5.4: update to v5.4.213
+
+Lee Chee Yang (1):
+  subversion: fix CVE-2021-28544
+
+Sana Kazi (1):
+  sqlite3: Fix CVE-2021-20223
+
+Virendra Thakur (1):
+  expat: Fix CVE-2022-40674
+
+ .../expat/expat/CVE-2022-40674.patch          |  53 +++++++
+ meta/recipes-core/expat/expat_2.2.9.bb        |   1 +
+ .../subversion/CVE-2021-28544.patch           | 146 ++++++++++++++++++
+ .../subversion/subversion_1.13.0.bb           |   1 +
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +--
+ .../sqlite/files/CVE-2021-20223.patch         |  23 +++
+ meta/recipes-support/sqlite/sqlite3_3.31.1.bb |   1 +
+ 9 files changed, 243 insertions(+), 18 deletions(-)
  create mode 100644 meta/recipes-core/expat/expat/CVE-2022-40674.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion/CVE-2021-28544.patch
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2021-20223.patch
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2022-40674.patch b/meta/recipes-core/expat/expat/CVE-2022-40674.patch
-new file mode 100644
-index 0000000000..8b95f5f198
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2022-40674.patch
-@@ -0,0 +1,53 @@
-+From 4a32da87e931ba54393d465bb77c40b5c33d343b Mon Sep 17 00:00:00 2001
-+From: Rhodri James <rhodri@wildebeest.org.uk>
-+Date: Wed, 17 Aug 2022 18:26:18 +0100
-+Subject: [PATCH] Ensure raw tagnames are safe exiting internalEntityParser
-+
-+It is possible to concoct a situation in which parsing is
-+suspended while substituting in an internal entity, so that
-+XML_ResumeParser directly uses internalEntityProcessor as
-+its processor.  If the subsequent parse includes some unclosed
-+tags, this will return without calling storeRawNames to ensure
-+that the raw versions of the tag names are stored in memory other
-+than the parse buffer itself.  If the parse buffer is then changed
-+or reallocated (for example if processing a file line by line),
-+badness will ensue.
-+
-+This patch ensures storeRawNames is always called when needed
-+after calling doContent.  The earlier call do doContent does
-+not need the same protection; it only deals with entity
-+substitution, which cannot leave unbalanced tags, and in any
-+case the raw names will be pointing into the stored entity
-+value not the parse buffer.
-+
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/4a32da87e931ba54393d465bb77c40b5c33d343b]
-+CVE: CVE-2022-40674
-+Signed-off-by: Virendra Thakur <virendrak@kpit.com>
-+---
-+ expat/lib/xmlparse.c | 13 +++++++++----
-+ 1 file changed, 9 insertions(+), 4 deletions(-)
-+
-+Index: expat/lib/xmlparse.c
-+===================================================================
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -5657,10 +5657,15 @@ internalEntityProcessor(XML_Parser parse
-+   {
-+     parser->m_processor = contentProcessor;
-+     /* see externalEntityContentProcessor vs contentProcessor */
-+-    return doContent(parser, parser->m_parentParser ? 1 : 0, parser->m_encoding,
-+-                     s, end, nextPtr,
-+-                     (XML_Bool)! parser->m_parsingStatus.finalBuffer,
-+-                     XML_ACCOUNT_DIRECT);
-++    result = doContent(parser, parser->m_parentParser ? 1 : 0,
-++                       parser->m_encoding, s, end, nextPtr,
-++                       (XML_Bool)! parser->m_parsingStatus.finalBuffer,
-++                       XML_ACCOUNT_DIRECT);
-++    if (result == XML_ERROR_NONE) {
-++      if (! storeRawNames(parser))
-++        return XML_ERROR_NO_MEMORY;
-++    }
-++    return result;
-+   }
-+ }
-+ 
-diff --git a/meta/recipes-core/expat/expat_2.2.9.bb b/meta/recipes-core/expat/expat_2.2.9.bb
-index f50e535922..578edfcbff 100644
---- a/meta/recipes-core/expat/expat_2.2.9.bb
-+++ b/meta/recipes-core/expat/expat_2.2.9.bb
-@@ -20,6 +20,7 @@ SRC_URI = "git://github.com/libexpat/libexpat.git;protocol=https;branch=master \
-            file://CVE-2022-25314.patch \
-            file://CVE-2022-25315.patch \
-            file://libtool-tag.patch \
-+           file://CVE-2022-40674.patch \
-          "
- 
- SRCREV = "a7bc26b69768f7fb24f0c7976fae24b157b85b13"
 -- 
 2.25.1
 
