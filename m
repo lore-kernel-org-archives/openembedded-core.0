@@ -1,164 +1,180 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25AEFC6FA82
-	for <webhook@archiver.kernel.org>; Thu, 22 Sep 2022 15:53:24 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web10.540.1663861985470400700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15455C54EE9
+	for <webhook@archiver.kernel.org>; Thu, 22 Sep 2022 19:56:58 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web08.511.1663876615124337318
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Sep 2022 08:53:05 -0700
+ Thu, 22 Sep 2022 12:56:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=VMHKuPnB;
- spf=pass (domain: gmail.com, ip: 209.85.167.50,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f50.google.com with SMTP id i26so15348143lfp.11
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Sep 2022 08:53:05 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=OA1CJEr+;
+ spf=pass (domain: axis.com, ip: 195.60.68.17,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=I5Y1mwE1BpSD7fG6Z6//kVne0mAbZGsusqoThoGDhTc=;
-        b=VMHKuPnBRhahZGDSh8g83npbaSKbOVJ0ywDTl9SDBqtJdPzl3dladGPnpyBJQzrkVV
-         HO32T0j1gXWR7Ms4lU0fBPL7lQS9J9eTL7r3ltfipb8aUwOUsiSgjft0S4OBw8FWIjTy
-         9Gei98Zw85JPKiD+mZDU9GjjVL/0xpRDXtuFv8q18IAhr0bQnwDhMxN9F+Hq+M7gDXba
-         Dl1OaZqhon0xOVSDMgzmkegoxtw6HBdqaw+6v/OQYhP/KXd1mx4XgOENxFiSMrfvBRRe
-         Xlw5scG6O6N/sVhLGuP3YHaOGVLAPeyl2in9utz5/p7AlenPugZ56n3kseaQuurRWaDN
-         p+Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=I5Y1mwE1BpSD7fG6Z6//kVne0mAbZGsusqoThoGDhTc=;
-        b=3DRxKpPmnNxbWuCQl/GGKKlTZeWlypEQ7pwjrYgb41Kk7X9RS0ZL8lfG66naC3fI4i
-         k2jqMPa5mwD9xNQL3VrrhZvwTg41tFKxxHGFXYIHo9JYR46E1SsaHWY1ArMgDl7cv2/7
-         I9bWlVMlEQ83+49C2prek9pf97QSNqyIyd/vvXxcysKDww85OPPJ1ExIxdBlkGY5LV+t
-         DEIC/1l07lD011c05OikWfqXnhz+VvHOgypMpY6WGiV+ZNQTZWCH7op1w/6Vo68HJCuU
-         OvYr3GYt/GkZvNUbpHMyyjyqPjAGJr7aHgvRffP9D6mFmYH4dn624PcdFIllB+obfL6f
-         Qxyg==
-X-Gm-Message-State: ACrzQf2BGgxTkzymhpi1aSI7ezcY3X7Zz0xP0uQqe82GDXADmJqX7hUH
-	dW/u9fkKIDPK4VVbh+/fOGwp3v3MvKhBzDsxHnU=
-X-Google-Smtp-Source: 
- AMsMyM7um6H8M4JFi3Us+Wu6NCvFAno8ihJqqyJqhoER4XknCF/bRaZMReLb3lqSMXXW8KwDCeuSzVMF4ZfNOMvDFO0=
-X-Received: by 2002:a05:6512:13a4:b0:479:3b9f:f13c with SMTP id
- p36-20020a05651213a400b004793b9ff13cmr1465061lfa.380.1663861983638; Thu, 22
- Sep 2022 08:53:03 -0700 (PDT)
-MIME-Version: 1.0
+  d=axis.com; q=dns/txt; s=axis-central1; t=1663876615;
+  x=1695412615;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=xCo/5btN2vrUhMNSIL5gB4YQxAG7RhgCyk57RKyIuvo=;
+  b=OA1CJEr+p1SpDCcspI8qK8fvElcsA6DOcNYj0zduYWzTE/3jFowk0v7h
+   6G9W82J7hTNO75DsK4vVus4IKc7dyyWnUU9DQUqLtm15Gy3ywiLn6Eyrf
+   PR22hyiZUXoaq/fYXQ59vHG0g9URWXQ+hl24rW+sAfDR1IdvtFylwrbtB
+   f7D6CaHhjeVfniziOZQ499TYPFcQpgId632RTlH9Q0K0rlvi0UC/YhjhC
+   3kv+gHBqHHDaBSrQpmZNrkGXJkpqkV3sgH9nyOtfi8I0n6CFzTX/Ez70M
+   zZd3s0J6gFPePasSkN1TJNX7/eKn3nufetlcYZ4bO5i/u3R57LszEUece
+   Q==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
+ paths for templates
+Thread-Topic: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
+ paths for templates
+Thread-Index: AQHYzoU23gOhP1a3LUCPmQBsEwAbcq3rbfEAgAAKPgCAAF3ZAA==
+Date: Thu, 22 Sep 2022 19:56:52 +0000
+Message-ID: <6eef9e29c108417ba6cfcf271b5b4754@axis.com>
 References: <20220922124708.2218995-1-pkj@axis.com>
  <20220922124708.2218995-2-pkj@axis.com>
  <28947223c26b05f58c4b6cd13919b025617318a2.camel@linuxfoundation.org>
  <ee0aa31d5fa34a5ba889e3518d8b2a95@axis.com>
-In-Reply-To: <ee0aa31d5fa34a5ba889e3518d8b2a95@axis.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 22 Sep 2022 17:52:54 +0200
-Message-ID: 
  <CANNYZj__Gud2xeWrtK=tZaY_BGQ2d4tVVJLfZt4R0aqzUadK-A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
- paths for templates
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: 
+ <CANNYZj__Gud2xeWrtK=tZaY_BGQ2d4tVVJLfZt4R0aqzUadK-A@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 Sep 2022 15:53:24 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 22 Sep 2022 19:56:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170986
+ https://lists.openembedded.org/g/openembedded-core/message/170987
 
-.templateconf is not the way to specify the location of custom
-templates, and never was. It got added to documentation by
-misunderstanding, this has now been removed, and so you need to update
-your tooling so that templates are set with TEMPLATECONF going
-forward.
-
-Alex
-
-On Thu, 22 Sept 2022 at 15:26, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->
-> > -----Original Message-----
-> > From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > Sent: den 22 september 2022 15:14
-> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid paths for templates
-> >
-> > On Thu, 2022-09-22 at 14:47 +0200, Peter Kjellerstedt wrote:
-> > > Previously, the paths "meta/conf" and "meta-poky/conf" were hardcoded
-> > > as invalid paths for templates. However, this is suboptimal for other
-> > > distros that are setup similarly to Poky. Instead, add support for a
-> > > new variable INVALID_TEMPLATECONFS, which takes a list of invalid
-> > > paths.  It is expected that this variable is set in the .templateconf
-> > > file together with the default value for TEMPLATECONF, typically at
-> > > the same time that TEMPLATECONF is updated to match the new
-> > > requirements.
-> > >
-> > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > > ---
-> > >  scripts/oe-setup-builddir | 21 +++++++++++++--------
-> > >  1 file changed, 13 insertions(+), 8 deletions(-)
-> > >
-> > > diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
-> > > index 225919be92..c1148daf4f 100755
-> > > --- a/scripts/oe-setup-builddir
-> > > +++ b/scripts/oe-setup-builddir
-> > > @@ -34,14 +34,19 @@ chmod -st "$BUILDDIR/conf" 2>/dev/null || echo "WARNING: unable to chmod $BUILDD
-> > >
-> > >  cd "$BUILDDIR" || die "Failed to change directory to $BUILDDIR!"
-> > >
-> > > -if [ -z "$TEMPLATECONF" ] && [ -f "$BUILDDIR/conf/templateconf.cfg" ]; then
-> > > -    TEMPLATECONF=$(cat "$BUILDDIR/conf/templateconf.cfg")
-> > > -    # The following two are no longer valid; unsetting them will automatically get them replaced
-> > > -    # with correct ones.
-> > > -    if [ "$TEMPLATECONF" = meta/conf ] || [ "$TEMPLATECONF" = meta-poky/conf ]; then
-> > > -        unset TEMPLATECONF
-> > > -        rm "$BUILDDIR/conf/templateconf.cfg"
-> > > -    fi
-> > > +TEMPLATECONF_CFG="$BUILDDIR/conf/templateconf.cfg"
-> > > +if [ -z "$TEMPLATECONF" ] && [ -f "$TEMPLATECONF_CFG" ]; then
-> > > +    TEMPLATECONF=$(cat "$TEMPLATECONF_CFG")
-> > > +    # Unset TEMPLATECONF if it is set to a known invalid value to have it
-> > > +    # automatically replaced with a correct one.
-> > > +    for dir in $INVALID_TEMPLATECONFS; do
-> > > +        if [ "$TEMPLATECONF" = "$dir" ]; then
-> > > +           echo "WARNING: Removing $TEMPLATECONF_CFG as it contained the invalid value '$TEMPLATECONF'"
-> > > +           unset TEMPLATECONF
-> > > +           rm "$TEMPLATECONF_CFG"
-> > > +      break;
-> > > +        fi
-> > > +    done
-> > >  fi
-> >
-> > I've been trying to keep out this discussion but I really don't like
-> > piling in more complexity and more things we have to support because of
-> > a legacy code path we're trying to obsolete.
-> >
-> > I also suspect this is going to be used to "subvert" the move to try
-> > and standardise and if that happens, we may as well not have bothered
-> > making changes at all :(.
-> >
-> > As such I'm worried about this direction.
-> >
-> > Cheers,
-> >
-> > Richard
->
-> All I want is to remove the hardcoded superficial limitations and
-> allow us that provide distros setup just as Poky is setup to continue
-> to do so.
->
-> //Peter
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#170981): https://lists.openembedded.org/g/openembedded-core/message/170981
-> Mute This Topic: https://lists.openembedded.org/mt/93847437/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8
+YWxleC5rYW5hdmluQGdtYWlsLmNvbT4NCj4gU2VudDogZGVuIDIyIHNlcHRlbWJlciAyMDIyIDE3
+OjUzDQo+IFRvOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNv
+bT4NCj4gQ2M6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24u
+b3JnPjsgb3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3Vi
+amVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMi8yXSBvZS1zZXR1cC1idWlsZGRpcjogRG8gbm90
+IGhhcmRjb2RlDQo+IGludmFsaWQgcGF0aHMgZm9yIHRlbXBsYXRlcw0KPiANCj4gLnRlbXBsYXRl
+Y29uZiBpcyBub3QgdGhlIHdheSB0byBzcGVjaWZ5IHRoZSBsb2NhdGlvbiBvZiBjdXN0b20NCj4g
+dGVtcGxhdGVzLCBhbmQgbmV2ZXIgd2FzLiBJdCBnb3QgYWRkZWQgdG8gZG9jdW1lbnRhdGlvbiBi
+eQ0KPiBtaXN1bmRlcnN0YW5kaW5nLCB0aGlzIGhhcyBub3cgYmVlbiByZW1vdmVkLCBhbmQgc28g
+eW91IG5lZWQgdG8gdXBkYXRlDQo+IHlvdXIgdG9vbGluZyBzbyB0aGF0IHRlbXBsYXRlcyBhcmUg
+c2V0IHdpdGggVEVNUExBVEVDT05GIGdvaW5nDQo+IGZvcndhcmQuDQo+IA0KPiBBbGV4DQoNCltJ
+cnJpdGF0ZWQgcmFudCBiZWxvdywgYW5kIEkgYXBvbG9naXplIGluIGFkdmFuY2UuIFNvcnJ5LiBJ
+IGtub3cgDQp5b3Ugd2FudCB0byBpbXByb3ZlIHRoaW5ncywgYnV0IEkganVzdCBoYXZlIHRvIHN0
+YXRlIG15IG9waW5pb24uXQ0KDQpPaywgdGhpcyBpcyBzaWxseS4gLnRlbXBsYXRlY29uZiBfaXNf
+IHRoZSBkb2N1bWVudGVkIHdheSB0byBzcGVjaWZ5IGEgDQpkZWZhdWx0IFRFTVBMQVRFQ09ORiBh
+bmQgaGFzIGJlZW4gc28gZm9yIGEgbG9uZyB0aW1lLiBKdXN0IGJlY2F1c2UgDQp5b3UgZG9uJ3Qg
+dXNlIGl0IG9yIGxpa2UgaXQgZG9lcyBub3QgbWVhbiB0aGF0IHlvdSBjYW4ganVzdCByaXAgaXQg
+DQpvdXQgYW5kIHNheSB3ZSBub3cgaGF2ZSB0byB1c2Ugc29tZSAoZm9yIHVzKSBpbmZlcmlvciBt
+ZXRob2QuIFdlIGhhdmUgDQo1MDArIGRldmVsb3BlcnMgYW5kIGEgaHVnZSBudW1iZXIgb2YgQ0kv
+Q0QgcGlwZWxpbmVzIGNvbmZpZ3VyZWQgYW5kIA0KYnVpbHQgdGhvdXNhbmQgdGltZXMgYSBkYXku
+IFRoZXkgYWxsIGV4cGVjdCB0aGUgY3VycmVudCBzZXR1cCwgb25lIA0KdGhleSBoYXZlIHVzZWQg
+Zm9yIHRlbiB5ZWFycy4gVGhlIF9leGFjdCBzYW1lIHNldHVwXyB5b3UgZ2V0IGlmIHlvdSANCm9u
+bHkgZmV0Y2ggUG9reSBhbmQgc3RhcnQgYSBidWlsZC4NCg0KQWxsIEkgd2FudCB0byBkbyBpcyBy
+ZW1vdmUgaGFyZGNvZGVkIHZhbHVlcyBpbiBmYXZvciBvZiByZW1haW5pbmcgDQp1c2VmdWwgZm9y
+IGFsbCB1c2VycyBvZiBZb2N0by4gV2h5IGlzIHRoYXQgYSBwcm9ibGVtPyBJIHNpbXBseSBjYW5u
+b3QgDQp1bmRlcnN0YW5kIGl0LiBUbyBtZSwgaGFyZGNvZGVkIHZhbHVlcyBzaG91bGQgbmV2ZXIg
+YmUgdXNlZCB3aGVuIGEgDQpnZW5lcmljIHNvbHV0aW9uIGlzIHBvc3NpYmxlLiBXaHkgaXMgaXQg
+YmV0dGVyIHRvIGhhcmRjb2RlIGtub3dsZWRnZSANCmFib3V0IFBva3kgaW4gT0UtQ29yZSwgd2hl
+biB0aGVyZSBpcyBubyByZWFzb24gdG8gZG8gc28/DQoNCkkga25vdyAob3IgcmF0aGVyIGhvcGUp
+IHlvdSBoYXZlIHNvbWUgcGxhbiBnb2luZyBmb3J3YXJkIGZvciBob3cgdG8gDQpzZXR1cCB0aGUg
+YnVpbGQgZW52aXJvbm1lbnQsIGJ1dCBpdCBpcyBub3QgdGhlcmUgaW4gTGFuZ2RhbGUuIEFsc28s
+IA0KSSB3YW50IHRvIGJlIGFibGUgdG8gY29udGludWUgd2l0aCBmZXRjaGluZyB0aGUgbGF5ZXJz
+IG91cnNlbHZlcyANCnRoZSB3YXkgd2UgYWx3YXlzIGhhdmUgZG9uZSBpdCBhbmQgdGhlbiBjb250
+aW51ZSB0byB0ZWxsIGJpdGJha2UgDQp3aGVyZSB0byBmaW5kIHRoZW0gYXMgd2UgYWx3YXlzIGhh
+dmUgZG9uZSB3aXRob3V0IGhhdmluZyB0byBnbyANCnRocm91Z2ggaG9vcHMgb3IgaGF2aW5nIHRv
+IGR1cGxpY2F0ZSBhIGxvdCBvZiBiaXRiYWtlJ3MgaW50ZXJuYWxzLg0KQW5kIEkgYmVsaWV2ZSB0
+aGlzIHdhcyBhY3R1YWxseSBzYWlkIGR1cmluZyBhbGwgZGlzY3Vzc2lvbnMgYWJvdXQgDQpob3cg
+dG8gYWRkIHN1cHBvcnQgZm9yIGEgY29tbW9uIHdheSBvZiBzZXR0aW5nIHVwIHRoZSBidWlsZCAN
+CmVudmlyb25tZW50LCB0aGF0IGl0IHNob3VsZCBiZSBwb3NzaWJsZSBmb3IgdXMgdGhhdCBhbHJl
+YWR5IGhhdmUgDQp3YXlzIHRvIGRvIGl0IChiZSB0aGV5IHJlcG8sIHN1Ym1vZHVsZXMsIGthcywg
+d2hpc2sgb3Igd2hhdGV2ZXIpIA0KdG8gY29udGludWUgdG8gZG8gc28uIFNvIHBsZWFzZSwgcGxl
+YXNlIGJlIG1pbmRmdWwgb2Ygc2ltcGxlIGNoYW5nZXMgDQp0aGF0IGFsbG93IHVzIHRvIGNvbnRp
+bnVlIHRvIHVzZSB0aGUgcHJvY2Vzc2VzIHdlIGFscmVhZHkgaGF2ZSBpbiANCnBsYWNlIHdoZW4g
+aXQgcmVhbGx5IGRvZXNuJ3QgY29zdCBhbnl0aGluZy4NCg0KLy9QZXRlcg0KDQo+IE9uIFRodSwg
+MjIgU2VwdCAyMDIyIGF0IDE1OjI2LCBQZXRlciBLamVsbGVyc3RlZHQNCj4gPHBldGVyLmtqZWxs
+ZXJzdGVkdEBheGlzLmNvbT4gd3JvdGU6DQo+ID4NCj4gPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2Fn
+ZS0tLS0tDQo+ID4gPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhm
+b3VuZGF0aW9uLm9yZz4NCj4gPiA+IFNlbnQ6IGRlbiAyMiBzZXB0ZW1iZXIgMjAyMiAxNToxNA0K
+PiA+ID4gVG86IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29t
+Pjsgb3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+IFN1
+YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDIvMl0gb2Utc2V0dXAtYnVpbGRkaXI6IERvIG5v
+dCBoYXJkY29kZQ0KPiBpbnZhbGlkIHBhdGhzIGZvciB0ZW1wbGF0ZXMNCj4gPiA+DQo+ID4gPiBP
+biBUaHUsIDIwMjItMDktMjIgYXQgMTQ6NDcgKzAyMDAsIFBldGVyIEtqZWxsZXJzdGVkdCB3cm90
+ZToNCj4gPiA+ID4gUHJldmlvdXNseSwgdGhlIHBhdGhzICJtZXRhL2NvbmYiIGFuZCAibWV0YS1w
+b2t5L2NvbmYiIHdlcmUNCj4gaGFyZGNvZGVkDQo+ID4gPiA+IGFzIGludmFsaWQgcGF0aHMgZm9y
+IHRlbXBsYXRlcy4gSG93ZXZlciwgdGhpcyBpcyBzdWJvcHRpbWFsIGZvcg0KPiBvdGhlcg0KPiA+
+ID4gPiBkaXN0cm9zIHRoYXQgYXJlIHNldHVwIHNpbWlsYXJseSB0byBQb2t5LiBJbnN0ZWFkLCBh
+ZGQgc3VwcG9ydCBmb3IgYQ0KPiA+ID4gPiBuZXcgdmFyaWFibGUgSU5WQUxJRF9URU1QTEFURUNP
+TkZTLCB3aGljaCB0YWtlcyBhIGxpc3Qgb2YgaW52YWxpZA0KPiA+ID4gPiBwYXRocy4gIEl0IGlz
+IGV4cGVjdGVkIHRoYXQgdGhpcyB2YXJpYWJsZSBpcyBzZXQgaW4gdGhlDQo+IC50ZW1wbGF0ZWNv
+bmYNCj4gPiA+ID4gZmlsZSB0b2dldGhlciB3aXRoIHRoZSBkZWZhdWx0IHZhbHVlIGZvciBURU1Q
+TEFURUNPTkYsIHR5cGljYWxseSBhdA0KPiA+ID4gPiB0aGUgc2FtZSB0aW1lIHRoYXQgVEVNUExB
+VEVDT05GIGlzIHVwZGF0ZWQgdG8gbWF0Y2ggdGhlIG5ldw0KPiA+ID4gPiByZXF1aXJlbWVudHMu
+DQo+ID4gPiA+DQo+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0
+ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KPiA+ID4gPiAtLS0NCj4gPiA+ID4gIHNjcmlwdHMv
+b2Utc2V0dXAtYnVpbGRkaXIgfCAyMSArKysrKysrKysrKysrLS0tLS0tLS0NCj4gPiA+ID4gIDEg
+ZmlsZSBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQ0KPiA+ID4gPg0K
+PiA+ID4gPiBkaWZmIC0tZ2l0IGEvc2NyaXB0cy9vZS1zZXR1cC1idWlsZGRpciBiL3NjcmlwdHMv
+b2Utc2V0dXAtYnVpbGRkaXINCj4gPiA+ID4gaW5kZXggMjI1OTE5YmU5Mi4uYzExNDhkYWY0ZiAx
+MDA3NTUNCj4gPiA+ID4gLS0tIGEvc2NyaXB0cy9vZS1zZXR1cC1idWlsZGRpcg0KPiA+ID4gPiAr
+KysgYi9zY3JpcHRzL29lLXNldHVwLWJ1aWxkZGlyDQo+ID4gPiA+IEBAIC0zNCwxNCArMzQsMTkg
+QEAgY2htb2QgLXN0ICIkQlVJTERESVIvY29uZiIgMj4vZGV2L251bGwgfHwgZWNobw0KPiAiV0FS
+TklORzogdW5hYmxlIHRvIGNobW9kICRCVUlMREQNCj4gPiA+ID4NCj4gPiA+ID4gIGNkICIkQlVJ
+TERESVIiIHx8IGRpZSAiRmFpbGVkIHRvIGNoYW5nZSBkaXJlY3RvcnkgdG8gJEJVSUxERElSISIN
+Cj4gPiA+ID4NCj4gPiA+ID4gLWlmIFsgLXogIiRURU1QTEFURUNPTkYiIF0gJiYgWyAtZiAiJEJV
+SUxERElSL2NvbmYvdGVtcGxhdGVjb25mLmNmZyINCj4gXTsgdGhlbg0KPiA+ID4gPiAtICAgIFRF
+TVBMQVRFQ09ORj0kKGNhdCAiJEJVSUxERElSL2NvbmYvdGVtcGxhdGVjb25mLmNmZyIpDQo+ID4g
+PiA+IC0gICAgIyBUaGUgZm9sbG93aW5nIHR3byBhcmUgbm8gbG9uZ2VyIHZhbGlkOyB1bnNldHRp
+bmcgdGhlbSB3aWxsDQo+IGF1dG9tYXRpY2FsbHkgZ2V0IHRoZW0gcmVwbGFjZWQNCj4gPiA+ID4g
+LSAgICAjIHdpdGggY29ycmVjdCBvbmVzLg0KPiA+ID4gPiAtICAgIGlmIFsgIiRURU1QTEFURUNP
+TkYiID0gbWV0YS9jb25mIF0gfHwgWyAiJFRFTVBMQVRFQ09ORiIgPSBtZXRhLQ0KPiBwb2t5L2Nv
+bmYgXTsgdGhlbg0KPiA+ID4gPiAtICAgICAgICB1bnNldCBURU1QTEFURUNPTkYNCj4gPiA+ID4g
+LSAgICAgICAgcm0gIiRCVUlMRERJUi9jb25mL3RlbXBsYXRlY29uZi5jZmciDQo+ID4gPiA+IC0g
+ICAgZmkNCj4gPiA+ID4gK1RFTVBMQVRFQ09ORl9DRkc9IiRCVUlMRERJUi9jb25mL3RlbXBsYXRl
+Y29uZi5jZmciDQo+ID4gPiA+ICtpZiBbIC16ICIkVEVNUExBVEVDT05GIiBdICYmIFsgLWYgIiRU
+RU1QTEFURUNPTkZfQ0ZHIiBdOyB0aGVuDQo+ID4gPiA+ICsgICAgVEVNUExBVEVDT05GPSQoY2F0
+ICIkVEVNUExBVEVDT05GX0NGRyIpDQo+ID4gPiA+ICsgICAgIyBVbnNldCBURU1QTEFURUNPTkYg
+aWYgaXQgaXMgc2V0IHRvIGEga25vd24gaW52YWxpZCB2YWx1ZSB0bw0KPiBoYXZlIGl0DQo+ID4g
+PiA+ICsgICAgIyBhdXRvbWF0aWNhbGx5IHJlcGxhY2VkIHdpdGggYSBjb3JyZWN0IG9uZS4NCj4g
+PiA+ID4gKyAgICBmb3IgZGlyIGluICRJTlZBTElEX1RFTVBMQVRFQ09ORlM7IGRvDQo+ID4gPiA+
+ICsgICAgICAgIGlmIFsgIiRURU1QTEFURUNPTkYiID0gIiRkaXIiIF07IHRoZW4NCj4gPiA+ID4g
+KyAgICAgICAgICAgZWNobyAiV0FSTklORzogUmVtb3ZpbmcgJFRFTVBMQVRFQ09ORl9DRkcgYXMg
+aXQNCj4gY29udGFpbmVkIHRoZSBpbnZhbGlkIHZhbHVlICckVEVNUExBVEVDT05GJyINCj4gPiA+
+ID4gKyAgICAgICAgICAgdW5zZXQgVEVNUExBVEVDT05GDQo+ID4gPiA+ICsgICAgICAgICAgIHJt
+ICIkVEVNUExBVEVDT05GX0NGRyINCj4gPiA+ID4gKyAgICAgIGJyZWFrOw0KPiA+ID4gPiArICAg
+ICAgICBmaQ0KPiA+ID4gPiArICAgIGRvbmUNCj4gPiA+ID4gIGZpDQo+ID4gPg0KPiA+ID4gSSd2
+ZSBiZWVuIHRyeWluZyB0byBrZWVwIG91dCB0aGlzIGRpc2N1c3Npb24gYnV0IEkgcmVhbGx5IGRv
+bid0IGxpa2UNCj4gPiA+IHBpbGluZyBpbiBtb3JlIGNvbXBsZXhpdHkgYW5kIG1vcmUgdGhpbmdz
+IHdlIGhhdmUgdG8gc3VwcG9ydCBiZWNhdXNlDQo+IG9mDQo+ID4gPiBhIGxlZ2FjeSBjb2RlIHBh
+dGggd2UncmUgdHJ5aW5nIHRvIG9ic29sZXRlLg0KPiA+ID4NCj4gPiA+IEkgYWxzbyBzdXNwZWN0
+IHRoaXMgaXMgZ29pbmcgdG8gYmUgdXNlZCB0byAic3VidmVydCIgdGhlIG1vdmUgdG8gdHJ5DQo+
+ID4gPiBhbmQgc3RhbmRhcmRpc2UgYW5kIGlmIHRoYXQgaGFwcGVucywgd2UgbWF5IGFzIHdlbGwg
+bm90IGhhdmUgYm90aGVyZWQNCj4gPiA+IG1ha2luZyBjaGFuZ2VzIGF0IGFsbCA6KC4NCj4gPiA+
+DQo+ID4gPiBBcyBzdWNoIEknbSB3b3JyaWVkIGFib3V0IHRoaXMgZGlyZWN0aW9uLg0KPiA+ID4N
+Cj4gPiA+IENoZWVycywNCj4gPiA+DQo+ID4gPiBSaWNoYXJkDQo+ID4NCj4gPiBBbGwgSSB3YW50
+IGlzIHRvIHJlbW92ZSB0aGUgaGFyZGNvZGVkIHN1cGVyZmljaWFsIGxpbWl0YXRpb25zIGFuZA0K
+PiA+IGFsbG93IHVzIHRoYXQgcHJvdmlkZSBkaXN0cm9zIHNldHVwIGp1c3QgYXMgUG9reSBpcyBz
+ZXR1cCB0byBjb250aW51ZQ0KPiA+IHRvIGRvIHNvLg0KPiA+DQo+ID4gLy9QZXRlcg0KPiA+DQo+
+ID4NCj4gPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPiA+IExpbmtzOiBZb3UgcmVjZWl2ZSBh
+bGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLg0KPiA+IFZpZXcvUmVwbHkgT25saW5lICgj
+MTcwOTgxKToNCj4gaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVk
+LWNvcmUvbWVzc2FnZS8xNzA5ODENCj4gPiBNdXRlIFRoaXMgVG9waWM6IGh0dHBzOi8vbGlzdHMu
+b3BlbmVtYmVkZGVkLm9yZy9tdC85Mzg0NzQzNy8xNjg2NDg5DQo+ID4gR3JvdXAgT3duZXI6IG9w
+ZW5lbWJlZGRlZC1jb3JlK293bmVyQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiBVbnN1YnNj
+cmliZTogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUv
+dW5zdWINCj4gW2FsZXgua2FuYXZpbkBnbWFpbC5jb21dDQo+ID4gLT0tPS09LT0tPS09LT0tPS09
+LT0tPS0NCj4gPg0K
 
