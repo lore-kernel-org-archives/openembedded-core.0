@@ -1,91 +1,164 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04246C6FA86
-	for <webhook@archiver.kernel.org>; Thu, 22 Sep 2022 15:28:04 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web12.194.1663860475177497360
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25AEFC6FA82
+	for <webhook@archiver.kernel.org>; Thu, 22 Sep 2022 15:53:24 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web10.540.1663861985470400700
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Sep 2022 08:27:55 -0700
+ Thu, 22 Sep 2022 08:53:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=b+1iEr7S;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id
- o20-20020a05600c4fd400b003b4a516c479so1578455wmq.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VMHKuPnB;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id i26so15348143lfp.11
         for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Sep 2022 08:27:54 -0700 (PDT)
+ Thu, 22 Sep 2022 08:53:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=/sXTz+/ZvxB3a4judxmiJs6AV3E6qXYiKybIAra3nbU=;
-        b=b+1iEr7S/ni0uvGgojZ99XJbmDK2yRqGCBsXznmXqUPzXJxCmLbeJk0fbfNtcyUItx
-         pFnCIUMV9Bb3Wdn+8kA8qYIr8XfBw0GFymMt0qawkx4RdD9H+aBId07dweKOTj+EfRHz
-         Yrpnzw0Ffjr0d28BEcDZDszHvSSIBQw8Hrluw=
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=I5Y1mwE1BpSD7fG6Z6//kVne0mAbZGsusqoThoGDhTc=;
+        b=VMHKuPnBRhahZGDSh8g83npbaSKbOVJ0ywDTl9SDBqtJdPzl3dladGPnpyBJQzrkVV
+         HO32T0j1gXWR7Ms4lU0fBPL7lQS9J9eTL7r3ltfipb8aUwOUsiSgjft0S4OBw8FWIjTy
+         9Gei98Zw85JPKiD+mZDU9GjjVL/0xpRDXtuFv8q18IAhr0bQnwDhMxN9F+Hq+M7gDXba
+         Dl1OaZqhon0xOVSDMgzmkegoxtw6HBdqaw+6v/OQYhP/KXd1mx4XgOENxFiSMrfvBRRe
+         Xlw5scG6O6N/sVhLGuP3YHaOGVLAPeyl2in9utz5/p7AlenPugZ56n3kseaQuurRWaDN
+         p+Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=/sXTz+/ZvxB3a4judxmiJs6AV3E6qXYiKybIAra3nbU=;
-        b=Jg4M8tUeb1CS+IGk+IjxBz3H1isGjyTtDZnZ6qvv3aI2S26FtS5H9o7z6WXUuYKFQB
-         8Ls1ZF6EW8/TT6s1Sdc3K3zn6b16bcfY2WqmPdBJDxYHKDAtjrDk7KsjAJMG7aKg4kCv
-         86avmt12uWqqBMYgliPfTgyfJ9onKyvEYznjH1SPPePN5CYMhgIEv/fIU5vU0u5AuhVh
-         W1y4A+/ObNrpV2/EXseBcdXr3fd/HluEv3OHSthwEYXm0FNTf1J95Z52j+sJ2qG7jBj1
-         ImmLPY9kVGsSZ3uzM4SJszbHngpP4JKg4BxLeFionetQa1xCAdI9ediZMbwGNSyKC5w9
-         j4SA==
-X-Gm-Message-State: ACrzQf0uionV4GmqDMKpLSDP8YDV22A3IDe1xdh2/5HzTW8AptIT+sgm
-	9kKc5WahonIm8NNX+/zfPGAYeRbuZ0wEag==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=I5Y1mwE1BpSD7fG6Z6//kVne0mAbZGsusqoThoGDhTc=;
+        b=3DRxKpPmnNxbWuCQl/GGKKlTZeWlypEQ7pwjrYgb41Kk7X9RS0ZL8lfG66naC3fI4i
+         k2jqMPa5mwD9xNQL3VrrhZvwTg41tFKxxHGFXYIHo9JYR46E1SsaHWY1ArMgDl7cv2/7
+         I9bWlVMlEQ83+49C2prek9pf97QSNqyIyd/vvXxcysKDww85OPPJ1ExIxdBlkGY5LV+t
+         DEIC/1l07lD011c05OikWfqXnhz+VvHOgypMpY6WGiV+ZNQTZWCH7op1w/6Vo68HJCuU
+         OvYr3GYt/GkZvNUbpHMyyjyqPjAGJr7aHgvRffP9D6mFmYH4dn624PcdFIllB+obfL6f
+         Qxyg==
+X-Gm-Message-State: ACrzQf2BGgxTkzymhpi1aSI7ezcY3X7Zz0xP0uQqe82GDXADmJqX7hUH
+	dW/u9fkKIDPK4VVbh+/fOGwp3v3MvKhBzDsxHnU=
 X-Google-Smtp-Source: 
- AMsMyM7qos0Qxibd1AZjNJgo94jEZqQNAaGwx9Cjx3cQP4UcNEvthsQqblRP8jiBgsH89VTXzeIQ5A==
-X-Received: by 2002:a05:600c:154d:b0:3b4:aae6:4bd7 with SMTP id
- f13-20020a05600c154d00b003b4aae64bd7mr2863841wmg.63.1663860473329;
-        Thu, 22 Sep 2022 08:27:53 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:6f87:a0ac:e77:378])
-        by smtp.gmail.com with ESMTPSA id
- o2-20020a05600c510200b003a540fef440sm6881428wms.1.2022.09.22.08.27.52
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Sep 2022 08:27:52 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] oeqa/runtime/virgl: Update test to match new mesa version
-Date: Thu, 22 Sep 2022 16:27:47 +0100
-Message-Id: <20220922152747.1685843-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220922152747.1685843-1-richard.purdie@linuxfoundation.org>
-References: <20220922152747.1685843-1-richard.purdie@linuxfoundation.org>
+ AMsMyM7um6H8M4JFi3Us+Wu6NCvFAno8ihJqqyJqhoER4XknCF/bRaZMReLb3lqSMXXW8KwDCeuSzVMF4ZfNOMvDFO0=
+X-Received: by 2002:a05:6512:13a4:b0:479:3b9f:f13c with SMTP id
+ p36-20020a05651213a400b004793b9ff13cmr1465061lfa.380.1663861983638; Thu, 22
+ Sep 2022 08:53:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220922124708.2218995-1-pkj@axis.com>
+ <20220922124708.2218995-2-pkj@axis.com>
+ <28947223c26b05f58c4b6cd13919b025617318a2.camel@linuxfoundation.org>
+ <ee0aa31d5fa34a5ba889e3518d8b2a95@axis.com>
+In-Reply-To: <ee0aa31d5fa34a5ba889e3518d8b2a95@axis.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 22 Sep 2022 17:52:54 +0200
+Message-ID: 
+ <CANNYZj__Gud2xeWrtK=tZaY_BGQ2d4tVVJLfZt4R0aqzUadK-A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
+ paths for templates
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 Sep 2022 15:28:04 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 22 Sep 2022 15:53:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/170985
+ https://lists.openembedded.org/g/openembedded-core/message/170986
 
-The output string changed slightly in new mesa versions so update
-the test to match.
+.templateconf is not the way to specify the location of custom
+templates, and never was. It got added to documentation by
+misunderstanding, this has now been removed, and so you need to update
+your tooling so that templates are set with TEMPLATECONF going
+forward.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta-selftest/lib/oeqa/runtime/cases/virgl.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Alex
 
-diff --git a/meta-selftest/lib/oeqa/runtime/cases/virgl.py b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
-index 144decdd6b7..f19cdee9f09 100644
---- a/meta-selftest/lib/oeqa/runtime/cases/virgl.py
-+++ b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
-@@ -15,4 +15,4 @@ class VirglTest(OERuntimeTestCase):
-     def test_kmscube(self):
-         status, output = self.target.run('kmscube')
-         self.assertEqual(status, 0, "kmscube exited with non-zero status %d and output:\n%s" %(status, output))
--        self.assertIn('renderer: "virgl"', output, "kmscube does not seem to use virgl:\n%s" %(output))
-+        self.assertIn('renderer: "virgl', output, "kmscube does not seem to use virgl:\n%s" %(output))
--- 
-2.34.1
-
+On Thu, 22 Sept 2022 at 15:26, Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+>
+> > -----Original Message-----
+> > From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > Sent: den 22 september 2022 15:14
+> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid paths for templates
+> >
+> > On Thu, 2022-09-22 at 14:47 +0200, Peter Kjellerstedt wrote:
+> > > Previously, the paths "meta/conf" and "meta-poky/conf" were hardcoded
+> > > as invalid paths for templates. However, this is suboptimal for other
+> > > distros that are setup similarly to Poky. Instead, add support for a
+> > > new variable INVALID_TEMPLATECONFS, which takes a list of invalid
+> > > paths.  It is expected that this variable is set in the .templateconf
+> > > file together with the default value for TEMPLATECONF, typically at
+> > > the same time that TEMPLATECONF is updated to match the new
+> > > requirements.
+> > >
+> > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > > ---
+> > >  scripts/oe-setup-builddir | 21 +++++++++++++--------
+> > >  1 file changed, 13 insertions(+), 8 deletions(-)
+> > >
+> > > diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
+> > > index 225919be92..c1148daf4f 100755
+> > > --- a/scripts/oe-setup-builddir
+> > > +++ b/scripts/oe-setup-builddir
+> > > @@ -34,14 +34,19 @@ chmod -st "$BUILDDIR/conf" 2>/dev/null || echo "WARNING: unable to chmod $BUILDD
+> > >
+> > >  cd "$BUILDDIR" || die "Failed to change directory to $BUILDDIR!"
+> > >
+> > > -if [ -z "$TEMPLATECONF" ] && [ -f "$BUILDDIR/conf/templateconf.cfg" ]; then
+> > > -    TEMPLATECONF=$(cat "$BUILDDIR/conf/templateconf.cfg")
+> > > -    # The following two are no longer valid; unsetting them will automatically get them replaced
+> > > -    # with correct ones.
+> > > -    if [ "$TEMPLATECONF" = meta/conf ] || [ "$TEMPLATECONF" = meta-poky/conf ]; then
+> > > -        unset TEMPLATECONF
+> > > -        rm "$BUILDDIR/conf/templateconf.cfg"
+> > > -    fi
+> > > +TEMPLATECONF_CFG="$BUILDDIR/conf/templateconf.cfg"
+> > > +if [ -z "$TEMPLATECONF" ] && [ -f "$TEMPLATECONF_CFG" ]; then
+> > > +    TEMPLATECONF=$(cat "$TEMPLATECONF_CFG")
+> > > +    # Unset TEMPLATECONF if it is set to a known invalid value to have it
+> > > +    # automatically replaced with a correct one.
+> > > +    for dir in $INVALID_TEMPLATECONFS; do
+> > > +        if [ "$TEMPLATECONF" = "$dir" ]; then
+> > > +           echo "WARNING: Removing $TEMPLATECONF_CFG as it contained the invalid value '$TEMPLATECONF'"
+> > > +           unset TEMPLATECONF
+> > > +           rm "$TEMPLATECONF_CFG"
+> > > +      break;
+> > > +        fi
+> > > +    done
+> > >  fi
+> >
+> > I've been trying to keep out this discussion but I really don't like
+> > piling in more complexity and more things we have to support because of
+> > a legacy code path we're trying to obsolete.
+> >
+> > I also suspect this is going to be used to "subvert" the move to try
+> > and standardise and if that happens, we may as well not have bothered
+> > making changes at all :(.
+> >
+> > As such I'm worried about this direction.
+> >
+> > Cheers,
+> >
+> > Richard
+>
+> All I want is to remove the hardcoded superficial limitations and
+> allow us that provide distros setup just as Poky is setup to continue
+> to do so.
+>
+> //Peter
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#170981): https://lists.openembedded.org/g/openembedded-core/message/170981
+> Mute This Topic: https://lists.openembedded.org/mt/93847437/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
