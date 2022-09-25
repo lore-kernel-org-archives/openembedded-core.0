@@ -2,66 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23DCEC54EE9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E607C6FA92
 	for <webhook@archiver.kernel.org>; Sun, 25 Sep 2022 19:18:42 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web11.20267.1664133493767765434
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.20278.1664133516436659479
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Sep 2022 12:18:32 -0700
+ Sun, 25 Sep 2022 12:18:36 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=eqUj9Inu;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.41,
+ header.b=D1sp1paf;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f41.google.com with SMTP id
- q9-20020a17090a178900b0020265d92ae3so10491925pja.5
+Received: by mail-pl1-f180.google.com with SMTP id f23so4444294plr.6
         for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Sep 2022 12:18:32 -0700 (PDT)
+ Sun, 25 Sep 2022 12:18:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=OjVOusPly01hgyF9kVmsggjoOkW/6vPlEXYwbMyUzko=;
-        b=eqUj9InutjKPgcDynl0e8uqH2KSVDccHKpgH5RA3mkru9Rh4I/vTv/9Vj9dsVaxDgM
-         TTrA2yO3Yjyr9FgrLgqBafEbMDA1nsQRpgBccFUm3Y9MfdICj7N1kmYZ7RDR8oBBo9kH
-         dyy7S+aHe9DZ/m/3rMFUZUPI6VNaPcwnR9tYsNVMN+AZcN4NMzfhNbemGWBP+/HCNR+a
-         N3+6TIpjS0OJGIxSeYmiPMkp+BrwDNTiB7XKTsX8lJKi+BzYeDGHcrnMQziRfvSL/Jp9
-         8aFB/l38sHdvylZYGBPGiudTb95O4StSL+9SFfzw1qPpcjtPuaAkcdxWF4rIPTwgm6mz
-         0nmQ==
+        bh=js6PEGDM4yBsC9rx5W6mH45PFoKQQfHKLE0pWaJthvY=;
+        b=D1sp1pafosDPo0CbQvKN8vHJAH05n1d96G4mSjT8DpHWCY3FM3OdG5AGHyDK08VRp2
+         o5lk0776W4Adap8CpZLSsoLe6xgV2zxiEP3TcoBamuPX7i4EV/d42a2f9GVJ4SPvT6xq
+         jNlv9hVJXQtMGcbZU+Yy1hlhq66kIC03vdplYzueFAZbJShCQR18Auk8Ted/xsUvfsFZ
+         WyP8HsH/ODdTSaXj46HXBIP/erjdU4VZKUfm++0v8p4wQKOeC1rvPUdx24/Vvzc7bU8R
+         XbYZYlfCBbaWER10D3rbB7zByR3lMB58OQrWs6wpBeaAnlPWrPbi5WsDZGZ5BNTXt1Eh
+         nWfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=OjVOusPly01hgyF9kVmsggjoOkW/6vPlEXYwbMyUzko=;
-        b=V98FXC9m1HeZBC6k4ed05HRp3Ivqhb3hEhgtfZM2RKcEcBgOWt37i8rDFeMyDauK67
-         3O9Z19DV5nvpkDzZAWyXXL+vxkyRs0ETnIxHLcsqSheai9V6n+39HFv0zkyyIifbXbMb
-         n1xhQyH0rDTJg/+6rpD1IyF+hEal2kKyvo/RgIZsS+4PLUn12PPQjsIlsO1Fc19FkU3s
-         GoJRJ4kWFWqj5eZFGFVwbiyJUu8km2AQNxst6NvbeCSC5TVA5JZHwdHrj27jWKTa659j
-         Vxz19Rc7wI1rPWo5tVW4A9D34AcDDXYzcCJJ/t696bmEYbHAx7uXSG3PXK+fv74S9tCc
-         MIrg==
-X-Gm-Message-State: ACrzQf2Ty6TsfAEDsvMbOcxc+H6fKbjvEfPYnWsUxx0mEO7XZ3omCGs6
-	Ghd2keX92qtTgrYGXJeMV1NjTaz0amtJr+98
+        bh=js6PEGDM4yBsC9rx5W6mH45PFoKQQfHKLE0pWaJthvY=;
+        b=epb3+pse893ZDRkgiuCUtNIOq//K4YaxrI5WlFfRQOz5B5B8BaYGG2RulM6rQLUqnk
+         Sm4HHGJw+y+jNXCHMbEfjizpN36Aldnl3UuLgjULo8+0gwDNHv00SnLK7wjGLMUizXkl
+         OXMUnp+c6rTmKPbhDRggxqce0yZE15Flt8uCfs6v/hbVohEO2LoP1kC+PT1zmut/yhNf
+         s3QA7At16Q0s4L0JYd0gSNoqXrVkAz4z5RHD3YV2eq7tzPovER56g1+Y+Y5P9d16Rn+A
+         dl9oS2/2c5yKbvVF0VvnulI1xGySabXNsplj1mYgcqyAXeJa6fe7BzASuSm57sm6fGpq
+         xWjQ==
+X-Gm-Message-State: ACrzQf3xrIT+lsO69Tkf/aUZNTOaFHOemPPC3upmy8KVp+Al4A32Ruh0
+	LxnPKe+xh4bPM9uv7DWBc6TOx2guIW37RgRb
 X-Google-Smtp-Source: 
- AMsMyM6i1EMuz/g3VB59SkfH/MtEKlvKdWNdym7t6HsygaFiz0mJJhAj2+07wous77xCHlrVGsxMDg==
-X-Received: by 2002:a17:90b:3910:b0:203:dd3d:5f8a with SMTP id
- ob16-20020a17090b391000b00203dd3d5f8amr23766726pjb.210.1664133511556;
-        Sun, 25 Sep 2022 12:18:31 -0700 (PDT)
+ AMsMyM6ZHDCYwC61+kc7n0nndWdiWvm+3l1fkwiF+BD1skFcynXLuZ/yqCj6R4H1eak0e68eyNd1lA==
+X-Received: by 2002:a17:90b:4c41:b0:202:78e9:472b with SMTP id
+ np1-20020a17090b4c4100b0020278e9472bmr21359805pjb.207.1664133515479;
+        Sun, 25 Sep 2022 12:18:35 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- f126-20020a625184000000b0053651308a1csm10311257pfb.195.2022.09.25.12.18.30
+ f126-20020a625184000000b0053651308a1csm10311257pfb.195.2022.09.25.12.18.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Sep 2022 12:18:31 -0700 (PDT)
+        Sun, 25 Sep 2022 12:18:34 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 17/33] kern-tools: allow 'y' or 'm' to avoid
- config audit warnings
-Date: Sun, 25 Sep 2022 09:17:28 -1000
+Subject: [OE-core][kirkstone 19/33] linux-firmware: upgrade 20220708 ->
+ 20220913
+Date: Sun, 25 Sep 2022 09:17:30 -1000
 Message-Id: 
- <35c2debe35103f92993d9d7bb164b7bd64629c67.1664133309.git.steve@sakoman.com>
+ <5f04af95019926970dcabe755645d167ae46189f.1664133309.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1664133308.git.steve@sakoman.com>
 References: <cover.1664133308.git.steve@sakoman.com>
@@ -72,49 +71,45 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 25 Sep 2022 19:18:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171031
+ https://lists.openembedded.org/g/openembedded-core/message/171033
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
 
-   commit b627b8bd17501400649d38bf61c8a3d2121a1b8f (HEAD -> master,
-   origin/master, origin/HEAD)
-   Author: Bruce Ashfield <bruce.ashfield@gmail.com>
-   Date:   Sun Sep 18 16:36:43 2022 -0400
-
-       symbol_why: allow options to be flagged as built-in or module
-
-       Some options that are hardware related, can either be built in or
-       modules, and meet the criteria of being acceptable for a BSP.
-
-       To allow these options to not throw warnings, we create a new
-       configuration fragment to go along with the 'hardware.cfg' and
-       'nonhardware.cfg' special fragments.
-
-       This new fragment is called 'y_or_m_enabled.cfg' and is effective
-       for the fragments in its directory. The format is the same as
-       hardware/nonhardware.cfg, is simply a list of CONFIG_ options.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+License-Update: additional files
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9cd0623f89d8ff5ea95d6ab713dd4bf45742a8b1)
+(cherry picked from commit 68ce822b765a7b67f8cc8590688860cc2530cf04)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...{linux-firmware_20220708.bb => linux-firmware_20220913.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220708.bb => linux-firmware_20220913.bb} (99%)
 
-diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index e065c3e74f..dea7b65a7c 100644
---- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-+++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "\
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20220708.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20220913.bb
+similarity index 99%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20220708.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20220913.bb
+index 91c32e49d6..5a953fd0e2 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20220708.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20220913.bb
+@@ -132,7 +132,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     "
+ # WHENCE checksum is defined separately to ease overriding it if
+ # class-devupstream is selected.
+-WHENCE_CHKSUM  = "def08711eb23ba967fb7e1f8cff66178"
++WHENCE_CHKSUM  = "98ecc3d3223df7ebdc23b0ec56aafb20"
  
- DEPENDS = "git-native"
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+ # so that the license files will be copied from fetched source
+@@ -209,7 +209,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+ # Pin this to the 20220509 release, override this in local.conf
+ SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
  
--SRCREV = "9320c2a1aaa085e94abd15ede0d93ffdab578e9d"
-+SRCREV = "ba600ef61a85966596126a6e8d936971905e8749"
- PV = "0.3+git${SRCPV}"
+-SRC_URI[sha256sum] = "0abec827a035c82bdcabdf82aa37ded247bc682ef05861bd409ea6f477bab81d"
++SRC_URI[sha256sum] = "26fd00f2d8e96c4af6f44269a6b893eb857253044f75ad28ef6706a2250cd8e9"
  
- inherit native
+ inherit allarch
+ 
 -- 
 2.25.1
 
