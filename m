@@ -1,280 +1,111 @@
-Return-Path: <changhyeok.bae@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC6CDC54EE9
-	for <webhook@archiver.kernel.org>; Sun, 25 Sep 2022 14:35:10 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.17512.1664116510037791532
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E207C54EE9
+	for <webhook@archiver.kernel.org>; Sun, 25 Sep 2022 15:03:51 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web08.17691.1664118225812434915
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Sep 2022 07:35:10 -0700
+ Sun, 25 Sep 2022 08:03:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=IW5KD8nF;
- spf=pass (domain: gmail.com, ip: 209.85.128.53,
- mailfrom: changhyeok.bae@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id t4so2942833wmj.5
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=VnatMljl;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.46,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f46.google.com with SMTP id rt12so4214737pjb.1
         for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Sep 2022 07:35:09 -0700 (PDT)
+ Sun, 25 Sep 2022 08:03:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date;
-        bh=K9YefoM1dn84hAzrVKVDuYEqfRdl2BeALcLRJbQRh/M=;
-        b=IW5KD8nFwj1NFsb8x76sqPXgmngpwppSbuzZAr2H3eiIdbrraYBvbab40AGdRDmIj+
-         VqXNHXVF4MktKsPJu1Qd09vFLsKf2o1PaO2CFT2RoV5u6jD4yAkafvWTx7y5Mvccd/L1
-         WR7xhuKyBrn1n/NE+LnLwGKCu1mfYTl6gB5jKjnBB8WkcksH3W0iyRXlIGVn96VTxGKQ
-         CAKvAMYuN9sFhZ0WHQnkmKse2EzNvYlISsJcijnRIv2cca3XPEw65s3e9x3RKmdGMNgM
-         X/lek7AFwSOE3ad23ZuVytB+0dPG7ciTGIJjtP1Esi1+GmGmi07Ckt/fF6GYckUo7usN
-         47SQ==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=date:message-id:to:from:subject:from:to:cc:subject:date;
+        bh=4ADn4/Mm1UPRr/tVcCAuHVOvxX8PfF5Iv2b45JQDsBg=;
+        b=VnatMljlZL1WgVge6TralCRn+kTqUuNyCqPobcZz6rXrbCmUi+y9vrYo3mvW+tCEag
+         OhvfBXJkLkTr5RDy592tFTr1CCImCCXkXBr9amANEEcWyVwjKvX2m9a1OJgF1S7JlQ8J
+         tWO4BqRnlZmGGqhWdzDytqQ/ZgpnkKQt/S8nsgrWW5a7u5LGbU5hygbxeSDAUrxR6ZbD
+         BUkiP004L+m4smffDmDnkV2E4mirWGoPrbNsJCckzMiyuwr57LGDJmy0+0HOQyfuzwHd
+         0NAP6/8doKPVhy3YrAba0bFJlSbTldGnhdP7n3pyBIylMpSYGUvU3gI1CwSSdiAl89xP
+         1bRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=K9YefoM1dn84hAzrVKVDuYEqfRdl2BeALcLRJbQRh/M=;
-        b=DBJkPUupYsYrilYrs2WcUPekA3QMpKrlcj8fxy4VhPL0pQ+o4pSuaODH4xj2VwGj+E
-         QoajvUG0wgnmYH+qAMBkmqEw08k8fIL/sb/+NScE4PbPw3fAYrFRV1x0kx0XTqltYgYh
-         /Pbiey8+VxrXMidxDdZqo/msmz+2xFzBgDQIBGA2498XHjOMQPBkJ2KdeMN5jE0Icaph
-         VBQeCwPsYtMhhGlJCsSEFRQBk5S9ft9fd+6iPpZEmOUWm+rLrISgGPX8ygsfg89OUtLv
-         m4UF1pZPji1lvkXhydVrdwNMatoBZMnEL747W+M7PzvlxH64UHN3YgzDuTt3g22yUnXx
-         B8Jg==
-X-Gm-Message-State: ACrzQf3NKNylcDz1X+blxWWNGVjmFbofxaErjl0mLiLS9vqgf1de5RdM
-	6kD3zmicBeLtKv0Dy++ICGYg+HX9fwQ=
+        h=date:message-id:to:from:subject:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=4ADn4/Mm1UPRr/tVcCAuHVOvxX8PfF5Iv2b45JQDsBg=;
+        b=kWqQlq9QJTnKMwtEi9V1ZjjMMl0JY7luyLbx7AAWNgVySzIg/wkh/A/1C78kD5kNAE
+         JLRup80wpHMFT66z+05CpLWMVCTubq+a4OoreReLLefg19B0uy7bTilgrTdIQHJV8g2g
+         nTQET7xYv/ZUpGgvzczb2XJ6v7n9C+q+L1yBjiZjmzcOBjWoZqzD+RHtksDHYh4l+jD/
+         ZTMbptVUmajHtnt1xDEn5Y4aP+JiuNwpJhplSuIYP8sHpGe49LFirHd98eJBlSV/4pM2
+         yAzVjpy27idoU3coQi4apOw0o1CXU9vRRvD4KTQnk6EFM16vD7Bb+/ZYNi2qMxYTdXwe
+         AdiA==
+X-Gm-Message-State: ACrzQf2P6sIGd0m82AQtJ1uHd7BUG36rx49oI08GKavWoHql1Squ44xF
+	MHbUyqRMf9aUgIx6GBopLDHF0Wu8FDlzq2Ba
 X-Google-Smtp-Source: 
- AMsMyM5//LYw0jUSpFs2NuLtHj6YCW9Y1zCexojlLabtbvSIrxTQ3fLhcC6HGiOs7SoiTVJqUxjj4w==
-X-Received: by 2002:a05:600c:2286:b0:3b4:85b0:1c3c with SMTP id
- 6-20020a05600c228600b003b485b01c3cmr18983133wmf.21.1664116507937;
-        Sun, 25 Sep 2022 07:35:07 -0700 (PDT)
-Received: from localhost.localdomain (ip-109-40-242-105.web.vodafone.de.
- [109.40.242.105])
+ AMsMyM7FsYpTaKPq+CdoF+ZxgCUg0fIddO9KeWO2AzveH0hg2vP8ABAC9CVT22PCO9f+iG2B9nksZw==
+X-Received: by 2002:a17:903:2282:b0:177:faeb:3606 with SMTP id
+ b2-20020a170903228200b00177faeb3606mr17906312plh.135.1664118224492;
+        Sun, 25 Sep 2022 08:03:44 -0700 (PDT)
+Received: from nuc.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- g19-20020a05600c4ed300b003b4868eb71bsm9097373wmq.25.2022.09.25.07.35.06
+ i63-20020a17090a3dc500b001fdcb792181sm4867244pjc.43.2022.09.25.08.03.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Sep 2022 07:35:07 -0700 (PDT)
-From: Changhyeok Bae <changhyeok.bae@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Changhyeok Bae <changhyeok.bae@gmail.com>
-Subject: [OE-Core][PATCH 2/2] iproute2: merge .inc into .bb
-Date: Sun, 25 Sep 2022 14:34:41 +0000
-Message-Id: <20220925143441.38925-2-changhyeok.bae@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220925143441.38925-1-changhyeok.bae@gmail.com>
-References: <20220925143441.38925-1-changhyeok.bae@gmail.com>
+        Sun, 25 Sep 2022 08:03:43 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id DAB769607F6; Sun, 25 Sep 2022 05:03:41 -1000 (HST)
+Subject: OE-core CVE metrics for kirkstone on Sun 25 Sep 2022 05:00:01 AM HST
+FROM: steve@sakoman.com
+To: 
+ <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20220925150341.DAB769607F6@nuc.router0800d9.com>
+Date: Sun, 25 Sep 2022 05:03:41 -1000 (HST)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 25 Sep 2022 14:35:10 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 25 Sep 2022 15:03:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171011
+ https://lists.openembedded.org/g/openembedded-core/message/171012
 
-Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
----
- .../iproute2/iproute2.inc                     | 89 ------------------
- .../iproute2/iproute2_5.19.0.bb               | 91 ++++++++++++++++++-
- 2 files changed, 89 insertions(+), 91 deletions(-)
- delete mode 100644 meta/recipes-connectivity/iproute2/iproute2.inc
+Branch: kirkstone
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
-deleted file mode 100644
-index c292b95e36..0000000000
---- a/meta/recipes-connectivity/iproute2/iproute2.inc
-+++ /dev/null
-@@ -1,89 +0,0 @@
--SUMMARY = "TCP / IP networking and traffic control utilities"
--DESCRIPTION = "Iproute2 is a collection of utilities for controlling \
--TCP / IP networking and traffic control in Linux.  Of the utilities ip \
--and tc are the most important.  ip controls IPv4 and IPv6 \
--configuration and tc stands for traffic control."
--HOMEPAGE = "http://www.linuxfoundation.org/collaborate/workgroups/networking/iproute2"
--SECTION = "base"
--LICENSE = "GPL-2.0-or-later"
--LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
--                    file://ip/ip.c;beginline=3;endline=8;md5=689d691d0410a4b64d3899f8d6e31817"
--
--DEPENDS = "flex-native bison-native iptables libcap"
--
--inherit update-alternatives bash-completion pkgconfig
--
--PACKAGECONFIG ??= "tipc elf devlink"
--PACKAGECONFIG[tipc] = ",,libmnl,"
--PACKAGECONFIG[elf] = ",,elfutils,"
--PACKAGECONFIG[devlink] = ",,libmnl,"
--PACKAGECONFIG[rdma] = ",,libmnl,"
--
--IPROUTE2_MAKE_SUBDIRS = "lib tc ip bridge misc genl ${@bb.utils.filter('PACKAGECONFIG', 'devlink tipc rdma', d)}"
--
--EXTRA_OEMAKE = "\
--    CC='${CC}' \
--    KERNEL_INCLUDE=${STAGING_INCDIR} \
--    DOCDIR=${docdir}/iproute2 \
--    SUBDIRS='${IPROUTE2_MAKE_SUBDIRS}' \
--    SBINDIR='${base_sbindir}' \
--    LIBDIR='${libdir}' \
--"
--
--do_configure:append () {
--    sh configure ${STAGING_INCDIR}
--    # Explicitly disable ATM support
--    sed -i -e '/TC_CONFIG_ATM/d' config.mk
--}
--
--do_install () {
--    oe_runmake DESTDIR=${D} install
--    mv ${D}${base_sbindir}/ip ${D}${base_sbindir}/ip.iproute2
--    install -d ${D}${datadir}
--    mv ${D}/share/* ${D}${datadir}/ || true
--    rm ${D}/share -rf || true
--}
--
--# The .so files in iproute2-tc are modules, not traditional libraries
--INSANE_SKIP:${PN}-tc = "dev-so"
--
--IPROUTE2_PACKAGES =+ "\
--    ${PN}-devlink \
--    ${PN}-genl \
--    ${PN}-ifstat \
--    ${PN}-ip \
--    ${PN}-lnstat \
--    ${PN}-nstat \
--    ${PN}-rtacct \
--    ${PN}-ss \
--    ${PN}-tc \
--    ${PN}-tipc \
--    ${PN}-rdma \
--"
--
--PACKAGE_BEFORE_PN = "${IPROUTE2_PACKAGES}"
--RDEPENDS:${PN} += "${PN}-ip"
--
--FILES:${PN}-tc = "${base_sbindir}/tc* \
--                  ${libdir}/tc/*.so"
--FILES:${PN}-lnstat = "${base_sbindir}/lnstat \
--                      ${base_sbindir}/ctstat \
--                      ${base_sbindir}/rtstat"
--FILES:${PN}-ifstat = "${base_sbindir}/ifstat"
--FILES:${PN}-ip = "${base_sbindir}/ip.${PN} ${sysconfdir}/iproute2"
--FILES:${PN}-genl = "${base_sbindir}/genl"
--FILES:${PN}-rtacct = "${base_sbindir}/rtacct"
--FILES:${PN}-nstat = "${base_sbindir}/nstat"
--FILES:${PN}-ss = "${base_sbindir}/ss"
--FILES:${PN}-tipc = "${base_sbindir}/tipc"
--FILES:${PN}-devlink = "${base_sbindir}/devlink"
--FILES:${PN}-rdma = "${base_sbindir}/rdma"
--
--ALTERNATIVE:${PN}-ip = "ip"
--ALTERNATIVE_TARGET[ip] = "${base_sbindir}/ip.${BPN}"
--ALTERNATIVE_LINK_NAME[ip] = "${base_sbindir}/ip"
--ALTERNATIVE_PRIORITY = "100"
--
--ALTERNATIVE:${PN}-tc = "tc"
--ALTERNATIVE_LINK_NAME[tc] = "${base_sbindir}/tc"
--ALTERNATIVE_PRIORITY_${PN}-tc = "100"
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_5.19.0.bb b/meta/recipes-connectivity/iproute2/iproute2_5.19.0.bb
-index 6a007797c9..3cbf80a810 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_5.19.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_5.19.0.bb
-@@ -1,4 +1,15 @@
--require iproute2.inc
-+SUMMARY = "TCP / IP networking and traffic control utilities"
-+DESCRIPTION = "Iproute2 is a collection of utilities for controlling \
-+TCP / IP networking and traffic control in Linux.  Of the utilities ip \
-+and tc are the most important.  ip controls IPv4 and IPv6 \
-+configuration and tc stands for traffic control."
-+HOMEPAGE = "http://www.linuxfoundation.org/collaborate/workgroups/networking/iproute2"
-+SECTION = "base"
-+LICENSE = "GPL-2.0-or-later"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
-+                    file://ip/ip.c;beginline=3;endline=8;md5=689d691d0410a4b64d3899f8d6e31817"
-+
-+DEPENDS = "flex-native bison-native iptables libcap"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-            file://0001-libc-compat.h-add-musl-workaround.patch \
-@@ -8,6 +19,82 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
- 
- SRC_URI[sha256sum] = "26b7a34d6a7fd2f7a42e2b39c5a90cb61bac522d1096067ffeb195e5693d7791"
- 
-+inherit update-alternatives bash-completion pkgconfig
-+
-+PACKAGECONFIG ??= "tipc elf devlink"
-+PACKAGECONFIG[tipc] = ",,libmnl,"
-+PACKAGECONFIG[elf] = ",,elfutils,"
-+PACKAGECONFIG[devlink] = ",,libmnl,"
-+PACKAGECONFIG[rdma] = ",,libmnl,"
-+
-+IPROUTE2_MAKE_SUBDIRS = "lib tc ip bridge misc genl ${@bb.utils.filter('PACKAGECONFIG', 'devlink tipc rdma', d)}"
-+
- # CFLAGS are computed in Makefile and reference CCOPTS
- #
--EXTRA_OEMAKE:append = " CCOPTS='${CFLAGS}'"
-+EXTRA_OEMAKE = "\
-+    CC='${CC}' \
-+    KERNEL_INCLUDE=${STAGING_INCDIR} \
-+    DOCDIR=${docdir}/iproute2 \
-+    SUBDIRS='${IPROUTE2_MAKE_SUBDIRS}' \
-+    SBINDIR='${base_sbindir}' \
-+    LIBDIR='${libdir}' \
-+    CCOPTS='${CFLAGS}' \
-+"
-+
-+do_configure:append () {
-+    sh configure ${STAGING_INCDIR}
-+    # Explicitly disable ATM support
-+    sed -i -e '/TC_CONFIG_ATM/d' config.mk
-+}
-+
-+do_install () {
-+    oe_runmake DESTDIR=${D} install
-+    mv ${D}${base_sbindir}/ip ${D}${base_sbindir}/ip.iproute2
-+    install -d ${D}${datadir}
-+    mv ${D}/share/* ${D}${datadir}/ || true
-+    rm ${D}/share -rf || true
-+}
-+
-+# The .so files in iproute2-tc are modules, not traditional libraries
-+INSANE_SKIP:${PN}-tc = "dev-so"
-+
-+IPROUTE2_PACKAGES =+ "\
-+    ${PN}-devlink \
-+    ${PN}-genl \
-+    ${PN}-ifstat \
-+    ${PN}-ip \
-+    ${PN}-lnstat \
-+    ${PN}-nstat \
-+    ${PN}-rtacct \
-+    ${PN}-ss \
-+    ${PN}-tc \
-+    ${PN}-tipc \
-+    ${PN}-rdma \
-+"
-+
-+PACKAGE_BEFORE_PN = "${IPROUTE2_PACKAGES}"
-+RDEPENDS:${PN} += "${PN}-ip"
-+
-+FILES:${PN}-tc = "${base_sbindir}/tc* \
-+                  ${libdir}/tc/*.so"
-+FILES:${PN}-lnstat = "${base_sbindir}/lnstat \
-+                      ${base_sbindir}/ctstat \
-+                      ${base_sbindir}/rtstat"
-+FILES:${PN}-ifstat = "${base_sbindir}/ifstat"
-+FILES:${PN}-ip = "${base_sbindir}/ip.${PN} ${sysconfdir}/iproute2"
-+FILES:${PN}-genl = "${base_sbindir}/genl"
-+FILES:${PN}-rtacct = "${base_sbindir}/rtacct"
-+FILES:${PN}-nstat = "${base_sbindir}/nstat"
-+FILES:${PN}-ss = "${base_sbindir}/ss"
-+FILES:${PN}-tipc = "${base_sbindir}/tipc"
-+FILES:${PN}-devlink = "${base_sbindir}/devlink"
-+FILES:${PN}-rdma = "${base_sbindir}/rdma"
-+
-+ALTERNATIVE:${PN}-ip = "ip"
-+ALTERNATIVE_TARGET[ip] = "${base_sbindir}/ip.${BPN}"
-+ALTERNATIVE_LINK_NAME[ip] = "${base_sbindir}/ip"
-+ALTERNATIVE_PRIORITY = "100"
-+
-+ALTERNATIVE:${PN}-tc = "tc"
-+ALTERNATIVE_LINK_NAME[tc] = "${base_sbindir}/tc"
-+ALTERNATIVE_PRIORITY_${PN}-tc = "100"
--- 
-2.17.1
+New this week: 8 CVEs
+CVE-2022-2795 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2795 *
+CVE-2022-2881 (CVSS3: 8.2 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2881 *
+CVE-2022-2906 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2906 *
+CVE-2022-2962 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2962 *
+CVE-2022-3080 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3080 *
+CVE-2022-3234 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3234 *
+CVE-2022-3235 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3235 *
+CVE-2022-3256 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3256 *
 
+Removed this week: 1 CVEs
+CVE-2020-35538 (CVSS3: 5.5 MEDIUM): libjpeg-turbo:libjpeg-turbo-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35538 *
+
+Full list:  Found 23 unpatched CVEs
+CVE-2018-25032 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-25032 *
+CVE-2021-35937 (CVSS3: 6.4 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35937 *
+CVE-2021-35938 (CVSS3: 7.8 HIGH): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35938 *
+CVE-2021-35939 (CVSS3: 7.8 HIGH): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35939 *
+CVE-2021-3611 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3611 *
+CVE-2021-3750 (CVSS3: 8.2 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3750 *
+CVE-2022-27664 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-27664 *
+CVE-2022-2795 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2795 *
+CVE-2022-2867 (CVSS3: 8.8 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2867 *
+CVE-2022-2868 (CVSS3: 8.1 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2868 *
+CVE-2022-2869 (CVSS3: 8.8 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2869 *
+CVE-2022-2881 (CVSS3: 8.2 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2881 *
+CVE-2022-2906 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2906 *
+CVE-2022-29154 (CVSS3: 7.4 HIGH): rsync:rsync-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-29154 *
+CVE-2022-2953 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2953 *
+CVE-2022-2962 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2962 *
+CVE-2022-3080 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3080 *
+CVE-2022-3234 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3234 *
+CVE-2022-3235 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3235 *
+CVE-2022-3256 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3256 *
+CVE-2022-32893 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32893 *
+CVE-2022-39028 (CVSS3: 7.5 HIGH): inetutils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39028 *
+CVE-2022-40674 (CVSS3: 9.8 CRITICAL): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40674 *
+
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
