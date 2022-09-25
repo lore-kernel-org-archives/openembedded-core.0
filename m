@@ -1,241 +1,331 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23CA5C6FA82
-	for <webhook@archiver.kernel.org>; Sun, 25 Sep 2022 19:19:12 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.20278.1664133516436659479
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08185C04A95
+	for <webhook@archiver.kernel.org>; Sun, 25 Sep 2022 21:33:03 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web09.21641.1664141570227165525
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Sep 2022 12:19:04 -0700
+ Sun, 25 Sep 2022 14:32:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=p8JzINuO;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180,
- mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id f23so4444774plr.6
-        for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Sep 2022 12:19:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=kSMXin0+11fmfvU+3XMNnFHpPlb/6pTHThDmgqBNzUw=;
-        b=p8JzINuOL+HNsEtqxUswFqIhGtQs/B8ycCwLlHOxOtSt8EpXQZE1fx5FSs1QNEPB63
-         uRmTWgL4POTbgBlQbLNCeWgKFFZkDJECUvamiff4LUcdtmFfjVhXrK3DBDXdSEhSguLz
-         YQjxgAXT/tSXyrKysbf0wiBtXCFiN6vfhf4+AzE11QkKiKdgjYehwyUaDX1zZyhdUtHd
-         g75SJi9YEdYYDQeTn+GiqO/hc2zzL5JPXPI9zLRnqPYprFgqX+qZpxeztBC0+ATM8M1y
-         1JDeoq5s32ufHX+Nstwzoev1WFxADd/ONriUY6DqESROMwI1NYD4JgqOsQWxC78i7weY
-         P7Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=kSMXin0+11fmfvU+3XMNnFHpPlb/6pTHThDmgqBNzUw=;
-        b=zJId0i7kJO2iTDIbnWQ0v5pUe/bHNf++r/S+nzctk4l2C3dTzYvTBwgx5naSBCVEPe
-         72p70iUvn6v7W9PBlxmHeUixdjAc01S78lzRAzcE1OkMtLWP7RiODZQ+0cc+Wz7potNT
-         zdI4H/pnATlTk6kRhRE3ehiEwpGGMBCrl3cPSZWCF1TO9ZooT71qeuVvuEPEk9IEA/qt
-         arwgjezDjB9hmKmcxLVEZtAlL6R1+auwf8crgLf7CKhwrUOtiWRqe65fwywaw/I6E/rh
-         xCttWntT7iP7vaTVj/RU8gIbAtfSx55w1JN5PyPWAGhdNik2qLpMurkCPfiaJS+AyOre
-         lx+g==
-X-Gm-Message-State: ACrzQf3OP7yOMIKsMBrBAAPZIMTeDcyaFPkIaSuQHLzZFSyjcjobUA2N
-	8uXZRVLWduOHmtSjs4qgElwJPvwg720198F/
-X-Google-Smtp-Source: 
- AMsMyM51rGpk9cIPZiOF2xnqj/nc3/hzDtbjgX+SJoX8wdXxUnvANlUPk3yRpPOddExCFVf2dhUG9Q==
-X-Received: by 2002:a17:902:d490:b0:177:fc1d:6b0c with SMTP id
- c16-20020a170902d49000b00177fc1d6b0cmr18719813plg.28.1664133543916;
-        Sun, 25 Sep 2022 12:19:03 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id
- f126-20020a625184000000b0053651308a1csm10311257pfb.195.2022.09.25.12.19.02
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Sep 2022 12:19:03 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 33/33] busybox: add devmem 128-bit support
-Date: Sun, 25 Sep 2022 09:17:44 -1000
-Message-Id: 
- <d19cd09b43a7009d660b28ac9dcb21b8038e399f.1664133309.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1664133308.git.steve@sakoman.com>
-References: <cover.1664133308.git.steve@sakoman.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=kqMtLrap;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195,
+ mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id B27C660004;
+	Sun, 25 Sep 2022 21:32:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1664141568;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MXKfaAnUKW7n6M2OsiKfIXp4HJ4a5cM5NYreMqX2rLY=;
+	b=kqMtLrapMSBMnSYjeQxDCN5neZovv6F+YGgwL28TR9ktwL+5lx5eC7p7BIpg/HQo0iEjWn
+	S03+lumwK+Yqu7QcHOov1w7MdjcWh4wR2P7Z/tCpAtCjmAvr0U1GFylJUQ8Xa8F3ZpU4xH
+	HzUxgKe6F6in1YeWVxChB7VGVaW0znhuaDWRiSfPnYip0ZplIFj3K9NjlHx4I2IUQyRjbC
+	ddAWty5N5ePJ61hsFraXSPV9RZxEqV3YcZWSR7hypMr+8FLQPEK5qwzgE26CqhSgv+m6EI
+	Vh4vis8zSWBopHznNU60DYKU1gBcWqN4VO/x9H6mSOlyC75Bw+Q24yFrsTa95A==
+Date: Sun, 25 Sep 2022 23:32:47 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org, nd@arm.com
+Subject: Re: [OE-core] [PATCH] oeqa/runtime/dnf: streamline test case
+Message-ID: <YzDI/6PdphhbzYZh@mail.local>
+References: <20220923154810.2932500-1-ross.burton@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220923154810.2932500-1-ross.burton@arm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 25 Sep 2022 19:19:12 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 25 Sep 2022 21:33:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171047
+ https://lists.openembedded.org/g/openembedded-core/message/171048
 
-From: Mingli Yu <mingli.yu@windriver.com>
+Hi,
 
-Add devmem 128-bit support [1].
+On 23/09/2022 16:48:10+0100, Ross Burton wrote:
+> The DNF test case exercises a lot of functionality that we don't really
+> care about in the runtime QA: we mainly care that DNF is capable of
+> connecting to a remote repository and installing a package.
+> Specifically, we don't need to exercise so many different ways of
+> installing or the installroot functionality: if an image has been built
+> then it's clearly functional.
+> 
+> Also, change the package that we install/reinstall to netbase and
+> friends from run-postinsts, as run-postinsts has non-trivial
+> side-effects such as causing systemd to reload, which might be causing
+> issues for other tests being ran.
+> 
+> [ YOCTO #14787 ], hopefully
+> 
 
-[1] https://git.busybox.net/busybox/commit/?id=d432049f288c9acdc4a7caa729c68ceba3c5dca1
+This is the cause of https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/4168/steps/14/logs/stdio
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d0d78aa7a34fbd7065b31ffc224be8e1984cb7aa)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../0001-devmem-add-128-bit-width.patch       | 128 ++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.35.0.bb   |   1 +
- 2 files changed, 129 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/0001-devmem-add-128-bit-width.patch
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/classes-recipe/testimage.bbclass |   6 +-
+>  meta/lib/oeqa/runtime/cases/dnf.py    | 182 +++++---------------------
+>  2 files changed, 34 insertions(+), 154 deletions(-)
+> 
+> diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
+> index 819c7d2bf4c..d53f1a3d6f1 100644
+> --- a/meta/classes-recipe/testimage.bbclass
+> +++ b/meta/classes-recipe/testimage.bbclass
+> @@ -468,10 +468,8 @@ def create_rpm_index(d):
+>          package_list = glob.glob(idx_path + "*/*.rpm")
+>  
+>          for pkg in package_list:
+> -            if os.path.basename(pkg).startswith(("curl-ptest")):
+> -                bb.utils.remove(pkg)
+> -
+> -            if not os.path.basename(pkg).startswith(("rpm", "run-postinsts", "busybox", "bash", "update-alternatives", "libc6", "curl", "musl")):
+> +            basename = os.path.basename(pkg)
+> +            if basename.startswith("curl-ptest") or not basename.startswith("curl"):
+>                  bb.utils.remove(pkg)
+>  
+>          bb.utils.unlockfile(lf)
+> diff --git a/meta/lib/oeqa/runtime/cases/dnf.py b/meta/lib/oeqa/runtime/cases/dnf.py
+> index e0b91090b20..ef8bebfec0e 100644
+> --- a/meta/lib/oeqa/runtime/cases/dnf.py
+> +++ b/meta/lib/oeqa/runtime/cases/dnf.py
+> @@ -5,53 +5,14 @@
+>  #
+>  
+>  import os
+> -import re
+> -import subprocess
+>  from oeqa.utils.httpserver import HTTPService
+>  
+>  from oeqa.runtime.case import OERuntimeTestCase
+>  from oeqa.core.decorator.depends import OETestDepends
+> -from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature, skipIfInDataVar, skipIfNotInDataVar
+> +from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature
+>  from oeqa.runtime.decorator.package import OEHasPackage
+>  
+>  class DnfTest(OERuntimeTestCase):
+> -
+> -    def dnf(self, command, expected = 0):
+> -        command = 'dnf %s' % command
+> -        status, output = self.target.run(command, 1500)
+> -        message = os.linesep.join([command, output])
+> -        self.assertEqual(status, expected, message)
+> -        return output
+> -
+> -class DnfBasicTest(DnfTest):
+> -
+> -    @skipIfNotFeature('package-management',
+> -                      'Test requires package-management to be in IMAGE_FEATURES')
+> -    @skipIfNotDataVar('IMAGE_PKGTYPE', 'rpm',
+> -                      'RPM is not the primary package manager')
+> -    @OEHasPackage(['dnf'])
+> -    @OETestDepends(['ssh.SSHTest.test_ssh'])
+> -    def test_dnf_help(self):
+> -        self.dnf('--help')
+> -
+> -    @OETestDepends(['dnf.DnfBasicTest.test_dnf_help'])
+> -    def test_dnf_version(self):
+> -        self.dnf('--version')
+> -
+> -    @OETestDepends(['dnf.DnfBasicTest.test_dnf_help'])
+> -    def test_dnf_info(self):
+> -        self.dnf('info dnf')
+> -
+> -    @OETestDepends(['dnf.DnfBasicTest.test_dnf_help'])
+> -    def test_dnf_search(self):
+> -        self.dnf('search dnf')
+> -
+> -    @OETestDepends(['dnf.DnfBasicTest.test_dnf_help'])
+> -    def test_dnf_history(self):
+> -        self.dnf('history')
+> -
+> -class DnfRepoTest(DnfTest):
+> -
+>      @classmethod
+>      def setUpClass(cls):
+>          cls.repo_server = HTTPService(os.path.join(cls.tc.td['WORKDIR'], 'oe-testimage-repo'),
+> @@ -63,6 +24,13 @@ class DnfRepoTest(DnfTest):
+>      def tearDownClass(cls):
+>          cls.repo_server.stop()
+>  
+> +    def dnf(self, command, expected = 0):
+> +        command = 'dnf %s' % command
+> +        status, output = self.target.run(command, 1500)
+> +        message = os.linesep.join([command, output])
+> +        self.assertEqual(status, expected, message)
+> +        return output
+> +
+>      def dnf_with_repo(self, command):
+>          pkgarchs = os.listdir(os.path.join(self.tc.td['WORKDIR'], 'oe-testimage-repo'))
+>          deploy_url = 'http://%s:%s/' %(self.target.server_ip, self.repo_server.port)
+> @@ -71,123 +39,37 @@ class DnfRepoTest(DnfTest):
+>          output = self.dnf(" ".join(cmdlinerepoopts) + " --nogpgcheck " + command)
+>          return output
+>  
+> -    @OETestDepends(['dnf.DnfBasicTest.test_dnf_help'])
+> +    @skipIfNotFeature('package-management',
+> +                      'Test requires package-management to be in IMAGE_FEATURES')
+> +    @skipIfNotDataVar('IMAGE_PKGTYPE', 'rpm',
+> +                      'RPM is not the primary package manager')
+> +    @OEHasPackage(['dnf'])
+> +    @OETestDepends(['ssh.SSHTest.test_ssh'])
+> +    def test_dnf_help(self):
+> +        self.dnf('--help')
+> +
+> +    @OETestDepends(['dnf.DnfTest.test_dnf_help'])
+>      def test_dnf_makecache(self):
+>          self.dnf_with_repo('makecache')
+>  
+> -
+> -# Does not work when repo is specified on the command line
+> -#    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
+> -#    def test_dnf_repolist(self):
+> -#        self.dnf_with_repo('repolist')
+> -
+> -    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
+> +    @OETestDepends(['dnf.DnfTest.test_dnf_makecache'])
+>      def test_dnf_repoinfo(self):
+> -        self.dnf_with_repo('repoinfo')
+> +        output = self.dnf_with_repo('repoinfo')
+> +        self.assertIn("Added oe-testimage-repo-noarch", output)
+>  
+> -    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
+> +    @OETestDepends(['dnf.DnfTest.test_dnf_makecache'])
+>      def test_dnf_install(self):
+> -        output = self.dnf_with_repo('list run-postinsts-dev')
+> -        if 'Installed Packages' in output:
+> -            self.dnf_with_repo('remove -y run-postinsts-dev')
+> -        self.dnf_with_repo('install -y run-postinsts-dev')
+> +        self.dnf_with_repo('remove -y curl-dev')
+> +        self.dnf_with_repo('install -y curl-dev')
+>  
+> -    @OETestDepends(['dnf.DnfRepoTest.test_dnf_install'])
+> -    def test_dnf_install_dependency(self):
+> -        self.dnf_with_repo('remove -y run-postinsts')
+> -        self.dnf_with_repo('install -y run-postinsts-dev')
+> -
+> -    @OETestDepends(['dnf.DnfRepoTest.test_dnf_install_dependency'])
+> -    def test_dnf_install_from_disk(self):
+> -        self.dnf_with_repo('remove -y run-postinsts-dev')
+> -        self.dnf_with_repo('install -y --downloadonly run-postinsts-dev')
+> -        status, output = self.target.run('find /var/cache/dnf -name run-postinsts-dev*rpm', 1500)
+> -        self.assertEqual(status, 0, output)
+> -        self.dnf_with_repo('install -y %s' % output)
+> -
+> -    @OETestDepends(['dnf.DnfRepoTest.test_dnf_install_from_disk'])
+> -    def test_dnf_install_from_http(self):
+> -        output = subprocess.check_output('%s %s -name run-postinsts-dev*' % (bb.utils.which(os.getenv('PATH'), "find"),
+> -                                                                           os.path.join(self.tc.td['WORKDIR'], 'oe-testimage-repo')), shell=True).decode("utf-8")
+> -        rpm_path = output.split("/")[-2] + "/" + output.split("/")[-1]
+> -        url = 'http://%s:%s/%s' %(self.target.server_ip, self.repo_server.port, rpm_path)
+> -        self.dnf_with_repo('remove -y run-postinsts-dev')
+> -        self.dnf_with_repo('install -y %s' % url)
+> -
+> -    @OETestDepends(['dnf.DnfRepoTest.test_dnf_install'])
+> +    @OETestDepends(['dnf.DnfTest.test_dnf_makecache'])
+>      def test_dnf_reinstall(self):
+> -        self.dnf_with_repo('reinstall -y run-postinsts-dev')
+> -
+> -    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
+> -    @skipIfInDataVar('DISTRO_FEATURES', 'usrmerge', 'Test run when not enable usrmerge')
+> -    @OEHasPackage('busybox')
+> -    def test_dnf_installroot(self):
+> -        rootpath = '/home/root/chroot/test'
+> -        #Copy necessary files to avoid errors with not yet installed tools on
+> -        #installroot directory.
+> -        self.target.run('mkdir -p %s/etc' % rootpath, 1500)
+> -        self.target.run('mkdir -p %s/bin %s/sbin %s/usr/bin %s/usr/sbin' % (rootpath, rootpath, rootpath, rootpath), 1500)
+> -        self.target.run('mkdir -p %s/dev' % rootpath, 1500)
+> -        #Handle different architectures lib dirs
+> -        self.target.run('mkdir -p %s/lib' % rootpath, 1500)
+> -        self.target.run('mkdir -p %s/libx32' % rootpath, 1500)
+> -        self.target.run('mkdir -p %s/lib64' % rootpath, 1500)
+> -        self.target.run('cp /lib/libtinfo.so.5 %s/lib' % rootpath, 1500)
+> -        self.target.run('cp /libx32/libtinfo.so.5 %s/libx32' % rootpath, 1500)
+> -        self.target.run('cp /lib64/libtinfo.so.5 %s/lib64' % rootpath, 1500)
+> -        self.target.run('cp -r /etc/rpm %s/etc' % rootpath, 1500)
+> -        self.target.run('cp -r /etc/dnf %s/etc' % rootpath, 1500)
+> -        self.target.run('cp /bin/sh %s/bin' % rootpath, 1500)
+> -        self.target.run('mount -o bind /dev %s/dev/' % rootpath, 1500)
+> -        self.dnf_with_repo('install --installroot=%s -v -y --rpmverbosity=debug busybox run-postinsts' % rootpath)
+> -        status, output = self.target.run('test -e %s/var/cache/dnf' % rootpath, 1500)
+> -        self.assertEqual(0, status, output)
+> -        status, output = self.target.run('test -e %s/bin/busybox' % rootpath, 1500)
+> -        self.assertEqual(0, status, output)
+> -
+> -    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
+> -    @skipIfNotInDataVar('DISTRO_FEATURES', 'usrmerge', 'Test run when enable usrmerge')
+> -    @OEHasPackage('busybox')
+> -    def test_dnf_installroot_usrmerge(self):
+> -        rootpath = '/home/root/chroot/test'
+> -        #Copy necessary files to avoid errors with not yet installed tools on
+> -        #installroot directory.
+> -        self.target.run('mkdir -p %s/etc' % rootpath, 1500)
+> -        self.target.run('mkdir -p %s/usr/bin %s/usr/sbin' % (rootpath, rootpath), 1500)
+> -        self.target.run('ln -sf -r %s/usr/bin %s/bin'  % (rootpath, rootpath), 1500)
+> -        self.target.run('ln -sf -r %s/usr/sbin %s/sbin'  % (rootpath, rootpath), 1500)
+> -        self.target.run('mkdir -p %s/dev' % rootpath, 1500)
+> -        #Handle different architectures lib dirs
+> -        self.target.run('mkdir -p %s/usr/lib' % rootpath, 1500)
+> -        self.target.run('mkdir -p %s/usr/libx32' % rootpath, 1500)
+> -        self.target.run('mkdir -p %s/usr/lib64' % rootpath, 1500)
+> -        self.target.run('cp /lib/libtinfo.so.5 %s/usr/lib' % rootpath, 1500)
+> -        self.target.run('cp /libx32/libtinfo.so.5 %s/usr/libx32' % rootpath, 1500)
+> -        self.target.run('cp /lib64/libtinfo.so.5 %s/usr/lib64' % rootpath, 1500)
+> -        self.target.run('ln -sf -r %s/lib %s/usr/lib' % (rootpath,rootpath), 1500)
+> -        self.target.run('ln -sf -r %s/libx32 %s/usr/libx32' % (rootpath,rootpath), 1500)
+> -        self.target.run('ln -sf -r %s/lib64 %s/usr/lib64' % (rootpath,rootpath), 1500)
+> -        self.target.run('cp -r /etc/rpm %s/etc' % rootpath, 1500)
+> -        self.target.run('cp -r /etc/dnf %s/etc' % rootpath, 1500)
+> -        self.target.run('cp /bin/sh %s/bin' % rootpath, 1500)
+> -        self.target.run('mount -o bind /dev %s/dev/' % rootpath, 1500)
+> -        self.dnf_with_repo('install --installroot=%s -v -y --rpmverbosity=debug busybox run-postinsts' % rootpath)
+> -        status, output = self.target.run('test -e %s/var/cache/dnf' % rootpath, 1500)
+> -        self.assertEqual(0, status, output)
+> -        status, output = self.target.run('test -e %s/bin/busybox' % rootpath, 1500)
+> -        self.assertEqual(0, status, output)
+> +        self.dnf_with_repo('reinstall -y curl')
+>  
+> -    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
+> +    @OETestDepends(['dnf.DnfTest.test_dnf_makecache'])
+>      def test_dnf_exclude(self):
+> -        excludepkg = 'curl-dev'
+> -        self.dnf_with_repo('install -y curl*')
+> -        self.dnf('list %s' % excludepkg, 0)
+> -        #Avoid remove dependencies to skip some errors on different archs and images
+> -        self.dnf_with_repo('remove --setopt=clean_requirements_on_remove=0 -y curl*')
+> -        #check curl-dev is not installed adter removing all curl occurrences
+> -        status, output = self.target.run('dnf list --installed | grep %s'% excludepkg, 1500)
+> -        self.assertEqual(1, status, "%s was not removed,  is listed as installed"%excludepkg)
+> -        self.dnf_with_repo('install -y --exclude=%s --exclude=curl-staticdev curl*' % excludepkg)
+> -        #check curl-dev is not installed after being excluded
+> -        status, output = self.target.run('dnf list --installed | grep %s'% excludepkg , 1500)
+> -        self.assertEqual(1, status, "%s was not excluded, is listed as installed"%excludepkg)
+> +        self.dnf_with_repo('remove -y curl-dev')
+> +        self.dnf_with_repo('install -y --exclude=curl-dev curl*')
+> +        output = self.dnf('list --installed curl*')
+> +        self.assertIn("curl.", output)
+> +        self.assertNotIn("curl-dev.", output)
+> -- 
+> 2.34.1
+> 
 
-diff --git a/meta/recipes-core/busybox/busybox/0001-devmem-add-128-bit-width.patch b/meta/recipes-core/busybox/busybox/0001-devmem-add-128-bit-width.patch
-new file mode 100644
-index 0000000000..985e2bf1d9
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/0001-devmem-add-128-bit-width.patch
-@@ -0,0 +1,128 @@
-+From d432049f288c9acdc4a7caa729c68ceba3c5dca1 Mon Sep 17 00:00:00 2001
-+From: Aaro Koskinen <aaro.koskinen@nokia.com>
-+Date: Thu, 25 Aug 2022 18:47:02 +0300
-+Subject: [PATCH] devmem: add 128-bit width
-+
-+Add 128-bit width if the compiler provides the needed type.
-+
-+function                                             old     new   delta
-+devmem_main                                          405     464     +59
-+.rodata                                           109025  109043     +18
-+------------------------------------------------------------------------------
-+(add/remove: 0/0 grow/shrink: 2/0 up/down: 77/0)               Total: 77 bytes
-+
-+Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=d432049f288c9acdc4a7caa729c68ceba3c5dca1]
-+
-+Signed-off-by: Aaro Koskinen <aaro.koskinen@nokia.com>
-+Signed-off-by: Aaro Koskinen <aaro.koskinen@iki.fi>
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ miscutils/devmem.c | 68 ++++++++++++++++++++++++++++++----------------
-+ 1 file changed, 44 insertions(+), 24 deletions(-)
-+
-+diff --git a/miscutils/devmem.c b/miscutils/devmem.c
-+index f9f0276bc..f21621bd6 100644
-+--- a/miscutils/devmem.c
-++++ b/miscutils/devmem.c
-+@@ -29,7 +29,6 @@ int devmem_main(int argc UNUSED_PARAM, char **argv)
-+ {
-+ 	void *map_base, *virt_addr;
-+ 	uint64_t read_result;
-+-	uint64_t writeval = writeval; /* for compiler */
-+ 	off_t target;
-+ 	unsigned page_size, mapped_size, offset_in_page;
-+ 	int fd;
-+@@ -64,9 +63,6 @@ int devmem_main(int argc UNUSED_PARAM, char **argv)
-+ 			width = strchrnul(bhwl, (argv[2][0] | 0x20)) - bhwl;
-+ 			width = sizes[width];
-+ 		}
-+-		/* VALUE */
-+-		if (argv[3])
-+-			writeval = bb_strtoull(argv[3], NULL, 0);
-+ 	} else { /* argv[2] == NULL */
-+ 		/* make argv[3] to be a valid thing to fetch */
-+ 		argv--;
-+@@ -96,28 +92,46 @@ int devmem_main(int argc UNUSED_PARAM, char **argv)
-+ 	virt_addr = (char*)map_base + offset_in_page;
-+ 
-+ 	if (!argv[3]) {
-+-		switch (width) {
-+-		case 8:
-+-			read_result = *(volatile uint8_t*)virt_addr;
-+-			break;
-+-		case 16:
-+-			read_result = *(volatile uint16_t*)virt_addr;
-+-			break;
-+-		case 32:
-+-			read_result = *(volatile uint32_t*)virt_addr;
-+-			break;
-+-		case 64:
-+-			read_result = *(volatile uint64_t*)virt_addr;
-+-			break;
-+-		default:
-+-			bb_simple_error_msg_and_die("bad width");
-++#ifdef __SIZEOF_INT128__
-++		if (width == 128) {
-++			unsigned __int128 rd =
-++				*(volatile unsigned __int128 *)virt_addr;
-++			printf("0x%016llX%016llX\n",
-++				(unsigned long long)(uint64_t)(rd >> 64),
-++				(unsigned long long)(uint64_t)rd
-++			);
-++		} else
-++#endif
-++		{
-++			switch (width) {
-++			case 8:
-++				read_result = *(volatile uint8_t*)virt_addr;
-++				break;
-++			case 16:
-++				read_result = *(volatile uint16_t*)virt_addr;
-++				break;
-++			case 32:
-++				read_result = *(volatile uint32_t*)virt_addr;
-++				break;
-++			case 64:
-++				read_result = *(volatile uint64_t*)virt_addr;
-++				break;
-++			default:
-++				bb_simple_error_msg_and_die("bad width");
-++			}
-++//			printf("Value at address 0x%"OFF_FMT"X (%p): 0x%llX\n",
-++//				target, virt_addr,
-++//				(unsigned long long)read_result);
-++			/* Zero-padded output shows the width of access just done */
-++			printf("0x%0*llX\n", (width >> 2), (unsigned long long)read_result);
-+ 		}
-+-//		printf("Value at address 0x%"OFF_FMT"X (%p): 0x%llX\n",
-+-//			target, virt_addr,
-+-//			(unsigned long long)read_result);
-+-		/* Zero-padded output shows the width of access just done */
-+-		printf("0x%0*llX\n", (width >> 2), (unsigned long long)read_result);
-+ 	} else {
-++		/* parse VALUE */
-++#ifdef __SIZEOF_INT128__
-++		unsigned __int128 writeval = strtoumax(argv[3], NULL, 0);
-++#else
-++		uint64_t writeval = bb_strtoull(argv[3], NULL, 0);
-++#endif
-+ 		switch (width) {
-+ 		case 8:
-+ 			*(volatile uint8_t*)virt_addr = writeval;
-+@@ -135,6 +149,12 @@ int devmem_main(int argc UNUSED_PARAM, char **argv)
-+ 			*(volatile uint64_t*)virt_addr = writeval;
-+ //			read_result = *(volatile uint64_t*)virt_addr;
-+ 			break;
-++#ifdef __SIZEOF_INT128__
-++		case 128:
-++			*(volatile unsigned __int128 *)virt_addr = writeval;
-++//			read_result = *(volatile uint64_t*)virt_addr;
-++			break;
-++#endif
-+ 		default:
-+ 			bb_simple_error_msg_and_die("bad width");
-+ 		}
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-core/busybox/busybox_1.35.0.bb b/meta/recipes-core/busybox/busybox_1.35.0.bb
-index edf896485e..e9ca6fdb1a 100644
---- a/meta/recipes-core/busybox/busybox_1.35.0.bb
-+++ b/meta/recipes-core/busybox/busybox_1.35.0.bb
-@@ -50,6 +50,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://0001-libbb-sockaddr2str-ensure-only-printable-characters-.patch \
-            file://0002-nslookup-sanitize-all-printed-strings-with-printable.patch \
-            file://CVE-2022-30065.patch \
-+           file://0001-devmem-add-128-bit-width.patch \
-            "
- SRC_URI:append:libc-musl = " file://musl.cfg "
- 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#171000): https://lists.openembedded.org/g/openembedded-core/message/171000
+> Mute This Topic: https://lists.openembedded.org/mt/93872994/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.25.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
