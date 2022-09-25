@@ -1,111 +1,169 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E207C54EE9
-	for <webhook@archiver.kernel.org>; Sun, 25 Sep 2022 15:03:51 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
- [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web08.17691.1664118225812434915
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86EB9C04A95
+	for <webhook@archiver.kernel.org>; Sun, 25 Sep 2022 16:54:41 +0000 (UTC)
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
+ [209.85.210.47])
+ by mx.groups.io with SMTP id smtpd.web09.18981.1664124874948901403
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Sep 2022 08:03:46 -0700
+ Sun, 25 Sep 2022 09:54:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=VnatMljl;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.46,
- mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f46.google.com with SMTP id rt12so4214737pjb.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=oaYzh9hC;
+ spf=pass (domain: gmail.com, ip: 209.85.210.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f47.google.com with SMTP id
+ r22-20020a9d7516000000b00659ef017e34so3114769otk.13
         for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Sep 2022 08:03:45 -0700 (PDT)
+ Sun, 25 Sep 2022 09:54:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=date:message-id:to:from:subject:from:to:cc:subject:date;
-        bh=4ADn4/Mm1UPRr/tVcCAuHVOvxX8PfF5Iv2b45JQDsBg=;
-        b=VnatMljlZL1WgVge6TralCRn+kTqUuNyCqPobcZz6rXrbCmUi+y9vrYo3mvW+tCEag
-         OhvfBXJkLkTr5RDy592tFTr1CCImCCXkXBr9amANEEcWyVwjKvX2m9a1OJgF1S7JlQ8J
-         tWO4BqRnlZmGGqhWdzDytqQ/ZgpnkKQt/S8nsgrWW5a7u5LGbU5hygbxeSDAUrxR6ZbD
-         BUkiP004L+m4smffDmDnkV2E4mirWGoPrbNsJCckzMiyuwr57LGDJmy0+0HOQyfuzwHd
-         0NAP6/8doKPVhy3YrAba0bFJlSbTldGnhdP7n3pyBIylMpSYGUvU3gI1CwSSdiAl89xP
-         1bRQ==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=nNCxzsw4NDFEZCJvrC9/Q8KM0cmJ+uzFgFR4qEGukI0=;
+        b=oaYzh9hC8Pbb5I9lzXy2V9bWlQEQEz5KJpE3SUmzpAGyMOGJ6W4rTPKqPSaKJHHNhz
+         LOMpq9ZXf3D3ZVX9u1PTnOq49wx9Ab96H3PuLOF+HqAhCsknEzosP6yeiCS4MCMISKXU
+         Ft4puhAydSP1RMY4B7ZyoAVUpTSXKDds70vPi7AuYpL4tMzbT3GxRQ8sVL5RC3Gorhnr
+         8oyGAvh2xObxs5CV0y35vZ1nOAz0uKFZNErQwv8f5hgTv6hlw3EjSOXJaeXBT2UWDsqo
+         gmKdfrmSuPMbjoRYnxbT+b9l+H2Ta3gkkh2mZejJFf/Udb1wkKRfzhLmn6UWQNrTrXfv
+         3xrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=date:message-id:to:from:subject:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=4ADn4/Mm1UPRr/tVcCAuHVOvxX8PfF5Iv2b45JQDsBg=;
-        b=kWqQlq9QJTnKMwtEi9V1ZjjMMl0JY7luyLbx7AAWNgVySzIg/wkh/A/1C78kD5kNAE
-         JLRup80wpHMFT66z+05CpLWMVCTubq+a4OoreReLLefg19B0uy7bTilgrTdIQHJV8g2g
-         nTQET7xYv/ZUpGgvzczb2XJ6v7n9C+q+L1yBjiZjmzcOBjWoZqzD+RHtksDHYh4l+jD/
-         ZTMbptVUmajHtnt1xDEn5Y4aP+JiuNwpJhplSuIYP8sHpGe49LFirHd98eJBlSV/4pM2
-         yAzVjpy27idoU3coQi4apOw0o1CXU9vRRvD4KTQnk6EFM16vD7Bb+/ZYNi2qMxYTdXwe
-         AdiA==
-X-Gm-Message-State: ACrzQf2P6sIGd0m82AQtJ1uHd7BUG36rx49oI08GKavWoHql1Squ44xF
-	MHbUyqRMf9aUgIx6GBopLDHF0Wu8FDlzq2Ba
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=nNCxzsw4NDFEZCJvrC9/Q8KM0cmJ+uzFgFR4qEGukI0=;
+        b=cKLnKdtpL3uzcf+WZDRux/CVO5VquZVH28wgJyqkqjBwqZbZ0mr2J5BZ7AvMiBHQtB
+         S34RUk7MWw3WASWDWEUs+YTQgg22+3qIZ+JQwjqyEuVyn7tF/BJ4TNuX9Xldkas70Zqa
+         /dxb++7EaQf+aTyV0mtIbp16yjSbBALbUekTc9jn9KsjNqDoQVk6cJMT8eOJ56gHpQPD
+         wB6KemcqZRTsUNjGhWvUCr9eO7zJeKVYT5FYnv+nQ1oTSXN0TskufDOJeewQwN4lXWNI
+         LZiJhHQj2Tv3FNOJED077+zt5xv+BNR3+9W3HUT1heizZ2ItW3m7XD6OBgnkyOsG9H6Q
+         qRTQ==
+X-Gm-Message-State: ACrzQf0Q4gxZlataijwFrkeO3K2hF+leiH3Pf/0NkuJy9M6KVRh3m/pn
+	qWoKterwvv9t5qXzVjOBuQFP1pf4nOJhvpfnTHs=
 X-Google-Smtp-Source: 
- AMsMyM7FsYpTaKPq+CdoF+ZxgCUg0fIddO9KeWO2AzveH0hg2vP8ABAC9CVT22PCO9f+iG2B9nksZw==
-X-Received: by 2002:a17:903:2282:b0:177:faeb:3606 with SMTP id
- b2-20020a170903228200b00177faeb3606mr17906312plh.135.1664118224492;
-        Sun, 25 Sep 2022 08:03:44 -0700 (PDT)
-Received: from nuc.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id
- i63-20020a17090a3dc500b001fdcb792181sm4867244pjc.43.2022.09.25.08.03.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Sep 2022 08:03:43 -0700 (PDT)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id DAB769607F6; Sun, 25 Sep 2022 05:03:41 -1000 (HST)
-Subject: OE-core CVE metrics for kirkstone on Sun 25 Sep 2022 05:00:01 AM HST
-FROM: steve@sakoman.com
-To: 
- <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20220925150341.DAB769607F6@nuc.router0800d9.com>
-Date: Sun, 25 Sep 2022 05:03:41 -1000 (HST)
+ AMsMyM5sLauUdMk4A1hbQmUySIFaiyM8eDtILMcJXjlz49fCuT+7qLaFV58rXrpNJPnLD5xcxcPZ6iNmI5Efj7veUBs=
+X-Received: by 2002:a05:6830:2019:b0:65b:f320:8cd2 with SMTP id
+ e25-20020a056830201900b0065bf3208cd2mr6043399otp.111.1664124874071; Sun, 25
+ Sep 2022 09:54:34 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220925143441.38925-1-changhyeok.bae@gmail.com>
+In-Reply-To: <20220925143441.38925-1-changhyeok.bae@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 25 Sep 2022 09:54:23 -0700
+Message-ID: 
+ <CAMKF1spB9vUyasAxErWbEbKOY0ssse8a-wt9dGv--Gnh1i8BEQ@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH 1/2] iproute2: Unset CLEANBROKEN
+To: Changhyeok Bae <changhyeok.bae@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000fb237305e983437a"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 25 Sep 2022 15:03:51 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 25 Sep 2022 16:54:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171012
+ https://lists.openembedded.org/g/openembedded-core/message/171013
 
-Branch: kirkstone
+--000000000000fb237305e983437a
+Content-Type: text/plain; charset="UTF-8"
 
-New this week: 8 CVEs
-CVE-2022-2795 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2795 *
-CVE-2022-2881 (CVSS3: 8.2 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2881 *
-CVE-2022-2906 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2906 *
-CVE-2022-2962 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2962 *
-CVE-2022-3080 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3080 *
-CVE-2022-3234 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3234 *
-CVE-2022-3235 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3235 *
-CVE-2022-3256 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3256 *
+On Sun, Sep 25, 2022 at 7:35 AM Changhyeok Bae <changhyeok.bae@gmail.com>
+wrote:
 
-Removed this week: 1 CVEs
-CVE-2020-35538 (CVSS3: 5.5 MEDIUM): libjpeg-turbo:libjpeg-turbo-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35538 *
+> Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+> ---
+>  meta/recipes-connectivity/iproute2/iproute2.inc | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc
+> b/meta/recipes-connectivity/iproute2/iproute2.inc
+> index b1bcc1434c..c292b95e36 100644
+> --- a/meta/recipes-connectivity/iproute2/iproute2.inc
+> +++ b/meta/recipes-connectivity/iproute2/iproute2.inc
+> @@ -13,8 +13,6 @@ DEPENDS = "flex-native bison-native iptables libcap"
+>
+>  inherit update-alternatives bash-completion pkgconfig
+>
+> -CLEANBROKEN = "1"
+> -
 
-Full list:  Found 23 unpatched CVEs
-CVE-2018-25032 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-25032 *
-CVE-2021-35937 (CVSS3: 6.4 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35937 *
-CVE-2021-35938 (CVSS3: 7.8 HIGH): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35938 *
-CVE-2021-35939 (CVSS3: 7.8 HIGH): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35939 *
-CVE-2021-3611 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3611 *
-CVE-2021-3750 (CVSS3: 8.2 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3750 *
-CVE-2022-27664 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-27664 *
-CVE-2022-2795 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2795 *
-CVE-2022-2867 (CVSS3: 8.8 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2867 *
-CVE-2022-2868 (CVSS3: 8.1 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2868 *
-CVE-2022-2869 (CVSS3: 8.8 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2869 *
-CVE-2022-2881 (CVSS3: 8.2 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2881 *
-CVE-2022-2906 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2906 *
-CVE-2022-29154 (CVSS3: 7.4 HIGH): rsync:rsync-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-29154 *
-CVE-2022-2953 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2953 *
-CVE-2022-2962 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2962 *
-CVE-2022-3080 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3080 *
-CVE-2022-3234 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3234 *
-CVE-2022-3235 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3235 *
-CVE-2022-3256 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3256 *
-CVE-2022-32893 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32893 *
-CVE-2022-39028 (CVSS3: 7.5 HIGH): inetutils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39028 *
-CVE-2022-40674 (CVSS3: 9.8 CRITICAL): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40674 *
 
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+A bit of history how it is fixed would be helpful
+
+>
+>  PACKAGECONFIG ??= "tipc elf devlink"
+>  PACKAGECONFIG[tipc] = ",,libmnl,"
+>  PACKAGECONFIG[elf] = ",,elfutils,"
+> --
+> 2.17.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#171010):
+> https://lists.openembedded.org/g/openembedded-core/message/171010
+> Mute This Topic: https://lists.openembedded.org/mt/93907752/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000fb237305e983437a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Sun, Sep 25, 2022 at 7:35 AM Changhyeok Bae &lt;<a href=
+=3D"mailto:changhyeok.bae@gmail.com">changhyeok.bae@gmail.com</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex">Signed-off-by: Changhyeok Bae &lt=
+;<a href=3D"mailto:changhyeok.bae@gmail.com" target=3D"_blank">changhyeok.b=
+ae@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-connectivity/iproute2/iproute2.inc | 2 --<br>
+=C2=A01 file changed, 2 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes=
+-connectivity/iproute2/iproute2.inc<br>
+index b1bcc1434c..c292b95e36 100644<br>
+--- a/meta/recipes-connectivity/iproute2/iproute2.inc<br>
++++ b/meta/recipes-connectivity/iproute2/iproute2.inc<br>
+@@ -13,8 +13,6 @@ DEPENDS =3D &quot;flex-native bison-native iptables libca=
+p&quot;<br>
+<br>
+=C2=A0inherit update-alternatives bash-completion pkgconfig<br>
+<br>
+-CLEANBROKEN =3D &quot;1&quot;<br>
+-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">A bit of histor=
+y how it is fixed would be helpful=C2=A0</div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
+" dir=3D"auto"><br>
+=C2=A0PACKAGECONFIG ??=3D &quot;tipc elf devlink&quot;<br>
+=C2=A0PACKAGECONFIG[tipc] =3D &quot;,,libmnl,&quot;<br>
+=C2=A0PACKAGECONFIG[elf] =3D &quot;,,elfutils,&quot;<br>
+-- <br>
+2.17.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#171010): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/171010" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/171010</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/93907752/1997=
+914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/93907752/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000fb237305e983437a--
 
