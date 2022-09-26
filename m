@@ -1,228 +1,202 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 324BFC07E9D
-	for <webhook@archiver.kernel.org>; Mon, 26 Sep 2022 15:58:59 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web12.30443.1664207930009991084
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06211C07E9D
+	for <webhook@archiver.kernel.org>; Mon, 26 Sep 2022 16:53:38 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web12.144.1664211214601531888
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Sep 2022 08:58:50 -0700
+ Mon, 26 Sep 2022 09:53:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=hPOFrjcz;
- spf=pass (domain: gmail.com, ip: 209.85.210.176,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f176.google.com with SMTP id c198so7098374pfc.13
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=WEPNBbIG;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id
+ fn7-20020a05600c688700b003b4fb113b86so4082802wmb.0
         for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Sep 2022 08:58:49 -0700 (PDT)
+ Mon, 26 Sep 2022 09:53:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:autocrypt:from:references:cc:to:content-language
-         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
-         :date;
-        bh=MapLU8/jhPzPsoxCQhAdtCCyRXPPsKccMRoRFANlHBI=;
-        b=hPOFrjczNawerEo3CgYQqPTmxfVHJf1vlVvCrKMN0NHXyeMiXd+UkjYSUwncgiqH6u
-         RNrWevE8OvrM30pwxvl4rTufGh7V0r99YCVIjr7o364VCpZ95oHEa8kpyx+djOV3Bw4t
-         vVPU68nv2zIQpJq9snHIX+1UkJo/eFOTIyUs+c+TRBGWotb1a+2v2kOH8Sp7sH4hP4pk
-         OKG4wfzZ9XFlOtS6uOd/55bbScT++su91SgDReJ05bYlUWgS3zHGEh2Cn0IGyYYq/6sF
-         N52KAV/1DjDG898gSF//5zHXybbCAKX8e9JIoHK3PPUYkCW0Rw5+C27OPqViLqyBbgQ6
-         QzFw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date;
+        bh=Uuk/IOCj/Bgbb2U7Gds8dV3W7GutjORjTw2/W+WKX+Q=;
+        b=WEPNBbIGiUn51W1zuWComVwcZy8hJeoSZIpp0FslQntOGsmddoYuERKkBzSqaRRMZV
+         tE3Au9V+z1pkwBxw1hFcpgI9lmV6PN+CDi/BliKglZjuJMsafKkwmDTbQPl0Fdl0Wil1
+         KvHvZZ/sNO57cOpzAIZlmwsjygC8B2h0BRYKQeLcUFvYUMfmVnayKzA3rEsE1y0h3yca
+         mAzbayTFogTIUciModBqJe7XZaMnXbBovQps2OdL6BLfrr599vFGR58AhNjnA805AMy0
+         nplwiy1m0waF7OE+qHdJOs6dgBT6aqoVR8zxcao8v1tTF27s/ahwrpUHpAKgXzBOQbfj
+         +lsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:autocrypt:from:references:cc:to:content-language
-         :subject:user-agent:mime-version:date:message-id:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=MapLU8/jhPzPsoxCQhAdtCCyRXPPsKccMRoRFANlHBI=;
-        b=0peyzfOmDzQbG8DwLfEVwFm8vIz9ZpCXVMp9aWAunPvtHzv8NRtwUG1UOXsZqZlY25
-         p73EtWuKDxCOzU0saXLhVzGLKcm1zs6BnmluvpoPpJ2wbWwAPDAPPKnoEqPfQDsIiU8G
-         Lw6Q6h6j7WUYCCvOffPTU54va+QyI3MSEdkncRUriZUBgdn6qt8bdle5JXCxRIy1LGvx
-         XMxZjxgBRxVmG7iQZaA/DNNzAuBOs0tjv2324dR/cdLt75mLZy5JcoqeT4ON37KdEuq5
-         /138Rg0mM3SIKHHWi5mlLEBQWoBbnj84PYcEl9ybmdcsIXNwNpsd4lGEZo62maOF0xco
-         cmQw==
-X-Gm-Message-State: ACrzQf12PQ5jQcFkv3XupVz2MT5sDWnBKnXornq5Hupz+4AzjuqANmH8
-	QR4eF/DS0dDWOrMFMC0SAa0=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date;
+        bh=Uuk/IOCj/Bgbb2U7Gds8dV3W7GutjORjTw2/W+WKX+Q=;
+        b=PKH4jA5zivIc5cGz1Tu46uqf3Tz98OzX6/8t6pPGUEZhOODeB4sULl2XZOHYuHd79b
+         923axc2F6T/DHQKVJ1y2DnLHpNErxZAl6ADlxAXZYXvvXSv2Gg0TJjuLa0V2FHX1WhJQ
+         YNHFyuu+NhEtP8gvS4eKqOfMUVLch19sc8wWjgoKDooC0jvZjpkxKHdD/I0YAVgqMDQz
+         yPJpGEVKaISLPTA72FVKkSJ+VikiF3McjGDPVWtK2MZVGnPTBWe9ApPiIs2QpotUxGMB
+         mj1MuDRG74D/hZ1kRUEgGwAgUXSrclOvKHJ1c45VL1wLCgrG1L/UBFBEc6OZg1YWK8bD
+         nw4A==
+X-Gm-Message-State: ACrzQf3LusjzhY8xqAVgSoZ+JdgJVnF+i9M97/i+6HHftvIgQ4AOAKjl
+	3pPXPSkxqaR2GBPsW9PJSUTlAJMe2Cl78g==
 X-Google-Smtp-Source: 
- AMsMyM6Y9WxSofNHxYJUiiSID9lboErS4ghND9TAcqTRczPvHn//e6V4oUz5LbBhCfjGBlqBBW49lA==
-X-Received: by 2002:a63:8841:0:b0:43c:afd6:a957 with SMTP id
- l62-20020a638841000000b0043cafd6a957mr5922566pgd.554.1664207929093;
-        Mon, 26 Sep 2022 08:58:49 -0700 (PDT)
-Received: from ?IPV6:2601:646:9181:1cf0:18b4:2f80:6996:91e2?
- ([2601:646:9181:1cf0:18b4:2f80:6996:91e2])
+ AMsMyM76mrLTPe1RzOy95yNQ47+mI/W8OTvq2s2VEUsQDBqpW593ROQNPy6rUJrLrfS8W9VkJcWgRg==
+X-Received: by 2002:a05:600c:1990:b0:3b4:c326:d099 with SMTP id
+ t16-20020a05600c199000b003b4c326d099mr15237020wmq.19.1664209295169;
+        Mon, 26 Sep 2022 09:21:35 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
+ [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- a15-20020a1709027e4f00b00172c7dee22fsm11347498pln.236.2022.09.26.08.58.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Sep 2022 08:58:48 -0700 (PDT)
-Message-ID: <0ccee561-6f18-d5f5-1b54-7c75368057ed@gmail.com>
-Date: Mon, 26 Sep 2022 08:58:47 -0700
+ i11-20020a5d584b000000b0022add371ed2sm16095474wrf.55.2022.09.26.09.21.33
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Sep 2022 09:21:34 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Subject: Setting up layers in Yocto, the introduction
+Date: Mon, 26 Sep 2022 18:21:32 +0200
+Message-Id: <20220926162132.26035-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.0
-Subject: Re: [OE-core][PATCH] lttng-tools: Disable on qemuriscv32
-Content-Language: en-US
-To: He Zhe <zhe.he@windriver.com>, openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org, jonathan.rajotte-julien@efficios.com
-References: <20220926080807.1625573-1-zhe.he@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Autocrypt: addr=raj.khem@gmail.com; keydata=
- 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
-In-Reply-To: <20220926080807.1625573-1-zhe.he@windriver.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------s0ROuZm7vKxuieEC3DWQ5HJo"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Sep 2022 15:58:59 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Sep 2022 16:53:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171069
+ https://lists.openembedded.org/g/openembedded-core/message/171070
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------s0ROuZm7vKxuieEC3DWQ5HJo
-Content-Type: multipart/mixed; boundary="------------GSd9eu41nl9q7ufL3s0UPYOS";
- protected-headers="v1"
-From: Khem Raj <raj.khem@gmail.com>
-To: He Zhe <zhe.he@windriver.com>, openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org, jonathan.rajotte-julien@efficios.com
-Message-ID: <0ccee561-6f18-d5f5-1b54-7c75368057ed@gmail.com>
-Subject: Re: [OE-core][PATCH] lttng-tools: Disable on qemuriscv32
-References: <20220926080807.1625573-1-zhe.he@windriver.com>
-In-Reply-To: <20220926080807.1625573-1-zhe.he@windriver.com>
+TL;DR version
+=============
 
---------------GSd9eu41nl9q7ufL3s0UPYOS
-Content-Type: multipart/mixed; boundary="------------VEQPbeYhETEtXL1WfywnAMa0"
+If you want to get everything needed to run a yocto build:
 
---------------VEQPbeYhETEtXL1WfywnAMa0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+- clone the bootstrap repository (ask your distribution maintainer where it is):
+    $ git clone bootstrap_repo_uri
 
-T24gOS8yNi8yMiAxOjA4IEFNLCBIZSBaaGUgd3JvdGU6DQo+IGx0dG5nLXRvb2xzIHJlcXVp
-cmVzIFNZU19wcG9sbCBhbmQgU1lTX3BzZWxlY3Q2IHdoaWNoIGFyZSBub3Qgc3VwcG9ydGVk
-IG9uDQo+IHJpc2N2MzIuIFRoaXMgaGFzIGJlZW4gY29uZmlybWVkIGJ5IGx0dG5nLXRvb2xz
-IHVwc3RyZWFtLg0KPiBodHRwczovL2dpdGh1Yi5jb20vbHR0bmcvbHR0bmctdG9vbHMvcHVs
-bC8xNjINCj4gDQo+IEl0J3MgYWxzbyB0dXJuZWQgb2ZmIGZvciByaXNjdjMyIGluIG1ldGEt
-cmlzY3YuDQo+IGh0dHBzOi8vZ2l0aHViLmNvbS9yaXNjdi9tZXRhLXJpc2N2L2Jsb2IvbWFz
-dGVyL2NvbmYvbGF5ZXIuY29uZg0KPiANCj4gU2lnbmVkLW9mZi1ieTogSGUgWmhlIDx6aGUu
-aGVAd2luZHJpdmVyLmNvbT4NCj4gLS0tDQo+ICAgbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRu
-Zy9sdHRuZy1wbGF0Zm9ybXMuaW5jIHwgNCArKysrDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDQg
-aW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwv
-bHR0bmcvbHR0bmctcGxhdGZvcm1zLmluYyBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcv
-bHR0bmctcGxhdGZvcm1zLmluYw0KPiBpbmRleCA5MzNjNjVkODVkLi45OGIxM2IxOTRjIDEw
-MDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2x0dG5nLXBsYXRmb3Jt
-cy5pbmMNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9sdHRuZy1wbGF0Zm9y
-bXMuaW5jDQo+IEBAIC0xNSwzICsxNSw3IEBAIExUVE5HVVNUOmFyYyA9ICIiDQo+ICAgDQo+
-ICAgQ09NUEFUSUJMRV9IT1NUOmFyYzpwbi1sdHRuZy11c3QgPSAibnVsbCINCj4gICANCj4g
-KyMgV2hldGhlciB0aGUgcGxhdGZvcm0gc3VwcG9ydHMgbHR0bmctdG9vbHMNCj4gKyMgbHR0
-bmctdG9vbHMgcmVxdWlyZXMgU1lTX3Bwb2xsIGFuZCBTWVNfcHNlbGVjdDYgd2hpY2ggYXJl
-IG5vdCBzdXBwb3J0ZWQgb24gcmlzY3YzMi4NCj4gKyMgSXQncyBhbHNvIHR1cm5lZCBvZmYg
-Zm9yIHJpc2N2MzIgaW4gbWV0YS1yaXNjdi4gU2VlIGh0dHBzOi8vZ2l0aHViLmNvbS9yaXNj
-di9tZXRhLXJpc2N2L2Jsb2IvbWFzdGVyL2NvbmYvbGF5ZXIuY29uZg0KPiArQ09NUEFUSUJM
-RV9IT1NUOnFlbXVyaXNjdjMyOnBuLWx0dG5nLXRvb2xzID0gIm51bGwiDQo+IA0KDQpJdHMg
-cGVyaGFwcyBiZXR0ZXIgdG8gZGlzYWJsZSBpdCBydjMyIHdpZGUgbm90IGp1c3QgZm9ybSBx
-ZW11Lg0KDQo+IA0KPiANCj4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4gTGlua3M6IFlv
-dSByZWNlaXZlIGFsbCBtZXNzYWdlcyBzZW50IHRvIHRoaXMgZ3JvdXAuDQo+IFZpZXcvUmVw
-bHkgT25saW5lICgjMTcxMDUyKTogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cv
-b3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8xNzEwNTINCj4gTXV0ZSBUaGlzIFRvcGljOiBo
-dHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvOTM5MjI1MzMvMTk5NzkxNA0KPiBH
-cm91cCBPd25lcjogb3BlbmVtYmVkZGVkLWNvcmUrb3duZXJAbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZw0KPiBVbnN1YnNjcmliZTogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cv
-b3BlbmVtYmVkZGVkLWNvcmUvdW5zdWIgW3Jhai5raGVtQGdtYWlsLmNvbV0NCj4gLT0tPS09
-LT0tPS09LT0tPS09LT0tPS0NCj4gDQo=
---------------VEQPbeYhETEtXL1WfywnAMa0
-Content-Type: application/pgp-keys; name="OpenPGP_0xBB053355919D3314.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xBB053355919D3314.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+- run 'setup-layers' from that repo:
+    $ /path/to/bootstrap_repo/setup-layers
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+If you want to save the layers setup for replication elsewhere:
 
-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
-//VuX4EDPW3CZmbPy6U=3D
-=3D+jUt
------END PGP PUBLIC KEY BLOCK-----
+- save the config file and the replication script into a 'bootstrap repository')
+(this can be an organization-specific yocto layer, or a standalone repository):
+    $ bitbake-layers create-layers-setup /path/to/bootstrap_repo
 
---------------VEQPbeYhETEtXL1WfywnAMa0--
+- document where the bootstrap repository can be found for your users
 
---------------GSd9eu41nl9q7ufL3s0UPYOS--
+What is this layer setup tooling? (the long version)
+====================================================
 
---------------s0ROuZm7vKxuieEC3DWQ5HJo
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Once you have a working build with the correct set of layers, it is beneficial
+to capture the layer setup --- what they are, which repositories they come from
+and which SCM revisions they're at --- into a configuration file, so that this
+setup can be easily replicated later, perhaps on a different machine. Here's
+how to do this::
 
------BEGIN PGP SIGNATURE-----
+   $ bitbake-layers create-layers-setup /srv/work/alex/meta-alex/
+   NOTE: Starting bitbake server...
+   NOTE: Created /srv/work/alex/meta-alex/setup-layers.json
+   NOTE: Created /srv/work/alex/meta-alex/setup-layers
 
-wmMEABEIACMWIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCYzHMNwUDAAAAAAAKCRC7BTNVkZ0zFI8M
-AJ9NnRHHXhhTiYMIA05Nk+MaEgvh6gCgj+kL/jz+15PiAvqgaTjQZf53Aec=
-=L6dH
------END PGP SIGNATURE-----
+The tool needs a single argument which tells where to place the output, consisting
+of a json formatted layer configuration, and a ``setup-layers`` script that can use that configuration
+to restore the layers in a different location, or on a different host machine. The argument
+can point to a custom layer (which is then deemed a "bootstrap" layer that needs to be
+checked out first), or into a completely independent location.
 
---------------s0ROuZm7vKxuieEC3DWQ5HJo--
+The replication of the layers is performed by running the ``setup-layers`` script provided
+above:
+
+1. Clone the bootstrap layer or some other repository to obtain
+   the json config and the setup script that can use it.
+
+2. Run the script directly with no options::
+
+      alex@Zen2:/srv/work/alex/my-build$ meta-alex/setup-layers
+      Note: not checking out source meta-alex, use --force-bootstraplayer-checkout to override.
+
+      Setting up source meta-intel, revision 15.0-hardknott-3.3-310-g0a96edae, branch master
+      Running 'git init -q /srv/work/alex/my-build/meta-intel'
+      Running 'git remote remove origin > /dev/null 2>&1; git remote add origin git://git.yoctoproject.org/meta-intel' in /srv/work/alex/my-build/meta-intel
+      Running 'git fetch -q origin || true' in /srv/work/alex/my-build/meta-intel
+      Running 'git checkout -q 0a96edae609a3f48befac36af82cf1eed6786b4a' in /srv/work/alex/my-build/meta-intel
+
+      Setting up source poky, revision 4.1_M1-372-g55483d28f2, branch akanavin/setup-layers
+      Running 'git init -q /srv/work/alex/my-build/poky'
+      Running 'git remote remove origin > /dev/null 2>&1; git remote add origin git://git.yoctoproject.org/poky' in /srv/work/alex/my-build/poky
+      Running 'git fetch -q origin || true' in /srv/work/alex/my-build/poky
+      Running 'git remote remove poky-contrib > /dev/null 2>&1; git remote add poky-contrib ssh://git@push.yoctoproject.org/poky-contrib' in /srv/work/alex/my-build/poky
+      Running 'git fetch -q poky-contrib || true' in /srv/work/alex/my-build/poky
+      Running 'git checkout -q 11db0390b02acac1324e0f827beb0e2e3d0d1d63' in /srv/work/alex/my-build/poky
+
+.. note::
+
+   This will work to update an existing checkout as well.
+
+.. note::
+   The script is self-sufficient and requires only python3
+   and git on the build machine.
+
+.. note::
+   Both the ``create-layers-setup`` and the ``setup-layers`` provided several additional options
+   that customize their behavior - you are welcome to study them via ``--help`` command line parameter.
+
+Questions and answers
+=====================
+
+1. Why JSON, and not YAML?
+
+JSON is a part of the python standard library, while YAML is not. This means you can bootstrap a build on just about any
+machine that has python and its core library, without first having to install any dependencies. JSON not quite as easy
+on the eye, but with decent indentation it's totally ok.
+
+Before anyone asks, XML is appallingly difficult to read by modern standards of readability. No thanks.
+
+2. I don't want the script in the bootstrap repo, just the config. I will provide my own tools. How?
+
+Use --json-only to generate only the config, and not the script:
+
+    $ bitbake-layers create-layers-setup -json-only /srv/work/alex/meta-alex/
+
+3. I want to generate the compatible json with my own tools. Is there a schema to validate it?
+
+There is:
+https://git.yoctoproject.org/poky/tree/meta/files/layers.schema.json
+
+You can use python3-jsonschema package to check the validity.
+
+4. I don't want the json or the script, and would want to use an entirely different format and tools. Is
+'create-layers-setup' hardcoded to the OE json format?
+
+Actually not! Other formats can be added through a plugin mechanism. OE json writer is just
+the default plugin but others can be implemented and selected:
+
+    --writer {oe-setup-layers}, -w {oe-setup-layers}
+                        Choose the output format (defaults to oe-setup-layers).
+
+5. I want to use something else than hardcoded revisions in the json (e.g. refer to branch
+names or tags).
+
+No problem! Edit the json to say 'main' or 'release-x.y'. Anything that 'git checkout' can take will
+work. Just be careful that these modification are not overwritten later by 'create-layers-setup' by
+e.g. renaming the json file first.
+
+6. I already have an existing checkout and want to update it to the latest greatest. How?
+
+First, update the bootstrap repository to the latest (or otherwise desired) revision to
+obtain the latest versions of the script, and the json config. Ask the distro maintainers
+for the recommended practice to do so.
+
+Then, run the script again - it should be able to handle a layers checkout that already
+exists, and update everything accoriding to the latest json, obtained in the first step.
+
+7. Ok, I have checked out all the layers. Now what?
+
+The next step is to actually set up a yocto build from an existing configuration template,
+and start a bitbake session. This is made separate from handling the layer repositories and
+will be described separately.
 
