@@ -1,124 +1,210 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88A06C32771
-	for <webhook@archiver.kernel.org>; Mon, 26 Sep 2022 10:24:06 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web12.27021.1664187839191871442
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8F61C32771
+	for <webhook@archiver.kernel.org>; Mon, 26 Sep 2022 11:16:06 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web12.27430.1664190963777158855
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Sep 2022 03:23:59 -0700
+ Mon, 26 Sep 2022 04:16:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=N14Ey6C7;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.218.45,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ej1-f45.google.com with SMTP id sb3so13003411ejb.9
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Sep 2022 03:23:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date;
-        bh=hPPzpOjg43fEgEgWzMhiTTYmeyIsNqG5Y+LoW9SkQJo=;
-        b=N14Ey6C72op2Mdw8SOUmpJJNMkREoKjAWgF0283t1l02UZiAixwvAAwrlluXMfaT1y
-         keuSq+5qRLfW3bKvad+mo9xn4r5JHoslLfiu4Bi3OGegxbRSzSj30f7nnVwgBfRQ/hw1
-         t+QVLfs3KqqEb7SGatTl1jjW4UjeJ1rUrbYe8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date;
-        bh=hPPzpOjg43fEgEgWzMhiTTYmeyIsNqG5Y+LoW9SkQJo=;
-        b=NxCkJg/enQ7Z+1CXSXOKnc06sN2OzcNc2ozl9oKCFwpBrmTAnEDJ1aK7cXDvFV6OM5
-         fAgEZkIslw4ELfmvj18/1mjMsopnJc6L2YwXap+s8v33RUHDimQW7dxLNtJ1fl9vKlZ8
-         koBQ2StOg9nftM58qtBabSDljOp7O9myz9ZfsmHyrD+gYuyXzZyxyvxXCqdeUQAY0u5n
-         oJ6Lrcw47awHtahmqmcc3JCppZ3ICTAWiGTMouLjaqpQg4B01Yz+UwDWp4oSOpuoCjT4
-         cBUvO/7joticJmBTukU8ktxXO5Ex82wNmWt3jsaY55kPmD3KLKmDuAjYXynpWhTkYZZA
-         lydw==
-X-Gm-Message-State: ACrzQf3qoZXmYGxoxSmcZJcXiqSgwRv4lcwupnhoIS+4/lS+RkWzb8md
-	9WzewovzbqQs0WoqbBGKNe+JpA==
-X-Google-Smtp-Source: 
- AMsMyM5YlwR0TUc1itP1SD/IdfuvTw5amZvLnuWz0gOpg6Ps0DVkyZ1Mu0iJhoYrqsK5T26SUGpOMA==
-X-Received: by 2002:a17:907:25c1:b0:77b:9966:ccf1 with SMTP id
- ae1-20020a17090725c100b0077b9966ccf1mr17744542ejc.763.1664187837507;
-        Mon, 26 Sep 2022 03:23:57 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:684e:1a2d:5b94:2c12?
- ([2001:8b0:aba:5f3c:684e:1a2d:5b94:2c12])
-        by smtp.gmail.com with ESMTPSA id
- ku8-20020a170907788800b0073d81b0882asm8106236ejc.7.2022.09.26.03.23.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Sep 2022 03:23:56 -0700 (PDT)
-Message-ID: 
- <bb6a6b015fa7e01e51b85096c10bf02859edc96e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] classes/patch: move QUILT_PC for patching
- consistency
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andriy Danylovskyy <andriy.danylovskyy@streamunlimited.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 26 Sep 2022 11:23:56 +0100
-In-Reply-To: <20220926090604.23397-1-andriy.danylovskyy@streamunlimited.com>
-References: <20220926090604.23397-1-andriy.danylovskyy@streamunlimited.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ dkim=missing;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 162521576;
+	Mon, 26 Sep 2022 04:16:10 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com
+ (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EDCB83F66F;
+	Mon, 26 Sep 2022 04:16:02 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: nd@arm.com
+Subject: [PATCH 2/2] oeqa/runtime/dnf: use dnf-test packages
+Date: Mon, 26 Sep 2022 12:16:00 +0100
+Message-Id: <20220926111600.1324000-2-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220926111600.1324000-1-ross.burton@arm.com>
+References: <20220926111600.1324000-1-ross.burton@arm.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Sep 2022 10:24:06 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Sep 2022 11:16:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171058
+ https://lists.openembedded.org/g/openembedded-core/message/171060
 
-On Mon, 2022-09-26 at 11:06 +0200, Andriy Danylovskyy wrote:
-> This will move the quilt cache from the default location '$S/.pc' to
-> '$S/patches/.pc', to ensure source invalidation always wipes it out,
-> together with all patches.
->=20
-> Recipes which set $S to $WORKDIR are susceptible to a weird issue:
+Instead of installing run-postinsts with it's postinst scripts causing
+systemd restarts, use the new dnf-test-* packages instead.
 
-There are a number of problems with recipes which use S =3D WORKDIR
-unfortunately. Another is that rerunning fetch/unpack doesn't clean up
-files properly and can lead to build corruption.
+Remove from the installroot tests entirely as they're exercised enough
+using just busybox.
 
-I'm leaning towards making S =3D=3D WORKDIR a warning and migrating recipes
-to always use a subdir. That isn't entirely straight forward but
-probably the only way to solve all the issues.
+Rewrite the exclude test to be simplier now these packages are not going
+to be part of an existing dependency chain.
 
->  if
-> a source file is patched by quilt (a .bbappend adds a patch), updates
-> to it are ignored by incremental builds, the first obsolete version is
-> picked again and again. This is because quilt keeps its own cache in
-> '$S/.pc', and this one survives source invalidation on do_unpack.
->=20
-> This is a follow-up for a56fb90dc380 and 42a513489dc6
->=20
-> Signed-off-by: Andriy Danylovskyy <andriy.danylovskyy@streamunlimited.com=
->
-> ---
->  meta/classes-global/patch.bbclass | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/meta/classes-global/patch.bbclass b/meta/classes-global/patc=
-h.bbclass
-> index e3157c7b18..6fcac18d9c 100644
-> --- a/meta/classes-global/patch.bbclass
-> +++ b/meta/classes-global/patch.bbclass
-> @@ -5,6 +5,9 @@
->  # Point to an empty file so any user's custom settings don't break thing=
-s
->  QUILTRCFILE ?=3D "${STAGING_ETCDIR_NATIVE}/quiltrc"
-> =20
-> +# Move quilt's cache to ensure it always gets removed together with "pat=
-ches"
-> +export QUILT_PC =3D "${S}/patches/.pc"
-> +
+[ YOCTO #14787 ]
 
-This would break all other commandline use of quilt without the right
-environment. Sadly that is a usecase I personally use quite heavily too
-:/.
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/classes-recipe/testimage.bbclass |  5 +--
+ meta/lib/oeqa/runtime/cases/dnf.py    | 52 +++++++++++----------------
+ 2 files changed, 21 insertions(+), 36 deletions(-)
 
-Cheers,
+diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/=
+testimage.bbclass
+index 819c7d2bf4c..5cc408b0c47 100644
+--- a/meta/classes-recipe/testimage.bbclass
++++ b/meta/classes-recipe/testimage.bbclass
+@@ -468,10 +468,7 @@ def create_rpm_index(d):
+         package_list =3D glob.glob(idx_path + "*/*.rpm")
+=20
+         for pkg in package_list:
+-            if os.path.basename(pkg).startswith(("curl-ptest")):
+-                bb.utils.remove(pkg)
+-
+-            if not os.path.basename(pkg).startswith(("rpm", "run-postins=
+ts", "busybox", "bash", "update-alternatives", "libc6", "curl", "musl")):
++            if not os.path.basename(pkg).startswith(("dnf-test-", "busyb=
+ox", "update-alternatives", "libc6", "musl")):
+                 bb.utils.remove(pkg)
+=20
+         bb.utils.unlockfile(lf)
+diff --git a/meta/lib/oeqa/runtime/cases/dnf.py b/meta/lib/oeqa/runtime/c=
+ases/dnf.py
+index e0b91090b20..410d456bdf1 100644
+--- a/meta/lib/oeqa/runtime/cases/dnf.py
++++ b/meta/lib/oeqa/runtime/cases/dnf.py
+@@ -75,48 +75,43 @@ class DnfRepoTest(DnfTest):
+     def test_dnf_makecache(self):
+         self.dnf_with_repo('makecache')
+=20
+-
+-# Does not work when repo is specified on the command line
+-#    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
+-#    def test_dnf_repolist(self):
+-#        self.dnf_with_repo('repolist')
+-
+     @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
+     def test_dnf_repoinfo(self):
+         self.dnf_with_repo('repoinfo')
+=20
+     @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
+     def test_dnf_install(self):
+-        output =3D self.dnf_with_repo('list run-postinsts-dev')
+-        if 'Installed Packages' in output:
+-            self.dnf_with_repo('remove -y run-postinsts-dev')
+-        self.dnf_with_repo('install -y run-postinsts-dev')
++        self.dnf_with_repo('remove -y dnf-test-*')
++        self.dnf_with_repo('install -y dnf-test-dep')
+=20
+     @OETestDepends(['dnf.DnfRepoTest.test_dnf_install'])
+     def test_dnf_install_dependency(self):
+-        self.dnf_with_repo('remove -y run-postinsts')
+-        self.dnf_with_repo('install -y run-postinsts-dev')
++        self.dnf_with_repo('remove -y dnf-test-*')
++        self.dnf_with_repo('install -y dnf-test-main')
++        output =3D self.dnf('list --installed dnf-test-*')
++        self.assertIn("dnf-test-main.", output)
++        self.assertIn("dnf-test-dep.", output)
+=20
+     @OETestDepends(['dnf.DnfRepoTest.test_dnf_install_dependency'])
+     def test_dnf_install_from_disk(self):
+-        self.dnf_with_repo('remove -y run-postinsts-dev')
+-        self.dnf_with_repo('install -y --downloadonly run-postinsts-dev'=
+)
+-        status, output =3D self.target.run('find /var/cache/dnf -name ru=
+n-postinsts-dev*rpm', 1500)
++        self.dnf_with_repo('remove -y dnf-test-dep')
++        self.dnf_with_repo('install -y --downloadonly dnf-test-dep')
++        status, output =3D self.target.run('find /var/cache/dnf -name dn=
+f-test-dep*rpm')
+         self.assertEqual(status, 0, output)
+         self.dnf_with_repo('install -y %s' % output)
+=20
+     @OETestDepends(['dnf.DnfRepoTest.test_dnf_install_from_disk'])
+     def test_dnf_install_from_http(self):
+-        output =3D subprocess.check_output('%s %s -name run-postinsts-de=
+v*' % (bb.utils.which(os.getenv('PATH'), "find"),
++        output =3D subprocess.check_output('%s %s -name dnf-test-dep*' %=
+ (bb.utils.which(os.getenv('PATH'), "find"),
+                                                                         =
+   os.path.join(self.tc.td['WORKDIR'], 'oe-testimage-repo')), shell=3DTru=
+e).decode("utf-8")
+         rpm_path =3D output.split("/")[-2] + "/" + output.split("/")[-1]
+         url =3D 'http://%s:%s/%s' %(self.target.server_ip, self.repo_ser=
+ver.port, rpm_path)
+-        self.dnf_with_repo('remove -y run-postinsts-dev')
++        self.dnf_with_repo('remove -y dnf-test-dep')
+         self.dnf_with_repo('install -y %s' % url)
+=20
+     @OETestDepends(['dnf.DnfRepoTest.test_dnf_install'])
+     def test_dnf_reinstall(self):
+-        self.dnf_with_repo('reinstall -y run-postinsts-dev')
++        self.dnf_with_repo('reinstall -y dnf-test-main')
+=20
+     @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
+     @skipIfInDataVar('DISTRO_FEATURES', 'usrmerge', 'Test run when not e=
+nable usrmerge')
+@@ -139,7 +134,7 @@ class DnfRepoTest(DnfTest):
+         self.target.run('cp -r /etc/dnf %s/etc' % rootpath, 1500)
+         self.target.run('cp /bin/sh %s/bin' % rootpath, 1500)
+         self.target.run('mount -o bind /dev %s/dev/' % rootpath, 1500)
+-        self.dnf_with_repo('install --installroot=3D%s -v -y --rpmverbos=
+ity=3Ddebug busybox run-postinsts' % rootpath)
++        self.dnf_with_repo('install --installroot=3D%s -v -y --rpmverbos=
+ity=3Ddebug busybox' % rootpath)
+         status, output =3D self.target.run('test -e %s/var/cache/dnf' % =
+rootpath, 1500)
+         self.assertEqual(0, status, output)
+         status, output =3D self.target.run('test -e %s/bin/busybox' % ro=
+otpath, 1500)
+@@ -171,7 +166,7 @@ class DnfRepoTest(DnfTest):
+         self.target.run('cp -r /etc/dnf %s/etc' % rootpath, 1500)
+         self.target.run('cp /bin/sh %s/bin' % rootpath, 1500)
+         self.target.run('mount -o bind /dev %s/dev/' % rootpath, 1500)
+-        self.dnf_with_repo('install --installroot=3D%s -v -y --rpmverbos=
+ity=3Ddebug busybox run-postinsts' % rootpath)
++        self.dnf_with_repo('install --installroot=3D%s -v -y --rpmverbos=
+ity=3Ddebug busybox' % rootpath)
+         status, output =3D self.target.run('test -e %s/var/cache/dnf' % =
+rootpath, 1500)
+         self.assertEqual(0, status, output)
+         status, output =3D self.target.run('test -e %s/bin/busybox' % ro=
+otpath, 1500)
+@@ -179,15 +174,8 @@ class DnfRepoTest(DnfTest):
+=20
+     @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
+     def test_dnf_exclude(self):
+-        excludepkg =3D 'curl-dev'
+-        self.dnf_with_repo('install -y curl*')
+-        self.dnf('list %s' % excludepkg, 0)
+-        #Avoid remove dependencies to skip some errors on different arch=
+s and images
+-        self.dnf_with_repo('remove --setopt=3Dclean_requirements_on_remo=
+ve=3D0 -y curl*')
+-        #check curl-dev is not installed adter removing all curl occurre=
+nces
+-        status, output =3D self.target.run('dnf list --installed | grep =
+%s'% excludepkg, 1500)
+-        self.assertEqual(1, status, "%s was not removed,  is listed as i=
+nstalled"%excludepkg)
+-        self.dnf_with_repo('install -y --exclude=3D%s --exclude=3Dcurl-s=
+taticdev curl*' % excludepkg)
+-        #check curl-dev is not installed after being excluded
+-        status, output =3D self.target.run('dnf list --installed | grep =
+%s'% excludepkg , 1500)
+-        self.assertEqual(1, status, "%s was not excluded, is listed as i=
+nstalled"%excludepkg)
++        self.dnf_with_repo('remove -y dnf-test-*')
++        self.dnf_with_repo('install -y --exclude=3Ddnf-test-dep dnf-test=
+-*')
++        output =3D self.dnf('list --installed dnf-test-*')
++        self.assertIn("dnf-test-main.", output)
++        self.assertNotIn("dnf-test-dev.", output)
+--=20
+2.34.1
 
-Richard
 
