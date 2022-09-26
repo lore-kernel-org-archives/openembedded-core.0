@@ -2,111 +2,268 @@ Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D8CDC07E9D
-	for <webhook@archiver.kernel.org>; Mon, 26 Sep 2022 20:24:59 +0000 (UTC)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
- [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web11.2877.1664223893022610005
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F417C32771
+	for <webhook@archiver.kernel.org>; Mon, 26 Sep 2022 20:32:19 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web09.2994.1664224333976091110
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Sep 2022 13:24:53 -0700
+ Mon, 26 Sep 2022 13:32:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=lpDpcI2T;
- spf=pass (domain: gmail.com, ip: 209.85.208.51,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZOAgg/KW;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52,
  mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id u24so10592845edb.9
+Received: by mail-wr1-f52.google.com with SMTP id bk15so4226159wrb.13
         for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Sep 2022 13:24:52 -0700 (PDT)
+ Mon, 26 Sep 2022 13:32:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=3/1brEeXfyItN6F8pxiBi480w1dg424YyWMlYlbf+GQ=;
-        b=lpDpcI2TvXHRZr6VjiSSXq/r0l0m2o5IHAND7VpTe9A+vVvjLGKWy9oswlrTZvS5XY
-         q5AqVAE7tim1PPiMhFNnpOgp06/UMRayPXZmXyPeS+pEd/Oml41I8ED/vV7mJCL5dJ+S
-         xA3NLmNV7Xx4SND4PaxEGD2IRG6APCYrRDsdBTJMms5X2Vc+JP1Yndjb691pyx3J/mrB
-         laSL8mz3U5CGdbqbVr87Pi55dOYQC6SHo8MgooLpfumUZVvJzFgGhsHA+DvYindpwPqe
-         hm/dVQewUKq8/KfUgkO7L7bMi6ENtDuVy3nfa6+KbbidZWdH/Oax7XxeoskNGoCA3+v/
-         Axqg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=H9WAxvLLhG9ddzrAjKXUE0XRuwXcxYHPATNm9Fkl0dQ=;
+        b=ZOAgg/KW7pzzjMELi+hLhi90N42Xna2ESRWnoMwscbHvFfEsy8CuUNQ1V3XBxyQWr0
+         V6z93E+JOuFlUKZs9D0Ocr0N6KIttgT77loablqVXATfJUNGyeyJF5nO1id2ts7QySE0
+         grkeBAYSV0jmzVvILSeHG85P8oOSxmLueH6hRvW1TB03BZ3LXueeTTPVTsB0QqhH/ys6
+         Gcy2/+UoHghXqTy2Hn1OfU11ewYxvfAe8nVMkBshwhh0pqQqKf8zmejOj/EN8/THmtDC
+         X6gDbGK9ASwFhvh1hj5HiAZUY85MZTlJk+NUapS1GPYilhuGRnyVZOdr9q9AfEt5Db/N
+         gfig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=3/1brEeXfyItN6F8pxiBi480w1dg424YyWMlYlbf+GQ=;
-        b=JEW0BLUS3sWooLRhg53tR79MshiLAGyUC2pns4LzQzdy8+emOVg4P9b6goBdzRl7mT
-         nB/xN9O/iB/FLvk09+XCSVJrE6l+sEmhRaEQ6yZpxw6KQXCXTFE2reHlPBvKkxBUM982
-         02ylmjqzEw0a7hRi0Y6am4rLt11wHvdt3eLHx3aLuObo4chx7gaq5U5uhgtXfTs/pc7V
-         IYvVJcmBQz3Qfj+af61YaXlOXi5uyjSS/D4POVqPUKSrMV4Vw+bDci4ySUc4GU31Jbol
-         AefryjJrhU5v1VMr2+uVVq/hycy/3pVKqme5wuuaLLllagr74Pjq9qqkJqCT/10BUn+1
-         t0Cg==
-X-Gm-Message-State: ACrzQf0auLRV76R2s7kFAo0uwAJh9zF2LrwCx/pMNrCScflicLL4hXHl
-	ElNGaGA+jjEr5ZNyn85Y+8cu/c5dV00=
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=H9WAxvLLhG9ddzrAjKXUE0XRuwXcxYHPATNm9Fkl0dQ=;
+        b=i2kI/zeqO9kCW0eltFu/iDYaIJrwimiq9Sbeap9skHec5FJKWj6aTEPjGOZQYE3Qr6
+         NpdqIuR/ID/06oCuDjYU5kd/ixsodc8BMSi6lsd5NYWfd2jLQVoH5XlbIEssTGLKRMnR
+         jVXSsyXCp/9cE+AwgDXVACuSf6pqTUQhOpR/FFbXCCm+CTMcbkAF659mZLMyCZvGIcU3
+         UrdSsFZEgy/jJvPjmxp5nYZqJd0CQGL4iE6f1yHY3kEkdLf9h0eYXdi4YuIfmUvwFezc
+         ITMSCp6QmhzmEW54OEbs3bim8pvWc7F/9EHvO8AIpDGV2DfvDZQhGXEySpC6WEL3Aq1V
+         oi5Q==
+X-Gm-Message-State: ACrzQf0vOWISdhHUTAlXn+PR8kZQ32wmHzSVntCeIspFW1gIkbfgKitp
+	c1J9LVKDQ5Z9f5WJ1WFEacXuOYL9phtMSJAcSPY=
 X-Google-Smtp-Source: 
- AMsMyM6MY1FPY3P3bWFd4St436bANRB9D46r1eqy6T3idLskrCHnpspgExR1x8H6Qfb4o1sfE98O7A==
-X-Received: by 2002:a05:6402:2793:b0:451:fd7d:fc0b with SMTP id
- b19-20020a056402279300b00451fd7dfc0bmr24574532ede.13.1664223891273;
-        Mon, 26 Sep 2022 13:24:51 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id
- f25-20020a50ee99000000b00456efa875fesm6077712edr.55.2022.09.26.13.24.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Sep 2022 13:24:50 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: robert_henz@jabil.com,
-	Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] create-pull-request: don't switch the git remote protocol to
- git://
-Date: Mon, 26 Sep 2022 22:24:47 +0200
-Message-Id: <20220926202447.768720-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <27206.1664221809231976757@lists.openembedded.org>
-References: <27206.1664221809231976757@lists.openembedded.org>
+ AMsMyM6hYwVsKt3781Nxi9bBDBo5NzIcdLuEQS/QTBedz7D64JxLAy2Dayvz5mRPSp+rarRuX+u9MQIpLfSgPcIlsdo=
+X-Received: by 2002:a05:6000:1681:b0:22a:fc6b:f83c with SMTP id
+ y1-20020a056000168100b0022afc6bf83cmr13857800wrd.507.1664224332203; Mon, 26
+ Sep 2022 13:32:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: 
+ <CA+chaQeTobLcWi+LiXDnBo7gCEzg+iSgGOf-_zxyHp3zhZ5_WA@mail.gmail.com>
+ <27206.1664221809231976757@lists.openembedded.org>
+In-Reply-To: <27206.1664221809231976757@lists.openembedded.org>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 26 Sep 2022 22:31:59 +0200
+Message-ID: 
+ <CA+chaQfvo9FLBja8sgZiR_oCR5_e0nds-HzLjRt89b_gLF7UzA@mail.gmail.com>
+Subject: Re: [OE-core] PR to fix WantedBy parsing of systemctl
+To: robert_henz@jabil.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000025cb2c05e99a6c95"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Sep 2022 20:24:59 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Sep 2022 20:32:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171074
+ https://lists.openembedded.org/g/openembedded-core/message/171075
 
-Many git repos prefer https:// nowadays and many removed support
-for git://.
+--00000000000025cb2c05e99a6c95
+Content-Type: text/plain; charset="UTF-8"
 
-This breaks the script when using github.com even when selected remote
-is ssh (git@github.com:openembedded/...), it will re-write it to git://
-before calling git pull-request causing:
+see the REMOTE_URL changes shown in set -x, relevant context is in:
+https://git.openembedded.org/openembedded-core/commit/?id=675e88e6e0bbd5ab2dcd4bdf97b0de59925a1be6
 
-openembedded-core $ scripts/create-pull-request -u github -b jansa/artifacts -o pull-kernel
-NOTE: Assuming local branch HEAD, use -l to override.
-fatal: unable to connect to github.com:
-github.com[0: 140.82.121.3]: errno=Connection timed out
+We forgot to update it after:
+https://github.blog/2021-09-01-improving-git-protocol-security-github/#no-more-unauthenticated-git
+and unfortunately it shows how rarely this script is being used.
 
-warn: No match for commit ea003bd026aa24bb4c8b7562f44ed6512e921259 found at git://github.com/shr-distribution/oe-core
-warn: Are you sure you pushed 'jansa/artifacts' there?
-ERROR: git request-pull reported an error
+I've sent a fix for this, please test it.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- scripts/create-pull-request | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Sep 26, 2022 at 9:50 PM Robert Henz via lists.openembedded.org
+<robert_henz=jabil.com@lists.openembedded.org> wrote:
 
-diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-index 8eefcf63a5..2f91a355b0 100755
---- a/scripts/create-pull-request
-+++ b/scripts/create-pull-request
-@@ -128,7 +128,7 @@ PROTO_RE="[a-z][a-z+]*://"
- GIT_RE="\(^\($PROTO_RE\)\?\)\($USER_RE@\)\?\([^:/]*\)[:/]\(.*\)"
- REMOTE_URL=${REMOTE_URL%.git}
- REMOTE_REPO=$(echo $REMOTE_URL | sed "s#$GIT_RE#\5#")
--REMOTE_URL=$(echo $REMOTE_URL | sed "s#$GIT_RE#git://\4/\5#")
-+REMOTE_URL=$(echo $REMOTE_URL | sed "s#$GIT_RE#https://\4/\5#")
- 
- if [ -z "$BRANCH" ]; then
- 	BRANCH=$(git branch | grep -e "^\* " | cut -d' ' -f2)
--- 
-2.37.3
+> I think I'm missing some context. Not really understanding what this
+> script is trying to accomplish I don't know what "remote branch" is vs
+> "local branch". Should "remote branch" be "master" and the local branch be
+> the branch with the change I want to make? Here's that script running with
+> "set -x" turned on 1/2 way through...
+>
+> bobhenz@hound:~/src/openembedded-core$ scripts/create-pull-request -u
+> badger
+> + USER_RE=[A-Za-z0-9_.@][A-Za-z0-9_.@-]*$\?
+> + PROTO_RE=[a-z][a-z+]*://
+> + GIT_RE=\(^\([a-z][a-z+]*://\)\?\)\([A-Za-z0-9_.@][A-Za-z0-9_.@
+> -]*$\?@\)\?\([^:/]*\)[:/]\(.*\)
+> + REMOTE_URL=https://github.com/BadgerTechnologies/openembedded-core
+> + echo https://github.com/BadgerTechnologies/openembedded-core
+> + sed s#\(^\([a-z][a-z+]*://\)\?\)\([A-Za-z0-9_.@][A-Za-z0-9_.@
+> -]*$\?@\)\?\([^:/]*\)[:/]\(.*\)#\5#
+> + REMOTE_REPO=BadgerTechnologies/openembedded-core
+> + echo https://github.com/BadgerTechnologies/openembedded-core
+> + sed s#\(^\([a-z][a-z+]*://\)\?\)\([A-Za-z0-9_.@][A-Za-z0-9_.@
+> -]*$\?@\)\?\([^:/]*\)[:/]\(.*\)#git://\4/\5#
+> + REMOTE_URL=git://github.com/BadgerTechnologies/openembedded-core
+> + [ -z  ]
+> + git branch
+> + grep -e ^\*
+> + cut -d  -f2
+> + BRANCH=fix-wantedby-clearing
+> + echo NOTE: Assuming remote branch 'fix-wantedby-clearing', use -b to
+> override.
+> NOTE: Assuming remote branch 'fix-wantedby-clearing', use -b to override.
+> + [ -z  ]
+> + L_BRANCH=HEAD
+> + echo NOTE: Assuming local branch HEAD, use -l to override.
+> NOTE: Assuming local branch HEAD, use -l to override.
+> + [ 0 -eq 1 ]
+> + WEB_URL=
+> + WEB_URL=
+> https://github.com/BadgerTechnologies/openembedded-core/tree/fix-wantedby-clearing
+> + [ -n
+> https://github.com/BadgerTechnologies/openembedded-core/tree/fix-wantedby-clearing
+> ]
+> + [  = 1 ]
+> + wget --no-check-certificate -q
+> https://github.com/BadgerTechnologies/openembedded-core/tree/fix-wantedby-clearing
+> -O /dev/null
+> + [ 0 -ne 0 ]
+> + [ -e pull-186156 ]
+> + mkdir pull-186156
+> + [ -n  ]
+> + git format-patch -M40 --subject-prefix=PATCH -n -o pull-186156
+> --thread=shallow --cover-letter master..HEAD
+> + ls -A pull-186156
+> + [ -z 0000-cover-letter.patch
+> 0001-Fix-WantedBy-processing.patch ]
+> + [ -n  ]
+> + echo pull-186156/0000-cover-letter.patch
+> + CL=pull-186156/0000-cover-letter.patch
+> + PM=pull-186156/pull-msg
+> + + trgit -d --version
+>  [:alpha:][:space:].
+> + sed s/\(...\).*/\1/
+> + git version 2.25.1
+> + GIT_VERSION=225
+> + NEWER_GIT_VERSION=210
+> + [ 225 -lt 210 ]
+> + git request-pull master git://
+> github.com/BadgerTechnologies/openembedded-core HEAD:fix-wantedby-clearing
+> fatal: unable to connect to github.com:
+> github.com[0: 140.82.113.3]: errno=Connection timed out
+>
+> warn: No match for commit b637a46f58b5adc7dcc76bdef90a7be8c8462df8 found
+> at git://github.com/BadgerTechnologies/openembedded-core
+> warn: Are you sure you pushed 'fix-wantedby-clearing' there?
+> + [ 1 -ne 0 ]
+> + echo ERROR: git request-pull reported an error
+> ERROR: git request-pull reported an error
+> + rm -rf pull-186156
+> + exit 1
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#171073):
+> https://lists.openembedded.org/g/openembedded-core/message/171073
+> Mute This Topic: https://lists.openembedded.org/mt/93809846/3617156
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> Martin.Jansa@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
 
+--00000000000025cb2c05e99a6c95
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">see the REMOTE_URL changes shown in set -x, relevant conte=
+xt is in: <a href=3D"https://git.openembedded.org/openembedded-core/commit/=
+?id=3D675e88e6e0bbd5ab2dcd4bdf97b0de59925a1be6">https://git.openembedded.or=
+g/openembedded-core/commit/?id=3D675e88e6e0bbd5ab2dcd4bdf97b0de59925a1be6</=
+a><br><div><br></div><div>We forgot to update it after:</div><div><a href=
+=3D"https://github.blog/2021-09-01-improving-git-protocol-security-github/#=
+no-more-unauthenticated-git">https://github.blog/2021-09-01-improving-git-p=
+rotocol-security-github/#no-more-unauthenticated-git</a><br></div><div>and =
+unfortunately it shows how rarely this script is being used.</div><div><br>=
+</div><div>I&#39;ve sent a fix for this, please test it.</div></div><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 2=
+6, 2022 at 9:50 PM Robert Henz via <a href=3D"http://lists.openembedded.org=
+">lists.openembedded.org</a> &lt;robert_henz=3D<a href=3D"mailto:jabil.com@=
+lists.openembedded.org">jabil.com@lists.openembedded.org</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">I think I&#39;m mis=
+sing some context. Not really understanding what this script is trying to a=
+ccomplish I don&#39;t know what &quot;remote branch&quot; is vs &quot;local=
+ branch&quot;. Should &quot;remote branch&quot; be &quot;master&quot; and t=
+he local branch be the branch with the change I want to make? Here&#39;s th=
+at script running with &quot;set -x&quot; turned on 1/2 way through...<br><=
+br>bobhenz@hound:~/src/openembedded-core$ scripts/create-pull-request -u ba=
+dger<br>+ USER_RE=3D[A-Za-z0-9_.@][A-Za-z0-9_.@-]*$\?<br>+ PROTO_RE=3D[a-z]=
+[a-z+]*://<br>+ GIT_RE=3D\(^\([a-z][a-z+]*://\)\?\)\([A-Za-z0-9_.@][A-Za-z0=
+-9_.@-]*$\?@\)\?\([^:/]*\)[:/]\(.*\)<br>+ REMOTE_URL=3D<a href=3D"https://g=
+ithub.com/BadgerTechnologies/openembedded-core" target=3D"_blank">https://g=
+ithub.com/BadgerTechnologies/openembedded-core</a><br>+ echo <a href=3D"htt=
+ps://github.com/BadgerTechnologies/openembedded-core" target=3D"_blank">htt=
+ps://github.com/BadgerTechnologies/openembedded-core</a><br>+ sed s#\(^\([a=
+-z][a-z+]*://\)\?\)\([A-Za-z0-9_.@][A-Za-z0-9_.@-]*$\?@\)\?\([^:/]*\)[:/]\(=
+.*\)#\5#<br>+ REMOTE_REPO=3DBadgerTechnologies/openembedded-core<br>+ echo =
+<a href=3D"https://github.com/BadgerTechnologies/openembedded-core" target=
+=3D"_blank">https://github.com/BadgerTechnologies/openembedded-core</a><br>=
++ sed s#\(^\([a-z][a-z+]*://\)\?\)\([A-Za-z0-9_.@][A-Za-z0-9_.@-]*$\?@\)\?\=
+([^:/]*\)[:/]\(.*\)#git://\4/\5#<br>+ REMOTE_URL=3Dgit://<a href=3D"http://=
+github.com/BadgerTechnologies/openembedded-core" target=3D"_blank">github.c=
+om/BadgerTechnologies/openembedded-core</a><br>+ [ -z=C2=A0 ]<br>+ git bran=
+ch<br>+ grep -e ^\* <br>+ cut -d=C2=A0 -f2<br>+ BRANCH=3Dfix-wantedby-clear=
+ing<br>+ echo NOTE: Assuming remote branch &#39;fix-wantedby-clearing&#39;,=
+ use -b to override.<br>NOTE: Assuming remote branch &#39;fix-wantedby-clea=
+ring&#39;, use -b to override.<br>+ [ -z=C2=A0 ]<br>+ L_BRANCH=3DHEAD<br>+ =
+echo NOTE: Assuming local branch HEAD, use -l to override.<br>NOTE: Assumin=
+g local branch HEAD, use -l to override.<br>+ [ 0 -eq 1 ]<br>+ WEB_URL=3D<b=
+r>+ WEB_URL=3D<a href=3D"https://github.com/BadgerTechnologies/openembedded=
+-core/tree/fix-wantedby-clearing" target=3D"_blank">https://github.com/Badg=
+erTechnologies/openembedded-core/tree/fix-wantedby-clearing</a><br>+ [ -n <=
+a href=3D"https://github.com/BadgerTechnologies/openembedded-core/tree/fix-=
+wantedby-clearing" target=3D"_blank">https://github.com/BadgerTechnologies/=
+openembedded-core/tree/fix-wantedby-clearing</a> ]<br>+ [=C2=A0 =3D 1 ]<br>=
++ wget --no-check-certificate -q <a href=3D"https://github.com/BadgerTechno=
+logies/openembedded-core/tree/fix-wantedby-clearing" target=3D"_blank">http=
+s://github.com/BadgerTechnologies/openembedded-core/tree/fix-wantedby-clear=
+ing</a> -O /dev/null<br>+ [ 0 -ne 0 ]<br>+ [ -e pull-186156 ]<br>+ mkdir pu=
+ll-186156<br>+ [ -n=C2=A0 ]<br>+ git format-patch -M40 --subject-prefix=3DP=
+ATCH -n -o pull-186156 --thread=3Dshallow --cover-letter master..HEAD<br>+ =
+ls -A pull-186156<br>+ [ -z 0000-cover-letter.patch<br>0001-Fix-WantedBy-pr=
+ocessing.patch ]<br>+ [ -n=C2=A0 ]<br>+ echo pull-186156/0000-cover-letter.=
+patch<br>+ CL=3Dpull-186156/0000-cover-letter.patch<br>+ PM=3Dpull-186156/p=
+ull-msg<br>+ + trgit -d --version<br>=C2=A0[:alpha:][:space:].<br>+ sed s/\=
+(...\).*/\1/<br>+ git version 2.25.1<br>+ GIT_VERSION=3D225<br>+ NEWER_GIT_=
+VERSION=3D210<br>+ [ 225 -lt 210 ]<br>+ git request-pull master git://<a hr=
+ef=3D"http://github.com/BadgerTechnologies/openembedded-core" target=3D"_bl=
+ank">github.com/BadgerTechnologies/openembedded-core</a> HEAD:fix-wantedby-=
+clearing<br>fatal: unable to connect to <a href=3D"http://github.com" targe=
+t=3D"_blank">github.com</a>:<br><a href=3D"http://github.com" target=3D"_bl=
+ank">github.com</a>[0: 140.82.113.3]: errno=3DConnection timed out<br><br>w=
+arn: No match for commit b637a46f58b5adc7dcc76bdef90a7be8c8462df8 found at =
+git://<a href=3D"http://github.com/BadgerTechnologies/openembedded-core" ta=
+rget=3D"_blank">github.com/BadgerTechnologies/openembedded-core</a><br>warn=
+: Are you sure you pushed &#39;fix-wantedby-clearing&#39; there?<br>+ [ 1 -=
+ne 0 ]<br>+ echo ERROR: git request-pull reported an error<br>ERROR: git re=
+quest-pull reported an error<br>+ rm -rf pull-186156<br>+ exit 1
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#171073): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/171073" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/171073</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/93809846/3617=
+156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/93809846/3617156</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
+rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--00000000000025cb2c05e99a6c95--
 
