@@ -1,243 +1,109 @@
-Return-Path: <daniel@qtec.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE04CC54EE9
-	for <webhook@archiver.kernel.org>; Tue, 27 Sep 2022 19:16:25 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web12.15396.1664306181627304629
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CB77C54EE9
+	for <webhook@archiver.kernel.org>; Tue, 27 Sep 2022 19:22:36 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web11.15314.1664306549714840409
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Sep 2022 12:16:23 -0700
+ Tue, 27 Sep 2022 12:22:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qtec.com header.s=google header.b=JklkAm1b;
- spf=pass (domain: qtec.com, ip: 209.85.167.54, mailfrom: daniel@qtec.com)
-Received: by mail-lf1-f54.google.com with SMTP id j16so17182109lfg.1
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Sep 2022 12:16:21 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=DgmvHmnX;
+ spf=pass (domain: axis.com, ip: 195.60.68.18,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=qtec.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=RSSdFwNTwRMID74ezWsGLFF/wj9ohnAohWrLC6TzlJo=;
-        b=JklkAm1bkKPx2yhQTTiE3f3BeqLQWUcMocAJbNJ3RbREZxW4Ubbz+dzZ1Zd/fRgEEM
-         4PW4+bUDiu/FqMGZur0BQhp7Z7uPsKoNZ04GzYbQKlcXK1M7BCLS9If45dkqtxS12irC
-         IgeJeU0oB3xzfOf1lYBLFGQ2HwgwcQNCE7zHO1NPewwj2LH1SlmMF6HFKBB/9k1Lqfn2
-         W6GbBm5dl32rIQ0RMIQc3PkaazXHUoRb71UWJXjFTXDfiQgj1tplvi2SJmgFd5t2acPl
-         NeNnSLs/dIZq4EPvYaPofS2X/jHDFLRLtMGPKQlYZMRn15l0igXT9uf/fUPDfFMp+zBk
-         YZQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=RSSdFwNTwRMID74ezWsGLFF/wj9ohnAohWrLC6TzlJo=;
-        b=MxZ+DWYbAl/n1+AcuzzWpK5Mr8elxpNmag/Iqc/OCGfkYs93WIJZkYC1EmqfAeXGy4
-         j/K+MxRFsnw1e3tXr4NqxbMxC7NK0EBwaskQ9YGdbfyBM16GjznD+23Qp/Yy4fJNifWa
-         ujcNIuLTtg4U265GiqEBtxeI5R6ecUvSzSKd4IWxF5i40ifNJR5+hy52Bh44Q9+rilYn
-         OPJfPPohIqahvApGKCS58Z5won3zH6COCqCypOaXW+UMiyyAGC06mlIaw8mDD7Ny4BS6
-         y6S9B3POZs7TzGPrZcjpg2IkZs7JzGgSKBDrVoJ/jGwLtbWMvoBLqDbWpDbxS1r6Qgal
-         8Lfg==
-X-Gm-Message-State: ACrzQf3QOKU06nwPSFO/DhHmOQxdZ4zaHm8rXebmM9OFSHvSab5+ke5S
-	rCzEoSydc8naDanYamhvHr0ZL07bYsnGcqbZbu47/ipCsMPZhNuJPxhV5gnkMVd3NPk72wZr09x
-	cESgZp73DCykgOqhkocfAg/yZ7xlINSwuHrzJceWMSior0bErrek9zJv4TFvYxOAh+Ew3oyJ2IJ
-	iq7Vo1IWHG9MA/
-X-Google-Smtp-Source: 
- AMsMyM6YH6qwIUFDh2bFcTsOFqgLkcmIjaa6dgzI2W9Epv4qF6laz3FUIrzY2v6jnkn1SlbAdUkoFg==
-X-Received: by 2002:a05:6512:1102:b0:49f:cf25:df93 with SMTP id
- l2-20020a056512110200b0049fcf25df93mr12506828lfg.318.1664306178614;
-        Tue, 27 Sep 2022 12:16:18 -0700 (PDT)
-Received: from localhost.localdomain (188-177-43-54-cable.dk.customer.tdc.net.
- [188.177.43.54])
-        by smtp.gmail.com with ESMTPSA id
- w14-20020a05651234ce00b0049d3614463dsm244211lfr.77.2022.09.27.12.16.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Sep 2022 12:16:18 -0700 (PDT)
-From: Daniel Gomez <daniel@qtec.com>
-To: openembedded-core@lists.openembedded.org
-Cc: dagmcr@gmail.com,
-	Daniel Gomez <daniel@qtec.com>
-Subject: [RFC][OE-core][PATCH] bbfileconfig: Add class support
-Date: Tue, 27 Sep 2022 21:16:06 +0200
-Message-Id: <20220927191606.748540-1-daniel@qtec.com>
-X-Mailer: git-send-email 2.35.1
+  d=axis.com; q=dns/txt; s=axis-central1; t=1664306550;
+  x=1695842550;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=QGNeu2Nw3fNTnMK7dSki3lj70gqAe0mClzfa6KAYF0c=;
+  b=DgmvHmnXaX7vO346+wpyxq5u9r/Y3loDAhdFrgg1ENjSCHdk6KjABvyP
+   e2kdYaY3lFEY7EbX1YRsTnvwGMEJboB1eVFu/anVhWFLrmfNsozvjvO57
+   TOUtloP6EAdXuBwVp6rx8CZcA2tFkRPRbYMybjeWsf2jGp1LiVXxGLkDd
+   +u2+XH9ILJ9g7mMNsRIIHg6X+PYS2gzdhbD/s2W4vEbhP2kAdMyhoMLhO
+   6TXJ3nq87/6aTEnqlED84mV8i2+WuHfEbaAzElJen7ym/gBa+OjdHkrB5
+   MlGsHVy9xX+xsVmjK+RbaD4aYD+9AUga1HalEcuV0Etq5/RhJwUSidJHi
+   Q==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: Richard Purdie <richard.purdie@linuxfoundation.org>, OE-core
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
+ paths for templates
+Thread-Topic: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
+ paths for templates
+Thread-Index: 
+ AQHYzoU23gOhP1a3LUCPmQBsEwAbcq3rbfEAgAAKPgCAAE42AIAHlUfggAAWuO2AAAKbsP//8vCAgABABiA=
+Date: Tue, 27 Sep 2022 19:22:26 +0000
+Message-ID: <6abf4530302c415fab1356d820757237@axis.com>
+References: <20220922124708.2218995-1-pkj@axis.com>
+ <20220922124708.2218995-2-pkj@axis.com>
+ <28947223c26b05f58c4b6cd13919b025617318a2.camel@linuxfoundation.org>
+ <ee0aa31d5fa34a5ba889e3518d8b2a95@axis.com>
+ <CANNYZj__Gud2xeWrtK=tZaY_BGQ2d4tVVJLfZt4R0aqzUadK-A@mail.gmail.com>
+ <c78bac9a0a53243336d237bc5f6d51758f5a5dfe.camel@linuxfoundation.org>
+ <6dbf0e264c68433a8aee1a772015c852@axis.com>
+ <1718C14CEB633922.9698@lists.openembedded.org>
+ <CANNYZj_rRJFsnOcSrkONYfmkZdUe1eCZKYcvnkpPj7jm7eVu+g@mail.gmail.com>
+ <faab0d74b95849bdb1d39ac0146dd523@axis.com>
+ <CANNYZj-c_z73wttGbAUv7FyKA5oGW6AaohuxMjoV6vEnmPg2wQ@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj-c_z73wttGbAUv7FyKA5oGW6AaohuxMjoV6vEnmPg2wQ@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Sep 2022 19:16:25 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Sep 2022 19:22:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171126
+ https://lists.openembedded.org/g/openembedded-core/message/171127
 
-Add support for the class 'BBFILECONFIG' which allows to select
-the recipes for a given layer.
-
-Example: 'Enable' python3-colorlog recipe from meta-python.
-
-INHERIT += "bbfileconfig"
-BBFILECONFIG_meta-python += "python3-colorlog"
-
-Signed-off-by: Daniel Gomez <daniel@qtec.com>
----
-
-Hi,
-
-We have developed the 'BBFILECONFIG' class in order to be able to select
-the recipes we want to parse in an allow list manner. Its meant to
-control whether a recipe (bb) file from a specic layer is picked to be
-parsed or not. Similar to the PACKAGECONFIG for packages inside recipes
-(hence the BBFILECONFIG name).
-
-When handling multiple metadata sources it easily becomes huge to build a
-full distro ('world'). Current methods (AFAIK) only allows to
-block/disallow recipe files with BBMASK.
-
-Note: BBFILES_DYNAMIC does part of the job but different use-case.
-
-Could this make sense to upstream? Perhaps there is a better/cleaner way
-of doing this?
-
-We are currently using this with a reduction of 40k -> 20k packages (per
-machine). Of course, the class only parses the bb files (and therfore the number
-of packages to be created) for the recipes we don't want them to be part of
-our custom distro. This helps us to reduce build times while using directly
-upstream layers without the need of copying/forking the recipes files
-in internal layers.
-
-Few extra notes:
-
-1. The class does not handle depencencies. If a recipe is added to the
-list, the developer should also add manually its depencencies in
-their respective BBFILECONFIG_<layer>.
-
-2. When multiple recipe files share a common name, some 'unclaimed' recipes
-will be added too. Example: In meta-openembedded/meta-python we have:
-python3-pybind11_2.10.0.bb and python3-pybind11-json_0.2.11.bb. If one
-wants to add only the first one, the recipe name should be suffixed with
-'_': BBFILECONFIG_meta-python = "python3-pybind11_"
-
-Unfortunately, if the recipe does not follow <recipe>_<version/git>.bb
-filename pattern but instead uses <recipe>.bb there would be no way to
-filter out a second recipe sharing the same recipe name. However, this
-is perhaps not the recommended way to name a recipe. Is it correct?
-
-3. This class would require the following bitbake patch. Embedding
-it here as part of the RFC for reference.
-
-diff --git a/lib/bb/cooker.py b/lib/bb/cooker.py
-index 32a529f0..645c59f7 100644
---- a/lib/bb/cooker.py
-+++ b/lib/bb/cooker.py
-@@ -1796,6 +1796,15 @@ class CookerExit(bb.event.Event):
-         bb.event.Event.__init__(self)
-
-
-+class CookerStarted(bb.event.Event):
-+    """
-+    Notify clients of the Cooker started
-+    """
-+
-+    def __init__(self):
-+        bb.event.Event.__init__(self)
-+
-+
- class CookerCollectFiles(object):
-     def __init__(self, priorities, mc=''):
-         self.mc = mc
-@@ -1834,6 +1843,7 @@ class CookerCollectFiles(object):
-
-     def collect_bbfiles(self, config, eventdata):
-         """Collect all available .bb build files"""
-+        bb.event.fire(CookerStarted(), eventdata)
-         masked = 0
-
-         collectlog.debug("collecting .bb files")
-
-
- meta/classes/bbfileconfig.bbclass | 73 +++++++++++++++++++++++++++++++
- 1 file changed, 73 insertions(+)
- create mode 100644 meta/classes/bbfileconfig.bbclass
-
-diff --git a/meta/classes/bbfileconfig.bbclass b/meta/classes/bbfileconfig.bbclass
-new file mode 100644
-index 0000000000..4582fd6eb8
---- /dev/null
-+++ b/meta/classes/bbfileconfig.bbclass
-@@ -0,0 +1,73 @@
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+# Author: Daniel Gomez <daniel@qtec.com>
-+#
-+# This class allows to select recipe files on a per-layer basis for global
-+# parsing and world target.
-+#
-+# It adds the ability to parse individual recipes from a specific layer from the
-+# a configuration file.
-+#
-+# Usage: add INHERIT += "bbfileconfig" to the local.conf configuration file
-+# and add BBFILECONFIG variable to a configuration file (e.g. conf/layer.conf)
-+# to be able to perform individual recipe file selection. Must be suffixed with
-+# the name of the layer (e.g. BBFILECONFIG_core).
-+#
-+# Example: Assuming meta-skeleton is part of the BBLAYERS, enable the bbfileconfig
-+# to parse only the libxpm recipe
-+# (meta-skeleton/recipes-skeleton/libxpm/libxpm_3.5.6.bb).
-+#
-+# INHERIT += "bbfileconfig"
-+# BBFILECONFIG_skeleton = "libxpm"
-+
-+# Default space-separated list of recipe files to be removed from BBFILES
-+BBFILECONFIG_REMOVE_DIRS ?= "\
-+    recipes*/*/*.bb \
-+    recipes*/*/*.bbappend \
-+    recipes-*/*/*.bb \
-+    recipes-*/*/*.bbappend \
-+"
-+
-+# Default space-separated list of recipe files dirnames prefixes to be appended
-+# to the selected layer
-+BBFILECONFIG_BBFILES_DIRS ?= "recipes-*/*"
-+
-+# BBFILE selector handler executed at CookerStarted event:
-+# 1. Get layer collections from BBFILE_COLLECTIONS.
-+# 2. For each active collection (BBFILECONFIG_<layer> is initialized), removed
-+#    dirs listed in BBFILECONFIG_REMOVE_DIRS from the BBFILES variable.
-+# 3. For each collection, get the recipe name files from BBFILECONFIG and
-+#    append them to the BBFILES as bb and bbappend files.
-+python bbsel_handler () {
-+    import bb.cooker
-+    if isinstance(e, bb.cooker.CookerStarted):
-+        collections = d.getVar('BBFILE_COLLECTIONS').split()
-+        # For each collection layer with BBFILECONFIG enabled, remove the
-+        # BBFILES layer directory and add only the selected recipes.
-+        for c in collections:
-+            cdir = d.getVar('BBFILE_PATTERN_%s' % c).replace("^/", "/")
-+            cbb = d.getVar('BBFILECONFIG_%s' % c)
-+            # If BBFILECONFIG_<layer> is initialized but empty, LAYERDIR
-+            # will be removed from BBFILES and no recipe will be added.
-+            rdirs = None
-+            if cbb is not None:
-+                rdirs = d.getVar('BBFILECONFIG_REMOVE_DIRS_%s' % c)
-+                if not rdirs:
-+                  rdirs = d.getVar('BBFILECONFIG_REMOVE_DIRS')
-+                adirs = d.getVar('BBFILECONFIG_REMOVE_BBFILES_%s' % c)
-+                if not adirs:
-+                  adirs = d.getVar('BBFILECONFIG_BBFILES_DIRS')
-+                for r in rdirs.split():
-+                    rbbdir = cdir + r
-+                    d.setVar('BBFILES:remove', "%s" % (rbbdir))
-+                    bb.debug(1, "Layer %s directory '%s' added to the BBFILES removal list." % (c, rbbdir))
-+                for s in cbb.split():
-+                    for adir in adirs.split():
-+                        bbdir = cdir + adir + "/" + s
-+                        d.appendVar('BBFILES', " %s*.bb %s*.bbappend " % (bbdir, bbdir))
-+                        bb.debug(1, "Recipe file '%s' directories '%s*.bb' and '%s*.bbappend' added to the BBFILES list." % (s, bbdir, bbdir))
-+}
-+
-+addhandler bbsel_handler
-+bbsel_handler[eventmask] = "bb.cooker.CookerStarted"
---
-2.35.1
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8
+YWxleC5rYW5hdmluQGdtYWlsLmNvbT4NCj4gU2VudDogZGVuIDI3IHNlcHRlbWJlciAyMDIyIDE5
+OjA1DQo+IFRvOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNv
+bT4NCj4gQ2M6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24u
+b3JnPjsgT0UtY29yZQ0KPiA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
+Zz4NCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMi8yXSBvZS1zZXR1cC1idWlsZGRp
+cjogRG8gbm90IGhhcmRjb2RlDQo+IGludmFsaWQgcGF0aHMgZm9yIHRlbXBsYXRlcw0KPiANCj4g
+T24gVHVlLCAyNyBTZXB0IDIwMjIgYXQgMTg6MDYsIFBldGVyIEtqZWxsZXJzdGVkdA0KPiA8cGV0
+ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPiB3cm90ZToNCj4gPiBJIChhbmQgdGhlIHNtYWxsIHRl
+YW0gSSBhbSBwYXJ0IG9mKSBpcyB0aGUgcHJveHkgYmV0d2VlbiB0aGVtIGFuZCBZb2N0by4NCj4g
+PiBUaHVzIEkgdHJ5IHRvIGFkZHJlc3MgdGhlaXIgbmVlZHMgYnkgbWFraW5nIHN1cmUgbmV3IHZl
+cnNpb25zIG9mIFlvY3RvDQo+ID4gY29udGludWVzIHRvIHdvcmsgZm9yIHRoZW0gd2l0aG91dCBo
+YXZpbmcgNTAwKyBkZXZlbG9wZXJzIGZhY2luZyB0aGUNCj4gPiBzYW1lIHByb2JsZW1zLiBJLmUu
+LCBpdCBpcyBteSBqb2IgdG8gd29yayB3aXRoIHVwc3RyZWFtLCB3aGljaCBpcyB3aGF0DQo+ID4g
+SSBhbSB0cnlpbmcgdG8gZG8gaGVyZS4NCj4gDQo+IEV4Y3VzZSBtZSwgYnV0IHlvdXIgam9iIGlz
+IG5vdCB0byAnd29yayB3aXRoIHVwc3RyZWFtJy4gWW91ciBqb2IgaXMgdG8NCj4gbWFrZSBkYW1u
+IHN1cmUgJ3Vwc3RyZWFtJyBjb250aW51ZXMgdG8gZXhpc3QuIFdoaWNoIG1lYW5zOiBnbyB0byB5
+b3VyDQo+IG1hbmFnZW1lbnQsIGRlc2NyaWJlIHRoZSBzaXR1YXRpb24gd2UncmUgaW4gKHlvdSBo
+YXZlIHRoZSBudW1iZXJzKSwNCg0KV2hpY2ggaXMgZXhhY3RseSB3aHkgSSBoYXZlIHdvcmtlZCBv
+biBhbmQgZmluYWxseSBjb252aW5jZWQgbXkgDQptYW5hZ2VtZW50IHRoYXQgaXQgaXMgaW1wb3J0
+YW50IGZvciB1cyB0byBiZWNvbWUgYSBZb2N0byBtZW1iZXIsIA0Kd2hpY2ggd2Ugbm93IGFyZS4N
+Cg0KPiBhbmQgYXNrIHRoYXQgdGhleSBhbGxvY2F0ZSBhdCBsZWFzdCBvbmUgZGV2ZWxvcGVyIHRv
+IHdvcmsgaW4gdXBzdHJlYW0NCj4gZnVsbCB0aW1lLiANCg0KVGhhdCBpcyBoYXJkZXIuIFdlIGhh
+dmUgYSBoYXJkIGVub3VnaCB0aW1lIHRvIHJlY3J1aXQgcGVvcGxlIHRvIA0Kb3VyIHRvb2xzIHRl
+YW0gKHdoaWNoIGluY2x1ZGVzIHRoZSBidWlsZCB0ZWFtIHRoYXQgSSBhbSBwYXJ0IG9mKSANCmFz
+IGl0IGlzLiBGb3Igc29tZSByZWFzb24sIHdvcmtpbmcgd2l0aCB0b29scyBhbmQgYnVpbGQgc3lz
+dGVtcyANCmFwcGFyZW50bHkgaXMgbm90IGFzIHNleHkgYXMgd29ya2luZyB3aXRoIHdlYiBkZXZl
+bG9wbWVudCBhbmQgQUkuDQoNCj4gTm90IGRyaXZlLWJ5IHBhdGNoZXMgdG8gZml4IHlvdXIgc3Bl
+Y2lmaWMgcHJvZHVjdCBwcm9ibGVtcywNCg0KSSdtIHNvcnJ5IHRvIGhlYXIgdGhhdCB5b3UgdGhp
+bmsgYWxsIEkgZG8gaXMgZHJpdmUtYnkgcGF0Y2hlcy4gDQpJIHRob3VnaHQgbXkgY29udHJpYnV0
+aW9ucyB3ZXJlIGEgbGl0dGxlIGJpdCBtb3JlIGFwcHJlY2lhdGVkIA0KdGhhbiB0aGF0LiA6KA0K
+DQo+IGJ1dCB1cHN0cmVhbSBwcm9wZXI6IHNvbWV0aGluZyB0aGF0IG1ha2VzIHRoZSBwcm9qZWN0
+IHN1c3RhaW5hYmxlLA0KPiBlLmcuIGZpeGluZyBtZWRpdW0rL2hpZ2ggYnVncywgd29ya2luZyBv
+biBuZXcgZmVhdHVyZXMsIHVwZ3JhZGluZw0KPiByZWNpcGVzLCBzZW5kaW5nIHBlbmRpbmcgcGF0
+Y2hlcyB1cHN0cmVhbS4gVGhpcyB3b3JrcyBuZXZlciBlbmRzLCBhbmQNCj4gbm8gb25lIHdhbnRz
+IHRvIGRvIGl0Lg0KDQpBbmQgSSBjYW4gYXNzdXJlIHlvdSB0aGF0IGV2ZXJ5b25lIGFwcHJlY2lh
+dGUgdGhlIHVuZ3JhdGVmdWwgDQp3b3JrIHlvdSBhbmQgb3RoZXJzIGRvIHRvIGtlZXAgdGhpbmdz
+IHJ1bm5pbmcuIFdlIHJlYWxseSBkby4NCiANCj4gSWYgeW91IGNhbiBkbyB0aGlzLCBJIHByb21p
+c2UgdG8gYmUgbW9yZSBzeW1wYXRoZXRpYyB0byB5b3VyDQo+IHBhcnRpY3VsYXIgaXNzdWVzLCBi
+dXQgYXMgdGhpbmdzIHN0YW5kLCBpdCdzIHJhdGhlciBkaWZmaWN1bHQuDQo+IA0KPiBBbGV4DQoN
+Ci8vUGV0ZXINCg0K
 
