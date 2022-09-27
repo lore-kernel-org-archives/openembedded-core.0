@@ -2,101 +2,107 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C2EFC54EE9
-	for <webhook@archiver.kernel.org>; Tue, 27 Sep 2022 16:17:05 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web10.13167.1664295416613784851
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53656C07E9D
+	for <webhook@archiver.kernel.org>; Tue, 27 Sep 2022 16:47:45 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web08.13268.1664297264095041160
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Sep 2022 09:16:57 -0700
+ Tue, 27 Sep 2022 09:47:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=MmdpWoFv;
- spf=pass (domain: gmail.com, ip: 209.85.167.46,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=a5e18SRP;
+ spf=pass (domain: gmail.com, ip: 209.85.167.49,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id o2so16421867lfc.10
+Received: by mail-lf1-f49.google.com with SMTP id bu25so14699310lfb.3
         for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Sep 2022 09:16:56 -0700 (PDT)
+ Tue, 27 Sep 2022 09:47:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=vc0aDL27OF9iqYrV/DQgYEw+aG0JDOtN2z1UOmNCvUg=;
-        b=MmdpWoFvdve4c19uwim30KIjGd0Qw7w9toMa8jZA1kQ/s+2zuVgwsliN8anA2qWs3x
-         yCITgMretFdKd+9FdkGaKqtgDg+wkRHbw/xh/Z9UKgh1MlpKi+IOIQ8UwlfTHCRNgr36
-         vtzGPWgvH7z3G8+mRxKL+TKV54gXcI1jNPCk6gEnTEUYoNGjGy/TskEaG+C3TpIU9sjG
-         HNZH/6D+EY5JFImTguCHtEmKlAPN5SiMppJyS2eHUF6aqvA4gyVzeAIUqIlnLM9dHB0U
-         dVSSHouubcGzw5aXDejttfJDPwRtdPlduFUirQoX+LGmkIJJtBII0XOjmcGYbA5NK8gH
-         yjaA==
+        bh=BMw5HEn2EjwFiSIzvmjzxXklNdSWAdl5iYZ0+zQGeQs=;
+        b=a5e18SRP/w/krXUg59FFdSyBvxnt7a1hf1qcNMQop2xJ09CnVMZ8fi/Niy+Y9H5cAK
+         x6d+Y+l+9KNBS2OpajoRFIpQf0Yaw1tlbPKQ2GUoqWa8vOUfujryk7EHbAmiqEo/ugB3
+         YYXBYkudgsX2kC8gSPpFfxcZbbrxDAGJB/dD/bd1Gin/DJtRBW0/KVO0v9WC3P3w5AkQ
+         spLyhuwBKeCE2UqlfB7qHk6k677UCVkSI8gHJ1xHzg0KOIDBX+vU+HXm4GpCTo9x70OR
+         CmG5AVH3ewFwPdatpCOqojH0W1uT9zbghLHSwZPCmynhvJDOrni77drro88EJmm962Tb
+         hjbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=vc0aDL27OF9iqYrV/DQgYEw+aG0JDOtN2z1UOmNCvUg=;
-        b=VsV269JlmN7xsArCrqu/2p0jL2gAmVcgK86havpNqVX57IUpdzNUUvto+3RErVhJga
-         nn+iDZ4HbsAAt5CcpFu/TT93oGYdtsM2VB7TljtrVezMsWBbBT9rbEAYVD0WqXwJXSVA
-         v4qj39dUb93EeiFKkQ64m1Gro5RA86zRNwqJ/4PR8/Ookr2juo4UZ5xdtS5ogkZT5tzB
-         BxxnWgP72pd00hC0jUT5BgQDLJLEeb9CjyuD5PFbT6XTISPBkijjL6wfUqe5Wztpda5p
-         xNkICtuGFwzpHi9Wx0vq0KmGrJXWEnrbVl53qwEz6rNmd56OSfQpegCXWN59GjvfXoyR
-         3sKA==
-X-Gm-Message-State: ACrzQf1RPg1DU0fTBLWYrk9ztEv3bdAAR5I+yyeXuCKtlmbpM4fiB652
-	S+pMG/wGInCU7EZKxm6t6lPBmh7heiSLxtZu9oY=
+        bh=BMw5HEn2EjwFiSIzvmjzxXklNdSWAdl5iYZ0+zQGeQs=;
+        b=G/Ipyf8/pfn8dSSb5JOR9cAi5o/7uCjMBu2LiwOwBeL8PG6twWdN4Zr4QHU7Q2mx7F
+         bxoM07qypG51ZhO9HlS1VVrBA209XGnkJuzOQjvO/Iw5Roea4BeHW7qWZl9BIartF6SZ
+         pdHGE4Q04WQRVTlOI1XGp2VfQ1N6J6oiETDpSpVe5/E1BtZ10FFqeCBJO86Yonj4RHgM
+         DFITOABoMk4FQbQDPzepWZ+eDXJFxgyM8TcKbYU2KtFt+q3ToWIu9TMJaPlOPky43U03
+         IlsTOCYaQyvkrPAm8mzKO6DjTjjNxiy2TkWBhnkCZRsCto9Yk98Zv5ZpJerSq0Fr5Tnw
+         y4pQ==
+X-Gm-Message-State: ACrzQf3MhD6HokJ/8a5knGtyzDOtQCxxO2kJHnbydOCWsTuNJEzSu/A7
+	emEUrUScitDZ801o8bK3I8E82wIYWJoxsdnrtAQ=
 X-Google-Smtp-Source: 
- AMsMyM4WIXxt4Rj6OyOJEt20MiuP3mLMGFR+MPhEl4W+OiEZVqITEiWBga7N/rbjMEyZvQ3YzHM6y+KGlmE38t1zGPY=
-X-Received: by 2002:a05:6512:950:b0:497:c41e:3d0c with SMTP id
- u16-20020a056512095000b00497c41e3d0cmr12088523lft.673.1664295414820; Tue, 27
- Sep 2022 09:16:54 -0700 (PDT)
+ AMsMyM4Ecx6mckxXIXUIxCr8CCgFv4rxFtZM2SA7M1BFiuhPNcgP2QZaUqCm1FPhqXxY/XT8qOPvlXqFXDj8toEt/mA=
+X-Received: by 2002:a05:6512:40c:b0:4a0:5b27:76f0 with SMTP id
+ u12-20020a056512040c00b004a05b2776f0mr8795986lfk.358.1664297262058; Tue, 27
+ Sep 2022 09:47:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220922124708.2218995-1-pkj@axis.com>
- <20220922124708.2218995-2-pkj@axis.com>
- <28947223c26b05f58c4b6cd13919b025617318a2.camel@linuxfoundation.org>
- <ee0aa31d5fa34a5ba889e3518d8b2a95@axis.com>
- <CANNYZj__Gud2xeWrtK=tZaY_BGQ2d4tVVJLfZt4R0aqzUadK-A@mail.gmail.com>
- <c78bac9a0a53243336d237bc5f6d51758f5a5dfe.camel@linuxfoundation.org>
- <6dbf0e264c68433a8aee1a772015c852@axis.com>
- <1718C14CEB633922.9698@lists.openembedded.org>
- <CANNYZj_rRJFsnOcSrkONYfmkZdUe1eCZKYcvnkpPj7jm7eVu+g@mail.gmail.com>
- <faab0d74b95849bdb1d39ac0146dd523@axis.com>
-In-Reply-To: <faab0d74b95849bdb1d39ac0146dd523@axis.com>
+References: <20220927120922.137422-1-alex@linutronix.de>
+ <74fb01f41d54453992cbd6ccad52a9ce@axis.com>
+In-Reply-To: <74fb01f41d54453992cbd6ccad52a9ce@axis.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 27 Sep 2022 18:16:43 +0200
+Date: Tue, 27 Sep 2022 18:47:30 +0200
 Message-ID: 
- <CANNYZj_2+-GiZ4Qa67GJ3KFJMqFxLFXW6XKMtL+a9=NrPmi66A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
- paths for templates
+ <CANNYZj-G+GuNpGN5jZKZDPeGntFVJg9G84+v8BXCFNhpSeb85A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/3] githib-releases: add a class that
+ consolidates version checks
 To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Sep 2022 16:17:05 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Sep 2022 16:47:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171110
+ https://lists.openembedded.org/g/openembedded-core/message/171111
 
-On Tue, 27 Sept 2022 at 18:06, Peter Kjellerstedt
+On Tue, 27 Sept 2022 at 16:17, Peter Kjellerstedt
 <peter.kjellerstedt@axis.com> wrote:
-> > Otherwise, yes, I will say this:
-> > fix your scripts, and stop complaining.
+
+> Is that really useful? It cannot be many recipes where the owner
+> part of the URL actually matches ${BPN}? Wouldn't it make more
+> sense to instead use something like:
 >
-> I can (and will) of course do that, but since I believe my fix is of
-> interest not only to us, but others who setup their environment
-> using the .templateconf file, my primary goal is to try to improve
-> upstream first.
+> GITHUB_OWNER ?= "${BPN}"
+> GITHUB_NAME ?= "${BPN}"
+> GITHUB_BASE_URI ?= "https://github.com/${GITHUB_OWNER}/${GITHUB_NAME}/releases/"
+>
+> That way it is more evident in the recipe when GITHUB_OWNER and/or
+> GITHUB_NAME is set, rather than the entire GITHUB_BASE_URI being
+> redefined.
 
-Yes, but:
+I ran some stats on the recipes in core that have been transitioned to
+the class:
 
-1. There is no evidence anyone else except Axis is actually using .templateconf.
+total: 39
+same owner/same name as the recipe, no override of GITHUB_BASE_URI: 11
+different owner/same name as the recipe: 14
+different owner/different name as the recipe: 14
 
-2. .templateconf is now officially retired as a way to set the
-template location. The patch you've sent is completely contrary to
-that: rather it makes the incorrect impression that it is still
-supported, and the implication is that the core upstream would still
-have to accommodate and think of those who are using it going forward.
-Yes it's mildly annoying to delete the build directory, but can you
-just do it and move on? And yes, make a plan for replacing it with
-TEMPLATECONF, which is what I've been trying to squeeze out of you for
-I don't know how many times.
+I would rather avoid adding abstractions and reducing readability by
+defining even more variables, perhaps recipes that use different
+owner/same name can use:
+GITHUB_BASE_URI = "https://github.com/custom-owner/${BPN}/releases/"
+(some already do, but not all). I also find it very useful to be able
+to click on URIs on recipes, and don't like having to copy-paste-edit
+bits of it
+to get where I want in the browser :)
+
+In any case, the major point here is to fix upstream version checks so
+that AUH can continue do its work. A minor point is to define the base
+uri (the part up to 'releases') only once, or use a default where
+possible.
 
 Alex
 
