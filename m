@@ -1,162 +1,112 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66918C6FA82
-	for <webhook@archiver.kernel.org>; Tue, 27 Sep 2022 14:17:44 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web10.11642.1664288255413326746
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 610D1C54EE9
+	for <webhook@archiver.kernel.org>; Tue, 27 Sep 2022 14:18:04 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web09.11499.1664288275273844244
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Sep 2022 07:17:35 -0700
+ Tue, 27 Sep 2022 07:17:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Zil+8bMh;
- spf=pass (domain: gmail.com, ip: 209.85.128.49,
- mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id
- fn7-20020a05600c688700b003b4fb113b86so5557546wmb.0
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Sep 2022 07:17:35 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=elCihH39;
+ spf=pass (domain: axis.com, ip: 195.60.68.17,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=nYaTmNSuTA9DFxfNJjD0+niJljumi5K7Ghe0HPo/Tjw=;
-        b=Zil+8bMhRHGZj7PczjKUtBjYBMfE4hkWrfH575BipwkoNDBrRcdAghkSJfexrXeGIb
-         CAi6SDDpcWuUyBtwiDJL8fihiln9akkB7Q9YhUWCH6n/Iv9dgubotyEAIgKJplDf8L0y
-         EF6uBEccjjH7IbZO+GAMqYZOOr5PoA8lpHe16VL1HAoeBp94xEyDLV4Ap6Pit+mjdPFK
-         RUikmqPeMavBl0cKB2usJuSaimPFaHPqkxfv/krVSEstCvkhN/kt6qMFtVmj3sVbNZyU
-         p38VkVak92sKjNU42l5nwbaPXUqw7r42Nuxw1gKPYjEKCQPbZzB0EUaw9lp4kABh8j7B
-         jOfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=nYaTmNSuTA9DFxfNJjD0+niJljumi5K7Ghe0HPo/Tjw=;
-        b=ocetbjbZiOw+DP/S3m/zDxfSleywRlOviI539v4eAxg75XgBx7jPS9RtL7eFsdPkmp
-         HfZpJtndcSUFvH32ZKI8dRhRdIlkPtcq43uyq5czzKOihBoqSfa6fKYjeFZHXbN9QZZr
-         KtMGnADBy6+c1oB2a/2zHnhCY6YQEGStreBS6i61DiYWC5i4L+fVbXsQki8OoO2JuVnE
-         xB+kLrBhzfxYQkMY7eNkz22aKtl4rALUTVws5NvbfMTmFNnD9+Oq+Y0ibrOOTE8UJ1z9
-         UqP/c4/2tQ0Kf8g67Yua4PAxc7zC0tqQ+TYOzVYO3lgy44Zs4GRdKoGlRnHaI5TYDyqh
-         aN4A==
-X-Gm-Message-State: ACrzQf1X50B/hDK52F63bRpzpg09XnaTXw3oat824YYEJc2LomdyRc2r
-	3Fbj0srJ0nXogkSiDHsqGwz4hAqCuHkEnGgRYhc=
-X-Google-Smtp-Source: 
- AMsMyM5Lm68vJJPKhuZ8OcIOQfULMh5VZ3GUJXPhC8yWXPdIbkpcSI+lckU13+oK14kqJP9oURC+NheZiPLNFf9tKiI=
-X-Received: by 2002:a7b:c40e:0:b0:3b3:3faa:10c2 with SMTP id
- k14-20020a7bc40e000000b003b33faa10c2mr2974179wmi.32.1664288253532; Tue, 27
- Sep 2022 07:17:33 -0700 (PDT)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1664288275;
+  x=1695824275;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=aLxbjLlBUJ7CE0v8Dake1nrSfwTZ2tKivYnSaKERRQo=;
+  b=elCihH39tMNZ+gNYn1/ipOjxXD13UUo8G1tvyduoPOMx0NPnR94CzATx
+   zofMvW8fPwTb0gAnXJhu6xx+bgy2S7r6UpDQsDfUspmQEEjl1ag6x/Csr
+   cvqmVo5yhP6+jrPE2nICEP+J4Rpulr/dxActSOj3AYMeZSr8Yy03hHX1r
+   AOylNWvFoSzYB11Po/gmgWyzI1h4bJt8tgJjEVxexVOgL6t1V+oooa4eQ
+   oS/w0rbTTZCthMyRxZuRyNB5YmlYjjzmkAFZJIgtrJBSsvHXxi291+D43
+   qerCuvjyk3tK4DkJPxqhnmq0KpFuAakG/3nmytLRtZruZGQApMib1iB85
+   A==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: Alexander Kanavin <alex@linutronix.de>
+Subject: RE: [OE-core] [PATCH 1/3] githib-releases: add a class that
+ consolidates version checks
+Thread-Topic: [OE-core] [PATCH 1/3] githib-releases: add a class that
+ consolidates version checks
+Thread-Index: AQHY0moDpZrvqkuZeEm0taNFgU4yIa3zUScA
+Date: Tue, 27 Sep 2022 14:17:53 +0000
+Message-ID: <74fb01f41d54453992cbd6ccad52a9ce@axis.com>
+References: <20220927120922.137422-1-alex@linutronix.de>
+In-Reply-To: <20220927120922.137422-1-alex@linutronix.de>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <6ldv.1652875317100283313.cW0Y@lists.openembedded.org>
-In-Reply-To: <6ldv.1652875317100283313.cW0Y@lists.openembedded.org>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 27 Sep 2022 16:17:21 +0200
-Message-ID: 
- <CA+chaQdyO1_QSvd00RrHPqCZUr4ik_hPVEEejAtoYKvxsySAtA@mail.gmail.com>
-Subject: Re: [OE-core] Wiki re submitting patches
-To: mangodan2003@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000027dfa405e9a94e58"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Sep 2022 14:17:44 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Sep 2022 14:18:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171102
+ https://lists.openembedded.org/g/openembedded-core/message/171103
 
---00000000000027dfa405e9a94e58
-Content-Type: text/plain; charset="UTF-8"
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> On Behalf Of Alexander Kanavin
+> Sent: den 27 september 2022 14:09
+> To: openembedded-core@lists.openembedded.org
+> Cc: Alexander Kanavin <alex@linutronix.de>
+> Subject: [OE-core] [PATCH 1/3] githib-releases: add a class that consolid=
+ates version checks
 
-see https://git.openembedded.org/openembedded-core/commit/
+Change "githib" to "github".
 
-On Wed, May 18, 2022 at 2:01 PM <mangodan2003@gmail.com> wrote:
+>=20
+> github has recently changed how the releases page is structured:
+> the tarballs are no longer listed directly, but are included
+> via separate 'fragment' URIs. For now, we can change the check
+> to match against the release tags.
+>=20
+> This also establishes a common base URI to use for both
+> fetching and checking the latest version.
+>=20
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  meta/classes-recipe/github-releases.bbclass | 3 +++
+>  1 file changed, 3 insertions(+)
+>  create mode 100644 meta/classes-recipe/github-releases.bbclass
+>=20
+> diff --git a/meta/classes-recipe/github-releases.bbclass b/meta/classes-r=
+ecipe/github-releases.bbclass
+> new file mode 100644
+> index 0000000000..ed83b83731
+> --- /dev/null
+> +++ b/meta/classes-recipe/github-releases.bbclass
+> @@ -0,0 +1,3 @@
+> +GITHUB_BASE_URI ?=3D "https://github.com/${BPN}/${BPN}/releases/"
 
-> Is this page still relevant?
->
-> https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
->
-> I have just tried to submit a patch via both the email and git methods and
-> both fail. Google blocks the script when trying the email method saying it
-> is not secure and when trying the git method I get a timeout from the
-> script for github, tho I can access github just fine in my browser.
->
-> dan@melon ~/workspace_ssd/kas/openembedded-core $
-> ./scripts/create-pull-request -u git@github.com:mangodan2003/openembedded-core.git
->
-> NOTE: Assuming remote branch 'gst-1.20.2', use -b to override.
-> NOTE: Assuming local branch HEAD, use -l to override.
-> fatal: unable to connect to github.com:
-> github.com[0: 140.82.121.4]: errno=Connection timed out
->
-> warn: No match for commit 38b9d17c45c15087d484559595b04c7b61fd8fbb found
-> at git://github.com/mangodan2003/openembedded-core
-> warn: Are you sure you pushed 'gst-1.20.2' there?
-> ERROR: git request-pull reported an error
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#165848):
-> https://lists.openembedded.org/g/openembedded-core/message/165848
-> Mute This Topic: https://lists.openembedded.org/mt/91184410/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> Martin.Jansa@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
+Is that really useful? It cannot be many recipes where the owner=20
+part of the URL actually matches ${BPN}? Wouldn't it make more=20
+sense to instead use something like:
 
---00000000000027dfa405e9a94e58
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+GITHUB_OWNER ?=3D "${BPN}"
+GITHUB_NAME ?=3D "${BPN}"
+GITHUB_BASE_URI ?=3D "https://github.com/${GITHUB_OWNER}/${GITHUB_NAME}/rel=
+eases/"
 
-<div dir=3D"ltr"><div dir=3D"ltr">see=C2=A0<a href=3D"https://git.openembed=
-ded.org/openembedded-core/commit/">https://git.openembedded.org/openembedde=
-d-core/commit/</a></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cla=
-ss=3D"gmail_attr">On Wed, May 18, 2022 at 2:01 PM &lt;<a href=3D"mailto:man=
-godan2003@gmail.com">mangodan2003@gmail.com</a>&gt; wrote:<br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">Is this page still relevant?<br>=
-<br><a href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_O=
-penEmbedded" rel=3D"noopener" target=3D"_blank">https://www.openembedded.or=
-g/wiki/How_to_submit_a_patch_to_OpenEmbedded</a><br><br>I have just tried t=
-o submit a patch via both the email and git methods and both fail. Google b=
-locks the script when trying the email method saying it is not secure and w=
-hen trying the git method I get a timeout from the script for github, tho I=
- can access github just fine in my browser.<br><span style=3D"font-family:m=
-onospace"><span style=3D"font-weight:bold;color:rgb(84,255,84)"><br>dan@mel=
-on</span><span style=3D"font-weight:bold;color:rgb(84,84,255)"> ~/workspace=
-_ssd/kas/openembedded-core $</span><span style=3D"color:rgb(0,0,0)"> ./scri=
-pts/create-pull-request -u git@github.com:mangodan2003/openembedded-core.gi=
-t =C2=A0</span><br>NOTE: Assuming remote branch &#39;gst-1.20.2&#39;, use -=
-b to override. <br>NOTE: Assuming local branch HEAD, use -l to override. <b=
-r>fatal: unable to connect to <a href=3D"http://github.com" target=3D"_blan=
-k">github.com</a>: <br><a href=3D"http://github.com" target=3D"_blank">gith=
-ub.com</a>[0: 140.82.121.4]: errno=3DConnection timed out <br><br>warn: No =
-match for commit 38b9d17c45c15087d484559595b04c7b61fd8fbb found at git://<a=
- href=3D"http://github.com/mangodan2003/openembedded-core" target=3D"_blank=
-">github.com/mangodan2003/openembedded-core</a> <br>warn: Are you sure you =
-pushed &#39;gst-1.20.2&#39; there? <br>ERROR: git request-pull reported an =
-error<br><br></span>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#165848): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/165848" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/165848</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/91184410/3617=
-156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/91184410/3617156</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
-rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
+That way it is more evident in the recipe when GITHUB_OWNER and/or=20
+GITHUB_NAME is set, rather than the entire GITHUB_BASE_URI being=20
+redefined.
 
---00000000000027dfa405e9a94e58--
+> +UPSTREAM_CHECK_URI ?=3D "${GITHUB_BASE_URI}"
+> +UPSTREAM_CHECK_REGEX ?=3D "releases/tag/v?(?P<pver>\d+(\.\d+)+)"
+> --
+> 2.30.2
+
+//Peter
+
 
