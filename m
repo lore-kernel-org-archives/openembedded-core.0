@@ -2,96 +2,96 @@ Return-Path: <daniel@qtec.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF451C6FA82
-	for <webhook@archiver.kernel.org>; Tue, 27 Sep 2022 11:34:33 +0000 (UTC)
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com
- [209.85.217.46])
- by mx.groups.io with SMTP id smtpd.web10.9846.1664278468842977202
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3649C07E9D
+	for <webhook@archiver.kernel.org>; Tue, 27 Sep 2022 11:51:13 +0000 (UTC)
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com
+ [209.85.222.52])
+ by mx.groups.io with SMTP id smtpd.web10.9973.1664279470173038416
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Sep 2022 04:34:29 -0700
+ Tue, 27 Sep 2022 04:51:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qtec.com header.s=google header.b=Y+WUKS3K;
- spf=pass (domain: qtec.com, ip: 209.85.217.46, mailfrom: daniel@qtec.com)
-Received: by mail-vs1-f46.google.com with SMTP id h1so9325116vsr.11
+ dkim=pass header.i=@qtec.com header.s=google header.b=gHR6/etN;
+ spf=pass (domain: qtec.com, ip: 209.85.222.52, mailfrom: daniel@qtec.com)
+Received: by mail-ua1-f52.google.com with SMTP id c23so3467224uan.5
         for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Sep 2022 04:34:28 -0700 (PDT)
+ Tue, 27 Sep 2022 04:51:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=qtec.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=qDYWiL5drBG+kd9JGxycPsCKcF2U2Wipho0Gm6LkDr8=;
-        b=Y+WUKS3KafQKH7yBLhYrMK5Iqs6mKgCwGu17QGl3DyV8Y1EMRTXMPYz5rnEaIVWBh8
-         u3aSwmor3iyRkooD4ebj5VIxLEjqspWmUtp5EJINHPRYJzBGPPNWzaOsMvAoEjmpB0bI
-         CGvomJTPo+3a7Ah9/RfQsSAnXU8+9j2K8MdNC0VG22uzXqteLz96LBOMR6TQka7th8uE
-         66KyXxE3VTVkEljl4jLA+EINvCifP5+QgcxD07Tukk3KZF7poFiW4WnQSlwZU8s/WW8I
-         0LtlZXb68htv78il5T1ZUgXWNdwaDKCteMRFCfOSHzpD8B5jS5+xwfVMb++GMmep4QkQ
-         nzxg==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date;
+        bh=CGs5f2jDV2BUZD1fdW6KfYuKmj+OqPFk+rSF5ID3Fxg=;
+        b=gHR6/etNJRMlSTT70pFxrTA4cAuf4f+En1xazCT0LGilRd8ybKTyF/xZdvWadLJXUW
+         qdcytU5bgg3vU3mCJ8guSWqX0B5yzXbEXbZ2v+h5PRHsrA19MgRm6IM5Tdp4wGkEyvad
+         +rrdNfDZdxdBc+RO0xpmyN4adEZCg0PpiODKayg83we994tEgJ1GbN6KMXPFl8I0qzXM
+         7JXk7tRlpxrInQyKOSTqd9SUUrp7xGLfyqXLrJJlh0huZAIjCZitx47cJurcsXuvjq+J
+         EMflhw4gzT6uY5YUe+IU8PebS4DIYTOWPJ2TzbkZSZOkKp2l7aaoB8ZqZE2EEtkDxEir
+         XaRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=qDYWiL5drBG+kd9JGxycPsCKcF2U2Wipho0Gm6LkDr8=;
-        b=m6eDOi9g6qBeq+sFcV37XJaR5b1ic0D94oIeWIjzhle2pObc2fvr6jT81dx/StlVG9
-         nsfs+ji6fA/szYLWBsiNAAIu/RZfaesgD72lpf1XctFmekCQpgeZ9AwXnrEULPYdvTAP
-         QmG3kkRyTCDuTEwkOqlxDDT0S/U/KYA94yjygUgUwr6gVRgjUdxofoAJ4QPKSov4mWp9
-         hat7E+6qRVrZGkCQZGT2s+/HAQLdPcX5MlQnnTSlP6gjg9O9p54MhoVbbQphA1/LLnOj
-         hsjZb9PNK5q8dSYoHaVthjsDZlJnSZlgUlYR2MzNQI9dAG9ZwEClZEn/oc9qviajIBuu
-         +nsw==
-X-Gm-Message-State: ACrzQf0ItGmb6L0/vzhO7zFdqKXgIobr7AVy9mY67xY66xm4HB0ge8LW
-	hy6h1stMAN0CP7m3YW9daCIZy+IWnoRSXqjJOiocmQ==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=CGs5f2jDV2BUZD1fdW6KfYuKmj+OqPFk+rSF5ID3Fxg=;
+        b=NFeGkD0i4FRt86rW61JkDy2KjNkwGvGmIvoCTfmVJ/bofkGV/gY6rxYIPLKWBxQZ26
+         VAusWG6LWHVDM2qq0dNoqWieB/ijvFban46ceXAqFV3osTHgGhkJ2zDV2KEcAZmwnnJ+
+         qox0vUatGdPY6v6zLV74xmICPh1AUS001lXuULb1gOaSprL7/2U1FN0qpKhMimCoZVpY
+         Cx+FXSplOYehuiFwXNsUgW6itFzSj+jwI6AvknoknNiITCJpi+piI/nQ0/6YGRHHvEMG
+         OZnUZTllpOmH1jGxyXNsezHO/L1/jxu11sVH5VVUBvoVTFKyE1/axWwESeupgWrcaLE6
+         HcUw==
+X-Gm-Message-State: ACrzQf2Y3h3J2+Ki0h2+BZuLsyeMGGQ7V4BL24/ckAib6JBJ8E8R0JtH
+	oGyivEySVS1HWgfcS1Qf7ZmujarL8P1D471+Im245g==
 X-Google-Smtp-Source: 
- AMsMyM7lIiv12dYMOMrviHYjNdRCxhZZax+vUq+OEj0Df5Zl6/zAC8BZYRI6sZ0u/uoapBbqmV2liHvrKfbpBr+YkaY=
-X-Received: by 2002:a05:6102:3ec7:b0:356:cbdf:122d with SMTP id
- n7-20020a0561023ec700b00356cbdf122dmr9229853vsv.9.1664278467728; Tue, 27 Sep
- 2022 04:34:27 -0700 (PDT)
+ AMsMyM5kvnNCSmhCWz28TlhNmtsu1OZTVpJfWk24JHCSGipPcuGB64CT5VhknBrvxuo0bBomuafLsyNPeHZNfu+Kwog=
+X-Received: by 2002:ab0:1c0c:0:b0:3d0:d782:4108 with SMTP id
+ a12-20020ab01c0c000000b003d0d7824108mr1168948uaj.40.1664279469219; Tue, 27
+ Sep 2022 04:51:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <258A1233-0D8F-4A61-B976-AE5D4A1516C5@arm.com>
- <20220927102904.722281-1-daniel@qtec.com>
- <8AA6EB38-88F4-448C-9C63-5848162DB40F@arm.com>
-In-Reply-To: <8AA6EB38-88F4-448C-9C63-5848162DB40F@arm.com>
+References: <20220720194416.89631-1-daniel@qtec.com>
+ <8B7B30C0-321F-4AB4-9105-894148FC9D9C@arm.com>
+ <f8a73d8f5126aab9d1b9b2c145ac6be0edbf0967.camel@codeconstruct.com.au>
+ <258A1233-0D8F-4A61-B976-AE5D4A1516C5@arm.com>
+In-Reply-To: <258A1233-0D8F-4A61-B976-AE5D4A1516C5@arm.com>
 From: Daniel Gomez <daniel@qtec.com>
-Date: Tue, 27 Sep 2022 13:34:16 +0200
+Date: Tue, 27 Sep 2022 13:50:58 +0200
 Message-ID: 
- <CAH1Ww+RttSrArcsM0Od1bFRPsc2QLhVMO9ujr73FnNHpqfFkdQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] dropbear: Add enable-x11-forwarding
- PACKAGECONFIG option
+ <CAH1Ww+R4iC9k7mHS_RJ=MxyJVbo7oEAKmTzP9LDn82-htPfN0A@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] dropbear: Enable x11 forwarding
 To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org"
+Cc: Matt Johnston <matt@codeconstruct.com.au>,
+	"openembedded-core@lists.openembedded.org"
  <openembedded-core@lists.openembedded.org>,
-	"dagmcr@gmail.com" <dagmcr@gmail.com>
+	"dagmcr@gmail.com" <dagmcr@gmail.com>,
+ "yi.zhao@windriver.com" <yi.zhao@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Sep 2022 11:34:33 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Sep 2022 11:51:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171094
+ https://lists.openembedded.org/g/openembedded-core/message/171095
 
-On Tue, 27 Sept 2022 at 12:32, Ross Burton <Ross.Burton@arm.com> wrote:
+On Mon, 25 Jul 2022 at 10:49, Ross Burton <Ross.Burton@arm.com> wrote:
 >
-> On 27 Sep 2022, at 11:29, Daniel Gomez via lists.openembedded.org <daniel=qtec.com@lists.openembedded.org> wrote:
-> > diff --git a/meta/recipes-core/dropbear/dropbear/0007-Fix-X11-build-failure-use-DROPBEAR_PRIO_LOWDELAY.patch b/meta/recipes-core/dropbear/dropbear/0007-Fix-X11-build-failure-use-DROPBEAR_PRIO_LOWDELAY.patch
-> > new file mode 100644
-> > index 0000000000..994bbdd42a
-> > --- /dev/null
-> > +++ b/meta/recipes-core/dropbear/dropbear/0007-Fix-X11-build-failure-use-DROPBEAR_PRIO_LOWDELAY.patch
-> > @@ -0,0 +1,27 @@
-> > +From 0292aacdf0aa57d03f2a3ab7e53cf650e6f29389 Mon Sep 17 00:00:00 2001
-> > +From: Matt Johnston <matt@ucc.asn.au>
-> > +Date: Sat, 23 Apr 2022 22:33:31 +0800
-> > +Subject: [PATCH] Fix X11 build failure, use DROPBEAR_PRIO_LOWDELAY
-> > +
-> > +Upstream-Status: Backport
+> On 25 Jul 2022, at 04:11, Matt Johnston <matt@codeconstruct.com.au> wrote=
+:
+> > The upstream method for Dropbear configuration is #define entries in a
+> > localoptions.h file.  default_options.h should be left untouched.  Addi=
+ng it
+> > to CFLAGS for configure would also work, as
+> >
+> > ./configure CFLAGS=3D"-Os -Wall -DDROPBEAR_X11FWD=3D1=E2=80=9D
 >
-> This patch also needs your S-o-b.
+> Perfect, thanks Matt!
 
-Okay, thanks. I will then send a v2 with that. Although this should
-have been the v2 already. Sorry for that.
+I've just sent a new version [1] using CFLAGS but I think I should
+have used localoptions.h instead
+as that will match the upstream configuration method. What do you
+think? Shall I change to localoptions.h instead?
+I think that should be a more elegant solution.
 
-Here the previous patch thread:
-https://lore.kernel.org/all/20220720194416.89631-1-daniel@qtec.com/
+[1] https://lore.kernel.org/all/20220927102904.722281-1-daniel@qtec.com/
 >
-> Thanks,
 > Ross
 >
 
