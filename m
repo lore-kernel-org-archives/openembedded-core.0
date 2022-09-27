@@ -1,155 +1,150 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9054C54EE9
-	for <webhook@archiver.kernel.org>; Tue, 27 Sep 2022 18:53:15 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web12.15132.1664304789328330763
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17B2EC07E9D
+	for <webhook@archiver.kernel.org>; Tue, 27 Sep 2022 19:06:06 +0000 (UTC)
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
+ [209.85.219.51])
+ by mx.groups.io with SMTP id smtpd.web12.15269.1664305556688256832
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Sep 2022 11:53:10 -0700
+ Tue, 27 Sep 2022 12:05:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com
- header.s=axis-central1 header.b=AMR2+F8O;
- spf=pass (domain: axis.com, ip: 195.60.68.17,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=T0KC9GE0;
+ spf=pass (domain: gmail.com, ip: 209.85.219.51,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f51.google.com with SMTP id c15so1490610qvp.7
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 27 Sep 2022 12:05:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1664304789;
-  x=1695840789;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=A/ed8H1Tv9BG9Dn94ArpyPoh7+lNizg7tpzwDs/k5ZM=;
-  b=AMR2+F8OdQvemfWDPsQ+UzBHOWAh4zwuP0rNKr56PTNyToIxqw5mq1C2
-   xSjOc/LgNySn29X3YsoNK2kdqh6QreifocwPTAqBPaeJntiI/40dXVvFM
-   XdA4ShCDMciLGjD92oTfeuKTPH5nTuKNJzUqBr1TYHn3D4blBgkAdpWZQ
-   XeqqlIgyYpIYtVis0Vl81D51s24dOb8bo53UuvGTExG6TCD2GOp4qRqnK
-   NmSGM/FSI1NCC+kpaRXVa5pFmpnKHkIwqUdPxOz3MPZHMtVOSLBENHfl5
-   nFJCj4Q7i9k9i3mkwgLlNWXlUZ+iHNX/NcQVc633SgjzExu6LGrgrOpqy
-   Q==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>, OE-core
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
- paths for templates
-Thread-Topic: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
- paths for templates
-Thread-Index: 
- AQHYzoU23gOhP1a3LUCPmQBsEwAbcq3rbfEAgAAKPgCAAE42AIAHlUfggAAWuO2AAAKbsP//5X+AgAApBUA=
-Date: Tue, 27 Sep 2022 18:53:06 +0000
-Message-ID: <77825785242f4d99b336af0da596e286@axis.com>
-References: <20220922124708.2218995-1-pkj@axis.com>
- <20220922124708.2218995-2-pkj@axis.com>
- <28947223c26b05f58c4b6cd13919b025617318a2.camel@linuxfoundation.org>
- <ee0aa31d5fa34a5ba889e3518d8b2a95@axis.com>
- <CANNYZj__Gud2xeWrtK=tZaY_BGQ2d4tVVJLfZt4R0aqzUadK-A@mail.gmail.com>
- <c78bac9a0a53243336d237bc5f6d51758f5a5dfe.camel@linuxfoundation.org>
- <6dbf0e264c68433a8aee1a772015c852@axis.com>
- <1718C14CEB633922.9698@lists.openembedded.org>
- <CANNYZj_rRJFsnOcSrkONYfmkZdUe1eCZKYcvnkpPj7jm7eVu+g@mail.gmail.com>
- <faab0d74b95849bdb1d39ac0146dd523@axis.com>
- <CANNYZj_2+-GiZ4Qa67GJ3KFJMqFxLFXW6XKMtL+a9=NrPmi66A@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj_2+-GiZ4Qa67GJ3KFJMqFxLFXW6XKMtL+a9=NrPmi66A@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=FPKHBo0shNhbQKKLBtQzJMpZSqx5BuZvV8RixjeJtOs=;
+        b=T0KC9GE00DoW/W7EjRwZYnITz0Ych/kqJ4YN/dmeL7hrokMqcLpVQGgXxrrStathAd
+         sO9jEmmmOLYi8plgWb61vkzSuOLf7ecJy+rLbcgfiujUBbO9JT5s5hilVbkhWFXbJP+R
+         Jr1FlODZ8XHXQaqPI7GGk2BtUhTE1IyXUU9SJT7jGIHThUGh7yiJweKF2OCWL25yZ8JF
+         UbwXUwAyvH5n6RWGj0LOKC3iCzKABRx7uhqnDJZbKwsj+1RICltZSFhCGZCs1JirbcZh
+         +eYJjcyiJb1kTbnj9nypjlhvXXFYwZX7AtkCYaI7tGJJUQbeFYI0WMk632S5xwFzJpYG
+         gsuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=FPKHBo0shNhbQKKLBtQzJMpZSqx5BuZvV8RixjeJtOs=;
+        b=oRfzRImtcX9l18ZHR8HE0BodkRq3J8WAajoPw+u9lhgVV5/1bZRtdstcuocrX791DG
+         W4vqo6Jxt677GQBJhJFGjMmTsVLsiveMYyWMivHR13yzBH/QyWpyIb/Llze1LCi3TFgE
+         O52pNqPF78pl/0O4TIgwiTTBHIrgKS1lE42JtdaFvMe33WaqbI6/o6JLrqymYkCIR57I
+         reIxtLl8k8rkTSJXWdaYEbs0ElhBA141aD8hZL7bGlEhrwb6BotBExTy0XySWrpr+8qp
+         5HbrORoqSCsRzrk6cG6Oom98QPdtktk6a+4dk/LCRYaEBDPnvuDpwtnxxVs9S87LIv42
+         lyJA==
+X-Gm-Message-State: ACrzQf3HhKCebBf05k/dfZ6j900CnGGLT9wCURdSbMWU1so8QjadvZe3
+	EL7P2Nl+JvgHBI/Zz0UF9bE=
+X-Google-Smtp-Source: 
+ AMsMyM4sbY6j57qgi2DfxlIqvttCnVDm0OwjYTP5q6uGNkfITJqhMU1wIW6wNn77YmD1mPhc4gW75A==
+X-Received: by 2002:ad4:5bc5:0:b0:4af:95e2:5722 with SMTP id
+ t5-20020ad45bc5000000b004af95e25722mr778986qvt.116.1664305555609;
+        Tue, 27 Sep 2022 12:05:55 -0700 (PDT)
+Received: from build.lan
+ (cpe7c9a54441c1f-cm7c9a54441c1d.cpe.net.cable.rogers.com. [173.34.238.88])
+        by smtp.gmail.com with ESMTPSA id
+ t16-20020a37ea10000000b006ce5ba64e30sm1403436qkj.136.2022.09.27.12.05.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Sep 2022 12:05:54 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto/5.19: fix gcc-11 warning
+Date: Tue, 27 Sep 2022 15:05:53 -0400
+Message-Id: <20220927190553.7313-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Sep 2022 18:53:15 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Sep 2022 19:06:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171123
+ https://lists.openembedded.org/g/openembedded-core/message/171124
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8
-YWxleC5rYW5hdmluQGdtYWlsLmNvbT4NCj4gU2VudDogZGVuIDI3IHNlcHRlbWJlciAyMDIyIDE4
-OjE3DQo+IFRvOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNv
-bT4NCj4gQ2M6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24u
-b3JnPjsgT0UtY29yZSA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4N
-Cj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMi8yXSBvZS1zZXR1cC1idWlsZGRpcjog
-RG8gbm90IGhhcmRjb2RlIGludmFsaWQgcGF0aHMgZm9yIHRlbXBsYXRlcw0KPiANCj4gT24gVHVl
-LCAyNyBTZXB0IDIwMjIgYXQgMTg6MDYsIFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxl
-cnN0ZWR0QGF4aXMuY29tPiB3cm90ZToNCj4gPiA+IE90aGVyd2lzZSwgeWVzLCBJIHdpbGwgc2F5
-IHRoaXM6DQo+ID4gPiBmaXggeW91ciBzY3JpcHRzLCBhbmQgc3RvcCBjb21wbGFpbmluZy4NCj4g
-Pg0KPiA+IEkgY2FuIChhbmQgd2lsbCkgb2YgY291cnNlIGRvIHRoYXQsIGJ1dCBzaW5jZSBJIGJl
-bGlldmUgbXkgZml4IGlzIG9mDQo+ID4gaW50ZXJlc3Qgbm90IG9ubHkgdG8gdXMsIGJ1dCBvdGhl
-cnMgd2hvIHNldHVwIHRoZWlyIGVudmlyb25tZW50DQo+ID4gdXNpbmcgdGhlIC50ZW1wbGF0ZWNv
-bmYgZmlsZSwgbXkgcHJpbWFyeSBnb2FsIGlzIHRvIHRyeSB0byBpbXByb3ZlDQo+ID4gdXBzdHJl
-YW0gZmlyc3QuDQo+IA0KPiBZZXMsIGJ1dDoNCj4gDQo+IDEuIFRoZXJlIGlzIG5vIGV2aWRlbmNl
-IGFueW9uZSBlbHNlIGV4Y2VwdCBBeGlzIGlzIGFjdHVhbGx5IHVzaW5nDQo+IC50ZW1wbGF0ZWNv
-bmYuDQoNClNpbmNlIHdlIG9idmlvdXNseSB1c2Ugb3VyIG93biBkaXN0cmlidXRpb24sIEkgYW0g
-bGltaXRlZCBpbiANCmV4cGVyaWVuY2Ugd2l0aCBvdGhlciBkaXN0cmlidXRpb25zLiBUaGUgb25l
-IGV4YW1wbGUgSSBkbyBrbm93IGFib3V0LCANCndoaWNoIEkgaGF2ZSBtZW50aW9uZWQgYmVmb3Jl
-LCBpcyBXaW5kUml2ZXIuIFNlZSBsaW5lIDgzMS04MzUgaW4gDQpodHRwczovL2dpdGh1Yi5jb20v
-V2luZFJpdmVyLUxhYnMvd3JsaW51eC14L2Jsb2IvV1JMSU5VWF8xMF8yMV9CQVNFL2Jpbi9zZXR1
-cC5weQ0KZm9yIGFuIGV4YW1wbGUgb2Ygd2hlcmUgdGhleSBkbyBiYXNpY2FsbHkgdGhlIHNhbWUg
-YXMgd2hhdCB3ZSBkby4NCg0KPiANCj4gMi4gLnRlbXBsYXRlY29uZiBpcyBub3cgb2ZmaWNpYWxs
-eSByZXRpcmVkIGFzIGEgd2F5IHRvIHNldCB0aGUNCj4gdGVtcGxhdGUgbG9jYXRpb24uIFRoZSBw
-YXRjaCB5b3UndmUgc2VudCBpcyBjb21wbGV0ZWx5IGNvbnRyYXJ5IHRvDQo+IHRoYXQ6IHJhdGhl
-ciBpdCBtYWtlcyB0aGUgaW5jb3JyZWN0IGltcHJlc3Npb24gdGhhdCBpdCBpcyBzdGlsbA0KPiBz
-dXBwb3J0ZWQsIGFuZCB0aGUgaW1wbGljYXRpb24gaXMgdGhhdCB0aGUgY29yZSB1cHN0cmVhbSB3
-b3VsZCBzdGlsbA0KPiBoYXZlIHRvIGFjY29tbW9kYXRlIGFuZCB0aGluayBvZiB0aG9zZSB3aG8g
-YXJlIHVzaW5nIGl0IGdvaW5nIGZvcndhcmQuDQoNCldoaWNoIGlzIG5vdCBlbnRpcmVseSB0cnVl
-LCBpcyBpdD8gU3VwcG9ydCBmb3IgLnRlbXBsYXRlY29uZiBJIHN0aWxsIA0KdGhlcmUuIEkgYW0g
-b25seSBleHRlbmRpbmcgd2hhdCBpcyBhbHJlYWR5IHRoZXJlIHRvIHdvcmsgd2l0aG91dCBlcnJv
-cnMgDQpmb3IgZXZlcnlvbmUsIG5vdCBqdXN0IE9FIGFuZCBQb2t5Lg0KDQo+IFllcyBpdCdzIG1p
-bGRseSBhbm5veWluZyB0byBkZWxldGUgdGhlIGJ1aWxkIGRpcmVjdG9yeSwgYnV0IGNhbiB5b3UN
-Cj4ganVzdCBkbyBpdCBhbmQgbW92ZSBvbj8gQW5kIHllcywgbWFrZSBhIHBsYW4gZm9yIHJlcGxh
-Y2luZyBpdCB3aXRoDQo+IFRFTVBMQVRFQ09ORiwgd2hpY2ggaXMgd2hhdCBJJ3ZlIGJlZW4gdHJ5
-aW5nIHRvIHNxdWVlemUgb3V0IG9mIHlvdSBmb3INCj4gSSBkb24ndCBrbm93IGhvdyBtYW55IHRp
-bWVzLg0KPiANCj4gQWxleA0KDQpJIGRvIG5vdCB1bmRlcnN0YW5kIHdoYXQgdGhlIHByb2JsZW0g
-d2l0aCAudGVtcGxhdGVjb25mIGlzPyBUaGVyZSBpcyANCmEgdXNlIGNhc2UgZm9yIGJlaW5nIGFi
-bGUgdG8gc3BlY2lmeSBhIGRlZmF1bHQgVEVNUExBVEVDT05GLCBhbmQgdGhhdCANCmlzIHdoYXQg
-LnRlbXBsYXRlY29uZiBzYXRpc2ZpZXMuDQoNClRoZXJlIGFyZSBjdXJyZW50bHkgdGhyZWUgd2F5
-cyB0byBzcGVjaWZ5IHdoZXJlIHRoZSB0ZW1wbGF0ZXMgZmlsZXMgDQphcmUgKGluIG9yZGVyIG9m
-IHByZWZlcmVuY2UpOg0KDQoxKSBURU1QTEFURUNPTkY9DQoyKSB0ZW1wbGF0ZWNvbmYuY2ZnDQoz
-KSAudGVtcGxhdGVjb25mDQoNCkluIG91ciBjYXNlLCB0aGUgdGVtcGxhdGVzIGFyZSBhbHdheXMg
-aW4gdGhlIHNhbWUgbG9jYXRpb24sIHRodXMgd2UgDQp3YW50IHRvIHNwZWNpZnkgdGhpcyBhcyBh
-IGRlZmF1bHQgdG8gZ2l2ZSB0aGUgZGV2ZWxvcGVycyBhIGJldHRlciANCnVzZXIgZXhwZXJpZW5j
-ZS4NCg0KV2l0aCB0aGUgYWJvdmUgdGhyZWUgbWV0aG9kcyBhdmFpbGFibGUsIHRoaXMgaXMgZWFz
-eSBhcyB3ZSBqdXN0IHNldCANCnRoZSBkZWZhdWx0IGluIHRoZSAudGVtcGxhdGVjb25mIGZpbGUu
-DQoNCk5vdywgaWYgd2UgcmVtb3ZlIHN1cHBvcnQgZm9yIC50ZW1wbGF0ZWNvbmYsIGhvdyBhcmUg
-d2UgZ29pbmcgdG8gZG8gaXQNCmluc3RlYWQ/IEkgY2FuIG9mIGNvdXJzZSBjaGFuZ2Ugb3VyIHdy
-YXBwZXIgYXJvdW5kIG9lLWJ1aWxkLWluaXQtZW52IA0KdG8gZG8gVEVNUExBVEVDT05GPSR7VEVN
-UExBVEVDT05GOi1wYXRoL3RvL291ci90ZW1wbGF0ZXN9IGFuZCB0aGlzIA0KbWlnaHQgc2VlbSBm
-aW5lIGF0IGZpcnN0LiBIb3dldmVyLCB0aGlzIG1lYW5zIHRoYXQgdGhlIHdyYXBwZXIgd2lsbCAN
-CmFsd2F5cyBzZXQgVEVNUExBVEVDT05GIGFuZCB0aHVzIHRlbXBsYXRlY29uZi5jZmcgbG9vc2Vz
-IGl0cyBtZWFuaW5nLCANCndoaWNoIHRvIHRoZSB1c2VyIG1lYW5zIHRoYXQgaGUgbXVzdCBub3cg
-YWx3YXlzIHNwZWNpZnkgVEVNUExBVEVDT05GPSANCmlmIGhlIHdhbnRzIHRvIHNldCBpdCB0byBz
-b21ldGhpbmcgb3RoZXIgdGhhbiB0aGUgZGVmYXVsdCB3aGVyZSBiZWZvcmUgDQpoZSBvbmx5IGhh
-ZCB0byBzcGVjaWZ5IGl0IHRoZSBmaXJzdCB0aW1lIGhlIGluaXRpYWxpemVzIGEgbmV3IGJ1aWxk
-IA0KZW52aXJvbm1lbnQuDQoNCk9yIEkgY2FuIGR1cGxpY2F0ZSB0aGUgY2FsY3VsYXRpb25zIGRv
-bmUgaW4gdGhlIE9FIHNjcmlwdHMgdG8gZmlndXJlIA0Kb3V0IHdoZXJlIEJVSUxERElSIHdpbGwg
-ZW5kIHVwIHRvIHNlZSBpZiB0aGVyZSBpcyBhIHRlbXBsYXRlY29uZi5jZmcgDQpmaWxlIGF2YWls
-YWJsZSwgYW5kIHRoZW4gdXNlIHRoYXQgdG8gc2V0IFRFTVBMQVRFQ09ORiBpZiB0aGUgdXNlciAN
-Cmhhc24ndCBzcGVjaWZpZWQgaXQuIEFsbCBvZiB0aGlzIGR1cGxpY2F0aW5nIHVwc3RyZWFtIGNv
-ZGUsIHdoaWNoIA0KbWF5IGNoYW5nZSB3aXRoIGFueSBmdXR1cmUgcmVsZWFzZS4gKERpZCBJIG1l
-bnRpb24gdGhhdCBJIGhhdGUgDQpkdXBsaWNhdGluZyBjb2RlPykNCg0KTm93IEkgdW5kZXJzdGFu
-ZCB0aGF0IHlvdSBoYXZlIHNvbWUgaWRlYSB0aGF0IHRoZSB1c2VyIHNob3VsZCBhbHdheXMgDQpz
-cGVjaWZ5IFRFTVBMQVRFQ09ORj0sIGluIHdoaWNoIGNhc2UgYSBkZWZhdWx0IFRFTVBMQVRFQ09O
-RiBoYXMgbm8gDQp2YWx1ZS4gQnV0IHNpbmNlIHdlIGhhdmUgYSBtZXRob2QgZm9yIGZldGNoaW5n
-IGV4YWN0bHkgdGhlIGxheWVycyANCnRoYXQgYXJlIHRvIGJlIHVzZWQgaW4gYSBnaXZlbiBidWls
-ZCwgdG8gbWUgaXQgZG9lcyBub3QgbWFrZSBzZW5zZSANCnRvIGFsc28gaGF2ZSB0byBzcGVjaWZ5
-IGEgVEVNUExBVEVDT05GIHRvIG1hdGNoIHdoYXQgaGFzIGFscmVhZHkgDQpiZWVuIGZldGNoZWQu
-IEl0IGlzIGp1c3QgZHVwbGljYXRpbmcgaW5mb3JtYXRpb24sIHdoaWNoIElNSE8gaXMgYmFkLiAN
-Cg0KV2hhdCBfSV8gd291bGQgcHJlZmVyIHRvIHNlZSwgaXMgYSB3YXkgdG8gc3BlY2lmeSB0aGF0
-IHRoZSBidWlsZCANCnNoYWxsIHVzZSB0aGUgYXZhaWxhYmxlIGxheWVycy4gSS5lLiwgcmF0aGVy
-IHRoYW4gYSBodWdlIG51bWJlciBvZiANCnN0YXRpYyB0ZW1wbGF0ZXMgY29uZmlndXJhdGlvbnMs
-IEkgd291bGQgbGlrZSB0byBzZWUgdGhlIA0KaW5pdGlhbGl6YXRpb24gc2NyaXB0IHRha2UgdGhl
-IGxheWVycyBhcyBhcmd1bWVudHMsIHdpdGggdGhlIGRlZmF1bHQgDQpiZWluZyBhbnl0aGluZyB0
-aGF0IG1hdGNoZXMgbWV0YSogKG9yIG1heWJlIG1vcmUgY29ycmVjdGx5LCBhbnl0aGluZyANCnRo
-YXQgaGFzIGEgY29uZi9sYXllcnMuY29uZiBmaWxlKS4gQXMgZm9yIHRoZSBsb2NhbC5jb25mIGZp
-bGUsIGluIA0KbXkgd29ybGQsIHRoaXMgd291bGQgYmUgbWFkZSB1cCBmcm9tIGZyYWdtZW50IGZp
-bGVzIGluIHRoZSBsYXllcnMuIA0KU28gZm9yIGFueSBsYXllciB0aGF0IGVuZHMgdXAgaW4gdGhl
-IGJibGF5ZXJzLmNvbmYgZmlsZSwgdGhlIGxheWVyIA0Kd291bGQgYmUgc2VhcmNoZWQgZm9yIGFu
-eSBsb2NhbC5jb25mLlhYIGZpbGVzIHRoYXQgd291bGQgYmUgDQpjb25jYXRlbmF0ZWQgdG9nZXRo
-ZXIgaW4gdGhlIG9yZGVyIG9mIFhYLiBUaGlzIGlzIChvYnZpb3VzbHkpIHZlcnkgDQpzaW1pbGFy
-IHRvIHdoYXQgd2UgZG8gdG9kYXksIHNvIEkgYW0gb2YgY291cnNlIGJpYXNlZCwgYnV0IEkgdGhp
-bmsgDQp0aGlzIG1vZGVsIGlzIGEgbG90IG1vcmUgYXBwZWFsaW5nIHRoYW4gc3RhdGljIHRlbXBs
-YXRlcyBmaWxlcy4gDQpZTU1WLg0KDQovL1BldGVyDQoNCg==
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+
+Integrating the following commit(s) to linux-yocto/5.19:
+
+    65a9a22786a6 libbpf: Initialize err in probe_map_create
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+
+Ross identified this change as worth backporting to fix some
+gcc-11 warnings. I've been soaking it for a bit, and haven't
+seen any issues.
+
+Bruce
+
+ .../linux/linux-yocto-rt_5.19.bb              |  2 +-
+ .../linux/linux-yocto-tiny_5.19.bb            |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_5.19.bb | 20 +++++++++----------
+ 3 files changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb
+index 17ae94066c..b3e9fbae62 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb
+@@ -11,7 +11,7 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "3596666292dcf3fc078090666dc327d233695310"
++SRCREV_machine ?= "bc8af638c00f28a46e77e34056079087638f6e65"
+ SRCREV_meta ?= "350b544d077955b599b54ab364f6227d96a90455"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb
+index c18278ad79..466b7063b4 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb
+@@ -14,7 +14,7 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "44a446e91acea4f2f0d35896763224c3b52a3ed5"
++SRCREV_machine ?= "65a9a22786a6710fc7b4edb7cfae80dd83f591f1"
+ SRCREV_meta ?= "350b544d077955b599b54ab364f6227d96a90455"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.19.bb b/meta/recipes-kernel/linux/linux-yocto_5.19.bb
+index 4fc1ae9245..f882972e35 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.19.bb
+@@ -13,16 +13,16 @@ KBRANCH:qemux86  ?= "v5.19/standard/base"
+ KBRANCH:qemux86-64 ?= "v5.19/standard/base"
+ KBRANCH:qemumips64 ?= "v5.19/standard/mti-malta64"
+ 
+-SRCREV_machine:qemuarm ?= "9111e441d26961e67bef7866919c51b27e794bac"
+-SRCREV_machine:qemuarm64 ?= "44a446e91acea4f2f0d35896763224c3b52a3ed5"
+-SRCREV_machine:qemumips ?= "5f89b6548b6665f3ebec11266f2c7db2793129da"
+-SRCREV_machine:qemuppc ?= "44a446e91acea4f2f0d35896763224c3b52a3ed5"
+-SRCREV_machine:qemuriscv64 ?= "44a446e91acea4f2f0d35896763224c3b52a3ed5"
+-SRCREV_machine:qemuriscv32 ?= "44a446e91acea4f2f0d35896763224c3b52a3ed5"
+-SRCREV_machine:qemux86 ?= "44a446e91acea4f2f0d35896763224c3b52a3ed5"
+-SRCREV_machine:qemux86-64 ?= "44a446e91acea4f2f0d35896763224c3b52a3ed5"
+-SRCREV_machine:qemumips64 ?= "99613988297ac45653cc81319e63b2821645a3ba"
+-SRCREV_machine ?= "44a446e91acea4f2f0d35896763224c3b52a3ed5"
++SRCREV_machine:qemuarm ?= "446661f6a3b07535304497c1a51d9cab95f48f0b"
++SRCREV_machine:qemuarm64 ?= "65a9a22786a6710fc7b4edb7cfae80dd83f591f1"
++SRCREV_machine:qemumips ?= "98da147618fca3da29cf1c6ab9c53f24de2c587c"
++SRCREV_machine:qemuppc ?= "65a9a22786a6710fc7b4edb7cfae80dd83f591f1"
++SRCREV_machine:qemuriscv64 ?= "65a9a22786a6710fc7b4edb7cfae80dd83f591f1"
++SRCREV_machine:qemuriscv32 ?= "65a9a22786a6710fc7b4edb7cfae80dd83f591f1"
++SRCREV_machine:qemux86 ?= "65a9a22786a6710fc7b4edb7cfae80dd83f591f1"
++SRCREV_machine:qemux86-64 ?= "65a9a22786a6710fc7b4edb7cfae80dd83f591f1"
++SRCREV_machine:qemumips64 ?= "53842054198d851b5deb5810afaf126156efbb54"
++SRCREV_machine ?= "65a9a22786a6710fc7b4edb7cfae80dd83f591f1"
+ SRCREV_meta ?= "350b544d077955b599b54ab364f6227d96a90455"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+-- 
+2.19.1
+
 
