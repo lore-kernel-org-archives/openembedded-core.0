@@ -1,158 +1,97 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2EFCC54EE9
-	for <webhook@archiver.kernel.org>; Tue, 27 Sep 2022 14:56:34 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web12.12268.1664290591784393739
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD649C6FA82
+	for <webhook@archiver.kernel.org>; Tue, 27 Sep 2022 15:30:04 +0000 (UTC)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web12.12678.1664292597855381645
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Sep 2022 07:56:32 -0700
+ Tue, 27 Sep 2022 08:29:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=h0oRnCzc;
- spf=pass (domain: axis.com, ip: 195.60.68.18,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=b3RIu8AJ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.176,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f176.google.com with SMTP id b6so11306226ljr.10
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 27 Sep 2022 08:29:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1664290592;
-  x=1695826592;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=UdKVP+C8/IXaK8pmrOK3BY8Oc2tDfYTui4um4viSxAg=;
-  b=h0oRnCzcYRHMu9eaRLx2H7DQRhn3pCQRKSAipDrQeHC2OejO0BP1hEme
-   VgEtOKa2G14Ol9ygBrpoR2o7MhOl8hDKFLz0qFz2j5bzWXyrFKs9oK++c
-   xzEKo7b8KVMa9+u0l6Xsn4/7X6U+CkgLOUg3ZuGy1kSH1oCDniTPmc0Hb
-   DfUbtxnJNlg+sIz/wOv78ieHET01RyBTU1RR6WAlU3EFN9HtVGkVV4hQN
-   O+JqIv297hHCag8IvDnVQu2G7yHD5BMrznOknK9zk1u9qeDGbnrsF7XF4
-   1GVcyQ/JyA2AGCmzLlWzZFDJ1Oofmuz7BqyD1Gi5b/jNF40JB11qDHc2N
-   Q==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Alexander Kanavin
-	<alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
- paths for templates
-Thread-Topic: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
- paths for templates
-Thread-Index: AQHYzoU23gOhP1a3LUCPmQBsEwAbcq3rbfEAgAAKPgCAAE42AIAHlUfg
-Date: Tue, 27 Sep 2022 14:56:29 +0000
-Message-ID: <6dbf0e264c68433a8aee1a772015c852@axis.com>
-References: <20220922124708.2218995-1-pkj@axis.com>
-	 <20220922124708.2218995-2-pkj@axis.com>
-	 <28947223c26b05f58c4b6cd13919b025617318a2.camel@linuxfoundation.org>
-	 <ee0aa31d5fa34a5ba889e3518d8b2a95@axis.com>
-	 <CANNYZj__Gud2xeWrtK=tZaY_BGQ2d4tVVJLfZt4R0aqzUadK-A@mail.gmail.com>
- <c78bac9a0a53243336d237bc5f6d51758f5a5dfe.camel@linuxfoundation.org>
-In-Reply-To: 
- <c78bac9a0a53243336d237bc5f6d51758f5a5dfe.camel@linuxfoundation.org>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=RThROL+hDgr2MT2cFeBxZZul0UVpfHWzcECD1mh97P8=;
+        b=b3RIu8AJ9IVnFqg+mhN+b6YiAhBHM9y/GBq2DKV/zbP4r+Epj/kIBDhtI0A4KfHDTw
+         H1HvLblNFE0MzzN2pI7Z8ePNt4MoYTer0F9rxfuso0ti6iwUX+w3pGVKJ6q8Y4YJHrij
+         SCB22i4lpsT0+wOIevnagx9AKfi2eUevj7k1K3zLvIfqBVE+I0vTjS77GaGg4nJJzHVd
+         U6joyESh2wIhP7gKjZPLQej3eZeFgWhmFNBtAMl7Ee+GL2em+Zh0uREMiECThzoHcQDq
+         vaO82PgGT8d/ZCGqlYGUF2Lt/U2FoR/oBuImnU/8sFL8BLNkW/k8Vo/xhN+miUw+YPxO
+         KbnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=RThROL+hDgr2MT2cFeBxZZul0UVpfHWzcECD1mh97P8=;
+        b=2VDhFCugrvxs4kdbbn+l08vZ9kwX//eDohrndNftzozLxjKoCh5iSx53cTpppWMBZc
+         OPGZi9dN+JL6AjvK3PITWwEudsAyAFEuF6cnDG+oqHQP5F+cS+WXxdyc3snds3wQiLFu
+         6F6K4uNNenHrQ951+ZVfmVgp+iTUJSbMGCuuwxuIs3eE1f5Gj9Xawg9H0PZwzLGS4WYj
+         0XgP8dEwIw1j5Fw0WHZwnv+1Et48DLDCpqKtnp9Glp2ZFQFMUcUiZDX0z0Bc6Hel2haC
+         KLnirl8OU1YwNg3XQ47hvRQgkkHXysSHElftPY8b8OCl2X4UGZzU3qPyqcyxvQ950L0k
+         3X4w==
+X-Gm-Message-State: ACrzQf0y7hxC0kpdq5ggKtV+PU8TsM58TNfwbBb3umoIWpg9pBWi6UFq
+	gUD5CHHCJjeQDqnE2b8l8PEq/dJz6cLQF6u5evI=
+X-Google-Smtp-Source: 
+ AMsMyM7vBR4XZG2RZHOntNN0MePqpId1Hv4roSyNMix0ErueagzlBny4JNLnTUHzuZM5IJVYY8eSU6CTCT4NejeuVqQ=
+X-Received: by 2002:a2e:9e50:0:b0:261:e3fd:cdc5 with SMTP id
+ g16-20020a2e9e50000000b00261e3fdcdc5mr9800865ljk.56.1664292596043; Tue, 27
+ Sep 2022 08:29:56 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220922124708.2218995-1-pkj@axis.com>
+ <20220922124708.2218995-2-pkj@axis.com>
+ <28947223c26b05f58c4b6cd13919b025617318a2.camel@linuxfoundation.org>
+ <ee0aa31d5fa34a5ba889e3518d8b2a95@axis.com>
+ <CANNYZj__Gud2xeWrtK=tZaY_BGQ2d4tVVJLfZt4R0aqzUadK-A@mail.gmail.com>
+ <c78bac9a0a53243336d237bc5f6d51758f5a5dfe.camel@linuxfoundation.org>
+ <6dbf0e264c68433a8aee1a772015c852@axis.com>
+In-Reply-To: <6dbf0e264c68433a8aee1a772015c852@axis.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 27 Sep 2022 17:29:44 +0200
+Message-ID: 
+ <CANNYZj8G_3vKaKG-vA=0+t6zQEb-C3cwj6hswBvVbihCkiWtKw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
+ paths for templates
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Sep 2022 14:56:34 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Sep 2022 15:30:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171106
+ https://lists.openembedded.org/g/openembedded-core/message/171107
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
-aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDIyIHNlcHRlbWJl
-ciAyMDIyIDIyOjMzDQo+IFRvOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWls
-LmNvbT47IFBldGVyIEtqZWxsZXJzdGVkdA0KPiA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29t
-Pg0KPiBDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJq
-ZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAyLzJdIG9lLXNldHVwLWJ1aWxkZGlyOiBEbyBub3Qg
-aGFyZGNvZGUNCj4gaW52YWxpZCBwYXRocyBmb3IgdGVtcGxhdGVzDQo+IA0KPiBPbiBUaHUsIDIw
-MjItMDktMjIgYXQgMTc6NTIgKzAyMDAsIEFsZXhhbmRlciBLYW5hdmluIHdyb3RlOg0KPiA+IC50
-ZW1wbGF0ZWNvbmYgaXMgbm90IHRoZSB3YXkgdG8gc3BlY2lmeSB0aGUgbG9jYXRpb24gb2YgY3Vz
-dG9tDQo+ID4gdGVtcGxhdGVzLCBhbmQgbmV2ZXIgd2FzLg0KPiANCj4gVGhhdCBtdWNoIGlzbid0
-IHRydWUuIEl0IHdhcyBhIHdheSB0aGlzIGhhcyBiZWVuIGRvbmUsIGl0IHdhcyBzdWdnZXN0ZWQN
-Cj4gYXMgYSB3YXkgcGVvcGxlIGRvIGl0IGFuZCBpdCB3YXMgZXZlbiBkb2N1bWVudGVkIGFzIHN1
-Y2guIFRoZSBvcmlnaW5hbA0KPiBjb21taXQgZG9lcyBtYWtlIHRoZSBpbnRlbnQgY2xlYXI6DQo+
-IA0KPiBodHRwczovL2dpdC55b2N0b3Byb2plY3Qub3JnL3Bva3kvY29tbWl0Ly50ZW1wbGF0ZWNv
-bmY/aWQ9NjE0ZmFhNjZhNDQyMDY5YjhjZDgxZWU3NGEwMWVjYzVkNzM4NzBkOQ0KPiANCj4gSSB0
-aGluayB0aGUga2V5IHBvaW50IGlzIHRoYXQgaXQgaGFzIGJlZW4gb2YgbGltaXRlZCB1c2UgYXMg
-aXQgcmVxdWlyZXMNCj4gYSBjdXN0b20gcmVwbyBkdWUgdG8gdGhlIHVzZSBvZiBPRVJPT1QuIFdo
-ZXJlIHlvdSBoYWQgYSBjdXN0b20gcmVwbywgaXQNCj4gd2FzIGZpbmUgdG8gdXNlLiBQb2t5IHdh
-cyBvbmUgZXhhbXBsZS4NCj4gDQo+IEkgaGF2ZW4ndCByZWFkIGJhY2sgdGhyb3VnaCB0aGUgZGlz
-Y3Vzc2lvbnMgYnV0IEkgc3VzcGVjdCBQZXRlciBtdXN0DQo+IGhhdmUgc29tZSBraW5kIG9mIGN1
-c3RvbSByZXBvIHNldHVwIGxpa2UgdGhhdCB0byBiZSBhYmxlIHRvIGFsdGVyIGZpbGVzDQo+IGlu
-IE9FUk9PVC4NCg0KWWVzLCBhbmQgaXQgaXMgdmVyeSBzaW1wbGUgdG8gZG8gd2hlbiB1c2luZyBg
-cmVwb2AgbGlrZSB3ZSBkby4gSnVzdCBhZGQgDQphIDxjb3B5ZmlsZT4gbGluZSBpbiB0aGUgbWFu
-aWZlc3QgdGhhdCB0ZWxscyBgcmVwb2AgdG8gY29weSBhIA0KLnRlbXBsYXRlY29uZiBmaWxlIGZy
-b20gYSBzdWl0YWJsZSByZXBvc2l0b3J5IGFuZCBwbGFjZSBpdCBpbiB0aGUgcm9vdC4NCg0KPiA+
-IEl0IGdvdCBhZGRlZCB0byBkb2N1bWVudGF0aW9uIGJ5IG1pc3VuZGVyc3RhbmRpbmcsDQo+IA0K
-PiBBZ2FpbiwgSSdtIG5vdCBzdXJlIGFib3V0IHRoYXQuIEkgdGhpbmsgYXQgdGhlIHRpbWUsIHdo
-ZW4gbGF5ZXJzIHdlcmUNCj4gbXVjaCBuZXdlciB0aGluZ3MgYW5kIHRlY2hub2xvZ3kgd2FzIG1v
-cmUgaW4gZmx1eCwgd2UgZGlkIHRoaW5rIHRoaXMNCj4gd2FzIGEgdmFsaWQgY3VzdG9taXNhdGlv
-bi4gQXQgdGhlIHRpbWUgd2Ugd2VyZSBzdWdnZXN0aW5nIHBlb3BsZSBtaWdodA0KPiB3YW50IHRv
-IHVzZSB0b29scyBsaWtlIGNvbWJvLWxheWVyIHRvIG1lc3Mgd2l0aCByZXBvcy4NCj4gDQo+IFdo
-YXQgdGhlIGRvY3VtZW50YXRpb24gZG9lc24ndCBtYWtlIGNsZWFyIGlzIHRoYXQgdGhpcyB0cmlj
-ayBvbmx5IHdvcmtzDQo+IGZvciByZXBvIGFsdGVyYXRpb25zIGFzIGZhciBhcyBJIGNhbiBzZWUu
-DQoNClNlZSBhYm92ZS4gQXQgbGVhc3QgaW4gdGhlIGNhc2Ugb2YgdXNpbmcgYHJlcG9gIHRvIGZl
-dGNoIHRoZSBsYXllcnMsIA0KdGhpcyB3YXkgb2Ygc3BlY2lmeWluZyB0aGUgZGVmYXVsdCB0ZW1w
-bGF0ZSBtYWtlcyBwZXJmZWN0IHNlbnNlLg0KDQo+IFNpbmNlIHdlIGRvbid0IHJlY29tbWVuZCBz
-dWNoIHJlcG8gYWx0ZXJhdGlvbnMgbm93IGFuZCBjb21iby1sYXllciBpcw0KPiBwcmV0dHkgZGVh
-ZCwgdGhlIGNvZGUgaXMgb2YgbGltaXRlZCB1c2UgYW5kIEkgZG8gdGhpbmsgaXQgcHJvYmFibHkN
-Cj4gc2hvdWxkIGJlIHJlbW92ZWQuIEkgdGhlcmVmb3JlIGRvbid0IGxpa2UgYWRkaW5nIGNvbXBs
-ZXhpdHkgdG8NCj4gc29tZXRoaW5nIHdoaWNoIHJlYWxseSBzaG91bGRuJ3QgYmUgdGhlcmUgYXQg
-YWxsLiBJIGFwcHJlY2lhdGUgdGhpcw0KPiBkb2VzIGxvb2tzIGxpa2UgaXQgY3JlYXRlcyBhIGNo
-YWxsZW5nZSBmb3IgUGV0ZXIncyBzaXR1YXRpb24gdGhvdWdoLg0KDQpUaGUgZXhwZWN0YXRpb24g
-SSBoYXZlIG9uIFlvY3RvIGlzIHRoYXQgd2hhdGV2ZXIgaXMgZmluZSBhbmQgDQp3b3JrcyBmb3Ig
-UG9reSBzaG91bGQgYWxzbyBiZSBmaW5lIGFuZCB3b3JrIGZvciBhbnlvbmUgZWxzZSANCnNldHRp
-bmcgdXAgdGhlIGVudmlyb25tZW50IGluIHRoZSBzYW1lIHdheS4NCg0KSS5lLiwgZm9yIFBva3kg
-SSBleHBlY3QgdGhlIGZvbGxvd2luZzoNCg0KKiBGZXRjaCB0aGUgZGlzdHJpYnV0aW9uIChwb2t5
-KS4gSW4gdGhpcyBjYXNlIGEgc2ltcGxlIGdpdCBjbG9uZSB3aXRoIA0KICB0aGUgVVJMIHRvIHRo
-ZSBwb2t5IHJlcG9zaXRvcnkgYW5kIHRoZSB3YW50ZWQgdmVyc2lvbi4NCiogQ2hhbmdlIHRvIHRo
-ZSBuZXdseSBmZXRjaGVkIGRpcmVjdG9yeS4NCiogUnVuIGAuIC4vIG9lLWluaXQtYnVpbGQtZW52
-YC4NCg0KV2hpY2ggaW4gb3VyIGNhc2UgY29ycmVzcG9uZHMgdG86DQoNCiogQ3JlYXRlIGFuZCBj
-aGFuZ2UgdG8gYSBuZXcgZGlyZWN0b3J5Lg0KKiBSdW4gYHJlcG8gaW5pdGAgd2l0aCB0aGUgVVJM
-IHRvIHRoZSBtYW5pZmVzdCByZXBvc2l0b3J5LCBpdHMgdmVyc2lvbiANCiAgYW5kIHRoZSBtYW5p
-ZmVzdCB0byB1c2UsIGZvbGxvd2VkIGJ5IGByZXBvIHN5bmNgLg0KKiBSdW4gYC4gLi8gb2UtaW5p
-dC1idWlsZC1lbnZgLg0KDQpTbywgYXMgbG9uZyBhcyB0aGUgbGF5ZXJzIHdpdGggdGhlaXIgY29y
-cmVjdCB2ZXJzaW9ucyBoYXZlIGJlZW4gDQpmZXRjaGVkLCBhbGwgSSBzaG91bGQgaGF2ZSB0byBk
-byBpcyBydW4gYC4gLi8gb2UtaW5pdC1idWlsZC1lbnZgLg0KVGhhdCBpcyB3aGF0IHdlIGhhdmUg
-YWx3YXlzIGRvbmUsIGFuZCBJIGFtIG5vdCBnb2luZyB0byBjaGFuZ2UgDQp0aGF0LiBDaGFuZ2lu
-ZyB0aGF0IHdvdWxkIGJlIGEgaHVnZSB1bmRlcnRha2luZyBmb3Igbm8gZ2FpbiB0byB1cy4NCg0K
-Tm93LCB0aGUgYWJvdmUgd29ya3Mgc2luY2UgSSBoYXZlIG1vZGlmaWVkIG91ciB3cmFwcGVyIHRv
-IGNyZWF0ZSANCnRoZSB0ZW1wbGF0ZSBmaWxlcyBpbiAidGVtcGxhdGVjb25mL3RlbXBsYXRlcy9h
-eGlzIiByYXRoZXIgdGhhbiANCnRoZSBvbGQgInRlbXBsYXRlY29uZiIgYW5kIHRvIGNyZWF0ZSBh
-IGR1bW15IGxheWVyLmNvbmYgZmlsZSBzbyANCnRoZSBuZXcgcmVxdWlyZW1lbnRzIGFyZSBzYXRp
-c2ZpZWQuDQoNClRoZSBwcm9ibGVtIGlzIHRoYXQgYmVjYXVzZSBob3cgdGhlIHRlbXBsYXRlY29u
-Zi5jZmcgZmlsZSBpcyByZWFkLCANCml0cyB2YWx1ZSBvdmVycmlkZXMgdGhlIGRlZmF1bHQgaW4g
-dGhlIC50ZW1wbGF0ZWNvbmYgZmlsZSBhbmQgDQp0aHVzIGFueW9uZSB1cGRhdGluZyBhbiBleGlz
-dGluZyBidWlsZCB0cmVlIHRvIExhbmdkYWxlIGZhY2VzIGFuIA0KZXJyb3IgYmVjYXVzZSB0aGUg
-b2xkIHRlbXBsYXRlcyBwYXRoIGlzIHVubGlrZWx5IHRvIHNhdGlzZnkgdGhlIA0KbmV3IHJlcXVp
-cmVtZW50cy4gVGhpcyBpcyB3aHkgdGhlIGNvZGUgaW4gc2NyaXB0cy9vZS1zZXR1cC1idWlsZGRp
-ciANCndhcyBjaGFuZ2VkIHRvIHJlbW92ZSB0aGUgb2xkIHRlbXBsYXRlY29uZi5jZmcgZmlsZSBp
-ZiBpdCBjb250YWlucyANCmEga25vd24gYmFkIHBhdGguDQoNClNpbmNlIEkgb2YgY291cnNlIGRv
-IG5vdCB3YW50IGZvciBteSBkZXZlbG9wZXJzIHRvIGZhY2UgdGhpcyANCmVycm9yIHdoZW4gdGhl
-eSB1cGRhdGUsIEkgaGF2ZSB0d28gb3B0aW9uczoNCg0KMSkgSSBjYW4gcmVtb3ZlIHRoZSBvbGQg
-dGVtcGxhdGVjb25mLmNmZyBmaWxlIGluIG91ciB3cmFwcGVyLiANCiAgIFRoaXMgbWVhbnMgSSBo
-YXZlIHRvIGR1cGxpY2F0ZSB0aGUgY29kZSBpbiANCiAgIHNjcmlwdHMvb2UtYnVpbGRlbnYtaW50
-ZXJuYWwgdGhhdCBjYWxjdWxhdGVzIHRoZSBCVUlMRERJUiANCiAgIHZhcmlhYmxlLiBJdCBhbHNv
-IG1lYW5zIEkgd2lsbCBoYXZlIHRvIGtlZXAgYW5kIG1haW50YWluIHRoaXMgDQogICBjb2RlIGZv
-ciB0aGUgZm9yZXNlZWFibGUgZnV0dXJlLg0KMikgQ2hhbmdlIHRoZSBjb2RlIGluIHNjcmlwdHMv
-b2Utc2V0dXAtYnVpbGRkaXIgc28gdGhhdCBpdCBpcyANCiAgIG5vdCBoYXJkY29kZWQgdG8gb25s
-eSBzdXBwb3J0IE9FIGFuZCBQb2t5LCBidXQgaW5zdGVhZCBpcyANCiAgIGdlbmVyaWMgYW5kIHdv
-cmtzIHRoZSBzYW1lIGZvciBhbnlvbmUuDQoNCkZyb20gbXkgcG9pbnQgb2Ygdmlldywgb3B0aW9u
-IDIgc2hvdWxkIGJlIHRoZSBuYXR1cmFsIGNob2ljZS4gDQoNCj4gSSBoYXZlIHB1dCBvZmYgdG91
-Y2hpbmcgdGhpcyBwYXJ0aWN1bGFyIGFyZWEgb2YgY29kZSBzaW5jZSBJIGtub3cgdGhlcmUNCj4g
-d2lsbCBiZSBhIHRvbiBvZiBwcm9ibGVtcyBleGFjdGx5IGxpa2UgdGhpcy4gVGhlIHN1Y2Nlc3Mg
-b3IgZmFpbHVyZSBvZg0KPiBzdWNoIGNoYW5nZXMgZG9lcyBkZXBlbmQgb24gaG93IHRoZSBtaWdy
-YXRpb24gaXMgaGFuZGxlZC4gQSBsYXJnZSBwYXJ0DQo+IG9mIHRoaXMgaXMgY29tbXVuaWNhdGlv
-biBhbmQgdG8gc29tZSBleHRlbmQgbmVnb3RpYXRpb24gdG9vLiBUaGUgZmFjdA0KPiBJJ20gaGF2
-aW5nIHRvIHN0YXJ0IHRyeWluZyB0byB1bmRlcnN0YW5kIGFsbCB0aGUgZGV0YWlscyBpcyB0aGUN
-Cj4gc2l0dWF0aW9uIEkgZGlkbid0IHJlYWxseSB3YW50IHRvIGJlIGluLg0KPiANCj4gSSBzdXNw
-ZWN0IHRvIGdldCBhbnl3aGVyZSBJIG5vdyBuZWVkIHRvIGdvIGFuZCByZWFkIGFsbCB0aGUgcHJl
-dmlvdXMNCj4gdGhyZWFkcyB0byB0aGVuIHRyeSBhbmQgdW5yYXZlbCB0aGlzIDovLg0KPiANCj4g
-UGV0ZXI6IGlzIHRoZXJlIGEgcG9pbnRlciB5b3UgY2FuIGdpdmUgdG8gdGhlIHNldHVwIHlvdSdy
-ZSB1c2luZz8NCg0KSSBnYXZlIGFuIGV4YW1wbGUgaW4gDQpodHRwczovL2xpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzE3MDY3Ny4gDQpJcyB0aGF0IHdo
-YXQgeW91IHdlcmUgbG9va2luZyBmb3I/DQoNCj4gDQo+IENoZWVycywNCj4gDQo+IFJpY2hhcmQN
-Cg0KLy9QZXRlcg0KDQo=
+On Tue, 27 Sept 2022 at 16:56, Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+> Since I of course do not want for my developers to face this
+> error when they update, I have two options:
+>
+> 1) I can remove the old templateconf.cfg file in our wrapper.
+>    This means I have to duplicate the code in
+>    scripts/oe-buildenv-internal that calculates the BUILDDIR
+>    variable. It also means I will have to keep and maintain this
+>    code for the foreseeable future.
+> 2) Change the code in scripts/oe-setup-builddir so that it is
+>    not hardcoded to only support OE and Poky, but instead is
+>    generic and works the same for anyone.
+>
+> From my point of view, option 2 should be the natural choice.
+
+Three options. You can also instruct your developers to simply remove
+their build directories. Is that such a catastrophe? We do not promise
+that build directories stay backwards compatible and never explode on
+distro upgrades, we try out best, but sometimes they just don't.
+
+Alex
 
