@@ -1,104 +1,97 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65769C07E9D
-	for <webhook@archiver.kernel.org>; Tue, 27 Sep 2022 21:50:24 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web08.800.1664315415446737973
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 844EBC6FA82
+	for <webhook@archiver.kernel.org>; Tue, 27 Sep 2022 22:19:24 +0000 (UTC)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+ [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web12.1109.1664317162421952942
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Sep 2022 14:50:15 -0700
+ Tue, 27 Sep 2022 15:19:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=iCH1krVx;
- spf=pass (domain: gmail.com, ip: 209.85.167.48,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id z25so17688186lfr.2
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Sep 2022 14:50:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=isD61RaD;
+ spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: ticotimo@gmail.com)
+Received: by mail-pj1-f52.google.com with SMTP id cp18so1846276pjb.2;
+        Tue, 27 Sep 2022 15:19:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=N2xSXrmTEjoSwbsECEJDgtvfwzLArZn1yABuJ0rXoGQ=;
-        b=iCH1krVxI10JZoRPhzPoGIey6pDeZ+8CDNLa0cypQ/PlXW8wtyITuIzDs7LGrl/EMN
-         1AC9cMGNxw6S4S6xXNNnjsADc/1A0hyik/EZNNzMF7jnScXb18XbyjdOLiuOEPTc4HBq
-         QI/ot1FOnj7X0aGUibsCb3IkEAG9H7NSCeoS6DaT8WRwt1h3pr+hYQzbDT9UcT60sxQe
-         PJgCZ1JKDy2Y9i9vooMljkFBPooMaYVnpGV9mZRWLjiCCznnaageF3GGqRbKzZm4KDTJ
-         syLfIQ8cEcW2Cq/joTxhG7StneihGo8BdwfZ+gJ1ScXTQ4Pey5FpVVA3B/5rR4JgcbYj
-         OOeg==
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date;
+        bh=QVYj1Re5+KGDLfxp874bH0aUQz0+29bha8ilM8kT8iE=;
+        b=isD61RaDFscCoHm05I1J9z3VcPRkEE99Zk6Hh1QSVlFTgqaKminWH7ImDVXrJYX8Tz
+         SdoyWptusG6l6V7zHOOobu5RXEgMbGO1t/ZSbo1PR20M8x18Y/FdeLifF/PHLjjWduxw
+         0fW5dscB9SAdltdTs9aW5u3VOHwgpqbG+0oDJhwH/EqdIZjIK7UQECTkEzJ3/tALfWbz
+         ulDjGfPov0gPHC0/X2SWTIKfmUiB5OlPMJql3HY9rr3O5oOaHAHZC1Yp6JUzGuIfZiJc
+         +zyfwAyKPwd/NqgjyWylr3h9ujyeOIDwY14WNOjk8UvkoP7nn+qiDNMmahJn+CfL4tL1
+         52sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=N2xSXrmTEjoSwbsECEJDgtvfwzLArZn1yABuJ0rXoGQ=;
-        b=N2bz2hOnM/fHHZX93EGiXhQ/vpo9Kvd/h1Y6HA1AbOv+KUo+plap8cgA9aXARyHRlw
-         mTd2ZiVr8Qg18W1L0oVXJQW+nrq+KCVRxlrXrIOpNFZOo5Oz9QtodYhrOXN10JtcJP0t
-         3lU+akgvm1i+2fxJvdiGa2KdFpAzNaG4+fSSDdf9VA1HR3GgZN4AyORTWLcsRSV4pSNr
-         BxRK1UvDEq6vRYjXXsxX3h5o7730aU+U8oGJr8I8BVvwHcOzjxQNWtKTFSgeJRPiXOtd
-         akiOG5StsauXB3Xrc9Lze33uXCFn4FGWeg0Y/8Qvw/CqtegygQC1jGuWd6/JgYQnWuLu
-         mJ7w==
-X-Gm-Message-State: ACrzQf0j5QkWJCerMsA9Be6QJXpkLgzdhpZsTvCGn5DvCGyFPofAIZDz
-	WO/T3yzPaSzETdUGyu2P2Re++24yuLKjTMtnpwo=
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=QVYj1Re5+KGDLfxp874bH0aUQz0+29bha8ilM8kT8iE=;
+        b=Ldiz8ZHUSBLGHlaIdliGLRWAG2B40dPWyau4FXIJ3duArva3YAaWVnOthN1P4AWx66
+         7KYzBgB9ftF5PPH52oBRvmFU4JVT4gFohJFcVW1S14Hz+drVx95NKutCGMshUUB+cEJZ
+         z2EEBQHFv/45URywgjxhkJTkRiPkdgmcKMjd4TtJoRNdmy2p+IdUrvkYhMAbFpCQL/oy
+         j78NmlK3xaqMyyWdqctAPH13F/AuzkSv0G9O6Oku0AsTdt5aYf4kVtG3iPMlMRmSiZPw
+         7uUQ7SssQEH/RbiWh9F3ND7zKT0nMON15Qv9jWIGoWnVmIduyU3kFoCgWmfVCfCENmUA
+         jQ5g==
+X-Gm-Message-State: ACrzQf0MwI6KDxbgMkh7kDnbAoCBPEGNdN/TNWricp7TSu+bvVQxNX3h
+	cMR98RqgoAm6Ae6UX2/O4IIGAiYoh8Jmf8RrAEtS3KWZ/Vs=
 X-Google-Smtp-Source: 
- AMsMyM53jc+jtPUtFHstbAbPJDWJ/iRsBlxG9iLhZFRvGE2YhZ+N7PYRDfLHjR3VvOblK66wqmlcSmiA6DMrh0D3zdU=
-X-Received: by 2002:a05:6512:3612:b0:499:aea7:8bed with SMTP id
- f18-20020a056512361200b00499aea78bedmr11310756lfs.26.1664315413173; Tue, 27
- Sep 2022 14:50:13 -0700 (PDT)
+ AMsMyM6ruq0/TQ8L8UG/gZN/s1Kb7UT4Csibk3F5WGLpmaznsALFufHJIBG5AS9G4YT0f6Vqj9wvX0ScLgYJHNhxcbY=
+X-Received: by 2002:a17:90a:8992:b0:202:f6b1:ef25 with SMTP id
+ v18-20020a17090a899200b00202f6b1ef25mr6818417pjn.239.1664317161168; Tue, 27
+ Sep 2022 15:19:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220922124708.2218995-1-pkj@axis.com>
- <20220922124708.2218995-2-pkj@axis.com>
- <28947223c26b05f58c4b6cd13919b025617318a2.camel@linuxfoundation.org>
- <ee0aa31d5fa34a5ba889e3518d8b2a95@axis.com>
- <CANNYZj__Gud2xeWrtK=tZaY_BGQ2d4tVVJLfZt4R0aqzUadK-A@mail.gmail.com>
- <c78bac9a0a53243336d237bc5f6d51758f5a5dfe.camel@linuxfoundation.org>
- <6dbf0e264c68433a8aee1a772015c852@axis.com>
- <1718C14CEB633922.9698@lists.openembedded.org>
- <CANNYZj_rRJFsnOcSrkONYfmkZdUe1eCZKYcvnkpPj7jm7eVu+g@mail.gmail.com>
- <faab0d74b95849bdb1d39ac0146dd523@axis.com>
- <CANNYZj_2+-GiZ4Qa67GJ3KFJMqFxLFXW6XKMtL+a9=NrPmi66A@mail.gmail.com>
- <77825785242f4d99b336af0da596e286@axis.com>
- <CANNYZj81uAD1wMJyizCHTiwCnCnw_XMOLqPOzKGu0Og1sejauw@mail.gmail.com>
- <1568abaf9b604bfaae699a53c537d51b@axis.com>
-In-Reply-To: <1568abaf9b604bfaae699a53c537d51b@axis.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 27 Sep 2022 23:50:01 +0200
+From: Tim Orling <ticotimo@gmail.com>
+Date: Tue, 27 Sep 2022 15:19:09 -0700
 Message-ID: 
- <CANNYZj_L2+OJE4TYt4A2QVXjsmSOVWKbWD4EPz=AkQj5snxXgA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
- paths for templates
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ <CANx9H-Auue6ofUXyL76ORzF5PRC+hdGAP1nnYjJ=d6KYSzF2UA@mail.gmail.com>
+Subject: OpenEmbedded Happy Hour September 28 5pm/1700 UTC
+To: openembedded-core <openembedded-core@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+ <Openembedded-devel@lists.openembedded.org>,
+	"Yocto (yocto@lists.yoctoproject.org)" <yocto@lists.yoctoproject.org>
+Content-Type: multipart/alternative; boundary="0000000000002f642e05e9b00922"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Sep 2022 21:50:24 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Sep 2022 22:19:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171134
+ https://lists.openembedded.org/g/openembedded-core/message/171135
 
-On Tue, 27 Sept 2022 at 23:31, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
-> I am not too fond of the "writing the config directly" idea. The reason
-> for that is that things change upstream (as you are well aware of, that's
-> after all the whole reason for the discussion). This is why I prefer to
-> go through the templates and basically only provide the list of layers
-> to add. That way when things change upstream in the template files, we
-> automatically follow. (And if it has not been obvious before, our wrapper
-> uses the bblayers.conf.sample file from meta-poky and just replaces the
-> list of layers with our list of layers. Which of course sounds like then
-> we could just write the final config file directly, but we also want to
-> continue to rely on oe-init-build-env for determining _where_ to write
-> the final files.)
+--0000000000002f642e05e9b00922
+Content-Type: text/plain; charset="UTF-8"
 
-Wait, wait, wait. If so, you can initialize using the template from
-poky, then you get BBPATH or BUILDDIR placed in the environment (by
-oe-init-build-env) telling where the config files are. So you can
-write to them directly (e.g. local.conf), or use 'bitbake-layers
-add-layer' (or 'remove-layer') to tweak the list of layers using
-supported tooling -  after the initialization, but before any builds.
-No?
+You are cordially invited to the next OpenEmbedded Happy Hour on September
+28
+for Europe/Americas time zones @ 1700/5pm UTC (7pm CEST / 1pm ET / 10am PT).
 
-Alex
+https://www.openembedded.org/wiki/Calendar
+https://www.openembedded.org/wiki/Happy_Hours
+https://www.timeanddate.com/worldclock/fixedtime.html?msg=OpenEmbedded+Happy+Hour+September+28&iso=20220928T17&p1=1440
+
+Regards,
+Tim "moto-timo" Orling
+
+--0000000000002f642e05e9b00922
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><br class=3D"gmail-Apple-interchange-newline">You are=
+ cordially invited to the next OpenEmbedded Happy Hour on September 28</div=
+><div>for Europe/Americas time zones=C2=A0@ 1700/5pm UTC (7pm CEST / 1pm ET=
+ / 10am PT).</div><div><br></div><div><a href=3D"https://www.openembedded.o=
+rg/wiki/Calendar" rel=3D"noreferrer" target=3D"_blank">https://www.openembe=
+dded.org/wiki/Calendar</a><br></div><div><a href=3D"https://www.openembedde=
+d.org/wiki/Happy_Hours" rel=3D"noreferrer" target=3D"_blank">https://www.op=
+enembedded.org/wiki/Happy_Hours</a><br></div><div><a href=3D"https://www.ti=
+meanddate.com/worldclock/fixedtime.html?msg=3DOpenEmbedded+Happy+Hour+Septe=
+mber+28&amp;iso=3D20220928T17&amp;p1=3D1440">https://www.timeanddate.com/wo=
+rldclock/fixedtime.html?msg=3DOpenEmbedded+Happy+Hour+September+28&amp;iso=
+=3D20220928T17&amp;p1=3D1440</a></div><div><br></div><div>Regards,</div><di=
+v>Tim &quot;moto-timo&quot; Orling</div></div>
+
+--0000000000002f642e05e9b00922--
 
