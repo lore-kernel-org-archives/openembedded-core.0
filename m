@@ -1,155 +1,155 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AE38C07E9D
-	for <webhook@archiver.kernel.org>; Tue, 27 Sep 2022 17:54:35 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web10.14279.1664301265925241863
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9054C54EE9
+	for <webhook@archiver.kernel.org>; Tue, 27 Sep 2022 18:53:15 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web12.15132.1664304789328330763
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Sep 2022 10:54:26 -0700
+ Tue, 27 Sep 2022 11:53:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=ipSJQRTM;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45,
- mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id gp22so731320pjb.4
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Sep 2022 10:54:25 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@axis.com
+ header.s=axis-central1 header.b=AMR2+F8O;
+ spf=pass (domain: axis.com, ip: 195.60.68.17,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=CzNtAWoaTi7jkv9Jde2ZYQ3crzBfRb3F/PbGARRvhFQ=;
-        b=ipSJQRTMB48HQ9zgjFULdpfrFT+Cg4YztwW08zGvNAQQMiT3Aaab/67gLCQoPlvID7
-         cM6ecdbVgDotc2tCia4Ad+R4TV/wBMh+khwf9yhqfrCoKMCzdd6T/iwDoGMxuB46DmNL
-         EAm+2BEkH3byc6h63Lvk/VMlQb0L6s88OjnC6NcFkUa1S18cQFLbLy1DgVL0C9336G72
-         wHiW8sxB9vLh1LXToGK4n4YBldXe2HCun2nVsWZ3Jp7umpmlQQJjzdc3YKCpAiSABxUQ
-         ssgKFn59RYl6NV5kY/ZN1x0GOGFxnc9AfJzIXIIc16+pOO3sWIQte9mQsawVWf7wKR8I
-         RBzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=CzNtAWoaTi7jkv9Jde2ZYQ3crzBfRb3F/PbGARRvhFQ=;
-        b=1m5yuFosjorjdPLAwUKv2PqTE8ZqInUwQGFdxUzLeW2+0uZodFryCJHZLHu7oV2u0o
-         JOJqgfPEb7huXJh7CAX71eKnBLpg2l0vbuqEV9d0Wz6qkE0GUE3Ug1DdXm98FsvprRR9
-         unr4JemqADwaY0NlwbNUIO14DlqZ+OKR/aF1OXjiu5LRXtGRRTJGE/HFh2AKcZS55tZh
-         Yio+TM2405m55BbGMvfuBA/EKnMS/Ur9Hfg4Fcqqyezy9+aol+4GntTbW+KPQgYhOJrC
-         AeUEBWu+YG4az3Dc2G4zCnl/w6L5ZJ536Csb7n/72vmcPGQOJi+y6wDSGUHQw3QEW/RM
-         U4VQ==
-X-Gm-Message-State: ACrzQf2JozlfNIp0UMsdOP8eZyJ4mMrCVopwnBAKn69cz7ryItpAvCGd
-	GRnLtHsMQqK6SwJ+ZjnL2nQya1gTYJ2+R4/O
-X-Google-Smtp-Source: 
- AMsMyM4kXID/D6ACrp178k/5/HLIjObZV5baqINCq6ar/iAV0jJE7+BNlZFZiY1tnsiKGQTMd4n9Kw==
-X-Received: by 2002:a17:90b:4c0a:b0:202:54cc:6d5 with SMTP id
- na10-20020a17090b4c0a00b0020254cc06d5mr5708031pjb.121.1664301264928;
-        Tue, 27 Sep 2022 10:54:24 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id
- w189-20020a6262c6000000b0054094544ae7sm2051468pfb.60.2022.09.27.10.54.23
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Sep 2022 10:54:24 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 6/6] linux-firmware: package new Qualcomm firmware
-Date: Tue, 27 Sep 2022 07:53:59 -1000
-Message-Id: 
- <6227efbf03d2e7ca773ab29177705203f2550722.1664301116.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1664301116.git.steve@sakoman.com>
-References: <cover.1664301116.git.steve@sakoman.com>
+  d=axis.com; q=dns/txt; s=axis-central1; t=1664304789;
+  x=1695840789;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=A/ed8H1Tv9BG9Dn94ArpyPoh7+lNizg7tpzwDs/k5ZM=;
+  b=AMR2+F8OdQvemfWDPsQ+UzBHOWAh4zwuP0rNKr56PTNyToIxqw5mq1C2
+   xSjOc/LgNySn29X3YsoNK2kdqh6QreifocwPTAqBPaeJntiI/40dXVvFM
+   XdA4ShCDMciLGjD92oTfeuKTPH5nTuKNJzUqBr1TYHn3D4blBgkAdpWZQ
+   XeqqlIgyYpIYtVis0Vl81D51s24dOb8bo53UuvGTExG6TCD2GOp4qRqnK
+   NmSGM/FSI1NCC+kpaRXVa5pFmpnKHkIwqUdPxOz3MPZHMtVOSLBENHfl5
+   nFJCj4Q7i9k9i3mkwgLlNWXlUZ+iHNX/NcQVc633SgjzExu6LGrgrOpqy
+   Q==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: Richard Purdie <richard.purdie@linuxfoundation.org>, OE-core
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
+ paths for templates
+Thread-Topic: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
+ paths for templates
+Thread-Index: 
+ AQHYzoU23gOhP1a3LUCPmQBsEwAbcq3rbfEAgAAKPgCAAE42AIAHlUfggAAWuO2AAAKbsP//5X+AgAApBUA=
+Date: Tue, 27 Sep 2022 18:53:06 +0000
+Message-ID: <77825785242f4d99b336af0da596e286@axis.com>
+References: <20220922124708.2218995-1-pkj@axis.com>
+ <20220922124708.2218995-2-pkj@axis.com>
+ <28947223c26b05f58c4b6cd13919b025617318a2.camel@linuxfoundation.org>
+ <ee0aa31d5fa34a5ba889e3518d8b2a95@axis.com>
+ <CANNYZj__Gud2xeWrtK=tZaY_BGQ2d4tVVJLfZt4R0aqzUadK-A@mail.gmail.com>
+ <c78bac9a0a53243336d237bc5f6d51758f5a5dfe.camel@linuxfoundation.org>
+ <6dbf0e264c68433a8aee1a772015c852@axis.com>
+ <1718C14CEB633922.9698@lists.openembedded.org>
+ <CANNYZj_rRJFsnOcSrkONYfmkZdUe1eCZKYcvnkpPj7jm7eVu+g@mail.gmail.com>
+ <faab0d74b95849bdb1d39ac0146dd523@axis.com>
+ <CANNYZj_2+-GiZ4Qa67GJ3KFJMqFxLFXW6XKMtL+a9=NrPmi66A@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj_2+-GiZ4Qa67GJ3KFJMqFxLFXW6XKMtL+a9=NrPmi66A@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Sep 2022 17:54:35 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Sep 2022 18:53:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171122
+ https://lists.openembedded.org/g/openembedded-core/message/171123
 
-From: Dmitry Baryshkov <dbaryshkov@gmail.com>
-
-Add packages for the new Qualcomm firmware released for Lenovo X13s
-laptop.
-
-The INSANE_SKIP:${PN} has to be provided to silent following warnings:
-
-WARNING: File '/lib/firmware/qcom/sc8280xp/LENOVO/21BX/qcadsp8280.mbn' from linux-firmware was already stripped, this will prevent future debugging!
-WARNING: File '/lib/firmware/qcom/sc8280xp/LENOVO/21BX/qcdxkmsuc8280.mbn' from linux-firmware was already stripped, this will prevent future debugging!
-WARNING: File '/lib/firmware/qcom/sc8280xp/LENOVO/21BX/qccdsp8280.mbn' from linux-firmware was already stripped, this will prevent future debugging!
-WARNING: File '/lib/firmware/qcom/sc8280xp/LENOVO/21BX/qcslpi8280.mbn' from linux-firmware was already stripped, this will prevent future debugging!
-
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit af9924a3da0569e90c2d3abe030584456e66229b)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../linux-firmware/linux-firmware_20220913.bb | 22 +++++++++++++++++++
- 1 file changed, 22 insertions(+)
-
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20220913.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20220913.bb
-index 52ea8259eb..2baf4bbe49 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20220913.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20220913.bb
-@@ -311,6 +311,11 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-qcom-adreno-a2xx ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a4xx ${PN}-qcom-adreno-a530 \
-              ${PN}-qcom-adreno-a630 ${PN}-qcom-adreno-a650 ${PN}-qcom-adreno-a660 \
-              ${PN}-qcom-apq8096-audio ${PN}-qcom-apq8096-modem \
-+             ${PN}-qcom-sc8280xp-lenovo-x13s-compat \
-+             ${PN}-qcom-sc8280xp-lenovo-x13s-audio \
-+             ${PN}-qcom-sc8280xp-lenovo-x13s-adreno \
-+             ${PN}-qcom-sc8280xp-lenovo-x13s-compute \
-+             ${PN}-qcom-sc8280xp-lenovo-x13s-sensors \
-              ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute ${PN}-qcom-sdm845-modem \
-              ${PN}-qcom-sm8250-audio ${PN}-qcom-sm8250-compute \
-              ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
-@@ -972,6 +977,11 @@ FILES_${PN}-qcom-adreno-a650 = "${nonarch_base_libdir}/firmware/qcom/a650*.* ${n
- FILES_${PN}-qcom-adreno-a660 = "${nonarch_base_libdir}/firmware/qcom/a660*.*"
- FILES_${PN}-qcom-apq8096-audio = "${nonarch_base_libdir}/firmware/qcom/apq8096/adsp*.*"
- FILES_${PN}-qcom-apq8096-modem = "${nonarch_base_libdir}/firmware/qcom/apq8096/mba.mbn ${nonarch_base_libdir}/firmware/qcom/apq8096/modem*.* ${nonarch_base_libdir}/firmware/qcom/apq8096/wlanmdsp.mbn"
-+FILES_${PN}-qcom-sc8280xp-lenovo-x13s-compat = "${nonarch_base_libdir}/firmware/qcom/LENOVO/21BX"
-+FILES_${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/*adsp*.* ${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/battmgr.jsn"
-+FILES_${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/qcdxkmsuc8280.mbn"
-+FILES_${PN}-qcom-sc8280xp-lenovo-x13s-compute = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/*cdsp*.*"
-+FILES_${PN}-qcom-sc8280xp-lenovo-x13s-sensors = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/*slpi*.*"
- FILES_${PN}-qcom-sdm845-audio = "${nonarch_base_libdir}/firmware/qcom/sdm845/adsp*.*"
- FILES_${PN}-qcom-sdm845-compute = "${nonarch_base_libdir}/firmware/qcom/sdm845/cdsp*.*"
- FILES_${PN}-qcom-sdm845-modem = "${nonarch_base_libdir}/firmware/qcom/sdm845/mba.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/wlanmdsp.mbn"
-@@ -992,12 +1002,21 @@ RDEPENDS_${PN}-qcom-adreno-a650 = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-adreno-a660 = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-apq8096-audio = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-apq8096-modem = "${PN}-qcom-license"
-+RDEPENDS_${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${PN}-qcom-license"
-+RDEPENDS_${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${PN}-qcom-license"
-+RDEPENDS_${PN}-qcom-sc8280xp-lenovo-x13s-compute = "${PN}-qcom-license"
-+RDEPENDS_${PN}-qcom-sc8280xp-lenovo-x13s-sensors = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-sdm845-audio = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-sdm845-compute = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-sdm845-modem = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-sm8250-audio = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-sm8250-compute = "${PN}-qcom-license"
- 
-+RRECOMMENDS_${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${PN}-qcom-sc8280xp-lenovo-x13s-compat"
-+RRECOMMENDS_${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${PN}-qcom-sc8280xp-lenovo-x13s-compat"
-+RRECOMMENDS_${PN}-qcom-sc8280xp-lenovo-x13s-compute = "${PN}-qcom-sc8280xp-lenovo-x13s-compat"
-+RRECOMMENDS_${PN}-qcom-sc8280xp-lenovo-x13s-sensors = "${PN}-qcom-sc8280xp-lenovo-x13s-compat"
-+
- FILES_${PN}-liquidio = "${nonarch_base_libdir}/firmware/liquidio"
- 
- # For Amlogic VDEC
-@@ -1077,3 +1096,6 @@ python populate_packages_prepend () {
- # Firmware files are generally not ran on the CPU, so they can be
- # allarch despite being architecture specific
- INSANE_SKIP = "arch"
-+
-+# Don't warn about already stripped files
-+INSANE_SKIP:${PN} = "already-stripped"
--- 
-2.25.1
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8
+YWxleC5rYW5hdmluQGdtYWlsLmNvbT4NCj4gU2VudDogZGVuIDI3IHNlcHRlbWJlciAyMDIyIDE4
+OjE3DQo+IFRvOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNv
+bT4NCj4gQ2M6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24u
+b3JnPjsgT0UtY29yZSA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4N
+Cj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMi8yXSBvZS1zZXR1cC1idWlsZGRpcjog
+RG8gbm90IGhhcmRjb2RlIGludmFsaWQgcGF0aHMgZm9yIHRlbXBsYXRlcw0KPiANCj4gT24gVHVl
+LCAyNyBTZXB0IDIwMjIgYXQgMTg6MDYsIFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxl
+cnN0ZWR0QGF4aXMuY29tPiB3cm90ZToNCj4gPiA+IE90aGVyd2lzZSwgeWVzLCBJIHdpbGwgc2F5
+IHRoaXM6DQo+ID4gPiBmaXggeW91ciBzY3JpcHRzLCBhbmQgc3RvcCBjb21wbGFpbmluZy4NCj4g
+Pg0KPiA+IEkgY2FuIChhbmQgd2lsbCkgb2YgY291cnNlIGRvIHRoYXQsIGJ1dCBzaW5jZSBJIGJl
+bGlldmUgbXkgZml4IGlzIG9mDQo+ID4gaW50ZXJlc3Qgbm90IG9ubHkgdG8gdXMsIGJ1dCBvdGhl
+cnMgd2hvIHNldHVwIHRoZWlyIGVudmlyb25tZW50DQo+ID4gdXNpbmcgdGhlIC50ZW1wbGF0ZWNv
+bmYgZmlsZSwgbXkgcHJpbWFyeSBnb2FsIGlzIHRvIHRyeSB0byBpbXByb3ZlDQo+ID4gdXBzdHJl
+YW0gZmlyc3QuDQo+IA0KPiBZZXMsIGJ1dDoNCj4gDQo+IDEuIFRoZXJlIGlzIG5vIGV2aWRlbmNl
+IGFueW9uZSBlbHNlIGV4Y2VwdCBBeGlzIGlzIGFjdHVhbGx5IHVzaW5nDQo+IC50ZW1wbGF0ZWNv
+bmYuDQoNClNpbmNlIHdlIG9idmlvdXNseSB1c2Ugb3VyIG93biBkaXN0cmlidXRpb24sIEkgYW0g
+bGltaXRlZCBpbiANCmV4cGVyaWVuY2Ugd2l0aCBvdGhlciBkaXN0cmlidXRpb25zLiBUaGUgb25l
+IGV4YW1wbGUgSSBkbyBrbm93IGFib3V0LCANCndoaWNoIEkgaGF2ZSBtZW50aW9uZWQgYmVmb3Jl
+LCBpcyBXaW5kUml2ZXIuIFNlZSBsaW5lIDgzMS04MzUgaW4gDQpodHRwczovL2dpdGh1Yi5jb20v
+V2luZFJpdmVyLUxhYnMvd3JsaW51eC14L2Jsb2IvV1JMSU5VWF8xMF8yMV9CQVNFL2Jpbi9zZXR1
+cC5weQ0KZm9yIGFuIGV4YW1wbGUgb2Ygd2hlcmUgdGhleSBkbyBiYXNpY2FsbHkgdGhlIHNhbWUg
+YXMgd2hhdCB3ZSBkby4NCg0KPiANCj4gMi4gLnRlbXBsYXRlY29uZiBpcyBub3cgb2ZmaWNpYWxs
+eSByZXRpcmVkIGFzIGEgd2F5IHRvIHNldCB0aGUNCj4gdGVtcGxhdGUgbG9jYXRpb24uIFRoZSBw
+YXRjaCB5b3UndmUgc2VudCBpcyBjb21wbGV0ZWx5IGNvbnRyYXJ5IHRvDQo+IHRoYXQ6IHJhdGhl
+ciBpdCBtYWtlcyB0aGUgaW5jb3JyZWN0IGltcHJlc3Npb24gdGhhdCBpdCBpcyBzdGlsbA0KPiBz
+dXBwb3J0ZWQsIGFuZCB0aGUgaW1wbGljYXRpb24gaXMgdGhhdCB0aGUgY29yZSB1cHN0cmVhbSB3
+b3VsZCBzdGlsbA0KPiBoYXZlIHRvIGFjY29tbW9kYXRlIGFuZCB0aGluayBvZiB0aG9zZSB3aG8g
+YXJlIHVzaW5nIGl0IGdvaW5nIGZvcndhcmQuDQoNCldoaWNoIGlzIG5vdCBlbnRpcmVseSB0cnVl
+LCBpcyBpdD8gU3VwcG9ydCBmb3IgLnRlbXBsYXRlY29uZiBJIHN0aWxsIA0KdGhlcmUuIEkgYW0g
+b25seSBleHRlbmRpbmcgd2hhdCBpcyBhbHJlYWR5IHRoZXJlIHRvIHdvcmsgd2l0aG91dCBlcnJv
+cnMgDQpmb3IgZXZlcnlvbmUsIG5vdCBqdXN0IE9FIGFuZCBQb2t5Lg0KDQo+IFllcyBpdCdzIG1p
+bGRseSBhbm5veWluZyB0byBkZWxldGUgdGhlIGJ1aWxkIGRpcmVjdG9yeSwgYnV0IGNhbiB5b3UN
+Cj4ganVzdCBkbyBpdCBhbmQgbW92ZSBvbj8gQW5kIHllcywgbWFrZSBhIHBsYW4gZm9yIHJlcGxh
+Y2luZyBpdCB3aXRoDQo+IFRFTVBMQVRFQ09ORiwgd2hpY2ggaXMgd2hhdCBJJ3ZlIGJlZW4gdHJ5
+aW5nIHRvIHNxdWVlemUgb3V0IG9mIHlvdSBmb3INCj4gSSBkb24ndCBrbm93IGhvdyBtYW55IHRp
+bWVzLg0KPiANCj4gQWxleA0KDQpJIGRvIG5vdCB1bmRlcnN0YW5kIHdoYXQgdGhlIHByb2JsZW0g
+d2l0aCAudGVtcGxhdGVjb25mIGlzPyBUaGVyZSBpcyANCmEgdXNlIGNhc2UgZm9yIGJlaW5nIGFi
+bGUgdG8gc3BlY2lmeSBhIGRlZmF1bHQgVEVNUExBVEVDT05GLCBhbmQgdGhhdCANCmlzIHdoYXQg
+LnRlbXBsYXRlY29uZiBzYXRpc2ZpZXMuDQoNClRoZXJlIGFyZSBjdXJyZW50bHkgdGhyZWUgd2F5
+cyB0byBzcGVjaWZ5IHdoZXJlIHRoZSB0ZW1wbGF0ZXMgZmlsZXMgDQphcmUgKGluIG9yZGVyIG9m
+IHByZWZlcmVuY2UpOg0KDQoxKSBURU1QTEFURUNPTkY9DQoyKSB0ZW1wbGF0ZWNvbmYuY2ZnDQoz
+KSAudGVtcGxhdGVjb25mDQoNCkluIG91ciBjYXNlLCB0aGUgdGVtcGxhdGVzIGFyZSBhbHdheXMg
+aW4gdGhlIHNhbWUgbG9jYXRpb24sIHRodXMgd2UgDQp3YW50IHRvIHNwZWNpZnkgdGhpcyBhcyBh
+IGRlZmF1bHQgdG8gZ2l2ZSB0aGUgZGV2ZWxvcGVycyBhIGJldHRlciANCnVzZXIgZXhwZXJpZW5j
+ZS4NCg0KV2l0aCB0aGUgYWJvdmUgdGhyZWUgbWV0aG9kcyBhdmFpbGFibGUsIHRoaXMgaXMgZWFz
+eSBhcyB3ZSBqdXN0IHNldCANCnRoZSBkZWZhdWx0IGluIHRoZSAudGVtcGxhdGVjb25mIGZpbGUu
+DQoNCk5vdywgaWYgd2UgcmVtb3ZlIHN1cHBvcnQgZm9yIC50ZW1wbGF0ZWNvbmYsIGhvdyBhcmUg
+d2UgZ29pbmcgdG8gZG8gaXQNCmluc3RlYWQ/IEkgY2FuIG9mIGNvdXJzZSBjaGFuZ2Ugb3VyIHdy
+YXBwZXIgYXJvdW5kIG9lLWJ1aWxkLWluaXQtZW52IA0KdG8gZG8gVEVNUExBVEVDT05GPSR7VEVN
+UExBVEVDT05GOi1wYXRoL3RvL291ci90ZW1wbGF0ZXN9IGFuZCB0aGlzIA0KbWlnaHQgc2VlbSBm
+aW5lIGF0IGZpcnN0LiBIb3dldmVyLCB0aGlzIG1lYW5zIHRoYXQgdGhlIHdyYXBwZXIgd2lsbCAN
+CmFsd2F5cyBzZXQgVEVNUExBVEVDT05GIGFuZCB0aHVzIHRlbXBsYXRlY29uZi5jZmcgbG9vc2Vz
+IGl0cyBtZWFuaW5nLCANCndoaWNoIHRvIHRoZSB1c2VyIG1lYW5zIHRoYXQgaGUgbXVzdCBub3cg
+YWx3YXlzIHNwZWNpZnkgVEVNUExBVEVDT05GPSANCmlmIGhlIHdhbnRzIHRvIHNldCBpdCB0byBz
+b21ldGhpbmcgb3RoZXIgdGhhbiB0aGUgZGVmYXVsdCB3aGVyZSBiZWZvcmUgDQpoZSBvbmx5IGhh
+ZCB0byBzcGVjaWZ5IGl0IHRoZSBmaXJzdCB0aW1lIGhlIGluaXRpYWxpemVzIGEgbmV3IGJ1aWxk
+IA0KZW52aXJvbm1lbnQuDQoNCk9yIEkgY2FuIGR1cGxpY2F0ZSB0aGUgY2FsY3VsYXRpb25zIGRv
+bmUgaW4gdGhlIE9FIHNjcmlwdHMgdG8gZmlndXJlIA0Kb3V0IHdoZXJlIEJVSUxERElSIHdpbGwg
+ZW5kIHVwIHRvIHNlZSBpZiB0aGVyZSBpcyBhIHRlbXBsYXRlY29uZi5jZmcgDQpmaWxlIGF2YWls
+YWJsZSwgYW5kIHRoZW4gdXNlIHRoYXQgdG8gc2V0IFRFTVBMQVRFQ09ORiBpZiB0aGUgdXNlciAN
+Cmhhc24ndCBzcGVjaWZpZWQgaXQuIEFsbCBvZiB0aGlzIGR1cGxpY2F0aW5nIHVwc3RyZWFtIGNv
+ZGUsIHdoaWNoIA0KbWF5IGNoYW5nZSB3aXRoIGFueSBmdXR1cmUgcmVsZWFzZS4gKERpZCBJIG1l
+bnRpb24gdGhhdCBJIGhhdGUgDQpkdXBsaWNhdGluZyBjb2RlPykNCg0KTm93IEkgdW5kZXJzdGFu
+ZCB0aGF0IHlvdSBoYXZlIHNvbWUgaWRlYSB0aGF0IHRoZSB1c2VyIHNob3VsZCBhbHdheXMgDQpz
+cGVjaWZ5IFRFTVBMQVRFQ09ORj0sIGluIHdoaWNoIGNhc2UgYSBkZWZhdWx0IFRFTVBMQVRFQ09O
+RiBoYXMgbm8gDQp2YWx1ZS4gQnV0IHNpbmNlIHdlIGhhdmUgYSBtZXRob2QgZm9yIGZldGNoaW5n
+IGV4YWN0bHkgdGhlIGxheWVycyANCnRoYXQgYXJlIHRvIGJlIHVzZWQgaW4gYSBnaXZlbiBidWls
+ZCwgdG8gbWUgaXQgZG9lcyBub3QgbWFrZSBzZW5zZSANCnRvIGFsc28gaGF2ZSB0byBzcGVjaWZ5
+IGEgVEVNUExBVEVDT05GIHRvIG1hdGNoIHdoYXQgaGFzIGFscmVhZHkgDQpiZWVuIGZldGNoZWQu
+IEl0IGlzIGp1c3QgZHVwbGljYXRpbmcgaW5mb3JtYXRpb24sIHdoaWNoIElNSE8gaXMgYmFkLiAN
+Cg0KV2hhdCBfSV8gd291bGQgcHJlZmVyIHRvIHNlZSwgaXMgYSB3YXkgdG8gc3BlY2lmeSB0aGF0
+IHRoZSBidWlsZCANCnNoYWxsIHVzZSB0aGUgYXZhaWxhYmxlIGxheWVycy4gSS5lLiwgcmF0aGVy
+IHRoYW4gYSBodWdlIG51bWJlciBvZiANCnN0YXRpYyB0ZW1wbGF0ZXMgY29uZmlndXJhdGlvbnMs
+IEkgd291bGQgbGlrZSB0byBzZWUgdGhlIA0KaW5pdGlhbGl6YXRpb24gc2NyaXB0IHRha2UgdGhl
+IGxheWVycyBhcyBhcmd1bWVudHMsIHdpdGggdGhlIGRlZmF1bHQgDQpiZWluZyBhbnl0aGluZyB0
+aGF0IG1hdGNoZXMgbWV0YSogKG9yIG1heWJlIG1vcmUgY29ycmVjdGx5LCBhbnl0aGluZyANCnRo
+YXQgaGFzIGEgY29uZi9sYXllcnMuY29uZiBmaWxlKS4gQXMgZm9yIHRoZSBsb2NhbC5jb25mIGZp
+bGUsIGluIA0KbXkgd29ybGQsIHRoaXMgd291bGQgYmUgbWFkZSB1cCBmcm9tIGZyYWdtZW50IGZp
+bGVzIGluIHRoZSBsYXllcnMuIA0KU28gZm9yIGFueSBsYXllciB0aGF0IGVuZHMgdXAgaW4gdGhl
+IGJibGF5ZXJzLmNvbmYgZmlsZSwgdGhlIGxheWVyIA0Kd291bGQgYmUgc2VhcmNoZWQgZm9yIGFu
+eSBsb2NhbC5jb25mLlhYIGZpbGVzIHRoYXQgd291bGQgYmUgDQpjb25jYXRlbmF0ZWQgdG9nZXRo
+ZXIgaW4gdGhlIG9yZGVyIG9mIFhYLiBUaGlzIGlzIChvYnZpb3VzbHkpIHZlcnkgDQpzaW1pbGFy
+IHRvIHdoYXQgd2UgZG8gdG9kYXksIHNvIEkgYW0gb2YgY291cnNlIGJpYXNlZCwgYnV0IEkgdGhp
+bmsgDQp0aGlzIG1vZGVsIGlzIGEgbG90IG1vcmUgYXBwZWFsaW5nIHRoYW4gc3RhdGljIHRlbXBs
+YXRlcyBmaWxlcy4gDQpZTU1WLg0KDQovL1BldGVyDQoNCg==
 
