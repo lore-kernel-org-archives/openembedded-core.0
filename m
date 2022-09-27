@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AE98C6FA86
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AE4CC6FA82
 	for <webhook@archiver.kernel.org>; Tue, 27 Sep 2022 17:54:25 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web12.14422.1664301264056667834
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+ [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web09.14132.1664301262224597602
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Sep 2022 10:54:24 -0700
+ Tue, 27 Sep 2022 10:54:22 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=JEWi/FqN;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170,
+ header.b=uh1a3aKP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.178,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id jm5so9726006plb.13
+Received: by mail-pf1-f178.google.com with SMTP id v186so10328579pfv.11
         for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Sep 2022 10:54:24 -0700 (PDT)
+ Tue, 27 Sep 2022 10:54:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=CGlNt66noQgcTS237X5JXpOVqtZ6y2jyLEvWtOjmNAM=;
-        b=JEWi/FqNnQyhhFD/iKVz4dMyUeficXxRNLHC7GgJWKzojCJmiCLdRi0dSAvJhoXVIZ
-         AWkS0/6dvhlVqU+WMGd1iq7GetqpiNeZEMuH1n2xDUYW+oO4J8tkwhhl3IsShtvvlqdr
-         /9/WOkCVinJ2eChrTzFcESjxY7laFdKU+kvydiNk/CBSaPEfvqpH1eKG3uQKuHLDkKSm
-         KVDECZ/uXBzjBaprQKVsdOwrBjfiyOiPjpVy0a2cINrMFsH1Xc6iHItyMojV/vjloQPF
-         sGyI35e8DPlbotiUg258J7uoXLA3mY+l63zlf1YDt8jQA7S0zkruxa4DyWOThqoVYxnU
-         bPsw==
+        bh=Ia9gOZ0ZHEtx05qivFKLyezttBpoVzZOBOqJ2cPxEoI=;
+        b=uh1a3aKPiU7Eaji5pMq3Q7GGRRCaRRI6f6repv12DMoBVMYsT8vwPolOEJMPAwWeMY
+         RyKm2sEFyFWTmb4wtBau/JMuOqMA+q+XALX25nm7wFdx/Z3bUejKXX7hiRQpnxXJM1KI
+         yUWznhqQZNM3SU+RcYhvfeinzk3JwwFJxBB+VkTjjyBvhP+z4GgO48NQKxjoI+fz0VRm
+         NOMdtP5uo3yPUPLZKreC9OZuf2+XWqi6h5vnLWhgcuWkEFs00trQ/Gito2HHyDqTD8IK
+         zkqpzaLFS0pgi1K2YnFieqi74kdfMJIEtnqCP5WEf+sVarkTqQY1OQN+erjA0l/sZyQA
+         AEWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=CGlNt66noQgcTS237X5JXpOVqtZ6y2jyLEvWtOjmNAM=;
-        b=KV1FpIYQGJL3OxdwBK6mvLdflX/yjcBRp8tgo3vejRGx7Cgl7KqYKnn7PoDysOC8RB
-         v6Ci5AKUuAvNHt8s8baj7jANre/eFB19u1apDJnHz2i34LoK9WO4k5WQvqb9kaI0rUHx
-         yL6PpLF9r4apnDLNZJ7CUXPVx3/2OhxvK9xo8Hk0cli8QwehbU3WohKE8H82OGwv1EDo
-         yGGYx8DTismGLKuLtbfEhX8zq1L8ZDwD7Vut+E1gQbIO9pQ+VLYGLkKLEeweK6+EwEWj
-         fEc1nHKDtB7+wgMeDYBq6QEuQFCeteR8Hsbwb3pb6LHx/q0RdEE4FGk0U+Zalg++QI8O
-         n4SQ==
-X-Gm-Message-State: ACrzQf1VWauUf9H1kEec4LoOlU+ePDN6jjGYVpUIn7zffe9ZoXbv05cc
-	ozZZRLp6ChFXDM2iJ7nWoOeUP3iomJqnaPWW
+        bh=Ia9gOZ0ZHEtx05qivFKLyezttBpoVzZOBOqJ2cPxEoI=;
+        b=fEEFmMw57XRng6PIUgtxbyhUCUSl7oUIOEE+YQkeiN4nD4R/fUquRxeu7UjCA3qvAj
+         Yc0NDdRqLTHwdXIt1IJeVqzyOFAjYFzyrYVcxyg0DT29CiexeFaa6+wuF9N7A8lAg2fi
+         y2JbZpvb6aXN9I7e9W8GcTUw7HomQEzhXCotfCiIF/ofSoWsPyNZN93Y7lSorXUTiE6F
+         k55ttRceh8DCQWHqGof1NzDPB/s8qWWzeDy8Kh7qIh52Jk/UR/ukNSNb7TDX6QL7b9fn
+         q1E/xxFcVsqrwAHiZz3tL7TZs7C5KrblVc7gJTrepJvNw3iV8wj9VseVSqf+FVZcAloI
+         R4TA==
+X-Gm-Message-State: ACrzQf3piJShygl0x5QO7YxRlkAJuU9eFpDEJqiOaGXszPb8JTIBg4lz
+	a+PLYi3D/ZrTaii0STDDLClNwCXToWZ3tjPC
 X-Google-Smtp-Source: 
- AMsMyM5ennTKtr/fexoD1BLRCQCYlXUuNOOstpIuSrQwZoQyXwIODLYzhbw2JQlD2JJUHUZiyHdOIg==
-X-Received: by 2002:a17:90a:e293:b0:202:6eab:acac with SMTP id
- d19-20020a17090ae29300b002026eabacacmr5667561pjz.203.1664301263083;
-        Tue, 27 Sep 2022 10:54:23 -0700 (PDT)
+ AMsMyM7Szq2FcM3ytu7HHo2jdH5XhSsR5nBye+9tWnbV/GiOXp/Fxop3q4q2yGumL/nvMJ8qxGNPpA==
+X-Received: by 2002:a63:6206:0:b0:439:54e1:c220 with SMTP id
+ w6-20020a636206000000b0043954e1c220mr25157659pgb.445.1664301261190;
+        Tue, 27 Sep 2022 10:54:21 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- w189-20020a6262c6000000b0054094544ae7sm2051468pfb.60.2022.09.27.10.54.21
+ w189-20020a6262c6000000b0054094544ae7sm2051468pfb.60.2022.09.27.10.54.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Sep 2022 10:54:22 -0700 (PDT)
+        Tue, 27 Sep 2022 10:54:20 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 5/6] linux-firmware: package new Qualcomm firmware
-Date: Tue, 27 Sep 2022 07:53:58 -1000
+Subject: [OE-core][dunfell 4/6] linux-firmware: upgrade 20220708 -> 20220913
+Date: Tue, 27 Sep 2022 07:53:57 -1000
 Message-Id: 
- <705de0a585b9e6343075eb6af41b8f8972ee327d.1664301116.git.steve@sakoman.com>
+ <a8efbea09f851e9ef72a1ec387077d9eda5335c6.1664301116.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1664301116.git.steve@sakoman.com>
 References: <cover.1664301116.git.steve@sakoman.com>
@@ -70,70 +70,45 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 27 Sep 2022 17:54:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171121
+ https://lists.openembedded.org/g/openembedded-core/message/171120
 
 From: Dmitry Baryshkov <dbaryshkov@gmail.com>
 
-Create separate packages with firmware files for APQ8096 SoC and for
-Adreno 2xx/4xx. Include A330 firmware into the 3xx package.
-
+License-Update: additional files
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1a0cb8f9131d1f238dc150e583a7ff816645765f)
+(cherry picked from commit 68ce822b765a7b67f8cc8590688860cc2530cf04)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../linux-firmware/linux-firmware_20220913.bb       | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ ...{linux-firmware_20220708.bb => linux-firmware_20220913.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220708.bb => linux-firmware_20220913.bb} (99%)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20220913.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20220913.bb
-index 683da1c411..52ea8259eb 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20220913.bb
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20220708.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20220913.bb
+similarity index 99%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20220708.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20220913.bb
+index 27146154be..683da1c411 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20220708.bb
 +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20220913.bb
-@@ -308,8 +308,9 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-qcom-license \
-              ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 ${PN}-qcom-venus-5.2 ${PN}-qcom-venus-5.4 \
-              ${PN}-qcom-vpu-1.0 ${PN}-qcom-vpu-2.0 \
--             ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 \
-+             ${PN}-qcom-adreno-a2xx ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a4xx ${PN}-qcom-adreno-a530 \
-              ${PN}-qcom-adreno-a630 ${PN}-qcom-adreno-a650 ${PN}-qcom-adreno-a660 \
-+             ${PN}-qcom-apq8096-audio ${PN}-qcom-apq8096-modem \
-              ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute ${PN}-qcom-sdm845-modem \
-              ${PN}-qcom-sm8250-audio ${PN}-qcom-sm8250-compute \
-              ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
-@@ -962,11 +963,15 @@ FILES_${PN}-qcom-venus-5.2 = "${nonarch_base_libdir}/firmware/qcom/venus-5.2/*"
- FILES_${PN}-qcom-venus-5.4 = "${nonarch_base_libdir}/firmware/qcom/venus-5.4/*"
- FILES_${PN}-qcom-vpu-1.0 = "${nonarch_base_libdir}/firmware/qcom/vpu-1.0/*"
- FILES_${PN}-qcom-vpu-2.0 = "${nonarch_base_libdir}/firmware/qcom/vpu-2.0/*"
--FILES_${PN}-qcom-adreno-a3xx = "${nonarch_base_libdir}/firmware/qcom/a300_*.fw ${nonarch_base_libdir}/firmware/a300_*.fw"
-+FILES_${PN}-qcom-adreno-a2xx = "${nonarch_base_libdir}/firmware/qcom/leia_*.fw"
-+FILES_${PN}-qcom-adreno-a3xx = "${nonarch_base_libdir}/firmware/qcom/a3*_*.fw ${nonarch_base_libdir}/firmware/a300_*.fw"
-+FILES_${PN}-qcom-adreno-a4xx = "${nonarch_base_libdir}/firmware/qcom/a4*_*.fw"
- FILES_${PN}-qcom-adreno-a530 = "${nonarch_base_libdir}/firmware/qcom/a530*.*"
- FILES_${PN}-qcom-adreno-a630 = "${nonarch_base_libdir}/firmware/qcom/a630*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/a630*.*"
- FILES_${PN}-qcom-adreno-a650 = "${nonarch_base_libdir}/firmware/qcom/a650*.* ${nonarch_base_libdir}/firmware/qcom/sm8250/a650*.*"
- FILES_${PN}-qcom-adreno-a660 = "${nonarch_base_libdir}/firmware/qcom/a660*.*"
-+FILES_${PN}-qcom-apq8096-audio = "${nonarch_base_libdir}/firmware/qcom/apq8096/adsp*.*"
-+FILES_${PN}-qcom-apq8096-modem = "${nonarch_base_libdir}/firmware/qcom/apq8096/mba.mbn ${nonarch_base_libdir}/firmware/qcom/apq8096/modem*.* ${nonarch_base_libdir}/firmware/qcom/apq8096/wlanmdsp.mbn"
- FILES_${PN}-qcom-sdm845-audio = "${nonarch_base_libdir}/firmware/qcom/sdm845/adsp*.*"
- FILES_${PN}-qcom-sdm845-compute = "${nonarch_base_libdir}/firmware/qcom/sdm845/cdsp*.*"
- FILES_${PN}-qcom-sdm845-modem = "${nonarch_base_libdir}/firmware/qcom/sdm845/mba.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/wlanmdsp.mbn"
-@@ -978,11 +983,15 @@ RDEPENDS_${PN}-qcom-venus-5.2 = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-venus-5.4 = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-vpu-1.0 = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-vpu-2.0 = "${PN}-qcom-license"
-+RDEPENDS_${PN}-qcom-adreno-a2xx = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-adreno-a3xx = "${PN}-qcom-license"
-+RDEPENDS_${PN}-qcom-adreno-a4xx = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-adreno-a530 = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-adreno-a630 = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-adreno-a650 = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-adreno-a660 = "${PN}-qcom-license"
-+RDEPENDS_${PN}-qcom-apq8096-audio = "${PN}-qcom-license"
-+RDEPENDS_${PN}-qcom-apq8096-modem = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-sdm845-audio = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-sdm845-compute = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-sdm845-modem = "${PN}-qcom-license"
+@@ -132,7 +132,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     "
+ # WHENCE checksum is defined separately to ease overriding it if
+ # class-devupstream is selected.
+-WHENCE_CHKSUM  = "def08711eb23ba967fb7e1f8cff66178"
++WHENCE_CHKSUM  = "98ecc3d3223df7ebdc23b0ec56aafb20"
+ 
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+ # so that the license files will be copied from fetched source
+@@ -209,7 +209,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+ # Pin this to the 20220509 release, override this in local.conf
+ SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
+ 
+-SRC_URI[sha256sum] = "0abec827a035c82bdcabdf82aa37ded247bc682ef05861bd409ea6f477bab81d"
++SRC_URI[sha256sum] = "26fd00f2d8e96c4af6f44269a6b893eb857253044f75ad28ef6706a2250cd8e9"
+ 
+ inherit allarch
+ 
 -- 
 2.25.1
 
