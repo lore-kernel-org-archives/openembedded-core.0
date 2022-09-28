@@ -1,131 +1,88 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <jay.shen.teoh@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3017DC32771
-	for <webhook@archiver.kernel.org>; Wed, 28 Sep 2022 09:54:38 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web09.6088.1664358873710105581
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 579F0C04A95
+	for <webhook@archiver.kernel.org>; Wed, 28 Sep 2022 10:28:48 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by mx.groups.io with SMTP id smtpd.web09.6299.1664360927855635613
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Sep 2022 02:54:34 -0700
+ Wed, 28 Sep 2022 03:28:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=ga6Bi9wq;
- spf=pass (domain: axis.com, ip: 195.60.68.18,
- mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1664358874;
-  x=1695894874;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=9X6tgygHlxlXfbeObMnIy0dL8M+iBDSmAdKLF//oAd8=;
-  b=ga6Bi9wqG9Tg3VprPfp14qNxbMgi6H/sAhejED2rraW6bYMuvxRtBaG9
-   bIlaLGOIZ370+UpK8BWUqOrIqHVPFdQALkpmGgKRav+ldkKmNV4KdpjA/
-   w/5LYe/g5gyKacVzH083Ylu1Cmn+qYcUOHez0IEt7lNZM+ly5Ydv+rMG2
-   62cALJM612UxDKtNPkNp4fMLJtCTsy3RdR/T7SsrI/vunhwQgGx1dpUpz
-   Ex8BVDaWEvnObDN5+X6WncoCM4hXvYJD9UkAbJYQDOA99+6bPzUOfx4MK
-   f8OlxtwxKUUKrS2RIQW16MLBDDgSkGSaarnxS0+fMa6zzLYyy5xzSkWyg
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=c8mNNvOy;
+ spf=pass (domain: intel.com, ip: 192.55.52.151,
+ mailfrom: jay.shen.teoh@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664360927; x=1695896927;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=I+CXMbpl7I/eCP3QmVjmPVIESTacoH47uRgc/SHcJNw=;
+  b=c8mNNvOyAblP9pydomjXfvNDCUWd+k/8WLq8ufLZlSz4zrGXW+4KVyPF
+   5POrPIfVy6BnOXc9WCPi2MnHqCFUAevv8qP83EdIbQBcX5gFOk+V5kebz
+   u4FqLcZo0vu7mDtuhZQUV/lWaQ7m1ND1S5DDXGSO2dxEFfWhclz4Cw4eN
+   aKCjNu3OA4QPjpKA+7GTwhPAAFpb4eNlomTfa45al8TIoi7XEmbYvsvPA
+   VWW1jyptAlWaukezX5XFO1F+boKZcXefdWLENUmRPoAjZFJvWMinM7I26
+   Rl7qWOCOY3ac65UpmmET6mCKUeK9FjMMmFWHLrZU/FfSJMeXoIU4J7kno
    A==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>, OE-core
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
- paths for templates
-Thread-Topic: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
- paths for templates
-Thread-Index: 
- AQHYzoU23gOhP1a3LUCPmQBsEwAbcq3rbfEAgAAKPgCAAE42AIAHlUfggAAWuO2AAAKbsP//5X+AgAApBUCAABTtgIAAKjuw///084CAAOGQgA==
-Date: Wed, 28 Sep 2022 09:54:31 +0000
-Message-ID: <b1adfa5db65d431a8959e07181bfffa2@axis.com>
-References: <20220922124708.2218995-1-pkj@axis.com>
- <20220922124708.2218995-2-pkj@axis.com>
- <28947223c26b05f58c4b6cd13919b025617318a2.camel@linuxfoundation.org>
- <ee0aa31d5fa34a5ba889e3518d8b2a95@axis.com>
- <CANNYZj__Gud2xeWrtK=tZaY_BGQ2d4tVVJLfZt4R0aqzUadK-A@mail.gmail.com>
- <c78bac9a0a53243336d237bc5f6d51758f5a5dfe.camel@linuxfoundation.org>
- <6dbf0e264c68433a8aee1a772015c852@axis.com>
- <1718C14CEB633922.9698@lists.openembedded.org>
- <CANNYZj_rRJFsnOcSrkONYfmkZdUe1eCZKYcvnkpPj7jm7eVu+g@mail.gmail.com>
- <faab0d74b95849bdb1d39ac0146dd523@axis.com>
- <CANNYZj_2+-GiZ4Qa67GJ3KFJMqFxLFXW6XKMtL+a9=NrPmi66A@mail.gmail.com>
- <77825785242f4d99b336af0da596e286@axis.com>
- <CANNYZj81uAD1wMJyizCHTiwCnCnw_XMOLqPOzKGu0Og1sejauw@mail.gmail.com>
- <1568abaf9b604bfaae699a53c537d51b@axis.com>
- <CANNYZj_L2+OJE4TYt4A2QVXjsmSOVWKbWD4EPz=AkQj5snxXgA@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj_L2+OJE4TYt4A2QVXjsmSOVWKbWD4EPz=AkQj5snxXgA@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="281935934"
+X-IronPort-AV: E=Sophos;i="5.93,351,1654585200";
+   d="scan'208";a="281935934"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2022 03:28:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="621874013"
+X-IronPort-AV: E=Sophos;i="5.93,351,1654585200";
+   d="scan'208";a="621874013"
+Received: from andromeda02.png.intel.com ([10.221.253.198])
+  by orsmga002.jf.intel.com with ESMTP; 28 Sep 2022 03:28:39 -0700
+From: jay.shen.teoh@intel.com
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone][Patch 1/2] webkitgtk: Upgrade to 2.36.6 minor
+ update
+Date: Wed, 28 Sep 2022 18:28:33 +0800
+Message-Id: <20220928102834.3813992-1-jay.shen.teoh@intel.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Sep 2022 09:54:38 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Sep 2022 10:28:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171143
+ https://lists.openembedded.org/g/openembedded-core/message/171144
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8
-YWxleC5rYW5hdmluQGdtYWlsLmNvbT4NCj4gU2VudDogZGVuIDI3IHNlcHRlbWJlciAyMDIyIDIz
-OjUwDQo+IFRvOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNv
-bT4NCj4gQ2M6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24u
-b3JnPjsgT0UtY29yZQ0KPiA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zz4NCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMi8yXSBvZS1zZXR1cC1idWlsZGRp
-cjogRG8gbm90IGhhcmRjb2RlDQo+IGludmFsaWQgcGF0aHMgZm9yIHRlbXBsYXRlcw0KPiANCj4g
-T24gVHVlLCAyNyBTZXB0IDIwMjIgYXQgMjM6MzEsIFBldGVyIEtqZWxsZXJzdGVkdA0KPiA8cGV0
-ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPiB3cm90ZToNCj4gPiBJIGFtIG5vdCB0b28gZm9uZCBv
-ZiB0aGUgIndyaXRpbmcgdGhlIGNvbmZpZyBkaXJlY3RseSIgaWRlYS4gVGhlIHJlYXNvbg0KPiA+
-IGZvciB0aGF0IGlzIHRoYXQgdGhpbmdzIGNoYW5nZSB1cHN0cmVhbSAoYXMgeW91IGFyZSB3ZWxs
-IGF3YXJlIG9mLCB0aGF0J3MNCj4gPiBhZnRlciBhbGwgdGhlIHdob2xlIHJlYXNvbiBmb3IgdGhl
-IGRpc2N1c3Npb24pLiBUaGlzIGlzIHdoeSBJIHByZWZlciB0bw0KPiA+IGdvIHRocm91Z2ggdGhl
-IHRlbXBsYXRlcyBhbmQgYmFzaWNhbGx5IG9ubHkgcHJvdmlkZSB0aGUgbGlzdCBvZiBsYXllcnMN
-Cj4gPiB0byBhZGQuIFRoYXQgd2F5IHdoZW4gdGhpbmdzIGNoYW5nZSB1cHN0cmVhbSBpbiB0aGUg
-dGVtcGxhdGUgZmlsZXMsIHdlDQo+ID4gYXV0b21hdGljYWxseSBmb2xsb3cuIChBbmQgaWYgaXQg
-aGFzIG5vdCBiZWVuIG9idmlvdXMgYmVmb3JlLCBvdXIgd3JhcHBlcg0KPiA+IHVzZXMgdGhlIGJi
-bGF5ZXJzLmNvbmYuc2FtcGxlIGZpbGUgZnJvbSBtZXRhLXBva3kgYW5kIGp1c3QgcmVwbGFjZXMg
-dGhlDQo+ID4gbGlzdCBvZiBsYXllcnMgd2l0aCBvdXIgbGlzdCBvZiBsYXllcnMuIFdoaWNoIG9m
-IGNvdXJzZSBzb3VuZHMgbGlrZSB0aGVuDQo+ID4gd2UgY291bGQganVzdCB3cml0ZSB0aGUgZmlu
-YWwgY29uZmlnIGZpbGUgZGlyZWN0bHksIGJ1dCB3ZSBhbHNvIHdhbnQgdG8NCj4gPiBjb250aW51
-ZSB0byByZWx5IG9uIG9lLWluaXQtYnVpbGQtZW52IGZvciBkZXRlcm1pbmluZyBfd2hlcmVfIHRv
-IHdyaXRlDQo+ID4gdGhlIGZpbmFsIGZpbGVzLikNCj4gDQo+IFdhaXQsIHdhaXQsIHdhaXQuIElm
-IHNvLCB5b3UgY2FuIGluaXRpYWxpemUgdXNpbmcgdGhlIHRlbXBsYXRlIGZyb20NCj4gcG9reSwg
-dGhlbiB5b3UgZ2V0IEJCUEFUSCBvciBCVUlMRERJUiBwbGFjZWQgaW4gdGhlIGVudmlyb25tZW50
-IChieQ0KPiBvZS1pbml0LWJ1aWxkLWVudikgdGVsbGluZyB3aGVyZSB0aGUgY29uZmlnIGZpbGVz
-IGFyZS4gU28geW91IGNhbg0KPiB3cml0ZSB0byB0aGVtIGRpcmVjdGx5IChlLmcuIGxvY2FsLmNv
-bmYpLCBvciB1c2UgJ2JpdGJha2UtbGF5ZXJzDQo+IGFkZC1sYXllcicgKG9yICdyZW1vdmUtbGF5
-ZXInKSB0byB0d2VhayB0aGUgbGlzdCBvZiBsYXllcnMgdXNpbmcNCj4gc3VwcG9ydGVkIHRvb2xp
-bmcgLSAgYWZ0ZXIgdGhlIGluaXRpYWxpemF0aW9uLCBidXQgYmVmb3JlIGFueSBidWlsZHMuDQo+
-IE5vPw0KPiANCj4gQWxleA0KDQpJIGFtIG5vdCBzdXJlIGlmIHlvdSBhcmUgc3VnZ2VzdGluZyB0
-aGF0IHRoZSB1c2VyIHNoYWxsIHJ1biBgYml0YmFrZS1sYXllcnMNCmFkZC1sYXllcmAgYWZ0ZXIg
-c291cmNpbmcgb2UtaW5pdC1idWlsZC1lbnYsIG9yIGlmIHlvdSBtZWFuIHRoYXQgb3VyIHdyYXBw
-ZXIgDQpzaG91bGQgZG8gaXQuIA0KDQpJZiBpdCBpcyB0aGUgZm9ybWVyLCB0aGVuIHRoYXQgaXMg
-b2J2aW91c2x5IG5vdCBob3cgd2Ugd2FudCB0aGluZ3MgdG8gd29yay4gDQpUaGUgbGF5ZXJzIHRo
-YXQgYXJlIGZldGNoZWQgc2hhbGwgYnkgZGVmYXVsdCBiZSBwYXJ0IG9mIHRoZSBidWlsZC4gVGhh
-dCBpcyANCmFuIGFic29sdXRlIHJlcXVpcmVtZW50LiBUaGVyZSBpcyBubyBleHBlY3RhbmN5IChv
-ciB3YW50KSB0aGF0IHRoZSB1c2VyIA0Kc2hhbGwgaGF2ZSB0byBhZGQvcmVtb3ZlIHRoZSBsYXll
-cnMgbWFudWFsbHkuIA0KDQpJZiBpdCBpcyB0aGUgbGF0dGVyLCBpdCB3b3VsZG4ndCB3b3JrICh1
-bmxlc3MgSSB5ZXQgYWdhaW4gZHVwbGljYXRlIHRoZSANCmNvZGUgdG8gZmlndXJlIG91dCB0aGUg
-YnVpbGQgZGlyZWN0b3J5IGJlZm9yZSBzb3VyY2luZyB0aGUgcmVhbCANCm9lLWluaXQtYnVpbGQt
-ZW52KSBzaW5jZSBiZWZvcmUgc291cmNpbmcgdGhlIHJlYWwgb2UtaW5pdC1idWlsZC1lbnYgSSAN
-CmNhbm5vdCB0ZWxsIGlmIHRoZXJlIGFscmVhZHkgaXMgYSBiYmxheWVycy5jb25mIGZpbGUgaW4g
-d2hpY2ggY2FzZSB0aGUgDQp3cmFwcGVyIHNob3VsZCBub3QgYWRkL3JlbW92ZSBhbnkgbGF5ZXJz
-LCBhbmQgYWZ0ZXIgc291cmNpbmcgdGhlIHJlYWwgDQpvZS1pbml0LWJ1aWxkLWVudiBpdCBpcyB0
-b28gbGF0ZSBhcyBJIHRoZW4gY2Fubm90IGRpc3Rpbmd1aXNoIGJldHdlZW4gDQp0aGlzIGJlaW5n
-IHRoZSBmaXJzdCB0aW1lIG9lLWluaXQtYnVpbGQtZW52IGlzIHNvdXJjZWQgb3IganVzdCBhIA0K
-cmVpbml0aWFsaXphdGlvbiBvZiBhbiBhbHJlYWR5IGV4aXN0aW5nIGVudmlyb25tZW50Lg0KDQpP
-dXIgcGhpbG9zb3BoeSB3aGVuIHdlIG9yaWdpbmFsbHkgc2V0IHRoaXMgdXAgd2FzIHRvIGtlZXAg
-aXQgc2ltcGxlIGFuZCANCmFzIGNsb3NlIHRvIGhvdyBPRS9Qb2t5IHdvcmtzIGFzIHBvc3NpYmxl
-LiBUaGF0IHdheSwgaWYgdGhlIGRldmVsb3BlcnMgDQpoYXZlIGFueSBxdWVzdGlvbnMgYW5kIGxv
-b2sgYXQgdGhlIFlvY3RvIGRvY3VtZW50YXRpb24sIHRoZSBjb21tYW5kcyANCnN1Z2dlc3RlZCB0
-aGVyZSBzaG91bGQgd29yayB0aGUgc2FtZSBmb3IgdXMuIEFuZCB0aGF0IGlzIHdoYXQgd2UgZ2V0
-IA0KZnJvbSB1c2luZyB0aGUgdGVtcGxhdGVzIGFuZCBsZXR0aW5nIHRoZSBpbml0IHNjcmlwdHMg
-cHJvdmlkZWQgYnkgT0UgZG8gDQp0aGUgd29yay4gVGhlIGZhY3QgdGhhdCB3ZSB1c2UgdGhlIGJi
-bGF5ZXJzLmNvbmYuc2FtcGxlIGZpbGUgZnJvbSANCm1ldGEtcG9reSByYXRoZXIgdGhhbiBwcm92
-aWRpbmcgb3VyIG93biBzaG91bGRuJ3QgY2hhbmdlIHRoYXQuIEl0IGlzIA0KanVzdCBhIHdheSB0
-byBhdm9pZCBoYXZpbmcgdG8gbWFudWFsbHkga2VlcCBvdXIgc2FtcGxlIGZpbGUgaW4gc3luYyAN
-CndpdGggd2hhdCBoYXBwZW5zIGluIE9FIENvcmUuDQoNCi8vUGV0ZXINCg0K
+From: Khem Raj <raj.khem@gmail.com>
+
+(From OE-Core rev: bee36428a45c6c0c24d4c0fcf64bd890f3481c4a)
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../webkit/{webkitgtk_2.36.5.bb => webkitgtk_2.36.6.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-sato/webkit/{webkitgtk_2.36.5.bb => webkitgtk_2.36.6.bb} (98%)
+
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.6.bb
+similarity index 98%
+rename from meta/recipes-sato/webkit/webkitgtk_2.36.5.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.36.6.bb
+index b3fe357010..37b977f9ba 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.36.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.36.6.bb
+@@ -17,7 +17,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "d5532fa884c943dc48f1911473dd663aba407a3b35caa7b04bac1419b41e5908"
++SRC_URI[sha256sum] = "1193bc821946336776f0dfa5e0dca5651f1e57157eda12da4721d2441f24a61a"
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
+ 
+-- 
+2.37.3
+
 
