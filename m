@@ -1,98 +1,102 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <daniel@qtec.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83247C32771
-	for <webhook@archiver.kernel.org>; Wed, 28 Sep 2022 11:05:38 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web09.6539.1664363131533744701
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C933EC04A95
+	for <webhook@archiver.kernel.org>; Wed, 28 Sep 2022 12:10:48 +0000 (UTC)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web10.7001.1664367046327967887
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Sep 2022 04:05:31 -0700
+ Wed, 28 Sep 2022 05:10:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Qry8ZHnF;
- spf=pass (domain: gmail.com, ip: 209.85.167.48,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id bu25so17922070lfb.3
+ dkim=pass header.i=@qtec.com header.s=google header.b=KrGX2y22;
+ spf=pass (domain: qtec.com, ip: 209.85.218.48, mailfrom: daniel@qtec.com)
+Received: by mail-ej1-f48.google.com with SMTP id sd10so26734853ejc.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Sep 2022 04:05:31 -0700 (PDT)
+ Wed, 28 Sep 2022 05:10:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=FqZnKMfnjF7Z+0wXGALVIixDMJS3rvPHXdYx7aj6eew=;
-        b=Qry8ZHnFdiZMzulDqcFyeeq5izJMksuagVQjmwzs3ogyhrH9iacDqvUizSqcgSb4qF
-         hwX8eR/i1G8jywu2VnzGSIqUCSe7FZJi7NnQkWb7NNsEjFvrJd1sWJFxCOwiOuZOz9Jw
-         5gI3mPLWR0aZeVxeDKUXzuPhTWbHvVLp+3n1xVGNGB2ELiHqdYjd5ubrn9KkUDF2T3jA
-         nUnMja9HvRl0TkX/gcWiWrHtryvjzkHn4xsGUd/HNfRTOuqsTmq7YjrkAu30irQhvMi0
-         u4vJxAENly7KW/eKYft1bhEBEJjmRSA+I95zIA3A3iAO+sJZ9OfhWpXCcabgVxQce6Bn
-         K9kQ==
+        d=qtec.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=ZeMJItz3mL8euSrrgzAU4/h2wNvmQal+3MDyGcJJoYc=;
+        b=KrGX2y22eM1lVWrbql87F7huDh774fj0zX7syfIVbcE+ZFWoQ9za04c5rEg+jpqiaF
+         XNq4C3lbYe8i/FmqV2DRNE/swR01arPN25tAXKCZAFeJHdD4d7BsqBNw/qFF1OwUjNwf
+         k/rgyxk1IlpgxQdkhd4IqJaNUBaz6Rs6xm0a3sWQ39xXZdam05ifeu4Rfmn707EImXzD
+         RpDdRfH2hzUP7+37KnJoQYuwFiLkgdIuwN4gz2sNvK/oUpCRrFf/m8Qcy7uWbsqwIG9p
+         1Y9Oj3GsLvv3B1l7JNjBWA36kL1S2RVMJJS/aiE/qo4QPjoK8IBz6qICz5KlJvOHpqiQ
+         Iecg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=FqZnKMfnjF7Z+0wXGALVIixDMJS3rvPHXdYx7aj6eew=;
-        b=KW3F9e9pO/eXvNcZNncEuRI5oydi6ZyhivAUAyBQxKpj6+m7guo9vwKGrwAAl0y977
-         KyG9HKADA0bR8GwL2UzkqXk2eKsqzTy5gJFOH1LorRi5shTynBe4ihYmwizIE5TtvpHQ
-         V9Ig8bIHhLYHog7B9363GaDAmAEOC57DRNM5nfiEDFR7Sk6LuvWQ+Zm3RGm8Ps3dtYio
-         6C5oOSfqILwPRAhRAVJ1WPnDAr5MdeAKD4uybVG3jSUacLoua8jIXSryVcFg1pB5n9K7
-         iHYOMRT/jK5mOW1Tinhv3fubLGH8JugEMOWGVIiRezy2dIxDP3jWknmeL1KPXUP2qVWI
-         yH1Q==
-X-Gm-Message-State: ACrzQf151WbC4lRJAG9hftX0r4weqOl5qbTX2aoEAvsLQr+N14UY90Qq
-	pIBU+lJ8am4PswPOw+/S+cC6mqJAHRDiui+Xd7I=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=ZeMJItz3mL8euSrrgzAU4/h2wNvmQal+3MDyGcJJoYc=;
+        b=b8YkWkM65GySlwfu6jPFDzzZXfqvyQumkuaEM9OBYiwnOGUz7mccxnIOAWlvzFMoao
+         +0QSfG6ybvab2GlRNeDesfGRG3lEzid/i52Kid6zsVOSodyxIFowmJT/sqyhyH8ewRo3
+         ZTQHBojXDjZK6zP86Vb/UOH3hP5DRSWQISbXL321caHji/nXlIu7FTFFAILYecQnOkX7
+         WGLCvDIoncIXCEMnln/32oFwBDxp+U9eAD60RiYlFYBkMtiwquP5Od+tM7G+zBb3NFHH
+         hccsQ0dDBGFRTr1kYzvCFKlzmRGj8JnjhVzxZhic3jncCZSRRVlxb/xoyXmNIawrQdcl
+         GxZw==
+X-Gm-Message-State: ACrzQf3YCKt80DOHByVkHsB4z09edL4YWnVOOOIS0zgxaA9i84me6ETb
+	zpy9oE3SCr+awelveLIErO0L9/01Cv0OKTUZKgbfEbxtBa6rjjYt+S+Fz57OxmDx+0Ief++CTxx
+	MK78GAChKcuw+s4uHWX/5TB8GFvSPntwsnE/W/TyFMbhjjOEUGjWGfhJpig4HeqS/chfx6nIMOT
+	butLGiG1z4k0b+
 X-Google-Smtp-Source: 
- AMsMyM4/BnyvUHaxg/PJQ2vha4hHBzAI3XhwFZmThG0nccnyCY1vaN5rg4uDoOOzDtXhDON4HdoNBOYfAjqVNqqGp6M=
-X-Received: by 2002:a05:6512:10c4:b0:499:4c:64d7 with SMTP id
- k4-20020a05651210c400b00499004c64d7mr13188371lfg.521.1664363129528; Wed, 28
- Sep 2022 04:05:29 -0700 (PDT)
+ AMsMyM408ZX9YEdg3HJZpTHRkjgwmIYtX2ev2ow2HpDpr8ojG8HBAjos5/0yqF8VbQJUFfopMIM1jA==
+X-Received: by 2002:a17:907:ea5:b0:782:4c82:d0a2 with SMTP id
+ ho37-20020a1709070ea500b007824c82d0a2mr27571394ejc.171.1664367043994;
+        Wed, 28 Sep 2022 05:10:43 -0700 (PDT)
+Received: from datops.qtec.com (cpe.ge-3-0-8-100.ryvnqe10.dk.customer.tdc.net.
+ [80.197.57.18])
+        by smtp.gmail.com with ESMTPSA id
+ m17-20020a170906581100b0073a644ef803sm2324346ejq.101.2022.09.28.05.10.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Sep 2022 05:10:43 -0700 (PDT)
+From: Daniel Gomez <daniel@qtec.com>
+To: openembedded-core@lists.openembedded.org
+Cc: dagmcr@gmail.com,
+	Daniel Gomez <daniel@qtec.com>
+Subject: [OE-core][PATCH] gtk-icon-cache: Fix GTKIC_CMD if-else condition
+Date: Wed, 28 Sep 2022 14:10:41 +0200
+Message-Id: <20220928121041.10149-1-daniel@qtec.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220922124708.2218995-1-pkj@axis.com>
- <20220922124708.2218995-2-pkj@axis.com>
- <28947223c26b05f58c4b6cd13919b025617318a2.camel@linuxfoundation.org>
- <ee0aa31d5fa34a5ba889e3518d8b2a95@axis.com>
- <CANNYZj__Gud2xeWrtK=tZaY_BGQ2d4tVVJLfZt4R0aqzUadK-A@mail.gmail.com>
- <c78bac9a0a53243336d237bc5f6d51758f5a5dfe.camel@linuxfoundation.org>
- <6dbf0e264c68433a8aee1a772015c852@axis.com>
- <1718C14CEB633922.9698@lists.openembedded.org>
- <CANNYZj_rRJFsnOcSrkONYfmkZdUe1eCZKYcvnkpPj7jm7eVu+g@mail.gmail.com>
- <faab0d74b95849bdb1d39ac0146dd523@axis.com>
- <CANNYZj_2+-GiZ4Qa67GJ3KFJMqFxLFXW6XKMtL+a9=NrPmi66A@mail.gmail.com>
- <77825785242f4d99b336af0da596e286@axis.com>
- <CANNYZj81uAD1wMJyizCHTiwCnCnw_XMOLqPOzKGu0Og1sejauw@mail.gmail.com>
- <1568abaf9b604bfaae699a53c537d51b@axis.com>
- <CANNYZj_L2+OJE4TYt4A2QVXjsmSOVWKbWD4EPz=AkQj5snxXgA@mail.gmail.com>
- <b1adfa5db65d431a8959e07181bfffa2@axis.com>
- <17190128C53AF22E.9603@lists.openembedded.org>
-In-Reply-To: <17190128C53AF22E.9603@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 28 Sep 2022 13:05:17 +0200
-Message-ID: 
- <CANNYZj_jRy+FsKRGwAYWx6WYvAk8Am9L5LgWqO9-v0Cf_cjg2Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
- paths for templates
-To: alex.kanavin@gmail.com
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Sep 2022 11:05:38 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Sep 2022 12:10:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171147
+ https://lists.openembedded.org/g/openembedded-core/message/171148
 
-On Wed, 28 Sept 2022 at 13:00, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
+GTKIC_CMD variable gets the wrong assignation leading into a post
+install script error. Fix if-else condition in GTKIC_CMD variable
+to assign gtk4-update-icon-cache when GTKIC_VERSION is 4 but
+gtk-update-icon-cache when is 3.
 
-> I'm also unsure why are you so adamantly against checking if the build
-> dir already exists before the fact. It's not that difficult (either
-> it's relative to `pwd` or an absolute path), and not likely to change
-> upstream.
+Also, rename gtk-update-icon-cache-3.0.0 to gtk-update-icon-cache-3.0
+to match the gtk-update-icon-cache binary name deployed in
+meta/recipes-gnome/gtk+/gtk+3.inc.
 
-Which is a trivial one-liner in python:
-os.path.exists(os.path.abspath(build_dir))
+Signed-off-by: Daniel Gomez <daniel@qtec.com>
+---
+ meta/classes-recipe/gtk-icon-cache.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Alex
+diff --git a/meta/classes-recipe/gtk-icon-cache.bbclass b/meta/classes-recipe/gtk-icon-cache.bbclass
+index 17c7eb7a33..9ecb49916c 100644
+--- a/meta/classes-recipe/gtk-icon-cache.bbclass
++++ b/meta/classes-recipe/gtk-icon-cache.bbclass
+@@ -9,7 +9,7 @@ FILES:${PN} += "${datadir}/icons/hicolor"
+ GTKIC_VERSION ??= '3'
+
+ GTKPN = "${@ 'gtk4' if d.getVar('GTKIC_VERSION') == '4' else 'gtk+3' }"
+-GTKIC_CMD = "${@ 'gtk-update-icon-cache-3.0.0' if d.getVar('GTKIC_VERSION') == '4' else 'gtk4-update-icon-cache' }"
++GTKIC_CMD = "${@ 'gtk4-update-icon-cache' if d.getVar('GTKIC_VERSION') == '4' else 'gtk-update-icon-cache-3.0' }"
+
+ #gtk+3/gtk4 require GTK3DISTROFEATURES, DEPENDS on it make all the
+ #recipes inherit this class require GTK3DISTROFEATURES
+--
+2.35.1
+
 
