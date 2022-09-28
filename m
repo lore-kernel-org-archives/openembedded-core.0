@@ -1,232 +1,167 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9D12C04A95
-	for <webhook@archiver.kernel.org>; Wed, 28 Sep 2022 06:03:36 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
- [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web10.4667.1664345012830122969
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABB25C32771
+	for <webhook@archiver.kernel.org>; Wed, 28 Sep 2022 08:45:07 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
+ [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.5626.1664354704316539027
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Sep 2022 23:03:33 -0700
+ Wed, 28 Sep 2022 01:45:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=FWeA0STc;
- spf=pass (domain: mvista.com, ip: 209.85.215.175,
- mailfrom: hprajapati@mvista.com)
-Received: by mail-pg1-f175.google.com with SMTP id bh13so11338830pgb.4
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Sep 2022 23:03:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=8RtFOP8yTRgjKwF2hE8CDaHbu8PTtEsFijU0cWzp3wU=;
-        b=FWeA0STcdBaqZ8D91syP241jTDffOvJHKiokEKldWxovk1o6FYL6nPtFFbww/5rCP2
-         w0rchG6OZ+hugKoj2UBP8Wx0Ltiq0si+JV5y24AEN5fFaEAIr5RX0K8QL6YmR3SW7/zh
-         SVgENt8ocZpHQxTyhwzxzPRn9TjzR8u3nhdOs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=8RtFOP8yTRgjKwF2hE8CDaHbu8PTtEsFijU0cWzp3wU=;
-        b=fanZorjn/bBo+77tRfhkYPAwhYh4uLBUiDXQlERXHrJKrFJ4mxvkb1Xu9vSj8Umzod
-         E7QgU0L8ElK5bFj75rnJyw5zo/2gFYvj3sC4npoWdsJVeQ/ftZ1Y1TX+4vpmb1/V+WU9
-         T86pvNkxLv4z0vcZAyxjg+7cwTgn5vTqUWhe4Y5/8IReYZX6hGZIo3e2Hj1sjRivo7RN
-         4xMHmcOjgfRVWdACR0/Qs04+TZ21r9ePnqmYjnFfZwNNCLJAQ0Ck5ugNaH3+ASBQPwvh
-         ZLFs3akHVgDHji5GvIs/aKuNa5wg2oQXK7KFRlGaY44XDGZOCCUh4jsJPg3fW7pKs0YC
-         nFSg==
-X-Gm-Message-State: ACrzQf0TwLWauefMVaFeGfYe+ZPdehRlref4Nbu0FtepeV+b3GmOKiWC
-	5V4ma1Mj3Gjsf2fpbckeJx29MYkVRNdkBw==
-X-Google-Smtp-Source: 
- AMsMyM6BF4fS3RGGrDy1EddL+SZLJTpIF6P5Yz6rySVxbSLRC4jMo+adzHGN+6A+/DKDg9iVCRFJQw==
-X-Received: by 2002:a05:6a00:2488:b0:540:e5e5:ba48 with SMTP id
- c8-20020a056a00248800b00540e5e5ba48mr33142596pfv.51.1664345011828;
-        Tue, 27 Sep 2022 23:03:31 -0700 (PDT)
-Received: from MVIN00024 ([150.129.170.172])
-        by smtp.gmail.com with ESMTPSA id
- r11-20020aa7988b000000b00540d75197f2sm3013696pfl.143.2022.09.27.23.03.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Sep 2022 23:03:31 -0700 (PDT)
-Received: by MVIN00024 (sSMTP sendmail emulation);
- Wed, 28 Sep 2022 11:33:25 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=jJb9zJY5;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.178.238,
+ mailfrom: prvs=6270d21deb=qi.chen@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
+ 28S6f07r024397
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Sep 2022 08:45:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=from : to :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS06212021;
+ bh=ZOKoM6CTDy3hw4ePcgABymjYTsqgbV9rDTGv/NveAnk=;
+ b=jJb9zJY5LRRvzSAlPsbSzo0vskDjPqjDHbK+hsa9Fup46e2i2IOWOttQHkoROdpVZa9O
+ 40wI0Q+m94rrsqAtbGqaorInqEepvjBqKACAsUf6aPhIzUlFjLkoa1+Vj1ZXObBaaiiX
+ thsaRVLNrIL5GB0PDZJAcehqABfxaH/hhmfbhHLGIlnxva6AiZyhz0kGYswexND+zL0z
+ DKKudwTE2aKiH77OTqQRMYY4GrwNa12fIpW9QrNiDRFldbwIfHFoeIBhR81LoYYUXRkz
+ gL9c90CAs70iQBmFUPj/xCIFpPp1cjY2X9qh7tTa2JlGGM2QVqe8zMJzl10tU3tKzPw5 dQ==
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2171.outbound.protection.outlook.com [104.47.55.171])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jsrv9kagd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Wed, 28 Sep 2022 08:45:03 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jUAK989/kZfKR3RklbrfOP6TCBhmafx3weSzJRnDGmZy6JzXCYIXf0t1AE58WsmyISlcX4oPifbeIFiR/45HHAcVl3DqAvWYcHiw/nQjfO/lnBdXnYpQHIonS81BmslUSZQIu2yU321B4mU2Jk642FvYRJL6k7KrPzu7ckgWMdtUG9Rq4FcHyDvNrAoBy4N18qfkTPKp7hUG640SSWfje5yAzqN3elhkr8lrpzharkNcLVH36a5auOPOPdRCimax98qKT93tdo1aBi6H/aqGNXISNo36a0voTWU/rbooQ3kDPvNyzbfbJkaounmJP6uTaS4khSUsZfzcj2+REBOfmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZOKoM6CTDy3hw4ePcgABymjYTsqgbV9rDTGv/NveAnk=;
+ b=czpw6spdUNHF1D/Uu4h9okit5LAij+MLPzd2Rj7ajFcVcP2lE9dC3CsHN2txsI6OqSx+qf0tU6817/STzz+Er2UAU7LbxkiaE+2JV3BWXRchRIU1MtWNKqnIWP1Cqtf4dMdwp67AJnueO5ye8pl33ZIzJ5KFx7j5G11ym2AnYaRbbgcD2RXJeRc44Pg7fsbNGtJVk9ZMKWTts6wimRRhJUBeh1chreSXwGBGRMv7nvqbFZpMaWbNVvGjhpaRFC71orUDc42vXLdjzdgcStY+AGKkPlm2FOmiAV915WUuym8H/yvdCU+AmsAy0UJqyBeUp8PVFDmiBN9swKEhpcq3Qw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by SJ1PR11MB6300.namprd11.prod.outlook.com (2603:10b6:a03:455::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.20; Wed, 28 Sep
+ 2022 08:45:00 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::46d4:1bf8:c70:29e9]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::46d4:1bf8:c70:29e9%5]) with mapi id 15.20.5676.017; Wed, 28 Sep 2022
+ 08:45:00 +0000
+From: Chen Qi <Qi.Chen@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [dunfell][PATCH] bluez: CVE-2022-39176 BlueZ allows physically
- proximate attackers
-Date: Wed, 28 Sep 2022 11:33:24 +0530
-Message-Id: <20220928060324.33519-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
+Subject: [OE-core][master][kirkstone][PATCH] useradd-example: do not use
+ unsupported clear text password
+Date: Wed, 28 Sep 2022 01:44:48 -0700
+Message-Id: <20220928084448.62273-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.37.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0117.namprd03.prod.outlook.com
+ (2603:10b6:a03:333::32) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|SJ1PR11MB6300:EE_
+X-MS-Office365-Filtering-Correlation-Id: d38dcad5-c66e-45f7-ed81-08daa12dba95
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	VfGEdsvsjUjzoaIw1QSaQc8Knmj4pPlxT49occdBt05RhhYOh7y49xwtEq/pfRDuCpCCeuNtqoUL3aHchK1GpF5Ekn+K6rLX0NGVCncs4DUwGTEe/5rGxwPrdxeYRGdVRjQ+tswovV3CQk9vUI+tgyxIuSRHWjiuHzvDlEHlWhLm8O84IzHOJ/MlYzsZxiioZwz3zrfXbZv4tMjXSufGaSD3zjU7rYr5b67ppsT1M44VZZLUnOUS6i+Qh2DF3q8YqkY3Zeuhm5SA39pP+yxP2Ei3YpNNujTsmvFRIxcNwfQU2ilRY/hPkV0CV+o9ROahN4X7nDclGB1HGkoKUZ+yWEJAXwA+YqQEGsGATalUR/dX5p1cygb9Q8v498xgXCYhapRVty7b/5MMACN+TLGFKMl8IZIyXfRG7BnlgxyQfZxyiGQEM4DN20WBntLkJJT5Shj2lRv84x4RdMv64Hv+Hkqa33UTIc1jYoZKPyg9BvM5v2O/7d74LO9rQspPKK0jBTI2cxw283sGDyvMfzXGyKtx/d8qZTkOr6FGt3NSqhhkX3nWnHU5lTC1r8ddIFSVvv7dtpCRnG9X/LZmZZKLiF6n4NC4JerWwpVAoZj0S4aDx017ec1ZQcnmMLd6jpmNszhduVVbieU+WwGXtyJONbtt/cw028hgUrv+3Njnx48yZQnv9t33nGdJGQ3GRpaRX0laVcyvRpxuSKdrOoUJSz3l7PZlN0JoFC3msmBdNg/EFR2k+UeFPgb6mvKyySpB5CwQ2kvF/Wolsvv92Xl69Q==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(366004)(136003)(346002)(39850400004)(376002)(451199015)(1076003)(66946007)(186003)(66476007)(66556008)(6916009)(36756003)(6486002)(2906002)(478600001)(6666004)(86362001)(5660300002)(2616005)(8676002)(38350700002)(38100700002)(52116002)(316002)(26005)(6512007)(6506007)(8936002)(41300700001)(83380400001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?FELcWXwebmgUW6iylKjJUSmwKdC9079sa+pZ7FHYqug/Oa5+F4qnEKDvsVq2?=
+ =?us-ascii?Q?263hDAe5NnLnQwZNupzUdMmun+7YPOfyw0+eztxGW25ukjyrhP5a7fSu/caV?=
+ =?us-ascii?Q?tK8qn/puFR/+tmcyW3nRmC0580gswERADNVzVJdhy5Zgm9beSrTAZoD2cnYp?=
+ =?us-ascii?Q?vOuret5nDdj7AN8S6GRlUdq5UoNUzeiEv8rCgiwbGTgviaD4sh8Hr7qpIcAF?=
+ =?us-ascii?Q?3le1L9B4675nV6r9MU4zSi7InwMvifYELcxqJwU1ozwzBP4pBOEf4+QNAShY?=
+ =?us-ascii?Q?yCTYkGhEejTWxFeq7XDYibFqOwqCKRpNSlONRWd/98SKcjbVb5VBD0uxysor?=
+ =?us-ascii?Q?1ZKIvKvszJZfzCYl2ss8ElAt8GckuC17u4rt/q9YkztxEYpyczY0Sv0XeykQ?=
+ =?us-ascii?Q?kIi8ixgDWoT+EYPHZqkQtBs6BPl5CF3lc14c0jelrWdLtrJ2Gi4ElTduXx3M?=
+ =?us-ascii?Q?RkaVWzbhcNm+t2r7zaCln1iBJSoDoETF7f+mrbHC0SLGzOKgaK5NzYLdPR8O?=
+ =?us-ascii?Q?RpvZOQXzYl2eBZ031LfFQCFDrGDa04VBkKFpo9H/hcZOoy5Xtvyib3Ud1eMY?=
+ =?us-ascii?Q?s7U9uGqby+3Y7xQjg3c8o18f25DTy5Vx6l1+M+g9jPLS67ccGeSdSwcMV+/7?=
+ =?us-ascii?Q?cT+RaLesqNAGjS5QvSoD3/j6DrkOqt8RNJugw7GP04KkifJUy4kTy5V5ezmV?=
+ =?us-ascii?Q?hrcQMv/P/8nLZDRamSQ13Ut6gOdxd8gW/4lDJxeGjQ2T7jbdafbGl6o13G+k?=
+ =?us-ascii?Q?xNv0uBEFj76hauQYA+jSDNkEP2pBDrIVXxdNkXCElquuKWQRzNxtQIhM3VWG?=
+ =?us-ascii?Q?sDA++E/K6N3GYkmWD/es5OwPQUYzMbqd+CtXiC3VvM4cIafpUVof91D4sZ7V?=
+ =?us-ascii?Q?T+8xy6d4AxMVBJBoECDfeHr64TeS2MeahjgEQb4yvrLwzwC+o1snUClcmB3t?=
+ =?us-ascii?Q?P+BdnBdZSJXrQk0O60QX4G+G/8fgZgYPrgew2bWLbfsQAWffR8ivSr6VpCNU?=
+ =?us-ascii?Q?ukFQJjlm15xR65ZjbflQVAE233g+bMNb6pR3g0KR7vfACXzSBjK9Y80myJPK?=
+ =?us-ascii?Q?RXQouodtmDuknfrKN/jQs39KAVKMKlMFHEiXKkCZb26ohJPUjc7zZvbcYLWs?=
+ =?us-ascii?Q?lcMnJyszmzkmwKZ+QyvvrG2Sn3AbBJP41H50z+PgRYsq5MK5ovPV4Uv8P6fE?=
+ =?us-ascii?Q?vhVoePe3tprF3b0PtZ62rBYDCtliq1amDWBqa8k9sH99VJ/G+7BKoL4MIice?=
+ =?us-ascii?Q?d/s2jaKB9om82cASHlloUerJVThDWxC/akJGsdDvVfyeuhp+M6vfTLA5OVTv?=
+ =?us-ascii?Q?rV7cYSlMzCQFi7ez9P6OUB6MAwdRRscWO5nr1QSx3c7uSaDxrLvTN0xhC46r?=
+ =?us-ascii?Q?EfIjeL4a4P3B36TJ21JB0fx0XkdlLtPEfFuskt2Wv6QKgvUR4FpYW6KQf4X2?=
+ =?us-ascii?Q?7E56oE1f4TscBsftoMnq3O2GUPsljtWv80ji6a2q718z5nxoHjddI6izf8iJ?=
+ =?us-ascii?Q?8sKhvj6QR5M2+L5esakprV9IHY7kLaSkv6baiLFHZvqjRMCnoiJeDURaL2KF?=
+ =?us-ascii?Q?O/o4VLN/oP5Z4x4CTv4fmS6IF5JSDqfCmKovmyq71Nvz3USstZla9rOb/bp7?=
+ =?us-ascii?Q?cg=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ d38dcad5-c66e-45f7-ed81-08daa12dba95
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2022 08:45:00.2803
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ aGrZ2NY6XKW8kCSiBlYW5eKcp1QQzd+jVxHu6AqT1fzIC3/4Wnw8HXH1l8ah2oZh+tDshLruooycoAP/oFg08A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6300
+X-Proofpoint-GUID: Yxe7HmMZJjELiwLCgrtRjTxDV5Q2hkSj
+X-Proofpoint-ORIG-GUID: Yxe7HmMZJjELiwLCgrtRjTxDV5Q2hkSj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-28_03,2022-09-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0
+ clxscore=1015 adultscore=0 phishscore=0 malwarescore=0 mlxscore=0
+ spamscore=0 priorityscore=1501 impostorscore=0 mlxlogscore=892
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209280052
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Sep 2022 06:03:36 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Sep 2022 08:45:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171139
+ https://lists.openembedded.org/g/openembedded-core/message/171140
 
-Source: https://bugs.launchpad.net/ubuntu/+source/bluez/+bug/1977968
-MR: 122140
-Type: Security Fix
-Disposition: Backport from https://launchpad.net/ubuntu/+source/bluez/5.53-0ubuntu3.6
-ChangeID: b989c7670a9b2bd1d11221e981eab0d162f3271c
-Description:
-	 CVE-2022-39176 bluez: BlueZ allows physically proximate attackers to obtain sensitive information because profiles/audio/avrcp.c does not validate params_len.
-Affects "bluez < 5.59"
+The clear text password support has been dropped. So let's just
+use a normal ecrypted one. The password remains to be 'user3'.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
- .../bluez5/bluez5/CVE-2022-39176.patch        | 126 ++++++++++++++++++
- 2 files changed, 127 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2022-39176.patch
+ meta-skeleton/recipes-skeleton/useradd/useradd-example.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 4d4348898a..eaac9ee849 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -56,6 +56,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://CVE-2021-3588.patch \
-           file://CVE-2021-3658.patch \
-            file://CVE-2022-0204.patch \
-+           file://CVE-2022-39176.patch \
-            "
- S = "${WORKDIR}/bluez-${PV}"
+diff --git a/meta-skeleton/recipes-skeleton/useradd/useradd-example.bb b/meta-skeleton/recipes-skeleton/useradd/useradd-example.bb
+index 3f4c42d714..cff624e2f9 100644
+--- a/meta-skeleton/recipes-skeleton/useradd/useradd-example.bb
++++ b/meta-skeleton/recipes-skeleton/useradd/useradd-example.bb
+@@ -33,8 +33,8 @@ USERADD_PACKAGES = "${PN} ${PN}-user3"
+ USERADD_PARAM:${PN} = "-u 1200 -d /home/user1 -r -s /bin/bash user1; -u 1201 -d /home/user2 -r -s /bin/bash user2"
  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/CVE-2022-39176.patch b/meta/recipes-connectivity/bluez5/bluez5/CVE-2022-39176.patch
-new file mode 100644
-index 0000000000..7bd1f5f80f
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/CVE-2022-39176.patch
-@@ -0,0 +1,126 @@
-+From 752c7f707c3cc1eb12eadc13bc336a5c484d4bdf Mon Sep 17 00:00:00 2001
-+From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Wed, 28 Sep 2022 10:45:53 +0530
-+Subject: [PATCH] CVE-2022-39176
-+
-+Upstream-Status: Backport [https://launchpad.net/ubuntu/+source/bluez/5.53-0ubuntu3.6]
-+CVE: CVE-2022-39176
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ profiles/audio/avdtp.c | 56 +++++++++++++++++++++++++++---------------
-+ profiles/audio/avrcp.c |  8 ++++++
-+ 2 files changed, 44 insertions(+), 20 deletions(-)
-+
-+diff --git a/profiles/audio/avdtp.c b/profiles/audio/avdtp.c
-+index 782268c..0adf413 100644
-+--- a/profiles/audio/avdtp.c
-++++ b/profiles/audio/avdtp.c
-+@@ -1261,43 +1261,53 @@ struct avdtp_remote_sep *avdtp_find_remote_sep(struct avdtp *session,
-+ 	return NULL;
-+ }
-+ 
-+-static GSList *caps_to_list(uint8_t *data, int size,
-++static GSList *caps_to_list(uint8_t *data, size_t size,
-+ 				struct avdtp_service_capability **codec,
-+ 				gboolean *delay_reporting)
-+ {
-++	struct avdtp_service_capability *cap;
-+ 	GSList *caps;
-+-	int processed;
-+ 
-+ 	if (delay_reporting)
-+ 		*delay_reporting = FALSE;
-+ 
-+-	for (processed = 0, caps = NULL; processed + 2 <= size;) {
-+-		struct avdtp_service_capability *cap;
-+-		uint8_t length, category;
-++	if (size < sizeof(*cap))
-++		return NULL;
-++
-++	for (caps = NULL; size >= sizeof(*cap);) {
-++		struct avdtp_service_capability *cpy;
-+ 
-+-		category = data[0];
-+-		length = data[1];
-++		cap = (struct avdtp_service_capability *)data;
-+ 
-+-		if (processed + 2 + length > size) {
-++		if (sizeof(*cap) + cap->length > size) {
-+ 			error("Invalid capability data in getcap resp");
-+ 			break;
-+ 		}
-+ 
-+-		cap = g_malloc(sizeof(struct avdtp_service_capability) +
-+-					length);
-+-		memcpy(cap, data, 2 + length);
-++		if (cap->category == AVDTP_MEDIA_CODEC &&
-++					cap->length < sizeof(**codec)) {
-++			error("Invalid codec data in getcap resp");
-++			break;
-++		}
-++
-++		cpy = btd_malloc(sizeof(*cpy) + cap->length);
-++		memcpy(cpy, cap, sizeof(*cap) + cap->length);
-+ 
-+-		processed += 2 + length;
-+-		data += 2 + length;
-++		size -= sizeof(*cap) + cap->length;
-++		data += sizeof(*cap) + cap->length;
-+ 
-+-		caps = g_slist_append(caps, cap);
-++		caps = g_slist_append(caps, cpy);
-+ 
-+-		if (category == AVDTP_MEDIA_CODEC &&
-+-				length >=
-+-				sizeof(struct avdtp_media_codec_capability))
-+-			*codec = cap;
-+-		else if (category == AVDTP_DELAY_REPORTING && delay_reporting)
-+-			*delay_reporting = TRUE;
-++		switch (cap->category) {
-++		case AVDTP_MEDIA_CODEC:
-++			if (codec)
-++				*codec = cpy;
-++			break;
-++		case AVDTP_DELAY_REPORTING:
-++			if (delay_reporting)
-++				*delay_reporting = TRUE;
-++			break;
-++		}
-+ 	}
-+ 
-+ 	return caps;
-+@@ -1494,6 +1504,12 @@ static gboolean avdtp_setconf_cmd(struct avdtp *session, uint8_t transaction,
-+ 					&stream->codec,
-+ 					&stream->delay_reporting);
-+ 
-++	if (!stream->caps || !stream->codec) {
-++		err = AVDTP_UNSUPPORTED_CONFIGURATION;
-++		category = 0x00;
-++		goto failed_stream;
-++	}
-++
-+ 	/* Verify that the Media Transport capability's length = 0. Reject otherwise */
-+ 	for (l = stream->caps; l != NULL; l = g_slist_next(l)) {
-+ 		struct avdtp_service_capability *cap = l->data;
-+diff --git a/profiles/audio/avrcp.c b/profiles/audio/avrcp.c
-+index d9471c0..0233d53 100644
-+--- a/profiles/audio/avrcp.c
-++++ b/profiles/audio/avrcp.c
-+@@ -1916,6 +1916,14 @@ static size_t handle_vendordep_pdu(struct avctp *conn, uint8_t transaction,
-+ 		goto err_metadata;
-+ 	}
-+ 
-++	operands += sizeof(*pdu);
-++	operand_count -= sizeof(*pdu);
-++
-++	if (pdu->params_len != operand_count) {
-++		DBG("AVRCP PDU parameters length don't match");
-++		pdu->params_len = operand_count;
-++	}
-++
-+ 	for (handler = session->control_handlers; handler->pdu_id; handler++) {
-+ 		if (handler->pdu_id == pdu->pdu_id)
-+ 			break;
-+-- 
-+2.25.1
-+
+ # user3 will be managed in the useradd-example-user3 pacakge:
+-# As an example, we use the -P option to set clear text password for user3
+-USERADD_PARAM:${PN}-user3 = "-u 1202 -d /home/user3 -r -s /bin/bash -P 'user3' user3"
++# As an example, we use the -p option to set password ('user3') for user3
++USERADD_PARAM:${PN}-user3 = "-u 1202 -d /home/user3 -r -s /bin/bash -p '\$6\$XAWr.8nc\$bUE4pYYaVb8n6BbnBitU0zeJMtfhTpFpiOBLL9zRl4e4YQo88UU4r/1kjRzmTimCy.BvDh4xoFwVqcO.pihLa1' user3"
+ 
+ # GROUPADD_PARAM works the same way, which you set to the options
+ # you'd normally pass to the groupadd command. This will create
 -- 
-2.25.1
+2.37.1
 
 
