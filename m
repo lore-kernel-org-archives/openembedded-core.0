@@ -1,92 +1,113 @@
-Return-Path: <jay.shen.teoh@intel.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DB9EC04A95
-	for <webhook@archiver.kernel.org>; Wed, 28 Sep 2022 10:28:58 +0000 (UTC)
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by mx.groups.io with SMTP id smtpd.web09.6299.1664360927855635613
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AA5EC04A95
+	for <webhook@archiver.kernel.org>; Wed, 28 Sep 2022 11:00:18 +0000 (UTC)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by mx.groups.io with SMTP id smtpd.web08.6511.1664362811283055150
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Sep 2022 03:28:48 -0700
+ Wed, 28 Sep 2022 04:00:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=Tr4h0PEF;
- spf=pass (domain: intel.com, ip: 192.55.52.151,
- mailfrom: jay.shen.teoh@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664360928; x=1695896928;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=Bgz8sY0eksDYHM+LzIKgolTMUATs1wbYrYRry+xDnGY=;
-  b=Tr4h0PEFglKoLupWcUD/M8bf6ACcCgb60/9xf5jZYQBAbSnPqOiN4/vc
-   Oi6/ggNhhp1MmzlVVsfCQcLomoDCDFTh1VF4wB0kVB/lxLModIRbQyU8Q
-   9bGCrh4144xxE5Sabx/b5vK7CWitUEGDzUzGR4a9T4WE46kANWootO53W
-   uhXuaS8AUE0MjnMsCgL1/qo/Jh8NSkwN7O1FzkQSd3kMwJs2sxH++2uU4
-   DOXLBMAbu+TKpEaQCQoQMmWbCm5vWTzSm05c6jHDalpiNKIiIzp5g6rRL
-   Il+TbQCyYkJkxeQ37E2kmCQaOGI3bKNBPH56j/vE4knQDJgGtyPFBl1rl
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="281935939"
-X-IronPort-AV: E=Sophos;i="5.93,351,1654585200";
-   d="scan'208";a="281935939"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 03:28:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="621874015"
-X-IronPort-AV: E=Sophos;i="5.93,351,1654585200";
-   d="scan'208";a="621874015"
-Received: from andromeda02.png.intel.com ([10.221.253.198])
-  by orsmga002.jf.intel.com with ESMTP; 28 Sep 2022 03:28:40 -0700
-From: jay.shen.teoh@intel.com
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone][Patch 2/2] webkitgtk: Update to 2.36.7
-Date: Wed, 28 Sep 2022 18:28:34 +0800
-Message-Id: <20220928102834.3813992-2-jay.shen.teoh@intel.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220928102834.3813992-1-jay.shen.teoh@intel.com>
-References: <20220928102834.3813992-1-jay.shen.teoh@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=IgMBL+0p;
+ spf=pass (domain: gmail.com, ip: 209.85.208.175,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f175.google.com with SMTP id x29so13949480ljq.2
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 28 Sep 2022 04:00:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=YIG3RjuZ2W29QUNVNbR7JsYThcrvUbxvGLe2Pm117fw=;
+        b=IgMBL+0pWlxmNxUB6WBcvFhRs/nlUASDys+A3TmAQznFzuyQcsRPXhaI9N9RFAzXID
+         yg4blKzssG65QHmJ/qUoOcR3cgChswdlRujjOhlF4t27pcypC9uwrFqd9GnIjJu+S6La
+         LVx3u57/c6tqCmpBzdi3yKL0NuNyg7sIEHwaEV5BW0lmBoBNUzfQkl7Q8gq00Df4jVEk
+         SAy7PBPgtsMTdYCIXDpDgSqcTxXL6ve6wsyiSXLhd/IO3K+WrOY+hauzJ+gXqXlAyObX
+         dULRyAuYOPB5F8uwMSHuO2++gWSIE6/bbrSZkQl2hJKQpmZyg0/vAof66SMTIfhmh372
+         fVLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=YIG3RjuZ2W29QUNVNbR7JsYThcrvUbxvGLe2Pm117fw=;
+        b=6ESl9fwQ0thiJp/I4H8vzBJwlYud64oGyy57SShcG/3kRRz1IFPRHB+GXhucwi9Wuj
+         JwMRvDz4zg/iuGaOENf10+2wfBB48bKeuggi0B4FfBfSCQUyzPF8Ijhuamy8DzSbty8t
+         dNcv8hn0JSMWSAXgYU+3GwP/E7a5xqgKZGs9rXsmV+JcyNuJOqStsp3Pvho+JLlg7LIm
+         VYbsRK1dcTyXE5hI/Wjwcpa8SPa2roFVQDIFyHajawX7A6KiUlF/JhNHygaGuBPE7PCc
+         hiK2xMwho3GDy5xubi8h+qASssgRobwq7s9HimT4M+ksmDNwIQTbLgG1fPFakGR2W1hk
+         Qbmg==
+X-Gm-Message-State: ACrzQf1lPJwahHKt6JYZ6cbz8BB0g3xeTMumi0cI1bb7ztlfBlZ9lMps
+	g03W/qh3yB9X5+nGeWYom6FoTYJFTeOAnKDW/qY=
+X-Google-Smtp-Source: 
+ AMsMyM5Pv9z/d3Ozbq6MVgTX2ger4Yz3q++rY+x01viPNCBvYgFO7mRVU7f0QxH5ypxjh5+eciS8rEsHYE+SHrsCdUI=
+X-Received: by 2002:a05:651c:17aa:b0:26c:27cd:3fe3 with SMTP id
+ bn42-20020a05651c17aa00b0026c27cd3fe3mr10924218ljb.68.1664362809577; Wed, 28
+ Sep 2022 04:00:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220922124708.2218995-1-pkj@axis.com>
+ <20220922124708.2218995-2-pkj@axis.com>
+ <28947223c26b05f58c4b6cd13919b025617318a2.camel@linuxfoundation.org>
+ <ee0aa31d5fa34a5ba889e3518d8b2a95@axis.com>
+ <CANNYZj__Gud2xeWrtK=tZaY_BGQ2d4tVVJLfZt4R0aqzUadK-A@mail.gmail.com>
+ <c78bac9a0a53243336d237bc5f6d51758f5a5dfe.camel@linuxfoundation.org>
+ <6dbf0e264c68433a8aee1a772015c852@axis.com>
+ <1718C14CEB633922.9698@lists.openembedded.org>
+ <CANNYZj_rRJFsnOcSrkONYfmkZdUe1eCZKYcvnkpPj7jm7eVu+g@mail.gmail.com>
+ <faab0d74b95849bdb1d39ac0146dd523@axis.com>
+ <CANNYZj_2+-GiZ4Qa67GJ3KFJMqFxLFXW6XKMtL+a9=NrPmi66A@mail.gmail.com>
+ <77825785242f4d99b336af0da596e286@axis.com>
+ <CANNYZj81uAD1wMJyizCHTiwCnCnw_XMOLqPOzKGu0Og1sejauw@mail.gmail.com>
+ <1568abaf9b604bfaae699a53c537d51b@axis.com>
+ <CANNYZj_L2+OJE4TYt4A2QVXjsmSOVWKbWD4EPz=AkQj5snxXgA@mail.gmail.com>
+ <b1adfa5db65d431a8959e07181bfffa2@axis.com>
+In-Reply-To: <b1adfa5db65d431a8959e07181bfffa2@axis.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 28 Sep 2022 12:59:57 +0200
+Message-ID: 
+ <CANNYZj_m0cD7zb6BZt4MjUimtU7KuEsSn2RWmbTYsL=Msgu2nw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] oe-setup-builddir: Do not hardcode invalid
+ paths for templates
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Sep 2022 10:28:58 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Sep 2022 11:00:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171145
+ https://lists.openembedded.org/g/openembedded-core/message/171146
 
-From: Khem Raj <raj.khem@gmail.com>
+On Wed, 28 Sept 2022 at 11:54, Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+> If it is the latter, it wouldn't work (unless I yet again duplicate the
+> code to figure out the build directory before sourcing the real
+> oe-init-build-env) since before sourcing the real oe-init-build-env I
+> cannot tell if there already is a bblayers.conf file in which case the
+> wrapper should not add/remove any layers, and after sourcing the real
+> oe-init-build-env it is too late as I then cannot distinguish between
+> this being the first time oe-init-build-env is sourced or just a
+> reinitialization of an already existing environment.
 
-including fixes for CVE-2022-32893
-(From OE-Core rev: edbfd06927ef4a9bb1ea1ff80fbc901ede89ce42)
+Yes this is the scenario I was thinking of: what should happen inside
+the wrapper:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
----
- .../webkit/{webkitgtk_2.36.6.bb => webkitgtk_2.36.7.bb}        | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-sato/webkit/{webkitgtk_2.36.6.bb => webkitgtk_2.36.7.bb} (98%)
+. oe-init-build-env (this takes the original poky template)
+bitbake-layers add-layer meta-a
+bitbake-layers add-layer meta-b
+...
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.6.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
-similarity index 98%
-rename from meta/recipes-sato/webkit/webkitgtk_2.36.6.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
-index 37b977f9ba..026e24ae39 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.36.6.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
-@@ -16,8 +16,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://reproducibility.patch \
-            file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch \
-            "
--
--SRC_URI[sha256sum] = "1193bc821946336776f0dfa5e0dca5651f1e57157eda12da4721d2441f24a61a"
-+SRC_URI[sha256sum] = "0c260cf2b32f0481d017670dfed1b61e554967cd067195606c9f9eb5fe731743"
- 
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
- 
--- 
-2.37.3
+Why would you want to distinguish between whether this is against a
+newly made dir
+or an older one? I just checked: adding a layer that is already in
+bblayers.conf does nothing.
 
+I'm also unsure why are you so adamantly against checking if the build
+dir already exists before the fact. It's not that difficult (either
+it's relative to `pwd` or an absolute path), and not likely to change
+upstream.
+
+Alex
 
