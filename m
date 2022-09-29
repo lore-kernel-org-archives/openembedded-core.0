@@ -1,99 +1,109 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3622CC07E9D
-	for <webhook@archiver.kernel.org>; Thu, 29 Sep 2022 03:32:33 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
- [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web09.6481.1664422350986745512
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FA43C07E9D
+	for <webhook@archiver.kernel.org>; Thu, 29 Sep 2022 06:49:54 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web11.7497.1664434184315890829
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Sep 2022 20:32:31 -0700
+ Wed, 28 Sep 2022 23:49:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=fOdWwIdo;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.178.238,
- mailfrom: prvs=727166c06f=kai.kang@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 28T3La3O003361;
-	Thu, 29 Sep 2022 03:32:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=PPS06212021;
- bh=3vEUQahLARPXtmCISj3BKRSIzDcugRawi4vpksLFXKQ=;
- b=fOdWwIdoAmF5SM85xCDEVr6EwBxQnFmbeIRtSyFqmzVhIDHHVUK+icRXag/glcmkZS7A
- hxCOIq2NFpW2VVId8Xi9L/D6qiwp1Jr15JZd/wJaDG6i6Lg13+3wzSrnOdmof1YP5tOc
- snMrp8eftiOZonjxL8s2EZ+wBCT0ryNHbWVFlr6CcZMY64Z4h9TLM662y1TJ1Dw6WylI
- Cn01JfDK2gwcixeM+1R6lYHPykoCaNXAO2nQmWkiD0m86UhYv0vc1Q71Q0vSYKPdeTVL
- 9VvxEowxJH6wSX8JAZ+Q3o+L/cFQ4vjGhnevQ6gpkgJd1CuanFC+3w56/duFJz4bu1s3 rQ==
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com
- [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jsq4245ef-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 29 Sep 2022 03:32:26 +0000
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 28 Sep 2022 20:32:25 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Wed, 28 Sep 2022 20:32:24 -0700
-From: <kai.kang@windriver.com>
-To: <Ross.Burton@arm.com>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] binutils: apply override toolchain-clang last
-Date: Thu, 29 Sep 2022 11:32:10 +0800
-Message-ID: <20220929033210.13292-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=N7aTdnEA;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id x18so610549wrm.7
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 28 Sep 2022 23:49:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date;
+        bh=WBeQF6c+aSNIy0SV1EdEwVT52MQnxM1Cmt1IVHQFvjQ=;
+        b=N7aTdnEAzoq95tz8v3sWnc2GHappNdNi48RqWrtmkWDHcdH13rojBHhPRMbLS51o64
+         KG7b2Fpgcl5Jn2oUYUlDGHvCD1qKVLBTLw11kXSBs4gkLcOqggkobOl6h/0NczzUSDwy
+         tLp+BxmHqMmx7llcv/4S8m+p7bOwwGZnDQiVs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=WBeQF6c+aSNIy0SV1EdEwVT52MQnxM1Cmt1IVHQFvjQ=;
+        b=CsDSS12jNQf6vz2VkiP4IHx9Hl0bpaNanz5QXob9N6y1Qf7GTVUKcfmEJQfG96I+Ly
+         Z0HBs71CUjj4fTJ1yw/bi6XapCDjEU+9qFnWhjNTrjPKwUIgGvZo39Zn5UzJzKrgQdPx
+         Q7FfxeHAaUn6Zf6+rKWQMSnFHUWSSF+2UAISbQd8YbCFYQm0xABzrega4B31YXQ8L5Mn
+         rpKbA9ev1x7G2ROv/LRR8drWnXVgWdxNkXbXICrFja0Q/XJPrvsjMzxWcWiIEdh/BWz8
+         vNanm+IXmBTc1dvRd1fKIm29ARk0AMsMMXC0xKvEO9dp/TRWK3DIzDRjApaK2WtQltf7
+         fOpw==
+X-Gm-Message-State: ACrzQf0jKLfpTYM0Kg3T81+Hp/LPYMlQi9UQmGNNmJXm+FQoYhTmjr6W
+	VzjnmYc523sS8T1yMNYhBF8t/A==
+X-Google-Smtp-Source: 
+ AMsMyM5IfdhVlbXoX8fFBLGWXsGzyoi/bRaM4daLjXrliYU0sz8zReAZnzCpeEYXDby2HWBXKyFm5w==
+X-Received: by 2002:a5d:6d0f:0:b0:228:e075:b148 with SMTP id
+ e15-20020a5d6d0f000000b00228e075b148mr967626wrq.156.1664434182710;
+        Wed, 28 Sep 2022 23:49:42 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:6fd0:d3d3:fcc6:1fd6?
+ ([2001:8b0:aba:5f3c:6fd0:d3d3:fcc6:1fd6])
+        by smtp.gmail.com with ESMTPSA id
+ z2-20020a05600c0a0200b003a4efb794d7sm3853314wmp.36.2022.09.28.23.49.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Sep 2022 23:49:42 -0700 (PDT)
+Message-ID: 
+ <52f69af19ea8a1876dab73ce1bebc795f71d4ab3.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] binutils: apply override toolchain-clang last
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: kai <kai.kang@windriver.com>, Ross.Burton@arm.com
+Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 29 Sep 2022 07:49:39 +0100
+In-Reply-To: <20220929033210.13292-1-kai.kang@windriver.com>
+References: <20220929033210.13292-1-kai.kang@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 8s2Lmj5qTHpaPVrkjjX_zoQoWVdDf1zb
-X-Proofpoint-GUID: 8s2Lmj5qTHpaPVrkjjX_zoQoWVdDf1zb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-29_02,2022-09-28_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 mlxlogscore=758
- malwarescore=0 adultscore=0 clxscore=1015 priorityscore=1501 spamscore=0
- phishscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
- definitions=main-2209290020
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Sep 2022 03:32:33 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Sep 2022 06:49:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171165
+ https://lists.openembedded.org/g/openembedded-core/message/171166
 
-From: Kai Kang <kai.kang@windriver.com>
+On Thu, 2022-09-29 at 11:32 +0800, kai wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+>=20
+> It disables gprofng for toolchain clang, so it should clear GPROFNG_ALTS
+> when clang is used. But override 'toolchain-clang' is applied before
+> overrides 'TRANSLATED_TARGET_ARCH' such as x86-64, then GPROFNG_ALTS is
+> still set and not cleared. Append 'forcevariable' to apply it last then
+> make it work as expected.
+>=20
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  meta/recipes-devtools/binutils/binutils.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-d=
+evtools/binutils/binutils.inc
+> index 4dde387a8a..c7113f8a1f 100644
+> --- a/meta/recipes-devtools/binutils/binutils.inc
+> +++ b/meta/recipes-devtools/binutils/binutils.inc
+> @@ -50,7 +50,7 @@ GPROFNG_ALTS:x86-64 =3D "${GPROFNGS}"
+>  GPROFNG_ALTS:aarch64 =3D "${GPROFNGS}"
+> =20
+>  # it disables gprofng for clang and musl in the bb file
+> -GPROFNG_ALTS:toolchain-clang =3D ""
+> +GPROFNG_ALTS:toolchain-clang:forcevariable =3D ""
+>  GPROFNG_ALTS:libc-musl =3D ""
+> =20
+>  LDGOLD_ALTS ?=3D "ld.gold dwp"
 
-It disables gprofng for toolchain clang, so it should clear GPROFNG_ALTS
-when clang is used. But override 'toolchain-clang' is applied before
-overrides 'TRANSLATED_TARGET_ARCH' such as x86-64, then GPROFNG_ALTS is
-still set and not cleared. Append 'forcevariable' to apply it last then
-make it work as expected.
+I've never wanted to see forcevariable used in layers, it is really
+there as a last resort for end users. There must be some other way we
+can arrange this?
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-devtools/binutils/binutils.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index 4dde387a8a..c7113f8a1f 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -50,7 +50,7 @@ GPROFNG_ALTS:x86-64 = "${GPROFNGS}"
- GPROFNG_ALTS:aarch64 = "${GPROFNGS}"
- 
- # it disables gprofng for clang and musl in the bb file
--GPROFNG_ALTS:toolchain-clang = ""
-+GPROFNG_ALTS:toolchain-clang:forcevariable = ""
- GPROFNG_ALTS:libc-musl = ""
- 
- LDGOLD_ALTS ?= "ld.gold dwp"
--- 
-2.17.1
-
+Richard
 
