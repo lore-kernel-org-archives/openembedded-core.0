@@ -1,114 +1,176 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <jay.shen.teoh@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF514C07E9D
-	for <webhook@archiver.kernel.org>; Thu, 29 Sep 2022 08:05:44 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web09.7912.1664438743499271798
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2A3FC6FA82
+	for <webhook@archiver.kernel.org>; Thu, 29 Sep 2022 08:33:34 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by mx.groups.io with SMTP id smtpd.web12.8007.1664440406631181905
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Sep 2022 01:05:43 -0700
+ Thu, 29 Sep 2022 01:33:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=HZDDnF6C;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=727166c06f=kai.kang@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 28T5lhEF003458;
-	Thu, 29 Sep 2022 01:05:42 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=PPS06212021;
- bh=v98z6t7uI9pKLWPM6xa6EYx9pP/GcPNlJbTjsbTBsi8=;
- b=HZDDnF6Cwv342BGLls4uKmsj9lHNKc39UKiNy04TFqADnnzBA0wm2z9g/VSYjeLFMI6L
- NBC/RdxdIsYCi/csFnEf+GynDm1PLmxyDOzf5iLdkxQUa1JGYIY5jNRCCtPwTaLdR2Ns
- 5Ttm7xlH8IAIhqu1nIz3DDA3m+GJZR4gvHTX24UdfNNM7oyW2bg228pxwMJG4HB4R2Ap
- pSf30U3crSKzpFzyg89teODFiapjx5rLYwzDlAwJeAPdvURxNv9GXJHBTijtiEMv4hLp
- JVKIRvt+lQfE7dp2nbPj4W6m1+yLupOTcVBH3uLiLDWtx+seTimFw1fwBRIP3hmcnhWI wA==
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com
- [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jt1dkc2a0-3
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 29 Sep 2022 01:05:42 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 29 Sep 2022 01:05:41 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Thu, 29 Sep 2022 01:05:41 -0700
-From: <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] binutils: another way to clear GPROFNG_ALTS for clang and
- musl
-Date: Thu, 29 Sep 2022 16:05:36 +0800
-Message-ID: <20220929080536.5400-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=RyorNvbL;
+ spf=pass (domain: intel.com, ip: 192.55.52.115,
+ mailfrom: jay.shen.teoh@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664440408; x=1695976408;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=JtjVVl5Us61FESWIXxLrtxm07pyw1ER+GZtTEkyoMzU=;
+  b=RyorNvbLmpuskKf1fl8gHOLAGfPEF+m5qm5TtaI3pZy3zGf1inpdEvTZ
+   E0frur7yfNUk9yu7xcaDr3i34sb/paEhwsQ8njZmGYXif0SshQr2PUb2j
+   +xvsngWnFBV/DWYGVRaLchHsq5DHgCNymtGR7e0jeuSQS9Lc1S4zaZ4kT
+   /IvKMWI8PIhLNOVTUb1IO5ybgGZnMaOsJFlO1XycTZ8zk4tbAo5OFzoPG
+   JFGEzBtqm+gFg4iHiKQFKYl14T/33bHolVUx8NvTNjtYuWZQ9YHvo420v
+   iZXK6YIVPCF4lEJnh3ryPEq/9n2XhILMXK62fkbIXEsLGTKavcGo+hUMb
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="301806919"
+X-IronPort-AV: E=Sophos;i="5.93,354,1654585200";
+   d="scan'208";a="301806919"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2022 01:33:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="684747914"
+X-IronPort-AV: E=Sophos;i="5.93,354,1654585200";
+   d="scan'208";a="684747914"
+Received: from andromeda02.png.intel.com ([10.221.253.198])
+  by fmsmga008.fm.intel.com with ESMTP; 29 Sep 2022 01:33:27 -0700
+From: jay.shen.teoh@intel.com
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone][PATCH 2/2] tiff: backport fix for CVE-2022-2953
+Date: Thu, 29 Sep 2022 16:33:19 +0800
+Message-Id: <20220929083319.2225406-2-jay.shen.teoh@intel.com>
+X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20220929083319.2225406-1-jay.shen.teoh@intel.com>
+References: <20220929083319.2225406-1-jay.shen.teoh@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-GUID: S0B8tO1yZc2_Dzq9X4RTODHzeRb3c3Qz
-X-Proofpoint-ORIG-GUID: S0B8tO1yZc2_Dzq9X4RTODHzeRb3c3Qz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-29_04,2022-09-29_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- priorityscore=1501 malwarescore=0 mlxscore=0 lowpriorityscore=0
- impostorscore=0 suspectscore=0 mlxlogscore=932 adultscore=0 bulkscore=0
- clxscore=1015 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2209290047
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Sep 2022 08:05:44 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Sep 2022 08:33:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171173
+ https://lists.openembedded.org/g/openembedded-core/message/171175
 
-From: Kai Kang <kai.kang@windriver.com>
+From: Teoh Jay Shen <jay.shen.teoh@intel.com>
 
-It disables gprofng for toolchain clang and libc musl, so GPROFNG_ALTS
-should be cleared for them. But override 'toolchain-clang' is applied
-before overrides 'TRANSLATED_TARGET_ARCH' such as x86-64, then
-GPROFNG_ALTS is still set and not cleared.
+Link for the patch : https://gitlab.com/libtiff/libtiff/-/commit/48d6ece8389b01129e7d357f0985c8f938ce3da3
 
-Apply overrides 'toolchain-clang' and 'libc-musl' for GPROFNGS rather
-than GPROFNG_ALTS to make it work as expected.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
 ---
- meta/recipes-devtools/binutils/binutils.inc | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ .../libtiff/tiff/CVE-2022-2953.patch          | 86 +++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.4.0.bb |  1 +
+ 2 files changed, 87 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-2953.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index 4dde387a8a..98acf0a222 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -44,15 +44,16 @@ GPROFNGS = " \
- 	gp-display-text \
- 	gprofng \
- "
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2022-2953.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-2953.patch
+new file mode 100644
+index 0000000000..2122b46566
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-2953.patch
+@@ -0,0 +1,86 @@
++CVE: CVE-2022-2953
++Upstream-Status: Backport
++Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
 +
-+# it disables gprofng for clang and musl in the bb file
-+GPROFNGS:toolchain-clang = ""
-+GPROFNGS:libc-musl = ""
++From 8fe3735942ea1d90d8cef843b55b3efe8ab6feaf Mon Sep 17 00:00:00 2001
++From: Su_Laus <sulau@freenet.de>
++Date: Mon, 15 Aug 2022 22:11:03 +0200
++Subject: [PATCH] =?UTF-8?q?According=20to=20Richard=20Nolde=20https://gitl?=
++ =?UTF-8?q?ab.com/libtiff/libtiff/-/issues/401#note=5F877637400=20the=20ti?=
++ =?UTF-8?q?ffcrop=20option=20=E2=80=9E-S=E2=80=9C=20is=20also=20mutually?=
++ =?UTF-8?q?=20exclusive=20to=20the=20other=20crop=20options=20(-X|-Y),=20-?=
++ =?UTF-8?q?Z=20and=20-z.?=
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
- GPROFNG_ALTS ?= ""
- GPROFNG_ALTS:x86 = "${GPROFNGS}"
- GPROFNG_ALTS:x86-64 = "${GPROFNGS}"
- GPROFNG_ALTS:aarch64 = "${GPROFNGS}"
++This is now checked and ends tiffcrop if those arguments are not mutually exclusive.
++
++This MR will fix the following tiffcrop issues: #349, #414, #422, #423, #424
++---
++ tools/tiffcrop.c | 31 ++++++++++++++++---------------
++ 1 file changed, 16 insertions(+), 15 deletions(-)
++
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index 90286a5e..c3b758ec 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -173,12 +173,12 @@ static   char tiffcrop_rev_date[] = "02-09-2022";
++ #define ROTATECW_270 32
++ #define ROTATE_ANY (ROTATECW_90 | ROTATECW_180 | ROTATECW_270)
++ 
++-#define CROP_NONE     0
++-#define CROP_MARGINS  1
++-#define CROP_WIDTH    2
++-#define CROP_LENGTH   4
++-#define CROP_ZONES    8
++-#define CROP_REGIONS 16
+++#define CROP_NONE     0     /* "-S" -> Page_MODE_ROWSCOLS and page->rows/->cols != 0 */
+++#define CROP_MARGINS  1     /* "-m" */
+++#define CROP_WIDTH    2     /* "-X" */
+++#define CROP_LENGTH   4     /* "-Y" */
+++#define CROP_ZONES    8     /* "-Z" */
+++#define CROP_REGIONS 16     /* "-z" */
++ #define CROP_ROTATE  32
++ #define CROP_MIRROR  64
++ #define CROP_INVERT 128
++@@ -316,7 +316,7 @@ struct crop_mask {
++ #define PAGE_MODE_RESOLUTION   1
++ #define PAGE_MODE_PAPERSIZE    2
++ #define PAGE_MODE_MARGINS      4
++-#define PAGE_MODE_ROWSCOLS     8
+++#define PAGE_MODE_ROWSCOLS     8    /* for -S option */
++ 
++ #define INVERT_DATA_ONLY      10
++ #define INVERT_DATA_AND_TAG   11
++@@ -781,7 +781,7 @@ static const char usage_info[] =
++ "             The four debug/dump options are independent, though it makes little sense to\n"
++ "             specify a dump file without specifying a detail level.\n"
++ "\n"
++-"Note:        The (-X|-Y), -Z and -z options are mutually exclusive.\n"
+++"Note:        The (-X|-Y), -Z, -z and -S options are mutually exclusive.\n"
++ "             In no case should the options be applied to a given selection successively.\n"
++ "\n"
++ ;
++@@ -2131,13 +2131,14 @@ void  process_command_opts (int argc, char *argv[], char *mp, char *mode, uint32
++ 		/*NOTREACHED*/
++       }
++     }
++-    /*-- Check for not allowed combinations (e.g. -X, -Y and -Z and -z are mutually exclusive) --*/
++-    char XY, Z, R;
+++    /*-- Check for not allowed combinations (e.g. -X, -Y and -Z, -z and -S are mutually exclusive) --*/
+++    char XY, Z, R, S;
++     XY = ((crop_data->crop_mode & CROP_WIDTH) || (crop_data->crop_mode & CROP_LENGTH));
++     Z = (crop_data->crop_mode & CROP_ZONES);
++     R = (crop_data->crop_mode & CROP_REGIONS);
++-    if ((XY && Z) || (XY && R) || (Z && R)) {
++-        TIFFError("tiffcrop input error", "The crop options(-X|-Y), -Z and -z are mutually exclusive.->Exit");
+++    S = (page->mode & PAGE_MODE_ROWSCOLS);
+++    if ((XY && Z) || (XY && R) || (XY && S) || (Z && R) || (Z && S) || (R && S)) {
+++        TIFFError("tiffcrop input error", "The crop options(-X|-Y), -Z, -z and -S are mutually exclusive.->Exit");
++         exit(EXIT_FAILURE);
++     }
++   }  /* end process_command_opts */
++-- 
++2.34.1
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
+index e30df0b3e9..caf6f60479 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
+@@ -11,6 +11,7 @@ CVE_PRODUCT = "libtiff"
+ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://0001-fix-the-FPE-in-tiffcrop-415-427-and-428.patch \
+            file://CVE-2022-34526.patch \
++           file://CVE-2022-2953.patch \
+            "
  
--# it disables gprofng for clang and musl in the bb file
--GPROFNG_ALTS:toolchain-clang = ""
--GPROFNG_ALTS:libc-musl = ""
--
- LDGOLD_ALTS ?= "ld.gold dwp"
- LDGOLD_ALTS:riscv64 = ""
- LDGOLD_ALTS:riscv32 = ""
+ SRC_URI[sha256sum] = "917223b37538959aca3b790d2d73aa6e626b688e02dcda272aec24c2f498abed"
 -- 
-2.17.1
+2.37.3
 
 
