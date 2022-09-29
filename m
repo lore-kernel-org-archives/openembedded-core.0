@@ -1,1051 +1,210 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <kai.kang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BF98C6FA82
-	for <webhook@archiver.kernel.org>; Thu, 29 Sep 2022 07:03:24 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web09.7554.1664435003326573889
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BA9AC07E9D
+	for <webhook@archiver.kernel.org>; Thu, 29 Sep 2022 07:13:34 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
+ [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web08.7754.1664435604549544571
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Sep 2022 00:03:23 -0700
+ Thu, 29 Sep 2022 00:13:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ACBSv3jq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id s14so699458wro.0
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Sep 2022 00:03:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date;
-        bh=v4E6drA63atXg6qGW8KLRcgoICgRuND2WhOVZCjkQcg=;
-        b=ACBSv3jqfSBfsB8tVTNhGqE3zWAsSsJTsPIM1Kca+E6KS/D3yVTIN0szUJNmH8u6Q8
-         Ga7erzzNPm1R4ds3lhjzmDOV6TEmZp0TYb+S+XdnvSbDGk2xTEyjZIXCEwd3zqviMg9m
-         9HFRBcb9UcSlY7GmFg56XNoSiY42Rgc+30GFc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date;
-        bh=v4E6drA63atXg6qGW8KLRcgoICgRuND2WhOVZCjkQcg=;
-        b=ChWx2fMdCT8W7Gh6smxVfBwVflGcbesQ+UPpUzwArZuehBtN+0dFqmm6mwRlk+mHdq
-         3a2rgm344Eszv4DIJRwEtqAVYxcseRhG4unHx8owTZFnErgw5cXG35XHntyB6cQ/qnF+
-         dMmfQ64i/837eTvLKZjVyuha1e2RCTl141WSXRk+uWJB+c6Vn9d/OK82NmQIRObwSL7u
-         tfkYeqpflZuyOqKjK9S2ixxzEdg3MKECo5JcavLSHLqQNZrKQQrY85ESote8L04XcNr5
-         t3SDOTBIJSURntFKlXVBlcoWYCX6LIcKJz13OruvlHhv5gn9zdHh6Kf3OjKUYvqRCmeT
-         qjtA==
-X-Gm-Message-State: ACrzQf3PQLvE2xevkNLcEW98qd7vSpX45UYN/zpXGg7cHMRf0bmbWnSe
-	P3yUeS0mZS6AhqBPmYE8KGn6JjkglwsXsw==
-X-Google-Smtp-Source: 
- AMsMyM75CsOZMegYMVf8ylRCNyKKln/kzCeLNNIcyDHXhOpSQTWG7xTNnSLamSmJSHsK754FXNg4Zg==
-X-Received: by 2002:a05:6000:1048:b0:228:6898:aa50 with SMTP id
- c8-20020a056000104800b002286898aa50mr1015171wrx.233.1664435001214;
-        Thu, 29 Sep 2022 00:03:21 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:6fd0:d3d3:fcc6:1fd6?
- ([2001:8b0:aba:5f3c:6fd0:d3d3:fcc6:1fd6])
-        by smtp.gmail.com with ESMTPSA id
- q4-20020adf9dc4000000b0022cce7689d3sm1788365wre.36.2022.09.29.00.03.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Sep 2022 00:03:20 -0700 (PDT)
-Message-ID: 
- <e5fea18f18d766bf9690c876bc169d7425407b0e.camel@linuxfoundation.org>
-Subject: Re: [OE-Core][PATCH] babeltrace: Handle negative time and offset
- from Epoch
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Xiangyu Chen <xiangyu.chen@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 29 Sep 2022 08:03:19 +0100
-In-Reply-To: <20220927011315.20729-1-xiangyu.chen@windriver.com>
-References: <20220927011315.20729-1-xiangyu.chen@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=FsLj9Kis;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.178.238,
+ mailfrom: prvs=727166c06f=kai.kang@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
+ 28T6pE3N009030
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Sep 2022 07:13:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=message-id : date
+ : subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=PPS06212021;
+ bh=3mOb3UwEdbks6ZxxkMEFpHeIu8H34m0kOJM0KomDQKk=;
+ b=FsLj9Kis+2OoudbCEbHmge9vqudhNTa3IuKFa71Ubg3z9Cbn9zlyFNZUonu53TQ/upxJ
+ 2+bisKf1V3296ohgXbHSWTN8R9NG1iQNt4ONFvHA937ifjbvzzIidVn/ieHj+PjYng8m
+ 6PDoM8X93LmbytvMcOSvTc53pWsYG27CsJPQ8GcX9NmXdnN5+qjqjEmViJCiPF33m2Nx
+ jLJbN7CMIOflzPI6OVkXfTC0itrZaWD1wCMiRo9t985x5g37vLtsD1PeK8qolPz3wJk+
+ ZzfFjoEGQVE21Fn9p11jjvdTdQnBNCSyk8iKOm1YGgraj5d+2gbAY6KEnSqwdeyGjhHj LQ==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jsq42492e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 29 Sep 2022 07:13:23 +0000
+Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28T7DNaf020992
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Sep 2022 07:13:23 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2104.outbound.protection.outlook.com [104.47.70.104])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jsq42492d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 29 Sep 2022 07:13:23 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GK+sNfxosFHKAOG8IRalFNO/bk3JsdhmqXjjjhw4WPEAH2Efu1xlEhTWS1Sk2BT4Duf+nkEVw/MYoXXxSeULp6bWTJxqgTdjlga0k2OsR/9P0N9SYgBYq1jecaXOKY6bzo9MJZJSq1AmxHc6mo9LxaJg0W/kIalMSHjS5s/Tb1ngx1lzp9X/VO6OifLi2ndXThxjGu6IlTUmRIoyBwGAoyou0dmyd8uSDYy/fhDYGCqvyakYAMGm+S425LLPR/irfHNzc/vmoPWEyk3th7Pq2jvi8N9n+fDXHK6+/OeC+aB/N8jLL2DgmL2f7mRIrtSVj4BLc9U1T0hnuok6gHaiqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3mOb3UwEdbks6ZxxkMEFpHeIu8H34m0kOJM0KomDQKk=;
+ b=nk+X9wjTPkO5U5ptneZ90CPuMFgDIoqcAx5CjtsQDGWE44NM9DmkWhxxzeRI/TYfszG98Jpn2v0hdH1xfKJUDA+GVO1LrU6pPaeNO8rfKjuPQgesgUZnahBq2diNO5s9QNHinvqPg0crHnQJWCagX3w6p+LEbmKxozTi0czRKHHrw2+sIkWN4Qn+lQ0WEYxd2TTDDjn36DEFGw+8Lt7PjqX96EuiFgESpHGHwgK2tG1oaY+XjriFxvl4e8lnG2TTBjtccpEiwhpwqjE2AvGi3TnrhXETnvloCn5yZzSuMwZq+/HxQNMxeUzSRAuEg8KHCm78oF/NI2Od58V3shpq1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS7PR11MB6064.namprd11.prod.outlook.com (2603:10b6:8:77::14) by
+ CH3PR11MB7324.namprd11.prod.outlook.com (2603:10b6:610:14f::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.25; Thu, 29 Sep
+ 2022 07:13:20 +0000
+Received: from DS7PR11MB6064.namprd11.prod.outlook.com
+ ([fe80::28f6:87a8:896c:30a0]) by DS7PR11MB6064.namprd11.prod.outlook.com
+ ([fe80::28f6:87a8:896c:30a0%7]) with mapi id 15.20.5654.026; Thu, 29 Sep 2022
+ 07:13:20 +0000
+Message-ID: <4d4f1917-774d-6049-7728-dfce114769f0@windriver.com>
+Date: Thu, 29 Sep 2022 15:13:07 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [OE-core] [PATCH] binutils: apply override toolchain-clang last
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Ross.Burton@arm.com
+Cc: openembedded-core@lists.openembedded.org
+References: <20220929033210.13292-1-kai.kang@windriver.com>
+ <52f69af19ea8a1876dab73ce1bebc795f71d4ab3.camel@linuxfoundation.org>
+From: Kai <kai.kang@windriver.com>
+In-Reply-To: 
+ <52f69af19ea8a1876dab73ce1bebc795f71d4ab3.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2P153CA0005.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:140::11) To DS7PR11MB6064.namprd11.prod.outlook.com
+ (2603:10b6:8:77::14)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR11MB6064:EE_|CH3PR11MB7324:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4c284967-134c-47d5-b845-08daa1ea1673
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	hLG9N6o+RhUvb+26wGJn0yPLlnb9r0JZ7D6m2KJMKh5KFMsS6IW/lE8Ko1TW1ZYTUOl9p+cdr9jzVyghRtP2UYewxwRBYj5zp/voSyDcr3ztXw6lRFjSPxu9+/XjetZJeE6/HVHgXUoazhSZac4SOTwjWdFtusC9/fv6Itvf+c/7E59lszE3mDzXQ18TSIDvkp2NF9bZmBRMHcp+z7DdT2HQMglOv7irJ661rPEkw6Zwwh3ltqb3s6RjPiELn794yYJ/Ere1IkWJPhDkOfrykuByiM+ou/3Br+8JQG2a47X9qdllJZKLqUIs4yl7LmqNqL3Ay/+kRuWvj1lx3m4wM+VFXfonDGepeUnG7535tO931oBQODbpdQvtS4Ib23jSXEWE9QgNWCFsM+K8e+d3OeH9nAR00v6X4L9yqaljCDDZiKq0uexPeuh98/cnUNLO8bf+SIfdecD598cwY9a1z6o8ISOlwqPHhlHTwAb/VZCErD+4KFSPt8TufM3hSp+tbTbj+aZi/eUjb6JUF6+CVMmQE8EWWaOQl6p+9tKRvx/cabb5oD15u3uFj567L+sGcgvyIAf7H35B6ARwsaLFnp361eBQ8gSKREEWq4jSult/ehxC3/xlTiiBqMRly6WJIea0gVdJ+Ljpe+sAuCfKl1MLoIECEcTvEGbCDjFB/uHono5bQ2tfMPyeIx4q1czSRwKof0jQX5s80wg5r7z/iCgswjYVDzEGAVoW8NsNlvuL8OGnGUUCdxVMkEg7nl2LoP9UOCzBSbulMh8Qg87qLWAlVm+fkLlunNnzCHbWTZE=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR11MB6064.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(136003)(366004)(396003)(346002)(39850400004)(451199015)(6506007)(6486002)(53546011)(478600001)(6666004)(186003)(6512007)(5660300002)(26005)(41300700001)(8936002)(2906002)(83380400001)(66476007)(2616005)(66946007)(66556008)(8676002)(316002)(4326008)(31696002)(38100700002)(86362001)(36756003)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?MEpUOEZKUTRqc2lvQzBqS3lGY003K0F1L2RQQ3BxZFAxWHVMdzdrYXI3ZUgz?=
+ =?utf-8?B?eVhIcHBVYTZ1RytpMmtmQ01Mam13Vm9VeUMvZ09BSDFuVFJMZWRMbytzUGc5?=
+ =?utf-8?B?dEtGWllLazJHYlBzcldEOE05eWpWZ2tNZVQrazV2SVBBZk1yV0N0WXdCWEMz?=
+ =?utf-8?B?YUdIT2toTTBTajdpenNNTlNFc0FjQXJKcDRkZm40MDRmcXh1MXcrTDg4a2pK?=
+ =?utf-8?B?OVRhOVAyUUlxSDd3R1Z1a0JVdFhUVjBxWmZ5eU5aWmo3TzNYb3Y4MXN2cUhz?=
+ =?utf-8?B?OFhVQWJnMTQzTlA5NnJvY1U4MmM0TXppQkRqa0FzWW95YlJYU1d0MUFJM1h2?=
+ =?utf-8?B?emhxTnRnUkFhbGNmaFY1ME9UOHhZY1JST0NQOGo4T3BiRkg5aUJZckZSREJV?=
+ =?utf-8?B?MUU0Vm8xek96OTV5MjN3aGF0bHhHMnhGWFkyM1JoV3VjN25lTXRDN0dCQUpR?=
+ =?utf-8?B?M1NJdGFDZUo5ekRwUHRjL1k2L1hFenFzSG0zN0FYODhqL1h4Q2NZMXhMWUZO?=
+ =?utf-8?B?dENORlJrcDdDYTdzUGIzRDVYeGxxV2tKdEdKN0NjZjVxQ29sNGhSZUNwRmQz?=
+ =?utf-8?B?MVUyUG9IU1ZzZUVkU2sxMnJFaEZ1dEUzVDhSK285QUdmclJsRXpTMWxwQ1Z1?=
+ =?utf-8?B?bW9qWktJV0NPb2YvQUV1YmdUWlROSFdDdEFic28zN2RoWXBlZldCWVlZS2FC?=
+ =?utf-8?B?TFZlaTJzTU5iZ2RxRE9sM2FodVIvT1paN1B1cG9uQk16ZWx0a3E3ODRGYWhn?=
+ =?utf-8?B?VTU4Z1k5eTBiWEppYWhFSllIUlB0NEthTjJrTUNVTE5LZG5TMFJ5dGdaS2ds?=
+ =?utf-8?B?TVZIeFBwVEJCbFBzU1k2OC9KaFI1WnRIR294SWgvVDBrL0g3cFpzUU9sZnhQ?=
+ =?utf-8?B?V3JYYk9rNUk2SUFYbVQyR3FVdHorYWhicTlyVWJBSEFKUWNKYzdjZGIzTGZn?=
+ =?utf-8?B?Q2YwRE5vY1RNQXkydGxhdDFWVVhEMm5kdVFqN1FwNzU5TVJNdVJnSDhCTlZp?=
+ =?utf-8?B?YmlOd1d3TFRTTWErcXlJT3J4M09XeVp0Rm9SVzhiajU2WHA4K3J2TTQ3Sk9V?=
+ =?utf-8?B?Y1RhRWx0ZlJzNFNsdXhrbndqZmw4YmVtcWNNNkRxQlVJWUI2U3dlNFpwdFRv?=
+ =?utf-8?B?c1hmQWtCK3gyWktPMnY2RnBwd1JpSE5hT1pqWHJyaVgxUmhpSzU2dHJ5SEo1?=
+ =?utf-8?B?bWtDN0YwM054VG9RcktZRFNJcUZFSTlFaU96eThzaFRycU5qTi9ZdXl5K1pZ?=
+ =?utf-8?B?Zll5OHNkVlVtbEZsQmlxREJzZHcrZEREUGNFcEhtbC9XSDlYMHRUM1IxRlNy?=
+ =?utf-8?B?Q1pNSjVmSkJNQkFIb2xPOXVnTXhDdEFMUHdlQUNpblBGUHJTUXBpMzczeGJ2?=
+ =?utf-8?B?aDhjZkovYytrcFpXN1F3RnBsa3FQbmR1cWk1cVpFVFA1QVAzelo0L0JxU2ha?=
+ =?utf-8?B?cjE4WWNJOVVzNlhIOWFNUXYvaWRWUmNZbytlRDh1ODdhT1FNMEs0TWh2aXp4?=
+ =?utf-8?B?RWtjSTlTLzFsWnJyOXRkNGFUZEZUU2kzS25zdkw4c2VCb3BJMjNsL2R1VTZ4?=
+ =?utf-8?B?emVqRzErT2lmMGxyOWJUcmp5dHgva1ZCRkxhblpnNHRjVyt1bU9LcG9WanRt?=
+ =?utf-8?B?aHpRcmE1TG1oQTd1UmdwR2xyT2VpZEpLMmRMWjFRYlN6LzBCazRxQjhRUWxD?=
+ =?utf-8?B?WVBEMkU0ZHBTbDN3Q1lXbFYrUENNUUdnOTgzeDhUN0R4WWV6UkdjaWdyOVQw?=
+ =?utf-8?B?ME91UHROamhSd1U5UklkY2hqd3RPd0NWU0lzTmVvMUkyVXdxK05YMHJMazBZ?=
+ =?utf-8?B?VVpEVUtUWlVMNXZLLzRrRzl0NlZ1eFN2YnhKb3VNTHVTTkh3UHU3RGpUTVYy?=
+ =?utf-8?B?eHFZdVhNUGk2ZzhYdVBZak1INDd5T0I5VEYxR0p1K3pyd2EzNThldE5vcFZR?=
+ =?utf-8?B?TnRPS1ZYblZlajExdStjaVp2Q0pObTNBM3JhUlZHdlc3cGRmK2JpclFlUFpT?=
+ =?utf-8?B?WUJsc1NrNDZEempONTFYVjZ1Y01wOXFwWjB5M3NIMFNrbUNBNDBYZGZaTk95?=
+ =?utf-8?B?TVUxUXVOdkRGVnhLTVY2OHlmUXoxSDBnM0xoZU5tSndSWTN4bGRyZkg2amlZ?=
+ =?utf-8?Q?CmqRAk6dqqpk3jV0JYkC4W2EN?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 4c284967-134c-47d5-b845-08daa1ea1673
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB6064.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2022 07:13:20.0417
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ 6jNGw34MUOn4v5lFCohf5OD8G5MB5w90tsRmB7FkzfYL4XcvSgY/VJS+tKIG8HWou0bcIC4nRIo9RaeHoqrYqA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7324
+X-Proofpoint-ORIG-GUID: EOPR8J_1zeFLSzCZnVdsdHobPbfAHDGm
+X-Proofpoint-GUID: jKBI0_zwXW87MwphL24vRXZgRbA4W2zK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-29_04,2022-09-29_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 mlxlogscore=999
+ malwarescore=0 adultscore=0 clxscore=1015 priorityscore=1501 spamscore=0
+ phishscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
+ definitions=main-2209290042
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Sep 2022 07:03:24 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Sep 2022 07:13:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171167
+ https://lists.openembedded.org/g/openembedded-core/message/171168
 
-On Tue, 2022-09-27 at 09:13 +0800, Xiangyu Chen wrote:
-> Backport patch from upstream to handle negative time and offset from Epoc=
-h[1]
-> and fix the yocto autobuilder ptest failures for both qemux86-64 and qemu=
-arm64 when
-> applied this backport patch[2].
->=20
-> [1] 0001-Handle-negative-time-and-offset-from-Epoch.patch backport from
-> https://git.efficios.com/?p=3Dbabeltrace.git;a=3Dcommit;h=3D61cf588beae75=
-2e5ddfc60b6b5310f769ac9e852
->=20
-> [2] 0002-babeltrace-fix-bug-in-stream-intersection-option.patch
-> The failures reported at https://lists.openembedded.org/g/openembedded-co=
-re/topic/89657972#163126
->=20
-> Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-> ---
->  ...-negative-time-and-offset-from-Epoch.patch | 857 ++++++++++++++++++
->  ...ix-bug-in-stream-intersection-option.patch | 114 +++
->  meta/recipes-kernel/lttng/babeltrace_1.5.8.bb |   2 +
->  3 files changed, 973 insertions(+)
->  create mode 100644 meta/recipes-kernel/lttng/babeltrace/0001-Handle-nega=
-tive-time-and-offset-from-Epoch.patch
->  create mode 100644 meta/recipes-kernel/lttng/babeltrace/0002-babeltrace-=
-fix-bug-in-stream-intersection-option.patch
->=20
-> diff --git a/meta/recipes-kernel/lttng/babeltrace/0001-Handle-negative-ti=
-me-and-offset-from-Epoch.patch b/meta/recipes-kernel/lttng/babeltrace/0001-=
-Handle-negative-time-and-offset-from-Epoch.patch
-> new file mode 100644
-> index 0000000000..c7409bcfbb
-> --- /dev/null
-> +++ b/meta/recipes-kernel/lttng/babeltrace/0001-Handle-negative-time-and-=
-offset-from-Epoch.patch
-> @@ -0,0 +1,857 @@
-> +From a8305ca6fc9b32b22bedbc96a8f71b14243e9965 Mon Sep 17 00:00:00 2001
-> +From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> +Date: Wed, 22 Apr 2020 03:00:02 +0000
-> +Subject: [PATCH 1/2] Handle negative time and offset from Epoch
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=3DUTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +Handle cases where a trace have a negative offset from Epoch.
-> +If Epoch is arbitrary (e.g. embedded system starting at 0, without any
-> +network access), the "0" can be used as correlation point between
-> +various components, and some components could start before the
-> +correlation point. Therefore, especially in traces where the time is
-> +meant to be shown in nanoseconds or cycles from the correlation point,
-> +it also makes sense to have a negative time value.
-> +
-> +It introduces API-breaking changes in the C and Python APIs, since we
-> +need to be able to return negative time values, which were previously
-> +used as errors (-1ULL).
-> +
-> +The --offset and --offset-ns command line parameters can now take
-> +negative offset (seconds and nanoseconds) values too.
-> +
-> +The [sec.ns] format is used as fallback so we don't attempt to pass
-> +a negative time value to POSIX time-formatting APIs.
-> +
-> +This also fixes an inaccurate return value in an error path of
-> +bt_ctf_event_populate_event_header().
-> +
-> +Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> +Signed-off-by: J=C3=A9r=C3=A9mie Galarneau <jeremie.galarneau@efficios.c=
-om>
-> +
-> +Upstream-Status: Backport [https://git.efficios.com/?p=3Dbabeltrace.git;=
-a=3Dcommit;h=3D61cf588beae752e5ddfc60b6b5310f769ac9e852]
-> +
-> +Signed-off-by: He Zhe <zhe.he@windriver.com>
-> +Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-> +---
-> + converter/babeltrace.c                        |   4 +-
-> + formats/ctf-text/ctf-text.c                   |   2 +-
-> + formats/ctf/ctf.c                             | 115 +++++++++++++-----
-> + formats/ctf/events-private.h                  |  10 +-
-> + formats/ctf/events.c                          |  11 +-
-> + .../metadata/ctf-visitor-generate-io-struct.c |   1 -
-> + include/babeltrace/babeltrace-internal.h      |   8 +-
-> + include/babeltrace/clock-internal.h           |   2 +-
-> + include/babeltrace/ctf-ir/clock-internal.h    |   2 +-
-> + include/babeltrace/ctf/events.h               |   8 +-
-> + include/babeltrace/ctf/types.h                |   6 +-
-> + include/babeltrace/format.h                   |  10 +-
-> + include/babeltrace/trace-handle-internal.h    |   8 +-
-> + include/babeltrace/trace-handle.h             |  25 ++--
-> + lib/context.c                                 |  44 +++++--
-> + lib/trace-handle.c                            |  39 +++---
-> + tests/lib/test_ctf_writer.c                   |   6 +-
-> + tests/lib/test_seek.c                         |  28 ++---
-> + 18 files changed, 209 insertions(+), 120 deletions(-)
-> +
-> +diff --git a/converter/babeltrace.c b/converter/babeltrace.c
-> +index ef783ed4..2ac16179 100644
-> +--- a/converter/babeltrace.c
-> ++++ b/converter/babeltrace.c
-> +@@ -375,7 +375,7 @@ static int parse_options(int argc, char **argv)
-> + 				goto end;
-> + 			}
-> + 			errno =3D 0;
-> +-			opt_clock_offset =3D strtoull(str, &endptr, 0);
-> ++			opt_clock_offset =3D strtoll(str, &endptr, 0);
-> + 			if (*endptr !=3D '\0' || str =3D=3D endptr || errno !=3D 0) {
-> + 				fprintf(stderr, "[error] Incorrect --clock-offset argument: %s\n", =
-str);
-> + 				ret =3D -EINVAL;
-> +@@ -400,7 +400,7 @@ static int parse_options(int argc, char **argv)
-> + 				goto end;
-> + 			}
-> + 			errno =3D 0;
-> +-			opt_clock_offset_ns =3D strtoull(str, &endptr, 0);
-> ++			opt_clock_offset_ns =3D strtoll(str, &endptr, 0);
-> + 			if (*endptr !=3D '\0' || str =3D=3D endptr || errno !=3D 0) {
-> + 				fprintf(stderr, "[error] Incorrect --clock-offset-ns argument: %s\n=
-", str);
-> + 				ret =3D -EINVAL;
-> +diff --git a/formats/ctf-text/ctf-text.c b/formats/ctf-text/ctf-text.c
-> +index 16f156de..e001a548 100644
-> +--- a/formats/ctf-text/ctf-text.c
-> ++++ b/formats/ctf-text/ctf-text.c
-> +@@ -43,7 +43,7 @@
-> + #include <unistd.h>
-> + #include <stdlib.h>
-> +=20
-> +-#define NSEC_PER_SEC 1000000000ULL
-> ++#define NSEC_PER_SEC 1000000000LL
-> +=20
-> + int opt_all_field_names,
-> + 	opt_scope_field_names,
-> +diff --git a/formats/ctf/ctf.c b/formats/ctf/ctf.c
-> +index 1ba9017f..3c774188 100644
-> +--- a/formats/ctf/ctf.c
-> ++++ b/formats/ctf/ctf.c
-> +@@ -70,7 +70,7 @@
-> +  */
-> + #define WRITE_PACKET_LEN	(getpagesize() * 8 * CHAR_BIT)
-> +=20
-> +-#define NSEC_PER_SEC 1000000000ULL
-> ++#define NSEC_PER_SEC 1000000000LL
-> +=20
-> + #define INDEX_PATH "./index/%s.idx"
-> +=20
-> +@@ -79,8 +79,8 @@ int opt_clock_cycles,
-> + 	opt_clock_date,
-> + 	opt_clock_gmt;
-> +=20
-> +-uint64_t opt_clock_offset;
-> +-uint64_t opt_clock_offset_ns;
-> ++int64_t opt_clock_offset;
-> ++int64_t opt_clock_offset_ns;
-> +=20
-> + extern int yydebug;
-> + char *opt_debug_info_dir;
-> +@@ -114,11 +114,13 @@ void ctf_set_handle(struct bt_trace_descriptor *de=
-scriptor,
-> + static
-> + int ctf_close_trace(struct bt_trace_descriptor *descriptor);
-> + static
-> +-uint64_t ctf_timestamp_begin(struct bt_trace_descriptor *descriptor,
-> +-		struct bt_trace_handle *handle, enum bt_clock_type type);
-> ++int ctf_timestamp_begin(struct bt_trace_descriptor *descriptor,
-> ++		struct bt_trace_handle *handle, enum bt_clock_type type,=20
-> ++		int64_t *timestamp);
-> + static
-> +-uint64_t ctf_timestamp_end(struct bt_trace_descriptor *descriptor,
-> +-		struct bt_trace_handle *handle, enum bt_clock_type type);
-> ++int ctf_timestamp_end(struct bt_trace_descriptor *descriptor,
-> ++		struct bt_trace_handle *handle, enum bt_clock_type type,
-> ++		int64_t *timestamp);
-> + static
-> + int ctf_convert_index_timestamp(struct bt_trace_descriptor *tdp);
-> +=20
-> +@@ -167,17 +169,20 @@ void bt_ctf_hook(void)
-> + }
-> +=20
-> + static
-> +-uint64_t ctf_timestamp_begin(struct bt_trace_descriptor *descriptor,
-> +-		struct bt_trace_handle *handle, enum bt_clock_type type)
-> ++int ctf_timestamp_begin(struct bt_trace_descriptor *descriptor,
-> ++		struct bt_trace_handle *handle, enum bt_clock_type type,
-> ++		int64_t *timestamp)
-> + {
-> + 	struct ctf_trace *tin;
-> +-	uint64_t begin =3D ULLONG_MAX;
-> +-	int i, j;
-> ++	int64_t begin =3D LLONG_MAX;
-> ++	int i, j, ret;
-> +=20
-> + 	tin =3D container_of(descriptor, struct ctf_trace, parent);
-> +=20
-> +-	if (!tin)
-> ++	if (!tin || !timestamp) {
-> ++        	ret =3D -EINVAL;
-> + 		goto error;
-> ++        }
-> +=20
-> + 	/* for each stream_class */
-> + 	for (i =3D 0; i < tin->streams->len; i++) {
-> +@@ -198,8 +203,10 @@ uint64_t ctf_timestamp_begin(struct bt_trace_descri=
-ptor *descriptor,
-> + 					parent);
-> + 			stream_pos =3D &cfs->pos;
-> +=20
-> +-			if (!stream_pos->packet_index)
-> ++			if (!stream_pos->packet_index) {
-> ++				ret =3D -EINVAL;
-> + 				goto error;
-> ++			}
-> +=20
-> + 			if (stream_pos->packet_index->len <=3D 0)
-> + 				continue;
-> +@@ -214,29 +221,38 @@ uint64_t ctf_timestamp_begin(struct bt_trace_descr=
-iptor *descriptor,
-> + 				if (index->ts_cycles.timestamp_begin < begin)
-> + 					begin =3D index->ts_cycles.timestamp_begin;
-> + 			} else {
-> ++				ret =3D -EINVAL;
-> + 				goto error;
-> + 			}
-> + 		}
-> + 	}
-> +=20
-> +-	return begin;
-> ++        if (begin =3D=3D LLONG_MAX) {
-> ++                ret =3D -ENOENT;
-> ++                goto error;
-> ++        }
-> ++        *timestamp =3D begin;
-> ++        return 0;
-> +=20
-> + error:
-> +-	return -1ULL;
-> ++	return ret;
-> + }
-> +=20
-> + static
-> +-uint64_t ctf_timestamp_end(struct bt_trace_descriptor *descriptor,
-> +-		struct bt_trace_handle *handle, enum bt_clock_type type)
-> ++int ctf_timestamp_end(struct bt_trace_descriptor *descriptor,
-> ++		struct bt_trace_handle *handle, enum bt_clock_type type,
-> ++		int64_t *timestamp)
-> + {
-> + 	struct ctf_trace *tin;
-> +-	uint64_t end =3D 0;
-> +-	int i, j;
-> ++	int64_t end =3D LLONG_MIN;
-> ++	int i, j, ret;
-> +=20
-> + 	tin =3D container_of(descriptor, struct ctf_trace, parent);
-> +=20
-> +-	if (!tin)
-> ++        if (!tin || !timestamp) {
-> ++                ret =3D -EINVAL;
-> + 		goto error;
-> ++	}
-> +=20
-> + 	/* for each stream_class */
-> + 	for (i =3D 0; i < tin->streams->len; i++) {
-> +@@ -257,8 +273,10 @@ uint64_t ctf_timestamp_end(struct bt_trace_descript=
-or *descriptor,
-> + 					parent);
-> + 			stream_pos =3D &cfs->pos;
-> +=20
-> +-			if (!stream_pos->packet_index)
-> ++			if (!stream_pos->packet_index) {
-> ++				ret =3D -EINVAL;
-> + 				goto error;
-> ++			}
-> +=20
-> + 			if (stream_pos->packet_index->len <=3D 0)
-> + 				continue;
-> +@@ -273,15 +291,21 @@ uint64_t ctf_timestamp_end(struct bt_trace_descrip=
-tor *descriptor,
-> + 				if (index->ts_cycles.timestamp_end > end)
-> + 					end =3D index->ts_cycles.timestamp_end;
-> + 			} else {
-> ++				ret =3D -EINVAL;
-> + 				goto error;
-> + 			}
-> + 		}
-> + 	}
-> +=20
-> +-	return end;
-> ++        if (end =3D=3D LLONG_MIN) {
-> ++                ret =3D -ENOENT;
-> ++                goto error;
-> ++        }
-> ++        *timestamp =3D end;
-> ++        return 0;
-> +=20
-> + error:
-> +-	return -1ULL;
-> ++	return ret;
-> + }
-> +=20
-> + /*
-> +@@ -328,7 +352,9 @@ void ctf_print_timestamp_real(FILE *fp,
-> + 			struct ctf_stream_definition *stream,
-> + 			uint64_t timestamp)
-> + {
-> +-	uint64_t ts_sec =3D 0, ts_nsec;
-> ++        int64_t ts_sec =3D 0, ts_nsec;
-> ++        uint64_t ts_sec_abs, ts_nsec_abs;
-> ++        bool is_negative;
-> +=20
-> + 	ts_nsec =3D timestamp;
-> +=20
-> +@@ -341,9 +367,40 @@ void ctf_print_timestamp_real(FILE *fp,
-> + 	ts_sec +=3D ts_nsec / NSEC_PER_SEC;
-> + 	ts_nsec =3D ts_nsec % NSEC_PER_SEC;
-> +=20
-> ++        if (ts_sec >=3D 0 && ts_nsec >=3D 0) {
-> ++                is_negative =3D false;
-> ++                ts_sec_abs =3D ts_sec;
-> ++                ts_nsec_abs =3D ts_nsec;
-> ++        } else if (ts_sec > 0 && ts_nsec < 0) {
-> ++                is_negative =3D false;
-> ++                ts_sec_abs =3D ts_sec - 1;
-> ++                ts_nsec_abs =3D NSEC_PER_SEC + ts_nsec;
-> ++        } else if (ts_sec =3D=3D 0 && ts_nsec < 0) {
-> ++                is_negative =3D true;
-> ++                ts_sec_abs =3D ts_sec;
-> ++                ts_nsec_abs =3D -ts_nsec;
-> ++        } else if (ts_sec < 0 && ts_nsec > 0) {
-> ++                is_negative =3D true;
-> ++                ts_sec_abs =3D -(ts_sec + 1);
-> ++                ts_nsec_abs =3D NSEC_PER_SEC - ts_nsec;
-> ++        } else if (ts_sec < 0 && ts_nsec =3D=3D 0) {
-> ++                is_negative =3D true;
-> ++                ts_sec_abs =3D -ts_sec;
-> ++                ts_nsec_abs =3D ts_nsec;
-> ++        } else {        /* (ts_sec < 0 && ts_nsec < 0) */
-> ++                is_negative =3D true;
-> ++                ts_sec_abs =3D -ts_sec;
-> ++                ts_nsec_abs =3D -ts_nsec;
-> ++        }
-> ++
-> + 	if (!opt_clock_seconds) {
-> + 		struct tm tm;
-> +-		time_t time_s =3D (time_t) ts_sec;
-> ++		time_t time_s =3D (time_t) ts_sec_abs;
-> ++
-> ++                if (is_negative) {
-> ++                        fprintf(stderr, "[warning] Fallback to [sec.ns]=
- for printing negative time value. Use --clock-seconds.\n");
-> ++                        goto seconds;
-> ++                }=09
-> +=20
-> + 		if (!opt_clock_gmt) {
-> + 			struct tm *res;
-> +@@ -377,12 +434,12 @@ void ctf_print_timestamp_real(FILE *fp,
-> + 		}
-> + 		/* Print time in HH:MM:SS.ns */
-> + 		fprintf(fp, "%02d:%02d:%02d.%09" PRIu64,
-> +-			tm.tm_hour, tm.tm_min, tm.tm_sec, ts_nsec);
-> ++			tm.tm_hour, tm.tm_min, tm.tm_sec, ts_nsec_abs);
-> + 		goto end;
-> + 	}
-> + seconds:
-> +-	fprintf(fp, "%3" PRIu64 ".%09" PRIu64,
-> +-		ts_sec, ts_nsec);
-> ++        fprintf(fp, "%s%" PRId64 ".%09" PRIu64,
-> ++                is_negative ? "-" : "", ts_sec_abs, ts_nsec_abs);
-> +=20
-> + end:
-> + 	return;
-> +@@ -401,7 +458,7 @@ void ctf_print_timestamp_cycles(FILE *fp,
-> +=20
-> + void ctf_print_timestamp(FILE *fp,
-> + 		struct ctf_stream_definition *stream,
-> +-		uint64_t timestamp)
-> ++		int64_t timestamp)
-> + {
-> + 	if (opt_clock_cycles) {
-> + 		ctf_print_timestamp_cycles(fp, stream, timestamp);
-> +diff --git a/formats/ctf/events-private.h b/formats/ctf/events-private.h
-> +index 9bea75d4..c47fd7d8 100644
-> +--- a/formats/ctf/events-private.h
-> ++++ b/formats/ctf/events-private.h
-> +@@ -35,20 +35,20 @@
-> + #include <babeltrace/clock-internal.h>
-> +=20
-> + static inline
-> +-uint64_t ctf_get_real_timestamp(struct ctf_stream_definition *stream,
-> +-			uint64_t timestamp)
-> ++int64_t ctf_get_real_timestamp(struct ctf_stream_definition *stream,
-> ++			uint64_t ts_cycles)
-> + {
-> +-	uint64_t ts_nsec;
-> ++	int64_t ts_nsec;
-> + 	struct ctf_trace *trace =3D stream->stream_class->trace;
-> + 	struct trace_collection *tc =3D trace->parent.collection;
-> +-	uint64_t tc_offset;
-> ++	int64_t tc_offset;
-> +=20
-> + 	if (tc->clock_use_offset_avg)
-> + 		tc_offset =3D tc->single_clock_offset_avg;
-> + 	else
-> + 		tc_offset =3D clock_offset_ns(trace->parent.single_clock);
-> +=20
-> +-	ts_nsec =3D clock_cycles_to_ns(stream->current_clock, timestamp);
-> ++	ts_nsec =3D clock_cycles_to_ns(stream->current_clock, ts_cycles);
-> + 	ts_nsec +=3D tc_offset;	/* Add offset */
-> + 	return ts_nsec;
-> + }
-> +diff --git a/formats/ctf/events.c b/formats/ctf/events.c
-> +index bd195b93..c5aefd82 100644
-> +--- a/formats/ctf/events.c
-> ++++ b/formats/ctf/events.c
-> +@@ -315,18 +315,19 @@ int bt_ctf_event_get_handle_id(const struct bt_ctf=
-_event *ctf_event)
-> + 	return ret;
-> + }
-> +=20
-> +-uint64_t bt_ctf_get_timestamp(const struct bt_ctf_event *ctf_event)
-> ++int bt_ctf_get_timestamp(const struct bt_ctf_event *ctf_event, int64_t =
-*timestamp)
-> + {
-> + 	const struct ctf_event_definition *event;
-> +=20
-> +-	if (!ctf_event)
-> +-		return -1ULL;
-> ++	if (!ctf_event || !timestamp)
-> ++		return -1;
-> +=20
-> + 	event =3D ctf_event->parent;
-> + 	if (event && event->stream->has_timestamp)
-> +-		return event->stream->real_timestamp;
-> ++		*timestamp =3D event->stream->real_timestamp;
-> + 	else
-> +-		return -1ULL;
-> ++		return -1;
-> ++	return 0;
-> + }
-> +=20
-> + uint64_t bt_ctf_get_cycles(const struct bt_ctf_event *ctf_event)
-> +diff --git a/formats/ctf/metadata/ctf-visitor-generate-io-struct.c b/for=
-mats/ctf/metadata/ctf-visitor-generate-io-struct.c
-> +index 8d348d66..dd8374fc 100644
-> +--- a/formats/ctf/metadata/ctf-visitor-generate-io-struct.c
-> ++++ b/formats/ctf/metadata/ctf-visitor-generate-io-struct.c
-> +@@ -219,7 +219,6 @@ int get_unary_signed(struct bt_list_head *head, int6=
-4_t *value)
-> +=20
-> + 	bt_list_for_each_entry(node, head, siblings) {
-> + 		if (node->type !=3D NODE_UNARY_EXPRESSION
-> +-				|| node->u.unary_expression.type !=3D UNARY_UNSIGNED_CONSTANT
-> + 				|| (node->u.unary_expression.type !=3D UNARY_UNSIGNED_CONSTANT && n=
-ode->u.unary_expression.type !=3D UNARY_SIGNED_CONSTANT)
-> + 				|| node->u.unary_expression.link !=3D UNARY_LINK_UNKNOWN
-> + 				|| i !=3D 0)
-> +diff --git a/include/babeltrace/babeltrace-internal.h b/include/babeltra=
-ce/babeltrace-internal.h
-> +index 6f8e2006..3e137e4c 100644
-> +--- a/include/babeltrace/babeltrace-internal.h
-> ++++ b/include/babeltrace/babeltrace-internal.h
-> +@@ -178,8 +178,8 @@ struct trace_collection {
-> + 	GPtrArray *array;	/* struct bt_trace_descriptor */
-> + 	GHashTable *clocks;	/* struct ctf_clock */
-> +=20
-> +-	uint64_t single_clock_offset_avg;
-> +-	uint64_t offset_first;
-> ++	int64_t single_clock_offset_avg;
-> ++	int64_t offset_first;
-> + 	int64_t delta_offset_first_sum;
-> + 	int offset_nr;
-> + 	int clock_use_offset_avg;
-> +@@ -208,8 +208,8 @@ extern int opt_all_field_names,
-> + 	opt_clock_force_correlate,
-> + 	opt_debug_info_full_path;
-> +=20
-> +-extern uint64_t opt_clock_offset;
-> +-extern uint64_t opt_clock_offset_ns;
-> ++extern int64_t opt_clock_offset;
-> ++extern int64_t opt_clock_offset_ns;
-> + extern int babeltrace_ctf_console_output;
-> + extern char *opt_debug_info_dir;
-> + extern char *opt_debug_info_target_prefix;
-> +diff --git a/include/babeltrace/clock-internal.h b/include/babeltrace/cl=
-ock-internal.h
-> +index cd6bdbae..86954b78 100644
-> +--- a/include/babeltrace/clock-internal.h
-> ++++ b/include/babeltrace/clock-internal.h
-> +@@ -49,7 +49,7 @@ uint64_t clock_cycles_to_ns(struct ctf_clock *clock, u=
-int64_t cycles)
-> +  * mantissa.
-> +  */
-> + static inline
-> +-uint64_t clock_offset_ns(struct ctf_clock *clock)
-> ++int64_t clock_offset_ns(struct ctf_clock *clock)
-> + {
-> + 	return clock->offset_s * 1000000000ULL
-> + 			+ clock_cycles_to_ns(clock, clock->offset);
-> +diff --git a/include/babeltrace/ctf-ir/clock-internal.h b/include/babelt=
-race/ctf-ir/clock-internal.h
-> +index 75677707..f1e896b6 100644
-> +--- a/include/babeltrace/ctf-ir/clock-internal.h
-> ++++ b/include/babeltrace/ctf-ir/clock-internal.h
-> +@@ -42,7 +42,7 @@ struct bt_ctf_clock {
-> + 	uint64_t precision;
-> + 	int64_t offset_s;	/* Offset in seconds */
-> + 	int64_t offset;		/* Offset in ticks */
-> +-	uint64_t value;		/* Current clock value */
-> ++	int64_t value;		/* Current clock value */
-> + 	uuid_t uuid;
-> + 	int uuid_set;
-> + 	int absolute;
-> +diff --git a/include/babeltrace/ctf/events.h b/include/babeltrace/ctf/ev=
-ents.h
-> +index c81d8852..15830a30 100644
-> +--- a/include/babeltrace/ctf/events.h
-> ++++ b/include/babeltrace/ctf/events.h
-> +@@ -109,10 +109,12 @@ const char *bt_ctf_event_name(const struct bt_ctf_=
-event *event);
-> + uint64_t bt_ctf_get_cycles(const struct bt_ctf_event *event);
-> +=20
-> + /*
-> +- * bt_ctf_get_timestamp: returns the timestamp of the event offsetted
-> +- * with the system clock source (in ns) or -1ULL on error
-> ++ * bt_ctf_get_timestamp: get the timestamp of the event offsetted
-> ++ * with the system clock source (in ns) in *timestamp.
-> ++ *
-> ++ * Return 0 on success, or -1ULL on error.
-> +  */
-> +-uint64_t bt_ctf_get_timestamp(const struct bt_ctf_event *event);
-> ++int bt_ctf_get_timestamp(const struct bt_ctf_event *event, int64_t *tim=
-estamp);
-> +=20
-> + /*
-> +  * bt_ctf_get_field_list: obtain the list of fields for compound type
-> +diff --git a/include/babeltrace/ctf/types.h b/include/babeltrace/ctf/typ=
-es.h
-> +index 0bc003c8..4b626b39 100644
-> +--- a/include/babeltrace/ctf/types.h
-> ++++ b/include/babeltrace/ctf/types.h
-> +@@ -46,8 +46,8 @@
-> + struct bt_stream_callbacks;
-> +=20
-> + struct packet_index_time {
-> +-	uint64_t timestamp_begin;
-> +-	uint64_t timestamp_end;
-> ++	int64_t timestamp_begin;
-> ++	int64_t timestamp_end;
-> + };
-> +=20
-> + struct packet_index {
-> +@@ -253,7 +253,7 @@ int ctf_pos_get_event(struct ctf_stream_pos *pos)
-> + }
-> +=20
-> + void ctf_print_timestamp(FILE *fp, struct ctf_stream_definition *stream=
-,
-> +-			uint64_t timestamp);
-> ++			int64_t timestamp);
-> + int ctf_append_trace_metadata(struct bt_trace_descriptor *tdp,
-> + 			FILE *metadata_fp);
-> + void ctf_print_discarded_lost(FILE *fp, struct ctf_stream_definition *s=
-tream);
-> +diff --git a/include/babeltrace/format.h b/include/babeltrace/format.h
-> +index dea8e0e5..bf33a239 100644
-> +--- a/include/babeltrace/format.h
-> ++++ b/include/babeltrace/format.h
-> +@@ -73,10 +73,12 @@ struct bt_format {
-> + 			struct bt_context *ctx);
-> + 	void (*set_handle)(struct bt_trace_descriptor *descriptor,
-> + 			struct bt_trace_handle *handle);
-> +-	uint64_t (*timestamp_begin)(struct bt_trace_descriptor *descriptor,
-> +-			struct bt_trace_handle *handle, enum bt_clock_type type);
-> +-	uint64_t (*timestamp_end)(struct bt_trace_descriptor *descriptor,
-> +-			struct bt_trace_handle *handle, enum bt_clock_type type);
-> ++        int (*timestamp_begin)(struct bt_trace_descriptor *descriptor,
-> ++                        struct bt_trace_handle *handle, enum bt_clock_t=
-ype type,
-> ++                        int64_t *timestamp);
-> ++        int (*timestamp_end)(struct bt_trace_descriptor *descriptor,
-> ++                        struct bt_trace_handle *handle, enum bt_clock_t=
-ype type,
-> ++                        int64_t *timestamp);
-> + 	int (*convert_index_timestamp)(struct bt_trace_descriptor *descriptor)=
-;
-> + };
-> +=20
-> +diff --git a/include/babeltrace/trace-handle-internal.h b/include/babelt=
-race/trace-handle-internal.h
-> +index 5e9c1c6a..924c730c 100644
-> +--- a/include/babeltrace/trace-handle-internal.h
-> ++++ b/include/babeltrace/trace-handle-internal.h
-> +@@ -46,10 +46,10 @@ struct bt_trace_handle {
-> + 	struct bt_trace_descriptor *td;
-> + 	struct bt_format *format;
-> + 	char path[PATH_MAX];
-> +-	uint64_t real_timestamp_begin;
-> +-	uint64_t real_timestamp_end;
-> +-	uint64_t cycles_timestamp_begin;
-> +-	uint64_t cycles_timestamp_end;
-> ++	int64_t real_timestamp_begin;
-> ++	int64_t real_timestamp_end;
-> ++	int64_t cycles_timestamp_begin;
-> ++	int64_t cycles_timestamp_end;
-> + };
-> +=20
-> + /*
-> +diff --git a/include/babeltrace/trace-handle.h b/include/babeltrace/trac=
-e-handle.h
-> +index 96e4a81b..55c850f8 100644
-> +--- a/include/babeltrace/trace-handle.h
-> ++++ b/include/babeltrace/trace-handle.h
-> +@@ -53,20 +53,25 @@ struct bt_ctf_event;
-> + const char *bt_trace_handle_get_path(struct bt_context *ctx, int handle=
-_id);
-> +=20
-> + /*
-> +- * bt_trace_handle_get_timestamp_begin : returns the creation time (in
-> +- * nanoseconds or cycles depending on type) of the buffers of a trace
-> +- * or -1ULL on error.
-> ++ * bt_trace_handle_get_timestamp_begin : get the creation time (in
-> ++ * nanoseconds or cycles depending on type) of the buffers of a trace.
-> ++ *
-> ++ * Returns 0 on success, -1 on error.
-> +  */
-> +-uint64_t bt_trace_handle_get_timestamp_begin(struct bt_context *ctx,
-> +-		int handle_id, enum bt_clock_type type);
-> ++int bt_trace_handle_get_timestamp_begin(struct bt_context *ctx,
-> ++		int handle_id, enum bt_clock_type type,
-> ++		int64_t *timestamp);
-> +=20
-> + /*
-> +- * bt_trace_handle_get_timestamp_end : returns the destruction timestam=
-p
-> +- * (in nanoseconds or cycles depending on type) of the buffers of a tra=
-ce
-> +- * or -1ULL on error.
-> ++ * bt_trace_handle_get_timestamp_end : get the destruction time
-> ++ * (in nanoseconds or cycles depending on type) of the buffers of a
-> ++ * trace.
-> ++ *
-> ++ * Returns 0 on success, -1 on error.
-> +  */
-> +-uint64_t bt_trace_handle_get_timestamp_end(struct bt_context *ctx,
-> +-		int handle_id, enum bt_clock_type type);
-> ++int bt_trace_handle_get_timestamp_end(struct bt_context *ctx,
-> ++		int handle_id, enum bt_clock_type type,
-> ++		int64_t *timestamp);
-> +=20
-> + /*
-> +  * bt_ctf_event_get_handle_id : get the handle id associated with an ev=
-ent
-> +diff --git a/lib/context.c b/lib/context.c
-> +index 87901b3c..34a1bc82 100644
-> +--- a/lib/context.c
-> ++++ b/lib/context.c
-> +@@ -139,18 +139,38 @@ int bt_context_add_trace(struct bt_context *ctx, c=
-onst char *path,
-> + 			goto error_collection_del;
-> + 	}
-> +=20
-> +-	if (fmt->timestamp_begin)
-> +-		handle->real_timestamp_begin =3D fmt->timestamp_begin(td,
-> +-				handle, BT_CLOCK_REAL);
-> +-	if (fmt->timestamp_end)
-> +-		handle->real_timestamp_end =3D fmt->timestamp_end(td, handle,
-> +-				BT_CLOCK_REAL);
-> +-	if (fmt->timestamp_begin)
-> +-		handle->cycles_timestamp_begin =3D fmt->timestamp_begin(td,
-> +-				handle, BT_CLOCK_CYCLES);
-> +-	if (fmt->timestamp_end)
-> +-		handle->cycles_timestamp_end =3D fmt->timestamp_end(td, handle,
-> +-				BT_CLOCK_CYCLES);
-> ++        if (fmt->timestamp_begin) {
-> ++                ret =3D fmt->timestamp_begin(td, handle, BT_CLOCK_REAL,
-> ++                                &handle->real_timestamp_begin);
-> ++                if (ret < 0 && ret !=3D -ENOENT) {
-> ++                        ret =3D -1;
-> ++                        goto error_collection_del;
-> ++                }
-> ++        }
-> ++        if (fmt->timestamp_end) {
-> ++                ret =3D fmt->timestamp_end(td, handle, BT_CLOCK_REAL,
-> ++                                &handle->real_timestamp_end);
-> ++                if (ret < 0 && ret !=3D -ENOENT) {
-> ++                        ret =3D -1;
-> ++                        goto error_collection_del;
-> ++                }
-> ++        }
-> ++        if (fmt->timestamp_begin) {
-> ++                ret =3D fmt->timestamp_begin(td, handle, BT_CLOCK_CYCLE=
-S,
-> ++                                &handle->cycles_timestamp_begin);
-> ++                if (ret < 0 && ret !=3D -ENOENT) {
-> ++                        ret =3D -1;
-> ++                        goto error_collection_del;
-> ++                }
-> ++        }
-> ++        if (fmt->timestamp_end) {
-> ++                ret =3D fmt->timestamp_end(td, handle, BT_CLOCK_CYCLES,
-> ++                                &handle->cycles_timestamp_end);
-> ++                if (ret < 0 && ret !=3D -ENOENT) {
-> ++                        ret =3D -1;
-> ++                        goto error_collection_del;
-> ++                }
-> ++        }
-> +=20
-> + 	/* Add new handle to container */
-> + 	g_hash_table_insert(ctx->trace_handles,
-> +diff --git a/lib/trace-handle.c b/lib/trace-handle.c
-> +index d5b906aa..8f11c7cc 100644
-> +--- a/lib/trace-handle.c
-> ++++ b/lib/trace-handle.c
-> +@@ -66,54 +66,57 @@ const char *bt_trace_handle_get_path(struct bt_conte=
-xt *ctx, int handle_id)
-> + 	return handle->path;
-> + }
-> +=20
-> +-uint64_t bt_trace_handle_get_timestamp_begin(struct bt_context *ctx,
-> +-		int handle_id, enum bt_clock_type type)
-> ++int bt_trace_handle_get_timestamp_begin(struct bt_context *ctx,
-> ++		int handle_id, enum bt_clock_type type,
-> ++		int64_t *timestamp)
-> + {
-> + 	struct bt_trace_handle *handle;
-> +-	uint64_t ret;
-> +=20
-> +-	if (!ctx)
-> +-		return -1ULL;
-> ++	int ret =3D 0;
-> ++=09
-> ++        if (!ctx || !timestamp)
-> ++                return -1;
-> +=20
-> + 	handle =3D g_hash_table_lookup(ctx->trace_handles,
-> + 			(gpointer) (unsigned long) handle_id);
-> + 	if (!handle) {
-> +-		ret =3D -1ULL;
-> ++		ret =3D -1;
-> + 		goto end;
-> + 	}
-> + 	if (type =3D=3D BT_CLOCK_REAL) {
-> +-		ret =3D handle->real_timestamp_begin;
-> ++		*timestamp =3D handle->real_timestamp_begin;
-> + 	} else if (type =3D=3D BT_CLOCK_CYCLES) {
-> +-		ret =3D handle->cycles_timestamp_begin;
-> ++		*timestamp =3D handle->cycles_timestamp_begin;
-> + 	} else {
-> +-		ret =3D -1ULL;
-> ++		ret =3D -1;
-> + 	}
-> +=20
-> + end:
-> + 	return ret;
-> + }
-> +=20
-> +-uint64_t bt_trace_handle_get_timestamp_end(struct bt_context *ctx,
-> +-		int handle_id, enum bt_clock_type type)
-> ++int bt_trace_handle_get_timestamp_end(struct bt_context *ctx,
-> ++		int handle_id, enum bt_clock_type type,
-> ++		int64_t *timestamp)
-> + {
-> + 	struct bt_trace_handle *handle;
-> +-	uint64_t ret;
-> ++	int ret =3D 0;
-> +=20
-> +-	if (!ctx)
-> +-		return -1ULL;
-> ++	if (!ctx || !timestamp)
-> ++		return -1;
-> +=20
-> + 	handle =3D g_hash_table_lookup(ctx->trace_handles,
-> + 			(gpointer) (unsigned long) handle_id);
-> + 	if (!handle) {
-> +-		ret =3D -1ULL;
-> ++		ret =3D -1;
-> + 		goto end;
-> + 	}
-> + 	if (type =3D=3D BT_CLOCK_REAL) {
-> +-		ret =3D handle->real_timestamp_end;
-> ++		*timestamp =3D handle->real_timestamp_end;
-> + 	} else if (type =3D=3D BT_CLOCK_CYCLES) {
-> +-		ret =3D handle->cycles_timestamp_end;
-> ++		*timestamp =3D handle->cycles_timestamp_end;
-> + 	} else {
-> +-		ret =3D -1ULL;
-> ++		ret =3D -1;
-> + 	}
-> +=20
-> + end:
-> +diff --git a/tests/lib/test_ctf_writer.c b/tests/lib/test_ctf_writer.c
-> +index 53613c91..29d76df8 100644
-> +--- a/tests/lib/test_ctf_writer.c
-> ++++ b/tests/lib/test_ctf_writer.c
-> +@@ -45,7 +45,7 @@
-> + #define SEQUENCE_TEST_LENGTH 10
-> + #define PACKET_RESIZE_TEST_LENGTH 100000
-> +=20
-> +-static uint64_t current_time;
-> ++static int64_t current_time;
-> +=20
-> + void validate_metadata(char *parser_path, char *metadata_path)
-> + {
-> +@@ -695,8 +695,8 @@ int main(int argc, char **argv)
-> + 	const char *clock_name =3D "test_clock";
-> + 	const char *clock_description =3D "This is a test clock";
-> + 	const uint64_t frequency =3D 1000000000;
-> +-	const uint64_t offset_s =3D 1351530929945824323;
-> +-	const uint64_t offset =3D 1234567;
-> ++	const int64_t offset_s =3D 1351530929945824323;
-> ++	const int64_t offset =3D 1234567;
-> + 	const uint64_t precision =3D 10;
-> + 	char *metadata_string;
-> + 	struct bt_ctf_writer *writer;
-> +diff --git a/tests/lib/test_seek.c b/tests/lib/test_seek.c
-> +index 3c78e8ad..04beaf97 100644
-> +--- a/tests/lib/test_seek.c
-> ++++ b/tests/lib/test_seek.c
-> +@@ -33,7 +33,7 @@
-> + #include <tap/tap.h>
-> + #include "common.h"
-> +=20
-> +-#define NR_TESTS	29
-> ++#define NR_TESTS	36
-> +=20
-> + void run_seek_begin(char *path, uint64_t expected_begin)
-> + {
-> +@@ -42,8 +42,8 @@ void run_seek_begin(char *path, uint64_t expected_begi=
-n)
-> + 	struct bt_ctf_event *event;
-> + 	struct bt_iter_pos newpos;
-> + 	int ret;
-> +-	uint64_t timestamp_begin;
-> +-	uint64_t timestamp_seek_begin;
-> ++	int64_t timestamp_begin;
-> ++	int64_t timestamp_seek_begin;
-> + 	unsigned int nr_seek_begin_test;
-> +=20
-> + 	nr_seek_begin_test =3D 5;
-> +@@ -67,7 +67,7 @@ void run_seek_begin(char *path, uint64_t expected_begi=
-n)
-> + 	ok(event, "Event valid");
-> +=20
-> + 	/* Validate that the first timestamp is right */
-> +-	timestamp_begin =3D bt_ctf_get_timestamp(event);
-> ++	ok1(bt_ctf_get_timestamp(event, &timestamp_begin) =3D=3D 0);
-> +=20
-> + 	ok1(timestamp_begin =3D=3D expected_begin);
-> +=20
-> +@@ -81,8 +81,8 @@ void run_seek_begin(char *path, uint64_t expected_begi=
-n)
-> +=20
-> + 	ok(event, "Event valid");
-> +=20
-> +-	timestamp_seek_begin =3D bt_ctf_get_timestamp(event);
-> +-
-> ++	ok1(bt_ctf_get_timestamp(event, &timestamp_seek_begin) =3D=3D 0);
-> ++=09
-> + 	ok1(timestamp_begin =3D=3D timestamp_seek_begin);
-> +=20
-> + 	bt_context_put(ctx);
-> +@@ -96,7 +96,7 @@ void run_seek_last(char *path, uint64_t expected_last)
-> + 	struct bt_ctf_event *event;
-> + 	struct bt_iter_pos newpos;
-> + 	int ret;
-> +-	uint64_t timestamp_last;
-> ++	int64_t timestamp_last;
-> + 	unsigned int nr_seek_last_tests;
-> +=20
-> + 	nr_seek_last_tests =3D 6;
-> +@@ -129,7 +129,7 @@ void run_seek_last(char *path, uint64_t expected_las=
-t)
-> +=20
-> + 	ok(event, "Event valid at last position");
-> +=20
-> +-	timestamp_last =3D bt_ctf_get_timestamp(event);
-> ++	ok1(bt_ctf_get_timestamp(event, &timestamp_last) =3D=3D 0);
-> +=20
-> + 	ok1(timestamp_last =3D=3D expected_last);
-> +=20
-> +@@ -152,7 +152,7 @@ void run_seek_time_at_last(char *path, uint64_t expe=
-cted_last)
-> + 	struct bt_ctf_event *event;
-> + 	struct bt_iter_pos newpos;
-> + 	int ret;
-> +-	uint64_t timestamp_last;
-> ++	int64_t timestamp_last;
-> + 	unsigned int nr_seek_time_at_last_tests;
-> +=20
-> + 	nr_seek_time_at_last_tests =3D 6;
-> +@@ -188,7 +188,7 @@ void run_seek_time_at_last(char *path, uint64_t expe=
-cted_last)
-> +=20
-> + 	ok(event, "Event valid at last position");
-> +=20
-> +-	timestamp_last =3D bt_ctf_get_timestamp(event);
-> ++	ok1(bt_ctf_get_timestamp(event, &timestamp_last) =3D=3D 0);
-> +=20
-> + 	ok1(timestamp_last =3D=3D expected_last);
-> +=20
-> +@@ -213,7 +213,7 @@ void run_seek_cycles(char *path,
-> + 	struct bt_ctf_event *event;
-> + 	struct bt_iter_pos newpos;
-> + 	int ret;
-> +-	uint64_t timestamp;
-> ++	int64_t timestamp;
-> +=20
-> + 	unsigned int nr_seek_cycles_tests;
-> +=20
-> +@@ -247,7 +247,7 @@ void run_seek_cycles(char *path,
-> +=20
-> + 	ok(event, "Event valid at last position");
-> +=20
-> +-	timestamp =3D bt_ctf_get_timestamp(event);
-> ++	ok1(bt_ctf_get_timestamp(event, &timestamp) =3D=3D 0);
-> +=20
-> + 	ok1(timestamp =3D=3D expected_last);
-> +=20
-> +@@ -270,7 +270,7 @@ void run_seek_cycles(char *path,
-> +=20
-> + 	ok(event, "Event valid at first position");
-> +=20
-> +-	timestamp =3D bt_ctf_get_timestamp(event);
-> ++	ok1(bt_ctf_get_timestamp(event, &timestamp) =3D=3D 0);
-> +=20
-> + 	ok1(timestamp =3D=3D expected_begin);
-> +=20
-> +@@ -284,7 +284,7 @@ void run_seek_cycles(char *path,
-> +=20
-> + 	ok(event, "Event valid at last position");
-> +=20
-> +-	timestamp =3D bt_ctf_get_timestamp(event);
-> ++	ok1(bt_ctf_get_timestamp(event, &timestamp) =3D=3D 0);
-> +=20
-> + 	ok1(timestamp =3D=3D expected_last);
-> +=20
-> +--=20
-> +2.34.1
-> +
-> diff --git a/meta/recipes-kernel/lttng/babeltrace/0002-babeltrace-fix-bug=
--in-stream-intersection-option.patch b/meta/recipes-kernel/lttng/babeltrace=
-/0002-babeltrace-fix-bug-in-stream-intersection-option.patch
-> new file mode 100644
-> index 0000000000..cd06ec517c
-> --- /dev/null
-> +++ b/meta/recipes-kernel/lttng/babeltrace/0002-babeltrace-fix-bug-in-str=
-eam-intersection-option.patch
-> @@ -0,0 +1,114 @@
-> +From 04582ee50791df39c34da2a8c81101a64c79a3bd Mon Sep 17 00:00:00 2001
-> +From: Heng Guo <heng.guo@windriver.com>
-> +Date: Thu, 17 Mar 2022 12:26:12 +0800
-> +Subject: [PATCH 2/2] babeltrace: fix bug in --stream-intersection option
-> +
-> +If --stream-intersection option is used to filter trace, wrong result
-> +is got by babeltrace with commit: 61cf588beae752e5ddfc60b6b5310f769ac9e8=
-52.
-> +Fix it using INT64 instead of UINT64 in related codes.
-> +
-> +Upstream-Status: Inappropriate
-> +[https://bugs.lttng.org/attachments/538]
-> +
+On 9/29/22 14:49, Richard Purdie wrote:
+> On Thu, 2022-09-29 at 11:32 +0800, kai wrote:
+>> From: Kai Kang <kai.kang@windriver.com>
+>>
+>> It disables gprofng for toolchain clang, so it should clear GPROFNG_ALTS
+>> when clang is used. But override 'toolchain-clang' is applied before
+>> overrides 'TRANSLATED_TARGET_ARCH' such as x86-64, then GPROFNG_ALTS is
+>> still set and not cleared. Append 'forcevariable' to apply it last then
+>> make it work as expected.
+>>
+>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> ---
+>>   meta/recipes-devtools/binutils/binutils.inc | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+>> index 4dde387a8a..c7113f8a1f 100644
+>> --- a/meta/recipes-devtools/binutils/binutils.inc
+>> +++ b/meta/recipes-devtools/binutils/binutils.inc
+>> @@ -50,7 +50,7 @@ GPROFNG_ALTS:x86-64 = "${GPROFNGS}"
+>>   GPROFNG_ALTS:aarch64 = "${GPROFNGS}"
+>>   
+>>   # it disables gprofng for clang and musl in the bb file
+>> -GPROFNG_ALTS:toolchain-clang = ""
+>> +GPROFNG_ALTS:toolchain-clang:forcevariable = ""
+>>   GPROFNG_ALTS:libc-musl = ""
+>>   
+>>   LDGOLD_ALTS ?= "ld.gold dwp"
+> I've never wanted to see forcevariable used in layers, it is really
+> there as a last resort for end users. There must be some other way we
+> can arrange this?
 
-Upstream have rejected this patch:
+It could clear GPROFNG_ALTS for toolchain-clang in python anonymous 
+function. I'll send for review.
 
-https://bugs.lttng.org/issues/1350
+Regards,
+Kai
 
-"It introduces API-breaking changes in the C and Python APIs, since we
-need to be able to return negative time values, which were previously
-used as errors (-1ULL)."
-
-I'm reluctant to carry a patch which has feedback like that upstream
-and stands no chance of being merged.
-
-Cheers,
-
-Richard
+>
+> Cheers,
+>
+> Richard
 
 
-
-
-
+-- 
+Kai Kang
+Wind River Linux
 
 
