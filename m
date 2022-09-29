@@ -1,127 +1,102 @@
-Return-Path: <danismostlikely@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24BAAC433F5
-	for <webhook@archiver.kernel.org>; Thu, 29 Sep 2022 19:03:48 +0000 (UTC)
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
- [209.85.160.178])
- by mx.groups.io with SMTP id smtpd.web08.14748.1664478217892817796
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABEDCC433F5
+	for <webhook@archiver.kernel.org>; Thu, 29 Sep 2022 20:38:38 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web08.15792.1664483917667074128
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Sep 2022 12:03:38 -0700
+ Thu, 29 Sep 2022 13:38:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZviK8k+Z;
- spf=pass (domain: gmail.com, ip: 209.85.160.178,
- mailfrom: danismostlikely@gmail.com)
-Received: by mail-qt1-f178.google.com with SMTP id s18so1372481qtx.6
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=K1PN0dJy;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id m4so3906493wrr.5
         for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Sep 2022 12:03:37 -0700 (PDT)
+ Thu, 29 Sep 2022 13:38:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date;
-        bh=8J8k8Ww0xpfpnhR6RNIzd3IJbyFoe0tUkNAQKXn6ZjE=;
-        b=ZviK8k+Z6AcWp2AVPK8h9bUKBgADCQQN/c9GF2/fuMH11z8pvz5O6LPGoTzL9KLAfy
-         SIp9v6jclJD4/KgY6zPguoPqGD6zHK09byAuIYNa3SJD03QzqgZ2ptKw8c7eMajlPH5e
-         RL7HEMOhyXQIMLoDb8s6eu4QfsfCjmMUEL6W5j8cOUBMHTfL4jtDOhuamv9/CwRh6VD1
-         jDZnauXh1piB+No6gSGDTIVymDEAEZ3xlY7tpmVJenVVmCHHfxwaKR0EdWOOpzIqPJM5
-         Ib+FDw21e0VcbuTtEmjyzl230u/eRmhoEvJS+ES3SI5z8ERWwg9Q3EMp7VZVTAVndrpR
-         PJyA==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date;
+        bh=InIJpw3FgBA39KaAvRj/ObiEaV57xOsacphvM5jgZtw=;
+        b=K1PN0dJyhYhSHTxxvwTHVOx6+hC4Q6B7jI8D+lh6pybKepHurjR8WX5gbj1CIEmjKp
+         GmD+H2hlWhdiIMkdG3KTAbGG/Ts++cVkkxQtCae/kzbU5LVF+XJPRq/SmBIJgZMebhQY
+         hXCCHmwmW4qzDMw+Ez/XmpDD/zBhoTzRl10/A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date;
-        bh=8J8k8Ww0xpfpnhR6RNIzd3IJbyFoe0tUkNAQKXn6ZjE=;
-        b=FzB9SL2l7PvSIRfFwlAJJyDH/JHFl7/tc+VxR3ynDlPBFxTubplBjIrc4s45eBw63f
-         12h1RfpgUf3fX4ui7x4Na4LS3Dn7fVgT3s7PiWfi4Bt6RO2GHD2uSwbbwQdIPlWM9jiy
-         RGVu/xq2sTlG7ysUCWuYRD1SRveFsqTQztKpawF0qAaQmKuPhX0tkEoOajOGbNk/ZMDK
-         /oyKjFyy37lLrgwzaHxEW2gL8a4K+Sw5ZLmjua0Z1PYA5VqDr0Z9KrbGxJBQFTTV5rNv
-         PAohsqK7XPm1KqTAW8jDmxx0ejFRJCmScmWEUhdGm169na4TBE06/tvoJOcl9uwu+3g0
-         O5yg==
-X-Gm-Message-State: ACrzQf15V7n2VBGtAEESX8JL+UiEtK19wIcHYZby8vMjgpXSrfLo86Rw
-	Dev3dgehf+fPXghwnFrikH0=
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=InIJpw3FgBA39KaAvRj/ObiEaV57xOsacphvM5jgZtw=;
+        b=PLUO6ydHxR2ArYBWvYOcnyzdEQWA34MgzIChtq6kBn7b96wvKX5se94dPfJ3Uqtx7o
+         Vsf0lyWSKlwCrx0tMZsj+yXaBWUZkTz1Au7A8NCpiaU/8F7dKG9VbQMIzTZUdcfiykTW
+         jTdAOHr5TGUPSnjNQvdyB8HmJPKbiF3L7RN5Y2TwkAV0t1LU+ZKYtNqj49NrhrHZ9hHk
+         qlZ1nL6RwS2qAaxJRCgYyovZnP0gmRJOIjdVfb/6/q2claqeB3zFs7HowRNvaij8C+id
+         O0CX3x4ctfmShRtsFJQqj/Dywjd2uG/y0YFq8vUgykxe/mHDN4R29T8sMkTW9lM9NWYd
+         JDqQ==
+X-Gm-Message-State: ACrzQf2nL0Z0AxQcS3N5nchNA1s73HN91aO9SLWl3W6E4OXv8bmcaIB7
+	85kuvDqm15GEffJ65jbgWZ5Y8w==
 X-Google-Smtp-Source: 
- AMsMyM7TOjNFcS3DjaCoRm0P4Y7fpDut/o3X76kMECz/zVDnpfKOuCsEC8svrJwd3SwZ8UpKm7fp9w==
-X-Received: by 2002:ac8:5b0e:0:b0:35c:bae7:d9eb with SMTP id
- m14-20020ac85b0e000000b0035cbae7d9ebmr3654767qtw.681.1664478216825;
-        Thu, 29 Sep 2022 12:03:36 -0700 (PDT)
-Received: from git.shadrach.duckdns.org ([204.83.204.148])
+ AMsMyM5YBtWPI7hq7LUJR7J1CLRYFuqqtaBRWOKAfMbuv8ht+4gycfRHlvcBHyVNHkyVsQCvhY9bxw==
+X-Received: by 2002:a5d:61d1:0:b0:22c:c284:a886 with SMTP id
+ q17-20020a5d61d1000000b0022cc284a886mr3914116wrv.30.1664483915926;
+        Thu, 29 Sep 2022 13:38:35 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:bfa:f678:7e20:8850?
+ ([2001:8b0:aba:5f3c:bfa:f678:7e20:8850])
         by smtp.gmail.com with ESMTPSA id
- 16-20020ac84e90000000b0035d4b13363fsm2128qtp.48.2022.09.29.12.03.35
+ f14-20020a05600c4e8e00b003b47e75b401sm5805985wmq.37.2022.09.29.13.38.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Sep 2022 12:03:36 -0700 (PDT)
-Date: Thu, 29 Sep 2022 13:03:34 -0600 (CST)
-From: Dan McGregor <danismostlikely@gmail.com>
-To: Dan McGregor <danismostlikely@gmail.com>
-cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-    openembedded-core@lists.openembedded.org,
-    Daniel McGregor <daniel.mcgregor@vecima.com>
-Subject: Re: [OE-core] [PATCH 3/3] systemd: generate manpages indexes
-In-Reply-To: <712a80b5-7b54-be2b-99c3-3d35ff935b0c@gmail.com>
-Message-ID: <7fe67a25-5280-820f-94fc-2448ed406d60@gmail.com>
-References: <20220928221320.1763684-1-danismostlikely@gmail.com>
- <20220928221320.1763684-3-danismostlikely@gmail.com>
- <f272f8ecb7f5dd8c34b6abfb64d89f8bc209bdd7.camel@linuxfoundation.org>
- <712a80b5-7b54-be2b-99c3-3d35ff935b0c@gmail.com>
+        Thu, 29 Sep 2022 13:38:35 -0700 (PDT)
+Message-ID: 
+ <1dad6d5f0886715064b83fa60c83db5b83366c0f.camel@linuxfoundation.org>
+Subject: Re: [OE-Core][PATCH] babeltrace: Handle negative time and offset
+ from Epoch
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ross Burton <Ross.Burton@arm.com>, Jonathan Rajotte-Julien
+	 <jonathan.rajotte-julien@efficios.com>
+Cc: Xiangyu Chen <xiangyu.chen@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Thu, 29 Sep 2022 21:38:33 +0100
+In-Reply-To: <EE2E3768-2430-45DD-ADEE-C04C789AF015@arm.com>
+References: <20220927011315.20729-1-xiangyu.chen@windriver.com>
+	 <e5fea18f18d766bf9690c876bc169d7425407b0e.camel@linuxfoundation.org>
+	 <EE2E3768-2430-45DD-ADEE-C04C789AF015@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Sep 2022 19:03:48 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Sep 2022 20:38:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171197
+ https://lists.openembedded.org/g/openembedded-core/message/171198
 
-On Thu, 29 Sep 2022, Dan McGregor wrote:
+On Thu, 2022-09-29 at 11:18 +0000, Ross Burton wrote:
+> > On 29 Sep 2022, at 08:03, Richard Purdie via lists.openembedded.org
+> > <richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
+> >=20
+> > I'm reluctant to carry a patch which has feedback like that
+> > upstream
+> > and stands no chance of being merged.
+>=20
+> Agreed.
+>=20
+> They also say:
+>=20
+> > Unless there is very compelling reasons why you are sticking with
+> > babeltrace 1.5.8, please upgrade to babeltrace2.
+>=20
+> Which is a good point. Why do we have babeltrace and babeltracel2?
 
-> On Thu, 29 Sep 2022, Richard Purdie wrote:
->
->> On Wed, 2022-09-28 at 16:13 -0600, Dan McGregor wrote:
->>> From: Daniel McGregor <daniel.mcgregor@vecima.com>
->>> 
->>> Now that python3-lxml is in core, use it to generate
->>> systemd.directives and systemd.index manual pages.
->>> 
->>> Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
->>> ---
->>>  meta/recipes-core/systemd/systemd_251.4.bb | 5 ++++-
->>>  1 file changed, 4 insertions(+), 1 deletion(-)
->>> 
->>> diff --git a/meta/recipes-core/systemd/systemd_251.4.bb 
->>> b/meta/recipes-core/systemd/systemd_251.4.bb
->>> index 910ea71bf64..b4ad7e45eb0 100644
->>> --- a/meta/recipes-core/systemd/systemd_251.4.bb
->>> +++ b/meta/recipes-core/systemd/systemd_251.4.bb
->>> @@ -159,7 +159,10 @@ PACKAGECONFIG[localed] = 
->>> "-Dlocaled=true,-Dlocaled=false"
->>>  PACKAGECONFIG[logind] = "-Dlogind=true,-Dlogind=false"
->>>  PACKAGECONFIG[lz4] = "-Dlz4=true,-Dlz4=false,lz4"
->>>  PACKAGECONFIG[machined] = "-Dmachined=true,-Dmachined=false"
->>> -PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,libxslt-native 
->>> xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
->>> +PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,python3-lxml-native 
->>> xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
->>> +# Ensure we're seeing the XML catalog from the build system and not the 
->>> host.
->>> +# Otherwise, the build may fail generating the manpages.
->>> +export XML_CATALOG_FILES="${STAGING_ETCDIR_NATIVE}/xml/catalog"
->> 
->> Wasn't there a fix that means this isn't required now?
->> 
->> https://git.yoctoproject.org/poky/commit/?id=544c3255b1b1d2be7d7c77f0d64cc4a11a947887
->> https://git.yoctoproject.org/poky/commit/?id=fbc8f3d395711db00cae32d2502588ea9b61b1da
->
-> Could be, I've been sitting on this change for *years*, but haven't submitted 
-> it because python3-lxml wasn't in core. Last time I tested without setting 
-> XML_CATALOG_FILES it failed, but now I see that I also removed libxslt-native 
-> from the PACKAGECONFIG depends list. I'll test with libxslt-native and 
-> without setting XML_CATALOG_FILES and probably send a v2.
->
+I think it was dependencies and tests. Whether we still need both now
+I'm less sure of.
 
-Looking further, setting XML_CATALOG_FILES *is* required, because 
-python3-lxml wraps the libxml2 libraries directly, not the command-line 
-tools. For now I'd like to keep setting the variable, but we should 
-probably find a way to handle the catalog path in the library itself 
-rather than only wrapping the executables. Or finding a way to patch 
-python3-lxml to use the build path's xml catalogue.
+Cheers,
+
+Richard
 
