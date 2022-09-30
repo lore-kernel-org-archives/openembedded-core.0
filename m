@@ -2,64 +2,67 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9897EC433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 989A9C4332F
 	for <webhook@archiver.kernel.org>; Fri, 30 Sep 2022 17:55:05 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web10.306.1664560498355713000
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web12.294.1664560504110835613
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Sep 2022 10:54:58 -0700
+ Fri, 30 Sep 2022 10:55:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Hwcau83i;
- spf=pass (domain: gmail.com, ip: 209.85.221.45,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Tkz14sYx;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41,
  mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id x18so7982080wrm.7
+Received: by mail-wr1-f41.google.com with SMTP id s14so7992672wro.0
         for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Sep 2022 10:54:58 -0700 (PDT)
+ Fri, 30 Sep 2022 10:55:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=/iYMnH4adh839yRZSulyCFbtKRwz9Q31ald1NGkh3OI=;
-        b=Hwcau83ibz1F7AowuzI/fSsP6dSQ8KRmuxNQ/JCTEjTgDifyUGcKKah7mzPETVXlnz
-         fZG8IG3lOTNYUHBhyngXU3DBUQ62i+RiFIYv7ZcZKlFSrr/SUW3LZZMDBHoy5doWMvxE
-         Qtiy7HJZreJQzkhSTKkEJhuVdJgH3teH28HNBajpp5D8LX6NsT5V0P3U+s39AYwD8EEH
-         Z646ZNSleY3dTRSm3De0G3pwxwUYx/EEBAgo0yuqaQQejh/UGiPlN3sxotiSCJFvmM2I
-         AfAlPp9VE9skwZAW8gpnkt9eXHL8QBgadh089u4RijmTc5zUf+SicYiyvFW6KcLkaoo2
-         tsUA==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=gGpwkyHvltSHV2G0ckc1YdG6S/Xe1DD7C6hr7kdk6ns=;
+        b=Tkz14sYxUMl5mLQ/LYu90/wWJXRXiZAp97WcPwLDflCCsE1k738dLH6Wzf7pMpyHRj
+         qr0GQ+UxGzx6Fy0i08wFSYNlFlyO20rOiM28R1/O+TkWPcfDCln7UDunw/otgMspP40H
+         ndhTxgFsE28WLbagDyafj2HxuzGUODCcUabUiNKRwFZGM/r/nFl292XAtIJkruCDcqcb
+         8kuo5Ruo3OgHc3UX3o2G1ygTKuIoF3QY3M6imksYc0+yIh9VRUw1QTAb6sjgpdWr7Bru
+         /Rso/QZQGbHwa4kx6OlV1sOuMxgDmG24PPSrd8/JMCxjRg3ep0V2AwTpkeAA/aC1et3b
+         O7kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=/iYMnH4adh839yRZSulyCFbtKRwz9Q31ald1NGkh3OI=;
-        b=lG4eG1WBAHUP406UYPWGPeWBgEMhQvR1KlXp/LB24VufKQFR6AmWaXxxN8f1DBC4Au
-         lh4sjuhYkuP+08SUneFpHWYse0T7MGNGnE2o0q+q1lN2JTz7fXOxtJ0rIehvyX/ck8OW
-         ZI/WduGWWyO4e2fIssiGvKCWmJhO11UPlJE/h6V3RJwyPmAf4YHYp+JpilwNaY2L9vnJ
-         iMa0KG7uxii7dxWug9bX1Zc/O62ltUK/uXXdBprU8p8MY2Gn1ynqp9qzmcty0LYGxwO2
-         Bz+h9Sng1A35TCSLYVxgwdGRTCVG85MBRz2LtKTQXkNp7/08PH4sZwWoyEEdpbgwCeR6
-         lwLw==
-X-Gm-Message-State: ACrzQf1vwsAYwg4/fjStFw2V853TnQsT7n2V3gvfEuMBUAwvHtkVcdtQ
-	Ig+dSxq57YWjws0zt5YJNwM1924ZLzXU1XD7
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=gGpwkyHvltSHV2G0ckc1YdG6S/Xe1DD7C6hr7kdk6ns=;
+        b=k1HpB+ZNxagu4EgQS6vG1ra7RvQFwwX6Nt4tmANhXRfHwLsIGzFvr9pY5GABoUn00y
+         u7ZjZ4ulUEhkwaAeMxU1ve8pSM+KeUhJnfyGT0iR8rEtBnc7q6OmjgzIK064anT22/RC
+         96mzVfYqFTDolKvtz5oq5Gv0wGkKv7T1N+e/Kond5S5aAsUaU+Y6fiOfbrBH5eOiIyga
+         EtGa2sLJaWZLN4chdczSOnAZ3hdylMua1oqbjnYXeD4PCDXGuYH/Ljug2K67UN0qU4mU
+         VyGk/WC2s4YFALrglUNw1y76RplYrzspHXC0im3qpeN3eNKL5LnupH0tqQdBXjnt1mSg
+         mItA==
+X-Gm-Message-State: ACrzQf3TESa8S+GitImS5FtBgwzpqnbKE1cblEsMLH7eXyNdhNtnOnC4
+	kQi0eePqmVMT0q1WeNJk1Er8bGeNnRXuMTJ7
 X-Google-Smtp-Source: 
- AMsMyM4Uznvs58y9ajQIMW4g+/LrQHxjKAaqDhtiXvTyMXTo0240S1tNA3qEfOwD4you/wDodAEzOQ==
-X-Received: by 2002:adf:dbc3:0:b0:22a:d393:bd84 with SMTP id
- e3-20020adfdbc3000000b0022ad393bd84mr6543550wrj.626.1664560496414;
-        Fri, 30 Sep 2022 10:54:56 -0700 (PDT)
+ AMsMyM4nzTtLKxZHOtQHOo7KtfYzKL6FejFOU8NYtuz15DmViyQo18y+kCfkbsEzUnKeKK2uK90pdA==
+X-Received: by 2002:adf:eacf:0:b0:22e:369:2081 with SMTP id
+ o15-20020adfeacf000000b0022e03692081mr2292430wrn.339.1664560502239;
+        Fri, 30 Sep 2022 10:55:02 -0700 (PDT)
 Received: from og-worker-dev-01.infra.foundries.io.net
  (51-159-19-113.rev.poneytelecom.eu. [51.159.19.113])
         by smtp.gmail.com with ESMTPSA id
- y9-20020a05600c20c900b003a531c7aa66sm2636017wmm.1.2022.09.30.10.54.55
+ y9-20020a05600c20c900b003a531c7aa66sm2636017wmm.1.2022.09.30.10.55.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Sep 2022 10:54:55 -0700 (PDT)
+        Fri, 30 Sep 2022 10:55:01 -0700 (PDT)
 From: Jose Quaresma <quaresma.jose@gmail.com>
 X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [PATCH 1/3] go: drop patch to make content based hash generation less
- pedan
-Date: Fri, 30 Sep 2022 17:54:38 +0000
-Message-Id: <20220930175440.2168008-1-jose.quaresma@foundries.io>
+Subject: [PATCH 3/3] kernel-yocto: improve fatal error messages of
+ symbol_why.py
+Date: Fri, 30 Sep 2022 17:54:40 +0000
+Message-Id: <20220930175440.2168008-3-jose.quaresma@foundries.io>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220930175440.2168008-1-jose.quaresma@foundries.io>
+References: <20220930175440.2168008-1-jose.quaresma@foundries.io>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -67,58 +70,60 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 30 Sep 2022 17:55:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171233
+ https://lists.openembedded.org/g/openembedded-core/message/171235
 
-With patch in place I have see some build issues mainly in meta-virtualization
-with ti am62xx-evm, am64xx-evm and riscv64 machines.
-
-All the mahines fails to build the following recipes:
-
-| Summary: 5 tasks failed:
-|  /srv/oe/build/conf/../../layers/meta-virtualization/recipes-containers/runc/runc-opencontainers_git.bb:do_compile
-|  /srv/oe/build/conf/../../layers/meta-virtualization/recipes-containers/skopeo/skopeo_git.bb:do_compile
-|  /srv/oe/build/conf/../../layers/meta-lmp/meta-lmp-base/recipes-support/fioconfig/fioconfig_git.bb:do_compile
-|  /srv/oe/build/conf/../../layers/meta-virtualization/recipes-containers/docker/docker-ce_git.bb:do_compile
-|  /srv/oe/build/conf/../../layers/meta-virtualization/recipes-containers/containerd/containerd-opencontainers_git.bb:do_compile
-| Summary: There were 8 ERROR messages, returning a non-zero exit code.
-
-And all of them fails with the same issue:
-
-| panic: runtime error: index out of range [0] with length 0
-|
-| goroutine 6688 [running]:
-| cmd/go/internal/work.(*Builder).buildActionID(0xc0000030e0, 0xc000172a00)
-| 	/srv/oe/build/tmp-lmp/work/x86_64-linux/go-cross-riscv64/1.19-r0/recipe-sysroot-native/usr/lib/riscv64-lmp-linux/go/src/cmd/go/internal/work/exec.go:281 +0x2425
-| cmd/go/internal/work.(*Builder).build(0xc0000030e0, {0xc000000238?, 0x0?}, 0xc000172a00)
-| 	/srv/oe/build/tmp-lmp/work/x86_64-linux/go-cross-riscv64/1.19-r0/recipe-sysroot-native/usr/lib/riscv64-lmp-linux/go/src/cmd/go/internal/work/exec.go:478 +0x199
-| cmd/go/internal/work.(*Builder).Do.func2({0xb2e4f0, 0xc000000238}, 0xc000172a00)
-| 	/srv/oe/build/tmp-lmp/work/x86_64-linux/go-cross-riscv64/1.19-r0/recipe-sysroot-native/usr/lib/riscv64-lmp-linux/go/src/cmd/go/internal/work/exec.go:139 +0x5fc
-| cmd/go/internal/work.(*Builder).Do.func3()
-| 	/srv/oe/build/tmp-lmp/work/x86_64-linux/go-cross-riscv64/1.19-r0/recipe-sysroot-native/usr/lib/riscv64-lmp-linux/go/src/cmd/go/internal/work/exec.go:201 +0xb9
-| created by cmd/go/internal/work.(*Builder).Do
-| 	/srv/oe/build/tmp-lmp/work/x86_64-linux/go-cross-riscv64/1.19-r0/recipe-sysroot-native/usr/lib/riscv64-lmp-linux/go/src/cmd/go/internal/work/exec.go:187 +0x3f5
-| make: *** [Makefile:244: bin/containerd] Error 2
-| make: *** Waiting for unfinished jobs....
-
-Without this patch everithing look good.
+Improve the fatal error message of the yocto-kernel-tools symbol_why.py
+and shows the command that generate the error as it can help understand
+the root cause of the error.
 
 Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 ---
- meta/recipes-devtools/go/go-1.19.inc | 1 -
- 1 file changed, 1 deletion(-)
+ meta/classes-recipe/kernel-yocto.bbclass | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-devtools/go/go-1.19.inc b/meta/recipes-devtools/go/go-1.19.inc
-index f733a807b4..355a82eb9f 100644
---- a/meta/recipes-devtools/go/go-1.19.inc
-+++ b/meta/recipes-devtools/go/go-1.19.inc
-@@ -5,7 +5,6 @@ FILESEXTRAPATHS:prepend := "${FILE_DIRNAME}/go:"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-recipe/kernel-yocto.bbclass
+index 8eda0dcaf3..46df9b23dc 100644
+--- a/meta/classes-recipe/kernel-yocto.bbclass
++++ b/meta/classes-recipe/kernel-yocto.bbclass
+@@ -573,9 +573,10 @@ python do_kernel_configcheck() {
  
- SRC_URI += "\
--    file://0001-cmd-go-make-content-based-hash-generation-less-pedan.patch \
-     file://0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch \
-     file://0004-ld-add-soname-to-shareable-objects.patch \
-     file://0005-make.bash-override-CC-when-building-dist-and-go_boot.patch \
+     # category #1: mismatches
+     try:
+-        analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--mismatches', extra_params], cwd=s, env=env ).decode('utf-8')
++        cmd = ['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--mismatches', extra_params]
++        analysis = subprocess.check_output(cmd, cwd=s, env=env ).decode('utf-8')
+     except subprocess.CalledProcessError as e:
+-        bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
++        bb.fatal( "config analysis failed when running '%s': %s" % (" ".join(cmd), e.output.decode('utf-8')))
+ 
+     if analysis:
+         outfile = "{}/{}/cfg/mismatch.txt".format( s, kmeta )
+@@ -595,9 +596,10 @@ python do_kernel_configcheck() {
+     if bsp_check_visibility > 1:
+         extra_params = "--strict"
+     try:
+-        analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--invalid', extra_params], cwd=s, env=env ).decode('utf-8')
++        cmd = ['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--invalid', extra_params]
++        analysis = subprocess.check_output(cmd, cwd=s, env=env ).decode('utf-8')
+     except subprocess.CalledProcessError as e:
+-        bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
++        bb.fatal( "config analysis failed when running '%s': %s" % (" ".join(cmd), e.output.decode('utf-8')))
+ 
+     if analysis:
+         outfile = "{}/{}/cfg/invalid.txt".format(s,kmeta)
+@@ -614,9 +616,10 @@ python do_kernel_configcheck() {
+ 
+     # category #3: redefined options (this is pretty verbose and is debug only)
+     try:
+-        analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--sanity'], cwd=s, env=env ).decode('utf-8')
++        cmd = ['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--sanity']
++        analysis = subprocess.check_output(cmd, cwd=s, env=env ).decode('utf-8')
+     except subprocess.CalledProcessError as e:
+-        bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
++        bb.fatal( "config analysis failed when running '%s': %s" % (" ".join(cmd), e.output.decode('utf-8')))
+ 
+     if analysis:
+         outfile = "{}/{}/cfg/redefinition.txt".format(s,kmeta)
 -- 
 2.34.1
 
