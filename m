@@ -1,1155 +1,145 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93736C433FE
-	for <webhook@archiver.kernel.org>; Fri, 30 Sep 2022 15:58:58 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web12.647.1664553537060845064
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABB94C433F5
+	for <webhook@archiver.kernel.org>; Fri, 30 Sep 2022 16:03:38 +0000 (UTC)
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com
+ [209.85.161.46])
+ by mx.groups.io with SMTP id smtpd.web08.762.1664553813122192512
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Sep 2022 08:58:57 -0700
+ Fri, 30 Sep 2022 09:03:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=TW+eABs7;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.46,
- mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f46.google.com with SMTP id rk17so9961202ejb.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ICcyYFWM;
+ spf=pass (domain: gmail.com, ip: 209.85.161.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f46.google.com with SMTP id
+ k10-20020a4ad10a000000b004756ab911f8so2520081oor.2
         for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Sep 2022 08:58:56 -0700 (PDT)
+ Fri, 30 Sep 2022 09:03:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=kFuLc17in6YfxTeeLONkkOUsh7JbYiZpxWjEfr8Fnrc=;
-        b=TW+eABs7p051rWIrkGQlogCaPybco6LaDFy6kQO3COmJpAPvltKHRfdi0R1IRG+rhM
-         ELB9U389vQYGGTzttbT3ojO0PdCg5rOr8EezDgDQXIc0PDR9okjdy4CujWSUbpSga+CC
-         gALs04YCa1/wvYVItXWfqe5mSrnYLtbFIud80GQWga+arnmlPsl/66/QP3nTBHclV5mq
-         22tyXnEcAAvhyOsc6Z6JCgLVyFXltA874++YYJ5ANn8nAppq/1YNJF2DrAvsrQkc50vs
-         SWt5HSfQZVzUtNE2WqOlK1NdnLaCCeGMQw0hAgQrEwWVjbpi2CyM1cSwthL9PcJzAEwv
-         M/BA==
+        bh=4T81Reuete2DUzKkCdV3weskk/4uXOx41M8J+JnvuNA=;
+        b=ICcyYFWM+Ld7Uxz7d+Y9PbcR6p3hvbIRQH6AB0ZJ92/y2GQmmN26UIiHU7E4dsud8j
+         roBl+b2tMvHIw8HzN5j3KDUYTDf69GAISDe2abDocOjfcIFru9KvJxroYzqmAfun6QUt
+         wPrmP3jWvfiWGrFUSrEB4Rz8FfwEskhZn9ns57R09QrM1H6A5F+S5zwVIa1/Yeno1wDR
+         6m0Jpc5cGlBcsKvb1zMI/0Ajv0fZa6Znvz3m+03OsF2dhvP46id2yXqWzm7o6yQlud71
+         ys3n5ILNSCzY9GBsnrx1sZeRo+lUpNLFuFhnob6lhM7tN+0XDhF3IB/RAgiJY/IJOj77
+         M0RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=kFuLc17in6YfxTeeLONkkOUsh7JbYiZpxWjEfr8Fnrc=;
-        b=wAVennTMXC/ZF0apb9KF0OfbGvqOsQUWdlLUzjoRF4L8AaU+I3F/yRewRoLmTurNh8
-         ePgxLkHa5xbVocQPDndjPou5xo/5XMFEktxr2C0igVQPhkiEbLLUd6a5Uo58U/QUJyEa
-         2intsFV3J4VO66nIMhOGdeKYnQ+/SCuafmpJgFLP1Y1x34Dn4tSJqUYr1pcleYuU3dK/
-         FWc0ztB/PDb087fPxS9koJa/5noJspvM4kuu3KidVOLVHJbYAs3hGYlcGNWSd31wzME5
-         LRroNte7aAw+S0VT6NdiclpWtM32Imstl9bXYV0qufaWIcK0eOTdCuwcPw4vRtn6ZY1M
-         2n3A==
-X-Gm-Message-State: ACrzQf1PN96yO9qhXj7XA7//Cg7SANX1Q68WQCZ5mILNvHYOM4Yn6kiV
-	XA6cgQbCLqxWv5S8+Qz+2LSg7w1Hr0qV4RhYOjMkD25LCoEA6TP3
+        bh=4T81Reuete2DUzKkCdV3weskk/4uXOx41M8J+JnvuNA=;
+        b=KDkRvzjKywvXZbstaXrSq/YloohtIlHNTwXAbTv8fXb84QtfXaGt0ifzspQ2LICtXk
+         qvU9JEGMe5i2FUqJCI6oWQw7ycNV6N5R1zZis3TWR36hQljXLA5m2hD8yNMTzVf6Gukb
+         ntxY7HTKMhVGDQSuvJRPMBNjKgsUThtbcd89b/efOPM3gT59X07SK4jhO1rUg+GmvMNJ
+         UAqdH0nR4uMFPCcanwxqQe1ERrx9Z7wSJj53cmJSnkLF3NVJafzmEu6t+Fid/i+ubnmM
+         ps2UZw4NFahv9ImwtWBg7o1IpELjAJXK0P/IOM+SW6LAT4aNFk0xmhcHjnUL4xCBoBVr
+         ccRw==
+X-Gm-Message-State: ACrzQf2Y9oAdFh1Sha2bCFrDPg4aZHIbOLAwe/uwgqeMVs6Ni9klU6PN
+	KP/AB4eE+sfJaS5sK/n6gyWcdC/BdVUjFim72XA=
 X-Google-Smtp-Source: 
- AMsMyM6EZy+FoEetZlOVlZowoiWmmVbrsZbhaZETCIYXY0o3b0Gosci5xLsNbmVDAVWocasIfSyZU4ZjuyZ4qmgkGpw=
-X-Received: by 2002:a17:907:b10:b0:76f:e74f:4f4c with SMTP id
- h16-20020a1709070b1000b0076fe74f4f4cmr6894678ejl.132.1664553534730; Fri, 30
- Sep 2022 08:58:54 -0700 (PDT)
+ AMsMyM7jIPP7is6Xl2AQY21PCn3un72ULapC4Xybxh0BYbnxrNkvkXhbM1sFmQdXyTkOqUtZlr+CFh61+wgvu71aN4s=
+X-Received: by 2002:a05:6830:3901:b0:658:fff4:51b8 with SMTP id
+ br1-20020a056830390100b00658fff451b8mr3682980otb.55.1664553812275; Fri, 30
+ Sep 2022 09:03:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220929083319.2225406-1-jay.shen.teoh@intel.com>
-In-Reply-To: <20220929083319.2225406-1-jay.shen.teoh@intel.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 30 Sep 2022 05:58:43 -1000
+References: <20220930041614.2704304-1-raj.khem@gmail.com>
+ <C9A0CBAD-5373-4F4C-BB73-0AD10A2DF000@arm.com>
+ <042F0314-BF16-49A5-AD68-81DFD17739E6@arm.com>
+In-Reply-To: <042F0314-BF16-49A5-AD68-81DFD17739E6@arm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 30 Sep 2022 09:03:21 -0700
 Message-ID: 
- <CAOSpxdYt8eAzcQH+HURXhf8PKJxEsmTMXwqvDQp6Sw3KXV+chA@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH 1/2] tiff: update 4.3.0 -> 4.4.0
-To: openembedded-core@lists.openembedded.org
-Cc: "Teoh, Jay Shen" <jay.shen.teoh@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+ <CAMKF1srZEorOx-hPiD1zZx1DMiJdZbHgknub04hfyfRFzEhNcg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] openssl: Add missing perl module runtime
+ dependencies for ptests
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000b0b68f05e9e72281"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 Sep 2022 15:58:58 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 30 Sep 2022 16:03:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171225
+ https://lists.openembedded.org/g/openembedded-core/message/171226
 
-This is a version update with some API changes, so further review
-would  be appreciated before I can take this.
+--000000000000b0b68f05e9e72281
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-To help with review, here are the changes in this release:
+On Fri, Sep 30, 2022 at 3:37 AM Ross Burton <Ross.Burton@arm.com> wrote:
 
-Software configuration changes
-
-Handle absolute paths in pkg-config file (issue #333)
-Correct fix for the pkgconf file relative paths.
-cmake: allow running the tests with a read-only source directory.
-cmake: Fix STRIPCHOP_DEFAULT value in CMake builds.
-build: Fix static library imports in mingw related to LERC
-Fix version in libtiff-4.pc.in, and CMake build: Add requirements to pc file
-cmake: Fix build with CMake 3.10.
-cmake: Export tiff targets.
-Make LERC_SUPPORT conditional on ZLIB_SUPPORT
-
-Library changes
-
-New/improved functionalities:
-
-TIFFIsBigTiff() function added.
-Functions TIFFFieldSetGetSize() and TIFFieldSetGetCountSize() added.
-LZWDecode(): major speed improvements (~30% faster)
-Predictor 2 (horizontal differenciation): support 64-bit
-Support libjpeg 9d
-
-Bug fixes:
-
-Remove incorrect assert (issue #329)
-avoid hang in TIFFRewriteDirectory() if a classic file > 4 GB is
-attempted to be created
-tif_jbig.c: fix crash when reading a file with multiple IFD in
-memory-mapped mode and when bit reversal is needed (fixes issue #385)
-TIFFFetchNormalTag(): avoid calling memcpy() with a null source
-pointer and size of zero (fixes issue #383)
-TIFFWriteDirectoryTagData(): turn assertion on data length into a runtime check
-TIFFFetchStripThing(): avoid calling memcpy() with a null source
-pointer and size of zero (fixes issue #362)
-TIFFReadDirectory(): avoid calling memcpy() with a null source pointer
-and size of zero (fixes issue #362)
-TIFFYCbCrToRGBInit(): avoid Integer-overflow
-TIFFGetField(TIFFTAG_STRIPBYTECOUNTS/TIFFTAG_STRIPOFFSETS): return
-error if returned pointer is NULL (fixes issue #342)
-OJPEG: avoid assertion when using TIFFReadScanline() (fixes issue #337)
-TIFFReadDirectory(): fix OJPEG hack (fixes issue #319)
-LZW codec: fix support for strips/tiles > 2 GB on Windows
-TIFFAppendToStrip(): fix rewrite-in-place logic (fixes issue #309)
-Fix TIFFRewriteDirectory() discarding directories.
-TIFFReadCustomDirectory(): avoid crash when reading SubjectDistance
-tag on a non EXIF directory (issue #316)
-Fix Segmentation fault printing GPS directory if Altitude tag is present
-tif_jpeg.c: do not emit progressive scans with mozjpeg. (issue #266)
-_TIFFRewriteField(): fix when writing a IFD with a single tile that is
-a sparse one, on big endian hosts
-Fix all remaining uses of legacy Deflate compression id and warn on use.
-
-Tools changes
-
-Bug fixes:
-
-tiffcrop: Fix issue issue #330 and some more from 320 to 349.
-tiffcrop: fix issue issue #395: generation of strange section images.
-tiffcrop: fix issue issue #380 and issue #382 heap buffer overflow in
-extractImageSection
-tiffcrop: fix FPE (issue #393)
-tiffcrop: buffsize check formula in loadImage() amended (fixes issue
-#273, issue #275)
-tiffcrop.c: Fix issue issue #352 heap-buffer-overflow by correcting
-uint32_t underflow.
-tiff2pdf: handle 8-bit palette colormap.
-tiffcp: avoid buffer overflow in "mode" string (fixes issue #400)
-tiffcp: Fix incomprehensible setting of orientation tag (fixes issue #29)
-tiffcp: do not try to fetch compressor-specific tags when not
-appropriate (fixes issue #396)
-tiffcp: fix heap buffer overflow (issue #278)
-tiff2ps: In limitMalloc() check for negative size (fixes issue #284)
-tiffinfo: add a -M switch to define the maximum heap allocation, and
-default it to 256 MiB (fixes issue #287, issue #290)
-tiffinfo: limit more memory allocations using -M switch (fixes issue #288)
-tiffset: fix global-buffer-overflow for ASCII tags where count is
-required (fixes issue #355)
-raw2tiff: check that band number if not zero to avoid floating point
-exception(fixes issue #338)
-tiffinfo/tiffdump: improve output for GDAL tags.
-
-On Wed, Sep 28, 2022 at 10:33 PM Teoh, Jay Shen <jay.shen.teoh@intel.com> wrote:
->
-> From: Teoh Jay Shen <jay.shen.teoh@intel.com>
->
-> -Drop all CVE backports for tiff_4.3.0
-> -Update include fixes for:
->  CVE-2022-2867 [https://bugzilla.redhat.com/show_bug.cgi?id=2118847],
->  CVE-2022-2868 [https://bugzilla.redhat.com/show_bug.cgi?id=2118863],
->  CVE-2022-2869 [https://bugzilla.redhat.com/show_bug.cgi?id=2118869]
->
-> Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
-> ---
->  ...rash-when-reading-a-file-with-multip.patch |  38 ---
->  ...al-buffer-overflow-for-ASCII-tags-wh.patch |  43 ----
->  ...ue-380-and-382-heap-buffer-overflow-.patch | 219 ------------------
->  ...-for-return-value-of-limitMalloc-392.patch |  93 --------
->  ...ag-avoid-calling-memcpy-with-a-null-.patch |  33 ---
->  .../0005-fix-the-FPE-in-tiffcrop-393.patch    |  36 ---
->  ...x-heap-buffer-overflow-in-tiffcp-278.patch |  57 -----
->  ...99c99f987dc32ae110370cfdd7df7975586b.patch |  30 ---
->  .../libtiff/tiff/CVE-2022-1354.patch          | 212 -----------------
->  .../libtiff/tiff/CVE-2022-1355.patch          |  62 -----
->  ...0712f4c3a5b449f70c57988260a667ddbdef.patch |  32 ---
->  .../libtiff/{tiff_4.3.0.bb => tiff_4.4.0.bb}  |  13 +-
->  12 files changed, 1 insertion(+), 867 deletions(-)
->  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0001-tif_jbig.c-fix-crash-when-reading-a-file-with-multip.patch
->  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch
->  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0002-tiffcrop-fix-issue-380-and-382-heap-buffer-overflow-.patch
->  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0003-add-checks-for-return-value-of-limitMalloc-392.patch
->  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0004-TIFFFetchNormalTag-avoid-calling-memcpy-with-a-null-.patch
->  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0005-fix-the-FPE-in-tiffcrop-393.patch
->  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0006-fix-heap-buffer-overflow-in-tiffcp-278.patch
->  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/561599c99f987dc32ae110370cfdd7df7975586b.patch
->  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-1354.patch
->  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-1355.patch
->  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/eecb0712f4c3a5b449f70c57988260a667ddbdef.patch
->  rename meta/recipes-multimedia/libtiff/{tiff_4.3.0.bb => tiff_4.4.0.bb} (75%)
->
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/0001-tif_jbig.c-fix-crash-when-reading-a-file-with-multip.patch b/meta/recipes-multimedia/libtiff/tiff/0001-tif_jbig.c-fix-crash-when-reading-a-file-with-multip.patch
-> deleted file mode 100644
-> index f1a4ab4251..0000000000
-> --- a/meta/recipes-multimedia/libtiff/tiff/0001-tif_jbig.c-fix-crash-when-reading-a-file-with-multip.patch
-> +++ /dev/null
-> @@ -1,38 +0,0 @@
-> -CVE: CVE-2022-0865
-> -Upstream-Status: Backport
-> -Signed-off-by: Ross Burton <ross.burton@arm.com>
-> -
-> -From 88da11ae3c4db527cb870fb1017456cc8fbac2e7 Mon Sep 17 00:00:00 2001
-> -From: Even Rouault <even.rouault@spatialys.com>
-> -Date: Thu, 24 Feb 2022 22:26:02 +0100
-> -Subject: [PATCH 1/6] tif_jbig.c: fix crash when reading a file with multiple
-> - IFD in memory-mapped mode and when bit reversal is needed (fixes #385)
-> -
-> ----
-> - libtiff/tif_jbig.c | 10 ++++++++++
-> - 1 file changed, 10 insertions(+)
-> -
-> -diff --git a/libtiff/tif_jbig.c b/libtiff/tif_jbig.c
-> -index 74086338..8bfa4cef 100644
-> ---- a/libtiff/tif_jbig.c
-> -+++ b/libtiff/tif_jbig.c
-> -@@ -209,6 +209,16 @@ int TIFFInitJBIG(TIFF* tif, int scheme)
-> -        */
-> -       tif->tif_flags |= TIFF_NOBITREV;
-> -       tif->tif_flags &= ~TIFF_MAPPED;
-> -+      /* We may have read from a previous IFD and thus set TIFF_BUFFERMMAP and
-> -+       * cleared TIFF_MYBUFFER. It is necessary to restore them to their initial
-> -+       * value to be consistent with the state of a non-memory mapped file.
-> -+       */
-> -+      if (tif->tif_flags&TIFF_BUFFERMMAP) {
-> -+              tif->tif_rawdata = NULL;
-> -+              tif->tif_rawdatasize = 0;
-> -+              tif->tif_flags &= ~TIFF_BUFFERMMAP;
-> -+              tif->tif_flags |= TIFF_MYBUFFER;
-> -+      }
-> -
-> -       /* Setup the function pointers for encode, decode, and cleanup. */
-> -       tif->tif_setupdecode = JBIGSetupDecode;
-> ---
-> -2.25.1
-> -
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch b/meta/recipes-multimedia/libtiff/tiff/0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch
-> deleted file mode 100644
-> index 72776f09ba..0000000000
-> --- a/meta/recipes-multimedia/libtiff/tiff/0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch
-> +++ /dev/null
-> @@ -1,43 +0,0 @@
-> -CVE: CVE-2022-22844
-> -Upstream-Status: Backport
-> -Signed-off-by: Ross Burton <ross.burton@arm.com>
-> -
-> -From b12a0326e6064b6e0b051d1184a219877472f69b Mon Sep 17 00:00:00 2001
-> -From: 4ugustus <wangdw.augustus@qq.com>
-> -Date: Tue, 25 Jan 2022 16:25:28 +0000
-> -Subject: [PATCH] tiffset: fix global-buffer-overflow for ASCII tags where
-> - count is required (fixes #355)
-> -
-> ----
-> - tools/tiffset.c | 16 +++++++++++++---
-> - 1 file changed, 13 insertions(+), 3 deletions(-)
-> -
-> -diff --git a/tools/tiffset.c b/tools/tiffset.c
-> -index 8c9e23c5..e7a88c09 100644
-> ---- a/tools/tiffset.c
-> -+++ b/tools/tiffset.c
-> -@@ -146,9 +146,19 @@ main(int argc, char* argv[])
-> -
-> -             arg_index++;
-> -             if (TIFFFieldDataType(fip) == TIFF_ASCII) {
-> --                if (TIFFSetField(tiff, TIFFFieldTag(fip), argv[arg_index]) != 1)
-> --                    fprintf( stderr, "Failed to set %s=%s\n",
-> --                             TIFFFieldName(fip), argv[arg_index] );
-> -+                if(TIFFFieldPassCount( fip )) {
-> -+                    size_t len;
-> -+                    len = strlen(argv[arg_index]) + 1;
-> -+                    if (len > UINT16_MAX || TIFFSetField(tiff, TIFFFieldTag(fip),
-> -+                            (uint16_t)len, argv[arg_index]) != 1)
-> -+                        fprintf( stderr, "Failed to set %s=%s\n",
-> -+                            TIFFFieldName(fip), argv[arg_index] );
-> -+                } else {
-> -+                    if (TIFFSetField(tiff, TIFFFieldTag(fip),
-> -+                            argv[arg_index]) != 1)
-> -+                        fprintf( stderr, "Failed to set %s=%s\n",
-> -+                            TIFFFieldName(fip), argv[arg_index] );
-> -+                }
-> -             } else if (TIFFFieldWriteCount(fip) > 0
-> -                      || TIFFFieldWriteCount(fip) == TIFF_VARIABLE) {
-> -                 int     ret = 1;
-> ---
-> -2.25.1
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/0002-tiffcrop-fix-issue-380-and-382-heap-buffer-overflow-.patch b/meta/recipes-multimedia/libtiff/tiff/0002-tiffcrop-fix-issue-380-and-382-heap-buffer-overflow-.patch
-> deleted file mode 100644
-> index 812ffb232d..0000000000
-> --- a/meta/recipes-multimedia/libtiff/tiff/0002-tiffcrop-fix-issue-380-and-382-heap-buffer-overflow-.patch
-> +++ /dev/null
-> @@ -1,219 +0,0 @@
-> -CVE: CVE-2022-0891
-> -CVE: CVE-2022-1056
-> -Upstream-Status: Backport
-> -Signed-off-by: Ross Burton <ross.burton@arm.com>
-> -
-> -From e46b49e60fddb2e924302fb1751f79eb9cfb2253 Mon Sep 17 00:00:00 2001
-> -From: Su Laus <sulau@freenet.de>
-> -Date: Tue, 8 Mar 2022 17:02:44 +0000
-> -Subject: [PATCH 2/6] tiffcrop: fix issue #380 and #382 heap buffer overflow in
-> - extractImageSection
-> -
-> ----
-> - tools/tiffcrop.c | 92 +++++++++++++++++++-----------------------------
-> - 1 file changed, 36 insertions(+), 56 deletions(-)
-> -
-> -diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
-> -index b85c2ce7..302a7e91 100644
-> ---- a/tools/tiffcrop.c
-> -+++ b/tools/tiffcrop.c
-> -@@ -105,8 +105,8 @@
-> -  *                of messages to monitor progress without enabling dump logs.
-> -  */
-> -
-> --static   char tiffcrop_version_id[] = "2.4";
-> --static   char tiffcrop_rev_date[] = "12-13-2010";
-> -+static   char tiffcrop_version_id[] = "2.4.1";
-> -+static   char tiffcrop_rev_date[] = "03-03-2010";
-> -
-> - #include "tif_config.h"
-> - #include "libport.h"
-> -@@ -6710,10 +6710,10 @@ extractImageSection(struct image_data *image, struct pageseg *section,
-> - #ifdef DEVELMODE
-> -   uint32_t    img_length;
-> - #endif
-> --  uint32_t    j, shift1, shift2, trailing_bits;
-> -+  uint32_t    j, shift1, trailing_bits;
-> -   uint32_t    row, first_row, last_row, first_col, last_col;
-> -   uint32_t    src_offset, dst_offset, row_offset, col_offset;
-> --  uint32_t    offset1, offset2, full_bytes;
-> -+  uint32_t    offset1, full_bytes;
-> -   uint32_t    sect_width;
-> - #ifdef DEVELMODE
-> -   uint32_t    sect_length;
-> -@@ -6723,7 +6723,6 @@ extractImageSection(struct image_data *image, struct pageseg *section,
-> - #ifdef DEVELMODE
-> -   int      k;
-> -   unsigned char bitset;
-> --  static char *bitarray = NULL;
-> - #endif
-> -
-> -   img_width = image->width;
-> -@@ -6741,17 +6740,12 @@ extractImageSection(struct image_data *image, struct pageseg *section,
-> -   dst_offset = 0;
-> -
-> - #ifdef DEVELMODE
-> --  if (bitarray == NULL)
-> --    {
-> --    if ((bitarray = (char *)malloc(img_width)) == NULL)
-> --      {
-> --      TIFFError ("", "DEBUG: Unable to allocate debugging bitarray");
-> --      return (-1);
-> --      }
-> --    }
-> -+  char bitarray[39];
-> - #endif
-> -
-> --  /* rows, columns, width, length are expressed in pixels */
-> -+  /* rows, columns, width, length are expressed in pixels
-> -+   * first_row, last_row, .. are index into image array starting at 0 to width-1,
-> -+   * last_col shall be also extracted.  */
-> -   first_row = section->y1;
-> -   last_row  = section->y2;
-> -   first_col = section->x1;
-> -@@ -6761,9 +6755,14 @@ extractImageSection(struct image_data *image, struct pageseg *section,
-> - #ifdef DEVELMODE
-> -   sect_length = last_row - first_row + 1;
-> - #endif
-> --  img_rowsize = ((img_width * bps + 7) / 8) * spp;
-> --  full_bytes = (sect_width * spp * bps) / 8;   /* number of COMPLETE bytes per row in section */
-> --  trailing_bits = (sect_width * bps) % 8;
-> -+    /* The read function loadImage() used copy separate plane data into a buffer as interleaved
-> -+     * samples rather than separate planes so the same logic works to extract regions
-> -+     * regardless of the way the data are organized in the input file.
-> -+     * Furthermore, bytes and bits are arranged in buffer according to COMPRESSION=1 and FILLORDER=1
-> -+     */
-> -+    img_rowsize = (((img_width * spp * bps) + 7) / 8);    /* row size in full bytes of source image */
-> -+    full_bytes = (sect_width * spp * bps) / 8;            /* number of COMPLETE bytes per row in section */
-> -+    trailing_bits = (sect_width * spp * bps) % 8;         /* trailing bits within the last byte of destination buffer */
-> -
-> - #ifdef DEVELMODE
-> -     TIFFError ("", "First row: %"PRIu32", last row: %"PRIu32", First col: %"PRIu32", last col: %"PRIu32"\n",
-> -@@ -6776,10 +6775,9 @@ extractImageSection(struct image_data *image, struct pageseg *section,
-> -
-> -   if ((bps % 8) == 0)
-> -     {
-> --    col_offset = first_col * spp * bps / 8;
-> -+    col_offset = (first_col * spp * bps) / 8;
-> -     for (row = first_row; row <= last_row; row++)
-> -       {
-> --      /* row_offset = row * img_width * spp * bps / 8; */
-> -       row_offset = row * img_rowsize;
-> -       src_offset = row_offset + col_offset;
-> -
-> -@@ -6792,14 +6790,12 @@ extractImageSection(struct image_data *image, struct pageseg *section,
-> -     }
-> -   else
-> -     { /* bps != 8 */
-> --    shift1  = spp * ((first_col * bps) % 8);
-> --    shift2  = spp * ((last_col * bps) % 8);
-> -+    shift1 = ((first_col * spp * bps) % 8);           /* shift1 = bits to skip in the first byte of source buffer*/
-> -     for (row = first_row; row <= last_row; row++)
-> -       {
-> -       /* pull out the first byte */
-> -       row_offset = row * img_rowsize;
-> --      offset1 = row_offset + (first_col * bps / 8);
-> --      offset2 = row_offset + (last_col * bps / 8);
-> -+      offset1 = row_offset + ((first_col * spp * bps) / 8);   /* offset1 = offset into source of byte with first bits to be extracted */
-> -
-> - #ifdef DEVELMODE
-> -       for (j = 0, k = 7; j < 8; j++, k--)
-> -@@ -6811,12 +6807,12 @@ extractImageSection(struct image_data *image, struct pageseg *section,
-> -       sprintf(&bitarray[9], " ");
-> -       for (j = 10, k = 7; j < 18; j++, k--)
-> -         {
-> --        bitset = *(src_buff + offset2) & (((unsigned char)1 << k)) ? 1 : 0;
-> -+        bitset = *(src_buff + offset1 + full_bytes) & (((unsigned char)1 << k)) ? 1 : 0;
-> -         sprintf(&bitarray[j], (bitset) ? "1" : "0");
-> -         }
-> -       bitarray[18] = '\0';
-> --      TIFFError ("", "Row: %3d Offset1: %"PRIu32",  Shift1: %"PRIu32",    Offset2: %"PRIu32",  Shift2:  %"PRIu32"\n",
-> --                 row, offset1, shift1, offset2, shift2);
-> -+      TIFFError ("", "Row: %3d Offset1: %"PRIu32",  Shift1: %"PRIu32",    Offset2: %"PRIu32",  Trailing_bits:  %"PRIu32"\n",
-> -+                 row, offset1, shift1, offset1+full_bytes, trailing_bits);
-> - #endif
-> -
-> -       bytebuff1 = bytebuff2 = 0;
-> -@@ -6840,11 +6836,12 @@ extractImageSection(struct image_data *image, struct pageseg *section,
-> -
-> -         if (trailing_bits != 0)
-> -           {
-> --        bytebuff2 = src_buff[offset2] & ((unsigned char)255 << (7 - shift2));
-> -+      /* Only copy higher bits of samples and mask lower bits of not wanted column samples to zero */
-> -+        bytebuff2 = src_buff[offset1 + full_bytes] & ((unsigned char)255 << (8 - trailing_bits));
-> -           sect_buff[dst_offset] = bytebuff2;
-> - #ifdef DEVELMODE
-> -         TIFFError ("", "        Trailing bits src offset:  %8"PRIu32", Dst offset: %8"PRIu32"\n",
-> --                              offset2, dst_offset);
-> -+          offset1 + full_bytes, dst_offset);
-> -           for (j = 30, k = 7; j < 38; j++, k--)
-> -             {
-> -             bitset = *(sect_buff + dst_offset) & (((unsigned char)1 << k)) ? 1 : 0;
-> -@@ -6863,8 +6860,10 @@ extractImageSection(struct image_data *image, struct pageseg *section,
-> - #endif
-> -         for (j = 0; j <= full_bytes; j++)
-> -           {
-> --        bytebuff1 = src_buff[offset1 + j] & ((unsigned char)255 >> shift1);
-> --        bytebuff2 = src_buff[offset1 + j + 1] & ((unsigned char)255 << (7 - shift1));
-> -+          /* Skip the first shift1 bits and shift the source up by shift1 bits before save to destination.*/
-> -+          /* Attention: src_buff size needs to be some bytes larger than image size, because could read behind image here. */
-> -+          bytebuff1 = src_buff[offset1 + j] & ((unsigned char)255 >> shift1);
-> -+          bytebuff2 = src_buff[offset1 + j + 1] & ((unsigned char)255 << (8 - shift1));
-> -           sect_buff[dst_offset + j] = (bytebuff1 << shift1) | (bytebuff2 >> (8 - shift1));
-> -           }
-> - #ifdef DEVELMODE
-> -@@ -6880,36 +6879,17 @@ extractImageSection(struct image_data *image, struct pageseg *section,
-> - #endif
-> -         dst_offset += full_bytes;
-> -
-> -+        /* Copy the trailing_bits for the last byte in the destination buffer.
-> -+           Could come from one ore two bytes of the source buffer. */
-> -         if (trailing_bits != 0)
-> -           {
-> - #ifdef DEVELMODE
-> --          TIFFError ("", "        Trailing bits   src offset: %8"PRIu32", Dst offset: %8"PRIu32"\n", offset1 + full_bytes, dst_offset);
-> --#endif
-> --        if (shift2 > shift1)
-> --            {
-> --          bytebuff1 = src_buff[offset1 + full_bytes] & ((unsigned char)255 << (7 - shift2));
-> --            bytebuff2 = bytebuff1 & ((unsigned char)255 << shift1);
-> --            sect_buff[dst_offset] = bytebuff2;
-> --#ifdef DEVELMODE
-> --          TIFFError ("", "        Shift2 > Shift1\n");
-> -+          TIFFError("", "        Trailing bits %4"PRIu32"   src offset: %8"PRIu32", Dst offset: %8"PRIu32"\n", trailing_bits, offset1 + full_bytes, dst_offset);
-> - #endif
-> -+          /* More than necessary bits are already copied into last destination buffer,
-> -+           * only masking of last byte in destination buffer is necessary.*/
-> -+          sect_buff[dst_offset] &= ((uint8_t)0xFF << (8 - trailing_bits));
-> -             }
-> --          else
-> --            {
-> --          if (shift2 < shift1)
-> --              {
-> --              bytebuff2 = ((unsigned char)255 << (shift1 - shift2 - 1));
-> --            sect_buff[dst_offset] &= bytebuff2;
-> --#ifdef DEVELMODE
-> --            TIFFError ("", "        Shift2 < Shift1\n");
-> --#endif
-> --              }
-> --#ifdef DEVELMODE
-> --            else
-> --            TIFFError ("", "        Shift2 == Shift1\n");
-> --#endif
-> --            }
-> --        }
-> - #ifdef DEVELMODE
-> -         sprintf(&bitarray[28], " ");
-> -         sprintf(&bitarray[29], " ");
-> -@@ -7062,7 +7042,7 @@ writeImageSections(TIFF *in, TIFF *out, struct image_data *image,
-> -     width  = sections[i].x2 - sections[i].x1 + 1;
-> -     length = sections[i].y2 - sections[i].y1 + 1;
-> -     sectsize = (uint32_t)
-> --          ceil((width * image->bps + 7) / (double)8) * image->spp * length;
-> -+          ceil((width * image->bps * image->spp + 7) / (double)8) * length;
-> -     /* allocate a buffer if we don't have one already */
-> -     if (createImageSection(sectsize, sect_buff_ptr))
-> -       {
-> ---
-> -2.25.1
-> -
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/0003-add-checks-for-return-value-of-limitMalloc-392.patch b/meta/recipes-multimedia/libtiff/tiff/0003-add-checks-for-return-value-of-limitMalloc-392.patch
-> deleted file mode 100644
-> index a0b856b9e1..0000000000
-> --- a/meta/recipes-multimedia/libtiff/tiff/0003-add-checks-for-return-value-of-limitMalloc-392.patch
-> +++ /dev/null
-> @@ -1,93 +0,0 @@
-> -CVE: CVE-2022-0907
-> -Upstream-Status: Backport
-> -Signed-off-by: Ross Burton <ross.burton@arm.com>
-> -
-> -From a139191cc86f4dc44c74a0f22928e0fb38ed2485 Mon Sep 17 00:00:00 2001
-> -From: Augustus <wangdw.augustus@qq.com>
-> -Date: Mon, 7 Mar 2022 18:21:49 +0800
-> -Subject: [PATCH 3/6] add checks for return value of limitMalloc (#392)
-> -
-> ----
-> - tools/tiffcrop.c | 33 +++++++++++++++++++++------------
-> - 1 file changed, 21 insertions(+), 12 deletions(-)
-> -
-> -diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
-> -index 302a7e91..e407bf51 100644
-> ---- a/tools/tiffcrop.c
-> -+++ b/tools/tiffcrop.c
-> -@@ -7357,7 +7357,11 @@ createImageSection(uint32_t sectsize, unsigned char **sect_buff_ptr)
-> -   if (!sect_buff)
-> -     {
-> -     sect_buff = (unsigned char *)limitMalloc(sectsize);
-> --    *sect_buff_ptr = sect_buff;
-> -+    if (!sect_buff)
-> -+    {
-> -+        TIFFError("createImageSection", "Unable to allocate/reallocate section buffer");
-> -+        return (-1);
-> -+    }
-> -     _TIFFmemset(sect_buff, 0, sectsize);
-> -     }
-> -   else
-> -@@ -7373,15 +7377,15 @@ createImageSection(uint32_t sectsize, unsigned char **sect_buff_ptr)
-> -       else
-> -         sect_buff = new_buff;
-> -
-> -+      if (!sect_buff)
-> -+      {
-> -+          TIFFError("createImageSection", "Unable to allocate/reallocate section buffer");
-> -+          return (-1);
-> -+      }
-> -       _TIFFmemset(sect_buff, 0, sectsize);
-> -       }
-> -     }
-> -
-> --  if (!sect_buff)
-> --    {
-> --    TIFFError("createImageSection", "Unable to allocate/reallocate section buffer");
-> --    return (-1);
-> --    }
-> -   prev_sectsize = sectsize;
-> -   *sect_buff_ptr = sect_buff;
-> -
-> -@@ -7648,7 +7652,11 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
-> -   if (!crop_buff)
-> -     {
-> -     crop_buff = (unsigned char *)limitMalloc(cropsize);
-> --    *crop_buff_ptr = crop_buff;
-> -+    if (!crop_buff)
-> -+    {
-> -+        TIFFError("createCroppedImage", "Unable to allocate/reallocate crop buffer");
-> -+        return (-1);
-> -+    }
-> -     _TIFFmemset(crop_buff, 0, cropsize);
-> -     prev_cropsize = cropsize;
-> -     }
-> -@@ -7664,15 +7672,15 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
-> -         }
-> -       else
-> -         crop_buff = new_buff;
-> -+      if (!crop_buff)
-> -+      {
-> -+          TIFFError("createCroppedImage", "Unable to allocate/reallocate crop buffer");
-> -+          return (-1);
-> -+      }
-> -       _TIFFmemset(crop_buff, 0, cropsize);
-> -       }
-> -     }
-> -
-> --  if (!crop_buff)
-> --    {
-> --    TIFFError("createCroppedImage", "Unable to allocate/reallocate crop buffer");
-> --    return (-1);
-> --    }
-> -   *crop_buff_ptr = crop_buff;
-> -
-> -   if (crop->crop_mode & CROP_INVERT)
-> -@@ -9231,3 +9239,4 @@ invertImage(uint16_t photometric, uint16_t spp, uint16_t bps, uint32_t width, ui
-> -  * fill-column: 78
-> -  * End:
-> -  */
-> -+
-> ---
-> -2.25.1
-> -
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/0004-TIFFFetchNormalTag-avoid-calling-memcpy-with-a-null-.patch b/meta/recipes-multimedia/libtiff/tiff/0004-TIFFFetchNormalTag-avoid-calling-memcpy-with-a-null-.patch
-> deleted file mode 100644
-> index 719dabaecc..0000000000
-> --- a/meta/recipes-multimedia/libtiff/tiff/0004-TIFFFetchNormalTag-avoid-calling-memcpy-with-a-null-.patch
-> +++ /dev/null
-> @@ -1,33 +0,0 @@
-> -CVE: CVE-2022-0908
-> -Upstream-Status: Backport
-> -Signed-off-by: Ross Burton <ross.burton@arm.com>
-> -
-> -From ef5a0bf271823df168642444d051528a68205cb0 Mon Sep 17 00:00:00 2001
-> -From: Even Rouault <even.rouault@spatialys.com>
-> -Date: Thu, 17 Feb 2022 15:28:43 +0100
-> -Subject: [PATCH 4/6] TIFFFetchNormalTag(): avoid calling memcpy() with a null
-> - source pointer and size of zero (fixes #383)
-> -
-> ----
-> - libtiff/tif_dirread.c | 5 ++++-
-> - 1 file changed, 4 insertions(+), 1 deletion(-)
-> -
-> -diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-> -index d84147a0..4e8ce729 100644
-> ---- a/libtiff/tif_dirread.c
-> -+++ b/libtiff/tif_dirread.c
-> -@@ -5079,7 +5079,10 @@ TIFFFetchNormalTag(TIFF* tif, TIFFDirEntry* dp, int recover)
-> -                                                               _TIFFfree(data);
-> -                                                       return(0);
-> -                                               }
-> --                                              _TIFFmemcpy(o,data,(uint32_t)dp->tdir_count);
-> -+                                              if (dp->tdir_count > 0 )
-> -+                                              {
-> -+                                                      _TIFFmemcpy(o,data,(uint32_t)dp->tdir_count);
-> -+                                              }
-> -                                               o[(uint32_t)dp->tdir_count]=0;
-> -                                               if (data!=0)
-> -                                                       _TIFFfree(data);
-> ---
-> -2.25.1
-> -
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/0005-fix-the-FPE-in-tiffcrop-393.patch b/meta/recipes-multimedia/libtiff/tiff/0005-fix-the-FPE-in-tiffcrop-393.patch
-> deleted file mode 100644
-> index 64dbe9ef92..0000000000
-> --- a/meta/recipes-multimedia/libtiff/tiff/0005-fix-the-FPE-in-tiffcrop-393.patch
-> +++ /dev/null
-> @@ -1,36 +0,0 @@
-> -CVE: CVE-2022-0909
-> -Upstream-Status: Backport
-> -Signed-off-by: Ross Burton <ross.burton@arm.com>
-> -
-> -From 4768355a074d562177e0a8b551c561d1af7eb74a Mon Sep 17 00:00:00 2001
-> -From: 4ugustus <wangdw.augustus@qq.com>
-> -Date: Tue, 8 Mar 2022 16:22:04 +0000
-> -Subject: [PATCH 5/6] fix the FPE in tiffcrop (#393)
-> -
-> ----
-> - libtiff/tif_dir.c | 4 ++--
-> - 1 file changed, 2 insertions(+), 2 deletions(-)
-> -
-> -diff --git a/libtiff/tif_dir.c b/libtiff/tif_dir.c
-> -index a6c254fc..77da6ea4 100644
-> ---- a/libtiff/tif_dir.c
-> -+++ b/libtiff/tif_dir.c
-> -@@ -335,13 +335,13 @@ _TIFFVSetField(TIFF* tif, uint32_t tag, va_list ap)
-> -               break;
-> -       case TIFFTAG_XRESOLUTION:
-> -         dblval = va_arg(ap, double);
-> --        if( dblval < 0 )
-> -+        if( dblval != dblval || dblval < 0 )
-> -             goto badvaluedouble;
-> -               td->td_xresolution = _TIFFClampDoubleToFloat( dblval );
-> -               break;
-> -       case TIFFTAG_YRESOLUTION:
-> -         dblval = va_arg(ap, double);
-> --        if( dblval < 0 )
-> -+        if( dblval != dblval || dblval < 0 )
-> -             goto badvaluedouble;
-> -               td->td_yresolution = _TIFFClampDoubleToFloat( dblval );
-> -               break;
-> ---
-> -2.25.1
-> -
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/0006-fix-heap-buffer-overflow-in-tiffcp-278.patch b/meta/recipes-multimedia/libtiff/tiff/0006-fix-heap-buffer-overflow-in-tiffcp-278.patch
-> deleted file mode 100644
-> index afd5e59960..0000000000
-> --- a/meta/recipes-multimedia/libtiff/tiff/0006-fix-heap-buffer-overflow-in-tiffcp-278.patch
-> +++ /dev/null
-> @@ -1,57 +0,0 @@
-> -CVE: CVE-2022-0924
-> -Upstream-Status: Backport
-> -Signed-off-by: Ross Burton <ross.burton@arm.com>
-> -
-> -From 1074b9691322b1e3671cd8ea0b6b3509d08978fb Mon Sep 17 00:00:00 2001
-> -From: 4ugustus <wangdw.augustus@qq.com>
-> -Date: Thu, 10 Mar 2022 08:48:00 +0000
-> -Subject: [PATCH 6/6] fix heap buffer overflow in tiffcp (#278)
-> -
-> ----
-> - tools/tiffcp.c | 17 ++++++++++++++++-
-> - 1 file changed, 16 insertions(+), 1 deletion(-)
-> -
-> -diff --git a/tools/tiffcp.c b/tools/tiffcp.c
-> -index 1f889516..552d8fad 100644
-> ---- a/tools/tiffcp.c
-> -+++ b/tools/tiffcp.c
-> -@@ -1661,12 +1661,27 @@ DECLAREwriteFunc(writeBufferToSeparateStrips)
-> -       tdata_t obuf;
-> -       tstrip_t strip = 0;
-> -       tsample_t s;
-> -+      uint16_t bps = 0, bytes_per_sample;
-> -
-> -       obuf = limitMalloc(stripsize);
-> -       if (obuf == NULL)
-> -               return (0);
-> -       _TIFFmemset(obuf, 0, stripsize);
-> -       (void) TIFFGetFieldDefaulted(out, TIFFTAG_ROWSPERSTRIP, &rowsperstrip);
-> -+      (void) TIFFGetField(out, TIFFTAG_BITSPERSAMPLE, &bps);
-> -+      if( bps == 0 )
-> -+        {
-> -+            TIFFError(TIFFFileName(out), "Error, cannot read BitsPerSample");
-> -+            _TIFFfree(obuf);
-> -+            return 0;
-> -+        }
-> -+        if( (bps % 8) != 0 )
-> -+        {
-> -+            TIFFError(TIFFFileName(out), "Error, cannot handle BitsPerSample that is not a multiple of 8");
-> -+            _TIFFfree(obuf);
-> -+            return 0;
-> -+        }
-> -+      bytes_per_sample = bps/8;
-> -       for (s = 0; s < spp; s++) {
-> -               uint32_t row;
-> -               for (row = 0; row < imagelength; row += rowsperstrip) {
-> -@@ -1676,7 +1691,7 @@ DECLAREwriteFunc(writeBufferToSeparateStrips)
-> -
-> -                       cpContigBufToSeparateBuf(
-> -                           obuf, (uint8_t*) buf + row * rowsize + s,
-> --                          nrows, imagewidth, 0, 0, spp, 1);
-> -+                          nrows, imagewidth, 0, 0, spp, bytes_per_sample);
-> -                       if (TIFFWriteEncodedStrip(out, strip++, obuf, stripsize) < 0) {
-> -                               TIFFError(TIFFFileName(out),
-> -                                   "Error, can't write strip %"PRIu32,
-> ---
-> -2.25.1
-> -
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/561599c99f987dc32ae110370cfdd7df7975586b.patch b/meta/recipes-multimedia/libtiff/tiff/561599c99f987dc32ae110370cfdd7df7975586b.patch
-> deleted file mode 100644
-> index 0b41dde606..0000000000
-> --- a/meta/recipes-multimedia/libtiff/tiff/561599c99f987dc32ae110370cfdd7df7975586b.patch
-> +++ /dev/null
-> @@ -1,30 +0,0 @@
-> -From 561599c99f987dc32ae110370cfdd7df7975586b Mon Sep 17 00:00:00 2001
-> -From: Even Rouault <even.rouault@spatialys.com>
-> -Date: Sat, 5 Feb 2022 20:36:41 +0100
-> -Subject: [PATCH] TIFFReadDirectory(): avoid calling memcpy() with a null
-> - source pointer and size of zero (fixes #362)
-> -
-> -Upstream-Status: Backport
-> -CVE: CVE-2022-0562
-> -
-> ----
-> - libtiff/tif_dirread.c | 3 ++-
-> - 1 file changed, 2 insertions(+), 1 deletion(-)
-> -
-> -diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-> -index 2bbc4585..23194ced 100644
-> ---- a/libtiff/tif_dirread.c
-> -+++ b/libtiff/tif_dirread.c
-> -@@ -4177,7 +4177,8 @@ TIFFReadDirectory(TIFF* tif)
-> -                     goto bad;
-> -                 }
-> -
-> --                memcpy(new_sampleinfo, tif->tif_dir.td_sampleinfo, old_extrasamples * sizeof(uint16_t));
-> -+                if (old_extrasamples > 0)
-> -+                    memcpy(new_sampleinfo, tif->tif_dir.td_sampleinfo, old_extrasamples * sizeof(uint16_t));
-> -                 _TIFFsetShortArray(&tif->tif_dir.td_sampleinfo, new_sampleinfo, tif->tif_dir.td_extrasamples);
-> -                 _TIFFfree(new_sampleinfo);
-> -         }
-> ---
-> -GitLab
-> -
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1354.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1354.patch
-> deleted file mode 100644
-> index 71b85cac10..0000000000
-> --- a/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1354.patch
-> +++ /dev/null
-> @@ -1,212 +0,0 @@
-> -From 87881e093691a35c60b91cafed058ba2dd5d9807 Mon Sep 17 00:00:00 2001
-> -From: Even Rouault <even.rouault@spatialys.com>
-> -Date: Sun, 5 Dec 2021 14:37:46 +0100
-> -Subject: [PATCH] TIFFReadDirectory: fix OJPEG hack (fixes #319)
-> -
-> -to avoid having the size of the strip arrays inconsistent with the
-> -number of strips returned by TIFFNumberOfStrips(), which may cause
-> -out-ouf-bounds array read afterwards.
-> -
-> -One of the OJPEG hack that alters SamplesPerPixel may influence the
-> -number of strips. Hence compute tif_dir.td_nstrips only afterwards.
-> -
-> -CVE: CVE-2022-1354
-> -
-> -Upstream-Status: Backport
-> -[https://gitlab.com/libtiff/libtiff/-/commit/87f580f39011109b3bb5f6eca13fac543a542798]
-> -
-> -Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-> ----
-> - libtiff/tif_dirread.c | 162 ++++++++++++++++++++++--------------------
-> - 1 file changed, 83 insertions(+), 79 deletions(-)
-> -
-> -diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-> -index 8f434ef5..14c031d1 100644
-> ---- a/libtiff/tif_dirread.c
-> -+++ b/libtiff/tif_dirread.c
-> -@@ -3794,50 +3794,7 @@ TIFFReadDirectory(TIFF* tif)
-> -               MissingRequired(tif,"ImageLength");
-> -               goto bad;
-> -       }
-> --      /*
-> --       * Setup appropriate structures (by strip or by tile)
-> --       */
-> --      if (!TIFFFieldSet(tif, FIELD_TILEDIMENSIONS)) {
-> --              tif->tif_dir.td_nstrips = TIFFNumberOfStrips(tif);
-> --              tif->tif_dir.td_tilewidth = tif->tif_dir.td_imagewidth;
-> --              tif->tif_dir.td_tilelength = tif->tif_dir.td_rowsperstrip;
-> --              tif->tif_dir.td_tiledepth = tif->tif_dir.td_imagedepth;
-> --              tif->tif_flags &= ~TIFF_ISTILED;
-> --      } else {
-> --              tif->tif_dir.td_nstrips = TIFFNumberOfTiles(tif);
-> --              tif->tif_flags |= TIFF_ISTILED;
-> --      }
-> --      if (!tif->tif_dir.td_nstrips) {
-> --              TIFFErrorExt(tif->tif_clientdata, module,
-> --                  "Cannot handle zero number of %s",
-> --                  isTiled(tif) ? "tiles" : "strips");
-> --              goto bad;
-> --      }
-> --      tif->tif_dir.td_stripsperimage = tif->tif_dir.td_nstrips;
-> --      if (tif->tif_dir.td_planarconfig == PLANARCONFIG_SEPARATE)
-> --              tif->tif_dir.td_stripsperimage /= tif->tif_dir.td_samplesperpixel;
-> --      if (!TIFFFieldSet(tif, FIELD_STRIPOFFSETS)) {
-> --#ifdef OJPEG_SUPPORT
-> --              if ((tif->tif_dir.td_compression==COMPRESSION_OJPEG) &&
-> --                  (isTiled(tif)==0) &&
-> --                  (tif->tif_dir.td_nstrips==1)) {
-> --                      /*
-> --                       * XXX: OJPEG hack.
-> --                       * If a) compression is OJPEG, b) it's not a tiled TIFF,
-> --                       * and c) the number of strips is 1,
-> --                       * then we tolerate the absence of stripoffsets tag,
-> --                       * because, presumably, all required data is in the
-> --                       * JpegInterchangeFormat stream.
-> --                       */
-> --                      TIFFSetFieldBit(tif, FIELD_STRIPOFFSETS);
-> --              } else
-> --#endif
-> --        {
-> --                      MissingRequired(tif,
-> --                              isTiled(tif) ? "TileOffsets" : "StripOffsets");
-> --                      goto bad;
-> --              }
-> --      }
-> -+
-> -       /*
-> -        * Second pass: extract other information.
-> -        */
-> -@@ -4042,41 +3999,6 @@ TIFFReadDirectory(TIFF* tif)
-> -                       } /* -- if (!dp->tdir_ignore) */
-> -               } /* -- for-loop -- */
-> -
-> --        if( tif->tif_mode == O_RDWR &&
-> --            tif->tif_dir.td_stripoffset_entry.tdir_tag != 0 &&
-> --            tif->tif_dir.td_stripoffset_entry.tdir_count == 0 &&
-> --            tif->tif_dir.td_stripoffset_entry.tdir_type == 0 &&
-> --            tif->tif_dir.td_stripoffset_entry.tdir_offset.toff_long8 == 0 &&
-> --            tif->tif_dir.td_stripbytecount_entry.tdir_tag != 0 &&
-> --            tif->tif_dir.td_stripbytecount_entry.tdir_count == 0 &&
-> --            tif->tif_dir.td_stripbytecount_entry.tdir_type == 0 &&
-> --            tif->tif_dir.td_stripbytecount_entry.tdir_offset.toff_long8 == 0 )
-> --        {
-> --            /* Directory typically created with TIFFDeferStrileArrayWriting() */
-> --            TIFFSetupStrips(tif);
-> --        }
-> --        else if( !(tif->tif_flags&TIFF_DEFERSTRILELOAD) )
-> --        {
-> --            if( tif->tif_dir.td_stripoffset_entry.tdir_tag != 0 )
-> --            {
-> --                if (!TIFFFetchStripThing(tif,&(tif->tif_dir.td_stripoffset_entry),
-> --                                         tif->tif_dir.td_nstrips,
-> --                                         &tif->tif_dir.td_stripoffset_p))
-> --                {
-> --                    goto bad;
-> --                }
-> --            }
-> --            if( tif->tif_dir.td_stripbytecount_entry.tdir_tag != 0 )
-> --            {
-> --                if (!TIFFFetchStripThing(tif,&(tif->tif_dir.td_stripbytecount_entry),
-> --                                         tif->tif_dir.td_nstrips,
-> --                                         &tif->tif_dir.td_stripbytecount_p))
-> --                {
-> --                    goto bad;
-> --                }
-> --            }
-> --        }
-> --
-> -       /*
-> -        * OJPEG hack:
-> -        * - If a) compression is OJPEG, and b) photometric tag is missing,
-> -@@ -4147,6 +4069,88 @@ TIFFReadDirectory(TIFF* tif)
-> -               }
-> -       }
-> -
-> -+      /*
-> -+       * Setup appropriate structures (by strip or by tile)
-> -+       * We do that only after the above OJPEG hack which alters SamplesPerPixel
-> -+       * and thus influences the number of strips in the separate planarconfig.
-> -+       */
-> -+      if (!TIFFFieldSet(tif, FIELD_TILEDIMENSIONS)) {
-> -+              tif->tif_dir.td_nstrips = TIFFNumberOfStrips(tif);
-> -+              tif->tif_dir.td_tilewidth = tif->tif_dir.td_imagewidth;
-> -+              tif->tif_dir.td_tilelength = tif->tif_dir.td_rowsperstrip;
-> -+              tif->tif_dir.td_tiledepth = tif->tif_dir.td_imagedepth;
-> -+              tif->tif_flags &= ~TIFF_ISTILED;
-> -+      } else {
-> -+              tif->tif_dir.td_nstrips = TIFFNumberOfTiles(tif);
-> -+              tif->tif_flags |= TIFF_ISTILED;
-> -+      }
-> -+      if (!tif->tif_dir.td_nstrips) {
-> -+              TIFFErrorExt(tif->tif_clientdata, module,
-> -+                  "Cannot handle zero number of %s",
-> -+                  isTiled(tif) ? "tiles" : "strips");
-> -+              goto bad;
-> -+      }
-> -+      tif->tif_dir.td_stripsperimage = tif->tif_dir.td_nstrips;
-> -+      if (tif->tif_dir.td_planarconfig == PLANARCONFIG_SEPARATE)
-> -+              tif->tif_dir.td_stripsperimage /= tif->tif_dir.td_samplesperpixel;
-> -+      if (!TIFFFieldSet(tif, FIELD_STRIPOFFSETS)) {
-> -+#ifdef OJPEG_SUPPORT
-> -+              if ((tif->tif_dir.td_compression==COMPRESSION_OJPEG) &&
-> -+                  (isTiled(tif)==0) &&
-> -+                  (tif->tif_dir.td_nstrips==1)) {
-> -+                      /*
-> -+                       * XXX: OJPEG hack.
-> -+                       * If a) compression is OJPEG, b) it's not a tiled TIFF,
-> -+                       * and c) the number of strips is 1,
-> -+                       * then we tolerate the absence of stripoffsets tag,
-> -+                       * because, presumably, all required data is in the
-> -+                       * JpegInterchangeFormat stream.
-> -+                       */
-> -+                      TIFFSetFieldBit(tif, FIELD_STRIPOFFSETS);
-> -+              } else
-> -+#endif
-> -+        {
-> -+                      MissingRequired(tif,
-> -+                              isTiled(tif) ? "TileOffsets" : "StripOffsets");
-> -+                      goto bad;
-> -+              }
-> -+      }
-> -+
-> -+        if( tif->tif_mode == O_RDWR &&
-> -+            tif->tif_dir.td_stripoffset_entry.tdir_tag != 0 &&
-> -+            tif->tif_dir.td_stripoffset_entry.tdir_count == 0 &&
-> -+            tif->tif_dir.td_stripoffset_entry.tdir_type == 0 &&
-> -+            tif->tif_dir.td_stripoffset_entry.tdir_offset.toff_long8 == 0 &&
-> -+            tif->tif_dir.td_stripbytecount_entry.tdir_tag != 0 &&
-> -+            tif->tif_dir.td_stripbytecount_entry.tdir_count == 0 &&
-> -+            tif->tif_dir.td_stripbytecount_entry.tdir_type == 0 &&
-> -+            tif->tif_dir.td_stripbytecount_entry.tdir_offset.toff_long8 == 0 )
-> -+        {
-> -+            /* Directory typically created with TIFFDeferStrileArrayWriting() */
-> -+            TIFFSetupStrips(tif);
-> -+        }
-> -+        else if( !(tif->tif_flags&TIFF_DEFERSTRILELOAD) )
-> -+        {
-> -+            if( tif->tif_dir.td_stripoffset_entry.tdir_tag != 0 )
-> -+            {
-> -+                if (!TIFFFetchStripThing(tif,&(tif->tif_dir.td_stripoffset_entry),
-> -+                                         tif->tif_dir.td_nstrips,
-> -+                                         &tif->tif_dir.td_stripoffset_p))
-> -+                {
-> -+                    goto bad;
-> -+                }
-> -+            }
-> -+            if( tif->tif_dir.td_stripbytecount_entry.tdir_tag != 0 )
-> -+            {
-> -+                if (!TIFFFetchStripThing(tif,&(tif->tif_dir.td_stripbytecount_entry),
-> -+                                         tif->tif_dir.td_nstrips,
-> -+                                         &tif->tif_dir.td_stripbytecount_p))
-> -+                {
-> -+                    goto bad;
-> -+                }
-> -+            }
-> -+        }
-> -+
-> -       /*
-> -        * Make sure all non-color channels are extrasamples.
-> -        * If it's not the case, define them as such.
-> ---
-> -2.25.1
-> -
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1355.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1355.patch
-> deleted file mode 100644
-> index e59f5aad55..0000000000
-> --- a/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1355.patch
-> +++ /dev/null
-> @@ -1,62 +0,0 @@
-> -From fb1db384959698edd6caeea84e28253d272a0f96 Mon Sep 17 00:00:00 2001
-> -From: Su_Laus <sulau@freenet.de>
-> -Date: Sat, 2 Apr 2022 22:33:31 +0200
-> -Subject: [PATCH] tiffcp: avoid buffer overflow in "mode" string (fixes #400)
-> -
-> -CVE: CVE-2022-1355
-> -
-> -Upstream-Status: Backport
-> -[https://gitlab.com/libtiff/libtiff/-/commit/c1ae29f9ebacd29b7c3e0c7db671af7db3584bc2]
-> -
-> -Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-> ----
-> - tools/tiffcp.c | 25 ++++++++++++++++++++-----
-> - 1 file changed, 20 insertions(+), 5 deletions(-)
-> -
-> -diff --git a/tools/tiffcp.c b/tools/tiffcp.c
-> -index fd129bb7..8d944ff6 100644
-> ---- a/tools/tiffcp.c
-> -+++ b/tools/tiffcp.c
-> -@@ -274,19 +274,34 @@ main(int argc, char* argv[])
-> -                       deftilewidth = atoi(optarg);
-> -                       break;
-> -               case 'B':
-> --                      *mp++ = 'b'; *mp = '\0';
-> -+                      if (strlen(mode) < (sizeof(mode) - 1))
-> -+                      {
-> -+                              *mp++ = 'b'; *mp = '\0';
-> -+                      }
-> -                       break;
-> -               case 'L':
-> --                      *mp++ = 'l'; *mp = '\0';
-> -+                      if (strlen(mode) < (sizeof(mode) - 1))
-> -+                      {
-> -+                              *mp++ = 'l'; *mp = '\0';
-> -+                      }
-> -                       break;
-> -               case 'M':
-> --                      *mp++ = 'm'; *mp = '\0';
-> -+                      if (strlen(mode) < (sizeof(mode) - 1))
-> -+                      {
-> -+                              *mp++ = 'm'; *mp = '\0';
-> -+                      }
-> -                       break;
-> -               case 'C':
-> --                      *mp++ = 'c'; *mp = '\0';
-> -+                      if (strlen(mode) < (sizeof(mode) - 1))
-> -+                      {
-> -+                              *mp++ = 'c'; *mp = '\0';
-> -+                      }
-> -                       break;
-> -               case '8':
-> --                      *mp++ = '8'; *mp = '\0';
-> -+                      if (strlen(mode) < (sizeof(mode)-1))
-> -+                      {
-> -+                              *mp++ = '8'; *mp = '\0';
-> -+                      }
-> -                       break;
-> -               case 'x':
-> -                       pageInSeq = 1;
-> ---
-> -2.25.1
-> -
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/eecb0712f4c3a5b449f70c57988260a667ddbdef.patch b/meta/recipes-multimedia/libtiff/tiff/eecb0712f4c3a5b449f70c57988260a667ddbdef.patch
-> deleted file mode 100644
-> index 74f9649fdf..0000000000
-> --- a/meta/recipes-multimedia/libtiff/tiff/eecb0712f4c3a5b449f70c57988260a667ddbdef.patch
-> +++ /dev/null
-> @@ -1,32 +0,0 @@
-> -From eecb0712f4c3a5b449f70c57988260a667ddbdef Mon Sep 17 00:00:00 2001
-> -From: Even Rouault <even.rouault@spatialys.com>
-> -Date: Sun, 6 Feb 2022 13:08:38 +0100
-> -Subject: [PATCH] TIFFFetchStripThing(): avoid calling memcpy() with a null
-> - source pointer and size of zero (fixes #362)
-> -
-> -Upstream-Status: Backport
-> -CVE: CVE-2022-0561
-> -
-> ----
-> - libtiff/tif_dirread.c | 5 +++--
-> - 1 file changed, 3 insertions(+), 2 deletions(-)
-> -
-> -diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-> -index 23194ced..50ebf8ac 100644
-> ---- a/libtiff/tif_dirread.c
-> -+++ b/libtiff/tif_dirread.c
-> -@@ -5777,8 +5777,9 @@ TIFFFetchStripThing(TIFF* tif, TIFFDirEntry* dir, uint32_t nstrips, uint64_t** l
-> -                       _TIFFfree(data);
-> -                       return(0);
-> -               }
-> --                _TIFFmemcpy(resizeddata,data, (uint32_t)dir->tdir_count * sizeof(uint64_t));
-> --                _TIFFmemset(resizeddata+(uint32_t)dir->tdir_count, 0, (nstrips - (uint32_t)dir->tdir_count) * sizeof(uint64_t));
-> -+              if( dir->tdir_count )
-> -+                      _TIFFmemcpy(resizeddata,data, (uint32_t)dir->tdir_count * sizeof(uint64_t));
-> -+              _TIFFmemset(resizeddata+(uint32_t)dir->tdir_count, 0, (nstrips - (uint32_t)dir->tdir_count) * sizeof(uint64_t));
-> -               _TIFFfree(data);
-> -               data=resizeddata;
-> -       }
-> ---
-> -GitLab
-> -
-> diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
-> similarity index 75%
-> rename from meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-> rename to meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
-> index b5ccd859f3..e30df0b3e9 100644
-> --- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-> +++ b/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
-> @@ -9,22 +9,11 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=34da3db46fab7501992f9615d7e158cf"
->  CVE_PRODUCT = "libtiff"
->
->  SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-> -           file://0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch \
-> -           file://561599c99f987dc32ae110370cfdd7df7975586b.patch \
-> -           file://eecb0712f4c3a5b449f70c57988260a667ddbdef.patch \
-> -           file://0001-tif_jbig.c-fix-crash-when-reading-a-file-with-multip.patch \
-> -           file://0002-tiffcrop-fix-issue-380-and-382-heap-buffer-overflow-.patch \
-> -           file://0003-add-checks-for-return-value-of-limitMalloc-392.patch \
-> -           file://0004-TIFFFetchNormalTag-avoid-calling-memcpy-with-a-null-.patch \
-> -           file://0005-fix-the-FPE-in-tiffcrop-393.patch \
-> -           file://0006-fix-heap-buffer-overflow-in-tiffcp-278.patch \
->             file://0001-fix-the-FPE-in-tiffcrop-415-427-and-428.patch \
-> -           file://CVE-2022-1354.patch \
-> -           file://CVE-2022-1355.patch \
->             file://CVE-2022-34526.patch \
->             "
->
-> -SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
-> +SRC_URI[sha256sum] = "917223b37538959aca3b790d2d73aa6e626b688e02dcda272aec24c2f498abed"
->
->  # exclude betas
->  UPSTREAM_CHECK_REGEX = "tiff-(?P<pver>\d+(\.\d+)+).tar"
-> --
-> 2.37.3
 >
 >
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#171174): https://lists.openembedded.org/g/openembedded-core/message/171174
-> Mute This Topic: https://lists.openembedded.org/mt/93990329/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> > On 30 Sep 2022, at 11:16, Ross Burton via lists.openembedded.org
+> <ross.burton=3Darm.com@lists.openembedded.org> wrote:
+> >
+> > On 30 Sep 2022, at 05:16, Khem Raj via lists.openembedded.org <raj.khem=
+=3D
+> gmail.com@lists.openembedded.org> wrote:
+> >> -RDEPENDS:${PN}-ptest +=3D "openssl-bin perl perl-modules bash sed"
+> >> +RDEPENDS:${PN}-ptest +=3D "bash sed openssl-bin \
+> >> +                         perl perl-modules \
+> >
+> > I thought the point of perl-modules was to depend on the entire standar=
+d
+> library, so isn=E2=80=99t this a bug in perl-modules?
 >
+> My perl-modules RRECOMMENDS on, eg, perl-module-tap-parser.
+>
+> Are you building an image with recommendations turned off?
+
+
+Good point I will check in think it worked fine with glibc but not with
+musl based images I see that Perl-modules is fully empty in packages-split
+area so soMething does not add up
+
+>
+>
+> Ross
+
+--000000000000b0b68f05e9e72281
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Fri, Sep 30, 2022 at 3:37 AM Ross Burton &lt;<a href=3D"=
+mailto:Ross.Burton@arm.com">Ross.Burton@arm.com</a>&gt; wrote:<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
+ccc solid;padding-left:1ex"><br>
+<br>
+&gt; On 30 Sep 2022, at 11:16, Ross Burton via <a href=3D"http://lists.open=
+embedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</=
+a> &lt;ross.burton=3D<a href=3D"mailto:arm.com@lists.openembedded.org" targ=
+et=3D"_blank">arm.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt; <br>
+&gt; On 30 Sep 2022, at 05:16, Khem Raj via <a href=3D"http://lists.openemb=
+edded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> =
+&lt;raj.khem=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" target=
+=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt;&gt; -RDEPENDS:${PN}-ptest +=3D &quot;openssl-bin perl perl-modules bas=
+h sed&quot;<br>
+&gt;&gt; +RDEPENDS:${PN}-ptest +=3D &quot;bash sed openssl-bin \<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0perl perl-modules \<br>
+&gt; <br>
+&gt; I thought the point of perl-modules was to depend on the entire standa=
+rd library, so isn=E2=80=99t this a bug in perl-modules?<br>
+<br>
+My perl-modules RRECOMMENDS on, eg, perl-module-tap-parser.<br>
+<br>
+Are you building an image with recommendations turned off?</blockquote><div=
+ dir=3D"auto"><br></div><div dir=3D"auto">Good point I will check in think =
+it worked fine with glibc but not with musl based images I see that Perl-mo=
+dules is fully empty in packages-split area so soMething does not add up=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
+<br>
+Ross</blockquote></div></div>
+
+--000000000000b0b68f05e9e72281--
 
