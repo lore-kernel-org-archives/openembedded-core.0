@@ -1,128 +1,125 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9287CC433FE
-	for <webhook@archiver.kernel.org>; Fri, 30 Sep 2022 17:47:25 +0000 (UTC)
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
- [209.85.167.170])
- by mx.groups.io with SMTP id smtpd.web09.208.1664560045039669257
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9897EC433FE
+	for <webhook@archiver.kernel.org>; Fri, 30 Sep 2022 17:55:05 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web10.306.1664560498355713000
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Sep 2022 10:47:25 -0700
+ Fri, 30 Sep 2022 10:54:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FI4JZuZB;
- spf=pass (domain: gmail.com, ip: 209.85.167.170,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f170.google.com with SMTP id w13so5451097oiw.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Hwcau83i;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id x18so7982080wrm.7
         for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Sep 2022 10:47:24 -0700 (PDT)
+ Fri, 30 Sep 2022 10:54:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=PXdXm0c48TStb/u6G/n/hEgFOIP2EhfbQ1fc0YZwd6A=;
-        b=FI4JZuZB94XENTVAMLJFIDJP28twTPGsl9VvQQIxT5W9HYvwyJvOs5pDujmLRrmYTR
-         u0gz98QALFNicfMtNhdcDZ3XyYSZufbT1Z5kqjcr/rGJojuGQGSjxMyx49DphNh0y1cZ
-         PEkAonxEfLnUeeJIZi36Gc029ZsweBbduQtFIQsP+HGRA2jj98BUAiVzkeZPkoyN90Mh
-         ldUoXNzWF4sUK2StkAnk7ZjnhiXHjcM2OZs48/EO1p44qphADFBM3WH2CJBJ8cc+0jzB
-         RB5cs4LOFyeQP84+Vef53ffFE1M/rfIlXS/qvoa9ZajivcPxN04uErWOjSr+xxMvJ35n
-         3Y1w==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=/iYMnH4adh839yRZSulyCFbtKRwz9Q31ald1NGkh3OI=;
+        b=Hwcau83ibz1F7AowuzI/fSsP6dSQ8KRmuxNQ/JCTEjTgDifyUGcKKah7mzPETVXlnz
+         fZG8IG3lOTNYUHBhyngXU3DBUQ62i+RiFIYv7ZcZKlFSrr/SUW3LZZMDBHoy5doWMvxE
+         Qtiy7HJZreJQzkhSTKkEJhuVdJgH3teH28HNBajpp5D8LX6NsT5V0P3U+s39AYwD8EEH
+         Z646ZNSleY3dTRSm3De0G3pwxwUYx/EEBAgo0yuqaQQejh/UGiPlN3sxotiSCJFvmM2I
+         AfAlPp9VE9skwZAW8gpnkt9eXHL8QBgadh089u4RijmTc5zUf+SicYiyvFW6KcLkaoo2
+         tsUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=PXdXm0c48TStb/u6G/n/hEgFOIP2EhfbQ1fc0YZwd6A=;
-        b=TmuBUqwq3D8qkqCyU/tzwdi3vaIjVByztWDYZmN/6HQ70iiX6jIJQO8FvVRQaW8JtR
-         h9PYELJMuvsa5w89E02NpaxAeMSzGOwj1JEfkMyw6YaC03Ci/baozjIt8IG/VfSsng+Z
-         5AS00+KZ0xKRHD0Y04PQAsYAJpLOHAIlxnEeVmvWgWuNnwJXWOtcg20sFHlgTvQvk/9b
-         Kp0/xQGWhzf+zxg2q5gs9H+tTrDmkyf3x4+HrNoipp1z/5RBbNP8doPrMsCLibmGRCG5
-         Gdx0REyMMg7+SOmkd3cHaPgDk1lwacu2PuZuFuwijwdCiS2OYXGFeo7nv5RbNo7INVil
-         /YTw==
-X-Gm-Message-State: ACrzQf0MbIbxAgygUr6BmHCYkP512r1ZSrO2iEVCODkEq3wzrHHVV1gl
-	OUHmpgDA3kZufTJZW4WLKIGS8u/S3TiN6w5J154=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=/iYMnH4adh839yRZSulyCFbtKRwz9Q31ald1NGkh3OI=;
+        b=lG4eG1WBAHUP406UYPWGPeWBgEMhQvR1KlXp/LB24VufKQFR6AmWaXxxN8f1DBC4Au
+         lh4sjuhYkuP+08SUneFpHWYse0T7MGNGnE2o0q+q1lN2JTz7fXOxtJ0rIehvyX/ck8OW
+         ZI/WduGWWyO4e2fIssiGvKCWmJhO11UPlJE/h6V3RJwyPmAf4YHYp+JpilwNaY2L9vnJ
+         iMa0KG7uxii7dxWug9bX1Zc/O62ltUK/uXXdBprU8p8MY2Gn1ynqp9qzmcty0LYGxwO2
+         Bz+h9Sng1A35TCSLYVxgwdGRTCVG85MBRz2LtKTQXkNp7/08PH4sZwWoyEEdpbgwCeR6
+         lwLw==
+X-Gm-Message-State: ACrzQf1vwsAYwg4/fjStFw2V853TnQsT7n2V3gvfEuMBUAwvHtkVcdtQ
+	Ig+dSxq57YWjws0zt5YJNwM1924ZLzXU1XD7
 X-Google-Smtp-Source: 
- AMsMyM6YDcFgqUTtnA4tgocWxle+W2vlbthtj2glyBweTEmK8caEhKWdx3xL6WdyU92oZAgetF7WeSB6aLsk8Af0y3Y=
-X-Received: by 2002:aca:ad8f:0:b0:350:8c87:c5be with SMTP id
- w137-20020acaad8f000000b003508c87c5bemr9539532oie.55.1664560044307; Fri, 30
- Sep 2022 10:47:24 -0700 (PDT)
+ AMsMyM4Uznvs58y9ajQIMW4g+/LrQHxjKAaqDhtiXvTyMXTo0240S1tNA3qEfOwD4you/wDodAEzOQ==
+X-Received: by 2002:adf:dbc3:0:b0:22a:d393:bd84 with SMTP id
+ e3-20020adfdbc3000000b0022ad393bd84mr6543550wrj.626.1664560496414;
+        Fri, 30 Sep 2022 10:54:56 -0700 (PDT)
+Received: from og-worker-dev-01.infra.foundries.io.net
+ (51-159-19-113.rev.poneytelecom.eu. [51.159.19.113])
+        by smtp.gmail.com with ESMTPSA id
+ y9-20020a05600c20c900b003a531c7aa66sm2636017wmm.1.2022.09.30.10.54.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Sep 2022 10:54:55 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [PATCH 1/3] go: drop patch to make content based hash generation less
+ pedan
+Date: Fri, 30 Sep 2022 17:54:38 +0000
+Message-Id: <20220930175440.2168008-1-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220930041614.2704304-1-raj.khem@gmail.com>
- <C9A0CBAD-5373-4F4C-BB73-0AD10A2DF000@arm.com>
- <042F0314-BF16-49A5-AD68-81DFD17739E6@arm.com>
- <CAMKF1srZEorOx-hPiD1zZx1DMiJdZbHgknub04hfyfRFzEhNcg@mail.gmail.com>
- <EA0EFA99-9A83-4699-9D0D-AD5279C58B81@arm.com>
- <CAMKF1sqwQcT-vpk5Ycydd8BCk3OCmPP-zCKZ-MwRr0G+XPHHNA@mail.gmail.com>
- <01558808-3100-4CFA-98DB-244F487435D4@arm.com>
- <CAMKF1sp=ujH14XbTybycQkJWaL93OMfm0dS6FvM_XR+K71EQaw@mail.gmail.com>
- <CAMKF1sp1oqMEXLvXPJhquoFjuDrhc-rtEN5-b05b_FVtYo9w=Q@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1sp1oqMEXLvXPJhquoFjuDrhc-rtEN5-b05b_FVtYo9w=Q@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 30 Sep 2022 10:46:58 -0700
-Message-ID: 
- <CAMKF1spSdO680G-gsNe5501L+f5CxcUYt-8eayt8-SwPkKcC1w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] openssl: Add missing perl module runtime
- dependencies for ptests
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 Sep 2022 17:47:25 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 30 Sep 2022 17:55:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171232
+ https://lists.openembedded.org/g/openembedded-core/message/171233
 
-On Fri, Sep 30, 2022 at 10:10 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Fri, Sep 30, 2022 at 10:08 AM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > On Fri, Sep 30, 2022 at 10:01 AM Ross Burton <Ross.Burton@arm.com> wrot=
-e:
-> > >
-> > >
-> > > > On 30 Sep 2022, at 17:42, Khem Raj <raj.khem@gmail.com> wrote:
-> > > > > Good point I will check in think it worked fine with glibc but no=
-t with musl based images I see that Perl-modules is fully empty in packages=
--split area so soMething does not add up
-> > > >
-> > > > It will be empty as it=E2=80=99s a metapackage, but it should have =
-lots of rrecommends.
-> > > >
-> > > > Right that was the point the folder should not have been empty it s=
-hould have had those rdepends control files
-> > >
-> > >
-> > > My perl-modules pkgdata built with musl:
-> > >
-> > > RRECOMMENDS:perl-modules: perl-module-cpan perl-module-unicore perl-m=
-odule-b perl-module-compress-raw-bzip2 perl-module-compress-raw-zlib perl-m=
-odule-cwd perl-module-data-dumper perl-module-devel-peek perl-module-digest=
--md5 perl-module-digest-sha perl-module-encode-byte perl-module-encode-cn [=
-=E2=80=A6]
-> > >
-> > > Can you retest?  Unless you=E2=80=99re running in a no-recommends bui=
-ld I can=E2=80=99t see how this can be.
-> > >
-> > > Arguably, perl-modules should depends on the packages, otherwise it t=
-otally breaks in no-recommends environments.  If you install perl-modules y=
-ou want the entire library, not just a fraction of it.
-> >
-> > are you building with opkg ?
->
-> and here is my list of bad recommendations
->
-> BAD_RECOMMENDATIONS +=3D "eudev-hwdb udev-hwdb libmodule-build-perl"
->
+With patch in place I have see some build issues mainly in meta-virtualization
+with ti am62xx-evm, am64xx-evm and riscv64 machines.
 
-OK my RRECOMMENDS:perl-modules are fine similar to Ross, however they
-does not get pulled into final image when openssl-ptest is added to
-IMAGE_INSTALL
+All the mahines fails to build the following recipes:
 
-> >
-> > >
-> > > Ross
+| Summary: 5 tasks failed:
+|  /srv/oe/build/conf/../../layers/meta-virtualization/recipes-containers/runc/runc-opencontainers_git.bb:do_compile
+|  /srv/oe/build/conf/../../layers/meta-virtualization/recipes-containers/skopeo/skopeo_git.bb:do_compile
+|  /srv/oe/build/conf/../../layers/meta-lmp/meta-lmp-base/recipes-support/fioconfig/fioconfig_git.bb:do_compile
+|  /srv/oe/build/conf/../../layers/meta-virtualization/recipes-containers/docker/docker-ce_git.bb:do_compile
+|  /srv/oe/build/conf/../../layers/meta-virtualization/recipes-containers/containerd/containerd-opencontainers_git.bb:do_compile
+| Summary: There were 8 ERROR messages, returning a non-zero exit code.
+
+And all of them fails with the same issue:
+
+| panic: runtime error: index out of range [0] with length 0
+|
+| goroutine 6688 [running]:
+| cmd/go/internal/work.(*Builder).buildActionID(0xc0000030e0, 0xc000172a00)
+| 	/srv/oe/build/tmp-lmp/work/x86_64-linux/go-cross-riscv64/1.19-r0/recipe-sysroot-native/usr/lib/riscv64-lmp-linux/go/src/cmd/go/internal/work/exec.go:281 +0x2425
+| cmd/go/internal/work.(*Builder).build(0xc0000030e0, {0xc000000238?, 0x0?}, 0xc000172a00)
+| 	/srv/oe/build/tmp-lmp/work/x86_64-linux/go-cross-riscv64/1.19-r0/recipe-sysroot-native/usr/lib/riscv64-lmp-linux/go/src/cmd/go/internal/work/exec.go:478 +0x199
+| cmd/go/internal/work.(*Builder).Do.func2({0xb2e4f0, 0xc000000238}, 0xc000172a00)
+| 	/srv/oe/build/tmp-lmp/work/x86_64-linux/go-cross-riscv64/1.19-r0/recipe-sysroot-native/usr/lib/riscv64-lmp-linux/go/src/cmd/go/internal/work/exec.go:139 +0x5fc
+| cmd/go/internal/work.(*Builder).Do.func3()
+| 	/srv/oe/build/tmp-lmp/work/x86_64-linux/go-cross-riscv64/1.19-r0/recipe-sysroot-native/usr/lib/riscv64-lmp-linux/go/src/cmd/go/internal/work/exec.go:201 +0xb9
+| created by cmd/go/internal/work.(*Builder).Do
+| 	/srv/oe/build/tmp-lmp/work/x86_64-linux/go-cross-riscv64/1.19-r0/recipe-sysroot-native/usr/lib/riscv64-lmp-linux/go/src/cmd/go/internal/work/exec.go:187 +0x3f5
+| make: *** [Makefile:244: bin/containerd] Error 2
+| make: *** Waiting for unfinished jobs....
+
+Without this patch everithing look good.
+
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+---
+ meta/recipes-devtools/go/go-1.19.inc | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/go/go-1.19.inc b/meta/recipes-devtools/go/go-1.19.inc
+index f733a807b4..355a82eb9f 100644
+--- a/meta/recipes-devtools/go/go-1.19.inc
++++ b/meta/recipes-devtools/go/go-1.19.inc
+@@ -5,7 +5,6 @@ FILESEXTRAPATHS:prepend := "${FILE_DIRNAME}/go:"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+ 
+ SRC_URI += "\
+-    file://0001-cmd-go-make-content-based-hash-generation-less-pedan.patch \
+     file://0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch \
+     file://0004-ld-add-soname-to-shareable-objects.patch \
+     file://0005-make.bash-override-CC-when-building-dist-and-go_boot.patch \
+-- 
+2.34.1
+
 
