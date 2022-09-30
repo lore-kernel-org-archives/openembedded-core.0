@@ -1,134 +1,185 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <jdmason@kudzu.us>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9721C433FE
-	for <webhook@archiver.kernel.org>; Fri, 30 Sep 2022 18:10:45 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web10.502.1664561435822212812
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1272AC433F5
+	for <webhook@archiver.kernel.org>; Fri, 30 Sep 2022 19:15:26 +0000 (UTC)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com
+ [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.web09.1266.1664565319437924440
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Sep 2022 11:10:35 -0700
+ Fri, 30 Sep 2022 12:15:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=WpHmVbfX;
- spf=pass (domain: gmail.com, ip: 209.85.214.169,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id d11so4629567pll.8
+ dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112
+ header.b=xZ2BKdlC;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.219.46,
+ mailfrom: jdmason@kudzu.us)
+Received: by mail-qv1-f46.google.com with SMTP id u9so2399204qvo.11
         for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Sep 2022 11:10:35 -0700 (PDT)
+ Fri, 30 Sep 2022 12:15:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=vm3zKtmUgamdMPtp3o+eZeUofvUb1ESRtz8lgOZMX1w=;
-        b=WpHmVbfXyC3UlAVX2+/AgREhzNQ7aPV65umzWYqU/x0+YMPcIxdullS4YTxOPGHrNA
-         s8Guh6R17aqxf6mjP+Q1eg7ok9RZswOHgAvslqlgveWK0tx+c2UuGynQdSwTKf7xqEar
-         Bygfo746ScsldPQFyrQP5xeUiJ+smTbkerSnU4v609hkzTxprKv1EkUYC4xAQ4c+0NKw
-         hZD0XxHQy6QKd1WZ5YXcQ1jlxIp/ign+JWKSK650o5yvC9AOnglFkf0m13w2E5nGU1bF
-         RDYmMYQWS0a+mKTzZGPZVUhT/NGNNp0LHVi2ov7AFIwpze8JyPH+386vqybjY3zP0GBN
-         R3yA==
+        d=kudzu-us.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=nNMMHsLC9q50F3HFQp8xhVnate0re8quTGmYEjVwtmI=;
+        b=xZ2BKdlCS66mU0UiSvN2S4jv0kTznMgLhf3CwCf9IsOwV+cvowFYJCq2YT9gY+paWp
+         IZgym0sc7mOyMX+DssTEH5WaUVpQ1Ypd5qkDaDNH69n8HgImUI2psjioEtfb5oJMNukR
+         AHDH0PqoGXsw1aO0HfLA3KVsvcN0rRJtAbBlX+gdsRSqyR/5bFy7DVa2DlKx7+OBshxg
+         xKdC2IMwqk9PAcjPQOKlKoTHTXOZ9LGWpxeBSZRarflZf0fP5LEMR08mzsNR0s6u1Ids
+         M9DpXY1eKPYgcXdUAa2aJA9dBYEDhN9BgIdnlyfdYdV6/6VJnT4t+8b3Dpx6HZV24Iy0
+         TAfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=vm3zKtmUgamdMPtp3o+eZeUofvUb1ESRtz8lgOZMX1w=;
-        b=UDWuc6j7stc9jc1BNXp7l3rD74Ieo0oq48BwXh39vP1JE/rhItTeARqYi9wgPAiCgy
-         9FiVN3wIsxDuga/cCxcdKELx13+ifgogE1SUGfX+CKMsdD08Rax0OpwQIl+tMIyLrV8M
-         VQ7f0nOedN5rbUrEKuHEXp0+6xd89bgEC+eCihxL5GDtEPhcsuQs12+pxNVryVFJAr4H
-         hamqH06rgLV6/9rCVR49xVRLwh3PeIl6GZqhTAeN4NAKf6iiCeZarElgjHv4lK4ywB4G
-         IaHYIn+LDKn7m++V0ELC0DodbMQlS8G8TB3z+Xnwj06pFV9woR69SncJtYLjFffVfAy/
-         Ui+w==
-X-Gm-Message-State: ACrzQf12k/i125ukKoJinpWa51H+9B03zBBiVRNpV/3GYwu4raJBGSkJ
-	frin4DNRw2r7I/3EPumsp6Zo97ujxiYpuxVs6KU=
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=nNMMHsLC9q50F3HFQp8xhVnate0re8quTGmYEjVwtmI=;
+        b=vOvLCrWUs/hOTtCgkGiceOJx+JCYX2vI9bVOWsDOOu3xf+o/c5uWd4JZqHiWO8T3zn
+         oh7MfRclyNhr8u1wX4oRdxNIncbNxoFLN51vycHzHKwIvJC6StudxpJQurCTUyGvn16h
+         HbrAp0OMPFD5tb4vLa6o7KBpC6M+HBr7IWn4E8ZLvPAScgVm90tgP9vkwn5b1wZ5J0zq
+         NCexDA986EFtqMzQRQZR7lfoM2gwmDSP70QYyShREJSAXyXkOutCMELSeK4d2UwBJ/GA
+         IVwqe4vVqzZRbH4l/QHdz8fdjCR1GPgRAY7/E47ARrGyaawed6Cqz248wQaxT6IlBybs
+         86tQ==
+X-Gm-Message-State: ACrzQf1+wmyCX1BaXQ2a42WygqlftS2UvtZxV128ZygSAYQuRnArZ+3s
+	/E8zXq3+UUTq4JFXsg09RJL1Sg==
 X-Google-Smtp-Source: 
- AMsMyM4yC9CVNkdqrQ8l0cgu8NmuZRFSPaui8DGSDpT5gZjho2BBLbMNnIZAVJdhLfM9ISN827BNoU5iLqw9ZSfGAXY=
-X-Received: by 2002:a17:903:284:b0:178:2a94:9b6a with SMTP id
- j4-20020a170903028400b001782a949b6amr10265032plr.135.1664561435328; Fri, 30
- Sep 2022 11:10:35 -0700 (PDT)
+ AMsMyM4wEWYPM/TobwTF2qyma089FLIS491BAQm50lTOlOriQ+1l+NKFOgp0xJHUBhue6ZJ+cUuMqA==
+X-Received: by 2002:ad4:4ee1:0:b0:4b1:25f6:b9b8 with SMTP id
+ dv1-20020ad44ee1000000b004b125f6b9b8mr3034214qvb.48.1664565318329;
+        Fri, 30 Sep 2022 12:15:18 -0700 (PDT)
+Received: from kudzu.us ([2605:a601:a608:5600::59])
+        by smtp.gmail.com with ESMTPSA id
+ x17-20020a05620a259100b006ce5ba64e30sm3120058qko.136.2022.09.30.12.15.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Sep 2022 12:15:16 -0700 (PDT)
+Date: Fri, 30 Sep 2022 15:15:14 -0400
+From: Jon Mason <jdmason@kudzu.us>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] linux-yocto: add entries for machine features
+Message-ID: <YzdAQlX4tP2BX0DN@kudzu.us>
+References: <20220930032339.172935-1-jdmason@kudzu.us>
+ <CADkTA4M+ps4QFqL1SDEfFCwF4+_wnxZ67A8KxjvVKZCu2AGwoQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220930175440.2168008-1-jose.quaresma@foundries.io>
- <CANNYZj-15uhYQwhU95q0Yr=FcX_qGhWj5Vy=7qFdqyJ4QfSsww@mail.gmail.com>
- <CANPvuRkXLnZMYGttuO1k6SVoN=vhee5K0uk7eXSzpYZxvQRiXQ@mail.gmail.com>
- <CANNYZj9hSLESrhTHYQr2tPiA6W94GVayntUD5qOoa0692HUP+g@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: 
- <CANNYZj9hSLESrhTHYQr2tPiA6W94GVayntUD5qOoa0692HUP+g@mail.gmail.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Fri, 30 Sep 2022 19:10:13 +0100
-Message-ID: 
- <CANPvuRnUWmdmr_RzzK5C1E82RT_yqOjNERZt-nZZ0m+r4GFw5w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] go: drop patch to make content based hash
- generation less pedan
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: multipart/alternative; boundary="0000000000000f46ed05e9e8e9d1"
+ <CADkTA4M+ps4QFqL1SDEfFCwF4+_wnxZ67A8KxjvVKZCu2AGwoQ@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 Sep 2022 18:10:45 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 30 Sep 2022 19:15:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171242
+ https://lists.openembedded.org/g/openembedded-core/message/171243
 
---0000000000000f46ed05e9e8e9d1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, Sep 30, 2022 at 09:29:24AM -0400, Bruce Ashfield wrote:
+> On Thu, Sep 29, 2022 at 11:23 PM Jon Mason <jdmason@kudzu.us> wrote:
+> >
+> > Most machine features have corresponding kernel config fragments, but
+> > only a few have an entry in the kernel recipe to be automatically added.
+> > Adding the majority of them here.
+> >
+> > Signed-off-by: Jon Mason <jdmason@kudzu.us>
+> > ---
+> >  meta/recipes-kernel/linux/linux-yocto.inc | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >
+> > diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+> > index 7ea661e138d9..23ae0b4260c2 100644
+> > --- a/meta/recipes-kernel/linux/linux-yocto.inc
+> > +++ b/meta/recipes-kernel/linux/linux-yocto.inc
+> > @@ -33,7 +33,12 @@ KERNEL_LD:append:arc = " ${TOOLCHAIN_OPTIONS}"
+> >
+> >  KERNEL_FEATURES:append:qemuall=" features/debug/printk.scc"
+> >
+> > +KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'features/bluetooth/bluetooth.scc', '', d)}"
+> > +KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'efi', 'cfg/efi.scc', '', d)}"
+> > +KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'ext2', 'cfg/fs/ext2.scc', '', d)}"
+> >  KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
+> > +KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'pci', 'features/pci/pci.scc', '', d)}"
+> > +KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'cfg/timer/rtc.scc', '', d)}"
+> >  KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'vfat', 'cfg/fs/vfat.scc', '', d)}"
+> 
+> The concept of this is ok, but there are some non-obvious details that
+> need to be considered.
+> 
+> There's a really old enhancement in bugzilla about doing a better job
+> of integration between machine, kernel and distro features:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=2267
+> 
+> One issue is that this should generate warnings if the config values
+> don't make it into the final .config. otherwise they aren't really a
+> useful mapping of machine -> kernel features (we don't want
+> "just-in-case" configuration). Obviously the linux-yocto config audit
+> can warn on things like this, but the fragments need to be tagged as
+> required (hardware) for that to happen.  Which they won't currently be
+> if specified this way. I'd need to do some tooling work to make that
+> happen.
+> 
+> Another detail is that KERNEL_FEATURES are applied last. Which means
+> they can override / enable things that a BSP configuration doesn't
+> want and could have even explicitly disabled, used different values,
+> etc.
+> 
+> A proper BSP configuration is already a definition with a curated set
+> of options, and in a linux-yocto flow, that is typically the first and
+> last word on the values. doing a lot of BSP configuration via machine
+> features spreads the logic out to multiple places, which can be a
+> challenge to track down later. The fact that these map to the
+> centralized fragments is really good (since while the enablement might
+> be distributed and spread over recipe space, the actual options are
+> centralized), but it makes jumping off from a kernel-cache BSP or one
+> of the qemu references harder, as these will keep showing up .. when
+> you might not want them.
+> 
+> Yes, we can argue that machine's shouldn't set features that they
+> don't want to support, but that doesn't cover all of the complications
+> and potential issues.
+> 
+> If we want to start dabbling with this, these should be a little bit
+> more opt-in, and be specific to the qemu machines we define (versus
+> just appending to KERNEL_FEATURES). As for opt-in, I'd suggest
+> something like an image or machine feature in the spirit of
+> "DYNAMIC_CONFIG" or "ENABLE_MACHINE_FEATURES", and when that is set,
+> we do the mapping.
+> 
+> Bruce
 
-Alexander Kanavin <alex.kanavin@gmail.com> escreveu no dia sexta,
-30/09/2022 =C3=A0(s) 19:02:
+Perhaps I got a little overzealous. :)
 
-> On Fri, 30 Sept 2022 at 20:01, Jose Quaresma <quaresma.jose@gmail.com>
-> wrote:
-> > Forgot to remove the patch! Will send a v2 but I can't run the
-> reproducibility now.
->
-> You should, I believe the patch was added in the first place to fix
-> the reproducibility issues, and won't be accepted if its removal
-> breaks that.
->
+My issue really is EFI.  EFI has some kernel features needed to boot
+and is fairly compartmentalized.  Adding the kernel fragement in the
+edk2 recipe doesn't really make sense.  Also, there a some machines
+that can do u-boot and edk2, and adding it by default for both might not
+be what we want.  Adding this makes it easier to switch between the two
+in CI.
 
-Sure, I can do it but only next week.
-I tried to understand and come up with a way to fix the issue but don't
-understand the real problem behind it.
+Let me know if that is acceptable and I'll hack the patch down to just
+efi.
 
-Jose
+Thanks,
+Jon
 
-
-> Alex
->
-
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---0000000000000f46ed05e9e8e9d1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Alexander Kanavin &lt;<a href=3D"mail=
-to:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; escreveu no dia s=
-exta, 30/09/2022 =C3=A0(s) 19:02:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On Fri, 30 Sept 2022 at 20:01, Jose Quaresma &lt;<a href=
-=3D"mailto:quaresma.jose@gmail.com" target=3D"_blank">quaresma.jose@gmail.c=
-om</a>&gt; wrote:<br>
-&gt; Forgot to remove the patch! Will send a v2 but I can&#39;t run the rep=
-roducibility now.<br>
-<br>
-You should, I believe the patch was added in the first place to fix<br>
-the reproducibility issues, and won&#39;t be accepted if its removal<br>
-breaks that.<br></blockquote><div><br></div><div>Sure, I can do it but only=
- next week.<br>I tried to understand and come up with a way to fix the issu=
-e but don&#39;t understand the real problem behind it.<br><br>Jose<br><br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Alex<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div>
-
---0000000000000f46ed05e9e8e9d1--
+> 
+> 
+> >
+> >  # A KMACHINE is the mapping of a yocto $MACHINE to what is built
+> > --
+> > 2.30.2
+> >
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#171203): https://lists.openembedded.org/g/openembedded-core/message/171203
+> > Mute This Topic: https://lists.openembedded.org/mt/94009766/1050810
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [bruce.ashfield@gmail.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
+> 
+> 
+> -- 
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+> 
 
