@@ -1,250 +1,1155 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30304C4332F
-	for <webhook@archiver.kernel.org>; Fri, 30 Sep 2022 15:16:38 +0000 (UTC)
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com
- (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.55])
- by mx.groups.io with SMTP id smtpd.web12.130.1664550991027034509
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93736C433FE
+	for <webhook@archiver.kernel.org>; Fri, 30 Sep 2022 15:58:58 +0000 (UTC)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web12.647.1664553537060845064
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Sep 2022 08:16:32 -0700
+ Fri, 30 Sep 2022 08:58:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com
- header.s=selector2-armh-onmicrosoft-com header.b=mGep45kq;
- spf=pass (domain: arm.com, ip: 40.107.13.55, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
- b=dkRS6c85L/bZzj7d4Y7pjOGj36LVIYO1P6vv26dpNRfAjxQALwLaVf2mcLrlhpCVx33qeB2UbuGvyXpdPR99zmNPaYSZGbXiUyn/FOCiEcTmcki+SANa4ZB5+y3IFIaoj9UV95yJlqlw9wlVAJGsIx/Lmjxq9eMTdldX63nOGDMzPgZNvP00bxWHw5vGIW5USMvNo0CX4d5rnfbepdVnVpnavBdpo5ZiOH0pHNNkw/tX3v+uO6aNIk9NZP05vsyN9XwvbN/aouTnjPJrE/c0WES+pTQCXwQblGwOY6XZ6eqJI9fRJveUbxn/4sSXtojm/zvw9qH17Ip80im9vbNIHA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h818OTa+wPwReDpyK23qPMBI6ZwUVD+kFVjh9pqozvg=;
- b=fLvN3rVAeXkJAMquP6I0Zlco/Jna+CfvzKCmuO3I5u/qcQJizRc7wwV4TImFULuQTuL3ih/r8dyAncdMAybsZ/aJiXFIROLeIf/izG5S4MQwTw/PdUadY8FL7zy2GMzJrpAe9YabMaO9ANFJRgptN5ISgxXMrYFBB5CutoWx8YJblEvNk95beNDryGJtMDv8zFjnHOaIMEGSCn0amlDUfO1zCAJ+pIYFjvOtWYpPVv7ZB1w4hCwdWu3klD/APUcpmiMB+CfJu0U2Lif85FHrwayZXMmJgn7aBzLV2A0UphlBC+FA8UB4wbeWGy9yvnzhjhy2hWmfYbv8qsrFASkVuw==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
- oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h818OTa+wPwReDpyK23qPMBI6ZwUVD+kFVjh9pqozvg=;
- b=mGep45kqQWdk0kzgyfdjAaRfZIq4Clo2NQeFw0D3m5/F9iQ4BzNXbLw6tvGpCOtVLVdVX2nzfZR05xXyQ5Zwf2hM6Og+UnEN/44BxEkUJ0nuoGyITOCqOXX9q4CzRvXI4eM6T5tMzqSrLImTThsd7yOnKl1NNQYe+4IVQPPTfD4=
-Received: from AM6P191CA0055.EURP191.PROD.OUTLOOK.COM (2603:10a6:209:7f::32)
- by GV1PR08MB7315.eurprd08.prod.outlook.com (2603:10a6:150:1e::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.23; Fri, 30 Sep
- 2022 15:16:21 +0000
-Received: from AM7EUR03FT009.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:209:7f:cafe::1a) by AM6P191CA0055.outlook.office365.com
- (2603:10a6:209:7f::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.23 via Frontend
- Transport; Fri, 30 Sep 2022 15:16:21 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM7EUR03FT009.mail.protection.outlook.com (100.127.140.130) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5676.17 via Frontend Transport; Fri, 30 Sep 2022 15:16:21 +0000
-Received: ("Tessian outbound ce981123c49d:v128");
- Fri, 30 Sep 2022 15:16:21 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 7aec37d3313bef1b
-X-CR-MTA-TID: 64aa7808
-Received: from 731ab3ff005e.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 6F7FC488-B012-4EA3-8419-E7CEFA3A1FA7.1;
-	Fri, 30 Sep 2022 15:16:15 +0000
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id
- 731ab3ff005e.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Fri, 30 Sep 2022 15:16:14 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KdBY16FGc1R06+RC9ERYot+RPfZ2SJfVMhf4yPBq4aUdYUr+qKP2hxK+VTZtzypUH2kn1JHbUuYPkEIOq9pqV/L0wtLb9jcsx2qmHIpUwghK77YGD/WCglyHFfymJVbwWUTjzzhfXdKbCWC0vuwp+XwYK75iNNmYRqf4L7o4eh6IS8ss7nYIOSFfzpfzilY8mbxDnPSl8Erq+k1iupGXgXyJgoTov3E5Jhhgf54ihVbTmEOymytm3R9s3umjU/raicbHuJxqDQX5+82cU1HGDoUdCmMdSAhhJakvkaVOhrb+KyoqQAvYIU5+qmiLClmrmgwHw8yd8IMyXOqnN448PA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h818OTa+wPwReDpyK23qPMBI6ZwUVD+kFVjh9pqozvg=;
- b=YW+UglJz5DUYeWlTMozc/DVRv5Kt2wcPRpokLpAWfP0N4dddKZOK/9W5SOQjc1vOD/UgqAmsKJjbfgzjwR1gsK4E4tnVn47HgINcIStLhM5g7E4FCP6rbzCBzK++35w3bzU47wgKBLHYSIXyL5eqH+Nz/a7SyI+Ed0cJe8ma1IymxJGxk2dfYh0Bl3UimSF1PZJG4lIvUV3vbAXsKpocabaU5hesiiFMJXGVRSmOrHKtL7lZvID3qgsbl/BEweCeAFlSaCg7vH8itPtc7owIRuSuNvaoSp4aK9AdlwogRnuV/8QhpnrwAs3mn/WUQTiTMAWI8GsscXCDRwqEFA9FxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h818OTa+wPwReDpyK23qPMBI6ZwUVD+kFVjh9pqozvg=;
- b=mGep45kqQWdk0kzgyfdjAaRfZIq4Clo2NQeFw0D3m5/F9iQ4BzNXbLw6tvGpCOtVLVdVX2nzfZR05xXyQ5Zwf2hM6Og+UnEN/44BxEkUJ0nuoGyITOCqOXX9q4CzRvXI4eM6T5tMzqSrLImTThsd7yOnKl1NNQYe+4IVQPPTfD4=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by AM0PR08MB5458.eurprd08.prod.outlook.com (2603:10a6:208:185::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.23; Fri, 30 Sep
- 2022 15:16:12 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7d2b:2570:9a99:a3d2]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7d2b:2570:9a99:a3d2%5]) with mapi id 15.20.5676.017; Fri, 30 Sep 2022
- 15:16:11 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "philippe.coval@astrolabe.coop" <philippe.coval@astrolabe.coop>
-CC: OE-core <openembedded-core@lists.openembedded.org>,
-	"philippe.coval.pro+openembedded-core-lists.yoctoproject.org@gmail.com"
-	<philippe.coval.pro+openembedded-core-lists.yoctoproject.org@gmail.com>
-Subject: Re: [OE-core] [openembedded-core][PATCHv2] graphics: Hotfix for
- eGalax Touchscreen
-Thread-Topic: [OE-core] [openembedded-core][PATCHv2] graphics: Hotfix for
- eGalax Touchscreen
-Thread-Index: AQHY1N6e9/VIx/fhQkSEThbGoPjr1634FWYA
-Date: Fri, 30 Sep 2022 15:16:11 +0000
-Message-ID: <49A68C9F-F12E-4770-B850-8971910788F0@arm.com>
-References: <20220930150858.3389410-1-philippe.coval@astrolabe.coop>
-In-Reply-To: <20220930150858.3389410-1-philippe.coval@astrolabe.coop>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3696.120.41.1.1)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|AM0PR08MB5458:EE_|AM7EUR03FT009:EE_|GV1PR08MB7315:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1b2373aa-2ef3-42cb-f699-08daa2f6bb56
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- rmcvsyFpZWb/CYbhzIUi9IJlwuFIq5SR/2YcM5DgY4dJer2IfUxL884aos1ZgjkFT4pGgqJQdc/p7SHfFD7MXKzAwmkSdUIpNv7hlOSqaPhZBnowPtF7r2J3zdOU1fBAOvhzCZmdzQnTdT2fdAfhc0jMoMdVC0rqmW19eiRGYGl0Zp1Kp4JuwYNpAE0SWYVP2A0wIVQf7JGV84EeHpdpokLc1h41v6ArE8Zr6R2jEJ8I5xDgoOF3ts5CU8CEwltqxe2yi/NWxf8E5fsysPLSG5vMF15tNqUa5266qazq40suoFYgDARqGfFGnM6tx9dO6Ptj8jJBuIJn1VcDqzePmxixeKLxdYU/pKqj4sgNFRR3ddwjQm7g5oYL7NMiccWjaFT9nV0K18MxZO1zV3dkb5ghOKa4iNI+lKJF1H7FZUVGij7ae7y/BnZ1+bg9vh/DyMKYpGlHKL0QczKBCt3KghTCoJW0dWt1WW2bqM1YEBcCEEF8lLMwRxMhIj86a7pD1APuVfaFBwHT0wHm1kKO7XH7xDNnfW34Cig833XMM5XOL/s/kHTxuGK0klfBRzUrRp25+VyVotksKUjumCDhm/NCAjbpIO0DCCqIZJo/QSmaRU3Oc+4jWH3R+O7mVDlz3/digwwI3rMbffTROqa8EXCvhtGqC6Ka1BLzmUIg1XphT0cYPFIlH4U/xK+yt+1vyQuyEaf0JrpWj50bYZyr8tobpNb+aAOs0l9CzVLp7JV27ZU5WJfZetpnQbNZEaaH9B5+Y3oTTaGdg8x0F9tpXZTn55cezxp+G48bbrCMdeECFDkBKRQgmzuzvC3dkpU86HG6douTDfYnfXyFvMpoQg==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(366004)(346002)(136003)(396003)(39860400002)(451199015)(5660300002)(66899015)(71200400001)(966005)(66946007)(66446008)(64756008)(66556008)(66476007)(6506007)(53546011)(38070700005)(33656002)(26005)(6512007)(91956017)(4326008)(76116006)(8676002)(2906002)(6916009)(41300700001)(8936002)(478600001)(122000001)(2616005)(54906003)(186003)(36756003)(6486002)(38100700002)(86362001)(83380400001)(316002)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <081D8FECBDF32A4C9B7669D580CF9CE5@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=TW+eABs7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.46,
+ mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f46.google.com with SMTP id rk17so9961202ejb.1
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 30 Sep 2022 08:58:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=kFuLc17in6YfxTeeLONkkOUsh7JbYiZpxWjEfr8Fnrc=;
+        b=TW+eABs7p051rWIrkGQlogCaPybco6LaDFy6kQO3COmJpAPvltKHRfdi0R1IRG+rhM
+         ELB9U389vQYGGTzttbT3ojO0PdCg5rOr8EezDgDQXIc0PDR9okjdy4CujWSUbpSga+CC
+         gALs04YCa1/wvYVItXWfqe5mSrnYLtbFIud80GQWga+arnmlPsl/66/QP3nTBHclV5mq
+         22tyXnEcAAvhyOsc6Z6JCgLVyFXltA874++YYJ5ANn8nAppq/1YNJF2DrAvsrQkc50vs
+         SWt5HSfQZVzUtNE2WqOlK1NdnLaCCeGMQw0hAgQrEwWVjbpi2CyM1cSwthL9PcJzAEwv
+         M/BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=kFuLc17in6YfxTeeLONkkOUsh7JbYiZpxWjEfr8Fnrc=;
+        b=wAVennTMXC/ZF0apb9KF0OfbGvqOsQUWdlLUzjoRF4L8AaU+I3F/yRewRoLmTurNh8
+         ePgxLkHa5xbVocQPDndjPou5xo/5XMFEktxr2C0igVQPhkiEbLLUd6a5Uo58U/QUJyEa
+         2intsFV3J4VO66nIMhOGdeKYnQ+/SCuafmpJgFLP1Y1x34Dn4tSJqUYr1pcleYuU3dK/
+         FWc0ztB/PDb087fPxS9koJa/5noJspvM4kuu3KidVOLVHJbYAs3hGYlcGNWSd31wzME5
+         LRroNte7aAw+S0VT6NdiclpWtM32Imstl9bXYV0qufaWIcK0eOTdCuwcPw4vRtn6ZY1M
+         2n3A==
+X-Gm-Message-State: ACrzQf1PN96yO9qhXj7XA7//Cg7SANX1Q68WQCZ5mILNvHYOM4Yn6kiV
+	XA6cgQbCLqxWv5S8+Qz+2LSg7w1Hr0qV4RhYOjMkD25LCoEA6TP3
+X-Google-Smtp-Source: 
+ AMsMyM6EZy+FoEetZlOVlZowoiWmmVbrsZbhaZETCIYXY0o3b0Gosci5xLsNbmVDAVWocasIfSyZU4ZjuyZ4qmgkGpw=
+X-Received: by 2002:a17:907:b10:b0:76f:e74f:4f4c with SMTP id
+ h16-20020a1709070b1000b0076fe74f4f4cmr6894678ejl.132.1664553534730; Fri, 30
+ Sep 2022 08:58:54 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB5458
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM7EUR03FT009.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	4ccc46c1-b6b8-4bfb-1c6f-08daa2f6b545
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	hpIFXQJhzxWTN356L4qAk0oQZnL3ouYHfJgUQLZYrfzsa6HhJ3q+mz7dAChU1TgVO0rjYhg5tObTjWh7TRN8H2Uyuzn38foI6QztcYXnM4HJzDsp1pYS5ZZWqBmyObezgGoTUhFQHDPlHk4TykKKLJeDaSc0HUN5tUonOUa5Suf3G4JXwMzARNbbxv8xH4UB05/OnZvoFtHSVV8IqwWj0k6Kw2dlDRXeN3NAiazCvQo9js/n8FxCOIjJBFoassSKxEWCJA8HfMswIuZ5WeyZNCM4iUrkDdC2MtmH9wy0eFo/vUZw7gLzAdQJCYyNEPnvZvXrv0xwMF8QxEDjKUkaXzQxAQhv48NlEV/BJd7OZmATtFU691UZjRJkoxPUGv/MGeMcfetwsYa6xP+OuYbr4zymakVHHgoazudC5JbgVGN5VBii8eBgqB24Ic057VYVNR+YQ2lxNPwTDR2NGOoWpdUfArKO5NsaUUE+iNyfQeRLx2BeEtYNykJwo0ZsJM82NnjuhcQ7eceNBgW0K0aBQxfIdgNn8vd53FulrdfLTbEcjhZSFyq2LGftjB27UjsWLxSRgF4rO0/K0sGokMrIsvvdf/XFv5XHkqGYQig32KszAkiiivWwEZhLskryz8qIM4h6o/XRmYl07NnY9SWnKn+FTy7vyYfrwOh4yMXWN2dhUej+KUn7R+flfT2vEW6squOS3CGeBgZqO0CwqY52mJ+Vn6qAbI+m4dpQmZHnRxX56W0Anr7bl/ZCA8QjNHI6/aZpsLjconledHEWSU/YHDO4KZ1Q3x22XA2Zd7m6yXY=
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230022)(4636009)(376002)(39860400002)(346002)(396003)(136003)(451199015)(36840700001)(40470700004)(46966006)(54906003)(316002)(478600001)(966005)(40480700001)(86362001)(70206006)(70586007)(4326008)(8676002)(6486002)(40460700003)(81166007)(41300700001)(107886003)(356005)(6506007)(82310400005)(26005)(6512007)(8936002)(2906002)(6862004)(82740400003)(5660300002)(33656002)(2616005)(36860700001)(186003)(336012)(83380400001)(66899015)(36756003)(47076005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2022 15:16:21.4414
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 1b2373aa-2ef3-42cb-f699-08daa2f6bb56
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
- TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM7EUR03FT009.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB7315
+References: <20220929083319.2225406-1-jay.shen.teoh@intel.com>
+In-Reply-To: <20220929083319.2225406-1-jay.shen.teoh@intel.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 30 Sep 2022 05:58:43 -1000
+Message-ID: 
+ <CAOSpxdYt8eAzcQH+HURXhf8PKJxEsmTMXwqvDQp6Sw3KXV+chA@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone][PATCH 1/2] tiff: update 4.3.0 -> 4.4.0
+To: openembedded-core@lists.openembedded.org
+Cc: "Teoh, Jay Shen" <jay.shen.teoh@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 Sep 2022 15:16:38 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 30 Sep 2022 15:58:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171224
+ https://lists.openembedded.org/g/openembedded-core/message/171225
 
-As discussed in the MR you filed originally with libinput, this udev rule i=
-s far too broad.  If you can demonstrate that every user of this touchscree=
-n has the input inverted then add a quirk to libinput, otherwise keep this =
-in your own layer.
+This is a version update with some API changes, so further review
+would  be appreciated before I can take this.
 
-Ross
+To help with review, here are the changes in this release:
 
-> On 30 Sep 2022, at 16:08, philippe.coval@astrolabe.coop via lists.openemb=
-edded.org <philippe.coval=3Dastrolabe.coop@lists.openembedded.org> wrote:
->=20
-> From: Philippe Coval <philippe.coval@astrolabe.coop>
->=20
-> For unsupported screens (which X axis is inverted)
->=20
-> For the record issue was observed with this CVL1010 device:
->=20
-> http://www.cartft.com/en/catalog/il/1589#
->=20
-> For more details check related links:
->=20
-> Forwarded: https://lists.openembedded.org/g/openembedded-core/message/171=
-179
-> Relate-to: https://gitlab.freedesktop.org/libinput/libinput/-/issues/665
-> Relate-to: https://at.projects.genivi.org/jira/si/jira.issueviews:issue-h=
-tml/GDP-19/GDP-19.html
-> Relate-to: https://git.ostc-eu.org/OSTC/planning/blueprints/-/issues/22
-> Origin: https://git.ostc-eu.org/OSTC/OHOS/meta-ohos/-/merge_requests/288
-> Signed-off-by: Philippe Coval <philippe.coval@huawei.com>
-> Signed-off-by: Philippe Coval <philippe.coval@astrolabe.coop>
+Software configuration changes
+
+Handle absolute paths in pkg-config file (issue #333)
+Correct fix for the pkgconf file relative paths.
+cmake: allow running the tests with a read-only source directory.
+cmake: Fix STRIPCHOP_DEFAULT value in CMake builds.
+build: Fix static library imports in mingw related to LERC
+Fix version in libtiff-4.pc.in, and CMake build: Add requirements to pc file
+cmake: Fix build with CMake 3.10.
+cmake: Export tiff targets.
+Make LERC_SUPPORT conditional on ZLIB_SUPPORT
+
+Library changes
+
+New/improved functionalities:
+
+TIFFIsBigTiff() function added.
+Functions TIFFFieldSetGetSize() and TIFFieldSetGetCountSize() added.
+LZWDecode(): major speed improvements (~30% faster)
+Predictor 2 (horizontal differenciation): support 64-bit
+Support libjpeg 9d
+
+Bug fixes:
+
+Remove incorrect assert (issue #329)
+avoid hang in TIFFRewriteDirectory() if a classic file > 4 GB is
+attempted to be created
+tif_jbig.c: fix crash when reading a file with multiple IFD in
+memory-mapped mode and when bit reversal is needed (fixes issue #385)
+TIFFFetchNormalTag(): avoid calling memcpy() with a null source
+pointer and size of zero (fixes issue #383)
+TIFFWriteDirectoryTagData(): turn assertion on data length into a runtime check
+TIFFFetchStripThing(): avoid calling memcpy() with a null source
+pointer and size of zero (fixes issue #362)
+TIFFReadDirectory(): avoid calling memcpy() with a null source pointer
+and size of zero (fixes issue #362)
+TIFFYCbCrToRGBInit(): avoid Integer-overflow
+TIFFGetField(TIFFTAG_STRIPBYTECOUNTS/TIFFTAG_STRIPOFFSETS): return
+error if returned pointer is NULL (fixes issue #342)
+OJPEG: avoid assertion when using TIFFReadScanline() (fixes issue #337)
+TIFFReadDirectory(): fix OJPEG hack (fixes issue #319)
+LZW codec: fix support for strips/tiles > 2 GB on Windows
+TIFFAppendToStrip(): fix rewrite-in-place logic (fixes issue #309)
+Fix TIFFRewriteDirectory() discarding directories.
+TIFFReadCustomDirectory(): avoid crash when reading SubjectDistance
+tag on a non EXIF directory (issue #316)
+Fix Segmentation fault printing GPS directory if Altitude tag is present
+tif_jpeg.c: do not emit progressive scans with mozjpeg. (issue #266)
+_TIFFRewriteField(): fix when writing a IFD with a single tile that is
+a sparse one, on big endian hosts
+Fix all remaining uses of legacy Deflate compression id and warn on use.
+
+Tools changes
+
+Bug fixes:
+
+tiffcrop: Fix issue issue #330 and some more from 320 to 349.
+tiffcrop: fix issue issue #395: generation of strange section images.
+tiffcrop: fix issue issue #380 and issue #382 heap buffer overflow in
+extractImageSection
+tiffcrop: fix FPE (issue #393)
+tiffcrop: buffsize check formula in loadImage() amended (fixes issue
+#273, issue #275)
+tiffcrop.c: Fix issue issue #352 heap-buffer-overflow by correcting
+uint32_t underflow.
+tiff2pdf: handle 8-bit palette colormap.
+tiffcp: avoid buffer overflow in "mode" string (fixes issue #400)
+tiffcp: Fix incomprehensible setting of orientation tag (fixes issue #29)
+tiffcp: do not try to fetch compressor-specific tags when not
+appropriate (fixes issue #396)
+tiffcp: fix heap buffer overflow (issue #278)
+tiff2ps: In limitMalloc() check for negative size (fixes issue #284)
+tiffinfo: add a -M switch to define the maximum heap allocation, and
+default it to 256 MiB (fixes issue #287, issue #290)
+tiffinfo: limit more memory allocations using -M switch (fixes issue #288)
+tiffset: fix global-buffer-overflow for ASCII tags where count is
+required (fixes issue #355)
+raw2tiff: check that band number if not zero to avoid floating point
+exception(fixes issue #338)
+tiffinfo/tiffdump: improve output for GDAL tags.
+
+On Wed, Sep 28, 2022 at 10:33 PM Teoh, Jay Shen <jay.shen.teoh@intel.com> wrote:
+>
+> From: Teoh Jay Shen <jay.shen.teoh@intel.com>
+>
+> -Drop all CVE backports for tiff_4.3.0
+> -Update include fixes for:
+>  CVE-2022-2867 [https://bugzilla.redhat.com/show_bug.cgi?id=2118847],
+>  CVE-2022-2868 [https://bugzilla.redhat.com/show_bug.cgi?id=2118863],
+>  CVE-2022-2869 [https://bugzilla.redhat.com/show_bug.cgi?id=2118869]
+>
+> Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
 > ---
-> .../wayland/libinput/90-usb-0eef-0001.rules                 | 1 +
-> meta/recipes-graphics/wayland/libinput_1.19.4.bb            | 6 ++++++
-> 2 files changed, 7 insertions(+)
-> create mode 100644 meta/recipes-graphics/wayland/libinput/90-usb-0eef-000=
-1.rules
->=20
-> diff --git a/meta/recipes-graphics/wayland/libinput/90-usb-0eef-0001.rule=
-s b/meta/recipes-graphics/wayland/libinput/90-usb-0eef-0001.rules
-> new file mode 100644
-> index 0000000000..354629dbbb
-> --- /dev/null
-> +++ b/meta/recipes-graphics/wayland/libinput/90-usb-0eef-0001.rules
-> @@ -0,0 +1 @@
-> +ACTION=3D=3D"add|change", KERNEL=3D=3D"event[0-9]*", ENV{ID_VENDOR_ID}=
-=3D=3D"0eef", ENV{ID_MODEL_ID}=3D=3D"0001", ENV{ID_INPUT_TOUCHSCREEN}=3D"1"=
-, ENV{ID_INPUT_TABLET}=3D"0", ENV{ID_INPUT_MOUSE}=3D"0", ENV{LIBINPUT_CALIB=
-RATION_MATRIX}=3D"-1 0 1 0 1 0"
-> diff --git a/meta/recipes-graphics/wayland/libinput_1.19.4.bb b/meta/reci=
-pes-graphics/wayland/libinput_1.19.4.bb
-> index a7d0c4be69..089f41c58a 100644
-> --- a/meta/recipes-graphics/wayland/libinput_1.19.4.bb
-> +++ b/meta/recipes-graphics/wayland/libinput_1.19.4.bb
-> @@ -15,6 +15,7 @@ DEPENDS =3D "libevdev udev mtdev libcheck"
-> SRC_URI =3D "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
->            file://run-ptest \
->            file://determinism.patch \
-> +           file://90-usb-0eef-0001.rules \
->            "
-> SRC_URI[sha256sum] =3D "ff33a570b5a936c81e6c08389a8581c2665311d026ce3d225=
-c88d09c49f9b440"
->=20
-> @@ -47,3 +48,8 @@ RREPLACES:${PN} =3D "libinput"
-> RCONFLICTS:${PN} =3D "libinput"
->=20
-> FILES:${PN}-ptest +=3D "${libexecdir}/libinput/libinput-test-suite"
-> +
-> +do_install:append() {
-> +    install -d  "${D}/${sysconfdir}/udev/rules.d"
-> +    install -m444 "${WORKDIR}/90-usb-0eef-0001.rules" "${D}/${sysconfdir=
-}/udev/rules.d/"
-> +}
-> --=20
-> 2.34.1
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>  ...rash-when-reading-a-file-with-multip.patch |  38 ---
+>  ...al-buffer-overflow-for-ASCII-tags-wh.patch |  43 ----
+>  ...ue-380-and-382-heap-buffer-overflow-.patch | 219 ------------------
+>  ...-for-return-value-of-limitMalloc-392.patch |  93 --------
+>  ...ag-avoid-calling-memcpy-with-a-null-.patch |  33 ---
+>  .../0005-fix-the-FPE-in-tiffcrop-393.patch    |  36 ---
+>  ...x-heap-buffer-overflow-in-tiffcp-278.patch |  57 -----
+>  ...99c99f987dc32ae110370cfdd7df7975586b.patch |  30 ---
+>  .../libtiff/tiff/CVE-2022-1354.patch          | 212 -----------------
+>  .../libtiff/tiff/CVE-2022-1355.patch          |  62 -----
+>  ...0712f4c3a5b449f70c57988260a667ddbdef.patch |  32 ---
+>  .../libtiff/{tiff_4.3.0.bb => tiff_4.4.0.bb}  |  13 +-
+>  12 files changed, 1 insertion(+), 867 deletions(-)
+>  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0001-tif_jbig.c-fix-crash-when-reading-a-file-with-multip.patch
+>  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch
+>  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0002-tiffcrop-fix-issue-380-and-382-heap-buffer-overflow-.patch
+>  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0003-add-checks-for-return-value-of-limitMalloc-392.patch
+>  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0004-TIFFFetchNormalTag-avoid-calling-memcpy-with-a-null-.patch
+>  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0005-fix-the-FPE-in-tiffcrop-393.patch
+>  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0006-fix-heap-buffer-overflow-in-tiffcp-278.patch
+>  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/561599c99f987dc32ae110370cfdd7df7975586b.patch
+>  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-1354.patch
+>  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-1355.patch
+>  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/eecb0712f4c3a5b449f70c57988260a667ddbdef.patch
+>  rename meta/recipes-multimedia/libtiff/{tiff_4.3.0.bb => tiff_4.4.0.bb} (75%)
+>
+> diff --git a/meta/recipes-multimedia/libtiff/tiff/0001-tif_jbig.c-fix-crash-when-reading-a-file-with-multip.patch b/meta/recipes-multimedia/libtiff/tiff/0001-tif_jbig.c-fix-crash-when-reading-a-file-with-multip.patch
+> deleted file mode 100644
+> index f1a4ab4251..0000000000
+> --- a/meta/recipes-multimedia/libtiff/tiff/0001-tif_jbig.c-fix-crash-when-reading-a-file-with-multip.patch
+> +++ /dev/null
+> @@ -1,38 +0,0 @@
+> -CVE: CVE-2022-0865
+> -Upstream-Status: Backport
+> -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> -
+> -From 88da11ae3c4db527cb870fb1017456cc8fbac2e7 Mon Sep 17 00:00:00 2001
+> -From: Even Rouault <even.rouault@spatialys.com>
+> -Date: Thu, 24 Feb 2022 22:26:02 +0100
+> -Subject: [PATCH 1/6] tif_jbig.c: fix crash when reading a file with multiple
+> - IFD in memory-mapped mode and when bit reversal is needed (fixes #385)
+> -
+> ----
+> - libtiff/tif_jbig.c | 10 ++++++++++
+> - 1 file changed, 10 insertions(+)
+> -
+> -diff --git a/libtiff/tif_jbig.c b/libtiff/tif_jbig.c
+> -index 74086338..8bfa4cef 100644
+> ---- a/libtiff/tif_jbig.c
+> -+++ b/libtiff/tif_jbig.c
+> -@@ -209,6 +209,16 @@ int TIFFInitJBIG(TIFF* tif, int scheme)
+> -        */
+> -       tif->tif_flags |= TIFF_NOBITREV;
+> -       tif->tif_flags &= ~TIFF_MAPPED;
+> -+      /* We may have read from a previous IFD and thus set TIFF_BUFFERMMAP and
+> -+       * cleared TIFF_MYBUFFER. It is necessary to restore them to their initial
+> -+       * value to be consistent with the state of a non-memory mapped file.
+> -+       */
+> -+      if (tif->tif_flags&TIFF_BUFFERMMAP) {
+> -+              tif->tif_rawdata = NULL;
+> -+              tif->tif_rawdatasize = 0;
+> -+              tif->tif_flags &= ~TIFF_BUFFERMMAP;
+> -+              tif->tif_flags |= TIFF_MYBUFFER;
+> -+      }
+> -
+> -       /* Setup the function pointers for encode, decode, and cleanup. */
+> -       tif->tif_setupdecode = JBIGSetupDecode;
+> ---
+> -2.25.1
+> -
+> diff --git a/meta/recipes-multimedia/libtiff/tiff/0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch b/meta/recipes-multimedia/libtiff/tiff/0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch
+> deleted file mode 100644
+> index 72776f09ba..0000000000
+> --- a/meta/recipes-multimedia/libtiff/tiff/0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch
+> +++ /dev/null
+> @@ -1,43 +0,0 @@
+> -CVE: CVE-2022-22844
+> -Upstream-Status: Backport
+> -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> -
+> -From b12a0326e6064b6e0b051d1184a219877472f69b Mon Sep 17 00:00:00 2001
+> -From: 4ugustus <wangdw.augustus@qq.com>
+> -Date: Tue, 25 Jan 2022 16:25:28 +0000
+> -Subject: [PATCH] tiffset: fix global-buffer-overflow for ASCII tags where
+> - count is required (fixes #355)
+> -
+> ----
+> - tools/tiffset.c | 16 +++++++++++++---
+> - 1 file changed, 13 insertions(+), 3 deletions(-)
+> -
+> -diff --git a/tools/tiffset.c b/tools/tiffset.c
+> -index 8c9e23c5..e7a88c09 100644
+> ---- a/tools/tiffset.c
+> -+++ b/tools/tiffset.c
+> -@@ -146,9 +146,19 @@ main(int argc, char* argv[])
+> -
+> -             arg_index++;
+> -             if (TIFFFieldDataType(fip) == TIFF_ASCII) {
+> --                if (TIFFSetField(tiff, TIFFFieldTag(fip), argv[arg_index]) != 1)
+> --                    fprintf( stderr, "Failed to set %s=%s\n",
+> --                             TIFFFieldName(fip), argv[arg_index] );
+> -+                if(TIFFFieldPassCount( fip )) {
+> -+                    size_t len;
+> -+                    len = strlen(argv[arg_index]) + 1;
+> -+                    if (len > UINT16_MAX || TIFFSetField(tiff, TIFFFieldTag(fip),
+> -+                            (uint16_t)len, argv[arg_index]) != 1)
+> -+                        fprintf( stderr, "Failed to set %s=%s\n",
+> -+                            TIFFFieldName(fip), argv[arg_index] );
+> -+                } else {
+> -+                    if (TIFFSetField(tiff, TIFFFieldTag(fip),
+> -+                            argv[arg_index]) != 1)
+> -+                        fprintf( stderr, "Failed to set %s=%s\n",
+> -+                            TIFFFieldName(fip), argv[arg_index] );
+> -+                }
+> -             } else if (TIFFFieldWriteCount(fip) > 0
+> -                      || TIFFFieldWriteCount(fip) == TIFF_VARIABLE) {
+> -                 int     ret = 1;
+> ---
+> -2.25.1
+> diff --git a/meta/recipes-multimedia/libtiff/tiff/0002-tiffcrop-fix-issue-380-and-382-heap-buffer-overflow-.patch b/meta/recipes-multimedia/libtiff/tiff/0002-tiffcrop-fix-issue-380-and-382-heap-buffer-overflow-.patch
+> deleted file mode 100644
+> index 812ffb232d..0000000000
+> --- a/meta/recipes-multimedia/libtiff/tiff/0002-tiffcrop-fix-issue-380-and-382-heap-buffer-overflow-.patch
+> +++ /dev/null
+> @@ -1,219 +0,0 @@
+> -CVE: CVE-2022-0891
+> -CVE: CVE-2022-1056
+> -Upstream-Status: Backport
+> -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> -
+> -From e46b49e60fddb2e924302fb1751f79eb9cfb2253 Mon Sep 17 00:00:00 2001
+> -From: Su Laus <sulau@freenet.de>
+> -Date: Tue, 8 Mar 2022 17:02:44 +0000
+> -Subject: [PATCH 2/6] tiffcrop: fix issue #380 and #382 heap buffer overflow in
+> - extractImageSection
+> -
+> ----
+> - tools/tiffcrop.c | 92 +++++++++++++++++++-----------------------------
+> - 1 file changed, 36 insertions(+), 56 deletions(-)
+> -
+> -diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
+> -index b85c2ce7..302a7e91 100644
+> ---- a/tools/tiffcrop.c
+> -+++ b/tools/tiffcrop.c
+> -@@ -105,8 +105,8 @@
+> -  *                of messages to monitor progress without enabling dump logs.
+> -  */
+> -
+> --static   char tiffcrop_version_id[] = "2.4";
+> --static   char tiffcrop_rev_date[] = "12-13-2010";
+> -+static   char tiffcrop_version_id[] = "2.4.1";
+> -+static   char tiffcrop_rev_date[] = "03-03-2010";
+> -
+> - #include "tif_config.h"
+> - #include "libport.h"
+> -@@ -6710,10 +6710,10 @@ extractImageSection(struct image_data *image, struct pageseg *section,
+> - #ifdef DEVELMODE
+> -   uint32_t    img_length;
+> - #endif
+> --  uint32_t    j, shift1, shift2, trailing_bits;
+> -+  uint32_t    j, shift1, trailing_bits;
+> -   uint32_t    row, first_row, last_row, first_col, last_col;
+> -   uint32_t    src_offset, dst_offset, row_offset, col_offset;
+> --  uint32_t    offset1, offset2, full_bytes;
+> -+  uint32_t    offset1, full_bytes;
+> -   uint32_t    sect_width;
+> - #ifdef DEVELMODE
+> -   uint32_t    sect_length;
+> -@@ -6723,7 +6723,6 @@ extractImageSection(struct image_data *image, struct pageseg *section,
+> - #ifdef DEVELMODE
+> -   int      k;
+> -   unsigned char bitset;
+> --  static char *bitarray = NULL;
+> - #endif
+> -
+> -   img_width = image->width;
+> -@@ -6741,17 +6740,12 @@ extractImageSection(struct image_data *image, struct pageseg *section,
+> -   dst_offset = 0;
+> -
+> - #ifdef DEVELMODE
+> --  if (bitarray == NULL)
+> --    {
+> --    if ((bitarray = (char *)malloc(img_width)) == NULL)
+> --      {
+> --      TIFFError ("", "DEBUG: Unable to allocate debugging bitarray");
+> --      return (-1);
+> --      }
+> --    }
+> -+  char bitarray[39];
+> - #endif
+> -
+> --  /* rows, columns, width, length are expressed in pixels */
+> -+  /* rows, columns, width, length are expressed in pixels
+> -+   * first_row, last_row, .. are index into image array starting at 0 to width-1,
+> -+   * last_col shall be also extracted.  */
+> -   first_row = section->y1;
+> -   last_row  = section->y2;
+> -   first_col = section->x1;
+> -@@ -6761,9 +6755,14 @@ extractImageSection(struct image_data *image, struct pageseg *section,
+> - #ifdef DEVELMODE
+> -   sect_length = last_row - first_row + 1;
+> - #endif
+> --  img_rowsize = ((img_width * bps + 7) / 8) * spp;
+> --  full_bytes = (sect_width * spp * bps) / 8;   /* number of COMPLETE bytes per row in section */
+> --  trailing_bits = (sect_width * bps) % 8;
+> -+    /* The read function loadImage() used copy separate plane data into a buffer as interleaved
+> -+     * samples rather than separate planes so the same logic works to extract regions
+> -+     * regardless of the way the data are organized in the input file.
+> -+     * Furthermore, bytes and bits are arranged in buffer according to COMPRESSION=1 and FILLORDER=1
+> -+     */
+> -+    img_rowsize = (((img_width * spp * bps) + 7) / 8);    /* row size in full bytes of source image */
+> -+    full_bytes = (sect_width * spp * bps) / 8;            /* number of COMPLETE bytes per row in section */
+> -+    trailing_bits = (sect_width * spp * bps) % 8;         /* trailing bits within the last byte of destination buffer */
+> -
+> - #ifdef DEVELMODE
+> -     TIFFError ("", "First row: %"PRIu32", last row: %"PRIu32", First col: %"PRIu32", last col: %"PRIu32"\n",
+> -@@ -6776,10 +6775,9 @@ extractImageSection(struct image_data *image, struct pageseg *section,
+> -
+> -   if ((bps % 8) == 0)
+> -     {
+> --    col_offset = first_col * spp * bps / 8;
+> -+    col_offset = (first_col * spp * bps) / 8;
+> -     for (row = first_row; row <= last_row; row++)
+> -       {
+> --      /* row_offset = row * img_width * spp * bps / 8; */
+> -       row_offset = row * img_rowsize;
+> -       src_offset = row_offset + col_offset;
+> -
+> -@@ -6792,14 +6790,12 @@ extractImageSection(struct image_data *image, struct pageseg *section,
+> -     }
+> -   else
+> -     { /* bps != 8 */
+> --    shift1  = spp * ((first_col * bps) % 8);
+> --    shift2  = spp * ((last_col * bps) % 8);
+> -+    shift1 = ((first_col * spp * bps) % 8);           /* shift1 = bits to skip in the first byte of source buffer*/
+> -     for (row = first_row; row <= last_row; row++)
+> -       {
+> -       /* pull out the first byte */
+> -       row_offset = row * img_rowsize;
+> --      offset1 = row_offset + (first_col * bps / 8);
+> --      offset2 = row_offset + (last_col * bps / 8);
+> -+      offset1 = row_offset + ((first_col * spp * bps) / 8);   /* offset1 = offset into source of byte with first bits to be extracted */
+> -
+> - #ifdef DEVELMODE
+> -       for (j = 0, k = 7; j < 8; j++, k--)
+> -@@ -6811,12 +6807,12 @@ extractImageSection(struct image_data *image, struct pageseg *section,
+> -       sprintf(&bitarray[9], " ");
+> -       for (j = 10, k = 7; j < 18; j++, k--)
+> -         {
+> --        bitset = *(src_buff + offset2) & (((unsigned char)1 << k)) ? 1 : 0;
+> -+        bitset = *(src_buff + offset1 + full_bytes) & (((unsigned char)1 << k)) ? 1 : 0;
+> -         sprintf(&bitarray[j], (bitset) ? "1" : "0");
+> -         }
+> -       bitarray[18] = '\0';
+> --      TIFFError ("", "Row: %3d Offset1: %"PRIu32",  Shift1: %"PRIu32",    Offset2: %"PRIu32",  Shift2:  %"PRIu32"\n",
+> --                 row, offset1, shift1, offset2, shift2);
+> -+      TIFFError ("", "Row: %3d Offset1: %"PRIu32",  Shift1: %"PRIu32",    Offset2: %"PRIu32",  Trailing_bits:  %"PRIu32"\n",
+> -+                 row, offset1, shift1, offset1+full_bytes, trailing_bits);
+> - #endif
+> -
+> -       bytebuff1 = bytebuff2 = 0;
+> -@@ -6840,11 +6836,12 @@ extractImageSection(struct image_data *image, struct pageseg *section,
+> -
+> -         if (trailing_bits != 0)
+> -           {
+> --        bytebuff2 = src_buff[offset2] & ((unsigned char)255 << (7 - shift2));
+> -+      /* Only copy higher bits of samples and mask lower bits of not wanted column samples to zero */
+> -+        bytebuff2 = src_buff[offset1 + full_bytes] & ((unsigned char)255 << (8 - trailing_bits));
+> -           sect_buff[dst_offset] = bytebuff2;
+> - #ifdef DEVELMODE
+> -         TIFFError ("", "        Trailing bits src offset:  %8"PRIu32", Dst offset: %8"PRIu32"\n",
+> --                              offset2, dst_offset);
+> -+          offset1 + full_bytes, dst_offset);
+> -           for (j = 30, k = 7; j < 38; j++, k--)
+> -             {
+> -             bitset = *(sect_buff + dst_offset) & (((unsigned char)1 << k)) ? 1 : 0;
+> -@@ -6863,8 +6860,10 @@ extractImageSection(struct image_data *image, struct pageseg *section,
+> - #endif
+> -         for (j = 0; j <= full_bytes; j++)
+> -           {
+> --        bytebuff1 = src_buff[offset1 + j] & ((unsigned char)255 >> shift1);
+> --        bytebuff2 = src_buff[offset1 + j + 1] & ((unsigned char)255 << (7 - shift1));
+> -+          /* Skip the first shift1 bits and shift the source up by shift1 bits before save to destination.*/
+> -+          /* Attention: src_buff size needs to be some bytes larger than image size, because could read behind image here. */
+> -+          bytebuff1 = src_buff[offset1 + j] & ((unsigned char)255 >> shift1);
+> -+          bytebuff2 = src_buff[offset1 + j + 1] & ((unsigned char)255 << (8 - shift1));
+> -           sect_buff[dst_offset + j] = (bytebuff1 << shift1) | (bytebuff2 >> (8 - shift1));
+> -           }
+> - #ifdef DEVELMODE
+> -@@ -6880,36 +6879,17 @@ extractImageSection(struct image_data *image, struct pageseg *section,
+> - #endif
+> -         dst_offset += full_bytes;
+> -
+> -+        /* Copy the trailing_bits for the last byte in the destination buffer.
+> -+           Could come from one ore two bytes of the source buffer. */
+> -         if (trailing_bits != 0)
+> -           {
+> - #ifdef DEVELMODE
+> --          TIFFError ("", "        Trailing bits   src offset: %8"PRIu32", Dst offset: %8"PRIu32"\n", offset1 + full_bytes, dst_offset);
+> --#endif
+> --        if (shift2 > shift1)
+> --            {
+> --          bytebuff1 = src_buff[offset1 + full_bytes] & ((unsigned char)255 << (7 - shift2));
+> --            bytebuff2 = bytebuff1 & ((unsigned char)255 << shift1);
+> --            sect_buff[dst_offset] = bytebuff2;
+> --#ifdef DEVELMODE
+> --          TIFFError ("", "        Shift2 > Shift1\n");
+> -+          TIFFError("", "        Trailing bits %4"PRIu32"   src offset: %8"PRIu32", Dst offset: %8"PRIu32"\n", trailing_bits, offset1 + full_bytes, dst_offset);
+> - #endif
+> -+          /* More than necessary bits are already copied into last destination buffer,
+> -+           * only masking of last byte in destination buffer is necessary.*/
+> -+          sect_buff[dst_offset] &= ((uint8_t)0xFF << (8 - trailing_bits));
+> -             }
+> --          else
+> --            {
+> --          if (shift2 < shift1)
+> --              {
+> --              bytebuff2 = ((unsigned char)255 << (shift1 - shift2 - 1));
+> --            sect_buff[dst_offset] &= bytebuff2;
+> --#ifdef DEVELMODE
+> --            TIFFError ("", "        Shift2 < Shift1\n");
+> --#endif
+> --              }
+> --#ifdef DEVELMODE
+> --            else
+> --            TIFFError ("", "        Shift2 == Shift1\n");
+> --#endif
+> --            }
+> --        }
+> - #ifdef DEVELMODE
+> -         sprintf(&bitarray[28], " ");
+> -         sprintf(&bitarray[29], " ");
+> -@@ -7062,7 +7042,7 @@ writeImageSections(TIFF *in, TIFF *out, struct image_data *image,
+> -     width  = sections[i].x2 - sections[i].x1 + 1;
+> -     length = sections[i].y2 - sections[i].y1 + 1;
+> -     sectsize = (uint32_t)
+> --          ceil((width * image->bps + 7) / (double)8) * image->spp * length;
+> -+          ceil((width * image->bps * image->spp + 7) / (double)8) * length;
+> -     /* allocate a buffer if we don't have one already */
+> -     if (createImageSection(sectsize, sect_buff_ptr))
+> -       {
+> ---
+> -2.25.1
+> -
+> diff --git a/meta/recipes-multimedia/libtiff/tiff/0003-add-checks-for-return-value-of-limitMalloc-392.patch b/meta/recipes-multimedia/libtiff/tiff/0003-add-checks-for-return-value-of-limitMalloc-392.patch
+> deleted file mode 100644
+> index a0b856b9e1..0000000000
+> --- a/meta/recipes-multimedia/libtiff/tiff/0003-add-checks-for-return-value-of-limitMalloc-392.patch
+> +++ /dev/null
+> @@ -1,93 +0,0 @@
+> -CVE: CVE-2022-0907
+> -Upstream-Status: Backport
+> -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> -
+> -From a139191cc86f4dc44c74a0f22928e0fb38ed2485 Mon Sep 17 00:00:00 2001
+> -From: Augustus <wangdw.augustus@qq.com>
+> -Date: Mon, 7 Mar 2022 18:21:49 +0800
+> -Subject: [PATCH 3/6] add checks for return value of limitMalloc (#392)
+> -
+> ----
+> - tools/tiffcrop.c | 33 +++++++++++++++++++++------------
+> - 1 file changed, 21 insertions(+), 12 deletions(-)
+> -
+> -diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
+> -index 302a7e91..e407bf51 100644
+> ---- a/tools/tiffcrop.c
+> -+++ b/tools/tiffcrop.c
+> -@@ -7357,7 +7357,11 @@ createImageSection(uint32_t sectsize, unsigned char **sect_buff_ptr)
+> -   if (!sect_buff)
+> -     {
+> -     sect_buff = (unsigned char *)limitMalloc(sectsize);
+> --    *sect_buff_ptr = sect_buff;
+> -+    if (!sect_buff)
+> -+    {
+> -+        TIFFError("createImageSection", "Unable to allocate/reallocate section buffer");
+> -+        return (-1);
+> -+    }
+> -     _TIFFmemset(sect_buff, 0, sectsize);
+> -     }
+> -   else
+> -@@ -7373,15 +7377,15 @@ createImageSection(uint32_t sectsize, unsigned char **sect_buff_ptr)
+> -       else
+> -         sect_buff = new_buff;
+> -
+> -+      if (!sect_buff)
+> -+      {
+> -+          TIFFError("createImageSection", "Unable to allocate/reallocate section buffer");
+> -+          return (-1);
+> -+      }
+> -       _TIFFmemset(sect_buff, 0, sectsize);
+> -       }
+> -     }
+> -
+> --  if (!sect_buff)
+> --    {
+> --    TIFFError("createImageSection", "Unable to allocate/reallocate section buffer");
+> --    return (-1);
+> --    }
+> -   prev_sectsize = sectsize;
+> -   *sect_buff_ptr = sect_buff;
+> -
+> -@@ -7648,7 +7652,11 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
+> -   if (!crop_buff)
+> -     {
+> -     crop_buff = (unsigned char *)limitMalloc(cropsize);
+> --    *crop_buff_ptr = crop_buff;
+> -+    if (!crop_buff)
+> -+    {
+> -+        TIFFError("createCroppedImage", "Unable to allocate/reallocate crop buffer");
+> -+        return (-1);
+> -+    }
+> -     _TIFFmemset(crop_buff, 0, cropsize);
+> -     prev_cropsize = cropsize;
+> -     }
+> -@@ -7664,15 +7672,15 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
+> -         }
+> -       else
+> -         crop_buff = new_buff;
+> -+      if (!crop_buff)
+> -+      {
+> -+          TIFFError("createCroppedImage", "Unable to allocate/reallocate crop buffer");
+> -+          return (-1);
+> -+      }
+> -       _TIFFmemset(crop_buff, 0, cropsize);
+> -       }
+> -     }
+> -
+> --  if (!crop_buff)
+> --    {
+> --    TIFFError("createCroppedImage", "Unable to allocate/reallocate crop buffer");
+> --    return (-1);
+> --    }
+> -   *crop_buff_ptr = crop_buff;
+> -
+> -   if (crop->crop_mode & CROP_INVERT)
+> -@@ -9231,3 +9239,4 @@ invertImage(uint16_t photometric, uint16_t spp, uint16_t bps, uint32_t width, ui
+> -  * fill-column: 78
+> -  * End:
+> -  */
+> -+
+> ---
+> -2.25.1
+> -
+> diff --git a/meta/recipes-multimedia/libtiff/tiff/0004-TIFFFetchNormalTag-avoid-calling-memcpy-with-a-null-.patch b/meta/recipes-multimedia/libtiff/tiff/0004-TIFFFetchNormalTag-avoid-calling-memcpy-with-a-null-.patch
+> deleted file mode 100644
+> index 719dabaecc..0000000000
+> --- a/meta/recipes-multimedia/libtiff/tiff/0004-TIFFFetchNormalTag-avoid-calling-memcpy-with-a-null-.patch
+> +++ /dev/null
+> @@ -1,33 +0,0 @@
+> -CVE: CVE-2022-0908
+> -Upstream-Status: Backport
+> -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> -
+> -From ef5a0bf271823df168642444d051528a68205cb0 Mon Sep 17 00:00:00 2001
+> -From: Even Rouault <even.rouault@spatialys.com>
+> -Date: Thu, 17 Feb 2022 15:28:43 +0100
+> -Subject: [PATCH 4/6] TIFFFetchNormalTag(): avoid calling memcpy() with a null
+> - source pointer and size of zero (fixes #383)
+> -
+> ----
+> - libtiff/tif_dirread.c | 5 ++++-
+> - 1 file changed, 4 insertions(+), 1 deletion(-)
+> -
+> -diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
+> -index d84147a0..4e8ce729 100644
+> ---- a/libtiff/tif_dirread.c
+> -+++ b/libtiff/tif_dirread.c
+> -@@ -5079,7 +5079,10 @@ TIFFFetchNormalTag(TIFF* tif, TIFFDirEntry* dp, int recover)
+> -                                                               _TIFFfree(data);
+> -                                                       return(0);
+> -                                               }
+> --                                              _TIFFmemcpy(o,data,(uint32_t)dp->tdir_count);
+> -+                                              if (dp->tdir_count > 0 )
+> -+                                              {
+> -+                                                      _TIFFmemcpy(o,data,(uint32_t)dp->tdir_count);
+> -+                                              }
+> -                                               o[(uint32_t)dp->tdir_count]=0;
+> -                                               if (data!=0)
+> -                                                       _TIFFfree(data);
+> ---
+> -2.25.1
+> -
+> diff --git a/meta/recipes-multimedia/libtiff/tiff/0005-fix-the-FPE-in-tiffcrop-393.patch b/meta/recipes-multimedia/libtiff/tiff/0005-fix-the-FPE-in-tiffcrop-393.patch
+> deleted file mode 100644
+> index 64dbe9ef92..0000000000
+> --- a/meta/recipes-multimedia/libtiff/tiff/0005-fix-the-FPE-in-tiffcrop-393.patch
+> +++ /dev/null
+> @@ -1,36 +0,0 @@
+> -CVE: CVE-2022-0909
+> -Upstream-Status: Backport
+> -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> -
+> -From 4768355a074d562177e0a8b551c561d1af7eb74a Mon Sep 17 00:00:00 2001
+> -From: 4ugustus <wangdw.augustus@qq.com>
+> -Date: Tue, 8 Mar 2022 16:22:04 +0000
+> -Subject: [PATCH 5/6] fix the FPE in tiffcrop (#393)
+> -
+> ----
+> - libtiff/tif_dir.c | 4 ++--
+> - 1 file changed, 2 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/libtiff/tif_dir.c b/libtiff/tif_dir.c
+> -index a6c254fc..77da6ea4 100644
+> ---- a/libtiff/tif_dir.c
+> -+++ b/libtiff/tif_dir.c
+> -@@ -335,13 +335,13 @@ _TIFFVSetField(TIFF* tif, uint32_t tag, va_list ap)
+> -               break;
+> -       case TIFFTAG_XRESOLUTION:
+> -         dblval = va_arg(ap, double);
+> --        if( dblval < 0 )
+> -+        if( dblval != dblval || dblval < 0 )
+> -             goto badvaluedouble;
+> -               td->td_xresolution = _TIFFClampDoubleToFloat( dblval );
+> -               break;
+> -       case TIFFTAG_YRESOLUTION:
+> -         dblval = va_arg(ap, double);
+> --        if( dblval < 0 )
+> -+        if( dblval != dblval || dblval < 0 )
+> -             goto badvaluedouble;
+> -               td->td_yresolution = _TIFFClampDoubleToFloat( dblval );
+> -               break;
+> ---
+> -2.25.1
+> -
+> diff --git a/meta/recipes-multimedia/libtiff/tiff/0006-fix-heap-buffer-overflow-in-tiffcp-278.patch b/meta/recipes-multimedia/libtiff/tiff/0006-fix-heap-buffer-overflow-in-tiffcp-278.patch
+> deleted file mode 100644
+> index afd5e59960..0000000000
+> --- a/meta/recipes-multimedia/libtiff/tiff/0006-fix-heap-buffer-overflow-in-tiffcp-278.patch
+> +++ /dev/null
+> @@ -1,57 +0,0 @@
+> -CVE: CVE-2022-0924
+> -Upstream-Status: Backport
+> -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> -
+> -From 1074b9691322b1e3671cd8ea0b6b3509d08978fb Mon Sep 17 00:00:00 2001
+> -From: 4ugustus <wangdw.augustus@qq.com>
+> -Date: Thu, 10 Mar 2022 08:48:00 +0000
+> -Subject: [PATCH 6/6] fix heap buffer overflow in tiffcp (#278)
+> -
+> ----
+> - tools/tiffcp.c | 17 ++++++++++++++++-
+> - 1 file changed, 16 insertions(+), 1 deletion(-)
+> -
+> -diff --git a/tools/tiffcp.c b/tools/tiffcp.c
+> -index 1f889516..552d8fad 100644
+> ---- a/tools/tiffcp.c
+> -+++ b/tools/tiffcp.c
+> -@@ -1661,12 +1661,27 @@ DECLAREwriteFunc(writeBufferToSeparateStrips)
+> -       tdata_t obuf;
+> -       tstrip_t strip = 0;
+> -       tsample_t s;
+> -+      uint16_t bps = 0, bytes_per_sample;
+> -
+> -       obuf = limitMalloc(stripsize);
+> -       if (obuf == NULL)
+> -               return (0);
+> -       _TIFFmemset(obuf, 0, stripsize);
+> -       (void) TIFFGetFieldDefaulted(out, TIFFTAG_ROWSPERSTRIP, &rowsperstrip);
+> -+      (void) TIFFGetField(out, TIFFTAG_BITSPERSAMPLE, &bps);
+> -+      if( bps == 0 )
+> -+        {
+> -+            TIFFError(TIFFFileName(out), "Error, cannot read BitsPerSample");
+> -+            _TIFFfree(obuf);
+> -+            return 0;
+> -+        }
+> -+        if( (bps % 8) != 0 )
+> -+        {
+> -+            TIFFError(TIFFFileName(out), "Error, cannot handle BitsPerSample that is not a multiple of 8");
+> -+            _TIFFfree(obuf);
+> -+            return 0;
+> -+        }
+> -+      bytes_per_sample = bps/8;
+> -       for (s = 0; s < spp; s++) {
+> -               uint32_t row;
+> -               for (row = 0; row < imagelength; row += rowsperstrip) {
+> -@@ -1676,7 +1691,7 @@ DECLAREwriteFunc(writeBufferToSeparateStrips)
+> -
+> -                       cpContigBufToSeparateBuf(
+> -                           obuf, (uint8_t*) buf + row * rowsize + s,
+> --                          nrows, imagewidth, 0, 0, spp, 1);
+> -+                          nrows, imagewidth, 0, 0, spp, bytes_per_sample);
+> -                       if (TIFFWriteEncodedStrip(out, strip++, obuf, stripsize) < 0) {
+> -                               TIFFError(TIFFFileName(out),
+> -                                   "Error, can't write strip %"PRIu32,
+> ---
+> -2.25.1
+> -
+> diff --git a/meta/recipes-multimedia/libtiff/tiff/561599c99f987dc32ae110370cfdd7df7975586b.patch b/meta/recipes-multimedia/libtiff/tiff/561599c99f987dc32ae110370cfdd7df7975586b.patch
+> deleted file mode 100644
+> index 0b41dde606..0000000000
+> --- a/meta/recipes-multimedia/libtiff/tiff/561599c99f987dc32ae110370cfdd7df7975586b.patch
+> +++ /dev/null
+> @@ -1,30 +0,0 @@
+> -From 561599c99f987dc32ae110370cfdd7df7975586b Mon Sep 17 00:00:00 2001
+> -From: Even Rouault <even.rouault@spatialys.com>
+> -Date: Sat, 5 Feb 2022 20:36:41 +0100
+> -Subject: [PATCH] TIFFReadDirectory(): avoid calling memcpy() with a null
+> - source pointer and size of zero (fixes #362)
+> -
+> -Upstream-Status: Backport
+> -CVE: CVE-2022-0562
+> -
+> ----
+> - libtiff/tif_dirread.c | 3 ++-
+> - 1 file changed, 2 insertions(+), 1 deletion(-)
+> -
+> -diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
+> -index 2bbc4585..23194ced 100644
+> ---- a/libtiff/tif_dirread.c
+> -+++ b/libtiff/tif_dirread.c
+> -@@ -4177,7 +4177,8 @@ TIFFReadDirectory(TIFF* tif)
+> -                     goto bad;
+> -                 }
+> -
+> --                memcpy(new_sampleinfo, tif->tif_dir.td_sampleinfo, old_extrasamples * sizeof(uint16_t));
+> -+                if (old_extrasamples > 0)
+> -+                    memcpy(new_sampleinfo, tif->tif_dir.td_sampleinfo, old_extrasamples * sizeof(uint16_t));
+> -                 _TIFFsetShortArray(&tif->tif_dir.td_sampleinfo, new_sampleinfo, tif->tif_dir.td_extrasamples);
+> -                 _TIFFfree(new_sampleinfo);
+> -         }
+> ---
+> -GitLab
+> -
+> diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1354.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1354.patch
+> deleted file mode 100644
+> index 71b85cac10..0000000000
+> --- a/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1354.patch
+> +++ /dev/null
+> @@ -1,212 +0,0 @@
+> -From 87881e093691a35c60b91cafed058ba2dd5d9807 Mon Sep 17 00:00:00 2001
+> -From: Even Rouault <even.rouault@spatialys.com>
+> -Date: Sun, 5 Dec 2021 14:37:46 +0100
+> -Subject: [PATCH] TIFFReadDirectory: fix OJPEG hack (fixes #319)
+> -
+> -to avoid having the size of the strip arrays inconsistent with the
+> -number of strips returned by TIFFNumberOfStrips(), which may cause
+> -out-ouf-bounds array read afterwards.
+> -
+> -One of the OJPEG hack that alters SamplesPerPixel may influence the
+> -number of strips. Hence compute tif_dir.td_nstrips only afterwards.
+> -
+> -CVE: CVE-2022-1354
+> -
+> -Upstream-Status: Backport
+> -[https://gitlab.com/libtiff/libtiff/-/commit/87f580f39011109b3bb5f6eca13fac543a542798]
+> -
+> -Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+> ----
+> - libtiff/tif_dirread.c | 162 ++++++++++++++++++++++--------------------
+> - 1 file changed, 83 insertions(+), 79 deletions(-)
+> -
+> -diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
+> -index 8f434ef5..14c031d1 100644
+> ---- a/libtiff/tif_dirread.c
+> -+++ b/libtiff/tif_dirread.c
+> -@@ -3794,50 +3794,7 @@ TIFFReadDirectory(TIFF* tif)
+> -               MissingRequired(tif,"ImageLength");
+> -               goto bad;
+> -       }
+> --      /*
+> --       * Setup appropriate structures (by strip or by tile)
+> --       */
+> --      if (!TIFFFieldSet(tif, FIELD_TILEDIMENSIONS)) {
+> --              tif->tif_dir.td_nstrips = TIFFNumberOfStrips(tif);
+> --              tif->tif_dir.td_tilewidth = tif->tif_dir.td_imagewidth;
+> --              tif->tif_dir.td_tilelength = tif->tif_dir.td_rowsperstrip;
+> --              tif->tif_dir.td_tiledepth = tif->tif_dir.td_imagedepth;
+> --              tif->tif_flags &= ~TIFF_ISTILED;
+> --      } else {
+> --              tif->tif_dir.td_nstrips = TIFFNumberOfTiles(tif);
+> --              tif->tif_flags |= TIFF_ISTILED;
+> --      }
+> --      if (!tif->tif_dir.td_nstrips) {
+> --              TIFFErrorExt(tif->tif_clientdata, module,
+> --                  "Cannot handle zero number of %s",
+> --                  isTiled(tif) ? "tiles" : "strips");
+> --              goto bad;
+> --      }
+> --      tif->tif_dir.td_stripsperimage = tif->tif_dir.td_nstrips;
+> --      if (tif->tif_dir.td_planarconfig == PLANARCONFIG_SEPARATE)
+> --              tif->tif_dir.td_stripsperimage /= tif->tif_dir.td_samplesperpixel;
+> --      if (!TIFFFieldSet(tif, FIELD_STRIPOFFSETS)) {
+> --#ifdef OJPEG_SUPPORT
+> --              if ((tif->tif_dir.td_compression==COMPRESSION_OJPEG) &&
+> --                  (isTiled(tif)==0) &&
+> --                  (tif->tif_dir.td_nstrips==1)) {
+> --                      /*
+> --                       * XXX: OJPEG hack.
+> --                       * If a) compression is OJPEG, b) it's not a tiled TIFF,
+> --                       * and c) the number of strips is 1,
+> --                       * then we tolerate the absence of stripoffsets tag,
+> --                       * because, presumably, all required data is in the
+> --                       * JpegInterchangeFormat stream.
+> --                       */
+> --                      TIFFSetFieldBit(tif, FIELD_STRIPOFFSETS);
+> --              } else
+> --#endif
+> --        {
+> --                      MissingRequired(tif,
+> --                              isTiled(tif) ? "TileOffsets" : "StripOffsets");
+> --                      goto bad;
+> --              }
+> --      }
+> -+
+> -       /*
+> -        * Second pass: extract other information.
+> -        */
+> -@@ -4042,41 +3999,6 @@ TIFFReadDirectory(TIFF* tif)
+> -                       } /* -- if (!dp->tdir_ignore) */
+> -               } /* -- for-loop -- */
+> -
+> --        if( tif->tif_mode == O_RDWR &&
+> --            tif->tif_dir.td_stripoffset_entry.tdir_tag != 0 &&
+> --            tif->tif_dir.td_stripoffset_entry.tdir_count == 0 &&
+> --            tif->tif_dir.td_stripoffset_entry.tdir_type == 0 &&
+> --            tif->tif_dir.td_stripoffset_entry.tdir_offset.toff_long8 == 0 &&
+> --            tif->tif_dir.td_stripbytecount_entry.tdir_tag != 0 &&
+> --            tif->tif_dir.td_stripbytecount_entry.tdir_count == 0 &&
+> --            tif->tif_dir.td_stripbytecount_entry.tdir_type == 0 &&
+> --            tif->tif_dir.td_stripbytecount_entry.tdir_offset.toff_long8 == 0 )
+> --        {
+> --            /* Directory typically created with TIFFDeferStrileArrayWriting() */
+> --            TIFFSetupStrips(tif);
+> --        }
+> --        else if( !(tif->tif_flags&TIFF_DEFERSTRILELOAD) )
+> --        {
+> --            if( tif->tif_dir.td_stripoffset_entry.tdir_tag != 0 )
+> --            {
+> --                if (!TIFFFetchStripThing(tif,&(tif->tif_dir.td_stripoffset_entry),
+> --                                         tif->tif_dir.td_nstrips,
+> --                                         &tif->tif_dir.td_stripoffset_p))
+> --                {
+> --                    goto bad;
+> --                }
+> --            }
+> --            if( tif->tif_dir.td_stripbytecount_entry.tdir_tag != 0 )
+> --            {
+> --                if (!TIFFFetchStripThing(tif,&(tif->tif_dir.td_stripbytecount_entry),
+> --                                         tif->tif_dir.td_nstrips,
+> --                                         &tif->tif_dir.td_stripbytecount_p))
+> --                {
+> --                    goto bad;
+> --                }
+> --            }
+> --        }
+> --
+> -       /*
+> -        * OJPEG hack:
+> -        * - If a) compression is OJPEG, and b) photometric tag is missing,
+> -@@ -4147,6 +4069,88 @@ TIFFReadDirectory(TIFF* tif)
+> -               }
+> -       }
+> -
+> -+      /*
+> -+       * Setup appropriate structures (by strip or by tile)
+> -+       * We do that only after the above OJPEG hack which alters SamplesPerPixel
+> -+       * and thus influences the number of strips in the separate planarconfig.
+> -+       */
+> -+      if (!TIFFFieldSet(tif, FIELD_TILEDIMENSIONS)) {
+> -+              tif->tif_dir.td_nstrips = TIFFNumberOfStrips(tif);
+> -+              tif->tif_dir.td_tilewidth = tif->tif_dir.td_imagewidth;
+> -+              tif->tif_dir.td_tilelength = tif->tif_dir.td_rowsperstrip;
+> -+              tif->tif_dir.td_tiledepth = tif->tif_dir.td_imagedepth;
+> -+              tif->tif_flags &= ~TIFF_ISTILED;
+> -+      } else {
+> -+              tif->tif_dir.td_nstrips = TIFFNumberOfTiles(tif);
+> -+              tif->tif_flags |= TIFF_ISTILED;
+> -+      }
+> -+      if (!tif->tif_dir.td_nstrips) {
+> -+              TIFFErrorExt(tif->tif_clientdata, module,
+> -+                  "Cannot handle zero number of %s",
+> -+                  isTiled(tif) ? "tiles" : "strips");
+> -+              goto bad;
+> -+      }
+> -+      tif->tif_dir.td_stripsperimage = tif->tif_dir.td_nstrips;
+> -+      if (tif->tif_dir.td_planarconfig == PLANARCONFIG_SEPARATE)
+> -+              tif->tif_dir.td_stripsperimage /= tif->tif_dir.td_samplesperpixel;
+> -+      if (!TIFFFieldSet(tif, FIELD_STRIPOFFSETS)) {
+> -+#ifdef OJPEG_SUPPORT
+> -+              if ((tif->tif_dir.td_compression==COMPRESSION_OJPEG) &&
+> -+                  (isTiled(tif)==0) &&
+> -+                  (tif->tif_dir.td_nstrips==1)) {
+> -+                      /*
+> -+                       * XXX: OJPEG hack.
+> -+                       * If a) compression is OJPEG, b) it's not a tiled TIFF,
+> -+                       * and c) the number of strips is 1,
+> -+                       * then we tolerate the absence of stripoffsets tag,
+> -+                       * because, presumably, all required data is in the
+> -+                       * JpegInterchangeFormat stream.
+> -+                       */
+> -+                      TIFFSetFieldBit(tif, FIELD_STRIPOFFSETS);
+> -+              } else
+> -+#endif
+> -+        {
+> -+                      MissingRequired(tif,
+> -+                              isTiled(tif) ? "TileOffsets" : "StripOffsets");
+> -+                      goto bad;
+> -+              }
+> -+      }
+> -+
+> -+        if( tif->tif_mode == O_RDWR &&
+> -+            tif->tif_dir.td_stripoffset_entry.tdir_tag != 0 &&
+> -+            tif->tif_dir.td_stripoffset_entry.tdir_count == 0 &&
+> -+            tif->tif_dir.td_stripoffset_entry.tdir_type == 0 &&
+> -+            tif->tif_dir.td_stripoffset_entry.tdir_offset.toff_long8 == 0 &&
+> -+            tif->tif_dir.td_stripbytecount_entry.tdir_tag != 0 &&
+> -+            tif->tif_dir.td_stripbytecount_entry.tdir_count == 0 &&
+> -+            tif->tif_dir.td_stripbytecount_entry.tdir_type == 0 &&
+> -+            tif->tif_dir.td_stripbytecount_entry.tdir_offset.toff_long8 == 0 )
+> -+        {
+> -+            /* Directory typically created with TIFFDeferStrileArrayWriting() */
+> -+            TIFFSetupStrips(tif);
+> -+        }
+> -+        else if( !(tif->tif_flags&TIFF_DEFERSTRILELOAD) )
+> -+        {
+> -+            if( tif->tif_dir.td_stripoffset_entry.tdir_tag != 0 )
+> -+            {
+> -+                if (!TIFFFetchStripThing(tif,&(tif->tif_dir.td_stripoffset_entry),
+> -+                                         tif->tif_dir.td_nstrips,
+> -+                                         &tif->tif_dir.td_stripoffset_p))
+> -+                {
+> -+                    goto bad;
+> -+                }
+> -+            }
+> -+            if( tif->tif_dir.td_stripbytecount_entry.tdir_tag != 0 )
+> -+            {
+> -+                if (!TIFFFetchStripThing(tif,&(tif->tif_dir.td_stripbytecount_entry),
+> -+                                         tif->tif_dir.td_nstrips,
+> -+                                         &tif->tif_dir.td_stripbytecount_p))
+> -+                {
+> -+                    goto bad;
+> -+                }
+> -+            }
+> -+        }
+> -+
+> -       /*
+> -        * Make sure all non-color channels are extrasamples.
+> -        * If it's not the case, define them as such.
+> ---
+> -2.25.1
+> -
+> diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1355.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1355.patch
+> deleted file mode 100644
+> index e59f5aad55..0000000000
+> --- a/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1355.patch
+> +++ /dev/null
+> @@ -1,62 +0,0 @@
+> -From fb1db384959698edd6caeea84e28253d272a0f96 Mon Sep 17 00:00:00 2001
+> -From: Su_Laus <sulau@freenet.de>
+> -Date: Sat, 2 Apr 2022 22:33:31 +0200
+> -Subject: [PATCH] tiffcp: avoid buffer overflow in "mode" string (fixes #400)
+> -
+> -CVE: CVE-2022-1355
+> -
+> -Upstream-Status: Backport
+> -[https://gitlab.com/libtiff/libtiff/-/commit/c1ae29f9ebacd29b7c3e0c7db671af7db3584bc2]
+> -
+> -Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+> ----
+> - tools/tiffcp.c | 25 ++++++++++++++++++++-----
+> - 1 file changed, 20 insertions(+), 5 deletions(-)
+> -
+> -diff --git a/tools/tiffcp.c b/tools/tiffcp.c
+> -index fd129bb7..8d944ff6 100644
+> ---- a/tools/tiffcp.c
+> -+++ b/tools/tiffcp.c
+> -@@ -274,19 +274,34 @@ main(int argc, char* argv[])
+> -                       deftilewidth = atoi(optarg);
+> -                       break;
+> -               case 'B':
+> --                      *mp++ = 'b'; *mp = '\0';
+> -+                      if (strlen(mode) < (sizeof(mode) - 1))
+> -+                      {
+> -+                              *mp++ = 'b'; *mp = '\0';
+> -+                      }
+> -                       break;
+> -               case 'L':
+> --                      *mp++ = 'l'; *mp = '\0';
+> -+                      if (strlen(mode) < (sizeof(mode) - 1))
+> -+                      {
+> -+                              *mp++ = 'l'; *mp = '\0';
+> -+                      }
+> -                       break;
+> -               case 'M':
+> --                      *mp++ = 'm'; *mp = '\0';
+> -+                      if (strlen(mode) < (sizeof(mode) - 1))
+> -+                      {
+> -+                              *mp++ = 'm'; *mp = '\0';
+> -+                      }
+> -                       break;
+> -               case 'C':
+> --                      *mp++ = 'c'; *mp = '\0';
+> -+                      if (strlen(mode) < (sizeof(mode) - 1))
+> -+                      {
+> -+                              *mp++ = 'c'; *mp = '\0';
+> -+                      }
+> -                       break;
+> -               case '8':
+> --                      *mp++ = '8'; *mp = '\0';
+> -+                      if (strlen(mode) < (sizeof(mode)-1))
+> -+                      {
+> -+                              *mp++ = '8'; *mp = '\0';
+> -+                      }
+> -                       break;
+> -               case 'x':
+> -                       pageInSeq = 1;
+> ---
+> -2.25.1
+> -
+> diff --git a/meta/recipes-multimedia/libtiff/tiff/eecb0712f4c3a5b449f70c57988260a667ddbdef.patch b/meta/recipes-multimedia/libtiff/tiff/eecb0712f4c3a5b449f70c57988260a667ddbdef.patch
+> deleted file mode 100644
+> index 74f9649fdf..0000000000
+> --- a/meta/recipes-multimedia/libtiff/tiff/eecb0712f4c3a5b449f70c57988260a667ddbdef.patch
+> +++ /dev/null
+> @@ -1,32 +0,0 @@
+> -From eecb0712f4c3a5b449f70c57988260a667ddbdef Mon Sep 17 00:00:00 2001
+> -From: Even Rouault <even.rouault@spatialys.com>
+> -Date: Sun, 6 Feb 2022 13:08:38 +0100
+> -Subject: [PATCH] TIFFFetchStripThing(): avoid calling memcpy() with a null
+> - source pointer and size of zero (fixes #362)
+> -
+> -Upstream-Status: Backport
+> -CVE: CVE-2022-0561
+> -
+> ----
+> - libtiff/tif_dirread.c | 5 +++--
+> - 1 file changed, 3 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
+> -index 23194ced..50ebf8ac 100644
+> ---- a/libtiff/tif_dirread.c
+> -+++ b/libtiff/tif_dirread.c
+> -@@ -5777,8 +5777,9 @@ TIFFFetchStripThing(TIFF* tif, TIFFDirEntry* dir, uint32_t nstrips, uint64_t** l
+> -                       _TIFFfree(data);
+> -                       return(0);
+> -               }
+> --                _TIFFmemcpy(resizeddata,data, (uint32_t)dir->tdir_count * sizeof(uint64_t));
+> --                _TIFFmemset(resizeddata+(uint32_t)dir->tdir_count, 0, (nstrips - (uint32_t)dir->tdir_count) * sizeof(uint64_t));
+> -+              if( dir->tdir_count )
+> -+                      _TIFFmemcpy(resizeddata,data, (uint32_t)dir->tdir_count * sizeof(uint64_t));
+> -+              _TIFFmemset(resizeddata+(uint32_t)dir->tdir_count, 0, (nstrips - (uint32_t)dir->tdir_count) * sizeof(uint64_t));
+> -               _TIFFfree(data);
+> -               data=resizeddata;
+> -       }
+> ---
+> -GitLab
+> -
+> diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
+> similarity index 75%
+> rename from meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+> rename to meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
+> index b5ccd859f3..e30df0b3e9 100644
+> --- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+> +++ b/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
+> @@ -9,22 +9,11 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=34da3db46fab7501992f9615d7e158cf"
+>  CVE_PRODUCT = "libtiff"
+>
+>  SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+> -           file://0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch \
+> -           file://561599c99f987dc32ae110370cfdd7df7975586b.patch \
+> -           file://eecb0712f4c3a5b449f70c57988260a667ddbdef.patch \
+> -           file://0001-tif_jbig.c-fix-crash-when-reading-a-file-with-multip.patch \
+> -           file://0002-tiffcrop-fix-issue-380-and-382-heap-buffer-overflow-.patch \
+> -           file://0003-add-checks-for-return-value-of-limitMalloc-392.patch \
+> -           file://0004-TIFFFetchNormalTag-avoid-calling-memcpy-with-a-null-.patch \
+> -           file://0005-fix-the-FPE-in-tiffcrop-393.patch \
+> -           file://0006-fix-heap-buffer-overflow-in-tiffcp-278.patch \
+>             file://0001-fix-the-FPE-in-tiffcrop-415-427-and-428.patch \
+> -           file://CVE-2022-1354.patch \
+> -           file://CVE-2022-1355.patch \
+>             file://CVE-2022-34526.patch \
+>             "
+>
+> -SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
+> +SRC_URI[sha256sum] = "917223b37538959aca3b790d2d73aa6e626b688e02dcda272aec24c2f498abed"
+>
+>  # exclude betas
+>  UPSTREAM_CHECK_REGEX = "tiff-(?P<pver>\d+(\.\d+)+).tar"
+> --
+> 2.37.3
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#171222): https://lists.openembedded.org/g/openembedde=
-d-core/message/171222
-> Mute This Topic: https://lists.openembedded.org/mt/94018555/6875888
+> View/Reply Online (#171174): https://lists.openembedded.org/g/openembedded-core/message/171174
+> Mute This Topic: https://lists.openembedded.org/mt/93990329/3620601
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ro=
-ss.burton@arm.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
