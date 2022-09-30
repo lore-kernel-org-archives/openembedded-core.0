@@ -2,64 +2,67 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83833C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 824A2C433FE
 	for <webhook@archiver.kernel.org>; Fri, 30 Sep 2022 17:55:35 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web10.313.1664560528986224232
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.314.1664560529598717557
  for <openembedded-core@lists.openembedded.org>;
  Fri, 30 Sep 2022 10:55:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jfU0LNoz;
- spf=pass (domain: gmail.com, ip: 209.85.221.50,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=htCCeceJ;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id r6so7968207wru.8
+Received: by mail-wm1-f52.google.com with SMTP id
+ r3-20020a05600c35c300b003b4b5f6c6bdso2585915wmq.2
         for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Sep 2022 10:55:28 -0700 (PDT)
+ Fri, 30 Sep 2022 10:55:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=8t431kAywv13IkBs6xw+a2qvmVt0M4V1XdgpNer+Skw=;
-        b=jfU0LNozzcpbDGPV0fgfnNwk8W8S9kI9ZzWTL95VrTXLsb4qR/nhtHgWljmTp1cmA+
-         54xfClan+YhNznCJFrmc60M8WCPXArcSJ78fL2iC2y74ptCeS2jTLD2wfeOVg47V30eM
-         smtqhKHTedO/iTM26a433yny6dpLBfyM2VYcy6U04HxUQR0rYmlj88Pn5gVV5tw7u0mF
-         fz149czOYIb7giZPvATPyslyZZ0637pv1qUV5DfDBJJAAQkGZhhjOct6VBaDe+/1egXa
-         3IKVXu5cg5opKcOb82fe/Q8ZHaS9aD/2Ui9G3e3s9j215Fsdq1Acu7QtlAMJWd+VOGW6
-         RFMg==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=2VvhIlcArhhEg2ivjmxFPFQCnLr1C+wvG1nWDAFjXBQ=;
+        b=htCCeceJfZnkqflVQH/NK4GJ7K6PsAsBCMG3qikD4elcA8twjvye8i9FhILzFeaVDb
+         UyJtU8looigEfLrUfnVNw+z/DawUjfxFesXLMly07WQwVRx4lyCN1g+38IkRtl+YRcZ+
+         qu/x5DQmgtSVFEuBFhd0bXkVQDRSepzHGU55iW2CcnRCTebbmUUFXx3sK4uL/5Am2kt9
+         y0+g2WBd/TGM3+kR7XuYtNRZN3SoSV3jHb+dWucPfY4DzKi7ZVPnFpq3lNNZnL6Vr1KL
+         m1vFxne8ZBkSnjCWiH5q93R5iGkcBBw5FyHQRx4c8Xcw/mGNf3tsK7vh1gjROuVDa99W
+         M2fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=8t431kAywv13IkBs6xw+a2qvmVt0M4V1XdgpNer+Skw=;
-        b=vEXhGzivasO+5epFIuLWla55uXqyQSOuU6De/Z7ZT0v8d5r2D5m/EXpCcB6nGYHQ+D
-         XhwcO6sCfl51BTpUOBaxxf7Nsvh7EorLbw8xdmEH61mOPXSnmy2hNFrDvsGLaxekYJCi
-         GZVw7VQH7M5qYMPl6DVykHteXPB3UFTUyJwUm/6xTHgkrb27UV7AzAXdt9rfRhcVfHlo
-         xGkgbuKU5LTJIZwJS8Fi/pa4LaJTlLoyvhQB1/XzKgihJP3VNvzD+W7sVjaC68e4cD+4
-         EPufLzxIPNWKiESs2O22dtsADCtpVA1iv3JX9Go05DcGIgx/z+L8yf4RfibMW+6YqRWx
-         dZVA==
-X-Gm-Message-State: ACrzQf2vWcbAyQm8Of5Jpx2sFlTjofZnScKgLTaneyOX+AMa05jRyUbm
-	A8k/2g3G2cXwNuuCvBfHW7Z8bffachA=
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=2VvhIlcArhhEg2ivjmxFPFQCnLr1C+wvG1nWDAFjXBQ=;
+        b=pXD3jOrUKUqH3JJjlxWDsjfik06XxUqSdMr06wW+AJF5aV8tBj6TQC1DJJfJGQvxOf
+         EHi3QfdLyA/UPkWJQCJflVRtjT5YRjFfCZRgmXh6xsiDfGp7tmh1r8wGddzOR6x1FbUF
+         0fC1BJRMVkrxPyGVvfSARZ3Cp/53FcQv4gWgI14minM4HBJndKDAsXWL5Yave7iriz56
+         wd2oDB/0DYp1PaV9m7meIeyVPnkNxlqcFgwan4vxKtc0coVHsZK+hnHjNimhDFMwcc5O
+         tLPNXvzZMyMVT6C2zbtBgwCgraMqcZbNzFjFsq74WhHm7458S2OXOmh0xH/0fNZ9MLRT
+         2gQw==
+X-Gm-Message-State: ACrzQf0pXc1M18o1cG5mt4tWuyhAJYIRq6Wi7z1JUKNR6UVT+jhXETf+
+	CJwVJE5OBMWwtweb6TQJTBurwWhQbYk=
 X-Google-Smtp-Source: 
- AMsMyM6bPkW5ZQkN0Zs/SzwsAFb9GoXGBWttE+372fStfnWm0OWXUlZElJtwLMk0W3tW1aeD1cUwIA==
-X-Received: by 2002:a05:6000:1ace:b0:22b:113a:461 with SMTP id
- i14-20020a0560001ace00b0022b113a0461mr6229011wry.545.1664560527255;
-        Fri, 30 Sep 2022 10:55:27 -0700 (PDT)
+ AMsMyM4kL0Vi0OCTT152Ek1AWbMVAK/1YZ/uQAyjqfBnx90P2FLLN/dauGfv3Go464Ie+X4YJEKbvA==
+X-Received: by 2002:a05:600c:4606:b0:3b4:62b3:150b with SMTP id
+ m6-20020a05600c460600b003b462b3150bmr6792933wmo.3.1664560528034;
+        Fri, 30 Sep 2022 10:55:28 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- p25-20020a1c5459000000b003a5c7a942edsm7420797wmi.28.2022.09.30.10.55.26
+ p25-20020a1c5459000000b003a5c7a942edsm7420797wmi.28.2022.09.30.10.55.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Sep 2022 10:55:26 -0700 (PDT)
+        Fri, 30 Sep 2022 10:55:27 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [RFC PATCH 1/2] cargo-update-recipe-crates.bbclass: add a class to
- generate SRC_URI crate lists from Cargo.lock
-Date: Fri, 30 Sep 2022 19:55:19 +0200
-Message-Id: <20220930175520.2850089-1-alex@linutronix.de>
+Subject: [RFC PATCH 2/2] python3-bcrypt: update 3.2.2 -> 4.0.0
+Date: Fri, 30 Sep 2022 19:55:20 +0200
+Message-Id: <20220930175520.2850089-2-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220930175520.2850089-1-alex@linutronix.de>
+References: <20220930175520.2850089-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -67,76 +70,107 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 30 Sep 2022 17:55:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171236
+ https://lists.openembedded.org/g/openembedded-core/message/171237
 
-For better or worse, more and more rust components are appearing that do
-not include their dependencies in tarballs (or git trees), and rely on cargo
-to fetch them. On the other hand, bitbake does not use cargo (and quite possible
-won't ever be able to), and relies on having each item explicitly listed in SRC_URI
-with a crate:// prefix. This however creates a problem of both making such lists in
-the first place and updating them when a recipe is updated to a newer version.
+The component has been reimplemented in rust, and comes
+with a large list of dependencies in Cargo.toml/Cargo.lock.
 
-So this class can be used to perform such updates by implementing a task that does it;
-the next commit shows the outcome for python3-bcrypt (which has been tested to work
-and produce a successful build).
-
-Note: the python script relies on tomllib library, which appears in Python 3.11 and
-does not exist in earlier versions - I've tested this by first updating python to 3.11-rc2
-in oe-core.
+Rather than list them by hand, use a file generated with
+cargo-update-recipe-crates class.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../cargo-update-recipe-crates.bbclass        | 41 +++++++++++++++++++
- 1 file changed, 41 insertions(+)
- create mode 100644 meta/classes-recipe/cargo-update-recipe-crates.bbclass
+ .../python/python3-bcrypt-crates.inc          | 53 +++++++++++++++++++
+ ...crypt_3.2.2.bb => python3-bcrypt_4.0.0.bb} |  6 ++-
+ 2 files changed, 57 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python3-bcrypt-crates.inc
+ rename meta/recipes-devtools/python/{python3-bcrypt_3.2.2.bb => python3-bcrypt_4.0.0.bb} (76%)
 
-diff --git a/meta/classes-recipe/cargo-update-recipe-crates.bbclass b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
+diff --git a/meta/recipes-devtools/python/python3-bcrypt-crates.inc b/meta/recipes-devtools/python/python3-bcrypt-crates.inc
 new file mode 100644
-index 0000000000..f90938c734
+index 0000000000..78c5d5aa22
 --- /dev/null
-+++ b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-@@ -0,0 +1,41 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
++++ b/meta/recipes-devtools/python/python3-bcrypt-crates.inc
+@@ -0,0 +1,53 @@
++# Autogenerated with 'bitbake -c update_crates python3-bcrypt'
 +
-+##
-+## Purpose:
-+## This class is used to update the list of crates in SRC_URI
-+## by reading Cargo.lock in the source tree.
-+##
-+## See meta/recipes-devtools/python/python3-bcrypt_*.bb for an example
-+##
-+## To perform the update: bitbake -c update_crates recipe-name
++SRC_URI += " \ 
++        crate://crates.io/autocfg/1.1.0 \ 
++        crate://crates.io/base64/0.13.0 \ 
++        crate://crates.io/bcrypt/0.13.0 \ 
++        crate://crates.io/bcrypt-pbkdf/0.8.1 \ 
++        crate://crates.io/bitflags/1.3.2 \ 
++        crate://crates.io/block-buffer/0.10.2 \ 
++        crate://crates.io/blowfish/0.9.1 \ 
++        crate://crates.io/byteorder/1.4.3 \ 
++        crate://crates.io/cfg-if/1.0.0 \ 
++        crate://crates.io/cipher/0.4.3 \ 
++        crate://crates.io/cpufeatures/0.2.4 \ 
++        crate://crates.io/crypto-common/0.1.6 \ 
++        crate://crates.io/digest/0.10.3 \ 
++        crate://crates.io/generic-array/0.14.6 \ 
++        crate://crates.io/getrandom/0.2.7 \ 
++        crate://crates.io/indoc/0.3.6 \ 
++        crate://crates.io/indoc-impl/0.3.6 \ 
++        crate://crates.io/inout/0.1.3 \ 
++        crate://crates.io/instant/0.1.12 \ 
++        crate://crates.io/libc/0.2.132 \ 
++        crate://crates.io/lock_api/0.4.7 \ 
++        crate://crates.io/once_cell/1.13.1 \ 
++        crate://crates.io/parking_lot/0.11.2 \ 
++        crate://crates.io/parking_lot_core/0.8.5 \ 
++        crate://crates.io/paste/0.1.18 \ 
++        crate://crates.io/paste-impl/0.1.18 \ 
++        crate://crates.io/pbkdf2/0.10.1 \ 
++        crate://crates.io/proc-macro-hack/0.5.19 \ 
++        crate://crates.io/proc-macro2/1.0.43 \ 
++        crate://crates.io/pyo3/0.15.2 \ 
++        crate://crates.io/pyo3-build-config/0.15.2 \ 
++        crate://crates.io/pyo3-macros/0.15.2 \ 
++        crate://crates.io/pyo3-macros-backend/0.15.2 \ 
++        crate://crates.io/quote/1.0.21 \ 
++        crate://crates.io/redox_syscall/0.2.16 \ 
++        crate://crates.io/scopeguard/1.1.0 \ 
++        crate://crates.io/sha2/0.10.2 \ 
++        crate://crates.io/smallvec/1.9.0 \ 
++        crate://crates.io/subtle/2.4.1 \ 
++        crate://crates.io/syn/1.0.99 \ 
++        crate://crates.io/typenum/1.15.0 \ 
++        crate://crates.io/unicode-ident/1.0.3 \ 
++        crate://crates.io/unindent/0.1.10 \ 
++        crate://crates.io/version_check/0.9.4 \ 
++        crate://crates.io/wasi/0.11.0+wasi-snapshot-preview1 \ 
++        crate://crates.io/winapi/0.3.9 \ 
++        crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \ 
++        crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \ 
++        crate://crates.io/zeroize/1.5.7 \ 
++"
+diff --git a/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb b/meta/recipes-devtools/python/python3-bcrypt_4.0.0.bb
+similarity index 76%
+rename from meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb
+rename to meta/recipes-devtools/python/python3-bcrypt_4.0.0.bb
+index 54070e4b9c..857b38df2c 100644
+--- a/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb
++++ b/meta/recipes-devtools/python/python3-bcrypt_4.0.0.bb
+@@ -5,14 +5,16 @@ HOMEPAGE = "https://pypi.org/project/bcrypt/"
+ 
+ DEPENDS += "${PYTHON_PN}-cffi-native"
+ 
+-SRC_URI[sha256sum] = "433c410c2177057705da2a9f2cd01dd157493b2a7ac14c8593a16b3dab6b6bfb"
++SRC_URI[sha256sum] = "c59c170fc9225faad04dde1ba61d85b413946e8ce2e5f5f5ff30dfd67283f319"
+ 
+-inherit pypi python_setuptools_build_meta ptest
++inherit pypi python_setuptools3_rust ptest cargo-update-recipe-crates
+ 
+ SRC_URI += " \
+ 	file://run-ptest \
+ "
+ 
++require ${BPN}-crates.inc
 +
-+addtask do_update_crates after do_patch
-+do_update_crates[depends] = "python3-native:do_populate_sysroot"
-+
-+do_update_crates() {
-+    nativepython3 - <<EOF
-+
-+def get_crates(f):
-+    import tomllib
-+    c_list = 'SRC_URI += " \\ \n'
-+    crates = tomllib.load(open(f, 'rb'))
-+    for c in crates['package']:
-+        if 'source' in c and 'crates.io' in c['source']:
-+            c_list += "        crate://crates.io/{}/{} \\ \n".format(c['name'], c['version'])
-+    c_list += '"\n'
-+    return c_list
-+
-+import os
-+crates = "# Autogenerated with 'bitbake -c update_crates ${PN}'\n\n"
-+for root, dirs, files in os.walk('${S}'):
-+    for file in files:
-+        if file == 'Cargo.lock':
-+            crates += get_crates(os.path.join(root, file))
-+open(os.path.join('${THISDIR}', '${PN}'+"-crates.inc"), 'w').write(crates)
-+
-+EOF
-+}
+ RDEPENDS:${PN}-ptest += " \
+ 	${PYTHON_PN}-pytest \
+ "
 -- 
 2.30.2
 
