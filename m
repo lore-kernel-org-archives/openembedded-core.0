@@ -1,136 +1,401 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99816C433F5
-	for <webhook@archiver.kernel.org>; Fri, 30 Sep 2022 17:57:15 +0000 (UTC)
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com
- [209.85.166.170])
- by mx.groups.io with SMTP id smtpd.web08.340.1664560628238320658
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A52BC433F5
+	for <webhook@archiver.kernel.org>; Fri, 30 Sep 2022 17:58:25 +0000 (UTC)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web11.353.1664560697808432711
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Sep 2022 10:57:08 -0700
+ Fri, 30 Sep 2022 10:58:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Y4enh1VW;
- spf=pass (domain: gmail.com, ip: 209.85.166.170,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-il1-f170.google.com with SMTP id a4so2560205ilj.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CSTJVf/4;
+ spf=pass (domain: gmail.com, ip: 209.85.210.177,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-pf1-f177.google.com with SMTP id g130so4299841pfb.8
         for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Sep 2022 10:57:08 -0700 (PDT)
+ Fri, 30 Sep 2022 10:58:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=fu6iKxPXjfZTmFNQNLrfFy5aXSYWyM9+AAPoOjGRwBU=;
-        b=Y4enh1VWrUx5baP5PCbFRSv5SiqmZh6Q35ImgESGjBhQyggakA3nHiDQwSDVvBP228
-         7eyNE5ImaEXnLhnEbFfgPCASyfox0t341Z8p6ztfPRbHO/ig5D7dJoZ0xE4SP9A5umT6
-         KXyV3gkY8sdmPtplI8dSmFgTMq5v8aRbyfUnVxwJYr2ZJqB/s3pM/GjWXSoT9w9GmzZr
-         xX8/lSxfRRy1dEE1bbjkEz784lL0cQpalvs6POXtfrP1l8mxZh8+g/uhuV1XYPT16I2k
-         aiNwHRTkEc5AdMrKSZzPg3JQc3p1i6vlKeV/5jRWjrQAWufD3zyVKg9ryRfko4tlLXKg
-         OuNQ==
+        bh=oOL6ID7iTD6N1yEo+XYCfxRGBnHD0Esjhozei/TduDA=;
+        b=CSTJVf/4/4BzAMBlu5IHtYF1tc+zivubfFsbK5IvIN9g7prGyq+ex5PcGTN+79HVMS
+         bSRlfOlJMeky9opuNUH/g/tYamzivDhYJA+dB1UITnUkQLvSTGTK61pwMkabwyfv12Wq
+         UWS2U6qawLyeeVrqKolzh7IpDDzqf4Vwly5dJS71aEhjbJEB1Ds910+XneKJoftDO6CL
+         OywunpoeJDEXD2y2TnltCGNWqpNh0fcyGhl6VeuFPTyjfZH82HB7tFY3nLNkB7Nfqyao
+         /npHbeZ+0i4Jj0qHUhQuL8KfND0ZtNzRDYb3q/HqLToXBZsDIUGoYUdEByHsVA8Oh/1D
+         rZkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=fu6iKxPXjfZTmFNQNLrfFy5aXSYWyM9+AAPoOjGRwBU=;
-        b=PpHVPv96k654ycGh3Mq45/VUtguZjBb33E/kSXbeH5yVd5Cm0Lqi9O9jUN6GQDHzkZ
-         CcVvSWkK1tHtzgpOtAKmlCP4CSiT7Vw8w5WvXtGusw6UV4VNEwM4cWy3pxYugrtDT4Dh
-         /tsNy4orWp4QzZtTpOKTM/xnSiaDpHAG4/nqtpQ0Ww2q9b9WlcrNGbA7VN0mGRMKkdSH
-         lLmhAXAtim296X8HdwaimjetzR9TexyBWpFJQEGZ69qk1my3FlID5TvWWKZNhV48ebbK
-         xxeSeqzMkfiSkkxErj+9CiFz4vjYwpHuCzJdXZcbHLMmTU5VFipTbvHXVa31Mn93Ohrj
-         pUYw==
-X-Gm-Message-State: ACrzQf1+q831rYPnb35XD6YznDRExEa0GsxtRie1RTkF3lq3Wi8QOzIz
-	hVlIVJVBycEa2W9xnFTxi0uIZjYk6wN0cB0AFrM=
+        bh=oOL6ID7iTD6N1yEo+XYCfxRGBnHD0Esjhozei/TduDA=;
+        b=seNMVKMydj4Dc7odnWFFFHjApCK30LrxkMN6Isq8K1neUzY6ycu6nlYu8Klh8nQXXz
+         jTmSy0D/oeLvuHRnoClgZGxCYv3NYGEcjqbcXaMhPd6yvIM5AMGbpqoVoj0vyPvdRzE1
+         2Ccgvnu1bXru2O860GXRClrUthWD2RPYWYGe1Hd7JQNswvXGONVR5hFDopGGgp8O6Q/t
+         WFyxrLdYupnKDNzZ0dyylFQfkoUHCIaXBHVVYzAp+49ZItn9Z4QEM5bcYE4NQHy7htyH
+         JiWKO09WU/t9shO55NspOD88o9Zlznj0QBZ2QEa3BmmyFYOcB8Lv5/AoybpJoboxrEyI
+         lR7g==
+X-Gm-Message-State: ACrzQf33PXohx+bCBsCpuWrHMvkI6oLuBxQ7KpftAgSA74yhZzj02aKc
+	/cmvKbi8ZpGF51bscfAMk1k9bM94JIvKU0W9cMQ=
 X-Google-Smtp-Source: 
- AMsMyM55kjUh79DSgx7AjLW5NWifHpkwL2gOZUYW2cyXNDrSxxKA3k2Ao7W/RoD18noLJAETpa4tpVXjGVy4iK6YQEY=
-X-Received: by 2002:a92:da4b:0:b0:2f1:525a:90e7 with SMTP id
- p11-20020a92da4b000000b002f1525a90e7mr4936210ilq.307.1664560627590; Fri, 30
- Sep 2022 10:57:07 -0700 (PDT)
+ AMsMyM6TBfwYS/0fW9hgt2USytv3aJjqG4mZvNWLGZ9F/jWju97u7RHc+Mc8EHXe+9YSdXy8njdif8sY7ivNbLK68h4=
+X-Received: by 2002:a05:6a00:1892:b0:540:acee:29e8 with SMTP id
+ x18-20020a056a00189200b00540acee29e8mr10199062pfh.1.1664560697261; Fri, 30
+ Sep 2022 10:58:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220930175440.2168008-1-jose.quaresma@foundries.io>
-In-Reply-To: <20220930175440.2168008-1-jose.quaresma@foundries.io>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 30 Sep 2022 19:56:56 +0200
+References: 
+ <CO6PR11MB560249B7071753A389AFD7C6EDC99@CO6PR11MB5602.namprd11.prod.outlook.com>
+In-Reply-To: 
+ <CO6PR11MB560249B7071753A389AFD7C6EDC99@CO6PR11MB5602.namprd11.prod.outlook.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Fri, 30 Sep 2022 18:57:55 +0100
 Message-ID: 
- <CANNYZj-15uhYQwhU95q0Yr=FcX_qGhWj5Vy=7qFdqyJ4QfSsww@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] go: drop patch to make content based hash
- generation less pedan
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: text/plain; charset="UTF-8"
+ <CANPvuR=W68vwb+r6yAZKmbf5Y08rVRjE6F7ON_ttfsc-Bk41VA@mail.gmail.com>
+Subject: Re: [OE-core] Regression about go 1.18 + OE specific local patch
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: "raj.khem@gmail.com" <raj.khem@gmail.com>,
+	"alexander.j.kube@gmail.com" <alexander.j.kube@gmail.com>,
+ "matt@madison.systems" <matt@madison.systems>,
+	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000001145f305e9e8bd96"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 Sep 2022 17:57:15 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 30 Sep 2022 17:58:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171238
+ https://lists.openembedded.org/g/openembedded-core/message/171239
 
-You need to remove the actual patch, and run the reproducibility test.
+--0000000000001145f305e9e8bd96
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Alex
+Hi Qi,
 
-On Fri, 30 Sept 2022 at 19:55, Jose Quaresma <quaresma.jose@gmail.com> wrote:
+With patch in place I have seen some build issues mainly in
+meta-virtualization
+with ti am62xx-evm, am64xx-evm and riscv64 machines.
+Propose to remove the patch as it seams to fix the issue and I don't see
+any side effect after
+testing it in some weeks.
+
+https://lists.openembedded.org/g/openembedded-core/message/171233
+
+Chen Qi <Qi.Chen@windriver.com> escreveu no dia ter=C3=A7a, 10/05/2022 =C3=
+=A0(s)
+10:09:
+
+> Hi All,
 >
-> With patch in place I have see some build issues mainly in meta-virtualization
-> with ti am62xx-evm, am64xx-evm and riscv64 machines.
 >
-> All the mahines fails to build the following recipes:
 >
-> | Summary: 5 tasks failed:
-> |  /srv/oe/build/conf/../../layers/meta-virtualization/recipes-containers/runc/runc-opencontainers_git.bb:do_compile
-> |  /srv/oe/build/conf/../../layers/meta-virtualization/recipes-containers/skopeo/skopeo_git.bb:do_compile
-> |  /srv/oe/build/conf/../../layers/meta-lmp/meta-lmp-base/recipes-support/fioconfig/fioconfig_git.bb:do_compile
-> |  /srv/oe/build/conf/../../layers/meta-virtualization/recipes-containers/docker/docker-ce_git.bb:do_compile
-> |  /srv/oe/build/conf/../../layers/meta-virtualization/recipes-containers/containerd/containerd-opencontainers_git.bb:do_compile
-> | Summary: There were 8 ERROR messages, returning a non-zero exit code.
+> I met a regression after go was upgraded to 1.18+.
 >
-> And all of them fails with the same issue:
+> The problem can be reproduced by running `bitbake nativesdk-skopeo=E2=80=
+=99, with
+> meta-virtualization added in bblayers.conf.
+>
+> The error message is as below.
+>
+>
+>
+> =E2=80=9C=E2=80=9D=E2=80=9D
+>
+> <snip>
+>
+> | HASH[build golang.org/x/text/unicode/norm]: "import \"
+> golang.org/x/text/unicode/norm\ <http://golang.org/x/text/unicode/norm%5C=
+>
+> "\n"
+>
+> | HASH
+> /ala-lpggp72/qichen/Yocto/builds/build-master/tmp/work/x86_64-nativesdk-p=
+okysdk-linux/nativesdk-skopeo/v
+>
+> 1.6.1+gitAUTOINC+3e2defd6d3-r0/git/src/import/vendor/
+> github.com/pkg/errors/errors.go: 1b60ba5bcb417f0060d1c1fbc
+>
+> edaa1a702020499094ce8134f8b45a58c0ebbff
 >
 > | panic: runtime error: index out of range [0] with length 0
+>
 > |
-> | goroutine 6688 [running]:
-> | cmd/go/internal/work.(*Builder).buildActionID(0xc0000030e0, 0xc000172a00)
-> |       /srv/oe/build/tmp-lmp/work/x86_64-linux/go-cross-riscv64/1.19-r0/recipe-sysroot-native/usr/lib/riscv64-lmp-linux/go/src/cmd/go/internal/work/exec.go:281 +0x2425
-> | cmd/go/internal/work.(*Builder).build(0xc0000030e0, {0xc000000238?, 0x0?}, 0xc000172a00)
-> |       /srv/oe/build/tmp-lmp/work/x86_64-linux/go-cross-riscv64/1.19-r0/recipe-sysroot-native/usr/lib/riscv64-lmp-linux/go/src/cmd/go/internal/work/exec.go:478 +0x199
-> | cmd/go/internal/work.(*Builder).Do.func2({0xb2e4f0, 0xc000000238}, 0xc000172a00)
-> |       /srv/oe/build/tmp-lmp/work/x86_64-linux/go-cross-riscv64/1.19-r0/recipe-sysroot-native/usr/lib/riscv64-lmp-linux/go/src/cmd/go/internal/work/exec.go:139 +0x5fc
+>
+> | goroutine 5129 [running]:
+>
+> | cmd/go/internal/work.(*Builder).buildActionID(0xc0002490e0, 0xc000370b4=
+0)
+>
+> |
+> /ala-lpggp72/qichen/Yocto/builds/build-master/tmp/work/x86_64-linux/go-cr=
+osssdk-x86_64-pokysdk-linux/1.
+>
+> 18.1-r0/recipe-sysroot-native/usr/lib/x86_64-pokysdk-linux/go/src/cmd/go/=
+internal/work/exec.go:281
+> +0x23cf
+>
+> | cmd/go/internal/work.(*Builder).build(0xc0002490e0, {0xc000220000?,
+> 0x0?}, 0xc000370b40)
+>
+> |
+> /ala-lpggp72/qichen/Yocto/builds/build-master/tmp/work/x86_64-linux/go-cr=
+osssdk-x86_64-pokysdk-linux/1.
+>
+> 18.1-r0/recipe-sysroot-native/usr/lib/x86_64-pokysdk-linux/go/src/cmd/go/=
+internal/work/exec.go:476
+> +0x199
+>
+> | cmd/go/internal/work.(*Builder).Do.func2({0xadd9f8, 0xc000220000},
+> 0xc000370b40)
+>
+> |
+> /ala-lpggp72/qichen/Yocto/builds/build-master/tmp/work/x86_64-linux/go-cr=
+osssdk-x86_64-pokysdk-linux/1.18.1-r0/recipe-sysroot-native/usr/lib/x86_64-=
+pokysdk-linux/go/src/cmd/go/internal/work/exec.go:139
+> +0x5ec
+>
 > | cmd/go/internal/work.(*Builder).Do.func3()
-> |       /srv/oe/build/tmp-lmp/work/x86_64-linux/go-cross-riscv64/1.19-r0/recipe-sysroot-native/usr/lib/riscv64-lmp-linux/go/src/cmd/go/internal/work/exec.go:201 +0xb9
+>
+> |
+> /ala-lpggp72/qichen/Yocto/builds/build-master/tmp/work/x86_64-linux/go-cr=
+osssdk-x86_64-pokysdk-linux/1.18.1-r0/recipe-sysroot-native/usr/lib/x86_64-=
+pokysdk-linux/go/src/cmd/go/internal/work/exec.go:201
+> +0xb9
+>
 > | created by cmd/go/internal/work.(*Builder).Do
-> |       /srv/oe/build/tmp-lmp/work/x86_64-linux/go-cross-riscv64/1.19-r0/recipe-sysroot-native/usr/lib/riscv64-lmp-linux/go/src/cmd/go/internal/work/exec.go:187 +0x3f5
-> | make: *** [Makefile:244: bin/containerd] Error 2
-> | make: *** Waiting for unfinished jobs....
 >
-> Without this patch everithing look good.
+> |
+> /ala-lpggp72/qichen/Yocto/builds/build-master/tmp/work/x86_64-linux/go-cr=
+osssdk-x86_64-pokysdk-linux/1.18.1-r0/recipe-sysroot-native/usr/lib/x86_64-=
+pokysdk-linux/go/src/cmd/go/internal/work/exec.go:187
+> +0x3da
 >
-> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-> ---
->  meta/recipes-devtools/go/go-1.19.inc | 1 -
->  1 file changed, 1 deletion(-)
+> | Makefile:140: recipe for target 'bin/skopeo' failed
 >
-> diff --git a/meta/recipes-devtools/go/go-1.19.inc b/meta/recipes-devtools/go/go-1.19.inc
-> index f733a807b4..355a82eb9f 100644
-> --- a/meta/recipes-devtools/go/go-1.19.inc
-> +++ b/meta/recipes-devtools/go/go-1.19.inc
-> @@ -5,7 +5,6 @@ FILESEXTRAPATHS:prepend := "${FILE_DIRNAME}/go:"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+> <snip>
 >
->  SRC_URI += "\
-> -    file://0001-cmd-go-make-content-based-hash-generation-less-pedan.patch \
->      file://0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch \
->      file://0004-ld-add-soname-to-shareable-objects.patch \
->      file://0005-make.bash-override-CC-when-building-dist-and-go_boot.patch \
-> --
-> 2.34.1
+> =E2=80=9C=E2=80=9D=E2=80=9D
 >
 >
-> -=-=-=-=-=-=-=-=-=-=-=-
+>
+> I did some investigation and found it was related to a local patch,
+> 0001-cmd-go-make-content-based-hash-generation-less-pedan.patch.
+>
+> The build succeeded after I dropped this patch.
+>
+>
+>
+> I=E2=80=99m sending out this email to seek for some help, as I don=E2=80=
+=99t fully
+> understand what this patch does.
+>
+>
+>
+> e.g.
+>
+> =E2=80=9C=E2=80=9D=E2=80=9D
+>
+> +               if strings.HasPrefix(flag, "-m") {
+>
+> +                       newflags =3D append(newflags, flag)
+>
+> +               }
+>
+> =E2=80=9C=E2=80=9D=E2=80=9D
+>
+> This flag filtering is not explained in the commit message.
+>
+>
+>
+> One more question: this patch applies to all go recipes, including go
+> cross compilers and target go. But from its commit message, target go doe=
+s
+> not seem to need it.
+>
+>
+>
+> Any suggestion?
+>
+>
+>
+> Regards,
+>
+> Qi
+>
+>
+>
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#171233): https://lists.openembedded.org/g/openembedded-core/message/171233
-> Mute This Topic: https://lists.openembedded.org/mt/94022663/1686489
+> View/Reply Online (#165412):
+> https://lists.openembedded.org/g/openembedded-core/message/165412
+> Mute This Topic: https://lists.openembedded.org/mt/91008732/5052612
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--0000000000001145f305e9e8bd96
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Qi,</div><div><br></div><div>W<span style=3D"color=
+:rgb(51,51,51);font-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-=
+serif;font-size:14px;white-space:pre-wrap">ith patch in place I have seen s=
+ome build issues mainly in meta-virtualization</span></div><span style=3D"c=
+olor:rgb(51,51,51);font-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,s=
+ans-serif;font-size:14px;white-space:pre-wrap">with ti am62xx-evm, am64xx-e=
+vm and riscv64 machines.
+</span><br>Propose to remove the patch as it seams to fix the issue and I d=
+on&#39;t see any side effect=C2=A0after<div>testing it in some weeks.<br><b=
+r><a href=3D"https://lists.openembedded.org/g/openembedded-core/message/171=
+233">https://lists.openembedded.org/g/openembedded-core/message/171233</a><=
+div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Ch=
+en Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Che=
+n@windriver.com</a>&gt; escreveu no dia ter=C3=A7a, 10/05/2022 =C3=A0(s) 10=
+:09:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div>
+
+
+
+
+
+<div lang=3D"EN-US">
+<div>
+<p class=3D"MsoNormal">Hi All,<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">I met a regression after go was upgraded to 1.18+.<u=
+></u><u></u></p>
+<p class=3D"MsoNormal">The problem can be reproduced by running `bitbake na=
+tivesdk-skopeo=E2=80=99, with meta-virtualization added in bblayers.conf.<u=
+></u><u></u></p>
+<p class=3D"MsoNormal">The error message is as below.<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">=E2=80=9C=E2=80=9D=E2=80=9D<u></u><u></u></p>
+<p class=3D"MsoNormal">&lt;snip&gt;<u></u><u></u></p>
+<p class=3D"MsoNormal">| HASH[build <a href=3D"http://golang.org/x/text/uni=
+code/norm" target=3D"_blank">golang.org/x/text/unicode/norm</a>]: &quot;imp=
+ort \&quot;<a href=3D"http://golang.org/x/text/unicode/norm%5C" target=3D"_=
+blank">golang.org/x/text/unicode/norm\</a>&quot;\n&quot;<u></u><u></u></p>
+<p class=3D"MsoNormal">| HASH /ala-lpggp72/qichen/Yocto/builds/build-master=
+/tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-skopeo/v<u></u><u></u></=
+p>
+<p class=3D"MsoNormal">1.6.1+gitAUTOINC+3e2defd6d3-r0/git/src/import/vendor=
+/<a href=3D"http://github.com/pkg/errors/errors.go" target=3D"_blank">githu=
+b.com/pkg/errors/errors.go</a>: 1b60ba5bcb417f0060d1c1fbc<u></u><u></u></p>
+<p class=3D"MsoNormal">edaa1a702020499094ce8134f8b45a58c0ebbff<u></u><u></u=
+></p>
+<p class=3D"MsoNormal">| panic: runtime error: index out of range [0] with =
+length 0<u></u><u></u></p>
+<p class=3D"MsoNormal">|<u></u><u></u></p>
+<p class=3D"MsoNormal">| goroutine 5129 [running]:<u></u><u></u></p>
+<p class=3D"MsoNormal">| cmd/go/internal/work.(*Builder).buildActionID(0xc0=
+002490e0, 0xc000370b40)<u></u><u></u></p>
+<p class=3D"MsoNormal">|=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /ala-lpggp72/q=
+ichen/Yocto/builds/build-master/tmp/work/x86_64-linux/go-crosssdk-x86_64-po=
+kysdk-linux/1.<u></u><u></u></p>
+<p class=3D"MsoNormal">18.1-r0/recipe-sysroot-native/usr/lib/x86_64-pokysdk=
+-linux/go/src/cmd/go/internal/work/exec.go:281 +0x23cf<u></u><u></u></p>
+<p class=3D"MsoNormal">| cmd/go/internal/work.(*Builder).build(0xc0002490e0=
+, {0xc000220000?, 0x0?}, 0xc000370b40)<u></u><u></u></p>
+<p class=3D"MsoNormal">|=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /ala-lpggp72/q=
+ichen/Yocto/builds/build-master/tmp/work/x86_64-linux/go-crosssdk-x86_64-po=
+kysdk-linux/1.<u></u><u></u></p>
+<p class=3D"MsoNormal">18.1-r0/recipe-sysroot-native/usr/lib/x86_64-pokysdk=
+-linux/go/src/cmd/go/internal/work/exec.go:476 +0x199<u></u><u></u></p>
+<p class=3D"MsoNormal">| cmd/go/internal/work.(*Builder).Do.func2({0xadd9f8=
+, 0xc000220000}, 0xc000370b40)<u></u><u></u></p>
+<p class=3D"MsoNormal">|=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /ala-lpggp72/q=
+ichen/Yocto/builds/build-master/tmp/work/x86_64-linux/go-crosssdk-x86_64-po=
+kysdk-linux/1.18.1-r0/recipe-sysroot-native/usr/lib/x86_64-pokysdk-linux/go=
+/src/cmd/go/internal/work/exec.go:139 +0x5ec<u></u><u></u></p>
+<p class=3D"MsoNormal">| cmd/go/internal/work.(*Builder).Do.func3()<u></u><=
+u></u></p>
+<p class=3D"MsoNormal">|=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /ala-lpggp72/q=
+ichen/Yocto/builds/build-master/tmp/work/x86_64-linux/go-crosssdk-x86_64-po=
+kysdk-linux/1.18.1-r0/recipe-sysroot-native/usr/lib/x86_64-pokysdk-linux/go=
+/src/cmd/go/internal/work/exec.go:201 +0xb9<u></u><u></u></p>
+<p class=3D"MsoNormal">| created by cmd/go/internal/work.(*Builder).Do<u></=
+u><u></u></p>
+<p class=3D"MsoNormal">|=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /ala-lpggp72/q=
+ichen/Yocto/builds/build-master/tmp/work/x86_64-linux/go-crosssdk-x86_64-po=
+kysdk-linux/1.18.1-r0/recipe-sysroot-native/usr/lib/x86_64-pokysdk-linux/go=
+/src/cmd/go/internal/work/exec.go:187 +0x3da<u></u><u></u></p>
+<p class=3D"MsoNormal">| Makefile:140: recipe for target &#39;bin/skopeo&#3=
+9; failed<u></u><u></u></p>
+<p class=3D"MsoNormal">&lt;snip&gt;<u></u><u></u></p>
+<p class=3D"MsoNormal">=E2=80=9C=E2=80=9D=E2=80=9D<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">I did some investigation and found it was related to=
+ a local patch, 0001-cmd-go-make-content-based-hash-generation-less-pedan.p=
+atch.<u></u><u></u></p>
+<p class=3D"MsoNormal">The build succeeded after I dropped this patch.<u></=
+u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">I=E2=80=99m sending out this email to seek for some =
+help, as I don=E2=80=99t fully understand what this patch does.<u></u><u></=
+u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">e.g.<u></u><u></u></p>
+<p class=3D"MsoNormal">=E2=80=9C=E2=80=9D=E2=80=9D<u></u><u></u></p>
+<p class=3D"MsoNormal">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if strings.HasPrefix(flag, &quot;-m&quot;=
+) {<u></u><u></u></p>
+<p class=3D"MsoNormal">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 newflags =3D append(newflags, flag)<u></u><u></u></p>
+<p class=3D"MsoNormal">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<u></u><u></u></p>
+<p class=3D"MsoNormal">=E2=80=9C=E2=80=9D=E2=80=9D<u></u><u></u></p>
+<p class=3D"MsoNormal">This flag filtering is not explained in the commit m=
+essage.<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">One more question: this patch applies to all go reci=
+pes, including go cross compilers and target go. But from its commit messag=
+e, target go does not seem to need it.<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">Any suggestion?<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">Regards,<u></u><u></u></p>
+<p class=3D"MsoNormal">Qi<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+</div>
+
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#165412): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/165412" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/165412</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/91008732/5052=
+612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/91008732/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</div></blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=
+=3D"ltr"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></d=
+iv></div></div></div></div>
+
+--0000000000001145f305e9e8bd96--
 
