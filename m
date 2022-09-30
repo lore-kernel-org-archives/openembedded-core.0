@@ -1,134 +1,180 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C86F1C43217
-	for <webhook@archiver.kernel.org>; Fri, 30 Sep 2022 08:34:47 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.3400.1664526882648429689
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8018C43219
+	for <webhook@archiver.kernel.org>; Fri, 30 Sep 2022 08:48:37 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
+ [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.3527.1664527707196958019
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Sep 2022 01:34:42 -0700
+ Fri, 30 Sep 2022 01:48:27 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="body hash did not verify" header.i=@windriver.com
- header.s=pps06212021 header.b=HEsYr0Y9;
+ header.s=pps06212021 header.b=BmsUVnIa;
  spf=permerror,
  err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=72725421ac=kai.kang@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+ invalid domain name (domain: windriver.com, ip: 205.220.178.238,
+ mailfrom: prvs=7272aacdc6=changqing.li@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
 	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 28U8O005024394;
-	Fri, 30 Sep 2022 01:34:38 -0700
+ 28U8hQal014225
+	for <openembedded-core@lists.openembedded.org>; Fri, 30 Sep 2022 08:48:26 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to : cc :
+ h=from : to :
  subject : date : message-id : mime-version : content-type :
  content-transfer-encoding; s=PPS06212021;
- bh=vkySNyjqgnI2HJbLkeHvNJsE828sVYchmZpMNTcUivc=;
- b=HEsYr0Y9O7HhRKGyalVi9knG4NC7NxO8GbZ6CxT7ucV+kfsQOB81fWqghccgRee+WFD9
- mtSUXDH95YV0n7Tl5xL/3/1r4WlXBnpEyLXU6SNA89mcJxmccZkUQnf+/p0uSHiHJFYS
- x6OZyzWZrU9e7LeD5K8S5W7b+bFukvwgcwjPRIQ5VfxuWvhqPPH4GV/wH89xDMTDdVIV
- wI7GzfOwkmZjR4kkkWm6yZWMeyvfGGLt8X7ktkK5uQAkdGzWrORQnnGxCH4+TQYOBOyw
- SNvUTUoS6BCrQdwvCWXqYoHI/fUB4IrIpKAVaYzQrKeYO7wQDjvO1tYL0KYOoS/DUGQR hg==
+ bh=qVVGseZ6jv2tHfErC0iFfujfLS7dTvQ34Kf1xruvBLU=;
+ b=BmsUVnIaQpYsMFwoSlLxsqY9ApohCxs6H+6dG1JT+FwP9kDtmbxNaoaNfO8HfTV2UiSH
+ k3NijigMieyJisIFkajVAc4Hijl7rUC8cmiF1cDN8QVKxxWlRd35uwiC4yxHMfvKk9/F
+ 630tcb0jN1L5AVAJeM9+IlPQV3sprLOBtYGQyWm3D7+fmbiMuXMcBTTS2wd/hA3UTZkP
+ IRUi4WgfcrwqV8zXfjslIIxkdpxaMkudFyMzBlLJbliROMggqwG+1r2gaMBTHG0sGmUR
+ hlFT9kfHum6Sf/ivHnRqMhmy+QPkO43Zj87/oIsovbMWQ4J6+1sdgcNtr4DViIwACaf9 Fg==
 Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com
  [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jt1dkd331-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 30 Sep 2022 01:34:38 -0700
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jsq425ahw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 30 Sep 2022 08:48:26 +0000
 Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Fri, 30 Sep 2022 01:34:36 -0700
+ 15.1.2242.12; Fri, 30 Sep 2022 01:48:23 -0700
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Fri, 30 Sep 2022 01:34:36 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ 15.1.2308.27; Fri, 30 Sep 2022 01:48:24 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Fri, 30 Sep 2022 01:34:35 -0700
-From: <kai.kang@windriver.com>
-To: <alexandre.belloni@bootlin.com>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v3] mesa: only apply patch to fix ALWAYS_INLINE for native
-Date: Fri, 30 Sep 2022 16:34:33 +0800
-Message-ID: <20220930083433.2277-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ 15.1.2242.12 via Frontend Transport; Fri, 30 Sep 2022 01:48:22 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] fix close_range fails unexpectedly in unprivileged process
+Date: Fri, 30 Sep 2022 16:48:23 +0800
+Message-ID: <20220930084823.2772546-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Proofpoint-GUID: EDPHAWwDm1iCP3QRYpqLu9_7Whk9iPvU
-X-Proofpoint-ORIG-GUID: EDPHAWwDm1iCP3QRYpqLu9_7Whk9iPvU
+X-Proofpoint-ORIG-GUID: POuR2kWUVXU9zQZJOmTTSA3Tn0Evxfkd
+X-Proofpoint-GUID: POuR2kWUVXU9zQZJOmTTSA3Tn0Evxfkd
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
  definitions=2022-09-30_04,2022-09-29_03,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- priorityscore=1501 malwarescore=0 mlxscore=0 lowpriorityscore=0
- impostorscore=0 suspectscore=0 mlxlogscore=950 adultscore=0 bulkscore=0
- clxscore=1015 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2209300052
+ mlxscore=0 mlxlogscore=999
+ malwarescore=0 adultscore=0 clxscore=1011 priorityscore=1501 spamscore=0
+ phishscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
+ definitions=main-2209300054
 Content-Transfer-Encoding: quoted-printable
 X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-0064b401.pphosted.com id 28U8O005024394
+ mx0a-0064b401.pphosted.com id 28U8hQal014225
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 Sep 2022 08:34:47 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 30 Sep 2022 08:48:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171214
+ https://lists.openembedded.org/g/openembedded-core/message/171215
 
-From: Kai Kang <kai.kang@windriver.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-0001-nir-nir_opt_move-fix-ALWAYS_INLINE-compiler-error.patch is not
-needed by target mesa any more. But it still fails to compile
-mesa-native without this patch when DEBUG_BUILD is enabled on Ubuntu
-18.04 with gcc 7.5.0:
+After commit [1], start a unprivileged container (docker run without --pr=
+ivileged),
+close file will fail.
 
-| ../mesa-22.1.6/src/compiler/nir/nir_inline_helpers.h: In function =E2=80=
-=98nir_opt_move_block=E2=80=99:
-| ../mesa-22.1.6/src/compiler/nir/nir_opt_move.c:55:1: error: inlining fa=
-iled in call to
-    always_inline =E2=80=98src_is_ssa=E2=80=99: indirect function call wi=
-th a yet undetermined callee
-|  src_is_ssa(nir_src *src, void *state)
-|  ^~~~~~~~~~
+This is actually an docker issue, see [2]. But this issue will
+block yocto build in docker with glibc2.35+. so add this local patch.
 
-So only apply it for mesa-native.
+[1] https://gitlab.gnome.org/GNOME/glib/-/commit/ce04a124040be091407e0702=
+80d86ca810bacb8c
+[2] https://github.com/moby/moby/issues/43595
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
-v3:
-* rebase
+ ...fails-unexpectedly-in-unprivileged-p.patch | 46 +++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-fix-close_ra=
+nge-fails-unexpectedly-in-unprivileged-p.patch
 
- meta/recipes-graphics/mesa/mesa.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-index 8a74e0a80a..c94e439363 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -19,9 +19,11 @@ SRC_URI =3D "https://mesa.freedesktop.org/archive/mesa=
--${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patc=
-h \
-            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.pa=
-tch \
-            file://0001-util-format-Check-for-NEON-before-using-it.patch =
-\
--           file://0001-nir-nir_opt_move-fix-ALWAYS_INLINE-compiler-error=
-.patch \
-            "
-=20
-+# required by mesa-native on Ubuntu 18.04 with gcc 7.5 when DEBUG_BUILD =
-enabled
-+SRC_URI:append:class-native =3D " file://0001-nir-nir_opt_move-fix-ALWAY=
-S_INLINE-compiler-error.patch"
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-fix-close_range-fai=
+ls-unexpectedly-in-unprivileged-p.patch b/meta/recipes-core/glib-2.0/glib=
+-2.0/0001-fix-close_range-fails-unexpectedly-in-unprivileged-p.patch
+new file mode 100644
+index 0000000000..213ee7b11f
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-fix-close_range-fails-unex=
+pectedly-in-unprivileged-p.patch
+@@ -0,0 +1,46 @@
++From 0fb283b3b1e3b4958b985804cbc40b7bff8b0e65 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Fri, 30 Sep 2022 08:29:41 +0000
++Subject: [PATCH] fix close_range fails unexpectedly in unprivileged proc=
+ess
 +
- SRC_URI[sha256sum] =3D "b1f9c8fd08f2cae3adf83355bef4d2398e8025f449473328=
-80f2d0066bdafa8c"
++After change [1], start a unprivileged container (docker run without --p=
+rivileged),
++close file may fail.
++
++This is actually an docker issue, see [2]. But this issue will
++block yocto build in docker with glibc2.35+. so add this local patch.
++
++[1] https://gitlab.gnome.org/GNOME/glib/-/commit/ce04a124040be091407e070=
+280d86ca810bacb8c
++[2] https://github.com/moby/moby/issues/43595
++
++Upstream-Status: Inappropriate [Rejected by upstream]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ glib/gspawn.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/glib/gspawn.c b/glib/gspawn.c
++index 0a2cbe5..83553a1 100644
++--- a/glib/gspawn.c
+++++ b/glib/gspawn.c
++@@ -1544,7 +1544,7 @@ safe_fdwalk_set_cloexec (int lowfd)
++    * fall back to safe_fdwalk(). Handle EINVAL in case `CLOSE_RANGE_CLO=
+EXEC`
++    * is not supported. */
++   int ret =3D close_range (lowfd, G_MAXUINT, CLOSE_RANGE_CLOEXEC);
++-  if (ret =3D=3D 0 || !(errno =3D=3D ENOSYS || errno =3D=3D EINVAL))
+++  if (ret =3D=3D 0 || !(errno =3D=3D ENOSYS || errno =3D=3D EINVAL || e=
+rrno =3D=3D EPERM))
++     return ret;
++ #endif  /* HAVE_CLOSE_RANGE */
++   return safe_fdwalk (set_cloexec, GINT_TO_POINTER (lowfd));
++@@ -1597,7 +1597,7 @@ safe_closefrom (int lowfd)
++    * Handle ENOSYS in case it=E2=80=99s supported in libc but not the k=
+ernel; if so,
++    * fall back to safe_fdwalk(). */
++   int ret =3D close_range (lowfd, G_MAXUINT, 0);
++-  if (ret =3D=3D 0 || errno !=3D ENOSYS)
+++  if (ret =3D=3D 0 || !(errno =3D=3D ENOSYS || errno =3D=3D EPERM))
++     return ret;
++ #endif  /* HAVE_CLOSE_RANGE */
++   return safe_fdwalk (close_func, GINT_TO_POINTER (lowfd));
++--=20
++2.34.1
++
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb b/meta/recipes=
+-core/glib-2.0/glib-2.0_2.72.3.bb
+index dd1ea508d2..bbaacc64a4 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
+@@ -16,6 +16,7 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV=
+}.tar.xz \
+            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
+            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
+            file://0001-gio-tests-resources.c-comment-out-a-build-host-on=
+ly-.patch \
++           file://0001-fix-close_range-fails-unexpectedly-in-unprivilege=
+d-p.patch \
+            "
+ SRC_URI:append:class-native =3D " file://relocate-modules.patch"
 =20
- UPSTREAM_CHECK_GITTAGREGEX =3D "mesa-(?P<pver>\d+(\.\d+)+)"
 --=20
-2.17.1
+2.34.1
 
 
