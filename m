@@ -2,53 +2,52 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 570F0C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75628C4167B
 	for <webhook@archiver.kernel.org>; Sat,  1 Oct 2022 16:53:52 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com
- (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web08.475.1664643225699483255
+Received: from a27-193.smtp-out.us-west-2.amazonses.com
+ (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.482.1664643227645928831
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Oct 2022 09:53:45 -0700
+ Sat, 01 Oct 2022 09:53:49 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=PYYAetsq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
- mailfrom: 010101839477d464-800fe395-79c2-4b23-98a9-8341115db4c1-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ikuMW9fw;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193,
+ mailfrom: 010101839477e662-593f0572-3fa3-4d33-bb40-95d00ed621e3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1664643224;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=wL9NZV25EWQgewA4H7PcREpPLrxuRtctIBqERLsUI9Q=;
-	b=PYYAetsqqy6mf122Ljb4IlUeftEJ6xF6oGS2C3FtpodEzDqoligxQdJlWQXEIrsf
-	qFfxuxl8JaxCOEkOIcKfudAWz1KfYOVWxFsSsAORLm6zQOtudWysxJ663Is6q5sG3vP
-	0DeLKUyakpH5qicEz2vpcg7Gr0B5QPc0JOyTzqPo=
+	t=1664643229;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=n0Oq+pPrIJTrDIW4Tm7ANFO2xyYXaByfx3l2g/I530w=;
+	b=ikuMW9fwgHIM6UDpgeAIGrYKLVXXprk5aiIpFjrX9gx+f43yFYCaJQsYnTGD+qju
+	qIs5/qfRggITpFHEzyTiBzIfgvu24iodA8YMS9Fb5B2CNQOk/besZg5vyf/onaU5gwi
+	N1CsgmBoqJvN4YxABK+fsbEw6cz9GOSzbD5gfvvA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1664643224;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=wL9NZV25EWQgewA4H7PcREpPLrxuRtctIBqERLsUI9Q=;
-	b=NVFbjUkTcSiizVtd+ACNvE+fPw8Dfi2PqF6GsXW5Z6Kvc1lVqwEqExjQQsINTz3t
-	rqfLWy7/JS8er1QQg9kW2bSiWkg/EmyKqn3BC+5seaROWbIKc+BLqm0z81Du3vMl9DE
-	ZYfmP+pfrt7Zp358PPj57hGRyYaiKQrooCZFNRKw=
-Content-Type: multipart/mixed; boundary="===============8382658679101524650=="
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1664643229;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=n0Oq+pPrIJTrDIW4Tm7ANFO2xyYXaByfx3l2g/I530w=;
+	b=VdMAPOihC8zuA3cvOIoxcINVlG5qjLoHjrMJ8eibGLNyZkOZJJMkQo09LC+Lj2Or
+	ZfHx0r7o8eXIFJCqSiSaXwm1REf+S9u/5M9Ww+nkTZ906kJWJDyTknLuwlbAO0Qi9eQ
+	m+WkTX0bMVKAcMlp24b7DCY6XNkPOUguyWvmxK4I=
+Content-Type: multipart/mixed; boundary="===============4986299249305529770=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] base-passwd: upgrading to 3.6.1 FAILED
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] pinentry: upgrading to 1.2.1 FAILED
 Message-ID: 
- <010101839477d464-800fe395-79c2-4b23-98a9-8341115db4c1-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Oct 2022 16:53:44 +0000
+ <010101839477e662-593f0572-3fa3-4d33-bb40-95d00ed621e3-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Oct 2022 16:53:49 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.10.01-54.240.27.45
+X-SES-Outgoing: 2022.10.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Oct 2022 16:53:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171254
+ https://lists.openembedded.org/g/openembedded-core/message/171341
 
---===============8382658679101524650==
+--===============4986299249305529770==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,20 +55,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *base-passwd* to *3.6.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *pinentry* to *1.2.1* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe base-passwd failed.
+Running 'devtool upgrade' for recipe pinentry failed.
 NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
 WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
 Loaded 1661 entries from dependency cache.
 
 Summary: There was 1 WARNING message.
 WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -84,15 +82,15 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:420c377998259b842242b265f09ad21d2dbdf4f9"
+meta-yocto-bsp       = "tmp-auh-upgrades:d9fa76c41351f2b3e216abe7cc416350de2eea2f"
 workspace            = "master:5200799866b92259e855051112520006e1aaaac0"
 
 Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 22 (0% match, 100% complete)
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
+NOTE: Writing buildhistory took: 2 seconds
 WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
 Loaded 1661 entries from dependency cache.
@@ -114,32 +112,31 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:420c377998259b842242b265f09ad21d2dbdf4f9"
+meta-yocto-bsp       = "tmp-auh-upgrades:d9fa76c41351f2b3e216abe7cc416350de2eea2f"
 workspace            = "master:5200799866b92259e855051112520006e1aaaac0"
 
 Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 18 (0% match, 100% complete)
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
+NOTE: Writing buildhistory took: 2 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files: 100% |####################################| Time: 0:00:00
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://launchpad.net/debian/+archive/primary/+files/base-passwd_3.6.1.tar.xz...
-INFO: Rebasing devtool onto e641b5e4bd312afeeaa19815cd6cc9a140648f38
-WARNING: Command 'git rebase e641b5e4bd312afeeaa19815cd6cc9a140648f38' failed:
-Auto-merging update-passwd.c
-CONFLICT (content): Merge conflict in update-passwd.c
-Auto-merging configure.ac
-Auto-merging Makefile.am
+INFO: Fetching https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-1.2.1.tar.bz2...
+INFO: Rebasing devtool onto d8be0b734a71e82850aa1e7e2192c66dc3e1bd93
+WARNING: Command 'git rebase d8be0b734a71e82850aa1e7e2192c66dc3e1bd93' failed:
+Auto-merging m4/gpg-error.m4
+CONFLICT (content): Merge conflict in m4/gpg-error.m4
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/base-passwd
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/base-passwd/base-passwd_3.6.1.bb
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/pinentry
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/pinentry/pinentry_1.2.1.bb
 
 
 
@@ -148,5 +145,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8382658679101524650==--
+--===============4986299249305529770==--
 
