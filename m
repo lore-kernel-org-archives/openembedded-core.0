@@ -2,53 +2,54 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86B90C4743E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91F72C48BE6
 	for <webhook@archiver.kernel.org>; Sat,  1 Oct 2022 16:53:53 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com
- (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.501.1664643227220915888
+Received: from a27-191.smtp-out.us-west-2.amazonses.com
+ (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.481.1664643226986642411
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Oct 2022 09:53:47 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=cpUmskQN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31,
- mailfrom: 010101839477daed-545babae-3e85-43a0-b813-c81b3c721e9a-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=AKaRg5IS;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191,
+ mailfrom: 010101839477da04-77f34158-bfca-4b88-a1a4-451ffa4ad62c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1664643226;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Tvqx3jIEk9Vo/Q+QLhFsxX07QCi+gNkTNyuV7PJBq5U=;
-	b=cpUmskQN2A/aHed/DQllL2oph+1dw5bVyztV+zOnt8s3Nl8QfHo4RxHTqQ5HPDiV
-	L9kpXV2WWRkcif4mnhkDteUpoSyqZ2ExVCwNQWNLVBfj1wu78wnVv6I1hpqeSNADB9p
-	MK8jcqWx15AuAJo64QyC3jwR/mVkKMxz4uOJOwYc=
+	bh=uhr757DTphDDnge25sNriLVO05NliJFSyevMSmErwhE=;
+	b=AKaRg5ISkGi5sCwwC/xeSePT21KwF6iAhaAyTaViq/+OfV7siPHxiLxWHQU7fb9Z
+	nqjH0Fbx9FtDBsFY3rCeCHajz/zw1pbnUQA1ZZo3wMcE0OtPeyH3IeA4nheor9ftRZ4
+	Z+bSK5pBYrPxZuezfbL1xe1W7FurA5b15xtE8DGU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1664643226;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Tvqx3jIEk9Vo/Q+QLhFsxX07QCi+gNkTNyuV7PJBq5U=;
-	b=f4bpSDgo6Rm00ILvN67RGjrpXMYvX1V2nZqLROOhxWSAMaTYkWoZLwFVdqIenKc8
-	rA8NNJw5JIdmrWVna7Xdr8af2e6o7UYuuwlDUQL9EzF0qDlKIG77qvhO240zlyTez9g
-	jbSxnLLLdha6GrC9xAnaqlrUksKZ8kcWSD2uo3Gk=
-Content-Type: multipart/mixed; boundary="===============5830548821598149186=="
+	bh=uhr757DTphDDnge25sNriLVO05NliJFSyevMSmErwhE=;
+	b=Ivz5FBkv1cNOI/RQeDpv+reiRoeSrQu4d2TEJLbDKYFYf3Q9n2ld9ELh8wP0s7Ps
+	mux6mSAM/3WV7wREwU/U/R5nRylr5LG+au+/GXjXOiYNk/U3TWaZoUXf9TfjnR1gUtG
+	qobwxrzIzCWEbs6GJHChRHWNXx6r/4oHoKkPWqAk=
+Content-Type: multipart/mixed; boundary="===============7809337816053279517=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-dtschema: upgrading to 2022.9 SUCCEEDED
+Subject: [AUH] mmc-utils: upgrading to
+ dfc3b6ecda84d21418fb4408b39c5c71db4c6458 SUCCEEDED
 Message-ID: 
- <010101839477daed-545babae-3e85-43a0-b813-c81b3c721e9a-000000@us-west-2.amazonses.com>
+ <010101839477da04-77f34158-bfca-4b88-a1a4-451ffa4ad62c-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Oct 2022 16:53:46 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.10.01-54.240.27.31
+X-SES-Outgoing: 2022.10.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Oct 2022 16:53:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171271
+ https://lists.openembedded.org/g/openembedded-core/message/171269
 
---===============5830548821598149186==
+--===============7809337816053279517==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +57,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-dtschema* to *2022.9* has Succeeded.
+that the automatic attempt to upgrade the recipe *mmc-utils* to *dfc3b6ecda84d21418fb4408b39c5c71db4c6458* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-dtschema-upgrade-2022.8.3-2022.9.patch
+    - apply the patch: git am 0001-mmc-utils-upgrade-to-latest-revision.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,94 +76,67 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5830548821598149186==
+--===============7809337816053279517==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/python3-dtschema (sysroot):
-  /usr/lib/python3.10/site-packages/dtschema-2022.9.dist-info was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.9.dist-info/LICENSE.txt was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.9.dist-info/METADATA was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.9.dist-info/RECORD was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.9.dist-info/top_level.txt was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.9.dist-info/WHEEL was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.8.3.dist-info was removed
-  /usr/lib/python3.10/site-packages/dtschema-2022.8.3.dist-info/LICENSE.txt was removed
-  /usr/lib/python3.10/site-packages/dtschema-2022.8.3.dist-info/METADATA was removed
-  /usr/lib/python3.10/site-packages/dtschema-2022.8.3.dist-info/RECORD was removed
-  /usr/lib/python3.10/site-packages/dtschema-2022.8.3.dist-info/top_level.txt was removed
-  /usr/lib/python3.10/site-packages/dtschema-2022.8.3.dist-info/WHEEL was removed
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-dbg: PKGV changed from 0.1+git0+d7b343fd26 to 0.1+git0+dfc3b6ecda
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-dev: PKGV changed from 0.1+git0+d7b343fd26 to 0.1+git0+dfc3b6ecda
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-doc: PKGV changed from 0.1+git0+d7b343fd26 to 0.1+git0+dfc3b6ecda
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-locale: PKGV changed from 0.1+git0+d7b343fd26 to 0.1+git0+dfc3b6ecda
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-src: PKGV changed from 0.1+git0+d7b343fd26 to 0.1+git0+dfc3b6ecda
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-staticdev: PKGV changed from 0.1+git0+d7b343fd26 to 0.1+git0+dfc3b6ecda
+packages/core2-32-poky-linux/mmc-utils/mmc-utils: PKGV changed from 0.1+git0+d7b343fd26 to 0.1+git0+dfc3b6ecda
 
---===============5830548821598149186==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-dtschema-upgrade-2022.8.3-2022.9.patch"
-
-RnJvbSAwNGI3YTU3NzY2Yzk2N2ZmMTczYmYzYjc2NzVlNWFiMGI0YjQxYWU4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBPY3QgMjAyMiAwODoxNTo0NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtZHRzY2hlbWE6IHVwZ3JhZGUgMjAyMi44LjMgLT4gMjAyMi45CgotLS0KIC4uLntweXRo
-b24zLWR0c2NoZW1hXzIwMjIuOC4zLmJiID0+IHB5dGhvbjMtZHRzY2hlbWFfMjAyMi45LmJifSB8
-IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtZHRzY2hlbWFfMjAyMi44
-LjMuYmIgPT4gcHl0aG9uMy1kdHNjaGVtYV8yMDIyLjkuYmJ9ICg4MyUpCgpkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWR0c2NoZW1hXzIwMjIuOC4zLmJi
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWR0c2NoZW1hXzIwMjIuOS5i
-YgpzaW1pbGFyaXR5IGluZGV4IDgzJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbjMtZHRzY2hlbWFfMjAyMi44LjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
-cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1kdHNjaGVtYV8yMDIyLjkuYmIKaW5kZXggYmM4MTlj
-MGRkNi4uM2RjYmMyZGNiMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLWR0c2NoZW1hXzIwMjIuOC4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy1kdHNjaGVtYV8yMDIyLjkuYmIKQEAgLTcsNyArNyw3IEBAIGluaGVy
-aXQgcHlwaSBzZXR1cHRvb2xzMwogCiBQWVBJX1BBQ0tBR0UgPSAiZHRzY2hlbWEiCiAKLVNSQ19V
-Uklbc2hhMjU2c3VtXSA9ICIxMjhjODhhMzkzY2QwNDE1NGNlZjRkNGIxMGE2NDNlNDQ3M2FlMjkw
-YjQzNmU4ZTYxZDJlOTdhZThlNTMyNTVkIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImM5NTMzMzEy
-YTJkNzdjNGNjZGJmZmRhMTUwNGFiYTg1MGQ5YjIyNGZkOGI0M2U5MjljZWUyYWE2ODQ3OGU4MmEi
-CiAKIERFUEVORFMgKz0gInB5dGhvbjMtc2V0dXB0b29scy1zY20tbmF0aXZlIgogUkRFUEVORFM6
-JHtQTn0gKz0gInB5dGhvbjMtcnVhbWVsLXlhbWwgcHl0aG9uMy1qc29uc2NoZW1hIHB5dGhvbjMt
-cmZjMzk4NyIKLS0gCjIuMzEuMQoK
-
---===============5830548821598149186==
+--===============7809337816053279517==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-dtschema: PV changed from "2022.8.3" to "2022.9"
-packages/core2-32-poky-linux/python3-dtschema: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/dtschema/dtschema-2022.8.3.tar.gz" to "https://files.pythonhosted.org/packages/source/d/dtschema/dtschema-2022.9.tar.gz"
-packages/core2-32-poky-linux/python3-dtschema: PKGV changed from 2022.8.3 [default] to 2022.9 [default]
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-dbg: PV changed from "2022.8.3" to "2022.9"
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-dbg: PKGV changed from 2022.8.3 [default] to 2022.9 [default]
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-dev: PV changed from "2022.8.3" to "2022.9"
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-dev: PKGV changed from 2022.8.3 [default] to 2022.9 [default]
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-doc: PV changed from "2022.8.3" to "2022.9"
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-doc: PKGV changed from 2022.8.3 [default] to 2022.9 [default]
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-locale: PV changed from "2022.8.3" to "2022.9"
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-locale: PKGV changed from 2022.8.3 [default] to 2022.9 [default]
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-src: PV changed from "2022.8.3" to "2022.9"
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-src: PKGV changed from 2022.8.3 [default] to 2022.9 [default]
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-staticdev: PV changed from "2022.8.3" to "2022.9"
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-staticdev: PKGV changed from 2022.8.3 [default] to 2022.9 [default]
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: PV changed from "2022.8.3" to "2022.9"
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: PKGV changed from 2022.8.3 [default] to 2022.9 [default]
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: PKGSIZE changed from 243550 to 245688 (+1%)
-Changes to packages/core2-32-poky-linux/python3-dtschema (sysroot):
-  /usr/lib/python3.10/site-packages/dtschema-2022.9.dist-info was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.9.dist-info/LICENSE.txt was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.9.dist-info/METADATA was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.9.dist-info/RECORD was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.9.dist-info/top_level.txt was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.9.dist-info/WHEEL was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.8.3.dist-info was removed
-  /usr/lib/python3.10/site-packages/dtschema-2022.8.3.dist-info/LICENSE.txt was removed
-  /usr/lib/python3.10/site-packages/dtschema-2022.8.3.dist-info/METADATA was removed
-  /usr/lib/python3.10/site-packages/dtschema-2022.8.3.dist-info/RECORD was removed
-  /usr/lib/python3.10/site-packages/dtschema-2022.8.3.dist-info/top_level.txt was removed
-  /usr/lib/python3.10/site-packages/dtschema-2022.8.3.dist-info/WHEEL was removed
+packages/core2-32-poky-linux/mmc-utils: PKGV changed from 0.1+gitAUTOINC+d7b343fd26 [default] to 0.1+gitAUTOINC+dfc3b6ecda [default]
+packages/core2-32-poky-linux/mmc-utils: PV changed from "0.1+gitAUTOINC+d7b343fd26" to "0.1+gitAUTOINC+dfc3b6ecda"
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-dbg: PKGSIZE changed from 229664 to 229088 (-0%)
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-dbg: PKGV changed from 0.1+git0+d7b343fd26 to 0.1+git0+dfc3b6ecda
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-dbg: PV changed from "0.1+gitAUTOINC+d7b343fd26" to "0.1+gitAUTOINC+dfc3b6ecda"
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-dev: PKGV changed from 0.1+git0+d7b343fd26 to 0.1+git0+dfc3b6ecda
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-dev: PV changed from "0.1+gitAUTOINC+d7b343fd26" to "0.1+gitAUTOINC+dfc3b6ecda"
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-doc: PKGV changed from 0.1+git0+d7b343fd26 to 0.1+git0+dfc3b6ecda
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-doc: PV changed from "0.1+gitAUTOINC+d7b343fd26" to "0.1+gitAUTOINC+dfc3b6ecda"
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-locale: PKGV changed from 0.1+git0+d7b343fd26 to 0.1+git0+dfc3b6ecda
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-locale: PV changed from "0.1+gitAUTOINC+d7b343fd26" to "0.1+gitAUTOINC+dfc3b6ecda"
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-src: PKGSIZE changed from 210197 to 210191 (-0%)
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-src: PKGV changed from 0.1+git0+d7b343fd26 to 0.1+git0+dfc3b6ecda
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-src: PV changed from "0.1+gitAUTOINC+d7b343fd26" to "0.1+gitAUTOINC+dfc3b6ecda"
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-staticdev: PKGV changed from 0.1+git0+d7b343fd26 to 0.1+git0+dfc3b6ecda
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-staticdev: PV changed from "0.1+gitAUTOINC+d7b343fd26" to "0.1+gitAUTOINC+dfc3b6ecda"
+packages/core2-32-poky-linux/mmc-utils/mmc-utils: PKGV changed from 0.1+git0+d7b343fd26 to 0.1+git0+dfc3b6ecda
+packages/core2-32-poky-linux/mmc-utils/mmc-utils: PV changed from "0.1+gitAUTOINC+d7b343fd26" to "0.1+gitAUTOINC+dfc3b6ecda"
 
---===============5830548821598149186==--
+--===============7809337816053279517==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-mmc-utils-upgrade-to-latest-revision.patch"
+
+RnJvbSA4MzA2ZDE2NjRjZjFmMzljMjk3MzdiMzJlZjcwNzZmMDgzNTFlYjYyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBPY3QgMjAyMiAwNzozOToyNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1t
+Yy11dGlsczogdXBncmFkZSB0byBsYXRlc3QgcmV2aXNpb24KCi0tLQogbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL21tYy9tbWMtdXRpbHNfZ2l0LmJiIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5z
+ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL21tYy9tbWMtdXRpbHNfZ2l0LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21tYy9tbWMt
+dXRpbHNfZ2l0LmJiCmluZGV4IDBiYjk0YWI5M2EuLmQ2ODU0NmYwMTUgMTAwNjQ0Ci0tLSBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9tbWMvbW1jLXV0aWxzX2dpdC5iYgorKysgYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvbW1jL21tYy11dGlsc19naXQuYmIKQEAgLTUsNyArNSw3IEBAIExJQ0VOU0Ug
+PSAiR1BMLTIuMC1vbmx5IgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vbW1jLmM7YmVnaW5s
+aW5lPTE7ZW5kbGluZT0yMDttZDU9ZmFlMzI3OTJlMjBmNGQyN2FkZTFjNWE3NjJkMTZiN2QiCiAK
+IFNSQ0JSQU5DSCA/PSAibWFzdGVyIgotU1JDUkVWID0gImQ3YjM0M2ZkMjYyODgwOTk0ZjA0MWNl
+MjMzNTQ0MmU3YmQxMDcxZjUiCitTUkNSRVYgPSAiZGZjM2I2ZWNkYTg0ZDIxNDE4ZmI0NDA4YjM5
+YzVjNzFkYjRjNjQ1OCIKIAogUFYgPSAiMC4xK2dpdCR7U1JDUFZ9IgogCi0tIAoyLjMxLjEKCg==
+
+--===============7809337816053279517==--
 
