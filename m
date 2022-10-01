@@ -2,41 +2,41 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C348C48BCD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8895DC48BD1
 	for <webhook@archiver.kernel.org>; Sat,  1 Oct 2022 16:53:53 +0000 (UTC)
 Received: from a27-192.smtp-out.us-west-2.amazonses.com
  (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web08.478.1664643227445575329
+ by mx.groups.io with SMTP id smtpd.web09.346.1664643227272995169
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Oct 2022 09:53:47 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=UHMDevbI;
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=n3l6y/oq;
  spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
- mailfrom: 010101839477db51-1e7d6eb4-c735-4e76-8557-1daf39cce752-000000@us-west-2.amazonses.com)
+ mailfrom: 010101839477dc06-41fc7fa6-d0de-43be-bd43-cb79906c1da7-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1664643226;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=1RfIGHtymtQ7ABE8eSFH2+VjkQMECYnEH0BGP8DQzU0=;
-	b=UHMDevbIU/+l8Hwt/Mxpx0M/n9y4yeaJinKf2CHQkNEy1DYF47Qwz09n0RGqimnU
-	0y6+uMQEDSg58Q5qoLnXiTC36DCdHp5L8bgryU35212wMbm6VPVreDRNZqPRPRWGrKU
-	wm6MNOFGNryODzyksoFLVrvvsbHoQJgE6jBhBREw=
+	bh=z8qHQtQB1EdHOXCRaqeXKVfKGYCZFBAg0xFdRT1KGEI=;
+	b=n3l6y/oqBfC1n8CuzdwVV0JZEP1A8Tw8CBaL+Rpdm1HnBa1i3HoDus1kIWi1Et7y
+	xfcLrEZsr7Z/3QPTxX26Fb3PuhvKO4T4cMGXEwdMlLcH+Oo2hx7fKl28PehT6Tkr2gJ
+	Job+/folLddISDnLTYun5TuwFUMQ23Bv04TIb/kU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1664643226;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=1RfIGHtymtQ7ABE8eSFH2+VjkQMECYnEH0BGP8DQzU0=;
-	b=Id49eQMKsF6MuVehJVQSBdCAZYWvpL74fbtxArFm+aDoCvJt6dXQCCdIPRaVS0vl
-	pZtf32jk3Lk3YFhJVGgH6I4RJs8+L3H38FChZlR+0Iq+apM9b5gZCPP5CYC3RDI1Zzx
-	IHpwIPqnk3v8gFAcZTIRsYcr7NGr/7rVAg2y1O88=
-Content-Type: multipart/mixed; boundary="===============6733809347389686520=="
+	bh=z8qHQtQB1EdHOXCRaqeXKVfKGYCZFBAg0xFdRT1KGEI=;
+	b=f91n1o4PKkIN6qmrXl5GMTd8IVkiBHE+1aYgRbYZRhRJhFlG82eo3Io35lhWdqLy
+	875ookxKItpmyqsKjpnZd+0PdQT7vIUJCsEZFgD8iU0XWxB6k1CZp5Y4Ijl1HFcYGES
+	R2oe1XwxEcYDQFaTelMcinDaQhlMALmcKEwiG2xA=
+Content-Type: multipart/mixed; boundary="===============0405262790175297061=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hatchling: upgrading to 1.10.0 SUCCEEDED
+Subject: [AUH] python3-mako: upgrading to 1.2.3 SUCCEEDED
 Message-ID: 
- <010101839477db51-1e7d6eb4-c735-4e76-8557-1daf39cce752-000000@us-west-2.amazonses.com>
+ <010101839477dc06-41fc7fa6-d0de-43be-bd43-cb79906c1da7-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Oct 2022 16:53:46 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
@@ -46,9 +46,9 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Oct 2022 16:53:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171276
+ https://lists.openembedded.org/g/openembedded-core/message/171272
 
---===============6733809347389686520==
+--===============0405262790175297061==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-hatchling* to *1.10.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-mako* to *1.2.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-hatchling-upgrade-1.9.0-1.10.0.patch
+    - apply the patch: git am 0001-python3-mako-upgrade-1.2.2-1.2.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,129 +75,70 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6733809347389686520==
+--===============0405262790175297061==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/python3-hatchling (sysroot):
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/entry_points.txt was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/licenses was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/licenses/LICENSE.txt was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/METADATA was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/RECORD was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/WHEEL was added
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/entry_points.txt was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/licenses was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/licenses/LICENSE.txt was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/METADATA was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/RECORD was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/WHEEL was removed
-Changes to packages/x86_64-linux/python3-hatchling-native (sysroot):
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/entry_points.txt was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/licenses was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/licenses/LICENSE.txt was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/METADATA was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/RECORD was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/WHEEL was added
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/entry_points.txt was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/licenses was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/licenses/LICENSE.txt was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/METADATA was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/RECORD was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/WHEEL was removed
+Changes to packages/core2-32-poky-linux/python3-mako (sysroot):
+  /usr/lib/python3.10/site-packages/Mako-1.2.2.dist-info moved to /usr/lib/python3.10/site-packages/Mako-1.2.3.dist-info
 
---===============6733809347389686520==
+--===============0405262790175297061==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-hatchling-upgrade-1.9.0-1.10.0.patch"
+ filename="0001-python3-mako-upgrade-1.2.2-1.2.3.patch"
 
-RnJvbSBhNmEyN2JlZjk3MWEyYjE2YzVhNTdlMDAxY2RiNzNhOGI4YzE5YjljIE1vbiBTZXAgMTcg
+RnJvbSAyNTBlZGZjM2IwMzcwYjAxYzhkMzkxMTY3NzcyMzYzNjNhN2ZkMDYxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBPY3QgMjAyMiAwODoxODoyOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtaGF0Y2hsaW5nOiB1cGdyYWRlIDEuOS4wIC0+IDEuMTAuMAoKLS0tCiAuLi4ve3B5dGhv
-bjMtaGF0Y2hsaW5nXzEuOS4wLmJiID0+IHB5dGhvbjMtaGF0Y2hsaW5nXzEuMTAuMC5iYn0gfCAy
-ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWhhdGNobGluZ18xLjkuMC5i
-YiA9PiBweXRob24zLWhhdGNobGluZ18xLjEwLjAuYmJ9ICg4NSUpCgpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWhhdGNobGluZ18xLjkuMC5iYiBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oYXRjaGxpbmdfMS4xMC4wLmJiCnNp
-bWlsYXJpdHkgaW5kZXggODUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
-b24vcHl0aG9uMy1oYXRjaGxpbmdfMS45LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0
-b29scy9weXRob24vcHl0aG9uMy1oYXRjaGxpbmdfMS4xMC4wLmJiCmluZGV4IDAxMWY1ZWQxMTAu
-LmEwZDQxZDRiMGQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
-aG9uMy1oYXRjaGxpbmdfMS45LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLWhhdGNobGluZ18xLjEwLjAuYmIKQEAgLTgsNyArOCw3IEBAIGluaGVyaXQgcHlw
-aSBweXRob25faGF0Y2hsaW5nCiBERVBFTkRTICs9ICJweXRob24zLXBsdWdneS1uYXRpdmUgcHl0
-aG9uMy10b21saS1uYXRpdmUgcHl0aG9uMy1wYXRoc3BlYy1uYXRpdmUgcHl0aG9uMy1wYWNrYWdp
-bmctbmF0aXZlIHB5dGhvbjMtZWRpdGFibGVzLW5hdGl2ZSIKIERFUEVORFM6cmVtb3ZlOmNsYXNz
-LW5hdGl2ZSA9ICJweXRob24zLWhhdGNobGluZy1uYXRpdmUiCiAKLVNSQ19VUklbc2hhMjU2c3Vt
-XSA9ICJiNTdjNzM2MmY0MzdiOTQyNmU0Yjk0MjI4YTIxZDJhYzU4MDRmYmIyYWJjYjAxYWRkZTI1
-NDRhMzViYjMwM2NkIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjVkMzFmNDNkZmZhZjYyNjVjODA4
-ZTFiNTM1MzY2MmZmYTUxNDZkODQ0Mjc4YjU1Y2FhNmM3Zjc0ZjQyN2VjNTAiCiAKIGRvX2NvbXBp
-bGU6cHJlcGVuZCgpIHsKICAgICBleHBvcnQgUFlUSE9OUEFUSD1zcmMKLS0gCjIuMzEuMQoK
+CkRhdGU6IFNhdCwgMSBPY3QgMjAyMiAwODoyODoxMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtbWFrbzogdXBncmFkZSAxLjIuMiAtPiAxLjIuMwoKLS0tCiAuLi4vcHl0aG9uL3tweXRo
+b24zLW1ha29fMS4yLjIuYmIgPT4gcHl0aG9uMy1tYWtvXzEuMi4zLmJifSAgICAgfCAyICstCiAx
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLW1ha29fMS4yLjIuYmIgPT4gcHl0aG9u
+My1tYWtvXzEuMi4zLmJifSAoODUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9weXRob24vcHl0aG9uMy1tYWtvXzEuMi4yLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLW1ha29fMS4yLjMuYmIKc2ltaWxhcml0eSBpbmRleCA4NSUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1ha29fMS4yLjIuYmIKcmVu
+YW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1tYWtvXzEuMi4zLmJi
+CmluZGV4IGUzNzc0ZWU2MjEuLjEyYWNmZWU3NzcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy1tYWtvXzEuMi4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy1tYWtvXzEuMi4zLmJiCkBAIC04LDcgKzgsNyBAQCBQWVBJ
+X1BBQ0tBR0UgPSAiTWFrbyIKIAogaW5oZXJpdCBweXBpIHB5dGhvbl9zZXR1cHRvb2xzX2J1aWxk
+X21ldGEKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjM3MjQ4NjliMzYzYmE2MzBhMjcyYTVmODlm
+NjhjMDcwMzUyMTM3YjhmZDE3NTc2NTAwMTdiN2UwNmZkYTE2M2YiCitTUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiN2ZkZTk2NDY2ZmNmZWVkYjBlZWQ5NGYxODdmMjBiMjNkODVlNGNiNDE0NDRiZTBlNTQy
+ZTJjOGM2NWMzOTZjZCIKIAogUkRFUEVORFM6JHtQTn0gPSAiJHtQWVRIT05fUE59LWh0bWwgXAog
+ICAgICAgICAgICAgICAgICAgJHtQWVRIT05fUE59LW1hcmt1cHNhZmUgXAotLSAKMi4zMS4xCgo=
 
---===============6733809347389686520==
+--===============0405262790175297061==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-hatchling: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hatchling/hatchling-1.9.0.tar.gz" to "https://files.pythonhosted.org/packages/source/h/hatchling/hatchling-1.10.0.tar.gz"
-packages/core2-32-poky-linux/python3-hatchling: PKGV changed from 1.9.0 [default] to 1.10.0 [default]
-packages/core2-32-poky-linux/python3-hatchling: PV changed from "1.9.0" to "1.10.0"
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-dbg: PKGV changed from 1.9.0 [default] to 1.10.0 [default]
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-dbg: PV changed from "1.9.0" to "1.10.0"
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-dev: PKGV changed from 1.9.0 [default] to 1.10.0 [default]
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-dev: PV changed from "1.9.0" to "1.10.0"
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-doc: PKGV changed from 1.9.0 [default] to 1.10.0 [default]
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-doc: PV changed from "1.9.0" to "1.10.0"
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-locale: PKGV changed from 1.9.0 [default] to 1.10.0 [default]
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-locale: PV changed from "1.9.0" to "1.10.0"
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-src: PKGV changed from 1.9.0 [default] to 1.10.0 [default]
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-src: PV changed from "1.9.0" to "1.10.0"
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-staticdev: PKGV changed from 1.9.0 [default] to 1.10.0 [default]
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-staticdev: PV changed from "1.9.0" to "1.10.0"
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling: PKGV changed from 1.9.0 [default] to 1.10.0 [default]
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling: PKGSIZE changed from 533221 to 536023 (+1%)
-packages/core2-32-poky-linux/python3-hatchling/python3-hatchling: PV changed from "1.9.0" to "1.10.0"
-Changes to packages/core2-32-poky-linux/python3-hatchling (sysroot):
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/entry_points.txt was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/licenses was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/licenses/LICENSE.txt was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/METADATA was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/RECORD was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/WHEEL was added
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/entry_points.txt was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/licenses was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/licenses/LICENSE.txt was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/METADATA was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/RECORD was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/WHEEL was removed
-Changes to packages/x86_64-linux/python3-hatchling-native (sysroot):
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/entry_points.txt was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/licenses was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/licenses/LICENSE.txt was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/METADATA was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/RECORD was added
-  /usr/lib/python3.10/site-packages/hatchling-1.10.0.dist-info/WHEEL was added
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/entry_points.txt was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/licenses was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/licenses/LICENSE.txt was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/METADATA was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/RECORD was removed
-  /usr/lib/python3.10/site-packages/hatchling-1.9.0.dist-info/WHEEL was removed
+packages/core2-32-poky-linux/python3-mako: SRC_URI changed from "https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.2.2.tar.gz" to "https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.2.3.tar.gz"
+packages/core2-32-poky-linux/python3-mako: PKGV changed from 1.2.2 [default] to 1.2.3 [default]
+packages/core2-32-poky-linux/python3-mako: PV changed from "1.2.2" to "1.2.3"
+packages/core2-32-poky-linux/python3-mako/python3-mako-dbg: PKGV changed from 1.2.2 [default] to 1.2.3 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-dbg: PV changed from "1.2.2" to "1.2.3"
+packages/core2-32-poky-linux/python3-mako/python3-mako-dev: PKGV changed from 1.2.2 [default] to 1.2.3 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-dev: PV changed from "1.2.2" to "1.2.3"
+packages/core2-32-poky-linux/python3-mako/python3-mako-doc: PKGV changed from 1.2.2 [default] to 1.2.3 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-doc: PV changed from "1.2.2" to "1.2.3"
+packages/core2-32-poky-linux/python3-mako/python3-mako-locale: PKGV changed from 1.2.2 [default] to 1.2.3 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-locale: PV changed from "1.2.2" to "1.2.3"
+packages/core2-32-poky-linux/python3-mako/python3-mako-src: PKGV changed from 1.2.2 [default] to 1.2.3 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-src: PV changed from "1.2.2" to "1.2.3"
+packages/core2-32-poky-linux/python3-mako/python3-mako-staticdev: PKGV changed from 1.2.2 [default] to 1.2.3 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-staticdev: PV changed from "1.2.2" to "1.2.3"
+packages/core2-32-poky-linux/python3-mako/python3-mako: PKGSIZE changed from 507898 to 507908 (+0%)
+packages/core2-32-poky-linux/python3-mako/python3-mako: PKGV changed from 1.2.2 [default] to 1.2.3 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako: PV changed from "1.2.2" to "1.2.3"
+Changes to packages/core2-32-poky-linux/python3-mako (sysroot):
+  /usr/lib/python3.10/site-packages/Mako-1.2.2.dist-info moved to /usr/lib/python3.10/site-packages/Mako-1.2.3.dist-info
 
---===============6733809347389686520==--
+--===============0405262790175297061==--
 
