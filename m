@@ -2,41 +2,41 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8899AC48BDF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74642C48BCB
 	for <webhook@archiver.kernel.org>; Sat,  1 Oct 2022 16:53:53 +0000 (UTC)
 Received: from a27-31.smtp-out.us-west-2.amazonses.com
  (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web09.343.1664643226842995504
+ by mx.groups.io with SMTP id smtpd.web08.477.1664643227360035497
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Oct 2022 09:53:47 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=kZY6Zrgz;
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=EuF3hO5f;
  spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31,
- mailfrom: 010101839477d913-b049f651-f7dd-450a-9adc-409eeb9cd356-000000@us-west-2.amazonses.com)
+ mailfrom: 010101839477dc88-f1667d32-d283-44ae-97bf-25724be7a699-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1664643226;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=DTy/o1wEOJLIG9uQc2Trzvs6nlD6EbomxZDo24rhLNQ=;
-	b=kZY6ZrgzL/a6Nu+4WbxQHp0exEbTs3J0CmuN7SaFYU8HieIbTmHM+6Rh6WIgpTyU
-	tNMVZ4yw6xYIiCYdVHxFKvwiiRlIz8MLb4m4AupHY+Lne9055Lr5P9C6TYcl5QptWot
-	IfhWZcXsQC7VchD8lL3gMyhN+Sxd5XWp2hahjDzw=
+	bh=0gybqTpoT401PHoF+HAXWPenubw/RNudo0GXiMfrpSg=;
+	b=EuF3hO5fbSNBM2ckEJH65wSnkczIGBDTEJWp32CoHOJwCClUXuBvJrS8pa2641W7
+	01KZyu9daJM0JkqfP5ZSNaD/L9QB1gNBYXWC577UkLEn2VED67rPGqKXmKL78av8gQT
+	ghVGx5WgAK956kMeTC5y5YfdXQOzwB3uHBef1HmM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1664643226;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=DTy/o1wEOJLIG9uQc2Trzvs6nlD6EbomxZDo24rhLNQ=;
-	b=FclS4/UzZC+3Zs0SMt7bLVi1nFmrFWbCAOOkE/UNZyycgsJPchre0BogJWHxGvV2
-	YV2hcNtCmeWxJWytz+aLul0+BdC7BfxCRJZs8E4nXakZUsT8cxOXLflQPAvonzoopaR
-	1JDRe2QO2//gRdU3GJKjQLrpi/+Jz9B38iF0AsMA=
-Content-Type: multipart/mixed; boundary="===============7376122652102210221=="
+	bh=0gybqTpoT401PHoF+HAXWPenubw/RNudo0GXiMfrpSg=;
+	b=gOy2o6Mgj0SCBk4lWRIXM80m023joce2OCZYjWzrUnVujXWh3PmM8kz0iFwH9on1
+	uXCNAHQ8Ld3pgIjZqkx9OWdxVj+ZRk07FP4dtS4NjjAh8ubNLlk4rJ0IxDizn52TV+t
+	b1LwESI+1Ksg0hylI1J3t3LL+zE6sjnERP0W0B7Q=
+Content-Type: multipart/mixed; boundary="===============3838010324578792142=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] cargo: upgrading to 1.64.0 FAILED
+Subject: [AUH] python3-pyopenssl: upgrading to 22.1.0 SUCCEEDED
 Message-ID: 
- <010101839477d913-b049f651-f7dd-450a-9adc-409eeb9cd356-000000@us-west-2.amazonses.com>
+ <010101839477dc88-f1667d32-d283-44ae-97bf-25724be7a699-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Oct 2022 16:53:46 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
@@ -46,9 +46,9 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Oct 2022 16:53:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171273
+ https://lists.openembedded.org/g/openembedded-core/message/171281
 
---===============7376122652102210221==
+--===============3838010324578792142==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,21 +56,514 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *cargo* to *1.64.0* has Failed(other errors).
+that the automatic attempt to upgrade the recipe *python3-pyopenssl* to *22.1.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-pyopenssl-upgrade-22.0.0-22.1.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-'MACHINE=qemux86 bitbake cargo' failed
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============3838010324578792142==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/python3-pyopenssl (sysroot):
+  /usr/lib/python3.10/site-packages/pyOpenSSL-22.0.0.dist-info moved to /usr/lib/python3.10/site-packages/pyOpenSSL-22.1.0.dist-info
+
+--===============3838010324578792142==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
+
 WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
-Loaded 1661 entries from dependency cache.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 885 .bb files complete (0 cached, 885 parsed). 1661 targets, 70 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.2.0"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
+TARGET_SYS           = "powerpc-poky-linux"
+MACHINE              = "qemuppc"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:0279698c79893b51b023fb8664c3df2ac83a62f0"
+workspace            = "master:5200799866b92259e855051112520006e1aaaac0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 46 Local 3 Mirrors 0 Missed 43 Current 338 (6% match, 88% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1147 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_fetch)
+NOTE: Running task 1148 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_fetch)
+NOTE: Running task 1149 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_fetch)
+NOTE: Running task 1167 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_fetch)
+NOTE: Running task 1198 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_fetch)
+NOTE: Running task 1217 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_fetch)
+NOTE: Running task 1218 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_fetch)
+NOTE: Running task 1219 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_fetch)
+NOTE: Running task 1221 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_fetch)
+NOTE: Running task 1222 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_fetch)
+NOTE: Running task 1223 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_fetch)
+NOTE: Running task 1224 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_fetch)
+NOTE: Running task 1354 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package_write_rpm)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_fetch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_fetch: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_fetch: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_fetch: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_fetch: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_fetch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_fetch: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_fetch: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_fetch: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_fetch: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_fetch: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_fetch: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_fetch: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1356 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_unpack)
+NOTE: Running task 1357 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_unpack)
+NOTE: Running task 1358 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_unpack)
+NOTE: Running task 1359 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_unpack)
+NOTE: Running task 1360 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1361 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1362 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1363 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_unpack)
+NOTE: Running task 1364 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1365 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Started
+NOTE: Running task 1366 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_unpack)
+NOTE: Running task 1367 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_unpack)
+NOTE: Running task 1368 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_unpack)
+NOTE: Running task 1369 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_unpack)
+NOTE: Running task 1370 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_unpack)
+NOTE: Running task 1371 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_unpack)
+NOTE: Running task 1372 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_unpack)
+NOTE: Running task 1373 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1374 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1375 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_unpack: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_unpack: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_unpack: Started
+NOTE: Running task 1376 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1377 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_unpack: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1378 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1379 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_patch)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1380 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_patch)
+NOTE: recipe python3-pycparser-2.21-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_unpack: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_unpack: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_unpack: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_unpack: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_unpack: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_unpack: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1381 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_patch)
+NOTE: Running task 1382 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_patch)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1383 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_patch)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_unpack: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1384 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_patch)
+NOTE: Running task 1385 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_patch)
+NOTE: Running task 1386 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_patch)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1387 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_patch)
+NOTE: Running task 1388 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_patch)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1389 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_patch)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_patch: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_patch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_patch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_patch: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_patch: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_patch: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_patch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_patch: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_patch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Succeeded
+NOTE: Running task 1390 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_patch: Succeeded
+NOTE: Running task 1391 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_patch: Succeeded
+NOTE: Running task 1392 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_patch: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_patch: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1393 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1394 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_patch: Succeeded
+NOTE: Running task 1395 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_patch: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_patch: Succeeded
+NOTE: Running task 1396 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1397 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1398 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_populate_lic)
+NOTE: Running task 1399 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_patch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1400 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pycparser-2.21-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1401 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_configure)
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_patch: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1402 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_lic: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_unpack: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1403 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_patch)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_configure: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1404 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_configure)
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_patch: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1405 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_configure)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_lic: Succeeded
+NOTE: Running task 1406 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_configure)
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_populate_lic unihash changed to bbc7a40503f3c37087a51d59d54ec07b3416c95d837d46ba4e8ba38c8488cec5
+NOTE: recipe python3-tomli-2.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_configure: Started
+NOTE: Running task 1407 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_configure)
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_patch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_configure: Succeeded
+NOTE: Running task 1408 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_configure)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1409 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_configure)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1410 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1411 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_configure)
+NOTE: Running task 1412 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_compile)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_configure: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_configure: Started
+NOTE: Running task 1413 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_configure)
+NOTE: Running task 1414 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_configure)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_configure: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_configure: Started
+NOTE: Running task 1415 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_configure_ptest_base)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_configure: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_configure: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_configure: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_configure: Succeeded
+NOTE: Running task 1416 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_configure_ptest_base)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_compile: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_configure: Started
+NOTE: Running task 1417 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_configure_ptest_base)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_configure: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_configure: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_configure_ptest_base: Started
+NOTE: Running task 1418 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_compile)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_configure: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_configure: Succeeded
+NOTE: Running task 1419 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_compile)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1420 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_compile)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_configure: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_configure: Succeeded
+NOTE: Running task 1421 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_compile)
+NOTE: Running task 1422 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_compile)
+NOTE: Running task 1423 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_compile)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_compile: Started
+NOTE: Running task 1424 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_compile)
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1425 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_compile)
+NOTE: Running task 1426 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_compile)
+NOTE: Running task 1427 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_configure)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_compile: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_compile: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_compile: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_compile: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_compile: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_compile: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_compile: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_configure: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_configure: Succeeded
+NOTE: Running task 1428 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_compile)
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_compile: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_compile: Succeeded
+NOTE: Running task 1429 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_install)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_install: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_compile: Succeeded
+NOTE: Running task 1430 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_install)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_install: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Succeeded
+NOTE: Running task 1431 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_package)
+NOTE: Running task 1432 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_install)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_install: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_package: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_compile: Succeeded
+NOTE: Running task 1433 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_compile_ptest_base)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_compile: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_compile: Succeeded
+NOTE: Running task 1434 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_install)
+NOTE: Running task 1435 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_install)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1436 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_install)
+NOTE: recipe python3-pycparser-2.21-r0: task do_install: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_install: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_install: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_compile: Succeeded
+NOTE: Running task 1437 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_package)
+NOTE: Running task 1438 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_compile_ptest_base)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_install: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_package: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1439 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package)
+NOTE: Running task 1440 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_install)
+NOTE: Running task 1441 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_populate_sysroot)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_compile: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_sysroot: Started
+NOTE: Running task 1442 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_install)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_install: Succeeded
+NOTE: Running task 1443 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_package)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_install: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_install: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_install: Started
+NOTE: Running task 1444 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_populate_sysroot)
+NOTE: Running task 1445 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_package)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_package: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_package: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_package: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_install: Succeeded
+NOTE: Running task 1446 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_packagedata)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_compile: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_install: Succeeded
+NOTE: Running task 1447 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_install_ptest_base)
+NOTE: Running task 1448 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_package)
+NOTE: Running task 1449 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_install)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_packagedata: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_package: Started
+NOTE: Running task 1450 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_install: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_install: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1451 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_install_ptest_base)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1452 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_package)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_package: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_compile: Succeeded
+NOTE: Running task 1453 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_packagedata)
+NOTE: Running task 1454 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_compile_ptest_base)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_package: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_packagedata: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_compile_ptest_base: Started
+NOTE: Running task 1455 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_package)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1456 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_install)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_package: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_install: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_package: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_install: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_packagedata: Succeeded
+NOTE: Running task 1457 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata)
+NOTE: Running task 1458 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_configure)
+NOTE: Running task 1459 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_package)
+NOTE: Running task 1460 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_packagedata)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_configure: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_packagedata: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_package: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_package: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_configure: Succeeded
+NOTE: Running task 1461 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_compile)
+NOTE: Running task 1462 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_packagedata)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_install: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1463 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_install_ptest_base)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_compile: Started
+NOTE: Running task 1464 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package_write_rpm)
+NOTE: recipe python3-pycparser-2.21-r0: task do_packagedata: Started
+NOTE: Running task 1465 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package_qa)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_package: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_qa: Started
+NOTE: Running task 1466 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_packagedata)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1467 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_package)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_packagedata: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_package: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_qa: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_packagedata: Failed
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_package: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_package: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_package: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_package: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_compile: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_compile: Succeeded
+NOTE: Tasks Summary: Attempted 1467 tasks of which 1342 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_packagedata
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-src went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-dbg went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-staticdev went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-dev went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-doc went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-locale went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601 went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/python3-iso8601/1.0.2-r0/temp/log.do_packagedata.42843
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_packagedata) failed with exit code '1'
+
+--===============3838010324578792142==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-pyopenssl: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyOpenSSL/pyOpenSSL-22.0.0.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pyOpenSSL/pyOpenSSL-22.1.0.tar.gz"
+packages/core2-32-poky-linux/python3-pyopenssl: PV changed from "22.0.0" to "22.1.0"
+packages/core2-32-poky-linux/python3-pyopenssl: PKGV changed from 22.0.0 [default] to 22.1.0 [default]
+packages/core2-32-poky-linux/python3-pyopenssl/python3-pyopenssl-dbg: PV changed from "22.0.0" to "22.1.0"
+packages/core2-32-poky-linux/python3-pyopenssl/python3-pyopenssl-dbg: PKGV changed from 22.0.0 [default] to 22.1.0 [default]
+packages/core2-32-poky-linux/python3-pyopenssl/python3-pyopenssl-dev: PV changed from "22.0.0" to "22.1.0"
+packages/core2-32-poky-linux/python3-pyopenssl/python3-pyopenssl-dev: PKGV changed from 22.0.0 [default] to 22.1.0 [default]
+packages/core2-32-poky-linux/python3-pyopenssl/python3-pyopenssl-doc: PV changed from "22.0.0" to "22.1.0"
+packages/core2-32-poky-linux/python3-pyopenssl/python3-pyopenssl-doc: PKGV changed from 22.0.0 [default] to 22.1.0 [default]
+packages/core2-32-poky-linux/python3-pyopenssl/python3-pyopenssl-locale: PV changed from "22.0.0" to "22.1.0"
+packages/core2-32-poky-linux/python3-pyopenssl/python3-pyopenssl-locale: PKGV changed from 22.0.0 [default] to 22.1.0 [default]
+packages/core2-32-poky-linux/python3-pyopenssl/python3-pyopenssl-src: PV changed from "22.0.0" to "22.1.0"
+packages/core2-32-poky-linux/python3-pyopenssl/python3-pyopenssl-src: PKGV changed from 22.0.0 [default] to 22.1.0 [default]
+packages/core2-32-poky-linux/python3-pyopenssl/python3-pyopenssl-staticdev: PV changed from "22.0.0" to "22.1.0"
+packages/core2-32-poky-linux/python3-pyopenssl/python3-pyopenssl-staticdev: PKGV changed from 22.0.0 [default] to 22.1.0 [default]
+packages/core2-32-poky-linux/python3-pyopenssl/python3-pyopenssl-tests: PV changed from "22.0.0" to "22.1.0"
+packages/core2-32-poky-linux/python3-pyopenssl/python3-pyopenssl-tests: PKGV changed from 22.0.0 [default] to 22.1.0 [default]
+packages/core2-32-poky-linux/python3-pyopenssl/python3-pyopenssl: PKGSIZE changed from 401928 to 414267 (+3%)
+packages/core2-32-poky-linux/python3-pyopenssl/python3-pyopenssl: PV changed from "22.0.0" to "22.1.0"
+packages/core2-32-poky-linux/python3-pyopenssl/python3-pyopenssl: PKGV changed from 22.0.0 [default] to 22.1.0 [default]
+Changes to packages/core2-32-poky-linux/python3-pyopenssl (sysroot):
+  /usr/lib/python3.10/site-packages/pyOpenSSL-22.0.0.dist-info moved to /usr/lib/python3.10/site-packages/pyOpenSSL-22.1.0.dist-info
+
+--===============3838010324578792142==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 885 .bb files complete (0 cached, 885 parsed). 1662 targets, 49 skipped, 0 masked, 0 errors.
+Removing 28 recipes from the core2-32 sysroot...done.
+Removing 52 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux-musl"
 MACHINE              = "qemux86"
 DISTRO               = "poky"
 DISTRO_VERSION       = "4.1"
@@ -78,864 +571,1942 @@ TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:38097b9714dfaadf0b4442910d9dc92f4bb7f5a0"
+meta-yocto-bsp       = "tmp-auh-upgrades:0279698c79893b51b023fb8664c3df2ac83a62f0"
 workspace            = "master:5200799866b92259e855051112520006e1aaaac0"
 
 Initialising tasks...done.
-Sstate summary: Wanted 66 Local 28 Mirrors 0 Missed 38 Current 143 (42% match, 81% complete)
+Sstate summary: Wanted 206 Local 163 Mirrors 0 Missed 43 Current 194 (79% match, 89% complete)
+Removing 2 stale sstate objects for arch x86_64...done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 182 of 209 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 183 of 209 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_packagedata_setscene)
-NOTE: Running setscene task 185 of 209 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 186 of 209 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 191 of 209 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 193 of 209 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.2.bb:do_populate_sysroot_setscene)
-NOTE: Running task 566 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.63.0.bb:do_fetch)
-NOTE: Running task 567 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.63.0.bb:do_fetch)
-NOTE: Running task 586 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_fetch)
-NOTE: Running task 588 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.3.bb:do_fetch)
-NOTE: Running task 589 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_fetch)
-NOTE: Running task 590 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_fetch)
-NOTE: Running task 591 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_fetch)
-NOTE: Running task 594 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_fetch)
-NOTE: Running task 595 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_fetch)
-NOTE: Running task 620 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.63.0.bb:do_fetch)
-NOTE: Running task 622 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_fetch)
-NOTE: Running task 630 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_populate_sysroot)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.2.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.2.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ca-certificates-20211016-r0: task do_populate_sysroot: Started
+NOTE: Running setscene task 225 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_37.0.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 228 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_37.0.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 233 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.1.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 238 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 242 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.6.bb:do_package_write_rpm_setscene)
+NOTE: Running task 839 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_fetch)
+NOTE: Running task 840 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_fetch)
+NOTE: Running task 841 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_fetch)
+NOTE: Running task 842 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_fetch)
+NOTE: Running task 843 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_fetch)
+NOTE: Running task 849 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_fetch)
+NOTE: Running task 850 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_fetch)
+NOTE: Running task 851 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_fetch)
+NOTE: Running task 852 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_fetch)
+NOTE: Running task 853 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_fetch)
+NOTE: Running task 854 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_fetch)
+NOTE: Running task 855 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_fetch)
+NOTE: recipe python3-six-1.16.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pytest-7.1.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_fetch: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_fetch: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_fetch: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_fetch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_fetch: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_fetch: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_fetch: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_fetch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_fetch: Started
+NOTE: recipe python3-cryptography-37.0.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_fetch: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_fetch: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-cryptography-37.0.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_fetch: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_fetch: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_fetch: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_fetch: Succeeded
+NOTE: Running task 907 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_unpack)
+NOTE: Running task 908 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_unpack)
+NOTE: Running task 909 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_unpack)
+NOTE: Running task 910 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_unpack)
+NOTE: Running task 911 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_unpack)
+NOTE: Running task 912 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_unpack)
+NOTE: Running task 913 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_unpack)
+NOTE: Running task 914 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_unpack)
+NOTE: Running task 915 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_unpack)
+NOTE: Running task 916 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_unpack)
+NOTE: Running task 917 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_unpack)
+NOTE: Running task 918 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_unpack)
+NOTE: recipe python3-3.10.6-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-pytest-7.1.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 249 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package_setscene)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_unpack: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_unpack: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_unpack: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_unpack: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_unpack: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_unpack: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_unpack: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_unpack: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_unpack: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_unpack: Started
+NOTE: recipe python3-cryptography-37.0.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_unpack: Succeeded
+NOTE: Running setscene task 250 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_37.0.4.bb:do_package_setscene)
+NOTE: recipe python3-cryptography-37.0.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_unpack: Succeeded
+NOTE: Running task 920 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_patch)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_unpack: Succeeded
+NOTE: recipe python3-3.10.6-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 251 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 252 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.16.bb:do_packagedata_setscene)
+NOTE: Running setscene task 253 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 254 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 255 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_packagedata_setscene)
+NOTE: Running task 921 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_patch)
+NOTE: Running task 922 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_patch)
+NOTE: Running task 923 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_patch)
+NOTE: Running task 924 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_patch)
+NOTE: Running task 926 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_patch)
+NOTE: Running task 927 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_patch)
+NOTE: Running task 928 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_patch)
+NOTE: Running task 929 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_patch)
+NOTE: Running task 930 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_patch)
+NOTE: Running task 931 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_patch)
+NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Started
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_patch: Started
+NOTE: recipe sed-4.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-5.1.16-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Started
+NOTE: recipe coreutils-9.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_patch: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_patch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_patch: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_patch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_patch: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_patch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_patch: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_patch: Started
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_patch: Succeeded
+NOTE: recipe bash-5.1.16-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_patch: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_patch: Succeeded
+NOTE: Running task 946 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_patch: Succeeded
+NOTE: Running task 947 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Succeeded
+NOTE: Running task 948 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_patch: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_patch: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_patch: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_patch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_patch: Succeeded
+NOTE: Running task 949 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 950 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 951 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_populate_lic)
+NOTE: Running task 952 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 953 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 954 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 955 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 956 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_deploy_source_date_epoch)
+NOTE: Running task 957 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_lic: Started
+NOTE: recipe sed-4.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_unpack: Succeeded
+NOTE: Running task 962 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_patch)
+NOTE: recipe coreutils-9.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 266 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 268 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 270 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.65.bb:do_packagedata_setscene)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_patch: Started
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_populate_lic unihash changed to bbc7a40503f3c37087a51d59d54ec07b3416c95d837d46ba4e8ba38c8488cec5
+NOTE: recipe libcap-2.65-r0: task do_packagedata_setscene: Started
+NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_patch: Succeeded
+NOTE: Running task 967 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe libcap-2.65-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running setscene task 273 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
+NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-cryptography-37.0.4-r0: task do_package_setscene: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_package_setscene: Started
+NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 280 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
+NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 282 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-cryptography-37.0.4-r0: task do_package_setscene: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 285 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_37.0.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 286 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 287 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 288 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.63.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 289 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.63.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-six-1.16.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libstd-rs-1.63.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libstd-rs-1.63.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-cryptography-37.0.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-3.10.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.10.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-cryptography-37.0.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libstd-rs-1.63.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 291 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_packagedata_setscene)
+NOTE: recipe libunwind-1.6.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 293 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 295 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.8.bb:do_packagedata_setscene)
+NOTE: recipe libunwind-1.6.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 299 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libucontext_1.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 300 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_packagedata_setscene)
+NOTE: recipe libstd-rs-1.63.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 302 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe cracklib-2.9.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.10.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libatomic-ops-7.6.14-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.10.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libucontext-1.2-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 304 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 305 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 306 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 307 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 308 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 309 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 310 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: Running setscene task 311 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 312 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.39.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 313 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe libunwind-1.6.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 314 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 315 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 317 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 318 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 319 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 320 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 321 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 322 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.39.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe openssl-3.0.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libunistring-1.0-r0: task do_fetch: Started
+NOTE: recipe readline-8.1.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.4.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.2.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.39.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: recipe libucontext-1.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libatomic-ops-7.6.14-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe readline-8.1.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe openssl-3.0.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libidn2-2.3.3-r0: task do_fetch: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_fetch: Started
-NOTE: recipe libstd-rs-1.63.0-r0: task do_fetch: Started
-NOTE: recipe cargo-1.63.0-r0: task do_fetch: Started
-NOTE: recipe curl-7.85.0-r0: task do_fetch: Started
-NOTE: recipe libunistring-1.0-r0: task do_fetch: Succeeded
-NOTE: recipe ca-certificates-native-20211016-r0: task do_fetch: Started
-NOTE: recipe rust-llvm-native-1.63.0-r0: task do_fetch: Started
-NOTE: recipe readline-native-8.1.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libidn2-2.3.3-r0: task do_fetch: Succeeded
-NOTE: Running task 631 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_unpack)
-NOTE: recipe rust-native-1.63.0-r0: task do_fetch: Started
-NOTE: recipe cargo-native-1.63.0-r0: task do_fetch: Started
-NOTE: Running task 632 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.3.bb:do_unpack)
-NOTE: recipe libssh2-native-1.10.0-r0: task do_fetch: Started
-NOTE: recipe curl-7.85.0-r0: task do_fetch: Succeeded
-NOTE: Running task 633 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_unpack)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_fetch: Succeeded
-NOTE: Running task 634 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_unpack)
-NOTE: Running task 635 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_prepare_recipe_sysroot)
-NOTE: recipe zlib-1.2.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libunistring-1.0-r0: task do_unpack: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe zlib-1.2.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libidn2-2.3.3-r0: task do_unpack: Started
-NOTE: Running task 657 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe readline-native-8.1.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe curl-7.85.0-r0: task do_unpack: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.2.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.39.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libunwind-1.6.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 327 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libucontext_1.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 328 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_populate_sysroot_setscene)
+NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe cracklib-2.9.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe readline-8.1.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 331 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
+NOTE: recipe libffi-3.4.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 333 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb:do_packagedata_setscene)
+NOTE: Running setscene task 335 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_packagedata_setscene)
+NOTE: Running setscene task 336 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_populate_sysroot_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.39.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe openssl-3.0.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe readline-8.1.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 343 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb:do_populate_sysroot_setscene)
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 347 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libucontext-1.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.2.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xz-5.2.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libatomic-ops-7.6.14-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe zlib-1.2.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.39.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe zlib-1.2.12-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe openssl-3.0.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.3+20220423-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.3+20220423-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.2.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libucontext-1.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libatomic-ops-7.6.14-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe zlib-1.2.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.3+20220423-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 362 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.3+20220423-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 367 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 369 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_packagedata_setscene)
+NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 370 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 373 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 375 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 377 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.3+gitAUTOINC+37e18b7bf3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 378 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe musl-1.2.3+gitAUTOINC+37e18b7bf3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 381 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 382 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 383 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.19.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.3+gitAUTOINC+37e18b7bf3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-5.19-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.3+gitAUTOINC+37e18b7bf3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 384 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 385 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-5.19-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 394 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 397 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.19.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-libc-headers-5.19-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-5.19-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 398 of 400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.39.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-i686-2.39-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe binutils-cross-i686-2.39-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: recipe ca-certificates-native-20211016-r0: task do_unpack: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libunistring-1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe ca-certificates-20211016-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libidn2-2.3.3-r0: task do_unpack: Succeeded
-NOTE: Running task 735 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.3.bb:do_patch)
-NOTE: recipe libunistring-1.0-r0: task do_unpack: Succeeded
-NOTE: Running task 736 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_patch)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libidn2-2.3.3-r0: task do_patch: Started
-NOTE: recipe libunistring-1.0-r0: task do_patch: Started
-NOTE: recipe libidn2-2.3.3-r0: task do_patch: Succeeded
-NOTE: recipe libunistring-1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 737 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe libunistring-1.0-r0: task do_patch: Succeeded
-NOTE: Running task 738 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe curl-7.85.0-r0: task do_unpack: Succeeded
-NOTE: Running task 739 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_patch)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_unpack: Succeeded
-NOTE: Running task 740 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_patch)
-NOTE: recipe libidn2-2.3.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libunistring-1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe curl-7.85.0-r0: task do_patch: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_patch: Started
-NOTE: recipe curl-7.85.0-r0: task do_patch: Succeeded
-NOTE: Running task 741 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libidn2-2.3.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libunistring-1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 742 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_configure)
-NOTE: recipe curl-7.85.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libunistring-1.0-r0: task do_configure: Started
-NOTE: recipe curl-7.85.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe ca-certificates-native-20211016-r0: task do_patch: Succeeded
-NOTE: Running task 743 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_deploy_source_date_epoch)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 744 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_configure)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_configure: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_configure: Succeeded
-NOTE: Running task 745 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_compile)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_compile: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_compile: Succeeded
-NOTE: Running task 746 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_install)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_install: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_fetch: Succeeded
-NOTE: recipe libssh2-native-1.10.0-r0: task do_fetch: Succeeded
-NOTE: Running task 747 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_unpack)
-NOTE: Running task 748 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_unpack)
-NOTE: Running task 749 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 750 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libssh2-1.10.0-r0: task do_unpack: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_unpack: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_unpack: Succeeded
-NOTE: Running task 751 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_patch)
-NOTE: recipe libssh2-native-1.10.0-r0: task do_unpack: Succeeded
-NOTE: Running task 752 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_patch)
-NOTE: recipe libssh2-1.10.0-r0: task do_patch: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_patch: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libssh2-1.10.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libssh2-1.10.0-r0: task do_patch: Succeeded
-NOTE: recipe libssh2-native-1.10.0-r0: task do_patch: Succeeded
-NOTE: Running task 753 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 754 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_install: Succeeded
-NOTE: Running task 755 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_populate_sysroot)
-NOTE: recipe libssh2-1.10.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_populate_sysroot: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 756 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_configure)
-NOTE: recipe libssh2-native-1.10.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 757 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_configure)
-NOTE: recipe libssh2-1.10.0-r0: task do_configure: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_configure: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libstd-rs-1.63.0-r0: task do_fetch: Succeeded
-NOTE: recipe rust-llvm-native-1.63.0-r0: task do_fetch: Succeeded
-NOTE: Running task 758 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.63.0.bb:do_unpack)
-NOTE: Running task 759 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.63.0.bb:do_unpack)
-NOTE: Running task 760 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.63.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libstd-rs-1.63.0-r0: task do_unpack: Started
-NOTE: recipe rust-llvm-native-1.63.0-r0: task do_unpack: Started
-NOTE: recipe rust-llvm-native-1.63.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe rust-llvm-native-1.63.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe cargo-1.63.0-r0: task do_fetch: Succeeded
-NOTE: recipe cargo-native-1.63.0-r0: task do_fetch: Succeeded
-NOTE: recipe rust-native-1.63.0-r0: task do_fetch: Succeeded
-NOTE: Running task 761 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.63.0.bb:do_unpack)
-NOTE: Running task 762 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_unpack)
-NOTE: Running task 763 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_unpack)
-NOTE: recipe cargo-1.63.0-r0: task do_unpack: Started
-NOTE: recipe rust-native-1.63.0-r0: task do_unpack: Started
-NOTE: recipe cargo-native-1.63.0-r0: task do_unpack: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_configure: Succeeded
-NOTE: Running task 764 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_compile)
-NOTE: recipe libssh2-native-1.10.0-r0: task do_compile: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_configure: Succeeded
-NOTE: Running task 765 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_configure_ptest_base)
-NOTE: recipe libssh2-1.10.0-r0: task do_configure_ptest_base: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 766 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_compile)
-NOTE: recipe libssh2-1.10.0-r0: task do_compile: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_compile: Succeeded
-NOTE: Running task 767 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_install)
-NOTE: recipe libstd-rs-1.63.0-r0: task do_unpack: Succeeded
-NOTE: Running task 768 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.63.0.bb:do_patch)
-NOTE: recipe libstd-rs-1.63.0-r0: task do_patch: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_install: Started
-NOTE: recipe libstd-rs-1.63.0-r0: task do_patch: Succeeded
-NOTE: Running task 769 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.63.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 770 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.63.0.bb:do_rust_gen_targets)
-NOTE: recipe libstd-rs-1.63.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libstd-rs-1.63.0-r0: task do_rust_gen_targets: Started
-NOTE: recipe libstd-rs-1.63.0-r0: task do_rust_gen_targets: Succeeded
-NOTE: recipe libssh2-native-1.10.0-r0: task do_install: Succeeded
-NOTE: Running task 771 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_populate_sysroot)
-NOTE: recipe libstd-rs-1.63.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libssh2-native-1.10.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libssh2-1.10.0-r0: task do_compile: Succeeded
-NOTE: Running task 772 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_compile_ptest_base)
-NOTE: recipe libssh2-1.10.0-r0: task do_compile_ptest_base: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 773 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_install)
-NOTE: recipe libssh2-1.10.0-r0: task do_install: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_install: Succeeded
-NOTE: Running task 774 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_install_ptest_base)
-NOTE: recipe libssh2-1.10.0-r0: task do_install_ptest_base: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 775 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_populate_sysroot)
-NOTE: Running task 776 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_package)
-NOTE: recipe libssh2-1.10.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_package: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libssh2-1.10.0-r0: task do_package: Succeeded
-NOTE: Running task 777 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_packagedata)
-NOTE: recipe libssh2-1.10.0-r0: task do_packagedata: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_packagedata: Succeeded
-NOTE: recipe rust-llvm-native-1.63.0-r0: task do_unpack: Succeeded
-NOTE: Running task 778 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.63.0.bb:do_patch)
-NOTE: recipe rust-llvm-native-1.63.0-r0: task do_patch: Started
-NOTE: recipe rust-llvm-native-1.63.0-r0: task do_patch: Succeeded
-NOTE: Running task 779 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.63.0.bb:do_generate_toolchain_file)
-NOTE: Running task 780 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.63.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe rust-llvm-native-1.63.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rust-llvm-native-1.63.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe rust-llvm-native-1.63.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe rust-llvm-native-1.63.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 781 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.63.0.bb:do_configure)
-NOTE: recipe rust-llvm-native-1.63.0-r0: task do_configure: Started
-NOTE: recipe libunistring-1.0-r0: task do_configure: Succeeded
-NOTE: Running task 782 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_compile)
-NOTE: recipe libunistring-1.0-r0: task do_compile: Started
-NOTE: recipe rust-llvm-native-1.63.0-r0: task do_configure: Succeeded
-NOTE: Running task 783 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.63.0.bb:do_compile)
-NOTE: recipe rust-llvm-native-1.63.0-r0: task do_compile: Started
-NOTE: recipe cargo-native-1.63.0-r0: task do_unpack: Succeeded
-NOTE: Running task 784 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_patch)
-NOTE: Running task 785 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_cargo_setup_snapshot)
-NOTE: recipe cargo-native-1.63.0-r0: task do_patch: Started
-NOTE: recipe cargo-native-1.63.0-r0: task do_cargo_setup_snapshot: Started
-NOTE: recipe cargo-native-1.63.0-r0: task do_patch: Succeeded
-NOTE: Running task 786 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 787 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_rust_gen_targets)
-NOTE: recipe cargo-native-1.63.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe cargo-native-1.63.0-r0: task do_rust_gen_targets: Started
-NOTE: recipe cargo-native-1.63.0-r0: task do_rust_gen_targets: Succeeded
-NOTE: recipe cargo-native-1.63.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe cargo-native-1.63.0-r0: task do_cargo_setup_snapshot: Succeeded
-NOTE: recipe rust-native-1.63.0-r0: task do_unpack: Succeeded
-NOTE: Running task 788 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.63.0.bb:do_patch)
-NOTE: Running task 789 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.63.0.bb:do_rust_setup_snapshot)
-NOTE: recipe rust-native-1.63.0-r0: task do_patch: Started
-NOTE: recipe rust-native-1.63.0-r0: task do_rust_setup_snapshot: Started
-NOTE: recipe rust-native-1.63.0-r0: task do_patch: Succeeded
-NOTE: Running task 790 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.63.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 791 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.63.0.bb:do_rust_gen_targets)
-NOTE: recipe rust-native-1.63.0-r0: task do_rust_gen_targets: Started
-NOTE: recipe rust-native-1.63.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rust-native-1.63.0-r0: task do_rust_gen_targets: Succeeded
-NOTE: recipe rust-native-1.63.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe cargo-1.63.0-r0: task do_unpack: Succeeded
-NOTE: Running task 792 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_patch)
-NOTE: Running task 793 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_cargo_setup_snapshot)
-NOTE: recipe cargo-1.63.0-r0: task do_patch: Started
-NOTE: recipe cargo-1.63.0-r0: task do_cargo_setup_snapshot: Started
-NOTE: recipe cargo-1.63.0-r0: task do_patch: Succeeded
-NOTE: Running task 794 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 795 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_rust_gen_targets)
-NOTE: Running task 796 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_populate_lic)
-NOTE: recipe cargo-1.63.0-r0: task do_populate_lic: Started
-NOTE: recipe cargo-1.63.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe cargo-1.63.0-r0: task do_rust_gen_targets: Started
-NOTE: recipe cargo-1.63.0-r0: task do_rust_gen_targets: Succeeded
-NOTE: recipe cargo-1.63.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe cargo-1.63.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe rust-native-1.63.0-r0: task do_rust_setup_snapshot: Succeeded
-NOTE: recipe cargo-1.63.0-r0: task do_cargo_setup_snapshot: Succeeded
-NOTE: recipe libunistring-1.0-r0: task do_compile: Succeeded
-NOTE: Running task 797 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_install)
-NOTE: recipe libunistring-1.0-r0: task do_install: Started
-NOTE: recipe libunistring-1.0-r0: task do_install: Succeeded
-NOTE: Running task 798 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_populate_sysroot)
-NOTE: Running task 799 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_package)
-NOTE: recipe libunistring-1.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libunistring-1.0-r0: task do_package: Started
-NOTE: recipe libunistring-1.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 800 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libidn2-2.3.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libidn2-2.3.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 801 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.3.bb:do_configure)
-NOTE: recipe libidn2-2.3.3-r0: task do_configure: Started
-NOTE: recipe libunistring-1.0-r0: task do_package: Succeeded
-NOTE: Running task 802 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_packagedata)
-NOTE: recipe libunistring-1.0-r0: task do_packagedata: Started
-NOTE: recipe libunistring-1.0-r0: task do_packagedata: Succeeded
-NOTE: recipe libidn2-2.3.3-r0: task do_configure: Succeeded
-NOTE: Running task 803 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.3.bb:do_compile)
-NOTE: recipe libidn2-2.3.3-r0: task do_compile: Started
-NOTE: recipe libidn2-2.3.3-r0: task do_compile: Succeeded
-NOTE: Running task 804 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.3.bb:do_install)
-NOTE: recipe libidn2-2.3.3-r0: task do_install: Started
-NOTE: recipe libidn2-2.3.3-r0: task do_install: Succeeded
-NOTE: Running task 805 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.3.bb:do_populate_sysroot)
-NOTE: Running task 806 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.3.bb:do_package)
-NOTE: recipe libidn2-2.3.3-r0: task do_populate_sysroot: Started
-NOTE: recipe libidn2-2.3.3-r0: task do_package: Started
-NOTE: recipe libidn2-2.3.3-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 807 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe curl-7.85.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe curl-7.85.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 808 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_configure)
-NOTE: recipe curl-7.85.0-r0: task do_configure: Started
-NOTE: recipe libidn2-2.3.3-r0: task do_package: Succeeded
-NOTE: Running task 809 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.3.bb:do_packagedata)
-NOTE: recipe libidn2-2.3.3-r0: task do_packagedata: Started
-NOTE: recipe libidn2-2.3.3-r0: task do_packagedata: Succeeded
-NOTE: recipe curl-7.85.0-r0: task do_configure: Succeeded
-NOTE: Running task 810 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_configure_ptest_base)
-NOTE: recipe curl-7.85.0-r0: task do_configure_ptest_base: Started
-NOTE: recipe curl-7.85.0-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 811 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_compile)
-NOTE: recipe curl-7.85.0-r0: task do_compile: Started
-NOTE: recipe curl-7.85.0-r0: task do_compile: Succeeded
-NOTE: Running task 812 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_compile_ptest_base)
-NOTE: recipe curl-7.85.0-r0: task do_compile_ptest_base: Started
-NOTE: recipe curl-7.85.0-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 813 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_install)
-NOTE: recipe curl-7.85.0-r0: task do_install: Started
-NOTE: recipe curl-7.85.0-r0: task do_install: Succeeded
-NOTE: Running task 814 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_install_ptest_base)
-NOTE: recipe curl-7.85.0-r0: task do_install_ptest_base: Started
-NOTE: recipe curl-7.85.0-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 815 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_populate_sysroot)
-NOTE: Running task 816 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_package)
-NOTE: recipe curl-7.85.0-r0: task do_populate_sysroot: Started
-NOTE: recipe curl-7.85.0-r0: task do_package: Started
-NOTE: recipe curl-7.85.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe rust-llvm-native-1.63.0-r0: task do_compile: Succeeded
-NOTE: Running task 817 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.63.0.bb:do_install)
-NOTE: recipe rust-llvm-native-1.63.0-r0: task do_install: Started
-NOTE: recipe rust-llvm-native-1.63.0-r0: task do_install: Succeeded
-NOTE: Running task 818 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.63.0.bb:do_populate_sysroot)
-NOTE: recipe rust-llvm-native-1.63.0-r0: task do_populate_sysroot: Started
-NOTE: recipe curl-7.85.0-r0: task do_package: Succeeded
-NOTE: Running task 819 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_packagedata)
-NOTE: recipe curl-7.85.0-r0: task do_packagedata: Started
-NOTE: recipe curl-7.85.0-r0: task do_packagedata: Succeeded
-NOTE: recipe rust-llvm-native-1.63.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 820 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.63.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe rust-native-1.63.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe rust-native-1.63.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 821 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.63.0.bb:do_rust_create_wrappers)
-NOTE: recipe rust-native-1.63.0-r0: task do_rust_create_wrappers: Started
-NOTE: recipe rust-native-1.63.0-r0: task do_rust_create_wrappers: Succeeded
-NOTE: Running task 822 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.63.0.bb:do_configure)
-NOTE: recipe rust-native-1.63.0-r0: task do_configure: Started
-NOTE: recipe rust-native-1.63.0-r0: task do_configure: Succeeded
-NOTE: Running task 823 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.63.0.bb:do_compile)
-NOTE: recipe rust-native-1.63.0-r0: task do_compile: Started
-Bitbake still alive (no events for 600s). Active tasks:
-virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.63.0.bb:do_compile
-NOTE: recipe rust-native-1.63.0-r0: task do_compile: Succeeded
-NOTE: Running task 824 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.63.0.bb:do_install)
-NOTE: recipe rust-native-1.63.0-r0: task do_install: Started
-NOTE: recipe rust-native-1.63.0-r0: task do_install: Succeeded
-NOTE: Running task 825 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.63.0.bb:do_populate_sysroot)
-NOTE: recipe rust-native-1.63.0-r0: task do_populate_sysroot: Started
-NOTE: recipe rust-native-1.63.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 826 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe cargo-native-1.63.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe cargo-native-1.63.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 827 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_rust_create_wrappers)
-NOTE: recipe cargo-native-1.63.0-r0: task do_rust_create_wrappers: Started
-NOTE: recipe cargo-native-1.63.0-r0: task do_rust_create_wrappers: Succeeded
-NOTE: Running task 828 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_configure)
-NOTE: recipe cargo-native-1.63.0-r0: task do_configure: Started
-NOTE: recipe cargo-native-1.63.0-r0: task do_configure: Succeeded
-NOTE: Running task 829 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_compile)
-NOTE: recipe cargo-native-1.63.0-r0: task do_compile: Started
-NOTE: recipe cargo-native-1.63.0-r0: task do_compile: Succeeded
-NOTE: Running task 830 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_install)
-NOTE: recipe cargo-native-1.63.0-r0: task do_install: Started
-NOTE: recipe cargo-native-1.63.0-r0: task do_install: Succeeded
-NOTE: Running task 831 of 850 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_populate_sysroot)
-NOTE: recipe cargo-native-1.63.0-r0: task do_populate_sysroot: Started
-NOTE: recipe cargo-native-1.63.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 832 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.63.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libstd-rs-1.63.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libstd-rs-1.63.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 833 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.63.0.bb:do_rust_create_wrappers)
-NOTE: recipe libstd-rs-1.63.0-r0: task do_rust_create_wrappers: Started
-NOTE: recipe libstd-rs-1.63.0-r0: task do_rust_create_wrappers: Succeeded
-NOTE: Running task 834 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.63.0.bb:do_configure)
-NOTE: recipe libstd-rs-1.63.0-r0: task do_configure: Started
-NOTE: recipe libstd-rs-1.63.0-r0: task do_configure: Succeeded
-NOTE: Running task 835 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.63.0.bb:do_compile)
-NOTE: recipe libstd-rs-1.63.0-r0: task do_compile: Started
-NOTE: recipe libstd-rs-1.63.0-r0: task do_compile: Succeeded
-NOTE: Running task 836 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.63.0.bb:do_install)
-NOTE: recipe libstd-rs-1.63.0-r0: task do_install: Started
-NOTE: recipe libstd-rs-1.63.0-r0: task do_install: Succeeded
-NOTE: Running task 837 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.63.0.bb:do_populate_sysroot)
-NOTE: Running task 838 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.63.0.bb:do_package)
-NOTE: recipe libstd-rs-1.63.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libstd-rs-1.63.0-r0: task do_package: Started
-NOTE: recipe libstd-rs-1.63.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 839 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe cargo-1.63.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe cargo-1.63.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 840 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_rust_create_wrappers)
-NOTE: recipe cargo-1.63.0-r0: task do_rust_create_wrappers: Started
-NOTE: recipe cargo-1.63.0-r0: task do_rust_create_wrappers: Succeeded
-NOTE: Running task 841 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_configure)
-NOTE: recipe cargo-1.63.0-r0: task do_configure: Started
-NOTE: recipe cargo-1.63.0-r0: task do_configure: Succeeded
-NOTE: Running task 842 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_compile)
-NOTE: recipe cargo-1.63.0-r0: task do_compile: Started
-NOTE: recipe libstd-rs-1.63.0-r0: task do_package: Succeeded
-NOTE: Running task 843 of 850 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.63.0.bb:do_packagedata)
-NOTE: recipe libstd-rs-1.63.0-r0: task do_packagedata: Started
-NOTE: recipe libstd-rs-1.63.0-r0: task do_packagedata: Succeeded
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| NOTE: Using rust targets from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rust-targets/
-| NOTE: cargo = /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot-native/usr/bin/cargo
-| Usage: which [options] [--] COMMAND [...]
-| Write the full path of COMMAND(s) to standard output.
-| 
-|   --version, -[vV] Print version and exit successfully.
-|   --help,          Print this help and exit successfully.
-|   --skip-dot       Skip directories in PATH that start with a dot.
-|   --skip-tilde     Skip directories in PATH that start with a tilde.
-|   --show-dot       Don't expand a dot to current directory in output.
-|   --show-tilde     Output a tilde for HOME directory for non-root.
-|   --tty-only       Stop processing options on the right if not on tty.
-|   --all, -a        Print all matches in PATH, not just the first
-|   --read-alias, -i Read list of aliases from stdin.
-|   --skip-alias     Ignore option --read-alias; don't read stdin.
-|   --read-functions Read shell functions from stdin.
-|   --skip-functions Ignore option --read-functions; don't read stdin.
-| 
-| Recommended use is to write the output of (alias; declare -f) to standard
-| input, so that which can show aliases and shell functions. See which(1) for
-| examples.
-| 
-| If the options --read-alias and/or --read-functions are specified then the
-| output can be a full alias or function definition, optionally followed by
-| the full path of each command used inside of those.
-| 
-| Report bugs to <which-bugs@gnu.org>.
-| NOTE: rustc =
-| NOTE: cargo build -v --target i686-poky-linux-gnu --release --manifest-path=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/src/tools/cargo//Cargo.toml
-|    Compiling libc v0.2.126
-|    Compiling pkg-config v0.3.18
-|    Compiling proc-macro2 v1.0.37
-|    Compiling autocfg v1.1.0
-|    Compiling unicode-xid v0.2.2
-|    Compiling syn v1.0.91
-|    Compiling cfg-if v1.0.0
-|    Compiling serde_derive v1.0.125
-|    Compiling serde v1.0.125
-|    Compiling cfg-if v0.1.10
-|    Compiling memchr v2.4.1
-|    Compiling version_check v0.9.3
-|    Compiling log v0.4.14
-|    Compiling bitflags v1.2.1
-|    Compiling crc32fast v1.2.0
-|    Compiling matches v0.1.8
-|    Compiling tinyvec v0.3.4
-|    Compiling once_cell v1.12.0
-|    Compiling getrandom v0.2.0
-|    Compiling getrandom v0.1.14
-|    Compiling lazy_static v1.4.0
-|    Compiling ryu v1.0.5
-|    Compiling percent-encoding v2.1.0
-|    Compiling serde_json v1.0.59
-|    Compiling typenum v1.12.0
-|    Compiling regex-automata v0.1.10
-|    Compiling anyhow v1.0.51
-|    Compiling foreign-types-shared v0.1.1
-|    Compiling crossbeam-utils v0.8.8
-|    Compiling ppv-lite86 v0.2.8
-|    Compiling hashbrown v0.12.3
-|    Compiling curl v0.4.43
-|    Compiling itoa v0.4.6
-|    Compiling regex-syntax v0.6.25
-|    Compiling openssl-probe v0.1.2
-|    Compiling openssl v0.10.38
-|    Compiling same-file v1.0.6
-|    Compiling os_str_bytes v6.0.0
-|    Compiling termcolor v1.1.2
-|    Compiling heck v0.4.0
-|    Compiling byteorder v1.3.4
-|    Compiling remove_dir_all v0.5.3
-|    Compiling strsim v0.10.0
-|    Compiling semver v1.0.3
-|    Compiling hex v0.3.2
-|    Compiling utf8parse v0.1.1
-|    Compiling fnv v1.0.7
-|    Compiling bytes v1.0.1
-|    Compiling textwrap v0.15.0
-|    Compiling either v1.6.0
-|    Compiling static_assertions v1.1.0
-|    Compiling hex v0.4.2
-|    Compiling smallvec v1.8.1
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/libc/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="align"' --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=cdd8189d413eab78 -C extra-filename=-cdd8189d413eab78 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/libc-cdd8189d413eab78 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name pkg_config /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/pkg-config/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off -C metadata=2ea727a1b77a484c -C extra-filename=-2ea727a1b77a484c --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/proc-macro2-1.0.37/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="proc-macro"' -C metadata=3d7015700e24e8ca -C extra-filename=-3d7015700e24e8ca --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/proc-macro2-3d7015700e24e8ca -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name autocfg /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/autocfg/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off -C metadata=168ce7056595053a -C extra-filename=-168ce7056595053a --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name unicode_xid /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/unicode-xid-0.2.2/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' -C metadata=2f740e06e11340aa -C extra-filename=-2f740e06e11340aa --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/syn-1.0.91/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="clone-impls"' --cfg 'feature="default"' --cfg 'feature="derive"' --cfg 'feature="extra-traits"' --cfg 'feature="fold"' --cfg 'feature="full"' --cfg 'feature="parsing"' --cfg 'feature="printing"' --cfg 'feature="proc-macro"' --cfg 'feature="quote"' --cfg 'feature="visit"' --cfg 'feature="visit-mut"' -C metadata=ff848330357a271f -C extra-filename=-ff848330357a271f --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/syn-ff848330357a271f -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/carg
- o/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name cfg_if --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/cfg-if/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=e664940fd7b9cb80 -C extra-filename=-e664940fd7b9cb80 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/
- build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/serde_derive-1.0.125/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' -C metadata=7fa9324567ec7678 -C extra-filename=-7fa9324567ec7678 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/serde_derive-7fa9324567ec7678 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/serde-1.0.125/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="derive"' --cfg 'feature="serde_derive"' --cfg 'feature="std"' -C metadata=44197ea7c70eb389 -C extra-filename=-44197ea7c70eb389 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/serde-44197ea7c70eb389 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name cfg_if --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/cfg-if-0.1.10/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=e5069094d9b82b92 -C extra-filename=-e5069094d9b82b92 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.6
- 3.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/memchr-2.4.1/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="std"' --cfg 'feature="use_std"' -C metadata=08cc36daf1eb302b -C extra-filename=-08cc36daf1eb302b --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/memchr-08cc36daf1eb302b -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name version_check /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/version_check-0.9.3/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off -C metadata=bc3b18b8fd009818 -C extra-filename=-bc3b18b8fd009818 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/log-0.4.14/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="std"' -C metadata=8ce7e4bb1f1134e0 -C extra-filename=-8ce7e4bb1f1134e0 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/log-8ce7e4bb1f1134e0 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/bitflags-1.2.1/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' -C metadata=5769edfbfae4589d -C extra-filename=-5769edfbfae4589d --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/bitflags-5769edfbfae4589d -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/crc32fast-1.2.0/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=f09f15bbd97263a0 -C extra-filename=-f09f15bbd97263a0 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/crc32fast-f09f15bbd97263a0 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name matches /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/matches-0.1.8/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=5181d423b4447cec -C extra-filename=-5181d423b4447cec --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/targe
- t/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name tinyvec --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/tinyvec-0.3.4/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="alloc"' --cfg 'feature="default"' -C metadata=f8669d851db5ed2e -C extra-filename=-f8669d851db5ed2e --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build
- /build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name once_cell --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/once_cell/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="alloc"' --cfg 'feature="default"' --cfg 'feature="race"' --cfg 'feature="std"' -C metadata=d710c5944ffb758e -C extra-filename=-d710c5944ffb758e --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L depend
- ency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/getrandom/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="std"' -C metadata=5fc73b7a65ab1ea8 -C extra-filename=-5fc73b7a65ab1ea8 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/getrandom-5fc73b7a65ab1ea8 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/getrandom-0.1.14/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="std"' -C metadata=c8720cc1dc8edb2e -C extra-filename=-c8720cc1dc8edb2e --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/getrandom-c8720cc1dc8edb2e -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name lazy_static /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/lazy_static/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=d8e008d7ee6c064a -C extra-filename=-d8e008d7ee6c064a --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build
- /target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/ryu-1.0.5/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off -C metadata=1cb68d672ad7a65b -C extra-filename=-1cb68d672ad7a65b --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/ryu-1cb68d672ad7a65b -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name percent_encoding /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/percent-encoding/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=5318bc1736874c8d -C extra-filename=-5318bc1736874c8d --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0
- /build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/serde_json-1.0.59/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="raw_value"' --cfg 'feature="std"' --cfg 'feature="unbounded_depth"' -C metadata=ea1b7eb6eff580e2 -C extra-filename=-ea1b7eb6eff580e2 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/serde_json-ea1b7eb6eff580e2 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_main /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/typenum/build/main.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off -C metadata=85294f0eccf3782e -C extra-filename=-85294f0eccf3782e --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/typenum-85294f0eccf3782e -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name regex_automata /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/regex-automata/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=ec56312d243b0aa9 -C extra-filename=-ec56312d243b0aa9 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0
- /build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/anyhow-1.0.51/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=39e7c6d343c842aa -C extra-filename=-39e7c6d343c842aa --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/anyhow-39e7c6d343c842aa -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name cfg_if --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/cfg-if-0.1.10/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off -C metadata=1df878b643579860 -C extra-filename=-1df878b643579860 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name foreign_types_shared /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/foreign-types-shared/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=02099f8ff7e95c85 -C extra-filename=-02099f8ff7e95c85 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/car
- go/1.63.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/crossbeam-utils/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="lazy_static"' --cfg 'feature="nightly"' --cfg 'feature="std"' -C metadata=2f5c2170e4dfe692 -C extra-filename=-2f5c2170e4dfe692 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/crossbeam-utils-2f5c2170e4dfe692 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name ppv_lite86 --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/ppv-lite86/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="simd"' --cfg 'feature="std"' -C metadata=b0cc1112fc2bbd1c -C extra-filename=-b0cc1112fc2bbd1c --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/buil
- d/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name hashbrown --edition=2021 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/hashbrown/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="raw"' -C metadata=1896dd828bfe5be7 -C extra-filename=-1896dd828bfe5be7 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32
- -poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name cfg_if --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/cfg-if/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off -C metadata=c5760eedbf77446c -C extra-filename=-c5760eedbf77446c --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name unicode_xid /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/unicode-xid-0.2.2/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' -C metadata=2c90d83903ccd157 -C extra-filename=-2c90d83903ccd157 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-
- poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/curl/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="http2"' --cfg 'feature="openssl-probe"' --cfg 'feature="openssl-sys"' --cfg 'feature="ssl"' -C metadata=cc854cdefe08f7ab -C extra-filename=-cc854cdefe08f7ab --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/curl-cc854cdefe08f7ab -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints all
- ow`
-|      Running `rustc --crate-name itoa /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/itoa-0.4.6/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=d9c3c88d60d13ecb -C extra-filename=-d9c3c88d60d13ecb --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/
- release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name regex_syntax --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/regex-syntax-0.6.25/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="unicode"' --cfg 'feature="unicode-age"' --cfg 'feature="unicode-bool"' --cfg 'feature="unicode-case"' --cfg 'feature="unicode-gencat"' --cfg 'feature="unicode-perl"' --cfg 'feature="unicode-script"' --cfg 'feature="unicode-segment"' -C metadata=086fd2feda755b76 -C extra-filename=-086fd2feda755b76 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-
- r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name openssl_probe /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/openssl-probe/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=08b21fcaa4261b05 -C extra-filename=-08b21fcaa4261b05 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/b
- uild/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/openssl/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off -C metadata=382741b7b574027a -C extra-filename=-382741b7b574027a --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/openssl-382741b7b574027a -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name same_file --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/same-file/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=fb3628f1a292d27d -C extra-filename=-fb3628f1a292d27d --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63
- .0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name os_str_bytes --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/os_str_bytes/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="raw_os_str"' -C metadata=4268be0f283a1d18 -C extra-filename=-4268be0f283a1d18 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/
- work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name termcolor --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/termcolor/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=8c47e0b73a67bff2 -C extra-filename=-8c47e0b73a67bff2 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63
- .0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name heck --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/heck/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' -C metadata=d9935aa0e76652a2 -C extra-filename=-d9935aa0e76652a2 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/byteorder/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=41f58097cc7dadda -C extra-filename=-41f58097cc7dadda --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/byteorder-41f58097cc7dadda -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name remove_dir_all /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/remove_dir_all/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=ed3e3a9ea301fd1d -C extra-filename=-ed3e3a9ea301fd1d --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0
- /build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name strsim /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/strsim/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=5e987f2dd189c93f -C extra-filename=-5e987f2dd189c93f --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/re
- lease/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/semver-1.0.3/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="serde"' --cfg 'feature="std"' -C metadata=f2f3c8dcc8d14481 -C extra-filename=-f2f3c8dcc8d14481 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/semver-f2f3c8dcc8d14481 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name hex /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/hex-0.3.2/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=ac0ac1cf51c4394a -C extra-filename=-ac0ac1cf51c4394a --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/re
- lease/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name utf8parse /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/utf8parse/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=425d7c03ca968340 -C extra-filename=-425d7c03ca968340 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/tar
- get/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name fnv /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/fnv/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=1d8c94cc77689fa2 -C extra-filename=-1d8c94cc77689fa2 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky
- -linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name bytes --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/bytes/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=dd4df98ba647020f -C extra-filename=-dd4df98ba647020f --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build
- /tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name textwrap --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/textwrap/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=455c793798c0dbe4 -C extra-filename=-455c793798c0dbe4 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0
- -r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name either /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/either-1.6.0/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=40a25a92d855c1e9 -C extra-filename=-40a25a92d855c1e9 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/tar
- get/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name static_assertions /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/static_assertions/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=e86ef51d3631d802 -C extra-filename=-e86ef51d3631d802 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.6
- 3.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name hex --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/hex/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=7b58b7803a68c6de -C extra-filename=-7b58b7803a68c6de --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp
- /work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|    Compiling shell-escape v0.1.5
-|    Compiling humantime v2.0.1
-|    Compiling glob v0.3.0
-|    Compiling unicode-width v0.1.8
-|    Compiling bytesize v1.0.1
-|    Compiling pathdiff v0.2.1
-|      Running `rustc --crate-name smallvec --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/smallvec/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="may_dangle"' --cfg 'feature="union"' -C metadata=e00ae9f7e1892466 -C extra-filename=-e00ae9f7e1892466 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/
- build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name shell_escape /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/shell-escape/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=1b1cc52a48d736ea -C extra-filename=-1b1cc52a48d736ea --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/bui
- ld/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name humantime --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/humantime/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=96a3bed2a1393f95 -C extra-filename=-96a3bed2a1393f95 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63
- .0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name glob /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/glob/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=9b5720b87510f5da -C extra-filename=-9b5720b87510f5da --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/releas
- e/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name unicode_width /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/unicode-width/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' -C metadata=ea762996ab884c47 -C extra-filename=-ea762996ab884c47 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-po
- ky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name bytesize /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/bytesize/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=82e2bf54efd25370 -C extra-filename=-82e2bf54efd25370 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/targe
- t/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|    Compiling home v0.5.3
-|     Building [                           ] 7/204: serde_json(build.rs), glo...
-|      Running `rustc --crate-name pathdiff --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/pathdiff/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=2678bb95960d6082 -C extra-filename=-2678bb95960d6082 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0
- -r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|      Running `rustc --crate-name home --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/home/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=bcf7ec486b914d63 -C extra-filename=-bcf7ec486b914d63 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/buil
- d/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|    Compiling lazycell v1.3.0
-|    Compiling unicode-bidi v0.3.4
-|      Running `rustc --crate-name lazycell /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/lazycell/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=ec19abd7f10c9f25 -C extra-filename=-ec19abd7f10c9f25 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/targe
- t/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|     Building [>                          ] 9/204: serde_json(build.rs), glo...
-|      Running `rustc --crate-name unicode_bidi /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/unicode-bidi-0.3.4/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' -C metadata=3e90ea6312ca5847 -C extra-filename=-3e90ea6312ca5847 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
- 2-poky-linux/cargo/1.63.0-r0/build/target/release/deps --extern matches=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libmatches-5181d423b4447cec.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|    Compiling foreign-types v0.3.2
-|     Building [>                         ] 10/204: serde_json(build.rs), glo...
-|      Running `rustc --crate-name foreign_types /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/foreign-types/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=d59ddb5d1a7c0d68 -C extra-filename=-d59ddb5d1a7c0d68 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/b
- uild/target/release/deps --extern foreign_types_shared=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libforeign_types_shared-02099f8ff7e95c85.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|    Compiling kstring v2.0.0
-|     Building [>                         ] 11/204: serde_json(build.rs), glo...
-|      Running `rustc --crate-name kstring --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/kstring/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="max_inline"' --cfg 'feature="std"' --cfg 'feature="unsafe"' -C metadata=ed3f30bed5df4f05 -C extra-filename=-ed3f30bed5df4f05 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dep
- endency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --extern static_assertions=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libstatic_assertions-e86ef51d3631d802.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|    Compiling form_urlencoded v1.0.1
-|    Compiling vte v0.3.3
-|      Running `rustc --crate-name form_urlencoded --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/form_urlencoded/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=4ef30da818c85dac -C extra-filename=-4ef30da818c85dac --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linu
- x/cargo/1.63.0-r0/build/target/release/deps --extern matches=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libmatches-5181d423b4447cec.rmeta --extern percent_encoding=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libpercent_encoding-5318bc1736874c8d.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|     Building [>                         ] 13/204: serde_json(build.rs), glo...
-|      Running `rustc --crate-name vte /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/vte/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=205f8e006fd35c46 -C extra-filename=-205f8e006fd35c46 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/
- deps --extern utf8parse=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libutf8parse-425d7c03ca968340.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|    Compiling walkdir v2.3.2
-|     Building [>                         ] 15/204: serde_json(build.rs), glo...
-|      Running `rustc --crate-name walkdir --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/walkdir/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=fa61e829ec42b110 -C extra-filename=-fa61e829ec42b110 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r
- 0/build/target/release/deps --extern same_file=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libsame_file-fb3628f1a292d27d.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|     Building [=>                        ] 16/204: serde_json(build.rs), glo...
-|     Building [=>                        ] 17/204: serde_json(build.rs), glo...
-|    Compiling itertools v0.10.1
-|     Building [=>                        ] 18/204: serde_json(build.rs), glo...
-|      Running `rustc --crate-name itertools --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/itertools-0.10.1/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="use_alloc"' --cfg 'feature="use_std"' -C metadata=d49e78459c43ac4d -C extra-filename=-d49e78459c43ac4d --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/ho
- me/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --extern either=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libeither-40a25a92d855c1e9.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|    Compiling thread_local v1.1.4
-|     Building [=>                        ] 19/204: thread_local, serde_json(...
-|      Running `rustc --crate-name thread_local --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/thread_local/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=d5fd7d1449355fc7 -C extra-filename=-d5fd7d1449355fc7 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/carg
- o/1.63.0-r0/build/target/release/deps --extern once_cell=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libonce_cell-d710c5944ffb758e.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|    Compiling strip-ansi-escapes v0.1.0
-|     Building [=>                        ] 20/204: thread_local, serde_json(...
-|      Running `rustc --crate-name strip_ansi_escapes /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/strip-ansi-escapes/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=c4e78a63456383bd -C extra-filename=-c4e78a63456383bd --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1
- .63.0-r0/build/target/release/deps --extern vte=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libvte-205f8e006fd35c46.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|    Compiling clap_lex v0.2.2
-|     Building [=>                        ] 21/204: thread_local, serde_json(...
-|      Running `rustc --crate-name clap_lex --edition=2021 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/clap_lex/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=98b06235a4e592c0 -C extra-filename=-98b06235a4e592c0 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0
- -r0/build/target/release/deps --extern os_str_bytes=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libos_str_bytes-4268be0f283a1d18.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|     Building [=>                        ] 22/204: thread_local, serde_json(...
-|     Building [=>                        ] 23/204: thread_local, serde_json(...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/log-8ce7e4bb1f1134e0/build-script-build`
-|     Building [==>                       ] 24/204: thread_local, serde_json(...
-|     Building [==>                       ] 25/204: thread_local, serde_json(...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/crossbeam-utils-2f5c2170e4dfe692/build-script-build`
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/getrandom-5fc73b7a65ab1ea8/build-script-build`
-|     Building [==>                       ] 26/204: thread_local, serde_json(...
-|      Running `rustc --crate-name log /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/log-0.4.14/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="std"' -C metadata=b47f0d7522a7bfc4 -C extra-filename=-b47f0d7522a7bfc4 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.
- 63.0-r0/build/target/release/deps --extern cfg_if=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libcfg_if-e664940fd7b9cb80.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0 --cfg atomic_cas --cfg has_atomics`
-|     Building [==>                       ] 27/204: thread_local, serde_json(...
-|     Building [==>                       ] 28/204: thread_local, serde_json(...
-|     Building [==>                       ] 29/204: thread_local, serde_json(...
-|      Running `rustc --crate-name crossbeam_utils --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/crossbeam-utils/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="lazy_static"' --cfg 'feature="nightly"' --cfg 'feature="std"' -C metadata=47429b53d159d645 -C extra-filename=-47429b53d159d645 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/r
- elease/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --extern cfg_if=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libcfg_if-e664940fd7b9cb80.rmeta --extern lazy_static=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/liblazy_static-d8e008d7ee6c064a.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|     Building [==>                       ] 30/204: thread_local, serde_json(...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/memchr-08cc36daf1eb302b/build-script-build`
-|     Building [==>                       ] 31/204: thread_local, serde_json(...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/getrandom-c8720cc1dc8edb2e/build-script-build`
-|     Building [===>                      ] 32/204: thread_local, serde_json(...
-|     Building [===>                      ] 33/204: thread_local, serde_json(...
-|      Running `rustc --crate-name memchr --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/memchr-2.4.1/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' --cfg 'feature="use_std"' -C metadata=765308f9d4690e77 -C extra-filename=-765308f9d4690e77 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/
- yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0 --cfg memchr_runtime_simd --cfg memchr_runtime_sse2 --cfg memchr_runtime_sse42 --cfg memchr_runtime_avx`
-|     Building [===>                      ] 34/204: thread_local, serde_json(...
-|     Building [===>                      ] 35/204: thread_local, serde_json(...
-|     Building [===>                      ] 36/204: thread_local, serde_json(...
-|     Building [===>                      ] 37/204: thread_local, serde_json(...
-|    Compiling unicode-normalization v0.1.13
-|     Building [===>                      ] 38/204: thread_local, serde_json(...
-|      Running `rustc --crate-name unicode_normalization --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/unicode-normalization-0.1.13/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=7d87c283b3d71445 -C extra-filename=-7d87c283b3d71445 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokyb
- uild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --extern tinyvec=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libtinyvec-f8669d851db5ed2e.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|     Building [====>                     ] 40/204: thread_local, serde_json(...
-|     Building [====>                     ] 41/204: thread_local, serde_json(...
-|     Building [====>                     ] 43/204: thread_local, glob, serde...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/serde_json-ea1b7eb6eff580e2/build-script-build`
-|     Building [====>                     ] 44/204: thread_local, glob, serde...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/crc32fast-f09f15bbd97263a0/build-script-build`
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/crc32fast-f09f15bbd97263a0/build-script-build`
-|     Building [====>                     ] 47/204: thread_local, glob, serde...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/bitflags-5769edfbfae4589d/build-script-build`
-|     Building [=====>                    ] 48/204: thread_local, glob, autoc...
-|     Building [=====>                    ] 49/204: thread_local, glob, autoc...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/serde_derive-7fa9324567ec7678/build-script-build`
-|     Building [=====>                    ] 50/204: thread_local, glob, autoc...
-|      Running `rustc --crate-name crc32fast /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/crc32fast-1.2.0/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=95a77b3b0e94cde8 -C extra-filename=-95a77b3b0e94cde8 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --extern cfg_if=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/r
- elease/deps/libcfg_if-1df878b643579860.rmeta --cap-lints allow --cfg crc32fast_stdarchx86`
-|     Building [=====>                    ] 51/204: thread_local, glob, autoc...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/serde-44197ea7c70eb389/build-script-build`
-|     Building [=====>                    ] 53/204: thread_local, glob, autoc...
-|      Running `rustc --crate-name bitflags /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/bitflags-1.2.1/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' -C metadata=137d0868f3ae08ac -C extra-filename=-137d0868f3ae08ac --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-l
- inux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0 --cfg bitflags_const_fn`
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/ryu-1cb68d672ad7a65b/build-script-build`
-|     Building [======>                   ] 55/204: thread_local, glob, crc32...
-|      Running `rustc --crate-name crc32fast /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/crc32fast-1.2.0/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=fd3cc24b5620f6f7 -C extra-filename=-fd3cc24b5620f6f7 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/
- tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --extern cfg_if=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libcfg_if-e5069094d9b82b92.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0 --cfg crc32fast_stdarchx86`
-|     Building [======>                   ] 56/204: thread_local, glob, crc32...
-|     Building [======>                   ] 57/204: thread_local, glob, crc32...
-|     Building [======>                   ] 58/204: syn(build), thread_local,...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/syn-ff848330357a271f/build-script-build`
-|     Building [======>                   ] 59/204: syn(build), thread_local,...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/syn-ff848330357a271f/build-script-build`
-|     Building [======>                   ] 60/204: syn(build), thread_local,...
-|      Running `rustc --crate-name ryu --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/ryu-1.0.5/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=c2e8d19873c485a4 -C extra-filename=-c2e8d19873c485a4 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/
- build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0 --cfg integer128 --cfg maybe_uninit`
-|     Building [======>                   ] 61/204: syn(build), thread_local,...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/anyhow-39e7c6d343c842aa/build-script-build`
-|     Building [======>                   ] 62/204: thread_local, glob, crc32...
-|     Building [=======>                  ] 63/204: thread_local, glob, crc32...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/semver-f2f3c8dcc8d14481/build-script-build`
-|     Building [=======>                  ] 64/204: thread_local, glob, crc32...
-|     Building [=======>                  ] 65/204: thread_local, glob, crc32...
-|     Building [=======>                  ] 66/204: thread_local, glob, crc32...
-|     Building [=======>                  ] 67/204: thread_local, glob, crc32...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/libc-cdd8189d413eab78/build-script-build`
-|     Building [=======>                  ] 68/204: thread_local, glob, crc32...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/libc-cdd8189d413eab78/build-script-build`
-|    Compiling indexmap v1.9.1
-|     Building [=======>                  ] 69/204: thread_local, glob, crc32...
-|      Running `rustc --crate-name build_script_build --edition=2021 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/indexmap/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="std"' -C metadata=e7268755bdc99e87 -C extra-filename=-e7268755bdc99e87 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/indexmap-e7268755bdc99e87 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --extern autocfg=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/
- target/release/deps/libautocfg-168ce7056595053a.rlib --cap-lints allow`
-|     Building [=======>                  ] 70/204: thread_local, glob, crc32...
-|      Running `rustc --crate-name libc /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/libc/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="align"' --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=cd87b2bf575e77f4 -C extra-filename=-cd87b2bf575e77f4 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow --cfg freebsd11 --cfg libc_priv_mod_use --cfg libc_union --cfg libc_const_size_of --cfg libc_align -
- -cfg libc_int128 --cfg libc_core_cvoid --cfg libc_packedN --cfg libc_cfg_target_vendor --cfg libc_non_exhaustive --cfg libc_ptr_addr_of --cfg libc_underscore_const_names`
-|     Building [========>                 ] 71/204: thread_local, glob, crc32...
-|      Running `rustc --crate-name libc /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/libc/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="align"' --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=29ef2314884b6717 -C extra-filename=-29ef2314884b6717 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/buil
- d/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0 --cfg freebsd11 --cfg libc_priv_mod_use --cfg libc_union --cfg libc_const_size_of --cfg libc_align --cfg libc_int128 --cfg libc_core_cvoid --cfg libc_packedN --cfg libc_cfg_target_vendor --cfg libc_non_exhaustive --cfg libc_ptr_addr_of --cfg libc_underscore_const_names`
-|     Building [========>                 ] 72/204: thread_local, glob, crc32...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/proc-macro2-3d7015700e24e8ca/build-script-build`
-|     Building [========>                 ] 73/204: thread_local, glob, crc32...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/proc-macro2-3d7015700e24e8ca/build-script-build`
-|    Compiling proc-macro-error-attr v1.0.4
-|     Building [========>                 ] 74/204: thread_local, glob, crc32...
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/proc-macro-error-attr/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off -C metadata=f6e63d8d96db356f -C extra-filename=-f6e63d8d96db356f --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/proc-macro-error-attr-f6e63d8d96db356f -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --extern version_check=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0
- -r0/build/target/release/deps/libversion_check-bc3b18b8fd009818.rlib --cap-lints allow`
-|    Compiling proc-macro-error v1.0.4
-|     Building [========>                 ] 75/204: thread_local, glob, crc32...
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/proc-macro-error/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="syn"' --cfg 'feature="syn-error"' -C metadata=bdb0660d32d4c1e4 -C extra-filename=-bdb0660d32d4c1e4 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/proc-macro-error-bdb0660d32d4c1e4 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --extern version_check=/home/pokybuild/yocto-work
- er/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps/libversion_check-bc3b18b8fd009818.rlib --cap-lints allow`
-|    Compiling im-rc v15.0.0
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/im-rc/./build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off -C metadata=75c7f767454fb7ee -C extra-filename=-75c7f767454fb7ee --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/im-rc-75c7f767454fb7ee -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --extern version_check=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps/
- libversion_check-bc3b18b8fd009818.rlib --cap-lints allow`
-|     Building [========>                 ] 76/204: thread_local, glob, crc32...
-|      Running `rustc --crate-name proc_macro2 --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/proc-macro2-1.0.37/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="proc-macro"' -C metadata=9dc08df8d8a3526f -C extra-filename=-9dc08df8d8a3526f --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --extern unicode_xid=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linu
- x/cargo/1.63.0-r0/build/target/release/deps/libunicode_xid-2f740e06e11340aa.rmeta --cap-lints allow --cfg use_proc_macro --cfg wrap_proc_macro`
-|     Building [========>                 ] 76/204: thread_local, proc-macro2...
-|      Running `rustc --crate-name proc_macro2 --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/proc-macro2-1.0.37/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="proc-macro"' -C metadata=8253606461f4c91d -C extra-filename=-8253606461f4c91d --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-wo
- rker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --extern unicode_xid=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libunicode_xid-2c90d83903ccd157.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0 --cfg use_proc_macro --cfg wrap_proc_macro`
-|      Running `rustc --crate-name anyhow --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/anyhow-1.0.51/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=b2fdfbd594bc7023 -C extra-filename=-b2fdfbd594bc7023 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/bu
- ild/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0 --cfg backtrace`
-|     Building [========>                 ] 77/204: thread_local, proc-macro2...
-|     Building [========>                 ] 78/204: thread_local, proc-macro2...
-| error[E0463]: can't find crate for `proc_macro`
-|    --> /usr/src/debug/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/proc-macro2-1.0.37/src/lib.rs:119:1
-|     |
-| 119 | extern crate proc_macro;
-|     | ^^^^^^^^^^^^^^^^^^^^^^^^ can't find crate
-| 
-|     Building [=========>                ] 79/204: thread_local, proc-macro2...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/byteorder-41f58097cc7dadda/build-script-build`
-|     Building [=========>                ] 80/204: proc-macro2, glob, crc32f...
-|     Building [=========>                ] 81/204: proc-macro2, glob, crc32f...
-|     Building [=========>                ] 82/204: proc-macro2, glob, crc32f...
-|     Building [=========>                ] 83/204: proc-macro2, glob, crc32f...
-|      Running `rustc --crate-name byteorder /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/byteorder/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=d5633843c75098a9 -C extra-filename=-d5633843c75098a9 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/wo
- rk/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0 --cfg byteorder_i128`
-|     Building [=========>                ] 84/204: proc-macro2, glob, crc32f...
-|     Building [=========>                ] 85/204: proc-macro2, glob, hex, p...
-|    Compiling aho-corasick v0.7.18
-|    Compiling bstr v0.2.13
-|      Running `rustc --crate-name aho_corasick --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/aho-corasick/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=dbcf7b3beacc443a -C extra-filename=-dbcf7b3beacc443a --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/bui
- ld/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --extern memchr=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libmemchr-765308f9d4690e77.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|     Building [=========>                ] 86/204: proc-macro2, glob, hex, b...
-|      Running `rustc --crate-name bstr /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/bstr/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="lazy_static"' --cfg 'feature="regex-automata"' --cfg 'feature="std"' --cfg 'feature="unicode"' -C metadata=239d50fe340a856c -C extra-filename=-239d50fe340a856c --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/relea
- se/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --extern lazy_static=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/liblazy_static-d8e008d7ee6c064a.rmeta --extern memchr=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libmemchr-765308f9d4690e77.rmeta --extern regex_automata=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libregex_automata-ec56312d243b0aa9.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/co
- re2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|    Compiling combine v4.6.3
-|      Running `rustc --crate-name combine --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/combine/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="alloc"' --cfg 'feature="bytes"' --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=333ac448481c6cf7 -C extra-filename=-333ac448481c6cf7 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependenc
- y=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --extern bytes=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libbytes-dd4df98ba647020f.rmeta --extern memchr=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libmemchr-765308f9d4690e77.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|     Building [==========>               ] 87/204: proc-macro2, glob, indexm...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/indexmap-e7268755bdc99e87/build-script-build`
-|     Building [==========>               ] 88/204: proc-macro2, glob, hex, b...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/typenum-85294f0eccf3782e/build-script-main`
-|     Building [==========>               ] 89/204: proc-macro2, glob, hex, b...
-|     Building [==========>               ] 90/204: proc-macro2, glob, hex, b...
-|     Building [==========>               ] 91/204: proc-macro2, glob, hex, b...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/proc-macro-error-attr-f6e63d8d96db356f/build-script-build`
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/proc-macro-error-bdb0660d32d4c1e4/build-script-build`
-|     Building [==========>               ] 92/204: proc-macro2, glob, hex, b...
-|     Building [==========>               ] 93/204: proc-macro2, glob, hex, b...
-|     Building [==========>               ] 94/204: proc-macro2, glob, hex, b...
-|     Building [===========>              ] 95/204: proc-macro2, glob, hex, b...
-|      Running `rustc --crate-name typenum /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/typenum/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=4cdcd8256bc9cfc4 -C extra-filename=-4cdcd8256bc9cfc4 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/
- release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0`
-|     Building [===========>              ] 96/204: proc-macro2, glob, hex, b...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/build/im-rc-75c7f767454fb7ee/build-script-build`
-|     Building [===========>              ] 97/204: proc-macro2, glob, hex, b...
-|     Building [===========>              ] 98/204: proc-macro2, glob, hex, b...
-|     Building [===========>              ] 99/204: proc-macro2, glob, hex, b...
-| For more information about this error, try `rustc --explain E0463`.
-| error: could not compile `proc-macro2` due to previous error
-| 
-| Caused by:
-|   process didn't exit successfully: `rustc --crate-name proc_macro2 --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/vendor/proc-macro2-1.0.37/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="proc-macro"' -C metadata=8253606461f4c91d -C extra-filename=-8253606461f4c91d --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps --target i686-poky-linux-gnu -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps -L dependency=/
- home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/release/deps --extern unicode_xid=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/build/target/i686-poky-linux-gnu/release/deps/libunicode_xid-2c90d83903ccd157.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/recipe-sysroot/usr/lib/rustlib/i686-poky-linux-gnu/lib --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0=/usr/src/debug/cargo/1.63.0-r0 --cfg use_proc_macro --cfg wrap_proc_macro` (exit status: 1)
-| warning: build failed, waiting for other jobs to finish...
-|     Building [===========>             ] 100/204: glob, hex, bstr, libc, te...
-|     Building [===========>             ] 101/204: glob, hex, bstr, libc, st...
-|     Building [===========>             ] 102/204: glob, bstr, libc, strsim,...
-|     Building [===========>             ] 103/204: glob, bstr, libc, strsim,...
-|     Building [===========>             ] 104/204: glob, bstr, libc, strsim,...
-|     Building [===========>             ] 105/204: glob, bstr, libc, strsim,...
-|     Building [===========>             ] 106/204: glob, bstr, libc, walkdir...
-|     Building [============>            ] 107/204: glob, bstr, libc, anyhow,...
-|     Building [============>            ] 108/204: glob, bstr, libc, anyhow,...
-|     Building [============>            ] 109/204: glob, bstr, libc, anyhow,...
-|     Building [============>            ] 110/204: glob, bstr, libc, libc, t...
-|     Building [============>            ] 111/204: glob, bstr, libc, libc, t...
-|     Building [============>            ] 112/204: bstr, libc, libc, typenum...
-|     Building [============>            ] 113/204: bstr, libc, libc, typenum...
-|     Building [============>            ] 114/204: bstr, libc, typenum, unic...
-|     Building [=============>           ] 115/204: bstr, typenum, unicode-no...
-|     Building [=============>           ] 116/204: bstr, typenum, combine, i...
-|     Building [=============>           ] 117/204: bstr, combine, itertools,...
-|     Building [=============>           ] 118/204: combine, itertools, aho-c...
-|     Building [=============>           ] 119/204: combine, itertools, regex...
-|     Building [=============>           ] 120/204: combine, regex-syntax
-|     Building [=============>           ] 121/204: combine
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/temp/run.do_compile.2964067:171 exit 101 from '"cargo" build -v --target i686-poky-linux-gnu --release --manifest-path=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/rustc-1.63.0-src/src/tools/cargo//Cargo.toml "$@"'
-| WARNING: Backtrace (BB generated script):
-| 	#1: oe_cargo_build, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/temp/run.do_compile.2964067, line 171
-| 	#2: cargo_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/temp/run.do_compile.2964067, line 161
-| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/temp/run.do_compile.2964067, line 155
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/temp/run.do_compile.2964067, line 203
-NOTE: recipe cargo-1.63.0-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 843 tasks of which 716 didn't need to be rerun and 1 failed.
+NOTE: Running task 1382 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1383 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1384 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1391 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1403 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1425 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1426 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1427 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1428 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1429 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1430 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1458 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package_write_rpm)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1460 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_configure)
+NOTE: Running task 1461 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_configure)
+NOTE: Running task 1462 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_configure)
+NOTE: recipe python3-pycparser-2.21-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1463 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_configure)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1464 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_configure)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1465 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_configure)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1466 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_configure)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_configure: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_configure: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_configure: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_configure: Started
+NOTE: Running task 1467 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_configure)
+NOTE: Running task 1468 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_configure)
+NOTE: Running task 1469 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_configure)
+NOTE: Running task 1470 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_configure)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_configure: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_configure: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_configure: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_configure: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_configure: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_configure: Succeeded
+NOTE: Running task 1471 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_configure_ptest_base)
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_configure: Started
+NOTE: Running task 1472 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_configure_ptest_base)
+NOTE: Running task 1473 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_configure_ptest_base)
+NOTE: Running task 1474 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_compile)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_configure: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_configure: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_configure: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_configure: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_configure: Succeeded
+NOTE: Running task 1475 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_compile)
+NOTE: Running task 1476 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_compile)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_configure: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_compile: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_configure: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_configure: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_configure: Succeeded
+NOTE: Running task 1477 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_compile)
+NOTE: Running task 1478 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_compile)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1479 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_compile)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_compile: Started
+NOTE: Running task 1480 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_compile)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_compile: Started
+NOTE: Running task 1481 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_compile)
+NOTE: Running task 1482 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_compile)
+NOTE: Running task 1483 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_compile)
+NOTE: Running task 1484 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_compile)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_compile: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_compile: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_compile: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_compile: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_compile: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_compile: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_compile: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_compile: Succeeded
+NOTE: Running task 1485 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_install)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_install: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_compile: Succeeded
+NOTE: Running task 1486 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_install)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_install: Succeeded
+NOTE: Running task 1487 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_install)
+NOTE: Running task 1488 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_package)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_install: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_compile: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_package: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Started
+NOTE: Running task 1489 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_install)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_compile: Succeeded
+NOTE: Running task 1490 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_compile_ptest_base)
+NOTE: recipe python3-pycparser-2.21-r0: task do_install: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1491 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_install)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_install: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_compile: Succeeded
+NOTE: Running task 1492 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_compile_ptest_base)
+NOTE: Running task 1493 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_package)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Succeeded
+NOTE: Running task 1494 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_install: Started
+NOTE: Running task 1495 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_populate_sysroot)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_package: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1496 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_install)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_compile: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_sysroot: Started
+NOTE: Running task 1497 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_install)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_compile: Succeeded
+NOTE: Running task 1498 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_install)
+NOTE: recipe python3-pycparser-2.21-r0: task do_install: Succeeded
+NOTE: Running task 1499 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_populate_sysroot)
+NOTE: Running task 1500 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_package)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_install: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_install: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_install: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_compile: Succeeded
+NOTE: Running task 1501 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_install)
+NOTE: recipe python3-pycparser-2.21-r0: task do_package: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_install: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_package: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_install: Started
+NOTE: Running task 1502 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_package)
+NOTE: Running task 1503 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_packagedata)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_install: Succeeded
+NOTE: Running task 1504 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_package)
+NOTE: recipe python3-pycparser-2.21-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_package: Started
+NOTE: Running task 1505 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_install: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_packagedata: Started
+NOTE: Running task 1506 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_install_ptest_base)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_package: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_install: Succeeded
+NOTE: Running task 1507 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_install_ptest_base)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 1508 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_package)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_package: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_install: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_install_ptest_base: Started
+NOTE: Running task 1509 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_packagedata)
+NOTE: Running task 1510 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_package)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_package: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_compile: Succeeded
+NOTE: Running task 1511 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_compile_ptest_base)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_packagedata: Started
+NOTE: Running task 1512 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_package)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1513 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_configure)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_package: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Succeeded
+NOTE: Running task 1514 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_configure: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_package: Started
+NOTE: Running task 1515 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_install)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_configure: Succeeded
+NOTE: Running task 1516 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_compile)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_install: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_package: Succeeded
+NOTE: Running task 1517 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_packagedata)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_compile: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_packagedata: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1518 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package_write_rpm)
+NOTE: Running task 1519 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package_qa)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_package: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_package: Succeeded
+NOTE: Running task 1520 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_packagedata)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_install: Succeeded
+NOTE: Running task 1521 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_packagedata)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_write_rpm: Started
+NOTE: Running task 1522 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_install_ptest_base)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_qa: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_packagedata: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_packagedata: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1523 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_package)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_qa: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_packagedata: Failed
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_package: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_package: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_package: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_package: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_package: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_compile: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_compile: Succeeded
+NOTE: Tasks Summary: Attempted 1523 tasks of which 1398 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
+NOTE: Writing buildhistory took: 1 seconds
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_compile
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_packagedata
 Summary: There was 1 WARNING message.
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
 /usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
   return f(*args, **kwds)
-ERROR: cargo-1.63.0-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/temp/run.do_compile.2964067', 101, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.63.0-r0/temp/log.do_compile.2964067
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.63.0.bb:do_compile) failed with exit code '1'
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-src went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-dbg went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-staticdev went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-dev went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-doc went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-locale went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601 went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/python3-iso8601/1.0.2-r0/temp/log.do_packagedata.58510
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_packagedata) failed with exit code '1'
 
+--===============3838010324578792142==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
 
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 885 .bb files complete (0 cached, 885 parsed). 1661 targets, 51 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the cortexa15t2hf-neon sysroot...done.
+Removing 1 recipes from the qemuarm sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
-Regards,
-The Upgrade Helper
---===============7376122652102210221==--
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-gnueabi"
+MACHINE              = "qemuarm"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+TARGET_FPU           = "hard"
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:0279698c79893b51b023fb8664c3df2ac83a62f0"
+workspace            = "master:5200799866b92259e855051112520006e1aaaac0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 46 Local 3 Mirrors 0 Missed 43 Current 338 (6% match, 88% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1147 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_fetch)
+NOTE: Running task 1148 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_fetch)
+NOTE: Running task 1149 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_fetch)
+NOTE: Running task 1167 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_fetch)
+NOTE: Running task 1198 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_fetch)
+NOTE: Running task 1217 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_fetch)
+NOTE: Running task 1219 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_fetch)
+NOTE: Running task 1220 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_fetch)
+NOTE: Running task 1221 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_fetch)
+NOTE: Running task 1222 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_fetch)
+NOTE: Running task 1223 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_fetch)
+NOTE: Running task 1224 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_fetch)
+NOTE: Running task 1354 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package_write_rpm)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_fetch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_fetch: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_fetch: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_fetch: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_fetch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_fetch: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_fetch: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_fetch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_fetch: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_fetch: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_fetch: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_fetch: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1356 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_unpack)
+NOTE: Running task 1357 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_unpack)
+NOTE: Running task 1358 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_unpack)
+NOTE: Running task 1359 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_unpack)
+NOTE: Running task 1360 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1361 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1362 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1363 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_unpack)
+NOTE: Running task 1364 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1365 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1366 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_unpack)
+NOTE: Running task 1367 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_unpack)
+NOTE: Running task 1368 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_unpack)
+NOTE: Running task 1369 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_unpack)
+NOTE: Running task 1370 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_unpack)
+NOTE: Running task 1371 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_unpack)
+NOTE: Running task 1372 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_unpack)
+NOTE: Running task 1373 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1374 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1375 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1376 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1377 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_unpack: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_unpack: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_unpack: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1378 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_unpack: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_unpack: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_unpack: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_unpack: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_unpack: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Started
+NOTE: Running task 1379 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_patch)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_unpack: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_unpack: Started
+NOTE: Running task 1380 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_patch)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_unpack: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1381 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_patch)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_unpack: Succeeded
+NOTE: Running task 1382 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_patch)
+NOTE: Running task 1383 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_patch)
+NOTE: Running task 1384 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_patch)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1385 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_patch)
+NOTE: Running task 1386 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_patch)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1387 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_patch)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1388 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_patch)
+NOTE: Running task 1389 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_patch)
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_patch: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_patch: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_patch: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_patch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_patch: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_patch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_patch: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_patch: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_patch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Succeeded
+NOTE: Running task 1390 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_patch: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_patch: Succeeded
+NOTE: Running task 1391 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_patch: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1392 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1393 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Succeeded
+NOTE: Running task 1394 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1395 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_populate_lic)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_patch: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1396 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_patch: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_patch: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1397 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1398 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_patch: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1399 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1400 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_patch: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1401 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_lic: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1402 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_patch)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1403 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_configure)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_patch: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_populate_lic unihash changed to bbc7a40503f3c37087a51d59d54ec07b3416c95d837d46ba4e8ba38c8488cec5
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1404 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_configure)
+NOTE: Running task 1405 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_configure)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1406 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_configure)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1407 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_configure)
+NOTE: recipe python3-pycparser-2.21-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_patch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1408 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_configure)
+NOTE: Running task 1409 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1410 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_configure)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_configure: Started
+NOTE: Running task 1411 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_configure)
+NOTE: Running task 1412 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_configure)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1413 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_configure)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_configure: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_configure: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_configure: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_configure: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_configure: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_configure: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_configure: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_configure: Started
+NOTE: Running task 1414 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_configure_ptest_base)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_configure: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_configure: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_configure: Succeeded
+NOTE: Running task 1415 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_compile)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_configure: Succeeded
+NOTE: Running task 1416 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_configure_ptest_base)
+NOTE: Running task 1417 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_configure_ptest_base)
+NOTE: recipe python3-pycparser-2.21-r0: task do_configure: Succeeded
+NOTE: Running task 1418 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_compile)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_configure: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_configure: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_configure: Succeeded
+NOTE: Running task 1419 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_compile)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_configure_ptest_base: Started
+NOTE: Running task 1420 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_compile)
+NOTE: Running task 1421 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_compile)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_configure: Succeeded
+NOTE: Running task 1422 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_compile)
+NOTE: Running task 1423 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_compile)
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_configure_ptest_base: Started
+NOTE: Running task 1424 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_compile)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_configure_ptest_base: Started
+NOTE: Running task 1425 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_configure)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_compile: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_compile: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_compile: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_compile: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_compile: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1426 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_compile)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_compile: Started
+NOTE: Running task 1427 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_compile)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_compile: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_configure: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_compile: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_compile: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_configure: Succeeded
+NOTE: Running task 1428 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_compile)
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_compile: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_compile: Succeeded
+NOTE: Running task 1429 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_install)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_install: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Succeeded
+NOTE: Running task 1430 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_install)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_compile: Succeeded
+NOTE: Running task 1431 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_install)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_install: Succeeded
+NOTE: Running task 1432 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_package)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_install: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_package: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_compile: Succeeded
+NOTE: Running task 1433 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_install)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_compile: Succeeded
+NOTE: Running task 1434 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_compile_ptest_base)
+NOTE: recipe python3-pycparser-2.21-r0: task do_install: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_install: Succeeded
+NOTE: Running task 1435 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1436 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_package)
+NOTE: Running task 1437 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_populate_sysroot)
+NOTE: Running task 1438 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_install)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_compile: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_compile: Succeeded
+NOTE: Running task 1439 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_compile_ptest_base)
+NOTE: Running task 1440 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_install)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_package: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_compile: Succeeded
+NOTE: Running task 1441 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_install)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_install: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_install: Started
+NOTE: Running task 1442 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_install)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_install: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_install: Succeeded
+NOTE: Running task 1443 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_populate_sysroot)
+NOTE: Running task 1444 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_package)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_install: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_package: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_install: Succeeded
+NOTE: Running task 1445 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_package)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_install: Succeeded
+NOTE: Running task 1446 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_package)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_compile: Succeeded
+NOTE: Running task 1447 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_install)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_package: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_package: Succeeded
+NOTE: Running task 1448 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_packagedata)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_install: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_package: Started
+NOTE: Running task 1449 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_install_ptest_base)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_install: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_packagedata: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1450 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_package: Succeeded
+NOTE: Running task 1451 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_package)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_compile: Succeeded
+NOTE: Running task 1452 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_packagedata)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_install: Succeeded
+NOTE: Running task 1453 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_compile_ptest_base)
+NOTE: Running task 1454 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_install_ptest_base)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_packagedata: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_package: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_compile_ptest_base: Started
+NOTE: Running task 1455 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1456 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_install)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_install: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1457 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_package)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1458 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_package)
+NOTE: Running task 1459 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_configure)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_install: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_package: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_package: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_configure: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_package: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_configure: Succeeded
+NOTE: Running task 1460 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package_write_rpm)
+NOTE: Running task 1461 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_compile)
+NOTE: Running task 1462 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_packagedata)
+NOTE: Running task 1463 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package_qa)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_package: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_install: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_write_rpm: Started
+NOTE: Running task 1464 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_packagedata)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_compile: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_package: Succeeded
+NOTE: Running task 1465 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_install_ptest_base)
+NOTE: recipe python3-pycparser-2.21-r0: task do_packagedata: Started
+NOTE: Running task 1466 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_packagedata)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_qa: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_packagedata: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_packagedata: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1467 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_package)
+NOTE: recipe python3-pycparser-2.21-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_qa: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_package: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_packagedata: Failed
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_package: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_package: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_package: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_package: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_compile: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_compile: Succeeded
+NOTE: Tasks Summary: Attempted 1467 tasks of which 1342 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_packagedata
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-src went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-dbg went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-staticdev went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-dev went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-doc went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-locale went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601 went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/python3-iso8601/1.0.2-r0/temp/log.do_packagedata.21780
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_packagedata) failed with exit code '1'
+
+--===============3838010324578792142==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-pyopenssl-upgrade-22.0.0-22.1.0.patch"
+
+RnJvbSA4ZjQ0ZjM0YTY0ZDRhOGU3YThhNDkzM2Y4M2YyNTA2MGVjZjIxYjk1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBPY3QgMjAyMiAwODozMjoxMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtcHlvcGVuc3NsOiB1cGdyYWRlIDIyLjAuMCAtPiAyMi4xLjAKCi0tLQogLi4ue3B5dGhv
+bjMtcHlvcGVuc3NsXzIyLjAuMC5iYiA9PiBweXRob24zLXB5b3BlbnNzbF8yMi4xLjAuYmJ9IHwg
+MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1weW9wZW5zc2xfMjIuMC4w
+LmJiID0+IHB5dGhvbjMtcHlvcGVuc3NsXzIyLjEuMC5iYn0gKDg2JSkKCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlvcGVuc3NsXzIyLjAuMC5iYiBi
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weW9wZW5zc2xfMjIuMS4wLmJi
+CnNpbWlsYXJpdHkgaW5kZXggODYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy1weW9wZW5zc2xfMjIuMC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlvcGVuc3NsXzIyLjEuMC5iYgppbmRleCBkYjBlODA5
+ZWY1Li40ZDgzYjhjN2Q3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMtcHlvcGVuc3NsXzIyLjAuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtcHlvcGVuc3NsXzIyLjEuMC5iYgpAQCAtNSw3ICs1LDcgQEAgTElDX0ZJ
+TEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9M2I4M2VmOTYzODdmMTQ2NTVmYzg1NGRk
+YzNjNmJkNTciCiAKIERFUEVORFMgKz0gIm9wZW5zc2wgJHtQWVRIT05fUE59LWNyeXB0b2dyYXBo
+eSIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjY2MGIxYjE0MjVhYWM0YTFiZWExZDk0MTY4YTg1
+ZDk5ZjBiMzE0NGM4NjlkZDQzOTBkMjc2MjlkMDA4N2YxYmYiCitTUkNfVVJJW3NoYTI1NnN1bV0g
+PSAiN2E4M2I3YjI3MmRkNTk1MjIyZDY3MmY1Y2UyOWFhMDMwZjFmYjgzNzYzMGVmMjI5ZjYyZTcy
+ZTM5NWNlODk2OCIKIAogUFlQSV9QQUNLQUdFID0gInB5T3BlblNTTCIKIGluaGVyaXQgcHlwaSBz
+ZXR1cHRvb2xzMwotLSAKMi4zMS4xCgo=
+
+--===============3838010324578792142==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1663 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 885 .bb files complete (884 cached, 1 parsed). 1661 targets, 35 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:0279698c79893b51b023fb8664c3df2ac83a62f0"
+workspace            = "master:5200799866b92259e855051112520006e1aaaac0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 47 Local 4 Mirrors 0 Missed 43 Current 337 (8% match, 88% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 383 of 384 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-poetry-core_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1150 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_fetch)
+NOTE: Running task 1151 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_fetch)
+NOTE: Running task 1152 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_fetch)
+NOTE: Running task 1167 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_fetch)
+NOTE: Running task 1198 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_fetch)
+NOTE: Running task 1219 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_fetch)
+NOTE: Running task 1220 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_fetch)
+NOTE: Running task 1221 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_fetch)
+NOTE: Running task 1222 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_fetch)
+NOTE: Running task 1223 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_fetch)
+NOTE: Running task 1224 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_fetch)
+NOTE: Running task 1225 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_fetch)
+NOTE: Running task 1345 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package_write_rpm)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_fetch: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_fetch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_fetch: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_fetch: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_fetch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_fetch: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_fetch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_fetch: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_fetch: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_fetch: Started
+NOTE: recipe python3-poetry-core-native-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_fetch: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_fetch: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_fetch: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-poetry-core-native-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1347 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_unpack)
+NOTE: Running task 1348 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_unpack)
+NOTE: Running task 1349 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_unpack)
+NOTE: Running task 1350 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_unpack)
+NOTE: Running task 1351 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1352 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1353 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1354 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_unpack)
+NOTE: Running task 1355 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1359 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1360 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_unpack)
+NOTE: Running task 1361 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_unpack)
+NOTE: Running task 1362 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_unpack)
+NOTE: Running task 1363 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_unpack)
+NOTE: Running task 1364 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_unpack)
+NOTE: Running task 1365 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_unpack)
+NOTE: Running task 1366 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_unpack)
+NOTE: Running task 1373 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Started
+NOTE: Running task 1374 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1375 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1376 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_unpack: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_unpack: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_unpack: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1377 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_unpack: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1378 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1379 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_patch)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_unpack: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_unpack: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_unpack: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_unpack: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_unpack: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_unpack: Started
+NOTE: Running task 1380 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_patch)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_unpack: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_unpack: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1381 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_patch)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1382 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_patch)
+NOTE: Running task 1383 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_patch)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1384 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_patch)
+NOTE: Running task 1385 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_patch)
+NOTE: Running task 1386 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_patch)
+NOTE: Running task 1387 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_patch)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1388 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_patch)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1389 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_patch)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_patch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_patch: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_patch: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_patch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_patch: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_patch: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_patch: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_patch: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_patch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Succeeded
+NOTE: Running task 1390 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_patch: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1391 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_patch: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1392 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pycparser-2.21-r0: task do_patch: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_patch: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1393 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1394 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1395 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1396 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_populate_lic)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_patch: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1397 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_patch: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1398 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_patch: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_patch: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1399 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1400 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_lic: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1401 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_unpack: Succeeded
+NOTE: Running task 1402 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_patch)
+NOTE: Running task 1403 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_configure)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_populate_lic unihash changed to bbc7a40503f3c37087a51d59d54ec07b3416c95d837d46ba4e8ba38c8488cec5
+NOTE: Running task 1404 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_configure)
+NOTE: recipe python3-pycparser-2.21-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_patch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1405 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_configure)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1406 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_configure)
+NOTE: Running task 1407 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_configure)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_configure: Started
+NOTE: Running task 1408 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_configure)
+NOTE: Running task 1409 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_configure)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_patch: Succeeded
+NOTE: Running task 1410 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1411 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_configure)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_configure: Started
+NOTE: Running task 1412 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_configure)
+NOTE: Running task 1413 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_configure)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_configure: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_configure: Started
+NOTE: Running task 1414 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_configure_ptest_base)
+NOTE: recipe python3-pycparser-2.21-r0: task do_configure: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_configure: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_configure: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_configure: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1415 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_configure_ptest_base)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_configure: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_configure: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_configure: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_configure: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_configure: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_configure_ptest_base: Started
+NOTE: Running task 1416 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_configure_ptest_base)
+NOTE: Running task 1417 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_compile)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_configure: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_configure: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Succeeded
+NOTE: Running task 1418 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_compile)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_configure: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_configure_ptest_base: Started
+NOTE: Running task 1419 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_compile)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1420 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_compile)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_configure: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_configure: Succeeded
+NOTE: Running task 1421 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_compile)
+NOTE: Running task 1422 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_compile)
+NOTE: Running task 1423 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_compile)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1424 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_compile)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_compile: Started
+NOTE: Running task 1425 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_compile)
+NOTE: Running task 1426 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_configure)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_compile: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_compile: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Started
+NOTE: Running task 1427 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_compile)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_compile: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_compile: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_compile: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_compile: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_compile: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_configure: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_compile: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_configure: Succeeded
+NOTE: Running task 1428 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_compile)
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_compile: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_compile: Succeeded
+NOTE: Running task 1429 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_install)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_install: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_compile: Succeeded
+NOTE: Running task 1430 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_install)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Succeeded
+NOTE: Running task 1431 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_install)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_install: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_install: Started
+NOTE: Running task 1432 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_package)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_compile: Succeeded
+NOTE: Running task 1433 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_install)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_package: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_compile: Succeeded
+NOTE: Running task 1434 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_compile_ptest_base)
+NOTE: recipe python3-pycparser-2.21-r0: task do_install: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_install: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_compile: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_compile_ptest_base: Started
+NOTE: Running task 1435 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_compile_ptest_base)
+NOTE: Running task 1436 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_package)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1437 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_install)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Succeeded
+NOTE: Running task 1438 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_compile_ptest_base: Started
+NOTE: Running task 1439 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_populate_sysroot)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_package: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1440 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_install)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_install: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_compile: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_compile: Succeeded
+NOTE: Running task 1441 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_install)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Started
+NOTE: Running task 1442 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_install)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_install: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_install: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_install: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_install: Succeeded
+NOTE: Running task 1443 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_populate_sysroot)
+NOTE: Running task 1444 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_package)
+NOTE: recipe python3-pycparser-2.21-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_package: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_install: Succeeded
+NOTE: Running task 1445 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_package)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_install: Succeeded
+NOTE: Running task 1446 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_package)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_package: Succeeded
+NOTE: Running task 1447 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_packagedata)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_package: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_package: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_install: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_compile: Succeeded
+NOTE: Running task 1448 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_install_ptest_base)
+NOTE: recipe python3-pycparser-2.21-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1449 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_install)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_packagedata: Started
+NOTE: Running task 1450 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_install: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1451 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_install_ptest_base)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_install: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_package: Succeeded
+NOTE: Running task 1452 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_packagedata)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1453 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_package)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_packagedata: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_package: Started
+NOTE: Running task 1454 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_package)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_compile: Succeeded
+NOTE: Running task 1455 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata)
+NOTE: Running task 1456 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_compile_ptest_base)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_package: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1457 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_configure)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_configure: Started
+NOTE: Running task 1458 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_install)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_install: Succeeded
+NOTE: Running task 1459 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_package)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_configure: Succeeded
+NOTE: Running task 1460 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_compile)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_install: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_package: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_package: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1461 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package_write_rpm)
+NOTE: Running task 1462 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_packagedata)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_compile: Started
+NOTE: Running task 1463 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package_qa)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_package: Succeeded
+NOTE: Running task 1464 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_packagedata)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_package: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_packagedata: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_qa: Started
+NOTE: Running task 1465 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_packagedata)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_packagedata: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_packagedata: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_install: Succeeded
+NOTE: Running task 1466 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_install_ptest_base)
+NOTE: recipe python3-pycparser-2.21-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_packagedata: Failed
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_qa: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_package: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_package: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_package: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_compile: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_compile: Succeeded
+NOTE: Tasks Summary: Attempted 1466 tasks of which 1342 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_packagedata
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-src went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-dbg went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-staticdev went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-dev went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-doc went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-locale went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601 went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/python3-iso8601/1.0.2-r0/temp/log.do_packagedata.11792
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_packagedata) failed with exit code '1'
+
+--===============3838010324578792142==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 885 .bb files complete (0 cached, 885 parsed). 1661 targets, 63 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the mips32r2 sysroot...done.
+Removing 1 recipes from the qemumips sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "mips-poky-linux"
+MACHINE              = "qemumips"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:0279698c79893b51b023fb8664c3df2ac83a62f0"
+workspace            = "master:5200799866b92259e855051112520006e1aaaac0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 46 Local 3 Mirrors 0 Missed 43 Current 338 (6% match, 88% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1148 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_fetch)
+NOTE: Running task 1149 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_fetch)
+NOTE: Running task 1150 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_fetch)
+NOTE: Running task 1167 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_fetch)
+NOTE: Running task 1198 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_fetch)
+NOTE: Running task 1220 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_fetch)
+NOTE: Running task 1221 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_fetch)
+NOTE: Running task 1222 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_fetch)
+NOTE: Running task 1223 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_fetch)
+NOTE: Running task 1224 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_fetch)
+NOTE: Running task 1225 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_fetch)
+NOTE: Running task 1227 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_fetch)
+NOTE: Running task 1354 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package_write_rpm)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_fetch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_fetch: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_fetch: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_fetch: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_fetch: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_fetch: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_fetch: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_fetch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_fetch: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_fetch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_fetch: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_fetch: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_fetch: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1356 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_unpack)
+NOTE: Running task 1357 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_unpack)
+NOTE: Running task 1358 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_unpack)
+NOTE: Running task 1359 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_unpack)
+NOTE: Running task 1360 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1361 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1362 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1363 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_unpack)
+NOTE: Running task 1364 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1365 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1366 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_unpack)
+NOTE: Running task 1367 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_unpack)
+NOTE: Running task 1368 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_unpack)
+NOTE: Running task 1369 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_unpack)
+NOTE: Running task 1370 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_unpack)
+NOTE: Running task 1371 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_unpack)
+NOTE: Running task 1372 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_unpack)
+NOTE: Running task 1373 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Started
+NOTE: Running task 1374 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1375 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_unpack: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_unpack: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_unpack: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Started
+NOTE: Running task 1376 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1377 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_unpack: Started
+NOTE: Running task 1378 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_unpack: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1379 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_patch)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_unpack: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_unpack: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_unpack: Started
+NOTE: Running task 1380 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_patch)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_unpack: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_unpack: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_unpack: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1381 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_patch)
+NOTE: Running task 1382 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_patch)
+NOTE: Running task 1383 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_patch)
+NOTE: Running task 1384 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_patch)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1385 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_patch)
+NOTE: Running task 1386 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_patch)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1387 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_patch)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1388 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_patch)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1389 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_patch)
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_patch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_patch: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_patch: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_patch: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_patch: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_patch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_patch: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_patch: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_patch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Succeeded
+NOTE: Running task 1390 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_patch: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_patch: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Succeeded
+NOTE: Running task 1391 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1392 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_patch: Succeeded
+NOTE: Running task 1393 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pycparser-2.21-r0: task do_patch: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_patch: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_patch: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1394 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1395 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1396 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1397 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_populate_lic)
+NOTE: Running task 1398 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1399 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_patch: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_patch: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1400 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pycparser-2.21-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1401 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_lic: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_unpack: Succeeded
+NOTE: Running task 1402 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_patch)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1403 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_configure)
+NOTE: Running task 1404 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_configure)
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_patch: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_populate_lic unihash changed to bbc7a40503f3c37087a51d59d54ec07b3416c95d837d46ba4e8ba38c8488cec5
+NOTE: recipe python3-pycparser-2.21-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1405 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_configure)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1406 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_configure)
+NOTE: Running task 1407 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_configure)
+NOTE: Running task 1408 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_configure)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1409 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_configure)
+NOTE: Running task 1410 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_configure)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_patch: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_configure: Started
+NOTE: Running task 1411 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1412 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_configure)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_configure: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1413 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_configure)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_configure: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_configure: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_configure: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_configure: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_configure: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_configure: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1414 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_configure_ptest_base)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_configure: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_configure: Started
+NOTE: Running task 1415 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_configure_ptest_base)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_configure: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_configure: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_configure: Succeeded
+NOTE: Running task 1416 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_configure_ptest_base)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_configure: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_configure: Succeeded
+NOTE: Running task 1417 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_compile)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Succeeded
+NOTE: Running task 1418 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_compile)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_configure: Succeeded
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_configure: Succeeded
+NOTE: Running task 1419 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_compile)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_configure_ptest_base: Started
+NOTE: Running task 1420 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_compile)
+NOTE: Running task 1421 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_compile)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_configure: Succeeded
+NOTE: Running task 1422 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_compile)
+NOTE: Running task 1423 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_compile)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_configure_ptest_base: Started
+NOTE: Running task 1424 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_compile)
+NOTE: recipe python3-pycparser-2.21-r0: task do_compile: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_compile: Started
+NOTE: Running task 1425 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_configure)
+NOTE: Running task 1426 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_compile)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_compile: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_compile: Started
+NOTE: Running task 1427 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_compile)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_compile: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_compile: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_compile: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_configure: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_compile: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_compile: Started
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_configure: Succeeded
+NOTE: Running task 1428 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.4.bb:do_compile)
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_compile: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_compile: Succeeded
+NOTE: Running task 1429 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_install)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_install: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_compile: Succeeded
+NOTE: Running task 1430 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_install)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Succeeded
+NOTE: Running task 1431 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_install)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_install: Succeeded
+NOTE: Running task 1432 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_package)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_install: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Started
+NOTE: recipe python3-tomli-2.0.1-r0: task do_package: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_compile: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_compile: Succeeded
+NOTE: Running task 1433 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_compile_ptest_base)
+NOTE: Running task 1434 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_install)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_install: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_compile: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1435 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_compile_ptest_base)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_install: Succeeded
+NOTE: Running task 1436 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_install)
+NOTE: Running task 1437 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_package)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_compile: Succeeded
+NOTE: Running task 1438 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_install)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Succeeded
+NOTE: Running task 1439 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package)
+NOTE: Running task 1440 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_populate_sysroot)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_package: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_install: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1441 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_install)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_install: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_compile: Succeeded
+NOTE: Running task 1442 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_install)
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_install: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_install: Succeeded
+NOTE: Running task 1443 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_populate_sysroot)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_install: Started
+NOTE: Running task 1444 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_package)
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_install: Succeeded
+NOTE: Running task 1445 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_package)
+NOTE: recipe python3-pycparser-2.21-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_package: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_package: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_compile: Succeeded
+NOTE: Running task 1446 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_install)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_install: Succeeded
+NOTE: recipe python3-tomli-2.0.1-r0: task do_package: Succeeded
+NOTE: Running task 1447 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_package)
+NOTE: Running task 1448 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_packagedata)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_install: Succeeded
+NOTE: Running task 1449 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_install_ptest_base)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_install: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_package: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1450 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_packagedata: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_install: Succeeded
+NOTE: Running task 1451 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_install_ptest_base)
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1452 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.54.5.bb:do_package)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_package: Succeeded
+NOTE: Running task 1453 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_packagedata)
+NOTE: recipe python3-tomli-2.0.1-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_package: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_packagedata: Started
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1454 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_compile: Succeeded
+NOTE: Running task 1455 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_compile_ptest_base)
+NOTE: recipe python3-psutil-5.9.2-r0: task do_install: Succeeded
+NOTE: Running task 1456 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.2.1.bb:do_package)
+NOTE: Running task 1457 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.2.bb:do_package)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1458 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_configure)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_package: Started
+NOTE: recipe python3-psutil-5.9.2-r0: task do_package: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1459 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_install)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_configure: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_configure: Succeeded
+NOTE: Running task 1460 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_compile)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_install: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_package: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1461 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package_write_rpm)
+NOTE: Running task 1462 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_packagedata)
+NOTE: Running task 1463 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package_qa)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_compile: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_package: Succeeded
+NOTE: Running task 1464 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.8.0.bb:do_packagedata)
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_package: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_packagedata: Started
+NOTE: Running task 1465 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_packagedata)
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_qa: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_packagedata: Started
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_packagedata: Started
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_install: Succeeded
+NOTE: Running task 1466 of 1479 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb:do_install_ptest_base)
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-pytest-subtests-0.8.0-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_qa: Succeeded
+NOTE: recipe python3-iso8601-1.0.2-r0: task do_packagedata: Failed
+NOTE: recipe python3-bcrypt-3.2.2-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-psutil-5.9.2-r0: task do_package: Succeeded
+NOTE: recipe python3-hypothesis-6.54.5-r0: task do_package: Succeeded
+NOTE: recipe python3-pytz-2022.2.1-r0: task do_package: Succeeded
+NOTE: recipe python3-cryptography-vectors-37.0.4-r0: task do_compile: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_compile: Succeeded
+NOTE: Tasks Summary: Attempted 1466 tasks of which 1342 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_packagedata
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-src went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-dbg went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-staticdev went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-dev went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-doc went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601-locale went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: QA Issue: Package version for package python3-iso8601 went backwards which would break package feeds (from 0:1.1.0-r0 to 0:1.0.2-r0) [version-going-backwards]
+ERROR: python3-iso8601-1.0.2-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/python3-iso8601/1.0.2-r0/temp/log.do_packagedata.32502
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.0.2.bb:do_packagedata) failed with exit code '1'
+
+--===============3838010324578792142==--
 
