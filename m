@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A463EC07E9D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B08E4C352AA
 	for <webhook@archiver.kernel.org>; Sat,  1 Oct 2022 16:53:52 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com
- (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web09.353.1664643228365037905
+Received: from a27-31.smtp-out.us-west-2.amazonses.com
+ (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.506.1664643229565715335
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Oct 2022 09:53:49 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=HJAC2oZG;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
- mailfrom: 010101839477e57d-9dcbd0ca-2396-419c-83bd-ebcb4e27498b-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=SV1qdxyN;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31,
+ mailfrom: 010101839477e521-59c97957-a82c-4797-afe7-3275325a3dd3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1664643229;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=hIt+iLZaPtwaDoqT1NKeWxZ0TWb2Pm2r6Nguu+YfsFk=;
-	b=HJAC2oZGbXkoLYdB6hznN/wp3b9JKUc5oxYMkw+z4yXSkupjxiAL3X1bjyqDS29P
-	ltNKAUhFhm2uDbv/abCUVrLlUfJSjKGo39J4mhcNYxdRK1uW8F5XOu27SI15+70vpFD
-	YM+/5ZUL9iVAIZtYovHwGuCB4lXAqZiPG9fVBaiY=
+	bh=BTUaFlV8LgeOsvQ5O+pH8alPVscMRnXpReri8IHLTNk=;
+	b=SV1qdxyNumZoeAHopeOYeqgZHkPJVjnwjlWTmQV3U/OVtyGW6Rl375kqYno/B+FU
+	OBcJaCqBYAw2+lVaGBxFEThl9hQuBhzrZBX4B1rWRfdCyh/43QktWdstBlzw8Hfz64Z
+	oBes8d0ts019kSrAHP2UjQz7OrJRkMSB01zmEGes=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1664643229;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=hIt+iLZaPtwaDoqT1NKeWxZ0TWb2Pm2r6Nguu+YfsFk=;
-	b=eLI46t/kmFJGTJQ34of8IVxfw9hAA5hTjUc0cSdILfNfVc3WY2J59GErrt9UEzOJ
-	X5vsrEB7Yt/u04O/Diqf6wR4mO39r8fZJo25JJ7tg1LbGvUUH4BK3YDpwYsQbWns3h0
-	mWjGa5QcgeF/6bFhOH/Als9i+rk52wudED15jEhY=
-Content-Type: multipart/mixed; boundary="===============8637645799429665981=="
+	bh=BTUaFlV8LgeOsvQ5O+pH8alPVscMRnXpReri8IHLTNk=;
+	b=IjcmobEGiLyjB5wEkOieOqiNrH6daS2goj9ARuly4+So7NzfjFXgnBrSvtkJgId1
+	PAggdtXnfjG3kT8YaPnqN7vDz1+BwTd06bVcAsfO2lg0IRE0mCl60g959w/E//jHgXx
+	LaUr37yTznNMh5OQm8SGCMeIbiKll62tHN6sA2Wg=
+Content-Type: multipart/mixed; boundary="===============8203675795219366516=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] powertop: upgrading to 2.15 SUCCEEDED
+Subject: [AUH] at-spi2-core: upgrading to 2.46.0 FAILED
 Message-ID: 
- <010101839477e57d-9dcbd0ca-2396-419c-83bd-ebcb4e27498b-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Oct 2022 16:53:49 +0000
+ <010101839477e521-59c97957-a82c-4797-afe7-3275325a3dd3-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Oct 2022 16:53:48 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.10.01-54.240.27.30
+X-SES-Outgoing: 2022.10.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Oct 2022 16:53:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171336
+ https://lists.openembedded.org/g/openembedded-core/message/171333
 
---===============8637645799429665981==
+--===============8203675795219366516==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *powertop* to *2.15* has Succeeded.
+that the automatic attempt to upgrade the recipe *at-spi2-core* to *2.46.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-powertop-upgrade-2.14-2.15.patch
+    - apply the patch: git am 0001-at-spi2-core-upgrade-2.44.1-2.46.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,122 +81,128 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8637645799429665981==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/powertop: PV changed from "2.14" to "2.15"
-packages/core2-32-poky-linux/powertop: SRC_URI changed from "git://github.com/fenrus75/powertop;protocol=https;branch=master file://0001-wakeup_xxx.h-include-limits.h.patch file://0001-src-fix-compatibility-with-ncurses-6.3.patch" to "git://github.com/fenrus75/powertop;protocol=https;branch=master file://0001-wakeup_xxx.h-include-limits.h.patch"
-packages/core2-32-poky-linux/powertop: PKGV changed from 2.14 [default] to 2.15 [default]
-packages/core2-32-poky-linux/powertop/powertop-bash-completion: PV changed from "2.14" to "2.15"
-packages/core2-32-poky-linux/powertop/powertop-bash-completion: PKGV changed from 2.14 [default] to 2.15 [default]
-packages/core2-32-poky-linux/powertop/powertop-dbg: PV changed from "2.14" to "2.15"
-packages/core2-32-poky-linux/powertop/powertop-dbg: PKGSIZE changed from 7263612 to 6929396 (-5%)
-packages/core2-32-poky-linux/powertop/powertop-dbg: PKGV changed from 2.14 [default] to 2.15 [default]
-packages/core2-32-poky-linux/powertop/powertop-dev: PV changed from "2.14" to "2.15"
-packages/core2-32-poky-linux/powertop/powertop-dev: PKGV changed from 2.14 [default] to 2.15 [default]
-packages/core2-32-poky-linux/powertop/powertop-doc: PV changed from "2.14" to "2.15"
-packages/core2-32-poky-linux/powertop/powertop-doc: PKGV changed from 2.14 [default] to 2.15 [default]
-packages/core2-32-poky-linux/powertop/powertop-locale-ca: PV changed from "2.14" to "2.15"
-packages/core2-32-poky-linux/powertop/powertop-locale-ca: PKGV changed from 2.14 [default] to 2.15 [default]
-packages/core2-32-poky-linux/powertop/powertop-locale-cs-cz: PV changed from "2.14" to "2.15"
-packages/core2-32-poky-linux/powertop/powertop-locale-cs-cz: PKGV changed from 2.14 [default] to 2.15 [default]
-packages/core2-32-poky-linux/powertop/powertop-locale-de-de: PV changed from "2.14" to "2.15"
-packages/core2-32-poky-linux/powertop/powertop-locale-de-de: PKGV changed from 2.14 [default] to 2.15 [default]
-packages/core2-32-poky-linux/powertop/powertop-locale-en-gb: PV changed from "2.14" to "2.15"
-packages/core2-32-poky-linux/powertop/powertop-locale-en-gb: PKGV changed from 2.14 [default] to 2.15 [default]
-packages/core2-32-poky-linux/powertop/powertop-locale-en-us: PV changed from "2.14" to "2.15"
-packages/core2-32-poky-linux/powertop/powertop-locale-en-us: PKGV changed from 2.14 [default] to 2.15 [default]
-packages/core2-32-poky-linux/powertop/powertop-locale-es-es: PV changed from "2.14" to "2.15"
-packages/core2-32-poky-linux/powertop/powertop-locale-es-es: PKGV changed from 2.14 [default] to 2.15 [default]
-packages/core2-32-poky-linux/powertop/powertop-locale-hu-hu: PV changed from "2.14" to "2.15"
-packages/core2-32-poky-linux/powertop/powertop-locale-hu-hu: PKGV changed from 2.14 [default] to 2.15 [default]
-packages/core2-32-poky-linux/powertop/powertop-locale-id-id: PV changed from "2.14" to "2.15"
-packages/core2-32-poky-linux/powertop/powertop-locale-id-id: PKGV changed from 2.14 [default] to 2.15 [default]
-packages/core2-32-poky-linux/powertop/powertop-locale-nl-nl: PV changed from "2.14" to "2.15"
-packages/core2-32-poky-linux/powertop/powertop-locale-nl-nl: PKGV changed from 2.14 [default] to 2.15 [default]
-packages/core2-32-poky-linux/powertop/powertop-locale-zh-tw: PV changed from "2.14" to "2.15"
-packages/core2-32-poky-linux/powertop/powertop-locale-zh-tw: PKGV changed from 2.14 [default] to 2.15 [default]
-packages/core2-32-poky-linux/powertop/powertop-src: PV changed from "2.14" to "2.15"
-packages/core2-32-poky-linux/powertop/powertop-src: PKGSIZE changed from 774344 to 775489 (+0%)
-packages/core2-32-poky-linux/powertop/powertop-src: PKGV changed from 2.14 [default] to 2.15 [default]
-packages/core2-32-poky-linux/powertop/powertop-staticdev: PV changed from "2.14" to "2.15"
-packages/core2-32-poky-linux/powertop/powertop-staticdev: PKGV changed from 2.14 [default] to 2.15 [default]
-packages/core2-32-poky-linux/powertop/powertop: PV changed from "2.14" to "2.15"
-packages/core2-32-poky-linux/powertop/powertop: PKGSIZE changed from 579176 to 570984 (-1%)
-packages/core2-32-poky-linux/powertop/powertop: PKGV changed from 2.14 [default] to 2.15 [default]
-
---===============8637645799429665981==
+--===============8203675795219366516==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-powertop-upgrade-2.14-2.15.patch"
+ filename="0001-at-spi2-core-upgrade-2.44.1-2.46.0.patch"
 
-RnJvbSAwMzgzNTYyYzVkYTdhZmI0ZTYwZTdhYjVhOWQwMjBlOWU5OTBhZDA4IE1vbiBTZXAgMTcg
+RnJvbSAzYWY1MzNjNTcwOTFmMjNkY2NhY2U5ZTEwOGU3OWYwYTZkMjM5YmYzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBPY3QgMjAyMiAxNDowMDozOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHBv
-d2VydG9wOiB1cGdyYWRlIDIuMTQgLT4gMi4xNQoKLS0tCiAuLi5jLWZpeC1jb21wYXRpYmlsaXR5
-LXdpdGgtbmN1cnNlcy02LjMucGF0Y2ggfCA1MiAtLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi4ve3Bv
-d2VydG9wXzIuMTQuYmIgPT4gcG93ZXJ0b3BfMi4xNS5iYn0gICAgfCAgMyArLQogMiBmaWxlcyBj
-aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgNTQgZGVsZXRpb25zKC0pCiBkZWxldGUgbW9kZSAxMDA2
-NDQgbWV0YS9yZWNpcGVzLWtlcm5lbC9wb3dlcnRvcC9wb3dlcnRvcC8wMDAxLXNyYy1maXgtY29t
-cGF0aWJpbGl0eS13aXRoLW5jdXJzZXMtNi4zLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLWtl
-cm5lbC9wb3dlcnRvcC97cG93ZXJ0b3BfMi4xNC5iYiA9PiBwb3dlcnRvcF8yLjE1LmJifSAoODcl
-KQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwvcG93ZXJ0b3AvcG93ZXJ0b3AvMDAw
-MS1zcmMtZml4LWNvbXBhdGliaWxpdHktd2l0aC1uY3Vyc2VzLTYuMy5wYXRjaCBiL21ldGEvcmVj
-aXBlcy1rZXJuZWwvcG93ZXJ0b3AvcG93ZXJ0b3AvMDAwMS1zcmMtZml4LWNvbXBhdGliaWxpdHkt
-d2l0aC1uY3Vyc2VzLTYuMy5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggODRi
-MDVhYzk3MS4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL3Bvd2VydG9wL3Bv
-d2VydG9wLzAwMDEtc3JjLWZpeC1jb21wYXRpYmlsaXR5LXdpdGgtbmN1cnNlcy02LjMucGF0Y2gK
-KysrIC9kZXYvbnVsbApAQCAtMSw1MiArMCwwIEBACi1Gcm9tIDc2ZDNmMDg1MTUyMGJjODQ4OGU0
-MzJmNDIzOTQxZjFlNzJjYzc0MDUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9tOiBBbGV4
-YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51dHJvbml4LmRlPgotRGF0ZTogTW9uLCAyNSBPY3QgMjAy
-MSAxNzo0NzoyMyArMDIwMAotU3ViamVjdDogW1BBVENIXSBzcmM6IGZpeCBjb21wYXRpYmlsaXR5
-IHdpdGggbmN1cnNlcyA2LjMKLQotVXBzdHJlYW0tU3RhdHVzOiBTdWJtaXR0ZWQgW2h0dHBzOi8v
-Z2l0aHViLmNvbS9mZW5ydXM3NS9wb3dlcnRvcC9wdWxsLzkyXQotU2lnbmVkLW9mZi1ieTogQWxl
-eGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KLS0tLQotIHNyYy9kZXZpY2VzL2Rl
-dmZyZXEuY3BwIHwgMiArLQotIHNyYy9kaXNwbGF5LmNwcCAgICAgICAgIHwgMiArLQotIHNyYy9s
-aWIuY3BwICAgICAgICAgICAgIHwgMiArLQotIDMgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25z
-KCspLCAzIGRlbGV0aW9ucygtKQotCi1kaWZmIC0tZ2l0IGEvc3JjL2RldmljZXMvZGV2ZnJlcS5j
-cHAgYi9zcmMvZGV2aWNlcy9kZXZmcmVxLmNwcAotaW5kZXggMDUwOWQwZi4uYjE5NGFjNCAxMDA2
-NDQKLS0tLSBhL3NyYy9kZXZpY2VzL2RldmZyZXEuY3BwCi0rKysgYi9zcmMvZGV2aWNlcy9kZXZm
-cmVxLmNwcAotQEAgLTI5Nyw3ICsyOTcsNyBAQCB2b2lkIGRpc3BsYXlfZGV2ZnJlcV9kZXZpY2Vz
-KHZvaWQpCi0gCQkJZGYtPmZpbGxfZnJlcV91dGlsaXphdGlvbihqLCBidWYpOwotIAkJCXN0cmNh
-dChmbGluZSwgYnVmKTsKLSAJCQlzdHJjYXQoZmxpbmUsICJcbiIpOwotLQkJCXdwcmludHcod2lu
-LCBmbGluZSk7Ci0rCQkJd3ByaW50dyh3aW4sICIlcyIsIGZsaW5lKTsKLSAJCX0KLSAJCXdwcmlu
-dHcod2luLCAiXG4iKTsKLSAJfQotZGlmZiAtLWdpdCBhL3NyYy9kaXNwbGF5LmNwcCBiL3NyYy9k
-aXNwbGF5LmNwcAotaW5kZXggNzEzMTE0NC4uY2MwMzkxOSAxMDA2NDQKLS0tLSBhL3NyYy9kaXNw
-bGF5LmNwcAotKysrIGIvc3JjL2Rpc3BsYXkuY3BwCi1AQCAtMTI1LDcgKzEyNSw3IEBAIHZvaWQg
-c2hvd190YWIodW5zaWduZWQgaW50IHRhYikKLSAKLSAJYyA9IGJvdHRvbV9saW5lc1t0YWJfbmFt
-ZXNbdGFiXV0uY19zdHIoKTsKLSAJaWYgKGMgJiYgc3RybGVuKGMpID4gMCkKLS0JCW12d3ByaW50
-dyhib3R0b21fbGluZSwgMCwwLCBjKTsKLSsJCW12d3ByaW50dyhib3R0b21fbGluZSwgMCwwLCAi
-JXMiLCBjKTsKLSAJZWxzZQotIAkJbXZ3cHJpbnR3KGJvdHRvbV9saW5lLCAwLCAwLAotIAkJCSI8
-RVNDPiAlcyB8IDxUQUI+IC8gPFNoaWZ0ICsgVEFCPiAlcyB8ICIsIF8oIkV4aXQiKSwKLWRpZmYg
-LS1naXQgYS9zcmMvbGliLmNwcCBiL3NyYy9saWIuY3BwCi1pbmRleCA1ZTQ4ZjM3Li41Y2QxYzRh
-IDEwMDY0NAotLS0tIGEvc3JjL2xpYi5jcHAKLSsrKyBiL3NyYy9saWIuY3BwCi1AQCAtNTgzLDcg
-KzU4Myw3IEBAIHZvaWQgdWlfbm90aWZ5X3VzZXJfbmN1cnNlcyhjb25zdCBjaGFyICpmcm10LCAu
-Li4pCi0gCSAqIGJ1ZmZlciAqLwotIAl2c25wcmludGYobm90aWZ5LCBVSV9OT1RJRllfQlVGRl9T
-WiAtIDEsIGZybXQsIGxpc3QpOwotIAl2YV9lbmQobGlzdCk7Ci0tCW12cHJpbnR3KDEsIDAsIG5v
-dGlmeSk7Ci0rCW12cHJpbnR3KDEsIDAsICIlcyIsIG5vdGlmeSk7Ci0gCWF0dHJvZmYoQ09MT1Jf
-UEFJUigxKSk7Ci0gfQotIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9wb3dlcnRv
-cC9wb3dlcnRvcF8yLjE0LmJiIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9wb3dlcnRvcC9wb3dlcnRv
-cF8yLjE1LmJiCnNpbWlsYXJpdHkgaW5kZXggODclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1r
-ZXJuZWwvcG93ZXJ0b3AvcG93ZXJ0b3BfMi4xNC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWtl
-cm5lbC9wb3dlcnRvcC9wb3dlcnRvcF8yLjE1LmJiCmluZGV4IGEyZjMwMDQwYjUuLjBhYWU0Yzkz
-OTcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvcG93ZXJ0b3AvcG93ZXJ0b3BfMi4x
-NC5iYgorKysgYi9tZXRhL3JlY2lwZXMta2VybmVsL3Bvd2VydG9wL3Bvd2VydG9wXzIuMTUuYmIK
-QEAgLTgsOSArOCw4IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTEy
-Zjg4NGQyYWUxZmY4N2MwOWU1YjdjY2MyYzRjYTdlIgogCiBTUkNfVVJJID0gImdpdDovL2dpdGh1
-Yi5jb20vZmVucnVzNzUvcG93ZXJ0b3A7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1hc3RlciBcCiAg
-ICAgICAgICAgIGZpbGU6Ly8wMDAxLXdha2V1cF94eHguaC1pbmNsdWRlLWxpbWl0cy5oLnBhdGNo
-IFwKLSAgICAgICAgICAgZmlsZTovLzAwMDEtc3JjLWZpeC1jb21wYXRpYmlsaXR5LXdpdGgtbmN1
-cnNlcy02LjMucGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNSRVYgPSAiNTJmMDIyZjliYmU2ZTA2
-MGZiYTExNzAxZDY1N2E4ZDk3NjI3MDJiYSIKK1NSQ1JFViA9ICJkNTFhZDM5NTQzNmQ0ZDFkY2Mz
-Y2E0NmUxNTE5ZmZlYjQ3NWJmNjUxIgogCiBTID0gIiR7V09SS0RJUn0vZ2l0IgogCi0tIAoyLjMx
-LjEKCg==
+CkRhdGU6IFNhdCwgMSBPY3QgMjAyMiAxNDo0NDo1MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGF0
+LXNwaTItY29yZTogdXBncmFkZSAyLjQ0LjEgLT4gMi40Ni4wCgotLS0KIC4uLi9hdGsve2F0LXNw
+aTItY29yZV8yLjQ0LjEuYmIgPT4gYXQtc3BpMi1jb3JlXzIuNDYuMC5iYn0gICAgICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1zdXBwb3J0L2F0ay97YXQtc3BpMi1jb3JlXzIuNDQuMS5iYiA9PiBhdC1zcGky
+LWNvcmVfMi40Ni4wLmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0
+L2F0ay9hdC1zcGkyLWNvcmVfMi40NC4xLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXRrL2F0
+LXNwaTItY29yZV8yLjQ2LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvYXRrL2F0LXNwaTItY29yZV8yLjQ0LjEuYmIKcmVuYW1lIHRvIG1l
+dGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9hdC1zcGkyLWNvcmVfMi40Ni4wLmJiCmluZGV4IDk1YTZj
+NjE5ZjAuLjBkNzBlYmUyMTYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9h
+dC1zcGkyLWNvcmVfMi40NC4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9hdC1z
+cGkyLWNvcmVfMi40Ni4wLmJiCkBAIC0xMSw3ICsxMSw3IEBAIE1BSl9WRVIgPSAiJHtAb2UudXRp
+bHMudHJpbV92ZXJzaW9uKCIke1BWfSIsIDIpfSIKIAogU1JDX1VSSSA9ICIke0dOT01FX01JUlJP
+Un0vJHtCUE59LyR7TUFKX1ZFUn0vJHtCUE59LSR7UFZ9LnRhci54eiIKIAotU1JDX1VSSVtzaGEy
+NTZzdW1dID0gIjRiZWIyMzI3MGJhNmNmN2NhZjIwYjU5NzM1NGQ3NTE5NGQ4OWFmYjY5ZDJlZmNm
+MTVmNDI3MTY4OGJhNmY3NDYiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYWEwYzg2Yzc5ZjdhOGQ2
+N2JhZTQ5YTViN2E1YWIwODQzMGM2MDhjZmZlNmUzM2JmNDdhNzJmNDFhYjAzYzNkMCIKIAogWDEx
+REVQRU5EUyA9ICJ2aXJ0dWFsL2xpYngxMSBsaWJ4aSBsaWJ4dHN0IgogCi0tIAoyLjMxLjEKCg==
 
---===============8637645799429665981==--
+--===============8203675795219366516==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1661 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 885 .bb files complete (884 cached, 1 parsed). 1661 targets, 36 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:900dcc01f48bdb1b1e91b9e6a335aac35a198e73"
+workspace            = "master:5200799866b92259e855051112520006e1aaaac0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 160 Local 153 Mirrors 0 Missed 7 Current 287 (95% match, 98% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 420 of 447 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1099 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_fetch)
+NOTE: Running task 1118 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_write_config)
+NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_fetch: Started
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_write_config: Started
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1119 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_unpack)
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_write_config: Succeeded
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_unpack: Started
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1120 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_patch)
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_patch: Started
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_patch: Succeeded
+NOTE: Running task 1121 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1122 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_populate_lic)
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_populate_lic: Started
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1597 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1606 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_configure)
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_configure: Started
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_configure: Succeeded
+NOTE: Running task 1607 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_compile)
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_compile: Started
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_compile: Succeeded
+NOTE: Running task 1608 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_install)
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_install: Started
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_install: Succeeded
+NOTE: Running task 1609 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_package)
+NOTE: Running task 1610 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_populate_sysroot)
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_package: Started
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_populate_sysroot: Started
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe at-spi2-core-2.46.0-r0: task do_package: Failed
+NOTE: Tasks Summary: Attempted 1610 tasks of which 1598 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_package
+Summary: There was 1 WARNING message.
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: at-spi2-core-2.46.0-r0 do_package: QA Issue: at-spi2-core: Files/directories were installed but not shipped in any package:
+  /usr/lib/gnome-settings-daemon-3.0
+  /usr/lib/gtk-2.0/modules/libatk-bridge.so
+  /usr/lib/gnome-settings-daemon-3.0/gtk-modules
+  /usr/lib/gnome-settings-daemon-3.0/gtk-modules/at-spi2-atk.desktop
+Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+at-spi2-core: 4 installed and not shipped files. [installed-vs-shipped]
+ERROR: at-spi2-core-2.46.0-r0 do_package: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/at-spi2-core/2.46.0-r0/temp/log.do_package.917804
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_package) failed with exit code '1'
+
+--===============8203675795219366516==--
 
