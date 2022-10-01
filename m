@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9DE3C4167B
-	for <webhook@archiver.kernel.org>; Sat,  1 Oct 2022 16:54:13 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com
- (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web09.340.1664643225650789206
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1302C54EFE
+	for <webhook@archiver.kernel.org>; Sat,  1 Oct 2022 16:53:53 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com
+ (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web12.419.1664643226354518449
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Oct 2022 09:53:45 -0700
+ Sat, 01 Oct 2022 09:53:46 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=YqhGeXzs;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
- mailfrom: 010101839477d430-07074b99-8b98-4dfc-bc60-9cfe4b02c678-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=VUBAiEYO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
+ mailfrom: 010101839477d656-5f56526c-92c1-4439-868d-2e73b01a316d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1664643224;
+	t=1664643225;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=+U4O9Vux+qUVzBQxH0/vC6XU+1nYlCvii8jfkO2Tivw=;
-	b=YqhGeXzsc0pX6Xq7kayaihK5fOxXSw7bPEE4aJyCVKs2/Yp9ERtXBRR0Uq0Fpoc6
-	Ig2WtUA3g8QI0ITKACQzHTXwo89nFOh2ObXfdIatF5zmlky+y7f+OVVhx6bvoyCaies
-	vnjKQiA1MN63SroRFQF0m59vvr+W0/M57P79zp8s=
+	bh=nMdwKFCQ4PFjty6rPLql2qjR8ftXg1LeYa18vZ82DkQ=;
+	b=VUBAiEYOpUyx8yndrL4fSNTsybgzhcuX44gKfcI8fMWYSe1mW+W29iAg9cZdyzBG
+	OTOp6OXFEM/I2JLpDhSxPtfUlQ5jgNcuBrPZaim0LumvCvvEKpoKFUc5UbgQCj2v49z
+	V6Hwi8obllg6zowRQdCNTLgpWyFNslETspJt837I=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1664643224;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1664643225;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=+U4O9Vux+qUVzBQxH0/vC6XU+1nYlCvii8jfkO2Tivw=;
-	b=aLeVJQ7xG15xFZTcYdsOie/qkQgDWcg3pCpyLbDsJ/LdCeWb/YBtoFzZxVe1qNSz
-	uvbZAoAHXDpeLdSy1iD2Lkqv/EgIpSxCakpxpL1LXYH7VLmAPYJeEtVbK+Ky6ohH7HZ
-	enHpbnLf9/R0rkNltOeaP2Ktk+Q/gIzYtHUzwL6c=
-Content-Type: multipart/mixed; boundary="===============5625991867050105517=="
+	bh=nMdwKFCQ4PFjty6rPLql2qjR8ftXg1LeYa18vZ82DkQ=;
+	b=CZ2F8YgIA3+kDEZhjdLOOFHO+Ei7tJMS8Vu6HilWaB5nMtiuVJVTHeB3lVyJ3loX
+	uNVUH+yqfRUKmOUg2dMbDhNAiY1dOJJYQ4kXjctQLLapCXRavq37UmxWEloa0XoPAyv
+	bHskYCU5CwFNEldyUskH4z3mmm7ei1jFwGRejcmM=
+Content-Type: multipart/mixed; boundary="===============2771680693358591837=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] acpid: upgrading to 2.0.34 SUCCEEDED
+Subject: [AUH] glib-networking: upgrading to 2.74.0 FAILED
 Message-ID: 
- <010101839477d430-07074b99-8b98-4dfc-bc60-9cfe4b02c678-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Oct 2022 16:53:44 +0000
+ <010101839477d656-5f56526c-92c1-4439-868d-2e73b01a316d-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Oct 2022 16:53:45 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.10.01-54.240.27.33
+X-SES-Outgoing: 2022.10.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Oct 2022 16:54:13 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 01 Oct 2022 16:53:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171253
+ https://lists.openembedded.org/g/openembedded-core/message/171259
 
---===============5625991867050105517==
+--===============2771680693358591837==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *acpid* to *2.0.34* has Succeeded.
+that the automatic attempt to upgrade the recipe *glib-networking* to *2.74.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-acpid-upgrade-2.0.33-2.0.34.patch
+    - apply the patch: git am 0001-glib-networking-upgrade-2.72.2-2.74.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,61 +81,156 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5625991867050105517==
+--===============2771680693358591837==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-acpid-upgrade-2.0.33-2.0.34.patch"
+ filename="0001-glib-networking-upgrade-2.72.2-2.74.0.patch"
 
-RnJvbSA4YjQzY2I3NTU5Y2UyN2M4YjdlNGFjNmMyNzVmMDFjMjJiMTkxMTEwIE1vbiBTZXAgMTcg
+RnJvbSAyZjI2MWIxOGJmY2QwYzE4ZTliMzEzODU4ZDE1Yjk0YzYwMGUzMDI1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBPY3QgMjAyMiAwNTo1MDoyMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGFj
-cGlkOiB1cGdyYWRlIDIuMC4zMyAtPiAyLjAuMzQKCi0tLQogbWV0YS9yZWNpcGVzLWJzcC9hY3Bp
-ZC97YWNwaWRfMi4wLjMzLmJiID0+IGFjcGlkXzIuMC4zNC5iYn0gfCAyICstCiAxIGZpbGUgY2hh
-bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMt
-YnNwL2FjcGlkL3thY3BpZF8yLjAuMzMuYmIgPT4gYWNwaWRfMi4wLjM0LmJifSAoNjYlKQoKZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ic3AvYWNwaWQvYWNwaWRfMi4wLjMzLmJiIGIvbWV0YS9y
-ZWNpcGVzLWJzcC9hY3BpZC9hY3BpZF8yLjAuMzQuYmIKc2ltaWxhcml0eSBpbmRleCA2NiUKcmVu
-YW1lIGZyb20gbWV0YS9yZWNpcGVzLWJzcC9hY3BpZC9hY3BpZF8yLjAuMzMuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1ic3AvYWNwaWQvYWNwaWRfMi4wLjM0LmJiCmluZGV4IDcwOTRiYTI2NjIu
-LjFlMGE2ZDVmMjQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ic3AvYWNwaWQvYWNwaWRfMi4w
-LjMzLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ic3AvYWNwaWQvYWNwaWRfMi4wLjM0LmJiCkBAIC0z
-LDQgKzMsNCBAQCByZXF1aXJlIGFjcGlkLmluYwogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8v
-Q09QWUlORzttZDU9OGNhNDNjYmM4NDJjMjMzNmU4MzU5MjZjMjE2NmMyOGIgXAogICAgICAgICAg
-ICAgICAgICAgICBmaWxlOi8vYWNwaWQuaDtlbmRsaW5lPTI0O21kNT0zMjRhOWNmMjI1YWU2OWRk
-YWFkMWJmOWQ5NDIxMTViNSIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjA4NTZmNzFiM2ViMzRh
-MWI2NjNkMGE4ZTYzNjNkZmNiYzUxOWU2M2Q4NDczMzA0OTg4OTg2NThlMjk3MmRiZTgiCitTUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiMmQwOTVjOGNmY2JjODQ3Y2FlYzc0NmQ2MmNkYzhkMGJmZjFlYzFi
-YzcyZWY3YzY3NGM3MjFlMDRkYTZhYjMzMyIKLS0gCjIuMzEuMQoK
+CkRhdGU6IFNhdCwgMSBPY3QgMjAyMiAwNjozODoyNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGds
+aWItbmV0d29ya2luZzogdXBncmFkZSAyLjcyLjIgLT4gMi43NC4wCgotLS0KIC4uLi97Z2xpYi1u
+ZXR3b3JraW5nXzIuNzIuMi5iYiA9PiBnbGliLW5ldHdvcmtpbmdfMi43NC4wLmJifSAgICB8IDIg
+Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
+IG1ldGEvcmVjaXBlcy1jb3JlL2dsaWItbmV0d29ya2luZy97Z2xpYi1uZXR3b3JraW5nXzIuNzIu
+Mi5iYiA9PiBnbGliLW5ldHdvcmtpbmdfMi43NC4wLmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1jb3JlL2dsaWItbmV0d29ya2luZy9nbGliLW5ldHdvcmtpbmdfMi43Mi4yLmJi
+IGIvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi1uZXR3b3JraW5nL2dsaWItbmV0d29ya2luZ18yLjc0
+LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvcmUv
+Z2xpYi1uZXR3b3JraW5nL2dsaWItbmV0d29ya2luZ18yLjcyLjIuYmIKcmVuYW1lIHRvIG1ldGEv
+cmVjaXBlcy1jb3JlL2dsaWItbmV0d29ya2luZy9nbGliLW5ldHdvcmtpbmdfMi43NC4wLmJiCmlu
+ZGV4IDc0NmQxYmMzOWMuLjFiYjZiY2M1MGYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3Jl
+L2dsaWItbmV0d29ya2luZy9nbGliLW5ldHdvcmtpbmdfMi43Mi4yLmJiCisrKyBiL21ldGEvcmVj
+aXBlcy1jb3JlL2dsaWItbmV0d29ya2luZy9nbGliLW5ldHdvcmtpbmdfMi43NC4wLmJiCkBAIC05
+LDcgKzksNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT00ZmJkNjUz
+ODBjZGQyNTU5NTEwNzkwMDhiMzY0NTE2YyIKIFNFQ1RJT04gPSAibGlicyIKIERFUEVORFMgPSAi
+Z2xpYi0yLjAiCiAKLVNSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gImNkMmEwODRjN2JiOTFk
+NzhlODQ5ZmI1NWQ0MGU0NzJmNmQ4ZjY4NjJjZGRjOWYxMmMzOTE0OTM1OWJhMTgyNjgiCitTUkNf
+VVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICIxZjE4NWFhZWYwOTQxMjNmOGUyNWQ4ZmE1NTY2MWIz
+ZmQ3MTAyMDE2M2EwMTc0YWRiMzVhMzc2ODVjZGE2MTNiIgogCiBQQUNLQUdFQ09ORklHID8/PSAi
+b3BlbnNzbCAke0BiYi51dGlscy5jb250YWlucygnUFRFU1RfRU5BQkxFRCcsICcxJywgJ3Rlc3Rz
+JywgJycsIGQpfSIKIAotLSAKMi4zMS4xCgo=
 
---===============5625991867050105517==
+--===============2771680693358591837==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
-packages/core2-32-poky-linux/acpid/acpid-dbg: PKGSIZE changed from 204072 to 207048 (+1%)
-packages/core2-32-poky-linux/acpid/acpid-dbg: PV changed from "2.0.33" to "2.0.34"
-packages/core2-32-poky-linux/acpid/acpid-dbg: PKGV changed from 2.0.33 [default] to 2.0.34 [default]
-packages/core2-32-poky-linux/acpid/acpid-dev: PV changed from "2.0.33" to "2.0.34"
-packages/core2-32-poky-linux/acpid/acpid-dev: PKGV changed from 2.0.33 [default] to 2.0.34 [default]
-packages/core2-32-poky-linux/acpid/acpid-doc: PKGSIZE changed from 66152 to 66886 (+1%)
-packages/core2-32-poky-linux/acpid/acpid-doc: PV changed from "2.0.33" to "2.0.34"
-packages/core2-32-poky-linux/acpid/acpid-doc: PKGV changed from 2.0.33 [default] to 2.0.34 [default]
-packages/core2-32-poky-linux/acpid/acpid-locale: PV changed from "2.0.33" to "2.0.34"
-packages/core2-32-poky-linux/acpid/acpid-locale: PKGV changed from 2.0.33 [default] to 2.0.34 [default]
-packages/core2-32-poky-linux/acpid/acpid-src: PKGSIZE changed from 169188 to 172541 (+2%)
-packages/core2-32-poky-linux/acpid/acpid-src: PV changed from "2.0.33" to "2.0.34"
-packages/core2-32-poky-linux/acpid/acpid-src: PKGV changed from 2.0.33 [default] to 2.0.34 [default]
-packages/core2-32-poky-linux/acpid/acpid-staticdev: PV changed from "2.0.33" to "2.0.34"
-packages/core2-32-poky-linux/acpid/acpid-staticdev: PKGV changed from 2.0.33 [default] to 2.0.34 [default]
-packages/core2-32-poky-linux/acpid/acpid: PKGSIZE changed from 95854 to 101010 (+5%)
-packages/core2-32-poky-linux/acpid/acpid: PV changed from "2.0.33" to "2.0.34"
-packages/core2-32-poky-linux/acpid/acpid: PKGV changed from 2.0.33 [default] to 2.0.34 [default]
-packages/core2-32-poky-linux/acpid: SRC_URI changed from "https://downloads.sourceforge.net/acpid2/acpid-2.0.33.tar.xz file://init file://acpid.service" to "https://downloads.sourceforge.net/acpid2/acpid-2.0.34.tar.xz file://init file://acpid.service"
-packages/core2-32-poky-linux/acpid: PV changed from "2.0.33" to "2.0.34"
-packages/core2-32-poky-linux/acpid: PKGV changed from 2.0.33 [default] to 2.0.34 [default]
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1661 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 885 .bb files complete (884 cached, 1 parsed). 1661 targets, 36 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============5625991867050105517==--
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:94f9c6bb004c998a873567501c83e7cceaf2f729"
+workspace            = "master:5200799866b92259e855051112520006e1aaaac0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 145 Local 138 Mirrors 0 Missed 7 Current 292 (95% match, 98% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1092 of 1603 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.74.0.bb:do_fetch)
+NOTE: Running task 1154 of 1603 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.74.0.bb:do_write_config)
+NOTE: recipe glib-networking-2.74.0-r0: task do_fetch: Started
+NOTE: recipe glib-networking-2.74.0-r0: task do_write_config: Started
+NOTE: recipe glib-networking-2.74.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1587 of 1603 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.74.0.bb:do_unpack)
+NOTE: Running task 1588 of 1603 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.74.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe glib-networking-2.74.0-r0: task do_write_config: Succeeded
+NOTE: recipe glib-networking-2.74.0-r0: task do_unpack: Started
+NOTE: recipe glib-networking-2.74.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glib-networking-2.74.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1589 of 1603 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.74.0.bb:do_patch)
+NOTE: recipe glib-networking-2.74.0-r0: task do_patch: Started
+NOTE: recipe glib-networking-2.74.0-r0: task do_patch: Succeeded
+NOTE: Running task 1590 of 1603 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.74.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1591 of 1603 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.74.0.bb:do_populate_lic)
+NOTE: recipe glib-networking-2.74.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe glib-networking-2.74.0-r0: task do_populate_lic: Started
+NOTE: recipe glib-networking-2.74.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe glib-networking-2.74.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe glib-networking-2.74.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1592 of 1603 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.74.0.bb:do_configure)
+NOTE: recipe glib-networking-2.74.0-r0: task do_configure: Started
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.5.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.36.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_7.1.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.bb:do_populate_sysroot', 'v
+ irtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/meson/meson_0.63.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.6.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['openssl', 'glib-2.0', 'glibc', 'gcc-cross-i686', 'gcc-runtime', 'qemu-native', 'quilt-native', 'gettext-native', 'meson-native', 'ninja-native', 'patch-native', 'pkgconfig-native', 'pseudo-native', 'python3-native', 'xz-native', 're2c-native', 'gettext-minimal-native', 'texinfo-dummy-native', 'libtool-native', 'zlib', 'libpcre', 'libffi', 'bash-completion', 'util-linux', 'opkg-utils', 'mpfr-native', 'zlib-native', 'gnu-config-native', 'gmp-native', 'libmpc-native', 'zstd-native', 'binutils-cross-i686', 'flex-native', 'linux-libc-headers', 'attr-native', 'readline-native', 'util-linux-libuuid-native', 'gdbm-native', 'ncurses-native', 'libnsl2-native', 'sqlite3-native', 'libtirpc-native', 'libffi-native', 'bzip2-native', 'openssl-native', 'glib-2.0-native', 'python3-setuptools-native', 'python3-installer-native', 'python3-picobuild-native', 'python3-wheel-native', 'libgcc', 'bzip2', 'libpam', 'util-linux-libuuid', 'libxcrypt', 'ncurses',
+  'libcap-ng', 'm4-native', 'perl-native', 'util-linux-native', 'libpcre-native', 'python3-flit-core-native', 'cracklib', 'flex', 'make-native', 'libcap-ng-native', 'libpcre2-native', 'unzip-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| NOTE: Executing meson -Dgnome_proxy=disabled -Dgnutls=disabled -Dlibproxy=disabled -Dopenssl=enabled -Dinstalled_tests=true...
+| The Meson build system
+| Version: 0.63.2
+| Source dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-networking/2.74.0-r0/glib-networking-2.74.0
+| Build dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-networking/2.74.0-r0/build
+| Build type: cross build
+| Project name: glib-networking
+| Project version: 2.74.0
+| C compiler for the host machine: i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-networking/2.74.0-r0/recipe-sysroot (gcc 12.2.0 "i686-poky-linux-gcc (GCC) 12.2.0")
+| C linker for the host machine: i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-networking/2.74.0-r0/recipe-sysroot ld.bfd 2.39.0.20220819
+| C compiler for the build machine: gcc (gcc 8.5.0 "gcc (GCC) 8.5.0 20210514 (Red Hat 8.5.0-10)")
+| C linker for the build machine: gcc ld.bfd 2.30-113
+| Build machine cpu family: x86_64
+| Build machine cpu: x86_64
+| Host machine cpu family: x86
+| Host machine cpu: i686
+| Target machine cpu family: x86
+| Target machine cpu: i686
+| Compiler for C supports arguments -Werror=declaration-after-statement: YES
+| Compiler for C supports arguments -Werror=implicit-function-declaration: YES
+| Compiler for C supports link arguments -Wl,--version-script,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-networking/2.74.0-r0/glib-networking-2.74.0/glib-networking.map: YES
+| Found pkg-config: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-networking/2.74.0-r0/recipe-sysroot-native/usr/bin/pkg-config (0.29.2)
+| Dependency glib-2.0 found: NO found 2.72.3 but need: '>= 2.73.3'
+| Found CMake: NO
+| Run-time dependency glib-2.0 found: NO (tried pkgconfig and cmake)
+| Looking for a fallback subproject for the dependency glib-2.0
+| 
+| ../glib-networking-2.74.0/meson.build:52:0: ERROR: Neither a subproject directory nor a glib.wrap file was found.
+| 
+| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-networking/2.74.0-r0/build/meson-logs/meson-log.txt
+| ERROR: meson failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-networking/2.74.0-r0/temp/run.do_configure.2637575:175 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-networking/2.74.0-r0/temp/run.do_configure.2637575, line 175
+| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-networking/2.74.0-r0/temp/run.do_configure.2637575, line 164
+| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-networking/2.74.0-r0/temp/run.do_configure.2637575, line 150
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-networking/2.74.0-r0/temp/run.do_configure.2637575, line 188
+NOTE: recipe glib-networking-2.74.0-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 1592 tasks of which 1584 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.74.0.bb:do_configure
+Summary: There was 1 WARNING message.
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: glib-networking-2.74.0-r0 do_configure: meson failed
+ERROR: glib-networking-2.74.0-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-networking/2.74.0-r0/temp/run.do_configure.2637575', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-networking/2.74.0-r0/temp/log.do_configure.2637575
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.74.0.bb:do_configure) failed with exit code '1'
+
+--===============2771680693358591837==--
 
