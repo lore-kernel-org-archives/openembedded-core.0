@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F40E6C46467
-	for <webhook@archiver.kernel.org>; Sat,  1 Oct 2022 16:54:13 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com
- (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web12.425.1664643229140618730
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36AB2C4708A
+	for <webhook@archiver.kernel.org>; Sat,  1 Oct 2022 16:53:53 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com
+ (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web08.478.1664643227445575329
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Oct 2022 09:53:49 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=KX5SJjKA;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29,
- mailfrom: 010101839477e372-d872266b-e2fe-413b-9d26-e0d064e4b89c-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=SyujSrFp;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
+ mailfrom: 010101839477e29a-71ec3065-95b4-4d38-9fe1-2410920bb6df-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1664643228;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=5UP7eY249OjoDV6VLTkpiIMSXDTrN0aCjxwlr0CfeYY=;
-	b=KX5SJjKAi9YVBGsy3gFJe/CE6WFsKPVW7Qdvz3h6w6dhzem+zxFfpocMs7I2velL
-	aErifO04mebzvKHkzplnn8czOWaO16TuoMQ78yPD1ASYD9Javwkwntiwek3r5Hrz/Ey
-	6fLnGfR7Yni+T8npOn5N+lSTelL0WKI2G0hp+6wI=
+	bh=y+6ppVD/z8TT36690ycpZwsms9uNbLZ5Am8Jlbd8b0Q=;
+	b=SyujSrFpP/U+vmHbMtCugiUfU6eEhytcEJ2z4sf9bzu30DyML7xtVtpG0gzU0nUF
+	JKqGlzi6D7FDApzcX78zsE5T8j2CETqIr1PyJbiDCIi5Oe3IYxtucennFnSRwqnFu5S
+	SeFbbmI82EmUehlzS714fSS/mP15W6WbM23TCpBM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1664643228;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=5UP7eY249OjoDV6VLTkpiIMSXDTrN0aCjxwlr0CfeYY=;
-	b=dGmMB8Snj4U66TIzMX5/Kgq9QgIvB44ze8qoi1E/uENIZX4cTBZtNgHRdA0PNcPW
-	sk6CniHd8K2vfDldLCFo97vPHFWYde11n34RPcgdYsoA4y2yJ4vaMD0rNGlxRtBUpJs
-	kPuEOUimEznHwpAVZmkuUKjHMBuQddwKvrLyV9yE=
-Content-Type: multipart/mixed; boundary="===============7051958410134870133=="
+	bh=y+6ppVD/z8TT36690ycpZwsms9uNbLZ5Am8Jlbd8b0Q=;
+	b=I1EkTt2IuRoxoOTfsJS/5baWku0m4i2foNCMs/eHkgQYSM4pgRkQ9WLAfOC8Ctsn
+	PlN9PvZV3rE2O2j9Dt1tObtHHaLYPjsiXOEDzVKpxshcaVVazZ9Rj9nOXW5wp5T+YC/
+	Y537FBWKld0BvudKs7nvnRrkjj1VZVo4284L3sfU=
+Content-Type: multipart/mixed; boundary="===============3306970351687490919=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vulkan-tools: upgrading to 1.3.224.1 FAILED
+Subject: [AUH] vulkan-headers: upgrading to 1.3.224.1 SUCCEEDED
 Message-ID: 
- <010101839477e372-d872266b-e2fe-413b-9d26-e0d064e4b89c-000000@us-west-2.amazonses.com>
+ <010101839477e29a-71ec3065-95b4-4d38-9fe1-2410920bb6df-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Oct 2022 16:53:48 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.10.01-54.240.27.29
+X-SES-Outgoing: 2022.10.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Oct 2022 16:54:13 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 01 Oct 2022 16:53:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171326
+ https://lists.openembedded.org/g/openembedded-core/message/171300
 
---===============7051958410134870133==
+--===============3306970351687490919==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,16 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *vulkan-tools* to *1.3.224.1* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *vulkan-headers* to *1.3.224.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-vulkan-tools-upgrade-1.3.216.0-1.3.224.1.patch
+    - apply the patch: git am 0001-vulkan-headers-upgrade-1.3.216.0-1.3.224.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -81,833 +75,2785 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7051958410134870133==
+--===============3306970351687490919==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1661 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 885 .bb files complete (884 cached, 1 parsed). 1661 targets, 36 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+Changes to packages/core2-32-poky-linux/vulkan-headers (sysroot):
+  /usr/include/vulkan/vulkan_to_string.hpp was added
+  /usr/share/vulkan/registry/spec_tools/conventions.py was added
+  /usr/share/vulkan/registry/conventions.py was removed
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-dev: FILELIST: added "/usr/include/vulkan/vulkan_to_string.hpp"
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers: FILELIST: removed "/usr/share/vulkan/registry/conventions.py", added "/usr/share/vulkan/registry/spec_tools/conventions.py"
+Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
+  /sysroot-providers/virtual_i686-poky-linux-g++ was added
+  /sysroot-providers/virtual_i686-poky-linux-gcc was added
+  /usr/bin/i686-poky-linux was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-c++ was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-cpp was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-g++ was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-12.2.0 was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-ar was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-nm was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-ranlib was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcov was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcov-dump was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcov-tool was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-lto-dump was added
+  /usr/libexec/i686-poky-linux was added
+  /usr/libexec/i686-poky-linux/gcc was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/ar was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/as was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/cc1 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/cc1plus was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/collect2 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/cpp was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/gcc was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/g++-mapper-server was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-ar was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-as was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-cpp was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-gcc was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-ld.bfd was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-ld was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-ld.gold was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-nm was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-objcopy was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-objdump was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-ranlib was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-strip was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/fixincl was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/fixinc.sh was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/mkheaders was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/mkinstalldirs was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/ld.bfd was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/ld was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/ld.gold was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1plugin.so.0.0.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1plugin.so.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1plugin.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1.so.0.0.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1.so.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcp1plugin.so.0.0.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcp1plugin.so.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcp1plugin.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/liblto_plugin.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/lto1 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/lto-wrapper was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/nm was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/objcopy was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/objdump was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/gengtype was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/ranlib was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/strip was added
+  /usr/lib/i686-poky-linux was added
+  /usr/lib/i686-poky-linux/bfd-plugins was added
+  /usr/lib/i686-poky-linux/bfd-plugins/liblto_plugin.so was added
+  /usr/lib/i686-poky-linux/gcc was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0 was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/adxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/ammintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/amxbf16intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/amxint8intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/amxtileintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx2intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx5124fmapsintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx5124vnniwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512bf16intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512bf16vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512bitalgintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512bwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512cdintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512dqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512erintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512fintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512fp16intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512fp16vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512ifmaintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512ifmavlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512pfintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vbmi2intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vbmi2vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vbmiintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vbmivlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vlbwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vldqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vnniintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vnnivlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vp2intersectintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vp2intersectvlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vpopcntdqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vpopcntdqvlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avxvnniintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/bmi2intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/bmiintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/bmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/cet.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/cetintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/cldemoteintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/clflushoptintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/clwbintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/clzerointrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/cpuid.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/cross-stdarg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/emmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/enqcmdintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/f16cintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include-fixed was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include-fixed/limits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include-fixed/README was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include-fixed/syslimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/float.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/fma4intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/fmaintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/fxsrintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/gfniintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/hresetintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/ia32intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/immintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/iso646.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/keylockerintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/lwpintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/lzcntintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/mm3dnow.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/mmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/mm_malloc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/movdirintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/mwaitintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/mwaitxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/nmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/pconfigintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/pkuintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/pmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/popcntintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/prfchwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/quadmath.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/quadmath_weak.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/rdseedintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/rtmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/serializeintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/sgxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/shaintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/smmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdalign.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdarg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdatomic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdbool.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stddef.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdfix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdint-gcc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdint.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdnoreturn.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/tbmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/tmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/tsxldtrkintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/uintrintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/unwind.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/vaesintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/varargs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/vpclmulqdqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/waitpkgintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/wbnoinvdintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/wmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/x86gprintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/x86intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xopintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xsavecintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xsaveintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xsaveoptintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xsavesintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xtestintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/fixinc_list was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/gsyslimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/include was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/include/limits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/include/README was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/macro_list was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/mkheaders.conf was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/gtype.state was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ada was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ada/gcc-interface was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ada/gcc-interface/ada-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/addresses.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/alias.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/align.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/alloc-pool.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/all-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ansidecl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/array-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/asan.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/attr-fnspec.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/attribs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/auto-host.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/auto-profile.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/backend.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/basic-block.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/bb-reorder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/b-header-vars was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/bitmap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/builtin-attrs.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/builtins.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/builtin-types.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/bversion.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/calls.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ccmp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family/c-common.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family/c-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family/c-objc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family/c-pragma.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family/c-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfganal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgbuild.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgcleanup.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgexpand.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfg-flags.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfghooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgloop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgloopmanip.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgrtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cgraph.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cif-code.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/collect2-aix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/collect2.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/collect-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/color-macros.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/common was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/common/config was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/common/config/i386 was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/conditions.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/configargs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/dbxelf.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/elfos.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/glibc-stdint.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/gnu-user.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386 was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/att.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/gnu-user64.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/gnu-user-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/i386.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/i386-isa.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/i386-opts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/i386-protos.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/linux64.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/linux-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/stringop.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/unix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/x86-64.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/x86-tune.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/initfini-array.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/linux-android.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/linux.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/linux-protos.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/vxworks-dummy.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/context.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/convert.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/coretypes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/coroutine-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/coverage.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/cp-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/cp-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/cxx-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/name-lookup.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/operators.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cppbuiltin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cppdefault.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cpplib.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/type-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cselib.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ctfc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/d was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/data-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dbgcnt.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dbgcnt.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dbxout.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dce.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ddg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/d/d-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/debug.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/defaults.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/df.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dfp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-color.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-core.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-event-id.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-metadata.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-path.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-spec.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-url.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/digraph.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dojump.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dominance.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/domwalk.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/double-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dump-context.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dumpfile.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dwarf2asm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dwarf2ctf.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dwarf2out.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/edit-context.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/emit-rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/errors.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/escaped_string.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/et-forest.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/except.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/explow.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/expmed.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/expr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/fibonacci_heap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/file-find.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/filenames.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/file-prefix-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/fixed-value.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/flags.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/flag-types.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/fold-const-call.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/fold-const.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/function-abi.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/function.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcc-plugin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcc-rich-location.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcc-symtab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcov-counter.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcov-io.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcse-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcse.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/generic-match.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gengtype.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/genrtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gensupport.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ggc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ggc-internal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-array-bounds.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-expr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-fold.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-iterator.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-low.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-match.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-predicate-analysis.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-predict.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-cache.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-edge.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-fold.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-gori.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-path.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-trace.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-ssa-evrp-analyze.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-ssa-warn-access.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-ssa-warn-restrict.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-walk.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimplify.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimplify-me.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/glimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gomp-constants.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/graphds.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/graph.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/graphite.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/graphviz.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gsstruct.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gstab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gsyms.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gsyslimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gtm-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gtype-desc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hard-reg-set.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hash-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hash-map-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hash-set.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hashtab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hash-table.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hash-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/highlev-plugin-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hosthooks-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hosthooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hw-doloop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hwint.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ifcvt.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/inchash.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/incpath.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/input.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-addr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-attr-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-attr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-codes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-config.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-constants.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-flags.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-modes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-modes-inline.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-notes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/internal-fn.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/internal-fn.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/intl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/int-vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-fnsummary.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-icf-gimple.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-icf.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-inline.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-modref.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-modref-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-param-manipulation.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-predicate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-prop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-reference.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-ref.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ira.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ira-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/is-a.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/iterator-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/json.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/langhooks-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/langhooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lcm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/libfuncs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/libiberty.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/limitx.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/limity.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/line-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/linux.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/loop-unroll.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lower-subreg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lra.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lra-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lto-compress.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lto-section-names.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lto-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/machmode.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/machmode.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/md5.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/memmodel.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/memory-block.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/mem-stats.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/mem-stats-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/mode-classes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/mux-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/objc was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/objc/objc-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/obstack.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/obstack-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-expand.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-general.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-low.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-offload.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-simd-clone.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optabs.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optabs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optabs-libfuncs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optabs-query.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optabs-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optinfo-emit-json.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optinfo.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/options.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/opt-problem.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/opts-diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/opts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/opt-suggestions.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ordered-hash-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/output.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/passes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/pass-instances.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/pass_manager.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/plugin-api.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/plugin.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/plugin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/plugin-version.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/pointer-query.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/poly-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/poly-int-types.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/predict.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/predict.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/prefix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/print-rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/print-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/profile-count.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/profile.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/range.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/range-op.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/read-md.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/read-rtl-function.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/real.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/realmpfr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/recog.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/regcprop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/reg-notes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/regrename.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/regset.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/regs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/reload.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/resource.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtlanal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtl.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtl-error.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtlhash.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtlhooks-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtl-iter.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtl-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtx-vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/run-rtl-passes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/safe-ctype.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sanitizer.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sbitmap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sched-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/selftest-diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/selftest.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/selftest-rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sel-sched-dump.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sel-sched.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sel-sched-ir.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sese.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/shortest-paths.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/shrink-wrap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/signop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sparseset.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/spellcheck.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/spellcheck-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/splay-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/splay-tree-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sreal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ssa-iterators.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/stab.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/statistics.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/stmt.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/stor-layout.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/streamer-hooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/stringpool.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/substring-locations.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/symbol-summary.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/symtab-clones.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/symtab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/symtab-thunks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sync-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/system.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target-globals.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target-hooks-macros.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target-insns.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/targhooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/timevar.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/timevar.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tm_p.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tm-preds.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/toplev.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tracer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/trans-mem.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-affine.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-cfgcleanup.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-cfg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-check.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-chrec.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-core.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-data-ref.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-dfa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-dump.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-eh.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-hasher.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-hash-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-if-conv.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-inline.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-into-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-iterator.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-nested.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-object-size.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-outof-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-parloops.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-pass.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-phinodes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-scalar-evolution.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-sra.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-address.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-alias-compare.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-alias.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-ccp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-coalesce.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-dce.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-dom.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-dse.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-live.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-loop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-loop-ivopts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-loop-manip.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-loop-niter.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-math-opts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssanames.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-operands.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-propagate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-reassoc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-sccvn.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-scopedtables.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-strlen.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-ter.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-threadedge.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-threadupdate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-stdarg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/treestruct.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-switch-conversion.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-vectorizer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-vrp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tristate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tsan.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tsystem.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/typeclass.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/typed-splay-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ubsan.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/valtrack.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-pointer-equiv.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-prof.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-query.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-range-equiv.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-range.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-relation.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/varasm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vec.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vec-perm-indices.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/version.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vmsdbg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vr-values.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vtable-verify.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/wide-int-bitmask.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/wide-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/wide-int-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/xcoff.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/xcoffout.h was added
+  /sysroot-providers/virtual_i686-poky-linux-musl-g++ was removed
+  /sysroot-providers/virtual_i686-poky-linux-musl-gcc was removed
+  /usr/bin/i686-poky-linux-musl was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-c++ was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-cpp was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-g++ was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-12.2.0 was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-ar was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-nm was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-ranlib was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov-dump was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov-tool was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-lto-dump was removed
+  /usr/libexec/i686-poky-linux-musl was removed
+  /usr/libexec/i686-poky-linux-musl/gcc was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/ar was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/as was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/cc1 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/cc1plus was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/collect2 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/cpp was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/gcc was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/g++-mapper-server was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-ar was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-as was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-cpp was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-gcc was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-ld.bfd was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-ld was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-ld.gold was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-nm was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-objcopy was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-objdump was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-ranlib was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-strip was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/fixincl was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/fixinc.sh was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/mkheaders was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/mkinstalldirs was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/ld.bfd was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/ld was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/ld.gold was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1plugin.so.0.0.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1plugin.so.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1plugin.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1.so.0.0.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1.so.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcp1plugin.so.0.0.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcp1plugin.so.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcp1plugin.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/liblto_plugin.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/lto1 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/lto-wrapper was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/nm was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/objcopy was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/objdump was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/gengtype was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/ranlib was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/strip was removed
+  /usr/lib/i686-poky-linux-musl was removed
+  /usr/lib/i686-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/i686-poky-linux-musl/bfd-plugins/liblto_plugin.so was removed
+  /usr/lib/i686-poky-linux-musl/gcc was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0 was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/adxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/ammintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/amxbf16intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/amxint8intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/amxtileintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx2intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx5124fmapsintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx5124vnniwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512bf16intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512bf16vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512bitalgintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512bwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512cdintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512dqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512erintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512fintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512fp16intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512fp16vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512ifmaintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512ifmavlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512pfintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vbmi2intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vbmi2vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vbmiintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vbmivlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vlbwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vldqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vnniintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vnnivlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vp2intersectintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vp2intersectvlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vpopcntdqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vpopcntdqvlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avxvnniintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/bmi2intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/bmiintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/bmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/cet.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/cetintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/cldemoteintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/clflushoptintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/clwbintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/clzerointrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/cpuid.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/cross-stdarg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/emmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/enqcmdintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/f16cintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include-fixed was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include-fixed/limits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include-fixed/README was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include-fixed/syslimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/float.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/fma4intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/fmaintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/fxsrintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/gfniintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/hresetintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/ia32intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/immintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/iso646.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/keylockerintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/lwpintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/lzcntintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/mm3dnow.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/mmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/mm_malloc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/movdirintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/mwaitintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/mwaitxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/nmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/pconfigintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/pkuintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/pmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/popcntintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/prfchwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/quadmath.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/quadmath_weak.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/rdseedintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/rtmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/serializeintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/sgxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/shaintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/smmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdalign.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdarg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdatomic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdbool.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stddef.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdfix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdint-gcc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdint.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdnoreturn.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/tbmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/tmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/tsxldtrkintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/uintrintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/unwind.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/vaesintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/varargs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/vpclmulqdqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/waitpkgintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/wbnoinvdintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/wmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/x86gprintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/x86intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xopintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xsavecintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xsaveintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xsaveoptintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xsavesintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xtestintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/fixinc_list was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/gsyslimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/include was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/include/limits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/include/README was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/macro_list was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/mkheaders.conf was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/gtype.state was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ada was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ada/gcc-interface was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ada/gcc-interface/ada-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/addresses.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/alias.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/align.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/alloc-pool.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/all-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ansidecl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/array-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/asan.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/attr-fnspec.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/attribs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/auto-host.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/auto-profile.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/backend.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/basic-block.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/bb-reorder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/b-header-vars was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/bitmap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/builtin-attrs.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/builtins.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/builtin-types.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/bversion.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/calls.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ccmp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family/c-common.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family/c-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family/c-objc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family/c-pragma.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family/c-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfganal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgbuild.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgcleanup.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgexpand.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfg-flags.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfghooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgloop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgloopmanip.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgrtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cgraph.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cif-code.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/collect2-aix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/collect2.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/collect-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/color-macros.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/common was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/common/config was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/common/config/i386 was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/conditions.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/configargs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/dbxelf.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/elfos.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/glibc-stdint.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/gnu-user.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386 was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/att.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/gnu-user64.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/gnu-user-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/i386.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/i386-isa.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/i386-opts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/i386-protos.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/linux64.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/linux-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/stringop.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/unix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/x86-64.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/x86-tune.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/initfini-array.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/linux-android.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/linux.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/linux-protos.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/vxworks-dummy.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/context.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/convert.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/coretypes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/coroutine-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/coverage.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/cp-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/cp-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/cxx-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/name-lookup.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/operators.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cppbuiltin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cppdefault.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cpplib.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/type-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cselib.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ctfc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/d was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/data-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dbgcnt.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dbgcnt.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dbxout.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dce.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ddg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/d/d-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/debug.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/defaults.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/df.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dfp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-color.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-core.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-event-id.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-metadata.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-path.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-spec.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-url.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/digraph.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dojump.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dominance.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/domwalk.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/double-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dump-context.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dumpfile.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dwarf2asm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dwarf2ctf.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dwarf2out.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/edit-context.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/emit-rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/errors.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/escaped_string.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/et-forest.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/except.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/explow.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/expmed.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/expr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/fibonacci_heap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/file-find.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/filenames.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/file-prefix-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/fixed-value.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/flags.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/flag-types.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/fold-const-call.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/fold-const.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/function-abi.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/function.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcc-plugin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcc-rich-location.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcc-symtab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcov-counter.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcov-io.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcse-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcse.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/generic-match.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gengtype.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/genrtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gensupport.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ggc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ggc-internal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-array-bounds.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-expr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-fold.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-iterator.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-low.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-match.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-predicate-analysis.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-predict.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-cache.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-edge.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-fold.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-gori.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-path.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-trace.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-ssa-evrp-analyze.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-ssa-warn-access.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-ssa-warn-restrict.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-walk.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimplify.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimplify-me.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/glimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gomp-constants.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/graphds.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/graph.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/graphite.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/graphviz.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gsstruct.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gstab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gsyms.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gsyslimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gtm-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gtype-desc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hard-reg-set.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hash-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hash-map-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hash-set.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hashtab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hash-table.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hash-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/highlev-plugin-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hosthooks-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hosthooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hw-doloop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hwint.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ifcvt.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/inchash.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/incpath.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/input.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-addr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-attr-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-attr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-codes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-config.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-constants.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-flags.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-modes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-modes-inline.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-notes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/internal-fn.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/internal-fn.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/intl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/int-vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-fnsummary.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-icf-gimple.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-icf.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-inline.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-modref.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-modref-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-param-manipulation.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-predicate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-prop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-reference.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-ref.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ira.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ira-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/is-a.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/iterator-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/json.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/langhooks-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/langhooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lcm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/libfuncs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/libiberty.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/limitx.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/limity.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/line-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/linux.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/loop-unroll.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lower-subreg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lra.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lra-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lto-compress.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lto-section-names.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lto-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/machmode.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/machmode.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/md5.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/memmodel.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/memory-block.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/mem-stats.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/mem-stats-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/mode-classes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/mux-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/objc was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/objc/objc-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/obstack.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/obstack-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-expand.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-general.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-low.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-offload.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-simd-clone.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optabs.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optabs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optabs-libfuncs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optabs-query.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optabs-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optinfo-emit-json.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optinfo.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/options.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/opt-problem.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/opts-diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/opts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/opt-suggestions.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ordered-hash-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/output.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/passes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/pass-instances.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/pass_manager.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/plugin-api.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/plugin.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/plugin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/plugin-version.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/pointer-query.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/poly-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/poly-int-types.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/predict.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/predict.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/prefix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/print-rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/print-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/profile-count.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/profile.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/range.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/range-op.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/read-md.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/read-rtl-function.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/real.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/realmpfr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/recog.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/regcprop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/reg-notes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/regrename.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/regset.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/regs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/reload.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/resource.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtlanal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtl.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtl-error.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtlhash.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtlhooks-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtl-iter.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtl-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtx-vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/run-rtl-passes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/safe-ctype.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sanitizer.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sbitmap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sched-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/selftest-diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/selftest.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/selftest-rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sel-sched-dump.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sel-sched.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sel-sched-ir.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sese.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/shortest-paths.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/shrink-wrap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/signop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sparseset.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/spellcheck.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/spellcheck-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/splay-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/splay-tree-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sreal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ssa-iterators.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/stab.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/statistics.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/stmt.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/stor-layout.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/streamer-hooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/stringpool.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/substring-locations.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/symbol-summary.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/symtab-clones.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/symtab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/symtab-thunks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sync-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/system.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target-globals.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target-hooks-macros.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target-insns.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/targhooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/timevar.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/timevar.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tm_p.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tm-preds.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/toplev.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tracer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/trans-mem.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-affine.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-cfgcleanup.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-cfg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-check.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-chrec.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-core.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-data-ref.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-dfa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-dump.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-eh.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-hasher.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-hash-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-if-conv.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-inline.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-into-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-iterator.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-nested.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-object-size.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-outof-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-parloops.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-pass.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-phinodes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-scalar-evolution.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-sra.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-address.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-alias-compare.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-alias.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-ccp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-coalesce.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-dce.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-dom.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-dse.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-live.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-loop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-loop-ivopts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-loop-manip.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-loop-niter.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-math-opts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssanames.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-operands.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-propagate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-reassoc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-sccvn.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-scopedtables.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-strlen.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-ter.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-threadedge.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-threadupdate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-stdarg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/treestruct.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-switch-conversion.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-vectorizer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-vrp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tristate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tsan.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tsystem.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/typeclass.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/typed-splay-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ubsan.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/valtrack.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-pointer-equiv.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-prof.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-query.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-range-equiv.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-range.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-relation.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/varasm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vec.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vec-perm-indices.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/version.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vmsdbg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vr-values.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vtable-verify.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int-bitmask.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
 
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:4bbcd0a6c83de4c7f7ebb728bc74b0c9c61ff60f"
-workspace            = "master:5200799866b92259e855051112520006e1aaaac0"
-
-Initialising tasks...done.
-Sstate summary: Wanted 105 Local 98 Mirrors 0 Missed 7 Current 218 (93% match, 97% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1136 of 1205 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.224.1.bb:do_fetch)
-NOTE: recipe vulkan-tools-1.3.224.1-r0: task do_fetch: Started
-NOTE: recipe vulkan-tools-1.3.224.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1191 of 1205 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.224.1.bb:do_unpack)
-NOTE: Running task 1192 of 1205 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.224.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vulkan-tools-1.3.224.1-r0: task do_unpack: Started
-NOTE: recipe vulkan-tools-1.3.224.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vulkan-tools-1.3.224.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1193 of 1205 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.224.1.bb:do_patch)
-NOTE: recipe vulkan-tools-1.3.224.1-r0: task do_patch: Started
-NOTE: recipe vulkan-tools-1.3.224.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe vulkan-tools-1.3.224.1-r0: task do_patch: Succeeded
-NOTE: Running task 1194 of 1205 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.224.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1195 of 1205 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.224.1.bb:do_generate_toolchain_file)
-NOTE: Running task 1196 of 1205 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.224.1.bb:do_populate_lic)
-NOTE: recipe vulkan-tools-1.3.224.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vulkan-tools-1.3.224.1-r0: task do_generate_toolchain_file: Started
-NOTE: recipe vulkan-tools-1.3.224.1-r0: task do_populate_lic: Started
-NOTE: recipe vulkan-tools-1.3.224.1-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe vulkan-tools-1.3.224.1-r0: task do_populate_lic: Succeeded
-NOTE: recipe vulkan-tools-1.3.224.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1197 of 1205 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.224.1.bb:do_configure)
-NOTE: recipe vulkan-tools-1.3.224.1-r0: task do_configure: Started
-NOTE: recipe vulkan-tools-1.3.224.1-r0: task do_configure: Succeeded
-NOTE: Running task 1198 of 1205 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.224.1.bb:do_compile)
-NOTE: recipe vulkan-tools-1.3.224.1-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| NOTE: VERBOSE=1 cmake --build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/build --target all --
-| [1/5] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_WAYLAND_KHX -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XCB_KHX -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_KHX -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -DVkICD_mock_icd_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/build/icd -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp
- /work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git=/usr/src/debug/vulkan-tools/1.3.224.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git=/usr/src/debug/vulkan-tools/1.3.224.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/build=/usr/src/debug/vulkan-tools/1.3.224.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/build=/usr/src/debug/vulkan-tools/1.3.224.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/bui
- ld/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wimplicit-fallthrough=0 -std=c++11 -fno-rtti -fvisibility=hidden -Wpointer-arith -Wno-unused-function -Wno-sign-compare -fPIC -MD -MT icd/CMakeFiles/VkICD_mock_icd.dir/generated/mock_icd.cpp.o -MF icd/CMakeFiles/VkICD_mock_icd.dir/generated/mock_icd.cpp.o.d -o icd/CMakeFiles/VkICD_mock_icd.dir/generated/mock_icd.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/mock_icd.cpp
-| FAILED: icd/CMakeFiles/VkICD_mock_icd.dir/generated/mock_icd.cpp.o
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_WAYLAND_KHX -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XCB_KHX -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_KHX -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -DVkICD_mock_icd_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/build/icd -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/
- core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git=/usr/src/debug/vulkan-tools/1.3.224.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git=/usr/src/debug/vulkan-tools/1.3.224.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/build=/usr/src/debug/vulkan-tools/1.3.224.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/build=/usr/src/debug/vulkan-tools/1.3.224.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/bui
- ld/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wimplicit-fallthrough=0 -std=c++11 -fno-rtti -fvisibility=hidden -Wpointer-arith -Wno-unused-function -Wno-sign-compare -fPIC -MD -MT icd/CMakeFiles/VkICD_mock_icd.dir/generated/mock_icd.cpp.o -MF icd/CMakeFiles/VkICD_mock_icd.dir/generated/mock_icd.cpp.o.d -o icd/CMakeFiles/VkICD_mock_icd.dir/generated/mock_icd.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/mock_icd.cpp
-| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/mock_icd.cpp:22:
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/mock_icd.h:3583:5: error: 'VkShaderModuleIdentifierEXT' has not been declared
-|  3583 |     VkShaderModuleIdentifierEXT*                pIdentifier);
-|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/mock_icd.h:3588:5: error: 'VkShaderModuleIdentifierEXT' has not been declared
-|  3588 |     VkShaderModuleIdentifierEXT*                pIdentifier);
-|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/mock_icd.h:3595:5: error: 'VkTilePropertiesQCOM' has not been declared
-|  3595 |     VkTilePropertiesQCOM*                       pProperties);
-|       |     ^~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/mock_icd.h:3600:5: error: 'VkTilePropertiesQCOM' has not been declared
-|  3600 |     VkTilePropertiesQCOM*                       pProperties);
-|       |     ^~~~~~~~~~~~~~~~~~~~
-| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/mock_icd.cpp:27:
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:3615:31: error: 'VkPhysicalDevicePipelineRobustnessFeaturesEXT' was not declared in this scope; did you mean 'VkPhysicalDevicePipelinePropertiesFeaturesEXT'?
-|  3615 | template <> struct LvlTypeMap<VkPhysicalDevicePipelineRobustnessFeaturesEXT> {
-|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                               VkPhysicalDevicePipelinePropertiesFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:3615:76: error: template argument 1 is invalid
-|  3615 | template <> struct LvlTypeMap<VkPhysicalDevicePipelineRobustnessFeaturesEXT> {
-|       |                                                                            ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:3619:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROPERTIES_FEATURES_EXT'?
-|  3619 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES_EXT> {
-|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROPERTIES_FEATURES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:3619:98: error: template argument 1 is invalid
-|  3619 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES_EXT> {
-|       |                                                                                                  ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:3624:31: error: 'VkPhysicalDevicePipelineRobustnessPropertiesEXT' was not declared in this scope; did you mean 'VkPhysicalDeviceRobustness2PropertiesEXT'?
-|  3624 | template <> struct LvlTypeMap<VkPhysicalDevicePipelineRobustnessPropertiesEXT> {
-|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                               VkPhysicalDeviceRobustness2PropertiesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:3624:78: error: template argument 1 is invalid
-|  3624 | template <> struct LvlTypeMap<VkPhysicalDevicePipelineRobustnessPropertiesEXT> {
-|       |                                                                              ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:3628:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_PROPERTIES_EXT'?
-|  3628 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES_EXT> {
-|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_PROPERTIES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:3628:100: error: template argument 1 is invalid
-|  3628 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES_EXT> {
-|       |                                                                                                    ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:3633:31: error: 'VkPipelineRobustnessCreateInfoEXT' was not declared in this scope; did you mean 'VkPipelineColorWriteCreateInfoEXT'?
-|  3633 | template <> struct LvlTypeMap<VkPipelineRobustnessCreateInfoEXT> {
-|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                               VkPipelineColorWriteCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:3633:64: error: template argument 1 is invalid
-|  3633 | template <> struct LvlTypeMap<VkPipelineRobustnessCreateInfoEXT> {
-|       |                                                                ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:3637:32: error: 'VK_STRUCTURE_TYPE_PIPELINE_ROBUSTNESS_CREATE_INFO_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PIPELINE_COLOR_WRITE_CREATE_INFO_EXT'?
-|  3637 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PIPELINE_ROBUSTNESS_CREATE_INFO_EXT> {
-|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                VK_STRUCTURE_TYPE_PIPELINE_COLOR_WRITE_CREATE_INFO_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:3637:85: error: template argument 1 is invalid
-|  3637 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PIPELINE_ROBUSTNESS_CREATE_INFO_EXT> {
-|       |                                                                                     ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:5490:31: error: 'VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT' was not declared in this scope; did you mean 'VkPhysicalDeviceTransformFeedbackFeaturesEXT'?
-|  5490 | template <> struct LvlTypeMap<VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT> {
-|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                               VkPhysicalDeviceTransformFeedbackFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:5490:86: error: template argument 1 is invalid
-|  5490 | template <> struct LvlTypeMap<VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT> {
-|       |                                                                                      ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:5494:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ATTACHMENT_FEEDBACK_LOOP_LAYOUT_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SCALAR_BLOCK_LAYOUT_FEATURES_EXT'?
-|  5494 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ATTACHMENT_FEEDBACK_LOOP_LAYOUT_FEATURES_EXT> {
-|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SCALAR_BLOCK_LAYOUT_FEATURES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:5494:110: error: template argument 1 is invalid
-|  5494 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ATTACHMENT_FEEDBACK_LOOP_LAYOUT_FEATURES_EXT> {
-|       |                                                                                                              ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:5855:31: error: 'VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT' was not declared in this scope
-|  5855 | template <> struct LvlTypeMap<VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT> {
-|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:5855:91: error: template argument 1 is invalid
-|  5855 | template <> struct LvlTypeMap<VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT> {
-|       |                                                                                           ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:5859:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTISAMPLED_RENDER_TO_SINGLE_SAMPLED_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_VIEW_MIN_LOD_FEATURES_EXT'?
-|  5859 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTISAMPLED_RENDER_TO_SINGLE_SAMPLED_FEATURES_EXT> {
-|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_VIEW_MIN_LOD_FEATURES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:5859:116: error: template argument 1 is invalid
-|  5859 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTISAMPLED_RENDER_TO_SINGLE_SAMPLED_FEATURES_EXT> {
-|       |                                                                                                                    ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:5864:31: error: 'VkSubpassResolvePerformanceQueryEXT' was not declared in this scope
-|  5864 | template <> struct LvlTypeMap<VkSubpassResolvePerformanceQueryEXT> {
-|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:5864:66: error: template argument 1 is invalid
-|  5864 | template <> struct LvlTypeMap<VkSubpassResolvePerformanceQueryEXT> {
-|       |                                                                  ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:5868:32: error: 'VK_STRUCTURE_TYPE_SUBPASS_RESOLVE_PERFORMANCE_QUERY_EXT' was not declared in this scope
-|  5868 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_SUBPASS_RESOLVE_PERFORMANCE_QUERY_EXT> {
-|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:5868:87: error: template argument 1 is invalid
-|  5868 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_SUBPASS_RESOLVE_PERFORMANCE_QUERY_EXT> {
-|       |                                                                                       ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:5873:31: error: 'VkMultisampledRenderToSingleSampledInfoEXT' was not declared in this scope
-|  5873 | template <> struct LvlTypeMap<VkMultisampledRenderToSingleSampledInfoEXT> {
-|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:5873:73: error: template argument 1 is invalid
-|  5873 | template <> struct LvlTypeMap<VkMultisampledRenderToSingleSampledInfoEXT> {
-|       |                                                                         ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:5877:32: error: 'VK_STRUCTURE_TYPE_MULTISAMPLED_RENDER_TO_SINGLE_SAMPLED_INFO_EXT' was not declared in this scope
-|  5877 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_MULTISAMPLED_RENDER_TO_SINGLE_SAMPLED_INFO_EXT> {
-|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:5877:96: error: template argument 1 is invalid
-|  5877 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_MULTISAMPLED_RENDER_TO_SINGLE_SAMPLED_INFO_EXT> {
-|       |                                                                                                ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6028:31: error: 'VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT' was not declared in this scope; did you mean 'VkPhysicalDeviceFragmentDensityMapFeaturesEXT'?
-|  6028 | template <> struct LvlTypeMap<VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT> {
-|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                               VkPhysicalDeviceFragmentDensityMapFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6028:76: error: template argument 1 is invalid
-|  6028 | template <> struct LvlTypeMap<VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT> {
-|       |                                                                            ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6032:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_NON_SEAMLESS_CUBE_MAP_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_FEATURES_EXT'?
-|  6032 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_NON_SEAMLESS_CUBE_MAP_FEATURES_EXT> {
-|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_FEATURES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6032:100: error: template argument 1 is invalid
-|  6032 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_NON_SEAMLESS_CUBE_MAP_FEATURES_EXT> {
-|       |                                                                                                    ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6082:31: error: 'VkImageViewSampleWeightCreateInfoQCOM' was not declared in this scope
-|  6082 | template <> struct LvlTypeMap<VkImageViewSampleWeightCreateInfoQCOM> {
-|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6082:68: error: template argument 1 is invalid
-|  6082 | template <> struct LvlTypeMap<VkImageViewSampleWeightCreateInfoQCOM> {
-|       |                                                                    ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6086:32: error: 'VK_STRUCTURE_TYPE_IMAGE_VIEW_SAMPLE_WEIGHT_CREATE_INFO_QCOM' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_IMAGE_VIEW_USAGE_CREATE_INFO_KHR'?
-|  6086 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_IMAGE_VIEW_SAMPLE_WEIGHT_CREATE_INFO_QCOM> {
-|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                VK_STRUCTURE_TYPE_IMAGE_VIEW_USAGE_CREATE_INFO_KHR
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6086:91: error: template argument 1 is invalid
-|  6086 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_IMAGE_VIEW_SAMPLE_WEIGHT_CREATE_INFO_QCOM> {
-|       |                                                                                           ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6091:31: error: 'VkPhysicalDeviceImageProcessingFeaturesQCOM' was not declared in this scope; did you mean 'VkPhysicalDeviceImageRobustnessFeaturesEXT'?
-|  6091 | template <> struct LvlTypeMap<VkPhysicalDeviceImageProcessingFeaturesQCOM> {
-|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                               VkPhysicalDeviceImageRobustnessFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6091:74: error: template argument 1 is invalid
-|  6091 | template <> struct LvlTypeMap<VkPhysicalDeviceImageProcessingFeaturesQCOM> {
-|       |                                                                          ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6095:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_PROCESSING_FEATURES_QCOM' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_ROBUSTNESS_FEATURES_EXT'?
-|  6095 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_PROCESSING_FEATURES_QCOM> {
-|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_ROBUSTNESS_FEATURES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6095:96: error: template argument 1 is invalid
-|  6095 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_PROCESSING_FEATURES_QCOM> {
-|       |                                                                                                ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6100:31: error: 'VkPhysicalDeviceImageProcessingPropertiesQCOM' was not declared in this scope; did you mean 'VkPhysicalDeviceRayTracingPropertiesNV'?
-|  6100 | template <> struct LvlTypeMap<VkPhysicalDeviceImageProcessingPropertiesQCOM> {
-|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                               VkPhysicalDeviceRayTracingPropertiesNV
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6100:76: error: template argument 1 is invalid
-|  6100 | template <> struct LvlTypeMap<VkPhysicalDeviceImageProcessingPropertiesQCOM> {
-|       |                                                                            ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6104:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_PROCESSING_PROPERTIES_QCOM' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PROPERTIES_NV'?
-|  6104 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_PROCESSING_PROPERTIES_QCOM> {
-|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PROPERTIES_NV
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6104:98: error: template argument 1 is invalid
-|  6104 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_PROCESSING_PROPERTIES_QCOM> {
-|       |                                                                                                  ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6145:31: error: 'VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT' was not declared in this scope; did you mean 'VkPhysicalDeviceShaderAtomicFloatFeaturesEXT'?
-|  6145 | template <> struct LvlTypeMap<VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT> {
-|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                               VkPhysicalDeviceShaderAtomicFloatFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6145:80: error: template argument 1 is invalid
-|  6145 | template <> struct LvlTypeMap<VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT> {
-|       |                                                                                ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6149:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_MODULE_IDENTIFIER_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_FLOAT_FEATURES_EXT'?
-|  6149 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_MODULE_IDENTIFIER_FEATURES_EXT> {
-|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_FLOAT_FEATURES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6149:103: error: template argument 1 is invalid
-|  6149 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_MODULE_IDENTIFIER_FEATURES_EXT> {
-|       |                                                                                                       ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6154:31: error: 'VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT' was not declared in this scope; did you mean 'VkPhysicalDeviceShaderSMBuiltinsPropertiesNV'?
-|  6154 | template <> struct LvlTypeMap<VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT> {
-|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                               VkPhysicalDeviceShaderSMBuiltinsPropertiesNV
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6154:82: error: template argument 1 is invalid
-|  6154 | template <> struct LvlTypeMap<VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT> {
-|       |                                                                                  ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6158:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_MODULE_IDENTIFIER_PROPERTIES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SM_BUILTINS_PROPERTIES_NV'?
-|  6158 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_MODULE_IDENTIFIER_PROPERTIES_EXT> {
-|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SM_BUILTINS_PROPERTIES_NV
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6158:105: error: template argument 1 is invalid
-|  6158 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_MODULE_IDENTIFIER_PROPERTIES_EXT> {
-|       |                                                                                                         ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6163:31: error: 'VkPipelineShaderStageModuleIdentifierCreateInfoEXT' was not declared in this scope; did you mean 'VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT'?
-|  6163 | template <> struct LvlTypeMap<VkPipelineShaderStageModuleIdentifierCreateInfoEXT> {
-|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                               VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6163:81: error: template argument 1 is invalid
-|  6163 | template <> struct LvlTypeMap<VkPipelineShaderStageModuleIdentifierCreateInfoEXT> {
-|       |                                                                                 ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6167:32: error: 'VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_MODULE_IDENTIFIER_CREATE_INFO_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_REQUIRED_SUBGROUP_SIZE_CREATE_INFO_EXT'?
-|  6167 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_MODULE_IDENTIFIER_CREATE_INFO_EXT> {
-|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_REQUIRED_SUBGROUP_SIZE_CREATE_INFO_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6167:105: error: template argument 1 is invalid
-|  6167 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_MODULE_IDENTIFIER_CREATE_INFO_EXT> {
-|       |                                                                                                         ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6172:31: error: 'VkShaderModuleIdentifierEXT' was not declared in this scope
-|  6172 | template <> struct LvlTypeMap<VkShaderModuleIdentifierEXT> {
-|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6172:58: error: template argument 1 is invalid
-|  6172 | template <> struct LvlTypeMap<VkShaderModuleIdentifierEXT> {
-|       |                                                          ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6176:32: error: 'VK_STRUCTURE_TYPE_SHADER_MODULE_IDENTIFIER_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO'?
-|  6176 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_SHADER_MODULE_IDENTIFIER_EXT> {
-|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6176:78: error: template argument 1 is invalid
-|  6176 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_SHADER_MODULE_IDENTIFIER_EXT> {
-|       |                                                                              ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6181:31: error: 'VkPhysicalDeviceTilePropertiesFeaturesQCOM' was not declared in this scope; did you mean 'VkPhysicalDevicePipelinePropertiesFeaturesEXT'?
-|  6181 | template <> struct LvlTypeMap<VkPhysicalDeviceTilePropertiesFeaturesQCOM> {
-|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                               VkPhysicalDevicePipelinePropertiesFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6181:73: error: template argument 1 is invalid
-|  6181 | template <> struct LvlTypeMap<VkPhysicalDeviceTilePropertiesFeaturesQCOM> {
-|       |                                                                         ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6185:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TILE_PROPERTIES_FEATURES_QCOM' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROPERTIES_FEATURES_EXT'?
-|  6185 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TILE_PROPERTIES_FEATURES_QCOM> {
-|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROPERTIES_FEATURES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6185:95: error: template argument 1 is invalid
-|  6185 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TILE_PROPERTIES_FEATURES_QCOM> {
-|       |                                                                                               ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6190:31: error: 'VkTilePropertiesQCOM' was not declared in this scope
-|  6190 | template <> struct LvlTypeMap<VkTilePropertiesQCOM> {
-|       |                               ^~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6190:51: error: template argument 1 is invalid
-|  6190 | template <> struct LvlTypeMap<VkTilePropertiesQCOM> {
-|       |                                                   ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6194:32: error: 'VK_STRUCTURE_TYPE_TILE_PROPERTIES_QCOM' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_FORMAT_PROPERTIES_3'?
-|  6194 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_TILE_PROPERTIES_QCOM> {
-|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                VK_STRUCTURE_TYPE_FORMAT_PROPERTIES_3
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6194:70: error: template argument 1 is invalid
-|  6194 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_TILE_PROPERTIES_QCOM> {
-|       |                                                                      ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6199:31: error: 'VkPhysicalDeviceAmigoProfilingFeaturesSEC' was not declared in this scope
-|  6199 | template <> struct LvlTypeMap<VkPhysicalDeviceAmigoProfilingFeaturesSEC> {
-|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6199:72: error: template argument 1 is invalid
-|  6199 | template <> struct LvlTypeMap<VkPhysicalDeviceAmigoProfilingFeaturesSEC> {
-|       |                                                                        ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6203:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_AMIGO_PROFILING_FEATURES_SEC' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_PRIORITY_FEATURES_EXT'?
-|  6203 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_AMIGO_PROFILING_FEATURES_SEC> {
-|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_PRIORITY_FEATURES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6203:94: error: template argument 1 is invalid
-|  6203 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_AMIGO_PROFILING_FEATURES_SEC> {
-|       |                                                                                              ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6208:31: error: 'VkAmigoProfilingSubmitInfoSEC' was not declared in this scope
-|  6208 | template <> struct LvlTypeMap<VkAmigoProfilingSubmitInfoSEC> {
-|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6208:60: error: template argument 1 is invalid
-|  6208 | template <> struct LvlTypeMap<VkAmigoProfilingSubmitInfoSEC> {
-|       |                                                            ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6212:32: error: 'VK_STRUCTURE_TYPE_AMIGO_PROFILING_SUBMIT_INFO_SEC' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_ACQUIRE_PROFILING_LOCK_INFO_KHR'?
-|  6212 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_AMIGO_PROFILING_SUBMIT_INFO_SEC> {
-|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                VK_STRUCTURE_TYPE_ACQUIRE_PROFILING_LOCK_INFO_KHR
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/vk_typemap_helper.h:6212:81: error: template argument 1 is invalid
-|  6212 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_AMIGO_PROFILING_SUBMIT_INFO_SEC> {
-|       |                                                                                 ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/mock_icd.cpp:5731:5: error: 'VkShaderModuleIdentifierEXT' has not been declared
-|  5731 |     VkShaderModuleIdentifierEXT*                pIdentifier)
-|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/mock_icd.cpp:5739:5: error: 'VkShaderModuleIdentifierEXT' has not been declared
-|  5739 |     VkShaderModuleIdentifierEXT*                pIdentifier)
-|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/mock_icd.cpp:5749:5: error: 'VkTilePropertiesQCOM' has not been declared
-|  5749 |     VkTilePropertiesQCOM*                       pProperties)
-|       |     ^~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/icd/generated/mock_icd.cpp:5758:5: error: 'VkTilePropertiesQCOM' has not been declared
-|  5758 |     VkTilePropertiesQCOM*                       pProperties)
-|       |     ^~~~~~~~~~~~~~~~~~~~
-| [2/5] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ -DVK_ENABLE_BETA_EXTENSIONS -DVK_NO_PROTOTYPES -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulk
- an-tools/1.3.224.1-r0/git=/usr/src/debug/vulkan-tools/1.3.224.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git=/usr/src/debug/vulkan-tools/1.3.224.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/build=/usr/src/debug/vulkan-tools/1.3.224.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/build=/usr/src/debug/vulkan-tools/1.3.224.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/rec
- ipe-sysroot-native=  -fvisibility-inlines-hidden -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wimplicit-fallthrough=0 -std=c++11 -fno-rtti -fvisibility=hidden -MD -MT vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o -MF vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o.d -o vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/vulkaninfo.cpp
-| FAILED: vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ -DVK_ENABLE_BETA_EXTENSIONS -DVK_NO_PROTOTYPES -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-too
- ls/1.3.224.1-r0/git=/usr/src/debug/vulkan-tools/1.3.224.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git=/usr/src/debug/vulkan-tools/1.3.224.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/build=/usr/src/debug/vulkan-tools/1.3.224.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/build=/usr/src/debug/vulkan-tools/1.3.224.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/recipe-sy
- sroot-native=  -fvisibility-inlines-hidden -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wimplicit-fallthrough=0 -std=c++11 -fno-rtti -fvisibility=hidden -MD -MT vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o -MF vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o.d -o vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/vulkaninfo.cpp
-| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/vulkaninfo.cpp:33:
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'std::string VkDriverIdString(VkDriverId)':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:98:15: error: 'VK_DRIVER_ID_MESA_DOZEN' was not declared in this scope; did you mean 'VK_DRIVER_ID_MESA_VENUS'?
-|    98 |         case (VK_DRIVER_ID_MESA_DOZEN): return "DRIVER_ID_MESA_DOZEN";
-|       |               ^~~~~~~~~~~~~~~~~~~~~~~
-|       |               VK_DRIVER_ID_MESA_VENUS
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:396:57: error: 'VkPipelineRobustnessBufferBehaviorEXT' was not declared in this scope; did you mean 'VkPipelineRobustnessBufferBehaviorEXTString'?
-|   396 | std::string VkPipelineRobustnessBufferBehaviorEXTString(VkPipelineRobustnessBufferBehaviorEXT value) {
-|       |                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                         VkPipelineRobustnessBufferBehaviorEXTString
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:396:102: error: expected ',' or ';' before '{' token
-|   396 | std::string VkPipelineRobustnessBufferBehaviorEXTString(VkPipelineRobustnessBufferBehaviorEXT value) {
-|       |                                                                                                      ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:405:78: error: 'VkPipelineRobustnessBufferBehaviorEXT' has not been declared
-|   405 | void DumpVkPipelineRobustnessBufferBehaviorEXT(Printer &p, std::string name, VkPipelineRobustnessBufferBehaviorEXT value) {
-|       |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPipelineRobustnessBufferBehaviorEXT(Printer&, std::string, int)':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:407:96: error: no match for call to '(std::string {aka std::__cxx11::basic_string<char>}) (int&)'
-|   407 |         p.PrintKeyString(name, std::string("VK_") + VkPipelineRobustnessBufferBehaviorEXTString(value));
-|       |                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:409:75: error: no match for call to '(std::string {aka std::__cxx11::basic_string<char>}) (int&)'
-|   409 |         p.PrintKeyString(name, VkPipelineRobustnessBufferBehaviorEXTString(value));
-|       |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:411:56: error: 'VkPipelineRobustnessImageBehaviorEXT' was not declared in this scope; did you mean 'VkPipelineRobustnessImageBehaviorEXTString'?
-|   411 | std::string VkPipelineRobustnessImageBehaviorEXTString(VkPipelineRobustnessImageBehaviorEXT value) {
-|       |                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                        VkPipelineRobustnessImageBehaviorEXTString
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:411:100: error: expected ',' or ';' before '{' token
-|   411 | std::string VkPipelineRobustnessImageBehaviorEXTString(VkPipelineRobustnessImageBehaviorEXT value) {
-|       |                                                                                                    ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:420:77: error: 'VkPipelineRobustnessImageBehaviorEXT' has not been declared
-|   420 | void DumpVkPipelineRobustnessImageBehaviorEXT(Printer &p, std::string name, VkPipelineRobustnessImageBehaviorEXT value) {
-|       |                                                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPipelineRobustnessImageBehaviorEXT(Printer&, std::string, int)':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:422:95: error: no match for call to '(std::string {aka std::__cxx11::basic_string<char>}) (int&)'
-|   422 |         p.PrintKeyString(name, std::string("VK_") + VkPipelineRobustnessImageBehaviorEXTString(value));
-|       |                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:424:74: error: no match for call to '(std::string {aka std::__cxx11::basic_string<char>}) (int&)'
-|   424 |         p.PrintKeyString(name, VkPipelineRobustnessImageBehaviorEXTString(value));
-|       |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'std::string VkResultString(VkResult)':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:504:15: error: 'VK_ERROR_IMAGE_USAGE_NOT_SUPPORTED_KHR' was not declared in this scope
-|   504 |         case (VK_ERROR_IMAGE_USAGE_NOT_SUPPORTED_KHR): return "ERROR_IMAGE_USAGE_NOT_SUPPORTED_KHR";
-|       |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:505:15: error: 'VK_ERROR_VIDEO_PICTURE_LAYOUT_NOT_SUPPORTED_KHR' was not declared in this scope
-|   505 |         case (VK_ERROR_VIDEO_PICTURE_LAYOUT_NOT_SUPPORTED_KHR): return "ERROR_VIDEO_PICTURE_LAYOUT_NOT_SUPPORTED_KHR";
-|       |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:506:15: error: 'VK_ERROR_VIDEO_PROFILE_OPERATION_NOT_SUPPORTED_KHR' was not declared in this scope
-|   506 |         case (VK_ERROR_VIDEO_PROFILE_OPERATION_NOT_SUPPORTED_KHR): return "ERROR_VIDEO_PROFILE_OPERATION_NOT_SUPPORTED_KHR";
-|       |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:507:15: error: 'VK_ERROR_VIDEO_PROFILE_FORMAT_NOT_SUPPORTED_KHR' was not declared in this scope
-|   507 |         case (VK_ERROR_VIDEO_PROFILE_FORMAT_NOT_SUPPORTED_KHR): return "ERROR_VIDEO_PROFILE_FORMAT_NOT_SUPPORTED_KHR";
-|       |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:508:15: error: 'VK_ERROR_VIDEO_PROFILE_CODEC_NOT_SUPPORTED_KHR' was not declared in this scope
-|   508 |         case (VK_ERROR_VIDEO_PROFILE_CODEC_NOT_SUPPORTED_KHR): return "ERROR_VIDEO_PROFILE_CODEC_NOT_SUPPORTED_KHR";
-|       |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:509:15: error: 'VK_ERROR_VIDEO_STD_VERSION_NOT_SUPPORTED_KHR' was not declared in this scope
-|   509 |         case (VK_ERROR_VIDEO_STD_VERSION_NOT_SUPPORTED_KHR): return "ERROR_VIDEO_STD_VERSION_NOT_SUPPORTED_KHR";
-|       |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'std::vector<const char*> VkFormatFeatureFlagBits2GetStrings(VkFormatFeatureFlagBits2)':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:699:9: error: 'VK_FORMAT_FEATURE_2_WEIGHT_IMAGE_BIT_QCOM' was not declared in this scope; did you mean 'VK_FORMAT_FEATURE_2_STORAGE_IMAGE_BIT_KHR'?
-|   699 |     if (VK_FORMAT_FEATURE_2_WEIGHT_IMAGE_BIT_QCOM & value) strings.push_back("FORMAT_FEATURE_2_WEIGHT_IMAGE_BIT_QCOM");
-|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |         VK_FORMAT_FEATURE_2_STORAGE_IMAGE_BIT_KHR
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:700:9: error: 'VK_FORMAT_FEATURE_2_WEIGHT_SAMPLED_IMAGE_BIT_QCOM' was not declared in this scope; did you mean 'VK_FORMAT_FEATURE_2_SAMPLED_IMAGE_BIT_KHR'?
-|   700 |     if (VK_FORMAT_FEATURE_2_WEIGHT_SAMPLED_IMAGE_BIT_QCOM & value) strings.push_back("FORMAT_FEATURE_2_WEIGHT_SAMPLED_IMAGE_BIT_QCOM");
-|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |         VK_FORMAT_FEATURE_2_SAMPLED_IMAGE_BIT_KHR
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:701:9: error: 'VK_FORMAT_FEATURE_2_BLOCK_MATCHING_BIT_QCOM' was not declared in this scope; did you mean 'VK_FORMAT_FEATURE_2_COLOR_ATTACHMENT_BIT_KHR'?
-|   701 |     if (VK_FORMAT_FEATURE_2_BLOCK_MATCHING_BIT_QCOM & value) strings.push_back("FORMAT_FEATURE_2_BLOCK_MATCHING_BIT_QCOM");
-|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |         VK_FORMAT_FEATURE_2_COLOR_ATTACHMENT_BIT_KHR
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:702:9: error: 'VK_FORMAT_FEATURE_2_BOX_FILTER_SAMPLED_BIT_QCOM' was not declared in this scope
-|   702 |     if (VK_FORMAT_FEATURE_2_BOX_FILTER_SAMPLED_BIT_QCOM & value) strings.push_back("FORMAT_FEATURE_2_BOX_FILTER_SAMPLED_BIT_QCOM");
-|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'std::vector<const char*> VkImageUsageFlagBitsGetStrings(VkImageUsageFlagBits)':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:746:9: error: 'VK_IMAGE_USAGE_ATTACHMENT_FEEDBACK_LOOP_BIT_EXT' was not declared in this scope; did you mean 'VK_IMAGE_USAGE_FRAGMENT_DENSITY_MAP_BIT_EXT'?
-|   746 |     if (VK_IMAGE_USAGE_ATTACHMENT_FEEDBACK_LOOP_BIT_EXT & value) strings.push_back("IMAGE_USAGE_ATTACHMENT_FEEDBACK_LOOP_BIT_EXT");
-|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |         VK_IMAGE_USAGE_FRAGMENT_DENSITY_MAP_BIT_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:748:9: error: 'VK_IMAGE_USAGE_SAMPLE_WEIGHT_BIT_QCOM' was not declared in this scope; did you mean 'VK_IMAGE_USAGE_SAMPLED_BIT'?
-|   748 |     if (VK_IMAGE_USAGE_SAMPLE_WEIGHT_BIT_QCOM & value) strings.push_back("IMAGE_USAGE_SAMPLE_WEIGHT_BIT_QCOM");
-|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |         VK_IMAGE_USAGE_SAMPLED_BIT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:749:9: error: 'VK_IMAGE_USAGE_SAMPLE_BLOCK_MATCH_BIT_QCOM' was not declared in this scope
-|   749 |     if (VK_IMAGE_USAGE_SAMPLE_BLOCK_MATCH_BIT_QCOM & value) strings.push_back("IMAGE_USAGE_SAMPLE_BLOCK_MATCH_BIT_QCOM");
-|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:1271:102: error: 'VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT' does not name a type; did you mean 'VkPhysicalDeviceTransformFeedbackFeaturesEXT'?
-|  1271 | void DumpVkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT(Printer &p, std::string name, const VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT &obj) {
-|       |                                                                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                                                                      VkPhysicalDeviceTransformFeedbackFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT(Printer&, std::string, const int&)':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:1274:74: error: request for member 'attachmentFeedbackLoopLayout' in 'obj', which is of non-class type 'const int'
-|  1274 |     p.PrintKeyBool("attachmentFeedbackLoopLayout", static_cast<bool>(obj.attachmentFeedbackLoopLayout));
-|       |                                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:1932:107: error: 'VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT' does not name a type
-|  1932 | void DumpVkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT(Printer &p, std::string name, const VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT &obj) {
-|       |                                                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT(Printer&, std::string, const int&)':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:1935:79: error: request for member 'multisampledRenderToSingleSampled' in 'obj', which is of non-class type 'const int'
-|  1935 |     p.PrintKeyBool("multisampledRenderToSingleSampled", static_cast<bool>(obj.multisampledRenderToSingleSampled));
-|       |                                                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:1950:92: error: 'VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT' does not name a type; did you mean 'VkPhysicalDeviceFragmentDensityMapFeaturesEXT'?
-|  1950 | void DumpVkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT(Printer &p, std::string name, const VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT &obj) {
-|       |                                                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                                                            VkPhysicalDeviceFragmentDensityMapFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT(Printer&, std::string, const int&)':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:1953:64: error: request for member 'nonSeamlessCubeMap' in 'obj', which is of non-class type 'const int'
-|  1953 |     p.PrintKeyBool("nonSeamlessCubeMap", static_cast<bool>(obj.nonSeamlessCubeMap));
-|       |                                                                ^~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:1994:92: error: 'VkPhysicalDevicePipelineRobustnessFeaturesEXT' does not name a type; did you mean 'VkPhysicalDevicePipelinePropertiesFeaturesEXT'?
-|  1994 | void DumpVkPhysicalDevicePipelineRobustnessFeaturesEXT(Printer &p, std::string name, const VkPhysicalDevicePipelineRobustnessFeaturesEXT &obj) {
-|       |                                                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                                                            VkPhysicalDevicePipelinePropertiesFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDevicePipelineRobustnessFeaturesEXT(Printer&, std::string, const int&)':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:1997:64: error: request for member 'pipelineRobustness' in 'obj', which is of non-class type 'const int'
-|  1997 |     p.PrintKeyBool("pipelineRobustness", static_cast<bool>(obj.pipelineRobustness));
-|       |                                                                ^~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:1999:94: error: 'VkPhysicalDevicePipelineRobustnessPropertiesEXT' does not name a type; did you mean 'VkPhysicalDeviceRobustness2PropertiesEXT'?
-|  1999 | void DumpVkPhysicalDevicePipelineRobustnessPropertiesEXT(Printer &p, std::string name, const VkPhysicalDevicePipelineRobustnessPropertiesEXT &obj) {
-|       |                                                                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                                                              VkPhysicalDeviceRobustness2PropertiesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDevicePipelineRobustnessPropertiesEXT(Printer&, std::string, const int&)':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2001:89: error: request for member 'defaultRobustnessStorageBuffers' in 'obj', which is of non-class type 'const int'
-|  2001 |     DumpVkPipelineRobustnessBufferBehaviorEXT(p, "defaultRobustnessStorageBuffers", obj.defaultRobustnessStorageBuffers);
-|       |                                                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2002:89: error: request for member 'defaultRobustnessUniformBuffers' in 'obj', which is of non-class type 'const int'
-|  2002 |     DumpVkPipelineRobustnessBufferBehaviorEXT(p, "defaultRobustnessUniformBuffers", obj.defaultRobustnessUniformBuffers);
-|       |                                                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2003:87: error: request for member 'defaultRobustnessVertexInputs' in 'obj', which is of non-class type 'const int'
-|  2003 |     DumpVkPipelineRobustnessBufferBehaviorEXT(p, "defaultRobustnessVertexInputs", obj.defaultRobustnessVertexInputs);
-|       |                                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2004:80: error: request for member 'defaultRobustnessImages' in 'obj', which is of non-class type 'const int'
-|  2004 |     DumpVkPipelineRobustnessImageBehaviorEXT(p, "defaultRobustnessImages", obj.defaultRobustnessImages);
-|       |                                                                                ^~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2281:96: error: 'VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT' does not name a type; did you mean 'VkPhysicalDeviceShaderAtomicFloatFeaturesEXT'?
-|  2281 | void DumpVkPhysicalDeviceShaderModuleIdentifierFeaturesEXT(Printer &p, std::string name, const VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT &obj) {
-|       |                                                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                                                                VkPhysicalDeviceShaderAtomicFloatFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceShaderModuleIdentifierFeaturesEXT(Printer&, std::string, const int&)':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2284:68: error: request for member 'shaderModuleIdentifier' in 'obj', which is of non-class type 'const int'
-|  2284 |     p.PrintKeyBool("shaderModuleIdentifier", static_cast<bool>(obj.shaderModuleIdentifier));
-|       |                                                                    ^~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2286:98: error: 'VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT' does not name a type; did you mean 'VkPhysicalDeviceShaderSMBuiltinsPropertiesNV'?
-|  2286 | void DumpVkPhysicalDeviceShaderModuleIdentifierPropertiesEXT(Printer &p, std::string name, const VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT &obj) {
-|       |                                                                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                                                                  VkPhysicalDeviceShaderSMBuiltinsPropertiesNV
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceShaderModuleIdentifierPropertiesEXT(Printer&, std::string, const int&)':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2291:84: error: request for member 'shaderModuleIdentifierAlgorithmUUID' in 'obj', which is of non-class type 'const int'
-|  2291 |         for (uint32_t i = 0; i < 16; i++) p.PrintElement(static_cast<uint32_t>(obj.shaderModuleIdentifierAlgorithmUUID[i]));
-|       |                                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2293:82: error: request for member 'shaderModuleIdentifierAlgorithmUUID' in 'obj', which is of non-class type 'const int'
-|  2293 |         p.PrintKeyString("shaderModuleIdentifierAlgorithmUUID", to_string_16(obj.shaderModuleIdentifierAlgorithmUUID));
-|       |                                                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkQueueFamilyQueryResultStatusProperties2KHR(Printer&, std::string, const VkQueueFamilyQueryResultStatusProperties2KHR&)':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2709:70: error: 'const VkQueueFamilyQueryResultStatusProperties2KHR' {aka 'const struct VkQueueFamilyQueryResultStatusProperties2KHR'} has no member named 'queryResultStatusSupport'
-|  2709 |     p.PrintKeyBool("queryResultStatusSupport", static_cast<bool>(obj.queryResultStatusSupport));
-|       |                                                                      ^~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2716:82: error: 'VkSubpassResolvePerformanceQueryEXT' does not name a type
-|  2716 | void DumpVkSubpassResolvePerformanceQueryEXT(Printer &p, std::string name, const VkSubpassResolvePerformanceQueryEXT &obj) {
-|       |                                                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkSubpassResolvePerformanceQueryEXT(Printer&, std::string, const int&)':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2719:53: error: request for member 'optimal' in 'obj', which is of non-class type 'const int'
-|  2719 |     p.PrintKeyBool("optimal", static_cast<bool>(obj.optimal));
-|       |                                                     ^~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2790:5: error: 'VkPhysicalDevicePipelineRobustnessPropertiesEXT' does not name a type; did you mean 'VkPhysicalDeviceRobustness2PropertiesEXT'?
-|  2790 |     VkPhysicalDevicePipelineRobustnessPropertiesEXT PhysicalDevicePipelineRobustnessPropertiesEXT{};
-|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |     VkPhysicalDeviceRobustness2PropertiesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2803:5: error: 'VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT' does not name a type; did you mean 'VkPhysicalDeviceShaderSMBuiltinsPropertiesNV'?
-|  2803 |     VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT PhysicalDeviceShaderModuleIdentifierPropertiesEXT{};
-|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |     VkPhysicalDeviceShaderSMBuiltinsPropertiesNV
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In member function 'void phys_device_props2_chain::initialize_chain()':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2839:9: error: 'PhysicalDevicePipelineRobustnessPropertiesEXT' was not declared in this scope; did you mean 'DumpVkPhysicalDevicePipelineRobustnessPropertiesEXT'?
-|  2839 |         PhysicalDevicePipelineRobustnessPropertiesEXT.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES_EXT;
-|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |         DumpVkPhysicalDevicePipelineRobustnessPropertiesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2839:63: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_PROPERTIES_EXT'?
-|  2839 |         PhysicalDevicePipelineRobustnessPropertiesEXT.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES_EXT;
-|       |                                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                               VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_PROPERTIES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2852:9: error: 'PhysicalDeviceShaderModuleIdentifierPropertiesEXT' was not declared in this scope; did you mean 'DumpVkPhysicalDeviceShaderModuleIdentifierPropertiesEXT'?
-|  2852 |         PhysicalDeviceShaderModuleIdentifierPropertiesEXT.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_MODULE_IDENTIFIER_PROPERTIES_EXT;
-|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |         DumpVkPhysicalDeviceShaderModuleIdentifierPropertiesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2852:67: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_MODULE_IDENTIFIER_PROPERTIES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SM_BUILTINS_PROPERTIES_NV'?
-|  2852 |         PhysicalDeviceShaderModuleIdentifierPropertiesEXT.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_MODULE_IDENTIFIER_PROPERTIES_EXT;
-|       |                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                                   VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SM_BUILTINS_PROPERTIES_NV
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2959:5: error: 'VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT' does not name a type; did you mean 'VkPhysicalDeviceTransformFeedbackFeaturesEXT'?
-|  2959 |     VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT PhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT{};
-|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |     VkPhysicalDeviceTransformFeedbackFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2994:5: error: 'VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT' does not name a type
-|  2994 |     VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT PhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT{};
-|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:2996:5: error: 'VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT' does not name a type; did you mean 'VkPhysicalDeviceFragmentDensityMapFeaturesEXT'?
-|  2996 |     VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT PhysicalDeviceNonSeamlessCubeMapFeaturesEXT{};
-|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |     VkPhysicalDeviceFragmentDensityMapFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3002:5: error: 'VkPhysicalDevicePipelineRobustnessFeaturesEXT' does not name a type; did you mean 'VkPhysicalDevicePipelinePropertiesFeaturesEXT'?
-|  3002 |     VkPhysicalDevicePipelineRobustnessFeaturesEXT PhysicalDevicePipelineRobustnessFeaturesEXT{};
-|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |     VkPhysicalDevicePipelinePropertiesFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3031:5: error: 'VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT' does not name a type; did you mean 'VkPhysicalDeviceShaderAtomicFloatFeaturesEXT'?
-|  3031 |     VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT PhysicalDeviceShaderModuleIdentifierFeaturesEXT{};
-|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |     VkPhysicalDeviceShaderAtomicFloatFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In member function 'void phys_device_features2_chain::initialize_chain()':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3060:9: error: 'PhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT' was not declared in this scope; did you mean 'DumpVkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT'?
-|  3060 |         PhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ATTACHMENT_FEEDBACK_LOOP_LAYOUT_FEATURES_EXT;
-|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |         DumpVkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3060:71: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ATTACHMENT_FEEDBACK_LOOP_LAYOUT_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SCALAR_BLOCK_LAYOUT_FEATURES_EXT'?
-|  3060 |         PhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ATTACHMENT_FEEDBACK_LOOP_LAYOUT_FEATURES_EXT;
-|       |                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                                       VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SCALAR_BLOCK_LAYOUT_FEATURES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3095:9: error: 'PhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT' was not declared in this scope; did you mean 'DumpVkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT'?
-|  3095 |         PhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTISAMPLED_RENDER_TO_SINGLE_SAMPLED_FEATURES_EXT;
-|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |         DumpVkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3095:76: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTISAMPLED_RENDER_TO_SINGLE_SAMPLED_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_VIEW_MIN_LOD_FEATURES_EXT'?
-|  3095 |         PhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTISAMPLED_RENDER_TO_SINGLE_SAMPLED_FEATURES_EXT;
-|       |                                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                                            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_VIEW_MIN_LOD_FEATURES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3097:9: error: 'PhysicalDeviceNonSeamlessCubeMapFeaturesEXT' was not declared in this scope; did you mean 'DumpVkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT'?
-|  3097 |         PhysicalDeviceNonSeamlessCubeMapFeaturesEXT.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_NON_SEAMLESS_CUBE_MAP_FEATURES_EXT;
-|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |         DumpVkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3097:61: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_NON_SEAMLESS_CUBE_MAP_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_FEATURES_EXT'?
-|  3097 |         PhysicalDeviceNonSeamlessCubeMapFeaturesEXT.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_NON_SEAMLESS_CUBE_MAP_FEATURES_EXT;
-|       |                                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_FEATURES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3103:9: error: 'PhysicalDevicePipelineRobustnessFeaturesEXT' was not declared in this scope; did you mean 'DumpVkPhysicalDevicePipelineRobustnessFeaturesEXT'?
-|  3103 |         PhysicalDevicePipelineRobustnessFeaturesEXT.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES_EXT;
-|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |         DumpVkPhysicalDevicePipelineRobustnessFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3103:61: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROPERTIES_FEATURES_EXT'?
-|  3103 |         PhysicalDevicePipelineRobustnessFeaturesEXT.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES_EXT;
-|       |                                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROPERTIES_FEATURES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3131:9: error: 'PhysicalDeviceShaderModuleIdentifierFeaturesEXT' was not declared in this scope; did you mean 'DumpVkPhysicalDeviceShaderModuleIdentifierFeaturesEXT'?
-|  3131 |         PhysicalDeviceShaderModuleIdentifierFeaturesEXT.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_MODULE_IDENTIFIER_FEATURES_EXT;
-|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |         DumpVkPhysicalDeviceShaderModuleIdentifierFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3131:65: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_MODULE_IDENTIFIER_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_FLOAT_FEATURES_EXT'?
-|  3131 |         PhysicalDeviceShaderModuleIdentifierFeaturesEXT.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_MODULE_IDENTIFIER_FEATURES_EXT;
-|       |                                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_FLOAT_FEATURES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3310:5: error: 'VkSubpassResolvePerformanceQueryEXT' does not name a type
-|  3310 |     VkSubpassResolvePerformanceQueryEXT SubpassResolvePerformanceQueryEXT{};
-|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In member function 'void format_properties2_chain::initialize_chain()':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3313:9: error: 'SubpassResolvePerformanceQueryEXT' was not declared in this scope; did you mean 'DumpVkSubpassResolvePerformanceQueryEXT'?
-|  3313 |         SubpassResolvePerformanceQueryEXT.sType = VK_STRUCTURE_TYPE_SUBPASS_RESOLVE_PERFORMANCE_QUERY_EXT;
-|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |         DumpVkSubpassResolvePerformanceQueryEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3313:51: error: 'VK_STRUCTURE_TYPE_SUBPASS_RESOLVE_PERFORMANCE_QUERY_EXT' was not declared in this scope
-|  3313 |         SubpassResolvePerformanceQueryEXT.sType = VK_STRUCTURE_TYPE_SUBPASS_RESOLVE_PERFORMANCE_QUERY_EXT;
-|       |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void chain_iterator_phys_device_props2(Printer&, AppInstance&, AppGpu&, void*)':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3534:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_PROPERTIES_EXT'?
-|  3534 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES_EXT &&
-|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_PROPERTIES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3535:54: error: 'VK_EXT_PIPELINE_ROBUSTNESS_EXTENSION_NAME' was not declared in this scope; did you mean 'VK_EXT_IMAGE_ROBUSTNESS_EXTENSION_NAME'?
-|  3535 |            (gpu.CheckPhysicalDeviceExtensionIncluded(VK_EXT_PIPELINE_ROBUSTNESS_EXTENSION_NAME))) {
-|       |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                      VK_EXT_IMAGE_ROBUSTNESS_EXTENSION_NAME
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3536:13: error: 'VkPhysicalDevicePipelineRobustnessPropertiesEXT' was not declared in this scope; did you mean 'DumpVkPhysicalDevicePipelineRobustnessPropertiesEXT'?
-|  3536 |             VkPhysicalDevicePipelineRobustnessPropertiesEXT* props = (VkPhysicalDevicePipelineRobustnessPropertiesEXT*)structure;
-|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |             DumpVkPhysicalDevicePipelineRobustnessPropertiesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3536:62: error: 'props' was not declared in this scope
-|  3536 |             VkPhysicalDevicePipelineRobustnessPropertiesEXT* props = (VkPhysicalDevicePipelineRobustnessPropertiesEXT*)structure;
-|       |                                                              ^~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3536:119: error: expected primary-expression before ')' token
-|  3536 |             VkPhysicalDevicePipelineRobustnessPropertiesEXT* props = (VkPhysicalDevicePipelineRobustnessPropertiesEXT*)structure;
-|       |                                                                                                                       ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3605:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_MODULE_IDENTIFIER_PROPERTIES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SM_BUILTINS_PROPERTIES_NV'?
-|  3605 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_MODULE_IDENTIFIER_PROPERTIES_EXT &&
-|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SM_BUILTINS_PROPERTIES_NV
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3606:54: error: 'VK_EXT_SHADER_MODULE_IDENTIFIER_EXTENSION_NAME' was not declared in this scope; did you mean 'VK_EXT_SHADER_VIEWPORT_INDEX_LAYER_EXTENSION_NAME'?
-|  3606 |            (gpu.CheckPhysicalDeviceExtensionIncluded(VK_EXT_SHADER_MODULE_IDENTIFIER_EXTENSION_NAME))) {
-|       |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                      VK_EXT_SHADER_VIEWPORT_INDEX_LAYER_EXTENSION_NAME
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3607:13: error: 'VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT' was not declared in this scope; did you mean 'DumpVkPhysicalDeviceShaderModuleIdentifierPropertiesEXT'?
-|  3607 |             VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT* props = (VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT*)structure;
-|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |             DumpVkPhysicalDeviceShaderModuleIdentifierPropertiesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3607:66: error: 'props' was not declared in this scope
-|  3607 |             VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT* props = (VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT*)structure;
-|       |                                                                  ^~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3607:127: error: expected primary-expression before ')' token
-|  3607 |             VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT* props = (VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT*)structure;
-|       |                                                                                                                               ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void chain_iterator_phys_device_features2(Printer&, AppGpu&, void*)':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3707:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ATTACHMENT_FEEDBACK_LOOP_LAYOUT_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SCALAR_BLOCK_LAYOUT_FEATURES_EXT'?
-|  3707 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ATTACHMENT_FEEDBACK_LOOP_LAYOUT_FEATURES_EXT &&
-|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SCALAR_BLOCK_LAYOUT_FEATURES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3708:54: error: 'VK_EXT_ATTACHMENT_FEEDBACK_LOOP_LAYOUT_EXTENSION_NAME' was not declared in this scope
-|  3708 |            (gpu.CheckPhysicalDeviceExtensionIncluded(VK_EXT_ATTACHMENT_FEEDBACK_LOOP_LAYOUT_EXTENSION_NAME))) {
-|       |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3709:13: error: 'VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT' was not declared in this scope; did you mean 'DumpVkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT'?
-|  3709 |             VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT* props = (VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT*)structure;
-|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |             DumpVkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3709:70: error: 'props' was not declared in this scope
-|  3709 |             VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT* props = (VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT*)structure;
-|       |                                                                      ^~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3709:135: error: expected primary-expression before ')' token
-|  3709 |             VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT* props = (VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT*)structure;
-|       |                                                                                                                                       ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3925:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTISAMPLED_RENDER_TO_SINGLE_SAMPLED_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_VIEW_MIN_LOD_FEATURES_EXT'?
-|  3925 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTISAMPLED_RENDER_TO_SINGLE_SAMPLED_FEATURES_EXT &&
-|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_VIEW_MIN_LOD_FEATURES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3926:54: error: 'VK_EXT_MULTISAMPLED_RENDER_TO_SINGLE_SAMPLED_EXTENSION_NAME' was not declared in this scope
-|  3926 |            (gpu.CheckPhysicalDeviceExtensionIncluded(VK_EXT_MULTISAMPLED_RENDER_TO_SINGLE_SAMPLED_EXTENSION_NAME))) {
-|       |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3927:13: error: 'VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT' was not declared in this scope; did you mean 'DumpVkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT'?
-|  3927 |             VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT* props = (VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT*)structure;
-|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |             DumpVkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3927:75: error: 'props' was not declared in this scope
-|  3927 |             VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT* props = (VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT*)structure;
-|       |                                                                           ^~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3927:145: error: expected primary-expression before ')' token
-|  3927 |             VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT* props = (VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT*)structure;
-|       |                                                                                                                                                 ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3938:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_NON_SEAMLESS_CUBE_MAP_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_FEATURES_EXT'?
-|  3938 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_NON_SEAMLESS_CUBE_MAP_FEATURES_EXT &&
-|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_FEATURES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3939:54: error: 'VK_EXT_NON_SEAMLESS_CUBE_MAP_EXTENSION_NAME' was not declared in this scope; did you mean 'VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME'?
-|  3939 |            (gpu.CheckPhysicalDeviceExtensionIncluded(VK_EXT_NON_SEAMLESS_CUBE_MAP_EXTENSION_NAME))) {
-|       |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                      VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3940:13: error: 'VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT' was not declared in this scope; did you mean 'DumpVkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT'?
-|  3940 |             VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT* props = (VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT*)structure;
-|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |             DumpVkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3940:60: error: 'props' was not declared in this scope
-|  3940 |             VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT* props = (VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT*)structure;
-|       |                                                            ^~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3940:115: error: expected primary-expression before ')' token
-|  3940 |             VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT* props = (VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT*)structure;
-|       |                                                                                                                   ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3975:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROPERTIES_FEATURES_EXT'?
-|  3975 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES_EXT &&
-|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROPERTIES_FEATURES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3976:54: error: 'VK_EXT_PIPELINE_ROBUSTNESS_EXTENSION_NAME' was not declared in this scope; did you mean 'VK_EXT_IMAGE_ROBUSTNESS_EXTENSION_NAME'?
-|  3976 |            (gpu.CheckPhysicalDeviceExtensionIncluded(VK_EXT_PIPELINE_ROBUSTNESS_EXTENSION_NAME))) {
-|       |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                      VK_EXT_IMAGE_ROBUSTNESS_EXTENSION_NAME
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3977:13: error: 'VkPhysicalDevicePipelineRobustnessFeaturesEXT' was not declared in this scope; did you mean 'DumpVkPhysicalDevicePipelineRobustnessFeaturesEXT'?
-|  3977 |             VkPhysicalDevicePipelineRobustnessFeaturesEXT* props = (VkPhysicalDevicePipelineRobustnessFeaturesEXT*)structure;
-|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |             DumpVkPhysicalDevicePipelineRobustnessFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3977:60: error: 'props' was not declared in this scope
-|  3977 |             VkPhysicalDevicePipelineRobustnessFeaturesEXT* props = (VkPhysicalDevicePipelineRobustnessFeaturesEXT*)structure;
-|       |                                                            ^~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:3977:115: error: expected primary-expression before ')' token
-|  3977 |             VkPhysicalDevicePipelineRobustnessFeaturesEXT* props = (VkPhysicalDevicePipelineRobustnessFeaturesEXT*)structure;
-|       |                                                                                                                   ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:4141:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_MODULE_IDENTIFIER_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_FLOAT_FEATURES_EXT'?
-|  4141 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_MODULE_IDENTIFIER_FEATURES_EXT &&
-|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_FLOAT_FEATURES_EXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:4142:54: error: 'VK_EXT_SHADER_MODULE_IDENTIFIER_EXTENSION_NAME' was not declared in this scope; did you mean 'VK_EXT_SHADER_VIEWPORT_INDEX_LAYER_EXTENSION_NAME'?
-|  4142 |            (gpu.CheckPhysicalDeviceExtensionIncluded(VK_EXT_SHADER_MODULE_IDENTIFIER_EXTENSION_NAME))) {
-|       |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                      VK_EXT_SHADER_VIEWPORT_INDEX_LAYER_EXTENSION_NAME
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:4143:13: error: 'VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT' was not declared in this scope; did you mean 'DumpVkPhysicalDeviceShaderModuleIdentifierFeaturesEXT'?
-|  4143 |             VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT* props = (VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT*)structure;
-|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |             DumpVkPhysicalDeviceShaderModuleIdentifierFeaturesEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:4143:64: error: 'props' was not declared in this scope
-|  4143 |             VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT* props = (VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT*)structure;
-|       |                                                                ^~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:4143:123: error: expected primary-expression before ')' token
-|  4143 |             VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT* props = (VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT*)structure;
-|       |                                                                                                                           ^
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void chain_iterator_format_properties2(Printer&, AppGpu&, void*)':
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:4330:33: error: 'VK_STRUCTURE_TYPE_SUBPASS_RESOLVE_PERFORMANCE_QUERY_EXT' was not declared in this scope
-|  4330 |         if (structure->sType == VK_STRUCTURE_TYPE_SUBPASS_RESOLVE_PERFORMANCE_QUERY_EXT &&
-|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:4331:54: error: 'VK_EXT_MULTISAMPLED_RENDER_TO_SINGLE_SAMPLED_EXTENSION_NAME' was not declared in this scope
-|  4331 |            (gpu.CheckPhysicalDeviceExtensionIncluded(VK_EXT_MULTISAMPLED_RENDER_TO_SINGLE_SAMPLED_EXTENSION_NAME))) {
-|       |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:4332:13: error: 'VkSubpassResolvePerformanceQueryEXT' was not declared in this scope; did you mean 'DumpVkSubpassResolvePerformanceQueryEXT'?
-|  4332 |             VkSubpassResolvePerformanceQueryEXT* props = (VkSubpassResolvePerformanceQueryEXT*)structure;
-|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |             DumpVkSubpassResolvePerformanceQueryEXT
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:4332:50: error: 'props' was not declared in this scope
-|  4332 |             VkSubpassResolvePerformanceQueryEXT* props = (VkSubpassResolvePerformanceQueryEXT*)structure;
-|       |                                                  ^~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/git/vulkaninfo/generated/vulkaninfo.hpp:4332:95: error: expected primary-expression before ')' token
-|  4332 |             VkSubpassResolvePerformanceQueryEXT* props = (VkSubpassResolvePerformanceQueryEXT*)structure;
-|       |                                                                                               ^
-| ninja: build stopped: subcommand failed.
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/temp/run.do_compile.3640205:154 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
-| WARNING: Backtrace (BB generated script):
-| 	#1: cmake_runcmake_build, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/temp/run.do_compile.3640205, line 154
-| 	#2: cmake_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/temp/run.do_compile.3640205, line 148
-| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/temp/run.do_compile.3640205, line 143
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/temp/run.do_compile.3640205, line 167
-NOTE: recipe vulkan-tools-1.3.224.1-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 1198 tasks of which 1189 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.224.1.bb:do_compile
-Summary: There was 1 WARNING message.
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: vulkan-tools-1.3.224.1-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/temp/run.do_compile.3640205', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-tools/1.3.224.1-r0/temp/log.do_compile.3640205
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.224.1.bb:do_compile) failed with exit code '1'
-
---===============7051958410134870133==
+--===============3306970351687490919==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-vulkan-tools-upgrade-1.3.216.0-1.3.224.1.patch"
+ filename="0001-vulkan-headers-upgrade-1.3.216.0-1.3.224.1.patch"
 
-RnJvbSA2MWYyNTcwZDRhNWQ2NjJiYTNhYjk0YWE4MjQ1NjM0ZGI4MjBkNGY1IE1vbiBTZXAgMTcg
+RnJvbSBiY2E0Nzk1OWJiNWMzZmNjZGY4YzJhZDMwZmEyMzI2MWZjYTFmNzJlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBPY3QgMjAyMiAxMzozODozOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZ1
-bGthbi10b29sczogdXBncmFkZSAxLjMuMjE2LjAgLT4gMS4zLjIyNC4xCgotLS0KIC4uLi97dnVs
-a2FuLXRvb2xzXzEuMy4yMTYuMC5iYiA9PiB2dWxrYW4tdG9vbHNfMS4zLjIyNC4xLmJifSAgICB8
-IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4ve3Z1bGthbi10b29sc18xLjMuMjE2LjAu
-YmIgPT4gdnVsa2FuLXRvb2xzXzEuMy4yMjQuMS5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi10b29sc18xLjMuMjE2LjAuYmIgYi9tZXRh
-L3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi10b29sc18xLjMuMjI0LjEuYmIKc2ltaWxh
-cml0eSBpbmRleCA5NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92
-dWxrYW4tdG9vbHNfMS4zLjIxNi4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
-dnVsa2FuL3Z1bGthbi10b29sc18xLjMuMjI0LjEuYmIKaW5kZXggZTI2ZjQ1MDRmMS4uYmVkMTBh
-ZmVmMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tdG9v
-bHNfMS4zLjIxNi4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4vdnVsa2Fu
-LXRvb2xzXzEuMy4yMjQuMS5iYgpAQCAtNyw3ICs3LDcgQEAgU0VDVElPTiA9ICJsaWJzIgogTElD
-RU5TRSA9ICJBcGFjaGUtMi4wIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS50
-eHQ7bWQ1PTNiODNlZjk2Mzg3ZjE0NjU1ZmM4NTRkZGMzYzZiZDU3IgogU1JDX1VSSSA9ICJnaXQ6
-Ly9naXRodWIuY29tL0tocm9ub3NHcm91cC9WdWxrYW4tVG9vbHMuZ2l0O2JyYW5jaD1tYXN0ZXI7
-cHJvdG9jb2w9aHR0cHMiCi1TUkNSRVYgPSAiZWY5ZGI3YThlYzUyZjZjNTYxNThkODNmNWQ1N2Vm
-Mzg4YzFhYmVjMSIKK1NSQ1JFViA9ICI0OTdmMjMyNjgwYjA0NmRiMzRiYTllOWRhMDY1ZTYzMDNh
-MTI1ODUxIgogCiBTID0gIiR7V09SS0RJUn0vZ2l0IgogCi0tIAoyLjMxLjEKCg==
+CkRhdGU6IFNhdCwgMSBPY3QgMjAyMiAxMzozNTo1MiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZ1
+bGthbi1oZWFkZXJzOiB1cGdyYWRlIDEuMy4yMTYuMCAtPiAxLjMuMjI0LjEKCi0tLQogLi4ue3Z1
+bGthbi1oZWFkZXJzXzEuMy4yMTYuMC5iYiA9PiB2dWxrYW4taGVhZGVyc18xLjMuMjI0LjEuYmJ9
+IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi97dnVsa2FuLWhlYWRlcnNfMS4zLjIx
+Ni4wLmJiID0+IHZ1bGthbi1oZWFkZXJzXzEuMy4yMjQuMS5iYn0gKDkzJSkKCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuMy4yMTYuMC5i
+YiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4vdnVsa2FuLWhlYWRlcnNfMS4zLjIyNC4x
+LmJiCnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGlj
+cy92dWxrYW4vdnVsa2FuLWhlYWRlcnNfMS4zLjIxNi4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lw
+ZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuMy4yMjQuMS5iYgppbmRleCA1Zjc5
+MTdhZTgyLi44ZDM0NzM4YWQ3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVs
+a2FuL3Z1bGthbi1oZWFkZXJzXzEuMy4yMTYuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhp
+Y3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuMy4yMjQuMS5iYgpAQCAtMTEsNyArMTEsNyBAQCBM
+SUNFTlNFID0gIkFwYWNoZS0yLjAiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNF
+LnR4dDttZDU9M2I4M2VmOTYzODdmMTQ2NTVmYzg1NGRkYzNjNmJkNTciCiBTUkNfVVJJID0gImdp
+dDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1Z1bGthbi1IZWFkZXJzLmdpdDticmFuY2g9bWFp
+bjtwcm90b2NvbD1odHRwcyIKIAotU1JDUkVWID0gIjNlZjRjOTdmZDZlYTAwMWQ3NWE4ZTlkYTQw
+OGVlNDczYzE4MGU0NTYiCitTUkNSRVYgPSAiYzg5NmUyZjkyMDI3M2JmZWU4NTJkYTljY2EyYTM1
+NmJjMWMyMDMxZSIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIKIAotLSAKMi4zMS4xCgo=
 
---===============7051958410134870133==--
+--===============3306970351687490919==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/vulkan-headers: PV changed from "1.3.216.0" to "1.3.224.1"
+packages/core2-32-poky-linux/vulkan-headers: PKGV changed from 1.3.216.0 [default] to 1.3.224.1 [default]
+Changes to packages/core2-32-poky-linux/vulkan-headers (sysroot):
+  /usr/include/vulkan/vulkan_to_string.hpp was added
+  /usr/share/vulkan/registry/spec_tools/conventions.py was added
+  /usr/share/vulkan/registry/conventions.py was removed
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-dbg: PV changed from "1.3.216.0" to "1.3.224.1"
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-dbg: PKGV changed from 1.3.216.0 [default] to 1.3.224.1 [default]
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-dev: PV changed from "1.3.216.0" to "1.3.224.1"
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-dev: PKGV changed from 1.3.216.0 [default] to 1.3.224.1 [default]
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-dev: PKGSIZE changed from 11054975 to 10781473 (-2%)
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-dev: FILELIST: added "/usr/include/vulkan/vulkan_to_string.hpp"
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-doc: PV changed from "1.3.216.0" to "1.3.224.1"
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-doc: PKGV changed from 1.3.216.0 [default] to 1.3.224.1 [default]
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-locale: PV changed from "1.3.216.0" to "1.3.224.1"
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-locale: PKGV changed from 1.3.216.0 [default] to 1.3.224.1 [default]
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-src: PV changed from "1.3.216.0" to "1.3.224.1"
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-src: PKGV changed from 1.3.216.0 [default] to 1.3.224.1 [default]
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-staticdev: PV changed from "1.3.216.0" to "1.3.224.1"
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-staticdev: PKGV changed from 1.3.216.0 [default] to 1.3.224.1 [default]
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers: PV changed from "1.3.216.0" to "1.3.224.1"
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers: PKGV changed from 1.3.216.0 [default] to 1.3.224.1 [default]
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers: PKGSIZE changed from 6519647 to 6859827 (+5%)
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers: FILELIST: removed "/usr/share/vulkan/registry/conventions.py", added "/usr/share/vulkan/registry/spec_tools/conventions.py"
+Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
+  /sysroot-providers/virtual_i686-poky-linux-g++ was added
+  /sysroot-providers/virtual_i686-poky-linux-gcc was added
+  /usr/bin/i686-poky-linux was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-c++ was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-cpp was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-g++ was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-12.2.0 was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-ar was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-nm was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-ranlib was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcov was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcov-dump was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcov-tool was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-lto-dump was added
+  /usr/libexec/i686-poky-linux was added
+  /usr/libexec/i686-poky-linux/gcc was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/ar was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/as was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/cc1 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/cc1plus was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/collect2 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/cpp was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/gcc was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/g++-mapper-server was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-ar was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-as was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-cpp was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-gcc was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-ld.bfd was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-ld was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-ld.gold was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-nm was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-objcopy was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-objdump was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-ranlib was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-strip was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/fixincl was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/fixinc.sh was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/mkheaders was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/mkinstalldirs was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/ld.bfd was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/ld was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/ld.gold was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1plugin.so.0.0.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1plugin.so.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1plugin.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1.so.0.0.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1.so.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcp1plugin.so.0.0.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcp1plugin.so.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcp1plugin.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/liblto_plugin.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/lto1 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/lto-wrapper was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/nm was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/objcopy was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/objdump was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/gengtype was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/ranlib was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/strip was added
+  /usr/lib/i686-poky-linux was added
+  /usr/lib/i686-poky-linux/bfd-plugins was added
+  /usr/lib/i686-poky-linux/bfd-plugins/liblto_plugin.so was added
+  /usr/lib/i686-poky-linux/gcc was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0 was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/adxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/ammintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/amxbf16intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/amxint8intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/amxtileintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx2intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx5124fmapsintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx5124vnniwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512bf16intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512bf16vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512bitalgintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512bwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512cdintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512dqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512erintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512fintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512fp16intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512fp16vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512ifmaintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512ifmavlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512pfintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vbmi2intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vbmi2vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vbmiintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vbmivlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vlbwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vldqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vnniintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vnnivlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vp2intersectintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vp2intersectvlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vpopcntdqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vpopcntdqvlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avxvnniintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/bmi2intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/bmiintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/bmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/cet.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/cetintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/cldemoteintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/clflushoptintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/clwbintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/clzerointrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/cpuid.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/cross-stdarg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/emmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/enqcmdintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/f16cintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include-fixed was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include-fixed/limits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include-fixed/README was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include-fixed/syslimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/float.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/fma4intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/fmaintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/fxsrintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/gfniintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/hresetintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/ia32intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/immintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/iso646.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/keylockerintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/lwpintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/lzcntintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/mm3dnow.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/mmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/mm_malloc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/movdirintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/mwaitintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/mwaitxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/nmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/pconfigintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/pkuintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/pmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/popcntintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/prfchwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/quadmath.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/quadmath_weak.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/rdseedintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/rtmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/serializeintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/sgxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/shaintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/smmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdalign.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdarg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdatomic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdbool.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stddef.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdfix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdint-gcc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdint.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdnoreturn.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/tbmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/tmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/tsxldtrkintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/uintrintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/unwind.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/vaesintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/varargs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/vpclmulqdqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/waitpkgintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/wbnoinvdintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/wmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/x86gprintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/x86intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xopintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xsavecintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xsaveintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xsaveoptintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xsavesintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xtestintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/fixinc_list was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/gsyslimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/include was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/include/limits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/include/README was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/macro_list was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/mkheaders.conf was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/gtype.state was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ada was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ada/gcc-interface was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ada/gcc-interface/ada-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/addresses.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/alias.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/align.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/alloc-pool.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/all-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ansidecl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/array-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/asan.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/attr-fnspec.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/attribs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/auto-host.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/auto-profile.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/backend.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/basic-block.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/bb-reorder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/b-header-vars was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/bitmap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/builtin-attrs.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/builtins.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/builtin-types.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/bversion.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/calls.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ccmp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family/c-common.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family/c-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family/c-objc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family/c-pragma.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family/c-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfganal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgbuild.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgcleanup.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgexpand.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfg-flags.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfghooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgloop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgloopmanip.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgrtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cgraph.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cif-code.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/collect2-aix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/collect2.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/collect-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/color-macros.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/common was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/common/config was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/common/config/i386 was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/conditions.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/configargs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/dbxelf.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/elfos.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/glibc-stdint.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/gnu-user.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386 was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/att.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/gnu-user64.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/gnu-user-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/i386.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/i386-isa.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/i386-opts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/i386-protos.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/linux64.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/linux-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/stringop.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/unix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/x86-64.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/x86-tune.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/initfini-array.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/linux-android.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/linux.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/linux-protos.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/vxworks-dummy.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/context.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/convert.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/coretypes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/coroutine-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/coverage.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/cp-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/cp-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/cxx-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/name-lookup.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/operators.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cppbuiltin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cppdefault.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cpplib.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/type-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cselib.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ctfc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/d was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/data-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dbgcnt.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dbgcnt.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dbxout.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dce.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ddg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/d/d-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/debug.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/defaults.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/df.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dfp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-color.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-core.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-event-id.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-metadata.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-path.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-spec.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-url.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/digraph.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dojump.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dominance.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/domwalk.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/double-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dump-context.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dumpfile.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dwarf2asm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dwarf2ctf.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dwarf2out.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/edit-context.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/emit-rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/errors.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/escaped_string.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/et-forest.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/except.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/explow.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/expmed.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/expr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/fibonacci_heap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/file-find.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/filenames.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/file-prefix-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/fixed-value.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/flags.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/flag-types.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/fold-const-call.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/fold-const.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/function-abi.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/function.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcc-plugin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcc-rich-location.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcc-symtab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcov-counter.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcov-io.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcse-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcse.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/generic-match.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gengtype.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/genrtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gensupport.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ggc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ggc-internal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-array-bounds.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-expr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-fold.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-iterator.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-low.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-match.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-predicate-analysis.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-predict.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-cache.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-edge.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-fold.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-gori.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-path.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-trace.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-ssa-evrp-analyze.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-ssa-warn-access.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-ssa-warn-restrict.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-walk.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimplify.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimplify-me.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/glimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gomp-constants.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/graphds.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/graph.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/graphite.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/graphviz.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gsstruct.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gstab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gsyms.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gsyslimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gtm-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gtype-desc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hard-reg-set.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hash-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hash-map-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hash-set.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hashtab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hash-table.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hash-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/highlev-plugin-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hosthooks-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hosthooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hw-doloop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hwint.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ifcvt.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/inchash.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/incpath.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/input.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-addr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-attr-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-attr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-codes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-config.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-constants.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-flags.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-modes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-modes-inline.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-notes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/internal-fn.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/internal-fn.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/intl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/int-vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-fnsummary.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-icf-gimple.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-icf.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-inline.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-modref.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-modref-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-param-manipulation.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-predicate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-prop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-reference.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-ref.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ira.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ira-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/is-a.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/iterator-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/json.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/langhooks-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/langhooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lcm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/libfuncs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/libiberty.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/limitx.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/limity.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/line-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/linux.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/loop-unroll.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lower-subreg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lra.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lra-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lto-compress.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lto-section-names.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lto-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/machmode.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/machmode.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/md5.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/memmodel.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/memory-block.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/mem-stats.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/mem-stats-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/mode-classes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/mux-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/objc was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/objc/objc-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/obstack.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/obstack-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-expand.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-general.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-low.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-offload.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-simd-clone.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optabs.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optabs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optabs-libfuncs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optabs-query.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optabs-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optinfo-emit-json.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optinfo.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/options.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/opt-problem.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/opts-diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/opts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/opt-suggestions.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ordered-hash-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/output.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/passes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/pass-instances.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/pass_manager.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/plugin-api.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/plugin.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/plugin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/plugin-version.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/pointer-query.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/poly-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/poly-int-types.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/predict.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/predict.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/prefix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/print-rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/print-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/profile-count.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/profile.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/range.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/range-op.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/read-md.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/read-rtl-function.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/real.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/realmpfr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/recog.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/regcprop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/reg-notes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/regrename.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/regset.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/regs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/reload.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/resource.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtlanal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtl.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtl-error.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtlhash.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtlhooks-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtl-iter.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtl-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtx-vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/run-rtl-passes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/safe-ctype.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sanitizer.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sbitmap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sched-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/selftest-diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/selftest.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/selftest-rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sel-sched-dump.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sel-sched.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sel-sched-ir.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sese.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/shortest-paths.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/shrink-wrap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/signop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sparseset.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/spellcheck.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/spellcheck-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/splay-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/splay-tree-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sreal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ssa-iterators.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/stab.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/statistics.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/stmt.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/stor-layout.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/streamer-hooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/stringpool.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/substring-locations.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/symbol-summary.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/symtab-clones.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/symtab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/symtab-thunks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sync-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/system.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target-globals.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target-hooks-macros.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target-insns.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/targhooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/timevar.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/timevar.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tm_p.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tm-preds.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/toplev.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tracer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/trans-mem.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-affine.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-cfgcleanup.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-cfg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-check.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-chrec.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-core.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-data-ref.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-dfa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-dump.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-eh.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-hasher.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-hash-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-if-conv.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-inline.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-into-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-iterator.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-nested.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-object-size.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-outof-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-parloops.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-pass.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-phinodes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-scalar-evolution.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-sra.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-address.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-alias-compare.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-alias.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-ccp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-coalesce.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-dce.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-dom.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-dse.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-live.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-loop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-loop-ivopts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-loop-manip.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-loop-niter.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-math-opts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssanames.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-operands.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-propagate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-reassoc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-sccvn.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-scopedtables.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-strlen.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-ter.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-threadedge.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-threadupdate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-stdarg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/treestruct.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-switch-conversion.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-vectorizer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-vrp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tristate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tsan.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tsystem.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/typeclass.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/typed-splay-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ubsan.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/valtrack.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-pointer-equiv.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-prof.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-query.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-range-equiv.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-range.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-relation.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/varasm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vec.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vec-perm-indices.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/version.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vmsdbg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vr-values.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vtable-verify.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/wide-int-bitmask.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/wide-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/wide-int-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/xcoff.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/xcoffout.h was added
+  /sysroot-providers/virtual_i686-poky-linux-musl-g++ was removed
+  /sysroot-providers/virtual_i686-poky-linux-musl-gcc was removed
+  /usr/bin/i686-poky-linux-musl was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-c++ was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-cpp was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-g++ was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-12.2.0 was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-ar was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-nm was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-ranlib was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov-dump was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov-tool was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-lto-dump was removed
+  /usr/libexec/i686-poky-linux-musl was removed
+  /usr/libexec/i686-poky-linux-musl/gcc was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/ar was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/as was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/cc1 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/cc1plus was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/collect2 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/cpp was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/gcc was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/g++-mapper-server was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-ar was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-as was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-cpp was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-gcc was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-ld.bfd was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-ld was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-ld.gold was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-nm was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-objcopy was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-objdump was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-ranlib was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-strip was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/fixincl was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/fixinc.sh was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/mkheaders was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/mkinstalldirs was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/ld.bfd was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/ld was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/ld.gold was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1plugin.so.0.0.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1plugin.so.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1plugin.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1.so.0.0.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1.so.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcp1plugin.so.0.0.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcp1plugin.so.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcp1plugin.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/liblto_plugin.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/lto1 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/lto-wrapper was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/nm was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/objcopy was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/objdump was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/gengtype was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/ranlib was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/strip was removed
+  /usr/lib/i686-poky-linux-musl was removed
+  /usr/lib/i686-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/i686-poky-linux-musl/bfd-plugins/liblto_plugin.so was removed
+  /usr/lib/i686-poky-linux-musl/gcc was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0 was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/adxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/ammintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/amxbf16intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/amxint8intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/amxtileintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx2intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx5124fmapsintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx5124vnniwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512bf16intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512bf16vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512bitalgintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512bwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512cdintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512dqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512erintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512fintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512fp16intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512fp16vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512ifmaintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512ifmavlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512pfintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vbmi2intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vbmi2vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vbmiintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vbmivlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vlbwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vldqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vnniintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vnnivlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vp2intersectintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vp2intersectvlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vpopcntdqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vpopcntdqvlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avxvnniintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/bmi2intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/bmiintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/bmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/cet.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/cetintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/cldemoteintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/clflushoptintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/clwbintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/clzerointrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/cpuid.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/cross-stdarg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/emmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/enqcmdintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/f16cintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include-fixed was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include-fixed/limits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include-fixed/README was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include-fixed/syslimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/float.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/fma4intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/fmaintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/fxsrintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/gfniintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/hresetintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/ia32intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/immintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/iso646.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/keylockerintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/lwpintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/lzcntintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/mm3dnow.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/mmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/mm_malloc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/movdirintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/mwaitintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/mwaitxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/nmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/pconfigintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/pkuintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/pmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/popcntintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/prfchwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/quadmath.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/quadmath_weak.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/rdseedintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/rtmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/serializeintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/sgxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/shaintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/smmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdalign.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdarg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdatomic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdbool.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stddef.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdfix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdint-gcc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdint.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdnoreturn.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/tbmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/tmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/tsxldtrkintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/uintrintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/unwind.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/vaesintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/varargs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/vpclmulqdqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/waitpkgintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/wbnoinvdintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/wmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/x86gprintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/x86intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xopintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xsavecintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xsaveintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xsaveoptintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xsavesintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xtestintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/fixinc_list was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/gsyslimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/include was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/include/limits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/include/README was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/macro_list was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/mkheaders.conf was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/gtype.state was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ada was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ada/gcc-interface was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ada/gcc-interface/ada-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/addresses.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/alias.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/align.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/alloc-pool.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/all-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ansidecl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/array-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/asan.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/attr-fnspec.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/attribs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/auto-host.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/auto-profile.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/backend.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/basic-block.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/bb-reorder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/b-header-vars was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/bitmap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/builtin-attrs.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/builtins.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/builtin-types.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/bversion.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/calls.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ccmp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family/c-common.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family/c-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family/c-objc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family/c-pragma.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family/c-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfganal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgbuild.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgcleanup.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgexpand.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfg-flags.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfghooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgloop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgloopmanip.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgrtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cgraph.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cif-code.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/collect2-aix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/collect2.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/collect-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/color-macros.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/common was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/common/config was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/common/config/i386 was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/conditions.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/configargs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/dbxelf.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/elfos.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/glibc-stdint.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/gnu-user.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386 was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/att.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/gnu-user64.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/gnu-user-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/i386.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/i386-isa.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/i386-opts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/i386-protos.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/linux64.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/linux-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/stringop.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/unix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/x86-64.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/x86-tune.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/initfini-array.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/linux-android.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/linux.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/linux-protos.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/vxworks-dummy.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/context.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/convert.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/coretypes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/coroutine-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/coverage.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/cp-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/cp-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/cxx-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/name-lookup.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/operators.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cppbuiltin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cppdefault.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cpplib.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/type-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cselib.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ctfc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/d was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/data-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dbgcnt.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dbgcnt.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dbxout.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dce.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ddg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/d/d-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/debug.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/defaults.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/df.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dfp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-color.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-core.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-event-id.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-metadata.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-path.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-spec.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-url.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/digraph.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dojump.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dominance.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/domwalk.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/double-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dump-context.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dumpfile.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dwarf2asm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dwarf2ctf.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dwarf2out.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/edit-context.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/emit-rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/errors.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/escaped_string.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/et-forest.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/except.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/explow.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/expmed.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/expr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/fibonacci_heap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/file-find.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/filenames.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/file-prefix-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/fixed-value.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/flags.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/flag-types.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/fold-const-call.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/fold-const.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/function-abi.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/function.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcc-plugin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcc-rich-location.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcc-symtab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcov-counter.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcov-io.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcse-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcse.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/generic-match.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gengtype.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/genrtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gensupport.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ggc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ggc-internal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-array-bounds.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-expr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-fold.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-iterator.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-low.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-match.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-predicate-analysis.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-predict.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-cache.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-edge.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-fold.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-gori.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-path.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-trace.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-ssa-evrp-analyze.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-ssa-warn-access.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-ssa-warn-restrict.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-walk.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimplify.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimplify-me.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/glimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gomp-constants.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/graphds.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/graph.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/graphite.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/graphviz.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gsstruct.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gstab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gsyms.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gsyslimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gtm-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gtype-desc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hard-reg-set.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hash-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hash-map-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hash-set.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hashtab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hash-table.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hash-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/highlev-plugin-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hosthooks-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hosthooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hw-doloop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hwint.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ifcvt.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/inchash.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/incpath.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/input.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-addr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-attr-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-attr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-codes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-config.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-constants.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-flags.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-modes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-modes-inline.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-notes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/internal-fn.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/internal-fn.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/intl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/int-vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-fnsummary.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-icf-gimple.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-icf.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-inline.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-modref.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-modref-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-param-manipulation.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-predicate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-prop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-reference.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-ref.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ira.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ira-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/is-a.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/iterator-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/json.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/langhooks-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/langhooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lcm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/libfuncs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/libiberty.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/limitx.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/limity.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/line-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/linux.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/loop-unroll.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lower-subreg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lra.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lra-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lto-compress.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lto-section-names.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lto-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/machmode.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/machmode.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/md5.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/memmodel.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/memory-block.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/mem-stats.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/mem-stats-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/mode-classes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/mux-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/objc was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/objc/objc-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/obstack.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/obstack-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-expand.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-general.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-low.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-offload.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-simd-clone.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optabs.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optabs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optabs-libfuncs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optabs-query.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optabs-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optinfo-emit-json.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optinfo.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/options.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/opt-problem.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/opts-diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/opts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/opt-suggestions.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ordered-hash-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/output.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/passes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/pass-instances.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/pass_manager.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/plugin-api.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/plugin.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/plugin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/plugin-version.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/pointer-query.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/poly-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/poly-int-types.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/predict.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/predict.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/prefix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/print-rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/print-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/profile-count.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/profile.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/range.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/range-op.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/read-md.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/read-rtl-function.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/real.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/realmpfr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/recog.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/regcprop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/reg-notes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/regrename.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/regset.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/regs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/reload.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/resource.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtlanal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtl.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtl-error.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtlhash.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtlhooks-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtl-iter.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtl-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtx-vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/run-rtl-passes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/safe-ctype.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sanitizer.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sbitmap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sched-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/selftest-diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/selftest.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/selftest-rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sel-sched-dump.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sel-sched.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sel-sched-ir.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sese.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/shortest-paths.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/shrink-wrap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/signop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sparseset.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/spellcheck.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/spellcheck-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/splay-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/splay-tree-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sreal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ssa-iterators.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/stab.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/statistics.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/stmt.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/stor-layout.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/streamer-hooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/stringpool.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/substring-locations.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/symbol-summary.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/symtab-clones.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/symtab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/symtab-thunks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sync-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/system.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target-globals.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target-hooks-macros.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target-insns.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/targhooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/timevar.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/timevar.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tm_p.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tm-preds.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/toplev.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tracer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/trans-mem.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-affine.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-cfgcleanup.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-cfg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-check.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-chrec.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-core.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-data-ref.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-dfa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-dump.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-eh.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-hasher.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-hash-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-if-conv.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-inline.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-into-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-iterator.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-nested.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-object-size.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-outof-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-parloops.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-pass.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-phinodes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-scalar-evolution.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-sra.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-address.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-alias-compare.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-alias.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-ccp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-coalesce.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-dce.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-dom.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-dse.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-live.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-loop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-loop-ivopts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-loop-manip.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-loop-niter.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-math-opts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssanames.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-operands.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-propagate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-reassoc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-sccvn.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-scopedtables.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-strlen.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-ter.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-threadedge.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-threadupdate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-stdarg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/treestruct.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-switch-conversion.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-vectorizer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-vrp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tristate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tsan.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tsystem.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/typeclass.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/typed-splay-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ubsan.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/valtrack.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-pointer-equiv.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-prof.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-query.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-range-equiv.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-range.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-relation.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/varasm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vec.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vec-perm-indices.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/version.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vmsdbg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vr-values.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vtable-verify.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int-bitmask.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
+
+--===============3306970351687490919==--
 
