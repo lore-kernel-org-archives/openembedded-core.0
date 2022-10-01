@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B08E4C352AA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B46C5C4707A
 	for <webhook@archiver.kernel.org>; Sat,  1 Oct 2022 16:53:52 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com
- (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.506.1664643229565715335
+Received: from a27-45.smtp-out.us-west-2.amazonses.com
+ (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web08.475.1664643225699483255
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Oct 2022 09:53:49 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=SV1qdxyN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31,
- mailfrom: 010101839477e521-59c97957-a82c-4797-afe7-3275325a3dd3-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=bzp07+63;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
+ mailfrom: 010101839477e545-043caa76-a43a-4e34-a693-58a66d18ba50-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1664643229;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=BTUaFlV8LgeOsvQ5O+pH8alPVscMRnXpReri8IHLTNk=;
-	b=SV1qdxyNumZoeAHopeOYeqgZHkPJVjnwjlWTmQV3U/OVtyGW6Rl375kqYno/B+FU
-	OBcJaCqBYAw2+lVaGBxFEThl9hQuBhzrZBX4B1rWRfdCyh/43QktWdstBlzw8Hfz64Z
-	oBes8d0ts019kSrAHP2UjQz7OrJRkMSB01zmEGes=
+	bh=KFZkxyTkLoOPtrSTfwaJ+TEdDe4BKmZy0fhT4TdVe3k=;
+	b=bzp07+63gJTyyDhNm3KT3oxXVDmvz43xVt/4EH7Tpbcco4scU7Ezz6Y5Tz/5sHO5
+	C3GMfsq/bVUhvLzZAtvCXHtNCHa8KxuECfAHZvjafll6zQjj1N0HAKyv7Uyipho1Xnw
+	QI4syy3GS8wtKoz4Y/5+SSSh5MiYlQvL/x1+srVM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1664643229;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=BTUaFlV8LgeOsvQ5O+pH8alPVscMRnXpReri8IHLTNk=;
-	b=IjcmobEGiLyjB5wEkOieOqiNrH6daS2goj9ARuly4+So7NzfjFXgnBrSvtkJgId1
-	PAggdtXnfjG3kT8YaPnqN7vDz1+BwTd06bVcAsfO2lg0IRE0mCl60g959w/E//jHgXx
-	LaUr37yTznNMh5OQm8SGCMeIbiKll62tHN6sA2Wg=
-Content-Type: multipart/mixed; boundary="===============8203675795219366516=="
+	bh=KFZkxyTkLoOPtrSTfwaJ+TEdDe4BKmZy0fhT4TdVe3k=;
+	b=Eb4+4K5fluMBfL2wveut96MpGNAMsLv1Qs/dqu8r9iAf/QM9BE+o2Htd5CkytQVb
+	KEtjs/XsFEQniHxAJ4LTEjQ4y8W8rHVbfgNUTOdoXmiFYhP5K3Nf4JzTKiBX6r9YLvy
+	lZRo3SeubsGQa0Ds+7rFf4O6byKrILoHWy3WnhTQ=
+Content-Type: multipart/mixed; boundary="===============1608610790443482279=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Joshua Watt <JPEWhacker@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] at-spi2-core: upgrading to 2.46.0 FAILED
+Subject: [AUH] diffoscope: upgrading to 223 SUCCEEDED
 Message-ID: 
- <010101839477e521-59c97957-a82c-4797-afe7-3275325a3dd3-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Oct 2022 16:53:48 +0000
+ <010101839477e545-043caa76-a43a-4e34-a693-58a66d18ba50-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Oct 2022 16:53:49 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.10.01-54.240.27.31
+X-SES-Outgoing: 2022.10.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Oct 2022 16:53:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171333
+ https://lists.openembedded.org/g/openembedded-core/message/171331
 
---===============8203675795219366516==
+--===============1608610790443482279==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,16 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *at-spi2-core* to *2.46.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *diffoscope* to *223* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-at-spi2-core-upgrade-2.44.1-2.46.0.patch
+    - apply the patch: git am 0001-diffoscope-upgrade-221-223.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -81,128 +75,91 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8203675795219366516==
+--===============1608610790443482279==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/diffoscope (sysroot):
+  /usr/lib/python3.10/site-packages/diffoscope-221.dist-info moved to /usr/lib/python3.10/site-packages/diffoscope-223.dist-info
+
+--===============1608610790443482279==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: PV changed from "221" to "223"
+packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: PKGV changed from 221 [default] to 223 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-dev: PV changed from "221" to "223"
+packages/core2-32-poky-linux/diffoscope/diffoscope-dev: PKGV changed from 221 [default] to 223 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-doc: PV changed from "221" to "223"
+packages/core2-32-poky-linux/diffoscope/diffoscope-doc: PKGV changed from 221 [default] to 223 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-locale: PV changed from "221" to "223"
+packages/core2-32-poky-linux/diffoscope/diffoscope-locale: PKGV changed from 221 [default] to 223 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-src: PV changed from "221" to "223"
+packages/core2-32-poky-linux/diffoscope/diffoscope-src: PKGV changed from 221 [default] to 223 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: PV changed from "221" to "223"
+packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: PKGV changed from 221 [default] to 223 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope: PKGSIZE changed from 1060658 to 1060814 (+0%)
+packages/core2-32-poky-linux/diffoscope/diffoscope: PV changed from "221" to "223"
+packages/core2-32-poky-linux/diffoscope/diffoscope: PKGV changed from 221 [default] to 223 [default]
+packages/core2-32-poky-linux/diffoscope: PV changed from "221" to "223"
+packages/core2-32-poky-linux/diffoscope: PKGV changed from 221 [default] to 223 [default]
+packages/core2-32-poky-linux/diffoscope: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-221.tar.gz" to "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-223.tar.gz"
+Changes to packages/core2-32-poky-linux/diffoscope (sysroot):
+  /usr/lib/python3.10/site-packages/diffoscope-221.dist-info moved to /usr/lib/python3.10/site-packages/diffoscope-223.dist-info
+
+--===============1608610790443482279==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 885 .bb files complete (0 cached, 885 parsed). 1662 targets, 49 skipped, 0 masked, 0 errors.
+Removing 117 recipes from the core2-32 sysroot...done.
+Removing 123 recipes from the qemux86 sysroot...done.
+
+Summary: There was 1 WARNING message.
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: Nothing PROVIDES 'diffoscope'
+diffoscope was skipped: incompatible with host i686-poky-linux-musl (not in COMPATIBLE_HOST)
+
+--===============1608610790443482279==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-at-spi2-core-upgrade-2.44.1-2.46.0.patch"
+ filename="0001-diffoscope-upgrade-221-223.patch"
 
-RnJvbSAzYWY1MzNjNTcwOTFmMjNkY2NhY2U5ZTEwOGU3OWYwYTZkMjM5YmYzIE1vbiBTZXAgMTcg
+RnJvbSAzZDAzNDNlNzY3ZjgzYjcxNjMwYjdjZDE4YTkzMmU5MzdjZWUzMjg3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBPY3QgMjAyMiAxNDo0NDo1MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGF0
-LXNwaTItY29yZTogdXBncmFkZSAyLjQ0LjEgLT4gMi40Ni4wCgotLS0KIC4uLi9hdGsve2F0LXNw
-aTItY29yZV8yLjQ0LjEuYmIgPT4gYXQtc3BpMi1jb3JlXzIuNDYuMC5iYn0gICAgICB8IDIgKy0K
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1zdXBwb3J0L2F0ay97YXQtc3BpMi1jb3JlXzIuNDQuMS5iYiA9PiBhdC1zcGky
-LWNvcmVfMi40Ni4wLmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0
-L2F0ay9hdC1zcGkyLWNvcmVfMi40NC4xLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXRrL2F0
-LXNwaTItY29yZV8yLjQ2LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvYXRrL2F0LXNwaTItY29yZV8yLjQ0LjEuYmIKcmVuYW1lIHRvIG1l
-dGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9hdC1zcGkyLWNvcmVfMi40Ni4wLmJiCmluZGV4IDk1YTZj
-NjE5ZjAuLjBkNzBlYmUyMTYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9h
-dC1zcGkyLWNvcmVfMi40NC4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9hdC1z
-cGkyLWNvcmVfMi40Ni4wLmJiCkBAIC0xMSw3ICsxMSw3IEBAIE1BSl9WRVIgPSAiJHtAb2UudXRp
-bHMudHJpbV92ZXJzaW9uKCIke1BWfSIsIDIpfSIKIAogU1JDX1VSSSA9ICIke0dOT01FX01JUlJP
-Un0vJHtCUE59LyR7TUFKX1ZFUn0vJHtCUE59LSR7UFZ9LnRhci54eiIKIAotU1JDX1VSSVtzaGEy
-NTZzdW1dID0gIjRiZWIyMzI3MGJhNmNmN2NhZjIwYjU5NzM1NGQ3NTE5NGQ4OWFmYjY5ZDJlZmNm
-MTVmNDI3MTY4OGJhNmY3NDYiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYWEwYzg2Yzc5ZjdhOGQ2
-N2JhZTQ5YTViN2E1YWIwODQzMGM2MDhjZmZlNmUzM2JmNDdhNzJmNDFhYjAzYzNkMCIKIAogWDEx
-REVQRU5EUyA9ICJ2aXJ0dWFsL2xpYngxMSBsaWJ4aSBsaWJ4dHN0IgogCi0tIAoyLjMxLjEKCg==
+CkRhdGU6IFNhdCwgMSBPY3QgMjAyMiAxNTowNDoxNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGRp
+ZmZvc2NvcGU6IHVwZ3JhZGUgMjIxIC0+IDIyMwoKLS0tCiAuLi4vZGlmZm9zY29wZS97ZGlmZm9z
+Y29wZV8yMjEuYmIgPT4gZGlmZm9zY29wZV8yMjMuYmJ9ICAgICAgICAgfCAyICstCiAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
+ZXMtc3VwcG9ydC9kaWZmb3Njb3BlL3tkaWZmb3Njb3BlXzIyMS5iYiA9PiBkaWZmb3Njb3BlXzIy
+My5iYn0gKDkyJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9kaWZmb3Njb3Bl
+L2RpZmZvc2NvcGVfMjIxLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZm
+b3Njb3BlXzIyMy5iYgpzaW1pbGFyaXR5IGluZGV4IDkyJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
+ZXMtc3VwcG9ydC9kaWZmb3Njb3BlL2RpZmZvc2NvcGVfMjIxLmJiCnJlbmFtZSB0byBtZXRhL3Jl
+Y2lwZXMtc3VwcG9ydC9kaWZmb3Njb3BlL2RpZmZvc2NvcGVfMjIzLmJiCmluZGV4IGM4MDEyMDBk
+N2MuLmQ4ZjFjNmRhMzMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2Nv
+cGUvZGlmZm9zY29wZV8yMjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29w
+ZS9kaWZmb3Njb3BlXzIyMy5iYgpAQCAtMTIsNyArMTIsNyBAQCBQWVBJX1BBQ0tBR0UgPSAiZGlm
+Zm9zY29wZSIKIAogaW5oZXJpdCBweXBpIHNldHVwdG9vbHMzCiAKLVNSQ19VUklbc2hhMjU2c3Vt
+XSA9ICI3YjE3MjRlOWIxZTVhYzY1OTdjYWMwN2QwYWNkMjY2MWRiMWJjZjBkNmE5YjJlODdiZTIx
+YjVlMzgwNmJlOWY4IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjAzODFjNzdiZTkzMjYwODRiYWQ1
+NjgzZjQyNTZhMjczZDZlZWRjNWJhMTIyMzhjZjkwMTE1NTE5N2Y1NWRjMzUiCiAKIFJERVBFTkRT
+OiR7UE59ICs9ICJiaW51dGlscyB2aW0gc3F1YXNoZnMtdG9vbHMgcHl0aG9uMy1saWJhcmNoaXZl
+LWMgcHl0aG9uMy1tYWdpYyBweXRob24zLXJwbSIKIAotLSAKMi4zMS4xCgo=
 
---===============8203675795219366516==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1661 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 885 .bb files complete (884 cached, 1 parsed). 1661 targets, 36 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:900dcc01f48bdb1b1e91b9e6a335aac35a198e73"
-workspace            = "master:5200799866b92259e855051112520006e1aaaac0"
-
-Initialising tasks...done.
-Sstate summary: Wanted 160 Local 153 Mirrors 0 Missed 7 Current 287 (95% match, 98% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 420 of 447 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1099 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_fetch)
-NOTE: Running task 1118 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_write_config)
-NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_fetch: Started
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_write_config: Started
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1119 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_unpack)
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_write_config: Succeeded
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_unpack: Started
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1120 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_patch)
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_patch: Started
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_patch: Succeeded
-NOTE: Running task 1121 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1122 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_populate_lic)
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_populate_lic: Started
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1597 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1606 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_configure)
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_configure: Started
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_configure: Succeeded
-NOTE: Running task 1607 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_compile)
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_compile: Started
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_compile: Succeeded
-NOTE: Running task 1608 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_install)
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_install: Started
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_install: Succeeded
-NOTE: Running task 1609 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_package)
-NOTE: Running task 1610 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_populate_sysroot)
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_package: Started
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_populate_sysroot: Started
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe at-spi2-core-2.46.0-r0: task do_package: Failed
-NOTE: Tasks Summary: Attempted 1610 tasks of which 1598 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_package
-Summary: There was 1 WARNING message.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: at-spi2-core-2.46.0-r0 do_package: QA Issue: at-spi2-core: Files/directories were installed but not shipped in any package:
-  /usr/lib/gnome-settings-daemon-3.0
-  /usr/lib/gtk-2.0/modules/libatk-bridge.so
-  /usr/lib/gnome-settings-daemon-3.0/gtk-modules
-  /usr/lib/gnome-settings-daemon-3.0/gtk-modules/at-spi2-atk.desktop
-Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
-at-spi2-core: 4 installed and not shipped files. [installed-vs-shipped]
-ERROR: at-spi2-core-2.46.0-r0 do_package: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/at-spi2-core/2.46.0-r0/temp/log.do_package.917804
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.46.0.bb:do_package) failed with exit code '1'
-
---===============8203675795219366516==--
+--===============1608610790443482279==--
 
