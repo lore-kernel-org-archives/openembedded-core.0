@@ -2,41 +2,41 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C70AC47095
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61FFCC47096
 	for <webhook@archiver.kernel.org>; Sat,  1 Oct 2022 16:53:53 +0000 (UTC)
 Received: from a27-193.smtp-out.us-west-2.amazonses.com
  (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.482.1664643227645928831
+ by mx.groups.io with SMTP id smtpd.web10.500.1664643226986144318
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Oct 2022 09:53:47 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=XuBPIaAr;
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ia93vZXh;
  spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193,
- mailfrom: 010101839477dd0e-37122897-4edb-4a52-bdcd-0d99f11554ea-000000@us-west-2.amazonses.com)
+ mailfrom: 010101839477dc98-953f4857-0393-450c-aaa9-95f11d770c6b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1664643227;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=vMAMNvM35nIvWLilbNpPZWSqxoHJvVnPsqJEWM7nmTc=;
-	b=XuBPIaAr5xYRbvPWzIbgAV1JAqgolIJUkQRhvDVEQqQLLyp2Tngt2ehfPie0X0Zo
-	AKohqzs26HAlTkoaGwowlP1FzABejHXbtYH3zF79DgzgfhIZBTdQPZPSaJ+P5BjYc/l
-	caj5EW6pNCPEw/xtcXKuTMmRAG494fqmEo4wDFKU=
+	bh=Ehx710FSgDtPLPhEnrzRRxGcwG4Lom/N0sHWHowbI/g=;
+	b=ia93vZXh2acuALn4m4bktg7T9S3KCyGVRTVSHXdsGCl6GAajDeQyThwsXRdgK8vW
+	k+T7qd5k6IyvjMjvgxbmog3FTHdMlaLCl+HNLdzf3xiSrMRk0Z6OAuQP1PVzwlj/fgq
+	6FY/gcvpxwxAc9R7Z61iQb+kOilXsOEEGR7Gay6Y=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1664643227;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=vMAMNvM35nIvWLilbNpPZWSqxoHJvVnPsqJEWM7nmTc=;
-	b=DheOK5glaCoAWttr3+xu5UoO6Q7RBf1ZpCejvgiIS//a6PeySf6xx+Ya0qM7z5lT
-	BKSeD6kZdLV7DLdunswJiSxK6o0lx0zgqVOGVddsDe99PhRwOZ/JOZEzihwWO9Teq9w
-	VbKmdlLYQu362jOOUhYbQUGUprGs0O9ufFmbtdRA=
-Content-Type: multipart/mixed; boundary="===============6522063521436837179=="
+	bh=Ehx710FSgDtPLPhEnrzRRxGcwG4Lom/N0sHWHowbI/g=;
+	b=PKO/yN5w9St/1clerGYO34V+aZ1SNCQZkW1eFHZLUoR6EE4s8vfL2Be5OAuV+skI
+	PPgM6uIhjDFETGnOU6k9qCULTl5g+VaevCPzQdoTTxbtBjl9odbqZffiz5RJhEiVmY3
+	zKKa0ZNnTg9t9lIjfAtBDCmTVBf6JYyXFOufHUdI=
+Content-Type: multipart/mixed; boundary="===============3178729903141524352=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-sphinx: upgrading to 5.2.3 FAILED
+Subject: [AUH] python3-poetry-core: upgrading to 1.2.0 FAILED
 Message-ID: 
- <010101839477dd0e-37122897-4edb-4a52-bdcd-0d99f11554ea-000000@us-west-2.amazonses.com>
+ <010101839477dc98-953f4857-0393-450c-aaa9-95f11d770c6b-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Oct 2022 16:53:46 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
@@ -46,9 +46,9 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Oct 2022 16:53:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171286
+ https://lists.openembedded.org/g/openembedded-core/message/171284
 
---===============6522063521436837179==
+--===============3178729903141524352==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,142 +56,107 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-sphinx* to *5.2.3* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *python3-poetry-core* to *1.2.0* has Failed (devtool error).
 
 Detailed error information:
 
-do_compile failed
-
-
-
-Next steps:
-    - apply the patch: git am 0001-python3-sphinx-upgrade-5.1.1-5.2.3.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
---===============6522063521436837179==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-sphinx-upgrade-5.1.1-5.2.3.patch"
-
-RnJvbSAxNGFiM2YxMzhkM2ZkYzY3M2QxYTdmOGQwOTAyMjA3ZjMwYjFkZmE0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBPY3QgMjAyMiAwODozOTozNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtc3BoaW54OiB1cGdyYWRlIDUuMS4xIC0+IDUuMi4zCgotLS0KIC4uLi9weXRob24ve3B5
-dGhvbjMtc3BoaW54XzUuMS4xLmJiID0+IHB5dGhvbjMtc3BoaW54XzUuMi4zLmJifSB8IDIgKy0K
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtc3BoaW54XzUuMS4xLmJiID0+IHB5
-dGhvbjMtc3BoaW54XzUuMi4zLmJifSAoOTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1zcGhpbnhfNS4xLjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtc3BoaW54XzUuMi4zLmJiCnNpbWlsYXJpdHkgaW5kZXggOTEl
-CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zcGhpbnhf
-NS4xLjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1z
-cGhpbnhfNS4yLjMuYmIKaW5kZXggMWJlZjIwYzJlMi4uZGZiMTNlMTBkMyAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNwaGlueF81LjEuMS5iYgorKysg
-Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc3BoaW54XzUuMi4zLmJiCkBA
-IC02LDcgKzYsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT03MmM1
-MzZlNzhjMjFjNTY3MzExYjE5M2ZlMDBjZDI1MyIKIAogUFlQSV9QQUNLQUdFID0gIlNwaGlueCIK
-IAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImJhMzIyNGE0ZTIwNmUxZmJkZWNmOThhNGZhZTQ5OTJl
-ZjliMjRiODVlYmY3YjU4NGJiMzQwMTU2ZWFmMDhkODkiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAi
-NWIxMGNiMTAyMmRhYzhjMDM1Zjc1NzY3Nzk5YzM5MjE3YTA1ZmMwZmUyZDZmZTU1OTc1NjBkMzhl
-NDRmMDM2MyIKIAogaW5oZXJpdCBzZXR1cHRvb2xzMyBweXBpCiAKLS0gCjIuMzEuMQoK
-
---===============6522063521436837179==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
+The following devtool command failed:  upgrade python3-poetry-core -V 1.2.0
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
 WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
 Loaded 1661 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 885 .bb files complete (884 cached, 1 parsed). 1661 targets, 36 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
+
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.2.0"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
 DISTRO               = "poky"
 DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m32 core2"
+TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:1f25e331bf314e1818a3ee1425eb366a2929798c"
+meta-yocto-bsp       = "tmp-auh-upgrades:0279698c79893b51b023fb8664c3df2ac83a62f0"
 workspace            = "master:5200799866b92259e855051112520006e1aaaac0"
 
 Initialising tasks...done.
-Sstate summary: Wanted 108 Local 101 Mirrors 0 Missed 7 Current 332 (93% match, 98% complete)
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
 NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1180 of 1636 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-sphinx_5.2.3.bb:do_fetch)
-NOTE: recipe python3-sphinx-5.2.3-r0: task do_fetch: Started
-NOTE: recipe python3-sphinx-5.2.3-r0: task do_fetch: Succeeded
-NOTE: Running task 1623 of 1636 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-sphinx_5.2.3.bb:do_unpack)
-NOTE: Running task 1624 of 1636 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-sphinx_5.2.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-sphinx-5.2.3-r0: task do_unpack: Started
-NOTE: recipe python3-sphinx-5.2.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-sphinx-5.2.3-r0: task do_unpack: Succeeded
-NOTE: Running task 1625 of 1636 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-sphinx_5.2.3.bb:do_patch)
-NOTE: recipe python3-sphinx-5.2.3-r0: task do_patch: Started
-NOTE: recipe python3-sphinx-5.2.3-r0: task do_patch: Succeeded
-NOTE: recipe python3-sphinx-5.2.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1626 of 1636 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-sphinx_5.2.3.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1627 of 1636 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-sphinx_5.2.3.bb:do_populate_lic)
-NOTE: recipe python3-sphinx-5.2.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-sphinx-5.2.3-r0: task do_populate_lic: Started
-NOTE: recipe python3-sphinx-5.2.3-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-sphinx-5.2.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1628 of 1636 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-sphinx_5.2.3.bb:do_configure)
-NOTE: recipe python3-sphinx-5.2.3-r0: task do_configure: Started
-NOTE: recipe python3-sphinx-5.2.3-r0: task do_configure: Succeeded
-NOTE: Running task 1629 of 1636 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-sphinx_5.2.3.bb:do_compile)
-NOTE: recipe python3-sphinx-5.2.3-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-sphinx/5.2.3-r0/recipe-sysroot-native/usr/bin/python3-native/python3: can't open file '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-sphinx/5.2.3-r0/Sphinx-5.2.3/setup.py': [Errno 2] No such file or directory
-| ERROR: 'python3 setup.py bdist_wheel ' execution failed.
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-sphinx/5.2.3-r0/temp/run.do_compile.141079:174 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-sphinx/5.2.3-r0/temp/run.do_compile.141079, line 174
-| 	#2: setuptools3_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-sphinx/5.2.3-r0/temp/run.do_compile.141079, line 164
-| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-sphinx/5.2.3-r0/temp/run.do_compile.141079, line 153
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-sphinx/5.2.3-r0/temp/run.do_compile.141079, line 178
-NOTE: recipe python3-sphinx-5.2.3-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 1629 tasks of which 1621 didn't need to be rerun and 1 failed.
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1661 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 886 .bb files complete (884 cached, 2 parsed). 1662 targets, 35 skipped, 0 masked, 0 errors.
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-sphinx_5.2.3.bb:do_compile
 Summary: There was 1 WARNING message.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: python3-sphinx-5.2.3-r0 do_compile: 'python3 setup.py bdist_wheel ' execution failed.
-ERROR: python3-sphinx-5.2.3-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-sphinx/5.2.3-r0/temp/run.do_compile.141079', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-sphinx/5.2.3-r0/temp/log.do_compile.141079
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-sphinx_5.2.3.bb:do_compile) failed with exit code '1'
+NOTE: Resolving any missing task queue dependencies
 
---===============6522063521436837179==--
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:0279698c79893b51b023fb8664c3df2ac83a62f0"
+workspace            = "master:5200799866b92259e855051112520006e1aaaac0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  13% |####                                | ETA:  0:00:00
+Adding changed files:  27% |#########                           | ETA:  0:00:00
+Adding changed files:  40% |##############                      | ETA:  0:00:00
+Adding changed files:  54% |###################                 | ETA:  0:00:00
+Adding changed files:  68% |########################            | ETA:  0:00:00
+Adding changed files:  81% |#############################       | ETA:  0:00:00
+Adding changed files:  95% |##################################  | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://files.pythonhosted.org/packages/source/p/poetry-core/poetry-core-1.2.0.tar.gz...
+INFO: Rebasing devtool onto 44182750e9940f167c983ff5924cc2a1e13cbec6
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 338, in <module>
+    ret = main()
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 325, in main
+    ret = args.func(args, config, basepath, workspace)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 570, in upgrade
+    new_licenses = _extract_licenses(srctree_s, (rd.getVar('LIC_FILES_CHKSUM') or ""))
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 471, in _extract_licenses
+    with open(os.path.join(srcpath, path), 'rb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/python3-poetry-core/poetry/core/_vendor/attrs.LICENSE'
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============3178729903141524352==--
 
