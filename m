@@ -2,12 +2,12 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4132AC4332F
-	for <webhook@archiver.kernel.org>; Tue,  4 Oct 2022 15:28:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B283C433F5
+	for <webhook@archiver.kernel.org>; Tue,  4 Oct 2022 15:28:18 +0000 (UTC)
 Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web11.12061.1664897279705647539
+ by mx.groups.io with SMTP id smtpd.web10.11953.1664897297517662675
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Oct 2022 08:28:00 -0700
+ Tue, 04 Oct 2022 08:28:17 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25,
@@ -17,17 +17,16 @@ Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1ofjps-009Dg6-9y; Tue, 04 Oct 2022 18:27:56 +0300
+	id 1ofjqB-009DkU-MO; Tue, 04 Oct 2022 18:28:15 +0300
 Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1ofjps-0047MF-0M; Tue, 04 Oct 2022 18:27:56 +0300
+	id 1ofjqB-0049mu-CV; Tue, 04 Oct 2022 18:28:15 +0300
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: docs@lists.yoctoproject.org
-Cc: openembedded-core@lists.openembedded.org,
-	Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v2 2/5] classes.rst: document openssl-native.bbclass
-Date: Tue,  4 Oct 2022 18:27:50 +0300
-Message-Id: <20221004152750.978712-1-mikko.rapeli@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH v2 4/5] make-mod-scripts: use openssl-native.bbclass
+Date: Tue,  4 Oct 2022 18:28:13 +0300
+Message-Id: <20221004152813.990059-1-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -37,11 +36,11 @@ X-Rspam-Report: Action: no action
  Symbol: ARC_NA(0.00)
  Symbol: DMARC_POLICY_SOFTFAIL(0.10)
  Symbol: FROM_HAS_DN(0.00)
- Symbol: RCPT_COUNT_THREE(0.00)
+ Symbol: TO_DN_SOME(0.00)
  Symbol: R_MISSING_CHARSET(0.50)
  Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
  Symbol: MIME_GOOD(-0.10)
- Symbol: TO_DN_SOME(0.00)
+ Symbol: RCPT_COUNT_TWO(0.00)
  Symbol: MID_CONTAINS_FROM(1.00)
  Symbol: R_SPF_NA(0.00)
  Symbol: FORGED_SENDER(0.30)
@@ -51,46 +50,36 @@ X-Rspam-Report: Action: no action
  Symbol: FROM_NEQ_ENVFROM(0.00)
  Symbol: BAYES_HAM(-3.00)
  Symbol: RCVD_COUNT_TWO(0.00)
- Message-ID: 20221004152750.978712-1-mikko.rapeli@linaro.org
+ Message-ID: 20221004152813.990059-1-mikko.rapeli@linaro.org
 X-SA-Exim-Connect-IP: 2001:67c:1be8::11
 X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Oct 2022 15:28:08 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Oct 2022 15:28:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171403
+ https://lists.openembedded.org/g/openembedded-core/message/171405
 
-It sets various environment variables correctly for openssl-native.
+This sets environment variables correctly for openssl-native.
 
 Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- documentation/ref-manual/classes.rst | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/documentation/ref-manual/classes.rst b/documentation/ref-manual/classes.rst
-index 11e0d472e8..5fc30f9233 100644
---- a/documentation/ref-manual/classes.rst
-+++ b/documentation/ref-manual/classes.rst
-@@ -1672,6 +1672,17 @@ one such example. However, being aware of this class can reduce the
- proliferation of different versions of similar classes across multiple
- layers.
+diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+index 9afd6714f0..ba290c514d 100644
+--- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
++++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0-only;m
  
-+.. _ref-classes-openssl-native:
-+
-+``openssl-native.bbclass``
-+==================
-+
-+The ``openssl-native`` class supports using the native version of openssl
-+built by the build system rather than support of the version provided
-+by the build host. It helps setting environment variables for engines,
-+modules, certificates etc correctly. For full certificate checking
-+users should also add ``ca-certificates-native`` to :term:`DEPENDS`.
-+
- .. _ref-classes-overlayfs:
+ inherit kernel-arch
+ inherit pkgconfig
++inherit openssl-native
  
- ``overlayfs.bbclass``
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
 -- 
 2.17.1
 
