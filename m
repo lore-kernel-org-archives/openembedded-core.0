@@ -1,102 +1,124 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B378C433F5
-	for <webhook@archiver.kernel.org>; Tue,  4 Oct 2022 15:51:48 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web08.12370.1664898699848282184
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CF81C433FE
+	for <webhook@archiver.kernel.org>; Tue,  4 Oct 2022 15:52:08 +0000 (UTC)
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com
+ [209.85.161.41])
+ by mx.groups.io with SMTP id smtpd.web10.12246.1664898722853137382
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Oct 2022 08:51:39 -0700
+ Tue, 04 Oct 2022 08:52:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=ejeO5IEm;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.44,
- mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id gf8so10667410pjb.5
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=a36+TBji;
+ spf=pass (domain: gmail.com, ip: 209.85.161.41,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-oo1-f41.google.com with SMTP id
+ r136-20020a4a378e000000b004755953bc6cso9053609oor.13
         for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Oct 2022 08:51:39 -0700 (PDT)
+ Tue, 04 Oct 2022 08:52:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=SWZc3FPqlz9i7VoVKJGuM5u18t7XIBQ1nSTMAZalQeM=;
-        b=ejeO5IEm5cU9Xt130ELk6MFfdwortXqibNxbnY51VF/8EDdzscRgi7w8HdBoszEFkX
-         XiYAuRd2Sk11XGqCiXUo//ss94R5QHOIzOKcXCZwU6nQkCYLRbbcdPx5dovNx2H7ijrh
-         8GleE7bazC73AoNYuVS6znsR+5BsdtMuftu5w3OrUEUqnL+6TDdcAeMp7ICoP2oY9ePn
-         csdY5M2fwFN+9Vp9JuQdw0eC/aODHuYs4M68O402pGZBE2z3c1Uhmqfb7DnZ1pucLNwL
-         Xb3uVSb0h0tNohOcYYds2Y+B2+9rbIeaC+nbGlK1A05JqyN+1FhzHr8eYi1L41kWZygX
-         agHA==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=AJPpJN2pPcCMQoQrgvJZoW3zQf6O0L7CFCO2xe1dcWo=;
+        b=a36+TBjidRv/GGYsmpevSdB0jCHnO+e8GTVu+KUrF5imIMysTbJmLHeFQgYVnCuzoE
+         DhGJXwmMa3o0gRTV7lEEa+SPtfs4xAaLgxC1QBTbJtnTYD3vdozalOGmeXD4Q5r3Tln1
+         lpvVGwCzYEpzD5cYf6BXBi8jQ613KR+xrbwiTByHkufhEpGGeblUQ3OYeJaHoCvFIHzm
+         PyXjPQ7iKRUK0sNTo15U3VkronBEYllZSB9kUc32SiZBUsGDz4CPlIWViDtN40mk/aHD
+         4tU+93gTeSyeJf/0iyapO2pO85FWtbSLo7Au+RS7LTsRBHb+6WGfbqCqzByYoM0jKYTe
+         uLYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=SWZc3FPqlz9i7VoVKJGuM5u18t7XIBQ1nSTMAZalQeM=;
-        b=XU2xWoH4ejI6XfPkQy9F4j5lGZ+b9ldl+SURurDQUFrwspT5ZWWxQPQd/95VgVwig5
-         Lq+NZqQ1C/9fTxgZJSjUmC763cOK8LC0I4UZarNlgADTFLOHmNj7daFtwAbTMRc5mtSZ
-         yKeS3lffBuQd+BJhFy9x3VbpQlYkFODCjwxExAiMY2F1atWhtIjXBX+pgkiSmmzjSan0
-         mYWSgXkJsEvy7JKzeKOiAGID+cHfAWKtA9QlwMzgtX7Z6TqFcggEDTApL5wE00HuyLg0
-         FGVVkkQNeiZa2ZjgPhV82WfEbvcMzKav3vzW/+Mui2hhSxmUnxFzpHbn1mVn1p0QXfcC
-         NXRw==
-X-Gm-Message-State: ACrzQf1ZVvmBParhib5mt2h9uEpuv18ISDKOylCqR4DrtwAxgjf8eB+V
-	w4diRFgD92HSeXasOZjm+xA6KPs/5f+acF5K
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=AJPpJN2pPcCMQoQrgvJZoW3zQf6O0L7CFCO2xe1dcWo=;
+        b=nMyhhD70+vKAfPYIT/EPpIfuKcpXDn0upQpykiA7r1bDp196mSjy8a18LAQJCiuqLk
+         E2kEL4VZGgT67kKSW3v7BFPlRPvVUeloN3UcKxsylYIHpi2rZBME9IKTSZ606XXFB+tE
+         P2XAfcV8ePWA7KuIh/egUbaUJ/Gq2t0OlhdThG8H67AHSpb5gfUzDUtvBpUEvAEu1xVB
+         SfgeejIHuKJvvkhywGFLUY9/Qpc0pu+iSBjFaR3CdrldHQ8m0fiBkPL3b2ATBSRsbmSI
+         H+diLEFMdkvJ2GjZFsdP6V6GGtwCtocsIrqguGLT99eCTsVpedrZWpbG93cKuahxkKjw
+         9OMQ==
+X-Gm-Message-State: ACrzQf2Fkn8++F/g3W6Y0xt+BvUYB+C4Xc1DyO4JcurgZwirroJ98CJv
+	YTxD3bjvrOJ9kVEskCAIBm1P4WcuqwGZQ7O7c9o=
 X-Google-Smtp-Source: 
- AMsMyM4v5VIwxDdchg8qj069D056z0tKeS7NYPcWp12RODn48Goe21CvMljrgaVqVnDvDiqFmegCEQ==
-X-Received: by 2002:a17:903:2615:b0:17f:6590:7fbd with SMTP id
- jd21-20020a170903261500b0017f65907fbdmr7869769plb.101.1664898698959;
-        Tue, 04 Oct 2022 08:51:38 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id
- a2-20020aa78e82000000b00561642b6903sm4464266pfr.120.2022.10.04.08.51.37
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Oct 2022 08:51:38 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 15/18] lttng-tools: Disable on riscv32
-Date: Tue,  4 Oct 2022 05:50:44 -1000
-Message-Id: 
- <b1883d725e2ee833b6bcbc2036df8c8287bed547.1664898546.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1664898546.git.steve@sakoman.com>
-References: <cover.1664898546.git.steve@sakoman.com>
+ AMsMyM48o1DuSbhOj/65rfL3muNCqymhpXooj1AeEOMP6lZNOEw70fy4iNdsdLcmtO3ECTZkW05MOQqgFLoKayv/Bho=
+X-Received: by 2002:a05:6830:3985:b0:65c:34f7:6bb8 with SMTP id
+ bs5-20020a056830398500b0065c34f76bb8mr10172721otb.122.1664898722071; Tue, 04
+ Oct 2022 08:52:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: 
+ <010101839477e3ea-4f401efc-cd15-4603-bc16-da2ba590225e-000000@us-west-2.amazonses.com>
+In-Reply-To: 
+ <010101839477e3ea-4f401efc-cd15-4603-bc16-da2ba590225e-000000@us-west-2.amazonses.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 4 Oct 2022 11:52:23 -0400
+Message-ID: 
+ <CADkTA4PtfABt2F4mGFdLpiGrUb3BW8ey+6kn6OYA87f1yvUcqQ@mail.gmail.com>
+Subject: Re: [OE-core] [AUH] lttng-modules: upgrading to 2.13.7 FAILED
+To: Auto Upgrade Helper <auh@yoctoproject.org>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Oct 2022 15:51:48 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Oct 2022 15:52:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171422
+ https://lists.openembedded.org/g/openembedded-core/message/171426
 
-From: He Zhe <zhe.he@windriver.com>
+FYI,
 
-As a bunch of other assignments did, let this cover all riscv32 architectures,
-not just qemuriscv32.
+I'm fixing this, as we need it for 6.x
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 976fe5e3fb630e9daf5bbde79ee2148a7a97694a)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-kernel/lttng/lttng-platforms.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'll submit the uprev as part of a linux-yocto-dev -> 6.0 series later today.
 
-diff --git a/meta/recipes-kernel/lttng/lttng-platforms.inc b/meta/recipes-kernel/lttng/lttng-platforms.inc
-index 98b13b194c..900e36df82 100644
---- a/meta/recipes-kernel/lttng/lttng-platforms.inc
-+++ b/meta/recipes-kernel/lttng/lttng-platforms.inc
-@@ -18,4 +18,4 @@ COMPATIBLE_HOST:arc:pn-lttng-ust = "null"
- # Whether the platform supports lttng-tools
- # lttng-tools requires SYS_ppoll and SYS_pselect6 which are not supported on riscv32.
- # It's also turned off for riscv32 in meta-riscv. See https://github.com/riscv/meta-riscv/blob/master/conf/layer.conf
--COMPATIBLE_HOST:qemuriscv32:pn-lttng-tools = "null"
-+COMPATIBLE_HOST:riscv32:pn-lttng-tools = "null"
+Bruce
+
+On Sat, Oct 1, 2022 at 12:55 PM Auto Upgrade Helper
+<auh@yoctoproject.org> wrote:
+>
+> Hello,
+>
+> this email is a notification from the Auto Upgrade Helper
+> that the automatic attempt to upgrade the recipe *lttng-modules* to *2.13.7* has Failed(do_compile).
+>
+> Detailed error information:
+>
+> do_compile failed
+>
+>
+>
+> Next steps:
+>     - apply the patch: git am 0001-lttng-modules-upgrade-2.13.4-2.13.7.patch
+>     - check the changes to upstream patches and summarize them in the commit message,
+>     - compile an image that contains the package
+>     - perform some basic sanity tests
+>     - amend the patch and sign it off: git commit -s --reset-author --amend
+>     - send it to the appropriate mailing list
+>
+> Alternatively, if you believe the recipe should not be upgraded at this time,
+> you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+> automatic upgrades would no longer be attempted.
+>
+> Please review the attached files for further information and build/update failures.
+> Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+>
+> Regards,
+> The Upgrade Helper
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#171329): https://lists.openembedded.org/g/openembedded-core/message/171329
+> Mute This Topic: https://lists.openembedded.org/mt/94055771/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+
+
 -- 
-2.25.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
