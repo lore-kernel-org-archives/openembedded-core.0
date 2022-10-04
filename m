@@ -2,64 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 691D4C43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D356C4332F
 	for <webhook@archiver.kernel.org>; Tue,  4 Oct 2022 15:51:38 +0000 (UTC)
 Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
  [209.85.215.178])
  by mx.groups.io with SMTP id smtpd.web12.12450.1664898693854145693
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Oct 2022 08:51:33 -0700
+ Tue, 04 Oct 2022 08:51:35 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=g61DkpSw;
+ header.b=cFXLmO/d;
  spf=softfail (domain: sakoman.com, ip: 209.85.215.178,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f178.google.com with SMTP id s206so13051779pgs.3
+Received: by mail-pg1-f178.google.com with SMTP id s206so13051827pgs.3
         for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Oct 2022 08:51:33 -0700 (PDT)
+ Tue, 04 Oct 2022 08:51:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=8VMq7mC/odYFCpoeAP2f6e8nx45asinhDCD8F+47VXo=;
-        b=g61DkpSw+yIA7nV7TzLeYotFEtL7GzbVvG5EDGlrGT6bFQiNIyVNMqxuF3dmPzkhwV
-         WlK5Rvpai8hh/rkeD90I6NMWR9PxvQUP3Vj9OOYGkOltqqEAEua7HOoSjfWWGVpL5YW2
-         uUkEuywcqCjvrtU8qeD1DxMejZdxtvYnlS0xZP58z+TE8iYEgmPVdlL4+c30QWZytzUO
-         1WeclRPeqd9rdoKHRc79kurtSSM61vkNgSTDNMwTEwAptqhXkSNehO3zKTsGyWzxYVT3
-         4IehpjlgZ05KF/TZ/vVaDI8f/tC7l79UeFClPXAEIxaHlJ4zVN+bYoNaBk9sTlOmfcSr
-         rY4A==
+        bh=U6uu7HH3x2Y7lzYtl64HHY03xcS4lo8+kApl/t6fJVk=;
+        b=cFXLmO/dUuZwK4RlpnNFMUnKYVtPMmKxgs1QAE0ey1p2pKvc0YUDqBgaUebboCFgqj
+         3hypwI5jvG9xg+pnglyvdhqm5ueo3YpZnfyjsyL/c/VzuYxCxPA1fciwTFS7PCJlru05
+         JQwWqUTsSk96Jyf8TMAm6OFj5csbPaY+c7iMkU516bvUmTwC6ZcHcBLLbKs3pSCa2NvO
+         QmAcZrjvYJyESjZQSq5RlOoyr4JPsE5BG063nkmIFB4OSNDd6R0FppLJ/3MNfcEi3q7m
+         mEV7hD8AnTkibogvjrFePoloj0N+PUd0SNsLAKqOD1miOEcNilYwsFN1Vh3IFqg733yP
+         N4iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=8VMq7mC/odYFCpoeAP2f6e8nx45asinhDCD8F+47VXo=;
-        b=5Rpg9srRjsUyZWlPKCU0QiT/WEFjQk0KPuev2H6IUO0w6UfyjllEGeUG/tZtJOopXF
-         re5IgpNi3k0GJmZ42f+CXrS4vn38QGCPQuVvgsKNNvR8Vus255F92cGJh5l88AbIQtI/
-         m+Yd3QcXrdQzruDPqye0fG8pNn2zIdMT9XSPyyrk3p+I2oYfBhG+Fe7oO5xs8AEm/fCE
-         eM0fhnpmHG0eShJMJ+kklqyQkEU2AMDqe02h1LlPbtTW4V0vptr+0v4PCiV5wTXx2Wbt
-         v8Tb8TIdnMU0JD02bw1aZXQHQw36dK/8W5ucARN+0DvohzmwC8iTnbOKUiSKUSpCpw5J
-         TiUA==
-X-Gm-Message-State: ACrzQf1/didISRDfjp1+sK36hUyrtWD5kXB0EVVQDcyttfbGp6I1rma+
-	eLm0SxR8aEu+ocyt73hesc/xdv5PCnCJL8Ro
+        bh=U6uu7HH3x2Y7lzYtl64HHY03xcS4lo8+kApl/t6fJVk=;
+        b=KdHG9OJXT6MLowFP9w23uOSR2Msip5beWyA5bKpPst3pvBwDLjrJrl9B8hKYwi49/C
+         qgLYLp/ryOe0qNGjHh40sKbo3YT6ewk4vzIz3bIRS+mKRvy/AdkDvkseJWwqC4hNJJVA
+         IBgNO2yuNXMh1HXc0Nf5UXdjizfV/rckJm1Aqu86ew5YSWlKa0wMO0/el+Imvxn8sQX6
+         /aBR9OjZxaEnpIE5ITJme0gkoQfOyJaZCUbNO1cXxVG9odT9W5iwUu1SLidAYZDcd9mK
+         HbpDlydfyfRIYJhC2F/ktNSZ8/ZiUadUAH8wKvOZKUi5/IFVVkzmpp4exv/is1ctQQED
+         nFjg==
+X-Gm-Message-State: ACrzQf3jsvwbba0StaOk+xAJnW7NbwdzQaO/0DXuWOUlV5xG6K91Akw9
+	rGx2aNcKojEmyq3CVHtqiiRfhSGUoBYA2XY3
 X-Google-Smtp-Source: 
- AMsMyM7kwwMQz2lyOkLS/oe/dXkEiCvRqfWOcYsIVf2r+SClxiFn8URaROFB6ouli/mTInR0BFmM6Q==
-X-Received: by 2002:a65:6e82:0:b0:41a:9b73:f0e6 with SMTP id
- bm2-20020a656e82000000b0041a9b73f0e6mr24407245pgb.371.1664898692812;
-        Tue, 04 Oct 2022 08:51:32 -0700 (PDT)
+ AMsMyM4OKZPknRpXSZU1DVqJSysEzOUnhBIzzl+FlHVDS6xwK7MNRDOEtUsmbLq+vsFVbYear3LcYQ==
+X-Received: by 2002:a05:6a00:2387:b0:550:bd29:7d7 with SMTP id
+ f7-20020a056a00238700b00550bd2907d7mr27913708pfc.17.1664898694635;
+        Tue, 04 Oct 2022 08:51:34 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- a2-20020aa78e82000000b00561642b6903sm4464266pfr.120.2022.10.04.08.51.31
+ a2-20020aa78e82000000b00561642b6903sm4464266pfr.120.2022.10.04.08.51.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Oct 2022 08:51:32 -0700 (PDT)
+        Tue, 04 Oct 2022 08:51:34 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 12/18] lttng-tools: Disable on qemuriscv32
-Date: Tue,  4 Oct 2022 05:50:41 -1000
+Subject: [OE-core][kirkstone 13/18] create-pull-request: don't switch the git
+ remote protocol to git://
+Date: Tue,  4 Oct 2022 05:50:42 -1000
 Message-Id: 
- <035fddfa35ccf17d3f1636f6410e626240fe527d.1664898546.git.steve@sakoman.com>
+ <5aac691040502e6f578316dfc090643d341dd3cb.1664898546.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1664898546.git.steve@sakoman.com>
 References: <cover.1664898546.git.steve@sakoman.com>
@@ -70,37 +71,47 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 04 Oct 2022 15:51:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171419
+ https://lists.openembedded.org/g/openembedded-core/message/171420
 
-From: He Zhe <zhe.he@windriver.com>
+From: Martin Jansa <Martin.Jansa@gmail.com>
 
-lttng-tools requires SYS_ppoll and SYS_pselect6 which are not supported on
-riscv32. This has been confirmed by lttng-tools upstream.
-https://github.com/lttng/lttng-tools/pull/162
+Many git repos prefer https:// nowadays and many removed support
+for git://.
 
-It's also turned off for riscv32 in meta-riscv.
-https://github.com/riscv/meta-riscv/blob/master/conf/layer.conf
+This breaks the script when using github.com even when selected remote
+is ssh (git@github.com:openembedded/...), it will re-write it to git://
+before calling git pull-request causing:
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
+openembedded-core $ scripts/create-pull-request -u github -b jansa/artifacts -o pull-kernel
+NOTE: Assuming local branch HEAD, use -l to override.
+fatal: unable to connect to github.com:
+github.com[0: 140.82.121.3]: errno=Connection timed out
+
+warn: No match for commit ea003bd026aa24bb4c8b7562f44ed6512e921259 found at git://github.com/shr-distribution/oe-core
+warn: Are you sure you pushed 'jansa/artifacts' there?
+ERROR: git request-pull reported an error
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 68b07bb7f0f01925f9da1cb966239ee49d5c84e3)
+(cherry picked from commit 64c466920b808c35d1ac87b47cf438bc79becea7)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/lttng/lttng-platforms.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+ scripts/create-pull-request | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-platforms.inc b/meta/recipes-kernel/lttng/lttng-platforms.inc
-index 933c65d85d..98b13b194c 100644
---- a/meta/recipes-kernel/lttng/lttng-platforms.inc
-+++ b/meta/recipes-kernel/lttng/lttng-platforms.inc
-@@ -15,3 +15,7 @@ LTTNGUST:arc = ""
+diff --git a/scripts/create-pull-request b/scripts/create-pull-request
+index 8eefcf63a5..2f91a355b0 100755
+--- a/scripts/create-pull-request
++++ b/scripts/create-pull-request
+@@ -128,7 +128,7 @@ PROTO_RE="[a-z][a-z+]*://"
+ GIT_RE="\(^\($PROTO_RE\)\?\)\($USER_RE@\)\?\([^:/]*\)[:/]\(.*\)"
+ REMOTE_URL=${REMOTE_URL%.git}
+ REMOTE_REPO=$(echo $REMOTE_URL | sed "s#$GIT_RE#\5#")
+-REMOTE_URL=$(echo $REMOTE_URL | sed "s#$GIT_RE#git://\4/\5#")
++REMOTE_URL=$(echo $REMOTE_URL | sed "s#$GIT_RE#https://\4/\5#")
  
- COMPATIBLE_HOST:arc:pn-lttng-ust = "null"
- 
-+# Whether the platform supports lttng-tools
-+# lttng-tools requires SYS_ppoll and SYS_pselect6 which are not supported on riscv32.
-+# It's also turned off for riscv32 in meta-riscv. See https://github.com/riscv/meta-riscv/blob/master/conf/layer.conf
-+COMPATIBLE_HOST:qemuriscv32:pn-lttng-tools = "null"
+ if [ -z "$BRANCH" ]; then
+ 	BRANCH=$(git branch | grep -e "^\* " | cut -d' ' -f2)
 -- 
 2.25.1
 
