@@ -1,88 +1,140 @@
-Return-Path: <jay.shen.teoh@intel.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15149C4332F
-	for <webhook@archiver.kernel.org>; Tue,  4 Oct 2022 07:12:06 +0000 (UTC)
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by mx.groups.io with SMTP id smtpd.web12.7948.1664867517688674253
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0F57C433F5
+	for <webhook@archiver.kernel.org>; Tue,  4 Oct 2022 10:10:56 +0000 (UTC)
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+ by mx.groups.io with SMTP id smtpd.web09.8924.1664878247867705587
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Oct 2022 00:11:57 -0700
+ Tue, 04 Oct 2022 03:10:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=ftqyS2Lp;
- spf=pass (domain: intel.com, ip: 192.55.52.88,
- mailfrom: jay.shen.teoh@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664867517; x=1696403517;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=XnvjoYm4p+8lbVvzoTQb/QA5x3ca3HVaN3/OQtIEPZE=;
-  b=ftqyS2Lpnd+dT43tTaDpt1CArO5Vl+MDjlS5oG9kDIE1zzc7oKHvU9Rq
-   1x6VeAD7mKt10Cyi7P4N7XzZM3E5yyEFrOyd03RTRFG/rGON3vYHRBWmS
-   kADETburfPewDm/8KljUmetOtQ3ufTi1j2kDvfc25rGb2vG1IkVjdHhvz
-   smTtRQ2oPLEee3TWTeBcKuziJknrKhjYZRbkIAIIQRGwJgFJn5I/pFz4U
-   RjzDYDGGOo1vyqOT0jQ9csP3cFQMPAz/zSpMD7nLZMc/T+Yewd8stKgtk
-   fC3hqAbAoHw5JRQY0KOAbzAmkV1mZXAtGr21Knv5tY+bvxaemmzJiGKHJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="329248930"
-X-IronPort-AV: E=Sophos;i="5.93,367,1654585200";
-   d="scan'208";a="329248930"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2022 00:11:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="766235917"
-X-IronPort-AV: E=Sophos;i="5.93,367,1654585200";
-   d="scan'208";a="766235917"
-Received: from andromeda02.png.intel.com ([10.221.253.198])
-  by fmsmga001.fm.intel.com with ESMTP; 04 Oct 2022 00:11:56 -0700
-From: jay.shen.teoh@intel.com
+ dkim=missing;
+ spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25,
+ mailfrom: mcfrisk@lakka.kapsi.fi)
+Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
+	by mail.kapsi.fi with esmtps  (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1ofest-007iAP-QS; Tue, 04 Oct 2022 13:10:44 +0300
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1ofest-00BUIR-H2; Tue, 04 Oct 2022 13:10:43 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone][Patch] vim: Upgrade 9.0.0541 -> 9.0.0614
-Date: Tue,  4 Oct 2022 15:11:51 +0800
-Message-Id: <20221004071151.2920751-1-jay.shen.teoh@intel.com>
-X-Mailer: git-send-email 2.37.3
+Cc: docs@lists.yoctoproject.org,
+	Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH 1/4] openssl-native.bbclass: add bbclass
+Date: Tue,  4 Oct 2022 13:10:38 +0300
+Message-Id: <20221004101038.2736600-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Rspam-Score: -1.2 (-)
+X-Rspam-Report: Action: no action
+ Symbol: RCVD_TLS_LAST(0.00)
+ Symbol: ARC_NA(0.00)
+ Symbol: DMARC_POLICY_SOFTFAIL(0.10)
+ Symbol: FROM_HAS_DN(0.00)
+ Symbol: RCPT_COUNT_THREE(0.00)
+ Symbol: R_MISSING_CHARSET(0.50)
+ Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
+ Symbol: MIME_GOOD(-0.10)
+ Symbol: TO_DN_SOME(0.00)
+ Symbol: MID_CONTAINS_FROM(1.00)
+ Symbol: R_SPF_NA(0.00)
+ Symbol: FORGED_SENDER(0.30)
+ Symbol: R_DKIM_NA(0.00)
+ Symbol: MIME_TRACE(0.00)
+ Symbol: ASN(0.00)
+ Symbol: FROM_NEQ_ENVFROM(0.00)
+ Symbol: BAYES_HAM(-3.00)
+ Symbol: RCVD_COUNT_TWO(0.00)
+ Message-ID: 20221004101038.2736600-1-mikko.rapeli@linaro.org
+X-SA-Exim-Connect-IP: 2001:67c:1be8::11
+X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Oct 2022 07:12:06 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Oct 2022 10:10:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171375
+ https://lists.openembedded.org/g/openembedded-core/message/171376
 
-From: Teoh Jay Shen <jay.shen.teoh@intel.com>
+Using openssl-native shared libraries correctly is hard. A number
+of environment variables need to be correctly set or
+the errors may be really confusing. openssl can be made
+to detect these paths automatically, but upstream has rejected
+these ideas. openssl-native provides a wrapper script for 'openssl'
+binary, but shared library users like python3-cryptgraphy-native
+need to have the shared libraries working directly. Thus follow
+example from python3native.bbclass and implement this via
+openssl-native.bbclass.
 
-Including fixes for :
-CVE-2022-3278
-CVE-2022-3296
-CVE-2022-3297
-CVE-2022-3324
-CVE-2022-3352
+If full certificate checking is needed, then users
+also need to DEPEND on ca-certificates-native.
 
-Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
+See also:
+https://lists.openembedded.org/g/openembedded-core/topic/93651845#170562
+https://github.com/openssl/openssl/issues/19242
+
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ documentation/ref-manual/classes.rst               | 11 +++++++++++
+ meta/classes/openssl-native.bbclass                |  7 +++++++
+ meta/recipes-connectivity/openssl/openssl_3.0.5.bb |  1 +
+ 3 files changed, 19 insertions(+)
+ create mode 100644 meta/classes/openssl-native.bbclass
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 5ff60f8495..0710f6afbf 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -20,8 +20,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            "
+diff --git a/documentation/ref-manual/classes.rst b/documentation/ref-manual/classes.rst
+index 11e0d472e8..5fc30f9233 100644
+--- a/documentation/ref-manual/classes.rst
++++ b/documentation/ref-manual/classes.rst
+@@ -1672,6 +1672,17 @@ one such example. However, being aware of this class can reduce the
+ proliferation of different versions of similar classes across multiple
+ layers.
  
--PV .= ".0541"
--SRCREV = "ee7c8d999beb847457f768757b1bdcd76391c1f4"
-+PV .= ".0614"
-+SRCREV = "ef976323e770315b5fca544efb6b2faa25674d15"
++.. _ref-classes-openssl-native:
++
++``openssl-native.bbclass``
++==================
++
++The ``openssl-native`` class supports using the native version of openssl
++built by the build system rather than support of the version provided
++by the build host. It helps setting environment variables for engines,
++modules, certificates etc correctly. For full certificate checking
++users should also add ``ca-certificates-native`` to :term:`DEPENDS`.
++
+ .. _ref-classes-overlayfs:
  
- # Remove when 8.3 is out
- UPSTREAM_VERSION_UNKNOWN = "1"
+ ``overlayfs.bbclass``
+diff --git a/meta/classes/openssl-native.bbclass b/meta/classes/openssl-native.bbclass
+new file mode 100644
+index 0000000000..753f0b0fa4
+--- /dev/null
++++ b/meta/classes/openssl-native.bbclass
+@@ -0,0 +1,7 @@
++DEPENDS += "openssl-native"
++
++export OPENSSL_MODULES="${STAGING_LIBDIR_NATIVE}/ossl-modules"
++export OPENSSL_ENGINES="${STAGING_LIBDIR_NATIVE}/engines-3"
++export OPENSSL_CONF="${STAGING_LIBDIR_NATIVE}/ssl-3/openssl.cnf"
++export SSL_CERT_DIR="${STAGING_LIBDIR_NATIVE}/ssl-3/certs"
++export SSL_CERT_FILE="${STAGING_LIBDIR_NATIVE}/ssl-3/cert.pem"
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.5.bb b/meta/recipes-connectivity/openssl/openssl_3.0.5.bb
+index 04aff04fab..a0e63d7830 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.0.5.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.0.5.bb
+@@ -163,6 +163,7 @@ do_install () {
+ 	ln -sf ${@oe.path.relative('${libdir}/ssl-3', '${sysconfdir}/ssl/openssl.cnf')} ${D}${libdir}/ssl-3/openssl.cnf
+ }
+ 
++# Please keep openssl-native.bbclass in sync with this wrapper
+ do_install:append:class-native () {
+ 	create_wrapper ${D}${bindir}/openssl \
+ 	    OPENSSL_CONF=${libdir}/ssl-3/openssl.cnf \
 -- 
-2.37.3
+2.17.1
 
 
