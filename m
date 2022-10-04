@@ -1,130 +1,88 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <jay.shen.teoh@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E09B9C433F5
-	for <webhook@archiver.kernel.org>; Tue,  4 Oct 2022 06:43:45 +0000 (UTC)
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com
- [209.85.161.50])
- by mx.groups.io with SMTP id smtpd.web10.7648.1664865816825785686
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15149C4332F
+	for <webhook@archiver.kernel.org>; Tue,  4 Oct 2022 07:12:06 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by mx.groups.io with SMTP id smtpd.web12.7948.1664867517688674253
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Oct 2022 23:43:36 -0700
+ Tue, 04 Oct 2022 00:11:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QLpcPURf;
- spf=pass (domain: gmail.com, ip: 209.85.161.50, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f50.google.com with SMTP id
- z9-20020a4a4909000000b0047651b95fbdso8204325ooa.5
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Oct 2022 23:43:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=9Bc06zEKYvYIcbuPrkihy+pudQ47klXqcEJnJpU4Ujg=;
-        b=QLpcPURf1iuTCC/LgtOggFntZgDz1SFT0g+GgRa16P79liGr/jcSuJha9XvLHtE1TW
-         ZL0BeG4trapIam4yT5EHArQrkoOmf20lQsP7axjAYyVsPZRiendw5s4DO2fGSGh9ZeCr
-         mLCOtwL1TlgowpKuSTAIhjKwuq4NJOrgfKcg1qfEXWs1S53nCI3Ns8H0vE5IjkPJunNy
-         pw0/kFwdEQZr1R/BhPWhC3gohBtsrBpTDZo/I23BAxWFphsxQUOdEq+yUiH6Kyy1c3es
-         S5339Tr8UKKh11g6PCEuPwh3XWuSa9jZNIM8LNY++o9DNPvUKNAaNc5MpRUUTQc0WLXh
-         Zl2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=9Bc06zEKYvYIcbuPrkihy+pudQ47klXqcEJnJpU4Ujg=;
-        b=PViThZzd6eUyBwQryIAbX0Pr5nL20mAtbHeAQe/tUoWzB84xiCJDLWs0/l8PplnMpK
-         Q57YkmZywNRODp/rN4sAhGqsXJL8adX13DNVt99jU7LCQ+l4Wiiy8JGnAXIFwhTMD7Bc
-         D/ufl5ou2iU7RuUyZAfrz1Y1ZBSv2zRADmm1nmqKz9r6yHCMudEILiY7ObV0fGIkqcIF
-         l+/izU9bdtMB0j4K0YaAHn25xXW030JrLP6FPmo0L4bKFC2MdJ+1iz+mluJMnFNk4GiJ
-         iNtU19xHp2H5/sP+nRgQOReX33dsuEs8N7HEEMMhXzUOkig2zaGnYEmXyOhYSKkO0FQk
-         gfMw==
-X-Gm-Message-State: ACrzQf0cnzUUTTR3CynEDnUiMJ8vgcDBGVq3mZB9noapdNzD7He5HxQC
-	FjRZGkEjj4DwmzxwnyWoCRjOxL8Rn1jk3nxsghg=
-X-Google-Smtp-Source: 
- AMsMyM4UCaTTQmFu81pP/YY2OZ8SxA00diQRNcPyH87ZFry6B8L+z+6SPyqOVPcisRl6NnYuJJcIHPRE+BKne9UM7j8=
-X-Received: by 2002:a9d:6b85:0:b0:660:bb8c:3ab9 with SMTP id
- b5-20020a9d6b85000000b00660bb8c3ab9mr2016620otq.55.1664865816008; Mon, 03 Oct
- 2022 23:43:36 -0700 (PDT)
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=ftqyS2Lp;
+ spf=pass (domain: intel.com, ip: 192.55.52.88,
+ mailfrom: jay.shen.teoh@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664867517; x=1696403517;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=XnvjoYm4p+8lbVvzoTQb/QA5x3ca3HVaN3/OQtIEPZE=;
+  b=ftqyS2Lpnd+dT43tTaDpt1CArO5Vl+MDjlS5oG9kDIE1zzc7oKHvU9Rq
+   1x6VeAD7mKt10Cyi7P4N7XzZM3E5yyEFrOyd03RTRFG/rGON3vYHRBWmS
+   kADETburfPewDm/8KljUmetOtQ3ufTi1j2kDvfc25rGb2vG1IkVjdHhvz
+   smTtRQ2oPLEee3TWTeBcKuziJknrKhjYZRbkIAIIQRGwJgFJn5I/pFz4U
+   RjzDYDGGOo1vyqOT0jQ9csP3cFQMPAz/zSpMD7nLZMc/T+Yewd8stKgtk
+   fC3hqAbAoHw5JRQY0KOAbzAmkV1mZXAtGr21Knv5tY+bvxaemmzJiGKHJ
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="329248930"
+X-IronPort-AV: E=Sophos;i="5.93,367,1654585200";
+   d="scan'208";a="329248930"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2022 00:11:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="766235917"
+X-IronPort-AV: E=Sophos;i="5.93,367,1654585200";
+   d="scan'208";a="766235917"
+Received: from andromeda02.png.intel.com ([10.221.253.198])
+  by fmsmga001.fm.intel.com with ESMTP; 04 Oct 2022 00:11:56 -0700
+From: jay.shen.teoh@intel.com
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone][Patch] vim: Upgrade 9.0.0541 -> 9.0.0614
+Date: Tue,  4 Oct 2022 15:11:51 +0800
+Message-Id: <20221004071151.2920751-1-jay.shen.teoh@intel.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <20220930041614.2704304-1-raj.khem@gmail.com>
- <C9A0CBAD-5373-4F4C-BB73-0AD10A2DF000@arm.com>
- <042F0314-BF16-49A5-AD68-81DFD17739E6@arm.com>
- <CAMKF1srZEorOx-hPiD1zZx1DMiJdZbHgknub04hfyfRFzEhNcg@mail.gmail.com>
- <EA0EFA99-9A83-4699-9D0D-AD5279C58B81@arm.com>
- <CAMKF1sqwQcT-vpk5Ycydd8BCk3OCmPP-zCKZ-MwRr0G+XPHHNA@mail.gmail.com>
- <01558808-3100-4CFA-98DB-244F487435D4@arm.com>
- <CAMKF1sp=ujH14XbTybycQkJWaL93OMfm0dS6FvM_XR+K71EQaw@mail.gmail.com>
- <CAMKF1sp1oqMEXLvXPJhquoFjuDrhc-rtEN5-b05b_FVtYo9w=Q@mail.gmail.com>
- <CAMKF1spSdO680G-gsNe5501L+f5CxcUYt-8eayt8-SwPkKcC1w@mail.gmail.com>
- <DF4844C5-BAA6-4C05-A803-BA1129C1722D@arm.com>
- <CAMKF1sqGKHpeQuDs9tufc7Eu2fnKwutrsuXYKT1bK5j93gC0ug@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1sqGKHpeQuDs9tufc7Eu2fnKwutrsuXYKT1bK5j93gC0ug@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 3 Oct 2022 23:43:10 -0700
-Message-ID: 
- <CAMKF1soJyR2raJv8P-gSHKzpe3FOw+=wuBJu+nmN16dgXSHwqw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] openssl: Add missing perl module runtime
- dependencies for ptests
-To: Ross Burton <ross.burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Oct 2022 06:43:45 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Oct 2022 07:12:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171374
+ https://lists.openembedded.org/g/openembedded-core/message/171375
 
-On Sat, Oct 1, 2022 at 3:29 PM Khem Raj <raj.khem@gmail.com> wrote:
->
->
->
-> On Sat, Oct 1, 2022 at 1:01 PM Ross Burton <ross.burton@arm.com> wrote:
->>
->> > OK my RRECOMMENDS:perl-modules are fine similar to Ross, however they
->> > does not get pulled into final image when openssl-ptest is added to
->> > IMAGE_INSTALL
->>
->>
->> That=E2=80=99s definitely worth looking into. This isn=E2=80=99t the sol=
-ution, assuming you=E2=80=99re not disabling recommendations in your image =
-recipe.
->
->
-> Core-image-ptest works so hmm I don=E2=80=99t know what=E2=80=99s wrong w=
-ith my image
->
+From: Teoh Jay Shen <jay.shen.teoh@intel.com>
 
-I think the issue seems with any image using opkg backend and adding
+Including fixes for :
+CVE-2022-3278
+CVE-2022-3296
+CVE-2022-3297
+CVE-2022-3324
+CVE-2022-3352
 
-IMAGE_FEATURES +=3D "ptest-pkgs"
+Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
+---
+ meta/recipes-support/vim/vim.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-in local.conf
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 5ff60f8495..0710f6afbf 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -20,8 +20,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://no-path-adjust.patch \
+            "
+ 
+-PV .= ".0541"
+-SRCREV = "ee7c8d999beb847457f768757b1bdcd76391c1f4"
++PV .= ".0614"
++SRCREV = "ef976323e770315b5fca544efb6b2faa25674d15"
+ 
+ # Remove when 8.3 is out
+ UPSTREAM_VERSION_UNKNOWN = "1"
+-- 
+2.37.3
 
-DISTRO_FEATURES +=3D "ptest"
-
-It does not even bring ptest-runner which is in RRECOMMENDS of every
-ptest package.
-
-The core-image-ptest work perhaps because they explicitly specify
-certain ptest packages and they bring in the needed deps
-
-
->>
->>
->> Ross
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#171349): https://lists.openembedded.org/g/openembedd=
-ed-core/message/171349
->> Mute This Topic: https://lists.openembedded.org/mt/94010252/1997914
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [r=
-aj.khem@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
 
