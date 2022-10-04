@@ -2,66 +2,62 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60D31C43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EB36C4321E
 	for <webhook@archiver.kernel.org>; Tue,  4 Oct 2022 17:28:09 +0000 (UTC)
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
- [209.85.222.169])
- by mx.groups.io with SMTP id smtpd.web08.13648.1664904480806659039
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
+ [209.85.160.175])
+ by mx.groups.io with SMTP id smtpd.web09.13799.1664904478673983560
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Oct 2022 10:28:01 -0700
+ Tue, 04 Oct 2022 10:27:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=oAGItWww;
- spf=pass (domain: gmail.com, ip: 209.85.222.169,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=a/wKxrDH;
+ spf=pass (domain: gmail.com, ip: 209.85.160.175,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f169.google.com with SMTP id v17so472192qkv.5
+Received: by mail-qt1-f175.google.com with SMTP id ay9so8568939qtb.0
         for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Oct 2022 10:28:00 -0700 (PDT)
+ Tue, 04 Oct 2022 10:27:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=AaMchuC+4eyna+96qXf4W46qjQn+2/Dgd87F95HnRc4=;
-        b=oAGItWwwd4jXxGy7BFUVGrAY0EJXXRMT3mtMAuU4+cLaGmTakrTq6b/spRmvYLtExe
-         enlsXUmf5HlgHsThldOXwygTOcB7rZ19+pd5JDgghHpDUDPVAI8EjGmFNCubCWR8EMU5
-         JnKX8yVRd0Vmy77LnNBnvQyCCrKDN9gqLLEPJNDbEqLrVIhjBpfyExTybxwL126YH0AO
-         bRoyMZ8AIIEwyTDu4Zg2/mc9/JfWojHfoSEXgISCPiACjsPAqjN6N2u80WRz3GmTfz7B
-         DODnd91Vq/H9EOEs+BnfvSU/xi5BoZnE5DoY3jf5c+OxIqxudUcRdtoLLMWWQcu2XHx2
-         99vQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=BvN/nDRJvBm2O/y+Vk5eFhKojxP/q+AZDpscrXaBDLE=;
+        b=a/wKxrDHvbfExfecaf20W3tWthWeVO07zTDlCcmTSJ0hD6kloEPk2btaIYK42vOqyX
+         0oxyJG4yUy3unJEal2IK3kubxSajXsXsbNNyqbAleotCG+Ledy1991UnjdFjKw7UtVq4
+         e85U+96egVAB56/pxtjuTvDfb9sedSWmKsV3mx73hizzTh92oFt4P4I7ctovCWZiafdB
+         lXb2w/ntz/tQZKrnw2ZPCHETbjS9zxNjchb7tAXf2NpHhhL+CV/7CSzN3JWApGd/UrzE
+         CCGL7gooz5vg2e2waywS7pYHWpjsXUKNWGR3o2PjxlThfisJg76hgqvEZecEyRxw42e5
+         8Y4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=AaMchuC+4eyna+96qXf4W46qjQn+2/Dgd87F95HnRc4=;
-        b=UKhX+7dzS1vcGDBhRV/By64rXlV/qMHUgP+O+c24ddx6OEleUJrp98lnYPrRGj9JQQ
-         WA8YgUN1PmWBWXOg2jgx5LpPFpPv4mDCYkMyV+/BIHiRwGOZTiST/VuEiBrEp95xA1iW
-         US1vC788dl5a5nBvZf8HbHWfZr3dRIimNuJGCWbWbDzgdHcGwhKXSkfj8C/Ck40iuflv
-         mKR2E+qJ9lf7ktV1nluuvERNOfkMwZMOyBZOxoWMkcfFtbvpYDiAmd5gehoOT+oaK9bX
-         J1cN6ql6swZe48mZSIQPCvUneXfBMHihsCVJiZnDFYZMgRKgYTLQMEedro//Y8r5HBbB
-         JbgQ==
-X-Gm-Message-State: ACrzQf0in0VDwcy/ZFWk3Bgc6sRXNKm6vbOvPav7tNmhlNdtsuPBdhFQ
-	WTx6yqrUIKPZPpuMSzlIH412fvni94bzGQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=BvN/nDRJvBm2O/y+Vk5eFhKojxP/q+AZDpscrXaBDLE=;
+        b=WfLa97vEw6T3JE6PRQ2BkG98S3wto+ne387ugYO4qDcMEQS4HPce3CR4lfHiRdD3I6
+         J1cHr8mruOuoAkE6sW8vK4PhTAu/KUKezQAdzQ++7PARix6DYi69+Jo7w17tmY5w7T8I
+         naeTpw6iVPpBb7sG7TfX/EOtraaUNH+eH5FYyDK9NY5NwYDjklQg3DYcslgtZykr9LP4
+         qwPb/YFOVhNe5YStysrCEuRyxEChkdUTCFD8zfFeUaFxWO5iIeXZHfhyGy705i2hA7ME
+         XemM0IpeekyTDbygzEwzdSngGgT9JwKwcYCM6dKXphfa/tEwP7SOUqQtfa/SJMNn59VX
+         DXuw==
+X-Gm-Message-State: ACrzQf2suFPLLTy9mn+mnSHxYU/rlyWq1JE0rSNhbJgSA/hVGyI35RAO
+	iJug2CIRAd4eyBbTssdqyDE=
 X-Google-Smtp-Source: 
- AMsMyM4iSzRHY815EbFJQ5HyXp+T3yAiurwH0yNLkxU+2gGIdBnC/fMMe7ghN2Cri23CiCSVZSdi2w==
-X-Received: by 2002:a05:620a:45a1:b0:6e0:3d9a:160b with SMTP id
- bp33-20020a05620a45a100b006e03d9a160bmr1937328qkb.688.1664904479812;
-        Tue, 04 Oct 2022 10:27:59 -0700 (PDT)
+ AMsMyM7GJ8Jtz3iy3CGC+BajmTIkLeGRRLclt8F++kO+8Kp0HQNi045Q6MdI45USCGf6CDQiJOM3HQ==
+X-Received: by 2002:a05:622a:514:b0:35d:4b66:d341 with SMTP id
+ l20-20020a05622a051400b0035d4b66d341mr20734578qtx.167.1664904477603;
+        Tue, 04 Oct 2022 10:27:57 -0700 (PDT)
 Received: from build.lan
  (cpe7c9a54441c1f-cm7c9a54441c1d.cpe.net.cable.rogers.com. [173.34.238.88])
         by smtp.gmail.com with ESMTPSA id
- y3-20020ac81283000000b0035a6b89412bsm12037878qti.46.2022.10.04.10.27.58
+ y3-20020ac81283000000b0035a6b89412bsm12037878qti.46.2022.10.04.10.27.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Oct 2022 10:27:59 -0700 (PDT)
+        Tue, 04 Oct 2022 10:27:56 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/3] perf: make scripting depend on setuptools3
-Date: Tue,  4 Oct 2022 13:27:54 -0400
-Message-Id: 
- <ce66ad3692d01831e5f41f27702c01744a8708c5.1664904217.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 0/3] kernel/kernel-yocto: 6.0 prep
+Date: Tue,  4 Oct 2022 13:27:52 -0400
+Message-Id: <cover.1664904217.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1664904217.git.bruce.ashfield@gmail.com>
-References: <cover.1664904217.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -69,36 +65,54 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 04 Oct 2022 17:28:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171429
+ https://lists.openembedded.org/g/openembedded-core/message/171427
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-It looks like this should have been an error for a while, but it
-only started showing up in my 6.x linux-yocto-dev testing.
+Richard,
 
-Without the inherit of setuptool3, we get a module missing error
-during configure and the build obviously fails.
+This is the bump of linux-yocto-dev to 6.0, as part of the testing for
+core-image-kernel-dev, I ran into perf and lttng-modules issues.
 
-Tested against 5.x and 6.x kernels.
+The fixes are part of this series and are good for all kernels, and
+part of the dot updates to langdale if they miss.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- meta/recipes-kernel/perf/perf.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 31bc04635d..2591171eca 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -48,7 +48,7 @@ PROVIDES = "virtual/perf"
- inherit linux-kernel-base kernel-arch manpages
- 
- # needed for building the tools/perf Python bindings
--inherit ${@bb.utils.contains('PACKAGECONFIG', 'scripting', 'python3targetconfig', '', d)}
-+inherit ${@bb.utils.contains('PACKAGECONFIG', 'scripting', 'python3targetconfig setuptools3', '', d)}
- inherit python3-dir
- export PYTHON_SITEPACKAGES_DIR
- 
+Bruce
+
+The following changes since commit bfb8626cc073b2b368ae7286fe6b0361398e4c7d:
+
+  build-appliance-image: Update to master head revision (2022-09-29 21:57:53 +0100)
+
+are available in the Git repository at:
+
+  https://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (3):
+  linux-yocto-dev: bump to v6.0+
+  perf: make scripting depend on setuptools3
+  lttng-modules: update to 2.13.7
+
+ meta/recipes-kernel/linux/linux-yocto-dev.bb  |   4 +-
+ .../lttng-modules/0001-fix-compaction.patch   |  68 ----------
+ ...c-fix-tracepoint-mm_page_alloc_zone_.patch | 106 ---------------
+ ...oduce-kfree_skb_reason-v5.15.58.v5.1.patch |  53 --------
+ ...ags-parameter-from-aops-write_begin-.patch |  76 -----------
+ ...Fix-type-of-cpu-in-trace-event-v5.19.patch | 124 ------------------
+ .../0009-Rename-genhd-wrapper-to-blkdev.patch |  76 -----------
+ ...ules_2.13.4.bb => lttng-modules_2.13.7.bb} |   8 +-
+ meta/recipes-kernel/perf/perf.bb              |   2 +-
+ 9 files changed, 4 insertions(+), 513 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-compaction.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-page_alloc-fix-tracepoint-mm_page_alloc_zone_.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-net-skb-introduce-kfree_skb_reason-v5.15.58.v5.1.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-fix-fs-Remove-flags-parameter-from-aops-write_begin-.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-fix-workqueue-Fix-type-of-cpu-in-trace-event-v5.19.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch
+ rename meta/recipes-kernel/lttng/{lttng-modules_2.13.4.bb => lttng-modules_2.13.7.bb} (73%)
+
 -- 
 2.19.1
 
