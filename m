@@ -1,219 +1,172 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD55AC433F5
-	for <webhook@archiver.kernel.org>; Tue,  4 Oct 2022 13:36:47 +0000 (UTC)
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
- [209.85.167.170])
- by mx.groups.io with SMTP id smtpd.web10.10533.1664890601266644450
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7B27C433FE
+	for <webhook@archiver.kernel.org>; Tue,  4 Oct 2022 13:39:57 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.57])
+ by mx.groups.io with SMTP id smtpd.web10.10582.1664890791702160774
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Oct 2022 06:36:41 -0700
+ Tue, 04 Oct 2022 06:39:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=h05Q2pr1;
- spf=pass (domain: gmail.com, ip: 209.85.167.170,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f170.google.com with SMTP id g130so14373333oia.13
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Oct 2022 06:36:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=2B1lkJwQyf+CcWpp+3Key88sbWAu90RS52sg9O31MFU=;
-        b=h05Q2pr1exDZk21I3Gf5UFkmZngxW14gxyixjionQzmQ0yAMJbAHUzcnTU5eyhyqA3
-         6YBDHshN0EO/aPPd1h5A/K+fsSLB6GPQQxH2Phd1VVFG59bptsQFRdq9gn4MKc2bERwX
-         rhbpJMwrE7Q3CfGkoySa3rm28TIL0+Qmb1tlF8Ce7RyO3O1KrRv23geFtZ4irlvv+KJc
-         2fybze6HAuI/bXp9Cw+Fd//owrVC6lp/zIxCmIbG8HMeFU2awhDFovkjzLSbHO38rzpQ
-         /L14Ww53mgHSkCvzYevK2RxgTDbFovL9VyOcZvudzgrxSvxxhhLl85q7fCu2W87bR7d2
-         UoBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=2B1lkJwQyf+CcWpp+3Key88sbWAu90RS52sg9O31MFU=;
-        b=2t7RxwsZGSne/i4Lam9AuzysiQsBBo8h71F8Yr668uOrly0GfZmMww2feOW9J6pXNN
-         LdCGRv/RT4LCchDigwhgHJJGIJFT+u/l1/4lgSypYwDCPPrOboIyQw+B3A2vzYgEJaXf
-         Gy0YC58tABlOzLs3CadCKsacSZia4Wk9cfCAscKKk77Cx2+17YbaN+15907otIIpx/pa
-         el9kOshHxkdd4xCXkrzrpIIdAQWBTNCtR+0XEIFVrUsPQ8rVl6uBXjuVz+DzIGDHsroi
-         SVrqKBxXVktlPpmXaijZGIC8+RSUzENUfRy3OF0fVoooWH/gttTL94C8MFqjmC6tLApR
-         8Reg==
-X-Gm-Message-State: ACrzQf356lV5JTTk1ERhk6mYIMXT2DVWeCHSL3TCV/ZVL49vS7Ht8yL0
-	XZvog1EfnMWsqGgtqltIr4hTzmqANZKRY5ov2Jc=
-X-Google-Smtp-Source: 
- AMsMyM74CHbjJo7cKqelOBR+hdF3VTi+xofSbE2Y34kT87w6Yuh32kf2AbOx8EPp5CGPDvT89o0N0z9d7acglNZ+BlA=
-X-Received: by 2002:a05:6808:30a0:b0:353:e411:8bc8 with SMTP id
- bl32-20020a05680830a000b00353e4118bc8mr815506oib.55.1664890600529; Tue, 04
- Oct 2022 06:36:40 -0700 (PDT)
-MIME-Version: 1.0
+ dkim=pass header.i=@armh.onmicrosoft.com
+ header.s=selector2-armh-onmicrosoft-com header.b=2+oBxROo;
+ spf=pass (domain: arm.com, ip: 40.107.21.57, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=B8rqC6bsWOHK7fW7baGbiz044oBWCNOt4pwk2tkLC3+oTVaPVmEcsZlm+P1d8glFVy1FlXCiyOxn2atg8LsNvTTFY2hKqosZo94wd3laHN0IfUFOLA1oPdezH6QdERQg7M5DYmvkVDDCxNXRfTaEHzI5/x5Sssq+Uaqt531HI+eXVw+hzyK8Xbe/0GcfW+xiW8DeCFzXLRfN5bQshMvqKctrTRCVzEIdfhRTlZ6KSqOuDQHAQcHyidRdQNs6oE89IHXwPPfZ9KvX86vtdE2Csu6LFtq6onQgr68HZruHR1IDU2MybZkaIjkdh0BoD9MavfcxObeANVAkqz0usr/7NQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8rzUNBprJb7hLkro1nDEaYRkRInwpRr4JrjggI+U8E0=;
+ b=BF4D96lm79qYfnQ2Ad3TOfTLNUK+ILvp8FFmGuIEG9P9LfIbGKqClP5qyA/soD/SN2QtQHlrtJCKqzz+iQ5tbnzqdxRk4unbS9izfhCmYq9MPrhYdf4nWHRazyxxmd5zb50+iHHuBHvFCqGSVNYc5OJH81qXCJgJVofrlAMs49RbUBepSRPdfJehOqG3C8bKSgZ7h/U4hnWbekyWrkbaCfJAu7PNZuyFninFTrRW2nwkXraj1kPnHa9vwtgHDjwUFumP2gBLxyl1jwr0iH40lSm7e9vun4DQwIQmVC/BcUdKtxg02dsbhkD5OxChZy+suAFvlROnVnwB1djwYpL89A==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
+ oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8rzUNBprJb7hLkro1nDEaYRkRInwpRr4JrjggI+U8E0=;
+ b=2+oBxROojyAArAvxKw0Y1KlROBCQf3FlI4C9LXmiPJjZzQOy8F76ps93O9ndc3wshQKs6m4AkrUIcUYBlkWH6yHWSFUl8e2Nmbwm3dKtjH8m7lcDSDrbdxRbb1t9/yNaPN0yU9wP76WozxlCjrIRcn9IZBj5TBwiTxMA/79lhQw=
+Received: from AS9PR06CA0379.eurprd06.prod.outlook.com (2603:10a6:20b:460::12)
+ by PAXPR08MB7621.eurprd08.prod.outlook.com (2603:10a6:102:23f::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.23; Tue, 4 Oct
+ 2022 13:39:48 +0000
+Received: from VE1EUR03FT023.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:20b:460:cafe::5d) by AS9PR06CA0379.outlook.office365.com
+ (2603:10a6:20b:460::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.24 via Frontend
+ Transport; Tue, 4 Oct 2022 13:39:48 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ VE1EUR03FT023.mail.protection.outlook.com (10.152.18.133) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5676.17 via Frontend Transport; Tue, 4 Oct 2022 13:39:47 +0000
+Received: ("Tessian outbound 7761be2ecf00:v128");
+ Tue, 04 Oct 2022 13:39:47 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: f4578d5fe7fbc924
+X-CR-MTA-TID: 64aa7808
+Received: from e3bef1cbefb5.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ 48BD21CD-14CA-4230-87CE-7AED48B54FBB.1;
+	Tue, 04 Oct 2022 13:39:39 +0000
+Received: from EUR02-HE1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id
+ e3bef1cbefb5.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Tue, 04 Oct 2022 13:39:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=J/RHyRxqYBuMzd/OLWcmBAfTCYHajTiM2UKz5KmH6jSj4DXF3BtuY62AvhGNchLU4TEm4fVZswdXYC1ve4Vc1pgDTSVg1skk8VCTqtfZU9Nq+chaW/1r0geBYFrOnZJt60oD/cFQutrkVCVVlHypS0sUs7SEX4d8EUUFj94MruQplb1uy1jlAf9eQ5Qg/0Te3tfa+ObxlqGaUOeYN8MTxsKsGgfg8Ih5ppq+5RD2Le8Y28ydSLRs42cdMsBT4dybZLY4JQUP1uA75vi8b6y7oz2etYl3pirExO2Q5K14Y0kuOT3bY6QPobhkHx/CqWR5Ir/niGLHtwqB/uo0hhPsrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8rzUNBprJb7hLkro1nDEaYRkRInwpRr4JrjggI+U8E0=;
+ b=YNXXN2Njy/fi0WbDNyWgKH6h7gAdks5Hha0aJZMdTxJJEO8ll9NejtKjXLFZINS+seUb9dDM8CznHky2WWQy/RBLQQMXyioaoOGkpScagKXBcFQeP5N4PUnDYF6TLqrY/TZkdRuWT35RqPci7NF+q8UR1kh21/OdMXWaRGfg1O/xgtHVGHt4+HmMm1bGVtF0lZxQJAHPGaXqsmj8sB7qnmg5HCqxuV/oS69oYe6kpmrAnSqiSWLKaEMskW4uUjS7PbbEkexPCeagAJ/VE2XjVe7qKyTLkqwqfh0/U7P8ZtUxe0JmO7niOz91Fu4M2hvyZGnASvCvajHKr+1NNzROLQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8rzUNBprJb7hLkro1nDEaYRkRInwpRr4JrjggI+U8E0=;
+ b=2+oBxROojyAArAvxKw0Y1KlROBCQf3FlI4C9LXmiPJjZzQOy8F76ps93O9ndc3wshQKs6m4AkrUIcUYBlkWH6yHWSFUl8e2Nmbwm3dKtjH8m7lcDSDrbdxRbb1t9/yNaPN0yU9wP76WozxlCjrIRcn9IZBj5TBwiTxMA/79lhQw=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AS1PR08MB7474.eurprd08.prod.outlook.com (2603:10a6:20b:4de::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.28; Tue, 4 Oct
+ 2022 13:39:37 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7d2b:2570:9a99:a3d2]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7d2b:2570:9a99:a3d2%5]) with mapi id 15.20.5676.028; Tue, 4 Oct 2022
+ 13:39:36 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "raj.khem@gmail.com" <raj.khem@gmail.com>
+CC: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 4/5] piglit: upgrade to latest revision
+Thread-Topic: [OE-core] [PATCH 4/5] piglit: upgrade to latest revision
+Thread-Index: AQHY199RIXHHolBKkkSnsd2ruLPGFq3+PN6AgAAA3wA=
+Date: Tue, 4 Oct 2022 13:39:36 +0000
+Message-ID: <720037DF-9057-48C4-B5FA-D5BDE584A240@arm.com>
 References: <20221004105106.1556357-1-ross.burton@arm.com>
  <20221004105106.1556357-4-ross.burton@arm.com>
-In-Reply-To: <20221004105106.1556357-4-ross.burton@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 4 Oct 2022 06:36:29 -0700
-Message-ID: 
  <CAMKF1sqk1eK0RVhQtj6WjYi4n=WrBfkP5VmgpZUdp=18dHsmgg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/5] piglit: upgrade to latest revision
-To: Ross Burton <ross.burton@arm.com>
-Cc: nd@arm.com, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000d5a6fa05ea358cfc"
+In-Reply-To: 
+ <CAMKF1sqk1eK0RVhQtj6WjYi4n=WrBfkP5VmgpZUdp=18dHsmgg@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3696.120.41.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|AS1PR08MB7474:EE_|VE1EUR03FT023:EE_|PAXPR08MB7621:EE_
+X-MS-Office365-Filtering-Correlation-Id: de084955-013d-41dd-2c94-08daa60de7b5
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ pz0HzEzOC8PcxynkytQfSyrloDLsnDTfP0ODZFEjVKOjgputw/TBnZfP0j7Pc6NqWhDryg0W1qSsh8y1yTKB0PtlgVKddgCVpuOjA1dvT1Qkel483XQoyGOlIAqaR0nJIMW4BNcNDF63RF0VOCLT+MU4PbEtPX/eEfr6DfUIO6pL++GjODKDJ/B1/k99Fldh+0wwGnR0QomZSFqed5f8lht0i0CWT6yGZA9O93ub/W96IKCyjSlqHUtIBVy/cDknCvossypJSRYOl6fP6mCJAaqXhDLkg6wy+GzuY4kwhsW/L3/AvmOtz0lAJaVT3JFnClNFlLQNnXcjB6npFRvbCjL2Hl3Ptmj3PL+UbstIYu1OimeKhArafbvXfEZcoEceTXvTl99Lp81qPiFj28sKbiDoxxJ8nMV1q0LN0zEG7ZE/oSZToYAf6Gc4NAI60EaExMwj5QbFc12rBQ/I+a+m17q7JByFZSEbhbZmhUiqigZzLqC2da9/xf9I+/eUCNOK1Hs1mPa8vNGkpokcHsS2z6e8rPzLJNaMGzIFZlPT8zyDmHn5SrHSe6QLFEJd+V75f/rO7yzGTPSGlcDEfy37Hnmmnp71+5ZaJajlVvCpXJenhYTwpOocKAFuTvJutXyuPVupOFsPrhj9utI2ztyrEz1ledR7UgCThPuArUK6zf4Mg+FHBsHk2tHiNcfP1MGVbPmDOrz5ChPQoyfgUQ3CFrpC8szG46FNAKWtxUnp2FFZEt/APMSPZsdGF+TLyORBwm+p1aalby3QdteSJbEH/2Lwr/d5PR0r6V8Eka0ICPw=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(376002)(346002)(396003)(39860400002)(136003)(451199015)(38100700002)(2616005)(186003)(2906002)(71200400001)(122000001)(38070700005)(6486002)(4744005)(6916009)(4326008)(86362001)(8936002)(41300700001)(316002)(91956017)(66476007)(8676002)(66446008)(66946007)(66556008)(64756008)(478600001)(36756003)(76116006)(53546011)(26005)(6512007)(5660300002)(6506007)(33656002)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F2892322268D0F4280BC55B248F45DCB@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR08MB7474
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ VE1EUR03FT023.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	1fe5377e-b910-4270-3762-08daa60de0ec
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	12zC5h/nE7iy20jvBtL/L7ceeP5Ps8902KhMLtjdDTZXWVKiY/9x2iOY47IvhyQ6EkWjIPFG+qk517lV0ub7KKIgwyLKy6KyIn8mnt4NQk6Hc2NsFyxTrVsoPSm29cm/q+168dL/e4VfNfaZcV/qqIZiYA0mDwuWxi6NWcwvst+zaJBaaaYhBvMowhKledD2UVHgZGHhi/9uTGCHbnIZ4E/44xgvYH056tUEIyKiJRndVBcNtYf/SJmCbA+hoce+IG+L2BOf2FWVoQn3V9PWrzgxuQYVqld5l1JQKLadZZCOeWaJK48eAhhxAUNPicv/lXrjUuMwD+N8/JtcRf52bf3PA3c6FynoqWp82hLbT5offEOZtDOMnXuoeabovzthaUMdE78NNDxIef2+tpGiET2+X6C7PSZpMwo7OraNkqOQ81gB+gr/t0bygjoyTZyMUl33YTDaVBWSEV70FdXg1lO/eJKxghdrr308iSKVaUDHp4uq6HTHPYTMJXbCWotDpt0rCKHMOYPVzX5VlAXqMPqMs/0MirOKNDYgIS4Y4AOo2wHnIbh1HvgWeXYudJAbnGESemaJwdmcE4rPzbjjj1UInoAPgI6G9/39ufuMcl/Toyvv9vH16QXoAcE9Nskm8iN3ScMYAGI8OSK/DhoL76rrP0qLZMLmA3vT2NePXuE3QQjVb0OzRECZuCpiDLyyR4vnM+5DGgIPANmC0a/v+Si+rpv7EX16Qu2OI8856bL4/otJqvsvY+7S+9EsvERoP+YNra+aUGxqigjpYiPl/g==
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(376002)(346002)(396003)(136003)(451199015)(36840700001)(40470700004)(46966006)(4744005)(2906002)(41300700001)(5660300002)(40460700003)(82310400005)(36860700001)(2616005)(186003)(336012)(4326008)(356005)(36756003)(70206006)(70586007)(8676002)(81166007)(40480700001)(53546011)(478600001)(33656002)(6512007)(26005)(6862004)(8936002)(316002)(6506007)(86362001)(47076005)(6486002)(82740400003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2022 13:39:47.7474
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ de084955-013d-41dd-2c94-08daa60de7b5
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
+ TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	VE1EUR03FT023.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB7621
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Oct 2022 13:36:47 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Oct 2022 13:39:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171394
+ https://lists.openembedded.org/g/openembedded-core/message/171395
 
---000000000000d5a6fa05ea358cfc
-Content-Type: text/plain; charset="UTF-8"
-
-On Tue, Oct 4, 2022 at 3:51 AM Ross Burton <ross.burton@arm.com> wrote:
-
-> Also disable any attempt at debug splitting/stripping.  Piglit installs
-> over 2GB of files which we install stripped, so the action of attempting
-> to split/strip takes a long time and achieves nothing.
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  meta/recipes-graphics/piglit/piglit_git.bb | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-graphics/piglit/piglit_git.bb
-> b/meta/recipes-graphics/piglit/piglit_git.bb
-> index f758208c6bc..c9cf5795e99 100644
-> --- a/meta/recipes-graphics/piglit/piglit_git.bb
-> +++ b/meta/recipes-graphics/piglit/piglit_git.bb
-> @@ -14,7 +14,7 @@ SRC_URI = "git://
-> gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
->             "
->  UPSTREAM_CHECK_COMMITS = "1"
->
-> -SRCREV = "265896c86f90cb72e8f218ba6a3617fca8b9a1e3"
-> +SRCREV = "80465078a0ae8f12411db66850ee14f017962fa7"
->  # (when PV goes above 1.0 remove the trailing r)
->  PV = "1.0+gitr${SRCPV}"
->
-> @@ -52,8 +52,10 @@ do_configure:prepend() {
->     fi
->  }
->
-> -# Forcibly strip because Piglit is *huge*
-> +# Forcibly strip because Piglit is *huge*, and don't bother trying to
-> split/strip the result.
->  OECMAKE_TARGET_INSTALL = "install/strip"
-> +INHIBIT_PACKAGE_STRIP = "1"
-> +INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
-
-
-How does debugging piglet looks like after this change ? I wonder if we can
-reduce debug info by
-Using something like -g1 maybe a good middle ground
-
-
->
->  RDEPENDS:${PN} = "waffle waffle-bin python3 python3-mako python3-json \
->         python3-misc \
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#171384):
-> https://lists.openembedded.org/g/openembedded-core/message/171384
-> Mute This Topic: https://lists.openembedded.org/mt/94110619/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---000000000000d5a6fa05ea358cfc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue, Oct 4, 2022 at 3:51 AM Ross Burton &lt;<a href=3D"m=
-ailto:ross.burton@arm.com">ross.burton@arm.com</a>&gt; wrote:<br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
--width:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(2=
-04,204,204)">Also disable any attempt at debug splitting/stripping.=C2=A0 P=
-iglit installs<br>
-over 2GB of files which we install stripped, so the action of attempting<br=
->
-to split/strip takes a long time and achieves nothing.<br>
-<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
-t=3D"_blank">ross.burton@arm.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-graphics/piglit/<a href=3D"http://piglit_git.bb" rel=3D"=
-noreferrer" target=3D"_blank">piglit_git.bb</a> | 6 ++++--<br>
-=C2=A01 file changed, 4 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-graphics/piglit/<a href=3D"http://piglit_git.bb" =
-rel=3D"noreferrer" target=3D"_blank">piglit_git.bb</a> b/meta/recipes-graph=
-ics/piglit/<a href=3D"http://piglit_git.bb" rel=3D"noreferrer" target=3D"_b=
-lank">piglit_git.bb</a><br>
-index f758208c6bc..c9cf5795e99 100644<br>
---- a/meta/recipes-graphics/piglit/<a href=3D"http://piglit_git.bb" rel=3D"=
-noreferrer" target=3D"_blank">piglit_git.bb</a><br>
-+++ b/meta/recipes-graphics/piglit/<a href=3D"http://piglit_git.bb" rel=3D"=
-noreferrer" target=3D"_blank">piglit_git.bb</a><br>
-@@ -14,7 +14,7 @@ SRC_URI =3D &quot;git://<a href=3D"http://gitlab.freedesk=
-top.org/mesa/piglit.git;protocol=3Dhttps;branch=3Dma" rel=3D"noreferrer" ta=
-rget=3D"_blank">gitlab.freedesktop.org/mesa/piglit.git;protocol=3Dhttps;bra=
-nch=3Dma</a><br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-=C2=A0UPSTREAM_CHECK_COMMITS =3D &quot;1&quot;<br>
-<br>
--SRCREV =3D &quot;265896c86f90cb72e8f218ba6a3617fca8b9a1e3&quot;<br>
-+SRCREV =3D &quot;80465078a0ae8f12411db66850ee14f017962fa7&quot;<br>
-=C2=A0# (when PV goes above 1.0 remove the trailing r)<br>
-=C2=A0PV =3D &quot;1.0+gitr${SRCPV}&quot;<br>
-<br>
-@@ -52,8 +52,10 @@ do_configure:prepend() {<br>
-=C2=A0 =C2=A0 fi<br>
-=C2=A0}<br>
-<br>
--# Forcibly strip because Piglit is *huge*<br>
-+# Forcibly strip because Piglit is *huge*, and don&#39;t bother trying to =
-split/strip the result.<br>
-=C2=A0OECMAKE_TARGET_INSTALL =3D &quot;install/strip&quot;<br>
-+INHIBIT_PACKAGE_STRIP =3D &quot;1&quot;<br>
-+INHIBIT_PACKAGE_DEBUG_SPLIT =3D &quot;1&quot;</blockquote><div dir=3D"auto=
-"><br></div><div dir=3D"auto">How does debugging piglet looks like after th=
-is change ? I wonder if we can reduce debug info by</div><div dir=3D"auto">=
-Using something like -g1 maybe a good middle ground=C2=A0</div><div dir=3D"=
-auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;bor=
-der-left-color:rgb(204,204,204)" dir=3D"auto"><br>
-<br>
-=C2=A0RDEPENDS:${PN} =3D &quot;waffle waffle-bin python3 python3-mako pytho=
-n3-json \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 python3-misc \<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#171384): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/171384" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/171384</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/94110619/1997=
-914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/94110619/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000d5a6fa05ea358cfc--
+T24gNCBPY3QgMjAyMiwgYXQgMTQ6MzYsIEtoZW0gUmFqIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnIDxyYWoua2hlbT1nbWFpbC5jb21AbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gd3JvdGU6DQo+
+IEhvdyBkb2VzIGRlYnVnZ2luZyBwaWdsZXQgbG9va3MgbGlrZSBhZnRlciB0aGlzIGNoYW5nZSA/
+IEkgd29uZGVyIGlmIHdlIGNhbiByZWR1Y2UgZGVidWcgaW5mbyBieQ0KPiBVc2luZyBzb21ldGhp
+bmcgbGlrZSAtZzEgbWF5YmUgYSBnb29kIG1pZGRsZSBncm91bmQgDQoNClRoZSBiaW5hcmllcyBo
+YXZlIGJlZW4gc3RyaXBwZWQgc2luY2UgMjAxNiwgdGhpcyBjaGFuZ2Ugc2ltcGx5IHN0b3BzIGRv
+X3BhY2thZ2UgZnJvbSB0cnlpbmcgdG8gc3BsaXQvc3RyaXAgdGhlIGRlYnVnIHN5bWJvbHMuICBU
+aGVyZeKAmXMgMkdCIG9mIGFscmVhZHktc3RyaXBwZWQgYmluYXJpZXMgdG8gcHJvY2Vzcywgd2hp
+Y2ggb24gbXkgbWFjaGluZSB0YWtlcyBvdmVyIGEgbWludXRlLg0KDQpSb3Nz
 
