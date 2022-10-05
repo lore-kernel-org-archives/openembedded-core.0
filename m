@@ -1,98 +1,112 @@
-Return-Path: <michael.opdenacker@bootlin.com>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00A39C433FE
-	for <webhook@archiver.kernel.org>; Wed,  5 Oct 2022 16:49:57 +0000 (UTC)
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by mx.groups.io with SMTP id smtpd.web10.123.1664988590193362994
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0472FC433FE
+	for <webhook@archiver.kernel.org>; Wed,  5 Oct 2022 16:51:07 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web08.143.1664988656880385893
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Oct 2022 09:49:50 -0700
+ Wed, 05 Oct 2022 09:50:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Ne8Xe308;
- spf=pass (domain: bootlin.com, ip: 217.70.178.240,
- mailfrom: michael.opdenacker@bootlin.com)
-Received: from relay6-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::226])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 58DCCCF7B8
-	for <openembedded-core@lists.openembedded.org>;
- Wed,  5 Oct 2022 16:03:47 +0000 (UTC)
-Received: (Authenticated sender: michael.opdenacker@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 7DAC7C000F;
-	Wed,  5 Oct 2022 16:03:43 +0000 (UTC)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=c0v7Thbp;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198,
+ mailfrom: luca.ceresoli@bootlin.com)
+Received: from booty (unknown [77.244.183.192])
+	(Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 8EFA6C000C;
+	Wed,  5 Oct 2022 16:50:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1664985823;
+	t=1664988655;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9cO+1gnDKienIbmuqtB57GVNdEuBkDEKkJB2bAy7Gd4=;
-	b=Ne8Xe3088PdbV41HMcQjnVxsVDeQd3N/3YWomg27osw4HTAgDcxoGXYKjQL0Fn55WgXV4S
-	Bbb/nJW5RvD/1PU6IbVNWLb5bB9EW7LYns/ITeaOy2EC6waBrlLRIFeN9iHQpL9AJjmjzw
-	hDlifRhMQEWt+i4KwFMy5MiB+HLaw9sGG+PrZdx00a2VHb2eLABwi/ZL6Q+C+5FZQNdk73
-	HrsqZVYIBjErArnyOqXYBWUwY4qDyEJltPT6WpWy1rux0Z7hPZma3zczGu1EDa45x5kNGH
-	D2lPznVuy8hA0p6k+QYd2z1j9cjSKlcJs21dPEcdXHQnqkTVL6FEggZZtvBZJg==
-Message-ID: <f2f9731b-7a35-d29e-75c7-6b69d7ffc4ee@bootlin.com>
-Date: Wed, 5 Oct 2022 18:03:43 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
+	bh=+avkx/myG28EnaNjQImfnjJ6jGGSHgenddvqytrH4MU=;
+	b=c0v7ThbpGxgfKbv55WCV4EqtHNjnTMgtNOqNuCZNNdVTh8wGCPG1NXKfcOweGnrwZjSQOH
+	6rkSBqEdbxogSmR9ywvN6DhdsB8su2BUJAnCkrJxI2Jd/F49pkp9YbqIX24HELu5qtJXlB
+	biTcWmEiD7Aktuhdt0tsEAmM4nix8AM7RdywLxxtE/Kw8JSFnbgohOiHxfcZlmX7v3iwOQ
+	81MjwdzGUKSeth1IdsBwJ6lgHnZyJZv9+4HPXYMKvNeEscwH2idJ+mgBBeGAjvdbXvCUqX
+	mDQwabNGCkw4hU2B1tXBjc3sK6FrzK2GT/dFOdOnzGdPRfnB80MXOYYuEz4Wtw==
+Date: Wed, 5 Oct 2022 18:50:53 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Mikko Rapeli" <mikko.rapeli@linaro.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][PATCH] psplash: add psplash-default in rdepends
-Content-Language: en-US
-To: thomas.perrot@bootlin.com
-References: <20221005145712.2528771-1-thomas.perrot@bootlin.com>
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Subject: Re: [OE-core] [PATCH v2 3/5] u-boot: use openssl-native.bbclass
+Message-ID: <20221005185053.2db8e10e@booty>
+In-Reply-To: <Yz0d2F1PygnDspnK@nuoska>
+References: <20221004152807.987313-1-mikko.rapeli@linaro.org>
+	<20221004235719.0e2bd17b@booty>
+	<Yz0d2F1PygnDspnK@nuoska>
 Organization: Bootlin
-In-Reply-To: <20221005145712.2528771-1-thomas.perrot@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Oct 2022 16:49:56 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Oct 2022 16:51:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171466
+ https://lists.openembedded.org/g/openembedded-core/message/171467
 
-Hello Thomas
+On Wed, 5 Oct 2022 09:02:00 +0300
+"Mikko Rapeli" <mikko.rapeli@linaro.org> wrote:
 
-Thanks for the patch!
+> Hi,
+> 
+> On Tue, Oct 04, 2022 at 11:57:19PM +0200, Luca Ceresoli wrote:
+> > Hello Mikko,
+> > 
+> > On Tue,  4 Oct 2022 18:28:07 +0300
+> > "Mikko Rapeli" <mikko.rapeli@linaro.org> wrote:
+> >   
+> > > It sets all environment variables correctly for openssl-native.
+> > > 
+> > > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>  
+> > 
+> > I'm taking this patch for testing, however I have a question, see below.
+> >   
+> > > ---
+> > >  meta/recipes-bsp/u-boot/u-boot.inc | 3 ++-
+> > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+> > > index f022aed732..cd9c578962 100644
+> > > --- a/meta/recipes-bsp/u-boot/u-boot.inc
+> > > +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+> > > @@ -17,7 +17,8 @@ PACKAGECONFIG ??= "openssl"
+> > >  # u-boot will compile its own tools during the build, with specific
+> > >  # configurations (aka when CONFIG_FIT_SIGNATURE is enabled) openssl is needed as
+> > >  # a host build dependency.
+> > > -PACKAGECONFIG[openssl] = ",,openssl-native"
+> > > +OPENSSL_INHERIT .= "${@bb.utils.contains('PACKAGECONFIG', 'openssl', 'openssl-native', '', d)}"  
+> > 
+> > What is the reason to use '.=' and not just '=' here?  
+> 
+> Hehe, it was in another example which was using conditional inheritance.
+> 
+> meta/recipes-support/gpgme/gpgme_1.18.0.bb
+> 
+> PYTHON_INHERIT .= "${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python3native python3targetconfig', '', d)}"
+> 
+> I guess normal = assignment would work too. If that's preferred I can
+> send a v3.
 
-On 05.10.22 16:57, Thomas Perrot via lists.openembedded.org wrote:
-> Otherwise when the installation of recommended packages is prevented
-> (NO_RECOMMENDATIONS = "1"), then splash screen will not be cast.
->
-> Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+In this case a '=' seems the correct choice.
 
+There is another issue with this patch. During AB testing we have this
+new warning:
 
-There's a problem with the way you send your patches though. I used to 
-have the same one.
+WARNING: u-boot-1_2022.07-r0 do_configure: QA Issue: u-boot: invalid PACKAGECONFIG: openssl [invalid-packageconfig]
 
-If I apply your patch through "git am", the author of the commit is:
-Thomas Perrot via lists.openembedded.org 
-<thomas.perrot=bootlin.com@lists.openembedded.org>
-instead of
-Thomas Perrot <thomas.perrot@bootlin.com>
-
-Because of this issue, the maintainer has to manually fix this field 
-when accepting your patch. Worse, if he doesn't catch this, that's 
-harder to fix afterwards.
-
-You should be able to fix this by running:
-
-git config --global sendemail.from "thomas.perrot@bootlin.com"
-
-At least this worked for me from the same domain ;-) See 
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded#Sending_using_git-send-email
-
-Could you try to send an update? You could send it to me again through 
-private-mail first.
-
-Thanks in advance
-Michael.
+I don't know which layer has the u-boot-1 recipe, but by grepping I
+noticed the 'openssl' PACKAGECONFIG appears in oe-core elsewhere, and
+it should be removed from there too.
 
 -- 
-Michael Opdenacker, Bootlin
+Luca Ceresoli, Bootlin
 Embedded Linux and Kernel engineering
 https://bootlin.com
-
 
