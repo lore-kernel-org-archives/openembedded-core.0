@@ -1,89 +1,103 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <david.bagonyi@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7058C433FE
-	for <webhook@archiver.kernel.org>; Wed,  5 Oct 2022 08:56:33 +0000 (UTC)
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com
- [209.85.166.177])
- by mx.groups.io with SMTP id smtpd.web11.21452.1664960184337696668
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C725C433FE
+	for <webhook@archiver.kernel.org>; Wed,  5 Oct 2022 10:48:44 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web08.22091.1664966916967608471
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Oct 2022 01:56:24 -0700
+ Wed, 05 Oct 2022 03:48:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=p3fccYyT;
- spf=pass (domain: gmail.com, ip: 209.85.166.177,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-il1-f177.google.com with SMTP id d14so8032512ilf.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Lh18nxPu;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45,
+ mailfrom: david.bagonyi@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id bk15so25337894wrb.13
         for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Oct 2022 01:56:24 -0700 (PDT)
+ Wed, 05 Oct 2022 03:48:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=hhcPKUg0xrZiZ+4XGPGbPJDRL8DSi493jezVzJgsw3c=;
-        b=p3fccYyT1DaG8QmBenohBh1Xg5ZPEsN8ySt8qGDL0Ota/toUCPWVDLEPul9PhZRRF+
-         G1i2siCw36Ayu4KE+K4TICSdaBt+/Qq3iLb5BEegwiJrzD8JOmRNzzUru73JIFXP8H9p
-         zqW9SSC+c1mIymWZnPxshA8fCi64d6tCTX5IlFd8fKPji26vLLLhOkJCKymLPqEgkLlq
-         rWIdVDxfIbPMR9rPKnd8hLKZzjCdzFX99RHHjeD2H7vBD+3PJoxt16vHevjDlmDKjyp1
-         hR/LnmxRjiHbK/v+bZJVNRBH3Kl2csS+hCIx9P/KCBH6rZu/fyvecLD+vUcH6i0rO30Y
-         pvGw==
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kDoxQcowySb5yxSAVbpagx3GgyNxVMokliUTxl1T+n4=;
+        b=Lh18nxPu8Wx6cWDFEqowwKtQHAeTGp2EyptMnGd9xNwG6NZR5iWT7PFWraaJQ9U/yV
+         qC4mLZ27knbIrW245wX2xIpFTBFIBpxySIAuoR9S1VHaaS2HkoPPsqFs0a0zrz02Xau0
+         Y6PA2+cWUcGqQuFAaJJDmx34Xne9vts64JSIcDv7HR45Cbw1+fqxEK2apn8k+XgFLjtr
+         BEayPpvoR7TzEqTcW9LuRDWWCeiN2acvBH4MdMzTM55i4HK0vqoGe0lvVY0wZjMaRgoc
+         cAbG4CktJA20cRFipZfdo2+7dfWmpIqIsFEbRtTkgiE3x5STLJ1ZiBneEu9G1ypMBrK2
+         0mGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=hhcPKUg0xrZiZ+4XGPGbPJDRL8DSi493jezVzJgsw3c=;
-        b=iwr4dAyKwuMBsHKDCbt/dO7tsuJXcmOwy+J7rYuNo1sq/Kgx+FoOLHYxuAk6dO7yoL
-         UPdx7lb0Tq19x52OGu4d22wtrBGMechFlGqq/s/YmWS0l9B/Uxean0+nH+w4MOJRcAgL
-         ZLOmAGDfSF7Gi98qRhw+Cx5FN/fZoqEZYCIxbB37SQdaMfZ4L1sEQ+rDLA9QywiQszC5
-         W8F0TXoF2rOSsKqMQUC1cqzmavN7hd6i954xU06f1aNtyda6+2tV25Fbl1QuDq/lw68/
-         PSsBCkgulYzyZUSGU3eNDz7Qy+aMvnRF9t1zLKe38PD9hqU358PQFfun+iPjZeQ5qvXe
-         V+rw==
-X-Gm-Message-State: ACrzQf0RIvUZDA1/e8eC/nNPz0SnBn7X25BZ4cyM8vQKh4m/4UkbUffQ
-	sPSULm38YTNV7IeXofJj6hap2aKdHSKo3L+ZEjk=
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kDoxQcowySb5yxSAVbpagx3GgyNxVMokliUTxl1T+n4=;
+        b=waePc+dQKDKadGi15kawkHijJFID33SMdKocY8YGoXDCF0EI4UPwnBgwD3xLRyPwWM
+         gXTJc7kqXeTAIFnV1Ai8ptiacM8BzCuuHoiCjzu1ak6PiXW7Nvk+H2cUD7p/7eDYRAS6
+         egpKk2jd9pYEtnKsR5ZSi00KgfRVs4mfvjrkGY/iO5LHXmvav51GNJXW187Vwoy+bcWH
+         QKVpssUfb12JTs8rrmkWeVwUgK+npME+gWKC1EMeSV4KBwVbIOYJV709GJisqScLl4E9
+         qjPGT6x7uBpVLMjFwFhg+jFpp5Tatnln/e5Ag1S1Ifkh7sLd86fqIuAIK+CrJtZs2uSS
+         OB8Q==
+X-Gm-Message-State: ACrzQf1YJn0nCvxip2Sk+3Anegv1PxOSvBfBHsb50TEmh6cS2gxN1+Mg
+	imvo0BTmBG5UA2SaUqxRVnX8PuvjLLBC+Q==
 X-Google-Smtp-Source: 
- AMsMyM6uQDeJQSFfn+PzGjAy2cRu7MArmSM5zIkgUvEeG199qCzWzSsmGZon6/V7o3XHuAMbkFh4h7YGPvxetcVz2Nc=
-X-Received: by 2002:a92:da4b:0:b0:2f1:525a:90e7 with SMTP id
- p11-20020a92da4b000000b002f1525a90e7mr14390182ilq.307.1664960183573; Wed, 05
- Oct 2022 01:56:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220930175520.2850089-1-alex@linutronix.de>
- <CAB=6tBQza_dU6PsUsn4ND4WKE2vxAwa_8Lh3seVck7bC87Hrdw@mail.gmail.com>
-In-Reply-To: 
- <CAB=6tBQza_dU6PsUsn4ND4WKE2vxAwa_8Lh3seVck7bC87Hrdw@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 5 Oct 2022 10:56:12 +0200
-Message-ID: 
- <CANNYZj-Y-obgA204+_04vAHpJkx4b2PKTZOVphvguhgMRX1YvQ@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH 1/2] cargo-update-recipe-crates.bbclass: add
- a class to generate SRC_URI crate lists from Cargo.lock
-To: Chuck Wolber <chuckwolber@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+ AMsMyM4dnA4jqGLTpo8dLolN9Mrks/Jd26zPab4V+luBMHI+Z+e7aCnzJ9FwBWKhGQk0gOjr/PobBA==
+X-Received: by 2002:a05:6000:1cf:b0:22e:3ef1:a268 with SMTP id
+ t15-20020a05600001cf00b0022e3ef1a268mr8436943wrx.43.1664966914947;
+        Wed, 05 Oct 2022 03:48:34 -0700 (PDT)
+Received: from ip-172-31-10-113.eu-west-1.compute.internal
+ (ec2-52-211-148-236.eu-west-1.compute.amazonaws.com. [52.211.148.236])
+        by smtp.gmail.com with ESMTPSA id
+ z17-20020a1c4c11000000b003b7b36dcb8dsm1505985wmf.31.2022.10.05.03.48.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Oct 2022 03:48:34 -0700 (PDT)
+From: David Bagonyi <david.bagonyi@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: David Bagonyi <david.bagonyi@gmail.com>
+Subject: [PATCH] gpgme: Allow setuptools3-base to be excluded from the inherit
+ list
+Date: Wed,  5 Oct 2022 10:48:10 +0000
+Message-Id: <20221005104810.16863-1-david.bagonyi@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Oct 2022 08:56:33 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Oct 2022 10:48:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171453
+ https://lists.openembedded.org/g/openembedded-core/message/171454
 
-On Wed, 5 Oct 2022 at 07:32, Chuck Wolber <chuckwolber@gmail.com> wrote:
-> Can you elaborate on this?
->
-> I only ask because we are using this[1] and this[2] to build this[3] recipe for hardknott.
->
-> 1. https://github.com/meta-rust/meta-rust/blob/master/lib/crate.py
-> 2. https://crates.io/crates/cargo-bitbake
-> 3. https://git.yoctoproject.org/poky/tree/meta/recipes-devtools/python/python3-cryptography-vectors_36.0.2.bb?h=kirkstone
+Inheriting setuptools3-base adds a runtime dependency on Python.
 
-As you can see in [1], crate:// fetcher is not using cargo, it's using
-wget - so the question of resolving and listing dependencies from
-Cargo.lock falls on the tooling that writes and updates the recipe
-itself. cargo-bitbake failed at the installation step for me (both
-with --locked and without it), and in general I do not think we should
-rely on external tools with unknown maintenance status. The lists of
-open issues and pull requests are not at all reassuring:
-https://github.com/meta-rust/cargo-bitbake
+This change makes inheriting setuptools3-base optional. If one does not
+want a runtime dependency on Python, they can remove python from LANGUAGES.
 
-Alex
+Signed-off-by: David Bagonyi <david.bagonyi@gmail.com>
+---
+ meta/recipes-support/gpgme/gpgme_1.18.0.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-support/gpgme/gpgme_1.18.0.bb b/meta/recipes-support/gpgme/gpgme_1.18.0.bb
+index ca9c6cab14..af5b176363 100644
+--- a/meta/recipes-support/gpgme/gpgme_1.18.0.bb
++++ b/meta/recipes-support/gpgme/gpgme_1.18.0.bb
+@@ -50,6 +50,7 @@ LANGUAGES ?= "${DEFAULT_LANGUAGES} python"
+ 
+ PYTHON_INHERIT = "${@bb.utils.contains('PACKAGECONFIG', 'python2', 'pythonnative', '', d)}"
+ PYTHON_INHERIT .= "${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python3native python3targetconfig', '', d)}"
++PYTHON_INHERIT .= "${@bb.utils.contains('LANGUAGES', 'python', 'setuptools3-base', '', d)}"
+ 
+ EXTRA_OECONF += '--enable-languages="${LANGUAGES}" \
+                  --disable-gpgconf-test \
+@@ -59,7 +60,7 @@ EXTRA_OECONF += '--enable-languages="${LANGUAGES}" \
+                  --disable-lang-python-test \
+ '
+ 
+-inherit autotools texinfo binconfig-disabled pkgconfig setuptools3-base ${PYTHON_INHERIT} multilib_header
++inherit autotools texinfo binconfig-disabled pkgconfig ${PYTHON_INHERIT} multilib_header
+ 
+ export PKG_CONFIG='pkg-config'
+ 
+-- 
+2.17.1
+
 
