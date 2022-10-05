@@ -1,198 +1,184 @@
-Return-Path: <liu.ming50@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBEA5C433FE
-	for <webhook@archiver.kernel.org>; Wed,  5 Oct 2022 15:24:25 +0000 (UTC)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
- [209.85.128.176])
- by mx.groups.io with SMTP id smtpd.web09.25089.1664983462544328396
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 033E6C43219
+	for <webhook@archiver.kernel.org>; Wed,  5 Oct 2022 15:31:26 +0000 (UTC)
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com
+ [209.85.166.42])
+ by mx.groups.io with SMTP id smtpd.web12.25094.1664983880953218353
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Oct 2022 08:24:22 -0700
+ Wed, 05 Oct 2022 08:31:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=cRNG0PXm;
- spf=pass (domain: gmail.com, ip: 209.85.128.176,
- mailfrom: liu.ming50@gmail.com)
-Received: by mail-yw1-f176.google.com with SMTP id
- 00721157ae682-3573ed7cc15so121926507b3.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=d4gqofXP;
+ spf=pass (domain: gmail.com, ip: 209.85.166.42,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-io1-f42.google.com with SMTP id h19so2470118iof.0
         for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Oct 2022 08:24:22 -0700 (PDT)
+ Wed, 05 Oct 2022 08:31:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=hNoE0tuOP7C3Zb418H4NOfQYw5/4+b6uFNpeYl5ERlg=;
-        b=cRNG0PXm46J80uDYcMYRCVxnS2uPQNRJIlvecagSsYgT0HomeTYmq0pXirO5ckisXN
-         ipufYEna5yQkFUDbG5XVdJrpDt/2k9qKA7ipO/4tp3x7ZU3yR4WmqbYos2K3PF0JM2bt
-         t1kpVYJeBS+GDPG2BCb4PtHFABVHHUEvLvn8JY9VhyvABa3yMv43IabtjfLIAhtbyZJZ
-         YWQWwmlkMqFwjQWjSUY5fdCM3tkevEWKbRTTd+zI6uYlwZnrO9RQEkqdavAf64dz6Vm1
-         8JQuajsHjcDrxgGbk/40sXl/RlZuVVbMivpppFR/8O/30+F12B/VzX8CUOTM43wIxVNq
-         GOtA==
+        bh=+D11JQqvxGxyW53BIndfDVszmtS1z6Mzw+Kgl+bfo9E=;
+        b=d4gqofXP3bnRplsCrHg1WWNrquVlTiyIqKEDMViSm86Tz0Nvltna5RgTypPXBK1Dt8
+         hgb0rbTSjm+QosvxemHW68ak1jz8Tv9LcC/obHvtK1Z6AO7OqP3RvrpEq9NeYWJey9/8
+         mMvicJGzdgvo78AbQOb1RyBMXLfH0GpaGmTMLyu3LrrF5bDhT9qrGd6Gh+Ao5zqLjApf
+         kmMxLFjnSwqgbJEA9ztYgJSBMeTvwB45Ci4oPmV6+bCs5HOEEe39DceERsH4ebtLfesa
+         4Ct1QlE0zqSMoD7S9izJw706LuOdSeJSxPQajZE+m46+gEg4lCYpEjpD6FXlAI12zAJ0
+         NwPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=hNoE0tuOP7C3Zb418H4NOfQYw5/4+b6uFNpeYl5ERlg=;
-        b=pCJIsIHstOM+vJqRo5LBCJEyo2VlMNiKyHFU99n6cprw0TjhX5rKHEKLMcLRhN49S1
-         gWoILv07qOpJfkq5eVaUeoWbh2SO7D7ZWgjqaH+Bu3UWaDT8XTSC+M/4kdXGCcdUVlZ+
-         anlwrDRuz1viwe+rJFhCCTp6rQW7ff/47FPdazdxVqflbe8Qk44cwRp9daSB90DBKdm1
-         Njy5KLWY73ZGimbwdrkhq27Qbkheg4BIViRmcYSY5vHMgbEPzvblti8W5vu7Wxpe/qla
-         UX9oPNvKU9dPz0XF3ln8wLvlUEpHVv3h4ucY9vVObvVOdb+KQTG893/GiJcMR5qDOris
-         QI8g==
-X-Gm-Message-State: ACrzQf2IUBRXegueFw9eza/xPo4B83FvBj5l1VqwEyOSki2OURLxvcOj
-	3itP8z0rIez7LQh8qmlY6fEdudz4b5wo8hEOG+8=
+        bh=+D11JQqvxGxyW53BIndfDVszmtS1z6Mzw+Kgl+bfo9E=;
+        b=WkXxkjeYHPzeVAzpUDbLa6F5lZzgmmASeKlgcg5MOduKKkHXnYgwAacEQSM6lht/EV
+         leZ1agPTAslCyfVZdOpSEa22+FLXnCsV+MG+pChCHNplm7ivxS3w5J0daY5ftsyd8lMb
+         kYSyDo5XY8dx1OFj80TMVnc8aUiCYDzRxL7gGtMJqZ62c7HE9QQBIivNwmsJRo4w686f
+         VUSwOEP3xq+zRqKUoBdTPXoJj/bicmAbgR4czgsQhJSLbstkMTMcIAnR/OAe3c/VeSjS
+         1FYcHx91UdlCw+nEf5dWyXJofkvGjrmmOtKU/egkEdES/Ul2cS8T+WBxPLM9DlVoAVXZ
+         yqRQ==
+X-Gm-Message-State: ACrzQf0PLVrtdoKn1kMCCKMk+GT1B7X+qiNj0ck8sPAOxW3Ktg9o/y75
+	10R138V2I5dREIIzoWS8e2/G3QBuKyPFlYZdpo+Fim6O
 X-Google-Smtp-Source: 
- AMsMyM6iG2nW11emAMvzW1XfYtjvo6CfatUqwIS/oe4Cj/JK6UQIzGk8kKvKSQC3uX/gvXiUMEXwutB8FvzQoAY8n2U=
-X-Received: by 2002:a81:1456:0:b0:35c:b824:38f1 with SMTP id
- 83-20020a811456000000b0035cb82438f1mr219227ywu.399.1664983461662; Wed, 05 Oct
- 2022 08:24:21 -0700 (PDT)
+ AMsMyM7esAVyP7KAPvEzb3AImeYPrFr+e/vqY2gzno6pW4bHMyYL3KF0iLRjpxrsExqSnmxY6KmJlzTX9yNHoys579Y=
+X-Received: by 2002:a05:6602:14c1:b0:689:34d0:a0ef with SMTP id
+ b1-20020a05660214c100b0068934d0a0efmr192366iow.69.1664983880087; Wed, 05 Oct
+ 2022 08:31:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221005135921.4167614-1-liu.ming50@gmail.com>
- <7825e5af50d04c1c92ebdfb813ba32dd@axis.com>
-In-Reply-To: <7825e5af50d04c1c92ebdfb813ba32dd@axis.com>
-From: Ming Liu <liu.ming50@gmail.com>
-Date: Wed, 5 Oct 2022 17:24:10 +0200
+References: <20221005150138.2538539-1-thomas.perrot@bootlin.com>
+In-Reply-To: <20221005150138.2538539-1-thomas.perrot@bootlin.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 5 Oct 2022 17:31:09 +0200
 Message-ID: 
- <CALatG=5iYJFC-xAJjOw+1aXTuoS=UtR_vHZKf7-4m2VQoWocqw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH V2] bluez5: change configuration directory mode
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000ca140505ea4b2b15"
+ <CANNYZj9zy23Vud+41johxrg6MTvx-rZAWQbKmB52NMYBjgYp4w@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] core-image-sato: install virtio input for Qemu
+ targets
+To: thomas.perrot@bootlin.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000babdbe05ea4b4400"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Oct 2022 15:24:25 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Oct 2022 15:31:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171464
+ https://lists.openembedded.org/g/openembedded-core/message/171465
 
---000000000000ca140505ea4b2b15
+--000000000000babdbe05ea4b4400
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi, Peter:
+Has this regressed at some point? Why was it not needed before?
 
-You are absolutely right, I also noticed that, it=E2=80=99s a typo, it shou=
-ld be
-0555, will send a V3 soon.
+Alex
 
-//Ming Liu
+On Wed 5. Oct 2022 at 17.01, Thomas Perrot via lists.openembedded.org
+<thomas.perrot=bootlin.com@lists.openembedded.org> wrote:
 
-> -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <
-> openembedded-core@lists.openembedded.org> On Behalf Of Ming Liu
-> > Sent: den 5 oktober 2022 15:59
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Ming Liu <liu.ming50@gmail.com>
-> > Subject: [OE-core] [PATCH V2] bluez5: change configuration directory mo=
-de
-> >
-> > From: Ming Liu <liu.ming50@gmail.com>
-> >
-> > Change configuration directory mode from 0755 to 0555, this fixes a
-> > following warning when bluetoothd starts:
-> > | ConfigurationDirectory 'bluetooth' already exists but the mode is
-> different.
-> > | (File system: 755 ConfigurationDirectoryMode: 555)
-> >
-> > Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-> > ---
-> >  meta/recipes-connectivity/bluez5/bluez5.inc | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc
-> b/meta/recipes-connectivity/bluez5/bluez5.inc
-> > index 79d4645ca8..48b8bcbe75 100644
-> > --- a/meta/recipes-connectivity/bluez5/bluez5.inc
-> > +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-> > @@ -82,7 +82,7 @@ do_install:append() {
-> >       install -d ${D}${INIT_D_DIR}
-> >       install -m 0755 ${WORKDIR}/init ${D}${INIT_D_DIR}/bluetooth
-> >
-> > -     install -d ${D}${sysconfdir}/bluetooth/
-> > +     install -m 0755 -d ${D}${sysconfdir}/bluetooth/
+> Otherwise, it isn't possible to interact with the UI.
 >
-> The default mode used by `install` if not specified is 0755.
-> The above change should not make any difference...
+> Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+> ---
+>  meta/recipes-sato/images/core-image-sato.bb | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> >       if [ -f ${S}/profiles/network/network.conf ]; then
-> >               install -m 0644 ${S}/profiles/network/network.conf
-> ${D}/${sysconfdir}/bluetooth/
-> >       fi
-> > --
-> > 2.25.1
+> diff --git a/meta/recipes-sato/images/core-image-sato.bb
+> b/meta/recipes-sato/images/core-image-sato.bb
+> index e63a229d1257..0e37c15097b3 100644
+> --- a/meta/recipes-sato/images/core-image-sato.bb
+> +++ b/meta/recipes-sato/images/core-image-sato.bb
+> @@ -12,6 +12,8 @@ inherit core-image
+>  TOOLCHAIN_HOST_TASK:append = " nativesdk-intltool nativesdk-glib-2.0"
+>  TOOLCHAIN_HOST_TASK:remove:task-populate-sdk-ext = " nativesdk-intltool
+> nativesdk-glib-2.0"
 >
-> //Peter
+> +IMAGE_INSTALL:append:qemuall = " kernel-module-virtio-input"
+> +
+>  QB_MEM = '${@bb.utils.contains("DISTRO_FEATURES", "opengl", "-m 512", "-m
+> 256", d)}'
+>  QB_MEM:qemuarmv5 = "-m 256"
+>  QB_MEM:qemumips = "-m 256"
+> --
+> 2.37.3
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#171461):
+> https://lists.openembedded.org/g/openembedded-core/message/171461
+> Mute This Topic: https://lists.openembedded.org/mt/94137249/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
 >
 
---000000000000ca140505ea4b2b15
+--000000000000babdbe05ea4b4400
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Hi, Peter:</div><div dir=3D"auto"><br></div><div dir=3D"a=
-uto">You are absolutely right, I also noticed that, it=E2=80=99s a typo, it=
- should be 0555, will send a V3 soon.</div><div dir=3D"auto"><br></div><div=
- dir=3D"auto">//Ming Liu</div><div><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr"><br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">&gt; ---=
---Original Message-----<br>
-&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"m=
-ailto:openembedded-core@lists.openembedded.org" target=3D"_blank">openembed=
-ded-core@lists.openembedded.org</a>&gt; On Behalf Of Ming Liu<br>
-&gt; Sent: den 5 oktober 2022 15:59<br>
-&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
-=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-&gt; Cc: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_bl=
-ank">liu.ming50@gmail.com</a>&gt;<br>
-&gt; Subject: [OE-core] [PATCH V2] bluez5: change configuration directory m=
-ode<br>
-&gt; <br>
-&gt; From: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_=
-blank">liu.ming50@gmail.com</a>&gt;<br>
-&gt; <br>
-&gt; Change configuration directory mode from 0755 to 0555, this fixes a<br=
->
-&gt; following warning when bluetoothd starts:<br>
-&gt; | ConfigurationDirectory &#39;bluetooth&#39; already exists but the mo=
-de is different.<br>
-&gt; | (File system: 755 ConfigurationDirectoryMode: 555)<br>
-&gt; <br>
-&gt; Signed-off-by: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" ta=
-rget=3D"_blank">liu.ming50@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-connectivity/bluez5/bluez5.inc | 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipe=
-s-connectivity/bluez5/bluez5.inc<br>
-&gt; index 79d4645ca8..48b8bcbe75 100644<br>
-&gt; --- a/meta/recipes-connectivity/bluez5/bluez5.inc<br>
-&gt; +++ b/meta/recipes-connectivity/bluez5/bluez5.inc<br>
-&gt; @@ -82,7 +82,7 @@ do_install:append() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${INIT_D_DIR}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0755 ${WORKDIR}/init ${D}${INIT_D=
-_DIR}/bluetooth<br>
-&gt; <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0install -d ${D}${sysconfdir}/bluetooth/<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0install -m 0755 -d ${D}${sysconfdir}/bluetooth/<b=
+<div dir=3D"auto">Has this regressed at some point? Why was it not needed b=
+efore?</div><div dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><b=
+r><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed 5=
+. Oct 2022 at 17.01, Thomas Perrot via <a href=3D"http://lists.openembedded=
+.org">lists.openembedded.org</a> &lt;thomas.perrot=3D<a href=3D"mailto:boot=
+lin.com@lists.openembedded.org">bootlin.com@lists.openembedded.org</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;bor=
+der-left-color:rgb(204,204,204)">Otherwise, it isn&#39;t possible to intera=
+ct with the UI.<br>
+<br>
+Signed-off-by: Thomas Perrot &lt;<a href=3D"mailto:thomas.perrot@bootlin.co=
+m" target=3D"_blank">thomas.perrot@bootlin.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-sato/images/<a href=3D"http://core-image-sato.bb" rel=3D=
+"noreferrer" target=3D"_blank">core-image-sato.bb</a> | 2 ++<br>
+=C2=A01 file changed, 2 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-sato/images/<a href=3D"http://core-image-sato.bb"=
+ rel=3D"noreferrer" target=3D"_blank">core-image-sato.bb</a> b/meta/recipes=
+-sato/images/<a href=3D"http://core-image-sato.bb" rel=3D"noreferrer" targe=
+t=3D"_blank">core-image-sato.bb</a><br>
+index e63a229d1257..0e37c15097b3 100644<br>
+--- a/meta/recipes-sato/images/<a href=3D"http://core-image-sato.bb" rel=3D=
+"noreferrer" target=3D"_blank">core-image-sato.bb</a><br>
++++ b/meta/recipes-sato/images/<a href=3D"http://core-image-sato.bb" rel=3D=
+"noreferrer" target=3D"_blank">core-image-sato.bb</a><br>
+@@ -12,6 +12,8 @@ inherit core-image<br>
+=C2=A0TOOLCHAIN_HOST_TASK:append =3D &quot; nativesdk-intltool nativesdk-gl=
+ib-2.0&quot;<br>
+=C2=A0TOOLCHAIN_HOST_TASK:remove:task-populate-sdk-ext =3D &quot; nativesdk=
+-intltool nativesdk-glib-2.0&quot;<br>
+<br>
++IMAGE_INSTALL:append:qemuall =3D &quot; kernel-module-virtio-input&quot;<b=
 r>
++<br>
+=C2=A0QB_MEM =3D &#39;${@bb.utils.contains(&quot;DISTRO_FEATURES&quot;, &qu=
+ot;opengl&quot;, &quot;-m 512&quot;, &quot;-m 256&quot;, d)}&#39;<br>
+=C2=A0QB_MEM:qemuarmv5 =3D &quot;-m 256&quot;<br>
+=C2=A0QB_MEM:qemumips =3D &quot;-m 256&quot;<br>
+-- <br>
+2.37.3<br>
 <br>
-The default mode used by `install` if not specified is 0755. <br>
-The above change should not make any difference...<br>
 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -f ${S}/profiles/network/network.conf ]=
-; then<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 =
-${S}/profiles/network/network.conf ${D}/${sysconfdir}/bluetooth/<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-&gt; --<br>
-&gt; 2.25.1<br>
-<br>
-//Peter<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#171461): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/171461" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/171461</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/94137249/1686=
+489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/94137249/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 <br>
 </blockquote></div></div>
 
---000000000000ca140505ea4b2b15--
+--000000000000babdbe05ea4b4400--
 
