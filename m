@@ -1,202 +1,126 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <chuckwolber@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51D5AC433F5
-	for <webhook@archiver.kernel.org>; Wed,  5 Oct 2022 03:30:22 +0000 (UTC)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web09.19826.1664940618951484705
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25722C433FE
+	for <webhook@archiver.kernel.org>; Wed,  5 Oct 2022 05:32:23 +0000 (UTC)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
+ [209.85.128.170])
+ by mx.groups.io with SMTP id smtpd.web12.20421.1664947935487764374
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Oct 2022 20:30:19 -0700
+ Tue, 04 Oct 2022 22:32:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=mJGQv667;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: ticotimo@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id m15so21269719edb.13
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Qtro7WH4;
+ spf=pass (domain: gmail.com, ip: 209.85.128.170,
+ mailfrom: chuckwolber@gmail.com)
+Received: by mail-yw1-f170.google.com with SMTP id
+ 00721157ae682-35ad0584879so58911307b3.7
         for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Oct 2022 20:30:18 -0700 (PDT)
+ Tue, 04 Oct 2022 22:32:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=TZYyyWr2U2SOx++XsbfGXF+el2IvqZHoSysP6iPh+Eo=;
-        b=mJGQv667LQWrHQrrBWt8cragdxWDvSDBIBoK75RzmdASWRjvRVWgYrgym+UwoItjej
-         Y9vYuCUAY8SlmPpN8neuBq/km60wqXwoY6Z1RaSmyomDvNpF1eYUsPTcudC5Wu58UtbS
-         Vq8VjrLXIQJOjGczHalQVON5jXNyNS8GF91Tt5lpWMdqoGnyqgwZhhoJ8kLxYtYYuajl
-         hvNQvAtKv6XzADZRMBhHqatzRhQdMA7ri1z2hfn4qnv3uQLbLfntOJsNCDEdKiSdSNbt
-         lwkC7gnwokdLbDZ1NphrOCWtG5ifuBdEOn8X1ickL76Vu2FOxpe7wTb+zP1LdN7tfYn3
-         onqg==
+         :mime-version:from:to:cc:subject:date;
+        bh=8MEF3X2p/3VqXm63gteyVmLoTH3ipgQ5q2WYxDVf2Xs=;
+        b=Qtro7WH4MI9AoIGPUafzr7EJeMHNmvBdeOyNviHSFobVMZEz1L/i1/5+HRrxJf2gbI
+         kLghjLZh2MplPaUOwb9A4YULnbu75NGZFNPfLY7AonvlSMdd+OLSQMIjtdyiFYroYZNt
+         +MPBIlSNewpcNGGwgldwdzNzFqiY2y66Pdw6RpsYsVJUdTCV509LtIu3Kf/aYsngSxBq
+         pNLk/cGeJTZTjyaxV8gHBMGTJn5v7vAj4OUQaG/rU6cctFsRUkrRXJ3kGhPX2WKvboNU
+         LbeggjE9TpkC4CFHikclYtMYyfI8ipi7WorQQ1HFTxhon74ouCB1WC/2SVAZfN2wofxM
+         GDEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TZYyyWr2U2SOx++XsbfGXF+el2IvqZHoSysP6iPh+Eo=;
-        b=jH1/+NNXOXq8u76iR6WghlIHvWNvCN0+Bc79MJ8H2tsxBveZdzb70KSw0OHRA8Y442
-         mUb+H2BUriMP8oXqttCJEkLyCwwrGHrO7Y8tXi/2MBAq/SyrMCX8+LspcTtyMGHJ0/pg
-         cqNiJgtlWWjlo1eYTVTEeP6P0qGCMn00i1yv2w1pkLfjK1vZ99lNoBRWn4IQGzOY06jG
-         E9KNJIZllYeAI5Kul1CgSz/rBmUA1S2M1np1uuoU7WWSzmpEiGnkJ4obKY10eDCmaXNj
-         ZA4ctXlcfiSAglfxLvBF+atPn87TfDvdty1dXjNhuDZybNGE1N6wmXWCHe4yxYbeSGPi
-         dxxA==
-X-Gm-Message-State: ACrzQf1v5PkN3mBhJMfJMLnPDi3GnMCPG30bmdia5ceZHbZ3naHZ3UTq
-	tTXyJifPhHBs/LdsOkbF+64fEmpgDEq8gl301AQ=
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=8MEF3X2p/3VqXm63gteyVmLoTH3ipgQ5q2WYxDVf2Xs=;
+        b=giGy0HsxPFF7SknTJdSO4TI+95YGHMjg9GbRXrAtwEeEBTOB+ghdgdn1mnlxB0tBMc
+         ZKXzAsQVD7JfgzO9wE8PN9ra9qzNOhaJpkjqBAillrY1JGTZVIDP4S27eQgFhA9G/2F0
+         wmolQ7/jgpqG52AJcqnjFoReJzC0XUA0WgkrQgXRUDhWV+u0pxQ5IumKiLDvXiNtSZhZ
+         wd6nwzYw/fa5+F33BgJOYaegBstHnRI889hx+OdayGc+rdM1C3FEJZtt7nTmRzt6Oate
+         /ZEFj66cw3S67QauqyVbykfII2q4m00XIYtsZgbJnU7H1yh78u/u7Dwk0tWhJOjWikE3
+         yOzA==
+X-Gm-Message-State: ACrzQf1xlyOUNepQTUSlQll7LUxPEXOA/He1XucqxarTATPUz1iNgS7x
+	ApGXrzdFB/4nWQdtDURbZsgtQcc3q/xbGXZplRk=
 X-Google-Smtp-Source: 
- AMsMyM4ztBdBLOprz7NmNeFd6cChmVUFRDuURoqP4/P36PMGLAScmUZLib7XQVnkk7Q97pN5W7fiuKXlebvsGqODkU8=
-X-Received: by 2002:a05:6402:1b08:b0:458:d229:bcac with SMTP id
- by8-20020a0564021b0800b00458d229bcacmr14706336edb.118.1664940616842; Tue, 04
- Oct 2022 20:30:16 -0700 (PDT)
+ AMsMyM4G1d0VP0TXU8DqBjLPmRh6cIo8A7svXts1/DGvbqGur4Fx6e2JPqeuGpIKo9N3rSbQIufaf5irYek3QDiCYcM=
+X-Received: by 2002:a81:cc2:0:b0:35b:c180:d440 with SMTP id
+ 185-20020a810cc2000000b0035bc180d440mr7245577ywm.217.1664947934422; Tue, 04
+ Oct 2022 22:32:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1664911788.git.steve@sakoman.com>
-In-Reply-To: <cover.1664911788.git.steve@sakoman.com>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Tue, 4 Oct 2022 20:30:05 -0700
+References: <20220930175520.2850089-1-alex@linutronix.de>
+In-Reply-To: <20220930175520.2850089-1-alex@linutronix.de>
+From: Chuck Wolber <chuckwolber@gmail.com>
+Date: Tue, 4 Oct 2022 22:32:03 -0700
 Message-ID: 
- <CANx9H-C5w-JoVEWPbsYDTmoXegaz60eKnmEdHiLwL1jFJiwJCQ@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 0/2] Pull request (cover letter only)
-To: Steve Sakoman <steve@sakoman.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000000a055e05ea41328f"
+ <CAB=6tBQza_dU6PsUsn4ND4WKE2vxAwa_8Lh3seVck7bC87Hrdw@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH 1/2] cargo-update-recipe-crates.bbclass: add
+ a class to generate SRC_URI crate lists from Cargo.lock
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: multipart/alternative; boundary="000000000000336c1b05ea42e6c4"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Oct 2022 03:30:22 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Oct 2022 05:32:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171439
+ https://lists.openembedded.org/g/openembedded-core/message/171440
 
---0000000000000a055e05ea41328f
+--000000000000336c1b05ea42e6c4
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Oct 4, 2022 at 12:31 PM Steve Sakoman <steve@sakoman.com> wrote:
+On Fri, Sep 30, 2022 at 10:55 AM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
-> This should be the final pull request for the upcoming 3.1.20 build.
->
-> The following changes since commit
-> 7a08f2ae1c12e3511b409c4535d2eab83a27b64a:
->
->   create-pull-request: don't switch the git remote protocol to git://
-> (2022-09-29 06:45:30 -1000)
->
-> are available in the Git repository at:
->
->   https://git.openembedded.org/openembedded-core-contrib
-> stable/dunfell-next
->
-> http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
->
-> Mathieu Dubois-Briand (1):
->   bind: Fix CVEs 2022-2795, 2022-38177, 2022-38178
->
-> Paul Barker (1):
->   licenses: Handle newer SPDX license names
->
-
-Thank you. Carrying these in a couple layers.
+%> Snip %<
 
 
->  meta/conf/licenses.conf                       |  7 ++
->  .../bind/bind/CVE-2022-2795.patch             | 67 +++++++++++++++++++
->  .../bind/bind/CVE-2022-38177.patch            | 31 +++++++++
->  .../bind/bind/CVE-2022-38178.patch            | 33 +++++++++
->  .../recipes-connectivity/bind/bind_9.11.37.bb |  3 +
->  5 files changed, 141 insertions(+)
->  create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2022-2795.patch
->  create mode 100644
-> meta/recipes-connectivity/bind/bind/CVE-2022-38177.patch
->  create mode 100644
-> meta/recipes-connectivity/bind/bind/CVE-2022-38178.patch
->
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#171432):
-> https://lists.openembedded.org/g/openembedded-core/message/171432
-> Mute This Topic: https://lists.openembedded.org/mt/94121478/924729
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ticotimo@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+> On the other hand, bitbake does not use cargo (and quite possible
+> won't ever be able to),
 >
 
---0000000000000a055e05ea41328f
+Can you elaborate on this?
+
+I only ask because we are using this[1] and this[2] to build this[3] recipe
+for hardknott.
+
+1. https://github.com/meta-rust/meta-rust/blob/master/lib/crate.py
+2. https://crates.io/crates/cargo-bitbake
+3.
+https://git.yoctoproject.org/poky/tree/meta/recipes-devtools/python/python3-cryptography-vectors_36.0.2.bb?h=kirkstone
+
+..Ch:W..
+
+-- 
+*"Perfection must be reached by degrees; she requires the slow hand of
+time." - Voltaire*
+
+--000000000000336c1b05ea42e6c4
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue, Oct 4, 2022 at 12:31 PM Steve Sakoman &lt;<a href=
-=3D"mailto:steve@sakoman.com">steve@sakoman.com</a>&gt; wrote:<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex">This should be the final pull request for the u=
-pcoming 3.1.20 build.<br>
-<br>
-The following changes since commit 7a08f2ae1c12e3511b409c4535d2eab83a27b64a=
-:<br>
-<br>
-=C2=A0 create-pull-request: don&#39;t switch the git remote protocol to git=
-:// (2022-09-29 06:45:30 -1000)<br>
-<br>
-are available in the Git repository at:<br>
-<br>
-=C2=A0 <a href=3D"https://git.openembedded.org/openembedded-core-contrib" r=
-el=3D"noreferrer" target=3D"_blank">https://git.openembedded.org/openembedd=
-ed-core-contrib</a> stable/dunfell-next<br>
-=C2=A0 <a href=3D"http://cgit.openembedded.org/openembedded-core-contrib/lo=
-g/?h=3Dstable/dunfell-next" rel=3D"noreferrer" target=3D"_blank">http://cgi=
-t.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/dunfell-next</=
-a><br>
-<br>
-Mathieu Dubois-Briand (1):<br>
-=C2=A0 bind: Fix CVEs 2022-2795, 2022-38177, 2022-38178<br>
-<br>
-Paul Barker (1):<br>
-=C2=A0 licenses: Handle newer SPDX license names<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Thank you. Carry=
-ing these in a couple layers.</div><div dir=3D"auto"><br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex"><br>
-=C2=A0meta/conf/licenses.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 7 ++<br>
-=C2=A0.../bind/bind/CVE-2022-2795.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0| 67 +++++++++++++++++++<br>
-=C2=A0.../bind/bind/CVE-2022-38177.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 | 31 +++++++++<br>
-=C2=A0.../bind/bind/CVE-2022-38178.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 | 33 +++++++++<br>
-=C2=A0.../recipes-connectivity/bind/<a href=3D"http://bind_9.11.37.bb" rel=
-=3D"noreferrer" target=3D"_blank">bind_9.11.37.bb</a> |=C2=A0 3 +<br>
-=C2=A05 files changed, 141 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2022-2795.=
-patch<br>
-=C2=A0create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2022-38177=
-.patch<br>
-=C2=A0create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2022-38178=
-.patch<br>
-<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#171432): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/171432" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/171432</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/94121478/9247=
-29" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt/=
-94121478/924729</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
-=3D"_blank">ticotimo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
+<div dir=3D"ltr"><div dir=3D"ltr">On Fri, Sep 30, 2022 at 10:55 AM Alexande=
+r Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.=
+com</a>&gt; wrote:<br></div><div dir=3D"ltr"><br></div><div dir=3D"ltr">%&g=
+t; Snip %&lt;<br></div><div class=3D"gmail_quote"><div>=C2=A0</div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">On the other hand, bitbake does n=
+ot use cargo (and quite possible<br>
+won&#39;t ever be able to), <br></blockquote><div><br></div><div>Can you el=
+aborate on this?<br><br></div><div>I only ask because we are using this[1] =
+and this[2] to build this[3] recipe for hardknott.<br></div></div><br><div>=
+1. <a href=3D"https://github.com/meta-rust/meta-rust/blob/master/lib/crate.=
+py">https://github.com/meta-rust/meta-rust/blob/master/lib/crate.py</a></di=
+v><div>2. <a href=3D"https://crates.io/crates/cargo-bitbake">https://crates=
+.io/crates/cargo-bitbake</a></div><div>3. <a href=3D"https://git.yoctoproje=
+ct.org/poky/tree/meta/recipes-devtools/python/python3-cryptography-vectors_=
+36.0.2.bb?h=3Dkirkstone">https://git.yoctoproject.org/poky/tree/meta/recipe=
+s-devtools/python/python3-cryptography-vectors_36.0.2.bb?h=3Dkirkstone</a><=
+/div><div><br></div><div>..Ch:W..<br></div><div><br></div>-- <br><div dir=
+=3D"ltr" class=3D"gmail_signature"><div dir=3D"ltr"><div><b><span style=3D"=
+font-family:monospace">&quot;Perfection must be reached by degrees; she req=
+uires the slow hand of time.&quot; - Voltaire</span></b></div></div></div><=
+/div>
 
---0000000000000a055e05ea41328f--
+--000000000000336c1b05ea42e6c4--
 
