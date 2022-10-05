@@ -1,92 +1,127 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EAEAC433F5
-	for <webhook@archiver.kernel.org>; Wed,  5 Oct 2022 06:45:03 +0000 (UTC)
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web11.20736.1664952293933958388
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3004C433FE
+	for <webhook@archiver.kernel.org>; Wed,  5 Oct 2022 08:03:43 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web09.21306.1664957018813544092
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Oct 2022 23:44:54 -0700
+ Wed, 05 Oct 2022 01:03:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25,
- mailfrom: mcfrisk@lakka.kapsi.fi)
-Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
-	by mail.kapsi.fi with esmtps  (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1ofy9D-00Cmxv-VA; Wed, 05 Oct 2022 09:44:52 +0300
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1ofy9D-00Ad1r-Ms; Wed, 05 Oct 2022 09:44:51 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v3 4/5] make-mod-scripts: use openssl-native.bbclass
-Date: Wed,  5 Oct 2022 09:44:50 +0300
-Message-Id: <20221005064450.2532912-1-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=TplEWOQ4;
+ spf=pass (domain: axis.com, ip: 195.60.68.17,
+ mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1664957019;
+  x=1696493019;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=rEiPs3NLUtgRu+/i0/Wde6/r3hg71ytERMYXouEGD3c=;
+  b=TplEWOQ4kQY5z+A/J93m8votpxFakIr9zqJlxrNjA48rJScCxB5z88fs
+   DKEs6r1MWx1ZPB8OHJeC/TRF+SFYxPaknwvuOmlpmOCSVslHA6x3GZuOx
+   eALd94YpKxBnoa3w/c0aFS1aPX2uiuoiBwNTokTWv8dCbSn0trFS3rpgH
+   mKCLVLpaKuG61cYEtPB1d+g+WuY78zhke/5qZRpcpYlUMKtw+CQWKx5w3
+   sGVSOQZulCawohDH80vwXlHHD0EZ5rGvXf5z6UWdHUOZnviJICxumqto/
+   UOka2up2/F9wkn4eDvumOnE3Usotm6ynX0bCuU+spcIiMdk9A/m9RdxtU
+   Q==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Mikko Rapeli <mikko.rapeli@linaro.org>, Luca Ceresoli
+	<luca.ceresoli@bootlin.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH v2 3/5] u-boot: use openssl-native.bbclass
+Thread-Topic: [OE-core] [PATCH v2 3/5] u-boot: use openssl-native.bbclass
+Thread-Index: AQHY2AXvlzHYi26wukCA3aM5SGry163+pviAgACHbACAAEJXAA==
+Date: Wed, 5 Oct 2022 08:03:36 +0000
+Message-ID: <6447047e34164ab487fba4c9c5656e24@axis.com>
+References: <20221004152807.987313-1-mikko.rapeli@linaro.org>
+ <20221004235719.0e2bd17b@booty> <Yz0d2F1PygnDspnK@nuoska>
+In-Reply-To: <Yz0d2F1PygnDspnK@nuoska>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspam-Score: -1.2 (-)
-X-Rspam-Report: Action: no action
- Symbol: RCVD_TLS_LAST(0.00)
- Symbol: ARC_NA(0.00)
- Symbol: DMARC_POLICY_SOFTFAIL(0.10)
- Symbol: FROM_HAS_DN(0.00)
- Symbol: TO_DN_SOME(0.00)
- Symbol: R_MISSING_CHARSET(0.50)
- Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
- Symbol: MIME_GOOD(-0.10)
- Symbol: RCPT_COUNT_TWO(0.00)
- Symbol: MID_CONTAINS_FROM(1.00)
- Symbol: R_SPF_NA(0.00)
- Symbol: FORGED_SENDER(0.30)
- Symbol: R_DKIM_NA(0.00)
- Symbol: MIME_TRACE(0.00)
- Symbol: ASN(0.00)
- Symbol: FROM_NEQ_ENVFROM(0.00)
- Symbol: BAYES_HAM(-3.00)
- Symbol: RCVD_COUNT_TWO(0.00)
- Message-ID: 20221005064450.2532912-1-mikko.rapeli@linaro.org
-X-SA-Exim-Connect-IP: 2001:67c:1be8::11
-X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Oct 2022 06:45:03 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Oct 2022 08:03:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171447
+ https://lists.openembedded.org/g/openembedded-core/message/171449
 
-This sets environment variables correctly for openssl-native.
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Mikko Rapeli
+> Sent: den 5 oktober 2022 08:02
+> To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH v2 3/5] u-boot: use openssl-native.bbclass
+>=20
+> Hi,
+>=20
+> On Tue, Oct 04, 2022 at 11:57:19PM +0200, Luca Ceresoli wrote:
+> > Hello Mikko,
+> >
+> > On Tue,  4 Oct 2022 18:28:07 +0300
+> > "Mikko Rapeli" <mikko.rapeli@linaro.org> wrote:
+> >
+> > > It sets all environment variables correctly for openssl-native.
+> > >
+> > > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> >
+> > I'm taking this patch for testing, however I have a question, see below=
+.
+> >
+> > > ---
+> > >  meta/recipes-bsp/u-boot/u-boot.inc | 3 ++-
+> > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-
+> boot/u-boot.inc
+> > > index f022aed732..cd9c578962 100644
+> > > --- a/meta/recipes-bsp/u-boot/u-boot.inc
+> > > +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+> > > @@ -17,7 +17,8 @@ PACKAGECONFIG ??=3D "openssl"
+> > >  # u-boot will compile its own tools during the build, with specific
+> > >  # configurations (aka when CONFIG_FIT_SIGNATURE is enabled) openssl
+> is needed as
+> > >  # a host build dependency.
+> > > -PACKAGECONFIG[openssl] =3D ",,openssl-native"
+> > > +OPENSSL_INHERIT .=3D "${@bb.utils.contains('PACKAGECONFIG', 'openssl=
+',
+> 'openssl-native', '', d)}"
+> >
+> > What is the reason to use '.=3D' and not just '=3D' here?
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
----
- meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+You typically use it to avoid introducing extra space to a variable when a=
+=20
+feature is not enabled.
 
-v3: no chnages
+>=20
+> Hehe, it was in another example which was using conditional inheritance.
+>=20
+> meta/recipes-support/gpgme/gpgme_1.18.0.bb
+>=20
+> PYTHON_INHERIT .=3D "${@bb.utils.contains('PACKAGECONFIG', 'python3', 'py=
+thon3native python3targetconfig', '', d)}"
 
-v2: no changes
+That example is actually wrong. If someone was to enable both "python2"=20
+and "python3", the resulting PYTHON_INHERIT would be=20
+"pythonnativepython3native python3targetconfig", which obviously will=20
+not work.
 
-v1: https://lists.openembedded.org/g/openembedded-core/message/171378?p=%2C%2C%2C20%2C0%2C0%2C0%3A%3Arecentpostdate%2Fsticky%2C%2Copenssl-native.bbclass%2C20%2C2%2C0%2C94110198
+>=20
+> I guess normal =3D assignment would work too. If that's preferred I can
+> send a v3.
+>=20
+> Cheers,
+>=20
+> -Mikko
 
-diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-index 9afd6714f0..ba290c514d 100644
---- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-+++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0-only;m
- 
- inherit kernel-arch
- inherit pkgconfig
-+inherit openssl-native
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
--- 
-2.17.1
+//Peter
 
 
