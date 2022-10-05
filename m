@@ -1,98 +1,98 @@
-Return-Path: <dl9pf@gmx.de>
+Return-Path: <liu.ming50@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62A27C433F5
-	for <webhook@archiver.kernel.org>; Wed,  5 Oct 2022 17:54:57 +0000 (UTC)
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by mx.groups.io with SMTP id smtpd.web08.1120.1664992488901772994
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B355C433F5
+	for <webhook@archiver.kernel.org>; Wed,  5 Oct 2022 19:51:42 +0000 (UTC)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+ [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web09.517.1664999496236129838
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Oct 2022 10:54:49 -0700
+ Wed, 05 Oct 2022 12:51:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmx.net header.s=badeba3b8450 header.b=kvPPByyi;
- spf=pass (domain: gmx.de, ip: 212.227.15.15, mailfrom: dl9pf@gmx.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1664992486;
-	bh=njRk5k9K8nPwrxajhyUK+Ilz1ToOZafRMKpW7wLt7tg=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-	b=kvPPByyiS0i2eZgzrk6SmIVf4RwEeWVrkk0vsIVH5QPYv8U3m7p/fUykPRA0ufkP3
-	 JBBXbAl+T+6bbmfUo0j5a6Nu6G7S9c9SjjRcXT7NqrO/gJwrCdjMVl55JQfPrphPer
-	 DNSdXwbWuCzlMi54krn+p2cF0M6g0bMOWW7wh9kM=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from gmx.de ([91.67.224.20]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MIMbO-1oRszC2PG0-00EQK3; Wed, 05
- Oct 2022 19:54:46 +0200
-From: dl9pf@gmx.de
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DVeJsQ9Z;
+ spf=pass (domain: gmail.com, ip: 209.85.208.182,
+ mailfrom: liu.ming50@gmail.com)
+Received: by mail-lj1-f182.google.com with SMTP id y22so5925325ljc.8
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 05 Oct 2022 12:51:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=44/Uydsi1DdLC+foihtdusd41KIyiPeouiQeIlIqPYw=;
+        b=DVeJsQ9ZUTpbOBvH1ry7E/TkB0MIFn+DYGFA2zpUTX3HP1CsEp647GAXoXv+OPCNVb
+         M6p48yFX7uBv/lt30d/LIG5tZJ7T21oyiCTYtKiY26kKc9lYBZtE9eTQVKsa0cCrRY6M
+         Mx/3AGboO4XkcRNrZu6ipX9uNMPiYQzgQ20nNWFBawEP77OClfYJV/9MbV7oj8uMD0FO
+         fH6aYXrNe3xJcmEK+P2X9xerrwmvKyrXLLtqBxNoImqjU6PPJUwE1cILvYYhq81DHvHk
+         5MTwVVoqHfUqTJRuN6uU4G3X4RnPRGF0EAU0L3uuiV3knx46yqoUdiUAfiq2VHgJzk8q
+         JSWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=44/Uydsi1DdLC+foihtdusd41KIyiPeouiQeIlIqPYw=;
+        b=wNlCA3m6kS2P5XQkRh2cNaDhxrG0oJsHDrBUZYD/MVjERC2gZyrNzXz7206Xl2sbzF
+         F2Pf2F32jrMcZ8AUum3dT+/A8uJmEjhV9l2M08DJV+krBSTtKOmag6lqhTkTZC7+yu3v
+         vnE+3/7UoGJIb9KCzjJmdHmuDfano08D6PVrMoj2j63xHCatumnPoexzAvVDbQFi2w0O
+         UWiJZNMn5Dy+oNfdPeb70fhR5wfxaLyXyN1djY07GUN9CYESJPgXafa1nDW9AophpwZB
+         psPpKgPfTnfg0kjwc3UN5BnOsYaxWTOBMZP6kz0IZVUjuVfeD5rFAPXVo/9rPaXWasZE
+         GTJw==
+X-Gm-Message-State: ACrzQf0HGU70aDBGflAHV9ug98bIHpuwefDD5ROovXGC7ZfsnKB0JggV
+	edEHQBpwT89RMYsDDVkwXIXircjMB6o=
+X-Google-Smtp-Source: 
+ AMsMyM4YLUZDgmS/QafquRpzXt3e2yGIK1eDEV9/3DLXfIS6aCmXxYxuFE34wh0NCYSsb+Nl+xYgZQ==
+X-Received: by 2002:a2e:8054:0:b0:26d:dba9:89f5 with SMTP id
+ p20-20020a2e8054000000b0026ddba989f5mr481305ljg.2.1664999492760;
+        Wed, 05 Oct 2022 12:51:32 -0700 (PDT)
+Received: from peterliu-Precision-7530.emea.group.atlascopco.com
+ (customer-212-100-112-191.stosn.net. [212.100.112.191])
+        by smtp.gmail.com with ESMTPSA id
+ q3-20020a0565123a8300b00498fe38ea0fsm2450785lfu.174.2022.10.05.12.51.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Oct 2022 12:51:31 -0700 (PDT)
+From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: Jan-Simon Moeller <jsmoeller@linuxfoundation.org>
-Subject: [PATCH] buildtools-tarball: export certificates to python and curl
-Date: Wed,  5 Oct 2022 19:54:28 +0200
-Message-Id: <20221005175428.93367-1-dl9pf@gmx.de>
-X-Mailer: git-send-email 2.35.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [OE-core] [PATCH V3] bluez5: change configuration directory mode
+Date: Wed,  5 Oct 2022 21:51:28 +0200
+Message-Id: <20221005195128.9978-1-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:fPEW7FwlR7rRwvWMhlkZ2YNLccbD6cC3qK2OdcV72DkgvN0V1JY
- YVJfLbGvaT6U4odPOMDi2jFXAQ6D+bVoGrZk51EhwZL2sprEcFOIjhzMt/iYH7AHw77kIj2
- uIuTMQgE/p+D5ET9+oof28uXWVHfRJmreT3uW8vI/T940/yWxtD0Lb0gLifWca44h/auuEx
- GpqvdvoQilablW4si6+eg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:qIg4+GDV0F0=:rBhRdntE8BgrYdxovUjxRG
- tLEjo1T/uIskeEqArmIFW+z22w0xlfWtXYBZ2ljITVgcp90KP462rwpS0pJ99de/YH+shca4U
- RXCHRzY5f1iXohhuxoX9QnSHLMDBvBAcVtjzVjF4GApMGTKNExcvAyruwB9HrC3C2RPRdWo+Y
- h4W2I/iUz45E6kIijNnl3Kq4h9fGZWjidV6x6dd8Go67/d5kjFnfUx2BvBO+BP6JUFTx/uBcQ
- MRWvexsAzW9SCpNMpyR8A1xp5fUWGdmLcTGx2swS5yhOKmlXsDfgPLO25OebqA40v2HsH5k99
- z7V6NvXFEKsVusl14o0YGvGd7XLeKHXhK3uZV3unlgEDj8UMPA5rnCoCJS85ej5eydyTKk+LL
- rN4T9ncD+At9VHlLPa/mt97ltIDqQWabhpepZ8/rKXuet8nhNF2+LkZWuGylmlJf+4klsotWe
- f/oovWPYU9mlFO9x7306GYHI7g8UYKDSzk5p0/X9HnsKnHbnql4m6zTP6nFqKuD7MM1N6hIKM
- RifSQD1N1+x78+GalsljeHyWIPeQnAGhSt4mTX/NMpf8I0K0wsJRUjJMeun8hus/IFgw2PkOh
- 5ZBGoJvWA1lVgnsz57j8RLscUEzjScSUeuUmNkAHXijZ/nuOpbTQP02jaRu3sNhcI3Nzod0u+
- gDxXUtNQ0g/grpv4CWdMHABRZ8OC72qZNWKN5DhJ8d505NdRhRZ5sjC2NkU9+sKJQ8iV5QnEZ
- rDTP6f3Eze8cE/selzXsWG8I85kHvWREdIePZWkHX/qwyjSH+WMze02hpeEFfy4YfSwvgp50o
- u4AjPFb5lmDUPk3tN5E5e2+YXUUizFSkKelG24rZnqjsDguuSv0EZUYbqyZc5uYXRI4UlsIXF
- yEgUNFV4PfKkiF1i5DHcvHELETVLvcjUFsKKMJpOS9bMGbgrjvcECR6+un48SSfliJD1rYSQY
- pCKJKZgomQHAEfFXwcrfCW9uT6et7mzxWT9krSpAXNcVZKv406XRhQTWf0jekziuU5BEeWZBZ
- /w2I0bJrf9u+zVxC1gbnVNf8kL1qkzXhcXm1KHNojx4qi88ll6ZyiYhKu+VuNfQBUTqppGEfl
- 9gXinexRMWm9uTIJuG4PbWQTq6oMjLWA0d7LTrrtbshvy21FbiP38bmDHcNIJITThKgomlQty
- x9Cig=
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Oct 2022 17:54:57 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Oct 2022 19:51:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171476
+ https://lists.openembedded.org/g/openembedded-core/message/171477
 
-From: Jan-Simon Moeller <jsmoeller@linuxfoundation.org>
+From: Ming Liu <liu.ming50@gmail.com>
 
-The custom path of the ca-certificates.crt within the buildtools-tarball r=
-equires more
-environment variables to be exported. Namely REQUESTS_CA_BUNDLE for the py=
-thon requests library
-and CURL_CA_BUNDLE for curl.
+Change configuration directory mode from 0755 to 0555, this fixes a
+following warning when bluetoothd starts:
+| ConfigurationDirectory 'bluetooth' already exists but the mode is different.
+| (File system: 755 ConfigurationDirectoryMode: 555)
 
-Signed-off-by: Jan-Simon Moeller <jsmoeller@linuxfoundation.org>
-=2D--
- meta/recipes-core/meta/buildtools-tarball.bb | 2 ++
- 1 file changed, 2 insertions(+)
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-c=
-ore/meta/buildtools-tarball.bb
-index 6b59e4934d..de399173ba 100644
-=2D-- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -72,6 +72,8 @@ create_sdk_files:append () {
- 	if [ -e "${SDK_OUTPUT}${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certifi=
-cates.crt" ]; then
- 		echo 'export GIT_SSL_CAINFO=3D"${SDKPATHNATIVE}${sysconfdir}/ssl/certs/=
-ca-certificates.crt"' >>$script
- 		echo 'export SSL_CERT_FILE=3D"${SDKPATHNATIVE}${sysconfdir}/ssl/certs/c=
-a-certificates.crt"' >>$script
-+		echo 'export REQUESTS_CA_BUNDLE=3D"${SDKPATHNATIVE}${sysconfdir}/ssl/ce=
-rts/ca-certificates.crt"' >>$script
-+		echo 'export CURL_CA_BUNDLE=3D"${SDKPATHNATIVE}${sysconfdir}/ssl/certs/=
-ca-certificates.crt"' >>$script
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 79d4645ca8..9f5c78b81e 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -82,7 +82,7 @@ do_install:append() {
+ 	install -d ${D}${INIT_D_DIR}
+ 	install -m 0755 ${WORKDIR}/init ${D}${INIT_D_DIR}/bluetooth
+ 
+-	install -d ${D}${sysconfdir}/bluetooth/
++	install -m 0555 -d ${D}${sysconfdir}/bluetooth/
+ 	if [ -f ${S}/profiles/network/network.conf ]; then
+ 		install -m 0644 ${S}/profiles/network/network.conf ${D}/${sysconfdir}/bluetooth/
  	fi
-
- 	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${SDK_SYS}
-=2D-
-2.35.4
+-- 
+2.25.1
 
 
