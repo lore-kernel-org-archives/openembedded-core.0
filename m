@@ -2,12 +2,12 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49D03C433FE
-	for <webhook@archiver.kernel.org>; Wed,  5 Oct 2022 06:44:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EB17C4332F
+	for <webhook@archiver.kernel.org>; Wed,  5 Oct 2022 06:45:03 +0000 (UTC)
 Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web11.20735.1664952287723401329
+ by mx.groups.io with SMTP id smtpd.web11.20737.1664952299602543108
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Oct 2022 23:44:48 -0700
+ Tue, 04 Oct 2022 23:45:00 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25,
@@ -17,16 +17,16 @@ Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1ofy97-00CmxC-Ib; Wed, 05 Oct 2022 09:44:45 +0300
+	id 1ofy9J-00CmyP-AC; Wed, 05 Oct 2022 09:44:57 +0300
 Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1ofy97-00Aciq-9h; Wed, 05 Oct 2022 09:44:45 +0300
+	id 1ofy9I-00AdFk-Vo; Wed, 05 Oct 2022 09:44:56 +0300
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v3 3/5] u-boot: use openssl-native.bbclass
-Date: Wed,  5 Oct 2022 09:44:44 +0300
-Message-Id: <20221005064444.2531838-1-mikko.rapeli@linaro.org>
+Subject: [PATCH v3 5/5] linux-yocto: use openssl-native.bbclass
+Date: Wed,  5 Oct 2022 09:44:55 +0300
+Message-Id: <20221005064455.2533842-1-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -50,44 +50,154 @@ X-Rspam-Report: Action: no action
  Symbol: FROM_NEQ_ENVFROM(0.00)
  Symbol: BAYES_HAM(-3.00)
  Symbol: RCVD_COUNT_TWO(0.00)
- Message-ID: 20221005064444.2531838-1-mikko.rapeli@linaro.org
+ Message-ID: 20221005064455.2533842-1-mikko.rapeli@linaro.org
 X-SA-Exim-Connect-IP: 2001:67c:1be8::11
 X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Oct 2022 06:44:53 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Oct 2022 06:45:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171446
+ https://lists.openembedded.org/g/openembedded-core/message/171448
 
-It sets all environment variables correctly for openssl-native.
+It sets environment variables etc correctly for openssl-native use.
+For most kernel side use cases are covered by plain openssl native
+wrapper but some out of tree e.g. python scripts may be not.
 
 Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- meta/recipes-bsp/u-boot/u-boot.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-kernel/linux/linux-yocto-dev.bb       | 4 ++--
+ meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb   | 4 +++-
+ meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb   | 4 +++-
+ meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb | 4 +++-
+ meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb | 4 +++-
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb      | 4 +++-
+ meta/recipes-kernel/linux/linux-yocto_5.19.bb      | 4 +++-
+ 7 files changed, 20 insertions(+), 8 deletions(-)
 
-v3: switched from .= to plain = in variable assignment
+v3: no changes
 
-v2: no changes https://lists.openembedded.org/g/openembedded-core/message/171443?p=%2C%2C%2C20%2C0%2C0%2C0%3A%3Arecentpostdate%2Fsticky%2C%2Cu-boot%3A+use+openssl-native.bbclass%2C20%2C2%2C0%2C94116081
+v2: no changes
 
-v1: https://lists.openembedded.org/g/openembedded-core/message/171377?p=%2C%2C%2C20%2C0%2C0%2C0%3A%3Arecentpostdate%2Fsticky%2C%2Cu-boot%3A+use+openssl-native.bbclass%2C20%2C2%2C0%2C94110197
+v1: https://lists.openembedded.org/g/openembedded-core/message/171380?p=%2C%2C%2C20%2C0%2C0%2C0%3A%3Arecentpostdate%2Fsticky%2C%2Copenssl-native.bbclass%2C20%2C2%2C0%2C94110200
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index f022aed732..c68306f203 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -17,7 +17,8 @@ PACKAGECONFIG ??= "openssl"
- # u-boot will compile its own tools during the build, with specific
- # configurations (aka when CONFIG_FIT_SIGNATURE is enabled) openssl is needed as
- # a host build dependency.
--PACKAGECONFIG[openssl] = ",,openssl-native"
-+OPENSSL_INHERIT = "${@bb.utils.contains('PACKAGECONFIG', 'openssl', 'openssl-native', '', d)}"
-+inherit ${OPENSSL_INHERIT}
+diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+index b1b57beac3..fe701d25c8 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+@@ -11,7 +11,7 @@
+ inherit kernel
+ require recipes-kernel/linux/linux-yocto.inc
+ # for ncurses tests
+-inherit pkgconfig
++inherit pkgconfig openssl-native
  
- # Allow setting an additional version string that will be picked up by the
- # u-boot build system and appended to the u-boot version.  If the .scmversion
+ # provide this .inc to set specific revisions
+ include recipes-kernel/linux/linux-yocto-dev-revisions.inc
+@@ -37,7 +37,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+-DEPENDS += "openssl-native util-linux-native"
++DEPENDS += "util-linux-native"
+ DEPENDS += "gmp-native libmpc-native"
+ 
+ # yaml and dtschema are required for 5.16+ device tree validation, libyaml is checked
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+index 6f8648e004..8a97b8a575 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+@@ -22,7 +22,9 @@ LINUX_VERSION ?= "5.15.68"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+-DEPENDS += "openssl-native util-linux-native"
++DEPENDS += "util-linux-native"
++
++inherit openssl-native
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb
+index b3e9fbae62..e028d07b45 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb
+@@ -22,7 +22,9 @@ LINUX_VERSION ?= "5.19.9"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+-DEPENDS += "openssl-native util-linux-native"
++DEPENDS += "util-linux-native"
++
++inherit openssl-native
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+index 4f2bb48743..e58931e212 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+@@ -9,7 +9,9 @@ LINUX_VERSION ?= "5.15.68"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+-DEPENDS += "openssl-native util-linux-native"
++DEPENDS += "util-linux-native"
++
++inherit openssl-native
+ 
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb
+index 466b7063b4..6e5c72be60 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb
+@@ -9,7 +9,9 @@ LINUX_VERSION ?= "5.19.9"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+-DEPENDS += "openssl-native util-linux-native"
++DEPENDS += "util-linux-native"
++
++inherit openssl-native
+ 
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+index 2f91fb7a37..8303395326 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+@@ -41,9 +41,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ LINUX_VERSION ?= "5.15.68"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+-DEPENDS += "openssl-native util-linux-native"
++DEPENDS += "util-linux-native"
+ DEPENDS += "gmp-native libmpc-native"
+ 
++inherit openssl-native
++
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+ KMETA = "kernel-meta"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.19.bb b/meta/recipes-kernel/linux/linux-yocto_5.19.bb
+index f882972e35..3e915a2f5e 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.19.bb
+@@ -41,9 +41,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ LINUX_VERSION ?= "5.19.9"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+-DEPENDS += "openssl-native util-linux-native"
++DEPENDS += "util-linux-native"
+ DEPENDS += "gmp-native libmpc-native"
+ 
++inherit openssl-native
++
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+ KMETA = "kernel-meta"
 -- 
 2.17.1
 
