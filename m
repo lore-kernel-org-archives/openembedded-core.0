@@ -1,276 +1,197 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <thomas.perrot@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55692C433F5
-	for <webhook@archiver.kernel.org>; Thu,  6 Oct 2022 05:27:46 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web12.2422.1665034062500312232
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D61AC433FE
+	for <webhook@archiver.kernel.org>; Thu,  6 Oct 2022 09:03:57 +0000 (UTC)
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net
+ [217.70.178.231])
+ by mx.groups.io with SMTP id smtpd.web09.3668.1665047031156079266
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Oct 2022 22:27:42 -0700
+ Thu, 06 Oct 2022 02:03:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=WWLfxJKF;
- spf=pass (domain: mvista.com, ip: 209.85.214.180,
- mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f180.google.com with SMTP id d24so755555pls.4
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Oct 2022 22:27:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=l/rDloDAf7PGKeC3YC+cRulFdROSqQ4N9IZmQzq0Zz4=;
-        b=WWLfxJKF8TpQjZJboCb8vGqlU/tQc4nJHQdIzkNyALwsHRFYcIODz2j4DcuJqVkl7f
-         32i3ZW5QkelbOr3cjpQQSb0daG4ovqhimzNFiaHmlM/zr41gePaB0SNjCQIvBA3xa/BD
-         hHebNn9vDyYsmM7WHYeHHLkA0Ru+fxL55tI+k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=l/rDloDAf7PGKeC3YC+cRulFdROSqQ4N9IZmQzq0Zz4=;
-        b=WYIv8aAm6tF7bPARU1Jj9OPcnyvI+FbHA+32ZFA0tXVG5V1Fm3eMwsTwhK0lgkK2e9
-         6bKjNcU9+jbBoVII+UObMDgqWdDh2GRPAnGE8oadTEdtHWTKQvBE7+UNjo2389sWm8gU
-         Tb/SOJMSmZWUHnyhtegE0h/OFNlJaSZTFoIw1y8DmtWJAgHZgnb3Jw2UXx5Y4fvXJvgP
-         2AUut44dQ2q/lBc/LZchNDU8seOIgQdXgDnis1NWnsmWgUvdy3GJ1se7y6ZVq2YnHm6W
-         0RuH98c9Sh36Gq3IsX3ydoWQxAabgkxV74LJDnVALQj8CYBSBHD1TWiTuAlT1BQ731vn
-         x2tA==
-X-Gm-Message-State: ACrzQf2c0DdJHnspv326vuIVbEvNWB5RZBFkg+cyMvRa1VDTZkTKuMp5
-	RkdhuvU3tYjUHUziV0E4cFU5Ga086iIqLQ==
-X-Google-Smtp-Source: 
- AMsMyM755yT1Va0f7LpUOCjRxSajVP4NgXRYK+0mDA/NGisl98HYHW3slDu4KBepUjdynmEUgVFWbw==
-X-Received: by 2002:a17:902:d4d2:b0:17a:a33:e334 with SMTP id
- o18-20020a170902d4d200b0017a0a33e334mr2957442plg.17.1665034061428;
-        Wed, 05 Oct 2022 22:27:41 -0700 (PDT)
-Received: from MVIN00024 ([103.250.136.200])
-        by smtp.gmail.com with ESMTPSA id
- s10-20020a63d04a000000b0043c732e1536sm764292pgi.45.2022.10.05.22.27.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Oct 2022 22:27:41 -0700 (PDT)
-Received: by MVIN00024 (sSMTP sendmail emulation);
- Thu, 06 Oct 2022 10:57:36 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [dunfell][PATCH] dhcp: Fix CVE-2022-2928 & CVE-2022-2929
-Date: Thu,  6 Oct 2022 10:57:34 +0530
-Message-Id: <20221006052734.70370-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=ZbKNjmK1;
+ spf=pass (domain: bootlin.com, ip: 217.70.178.231,
+ mailfrom: thomas.perrot@bootlin.com)
+Received: (Authenticated sender: thomas.perrot@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 749D910000B;
+	Thu,  6 Oct 2022 09:03:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1665047028;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5yBUwAIpGp1YQziLfH+kNgl8S2OzaEjQGiJPLD3Mm4I=;
+	b=ZbKNjmK1M1kXpZM7KScx/2s8rQ0A3kv+l35V5+pdFfI9ZbGoZfdm/kV993ElNlcQZZyllY
+	iy6Fl0VQXMCPLSG+Q9JKy0Nxza40srr95aH8N4w4jPVLq5Wm6i+lzaA0e3cysLK/uOxUTZ
+	adIld5Gpp9tf/yvOm3k3zE9pBP6kzGPg0b6Zi1dcfbsBhllllUCZwGYrAq+VtHG245P0iD
+	TZnvLi4a+NMIRqfRF8l4iVJIwMAeeISTOlgS4cgwPWFflum7q3ciGURjtj9fEsQk7HxHf/
+	daQxyVAle7tQ3cBWN0dhppIRHAIdQbWC5Y6dp9yaa8awIhJsGiggACi1wQtdtg==
+Message-ID: <c0a9f615a9a52a89d894f7ed78207cc462220169.camel@bootlin.com>
+Subject: Re: [OE-core][PATCH] core-image-sato: install virtio input for Qemu
+ targets
+From: Thomas Perrot <thomas.perrot@bootlin.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Thu, 06 Oct 2022 11:03:46 +0200
+In-Reply-To: 
+ <CANNYZj9yoFsY3On8PqsqBw1VV3R4qB1Xd7R-1=Po5x4wGonmSA@mail.gmail.com>
+References: <20221005150138.2538539-1-thomas.perrot@bootlin.com>
+	 <CAMKF1sps-=A9OpQK86jX=EkYDVxWVfabD84G27+75VdMiguJHg@mail.gmail.com>
+	 <3a9e20001ec3677f73b451708c0932d7daf4f838.camel@bootlin.com>
+	 <CANNYZj9yoFsY3On8PqsqBw1VV3R4qB1Xd7R-1=Po5x4wGonmSA@mail.gmail.com>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-8GkUub+ghqdx5eiW7f51"
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Oct 2022 05:27:46 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Oct 2022 09:03:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171480
+ https://lists.openembedded.org/g/openembedded-core/message/171482
 
-Source: https://downloads.isc.org/isc/dhcp
-MR: 122797, 122812
-Type: Security Fix
-Disposition: Backport from https://downloads.isc.org/isc/dhcp/4.4.3-P1/patches/
-ChangeID: 31490133cae8fc9c77073f9023955d3ff39c0b6e
-Description:
 
-Fixed CVEs:
-	1. CVE-2022-2928
-	2. CVE-2022-2929
+--=-8GkUub+ghqdx5eiW7f51
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../dhcp/dhcp/CVE-2022-2928.patch             | 120 ++++++++++++++++++
- .../dhcp/dhcp/CVE-2022-2929.patch             |  40 ++++++
- meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb  |   2 +
- 3 files changed, 162 insertions(+)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2022-2928.patch
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2022-2929.patch
+Hello Alex,
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2022-2928.patch b/meta/recipes-connectivity/dhcp/dhcp/CVE-2022-2928.patch
-new file mode 100644
-index 0000000000..11f162cbda
---- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2022-2928.patch
-@@ -0,0 +1,120 @@
-+From 8a5d739eea10ee6e193f053b1662142d5657cbc6 Mon Sep 17 00:00:00 2001
-+From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Thu, 6 Oct 2022 09:39:18 +0530
-+Subject: [PATCH] CVE-2022-2928
-+
-+Upstream-Status: Backport [https://downloads.isc.org/isc/dhcp/4.4.3-P1/patches/]
-+CVE: CVE-2022-2928
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ common/options.c               |  7 +++++
-+ common/tests/option_unittest.c | 54 ++++++++++++++++++++++++++++++++++
-+ 2 files changed, 61 insertions(+)
-+
-+diff --git a/common/options.c b/common/options.c
-+index a7ed84c..4e53bb4 100644
-+--- a/common/options.c
-++++ b/common/options.c
-+@@ -4452,6 +4452,8 @@ add_option(struct option_state *options,
-+ 	if (!option_cache_allocate(&oc, MDL)) {
-+ 		log_error("No memory for option cache adding %s (option %d).",
-+ 			  option->name, option_num);
-++		/* Get rid of reference created during hash lookup. */
-++		option_dereference(&option, MDL);
-+ 		return 0;
-+ 	}
-+ 
-+@@ -4463,6 +4465,8 @@ add_option(struct option_state *options,
-+ 			     MDL)) {
-+ 		log_error("No memory for constant data adding %s (option %d).",
-+ 			  option->name, option_num);
-++		/* Get rid of reference created during hash lookup. */
-++		option_dereference(&option, MDL);
-+ 		option_cache_dereference(&oc, MDL);
-+ 		return 0;
-+ 	}
-+@@ -4471,6 +4475,9 @@ add_option(struct option_state *options,
-+ 	save_option(&dhcp_universe, options, oc);
-+ 	option_cache_dereference(&oc, MDL);
-+ 
-++	/* Get rid of reference created during hash lookup. */
-++	option_dereference(&option, MDL);
-++
-+ 	return 1;
-+ }
-+ 
-+diff --git a/common/tests/option_unittest.c b/common/tests/option_unittest.c
-+index cd52cfb..690704d 100644
-+--- a/common/tests/option_unittest.c
-++++ b/common/tests/option_unittest.c
-+@@ -130,6 +130,59 @@ ATF_TC_BODY(pretty_print_option, tc)
-+ }
-+ 
-+ 
-++ATF_TC(add_option_ref_cnt);
-++
-++ATF_TC_HEAD(add_option_ref_cnt, tc)
-++{
-++    atf_tc_set_md_var(tc, "descr",
-++        "Verify add_option() does not leak option ref counts.");
-++}
-++
-++ATF_TC_BODY(add_option_ref_cnt, tc)
-++{
-++    struct option_state *options = NULL;
-++    struct option *option = NULL;
-++    unsigned int cid_code = DHO_DHCP_CLIENT_IDENTIFIER;
-++    char *cid_str = "1234";
-++    int refcnt_before = 0;
-++
-++    // Look up the option we're going to add.
-++    initialize_common_option_spaces();
-++    if (!option_code_hash_lookup(&option, dhcp_universe.code_hash,
-++                                 &cid_code, 0, MDL)) {
-++        atf_tc_fail("cannot find option definition?");
-++    }
-++
-++    // Get the option's reference count before we call add_options.
-++    refcnt_before = option->refcnt;
-++
-++    // Allocate a option_state to which to add an option.
-++    if (!option_state_allocate(&options, MDL)) {
-++	    atf_tc_fail("cannot allocat options state");
-++    }
-++
-++    // Call add_option() to add the option to the option state.
-++    if (!add_option(options, cid_code, cid_str, strlen(cid_str))) {
-++	    atf_tc_fail("add_option returned 0");
-++    }
-++
-++    // Verify that calling add_option() only adds 1 to the option ref count.
-++    if (option->refcnt != (refcnt_before + 1)) {
-++        atf_tc_fail("after add_option(), count is wrong, before %d, after: %d",
-++                    refcnt_before, option->refcnt);
-++    }
-++
-++    // Derefrence the option_state, this should reduce the ref count to
-++    // it's starting value.
-++    option_state_dereference(&options, MDL);
-++
-++    // Verify that dereferencing option_state restores option ref count.
-++    if (option->refcnt != refcnt_before) {
-++        atf_tc_fail("after state deref, count is wrong, before %d, after: %d",
-++                    refcnt_before, option->refcnt);
-++    }
-++}
-++
-+ /* This macro defines main() method that will call specified
-+    test cases. tp and simple_test_case names can be whatever you want
-+    as long as it is a valid variable identifier. */
-+@@ -137,6 +190,7 @@ ATF_TP_ADD_TCS(tp)
-+ {
-+     ATF_TP_ADD_TC(tp, option_refcnt);
-+     ATF_TP_ADD_TC(tp, pretty_print_option);
-++    ATF_TP_ADD_TC(tp, add_option_ref_cnt);
-+ 
-+     return (atf_no_error());
-+ }
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2022-2929.patch b/meta/recipes-connectivity/dhcp/dhcp/CVE-2022-2929.patch
-new file mode 100644
-index 0000000000..d605204f89
---- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2022-2929.patch
-@@ -0,0 +1,40 @@
-+From 5c959166ebee7605e2048de573f2475b4d731ff7 Mon Sep 17 00:00:00 2001
-+From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Thu, 6 Oct 2022 09:42:59 +0530
-+Subject: [PATCH] CVE-2022-2929
-+
-+Upstream-Status: Backport [https://downloads.isc.org/isc/dhcp/4.4.3-P1/patches/]
-+CVE: CVE-2022-2929
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ common/options.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/common/options.c b/common/options.c
-+index 4e53bb4..28800fc 100644
-+--- a/common/options.c
-++++ b/common/options.c
-+@@ -454,16 +454,16 @@ int fqdn_universe_decode (struct option_state *options,
-+ 		while (s < &bp -> data[0] + length + 2) {
-+ 			len = *s;
-+ 			if (len > 63) {
-+-				log_info ("fancy bits in fqdn option");
-+-				return 0;
-++				log_info ("label length exceeds 63 in fqdn option");
-++				goto bad;
-+ 			}
-+ 			if (len == 0) {
-+ 				terminated = 1;
-+ 				break;
-+ 			}
-+ 			if (s + len > &bp -> data [0] + length + 3) {
-+-				log_info ("fqdn tag longer than buffer");
-+-				return 0;
-++				log_info ("fqdn label longer than buffer");
-++				goto bad;
-+ 			}
-+ 
-+ 			if (first_len == 0) {
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb b/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb
-index 5609a350cc..d3c87d0d07 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb
-@@ -11,6 +11,8 @@ SRC_URI += "file://0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.pat
-             file://0013-fixup_use_libbind.patch \
-             file://0001-workaround-busybox-limitation-in-linux-dhclient-script.patch \
-             file://CVE-2021-25217.patch \
-+            file://CVE-2022-2928.patch \
-+            file://CVE-2022-2929.patch \
- "
- 
- SRC_URI[md5sum] = "2afdaf8498dc1edaf3012efdd589b3e1"
--- 
-2.25.1
+On Wed, 2022-10-05 at 19:09 +0200, Alexander Kanavin wrote:
+> > Does core-image-weston have the same problem? If it does, then this
+> > certainly needs to go to qemu include in conf/machine/
+> >=20
 
+Yes, the same issue occurs on core-image-weston, when
+NO_RECOMMENDATIONS =3D "1".
+
+So, instead of adding this rdepends in the sato image, I can add
+kernel-module-virtio-input in MACHINE_EXTRA_RDEPENDS in
+conf/machine/include/qemu.inc.
+
+In addition, I'm looking to use a built-in virtio-input, as proposed by
+	Bruce Ashfield.
+
+Kind regards,
+Thomas
+
+> > Alex
+> >=20
+> > On Wed, 5 Oct 2022 at 18:51, Thomas Perrot via
+> > lists.openembedded.org
+> > <thomas.perrot=3Dbootlin.com@lists.openembedded.org> wrote:
+> > > >=20
+> > > > Hello Khem,
+> > > >=20
+> > > > On Wed, 2022-10-05 at 09:19 -0700, Khem Raj wrote:
+> > > > > > On Wed, Oct 5, 2022 at 8:01 AM Thomas Perrot via
+> > > > > > lists.openembedded.org
+> > > > > > <thomas.perrot=3Dbootlin.com@lists.openembedded.org> wrote:
+> > > > > > > >=20
+> > > > > > > > Otherwise, it isn't possible to interact with the UI.
+> > > > > >=20
+> > > > > > I wonder if it should be in the MACHINE_EXTRA_RRECOMMENDS
+> > > > > > in > > > machine
+> > > > > > configs, it will help a wide range of users who may be
+> > > > > > using
+> > > > > > graphical images.
+> > > >=20
+> > > > I hesitated to put it in MACHINE_EXTRA_RDEPENDS for Qemu
+> > > > targets.
+> > > >=20
+> > > > Currently, kernel-modules are in MACHINE_EXTRA_RRECOMMENDS of
+> > > > Qemu
+> > > > RISC-V and PPC64, which are not installed when > >
+> > > > NO_RECOMMENDATIONS=3D"1"
+> > > >=20
+> > > > Kind regards,
+> > > > Thomas
+> > > >=20
+> > > > > >=20
+> > > > > > > >=20
+> > > > > > > > Signed-off-by: Thomas Perrot
+> > > > > > > > <thomas.perrot@bootlin.com>
+> > > > > > > > ---
+> > > > > > > > =C2=A0meta/recipes-sato/images/core-image-sato.bb | 2 ++
+> > > > > > > > =C2=A01 file changed, 2 insertions(+)
+> > > > > > > >=20
+> > > > > > > > diff --git a/meta/recipes-sato/images/core-image-
+> > > > > > > > sato.bb
+> > > > > > > > b/meta/recipes-sato/images/core-image-sato.bb
+> > > > > > > > index e63a229d1257..0e37c15097b3 100644
+> > > > > > > > --- a/meta/recipes-sato/images/core-image-sato.bb
+> > > > > > > > +++ b/meta/recipes-sato/images/core-image-sato.bb
+> > > > > > > > @@ -12,6 +12,8 @@ inherit core-image
+> > > > > > > > =C2=A0TOOLCHAIN_HOST_TASK:append =3D " nativesdk-intltool >=
+ >
+> > > > > > > > > > nativesdk-glib-
+> > > > > > > > 2.0"
+> > > > > > > > =C2=A0TOOLCHAIN_HOST_TASK:remove:task-populate-sdk-ext =3D =
+" >
+> > > > > > > > > > > nativesdk-
+> > > > > > > > intltool nativesdk-glib-2.0"
+> > > > > > > >=20
+> > > > > > > > +IMAGE_INSTALL:append:qemuall =3D " kernel-module-virtio-
+> > > > > > > > input"
+> > > > > > > > +
+> > > > > > > > =C2=A0QB_MEM =3D '${@bb.utils.contains("DISTRO_FEATURES",
+> > > > > > > > "opengl", > > > > "-m
+> > > > > > > > 512", "-m 256", d)}'
+> > > > > > > > =C2=A0QB_MEM:qemuarmv5 =3D "-m 256"
+> > > > > > > > =C2=A0QB_MEM:qemumips =3D "-m 256"
+> > > > > > > > --
+> > > > > > > > 2.37.3
+> > > > > > > >=20
+> > > > > > > >=20
+> > > > > > > >=20
+> > > > > > > >=20
+> > > >=20
+> > > > --
+> > > > Thomas Perrot, Bootlin
+> > > > Embedded Linux and kernel engineering
+> > > > https://bootlin.com
+> > > >=20
+> > > >=20
+> > > >=20
+> > > >=20
+> >=20
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#171469): >
+> > https://lists.openembedded.org/g/openembedded-core/message/171469
+> > Mute This Topic: https://lists.openembedded.org/mt/94137249/5443093
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe:
+> > https://lists.openembedded.org/g/openembedded-core/unsub>
+> > =C2=A0[thomas.perrot@bootlin.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >=20
+
+--=20
+Thomas Perrot, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+
+--=-8GkUub+ghqdx5eiW7f51
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCAAdFiEEh0B3xqajCiMDqBIhn8ALBXH+Cu0FAmM+mfIACgkQn8ALBXH+
+Cu3IPgwAskwpebNK+cwBmi5GvELkvFTVqGmc8xIRG0U6S5q/l9eStX7tWYNq5XAa
+K17MzWPKz7HT8DEVrnB2IT/QXCxa0+BocuCtb7gpcimD+SqkkhC0dcqEoBBFJUo7
+ZVafhCt/BbRRgy01poGA4k5up8HCfWPf17K8jGk8krTKXBVQKUSKxJPQ7/+eC+zY
+Bv0Q4MkwC27136Ly0/mYRmlMYBmQrjkTfhTGgijZoQkSI49sl870XsvkyT2asXv/
+Ts+bh1uZ0svmJaDoT5KadkUMdRAWg1X1GLH4tuTIyx/kd4j3f5mbjf6zpmjfwqCq
+lbUigguahHh+jfCWRXK+b84jST84ANAFRznO4vRb1+LmSVeb8/mZXxARqSP3TJMe
+9vDxB7HYBx+r75Elg9SK2EtECF5+QQo8wCdp8FuE+u45B1U9ocyMsANt2OyHELie
+eVM2j46gHwijyakJze+L1Y4u1OWtHW9VjuxrWdTumecJnmZhzzU3zqrv3BUtLxHF
+PjhwDV6U
+=kCYH
+-----END PGP SIGNATURE-----
+
+--=-8GkUub+ghqdx5eiW7f51--
 
