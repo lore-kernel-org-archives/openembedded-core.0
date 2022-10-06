@@ -1,109 +1,103 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <fede@evolware.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5C22C4332F
-	for <webhook@archiver.kernel.org>; Wed,  5 Oct 2022 23:56:04 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web11.93.1665014156954736961
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2084C433FE
+	for <webhook@archiver.kernel.org>; Thu,  6 Oct 2022 04:02:55 +0000 (UTC)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web09.2014.1665028971854423371
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Oct 2022 16:55:57 -0700
+ Wed, 05 Oct 2022 21:02:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=EWrQhCTL;
- spf=pass (domain: gmail.com, ip: 209.85.214.171,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id c24so203546pls.9
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=lrdIyA1s;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45,
+ mailfrom: fede.evol@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id b2so1842844eja.6
         for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Oct 2022 16:55:56 -0700 (PDT)
+ Wed, 05 Oct 2022 21:02:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=YmtYz10p5Y2nCBvX5mluLa/6rdeGK09puyJCTfhbc8A=;
-        b=EWrQhCTL5DEFwBT0DcuG2mUZawt+nQD9ncTb7Yo/ZoMtz32+sdq7xBWawL1F45QCvi
-         qfyEZTLRsmuti3NMD0ILY18sekfD8QtzeuSEWsX2f/vMlKOnkatekQCdZpethwQ+Pq+4
-         FW2mDXsSRDFOlgY/4lJrmW11Wv9AR06h2GYdj6X/qqRdY+ptnqyuH9LgLduiHpjQ3Xui
-         3YSRiUMyRrH/cKElft3QOmXzftH9cHTS/1x9fb5TMmYf5amt01nuV79M7HO5UGXiaZ61
-         s/srqIMZVLEfjKKTKz7Oi2g8wFBWbsA+WAX6/A81ZAtmQz1OjjZ1WXuDpxWQZxA1v6Aa
-         g4hA==
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hh8aGWSIqFKQyt9X4lPrkE0QxlU6oe5+GFfux8xOCPc=;
+        b=lrdIyA1su6LvUDiMI/LJLCFBAifmM5T2kgyV2FI5Z8JOT4CwHzXpkdYe9k2MAtLHzU
+         fqzfOdxx5NAj3ERgHimZ204ZDKb2SNAnOZNKJ9gRn922w4aQv7cwI3+x0RVSxR9IDjLr
+         K3RCARZiVT5EX2PPfRXRy+HuC2+eDdDkdy/ug/ZltLYRMs2X8rcc/mMisB7y3ZjRuAzu
+         kczkTynR6ul7XluqjoY1swGhwGtjjfTkEifNvAqLtarcmTTn/roTrzg6D/lqTl2RhYBG
+         Whpu3JD2DBacVai/Zr7+g0d+YjoUc9848Hq9w/pq7/7INRTuZN6dOIXeB+sJQSdrd3nE
+         4z4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=YmtYz10p5Y2nCBvX5mluLa/6rdeGK09puyJCTfhbc8A=;
-        b=HlA5Nx78TLGecKrZxvtAEHYvL4N5bAiTB0Pbl4tO5JvSeIuSPlyxr5zQ9m6etTftwL
-         y9ZUxNZEUjPboBVMOLCniVJfRJM3GA4EnIJhjoOTDDhJq+KZaKT7RIqluDJFM4yTV7VB
-         Df2ZXHzxLzdl4mSgTh6F33R9R3vNMcG9b3BEyteyF4aGZazdyQjnt1xa3kWna7gntzRB
-         rnhK04RbdARApTuUHWG/8HPt156GoDrLEqPb00K6njXfKoSvEtKclc09y9INSmvKUxGh
-         O5FsdePrh7leQcckWzE/DqaEJleLdwc1a8Zqj58gnHo1i2MRHmwJ1aS7cCS/euLtkiUI
-         pUCA==
-X-Gm-Message-State: ACrzQf2MOH0QKa49RpDVVhKfvohdASKhlRFeAosYFwrpEwRzkAQp0ISj
-	XK+hecGVwOkcPgdxcFY7xAQv10UvpjMT7A==
+         :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Hh8aGWSIqFKQyt9X4lPrkE0QxlU6oe5+GFfux8xOCPc=;
+        b=HDHzSPpmWz/9i7eby+dQvqcydIeF82MNGrSyk9JfB8tuEpzjYciNUY4sHyVe5O1Dtz
+         nzId6pIPwFECF00xAVa6lCCVJC7T5h8OSPpa3xSbHwPgrWNflu87xJHMM6XLOOdZKEdT
+         0pOkHs+gQgqUkr1BSlxevnv16LQqBh8XUNQ+rfalgkZyl6JCjuQguw8DNJR+of0qxKe7
+         hO9+yiiJ9oxikABvcVo87oVzvCds3C5AcRz5BXEVgPVtQ5EICSXN690ge4ncKn+WwYYW
+         vZ6yZNiYUrD5hqbbx/5P5hZyNtO/AbOYl8Vc+RnGVm8V7vNVpW8TCwvOFgsJZsJgs3tF
+         cH+w==
+X-Gm-Message-State: ACrzQf0oeNUmnUD2gAsNiGM0Phd7GbEJyalzpCVSZ2wninj6IChh0kEJ
+	D8Dtt8+6AE9Ay4dTYLqitpxKXS19I1mlrw==
 X-Google-Smtp-Source: 
- AMsMyM7HzuJid5Yhw1FMFcEI9eUdoRThXZ0j6dQHXi90P2BF3JIQPehWDa9KEWaIuxb4r1/uQqXQ+A==
-X-Received: by 2002:a17:903:20d3:b0:17c:8197:c4db with SMTP id
- i19-20020a17090320d300b0017c8197c4dbmr1828305plb.43.1665014156067;
-        Wed, 05 Oct 2022 16:55:56 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::32cd])
+ AMsMyM4dEGtLw6ebYNcJRQjWKsJKy8SWh2oVfdC7oMn9geKczQWWBFuCRmtjvKrDU+n/aizrbaoRuQ==
+X-Received: by 2002:a17:907:75f7:b0:77b:4579:2aee with SMTP id
+ jz23-20020a17090775f700b0077b45792aeemr2331125ejc.529.1665028970272;
+        Wed, 05 Oct 2022 21:02:50 -0700 (PDT)
+Received: from interzone.fritz.box ([2a02:2455:e61:4a00:c805:5e99:7773:8f9e])
         by smtp.gmail.com with ESMTPSA id
- c13-20020a170902d48d00b0016c0eb202a5sm11065786plg.225.2022.10.05.16.55.55
+ p13-20020a05640243cd00b0044f21c69608sm4902095edc.10.2022.10.05.21.02.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Oct 2022 16:55:55 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+        Wed, 05 Oct 2022 21:02:49 -0700 (PDT)
+Sender: Federico Pellegrin <fede.evol@gmail.com>
+From: Federico Pellegrin <fede@evolware.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] musl: Upgrade to latest master
-Date: Wed,  5 Oct 2022 16:55:52 -0700
-Message-Id: <20221005235552.3380260-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.38.0
+Cc: Federico Pellegrin <fede@evolware.org>
+Subject: [OE-core][PATCH 1/1] chrony: add pkgconfig class as pkg-config is
+ explicitly searched for
+Date: Thu,  6 Oct 2022 06:02:44 +0200
+Message-Id: <20221006040244.96372-1-fede@evolware.org>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Oct 2022 23:56:04 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Oct 2022 04:02:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171478
+ https://lists.openembedded.org/g/openembedded-core/message/171479
 
-Following changes are part of this SRCREV uprev
+The configure script present in chrony will explicitly look for
+pkg-config and without the pkgconfig class it will fail:
 
-* dc9285ad fix error cases in gethostbyaddr_r
-* f9827fc7 remove impossible error case from gethostbyname2_r
-* f081d533 fix return value of gethostnbyname[2]_r on result not found
-* 1e7fb12f dns: treat names rejected by res_mkquery as nonexistent rather than error
-* 001c1afb res_mkquery: error out on consecutive final dots in name
-* 3ad3fa96 fix thread leak on timer_create(SIGEV_THREAD) failure
-* bf14ef19 re-enable vdso clock_gettime on arm (32-bit) with workaround
-* 6f3ead0a process DT_RELR relocations in ldso-startup/static-pie
-* 25085c85 fix fwprintf missing output to open_wmemstream FILEs
-* a636fd63 dns: fail if ipv6 is disabled and resolv.conf has only v6 nameserves
-* 996b6154 use kernel-provided AT_MINSIGSTKSZ for sysconf(_SC_[MIN]SIGSTKSZ)
-* 25340a93 add sysconf keys/values for signal stack size
-* d8fddb96 fix fallback when ipv6 is disabled but resolv.conf has v6 nameserves
-* d4f987e4 epoll_create: fail with EINVAL if size is non-positive
-* 2e5fff43 use alt signal stack when present for implementation-internal signals
-* 379b1821 ldso: make exit condition clearer in fixup_rpath
+Checking for pkg-config : No
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+This then affects the possibility (via image features or bbappend)
+to use features based on nettle/gnutls/nss which strictly require
+pkgconfig to be present and working.
+
+Signed-off-by: Federico Pellegrin <fede@evolware.org>
 ---
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta-networking/recipes-support/chrony/chrony_4.3.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 97c27eba4a..a72d87ea6f 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,7 +4,7 @@
- require musl.inc
- inherit linuxloader
+diff --git a/meta-networking/recipes-support/chrony/chrony_4.3.bb b/meta-networking/recipes-support/chrony/chrony_4.3.bb
+index 083d2cbc0..dfdb7864a 100644
+--- a/meta-networking/recipes-support/chrony/chrony_4.3.bb
++++ b/meta-networking/recipes-support/chrony/chrony_4.3.bb
+@@ -47,6 +47,9 @@ DEPENDS = "pps-tools"
+ #       chrony does not use GNU Autotools.
+ inherit update-rc.d systemd
  
--SRCREV = "37e18b7bf307fa4a8c745feebfcba54a0ba74f30"
-+SRCREV = "dc9285ad1dc19349c407072cc48ba70dab86de45"
- 
- BASEVER = "1.2.3"
- 
++# The configure scripts explicitly check for pkgconfig and needs it for gnutls/neetle/nss
++inherit pkgconfig
++
+ # Add chronyd user if privdrop packageconfig is selected
+ inherit ${@bb.utils.contains('PACKAGECONFIG', 'privdrop', 'useradd', '', d)}
+ USERADD_PACKAGES = "${@bb.utils.contains('PACKAGECONFIG', 'privdrop', '${PN}', '', d)}"
 -- 
-2.38.0
+2.37.3
 
 
