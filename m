@@ -1,174 +1,208 @@
-Return-Path: <thakur.virendra1810@gmail.com>
+Return-Path: <sean.anderson@seco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A07F7C433FE
-	for <webhook@archiver.kernel.org>; Fri,  7 Oct 2022 15:06:55 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
- [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web10.5654.1665155208655501278
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F889C433F5
+	for <webhook@archiver.kernel.org>; Fri,  7 Oct 2022 15:20:55 +0000 (UTC)
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com
+ (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.48])
+ by mx.groups.io with SMTP id smtpd.web11.5973.1665156045556516588
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Oct 2022 08:06:48 -0700
+ Fri, 07 Oct 2022 08:20:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Nad8OkcA;
- spf=pass (domain: gmail.com, ip: 209.85.216.51,
- mailfrom: thakur.virendra1810@gmail.com)
-Received: by mail-pj1-f51.google.com with SMTP id fw14so4656206pjb.3
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Oct 2022 08:06:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4TKsic+4fIKCbVQgapGTYvncOme8SSADRv9au0M27kw=;
-        b=Nad8OkcAi8AXPLXCNtMHHGAh0O96O1dvcNYeKbEpOicdPCrNcg5CMLw0gP0l1NhNC8
-         fCTitLilqU1M7sJBdbTDf2BiGWxwuo323KXw6h6AMy6p+QBAryKXolC8E9s2ztvqx70J
-         gGtdWhh0p/lypLel697ax7VfUkyt3Bb+jmVNAqbDhG5wak8WCBXA1cehsO2j24Pche1b
-         8xBVb3Bxu2VfRItQBwb/Mk+mW0GrhqKVGUeQJK/TyKd/+NyQYEB1QdXobOFrAYEJaxjq
-         7zA98RO3bO1a1p70XhOf956bmiqpIMMycDGHCCxWIO7WC2+fr9qGKw0pQcVQUfF18jM2
-         A4TA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4TKsic+4fIKCbVQgapGTYvncOme8SSADRv9au0M27kw=;
-        b=apTCNtTeB6kpIGvzy+bDfybaF0lheKkrhe0kYuwJfOlY6JStWD7EnjPE121fZsaiFt
-         QAVlFQgcKgNRkCsfBA35yjFBQabIkA0lbNWJ2c8U9Q6Vl9z5obJbZkHubAZSvvYuFyH8
-         KOFCPNoC2oRZhZzHZqycYqhfC1iNctYCjhNp4TBFWT15Ab7RFa2uplUsWh6jEykaLdxh
-         8EsFNgMG69R33j/wQZLXez7b7x6ES9nvIiQ0VcCBTnmc4GLnZjAqTRs1e6se/UqmRLll
-         CZp0Z9vP3+yT5YQUG8D3m2q4UOafdRBIY2CXSvoXyQdGSiNme2mMN94rl/Nk6sA+H4bU
-         snmQ==
-X-Gm-Message-State: ACrzQf0ur2khie7P9+ON7lYvfvO4DY43RYYaludJNKc/zcQml4xaSbby
-	eJQ08H7MvHUn34gG6jKHZ693it9tMcqYzJrrFlk+UQ==
-X-Google-Smtp-Source: 
- AMsMyM4+VvGOdSM2H3xNI1r4WvhJPeErt9hCbEfnHH28Z32Yhhp4R939T5w/Mp7mNSz1PpnhTnYTyw==
-X-Received: by 2002:a17:902:c652:b0:180:556e:1b58 with SMTP id
- s18-20020a170902c65200b00180556e1b58mr1743446pls.35.1665155207554;
-        Fri, 07 Oct 2022 08:06:47 -0700 (PDT)
-Received: from localhost.localdomain ([171.48.35.94])
-        by smtp.gmail.com with ESMTPSA id
- u10-20020a170902714a00b0017f92d7fe2csm1598775plm.288.2022.10.07.08.06.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Oct 2022 08:06:46 -0700 (PDT)
-From: virendra thakur <thakur.virendra1810@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com,
-	bhabu.bindu@kpit.com,
-	virendrak@kpit.com,
-	Ross Burton <ross.burton@arm.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [OE-Core][kirkstone][PATCH 3/3] qemu: fix CVE-2022-2962
-Date: Fri,  7 Oct 2022 20:36:39 +0530
-Message-Id: <20221007150639.5117-1-thakur.virendra1810@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@seco.com header.s=selector1 header.b=Pb4HQ8r1;
+ spf=pass (domain: seco.com, ip: 40.107.7.48,
+ mailfrom: sean.anderson@seco.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=crGQdvy6gQ+WYyu0n1BzHKruAUYY31HqMhAVm2LieSFSKlPim2L+88ITpPE2Li/iK6yxNtAoHY0dRY6kXlfCd0G6WWcwQ4hc76P6pPlpnD+sbtufpDr5Ff3Z/snwzrfAOu/SnpnNonwvAShdFRlZejQ+UtLELpwdE0pN5io9HEsACAAM67eKxLetCiHB6Uh4yd45gZRysNUsj5iZC4GI+RXqT+L5o1G3EGQqs6q2O04BJ5/TDQFhP03+eS9C3CgkMsHkgVg6frw9kIWXcHhKK89261HO/5Y2Ao/stMq7Ct1WT6iEzlUww/wnylsYVFo44T4UClyJq0KsGsI3tKpdiQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XhNxUNlCbiG9wkWiLyU7i8qxBazYFCtDfWqnTgttrXI=;
+ b=nCbOXKsv5j26FBZ+7qqP8uIOAI+85wFwDjPv9P7uStGbQIeklEgymzXoRC6kfFWbI6Rg8Xttu4sZX6oMJAhhs7CuPnKxYLzYhxB9bBK2jT2m/GaCtrY745q9atAroppWUl1BfzP2Fsjk7URxdmEVXoTtw+DkCoJZPB1zZcePmgEZwHZ5FKD+nelRNzPVz5I3ja8A+KBQYsmpA8ITxPN7/Sym0Dz1x4YQDURF0XRTWR3spFHoGmAJdXZfvjot8Pn2cJEZ+vwgQRPZng+WAaAeiS2obgthyF2JWGVLiLF3fOEKm5XHHNQz37L2IcKxehhn8NYLLfP4TBL9mxO5nI1UWg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
+ dkim=pass header.d=seco.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XhNxUNlCbiG9wkWiLyU7i8qxBazYFCtDfWqnTgttrXI=;
+ b=Pb4HQ8r1Wg6pYU0SompAEgmx1WAm+dMKyhAQuazPkHKOL14H8N5vpnlg/XwWBeDciZrOOI0wcqmTQlqgmKZtq7mnsjLhwHfdsZSvvfBd/k+s+meDPpiBhDnLPl052U8X5P7Gz8z0uMANIFsyOA9+iKKsClvJdPYMkjGhBmnrWNh500tI5cXao36cbXAVhOgItI+3cKDTTAdHCyYJMfDCyM9bSgi/xxgOeaT6WSfr0uAcUUhxRBHZS0GhQEatp3TRQ00aa97F1MNhT3U9J8nlr9ifR8Ec11vzzpPn4diARkVhYtq8PtntfU3VGBMecvJR2chUe8XjdiIrdKhYGQ3Ufg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=seco.com;
+Received: from DB7PR03MB4972.eurprd03.prod.outlook.com (2603:10a6:10:7d::22)
+ by AM9PR03MB6932.eurprd03.prod.outlook.com (2603:10a6:20b:285::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.36; Fri, 7 Oct
+ 2022 15:20:41 +0000
+Received: from DB7PR03MB4972.eurprd03.prod.outlook.com
+ ([fe80::204a:de22:b651:f86d]) by DB7PR03MB4972.eurprd03.prod.outlook.com
+ ([fe80::204a:de22:b651:f86d%6]) with mapi id 15.20.5676.034; Fri, 7 Oct 2022
+ 15:20:41 +0000
+From: Sean Anderson <sean.anderson@seco.com>
+Subject: Re: [OE-core] [PATCH] dbus: Fix incorrect path for container sockets
+To: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Cc: Pavel Zhukov <pavel.zhukov@huawei.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ openembedded-core@lists.openembedded.org
+References: <20221006210210.1744501-1-sean.anderson@seco.com>
+ <e610bcc9-7ba5-5977-6548-b624ac9724c2@seco.com>
+ <9a8a5af4-1928-ffe0-2815-b9efd24c6bd5@bootlin.com>
+Message-ID: <eb564c8a-2bcf-a571-867b-20206c4b87b3@seco.com>
+Date: Fri, 7 Oct 2022 11:20:36 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <9a8a5af4-1928-ffe0-2815-b9efd24c6bd5@bootlin.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MN2PR22CA0015.namprd22.prod.outlook.com
+ (2603:10b6:208:238::20) To DB7PR03MB4972.eurprd03.prod.outlook.com
+ (2603:10a6:10:7d::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB7PR03MB4972:EE_|AM9PR03MB6932:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8dcc5b0c-2ab8-4ed8-6c26-08daa8777ed4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	1RfUmuXNlYRtYGGKAir7I3+fsFT4h6VSYwKExW1JIz9uDTFBz7RVcxvYbEEsT7Ow69Yz+srdXSWSvx8hVMxNY4kJMT20z3nvOQm8XqGAnwGPMJfTsLvafcAAPY7Wz9dq7k+Hx0PWHY5QFq0tiW5bybn6Q7+mZFmMcSXDinz9/Ct0TfBH/ujwxdZ65qlUDpuTriUCDPEt5QhLDlRZbOZvtM5/3iv2N9F2GNRVtRii00od7pvNByW3+csZE+/HAelHIeEHgc2zfmPP1B810zqo0IwNKHlPwk2UttU8hHUQb/B12x0HvGZol6JQ7AunhsYaVP3P4/y1/FY4GeKiqsi5ClIKXnNadAK0m4tWsDP82TcMi2yeRdZiDVZLxwwE4MbMYu3W1UFW3ouXJjIbBsAiQbEKNIgSaWdiDS642a5DCR13Nmi1eof/RO31U3cEqbQRAi1PLchHcZ1CKcE6aILfDSdZJ9HgidpTt1+hj3qRghC4cGJ+ULE/M2hGtbNpfMLdSJ7HsEcOSLh582QdqGVdHTD/z53NGL0C+7E/mF/coZ/eLTq0kRx74FAAsG6+O++skSNQZrYIyGTZym0bn1K5RZPAg98u0dwvRQW30v5gkzz4D5EpoAm2c1icq1Vpk/lduIgV9BQJQsTStl1hRDQ29ohIVCZM+6EGSxBXzCeGHLmD9J2R4GNFHdufXHS5BNbEOpGn1h4RiQezMre/FlvaoJZ1ABuG2kCx7kxD0thdN9x+aK3H/WcdUjU8snh0R1gAj+pklnVbYbACcHVk7Vx6rzCC7upCGldCz2ihuSFg6S5moysfuDjddk1QiJlLAY/hkkvcjL7BiLIfF9Qpcty8wOhNlBrjPD3EgrlR5tc9ImM=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR03MB4972.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(366004)(136003)(376002)(39850400004)(346002)(396003)(451199015)(186003)(31696002)(86362001)(38100700002)(38350700002)(54906003)(53546011)(8936002)(316002)(5660300002)(41300700001)(44832011)(66946007)(8676002)(4326008)(66556008)(66476007)(52116002)(6916009)(6512007)(26005)(6506007)(6666004)(966005)(6486002)(2906002)(2616005)(478600001)(31686004)(36756003)(83380400001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?NkVTQnI0eVlBN1ZqS1g2alpycXRETHNmOXFycW16SUowa0lEOHFaZTh1dGU3?=
+ =?utf-8?B?MlRiOWVZejcwMk0vSzJUcnlUbXd4SXpJVy93Yy9uYjcyekJOeU03VkxJQ09E?=
+ =?utf-8?B?aXhCNmZlWnRpY05MTml5Mkp2cVNEKy9xRlREUFFQazM4RFB2c3d3bUJUakt4?=
+ =?utf-8?B?S2RUVXM1NmtZbmRtbmFjcXhRS2F0NVJzeXQ5L0tmVzJ1NGsyZS9kQndJelRV?=
+ =?utf-8?B?MmI4MlloQk11VW9hTk1wU2c5TVM3a0c1ME5JdlpFQTZSNzZxeW1GL3JXYTRD?=
+ =?utf-8?B?dDlFYThiNklXbTg2dGcvMEYxS3RtMXdLdk8zZFVsU0k2T0NXQ3RoTFViYzJX?=
+ =?utf-8?B?MytZTFV1VzY1SFprenFUenBDU1Q4RnFTTXdFcWlqeWdvNFpDclc5dldVUEJm?=
+ =?utf-8?B?U3pKcVJnTGxTUHc5b3UrUEIzT3JWbHBFNWRqbVRyYUV5QjdVR1pJNFNld3Vh?=
+ =?utf-8?B?VnhxR3Z3T2hMamRmTVdiSmFMSVp5STJjUWdYQXVCT3dDL3VVcENxeHRKTVJm?=
+ =?utf-8?B?SDdPQjEvcldRYkRyak53bWErcllEZlVmZjMxNG9FRTk5SjhaRFJ2ZmJFcXZ2?=
+ =?utf-8?B?Q1hQWmpYOGIrYzZ0TkdNR1VWU3R1RXNCdm1EM0ZjUS9FSDZKNHVnNFZVc2Fl?=
+ =?utf-8?B?K0JIRHpDWWFxbGw1UU1Ed3RMWGNia3RwNnFEanFuTmZ3NUhEQTQ5YTVKVkky?=
+ =?utf-8?B?SFRvb0tHbTMrV0N3c3prRDhqS3Z3ZDBucm9FMmY3OWlRbjZxZ2l5ckRXeUFl?=
+ =?utf-8?B?WWdKRjlWU2ltVVR1dFhJeHB4Q2p6V1VyenAwd21lNGFzdXZ0cDdsMGNtQm5N?=
+ =?utf-8?B?eUlPOXJnTno0OHhhcnRLQXZqZ2tSZjBHZW4xMnl2Q3ZYVUJsWkhtR3htNHFJ?=
+ =?utf-8?B?bmUzV1hOMEVsMVN5ajRpNytsSkx1NGFNR0FSck5CSnNyek5MbGNaWnZjNnhz?=
+ =?utf-8?B?M2dHS1JoUC9mbnEzYXRiaG9mR3BIa2dMMWRiZUx1cGFNQzdiY0lmak9NSitE?=
+ =?utf-8?B?c0FSUzlWRGh6RmJHdXZ0RlEzckZYelJ5cDlBcjY5SC9aYVYyQUxHTnJMdjk3?=
+ =?utf-8?B?bTRvTGpPaGtsUTFjaXR6V1NaZnN3UG9JSnpuT1dPZDVUa2JXYlRZc3plMkFN?=
+ =?utf-8?B?cnhVUXp4OGtRM3VHTXEyQ0l1V01YbEVqSFJwMmp4K2JzYnB3UmlhU2xSTU5v?=
+ =?utf-8?B?SlBhbENuQmFEQVVHMzZLY2FCYnNUTHdhdFhycUovRVlxZkdLZU9rYnZPU2F4?=
+ =?utf-8?B?ZnI4N053NnBZdXRPeDY5ZVRtNmdSS3pncTd6YnlUUklkRmVxWGlCVllpSit1?=
+ =?utf-8?B?ODZGbERTdXZReUxJLzNtZy9uY3VJOWNRaTBIc0g4RVZqeUFobW15OWMwK24x?=
+ =?utf-8?B?UGxHVjRNUnlxWlpzNTdtQVljWHdRVVRvN1RiRDNQUTdHc0cwUDRESEtMUkV6?=
+ =?utf-8?B?UTNObVdhankzbHNhbzMzYzBJbjVWRWlrdGRMV1o5Vjk0QnNzSng1NU1oREM4?=
+ =?utf-8?B?OXQ3SkNDUklIMzYxT2RVNDA0cWtWU3BTUkxFVWJjd2RVSlhxRHcrNUZwc3Qz?=
+ =?utf-8?B?NFpSYTFKc2FIamRsUU9QTElhcHIwNEk5SldVajQxcFpnNFpOLzE3NEw4STFZ?=
+ =?utf-8?B?MWc5WEJkWkJXK3gxbStJazJSQkIxcndybUc1dXQ2Y0pVZ2Y3eVJYMjFhaU9n?=
+ =?utf-8?B?eTl1RG0vbmZrRHFVeTdJdHN6Vzk0ZU1yQjNNN3NjbVJMNTBvR0hqM2hoZHRZ?=
+ =?utf-8?B?TVRWcExGUjcwcEl3TWZuRTMvUGJhVVZJVFZPd1FDRUN5SmVoVTR6bEo5SDJm?=
+ =?utf-8?B?NUxHSkV0SG5kcmxnZUtkSS95bkI1TWJGWnFKR1hWWFhJMnNtR3NVL1djelVS?=
+ =?utf-8?B?VzFhMmlvMWFaUDgrQ2dtRnlWY1VNaytxZVVtUnBuOVZLaUdDekdzbnY1Z1VQ?=
+ =?utf-8?B?dmphbWRaQThmc1lXcTM3RFRBVFdhNmVERjNYVUZoZ1dtMUlSRk1yTWFiblRO?=
+ =?utf-8?B?UkNha1U3czJWU0lQcERzOVloWjlyTndqZWNkNGY2dlhhbWY3Q0k5bWZEOHJE?=
+ =?utf-8?B?MkxGem5RaWNaMmszb1VET2FKVVhIOGd6YVgrWnZ2YXgybHZDQWgwQTV4MGJ6?=
+ =?utf-8?B?WmpxQkZxWGZQZjRTOU5WcGc0ZURlc1dETFJxeGg1QWlKcElmRDN0aXlYRGZU?=
+ =?utf-8?B?dVE9PQ==?=
+X-OriginatorOrg: seco.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 8dcc5b0c-2ab8-4ed8-6c26-08daa8777ed4
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR03MB4972.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2022 15:20:41.0177
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ B9yGhirO9enz5/sZjP0CtkWqUHTtFcejO6Hk9pIbs4eZR9WXcgZMIjaoORQOwturJjhdAwmYkIsad33lsfFG/g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR03MB6932
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Oct 2022 15:06:55 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Oct 2022 15:20:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171528
+ https://lists.openembedded.org/g/openembedded-core/message/171529
 
-From: Ross Burton <ross.burton@arm.com>
 
-Backport the fix for CVE-2022-2962.
 
-(From OE-Core rev: 943d28a3395455fd475cb6c84247d106adf5fca3)
+On 10/7/22 3:23 AM, Michael Opdenacker wrote:
+> [You don't often get email from michael.opdenacker@bootlin.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+> 
+> Hi Sean
+> 
+> On 06.10.22 23:03, Sean Anderson via lists.openembedded.org wrote:
+>>
+>> On 10/6/22 5:02 PM, Sean Anderson wrote:
+>>> I noticed the following warning from systemd-tmpfiles while booting:
+>>>
+>>>      /usr/lib/tmpfiles.d/dbus.conf:13: Line references path below legacy directory /var/run/, updating /var/run/dbus/containers
+>>>
+>>> The offending line [1] is
+>>>
+>>>      d @EXPANDED_RUNSTATEDIR@/dbus/containers 0755 @DBUS_USER@ - - -
+>>>
+>>> We do not set runstatedir, so it defaults to /var/run. Set runstatedir
+>>> to /run to avoid this problem.
+>>>
+>>> [1] https://gitlab.freedesktop.org/dbus/dbus/-/blob/master/bus/tmpfiles.d/dbus.conf.in#L13
+>>>
+>>> Fixes: 4df1a16e5c ("dbus: Specify runstatedir configure option")
+>>> Signed-off-by: Sean Anderson <sean.anderson@seco.com>
+>>> ---
+>>>
+>>>   meta/recipes-core/dbus/dbus_1.14.0.bb | 1 +
+>>>   1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/meta/recipes-core/dbus/dbus_1.14.0.bb b/meta/recipes-core/dbus/dbus_1.14.0.bb
+>>> index 0046b9fda2..9fb1f777bd 100644
+>>> --- a/meta/recipes-core/dbus/dbus_1.14.0.bb
+>>> +++ b/meta/recipes-core/dbus/dbus_1.14.0.bb
+>>> @@ -21,6 +21,7 @@ EXTRA_OECONF = "--disable-xml-docs \
+>>>                   --disable-doxygen-docs \
+>>>                   --enable-largefile \
+>>>                   --with-system-socket=/run/dbus/system_bus_socket \
+>>> +                --runstatedir=/run \
+>>>                   --enable-tests \
+>>>                   --enable-checks \
+>>>                   --enable-asserts \
+>>>
+>> oops, ignore this please
+>>
+>> I didn't read the patch I put in fixes >.>
+> 
+> 
+> There's also a problem with the way you send your patches. I used to
+> have it too.
+> 
+> If I apply your patch through "git am", the author of the commit is:
+> Sean Anderson via lists.openembedded.org
+> <sean.anderson=seco.com@lists.openembedded.org>
+> instead of
+> Sean Anderson <sean.anderson@seco.com>
+> 
+> Because of this issue, the maintainer has to manually fix this field
+> when accepting your patch. Worse, if he doesn't catch this, that's
+> harder to fix afterwards.
+> 
+> You should be able to fix this by running:
+> 
+> git config --global sendemail.from "sean.anderson@seco.com"
+> 
+> At least this worked for me. See
+> https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded#Sending_using_git-send-email
+> 
+> Don't hesitate to send a test e-mail to me first if you wish.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ddc4258012e0d3fa946c319b601b0e73db7ac5e6)
-Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
+As remarked on before, this is because the mailing list is rewriting my
+email address. It should be fixed to not do this. There are plenty of
+mailing lists out there which do not have this issue and still work with
+DMARC.
 
-Signed-off-by: virendra thakur <thakur.virendra1810@gmail.com>
----
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- ...ulip-Restrict-DMA-engine-to-memories.patch | 64 +++++++++++++++++++
- 2 files changed, 65 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-net-tulip-Restrict-DMA-engine-to-memories.patch
-
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index cb5f9358da..76ae603ee4 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -70,6 +70,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0022_let_ld_pointer_pci_dma_function_propagate_MemTxResult.patch \
-            file://CVE-2021-3611_1.patch \
-            file://CVE-2021-3611_2.patch \
-+           file://0001-net-tulip-Restrict-DMA-engine-to-memories.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/0001-net-tulip-Restrict-DMA-engine-to-memories.patch b/meta/recipes-devtools/qemu/qemu/0001-net-tulip-Restrict-DMA-engine-to-memories.patch
-new file mode 100644
-index 0000000000..6c85a77ba7
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/0001-net-tulip-Restrict-DMA-engine-to-memories.patch
-@@ -0,0 +1,64 @@
-+CVE: CVE-2022-2962
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+From 5c5c50b0a73d78ffe18336c9996fef5eae9bbbb0 Mon Sep 17 00:00:00 2001
-+From: Zheyu Ma <zheyuma97@gmail.com>
-+Date: Sun, 21 Aug 2022 20:43:43 +0800
-+Subject: [PATCH] net: tulip: Restrict DMA engine to memories
-+
-+The DMA engine is started by I/O access and then itself accesses the
-+I/O registers, triggering a reentrancy bug.
-+
-+The following log can reveal it:
-+==5637==ERROR: AddressSanitizer: stack-overflow
-+    #0 0x5595435f6078 in tulip_xmit_list_update qemu/hw/net/tulip.c:673
-+    #1 0x5595435f204a in tulip_write qemu/hw/net/tulip.c:805:13
-+    #2 0x559544637f86 in memory_region_write_accessor qemu/softmmu/memory.c:492:5
-+    #3 0x5595446379fa in access_with_adjusted_size qemu/softmmu/memory.c:554:18
-+    #4 0x5595446372fa in memory_region_dispatch_write qemu/softmmu/memory.c
-+    #5 0x55954468b74c in flatview_write_continue qemu/softmmu/physmem.c:2825:23
-+    #6 0x559544683662 in flatview_write qemu/softmmu/physmem.c:2867:12
-+    #7 0x5595446833f3 in address_space_write qemu/softmmu/physmem.c:2963:18
-+    #8 0x5595435fb082 in dma_memory_rw_relaxed qemu/include/sysemu/dma.h:87:12
-+    #9 0x5595435fb082 in dma_memory_rw qemu/include/sysemu/dma.h:130:12
-+    #10 0x5595435fb082 in dma_memory_write qemu/include/sysemu/dma.h:171:12
-+    #11 0x5595435fb082 in stl_le_dma qemu/include/sysemu/dma.h:272:1
-+    #12 0x5595435fb082 in stl_le_pci_dma qemu/include/hw/pci/pci.h:910:1
-+    #13 0x5595435fb082 in tulip_desc_write qemu/hw/net/tulip.c:101:9
-+    #14 0x5595435f7e3d in tulip_xmit_list_update qemu/hw/net/tulip.c:706:9
-+    #15 0x5595435f204a in tulip_write qemu/hw/net/tulip.c:805:13
-+
-+Fix this bug by restricting the DMA engine to memories regions.
-+
-+Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
-+Signed-off-by: Jason Wang <jasowang@redhat.com>
-+---
-+ hw/net/tulip.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/hw/net/tulip.c b/hw/net/tulip.c
-+index 097e905bec..b9e42c322a 100644
-+--- a/hw/net/tulip.c
-++++ b/hw/net/tulip.c
-+@@ -70,7 +70,7 @@ static const VMStateDescription vmstate_pci_tulip = {
-+ static void tulip_desc_read(TULIPState *s, hwaddr p,
-+         struct tulip_descriptor *desc)
-+ {
-+-    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
-++    const MemTxAttrs attrs = { .memory = true };
-+ 
-+     if (s->csr[0] & CSR0_DBO) {
-+         ldl_be_pci_dma(&s->dev, p, &desc->status, attrs);
-+@@ -88,7 +88,7 @@ static void tulip_desc_read(TULIPState *s, hwaddr p,
-+ static void tulip_desc_write(TULIPState *s, hwaddr p,
-+         struct tulip_descriptor *desc)
-+ {
-+-    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
-++    const MemTxAttrs attrs = { .memory = true };
-+ 
-+     if (s->csr[0] & CSR0_DBO) {
-+         stl_be_pci_dma(&s->dev, p, desc->status, attrs);
-+-- 
-+2.34.1
-+
--- 
-2.17.1
-
+--Sean
 
