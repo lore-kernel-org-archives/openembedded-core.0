@@ -1,112 +1,174 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <thakur.virendra1810@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82836C433FE
-	for <webhook@archiver.kernel.org>; Fri,  7 Oct 2022 15:00:05 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web09.5556.1665154803117490286
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A07F7C433FE
+	for <webhook@archiver.kernel.org>; Fri,  7 Oct 2022 15:06:55 +0000 (UTC)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web10.5654.1665155208655501278
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Oct 2022 08:00:03 -0700
+ Fri, 07 Oct 2022 08:06:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=pjXpnmZ6;
- spf=pass (domain: axis.com, ip: 195.60.68.18,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Nad8OkcA;
+ spf=pass (domain: gmail.com, ip: 209.85.216.51,
+ mailfrom: thakur.virendra1810@gmail.com)
+Received: by mail-pj1-f51.google.com with SMTP id fw14so4656206pjb.3
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 07 Oct 2022 08:06:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1665154804;
-  x=1696690804;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=D7mCavDfO+qaBsbdNdyf2lNb15QNZ07i6BQhEY9uPlM=;
-  b=pjXpnmZ63WslfRXV0kKq8HVOI5Lgxnfl2JN1s9EgotPZcap7za5gdXQl
-   WfEljEitsMO3UKwTjYvEjFd74xx+nfDzUAmfTk+wLAUZstNmY2RIwh8EA
-   NOKcxUIxuH0/2wF+FQl0FIMAxNDg+1D56YprNa3FDB5h4SUlcOu/FfOK4
-   96HsglWW4s85RwSUU+/HrnvdU1VdvE6MOWMeYifroxOiIKUKylcadKuFf
-   An8fT7cSUxhB3YlwgDm0WA9QUBoU3RdgSJJ1hsIUvxojcTUyIs8TAXG2e
-   RRC6VRZSUtWfCC3VlIy70Gb0vmj70fHqzWoe6W5WsjhrLP9Kz2rZPhv1v
-   A==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, Ross Burton
-	<Ross.Burton@arm.com>
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH 2/3] perf: make scripting depend on setuptools3
-Thread-Topic: [OE-core] [PATCH 2/3] perf: make scripting depend on setuptools3
-Thread-Index: 
- AQHY2Ba0pZ/Mnm+e6EOezaBaMJzA9K4BG/EAgAAThgCAAAmvAIAABJoAgAADxICAAAUWgIABtt3g
-Date: Fri, 7 Oct 2022 15:00:00 +0000
-Message-ID: <cdcb6e0a62ca48dab8e2b288f542d956@axis.com>
-References: <cover.1664904217.git.bruce.ashfield@gmail.com>
- <ce66ad3692d01831e5f41f27702c01744a8708c5.1664904217.git.bruce.ashfield@gmail.com>
- <8757104C-1103-45EA-8CEF-43EEE0CF18F8@arm.com>
- <CADkTA4OKoeVa0VgJjEKbsoATtmQ03L28p1QVUdn0ibJ=jcoEwA@mail.gmail.com>
- <401F2D51-AB9E-4D52-84D4-E15C18D6A88A@arm.com>
- <CADkTA4MXezS7rJBJmHsMDX2EEN4nu4HCwsGc=cEDgkLhz1PZuA@mail.gmail.com>
- <402BFFEF-566A-4A10-B374-E3C3BCFFEC72@arm.com>
- <CADkTA4NsnL2CJ_wRVcwrOwSfWjuWD3gQ4esxrYaieOv1h_Bzrg@mail.gmail.com>
-In-Reply-To: 
- <CADkTA4NsnL2CJ_wRVcwrOwSfWjuWD3gQ4esxrYaieOv1h_Bzrg@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
+        d=gmail.com; s=20210112;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4TKsic+4fIKCbVQgapGTYvncOme8SSADRv9au0M27kw=;
+        b=Nad8OkcAi8AXPLXCNtMHHGAh0O96O1dvcNYeKbEpOicdPCrNcg5CMLw0gP0l1NhNC8
+         fCTitLilqU1M7sJBdbTDf2BiGWxwuo323KXw6h6AMy6p+QBAryKXolC8E9s2ztvqx70J
+         gGtdWhh0p/lypLel697ax7VfUkyt3Bb+jmVNAqbDhG5wak8WCBXA1cehsO2j24Pche1b
+         8xBVb3Bxu2VfRItQBwb/Mk+mW0GrhqKVGUeQJK/TyKd/+NyQYEB1QdXobOFrAYEJaxjq
+         7zA98RO3bO1a1p70XhOf956bmiqpIMMycDGHCCxWIO7WC2+fr9qGKw0pQcVQUfF18jM2
+         A4TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4TKsic+4fIKCbVQgapGTYvncOme8SSADRv9au0M27kw=;
+        b=apTCNtTeB6kpIGvzy+bDfybaF0lheKkrhe0kYuwJfOlY6JStWD7EnjPE121fZsaiFt
+         QAVlFQgcKgNRkCsfBA35yjFBQabIkA0lbNWJ2c8U9Q6Vl9z5obJbZkHubAZSvvYuFyH8
+         KOFCPNoC2oRZhZzHZqycYqhfC1iNctYCjhNp4TBFWT15Ab7RFa2uplUsWh6jEykaLdxh
+         8EsFNgMG69R33j/wQZLXez7b7x6ES9nvIiQ0VcCBTnmc4GLnZjAqTRs1e6se/UqmRLll
+         CZp0Z9vP3+yT5YQUG8D3m2q4UOafdRBIY2CXSvoXyQdGSiNme2mMN94rl/Nk6sA+H4bU
+         snmQ==
+X-Gm-Message-State: ACrzQf0ur2khie7P9+ON7lYvfvO4DY43RYYaludJNKc/zcQml4xaSbby
+	eJQ08H7MvHUn34gG6jKHZ693it9tMcqYzJrrFlk+UQ==
+X-Google-Smtp-Source: 
+ AMsMyM4+VvGOdSM2H3xNI1r4WvhJPeErt9hCbEfnHH28Z32Yhhp4R939T5w/Mp7mNSz1PpnhTnYTyw==
+X-Received: by 2002:a17:902:c652:b0:180:556e:1b58 with SMTP id
+ s18-20020a170902c65200b00180556e1b58mr1743446pls.35.1665155207554;
+        Fri, 07 Oct 2022 08:06:47 -0700 (PDT)
+Received: from localhost.localdomain ([171.48.35.94])
+        by smtp.gmail.com with ESMTPSA id
+ u10-20020a170902714a00b0017f92d7fe2csm1598775plm.288.2022.10.07.08.06.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Oct 2022 08:06:46 -0700 (PDT)
+From: virendra thakur <thakur.virendra1810@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: steve@sakoman.com,
+	bhabu.bindu@kpit.com,
+	virendrak@kpit.com,
+	Ross Burton <ross.burton@arm.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-Core][kirkstone][PATCH 3/3] qemu: fix CVE-2022-2962
+Date: Fri,  7 Oct 2022 20:36:39 +0530
+Message-Id: <20221007150639.5117-1-thakur.virendra1810@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Oct 2022 15:00:05 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Oct 2022 15:06:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171527
+ https://lists.openembedded.org/g/openembedded-core/message/171528
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIEJydWNlIEFzaGZpZWxkDQo+IFNlbnQ6IGRlbiA2IG9r
-dG9iZXIgMjAyMiAxNjowMg0KPiBUbzogUm9zcyBCdXJ0b24gPFJvc3MuQnVydG9uQGFybS5jb20+
-DQo+IENjOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9y
-Zz47IG9wZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1Ympl
-Y3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDIvM10gcGVyZjogbWFrZSBzY3JpcHRpbmcgZGVwZW5k
-IG9uDQo+IHNldHVwdG9vbHMzDQo+IA0KPiBPbiBUaHUsIE9jdCA2LCAyMDIyIGF0IDk6NDMgQU0g
-Um9zcyBCdXJ0b24gPFJvc3MuQnVydG9uQGFybS5jb20+IHdyb3RlOg0KPiA+DQo+ID4gT24gNiBP
-Y3QgMjAyMiwgYXQgMTQ6MjksIEJydWNlIEFzaGZpZWxkIDxicnVjZS5hc2hmaWVsZEBnbWFpbC5j
-b20+IHdyb3RlOg0KPiA+ID4gSSdtIG5vdCBwYXJ0aWN1bGFybHkgY29uY2VybmVkIGlmIHRoZSBl
-eHRyYSBSREVQRU5EUyBhcnJpdmVzIHdpdGgNCj4gPiA+IHRoaXMsIHNpbmNlIGlmIGl0IGlzIGFj
-Y2VwdGFibGUgZm9yIG90aGVyIHBhY2thZ2VzIGluaGVyaXRpbmcgdGhlDQo+ID4gPiBzZXR1cHRv
-b2xzIChJIHRob3VnaHQgaXQgd2FzIGJ1aWxkIHN1cHBvcnQgb25seSEpLCBpdCByZWFsbHkgc2hv
-dWxkIGJlDQo+ID4gPiBvayBmb3IgcGVyZiBhcyB3ZWxsLiBJbiBwYXJ0aWN1bGFyIHNpbmNlIHBl
-cmYgaXMgZGVidWcvb3B0aW9uYWwuIE9yIGFtDQo+ID4gPiBJIG1pc3Npbmcgc29tZXRoaW5nIHRo
-ZXJlID8NCj4gPg0KPiA+IFdpdGggdGhpcyBjaGFuZ2UgdGhlIGJhc2UgcGVyZiBwYWNrYWdlIHdp
-bGwgYWx3YXlzIHJ1bnRpbWUtZGVwZW5kIG9uDQo+ID4gcHl0aG9uMywgZXZlbiBpZiBwZXJmLXB5
-dGhvbiBpc27igJl0IGluc3RhbGxlZC4gIFRoYXQgc291bmRzIHN1Ym9wdGltYWwuDQo+ID4NCj4g
-DQo+IEJ1dCBpcyB0cmlnZ2VyZWQgb24gdGhlICdzY3JpcHRpbmcnIHBhY2thZ2Vjb25maWcsIHdo
-aWNoIGRvZXMgbWVhbiB3ZQ0KPiB3YW50IHRoZSBzdXBwb3J0LCBzbyBpdCBpcyBhdCBsZWFzdCBz
-b21ld2hhdCBjb25kaXRpb25hbCAuLiBidXQgeWVzLCBJDQo+IGFncmVlIHRoYXQgb25jZSB3ZSd2
-ZSBidWlsdCBhbmQgcGFja2FnZWQsIGl0IGRvZXMgbWFrZSBzZW5zZSB0byBrZWVwDQo+IHRoZSBw
-eXRob24gZGVwZW5kZW5jaWVzIGluIHRoZSBkZWRpY2F0ZWQgcGFja2FnZS4NCj4gDQo+IExldCBt
-ZSByZS13b3JrIHRoaXMgYW5kIGRvIHRoZSByZW1vdmUgb2YgdGhlIFJERVBFTkRTIGFuZCBzZW5k
-IGEgdjIuDQo+IA0KPiBCcnVjZQ0KPiANCj4gPiBSb3NzDQoNClRvIG1lIGl0IHNvdW5kcyBhcyB3
-aGF0IHNldHVwdG9vbHMzLWJhc2UuYmJjbGFzcyByZWFsbHkgc2hvdWxkIHRvIGlzIA0Kc29tZXRo
-aW5nIGxpa2U6DQoNCkZPT0JBUiA/Pz0gIiR7UE59Ig0KUkRFUEVORFM6JHtGT09CQVJ9OmFwcGVu
-ZDpjbGFzcy10YXJnZXQgPSAiICR7UFlUSE9OX1BOfS1jb3JlIg0KLi4uDQpGSUxFUzoke0ZPT0JB
-Un0gKz0gIiR7bGliZGlyfS8qICR7bGliZGlyfS8ke1BZVEhPTl9ESVJ9LyoiDQoNCnNvIHRoYXQg
-dGhlIHR5cGljYWwgUHl0aG9uIG9ubHkgcmVjaXBlcyBjb250aW51ZSB0byBqdXN0IGluaGVyaXQg
-DQpzZXR1cHRvb2xzMywgYnV0IHJlY2lwZXMgdGhhdCBwcm9kdWNlIG90aGVyIHBhY2thZ2VzIHRo
-YW4gdGhlIA0KUHl0aG9uIHBhY2thZ2UgY2FuIGRvIHNvbWV0aGluZyBsaWtlOg0KDQpGT09CQVIg
-PSAiJHtQWVRIT05fUE59LSR7UE59Ig0KDQpVbmZvcnR1bmF0ZWx5IHRoaXMgZG9lcyBub3Qgd29y
-ayBhcyBpdCByZXN1bHRzIGluIGEgZ2F6aWxsaW9uIA0Kd2FybmluZ3MgbGlrZToNCg0KV0FSTklO
-RzogLi4uL21ldGEtb2UvcmVjaXBlcy1zdXBwb3J0L2xpYmlpby9saWJpaW9fZ2l0LmJiOiBWYXJp
-YWJsZSBrZXkgRklMRVM6JHtQTn0tJHtQWVRIT05fUE59ICgke1BZVEhPTl9TSVRFUEFDS0FHRVNf
-RElSfSkgcmVwbGFjZXMgb3JpZ2luYWwga2V5IEZJTEVTOmxpYmlpby1weXRob24zICggJHtsaWJk
-aXJ9LyogJHtsaWJkaXJ9LyR7UFlUSE9OX0RJUn0vKikuDQpXQVJOSU5HOiAuLi4vbWV0YS1vZS9y
-ZWNpcGVzLXN1cHBvcnQvbGliaWlvL2xpYmlpb19naXQuYmI6IFZhcmlhYmxlIGtleSBSREVQRU5E
-Uzoke1BOfS0ke1BZVEhPTl9QTn0gKCR7UE59ICR7UFlUSE9OX1BOfS1jdHlwZXMgJHtQWVRIT05f
-UE59LXN0cmluZ29sZCAke1BZVEhPTl9QTn0tY29yZSkgcmVwbGFjZXMgb3JpZ2luYWwga2V5IFJE
-RVBFTkRTOmxpYmlpby1weXRob24zICggJHtQWVRIT05fUE59LWNvcmUpLg0KDQooSSBjaG9zZSBs
-aWJpaW8gYXMgaXQgaXMgYW4gZXhhbXBsZSBvZiBhbm90aGVyIHJlY2lwZXMgdGhhdCBjdXJyZW50
-bHkgDQpkb2VzIFJERVBFTkRTOiR7UE59OnJlbW92ZSA9ICIke1BZVEhPTl9QTn0tY29yZSIgdG8g
-Y291bnRlcmFjdCB3aGF0IA0Kc2V0dXB0b29sczMtYmFzZS5iYmNsYXNzIGRvZXMpLg0KDQo6KA0K
-DQovL1BldGVyDQoNCg==
+From: Ross Burton <ross.burton@arm.com>
+
+Backport the fix for CVE-2022-2962.
+
+(From OE-Core rev: 943d28a3395455fd475cb6c84247d106adf5fca3)
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit ddc4258012e0d3fa946c319b601b0e73db7ac5e6)
+Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
+
+Signed-off-by: virendra thakur <thakur.virendra1810@gmail.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ ...ulip-Restrict-DMA-engine-to-memories.patch | 64 +++++++++++++++++++
+ 2 files changed, 65 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-net-tulip-Restrict-DMA-engine-to-memories.patch
+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index cb5f9358da..76ae603ee4 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -70,6 +70,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0022_let_ld_pointer_pci_dma_function_propagate_MemTxResult.patch \
+            file://CVE-2021-3611_1.patch \
+            file://CVE-2021-3611_2.patch \
++           file://0001-net-tulip-Restrict-DMA-engine-to-memories.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-net-tulip-Restrict-DMA-engine-to-memories.patch b/meta/recipes-devtools/qemu/qemu/0001-net-tulip-Restrict-DMA-engine-to-memories.patch
+new file mode 100644
+index 0000000000..6c85a77ba7
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/0001-net-tulip-Restrict-DMA-engine-to-memories.patch
+@@ -0,0 +1,64 @@
++CVE: CVE-2022-2962
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++From 5c5c50b0a73d78ffe18336c9996fef5eae9bbbb0 Mon Sep 17 00:00:00 2001
++From: Zheyu Ma <zheyuma97@gmail.com>
++Date: Sun, 21 Aug 2022 20:43:43 +0800
++Subject: [PATCH] net: tulip: Restrict DMA engine to memories
++
++The DMA engine is started by I/O access and then itself accesses the
++I/O registers, triggering a reentrancy bug.
++
++The following log can reveal it:
++==5637==ERROR: AddressSanitizer: stack-overflow
++    #0 0x5595435f6078 in tulip_xmit_list_update qemu/hw/net/tulip.c:673
++    #1 0x5595435f204a in tulip_write qemu/hw/net/tulip.c:805:13
++    #2 0x559544637f86 in memory_region_write_accessor qemu/softmmu/memory.c:492:5
++    #3 0x5595446379fa in access_with_adjusted_size qemu/softmmu/memory.c:554:18
++    #4 0x5595446372fa in memory_region_dispatch_write qemu/softmmu/memory.c
++    #5 0x55954468b74c in flatview_write_continue qemu/softmmu/physmem.c:2825:23
++    #6 0x559544683662 in flatview_write qemu/softmmu/physmem.c:2867:12
++    #7 0x5595446833f3 in address_space_write qemu/softmmu/physmem.c:2963:18
++    #8 0x5595435fb082 in dma_memory_rw_relaxed qemu/include/sysemu/dma.h:87:12
++    #9 0x5595435fb082 in dma_memory_rw qemu/include/sysemu/dma.h:130:12
++    #10 0x5595435fb082 in dma_memory_write qemu/include/sysemu/dma.h:171:12
++    #11 0x5595435fb082 in stl_le_dma qemu/include/sysemu/dma.h:272:1
++    #12 0x5595435fb082 in stl_le_pci_dma qemu/include/hw/pci/pci.h:910:1
++    #13 0x5595435fb082 in tulip_desc_write qemu/hw/net/tulip.c:101:9
++    #14 0x5595435f7e3d in tulip_xmit_list_update qemu/hw/net/tulip.c:706:9
++    #15 0x5595435f204a in tulip_write qemu/hw/net/tulip.c:805:13
++
++Fix this bug by restricting the DMA engine to memories regions.
++
++Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
++Signed-off-by: Jason Wang <jasowang@redhat.com>
++---
++ hw/net/tulip.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/hw/net/tulip.c b/hw/net/tulip.c
++index 097e905bec..b9e42c322a 100644
++--- a/hw/net/tulip.c
+++++ b/hw/net/tulip.c
++@@ -70,7 +70,7 @@ static const VMStateDescription vmstate_pci_tulip = {
++ static void tulip_desc_read(TULIPState *s, hwaddr p,
++         struct tulip_descriptor *desc)
++ {
++-    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
+++    const MemTxAttrs attrs = { .memory = true };
++ 
++     if (s->csr[0] & CSR0_DBO) {
++         ldl_be_pci_dma(&s->dev, p, &desc->status, attrs);
++@@ -88,7 +88,7 @@ static void tulip_desc_read(TULIPState *s, hwaddr p,
++ static void tulip_desc_write(TULIPState *s, hwaddr p,
++         struct tulip_descriptor *desc)
++ {
++-    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
+++    const MemTxAttrs attrs = { .memory = true };
++ 
++     if (s->csr[0] & CSR0_DBO) {
++         stl_be_pci_dma(&s->dev, p, desc->status, attrs);
++-- 
++2.34.1
++
+-- 
+2.17.1
+
 
