@@ -2,107 +2,100 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B8E3C433F5
-	for <webhook@archiver.kernel.org>; Fri,  7 Oct 2022 09:00:03 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web10.2283.1665133188696398676
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AEF8C433F5
+	for <webhook@archiver.kernel.org>; Fri,  7 Oct 2022 09:02:33 +0000 (UTC)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+ [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web11.2451.1665133346386302421
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Oct 2022 01:59:48 -0700
+ Fri, 07 Oct 2022 02:02:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=j1jO1nEF;
- spf=pass (domain: gmail.com, ip: 209.85.214.170,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=WMg/ETSI;
+ spf=pass (domain: gmail.com, ip: 209.85.210.178,
  mailfrom: quaresma.jose@gmail.com)
-Received: by mail-pl1-f170.google.com with SMTP id d24so4006642pls.4
+Received: by mail-pf1-f178.google.com with SMTP id 67so4338189pfz.12
         for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Oct 2022 01:59:48 -0700 (PDT)
+ Fri, 07 Oct 2022 02:02:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ADvSZl49RlbsXxEsjxBm74Sst7gbksqY0kStG8ztosY=;
-        b=j1jO1nEFwSg8vzn3pC086Uw0Vu3WooF1R/L96pWYRkKu59gf2PzB06ajXwsqBAaDnW
-         heW92UEhC1Y1IGzZTC7gpFjO+f6pdSG/jWHfB0Xe/+Do9+WBOWcbBFC1ODEqzQHggPRb
-         2nkn/wEtDWUPwCQuioj9JjZsOaldWejGaJEHxH0oM9ab59TFzTTIKBf9Wm3Ry+CF8niy
-         EC8dpEOw38zMBR5JcoU63thZGOiYtrkASid8lLw08AmqYJ0g1/c1/4BXBZnWpSp7R+pm
-         62e7rNzwhKsh0+0qW0M2uCiSkFUkJ5UHEu1XkTzRVRuDfzZAO3bk87V60XlmDkLlhEyp
-         h9BA==
+        bh=48nuB28UvK+zjLFp8NBOtR/iOioy3waadUNozwSxXj8=;
+        b=WMg/ETSITAlwuro0IlQRvrr1K1YVgCn529/wcaOhLnjGBd8CkvouZmEYbt5lrl3XiX
+         dFSp29vtfsxnIkdwpHolONwceHrnyE7nLcdYqbpcKU8bNi5qGUwgzuxCUUUZgfadTPv2
+         AIA6YJEpBgomt/u0tK9sum+tkU2EgHrkiU7VPPkJnO75FiiON1zMXEYJr+gzqUqdOPjC
+         rYhvsGztT+5WW0JZbIgQHJ267YtrKyuA/GMeDrvEqqmG8CWv53fZHIfmrO2exPbFXAYt
+         KqsIpsDkwRDRNsrjnb3c2HxY1InlHU5LdDhfMRY5r4nOocnhR6mM/1/kXJgf+6ARDkXm
+         ErIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ADvSZl49RlbsXxEsjxBm74Sst7gbksqY0kStG8ztosY=;
-        b=7NNXlFBExEUBYJHpQBAc1GCcStucZoYt5mhKJPVVQtIIoIXOGHcMIOA9dcW5rtYnOX
-         I9hpwjNwxt5ZMk3qNdoaLJPBRpzJ7B2lEka09wRnCSdk0qSTznWyASRpmYbm0bzfIeHl
-         5LPngNzqaRgWcPDpCAFp+PrjFtc1JcaV3FgRzw2twgJjLG0QmWyxbyfSivlsAJWiNLDh
-         Z1DUbTdhxiLQ61hDXyR9+I0VQuCxlEjNC/cJ7ARYygIysYxoPsvWSSoI3vkmLkHEk1na
-         m3ZbgFKZqQuv5PFW/6fAzO+6h+P4WaZHuJfd9Vvi/mEokCUcLAIBxQWbHZTUcQD78Z5V
-         cg8w==
-X-Gm-Message-State: ACrzQf1xbvXCOaRF8Pl6zInVwuvAUOWpFHXhKisoSywvxPlq6si5W1zb
-	iehAYxcJWfFNg5T/5Q/+rQ6XSXL0LyLPMCJIoxQ=
+        bh=48nuB28UvK+zjLFp8NBOtR/iOioy3waadUNozwSxXj8=;
+        b=e0RMBofGtJxvXm27dPk2U4+TrKHGRR6xaN6Vo6WeWeaOzN1Cgr0AVVbSapu3zxzY4N
+         jb/neXV6LaeVITKvq4Mx9ioCjB+UfgzB1HT59Ef3wEBLmgE/7pLqAhmq7cb21qWsAdkn
+         K2G5uzO1OKR9ehwtHmSL551DXCf845vf3460sMcnl1Aa9K6oj7j8u1r3hu0uJQK9o5ga
+         JwWpkjc7YF7AFWM3cgCp2wa7JS8Azg8c71DvfFZD9BSRKY528aZHzjHcSf9do61yxJwW
+         ocSFFCnZ/PLuNh7QHFGqnJ0yxXyDW5+LTfcKdLGH1Lib8WMkkT3iOE97xuQSY5hHvhMd
+         CrCQ==
+X-Gm-Message-State: ACrzQf3RqrXX8t96Vik2fO3Wwy2Ywh8Ls7sgafoGrVeyhrlmwhUmMUwU
+	x+64Ut0yYdx/SGmnwbkFK3+VW/grq/iV1TVToaNPHyT04iZ4lw==
 X-Google-Smtp-Source: 
- AMsMyM59Sn061HAA2q6x7JafoMYOFtVIn+ZVZysU6wB6OxsBMJdMSn7zo1jM8CqWlXhjN6wI3eLBb2Dsn32Ow0Z1BBc=
-X-Received: by 2002:a17:90a:7f95:b0:20a:7510:618e with SMTP id
- m21-20020a17090a7f9500b0020a7510618emr14826686pjl.26.1665133187803; Fri, 07
- Oct 2022 01:59:47 -0700 (PDT)
+ AMsMyM7E4jhRfuJqQqnFynR2an3gl05eVcjz6ZoyiC5DAwgREiMi3+0UbsBfsz51bweNUaduCr051nscTl4ba2mnzoA=
+X-Received: by 2002:a05:6a00:1892:b0:540:acee:29e8 with SMTP id
+ x18-20020a056a00189200b00540acee29e8mr4235322pfh.1.1665133345628; Fri, 07 Oct
+ 2022 02:02:25 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220930175440.2168008-1-jose.quaresma@foundries.io>
- <20220930175440.2168008-2-jose.quaresma@foundries.io>
- <95AC8980-2768-4D43-B50E-DD2AF76250A9@arm.com>
-In-Reply-To: <95AC8980-2768-4D43-B50E-DD2AF76250A9@arm.com>
+ <20220930175440.2168008-3-jose.quaresma@foundries.io>
+ <2F1C8D26-143C-462C-8705-DC9C23306603@arm.com>
+In-Reply-To: <2F1C8D26-143C-462C-8705-DC9C23306603@arm.com>
 From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Fri, 7 Oct 2022 09:59:36 +0100
+Date: Fri, 7 Oct 2022 10:02:14 +0100
 Message-ID: 
- <CANPvuRkrXBGeNS-=ypFOxqXaoLq-bdYB79sBLk+nxeLboUP_9g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/3] kern-tools-native: don't pull the toolchain
- as it is not used
+ <CANPvuR=4CZ+M-S4DKQo1F-0xQfeqBzbXZhJOpvweJz0FoMrF4g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/3] kernel-yocto: improve fatal error messages
+ of symbol_why.py
 To: Ross Burton <Ross.Burton@arm.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000029ace005ea6e085e"
+Content-Type: multipart/alternative; boundary="00000000000091e7c105ea6e11db"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Oct 2022 09:00:03 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Oct 2022 09:02:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171519
+ https://lists.openembedded.org/g/openembedded-core/message/171520
 
---00000000000029ace005ea6e085e
+--00000000000091e7c105ea6e11db
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Ross,
-
 Ross Burton <Ross.Burton@arm.com> escreveu no dia quinta, 6/10/2022 =C3=A0(=
 s)
-11:50:
+11:51:
 
-> On 30 Sep 2022, at 18:54, Jose Quaresma via lists.openembedded.org
+>
+>
+> > On 30 Sep 2022, at 18:54, Jose Quaresma via lists.openembedded.org
 > <quaresma.jose=3Dgmail.com@lists.openembedded.org> wrote:
-> >
-> > Prevents the default dependencies, namely the C compiler and standard C
-> library (libc),
-> > from being added to DEPENDS. This variable is usually used within
-> recipes that do not
-> > require any compilation using the C compiler.
-> >
-> > This also improves the speed as it will not populate the
-> > native sysroot with the toolchain.
+> > -        bb.fatal( "config analysis failed: %s" %
+> e.output.decode('utf-8'))
+> > +        bb.fatal( "config analysis failed when running '%s': %s" % ("
+> ".join(cmd), e.output.decode('utf-8')))
 >
-> But this is a native recipe, so it doesn=E2=80=99t depend on a cross-comp=
-iler:
->
-> $ bitbake-getvar -r kern-tools-native DEPENDS
-> DEPENDS=3D" git-native=E2=80=9D
+> Much easier to just use e.cmd.
 >
 
-Right, sorry for my confusion that maybe it was ignorance of the reality of
-this detail of native packages.
-Please drop that patch and thanks for your time in reviewing it.
+It's really much simpler. thank you, I will send a v2
 
 Jose
 
 
+>
+>
+> https://docs.python.org/3/library/subprocess.html#subprocess.CalledProces=
+sError
 >
 > Ross
 
@@ -113,43 +106,39 @@ Best regards,
 
 Jos=C3=A9 Quaresma
 
---00000000000029ace005ea6e085e
+--00000000000091e7c105ea6e11db
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi Ross,</div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">Ross Burton &lt;<a href=3D"mailto:Ross.Burton=
-@arm.com">Ross.Burton@arm.com</a>&gt; escreveu no dia quinta, 6/10/2022 =C3=
-=A0(s) 11:50:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On=
- 30 Sep 2022, at 18:54, Jose Quaresma via <a href=3D"http://lists.openembed=
-ded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> &l=
-t;quaresma.jose=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" targe=
-t=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt; <br>
-&gt; Prevents the default dependencies, namely the C compiler and standard =
-C library (libc),<br>
-&gt; from being added to DEPENDS. This variable is usually used within reci=
-pes that do not<br>
-&gt; require any compilation using the C compiler.<br>
-&gt; <br>
-&gt; This also improves the speed as it will not populate the<br>
-&gt; native sysroot with the toolchain.<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Ross Burton &lt;<a href=3D"mailto:Ros=
+s.Burton@arm.com">Ross.Burton@arm.com</a>&gt; escreveu no dia quinta, 6/10/=
+2022 =C3=A0(s) 11:51:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex"><br>
 <br>
-But this is a native recipe, so it doesn=E2=80=99t depend on a cross-compil=
-er:<br>
+&gt; On 30 Sep 2022, at 18:54, Jose Quaresma via <a href=3D"http://lists.op=
+enembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org=
+</a> &lt;quaresma.jose=3D<a href=3D"mailto:gmail.com@lists.openembedded.org=
+" target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal( &quot;config analysis failed: %=
+s&quot; % e.output.decode(&#39;utf-8&#39;))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal( &quot;config analysis failed wh=
+en running &#39;%s&#39;: %s&quot; % (&quot; &quot;.join(cmd), e.output.deco=
+de(&#39;utf-8&#39;)))<br>
 <br>
-$ bitbake-getvar -r kern-tools-native DEPENDS<br>
-DEPENDS=3D&quot; git-native=E2=80=9D<br></blockquote><div><br></div><div>Ri=
-ght,=C2=A0sorry for my confusion that maybe it was ignorance of the reality=
- of this detail of native packages.</div><div>Please drop that patch and th=
-anks for your time in reviewing it.<br><br>Jose<br>=C2=A0</div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
-id rgb(204,204,204);padding-left:1ex">
+Much easier to just use e.cmd.<br></blockquote><div><br>It&#39;s really muc=
+h simpler. thank you, I will send a v2</div><div><br></div><div>Jose<br>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+<a href=3D"https://docs.python.org/3/library/subprocess.html#subprocess.Cal=
+ledProcessError" rel=3D"noreferrer" target=3D"_blank">https://docs.python.o=
+rg/3/library/subprocess.html#subprocess.CalledProcessError</a><br>
 <br>
 Ross</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"=
 ltr" class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=
 =C3=A9 Quaresma</div></div></div></div>
 
---00000000000029ace005ea6e085e--
+--00000000000091e7c105ea6e11db--
 
