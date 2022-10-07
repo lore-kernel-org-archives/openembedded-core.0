@@ -1,119 +1,112 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 309E2C433F5
-	for <webhook@archiver.kernel.org>; Fri,  7 Oct 2022 14:00:05 +0000 (UTC)
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com
- [209.85.160.47])
- by mx.groups.io with SMTP id smtpd.web08.4736.1665151201227224721
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82836C433FE
+	for <webhook@archiver.kernel.org>; Fri,  7 Oct 2022 15:00:05 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web09.5556.1665154803117490286
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Oct 2022 07:00:01 -0700
+ Fri, 07 Oct 2022 08:00:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=emyQnmQd;
- spf=pass (domain: gmail.com, ip: 209.85.160.47,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-oa1-f47.google.com with SMTP id
- 586e51a60fabf-1322d768ba7so5672912fac.5
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Oct 2022 07:00:01 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=pjXpnmZ6;
+ spf=pass (domain: axis.com, ip: 195.60.68.18,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=O+dnF9OZO0fCBRi2XAKlGaAWhEJEXfMSDZTaRz4cIwI=;
-        b=emyQnmQd7F4Af67LyUGWeeRNNvjUlsUSX/8WmE8hww2cRlUq1naOxgjeb6nrPVjyqv
-         8+DcZ4FDl2ncIlxP9Yyr2J1cRJY+PE/wlw6XDsl3/tNgrzpr2+AVewEtv8sr9UxUJ+tO
-         0fEklAgw3lHivh3l1X5MRohVcxASGJejvPQNn/NETct7AbVsdJeFT9TJnPRe74Qy8T1F
-         4Yfk0GZsn3zTHjZAwHfCblOTxwgJyuarZfDf7lbk0TKG0fQrsq1UWCkPN26dmZc4/wek
-         /k7DuMVjPyHf3X8iokZI1X6CqHAMQaw5UzpQEm3usa3zdNm/B8PLaHEx+PjT5UBfeWeq
-         /QTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=O+dnF9OZO0fCBRi2XAKlGaAWhEJEXfMSDZTaRz4cIwI=;
-        b=soBQ+dme1mQ4yK6oVJXgnMD5QTNquqADdMSFG+/YYEMA6UGrmsZpzdYjKYQVfk+eaU
-         rg/9oS25lXe3nK0WDZaIAZrofdisnSCavlm7VaAT2D8roxSeR03g+XO0JtqwabJsO/E1
-         ewN867W941oWIXyQqje+LS+uuk0nvXcvUpQNHUNyVZNqa0CMabL8ZLTmpo+SK+TyPrEG
-         VpItKyGu17GewmBWh2HE/sIzmZGaHhJGXluMSWi6HaI2cVzEmX5ItVAzMR0t2sH9V57D
-         Ej7y9IrAaU1ITJINRsPMEfrPUMRY1waXVPC4eSE7M0CN4hnHmynVqPFDQFr2XNY0Tm8a
-         OAXA==
-X-Gm-Message-State: ACrzQf3FRVEeUeVoou9aHgzFGNzAPkZaGnfWnYCXeL59s2Um3t5P3ytt
-	k01hoOTITvinXrESePYRcM8gUtiqYHIR29E6yNU=
-X-Google-Smtp-Source: 
- AMsMyM4mqL1xQCfA3lmJTAs/XNgdZSruF7cNMBKsFnHDapd/NClPi/pk0uEGCA1pWtvALAHL+CKgUbJisDQszasmIJ8=
-X-Received: by 2002:a05:6870:179a:b0:133:2981:2893 with SMTP id
- r26-20020a056870179a00b0013329812893mr2499979oae.241.1665151200325; Fri, 07
- Oct 2022 07:00:00 -0700 (PDT)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1665154804;
+  x=1696690804;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=D7mCavDfO+qaBsbdNdyf2lNb15QNZ07i6BQhEY9uPlM=;
+  b=pjXpnmZ63WslfRXV0kKq8HVOI5Lgxnfl2JN1s9EgotPZcap7za5gdXQl
+   WfEljEitsMO3UKwTjYvEjFd74xx+nfDzUAmfTk+wLAUZstNmY2RIwh8EA
+   NOKcxUIxuH0/2wF+FQl0FIMAxNDg+1D56YprNa3FDB5h4SUlcOu/FfOK4
+   96HsglWW4s85RwSUU+/HrnvdU1VdvE6MOWMeYifroxOiIKUKylcadKuFf
+   An8fT7cSUxhB3YlwgDm0WA9QUBoU3RdgSJJ1hsIUvxojcTUyIs8TAXG2e
+   RRC6VRZSUtWfCC3VlIy70Gb0vmj70fHqzWoe6W5WsjhrLP9Kz2rZPhv1v
+   A==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>, Ross Burton
+	<Ross.Burton@arm.com>
+CC: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH 2/3] perf: make scripting depend on setuptools3
+Thread-Topic: [OE-core] [PATCH 2/3] perf: make scripting depend on setuptools3
+Thread-Index: 
+ AQHY2Ba0pZ/Mnm+e6EOezaBaMJzA9K4BG/EAgAAThgCAAAmvAIAABJoAgAADxICAAAUWgIABtt3g
+Date: Fri, 7 Oct 2022 15:00:00 +0000
+Message-ID: <cdcb6e0a62ca48dab8e2b288f542d956@axis.com>
+References: <cover.1664904217.git.bruce.ashfield@gmail.com>
+ <ce66ad3692d01831e5f41f27702c01744a8708c5.1664904217.git.bruce.ashfield@gmail.com>
+ <8757104C-1103-45EA-8CEF-43EEE0CF18F8@arm.com>
+ <CADkTA4OKoeVa0VgJjEKbsoATtmQ03L28p1QVUdn0ibJ=jcoEwA@mail.gmail.com>
+ <401F2D51-AB9E-4D52-84D4-E15C18D6A88A@arm.com>
+ <CADkTA4MXezS7rJBJmHsMDX2EEN4nu4HCwsGc=cEDgkLhz1PZuA@mail.gmail.com>
+ <402BFFEF-566A-4A10-B374-E3C3BCFFEC72@arm.com>
+ <CADkTA4NsnL2CJ_wRVcwrOwSfWjuWD3gQ4esxrYaieOv1h_Bzrg@mail.gmail.com>
+In-Reply-To: 
+ <CADkTA4NsnL2CJ_wRVcwrOwSfWjuWD3gQ4esxrYaieOv1h_Bzrg@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20221006164944.52304-1-bruce.ashfield@gmail.com>
- <20221007124850.1dc035d2@booty>
-In-Reply-To: <20221007124850.1dc035d2@booty>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 7 Oct 2022 09:59:49 -0400
-Message-ID: 
- <CADkTA4OYBSK0C0hhdax_W24v9b0gOd-omGd8zVYQFc5JepNCnQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] perf: make scripting depend on setuptools3
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: richard.purdie@linuxfoundation.org,
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Oct 2022 14:00:05 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Oct 2022 15:00:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171524
+ https://lists.openembedded.org/g/openembedded-core/message/171527
 
-On Fri, Oct 7, 2022 at 6:48 AM Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
->
-> Hi Bruce,
->
-> On Thu,  6 Oct 2022 12:49:44 -0400
-> "Bruce Ashfield" <bruce.ashfield@gmail.com> wrote:
->
-> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >
-> > It looks like this should have been an error for a while, but it
-> > only started showing up in my 6.x linux-yocto-dev testing.
-> >
-> > Without the inherit of setuptool3, we get a module missing error
-> > during configure and the build obviously fails.
-> >
-> > Tested against 5.x and 6.x kernels.
-> >
-> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->
-> This patch triggers a warning:
->
-> WARNING: perf-1.0-r9 do_package_qa: QA Issue: File /usr/lib/python3.10/site-packages/perf-0.1-py3.10-linux-x86_64.egg/EGG-INFO/SOURCES.txt in package perf-python contains reference to TMPDIR
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/100/builds/3499/steps/13/logs/stdio
-
-Interesting. I just built both linux-yocto-dev and linux-yocto against
-the patch, and no such warning here .. otherwise, I never would have
-sent it along.
-
-If v1 was run through the AB and passed, I suggest we go back to it,
-and deal with the packaging after. I'd rather have perf building
-against 6.x, than wait to sort out why I'm not seeing the QA warnings
-here.
-
-Bruce
-
-
->
-> --
-> Luca Ceresoli, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
-
-
-
---
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIEJydWNlIEFzaGZpZWxkDQo+IFNlbnQ6IGRlbiA2IG9r
+dG9iZXIgMjAyMiAxNjowMg0KPiBUbzogUm9zcyBCdXJ0b24gPFJvc3MuQnVydG9uQGFybS5jb20+
+DQo+IENjOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9y
+Zz47IG9wZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1Ympl
+Y3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDIvM10gcGVyZjogbWFrZSBzY3JpcHRpbmcgZGVwZW5k
+IG9uDQo+IHNldHVwdG9vbHMzDQo+IA0KPiBPbiBUaHUsIE9jdCA2LCAyMDIyIGF0IDk6NDMgQU0g
+Um9zcyBCdXJ0b24gPFJvc3MuQnVydG9uQGFybS5jb20+IHdyb3RlOg0KPiA+DQo+ID4gT24gNiBP
+Y3QgMjAyMiwgYXQgMTQ6MjksIEJydWNlIEFzaGZpZWxkIDxicnVjZS5hc2hmaWVsZEBnbWFpbC5j
+b20+IHdyb3RlOg0KPiA+ID4gSSdtIG5vdCBwYXJ0aWN1bGFybHkgY29uY2VybmVkIGlmIHRoZSBl
+eHRyYSBSREVQRU5EUyBhcnJpdmVzIHdpdGgNCj4gPiA+IHRoaXMsIHNpbmNlIGlmIGl0IGlzIGFj
+Y2VwdGFibGUgZm9yIG90aGVyIHBhY2thZ2VzIGluaGVyaXRpbmcgdGhlDQo+ID4gPiBzZXR1cHRv
+b2xzIChJIHRob3VnaHQgaXQgd2FzIGJ1aWxkIHN1cHBvcnQgb25seSEpLCBpdCByZWFsbHkgc2hv
+dWxkIGJlDQo+ID4gPiBvayBmb3IgcGVyZiBhcyB3ZWxsLiBJbiBwYXJ0aWN1bGFyIHNpbmNlIHBl
+cmYgaXMgZGVidWcvb3B0aW9uYWwuIE9yIGFtDQo+ID4gPiBJIG1pc3Npbmcgc29tZXRoaW5nIHRo
+ZXJlID8NCj4gPg0KPiA+IFdpdGggdGhpcyBjaGFuZ2UgdGhlIGJhc2UgcGVyZiBwYWNrYWdlIHdp
+bGwgYWx3YXlzIHJ1bnRpbWUtZGVwZW5kIG9uDQo+ID4gcHl0aG9uMywgZXZlbiBpZiBwZXJmLXB5
+dGhvbiBpc27igJl0IGluc3RhbGxlZC4gIFRoYXQgc291bmRzIHN1Ym9wdGltYWwuDQo+ID4NCj4g
+DQo+IEJ1dCBpcyB0cmlnZ2VyZWQgb24gdGhlICdzY3JpcHRpbmcnIHBhY2thZ2Vjb25maWcsIHdo
+aWNoIGRvZXMgbWVhbiB3ZQ0KPiB3YW50IHRoZSBzdXBwb3J0LCBzbyBpdCBpcyBhdCBsZWFzdCBz
+b21ld2hhdCBjb25kaXRpb25hbCAuLiBidXQgeWVzLCBJDQo+IGFncmVlIHRoYXQgb25jZSB3ZSd2
+ZSBidWlsdCBhbmQgcGFja2FnZWQsIGl0IGRvZXMgbWFrZSBzZW5zZSB0byBrZWVwDQo+IHRoZSBw
+eXRob24gZGVwZW5kZW5jaWVzIGluIHRoZSBkZWRpY2F0ZWQgcGFja2FnZS4NCj4gDQo+IExldCBt
+ZSByZS13b3JrIHRoaXMgYW5kIGRvIHRoZSByZW1vdmUgb2YgdGhlIFJERVBFTkRTIGFuZCBzZW5k
+IGEgdjIuDQo+IA0KPiBCcnVjZQ0KPiANCj4gPiBSb3NzDQoNClRvIG1lIGl0IHNvdW5kcyBhcyB3
+aGF0IHNldHVwdG9vbHMzLWJhc2UuYmJjbGFzcyByZWFsbHkgc2hvdWxkIHRvIGlzIA0Kc29tZXRo
+aW5nIGxpa2U6DQoNCkZPT0JBUiA/Pz0gIiR7UE59Ig0KUkRFUEVORFM6JHtGT09CQVJ9OmFwcGVu
+ZDpjbGFzcy10YXJnZXQgPSAiICR7UFlUSE9OX1BOfS1jb3JlIg0KLi4uDQpGSUxFUzoke0ZPT0JB
+Un0gKz0gIiR7bGliZGlyfS8qICR7bGliZGlyfS8ke1BZVEhPTl9ESVJ9LyoiDQoNCnNvIHRoYXQg
+dGhlIHR5cGljYWwgUHl0aG9uIG9ubHkgcmVjaXBlcyBjb250aW51ZSB0byBqdXN0IGluaGVyaXQg
+DQpzZXR1cHRvb2xzMywgYnV0IHJlY2lwZXMgdGhhdCBwcm9kdWNlIG90aGVyIHBhY2thZ2VzIHRo
+YW4gdGhlIA0KUHl0aG9uIHBhY2thZ2UgY2FuIGRvIHNvbWV0aGluZyBsaWtlOg0KDQpGT09CQVIg
+PSAiJHtQWVRIT05fUE59LSR7UE59Ig0KDQpVbmZvcnR1bmF0ZWx5IHRoaXMgZG9lcyBub3Qgd29y
+ayBhcyBpdCByZXN1bHRzIGluIGEgZ2F6aWxsaW9uIA0Kd2FybmluZ3MgbGlrZToNCg0KV0FSTklO
+RzogLi4uL21ldGEtb2UvcmVjaXBlcy1zdXBwb3J0L2xpYmlpby9saWJpaW9fZ2l0LmJiOiBWYXJp
+YWJsZSBrZXkgRklMRVM6JHtQTn0tJHtQWVRIT05fUE59ICgke1BZVEhPTl9TSVRFUEFDS0FHRVNf
+RElSfSkgcmVwbGFjZXMgb3JpZ2luYWwga2V5IEZJTEVTOmxpYmlpby1weXRob24zICggJHtsaWJk
+aXJ9LyogJHtsaWJkaXJ9LyR7UFlUSE9OX0RJUn0vKikuDQpXQVJOSU5HOiAuLi4vbWV0YS1vZS9y
+ZWNpcGVzLXN1cHBvcnQvbGliaWlvL2xpYmlpb19naXQuYmI6IFZhcmlhYmxlIGtleSBSREVQRU5E
+Uzoke1BOfS0ke1BZVEhPTl9QTn0gKCR7UE59ICR7UFlUSE9OX1BOfS1jdHlwZXMgJHtQWVRIT05f
+UE59LXN0cmluZ29sZCAke1BZVEhPTl9QTn0tY29yZSkgcmVwbGFjZXMgb3JpZ2luYWwga2V5IFJE
+RVBFTkRTOmxpYmlpby1weXRob24zICggJHtQWVRIT05fUE59LWNvcmUpLg0KDQooSSBjaG9zZSBs
+aWJpaW8gYXMgaXQgaXMgYW4gZXhhbXBsZSBvZiBhbm90aGVyIHJlY2lwZXMgdGhhdCBjdXJyZW50
+bHkgDQpkb2VzIFJERVBFTkRTOiR7UE59OnJlbW92ZSA9ICIke1BZVEhPTl9QTn0tY29yZSIgdG8g
+Y291bnRlcmFjdCB3aGF0IA0Kc2V0dXB0b29sczMtYmFzZS5iYmNsYXNzIGRvZXMpLg0KDQo6KA0K
+DQovL1BldGVyDQoNCg==
 
