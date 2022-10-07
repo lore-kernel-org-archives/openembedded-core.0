@@ -1,80 +1,122 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <paul.eggleton@linux.microsoft.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3389EC433FE
-	for <webhook@archiver.kernel.org>; Fri,  7 Oct 2022 10:49:04 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by mx.groups.io with SMTP id smtpd.web09.3029.1665139734622369990
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62B73C433F5
+	for <webhook@archiver.kernel.org>; Fri,  7 Oct 2022 11:32:04 +0000 (UTC)
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web09.3352.1665142322455427666
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Oct 2022 03:48:55 -0700
+ Fri, 07 Oct 2022 04:32:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=RZyPMIIy;
- spf=pass (domain: bootlin.com, ip: 217.70.183.201,
- mailfrom: luca.ceresoli@bootlin.com)
-Received: from booty (unknown [77.244.183.192])
-	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 256C01BF203;
-	Fri,  7 Oct 2022 10:48:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1665139732;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iXvDFdsMUK37VyknRQiDaBDwcMNbBnriaQYKWbidGyY=;
-	b=RZyPMIIylcj9p+aSfMpuSneLRsaOw3tdUw4hAi2+sVT2w9M1dA7YyezrjllMEU/AUTgeOW
-	EQyWCqV0WNJWkBEKB4qLNFjXnMJrPWFC450nzp0Mn1BXJpZHeU/x4lUBBwqvDFZ34S9ggr
-	3r9X728J0YYSkEHKiGWkGnFKCTCgnXvXac2jbfV10md87ICGAh8s2QWdHJ5gQSN01JoEvR
-	h7zX/2z6k3xxh6v7iCGoRquqZF+yqc+PIJcCe0FlHLdnqApFmfb1534w4oY4g5biY3YEBs
-	LlUTvUpT83Xv74iJN3YtdODajlJPZLZV1INH/7DJWLtHy7OKmQVqJknH8LWeMQ==
-Date: Fri, 7 Oct 2022 12:48:50 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Cc: richard.purdie@linuxfoundation.org,
- openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2] perf: make scripting depend on setuptools3
-Message-ID: <20221007124850.1dc035d2@booty>
-In-Reply-To: <20221006164944.52304-1-bruce.ashfield@gmail.com>
-References: <20221006164944.52304-1-bruce.ashfield@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=dqJsQ7yh;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182,
+ mailfrom: pauleg@linux.microsoft.com)
+Received: by linux.microsoft.com (Postfix, from userid 1054)
+	id 98E8020EA298; Fri,  7 Oct 2022 04:32:01 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 98E8020EA298
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1665142321;
+	bh=2EsszLjk/u8/XBfKkQfy/z/q1C30mKUfkgae+mgXrEU=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=dqJsQ7yhWR/2+KjxswqndFjFjUh5vdUR52nXbo4R63hhWwFZMLnpx90QenZM751+X
+	 UWKdkwDs3oCO4bDrN+qHFsljL/UUwZL8YceBXf2J/YMayZ9z+o7YK+OMb3TFavrRxa
+	 QECOFMBCbjYGSR1RBN60W37sH9NfSCNzil2HgqWo=
+From: Paul Eggleton <paul.eggleton@linux.microsoft.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/1] install-buildtools: support buildtools-make-tarball and
+ update to 4.1
+Date: Fri,  7 Oct 2022 04:31:56 -0700
+Message-Id: 
+ <0439f6feb9344743364e44e6658fad45b88fd760.1665142126.git.paul.eggleton@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1665142126.git.paul.eggleton@linux.microsoft.com>
+References: <cover.1665142126.git.paul.eggleton@linux.microsoft.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Oct 2022 10:49:04 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Oct 2022 11:32:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171521
+ https://lists.openembedded.org/g/openembedded-core/message/171522
 
-Hi Bruce,
+From: Paul Eggleton <paul.eggleton@microsoft.com>
 
-On Thu,  6 Oct 2022 12:49:44 -0400
-"Bruce Ashfield" <bruce.ashfield@gmail.com> wrote:
+Support installing buildtools-make-tarball that is built in version 4.1
+and later for build hosts with a broken make version. Also update the
+default version values to 4.1.
 
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> 
-> It looks like this should have been an error for a while, but it
-> only started showing up in my 6.x linux-yocto-dev testing.
-> 
-> Without the inherit of setuptool3, we get a module missing error
-> during configure and the build obviously fails.
-> 
-> Tested against 5.x and 6.x kernels.
-> 
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@microsoft.com>
+---
+ scripts/install-buildtools | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
-This patch triggers a warning:
-
-WARNING: perf-1.0-r9 do_package_qa: QA Issue: File /usr/lib/python3.10/site-packages/perf-0.1-py3.10-linux-x86_64.egg/EGG-INFO/SOURCES.txt in package perf-python contains reference to TMPDIR
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/100/builds/3499/steps/13/logs/stdio
-
+diff --git a/scripts/install-buildtools b/scripts/install-buildtools
+index 10c3d04..2218f3f 100755
+--- a/scripts/install-buildtools
++++ b/scripts/install-buildtools
+@@ -57,8 +57,8 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
+ 
+ DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
+ DEFAULT_BASE_URL = 'http://downloads.yoctoproject.org/releases/yocto'
+-DEFAULT_RELEASE = 'yocto-3.4'
+-DEFAULT_INSTALLER_VERSION = '3.4'
++DEFAULT_RELEASE = 'yocto-4.1'
++DEFAULT_INSTALLER_VERSION = '4.1'
+ DEFAULT_BUILDDATE = '202110XX'
+ 
+ # Python version sanity check
+@@ -154,6 +154,8 @@ def main():
+     group.add_argument('--without-extended-buildtools', action='store_false',
+                        dest='with_extended_buildtools',
+                        help='disable extended buildtools (traditional buildtools tarball)')
++    group.add_argument('--make-only', action='store_true',
++                       help='only install make tarball')
+     group = parser.add_mutually_exclusive_group()
+     group.add_argument('-c', '--check', help='enable checksum validation',
+                         default=True, action='store_true')
+@@ -170,6 +172,9 @@ def main():
+ 
+     args = parser.parse_args()
+ 
++    if args.make_only:
++        args.with_extended_buildtools = False
++
+     if args.debug:
+         logger.setLevel(logging.DEBUG)
+     elif args.quiet:
+@@ -197,7 +202,10 @@ def main():
+                 if not args.build_date:
+                     logger.error("Milestone installers require --build-date")
+                 else:
+-                    if args.with_extended_buildtools:
++                    if args.make_only:
++                        filename = "%s-buildtools-make-nativesdk-standalone-%s-%s.sh" % (
++                            arch, args.installer_version, args.build_date)
++                    elif args.with_extended_buildtools:
+                         filename = "%s-buildtools-extended-nativesdk-standalone-%s-%s.sh" % (
+                             arch, args.installer_version, args.build_date)
+                     else:
+@@ -207,6 +215,8 @@ def main():
+                     buildtools_url = "%s/milestones/%s/buildtools/%s" % (base_url, args.release, safe_filename)
+             # regular release SDK
+             else:
++                if args.make_only:
++                    filename = "%s-buildtools-make-nativesdk-standalone-%s.sh" % (arch, args.installer_version)
+                 if args.with_extended_buildtools:
+                     filename = "%s-buildtools-extended-nativesdk-standalone-%s.sh" % (arch, args.installer_version)
+                 else:
+@@ -303,7 +313,9 @@ def main():
+         if args.with_extended_buildtools and not m:
+             logger.info("Ignoring --with-extended-buildtools as filename "
+                         "does not contain 'extended'")
+-        if args.with_extended_buildtools and m:
++        if args.make_only:
++            tool = 'make'
++        elif args.with_extended_buildtools and m:
+             tool = 'gcc'
+         else:
+             tool = 'tar'
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+1.8.3.1
+
 
