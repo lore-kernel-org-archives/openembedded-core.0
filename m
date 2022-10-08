@@ -2,65 +2,65 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D57BCC433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEB2BC433F5
 	for <webhook@archiver.kernel.org>; Sat,  8 Oct 2022 23:55:35 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web11.9327.1665273331392210828
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
+ [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web08.9228.1665273328566458865
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 Oct 2022 16:55:31 -0700
+ Sat, 08 Oct 2022 16:55:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=m+eD4LTM;
- spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f49.google.com with SMTP id
- d7-20020a17090a2a4700b0020d268b1f02so801302pjg.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=arfsZUJn;
+ spf=pass (domain: gmail.com, ip: 209.85.215.179,
+ mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f179.google.com with SMTP id bh13so7590104pgb.4
         for <openembedded-core@lists.openembedded.org>;
- Sat, 08 Oct 2022 16:55:31 -0700 (PDT)
+ Sat, 08 Oct 2022 16:55:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1xac+FO09lPbDyhB7coXH7BAcCPD/sh4IlPJ6ct5ZUk=;
-        b=m+eD4LTMWzRBXktzHi0WnSKUSr9eQrhW4SjBFEte+chpKb5qefQ9aSd6uMYtKgYlEp
-         iz15sbCgks6b2O+E0FrGlku2gCqFZFoO4KGCPZ+VYan3qDmrEx2ohyBGD0rLefuJBTj5
-         iPHqgIWZT+7qygGd5sie6ckfrlad5TRvehVQZtOqfPQHj/MV8tAW9F6xX0PF7sECqgha
-         qblvTgAFFiDWhxyNpY+uj3azAe7AuVc59zRVhxzhtj3+L7NWiOfp4ngm4XdYs4RpiOaM
-         xlkNxNRcYhfmLCd847ezxF4nCrBR9HWuEDBCUrLNQ7D8W5h06kEKDYYekqoqbDK/QBX6
-         e6kg==
+        bh=BSOmtq/rqM8z8q/doTqzv0y7Dv/Xu8cMghDx8Usds/Q=;
+        b=arfsZUJnHZa3I4q7SmrfraruI0ABum8v0ruAc6pAnjE73ASTmNnOpBXb05g8Bzl4hZ
+         du1U8IgeStH0h2qxx5bQ2OJd0CnQkLiw7WZVC0QN4+j6gEp/3KylJBgviJKfCkpuep/m
+         69u1GyIbHjYJsHsSYUeNXdx+eYQa6wxG6tu/U/eEUzz/PqIsrv0si2FrMmIE0n8v9oBb
+         pF+wNhO2F2Ce2bos87ehpOVN8piFbN7kAm+8aENmxXUGy3stvZieeEakeSA8LS2YdaH4
+         QgUBh329mHlESYhLiVTH+6X7ge8JLEdLHZCdg49AEhfP0tYMqs7woXnG2ShM0Ac5RL9y
+         Yxyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1xac+FO09lPbDyhB7coXH7BAcCPD/sh4IlPJ6ct5ZUk=;
-        b=Fx/qgU3Y+g/Kt+PhAKbXZJrdOAnLHHvCyTeeB1E8HybIJEv3Ja6Ls+df+T4GYulbKo
-         PVp2yWH8Xn8gIx5UdbZW4C+SqC/kKwOaLZEunVWtx8e1agGMeev/2h0HfRsMxIGTlJb8
-         JHtodM/LvDrVkW9H3QCl3UjjAHW6U4GMz2QCNuQsmhw9qfun5wAEgmOPf6EUvaSZofTU
-         HA1ZVDOvzWxhiirJOEdWDU2oJTLeYAz8s3FGBrY8aH1DTvUlOAPXezBRmOeYLu+iidSX
-         ezwbeCJXEQY0BEWxpRw+60s3yt/kdkAbPyPb34Mjy7RNPuCz4kaAzb1hl3Q/MGZibfBO
-         Vfwg==
-X-Gm-Message-State: ACrzQf0qMQV+Q/5I/e7Q8kpI1OHY7fti04JDiI/vTMrYrsHCmJfjAeiM
-	glznCZH6J2YtQ/0HJNHYUtNtgRemKzE=
+        bh=BSOmtq/rqM8z8q/doTqzv0y7Dv/Xu8cMghDx8Usds/Q=;
+        b=WSMl8uh/IyERnwo/zY3rLcZlG8Ckqy7J4b+Cz4CEFYgsphCZUBIRFOHUrprIkjmEt5
+         QzsLdl3PJuHaX1qwqwTeVSgudSC0AK4pdEW/oafv3A8Jal0zAlMNAl9dQd0L8tRo2P6k
+         uEexPGEak59nIyO5If9t4s37bzCNu4pHVTNkz3VQIHTK+q/banTfoT6wT8watnLrPJBr
+         9ZvetHhQr0PhlAkozyuMCoSQSlx4ehXS7Nss5Mqu2LxutwveIBjbtGOv0uPi2xJ52cKd
+         qh0z4Mo1rn6Dl8c4qbxT9HuIxB1mYW07wY9pTVffofcQDGc4RfvBx/9vXiZSco2Sx693
+         gVvQ==
+X-Gm-Message-State: ACrzQf3X7uFtmYsS5CDyFDE2l1xL5pndPGJPnvcpjLyN5EyBrBbdyGBS
+	ILhU9I3W9qCwuom/nUov9L2EAiCOE0U=
 X-Google-Smtp-Source: 
- AMsMyM6mOjalUgysEYhWJDcXJrXUhhosv5YoutbrVLQ4tbDj3vOtJ2exPLZmF7xQUtRBW7Lp58ySQQ==
-X-Received: by 2002:a17:902:f609:b0:17d:311c:b5ad with SMTP id
- n9-20020a170902f60900b0017d311cb5admr12056759plg.43.1665273330413;
-        Sat, 08 Oct 2022 16:55:30 -0700 (PDT)
+ AMsMyM6KIcYOk9ZhVGxNmgNkhhXTvU4zhqrMj1SR9q4By9q3NBoIY259DBYXgGnnnIr1wxalBtj1tg==
+X-Received: by 2002:a05:6a00:2918:b0:535:ea9:791a with SMTP id
+ cg24-20020a056a00291800b005350ea9791amr12622579pfb.54.1665273327468;
+        Sat, 08 Oct 2022 16:55:27 -0700 (PDT)
 Received: from chiron.hsd1.or.comcast.net
  ([2601:1c0:ca00:cea0:170:23ea:e88e:bfb7])
         by smtp.gmail.com with ESMTPSA id
- k11-20020a170902ce0b00b0017f57787a4asm3814710plg.229.2022.10.08.16.55.29
+ k11-20020a170902ce0b00b0017f57787a4asm3814710plg.229.2022.10.08.16.55.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Oct 2022 16:55:30 -0700 (PDT)
+        Sat, 08 Oct 2022 16:55:27 -0700 (PDT)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 08/10] python3-setuptools-rust: upgrade 1.5.1 -> 1.5.2
-Date: Sat,  8 Oct 2022 16:54:52 -0700
+Subject: [PATCH 07/10] python3-sphinx: upgrade 5.1.1 -> 5.2.3
+Date: Sat,  8 Oct 2022 16:54:51 -0700
 Message-Id: 
- <14b45d2df0ab559a502f03468171f6d1dae5be05.1665270768.git.tim.orling@konsulko.com>
+ <4a11065d07d31ecc431564bbbc0371d956c37aae.1665270768.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1665270768.git.tim.orling@konsulko.com>
 References: <cover.1665270768.git.tim.orling@konsulko.com>
@@ -71,39 +71,70 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 08 Oct 2022 23:55:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171546
+ https://lists.openembedded.org/g/openembedded-core/message/171545
 
-1.5.2 (2022-09-19)
-Fixed:
-* Fix regression in dylib build artifacts not being found since 1.5.0.
-  #290
-* Fix regression in sdist missing examples and other supplementary
-  files since 1.5.0. #291
+* Now uses flit-core backend (python_flit_core.bbclass)
+* Sort RDEPENDS alphabetically to make it easier to see what is present.
 
-https://github.com/PyO3/setuptools-rust/blob/main/CHANGELOG.md#152-2022-09-19
+For changes see:
+https://www.sphinx-doc.org/en/master/changes.html#release-5-2-3-released-sep-30-2022
+https://www.sphinx-doc.org/en/master/changes.html#release-5-2-2-released-sep-27-2022
+https://www.sphinx-doc.org/en/master/changes.html#release-5-2-0-post0-released-sep-24-2022
+https://www.sphinx-doc.org/en/master/changes.html#release-5-2-0-released-sep-24-2022
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- ...etuptools-rust_1.5.1.bb => python3-setuptools-rust_1.5.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-setuptools-rust_1.5.1.bb => python3-setuptools-rust_1.5.2.bb} (92%)
+ ...phinx_5.1.1.bb => python3-sphinx_5.2.3.bb} | 25 +++++++++++++------
+ 1 file changed, 17 insertions(+), 8 deletions(-)
+ rename meta/recipes-devtools/python/{python3-sphinx_5.1.1.bb => python3-sphinx_5.2.3.bb} (48%)
 
-diff --git a/meta/recipes-devtools/python/python3-setuptools-rust_1.5.1.bb b/meta/recipes-devtools/python/python3-setuptools-rust_1.5.2.bb
-similarity index 92%
-rename from meta/recipes-devtools/python/python3-setuptools-rust_1.5.1.bb
-rename to meta/recipes-devtools/python/python3-setuptools-rust_1.5.2.bb
-index 24a4f4abef0..502967fd20e 100644
---- a/meta/recipes-devtools/python/python3-setuptools-rust_1.5.1.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools-rust_1.5.2.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=011cd92e702dd9e6b1a26157b6fd53f5"
- SRC_URI = "${PYPI_SRC_URI} \
-            https://files.pythonhosted.org/packages/67/08/e1aa2c582c62ac76e4d60f8e454bd3bba933781a06a88b4e38797445822a/setuptools-rust-${PV}.tar.gz \
-            "
--SRC_URI[sha256sum] = "0e05e456645d59429cb1021370aede73c0760e9360bbfdaaefb5bced530eb9d7"
-+SRC_URI[sha256sum] = "d8daccb14dc0eae1b6b6eb3ecef79675bd37b4065369f79c35393dd5c55652c7"
+diff --git a/meta/recipes-devtools/python/python3-sphinx_5.1.1.bb b/meta/recipes-devtools/python/python3-sphinx_5.2.3.bb
+similarity index 48%
+rename from meta/recipes-devtools/python/python3-sphinx_5.1.1.bb
+rename to meta/recipes-devtools/python/python3-sphinx_5.2.3.bb
+index 1bef20c2e25..957bd17fc07 100644
+--- a/meta/recipes-devtools/python/python3-sphinx_5.1.1.bb
++++ b/meta/recipes-devtools/python/python3-sphinx_5.2.3.bb
+@@ -6,9 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=72c536e78c21c567311b193fe00cd253"
  
- inherit cargo pypi python_setuptools_build_meta
+ PYPI_PACKAGE = "Sphinx"
  
+-SRC_URI[sha256sum] = "ba3224a4e206e1fbdecf98a4fae4992ef9b24b85ebf7b584bb340156eaf08d89"
++SRC_URI[sha256sum] = "5b10cb1022dac8c035f75767799c39217a05fc0fe2d6fe5597560d38e44f0363"
+ 
+-inherit setuptools3 pypi
++inherit python_flit_core pypi
+ 
+  
+ do_install:append () {
+@@ -17,12 +17,21 @@ do_install:append () {
+ }
+ 
+ RDEPENDS:${PN} = "\
+-    python3-packaging python3-docutils python3-requests \
+-    python3-imagesize python3-alabaster python3-jinja2 \
+-    python3-babel python3-pygments python3-snowballstemmer \
+-    python3-sphinxcontrib-applehelp python3-sphinxcontrib-devhelp \
+-    python3-sphinxcontrib-jsmath python3-sphinxcontrib-htmlhelp \
+-    python3-sphinxcontrib-serializinghtml python3-sphinxcontrib-qthelp \
++    python3-alabaster \
++    python3-babel \
++    python3-docutils \
++    python3-imagesize \
++    python3-jinja2 \
++    python3-packaging \
++    python3-pygments \
++    python3-requests \
++    python3-snowballstemmer \
++    python3-sphinxcontrib-applehelp \
++    python3-sphinxcontrib-devhelp \
++    python3-sphinxcontrib-htmlhelp \
++    python3-sphinxcontrib-jsmath \
++    python3-sphinxcontrib-qthelp \
++    python3-sphinxcontrib-serializinghtml \
+     "
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.34.1
 
