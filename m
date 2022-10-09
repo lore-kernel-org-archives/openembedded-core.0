@@ -1,117 +1,131 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <otavio.salvador@ossystems.com.br>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12EB2C433FE
-	for <webhook@archiver.kernel.org>; Sun,  9 Oct 2022 18:36:56 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web10.5288.1665340611146960511
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73CD8C433FE
+	for <webhook@archiver.kernel.org>; Sun,  9 Oct 2022 19:57:46 +0000 (UTC)
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com
+ [209.85.167.182])
+ by mx.groups.io with SMTP id smtpd.web12.6159.1665345459372126152
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Oct 2022 11:36:51 -0700
+ Sun, 09 Oct 2022 12:57:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ln6lkFkg;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: ticotimo@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id k2so20931691ejr.2
+ dkim=pass header.i=@ossystems-com-br.20210112.gappssmtp.com header.s=20210112
+ header.b=p7lXRdjG;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.167.182,
+ mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-oi1-f182.google.com with SMTP id m81so10989825oia.1
         for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Oct 2022 11:36:50 -0700 (PDT)
+ Sun, 09 Oct 2022 12:57:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wzVZVG0Vt3hZyLS+Zhacpmndd6Q6pN1RagTzgPGr1hY=;
-        b=Ln6lkFkgRSO7iVpgzPyoceRBlerB8uyny2GgNUL10IU9YiAE4r/p9xMjbzdc4qJPMK
-         K5s9cU/DDlmHNHfoBC8iT6hEGFG1SgGc9yP7Cz3naSOUt8tLn+sB/A8yWN3V0/3Xr8Ps
-         epYY+XNgX+plXYJAHtb9Y1jffIXB4UcXZqb1bGCHff4/2ETMUioTCgzU3JLWyN34TDtu
-         MwAn6ao22yaSL+Oj1Sx5zE4oFEbrMeIklLUmuCxikAnZJbE4rHAAO38vSu8u2rVqpxTX
-         Rp+6oyCxeBqEC1WSgr8cehAFnSyvvCQLE8SFYko0KoCixZc4GgITfGdJpf9Lh7VkwMns
-         FnBA==
+        d=ossystems-com-br.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:mime-version:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=+7d1kqNkj4po8ZPoGjSAOdQqNuk/+Rb7aZYux5YJSnM=;
+        b=p7lXRdjGwdVsXPnAxMx0pRJhjBqAcYdYTWz3Nfz0F3/52PP/SSoD1cAVXGwhLqiWTb
+         eIdvWUO9TBjcEIn3eDOT8/Vn/uX68mm5rf38akjiprZyJsE85w8+1gXIRH64/Dqfubig
+         P5FSiYpxAuQ0bY//HeFGvzcVWahdjnKveZtYqInS0pI09tEn+sjICO56ND82iyd7Gl8a
+         6i2GghoC4cq4a17PZGGxW6qfX5C7eWnmO8S7Tdbr3Nb44SRhDYQhdBgq1uEnBIx52Pvj
+         7S+C0FAhh38WLqE8FxaVJ/tMYquISrTcT8DD54Qqy2p/w5kaQcmOsr+1MKZgztL3MKtk
+         Y9Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wzVZVG0Vt3hZyLS+Zhacpmndd6Q6pN1RagTzgPGr1hY=;
-        b=FdmvBjmTuAsRL92dRR92kvM8o5BkBfDa4RcLbQG0LVsJ+9uPTjchiQxu0G6aZD+TDy
-         NFfcxRC9TWPMTMFHoBjfWmXb95G5EUih15ZByXI5chul5/KBGwrDvyaRZ6NXIrbgzDji
-         LSFOIvQSbvptu6ivgqT7xtCaA8gyWhZZY1aG+7CO7H6acLdm+O0TOqMDn4l5Q2mA3KeZ
-         S2tS5FBJOU9OJeinxa6dI5n+Hf5A9KYp3pHdljEeNOTULbpM/7VPeKXdCfCNpPNk9J9i
-         o0ZT76Ws0j2Igogv2GABGwu6SPmm0wGJH44TcwyRn0tT3H+xIUJIi06gJ+Gse8UI7Quj
-         Kdng==
-X-Gm-Message-State: ACrzQf1dUc4nP6w+WjkA80VEOn5s34Qok3Jr/Zc3Hp60rNwnshJNkyL7
-	iLNjRTHc0QQVIRs69+avCckrXP4dro1j2eyaRWQ=
+        h=cc:to:subject:message-id:date:mime-version:from:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+7d1kqNkj4po8ZPoGjSAOdQqNuk/+Rb7aZYux5YJSnM=;
+        b=0/SdXZr4Is66JzARZVvBV3Ea4JuEZQf7v0AVsEuIcOgWGJ6tpz8uJVbGq7BvUm5JUe
+         2HDfwrjo0sUXijracpCFGXFex3W+EAKQZo3c3KeYwRuby4MXtFPM/CiRptjhuiGUcRGf
+         Q3HL+xe1jgtqX13uZCbBASxZV/ferLD09FhhYrwbvO5l7epW6YWhfO+M07s19OlQgCnf
+         8A6E+WqS5V0ocMujN/yL2kkpi3YqvxV7KokwantsWlvq8VAJ6DvjsT+NGHHOdN9SPw+I
+         /GFcqBi0qLLOXK1ShO8ADZtnqgAoj7SdtFV/walqRPOIA6iKht4dSEoFIG+UOoGfHYaj
+         cNBQ==
+X-Gm-Message-State: ACrzQf1uMLNbrC+1J90cECCpy9iwFLsyLLNb30/xzHBi9PotkvQGYox+
+	MMhkopU0b5v07W4uwGGLNULXzw6bXWY4FsoT
 X-Google-Smtp-Source: 
- AMsMyM4B3V3UOvucelEFUzFRQmdZi4Gs7Y4G5YGfZ1mouRzS7Rc7ty+4t+kHmGxzZmHOHjSnQu1PKstH/21+Dl7KoSY=
-X-Received: by 2002:a17:907:7211:b0:78a:fd5:416c with SMTP id
- dr17-20020a170907721100b0078a0fd5416cmr12085064ejc.485.1665340609211; Sun, 09
- Oct 2022 11:36:49 -0700 (PDT)
+ AMsMyM7podbJEilyZaOUMn+K2Tzj6CBOFRAqwy4h9GoO8NlSCSiUQkkk0yzvnlJEZLwbRzMXbyaCaA==
+X-Received: by 2002:a05:6808:120c:b0:351:6d17:1845 with SMTP id
+ a12-20020a056808120c00b003516d171845mr7867182oil.254.1665345458618;
+        Sun, 09 Oct 2022 12:57:38 -0700 (PDT)
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com.
+ [209.85.160.49])
+        by smtp.gmail.com with ESMTPSA id
+ x32-20020a05683040a000b0065689e13f52sm4014539ott.71.2022.10.09.12.57.38
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 09 Oct 2022 12:57:38 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oa1-f49.google.com with SMTP id
+ 586e51a60fabf-1321a1e94b3so10660741fac.1
+        for <openembedded-core@lists.openembedded.org>;
+ Sun, 09 Oct 2022 12:57:38 -0700 (PDT)
+X-Received: by 2002:a05:6870:c094:b0:132:dedc:bdb with SMTP id
+ c20-20020a056870c09400b00132dedc0bdbmr11778939oad.252.1665345457757; Sun, 09
+ Oct 2022 12:57:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1665270768.git.tim.orling@konsulko.com>
- <84594a2a5a9392187568022af9453e97fae2aa9c.1665270768.git.tim.orling@konsulko.com>
- <CANNYZj8GwP7-XPu5uAf-O7yW6DFXwv1H5iTC=oL2JaMgED_WLQ@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj8GwP7-XPu5uAf-O7yW6DFXwv1H5iTC=oL2JaMgED_WLQ@mail.gmail.com>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Sun, 9 Oct 2022 11:36:38 -0700
+Date: Sun, 9 Oct 2022 16:57:26 -0300
+X-Gmail-Original-Message-ID: 
+ <CAP9ODKqkPRSzkGFCb1Yyt9U1Ut+nOzyhPtb19HgrN4p5AXun1g@mail.gmail.com>
 Message-ID: 
- <CANx9H-CxuUuAXeNRJ7HPDC7kApQqGP4ROj_HcKWdQyEQbBL0TA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 01/10] python3-cryptography: upgrade 37.0.4 ->
- 38.0.1
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000071336f05ea9e537a"
+ <CAP9ODKqkPRSzkGFCb1Yyt9U1Ut+nOzyhPtb19HgrN4p5AXun1g@mail.gmail.com>
+Subject: How is 'devtool sdk-install' supposed to work?
+To: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Cc: Daiane Angolini <angolini@gmail.com>,
+	"Purdie, Richard" <richard.purdie@linuxfoundation.org>
+Content-Type: multipart/alternative; boundary="0000000000007023a605ea9f74b9"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 09 Oct 2022 18:36:56 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 09 Oct 2022 19:57:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171554
+ https://lists.openembedded.org/g/openembedded-core/message/171555
 
---00000000000071336f05ea9e537a
+--0000000000007023a605ea9f74b9
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Oct 9, 2022 at 6:42 AM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
+Hello all,
 
-> On Sun, 9 Oct 2022 at 01:55, Tim Orling <ticotimo@gmail.com> wrote:
-> > * Update crate:// (via cargo bitbake)
-> > * Manually fix crate:// versions to satisfy cargo
->
-> Thanks for the set, I trust you've seen my proposal to update the
-> crates automatically with a task from bbclass? I've tested it on both
-> bcrypt and cryptography, with no followup fixups needed.
->
-> Yes. I was just too lazy to try it out this round. I am excited about your
-proposal.
+Daiane and I are working on the 3rd edition of our Yocto Project book and
+now working on the chapter where we'd like to cover the eSDK use better. We
+are likely missing something obvious, but it is better to ask if we can't
+figure it out.
 
+How is 'devtool sdk-install' supposed to work?
 
-> Alex
->
+We used the 'devtool sdk-install -s libpng' command, and the build
+succeeded, but the package didn't install. The error is:
 
---00000000000071336f05ea9e537a
+ERROR: Failed to install libpng - unavailable
+
+Thanks in advance,
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+
+--0000000000007023a605ea9f74b9
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Oct 9, 2022 at 6:42 AM Alexan=
-der Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmai=
-l.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">On Sun, 9 Oct 2022 at 01:55, Tim Orling &lt;<a href=3D"mailto:ticotimo=
-@gmail.com" target=3D"_blank">ticotimo@gmail.com</a>&gt; wrote:<br>
-&gt; * Update crate:// (via cargo bitbake)<br>
-&gt; * Manually fix crate:// versions to satisfy cargo<br>
-<br>
-Thanks for the set, I trust you&#39;ve seen my proposal to update the<br>
-crates automatically with a task from bbclass? I&#39;ve tested it on both<b=
-r>
-bcrypt and cryptography, with no followup fixups needed.<br>
-<br></blockquote><div>Yes. I was just too lazy to try it out this round. I =
-am excited about your proposal.</div><div>=C2=A0</div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">
-Alex<br>
-</blockquote></div></div>
+<div dir=3D"ltr">Hello all,<div><br></div><div>Daiane and I are working on =
+the 3rd edition of our Yocto Project book and now working on the chapter wh=
+ere we&#39;d like to cover the eSDK use better. We are likely missing somet=
+hing obvious, but it is better to ask if we can&#39;t figure it out.<br cle=
+ar=3D"all"><div><br></div><div>How=C2=A0is &#39;devtool sdk-install&#39;=C2=
+=A0supposed to work?<br></div><div><br></div><div>We used the &#39;devtool =
+sdk-install -s libpng&#39; command, and the build succeeded, but the packag=
+e didn&#39;t install. The error is:</div><div><br></div><div>ERROR: Failed =
+to install libpng - unavailable</div><div><br></div><div>Thanks in advance,=
+</div><div><br></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature" data=
+-smartmail=3D"gmail_signature">Otavio Salvador =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O.S. =
+Systems<br><a href=3D"http://www.ossystems.com.br" target=3D"_blank">http:/=
+/www.ossystems.com.br</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://code=
+.ossystems.com.br" target=3D"_blank">http://code.ossystems.com.br</a><br>Mo=
+bile: +55 (53) 9 9981-7854 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mobile: +1 (34=
+7) 903-9750</div></div></div>
 
---00000000000071336f05ea9e537a--
+--0000000000007023a605ea9f74b9--
 
