@@ -1,124 +1,103 @@
-Return-Path: <sakoman@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5291C433FE
-	for <webhook@archiver.kernel.org>; Mon, 10 Oct 2022 21:34:05 +0000 (UTC)
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com
- [209.85.217.46])
- by mx.groups.io with SMTP id smtpd.web08.226.1665437639773753571
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D20B3C433FE
+	for <webhook@archiver.kernel.org>; Mon, 10 Oct 2022 21:38:25 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web12.282.1665437898925343874
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Oct 2022 14:34:00 -0700
+ Mon, 10 Oct 2022 14:38:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Bjojf26+;
- spf=pass (domain: gmail.com, ip: 209.85.217.46, mailfrom: sakoman@gmail.com)
-Received: by mail-vs1-f46.google.com with SMTP id 128so6012702vsz.12
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=LLdIVKsW;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id
+ o9-20020a17090a0a0900b0020ad4e758b3so11385588pjo.4
         for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Oct 2022 14:33:59 -0700 (PDT)
+ Mon, 10 Oct 2022 14:38:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=AStKy13b5NPpsbV5LXnLpHFAblHVJKmJGYYdUi+eb+0=;
-        b=Bjojf26+u4U5CQONnRmXM0+HB0JRiTGTEZ4pnbbnOqLP0rKT2+js6obtuI9RYZR1EQ
-         iiwEIVnWoaM2so5nbOUXygJg0hjsmRpDFrIP7dFcxcoRvGXsSuF8GwtDnR9KZNWCQhgg
-         pzw7c3SK2kmUQky59dH3rH2z8nuhC4Xi46ILtoLo2L3XE/DUKF+C43cbmBbIukACMWdV
-         YBCkGyabHC+CfUaELQDt59uELKLRKS7HewVfIrD8ffwHxleJgSIHzZL5A5Pzeb0n5XGf
-         kFhew1wCZ1AtlfDGqrQIASi3TpuqgLdKU+G66cq92mefiQ4Fa+0tvdA/VEkzd8r36zRp
-         JTng==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EEb8uemKYuYmjxvGFkePXE0NgU28jKcvqQrI++ss4xY=;
+        b=LLdIVKsWOFhzycVaia+iNnrM7yl15ToUUb/s9fMgqqzEK9xoC1XwA+j0poicQKtKth
+         NYwnKiFEvTXMpZu/xBrf7Ro/ovxxRPJ67KWVyjjAp+tbDtOqvLmcTNFL4kAqOiea+lc1
+         H9ckpt/JKryIB1fzJv1vTKDZEEQGKURsY8Pn+Ki1GclMh1RvtcJgNSvIzbfh9pdC9gx1
+         5KqAp+zznUZpkYvHFTGvav1afT+RzT3YGWYteFXi634WbeC3ZBrfmaiaN0B7pI7IsPmf
+         cOpvzLDcJIhlpBXBDB5vl9r2VlYhEbWwuOahajIBY9s/9O0ruIKI/5BrAdwl4X1vfHAS
+         O8NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AStKy13b5NPpsbV5LXnLpHFAblHVJKmJGYYdUi+eb+0=;
-        b=iDM4bnmls9c5DOJfzp/ET2glf+LzKI0FHm6fomioNJPq6kQafKwVtxrUr3msV3VGOd
-         u+6eIwsgTdjYnJGQUb4BhjEwRJLU/J0fsbB61fu67pHMB6GiXyTuqIR9QPEl9ZHnEuGb
-         F30LrUZ2uLxfjFGzlTD5S2jjUGKWh6kosGIVZ8cj/4HH7xiKSXPIIO+O3MoFdUAlC5rT
-         YpjYMtSo6y7DEyLyEiYHd20wW6fPhfDDXCx7T8QdFAliAPkfSDtMUkCdHpydFzuhwNMK
-         Vpl4JlRKislJUTsDOprkHRgr0k9F+JInpIpOJmFDcwsKIWKIJNk8bEnSStCuZ7XNtytq
-         fl2g==
-X-Gm-Message-State: ACrzQf3b5nfrBqdj5z63s+MsB0eqbaRZzIfu3QsJkKSsbldLi6eLA1MX
-	/9gT1U8+nRqKWUC7OqZrt66/7ODNfRTdw4ItIzK5fz4h
+        bh=EEb8uemKYuYmjxvGFkePXE0NgU28jKcvqQrI++ss4xY=;
+        b=GzZHJb9Hqb82Y8fLInmcLup6SAN07qoHGcaYCU+jJuKTj2RlKkcT5D2OT6n5x0oknh
+         NXKE+VwMcTyGp8xBF5x7v9QK06m4eTpEzRCwlK0IXc2ft6Z3+pq3HZMXULYY1N2R53w3
+         MOQSKUM17sA6RR9EHJa/J0r+wGMIJR64ivR7Mku36rnx7fMWaARfB4TyQy6PFwspG5MT
+         448EpbCeMXtMWxmOPjULLTtZVsFtVWGwEfx8XU1ajy3ehmg4UStT6y1OPvuwxHj/3dA5
+         P3EWLLoIgNNS6S0LTBYgwlJFoZnIAAKpPd+5Uq0839wrIlK4UHFCoitTg0S98+l5E7kt
+         K6kg==
+X-Gm-Message-State: ACrzQf2yWFzDt0xcza3VWghUeNCzfAx4QDrWLUgOTGBcvrljg3f1ikmx
+	/0apFGFRSZFK9ph74K+W42x8IxyI/yPHaw==
 X-Google-Smtp-Source: 
- AMsMyM5AhH3D8jDRVeFgXjihX27y72FjKOE0wqxuWZaTP0/fLwJU/i+6Ce37J6Ehx4bsX///A2Yn6kWy8JXLQCNJJcU=
-X-Received: by 2002:a05:6102:1488:b0:3a7:739c:2b24 with SMTP id
- d8-20020a056102148800b003a7739c2b24mr4188233vsv.50.1665437638636; Mon, 10 Oct
- 2022 14:33:58 -0700 (PDT)
+ AMsMyM5ogTuGWWHbA3BMKXXAz31eLHYVIf1urb1GTucqLpprN4XIzd7b79S8eYrnpXVSXp6aK5mnxA==
+X-Received: by 2002:a17:90b:48c9:b0:20a:f2f5:45c8 with SMTP id
+ li9-20020a17090b48c900b0020af2f545c8mr30443301pjb.18.1665437898070;
+        Mon, 10 Oct 2022 14:38:18 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::32cd])
+        by smtp.gmail.com with ESMTPSA id
+ o9-20020a170903210900b0017f7d7e95d3sm7076967ple.167.2022.10.10.14.38.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Oct 2022 14:38:17 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Ross Burton <ross.burton@arm.com>
+Subject: [PATCH] ptests: Mark ptest-runner as rdepend instead of rrecommends
+Date: Mon, 10 Oct 2022 14:38:14 -0700
+Message-Id: <20221010213814.1678227-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-References: <20221010195512.3932101-1-jpuhlman@mvista.com>
-In-Reply-To: <20221010195512.3932101-1-jpuhlman@mvista.com>
-From: Steve Sakoman <sakoman@gmail.com>
-Date: Mon, 10 Oct 2022 11:33:47 -1000
-Message-ID: 
- <CAGDS+nmMtoWA4kd+eVYG+j8_EjeCqUYQOJWhiY+z_XzLNiv30g@mail.gmail.com>
-Subject: Re: [OE-core] [master|langdale|kirkstone][PATCH V2] qemu-native: Add
- PACKAGECONFIG option for jack
-To: Jeremy Puhlman <jpuhlman@mvista.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Oct 2022 21:34:05 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Oct 2022 21:38:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171584
+ https://lists.openembedded.org/g/openembedded-core/message/171585
 
-On Mon, Oct 10, 2022 at 9:55 AM Jeremy Puhlman <jpuhlman@mvista.com> wrote:
->
-> Source: MontaVista Software, LLC
-> MR: 122826
-> Type: Defect Fix
-> Disposition: Submitted to openembedded-core
-> ChangeID: ecf4ddeb82db6fbb5c6c803e5e80c333587b9c9c
-> Description:
+This ensures all runtime deependencies eg. perl-modules recommendations
+are added to dependencies correctly
 
-I'd suggest you remove the above 6 lines and just keep the description below.
+see [1]
 
-Thanks!
+[1] https://git.yoctoproject.org/poky/commit/?h=master&id=4705dd264681d908f144dd4d9bf1f6175f68d8b9
 
-Steve
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Ross Burton <ross.burton@arm.com>
+---
+ meta/classes-recipe/ptest.bbclass | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-> With libjack-devel or jack-audio-connection-kit-devel, qemu-native
-> detects the library/header and tries to build with it. Since its
-> missing from the sysroot, it fails to build.
->
->  -O2 -fPIE -D_REENTRANT -Wno-undef -MD -MQ libcommon.fa.p/audio_jackaudio.c.o
-> -MF libcommon.fa.p/audio_jackaudio.c.o.d -o libcommon.fa.p/audio_jackaudio.c.o
-> -c ../qemu-6.2.0/audio/jackaudio.c
-> | ../qemu-6.2.0/audio/jackaudio.c:34:10: fatal error: jack/jack.h: No such file
-> or directory
-> |    34 | #include <jack/jack.h>
-> |       |          ^~~~~~~~~~~~~
-> | compilation terminated.
->
-> Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
-> ---
->  meta/recipes-devtools/qemu/qemu.inc | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-> index 612abd240a..711982ba8d 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -198,6 +198,7 @@ PACKAGECONFIG[rdma] = "--enable-rdma,--disable-rdma"
->  PACKAGECONFIG[vde] = "--enable-vde,--disable-vde"
->  PACKAGECONFIG[slirp] = "--enable-slirp=internal,--disable-slirp"
->  PACKAGECONFIG[brlapi] = "--enable-brlapi,--disable-brlapi"
-> +PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack,"
->
->  INSANE_SKIP:${PN} = "arch"
->
-> --
-> 2.35.4
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#171583): https://lists.openembedded.org/g/openembedded-core/message/171583
-> Mute This Topic: https://lists.openembedded.org/mt/94244611/3617601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [sakoman@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+diff --git a/meta/classes-recipe/ptest.bbclass b/meta/classes-recipe/ptest.bbclass
+index 0383206a6d..36266ec161 100644
+--- a/meta/classes-recipe/ptest.bbclass
++++ b/meta/classes-recipe/ptest.bbclass
+@@ -23,10 +23,9 @@ PTEST_ENABLED = "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '1', '0', d)}"
+ PTEST_ENABLED:class-native = ""
+ PTEST_ENABLED:class-nativesdk = ""
+ PTEST_ENABLED:class-cross-canadian = ""
+-RDEPENDS:${PN}-ptest += "${PN}"
++RDEPENDS:${PN}-ptest += "${PN} ptest-runner"
+ RDEPENDS:${PN}-ptest:class-native = ""
+ RDEPENDS:${PN}-ptest:class-nativesdk = ""
+-RRECOMMENDS:${PN}-ptest += "ptest-runner"
+ 
+ PACKAGES =+ "${@bb.utils.contains('PTEST_ENABLED', '1', '${PN}-ptest', '', d)}"
+ 
+-- 
+2.38.0
+
 
