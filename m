@@ -2,79 +2,79 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54EA8C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54073C433F5
 	for <webhook@archiver.kernel.org>; Mon, 10 Oct 2022 08:48:03 +0000 (UTC)
-Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
- [195.245.231.3])
- by mx.groups.io with SMTP id smtpd.web09.4042.1665391677103579465
+Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com
+ [85.158.142.113])
+ by mx.groups.io with SMTP id smtpd.web09.4041.1665391673127307926
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Oct 2022 01:47:57 -0700
+ Mon, 10 Oct 2022 01:47:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=mAE2M2h0;
- spf=pass (domain: fujitsu.com, ip: 195.245.231.3,
+ dkim=fail reason="body hash did not verify" header.i=@fujitsu.com
+ header.s=170520fj header.b=agf/oEyg;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.113,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1665391675; i=@fujitsu.com;
-	bh=KBQoMwTNrvM00vcDNwv1POcj8JbDL+TgUDShdaMhOkw=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=mAE2M2h0QED42DFEJNarz8Gz97r/WLtH/0+PTBOjfH3r6Xiq10tvsNJ+pipL+48TG
-	 te8lOdD0a5HSBTUn/fsWVzvpM+PuIkwC54CQ5g1WB7h+kP54w0Ejb6lHw2wgquFYKR
-	 6jyQWXk9CPSXJ3n/YMV1lpnHNSTmNpZwXpuvWU+0x77ImA/8/g+Q4NyVOI1rVU0HfP
-	 1fJQX6BUBJ3x/Xcy0AaR6Ekoahg3qZGx7fnWJ9MBnVeDTXUR8YFY7AkVnHJRH7Gacs
-	 1se7ZUFkexF0V90aEu9z4E9YtAX9RlElyCfzvYwgWOEldC9iDPzdrGNaP7CYz9ZfVw
-	 7fCBzz4P3Ypgw==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrGIsWRWlGSWpSXmKPExsViZ8ORpGt1xzn
-  ZoG+9qsWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmvH/zz2mgi2cFSdO9LI1MN7i6GLk4hASeMAo
-  cXvpHzYI5zKTxLEnbcwQzh5GiZ4f79m7GDk52ATUJKbfusHaxcjBISKgJ3H1nyhImFlAReLF7
-  x52kLCwgJvE6hlaIGEWAVWJBe8bGEFsXgFHiV/vO8FsCQEFiSkP3zOD2JwCThK/JuwBs4WAam
-  ZNb2GGqBeUODnzCQvEeAmJgy9eMEP0KkrMvtzMAmFXSMya1cYEYatJXD23iXkCo+AsJO2zkLQ
-  vYGRaxWidVJSZnlGSm5iZo2toYKBraGiqa2yha2hkrpdYpZuol1qqW55aXKJrpJdYXqyXWlys
-  V1yZm5yTopeXWrKJERjEKcVq9TsYX6z8qXeIUZKDSUmU1+CQc7IQX1J+SmVGYnFGfFFpTmrxI
-  UYZDg4lCd4nN4BygkWp6akVaZk5wIiCSUtw8CiJ8D64CJTmLS5IzC3OTIdInWLU5Zj5te0Asx
-  BLXn5eqpQ4b90toCIBkKKM0jy4EbDovsQoKyXMy8jAwCDEU5BalJtZgir/ilGcg1FJmPc9yBS
-  ezLwSuE2vgI5gAjri5FUnkCNKEhFSUg1MQh7Pn3gUvxJ7aGF34oJ37hNRzjMWmsdyXYISn5Rs
-  0X89wdZv4dfitI1pbUJcub9efWcQ1/uT9/js3e3Pz8n8E6s6dy3XpP1Giq/h4rQ77yyCymrbF
-  V8l35nuf2Lxzpxv68U/5l1Zy33tlcp8y12Tr2gmRx1gSJ4WU1C2hC1XtLo1Q1H90LRQ1vvLbj
-  3SLxOSVE+2ndz7SVCSY/7Gx4WbT+nO9fsZlVw+/aXChMzTu88WbWZvDuOtcSwwXzlx/+aP0V9
-  jkrIz5NySX/VPtpmVacmkrz3bIZ9njt/xLTqSq/4uF3mtNOHqBFO1LysvbxMMi5u1I9V7+dWQ
-  3FM102K0JUW4LsisCvy+kV+N4cEaJZbijERDLeai4kQAtfDHcGkDAAA=
+	s=170520fj; t=1665391671; i=@fujitsu.com;
+	bh=ogo2Xli2thxQR+aw/Qy9Oov1HlbA0jsx4R2fFzvR6Y0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	b=agf/oEygVDKCblqr7xmqvvyRnLxf6Hrh9dmXMN5isKp/peRf4lGsrH8vdFB3seLn5
+	 gqDmVY0VBx0FbouRObmOjduorKba2/u/Zg4MqWUlY8f7RWb+xnEK5oiF9aLuVjUeVe
+	 KnkbVJTsVvVWBFRfYBvEkmh5tJ4Z4N8rEAOhuCNnrTg+oR+Brr0XwnHa0A0VGCvNko
+	 LAw1uYMjGAqLRidJbYyeQrGm6393XypgnTZYsFq7TrXCCIcpyN7P3aebRZavEdFSvy
+	 +z0Xt2bawvX9x1OTmoWqQw/YDryuqwyBdXzOSfy5FBiVWss6KLQyHx8yaVuwHNeDcR
+	 VKwGgFsdgrUoQ==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrHIsWRWlGSWpSXmKPExsViZ8OxWdfsjnO
+  yQf8jE4s7P9+xOzB6nNu4gjGAMYo1My8pvyKBNaPpUidLwRbeiofHV7I2ML7h7mLk4hASeMAo
+  MevhbCYI5xKTRNO0zawQzh5GiY5/Pxi7GDk52ATUJKbfugGU4OAQEdCTuPpPFCTMLKAi8eJ3D
+  zuILSxgJfF/32NWEJtFQFVi/91rYK28Ao4SN+7sBYtLCChITHn4nhkiLihxcuYTFog5mhKt23
+  +zQ9jyEs1bZzND1CtKzL7czAJhV0jMmtXGBGGrSVw9t4l5AqPALCSjZiEZNQvJqAWMzKsYbZK
+  KMtMzSnITM3N0DQ0MdA0NTXUtLYGUpV5ilW6iXmqpbl5+UUmGrqFeYnmxXmpxsV5xZW5yTope
+  XmrJJkZgIKcUJ5fvYNy+75feIUZJDiYlUV6DQ87JQnxJ+SmVGYnFGfFFpTmpxYcYZTg4lCR4n
+  9wAygkWpaanVqRl5gCjCiYtwcGjJML74CJQmre4IDG3ODMdInWK0Zhj5te2A8wc7du7DjALse
+  Tl56VKifPW3QIqFQApzSjNgxsEi/ZLjLJSwryMDAwMQjwFqUW5mSWo8q8YxTkYlYR534NM4cn
+  MK4Hb9wroFCagU05edQI5pSQRISXVwJTa1Vx9JO4u86nExSf7VhkIHtvE3TKZsSFddoHEp3s7
+  Fr8TT801vtjaZZWfubDa3zvt8XVnie75qqI9zG3lM/nusQkZBLCfeRjgXSf7bsbOXx8fRDl9s
+  KqrjvJ/ZhB9+OapCRZf5sfsuMKsEbz1rkzQfqd9rKu0I3Is3onsrd8y87u2eL05V7TgJ36G0k
+  VtrVYH/yqFcFaw/eUsb3+r3pQVZLFxu+GTFWfbDk9fax552Fpb22jz+WsFT81k+CZG9NxcXxk
+  fZagmPWt/8lSJX7t/ZyYoJvx/NOEYg5f3C7eryjPD/Z85/Ol4Iqxw7NONQ+GOyxd1pKtsbvZS
+  Kbq/tuy89+kfX3mlld+zPGJfpcRSnJFoqMVcVJwIAMQOj8xxAwAA
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-7.tower-565.messagelabs.com!1665391674!80953!1
-X-Originating-IP: [62.60.8.98]
+X-Msg-Ref: server-4.tower-728.messagelabs.com!1665391670!3408!1
+X-Originating-IP: [62.60.8.179]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.87.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 15418 invoked from network); 10 Oct 2022 08:47:54 -0000
-Received: from unknown (HELO n03ukasimr03.n03.fujitsu.local) (62.60.8.98)
-  by server-7.tower-565.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 10 Oct 2022 08:47:54 -0000
-Received: from n03ukasimr03.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTP id 58EFB1AC
+Received: (qmail 18498 invoked from network); 10 Oct 2022 08:47:50 -0000
+Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
+  by server-4.tower-728.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 10 Oct 2022 08:47:50 -0000
+Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id 47A23153
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Oct 2022 09:47:54 +0100 (BST)
+ Mon, 10 Oct 2022 09:47:50 +0100 (BST)
 Received: from R01UKEXCASM126.r01.fujitsu.local (R01UKEXCASM126
  [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTPS id 4D6121B1
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id 3B6147B
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Oct 2022 09:47:54 +0100 (BST)
+ Mon, 10 Oct 2022 09:47:50 +0100 (BST)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Mon, 10 Oct 2022 09:47:52 +0100
+ (TLS) id 15.0.1497.32; Mon, 10 Oct 2022 09:47:48 +0100
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-hatchling: upgrade 1.10.0 -> 1.11.0
-Date: Mon, 10 Oct 2022 16:47:32 +0800
-Message-ID: <1665391655-8162-2-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] openssh: upgrade 9.0p1 -> 9.1p1
+Date: Mon, 10 Oct 2022 16:47:31 +0800
+Message-ID: <1665391655-8162-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1665391655-8162-1-git-send-email-wangmy@fujitsu.com>
-References: <1665391655-8162-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Originating-IP: [10.167.225.33]
 X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
@@ -84,30 +84,41 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 10 Oct 2022 08:48:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171566
+ https://lists.openembedded.org/g/openembedded-core/message/171565
+
+License-Update: add Kungliga Tekniska H=C3=B6gskolan to copyright holders
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...{python3-hatchling_1.10.0.bb => python3-hatchling_1.11.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hatchling_1.10.0.bb => python3-hatchling_1.11.0.bb} (85%)
+ .../openssh/{openssh_9.0p1.bb =3D> openssh_9.1p1.bb}            | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/openssh/{openssh_9.0p1.bb =3D> openssh_9.1p1.bb} (97%)
 
-diff --git a/meta/recipes-devtools/python/python3-hatchling_1.10.0.bb b/meta/recipes-devtools/python/python3-hatchling_1.11.0.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-hatchling_1.10.0.bb
-rename to meta/recipes-devtools/python/python3-hatchling_1.11.0.bb
-index a0d41d4b0d..00c4c598b5 100644
---- a/meta/recipes-devtools/python/python3-hatchling_1.10.0.bb
-+++ b/meta/recipes-devtools/python/python3-hatchling_1.11.0.bb
-@@ -8,7 +8,7 @@ inherit pypi python_hatchling
- DEPENDS += "python3-pluggy-native python3-tomli-native python3-pathspec-native python3-packaging-native python3-editables-native"
- DEPENDS:remove:class-native = "python3-hatchling-native"
+diff --git a/meta/recipes-connectivity/openssh/openssh_9.0p1.bb b/meta/recipes-connectivity/openssh/openssh_9.1p1.bb
+similarity index 97%
+rename from meta/recipes-connectivity/openssh/openssh_9.0p1.bb
+rename to meta/recipes-connectivity/openssh/openssh_9.1p1.bb
+index b63ea2b137..85f97b1bbb 100644
+--- a/meta/recipes-connectivity/openssh/openssh_9.0p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_9.1p1.bb
+@@ -6,7 +6,7 @@ and for executing commands on a remote machine."
+ HOMEPAGE =3D "http://www.openssh.com/"
+ SECTION =3D "console/network"
+ LICENSE =3D "BSD-2-Clause & BSD-3-Clause & ISC & MIT"
+-LIC_FILES_CHKSUM =3D "file://LICENCE;md5=3D8baf365614c9bdd63705f298c9afbfb9"
++LIC_FILES_CHKSUM =3D "file://LICENCE;md5=3D072979064e691d342002f43cd89c0394"
  
--SRC_URI[sha256sum] = "5d31f43dffaf6265c808e1b5353662ffa5146d844278b55caa6c7f74f427ec50"
-+SRC_URI[sha256sum] = "a263a8c50817cd2dfcd4dd6d0d55a5ebcb078eeec9858cc3d056314b3438ec8f"
+ DEPENDS =3D "zlib openssl virtual/crypt"
+ DEPENDS +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+@@ -25,7 +25,7 @@ SRC_URI =3D "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://sshd_check_keys \
+            file://add-test-support-for-busybox.patch \
+            "
+-SRC_URI[sha256sum] =3D "03974302161e9ecce32153cfa10012f1e65c8f3750f573a73ab1befd5972a28a"
++SRC_URI[sha256sum] =3D "19f85009c7e3e23787f0236fbb1578392ab4d4bf9f8ec5fe6bc1cd7e8bfdd288"
  
- do_compile:prepend() {
-     export PYTHONPATH=src
+ # This CVE is specific to OpenSSH with the pam opie which we don't build/use here
+ CVE_CHECK_IGNORE +=3D "CVE-2007-2768"
 -- 
 2.25.1
 
