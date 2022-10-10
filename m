@@ -1,76 +1,110 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <jpuhlman@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AD8EC433F5
-	for <webhook@archiver.kernel.org>; Mon, 10 Oct 2022 16:17:26 +0000 (UTC)
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com
- [209.85.166.182])
- by mx.groups.io with SMTP id smtpd.web10.8352.1665418639709178222
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70E92C433FE
+	for <webhook@archiver.kernel.org>; Mon, 10 Oct 2022 19:27:17 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+ [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web12.1978.1665430031695389462
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Oct 2022 09:17:19 -0700
+ Mon, 10 Oct 2022 12:27:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=o5Fx9Rmo;
- spf=pass (domain: gmail.com, ip: 209.85.166.182,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-il1-f182.google.com with SMTP id u2so5867180ilv.6
+ dkim=pass header.i=@mvista.com header.s=google header.b=Re0LE7nC;
+ spf=pass (domain: mvista.com, ip: 209.85.210.172,
+ mailfrom: jpuhlman@mvista.com)
+Received: by mail-pf1-f172.google.com with SMTP id f140so11599028pfa.1
         for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Oct 2022 09:17:19 -0700 (PDT)
+ Mon, 10 Oct 2022 12:27:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DWngRlmqEkmnwQq33TINqe7KKLyuUB5fGisyhY8ZeTA=;
-        b=o5Fx9RmoGq7OGOBESCE1ZItLoefsqLio7XnqzqUOzLgjnpiKleL/WvXN5BrmbY3yyx
-         0XgVkMD3vwuXRPV+QNGnMQg4tK/3r/JIAYEn8k0M6Mbc4EKS39rmQxT6GVqxaYJoLQ9R
-         TecBsdHMtO7s7FyCUjFjOQ76n5qqv/zA2Cu5IXZuDEjQyQZaFQ3JDdgEQcyU1dYSy9eY
-         0PNNBDaJLmZ3621cd0cDzOy2ULRzR9UV8B95wSLFxBHT6pf6FYFehn4ugSmgZq2RlEo9
-         T23ANh1owL7WQ459DZqlkqRQONgYDb7OOZpuUPBQBnVeDVqWKjwSOsHIrj+qSoENjJ/G
-         /3KQ==
+        d=mvista.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tkf+Jo2Y8SyC7b8k0w/KDPakhpJe9jZYqf6+duywAsk=;
+        b=Re0LE7nCaL9BO6VKgpmMHzyhuu28k4mB5ziDeKRDYK63X/L8qc7KrHadU4QV9tDtPj
+         3/V3xYRgl8Lpbqfa6sZ8MlueYSPjrpE5yrkEL2CCvKXc5HF25HuIdBNMCd95xYvbOSUZ
+         g8fhb9+KWiA9jnfOar5B1S2Im+T15QeZr4/fw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DWngRlmqEkmnwQq33TINqe7KKLyuUB5fGisyhY8ZeTA=;
-        b=Ha/8ujg7KJogKsDmN/f6Ev9yeB9d7U6h2DusLgJdUi/5SBJzljudnNcVqKrSndcGR+
-         F8L+9VpUO6KYjv/LcutkTPZa0056m/KYOrNVkfG2H1gEkNnRBduFBxaagJPr0DsJ+5Q1
-         BGYuZq24aZB99tD7BUBXYEcMCVL9AKx+3kPRPpKSop0hB2I8ekVcrb5MNPSDYqW3agwT
-         gxV8DiCiuoJ7Fc7h6vAyD5+0lIX7olysEWfxDExv+OZB9yKQPIlPcAhRFUy7UcfKyrBy
-         o1vy8MfPxb8cewHFUo+rviMhpS5RR9LFro1ixcMTBTlG5bCc5dJt7q2/wt8hwyFbwD8K
-         BOkA==
-X-Gm-Message-State: ACrzQf1Bl7O2qPk71K1wk1fBs58bbhC/A1aqz3oqRZM5Y240S1Vk02Nz
-	j6vzBWvHOn3fkeNsnfKSQubJ1Oje6W9CrCuZRM5wFQKs
+        bh=tkf+Jo2Y8SyC7b8k0w/KDPakhpJe9jZYqf6+duywAsk=;
+        b=QCmny3Ohs8hCGDrZLRxGakX1ezIV5Rf3t6xQTfPns7n224YGpOxBY2fvgnlSyGyBz9
+         J0YKGrYgQ2HwvItg/SGjXwquUVT69tWgqt70mI5lE/77/t/o1fOK6lnuVT7pOW2sc///
+         ur+ThOvfiIhDRSZf59bs74mq03zuCgDdW3xwDUCLTc0r7cR7dci/GnKc1TwzDH5xIfwU
+         C5XVZ+zEkieaCBxWBeJIEAugiL3O05zHXOpHiTcb1TJfEh9YYT/wdijAG5sJ629ElVX+
+         XAhGNOW8a+BFdGJqSB4zSxsjfnZlr8H7TJ3W+ExdgfLcs3gh2KkdAt45biaf3Y2gW8Ij
+         1LQg==
+X-Gm-Message-State: ACrzQf14/xWbyxdd6rsalgtBk2snw9ZBIvXV0I8DGM1CDYvApw1YXnI9
+	fZ1to6EyUNSQfTeQ6BoC2APjlLgnEEcpjQ==
 X-Google-Smtp-Source: 
- AMsMyM4KPMr8a69vZd05gOV4n9vH42t5UlfKztx3vKp6TvRoeJHrNCH68CYeA0jM1M+glz1dANWXgUIQHqNA+8D9dZo=
-X-Received: by 2002:a05:6e02:1054:b0:2fa:a73:cfa1 with SMTP id
- p20-20020a056e02105400b002fa0a73cfa1mr9824799ilj.203.1665418638985; Mon, 10
- Oct 2022 09:17:18 -0700 (PDT)
+ AMsMyM5NjOGQTqzPnVv4NqmVaGZNgJJUeXhSshyCQdpboaCC0xRyb9k+u1zn5uxWOFFcnZlbAeMwTA==
+X-Received: by 2002:a63:db49:0:b0:439:246e:8091 with SMTP id
+ x9-20020a63db49000000b00439246e8091mr18152480pgi.295.1665430030757;
+        Mon, 10 Oct 2022 12:27:10 -0700 (PDT)
+Received: from brown (99-14-97-149.lightspeed.frokca.sbcglobal.net.
+ [99.14.97.149])
+        by smtp.gmail.com with ESMTPSA id
+ o18-20020a170903211200b0017828ae6310sm7004804ple.2.2022.10.10.12.27.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Oct 2022 12:27:04 -0700 (PDT)
+Received: by brown (sSMTP sendmail emulation); Mon, 10 Oct 2022 12:27:02 -0700
+From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
+Subject: [master|langdale|kirkstone][PATCH] qemu-native: Add PACKAGECONFIG
+ option for jack
+Date: Mon, 10 Oct 2022 12:26:55 -0700
+Message-Id: <20221010192655.3930156-1-jpuhlman@mvista.com>
+X-Mailer: git-send-email 2.35.4
 MIME-Version: 1.0
-References: <20221009120238.87F82960832@nuc.router0800d9.com>
-In-Reply-To: <20221009120238.87F82960832@nuc.router0800d9.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 10 Oct 2022 18:17:07 +0200
-Message-ID: 
- <CANNYZj9_xNTPNam-Dw1VyJsOWktk+z=FAgROAYz_hqsjLG=HMw@mail.gmail.com>
-Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 09 Oct
- 2022 02:00:01 AM HST
-To: Steve Sakoman <steve@sakoman.com>
-Cc: openembedded-core@lists.openembedded.org,
-	yocto-security@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Oct 2022 16:17:26 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Oct 2022 19:27:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171579
+ https://lists.openembedded.org/g/openembedded-core/message/171580
 
-On Sun, 9 Oct 2022 at 14:02, Steve Sakoman <steve@sakoman.com> wrote:
-> New this week: 1 CVEs
-> CVE-2022-41556 (CVSS3: 7.5 HIGH): lighttpd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41556 *
+Source: MontaVista Software, LLC
+MR: 122826
+Type: Defect Fix
+Disposition:  Needs submitting to poky
+ChangeID: ecf4ddeb82db6fbb5c6c803e5e80c333587b9c9c
+Description:
 
-This can be addressed through a regular version update.
+With libjack-devel or jack-audio-connection-kit-devel, qemu-native
+detects the library/header and tries to build with it. Since its
+missing from the sysroot, it fails to build.
 
-Alex
+ -O2 -fPIE -D_REENTRANT -Wno-undef -MD -MQ libcommon.fa.p/audio_jackaudio.c.o
+-MF libcommon.fa.p/audio_jackaudio.c.o.d -o libcommon.fa.p/audio_jackaudio.c.o
+-c ../qemu-6.2.0/audio/jackaudio.c
+| ../qemu-6.2.0/audio/jackaudio.c:34:10: fatal error: jack/jack.h: No such file
+or directory
+|    34 | #include <jack/jack.h>
+|       |          ^~~~~~~~~~~~~
+| compilation terminated.
+
+Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 612abd240a..711982ba8d 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -198,6 +198,7 @@ PACKAGECONFIG[rdma] = "--enable-rdma,--disable-rdma"
+ PACKAGECONFIG[vde] = "--enable-vde,--disable-vde"
+ PACKAGECONFIG[slirp] = "--enable-slirp=internal,--disable-slirp"
+ PACKAGECONFIG[brlapi] = "--enable-brlapi,--disable-brlapi"
++PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack,"
+ 
+ INSANE_SKIP:${PN} = "arch"
+ 
+-- 
+2.35.4
+
 
