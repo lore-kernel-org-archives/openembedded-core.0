@@ -1,145 +1,190 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <otavio.salvador@ossystems.com.br>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8B1FC433FE
-	for <webhook@archiver.kernel.org>; Mon, 10 Oct 2022 21:49:25 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web10.420.1665438557760055132
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AF41C433F5
+	for <webhook@archiver.kernel.org>; Mon, 10 Oct 2022 23:05:26 +0000 (UTC)
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com
+ [209.85.160.52])
+ by mx.groups.io with SMTP id smtpd.web11.1184.1665443117275950425
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Oct 2022 14:49:18 -0700
+ Mon, 10 Oct 2022 16:05:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=ZmKDHlR8;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196,
- mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 9E5EAE0002;
-	Mon, 10 Oct 2022 21:49:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1665438555;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s/VG9PpWha6VUAO/uWgqzHuy6xUbHJsCYlgd2n1az6g=;
-	b=ZmKDHlR8lvznbAt1Lm1m3ui5XAj8A4zVJ5uv+fJ3LcpUe5UNqmg4Xkht4LefDrKwDZGTtD
-	damGXQ47d0djA12rGNpLfRSNqbhKgzaS4OT9ssrWT6U+H93AsdPCRzZWPCz+Uj8p9/u8/6
-	W47oA6D/7BLWXL1UJpBvTOBZ4NSKtajV57DGx63/75Qcf7hm2sO65S/aUuJ9PVFoNQDvZ1
-	LmZdP4M0ORbNY5w++RG85TRh8LfHUT7FvsaGC2JkIwYWsGk6UVg+jGVP+nnYnahJ5KrN63
-	FDkYlCrDYYkIZvsu8gk+koVSKUhKBPBXke4cwD6SORLDuwH1UYz9EyOLJRzM1g==
-Date: Mon, 10 Oct 2022 23:49:13 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: wangmy <wangmy@fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] mtd-utils: upgrade 2.1.4 -> 2.1.5
-Message-ID: <Y0STWTmB8F3Thyac@mail.local>
-References: <1665391113-8040-1-git-send-email-wangmy@fujitsu.com>
- <1665391113-8040-4-git-send-email-wangmy@fujitsu.com>
+ dkim=pass header.i=@ossystems-com-br.20210112.gappssmtp.com header.s=20210112
+ header.b=SMSOAfUZ;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.160.52,
+ mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-oa1-f52.google.com with SMTP id
+ 586e51a60fabf-1322d768ba7so14050099fac.5
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 10 Oct 2022 16:05:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ossystems-com-br.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IWnsKJCEnz02iqz5aiKMCehctyYjfJGkDPHm7/NgqCE=;
+        b=SMSOAfUZPd0UuHw31/oWdSHUiLgJBw85ZsWITM/mqVfJ71ygMNlSLf7vqSoYn+TnlC
+         xDPNHFcII8jsjBb1Cf3QoZ+RyGi0gsabRJ+idN6+jmV5qZG38Ve/X6MTrJPoZ38x1VFg
+         aWAiGnXHXmIawftOpXIHdroFYeRMJ7GmSo05gBGDKn7DZKpPIjQuzq1ExowF1u+MoZ1v
+         nwG/aEFUDYxVEf0sPcehTezPDZZKNbzdayLQC9KW3hbYwFJTXORvFmnp12iAhNx9FG1C
+         P8vA3p7iJZq2Lg9PkNITwULJ+F4HwVia0dwlmHs5+bxPERHmys6H9uwPFDh61b1PIwG1
+         UjVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IWnsKJCEnz02iqz5aiKMCehctyYjfJGkDPHm7/NgqCE=;
+        b=PYnDEroDQj7QFjujYoKj8s3zWVDLrXix2eqN5MICptVGqS8iX8QwKmoDxbSiBfT4hK
+         ED/kH2iD7oq9xZ8Y5fDFpHf+xRLhccSZ8UrhGV2JXq9+HNFwAehIK9RTVVlmE7p+nX1u
+         MvFzid814MHCnMNzGNtnCvGdbsFVBVebZ4VNflmqULfqRjK0o/14ORK9CZnEobQQsQJP
+         1ws27ERmrm7M/AbVq0ESdwLSJjynGeZgoP39fL9RKBcGUVh1ij84V1dtQ5QSLli98J0C
+         Lkz4gNfN4nb1jlMnGg5dGYWiKGLxQDwFGme12E+50smStmwkEkqUZfWx9qmNSjLwo9Mm
+         HL3w==
+X-Gm-Message-State: ACrzQf29iXh145RWT1n5dw6nIW5/1Xz6SaLpltlUNBCk49OYrhv+IwgO
+	PCjSCMdwdBsznCAe8y7fIAe6J6yg+LaM8ZSU
+X-Google-Smtp-Source: 
+ AMsMyM5GC6fKpEOdGvRLHFuFylJb4oSdEstE+oXFniSxuzjT9NLswxv14vCHPJKVGLA/7NQuSJUbMQ==
+X-Received: by 2002:a05:6870:fb93:b0:131:c354:b7d3 with SMTP id
+ kv19-20020a056870fb9300b00131c354b7d3mr10914482oab.20.1665443115863;
+        Mon, 10 Oct 2022 16:05:15 -0700 (PDT)
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com.
+ [209.85.160.52])
+        by smtp.gmail.com with ESMTPSA id
+ b15-20020a056808010f00b00354932bae03sm1559520oie.10.2022.10.10.16.05.15
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Oct 2022 16:05:15 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oa1-f52.google.com with SMTP id
+ 586e51a60fabf-1322fa1cf6fso14037872fac.6
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 10 Oct 2022 16:05:15 -0700 (PDT)
+X-Received: by 2002:a05:6870:c094:b0:132:dedc:bdb with SMTP id
+ c20-20020a056870c09400b00132dedc0bdbmr14886639oad.252.1665443114780; Mon, 10
+ Oct 2022 16:05:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1665391113-8040-4-git-send-email-wangmy@fujitsu.com>
+References: 
+ <CAP9ODKqkPRSzkGFCb1Yyt9U1Ut+nOzyhPtb19HgrN4p5AXun1g@mail.gmail.com>
+ <B4C207D2-A37B-4CA5-A418-DD1387741263@arm.com>
+In-Reply-To: <B4C207D2-A37B-4CA5-A418-DD1387741263@arm.com>
+Date: Mon, 10 Oct 2022 20:05:03 -0300
+X-Gmail-Original-Message-ID: 
+ <CAP9ODKpw=Vk=2ndaxVcAUAp7QM=ADsQPWUhyjWwO7VFwT1zo6w@mail.gmail.com>
+Message-ID: 
+ <CAP9ODKpw=Vk=2ndaxVcAUAp7QM=ADsQPWUhyjWwO7VFwT1zo6w@mail.gmail.com>
+Subject: Re: [OE-core] How is 'devtool sdk-install' supposed to work?
+To: Ross Burton <ross.burton@arm.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Daiane Angolini <angolini@gmail.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"paul.eggleton@linux.microsoft.com" <paul.eggleton@linux.microsoft.com>
+Content-Type: multipart/alternative; boundary="00000000000040101b05eab631bb"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Oct 2022 21:49:25 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Oct 2022 23:05:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171587
+ https://lists.openembedded.org/g/openembedded-core/message/171588
 
-Hello,
+--00000000000040101b05eab631bb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This breaks oe-selftest:
+Em seg., 10 de out. de 2022 =C3=A0s 07:35, Ross Burton <ross.burton@arm.com=
+>
+escreveu:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/4237/steps/14/logs/stdio
+> Copying in Paul as he was involved in this code so might have some
+> thoughts=E2=80=A6
+>
+> On 9 Oct 2022, at 20:57, Otavio Salvador via lists.openembedded.org
+> <otavio.salvador=3Dossystems.com.br@lists.openembedded.org> wrote:
+> >
+> > Hello all,
+> >
+> > Daiane and I are working on the 3rd edition of our Yocto Project book
+> and now working on the chapter where we'd like to cover the eSDK use
+> better. We are likely missing something obvious, but it is better to ask =
+if
+> we can't figure it out.
+> >
+> > How is 'devtool sdk-install' supposed to work?
+> >
+> > We used the 'devtool sdk-install -s libpng' command, and the build
+> succeeded, but the package didn't install. The error is:
+> >
+> > ERROR: Failed to install libpng - unavailable
+>
+> Yeah, I just hit that too.
+>
+> I wonder if the hash equiv broke something=E2=80=A6
+>
 
-It would be greatly appreciated if you could ensure running oe-selftest
-before submitting
-
-On 10/10/2022 16:38:32+0800, wangmy wrote:
-> 0001-tests-Remove-unused-linux-fs.h-header-from-includes.patch
-> removed since it's included in 2.1.5
-> 
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  ...used-linux-fs.h-header-from-includes.patch | 31 -------------------
->  meta/recipes-devtools/mtd/mtd-utils_git.bb    |  8 ++---
->  2 files changed, 3 insertions(+), 36 deletions(-)
->  delete mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-tests-Remove-unused-linux-fs.h-header-from-includes.patch
-> 
-> diff --git a/meta/recipes-devtools/mtd/mtd-utils/0001-tests-Remove-unused-linux-fs.h-header-from-includes.patch b/meta/recipes-devtools/mtd/mtd-utils/0001-tests-Remove-unused-linux-fs.h-header-from-includes.patch
-> deleted file mode 100644
-> index 73d4a8475f..0000000000
-> --- a/meta/recipes-devtools/mtd/mtd-utils/0001-tests-Remove-unused-linux-fs.h-header-from-includes.patch
-> +++ /dev/null
-> @@ -1,31 +0,0 @@
-> -From 6fb10bd18488ed84776675bc1b2982800a51d839 Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Sat, 6 Aug 2022 20:14:38 -0700
-> -Subject: [mtd-utils][PATCH] tests: Remove unused linux/fs.h header from includes
-> -
-> -This header is not needed, moreover it includes linux/mount.h which is
-> -now in conflict[1] with glibc provided sys/mount.h from glibc 2.36 onwards
-> -
-> -[1] https://sourceware.org/glibc/wiki/Release/2.36
-> -
-> -Upstream-Status: Submitted [https://lists.infradead.org/pipermail/linux-mtd/2022-August/094667.html]
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> - tests/fs-tests/lib/tests.c | 1 -
-> - 1 file changed, 1 deletion(-)
-> -
-> -diff --git a/tests/fs-tests/lib/tests.c b/tests/fs-tests/lib/tests.c
-> -index d1a2e0c..3db0426 100644
-> ---- a/tests/fs-tests/lib/tests.c
-> -+++ b/tests/fs-tests/lib/tests.c
-> -@@ -35,7 +35,6 @@
-> - #include <sys/vfs.h>
-> - #include <sys/mount.h>
-> - #include <sys/statvfs.h>
-> --#include <linux/fs.h>
-> - #include <linux/jffs2.h>
-> - 
-> - #include "tests.h"
-> --- 
-> -2.37.1
-> -
-> diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-> index 943666e529..2d76991d2f 100644
-> --- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
-> +++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-> @@ -11,12 +11,10 @@ inherit autotools pkgconfig update-alternatives
->  DEPENDS = "zlib e2fsprogs util-linux"
->  RDEPENDS:mtd-utils-tests += "bash"
->  
-> -PV = "2.1.4"
-> +PV = "2.1.5"
->  
-> -SRCREV = "c7f1bfa44a84d02061787e2f6093df5cc40b9f5c"
-> -SRC_URI = "git://git.infradead.org/mtd-utils.git;branch=master \
-> -           file://0001-tests-Remove-unused-linux-fs.h-header-from-includes.patch \
-> -           "
-> +SRCREV = "3f3b4cc6c3120107e7aaa21c6415772a255ac49c"
-> +SRC_URI = "git://git.infradead.org/mtd-utils.git;branch=master"
->  
->  S = "${WORKDIR}/git"
->  
-> -- 
-> 2.25.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#171561): https://lists.openembedded.org/g/openembedded-core/message/171561
-> Mute This Topic: https://lists.openembedded.org/mt/94232218/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+It does; setting it to use OEBasicHash did the trick.
 
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> Interestingly, the eSDK tests use that, so either they=E2=80=99re doing s=
+omething
+> special, or they=E2=80=99re not actually running.  It may be the latter.
+>
+
+Or it doesn't use same schema.
+
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+
+--00000000000040101b05eab631bb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Em seg., 10 de out. de 2022 =C3=A0s 0=
+7:35, Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com">ross.burton@ar=
+m.com</a>&gt; escreveu:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">Copying in Paul as he was involved in this code so might have some =
+thoughts=E2=80=A6<br>
+<br>
+On 9 Oct 2022, at 20:57, Otavio Salvador via <a href=3D"http://lists.openem=
+bedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a>=
+ &lt;otavio.salvador=3D<a href=3D"mailto:ossystems.com.br@lists.openembedde=
+d.org" target=3D"_blank">ossystems.com.br@lists.openembedded.org</a>&gt; wr=
+ote:<br>
+&gt; <br>
+&gt; Hello all,<br>
+&gt; <br>
+&gt; Daiane and I are working on the 3rd edition of our Yocto Project book =
+and now working on the chapter where we&#39;d like to cover the eSDK use be=
+tter. We are likely missing something obvious, but it is better to ask if w=
+e can&#39;t figure it out.<br>
+&gt; <br>
+&gt; How is &#39;devtool sdk-install&#39; supposed to work?<br>
+&gt; <br>
+&gt; We used the &#39;devtool sdk-install -s libpng&#39; command, and the b=
+uild succeeded, but the package didn&#39;t install. The error is:<br>
+&gt; <br>
+&gt; ERROR: Failed to install libpng - unavailable<br>
+<br>
+Yeah, I just hit that too.<br>
+<br>
+I wonder if the hash equiv broke something=E2=80=A6<br></blockquote><div><b=
+r></div><div>It does; setting it to use OEBasicHash did the trick.</div><di=
+v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Interesting=
+ly, the eSDK tests use that, so either they=E2=80=99re doing something spec=
+ial, or they=E2=80=99re not actually running.=C2=A0 It may be the latter.<b=
+r></blockquote><div><br></div><div>Or it doesn&#39;t use same schema.=C2=A0=
+</div></div><div><br></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature=
+">Otavio Salvador =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O.S. Systems<br><a href=3D"http:/=
+/www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com.br</a> =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://code.ossystems.com.br" target=
+=3D"_blank">http://code.ossystems.com.br</a><br>Mobile: +55 (53) 9 9981-785=
+4 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mobile: +1 (347) 903-9750</div></div>
+
+--00000000000040101b05eab631bb--
 
