@@ -2,74 +2,74 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6813C433F5
-	for <webhook@archiver.kernel.org>; Tue, 11 Oct 2022 08:06:48 +0000 (UTC)
-Received: from mail3.bemta32.messagelabs.com (mail3.bemta32.messagelabs.com
- [195.245.230.81])
- by mx.groups.io with SMTP id smtpd.web10.4769.1665475603066974332
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E505FC433FE
+	for <webhook@archiver.kernel.org>; Tue, 11 Oct 2022 08:06:58 +0000 (UTC)
+Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com
+ [85.158.142.1])
+ by mx.groups.io with SMTP id smtpd.web09.4846.1665475585192561736
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Oct 2022 01:06:43 -0700
+ Tue, 11 Oct 2022 01:06:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=hVLAiiR1;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.81,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=PZp3NmGb;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.1,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1665475601; i=@fujitsu.com;
-	bh=EZKuQvK3NyjBiYU2SpFreXJS026YlOtNiaOoqGC6F6A=;
+	s=170520fj; t=1665475583; i=@fujitsu.com;
+	bh=NjKA8mlDpUuVIycDnqpSfadIQEz9KXeeaQR1xXvYu7c=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=hVLAiiR1/LGYx2sPxn8afsknGa9TwQJApjcG14HfxHb3N493rDS9kdN3i+Wy6lzhr
-	 H0sAXlubFKOYL9OjWcQf2o7htscjHxPglhAR+vO0tSczcIIhAMZFEtUMY4F3DByOmU
-	 d6ZMV6zNsr8mjCabC7IE3DDkUOUze4T0r/pg4vqrvwKR+k6nf7lGLzljlCSmtsvw2A
-	 yM+ipG/gTuJkn44lSHdNvTVtAygD4+Jmt/UySI1O6MPvYdKD2DudYUbwr6DdE+1WQe
-	 XW2cgeRmc3fADCT3YC+37NL2lRc8kRsGigQbr+5YwXOY0TWQUrMuBLk/BNxi8S4rP3
-	 3KpP1uy28PIWw==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrBIsWRWlGSWpSXmKPExsViZ8ORpCug4pp
-  ssPWxocWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmrH80zzmgvtSFd37VjE3MO4W72Lk4hASeMAo
-  8e/yImYI5zKTxP6uM4wQzh5GiUNPpwA5nBxsAmoS02/dYO1i5OAQEdCTuPpPFCTMLKAi8eJ3D
-  zuILSxgKbG19S8ziM0ioCox7+8+NhCbV8BJ4tCPn2BxCQEFiSkP34PZnALOEk96LrGA2EJANZ
-  tb1jND1AtKnJz5hAVivoTEwRcvoHoVJWZfbmaBsCskZs1qY4Kw1SSuntvEPIFRcBaS9llI2hc
-  wMq1itEoqykzPKMlNzMzRNTQw0DU0NNUFkkbGeolVuol6qaW65anFJbqGeonlxXqpxcV6xZW5
-  yTkpenmpJZsYgUGcUsxQvYPxf+9PvUOMkhxMSqK8V5+7JAvxJeWnVGYkFmfEF5XmpBYfYpTh4
-  FCS4P2l5JosJFiUmp5akZaZA4womLQEB4+SCG+PFFCat7ggMbc4Mx0idYrRnmPq7H/7mTmWg8
-  mZX9sOMHNs2td1gFmIJS8/L1VKnDdXGahNAKQtozQPbigsAVxilJUS5mVkYGAQ4ilILcrNLEG
-  Vf8UozsGoJMyrDDKFJzOvBG73K6CzmIDOOnnVCeSskkSElFQDU1Sm9PJzst2aMwNeC/0NeOFX
-  NOXFSdvIH3d5Ngn8tX7uxqsdpWLJGbD5AXPiJZWOmRdEpwRKbvOVrNCdGPm3z+WtlaFIx+VMo
-  URDmVAB6TMaJSXd/dUrf305+uKHwSv3H7M+szUYTqvv/njWqerfaaWGOWG9F5Qnxr3X2uDruz
-  5t/sfpe8/avxTv//bNWifPxuBA+d8G++aqjSZCnaYecZLFHzNnXIhi+KIlXRRsKlNzvtH9qdI
-  xCd3NX91/bT8zd9KNPJH13h5/7yotPqCwQUI4PUZ5u6rmKrEXq1wKJWoW7n6RtSuTjUs4QGrZ
-  7Gln5MO+5n5drLg7dsWa028CPH7z3917YNGUSSyFt3ccVmIpzkg01GIuKk4EAMgGxK97AwAA
+	b=PZp3NmGbdnAUAmIVRPBCFKUQY89Cy1a2MG4WanPxRNbpYLaRIZl9psWa0EVwr+noH
+	 zoarix0hAV0dV/duj0tTSUTusJ10CbkB1tc1EdSV6YTDS24PwrohBBVW/uBNJSp7ek
+	 PCCd5UdFC5PxK9rD10Wqn55uxejCWfWz1mf82W0IiXP8UN+NALXrBzODw48z8qfD8K
+	 aHEzQnqytsu+kuxo9mYIHkASs/nYAXuaZ0KUOdyzVnXjLwCwLUmnA3sk9Yccf59h/A
+	 BqXD+7PWyAHxoqv+QYhRSNWVs7dLzYMODVuo2lvq8hYtBvNEow8p3vT/42lxzxhdpL
+	 g5ziX4STcoelA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrGIsWRWlGSWpSXmKPExsViZ8MxSfefsmu
+  ywYGfFhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa0bn2SPsBe9FKxr3b2RuYHwu1MXIySEk8JhR
+  Yt01zi5GLiD7GpPE+9et7BDOHkaJSwduM4FUsQmoSUy/dYO1i5GDQ0RAT+LqP1GQMLOAisSL3
+  z3sILawgJXEmUMHwWwWAVWJM/dWMIPYvAJOEqsOnQOLSwgoSEx5+B4szingLPGk5xILxBFOEp
+  tb1kPVC0qcnPmEBWK+hMTBFy+YIXoVJWZfbmaBsCskZs1qY4Kw1SSuntvEPIFRcBaS9llI2hc
+  wMq1itE4qykzPKMlNzMzRNTQw0DU0NNW1NNM1NNNLrNJN1Est1c3LLyrJ0DXUSywv1kstLtYr
+  rsxNzknRy0st2cQIDOKU4gSBHYx79/3SO8QoycGkJMp79blLshBfUn5KZUZicUZ8UWlOavEhR
+  hkODiUJ3l9KrslCgkWp6akVaZk5wIiCSUtw8CiJ8PZIAaV5iwsSc4sz0yFSpxh1OWZ+bTvALM
+  SSl5+XKiXOmwuMTyEBkKKM0jy4EbDovsQoKyXMy8jAwCDEU5BalJtZgir/ilGcg1FJmFcZZAp
+  PZl4J3KZXQEcwAR1x8qoTyBEliQgpqQam2Esat3LcZjsdfLsytDlyk2RV4cW+7OLVCVMPlUmq
+  yBcEXd29auulN7JeGWUPUv4afz+TqMLqU7X9mk4X04mLbV4bVNRfZyTNs2jhmbiugnX2pfTPp
+  5iMu8tuHFfXWvtN9PSzDNfulNOPBJ/sXpQq9L2jfMaE9kuxBZZ7EvqNp3y9V+KjmJ8RYLHL14
+  JlTtVRP+PtU76vjU9Kj2OfsUOxcH3h+oTLnwrlvJ92c8mfOfFLvUcic+sWxuKNWT5bc3Kls45
+  x1CyepX198a9TBm+vrZFe9fPqqr/zngVeCU6OXvpysg9D5rMNMsw9iwKrvzPo8Py0fH43/KW9
+  rf+FowvUpl2Mzvu8QTlmyxFdndd3lViKMxINtZiLihMBQb20H2kDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-12.tower-585.messagelabs.com!1665475600!288494!1
-X-Originating-IP: [62.60.8.98]
+X-Msg-Ref: server-15.tower-745.messagelabs.com!1665475582!1774!1
+X-Originating-IP: [62.60.8.146]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.87.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 21703 invoked from network); 11 Oct 2022 08:06:40 -0000
-Received: from unknown (HELO n03ukasimr03.n03.fujitsu.local) (62.60.8.98)
-  by server-12.tower-585.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 11 Oct 2022 08:06:40 -0000
-Received: from n03ukasimr03.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTP id 6FCA81B0
+Received: (qmail 26665 invoked from network); 11 Oct 2022 08:06:22 -0000
+Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
+  by server-15.tower-745.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 11 Oct 2022 08:06:22 -0000
+Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 520221000FB
 	for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Oct 2022 09:06:40 +0100 (BST)
+ Tue, 11 Oct 2022 09:06:22 +0100 (BST)
 Received: from R01UKEXCASM126.r01.fujitsu.local (R01UKEXCASM126
  [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTPS id 650821AC
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 451501000EE
 	for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Oct 2022 09:06:40 +0100 (BST)
+ Tue, 11 Oct 2022 09:06:22 +0100 (BST)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Tue, 11 Oct 2022 09:06:38 +0100
+ (TLS) id 15.0.1497.32; Tue, 11 Oct 2022 09:06:20 +0100
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] powertop: upgrade 2.14 -> 2.15
-Date: Tue, 11 Oct 2022 16:05:58 +0800
-Message-ID: <1665475558-16409-5-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] libva: upgrade 2.15.0 -> 2.16.0
+Date: Tue, 11 Oct 2022 16:05:55 +0800
+Message-ID: <1665475558-16409-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1665475558-16409-1-git-send-email-wangmy@fujitsu.com>
 References: <1665475558-16409-1-git-send-email-wangmy@fujitsu.com>
@@ -82,97 +82,67 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Oct 2022 08:06:48 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Oct 2022 08:06:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171604
+ https://lists.openembedded.org/g/openembedded-core/message/171601
 
-0001-src-fix-compatibility-with-ncurses-6.3.patch
-removed since it's included in new version.
+Changelog:
+===========
+    add: Add HierarchicalFlag & hierarchical_level_plus1 for AV1e.
+    dep: Update README.md to remove badge links
+    dep: Removed waffle-io badge from README to fix broken link
+    dep: Drop mailing list, IRC and Slack
+    autotools: use wayland-scanner private-code
+    autotools: use the wayland-scanner.pc to locate the prog
+    meson: use wayland-scanner private-code
+    meson: request native wayland-scanner
+    meson: use the wayland-scanner.pc to locate the prog
+    meson: set HAVE_VA_X11 when applicable
+    style:Correct slight coding style in several new commits
+    trace: add Linux ftrace mode for va trace
+    trace: Add missing pthread_mutex_destroy
+    drm: remove no-longer needed X == X mappings
+    drm: fallback to drm driver name == va driver name
+    drm: simplify the mapping table
+    x11: simplify the mapping table
+    android: open() with O_CLOEXEC for device fd
+    android: remove convoluted open_device() helper
+    android: drop va_fool references
+    ci: strengthen ci with -Werror
+    ci: va/x11/nvctl: fix Wdeprecated-non-prototype on close_display
+    ci: add clang-15 coverage and rearrange runners
+    ci: upgrade FreeBSD to 13.1
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...c-fix-compatibility-with-ncurses-6.3.patch | 52 -------------------
- .../{powertop_2.14.bb => powertop_2.15.bb}    |  3 +-
- 2 files changed, 1 insertion(+), 54 deletions(-)
- delete mode 100644 meta/recipes-kernel/powertop/powertop/0001-src-fix-compatibility-with-ncurses-6.3.patch
- rename meta/recipes-kernel/powertop/{powertop_2.14.bb => powertop_2.15.bb} (87%)
+ .../libva/{libva-initial_2.15.0.bb => libva-initial_2.16.0.bb}  | 0
+ meta/recipes-graphics/libva/libva.inc                           | 2 +-
+ .../recipes-graphics/libva/{libva_2.15.0.bb => libva_2.16.0.bb} | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/libva/{libva-initial_2.15.0.bb => libva-initial_2.16.0.bb} (100%)
+ rename meta/recipes-graphics/libva/{libva_2.15.0.bb => libva_2.16.0.bb} (100%)
 
-diff --git a/meta/recipes-kernel/powertop/powertop/0001-src-fix-compatibility-with-ncurses-6.3.patch b/meta/recipes-kernel/powertop/powertop/0001-src-fix-compatibility-with-ncurses-6.3.patch
-deleted file mode 100644
-index 84b05ac971..0000000000
---- a/meta/recipes-kernel/powertop/powertop/0001-src-fix-compatibility-with-ncurses-6.3.patch
-+++ /dev/null
-@@ -1,52 +0,0 @@
--From 76d3f0851520bc8488e432f423941f1e72cc7405 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Mon, 25 Oct 2021 17:47:23 +0200
--Subject: [PATCH] src: fix compatibility with ncurses 6.3
--
--Upstream-Status: Submitted [https://github.com/fenrus75/powertop/pull/92]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- src/devices/devfreq.cpp | 2 +-
-- src/display.cpp         | 2 +-
-- src/lib.cpp             | 2 +-
-- 3 files changed, 3 insertions(+), 3 deletions(-)
--
--diff --git a/src/devices/devfreq.cpp b/src/devices/devfreq.cpp
--index 0509d0f..b194ac4 100644
----- a/src/devices/devfreq.cpp
--+++ b/src/devices/devfreq.cpp
--@@ -297,7 +297,7 @@ void display_devfreq_devices(void)
-- 			df->fill_freq_utilization(j, buf);
-- 			strcat(fline, buf);
-- 			strcat(fline, "\n");
---			wprintw(win, fline);
--+			wprintw(win, "%s", fline);
-- 		}
-- 		wprintw(win, "\n");
-- 	}
--diff --git a/src/display.cpp b/src/display.cpp
--index 7131144..cc03919 100644
----- a/src/display.cpp
--+++ b/src/display.cpp
--@@ -125,7 +125,7 @@ void show_tab(unsigned int tab)
-- 
-- 	c = bottom_lines[tab_names[tab]].c_str();
-- 	if (c && strlen(c) > 0)
---		mvwprintw(bottom_line, 0,0, c);
--+		mvwprintw(bottom_line, 0,0, "%s", c);
-- 	else
-- 		mvwprintw(bottom_line, 0, 0,
-- 			"<ESC> %s | <TAB> / <Shift + TAB> %s | ", _("Exit"),
--diff --git a/src/lib.cpp b/src/lib.cpp
--index 5e48f37..5cd1c4a 100644
----- a/src/lib.cpp
--+++ b/src/lib.cpp
--@@ -583,7 +583,7 @@ void ui_notify_user_ncurses(const char *frmt, ...)
-- 	 * buffer */
-- 	vsnprintf(notify, UI_NOTIFY_BUFF_SZ - 1, frmt, list);
-- 	va_end(list);
---	mvprintw(1, 0, notify);
--+	mvprintw(1, 0, "%s", notify);
-- 	attroff(COLOR_PAIR(1));
-- }
-- 
-diff --git a/meta/recipes-kernel/powertop/powertop_2.14.bb b/meta/recipes-kernel/powertop/powertop_2.15.bb
-similarity index 87%
-rename from meta/recipes-kernel/powertop/powertop_2.14.bb
-rename to meta/recipes-kernel/powertop/powertop_2.15.bb
-index a2f30040b5..0aae4c9397 100644
---- a/meta/recipes-kernel/powertop/powertop_2.14.bb
-+++ b/meta/recipes-kernel/powertop/powertop_2.15.bb
-@@ -8,9 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
+diff --git a/meta/recipes-graphics/libva/libva-initial_2.15.0.bb b/meta/recipes-graphics/libva/libva-initial_2.16.0.bb
+similarity index 100%
+rename from meta/recipes-graphics/libva/libva-initial_2.15.0.bb
+rename to meta/recipes-graphics/libva/libva-initial_2.16.0.bb
+diff --git a/meta/recipes-graphics/libva/libva.inc b/meta/recipes-graphics/libva/libva.inc
+index 735f2fca5b..0f16dacc98 100644
+--- a/meta/recipes-graphics/libva/libva.inc
++++ b/meta/recipes-graphics/libva/libva.inc
+@@ -18,7 +18,7 @@ LICENSE = "MIT"
  
- SRC_URI = "git://github.com/fenrus75/powertop;protocol=https;branch=master \
-            file://0001-wakeup_xxx.h-include-limits.h.patch \
--           file://0001-src-fix-compatibility-with-ncurses-6.3.patch \
-            "
--SRCREV = "52f022f9bbe6e060fba11701d657a8d9762702ba"
-+SRCREV = "d51ad395436d4d1dcc3ca46e1519ffeb475bf651"
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/libva-${PV}.tar.bz2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
+-SRC_URI[sha256sum] = "258ed409458d3e7a000e1908bc852619615ee6a933359c745fcd93eb3e461eca"
++SRC_URI[sha256sum] = "115faca0db2c417a37da49830870e260450fa13066f5e24e252a20c36d920a1c"
  
- S = "${WORKDIR}/git"
+ S = "${WORKDIR}/libva-${PV}"
  
+diff --git a/meta/recipes-graphics/libva/libva_2.15.0.bb b/meta/recipes-graphics/libva/libva_2.16.0.bb
+similarity index 100%
+rename from meta/recipes-graphics/libva/libva_2.15.0.bb
+rename to meta/recipes-graphics/libva/libva_2.16.0.bb
 -- 
 2.25.1
 
