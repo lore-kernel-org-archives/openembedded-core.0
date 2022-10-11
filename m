@@ -2,437 +2,139 @@ Return-Path: <vkumbhar@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 997BFC433FE
-	for <webhook@archiver.kernel.org>; Tue, 11 Oct 2022 15:50:11 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web10.9037.1665503402362282407
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BDAEC433FE
+	for <webhook@archiver.kernel.org>; Tue, 11 Oct 2022 16:04:11 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.9216.1665504242135129205
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Oct 2022 08:50:02 -0700
+ Tue, 11 Oct 2022 09:04:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=GFyBamj7;
- spf=pass (domain: mvista.com, ip: 209.85.216.41,
+ dkim=pass header.i=@mvista.com header.s=google header.b=Cla4UIrx;
+ spf=pass (domain: mvista.com, ip: 209.85.214.174,
  mailfrom: vkumbhar@mvista.com)
-Received: by mail-pj1-f41.google.com with SMTP id
- v10-20020a17090a634a00b00205e48cf845so16418410pjs.4
+Received: by mail-pl1-f174.google.com with SMTP id 10so13696315pli.0
         for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Oct 2022 08:50:02 -0700 (PDT)
+ Tue, 11 Oct 2022 09:04:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=mvista.com; s=google;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=llf++iW2zVRop+OOxK2H9tQayd0Ppfpk4RXJfo7xWQI=;
-        b=GFyBamj7fEjs8iNGfL2z2QcWw2bmi/osrqM7vMYRMHem/DHttvrT80hnbM3+IDXxWs
-         lF5PM+O+cb9zdzsdHK4C2wNUzRvYy23TaVBxkWcGyiZcKqcsSuaKTp9dDtdy0I+zxst7
-         IxxGQpY6eT0CO6hWBX7Oy1SMZFelj/IDx8YsY=
+        bh=AC4eEm7yxg9NG5zxAIkKy/uM20egxYKjMU+bTlzJMpk=;
+        b=Cla4UIrxPjfklLhLu8OpHYhDnP6aWpgdXD9vmH+iV8RK1TN8o81LBLDA11p7tcfaiX
+         X9ToWF3HcgMJoEiGInFg4RP89zTaOLY9zqsGRX/auvbmEbHJ2a1ncAd2LI3lkDOI6p3c
+         +2puXccbKfGL4FuHXhSFpy96FnbOfdZDZ37C8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=llf++iW2zVRop+OOxK2H9tQayd0Ppfpk4RXJfo7xWQI=;
-        b=OXj6KHs8CNiDmBRD2ah9eI+PMEjHEtvzzCIvQAS67qi3H+bJczeO6PoIgAT1JJCQOB
-         ZYb/CLEZrrpIS1o1YqQ1HCkVUGnT3nVdjRd/H6rdrReMblGBszPBMC9mGRXhIVALR1R/
-         fkS1/bwbCgwBfgS0AGAEt8zvu1ld8Qj8mUJaxkvwrIr9GZb7Q33iKJzD9Acud0psHbxQ
-         6Ocd8PFDIhCa3P34+AQSJsVZNyKgcyHzmim7IjKC51Se24Y0EE6XlQuUdKudYkCdnjOD
-         JQVX/FQQHKJhpVbR8qAarMSgQV4Q6MygGMLede5rBqVHEBH2vc54tAHDkCgDXyIpfiaJ
-         uPRg==
-X-Gm-Message-State: ACrzQf0GVr5dIU6uiz5pD9kebEX6j92f10RS+/3J1j2oHrJj4hEoT+2V
-	tbngIVKhiUU/MAK4odh8pTYGfQc+VIOVCA==
+        bh=AC4eEm7yxg9NG5zxAIkKy/uM20egxYKjMU+bTlzJMpk=;
+        b=j5vNrdVF/MomGcKlZLKjDFHnckNaVhMSePLbOQEm0p74lroo+mxt91YuT3szIT4/BT
+         DSGgpAD4nDkJcjsaU202d1C3/8RiLc2xC4UpZwTrfT4UHAFQZKR6I447zJWC5ucIyWXJ
+         urC8YhK1eBMDLd4Oq6cIBI/U5ynkE4U7I3ZsXfYhEoOj2ia4Sc1OaPUwOI/yLazfZiEb
+         JusdlXYze2eTQeJ1Yq2rT9M+Jus3CWJhHxsf5Xv2YSYnhuUCp2wuhU32juZv4JCEOZHE
+         qDEkCNhLTLoQeaMCNc2EyNKlfYWyZHkEjLkdy62nY1n5KLfY/5VOX9r93wF78fpU1QiV
+         9Gig==
+X-Gm-Message-State: ACrzQf28YxBzTAIRTI8m0RNxaKgL8CSFRwtStwWCZEzg3sAmW43I/Pyq
+	O6ATs26sTOtuCEFwtOEmCXm8RuxgCR9z7Q==
 X-Google-Smtp-Source: 
- AMsMyM50RRmWtmlWuvNg0rH9x6fIHFGbGixYbPiZFz94Z3YCyqdDpbt4Y5ewePukdgDNN9VbnUa/hQ==
-X-Received: by 2002:a17:902:d4ce:b0:177:fe49:19d2 with SMTP id
- o14-20020a170902d4ce00b00177fe4919d2mr25571845plg.4.1665503401292;
-        Tue, 11 Oct 2022 08:50:01 -0700 (PDT)
+ AMsMyM6bB03XlPLajWZ7zYgwnxXxhNxRQXuZEZc8uIRE++0JenHd26bOmdEWx38NxMXPX/LJPgQTXA==
+X-Received: by 2002:a17:90b:1e0b:b0:20d:7ddf:9b08 with SMTP id
+ pg11-20020a17090b1e0b00b0020d7ddf9b08mr1219061pjb.187.1665504241293;
+        Tue, 11 Oct 2022 09:04:01 -0700 (PDT)
 Received: from MVIN00002.mvista.com ([14.102.17.18])
         by smtp.gmail.com with ESMTPSA id
- n1-20020aa79841000000b005289a50e4c2sm9216531pfq.23.2022.10.11.08.49.58
+ r32-20020a63fc60000000b00454f8a8cc24sm7950201pgk.12.2022.10.11.09.03.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Oct 2022 08:50:01 -0700 (PDT)
+        Tue, 11 Oct 2022 09:04:00 -0700 (PDT)
 From: Vivek Kumbhar <vkumbhar@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Vivek Kumbhar <vkumbhar@mvista.com>
-Subject: [OE-core][dunfell][PATCH] rsync: fix CVE-2022-29154
-Date: Tue, 11 Oct 2022 21:19:43 +0530
-Message-Id: <20221011154943.39162-1-vkumbhar@mvista.com>
+Subject: [OE-core][dunfell][PATCH] bluez: fix CVE-2022-39177
+Date: Tue, 11 Oct 2022 21:33:36 +0530
+Message-Id: <20221011160336.39990-1-vkumbhar@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Oct 2022 15:50:11 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Oct 2022 16:04:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171630
+ https://lists.openembedded.org/g/openembedded-core/message/171631
 
-Source: https://git.samba.org/?p=rsync.git;a=patch;h=b7231c7d02cfb65d291af74ff66e7d8c507ee871
-MR: 120436
+Source: https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=e2b0f0d8d63e1223bb714a9efb37e2257818268b
+MR: 122138
 Type: Security Fix
-Disposition: Backport from https://git.samba.org/?p=rsync.git;a=patch;h=b7231c7d02cfb65d291af74ff66e7d8c507ee871
-ChangeID: c343a62e84fc2bd4793bda2f45e603a1347d0672
+Disposition: Backport from https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=e2b0f0d8d63e1223bb714a9efb37e2257818268b
+ChangeID: 680cf2af29d34d7925523e413b40008a71b0a26c
 Description:
-    CVE-2022-29154 rsync: remote arbitrary files write inside the
+    avrcp: Fix not checking if params_len match number of received bytes
+
+    This makes sure the number of bytes in the params_len matches the
+    remaining bytes received so the code don't end up accessing invalid
+    memory.
 
 Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
 ---
- .../rsync/files/0001-CVE-2022-29154.patch     | 335 ++++++++++++++++++
- meta/recipes-devtools/rsync/rsync_3.1.3.bb    |   1 +
- 2 files changed, 336 insertions(+)
- create mode 100644 meta/recipes-devtools/rsync/files/0001-CVE-2022-29154.patch
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
+ .../bluez5/bluez5/0001-CVE-2022-39177.patch   | 34 +++++++++++++++++++
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-CVE-2022-39177.patch
 
-diff --git a/meta/recipes-devtools/rsync/files/0001-CVE-2022-29154.patch b/meta/recipes-devtools/rsync/files/0001-CVE-2022-29154.patch
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index f34ba0dce5..f7d5f57c75 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -52,6 +52,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+            file://0001-test-gatt-Fix-hung-issue.patch \
++           file://0001-CVE-2022-39177.patch \
+            "
+ S = "${WORKDIR}/bluez-${PV}"
+ 
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-CVE-2022-39177.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-CVE-2022-39177.patch
 new file mode 100644
-index 0000000000..d29bacbe01
+index 0000000000..54709e0cb1
 --- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/0001-CVE-2022-29154.patch
-@@ -0,0 +1,335 @@
-+From 1f862345cf7787af25acf23f08e38c3ee53e2697 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-CVE-2022-39177.patch
+@@ -0,0 +1,34 @@
++From e5c8613fe171f0dc3aa812270bb15063aaa73d45 Mon Sep 17 00:00:00 2001
 +From: Vivek Kumbhar <vkumbhar@mvista.com>
-+Date: Fri, 26 Aug 2022 05:25:23 +0000
-+Subject: [PATCH] CVE-2022-29154
++Date: Sun, 9 Oct 2022 21:06:51 +0530
++Subject: [PATCH] CVE-2022-39177
 +
-+Upstream-Status: Backport from https://git.samba.org/?p=rsync.git;a=patch;h=b7231c7d02cfb65d291af74ff66e7d8c507ee871
-+CVE: CVE-2022-29154
++Upstream-Status: https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=e2b0f0d8d63e1223bb714a9efb37e2257818268b
++CVE: CVE-2022-39177
 +Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
 +---
-+ exclude.c  | 130 ++++++++++++++++++++++++++++++++++++++++++++++++++++-
-+ flist.c    |  17 ++++++-
-+ io.c       |   4 ++
-+ main.c     |   7 ++-
-+ receiver.c |  11 +++--
-+ 5 files changed, 161 insertions(+), 8 deletions(-)
++ profiles/audio/avrcp.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
 +
-+diff --git a/exclude.c b/exclude.c
-+index 7989fb3..e4bad74 100644
-+--- a/exclude.c
-++++ b/exclude.c
-+@@ -26,16 +26,22 @@ extern int am_server;
-+ extern int am_sender;
-+ extern int eol_nulls;
-+ extern int io_error;
-++extern int xfer_dirs;
-++extern int recurse;
-+ extern int local_server;
-+ extern int prune_empty_dirs;
-+ extern int ignore_perishable;
-++extern int old_style_args;
-++extern int relative_paths;
-+ extern int delete_mode;
-+ extern int delete_excluded;
-+ extern int cvs_exclude;
-+ extern int sanitize_paths;
-+ extern int protocol_version;
-++extern int list_only;
-+ extern int module_id;
-+ 
-++extern char *filesfrom_host;
-+ extern char curr_dir[MAXPATHLEN];
-+ extern unsigned int curr_dir_len;
-+ extern unsigned int module_dirlen;
-+@@ -43,8 +49,10 @@ extern unsigned int module_dirlen;
-+ filter_rule_list filter_list = { .debug_type = "" };
-+ filter_rule_list cvs_filter_list = { .debug_type = " [global CVS]" };
-+ filter_rule_list daemon_filter_list = { .debug_type = " [daemon]" };
-++filter_rule_list implied_filter_list = { .debug_type = " [implied]" };
-+ 
-+ int saw_xattr_filter = 0;
-++int trust_sender_filter = 0;
-+ 
-+ /* Need room enough for ":MODS " prefix plus some room to grow. */
-+ #define MAX_RULE_PREFIX (16)
-+@@ -293,6 +301,125 @@ static void add_rule(filter_rule_list *listp, const char *pat, unsigned int pat_
++diff --git a/profiles/audio/avrcp.c b/profiles/audio/avrcp.c
++index d9471c0..0233d53 100644
++--- a/profiles/audio/avrcp.c
+++++ b/profiles/audio/avrcp.c
++@@ -1916,6 +1916,14 @@ static size_t handle_vendordep_pdu(struct avctp *conn, uint8_t transaction,
++ 		goto err_metadata;
 + 	}
-+ }
 + 
-++/* Each arg the client sends to the remote sender turns into an implied include
-++ * that the receiver uses to validate the file list from the sender. */
-++void add_implied_include(const char *arg)
-++{
-++	filter_rule *rule;
-++	int arg_len, saw_wild = 0, backslash_cnt = 0;
-++	int slash_cnt = 1; /* We know we're adding a leading slash. */
-++	const char *cp;
-++	char *p;
-++	if (old_style_args || list_only || filesfrom_host != NULL)
-++		return;
-++	if (relative_paths) {
-++		cp = strstr(arg, "/./");
-++		if (cp)
-++			arg = cp+3;
-++	} else {
-++		if ((cp = strrchr(arg, '/')) != NULL)
-++			arg = cp + 1;
-++	}
-++	arg_len = strlen(arg);
-++	if (arg_len) {
-++		if (strpbrk(arg, "*[?")) {
-++			/* We need to add room to escape backslashes if wildcard chars are present. */
-++			cp = arg;
-++			while ((cp = strchr(cp, '\\')) != NULL) {
-++				arg_len++;
-++				cp++;
-++			}
-++			saw_wild = 1;
-++		}
-++		arg_len++; /* Leave room for the prefixed slash */
-++		rule = new0(filter_rule);
-++		if (!implied_filter_list.head)
-++			implied_filter_list.head = implied_filter_list.tail = rule;
-++		else {
-++			rule->next = implied_filter_list.head;
-++			implied_filter_list.head = rule;
-++		}
-++		rule->rflags = FILTRULE_INCLUDE + (saw_wild ? FILTRULE_WILD : 0);
-++		p = rule->pattern = new_array(char, arg_len + 1);
-++		*p++ = '/';
-++		cp = arg;
-++		while (*cp) {
-++			switch (*cp) {
-++			  case '\\':
-++				backslash_cnt++;
-++				if (saw_wild)
-++					*p++ = '\\';
-++				*p++ = *cp++;
-++				break;
-++			  case '/':
-++				if (p[-1] == '/') /* This is safe because of the initial slash. */
-++					break;
-++				if (relative_paths) {
-++					filter_rule const *ent;
-++					int found = 0;
-++					*p = '\0';
-++					for (ent = implied_filter_list.head; ent; ent = ent->next) {
-++						if (ent != rule && strcmp(ent->pattern, rule->pattern) == 0)
-++							found = 1;
-++					}
-++					if (!found) {
-++						filter_rule *R_rule = new0(filter_rule);
-++						R_rule->rflags = FILTRULE_INCLUDE + (saw_wild ? FILTRULE_WILD : 0);
-++						R_rule->pattern = strdup(rule->pattern);
-++						R_rule->u.slash_cnt = slash_cnt;
-++						R_rule->next = implied_filter_list.head;
-++						implied_filter_list.head = R_rule;
-++					}
-++				}
-++				slash_cnt++;
-++				*p++ = *cp++;
-++				break;
-++			  default:
-++				*p++ = *cp++;
-++				break;
-++			}
-++		}
-++		*p = '\0';
-++		rule->u.slash_cnt = slash_cnt;
-++		arg = (const char *)rule->pattern;
+++	operands += sizeof(*pdu);
+++	operand_count -= sizeof(*pdu);
+++
+++	if (pdu->params_len != operand_count) {
+++		DBG("AVRCP PDU parameters length don't match");
+++		pdu->params_len = operand_count;
 ++	}
 ++
-++	if (recurse || xfer_dirs) {
-++		/* Now create a rule with an added "/" & "**" or "*" at the end */
-++		rule = new0(filter_rule);
-++		if (recurse)
-++			rule->rflags = FILTRULE_INCLUDE | FILTRULE_WILD | FILTRULE_WILD2;
-++		else
-++			rule->rflags = FILTRULE_INCLUDE | FILTRULE_WILD;
-++		/* A +4 in the len leaves enough room for / * * \0 or / * \0 \0 */
-++		if (!saw_wild && backslash_cnt) {
-++			/* We are appending a wildcard, so now the backslashes need to be escaped. */
-++			p = rule->pattern = new_array(char, arg_len + backslash_cnt + 3 + 1);
-++			cp = arg;
-++			while (*cp) {
-++				if (*cp == '\\')
-++					*p++ = '\\';
-++				*p++ = *cp++;
-++			}
-++		} else {
-++			p = rule->pattern = new_array(char, arg_len + 3 + 1);
-++			if (arg_len) {
-++				memcpy(p, arg, arg_len);
-++				p += arg_len;
-++			}
-++		}
-++		if (p[-1] != '/')
-++			*p++ = '/';
-++		*p++ = '*';
-++		if (recurse)
-++			*p++ = '*';
-++		*p = '\0';
-++		rule->u.slash_cnt = slash_cnt + 1;
-++		rule->next = implied_filter_list.head;
-++		implied_filter_list.head = rule;
-++	}
-++}
-++
-+ /* This frees any non-inherited items, leaving just inherited items on the list. */
-+ static void pop_filter_list(filter_rule_list *listp)
-+ {
-+@@ -721,7 +848,7 @@ static void report_filter_result(enum logcode code, char const *name,
-+ 			      : name_flags & NAME_IS_DIR ? "directory"
-+ 			      : "file";
-+ 		rprintf(code, "[%s] %sing %s %s because of pattern %s%s%s\n",
-+-		    w, actions[*w!='s'][!(ent->rflags & FILTRULE_INCLUDE)],
-++		    w, actions[*w=='g'][!(ent->rflags & FILTRULE_INCLUDE)],
-+ 		    t, name, ent->pattern,
-+ 		    ent->rflags & FILTRULE_DIRECTORY ? "/" : "", type);
-+ 	}
-+@@ -894,6 +1021,7 @@ static filter_rule *parse_rule_tok(const char **rulestr_ptr,
-+ 		}
-+ 		switch (ch) {
-+ 		case ':':
-++			trust_sender_filter = 1;
-+ 			rule->rflags |= FILTRULE_PERDIR_MERGE
-+ 				      | FILTRULE_FINISH_SETUP;
-+ 			/* FALL THROUGH */
-+diff --git a/flist.c b/flist.c
-+index 499440c..630d685 100644
-+--- a/flist.c
-++++ b/flist.c
-+@@ -70,6 +70,7 @@ extern int need_unsorted_flist;
-+ extern int sender_symlink_iconv;
-+ extern int output_needs_newline;
-+ extern int sender_keeps_checksum;
-++extern int trust_sender_filter;
-+ extern int unsort_ndx;
-+ extern uid_t our_uid;
-+ extern struct stats stats;
-+@@ -80,8 +81,7 @@ extern char curr_dir[MAXPATHLEN];
-+ 
-+ extern struct chmod_mode_struct *chmod_modes;
-+ 
-+-extern filter_rule_list filter_list;
-+-extern filter_rule_list daemon_filter_list;
-++extern filter_rule_list filter_list, implied_filter_list, daemon_filter_list;
-+ 
-+ #ifdef ICONV_OPTION
-+ extern int filesfrom_convert;
-+@@ -904,6 +904,19 @@ static struct file_struct *recv_file_entry(int f, struct file_list *flist, int x
-+ 		exit_cleanup(RERR_UNSUPPORTED);
-+ 	}
-+ 
-++	if (*thisname != '.' || thisname[1] != '\0') {
-++		int filt_flags = S_ISDIR(mode) ? NAME_IS_DIR : NAME_IS_FILE;
-++		if (!trust_sender_filter /* a per-dir filter rule means we must trust the sender's filtering */
-++		 && filter_list.head && check_filter(&filter_list, FINFO, thisname, filt_flags) < 0) {
-++			rprintf(FERROR, "ERROR: rejecting excluded file-list name: %s\n", thisname);
-++			exit_cleanup(RERR_PROTOCOL);
-++		}
-++		if (implied_filter_list.head && check_filter(&implied_filter_list, FINFO, thisname, filt_flags) <= 0) {
-++			rprintf(FERROR, "ERROR: rejecting unrequested file-list name: %s\n", thisname);
-++			exit_cleanup(RERR_PROTOCOL);
-++		}
-++	}
-++
-+ 	if (inc_recurse && S_ISDIR(mode)) {
-+ 		if (one_file_system) {
-+ 			/* Room to save the dir's device for -x */
-+diff --git a/io.c b/io.c
-+index c04dbd5..698a7da 100644
-+--- a/io.c
-++++ b/io.c
-+@@ -415,6 +415,7 @@ static void forward_filesfrom_data(void)
-+ 		while (s != eob) {
-+ 			if (*s++ == '\0') {
-+ 				ff_xb.len = s - sob - 1;
-++				add_implied_include(sob);
-+ 				if (iconvbufs(ic_send, &ff_xb, &iobuf.out, flags) < 0)
-+ 					exit_cleanup(RERR_PROTOCOL); /* impossible? */
-+ 				write_buf(iobuf.out_fd, s-1, 1); /* Send the '\0'. */
-+@@ -446,9 +447,12 @@ static void forward_filesfrom_data(void)
-+ 		char *f = ff_xb.buf + ff_xb.pos;
-+ 		char *t = ff_xb.buf;
-+ 		char *eob = f + len;
-++		char *cur = t;
-+ 		/* Eliminate any multi-'\0' runs. */
-+ 		while (f != eob) {
-+ 			if (!(*t++ = *f++)) {
-++				add_implied_include(cur);
-++				cur = t;
-+ 				while (f != eob && *f == '\0')
-+ 					f++;
-+ 			}
-+diff --git a/main.c b/main.c
-+index ee9630f..6ec56e7 100644
-+--- a/main.c
-++++ b/main.c
-+@@ -78,6 +78,7 @@ extern BOOL flist_receiving_enabled;
-+ extern BOOL shutting_down;
-+ extern int backup_dir_len;
-+ extern int basis_dir_cnt;
-++extern int trust_sender_filter;
-+ extern struct stats stats;
-+ extern char *stdout_format;
-+ extern char *logfile_format;
-+@@ -93,7 +94,7 @@ extern char curr_dir[MAXPATHLEN];
-+ extern char backup_dir_buf[MAXPATHLEN];
-+ extern char *basis_dir[MAX_BASIS_DIRS+1];
-+ extern struct file_list *first_flist;
-+-extern filter_rule_list daemon_filter_list;
-++extern filter_rule_list daemon_filter_list, implied_filter_list;
-+ 
-+ uid_t our_uid;
-+ gid_t our_gid;
-+@@ -534,6 +535,7 @@ static pid_t do_cmd(char *cmd, char *machine, char *user, char **remote_argv, in
-+ #ifdef ICONV_CONST
-+ 		setup_iconv();
-+ #endif
-++		trust_sender_filter = 1;
-+ 	} else if (local_server) {
-+ 		/* If the user didn't request --[no-]whole-file, force
-+ 		 * it on, but only if we're not batch processing. */
-+@@ -1358,6 +1360,8 @@ static int start_client(int argc, char *argv[])
-+ 		char *dummy_host;
-+ 		int dummy_port = rsync_port;
-+ 		int i;
-++		if (filesfrom_fd < 0)
-++			add_implied_include(remote_argv[0]);
-+ 		/* For remote source, any extra source args must have either
-+ 		 * the same hostname or an empty hostname. */
-+ 		for (i = 1; i < remote_argc; i++) {
-+@@ -1381,6 +1385,7 @@ static int start_client(int argc, char *argv[])
-+ 			if (!rsync_port && !*arg) /* Turn an empty arg into a dot dir. */
-+ 				arg = ".";
-+ 			remote_argv[i] = arg;
-++			add_implied_include(arg);
-+ 		}
-+ 	}
-+ 
-+diff --git a/receiver.c b/receiver.c
-+index d6a48f1..c0aa893 100644
-+--- a/receiver.c
-++++ b/receiver.c
-+@@ -577,10 +577,13 @@ int recv_files(int f_in, int f_out, char *local_name)
-+ 		if (DEBUG_GTE(RECV, 1))
-+ 			rprintf(FINFO, "recv_files(%s)\n", fname);
-+ 
-+-		if (daemon_filter_list.head && (*fname != '.' || fname[1] != '\0')
-+-		 && check_filter(&daemon_filter_list, FLOG, fname, 0) < 0) {
-+-			rprintf(FERROR, "attempt to hack rsync failed.\n");
-+-			exit_cleanup(RERR_PROTOCOL);
-++		if (daemon_filter_list.head && (*fname != '.' || fname[1] != '\0')) {
-++			int filt_flags = S_ISDIR(file->mode) ? NAME_IS_DIR : NAME_IS_FILE;
-++			if (check_filter(&daemon_filter_list, FLOG, fname, filt_flags) < 0) {
-++				rprintf(FERROR, "ERROR: rejecting file transfer request for daemon excluded file: %s\n",
-++					fname);
-++				exit_cleanup(RERR_PROTOCOL);
-++			}
-+ 		}
-+ 
-+ #ifdef SUPPORT_XATTRS
++ 	for (handler = session->control_handlers; handler->pdu_id; handler++) {
++ 		if (handler->pdu_id == pdu->pdu_id)
++ 			break;
 +-- 
-+2.18.2
++2.25.1
 +
-diff --git a/meta/recipes-devtools/rsync/rsync_3.1.3.bb b/meta/recipes-devtools/rsync/rsync_3.1.3.bb
-index 152ff02a25..3507c89186 100644
---- a/meta/recipes-devtools/rsync/rsync_3.1.3.bb
-+++ b/meta/recipes-devtools/rsync/rsync_3.1.3.bb
-@@ -15,6 +15,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
-            file://CVE-2016-9841.patch \
-            file://CVE-2016-9842.patch \
-            file://CVE-2016-9843.patch \
-+           file://0001-CVE-2022-29154.patch \
- "
- 
- SRC_URI[md5sum] = "1581a588fde9d89f6bc6201e8129afaf"
 -- 
 2.25.1
 
