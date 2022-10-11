@@ -2,221 +2,218 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C182EC433FE
-	for <webhook@archiver.kernel.org>; Tue, 11 Oct 2022 18:50:12 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web12.11473.1665514202393521173
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A746C433FE
+	for <webhook@archiver.kernel.org>; Tue, 11 Oct 2022 19:56:23 +0000 (UTC)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web12.12234.1665518176058318000
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Oct 2022 11:50:02 -0700
+ Tue, 11 Oct 2022 12:56:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BT8xRWRL;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: ticotimo@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id r17so33385082eja.7
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=nEofVXdy;
+ spf=pass (domain: gmail.com, ip: 209.85.210.177,
+ mailfrom: ticotimo@gmail.com)
+Received: by mail-pf1-f177.google.com with SMTP id i3so14488522pfk.9
         for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Oct 2022 11:50:02 -0700 (PDT)
+ Tue, 11 Oct 2022 12:56:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Yxcx+fj7oYxL2X0qM67jXIB122X9miwmIbwoe426Aw0=;
-        b=BT8xRWRLmgZti9gWoCk6/u69EJMdMxnWFenBEfKv9+zayDLu0dMjDAIlrWKfN244fx
-         QkU5tDAjM9PRyEadWm+PJjhs2M3Vpdl+82BzLTd22wTzh7YCUK3nMRC8Ug1C6u+NrkO0
-         0966aE8X9z/+Jq+Tp08rjf4r9aIOpOlrcqeSkl+iti+P23+nVBjYst4O0PD3BoMS5ITc
-         cAK0RKGIcWnC0qoP/lDDuj4Jve4/B0OrjEnDESx7GHgHvkRyyXOs+poccvoqQ9ON0kvE
-         z0XAM7ATbW1mOPFGikIBiTve01F29leAWmxv6P0Oi/M5MZ5PfRDI1K55JM78v8wj3Dls
-         CEmQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=STzK4EnrM4FZh51Czpd+Ft6fI3jkkUv3ZjJ08UqW0OI=;
+        b=nEofVXdyM7izNLM1IlHW7Cv7EwXRFrLlDGDqMo2NziXVweNVCahgi9Ujb7GsQRDMtc
+         b2KPXDAyJVS1vDNnW34XKucREkS8vCxdZQKiRUrz29LEirVYrk4xFnjg0a0BQ8kQws5S
+         lScBXXamBjibMSR8T+Z04b6xHAl2XCrX9aGO9zhh2Ibg14IoCRSHxgyLuzhwqrkRFy56
+         3/wZ+PI+3ZbVNAa5MLeo4yahxtQEiXBT9psJ6uozLItTNHxxs4RtrZVmlZDmNQnCfWBl
+         OMlknE+jo+WO6hKtHNuiSJxZb/vgt9zI6vzpO3pJUQsTn3d2Onh9wLWg2SoOiP0hYPFK
+         n7Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Yxcx+fj7oYxL2X0qM67jXIB122X9miwmIbwoe426Aw0=;
-        b=YXHSTiZbA4EmiTOKhBI+roKWU6W6PUmLM4+hP5qKlgNnQF5JbJRtarTM/NGUlkYII/
-         8Hdl26qhF68kMvJI5wlMKR4GtzO0jAz4wY5QlbWl6W1u+R4gs65uIjWDyE/F7ZwmMCDc
-         ZHFrzNrGU+tI7mAjoXLZ6haZG1TFGDfBNH7u+v8SB551/d+defxtLi8fQ4AXUai4MAdW
-         HWkGV/8bCC8nycBezxWL2DeLOhanH7MKi2mV0qSg9pIzJTqCFk5oLcXKhuuGmuodrxxW
-         dkPG0nZ79F7UpMINDP3+5vcE/Vx3jAGFvwdPVXZ2rUlK5XhKxTyZiUytcSwH24iDCqk3
-         Zl1Q==
-X-Gm-Message-State: ACrzQf3X/+c6hz07cKcqp10DKitNSsBGPWBc41f6YX6Ijkqi2LpgA0wt
-	TB9uBAOqRAPrZXmlSBD5DClb4OA0CSFy7z27tT8=
+        bh=STzK4EnrM4FZh51Czpd+Ft6fI3jkkUv3ZjJ08UqW0OI=;
+        b=qAb25z3M6kQYFhjPY/ikYpAMosb6Y2eX+CwhXyTwREqI7nA3Jy17lpvSRTISSw6G7K
+         gNHISDdyAFmGJ5xmXSWDXw2sNqtyY5DDq8SGTlrfYQQfxw52Uo7CKQTB7i1MMafWv0kQ
+         UWaRF09IALl/1PfMGuhhR9LcKlTTn0BiTmhjjHqD1Mt32d4tCWaPYVLJUkw2WJRZhgHX
+         mObUSet36asVm1NMcrzctSGqSbe+eZyLhkhYbXf5Ov2I/ePgzul0Ly7N9Msw8Lncziyp
+         +bzt3DJCHXhoVYL6O3MwdFY8/HorR/QftjBmJ8TsHki5NdjmbLS07K8UbYq9hGflm+hi
+         BpIA==
+X-Gm-Message-State: ACrzQf3pHEBCVwXb+CdtVddAfSHw1rY8vqY8NdQqlKXE5vpRZUKXBoGh
+	CFyJLKitDFFAy+P29FOhCV6V/LFT6yE9lg==
 X-Google-Smtp-Source: 
- AMsMyM4fqDFHNa39AvwmuKRvAmxPBKk1RLZgQpp4dqUSzXsMYUm1JQcVEADVNM5ItTnK/u+bY5aM6APAWRmurYIhSuA=
-X-Received: by 2002:a17:907:2e19:b0:78d:3ade:a546 with SMTP id
- ig25-20020a1709072e1900b0078d3adea546mr19049570ejc.564.1665514200657; Tue, 11
- Oct 2022 11:50:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221010115818.10917-1-thakur.virendra1810@gmail.com>
- <CACpMEhNrnTu4+w0onJkUb+juUejPTOWkUTv2Tu4R2dc1m2nEfQ@mail.gmail.com>
-In-Reply-To: 
- <CACpMEhNrnTu4+w0onJkUb+juUejPTOWkUTv2Tu4R2dc1m2nEfQ@mail.gmail.com>
+ AMsMyM47dGd3KUOQ/EqJadNzpQZ71/kWuU9wV5A798lnqcFabjzkytP86ZJaqdsIAXK6s78RF4WQXQ==
+X-Received: by 2002:a63:4a41:0:b0:452:bab5:156a with SMTP id
+ j1-20020a634a41000000b00452bab5156amr22332732pgl.486.1665518174918;
+        Tue, 11 Oct 2022 12:56:14 -0700 (PDT)
+Received: from nereus.hsd1.or.comcast.net
+ ([2601:1c0:ca00:cea0:5f4c:d51a:946f:edd4])
+        by smtp.gmail.com with ESMTPSA id
+ t64-20020a625f43000000b00562a237179esm3576777pfb.131.2022.10.11.12.56.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Oct 2022 12:56:14 -0700 (PDT)
 From: Tim Orling <ticotimo@gmail.com>
-Date: Tue, 11 Oct 2022 11:49:48 -0700
-Message-ID: 
- <CANx9H-ACquePTC1acdGaqwS4e4yggUBuvwFwfRjo_mr9sVQu0Q@mail.gmail.com>
-Subject: Re: [OE-Core][dunfell][PATCH] python3: Whitelist CVE-2018-25032
-To: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
-Cc: virendra thakur <thakur.virendra1810@gmail.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Steve Sakoman <steve@sakoman.com>, virendrak@kpit.com
-Content-Type: multipart/alternative; boundary="0000000000004c756905eac6be3b"
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [kirkstone][PATCH] python3: upgrade 3.10.4 -> 3.10.7
+Date: Tue, 11 Oct 2022 12:56:01 -0700
+Message-Id: <20221011195601.871846-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Oct 2022 18:50:12 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Oct 2022 19:56:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171636
+ https://lists.openembedded.org/g/openembedded-core/message/171637
 
---0000000000004c756905eac6be3b
-Content-Type: text/plain; charset="UTF-8"
+Security and bug fixes.
 
-While the reasoning is correct that this only applies to Windows, this
-patch is superseded by upgrading to Python 3.8.14:
+Drop patch for gh-92036 which was merged in 3.10.5
+Refresh 0017-setup.py-do-not-report-missing-dependencies-for-disa.pathc
 
-https://docs.python.org/release/3.8.14/whatsnew/changelog.html#windows
-bpo-47194: Update zlib to v1.2.12 to resolve CVE-2018-25032.
+Fixes:
+* CVE-2020-10735
+  https://nvd.nist.gov/vuln/detail/CVE-2020-10735
+* CVE-2021-28861
+  https://nvd.nist.gov/vuln/detail/CVE-2021-28861
+* CVE-2018-25032
+  https://nvd.nist.gov/vuln/detail/CVE-2018-25032
 
-On Mon, Oct 10, 2022 at 8:25 AM Ranjitsinh Rathod <
-ranjitsinhrathod1991@gmail.com> wrote:
+For a list of changes see:
+https://docs.python.org/3.10/whatsnew/changelog.html#python-3-10-7-final
+https://docs.python.org/3.10/whatsnew/changelog.html#python-3-10-6-final
+https://docs.python.org/3.10/whatsnew/changelog.html#python-3-10-6-final
 
-> Hi Virendra,
->
-> Please add one space after # in both the comments.
->
-> On Mon, 10 Oct, 2022, 5:28 pm virendra thakur, <
-> thakur.virendra1810@gmail.com> wrote:
->
->> zlib v1.2.11 as used in Windows binary releases contains a security
->> issue.
->> Link: https://bugs.python.org/issue47194
->>
->> Signed-off-by: virendra thakur <thakur.virendra1810@gmail.com>
->> ---
->>  meta/recipes-devtools/python/python3_3.8.13.bb | 4 ++++
->>  1 file changed, 4 insertions(+)
->>
->> diff --git a/meta/recipes-devtools/python/python3_3.8.13.bb
->> b/meta/recipes-devtools/python/python3_3.8.13.bb
->> index d87abe2351..e0e6861677 100644
->> --- a/meta/recipes-devtools/python/python3_3.8.13.bb
->> +++ b/meta/recipes-devtools/python/python3_3.8.13.bb
->> @@ -62,6 +62,10 @@ CVE_CHECK_WHITELIST += "CVE-2020-15523 CVE-2022-26488"
->>  # The module will be removed in the future and flaws documented.
->>  CVE_CHECK_WHITELIST += "CVE-2015-20107"
->>
->> +#zlib v1.2.11 as used in Windows binary releases contains a security
->> issue
->> +#https://bugs.python.org/issue47194
->> +CVE_CHECK_WHITELIST += "CVE-2018-25032"
->> +
->>  PYTHON_MAJMIN = "3.8"
->>
->>  S = "${WORKDIR}/Python-${PV}"
->> --
->> 2.17.1
->>
->>
->>
->>
->>
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#171577):
-> https://lists.openembedded.org/g/openembedded-core/message/171577
-> Mute This Topic: https://lists.openembedded.org/mt/94234436/924729
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ticotimo@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+All ptests pass on qemux86-64 core-image-full-cmdline
 
---0000000000004c756905eac6be3b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ ...h-92036-Fix-gc_fini_untrack-GH-92037.patch | 54 -------------------
+ ...report-missing-dependencies-for-disa.patch |  8 +--
+ .../{python3_3.10.4.bb => python3_3.10.7.bb}  |  3 +-
+ 3 files changed, 6 insertions(+), 59 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3/0001-gh-92036-Fix-gc_fini_untrack-GH-92037.patch
+ rename meta/recipes-devtools/python/{python3_3.10.4.bb => python3_3.10.7.bb} (99%)
 
-<div dir=3D"ltr">While the reasoning is correct that this only applies to W=
-indows, this patch is superseded by upgrading to Python 3.8.14:<div><br><di=
-v><a href=3D"https://docs.python.org/release/3.8.14/whatsnew/changelog.html=
-#windows">https://docs.python.org/release/3.8.14/whatsnew/changelog.html#wi=
-ndows</a><br></div><div>bpo-47194: Update zlib to v1.2.12 to resolve CVE-20=
-18-25032.<br></div></div></div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Mon, Oct 10, 2022 at 8:25 AM Ranjitsinh Rathod =
-&lt;<a href=3D"mailto:ranjitsinhrathod1991@gmail.com">ranjitsinhrathod1991@=
-gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex"><div dir=3D"auto"><div>Hi Virendra,</div><div dir=3D"auto"><br><=
-/div><div dir=3D"auto">Please add one space after # in both the comments.<b=
-r><br><div class=3D"gmail_quote" dir=3D"auto"><div dir=3D"ltr" class=3D"gma=
-il_attr">On Mon, 10 Oct, 2022, 5:28 pm virendra thakur, &lt;<a href=3D"mail=
-to:thakur.virendra1810@gmail.com" target=3D"_blank">thakur.virendra1810@gma=
-il.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">zlib v1.2.11 as used in Windows binary releases contains a security<b=
-r>
-issue.<br>
-Link: <a href=3D"https://bugs.python.org/issue47194" rel=3D"noreferrer nore=
-ferrer" target=3D"_blank">https://bugs.python.org/issue47194</a><br>
-<br>
-Signed-off-by: virendra thakur &lt;<a href=3D"mailto:thakur.virendra1810@gm=
-ail.com" rel=3D"noreferrer" target=3D"_blank">thakur.virendra1810@gmail.com=
-</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/python/<a href=3D"http://python3_3.8.13.bb" rel=
-=3D"noreferrer noreferrer" target=3D"_blank">python3_3.8.13.bb</a> | 4 ++++=
-<br>
-=C2=A01 file changed, 4 insertions(+)<br>
-<br>
-diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3_3.8.13.=
-bb" rel=3D"noreferrer noreferrer" target=3D"_blank">python3_3.8.13.bb</a> b=
-/meta/recipes-devtools/python/<a href=3D"http://python3_3.8.13.bb" rel=3D"n=
-oreferrer noreferrer" target=3D"_blank">python3_3.8.13.bb</a><br>
-index d87abe2351..e0e6861677 100644<br>
---- a/meta/recipes-devtools/python/<a href=3D"http://python3_3.8.13.bb" rel=
-=3D"noreferrer noreferrer" target=3D"_blank">python3_3.8.13.bb</a><br>
-+++ b/meta/recipes-devtools/python/<a href=3D"http://python3_3.8.13.bb" rel=
-=3D"noreferrer noreferrer" target=3D"_blank">python3_3.8.13.bb</a><br>
-@@ -62,6 +62,10 @@ CVE_CHECK_WHITELIST +=3D &quot;CVE-2020-15523 CVE-2022-2=
-6488&quot;<br>
-=C2=A0# The module will be removed in the future and flaws documented.<br>
-=C2=A0CVE_CHECK_WHITELIST +=3D &quot;CVE-2015-20107&quot;<br>
-<br>
-+#zlib v1.2.11 as used in Windows binary releases contains a security issue=
-<br>
-+#<a href=3D"https://bugs.python.org/issue47194" rel=3D"noreferrer noreferr=
-er" target=3D"_blank">https://bugs.python.org/issue47194</a><br>
-+CVE_CHECK_WHITELIST +=3D &quot;CVE-2018-25032&quot;<br>
-+<br>
-=C2=A0PYTHON_MAJMIN =3D &quot;3.8&quot;<br>
-<br>
-=C2=A0S =3D &quot;${WORKDIR}/Python-${PV}&quot;<br>
--- <br>
-2.17.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div></div></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#171577): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/171577" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/171577</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/94234436/9247=
-29" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt/=
-94234436/924729</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
-=3D"_blank">ticotimo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
+diff --git a/meta/recipes-devtools/python/python3/0001-gh-92036-Fix-gc_fini_untrack-GH-92037.patch b/meta/recipes-devtools/python/python3/0001-gh-92036-Fix-gc_fini_untrack-GH-92037.patch
+deleted file mode 100644
+index 6a58c35cc60..00000000000
+--- a/meta/recipes-devtools/python/python3/0001-gh-92036-Fix-gc_fini_untrack-GH-92037.patch
++++ /dev/null
+@@ -1,54 +0,0 @@
+-From 178a238f25ab8aff7689d7a09d66dc1583ecd6cb Mon Sep 17 00:00:00 2001
+-From: "Miss Islington (bot)"
+- <31488909+miss-islington@users.noreply.github.com>
+-Date: Wed, 4 May 2022 03:23:29 -0700
+-Subject: [PATCH 01/40] gh-92036: Fix gc_fini_untrack() (GH-92037)
+-
+-Fix a crash in subinterpreters related to the garbage collector. When
+-a subinterpreter is deleted, untrack all objects tracked by its GC.
+-To prevent a crash in deallocator functions expecting objects to be
+-tracked by the GC, leak a strong reference to these objects on
+-purpose, so they are never deleted and their deallocator functions
+-are not called.
+-(cherry picked from commit 14243369b5f80613628a565c224bba7fb3fcacd8)
+-
+-Co-authored-by: Victor Stinner <vstinner@python.org>
+-
+-Upstream-Status: Backport
+----
+- .../2022-04-28-23-37-30.gh-issue-92036.GZJAC9.rst           | 5 +++++
+- Modules/gcmodule.c                                          | 6 ++++++
+- 2 files changed, 11 insertions(+)
+- create mode 100644 Misc/NEWS.d/next/Core and Builtins/2022-04-28-23-37-30.gh-issue-92036.GZJAC9.rst
+-
+-diff --git a/Misc/NEWS.d/next/Core and Builtins/2022-04-28-23-37-30.gh-issue-92036.GZJAC9.rst b/Misc/NEWS.d/next/Core and Builtins/2022-04-28-23-37-30.gh-issue-92036.GZJAC9.rst
+-new file mode 100644
+-index 0000000000..78094c5e4f
+---- /dev/null
+-+++ b/Misc/NEWS.d/next/Core and Builtins/2022-04-28-23-37-30.gh-issue-92036.GZJAC9.rst	
+-@@ -0,0 +1,5 @@
+-+Fix a crash in subinterpreters related to the garbage collector. When a
+-+subinterpreter is deleted, untrack all objects tracked by its GC. To prevent a
+-+crash in deallocator functions expecting objects to be tracked by the GC, leak
+-+a strong reference to these objects on purpose, so they are never deleted and
+-+their deallocator functions are not called. Patch by Victor Stinner.
+-diff --git a/Modules/gcmodule.c b/Modules/gcmodule.c
+-index 805a159d53..43ae6fa98b 100644
+---- a/Modules/gcmodule.c
+-+++ b/Modules/gcmodule.c
+-@@ -2170,6 +2170,12 @@ gc_fini_untrack(PyGC_Head *list)
+-     for (gc = GC_NEXT(list); gc != list; gc = GC_NEXT(list)) {
+-         PyObject *op = FROM_GC(gc);
+-         _PyObject_GC_UNTRACK(op);
+-+        // gh-92036: If a deallocator function expect the object to be tracked
+-+        // by the GC (ex: func_dealloc()), it can crash if called on an object
+-+        // which is no longer tracked by the GC. Leak one strong reference on
+-+        // purpose so the object is never deleted and its deallocator is not
+-+        // called.
+-+        Py_INCREF(op);
+-     }
+- }
+- 
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-missing-dependencies-for-disa.patch b/meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-missing-dependencies-for-disa.patch
+index 0ead57e4655..8c554feb4b6 100644
+--- a/meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-missing-dependencies-for-disa.patch
++++ b/meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-missing-dependencies-for-disa.patch
+@@ -12,16 +12,18 @@ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+ Signed-off-by: Alejandro Hernandez Samaniego <alejandro@enedino.org>
++Refresh for 3.10.7:
++Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+ 
+ ---
+  setup.py | 8 ++++++++
+  1 file changed, 8 insertions(+)
+ 
+ diff --git a/setup.py b/setup.py
+-index 2be4738..62f0e18 100644
++index 85a2b26357..7605347bf5 100644
+ --- a/setup.py
+ +++ b/setup.py
+-@@ -517,6 +517,14 @@ class PyBuildExt(build_ext):
++@@ -517,6 +517,14 @@ def print_three_column(lst):
+                  print("%-*s   %-*s   %-*s" % (longest, e, longest, f,
+                                                longest, g))
+  
+@@ -35,4 +37,4 @@ index 2be4738..62f0e18 100644
+ +
+          if self.missing:
+              print()
+-             print("Python build finished successfully!")
++             print("The necessary bits to build these optional modules were not "
+diff --git a/meta/recipes-devtools/python/python3_3.10.4.bb b/meta/recipes-devtools/python/python3_3.10.7.bb
+similarity index 99%
+rename from meta/recipes-devtools/python/python3_3.10.4.bb
+rename to meta/recipes-devtools/python/python3_3.10.7.bb
+index 34fd2895a3a..404a5821355 100644
+--- a/meta/recipes-devtools/python/python3_3.10.4.bb
++++ b/meta/recipes-devtools/python/python3_3.10.7.bb
+@@ -35,7 +35,6 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch \
+            file://deterministic_imports.patch \
+            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
+-           file://0001-gh-92036-Fix-gc_fini_untrack-GH-92037.patch \
+            "
+ 
+ SRC_URI:append:class-native = " \
+@@ -44,7 +43,7 @@ SRC_URI:append:class-native = " \
+            file://12-distutils-prefix-is-inside-staging-area.patch \
+            file://0001-Don-t-search-system-for-headers-libraries.patch \
+            "
+-SRC_URI[sha256sum] = "80bf925f571da436b35210886cf79f6eb5fa5d6c571316b73568343451f77a19"
++SRC_URI[sha256sum] = "6eed8415b7516fb2f260906db5d48dd4c06acc0cb24a7d6cc15296a604dcdc48"
+ 
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+-- 
+2.30.2
 
---0000000000004c756905eac6be3b--
 
