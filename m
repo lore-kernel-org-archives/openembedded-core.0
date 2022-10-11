@@ -2,78 +2,74 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3776CC4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3698BC433FE
 	for <webhook@archiver.kernel.org>; Tue, 11 Oct 2022 08:39:49 +0000 (UTC)
-Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com
- [85.158.142.2])
- by mx.groups.io with SMTP id smtpd.web09.5040.1665477585011683708
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
+ [195.245.231.2])
+ by mx.groups.io with SMTP id smtpd.web11.4896.1665477581230952841
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Oct 2022 01:39:45 -0700
+ Tue, 11 Oct 2022 01:39:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=RH8n02pw;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.2,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=BFDWwESO;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.2,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1665477582; i=@fujitsu.com;
-	bh=si0XHD718hbX5UFwlVWV5HWOknqkDqHmw/0W5f+VED4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=RH8n02pwzUOslHU2suQUWbyYRz69xvYwTt3sGAF7Fq6RlNIWaTK4Ief9V/khRqPep
-	 8uyl1gk3U7uphx2j+5YnP/oBljXxMvSiMFdnuKQapLp2J3VY1Zozcz7Ft63KDwGQs8
-	 ety45oHmEVteAMmwDZMbTRfoz8OQqT74fge/U/ZKrcndJaD2nm/tXwuaX2DamTJFuY
-	 Ql8bewSYDg4eTrJ2HIEG24nKHdLV8TbacfistoD4U7cse9m5qkS621YfpTBBBOZtjO
-	 Aat3tcGF93joYD3w+ktdLyKaSBQhgzbTfiX/TbqFMvm4mxWXM/RpCLjD3k62GVWRV3
-	 /EsZHEvl0/xcw==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrBIsWRWlGSWpSXmKPExsViZ8OxWfectmu
-  ywf3rvBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8a8Nx+ZC3o5Kw41LWJrYNzI0cXIxSEkcJ9R
-  YtbbpawQziUmiQ2rF0M5exglNs1aw9jFyMnBJqAmMf3WDaAEB4eIgJ7E1X+iIGFmARWJF7972
-  EHCwgKOEt+e2IOEWQRUJb6cvAXWySvgJDH/eTsbiC0hoCAx5eF7ZpByTgFniYP7a0HCQkAlay
-  d1sECUC0qcnPmEBWK6hMTBFy+YIVoVJWZfbmaBsCskZs1qY4Kw1SSuntvEPIFRcBaS9llI2hc
-  wMq1itEkqykzPKMlNzMzRNTQw0DU0NNW1tARSlnqJVbqJeqmlunn5RSUZuoZ6ieXFeqnFxXrF
-  lbnJOSl6eaklmxiBQZxSnFy+g3H7vl96hxglOZiURHm71F2ThfiS8lMqMxKLM+KLSnNSiw8xy
-  nBwKEnwemsB5QSLUtNTK9Iyc4ARBZOW4OBREuFdqgKU5i0uSMwtzkyHSJ1itOdY23BgLzPH1N
-  n/9jNzLAeTM7+2HWAWYsnLz0uVEue1AMawkABIW0ZpHtxQWAK4xCgrJczLyMDAIMRTkFqUm1m
-  CKv+KUZyDUUmYNwJkCk9mXgnc7ldAZzEBnXXyqhPIWSWJCCmpBqYTfFdl7s2onD3LdLdLkPgP
-  02/R/dv3r5LaaMAfnHr9P48g4wcnxdSdAksr29ccm/GSVyqJ+4K/lFxlyl+3JRb/ytlPZs+Ze
-  teo9HFEr3LPyRcB529/XNxq90dgjvXqT62VzP9nvSx7/PTB7IZfb7n2T5j9+ZnrdmP2T61ldm
-  ukVA2ZNafpu87fvaT3zvYzH9/GripZl5c/9ejJHU08mjKBGffk3DQVrt/pfDHr5Coe+86jOVM
-  C/7T5dH8KbZLUOyh7hrXkDEMQ1+Je9v2/k2Xn8kcZHztlevBZAIOQwp3NJro+Z9lvLZ/pojdF
-  tvWYrtWdLZ2MUUtqN7SHPj1iOf9b7JM3m9Y6daoc4rfZcb1biaU4I9FQi7moOBEAlziIJHsDA
-  AA=
+	s=170520fj; t=1665477579; i=@fujitsu.com;
+	bh=g9OoBaQOFGDQtMtF1F9Vg7vAc4zZZjGM6WtcyAwb0VM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=BFDWwESOfqnlNFQcd1EfuU9vsyrlS4S/d+3AxQNFKtg5TGFHq0xTx/w/iumzL2kGA
+	 KphOEnBXBEnfl/GN8/4gXkX4ORxgEFkjBJdooTPMawcoIurbRYFTEqKYq7/bOg1BZ0
+	 6+Ve3eMAHZXWeAbvbYdU+BZ4J4T6xhv/8jHuH16EpQpgyNHuk0lk4eyieEa5gUk+ud
+	 NmO3ilo331fbSSq91DSfFiNfAVUrN+w+MEfeb1NYsLmUqXIEWEklRH+yCZO+euaQOu
+	 RgSyu70tCR5cgEGYPOdfR4qRY56JofNr/LvGToMM6+xlDUXvimWOpKm+7ArVwGnqLP
+	 BW/88Q0ZUKC7A==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLIsWRWlGSWpSXmKPExsViZ8ORqHtK2zX
+  Z4MADfYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPWrMOsBZc4K65ueMPWwHiXo4uRi0NI4DGj
+  xPW1R9i6GDmBnGtMEusPaUAk9jBKHOr/DpZgE1CTmH7rBmsXIweHiICexNV/oiBhZgEViRe/e
+  9hBbGEBZ4lfTx4wgtgsAqoSR/Z3gdm8Ak4SV5pnsYLYEgIKElMevmeGiAtKnJz5hAVijoTEwR
+  cvmCFqFCVmX25mgbArJGbNamOCsNUkrp7bxDyBkX8WkvZZSNoXMDKtYrRKKspMzyjJTczM0TU
+  0MNA1NDTVNTbXNbTUS6zSTdRLLdUtTy0u0TXSSywv1kstLtYrrsxNzknRy0st2cQIDMmUYlXh
+  HYwdK3/qHWKU5GBSEuXtUndNFuJLyk+pzEgszogvKs1JLT7EKMPBoSTB660FlBMsSk1PrUjLz
+  AHGB0xagoNHSYR3qQpQmre4IDG3ODMdInWKUZdj5te2A8xCLHn5ealS4rwWwGgTEgApyijNgx
+  sBi9VLjLJSwryMDAwMQjwFqUW5mSWo8q8YxTkYlYR5I0Cm8GTmlcBtegV0BBPQESevOoEcUZK
+  IkJJqYArzivxr2ZbmF+NofrW4clnI78dCeVx2epoqOs/cdixgMXgsdLdnz6Nt/j13Lnuv1dN3
+  viwUr1JSYFP1UueVNM/X7qPFMs8vX6m+4V4eKyaSJ2mltdMvZ6GAXo3n50K/9WxMu+PYneJU0
+  /qZ3D/vnu0eyJEwb8Kv5TG9IqyxK38ZSatW9rzP/Ho7aqd1E6MfV4n09Vv/NnRmlP1deGv+Fx
+  XvVXIdsSsXZsy6nM16bPum/BkXun+U54ZrTDRRj7kmHntToWSqerTwidc7OrRfOG575GvWnah
+  VGCMVznT2afCmkPLjrA9EuA33r2/ffLJkAudfRhUniTdaIX4yat/e+9nJzXpdseqm6cccFQsl
+  luKMREMt5qLiRABqONMVUAMAAA==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-4.tower-728.messagelabs.com!1665477581!104009!1
-X-Originating-IP: [62.60.8.179]
+X-Msg-Ref: server-18.tower-565.messagelabs.com!1665477578!314346!1
+X-Originating-IP: [62.60.8.97]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.87.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 1746 invoked from network); 11 Oct 2022 08:39:42 -0000
-Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
-  by server-4.tower-728.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 11 Oct 2022 08:39:42 -0000
-Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id A3F5E7C
+Received: (qmail 20925 invoked from network); 11 Oct 2022 08:39:38 -0000
+Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
+  by server-18.tower-565.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 11 Oct 2022 08:39:38 -0000
+Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 7A4BE10018D
 	for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Oct 2022 09:39:41 +0100 (BST)
+ Tue, 11 Oct 2022 09:39:38 +0100 (BST)
 Received: from R01UKEXCASM126.r01.fujitsu.local (R01UKEXCASM126
  [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id 9764173
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 6E7EF100043
 	for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Oct 2022 09:39:41 +0100 (BST)
+ Tue, 11 Oct 2022 09:39:38 +0100 (BST)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Tue, 11 Oct 2022 09:39:40 +0100
+ (TLS) id 15.0.1497.32; Tue, 11 Oct 2022 09:39:36 +0100
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] xkeyboard-config: upgrade 2.36 -> 2.37
-Date: Tue, 11 Oct 2022 16:39:20 +0800
-Message-ID: <1665477563-16679-2-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] wpebackend-fdo: upgrade 1.12.1 -> 1.14.0
+Date: Tue, 11 Oct 2022 16:39:19 +0800
+Message-ID: <1665477563-16679-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1665477563-16679-1-git-send-email-wangmy@fujitsu.com>
-References: <1665477563-16679-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
@@ -85,30 +81,34 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 11 Oct 2022 08:39:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/171612
+ https://lists.openembedded.org/g/openembedded-core/message/171611
+
+Changelog:
+==========
+Fixed a crash caused by trying to deallocate already freed graphics buffers in certain situations.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../{xkeyboard-config_2.36.bb => xkeyboard-config_2.37.bb}      | 2 +-
+ .../{wpebackend-fdo_1.12.1.bb => wpebackend-fdo_1.14.0.bb}      | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.36.bb => xkeyboard-config_2.37.bb} (92%)
+ rename meta/recipes-sato/webkit/{wpebackend-fdo_1.12.1.bb => wpebackend-fdo_1.14.0.bb} (90%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb
-similarity index 92%
-rename from meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb
-rename to meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb
-index 9e6d17c780..f3d9ac9221 100644
---- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb
-+++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb
-@@ -13,7 +13,7 @@ LICENSE = "MIT & MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0e7f21ca7db975c63467d2e7624a12f9"
+diff --git a/meta/recipes-sato/webkit/wpebackend-fdo_1.12.1.bb b/meta/recipes-sato/webkit/wpebackend-fdo_1.14.0.bb
+similarity index 90%
+rename from meta/recipes-sato/webkit/wpebackend-fdo_1.12.1.bb
+rename to meta/recipes-sato/webkit/wpebackend-fdo_1.14.0.bb
+index 5f776c13e6..708201043b 100644
+--- a/meta/recipes-sato/webkit/wpebackend-fdo_1.12.1.bb
++++ b/meta/recipes-sato/webkit/wpebackend-fdo_1.14.0.bb
+@@ -13,7 +13,7 @@ inherit meson features_check pkgconfig
+ REQUIRED_DISTRO_FEATURES = "opengl"
  
- SRC_URI = "${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "1f1bb1292a161d520a3485d378609277d108cd07cde0327c16811ff54c3e1595"
-+SRC_URI[sha256sum] = "eb1383a5ac4b6210d7c7302b9d6fab052abdf51c5d2c9b55f1f779997ba68c6c"
+ SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "45aa833c44ec292f31fa943b01b8cc75e54eb623ad7ba6a66fc2f118fe69e629"
++SRC_URI[sha256sum] = "e75b0cb2c7145448416e8696013d8883f675c66c11ed750e06865efec5809155"
  
- SECTION = "x11/libs"
- DEPENDS = "util-macros libxslt-native"
+ # Especially helps compiling with clang which enable this as error when
+ # using c++11
 -- 
 2.25.1
 
