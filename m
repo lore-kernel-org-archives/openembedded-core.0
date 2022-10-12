@@ -1,91 +1,122 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <alberto@pianon.eu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FE55C433FE
-	for <webhook@archiver.kernel.org>; Wed, 12 Oct 2022 07:18:27 +0000 (UTC)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web12.17688.1665559102663490848
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A314C4332F
+	for <webhook@archiver.kernel.org>; Wed, 12 Oct 2022 07:25:57 +0000 (UTC)
+Received: from server3.justice4all.it (server3.justice4all.it [95.217.19.36])
+ by mx.groups.io with SMTP id smtpd.web09.17854.1665559554178956812
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Oct 2022 00:18:23 -0700
+ Wed, 12 Oct 2022 00:25:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Sber6h6+;
- spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id e18so23265103edj.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Oct 2022 00:18:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sW29xfLFg/4vghfRXGZLMMkDJITI65v6X3rDVwqlnM0=;
-        b=Sber6h6+Uc1Wa14VCklziI03eAwjtiO/5istY6z5U61h5nAO8jif+hHxjJQajsG3OT
-         DjucbSJYfybGhnCAZH/3ikVYzq06GAAR/Qd5Ny5hLjs1q7i9s9TSCJHb2z/HriD1mOgS
-         vUYgoW9QROSMY7IwZ+hizIr+Y+ZQgWi+9vaKUv7kU1Wivj3GEBYtY24JQpQKg/ZBBN45
-         mEVvwChIVGyXTh9CUrzQ06Yp+TD+dWpf5KYt6SZcwL3CxI99soFUEYXp/AOSzIDJcXnq
-         QMxAGqj5uUkJFy2ZBr5ZeHB185dQNAF4TogUCAc1Fkbk8S7ZUJyFcidqk7H8BKieIcDm
-         3jaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sW29xfLFg/4vghfRXGZLMMkDJITI65v6X3rDVwqlnM0=;
-        b=qlQk3ztFzB6GJDYybZwEdVYZ8jwbaIAP24ftc2whW50lQb7TMflC5a28REbB9YeuqL
-         wwUP4h7IQxod0g0Res0pKA02uBl+tVZErbHcE3h85BMgC15xae4ehHlVoZp0kGZ4soMh
-         2hieSY2plTDSlt2axcl6pPTWW2VZ+hZ6h7hYBTZ8w7PXOQTJ09+Dly8993LTD5sOMD5B
-         8p9SfGkKeUWpPjnJlIzyQTjVvqC2wXkXLaJA1nv6PO7bhN4lAmZyrbfC6U5dEZZCzGc/
-         b6DzTOp6evVEIV4ocNO/c6F9RHLE6DLApk/u0IlWax8ZeSu+gdOiny9Yv1BPS760uGL3
-         W0wQ==
-X-Gm-Message-State: ACrzQf3UqjE9tCqxg00PgbnR6Aq2bFsTlleYsoy8d5BW4ccJPTPpD51U
-	B4FY8sKuzL8caEp3/C+hwL2gvkw6PkU=
-X-Google-Smtp-Source: AMsMyM66MgJied6f2iNDJFV5pWGTArGe8CYtUsfeSJtsDFDcsioJr9R1N1Uib7NnfXKh9ts55QAHGQ==
-X-Received: by 2002:a05:6402:538a:b0:457:b602:d5a6 with SMTP id ew10-20020a056402538a00b00457b602d5a6mr26393865edb.371.1665559100926;
-        Wed, 12 Oct 2022 00:18:20 -0700 (PDT)
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net. [91.135.6.246])
-        by smtp.gmail.com with ESMTPSA id ch8-20020a0564021bc800b00459ad800bbcsm10601960edb.33.2022.10.12.00.18.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Oct 2022 00:18:20 -0700 (PDT)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH v2 2/3] u-boot: Remove duplicate inherit of cml1
-Date: Wed, 12 Oct 2022 08:18:12 +0100
-Message-Id: <20221012071813.778-2-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221012071813.778-1-alex.kiernan@gmail.com>
-References: <20221012071813.778-1-alex.kiernan@gmail.com>
+ dkim=fail reason="signature has expired" header.i=@pianon.eu header.s=mail20151219 header.b=vdobZ6ig;
+ spf=pass (domain: pianon.eu, ip: 95.217.19.36, mailfrom: alberto@pianon.eu)
+Received: from localhost (localhost [127.0.0.1])
+	by server3.justice4all.it (Postfix) with ESMTP id B27045C0096;
+	Wed, 12 Oct 2022 09:25:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=pianon.eu; h=
+	message-id:user-agent:subject:subject:from:from:date:date
+	:content-transfer-encoding:content-type:content-type
+	:mime-version; s=mail20151219; t=1665559551; x=1667373952; bh=Le
+	CnSkCrrEm3bEIHAtefxihD0bFlYSR7Yr7zmg0T8QI=; b=vdobZ6igYOgC0XQRt4
+	dbXpWD0+1cR/FtrLcS1wxdeZFaY0XP7rK/o66pYtdiWldhhCdLMHHpotFqweIGPX
+	Npt2kP4Rxsxl+E+dMupD0N4qlNS+yBuHTdz0MQqGadBXVl+2p1zhnzu2C1VVkWUP
+	ZYMugPVABUYNV1tuTYlamQOcI=
+X-Virus-Scanned: Debian amavisd-new at server3.justice4all.it
+Received: from server3.justice4all.it ([127.0.0.1])
+	by localhost (server3.justice4all.it [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id HvxD_1ONBnH3; Wed, 12 Oct 2022 09:25:51 +0200 (CEST)
+Received: from pianon.eu (localhost [127.0.0.1])
+	(Authenticated sender: alberto@pianon.eu)
+	by server3.justice4all.it (Postfix) with ESMTPA id 012585C0095;
+	Wed, 12 Oct 2022 09:25:50 +0200 (CEST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Wed, 12 Oct 2022 09:25:50 +0200
+From: Alberto Pianon <alberto@pianon.eu>
+To: openembedded-core@lists.openembedded.org
+Cc: marta.rybczynska@linaro.org, Richard Purdie
+ <richard.purdie@linuxfoundation.org>, 'Carlo Piana' <carlo@piana.eu>
+Subject: severe issue in CVE checker
+User-Agent: Roundcube Webmail/1.4.1
+Message-ID: <233c014c169e00e6a9ce464f3ab2bf79@pianon.eu>
+X-Sender: alberto@pianon.eu
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Oct 2022 07:18:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171651
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Oct 2022 07:25:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171653
 
-Splitting u-boot-configure.inc out of the base left duplicate
-cml1.bbclass in the base include.
+All, Marta, Richard,
 
-Fixes: fc9a17ad386c ("u-boot: Split do_configure logic into separate file")
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
- meta/recipes-bsp/u-boot/u-boot.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+while implementing stats aggregation for CVE metadata in the Oniro 
+project, I encountered a severe issue in Yocto's CVE checker, apparently 
+due to this: 
+https://git.yoctoproject.org/poky/tree/meta/recipes-core/meta/cve-update-db-native.bb#n81
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index f022aed732ce..b2f33e382664 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -5,7 +5,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
- DEPENDS += "${@bb.utils.contains('UBOOT_ENV_SUFFIX', 'scr', 'u-boot-mkimage-native', '', d)}"
- 
--inherit uboot-config uboot-extlinux-config uboot-sign deploy cml1 python3native kernel-arch
-+inherit uboot-config uboot-extlinux-config uboot-sign deploy python3native kernel-arch
- 
- DEPENDS += "swig-native"
- 
--- 
-2.35.1
+It appears that when cve-update-db-native fails to fetch some years of 
+NIST CVE db, it just issues a warning but goes on anyway.
 
+The result is that in some builds, randomly (depending on NIST webserver 
+timeouts or other connection problems), CVE db is not complete, so the 
+CVE check returns false negatives (i.e. no vulnerabilities found in some 
+components even if such vulnerabilities do exist)
+
+I ran into such problem because in Oniro we need aggregate data from 
+different builds for a large target matrix; I added a check to check 
+that CVE metadata for each component are the same in all builds, and it 
+failed, so I tried to figure out the cause and I found this:
+
+- in a build where cve-check found a vulnerability for acl:
+     $ sqlite3 build-linux-clang-qemuarm-efi/tmp/CVE_CHECK/nvdcve_1.1.db
+     sqlite> SELECT DISTINCT ID FROM PRODUCTS WHERE PRODUCT IS "acl";
+     CVE-2009-4411
+     sqlite>
+
+- in another build where cve-check did not found any vulnerability for 
+the very same version of acl:
+     $ sqlite3 build-linux-clang-qemux86/tmp/CVE_CHECK/nvdcve_1.1.db
+     sqlite> SELECT DISTINCT ID FROM PRODUCTS WHERE PRODUCT IS "acl";
+     sqlite>
+
+so I listed both CVE db files in those two builds and this is what I 
+got:
+
+     $ ls -ll build-linux-clang-qemuarm-efi/tmp/CVE_CHECK/nvdcve_1.1.db 
+build-linux-clang-qemux86/tmp/CVE_CHECK/nvdcve_1.1.db
+     -rw-r--r-- 1 ubuntu ubuntu 215093248 Oct 11 10:56 
+build-linux-clang-qemuarm-efi/tmp/CVE_CHECK/nvdcve_1.1.db
+     -rw-r--r-- 1 ubuntu ubuntu     28672 Oct 11 10:00 
+build-linux-clang-qemux86/tmp/CVE_CHECK/nvdcve_1.1.db
+
+The two CVE db files were fetched just about 1h apart, but the second 
+file is apparently incomplete.
+
+I checked the log for the second build, and I found this:
+
+     WARNING: cve-update-db-native-1.0-r0 do_fetch: Failed to fetch CVE 
+data ([Errno 99] Cannot assign requested address)
+     NOTE: recipe cve-update-db-native-1.0-r0: task do_fetch: Succeeded
+
+Fetch fails, but do_fetch task succeeds.
+
+So I looked into the recipe's code, and I found this: 
+https://git.yoctoproject.org/poky/tree/meta/recipes-core/meta/cve-update-db-native.bb#n81
+
+It iterates over NIST CVE db years, but if some year fail to download, 
+it goes on anyway, and it still merges the successful downloads into 
+nvdcve_1.1.db, without returning error.
+
+IMHO this is a severe issue because it may silently lead to false 
+negatives in the CVE check. If some downloads fail due to timeouts or 
+other connection problems, cve-check should retry a number of times, and 
+if any download still fails, cve-update-db-native do_fecth should fail, 
+and it turn all do_cve_check tasks should fail, since doing a CVE check 
+against a corrupted/incomplete CVE database is clearly useless
+
+Regards,
+
+Alberto
 
