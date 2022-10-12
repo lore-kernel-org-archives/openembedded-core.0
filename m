@@ -2,137 +2,144 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4042BC433FE
-	for <webhook@archiver.kernel.org>; Wed, 12 Oct 2022 07:47:07 +0000 (UTC)
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
- by mx.groups.io with SMTP id smtpd.web11.17675.1665560819425790377
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 639CDC4332F
+	for <webhook@archiver.kernel.org>; Wed, 12 Oct 2022 07:50:47 +0000 (UTC)
+Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
+ by mx.groups.io with SMTP id smtpd.web08.17504.1665561040034871438
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Oct 2022 00:46:59 -0700
+ Wed, 12 Oct 2022 00:50:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=C2QOAG2a;
- spf=pass (domain: gmail.com, ip: 209.85.166.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-io1-f46.google.com with SMTP id 137so8525435iou.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Oct 2022 00:46:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FHtx9O2t;
+ spf=pass (domain: gmail.com, ip: 209.85.166.174, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-il1-f174.google.com with SMTP id y17so8356893ilq.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Oct 2022 00:50:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2ANxV4EWO4iZdh03E4TgyUg8fRUSvsDJ3fWTBJSANpo=;
-        b=C2QOAG2ahjNdAxMgnT/4SbMNVjds824uVuKYfVdtF9TVRkg93vXAdME+Zh5jUk3PJz
-         7oF8aUwpAEY51TFc8YgFtpIaQAeCyuE+9SU4oImg+mkZXi41bnvDsNxZaY6OxiLrdUsW
-         CuQmdta386IpKrS2rW81UuL+nLxwi8x5/4W33JpgVWp73nRvWTGSmQgazkw7QdLiarLE
-         ZZVLML7xj/h4MKFuq2Lwhm6FzN3yNNIPk3vfmbmE+af7IsL3j0atXOSGD+i5DUxMCnjU
-         wKSDPWBsqEIf2ls5E4fIw8qE/zxxOhs0/ci2x1jbXQqkuj5W1LSBGbqaOCla38l7fBam
-         VKkg==
+        bh=PjvMgMz/MRTN7mA0IVb+Og8BgHFBnZygfsZFxcBFhMs=;
+        b=FHtx9O2tKb873uxRy1yp89dw4nwhbI2Hw6cS7Jml1yuZOmGrReqGbzAIQbcq6gN0Yg
+         xthilGw/1OOid/KMSR26WclGLdM9ZU6U3v9UfOoqkR+2V/OOgtQzdLKpTtgmnevsep7q
+         +qIwmz44jhbhZNXs1+8MpVBajU6h3F+CUPGfXV0N8nK3r2j18oU+9NXz+5f0Teoeaa2Q
+         cIJketUh0wlssUnx47Qmq3RJWvDJReyUKdv0whnWzpmfvTpvEfwBmkSVJo/3Mom4CPSQ
+         WjdeNo1uc9Dp6FVtZnBXFp/TDXXfzvJPHauJY2bY81d/V2gEdruRlLxmfad71mr6ifly
+         vEjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2ANxV4EWO4iZdh03E4TgyUg8fRUSvsDJ3fWTBJSANpo=;
-        b=OVYJgmoHWw4ru5TvhASnw7s0zKZogf5qQwFWLKKoAIjnVfa4+3Q5B1gtGI1LOL1nAy
-         6UtJWjwqGtk/SdxxmM+vsOsCVe6O2awqqZ6ItFTPXJJdNMaEBHcEyPPktyVKgd4ckTg8
-         YDcSScvUxY3hpXHpzzVwC5wYYcUMQ1disJVKOnL9cIQcTOQvNwfPVg/H0tf4xDAj6ehq
-         hBAuaDuiVWq1mnEmD70Pl3FtAj+i97S4bHz9ZHGW7ebEoYX9VhG2btyLnl6t5ih5+bU/
-         35BNZPmgD5wmWM2ycQHIfTHSJBrBrA4/ZrlM/tEKPJtthJh45Ck1vdaVZGwU9VRbFl7g
-         0TkA==
-X-Gm-Message-State: ACrzQf0Qj582G6B6VeF5w5ApHs6jPjs1e2epLCOvn+sqN6v/TN043cCa
-	t3qiuNRUUkPcIrKbgtWnJq5DDpQxwxXdDQiGoa8=
-X-Google-Smtp-Source: AMsMyM54Rypmwu2AQtXjs/fS3qwR4vfczsdj0uVoo38a7geTWmBVp6JvYQD845HVFzhc2THgrNor8WUeHN0kmjgzIW0=
-X-Received: by 2002:a05:6638:14c3:b0:363:b026:9989 with SMTP id
- l3-20020a05663814c300b00363b0269989mr9134447jak.254.1665560818680; Wed, 12
- Oct 2022 00:46:58 -0700 (PDT)
+        bh=PjvMgMz/MRTN7mA0IVb+Og8BgHFBnZygfsZFxcBFhMs=;
+        b=LECaDvIEeIiTkmimwNyB8CmH6x1OTumHWSrRfdlkbj8LPARc8j07KZcd5oyfXmJoc6
+         AfHfQTc12nza9vf5kGtdSq2w/L7oHt2M9sCrTtpVBsc87upMZeTmSueTmNEailbKjZve
+         1vxp39f0Swb4eE4d2yljvHdcdW1ZfR7u9Hdsq9iXzO8A4e9txoOoU0GJeJbrjefJ/6A3
+         2ZUMU6qWOmWWvzGyrVIoYBla4rDH/IZELxy0rXRgMI0p9iEjdRQUc5R5CgXQXHvpw3rP
+         3ulFEDehh1AdvjQRs1llYBsqlnzEp7HEMYGrASJG3eWveqT9T6Qc7lBOIkENct5K805C
+         Q7Gg==
+X-Gm-Message-State: ACrzQf1HX/qDLZJs+jK7/0ooK6V/ejVKUDdsPTQhs3aobb/2WowGzHCd
+	HqlxYa0mnFtbzab4IQk+t3kOaCgBgSh7jANiOxo=
+X-Google-Smtp-Source: AMsMyM6yGNhZX4pjJ3lbgZW6yd8w7VvnCRNpQ32v/t3hVqByLyNtq/lBq11woXCFVr/8q1k2ANYE0I1wrsp/EHh/Lss=
+X-Received: by 2002:a05:6e02:17cb:b0:2f9:1fb4:ba3b with SMTP id
+ z11-20020a056e0217cb00b002f91fb4ba3bmr13404829ilu.257.1665561039379; Wed, 12
+ Oct 2022 00:50:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220929025056.2799287-1-liambeguin@gmail.com> <Y0Xl75mvvCkli/9d@shaak>
-In-Reply-To: <Y0Xl75mvvCkli/9d@shaak>
+References: <233c014c169e00e6a9ce464f3ab2bf79@pianon.eu>
+In-Reply-To: <233c014c169e00e6a9ce464f3ab2bf79@pianon.eu>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 12 Oct 2022 09:46:46 +0200
-Message-ID: <CANNYZj81k8JC1UEGCtujXJjvRgbBw+FBdRYp-qbQSS=i2Xsdtg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] meson: make wrapper options sub-command specific
-To: Liam Beguin <liambeguin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, alexandre.belloni@bootlin.com, 
-	peter.kjellerstedt@axis.com
+Date: Wed, 12 Oct 2022 09:50:27 +0200
+Message-ID: <CANNYZj_MhYekau2ufotcMe8atj79F+NkYPg0FhasMdu1TvVBqA@mail.gmail.com>
+Subject: Re: [OE-core] severe issue in CVE checker
+To: Alberto Pianon <alberto@pianon.eu>
+Cc: openembedded-core@lists.openembedded.org, marta.rybczynska@linaro.org, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, Carlo Piana <carlo@piana.eu>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Oct 2022 07:47:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171656
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Oct 2022 07:50:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171657
 
-No one seems to have objections, it's that there is no explicit
-confirmation that your patch (or anyone's) is in staging branches, and
-integration is currently on pause for a couple weeks.
+Thanks for the information, can you send a patch?
 
 Alex
 
-On Tue, 11 Oct 2022 at 23:53, Liam Beguin <liambeguin@gmail.com> wrote:
+On Wed, 12 Oct 2022 at 09:25, Alberto Pianon <alberto@pianon.eu> wrote:
 >
-> Hi,
+> All, Marta, Richard,
 >
-> On Wed, Sep 28, 2022 at 10:50:56PM -0400, Liam Beguin wrote:
-> > The meson-wrapper adds setup options to facilitate cross-compilation.
-> > The current options are exclusive to the setup sub-command and might
-> > cause issues with other sub-commands.
-> >
-> > Update the wrapper to make options sub-command specific.
-> >
-> > Signed-off-by: Liam Beguin <liambeguin@gmail.com>
-> > ---
-> >  .../meson/meson/meson-wrapper                 | 21 +++++++++++++++----
-> >  1 file changed, 17 insertions(+), 4 deletions(-)
+> while implementing stats aggregation for CVE metadata in the Oniro
+> project, I encountered a severe issue in Yocto's CVE checker, apparently
+> due to this:
+> https://git.yoctoproject.org/poky/tree/meta/recipes-core/meta/cve-update-db-native.bb#n81
 >
-> Any comments on this patch?
+> It appears that when cve-update-db-native fails to fetch some years of
+> NIST CVE db, it just issues a warning but goes on anyway.
 >
-> Cheers,
-> Liam
+> The result is that in some builds, randomly (depending on NIST webserver
+> timeouts or other connection problems), CVE db is not complete, so the
+> CVE check returns false negatives (i.e. no vulnerabilities found in some
+> components even if such vulnerabilities do exist)
 >
-> > diff --git a/meta/recipes-devtools/meson/meson/meson-wrapper b/meta/recipes-devtools/meson/meson/meson-wrapper
-> > index c62007f5077e..fca64a569299 100755
-> > --- a/meta/recipes-devtools/meson/meson/meson-wrapper
-> > +++ b/meta/recipes-devtools/meson/meson/meson-wrapper
-> > @@ -5,7 +5,7 @@ if [ -z "$OECORE_NATIVE_SYSROOT" ]; then
-> >  fi
-> >
-> >  if [ -z "$SSL_CERT_DIR" ]; then
-> > -    export SSL_CERT_DIR="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/"
-> > +    export SSL_CERT_DIR="$OECORE_NATIVE_SYSROOT/etc/ssl/certs/"
-> >  fi
-> >
-> >  # If these are set to a cross-compile path, meson will get confused and try to
-> > @@ -13,7 +13,20 @@ fi
-> >  # config is already in meson.cross.
-> >  unset CC CXX CPP LD AR NM STRIP
-> >
-> > +for arg in "$@"; do
-> > +    case "$arg" in
-> > +    -*) continue ;;
-> > +    *) SUBCMD="$arg"; break ;;
-> > +    esac
-> > +done
-> > +
-> > +if [ "$SUBCMD" = "setup" ] || [ -d "$SUBCMD" ]; then
-> > +    MESON_SUB_OPTS=" \
-> > +        --cross-file="$OECORE_NATIVE_SYSROOT/usr/share/meson/${TARGET_PREFIX}meson.cross" \
-> > +        --native-file="$OECORE_NATIVE_SYSROOT/usr/share/meson/meson.native" \
-> > +        "
-> > +fi
-> > +
-> >  exec "$OECORE_NATIVE_SYSROOT/usr/bin/meson.real" \
-> > -     --cross-file "${OECORE_NATIVE_SYSROOT}/usr/share/meson/${TARGET_PREFIX}meson.cross" \
-> > -     --native-file "${OECORE_NATIVE_SYSROOT}/usr/share/meson/meson.native" \
-> > -     "$@"
-> > +    "$@" \
-> > +    $MESON_SUB_OPTS
-> >
-> > base-commit: a2659cc2bf5d3f1cedf5c52c3b45e0427d40732d
-> > --
-> > 2.37.1.223.g6a475b71f8c4
-> >
+> I ran into such problem because in Oniro we need aggregate data from
+> different builds for a large target matrix; I added a check to check
+> that CVE metadata for each component are the same in all builds, and it
+> failed, so I tried to figure out the cause and I found this:
+>
+> - in a build where cve-check found a vulnerability for acl:
+>      $ sqlite3 build-linux-clang-qemuarm-efi/tmp/CVE_CHECK/nvdcve_1.1.db
+>      sqlite> SELECT DISTINCT ID FROM PRODUCTS WHERE PRODUCT IS "acl";
+>      CVE-2009-4411
+>      sqlite>
+>
+> - in another build where cve-check did not found any vulnerability for
+> the very same version of acl:
+>      $ sqlite3 build-linux-clang-qemux86/tmp/CVE_CHECK/nvdcve_1.1.db
+>      sqlite> SELECT DISTINCT ID FROM PRODUCTS WHERE PRODUCT IS "acl";
+>      sqlite>
+>
+> so I listed both CVE db files in those two builds and this is what I
+> got:
+>
+>      $ ls -ll build-linux-clang-qemuarm-efi/tmp/CVE_CHECK/nvdcve_1.1.db
+> build-linux-clang-qemux86/tmp/CVE_CHECK/nvdcve_1.1.db
+>      -rw-r--r-- 1 ubuntu ubuntu 215093248 Oct 11 10:56
+> build-linux-clang-qemuarm-efi/tmp/CVE_CHECK/nvdcve_1.1.db
+>      -rw-r--r-- 1 ubuntu ubuntu     28672 Oct 11 10:00
+> build-linux-clang-qemux86/tmp/CVE_CHECK/nvdcve_1.1.db
+>
+> The two CVE db files were fetched just about 1h apart, but the second
+> file is apparently incomplete.
+>
+> I checked the log for the second build, and I found this:
+>
+>      WARNING: cve-update-db-native-1.0-r0 do_fetch: Failed to fetch CVE
+> data ([Errno 99] Cannot assign requested address)
+>      NOTE: recipe cve-update-db-native-1.0-r0: task do_fetch: Succeeded
+>
+> Fetch fails, but do_fetch task succeeds.
+>
+> So I looked into the recipe's code, and I found this:
+> https://git.yoctoproject.org/poky/tree/meta/recipes-core/meta/cve-update-db-native.bb#n81
+>
+> It iterates over NIST CVE db years, but if some year fail to download,
+> it goes on anyway, and it still merges the successful downloads into
+> nvdcve_1.1.db, without returning error.
+>
+> IMHO this is a severe issue because it may silently lead to false
+> negatives in the CVE check. If some downloads fail due to timeouts or
+> other connection problems, cve-check should retry a number of times, and
+> if any download still fails, cve-update-db-native do_fecth should fail,
+> and it turn all do_cve_check tasks should fail, since doing a CVE check
+> against a corrupted/incomplete CVE database is clearly useless
+>
+> Regards,
+>
+> Alberto
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#171643): https://lists.openembedded.org/g/openembedded-core/message/171643
-> Mute This Topic: https://lists.openembedded.org/mt/93987385/1686489
+> View/Reply Online (#171653): https://lists.openembedded.org/g/openembedded-core/message/171653
+> Mute This Topic: https://lists.openembedded.org/mt/94276393/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
