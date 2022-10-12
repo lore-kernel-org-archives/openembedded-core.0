@@ -1,149 +1,139 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BABCDC433FE
-	for <webhook@archiver.kernel.org>; Wed, 12 Oct 2022 17:49:30 +0000 (UTC)
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
- by mx.groups.io with SMTP id smtpd.web09.281.1665596969854455153
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7895CC433FE
+	for <webhook@archiver.kernel.org>; Wed, 12 Oct 2022 19:43:51 +0000 (UTC)
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+ by mx.groups.io with SMTP id smtpd.web10.1671.1665603822166042518
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Oct 2022 10:49:30 -0700
+ Wed, 12 Oct 2022 12:43:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=aCKaMHRg;
- spf=pass (domain: gmail.com, ip: 209.85.167.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f180.google.com with SMTP id m81so19894316oia.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Oct 2022 10:49:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=L4jppyGL;
+ spf=pass (domain: gmail.com, ip: 209.85.166.179, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-il1-f179.google.com with SMTP id y17so9297818ilq.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Oct 2022 12:43:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HRguZ8XrCOVseavbThDce09TaB9cXALSuYqwnCNaVqQ=;
-        b=aCKaMHRgkvApqeaZmr7kAkTsDCXYSavUJ/JSt3KDJ1gVvhsQkFOeHXH7+ixyN7ZfBa
-         3rlOQHpRcX4VCEJkGFUWWaXA2EMbJCF6r9uo64Npssexuc5AEsfJOAzZlapgNSks1V7v
-         8r6QQtF7fnCN299jMEehX3tBWfquwgW3cDWUbRL86KX5WfsVfMjXJxmTM/HLkAGJjyKZ
-         kiOU+aR+CmVjZ8xcUU+Bj1HDOt01ryfaiC1k6B5kZCAajmWHYsbRJd6dZmjdLEruN5fI
-         aggwDUP7Q/+cFkFpDOTjINDngP9QbJAjQqWyZj0//bXIadAwYQIWtXMIfmag7x7yLcHs
-         oBag==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BBlrG/g/GkB3tbnDZp8M5D4IziP5NzU5ixYkAIIy2Z0=;
+        b=L4jppyGL4EclSu+w83YJwUUm/WQxp/O1kmR1qinHU8FDIQH9p4xmhPtffVSQVi+xPy
+         fMNAMlTvnJS7TQOxJRtHsQkMsUlTou+nS+2no12ANXlG4LC/nipA9fDLDnyVM4qGQf5r
+         dDnjB/3WfzhTL+VCOaWlIcDUtkCUOIaH2z04cEsWZPezxR7jlVqvQA6tpLtObPwXycCS
+         xQb/x81odEghaz6DoprYflqShaNUh9aPzFP+Gg3WErdbA98mk9O8o7c7UgOMNB6cbIUj
+         AC6FVgDVJiJWCD2X8NLgeEPqlI+3gWkj60BkHT01a2BcbBuRtA+WiUr9VUodVOcJfS4R
+         r3Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HRguZ8XrCOVseavbThDce09TaB9cXALSuYqwnCNaVqQ=;
-        b=7llZfwgd+K2+nQ2YqQKqxaK5AsFYzIbe2SFy+5P1owbc0G0xE8Iwy756z9oZSrWDv0
-         NbJgqFvJiidR9K8w+v1kJjXhdLnkK2r+k0kVV4WHY3AFlbPPgcMdhhBdA+Bkr2JN0qJP
-         6YGzE+u69l2gRHBQDzP4D2f/Gre+FIoaiRmBktlHn3N1ilkfMabVifv+nfXg6o2GiuOu
-         6O7Nk57Dzci1CJhsCygBJ8eiUmKmpnRqTdsxOt93M+s2W49s3hcFHrb6QCuHLkFEwraV
-         SPoBO9cEIXjHrxTd1AnBCvhZi9GmShqvrwUut7imLEpjfmIHyMcUtOeDv2Qf1n6c6Ou9
-         12RQ==
-X-Gm-Message-State: ACrzQf3FXtCOpIeX9dN1/w7khZT+X47f3K5Um4uYvTDUokAUJicX9gC7
-	QDZ2xILktGJDtpjZu8LY2WRLCl6j7F2RM5t1/O8=
-X-Google-Smtp-Source: AMsMyM43+i6fvt1sfHGk2QVMzuHNY3u1hL+HD9D9jfBfhlC3ev90XIdrny/Fb5uH9/sXLcQfSDa/e3cAoEKr1fKPN84=
-X-Received: by 2002:a05:6808:1910:b0:354:c2b:67e4 with SMTP id
- bf16-20020a056808191000b003540c2b67e4mr2732043oib.55.1665596969013; Wed, 12
- Oct 2022 10:49:29 -0700 (PDT)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BBlrG/g/GkB3tbnDZp8M5D4IziP5NzU5ixYkAIIy2Z0=;
+        b=0oVE6TmKJKhSYBtzHvL+ES3FRTSvoGiUe7VjHYudbzBsWfxaC2erDrB8UGP5MOJlSB
+         Wdb8cCagFZxNeQuuXdRgY6VvSyLw6VUD56K7JOkpc/BpAP1OiY2ZJd40ftw2Qi1FmefK
+         X9qZ87FeYI3Qc+5rCmCTSvJLVzk61wAhNzrtkwPm5TAbDjGYixf/PG8O9RwoXUFKJQQy
+         cCevIorX9ysL85KaPPfq2zCAGyxsKYaJj0xmGthwti3iQjZbHIfZ4jiWu871irZNQTAc
+         3qIBZR+n0YchvRXsbkAMbRZP7LDV4OeSLzjMxe8w7A9g7rjDBtJR13DI/D4OVuCQEdWM
+         0dUQ==
+X-Gm-Message-State: ACrzQf1+gMzF+rRVU7eYTnMxQUIRk2Bmj+8RVdiVbZUWyRr1p1m8gYn8
+	LhLxzi8/pslD6YxHb0ZWcs1PeRmIUjaCk9BVXFddGrChgtU=
+X-Google-Smtp-Source: AMsMyM7L95/NaxEzMzV4zOGHf2yX2hD68vMfa/FkjTpV0VEGewOufEfUzsYWun9/sv9SMdV8Jse4edbIGD3wxpJGZV8=
+X-Received: by 2002:a05:6e02:2141:b0:2fa:c219:6158 with SMTP id
+ d1-20020a056e02214100b002fac2196158mr14174302ilv.48.1665603821356; Wed, 12
+ Oct 2022 12:43:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221012071813.778-1-alex.kiernan@gmail.com> <7C7AB85E-C822-4DCC-B462-AD314119EAE4@arm.com>
 In-Reply-To: <7C7AB85E-C822-4DCC-B462-AD314119EAE4@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 12 Oct 2022 10:49:18 -0700
-Message-ID: <CAMKF1sp5LyBJ4y1p1o65fLayefN2SKWHi6fDwLfaWvoS-gYH3g@mail.gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Wed, 12 Oct 2022 20:43:30 +0100
+Message-ID: <CAO5Uq5Tqqt=oaGQt7kyZUg4gkJ6Uo_ahNR6itZSEwYyDX8rKrQ@mail.gmail.com>
 Subject: Re: [OE-Core][PATCH v2 1/3] kernel: classes: Extract savedefconfig to
  a class
-To: Ross Burton <ross.burton@arm.com>
-Cc: "alex.kiernan@gmail.com" <alex.kiernan@gmail.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000ad54ea05eada0327"
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Oct 2022 17:49:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171673
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Oct 2022 19:43:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171674
 
---000000000000ad54ea05eada0327
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Oct 12, 2022 at 9:36 AM Ross Burton <ross.burton@arm.com> wrote:
-
-> On 12 Oct 2022, at 08:18, Alex Kiernan via lists.openembedded.org
-> <alex.kiernan=3Dgmail.com@lists.openembedded.org> wrote:
+On Wed, Oct 12, 2022 at 5:36 PM Ross Burton <Ross.Burton@arm.com> wrote:
+>
+> On 12 Oct 2022, at 08:18, Alex Kiernan via lists.openembedded.org <alex.k=
+iernan=3Dgmail.com@lists.openembedded.org> wrote:
 > >
 > > Move savedefconfig task to a class so we can reuse it in other recipes
 > > which support it.
 >
-> There are three users of cml1 in oe-core: kernel, uboot, and busybox.
-> Does busybox support savedefconfig?
+> There are three users of cml1 in oe-core: kernel, uboot, and busybox.  Do=
+es busybox support savedefconfig?
 >
+
+It doesn't and fairly obviously goes boom...
+
+ERROR: busybox-1.35.0-r0 do_savedefconfig: oe_runmake failed
+ERROR: busybox-1.35.0-r0 do_savedefconfig:
+ExecutionError('/home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox=
+/1.35.0-r0/temp/run.do_savedefconfig.12421',
+1, None, None)
+ERROR: Logfile of failure stored in:
+/home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/temp/=
+log.do_savedefconfig.12421
+Log data follows:
+| DEBUG: Executing shell function do_savedefconfig
+| Saving defconfig to:
+| /home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/bus=
+ybox-1.35.0/defconfig
+| NOTE: make CC=3Dx86_64-poky-linux-gcc  -m64 -march=3Dcore2 -mtune=3Dcore2
+-msse3 -mfpmath=3Dsse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=3D2
+--sysroot=3D/home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox/1.3=
+5.0-r0/recipe-sysroot
+LD=3Dx86_64-poky-linux-gcc  -m64 -march=3Dcore2 -mtune=3Dcore2 -msse3
+-mfpmath=3Dsse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=3D2
+--sysroot=3D/home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox/1.3=
+5.0-r0/recipe-sysroot
+V=3D1 ARCH=3Dx86_64 CROSS_COMPILE=3Dx86_64-poky-linux- SKIP_STRIP=3Dy
+HOSTCC=3Dgcc  HOSTCPP=3Dgcc  -E -C
+/home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/busyb=
+ox-1.35.0
+savedefconfig
+| make: Entering directory
+'/home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/busy=
+box-1.35.0'
+| make -f scripts/Makefile.build obj=3Dscripts/basic
+| /home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/bus=
+ybox-1.35.0/scripts/gen_build_files.sh
+/home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/busyb=
+ox-1.35.0
+/home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/busyb=
+ox-1.35.0
+| mkdir -p include
+| make -f scripts/Makefile.build obj=3Dscripts/kconfig savedefconfig
+| make[1]: *** No rule to make target 'savedefconfig'.  Stop.
+| make: *** [Makefile:444: savedefconfig] Error 2
+| make: Leaving directory
+'/home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/busy=
+box-1.35.0'
+| ERROR: oe_runmake failed
+
 > I=E2=80=99m thinking to avoid tiny classes we can just add this to cml1.b=
-bclass
-> and make it print a decent error message if it doesn=E2=80=99t work.
+bclass and make it print a decent error message if it doesn=E2=80=99t work.
 >
 
-I agree I think it should be there for all kconfig users and they can strub
-it in recipe if needed
+So where I started, was adding it to u-boot.inc (which isn't a class,
+I guess an artefact of history), because tiny classes felt like a poor
+choice. I can add it to cml1 instead, at which point I've tried all
+three options, maybe that's the best option and if you have a consumer
+that doesn't do it, you just get a fail as above.
 
->
-> Ross
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#171669):
-> https://lists.openembedded.org/g/openembedded-core/message/171669
-> Mute This Topic: https://lists.openembedded.org/mt/94276340/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+Are there are other users of cml1 other than these three? My suspicion
+is there isn't (though I've only looked at layers I've got checked
+out).
 
---000000000000ad54ea05eada0327
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Oct 12, 2022 at 9:36 AM Ross Burton &lt;<a href=3D"=
-mailto:ross.burton@arm.com">ross.burton@arm.com</a>&gt; wrote:<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex">On 12 Oct 2022, at 08:18, Alex Kiernan via <a h=
-ref=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">=
-lists.openembedded.org</a> &lt;alex.kiernan=3D<a href=3D"mailto:gmail.com@l=
-ists.openembedded.org" target=3D"_blank">gmail.com@lists.openembedded.org</=
-a>&gt; wrote:<br>
-&gt; <br>
-&gt; Move savedefconfig task to a class so we can reuse it in other recipes=
-<br>
-&gt; which support it.<br>
-<br>
-There are three users of cml1 in oe-core: kernel, uboot, and busybox.=C2=A0=
- Does busybox support savedefconfig?<br>
-<br>
-I=E2=80=99m thinking to avoid tiny classes we can just add this to cml1.bbc=
-lass and make it print a decent error message if it doesn=E2=80=99t work.<b=
-r>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">I agree I think =
-it should be there for all kconfig users and they can strub it in recipe if=
- needed=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-Ross<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#171669): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/171669" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/171669</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/94276340/1997=
-914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/94276340/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000ad54ea05eada0327--
+--=20
+Alex Kiernan
 
