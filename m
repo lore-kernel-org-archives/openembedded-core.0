@@ -1,132 +1,156 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <liambeguin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0385C433FE
-	for <webhook@archiver.kernel.org>; Wed, 12 Oct 2022 20:51:21 +0000 (UTC)
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
- by mx.groups.io with SMTP id smtpd.web10.2411.1665607877380339979
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1358C4332F
+	for <webhook@archiver.kernel.org>; Wed, 12 Oct 2022 22:01:37 +0000 (UTC)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+ by mx.groups.io with SMTP id smtpd.web12.635.1665612090046302685
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Oct 2022 13:51:17 -0700
+ Wed, 12 Oct 2022 15:01:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=it55KUyW;
- spf=pass (domain: gmail.com, ip: 209.85.160.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-1321a1e94b3so149960fac.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Oct 2022 13:51:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=iCX7Xcm0;
+ spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: liambeguin@gmail.com)
+Received: by mail-qv1-f41.google.com with SMTP id df9so163071qvb.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Oct 2022 15:01:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tPfszS3KTMx9Ia1ZkbRx8rIiHdTbmUaWYr7KtC0nyXg=;
-        b=it55KUyW7iRlGSFrx3Z1KWC3RnptPART+FlOIeUt4RizMPBEGnAAq7/PIMq8UzeExf
-         IU5eLN0C8afQEtlpQM0gh+kJeSl0hwKt1Wq7oL+mavvrpMpRxeO5Y+VdaydJbxnY6xLT
-         PiSVjSgQtrD+Myg+exMbt4do0M2IT443ujPCF89qIJUQYTslXL5QAEto0cJ/NBWN3kux
-         dEiPptuVRUZ3w1as0r1oBB/io63qP8gv661/ANTyCRZZtMb9M9AZJqtNPFIl4si5amXm
-         tL9RHipxm+u3rMX5vA/vj51GntO0nidDRToerbsERrzHr0o1wOaTBB5oHoLsonq7H928
-         DJQg==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tpTb8kEeYLgcJhaSTfQqWNxRgQ7RQf2/pcQwjvTj7i4=;
+        b=iCX7Xcm0WKK4gk5TtBSeUq/z0tgefxBBnHSRKVvTnAdQzSX5qlYtfJw73IQtCVxwi1
+         S1qAJxo8pHp1oKe0hvvsUSWadjpRD6p51FwRBb22drnBy4BAquMaCWLDa+Cd//QZhWi6
+         Cuuz0cxuSvzCQigIg/f7qn8zcb1mwhs7C7/FqvDz4KLT05WHkFhZKB/jiQE/CfUdTIhV
+         0xwTzxqvpG7JPySV/JdaM5e3aw0On3jmt8H1OytYP8tX/3dQzJwiltixA1ypOBWHkMat
+         f1vi+Ed/nlXlDbmK9EopuAhXpAfAfeyr0UD737gLMWqOMRTiRGvg4rMule/WIfRDPSUD
+         OCNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tPfszS3KTMx9Ia1ZkbRx8rIiHdTbmUaWYr7KtC0nyXg=;
-        b=ZVC8UbwBfh3ATJcdw/QgldsDqLTPpTZOR8m9XypnVnkUmIUiTYrDVHPjMZXc4R/acK
-         q7K+J0VUc1rES79V/0yvuzKHlR3JWjWv7lBUCzqr7A0z4mpmazqzVhIzcUT+MJvkM/4Q
-         rgNmTGk7s7gB/YgTsZQjQ0IJrcWEXZKPq9+1rPwizx2P8F2muQqEvp6Sn0qpNBAdZvgT
-         9Tr82/v/R55TxzP/ADszW8E5oaPj+dPkLfyT4JNyEW6bJTWxP2hkq/jttmxmau3yPTbM
-         P0jy45f99g/y0Xqesj4j5yGQKo8SldZV+GiiTsXT9L+Fo9r9hESNRfQ1t+qGCMD9s7Is
-         Ccrw==
-X-Gm-Message-State: ACrzQf2yraP3s51sGsme/9sjnhjpWF6Ws/zjmXd8w1ZDBxAgaPTs56OZ
-	qtGm+cLPmgQiBviDqOvlQK+wT8QRiAnK3SXeLno=
-X-Google-Smtp-Source: AMsMyM7i8ezyB7FcxXQFKaiPxcVeyZR0ggDC4OZLFWZGGuvlU6xXGEJbE18tNWQlb5N+pRdDGn0lAIn7//S7pRicjBY=
-X-Received: by 2002:a05:6870:b00b:b0:127:2d3d:3c16 with SMTP id
- y11-20020a056870b00b00b001272d3d3c16mr3398888oae.262.1665607876576; Wed, 12
- Oct 2022 13:51:16 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tpTb8kEeYLgcJhaSTfQqWNxRgQ7RQf2/pcQwjvTj7i4=;
+        b=fYdh4njJdPsS3UqXPiowQkbd+Vr7g3YRNDcSmhmhdt4vktoUEFTAbC7PW/hGzkvSP8
+         hJocCGZl4sCkE/bg8fxKdPF5st+hfUKUO6hr1LQZPE7iGI6alwkw6WxqF0WjarzYYFii
+         9MldcyQQc0sbba3oXTaSGhM7ye87qfl1vfGMpLwafm/uH1aBxSR/Ze+OAALltu9xLo55
+         ShfzZiDur0QIceTIdP0MCOA0tglqubqffutCUyn++x4eD+NmWuIne6ngemwDX/FzmBJw
+         GrYiDJZeFhRa4Op6Vf+Z3Ile8HW+RAfN07ZVbatmx8TLkDkV+Cs3CTWFHDlq6gWKS09m
+         Yr5Q==
+X-Gm-Message-State: ACrzQf3uT4vs+tAepW0t/C3O3eI6Em7VFpddZJoNeknSgTbGKRtoZfWA
+	PVVjabaPsnZoxEEj/zLwJj8=
+X-Google-Smtp-Source: AMsMyM52TClFcGtwYc9X+nsjyVq2jQ2SV09FI8EHfoZKmDEUBp1cWZauHRzbvw4bcw4+09d7mAM01A==
+X-Received: by 2002:a0c:e011:0:b0:4b1:70c3:79ec with SMTP id j17-20020a0ce011000000b004b170c379ecmr25113286qvk.28.1665612089006;
+        Wed, 12 Oct 2022 15:01:29 -0700 (PDT)
+Received: from shaak (modemcable055.92-163-184.mc.videotron.ca. [184.163.92.55])
+        by smtp.gmail.com with ESMTPSA id u5-20020a05620a454500b006b640efe6dasm16371464qkp.132.2022.10.12.15.01.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Oct 2022 15:01:28 -0700 (PDT)
+Date: Wed, 12 Oct 2022 18:01:26 -0400
+From: Liam Beguin <liambeguin@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, alexandre.belloni@bootlin.com,
+	peter.kjellerstedt@axis.com
+Subject: Re: [OE-core] [PATCH v3] meson: make wrapper options sub-command
+ specific
+Message-ID: <Y0c5Ngq/bCoi9KhY@shaak>
+References: <20220929025056.2799287-1-liambeguin@gmail.com>
+ <Y0Xl75mvvCkli/9d@shaak>
+ <CANNYZj81k8JC1UEGCtujXJjvRgbBw+FBdRYp-qbQSS=i2Xsdtg@mail.gmail.com>
 MIME-Version: 1.0
-References: <171996618BFD121B.23184@lists.openembedded.org>
- <756d646f-6b68-804d-edcd-7933d2a66356@windriver.com> <045E68AF-5D26-4045-9E3C-44D6451ED3C6@arm.com>
-In-Reply-To: <045E68AF-5D26-4045-9E3C-44D6451ED3C6@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 12 Oct 2022 13:51:05 -0700
-Message-ID: <CAMKF1sqpXZ8_9mzNY3vjOStRdUNq8D20TwPC7YRBtDKAV=psjg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] mesa: only apply patch to fix ALWAYS_INLINE
- for native
-To: Ross Burton <ross.burton@arm.com>
-Cc: "kai.kang@windriver.com" <kai.kang@windriver.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000d18abf05eadc8d61"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANNYZj81k8JC1UEGCtujXJjvRgbBw+FBdRYp-qbQSS=i2Xsdtg@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Oct 2022 20:51:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171675
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Oct 2022 22:01:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171676
 
---000000000000d18abf05eadc8d61
-Content-Type: text/plain; charset="UTF-8"
+Hi Alex,
 
-On Wed, Oct 12, 2022 at 9:38 AM Ross Burton <ross.burton@arm.com> wrote:
+On Wed, Oct 12, 2022 at 09:46:46AM +0200, Alexander Kanavin wrote:
+> No one seems to have objections, it's that there is no explicit
+> confirmation that your patch (or anyone's) is in staging branches, and
+> integration is currently on pause for a couple weeks.
 
-> > Ping.
->
-> As per https://wiki.yoctoproject.org/wiki/Weekly_Status, master is frozen
-> for release and RP is on vacation, so patches are being review/accumulated
-> but are not merging just yet.
->
+Understood, thanks for taking the time to explain.
+I'll keep monitoring the tree.
 
-Can we publish the staging branch somewhere on poky-contrib or
-oe-core-contrib
+Cheers,
+Liam
 
->
-> Ross
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#171670):
-> https://lists.openembedded.org/g/openembedded-core/message/171670
-> Mute This Topic: https://lists.openembedded.org/mt/94012441/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---000000000000d18abf05eadc8d61
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Oct 12, 2022 at 9:38 AM Ross Burton &lt;<a href=3D"=
-mailto:ross.burton@arm.com">ross.burton@arm.com</a>&gt; wrote:<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex">&gt; Ping.<br>
-<br>
-As per <a href=3D"https://wiki.yoctoproject.org/wiki/Weekly_Status" rel=3D"=
-noreferrer" target=3D"_blank">https://wiki.yoctoproject.org/wiki/Weekly_Sta=
-tus</a>, master is frozen for release and RP is on vacation, so patches are=
- being review/accumulated but are not merging just yet.<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Can we publish t=
-he staging branch somewhere on poky-contrib or oe-core-contrib=C2=A0</div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
- #ccc solid;padding-left:1ex"><br>
-Ross<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#171670): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/171670" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/171670</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/94012441/1997=
-914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/94012441/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000d18abf05eadc8d61--
+> Alex
+> 
+> On Tue, 11 Oct 2022 at 23:53, Liam Beguin <liambeguin@gmail.com> wrote:
+> >
+> > Hi,
+> >
+> > On Wed, Sep 28, 2022 at 10:50:56PM -0400, Liam Beguin wrote:
+> > > The meson-wrapper adds setup options to facilitate cross-compilation.
+> > > The current options are exclusive to the setup sub-command and might
+> > > cause issues with other sub-commands.
+> > >
+> > > Update the wrapper to make options sub-command specific.
+> > >
+> > > Signed-off-by: Liam Beguin <liambeguin@gmail.com>
+> > > ---
+> > >  .../meson/meson/meson-wrapper                 | 21 +++++++++++++++----
+> > >  1 file changed, 17 insertions(+), 4 deletions(-)
+> >
+> > Any comments on this patch?
+> >
+> > Cheers,
+> > Liam
+> >
+> > > diff --git a/meta/recipes-devtools/meson/meson/meson-wrapper b/meta/recipes-devtools/meson/meson/meson-wrapper
+> > > index c62007f5077e..fca64a569299 100755
+> > > --- a/meta/recipes-devtools/meson/meson/meson-wrapper
+> > > +++ b/meta/recipes-devtools/meson/meson/meson-wrapper
+> > > @@ -5,7 +5,7 @@ if [ -z "$OECORE_NATIVE_SYSROOT" ]; then
+> > >  fi
+> > >
+> > >  if [ -z "$SSL_CERT_DIR" ]; then
+> > > -    export SSL_CERT_DIR="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/"
+> > > +    export SSL_CERT_DIR="$OECORE_NATIVE_SYSROOT/etc/ssl/certs/"
+> > >  fi
+> > >
+> > >  # If these are set to a cross-compile path, meson will get confused and try to
+> > > @@ -13,7 +13,20 @@ fi
+> > >  # config is already in meson.cross.
+> > >  unset CC CXX CPP LD AR NM STRIP
+> > >
+> > > +for arg in "$@"; do
+> > > +    case "$arg" in
+> > > +    -*) continue ;;
+> > > +    *) SUBCMD="$arg"; break ;;
+> > > +    esac
+> > > +done
+> > > +
+> > > +if [ "$SUBCMD" = "setup" ] || [ -d "$SUBCMD" ]; then
+> > > +    MESON_SUB_OPTS=" \
+> > > +        --cross-file="$OECORE_NATIVE_SYSROOT/usr/share/meson/${TARGET_PREFIX}meson.cross" \
+> > > +        --native-file="$OECORE_NATIVE_SYSROOT/usr/share/meson/meson.native" \
+> > > +        "
+> > > +fi
+> > > +
+> > >  exec "$OECORE_NATIVE_SYSROOT/usr/bin/meson.real" \
+> > > -     --cross-file "${OECORE_NATIVE_SYSROOT}/usr/share/meson/${TARGET_PREFIX}meson.cross" \
+> > > -     --native-file "${OECORE_NATIVE_SYSROOT}/usr/share/meson/meson.native" \
+> > > -     "$@"
+> > > +    "$@" \
+> > > +    $MESON_SUB_OPTS
+> > >
+> > > base-commit: a2659cc2bf5d3f1cedf5c52c3b45e0427d40732d
+> > > --
+> > > 2.37.1.223.g6a475b71f8c4
+> > >
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#171643): https://lists.openembedded.org/g/openembedded-core/message/171643
+> > Mute This Topic: https://lists.openembedded.org/mt/93987385/1686489
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
 
