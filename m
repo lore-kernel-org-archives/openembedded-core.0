@@ -1,141 +1,102 @@
-Return-Path: <u.oelmann@pengutronix.de>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72370C4332F
-	for <webhook@archiver.kernel.org>; Thu, 13 Oct 2022 05:38:10 +0000 (UTC)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
- by mx.groups.io with SMTP id smtpd.web09.4275.1665639483626539325
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86CD2C4332F
+	for <webhook@archiver.kernel.org>; Thu, 13 Oct 2022 05:49:30 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web10.4252.1665640163668751335
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Oct 2022 22:38:04 -0700
+ Wed, 12 Oct 2022 22:49:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: u.oelmann@pengutronix.de)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <u.oelmann@pengutronix.de>)
-	id 1oiquv-0002iP-7x; Thu, 13 Oct 2022 07:38:01 +0200
-Received: from uol by dude.hi.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <u.oelmann@pengutronix.de>)
-	id 1oiqus-001WDX-LC; Thu, 13 Oct 2022 07:37:58 +0200
-References: <20221012071813.778-1-alex.kiernan@gmail.com>
- <7C7AB85E-C822-4DCC-B462-AD314119EAE4@arm.com>
- <CAO5Uq5Tqqt=oaGQt7kyZUg4gkJ6Uo_ahNR6itZSEwYyDX8rKrQ@mail.gmail.com>
-User-agent: mu4e 1.6.9; emacs 29.0.50
-From: Ulrich =?utf-8?Q?=C3=96lmann?= <u.oelmann@pengutronix.de>
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Cc: Ross Burton <Ross.Burton@arm.com>, openembedded-core@lists.openembedded.org
-Subject: Re: [OE-Core][PATCH v2 1/3] kernel: classes: Extract savedefconfig
- to a class
-Date: Thu, 13 Oct 2022 07:31:14 +0200
-In-reply-to: <CAO5Uq5Tqqt=oaGQt7kyZUg4gkJ6Uo_ahNR6itZSEwYyDX8rKrQ@mail.gmail.com>
-Message-ID: <6ro7ugcmh5.fsf@pengutronix.de>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DuBiz+9j;
+ spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: rybczynska@gmail.com)
+Received: by mail-lf1-f49.google.com with SMTP id j4so957432lfk.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Oct 2022 22:49:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CmgJVrcRXrUAma8mmv5OeiBbv1RPpDFIo5tUIeIyc+8=;
+        b=DuBiz+9jq8iKXCbsAUp0VsGwqWQJu7KXtuijon7uCqgaHs3KR4AVAvPePv907Oep9E
+         OkRKPl1LqeMIB3o60uA3QdcK+PN82CBAm53MUNWJXcKMXCC2MkhWK+wCyPSHb1d5fYSI
+         TpNfCiotr8bKCXux1CMXLgofxxAuC/KB3TcA7UZe7S0eHQH8weR9klNCrmXj3g/vfQIt
+         g5xWmzGLu2khn+PxQsUxWZy0g3Wo6UOce/ZokHMAJfoMGLP9Om5i+R/c9Xz+nGVqEolc
+         ZFRYv6L60xtpr+yqIkArNp0tnVI8x0wq2Q89A9emorkqTRpwjOfH5vqxBdl1v53DqYC7
+         zNNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CmgJVrcRXrUAma8mmv5OeiBbv1RPpDFIo5tUIeIyc+8=;
+        b=eEmCZLLXllI4tousC5m6/vS3bLDTzEhiUCGuEGqCXQxTCqsYlH9UXVwtpij8KC/2n0
+         cjd2//Ldg5Pzhx4DhuLNcQwQVRzb9P0RQ5rIaFNE9PTOzzioiVOzlA05qZrqbY0Fyye4
+         Nr7lnOlugjAsP8VONs3e/vOa+txQ1erJIHBupKphfuuXoE4FLhiV/6TzCPfrFoAXd1mH
+         QZOzK57VwLAEMtyFsiEnQ0Oa7A+r5THd7sBqp/OdCdVM12wgWUhzb6UtLs/DvZNSX+p2
+         ZN0hYZJiTRkqlqD3alenViQ1eEu73EgsoRQyGpclp6U1YSAg81EYPh/9+5iphQVI5N0E
+         ZPlg==
+X-Gm-Message-State: ACrzQf1/LJeERRf+NcFcYs0GeotOzsFLeWUbX6O5PmRKh8lRSDr+/9Q6
+	sFgCCKBr8UtqXhYLnVfDqzU/t2iMJMbC1bV4E8o=
+X-Google-Smtp-Source: AMsMyM4BEcqnEXDuwk12tkPvighQaWt0WctIEzyhOPZtP8fS0/SL0AvkjDRfp3FJKObT19g0qQrO2KzfRJE/4OMWjo0=
+X-Received: by 2002:a05:6512:1699:b0:4a2:1924:af2a with SMTP id
+ bu25-20020a056512169900b004a21924af2amr11435673lfb.491.1665640161619; Wed, 12
+ Oct 2022 22:49:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <233c014c169e00e6a9ce464f3ab2bf79@pianon.eu> <1E128F9E-4B95-43D4-BD73-915FECB99774@arm.com>
+In-Reply-To: <1E128F9E-4B95-43D4-BD73-915FECB99774@arm.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Thu, 13 Oct 2022 07:49:09 +0200
+Message-ID: <CAApg2=TAQe66J6T7HN7jzPXWnBc0U7GSWpA5MAooNxcTw0N_RQ@mail.gmail.com>
+Subject: Re: [OE-core] severe issue in CVE checker
+To: Ross Burton <ross.burton@arm.com>
+Cc: "alberto@pianon.eu" <alberto@pianon.eu>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	"marta.rybczynska@linaro.org" <marta.rybczynska@linaro.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, Carlo Piana <carlo@piana.eu>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: u.oelmann@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 05:38:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171680
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 05:49:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171681
 
-On Wed, Oct 12 2022 at 20:43 +0100, "Alex Kiernan" <alex.kiernan@gmail.com>=
- wrote:
-> On Wed, Oct 12, 2022 at 5:36 PM Ross Burton <Ross.Burton@arm.com> wrote:
->>
->> On 12 Oct 2022, at 08:18, Alex Kiernan via lists.openembedded.org <alex.=
-kiernan=3Dgmail.com@lists.openembedded.org> wrote:
->> >
->> > Move savedefconfig task to a class so we can reuse it in other recipes
->> > which support it.
->>
->> There are three users of cml1 in oe-core: kernel, uboot, and busybox.  D=
-oes busybox support savedefconfig?
->>
->
-> It doesn't and fairly obviously goes boom...
->
-> ERROR: busybox-1.35.0-r0 do_savedefconfig: oe_runmake failed
-> ERROR: busybox-1.35.0-r0 do_savedefconfig:
-> ExecutionError('/home/alexk/poky/build/tmp/work/core2-64-poky-linux/busyb=
-ox/1.35.0-r0/temp/run.do_savedefconfig.12421',
-> 1, None, None)
-> ERROR: Logfile of failure stored in:
-> /home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/tem=
-p/log.do_savedefconfig.12421
-> Log data follows:
-> | DEBUG: Executing shell function do_savedefconfig
-> | Saving defconfig to:
-> | /home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/b=
-usybox-1.35.0/defconfig
-> | NOTE: make CC=3Dx86_64-poky-linux-gcc  -m64 -march=3Dcore2 -mtune=3Dcor=
-e2
-> -msse3 -mfpmath=3Dsse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=3D2
-> --sysroot=3D/home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox/1=
-.35.0-r0/recipe-sysroot
-> LD=3Dx86_64-poky-linux-gcc  -m64 -march=3Dcore2 -mtune=3Dcore2 -msse3
-> -mfpmath=3Dsse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=3D2
-> --sysroot=3D/home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox/1=
-.35.0-r0/recipe-sysroot
-> V=3D1 ARCH=3Dx86_64 CROSS_COMPILE=3Dx86_64-poky-linux- SKIP_STRIP=3Dy
-> HOSTCC=3Dgcc  HOSTCPP=3Dgcc  -E -C
-> /home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/bus=
-ybox-1.35.0
-> savedefconfig
-> | make: Entering directory
-> '/home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/bu=
-sybox-1.35.0'
-> | make -f scripts/Makefile.build obj=3Dscripts/basic
-> | /home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/b=
-usybox-1.35.0/scripts/gen_build_files.sh
-> /home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/bus=
-ybox-1.35.0
-> /home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/bus=
-ybox-1.35.0
-> | mkdir -p include
-> | make -f scripts/Makefile.build obj=3Dscripts/kconfig savedefconfig
-> | make[1]: *** No rule to make target 'savedefconfig'.  Stop.
-> | make: *** [Makefile:444: savedefconfig] Error 2
-> | make: Leaving directory
-> '/home/alexk/poky/build/tmp/work/core2-64-poky-linux/busybox/1.35.0-r0/bu=
-sybox-1.35.0'
-> | ERROR: oe_runmake failed
->
->> I=E2=80=99m thinking to avoid tiny classes we can just add this to
->> cml1.bbclass and make it print a decent error message if it doesn=E2=80=
-=99t
->> work.
->>
->
-> So where I started, was adding it to u-boot.inc (which isn't a class,
-> I guess an artefact of history), because tiny classes felt like a poor
-> choice. I can add it to cml1 instead, at which point I've tried all
-> three options, maybe that's the best option and if you have a consumer
-> that doesn't do it, you just get a fail as above.
->
-> Are there are other users of cml1 other than these three? My suspicion
-> is there isn't (though I've only looked at layers I've got checked
-> out).
+Reported as https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14929
 
-There is the barebox bootloader which supports 'savedefconfig', whose
-recipe in meta-ptx uses cml1 via [2] and which would benefit from this
-change.
-
-Best regards
-Ulrich
-
-
-[1] https://barebox.org/
-[2] https://github.com/pengutronix/meta-ptx/blob/master/recipes-bsp/barebox=
-/barebox.inc#L12
---=20
-Pengutronix e.K.                           | Ulrich =C3=96lmann            =
-   |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+On Wed, Oct 12, 2022 at 6:29 PM Ross Burton <ross.burton@arm.com> wrote:
+>
+> On 12 Oct 2022, at 08:25, Alberto Pianon via lists.openembedded.org <albe=
+rto=3Dpianon.eu@lists.openembedded.org> wrote:
+> >
+> > It iterates over NIST CVE db years, but if some year fail to download, =
+it goes on anyway, and it still merges the successful downloads into nvdcve=
+_1.1.db, without returning error.
+> >
+> > IMHO this is a severe issue because it may silently lead to false negat=
+ives in the CVE check. If some downloads fail due to timeouts or other conn=
+ection problems, cve-check should retry a number of times, and if any downl=
+oad still fails, cve-update-db-native do_fecth should fail, and it turn all=
+ do_cve_check tasks should fail, since doing a CVE check against a corrupte=
+d/incomplete CVE database is clearly useless
+>
+> Yes, that=E2=80=99s a bug.
+>
+> Please do file a bug (bugzilla.yoctoproject.org), and ideally send a patc=
+h if you can.
+>
+> Ross
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#171668): https://lists.openembedded.org/g/openembedde=
+d-core/message/171668
+> Mute This Topic: https://lists.openembedded.org/mt/94276393/5827677
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ry=
+bczynska@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
