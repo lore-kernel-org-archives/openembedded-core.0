@@ -1,181 +1,300 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EC9BC433FE
-	for <webhook@archiver.kernel.org>; Thu, 13 Oct 2022 13:29:43 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web12.7393.1665667777298553555
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86022C4332F
+	for <webhook@archiver.kernel.org>; Thu, 13 Oct 2022 14:01:23 +0000 (UTC)
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+ by mx.groups.io with SMTP id smtpd.web09.7920.1665669674182213806
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Oct 2022 06:29:38 -0700
+ Thu, 13 Oct 2022 07:01:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=ety4RWnh;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ELI3r0CO;
+ spf=pass (domain: gmail.com, ip: 209.85.210.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f47.google.com with SMTP id e53-20020a9d01b8000000b006619152f3cdso87246ote.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 07:01:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1665667777;
-  x=1697203777;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=n5IT88TEH3e2hmCdBv05MScGGn5ZFpwqKsbjyBx8hRg=;
-  b=ety4RWnhgENDmXpOZ26DsmMNVb/lxEQBw47O3DYCmuWvpTI+MlPzV7cz
-   cR8BXn3aC+PLETSIUEBvJurI9lNBiJhy5AMeC9J3RvZESIfkpgHMLFU5t
-   u1IU3Xj+yOyJvdlH3PetfjdRFJnuaauY8cmgfOCoJxc4jXX8HvlcO0fSG
-   LL94H5Hj/EXDFhshHDtZNCS/0DW95jyGVC0VcOVCtJcLh5MvAzMSusa4U
-   TleEXHLSu8w0OuUiS/UESxZIPxkH5+5uGJmVV2oq8aqQtVUa6Y+4aTQlu
-   45P4QkieQALfn3ElQJQNJmk/WLZOSEnKhZ5XYoABV+rVZyb7iFpWs66ty
-   Q==;
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] gcc: Allow -Wno-error=poison-system-directories to take effect
-Date: Thu, 13 Oct 2022 15:29:26 +0200
-Message-ID: <20221013132926.2771530-1-pkj@axis.com>
-X-Mailer: git-send-email 2.37.3
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lShgFwgduS4tuFYAm0DOnXOD1N9FLJA24iEdT3JhVJk=;
+        b=ELI3r0CO2rQahCHJMNh5j2taymIjCN1T+yVZyv18e08mxscGjxW30KiH4oKL6ifByP
+         t6zvzskJLZhUTWa163T6jl7k/jLJth43BXnKLGDWZivP5t93+9KFnaRGCrmHKCndFB9Z
+         oE1C24ApwwN7RO86syyfaURJBD4BkMDlbXHBaJxfOn8vr5riSTdoZgoyqbsLHW2aKnEO
+         P+7ymFaSjbIJupDGa9H9ShwWi6CjCwe1tVDpDxjf/5F7PCbbDgeoc+Sx71xbF5NqSETP
+         JEUddK03xEmyySm0fbVaqakXrFx4zaf83p/qxQuh0RqThXLLzsfkoQmwYvikLfScTmh5
+         WaOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lShgFwgduS4tuFYAm0DOnXOD1N9FLJA24iEdT3JhVJk=;
+        b=bZHtOEPlGY5Y9ah4mZeuAWlG3ePTstdanyxoP3mIPS8Q8KDOyD/9PXE5IMFIDx5dJJ
+         S7ce7ikgWU+5yCqUT0i4OLqo9gJGwG5qCdUH+N7BdiZe6FaOoku83gkW7rvNz5xbtI9F
+         hh9P03UNIXo9dEAJFrer7DEgLyI6M9De5yBpDJ7OSxEKMbg25abcU9rDC/w+9Q/1CiXe
+         9cbLXVwEn0TLe4BRg2FdNWGTlw2UUtz1DY6vl17Ri3pWr7Ww3qtWfCvZfBXNMv3p3cnz
+         Fk+YuysnHtlW/lEEy2/Uuf7yojBA6W4skyv2QONtBxVnmjRNhjW95ilRoQxEtEUuBNCd
+         1M5Q==
+X-Gm-Message-State: ACrzQf3aESP+ZuN2bIWsqNdoavHUhIOK0Zm/JyvyFShO4Cfhp1VhIo74
+	N+4mMjWhgxUqPNTIR+LCjzysAQhWXRk9eGwaEZI=
+X-Google-Smtp-Source: AMsMyM786s1npoVg//hMLAFthmf9nLGCtKiz6O9PMEMVON0S1IXW6UGs+fEzTAjP9zGmVybGGDpmYNM6O1m5xeAE524=
+X-Received: by 2002:a9d:61d6:0:b0:661:c1ad:848f with SMTP id
+ h22-20020a9d61d6000000b00661c1ad848fmr56505otk.111.1665669671976; Thu, 13 Oct
+ 2022 07:01:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <CAApg2=TmNEnu+KQTz9iJ72LaduRoHQh_YwevzJgpROj5C8qJew@mail.gmail.com>
+ <Y0fFumcfL7RGRxvL@mail.local> <CAApg2=S0J4iqqPNVuYd6Dw8D6x5wM_0e6f6iq2bCeL0x+fH=7A@mail.gmail.com>
+ <CANNYZj8nm3BGTUXN+j8gWGGhvWTKscVM_1Q+tBvdJyqFQVne2g@mail.gmail.com> <CAApg2=SaWifk0RtRmAEKj-e=WHLbvq3bdXFG6=oLfXw_SCnRAA@mail.gmail.com>
+In-Reply-To: <CAApg2=SaWifk0RtRmAEKj-e=WHLbvq3bdXFG6=oLfXw_SCnRAA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 13 Oct 2022 07:01:01 -0700
+Message-ID: <CAMKF1sqa9F0wSOq0aX-NQxVCCMBD5ABCZG2WiiUApn-EQmY20w@mail.gmail.com>
+Subject: Re: [OE-core] [kirkstone] core-image-weston doesn't build
+To: Marta Rybczynska <rybczynska@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000001c824505eaeaf1e4"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 13:29:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171703
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 14:01:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171704
 
-The change in commit e903b29f (gcc-cross: pass
--Werror=poison-system-directories to compiler stages) made it impossible
-to disable the error using -Wno-error=poison-system-directories.
+--0000000000001c824505eaeaf1e4
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- .../0002-gcc-poison-system-directories.patch  | 36 +++++++++----------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+On Thu, Oct 13, 2022 at 2:59 AM Marta Rybczynska <rybczynska@gmail.com>
+wrote:
 
-diff --git a/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch b/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch
-index bfec4477c1..5aa635b3d4 100644
---- a/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch
-+++ b/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch
-@@ -1,4 +1,4 @@
--From e1dbdcd0ea667bab4b551294354e04c6fe288ab6 Mon Sep 17 00:00:00 2001
-+From 99f1e61b2957226254a116fde7fd73bf07034012 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Mon, 8 Mar 2021 16:04:20 -0800
- Subject: [PATCH] gcc: poison-system-directories
-@@ -20,12 +20,12 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  gcc/configure       | 19 +++++++++++++++++++
-  gcc/configure.ac    | 16 ++++++++++++++++
-  gcc/doc/invoke.texi |  9 +++++++++
-- gcc/gcc.cc          |  9 +++++++--
-+ gcc/gcc.cc          | 15 ++++++++++++---
-  gcc/incpath.cc      | 21 +++++++++++++++++++++
-- 7 files changed, 86 insertions(+), 2 deletions(-)
-+ 7 files changed, 91 insertions(+), 3 deletions(-)
- 
- diff --git a/gcc/common.opt b/gcc/common.opt
--index 8a0dafc522d..0357868e22c 100644
-+index 8a0dafc52..0357868e2 100644
- --- a/gcc/common.opt
- +++ b/gcc/common.opt
- @@ -710,6 +710,10 @@ Wreturn-local-addr
-@@ -40,7 +40,7 @@ index 8a0dafc522d..0357868e22c 100644
-  Common Var(warn_shadow) Warning
-  Warn when one variable shadows another.  Same as -Wshadow=global.
- diff --git a/gcc/config.in b/gcc/config.in
--index 64c27c9cfac..a693cb8a886 100644
-+index 64c27c9cf..a693cb8a8 100644
- --- a/gcc/config.in
- +++ b/gcc/config.in
- @@ -230,6 +230,16 @@
-@@ -61,7 +61,7 @@ index 64c27c9cfac..a693cb8a886 100644
-     optimizer and back end) to be checked for dynamic type safety at runtime.
-     This is quite expensive. */
- diff --git a/gcc/configure b/gcc/configure
--index 5ce0557719a..dc2d59701ad 100755
-+index 2b83acfb0..8bb97578c 100755
- --- a/gcc/configure
- +++ b/gcc/configure
- @@ -1023,6 +1023,7 @@ enable_maintainer_mode
-@@ -81,7 +81,7 @@ index 5ce0557719a..dc2d59701ad 100755
-    --enable-plugin         enable plugin support
-    --enable-host-shared    build host code as shared libraries
-    --disable-libquadmath-support
--@@ -31982,6 +31985,22 @@ if test "${enable_version_specific_runtime_libs+set}" = set; then :
-+@@ -31996,6 +31999,22 @@ if test "${enable_version_specific_runtime_libs+set}" = set; then :
-  fi
-  
-  
-@@ -105,10 +105,10 @@ index 5ce0557719a..dc2d59701ad 100755
-  
-  
- diff --git a/gcc/configure.ac b/gcc/configure.ac
--index 23bee7010a3..36ce78924de 100644
-+index daf2a708c..6155b83a7 100644
- --- a/gcc/configure.ac
- +++ b/gcc/configure.ac
--@@ -7421,6 +7421,22 @@ AC_ARG_ENABLE(version-specific-runtime-libs,
-+@@ -7435,6 +7435,22 @@ AC_ARG_ENABLE(version-specific-runtime-libs,
-                  [specify that runtime libraries should be
-                   installed in a compiler-specific directory])])
-  
-@@ -132,7 +132,7 @@ index 23bee7010a3..36ce78924de 100644
-  AC_SUBST(subdirs)
-  AC_SUBST(srcdir)
- diff --git a/gcc/doc/invoke.texi b/gcc/doc/invoke.texi
--index 07b440190c3..b2de464798a 100644
-+index ff6c338be..a8ebfa59a 100644
- --- a/gcc/doc/invoke.texi
- +++ b/gcc/doc/invoke.texi
- @@ -379,6 +379,7 @@ Objective-C and Objective-C++ Dialects}.
-@@ -159,10 +159,10 @@ index 07b440190c3..b2de464798a 100644
-  @opindex Wfloat-equal
-  @opindex Wno-float-equal
- diff --git a/gcc/gcc.cc b/gcc/gcc.cc
--index bb07cc244e3..ce161d3c853 100644
-+index beefde7f6..4e6557b3c 100644
- --- a/gcc/gcc.cc
- +++ b/gcc/gcc.cc
--@@ -1159,6 +1159,8 @@ proper position among the other output files.  */
-+@@ -1162,6 +1162,8 @@ proper position among the other output files.  */
-     "%{fuse-ld=*:-fuse-ld=%*} " LINK_COMPRESS_DEBUG_SPEC \
-     "%X %{o*} %{e*} %{N} %{n} %{r}\
-      %{s} %{t} %{u*} %{z} %{Z} %{!nostdlib:%{!r:%{!nostartfiles:%S}}} \
-@@ -171,7 +171,7 @@ index bb07cc244e3..ce161d3c853 100644
-      %{static|no-pie|static-pie:} %@{L*} %(mfwrap) %(link_libgcc) " \
-      VTABLE_VERIFICATION_SPEC " " SANITIZER_EARLY_SPEC " %o "" \
-      %{fopenacc|fopenmp|%:gt(%{ftree-parallelize-loops=*:%*} 1):\
--@@ -1254,8 +1256,11 @@ static const char *cpp_unique_options =
-+@@ -1257,8 +1259,11 @@ static const char *cpp_unique_options =
-  static const char *cpp_options =
-  "%(cpp_unique_options) %1 %{m*} %{std*&ansi&trigraphs} %{W*&pedantic*} %{w}\
-   %{f*} %{g*:%{%:debug-level-gt(0):%{g*}\
-@@ -179,27 +179,27 @@ index bb07cc244e3..ce161d3c853 100644
- - %{undef} %{save-temps*:-fpch-preprocess}";
- + %{!fno-working-directory:-fworking-directory}}} %{O*}"
- +#ifdef POISON_BY_DEFAULT
--+ " -Werror=poison-system-directories"
-++ " %{!Wno-error=poison-system-directories:-Werror=poison-system-directories}"
- +#endif
- + " %{undef} %{save-temps*:-fpch-preprocess}";
-  
-  /* Pass -d* flags, possibly modifying -dumpdir, -dumpbase et al.
-  
--@@ -1265,7 +1270,11 @@ static const char *cc1_options =
-+@@ -1287,7 +1292,11 @@ static const char *cc1_options =
-   %{coverage:-fprofile-arcs -ftest-coverage}\
-   %{fprofile-arcs|fprofile-generate*|coverage:\
-     %{!fprofile-update=single:\
- -     %{pthread:-fprofile-update=prefer-atomic}}}";
- +     %{pthread:-fprofile-update=prefer-atomic}}}"
- +#ifdef POISON_BY_DEFAULT
--+ " -Werror=poison-system-directories"
-++ " %{!Wno-error=poison-system-directories:-Werror=poison-system-directories}"
- +#endif
- +  ;
--
-+ 
-  static const char *asm_options =
-  "%{-target-help:%:print-asm-header()} "
- diff --git a/gcc/incpath.cc b/gcc/incpath.cc
--index bd2a97938eb..c80f100f476 100644
-+index 622204a38..5ac03c086 100644
- --- a/gcc/incpath.cc
- +++ b/gcc/incpath.cc
- @@ -26,6 +26,7 @@
+> $ bitbake weston
+> Loading cache: 100%
+>
+> |###################################################################################################################################|
+> Time: 0:00:00
+> Loaded 1640 entries from dependency cache.
+> ERROR: Nothing PROVIDES 'weston'
+> weston was skipped: missing required distro features 'wayland opengl'
+> (not in DISTRO_FEATURES)
+>
+> Summary: There was 1 ERROR message, returning a non-zero exit code.
+>
+> I can add distro-features et al, just wondering if this image is
+> expected to build by default with oe-core?
+
+
+With poky yes but with vanilla oe-core it needs to enable OpenGL by default
+for nodistro
+
+>
+>
+> Regards,
+> Marta
+>
+> On Thu, Oct 13, 2022 at 10:15 AM Alexander Kanavin
+> <alex.kanavin@gmail.com> wrote:
+> >
+> > What happens when you run 'bitbake weston'?
+> >
+> > Alex
+> >
+> > On Thu, 13 Oct 2022 at 10:10, Marta Rybczynska <rybczynska@gmail.com>
+> wrote:
+> > >
+> > >
+> > >
+> > > On Thu, 13 Oct 2022, 17:00 Alexandre Belloni, <
+> alexandre.belloni@bootlin.com> wrote:
+> > >>
+> > >> On 13/10/2022 09:52:44+0200, Marta Rybczynska wrote:
+> > >> > Hello all,
+> > >> > I'm trying to build the core-image-weston in kirkstone to look into
+> > >> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=14926
+> > >> >
+> > >> > It turns out that the image does not build (oe-core
+> > >> > e728d0965d6fda8ac54e065ca7bf7eb9da9a8170 with bitbake
+> > >> > 6603c3e39f1cf746669ec6c9f0be8c6e6ece426e). I'm getting:
+> > >> >
+> > >> > $ bitbake core-image-weston
+> > >> > Loading cache: 100%
+> > >> >
+> |###################################################################################################################################|
+> > >> > Time: 0:00:00
+> > >> > Loaded 1640 entries from dependency cache.
+> > >> > NOTE: Resolving any missing task queue dependencies
+> > >> > ERROR: Nothing RPROVIDES 'weston-xwayland' (but
+> > >> > /oe-standalone/oe-core/meta/recipes-graphics/images/
+> core-image-weston.bb
+> > >> > RDEPENDS on
+> > >> > or otherwise requires it)
+> > >> > NOTE: Runtime target 'weston-xwayland' is unbuildable, removing...
+> > >> > Missing or unbuildable dependency chain was: ['weston-xwayland']
+> > >> > ERROR: Required build target 'core-image-weston' has no buildable
+> providers.
+> > >> > Missing or unbuildable dependency chain was: ['core-image-weston',
+> > >> > 'weston-xwayland']
+> > >> >
+> > >> > Summary: There were 2 ERROR messages, returning a non-zero exit
+> code.
+> > >> >
+> > >> > I can't find this one in bugzilla. Is it a known issue?
+> > >> >
+> > >>
+> > >> Did you remove x11 from your DISTRO_FEATURES?
+> > >
+> > >
+> > > No. This is a fresh clone. The only changes I have are in local.conf:
+> DL_DIR and parallel build options. That's why I'm surprised.
+> > >
+> > > Regards
+> > > Marta
+> > >
+> > >
+> > >
+> > >
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#171696):
+> https://lists.openembedded.org/g/openembedded-core/message/171696
+> Mute This Topic: https://lists.openembedded.org/mt/94299411/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--0000000000001c824505eaeaf1e4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Thu, Oct 13, 2022 at 2:59 AM Marta Rybczynska &lt;<a hre=
+f=3D"mailto:rybczynska@gmail.com">rybczynska@gmail.com</a>&gt; wrote:<br></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-col=
+or:rgb(204,204,204)">$ bitbake weston<br>
+Loading cache: 100%<br>
+|##########################################################################=
+#########################################################|<br>
+Time: 0:00:00<br>
+Loaded 1640 entries from dependency cache.<br>
+ERROR: Nothing PROVIDES &#39;weston&#39;<br>
+weston was skipped: missing required distro features &#39;wayland opengl&#3=
+9;<br>
+(not in DISTRO_FEATURES)<br>
+<br>
+Summary: There was 1 ERROR message, returning a non-zero exit code.<br>
+<br>
+I can add distro-features et al, just wondering if this image is<br>
+expected to build by default with oe-core?</blockquote><div dir=3D"auto"><b=
+r></div><div dir=3D"auto">With poky yes but with vanilla oe-core it needs t=
+o enable OpenGL by default for nodistro=C2=A0</div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-le=
+ft-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)" dir=3D"=
+auto"><br>
+<br>
+Regards,<br>
+Marta<br>
+<br>
+On Thu, Oct 13, 2022 at 10:15 AM Alexander Kanavin<br>
+&lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavi=
+n@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; What happens when you run &#39;bitbake weston&#39;?<br>
+&gt;<br>
+&gt; Alex<br>
+&gt;<br>
+&gt; On Thu, 13 Oct 2022 at 10:10, Marta Rybczynska &lt;<a href=3D"mailto:r=
+ybczynska@gmail.com" target=3D"_blank">rybczynska@gmail.com</a>&gt; wrote:<=
+br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; On Thu, 13 Oct 2022, 17:00 Alexandre Belloni, &lt;<a href=3D"mail=
+to:alexandre.belloni@bootlin.com" target=3D"_blank">alexandre.belloni@bootl=
+in.com</a>&gt; wrote:<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; On 13/10/2022 09:52:44+0200, Marta Rybczynska wrote:<br>
+&gt; &gt;&gt; &gt; Hello all,<br>
+&gt; &gt;&gt; &gt; I&#39;m trying to build the core-image-weston in kirksto=
+ne to look into<br>
+&gt; &gt;&gt; &gt; <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cg=
+i?id=3D14926" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctopr=
+oject.org/show_bug.cgi?id=3D14926</a><br>
+&gt; &gt;&gt; &gt;<br>
+&gt; &gt;&gt; &gt; It turns out that the image does not build (oe-core<br>
+&gt; &gt;&gt; &gt; e728d0965d6fda8ac54e065ca7bf7eb9da9a8170 with bitbake<br=
+>
+&gt; &gt;&gt; &gt; 6603c3e39f1cf746669ec6c9f0be8c6e6ece426e). I&#39;m getti=
+ng:<br>
+&gt; &gt;&gt; &gt;<br>
+&gt; &gt;&gt; &gt; $ bitbake core-image-weston<br>
+&gt; &gt;&gt; &gt; Loading cache: 100%<br>
+&gt; &gt;&gt; &gt; |#######################################################=
+###########################################################################=
+#|<br>
+&gt; &gt;&gt; &gt; Time: 0:00:00<br>
+&gt; &gt;&gt; &gt; Loaded 1640 entries from dependency cache.<br>
+&gt; &gt;&gt; &gt; NOTE: Resolving any missing task queue dependencies<br>
+&gt; &gt;&gt; &gt; ERROR: Nothing RPROVIDES &#39;weston-xwayland&#39; (but<=
+br>
+&gt; &gt;&gt; &gt; /oe-standalone/oe-core/meta/recipes-graphics/images/<a h=
+ref=3D"http://core-image-weston.bb" rel=3D"noreferrer" target=3D"_blank">co=
+re-image-weston.bb</a><br>
+&gt; &gt;&gt; &gt; RDEPENDS on<br>
+&gt; &gt;&gt; &gt; or otherwise requires it)<br>
+&gt; &gt;&gt; &gt; NOTE: Runtime target &#39;weston-xwayland&#39; is unbuil=
+dable, removing...<br>
+&gt; &gt;&gt; &gt; Missing or unbuildable dependency chain was: [&#39;westo=
+n-xwayland&#39;]<br>
+&gt; &gt;&gt; &gt; ERROR: Required build target &#39;core-image-weston&#39;=
+ has no buildable providers.<br>
+&gt; &gt;&gt; &gt; Missing or unbuildable dependency chain was: [&#39;core-=
+image-weston&#39;,<br>
+&gt; &gt;&gt; &gt; &#39;weston-xwayland&#39;]<br>
+&gt; &gt;&gt; &gt;<br>
+&gt; &gt;&gt; &gt; Summary: There were 2 ERROR messages, returning a non-ze=
+ro exit code.<br>
+&gt; &gt;&gt; &gt;<br>
+&gt; &gt;&gt; &gt; I can&#39;t find this one in bugzilla. Is it a known iss=
+ue?<br>
+&gt; &gt;&gt; &gt;<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; Did you remove x11 from your DISTRO_FEATURES?<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; No. This is a fresh clone. The only changes I have are in local.c=
+onf: DL_DIR and parallel build options. That&#39;s why I&#39;m surprised.<b=
+r>
+&gt; &gt;<br>
+&gt; &gt; Regards<br>
+&gt; &gt; Marta<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; <br>
+&gt; &gt;<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#171696): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/171696" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/171696</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/94299411/1997=
+914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/94299411/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--0000000000001c824505eaeaf1e4--
 
