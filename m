@@ -1,105 +1,137 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D64CAC4332F
-	for <webhook@archiver.kernel.org>; Thu, 13 Oct 2022 21:21:33 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web12.107.1665696087514384181
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AD07C4332F
+	for <webhook@archiver.kernel.org>; Thu, 13 Oct 2022 22:41:04 +0000 (UTC)
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+ by mx.groups.io with SMTP id smtpd.web11.1027.1665700856169424390
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Oct 2022 14:21:28 -0700
+ Thu, 13 Oct 2022 15:40:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=O2ynTSCG;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QdWCElJv;
+ spf=pass (domain: gmail.com, ip: 209.85.160.44, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1324e7a1284so3987886fac.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 15:40:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1665696087;
-  x=1697232087;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=1t+lq6BAzZd7GD20NGShvKldAMeSnyq+bvUsfYwoEWA=;
-  b=O2ynTSCGLx9IFeKQnzG6sAlW19uIWPJ5PnFGz0q8aGuoHvCYtb/k357A
-   tI3F4n61f31dM4906j/Y/xI8ACIIjV7fkjm5+RKEySRGgs3hFAS9cFZCP
-   IqU3cmzhcvCYpRJpqKm1GJMRaOll4LAxGEfSRLlDnXv6lvajjT/qfGMNW
-   mQgZNVs7bjYShFHzJtAcof9LGrCGQYIOBDwJfsHo81Lmiwu9ht6s9yRCS
-   pSKyI91gl1dw/i8P/2LXB0MJPfufotZs2J/scz5slodEKOGuZLuCvqCEb
-   5U7e6CjBhWeQpCR076IxovDjYUOxcKWCBTk+qQmCc7ckqtuPiEuNetfwn
-   w==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Khem Raj <raj.khem@gmail.com>
-CC: Ross Burton <Ross.Burton@arm.com>, "Patches and discussions about the
- oe-core layer" <openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] gcc: Allow -Wno-error=poison-system-directories
- to take effect
-Thread-Topic: [OE-core] [PATCH] gcc: Allow
- -Wno-error=poison-system-directories to take effect
-Thread-Index: AQHY3wff9IX3aU5EgUGJzpEIvmlkRq4MW5EAgAAEFrD///UmgIAAfQtQ
-Date: Thu, 13 Oct 2022 21:21:25 +0000
-Message-ID: <86833f1a66344e14b8191960d12993f4@axis.com>
-References: <20221013132926.2771530-1-pkj@axis.com>
- <6E25C44F-E526-49E7-9AAE-336E670B7F15@arm.com>
- <32ff3b495b8640fb9706bcd5119305f1@axis.com>
- <CAMKF1spjQSXimjhUeufGppgKenNLgsR+c_ppWJJd0ON4GS=dHw@mail.gmail.com>
-In-Reply-To: <CAMKF1spjQSXimjhUeufGppgKenNLgsR+c_ppWJJd0ON4GS=dHw@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I7MsEHEpuI/d0sz9yeDUqn6Gn99ldvndI7e7mljLGkE=;
+        b=QdWCElJv8OdqoQ3wZpvFn/rFLrGvYRt4uDTB3G3aE6xJSqLz0lEt8GC2TQ4OCAQLqg
+         GW+VspByK3HYe1KYqCdCztCT+3ehUQP6HOtYOa+GFaTQA38NayHpf81sp38UoyNcXu3z
+         0qvh4LysDKuoZ83T95ZBrCGJb6oeL/ZJAFbdLSoveDdwE301tXIMxhWQkYYTwMAlWjti
+         rLYpavJOqEX3KrE6JMTCxSKkAqezRa5mUl9ndyDwUP/RQnyhGqVfKAEbi6XLtYWx819w
+         E/MTIW4UfzYKmSW3crkqje88OJ0DnDVveEALWqP6BfBn/bC2IBYHjDxLcSyOpS1zWoxy
+         2Jnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=I7MsEHEpuI/d0sz9yeDUqn6Gn99ldvndI7e7mljLGkE=;
+        b=RwmfuCguH1odbysAZhLhR5WonY0OjBgvBDsezc9psVoCR/gx9uAVt/dU4kYbbcQDm3
+         VLjXKc4YIYlSabWPewnluY9wmpZSZjavnJpy5fe2r8kQzLhZ4CY7TvOwGlmHUb/vlCxP
+         Xw3P9x5v1KlvoVH1WTzYZpIvz+8bmi0QADtyKNB4Efbevso6Lzk1yH1NcYWcUou5K1UX
+         hGNzGx0rZ0l5Y8O0IzfeYAWCpJ6pMpEXkR6DQw2J+e5HyeySIgaSrEcVZqz+AEFHHAbP
+         S5swx/ssm+n/7nBlzkXTXlA0FzRV4yi44jk/uUkeNzWNInQ2vvSJ4tjg9cmxcJgap8nW
+         Ju2A==
+X-Gm-Message-State: ACrzQf3Wa3ZWxWQm0ojclNqAXojdQcfSKTulbBieludIuZw0D5JKgsUN
+	1Ly5++a9la2sSOelxpPJgphm8ruXJqvfAcPmrOFfgL9i
+X-Google-Smtp-Source: AMsMyM56HgyI+ios5ncUaX9LtKubpsxLynZ8MKGe9zcvNnOvmV+0DdWcKTZlgRhBc42Eq7dvj2zoDD2TTUHYYgeMI+I=
+X-Received: by 2002:a05:6870:b00b:b0:127:2d3d:3c16 with SMTP id
+ y11-20020a056870b00b00b001272d3d3c16mr6508683oae.262.1665700855251; Thu, 13
+ Oct 2022 15:40:55 -0700 (PDT)
 MIME-Version: 1.0
+References: <20221013132926.2771530-1-pkj@axis.com> <6E25C44F-E526-49E7-9AAE-336E670B7F15@arm.com>
+ <32ff3b495b8640fb9706bcd5119305f1@axis.com> <CAMKF1spjQSXimjhUeufGppgKenNLgsR+c_ppWJJd0ON4GS=dHw@mail.gmail.com>
+ <86833f1a66344e14b8191960d12993f4@axis.com>
+In-Reply-To: <86833f1a66344e14b8191960d12993f4@axis.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 13 Oct 2022 15:40:29 -0700
+Message-ID: <CAMKF1sqsD7zt0u6=iZertwcF5LKUU-P-KdeS+n=Aceao-+BLFQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gcc: Allow -Wno-error=poison-system-directories
+ to take effect
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Ross Burton <Ross.Burton@arm.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 21:21:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171721
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 22:41:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171722
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1A
-Z21haWwuY29tPg0KPiBTZW50OiBkZW4gMTMgb2t0b2JlciAyMDIyIDE3OjQxDQo+IFRvOiBQZXRl
-ciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4NCj4gQ2M6IFJvc3Mg
-QnVydG9uIDxSb3NzLkJ1cnRvbkBhcm0uY29tPjsgUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJv
-dXQgdGhlDQo+IG9lLWNvcmUgbGF5ZXIgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmc+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBnY2M6IEFsbG93IC1X
-bm8tZXJyb3I9cG9pc29uLXN5c3RlbS0NCj4gZGlyZWN0b3JpZXMgdG8gdGFrZSBlZmZlY3QNCj4g
-DQo+IE9uIFRodSwgT2N0IDEzLCAyMDIyIGF0IDc6MzggQU0gUGV0ZXIgS2plbGxlcnN0ZWR0IDxw
-ZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+IHdyb3RlOg0KPiA+DQo+ID4gPiAtLS0tLU9yaWdp
-bmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4gRnJvbTogUm9zcyBCdXJ0b24gPFJvc3MuQnVydG9uQGFy
-bS5jb20+DQo+ID4gPiBTZW50OiBkZW4gMTMgb2t0b2JlciAyMDIyIDE2OjA1DQo+ID4gPiBUbzog
-UGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+ID4gPiBD
-YzogUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXIgPG9wZW5l
-bWJlZGRlZC0NCj4gPiA+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NCj4gPiA+IFN1Ympl
-Y3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBnY2M6IEFsbG93IC1Xbm8tZXJyb3I9cG9pc29uLXN5
-c3RlbS0NCj4gPiA+IGRpcmVjdG9yaWVzIHRvIHRha2UgZWZmZWN0DQo+ID4gPg0KPiA+ID4gV2hp
-bHN0IHRoaXMgaXMgYSBnb29kIGZpeCwgSeKAmW0gaG9ycmlmaWVkIHRvIGFzayB3aHkgeW91IG5l
-ZWQgaXTigKYNCj4gPg0KPiA+IFdlIGhhdmUgYSByZWNpcGUgZm9yIHNraWEuIFNvbWV3aGVyZSBp
-biB0aGF0IG1lc3Mgb2YgYSBidWlsZA0KPiA+IHN5c3RlbSBpdCB1c2VzIChnbiksIHNvbWV0aGlu
-ZyBhZGRzIC1JL3Vzci9pbmNsdWRlL2ZyZWV0eXBlMiwNCj4gPiB3aGljaCByZXN1bHRzIGluIGFu
-IGVycm9yIHdpdGggLVdlcnJvcj1wb2lzb24tc3lzdGVtLWRpcmVjdG9yaWVzDQo+ID4gZW5hYmxl
-ZCAoYXMgaXQgc2hvdWxkKS4gTm93LCB0byB3b3JrIGFyb3VuZCB0aGF0IHByb2JsZW0sIHRoZQ0K
-PiA+IHJlY2lwZSBjdXJyZW50bHkgYWRkcyAtST0vdXNyL2luY2x1ZGUvZnJlZXR5cGUyLCB3aGlj
-aCBtZWFucyB3ZQ0KPiA+IGtub3cgdGhhdCB0aGUgY29ycmVjdCBwYXRoIGlzIHVzZWQuIEhvd2V2
-ZXIsIHNpbmNlIHRoZSBvcmlnaW5hbA0KPiA+IC1JL3Vzci9pbmNsdWRlL2ZyZWV0eXBlMiBpcyBz
-dGlsbCBpbiB0aGUgbGlzdCBvZiBvcHRpb25zLCB0aGUNCj4gPiBlcnJvciBzdGlsbCB0cmlnZ2Vy
-cy4NCj4gPg0KPiA+IE5vdywgdG8gZml4IHRoZSBwcm9ibGVtIHByb3Blcmx5LCBza2lhcydzIGJ1
-aWxkIGZpbGVzIHNob3VsZCBiZQ0KPiA+IHBhdGNoZWQsIGJ1dCB0aGF0IGlzIG5vdCBteSBqb2Iu
-IFdoYXQgSSBhbSB3b3JraW5nIG9uIGlzIHRvIGdldA0KPiA+IG91ciByZWNpcGVzIHRvIGJ1aWxk
-IHdpdGggTGFuZ2RhbGUuIFRoaXMgbWVhbnMgSSBjYW4gY3V0IHNvbWUNCj4gPiBjb3JuZXJzIGFu
-ZCwgZS5nLiwgZGlzYWJsZSBlcnJvcnMgYW5kIHRoZW4gaGFuZCBvZmYgdG8gdGhlDQo+ID4gcmVz
-cG9uc2libGUgdGVhbSB0byBmaXggdGhlIHVuZGVybHlpbmcgcHJvYmxlbSBhdCBhIHRpbWUgdGhh
-dA0KPiA+IHN1aXRzIHRoZW0uIFRodXMgaW4gdGhpcyBjYXNlIEkgd2FudGVkIHRvIGFkZA0KPiA+
-IC1Xbm8tZXJyb3I9cG9pc29uLXN5c3RlbS1kaXJlY3RvcmllcyBmb3Igc2tpYSwgd2hpY2ggSSB0
-aGVuLCB0bw0KPiA+IG15IHN1cnByaXNlLCBub3RpY2VkIGhhZCBubyBlZmZlY3QuLi4NCj4gDQo+
-IGZyb20gZ2NjIHJlY2lwZSBwb2ludCBvZiB2aWV3LCB0aGlzIGZpeCBpcyBmaW5lLiBob3dldmVy
-IHlvdXIgdXNlIG9mDQo+IHRoaXMgc2VlbXMgdG8gYmUgYSB3b3JrYXJvdW5kIHRoYXQgcGVyaGFw
-cyBpcyBiZXR0ZXIgZml4ZWQgaW4gc2tpYQ0KDQpPaCwgSSdtIHdlbGwgYXdhcmUgb2YgdGhhdC4g
-QXMgSSBzYWlkLCBteSBqb2IgYXQgdGhpcyBzdGFnZSBpcyB0byBnZXQgDQpldmVyeXRoaW5nIGJ1
-aWxkaW5nIHdpdGggTGFuZ2RhbGUuIEFuZCB0byBhY2hpZXZlIHRoYXQsIGl0IGlzIHBlcmZlY3Rs
-eSANCmZpbmUgZm9yIG1lIHRvLCBlLmcuLCBkaXNhYmxlIGNvbXBpbGVyIGVycm9ycy4gT25jZSB0
-aGUgcGxhdGZvcm0gDQpidWlsZHMsIHRoZSByZXNwZWN0aXZlIGNvZGUgb3duZXJzIGhhdmUgdGhl
-IHJlc3BvbnNpYmlsaXR5IHRvIGFjdHVhbGx5IA0KY29ycmVjdCB0aGVpciBjb2RlIHRvIG5vdCBn
-ZW5lcmF0ZSB0aGUgZXJyb3JzIGluIHRoZSBmaXJzdCBwbGFjZS4NCg0KPiBiZWNhdXNlID0gc3lu
-dGF4IGZvciBzeXNyb290IHdvcmtzIHdpdGggZ2NjIGJ1dCBtYXkgbm90IHdvcmsgd2l0aA0KPiBj
-bGFuZyBlLmcuIHNvIHlvdSBhcmUgYmVpbmcgbHVja3kgaGVyZS4NCg0KV2UgZG9uJ3QgdXNlIGNs
-YW5nIHNvIHRoYXQgaXMgbm90IGEgcHJvYmxlbSBmb3IgdXMuDQoNCj4gPiAvL1BldGVyDQo+ID4N
-Cj4gPiA+IFJvc3MNCg0KLy9QZXRlcg0KDQo=
+On Thu, Oct 13, 2022 at 2:21 PM Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+>
+> > -----Original Message-----
+> > From: Khem Raj <raj.khem@gmail.com>
+> > Sent: den 13 oktober 2022 17:41
+> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > Cc: Ross Burton <Ross.Burton@arm.com>; Patches and discussions about th=
+e
+> > oe-core layer <openembedded-core@lists.openembedded.org>
+> > Subject: Re: [OE-core] [PATCH] gcc: Allow -Wno-error=3Dpoison-system-
+> > directories to take effect
+> >
+> > On Thu, Oct 13, 2022 at 7:38 AM Peter Kjellerstedt <peter.kjellerstedt@=
+axis.com> wrote:
+> > >
+> > > > -----Original Message-----
+> > > > From: Ross Burton <Ross.Burton@arm.com>
+> > > > Sent: den 13 oktober 2022 16:05
+> > > > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > > > Cc: Patches and discussions about the oe-core layer <openembedded-
+> > > > core@lists.openembedded.org>
+> > > > Subject: Re: [OE-core] [PATCH] gcc: Allow -Wno-error=3Dpoison-syste=
+m-
+> > > > directories to take effect
+> > > >
+> > > > Whilst this is a good fix, I=E2=80=99m horrified to ask why you nee=
+d it=E2=80=A6
+> > >
+> > > We have a recipe for skia. Somewhere in that mess of a build
+> > > system it uses (gn), something adds -I/usr/include/freetype2,
+> > > which results in an error with -Werror=3Dpoison-system-directories
+> > > enabled (as it should). Now, to work around that problem, the
+> > > recipe currently adds -I=3D/usr/include/freetype2, which means we
+> > > know that the correct path is used. However, since the original
+> > > -I/usr/include/freetype2 is still in the list of options, the
+> > > error still triggers.
+> > >
+> > > Now, to fix the problem properly, skias's build files should be
+> > > patched, but that is not my job. What I am working on is to get
+> > > our recipes to build with Langdale. This means I can cut some
+> > > corners and, e.g., disable errors and then hand off to the
+> > > responsible team to fix the underlying problem at a time that
+> > > suits them. Thus in this case I wanted to add
+> > > -Wno-error=3Dpoison-system-directories for skia, which I then, to
+> > > my surprise, noticed had no effect...
+> >
+> > from gcc recipe point of view, this fix is fine. however your use of
+> > this seems to be a workaround that perhaps is better fixed in skia
+>
+> Oh, I'm well aware of that. As I said, my job at this stage is to get
+> everything building with Langdale. And to achieve that, it is perfectly
+> fine for me to, e.g., disable compiler errors. Once the platform
+> builds, the respective code owners have the responsibility to actually
+> correct their code to not generate the errors in the first place.
+
+I hope you will inform the responsible and ask them to fix the problem.
+
+>
+> > because =3D syntax for sysroot works with gcc but may not work with
+> > clang e.g. so you are being lucky here.
+>
+> We don't use clang so that is not a problem for us.
+>
+> > > //Peter
+> > >
+> > > > Ross
+>
+> //Peter
+>
 
