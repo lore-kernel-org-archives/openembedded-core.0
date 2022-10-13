@@ -1,207 +1,289 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1E7BC4332F
-	for <webhook@archiver.kernel.org>; Thu, 13 Oct 2022 14:39:03 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web08.8324.1665671935043098125
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ED82C4332F
+	for <webhook@archiver.kernel.org>; Thu, 13 Oct 2022 15:41:34 +0000 (UTC)
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+ by mx.groups.io with SMTP id smtpd.web10.9168.1665675688413739907
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Oct 2022 07:38:55 -0700
+ Thu, 13 Oct 2022 08:41:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=JNsHkYI8;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=PmFr2vWO;
+ spf=pass (domain: gmail.com, ip: 209.85.161.48, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f48.google.com with SMTP id h1-20020a4aa741000000b004756c611188so1348774oom.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 08:41:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1665671935;
-  x=1697207935;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=RZMC1532UgS74YaTjgX8uYnOyCGsa4Fk8EeofA2EcYc=;
-  b=JNsHkYI8QP9qjNPJrZ/M79DQffJrowYm2XC2Q+qnGoMcfy0QMctjQmF9
-   E5DSFFYkTIWoNV+QS5nOGxFe9Erl2AVLBIVHREi/wjbEsbyLSpRSnuYJr
-   KvWECVd4Z9dqAry3964XWGUFNW8rRylAzDS3a6b7Tthf6WgnJsBDNAGYU
-   yNzohZsYjqM/iT4CvolUPsIv3Qx+ENP6rW4aOKrmks3e3c4teFTTMd0Tk
-   u+nzxd154gbY0YgAlMugkTfXF4O+IBE/YUHRFeRAUiMCOu7957APavNZA
-   rheeR4Ee5YqMoECjJuPd1BglR5KJ1ASjA9w9ICRLZcG590OTfs/5S4NHp
-   Q==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Ross Burton <Ross.Burton@arm.com>
-CC: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] gcc: Allow -Wno-error=poison-system-directories
- to take effect
-Thread-Topic: [OE-core] [PATCH] gcc: Allow
- -Wno-error=poison-system-directories to take effect
-Thread-Index: AQHY3wff9IX3aU5EgUGJzpEIvmlkRq4MW5EAgAAEFrA=
-Date: Thu, 13 Oct 2022 14:38:52 +0000
-Message-ID: <32ff3b495b8640fb9706bcd5119305f1@axis.com>
-References: <20221013132926.2771530-1-pkj@axis.com>
- <6E25C44F-E526-49E7-9AAE-336E670B7F15@arm.com>
-In-Reply-To: <6E25C44F-E526-49E7-9AAE-336E670B7F15@arm.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U2/x1UabV0Mzoy7sOFpcZ8UeF2sd8ugaIJSc9r2KhpU=;
+        b=PmFr2vWOAJ4zRqeXaTP9s58nqcEi9v3eXcsS2XRk1bVVZAGJzx74LgZp6x00lSNxc9
+         mzlLXJ8q5X94nhXgTkAFWpCBpaTfSBQZBfjQlPDNOJKBC3eKq2MPf0nxz3TTmy1ckNLy
+         h4Des3QWk+JP0xT64p/Beu0MDAGIFPaEo5zwyREtzFTUdLZ9nZrM64hnEjjHIoBWp4sd
+         ocbWznJzC9FH5HyVReHG/XSZgbsT1jmfOmcqdA2WSwFNyo+Byl5U6NaA7x/Z/nN6YOAS
+         avSgOGSv1RsYyg+joP7g4s19DtuRYcA/GQg0plVlfiwyb0zJAE73aUW4ScDPjDQF4MB0
+         liUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=U2/x1UabV0Mzoy7sOFpcZ8UeF2sd8ugaIJSc9r2KhpU=;
+        b=CNObNiL2Rxqpj8Uy3czcVBK20L3ucZcSFsG2SXeFyqcrEJxSzvzVEQ+FakkxkEXNtk
+         C19QnTyugBZr6ZKscNPtcVxALP+q/bL1uUpwhoF+NIbCdUunqmk5wZdLqufwzelpFKYd
+         GpvtUVbrO07tbMOdNaMzwcLRXNqD7MjRKZ3aTY2qwXklDDOLnfn5UpocEWp97N9Wf/0R
+         /hQQIyozPMl41LV0P2RA4Oen+bdM8ewkQlVSv0IcVlUl9SDtn/n7AwIjg/pQfWtXduK3
+         ysSJwWbMweggLWbTR1cEjJs02Ni++/6cUvnFCK6sDdTb72x0E9C2dytRbXKNKfDDH4kI
+         H3Yg==
+X-Gm-Message-State: ACrzQf3rptBmLw2PUFtypJJWWi7ywUtETULIWrOULBoHBPxAxQKvUuZH
+	beWiLXgV5jYMxUnBhiUYTqlRLM13hzD7WHh69+0=
+X-Google-Smtp-Source: AMsMyM7MnSSHZLOeuM8Uj6Jc4jLMw0zV1FXScm/2PkTAsAyHpsyOPy6jHPv9tyuu9ZSE4zCMjrbTJFUQJr9QZSDJiho=
+X-Received: by 2002:a4a:c90f:0:b0:480:8d45:3246 with SMTP id
+ v15-20020a4ac90f000000b004808d453246mr130259ooq.9.1665675687379; Thu, 13 Oct
+ 2022 08:41:27 -0700 (PDT)
 MIME-Version: 1.0
+References: <20221013132926.2771530-1-pkj@axis.com> <6E25C44F-E526-49E7-9AAE-336E670B7F15@arm.com>
+ <32ff3b495b8640fb9706bcd5119305f1@axis.com>
+In-Reply-To: <32ff3b495b8640fb9706bcd5119305f1@axis.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 13 Oct 2022 08:41:01 -0700
+Message-ID: <CAMKF1spjQSXimjhUeufGppgKenNLgsR+c_ppWJJd0ON4GS=dHw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gcc: Allow -Wno-error=poison-system-directories
+ to take effect
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Ross Burton <Ross.Burton@arm.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 14:39:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171706
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 15:41:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171707
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSb3NzIEJ1cnRvbiA8Um9zcy5C
-dXJ0b25AYXJtLmNvbT4NCj4gU2VudDogZGVuIDEzIG9rdG9iZXIgMjAyMiAxNjowNQ0KPiBUbzog
-UGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+IENjOiBQ
-YXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllciA8b3BlbmVtYmVk
-ZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQo+IFN1YmplY3Q6IFJlOiBbT0Ut
-Y29yZV0gW1BBVENIXSBnY2M6IEFsbG93IC1Xbm8tZXJyb3I9cG9pc29uLXN5c3RlbS0NCj4gZGly
-ZWN0b3JpZXMgdG8gdGFrZSBlZmZlY3QNCj4gDQo+IFdoaWxzdCB0aGlzIGlzIGEgZ29vZCBmaXgs
-IEnigJltIGhvcnJpZmllZCB0byBhc2sgd2h5IHlvdSBuZWVkIGl04oCmDQoNCldlIGhhdmUgYSBy
-ZWNpcGUgZm9yIHNraWEuIFNvbWV3aGVyZSBpbiB0aGF0IG1lc3Mgb2YgYSBidWlsZCANCnN5c3Rl
-bSBpdCB1c2VzIChnbiksIHNvbWV0aGluZyBhZGRzIC1JL3Vzci9pbmNsdWRlL2ZyZWV0eXBlMiwg
-DQp3aGljaCByZXN1bHRzIGluIGFuIGVycm9yIHdpdGggLVdlcnJvcj1wb2lzb24tc3lzdGVtLWRp
-cmVjdG9yaWVzIA0KZW5hYmxlZCAoYXMgaXQgc2hvdWxkKS4gTm93LCB0byB3b3JrIGFyb3VuZCB0
-aGF0IHByb2JsZW0sIHRoZSANCnJlY2lwZSBjdXJyZW50bHkgYWRkcyAtST0vdXNyL2luY2x1ZGUv
-ZnJlZXR5cGUyLCB3aGljaCBtZWFucyB3ZSANCmtub3cgdGhhdCB0aGUgY29ycmVjdCBwYXRoIGlz
-IHVzZWQuIEhvd2V2ZXIsIHNpbmNlIHRoZSBvcmlnaW5hbCANCi1JL3Vzci9pbmNsdWRlL2ZyZWV0
-eXBlMiBpcyBzdGlsbCBpbiB0aGUgbGlzdCBvZiBvcHRpb25zLCB0aGUgDQplcnJvciBzdGlsbCB0
-cmlnZ2Vycy4NCg0KTm93LCB0byBmaXggdGhlIHByb2JsZW0gcHJvcGVybHksIHNraWFzJ3MgYnVp
-bGQgZmlsZXMgc2hvdWxkIGJlIA0KcGF0Y2hlZCwgYnV0IHRoYXQgaXMgbm90IG15IGpvYi4gV2hh
-dCBJIGFtIHdvcmtpbmcgb24gaXMgdG8gZ2V0IA0Kb3VyIHJlY2lwZXMgdG8gYnVpbGQgd2l0aCBM
-YW5nZGFsZS4gVGhpcyBtZWFucyBJIGNhbiBjdXQgc29tZSANCmNvcm5lcnMgYW5kLCBlLmcuLCBk
-aXNhYmxlIGVycm9ycyBhbmQgdGhlbiBoYW5kIG9mZiB0byB0aGUgDQpyZXNwb25zaWJsZSB0ZWFt
-IHRvIGZpeCB0aGUgdW5kZXJseWluZyBwcm9ibGVtIGF0IGEgdGltZSB0aGF0IA0Kc3VpdHMgdGhl
-bS4gVGh1cyBpbiB0aGlzIGNhc2UgSSB3YW50ZWQgdG8gYWRkIA0KLVduby1lcnJvcj1wb2lzb24t
-c3lzdGVtLWRpcmVjdG9yaWVzIGZvciBza2lhLCB3aGljaCBJIHRoZW4sIHRvIA0KbXkgc3VycHJp
-c2UsIG5vdGljZWQgaGFkIG5vIGVmZmVjdC4uLg0KDQovL1BldGVyDQoNCj4gDQo+IFJvc3MNCj4g
-DQo+ID4gT24gMTMgT2N0IDIwMjIsIGF0IDE0OjI5LCBQZXRlciBLamVsbGVyc3RlZHQgdmlhIGxp
-c3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPHBldGVyLmtqZWxsZXJzdGVkdD1heGlzLmNvbUBsaXN0
-cy5vcGVuZW1iZWRkZWQub3JnPiB3cm90ZToNCj4gPg0KPiA+IFRoZSBjaGFuZ2UgaW4gY29tbWl0
-IGU5MDNiMjlmIChnY2MtY3Jvc3M6IHBhc3MNCj4gPiAtV2Vycm9yPXBvaXNvbi1zeXN0ZW0tZGly
-ZWN0b3JpZXMgdG8gY29tcGlsZXIgc3RhZ2VzKSBtYWRlIGl0IGltcG9zc2libGUNCj4gPiB0byBk
-aXNhYmxlIHRoZSBlcnJvciB1c2luZyAtV25vLWVycm9yPXBvaXNvbi1zeXN0ZW0tZGlyZWN0b3Jp
-ZXMuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtq
-ZWxsZXJzdGVkdEBheGlzLmNvbT4NCj4gPiAtLS0NCj4gPiAuLi4vMDAwMi1nY2MtcG9pc29uLXN5
-c3RlbS1kaXJlY3Rvcmllcy5wYXRjaCAgfCAzNiArKysrKysrKystLS0tLS0tLS0tDQo+ID4gMSBm
-aWxlIGNoYW5nZWQsIDE4IGluc2VydGlvbnMoKyksIDE4IGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4g
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nY2MvZ2NjLzAwMDItZ2NjLXBvaXNv
-bi1zeXN0ZW0tDQo+IGRpcmVjdG9yaWVzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dj
-Yy9nY2MvMDAwMi1nY2MtcG9pc29uLXN5c3RlbS0NCj4gZGlyZWN0b3JpZXMucGF0Y2gNCj4gPiBp
-bmRleCBiZmVjNDQ3N2MxLi41YWE2MzViM2Q0IDEwMDY0NA0KPiA+IC0tLSBhL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9nY2MvZ2NjLzAwMDItZ2NjLXBvaXNvbi1zeXN0ZW0tDQo+IGRpcmVjdG9yaWVz
-LnBhdGNoDQo+ID4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2djYy9nY2MvMDAwMi1nY2Mt
-cG9pc29uLXN5c3RlbS0NCj4gZGlyZWN0b3JpZXMucGF0Y2gNCj4gPiBAQCAtMSw0ICsxLDQgQEAN
-Cj4gPiAtRnJvbSBlMWRiZGNkMGVhNjY3YmFiNGI1NTEyOTQzNTRlMDRjNmZlMjg4YWI2IE1vbiBT
-ZXAgMTcgMDA6MDA6MDAgMjAwMQ0KPiA+ICtGcm9tIDk5ZjFlNjFiMjk1NzIyNjI1NGExMTZmZGU3
-ZmQ3M2JmMDcwMzQwMTIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxDQo+ID4gRnJvbTogS2hlbSBS
-YWogPHJhai5raGVtQGdtYWlsLmNvbT4NCj4gPiBEYXRlOiBNb24sIDggTWFyIDIwMjEgMTY6MDQ6
-MjAgLTA4MDANCj4gPiBTdWJqZWN0OiBbUEFUQ0hdIGdjYzogcG9pc29uLXN5c3RlbS1kaXJlY3Rv
-cmllcw0KPiA+IEBAIC0yMCwxMiArMjAsMTIgQEAgU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJh
-ai5raGVtQGdtYWlsLmNvbT4NCj4gPiAgZ2NjL2NvbmZpZ3VyZSAgICAgICB8IDE5ICsrKysrKysr
-KysrKysrKysrKysNCj4gPiAgZ2NjL2NvbmZpZ3VyZS5hYyAgICB8IDE2ICsrKysrKysrKysrKysr
-KysNCj4gPiAgZ2NjL2RvYy9pbnZva2UudGV4aSB8ICA5ICsrKysrKysrKw0KPiA+IC0gZ2NjL2dj
-Yy5jYyAgICAgICAgICB8ICA5ICsrKysrKystLQ0KPiA+ICsgZ2NjL2djYy5jYyAgICAgICAgICB8
-IDE1ICsrKysrKysrKysrKy0tLQ0KPiA+ICBnY2MvaW5jcGF0aC5jYyAgICAgIHwgMjEgKysrKysr
-KysrKysrKysrKysrKysrDQo+ID4gLSA3IGZpbGVzIGNoYW5nZWQsIDg2IGluc2VydGlvbnMoKyks
-IDIgZGVsZXRpb25zKC0pDQo+ID4gKyA3IGZpbGVzIGNoYW5nZWQsIDkxIGluc2VydGlvbnMoKyks
-IDMgZGVsZXRpb25zKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvZ2NjL2NvbW1vbi5vcHQgYi9n
-Y2MvY29tbW9uLm9wdA0KPiA+IC1pbmRleCA4YTBkYWZjNTIyZC4uMDM1Nzg2OGUyMmMgMTAwNjQ0
-DQo+ID4gK2luZGV4IDhhMGRhZmM1Mi4uMDM1Nzg2OGUyIDEwMDY0NA0KPiA+IC0tLSBhL2djYy9j
-b21tb24ub3B0DQo+ID4gKysrIGIvZ2NjL2NvbW1vbi5vcHQNCj4gPiBAQCAtNzEwLDYgKzcxMCwx
-MCBAQCBXcmV0dXJuLWxvY2FsLWFkZHINCj4gPiBAQCAtNDAsNyArNDAsNyBAQCBpbmRleCA4YTBk
-YWZjNTIyZC4uMDM1Nzg2OGUyMmMgMTAwNjQ0DQo+ID4gIENvbW1vbiBWYXIod2Fybl9zaGFkb3cp
-IFdhcm5pbmcNCj4gPiAgV2FybiB3aGVuIG9uZSB2YXJpYWJsZSBzaGFkb3dzIGFub3RoZXIuICBT
-YW1lIGFzIC1Xc2hhZG93PWdsb2JhbC4NCj4gPiBkaWZmIC0tZ2l0IGEvZ2NjL2NvbmZpZy5pbiBi
-L2djYy9jb25maWcuaW4NCj4gPiAtaW5kZXggNjRjMjdjOWNmYWMuLmE2OTNjYjhhODg2IDEwMDY0
-NA0KPiA+ICtpbmRleCA2NGMyN2M5Y2YuLmE2OTNjYjhhOCAxMDA2NDQNCj4gPiAtLS0gYS9nY2Mv
-Y29uZmlnLmluDQo+ID4gKysrIGIvZ2NjL2NvbmZpZy5pbg0KPiA+IEBAIC0yMzAsNiArMjMwLDE2
-IEBADQo+ID4gQEAgLTYxLDcgKzYxLDcgQEAgaW5kZXggNjRjMjdjOWNmYWMuLmE2OTNjYjhhODg2
-IDEwMDY0NA0KPiA+ICAgICBvcHRpbWl6ZXIgYW5kIGJhY2sgZW5kKSB0byBiZSBjaGVja2VkIGZv
-ciBkeW5hbWljIHR5cGUgc2FmZXR5IGF0DQo+IHJ1bnRpbWUuDQo+ID4gICAgIFRoaXMgaXMgcXVp
-dGUgZXhwZW5zaXZlLiAqLw0KPiA+IGRpZmYgLS1naXQgYS9nY2MvY29uZmlndXJlIGIvZ2NjL2Nv
-bmZpZ3VyZQ0KPiA+IC1pbmRleCA1Y2UwNTU3NzE5YS4uZGMyZDU5NzAxYWQgMTAwNzU1DQo+ID4g
-K2luZGV4IDJiODNhY2ZiMC4uOGJiOTc1NzhjIDEwMDc1NQ0KPiA+IC0tLSBhL2djYy9jb25maWd1
-cmUNCj4gPiArKysgYi9nY2MvY29uZmlndXJlDQo+ID4gQEAgLTEwMjMsNiArMTAyMyw3IEBAIGVu
-YWJsZV9tYWludGFpbmVyX21vZGUNCj4gPiBAQCAtODEsNyArODEsNyBAQCBpbmRleCA1Y2UwNTU3
-NzE5YS4uZGMyZDU5NzAxYWQgMTAwNzU1DQo+ID4gICAgLS1lbmFibGUtcGx1Z2luICAgICAgICAg
-ZW5hYmxlIHBsdWdpbiBzdXBwb3J0DQo+ID4gICAgLS1lbmFibGUtaG9zdC1zaGFyZWQgICAgYnVp
-bGQgaG9zdCBjb2RlIGFzIHNoYXJlZCBsaWJyYXJpZXMNCj4gPiAgICAtLWRpc2FibGUtbGlicXVh
-ZG1hdGgtc3VwcG9ydA0KPiA+IC1AQCAtMzE5ODIsNiArMzE5ODUsMjIgQEAgaWYgdGVzdA0KPiAi
-JHtlbmFibGVfdmVyc2lvbl9zcGVjaWZpY19ydW50aW1lX2xpYnMrc2V0fSIgPSBzZXQ7IHRoZW4g
-Og0KPiA+ICtAQCAtMzE5OTYsNiArMzE5OTksMjIgQEAgaWYgdGVzdA0KPiAiJHtlbmFibGVfdmVy
-c2lvbl9zcGVjaWZpY19ydW50aW1lX2xpYnMrc2V0fSIgPSBzZXQ7IHRoZW4gOg0KPiA+ICBmaQ0K
-PiA+DQo+ID4NCj4gPiBAQCAtMTA1LDEwICsxMDUsMTAgQEAgaW5kZXggNWNlMDU1NzcxOWEuLmRj
-MmQ1OTcwMWFkIDEwMDc1NQ0KPiA+DQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvZ2NjL2NvbmZpZ3Vy
-ZS5hYyBiL2djYy9jb25maWd1cmUuYWMNCj4gPiAtaW5kZXggMjNiZWU3MDEwYTMuLjM2Y2U3ODky
-NGRlIDEwMDY0NA0KPiA+ICtpbmRleCBkYWYyYTcwOGMuLjYxNTViODNhNyAxMDA2NDQNCj4gPiAt
-LS0gYS9nY2MvY29uZmlndXJlLmFjDQo+ID4gKysrIGIvZ2NjL2NvbmZpZ3VyZS5hYw0KPiA+IC1A
-QCAtNzQyMSw2ICs3NDIxLDIyIEBAIEFDX0FSR19FTkFCTEUodmVyc2lvbi1zcGVjaWZpYy1ydW50
-aW1lLWxpYnMsDQo+ID4gK0BAIC03NDM1LDYgKzc0MzUsMjIgQEAgQUNfQVJHX0VOQUJMRSh2ZXJz
-aW9uLXNwZWNpZmljLXJ1bnRpbWUtbGlicywNCj4gPiAgICAgICAgICAgICAgICAgIFtzcGVjaWZ5
-IHRoYXQgcnVudGltZSBsaWJyYXJpZXMgc2hvdWxkIGJlDQo+ID4gICAgICAgICAgICAgICAgICAg
-aW5zdGFsbGVkIGluIGEgY29tcGlsZXItc3BlY2lmaWMgZGlyZWN0b3J5XSldKQ0KPiA+DQo+ID4g
-QEAgLTEzMiw3ICsxMzIsNyBAQCBpbmRleCAyM2JlZTcwMTBhMy4uMzZjZTc4OTI0ZGUgMTAwNjQ0
-DQo+ID4gIEFDX1NVQlNUKHN1YmRpcnMpDQo+ID4gIEFDX1NVQlNUKHNyY2RpcikNCj4gPiBkaWZm
-IC0tZ2l0IGEvZ2NjL2RvYy9pbnZva2UudGV4aSBiL2djYy9kb2MvaW52b2tlLnRleGkNCj4gPiAt
-aW5kZXggMDdiNDQwMTkwYzMuLmIyZGU0NjQ3OThhIDEwMDY0NA0KPiA+ICtpbmRleCBmZjZjMzM4
-YmUuLmE4ZWJmYTU5YSAxMDA2NDQNCj4gPiAtLS0gYS9nY2MvZG9jL2ludm9rZS50ZXhpDQo+ID4g
-KysrIGIvZ2NjL2RvYy9pbnZva2UudGV4aQ0KPiA+IEBAIC0zNzksNiArMzc5LDcgQEAgT2JqZWN0
-aXZlLUMgYW5kIE9iamVjdGl2ZS1DKysgRGlhbGVjdHN9Lg0KPiA+IEBAIC0xNTksMTAgKzE1OSwx
-MCBAQCBpbmRleCAwN2I0NDAxOTBjMy4uYjJkZTQ2NDc5OGEgMTAwNjQ0DQo+ID4gIEBvcGluZGV4
-IFdmbG9hdC1lcXVhbA0KPiA+ICBAb3BpbmRleCBXbm8tZmxvYXQtZXF1YWwNCj4gPiBkaWZmIC0t
-Z2l0IGEvZ2NjL2djYy5jYyBiL2djYy9nY2MuY2MNCj4gPiAtaW5kZXggYmIwN2NjMjQ0ZTMuLmNl
-MTYxZDNjODUzIDEwMDY0NA0KPiA+ICtpbmRleCBiZWVmZGU3ZjYuLjRlNjU1N2IzYyAxMDA2NDQN
-Cj4gPiAtLS0gYS9nY2MvZ2NjLmNjDQo+ID4gKysrIGIvZ2NjL2djYy5jYw0KPiA+IC1AQCAtMTE1
-OSw2ICsxMTU5LDggQEAgcHJvcGVyIHBvc2l0aW9uIGFtb25nIHRoZSBvdGhlciBvdXRwdXQgZmls
-ZXMuICAqLw0KPiA+ICtAQCAtMTE2Miw2ICsxMTYyLDggQEAgcHJvcGVyIHBvc2l0aW9uIGFtb25n
-IHRoZSBvdGhlciBvdXRwdXQgZmlsZXMuICAqLw0KPiA+ICAgICAiJXtmdXNlLWxkPSo6LWZ1c2Ut
-bGQ9JSp9ICIgTElOS19DT01QUkVTU19ERUJVR19TUEVDIFwNCj4gPiAgICAgIiVYICV7byp9ICV7
-ZSp9ICV7Tn0gJXtufSAle3J9XA0KPiA+ICAgICAgJXtzfSAle3R9ICV7dSp9ICV7en0gJXtafSAl
-eyFub3N0ZGxpYjoleyFyOiV7IW5vc3RhcnRmaWxlczolU319fSBcDQo+ID4gQEAgLTE3MSw3ICsx
-NzEsNyBAQCBpbmRleCBiYjA3Y2MyNDRlMy4uY2UxNjFkM2M4NTMgMTAwNjQ0DQo+ID4gICAgICAl
-e3N0YXRpY3xuby1waWV8c3RhdGljLXBpZTp9ICVAe0wqfSAlKG1md3JhcCkgJShsaW5rX2xpYmdj
-YykgIiBcDQo+ID4gICAgICBWVEFCTEVfVkVSSUZJQ0FUSU9OX1NQRUMgIiAiIFNBTklUSVpFUl9F
-QVJMWV9TUEVDICIgJW8gIiIgXA0KPiA+ICAgICAgJXtmb3BlbmFjY3xmb3Blbm1wfCU6Z3QoJXtm
-dHJlZS1wYXJhbGxlbGl6ZS1sb29wcz0qOiUqfSAxKTpcDQo+ID4gLUBAIC0xMjU0LDggKzEyNTYs
-MTEgQEAgc3RhdGljIGNvbnN0IGNoYXIgKmNwcF91bmlxdWVfb3B0aW9ucyA9DQo+ID4gK0BAIC0x
-MjU3LDggKzEyNTksMTEgQEAgc3RhdGljIGNvbnN0IGNoYXIgKmNwcF91bmlxdWVfb3B0aW9ucyA9
-DQo+ID4gIHN0YXRpYyBjb25zdCBjaGFyICpjcHBfb3B0aW9ucyA9DQo+ID4gICIlKGNwcF91bmlx
-dWVfb3B0aW9ucykgJTEgJXttKn0gJXtzdGQqJmFuc2kmdHJpZ3JhcGhzfSAle1cqJnBlZGFudGlj
-Kn0NCj4gJXt3fVwNCj4gPiAgICV7Zip9ICV7Zyo6JXslOmRlYnVnLWxldmVsLWd0KDApOiV7Zyp9
-XA0KPiA+IEBAIC0xNzksMjcgKzE3OSwyNyBAQCBpbmRleCBiYjA3Y2MyNDRlMy4uY2UxNjFkM2M4
-NTMgMTAwNjQ0DQo+ID4gLSAle3VuZGVmfSAle3NhdmUtdGVtcHMqOi1mcGNoLXByZXByb2Nlc3N9
-IjsNCj4gPiArICV7IWZuby13b3JraW5nLWRpcmVjdG9yeTotZndvcmtpbmctZGlyZWN0b3J5fX19
-ICV7Typ9Ig0KPiA+ICsjaWZkZWYgUE9JU09OX0JZX0RFRkFVTFQNCj4gPiAtKyAiIC1XZXJyb3I9
-cG9pc29uLXN5c3RlbS1kaXJlY3RvcmllcyINCj4gPiArKyAiICV7IVduby1lcnJvcj1wb2lzb24t
-c3lzdGVtLWRpcmVjdG9yaWVzOi1XZXJyb3I9cG9pc29uLXN5c3RlbS0NCj4gZGlyZWN0b3JpZXN9
-Ig0KPiA+ICsjZW5kaWYNCj4gPiArICIgJXt1bmRlZn0gJXtzYXZlLXRlbXBzKjotZnBjaC1wcmVw
-cm9jZXNzfSI7DQo+ID4NCj4gPiAgLyogUGFzcyAtZCogZmxhZ3MsIHBvc3NpYmx5IG1vZGlmeWlu
-ZyAtZHVtcGRpciwgLWR1bXBiYXNlIGV0IGFsLg0KPiA+DQo+ID4gLUBAIC0xMjY1LDcgKzEyNzAs
-MTEgQEAgc3RhdGljIGNvbnN0IGNoYXIgKmNjMV9vcHRpb25zID0NCj4gPiArQEAgLTEyODcsNyAr
-MTI5MiwxMSBAQCBzdGF0aWMgY29uc3QgY2hhciAqY2MxX29wdGlvbnMgPQ0KPiA+ICAgJXtjb3Zl
-cmFnZTotZnByb2ZpbGUtYXJjcyAtZnRlc3QtY292ZXJhZ2V9XA0KPiA+ICAgJXtmcHJvZmlsZS1h
-cmNzfGZwcm9maWxlLWdlbmVyYXRlKnxjb3ZlcmFnZTpcDQo+ID4gICAgICV7IWZwcm9maWxlLXVw
-ZGF0ZT1zaW5nbGU6XA0KPiA+IC0gICAgICV7cHRocmVhZDotZnByb2ZpbGUtdXBkYXRlPXByZWZl
-ci1hdG9taWN9fX0iOw0KPiA+ICsgICAgICV7cHRocmVhZDotZnByb2ZpbGUtdXBkYXRlPXByZWZl
-ci1hdG9taWN9fX0iDQo+ID4gKyNpZmRlZiBQT0lTT05fQllfREVGQVVMVA0KPiA+IC0rICIgLVdl
-cnJvcj1wb2lzb24tc3lzdGVtLWRpcmVjdG9yaWVzIg0KPiA+ICsrICIgJXshV25vLWVycm9yPXBv
-aXNvbi1zeXN0ZW0tZGlyZWN0b3JpZXM6LVdlcnJvcj1wb2lzb24tc3lzdGVtLQ0KPiBkaXJlY3Rv
-cmllc30iDQo+ID4gKyNlbmRpZg0KPiA+ICsgIDsNCj4gPiAtDQo+ID4gKw0KPiA+ICBzdGF0aWMg
-Y29uc3QgY2hhciAqYXNtX29wdGlvbnMgPQ0KPiA+ICAiJXstdGFyZ2V0LWhlbHA6JTpwcmludC1h
-c20taGVhZGVyKCl9ICINCj4gPiBkaWZmIC0tZ2l0IGEvZ2NjL2luY3BhdGguY2MgYi9nY2MvaW5j
-cGF0aC5jYw0KPiA+IC1pbmRleCBiZDJhOTc5MzhlYi4uYzgwZjEwMGY0NzYgMTAwNjQ0DQo+ID4g
-K2luZGV4IDYyMjIwNGEzOC4uNWFjMDNjMDg2IDEwMDY0NA0KPiA+IC0tLSBhL2djYy9pbmNwYXRo
-LmNjDQo+ID4gKysrIGIvZ2NjL2luY3BhdGguY2MNCj4gPiBAQCAtMjYsNiArMjYsNyBAQA0KPiA+
-DQo+ID4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4gPiBMaW5rczogWW91IHJlY2VpdmUgYWxs
-IG1lc3NhZ2VzIHNlbnQgdG8gdGhpcyBncm91cC4NCj4gPiBWaWV3L1JlcGx5IE9ubGluZSAoIzE3
-MTcwMyk6DQo+IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1j
-b3JlL21lc3NhZ2UvMTcxNzAzDQo+ID4gTXV0ZSBUaGlzIFRvcGljOiBodHRwczovL2xpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmcvbXQvOTQzMDM0MjEvNjg3NTg4OA0KPiA+IEdyb3VwIE93bmVyOiBvcGVu
-ZW1iZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gVW5zdWJzY3Jp
-YmU6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vu
-c3ViDQo+IFtyb3NzLmJ1cnRvbkBhcm0uY29tXQ0KPiA+IC09LT0tPS09LT0tPS09LT0tPS09LT0t
-DQo+ID4NCg0K
+On Thu, Oct 13, 2022 at 7:38 AM Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+>
+> > -----Original Message-----
+> > From: Ross Burton <Ross.Burton@arm.com>
+> > Sent: den 13 oktober 2022 16:05
+> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > Cc: Patches and discussions about the oe-core layer <openembedded-
+> > core@lists.openembedded.org>
+> > Subject: Re: [OE-core] [PATCH] gcc: Allow -Wno-error=3Dpoison-system-
+> > directories to take effect
+> >
+> > Whilst this is a good fix, I=E2=80=99m horrified to ask why you need it=
+=E2=80=A6
+>
+> We have a recipe for skia. Somewhere in that mess of a build
+> system it uses (gn), something adds -I/usr/include/freetype2,
+> which results in an error with -Werror=3Dpoison-system-directories
+> enabled (as it should). Now, to work around that problem, the
+> recipe currently adds -I=3D/usr/include/freetype2, which means we
+> know that the correct path is used. However, since the original
+> -I/usr/include/freetype2 is still in the list of options, the
+> error still triggers.
+>
+> Now, to fix the problem properly, skias's build files should be
+> patched, but that is not my job. What I am working on is to get
+> our recipes to build with Langdale. This means I can cut some
+> corners and, e.g., disable errors and then hand off to the
+> responsible team to fix the underlying problem at a time that
+> suits them. Thus in this case I wanted to add
+> -Wno-error=3Dpoison-system-directories for skia, which I then, to
+> my surprise, noticed had no effect...
+
+from gcc recipe point of view, this fix is fine. however your use of
+this seems to be a workaround that perhaps is better fixed in skia
+because =3D syntax for sysroot works with gcc but may not work with
+clang e.g. so you are being lucky here.
+
+>
+> //Peter
+>
+> >
+> > Ross
+> >
+> > > On 13 Oct 2022, at 14:29, Peter Kjellerstedt via lists.openembedded.o=
+rg
+> > <peter.kjellerstedt=3Daxis.com@lists.openembedded.org> wrote:
+> > >
+> > > The change in commit e903b29f (gcc-cross: pass
+> > > -Werror=3Dpoison-system-directories to compiler stages) made it impos=
+sible
+> > > to disable the error using -Wno-error=3Dpoison-system-directories.
+> > >
+> > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > > ---
+> > > .../0002-gcc-poison-system-directories.patch  | 36 +++++++++---------=
+-
+> > > 1 file changed, 18 insertions(+), 18 deletions(-)
+> > >
+> > > diff --git a/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-
+> > directories.patch b/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-syste=
+m-
+> > directories.patch
+> > > index bfec4477c1..5aa635b3d4 100644
+> > > --- a/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-
+> > directories.patch
+> > > +++ b/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-
+> > directories.patch
+> > > @@ -1,4 +1,4 @@
+> > > -From e1dbdcd0ea667bab4b551294354e04c6fe288ab6 Mon Sep 17 00:00:00 20=
+01
+> > > +From 99f1e61b2957226254a116fde7fd73bf07034012 Mon Sep 17 00:00:00 20=
+01
+> > > From: Khem Raj <raj.khem@gmail.com>
+> > > Date: Mon, 8 Mar 2021 16:04:20 -0800
+> > > Subject: [PATCH] gcc: poison-system-directories
+> > > @@ -20,12 +20,12 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > >  gcc/configure       | 19 +++++++++++++++++++
+> > >  gcc/configure.ac    | 16 ++++++++++++++++
+> > >  gcc/doc/invoke.texi |  9 +++++++++
+> > > - gcc/gcc.cc          |  9 +++++++--
+> > > + gcc/gcc.cc          | 15 ++++++++++++---
+> > >  gcc/incpath.cc      | 21 +++++++++++++++++++++
+> > > - 7 files changed, 86 insertions(+), 2 deletions(-)
+> > > + 7 files changed, 91 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/gcc/common.opt b/gcc/common.opt
+> > > -index 8a0dafc522d..0357868e22c 100644
+> > > +index 8a0dafc52..0357868e2 100644
+> > > --- a/gcc/common.opt
+> > > +++ b/gcc/common.opt
+> > > @@ -710,6 +710,10 @@ Wreturn-local-addr
+> > > @@ -40,7 +40,7 @@ index 8a0dafc522d..0357868e22c 100644
+> > >  Common Var(warn_shadow) Warning
+> > >  Warn when one variable shadows another.  Same as -Wshadow=3Dglobal.
+> > > diff --git a/gcc/config.in b/gcc/config.in
+> > > -index 64c27c9cfac..a693cb8a886 100644
+> > > +index 64c27c9cf..a693cb8a8 100644
+> > > --- a/gcc/config.in
+> > > +++ b/gcc/config.in
+> > > @@ -230,6 +230,16 @@
+> > > @@ -61,7 +61,7 @@ index 64c27c9cfac..a693cb8a886 100644
+> > >     optimizer and back end) to be checked for dynamic type safety at
+> > runtime.
+> > >     This is quite expensive. */
+> > > diff --git a/gcc/configure b/gcc/configure
+> > > -index 5ce0557719a..dc2d59701ad 100755
+> > > +index 2b83acfb0..8bb97578c 100755
+> > > --- a/gcc/configure
+> > > +++ b/gcc/configure
+> > > @@ -1023,6 +1023,7 @@ enable_maintainer_mode
+> > > @@ -81,7 +81,7 @@ index 5ce0557719a..dc2d59701ad 100755
+> > >    --enable-plugin         enable plugin support
+> > >    --enable-host-shared    build host code as shared libraries
+> > >    --disable-libquadmath-support
+> > > -@@ -31982,6 +31985,22 @@ if test
+> > "${enable_version_specific_runtime_libs+set}" =3D set; then :
+> > > +@@ -31996,6 +31999,22 @@ if test
+> > "${enable_version_specific_runtime_libs+set}" =3D set; then :
+> > >  fi
+> > >
+> > >
+> > > @@ -105,10 +105,10 @@ index 5ce0557719a..dc2d59701ad 100755
+> > >
+> > >
+> > > diff --git a/gcc/configure.ac b/gcc/configure.ac
+> > > -index 23bee7010a3..36ce78924de 100644
+> > > +index daf2a708c..6155b83a7 100644
+> > > --- a/gcc/configure.ac
+> > > +++ b/gcc/configure.ac
+> > > -@@ -7421,6 +7421,22 @@ AC_ARG_ENABLE(version-specific-runtime-libs,
+> > > +@@ -7435,6 +7435,22 @@ AC_ARG_ENABLE(version-specific-runtime-libs,
+> > >                  [specify that runtime libraries should be
+> > >                   installed in a compiler-specific directory])])
+> > >
+> > > @@ -132,7 +132,7 @@ index 23bee7010a3..36ce78924de 100644
+> > >  AC_SUBST(subdirs)
+> > >  AC_SUBST(srcdir)
+> > > diff --git a/gcc/doc/invoke.texi b/gcc/doc/invoke.texi
+> > > -index 07b440190c3..b2de464798a 100644
+> > > +index ff6c338be..a8ebfa59a 100644
+> > > --- a/gcc/doc/invoke.texi
+> > > +++ b/gcc/doc/invoke.texi
+> > > @@ -379,6 +379,7 @@ Objective-C and Objective-C++ Dialects}.
+> > > @@ -159,10 +159,10 @@ index 07b440190c3..b2de464798a 100644
+> > >  @opindex Wfloat-equal
+> > >  @opindex Wno-float-equal
+> > > diff --git a/gcc/gcc.cc b/gcc/gcc.cc
+> > > -index bb07cc244e3..ce161d3c853 100644
+> > > +index beefde7f6..4e6557b3c 100644
+> > > --- a/gcc/gcc.cc
+> > > +++ b/gcc/gcc.cc
+> > > -@@ -1159,6 +1159,8 @@ proper position among the other output files. =
+ */
+> > > +@@ -1162,6 +1162,8 @@ proper position among the other output files. =
+ */
+> > >     "%{fuse-ld=3D*:-fuse-ld=3D%*} " LINK_COMPRESS_DEBUG_SPEC \
+> > >     "%X %{o*} %{e*} %{N} %{n} %{r}\
+> > >      %{s} %{t} %{u*} %{z} %{Z} %{!nostdlib:%{!r:%{!nostartfiles:%S}}}=
+ \
+> > > @@ -171,7 +171,7 @@ index bb07cc244e3..ce161d3c853 100644
+> > >      %{static|no-pie|static-pie:} %@{L*} %(mfwrap) %(link_libgcc) " \
+> > >      VTABLE_VERIFICATION_SPEC " " SANITIZER_EARLY_SPEC " %o "" \
+> > >      %{fopenacc|fopenmp|%:gt(%{ftree-parallelize-loops=3D*:%*} 1):\
+> > > -@@ -1254,8 +1256,11 @@ static const char *cpp_unique_options =3D
+> > > +@@ -1257,8 +1259,11 @@ static const char *cpp_unique_options =3D
+> > >  static const char *cpp_options =3D
+> > >  "%(cpp_unique_options) %1 %{m*} %{std*&ansi&trigraphs} %{W*&pedantic=
+*}
+> > %{w}\
+> > >   %{f*} %{g*:%{%:debug-level-gt(0):%{g*}\
+> > > @@ -179,27 +179,27 @@ index bb07cc244e3..ce161d3c853 100644
+> > > - %{undef} %{save-temps*:-fpch-preprocess}";
+> > > + %{!fno-working-directory:-fworking-directory}}} %{O*}"
+> > > +#ifdef POISON_BY_DEFAULT
+> > > -+ " -Werror=3Dpoison-system-directories"
+> > > ++ " %{!Wno-error=3Dpoison-system-directories:-Werror=3Dpoison-system=
+-
+> > directories}"
+> > > +#endif
+> > > + " %{undef} %{save-temps*:-fpch-preprocess}";
+> > >
+> > >  /* Pass -d* flags, possibly modifying -dumpdir, -dumpbase et al.
+> > >
+> > > -@@ -1265,7 +1270,11 @@ static const char *cc1_options =3D
+> > > +@@ -1287,7 +1292,11 @@ static const char *cc1_options =3D
+> > >   %{coverage:-fprofile-arcs -ftest-coverage}\
+> > >   %{fprofile-arcs|fprofile-generate*|coverage:\
+> > >     %{!fprofile-update=3Dsingle:\
+> > > -     %{pthread:-fprofile-update=3Dprefer-atomic}}}";
+> > > +     %{pthread:-fprofile-update=3Dprefer-atomic}}}"
+> > > +#ifdef POISON_BY_DEFAULT
+> > > -+ " -Werror=3Dpoison-system-directories"
+> > > ++ " %{!Wno-error=3Dpoison-system-directories:-Werror=3Dpoison-system=
+-
+> > directories}"
+> > > +#endif
+> > > +  ;
+> > > -
+> > > +
+> > >  static const char *asm_options =3D
+> > >  "%{-target-help:%:print-asm-header()} "
+> > > diff --git a/gcc/incpath.cc b/gcc/incpath.cc
+> > > -index bd2a97938eb..c80f100f476 100644
+> > > +index 622204a38..5ac03c086 100644
+> > > --- a/gcc/incpath.cc
+> > > +++ b/gcc/incpath.cc
+> > > @@ -26,6 +26,7 @@
+> > >
+> > >
+> > >
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#171706): https://lists.openembedded.org/g/openembedde=
+d-core/message/171706
+> Mute This Topic: https://lists.openembedded.org/mt/94303421/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
