@@ -1,102 +1,105 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86CD2C4332F
-	for <webhook@archiver.kernel.org>; Thu, 13 Oct 2022 05:49:30 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web10.4252.1665640163668751335
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 347E7C4332F
+	for <webhook@archiver.kernel.org>; Thu, 13 Oct 2022 07:30:31 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web11.4857.1665646220469024441
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Oct 2022 22:49:24 -0700
+ Thu, 13 Oct 2022 00:30:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=DuBiz+9j;
- spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: rybczynska@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id j4so957432lfk.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Oct 2022 22:49:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CmgJVrcRXrUAma8mmv5OeiBbv1RPpDFIo5tUIeIyc+8=;
-        b=DuBiz+9jq8iKXCbsAUp0VsGwqWQJu7KXtuijon7uCqgaHs3KR4AVAvPePv907Oep9E
-         OkRKPl1LqeMIB3o60uA3QdcK+PN82CBAm53MUNWJXcKMXCC2MkhWK+wCyPSHb1d5fYSI
-         TpNfCiotr8bKCXux1CMXLgofxxAuC/KB3TcA7UZe7S0eHQH8weR9klNCrmXj3g/vfQIt
-         g5xWmzGLu2khn+PxQsUxWZy0g3Wo6UOce/ZokHMAJfoMGLP9Om5i+R/c9Xz+nGVqEolc
-         ZFRYv6L60xtpr+yqIkArNp0tnVI8x0wq2Q89A9emorkqTRpwjOfH5vqxBdl1v53DqYC7
-         zNNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CmgJVrcRXrUAma8mmv5OeiBbv1RPpDFIo5tUIeIyc+8=;
-        b=eEmCZLLXllI4tousC5m6/vS3bLDTzEhiUCGuEGqCXQxTCqsYlH9UXVwtpij8KC/2n0
-         cjd2//Ldg5Pzhx4DhuLNcQwQVRzb9P0RQ5rIaFNE9PTOzzioiVOzlA05qZrqbY0Fyye4
-         Nr7lnOlugjAsP8VONs3e/vOa+txQ1erJIHBupKphfuuXoE4FLhiV/6TzCPfrFoAXd1mH
-         QZOzK57VwLAEMtyFsiEnQ0Oa7A+r5THd7sBqp/OdCdVM12wgWUhzb6UtLs/DvZNSX+p2
-         ZN0hYZJiTRkqlqD3alenViQ1eEu73EgsoRQyGpclp6U1YSAg81EYPh/9+5iphQVI5N0E
-         ZPlg==
-X-Gm-Message-State: ACrzQf1/LJeERRf+NcFcYs0GeotOzsFLeWUbX6O5PmRKh8lRSDr+/9Q6
-	sFgCCKBr8UtqXhYLnVfDqzU/t2iMJMbC1bV4E8o=
-X-Google-Smtp-Source: AMsMyM4BEcqnEXDuwk12tkPvighQaWt0WctIEzyhOPZtP8fS0/SL0AvkjDRfp3FJKObT19g0qQrO2KzfRJE/4OMWjo0=
-X-Received: by 2002:a05:6512:1699:b0:4a2:1924:af2a with SMTP id
- bu25-20020a056512169900b004a21924af2amr11435673lfb.491.1665640161619; Wed, 12
- Oct 2022 22:49:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <233c014c169e00e6a9ce464f3ab2bf79@pianon.eu> <1E128F9E-4B95-43D4-BD73-915FECB99774@arm.com>
-In-Reply-To: <1E128F9E-4B95-43D4-BD73-915FECB99774@arm.com>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Thu, 13 Oct 2022 07:49:09 +0200
-Message-ID: <CAApg2=TAQe66J6T7HN7jzPXWnBc0U7GSWpA5MAooNxcTw0N_RQ@mail.gmail.com>
-Subject: Re: [OE-core] severe issue in CVE checker
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=AB4Ikrmc;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 02AB624001B;
+	Thu, 13 Oct 2022 07:30:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1665646218;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pfxFRoyg4MDPsLo6D0YQqHRdkVFHqwvPDrW7Kr6ZkGs=;
+	b=AB4IkrmcI3tIwQdev1lTcrCMT19BBDnjGgbwQJGqkbc+zSBasxkdpVA42ODuEIoOLF4WMy
+	FnO4XquuZIO8W73G0iv9hC1jyEM6/QCpJ1xaEEx+dNUlOKP3Jh5bepcxwXAZbFZIdcbOuw
+	o26X+/WsA1tP24ZbORv+M88wGvEsaSCEEZ+w88NogoKprHWLJrF5d7ir7lQBmYjM9nRiUV
+	wvCP01SgAuBqA6sZMy3DMPk81YgAk5aBixQJ9FixEha8IEY/8gVd/4pvW+bGjW+Edsa+Dx
+	R2ZVSq4+qgc4tYMA80mXC7T1ZeHX4xhX54InTa8zLkXDSLBlnXKZ/mU2HI2v5Q==
+Date: Thu, 13 Oct 2022 09:30:17 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 To: Ross Burton <ross.burton@arm.com>
-Cc: "alberto@pianon.eu" <alberto@pianon.eu>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	"marta.rybczynska@linaro.org" <marta.rybczynska@linaro.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, Carlo Piana <carlo@piana.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: "wangmy@fujitsu.com" <wangmy@fujitsu.com>,
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] pango: upgrade 1.50.10 -> 1.50.11
+Message-ID: <Y0e+ifOc5Wq4ortM@mail.local>
+References: <1665475558-16409-1-git-send-email-wangmy@fujitsu.com>
+ <1665475558-16409-4-git-send-email-wangmy@fujitsu.com>
+ <D47A4D61-C059-4AE3-A08F-89D4BC7F429B@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <D47A4D61-C059-4AE3-A08F-89D4BC7F429B@arm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 05:49:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171681
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 07:30:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171682
 
-Reported as https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14929
+On 12/10/2022 16:46:44+0000, Ross Burton wrote:
+> We only have 1.50.9 in oe-core master, please ensure that you sent patches based on master, or if they’re based on another staging branch please make that clear.
+> 
 
-On Wed, Oct 12, 2022 at 6:29 PM Ross Burton <ross.burton@arm.com> wrote:
->
-> On 12 Oct 2022, at 08:25, Alberto Pianon via lists.openembedded.org <albe=
-rto=3Dpianon.eu@lists.openembedded.org> wrote:
-> >
-> > It iterates over NIST CVE db years, but if some year fail to download, =
-it goes on anyway, and it still merges the successful downloads into nvdcve=
-_1.1.db, without returning error.
-> >
-> > IMHO this is a severe issue because it may silently lead to false negat=
-ives in the CVE check. If some downloads fail due to timeouts or other conn=
-ection problems, cve-check should retry a number of times, and if any downl=
-oad still fails, cve-update-db-native do_fecth should fail, and it turn all=
- do_cve_check tasks should fail, since doing a CVE check against a corrupte=
-d/incomplete CVE database is clearly useless
->
-> Yes, that=E2=80=99s a bug.
->
-> Please do file a bug (bugzilla.yoctoproject.org), and ideally send a patc=
-h if you can.
->
+this applied fine on master-next because we carry your 1.50.10 upgrade
+
 > Ross
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> 
+> > On 11 Oct 2022, at 09:05, wangmy via lists.openembedded.org <wangmy=fujitsu.com@lists.openembedded.org> wrote:
+> > 
+> > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> > ---
+> > .../pango/{pango_1.50.10.bb => pango_1.50.11.bb}                | 2 +-
+> > 1 file changed, 1 insertion(+), 1 deletion(-)
+> > rename meta/recipes-graphics/pango/{pango_1.50.10.bb => pango_1.50.11.bb} (94%)
+> > 
+> > diff --git a/meta/recipes-graphics/pango/pango_1.50.10.bb b/meta/recipes-graphics/pango/pango_1.50.11.bb
+> > similarity index 94%
+> > rename from meta/recipes-graphics/pango/pango_1.50.10.bb
+> > rename to meta/recipes-graphics/pango/pango_1.50.11.bb
+> > index 95209889a8..1120e053b8 100644
+> > --- a/meta/recipes-graphics/pango/pango_1.50.10.bb
+> > +++ b/meta/recipes-graphics/pango/pango_1.50.11.bb
+> > @@ -24,7 +24,7 @@ SRC_URI += "file://run-ptest \
+> >             file://0001-Skip-running-test-layout-test.patch \
+> > "
+> > 
+> > -SRC_URI[archive.sha256sum] = "7e5d2f1e40854d24a9a2c4d093bafe75dcdbeccdf1de43e4437332eabed64966"
+> > +SRC_URI[archive.sha256sum] = "8800f812d89ee61388188703203f3a7878963c22f8695aaf1fa0a1a1428d17ae"
+> > 
+> > DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
+> > 
+> > -- 
+> > 2.25.1
+> > 
+> > 
+> > 
+> > 
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#171668): https://lists.openembedded.org/g/openembedde=
-d-core/message/171668
-> Mute This Topic: https://lists.openembedded.org/mt/94276393/5827677
+> View/Reply Online (#171672): https://lists.openembedded.org/g/openembedded-core/message/171672
+> Mute This Topic: https://lists.openembedded.org/mt/94254215/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ry=
-bczynska@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
