@@ -1,89 +1,181 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 033B7C4332F
-	for <webhook@archiver.kernel.org>; Thu, 13 Oct 2022 12:42:43 +0000 (UTC)
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
- by mx.groups.io with SMTP id smtpd.web11.6918.1665664958234718475
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EC9BC433FE
+	for <webhook@archiver.kernel.org>; Thu, 13 Oct 2022 13:29:43 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web12.7393.1665667777298553555
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Oct 2022 05:42:38 -0700
+ Thu, 13 Oct 2022 06:29:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=SRYUR5zI;
- spf=pass (domain: gmail.com, ip: 209.85.166.44, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-io1-f44.google.com with SMTP id n73so1175871iod.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 05:42:38 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=ety4RWnh;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=oQTywq9q0CgMjh3PPnYn21OfeDnw5uMF0ZLeZw31cqA=;
-        b=SRYUR5zIaQyT8r0QxeO12Y7kXvbgQHPvwzk4wFfzsnk2O0jaeHggAlQpHSlqduQJou
-         Z0gQpSVzNk5ywLqGsZ6s2XSM1oqcW71J2chAMJoP+hx99bWkxRu6bcP9ONVGP6Iiz49x
-         nHtdyhXV3yxoy+YkP4yHUlme7MXs38Nysxs4UpZkESHBPaeUpW28GTioOphAY5Ikf0wE
-         jGafrWbz+XJgMh7zbhjbD4EyPYRQHskUv/BUvwuqwoKSwo8esaHHQJ5OUgUSB9v8oJsC
-         jX12KpYZR5s1dkJi6m+4HVv+4Psg/5NSRLA8zFsvt2YYBZ+QLU4bIb+0dnMNBB+C6NVC
-         wLSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oQTywq9q0CgMjh3PPnYn21OfeDnw5uMF0ZLeZw31cqA=;
-        b=LjfS5Q3vEfuFnGaNoVRnY7OMXX14yVUuORpsWCe87D3tcwH7zsZKee+2khReqlxg+E
-         mdQALlnaGCeSdn4aFrYb5+MyHE+uoSE/D1FRSIb2mX0gYsATsk/OZxzvpeapacmv5PUo
-         MWDF97gvwQDnUGphs6UhLuWX5+95sm28qIScoLCHBaPJMyboq9tNRN0kdYsMriaM9a6O
-         d6iJh+TmeBxwCBYhimjXQcGCNvhAubSjwlgbSo33JrvP1zKEwjKr6AXUtTxAV6L+vvNN
-         kwTW/pxG4CEcaBRMRH/6xvlEP0RqjG16E6CitZpjg/PNvXvoIc263lX4e/US4SV9KXgf
-         RZRA==
-X-Gm-Message-State: ACrzQf3/uRp5/FT8ub/qi42JB82Xr4f2JGuUWpkfP08M0EvzqNN/+D4c
-	vdqRiBysjoxwTEDXhzu4DpzSPT4r6FJnIHnwN9o=
-X-Google-Smtp-Source: AMsMyM4GC4wEbDhbBonR/9i2lKv315fkNiDS+pKUUj8AfuonHS/kr4Fbvz8X+vhIjxrpMjHA0cPc9MmabbmFpT64SeA=
-X-Received: by 2002:a6b:4a0d:0:b0:6a3:1dea:9feb with SMTP id
- w13-20020a6b4a0d000000b006a31dea9febmr16382446iob.102.1665664957552; Thu, 13
- Oct 2022 05:42:37 -0700 (PDT)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1665667777;
+  x=1697203777;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=n5IT88TEH3e2hmCdBv05MScGGn5ZFpwqKsbjyBx8hRg=;
+  b=ety4RWnhgENDmXpOZ26DsmMNVb/lxEQBw47O3DYCmuWvpTI+MlPzV7cz
+   cR8BXn3aC+PLETSIUEBvJurI9lNBiJhy5AMeC9J3RvZESIfkpgHMLFU5t
+   u1IU3Xj+yOyJvdlH3PetfjdRFJnuaauY8cmgfOCoJxc4jXX8HvlcO0fSG
+   LL94H5Hj/EXDFhshHDtZNCS/0DW95jyGVC0VcOVCtJcLh5MvAzMSusa4U
+   TleEXHLSu8w0OuUiS/UESxZIPxkH5+5uGJmVV2oq8aqQtVUa6Y+4aTQlu
+   45P4QkieQALfn3ElQJQNJmk/WLZOSEnKhZ5XYoABV+rVZyb7iFpWs66ty
+   Q==;
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] gcc: Allow -Wno-error=poison-system-directories to take effect
+Date: Thu, 13 Oct 2022 15:29:26 +0200
+Message-ID: <20221013132926.2771530-1-pkj@axis.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <20221012071714.751-1-alex.kiernan@gmail.com> <Y0fIxWwQGhsEpgs/@mail.local>
-In-Reply-To: <Y0fIxWwQGhsEpgs/@mail.local>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Thu, 13 Oct 2022 13:42:26 +0100
-Message-ID: <CAO5Uq5RQCfvMBZkv3Uzkt5czmS9N=auMMUoPmt-9FzHA5b_B8A@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH] rust: update 1.63.0 -> 1.64.0
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 12:42:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171702
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 13:29:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171703
 
-On Thu, Oct 13, 2022 at 9:13 AM Alexandre Belloni
-<alexandre.belloni@bootlin.com> wrote:
->
-> Hello,
->
-> On 12/10/2022 08:17:14+0100, Alex Kiernan wrote:
-> > Release notes:
-> >   https://blog.rust-lang.org/2022/09/22/Rust-1.64.0.html
-> >
->
-> This causes the following failure:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/5901/steps/12/logs/stdio
->
-> ERROR: rust-1.64.0-r0 do_patch: Applying patch 'crossbeam_atomic.patch' on target directory '/home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/core2-64-poky-linux/rust/1.64.0-r0/rustc-1.64.0-src'
-> CmdError('quilt --quiltrc /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/core2-64-poky-linux/rust/1.64.0-r0/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Applying patch crossbeam_atomic.patch
-> patching file vendor/crossbeam-utils/build.rs
-> patching file vendor/crossbeam-utils/.cargo-checksum.json
-> Hunk #1 FAILED at 1.
-> 1 out of 1 hunk FAILED -- rejects in file vendor/crossbeam-utils/.cargo-checksum.json
-> Patch crossbeam_atomic.patch does not apply (enforce with -f)
->
+The change in commit e903b29f (gcc-cross: pass
+-Werror=poison-system-directories to compiler stages) made it impossible
+to disable the error using -Wno-error=poison-system-directories.
 
-How odd... I was half expecting that to need rework and was surprised
-when I tested it locally that it didn't! Clearly I've missed
-something...
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ .../0002-gcc-poison-system-directories.patch  | 36 +++++++++----------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
--- 
-Alex Kiernan
+diff --git a/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch b/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch
+index bfec4477c1..5aa635b3d4 100644
+--- a/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch
++++ b/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch
+@@ -1,4 +1,4 @@
+-From e1dbdcd0ea667bab4b551294354e04c6fe288ab6 Mon Sep 17 00:00:00 2001
++From 99f1e61b2957226254a116fde7fd73bf07034012 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 8 Mar 2021 16:04:20 -0800
+ Subject: [PATCH] gcc: poison-system-directories
+@@ -20,12 +20,12 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  gcc/configure       | 19 +++++++++++++++++++
+  gcc/configure.ac    | 16 ++++++++++++++++
+  gcc/doc/invoke.texi |  9 +++++++++
+- gcc/gcc.cc          |  9 +++++++--
++ gcc/gcc.cc          | 15 ++++++++++++---
+  gcc/incpath.cc      | 21 +++++++++++++++++++++
+- 7 files changed, 86 insertions(+), 2 deletions(-)
++ 7 files changed, 91 insertions(+), 3 deletions(-)
+ 
+ diff --git a/gcc/common.opt b/gcc/common.opt
+-index 8a0dafc522d..0357868e22c 100644
++index 8a0dafc52..0357868e2 100644
+ --- a/gcc/common.opt
+ +++ b/gcc/common.opt
+ @@ -710,6 +710,10 @@ Wreturn-local-addr
+@@ -40,7 +40,7 @@ index 8a0dafc522d..0357868e22c 100644
+  Common Var(warn_shadow) Warning
+  Warn when one variable shadows another.  Same as -Wshadow=global.
+ diff --git a/gcc/config.in b/gcc/config.in
+-index 64c27c9cfac..a693cb8a886 100644
++index 64c27c9cf..a693cb8a8 100644
+ --- a/gcc/config.in
+ +++ b/gcc/config.in
+ @@ -230,6 +230,16 @@
+@@ -61,7 +61,7 @@ index 64c27c9cfac..a693cb8a886 100644
+     optimizer and back end) to be checked for dynamic type safety at runtime.
+     This is quite expensive. */
+ diff --git a/gcc/configure b/gcc/configure
+-index 5ce0557719a..dc2d59701ad 100755
++index 2b83acfb0..8bb97578c 100755
+ --- a/gcc/configure
+ +++ b/gcc/configure
+ @@ -1023,6 +1023,7 @@ enable_maintainer_mode
+@@ -81,7 +81,7 @@ index 5ce0557719a..dc2d59701ad 100755
+    --enable-plugin         enable plugin support
+    --enable-host-shared    build host code as shared libraries
+    --disable-libquadmath-support
+-@@ -31982,6 +31985,22 @@ if test "${enable_version_specific_runtime_libs+set}" = set; then :
++@@ -31996,6 +31999,22 @@ if test "${enable_version_specific_runtime_libs+set}" = set; then :
+  fi
+  
+  
+@@ -105,10 +105,10 @@ index 5ce0557719a..dc2d59701ad 100755
+  
+  
+ diff --git a/gcc/configure.ac b/gcc/configure.ac
+-index 23bee7010a3..36ce78924de 100644
++index daf2a708c..6155b83a7 100644
+ --- a/gcc/configure.ac
+ +++ b/gcc/configure.ac
+-@@ -7421,6 +7421,22 @@ AC_ARG_ENABLE(version-specific-runtime-libs,
++@@ -7435,6 +7435,22 @@ AC_ARG_ENABLE(version-specific-runtime-libs,
+                  [specify that runtime libraries should be
+                   installed in a compiler-specific directory])])
+  
+@@ -132,7 +132,7 @@ index 23bee7010a3..36ce78924de 100644
+  AC_SUBST(subdirs)
+  AC_SUBST(srcdir)
+ diff --git a/gcc/doc/invoke.texi b/gcc/doc/invoke.texi
+-index 07b440190c3..b2de464798a 100644
++index ff6c338be..a8ebfa59a 100644
+ --- a/gcc/doc/invoke.texi
+ +++ b/gcc/doc/invoke.texi
+ @@ -379,6 +379,7 @@ Objective-C and Objective-C++ Dialects}.
+@@ -159,10 +159,10 @@ index 07b440190c3..b2de464798a 100644
+  @opindex Wfloat-equal
+  @opindex Wno-float-equal
+ diff --git a/gcc/gcc.cc b/gcc/gcc.cc
+-index bb07cc244e3..ce161d3c853 100644
++index beefde7f6..4e6557b3c 100644
+ --- a/gcc/gcc.cc
+ +++ b/gcc/gcc.cc
+-@@ -1159,6 +1159,8 @@ proper position among the other output files.  */
++@@ -1162,6 +1162,8 @@ proper position among the other output files.  */
+     "%{fuse-ld=*:-fuse-ld=%*} " LINK_COMPRESS_DEBUG_SPEC \
+     "%X %{o*} %{e*} %{N} %{n} %{r}\
+      %{s} %{t} %{u*} %{z} %{Z} %{!nostdlib:%{!r:%{!nostartfiles:%S}}} \
+@@ -171,7 +171,7 @@ index bb07cc244e3..ce161d3c853 100644
+      %{static|no-pie|static-pie:} %@{L*} %(mfwrap) %(link_libgcc) " \
+      VTABLE_VERIFICATION_SPEC " " SANITIZER_EARLY_SPEC " %o "" \
+      %{fopenacc|fopenmp|%:gt(%{ftree-parallelize-loops=*:%*} 1):\
+-@@ -1254,8 +1256,11 @@ static const char *cpp_unique_options =
++@@ -1257,8 +1259,11 @@ static const char *cpp_unique_options =
+  static const char *cpp_options =
+  "%(cpp_unique_options) %1 %{m*} %{std*&ansi&trigraphs} %{W*&pedantic*} %{w}\
+   %{f*} %{g*:%{%:debug-level-gt(0):%{g*}\
+@@ -179,27 +179,27 @@ index bb07cc244e3..ce161d3c853 100644
+ - %{undef} %{save-temps*:-fpch-preprocess}";
+ + %{!fno-working-directory:-fworking-directory}}} %{O*}"
+ +#ifdef POISON_BY_DEFAULT
+-+ " -Werror=poison-system-directories"
+++ " %{!Wno-error=poison-system-directories:-Werror=poison-system-directories}"
+ +#endif
+ + " %{undef} %{save-temps*:-fpch-preprocess}";
+  
+  /* Pass -d* flags, possibly modifying -dumpdir, -dumpbase et al.
+  
+-@@ -1265,7 +1270,11 @@ static const char *cc1_options =
++@@ -1287,7 +1292,11 @@ static const char *cc1_options =
+   %{coverage:-fprofile-arcs -ftest-coverage}\
+   %{fprofile-arcs|fprofile-generate*|coverage:\
+     %{!fprofile-update=single:\
+ -     %{pthread:-fprofile-update=prefer-atomic}}}";
+ +     %{pthread:-fprofile-update=prefer-atomic}}}"
+ +#ifdef POISON_BY_DEFAULT
+-+ " -Werror=poison-system-directories"
+++ " %{!Wno-error=poison-system-directories:-Werror=poison-system-directories}"
+ +#endif
+ +  ;
+-
++ 
+  static const char *asm_options =
+  "%{-target-help:%:print-asm-header()} "
+ diff --git a/gcc/incpath.cc b/gcc/incpath.cc
+-index bd2a97938eb..c80f100f476 100644
++index 622204a38..5ac03c086 100644
+ --- a/gcc/incpath.cc
+ +++ b/gcc/incpath.cc
+ @@ -26,6 +26,7 @@
 
