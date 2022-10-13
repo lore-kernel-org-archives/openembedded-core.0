@@ -2,118 +2,283 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D70CAC433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA3DDC43217
 	for <webhook@archiver.kernel.org>; Thu, 13 Oct 2022 16:37:17 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web08.113.1665679029514518635
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web10.103.1665679034334826681
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Oct 2022 09:37:09 -0700
+ Thu, 13 Oct 2022 09:37:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=4Szz2xl4;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id m6so2479503pfb.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 09:37:09 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ofOAEXQF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f172.google.com with SMTP id i3so2418928pfk.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 09:37:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5yNCwnV2/SCbfbvI8eWkVMKoLVxMtt1BqZrgOHJbeEY=;
-        b=4Szz2xl4NQ9Es4J00RK+HqzwLasbwyl4BGjm6pmewHS2hJwNgPaopaRBECqgeGzGF0
-         zl8akNBbjd2yAV71Wtn4lrTMewkY2n53Yeq9LvBJeRbMCu72qIFlLvf8HOo4iLh2Id0g
-         qXO+TeVKsSxWsi4N8a8vqpApSJ5b8mIWWx/cJWQlf9M8Wxfba91EBsmMEmmpJT+FqqV0
-         o8+gmbRFFLt+MQ2/c3j5kDdJq32OyUxZEBOLTBt6X0NfBFI0s/tt4Sdqp9DsMa76MdN8
-         wnC7Ewr2eSRpT4nefh548cDjzEDOcmJYcH8sog9GOTkuamcuBeWPZJxK80UZV8jnVKvQ
-         WDWQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SA+kYyJVHBnmcOC1LyBXahvJ5m9v9/iYhQtDzzARIVU=;
+        b=ofOAEXQFaoX9yd+irDh3u1l2gO90a5B2ucpZ7p7jMk6Ii3OX+2ddh+gugea1DNzvxT
+         sZ9UK75rOk5aIC/seyb3e3wwznU3NOyucyo4Q9oLFmghB22pKZ5wxLIO6GkM60PEYjiA
+         rX9j+Tw2UKWuIm0QStztZJCDyPHTpvIQvhyTzT4VJOA97NpI15ex2OmlXbx9rDHdQiWt
+         NNHlOJIuyyu2v63kPxjK5U1QpL7zyCjc9wOSb3/KcDtj/CMwC8pSsj4Ypc7DhdFa86DP
+         0NrmKaBhNPIixkLJ6rEtI2gxL3u1jzfwaGKyyW9Bs+buBufON+JH0RG/0XlRZXQUq0is
+         uULg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5yNCwnV2/SCbfbvI8eWkVMKoLVxMtt1BqZrgOHJbeEY=;
-        b=jaVQ24hrFqqkjofnbXroPlVBb59p8WRwZS/bZRN4AnRo6rOTIECPPcaYobyScxxVBy
-         XooUvG5kfNUzC07LYHvCeYgQvAvnZ9KAeAZXIq6TJBVqZqFrQ6IOEBE2Ytuj+R/aWP/b
-         0mvOZnVDK3c/umIdNvak1+gFL1Ceqcbr15j9Np5gt3CHjJzi8GygWt6SsHQhqP48B+ja
-         qyVMmscjibuHMyhRRCPR1YGVe6JQMaUNRcF2pfWsOk2Tt7XyoJVwy1JsT74EMLq8qJIJ
-         MlHa6apricoJygK1gtULhYm31j8Mjn+a+koPG5mCD2qn4aBRjhxIpK6KY9nRZReLq6I7
-         dKIw==
-X-Gm-Message-State: ACrzQf1WWosz/01CTAdCaamCHO9uuzdRxu0YjhRDKV0xOJh4AkFX0UGL
-	huBN2OT8N49dh2bTfBEzJ3LH4oCQDNFsbMDq
-X-Google-Smtp-Source: AMsMyM4Eh30g4g2aQd29JZjLH0oBmaiGPFNbjrqPevPP7OglZlvfw9tkUeh4+fvn1b0wvODrQySRyg==
-X-Received: by 2002:a63:fd58:0:b0:46b:41d:9d33 with SMTP id m24-20020a63fd58000000b0046b041d9d33mr608667pgj.399.1665679028222;
-        Thu, 13 Oct 2022 09:37:08 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SA+kYyJVHBnmcOC1LyBXahvJ5m9v9/iYhQtDzzARIVU=;
+        b=KsEvQLwdxjcUfI5bPzhC+D8l1a5lpnyVYZLPwADsh+LVAtNSw361J5tbQI16lj3duB
+         InwDUEvZR87V9TedqvwRHBZxA+rJCsRzcVCrVemrbQUg0OTHAXoblkKl8DzPozTtdoNP
+         lzJET14PqJllfh+UbOW2RGCzvI6RmUUlj3yBGL6YNmL8KJfwnAT8Kf5Rcj6MtGgStk5A
+         OGQH2Dj9Jsjc1tSKAuLVVjB3ie0cGrpRIemKbFCQ5S9ZmxjxixB6nsFI8GS15EKMPI51
+         J44NlCUfspc0bnud+u1nqQj7MCFo7iuPK1/JeXrAMII//pFYQl0xI8DfcvcrgYugWOJO
+         tYlg==
+X-Gm-Message-State: ACrzQf118Q9fd2aBMFn0FTdJBvHGxpQaxKP7LPCD7AWW3C0Sl+3hyxTQ
+	p1ftFaxYqX8V0jhphBG8V0S3WCDjN4yxXz2H
+X-Google-Smtp-Source: AMsMyM5HEjs3ZWLAKdFQ9owlE0V1byZCPUfHLh5hWCPzf3gYdkhP6Lnn4dPBFuOy3pqPcMWSBlUlFQ==
+X-Received: by 2002:a05:6a00:1d05:b0:563:5715:7f3d with SMTP id a5-20020a056a001d0500b0056357157f3dmr554354pfx.48.1665679033252;
+        Thu, 13 Oct 2022 09:37:13 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id d29-20020a634f1d000000b0043a09d5c32bsm3460615pgb.74.2022.10.13.09.37.07
+        by smtp.gmail.com with ESMTPSA id d29-20020a634f1d000000b0043a09d5c32bsm3460615pgb.74.2022.10.13.09.37.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Oct 2022 09:37:07 -0700 (PDT)
+        Thu, 13 Oct 2022 09:37:12 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/9] Patch review
-Date: Thu, 13 Oct 2022 06:36:47 -1000
-Message-Id: <cover.1665678874.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 2/9] qemu: CVE-2021-3750 hcd-ehci: DMA reentrancy issue leads to use-after-free
+Date: Thu, 13 Oct 2022 06:36:49 -1000
+Message-Id: <0f4b1db4fdc655e880ec66525eb7642978529e82.1665678874.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1665678874.git.steve@sakoman.com>
+References: <cover.1665678874.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 16:37:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171708
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171710
 
-Please review this set of patches for dunfell and have comments back by
-end of day Monday.
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-Passed a-full on autobuilder:
+Source: https://git.qemu.org/?p=qemu.git
+MR: 117886
+Type: Security Fix
+Disposition: Backport from https://git.qemu.org/?p=qemu.git;a=commit;h=b9d383ab797f54ae5fa8746117770709921dc529 && https://git.qemu.org/?p=qemu.git;a=commit;h=3ab6fdc91b72e156da22848f0003ff4225690ced && https://git.qemu.org/?p=qemu.git;a=commit;h=58e74682baf4e1ad26b064d8c02e5bc99c75c5d9
+ChangeID: 3af901d20ad8ff389468eda2c53b4943e3a77bb8
+Description:
+	CVE-2021-3750 QEMU: hcd-ehci: DMA reentrancy issue leads to use-after-free.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4330
-
-The following changes since commit dbad46a0079843b380cf3dda6008b12ab9526688:
-
-  build-appliance-image: Update to dunfell head revision (2022-10-06 23:23:20 +0100)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Hitendra Prajapati (2):
-  dhcp: Fix CVE-2022-2928 & CVE-2022-2929
-  qemu: CVE-2021-3750 hcd-ehci: DMA reentrancy issue leads to
-    use-after-free
-
-John Edward Broadbent (1):
-  externalsrc: git submodule--helper list unsupported
-
-Michael Halstead (1):
-  uninative: Upgrade to 3.7 to work with glibc 2.36
-
-Richard Purdie (1):
-  qemu: Avoid accidental librdmacm linkage
-
-Steve Sakoman (3):
-  selftest: skip virgl test on ubuntu 22.04
-  qemu: Avoid accidental libvdeplug linkage
-  qemu: Add PACKAGECONFIG for rbd
-
-Tim Orling (1):
-  python3: upgrade 3.8.13 -> 3.8.14
-
- meta/classes/externalsrc.bbclass              |  19 +-
- meta/conf/distro/include/yocto-uninative.inc  |  10 +-
- meta/lib/oeqa/selftest/cases/runtime_test.py  |   2 +
- .../dhcp/dhcp/CVE-2022-2928.patch             | 120 ++++++++++++
- .../dhcp/dhcp/CVE-2022-2929.patch             |  40 ++++
- meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb  |   2 +
- .../python/python3/CVE-2021-28861.patch       | 135 -------------
- .../{python3_3.8.13.bb => python3_3.8.14.bb}  |   5 +-
- meta/recipes-devtools/qemu/qemu.inc           |   4 +
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
  .../qemu/qemu/CVE-2021-3750.patch             | 180 ++++++++++++++++++
- 10 files changed, 365 insertions(+), 152 deletions(-)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2022-2928.patch
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2022-2929.patch
- delete mode 100644 meta/recipes-devtools/python/python3/CVE-2021-28861.patch
- rename meta/recipes-devtools/python/{python3_3.8.13.bb => python3_3.8.14.bb} (98%)
+ 2 files changed, 181 insertions(+)
  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3750.patch
 
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 368be9979a..3c0b34d851 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -111,6 +111,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2021-4207.patch \
+            file://CVE-2022-0216-1.patch \
+            file://CVE-2022-0216-2.patch \
++           file://CVE-2021-3750.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3750.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3750.patch
+new file mode 100644
+index 0000000000..43630e71fb
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3750.patch
+@@ -0,0 +1,180 @@
++From 1938fbc7ec197e2612ab2ce36dd69bff19208aa5 Mon Sep 17 00:00:00 2001
++From: Hitendra Prajapati <hprajapati@mvista.com>
++Date: Mon, 10 Oct 2022 17:44:41 +0530
++Subject: [PATCH] CVE-2021-3750
++
++Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commit;h=b9d383ab797f54ae5fa8746117770709921dc529 && https://git.qemu.org/?p=qemu.git;a=commit;h=3ab6fdc91b72e156da22848f0003ff4225690ced && https://git.qemu.org/?p=qemu.git;a=commit;h=58e74682baf4e1ad26b064d8c02e5bc99c75c5d9]
++CVE: CVE-2021-3750
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ exec.c                     | 55 +++++++++++++++++++++++++++++++-------
++ hw/intc/arm_gicv3_redist.c |  4 +--
++ include/exec/memattrs.h    |  9 +++++++
++ 3 files changed, 56 insertions(+), 12 deletions(-)
++
++diff --git a/exec.c b/exec.c
++index 1360051a..10581d8d 100644
++--- a/exec.c
+++++ b/exec.c
++@@ -39,6 +39,7 @@
++ #include "qemu/config-file.h"
++ #include "qemu/error-report.h"
++ #include "qemu/qemu-print.h"
+++#include "qemu/log.h"
++ #if defined(CONFIG_USER_ONLY)
++ #include "qemu.h"
++ #else /* !CONFIG_USER_ONLY */
++@@ -3118,6 +3119,33 @@ static bool prepare_mmio_access(MemoryRegion *mr)
++     return release_lock;
++ }
++ 
+++/**
++++ * flatview_access_allowed
++++ * @mr: #MemoryRegion to be accessed
++++ * @attrs: memory transaction attributes
++++ * @addr: address within that memory region
++++ * @len: the number of bytes to access
++++ *
++++ * Check if a memory transaction is allowed.
++++ *
++++ * Returns: true if transaction is allowed, false if denied.
++++ */
+++static bool flatview_access_allowed(MemoryRegion *mr, MemTxAttrs attrs,
+++                                    hwaddr addr, hwaddr len)
+++{
+++    if (likely(!attrs.memory)) {
+++        return true;
+++    }
+++    if (memory_region_is_ram(mr)) {
+++        return true;
+++    }
+++    qemu_log_mask(LOG_GUEST_ERROR,
+++                  "Invalid access to non-RAM device at "
+++                  "addr 0x%" HWADDR_PRIX ", size %" HWADDR_PRIu ", "
+++                  "region '%s'\n", addr, len, memory_region_name(mr));
+++    return false;
+++}
+++
++ /* Called within RCU critical section.  */
++ static MemTxResult flatview_write_continue(FlatView *fv, hwaddr addr,
++                                            MemTxAttrs attrs,
++@@ -3131,7 +3159,10 @@ static MemTxResult flatview_write_continue(FlatView *fv, hwaddr addr,
++     bool release_lock = false;
++ 
++     for (;;) {
++-        if (!memory_access_is_direct(mr, true)) {
+++	if (!flatview_access_allowed(mr, attrs, addr1, l)) {
+++            result |= MEMTX_ACCESS_ERROR;
+++            /* Keep going. */
+++        } else if (!memory_access_is_direct(mr, true)) {
++             release_lock |= prepare_mmio_access(mr);
++             l = memory_access_size(mr, l, addr1);
++             /* XXX: could force current_cpu to NULL to avoid
++@@ -3173,14 +3204,14 @@ static MemTxResult flatview_write(FlatView *fv, hwaddr addr, MemTxAttrs attrs,
++     hwaddr l;
++     hwaddr addr1;
++     MemoryRegion *mr;
++-    MemTxResult result = MEMTX_OK;
++ 
++     l = len;
++     mr = flatview_translate(fv, addr, &addr1, &l, true, attrs);
++-    result = flatview_write_continue(fv, addr, attrs, buf, len,
++-                                     addr1, l, mr);
++-
++-    return result;
+++    if (!flatview_access_allowed(mr, attrs, addr, len)) {
+++        return MEMTX_ACCESS_ERROR;
+++    }
+++    return flatview_write_continue(fv, addr, attrs, buf, len,
+++                                   addr1, l, mr);
++ }
++ 
++ /* Called within RCU critical section.  */
++@@ -3195,7 +3226,10 @@ MemTxResult flatview_read_continue(FlatView *fv, hwaddr addr,
++     bool release_lock = false;
++ 
++     for (;;) {
++-        if (!memory_access_is_direct(mr, false)) {
+++        if (!flatview_access_allowed(mr, attrs, addr1, l)) {
+++            result |= MEMTX_ACCESS_ERROR;
+++            /* Keep going. */
+++        } else if (!memory_access_is_direct(mr, false)) {
++             /* I/O case */
++             release_lock |= prepare_mmio_access(mr);
++             l = memory_access_size(mr, l, addr1);
++@@ -3238,6 +3272,9 @@ static MemTxResult flatview_read(FlatView *fv, hwaddr addr,
++ 
++     l = len;
++     mr = flatview_translate(fv, addr, &addr1, &l, false, attrs);
+++    if (!flatview_access_allowed(mr, attrs, addr, len)) {
+++        return MEMTX_ACCESS_ERROR;
+++    }
++     return flatview_read_continue(fv, addr, attrs, buf, len,
++                                   addr1, l, mr);
++ }
++@@ -3474,12 +3511,10 @@ bool address_space_access_valid(AddressSpace *as, hwaddr addr,
++                                 MemTxAttrs attrs)
++ {
++     FlatView *fv;
++-    bool result;
++ 
++     RCU_READ_LOCK_GUARD();
++     fv = address_space_to_flatview(as);
++-    result = flatview_access_valid(fv, addr, len, is_write, attrs);
++-    return result;
+++    return flatview_access_valid(fv, addr, len, is_write, attrs);
++ }
++ 
++ static hwaddr
++diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
++index 8645220d..44368e28 100644
++--- a/hw/intc/arm_gicv3_redist.c
+++++ b/hw/intc/arm_gicv3_redist.c
++@@ -450,7 +450,7 @@ MemTxResult gicv3_redist_read(void *opaque, hwaddr offset, uint64_t *data,
++         break;
++     }
++ 
++-    if (r == MEMTX_ERROR) {
+++    if (r != MEMTX_OK) {
++         qemu_log_mask(LOG_GUEST_ERROR,
++                       "%s: invalid guest read at offset " TARGET_FMT_plx
++                       "size %u\n", __func__, offset, size);
++@@ -507,7 +507,7 @@ MemTxResult gicv3_redist_write(void *opaque, hwaddr offset, uint64_t data,
++         break;
++     }
++ 
++-    if (r == MEMTX_ERROR) {
+++    if (r != MEMTX_OK) {
++         qemu_log_mask(LOG_GUEST_ERROR,
++                       "%s: invalid guest write at offset " TARGET_FMT_plx
++                       "size %u\n", __func__, offset, size);
++diff --git a/include/exec/memattrs.h b/include/exec/memattrs.h
++index 95f2d20d..9fb98bc1 100644
++--- a/include/exec/memattrs.h
+++++ b/include/exec/memattrs.h
++@@ -35,6 +35,14 @@ typedef struct MemTxAttrs {
++     unsigned int secure:1;
++     /* Memory access is usermode (unprivileged) */
++     unsigned int user:1;
+++    /*
+++     * Bus interconnect and peripherals can access anything (memories,
+++     * devices) by default. By setting the 'memory' bit, bus transaction
+++     * are restricted to "normal" memories (per the AMBA documentation)
+++     * versus devices. Access to devices will be logged and rejected
+++     * (see MEMTX_ACCESS_ERROR).
+++     */
+++    unsigned int memory:1;
++     /* Requester ID (for MSI for example) */
++     unsigned int requester_id:16;
++     /* Invert endianness for this page */
++@@ -66,6 +74,7 @@ typedef struct MemTxAttrs {
++ #define MEMTX_OK 0
++ #define MEMTX_ERROR             (1U << 0) /* device returned an error */
++ #define MEMTX_DECODE_ERROR      (1U << 1) /* nothing at that address */
+++#define MEMTX_ACCESS_ERROR      (1U << 2) /* access denied */
++ typedef uint32_t MemTxResult;
++ 
++ #endif
++-- 
++2.25.1
++
 -- 
 2.25.1
 
