@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C107EC4167B
-	for <webhook@archiver.kernel.org>; Thu, 13 Oct 2022 16:37:27 +0000 (UTC)
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web11.107.1665679042784880442
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE101C433FE
+	for <webhook@archiver.kernel.org>; Thu, 13 Oct 2022 16:37:37 +0000 (UTC)
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web09.87.1665679048953606531
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Oct 2022 09:37:22 -0700
+ Thu, 13 Oct 2022 09:37:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ieKqDb+Y;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f170.google.com with SMTP id q1so1989296pgl.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 09:37:22 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=5QwGHMBm;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f180.google.com with SMTP id bh13so2015187pgb.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 09:37:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ieyVa81OmSKc+vjUo9uLGLFQ4ouBbZ+SspQmILGqLqk=;
-        b=ieKqDb+YCsZR4ef4sr3lrjVhg6UTtTpSvN7Fi2gVxLEmn2U9GM6E2Oi/InBZ6Myhfk
-         YdSsX+irZrwJLECg8I0Rt6KkRCIAILE3kQqYabOZCP8L8vfYoJdbAYgq55aM9BBknmpK
-         WgDRkp7YAu0VHcrjyuOMrltPFltNpQ5NdYm4+cpWucc3GneI/UCw44tioxuMQ5hTwyX4
-         t9tOrfuDHQOzU93z9GegjE/pGIu8I8/wenN+zL0tRF0n0aXx+y6+qsoCf/ZaIkei5osB
-         OLIeNQZJnzC6muZh3GK6R2omo1ggXG7csvKdh37fwCTOExOUAvmGGmxkbgmGuxhdcX0Z
-         mfpg==
+        bh=bj/rwof5eVqhhCFdwG+vXFMcLMTHMCRmQJbZDzoqR2g=;
+        b=5QwGHMBmncNm3OoxYK6zvOOJBiimXxySBYlCgOiMBE6dMshG7JUskkDZfakyaBZ5yz
+         ijBhF8vXlo7DEO93gwOXzHw/Dzt2KTPDiFQiqnYCF12kTqzZWWUqcyUBEnUf+B34d2ev
+         aiZMRrVKeoEibaGA4U170TFwrUpGFRHRQLc8RmV+a/hBlfdsiMGhMRjO00cxPzdjeamz
+         KhoFDtHIB+9KGVBRRkkXRR7RuKVFoEDhYzf/c1XJ7ynttiQDCyEgXUuq6um3QtrPiaGZ
+         Z0YKE+qSlbKcA8LKRpJQpKJtut74qTAFi9KTLwz/jzN4OXxgP1DggK7uz7t6ZobUSUiX
+         zemg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ieyVa81OmSKc+vjUo9uLGLFQ4ouBbZ+SspQmILGqLqk=;
-        b=jAqI883axRN1of4H98BMmGG5Jnmsejn3YE908qHZsljwfaVF66fEFUDV3vHt/ltGCz
-         2S1t059mZmo2R6V0dLgM2VzpBihVzkCbW/Ve3rpjaD6yP49LT81LMP0u56FWbL6RIoIR
-         hN3cD4lxhSBqeg5pPmOnZeSubqPpEufSiul5tpw0jEUJ9mY8CbJTWayiBdWIf+R7IUJz
-         aEiMR+xaFSDJJzTXvIl8KjRzIueY6YYYVDA1NXRhPGKNcfnaRG6Uzf5BLsy9fvJ4Qi/B
-         HfvZCFW0hMqDFT3pKzrjotzSr6P50xVjoWPQB8YfzfqhDgA/LPS6SW4MSXOdSLeXf4BG
-         J5oA==
-X-Gm-Message-State: ACrzQf12vW6Q7Fx8Ei9UjxF7X/8y4DwDX2Kvx45jXPVuz7Tm8U1lYVv2
-	AHBxY+1d4F5rSWYPGQAy7qldDRzgVM0+Xtzi
-X-Google-Smtp-Source: AMsMyM5guxQvKi/Yf6puZImm9NgttCWionM9xrWOF4UKwBf9s+Eg3MX3IQcz45ZaeXgEtzgJxSrm8Q==
-X-Received: by 2002:a65:6c11:0:b0:46a:eec8:19f7 with SMTP id y17-20020a656c11000000b0046aeec819f7mr653840pgu.478.1665679041817;
-        Thu, 13 Oct 2022 09:37:21 -0700 (PDT)
+        bh=bj/rwof5eVqhhCFdwG+vXFMcLMTHMCRmQJbZDzoqR2g=;
+        b=s3jLlV0UWPVStYUG6vz+k66CUo6PGn+Q4RGR9tpVe5qHX/xxMSf2K3SWZUszryoR4J
+         Ah936br1qcopeQBSXsirP9ZszPhqhQstBQ9Z3K29Cw7W9ZsvKiPfRLc4EPsgA3HE5Zri
+         sVM/PzWT4MxJlBNumX+Z1eXVmg+pHvSSEgvQsULFSIXp4tpTdxviSo6gobQOU5/la+xp
+         Psj06L6f4I9Qxcpwk5Jl87vL1vK3QS+Q25OZ+MKcDF8M5FdWUM3Dpnjtf3c+uY5L5wAz
+         ArqzX8kbQSIDci06u/ZgPrQR7OVm1/7Bu1FqBQd8ky4JYCsZPX9JZj4HpjtsBE3/u358
+         E3Gg==
+X-Gm-Message-State: ACrzQf3aPlxM3w4nf4NJRta6nzhxUfH3QGhSkpZ+V774HvL74fvoeLO3
+	X4O9zndziov95fol7vbOQtRBCcFAz4MZaQEC
+X-Google-Smtp-Source: AMsMyM4fdGLXhREuMOF4SmU4we/FkUUvVYkej5amoq+GuBHTex6RgoGqa9cxKJ+JAJo3gHrSCzYF9g==
+X-Received: by 2002:a05:6a00:1d26:b0:54e:8c81:9f64 with SMTP id a38-20020a056a001d2600b0054e8c819f64mr385220pfx.58.1665679047996;
+        Thu, 13 Oct 2022 09:37:27 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id d29-20020a634f1d000000b0043a09d5c32bsm3460615pgb.74.2022.10.13.09.37.20
+        by smtp.gmail.com with ESMTPSA id d29-20020a634f1d000000b0043a09d5c32bsm3460615pgb.74.2022.10.13.09.37.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Oct 2022 09:37:21 -0700 (PDT)
+        Thu, 13 Oct 2022 09:37:27 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 6/9] externalsrc: git submodule--helper list unsupported
-Date: Thu, 13 Oct 2022 06:36:53 -1000
-Message-Id: <6c50d83af0af677c2dff864ac40c580ae446372b.1665678874.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 9/9] qemu: Avoid accidental librdmacm linkage
+Date: Thu, 13 Oct 2022 06:36:56 -1000
+Message-Id: <aa9d0c2b777c10bb6c68b0232d54cbcd1af1493f.1665678874.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1665678874.git.steve@sakoman.com>
 References: <cover.1665678874.git.steve@sakoman.com>
@@ -60,59 +60,34 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 16:37:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171714
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 16:37:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171717
 
-From: John Edward Broadbent <jebr@google.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Git has removed support for "git submodule--helper list".
-https://github.com/git/git/commit/31955475d1c283120d5d84247eb3fd55d9f5fdd9
+Avoid accidentally linking to the rdma library from the host by
+adding a PACKAGECONFIG for the option. This was found on new
+Fedora 36 autobuilder workers.
 
-This change provides an alternate method for gathering the submodules
-information.
-
-Tested:
-Build recipes with and without submodules
-
-Signed-off-by: Carson Labrado <clabrado@google.com>
-Signed-off-by: John Edward Broadbent <jebr@google.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6d9364e5f3535954f65cbbc694ee7933ac1d664f)
+(cherry picked from commit 2a0f3cb225e4d5471155abbcd05d09bd6bf1620f)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/externalsrc.bbclass | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index 0e0a3ae89c..291fcf5653 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -225,15 +225,16 @@ def srctree_hash_files(d, srcdir=None):
-             env['GIT_INDEX_FILE'] = tmp_index.name
-             subprocess.check_output(['git', 'add', '-A', '.'], cwd=s_dir, env=env)
-             git_sha1 = subprocess.check_output(['git', 'write-tree'], cwd=s_dir, env=env).decode("utf-8")
--            submodule_helper = subprocess.check_output(['git', 'submodule--helper', 'list'], cwd=s_dir, env=env).decode("utf-8")
--            for line in submodule_helper.splitlines():
--                module_dir = os.path.join(s_dir, line.rsplit(maxsplit=1)[1])
--                if os.path.isdir(module_dir):
--                    proc = subprocess.Popen(['git', 'add', '-A', '.'], cwd=module_dir, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
--                    proc.communicate()
--                    proc = subprocess.Popen(['git', 'write-tree'], cwd=module_dir, env=env, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
--                    stdout, _ = proc.communicate()
--                    git_sha1 += stdout.decode("utf-8")
-+            if os.path.exists(".gitmodules"):
-+                submodule_helper = subprocess.check_output(["git", "config", "--file", ".gitmodules", "--get-regexp", "path"], cwd=s_dir, env=env).decode("utf-8")
-+                for line in submodule_helper.splitlines():
-+                    module_dir = os.path.join(s_dir, line.rsplit(maxsplit=1)[1])
-+                    if os.path.isdir(module_dir):
-+                        proc = subprocess.Popen(['git', 'add', '-A', '.'], cwd=module_dir, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-+                        proc.communicate()
-+                        proc = subprocess.Popen(['git', 'write-tree'], cwd=module_dir, env=env, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
-+                        stdout, _ = proc.communicate()
-+                        git_sha1 += stdout.decode("utf-8")
-             sha1 = hashlib.sha1(git_sha1.encode("utf-8")).hexdigest()
-         with open(oe_hash_file, 'w') as fobj:
-             fobj.write(sha1)
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index d85db8f800..28caefef07 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -277,6 +277,7 @@ PACKAGECONFIG[libnfs] = "--enable-libnfs,--disable-libnfs,libnfs"
+ PACKAGECONFIG[brlapi] = "--enable-brlapi,--disable-brlapi"
+ PACKAGECONFIG[vde] = "--enable-vde,--disable-vde"
+ PACKAGECONFIG[rbd] = "--enable-rbd,--disable-rbd"
++PACKAGECONFIG[rdma] = "--enable-rdma,--disable-rdma"
+ 
+ INSANE_SKIP_${PN} = "arch"
+ 
 -- 
 2.25.1
 
