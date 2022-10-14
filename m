@@ -1,107 +1,88 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE281C433FE
-	for <webhook@archiver.kernel.org>; Fri, 14 Oct 2022 06:41:56 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web08.4428.1665729706771696969
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B95A1C4332F
+	for <webhook@archiver.kernel.org>; Fri, 14 Oct 2022 06:53:36 +0000 (UTC)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web10.4404.1665730407236589862
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Oct 2022 23:41:47 -0700
+ Thu, 13 Oct 2022 23:53:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=U+udlpKw;
- spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 043AF60002;
-	Fri, 14 Oct 2022 06:41:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1665729704;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=afNEmdpYbs+LmnQAAueL7ZF/MCJFWSyXqfCb2XgMWiE=;
-	b=U+udlpKwcyYXJDsZnNkesieVFUEgpd6ICd7/+6rQWYfFg9vGAMrDrP7whX85XnmMCXTEdF
-	Bw4oBaRmOn/keR4d57FONNa/ZCrjtzS3rQWi8PYClj8rttKhCHaKMr5bE3DaFxyzJCfQAm
-	wDR+Ro3Gmx+t5IbHc0GteKaQqs/oIXmkMSWUcNGdlZuiYa9zqll81LjZ3sREYYnRfuCYT7
-	u4GzpCC8LduMaO3FKgzX71WKnM5EFqGbKQD+3tE2sImYSv62Qh+tFIB2G/TDNCKI8SEjxS
-	/kfGmxheGE0r/PB6KxXv1aOJ0WuhJBUm3tXM4Sv2P5yx4/hW0MJlWadpl52VpQ==
-Date: Fri, 14 Oct 2022 08:41:43 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Sergey Zhmylev <s.zhmylev@yadro.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2] wic: honor the SOURCE_DATE_EPOCH in case of
- updated fstab
-Message-ID: <Y0kEpyPCOGh/t0pl@mail.local>
-References: <20221013164020.4125847-1-s.zhmylev@yadro.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CRHd0ssT;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ej1-f46.google.com with SMTP id fy4so8499743ejc.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Oct 2022 23:53:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=c4/KUsI/xeF6v8lJAr/mepAphkyJmXvN/982ZVgG6PU=;
+        b=CRHd0ssTsKjm2KAShksjIu7/7seDb9u6bM+RA14staHdi/YN8D4jrnzQ3hv+AxZVDS
+         zLXO8v4oosx00KcGzJ8Awa7wcoUr5SNjiqXWSOrdbaG+tDRUf+gttVAzadeSzYb2l+NF
+         W5TFD+jqV6rsp72zHomi/IwUsZuORJjC8LMXCGPUY/4QVGZuE0j6App5xbJt94MFuiNb
+         Ke2xtLZt285XN8BWQt1Bj9V1IAap2xrtF3Zc5+OBLTLOEmyVjED2vvgkICJsyuw/G4JE
+         KjaXtqHhcLRp/qkdWOTMf+nBoV/YjjW48t26c+WDijhVoYQ6wRi7dk/Gsn6oB0j9yfBO
+         9opA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c4/KUsI/xeF6v8lJAr/mepAphkyJmXvN/982ZVgG6PU=;
+        b=aYSJIh1Hn9byt1iKPoTklqHUfgRlD6BqOPLkoHypxYsiMVmhzfenCmG3Bd8WclCqPe
+         Gao5UAPMo7OvAqWdv5QGRDl/qBB2pWFFegWXUBK8sEHED8EM8bYMYbmdWpQxGWPWu+2z
+         PpCE29bw/WuYbdExHtmmzE5lLtUi8/fithX5IbRXM5hrqBEYQVdeGDXpfP85o1KY3bzZ
+         yneekRvwLf0QpIwaF/oFj6j6MVnz/lC7Q4ebtnJ8OZ4d/wazxQ1vY1lDighQ+m2gKLp9
+         s+fzPyGLekc9QX7b24IL0KegIaE/yI9Cv5h2+9+QoZkkJx1uXHkhueEhJKCTPoPv5QM4
+         gSgg==
+X-Gm-Message-State: ACrzQf3JmHYBbX8cbXIe4ic53b1oZMjxTUBN1UJWbUnsl3maGm57huBX
+	YpkfDHVv14Ucjr8bY3YOM5veTKB9264=
+X-Google-Smtp-Source: AMsMyM4kSfSJYEBW5Q0TaEb5wU6S7Tn6BUZrvNtgooRGVOLxv7w6x3XZzeTICl/cGKGH4QVJN7cvKQ==
+X-Received: by 2002:a17:907:d07:b0:72e:ec79:ad0f with SMTP id gn7-20020a1709070d0700b0072eec79ad0fmr2561425ejc.296.1665730405232;
+        Thu, 13 Oct 2022 23:53:25 -0700 (PDT)
+Received: from md2ramxc.ad001.siemens.net ([62.32.0.33])
+        by smtp.gmail.com with ESMTPSA id 3-20020a170906318300b0078c213ad441sm1029889ejy.101.2022.10.13.23.53.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Oct 2022 23:53:24 -0700 (PDT)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH] buildconf: compare abspath
+Date: Fri, 14 Oct 2022 08:52:47 +0200
+Message-Id: <20221014065247.1825762-1-adrian.freihofer@siemens.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221013164020.4125847-1-s.zhmylev@yadro.com>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Oct 2022 06:41:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171724
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Oct 2022 06:53:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171725
 
-Hi,
+We have something like ${TOPDIR}/../../poky/meta in the bblayers.conf
+file. This does not work without normalizing the path for comparison.
 
-This caused:
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ meta/lib/bblayers/buildconf.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/6305/steps/13/logs/stdio
-
-On 13/10/2022 19:40:20+0300, Sergey Zhmylev wrote:
-> From: Sergei Zhmylev <s.zhmylev@yadro.com>
-> 
-> In case user requested to build a binary repeatable package,
-> it's required to honor the SOURCE_DATE_EPOCH environment
-> variable. So forcefully set mtime inside all the routines
-> which modify fstab in case it is updated.
-> 
-> Signed-off-by: Sergei Zhmylev <s.zhmylev@yadro.com>
-> ---
->  scripts/lib/wic/partition.py | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-> index e50871b8d7..cac1bab4dd 100644
-> --- a/scripts/lib/wic/partition.py
-> +++ b/scripts/lib/wic/partition.py
-> @@ -291,6 +291,9 @@ class Partition():
->          if self.updated_fstab_path and self.has_fstab and not self.no_fstab_update:
->              debugfs_script_path = os.path.join(cr_workdir, "debugfs_script")
->              with open(debugfs_script_path, "w") as f:
-> +                if os.getenv('SOURCE_DATE_EPOCH'):
-> +                    fstab_time = int(os.getenv('SOURCE_DATE_EPOCH'))
-> +                    f.write("set_current_time %s\n" % (fstab_time))
->                  f.write("cd etc\n")
->                  f.write("rm fstab\n")
->                  f.write("write %s fstab\n" % (self.updated_fstab_path))
-> @@ -353,7 +356,7 @@ class Partition():
->          exec_native_cmd(mcopy_cmd, native_sysroot)
->  
->          if self.updated_fstab_path and self.has_fstab and not self.no_fstab_update:
-> -            mcopy_cmd = "mcopy -i %s %s ::/etc/fstab" % (rootfs, self.updated_fstab_path)
-> +            mcopy_cmd = "mcopy -m -i %s %s ::/etc/fstab" % (rootfs, self.updated_fstab_path)
->              exec_native_cmd(mcopy_cmd, native_sysroot)
->  
->          chmod_cmd = "chmod 644 %s" % rootfs
-> -- 
-> 2.37.2
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#171718): https://lists.openembedded.org/g/openembedded-core/message/171718
-> Mute This Topic: https://lists.openembedded.org/mt/94308156/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/meta/lib/bblayers/buildconf.py b/meta/lib/bblayers/buildconf.py
+index e07fc534e1..ccab332adf 100644
+--- a/meta/lib/bblayers/buildconf.py
++++ b/meta/lib/bblayers/buildconf.py
+@@ -64,7 +64,7 @@ TEMPLATECONF={} . {}/oe-init-build-env build-try-{}"""
+         oecore = None
+ 
+         for l in layers:
+-            if l[0] == os.path.abspath(args.layerpath):
++            if os.path.abspath(l[0]) == os.path.abspath(args.layerpath):
+                 targetlayer = l[0]
+             if l[1] == 'meta':
+                 oecore = os.path.dirname(l[0])
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.37.3
+
 
