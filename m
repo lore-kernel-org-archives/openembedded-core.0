@@ -1,196 +1,81 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2750AC4332F
-	for <webhook@archiver.kernel.org>; Fri, 14 Oct 2022 07:59:57 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web10.4733.1665734395268254884
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70159C433FE
+	for <webhook@archiver.kernel.org>; Fri, 14 Oct 2022 08:34:27 +0000 (UTC)
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+ by mx.groups.io with SMTP id smtpd.web10.4911.1665736463352809712
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Oct 2022 00:59:55 -0700
+ Fri, 14 Oct 2022 01:34:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=VgS4OLAE;
- spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lj1-f177.google.com with SMTP id h8so5066958lja.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Oct 2022 00:59:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=L6awj1tw;
+ spf=pass (domain: gmail.com, ip: 209.85.166.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-io1-f50.google.com with SMTP id i65so3370037ioa.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Oct 2022 01:34:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZKNajYbkJzcyyjcg0F61oJmT7lvJtRa//rCI7tJ/faA=;
-        b=VgS4OLAENrsb3KJUPo5RS1OtXTnqlcKgcDn4UVXST8cYgwUn4Wegf/eTTRYuhhrQ9n
-         BNzA3WvupqzEB8vC0aW03PVYhnPG/65SKt/1gUAab2RQCAL6EdF6rA3TD1WWWH63zxcQ
-         V8e43lw2aWqDNddlFX/1K1t8qRAMg4xvyhKFxV1ZlfAxTQiLlwV2HMbaIViOLrUQ2e8X
-         S6d5+1DuY7J/jLR+MEHKkNM6hU6lNTe5oQ/l2bHVGC3FkrrEZomcIdGV+vEY+p6hkvp5
-         xMD1BT++gMHL/Cpue2eLncCCo+9vPHpwzONYzXUl+WDaVcCpiPJn3iAOVrRxzrSuqafG
-         ooYA==
+        bh=h/u/1Od4jTQueMtxUgtBCMzuHHLVA79wg4/RrWyeKjU=;
+        b=L6awj1twshJ4xOeNfHMtPbedCWpUl4Fkmz7oZUb+Lcv5JbonP/wXEq7rb5LyxiOp69
+         foKu0kmcu6g6M912GVeCsW6Ukz5WRkiJu6DRRJKasOhEr1/aFtRnQfja6EF/QElnGvt/
+         4Q9KvUDt/0JhwrP632TzDTD3MH8OPtzBGpSwEWVPBdrjfz+2SN1/XXiQcPRTOAMHxeMN
+         8V+TWl3ZqteDey6yDw4bhUWXX457f62/wHtz8QU/2+FbZS4wMPT4C0D4svik8BWMj3Wa
+         xo42CSWO+Gfr4vd06GRUcjdYm0V7EhPweN5cWpbCyQVnbrAFN7H9IyuvWm1FCfBxTnCV
+         dP5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZKNajYbkJzcyyjcg0F61oJmT7lvJtRa//rCI7tJ/faA=;
-        b=af8uq+e0UbjKTKfztTp//TdWdQF845laaNkcSN45U7Ma+Ks+5UeBvJ99Gs9Kt/3SD1
-         dBGNES01hWpPj8VgnAYfKhLk8uHLh1kqkV9tlNm8BWxtaODI27mVJqnMyINLMXgAnywi
-         BzLKrdKnbhYd6b3JLqkt9Zoza8OwbDe6MSvdkE3sI/JbZzWAIZXRZ0AxLAjLwbdw+bXO
-         qGsBkoQi9Re17u/dKLsMIH0j5Kb0BVYoQR/bE6Div7a90JQpiqDIxYVxEKQo4tBvg+gz
-         W4jguCyCO3YDx6uT9mxuZJxF0DyGgQzkC971NJ0UmlG0wIGV6o8Y6SvBjh7g/nkqtJt6
-         y3wQ==
-X-Gm-Message-State: ACrzQf3wQyzl4m9EYVuFtbZ7G5oQO/hWrzMdGFMeYxITvEIjPFC5KZEj
-	PGs1pDM2Lo8qIlZpi92FEIVYwBDpGlnk5lejjYc=
-X-Google-Smtp-Source: AMsMyM5KA8bcOxsBOeHFh3EjKhtV8jeIL4OTbED9Bvfw8besLrcvQ31Ux49jIookvKMmojVN/m8naFlbwDTVYwrpIac=
-X-Received: by 2002:a2e:2e18:0:b0:26f:c0cd:99b1 with SMTP id
- u24-20020a2e2e18000000b0026fc0cd99b1mr1373032lju.286.1665734393236; Fri, 14
- Oct 2022 00:59:53 -0700 (PDT)
+        bh=h/u/1Od4jTQueMtxUgtBCMzuHHLVA79wg4/RrWyeKjU=;
+        b=InqdMBIEZnrCn0+xvUKOiRfGEZfwRIcphk9xZC4bsDS/5pnNSiMa/eW7UrRRnrnHaZ
+         9zFb8eO/aCXq2PZmjM+dEgQ5DqAhEpBogm0VqU9gQP74VEfaGaZyHYVc5X5vgRpsMyxp
+         Hn4BJYBnMbxiq5PE+PqscBvf1Ts4i/tNN0DKseRgLElCx1/B/644GC2HGmUB3Qqf4VxJ
+         oPWuAOvRqVDfVo02aZoszB/wggMhshDQIbcX9uu3OM0F3JW49UAZLKh23g1kx5tph2oi
+         +VAwsp2MJCX6yFV4FGVD4RJtzG0h0EVgpuIEk6adhrP1F7CzlPI8Tnb1SMSypR6THDSg
+         PzPg==
+X-Gm-Message-State: ACrzQf2aQyPiPTGIRY/yb9X0oliytwnLtAuQct6GW7JgKtwZAKtUxDvZ
+	aWkmsIdXOIIcjzphjy3tuOcJ0fo7UHI8nKc53Jw=
+X-Google-Smtp-Source: AMsMyM74VzXsIbXC9jq1iFtt4sqRVxSNr2kqt9j9/PRf/s2rPxhs3j0R+5opMQbni1+RNgLvwaBPvaZfkbywCEBtAjo=
+X-Received: by 2002:a05:6638:14c3:b0:363:b026:9989 with SMTP id
+ l3-20020a05663814c300b00363b0269989mr2226209jak.254.1665736462720; Fri, 14
+ Oct 2022 01:34:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221014065247.1825762-1-adrian.freihofer@siemens.com>
-In-Reply-To: <20221014065247.1825762-1-adrian.freihofer@siemens.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Fri, 14 Oct 2022 08:59:35 +0100
-Message-ID: <CANPvuR=UZv6E6rwrBH3J=gv3TLDB==UArMMg5uTGemXT_Cob6g@mail.gmail.com>
+References: <20221014065247.1825762-1-adrian.freihofer@siemens.com> <CANPvuR=UZv6E6rwrBH3J=gv3TLDB==UArMMg5uTGemXT_Cob6g@mail.gmail.com>
+In-Reply-To: <CANPvuR=UZv6E6rwrBH3J=gv3TLDB==UArMMg5uTGemXT_Cob6g@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 14 Oct 2022 10:34:11 +0200
+Message-ID: <CANNYZj9YzJXiAcVH92TYLi6q7_PH5woMt96vmMiabKVDWA+zmQ@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] buildconf: compare abspath
-To: Adrian Freihofer <adrian.freihofer@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: Adrian Freihofer <adrian.freihofer@gmail.com>, openembedded-core@lists.openembedded.org, 
 	Adrian Freihofer <adrian.freihofer@siemens.com>
-Content-Type: multipart/alternative; boundary="000000000000cc933205eafa020b"
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Oct 2022 07:59:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171728
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Oct 2022 08:34:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171729
 
---000000000000cc933205eafa020b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Adrian,
-
-Adrian Freihofer <adrian.freihofer@gmail.com> escreveu no dia sexta,
-14/10/2022 =C3=A0(s) 07:53:
-
-> We have something like ${TOPDIR}/../../poky/meta in the bblayers.conf
-> file. This does not work without normalizing the path for comparison.
->
-> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> ---
->  meta/lib/bblayers/buildconf.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/lib/bblayers/buildconf.py
-> b/meta/lib/bblayers/buildconf.py
-> index e07fc534e1..ccab332adf 100644
-> --- a/meta/lib/bblayers/buildconf.py
-> +++ b/meta/lib/bblayers/buildconf.py
-> @@ -64,7 +64,7 @@ TEMPLATECONF=3D{} . {}/oe-init-build-env build-try-{}""=
-"
->          oecore =3D None
->
->          for l in layers:
-> -            if l[0] =3D=3D os.path.abspath(args.layerpath):
-> +            if os.path.abspath(l[0]) =3D=3D os.path.abspath(args.layerpa=
-th):
->                  targetlayer =3D l[0]
->
-
-Maybe can be better to have the abspath of layerpath in targetlayer
-
-layerpath =3D os.path.abspath(args.layerpath)
-if os.path.abspath(l[0]) =3D=3D layerpath:
-    targetlayer =3D layerpath
-
-Jose
-
-             if l[1] =3D=3D 'meta':
->                  oecore =3D os.path.dirname(l[0])
-> --
-> 2.37.3
+On Fri, 14 Oct 2022 at 09:59, Jose Quaresma <quaresma.jose@gmail.com> wrote:
+>>          for l in layers:
+>> -            if l[0] == os.path.abspath(args.layerpath):
+>> +            if os.path.abspath(l[0]) == os.path.abspath(args.layerpath):
+>>                  targetlayer = l[0]
 >
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#171725):
-> https://lists.openembedded.org/g/openembedded-core/message/171725
-> Mute This Topic: https://lists.openembedded.org/mt/94321973/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Maybe can be better to have the abspath of layerpath in targetlayer
 >
->
+> layerpath = os.path.abspath(args.layerpath)
+> if os.path.abspath(l[0]) == layerpath:
+>     targetlayer = layerpath
 
---=20
-Best regards,
+I prefer Adrian's version. 'layerpath' is not a good name, and
+targetlayer does not need to be absolute. If you'd like to refactor
+this, doing this with a boolean variable 'has_targetlayer' would be
+better.
 
-Jos=C3=A9 Quaresma
-
---000000000000cc933205eafa020b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Adrian,</div><br><div class=3D"gmail_quote"><div d=
-ir=3D"ltr" class=3D"gmail_attr">Adrian Freihofer &lt;<a href=3D"mailto:adri=
-an.freihofer@gmail.com">adrian.freihofer@gmail.com</a>&gt; escreveu no dia =
-sexta, 14/10/2022 =C3=A0(s) 07:53:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">We have something like ${TOPDIR}/../../poky/meta in the =
-bblayers.conf<br>
-file. This does not work without normalizing the path for comparison.<br>
-<br>
-Signed-off-by: Adrian Freihofer &lt;<a href=3D"mailto:adrian.freihofer@siem=
-ens.com" target=3D"_blank">adrian.freihofer@siemens.com</a>&gt;<br>
----<br>
-=C2=A0meta/lib/bblayers/buildconf.py | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/lib/bblayers/buildconf.py b/meta/lib/bblayers/buildconf.p=
-y<br>
-index e07fc534e1..ccab332adf 100644<br>
---- a/meta/lib/bblayers/buildconf.py<br>
-+++ b/meta/lib/bblayers/buildconf.py<br>
-@@ -64,7 +64,7 @@ TEMPLATECONF=3D{} . {}/oe-init-build-env build-try-{}&quo=
-t;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oecore =3D None<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for l in layers:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if l[0] =3D=3D os.path.abspath(a=
-rgs.layerpath):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if os.path.abspath(l[0]) =3D=3D =
-os.path.abspath(args.layerpath):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0targetlayer =
-=3D l[0]<br></blockquote><div><br></div><div>Maybe can be better to have th=
-e abspath of layerpath in targetlayer</div><div><br>layerpath=C2=A0=3D os.p=
-ath.abspath(args.layerpath)</div><div>if os.path.abspath(l[0]) =3D=3D layer=
-path:<br>=C2=A0 =C2=A0 targetlayer=C2=A0=3D=C2=A0layerpath<br></div><div><b=
-r>Jose<br><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if l[1] =3D=3D &#39;meta&#3=
-9;:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oecore =3D os=
-.path.dirname(l[0])<br>
--- <br>
-2.37.3<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#171725): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/171725" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/171725</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/94321973/5052=
-612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/94321973/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div>
-
---000000000000cc933205eafa020b--
+Alex
 
