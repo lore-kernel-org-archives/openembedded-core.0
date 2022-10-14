@@ -1,98 +1,107 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <massimiliano.minella@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A150C4321E
-	for <webhook@archiver.kernel.org>; Fri, 14 Oct 2022 15:24:59 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web12.8548.1665761090318636347
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E74DC433FE
+	for <webhook@archiver.kernel.org>; Fri, 14 Oct 2022 15:40:59 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web10.8790.1665762056711942218
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Oct 2022 08:24:50 -0700
+ Fri, 14 Oct 2022 08:40:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pH3Q0wLC;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id n12so8078915wrp.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Oct 2022 08:24:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=mgw5oPyn;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: massimiliano.minella@gmail.com)
+Received: by mail-wm1-f51.google.com with SMTP id fn7-20020a05600c688700b003b4fb113b86so3829721wmb.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Oct 2022 08:40:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XFliLuMZCxw7L4m4/UByv0dP0YjKQ5ESeHoR3Nx3C7o=;
-        b=pH3Q0wLC7eCGNQAxI0+zO/QwJ81e1C9HOrIgeWyoExonmawfL5XknaRoYxB81iaz03
-         9AghphdeXAPHdmhAlr8tMfVzJ6IUtt06U5ZO2vU4r3jEQ93wARAI9ygtgncXiyh2elrk
-         z/3JLARC0Kix+78PgNKhBHXIVcVKyuUx9WMCuSY02uJkR177Zz86DB9g0I3oPb+9A86o
-         ZsmrXWYJsMoTeBEpxXIgxQcZPWeTn7CEYnBeIJMD4PNVicxb0usa5N9JB6t/i+ByZJuh
-         GqcjRxwerssci3H+JQP7QBjNPGgOTIei4Y20POZdpZbc6CZNAjzDlMBwD+xt9x2Xw6UQ
-         YukA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XLVGsx15autn76wWxn5u4k5BLFZIyTc+nfNx3pEyXec=;
+        b=mgw5oPyndlUdUkvIGSKbHWF4VVs8r3AJquDruO1ykZEaZysLSMLYV2yCuEH+E+7RgJ
+         YPjEmLvofOeC3OGxh2UJhiBEEtvF4IyhUQj6CtYG62LkKIxJ/SweCQXib0S/ctzSju7g
+         BryTEAT+hkyF2CWE2vRZZbNssIINCnwx/yd69K5xcR50D8GDSMZBx6G6jLpvt42KhGYZ
+         lMXAp2/JGfGMHV7GoSgp6bw/R1R3P5q1hY95E44q8est5bEtsNoGXxteLz0iIuEjIZun
+         HUz6YOmwVWsmUPaWYM/IpXvyHeGJacWEpN72K09Gob5eHaPVAl3F7frDTxuMT6IsXjGD
+         4i9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XFliLuMZCxw7L4m4/UByv0dP0YjKQ5ESeHoR3Nx3C7o=;
-        b=UDGDZPmxevyABeyHDIKdNekxvM0DVR2Nqz+x9gQcSbs6Z8Yqy3Fqj4CeprGNp5CSkC
-         FzsJfYue27SyIeOH/Zjh/J7MGTS0LfUdiDeC7hUljjvFwQS/CmN1tjtNOAnaWicx93VY
-         XLdv9kLHfXlIVIAwbFt/RKlyDfR8lqey7OxzN8x4djOS7hDlTg+CBdscSyn+ZFkPZqFe
-         WgJQOA+A/F43e/dL0LWdtgrL2kxcdpGtbgM7QZfRf4uwnDPRvnh8FOyGv1ERfU9LW3iM
-         aMlQufBPXugUJ5b1hZAUdSVKCjdFI0wTLlCL4doFiiqTsFtF5t5mhMoLhxwDSQrzcPfI
-         7alg==
-X-Gm-Message-State: ACrzQf0skcL5no0n0a2lnIYowpLacD60e1PNuVxl2SeQBqwKd/PyJMS8
-	K78QIBLmzdvsGXvWftUp8lGKVIq2Dasxy/34
-X-Google-Smtp-Source: AMsMyM4w7jWVCJ48xEb4qCPcf4NRKua40WKTf1tTxITpE4NDfs+jS4pJ3bYB7EobsWTi9cs4HFHQUQ==
-X-Received: by 2002:adf:e547:0:b0:22e:3c6a:bb0c with SMTP id z7-20020adfe547000000b0022e3c6abb0cmr3867189wrm.382.1665761088237;
-        Fri, 14 Oct 2022 08:24:48 -0700 (PDT)
-Received: from fio.lan (11.77.115.89.rev.vodafone.pt. [89.115.77.11])
-        by smtp.gmail.com with ESMTPSA id bz13-20020a056000090d00b00228cd9f6349sm2148765wrb.106.2022.10.14.08.24.46
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XLVGsx15autn76wWxn5u4k5BLFZIyTc+nfNx3pEyXec=;
+        b=oDU29IVX0LFT0CMY5icqTIFuiXUPtwNE6Aeu+t71v0qZRraXApPnpq3ezL1TJDYmZ2
+         PNJ6NSl/ZycNm2Ipe58uLUHDjAwGNJNg//YDPC3N+4Ngm67WN6MZXLMb8+MMa+/C4rWw
+         SkLZwgOCGjJcEb7D2Web50LF4ItNJ5PI56E4WEYauUmzt6XxthLchfMkDNOXRw473sx3
+         KOUhkqoTbh2/S6J1vZ2rlrCTynNuXvKF2q9/0gIkqxdZxQPBg78QFa1NIzbI9CguDZ2U
+         64JY0ZK4OaAwN1LhKnVrp/AMfprhIkHCZ7aN2ZNRvK/RlyZOf1rxnkWgfOHOCGBWz3bh
+         68zg==
+X-Gm-Message-State: ACrzQf1SjEdB2LQmdmjSQHJrGrzIYJzKj9CcQr4kiM/jCEyx7EuQCvIJ
+	8Xj/RJYhIs3WMNy9f3YTgWjaGcemr1xZMg==
+X-Google-Smtp-Source: AMsMyM610K/c2ElrhH7mizv5KfQZLmFiV2Y+4K7MhpN1LdAz6F63FK1wzy+tqBOQc6iFytQ+o8Ha1Q==
+X-Received: by 2002:a05:600c:198d:b0:3b4:a62c:a085 with SMTP id t13-20020a05600c198d00b003b4a62ca085mr10351849wmq.140.1665762054845;
+        Fri, 14 Oct 2022 08:40:54 -0700 (PDT)
+Received: from massimiliano-VirtualBox.localdomain ([37.162.49.115])
+        by smtp.gmail.com with ESMTPSA id x12-20020a05600c2d0c00b003b4868eb6bbsm2729905wmf.23.2022.10.14.08.40.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Oct 2022 08:24:47 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+        Fri, 14 Oct 2022 08:40:54 -0700 (PDT)
+From: Massimiliano Minella <massimiliano.minella@gmail.com>
+X-Google-Original-From: Massimiliano Minella <massimiliano.minella@se.com>
 To: openembedded-core@lists.openembedded.org
-Cc: ricardo@foundries.io,
-	Jose Quaresma <quaresma.jose@gmail.com>,
-	Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][PATCH v3 2/2] archiver: avoid using machine variable as it breaks multiconfig
-Date: Fri, 14 Oct 2022 16:22:46 +0100
-Message-Id: <20221014152245.243292-2-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.38.0
-In-Reply-To: <20221014152245.243292-1-jose.quaresma@foundries.io>
-References: <20221014152245.243292-1-jose.quaresma@foundries.io>
+Cc: Paul Eggleton <paul.eggleton@microsoft.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Massimiliano Minella <massimiliano.minella@se.com>
+Subject: [dunfell][PATCH] classes/kernel-fitimage: add ability to add additional signing options
+Date: Fri, 14 Oct 2022 17:40:47 +0200
+Message-Id: <20221014154047.480244-1-massimiliano.minella@se.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Oct 2022 15:24:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171736
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Oct 2022 15:40:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171737
 
-From: Jose Quaresma <quaresma.jose@gmail.com>
+From: Paul Eggleton <paul.eggleton@microsoft.com>
 
-STAGING_KERNEL_DIR uses the MACHINE name so it breaks the multiconfig
-and in this cases it will run the shared recipes twice, one for each
-machine.
+Add a UBOOT_MKIMAGE_SIGN_ARGS variable to enable passing additional
+options to uboot-mkimage when it is run the second time to perform
+signing.
 
-STAGING_KERNEL_DIR it's been introduced in commit 5487dee2e1
-
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+Signed-off-by: Paul Eggleton <paul.eggleton@microsoft.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 8fd7ee7414b45a1feeef7982af3583475902a677)
+Signed-off-by: Massimiliano Minella <massimiliano.minella@se.com>
 ---
- meta/classes/archiver.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/kernel-fitimage.bbclass | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 0710c1ec5e..4049694d85 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -465,7 +465,7 @@ def is_work_shared(d):
-     pn = d.getVar('PN')
-     return pn.startswith('gcc-source') or \
-         bb.data.inherits_class('kernel', d) or \
--        (bb.data.inherits_class('kernelsrc', d) and d.getVar('S') == d.getVar('STAGING_KERNEL_DIR'))
-+        (bb.data.inherits_class('kernelsrc', d) and d.expand("${TMPDIR}/work-shared") in d.getVar('S'))
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index 7c0d93625b..e0dd215167 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -59,6 +59,9 @@ FIT_SIGN_ALG ?= "rsa2048"
+ # fitImage Padding Algo
+ FIT_PAD_ALG ?= "pkcs-1.5"
  
- # Run do_unpack and do_patch
- python do_unpack_and_patch() {
++# Arguments passed to mkimage for signing
++UBOOT_MKIMAGE_SIGN_ARGS ?= ""
++
+ #
+ # Emit the fitImage ITS header
+ #
+@@ -479,7 +482,8 @@ fitimage_assemble() {
+ 			${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+ 			-F -k "${UBOOT_SIGN_KEYDIR}" \
+ 			$add_key_to_u_boot \
+-			-r arch/${ARCH}/boot/${2}
++			-r arch/${ARCH}/boot/${2} \
++			${UBOOT_MKIMAGE_SIGN_ARGS}
+ 	fi
+ }
+ 
 -- 
-2.38.0
+2.25.1
 
 
