@@ -2,46 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEE8CC07E9D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6A5EC4167E
 	for <webhook@archiver.kernel.org>; Sat, 15 Oct 2022 22:13:01 +0000 (UTC)
 Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.24337.1665871975889658252
+ by mx.groups.io with SMTP id smtpd.web09.24673.1665871975885856662
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Oct 2022 15:12:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ckOe/PdG;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010183ddb512d6-9ec99672-e0e2-4d7b-91e3-89cd6ec962f6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=HIv1hL0Z;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010183ddb51126-870e28ff-ebf9-4161-a2af-25a36080f490-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1665871975;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=k6wXXsHh5ZazUIvvOeAcBZPj5Qlu6ltZdyYNbafCViI=;
-	b=ckOe/PdGmS9GOwQ7IDyPbt1Bu+v/dtVePOKxk6wdKJ/zYay+II9uj6S2ghAa2Okz
-	86CV8gNzUUYbT+/spO8EH+mX+r7zj5UyPVv2vN4QBCL+wJryuaZBfZWJZDbhnsnp0n5
-	5Mmoft1FVYRkf+QPL8GzC32T54GV5wela5q1gtuM=
+	t=1665871974;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=NrkXbM7rc/yU4BqSd0+vOoFd/rkgmZcH8jTPci7nX+4=;
+	b=HIv1hL0ZWnBUzGadCLjd+u+SfZTpsw4DNpmrPY7pdZlBSF/FBjXn55eYGbT3f884
+	bcpCjKWov7mB+TsOc7fITKnos5ufItD2lX/HRZJRHBtEYq+ifJ0SYG2W4Avy5dsrq8T
+	8Wisd3m/Lg3Yi2+xdnJOI0PTzgqHaC/wX/dnsnac=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1665871975;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=k6wXXsHh5ZazUIvvOeAcBZPj5Qlu6ltZdyYNbafCViI=;
-	b=UvGdmwDUcuu6yQddUT6TGvhuzq29vVS1J5jIjbVhZXpqHHf6MakuSIMOXRz9n1Qw
-	12Pz24DwuuDGOe9VTdehbwLGJSKr2oE/0bcBkRWpAqZ5kXGjRh4Km9x1rDdyugwZnsa
-	MgNuhl18mTnzbdxdTOTFnKHg120UWdV9cr3N9UZ4=
-Content-Type: multipart/mixed; boundary="===============7923846639344544904=="
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1665871974;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=NrkXbM7rc/yU4BqSd0+vOoFd/rkgmZcH8jTPci7nX+4=;
+	b=PwfkxENtYK3vEJ2hGESSYBGK0xOMTDAz4YostFgwpuy8rAU3VYCiH72hhkVH5n9k
+	kHTObtPYlDQBJCfPrSnO4zrlvAUMxKZLaUWORmIKTjGyvCjh8OU61COqqh0/XKeGHCB
+	M8YlS7D8rBFQX9trbHFvTuYqWQCutF+SzJ225IMo=
+Content-Type: multipart/mixed; boundary="===============2006855521825598362=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] pinentry: upgrading to 1.2.1 FAILED
-Message-ID: <01010183ddb512d6-9ec99672-e0e2-4d7b-91e3-89cd6ec962f6-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Oct 2022 22:12:55 +0000
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] libgpg-error: upgrading to 1.46 FAILED
+Message-ID: <01010183ddb51126-870e28ff-ebf9-4161-a2af-25a36080f490-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Oct 2022 22:12:54 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2022.10.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Oct 2022 22:13:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171875
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171876
 
---===============7923846639344544904==
+--===============2006855521825598362==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -49,11 +50,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *pinentry* to *1.2.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libgpg-error* to *1.46* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe pinentry failed.
+Running 'devtool upgrade' for recipe libgpg-error failed.
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
@@ -78,7 +79,7 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:706071f24165b4bb7d999ee44d217fd139b58db8"
+meta-yocto-bsp       = "tmp-auh-upgrades:6e6b8ae38b51cc098732918428d8ebe7d41b5e6c"
 workspace            = "master:3e5faccfaf50fee0ba8f6eef6c9bf458137d06d2"
 
 Initialising tasks...done.
@@ -108,7 +109,7 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:706071f24165b4bb7d999ee44d217fd139b58db8"
+meta-yocto-bsp       = "tmp-auh-upgrades:6e6b8ae38b51cc098732918428d8ebe7d41b5e6c"
 workspace            = "master:3e5faccfaf50fee0ba8f6eef6c9bf458137d06d2"
 
 Initialising tasks...done.
@@ -123,16 +124,17 @@ Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files: 100% |####################################| Time: 0:00:00
 INFO: Extracting current version source...
+INFO: Adding local source files to srctree...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-1.2.1.tar.bz2...
-INFO: Rebasing devtool onto d819c755587def008f146fd71bcf297f74548888
-WARNING: Command 'git rebase d819c755587def008f146fd71bcf297f74548888' failed:
-Auto-merging m4/gpg-error.m4
-CONFLICT (content): Merge conflict in m4/gpg-error.m4
+INFO: Fetching https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.46.tar.bz2...
+INFO: Rebasing devtool onto 23a27f8928bd4fec14210b0ee71a0a08481687c6
+WARNING: Command 'git rebase 23a27f8928bd4fec14210b0ee71a0a08481687c6' failed:
+Auto-merging src/gpg-error.m4
+CONFLICT (content): Merge conflict in src/gpg-error.m4
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/pinentry
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/pinentry/pinentry_1.2.1.bb
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/libgpg-error
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/libgpg-error/libgpg-error_1.46.bb
 
 
 
@@ -141,5 +143,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7923846639344544904==--
+--===============2006855521825598362==--
 
