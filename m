@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A841CC43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6D38C43219
 	for <webhook@archiver.kernel.org>; Sat, 15 Oct 2022 22:13:01 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.24338.1665871976038194468
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web09.24674.1665871975922145832
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Oct 2022 15:12:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=DQsZGZqV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010183ddb512ce-0c2680de-0fea-46a6-b50b-4cd6cfbf04c1-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=nfDsaxjy;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010183ddb512a5-f6824f5d-4f0c-4e97-9cb1-9f231d224c3c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1665871975;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=yE047bSBpuGhwFHHu26gBq1EMKoiRRZnedy8gha5CAY=;
-	b=DQsZGZqVp9L+HSLR2kKXKRPQZpsDNN+XpRakAEuHLxMT+0Be1WCJLSuaVkkZJjRY
-	LKrreoCJDBIVOSmMoaN/Y2lSnLZ+0+Bse9cIhhtPiVg+gp3SmY55IHU6dJT82oOITeE
-	3ifaSUPsrmcmT6B4kA7P6Kldgh4AkJPvRPq4bhsA=
+	bh=J6QtlNxQ5LvUJmJ9lVfm99B3veLjPAs+pZSPvL94Syk=;
+	b=nfDsaxjy3/aGh9NXCPha8d+2I3b0y+Kw/w03BRZxI+eI61zn7A4czGJefYeq4R+/
+	20lK9ncWgAlTEP7B7HFSDD6qCjjsev1Z7s+EjIGpvIutgfTSlnMHbW5ZLTzf8XYTg/A
+	pXi2vS5Grwbp2zf/H37cb5fknqmta2uRBvNm/1wI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1665871975;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=yE047bSBpuGhwFHHu26gBq1EMKoiRRZnedy8gha5CAY=;
-	b=XZBbLt1TAjL7NWdp2Qi1/OKYlsyc3H9pFWEACoerpJIXjQL5mFxuBEl5EHh8PGYu
-	qm1ux1U4q/Z4Pu2oUa7GNHEyD9me3d8eZw5RWOg51zw5/+Mmop390dLUnuUkm0cBx54
-	fjfcE+c6vqcs9+D/thkJFEWv7Qq2gBooyglb4N6g=
-Content-Type: multipart/mixed; boundary="===============6597897761709360222=="
+	bh=J6QtlNxQ5LvUJmJ9lVfm99B3veLjPAs+pZSPvL94Syk=;
+	b=AbRARXEXmUV6L2X4Tge2sSyM6S5a/8s8ZmUga4hafEnPs/WxtXVzseNyBeGBogst
+	asW2AfMQ/GmINdWcz5ybQOc1R5jLGxBcWVJNW1tbMeuHmrgJ9Mm0UdtBNAFiJuYEKPE
+	3nIqjNWHVjYTTMmItKijONV6C2wZjL9qfYN/QpMM=
+Content-Type: multipart/mixed; boundary="===============2359403363183161639=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] numactl: upgrading to 2.0.16 SUCCEEDED
-Message-ID: <01010183ddb512ce-0c2680de-0fea-46a6-b50b-4cd6cfbf04c1-000000@us-west-2.amazonses.com>
+Subject: [AUH] libxslt: upgrading to 1.1.37 FAILED
+Message-ID: <01010183ddb512a5-f6824f5d-4f0c-4e97-9cb1-9f231d224c3c-000000@us-west-2.amazonses.com>
 Date: Sat, 15 Oct 2022 22:12:55 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.10.15-54.240.27.33
+X-SES-Outgoing: 2022.10.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Oct 2022 22:13:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171881
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171879
 
---===============6597897761709360222==
+--===============2359403363183161639==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *numactl* to *2.0.16* has Succeeded.
+that the automatic attempt to upgrade the recipe *libxslt* to *1.1.37* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-numactl-upgrade-2.0.15-2.0.16.patch
+    - apply the patch: git am 0001-libxslt-upgrade-1.1.35-1.1.37.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,59 +75,107 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6597897761709360222==
+--===============2359403363183161639==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1661 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 885 .bb files complete (884 cached, 1 parsed). 1661 targets, 36 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:667c4a69d07b901f829959db09d5799e9eba691c"
+workspace            = "master:3e5faccfaf50fee0ba8f6eef6c9bf458137d06d2"
+
+Initialising tasks...done.
+Sstate summary: Wanted 74 Local 67 Mirrors 0 Missed 7 Current 147 (90% match, 96% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 200 of 221 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
+NOTE: Running task 719 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libxslt/libxslt_1.1.37.bb:do_fetch)
+NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxslt-1.1.37-r0: task do_fetch: Started
+NOTE: recipe libxslt-1.1.37-r0: task do_fetch: Succeeded
+NOTE: Running task 724 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libxslt/libxslt_1.1.37.bb:do_unpack)
+NOTE: recipe libxslt-1.1.37-r0: task do_unpack: Started
+NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 834 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libxslt/libxslt_1.1.37.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxslt-1.1.37-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxslt-1.1.37-r0: task do_unpack: Succeeded
+NOTE: Running task 838 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libxslt/libxslt_1.1.37.bb:do_patch)
+NOTE: recipe libxslt-1.1.37-r0: task do_patch: Started
+NOTE: recipe libxslt-1.1.37-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxslt-1.1.37-r0: task do_patch: Succeeded
+NOTE: Running task 839 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libxslt/libxslt_1.1.37.bb:do_deploy_source_date_epoch)
+NOTE: Running task 840 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libxslt/libxslt_1.1.37.bb:do_populate_lic)
+NOTE: recipe libxslt-1.1.37-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxslt-1.1.37-r0: task do_populate_lic: Started
+NOTE: recipe libxslt-1.1.37-r0: task do_populate_lic: Succeeded
+NOTE: recipe libxslt-1.1.37-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 841 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libxslt/libxslt_1.1.37.bb:do_configure)
+NOTE: recipe libxslt-1.1.37-r0: task do_configure: Started
+NOTE: recipe libxslt-1.1.37-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 841 tasks of which 834 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libxslt/libxslt_1.1.37.bb:do_configure
+Summary: There was 1 WARNING message.
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: libxslt-1.1.37-r0 do_configure: QA Issue: libxslt: configure was passed unrecognised options: --with-html-subdir [unknown-configure-option]
+ERROR: libxslt-1.1.37-r0 do_configure: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxslt/1.1.37-r0/temp/log.do_configure.2882597
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libxslt/libxslt_1.1.37.bb:do_configure) failed with exit code '1'
+
+--===============2359403363183161639==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-numactl-upgrade-2.0.15-2.0.16.patch"
+ filename="0001-libxslt-upgrade-1.1.35-1.1.37.patch"
 
-RnJvbSAzMjViY2IwOWI0MDYyNDlmMDNlMTk2ZGYzMjgwYzQxMDY0YjhkYzQ5IE1vbiBTZXAgMTcg
+RnJvbSAwYmM2MTBiYzRiNzUyMjNhYTRhODA3NmJkYWVhMDYwMjkzYjdhMjk5IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMjE6Mjg6MzMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBu
-dW1hY3RsOiB1cGdyYWRlIDIuMC4xNSAtPiAyLjAuMTYKCi0tLQogbWV0YS9yZWNpcGVzLXN1cHBv
-cnQvbnVtYWN0bC9udW1hY3RsX2dpdC5iYiB8IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5z
-ZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9udW1hY3RsL251bWFjdGxfZ2l0LmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbnVtYWN0
-bC9udW1hY3RsX2dpdC5iYgppbmRleCA3MTJjZjAyMDNmLi4yM2JlMGEzYjRmIDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9udW1hY3RsL251bWFjdGxfZ2l0LmJiCisrKyBiL21ldGEv
-cmVjaXBlcy1zdXBwb3J0L251bWFjdGwvbnVtYWN0bF9naXQuYmIKQEAgLTEwLDggKzEwLDggQEAg
-aW5oZXJpdCBhdXRvdG9vbHMtYnJva2Vuc2VwIHB0ZXN0CiAKIExJQ19GSUxFU19DSEtTVU0gPSAi
-ZmlsZTovL1JFQURNRS5tZDtiZWdpbmxpbmU9MTk7ZW5kbGluZT0zMjttZDU9OWYzNGMzYWY0ZWQ2
-ZjNmNWRmMGRhNWYzYzA4MzVhNDMiCiAKLVNSQ1JFViA9ICIwMWEzOWNiNGVkYzBkZDBmNDE1MWI3
-YWQxMWUwYzU2ZDJlNjEyYTAyIgotUFYgPSAiMi4wLjE1IgorU1JDUkVWID0gIjEwMjg1ZjFhMWJh
-ZDQ5MzA2ODM5YjJjNDYzOTM2NDYwYjYwNGUzZWEiCitQViA9ICIyLjAuMTYiCiAKIFNSQ19VUkkg
-PSAiZ2l0Oi8vZ2l0aHViLmNvbS9udW1hY3RsL251bWFjdGw7YnJhbmNoPW1hc3Rlcjtwcm90b2Nv
-bD1odHRwcyBcCiAgICAgICAgICAgIGZpbGU6Ly9GaXgtdGhlLXRlc3Qtb3V0cHV0LWZvcm1hdC5w
-YXRjaCBcCi0tIAoyLjMxLjEKCg==
+CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMjE6MTg6MDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJ4c2x0OiB1cGdyYWRlIDEuMS4zNSAtPiAxLjEuMzcKCi0tLQogLi4uL2xpYnhzbHQve2xpYnhz
+bHRfMS4xLjM1LmJiID0+IGxpYnhzbHRfMS4xLjM3LmJifSAgICAgICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvbGlieHNsdC97bGlieHNsdF8xLjEuMzUuYmIgPT4gbGlieHNsdF8xLjEu
+MzcuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlieHNsdC9s
+aWJ4c2x0XzEuMS4zNS5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnhzbHQvbGlieHNsdF8x
+LjEuMzcuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvbGlieHNsdC9saWJ4c2x0XzEuMS4zNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvbGlieHNsdC9saWJ4c2x0XzEuMS4zNy5iYgppbmRleCAyZmQ3Nzc3NjZjLi4wMDdlNDlh
+MDNkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJ4c2x0L2xpYnhzbHRfMS4x
+LjM1LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnhzbHQvbGlieHNsdF8xLjEuMzcu
+YmIKQEAgLTE1LDcgKzE1LDcgQEAgREVQRU5EUyA9ICJsaWJ4bWwyIgogCiBTUkNfVVJJID0gImh0
+dHBzOi8vZG93bmxvYWQuZ25vbWUub3JnL3NvdXJjZXMvbGlieHNsdC8xLjEvbGlieHNsdC0ke1BW
+fS50YXIueHoiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI4MjQ3ZjMzZTlhODcyYzZhYzg1OWFh
+NDUwMThiYzRjNGQwMGI5N2UyZmVhYzllZWJjMTBjOTNjZTFmMzRkZDc5IgorU1JDX1VSSVtzaGEy
+NTZzdW1dID0gIjNhNGIyN2RjODAyN2NjZDYxNDY3MjU5NTAzMzZmMWVjNTIwOTI4ZjMyMGYxNDRl
+YjVmYTc5OTBhZTYxMjNhYjQiCiAKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gImxpYnhzbHQtKD9Q
+PHB2ZXI+XGQrKFwuXGQrKSspXC50YXIiCiAKLS0gCjIuMzEuMQoK
 
---===============6597897761709360222==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/numactl: PV changed from "2.0.15" to "2.0.16"
-packages/core2-32-poky-linux/numactl: PKGV changed from 2.0.15 [default] to 2.0.16 [default]
-packages/core2-32-poky-linux/numactl/numactl-dbg: PV changed from "2.0.15" to "2.0.16"
-packages/core2-32-poky-linux/numactl/numactl-dbg: PKGV changed from 2.0.15 [default] to 2.0.16 [default]
-packages/core2-32-poky-linux/numactl/numactl-dbg: PKGSIZE changed from 625448 to 625540 (+0%)
-packages/core2-32-poky-linux/numactl/numactl-dev: PV changed from "2.0.15" to "2.0.16"
-packages/core2-32-poky-linux/numactl/numactl-dev: PKGV changed from 2.0.15 [default] to 2.0.16 [default]
-packages/core2-32-poky-linux/numactl/numactl-dev: PKGSIZE changed from 17166 to 17156 (-0%)
-packages/core2-32-poky-linux/numactl/numactl-doc: PV changed from "2.0.15" to "2.0.16"
-packages/core2-32-poky-linux/numactl/numactl-doc: PKGV changed from 2.0.15 [default] to 2.0.16 [default]
-packages/core2-32-poky-linux/numactl/numactl-locale: PV changed from "2.0.15" to "2.0.16"
-packages/core2-32-poky-linux/numactl/numactl-locale: PKGV changed from 2.0.15 [default] to 2.0.16 [default]
-packages/core2-32-poky-linux/numactl/numactl-ptest: PV changed from "2.0.15" to "2.0.16"
-packages/core2-32-poky-linux/numactl/numactl-ptest: PKGV changed from 2.0.15 [default] to 2.0.16 [default]
-packages/core2-32-poky-linux/numactl/numactl-src: PV changed from "2.0.15" to "2.0.16"
-packages/core2-32-poky-linux/numactl/numactl-src: PKGV changed from 2.0.15 [default] to 2.0.16 [default]
-packages/core2-32-poky-linux/numactl/numactl-src: PKGSIZE changed from 237528 to 237695 (+0%)
-packages/core2-32-poky-linux/numactl/numactl-staticdev: PV changed from "2.0.15" to "2.0.16"
-packages/core2-32-poky-linux/numactl/numactl-staticdev: PKGV changed from 2.0.15 [default] to 2.0.16 [default]
-packages/core2-32-poky-linux/numactl/numactl: PV changed from "2.0.15" to "2.0.16"
-packages/core2-32-poky-linux/numactl/numactl: PKGV changed from 2.0.15 [default] to 2.0.16 [default]
-
---===============6597897761709360222==--
+--===============2359403363183161639==--
 
