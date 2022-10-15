@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C71EDC64ECB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2A81C64EC5
 	for <webhook@archiver.kernel.org>; Sat, 15 Oct 2022 22:03:20 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.24224.1665871393545904615
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web08.24454.1665871393752354382
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Oct 2022 15:03:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=PkD2uvgQ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010183ddac300b-38ca6069-f8c1-4ad6-afc6-0f61a9c8be4f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=BjK9AV/X;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010183ddac316b-0f3f2fcb-3b01-41a6-878f-242dfe2172f0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1665871392;
+	t=1665871393;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=j5ckOW3pGtJNtCRsWbmXBrGQWR9gYvRVtpUebjb0hsA=;
-	b=PkD2uvgQ995z9I50ZsilhGOtoESwSqmINSYO9iMhGncH3zVaERB9Et60wf9u+ZUa
-	V4XbY8W1+DMdTWzddioMw63+9Gmi2Fl9O3oaxo20RRvxJmsgogOc5Urb9am/pvX8JOv
-	avdWkCN5zWXE4NppxnUbx3KOJO0MK74ZXqFe5A98=
+	bh=xLEXOf61SGTSriSX1TO52VL1+rO0M7Go7NQhhztHRN4=;
+	b=BjK9AV/XKBOAkrtSmDUMYYF/kf/bCTduyzqPc+kGc4k7W+3z1TxHCjP/b1tEr+PD
+	W4vkhWhKlbAV+GWwDd72kYM2nAyMIntnyLXLKmtKRO8j6Jjd4nscDTLStxFJ9PEpoBr
+	ClUcCz7V1c8CQPe1Qld2AaQ2O3hFpTVr6aWSTQhk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1665871392;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1665871393;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=j5ckOW3pGtJNtCRsWbmXBrGQWR9gYvRVtpUebjb0hsA=;
-	b=F97EyOimIPYTkAUYdwa6UARZbQF5AQskxtAyqFDjgiCUlPfKUKulDQxgKvY2PpwR
-	/mUWHX8sHWzlTz4YJaTed9kpebXVlwt0ZaRsKG0199H1gCpJKshHk3Kf3lf0GGMnvjB
-	qlh55lCeHm8P61gWU2xHisk/8Tb6ZlpvNZoQmh/0=
-Content-Type: multipart/mixed; boundary="===============5282840752610071132=="
+	bh=xLEXOf61SGTSriSX1TO52VL1+rO0M7Go7NQhhztHRN4=;
+	b=CKOSdIvPwvEcLGyF4yXMgta154z1I0/5boBV7skkLLGFZEVhGQpJym/v8A0IMLvK
+	saMtYRU8TV4pXBkscicdnrvIXwufoWdJibR5ssYqVLK4oV1LIf1d/Iex2kR8aSMWYeD
+	65q7MWriyWPjbc7ZCDmGpmu2oOZEUATXlQXRLpRQ=
+Content-Type: multipart/mixed; boundary="===============1194474492070231444=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Pascal Bach <pascal.bach@siemens.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] cmake: upgrading to 3.24.2 FAILED
-Message-ID: <01010183ddac300b-38ca6069-f8c1-4ad6-afc6-0f61a9c8be4f-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Oct 2022 22:03:12 +0000
+Subject: [AUH] mtools: upgrading to 4.0.41 SUCCEEDED
+Message-ID: <01010183ddac316b-0f3f2fcb-3b01-41a6-878f-242dfe2172f0-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Oct 2022 22:03:13 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.10.15-54.240.27.193
+X-SES-Outgoing: 2022.10.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Oct 2022 22:03:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171764
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171770
 
---===============5282840752610071132==
+--===============1194474492070231444==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,16 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *cmake* to *3.24.2* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *mtools* to *4.0.41* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-cmake-upgrade-3.24.0-3.24.2.patch
+    - apply the patch: git am 0001-mtools-upgrade-4.0.40-4.0.41.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,199 +69,90 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5282840752610071132==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1661 entries from dependency cache.
-Parsing recipes...
-Summary: There was 1 WARNING message.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake-native_3.24.0.bb: Unable to get checksum for cmake-native SRC_URI entry OEToolchainConfig.cmake: file could not be found
-The following paths were searched:
-/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake-3.24.0/poky/OEToolchainConfig.cmake
-/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake/poky/OEToolchainConfig.cmake
-/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/files/poky/OEToolchainConfig.cmake
-/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake-3.24.0/OEToolchainConfig.cmake
-/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
-/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/files/OEToolchainConfig.cmake
-/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake-3.24.0/x86-64/OEToolchainConfig.cmake
-/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake/x86-64/OEToolchainConfig.cmake
-/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/files/x86-64/OEToolchainConfig.cmake
-/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake-3.24.0/OEToolchainConfig.cmake
-/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
-/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/files/OEToolchainConfig.cmake
-ERROR: Parsing halted due to errors, see error messages above
-
---===============5282840752610071132==
+--===============1194474492070231444==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-cmake-upgrade-3.24.0-3.24.2.patch"
+ filename="0001-mtools-upgrade-4.0.40-4.0.41.patch"
 
-RnJvbSA2MGE1OGI2MzMyMjE3MWM3MDZkMjFjYzI2YTlmZDZkYmVhZDhkYTQ5IE1vbiBTZXAgMTcg
+RnJvbSA2OGVjZTE3YTJjNTdjYmU3MjFiZWY5NzJkMjRkZTMyYjNhMTFlZGRlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMDg6MzE6MzUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
-bWFrZTogdXBncmFkZSAzLjI0LjAgLT4gMy4yNC4yCgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9jbWFrZS9jbWFrZS5pbmMgICAgICAgICB8ICAyICstCiAuLi5zdGVtLXVzZS1vZS1lbnZpcm9u
-bWVudC12YXJzLXRvLWxvYWQucGF0Y2ggfCAgNCArLS0KIC4uLi9jbWFrZS9jbWFrZS9PRVRvb2xj
-aGFpbkNvbmZpZy5jbWFrZSAgICAgICB8IDIwIC0tLS0tLS0tLS0tCiAuLi4vY21ha2UvU0RLVG9v
-bGNoYWluQ29uZmlnLmNtYWtlLnRlbXBsYXRlICAgfCAzMSAtLS0tLS0tLS0tLS0tLS0tLQogLi4u
-L2NtYWtlL2NtYWtlL2NtYWtlLXNldHVwLnB5ICAgICAgICAgICAgICAgIHwgMzMgLS0tLS0tLS0t
-LS0tLS0tLS0tLQogLi4uL2NtYWtlL2NtYWtlL2Vudmlyb25tZW50LmQtY21ha2Uuc2ggICAgICAg
-IHwgIDIgLS0KIC4uLi97Y21ha2VfMy4yNC4wLmJiID0+IGNtYWtlXzMuMjQuMi5iYn0gICAgICB8
-IDEzICsrKy0tLS0tCiA3IGZpbGVzIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgOTcgZGVsZXRp
-b25zKC0pCiBkZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2Nt
-YWtlL09FVG9vbGNoYWluQ29uZmlnLmNtYWtlCiBkZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlL1NES1Rvb2xjaGFpbkNvbmZpZy5jbWFrZS50ZW1wbGF0
-ZQogZGVsZXRlIG1vZGUgMTAwNzU1IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS9j
-bWFrZS1zZXR1cC5weQogZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9j
-bWFrZS9jbWFrZS9lbnZpcm9ubWVudC5kLWNtYWtlLnNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL2NtYWtlL3tjbWFrZV8zLjI0LjAuYmIgPT4gY21ha2VfMy4yNC4yLmJifSAoODYlKQoK
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS5pbmMgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UuaW5jCmluZGV4IGQ2NGFmZmZkYzEuLjFlZGU4
-ZWVlNjEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS5pbmMK
-KysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLmluYwpAQCAtMjEsNyArMjEs
-NyBAQCBTUkNfVVJJID0gImh0dHBzOi8vY21ha2Uub3JnL2ZpbGVzL3Yke0NNQUtFX01BSk9SX1ZF
-UlNJT059L2NtYWtlLSR7UFZ9LnRhci5neiBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDA0LUZhaWwt
-c2lsZW50bHktaWYtc3lzdGVtLVF0LWluc3RhbGxhdGlvbi1pcy1icm9rZW4ucGF0Y2ggXAogIgog
-Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYzJiNjFmN2NkZWNiMTU3NmNhZDI1ZjkxOGE4ZjQyYjg2
-ODVkODhhODMyZmQ0YjYyYjllMGZhMzJlOTE1YTY1OCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIw
-ZDkwMjBmMDZmM2RkZjE3ZmI1MzdkYzIyOGUxYTU2YzkyN2VlNTA2YjQ4NmY1NWZlMmRjMTlmNjli
-ZjBjOGRiIgogCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJjbWFrZS0oP1A8cHZlcj5cZCsoXC5c
-ZCspKylcLnRhciIKIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2Nt
-YWtlLzAwMDEtQ01ha2VEZXRlcm1pbmVTeXN0ZW0tdXNlLW9lLWVudmlyb25tZW50LXZhcnMtdG8t
-bG9hZC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS8wMDAxLUNNYWtl
-RGV0ZXJtaW5lU3lzdGVtLXVzZS1vZS1lbnZpcm9ubWVudC12YXJzLXRvLWxvYWQucGF0Y2gKaW5k
-ZXggOWEyMjg3ZjUxNy4uMzgyYTZhMTY5YSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL2NtYWtlL2NtYWtlLzAwMDEtQ01ha2VEZXRlcm1pbmVTeXN0ZW0tdXNlLW9lLWVudmlyb25t
-ZW50LXZhcnMtdG8tbG9hZC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2Uv
-Y21ha2UvMDAwMS1DTWFrZURldGVybWluZVN5c3RlbS11c2Utb2UtZW52aXJvbm1lbnQtdmFycy10
-by1sb2FkLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA4OWY2Yzg0NmYwMmFkNmQzMGI5ZWJi
-N2VhYWFhNGZiNmY5Y2VjMDU0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA0OGY2NmUz
-YjI4NWFjMjJjOGYyZjRjZGNlZTVhZDk0NTYxMzJlZWZjIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQogRnJvbTogQ29keSBQIFNjaGFmZXIgPGRldkBjb2R5cHMuY29tPgogRGF0ZTogVGh1LCAyNyBB
-cHIgMjAxNyAxMTozNTowNSAtMDQwMAogU3ViamVjdDogW1BBVENIXSBDTWFrZURldGVybWluZVN5
-c3RlbTogdXNlIG9lIGVudmlyb25tZW50IHZhcnMgdG8gbG9hZCBkZWZhdWx0CkBAIC0yNSw3ICsy
-NSw3IEBAIFNpZ25lZC1vZmYtYnk6IE90YXZpbyBTYWx2YWRvciA8b3RhdmlvQG9zc3lzdGVtcy5j
-b20uYnI+CiAgMSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKQogCiBkaWZmIC0tZ2l0IGEv
-TW9kdWxlcy9DTWFrZURldGVybWluZVN5c3RlbS5jbWFrZSBiL01vZHVsZXMvQ01ha2VEZXRlcm1p
-bmVTeXN0ZW0uY21ha2UKLWluZGV4IDhjN2FmMDY3Li5hZGUyYjE4OSAxMDA2NDQKK2luZGV4IDJj
-MmMyYWMzLi5mYWU0Zjk3ZiAxMDA2NDQKIC0tLSBhL01vZHVsZXMvQ01ha2VEZXRlcm1pbmVTeXN0
-ZW0uY21ha2UKICsrKyBiL01vZHVsZXMvQ01ha2VEZXRlcm1pbmVTeXN0ZW0uY21ha2UKIEBAIC0x
-MTIsNiArMTEyLDEzIEBAIGVsc2UoKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L2NtYWtlL2NtYWtlL09FVG9vbGNoYWluQ29uZmlnLmNtYWtlIGIvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL2NtYWtlL2NtYWtlL09FVG9vbGNoYWluQ29uZmlnLmNtYWtlCmRlbGV0ZWQgZmlsZSBtb2Rl
-IDEwMDY0NAppbmRleCBkNmExZTA0NjRjLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9jbWFrZS9jbWFrZS9PRVRvb2xjaGFpbkNvbmZpZy5jbWFrZQorKysgL2Rldi9udWxs
-CkBAIC0xLDIwICswLDAgQEAKLXNldCggQ01BS0VfU1lTVEVNX05BTUUgTGludXggKQotc2V0KCBD
-TUFLRV9DX0ZMQUdTICRFTlZ7Q0ZMQUdTfSBDQUNIRSBTVFJJTkcgIiIgRk9SQ0UgKQotc2V0KCBD
-TUFLRV9DWFhfRkxBR1MgJEVOVntDWFhGTEFHU30gIENBQ0hFIFNUUklORyAiIiBGT1JDRSApCi1z
-ZXQoIENNQUtFX1NZU1JPT1QgJEVOVntPRUNPUkVfVEFSR0VUX1NZU1JPT1R9ICkKLQotc2V0KCBD
-TUFLRV9GSU5EX1JPT1RfUEFUSCAkRU5We09FQ09SRV9UQVJHRVRfU1lTUk9PVH0gKQotc2V0KCBD
-TUFLRV9GSU5EX1JPT1RfUEFUSF9NT0RFX1BST0dSQU0gTkVWRVIgKQotc2V0KCBDTUFLRV9GSU5E
-X1JPT1RfUEFUSF9NT0RFX0xJQlJBUlkgT05MWSApCi1zZXQoIENNQUtFX0ZJTkRfUk9PVF9QQVRI
-X01PREVfSU5DTFVERSBPTkxZICkKLXNldCggQ01BS0VfRklORF9ST09UX1BBVEhfTU9ERV9QQUNL
-QUdFIE9OTFkgKQotCi1zZXQoQ01BS0VfRklORF9MSUJSQVJZX0NVU1RPTV9MSUJfU1VGRklYICIk
-RU5We09FX0NNQUtFX0ZJTkRfTElCUkFSWV9DVVNUT01fTElCX1NVRkZJWH0iKQotCi1zZXQoIENN
-QUtFX1NZU1RFTV9QUk9DRVNTT1IgJEVOVntPRUNPUkVfVEFSR0VUX0FSQ0h9ICkKLQotIyBJbmNs
-dWRlIHRoZSB0b29sY2hhaW4gY29uZmlndXJhdGlvbiBzdWJzY3JpcHRzCi1maWxlKCBHTE9CIHRv
-b2xjaGFpbl9jb25maWdfZmlsZXMgIiR7Q01BS0VfQ1VSUkVOVF9MSVNUX0ZJTEV9LmQvKi5jbWFr
-ZSIgKQotZm9yZWFjaChjb25maWcgJHt0b29sY2hhaW5fY29uZmlnX2ZpbGVzfSkKLSAgICBpbmNs
-dWRlKCR7Y29uZmlnfSkKLWVuZGZvcmVhY2goKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL2NtYWtlL2NtYWtlL1NES1Rvb2xjaGFpbkNvbmZpZy5jbWFrZS50ZW1wbGF0ZSBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS9TREtUb29sY2hhaW5Db25maWcuY21ha2Uu
-dGVtcGxhdGUKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IGM2OTU2OWE4NDMuLjAwMDAw
-MDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlL1NES1Rvb2xjaGFp
-bkNvbmZpZy5jbWFrZS50ZW1wbGF0ZQorKysgL2Rldi9udWxsCkBAIC0xLDMxICswLDAgQEAKLXNl
-dChTREtfSU5TVEFMTF9ESVIgIiR7Q01BS0VfQ1VSUkVOVF9MSVNUX0RJUn0vLi4vLi4vLi4vLi4v
-Li4iKQotc2V0KEhPU1RfU1lTUk9PVCAgICAiJHtTREtfSU5TVEFMTF9ESVJ9L3N5c3Jvb3RzL0BP
-RUNPUkVfU0RLX1NZUyIpCi1zZXQoVEFSR0VUX1NZU1JPT1QgICIke1NES19JTlNUQUxMX0RJUn0v
-c3lzcm9vdHMvQE9FQ09SRV9UQVJHRVRfU1lTIikKLXNldChIT1NUX0JJTiAgICAgICAgIiR7SE9T
-VF9TWVNST09UfS91c3IvYmluIikKLXNldChUT09MQ0hBSU5fTkFNRSAgIkBPRUNPUkVfVEFSR0VU
-X0FMSUFTIikKLXNldChHQ0NfRElSICAgICAgICAgIiR7SE9TVF9CSU59LyR7VE9PTENIQUlOX05B
-TUV9IikKLQotc2V0KENNQUtFX1NZU1RFTV9OQU1FICAgICAgIExpbnV4KQotc2V0KENNQUtFX1NZ
-U1RFTV9QUk9DRVNTT1IgIkBPRUNPUkVfVEFSR0VUX0FSQ0giKQotCi1zZXQoQ01BS0VfQ19DT01Q
-SUxFUiAgICAiJHtHQ0NfRElSfS8ke1RPT0xDSEFJTl9OQU1FfS1nY2MiKQotc2V0KENNQUtFX0NY
-WF9DT01QSUxFUiAgIiR7R0NDX0RJUn0vJHtUT09MQ0hBSU5fTkFNRX0tZysrIikKLQotc2V0KEFS
-Q0hfRkxBR1MgICAgICAgICAgIkBPRUNPUkVfVFVORV9DQ0FSR1MiKQotc2V0KENNQUtFX0NfRkxB
-R1MgICAgICAgIiR7QVJDSF9GTEFHU30iIENBQ0hFIFNUUklORyAiIiBGT1JDRSApCi1zZXQoQ01B
-S0VfQ1hYX0ZMQUdTICAgICAiJHtBUkNIX0ZMQUdTfSIgQ0FDSEUgU1RSSU5HICIiIEZPUkNFICkK
-LXNldChDTUFLRV9BU01fRkxBR1MgICAgICR7Q01BS0VfQ19GTEFHU30gQ0FDSEUgU1RSSU5HICIi
-IEZPUkNFICkKLXNldChDTUFLRV9MREZMQUdTX0ZMQUdTICR7Q01BS0VfQ19GTEFHU30gQ0FDSEUg
-U1RSSU5HICIiIEZPUkNFICkKLQotc2V0KENNQUtFX1NZU1JPT1QgIiR7VEFSR0VUX1NZU1JPT1R9
-IikKLQotc2V0KENNQUtFX0ZJTkRfUk9PVF9QQVRIICIke1RBUkdFVF9TWVNST09UfSIgKQotCi1z
-ZXQoQ01BS0VfRklORF9ST09UX1BBVEhfTU9ERV9QUk9HUkFNIE5FVkVSICkKLXNldChDTUFLRV9G
-SU5EX1JPT1RfUEFUSF9NT0RFX0xJQlJBUlkgT05MWSApCi1zZXQoQ01BS0VfRklORF9ST09UX1BB
-VEhfTU9ERV9JTkNMVURFIE9OTFkgKQotc2V0KENNQUtFX0ZJTkRfUk9PVF9QQVRIX01PREVfUEFD
-S0FHRSBPTkxZICkKLQotc2V0KENNQUtFX0ZJTkRfTElCUkFSWV9DVVNUT01fTElCX1NVRkZJWCAi
-IikKLQotc2V0KENNQUtFX1BST0dSQU1fUEFUSCAiJHtIT1NUX1NZU1JPT1R9L3Vzci9iaW4iIENB
-Q0hFIFNUUklORyAiIiBGT1JDRSkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9j
-bWFrZS9jbWFrZS9jbWFrZS1zZXR1cC5weSBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9j
-bWFrZS9jbWFrZS1zZXR1cC5weQpkZWxldGVkIGZpbGUgbW9kZSAxMDA3NTUKaW5kZXggYWY1ODdh
-NDRjYy4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2Uv
-Y21ha2Utc2V0dXAucHkKKysrIC9kZXYvbnVsbApAQCAtMSwzMyArMCwwIEBACi0jIS91c3IvYmlu
-L2VudiBweXRob24zCi0KLWltcG9ydCBvcwotaW1wb3J0IHN0cmluZwotaW1wb3J0IHN5cwotCi1j
-bGFzcyBUZW1wbGF0ZShzdHJpbmcuVGVtcGxhdGUpOgotICAgIGRlbGltaXRlciA9ICJAIgotCi1j
-bGFzcyBFbnZpcm9uKCk6Ci0gICAgZGVmIF9fZ2V0aXRlbV9fKHNlbGYsIG5hbWUpOgotICAgICAg
-ICBpZiBuYW1lID09ICJPRUNPUkVfU0RLX1NZUyI6Ci0gICAgICAgICAgICByZXR1cm4gIG9zLnBh
-dGguYmFzZW5hbWUob3MuZW52aXJvblsiT0VDT1JFX05BVElWRV9TWVNST09UIl0pCi0gICAgICAg
-IGVsaWYgbmFtZSA9PSAiT0VDT1JFX1RBUkdFVF9TWVMiOgotICAgICAgICAgICAgcmV0dXJuICBv
-cy5wYXRoLmJhc2VuYW1lKG9zLmVudmlyb25bIk9FQ09SRV9UQVJHRVRfU1lTUk9PVCJdKQotICAg
-ICAgICBlbGlmIG5hbWUgPT0gIk9FQ09SRV9UQVJHRVRfQUxJQVMiOgotICAgICAgICAgICAgcmV0
-dXJuICBvcy5wYXRoLmJhc2VuYW1lKG9zLmVudmlyb25bIlRBUkdFVF9QUkVGSVgiXS5zdHJpcCgi
-LSIpKQotICAgICAgICBlbHNlOgotICAgICAgICAgICAgcmV0dXJuICBvcy5lbnZpcm9uW25hbWVd
-Ci0KLXRyeToKLSAgICBzeXNyb290ID0gb3MuZW52aXJvblsnT0VDT1JFX05BVElWRV9TWVNST09U
-J10KLWV4Y2VwdCBLZXlFcnJvcjoKLSAgICBwcmludCgiTm90IGluIGVudmlyb25tZW50IHNldHVw
-LCBiYWlsaW5nIikKLSAgICBzeXMuZXhpdCgxKQotCi10ZW1wbGF0ZV9maWxlID0gb3MucGF0aC5q
-b2luKHN5c3Jvb3QsICd1c3Ivc2hhcmUvY21ha2UvU0RLVG9vbGNoYWluQ29uZmlnLmNtYWtlLnRl
-bXBsYXRlJykKLWNyb3NzX2ZpbGUgPSBvcy5wYXRoLmpvaW4oc3lzcm9vdCwgJ3Vzci9zaGFyZS9j
-bWFrZS8lcy10b29sY2hhaW4uY21ha2UnICUgKG9zLnBhdGguYmFzZW5hbWUob3MuZW52aXJvblsi
-T0VDT1JFX1RBUkdFVF9TWVNST09UIl0pKSkKLXdpdGggb3Blbih0ZW1wbGF0ZV9maWxlKSBhcyBp
-bl9maWxlOgotICAgIHRlbXBsYXRlID0gaW5fZmlsZS5yZWFkKCkKLSAgICBvdXRwdXQgPSBUZW1w
-bGF0ZSh0ZW1wbGF0ZSkuc3Vic3RpdHV0ZShFbnZpcm9uKCkpCi0gICAgd2l0aCBvcGVuKGNyb3Nz
-X2ZpbGUsICJ3IikgYXMgb3V0X2ZpbGU6Ci0gICAgICAgIG91dF9maWxlLndyaXRlKG91dHB1dCkK
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS9lbnZpcm9ubWVu
-dC5kLWNtYWtlLnNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlL2Vudmlyb25t
-ZW50LmQtY21ha2Uuc2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDdiZGIxOWZiNmMu
-LjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlL2Vudmly
-b25tZW50LmQtY21ha2Uuc2gKKysrIC9kZXYvbnVsbApAQCAtMSwyICswLDAgQEAKLWV4cG9ydCBP
-RV9DTUFLRV9UT09MQ0hBSU5fRklMRT0iJE9FQ09SRV9OQVRJVkVfU1lTUk9PVC91c3Ivc2hhcmUv
-Y21ha2UvT0VUb29sY2hhaW5Db25maWcuY21ha2UiCi1leHBvcnQgT0VfQ01BS0VfRklORF9MSUJS
-QVJZX0NVU1RPTV9MSUJfU1VGRklYPSJgZWNobyAkT0VDT1JFX0JBU0VMSUIgfCBzZWQgLWUgcy9s
-aWIvL2AiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2VfMy4y
-NC4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlXzMuMjQuMi5iYgpzaW1p
-bGFyaXR5IGluZGV4IDg2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2Uv
-Y21ha2VfMy4yNC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21h
-a2VfMy4yNC4yLmJiCmluZGV4IGJiN2VkODNlMzAuLmYyNmJkMGFmYjcgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZV8zLjI0LjAuYmIKKysrIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlXzMuMjQuMi5iYgpAQCAtNCwxNCArNCw2IEBAIGluaGVy
-aXQgY21ha2UgYmFzaC1jb21wbGV0aW9uCiAKIERFUEVORFMgKz0gImN1cmwgZXhwYXQgemxpYiBs
-aWJhcmNoaXZlIHh6IG5jdXJzZXMgYnppcDIiCiAKLVNSQ19VUkk6YXBwZW5kOmNsYXNzLW5hdGl2
-ZXNkayA9ICIgXAotICAgIGZpbGU6Ly9PRVRvb2xjaGFpbkNvbmZpZy5jbWFrZSBcCi0gICAgZmls
-ZTovL1NES1Rvb2xjaGFpbkNvbmZpZy5jbWFrZS50ZW1wbGF0ZSBcCi0gICAgZmlsZTovL2NtYWtl
-LXNldHVwLnB5IFwKLSAgICBmaWxlOi8vZW52aXJvbm1lbnQuZC1jbWFrZS5zaCBcCi0gICAgZmls
-ZTovLzAwMDEtQ01ha2VEZXRlcm1pbmVTeXN0ZW0tdXNlLW9lLWVudmlyb25tZW50LXZhcnMtdG8t
-bG9hZC5wYXRjaCBcCi0iCi0KIExJQ0VOU0U6YXBwZW5kID0gIiAmIEJTRC0xLUNsYXVzZSAmIE1J
-VCIKIExJQ19GSUxFU19DSEtTVU06YXBwZW5kID0gIiBcCiAgICAgZmlsZTovL1V0aWxpdGllcy9j
-bWpzb25jcHAvTElDRU5TRTttZDU9NWQ3M2MxNjVhMGY5ZTg2YTEzNDJmMzJkMTllYzU5MjYgXApA
-QCAtMzQsNiArMjYsMTEgQEAgcHl0aG9uICgpIHsKICAgICBkLnNldFZhcigiZG9jZGlyX3N0cmlw
-cGVkIiwgZG9jZGlyX3N0cmlwcGVkKQogfQogCitTUkNfVVJJICs9ICJodHRwczovL2NtYWtlLm9y
-Zy9maWxlcy92JHtDTUFLRV9NQUpPUl9WRVJTSU9OfS9jbWFrZS0ke1BWfS50YXIuZ3ogXAorICAg
-ICAgICAgICBmaWxlOi8vMDAwMy1jbWFrZS1zdXBwb3J0LU9wZW5FbWJlZGRlZC1RdDQtdG9vbC1i
-aW5hcnktbmFtZXMucGF0Y2ggXAorICAgICAgICAgICBmaWxlOi8vMDAwNC1GYWlsLXNpbGVudGx5
-LWlmLXN5c3RlbS1RdC1pbnN0YWxsYXRpb24taXMtYnJva2VuLnBhdGNoIFwKKyAgICAgICAgICAg
-ZmlsZTovLzAwMDEtQ01ha2VEZXRlcm1pbmVTeXN0ZW0tdXNlLW9lLWVudmlyb25tZW50LXZhcnMt
-dG8tbG9hZC5wYXRjaCBcCisgICAgICAgICAgICIKIEVYVFJBX09FQ01BS0U9IiBcCiAgICAgLURD
-TUFLRV9ET0NfRElSPSR7ZG9jZGlyX3N0cmlwcGVkfS9jbWFrZS0ke0NNQUtFX01BSk9SX1ZFUlNJ
-T059IFwKICAgICAtRENNQUtFX1VTRV9TWVNURU1fTElCUkFSSUVTPTEgXAotLSAKMi4zMS4xCgo=
+CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMDk6Mzg6MDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
+dG9vbHM6IHVwZ3JhZGUgNC4wLjQwIC0+IDQuMC40MQoKLS0tCiAuLi4vbXRvb2xzL210b29scy9k
+aXNhYmxlLWhhcmRjb2RlZC1jb25maWdzLnBhdGNoICAgICAgICAgICB8IDYgKysrLS0tCiAuLi4v
+bXRvb2xzL3ttdG9vbHNfNC4wLjQwLmJiID0+IG10b29sc180LjAuNDEuYmJ9ICAgICAgICAgICB8
+IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMve210b29sc180LjAuNDAuYmIgPT4g
+bXRvb2xzXzQuMC40MS5iYn0gKDkzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvbXRvb2xzL210b29scy9kaXNhYmxlLWhhcmRjb2RlZC1jb25maWdzLnBhdGNoIGIvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL210b29scy9tdG9vbHMvZGlzYWJsZS1oYXJkY29kZWQtY29uZmlncy5w
+YXRjaAppbmRleCA4ZjQ2MTc0YTViLi43ZTdkOWRhMmRlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvbXRvb2xzL210b29scy9kaXNhYmxlLWhhcmRjb2RlZC1jb25maWdzLnBhdGNo
+CisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMvbXRvb2xzL2Rpc2FibGUtaGFyZGNv
+ZGVkLWNvbmZpZ3MucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDNhMDVkYzJjMGFjZmYxNzEz
+ZGQ0NGNlZjVlOWYzMjhmMDcwNmViM2UgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGZk
+YzEyYjUyOWQ0Y2YzMDIxMjY0YTM0MjA5ZTExNmMwNDE3ZDEyOWQgTW9uIFNlcCAxNyAwMDowMDow
+MCAyMDAxCiBGcm9tOiBFZCBCYXJ0b3NoIDxlZC5iYXJ0b3NoQGxpbnV4LmludGVsLmNvbT4KIERh
+dGU6IFR1ZSwgMTMgSnVuIDIwMTcgMTQ6NTU6NTIgKzAzMDAKIFN1YmplY3Q6IFtQQVRDSF0gRGlz
+YWJsZWQgcmVhZGluZyBob3N0IGNvbmZpZ3MuCkBAIC0xMiwxMCArMTIsMTAgQEAgU2lnbmVkLW9m
+Zi1ieTogRWQgQmFydG9zaCA8ZWQuYmFydG9zaEBsaW51eC5pbnRlbC5jb20+CiAgMSBmaWxlIGNo
+YW5nZWQsIDggZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9jb25maWcuYyBiL2NvbmZpZy5j
+Ci1pbmRleCA2MzBmOTlkLi4wN2RiZjUzIDEwMDY0NAoraW5kZXggOGM1ZmE4My4uMzQ2MDQ4YiAx
+MDA2NDQKIC0tLSBhL2NvbmZpZy5jCiArKysgYi9jb25maWcuYwotQEAgLTgzNCwxNCArODM0LDYg
+QEAgdm9pZCByZWFkX2NvbmZpZyh2b2lkKQorQEAgLTg0MywxNCArODQzLDYgQEAgdm9pZCByZWFk
+X2NvbmZpZyh2b2lkKQogIAltZW1jcHkoZGV2aWNlcywgY29uc3RfZGV2aWNlcywKICAJICAgICAg
+IG5yX2NvbnN0X2RldmljZXMqc2l6ZW9mKHN0cnVjdCBkZXZpY2UpKTsKICAKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMvbXRvb2xzXzQuMC40MC5iYiBiL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9tdG9vbHMvbXRvb2xzXzQuMC40MS5iYgpzaW1pbGFyaXR5IGluZGV4IDkz
+JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL210b29sc180LjAuNDAu
+YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMvbXRvb2xzXzQuMC40MS5i
+YgppbmRleCAyMDBjN2M3NjgxLi4yOWU3NDI3YTEwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvbXRvb2xzL210b29sc180LjAuNDAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL210b29scy9tdG9vbHNfNC4wLjQxLmJiCkBAIC0yNCw3ICsyNCw3IEBAIFJSRUNPTU1FTkRT
+OiR7UE59OmxpYmMtZ2xpYmMgPSAiXAogCWdsaWJjLWdjb252LWlibTg2NiBcCiAJZ2xpYmMtZ2Nv
+bnYtaWJtODY5IFwKIAkiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYTIyZmNhNDIzNTQwMTFkZDIy
+OTNhN2Y1MWYyMjhiNDZlYmJkODAyZTc3NDBiMDk3NTkxMmFmZWNiNzlkNWRmNCIKK1NSQ19VUklb
+c2hhMjU2c3VtXSA9ICIyNTQyMTUyMjY0ZmIzZWZmN2VkNzA2NjJhYmY0ZjRlZWY4MTMzYmMzN2Qw
+YjdhNjg2YzI0MGRmMmI1ZjgwYTEzIgogCiBTUkNfVVJJID0gIiR7R05VX01JUlJPUn0vbXRvb2xz
+L210b29scy0ke1BWfS50YXIuYnoyIFwKICAgICAgICAgICAgZmlsZTovL210b29scy1tYWtlaW5m
+by5wYXRjaCBcCi0tIAoyLjMxLjEKCg==
 
---===============5282840752610071132==--
+--===============1194474492070231444==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/mtools: PV changed from "4.0.40" to "4.0.41"
+packages/core2-32-poky-linux/mtools: PKGV changed from 4.0.40 [default] to 4.0.41 [default]
+packages/core2-32-poky-linux/mtools: SRC_URI changed from "https://ftp.gnu.org/gnu/mtools/mtools-4.0.40.tar.bz2 file://mtools-makeinfo.patch file://clang_UNUSED.patch" to "https://ftp.gnu.org/gnu/mtools/mtools-4.0.41.tar.bz2 file://mtools-makeinfo.patch file://clang_UNUSED.patch"
+packages/core2-32-poky-linux/mtools/mtools-dbg: PV changed from "4.0.40" to "4.0.41"
+packages/core2-32-poky-linux/mtools/mtools-dbg: PKGSIZE changed from 725468 to 726188 (+0%)
+packages/core2-32-poky-linux/mtools/mtools-dbg: PKGV changed from 4.0.40 [default] to 4.0.41 [default]
+packages/core2-32-poky-linux/mtools/mtools-dev: PV changed from "4.0.40" to "4.0.41"
+packages/core2-32-poky-linux/mtools/mtools-dev: PKGV changed from 4.0.40 [default] to 4.0.41 [default]
+packages/core2-32-poky-linux/mtools/mtools-doc: PV changed from "4.0.40" to "4.0.41"
+packages/core2-32-poky-linux/mtools/mtools-doc: PKGSIZE changed from 241856 to 241786 (-0%)
+packages/core2-32-poky-linux/mtools/mtools-doc: PKGV changed from 4.0.40 [default] to 4.0.41 [default]
+packages/core2-32-poky-linux/mtools/mtools-locale: PV changed from "4.0.40" to "4.0.41"
+packages/core2-32-poky-linux/mtools/mtools-locale: PKGV changed from 4.0.40 [default] to 4.0.41 [default]
+packages/core2-32-poky-linux/mtools/mtools-src: PV changed from "4.0.40" to "4.0.41"
+packages/core2-32-poky-linux/mtools/mtools-src: PKGSIZE changed from 594283 to 596193 (+0%)
+packages/core2-32-poky-linux/mtools/mtools-src: PKGV changed from 4.0.40 [default] to 4.0.41 [default]
+packages/core2-32-poky-linux/mtools/mtools-src: FILELIST: removed "/usr/src/debug/mtools/4.0.40-r0/device.c /usr/src/debug/mtools/4.0.40-r0/dirCache.c /usr/src/debug/mtools/4.0.40-r0/file.h /usr/src/debug/mtools/4.0.40-r0/config.c /usr/src/debug/mtools/4.0.40-r0/old_dos.c /usr/src/debug/mtools/4.0.40-r0/sysincludes.h /usr/src/debug/mtools/4.0.40-r0/dos2unix.c /usr/src/debug/mtools/4.0.40-r0/vfat.h /usr/src/debug/mtools/4.0.40-r0/open_image.c /usr/src/debug/mtools/4.0.40-r0/htable.h /usr/src/debug/mtools/4.0.40-r0/fsP.h /usr/src/debug/mtools/4.0.40-r0/mcopy.c /usr/src/debug/mtools/4.0.40-r0/strtonum.c /usr/src/debug/mtools/4.0.40-r0/buffer.h /usr/src/debug/mtools/4.0.40-r0/force_io.c /usr/src/debug/mtools/4.0.40-r0/mlabel.c /usr/src/debug/mtools/4.0.40-r0/mpartition.c /usr/src/debug/mtools/4.0.40-r0/fs.h /usr/src/debug/mtools/4.0.40-r0/xdf_io.h /usr/src/debug/mtools/4.0.40-r0/scsi.c /usr/src/debug/mtools/4.0.40-r0/scsi_io.c /usr/src/debug/mtools/4.0.40-r0/nameclash.h /usr/src/debug/mt
+ ools/4.0.40-r0/mdu.c /usr/src/debug/mtools/4.0.40-r0/missFuncs.c /usr/src/debug/mtools/4.0.40-r0/device.h /usr/src/debug/mtools/4.0.40-r0/remap.h /usr/src/debug/mtools/4.0.40-r0/mmove.c /usr/src/debug/mtools/4.0.40-r0/devices.c /usr/src/debug/mtools/4.0.40-r0/llong.c /usr/src/debug/mtools/4.0.40-r0/scsi.h /usr/src/debug/mtools/4.0.40-r0/lockdev.h /usr/src/debug/mtools/4.0.40-r0/mtools.h /usr/src/debug/mtools/4.0.40-r0/directory.c /usr/src/debug/mtools/4.0.40-r0/match.c /usr/src/debug/mtools/4.0.40-r0/hash.c /usr/src/debug/mtools/4.0.40-r0/mshortname.c /usr/src/debug/mtools/4.0.40-r0/tty.c /usr/src/debug/mtools/4.0.40-r0/privileges.c /usr/src/debug/mtools/4.0.40-r0/copyfile.c /usr/src/debug/mtools/4.0.40-r0/mbadblocks.c /usr/src/debug/mtools/4.0.40-r0/stream.h /usr/src/debug/mtools/4.0.40-r0/minfo.c /usr/src/debug/mtools/4.0.40-r0/devices.h /usr/src/debug/mtools/4.0.40-r0/mtoolsDirentry.h /usr/src/debug/mtools/4.0.40-r0/fat.c /usr/src/debug/mtools/4.0.40-r0/mkmanifest.c /usr/src/debu
+ g/mtools/4.0.40-r0/charsetConv.c /usr/src/debug/mtools/4.0.40-r0/plain_io.c /usr/src/debug/mtools/4.0.40-r0/plain_io.h /usr/src/debug/mtools/4.0.40-r0/mtools.c /usr/src/debug/mtools/4.0.40-r0/open_image.h /usr/src/debug/mtools/4.0.40-r0/mcat.c /usr/src/debug/mtools/4.0.40-r0/mshowfat.c /usr/src/debug/mtools/4.0.40-r0/init.c /usr/src/debug/mtools/4.0.40-r0/mformat.c /usr/src/debug/mtools/4.0.40-r0/signal.c /usr/src/debug/mtools/4.0.40-r0/msdos.h /usr/src/debug/mtools/4.0.40-r0/precmd.c /usr/src/debug/mtools/4.0.40-r0/patchlevel.c /usr/src/debug/mtools/4.0.40-r0/partition.h /usr/src/debug/mtools/4.0.40-r0/dirCache.h /usr/src/debug/mtools/4.0.40-r0/vfat.c /usr/src/debug/mtools/4.0.40-r0/mmount.c /usr/src/debug/mtools/4.0.40-r0/offset.h /usr/src/debug/mtools/4.0.40-r0/mdir.c /usr/src/debug/mtools/4.0.40-r0/mzip.c /usr/src/debug/mtools/4.0.40-r0/direntry.c /usr/src/debug/mtools/4.0.40-r0/mainloop.c /usr/src/debug/mtools/4.0.40-r0/file_name.h /usr/src/debug/mtools/4.0.40-r0/misc.c /usr/sr
+ c/debug/mtools/4.0.40-r0/xdf_io.c /usr/src/debug/mtools/4.0.40-r0/file_name.c /usr/src/debug/mtools/4.0.40-r0/mdel.c /usr/src/debug/mtools/4.0.40-r0/mdoctorfat.c /usr/src/debug/mtools/4.0.40-r0/expand.c /usr/src/debug/mtools/4.0.40-r0/dirCacheP.h /usr/src/debug/mtools/4.0.40-r0/lba.c /usr/src/debug/mtools/4.0.40-r0/buffer.c /usr/src/debug/mtools/4.0.40-r0/fat_free.c /usr/src/debug/mtools/4.0.40-r0/mcd.c /usr/src/debug/mtools/4.0.40-r0/mainloop.h /usr/src/debug/mtools/4.0.40-r0/unix2dos.c /usr/src/debug/mtools/4.0.40-r0/mk_direntry.c /usr/src/debug/mtools/4.0.40-r0/partition.c /usr/src/debug/mtools/4.0.40-r0/llong.h /usr/src/debug/mtools/4.0.40-r0/file.c /usr/src/debug/mtools/4.0.40-r0/offset.c /usr/src/debug/mtools/4.0.40-r0/scsi_io.h /usr/src/debug/mtools/4.0.40-r0/mmd.c /usr/src/debug/mtools/4.0.40-r0/unixdir.c /usr/src/debug/mtools/4.0.40-r0/lba.h /usr/src/debug/mtools/4.0.40-r0/streamcache.c /usr/src/debug/mtools/4.0.40-r0/stream.c /usr/src/debug/mtools/4.0.40-r0/old_dos.h /usr/
+ src/debug/mtools/4.0.40-r0/mattrib.c /usr/src/debug/mtools/4.0.40-r0/swap.c /usr/src/debug/mtools/4.0.40-r0/swap.h /usr/src/debug/mtools/4.0.40-r0/lockdev.c /usr/src/debug/mtools/4.0.40-r0/remap.c", added "/usr/src/debug/mtools/4.0.41-r0/mcat.c /usr/src/debug/mtools/4.0.41-r0/init.c /usr/src/debug/mtools/4.0.41-r0/device.h /usr/src/debug/mtools/4.0.41-r0/nameclash.h /usr/src/debug/mtools/4.0.41-r0/charsetConv.c /usr/src/debug/mtools/4.0.41-r0/mlabel.c /usr/src/debug/mtools/4.0.41-r0/plain_io.c /usr/src/debug/mtools/4.0.41-r0/copyfile.c /usr/src/debug/mtools/4.0.41-r0/mpartition.c /usr/src/debug/mtools/4.0.41-r0/misc.c /usr/src/debug/mtools/4.0.41-r0/htable.h /usr/src/debug/mtools/4.0.41-r0/fsP.h /usr/src/debug/mtools/4.0.41-r0/mmd.c /usr/src/debug/mtools/4.0.41-r0/file_name.h /usr/src/debug/mtools/4.0.41-r0/streamcache.c /usr/src/debug/mtools/4.0.41-r0/vfat.c /usr/src/debug/mtools/4.0.41-r0/mbadblocks.c /usr/src/debug/mtools/4.0.41-r0/mdel.c /usr/src/debug/mtools/4.0.41-r0/file.c /u
+ sr/src/debug/mtools/4.0.41-r0/minfo.c /usr/src/debug/mtools/4.0.41-r0/sysincludes.h /usr/src/debug/mtools/4.0.41-r0/unix2dos.c /usr/src/debug/mtools/4.0.41-r0/dirCache.h /usr/src/debug/mtools/4.0.41-r0/old_dos.c /usr/src/debug/mtools/4.0.41-r0/partition.c /usr/src/debug/mtools/4.0.41-r0/mmove.c /usr/src/debug/mtools/4.0.41-r0/fat_free.c /usr/src/debug/mtools/4.0.41-r0/scsi_io.c /usr/src/debug/mtools/4.0.41-r0/fs.h /usr/src/debug/mtools/4.0.41-r0/unixdir.c /usr/src/debug/mtools/4.0.41-r0/mainloop.c /usr/src/debug/mtools/4.0.41-r0/device.c /usr/src/debug/mtools/4.0.41-r0/stream.c /usr/src/debug/mtools/4.0.41-r0/tty.c /usr/src/debug/mtools/4.0.41-r0/mkmanifest.c /usr/src/debug/mtools/4.0.41-r0/mdoctorfat.c /usr/src/debug/mtools/4.0.41-r0/old_dos.h /usr/src/debug/mtools/4.0.41-r0/mattrib.c /usr/src/debug/mtools/4.0.41-r0/lockdev.c /usr/src/debug/mtools/4.0.41-r0/mshortname.c /usr/src/debug/mtools/4.0.41-r0/remap.c /usr/src/debug/mtools/4.0.41-r0/devices.c /usr/src/debug/mtools/4.0.41-r0
+ /mmount.c /usr/src/debug/mtools/4.0.41-r0/precmd.c /usr/src/debug/mtools/4.0.41-r0/buffer.h /usr/src/debug/mtools/4.0.41-r0/lockdev.h /usr/src/debug/mtools/4.0.41-r0/fat.c /usr/src/debug/mtools/4.0.41-r0/privileges.c /usr/src/debug/mtools/4.0.41-r0/hash.c /usr/src/debug/mtools/4.0.41-r0/vfat.h /usr/src/debug/mtools/4.0.41-r0/mtools.c /usr/src/debug/mtools/4.0.41-r0/mzip.c /usr/src/debug/mtools/4.0.41-r0/open_image.h /usr/src/debug/mtools/4.0.41-r0/offset.h /usr/src/debug/mtools/4.0.41-r0/partition.h /usr/src/debug/mtools/4.0.41-r0/mcopy.c /usr/src/debug/mtools/4.0.41-r0/open_image.c /usr/src/debug/mtools/4.0.41-r0/scsi_io.h /usr/src/debug/mtools/4.0.41-r0/directory.c /usr/src/debug/mtools/4.0.41-r0/patchlevel.c /usr/src/debug/mtools/4.0.41-r0/xdf_io.c /usr/src/debug/mtools/4.0.41-r0/mcd.c /usr/src/debug/mtools/4.0.41-r0/stream.h /usr/src/debug/mtools/4.0.41-r0/dirCacheP.h /usr/src/debug/mtools/4.0.41-r0/fat_device.h /usr/src/debug/mtools/4.0.41-r0/llong.c /usr/src/debug/mtools/4.0.4
+ 1-r0/mshowfat.c /usr/src/debug/mtools/4.0.41-r0/swap.h /usr/src/debug/mtools/4.0.41-r0/lba.h /usr/src/debug/mtools/4.0.41-r0/file.h /usr/src/debug/mtools/4.0.41-r0/file_name.c /usr/src/debug/mtools/4.0.41-r0/expand.c /usr/src/debug/mtools/4.0.41-r0/strtonum.c /usr/src/debug/mtools/4.0.41-r0/swap.c /usr/src/debug/mtools/4.0.41-r0/llong.h /usr/src/debug/mtools/4.0.41-r0/mformat.c /usr/src/debug/mtools/4.0.41-r0/lba.c /usr/src/debug/mtools/4.0.41-r0/dirCache.c /usr/src/debug/mtools/4.0.41-r0/signal.c /usr/src/debug/mtools/4.0.41-r0/msdos.h /usr/src/debug/mtools/4.0.41-r0/devices.h /usr/src/debug/mtools/4.0.41-r0/missFuncs.c /usr/src/debug/mtools/4.0.41-r0/buffer.c /usr/src/debug/mtools/4.0.41-r0/mk_direntry.c /usr/src/debug/mtools/4.0.41-r0/offset.c /usr/src/debug/mtools/4.0.41-r0/mdu.c /usr/src/debug/mtools/4.0.41-r0/scsi.h /usr/src/debug/mtools/4.0.41-r0/match.c /usr/src/debug/mtools/4.0.41-r0/scsi.c /usr/src/debug/mtools/4.0.41-r0/config.c /usr/src/debug/mtools/4.0.41-r0/dos2unix.c 
+ /usr/src/debug/mtools/4.0.41-r0/mainloop.h /usr/src/debug/mtools/4.0.41-r0/plain_io.h /usr/src/debug/mtools/4.0.41-r0/mtoolsDirentry.h /usr/src/debug/mtools/4.0.41-r0/xdf_io.h /usr/src/debug/mtools/4.0.41-r0/mdir.c /usr/src/debug/mtools/4.0.41-r0/force_io.c /usr/src/debug/mtools/4.0.41-r0/remap.h /usr/src/debug/mtools/4.0.41-r0/direntry.c /usr/src/debug/mtools/4.0.41-r0/mtools.h"
+packages/core2-32-poky-linux/mtools/mtools-staticdev: PV changed from "4.0.40" to "4.0.41"
+packages/core2-32-poky-linux/mtools/mtools-staticdev: PKGV changed from 4.0.40 [default] to 4.0.41 [default]
+packages/core2-32-poky-linux/mtools/mtools: PV changed from "4.0.40" to "4.0.41"
+packages/core2-32-poky-linux/mtools/mtools: PKGV changed from 4.0.40 [default] to 4.0.41 [default]
+
+--===============1194474492070231444==--
 
