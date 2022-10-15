@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1060DC4332F
-	for <webhook@archiver.kernel.org>; Sat, 15 Oct 2022 22:03:19 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web12.24547.1665871396505616130
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0634C433FE
+	for <webhook@archiver.kernel.org>; Sat, 15 Oct 2022 22:03:18 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web08.24447.1665871392572109692
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Oct 2022 15:03:16 -0700
+ Sat, 15 Oct 2022 15:03:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Z3MA5fS6;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010183ddac3c59-e87f02fe-5492-4bca-86d2-724be642b921-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=TrXbwjv5;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010183ddac2bb8-dc45a55f-7c5d-40e0-bd36-c8b496b5fb41-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1665871396;
+	t=1665871391;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=rsycRvLnUgg2qrEEIDjM8IpMF5Jj8XaAnatzz725u44=;
-	b=Z3MA5fS60NCAQXG40GcrJfclU1fyBbFY3Am9+JDYuRfiCnu7HWHTi2+0SjfwN/+q
-	1VTCtPNLZ3kzYzQtmhxWe76FKFPPSkZEQTxOlJlgL2OhKYk4RgN8RNCfSorYcJ6H4lY
-	J32YnZdBxE2cyl0cQLFwdKppOPs4Y49qbZj7keVI=
+	bh=XHjda1Hvz7yWtXM55TATYdqFRGpAKkOnaNupqrGkNNQ=;
+	b=TrXbwjv5cTWb+eCf8uKEisTQKtrEuAe/k+pijzSUY0P6xl8XtE04hC3nkPjgnVeu
+	aR71lTW1BmYxfeBWRyQLFpjSBAgY1WASuaJUmsBGQoDVHkT6ajF3Hl5+TLBBwOAbA38
+	YCJfoUDxWmFBqPiw4zCJFGnEMtoHFRH4uUz01AiQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1665871396;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1665871391;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=rsycRvLnUgg2qrEEIDjM8IpMF5Jj8XaAnatzz725u44=;
-	b=QeQPUy+sTmMulE+VXuHLtk/IrJVdWQYhkpVsSbvHvP6kbXGXq/x0J/q0EAPdnYcA
-	yKH8wXh71Sl70JITzxHfc2i88bNv1VKYNGLzIkwaVVu7ZXJP4pY9fR1sbMkwS0TDllb
-	2vfJtE2bMlANkzEuzK4RtWjAtCeHazPH4DShndyc=
-Content-Type: multipart/mixed; boundary="===============4320424859566590801=="
+	bh=XHjda1Hvz7yWtXM55TATYdqFRGpAKkOnaNupqrGkNNQ=;
+	b=XDoFofFEqXNjbeW2D6MANLio8ttEIk1mMlElMlMjsVgZ2SOKugY9QX58wgy5M3Zi
+	ouGQhm2SD2uE+MkRqbXRq4S651Dh5GVg9+tdPk7V1XXvyk7v2Zg1DSH5hOW9lLSbyYA
+	hgHQ0UTq7AUy/+kyPzCK8MHhg9bvcaPjllBuQCSw=
+Content-Type: multipart/mixed; boundary="===============6143885743176884448=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Denys Dmytriyenko <denis@denix.org>
+To: Marek Vasut <marek.vasut@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] weston: upgrading to 11.0.0 FAILED
-Message-ID: <01010183ddac3c59-e87f02fe-5492-4bca-86d2-724be642b921-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Oct 2022 22:03:15 +0000
+Subject: [AUH] u-boot: upgrading to 2022.10 FAILED
+Message-ID: <01010183ddac2bb8-dc45a55f-7c5d-40e0-bd36-c8b496b5fb41-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Oct 2022 22:03:11 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.10.15-54.240.27.31
+X-SES-Outgoing: 2022.10.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Oct 2022 22:03:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171851
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Oct 2022 22:03:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171743
 
---===============4320424859566590801==
+--===============6143885743176884448==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,7 +50,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *weston* to *11.0.0* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *u-boot* to *2022.10* has Failed(do_compile).
 
 Detailed error information:
 
@@ -59,7 +59,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-weston-upgrade-10.0.2-11.0.0.patch
+    - apply the patch: git am 0001-u-boot-upgrade-2022.07-2022.10.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,139 +75,97 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4320424859566590801==
+--===============6143885743176884448==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/qemux86-poky-linux/u-boot/u-boot-env: FILELIST: removed "/etc/u-boot-initial-env-qemux86-2022.07-r0", added "/etc/u-boot-initial-env-qemux86-2022.10-r0"
+packages/qemux86-poky-linux/u-boot/u-boot: FILELIST: removed "/boot/u-boot-qemux86-2022.07-r0.bin", added "/boot/u-boot-qemux86-2022.10-r0.bin"
+
+--===============6143885743176884448==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
 
 WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
-Loaded 1661 entries from dependency cache.
+Loaded 0 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 885 .bb files complete (884 cached, 1 parsed). 1661 targets, 36 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+Parsing of 885 .bb files complete (0 cached, 885 parsed). 1661 targets, 70 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
 
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:9333dfa7aea302c48482bba984eb4afdafdf718a"
-workspace            = "master:3e5faccfaf50fee0ba8f6eef6c9bf458137d06d2"
-
-Initialising tasks...done.
-Sstate summary: Wanted 208 Local 201 Mirrors 0 Missed 7 Current 441 (96% match, 98% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 2089 of 2274 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/weston_11.0.0.bb:do_fetch)
-NOTE: Running task 2177 of 2274 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/weston_11.0.0.bb:do_write_config)
-NOTE: recipe weston-11.0.0-r0: task do_fetch: Started
-NOTE: recipe weston-11.0.0-r0: task do_write_config: Started
-NOTE: recipe weston-11.0.0-r0: task do_fetch: Succeeded
-NOTE: Running task 2260 of 2274 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/weston_11.0.0.bb:do_unpack)
-NOTE: Running task 2261 of 2274 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/weston_11.0.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe weston-11.0.0-r0: task do_write_config: Succeeded
-NOTE: recipe weston-11.0.0-r0: task do_unpack: Started
-NOTE: recipe weston-11.0.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe weston-11.0.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2262 of 2274 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/weston_11.0.0.bb:do_patch)
-NOTE: recipe weston-11.0.0-r0: task do_patch: Started
-NOTE: recipe weston-11.0.0-r0: task do_patch: Succeeded
-NOTE: Running task 2263 of 2274 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/weston_11.0.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2264 of 2274 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/weston_11.0.0.bb:do_populate_lic)
-NOTE: recipe weston-11.0.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe weston-11.0.0-r0: task do_populate_lic: Started
-NOTE: recipe weston-11.0.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe weston-11.0.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe weston-11.0.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2265 of 2274 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/weston_11.0.0.bb:do_configure)
-NOTE: recipe weston-11.0.0-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.36.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/seatd/seatd_0.7.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/a
- uh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_7.1.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.12.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.9.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.113.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-g
- raphics/jpeg/libjpeg-turbo_2.1.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.2.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.9.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.19.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.26.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:
- do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/meson/meson_0.63.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/r
- ecipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.12.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['base-files', 'base-passwd', 'dbus', 'glib-2.0', 'glibc', 'seatd', 'systemd', 'gcc-cross-i686', 'gcc-runtime', 'qemu-native', 'quilt-native', 'shadow-sysroot', 'shadow', 'gdk-pixbuf', 'cairo', 'libdrm', 'libjpeg-turbo', 'mesa', 'pango', 'libinput', 'mtdev', 'wayland-protocols', 'wayland', 'libx11', 'libxcb', 'libxcursor', 'libxkbcommon', 'pixman', 'meson-native', 'ninja-native', 'patch-native', 'pkgconfig-native', 'pseudo-native', 'python3-native', 'shadow-native', 'xz-native', 'wayland-native', 'libtool-native', 'attr-native', 'python3-setuptools-native', 'python3-picobuild-native', 'python3-wheel-native', 'python3-installer-native', 'libsm', 'initscripts', 'autoconf-archive', 'update-rc.d', 'expat', 'libmpc-native', 'binutils-cross-i686', 'flex-native', 'mpfr-native', 'texinfo-dummy-native', 'gnu-config-native', 'zstd-native', 'zlib-native', 'gmp-native', 'linux-libc-headers', 'kmod', 'acl', 'libseccomp', 'libpam', 'util-linux', 'libc
- ap', 'zstd', 'opkg-utils', 'bash-completion', 'libffi-native', 'libnsl2-native', 'libtirpc-native', 'ncurses-native', 'readline-native', 'openssl-native', 'util-linux-libuuid-native', 'bzip2-native', 'sqlite3-native', 'gdbm-native', 'zlib', 'libffi', 'libpcre', 'xkeyboard-config', 'libxml2', 'xorgproto', 'xcb-proto', 'libxau', 'libxdmcp', 'libpthread-stubs', 'fribidi', 'gobject-introspection', 'harfbuzz', 'freetype', 'fontconfig', 'libxft', 'libxrender', 'libxfixes', 'util-macros', 'libevdev', 'libcheck', 'gettext-minimal-native', 'shared-mime-info', 'libpng', 'libpciaccess', 'attr', 'libxcrypt', 'glib-2.0-native', 'libxml2-native', 'expat-native', 'libgcc', 'libxext', 're2c-native', 'libxxf86vm', 'libxshmfence', 'libxdamage', 'vulkan-headers', 'vulkan-loader', 'xrandr', 'xtrans', 'python3-flit-core-native', 'libice', 'm4-native', 'xz', 'cracklib', 'flex', 'ncurses', 'util-linux-libuuid', 'libcap-ng', 'perl-native', 'bzip2', 'python3', 'icu', 'libpcre-native', 'gettext-native', 'uti
- l-linux-native', 'cmake-native', 'libxrandr', 'unzip-native', 'make-native', 'libnsl2', 'sqlite3', 'readline', 'libtirpc', 'gdbm', 'openssl', 'libpcre2-native', 'libcap-ng-native', 'curl-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Dpipewire=false -Dsimple-clients=all -Ddemo-clients=true -Dcolor-management-colord=false -Drenderer-gl=true -Ddeprecated-backend-fbdev=false -Dbackend-headless=false -Dimage-jpeg=true -Dbackend-drm=true -Ddeprecated-weston-launch=false -Dlauncher-libseat=true -Dcolor-management-lcms=false -Dbackend-rdp=false -Dremoting=false -Dscreenshare=true -Dshell-desktop=true -Dshell-fullscreen=true -Dshell-ivi=true -Dsystemd=true -Dlauncher-logind=true -Dbackend-drm-screencast-vaapi=false -Dbackend-wayland=true -Dimage-webp=false -Dbackend-x11=true -Dxwayland=true...
-| The Meson build system
-| Version: 0.63.2
-| Source dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/weston/11.0.0-r0/weston-11.0.0
-| Build dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/weston/11.0.0-r0/build
-| Build type: cross build
-| 
-| ../weston-11.0.0/meson.build:1:0: ERROR: Unknown options: "color-management-colord, deprecated-backend-fbdev, deprecated-weston-launch"
-| 
-| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/weston/11.0.0-r0/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/weston/11.0.0-r0/temp/run.do_configure.1020377:174 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/weston/11.0.0-r0/temp/run.do_configure.1020377, line 174
-| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/weston/11.0.0-r0/temp/run.do_configure.1020377, line 163
-| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/weston/11.0.0-r0/temp/run.do_configure.1020377, line 149
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/weston/11.0.0-r0/temp/run.do_configure.1020377, line 187
-NOTE: recipe weston-11.0.0-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 2265 tasks of which 2257 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/weston_11.0.0.bb:do_configure
 Summary: There was 1 WARNING message.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
+Summary: There was 1 ERROR message, returning a non-zero exit code.
 /usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
   return f(*args, **kwds)
-ERROR: weston-11.0.0-r0 do_configure: meson failed
-ERROR: weston-11.0.0-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/weston/11.0.0-r0/temp/run.do_configure.1020377', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/weston/11.0.0-r0/temp/log.do_configure.1020377
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/weston_11.0.0.bb:do_configure) failed with exit code '1'
+ERROR: Nothing PROVIDES 'u-boot'
+u-boot was skipped: Either UBOOT_MACHINE or UBOOT_CONFIG must be set in the qemuppc machine configuration.
 
---===============4320424859566590801==
+--===============6143885743176884448==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-weston-upgrade-10.0.2-11.0.0.patch"
+ filename="0001-u-boot-upgrade-2022.07-2022.10.patch"
 
-RnJvbSBjYjczYWU3YWE3MTg1ODI4MGVkMjVjMGVmOTc4OTQ3YjM5YmZjYjQ1IE1vbiBTZXAgMTcg
+RnJvbSBjNTIzOWY2YzRjNWViNDgxZTQzZjc3YTVmNzlmNTVmOGU1N2YzZjVjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMTY6NTc6NDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSB3
-ZXN0b246IHVwZ3JhZGUgMTAuMC4yIC0+IDExLjAuMAoKLS0tCiAuLi4vd2F5bGFuZC97d2VzdG9u
-XzEwLjAuMi5iYiA9PiB3ZXN0b25fMTEuMC4wLmJifSAgICAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC97d2VzdG9uXzEwLjAuMi5iYiA9PiB3ZXN0b25fMTEuMC4w
-LmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3dl
-c3Rvbl8xMC4wLjIuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93ZXN0b25fMTEu
-MC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFw
-aGljcy93YXlsYW5kL3dlc3Rvbl8xMC4wLjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFw
-aGljcy93YXlsYW5kL3dlc3Rvbl8xMS4wLjAuYmIKaW5kZXggNzg2ZDEyYmU2MS4uMzUwNWFkNTcz
-MiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2VzdG9uXzEwLjAu
-Mi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93ZXN0b25fMTEuMC4wLmJi
-CkBAIC0xMyw3ICsxMyw3IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Au
-b3JnL3dheWxhbmQvd2VzdG9uLy0vcmVsZWFzZXMvJHtQVn0vZG93bmxvCiAgICAgICAgICAgIGZp
-bGU6Ly9zeXN0ZW1kLW5vdGlmeS53ZXN0b24tc3RhcnQgXAogICAgICAgICAgICAiCiAKLVNSQ19V
-Uklbc2hhMjU2c3VtXSA9ICI4OTY0NmNhMGQ5ZjhkNDEzYzI3NjdlNWMzODI4ZWFhM2ZhMTQ5YzJh
-MTA1YjM3MjlhNjg5NGZhN2NmMTU0OWU3IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImE2MTM4ZDRk
-Yzk1NTQ1NjBhYzMwNDMxMmRmNDU2MDE5ZjRiZTAyNWVjNzkxMzBmMDVmYjVmMmU0MWMwOTFlMWQi
-CiAKIFVQU1RSRUFNX0NIRUNLX1VSSSA9ICJodHRwczovL3dheWxhbmQuZnJlZWRlc2t0b3Aub3Jn
-L3JlbGVhc2VzLmh0bWwiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJ3ZXN0b24tKD9QPHB2ZXI+
-XGQrXC5cZCtcLig/ITlcZCspXGQrKSIKLS0gCjIuMzEuMQoK
+CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMDY6MjI6NDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSB1
+LWJvb3Q6IHVwZ3JhZGUgMjAyMi4wNyAtPiAyMDIyLjEwCgotLS0KIG1ldGEvcmVjaXBlcy1ic3Av
+dS1ib290L3UtYm9vdC1jb21tb24uaW5jICAgICAgICAgICAgICAgICAgICAgICB8IDIgKy0KIC4u
+Li9yZWNpcGVzLWJzcC91LWJvb3Qve3UtYm9vdF8yMDIyLjA3LmJiID0+IHUtYm9vdF8yMDIyLjEw
+LmJifSB8IDAKIDIgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC97dS1ib290XzIwMjIuMDcuYmIgPT4gdS1i
+b290XzIwMjIuMTAuYmJ9ICgxMDAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ic3AvdS1i
+b290L3UtYm9vdC1jb21tb24uaW5jIGIvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LWNv
+bW1vbi5pbmMKaW5kZXggZDdmZDNjNzIyNy4uNjBjNzdjYmVjNCAxMDA2NDQKLS0tIGEvbWV0YS9y
+ZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LWNvbW1vbi5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWJz
+cC91LWJvb3QvdS1ib290LWNvbW1vbi5pbmMKQEAgLTEyLDcgKzEyLDcgQEAgUEUgPSAiMSIKIAog
+IyBXZSB1c2UgdGhlIHJldmlzaW9uIGluIG9yZGVyIHRvIGF2b2lkIGhhdmluZyB0byBmZXRjaCBp
+dCBmcm9tIHRoZQogIyByZXBvIGR1cmluZyBwYXJzZQotU1JDUkVWID0gImUwOTJlMzI1MDI3MGEx
+MDE2Yzg3N2RhN2JkZDkzODRmMTRiMTMyMWUiCitTUkNSRVYgPSAiNGRlYmM1N2EzZGE2YzNmNGQz
+Zjg5YTYzN2U5OTIwNmY0Y2VhMGE5NiIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9zb3VyY2UuZGVueC5k
+ZS91LWJvb3QvdS1ib290LmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFzdGVyIgogCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC91LWJvb3RfMjAyMi4wNy5iYiBiL21ldGEv
+cmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdF8yMDIyLjEwLmJiCnNpbWlsYXJpdHkgaW5kZXggMTAw
+JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC91LWJvb3RfMjAyMi4wNy5iYgpy
+ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290XzIwMjIuMTAuYmIKLS0gCjIu
+MzEuMQoK
 
---===============4320424859566590801==--
+--===============6143885743176884448==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/qemux86-poky-linux/u-boot: PV changed from "2022.07" to "2022.10"
+packages/qemux86-poky-linux/u-boot: PKGV changed from 2022.07 [default] to 2022.10 [default]
+packages/qemux86-poky-linux/u-boot/u-boot-dbg: PV changed from "2022.07" to "2022.10"
+packages/qemux86-poky-linux/u-boot/u-boot-dbg: PKGV changed from 2022.07 [default] to 2022.10 [default]
+packages/qemux86-poky-linux/u-boot/u-boot-dev: PV changed from "2022.07" to "2022.10"
+packages/qemux86-poky-linux/u-boot/u-boot-dev: PKGV changed from 2022.07 [default] to 2022.10 [default]
+packages/qemux86-poky-linux/u-boot/u-boot-doc: PV changed from "2022.07" to "2022.10"
+packages/qemux86-poky-linux/u-boot/u-boot-doc: PKGV changed from 2022.07 [default] to 2022.10 [default]
+packages/qemux86-poky-linux/u-boot/u-boot-env: PV changed from "2022.07" to "2022.10"
+packages/qemux86-poky-linux/u-boot/u-boot-env: PKGV changed from 2022.07 [default] to 2022.10 [default]
+packages/qemux86-poky-linux/u-boot/u-boot-env: PKGSIZE changed from 4618 to 4636 (+0%)
+packages/qemux86-poky-linux/u-boot/u-boot-env: FILELIST: removed "/etc/u-boot-initial-env-qemux86-2022.07-r0", added "/etc/u-boot-initial-env-qemux86-2022.10-r0"
+packages/qemux86-poky-linux/u-boot/u-boot-extlinux: PV changed from "2022.07" to "2022.10"
+packages/qemux86-poky-linux/u-boot/u-boot-extlinux: PKGV changed from 2022.07 [default] to 2022.10 [default]
+packages/qemux86-poky-linux/u-boot/u-boot-locale: PV changed from "2022.07" to "2022.10"
+packages/qemux86-poky-linux/u-boot/u-boot-locale: PKGV changed from 2022.07 [default] to 2022.10 [default]
+packages/qemux86-poky-linux/u-boot/u-boot-src: PV changed from "2022.07" to "2022.10"
+packages/qemux86-poky-linux/u-boot/u-boot-src: PKGV changed from 2022.07 [default] to 2022.10 [default]
+packages/qemux86-poky-linux/u-boot/u-boot-staticdev: PV changed from "2022.07" to "2022.10"
+packages/qemux86-poky-linux/u-boot/u-boot-staticdev: PKGV changed from 2022.07 [default] to 2022.10 [default]
+packages/qemux86-poky-linux/u-boot/u-boot: PV changed from "2022.07" to "2022.10"
+packages/qemux86-poky-linux/u-boot/u-boot: PKGV changed from 2022.07 [default] to 2022.10 [default]
+packages/qemux86-poky-linux/u-boot/u-boot: PKGSIZE changed from 725071 to 730751 (+1%)
+packages/qemux86-poky-linux/u-boot/u-boot: FILELIST: removed "/boot/u-boot-qemux86-2022.07-r0.bin", added "/boot/u-boot-qemux86-2022.10-r0.bin"
+
+--===============6143885743176884448==--
 
