@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3091C47089
-	for <webhook@archiver.kernel.org>; Sat, 15 Oct 2022 22:13:01 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web08.24545.1665871975665112980
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED79DC4332F
+	for <webhook@archiver.kernel.org>; Sat, 15 Oct 2022 22:13:11 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.24459.1665871976101893556
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Oct 2022 15:12:55 -0700
+ Sat, 15 Oct 2022 15:12:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ZqWWVr6a;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010183ddb510e8-5a4462be-7689-4933-bc48-df62d4067208-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=XdjdOmVK;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010183ddb51246-35b55070-1dd3-424b-8d5f-2e4e71c952c5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1665871974;
+	t=1665871975;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=mpMlcPdx2SlaRLpgK/RCQMnDpByU+P0lul1EGZXrsUA=;
-	b=ZqWWVr6aoYOiS1vuYtOC5Claycm6fxn9Fh0OiqFdxiKBDOUdTX3IA/Lalfy8uday
-	ZvEc2U3F5snyoYvZmNnF0VqABzY8gd5nTg21ihY9cVVv0tTS33Y4G4RqPSwZ341SQAF
-	cRqOKj91mEXKproQU6WlXEh9/32Y8M6AxguocHuY=
+	bh=4pnhb0jH7EynQThmyQvdskPAl0i0raQWii3Zro4vTYU=;
+	b=XdjdOmVKev7dNQkLUkNq+0F8xb1qw95JtumhMydZXip+zcPt5Eu85em0vpW3udrM
+	RxMiHtCnpZrTBXZWbP1vYG6MnBV9Z8Dx7EVm7VtyCfZAaV8y0vHoiymufuMJyWVpRzm
+	JFGzk2Sp2rhHoJsH+peA5Qt9WGW7Hu+c6pQZ6miM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1665871974;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1665871975;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=mpMlcPdx2SlaRLpgK/RCQMnDpByU+P0lul1EGZXrsUA=;
-	b=j3NvKvjuARuUUzvfj7VBi4V7habhZaOU+wAlFVoDb5XFl/M3dOwUf7hBoPVDhWTp
-	3UakxzDlukEEWwoCmR4i8v4Boja5UHMC+BwkWn+Tp8P2GgX++IT/QV22aXs2Sq9TJmI
-	k1C1NQla5ciI6p5pnn4T1asqN2dd3sDY4lsjAiOc=
-Content-Type: multipart/mixed; boundary="===============3965005075409171894=="
+	bh=4pnhb0jH7EynQThmyQvdskPAl0i0raQWii3Zro4vTYU=;
+	b=O2AT0PT3tC5wqxRYNlOLKvaDzI9fhUsFZsfCXrpWM8gFkYeLGvufpTc+GdstccS2
+	314z6NMrYV/v1IWGl5k7/myFz1PJhwEszyn1UtL82KRo8Vvf1nueF3JRiNB6UEK1IjE
+	WztslPnBJPzn3Bf9BDS8CplhNiCzZZXLxrgEOGME=
+Content-Type: multipart/mixed; boundary="===============1094677185423181604=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libcap: upgrading to 2.66 SUCCEEDED
-Message-ID: <01010183ddb510e8-5a4462be-7689-4933-bc48-df62d4067208-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Oct 2022 22:12:54 +0000
+Subject: [AUH] libffi: upgrading to 3.4.3 SUCCEEDED
+Message-ID: <01010183ddb51246-35b55070-1dd3-424b-8d5f-2e4e71c952c5-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Oct 2022 22:12:55 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.10.15-54.240.27.192
+X-SES-Outgoing: 2022.10.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Oct 2022 22:13:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171873
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Oct 2022 22:13:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171887
 
---===============3965005075409171894==
+--===============1094677185423181604==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libcap* to *2.66* has Succeeded.
+that the automatic attempt to upgrade the recipe *libffi* to *3.4.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libcap-upgrade-2.65-2.66.patch
+    - apply the patch: git am 0001-libffi-upgrade-3.4.2-3.4.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,18 +69,17 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3965005075409171894==
+--===============1094677185423181604==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/libcap/libcap: FILELIST: removed "/lib/libcap.so.2.65 /usr/lib/libpsx.so.2.65", added "/lib/libcap.so.2.66 /usr/lib/libpsx.so.2.66"
-Changes to packages/core2-32-poky-linux/libcap (sysroot):
-  /lib/libcap.so.2 changed symlink target from libcap.so.2.65 to libcap.so.2.66
-  /usr/lib/libpsx.so.2 changed symlink target from libpsx.so.2.65 to libpsx.so.2.66
-  /lib/libcap.so.2.65 moved to /lib/libcap.so.2.66
-  /usr/lib/libpsx.so.2.65 moved to /usr/lib/libpsx.so.2.66
+packages/core2-32-poky-linux/libffi/libffi: FILELIST: removed "/usr/lib/libffi.so.8.1.0", added "/usr/lib/libffi.so.8.1.1"
+Changes to packages/core2-32-poky-linux/libffi (sysroot):
+  /usr/lib/libffi.so.8 changed symlink target from libffi.so.8.1.0 to libffi.so.8.1.1
+  /usr/lib/libffi.so changed symlink target from libffi.so.8.1.0 to libffi.so.8.1.1
+  /usr/lib/libffi.so.8.1.0 moved to /usr/lib/libffi.so.8.1.1
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1434,93 +1433,100 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
-Changes to packages/x86_64-linux/libcap-native (sysroot):
-  /usr/lib/libcap.so.2 changed symlink target from libcap.so.2.65 to libcap.so.2.66
-  /usr/lib/libpsx.so.2 changed symlink target from libpsx.so.2.65 to libpsx.so.2.66
-  /usr/lib/libcap.so.2.65 moved to /usr/lib/libcap.so.2.66
-  /usr/lib/libpsx.so.2.65 moved to /usr/lib/libpsx.so.2.66
+Changes to packages/x86_64-linux/libffi-native (sysroot):
+  /usr/lib/libffi.so.8 changed symlink target from libffi.so.8.1.0 to libffi.so.8.1.1
+  /usr/lib/libffi.so changed symlink target from libffi.so.8.1.0 to libffi.so.8.1.1
+  /usr/lib/libffi.so.8.1.0 moved to /usr/lib/libffi.so.8.1.1
 
---===============3965005075409171894==
+--===============1094677185423181604==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libcap-upgrade-2.65-2.66.patch"
+ filename="0001-libffi-upgrade-3.4.2-3.4.3.patch"
 
-RnJvbSA5MzZmMGQyYzAzMWI3YzNmOGE5NzdkOGE5OTExNTgzODI3ODE5MTQwIE1vbiBTZXAgMTcg
+RnJvbSA2ZTExM2E3YTE0OTRmMmNlZmQyZDgyY2FlODdkNjA3MTc5MmY0MjJmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMjA6NDc6NDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJjYXA6IHVwZ3JhZGUgMi42NSAtPiAyLjY2CgotLS0KIC4uLjEtbmF0aXZlc2RrLWxpYmNhcC1S
-YWlzZS10aGUtc2l6ZS1vZi1hcnJheXMtY29udGFpbmluZy5wYXRjaCB8IDIgKy0KIG1ldGEvcmVj
-aXBlcy1zdXBwb3J0L2xpYmNhcC97bGliY2FwXzIuNjUuYmIgPT4gbGliY2FwXzIuNjYuYmJ9ICB8
-IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC97bGliY2FwXzIuNjUuYmIgPT4gbGli
-Y2FwXzIuNjYuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGli
-Y2FwL2ZpbGVzLzAwMDEtbmF0aXZlc2RrLWxpYmNhcC1SYWlzZS10aGUtc2l6ZS1vZi1hcnJheXMt
-Y29udGFpbmluZy5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC9maWxlcy8wMDAx
-LW5hdGl2ZXNkay1saWJjYXAtUmFpc2UtdGhlLXNpemUtb2YtYXJyYXlzLWNvbnRhaW5pbmcucGF0
-Y2gKaW5kZXggM2Y0YzdlNTdhZS4uYWE2MWNiNGI0MiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvbGliY2FwL2ZpbGVzLzAwMDEtbmF0aXZlc2RrLWxpYmNhcC1SYWlzZS10aGUtc2l6
-ZS1vZi1hcnJheXMtY29udGFpbmluZy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9s
-aWJjYXAvZmlsZXMvMDAwMS1uYXRpdmVzZGstbGliY2FwLVJhaXNlLXRoZS1zaXplLW9mLWFycmF5
-cy1jb250YWluaW5nLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAxYzIzNGJjMzk0NDZlYjli
-MjM4OTZlODVkZDY3YjAyOTc2ZDQ2YzNkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA4
-MWUyMDc5MTEzM2QxNzI4ZThhMTdiNjIwM2EyODZhZGRkMWEwNTBjIE1vbiBTZXAgMTcgMDA6MDA6
-MDAgMjAwMQogRnJvbTogSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgogRGF0
-ZTogVGh1LCAxNCBPY3QgMjAyMSAxNTo1NzozNiArMDgwMAogU3ViamVjdDogW1BBVENIXSBuYXRp
-dmVzZGstbGliY2FwOiBSYWlzZSB0aGUgc2l6ZSBvZiBhcnJheXMgY29udGFpbmluZyBkbApkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwL2xpYmNhcF8yLjY1LmJiIGIvbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwL2xpYmNhcF8yLjY2LmJiCnNpbWlsYXJpdHkgaW5kZXgg
-OTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC9saWJjYXBfMi42NS5i
-YgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwL2xpYmNhcF8yLjY2LmJiCmlu
-ZGV4IDgwMTNkNDA3NjkuLmM1MGU5ZDhjYzcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBw
-b3J0L2xpYmNhcC9saWJjYXBfMi42NS5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJj
-YXAvbGliY2FwXzIuNjYuYmIKQEAgLTIwLDcgKzIwLDcgQEAgU1JDX1VSSSA9ICIke0tFUk5FTE9S
-R19NSVJST1J9L2xpbnV4L2xpYnMvc2VjdXJpdHkvbGludXgtcHJpdnMvJHtCUE59Mi8ke0JQTn0t
-JHsKIFNSQ19VUkk6YXBwZW5kOmNsYXNzLW5hdGl2ZXNkayA9ICIgXAogICAgICAgICAgICBmaWxl
-Oi8vMDAwMS1uYXRpdmVzZGstbGliY2FwLVJhaXNlLXRoZS1zaXplLW9mLWFycmF5cy1jb250YWlu
-aW5nLnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjczZTM1MDAy
-MGNjMzFmZTE1MzYwODc5ZDE5Mzg0ZmZhMzM5NWE4MjVmMDY1ZmNmNmJkYTNhNWNkZjk2NWJlYmQi
-CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMTVjNDBlZGVkYjMwMDNkNzBhMjgzZmU1ODdhMzZiN2Qx
-OWM4YjNiNTU0ZTMzZjg2MTI5YzA1OWE0YmI0NjZiMiIKIAogVVBTVFJFQU1fQ0hFQ0tfVVJJID0g
-Imh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvcHViL2xpbnV4L2xpYnMvc2VjdXJpdHkvbGludXgtcHJp
-dnMvJHtCUE59Mi8iCiAKLS0gCjIuMzEuMQoK
+CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMjA6NTg6NDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJmZmk6IHVwZ3JhZGUgMy40LjIgLT4gMy40LjMKCi0tLQogLi4uL3tsaWJmZmlfMy40LjIuYmIg
+PT4gbGliZmZpXzMuNC4zLmJifSAgICAgIHwgMjMgKysrKysrKysrKysrKysrKystLQogMSBmaWxl
+IGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvbGliZmZpL3tsaWJmZmlfMy40LjIuYmIgPT4gbGliZmZpXzMuNC4zLmJi
+fSAoNjMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmZmaS9saWJmZmlf
+My40LjIuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJmZmkvbGliZmZpXzMuNC4zLmJiCnNp
+bWlsYXJpdHkgaW5kZXggNjMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmZm
+aS9saWJmZmlfMy40LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmZmaS9s
+aWJmZmlfMy40LjMuYmIKaW5kZXggNDFjM2NhZDU4Ni4uM2MzMmFhOGZkNSAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZmZpL2xpYmZmaV8zLjQuMi5iYgorKysgYi9tZXRhL3Jl
+Y2lwZXMtc3VwcG9ydC9saWJmZmkvbGliZmZpXzMuNC4zLmJiCkBAIC0xLDMgKzEsMjIgQEAKKyMg
+RklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAn
+ZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3
+ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRo
+ZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgor
+IyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1w
+bGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhl
+IGNoYW5nZXM6CisjCisjIC0tLSBMSUNFTlNFCisjICsrKyBMSUNFTlNFCisjIEBAIC0xLDQgKzEs
+NCBAQAorIyAtbGliZmZpIC0gQ29weXJpZ2h0IChjKSAxOTk2LTIwMjEgIEFudGhvbnkgR3JlZW4s
+IFJlZCBIYXQsIEluYyBhbmQgb3RoZXJzLgorIyArbGliZmZpIC0gQ29weXJpZ2h0IChjKSAxOTk2
+LTIwMjIgIEFudGhvbnkgR3JlZW4sIFJlZCBIYXQsIEluYyBhbmQgb3RoZXJzLgorIyAgU2VlIHNv
+dXJjZSBmaWxlcyBmb3IgZGV0YWlscy4KKyMgIAorIyAgUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3Jh
+bnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nCisjIAorIworCiBT
+VU1NQVJZID0gIkEgcG9ydGFibGUgZm9yZWlnbiBmdW5jdGlvbiBpbnRlcmZhY2UgbGlicmFyeSIK
+IEhPTUVQQUdFID0gImh0dHA6Ly9zb3VyY2V3YXJlLm9yZy9saWJmZmkvIgogREVTQ1JJUFRJT04g
+PSAiVGhlIGBsaWJmZmknIGxpYnJhcnkgcHJvdmlkZXMgYSBwb3J0YWJsZSwgaGlnaCBsZXZlbCBw
+cm9ncmFtbWluZyBpbnRlcmZhY2UgdG8gdmFyaW91cyBjYWxsaW5nIFwKQEAgLTgsMTMgKzI3LDEz
+IEBAIGxpYnJhcnkgcmVhbGx5IG9ubHkgcHJvdmlkZXMgdGhlIGxvd2VzdCwgbWFjaGluZSBkZXBl
+bmRlbnQgbGF5ZXIgb2YgYSBmdWxseSBmZWF0CiBBIGxheWVyIG11c3QgZXhpc3QgYWJvdmUgYGxp
+YmZmaScgdGhhdCBoYW5kbGVzIHR5cGUgY29udmVyc2lvbnMgZm9yIHZhbHVlcyBwYXNzZWQgYmV0
+d2VlbiB0aGUgdHdvIGxhbmd1YWdlcy4iCiAKIExJQ0VOU0UgPSAiTUlUIgotTElDX0ZJTEVTX0NI
+S1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9Njc5YjVjOWJkYzc5YTJiOTNlZTU3NGUxOTNlN2E3
+YmMiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT0zMmMwZDA5YTA2NDFk
+YWY0OTAzZTVkNjFjYzhmMjNhOCIKIAogU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93
+bmxvYWQvdiR7UFZ9LyR7QlBOfS0ke1BWfS50YXIuZ3ogXAogICAgICAgICAgICBmaWxlOi8vbm90
+LXdpbjMyLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtYXJtLXN5c3YtcmV2ZXJ0ZWQt
+Y2xhbmctVkZQLW1pdGlnYXRpb24ucGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNfVVJJW3NoYTI1
+NnN1bV0gPSAiNTQwZmI3MjE2MTlhNmFiYTNiZGVlZjdkOTQwZDhlOWUwZTZkMmMxOTM1OTViYzI0
+MzI0MWI3N2ZmOWU5MzYyMCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI0NDE2ZGQ5MmI2YWU4ZmNi
+NWIxMDQyMWU3MTFjNGQzY2IzMTIwM2Q3NzUyMWE3N2Q4NWQwMTAyMzExZTZjM2I4IgogCiBFWFRS
+QV9PRUNPTkYgKz0gIi0tZGlzYWJsZS1idWlsZGRpciAtLWRpc2FibGUtZXhlYy1zdGF0aWMtdHJh
+bXAiCiBFWFRSQV9PRUNPTkY6Y2xhc3MtbmF0aXZlICs9ICItLXdpdGgtZ2NjLWFyY2g9Z2VuZXJp
+YyIKLS0gCjIuMzEuMQoK
 
---===============3965005075409171894==
+--===============1094677185423181604==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libcap: PKGV changed from 2.65 [default] to 2.66 [default]
-packages/core2-32-poky-linux/libcap: PV changed from "2.65" to "2.66"
-packages/core2-32-poky-linux/libcap: SRC_URI changed from "https://cdn.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.65.tar.xz file://0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch file://0002-tests-do-not-run-target-executables.patch" to "https://cdn.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.66.tar.xz file://0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch file://0002-tests-do-not-run-target-executables.patch"
-packages/core2-32-poky-linux/libcap/libcap-bin: PKGV changed from 2.65 [default] to 2.66 [default]
-packages/core2-32-poky-linux/libcap/libcap-bin: PV changed from "2.65" to "2.66"
-packages/core2-32-poky-linux/libcap/libcap-dbg: PKGV changed from 2.65 [default] to 2.66 [default]
-packages/core2-32-poky-linux/libcap/libcap-dbg: PV changed from "2.65" to "2.66"
-packages/core2-32-poky-linux/libcap/libcap-dbg: FILELIST: removed "/lib/.debug/libcap.so.2.65 /usr/lib/.debug/libpsx.so.2.65", added "/usr/lib/.debug/libpsx.so.2.66 /lib/.debug/libcap.so.2.66"
-packages/core2-32-poky-linux/libcap/libcap-dbg: PKGSIZE changed from 253672 to 254900 (+0%)
-packages/core2-32-poky-linux/libcap/libcap-dev: PKGV changed from 2.65 [default] to 2.66 [default]
-packages/core2-32-poky-linux/libcap/libcap-dev: PV changed from "2.65" to "2.66"
-packages/core2-32-poky-linux/libcap/libcap-doc: PKGV changed from 2.65 [default] to 2.66 [default]
-packages/core2-32-poky-linux/libcap/libcap-doc: PV changed from "2.65" to "2.66"
-packages/core2-32-poky-linux/libcap/libcap-doc: PKGSIZE changed from 72422 to 72417 (-0%)
-packages/core2-32-poky-linux/libcap/libcap-locale: PKGV changed from 2.65 [default] to 2.66 [default]
-packages/core2-32-poky-linux/libcap/libcap-locale: PV changed from "2.65" to "2.66"
-packages/core2-32-poky-linux/libcap/libcap-src: PKGV changed from 2.65 [default] to 2.66 [default]
-packages/core2-32-poky-linux/libcap/libcap-src: PV changed from "2.65" to "2.66"
-packages/core2-32-poky-linux/libcap/libcap-src: PKGSIZE changed from 217722 to 218032 (+0%)
-packages/core2-32-poky-linux/libcap/libcap-staticdev: PKGV changed from 2.65 [default] to 2.66 [default]
-packages/core2-32-poky-linux/libcap/libcap-staticdev: PV changed from "2.65" to "2.66"
-packages/core2-32-poky-linux/libcap/libcap: PKGV changed from 2.65 [default] to 2.66 [default]
-packages/core2-32-poky-linux/libcap/libcap: PV changed from "2.65" to "2.66"
-packages/core2-32-poky-linux/libcap/libcap: FILELIST: removed "/usr/lib/libpsx.so.2.65 /lib/libcap.so.2.65", added "/usr/lib/libpsx.so.2.66 /lib/libcap.so.2.66"
-Changes to packages/core2-32-poky-linux/libcap (sysroot):
-  /lib/libcap.so.2 changed symlink target from libcap.so.2.65 to libcap.so.2.66
-  /usr/lib/libpsx.so.2 changed symlink target from libpsx.so.2.65 to libpsx.so.2.66
-  /lib/libcap.so.2.65 moved to /lib/libcap.so.2.66
-  /usr/lib/libpsx.so.2.65 moved to /usr/lib/libpsx.so.2.66
+packages/core2-32-poky-linux/libffi: PKGV changed from 3.4.2 [default] to 3.4.3 [default]
+packages/core2-32-poky-linux/libffi: SRC_URI changed from "https://github.com/libffi/libffi/releases//download/v3.4.2/libffi-3.4.2.tar.gz file://not-win32.patch file://0001-arm-sysv-reverted-clang-VFP-mitigation.patch" to "https://github.com/libffi/libffi/releases//download/v3.4.3/libffi-3.4.3.tar.gz file://not-win32.patch file://0001-arm-sysv-reverted-clang-VFP-mitigation.patch"
+packages/core2-32-poky-linux/libffi: PV changed from "3.4.2" to "3.4.3"
+packages/core2-32-poky-linux/libffi/libffi-dbg: FILELIST: removed "/usr/lib/.debug/libffi.so.8.1.0", added "/usr/lib/.debug/libffi.so.8.1.1"
+packages/core2-32-poky-linux/libffi/libffi-dbg: PKGSIZE changed from 105492 to 98504 (-7%)
+packages/core2-32-poky-linux/libffi/libffi-dbg: PKGV changed from 3.4.2 [default] to 3.4.3 [default]
+packages/core2-32-poky-linux/libffi/libffi-dbg: PV changed from "3.4.2" to "3.4.3"
+packages/core2-32-poky-linux/libffi/libffi-dev: FILES: removed "/usr/lib/libffi-3.4.2", added "/usr/lib/libffi-3.4.3"
+packages/core2-32-poky-linux/libffi/libffi-dev: PKGSIZE changed from 20222 to 20487 (+1%)
+packages/core2-32-poky-linux/libffi/libffi-dev: PKGV changed from 3.4.2 [default] to 3.4.3 [default]
+packages/core2-32-poky-linux/libffi/libffi-dev: PV changed from "3.4.2" to "3.4.3"
+packages/core2-32-poky-linux/libffi/libffi-doc: PKGSIZE changed from 44031 to 43864 (-0%)
+packages/core2-32-poky-linux/libffi/libffi-doc: PKGV changed from 3.4.2 [default] to 3.4.3 [default]
+packages/core2-32-poky-linux/libffi/libffi-doc: PV changed from "3.4.2" to "3.4.3"
+packages/core2-32-poky-linux/libffi/libffi-locale: PKGV changed from 3.4.2 [default] to 3.4.3 [default]
+packages/core2-32-poky-linux/libffi/libffi-locale: PV changed from "3.4.2" to "3.4.3"
+packages/core2-32-poky-linux/libffi/libffi-src: PKGSIZE changed from 302781 to 304753 (+1%)
+packages/core2-32-poky-linux/libffi/libffi-src: PKGV changed from 3.4.2 [default] to 3.4.3 [default]
+packages/core2-32-poky-linux/libffi/libffi-src: PV changed from "3.4.2" to "3.4.3"
+packages/core2-32-poky-linux/libffi/libffi-staticdev: PKGV changed from 3.4.2 [default] to 3.4.3 [default]
+packages/core2-32-poky-linux/libffi/libffi-staticdev: PV changed from "3.4.2" to "3.4.3"
+packages/core2-32-poky-linux/libffi/libffi: FILELIST: removed "/usr/lib/libffi.so.8.1.0", added "/usr/lib/libffi.so.8.1.1"
+packages/core2-32-poky-linux/libffi/libffi: PKGSIZE changed from 42419 to 38327 (-10%)
+packages/core2-32-poky-linux/libffi/libffi: PKGV changed from 3.4.2 [default] to 3.4.3 [default]
+packages/core2-32-poky-linux/libffi/libffi: PV changed from "3.4.2" to "3.4.3"
+Changes to packages/core2-32-poky-linux/libffi (sysroot):
+  /usr/lib/libffi.so.8 changed symlink target from libffi.so.8.1.0 to libffi.so.8.1.1
+  /usr/lib/libffi.so changed symlink target from libffi.so.8.1.0 to libffi.so.8.1.1
+  /usr/lib/libffi.so.8.1.0 moved to /usr/lib/libffi.so.8.1.1
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2874,11 +2880,10 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
-Changes to packages/x86_64-linux/libcap-native (sysroot):
-  /usr/lib/libcap.so.2 changed symlink target from libcap.so.2.65 to libcap.so.2.66
-  /usr/lib/libpsx.so.2 changed symlink target from libpsx.so.2.65 to libpsx.so.2.66
-  /usr/lib/libcap.so.2.65 moved to /usr/lib/libcap.so.2.66
-  /usr/lib/libpsx.so.2.65 moved to /usr/lib/libpsx.so.2.66
+Changes to packages/x86_64-linux/libffi-native (sysroot):
+  /usr/lib/libffi.so.8 changed symlink target from libffi.so.8.1.0 to libffi.so.8.1.1
+  /usr/lib/libffi.so changed symlink target from libffi.so.8.1.0 to libffi.so.8.1.1
+  /usr/lib/libffi.so.8.1.0 moved to /usr/lib/libffi.so.8.1.1
 
---===============3965005075409171894==--
+--===============1094677185423181604==--
 
