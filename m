@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05586C65BA4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B6B3C65BA6
 	for <webhook@archiver.kernel.org>; Sat, 15 Oct 2022 22:03:21 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web08.24446.1665871392133082811
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web12.24531.1665871392234762595
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Oct 2022 15:03:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=laGS4PDe;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010183ddac2967-d0bce422-d201-4da1-b5c6-19c0f60df597-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=HxZnVVsF;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010183ddac296d-fddf5612-f98f-47a4-99db-94cd829db3ba-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1665871391;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=j1GbO2hY739HqtAS3r5UfxRtNj7H9WPtmTWUZlXXQ3k=;
-	b=laGS4PDeCrg3r+Mk9nhgCK3WswpQR5kDURDpamVIWSZw5ykChlBBvUer2+g2N1Sn
-	laMbp35od0jINBaMijQnP7ux8srEwT4Bc07F2xkXn9dJmdsNlyAtjx4Fc0ET35uTEcj
-	ZsdUTqMgepi9ZhmtJCAoaegZMua7H6e65tTuum5E=
+	bh=STY6JhZFsY4zC3vBOya9+vIeY0marpFRtbjrFOBQFYk=;
+	b=HxZnVVsFBEkXxpfLsnnSNGWNg7N17v1/Pl+ztv82KQL60R0Xei85tPPXa+Wed/nz
+	SL6PFPgDzfCx+kk8GC99oq763GJdcjtbQnc8+qimjt1ROcreoQ7o0kwXd2mqJd2wwiR
+	8eMF1c7fzoSrTXFSZnXPPTKIipAi33bk9jSRLLNg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1665871391;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=j1GbO2hY739HqtAS3r5UfxRtNj7H9WPtmTWUZlXXQ3k=;
-	b=g+hZrOGvImIJvHHSXOWdW29Mmhu1tdUIfhNElHRsr7Uzmp3o/AqJ/ZM42ar3kGui
-	Qp795AitEkuGx9kisEHlwsYp3civnOKJoSvnGSEz1q9xOOX2sWGieqn1U9LJ7QuWVSv
-	HJwZo3wdI82qRLVDlCBxRoTB6B1LHKoypfR4qE6E=
-Content-Type: multipart/mixed; boundary="===============0063988747718795002=="
+	bh=STY6JhZFsY4zC3vBOya9+vIeY0marpFRtbjrFOBQFYk=;
+	b=IIS00YCMGJ3eKS1Egl5GiK7x+PxFRVhdKYOfCkxFLt4RhablUrE1Gdv4Lh66jXNO
+	tUIesW3WczmL+TLhWSjI9riRiovG1YXXIoTnbauQReFx2EAVG8MtrLljSE5zYx39jTw
+	a7Apo1OXFDgj+2mGNgAK+S7xJpD/TvGBWE89mfbQ=
+Content-Type: multipart/mixed; boundary="===============5139940182932832020=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Marek Vasut <marek.vasut@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] u-boot-tools: upgrading to 2022.10 SUCCEEDED
-Message-ID: <01010183ddac2967-d0bce422-d201-4da1-b5c6-19c0f60df597-000000@us-west-2.amazonses.com>
+Subject: [AUH] acpid: upgrading to 2.0.34 SUCCEEDED
+Message-ID: <01010183ddac296d-fddf5612-f98f-47a4-99db-94cd829db3ba-000000@us-west-2.amazonses.com>
 Date: Sat, 15 Oct 2022 22:03:11 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.10.15-54.240.27.23
+X-SES-Outgoing: 2022.10.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Oct 2022 22:03:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171741
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171742
 
---===============0063988747718795002==
+--===============5139940182932832020==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *u-boot-tools* to *2022.10* has Succeeded.
+that the automatic attempt to upgrade the recipe *acpid* to *2.0.34* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-u-boot-tools-upgrade-2022.07-2022.10.patch
+    - apply the patch: git am 0001-acpid-upgrade-2.0.33-2.0.34.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,66 +69,61 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============0063988747718795002==
+--===============5139940182932832020==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-u-boot-tools-upgrade-2022.07-2022.10.patch"
+ filename="0001-acpid-upgrade-2.0.33-2.0.34.patch"
 
-RnJvbSA2MjE1YWY2Y2NlNGVmMzk2ZDkzODBiODFiZjhkNGI5MDgwMmQ4MzJhIE1vbiBTZXAgMTcg
+RnJvbSA4NzNlYjgyN2NiYmMwMzJjODAzMDM2YzRmMzJlODRhZDVhYzQwYmE4IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMDY6MTk6NDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSB1
-LWJvb3QtdG9vbHM6IHVwZ3JhZGUgMjAyMi4wNyAtPiAyMDIyLjEwCgotLS0KIG1ldGEvcmVjaXBl
-cy1ic3AvdS1ib290L3UtYm9vdC1jb21tb24uaW5jICAgICAgICAgICAgICAgICAgICAgICB8IDIg
-Ky0KIC4uLi91LWJvb3Qve3UtYm9vdC10b29sc18yMDIyLjA3LmJiID0+IHUtYm9vdC10b29sc18y
-MDIyLjEwLmJifSB8IDAKIDIgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRp
-b24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC97dS1ib290LXRvb2xzXzIwMjIu
-MDcuYmIgPT4gdS1ib290LXRvb2xzXzIwMjIuMTAuYmJ9ICgxMDAlKQoKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdC1jb21tb24uaW5jIGIvbWV0YS9yZWNpcGVzLWJz
-cC91LWJvb3QvdS1ib290LWNvbW1vbi5pbmMKaW5kZXggZDdmZDNjNzIyNy4uNjBjNzdjYmVjNCAx
-MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LWNvbW1vbi5pbmMKKysr
-IGIvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LWNvbW1vbi5pbmMKQEAgLTEyLDcgKzEy
-LDcgQEAgUEUgPSAiMSIKIAogIyBXZSB1c2UgdGhlIHJldmlzaW9uIGluIG9yZGVyIHRvIGF2b2lk
-IGhhdmluZyB0byBmZXRjaCBpdCBmcm9tIHRoZQogIyByZXBvIGR1cmluZyBwYXJzZQotU1JDUkVW
-ID0gImUwOTJlMzI1MDI3MGExMDE2Yzg3N2RhN2JkZDkzODRmMTRiMTMyMWUiCitTUkNSRVYgPSAi
-NGRlYmM1N2EzZGE2YzNmNGQzZjg5YTYzN2U5OTIwNmY0Y2VhMGE5NiIKIAogU1JDX1VSSSA9ICJn
-aXQ6Ly9zb3VyY2UuZGVueC5kZS91LWJvb3QvdS1ib290LmdpdDtwcm90b2NvbD1odHRwczticmFu
-Y2g9bWFzdGVyIgogCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC91LWJvb3Qt
-dG9vbHNfMjAyMi4wNy5iYiBiL21ldGEvcmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdC10b29sc18y
-MDIyLjEwLmJiCnNpbWlsYXJpdHkgaW5kZXggMTAwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
-YnNwL3UtYm9vdC91LWJvb3QtdG9vbHNfMjAyMi4wNy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
-LWJzcC91LWJvb3QvdS1ib290LXRvb2xzXzIwMjIuMTAuYmIKLS0gCjIuMzEuMQoK
+CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMDU6NTA6MzMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBh
+Y3BpZDogdXBncmFkZSAyLjAuMzMgLT4gMi4wLjM0CgotLS0KIG1ldGEvcmVjaXBlcy1ic3AvYWNw
+aWQve2FjcGlkXzIuMC4zMy5iYiA9PiBhY3BpZF8yLjAuMzQuYmJ9IHwgMiArLQogMSBmaWxlIGNo
+YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVz
+LWJzcC9hY3BpZC97YWNwaWRfMi4wLjMzLmJiID0+IGFjcGlkXzIuMC4zNC5iYn0gKDY2JSkKCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtYnNwL2FjcGlkL2FjcGlkXzIuMC4zMy5iYiBiL21ldGEv
+cmVjaXBlcy1ic3AvYWNwaWQvYWNwaWRfMi4wLjM0LmJiCnNpbWlsYXJpdHkgaW5kZXggNjYlCnJl
+bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ic3AvYWNwaWQvYWNwaWRfMi4wLjMzLmJiCnJlbmFtZSB0
+byBtZXRhL3JlY2lwZXMtYnNwL2FjcGlkL2FjcGlkXzIuMC4zNC5iYgppbmRleCA3MDk0YmEyNjYy
+Li4xZTBhNmQ1ZjI0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtYnNwL2FjcGlkL2FjcGlkXzIu
+MC4zMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtYnNwL2FjcGlkL2FjcGlkXzIuMC4zNC5iYgpAQCAt
+Myw0ICszLDQgQEAgcmVxdWlyZSBhY3BpZC5pbmMKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTov
+L0NPUFlJTkc7bWQ1PThjYTQzY2JjODQyYzIzMzZlODM1OTI2YzIxNjZjMjhiIFwKICAgICAgICAg
+ICAgICAgICAgICAgZmlsZTovL2FjcGlkLmg7ZW5kbGluZT0yNDttZDU9MzI0YTljZjIyNWFlNjlk
+ZGFhZDFiZjlkOTQyMTE1YjUiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIwODU2ZjcxYjNlYjM0
+YTFiNjYzZDBhOGU2MzYzZGZjYmM1MTllNjNkODQ3MzMwNDk4ODk4NjU4ZTI5NzJkYmU4IgorU1JD
+X1VSSVtzaGEyNTZzdW1dID0gIjJkMDk1YzhjZmNiYzg0N2NhZWM3NDZkNjJjZGM4ZDBiZmYxZWMx
+YmM3MmVmN2M2NzRjNzIxZTA0ZGE2YWIzMzMiCi0tIAoyLjMxLjEKCg==
 
---===============0063988747718795002==
+--===============5139940182932832020==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/u-boot-tools: PKGV changed from 2022.07 [default] to 2022.10 [default]
-packages/core2-32-poky-linux/u-boot-tools: PV changed from "2022.07" to "2022.10"
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools-dbg: PKGV changed from 2022.07 [default] to 2022.10 [default]
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools-dbg: PKGSIZE changed from 3099452 to 3049016 (-2%)
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools-dbg: PV changed from "2022.07" to "2022.10"
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools-dev: PKGV changed from 2022.07 [default] to 2022.10 [default]
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools-dev: PV changed from "2022.07" to "2022.10"
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools-doc: PKGV changed from 2022.07 [default] to 2022.10 [default]
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools-doc: PV changed from "2022.07" to "2022.10"
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools-locale: PKGV changed from 2022.07 [default] to 2022.10 [default]
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools-locale: PV changed from "2022.07" to "2022.10"
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools-mkenvimage: PKGV changed from 2022.07 [default] to 2022.10 [default]
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools-mkenvimage: PV changed from "2022.07" to "2022.10"
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools-mkimage: PKGV changed from 2022.07 [default] to 2022.10 [default]
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools-mkimage: PKGSIZE changed from 1037580 to 1049872 (+1%)
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools-mkimage: PV changed from "2022.07" to "2022.10"
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools-src: PKGV changed from 2022.07 [default] to 2022.10 [default]
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools-src: PKGSIZE changed from 1209508 to 1226652 (+1%)
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools-src: PV changed from "2022.07" to "2022.10"
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools-staticdev: PKGV changed from 2022.07 [default] to 2022.10 [default]
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools-staticdev: PV changed from "2022.07" to "2022.10"
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools: PKGV changed from 2022.07 [default] to 2022.10 [default]
-packages/core2-32-poky-linux/u-boot-tools/u-boot-tools: PV changed from "2022.07" to "2022.10"
+packages/core2-32-poky-linux/acpid/acpid-dbg: PKGV changed from 2.0.33 [default] to 2.0.34 [default]
+packages/core2-32-poky-linux/acpid/acpid-dbg: PKGSIZE changed from 204072 to 207048 (+1%)
+packages/core2-32-poky-linux/acpid/acpid-dbg: PV changed from "2.0.33" to "2.0.34"
+packages/core2-32-poky-linux/acpid/acpid-dev: PKGV changed from 2.0.33 [default] to 2.0.34 [default]
+packages/core2-32-poky-linux/acpid/acpid-dev: PV changed from "2.0.33" to "2.0.34"
+packages/core2-32-poky-linux/acpid/acpid-doc: PKGV changed from 2.0.33 [default] to 2.0.34 [default]
+packages/core2-32-poky-linux/acpid/acpid-doc: PKGSIZE changed from 66152 to 66886 (+1%)
+packages/core2-32-poky-linux/acpid/acpid-doc: PV changed from "2.0.33" to "2.0.34"
+packages/core2-32-poky-linux/acpid/acpid-locale: PKGV changed from 2.0.33 [default] to 2.0.34 [default]
+packages/core2-32-poky-linux/acpid/acpid-locale: PV changed from "2.0.33" to "2.0.34"
+packages/core2-32-poky-linux/acpid/acpid-src: PKGV changed from 2.0.33 [default] to 2.0.34 [default]
+packages/core2-32-poky-linux/acpid/acpid-src: PKGSIZE changed from 169188 to 172541 (+2%)
+packages/core2-32-poky-linux/acpid/acpid-src: PV changed from "2.0.33" to "2.0.34"
+packages/core2-32-poky-linux/acpid/acpid-staticdev: PKGV changed from 2.0.33 [default] to 2.0.34 [default]
+packages/core2-32-poky-linux/acpid/acpid-staticdev: PV changed from "2.0.33" to "2.0.34"
+packages/core2-32-poky-linux/acpid/acpid: PKGV changed from 2.0.33 [default] to 2.0.34 [default]
+packages/core2-32-poky-linux/acpid/acpid: PKGSIZE changed from 95854 to 101010 (+5%)
+packages/core2-32-poky-linux/acpid/acpid: PV changed from "2.0.33" to "2.0.34"
+packages/core2-32-poky-linux/acpid: PKGV changed from 2.0.33 [default] to 2.0.34 [default]
+packages/core2-32-poky-linux/acpid: SRC_URI changed from "https://downloads.sourceforge.net/acpid2/acpid-2.0.33.tar.xz file://init file://acpid.service" to "https://downloads.sourceforge.net/acpid2/acpid-2.0.34.tar.xz file://init file://acpid.service"
+packages/core2-32-poky-linux/acpid: PV changed from "2.0.33" to "2.0.34"
 
---===============0063988747718795002==--
+--===============5139940182932832020==--
 
