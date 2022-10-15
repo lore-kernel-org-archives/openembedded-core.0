@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67009C6FA95
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A4BBC6FA94
 	for <webhook@archiver.kernel.org>; Sat, 15 Oct 2022 22:03:21 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web09.24558.1665871392776365023
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.24358.1665871395173394216
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Oct 2022 15:03:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=BT6A4zId;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010183ddac3eb8-8e9382eb-4c97-40ed-99e3-8a53a13803bf-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=dx8X1KZ5;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010183ddac3f97-f8b234c0-ece9-4e6b-9710-3c4cd4b2a82e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1665871396;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=of47+cW0n0ws/aIH3Qpcw7ru+6mRT5eWrN0vPXgqSDc=;
-	b=BT6A4zIdJnAhcQkvHH1MELClrPM3PXYX8+7ScmbYGtw4yv6Y5sp99MXdB34WQUiS
-	brCzTq3U6KdF8dwFulv4KeaSaHXCL2FLZoUflbPLNg2ZP0XtaGYL6iRd2oVJYtkGcBD
-	eIug7SlPAmZKxAbLeLtUt4RyrMov5xrjXZY1Wq9g=
+	bh=yWwsiSFdPBX9NAnHszAS2qNbmSWjLUqAZ6G2s+0/Yxo=;
+	b=dx8X1KZ5oEGlNtTTEt4d5HEmmD3X3BVdpfJ9ieiCcgHwzF5EjoQ0vqi5hQ7D4eZA
+	Wo8zTE4m0GZz1SJJqgTq4jl+h/pRGqblYRhWeF6ii508kcJAsNJ8SIPs33pkTnf8ZNr
+	GLDtdaBc1KFoVv/s28PUzDlzrC9EBIYnDsL64ey4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1665871396;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=of47+cW0n0ws/aIH3Qpcw7ru+6mRT5eWrN0vPXgqSDc=;
-	b=hKtpNOAxJENgzfDwen7KNjisDGkOtagD84NkRQPQSI9qC1BxL0YXJ+9vVi5trDwm
-	KuS3cXrWMkWXEAycO8/Nc3iP4PCrLglNjoaSOQ9TLVt9GrYKqsPWReFIYBaMK7+IRK0
-	9LFchxsAVqcW+1eGQmjroTA3tWCAmSTqUGR+el24=
-Content-Type: multipart/mixed; boundary="===============1278004536632252771=="
+	bh=yWwsiSFdPBX9NAnHszAS2qNbmSWjLUqAZ6G2s+0/Yxo=;
+	b=fIatmhh0n0gn0DvpygVbliKhPBBeOOSeuhww/JqZrIXu1LLlgTXsMe/6SdZTkaK4
+	tXuoq0vq8ayPO8qEKoM0+uvewMecURMmTJ3kuvwSm+Ut87uWADu1pHr9aoO4Vfiaz58
+	W5AhUZ6WXVaMQ7MceNOWfFhroTOrb49PP0q8vUZc=
+Content-Type: multipart/mixed; boundary="===============0381812656680953598=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-rtsp-server: upgrading to 1.20.4 SUCCEEDED
-Message-ID: <01010183ddac3eb8-8e9382eb-4c97-40ed-99e3-8a53a13803bf-000000@us-west-2.amazonses.com>
+Subject: [AUH] webkitgtk: upgrading to 2.38.0 FAILED
+Message-ID: <01010183ddac3f97-f8b234c0-ece9-4e6b-9710-3c4cd4b2a82e-000000@us-west-2.amazonses.com>
 Date: Sat, 15 Oct 2022 22:03:16 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.10.15-54.240.27.45
+X-SES-Outgoing: 2022.10.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Oct 2022 22:03:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171856
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171860
 
---===============1278004536632252771==
+--===============0381812656680953598==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,111 +50,225 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gstreamer1.0-rtsp-server* to *1.20.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *webkitgtk* to *2.38.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-rtsp-server-upgrade-1.20.3-1.20.4.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade webkitgtk -V 2.38.0
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1661 entries from dependency cache.
+
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:655994ee356eb9be174263065f065c83964393a1"
+workspace            = "master:3e5faccfaf50fee0ba8f6eef6c9bf458137d06d2"
+
+Initialising tasks...done.
+Sstate summary: Wanted 2 Local 2 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1661 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 886 .bb files complete (884 cached, 2 parsed). 1662 targets, 35 skipped, 0 masked, 0 errors.
+
+Summary: There was 1 WARNING message.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:655994ee356eb9be174263065f065c83964393a1"
+workspace            = "master:3e5faccfaf50fee0ba8f6eef6c9bf458137d06d2"
+
+Initialising tasks...done.
+Sstate summary: Wanted 2 Local 2 Mirrors 0 Missed 0 Current 16 (100% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                    | ETA:  0:00:28
+Adding changed files:   1% |                                    | ETA:  0:00:20
+Adding changed files:   2% |                                    | ETA:  0:00:17
+Adding changed files:   3% |#                                   | ETA:  0:00:15
+Adding changed files:   3% |#                                   | ETA:  0:00:14
+Adding changed files:   4% |#                                   | ETA:  0:00:14
+Adding changed files:   5% |#                                   | ETA:  0:00:13
+Adding changed files:   6% |##                                  | ETA:  0:00:13
+Adding changed files:   6% |##                                  | ETA:  0:00:12
+Adding changed files:   7% |##                                  | ETA:  0:00:12
+Adding changed files:   8% |###                                 | ETA:  0:00:12
+Adding changed files:   9% |###                                 | ETA:  0:00:12
+Adding changed files:   9% |###                                 | ETA:  0:00:11
+Adding changed files:  10% |###                                 | ETA:  0:00:11
+Adding changed files:  11% |####                                | ETA:  0:00:11
+Adding changed files:  12% |####                                | ETA:  0:00:11
+Adding changed files:  13% |####                                | ETA:  0:00:11
+Adding changed files:  13% |####                                | ETA:  0:00:11
+Adding changed files:  14% |#####                               | ETA:  0:00:11
+Adding changed files:  15% |#####                               | ETA:  0:00:11
+Adding changed files:  16% |#####                               | ETA:  0:00:10
+Adding changed files:  16% |######                              | ETA:  0:00:10
+Adding changed files:  17% |######                              | ETA:  0:00:10
+Adding changed files:  18% |######                              | ETA:  0:00:10
+Adding changed files:  19% |######                              | ETA:  0:00:10
+Adding changed files:  19% |#######                             | ETA:  0:00:10
+Adding changed files:  20% |#######                             | ETA:  0:00:10
+Adding changed files:  21% |#######                             | ETA:  0:00:10
+Adding changed files:  22% |########                            | ETA:  0:00:09
+Adding changed files:  23% |########                            | ETA:  0:00:09
+Adding changed files:  23% |########                            | ETA:  0:00:09
+Adding changed files:  24% |########                            | ETA:  0:00:09
+Adding changed files:  25% |#########                           | ETA:  0:00:09
+Adding changed files:  26% |#########                           | ETA:  0:00:09
+Adding changed files:  26% |#########                           | ETA:  0:00:09
+Adding changed files:  27% |#########                           | ETA:  0:00:09
+Adding changed files:  28% |##########                          | ETA:  0:00:09
+Adding changed files:  29% |##########                          | ETA:  0:00:09
+Adding changed files:  29% |##########                          | ETA:  0:00:09
+Adding changed files:  30% |###########                         | ETA:  0:00:09
+Adding changed files:  31% |###########                         | ETA:  0:00:08
+Adding changed files:  32% |###########                         | ETA:  0:00:08
+Adding changed files:  33% |###########                         | ETA:  0:00:08
+Adding changed files:  33% |############                        | ETA:  0:00:08
+Adding changed files:  34% |############                        | ETA:  0:00:08
+Adding changed files:  35% |############                        | ETA:  0:00:08
+Adding changed files:  36% |#############                       | ETA:  0:00:08
+Adding changed files:  36% |#############                       | ETA:  0:00:08
+Adding changed files:  37% |#############                       | ETA:  0:00:08
+Adding changed files:  38% |#############                       | ETA:  0:00:08
+Adding changed files:  39% |##############                      | ETA:  0:00:08
+Adding changed files:  39% |##############                      | ETA:  0:00:08
+Adding changed files:  40% |##############                      | ETA:  0:00:08
+Adding changed files:  41% |##############                      | ETA:  0:00:07
+Adding changed files:  42% |###############                     | ETA:  0:00:07
+Adding changed files:  43% |###############                     | ETA:  0:00:07
+Adding changed files:  43% |###############                     | ETA:  0:00:07
+Adding changed files:  44% |################                    | ETA:  0:00:07
+Adding changed files:  45% |################                    | ETA:  0:00:07
+Adding changed files:  46% |################                    | ETA:  0:00:07
+Adding changed files:  46% |################                    | ETA:  0:00:07
+Adding changed files:  47% |#################                   | ETA:  0:00:07
+Adding changed files:  48% |#################                   | ETA:  0:00:07
+Adding changed files:  49% |#################                   | ETA:  0:00:07
+Adding changed files:  49% |#################                   | ETA:  0:00:07
+Adding changed files:  50% |##################                  | ETA:  0:00:07
+Adding changed files:  51% |##################                  | ETA:  0:00:06
+Adding changed files:  52% |##################                  | ETA:  0:00:06
+Adding changed files:  53% |###################                 | ETA:  0:00:06
+Adding changed files:  53% |###################                 | ETA:  0:00:06
+Adding changed files:  54% |###################                 | ETA:  0:00:06
+Adding changed files:  55% |###################                 | ETA:  0:00:06
+Adding changed files:  56% |####################                | ETA:  0:00:06
+Adding changed files:  56% |####################                | ETA:  0:00:06
+Adding changed files:  57% |####################                | ETA:  0:00:06
+Adding changed files:  58% |#####################               | ETA:  0:00:06
+Adding changed files:  59% |#####################               | ETA:  0:00:06
+Adding changed files:  59% |#####################               | ETA:  0:00:05
+Adding changed files:  60% |#####################               | ETA:  0:00:05
+Adding changed files:  61% |######################              | ETA:  0:00:05
+Adding changed files:  62% |######################              | ETA:  0:00:05
+Adding changed files:  63% |######################              | ETA:  0:00:05
+Adding changed files:  63% |######################              | ETA:  0:00:05
+Adding changed files:  64% |#######################             | ETA:  0:00:05
+Adding changed files:  65% |#######################             | ETA:  0:00:05
+Adding changed files:  66% |#######################             | ETA:  0:00:05
+Adding changed files:  66% |########################            | ETA:  0:00:04
+Adding changed files:  67% |########################            | ETA:  0:00:04
+Adding changed files:  68% |########################            | ETA:  0:00:04
+Adding changed files:  69% |########################            | ETA:  0:00:04
+Adding changed files:  69% |#########################           | ETA:  0:00:04
+Adding changed files:  70% |#########################           | ETA:  0:00:04
+Adding changed files:  71% |#########################           | ETA:  0:00:04
+Adding changed files:  72% |##########################          | ETA:  0:00:04
+Adding changed files:  73% |##########################          | ETA:  0:00:04
+Adding changed files:  73% |##########################          | ETA:  0:00:03
+Adding changed files:  74% |##########################          | ETA:  0:00:03
+Adding changed files:  75% |###########################         | ETA:  0:00:03
+Adding changed files:  76% |###########################         | ETA:  0:00:03
+Adding changed files:  76% |###########################         | ETA:  0:00:03
+Adding changed files:  77% |###########################         | ETA:  0:00:03
+Adding changed files:  78% |############################        | ETA:  0:00:03
+Adding changed files:  79% |############################        | ETA:  0:00:03
+Adding changed files:  79% |############################        | ETA:  0:00:03
+Adding changed files:  80% |#############################       | ETA:  0:00:02
+Adding changed files:  81% |#############################       | ETA:  0:00:02
+Adding changed files:  82% |#############################       | ETA:  0:00:02
+Adding changed files:  83% |#############################       | ETA:  0:00:02
+Adding changed files:  83% |##############################      | ETA:  0:00:02
+Adding changed files:  84% |##############################      | ETA:  0:00:02
+Adding changed files:  85% |##############################      | ETA:  0:00:02
+Adding changed files:  86% |###############################     | ETA:  0:00:02
+Adding changed files:  86% |###############################     | ETA:  0:00:02
+Adding changed files:  87% |###############################     | ETA:  0:00:01
+Adding changed files:  88% |###############################     | ETA:  0:00:01
+Adding changed files:  89% |################################    | ETA:  0:00:01
+Adding changed files:  89% |################################    | ETA:  0:00:01
+Adding changed files:  90% |################################    | ETA:  0:00:01
+Adding changed files:  91% |################################    | ETA:  0:00:01
+Adding changed files:  92% |#################################   | ETA:  0:00:01
+Adding changed files:  93% |#################################   | ETA:  0:00:01
+Adding changed files:  93% |#################################   | ETA:  0:00:00
+Adding changed files:  94% |##################################  | ETA:  0:00:00
+Adding changed files:  95% |##################################  | ETA:  0:00:00
+Adding changed files:  96% |##################################  | ETA:  0:00:00
+Adding changed files:  96% |##################################  | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:15
+
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://www.webkitgtk.org/releases/webkitgtk-2.38.0.tar.xz...
+INFO: Rebasing devtool onto 8d2a21edea7670072427b9521c3cb1cd09f296f2
+WARNING: Command 'git rebase 8d2a21edea7670072427b9521c3cb1cd09f296f2' failed:
+CONFLICT (modify/delete): Source/cmake/FindGObjectIntrospection.cmake deleted in HEAD and modified in e2a208aa (FindGObjectIntrospection.cmake: prefix variables obtained from pkg-config with PKG_CONFIG_SYSROOT_DIR). Version e2a208aa (FindGObjectIntrospection.cmake: prefix variables obtained from pkg-config with PKG_CONFIG_SYSROOT_DIR) of Source/cmake/FindGObjectIntrospection.cmake left in tree.
+
+ERROR: Execution of 'git checkout devtool' failed with exit code 1:
+error: you need to resolve your current index first
+Source/cmake/FindGObjectIntrospection.cmake: needs merge
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============1278004536632252771==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: FILELIST: removed "/usr/lib/libgstrtspserver-1.0.so.0.2003.0", added "/usr/lib/libgstrtspserver-1.0.so.0.2004.0"
-Changes to packages/core2-32-poky-linux/gstreamer1.0-rtsp-server (sysroot):
-  /usr/lib/libgstrtspserver-1.0.so.0 changed symlink target from libgstrtspserver-1.0.so.0.2003.0 to libgstrtspserver-1.0.so.0.2004.0
-  /usr/lib/libgstrtspserver-1.0.so.0.2003.0 moved to /usr/lib/libgstrtspserver-1.0.so.0.2004.0
-
---===============1278004536632252771==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-gstreamer1.0-rtsp-server-upgrade-1.20.3-1.20.4.patch"
-
-RnJvbSBlYTkwYjFiNDkwMTMzNGM4ZTk1YzdkNGYzZGMwZGU5NWJiM2UzNzU1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMTg6NTg6MTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-c3RyZWFtZXIxLjAtcnRzcC1zZXJ2ZXI6IHVwZ3JhZGUgMS4yMC4zIC0+IDEuMjAuNAoKLS0tCiAu
-Li5ydHNwLXNlcnZlcl8xLjIwLjMuYmIgPT4gZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjAu
-NC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
-LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEu
-MC1ydHNwLXNlcnZlcl8xLjIwLjMuYmIgPT4gZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjAu
-NC5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFt
-ZXIvZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjAuMy5iYiBiL21ldGEvcmVjaXBlcy1tdWx0
-aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcnRzcC1zZXJ2ZXJfMS4yMC40LmJiCnNpbWls
-YXJpdHkgaW5kZXggOTAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJl
-YW1lci9nc3RyZWFtZXIxLjAtcnRzcC1zZXJ2ZXJfMS4yMC4zLmJiCnJlbmFtZSB0byBtZXRhL3Jl
-Y2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjAu
-NC5iYgppbmRleCBmZDRmODJmY2MzLi40MTM3YjQ5OTNiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjAuMy5i
-YgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXJ0
-c3Atc2VydmVyXzEuMjAuNC5iYgpAQCAtMTAsNyArMTAsNyBAQCBQTlJFQUwgPSAiZ3N0LXJ0c3At
-c2VydmVyIgogCiBTUkNfVVJJID0gImh0dHBzOi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9wLm9yZy9z
-cmMvJHtQTlJFQUx9LyR7UE5SRUFMfS0ke1BWfS50YXIueHoiCiAKLVNSQ19VUklbc2hhMjU2c3Vt
-XSA9ICJlZTQwMjcxOGJlOWIxMjdmMGU1ZTY2Y2E0YzFiNGY0MmU0OTI2ZWM5M2JhMzA3YjdjY2Nh
-NWRjNmNjOTc5NGNhIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjg4ZDllZjYzNGU1OWFlYjhjYzE4
-M2FkNWFlNDQ0NTU3YzVhODhkZDQ5ZDgzM2I5MDcyYmM2ZTFmYWU2YTNkN2QiCiAKIFMgPSAiJHtX
-T1JLRElSfS8ke1BOUkVBTH0tJHtQVn0iCiAKLS0gCjIuMzEuMQoK
-
---===============1278004536632252771==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-apps: PV changed from "1.20.3" to "1.20.4"
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-apps: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dbg: PV changed from "1.20.3" to "1.20.4"
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dbg: PKGSIZE changed from 1152044 to 1152808 (+0%)
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dbg: FILELIST: removed "/usr/lib/.debug/libgstrtspserver-1.0.so.0.2003.0", added "/usr/lib/.debug/libgstrtspserver-1.0.so.0.2004.0"
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dbg: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dev: PV changed from "1.20.3" to "1.20.4"
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dev: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-doc: PV changed from "1.20.3" to "1.20.4"
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-doc: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-glib: PV changed from "1.20.3" to "1.20.4"
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-glib: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-locale: PV changed from "1.20.3" to "1.20.4"
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-locale: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-meta: PV changed from "1.20.3" to "1.20.4"
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-meta: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspclientsink: PV changed from "1.20.3" to "1.20.4"
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspclientsink: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspserver-typelib: PV changed from "1.20.3" to "1.20.4"
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspserver-typelib: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-src: PV changed from "1.20.3" to "1.20.4"
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-src: PKGSIZE changed from 1165956 to 1167446 (+0%)
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-src: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-staticdev: PV changed from "1.20.3" to "1.20.4"
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-staticdev: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server: PV changed from "1.20.3" to "1.20.4"
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server: PV changed from "1.20.3" to "1.20.4"
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-rtsp-server/gst-rtsp-server-1.20.3.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-rtsp-server/gst-rtsp-server-1.20.4.tar.xz"
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: PV changed from "1.20.3" to "1.20.4"
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: FILELIST: removed "/usr/lib/libgstrtspserver-1.0.so.0.2003.0", added "/usr/lib/libgstrtspserver-1.0.so.0.2004.0"
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: FILES: removed "/usr/lib/libgstrtspserver-1.0.so.0.2003.0", added "/usr/lib/libgstrtspserver-1.0.so.0.2004.0"
-packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
-Changes to packages/core2-32-poky-linux/gstreamer1.0-rtsp-server (sysroot):
-  /usr/lib/libgstrtspserver-1.0.so.0 changed symlink target from libgstrtspserver-1.0.so.0.2003.0 to libgstrtspserver-1.0.so.0.2004.0
-  /usr/lib/libgstrtspserver-1.0.so.0.2003.0 moved to /usr/lib/libgstrtspserver-1.0.so.0.2004.0
-
---===============1278004536632252771==--
+--===============0381812656680953598==--
 
