@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6819FC64E90
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 681CEC64E92
 	for <webhook@archiver.kernel.org>; Sat, 15 Oct 2022 22:03:20 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web12.24540.1665871394580070695
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.24225.1665871394517647008
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Oct 2022 15:03:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=E6JHyTaq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010183ddac3449-650c2be1-0cb5-44c4-90ba-82ac1f911bd9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=N+JfnUt6;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010183ddac3376-fd9deb9c-a415-4718-b990-82eff9dab81e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1665871393;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=17KZpKg0XtBkXGVnk3HqxZa6tYE9HK+vVeIuln8M6uU=;
-	b=E6JHyTaqWj7UJrWAqmBp8l0UcZp2e42nHM0y/ic8sUtejxGJRgRP4hSBVMEMIqo0
-	M/bnzkCAbr02mYIXWIFtLtCiMIb7RzPIBr4s72gH2AM0CEucIHAGEwji1lK7oZ9981L
-	MKieMSDfbCf62mDtW8T8xJwkjWOH0O4SgkxzqqdQ=
+	bh=FTQfghNGWqEGN+yYyQkGti8/g3IM7sGnvMTZx5GxdGw=;
+	b=N+JfnUt6q2pRJo9x6Qas2ZN5IkbllhmhQyOoQkoj3F/sA+nzOAS6WReSpEDw11Sz
+	pWE42JLjYB09ZNbKgywNELjczGX+sm7WyVg5kdbkIWbh8Dp1W1gjAPog2jRPjs5vEA6
+	43DXFST+EU8kMEfDEQ0OHlXu9DlBWwALTrc4fDC8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1665871393;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=17KZpKg0XtBkXGVnk3HqxZa6tYE9HK+vVeIuln8M6uU=;
-	b=i7m/tWRUr9ekZtZh3TrkG6HMQMzBm0H6GsLFsRV5CWet1Uj+oFYg92v6aYO7nPtu
-	Zdkfa2B58MVUP98EvBTBjaLmj/jDIN7jqKpRsPTRMRi3y8TlsxuMxoPYtMyBqCBI5LX
-	umOUq//kvzDvoTKUkdSk+WEQfdH2gCmlP2qhF+N4=
-Content-Type: multipart/mixed; boundary="===============0148022619985881893=="
+	bh=FTQfghNGWqEGN+yYyQkGti8/g3IM7sGnvMTZx5GxdGw=;
+	b=JdIjW6cTPdxzt0cAL8ol7NuJ0ucjmEsk0RZNfQWXTvNlGOIS+O2j85KFK1pO9Cxa
+	LooyPmvgw2hE6G1RiS7vvEOXPmDDudV0ZS9K0ByeGwu0dipbc1UaV789v2quNHyAaTu
+	LBQ0AzXo+axE/q5uhYIfhHqXn47IQY2bTtILDobc=
+Content-Type: multipart/mixed; boundary="===============5396649432211189517=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pytz: upgrading to 2022.4 SUCCEEDED
-Message-ID: <01010183ddac3449-650c2be1-0cb5-44c4-90ba-82ac1f911bd9-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-importlib-metadata: upgrading to 5.0.0 SUCCEEDED
+Message-ID: <01010183ddac3376-fd9deb9c-a415-4718-b990-82eff9dab81e-000000@us-west-2.amazonses.com>
 Date: Sat, 15 Oct 2022 22:03:13 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.10.15-54.240.27.191
+X-SES-Outgoing: 2022.10.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Oct 2022 22:03:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171789
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171788
 
---===============0148022619985881893==
+--===============5396649432211189517==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pytz* to *2022.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-importlib-metadata* to *5.0.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pytz-upgrade-2022.2.1-2022.4.patch
+    - apply the patch: git am 0001-python3-importlib-metadata-upgrade-4.12.0-5.0.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,100 +69,102 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============0148022619985881893==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-pytz-upgrade-2022.2.1-2022.4.patch"
-
-RnJvbSAwNTE0NjNlZTFmYzgxYTIwZmVmYTBlZTVkMTIwYmMzMTdkNzM1NmRjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMTA6NTk6NTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXB5dHo6IHVwZ3JhZGUgMjAyMi4yLjEgLT4gMjAyMi40CgotLS0KIC4uLi9weXRob24v
-e3B5dGhvbjMtcHl0el8yMDIyLjIuMS5iYiA9PiBweXRob24zLXB5dHpfMjAyMi40LmJifSB8IDIg
-Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHl0el8yMDIyLjIuMS5iYiA9
-PiBweXRob24zLXB5dHpfMjAyMi40LmJifSAoODklKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weXR6XzIwMjIuMi4xLmJiIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5dHpfMjAyMi40LmJiCnNpbWlsYXJpdHkgaW5kZXgg
-ODklCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weXR6
-XzIwMjIuMi4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
-bjMtcHl0el8yMDIyLjQuYmIKaW5kZXggYmI3YWVlZWMzNS4uMzMwMzE0ZjFiZCAxMDA2NDQKLS0t
-IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5dHpfMjAyMi4yLjEuYmIK
-KysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5dHpfMjAyMi40LmJi
-CkBAIC01LDcgKzUsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLnR4dDtt
-ZDU9MWE2N2ZjNDZjMWI1OTZjY2U1ZDIxMjA5YmJlNzU5OTkiCiAKIGluaGVyaXQgcHlwaSBzZXR1
-cHRvb2xzMyBwdGVzdAogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiY2VhMjIxNDE3MjA0ZjJkMWEy
-YWEwM2RkYWUzZTg2NzkyMTk3MWQwZDc2ZjE0ZDg3YWJiNDQxNDQxNWJiZGNmNSIKK1NSQ19VUklb
-c2hhMjU2c3VtXSA9ICI0OGNlNzk5ZDgzYjZmOGFhYjIwMjBlMzY5YjYyNzQ0NjY5NjYxOWU3OTY0
-NTQxOTYxMGI5ZmFjZDkwOWIzMTc0IgogCiBSREVQRU5EUzoke1BOfTpjbGFzcy10YXJnZXQgKz0g
-IlwKICAgICAke1BZVEhPTl9QTn0tZGF0ZXRpbWUgXAotLSAKMi4zMS4xCgo=
-
---===============0148022619985881893==
+--===============5396649432211189517==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/python3-pytz (sysroot):
-  /usr/lib/python3.10/site-packages/pytz-2022.4.dist-info was added
-  /usr/lib/python3.10/site-packages/pytz-2022.4.dist-info/LICENSE.txt was added
-  /usr/lib/python3.10/site-packages/pytz-2022.4.dist-info/METADATA was added
-  /usr/lib/python3.10/site-packages/pytz-2022.4.dist-info/RECORD was added
-  /usr/lib/python3.10/site-packages/pytz-2022.4.dist-info/top_level.txt was added
-  /usr/lib/python3.10/site-packages/pytz-2022.4.dist-info/WHEEL was added
-  /usr/lib/python3.10/site-packages/pytz-2022.4.dist-info/zip-safe was added
-  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info was removed
-  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/LICENSE.txt was removed
-  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/METADATA was removed
-  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/RECORD was removed
-  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/top_level.txt was removed
-  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/WHEEL was removed
-  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/zip-safe was removed
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata: FILELIST: directory renamed /usr/lib/python3.10/site-packages/importlib_metadata-4.12.0.dist-info -> /usr/lib/python3.10/site-packages/importlib_metadata-5.0.0.dist-info, added "/usr/lib/python3.10/site-packages/importlib_metadata/__pycache__/_py39compat.cpython-310.pyc /usr/lib/python3.10/site-packages/importlib_metadata/_py39compat.py"
+Changes to packages/core2-32-poky-linux/python3-importlib-metadata (sysroot):
+  /usr/lib/python3.10/site-packages/importlib_metadata-5.0.0.dist-info was added
+  /usr/lib/python3.10/site-packages/importlib_metadata-5.0.0.dist-info/LICENSE was added
+  /usr/lib/python3.10/site-packages/importlib_metadata-5.0.0.dist-info/METADATA was added
+  /usr/lib/python3.10/site-packages/importlib_metadata-5.0.0.dist-info/RECORD was added
+  /usr/lib/python3.10/site-packages/importlib_metadata-5.0.0.dist-info/top_level.txt was added
+  /usr/lib/python3.10/site-packages/importlib_metadata-5.0.0.dist-info/WHEEL was added
+  /usr/lib/python3.10/site-packages/importlib_metadata/_py39compat.py was added
+  /usr/lib/python3.10/site-packages/importlib_metadata/__pycache__/_py39compat.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/importlib_metadata-4.12.0.dist-info was removed
+  /usr/lib/python3.10/site-packages/importlib_metadata-4.12.0.dist-info/LICENSE was removed
+  /usr/lib/python3.10/site-packages/importlib_metadata-4.12.0.dist-info/METADATA was removed
+  /usr/lib/python3.10/site-packages/importlib_metadata-4.12.0.dist-info/RECORD was removed
+  /usr/lib/python3.10/site-packages/importlib_metadata-4.12.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.10/site-packages/importlib_metadata-4.12.0.dist-info/WHEEL was removed
 
---===============0148022619985881893==
+--===============5396649432211189517==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-importlib-metadata-upgrade-4.12.0-5.0.0.patch"
+
+RnJvbSAyYjAzYTdiMDkxNmViZDRmNzZkYzhhNmUyNzdmZmE4ZDNiNWQ5MDYxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMTA6MTk6NDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWltcG9ydGxpYi1tZXRhZGF0YTogdXBncmFkZSA0LjEyLjAgLT4gNS4wLjAKCi0tLQog
+Li4uYi1tZXRhZGF0YV80LjEyLjAuYmIgPT4gcHl0aG9uMy1pbXBvcnRsaWItbWV0YWRhdGFfNS4w
+LjAuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
+KC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1pbXBvcnRs
+aWItbWV0YWRhdGFfNC4xMi4wLmJiID0+IHB5dGhvbjMtaW1wb3J0bGliLW1ldGFkYXRhXzUuMC4w
+LmJifSAoODglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
+aG9uMy1pbXBvcnRsaWItbWV0YWRhdGFfNC4xMi4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV81LjAuMC5iYgpzaW1pbGFyaXR5IGlu
+ZGV4IDg4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
+aW1wb3J0bGliLW1ldGFkYXRhXzQuMTIuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV81LjAuMC5iYgppbmRleCBjMDBl
+NDJjYjFjLi5mMDYyMzY2OWQ3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
+aG9uL3B5dGhvbjMtaW1wb3J0bGliLW1ldGFkYXRhXzQuMTIuMC5iYgorKysgYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaW1wb3J0bGliLW1ldGFkYXRhXzUuMC4wLmJiCkBA
+IC04LDcgKzgsNyBAQCBpbmhlcml0IHB5cGkgcHl0aG9uX3NldHVwdG9vbHNfYnVpbGRfbWV0YQog
+UFlQSV9QQUNLQUdFID0gImltcG9ydGxpYl9tZXRhZGF0YSIKIFVQU1RSRUFNX0NIRUNLX1JFR0VY
+ID0gIi9pbXBvcnRsaWItbWV0YWRhdGEvKD9QPHB2ZXI+KFxkK1tcLlwtX10qKSspLyIKIAotU1JD
+X1VSSVtzaGEyNTZzdW1dID0gIjYzNzI0NWI4YmFiMmI2NTAyZmNiYzc1MmNjNGI3YTZmNjI0M2Ji
+MDJiMzFjNWMyNjE1NmFkMTAzZDNkNDU2NzAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZGEzMWRi
+MzJiMzA0MzE0ZDA0NGQzYzEyYzc5YmQ1OWUzMDc4ODliMjg3YWQxMmZmMzg3YjM1MDA4MzVmYzJh
+YiIKIAogUyA9ICIke1dPUktESVJ9L2ltcG9ydGxpYl9tZXRhZGF0YS0ke1BWfSIKIAotLSAKMi4z
+MS4xCgo=
+
+--===============5396649432211189517==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-pytz: PKGV changed from 2022.2.1 [default] to 2022.4 [default]
-packages/core2-32-poky-linux/python3-pytz: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pytz/pytz-2022.2.1.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/p/pytz/pytz-2022.4.tar.gz file://run-ptest"
-packages/core2-32-poky-linux/python3-pytz: PV changed from "2022.2.1" to "2022.4"
-packages/core2-32-poky-linux/python3-pytz/python3-pytz-dbg: PKGV changed from 2022.2.1 [default] to 2022.4 [default]
-packages/core2-32-poky-linux/python3-pytz/python3-pytz-dbg: PV changed from "2022.2.1" to "2022.4"
-packages/core2-32-poky-linux/python3-pytz/python3-pytz-dev: PKGV changed from 2022.2.1 [default] to 2022.4 [default]
-packages/core2-32-poky-linux/python3-pytz/python3-pytz-dev: PV changed from "2022.2.1" to "2022.4"
-packages/core2-32-poky-linux/python3-pytz/python3-pytz-doc: PKGV changed from 2022.2.1 [default] to 2022.4 [default]
-packages/core2-32-poky-linux/python3-pytz/python3-pytz-doc: PV changed from "2022.2.1" to "2022.4"
-packages/core2-32-poky-linux/python3-pytz/python3-pytz-locale: PKGV changed from 2022.2.1 [default] to 2022.4 [default]
-packages/core2-32-poky-linux/python3-pytz/python3-pytz-locale: PV changed from "2022.2.1" to "2022.4"
-packages/core2-32-poky-linux/python3-pytz/python3-pytz-ptest: PKGSIZE changed from 59168 to 59166 (-0%)
-packages/core2-32-poky-linux/python3-pytz/python3-pytz-ptest: PKGV changed from 2022.2.1 [default] to 2022.4 [default]
-packages/core2-32-poky-linux/python3-pytz/python3-pytz-ptest: PV changed from "2022.2.1" to "2022.4"
-packages/core2-32-poky-linux/python3-pytz/python3-pytz-src: PKGV changed from 2022.2.1 [default] to 2022.4 [default]
-packages/core2-32-poky-linux/python3-pytz/python3-pytz-src: PV changed from "2022.2.1" to "2022.4"
-packages/core2-32-poky-linux/python3-pytz/python3-pytz-staticdev: PKGV changed from 2022.2.1 [default] to 2022.4 [default]
-packages/core2-32-poky-linux/python3-pytz/python3-pytz-staticdev: PV changed from "2022.2.1" to "2022.4"
-packages/core2-32-poky-linux/python3-pytz/python3-pytz: PKGSIZE changed from 1054609 to 1055107 (+0%)
-packages/core2-32-poky-linux/python3-pytz/python3-pytz: PKGV changed from 2022.2.1 [default] to 2022.4 [default]
-packages/core2-32-poky-linux/python3-pytz/python3-pytz: PV changed from "2022.2.1" to "2022.4"
-Changes to packages/core2-32-poky-linux/python3-pytz (sysroot):
-  /usr/lib/python3.10/site-packages/pytz-2022.4.dist-info was added
-  /usr/lib/python3.10/site-packages/pytz-2022.4.dist-info/LICENSE.txt was added
-  /usr/lib/python3.10/site-packages/pytz-2022.4.dist-info/METADATA was added
-  /usr/lib/python3.10/site-packages/pytz-2022.4.dist-info/RECORD was added
-  /usr/lib/python3.10/site-packages/pytz-2022.4.dist-info/top_level.txt was added
-  /usr/lib/python3.10/site-packages/pytz-2022.4.dist-info/WHEEL was added
-  /usr/lib/python3.10/site-packages/pytz-2022.4.dist-info/zip-safe was added
-  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info was removed
-  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/LICENSE.txt was removed
-  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/METADATA was removed
-  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/RECORD was removed
-  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/top_level.txt was removed
-  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/WHEEL was removed
-  /usr/lib/python3.10/site-packages/pytz-2022.2.1.dist-info/zip-safe was removed
+packages/core2-32-poky-linux/python3-importlib-metadata: PV changed from "4.12.0" to "5.0.0"
+packages/core2-32-poky-linux/python3-importlib-metadata: PKGV changed from 4.12.0 [default] to 5.0.0 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata: SRC_URI changed from "https://files.pythonhosted.org/packages/source/i/importlib_metadata/importlib_metadata-4.12.0.tar.gz" to "https://files.pythonhosted.org/packages/source/i/importlib_metadata/importlib_metadata-5.0.0.tar.gz"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dbg: PV changed from "4.12.0" to "5.0.0"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dbg: PKGV changed from 4.12.0 [default] to 5.0.0 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dev: PV changed from "4.12.0" to "5.0.0"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dev: PKGV changed from 4.12.0 [default] to 5.0.0 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-doc: PV changed from "4.12.0" to "5.0.0"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-doc: PKGV changed from 4.12.0 [default] to 5.0.0 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-locale: PV changed from "4.12.0" to "5.0.0"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-locale: PKGV changed from 4.12.0 [default] to 5.0.0 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-src: PV changed from "4.12.0" to "5.0.0"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-src: PKGV changed from 4.12.0 [default] to 5.0.0 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-staticdev: PV changed from "4.12.0" to "5.0.0"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-staticdev: PKGV changed from 4.12.0 [default] to 5.0.0 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PV changed from "4.12.0" to "5.0.0"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PKGV changed from 4.12.0 [default] to 5.0.0 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PKGSIZE changed from 115993 to 109960 (-5%)
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata: FILELIST: directory renamed /usr/lib/python3.10/site-packages/importlib_metadata-4.12.0.dist-info -> /usr/lib/python3.10/site-packages/importlib_metadata-5.0.0.dist-info, added "/usr/lib/python3.10/site-packages/importlib_metadata/__pycache__/_py39compat.cpython-310.pyc /usr/lib/python3.10/site-packages/importlib_metadata/_py39compat.py"
+Changes to packages/core2-32-poky-linux/python3-importlib-metadata (sysroot):
+  /usr/lib/python3.10/site-packages/importlib_metadata-5.0.0.dist-info was added
+  /usr/lib/python3.10/site-packages/importlib_metadata-5.0.0.dist-info/LICENSE was added
+  /usr/lib/python3.10/site-packages/importlib_metadata-5.0.0.dist-info/METADATA was added
+  /usr/lib/python3.10/site-packages/importlib_metadata-5.0.0.dist-info/RECORD was added
+  /usr/lib/python3.10/site-packages/importlib_metadata-5.0.0.dist-info/top_level.txt was added
+  /usr/lib/python3.10/site-packages/importlib_metadata-5.0.0.dist-info/WHEEL was added
+  /usr/lib/python3.10/site-packages/importlib_metadata/_py39compat.py was added
+  /usr/lib/python3.10/site-packages/importlib_metadata/__pycache__/_py39compat.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/importlib_metadata-4.12.0.dist-info was removed
+  /usr/lib/python3.10/site-packages/importlib_metadata-4.12.0.dist-info/LICENSE was removed
+  /usr/lib/python3.10/site-packages/importlib_metadata-4.12.0.dist-info/METADATA was removed
+  /usr/lib/python3.10/site-packages/importlib_metadata-4.12.0.dist-info/RECORD was removed
+  /usr/lib/python3.10/site-packages/importlib_metadata-4.12.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.10/site-packages/importlib_metadata-4.12.0.dist-info/WHEEL was removed
 
---===============0148022619985881893==--
+--===============5396649432211189517==--
 
