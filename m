@@ -1,103 +1,132 @@
-Return-Path: <schnitzeltony@gmail.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5672C4332F
-	for <webhook@archiver.kernel.org>; Sat, 15 Oct 2022 11:16:25 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web10.18213.1665832581996949441
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DA05C4167B
+	for <webhook@archiver.kernel.org>; Sat, 15 Oct 2022 22:03:19 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web09.24571.1665871396571363879
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Oct 2022 04:16:22 -0700
+ Sat, 15 Oct 2022 15:03:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gNQDKlEn;
- spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: schnitzeltony@gmail.com)
-Received: by mail-pf1-f178.google.com with SMTP id y8so7088194pfp.13
-        for <openembedded-core@lists.openembedded.org>; Sat, 15 Oct 2022 04:16:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=le4fgHQCCs+iuZCz/BIyH+LFwJQd83mWVyGBS6Hqq7M=;
-        b=gNQDKlEn9czRu2HNRcU6sboN0aUULHqMQNAQvDlEzmpegc1LL9Qq19XKpMAPBGfDsV
-         dDlVXOYNZu+LYoEntzsWuc87kgQ07UPIF+/xz+klhgrgsHpXmC8ftnTp+X+khFp5zBvN
-         RdeYz39hmNZOHaxUtTWL++rFY81z4Rv0OZT+FQ9cB8k8dSu96tqipL8ioC92eHwB33Vv
-         Tx3KITbxnViH0wkw0UwTGmBfchThKoyo+wi/0z7ZqlhlpeL2C8ONjXjyfnzkmfNnqm3X
-         uWc1dJI/FbR6HY+RHCuTzeQFw2CxMBQA6XNCud3ymL3UtUsxJ1LetfpBtN4Ut+/e5Jpx
-         RKEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=le4fgHQCCs+iuZCz/BIyH+LFwJQd83mWVyGBS6Hqq7M=;
-        b=11If/9+hs+jtYRhXbD2UzGUT6HCXAH84ryus5eP6CyJJZyO7rhdrek9t2GbRbKKOVc
-         z6nUSoRHwl9vl5gdqjANBmwjuCSRWSihrn8dL9Gn0AnQJCasNi6jAPHEXuB+8Ufjulwb
-         FRsaqwjME2B8z/77eD69am4W0kDrmILiiwVXuWrSyH1j+hJf7Yzhu+xiwxzQxgaJx6Hp
-         gxUcqNz3l4gp/eWBZ3ucVlnxsCtYMA7Yy0u8kQrVlcOSqwUFWiHnPAlz0zSEQ2pTDiqS
-         zxIwFdNdT1KOinxtTMvKrfpyBgJ3t+ZcKILaHeoHRXUWPx/anoleAYpXZKCkU2sr2l/4
-         wj/g==
-X-Gm-Message-State: ACrzQf08IrF0Zl1yEPTTXhapHmrfTNr56Slj5TB8mwTI2b/Y6bwyF24o
-	L7Ox40PO7g4df/LV22JOy+1b5PBKgfUJi5Lb++g=
-X-Google-Smtp-Source: AMsMyM58sq+Z0a6zgmersfj+r8Uwk0H5P4cs83BIJ5pd7cO6sFpV0tkw0f55j17GHFRE5cqaxvh3wjhkxoHExN59fDc=
-X-Received: by 2002:a63:8ac1:0:b0:458:4982:933d with SMTP id
- y184-20020a638ac1000000b004584982933dmr2182129pgd.240.1665832581169; Sat, 15
- Oct 2022 04:16:21 -0700 (PDT)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=X5kRkc01;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010183ddac3ccf-7efda1bb-2ce3-4c91-ab15-007e8de14802-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1665871396;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=HwnKVakaBW2ChJZornnv2nO9DP1oyPXL7nmegZ63Cn0=;
+	b=X5kRkc01/aog2sN5vjXJaTjVX+8ZvG10OdRSS+xlmXPHNPFWmYWq830POUROXBqN
+	KRyvsebt3YxnYWXmMonZDu+xTYnIbYUkwe0gl+O5iaA3iqhenc/ij+AOzl3YRXvXU9s
+	OFmUpG0+v+ltqUG+hcgWYQBw7+izpUeYd9xCfKJA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1665871396;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=HwnKVakaBW2ChJZornnv2nO9DP1oyPXL7nmegZ63Cn0=;
+	b=XvOw57h7BuudghXiNSFILACtyK/J++Z/ch9Nvdvl2UFky9Tv25NYdopQOFY0bysH
+	j4aQ+rV+etDaajth4dotQzUN1T9goXvt3O92VoHkTUUvtKeSAxdIOS676Pjd8AqGoF0
+	XFNaG0jXx+GFRmPF/nghbjQRD8vEt3UK4XlFjd2Y=
+Content-Type: multipart/mixed; boundary="===============0173173830369448075=="
 MIME-Version: 1.0
-References: <20221014192742.162360-1-brgl@bgdev.pl>
-In-Reply-To: <20221014192742.162360-1-brgl@bgdev.pl>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Sat, 15 Oct 2022 13:16:08 +0200
-Message-ID: <CALbNGRSHfPO0OL-OC2Tt+RL8Jf5GL_H9vaLyjUKiFb_+t6LiWQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] bluez5: add dbus to RDEPENDS
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Khem Raj <raj.khem@gmail.com>, Bruce Ashfield <bruce.ashfield@gmail.com>, 
-	openembedded-core@lists.openembedded.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+From: auh@yoctoproject.org
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] lttng-ust: upgrading to 2.13.5 SUCCEEDED
+Message-ID: <01010183ddac3ccf-7efda1bb-2ce3-4c91-ab15-007e8de14802-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Oct 2022 22:03:16 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2022.10.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Oct 2022 11:16:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171740
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Oct 2022 22:03:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171848
 
-On Fri, Oct 14, 2022 at 9:27 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
->
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
->
-> Unless we're using systemd, dbus is not pulled into the system
-> automatically. Bluez5 will not work without dbus so add it to RDEPENDS
-> explicitly.
->
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> ---
->  meta/recipes-connectivity/bluez5/bluez5.inc | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-> index 79d4645ca8..b6f1c00c14 100644
-> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
-> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-> @@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
->                      file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
->                      file://src/main.c;beginline=1;endline=24;md5=0ad83ca0dc37ab08af448777c581e7ac"
->  DEPENDS = "dbus glib-2.0"
-> +RDEPENDS:${PN} = "dbus"
-^ Other RDEPENDS are overwritten. So why not use '+=' ?
+--===============0173173830369448075==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Andreas
->  PROVIDES += "bluez-hcidump"
->  RPROVIDES:${PN} += "bluez-hcidump"
->
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#171739): https://lists.openembedded.org/g/openembedded-core/message/171739
-> Mute This Topic: https://lists.openembedded.org/mt/94334177/3617609
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [schnitzeltony@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Hello,
+
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *lttng-ust* to *2.13.5* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-lttng-ust-upgrade-2.13.4-2.13.5.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============0173173830369448075==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-lttng-ust-upgrade-2.13.4-2.13.5.patch"
+
+RnJvbSBkZGEyM2U2MzdmZDY0MmY0YThhNzg1NGNkZWUxNzU0NWM0ZWFjYjYyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMTc6MjI6MjIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+dHRuZy11c3Q6IHVwZ3JhZGUgMi4xMy40IC0+IDIuMTMuNQoKLS0tCiAuLi4vbHR0bmcve2x0dG5n
+LXVzdF8yLjEzLjQuYmIgPT4gbHR0bmctdXN0XzIuMTMuNS5iYn0gICAgICAgICAgfCAyICstCiAx
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMta2VybmVsL2x0dG5nL3tsdHRuZy11c3RfMi4xMy40LmJiID0+IGx0dG5nLXVzdF8y
+LjEzLjUuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9s
+dHRuZy11c3RfMi4xMy40LmJiIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9sdHRuZy11c3Rf
+Mi4xMy41LmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1r
+ZXJuZWwvbHR0bmcvbHR0bmctdXN0XzIuMTMuNC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWtl
+cm5lbC9sdHRuZy9sdHRuZy11c3RfMi4xMy41LmJiCmluZGV4IDU2MjAwYWMzZTEuLjkxNjQwOGJm
+ZjAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvbHR0bmctdXN0XzIuMTMu
+NC5iYgorKysgYi9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2x0dG5nLXVzdF8yLjEzLjUuYmIK
+QEAgLTM0LDcgKzM0LDcgQEAgU1JDX1VSSSA9ICJodHRwczovL2x0dG5nLm9yZy9maWxlcy9sdHRu
+Zy11c3QvbHR0bmctdXN0LSR7UFZ9LnRhci5iejIgXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1N
+YWtlZmlsZS5hbS11cGRhdGUtcnBhdGgtbGluay5wYXRjaCBcCiAgICAgICAgICAgICIKIAotU1JD
+X1VSSVtzaGEyNTZzdW1dID0gIjY5OGY4MmVjNWRjNTZlOTgxYzBiYjA4YzQ2ZWJhYmFmMzFjNjBl
+ODc3YzJlMzY1YjlmZDZkM2E5ZmZmOGIzOTgiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZjFkN2Ji
+NDk4NGEzZGM1ZGFjZDNiN2JjYjRjMTBjMDRiMDQxYjBlZWNkN2NiYTFmZWYzZDhmODZhZmYwMmJk
+NiIKIAogQ1ZFX1BST0RVQ1QgPSAidXN0IgogCi0tIAoyLjMxLjEKCg==
+
+--===============0173173830369448075==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/lttng-ust: SRC_URI changed from "https://lttng.org/files/lttng-ust/lttng-ust-2.13.4.tar.bz2 file://0001-python-lttngust-Makefile.am-Add-install-lib-to-setup.patch file://0001-lttng-ust-common-link-with-liburcu-explicitly.patch file://0001-Makefile.am-update-rpath-link.patch" to "https://lttng.org/files/lttng-ust/lttng-ust-2.13.5.tar.bz2 file://0001-python-lttngust-Makefile.am-Add-install-lib-to-setup.patch file://0001-lttng-ust-common-link-with-liburcu-explicitly.patch file://0001-Makefile.am-update-rpath-link.patch"
+packages/core2-32-poky-linux/lttng-ust: PV changed from "2.13.4" to "2.13.5"
+packages/core2-32-poky-linux/lttng-ust: PKGV changed from 2.13.4 [default] to 2.13.5 [default]
+packages/core2-32-poky-linux/lttng-ust/lttng-ust-bin: PV changed from "2.13.4" to "2.13.5"
+packages/core2-32-poky-linux/lttng-ust/lttng-ust-bin: PKGV changed from 2.13.4 [default] to 2.13.5 [default]
+packages/core2-32-poky-linux/lttng-ust/lttng-ust-dbg: PV changed from "2.13.4" to "2.13.5"
+packages/core2-32-poky-linux/lttng-ust/lttng-ust-dbg: PKGSIZE changed from 3834772 to 3843380 (+0%)
+packages/core2-32-poky-linux/lttng-ust/lttng-ust-dbg: PKGV changed from 2.13.4 [default] to 2.13.5 [default]
+packages/core2-32-poky-linux/lttng-ust/lttng-ust-dev: PV changed from "2.13.4" to "2.13.5"
+packages/core2-32-poky-linux/lttng-ust/lttng-ust-dev: PKGV changed from 2.13.4 [default] to 2.13.5 [default]
+packages/core2-32-poky-linux/lttng-ust/lttng-ust-doc: PV changed from "2.13.4" to "2.13.5"
+packages/core2-32-poky-linux/lttng-ust/lttng-ust-doc: PKGSIZE changed from 108117 to 108533 (+0%)
+packages/core2-32-poky-linux/lttng-ust/lttng-ust-doc: PKGV changed from 2.13.4 [default] to 2.13.5 [default]
+packages/core2-32-poky-linux/lttng-ust/lttng-ust-locale: PV changed from "2.13.4" to "2.13.5"
+packages/core2-32-poky-linux/lttng-ust/lttng-ust-locale: PKGV changed from 2.13.4 [default] to 2.13.5 [default]
+packages/core2-32-poky-linux/lttng-ust/lttng-ust-src: PV changed from "2.13.4" to "2.13.5"
+packages/core2-32-poky-linux/lttng-ust/lttng-ust-src: PKGSIZE changed from 1517150 to 1525185 (+1%)
+packages/core2-32-poky-linux/lttng-ust/lttng-ust-src: PKGV changed from 2.13.4 [default] to 2.13.5 [default]
+packages/core2-32-poky-linux/lttng-ust/lttng-ust-staticdev: PV changed from "2.13.4" to "2.13.5"
+packages/core2-32-poky-linux/lttng-ust/lttng-ust-staticdev: PKGV changed from 2.13.4 [default] to 2.13.5 [default]
+packages/core2-32-poky-linux/lttng-ust/lttng-ust: PV changed from "2.13.4" to "2.13.5"
+packages/core2-32-poky-linux/lttng-ust/lttng-ust: PKGSIZE changed from 1202430 to 1210622 (+1%)
+packages/core2-32-poky-linux/lttng-ust/lttng-ust: PKGV changed from 2.13.4 [default] to 2.13.5 [default]
+
+--===============0173173830369448075==--
 
