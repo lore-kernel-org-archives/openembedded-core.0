@@ -2,46 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ED98C6FA90
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78835C6FA97
 	for <webhook@archiver.kernel.org>; Sat, 15 Oct 2022 22:03:21 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web12.24539.1665871394393586740
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web12.24532.1665871392641858706
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Oct 2022 15:03:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=SFrQXCNV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010183ddac3d80-487c4344-853c-4f2a-be57-8f61eb2304a7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=AU/tG7rP;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010183ddac3e3e-dc9b52d0-f6a6-462f-9b0b-da521dbeb4e3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1665871396;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=z03/ja8ZDi75IJpJmaOgnQQ9ROVOCE/0sFs2bnLV0Dc=;
-	b=SFrQXCNVom4IFPz0VUALXN0hoCMyiMLHf2B4gDULd4pi86J9AcIXdb28DHM/h2JI
-	aMxbhlSFmi0paRcG8oTVlM9Nb6CdJtUPWkUiGb9R/X10EKii6EkZw0L9yS0KAWa3XI5
-	7WvXOv8oQmyGBWD9zjQBl/9XDWL7BI0GQiNKVzX8=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=Vw0YqSNSu0eSOl8FkJJUe+KHfRWFkgGJh7WMgykAfto=;
+	b=AU/tG7rPoYlSWsLGeVwQ/NRJTZ7tweTM8bSqxxgBuPFo4G0YIYzBbpP5Nck5v3X5
+	JZ24tSDKltm8Dlh7IPvLrC/sJd+/9//uRH6vk5jK3egXuuycrl80fMJYLLxQU9d82yp
+	OIF04S/VcmBzZcjK0DuskE/X2F8VpV/X2GNlzuP4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1665871396;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=z03/ja8ZDi75IJpJmaOgnQQ9ROVOCE/0sFs2bnLV0Dc=;
-	b=iUg2NdL04WyqlZzD0b1fOt5PAY25nJOQEWD1fUwMEZLhjr7k+C5272DWDJgzDGzo
-	MuZny9rLoV7J/oTSXfOubHk1T5a7gNMwx/XV1eWRhKGyBvvSx02GGsHYLkJE/1AeLrz
-	PBSCLkd18nqiWLHozqobRpjzuX27sUwG723zRArM=
-Content-Type: multipart/mixed; boundary="===============5923561184949407453=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=Vw0YqSNSu0eSOl8FkJJUe+KHfRWFkgGJh7WMgykAfto=;
+	b=azWpyR1MyfD2ZhhlI5jJf6MVnDzKsYtCI9hII4VcNzP/kmKE3iGZu7OxMlLyyW2c
+	KCpHxwC7DbjrVR854f/87qPE05hfFD0bPGxMc4zilo00OW+DMgH8VGJlGpK6v9VRl8k
+	3+SG8VFyT+sWExaLg68xhkolTygJDPOyxCESy9Sk=
+Content-Type: multipart/mixed; boundary="===============3336965051548834816=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] flac: upgrading to 1.4.1 FAILED
-Message-ID: <01010183ddac3d80-487c4344-853c-4f2a-be57-8f61eb2304a7-000000@us-west-2.amazonses.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] gstreamer1.0-plugins-good: upgrading to 1.20.4 SUCCEEDED
+Message-ID: <01010183ddac3e3e-dc9b52d0-f6a6-462f-9b0b-da521dbeb4e3-000000@us-west-2.amazonses.com>
 Date: Sat, 15 Oct 2022 22:03:16 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.10.15-54.240.27.192
+X-SES-Outgoing: 2022.10.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Oct 2022 22:03:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171862
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171855
 
---===============5923561184949407453==
+--===============3336965051548834816==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -49,16 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *flac* to *1.4.1* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *gstreamer1.0-plugins-good* to *1.20.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-flac-upgrade-1.4.0-1.4.1.patch
+    - apply the patch: git am 0001-gstreamer1.0-plugins-good-upgrade-1.20.3-1.20.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -74,326 +69,276 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5923561184949407453==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1661 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 885 .bb files complete (884 cached, 1 parsed). 1661 targets, 36 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:1bdf2b23efe565bd5c79a5419f91d3570503299e"
-workspace            = "master:3e5faccfaf50fee0ba8f6eef6c9bf458137d06d2"
-
-Initialising tasks...done.
-Sstate summary: Wanted 46 Local 39 Mirrors 0 Missed 7 Current 115 (84% match, 95% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 136 of 161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: Running task 583 of 666 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.1.bb:do_fetch)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe flac-1.4.1-r0: task do_fetch: Started
-NOTE: recipe flac-1.4.1-r0: task do_fetch: Succeeded
-NOTE: Running task 594 of 666 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.1.bb:do_unpack)
-NOTE: recipe flac-1.4.1-r0: task do_unpack: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 158 of 161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe flac-1.4.1-r0: task do_unpack: Succeeded
-NOTE: Running task 599 of 666 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.1.bb:do_patch)
-NOTE: recipe flac-1.4.1-r0: task do_patch: Started
-NOTE: recipe flac-1.4.1-r0: task do_patch: Succeeded
-NOTE: Running task 600 of 666 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 601 of 666 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.1.bb:do_populate_lic)
-NOTE: recipe flac-1.4.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe flac-1.4.1-r0: task do_populate_lic: Started
-NOTE: recipe flac-1.4.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe flac-1.4.1-r0: task do_populate_lic: Succeeded
-NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 655 of 666 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe flac-1.4.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe flac-1.4.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 658 of 666 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.1.bb:do_configure)
-NOTE: recipe flac-1.4.1-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.36.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-native_2.4.7.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.bb:do_populate_sys
- root', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/autoconf/autoconf_2.71.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/automake/automake_1.16.5.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.6.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['glibc', 'gcc-cross-i686', 'gcc-runtime', 'libtool-cross', 'libtool-native', 'quilt-native', 'libogg', 'gettext-native', 'autoconf-native', 'automake-native', 'patch-native', 'pseudo-native', 'xz-native', 'mpfr-native', 'zstd-native', 'texinfo-dummy-native', 'gmp-native', 'gnu-config-native', 'flex-native', 'zlib-native', 'libmpc-native', 'linux-libc-headers', 'binutils-cross-i686', 'libgcc', 'gettext-minimal-native', 'm4-native', 'attr-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function autotools_preconfigure
-| DEBUG: Shell function autotools_preconfigure finished
-| DEBUG: Executing python function autotools_aclocals
-| DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common', 'common-linux', 'common-glibc', 'i686-linux', 'common']
-| DEBUG: Python function autotools_aclocals finished
-| DEBUG: Executing shell function do_configure
-| automake (GNU automake) 1.16.5
-| Copyright (C) 2021 Free Software Foundation, Inc.
-| License GPLv2+: GNU GPL version 2 or later <https://gnu.org/licenses/gpl-2.0.html>
-| This is free software: you are free to change and redistribute it.
-| There is NO WARRANTY, to the extent permitted by law.
-| 
-| Written by Tom Tromey <tromey@redhat.com>
-|        and Alexandre Duret-Lutz <adl@gnu.org>.
-| AUTOV is 1.16
-| NOTE: Executing ACLOCAL="aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot-native/usr/share/aclocal-1.16" autoreconf -Wcross --verbose --install --force --exclude=autopoint --exclude=gtkdocize -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/flac-1.4.1/m4/ -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot-native/usr/share/aclocal/
-| autoreconf: export WARNINGS=cross,no-obsolete
-| autoreconf: Entering directory '.'
-| autoreconf: configure.ac: not using Gettext
-| autoreconf: running: aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot-native/usr/share/aclocal-1.16 -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/flac-1.4.1/m4/ -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot-native/usr/share/aclocal/ --force -I m4
-| autoreconf: configure.ac: tracing
-| autoreconf: running: libtoolize --copy --force
-| libtoolize: putting auxiliary files in '.'.
-| libtoolize: copying file './ltmain.sh'
-| libtoolize: putting macros in AC_CONFIG_MACRO_DIRS, 'm4'.
-| libtoolize: copying file 'm4/libtool.m4'
-| libtoolize: copying file 'm4/ltoptions.m4'
-| libtoolize: copying file 'm4/ltsugar.m4'
-| libtoolize: copying file 'm4/ltversion.m4'
-| libtoolize: copying file 'm4/lt~obsolete.m4'
-| autoreconf: configure.ac: not using Intltool
-| autoreconf: configure.ac: not using Gtkdoc
-| autoreconf: running: aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot-native/usr/share/aclocal-1.16 -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/flac-1.4.1/m4/ -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot-native/usr/share/aclocal/ --force -I m4
-| autoreconf: running: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot-native/usr/bin/autoconf --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/flac-1.4.1/m4/ --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot-native/usr/share/aclocal/ --force
-| configure.ac:379: warning: cannot check for file existence when cross compiling
-| ../autoconf-2.71/lib/autoconf/general.m4:3010: AC_CHECK_FILE is expanded from...
-| configure.ac:379: the top level
-| configure.ac:380: warning: cannot check for file existence when cross compiling
-| ../autoconf-2.71/lib/autoconf/general.m4:3010: AC_CHECK_FILE is expanded from...
-| configure.ac:380: the top level
-| configure.ac:486: warning: cannot check for file existence when cross compiling
-| ../autoconf-2.71/lib/autoconf/general.m4:3010: AC_CHECK_FILE is expanded from...
-| configure.ac:486: the top level
-| configure.ac:487: warning: cannot check for file existence when cross compiling
-| ../autoconf-2.71/lib/autoconf/general.m4:3010: AC_CHECK_FILE is expanded from...
-| configure.ac:487: the top level
-| autoreconf: running: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot-native/usr/bin/autoheader --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/flac-1.4.1/m4/ --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot-native/usr/share/aclocal/ --force
-| autoreconf: running: automake --add-missing --copy --force-missing
-| configure.ac:39: installing './compile'
-| configure.ac:26: installing './missing'
-| examples/c/decode/file/Makefile.am: installing './depcomp'
-| autoreconf: './config.sub' is updated
-| autoreconf: './config.guess' is updated
-| autoreconf: Leaving directory '.'
-| NOTE: Running ../flac-1.4.1/configure  --build=x86_64-linux 		  --host=i686-poky-linux 		  --target=i686-poky-linux 		  --prefix=/usr 		  --exec_prefix=/usr 		  --bindir=/usr/bin 		  --sbindir=/usr/sbin 		  --libexecdir=/usr/libexec 		  --datadir=/usr/share 		  --sysconfdir=/etc 		  --sharedstatedir=/com 		  --localstatedir=/var 		  --libdir=/usr/lib 		  --includedir=/usr/include 		  --oldincludedir=/usr/include 		  --infodir=/usr/share/info 		  --mandir=/usr/share/man 		  --disable-silent-rules 		  --disable-dependency-tracking 		  --with-libtool-sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot --disable-oggtest                 --disable-xmms-plugin                 --without-libiconv-prefix                 ac_cv_prog_NASM=                  --disable-static  --disable-altivec --disable-avx --enable-ogg --with-ogg-libraries=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0
- /recipe-sysroot/usr/lib --with-ogg-includes=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot/usr/include --enable-sse --disable-vsx --enable-nls
-| configure: WARNING: unrecognized options: --enable-nls
-| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/endian-little
-| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/ix86-common
-| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common-linux
-| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common-glibc
-| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common
-| checking for a BSD-compatible install... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/install -c
-| checking whether build environment is sane... yes
-| checking for i686-poky-linux-strip... i686-poky-linux-strip
-| checking for a race-free mkdir -p... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/mkdir -p
-| checking for gawk... gawk
-| checking whether make sets $(MAKE)... yes
-| checking whether make supports nested variables... yes
-| checking how to create a pax tar archive... gnutar
-| checking whether make supports nested variables... (cached) yes
-| checking whether configure should try to set CFLAGS/CXXFLAGS/CPPFLAGS/LDFLAGS... no
-| checking whether to enable debugging... no
-| checking for i686-poky-linux-gcc... i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot
-| checking whether the C compiler works... yes
-| checking for C compiler default output file name... a.out
-| checking for suffix of executables...
-| checking whether we are cross compiling... yes
-| checking for suffix of object files... o
-| checking whether the compiler supports GNU C... yes
-| checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot accepts -g... yes
-| checking for i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot option to enable C11 features... none needed
-| checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot understands -c and -o together... yes
-| checking whether make supports the include directive... yes (GNU style)
-| checking dependency style of i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot... none
-| checking for stdio.h... yes
-| checking for stdlib.h... yes
-| checking for string.h... yes
-| checking for inttypes.h... yes
-| checking for stdint.h... yes
-| checking for strings.h... yes
-| checking for sys/stat.h... yes
-| checking for sys/types.h... yes
-| checking for unistd.h... yes
-| checking for wchar.h... yes
-| checking for minix/config.h... no
-| checking whether it is safe to define __EXTENSIONS__... yes
-| checking whether _XOPEN_SOURCE should be defined... no
-| checking for i686-poky-linux-ar... i686-poky-linux-gcc-ar
-| checking the archiver (i686-poky-linux-gcc-ar) interface... ar
-| checking build system type... x86_64-pc-linux-gnu
-| checking host system type... i686-poky-linux-gnu
-| checking how to print strings... printf
-| checking for a sed that does not truncate output... (cached) sed
-| checking for grep that handles long lines and -e... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep
-| checking for egrep... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep -E
-| checking for fgrep... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep -F
-| checking for ld used by i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot... i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot
-| checking if the linker (i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot  ) is GNU ld... yes
-| checking for BSD- or MS-compatible name lister (nm)... i686-poky-linux-gcc-nm
-| checking the name lister (i686-poky-linux-gcc-nm) interface... BSD nm
-| checking whether ln -s works... yes
-| checking the maximum length of command line arguments... 1572864
-| checking how to convert x86_64-pc-linux-gnu file names to i686-poky-linux-gnu format... func_convert_file_noop
-| checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
-| checking for i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot   option to reload object files... -r
-| checking for i686-poky-linux-file... no
-| checking for file... file
-| configure: WARNING: using cross tools not prefixed with host triplet
-| checking for i686-poky-linux-objdump... i686-poky-linux-objdump
-| checking how to recognize dependent libraries... pass_all
-| checking for i686-poky-linux-dlltool... no
-| checking for dlltool... no
-| checking how to associate runtime and link libraries... printf %s\n
-| checking for i686-poky-linux-ar... (cached) i686-poky-linux-gcc-ar
-| checking for archiver @FILE support... @
-| checking for i686-poky-linux-strip... (cached) i686-poky-linux-strip
-| checking for i686-poky-linux-ranlib... i686-poky-linux-gcc-ranlib
-| checking command to parse i686-poky-linux-gcc-nm output from i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot object... ok
-| checking for sysroot... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot
-| checking for a working dd... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/dd
-| checking how to truncate binary pipes... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/dd bs=4096 count=1
-| checking for i686-poky-linux-mt... no
-| checking for mt... no
-| checking if : is a manifest tool... no
-| checking for dlfcn.h... yes
-| checking for objdir... .libs
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot supports -fno-rtti -fno-exceptions... no
-| checking for i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot option to produce PIC... -fPIC -DPIC
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot PIC flag -fPIC -DPIC works... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot static flag -static works... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot supports -c -o file.o... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot supports -c -o file.o... (cached) yes
-| checking whether the i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot linker (i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot  ) supports shared libraries... yes
-| checking whether -lc should be explicitly linked in... no
-| checking dynamic linker characteristics... GNU/Linux ld.so
-| checking how to hardcode library paths into programs... immediate
-| checking whether stripping libraries is possible... yes
-| checking if libtool supports shared libraries... yes
-| checking whether to build shared libraries... yes
-| checking whether to build static libraries... no
-| checking dependency style of i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot... none
-| checking whether the compiler supports GNU C++... yes
-| checking whether i686-poky-linux-g++  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot accepts -g... yes
-| checking for i686-poky-linux-g++  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot option to enable C++11 features... none needed
-| checking dependency style of i686-poky-linux-g++  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot... none
-| checking how to run the C++ preprocessor... i686-poky-linux-g++  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot -E
-| checking for ld used by i686-poky-linux-g++  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot... i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot
-| checking if the linker (i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot  ) is GNU ld... yes
-| checking whether the i686-poky-linux-g++  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot linker (i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot  ) supports shared libraries... yes
-| checking for i686-poky-linux-g++  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot option to produce PIC... -fPIC -DPIC
-| checking if i686-poky-linux-g++  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot PIC flag -fPIC -DPIC works... yes
-| checking if i686-poky-linux-g++  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot static flag -static works... yes
-| checking if i686-poky-linux-g++  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot supports -c -o file.o... yes
-| checking if i686-poky-linux-g++  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot supports -c -o file.o... (cached) yes
-| checking whether the i686-poky-linux-g++  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot linker (i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/recipe-sysroot  ) supports shared libraries... yes
-| checking dynamic linker characteristics... (cached) GNU/Linux ld.so
-| checking how to hardcode library paths into programs... immediate
-| checking whether we are using the CLANG C compiler... no
-| checking whether make sets $(MAKE)... (cached) yes
-| checking for special C compiler options needed for large files... no
-| checking for _FILE_OFFSET_BITS value needed for large files... 64
-| checking for _LARGEFILE_SOURCE value needed for large files... no
-| checking size of off_t... 8
-| checking size of void*... 4
-| checking for library containing lround... -lm
-| checking for inline... inline
-| checking for typeof syntax and keyword spelling... typeof
-| checking for stdint.h... (cached) yes
-| checking for inttypes.h... (cached) yes
-| checking for byteswap.h... yes
-| checking for sys/auxv.h... yes
-| checking for sys/param.h... yes
-| checking for sys/ioctl.h... yes
-| checking for termios.h... yes
-| checking for x86intrin.h... yes
-| checking for cpuid.h... yes
-| checking for arm_neon.h... no
-| checking for bswap32 intrinsic... yes
-| checking for bswap16 intrinsic... yes
-| checking whether byte ordering is bigendian... (cached) no
-| checking for socklen_t... yes
-| checking for getauxval... yes
-| checking for getopt_long... yes
-| checking size of void*... (cached) 4
-| checking for doxygen... no
-| checking for ../flac-1.4.1/doc/FLAC.tag... configure: error: cannot check for file existence when cross compiling
-| NOTE: The following config.log files may provide further information.
-| NOTE: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/build/config.log
-| ERROR: configure failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/temp/run.do_configure.1729925:287 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/temp/run.do_configure.1729925, line 287
-| 	#2: oe_runconf, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/temp/run.do_configure.1729925, line 263
-| 	#3: autotools_do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/temp/run.do_configure.1729925, line 233
-| 	#4: do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/temp/run.do_configure.1729925, line 153
-| 	#5: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/temp/run.do_configure.1729925, line 291
-NOTE: recipe flac-1.4.1-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 658 tasks of which 651 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.1.bb:do_configure
-Summary: There was 1 WARNING message.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: flac-1.4.1-r0 do_configure: configure failed
-ERROR: flac-1.4.1-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/temp/run.do_configure.1729925', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/flac/1.4.1-r0/temp/log.do_configure.1729925
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.1.bb:do_configure) failed with exit code '1'
-
---===============5923561184949407453==
+--===============3336965051548834816==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-flac-upgrade-1.4.0-1.4.1.patch"
+ filename="0001-gstreamer1.0-plugins-good-upgrade-1.20.3-1.20.4.patch"
 
-RnJvbSA2NjhiOWU4NjM1NzAzYzcyODRiYmRkYTIyOTFjN2FhYzNkZTczNDJkIE1vbiBTZXAgMTcg
+RnJvbSA4MjJkM2MwYWI1NjJjYmU1ZDhjYTNhN2I4MDAzZTI3YzkwZWI2Mzc0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMTc6NDM6MjkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBm
-bGFjOiB1cGdyYWRlIDEuNC4wIC0+IDEuNC4xCgotLS0KIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlh
-L2ZsYWMve2ZsYWNfMS40LjAuYmIgPT4gZmxhY18xLjQuMS5iYn0gfCAyICstCiAxIGZpbGUgY2hh
-bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMt
-bXVsdGltZWRpYS9mbGFjL3tmbGFjXzEuNC4wLmJiID0+IGZsYWNfMS40LjEuYmJ9ICg5NSUpCgpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZmxhYy9mbGFjXzEuNC4wLmJiIGIv
-bWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZmxhYy9mbGFjXzEuNC4xLmJiCnNpbWlsYXJpdHkgaW5k
-ZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2ZsYWMvZmxhY18xLjQu
-MC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZmxhYy9mbGFjXzEuNC4xLmJi
-CmluZGV4IDM2MDM5NjM4MGQuLjEyZjBlYzYxNWYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1t
-dWx0aW1lZGlhL2ZsYWMvZmxhY18xLjQuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRp
-YS9mbGFjL2ZsYWNfMS40LjEuYmIKQEAgLTE0LDcgKzE0LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9
-ICJmaWxlOi8vQ09QWUlORy5GREw7bWQ1PWFkMTQxOWVjYzU2ZTA2MGVjY2Y4MTg0YTg3YzQyODVm
-IFwKICAgICAgICAgICAgICAgICAgICAgZmlsZTovL2luY2x1ZGUvRkxBQy9hbGwuaDtiZWdpbmxp
-bmU9NjU7ZW5kbGluZT03MDttZDU9NjQ0NzRmMmIyMmU5ZTc3YjI4ZDhiOGIyNWM5ODNhNDgiCiAK
-IFNSQ19VUkkgPSAiaHR0cDovL2Rvd25sb2Fkcy54aXBoLm9yZy9yZWxlYXNlcy9mbGFjLyR7QlB9
-LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJhZjQxYzA3MzNjOTNjMjM3YzNlNTJmNjRk
-ZDg3ZTNiMGQ5YWYzODI1OWYxYzdkMTFlOGNiZjU4M2M0OGMyNTA2IgorU1JDX1VSSVtzaGEyNTZz
-dW1dID0gIjkxMzAzYzNlNWRmZGU1MmMzZTk0ZTc1OTc2YzBhYjNlZTE0Y2VkMjc4YWI4ZjYwMDMz
-YTNhMTJkYjkyMDlhZTYiCiAKIENWRV9QUk9EVUNUID0gImxpYmZsYWMgZmxhYyIKIAotLSAKMi4z
-MS4xCgo=
+CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMTg6NDI6MDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c3RyZWFtZXIxLjAtcGx1Z2lucy1nb29kOiB1cGdyYWRlIDEuMjAuMyAtPiAxLjIwLjQKCi0tLQog
+Li4udWdpbnMtZ29vZF8xLjIwLjMuYmIgPT4gZ3N0cmVhbWVyMS4wLXBsdWdpbnMtZ29vZF8xLjIw
+LjQuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
+KC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL3tnc3RyZWFtZXIx
+LjAtcGx1Z2lucy1nb29kXzEuMjAuMy5iYiA9PiBnc3RyZWFtZXIxLjAtcGx1Z2lucy1nb29kXzEu
+MjAuNC5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3Ry
+ZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtZ29vZF8xLjIwLjMuYmIgYi9tZXRhL3JlY2lwZXMt
+bXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtZ29vZF8xLjIwLjQuYmIK
+c2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEv
+Z3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWdvb2RfMS4yMC4zLmJiCnJlbmFtZSB0byBt
+ZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtZ29v
+ZF8xLjIwLjQuYmIKaW5kZXggMDIzNTkzNWE0YS4uNGE0NjcyOTkyZSAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWdvb2Rf
+MS4yMC4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFt
+ZXIxLjAtcGx1Z2lucy1nb29kXzEuMjAuNC5iYgpAQCAtOCw3ICs4LDcgQEAgU1JDX1VSSSA9ICJo
+dHRwczovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcvc3JjL2dzdC1wbHVnaW5zLWdvb2QvZ3N0
+LXBsdWdpbnMtZ28KICAgICAgICAgICAgZmlsZTovLzAwMDEtcXQtaW5jbHVkZS1leHQtcXQtZ3N0
+cXRnbC5oLWluc3RlYWQtb2YtZ3N0LWdsLWdzdGdsZi5wYXRjaCBcCiAgICAgICAgICAgICIKIAot
+U1JDX1VSSVtzaGEyNTZzdW1dID0gImY4ZjNjMjA2YmY1Y2RhYmMwMDk1MzkyMGI0N2IzNTc1YWYw
+ZWYxNWU5Zjg3MWMwYjY5NjZmNmQwYWE1ODY4YjciCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjE2
+MTMwZmJlNjMyZmE4NTQ3YzIxNDdhMGVmNTc1YjAxNDBmYjUyMTA2NWM1Y2IxMjFjNzJkZGJkMjNi
+NjRkYSIKIAogUyA9ICIke1dPUktESVJ9L2dzdC1wbHVnaW5zLWdvb2QtJHtQVn0iCiAKLS0gCjIu
+MzEuMQoK
 
---===============5923561184949407453==--
+--===============3336965051548834816==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alaw: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alaw: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alpha: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alpha: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alphacolor: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alphacolor: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-apetag: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-apetag: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-apps: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-apps: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-audiofx: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-audiofx: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-audioparsers: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-audioparsers: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-auparse: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-auparse: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-autodetect: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-autodetect: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-avi: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-avi: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-cairo: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-cairo: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-cutter: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-cutter: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dbg: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dbg: PKGSIZE changed from 15861628 to 15867836 (+0%)
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dbg: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-debug: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-debug: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-deinterlace: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-deinterlace: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dev: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dev: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-doc: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-doc: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dtmf: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dtmf: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-effectv: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-effectv: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-equalizer: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-equalizer: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flac: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flac: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flv: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flv: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flxdec: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flxdec: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-gdkpixbuf: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-gdkpixbuf: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-glib: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-glib: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-goom: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-goom: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-goom2k1: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-goom2k1: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-icydemux: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-icydemux: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-id3demux: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-id3demux: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-imagefreeze: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-imagefreeze: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-interleave: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-interleave: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-isomp4: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-isomp4: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-jpeg: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-jpeg: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-lame: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-lame: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-level: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-level: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-af: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-af: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-az: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-az: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-bg: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-bg: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ca: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ca: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-cs: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-cs: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-da: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-da: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-de: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-de: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-el: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-el: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-en-gb: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-en-gb: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-eo: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-eo: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-es: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-es: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-eu: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-eu: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fi: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fi: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fr: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fr: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fur: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fur: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-gl: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-gl: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-hr: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-hr: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-hu: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-hu: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-id: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-id: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-it: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-it: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ja: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ja: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ky: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ky: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-lt: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-lt: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-lv: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-lv: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-mt: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-mt: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-nb: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-nb: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-nl: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-nl: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-or: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-or: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-pl: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-pl: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-pt-br: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-pt-br: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ro: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ro: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ru: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ru: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sk: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sk: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sl: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sl: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sq: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sq: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sr: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sr: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sv: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sv: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-tr: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-tr: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-uk: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-uk: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-vi: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-vi: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-cn: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-cn: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-hk: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-hk: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-tw: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-tw: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-matroska: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-matroska: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-meta: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-meta: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-monoscope: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-monoscope: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-mpg123: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-mpg123: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-mulaw: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-mulaw: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-multifile: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-multifile: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-multipart: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-multipart: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-navigationtest: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-navigationtest: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-ossaudio: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-ossaudio: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-png: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-png: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-pulseaudio: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-pulseaudio: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-replaygain: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-replaygain: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtp: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtp: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtpmanager: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtpmanager: PKGSIZE changed from 618448 to 622544 (+1%)
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtpmanager: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtsp: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtsp: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-shapewipe: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-shapewipe: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-smpte: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-smpte: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-soup: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-soup: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-spectrum: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-spectrum: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-speex: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-speex: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-src: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-src: PKGSIZE changed from 11410593 to 11420531 (+0%)
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-src: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-staticdev: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-staticdev: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-taglib: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-taglib: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-udp: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-udp: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-video4linux2: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-video4linux2: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videobox: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videobox: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videocrop: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videocrop: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videofilter: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videofilter: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videomixer: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videomixer: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-wavenc: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-wavenc: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-wavparse: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-wavparse: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-ximagesrc: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-ximagesrc: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-y4menc: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-y4menc: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.20.3.tar.xz file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch" to "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.20.4.tar.xz file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-good: PV changed from "1.20.3" to "1.20.4"
+
+--===============3336965051548834816==--
 
