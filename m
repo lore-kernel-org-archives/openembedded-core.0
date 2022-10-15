@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24FABC67800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E579C6786C
 	for <webhook@archiver.kernel.org>; Sat, 15 Oct 2022 22:03:21 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.24351.1665871392994675221
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web12.24540.1665871394580070695
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Oct 2022 15:03:13 -0700
+ Sat, 15 Oct 2022 15:03:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=b8T8Beg1;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010183ddac2d97-11032815-4cc0-41cf-ba9d-1b9bfd93aa68-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=fSKugzCO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010183ddac3e95-370df473-de32-42b1-82a9-cd6df137209e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1665871392;
+	t=1665871396;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=23xPKkrpnjyMZ3Aj5HnPsrddVJq8TJUD16gCnqZvO6A=;
-	b=b8T8Beg1fIsJzJpagKyvLMXqSnFjeil7j0NftHCLEmtr76bpWJMqdp36X9XS8ewB
-	UV2+Ekl76IOL6KC4XuPbPDRof8mMQHJAhoeGa4363+VZe5DC3gdYlDXHC0H09Y6sgTN
-	7pmJUDRbHVRnmISyqH2sYWikIOlFr229Xx1hq95o=
+	bh=sYuwf/QfyMo6W4nYYtBMrRh3Zq+AUgTDrQlmYrxS8o4=;
+	b=fSKugzCO4m6amyutONnSreXw2ZNBIASNOouG6SZNLMrk0viMIpIYOb1EwFmUxrgH
+	YLQU0HiGYNWkGEpOrKruOU04c+DBTg5fkiW/SjQPUPgVdoAfNwWvZITrHZqoPClM269
+	9kNh8ITGss2VbkqkuVWpKVsH53LfAClJ6Srq/9u4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1665871392;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1665871396;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=23xPKkrpnjyMZ3Aj5HnPsrddVJq8TJUD16gCnqZvO6A=;
-	b=jkekIbahIz6Tup1rgr2F/5KN9K61IRttFNm/Hu0Fbeyu90IaxTNbCEA3ee5Isuue
-	2umHpNKvZFfh7h397Zw09mAAH9brkiLzsRr0Oc1PeBVsEsX4tRuQW5UUxH8QQ6xsiBk
-	19UhCVjcFFPjYQy1roXj4R9R5ZZGAl6AcsL9HPoc=
-Content-Type: multipart/mixed; boundary="===============6837651061369318934=="
+	bh=sYuwf/QfyMo6W4nYYtBMrRh3Zq+AUgTDrQlmYrxS8o4=;
+	b=YMbm1Ouc3YGYb2MAlXrWgrlxs1yDoHE+yYxMP7DAEOxe4+nMmi4Bv1oHV4VMfsLD
+	Ks44xcYsG8dA5iFGF4Z2AWGy+vcer2ioYGkVmm1ACNMftw8tjUlMMJi3GeTbcQyhzmF
+	DYMoYzwuz1pIprtmEtzRTvm8IHvNsfVVEKZsJM4A=
+Content-Type: multipart/mixed; boundary="===============2720901829298108708=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] glib-2.0: upgrading to 2.74.0 FAILED
-Message-ID: <01010183ddac2d97-11032815-4cc0-41cf-ba9d-1b9bfd93aa68-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Oct 2022 22:03:12 +0000
+Subject: [AUH] gstreamer1.0-python: upgrading to 1.20.4 SUCCEEDED
+Message-ID: <01010183ddac3e95-370df473-de32-42b1-82a9-cd6df137209e-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Oct 2022 22:03:16 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.10.15-54.240.27.31
+X-SES-Outgoing: 2022.10.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Oct 2022 22:03:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171751
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171867
 
---===============6837651061369318934==
+--===============2720901829298108708==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,116 +50,84 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *glib-2.0* to *2.74.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *gstreamer1.0-python* to *1.20.4* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-gstreamer1.0-python-upgrade-1.20.3-1.20.4.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe glib-2.0 failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1661 entries from dependency cache.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:2abb405b31635744891bfcebebba76633795e642"
-workspace            = "master:3e5faccfaf50fee0ba8f6eef6c9bf458137d06d2"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 22 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1661 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 886 .bb files complete (884 cached, 2 parsed). 1662 targets, 35 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:2abb405b31635744891bfcebebba76633795e642"
-workspace            = "master:3e5faccfaf50fee0ba8f6eef6c9bf458137d06d2"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 18 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   7% |##                                  | ETA:  0:00:01
-Adding changed files:  15% |#####                               | ETA:  0:00:01
-Adding changed files:  23% |########                            | ETA:  0:00:01
-Adding changed files:  31% |###########                         | ETA:  0:00:00
-Adding changed files:  39% |##############                      | ETA:  0:00:00
-Adding changed files:  46% |################                    | ETA:  0:00:00
-Adding changed files:  54% |###################                 | ETA:  0:00:00
-Adding changed files:  62% |######################              | ETA:  0:00:00
-Adding changed files:  70% |#########################           | ETA:  0:00:00
-Adding changed files:  78% |############################        | ETA:  0:00:00
-Adding changed files:  85% |##############################      | ETA:  0:00:00
-Adding changed files:  93% |#################################   | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:01
-INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://download.gnome.org/sources//glib/2.74/glib-2.74.0.tar.xz...
-INFO: Rebasing devtool onto 4fa96f1eeae23db79593f86b88468c77d3561d6c
-WARNING: Command 'git rebase 4fa96f1eeae23db79593f86b88468c77d3561d6c' failed:
-Auto-merging gio/tests/meson.build
-CONFLICT (content): Merge conflict in gio/tests/meson.build
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-class-native onto 4fa96f1eeae23db79593f86b88468c77d3561d6c
-WARNING: Command 'git rebase 4fa96f1eeae23db79593f86b88468c77d3561d6c' failed:
-Auto-merging gio/tests/meson.build
-CONFLICT (content): Merge conflict in gio/tests/meson.build
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/glib-2.0
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/glib-2.0/glib-2.0_2.74.0.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============6837651061369318934==--
+--===============2720901829298108708==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gstreamer1.0-python-upgrade-1.20.3-1.20.4.patch"
+
+RnJvbSAxMGU1Y2RmMjlkOTU4MWI1YWNiNTI0Y2ZlMjgyNjlhMDA3ZGMyMTc4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMTg6NTM6MjMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c3RyZWFtZXIxLjAtcHl0aG9uOiB1cGdyYWRlIDEuMjAuMyAtPiAxLjIwLjQKCi0tLQogLi4ucmVh
+bWVyMS4wLXB5dGhvbl8xLjIwLjMuYmIgPT4gZ3N0cmVhbWVyMS4wLXB5dGhvbl8xLjIwLjQuYmJ9
+IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL3tnc3RyZWFtZXIxLjAtcHl0
+aG9uXzEuMjAuMy5iYiA9PiBnc3RyZWFtZXIxLjAtcHl0aG9uXzEuMjAuNC5iYn0gKDkxJSkKCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4w
+LXB5dGhvbl8xLjIwLjMuYmIgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
+cmVhbWVyMS4wLXB5dGhvbl8xLjIwLjQuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1weXRob25f
+MS4yMC4zLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
+cmVhbWVyMS4wLXB5dGhvbl8xLjIwLjQuYmIKaW5kZXggNTcwMjZiYTczYi4uYjUxNDk4OTg2NCAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEu
+MC1weXRob25fMS4yMC4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1l
+ci9nc3RyZWFtZXIxLjAtcHl0aG9uXzEuMjAuNC5iYgpAQCAtOCw3ICs4LDcgQEAgTElDRU5TRSA9
+ICJMR1BMLTIuMS1vci1sYXRlciIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7
+bWQ1PWMzNGRlYWU0ZTM5NWNhMDdlNzI1YWIwMDc2YTVmNzQwIgogCiBTUkNfVVJJID0gImh0dHBz
+Oi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9wLm9yZy9zcmMvJHtQTlJFQUx9LyR7UE5SRUFMfS0ke1BW
+fS50YXIueHoiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZGIzNDgxMjBlYWU5NTViOGNjNGRlMzU2
+MGE3ZWEwNmUzNmQ2ZTFkZGJhYTk5YTdhZDk2YjU5ODQ2NjAxY2ZkYyIKK1NSQ19VUklbc2hhMjU2
+c3VtXSA9ICI1ZWI0MTM2ZDAzZTJhNDk1ZjQ0OTljOGIyZTZkOWQzZTdiNWU3M2M1YThiOGFjZjky
+MTNkNTdiYzZhN2JkM2MxIgogCiBERVBFTkRTID0gImdzdHJlYW1lcjEuMCBnc3RyZWFtZXIxLjAt
+cGx1Z2lucy1iYXNlIHB5dGhvbjMtcHlnb2JqZWN0IgogUkRFUEVORFM6JHtQTn0gKz0gImdzdHJl
+YW1lcjEuMCBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlIHB5dGhvbjMtcHlnb2JqZWN0IgotLSAK
+Mi4zMS4xCgo=
+
+--===============2720901829298108708==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dbg: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dbg: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dev: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dev: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-python/gstreamer1.0-python-doc: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-python/gstreamer1.0-python-doc: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-python/gstreamer1.0-python-locale: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-python/gstreamer1.0-python-locale: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-python/gstreamer1.0-python-src: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-python/gstreamer1.0-python-src: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-python/gstreamer1.0-python-staticdev: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-python/gstreamer1.0-python-staticdev: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-python/gstreamer1.0-python: PKGSIZE changed from 80784 to 81098 (+0%)
+packages/core2-32-poky-linux/gstreamer1.0-python/gstreamer1.0-python: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-python/gstreamer1.0-python: PV changed from "1.20.3" to "1.20.4"
+packages/core2-32-poky-linux/gstreamer1.0-python: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.20.3.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.20.4.tar.xz"
+packages/core2-32-poky-linux/gstreamer1.0-python: PKGV changed from 1.20.3 [default] to 1.20.4 [default]
+packages/core2-32-poky-linux/gstreamer1.0-python: PV changed from "1.20.3" to "1.20.4"
+
+--===============2720901829298108708==--
 
