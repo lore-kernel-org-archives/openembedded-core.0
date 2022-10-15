@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39BD2C64E66
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 438E1C6371B
 	for <webhook@archiver.kernel.org>; Sat, 15 Oct 2022 22:03:20 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web08.24452.1665871393531865406
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.24350.1665871392812409001
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Oct 2022 15:03:15 -0700
+ Sat, 15 Oct 2022 15:03:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=b4TT2MJI;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010183ddac3720-546ea8dd-3f02-4fb2-98f6-6af4b78aec10-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=OAZhquJB;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010183ddac3478-61176bf8-4762-4532-8961-c161a3a75568-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1665871394;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ge/0+28p5jBVe+Qi+gWvfniPEhHc8VOBrSItz5whtPI=;
-	b=b4TT2MJIWSyJfWEvK72dgklndDA79SGxwd3C6rQFtLsvyVpAWNAMRYCuOvJ/3xPq
-	ysrXHjMN1lr0Q8zkdcGMUfaW01IQBpbDISfgzeDMFzNvBR5knhMlOmgxtHcbDTSkKm0
-	1Rn+RpX/0/oYBAdP2Ogd+vr06rM65c200PubvFRY=
+	bh=JtHebWxb6nGImSwmuzn1hnjL3ZSf8V1mX7A5vdAuaBg=;
+	b=OAZhquJBImzcUMwLP5EHfsa4W9ccKWIuZJXGqRhi3vKvxlXOjBIkxfGx6z/MxzCH
+	ifkZZULwt3TqSekweUCorgLZEJfKPvVodGMnRjIRBem6VRA5cv3AvQedPJhHq/7bItu
+	j7wtD6aVbtDF639T3i5yRTPsZwhpdvBtQHii4VB8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1665871394;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ge/0+28p5jBVe+Qi+gWvfniPEhHc8VOBrSItz5whtPI=;
-	b=kYjGOtBcCoA7WcTDpEDX1fvrw6NSPgUPKeU17FkdvyyhbUDDZK31XghQTir6tRL2
-	lUZz5L8UhqNWJsQkwYHWTctBjRTt13uF8NIIMN0pdJ/2EMrC2tmPhVFCgtNokrD0eNS
-	QW3P+qxT13jZOSNoUwrq80RcisVNWJpqAtkKn9jY=
-Content-Type: multipart/mixed; boundary="===============3066006322372868481=="
+	bh=JtHebWxb6nGImSwmuzn1hnjL3ZSf8V1mX7A5vdAuaBg=;
+	b=GUHQrJ7VV5g9i/2KDBDHEXR5Gxz6JuGQF0cmWTCNPrQZveAUm4BloVgAmQ4xlcxS
+	0ieFep2+/MrZEL3TgHNpAhAIH4dR5RgtDbi9ogHfmaUsGzvY0qixH3tEMJLW/XbegFS
+	23899zJZpcQl9TZP/vwZgEbPNcjXfkx46yhPPMV0=
+Content-Type: multipart/mixed; boundary="===============2700759917083949770=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Denys Dmytriyenko <denis@denix.org>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] hdparm: upgrading to 9.65 FAILED
-Message-ID: <01010183ddac3720-546ea8dd-3f02-4fb2-98f6-6af4b78aec10-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Oct 2022 22:03:14 +0000
+Subject: [AUH] python3-setuptools-rust: upgrading to 1.5.2 SUCCEEDED
+Message-ID: <01010183ddac3478-61176bf8-4762-4532-8961-c161a3a75568-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Oct 2022 22:03:13 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.10.15-54.240.27.33
+X-SES-Outgoing: 2022.10.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Oct 2022 22:03:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171799
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171795
 
---===============3066006322372868481==
+--===============2700759917083949770==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,97 +50,94 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *hdparm* to *9.65* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-setuptools-rust* to *1.5.2* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-setuptools-rust-upgrade-1.5.1-1.5.2.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe hdparm failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1661 entries from dependency cache.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:7ffbdde09d2dacf3240cf9772a4ac934648e4410"
-workspace            = "master:3e5faccfaf50fee0ba8f6eef6c9bf458137d06d2"
-
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1661 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 886 .bb files complete (884 cached, 2 parsed). 1662 targets, 35 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:7ffbdde09d2dacf3240cf9772a4ac934648e4410"
-workspace            = "master:3e5faccfaf50fee0ba8f6eef6c9bf458137d06d2"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://downloads.sourceforge.net/hdparm/hdparm-9.65.tar.gz...
-INFO: Rebasing devtool onto c62f09eec943a67b160a4b678c165156e154d2d1
-WARNING: Command 'git rebase c62f09eec943a67b160a4b678c165156e154d2d1' failed:
-Auto-merging hdparm.c
-CONFLICT (content): Merge conflict in hdparm.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/hdparm
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/hdparm/hdparm_9.65.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============3066006322372868481==--
+--===============2700759917083949770==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/python3-setuptools-rust (sysroot):
+  /usr/lib/python3.10/site-packages/setuptools_rust-1.5.1.dist-info moved to /usr/lib/python3.10/site-packages/setuptools_rust-1.5.2.dist-info
+
+--===============2700759917083949770==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-setuptools-rust-upgrade-1.5.1-1.5.2.patch"
+
+RnJvbSA5OGNmYWE1M2NjNjAzYjg3YWQ4OTA1MmFiZmU5OGUyMThiYjNjZmFjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMTE6MDI6NTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXNldHVwdG9vbHMtcnVzdDogdXBncmFkZSAxLjUuMSAtPiAxLjUuMgoKLS0tCiAuLi5l
+dHVwdG9vbHMtcnVzdF8xLjUuMS5iYiA9PiBweXRob24zLXNldHVwdG9vbHMtcnVzdF8xLjUuMi5i
+Yn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXNldHVwdG9vbHMt
+cnVzdF8xLjUuMS5iYiA9PiBweXRob24zLXNldHVwdG9vbHMtcnVzdF8xLjUuMi5iYn0gKDkyJSkK
+CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0
+b29scy1ydXN0XzEuNS4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
+LXNldHVwdG9vbHMtcnVzdF8xLjUuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDkyJQpyZW5hbWUgZnJv
+bSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29scy1ydXN0XzEu
+NS4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0
+dXB0b29scy1ydXN0XzEuNS4yLmJiCmluZGV4IDI0YTRmNGFiZWYuLjUwMjk2N2ZkMjAgMTAwNjQ0
+Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzLXJ1
+c3RfMS41LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNl
+dHVwdG9vbHMtcnVzdF8xLjUuMi5iYgpAQCAtMTIsNyArMTIsNyBAQCBMSUNfRklMRVNfQ0hLU1VN
+ID0gImZpbGU6Ly9MSUNFTlNFO21kNT0wMTFjZDkyZTcwMmRkOWU2YjFhMjYxNTdiNmZkNTNmNSIK
+IFNSQ19VUkkgPSAiJHtQWVBJX1NSQ19VUkl9IFwKICAgICAgICAgICAgaHR0cHM6Ly9maWxlcy5w
+eXRob25ob3N0ZWQub3JnL3BhY2thZ2VzLzY3LzA4L2UxYWEyYzU4MmM2MmFjNzZlNGQ2MGY4ZTQ1
+NGJkM2JiYTkzMzc4MWEwNmE4OGI0ZTM4Nzk3NDQ1ODIyYS9zZXR1cHRvb2xzLXJ1c3QtJHtQVn0u
+dGFyLmd6IFwKICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjBlMDVlNDU2NjQ1
+ZDU5NDI5Y2IxMDIxMzcwYWVkZTczYzA3NjBlOTM2MGJiZmRhYWVmYjViY2VkNTMwZWI5ZDciCitT
+UkNfVVJJW3NoYTI1NnN1bV0gPSAiZDhkYWNjYjE0ZGMwZWFlMWI2YjZlYjNlY2VmNzk2NzViZDM3
+YjQwNjUzNjlmNzljMzUzOTNkZDVjNTU2NTJjNyIKIAogaW5oZXJpdCBjYXJnbyBweXBpIHB5dGhv
+bl9zZXR1cHRvb2xzX2J1aWxkX21ldGEKIAotLSAKMi4zMS4xCgo=
+
+--===============2700759917083949770==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-setuptools-rust: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/setuptools-rust/setuptools-rust-1.5.1.tar.gz https://files.pythonhosted.org/packages/source/s/setuptools-rust/setuptools-rust-1.5.1.tar.gz https://files.pythonhosted.org/packages/67/08/e1aa2c582c62ac76e4d60f8e454bd3bba933781a06a88b4e38797445822a/setuptools-rust-1.5.1.tar.gz" to "https://files.pythonhosted.org/packages/source/s/setuptools-rust/setuptools-rust-1.5.2.tar.gz https://files.pythonhosted.org/packages/source/s/setuptools-rust/setuptools-rust-1.5.2.tar.gz https://files.pythonhosted.org/packages/67/08/e1aa2c582c62ac76e4d60f8e454bd3bba933781a06a88b4e38797445822a/setuptools-rust-1.5.2.tar.gz"
+packages/core2-32-poky-linux/python3-setuptools-rust: PKGV changed from 1.5.1 [default] to 1.5.2 [default]
+packages/core2-32-poky-linux/python3-setuptools-rust: PV changed from "1.5.1" to "1.5.2"
+packages/core2-32-poky-linux/python3-setuptools-rust/python3-setuptools-rust-dbg: PKGV changed from 1.5.1 [default] to 1.5.2 [default]
+packages/core2-32-poky-linux/python3-setuptools-rust/python3-setuptools-rust-dbg: PV changed from "1.5.1" to "1.5.2"
+packages/core2-32-poky-linux/python3-setuptools-rust/python3-setuptools-rust-dev: PKGV changed from 1.5.1 [default] to 1.5.2 [default]
+packages/core2-32-poky-linux/python3-setuptools-rust/python3-setuptools-rust-dev: PV changed from "1.5.1" to "1.5.2"
+packages/core2-32-poky-linux/python3-setuptools-rust/python3-setuptools-rust-doc: PKGV changed from 1.5.1 [default] to 1.5.2 [default]
+packages/core2-32-poky-linux/python3-setuptools-rust/python3-setuptools-rust-doc: PV changed from "1.5.1" to "1.5.2"
+packages/core2-32-poky-linux/python3-setuptools-rust/python3-setuptools-rust-locale: PKGV changed from 1.5.1 [default] to 1.5.2 [default]
+packages/core2-32-poky-linux/python3-setuptools-rust/python3-setuptools-rust-locale: PV changed from "1.5.1" to "1.5.2"
+packages/core2-32-poky-linux/python3-setuptools-rust/python3-setuptools-rust-src: PKGV changed from 1.5.1 [default] to 1.5.2 [default]
+packages/core2-32-poky-linux/python3-setuptools-rust/python3-setuptools-rust-src: PV changed from "1.5.1" to "1.5.2"
+packages/core2-32-poky-linux/python3-setuptools-rust/python3-setuptools-rust-staticdev: PKGV changed from 1.5.1 [default] to 1.5.2 [default]
+packages/core2-32-poky-linux/python3-setuptools-rust/python3-setuptools-rust-staticdev: PV changed from "1.5.1" to "1.5.2"
+packages/core2-32-poky-linux/python3-setuptools-rust/python3-setuptools-rust: PKGSIZE changed from 121528 to 121629 (+0%)
+packages/core2-32-poky-linux/python3-setuptools-rust/python3-setuptools-rust: PKGV changed from 1.5.1 [default] to 1.5.2 [default]
+packages/core2-32-poky-linux/python3-setuptools-rust/python3-setuptools-rust: PV changed from "1.5.1" to "1.5.2"
+Changes to packages/core2-32-poky-linux/python3-setuptools-rust (sysroot):
+  /usr/lib/python3.10/site-packages/setuptools_rust-1.5.1.dist-info moved to /usr/lib/python3.10/site-packages/setuptools_rust-1.5.2.dist-info
+
+--===============2700759917083949770==--
 
