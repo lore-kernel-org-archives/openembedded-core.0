@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2B70C4708C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF39BC47090
 	for <webhook@archiver.kernel.org>; Sat, 15 Oct 2022 22:03:19 +0000 (UTC)
 Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web12.24545.1665871395705713942
+ by mx.groups.io with SMTP id smtpd.web11.24355.1665871393730512591
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Oct 2022 15:03:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Og74V4P3;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010183ddac3994-d041ff28-537e-42dd-8d41-4f24f8a144ea-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=WXyldCrv;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010183ddac389b-38b16f71-07aa-4b49-ad4e-31bd3d7dd597-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1665871395;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=03KlTZwLYNV8ZSdaCZrWiKCr0dxJJQb6MRwgkDH8Oc8=;
-	b=Og74V4P3F8ZUxOm14DU+210fCUjQvg3zmR+xK0bp1ChNaFHLDpNzIaelQRVkcWhi
-	A7gVdYss+BZaja24rUgOnh5eLnjZh4Wsm6K2g+lz/CYrYHmHp5XmJqzzutRtVTN6i5F
-	zyDECknK/VZwHEcSttwr3PzqhCQpnDOg6kRDbGHE=
+	bh=u5IChebdl7puC345GZ7/YTE+RVrGqogUPomW6lPy3u8=;
+	b=WXyldCrvKNs0ls7T5Egs37TUsYn4jUcXYsvNfqEm/isqlz0yvc4FQ4lDCCOawpDe
+	ktCcHyUrJJilY6G9n4TuZ4Kp6zknDR3SXoGGSMvzlQOkZAz7CQ6TnQVB7Mt4+ZwrtkL
+	Qd/hWMMI6aYAjAc8zznIfL8YqdCB2DL41USxXd78=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1665871395;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=03KlTZwLYNV8ZSdaCZrWiKCr0dxJJQb6MRwgkDH8Oc8=;
-	b=k+KeQgKlk0gHPz8s2Mtsyoh1jmep49y5oR5vT3G37BKK5cJ//+Cmq0I04JHYFrKB
-	zf8QDEEmfc+mSZLa+9EgurNEUrxoCSMJJVWI9gszXdWpZpBweV3GXRLN2OYe+IvT3TM
-	6uyKcgpBtjMXH0HozGsIaPnOTgKFXdFx+dWsC0OY=
-Content-Type: multipart/mixed; boundary="===============7820965111258796369=="
+	bh=u5IChebdl7puC345GZ7/YTE+RVrGqogUPomW6lPy3u8=;
+	b=emMaf4WrGoES3JWPbC2wS18AtkgDGRLdGc4nhETiBxhd4nJx5/9H4UPXihE5AGEW
+	YWrjU6BgFZypPI8a8Us6U7EttaPSJ0N6eYxLlZ1tEHUox8LhmE5WjLo/7mISJwEm8tx
+	umQPDhqRPl8vkAdyuTzjdM5JU3/6Ww35c8d7SykY=
+Content-Type: multipart/mixed; boundary="===============4294743095047633420=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] harfbuzz: upgrading to 5.3.0 SUCCEEDED
-Message-ID: <01010183ddac3994-d041ff28-537e-42dd-8d41-4f24f8a144ea-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Oct 2022 22:03:15 +0000
+Subject: [AUH] epiphany: upgrading to 43.0 FAILED
+Message-ID: <01010183ddac389b-38b16f71-07aa-4b49-ad4e-31bd3d7dd597-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Oct 2022 22:03:14 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2022.10.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Oct 2022 22:03:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171828
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171826
 
---===============7820965111258796369==
+--===============4294743095047633420==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *harfbuzz* to *5.3.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *epiphany* to *43.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-harfbuzz-upgrade-5.1.0-5.3.0.patch
+    - apply the patch: git am 0001-epiphany-upgrade-42.4-43.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,135 +75,137 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7820965111258796369==
+--===============4294743095047633420==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.50100.0", added "/usr/lib/libharfbuzz-icu.so.0.50300.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.50100.0", added "/usr/lib/libharfbuzz-subset.so.0.50300.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz-gobject.so.0.50100.0 /usr/lib/libharfbuzz.so.0.50100.0", added "/usr/lib/libharfbuzz-gobject.so.0.50300.0 /usr/lib/libharfbuzz.so.0.50300.0"
-Changes to packages/core2-32-poky-linux/harfbuzz (sysroot):
-  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.50100.0 to libharfbuzz-gobject.so.0.50300.0
-  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.50100.0 to libharfbuzz-icu.so.0.50300.0
-  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.50100.0 to libharfbuzz.so.0.50300.0
-  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.50100.0 to libharfbuzz-subset.so.0.50300.0
-  /usr/lib/libharfbuzz-gobject.so.0.50100.0 moved to /usr/lib/libharfbuzz-gobject.so.0.50300.0
-  /usr/lib/libharfbuzz-icu.so.0.50100.0 moved to /usr/lib/libharfbuzz-icu.so.0.50300.0
-  /usr/lib/libharfbuzz.so.0.50100.0 moved to /usr/lib/libharfbuzz.so.0.50300.0
-  /usr/lib/libharfbuzz-subset.so.0.50100.0 moved to /usr/lib/libharfbuzz-subset.so.0.50300.0
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1661 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 885 .bb files complete (884 cached, 1 parsed). 1661 targets, 36 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============7820965111258796369==
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:60deb5bdd1cb2b35f76cae4fb5b4994affe1bd09"
+workspace            = "master:3e5faccfaf50fee0ba8f6eef6c9bf458137d06d2"
+
+Initialising tasks...done.
+Sstate summary: Wanted 215 Local 208 Mirrors 0 Missed 7 Current 660 (96% match, 99% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 2676 of 3110 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_43.0.bb:do_fetch)
+NOTE: Running task 2984 of 3110 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_43.0.bb:do_write_config)
+NOTE: recipe epiphany-43.0-r0: task do_fetch: Started
+NOTE: recipe epiphany-43.0-r0: task do_fetch: Succeeded
+NOTE: Running task 3097 of 3110 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_43.0.bb:do_unpack)
+NOTE: Running task 3098 of 3110 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_43.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe epiphany-43.0-r0: task do_write_config: Started
+NOTE: recipe epiphany-43.0-r0: task do_unpack: Started
+NOTE: recipe epiphany-43.0-r0: task do_write_config: Succeeded
+NOTE: recipe epiphany-43.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe epiphany-43.0-r0: task do_unpack: Succeeded
+NOTE: Running task 3099 of 3110 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_43.0.bb:do_patch)
+NOTE: recipe epiphany-43.0-r0: task do_patch: Started
+NOTE: recipe epiphany-43.0-r0: task do_patch: Succeeded
+NOTE: Running task 3100 of 3110 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_43.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 3101 of 3110 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_43.0.bb:do_populate_lic)
+NOTE: recipe epiphany-43.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe epiphany-43.0-r0: task do_populate_lic: Started
+NOTE: recipe epiphany-43.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe epiphany-43.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe epiphany-43.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 3102 of 3110 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_43.0.bb:do_configure)
+NOTE: recipe epiphany-43.0-r0: task do_configure: Started
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.36.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_7.1.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gcr/gcr_3.40.0.bb:do_populate_sysroot'
+ , '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_42.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libdazzle/libdazzle_3.44.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libhandy/libhandy_1.6.3.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_populate
+ _sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/meson/meson_0.63.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/buil
+ d/poky/meta/recipes-devtools/python/python3_3.10.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.6.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['glibc', 'desktop-file-utils', 'gcc-cross-i686', 'gcc-runtime', 'qemu-native', 'quilt-native', 'libarchive', 'gcr', 'gsettings-desktop-schemas', 'json-glib', 'libdazzle', 'libhandy', 'webkitgtk', 'libsoup-2.4', 'nettle', 'coreutils-native', 'gettext-native', 'glib-2.0-native', 'meson-native', 'ninja-native', 'patch-native', 'pkgconfig-native', 'pseudo-native', 'python3-native', 'xz-native', 'gettext-minimal-native', 'texinfo-dummy-native', 'libtool-native', 'bzip2', 'attr', 'acl', 'zlib', 'xz', 'opkg-utils', 'zstd', 'python3-picobuild-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-installer-native', 'gobject-introspection', 'vala', 'gtk+3', 'glib-2.0', 'zlib-native', 'gmp', 'attr-native', 're2c-native', 'libmpc-native', 'gnu-config-native', 'binutils-cross-i686', 'gmp-native', 'linux-libc-headers', 'mpfr-native', 'flex-native', 'zstd-native', 'libgcc', 'p11-kit', 'hicolor-icon-theme', 'libgcrypt', 'shared-mime-in
+ fo', 'gdk-pixbuf', 'libpsl', 'sqlite3', 'libxml2', 'libnsl2-native', 'readline-native', 'sqlite3-native', 'openssl-native', 'libffi-native', 'util-linux-libuuid-native', 'ncurses-native', 'libtirpc-native', 'gdbm-native', 'bzip2-native', 'util-linux-native', 'libpcre-native', 'libwebp', 'libxdamage', 'gstreamer1.0', 'libnotify', 'libx11', 'mesa', 'enchant2', 'wayland', 'libxcomposite', 'harfbuzz', 'libtasn1', 'libxrender', 'libxslt', 'gstreamer1.0-plugins-base', 'libsecret', 'libwpe', 'systemd', 'cairo', 'wpebackend-fdo', 'libjpeg-turbo', 'libxt', 'atk', 'python3-flit-core-native', 'python3', 'autoconf-archive', 'libffi', 'libxrandr', 'libxkbcommon', 'libxext', 'libpng', 'wayland-protocols', 'libxcursor', 'pango', 'libxfixes', 'fontconfig', 'libepoxy', 'at-spi2-atk', 'libxi', 'bash-completion', 'libpcre', 'util-linux', 'm4-native', 'libcap', 'libgpg-error', 'icu', 'perl-native', 'libpcre2-native', 'libcap-ng-native', 'util-macros', 'xorgproto', 'dbus', 'libxcb', 'xtrans', 'expat', '
+ libxshmfence', 'libdrm', 'vulkan-headers', 'libxxf86vm', 'vulkan-loader', 'xrandr', 'aspell', 'freetype', 'iso-codes', 'libtheora', 'libogg', 'libxv', 'orc', 'libvorbis', 'libsm', 'alsa-lib', 'libseccomp', 'kmod', 'base-files', 'shadow-native', 'update-rc.d', 'initscripts', 'libpam', 'shadow-sysroot', 'shadow', 'base-passwd', 'pixman', 'libxdmcp', 'unzip-native', 'libtirpc', 'libnsl2', 'ncurses', 'openssl', 'gdbm', 'util-linux-libuuid', 'readline', 'libxcrypt', 'xkeyboard-config', 'fribidi', 'libxft', 'at-spi2-core', 'libcap-ng', 'make-native', 'libpthread-stubs', 'xcb-proto', 'libxau', 'libpciaccess', 'libice', 'cracklib', 'flex', 'libxtst']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| NOTE: Executing meson -Ddeveloper_mode=false -Dlibportal=disabled -Dsoup2=enabled...
+| The Meson build system
+| Version: 0.63.2
+| Source dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/43.0-r0/epiphany-43.0
+| Build dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/43.0-r0/build
+| Build type: cross build
+| 
+| ../epiphany-43.0/meson.build:1:0: ERROR: Unknown options: "libportal, soup2"
+| 
+| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/43.0-r0/build/meson-logs/meson-log.txt
+| ERROR: meson failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/43.0-r0/temp/run.do_configure.2889033:175 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/43.0-r0/temp/run.do_configure.2889033, line 175
+| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/43.0-r0/temp/run.do_configure.2889033, line 164
+| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/43.0-r0/temp/run.do_configure.2889033, line 150
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/43.0-r0/temp/run.do_configure.2889033, line 188
+NOTE: recipe epiphany-43.0-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 3102 tasks of which 3094 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_43.0.bb:do_configure
+Summary: There was 1 WARNING message.
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: epiphany-43.0-r0 do_configure: meson failed
+ERROR: epiphany-43.0-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/43.0-r0/temp/run.do_configure.2889033', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/43.0-r0/temp/log.do_configure.2889033
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_43.0.bb:do_configure) failed with exit code '1'
+
+--===============4294743095047633420==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-harfbuzz-upgrade-5.1.0-5.3.0.patch"
+ filename="0001-epiphany-upgrade-42.4-43.0.patch"
 
-RnJvbSAyMWIwYTZiNWFkYzJlNmNhODdhZjhjMWFlNGNjOWY5NjA4NmFkNGJhIE1vbiBTZXAgMTcg
+RnJvbSA4Yzg0ZWZiM2RiODMzNjI1ODhkNjA3NDgwZGQyMzhjMWEwOTdhOWYyIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMTU6MzE6MjUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBo
-YXJmYnV6ejogdXBncmFkZSA1LjEuMCAtPiA1LjMuMAoKLS0tCiAuLi4wMDAxLWZpeC1zaWduZWRu
-ZXNzLW9mLWNoYXItaW4tdGVzdHMucGF0Y2ggfCAyNyAtLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi4v
-e2hhcmZidXp6XzUuMS4wLmJiID0+IGhhcmZidXp6XzUuMy4wLmJifSAgfCAgNiArKy0tLQogMiBm
-aWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDMxIGRlbGV0aW9ucygtKQogZGVsZXRlIG1v
-ZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6ei9oYXJmYnV6ei8wMDAxLWZp
-eC1zaWduZWRuZXNzLW9mLWNoYXItaW4tdGVzdHMucGF0Y2gKIHJlbmFtZSBtZXRhL3JlY2lwZXMt
-Z3JhcGhpY3MvaGFyZmJ1enove2hhcmZidXp6XzUuMS4wLmJiID0+IGhhcmZidXp6XzUuMy4wLmJi
-fSAoOTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6ei9oYXJm
-YnV6ei8wMDAxLWZpeC1zaWduZWRuZXNzLW9mLWNoYXItaW4tdGVzdHMucGF0Y2ggYi9tZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enovaGFyZmJ1enovMDAwMS1maXgtc2lnbmVkbmVzcy1vZi1j
-aGFyLWluLXRlc3RzLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMjljYTJi
-ZmZmLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6ei9oYXJm
-YnV6ei8wMDAxLWZpeC1zaWduZWRuZXNzLW9mLWNoYXItaW4tdGVzdHMucGF0Y2gKKysrIC9kZXYv
-bnVsbApAQCAtMSwyNyArMCwwIEBACi1Gcm9tIDFiZDM4ODRiYzA1NDRmZmJiNjU0NWVkMjM5MWYw
-OTMyYmI4ZDdkOTEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9tOiBwc3lrb3NlIDxhbGlj
-ZUBheWF5YS5kZXY+Ci1EYXRlOiBNb24sIDEgQXVnIDIwMjIgMDc6NDU6MjUgKzAwMDAKLVN1Ympl
-Y3Q6IFtQQVRDSF0gZml4IHNpZ25lZG5lc3Mgb2YgY2hhciBpbiB0ZXN0cwotCi1VcHN0cmVhbS1T
-dGF0dXM6IEJhY2twb3J0Ci1TaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBs
-aW51dHJvbml4LmRlPgotLS0tCi0gc3JjL3Rlc3QtcmVwYWNrZXIuY2MgfCA0ICsrLS0KLSAxIGZp
-bGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQotCi1kaWZmIC0tZ2l0
-IGEvc3JjL3Rlc3QtcmVwYWNrZXIuY2MgYi9zcmMvdGVzdC1yZXBhY2tlci5jYwotaW5kZXggMDUz
-YzBjNi4uMWI3ZTFmMCAxMDA2NDQKLS0tLSBhL3NyYy90ZXN0LXJlcGFja2VyLmNjCi0rKysgYi9z
-cmMvdGVzdC1yZXBhY2tlci5jYwotQEAgLTExMiw5ICsxMTIsOSBAQCBzdGF0aWMgdm9pZCBzdGFy
-dF9sb29rdXAgKGludDhfdCB0eXBlLAotICAgICAgICAgICAgICAgICAgICAgICAgICAgaGJfc2Vy
-aWFsaXplX2NvbnRleHRfdCogYykKLSB7Ci0gICBjaGFyIGxvb2t1cFtdID0gewotLSAgICAwLCB0
-eXBlLCAvLyB0eXBlCi0rICAgIDAsIChjaGFyKXR5cGUsIC8vIHR5cGUKLSAgICAgMCwgMCwgLy8g
-ZmxhZwotLSAgICAwLCBudW1fc3VidGFibGVzLCAvLyBudW0gc3VidGFibGVzCi0rICAgIDAsIChj
-aGFyKW51bV9zdWJ0YWJsZXMsIC8vIG51bSBzdWJ0YWJsZXMKLSAgIH07Ci0gCi0gICBzdGFydF9v
-YmplY3QgKGxvb2t1cCwgNiwgYyk7CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
-aGFyZmJ1enovaGFyZmJ1enpfNS4xLjAuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1
-enovaGFyZmJ1enpfNS4zLjAuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0
-YS9yZWNpcGVzLWdyYXBoaWNzL2hhcmZidXp6L2hhcmZidXp6XzUuMS4wLmJiCnJlbmFtZSB0byBt
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enovaGFyZmJ1enpfNS4zLjAuYmIKaW5kZXggNDkw
-NWU4ZTJhZC4uMWMyMTYxMGZiNSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hh
-cmZidXp6L2hhcmZidXp6XzUuMS4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9oYXJm
-YnV6ei9oYXJmYnV6el81LjMuMC5iYgpAQCAtOCwxMCArOCw4IEBAIExJQ19GSUxFU19DSEtTVU0g
-PSAiZmlsZTovL0NPUFlJTkc7bWQ1PTZlZTBmMTYyODE2OTRmYjZhYTY4OWNjYTFlMGZiM2RhIFwK
-ICAgICAgICAgICAgICAgICAgICAgZmlsZTovL3NyYy9oYi11Y2QuY2M7YmVnaW5saW5lPTE7ZW5k
-bGluZT0xNTttZDU9MjlkNGRjYjY0MTA0MjkxOTVkZjY3ZWZlMzM4MmQ4YmMgXAogICAgICAgICAg
-ICAgICAgICAgICAiCiAKLVNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2FkLyR7
-UFZ9LyR7QlBOfS0ke1BWfS50YXIueHogXAotICAgICAgICAgICBmaWxlOi8vMDAwMS1maXgtc2ln
-bmVkbmVzcy1vZi1jaGFyLWluLXRlc3RzLnBhdGNoIFwKLSAgICAgICAgICAgIgotU1JDX1VSSVtz
-aGEyNTZzdW1dID0gIjJlZGI5NWRiNjY4NzgxYWFhOGQ2MDk1OWQyMWJlMmZmODAwODVmMzFiMTIw
-NTNjZGQ2NjBkOWE1MGNlODRmMDUiCitTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3du
-bG9hZC8ke1BWfS8ke0JQTn0tJHtQVn0udGFyLnh6IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImEw
-NWUxOWUzZjUyZGEyNGVkMDcxNTIyZjBmZGRmODcyMTU3ZDdkMjVlODY5Y2ZkMTU2Y2Q2ZjFlODFj
-NDIxNTIiCiAKIGluaGVyaXQgbWVzb24gcGtnY29uZmlnIGxpYl9wYWNrYWdlIGd0ay1kb2MgZ29i
-amVjdC1pbnRyb3NwZWN0aW9uIGdpdGh1Yi1yZWxlYXNlcwogCi0tIAoyLjMxLjEKCg==
+CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMTQ6NTg6NDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
+cGlwaGFueTogdXBncmFkZSA0Mi40IC0+IDQzLjAKCi0tLQogLi4uL2VwaXBoYW55L3tlcGlwaGFu
+eV80Mi40LmJiID0+IGVwaXBoYW55XzQzLjAuYmJ9ICAgICAgICAgICAgIHwgMiArLQogMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLWdub21lL2VwaXBoYW55L3tlcGlwaGFueV80Mi40LmJiID0+IGVwaXBoYW55XzQzLjAuYmJ9
+ICg5NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2VwaXBoYW55
+XzQyLjQuYmIgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZXBpcGhhbnlfNDMuMC5iYgpz
+aW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhh
+bnkvZXBpcGhhbnlfNDIuNC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55
+L2VwaXBoYW55XzQzLjAuYmIKaW5kZXggOWVmZDI4MDBkYS4uY2YwZTBjYzdkZSAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2VwaXBoYW55XzQyLjQuYmIKKysrIGIvbWV0
+YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2VwaXBoYW55XzQzLjAuYmIKQEAgLTI4LDcgKzI4LDcg
+QEAgU1JDX1VSSSA9ICIke0dOT01FX01JUlJPUn0vJHtHTk9NRUJOfS8ke0BvZS51dGlscy50cmlt
+X3ZlcnNpb24oIiR7UFZ9IiwgMSl9LyR7R04KICAgICAgICAgICAgZmlsZTovL21pZ3JhdG9yLnBh
+dGNoIFwKICAgICAgICAgICAgZmlsZTovL2Rpc3RyaWJ1dG9yLnBhdGNoIFwKICAgICAgICAgICAg
+IgotU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiMzcwOTM4YWQyOTIwZWViMjhiYzI0MzU5
+NDQ3NzZiN2JhNTVhMGUyZWRlNjU4MzZmNzk4MThjZmI3ZThmMDg2MCIKK1NSQ19VUklbYXJjaGl2
+ZS5zaGEyNTZzdW1dID0gImI2NmQ0OTlmOWVlNzI2OTZkODNjZjg0NDEyNTM3NzE4MWE5NTQ1NTRh
+NGJiMzc4NWI3MzI5MzM4MGFjMGMyMjciCiAKIFBBQ0tBR0VDT05GSUdfU09VUCA/PSAic291cDIi
+CiBQQUNLQUdFQ09ORklHID8/PSAiJHtQQUNLQUdFQ09ORklHX1NPVVB9IgotLSAKMi4zMS4xCgo=
 
---===============7820965111258796369==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-bin: PV changed from "5.1.0" to "5.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-bin: PKGV changed from 5.1.0 [default] to 5.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-dbg: PV changed from "5.1.0" to "5.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-dbg: PKGSIZE changed from 47653208 to 45010072 (-6%)
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-dbg: FILELIST: removed "/usr/lib/.debug/libharfbuzz-gobject.so.0.50100.0 /usr/lib/.debug/libharfbuzz.so.0.50100.0 /usr/lib/.debug/libharfbuzz-icu.so.0.50100.0 /usr/lib/.debug/libharfbuzz-subset.so.0.50100.0", added "/usr/lib/.debug/libharfbuzz-icu.so.0.50300.0 /usr/lib/.debug/libharfbuzz-subset.so.0.50300.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.50300.0 /usr/lib/.debug/libharfbuzz.so.0.50300.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-dbg: PKGV changed from 5.1.0 [default] to 5.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-dev: PV changed from "5.1.0" to "5.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-dev: PKGSIZE changed from 1460618 to 1466546 (+0%)
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-dev: PKGV changed from 5.1.0 [default] to 5.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-doc: PV changed from "5.1.0" to "5.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-doc: PKGV changed from 5.1.0 [default] to 5.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu-dev: PV changed from "5.1.0" to "5.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu-dev: PKGV changed from 5.1.0 [default] to 5.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu: PV changed from "5.1.0" to "5.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.50100.0", added "/usr/lib/libharfbuzz-icu.so.0.50300.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu: PKGV changed from 5.1.0 [default] to 5.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-locale: PV changed from "5.1.0" to "5.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-locale: PKGV changed from 5.1.0 [default] to 5.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-src: PV changed from "5.1.0" to "5.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-src: PKGSIZE changed from 4032472 to 4138944 (+3%)
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-src: FILELIST: directory renamed /usr/src/debug/harfbuzz/5.1.0-r0/util -> /usr/src/debug/harfbuzz/5.3.0-r0/util, directory renamed /usr/src/debug/harfbuzz/5.1.0-r0/src/OT/Layout/GPOS -> /usr/src/debug/harfbuzz/5.3.0-r0/src/OT/Layout/GPOS, directory renamed /usr/src/debug/harfbuzz/5.1.0-r0/src/OT/Layout/Common -> /usr/src/debug/harfbuzz/5.3.0-r0/src/OT/Layout/Common, directory renamed /usr/src/debug/harfbuzz/5.1.0-r0/src/OT/Layout -> /usr/src/debug/harfbuzz/5.3.0-r0/src/OT/Layout, directory renamed /usr/src/debug/harfbuzz/5.1.0-r0/src/OT/glyf -> /usr/src/debug/harfbuzz/5.3.0-r0/src/OT/glyf, directory renamed /usr/src/debug/harfbuzz/5.1.0-r0/src/OT/Layout/GSUB -> /usr/src/debug/harfbuzz/5.3.0-r0/src/OT/Layout/GSUB, directory renamed /usr/src/debug/harfbuzz/5.1.0-r0/src -> /usr/src/debug/harfbuzz/5.3.0-r0/src, removed "/usr/src/debug/harfbuzz/5.1.0-r0/src/graph/gsubgpos-graph.hh /usr/src/debug/harfbuzz/5.1.0-r0/src/graph/pairpos-graph.hh /u
- sr/src/debug/harfbuzz/5.1.0-r0/src/graph/coverage-graph.hh /usr/src/debug/harfbuzz/5.1.0-r0/src/graph/graph.hh /usr/src/debug/harfbuzz/5.1.0-r0/src/graph/gsubgpos-context.hh /usr/src/debug/harfbuzz/5.1.0-r0/src/graph/gsubgpos-context.cc /usr/src/debug/harfbuzz/5.1.0-r0/src/graph/serialize.hh", added "/usr/src/debug/harfbuzz/5.3.0-r0/src/graph/markbasepos-graph.hh /usr/src/debug/harfbuzz/5.3.0-r0/src/graph/gsubgpos-graph.hh /usr/src/debug/harfbuzz/5.3.0-r0/src/graph/split-helpers.hh /usr/src/debug/harfbuzz/5.3.0-r0/src/graph/graph.hh /usr/src/debug/harfbuzz/5.3.0-r0/src/graph/gsubgpos-context.cc /usr/src/debug/harfbuzz/5.3.0-r0/src/graph/classdef-graph.hh /usr/src/debug/harfbuzz/5.3.0-r0/src/graph/gsubgpos-context.hh /usr/src/debug/harfbuzz/5.3.0-r0/src/graph/pairpos-graph.hh /usr/src/debug/harfbuzz/5.3.0-r0/src/graph/serialize.hh /usr/src/debug/harfbuzz/5.3.0-r0/src/graph/coverage-graph.hh"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-src: PKGV changed from 5.1.0 [default] to 5.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-staticdev: PV changed from "5.1.0" to "5.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-staticdev: PKGV changed from 5.1.0 [default] to 5.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-subset: PV changed from "5.1.0" to "5.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-subset: PKGSIZE changed from 1304107 to 1209899 (-7%)
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.50100.0", added "/usr/lib/libharfbuzz-subset.so.0.50300.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-subset: PKGV changed from 5.1.0 [default] to 5.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz: PV changed from "5.1.0" to "5.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz: PKGSIZE changed from 1509640 to 1411772 (-6%)
-packages/core2-32-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz-gobject.so.0.50100.0 /usr/lib/libharfbuzz.so.0.50100.0", added "/usr/lib/libharfbuzz-gobject.so.0.50300.0 /usr/lib/libharfbuzz.so.0.50300.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz: PKGV changed from 5.1.0 [default] to 5.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz: SRC_URI changed from "https://github.com/harfbuzz/harfbuzz/releases//download/5.1.0/harfbuzz-5.1.0.tar.xz file://0001-fix-signedness-of-char-in-tests.patch" to "https://github.com/harfbuzz/harfbuzz/releases//download/5.3.0/harfbuzz-5.3.0.tar.xz"
-packages/core2-32-poky-linux/harfbuzz: PV changed from "5.1.0" to "5.3.0"
-packages/core2-32-poky-linux/harfbuzz: PKGV changed from 5.1.0 [default] to 5.3.0 [default]
-Changes to packages/core2-32-poky-linux/harfbuzz (sysroot):
-  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.50100.0 to libharfbuzz-gobject.so.0.50300.0
-  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.50100.0 to libharfbuzz-icu.so.0.50300.0
-  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.50100.0 to libharfbuzz.so.0.50300.0
-  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.50100.0 to libharfbuzz-subset.so.0.50300.0
-  /usr/lib/libharfbuzz-gobject.so.0.50100.0 moved to /usr/lib/libharfbuzz-gobject.so.0.50300.0
-  /usr/lib/libharfbuzz-icu.so.0.50100.0 moved to /usr/lib/libharfbuzz-icu.so.0.50300.0
-  /usr/lib/libharfbuzz.so.0.50100.0 moved to /usr/lib/libharfbuzz.so.0.50300.0
-  /usr/lib/libharfbuzz-subset.so.0.50100.0 moved to /usr/lib/libharfbuzz-subset.so.0.50300.0
-
---===============7820965111258796369==--
+--===============4294743095047633420==--
 
