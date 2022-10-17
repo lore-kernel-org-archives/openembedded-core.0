@@ -1,164 +1,547 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55B81C433FE
-	for <webhook@archiver.kernel.org>; Mon, 17 Oct 2022 12:10:23 +0000 (UTC)
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com (EUR02-AM0-obe.outbound.protection.outlook.com [40.107.247.42])
- by mx.groups.io with SMTP id smtpd.web10.39926.1666008613241141500
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DD82C4332F
+	for <webhook@archiver.kernel.org>; Mon, 17 Oct 2022 12:25:43 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web12.40200.1666009535219114949
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Oct 2022 05:10:13 -0700
+ Mon, 17 Oct 2022 05:25:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=DDYvDety;
- spf=pass (domain: arm.com, ip: 40.107.247.42, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
- b=KQbaa+41LEtzql9w6aJJGkVFlTr/0pNtysTf6++eYSk30ssqLzDzQvvXnyfCrvFg8liOr18FL9t8YTcW1pfq67VRMJZoXotd+1Egx1w+owmL3JqLvb1Z9LwejSZ8xEdLGu93iGadBGYEZ9G0NSOY5A9ZNYOQ77B2qvQs5w+0eIPYwGEYEHi4FwC5U7JQvs4uvateLINoWwSslLhXkt/ssYr1azuDeoxx/6dhSCP49nomnSprmf8xbEZv8myoDVZOGUILDsC4ig4CR5+C01fo1eF+WcKi/E+Bq4uHSqsloUYqH6hGUgDkGDMKr0xgO+Ey+Eq0yD2ZiA+HvEU/avNXTg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hBh5qGHjLCrjQk6KRQ7hXqCzPTFsFqZr2VNLXK2aqgE=;
- b=RA+xNxMNQK146hYv6LjAglrvl59nFcTOs6xmTA+/2cRKad4dYNBlX/s9m/ULRJk7rV9pZtZieWrBqAoka2RlBIJ2UWw9Q9sIu+HoI0G5b1B1IHyxck+HAKRg7s4FWTpXNfcPk7tAStcGpZWUFMU9UULuAfzugZh7m8FsMXC79d570zmop4Wim+v1thmXz4OReEPylKEI4To1QtmAhrzIBR7e5luGWEWboPFMkkXMsgEwrAjY0wIQv5QAp9wx723adDQXmq9KD2LWtCddtUf728WEkV4SjRAbyShllRN8qoAldN+QIT44pIb71JASadVqte8YOihIfM2L5HCucU7rfg==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
- oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hBh5qGHjLCrjQk6KRQ7hXqCzPTFsFqZr2VNLXK2aqgE=;
- b=DDYvDetybo7bWDB7D5T+pgiCf2skzcZMkVKns8DUGLbwYpYjsLow76O8i0R+S38mIfcHp88GXfKlir9Nt+PQK4Unk6ZtQVWMxV9DP50dBRZrDsdv4l9dX3JjFkF26UsIx9Q+tP0c8TBKYzZ8Cr+9FvdISVsj42T5uLLQww/Pwv4=
-Received: from DU2PR04CA0317.eurprd04.prod.outlook.com (2603:10a6:10:2b5::22)
- by AS8PR08MB9838.eurprd08.prod.outlook.com (2603:10a6:20b:615::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.29; Mon, 17 Oct
- 2022 12:10:10 +0000
-Received: from DBAEUR03FT029.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:2b5:cafe::79) by DU2PR04CA0317.outlook.office365.com
- (2603:10a6:10:2b5::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.29 via Frontend
- Transport; Mon, 17 Oct 2022 12:10:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DBAEUR03FT029.mail.protection.outlook.com (100.127.142.181) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5723.20 via Frontend Transport; Mon, 17 Oct 2022 12:10:10 +0000
-Received: ("Tessian outbound 2ff13c8f2c05:v130"); Mon, 17 Oct 2022 12:10:10 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: f9db0fa28da54f4f
-X-CR-MTA-TID: 64aa7808
-Received: from 640f184d6c16.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 351146D4-03EB-4D97-AE15-C356667A301A.1;
-	Mon, 17 Oct 2022 12:10:03 +0000
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 640f184d6c16.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Mon, 17 Oct 2022 12:10:03 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DRtYACT1/d+we2YY5bG3IN7texanuCwg7zCv2UCs6CdoabZNLwIrP9hby62tTevkEbQYtOdKGFJ0Zv6r8HmWuTNV+Eo4uRm0U+Mktd+2OHiJ52DeeveTsdBGMP22JZWSlCT1UJS+ZlcjdNrZO1PJ7iKHRb4hC08B4j1TpSvHfqEC2tPbuQI0RAmg3BLldC11jUtBZ2Zv+uTKHIsIeIhZGBSf22GNlv6VByBE8bowvFzhasPYCDvQDeRtEGjY1sJ8HUoEROlbYcNFbLwT40/7TXf8k3HWLBbuo4sJwNJDboAFJmX27qNnMbqfc39zQy0tVdFr3t5Aj0WpyrJdPYaw1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hBh5qGHjLCrjQk6KRQ7hXqCzPTFsFqZr2VNLXK2aqgE=;
- b=GjwO9l75fz5cIu+L6SPBtlgdyt8JyxTqH4vhkU5e3M5F5ZGdDT0E6ByrL9ya52RVJAWWBE1OGHnLCVXfAz7oAM+NLfLv3DFnV4gcjl620tMqDYKW3w/4xnD26692URV4p0/wHtfGAN74d9yaFjTcvn4LiytA1NVGRz7R1Du6/MHtSYi+PoGE046UclfjQRtP2b+Bj9zy5QA5ifHJXhNbCJD25klmbwM4lpWPhAQT6WrCeHqBalHTO6yhh3/rDz3igQto/1rKPxS4cpr8+m7nmxh4pBFfUmCcFmC2d1UbUcch2MlC3fIRfHapWvY2ehjRnx5ZIWMsZuP9d4S5zQlDTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hBh5qGHjLCrjQk6KRQ7hXqCzPTFsFqZr2VNLXK2aqgE=;
- b=DDYvDetybo7bWDB7D5T+pgiCf2skzcZMkVKns8DUGLbwYpYjsLow76O8i0R+S38mIfcHp88GXfKlir9Nt+PQK4Unk6ZtQVWMxV9DP50dBRZrDsdv4l9dX3JjFkF26UsIx9Q+tP0c8TBKYzZ8Cr+9FvdISVsj42T5uLLQww/Pwv4=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by AM7PR08MB5493.eurprd08.prod.outlook.com (2603:10a6:20b:102::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.29; Mon, 17 Oct
- 2022 12:10:02 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7d2b:2570:9a99:a3d2]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7d2b:2570:9a99:a3d2%6]) with mapi id 15.20.5723.032; Mon, 17 Oct 2022
- 12:10:02 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "tom.hochstein@nxp.com" <tom.hochstein@nxp.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] vulkan-loader: Move libvulkan.so to main
- package
-Thread-Topic: [OE-core] [PATCH] vulkan-loader: Move libvulkan.so to main
- package
-Thread-Index: AQHY4ah+8Ri2p1RLAES4sRLEq+uqAK4Sf3KA
-Date: Mon, 17 Oct 2022 12:10:01 +0000
-Message-ID: <8917BE00-005D-4ECE-BAB9-82EFC64F9544@arm.com>
-References: <20221016214357.596913-1-tom.hochstein@nxp.com>
-In-Reply-To: <20221016214357.596913-1-tom.hochstein@nxp.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3696.120.41.1.1)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|AM7PR08MB5493:EE_|DBAEUR03FT029:EE_|AS8PR08MB9838:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6d3112ff-b63a-4066-d550-08dab03889ab
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- 3wEKcdwuabcSdj/WdlNj5Xb/GZ43AW0h125n18nOCiGjS+JwdfCAR1xdfgYbViZJAxE9RV/rZzCHex96j4cjg33fUFatXtg0G6i47SIrEElGaf+ehB/ogux3Aht1o/0sD6OKr0AGQbW0ItUt9cezJc0AdAhU9qYpgXSqRgwuwsVKwllOa+1vEE2yswQeIXuPQI2l6ETndLIt2vojxqC5FFJSaBezZ6wy5PyLWaq06o8fSWhAbHzs+KMKA/ZAhm/oAw/awDd8dn0AW1zKTJ/C/ZMvX64UtjZD3cZI3cdXrWxWL/2zjs7tdp3YF5fHAfnGVpGo+R/6EjVb48b5ycHRrTda6EfX6LNf5Cvrc9w6BANWqLgLvTLEfmLf2e8TNrp5JIufR/6ZOiPXMoPraLU3Lz0/TqwUo+zeVQXSL/+wYlLZ6CvrMBLP6tF92JbNIYKXAIAYiNVPCUQqT+uz7M2eucShmG5O8+D823quEjsEDly8FQjtFdATGeHOQpZ7EsU9FxVMl5QTgyIZD1lnLADdLk91aRX7Rp2Yusqz8X4iuMDkBlUs8U/Y9VBPu9Tkstto2/2Eltjxx+0UHTtE5NmqXj6kJ4B5rmnej5hO/Jxqll2p099R6RimCdY3m93cpLVAHeGUZzQ8CXXcj0ZKaD5WwifHIc8qRy0Zf932u0XDuobsLDX5Ay2tV7eIAPwGA4OdATBrx6YjVi4jWkRzbfgwjhUDSFOloK+c7UiV97FtdlOlFM8C/YeETYgjL3oQvZ4R/zuAwLTzlR+Do7giUFHOE3IbpTe7cqgVyvv7udZ3lUE=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(39860400002)(396003)(376002)(136003)(346002)(451199015)(36756003)(33656002)(558084003)(86362001)(5660300002)(122000001)(2906002)(38100700002)(186003)(2616005)(6486002)(71200400001)(38070700005)(26005)(6506007)(53546011)(316002)(478600001)(6512007)(6916009)(66556008)(66476007)(66946007)(76116006)(66446008)(91956017)(8936002)(41300700001)(4326008)(64756008)(8676002)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <8BD20ABEBB49B84695EE18C0F53115CE@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=fA0Pfrxf;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id bu30so18187445wrb.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Oct 2022 05:25:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=I7MrEyunIAMFnfnPJW1f9M/I6Y3hR2mZr10LYnY2nCk=;
+        b=fA0Pfrxfza85lPqHlyDEFs77JXVzd+g9pnxoC7P8gPrLBmZIgZ9GqYIBzk9/7btVGa
+         8q4upS5pWqT95v0U3xyVJFkPoBs0U5mTaNpwCYoygvTaomB7CDf5oD2J5WXRoIGe6rbE
+         ez+4jNbASe9VWiBOdykCHyb4EeS9gbsjGlIPaTzc4QaaL/oXVSRM3ITc5unvpos2AmE1
+         AaxAgsXA4KycS1tf26LlSab96exg+TakIpoluMhAcMe1FkUBL+qm1t96aILqTJK7bS7z
+         nAM8srd4Q/pLQfhEsQbvkgCgBZJ9ADc7Slg03U555bcTwvmUoO1+PFt8fQxvNTWfdqOx
+         MlIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=I7MrEyunIAMFnfnPJW1f9M/I6Y3hR2mZr10LYnY2nCk=;
+        b=YkLHlx7tUrfqSqvemz96XxFottXlYXrb1mmzSfmi3W/IvGD0KX+NvZIi0JZgOM3iK5
+         HFr8S8pJCfefVApZA4yb3IqZx0aUhy8w1pJ1GRSKQh/0eujtQvqYlSB9eOBXTFjGgOlJ
+         V4l1ozX0HeqEDvSfbddNfueEr1AmvNXH/dl9xEmvddEy+hBxGrES8yXg+ehl+Hzbf08L
+         HyFfwmv5FhouUlZrma29c4hVb7yWHo002ThZcvP+2QsDAcF1Xc/3FJwJOU0zWGCUJnlJ
+         4542amQ+e7B11Ss/jo0qMc3WqNmf7eseOh6oLFYCENmF7bpbQdV6k5aiGVfTMebba/iA
+         eW0w==
+X-Gm-Message-State: ACrzQf0hi4h/P4r33emdAExRwUiv0NPJmb3O0gPoTmWhqfEigjV8wLcw
+	GYFPMTjoyCl3gXEG0n7WCfqE6OOUbTTm+ei9JbI=
+X-Google-Smtp-Source: AMsMyM5X2jt5qOV+txCU56l5Lwm5PoEQn0YV0nsl92/hQFtnn0omOPnD4seaQwvu3B74T9gFj8Bweu+i3t4EhH/iVqQ=
+X-Received: by 2002:a5d:500a:0:b0:22e:34bd:c907 with SMTP id
+ e10-20020a5d500a000000b0022e34bdc907mr5836016wrt.548.1666009533486; Mon, 17
+ Oct 2022 05:25:33 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5493
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DBAEUR03FT029.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	9a5ee852-1d30-415f-d9e7-08dab03884dd
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	bIm2R9ClKHXQLbRoZ+Hh5HyOCyAtyut5w3lDv9sDsF2RX8xzM8Hih7D5LU5joANYllc7pV89ZC1zsriEgYA5nCu0xT97OTe0FfoAFrXRfYKfD7qL4rmru3+DEbizi1bL4PK6sPg2xzQinJSjHZUOR/FrTJ6fIwccE5LovLkgw7aS8eDs6S9s9fvedxd/ourQyJOHfs1sD4oxCXkcfFutJ7LTp7xCKHe1aoEYiIUuLg0SIYD83yuaALvFRBk93YcU3rXk5WzIHT+Srgn716L0bEsTdkQNcVReGL0x0kDCICqcSI75+Eo6fL2L6tB1rdwQtQHaEIkllIi+WsyvbpC5SFn3e/5BkZYa9H5xnIakKrcz5ocrlywH1XdCgMrW4ZqcyMhiBZaJ3Q379NZZvXIPfZEfq3S/txserwCzxY946TUOEy3knuO8LtYWgD2lS9jyffYJFHjQGleqfLVfYr9+PQFDlfd7j43EPv4wyrC2y5gecsuzLTsuqTv4EaXkVwt8Vlte9P0NnxKvbZaSJ9Zk0Zgkms23igZOalmfOODmxly/LmiVa2eAM3XoX76dMX8uFskuV82NQvYqtQtqwZp92lU0Jl4Phzawr8BqJk/kOMxOrgjY4jdBel52B8nQW1bg/xdiM2VlebZ7pLTEJY7Cjkq3bK25wlMUIvIcBxalXGo914YguxxlIlKZGbxWzxOWp484ii/BJdTQlPW+uymebB9MNQ4jL9BzMf9irhINnhpSf8VR8+quKPuBI1Dn21Razsi7sOK02INZrZ91CkBsKw==
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230022)(4636009)(136003)(39860400002)(376002)(396003)(346002)(451199015)(40470700004)(46966006)(36840700001)(47076005)(82740400003)(82310400005)(356005)(86362001)(40480700001)(81166007)(558084003)(40460700003)(33656002)(36756003)(41300700001)(53546011)(6512007)(26005)(6506007)(8676002)(4326008)(6862004)(5660300002)(8936002)(70586007)(6486002)(478600001)(70206006)(316002)(36860700001)(336012)(186003)(2616005)(2906002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2022 12:10:10.0587
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6d3112ff-b63a-4066-d550-08dab03889ab
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DBAEUR03FT029.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB9838
+References: <20220817190124.2126652-1-jstephan@baylibre.com>
+ <CANNYZj_VxXe6aZKXstZVNov9aeQJ-2beBY1=WojSPA-gvXQqvg@mail.gmail.com>
+ <CAEHHSvavULJhb-W6MJ+2GSouf8sBk_xFHXeHdQCO_VF_zsqn5g@mail.gmail.com>
+ <170C3947C33061FA.1805@lists.openembedded.org> <CANNYZj-ZOPgM_iLFw6uQWF+St_GWNNOfdWB0zUw_yZQfWjQuig@mail.gmail.com>
+ <CAEHHSvZaksW7-4Q0bVOd8hdw6KFc7dCdCQ+eUsGd155dGhvoFw@mail.gmail.com>
+ <CA+chaQdFkumtCNg7AqtwdorpBTvS6MyxO_-vptBysKN9ftoihw@mail.gmail.com> <CANNYZj-4-cieSDbj48siDwZrTZHA64s=x=GAhYu4ohOF0XzP_A@mail.gmail.com>
+In-Reply-To: <CANNYZj-4-cieSDbj48siDwZrTZHA64s=x=GAhYu4ohOF0XzP_A@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 17 Oct 2022 14:25:20 +0200
+Message-ID: <CA+chaQc2xgTNgYZ3BFAQaAsrbKQ_CMaaXvO4LwZVMHOL+1XYWg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] vulkan-samples: enable network during do_unpack
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Julien STEPHAN <jstephan@baylibre.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000006f9a8f05eb3a12cc"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Oct 2022 12:10:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171906
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Oct 2022 12:25:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171907
 
-On 16 Oct 2022, at 22:43, Tom Hochstein via lists.openembedded.org <tom.hoc=
-hstein=3Dnxp.com@lists.openembedded.org> wrote:
->=20
-> Since libvulkan.so is commonly loaded dynamically, put it in the main
-> package.
+--0000000000006f9a8f05eb3a12cc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Can you give an example?
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14938
 
-Ross=
+On Thu, Aug 18, 2022 at 10:00 PM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
+
+> The ticket is RESOLVED/FIXED, which is surely not the case here?
+>
+> Alex
+>
+> On Thu, 18 Aug 2022 at 21:45, Martin Jansa <martin.jansa@gmail.com> wrote=
+:
+> >
+> > There is ticket about this already, see
+> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14283
+> >
+> > On Thu, Aug 18, 2022 at 9:02 AM Julien STEPHAN <jstephan@baylibre.com>
+> wrote:
+> >>
+> >>
+> >>
+> >> Le mer. 17 ao=C3=BBt 2022 =C3=A0 22:33, Alexander Kanavin <alex.kanavi=
+n@gmail.com>
+> a =C3=A9crit :
+> >>>
+> >>> I reproduced. This happens if all three are true:
+> >>> - recipe is using gitsm://
+> >>> - one of the submodules contains lfs objects
+> >>> - git-lfs is installed on the host (that's why it's not seen on the A=
+B)
+> >>>
+> >> Nice! I figured out the first two points, but not the last one.
+> >>
+> >>>
+> >>> There's logic in plain git:// fetcher to deal with lfs, but not in
+> >>> gitsm://. So that logic needs to be added there as well. A workaround
+> >>> like you suggested is not the right fix.
+> >>>
+> >>> Can you look into it please? Or at least a ticket would be good to
+> have.
+> >>>
+> >> Sure, I will try to look at it
+> >> Julien
+> >>>
+> >>> Alex
+> >>>
+> >>> On Wed, 17 Aug 2022 at 21:42, Alexander Kanavin via
+> >>> lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.o=
+rg>
+> >>> wrote:
+> >>> >
+> >>> > Just to be sure, can you repeat this on a pristine poky master
+> >>> > checkout with no cache and no downloads? 'bitbake -c unpack
+> >>> > vulkan-samples' should do.
+> >>> >
+> >>> > Also what does git --version say? I wonder if there's something in
+> too
+> >>> > old or too new versions of it.
+> >>> >
+> >>> > Alex
+> >>> >
+> >>> > On Wed, 17 Aug 2022 at 21:22, Julien Stephan <jstephan@baylibre.com=
+>
+> wrote:
+> >>> > >
+> >>> > > Hi Alexander,
+> >>> > >
+> >>> > > I observe this by just trying to build the vulkan-samples recipe:
+> DISTRO=3Dpoky bitbake vulkan-samples.
+> >>> > >
+> >>> > > Here is the log output (sorry it is a bit verbose):
+> >>> > > ERROR: vulkan-samples-git-r0 do_unpack: Bitbake Fetcher Error:
+> FetchError('Fetch command export PSEUDO_DISABLED=3D1; export
+> SSH_AUTH_SOCK=3D"/home/jstephan/.ssh/ssh_auth_sock"; export
+> PATH=3D"/home/jstephan/kirkstone/build/tmp/sysroots-uninative/x86_64-linu=
+x/usr/bin:/home/jstephan/kirkstone/src/poky/scripts:/home/jstephan/kirkston=
+e/build/tmp/work/cortexa53-poky-linux/vulkan-samples/git-r0/recipe-sysroot-=
+native/usr/bin/aarch64-poky-linux:/home/jstephan/kirkstone/build/tmp/work/c=
+ortexa53-poky-linux/vulkan-samples/git-r0/recipe-sysroot/usr/bin/crossscrip=
+ts:/home/jstephan/kirkstone/build/tmp/work/cortexa53-poky-linux/vulkan-samp=
+les/git-r0/recipe-sysroot-native/usr/sbin:/home/jstephan/kirkstone/build/tm=
+p/work/cortexa53-poky-linux/vulkan-samples/git-r0/recipe-sysroot-native/usr=
+/bin:/home/jstephan/kirkstone/build/tmp/work/cortexa53-poky-linux/vulkan-sa=
+mples/git-r0/recipe-sysroot-native/sbin:/home/jstephan/kirkstone/build/tmp/=
+work/cortexa53-poky-linux/vulkan-samples/git-r0/recipe-sysroot-native/bin:/=
+home/jstephan/kirkstone/src/poky/bitbake/bin:/home/jstephan/kirkstone/build=
+/tmp/hosttools";
+> export HOME=3D"/home/jstephan"; git -c core.fsyncobjectfiles=3D0 -c
+> gc.autoDetach=3Dfalse -c core.pager=3Dcat submodule update --recursive
+> --no-fetch failed with exit code 1, output:\nSubmodule path \'assets\':
+> checked out \'8a6b7f952d7786a305f89d375a55598e995ee972\'\nSubmodule path
+> \'third_party/CTPL\': checked out
+> \'437e135dbd94eb65b45533d9ce8ee28b5bd37b6d\'\nSubmodule path
+> \'third_party/astc\': checked out
+> \'4861c3db1ca50eb5f5767d95d1cd1bacb98ac8a5\'\nSubmodule path
+> \'third_party/cli11\': checked out
+> \'4af78beef777e313814b4daff70e2da9171a385a\'\nSubmodule path
+> \'third_party/glfw\': checked out
+> \'6876cf8d7e0e70dc3e4d7b0224d08312c9f78099\'\nSubmodule path
+> \'third_party/glm\': checked out
+> \'fce2abd01ce21063bd25ba67c9318be83bf48813\'\nSubmodule path
+> \'third_party/glslang\': checked out
+> \'6baa85f6ceec5fddd2e13b43dd1edc944dd930af\'\nSubmodule path
+> \'third_party/hwcpipe\': checked out
+> \'5a0c3d0b527bea96154998f29177f3b449cebd3a\'\nSubmodule path
+> \'third_party/imgui\': checked out
+> \'c23a19c26fa9cc778f755e76799f0cafdcb5a13b\'\nSubmodule path
+> \'third_party/opencl\': checked out
+> \'1aa1139b58a515877a923cce6b254e09d1b2fb2c\'\nSubmodule path
+> \'third_party/spdlog\': checked out
+> \'7bf8f148795d2571b4ae4aa9c6d2a8111fbb7077\'\nSubmodule path
+> \'third_party/spirv-cross\': checked out
+> \'84f56d0b43e5a6874de45e11be2bff9dc336fd7e\'\nSubmodule path
+> \'third_party/stb\': checked out
+> \'2c2908f50515dcd939f24be261c3ccbcd277bb49\'\nSubmodule path
+> \'third_party/tinygltf\': checked out
+> \'c0d0251e2c7f2273a894aa1b125af9313a88eae4\'\nSubmodule path
+> \'third_party/vma\': checked out
+> \'f9921aefddee2437cc2e3303d3175bd8ef23e22c\'\nSubmodule path
+> \'third_party/volk\': checked out
+> \'b18f3192886981f28d17f8f41c26c5a53ac3b977\'\nSubmodule path
+> \'third_party/vulkan\': checked out
+> \'76f00ef6cbb1886eb1162d1fa39bee8b51e22ee8\'\n\nDownloading
+> other_lib/ios/Debug-iphoneos/libSDL2.a (8.2 MB)\nError downloading object=
+:
+> other_lib/ios/Debug-iphoneos/libSDL2.a (5045776): Smudge error: Error
+> downloading other_lib/ios/Debug-iphoneos/libSDL2.a
+> (5045776556ca57f2f7125d89c37a8b94f79cdebdc040d420513f0491787c4ea7): batch
+> response: Post
+> https://github.com/KhronosGroup/KTX-Software.git/info/lfs/objects/batch:
+> dial tcp: lookup github.com: Temporary failure in name
+> resolution\n\nErrors logged to
+> /home/jstephan/kirkstone/build/tmp/work/cortexa53-poky-linux/vulkan-sampl=
+es/git-r0/git/.git/modules/third_party/ktx/lfs/logs/20220817T152514.3376499=
+81.log\nUse
+> `git lfs logs last` to view the log.\nerror: external filter \'git-lfs
+> filter-process\' failed\nfatal: other_lib/ios/Debug-iphoneos/libSDL2.a:
+> smudge filter lfs failed\nUnable to checkout
+> \'6a38a0694b4d73d22c5d1e22f865d03545e808ea\' in submodule path
+> \'third_party/ktx\'\n', None)
+> >>> > > ERROR: Logfile of failure stored in:
+> /home/jstephan/kirkstone/build/tmp/work/cortexa53-poky-linux/vulkan-sampl=
+es/git-r0/temp/log.do_unpack.1796011
+> >>> > > ERROR: Task
+> (/home/jstephan/kirkstone/src/poky/meta/recipes-graphics/vulkan/vulkan-sa=
+mples_git.bb:do_unpack)
+> failed with exit code '1'
+> >>> > >
+> >>> > > Julien
+> >>> > >
+> >>> > > Le mer. 17 ao=C3=BBt 2022 =C3=A0 21:09, Alexander Kanavin <
+> alex.kanavin@gmail.com> a =C3=A9crit :
+> >>> > >>
+> >>> > >> This has not been observed on the autobuilder or independently
+> >>> > >> reported, can you show how to reproduce or the failure log?
+> >>> > >>
+> >>> > >> Alex
+> >>> > >>
+> >>> > >> On Wed, 17 Aug 2022 at 21:01, Julien STEPHAN <
+> jstephan@baylibre.com> wrote:
+> >>> > >> >
+> >>> > >> > vulkan-samples uses git submodules and one of the submodules
+> uses lfs
+> >>> > >> > objects. During the unpack step, the lfs objects are retrieved
+> leading to
+> >>> > >> > a network failure.
+> >>> > >> >
+> >>> > >> > The correct fix is to fetch lfs objects during the fetch step,
+> but let's
+> >>> > >> > workaround this issue for now
+> >>> > >> >
+> >>> > >> > Signed-off-by: Julien STEPHAN <jstephan@baylibre.com>
+> >>> > >> > ---
+> >>> > >> >  meta/recipes-graphics/vulkan/vulkan-samples_git.bb | 5 +++++
+> >>> > >> >  1 file changed, 5 insertions(+)
+> >>> > >> >
+> >>> > >> > diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.b=
+b
+> b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+> >>> > >> > index 41cb4a437d..b45ee22a69 100644
+> >>> > >> > --- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+> >>> > >> > +++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+> >>> > >> > @@ -11,6 +11,11 @@ SRC_URI =3D "gitsm://
+> github.com/KhronosGroup/Vulkan-Samples.git;branch=3Dmaster;prot
+> >>> > >> >
+>  file://0001-framework-core-hpp_vulkan_resource.h-add-header-incl.patch \
+> >>> > >> >             "
+> >>> > >> >
+> >>> > >> > +# Workaround for network access issue during the do_unpack st=
+ep
+> >>> > >> > +# this needs to be fixed in the recipes buildsystem to move
+> >>> > >> > +# this such that it can be accomplished during do_fetch task
+> >>> > >> > +do_unpack[network] =3D "1"
+> >>> > >> > +
+> >>> > >> >  UPSTREAM_CHECK_COMMITS =3D "1"
+> >>> > >> >  SRCREV =3D "ee6c1522af8ba9b56f8416c2eedafb440f681085"
+> >>> > >> >
+> >>> > >> > --
+> >>> > >> > 2.37.1
+> >>> > >> >
+> >>> > >> >
+> >>> > >> >
+> >>> > >> >
+> >>> >
+> >>> >
+> >>> >
+> >>
+> >>
+> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >> Links: You receive all messages sent to this group.
+> >> View/Reply Online (#169514):
+> https://lists.openembedded.org/g/openembedded-core/message/169514
+> >> Mute This Topic: https://lists.openembedded.org/mt/93089137/3617156
+> >> Group Owner: openembedded-core+owner@lists.openembedded.org
+> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
+[
+> Martin.Jansa@gmail.com]
+> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >>
+>
+
+--0000000000006f9a8f05eb3a12cc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?=
+id=3D14938">https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14938</a><b=
+r></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Thu, Aug 18, 2022 at 10:00 PM Alexander Kanavin &lt;<a href=3D"mailto:=
+alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex">The ticket is RESOLVED/FIXED,=
+ which is surely not the case here?<br>
+<br>
+Alex<br>
+<br>
+On Thu, 18 Aug 2022 at 21:45, Martin Jansa &lt;<a href=3D"mailto:martin.jan=
+sa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; There is ticket about this already, see<br>
+&gt; <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14283" =
+rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.org/show=
+_bug.cgi?id=3D14283</a><br>
+&gt;<br>
+&gt; On Thu, Aug 18, 2022 at 9:02 AM Julien STEPHAN &lt;<a href=3D"mailto:j=
+stephan@baylibre.com" target=3D"_blank">jstephan@baylibre.com</a>&gt; wrote=
+:<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Le mer. 17 ao=C3=BBt 2022 =C3=A0 22:33, Alexander Kanavin &lt;<a h=
+ref=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.=
+com</a>&gt; a =C3=A9crit :<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; I reproduced. This happens if all three are true:<br>
+&gt;&gt;&gt; - recipe is using gitsm://<br>
+&gt;&gt;&gt; - one of the submodules contains lfs objects<br>
+&gt;&gt;&gt; - git-lfs is installed on the host (that&#39;s why it&#39;s no=
+t seen on the AB)<br>
+&gt;&gt;&gt;<br>
+&gt;&gt; Nice! I figured out the first two points, but not the last one.<br=
+>
+&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; There&#39;s logic in plain git:// fetcher to deal with lfs, bu=
+t not in<br>
+&gt;&gt;&gt; gitsm://. So that logic needs to be added there as well. A wor=
+karound<br>
+&gt;&gt;&gt; like you suggested is not the right fix.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Can you look into it please? Or at least a ticket would be goo=
+d to have.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt; Sure, I will try to look at it<br>
+&gt;&gt; Julien<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Alex<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; On Wed, 17 Aug 2022 at 21:42, Alexander Kanavin via<br>
+&gt;&gt;&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" t=
+arget=3D"_blank">lists.openembedded.org</a> &lt;alex.kanavin=3D<a href=3D"m=
+ailto:gmail.com@lists.openembedded.org" target=3D"_blank">gmail.com@lists.o=
+penembedded.org</a>&gt;<br>
+&gt;&gt;&gt; wrote:<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; Just to be sure, can you repeat this on a pristine poky m=
+aster<br>
+&gt;&gt;&gt; &gt; checkout with no cache and no downloads? &#39;bitbake -c =
+unpack<br>
+&gt;&gt;&gt; &gt; vulkan-samples&#39; should do.<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; Also what does git --version say? I wonder if there&#39;s=
+ something in too<br>
+&gt;&gt;&gt; &gt; old or too new versions of it.<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; Alex<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; On Wed, 17 Aug 2022 at 21:22, Julien Stephan &lt;<a href=
+=3D"mailto:jstephan@baylibre.com" target=3D"_blank">jstephan@baylibre.com</=
+a>&gt; wrote:<br>
+&gt;&gt;&gt; &gt; &gt;<br>
+&gt;&gt;&gt; &gt; &gt; Hi Alexander,<br>
+&gt;&gt;&gt; &gt; &gt;<br>
+&gt;&gt;&gt; &gt; &gt; I observe this by just trying to build the vulkan-sa=
+mples recipe: DISTRO=3Dpoky bitbake vulkan-samples.<br>
+&gt;&gt;&gt; &gt; &gt;<br>
+&gt;&gt;&gt; &gt; &gt; Here is the log output (sorry it is a bit verbose):<=
+br>
+&gt;&gt;&gt; &gt; &gt; ERROR: vulkan-samples-git-r0 do_unpack: Bitbake Fetc=
+her Error: FetchError(&#39;Fetch command export PSEUDO_DISABLED=3D1; export=
+ SSH_AUTH_SOCK=3D&quot;/home/jstephan/.ssh/ssh_auth_sock&quot;; export PATH=
+=3D&quot;/home/jstephan/kirkstone/build/tmp/sysroots-uninative/x86_64-linux=
+/usr/bin:/home/jstephan/kirkstone/src/poky/scripts:/home/jstephan/kirkstone=
+/build/tmp/work/cortexa53-poky-linux/vulkan-samples/git-r0/recipe-sysroot-n=
+ative/usr/bin/aarch64-poky-linux:/home/jstephan/kirkstone/build/tmp/work/co=
+rtexa53-poky-linux/vulkan-samples/git-r0/recipe-sysroot/usr/bin/crossscript=
+s:/home/jstephan/kirkstone/build/tmp/work/cortexa53-poky-linux/vulkan-sampl=
+es/git-r0/recipe-sysroot-native/usr/sbin:/home/jstephan/kirkstone/build/tmp=
+/work/cortexa53-poky-linux/vulkan-samples/git-r0/recipe-sysroot-native/usr/=
+bin:/home/jstephan/kirkstone/build/tmp/work/cortexa53-poky-linux/vulkan-sam=
+ples/git-r0/recipe-sysroot-native/sbin:/home/jstephan/kirkstone/build/tmp/w=
+ork/cortexa53-poky-linux/vulkan-samples/git-r0/recipe-sysroot-native/bin:/h=
+ome/jstephan/kirkstone/src/poky/bitbake/bin:/home/jstephan/kirkstone/build/=
+tmp/hosttools&quot;; export HOME=3D&quot;/home/jstephan&quot;; git -c core.=
+fsyncobjectfiles=3D0 -c gc.autoDetach=3Dfalse -c core.pager=3Dcat submodule=
+ update --recursive --no-fetch failed with exit code 1, output:\nSubmodule =
+path \&#39;assets\&#39;: checked out \&#39;8a6b7f952d7786a305f89d375a55598e=
+995ee972\&#39;\nSubmodule path \&#39;third_party/CTPL\&#39;: checked out \&=
+#39;437e135dbd94eb65b45533d9ce8ee28b5bd37b6d\&#39;\nSubmodule path \&#39;th=
+ird_party/astc\&#39;: checked out \&#39;4861c3db1ca50eb5f5767d95d1cd1bacb98=
+ac8a5\&#39;\nSubmodule path \&#39;third_party/cli11\&#39;: checked out \&#3=
+9;4af78beef777e313814b4daff70e2da9171a385a\&#39;\nSubmodule path \&#39;thir=
+d_party/glfw\&#39;: checked out \&#39;6876cf8d7e0e70dc3e4d7b0224d08312c9f78=
+099\&#39;\nSubmodule path \&#39;third_party/glm\&#39;: checked out \&#39;fc=
+e2abd01ce21063bd25ba67c9318be83bf48813\&#39;\nSubmodule path \&#39;third_pa=
+rty/glslang\&#39;: checked out \&#39;6baa85f6ceec5fddd2e13b43dd1edc944dd930=
+af\&#39;\nSubmodule path \&#39;third_party/hwcpipe\&#39;: checked out \&#39=
+;5a0c3d0b527bea96154998f29177f3b449cebd3a\&#39;\nSubmodule path \&#39;third=
+_party/imgui\&#39;: checked out \&#39;c23a19c26fa9cc778f755e76799f0cafdcb5a=
+13b\&#39;\nSubmodule path \&#39;third_party/opencl\&#39;: checked out \&#39=
+;1aa1139b58a515877a923cce6b254e09d1b2fb2c\&#39;\nSubmodule path \&#39;third=
+_party/spdlog\&#39;: checked out \&#39;7bf8f148795d2571b4ae4aa9c6d2a8111fbb=
+7077\&#39;\nSubmodule path \&#39;third_party/spirv-cross\&#39;: checked out=
+ \&#39;84f56d0b43e5a6874de45e11be2bff9dc336fd7e\&#39;\nSubmodule path \&#39=
+;third_party/stb\&#39;: checked out \&#39;2c2908f50515dcd939f24be261c3ccbcd=
+277bb49\&#39;\nSubmodule path \&#39;third_party/tinygltf\&#39;: checked out=
+ \&#39;c0d0251e2c7f2273a894aa1b125af9313a88eae4\&#39;\nSubmodule path \&#39=
+;third_party/vma\&#39;: checked out \&#39;f9921aefddee2437cc2e3303d3175bd8e=
+f23e22c\&#39;\nSubmodule path \&#39;third_party/volk\&#39;: checked out \&#=
+39;b18f3192886981f28d17f8f41c26c5a53ac3b977\&#39;\nSubmodule path \&#39;thi=
+rd_party/vulkan\&#39;: checked out \&#39;76f00ef6cbb1886eb1162d1fa39bee8b51=
+e22ee8\&#39;\n\nDownloading other_lib/ios/Debug-iphoneos/libSDL2.a (8.2 MB)=
+\nError downloading object: other_lib/ios/Debug-iphoneos/libSDL2.a (5045776=
+): Smudge error: Error downloading other_lib/ios/Debug-iphoneos/libSDL2.a (=
+5045776556ca57f2f7125d89c37a8b94f79cdebdc040d420513f0491787c4ea7): batch re=
+sponse: Post <a href=3D"https://github.com/KhronosGroup/KTX-Software.git/in=
+fo/lfs/objects/batch" rel=3D"noreferrer" target=3D"_blank">https://github.c=
+om/KhronosGroup/KTX-Software.git/info/lfs/objects/batch</a>: dial tcp: look=
+up <a href=3D"http://github.com" rel=3D"noreferrer" target=3D"_blank">githu=
+b.com</a>: Temporary failure in name resolution\n\nErrors logged to /home/j=
+stephan/kirkstone/build/tmp/work/cortexa53-poky-linux/vulkan-samples/git-r0=
+/git/.git/modules/third_party/ktx/lfs/logs/20220817T152514.337649981.log\nU=
+se `git lfs logs last` to view the log.\nerror: external filter \&#39;git-l=
+fs filter-process\&#39; failed\nfatal: other_lib/ios/Debug-iphoneos/libSDL2=
+.a: smudge filter lfs failed\nUnable to checkout \&#39;6a38a0694b4d73d22c5d=
+1e22f865d03545e808ea\&#39; in submodule path \&#39;third_party/ktx\&#39;\n&=
+#39;, None)<br>
+&gt;&gt;&gt; &gt; &gt; ERROR: Logfile of failure stored in: /home/jstephan/=
+kirkstone/build/tmp/work/cortexa53-poky-linux/vulkan-samples/git-r0/temp/lo=
+g.do_unpack.1796011<br>
+&gt;&gt;&gt; &gt; &gt; ERROR: Task (/home/jstephan/kirkstone/src/poky/meta/=
+recipes-graphics/vulkan/vulkan-samples_git.bb:do_unpack) failed with exit c=
+ode &#39;1&#39;<br>
+&gt;&gt;&gt; &gt; &gt;<br>
+&gt;&gt;&gt; &gt; &gt; Julien<br>
+&gt;&gt;&gt; &gt; &gt;<br>
+&gt;&gt;&gt; &gt; &gt; Le mer. 17 ao=C3=BBt 2022 =C3=A0 21:09, Alexander Ka=
+navin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.=
+kanavin@gmail.com</a>&gt; a =C3=A9crit :<br>
+&gt;&gt;&gt; &gt; &gt;&gt;<br>
+&gt;&gt;&gt; &gt; &gt;&gt; This has not been observed on the autobuilder or=
+ independently<br>
+&gt;&gt;&gt; &gt; &gt;&gt; reported, can you show how to reproduce or the f=
+ailure log?<br>
+&gt;&gt;&gt; &gt; &gt;&gt;<br>
+&gt;&gt;&gt; &gt; &gt;&gt; Alex<br>
+&gt;&gt;&gt; &gt; &gt;&gt;<br>
+&gt;&gt;&gt; &gt; &gt;&gt; On Wed, 17 Aug 2022 at 21:01, Julien STEPHAN &lt=
+;<a href=3D"mailto:jstephan@baylibre.com" target=3D"_blank">jstephan@baylib=
+re.com</a>&gt; wrote:<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt; vulkan-samples uses git submodules and one =
+of the submodules uses lfs<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt; objects. During the unpack step, the lfs ob=
+jects are retrieved leading to<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt; a network failure.<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt; The correct fix is to fetch lfs objects dur=
+ing the fetch step, but let&#39;s<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt; workaround this issue for now<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt; Signed-off-by: Julien STEPHAN &lt;<a href=
+=3D"mailto:jstephan@baylibre.com" target=3D"_blank">jstephan@baylibre.com</=
+a>&gt;<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt; ---<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 meta/recipes-graphics/vulkan/<a href=
+=3D"http://vulkan-samples_git.bb" rel=3D"noreferrer" target=3D"_blank">vulk=
+an-samples_git.bb</a> | 5 +++++<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 1 file changed, 5 insertions(+)<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt; diff --git a/meta/recipes-graphics/vulkan/<=
+a href=3D"http://vulkan-samples_git.bb" rel=3D"noreferrer" target=3D"_blank=
+">vulkan-samples_git.bb</a> b/meta/recipes-graphics/vulkan/<a href=3D"http:=
+//vulkan-samples_git.bb" rel=3D"noreferrer" target=3D"_blank">vulkan-sample=
+s_git.bb</a><br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt; index 41cb4a437d..b45ee22a69 100644<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt; --- a/meta/recipes-graphics/vulkan/<a href=
+=3D"http://vulkan-samples_git.bb" rel=3D"noreferrer" target=3D"_blank">vulk=
+an-samples_git.bb</a><br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt; +++ b/meta/recipes-graphics/vulkan/<a href=
+=3D"http://vulkan-samples_git.bb" rel=3D"noreferrer" target=3D"_blank">vulk=
+an-samples_git.bb</a><br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt; @@ -11,6 +11,11 @@ SRC_URI =3D &quot;gitsm:=
+//<a href=3D"http://github.com/KhronosGroup/Vulkan-Samples.git;branch=3Dmas=
+ter;prot" rel=3D"noreferrer" target=3D"_blank">github.com/KhronosGroup/Vulk=
+an-Samples.git;branch=3Dmaster;prot</a><br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0file://0001-framework-core-hpp_vulkan_resource.h-add-header-incl.patc=
+h \<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0&quot;<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt; +# Workaround for network access issue duri=
+ng the do_unpack step<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt; +# this needs to be fixed in the recipes bu=
+ildsystem to move<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt; +# this such that it can be accomplished du=
+ring do_fetch task<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt; +do_unpack[network] =3D &quot;1&quot;<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt; +<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 UPSTREAM_CHECK_COMMITS =3D &quot;1&qu=
+ot;<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 SRCREV =3D &quot;ee6c1522af8ba9b56f84=
+16c2eedafb440f681085&quot;<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt; --<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt; 2.37.1<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; &gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;&gt; Links: You receive all messages sent to this group.<br>
+&gt;&gt; View/Reply Online (#169514): <a href=3D"https://lists.openembedded=
+.org/g/openembedded-core/message/169514" rel=3D"noreferrer" target=3D"_blan=
+k">https://lists.openembedded.org/g/openembedded-core/message/169514</a><br=
+>
+&gt;&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/9308=
+9137/3617156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedd=
+ed.org/mt/93089137/3617156</a><br>
+&gt;&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.ope=
+nembedded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded=
+.org</a><br>
+&gt;&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembed=
+ded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembe=
+dded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmai=
+l.com" target=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
+&gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;&gt;<br>
+</blockquote></div>
+
+--0000000000006f9a8f05eb3a12cc--
 
