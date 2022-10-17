@@ -1,289 +1,149 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
+Return-Path: <ceggers@arri.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52C01C4332F
-	for <webhook@archiver.kernel.org>; Mon, 17 Oct 2022 15:25:14 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web10.42427.1666020309062875432
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7411FC4332F
+	for <webhook@archiver.kernel.org>; Mon, 17 Oct 2022 15:53:04 +0000 (UTC)
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.115])
+ by mx.groups.io with SMTP id smtpd.web10.42813.1666021978796181950
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Oct 2022 08:25:09 -0700
+ Mon, 17 Oct 2022 08:53:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=K+eSIUhb;
- spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pl1-f173.google.com with SMTP id n7so11103033plp.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Oct 2022 08:25:08 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@arrigroup.onmicrosoft.com header.s=selector1-arrigroup-onmicrosoft-com header.b=FTiNRAc+;
+ spf=pass (domain: arri.de, ip: 40.107.7.115, mailfrom: ceggers@arri.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gg4x5q85qPttNmv2auLrf5mBP3dr9xEFD2Pybe8S7FdDHmOavxpCqGEgB3JlPG+evj+d7EI3zKCSVnzVMnfl1nZV1SUpXIi89WwV5grM3so2y6/JBimQjaSsSqfzuJ8K3zQ4U/8umPYYbnRn1HgapgtLpZl4Tpec8MsCD8Krztpa1TR2l8ky3pXMx+uDz86pZL1YcppZv5K9fd0Ci66bx7Ht8ea8cDlt1IhYEoqWrFapApgbqOcQsf0mxg1Kw/qBj2hlk1X9Nppe1LnFOYqEDHZGeBK/CIvKpK5/kIpkIrQOa22pCWdvxSu+1xR1+WViHZNvyuTlnK8ktyinJGBsIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=36X15lZ+KCWNrLaUHtryF1DVydYaSgEiT8oOR7o2g7w=;
+ b=L96fmxFRWpPjGQXMIa3in/XpAYzFHqXoNm9cHjrG82/Ho8EqGHkqbuyFytGYbpliWC4ImkaBlN0U2bQ5Ek8rhIDTUoem2WKXcDJTYAamX+deWiCCcoTdgetAyhDeCnHdmZ/n8EkgG7cwtYF9FwJoRpX9r1o51NtITEaX7SALKhxv+umxzrMxhZ5GDjoFmXW2IdztOHjzZR5xpK+gbbo7HM0XRuEIyg9lJJM3FkFUCt+HhAbTqhXCj8c8aqHnav9TqUWxfZsi6RZjp3Eg8FGLuwxscmngn1+cpVp2tD5y2lAqsClvKWiUpwR6AmTJ/adZoTcZc5oJ3sLYFVGyN6YZGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 217.111.95.7) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arri.de;
+ dmarc=none action=none header.from=arri.de; dkim=none (message not signed);
+ arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-language:thread-index:mime-version:message-id:date:subject
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dPEE6j8F9jXuRXErUqKPusO8Tp5QUpC0HRvQljSKIJ4=;
-        b=K+eSIUhbcpc6DjW7XrfbuIEPzzo2Mj0cSktpub/aFCxdy/12qzjvEjERUskHZPuHBo
-         gfoMeprdTFHnTMh7FAMN8XoUCloC/6HRtxbGmRfS2I85V2rcS8AYh08g9OLqKsOx+iVx
-         /XZdBd1ac2hcjY94jWIfxLuo7l8WZhwd22hLiZZwO6Jw3tDcs9JkYsoQIO3nrhtpBO/J
-         lOXfloiymTnXu8V4ZijY7wwhbgwPiLxANex2pL4B1uuqvnBOOKvrIVmk2KlHwCS6qxDj
-         37Dv5gndonkC81khwzPInG4xH50A6dIyAS2o2jW90+3pjTn/jPIZ7dOJun3LXDQ7mDiU
-         UjJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-language:thread-index:mime-version:message-id:date:subject
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dPEE6j8F9jXuRXErUqKPusO8Tp5QUpC0HRvQljSKIJ4=;
-        b=jUw+gvFNMguU7a4XYUdvdXhKuk4SEXhEizfkqpTsW1EIR16XKuHFsK8RKJPCBCt1a3
-         dyixwQNGPK6Nk4i8GcictupJrL/VHIRxqY/KQ9l7LVqIOi0Q7xHHHN+g1T7nTz+dRLMo
-         0eatYAmHAXl+NDVzXSikdSaOOCDW2SG047emNT/xRDdZH3jGZ487kfgmPg8kKLxKrXLQ
-         BL1vjC7dyXABC0pP5BumL2s+OdoJr/UFpUWJzQBXzuzgRWHacLu5+SLLpVcj28bHpaO1
-         rXuZFeuDRE+VrK6//2pbRey3O06rgC2/9FqrvJGJdO1jEzoiM1PWahvMDyP2MSfiGUZB
-         lgAQ==
-X-Gm-Message-State: ACrzQf3CpV0eKxt7ho1RxCw8P9x4N3bNYMCuuGD3f3h/Ye4YLsx2kxYl
-	b/0z7JDE2epZEzU+834S880q6irMZO8=
-X-Google-Smtp-Source: AMsMyM68TB+DFYqXL/PjUEZSFiZiTFM3HOz3FI3XjMDDyTalBRafvMKx25g0RkQmj9RVZ/subJbFaw==
-X-Received: by 2002:a17:903:11cc:b0:178:aec1:18c3 with SMTP id q12-20020a17090311cc00b00178aec118c3mr12797496plh.91.1666020307965;
-        Mon, 17 Oct 2022 08:25:07 -0700 (PDT)
-Received: from skjolley ([69.28.36.30])
-        by smtp.gmail.com with ESMTPSA id h12-20020a170902680c00b00178bd916c64sm6714889plk.265.2022.10.17.08.25.05
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 17 Oct 2022 08:25:06 -0700 (PDT)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@lists.yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
-Date: Mon, 17 Oct 2022 08:25:04 -0700
-Message-ID: <014e01d8e23c$a291aa00$e7b4fe00$@gmail.com>
+ d=arrigroup.onmicrosoft.com; s=selector1-arrigroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=36X15lZ+KCWNrLaUHtryF1DVydYaSgEiT8oOR7o2g7w=;
+ b=FTiNRAc+fUG8gpTnYfq5LuG0XVcAjEkIM4r9i3HErg6EZZiRjy0NRfU7Qp1d3WXNskLtBFtz6W1Czu5CKEAcso6fSQ4N55Gz6C7otO8KI3ofFid6vQd9L+HRAVXU0uDWjWFBC51+aVCh+Z4xtartgaomUR4QVDPKAHPsKrVUt0M=
+Received: from FR3P281CA0046.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:4a::12)
+ by DB9PR07MB8749.eurprd07.prod.outlook.com (2603:10a6:10:30d::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.20; Mon, 17 Oct
+ 2022 15:52:55 +0000
+Received: from VE1EUR02FT028.eop-EUR02.prod.protection.outlook.com
+ (2603:10a6:d10:4a:cafe::9c) by FR3P281CA0046.outlook.office365.com
+ (2603:10a6:d10:4a::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.11 via Frontend
+ Transport; Mon, 17 Oct 2022 15:52:55 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 217.111.95.7)
+ smtp.mailfrom=arri.de; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arri.de;
+Received-SPF: Fail (protection.outlook.com: domain of arri.de does not
+ designate 217.111.95.7 as permitted sender) receiver=protection.outlook.com;
+ client-ip=217.111.95.7; helo=mta.arri.de;
+Received: from mta.arri.de (217.111.95.7) by
+ VE1EUR02FT028.mail.protection.outlook.com (10.152.12.81) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5723.20 via Frontend Transport; Mon, 17 Oct 2022 15:52:54 +0000
+Received: from N95HX1G2.arri.de (192.168.54.96) by mta.arri.de (10.10.18.5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.32; Mon, 17 Oct
+ 2022 17:52:54 +0200
+From: Christian Eggers <ceggers@arri.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Christian Eggers <ceggers@arri.de>
+Subject: [PATCH] linux-firmware: split rtl8761 firmware
+Date: Mon, 17 Oct 2022 17:52:40 +0200
+Message-ID: <20221017155240.16652-1-ceggers@arri.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_014F_01D8E201.F6336E40"
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQFT47GWe1SPzn6wkXDTMQ8TRXEPNA==
-Content-Language: en-us
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [192.168.54.96]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VE1EUR02FT028:EE_|DB9PR07MB8749:EE_
+X-MS-Office365-Filtering-Correlation-Id: c7fe8213-05da-4733-477b-08dab057a7b2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	MdpZywWMBFHTIgX0ZGzcQ2QBXzIRJsTkphtfCk1S5NnOve++UDyKXiB3/GbK8kxWJQl4UJuzAmnutZ1qzOXAC7qURngItEai50TnHi0kurjADZRjH7Sohy+DDod54PDAt+jjeLDtH5H22WNDysR6MifHDpAgCIDTy7Z/yJwMNN8Ok1b31ZCFX9Mb+knDwhx/Tz9vUlmziAKHQUwdoHydkaF0AvTjc76VaXdDZO2d3jtH+3foKBpSXyJrr+ZpNo96VMqsPmWYAfUtzMWOMa/Nrwf0QhPgKYU1auJkAVue01ER2F8L7WK7/S1OolbAJz0DJsou2wS7kMeZpojKNC5JOokFyNr2HvAwz+ywctMq2pWg7i+vGkbwr3MdmXDHSzFMlSior3+1ukLWmFFDrfYyocBabCxvaVjvVJY9Y+STNnxSSYLYlQNOw03Ay6UvzijEmmptASAQdhM4OZnLCmIjR02JTOlPXaqqVFz8IJirlbI39HqEg4BlMdOBGGqpRR6tfTTM4xjAWaR31Hr+UnUwwdX+WyDbX6NsBeQ8MOvb+lOFShZfUDTINEj2/tqUc/HMhzWEAeS0ZHDuP1lHxbf2HQjwjXOR56vzvaNLsvmbTJiKJT8/DXSdwRGNcwayn5whKcj8J9rjyNkhno6IrjN5A8xD5XYmuyJYFcDTzgLa9HSikZKDf9Ogv49OFFAgfMXYVQCNCSYXej4boXlPEFk77oEXU5XusOO3JHekiZgf8qhQcPQQ47tmYuj90nm4FKTJ7PyXssRuGZsWss3urxUC0w==
+X-Forefront-Antispam-Report: 
+	CIP:217.111.95.7;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mta.arri.de;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(136003)(39860400002)(376002)(346002)(396003)(451199015)(36840700001)(46966006)(336012)(2906002)(1076003)(2616005)(8936002)(16526019)(186003)(7696005)(41300700001)(5660300002)(26005)(81166007)(356005)(82310400005)(82740400003)(40480700001)(86362001)(83380400001)(36756003)(426003)(36860700001)(47076005)(316002)(478600001)(6916009)(6666004)(70586007)(8676002)(107886003)(4326008)(70206006)(36900700001);DIR:OUT;SFP:1102;
+X-OriginatorOrg: arri.de
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2022 15:52:54.7999
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c7fe8213-05da-4733-477b-08dab057a7b2
+X-MS-Exchange-CrossTenant-Id: e6a73a5a-614d-4c51-b3e3-53b660a9433a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e6a73a5a-614d-4c51-b3e3-53b660a9433a;Ip=[217.111.95.7];Helo=[mta.arri.de]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	VE1EUR02FT028.eop-EUR02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR07MB8749
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Oct 2022 15:25:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171913
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Oct 2022 15:53:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171914
 
-This is a multipart message in MIME format.
+Realtek Bluetooth devices require binary firmware files. Package them
+separately in order to avoid installing the full linux-firmware package
+on embedded devices.
 
-------=_NextPart_000_014F_01D8E201.F6336E40
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Affected (end user) products (incomplete list):
+- TP-Link UB500
+- Logilink BT0054
 
-All,
+Signed-off-by: Christian Eggers <ceggers@arri.de>
+---
+ .../linux-firmware/linux-firmware_20220913.bb               | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
- 
-
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
-
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
-review:
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
-how to create a bugzilla account at:
-<https://bugzilla.yoctoproject.org/createaccount.cgi>
-https://bugzilla.yoctoproject.org/createaccount.cgi
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
- 
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 419
-unassigned or newcomer bugs.
-
- 
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now,  "4.1", "4.2", "4.3", "4.99" and "Future", the more
-pressing/urgent issues being in "4.1" and then "4.2".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
-_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_014F_01D8E201.F6336E40
-Content-Type: text/html;
-	boundary="----=_NextPart_000_0143_01D8DD01.32A96E20";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal =
-style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The triage team is starting to try and =
-collect up and classify bugs which a newcomer to the project would be =
-able to work on in a way which means people can find them. They're being =
-listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
-please review: <a =
-href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded</a> and how to create a bugzilla account at: <a =
-href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
-style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
-/span></a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 419 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &nbsp;&#8220;4.1&#8221;, =
-&#8220;4.2&#8221;, &#8220;4.3&#8221;, &quot;4.99&quot; and =
-&quot;Future&quot;, the more pressing/urgent issues being in =
-&quot;4.1&quot; and then &#8220;4.2&#8221;.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
-and if a bug is something you would be able to help with either take =
-ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
-or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
-nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-------=_NextPart_000_014F_01D8E201.F6336E40--
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20220913.bb =
+b/meta/recipes-kernel/linux-firmware/linux-firmware_20220913.bb
+index 45c9d0e86123..eea9251a840e 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20220913.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20220913.bb
+@@ -235,6 +235,7 @@ PACKAGES =3D+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-vt6656-license ${PN}-vt6656 \
+              ${PN}-rs9113 ${PN}-rs9116 \
+              ${PN}-rtl-license ${PN}-rtl8188 ${PN}-rtl8192cu ${PN}-rtl8192=
+ce ${PN}-rtl8192su ${PN}-rtl8723 ${PN}-rtl8821 \
++             ${PN}-rtl8761 \
+              ${PN}-rtl8168 \
+              ${PN}-cypress-license \
+              ${PN}-broadcom-license \
+@@ -563,6 +564,7 @@ LICENSE:${PN}-rtl8192cu =3D "Firmware-rtlwifi_firmware"
+ LICENSE:${PN}-rtl8192ce =3D "Firmware-rtlwifi_firmware"
+ LICENSE:${PN}-rtl8192su =3D "Firmware-rtlwifi_firmware"
+ LICENSE:${PN}-rtl8723 =3D "Firmware-rtlwifi_firmware"
++LICENSE:${PN}-rtl8761 =3D "Firmware-rtlwifi_firmware"
+ LICENSE:${PN}-rtl8821 =3D "Firmware-rtlwifi_firmware"
+ LICENSE:${PN}-rtl-license =3D "Firmware-rtlwifi_firmware"
+ LICENSE:${PN}-rtl8168 =3D "WHENCE"
+@@ -588,6 +590,9 @@ FILES:${PN}-rtl8723 =3D " \
+ FILES:${PN}-rtl8821 =3D " \
+   ${nonarch_base_libdir}/firmware/rtlwifi/rtl8821*.bin \
+ "
++FILES:${PN}-rtl8761 =3D " \
++  ${nonarch_base_libdir}/firmware/rtl_bt/rtl8761*.bin \
++"
+ FILES:${PN}-rtl8168 =3D " \
+   ${nonarch_base_libdir}/firmware/rtl_nic/rtl8168*.fw \
+ "
+@@ -598,6 +603,7 @@ RDEPENDS:${PN}-rtl8192cu +=3D "${PN}-rtl-license"
+ RDEPENDS:${PN}-rtl8192su =3D "${PN}-rtl-license"
+ RDEPENDS:${PN}-rtl8723 +=3D "${PN}-rtl-license"
+ RDEPENDS:${PN}-rtl8821 +=3D "${PN}-rtl-license"
++RDEPENDS:${PN}-rtl8761 +=3D "${PN}-rtl-license"
+ RDEPENDS:${PN}-rtl8168 +=3D "${PN}-whence-license"
+=20
+ # For ti-connectivity
+--=20
+2.35.3
 
 
