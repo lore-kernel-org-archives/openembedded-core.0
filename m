@@ -1,141 +1,997 @@
-Return-Path: <tom.hochstein@nxp.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2D9CC43217
-	for <webhook@archiver.kernel.org>; Sun, 16 Oct 2022 21:44:38 +0000 (UTC)
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.40])
- by mx.groups.io with SMTP id smtpd.web09.34586.1665956665904487827
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD3EBC433FE
+	for <webhook@archiver.kernel.org>; Mon, 17 Oct 2022 04:16:10 +0000 (UTC)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web11.37210.1665980160580520104
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Oct 2022 14:44:26 -0700
+ Sun, 16 Oct 2022 21:16:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@nxp.com header.s=selector2 header.b=kcye0Lo7;
- spf=pass (domain: nxp.com, ip: 40.107.6.40, mailfrom: tom.hochstein@nxp.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IKZmy1X3dHZ3JZDzKj4Y7becSK8C6CzIy9EY01i2LhKeSF1L5d81qqp7cmip9DZw6kcztRjLjRBPzaG5AbNfiy2imAuZ7omml2HHRxYZRuWhN6fBEGKkpGlhf3DZxg/q/inlwlnQjqbngkmWDopTEf0wNiutXtQudNCyGXhS4f7WowUnbw6c6aeYNENUuMj3qYLgILkoLh7ArXXk7NtOMXfYf1/jhla0lD67rIgzylAi9hnwFWPW/LXmyMDKByuvaEmJQyHRDjIAlRF+u4PYeg3wK0RH/I4GqH3jubRWCt9nPB7Iu1UOyB2pf8izUK/f9lZ5Ks8hAcl9yXCkNRIxUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o1oadbhITAw1xusKez2vwR3p/Ihzxwm17QEd8HGALak=;
- b=HmfNnGqryzF/AiA6+EgUadj7zwWFh6DFKO1VCwzww5NPu/ZOWRdvrHGsWlPsb/msFKpXcQvZLak/QzmpAjj1pt7tETqRK4bnWNYhGc5TQzcpww2FvH3ziLcujwqDcpeclt5Be+RoGIf/vwuS6u9cFSPJuRaGKCnLxhk53DkGDVn1gB262oEzB5jxNMCBXZMr7wcneG8CbK83umgjYTbYldIyVr/21VYExFDPqSTL/NqCi8Fb2CaowQFKy8YOlHFY8JD+P8xncsw0CdSHUOnU5zXR3tu00lyhI7/hTprW7WcCKKImvGvCzxT5ZZ7oCMeRT3P24qF+/h37jn+rbtBXLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o1oadbhITAw1xusKez2vwR3p/Ihzxwm17QEd8HGALak=;
- b=kcye0Lo7tGqXas0pRAcJeIwdIhiI6c/Yo5fo85U+6TiEuCQOYwhTsNmJX8VhIBXXwdKyDC2RDzBqa5ZXdy7+F8Y6kwuufhju1ukJLera8wNxY+Q4qWo28wKjLeCkV2rBAmD0QQBj93DlDyW1v7bOTlMQ1jVJDFvtlDzmVkiRirM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PR3PR04MB7308.eurprd04.prod.outlook.com (2603:10a6:102:80::21)
- by VI1PR04MB6990.eurprd04.prod.outlook.com (2603:10a6:803:138::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.29; Sun, 16 Oct
- 2022 21:44:20 +0000
-Received: from PR3PR04MB7308.eurprd04.prod.outlook.com
- ([fe80::2f0c:165b:8713:d1ef]) by PR3PR04MB7308.eurprd04.prod.outlook.com
- ([fe80::2f0c:165b:8713:d1ef%3]) with mapi id 15.20.5723.033; Sun, 16 Oct 2022
- 21:44:19 +0000
-From: Tom Hochstein <tom.hochstein@nxp.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=bbsf7EIT;
+ spf=pass (domain: mvista.com, ip: 209.85.214.177, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f177.google.com with SMTP id b2so9687227plc.7
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Oct 2022 21:16:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kgXdkSlS8+zpMdMxnib8jKQffVt1sfGZny6tLE/UHAw=;
+        b=bbsf7EITDx2bFrSdrupkN6SEq9RylEAzntQp3A17vkZF+jCuSQ5SUbsU3ruIwLx1Qh
+         v8pnnKepwZzfHEYE6H3dSTu/o7Jikd1+ywm6AArse6R08hnDKup3S+PmkavjybeLceZe
+         k0bLYeBosLOVXbbs0+/nnJ0Zqket8CvibJm18=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kgXdkSlS8+zpMdMxnib8jKQffVt1sfGZny6tLE/UHAw=;
+        b=S8J/74XclzUGqjc9VlfgXFCHV4xey7ZVtTGUFOzWZyZo7vC8rT5vOKUa8X6bxZ/9nq
+         lPc026xqgfzgJ8Tyl+jYf6N1H5saY2APlCfsncG5HK4Eg1B02+SsEYzgiOQ9ANQPm1eG
+         bQKrl6NgC0htycuXDXQOUTXgoqHaGReB6lv3QXd2YJZIXqi1/CN3l/gFg+Hzd9HhZJqE
+         zKFNxhC7gZXCVxZ8mWW1EkdXmKgalvE8igAtIbxRI+NdqiUWRkcobW7pBBGNxZ99VPhO
+         c+StlT9MMc93vHLBji5OM6rQSmr0KxtTFymjV/x1EdMfQoqtnbXJ0mzpvQg5ftsQNWEC
+         tsbg==
+X-Gm-Message-State: ACrzQf1Dx8jRhNX6ARgo2uNS7OCDLtAE41VkF2A+Tv8bPYjCSv9MLiKf
+	QlBzte05ZoOVIarHGvdgp/ZCbC6ZccounA==
+X-Google-Smtp-Source: AMsMyM7iiaRa8qWlEOXMsmOaM1SsM5nmi996IwtFXjjNggdugox+tKyJnyFE0eUGv4osmnfe7wiPjw==
+X-Received: by 2002:a17:903:2311:b0:183:a88a:7d1 with SMTP id d17-20020a170903231100b00183a88a07d1mr9958630plh.10.1665980158874;
+        Sun, 16 Oct 2022 21:15:58 -0700 (PDT)
+Received: from MVIN00024 ([43.249.234.167])
+        by smtp.gmail.com with ESMTPSA id i3-20020a170902cf0300b001785fa792f4sm5477235plg.243.2022.10.16.21.15.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Oct 2022 21:15:58 -0700 (PDT)
+Received: by MVIN00024 (sSMTP sendmail emulation); Mon, 17 Oct 2022 09:45:53 +0530
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-CC: Tom Hochstein <tom.hochstein@nxp.com>
-Subject: [PATCH] vulkan-loader: Move libvulkan.so to main package
-Date: Sun, 16 Oct 2022 16:43:57 -0500
-Message-ID: <20221016214357.596913-1-tom.hochstein@nxp.com>
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [dunfell][PATCH] postgresql: Fix CVE-2022-2625
+Date: Mon, 17 Oct 2022 09:45:51 +0530
+Message-Id: <20221017041551.5869-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0P220CA0009.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:41b::25) To PR3PR04MB7308.eurprd04.prod.outlook.com
- (2603:10a6:102:80::21)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PR3PR04MB7308:EE_|VI1PR04MB6990:EE_
-X-MS-Office365-Filtering-Correlation-Id: 99154c61-4047-41ad-e999-08daafbf94ae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	q1g0uKme7zrX+eIGjy8R9dscQOYAf7olmIFPA3Duh0hjk3qo2O3uzCEzgy0eLW9TtJAlY4lBEYnGlGfiSz5sZ92tYQOuCWWbx5+h9NPxkUc78xMIOomvjj7wKrjefB4ZwLEGGA6G3ZAw56e1+JEK6YZdfAa0UXCuEdxOwziOSGrtyZMfXAFIt0Cie4l3q/MW1pxQmO7iUZhfEchGBmgB0q+2+1DbjiJsalaiMvmRQmDWetM+kVK68A3B/3+3J7jWedSNgLJPI2Hf0KOyrjL6H29vXeimLJ26BFfDFkWvLr8VyxAshEIAmOj32kkRw49oIk6EwMUzZJx7XVtSkzatAJOy7okdOtJnbwd5faDdwjqXsyz6hjL0jYh1m5wudVRgA9HSNRkv6vqEflht1dW6GuRrQLGRT0VoBZN/x4E4YFrREXMJkhq71VVAVPw1wXmkchffWSqDEBd9gfuJZ1VOROw4NaXKqb10w3bc4tu0tNAKB/vkWRsW2mupGnImwuG4sbF44CkxtHZRZwsQtOJf/mmVZ3+WRhp8j9by6r9qL7RQhW2PZJJO/ZU2klAh2Xaw700VdRucTglRxPwrkSLSxY63XtZwc+fDFWb1jgL2+8w30vZHdNoK0t22LTxHBtn2wwvrHxMCh9qxzHVCGHA0Y6t1hXULNkjFSPtkTgrkWeynTYQ+Fm1Uq8lPNmHLFNGFQxFRx7AWaHuUTmp7DipeHWKya+JGDF0KpbAXXJRDyu0IfRe3NpBQ/golJkA7cbG3Dcv+4B0snHZ2lMXV68AqHQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PR3PR04MB7308.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(396003)(136003)(39850400004)(346002)(366004)(451199015)(36756003)(86362001)(5660300002)(44832011)(2906002)(38350700002)(38100700002)(2616005)(186003)(1076003)(6486002)(52116002)(6506007)(316002)(478600001)(6512007)(26005)(6916009)(66946007)(66556008)(66476007)(41300700001)(8936002)(4326008)(6666004)(8676002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?XvnhLVgYiB/JmQ/yrJHARkG/yGcdibK+g03int6wQLRWvoAVUIgyXSZWUXUH?=
- =?us-ascii?Q?xFN/ZECU+LKK/HybfDF+iixCpBFdLdHzguGWbmzWiA1HjM9XmQKsYIx+uPlX?=
- =?us-ascii?Q?ePpDMSpjqpIbAB0bOiitLSAMrrMOroBUf7HnJi4V8Se9TsPu60x4y/GrRcLi?=
- =?us-ascii?Q?acM3Y3QCnlcYs8Gpq0bBCDO34JPoBqgCHE+Z7HBvRZgiPTfJ60FItGCVo3S6?=
- =?us-ascii?Q?8YIwrP+MzgoRGCNAInU3z+AVA9+sPdLMjGqsDfrsno9WpjaME3+f8uvIx7tT?=
- =?us-ascii?Q?CihoUpZCLx69eUXn5wwLAZbcLcQ2RWH9IGCd6W9xC8b0CLoQzBU3AJqxoy3s?=
- =?us-ascii?Q?sh11gDUAl4NHEp5PMauvMmFAV/54mx6cMooZtZmcy9PafV+5VlHM4RLHbPiq?=
- =?us-ascii?Q?sU4ksrKZi2hW8TMMfALk0TRbABad8ZIR510KnDGW6Ykw9V8LpfwnnWTz9RzV?=
- =?us-ascii?Q?XnUA/T/CP6zQqhNWmFFhp7YfH4joa+5bihCYTcD+58FlEg5x+9HGIzbHVyA/?=
- =?us-ascii?Q?bhirXkXQLrlUt1YVPr3OfJGMm1suSXRQUJiZbsiDTezt9rYWZdXDla74i1J0?=
- =?us-ascii?Q?5p6yPPI8Hw60CubS88q2gGRx4jprVcc4TXzKAApxx8mSdTm2nYAmC4Tmh5QK?=
- =?us-ascii?Q?FyYXsP/sv3EmQjJ+goKSZJoF+vupRcmZtcIgxHzNPHvxbHk9km3ta+uPxuBS?=
- =?us-ascii?Q?IkjMarPs3v35RyKhtZW1FtOgxMyP6xt4TJl1SlYhj4/qSGPvLl7YAn5q00Zw?=
- =?us-ascii?Q?oNsTt5kmIAv3Yrn3xJUtSAxeihXHmpM5lYLIFGkWB/WN03cdXN3X6tCUEg0H?=
- =?us-ascii?Q?H3ThTj8Jh36jIk9ZKxUMnf9IB8LUmtz0m5vH4/v5xtzgAD7AulnikN7uLYps?=
- =?us-ascii?Q?8IOWcFFgveuRWeS2kgoDiAAERsIqTD8EEJk9WYtfxsXQr0IKDvqiH79EdTV8?=
- =?us-ascii?Q?GeyXDMMrRwvP63x6gPQvFS224XZKlMK0IZ9yRrSwSjJybYr5Sc5JR/+j8men?=
- =?us-ascii?Q?oLq+2QRkY6IAZaFnf5MfRbeQiQHQ5gQVFzPvTQaORfDxWYXGOI7xcwJ9Mc50?=
- =?us-ascii?Q?fjiJmJlQ8fXiKIyIOLesJtt42hnf7bESisIy/RhozxUP9yIr15z1EcjpmyDb?=
- =?us-ascii?Q?Mx69XpIOwDxRuSsQeud4mUak7Djpd5wy5lrSUtgLeQ9zAgo0LBivajd9DGDF?=
- =?us-ascii?Q?17Ql4XV/64B1J/VCfrcaXVYxTNFiKBNAa3+OBrQb7ezwl2+qdMiVqOtaJ0aE?=
- =?us-ascii?Q?ZjHVi3a72CSznrb1hQlTeeQIwL+eEvSicIlvji60BeqYGDAl+tcCpDGzF8sg?=
- =?us-ascii?Q?jr3MPw/SO4yfWO/TAelWxHuCXqtiLW7Q8j2nucvS1knp7HS/yyK+GEgalmPP?=
- =?us-ascii?Q?39rFopmAK7yOurctLP/XyFqZhpNzVsUtk2/+j90MBfVmd704fVPgxRpYfSeM?=
- =?us-ascii?Q?YpDNjWVvvMi7tGV87dW/MunVr8mrQ2dE9wpW7it3QmHttbrLSUinhEb3CZKM?=
- =?us-ascii?Q?feMzIoDxyR01VpjJ0oBgVZ6NSRY1csU7uRTvtiVGws+ZLbsXIEuqmsxPZqRn?=
- =?us-ascii?Q?rf2CCYENIDiquQe1JaMpzglLW7Dmsm9K/AqLIwqE?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99154c61-4047-41ad-e999-08daafbf94ae
-X-MS-Exchange-CrossTenant-AuthSource: PR3PR04MB7308.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2022 21:44:19.7732
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IZvgbT5JlGjZjWUGzNTWcHM/kjAwnt5erFuc4DCaq5lR6TvICILseWjav0kDk5hePUPT1YX4Smf4BvvcS4ji0w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6990
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Oct 2022 21:44:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171900
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Oct 2022 04:16:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171901
 
-Since libvulkan.so is commonly loaded dynamically, put it in the main
-package.
+Upstream-Status: Backport from https://git.postgresql.org/gitweb/?p=postgresql.git;a=commit;h=5579726bd60a6e7afb04a3548bced348cd5ffd89
+Description:
+	CVE-2022-2625 postgresql: Extension scripts replace objects not belonging to the extension.
 
-Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- meta/recipes-graphics/vulkan/vulkan-loader_1.3.216.0.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../postgresql/files/CVE-2022-2625.patch      | 904 ++++++++++++++++++
+ .../recipes-dbs/postgresql/postgresql_12.9.bb |   1 +
+ 2 files changed, 905 insertions(+)
+ create mode 100644 meta-oe/recipes-dbs/postgresql/files/CVE-2022-2625.patch
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-loader_1.3.216.0.bb b/meta=
-/recipes-graphics/vulkan/vulkan-loader_1.3.216.0.bb
-index 15a079879b..698ce112dc 100644
---- a/meta/recipes-graphics/vulkan/vulkan-loader_1.3.216.0.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-loader_1.3.216.0.bb
-@@ -35,6 +35,11 @@ PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES=
-', 'wayland x11', d)}"
- PACKAGECONFIG[x11] =3D "-DBUILD_WSI_XLIB_SUPPORT=3DON -DBUILD_WSI_XCB_SUPP=
-ORT=3DON, -DBUILD_WSI_XLIB_SUPPORT=3DOFF -DBUILD_WSI_XCB_SUPPORT=3DOFF, lib=
-xcb libx11 libxrandr"
- PACKAGECONFIG[wayland] =3D "-DBUILD_WSI_WAYLAND_SUPPORT=3DON, -DBUILD_WSI_=
-WAYLAND_SUPPORT=3DOFF, wayland"
-=20
-+# libvulkan.so is commonly loaded dynamically, so put it in the main packa=
-ge
-+SOLIBS =3D ".so*"
-+FILES_SOLIBSDEV =3D ""
-+INSANE_SKIP:${PN} +=3D "dev-so"
+diff --git a/meta-oe/recipes-dbs/postgresql/files/CVE-2022-2625.patch b/meta-oe/recipes-dbs/postgresql/files/CVE-2022-2625.patch
+new file mode 100644
+index 0000000000..6417d8a2b7
+--- /dev/null
++++ b/meta-oe/recipes-dbs/postgresql/files/CVE-2022-2625.patch
+@@ -0,0 +1,904 @@
++From 84375c1db25ef650902cf80712495fc514b0ff63 Mon Sep 17 00:00:00 2001
++From: Hitendra Prajapati <hprajapati@mvista.com>
++Date: Thu, 13 Oct 2022 10:35:32 +0530
++Subject: [PATCH] CVE-2022-2625
 +
- RRECOMMENDS:${PN} =3D "mesa-vulkan-drivers"
-=20
- UPSTREAM_CHECK_GITTAGREGEX =3D "sdk-(?P<pver>\d+(\.\d+)+)"
---=20
++Upstream-Status: Backport [https://git.postgresql.org/gitweb/?p=postgresql.git;a=commit;h=5579726bd60a6e7afb04a3548bced348cd5ffd89]
++CVE: CVE-2022-2625
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ doc/src/sgml/extend.sgml                      |  11 --
++ src/backend/catalog/pg_collation.c            |  49 ++++--
++ src/backend/catalog/pg_depend.c               |  74 ++++++++-
++ src/backend/catalog/pg_operator.c             |   2 +-
++ src/backend/catalog/pg_type.c                 |   7 +-
++ src/backend/commands/createas.c               |  18 ++-
++ src/backend/commands/foreigncmds.c            |  19 ++-
++ src/backend/commands/schemacmds.c             |  25 ++-
++ src/backend/commands/sequence.c               |   8 +
++ src/backend/commands/statscmds.c              |   4 +
++ src/backend/commands/view.c                   |  16 +-
++ src/backend/parser/parse_utilcmd.c            |  10 ++
++ src/include/catalog/dependency.h              |   2 +
++ src/test/modules/test_extensions/Makefile     |   5 +-
++ .../expected/test_extensions.out              | 153 ++++++++++++++++++
++ .../test_extensions/sql/test_extensions.sql   | 110 +++++++++++++
++ .../test_ext_cine--1.0--1.1.sql               |  26 +++
++ .../test_extensions/test_ext_cine--1.0.sql    |  25 +++
++ .../test_extensions/test_ext_cine.control     |   3 +
++ .../test_extensions/test_ext_cor--1.0.sql     |  20 +++
++ .../test_extensions/test_ext_cor.control      |   3 +
++ 21 files changed, 540 insertions(+), 50 deletions(-)
++ create mode 100644 src/test/modules/test_extensions/test_ext_cine--1.0--1.1.sql
++ create mode 100644 src/test/modules/test_extensions/test_ext_cine--1.0.sql
++ create mode 100644 src/test/modules/test_extensions/test_ext_cine.control
++ create mode 100644 src/test/modules/test_extensions/test_ext_cor--1.0.sql
++ create mode 100644 src/test/modules/test_extensions/test_ext_cor.control
++
++diff --git a/doc/src/sgml/extend.sgml b/doc/src/sgml/extend.sgml
++index 53f2638..bcc7a80 100644
++--- a/doc/src/sgml/extend.sgml
+++++ b/doc/src/sgml/extend.sgml
++@@ -1109,17 +1109,6 @@ SELECT * FROM pg_extension_update_paths('<replaceable>extension_name</replaceabl
++       <varname>search_path</varname>.  However, no mechanism currently exists
++       to require that.
++      </para>
++-
++-     <para>
++-      Do <emphasis>not</emphasis> use <command>CREATE OR REPLACE
++-      FUNCTION</command>, except in an update script that must change the
++-      definition of a function that is known to be an extension member
++-      already.  (Likewise for other <literal>OR REPLACE</literal> options.)
++-      Using <literal>OR REPLACE</literal> unnecessarily not only has a risk
++-      of accidentally overwriting someone else's function, but it creates a
++-      security hazard since the overwritten function would still be owned by
++-      its original owner, who could modify it.
++-     </para>
++     </sect3>
++    </sect2>
++ 
++diff --git a/src/backend/catalog/pg_collation.c b/src/backend/catalog/pg_collation.c
++index dd99d53..ba4c3ef 100644
++--- a/src/backend/catalog/pg_collation.c
+++++ b/src/backend/catalog/pg_collation.c
++@@ -78,15 +78,25 @@ CollationCreate(const char *collname, Oid collnamespace,
++ 	 * friendlier error message.  The unique index provides a backstop against
++ 	 * race conditions.
++ 	 */
++-	if (SearchSysCacheExists3(COLLNAMEENCNSP,
++-							  PointerGetDatum(collname),
++-							  Int32GetDatum(collencoding),
++-							  ObjectIdGetDatum(collnamespace)))
+++	oid = GetSysCacheOid3(COLLNAMEENCNSP,
+++						  Anum_pg_collation_oid,
+++						  PointerGetDatum(collname),
+++						  Int32GetDatum(collencoding),
+++						  ObjectIdGetDatum(collnamespace));
+++	if (OidIsValid(oid))
++ 	{
++ 		if (quiet)
++ 			return InvalidOid;
++ 		else if (if_not_exists)
++ 		{
+++			/*
+++			 * If we are in an extension script, insist that the pre-existing
+++			 * object be a member of the extension, to avoid security risks.
+++			 */
+++			ObjectAddressSet(myself, CollationRelationId, oid);
+++			checkMembershipInCurrentExtension(&myself);
+++
+++			/* OK to skip */
++ 			ereport(NOTICE,
++ 					(errcode(ERRCODE_DUPLICATE_OBJECT),
++ 					 collencoding == -1
++@@ -116,16 +126,19 @@ CollationCreate(const char *collname, Oid collnamespace,
++ 	 * so we take a ShareRowExclusiveLock earlier, to protect against
++ 	 * concurrent changes fooling this check.
++ 	 */
++-	if ((collencoding == -1 &&
++-		 SearchSysCacheExists3(COLLNAMEENCNSP,
++-							   PointerGetDatum(collname),
++-							   Int32GetDatum(GetDatabaseEncoding()),
++-							   ObjectIdGetDatum(collnamespace))) ||
++-		(collencoding != -1 &&
++-		 SearchSysCacheExists3(COLLNAMEENCNSP,
++-							   PointerGetDatum(collname),
++-							   Int32GetDatum(-1),
++-							   ObjectIdGetDatum(collnamespace))))
+++	if (collencoding == -1)
+++		oid = GetSysCacheOid3(COLLNAMEENCNSP,
+++							  Anum_pg_collation_oid,
+++							  PointerGetDatum(collname),
+++							  Int32GetDatum(GetDatabaseEncoding()),
+++							  ObjectIdGetDatum(collnamespace));
+++	else
+++		oid = GetSysCacheOid3(COLLNAMEENCNSP,
+++							  Anum_pg_collation_oid,
+++							  PointerGetDatum(collname),
+++							  Int32GetDatum(-1),
+++							  ObjectIdGetDatum(collnamespace));
+++	if (OidIsValid(oid))
++ 	{
++ 		if (quiet)
++ 		{
++@@ -134,6 +147,14 @@ CollationCreate(const char *collname, Oid collnamespace,
++ 		}
++ 		else if (if_not_exists)
++ 		{
+++			/*
+++			 * If we are in an extension script, insist that the pre-existing
+++			 * object be a member of the extension, to avoid security risks.
+++			 */
+++			ObjectAddressSet(myself, CollationRelationId, oid);
+++			checkMembershipInCurrentExtension(&myself);
+++
+++			/* OK to skip */
++ 			table_close(rel, NoLock);
++ 			ereport(NOTICE,
++ 					(errcode(ERRCODE_DUPLICATE_OBJECT),
++diff --git a/src/backend/catalog/pg_depend.c b/src/backend/catalog/pg_depend.c
++index 9ffadbb..71c7cef 100644
++--- a/src/backend/catalog/pg_depend.c
+++++ b/src/backend/catalog/pg_depend.c
++@@ -124,15 +124,23 @@ recordMultipleDependencies(const ObjectAddress *depender,
++ 
++ /*
++  * If we are executing a CREATE EXTENSION operation, mark the given object
++- * as being a member of the extension.  Otherwise, do nothing.
+++ * as being a member of the extension, or check that it already is one.
+++ * Otherwise, do nothing.
++  *
++  * This must be called during creation of any user-definable object type
++  * that could be a member of an extension.
++  *
++- * If isReplace is true, the object already existed (or might have already
++- * existed), so we must check for a pre-existing extension membership entry.
++- * Passing false is a guarantee that the object is newly created, and so
++- * could not already be a member of any extension.
+++ * isReplace must be true if the object already existed, and false if it is
+++ * newly created.  In the former case we insist that it already be a member
+++ * of the current extension.  In the latter case we can skip checking whether
+++ * it is already a member of any extension.
+++ *
+++ * Note: isReplace = true is typically used when updating a object in
+++ * CREATE OR REPLACE and similar commands.  We used to allow the target
+++ * object to not already be an extension member, instead silently absorbing
+++ * it into the current extension.  However, this was both error-prone
+++ * (extensions might accidentally overwrite free-standing objects) and
+++ * a security hazard (since the object would retain its previous ownership).
++  */
++ void
++ recordDependencyOnCurrentExtension(const ObjectAddress *object,
++@@ -150,6 +158,12 @@ recordDependencyOnCurrentExtension(const ObjectAddress *object,
++ 		{
++ 			Oid			oldext;
++ 
+++			/*
+++			 * Side note: these catalog lookups are safe only because the
+++			 * object is a pre-existing one.  In the not-isReplace case, the
+++			 * caller has most likely not yet done a CommandCounterIncrement
+++			 * that would make the new object visible.
+++			 */
++ 			oldext = getExtensionOfObject(object->classId, object->objectId);
++ 			if (OidIsValid(oldext))
++ 			{
++@@ -163,6 +177,13 @@ recordDependencyOnCurrentExtension(const ObjectAddress *object,
++ 								getObjectDescription(object),
++ 								get_extension_name(oldext))));
++ 			}
+++			/* It's a free-standing object, so reject */
+++			ereport(ERROR,
+++					(errcode(ERRCODE_OBJECT_NOT_IN_PREREQUISITE_STATE),
+++					 errmsg("%s is not a member of extension \"%s\"",
+++							getObjectDescription(object),
+++							get_extension_name(CurrentExtensionObject)),
+++					 errdetail("An extension is not allowed to replace an object that it does not own.")));
++ 		}
++ 
++ 		/* OK, record it as a member of CurrentExtensionObject */
++@@ -174,6 +195,49 @@ recordDependencyOnCurrentExtension(const ObjectAddress *object,
++ 	}
++ }
++ 
+++/*
+++ * If we are executing a CREATE EXTENSION operation, check that the given
+++ * object is a member of the extension, and throw an error if it isn't.
+++ * Otherwise, do nothing.
+++ *
+++ * This must be called whenever a CREATE IF NOT EXISTS operation (for an
+++ * object type that can be an extension member) has found that an object of
+++ * the desired name already exists.  It is insecure for an extension to use
+++ * IF NOT EXISTS except when the conflicting object is already an extension
+++ * member; otherwise a hostile user could substitute an object with arbitrary
+++ * properties.
+++ */
+++void
+++checkMembershipInCurrentExtension(const ObjectAddress *object)
+++{
+++	/*
+++	 * This is actually the same condition tested in
+++	 * recordDependencyOnCurrentExtension; but we want to issue a
+++	 * differently-worded error, and anyway it would be pretty confusing to
+++	 * call recordDependencyOnCurrentExtension in these circumstances.
+++	 */
+++
+++	/* Only whole objects can be extension members */
+++	Assert(object->objectSubId == 0);
+++
+++	if (creating_extension)
+++	{
+++		Oid			oldext;
+++
+++		oldext = getExtensionOfObject(object->classId, object->objectId);
+++		/* If already a member of this extension, OK */
+++		if (oldext == CurrentExtensionObject)
+++			return;
+++		/* Else complain */
+++		ereport(ERROR,
+++				(errcode(ERRCODE_OBJECT_NOT_IN_PREREQUISITE_STATE),
+++				 errmsg("%s is not a member of extension \"%s\"",
+++						getObjectDescription(object),
+++						get_extension_name(CurrentExtensionObject)),
+++				 errdetail("An extension may only use CREATE ... IF NOT EXISTS to skip object creation if the conflicting object is one that it already owns.")));
+++	}
+++}
+++
++ /*
++  * deleteDependencyRecordsFor -- delete all records with given depender
++  * classId/objectId.  Returns the number of records deleted.
++diff --git a/src/backend/catalog/pg_operator.c b/src/backend/catalog/pg_operator.c
++index bcaa26c..84784e6 100644
++--- a/src/backend/catalog/pg_operator.c
+++++ b/src/backend/catalog/pg_operator.c
++@@ -867,7 +867,7 @@ makeOperatorDependencies(HeapTuple tuple, bool isUpdate)
++ 							oper->oprowner);
++ 
++ 	/* Dependency on extension */
++-	recordDependencyOnCurrentExtension(&myself, true);
+++	recordDependencyOnCurrentExtension(&myself, isUpdate);
++ 
++ 	return myself;
++ }
++diff --git a/src/backend/catalog/pg_type.c b/src/backend/catalog/pg_type.c
++index 2a51501..3ff017f 100644
++--- a/src/backend/catalog/pg_type.c
+++++ b/src/backend/catalog/pg_type.c
++@@ -528,10 +528,9 @@ TypeCreate(Oid newTypeOid,
++  * If rebuild is true, we remove existing dependencies and rebuild them
++  * from scratch.  This is needed for ALTER TYPE, and also when replacing
++  * a shell type.  We don't remove an existing extension dependency, though.
++- * (That means an extension can't absorb a shell type created in another
++- * extension, nor ALTER a type created by another extension.  Also, if it
++- * replaces a free-standing shell type or ALTERs a free-standing type,
++- * that type will become a member of the extension.)
+++ * That means an extension can't absorb a shell type that is free-standing
+++ * or belongs to another extension, nor ALTER a type that is free-standing or
+++ * belongs to another extension.
++  */
++ void
++ GenerateTypeDependencies(Oid typeObjectId,
++diff --git a/src/backend/commands/createas.c b/src/backend/commands/createas.c
++index 4c1d909..a68d945 100644
++--- a/src/backend/commands/createas.c
+++++ b/src/backend/commands/createas.c
++@@ -243,15 +243,27 @@ ExecCreateTableAs(CreateTableAsStmt *stmt, const char *queryString,
++ 	if (stmt->if_not_exists)
++ 	{
++ 		Oid			nspid;
+++		Oid			oldrelid;
++ 
++-		nspid = RangeVarGetCreationNamespace(stmt->into->rel);
+++		nspid = RangeVarGetCreationNamespace(into->rel);
++ 
++-		if (get_relname_relid(stmt->into->rel->relname, nspid))
+++		oldrelid = get_relname_relid(into->rel->relname, nspid);
+++		if (OidIsValid(oldrelid))
++ 		{
+++			/*
+++			 * The relation exists and IF NOT EXISTS has been specified.
+++			 *
+++			 * If we are in an extension script, insist that the pre-existing
+++			 * object be a member of the extension, to avoid security risks.
+++			 */
+++			ObjectAddressSet(address, RelationRelationId, oldrelid);
+++			checkMembershipInCurrentExtension(&address);
+++
+++			/* OK to skip */
++ 			ereport(NOTICE,
++ 					(errcode(ERRCODE_DUPLICATE_TABLE),
++ 					 errmsg("relation \"%s\" already exists, skipping",
++-							stmt->into->rel->relname)));
+++							into->rel->relname)));
++ 			return InvalidObjectAddress;
++ 		}
++ 	}
++diff --git a/src/backend/commands/foreigncmds.c b/src/backend/commands/foreigncmds.c
++index d7bc6e3..bc583c6 100644
++--- a/src/backend/commands/foreigncmds.c
+++++ b/src/backend/commands/foreigncmds.c
++@@ -887,13 +887,22 @@ CreateForeignServer(CreateForeignServerStmt *stmt)
++ 	ownerId = GetUserId();
++ 
++ 	/*
++-	 * Check that there is no other foreign server by this name. Do nothing if
++-	 * IF NOT EXISTS was enforced.
+++	 * Check that there is no other foreign server by this name.  If there is
+++	 * one, do nothing if IF NOT EXISTS was specified.
++ 	 */
++-	if (GetForeignServerByName(stmt->servername, true) != NULL)
+++	srvId = get_foreign_server_oid(stmt->servername, true);
+++	if (OidIsValid(srvId))
++ 	{
++ 		if (stmt->if_not_exists)
++ 		{
+++			/*
+++			 * If we are in an extension script, insist that the pre-existing
+++			 * object be a member of the extension, to avoid security risks.
+++			 */
+++			ObjectAddressSet(myself, ForeignServerRelationId, srvId);
+++			checkMembershipInCurrentExtension(&myself);
+++
+++			/* OK to skip */
++ 			ereport(NOTICE,
++ 					(errcode(ERRCODE_DUPLICATE_OBJECT),
++ 					 errmsg("server \"%s\" already exists, skipping",
++@@ -1182,6 +1191,10 @@ CreateUserMapping(CreateUserMappingStmt *stmt)
++ 	{
++ 		if (stmt->if_not_exists)
++ 		{
+++			/*
+++			 * Since user mappings aren't members of extensions (see comments
+++			 * below), no need for checkMembershipInCurrentExtension here.
+++			 */
++ 			ereport(NOTICE,
++ 					(errcode(ERRCODE_DUPLICATE_OBJECT),
++ 					 errmsg("user mapping for \"%s\" already exists for server \"%s\", skipping",
++diff --git a/src/backend/commands/schemacmds.c b/src/backend/commands/schemacmds.c
++index 6cf94a3..6bc4edc 100644
++--- a/src/backend/commands/schemacmds.c
+++++ b/src/backend/commands/schemacmds.c
++@@ -113,14 +113,25 @@ CreateSchemaCommand(CreateSchemaStmt *stmt, const char *queryString,
++ 	 * the permissions checks, but since CREATE TABLE IF NOT EXISTS makes its
++ 	 * creation-permission check first, we do likewise.
++ 	 */
++-	if (stmt->if_not_exists &&
++-		SearchSysCacheExists1(NAMESPACENAME, PointerGetDatum(schemaName)))
+++	if (stmt->if_not_exists)
++ 	{
++-		ereport(NOTICE,
++-				(errcode(ERRCODE_DUPLICATE_SCHEMA),
++-				 errmsg("schema \"%s\" already exists, skipping",
++-						schemaName)));
++-		return InvalidOid;
+++		namespaceId = get_namespace_oid(schemaName, true);
+++		if (OidIsValid(namespaceId))
+++		{
+++			/*
+++			 * If we are in an extension script, insist that the pre-existing
+++			 * object be a member of the extension, to avoid security risks.
+++			 */
+++			ObjectAddressSet(address, NamespaceRelationId, namespaceId);
+++			checkMembershipInCurrentExtension(&address);
+++
+++			/* OK to skip */
+++			ereport(NOTICE,
+++					(errcode(ERRCODE_DUPLICATE_SCHEMA),
+++					 errmsg("schema \"%s\" already exists, skipping",
+++							schemaName)));
+++			return InvalidOid;
+++		}
++ 	}
++ 
++ 	/*
++diff --git a/src/backend/commands/sequence.c b/src/backend/commands/sequence.c
++index 0960b33..0577184 100644
++--- a/src/backend/commands/sequence.c
+++++ b/src/backend/commands/sequence.c
++@@ -149,6 +149,14 @@ DefineSequence(ParseState *pstate, CreateSeqStmt *seq)
++ 		RangeVarGetAndCheckCreationNamespace(seq->sequence, NoLock, &seqoid);
++ 		if (OidIsValid(seqoid))
++ 		{
+++			/*
+++			 * If we are in an extension script, insist that the pre-existing
+++			 * object be a member of the extension, to avoid security risks.
+++			 */
+++			ObjectAddressSet(address, RelationRelationId, seqoid);
+++			checkMembershipInCurrentExtension(&address);
+++
+++			/* OK to skip */
++ 			ereport(NOTICE,
++ 					(errcode(ERRCODE_DUPLICATE_TABLE),
++ 					 errmsg("relation \"%s\" already exists, skipping",
++diff --git a/src/backend/commands/statscmds.c b/src/backend/commands/statscmds.c
++index 5678d31..409cf28 100644
++--- a/src/backend/commands/statscmds.c
+++++ b/src/backend/commands/statscmds.c
++@@ -173,6 +173,10 @@ CreateStatistics(CreateStatsStmt *stmt)
++ 	{
++ 		if (stmt->if_not_exists)
++ 		{
+++			/*
+++			 * Since stats objects aren't members of extensions (see comments
+++			 * below), no need for checkMembershipInCurrentExtension here.
+++			 */
++ 			ereport(NOTICE,
++ 					(errcode(ERRCODE_DUPLICATE_OBJECT),
++ 					 errmsg("statistics object \"%s\" already exists, skipping",
++diff --git a/src/backend/commands/view.c b/src/backend/commands/view.c
++index 87ed453..dd7cc97 100644
++--- a/src/backend/commands/view.c
+++++ b/src/backend/commands/view.c
++@@ -205,7 +205,7 @@ DefineVirtualRelation(RangeVar *relation, List *tlist, bool replace,
++ 		CommandCounterIncrement();
++ 
++ 		/*
++-		 * Finally update the view options.
+++		 * Update the view's options.
++ 		 *
++ 		 * The new options list replaces the existing options list, even if
++ 		 * it's empty.
++@@ -218,8 +218,22 @@ DefineVirtualRelation(RangeVar *relation, List *tlist, bool replace,
++ 		/* EventTriggerAlterTableStart called by ProcessUtilitySlow */
++ 		AlterTableInternal(viewOid, atcmds, true);
++ 
+++		/*
+++		 * There is very little to do here to update the view's dependencies.
+++		 * Most view-level dependency relationships, such as those on the
+++		 * owner, schema, and associated composite type, aren't changing.
+++		 * Because we don't allow changing type or collation of an existing
+++		 * view column, those dependencies of the existing columns don't
+++		 * change either, while the AT_AddColumnToView machinery took care of
+++		 * adding such dependencies for new view columns.  The dependencies of
+++		 * the view's query could have changed arbitrarily, but that was dealt
+++		 * with inside StoreViewQuery.  What remains is only to check that
+++		 * view replacement is allowed when we're creating an extension.
+++		 */
++ 		ObjectAddressSet(address, RelationRelationId, viewOid);
++ 
+++		recordDependencyOnCurrentExtension(&address, true);
+++
++ 		/*
++ 		 * Seems okay, so return the OID of the pre-existing view.
++ 		 */
++diff --git a/src/backend/parser/parse_utilcmd.c b/src/backend/parser/parse_utilcmd.c
++index 44aa38a..8f4d940 100644
++--- a/src/backend/parser/parse_utilcmd.c
+++++ b/src/backend/parser/parse_utilcmd.c
++@@ -206,6 +206,16 @@ transformCreateStmt(CreateStmt *stmt, const char *queryString)
++ 	 */
++ 	if (stmt->if_not_exists && OidIsValid(existing_relid))
++ 	{
+++		/*
+++		 * If we are in an extension script, insist that the pre-existing
+++		 * object be a member of the extension, to avoid security risks.
+++		 */
+++		ObjectAddress address;
+++
+++		ObjectAddressSet(address, RelationRelationId, existing_relid);
+++		checkMembershipInCurrentExtension(&address);
+++
+++		/* OK to skip */
++ 		ereport(NOTICE,
++ 				(errcode(ERRCODE_DUPLICATE_TABLE),
++ 				 errmsg("relation \"%s\" already exists, skipping",
++diff --git a/src/include/catalog/dependency.h b/src/include/catalog/dependency.h
++index 8b1e3aa..27c7509 100644
++--- a/src/include/catalog/dependency.h
+++++ b/src/include/catalog/dependency.h
++@@ -201,6 +201,8 @@ extern void recordMultipleDependencies(const ObjectAddress *depender,
++ extern void recordDependencyOnCurrentExtension(const ObjectAddress *object,
++ 											   bool isReplace);
++ 
+++extern void checkMembershipInCurrentExtension(const ObjectAddress *object);
+++
++ extern long deleteDependencyRecordsFor(Oid classId, Oid objectId,
++ 									   bool skipExtensionDeps);
++ 
++diff --git a/src/test/modules/test_extensions/Makefile b/src/test/modules/test_extensions/Makefile
++index d18108e..7428f15 100644
++--- a/src/test/modules/test_extensions/Makefile
+++++ b/src/test/modules/test_extensions/Makefile
++@@ -4,10 +4,13 @@ MODULE = test_extensions
++ PGFILEDESC = "test_extensions - regression testing for EXTENSION support"
++ 
++ EXTENSION = test_ext1 test_ext2 test_ext3 test_ext4 test_ext5 test_ext6 \
++-            test_ext7 test_ext8 test_ext_cyclic1 test_ext_cyclic2
+++            test_ext7 test_ext8 test_ext_cine test_ext_cor \
+++            test_ext_cyclic1 test_ext_cyclic2
++ DATA = test_ext1--1.0.sql test_ext2--1.0.sql test_ext3--1.0.sql \
++        test_ext4--1.0.sql test_ext5--1.0.sql test_ext6--1.0.sql \
++        test_ext7--1.0.sql test_ext7--1.0--2.0.sql test_ext8--1.0.sql \
+++       test_ext_cine--1.0.sql test_ext_cine--1.0--1.1.sql \
+++       test_ext_cor--1.0.sql \
++        test_ext_cyclic1--1.0.sql test_ext_cyclic2--1.0.sql
++ 
++ REGRESS = test_extensions test_extdepend
++diff --git a/src/test/modules/test_extensions/expected/test_extensions.out b/src/test/modules/test_extensions/expected/test_extensions.out
++index b5cbdfc..1e91640 100644
++--- a/src/test/modules/test_extensions/expected/test_extensions.out
+++++ b/src/test/modules/test_extensions/expected/test_extensions.out
++@@ -154,3 +154,156 @@ DROP TABLE test_ext4_tab;
++ DROP FUNCTION create_extension_with_temp_schema();
++ RESET client_min_messages;
++ \unset SHOW_CONTEXT
+++-- It's generally bad style to use CREATE OR REPLACE unnecessarily.
+++-- Test what happens if an extension does it anyway.
+++-- Replacing a shell type or operator is sort of like CREATE OR REPLACE;
+++-- check that too.
+++CREATE FUNCTION ext_cor_func() RETURNS text
+++  AS $$ SELECT 'ext_cor_func: original'::text $$ LANGUAGE sql;
+++CREATE EXTENSION test_ext_cor;  -- fail
+++ERROR:  function ext_cor_func() is not a member of extension "test_ext_cor"
+++DETAIL:  An extension is not allowed to replace an object that it does not own.
+++SELECT ext_cor_func();
+++      ext_cor_func      
+++------------------------
+++ ext_cor_func: original
+++(1 row)
+++
+++DROP FUNCTION ext_cor_func();
+++CREATE VIEW ext_cor_view AS
+++  SELECT 'ext_cor_view: original'::text AS col;
+++CREATE EXTENSION test_ext_cor;  -- fail
+++ERROR:  view ext_cor_view is not a member of extension "test_ext_cor"
+++DETAIL:  An extension is not allowed to replace an object that it does not own.
+++SELECT ext_cor_func();
+++ERROR:  function ext_cor_func() does not exist
+++LINE 1: SELECT ext_cor_func();
+++               ^
+++HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+++SELECT * FROM ext_cor_view;
+++          col           
+++------------------------
+++ ext_cor_view: original
+++(1 row)
+++
+++DROP VIEW ext_cor_view;
+++CREATE TYPE test_ext_type;
+++CREATE EXTENSION test_ext_cor;  -- fail
+++ERROR:  type test_ext_type is not a member of extension "test_ext_cor"
+++DETAIL:  An extension is not allowed to replace an object that it does not own.
+++DROP TYPE test_ext_type;
+++-- this makes a shell "point <<@@ polygon" operator too
+++CREATE OPERATOR @@>> ( PROCEDURE = poly_contain_pt,
+++  LEFTARG = polygon, RIGHTARG = point,
+++  COMMUTATOR = <<@@ );
+++CREATE EXTENSION test_ext_cor;  -- fail
+++ERROR:  operator <<@@(point,polygon) is not a member of extension "test_ext_cor"
+++DETAIL:  An extension is not allowed to replace an object that it does not own.
+++DROP OPERATOR <<@@ (point, polygon);
+++CREATE EXTENSION test_ext_cor;  -- now it should work
+++SELECT ext_cor_func();
+++         ext_cor_func         
+++------------------------------
+++ ext_cor_func: from extension
+++(1 row)
+++
+++SELECT * FROM ext_cor_view;
+++             col              
+++------------------------------
+++ ext_cor_view: from extension
+++(1 row)
+++
+++SELECT 'x'::test_ext_type;
+++ test_ext_type 
+++---------------
+++ x
+++(1 row)
+++
+++SELECT point(0,0) <<@@ polygon(circle(point(0,0),1));
+++ ?column? 
+++----------
+++ t
+++(1 row)
+++
+++\dx+ test_ext_cor
+++Objects in extension "test_ext_cor"
+++      Object description      
+++------------------------------
+++ function ext_cor_func()
+++ operator <<@@(point,polygon)
+++ type test_ext_type
+++ view ext_cor_view
+++(4 rows)
+++
+++--
+++-- CREATE IF NOT EXISTS is an entirely unsound thing for an extension
+++-- to be doing, but let's at least plug the major security hole in it.
+++--
+++CREATE COLLATION ext_cine_coll
+++  ( LC_COLLATE = "C", LC_CTYPE = "C" );
+++CREATE EXTENSION test_ext_cine;  -- fail
+++ERROR:  collation ext_cine_coll is not a member of extension "test_ext_cine"
+++DETAIL:  An extension may only use CREATE ... IF NOT EXISTS to skip object creation if the conflicting object is one that it already owns.
+++DROP COLLATION ext_cine_coll;
+++CREATE MATERIALIZED VIEW ext_cine_mv AS SELECT 11 AS f1;
+++CREATE EXTENSION test_ext_cine;  -- fail
+++ERROR:  materialized view ext_cine_mv is not a member of extension "test_ext_cine"
+++DETAIL:  An extension may only use CREATE ... IF NOT EXISTS to skip object creation if the conflicting object is one that it already owns.
+++DROP MATERIALIZED VIEW ext_cine_mv;
+++CREATE FOREIGN DATA WRAPPER dummy;
+++CREATE SERVER ext_cine_srv FOREIGN DATA WRAPPER dummy;
+++CREATE EXTENSION test_ext_cine;  -- fail
+++ERROR:  server ext_cine_srv is not a member of extension "test_ext_cine"
+++DETAIL:  An extension may only use CREATE ... IF NOT EXISTS to skip object creation if the conflicting object is one that it already owns.
+++DROP SERVER ext_cine_srv;
+++CREATE SCHEMA ext_cine_schema;
+++CREATE EXTENSION test_ext_cine;  -- fail
+++ERROR:  schema ext_cine_schema is not a member of extension "test_ext_cine"
+++DETAIL:  An extension may only use CREATE ... IF NOT EXISTS to skip object creation if the conflicting object is one that it already owns.
+++DROP SCHEMA ext_cine_schema;
+++CREATE SEQUENCE ext_cine_seq;
+++CREATE EXTENSION test_ext_cine;  -- fail
+++ERROR:  sequence ext_cine_seq is not a member of extension "test_ext_cine"
+++DETAIL:  An extension may only use CREATE ... IF NOT EXISTS to skip object creation if the conflicting object is one that it already owns.
+++DROP SEQUENCE ext_cine_seq;
+++CREATE TABLE ext_cine_tab1 (x int);
+++CREATE EXTENSION test_ext_cine;  -- fail
+++ERROR:  table ext_cine_tab1 is not a member of extension "test_ext_cine"
+++DETAIL:  An extension may only use CREATE ... IF NOT EXISTS to skip object creation if the conflicting object is one that it already owns.
+++DROP TABLE ext_cine_tab1;
+++CREATE TABLE ext_cine_tab2 AS SELECT 42 AS y;
+++CREATE EXTENSION test_ext_cine;  -- fail
+++ERROR:  table ext_cine_tab2 is not a member of extension "test_ext_cine"
+++DETAIL:  An extension may only use CREATE ... IF NOT EXISTS to skip object creation if the conflicting object is one that it already owns.
+++DROP TABLE ext_cine_tab2;
+++CREATE EXTENSION test_ext_cine;
+++\dx+ test_ext_cine
+++Objects in extension "test_ext_cine"
+++        Object description         
+++-----------------------------------
+++ collation ext_cine_coll
+++ foreign-data wrapper ext_cine_fdw
+++ materialized view ext_cine_mv
+++ schema ext_cine_schema
+++ sequence ext_cine_seq
+++ server ext_cine_srv
+++ table ext_cine_tab1
+++ table ext_cine_tab2
+++(8 rows)
+++
+++ALTER EXTENSION test_ext_cine UPDATE TO '1.1';
+++\dx+ test_ext_cine
+++Objects in extension "test_ext_cine"
+++        Object description         
+++-----------------------------------
+++ collation ext_cine_coll
+++ foreign-data wrapper ext_cine_fdw
+++ materialized view ext_cine_mv
+++ schema ext_cine_schema
+++ sequence ext_cine_seq
+++ server ext_cine_srv
+++ table ext_cine_tab1
+++ table ext_cine_tab2
+++ table ext_cine_tab3
+++(9 rows)
+++
++diff --git a/src/test/modules/test_extensions/sql/test_extensions.sql b/src/test/modules/test_extensions/sql/test_extensions.sql
++index f505466..b3d4579 100644
++--- a/src/test/modules/test_extensions/sql/test_extensions.sql
+++++ b/src/test/modules/test_extensions/sql/test_extensions.sql
++@@ -93,3 +93,113 @@ DROP TABLE test_ext4_tab;
++ DROP FUNCTION create_extension_with_temp_schema();
++ RESET client_min_messages;
++ \unset SHOW_CONTEXT
+++
+++-- It's generally bad style to use CREATE OR REPLACE unnecessarily.
+++-- Test what happens if an extension does it anyway.
+++-- Replacing a shell type or operator is sort of like CREATE OR REPLACE;
+++-- check that too.
+++
+++CREATE FUNCTION ext_cor_func() RETURNS text
+++  AS $$ SELECT 'ext_cor_func: original'::text $$ LANGUAGE sql;
+++
+++CREATE EXTENSION test_ext_cor;  -- fail
+++
+++SELECT ext_cor_func();
+++
+++DROP FUNCTION ext_cor_func();
+++
+++CREATE VIEW ext_cor_view AS
+++  SELECT 'ext_cor_view: original'::text AS col;
+++
+++CREATE EXTENSION test_ext_cor;  -- fail
+++
+++SELECT ext_cor_func();
+++
+++SELECT * FROM ext_cor_view;
+++
+++DROP VIEW ext_cor_view;
+++
+++CREATE TYPE test_ext_type;
+++
+++CREATE EXTENSION test_ext_cor;  -- fail
+++
+++DROP TYPE test_ext_type;
+++
+++-- this makes a shell "point <<@@ polygon" operator too
+++CREATE OPERATOR @@>> ( PROCEDURE = poly_contain_pt,
+++  LEFTARG = polygon, RIGHTARG = point,
+++  COMMUTATOR = <<@@ );
+++
+++CREATE EXTENSION test_ext_cor;  -- fail
+++
+++DROP OPERATOR <<@@ (point, polygon);
+++
+++CREATE EXTENSION test_ext_cor;  -- now it should work
+++
+++SELECT ext_cor_func();
+++
+++SELECT * FROM ext_cor_view;
+++
+++SELECT 'x'::test_ext_type;
+++
+++SELECT point(0,0) <<@@ polygon(circle(point(0,0),1));
+++
+++\dx+ test_ext_cor
+++
+++--
+++-- CREATE IF NOT EXISTS is an entirely unsound thing for an extension
+++-- to be doing, but let's at least plug the major security hole in it.
+++--
+++
+++CREATE COLLATION ext_cine_coll
+++  ( LC_COLLATE = "C", LC_CTYPE = "C" );
+++
+++CREATE EXTENSION test_ext_cine;  -- fail
+++
+++DROP COLLATION ext_cine_coll;
+++
+++CREATE MATERIALIZED VIEW ext_cine_mv AS SELECT 11 AS f1;
+++
+++CREATE EXTENSION test_ext_cine;  -- fail
+++
+++DROP MATERIALIZED VIEW ext_cine_mv;
+++
+++CREATE FOREIGN DATA WRAPPER dummy;
+++
+++CREATE SERVER ext_cine_srv FOREIGN DATA WRAPPER dummy;
+++
+++CREATE EXTENSION test_ext_cine;  -- fail
+++
+++DROP SERVER ext_cine_srv;
+++
+++CREATE SCHEMA ext_cine_schema;
+++
+++CREATE EXTENSION test_ext_cine;  -- fail
+++
+++DROP SCHEMA ext_cine_schema;
+++
+++CREATE SEQUENCE ext_cine_seq;
+++
+++CREATE EXTENSION test_ext_cine;  -- fail
+++
+++DROP SEQUENCE ext_cine_seq;
+++
+++CREATE TABLE ext_cine_tab1 (x int);
+++
+++CREATE EXTENSION test_ext_cine;  -- fail
+++
+++DROP TABLE ext_cine_tab1;
+++
+++CREATE TABLE ext_cine_tab2 AS SELECT 42 AS y;
+++
+++CREATE EXTENSION test_ext_cine;  -- fail
+++
+++DROP TABLE ext_cine_tab2;
+++
+++CREATE EXTENSION test_ext_cine;
+++
+++\dx+ test_ext_cine
+++
+++ALTER EXTENSION test_ext_cine UPDATE TO '1.1';
+++
+++\dx+ test_ext_cine
++diff --git a/src/test/modules/test_extensions/test_ext_cine--1.0--1.1.sql b/src/test/modules/test_extensions/test_ext_cine--1.0--1.1.sql
++new file mode 100644
++index 0000000..6dadfd2
++--- /dev/null
+++++ b/src/test/modules/test_extensions/test_ext_cine--1.0--1.1.sql
++@@ -0,0 +1,26 @@
+++/* src/test/modules/test_extensions/test_ext_cine--1.0--1.1.sql */
+++-- complain if script is sourced in psql, rather than via ALTER EXTENSION
+++\echo Use "ALTER EXTENSION test_ext_cine UPDATE TO '1.1'" to load this file. \quit
+++
+++--
+++-- These are the same commands as in the 1.0 script; we expect them
+++-- to do nothing.
+++--
+++
+++CREATE COLLATION IF NOT EXISTS ext_cine_coll
+++  ( LC_COLLATE = "POSIX", LC_CTYPE = "POSIX" );
+++
+++CREATE MATERIALIZED VIEW IF NOT EXISTS ext_cine_mv AS SELECT 42 AS f1;
+++
+++CREATE SERVER IF NOT EXISTS ext_cine_srv FOREIGN DATA WRAPPER ext_cine_fdw;
+++
+++CREATE SCHEMA IF NOT EXISTS ext_cine_schema;
+++
+++CREATE SEQUENCE IF NOT EXISTS ext_cine_seq;
+++
+++CREATE TABLE IF NOT EXISTS ext_cine_tab1 (x int);
+++
+++CREATE TABLE IF NOT EXISTS ext_cine_tab2 AS SELECT 42 AS y;
+++
+++-- just to verify the script ran
+++CREATE TABLE ext_cine_tab3 (z int);
++diff --git a/src/test/modules/test_extensions/test_ext_cine--1.0.sql b/src/test/modules/test_extensions/test_ext_cine--1.0.sql
++new file mode 100644
++index 0000000..01408ff
++--- /dev/null
+++++ b/src/test/modules/test_extensions/test_ext_cine--1.0.sql
++@@ -0,0 +1,25 @@
+++/* src/test/modules/test_extensions/test_ext_cine--1.0.sql */
+++-- complain if script is sourced in psql, rather than via CREATE EXTENSION
+++\echo Use "CREATE EXTENSION test_ext_cine" to load this file. \quit
+++
+++--
+++-- CREATE IF NOT EXISTS is an entirely unsound thing for an extension
+++-- to be doing, but let's at least plug the major security hole in it.
+++--
+++
+++CREATE COLLATION IF NOT EXISTS ext_cine_coll
+++  ( LC_COLLATE = "POSIX", LC_CTYPE = "POSIX" );
+++
+++CREATE MATERIALIZED VIEW IF NOT EXISTS ext_cine_mv AS SELECT 42 AS f1;
+++
+++CREATE FOREIGN DATA WRAPPER ext_cine_fdw;
+++
+++CREATE SERVER IF NOT EXISTS ext_cine_srv FOREIGN DATA WRAPPER ext_cine_fdw;
+++
+++CREATE SCHEMA IF NOT EXISTS ext_cine_schema;
+++
+++CREATE SEQUENCE IF NOT EXISTS ext_cine_seq;
+++
+++CREATE TABLE IF NOT EXISTS ext_cine_tab1 (x int);
+++
+++CREATE TABLE IF NOT EXISTS ext_cine_tab2 AS SELECT 42 AS y;
++diff --git a/src/test/modules/test_extensions/test_ext_cine.control b/src/test/modules/test_extensions/test_ext_cine.control
++new file mode 100644
++index 0000000..ced713b
++--- /dev/null
+++++ b/src/test/modules/test_extensions/test_ext_cine.control
++@@ -0,0 +1,3 @@
+++comment = 'Test extension using CREATE IF NOT EXISTS'
+++default_version = '1.0'
+++relocatable = true
++diff --git a/src/test/modules/test_extensions/test_ext_cor--1.0.sql b/src/test/modules/test_extensions/test_ext_cor--1.0.sql
++new file mode 100644
++index 0000000..2e8d89c
++--- /dev/null
+++++ b/src/test/modules/test_extensions/test_ext_cor--1.0.sql
++@@ -0,0 +1,20 @@
+++/* src/test/modules/test_extensions/test_ext_cor--1.0.sql */
+++-- complain if script is sourced in psql, rather than via CREATE EXTENSION
+++\echo Use "CREATE EXTENSION test_ext_cor" to load this file. \quit
+++
+++-- It's generally bad style to use CREATE OR REPLACE unnecessarily.
+++-- Test what happens if an extension does it anyway.
+++
+++CREATE OR REPLACE FUNCTION ext_cor_func() RETURNS text
+++  AS $$ SELECT 'ext_cor_func: from extension'::text $$ LANGUAGE sql;
+++
+++CREATE OR REPLACE VIEW ext_cor_view AS
+++  SELECT 'ext_cor_view: from extension'::text AS col;
+++
+++-- These are for testing replacement of a shell type/operator, which works
+++-- enough like an implicit OR REPLACE to be important to check.
+++
+++CREATE TYPE test_ext_type AS ENUM('x', 'y');
+++
+++CREATE OPERATOR <<@@ ( PROCEDURE = pt_contained_poly,
+++  LEFTARG = point, RIGHTARG = polygon );
++diff --git a/src/test/modules/test_extensions/test_ext_cor.control b/src/test/modules/test_extensions/test_ext_cor.control
++new file mode 100644
++index 0000000..0e972e5
++--- /dev/null
+++++ b/src/test/modules/test_extensions/test_ext_cor.control
++@@ -0,0 +1,3 @@
+++comment = 'Test extension using CREATE OR REPLACE'
+++default_version = '1.0'
+++relocatable = true
++-- 
++2.25.1
++
+diff --git a/meta-oe/recipes-dbs/postgresql/postgresql_12.9.bb b/meta-oe/recipes-dbs/postgresql/postgresql_12.9.bb
+index 67bf2b9604..4b7c1d69fc 100644
+--- a/meta-oe/recipes-dbs/postgresql/postgresql_12.9.bb
++++ b/meta-oe/recipes-dbs/postgresql/postgresql_12.9.bb
+@@ -7,6 +7,7 @@ SRC_URI += "\
+    file://0001-Add-support-for-RISC-V.patch \
+    file://0001-Improve-reproducibility.patch \
+    file://remove_duplicate.patch \
++   file://CVE-2022-2625.patch \
+ "
+ 
+ SRC_URI[sha256sum] = "89fda2de33ed04a98548e43f3ee5f15b882be17505d631fe0dd1a540a2b56dce"
+-- 
 2.25.1
 
 
