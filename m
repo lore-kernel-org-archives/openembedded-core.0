@@ -2,396 +2,997 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74FC5C4321E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7531FC4167B
 	for <webhook@archiver.kernel.org>; Mon, 17 Oct 2022 23:08:56 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web08.695.1666048130714695003
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web11.643.1666048129009144618
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Oct 2022 16:08:50 -0700
+ Mon, 17 Oct 2022 16:08:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=qdubNJPk;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f174.google.com with SMTP id l6so11764594pgu.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Oct 2022 16:08:50 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=BRBLBUWJ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f45.google.com with SMTP id t12-20020a17090a3b4c00b0020b04251529so12330953pjf.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Oct 2022 16:08:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UyONofP2IeZ+Lu+6b8uH1qqq873IiqdstuX/UogVugI=;
-        b=qdubNJPkdfs6A6jiL6JVzuXhFrf3c2rApAdjBa0A6JLq5JNN3Yw9fAbWak5O21hfIR
-         cHcRECBCf3iu1tSAIN1tJBZd0HY6FBsPyYu0y4ATt3o66AzgXLJ6U94xRS5cPmXUg+PP
-         leO7nUT4LGKMOCC6TPBjGR+yvOOSSaZ9qvL36jDhYXfJCMbmknMlmdQGxlT+iiULoo6g
-         8irdMnqD53ZX6EetB6DIfYylm4SgKnLYCfjocdr3I6/tTm8OwPIzRRF0iXAs3UrnogXc
-         odFP1tja8OCZFWBS9N/zALQBe2w4xI+ELfxmpocr+gc5tjvSPrGGfEavbxn/Mu2Vr4Ha
-         Vxow==
+        bh=xUSHjFEH0udIfqycN+CiY5CCo/Tvar/ANRGSiBILaVY=;
+        b=BRBLBUWJUZ5y4qzes2/fgxq2CUbR2tN52m4hLLmGHZ1Oe8ifogBP+CbZ9jgm5UlunW
+         CCPQFjinUXg+b+w3ewwZF4pwtXMqQK3IjGaTh5rP/WmBMxUFW1nmHUiOwWPSvfox+VVk
+         XzXVTmUiSCy0+GLQkoqf7sGtXJ5zPkvtkY74Z31dIuvydTznjiNfx5EB4VnMOXgh+7tH
+         0nYwILqZ0OHSskozJqnG6h6qsbzXjeaSkV9CcmWtPonfHWO88mGV6PKXaT33zkm7px3M
+         HMffuL2Pf0c8VDG5GsrOCR8CvExaJFArnC19To5ECYeF/+AdQo5QhsSUmS1Ya+MzKfrp
+         L7Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UyONofP2IeZ+Lu+6b8uH1qqq873IiqdstuX/UogVugI=;
-        b=E9OeVtGLdSzP6XLrC8WEcG523tkeZskJmG4sybo9VE5l/x60MiFKhTgfwee2TFCTej
-         b1CiGGtd6YBuX+YsL5PXcWtLdQ5ZDhnQnAIvAWbPO6ZyUWPnmFZEC5Ixl9yVdwDxLi51
-         HDBKzybDtaLFuPlAeRi6JAtIoknOMnibUKAhaaYMCgwFcvP+x+uJDIljttdFYDvU5Ruo
-         y7qTAO7ehUhOnBjMwB3srib9ncz1Pn6Wa9fUn32RqAPLzM9kqXRMyL+8xhoYyw+oWqt7
-         dwaa4GfDq+8iSXv0MuZDx6p5O++qF+x5E18w4EssnDjTmDO7EM37HzjtzN/mebCbyD7o
-         cbPQ==
-X-Gm-Message-State: ACrzQf0ntVJ0wMtUOVD+K8j2SEQB9rLj7pA8EBXEGFy/8bDtimzJa0Sm
-	SZQwuQlPF+t+o1IeliMPBoqln9CXnf1EYKj8
-X-Google-Smtp-Source: AMsMyM4rG7cqAZY6NJrG9/uW3xi/cb/V42tU0cQYR56c35K3kqaMQ2ET7cL9xi86inx0+9s6aXnyPA==
-X-Received: by 2002:a65:6042:0:b0:440:56aa:d5cf with SMTP id a2-20020a656042000000b0044056aad5cfmr112260pgp.81.1666048129443;
-        Mon, 17 Oct 2022 16:08:49 -0700 (PDT)
+        bh=xUSHjFEH0udIfqycN+CiY5CCo/Tvar/ANRGSiBILaVY=;
+        b=0hn3X/Ar6nKer35NUPQ+8Kv9g45cm6brvJcxU8jV4rqnZHjlllFG2wrDzcxmLn41sS
+         iZHIQrVhHYi4+PotieoY6WMp9EeAwuy6H90tCP/BBYebW8IP0P1vnvIwaTFSTiNLlSjc
+         D1qhYKKFJ1yK4xHq79eC2PKoFuZbezUfZpzNEALexaNqfEeEA0frniHyDfOo8qPkXoty
+         JXhf3rgekHJ5u7n4c/FWvqwGO2//X+BZDpwcEj7IOjDyFOjkfjTA38zSzt5nIGSWwYf4
+         Kqfb+N+ecPKuUYrtUHslAnj5NB928D84MM3CK4fzMXDiyWuv50rjUqCtBcXUuM8Olq54
+         t8Sg==
+X-Gm-Message-State: ACrzQf3RwgvHfmAR7yFOn0z6laAvrt4JvZcrscHC46NNFXspPmLN5Whd
+	WqUdfCLWC+oDWzkcy7GsikBHRtf69EdyxWic
+X-Google-Smtp-Source: AMsMyM4u9tCQl6rvG2xUYIf7IOEQGFsfVoBQjtvmRt4hzXSg0rbsNQP2Z6503deANVLtqlOB6vRYJw==
+X-Received: by 2002:a17:902:f541:b0:186:4b91:4501 with SMTP id h1-20020a170902f54100b001864b914501mr31443plf.171.1666048127331;
+        Mon, 17 Oct 2022 16:08:47 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id j6-20020a17090a694600b0020aacde1964sm10119479pjm.32.2022.10.17.16.08.48
+        by smtp.gmail.com with ESMTPSA id j6-20020a17090a694600b0020aacde1964sm10119479pjm.32.2022.10.17.16.08.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Oct 2022 16:08:48 -0700 (PDT)
+        Mon, 17 Oct 2022 16:08:46 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 03/13] qemu: Fix CVE-2021-3750 for qemu
-Date: Mon, 17 Oct 2022 13:08:19 -1000
-Message-Id: <e9e945a1d22b06d10ac07345b7cebcf232a809bb.1666047986.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 02/13] binutils : Fix CVE-2022-38128
+Date: Mon, 17 Oct 2022 13:08:18 -1000
+Message-Id: <21fb0b441096ec8b5cfa1d5b645f9a3a2ace1e09.1666047986.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1666047986.git.steve@sakoman.com>
 References: <cover.1666047986.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 17 Oct 2022 23:08:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171921
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171920
 
-From: Virendra Thakur <virendra.thakur@kpit.com>
+From: pgowda <pgowda.cve@gmail.com>
 
-Add patch to fix CVE-2021-3750
+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=f07c08e115e27cddf5a0030dc6332bbee1bd9c6a]
+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=175b91507b83ad42607d2f6dadaf55b7b511bdbe]
+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=695c6dfe7e85006b98c8b746f3fd5f913c94ebff]
 
-Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
+Signed-off-by: pgowda <pgowda.cve@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |   3 +
- .../qemu/qemu/CVE-2021-3750-1.patch           |  59 +++++++
- .../qemu/qemu/CVE-2021-3750-2.patch           |  65 ++++++++
- .../qemu/qemu/CVE-2021-3750-3.patch           | 156 ++++++++++++++++++
- 4 files changed, 283 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3750-1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3750-2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3750-3.patch
+ .../binutils/binutils-2.38.inc                |   3 +
+ .../binutils/0018-CVE-2022-38128-1.patch      | 350 ++++++++++++++
+ .../binutils/0018-CVE-2022-38128-2.patch      | 436 ++++++++++++++++++
+ .../binutils/0018-CVE-2022-38128-3.patch      |  95 ++++
+ 4 files changed, 884 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0018-CVE-2022-38128-1.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0018-CVE-2022-38128-2.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0018-CVE-2022-38128-3.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index a493ac8add..816f9a7eac 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -43,6 +43,9 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2022-0358.patch \
-            file://CVE-2022-0216_1.patch \
-            file://CVE-2022-0216_2.patch \
-+           file://CVE-2021-3750-1.patch \
-+           file://CVE-2021-3750-2.patch \
-+           file://CVE-2021-3750-3.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3750-1.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3750-1.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
+index fc88d4a79e..8259ec3232 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.38.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
+@@ -39,5 +39,8 @@ SRC_URI = "\
+      file://0017-CVE-2022-38127-2.patch \
+      file://0017-CVE-2022-38127-3.patch \
+      file://0017-CVE-2022-38127-4.patch \
++     file://0018-CVE-2022-38128-1.patch \
++     file://0018-CVE-2022-38128-2.patch \
++     file://0018-CVE-2022-38128-3.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0018-CVE-2022-38128-1.patch b/meta/recipes-devtools/binutils/binutils/0018-CVE-2022-38128-1.patch
 new file mode 100644
-index 0000000000..e898c20767
+index 0000000000..0a490d86b3
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3750-1.patch
-@@ -0,0 +1,59 @@
-+From b9d383ab797f54ae5fa8746117770709921dc529 Mon Sep 17 00:00:00 2001
-+From: =?utf8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-+Date: Wed, 15 Dec 2021 19:24:19 +0100
-+Subject: [PATCH] hw/intc/arm_gicv3: Check for !MEMTX_OK instead of MEMTX_ERROR
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=utf8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-devtools/binutils/binutils/0018-CVE-2022-38128-1.patch
+@@ -0,0 +1,350 @@
++From f07c08e115e27cddf5a0030dc6332bbee1bd9c6a Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Thu, 21 Jul 2022 08:38:14 +0930
++Subject: [PATCH] binutils/dwarf.c: abbrev caching
 +
-+Quoting Peter Maydell:
++I'm inclined to think that abbrev caching is counter-productive.  The
++time taken to search the list of abbrevs converted to internal form is
++non-zero, and it's easy to decode the raw abbrevs.  It's especially
++silly to cache empty lists of decoded abbrevs (happens with zero
++padding in .debug_abbrev), or abbrevs as they are displayed when there
++is no further use of those abbrevs.  This patch stops caching in those
++cases.
 +
-+ "These MEMTX_* aren't from the memory transaction
-+  API functions; they're just being used by gicd_readl() and
-+  friends as a way to indicate a success/failure so that the
-+  actual MemoryRegionOps read/write fns like gicv3_dist_read()
-+  can log a guest error."
++	* dwarf.c (record_abbrev_list_for_cu): Add free_list param.
++	Put abbrevs on abbrev_lists here.
++	(new_abbrev_list): Delete function.
++	(process_abbrev_set): Return newly allocated list.  Move
++	abbrev base, offset and size checking to..
++	(find_and_process_abbrev_set): ..here, new function.  Handle
++	lookup of cached abbrevs here, and calculate start and end
++	for process_abbrev_set.  Return free_list if newly alloc'd.
++	(process_debug_info): Consolidate cached list lookup, new list
++	alloc and processing into find_and_process_abbrev_set call.
++	Free list when not cached.
++	(display_debug_abbrev): Similarly.
 +
-+We are going to introduce more MemTxResult bits, so it is
-+safer to check for !MEMTX_OK rather than MEMTX_ERROR.
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=f07c08e115e27cddf5a0030dc6332bbee1bd9c6a]
 +
-+Reviewed-by: Peter Xu <peterx@redhat.com>
-+Reviewed-by: David Hildenbrand <david@redhat.com>
-+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-+Signed-off-by: Philippe Mathieu-DaudÃfÂ© <philmd@redhat.com>
-+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-+Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
-+
-+CVE: CVE-2021-3750
-+
-+Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commit;h=b9d383ab797f54ae5fa8746117770709921dc529]
++Signed-off-by: Pgowda <pgowda.cve@gmail.com>
 +---
-+ hw/intc/arm_gicv3_redist.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ binutils/dwarf.c | 208 +++++++++++++++++++++++++----------------------
++ 1 file changed, 110 insertions(+), 98 deletions(-)
 +
-+diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
-+index c8ff3ec..99b11ca 100644
-+--- a/hw/intc/arm_gicv3_redist.c
-++++ b/hw/intc/arm_gicv3_redist.c
-+@@ -462,7 +462,7 @@ MemTxResult gicv3_redist_read(void *opaque, hwaddr offset, uint64_t *data,
-+         break;
-+     }
-+
-+-    if (r == MEMTX_ERROR) {
-++    if (r != MEMTX_OK) {
-+         qemu_log_mask(LOG_GUEST_ERROR,
-+                       "%s: invalid guest read at offset " TARGET_FMT_plx
-+                       " size %u\n", __func__, offset, size);
-+@@ -521,7 +521,7 @@ MemTxResult gicv3_redist_write(void *opaque, hwaddr offset, uint64_t data,
-+         break;
-+     }
-+
-+-    if (r == MEMTX_ERROR) {
-++    if (r != MEMTX_OK) {
-+         qemu_log_mask(LOG_GUEST_ERROR,
-+                       "%s: invalid guest write at offset " TARGET_FMT_plx
-+                       " size %u\n", __func__, offset, size);
-+--
-+1.8.3.1
-+
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3750-2.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3750-2.patch
-new file mode 100644
-index 0000000000..f163b4fab3
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3750-2.patch
-@@ -0,0 +1,65 @@
-+From 58e74682baf4e1ad26b064d8c02e5bc99c75c5d9 Mon Sep 17 00:00:00 2001
-+From: =?utf8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-+Date: Wed, 15 Dec 2021 19:24:20 +0100
-+Subject: [PATCH] softmmu/physmem: Simplify flatview_write and
-+ address_space_access_valid
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=utf8
-+Content-Transfer-Encoding: 8bit
-+
-+Remove unuseful local 'result' variables.
-+
-+Reviewed-by: Peter Xu <peterx@redhat.com>
-+Reviewed-by: David Hildenbrand <david@redhat.com>
-+Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
-+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-+Signed-off-by: Philippe Mathieu-DaudÃfÂ© <philmd@redhat.com>
-+Message-Id: <20211215182421.418374-3-philmd@redhat.com>
-+Signed-off-by: Thomas Huth <thuth@redhat.com>
-+Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
-+
-+CVE: CVE-2021-3750
-+
-+Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commit;h=58e74682baf4e1ad26b064d8c02e5bc99c75c5d9]
-+---
-+ softmmu/physmem.c | 11 +++--------
-+ 1 file changed, 3 insertions(+), 8 deletions(-)
-+
-+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-+index 43ae70f..3d968ca 100644
-+--- a/softmmu/physmem.c
-++++ b/softmmu/physmem.c
-+@@ -2826,14 +2826,11 @@ static MemTxResult flatview_write(FlatVi
-+     hwaddr l;
-+     hwaddr addr1;
-+     MemoryRegion *mr;
-+-    MemTxResult result = MEMTX_OK;
-+
-+     l = len;
-+     mr = flatview_translate(fv, addr, &addr1, &l, true, attrs);
-+-    result = flatview_write_continue(fv, addr, attrs, buf, len,
-+-                                     addr1, l, mr);
-+-
-+-    return result;
-++    return flatview_write_continue(fv, addr, attrs, buf, len,
-++                                   addr1, l, mr);
-+ }
-+
-+ /* Called within RCU critical section.  */
-+@@ -3130,12 +3127,10 @@ bool address_space_access_valid(AddressS
-+                                 MemTxAttrs attrs)
++diff --git a/binutils/dwarf.c b/binutils/dwarf.c
++index 267ed3bb382..2fc352f74c5 100644
++--- a/binutils/dwarf.c
+++++ b/binutils/dwarf.c
++@@ -882,8 +882,15 @@ static unsigned long  next_free_abbrev_m
++ #define ABBREV_MAP_ENTRIES_INCREMENT   8
++ 
++ static void
++-record_abbrev_list_for_cu (dwarf_vma start, dwarf_vma end, abbrev_list * list)
+++record_abbrev_list_for_cu (dwarf_vma start, dwarf_vma end,
+++			   abbrev_list *list, abbrev_list *free_list)
 + {
-+     FlatView *fv;
-+-    bool result;
-+
-+     RCU_READ_LOCK_GUARD();
-+     fv = address_space_to_flatview(as);
-+-    result = flatview_access_valid(fv, addr, len, is_write, attrs);
-+-    return result;
-++    return flatview_access_valid(fv, addr, len, is_write, attrs);
+++  if (free_list != NULL)
+++    {
+++      list->next = abbrev_lists;
+++      abbrev_lists = list;
+++    }
+++
++   if (cu_abbrev_map == NULL)
++     {
++       num_abbrev_map_entries = INITIAL_NUM_ABBREV_MAP_ENTRIES;
++@@ -936,20 +943,6 @@ free_all_abbrevs (void)
 + }
-+
-+ static hwaddr
-+--
-+1.8.3.1
-+
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3750-3.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3750-3.patch
-new file mode 100644
-index 0000000000..24668ad1a5
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3750-3.patch
-@@ -0,0 +1,156 @@
-+From 3ab6fdc91b72e156da22848f0003ff4225690ced Mon Sep 17 00:00:00 2001
-+From: =?utf8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-+Date: Wed, 15 Dec 2021 19:24:21 +0100
-+Subject: [PATCH] softmmu/physmem: Introduce MemTxAttrs::memory field and
-+ MEMTX_ACCESS_ERROR
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=utf8
-+Content-Transfer-Encoding: 8bit
-+
-+Add the 'memory' bit to the memory attributes to restrict bus
-+controller accesses to memories.
-+
-+Introduce flatview_access_allowed() to check bus permission
-+before running any bus transaction.
-+
-+Have read/write accessors return MEMTX_ACCESS_ERROR if an access is
-+restricted.
-+
-+There is no change for the default case where 'memory' is not set.
-+
-+Signed-off-by: Philippe Mathieu-DaudÃfÂ© <philmd@redhat.com>
-+Message-Id: <20211215182421.418374-4-philmd@redhat.com>
-+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-+[thuth: Replaced MEMTX_BUS_ERROR with MEMTX_ACCESS_ERROR, remove "inline"]
-+Signed-off-by: Thomas Huth <thuth@redhat.com>
-+Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
-+
-+CVE: CVE-2021-3750
-+
-+Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commit;h=3ab6fdc91b72e156da22848f0003ff4225690ced]
-+---
-+ include/exec/memattrs.h |  9 +++++++++
-+ softmmu/physmem.c       | 44 ++++++++++++++++++++++++++++++++++++++++++--
-+ 2 files changed, 51 insertions(+), 2 deletions(-)
-+
-+diff --git a/include/exec/memattrs.h b/include/exec/memattrs.h
-+index 95f2d20..9fb98bc 100644
-+--- a/include/exec/memattrs.h
-++++ b/include/exec/memattrs.h
-+@@ -35,6 +35,14 @@ typedef struct MemTxAttrs {
-+     unsigned int secure:1;
-+     /* Memory access is usermode (unprivileged) */
-+     unsigned int user:1;
-++    /*
-++     * Bus interconnect and peripherals can access anything (memories,
-++     * devices) by default. By setting the 'memory' bit, bus transaction
-++     * are restricted to "normal" memories (per the AMBA documentation)
-++     * versus devices. Access to devices will be logged and rejected
-++     * (see MEMTX_ACCESS_ERROR).
-++     */
-++    unsigned int memory:1;
-+     /* Requester ID (for MSI for example) */
-+     unsigned int requester_id:16;
-+     /* Invert endianness for this page */
-+@@ -66,6 +74,7 @@ typedef struct MemTxAttrs {
-+ #define MEMTX_OK 0
-+ #define MEMTX_ERROR             (1U << 0) /* device returned an error */
-+ #define MEMTX_DECODE_ERROR      (1U << 1) /* nothing at that address */
-++#define MEMTX_ACCESS_ERROR      (1U << 2) /* access denied */
-+ typedef uint32_t MemTxResult;
-+
-+ #endif
-+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-+index 3d968ca..4e1b27a 100644
-+--- a/softmmu/physmem.c
-++++ b/softmmu/physmem.c
-+@@ -41,6 +41,7 @@
-+ #include "qemu/config-file.h"
-+ #include "qemu/error-report.h"
-+ #include "qemu/qemu-print.h"
-++#include "qemu/log.h"
-+ #include "exec/memory.h"
-+ #include "exec/ioport.h"
-+ #include "sysemu/dma.h"
-+@@ -2759,6 +2760,33 @@ static bool prepare_mmio_access(MemoryRe
-+     return release_lock;
++ 
++ static abbrev_list *
++-new_abbrev_list (dwarf_vma abbrev_base, dwarf_vma abbrev_offset)
++-{
++-  abbrev_list * list = (abbrev_list *) xcalloc (sizeof * list, 1);
++-
++-  list->abbrev_base = abbrev_base;
++-  list->abbrev_offset = abbrev_offset;
++-
++-  list->next = abbrev_lists;
++-  abbrev_lists = list;
++-
++-  return list;
++-}
++-
++-static abbrev_list *
++ find_abbrev_list_by_abbrev_offset (dwarf_vma abbrev_base,
++ 				   dwarf_vma abbrev_offset)
++ {
++@@ -966,7 +959,7 @@ find_abbrev_list_by_abbrev_offset (dwarf
++ /* Find the abbreviation map for the CU that includes OFFSET.
++    OFFSET is an absolute offset from the start of the .debug_info section.  */
++ /* FIXME: This function is going to slow down readelf & objdump.
++-   Consider using a better algorithm to mitigate this effect.  */
+++   Not caching abbrevs is likely the answer.  */
++ 
++ static  abbrev_map *
++ find_abbrev_map_by_offset (dwarf_vma offset)
++@@ -1033,40 +1026,18 @@ add_abbrev_attr (unsigned long    attrib
++   list->last_abbrev->last_attr = attr;
 + }
-+
-++/**
-++ * flatview_access_allowed
-++ * @mr: #MemoryRegion to be accessed
-++ * @attrs: memory transaction attributes
-++ * @addr: address within that memory region
-++ * @len: the number of bytes to access
-++ *
-++ * Check if a memory transaction is allowed.
-++ *
-++ * Returns: true if transaction is allowed, false if denied.
-++ */
-++static bool flatview_access_allowed(MemoryRegion *mr, MemTxAttrs attrs,
-++                                    hwaddr addr, hwaddr len)
++ 
++-/* Processes the (partial) contents of a .debug_abbrev section.
++-   Returns NULL if the end of the section was encountered.
++-   Returns the address after the last byte read if the end of
++-   an abbreviation set was found.  */
+++/* Return processed (partial) contents of a .debug_abbrev section.
+++   Returns NULL on errors.  */
++ 
++-static unsigned char *
+++static abbrev_list *
++ process_abbrev_set (struct dwarf_section *section,
++-		    dwarf_vma abbrev_base,
++-		    dwarf_vma abbrev_size,
++-		    dwarf_vma abbrev_offset,
++-		    abbrev_list *list)
+++		    unsigned char *start,
+++		    unsigned char *end)
++ {
++-  if (abbrev_base >= section->size
++-      || abbrev_size > section->size - abbrev_base)
++-    {
++-      /* PR 17531: file:4bcd9ce9.  */
++-      warn (_("Debug info is corrupted, abbrev size (%lx) is larger than "
++-	      "abbrev section size (%lx)\n"),
++-	      (unsigned long) (abbrev_base + abbrev_size),
++-	      (unsigned long) section->size);
++-      return NULL;
++-    }
++-  if (abbrev_offset >= abbrev_size)
++-    {
++-      warn (_("Debug info is corrupted, abbrev offset (%lx) is larger than "
++-	      "abbrev section size (%lx)\n"),
++-	    (unsigned long) abbrev_offset,
++-	    (unsigned long) abbrev_size);
++-      return NULL;
++-    }
+++  abbrev_list *list = xmalloc (sizeof (*list));
+++  list->first_abbrev = NULL;
+++  list->last_abbrev = NULL;
++ 
++-  unsigned char *start = section->start + abbrev_base;
++-  unsigned char *end = start + abbrev_size;
++-  start += abbrev_offset;
++   while (start < end)
++     {
++       unsigned long entry;
++@@ -1079,14 +1050,18 @@ process_abbrev_set (struct dwarf_section
++       /* A single zero is supposed to end the set according
++ 	 to the standard.  If there's more, then signal that to
++ 	 the caller.  */
++-      if (start == end)
++-	return NULL;
++-      if (entry == 0)
++-	return start;
+++      if (start == end || entry == 0)
+++	{
+++	  list->start_of_next_abbrevs = start != end ? start : NULL;
+++	  return list;
+++	}
++ 
++       READ_ULEB (tag, start, end);
++       if (start == end)
++-	return NULL;
+++	{
+++	  free (list);
+++	  return NULL;
+++	}
++ 
++       children = *start++;
++ 
++@@ -1121,9 +1096,67 @@ process_abbrev_set (struct dwarf_section
++   /* Report the missing single zero which ends the section.  */
++   error (_(".debug_abbrev section not zero terminated\n"));
++ 
+++  free (list);
++   return NULL;
++ }
++ 
+++/* Return a sequence of abbrevs in SECTION starting at ABBREV_BASE
+++   plus ABBREV_OFFSET and finishing at ABBREV_BASE + ABBREV_SIZE.
+++   If FREE_LIST is non-NULL search the already decoded abbrevs on
+++   abbrev_lists first and if found set *FREE_LIST to NULL.  If
+++   searching doesn't find a matching abbrev, set *FREE_LIST to the
+++   newly allocated list.  If FREE_LIST is NULL, no search is done and
+++   the returned abbrev_list is always newly allocated.  */
+++
+++static abbrev_list *
+++find_and_process_abbrev_set (struct dwarf_section *section,
+++			     dwarf_vma abbrev_base,
+++			     dwarf_vma abbrev_size,
+++			     dwarf_vma abbrev_offset,
+++			     abbrev_list **free_list)
 ++{
-++    if (likely(!attrs.memory)) {
-++        return true;
+++  if (free_list)
+++    *free_list = NULL;
+++
+++  if (abbrev_base >= section->size
+++      || abbrev_size > section->size - abbrev_base)
+++    {
+++      /* PR 17531: file:4bcd9ce9.  */
+++      warn (_("Debug info is corrupted, abbrev size (%lx) is larger than "
+++	      "abbrev section size (%lx)\n"),
+++	      (unsigned long) (abbrev_base + abbrev_size),
+++	      (unsigned long) section->size);
+++      return NULL;
 ++    }
-++    if (memory_region_is_ram(mr)) {
-++        return true;
+++  if (abbrev_offset >= abbrev_size)
+++    {
+++      warn (_("Debug info is corrupted, abbrev offset (%lx) is larger than "
+++	      "abbrev section size (%lx)\n"),
+++	    (unsigned long) abbrev_offset,
+++	    (unsigned long) abbrev_size);
+++      return NULL;
 ++    }
-++    qemu_log_mask(LOG_GUEST_ERROR,
-++                  "Invalid access to non-RAM device at "
-++                  "addr 0x%" HWADDR_PRIX ", size %" HWADDR_PRIu ", "
-++                  "region '%s'\n", addr, len, memory_region_name(mr));
-++    return false;
+++
+++  unsigned char *start = section->start + abbrev_base + abbrev_offset;
+++  unsigned char *end = section->start + abbrev_base + abbrev_size;
+++  abbrev_list *list = NULL;
+++  if (free_list)
+++    list = find_abbrev_list_by_abbrev_offset (abbrev_base, abbrev_offset);
+++  if (list == NULL)
+++    {
+++      list = process_abbrev_set (section, start, end);
+++      if (list)
+++	{
+++	  list->abbrev_base = abbrev_base;
+++	  list->abbrev_offset = abbrev_offset;
+++	  list->next = NULL;
+++	}
+++      if (free_list)
+++	*free_list = list;
+++    }
+++  return list;
 ++}
 ++
-+ /* Called within RCU critical section.  */
-+ static MemTxResult flatview_write_continue(FlatView *fv, hwaddr addr,
-+                                            MemTxAttrs attrs,
-+@@ -2773,7 +2801,10 @@ static MemTxResult flatview_write_contin
-+     const uint8_t *buf = ptr;
++ static const char *
++ get_TAG_name (unsigned long tag)
++ {
++@@ -3670,7 +3703,6 @@ process_debug_info (struct dwarf_section
++       dwarf_vma                 cu_offset;
++       unsigned int              offset_size;
++       struct cu_tu_set *        this_set;
++-      abbrev_list *             list;
++       unsigned char *end_cu;
++ 
++       hdrptr = start;
++@@ -3726,22 +3758,18 @@ process_debug_info (struct dwarf_section
++ 	  abbrev_size = this_set->section_sizes [DW_SECT_ABBREV];
++ 	}
++ 
++-      list = find_abbrev_list_by_abbrev_offset (abbrev_base,
++-						compunit.cu_abbrev_offset);
++-      if (list == NULL)
++-	{
++-	  unsigned char *  next;
++-
++-	  list = new_abbrev_list (abbrev_base,
++-				  compunit.cu_abbrev_offset);
++-	  next = process_abbrev_set (&debug_displays[abbrev_sec].section,
++-				     abbrev_base, abbrev_size,
++-				     compunit.cu_abbrev_offset, list);
++-	  list->start_of_next_abbrevs = next;
++-	}
++-
+++      abbrev_list *list;
+++      abbrev_list *free_list;
+++      list = find_and_process_abbrev_set (&debug_displays[abbrev_sec].section,
+++					  abbrev_base, abbrev_size,
+++					  compunit.cu_abbrev_offset,
+++					  &free_list);
++       start = end_cu;
++-      record_abbrev_list_for_cu (cu_offset, start - section_begin, list);
+++      if (list != NULL && list->first_abbrev != NULL)
+++	record_abbrev_list_for_cu (cu_offset, start - section_begin,
+++				   list, free_list);
+++      else if (free_list != NULL)
+++	free_abbrev_list (free_list);
++     }
++ 
++   for (start = section_begin, unit = 0; start < end; unit++)
++@@ -3757,7 +3785,6 @@ process_debug_info (struct dwarf_section
++       struct cu_tu_set *this_set;
++       dwarf_vma abbrev_base;
++       size_t abbrev_size;
++-      abbrev_list * list = NULL;
++       unsigned char *end_cu;
++ 
++       hdrptr = start;
++@@ -3936,20 +3963,10 @@ process_debug_info (struct dwarf_section
++ 	}
++ 
++       /* Process the abbrevs used by this compilation unit.  */
++-      list = find_abbrev_list_by_abbrev_offset (abbrev_base,
++-						compunit.cu_abbrev_offset);
++-      if (list == NULL)
++-	{
++-	  unsigned char *next;
++-
++-	  list = new_abbrev_list (abbrev_base,
++-				  compunit.cu_abbrev_offset);
++-	  next = process_abbrev_set (&debug_displays[abbrev_sec].section,
++-				     abbrev_base, abbrev_size,
++-				     compunit.cu_abbrev_offset, list);
++-	  list->start_of_next_abbrevs = next;
++-	}
++-
+++      abbrev_list *list;
+++      list = find_and_process_abbrev_set (&debug_displays[abbrev_sec].section,
+++					  abbrev_base, abbrev_size,
+++					  compunit.cu_abbrev_offset, NULL);
++       level = 0;
++       last_level = level;
++       saved_level = -1;
++@@ -4128,6 +4145,8 @@ process_debug_info (struct dwarf_section
++ 	  if (entry->children)
++ 	    ++level;
++ 	}
+++      if (list != NULL)
+++	free_abbrev_list (list);
++     }
++ 
++   /* Set num_debug_info_entries here so that it can be used to check if
++@@ -6353,24 +6372,15 @@ display_debug_abbrev (struct dwarf_secti
++ 
++   do
++     {
++-      abbrev_list *    list;
++-      dwarf_vma        offset;
++-
++-      offset = start - section->start;
++-      list = find_abbrev_list_by_abbrev_offset (0, offset);
+++      dwarf_vma offset = start - section->start;
+++      abbrev_list *list = find_and_process_abbrev_set (section, 0,
+++						       section->size, offset,
+++						       NULL);
++       if (list == NULL)
++-	{
++-	  list = new_abbrev_list (0, offset);
++-	  start = process_abbrev_set (section, 0, section->size, offset, list);
++-	  list->start_of_next_abbrevs = start;
++-	}
++-      else
++-	start = list->start_of_next_abbrevs;
++-
++-      if (list->first_abbrev == NULL)
++-	continue;
+++	break;
++ 
++-      printf (_("  Number TAG (0x%lx)\n"), (long) offset);
+++      if (list->first_abbrev)
+++	printf (_("  Number TAG (0x%lx)\n"), (long) offset);
++ 
++       for (entry = list->first_abbrev; entry; entry = entry->next)
++ 	{
++@@ -6391,6 +6401,8 @@ display_debug_abbrev (struct dwarf_secti
++ 	      putchar ('\n');
++ 	    }
++ 	}
+++      start = list->start_of_next_abbrevs;
+++      free_abbrev_list (list);
++     }
++   while (start);
++ 
+diff --git a/meta/recipes-devtools/binutils/binutils/0018-CVE-2022-38128-2.patch b/meta/recipes-devtools/binutils/binutils/0018-CVE-2022-38128-2.patch
+new file mode 100644
+index 0000000000..b867b04e96
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0018-CVE-2022-38128-2.patch
+@@ -0,0 +1,436 @@
++From 175b91507b83ad42607d2f6dadaf55b7b511bdbe Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Wed, 20 Jul 2022 18:28:50 +0930
++Subject: [PATCH] miscellaneous dwarf.c tidies
 +
-+     for (;;) {
-+-        if (!memory_access_is_direct(mr, true)) {
-++        if (!flatview_access_allowed(mr, attrs, addr1, l)) {
-++            result |= MEMTX_ACCESS_ERROR;
-++            /* Keep going. */
-++        } else if (!memory_access_is_direct(mr, true)) {
-+             release_lock |= prepare_mmio_access(mr);
-+             l = memory_access_size(mr, l, addr1);
-+             /* XXX: could force current_cpu to NULL to avoid
-+@@ -2818,6 +2849,9 @@ static MemTxResult flatview_write(FlatVi
++	* dwarf.c: Leading and trailing whitespace fixes.
++	(free_abbrev_list): New function.
++	(free_all_abbrevs): Use the above.  Free cu_abbrev_map here too.
++	(process_abbrev_set): Print actual section name on error.
++	(get_type_abbrev_from_form): Add overflow check.
++	(free_debug_memory): Don't free cu_abbrev_map here..
++	(process_debug_info): ..or here.  Warn on another case of not
++	finding a neeeded abbrev.
 +
-+     l = len;
-+     mr = flatview_translate(fv, addr, &addr1, &l, true, attrs);
-++    if (!flatview_access_allowed(mr, attrs, addr, len)) {
-++        return MEMTX_ACCESS_ERROR;
-++    }
-+     return flatview_write_continue(fv, addr, attrs, buf, len,
-+                                    addr1, l, mr);
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=175b91507b83ad42607d2f6dadaf55b7b511bdbe]
++
++Signed-off-by: Pgowda <pgowda.cve@gmail.com>
++---
++ binutils/dwarf.c | 216 +++++++++++++++++++++++------------------------
++ 1 file changed, 106 insertions(+), 110 deletions(-)
++
++diff --git a/binutils/dwarf.c b/binutils/dwarf.c
++index 2b1eec49422..267ed3bb382 100644
++--- a/binutils/dwarf.c
+++++ b/binutils/dwarf.c
++@@ -954,38 +954,41 @@ record_abbrev_list_for_cu (dwarf_vma sta
++   next_free_abbrev_map_entry ++;
 + }
-+@@ -2836,7 +2870,10 @@ MemTxResult flatview_read_continue(FlatV
-+
-+     fuzz_dma_read_cb(addr, len, mr);
-+     for (;;) {
-+-        if (!memory_access_is_direct(mr, false)) {
-++        if (!flatview_access_allowed(mr, attrs, addr1, l)) {
-++            result |= MEMTX_ACCESS_ERROR;
-++            /* Keep going. */
-++        } else if (!memory_access_is_direct(mr, false)) {
-+             /* I/O case */
-+             release_lock |= prepare_mmio_access(mr);
-+             l = memory_access_size(mr, l, addr1);
-+@@ -2879,6 +2916,9 @@ static MemTxResult flatview_read(FlatVie
-+
-+     l = len;
-+     mr = flatview_translate(fv, addr, &addr1, &l, false, attrs);
-++    if (!flatview_access_allowed(mr, attrs, addr, len)) {
-++        return MEMTX_ACCESS_ERROR;
-++    }
-+     return flatview_read_continue(fv, addr, attrs, buf, len,
-+                                   addr1, l, mr);
++ 
++-static void
++-free_all_abbrevs (void)
+++static abbrev_list *
+++free_abbrev_list (abbrev_list *list)
++ {
++-  abbrev_list *  list;
+++  abbrev_entry *abbrv = list->first_abbrev;
++ 
++-  for (list = abbrev_lists; list != NULL;)
+++  while (abbrv)
++     {
++-      abbrev_list *   next = list->next;
++-      abbrev_entry *  abbrv;
+++      abbrev_attr *attr = abbrv->first_attr;
++ 
++-      for (abbrv = list->first_abbrev; abbrv != NULL;)
+++      while (attr)
++ 	{
++-	  abbrev_entry *  next_abbrev = abbrv->next;
++-	  abbrev_attr *   attr;
++-
++-	  for (attr = abbrv->first_attr; attr;)
++-	    {
++-	      abbrev_attr *next_attr = attr->next;
++-
++-	      free (attr);
++-	      attr = next_attr;
++-	    }
++-
++-	  free (abbrv);
++-	  abbrv = next_abbrev;
+++	  abbrev_attr *next_attr = attr->next;
+++	  free (attr);
+++	  attr = next_attr;
++ 	}
++ 
++-      free (list);
++-      list = next;
+++      abbrev_entry *next_abbrev = abbrv->next;
+++      free (abbrv);
+++      abbrv = next_abbrev;
++     }
++ 
++-  abbrev_lists = NULL;
+++  abbrev_list *next = list->next;
+++  free (list);
+++  return next;
+++}
+++
+++static void
+++free_all_abbrevs (void)
+++{
+++  while (abbrev_lists)
+++    abbrev_lists = free_abbrev_list (abbrev_lists);
+++
+++  free (cu_abbrev_map);
+++  cu_abbrev_map = NULL;
+++  next_free_abbrev_map_entry = 0;
 + }
-+--
-+1.8.3.1
++ 
++ static abbrev_list *
++@@ -1017,7 +1020,7 @@ find_abbrev_map_by_offset (dwarf_vma off
++ 	&& cu_abbrev_map[i].end > offset)
++       return cu_abbrev_map + i;
++ 
++-  return NULL;	
+++  return NULL;
++ }
++ 
++ static void
++@@ -1140,7 +1143,7 @@ process_abbrev_set (struct dwarf_section
++     }
++ 
++   /* Report the missing single zero which ends the section.  */
++-  error (_(".debug_abbrev section not zero terminated\n"));
+++  error (_("%s section not zero terminated\n"), section->name);
++ 
++   free (list);
++   return NULL;
++@@ -1917,7 +1920,7 @@ fetch_alt_indirect_string (dwarf_vma off
++ 	dwarf_vmatoa ("x", offset));
++   return _("<offset is too big>");
++ }
++-	
+++
++ static const char *
++ get_AT_name (unsigned long attribute)
++ {
++@@ -2199,7 +2202,8 @@ get_type_abbrev_from_form (unsigned long
++     case DW_FORM_ref4:
++     case DW_FORM_ref8:
++     case DW_FORM_ref_udata:
++-      if (uvalue + cu_offset > (size_t) (cu_end - section->start))
+++      if (uvalue + cu_offset < uvalue
+++	  || uvalue + cu_offset > (size_t) (cu_end - section->start))
++ 	{
++ 	  warn (_("Unable to resolve ref form: uvalue %lx + cu_offset %lx > CU size %lx\n"),
++ 		uvalue, (long) cu_offset, (long) (cu_end - section->start));
++@@ -2236,7 +2240,7 @@ get_type_abbrev_from_form (unsigned long
++       else
++ 	*map_return = NULL;
++     }
++-	
+++
++   READ_ULEB (abbrev_number, data, section->start + section->size);
++ 
++   for (entry = map->list->first_abbrev; entry != NULL; entry = entry->next)
++@@ -2837,7 +2841,7 @@ read_and_display_attr_value (unsigned lo
++       if (!do_loc)
++ 	printf ("%c<0x%s>", delimiter, dwarf_vmatoa ("x", uvalue + cu_offset));
++       break;
++-      
+++
++     default:
++       warn (_("Unrecognized form: 0x%lx\n"), form);
++       /* What to do?  Consume a byte maybe?  */
++@@ -3009,7 +3013,7 @@ read_and_display_attr_value (unsigned lo
++ 	      case DW_FORM_strx3:
++ 	      case DW_FORM_strx4:
++ 		add_dwo_name (fetch_indexed_string (uvalue, this_set, offset_size, false,
++-		                                    debug_info_p->str_offsets_base),
+++						    debug_info_p->str_offsets_base),
++ 			      cu_offset);
++ 		break;
++ 	      case DW_FORM_string:
++@@ -3043,7 +3047,7 @@ read_and_display_attr_value (unsigned lo
++ 	      case DW_FORM_strx3:
++ 	      case DW_FORM_strx4:
++ 		add_dwo_dir (fetch_indexed_string (uvalue, this_set, offset_size, false,
++-		                                   debug_info_p->str_offsets_base),
+++						   debug_info_p->str_offsets_base),
++ 			     cu_offset);
++ 		break;
++ 	      case DW_FORM_string:
++@@ -3671,11 +3675,8 @@ process_debug_info (struct dwarf_section
++     introduce (section, false);
++ 
++   free_all_abbrevs ();
++-  free (cu_abbrev_map);
++-  cu_abbrev_map = NULL;
++-  next_free_abbrev_map_entry = 0;
++ 
++-  /* In order to be able to resolve DW_FORM_ref_attr forms we need
+++  /* In order to be able to resolve DW_FORM_ref_addr forms we need
++      to load *all* of the abbrevs for all CUs in this .debug_info
++      section.  This does effectively mean that we (partially) read
++      every CU header twice.  */
++@@ -4029,12 +4030,11 @@ process_debug_info (struct dwarf_section
++ 
++ 	  /* Scan through the abbreviation list until we reach the
++ 	     correct entry.  */
++-	  if (list == NULL)
++-	    continue;
++-
++-	  for (entry = list->first_abbrev; entry != NULL; entry = entry->next)
++-	    if (entry->number == abbrev_number)
++-	      break;
+++	  entry = NULL;
+++	  if (list != NULL)
+++	    for (entry = list->first_abbrev; entry != NULL; entry = entry->next)
+++	      if (entry->number == abbrev_number)
+++		break;
++ 
++ 	  if (entry == NULL)
++ 	    {
++@@ -4442,7 +4442,7 @@ display_debug_sup (struct dwarf_section
++ 
++   SAFE_BYTE_GET_AND_INC (is_supplementary, start, 1, end);
++   if (is_supplementary != 0 && is_supplementary != 1)
++-    warn (_("corrupt .debug_sup section: is_supplementary not 0 or 1\n"));    
+++    warn (_("corrupt .debug_sup section: is_supplementary not 0 or 1\n"));
++ 
++   sup_filename = start;
++   if (is_supplementary && sup_filename[0] != 0)
++@@ -5621,7 +5621,7 @@ display_debug_lines_decoded (struct dwar
++ 			printf ("%s  %11d  %#18" DWARF_VMA_FMT "x",
++ 				newFileName, state_machine_regs.line,
++ 				state_machine_regs.address);
++-		    }			
+++		    }
++ 		  else
++ 		    {
++ 		      if (xop == -DW_LNE_end_sequence)
++@@ -6075,7 +6075,7 @@ display_debug_macro (struct dwarf_sectio
++   load_debug_section_with_follow (str, file);
++   load_debug_section_with_follow (line, file);
++   load_debug_section_with_follow (str_index, file);
++-  
+++
++   introduce (section, false);
++ 
++   while (curr < end)
++@@ -6519,7 +6519,7 @@ display_loc_list (struct dwarf_section *
++ 
++       /* Check base address specifiers.  */
++       if (is_max_address (begin, pointer_size)
++-          && !is_max_address (end, pointer_size))
+++	  && !is_max_address (end, pointer_size))
++ 	{
++ 	  base_address = end;
++ 	  print_dwarf_vma (begin, pointer_size);
++@@ -6697,7 +6697,7 @@ display_loclists_list (struct dwarf_sect
++ 	case DW_LLE_default_location:
++ 	  begin = end = 0;
++ 	  break;
++-	  
+++
++ 	case DW_LLE_offset_pair:
++ 	  READ_ULEB (begin, start, section_end);
++ 	  begin += base_address;
++@@ -6993,7 +6993,7 @@ display_offset_entry_loclists (struct dw
++   unsigned char *  start = section->start;
++   unsigned char * const end = start + section->size;
++ 
++-  introduce (section, false);  
+++  introduce (section, false);
++ 
++   do
++     {
++@@ -7042,14 +7042,14 @@ display_offset_entry_loclists (struct dw
++ 		section->name, segment_selector_size);
++ 	  return 0;
++ 	}
++-      
+++
++       if (offset_entry_count == 0)
++ 	{
++ 	  warn (_("The %s section contains a table without offset\n"),
++ 		section->name);
++ 	  return 0;
++ 	}
++-  
+++
++       printf (_("\n   Offset Entries starting at 0x%lx:\n"),
++ 	      (long)(start - section->start));
++ 
++@@ -8295,12 +8295,12 @@ display_debug_ranges (struct dwarf_secti
++       next = section_begin + offset + debug_info_p->rnglists_base;
++ 
++       /* If multiple DWARF entities reference the same range then we will
++-         have multiple entries in the `range_entries' list for the same
++-         offset.  Thanks to the sort above these will all be consecutive in
++-         the `range_entries' list, so we can easily ignore duplicates
++-         here.  */
+++	 have multiple entries in the `range_entries' list for the same
+++	 offset.  Thanks to the sort above these will all be consecutive in
+++	 the `range_entries' list, so we can easily ignore duplicates
+++	 here.  */
++       if (i > 0 && last_offset == offset)
++-        continue;
+++	continue;
++       last_offset = offset;
++ 
++       if (dwarf_check != 0 && i > 0)
++@@ -10336,7 +10336,7 @@ display_debug_names (struct dwarf_sectio
++ 		break;
++ 	      if (tagno >= 0)
++ 		printf ("%s<%lu>",
++-		        (tagno == 0 && second_abbrev_tag == 0 ? " " : "\n\t"),
+++			(tagno == 0 && second_abbrev_tag == 0 ? " " : "\n\t"),
++ 			(unsigned long) abbrev_tag);
++ 
++ 	      for (entry = abbrev_lookup;
++@@ -10901,7 +10901,7 @@ process_cu_tu_index (struct dwarf_sectio
++ 	 Check for integer overflow (can occur when size_t is 32-bit)
++ 	 with overlarge ncols or nused values.  */
++       if (nused == -1u
++-	  || _mul_overflow ((size_t) ncols, 4, &temp)	  
+++	  || _mul_overflow ((size_t) ncols, 4, &temp)
++ 	  || _mul_overflow ((size_t) nused + 1, temp, &total)
++ 	  || total > (size_t) (limit - ppool))
++ 	{
++@@ -10909,7 +10909,7 @@ process_cu_tu_index (struct dwarf_sectio
++ 		section->name);
++ 	  return 0;
++ 	}
++-      
+++
++       if (do_display)
++ 	{
++ 	  printf (_("  Offset table\n"));
++@@ -11413,8 +11413,8 @@ add_separate_debug_file (const char * fi
++ 
++ static bool
++ debuginfod_fetch_separate_debug_info (struct dwarf_section * section,
++-                                      char ** filename,
++-                                      void * file)
+++				      char ** filename,
+++				      void * file)
++ {
++   size_t build_id_len;
++   unsigned char * build_id;
++@@ -11432,14 +11432,14 @@ debuginfod_fetch_separate_debug_info (st
++ 
++       filelen = strnlen ((const char *)section->start, section->size);
++       if (filelen == section->size)
++-        /* Corrupt debugaltlink.  */
++-        return false;
+++	/* Corrupt debugaltlink.  */
+++	return false;
++ 
++       build_id = section->start + filelen + 1;
++       build_id_len = section->size - (filelen + 1);
++ 
++       if (build_id_len == 0)
++-        return false;
+++	return false;
++     }
++   else
++     return false;
++@@ -11451,25 +11451,25 @@ debuginfod_fetch_separate_debug_info (st
++ 
++       client = debuginfod_begin ();
++       if (client == NULL)
++-        return false;
+++	return false;
++ 
++       /* Query debuginfod servers for the target file. If found its path
++-         will be stored in filename.  */
+++	 will be stored in filename.  */
++       fd = debuginfod_find_debuginfo (client, build_id, build_id_len, filename);
++       debuginfod_end (client);
++ 
++       /* Only free build_id if we allocated space for a hex string
++-         in get_build_id ().  */
+++	 in get_build_id ().  */
++       if (build_id_len == 0)
++-        free (build_id);
+++	free (build_id);
++ 
++       if (fd >= 0)
++-        {
++-          /* File successfully retrieved. Close fd since we want to
++-             use open_debug_file () on filename instead.  */
++-          close (fd);
++-          return true;
++-        }
+++	{
+++	  /* File successfully retrieved. Close fd since we want to
+++	     use open_debug_file () on filename instead.  */
+++	  close (fd);
+++	  return true;
+++	}
++     }
++ 
++   return false;
++@@ -11482,7 +11482,7 @@ load_separate_debug_info (const char *
++ 			  parse_func_type         parse_func,
++ 			  check_func_type         check_func,
++ 			  void *                  func_data,
++-                          void *                  file ATTRIBUTE_UNUSED)
+++			  void *                  file ATTRIBUTE_UNUSED)
++ {
++   const char *   separate_filename;
++   char *         debug_filename;
++@@ -11597,11 +11597,11 @@ load_separate_debug_info (const char *
++                                               & tmp_filename,
++                                               file))
++       {
++-        /* File successfully downloaded from server, replace
++-           debug_filename with the file's path.  */
++-        free (debug_filename);
++-        debug_filename = tmp_filename;
++-        goto found;
+++	/* File successfully downloaded from server, replace
+++	   debug_filename with the file's path.  */
+++	free (debug_filename);
+++	debug_filename = tmp_filename;
+++	goto found;
++       }
++   }
++ #endif
++@@ -11766,12 +11766,12 @@ load_build_id_debug_file (const char * m
++   /* In theory we should extract the contents of the section into
++      a note structure and then check the fields.  For now though
++      just use hard coded offsets instead:
++-     
+++
++        Field  Bytes    Contents
++ 	NSize  0...3   4
++ 	DSize  4...7   8+
++ 	Type   8..11   3  (NT_GNU_BUILD_ID)
++-        Name   12.15   GNU\0
+++	Name   12.15   GNU\0
++ 	Data   16....   */
++ 
++   /* FIXME: Check the name size, name and type fields.  */
++@@ -11783,7 +11783,7 @@ load_build_id_debug_file (const char * m
++       warn (_(".note.gnu.build-id data size is too small\n"));
++       return;
++     }
++-  
+++
++   if (build_id_size > (section->size - 16))
++     {
++       warn (_(".note.gnu.build-id data size is too bug\n"));
++@@ -12075,10 +12075,6 @@ free_debug_memory (void)
++ 
++   free_all_abbrevs ();
++ 
++-  free (cu_abbrev_map);
++-  cu_abbrev_map = NULL;
++-  next_free_abbrev_map_entry = 0;
++-
++   free (shndx_pool);
++   shndx_pool = NULL;
++   shndx_pool_size = 0;
+diff --git a/meta/recipes-devtools/binutils/binutils/0018-CVE-2022-38128-3.patch b/meta/recipes-devtools/binutils/binutils/0018-CVE-2022-38128-3.patch
+new file mode 100644
+index 0000000000..04d06ed6b6
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0018-CVE-2022-38128-3.patch
+@@ -0,0 +1,95 @@
++From 695c6dfe7e85006b98c8b746f3fd5f913c94ebff Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Thu, 21 Jul 2022 09:56:15 +0930
++Subject: [PATCH] PR29370, infinite loop in display_debug_abbrev
 +
++The PR29370 testcase is a fuzzed object file with multiple
++.trace_abbrev sections.  Multiple .trace_abbrev or .debug_abbrev
++sections are not a violation of the DWARF standard.  The DWARF5
++standard even gives an example of multiple .debug_abbrev sections
++contained in groups.  Caching and lookup of processed abbrevs thus
++needs to be done by section and offset rather than base and offset.
++(Why base anyway?)  Or, since section contents are kept, by a pointer
++into the contents.
++
++	PR 29370
++	* dwarf.c (struct abbrev_list): Replace abbrev_base and
++	abbrev_offset with raw field.
++	(find_abbrev_list_by_abbrev_offset): Delete.
++	(find_abbrev_list_by_raw_abbrev): New function.
++	(process_abbrev_set): Set list->raw and list->next.
++	(find_and_process_abbrev_set): Replace abbrev list lookup with
++	new function.  Don't set list abbrev_base, abbrev_offset or next.
++
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=695c6dfe7e85006b98c8b746f3fd5f913c94ebff]
++
++Signed-off-by: Pgowda <pgowda.cve@gmail.com>
++---
++ binutils/dwarf.c | 19 ++++++-------------
++ 1 file changed, 6 insertions(+), 13 deletions(-)
++
++diff --git a/binutils/dwarf.c b/binutils/dwarf.c
++index 2fc352f74c5..99fb3566994 100644
++--- a/binutils/dwarf.c
+++++ b/binutils/dwarf.c
++@@ -856,8 +856,7 @@ typedef struct abbrev_list
++ {
++   abbrev_entry *        first_abbrev;
++   abbrev_entry *        last_abbrev;
++-  dwarf_vma             abbrev_base;
++-  dwarf_vma             abbrev_offset;
+++  unsigned char *       raw;
++   struct abbrev_list *  next;
++   unsigned char *       start_of_next_abbrevs;
++ }
++@@ -946,14 +945,12 @@ free_all_abbrevs (void)
++ }
++ 
++ static abbrev_list *
++-find_abbrev_list_by_abbrev_offset (dwarf_vma abbrev_base,
++-				   dwarf_vma abbrev_offset)
+++find_abbrev_list_by_raw_abbrev (unsigned char *raw)
++ {
++   abbrev_list * list;
++ 
++   for (list = abbrev_lists; list != NULL; list = list->next)
++-    if (list->abbrev_base == abbrev_base
++-	&& list->abbrev_offset == abbrev_offset)
+++    if (list->raw == raw)
++       return list;
++ 
++   return NULL;
++@@ -1040,6 +1037,7 @@ process_abbrev_set (struct dwarf_section
++   abbrev_list *list = xmalloc (sizeof (*list));
++   list->first_abbrev = NULL;
++   list->last_abbrev = NULL;
+++  list->raw = start;
++ 
++   while (start < end)
++     {
++@@ -1055,6 +1053,7 @@ process_abbrev_set (struct dwarf_section
++ 	 the caller.  */
++       if (start == end || entry == 0)
++ 	{
+++	  list->next = NULL;
++ 	  list->start_of_next_abbrevs = start != end ? start : NULL;
++ 	  return list;
++ 	}
++@@ -1144,16 +1143,10 @@ find_and_process_abbrev_set (struct dwar
++   unsigned char *end = section->start + abbrev_base + abbrev_size;
++   abbrev_list *list = NULL;
++   if (free_list)
++-    list = find_abbrev_list_by_abbrev_offset (abbrev_base, abbrev_offset);
+++    list = find_abbrev_list_by_raw_abbrev (start);
++   if (list == NULL)
++     {
++       list = process_abbrev_set (section, start, end);
++-      if (list)
++-	{
++-	  list->abbrev_base = abbrev_base;
++-	  list->abbrev_offset = abbrev_offset;
++-	  list->next = NULL;
++-	}
++       if (free_list)
++ 	*free_list = list;
++     }
 -- 
 2.25.1
 
