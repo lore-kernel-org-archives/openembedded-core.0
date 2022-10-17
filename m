@@ -2,244 +2,398 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79A95C4332F
-	for <webhook@archiver.kernel.org>; Mon, 17 Oct 2022 23:08:46 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web08.693.1666048123044296697
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6351DC433FE
+	for <webhook@archiver.kernel.org>; Mon, 17 Oct 2022 23:08:56 +0000 (UTC)
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web10.637.1666048126345212705
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Oct 2022 16:08:43 -0700
+ Mon, 17 Oct 2022 16:08:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ckhDmYHC;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id l1-20020a17090a72c100b0020a6949a66aso12361136pjk.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Oct 2022 16:08:42 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=fFi/lUpf;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f174.google.com with SMTP id b5so11775176pgb.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Oct 2022 16:08:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=s0dq5D5EOSal0hnmjXNvswshqeosTOBhqSXqqwyokt8=;
-        b=ckhDmYHCqKBcyMVZaXyIRVOvt2sjwSoIMF25gcWj2Q1oZuTn0NiN7f+bI62NjXhuJo
-         QsoBpcc3gfQn10eADfkYUjbaNwpeXuaANDqYG37dA7c4avtxxmON2V+MPM8Ek9aemN3G
-         Gypq6CBoY7MNmEa2bd6hRbJrKsBenLVXfvc4Oq0xe4dBWyuIZRekvjP/9dPyih4SURN/
-         mufSekMaOJ8a30MK4YVTC4TfF9EMuYrfMUY6UzgSk6CUIDOjTfQmoRluOfPwuIdY50kJ
-         ImvPrLIAkF/obg1d3bxOXhGs/v/xAvKkN1/eT9KFKOGvYikDUSy48nHcBZw/esw0aoSV
-         RkxA==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NkpK5/z6J5rsCU0B9aKXkOTwJcU4KgaoIp8VeGw6OIA=;
+        b=fFi/lUpfMzvxbw7GZBrgsZ/kBfttDzYjyxHU7GM0/izfL4ft1gpCeUWj5LWATKN4tL
+         gXYQIEu/WK56JW3NgOV9qL5h/O4KgEy2anxhOfR3gdleln5dDMH9peiAsWvyjLcRWw5I
+         +S/vlhzSwRQabQEnf6CM/rLJelzgqBDsqaGavERLAckIFOUQV55JQJijFGZiLH6HhYrV
+         eVp5bRrHWaWeaeA4sYP0a7MpuDHm8qODhC/jpubw8dVDFpT/LWPYG20847QtuObrUkTX
+         RYYNwQuZI1PPRg+Dqw3YtTCOzOOM0MmG2jwpJEpN0bkf4vedDj4LnQvPopUdTm7YLjP0
+         1ebA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s0dq5D5EOSal0hnmjXNvswshqeosTOBhqSXqqwyokt8=;
-        b=QZUpFTH3RbTWQcZAy3nedGMwDqtiTBjxeuyeVtQDWSWPZARJW0CYtoiHmmGYfFlQJJ
-         8GLjKbVBTg79cSz83xjJJ6FyAbgvBuIO1TJPGlVaD0SR3+u5IfWD21YNAnNY7yCpX53M
-         rNBdFinjcnZdzxFCjPjj4AFOYsYbL/0ifrpuZeXXxYiK7lWb0K+c4rKtVqp28LNRkKP7
-         KNOWGxfVkFuv1ou/M1sRM+NiQodkbmouigKOfgOg2TviYAG+BlGg2fhOcYHCGIxZvkyl
-         lila//PCWanJDqjVEtuuxSSKG09ONBypFTbKm0EODdj7gM/zVpbQtQ071U/NByy3oqhm
-         6+3g==
-X-Gm-Message-State: ACrzQf3O0nuJi4rCT6+5YP4aNM+cEvqa3sMArB+2xUe0Ad/JvQz8FfI/
-	6wwoLNWVwM/lHWDbLXG/rvnppBuyz03PTh3T
-X-Google-Smtp-Source: AMsMyM5V6XNVP6Fpn2nkGHV/je6wUokNAEhlQ7rSHbb52fmDE4bXJn9rnyzo5FSdZdMb2L5JQVwcuA==
-X-Received: by 2002:a17:903:110f:b0:178:a07e:e643 with SMTP id n15-20020a170903110f00b00178a07ee643mr13837599plh.41.1666048121567;
-        Mon, 17 Oct 2022 16:08:41 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NkpK5/z6J5rsCU0B9aKXkOTwJcU4KgaoIp8VeGw6OIA=;
+        b=n1ZLzxk3C6974467uDNxZmGpzjLa/XyVcuMruJbQFa2fDfSmm1Eus8HsKhrdeuR1UF
+         QmJimX8bfC7UIwBF99qb8nf6EYME+wQksTOGeoEKxdr7wHW9WTIZ4gdwGdUKEnGvvUBV
+         8FgMB5vg/oflxOVPjyvOAckbSRipmO0Cl1XI+Fr8ylH+vGId0BVZI7cARCOFAE4PS2Hi
+         1UFFkrqg23qlUW1UHXSnHJ2+ZynvaJ2+Ul9eaXJDD0BBXqegb3Ne+bdlAJDtQsiA8aMv
+         QjSw2EgGAA0e+dRE3O+8YclDmhax4PHDrfiE3294zsFx42WM0+dd2ZAr29KbJ/D19Nfv
+         VWeg==
+X-Gm-Message-State: ACrzQf0E1dw47ULM5lWplKmEdz4vE1O4873lHMuicQgFlkUdszUbMOw0
+	RbAlku81fMJLMZ37aOxhLYw3DcFbN3+dxxxM
+X-Google-Smtp-Source: AMsMyM6OAcpvBnvv5btgsSR8b5pmzSOrFyi+SYc1rYc+MpGnDqztjgHePjsnGb3Tg2pcSqg/4dE/nA==
+X-Received: by 2002:a05:6a00:cce:b0:565:cbe0:16c6 with SMTP id b14-20020a056a000cce00b00565cbe016c6mr161153pfv.56.1666048125009;
+        Mon, 17 Oct 2022 16:08:45 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id j6-20020a17090a694600b0020aacde1964sm10119479pjm.32.2022.10.17.16.08.40
+        by smtp.gmail.com with ESMTPSA id j6-20020a17090a694600b0020aacde1964sm10119479pjm.32.2022.10.17.16.08.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Oct 2022 16:08:40 -0700 (PDT)
+        Mon, 17 Oct 2022 16:08:44 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/13] Patch review
-Date: Mon, 17 Oct 2022 13:08:16 -1000
-Message-Id: <cover.1666047986.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 01/13] tiff: Security fixes CVE-2022-2867,CVE-2022-2868 and CVE-2022-2869
+Date: Mon, 17 Oct 2022 13:08:17 -1000
+Message-Id: <90a65fbefee1b7f615933f1bbbf5f83b6f928e8d.1666047986.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1666047986.git.steve@sakoman.com>
+References: <cover.1666047986.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Oct 2022 23:08:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171918
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Oct 2022 23:08:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171919
 
-Please review this set of patches for kirkstone and have comments back by
-end of day Wednesday.
+From: Teoh Jay Shen <jay.shen.teoh@intel.com>
 
-Passed a-full on autobuilder:
+This series of patches include fixes for CVE-2022-2867,CVE-2022-2868 and CVE-2022-2869.
+These patches are modified using devtool and a review was conducted to make sure they all get applied in the correct location.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4347
+References:
 
-The following changes since commit e728d0965d6fda8ac54e065ca7bf7eb9da9a8170:
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2867
+https://security-tracker.debian.org/tracker/CVE-2022-2867
 
-  coreutils: add openssl PACKAGECONFIG (2022-09-30 09:35:23 -1000)
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2868
+https://security-tracker.debian.org/tracker/CVE-2022-2868
 
-are available in the Git repository at:
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2869
+https://security-tracker.debian.org/tracker/CVE-2022-2869
 
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+Merge request:
 
-Adrian Freihofer (1):
-  own-mirrors: add crate
+https://gitlab.com/libtiff/libtiff/-/merge_requests/294/diffs?commit_id=7d7bfa4416366ec64068ac389414241ed4730a54
 
-Bhabu Bindu (1):
-  qemu: Fix CVE-2021-3611
+Patches from:
 
-Chen Qi (1):
-  image_types_wic.bbclass: fix cross binutils dependency
+https://gitlab.com/libtiff/libtiff/-/commit/bcf28bb7f630f24fa47701a9907013f3548092cd?merge_request_iid=294
+https://gitlab.com/libtiff/libtiff/-/commit/7d7bfa4416366ec64068ac389414241ed4730a54?merge_request_iid=294
+https://gitlab.com/libtiff/libtiff/-/commit/b258ed69a485a9cfb299d9f060eb2a46c54e5903?merge_request_iid=294
 
-He Zhe (2):
-  lttng-tools: Upgrade 2.13.4 -> 2.13.8
-  lttng-modules: Fix crash on powerpc64
+Notes:
+These CVEs are fixed in tiff v4.4.0
 
-Michael Halstead (1):
-  uninative: Upgrade to 3.7 to work with glibc 2.36
-
-Ross Burton (1):
-  qemu: fix CVE-2022-2962
-
-Teoh Jay Shen (1):
-  tiff: Security fixes CVE-2022-2867,CVE-2022-2868 and CVE-2022-2869
-
-Tim Orling (1):
-  python3: upgrade 3.10.4 -> 3.10.7
-
-Virendra Thakur (1):
-  qemu: Fix CVE-2021-3750 for qemu
-
-Xiangyu Chen (2):
-  qemu: Backport patches from upstream to support float128 on qemu-ppc64
-  linux-yocto-dev: add qemuarm64
-
-pgowda (1):
-  binutils : Fix CVE-2022-38128
-
- meta/classes/image_types_wic.bbclass          |    2 +-
- meta/classes/own-mirrors.bbclass              |    1 +
- meta/classes/sanity.bbclass                   |    2 +-
- meta/conf/distro/include/yocto-uninative.inc  |   10 +-
- .../binutils/binutils-2.38.inc                |    3 +
- .../binutils/0018-CVE-2022-38128-1.patch      |  350 ++++
- .../binutils/0018-CVE-2022-38128-2.patch      |  436 +++++
- .../binutils/0018-CVE-2022-38128-3.patch      |   95 ++
- ...h-92036-Fix-gc_fini_untrack-GH-92037.patch |   54 -
- ...report-missing-dependencies-for-disa.patch |    8 +-
- .../{python3_3.10.4.bb => python3_3.10.7.bb}  |    3 +-
- meta/recipes-devtools/qemu/qemu.inc           |   49 +
- ...ulip-Restrict-DMA-engine-to-memories.patch |   64 +
- ...end-float_exception_flags-to-16-bits.patch |   75 +
- ...32t-for-reply-queue-head-tail-values.patch |   83 +
- ...ftfloat-Add-flag-specific-to-Inf-Inf.patch |   59 +
- ...id_function_take_MemTxAttrs_argument.patch |   60 +
- ...softfloat-Add-flag-specific-to-Inf-0.patch |  126 ++
- ...et_function_take_MemTxAttrs_argument.patch |   98 ++
- ...dd-flags-specific-to-Inf-Inf-and-0-0.patch |   73 +
- ...ed_function_take_MemTxAttrs_argument.patch |   78 +
- ...-Add-flag-specific-to-signaling-nans.patch |  121 ++
- ...rw_function_take_MemTxAttrs_argument.patch |  158 ++
- ...e-float_invalid_op_addsub-for-new-fl.patch |  114 ++
- ...te_function_take_MemTxAttrs_argument.patch | 1453 +++++++++++++++++
- ...e-float_invalid_op_mul-for-new-flags.patch |   86 +
- ...ap_function_take_MemTxAttrs_argument.patch |  227 +++
- ...e-float_invalid_op_div-for-new-flags.patch |   99 ++
- ..._buf_rw_function_take_a_void_pointer.patch |   41 +
- ...arget-ppc-Update-fmadd-for-new-flags.patch |  102 ++
- ..._dma_buf_write_functions_take_a_void.patch |  167 ++
- .../0010-target-ppc-Split-out-do_fmadd.patch  |   71 +
- ...rw_function_take_MemTxAttrs_argument.patch |   91 ++
- ...s-max-min-cj-dp-to-use-VSX-registers.patch |   93 ++
- ...rw_function_take_MemTxAttrs_argument.patch |   65 +
- ...-Move-xs-max-min-cj-dp-to-decodetree.patch |  121 ++
- ...te_function_take_MemTxAttrs_argument.patch |  129 ++
- ...get-ppc-fix-xscvqpdp-register-access.patch |   41 +
- ...ad_function_take_MemTxAttrs_argument.patch |  222 +++
- ...rget-ppc-move-xscvqpdp-to-decodetree.patch |  130 ++
- ...uf_rw_function_propagate_MemTxResult.patch |   91 ++
- ...tore_fpscr-doesn-t-update-bits-0-to-.patch |   70 +
- ...ma_function_take_MemTxAttrs_argument.patch |  120 ++
- ...get-ppc-Introduce-TRANS-FLAGS-macros.patch |  133 ++
- ...ma_function_take_MemTxAttrs_argument.patch |  151 ++
- ...get-ppc-Implement-Vector-Expand-Mask.patch |  105 ++
- ...r_dma_function_propagate_MemTxResult.patch |   65 +
- ...et-ppc-Implement-Vector-Extract-Mask.patch |  141 ++
- ...r_dma_function_propagate_MemTxResult.patch |  175 ++
- ...ppc-Implement-Vector-Mask-Move-insns.patch |  187 +++
- ...ma_function_take_MemTxAttrs_argument.patch |  303 ++++
- ...xs-n-madd-am-ds-p-xs-n-msub-am-ds-p-.patch |  258 +++
- ...ma_function_take_MemTxAttrs_argument.patch |  271 +++
- ...mplement-xs-n-maddqp-o-xs-n-msubqp-o.patch |  174 ++
- ...i_dma_function_propagate_MemTxResult.patch |   47 +
- ...i_dma_function_propagate_MemTxResult.patch |  296 ++++
- .../qemu/qemu/CVE-2021-3611_1.patch           |   74 +
- .../qemu/qemu/CVE-2021-3611_2.patch           |   43 +
- .../qemu/qemu/CVE-2021-3750-1.patch           |   59 +
- .../qemu/qemu/CVE-2021-3750-2.patch           |   65 +
- .../qemu/qemu/CVE-2021-3750-3.patch           |  156 ++
- meta/recipes-kernel/linux/linux-yocto-dev.bb  |    2 +-
- ...4-fix-kernel-crash-caused-by-do_get_.patch |   94 ++
- .../lttng/lttng-modules_2.13.4.bb             |    1 +
- ...-tools_2.13.4.bb => lttng-tools_2.13.8.bb} |    2 +-
- .../libtiff/tiff/CVE-2022-2867.patch          |  129 ++
- .../libtiff/tiff/CVE-2022-2869.patch          |   84 +
- ...ed69a485a9cfb299d9f060eb2a46c54e5903.patch |   45 +
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |    3 +
- 69 files changed, 8536 insertions(+), 68 deletions(-)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0018-CVE-2022-38128-1.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0018-CVE-2022-38128-2.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0018-CVE-2022-38128-3.patch
- delete mode 100644 meta/recipes-devtools/python/python3/0001-gh-92036-Fix-gc_fini_untrack-GH-92037.patch
- rename meta/recipes-devtools/python/{python3_3.10.4.bb => python3_3.10.7.bb} (99%)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-net-tulip-Restrict-DMA-engine-to-memories.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-softfloat-Extend-float_exception_flags-to-16-bits.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-use-uint32t-for-reply-queue-head-tail-values.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0002-softfloat-Add-flag-specific-to-Inf-Inf.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0002_let_dma_memory_valid_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0003-softfloat-Add-flag-specific-to-Inf-0.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0003_let_dma_memory_set_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0004-softfloat-Add-flags-specific-to-Inf-Inf-and-0-0.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0004_let_dma_memory_rw_relaxed_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0005-softfloat-Add-flag-specific-to-signaling-nans.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0005_let_dma_memory_rw_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0006-target-ppc-Update-float_invalid_op_addsub-for-new-fl.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0006_let_dma_memory_read_write_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0007-target-ppc-Update-float_invalid_op_mul-for-new-flags.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0007_let_dma_memory_map_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0008-target-ppc-Update-float_invalid_op_div-for-new-flags.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0008_have_dma_buf_rw_function_take_a_void_pointer.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0009-target-ppc-Update-fmadd-for-new-flags.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0009_have_dma_buf_read_and_dma_buf_write_functions_take_a_void.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0010-target-ppc-Split-out-do_fmadd.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0010_let_pci_dma_rw_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0011-target-ppc-Fix-xs-max-min-cj-dp-to-use-VSX-registers.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0011_let_dma_buf_rw_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0012-target-ppc-Move-xs-max-min-cj-dp-to-decodetree.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0012_let_dma_buf_write_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0013-target-ppc-fix-xscvqpdp-register-access.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0013_let_dma_buf_read_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0014-target-ppc-move-xscvqpdp-to-decodetree.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0014_let_dma_buf_rw_function_propagate_MemTxResult.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0015-target-ppc-ppc_store_fpscr-doesn-t-update-bits-0-to-.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0015_let_st_pointer_dma_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0016-target-ppc-Introduce-TRANS-FLAGS-macros.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0016_let_ld_pointer_dma_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0017-target-ppc-Implement-Vector-Expand-Mask.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0017_let_st_pointer_dma_function_propagate_MemTxResult.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0018-target-ppc-Implement-Vector-Extract-Mask.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0018_let_ld_pointer_dma_function_propagate_MemTxResult.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0019-target-ppc-Implement-Vector-Mask-Move-insns.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0019_let_st_pointer_pci_dma_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0020-target-ppc-move-xs-n-madd-am-ds-p-xs-n-msub-am-ds-p-.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0020_let_ld_pointer_pci_dma_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0021-target-ppc-implement-xs-n-maddqp-o-xs-n-msubqp-o.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0021_let_st_pointer_pci_dma_function_propagate_MemTxResult.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0022_let_ld_pointer_pci_dma_function_propagate_MemTxResult.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3611_1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3611_2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3750-1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3750-2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3750-3.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-wrapper-powerpc64-fix-kernel-crash-caused-by-do_get_.patch
- rename meta/recipes-kernel/lttng/{lttng-tools_2.13.4.bb => lttng-tools_2.13.8.bb} (98%)
+Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../libtiff/tiff/CVE-2022-2867.patch          | 129 ++++++++++++++++++
+ .../libtiff/tiff/CVE-2022-2869.patch          |  84 ++++++++++++
+ ...ed69a485a9cfb299d9f060eb2a46c54e5903.patch |  45 ++++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |   3 +
+ 4 files changed, 261 insertions(+)
  create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-2867.patch
  create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-2869.patch
  create mode 100644 meta/recipes-multimedia/libtiff/tiff/b258ed69a485a9cfb299d9f060eb2a46c54e5903.patch
 
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2022-2867.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-2867.patch
+new file mode 100644
+index 0000000000..ae33a3b4e7
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-2867.patch
+@@ -0,0 +1,129 @@
++From 6ad097dac1d4908705f5a9d43dea76b7f2de89eb Mon Sep 17 00:00:00 2001
++From: Su_Laus <sulau@freenet.de>
++Date: Sun, 6 Feb 2022 17:53:53 +0100
++Subject: [PATCH] tiffcrop.c: This update fixes also issues #350 and #351.
++
++ Issue 350 is fixed by checking for not allowed zone input cases like -Z 0:0
++ in getCropOffsets().
++
++CVE: CVE-2022-2867
++
++Upstream-Status: Backport
++[https://gitlab.com/libtiff/libtiff/-/commit/7d7bfa4416366ec64068ac389414241ed4730a54?merge_request_iid=294]
++
++Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
++
++---
++ tools/tiffcrop.c | 58 +++++++++++++++++++++++++++++++++---------------
++ 1 file changed, 40 insertions(+), 18 deletions(-)
++
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index 4a4ace8..0ef5bb2 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -5194,20 +5194,33 @@ computeInputPixelOffsets(struct crop_mask *crop, struct image_data *image,
++ 	y1 = _TIFFClampDoubleToUInt32(crop->corners[i].Y1);
++ 	y2 = _TIFFClampDoubleToUInt32(crop->corners[i].Y2);
++ 	}
++-      /* region needs to be within image sizes 0.. width-1; 0..length-1 
++-       * - be aware x,y are already casted to (uint32_t) and avoid (0 - 1)
+++      /* a) Region needs to be within image sizes 0.. width-1; 0..length-1 
+++       * b) Corners are expected to be submitted as top-left to bottom-right.
+++       *    Therefore, check that and reorder input.
+++       * (be aware x,y are already casted to (uint32_t) and avoid (0 - 1) )
++        */
++-     if (x1 > image->width - 1)
+++      uint32_t aux;
+++      if (x1 > x2) {
+++        aux = x1;
+++        x1 = x2;
+++        x2 = aux;
+++      }
+++      if (y1 > y2) {
+++        aux = y1;
+++        y1 = y2;
+++        y2 = aux;
+++      }
+++      if (x1 > image->width - 1)
++         crop->regionlist[i].x1 = image->width - 1;
++-     else if (x1 > 0)
++-        crop->regionlist[i].x1 = (uint32_t) (x1 - 1);
+++      else if (x1 > 0)
+++        crop->regionlist[i].x1 = (uint32_t)(x1 - 1);
++ 
++-     if (x2 > image->width - 1)
++-       crop->regionlist[i].x2 = image->width - 1;
++-     else if (x2 > 0)
++-       crop->regionlist[i].x2 = (uint32_t)(x2 - 1);
+++      if (x2 > image->width - 1)
+++        crop->regionlist[i].x2 = image->width - 1;
+++      else if (x2 > 0)
+++        crop->regionlist[i].x2 = (uint32_t)(x2 - 1);
++ 
++-      zwidth  = crop->regionlist[i].x2 - crop->regionlist[i].x1 + 1; 
+++      zwidth = crop->regionlist[i].x2 - crop->regionlist[i].x1 + 1;
++ 
++       if (y1 > image->length - 1)
++         crop->regionlist[i].y1 = image->length - 1;
++@@ -5219,8 +5232,7 @@ computeInputPixelOffsets(struct crop_mask *crop, struct image_data *image,
++       else if (y2 > 0)
++         crop->regionlist[i].y2 = (uint32_t)(y2 - 1);
++ 
++-      zlength = crop->regionlist[i].y2 - crop->regionlist[i].y1 + 1; 
++-
+++      zlength = crop->regionlist[i].y2 - crop->regionlist[i].y1 + 1;
++       if (zwidth > max_width)
++         max_width = zwidth;
++       if (zlength > max_length)
++@@ -5250,7 +5262,7 @@ computeInputPixelOffsets(struct crop_mask *crop, struct image_data *image,
++ 	}
++       }
++     return (0);
++-    }
+++    }  /* crop_mode == CROP_REGIONS */
++   
++   /* Convert crop margins into offsets into image
++    * Margins are expressed as pixel rows and columns, not bytes
++@@ -5286,7 +5298,7 @@ computeInputPixelOffsets(struct crop_mask *crop, struct image_data *image,
++       bmargin = (uint32_t) 0;
++       return (-1);
++       }
++-    }
+++    }  /* crop_mode == CROP_MARGINS */
++   else
++     { /* no margins requested */
++     tmargin = (uint32_t) 0;
++@@ -5494,10 +5506,17 @@ getCropOffsets(struct image_data *image, struct crop_mask *crop, struct dump_opt
++   else
++     crop->selections = crop->zones;
++ 
++-  for (i = 0; i < crop->zones; i++)
+++  /* Initialize regions iterator i */
+++  i = 0;
+++  for (int j = 0; j < crop->zones; j++)
++     {
++-    seg = crop->zonelist[i].position;
++-    total = crop->zonelist[i].total;
+++    seg = crop->zonelist[j].position;
+++    total = crop->zonelist[j].total;
+++
+++    /* check for not allowed zone cases like 0:0; 4:3; etc. and skip that input */
+++    if (seg == 0 || total == 0 || seg > total) {
+++        continue;
+++    }
++ 
++     switch (crop->edge_ref) 
++       {
++@@ -5626,8 +5645,11 @@ getCropOffsets(struct image_data *image, struct crop_mask *crop, struct dump_opt
++                     i + 1, zwidth, zlength,
++                crop->regionlist[i].x1, crop->regionlist[i].x2,
++                crop->regionlist[i].y1, crop->regionlist[i].y2);
+++  /* increment regions iterator */
+++  i++;
++     }
++-
+++    /* set number of generated regions out of given zones */
+++    crop->selections = i;
++   return (0);
++   } /* end getCropOffsets */
++ 
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2022-2869.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-2869.patch
+new file mode 100644
+index 0000000000..9a23e23fed
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-2869.patch
+@@ -0,0 +1,84 @@
++From 0ec36342df880f5ad41576cb1b03061b8697dabd Mon Sep 17 00:00:00 2001
++From: Su_Laus <sulau@freenet.de>
++Date: Sun, 6 Feb 2022 10:53:45 +0100
++Subject: [PATCH] tiffcrop.c: Fix issue #352 heap-buffer-overflow by correcting
++
++ uint32_t underflow.
++
++CVE: CVE-2022-2869
++
++Upstream-Status: Backport
++[https://gitlab.com/libtiff/libtiff/-/commit/bcf28bb7f630f24fa47701a9907013f3548092cd?merge_request_iid=294]
++
++Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
++
++---
++ tools/tiffcrop.c | 34 +++++++++++++++++++---------------
++ 1 file changed, 19 insertions(+), 15 deletions(-)
++
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index b9b13d8..4a4ace8 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -5194,26 +5194,30 @@ computeInputPixelOffsets(struct crop_mask *crop, struct image_data *image,
++ 	y1 = _TIFFClampDoubleToUInt32(crop->corners[i].Y1);
++ 	y2 = _TIFFClampDoubleToUInt32(crop->corners[i].Y2);
++ 	}
++-      if (x1 < 1)
++-        crop->regionlist[i].x1 = 0;
++-      else
+++      /* region needs to be within image sizes 0.. width-1; 0..length-1 
+++       * - be aware x,y are already casted to (uint32_t) and avoid (0 - 1)
+++       */
+++     if (x1 > image->width - 1)
+++        crop->regionlist[i].x1 = image->width - 1;
+++     else if (x1 > 0)
++         crop->regionlist[i].x1 = (uint32_t) (x1 - 1);
++ 
++-      if (x2 > image->width - 1)
++-        crop->regionlist[i].x2 = image->width - 1;
++-      else
++-        crop->regionlist[i].x2 = (uint32_t) (x2 - 1);
+++     if (x2 > image->width - 1)
+++       crop->regionlist[i].x2 = image->width - 1;
+++     else if (x2 > 0)
+++       crop->regionlist[i].x2 = (uint32_t)(x2 - 1);
+++
++       zwidth  = crop->regionlist[i].x2 - crop->regionlist[i].x1 + 1; 
++ 
++-      if (y1 < 1)
++-        crop->regionlist[i].y1 = 0;
++-      else
++-        crop->regionlist[i].y1 = (uint32_t) (y1 - 1);
+++      if (y1 > image->length - 1)
+++        crop->regionlist[i].y1 = image->length - 1;
+++      else if (y1 > 0)
+++        crop->regionlist[i].y1 = (uint32_t)(y1 - 1);
++ 
++       if (y2 > image->length - 1)
++         crop->regionlist[i].y2 = image->length - 1;
++-      else
++-        crop->regionlist[i].y2 = (uint32_t) (y2 - 1);
+++      else if (y2 > 0)
+++        crop->regionlist[i].y2 = (uint32_t)(y2 - 1);
++ 
++       zlength = crop->regionlist[i].y2 - crop->regionlist[i].y1 + 1; 
++ 
++@@ -5376,7 +5380,7 @@ computeInputPixelOffsets(struct crop_mask *crop, struct image_data *image,
++   crop_width  = endx - startx + 1;
++   crop_length = endy - starty + 1;
++ 
++-  if (crop_width <= 0)
+++  if (endx + 1 <= startx)
++     {
++     TIFFError("computeInputPixelOffsets", 
++                "Invalid left/right margins and /or image crop width requested");
++@@ -5385,7 +5389,7 @@ computeInputPixelOffsets(struct crop_mask *crop, struct image_data *image,
++   if (crop_width > image->width)
++     crop_width = image->width;
++ 
++-  if (crop_length <= 0)
+++  if (endy + 1 <= starty)
++     {
++     TIFFError("computeInputPixelOffsets", 
++               "Invalid top/bottom margins and /or image crop length requested");
+diff --git a/meta/recipes-multimedia/libtiff/tiff/b258ed69a485a9cfb299d9f060eb2a46c54e5903.patch b/meta/recipes-multimedia/libtiff/tiff/b258ed69a485a9cfb299d9f060eb2a46c54e5903.patch
+new file mode 100644
+index 0000000000..1fa6a11104
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/b258ed69a485a9cfb299d9f060eb2a46c54e5903.patch
+@@ -0,0 +1,45 @@
++From 740111312ca6ae718f233d914662a9969e6820ee Mon Sep 17 00:00:00 2001
++From: Su_Laus <sulau@freenet.de>
++Date: Sun, 6 Feb 2022 19:52:17 +0100
++Subject: [PATCH] Move the crop_width and crop_length computation after the
++ sanity check to avoid warnings when built with
++ -fsanitize=unsigned-integer-overflow.
++
++Upstream-Status: Backport
++[https://gitlab.com/libtiff/libtiff/-/commit/b258ed69a485a9cfb299d9f060eb2a46c54e5903?merge_request_iid=294]
++
++Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
++
++---
++ tools/tiffcrop.c | 5 ++---
++ 1 file changed, 2 insertions(+), 3 deletions(-)
++
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index 0ef5bb2..99e4208 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -5389,15 +5389,13 @@ computeInputPixelOffsets(struct crop_mask *crop, struct image_data *image,
++   off->endx   = endx;
++   off->endy   = endy;
++ 
++-  crop_width  = endx - startx + 1;
++-  crop_length = endy - starty + 1;
++-
++   if (endx + 1 <= startx)
++     {
++     TIFFError("computeInputPixelOffsets", 
++                "Invalid left/right margins and /or image crop width requested");
++     return (-1);
++     }
+++  crop_width  = endx - startx + 1;
++   if (crop_width > image->width)
++     crop_width = image->width;
++ 
++@@ -5407,6 +5405,7 @@ computeInputPixelOffsets(struct crop_mask *crop, struct image_data *image,
++               "Invalid top/bottom margins and /or image crop length requested");
++     return (-1);
++     }
+++  crop_length = endy - starty + 1;
++   if (crop_length > image->length)
++     crop_length = image->length;
++ 
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+index b5ccd859f3..f84057c46b 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+@@ -22,6 +22,9 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2022-1354.patch \
+            file://CVE-2022-1355.patch \
+            file://CVE-2022-34526.patch \
++           file://CVE-2022-2869.patch \
++           file://CVE-2022-2867.patch \
++           file://b258ed69a485a9cfb299d9f060eb2a46c54e5903.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
 -- 
 2.25.1
 
