@@ -1,201 +1,99 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57915C43217
-	for <webhook@archiver.kernel.org>; Mon, 17 Oct 2022 23:09:16 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web12.660.1666048152213734220
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5BBEC433FE
+	for <webhook@archiver.kernel.org>; Tue, 18 Oct 2022 00:14:26 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.1257.1666052061762930732
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Oct 2022 16:09:12 -0700
+ Mon, 17 Oct 2022 17:14:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=m4AndS+p;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id f140so12468229pfa.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Oct 2022 16:09:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=O8UjWGrxrxOCuFq6Pumfg8zqaz8j1haSIWBONS2fQw4=;
-        b=m4AndS+pFNZD0NCvNryD8UfWjywnPSU8bFhlTmpy1rkhMYiXVUQzMH026EZS4DmEgC
-         DbqzZy+xCUJYUu6pzxSnJyqx/+Z79NbeMUPV5Wgyvysl76ZyZ7+s163ujptNn5eWAD+u
-         Bhl/awJhdd54krDMvT5jC6uV+dJAkmw3f9MpVt34v3OIbuvsjT1ei7w9/wjn7IVQZbJs
-         TYxBgupMbxwoIac9+JB8WM+F524GLgQRZEwhH3CIHl3wEdxBTejg2cqMO1gZqNb58cX7
-         AXT43QcmlA9VSIakwkA61Mr0VEowNDxsuEiSzq0CLBNMtUeL+MK7c+VmcCgmWRIO4iU0
-         YXnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=O8UjWGrxrxOCuFq6Pumfg8zqaz8j1haSIWBONS2fQw4=;
-        b=PtjbIEgikud1FQRniQnk1wL03GWk7e2740vhoLVbKpeRkmHjCUlFT8oIhtAvbd24+F
-         gCsc4+8DsbUsOxkEmaTSwlt2gMWLDvsrfKyG40UDOHTH4QudK/zk3hy9cHo4v+Df8AhC
-         Ti1aUqMkzcFNtOjE4g4ajCMiqpdtJPq/6IITXEznbPfe1yWlueyQYYta2YRlYamLUcDR
-         apDnoUOvuzShXQX5uATN/bty3hqKNVEdiQ1sZ0YhHiwDtz6jlE49QEY8cGk6Q7bIAF7p
-         g5R4wwhc37bzn20AAtyMHRtmhOJ+Lbfe0Gu1o1RDMXCWlwWHRzaH7N6VTS4R490kYTRO
-         C+0g==
-X-Gm-Message-State: ACrzQf1NJKeOsuzS7dkdeFWkknkg2enjNf7BTe8SEUSEfxQ+xVD37bCA
-	MeLPGJA008Y75/1h9TlLPPSs/TeOD2W9HT5Y
-X-Google-Smtp-Source: AMsMyM6GT+eNuF4Ebqx78ggR+0/igr+wMHZIHLbdZpToJPwxOq60YTaSr3IEcVy1vy3wrAdbUSZg4Q==
-X-Received: by 2002:a63:1718:0:b0:447:9ff3:66c0 with SMTP id x24-20020a631718000000b004479ff366c0mr92072pgl.521.1666048151086;
-        Mon, 17 Oct 2022 16:09:11 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id j6-20020a17090a694600b0020aacde1964sm10119479pjm.32.2022.10.17.16.09.10
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Oct 2022 16:09:10 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 13/13] lttng-modules: Fix crash on powerpc64
-Date: Mon, 17 Oct 2022 13:08:29 -1000
-Message-Id: <4781fee6aea9512b7cb390b76e6f9f0a86a5bd11.1666047986.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1666047986.git.steve@sakoman.com>
-References: <cover.1666047986.git.steve@sakoman.com>
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Uky+Gtr7;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7290531206=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.5) with ESMTP id 29HNqtxO001017
+	for <openembedded-core@lists.openembedded.org>; Tue, 18 Oct 2022 00:14:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=PPS06212021;
+ bh=rZawRdk367kgCw2oUipmRe+D28Y42/iDYYg4/wh0ltg=;
+ b=Uky+Gtr7qap4OH/KK2TuuOoYajIqOoHf5iNfy6HoTHuebKZqvKENESD7Tp1trQ8ou039
+ 2nxG0FmGdNSiiVHTZuhNckW7LzJ5BQeTJupMBwcjQMVC/5RwrBY3aYDlWlqn41Tjk0OC
+ pgITYKoN6keKu3hobdDteFuc31VDJ/V8hEStC79FQEzU0zODwlVCddrz0fWPWjSrNDJb
+ wf5RScLhgVZfFmI2dKAD/eF9XHDJsdD6yr0Zs7lmKcXUNlBHvmlTyqLcfcYrYuvtwHbq
+ 2XJ3E2ntWvQG2eUOpLPrOZRo/d3unDD3gqjwnTGiIyEpP8/0JAxMGa7j+P3LbF4CP8v1 gA== 
+Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3k7ku9a395-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 18 Oct 2022 00:14:20 +0000
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Mon, 17 Oct 2022 17:14:19 -0700
+Received: from vme.wrs.com (172.25.44.2) by ala-exchng01.corp.ad.wrs.com
+ (147.11.82.252) with Microsoft SMTP Server id 15.1.2242.12 via Frontend
+ Transport; Mon, 17 Oct 2022 17:14:18 -0700
+From: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] kbd: package some fonts as restricted
+Date: Mon, 17 Oct 2022 20:14:15 -0400
+Message-ID: <20221018001415.76680-1-Randy.MacLeod@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: A8KOAlqSmsbd4fbxtc4IMGqBbu8w2Vbc
+X-Proofpoint-ORIG-GUID: A8KOAlqSmsbd4fbxtc4IMGqBbu8w2Vbc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-17_13,2022-10-17_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
+ lowpriorityscore=0 suspectscore=0 bulkscore=0 mlxlogscore=799 mlxscore=0
+ phishscore=0 spamscore=0 malwarescore=0 adultscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
+ definitions=main-2210170137
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Oct 2022 23:09:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171931
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Oct 2022 00:14:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171932
 
-From: He Zhe <zhe.he@windriver.com>
+The distribution terms of the Agafari fonts as described in
+data/consolefonts/README.Ethiopic is:
 
-Backport a patch to fix the following on powerpc64 ABIv2.
+Agafari:
+  Donated by the Ethiopian Science and Technology Commission
+  <ncic@padis.gn.apc.org> or <ncic@telecom.net.et> and may be redistributed
+  for non-commercial use under Unix environments only.
 
-root@qemuppc64:~# lttng create trace_session --live -U net://127.0.0.1
-Spawning a session daemon
-lttng_kretprobes: loading out-of-tree module taints kernel.
-BUG: Unable to handle kernel data access on read at 0xfffffffffffffff8
-Faulting instruction address: 0xc0000000001f6fd0
-Oops: Kernel access of bad area, sig: 11 [#1]
-<snip>
+so package them seperately to make it easier for affected users
+to avoid installing the fonts.
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
 ---
- ...4-fix-kernel-crash-caused-by-do_get_.patch | 94 +++++++++++++++++++
- .../lttng/lttng-modules_2.13.4.bb             |  1 +
- 2 files changed, 95 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-wrapper-powerpc64-fix-kernel-crash-caused-by-do_get_.patch
+ meta/recipes-core/kbd/kbd_2.5.1.bb | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-wrapper-powerpc64-fix-kernel-crash-caused-by-do_get_.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-wrapper-powerpc64-fix-kernel-crash-caused-by-do_get_.patch
-new file mode 100644
-index 0000000000..b3b191c7ac
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0001-wrapper-powerpc64-fix-kernel-crash-caused-by-do_get_.patch
-@@ -0,0 +1,94 @@
-+From 480cce4315ce5bf59a509e8a53a52545f393de68 Mon Sep 17 00:00:00 2001
-+From: He Zhe <zhe.he@windriver.com>
-+Date: Tue, 27 Sep 2022 15:59:42 +0800
-+Subject: [PATCH] wrapper: powerpc64: fix kernel crash caused by
-+ do_get_kallsyms
-+
-+Kernel crashes on powerpc64 ABIv2 as follow when lttng_tracer initializes,
-+since do_get_kallsyms in lttng_wrapper fails to return a proper address of
-+kallsyms_lookup_name.
-+
-+root@qemuppc64:~# lttng create trace_session --live -U net://127.0.0.1
-+Spawning a session daemon
-+lttng_kretprobes: loading out-of-tree module taints kernel.
-+BUG: Unable to handle kernel data access on read at 0xfffffffffffffff8
-+Faulting instruction address: 0xc0000000001f6fd0
-+Oops: Kernel access of bad area, sig: 11 [#1]
-+<snip>
-+NIP [c0000000001f6fd0] module_kallsyms_lookup_name+0xf0/0x180
-+LR [c0000000001f6f28] module_kallsyms_lookup_name+0x48/0x180
-+Call Trace:
-+module_kallsyms_lookup_name+0x34/0x180 (unreliable)
-+kallsyms_lookup_name+0x258/0x2b0
-+wrapper_kallsyms_lookup_name+0x4c/0xd0 [lttng_wrapper]
-+wrapper_get_pfnblock_flags_mask_init+0x28/0x60 [lttng_wrapper]
-+lttng_events_init+0x40/0x344 [lttng_tracer]
-+do_one_initcall+0x78/0x340
-+do_init_module+0x6c/0x2f0
-+__do_sys_finit_module+0xd0/0x120
-+system_call_exception+0x194/0x2f0
-+system_call_vectored_common+0xe8/0x278
-+<snip>
-+
-+do_get_kallsyms makes use of kprobe_register and in turn kprobe_lookup_name
-+to get the address of the kernel function kallsyms_lookup_name. In case of
-+PPC64_ELF_ABI_v2, when kprobes are placed at function entry,
-+kprobe_lookup_name adjusts the global entry point of the function returned
-+by kallsyms_lookup_name to the local entry point(at some fixed offset of
-+global one). This adjustment is all for kprobes to be able to work properly.
-+Global and local entry point are defined in powerpc64 ABIv2.
-+
-+When the local entry point is given, some instructions at the beginning of
-+the function are skipped and thus causes the above kernel crash. We just
-+want to make a simple function call which needs global entry point.
-+
-+This patch adds 4 bytes which is the length of one instruction to
-+kallsyms_lookup_name so that it will not trigger the global to local
-+adjustment, and then substracts 4 bytes from the returned address. See the
-+following kernel change for more details.
-+
-+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=290e3070762ac80e5fc4087d8c4de7e3f1d90aca
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-+Change-Id: I34e68e886b97e3976d0b5e25be295a8bb866c1a4
-+---
-+ src/wrapper/kallsyms.c | 16 ++++++++++++++++
-+ 1 file changed, 16 insertions(+)
-+
-+diff --git a/src/wrapper/kallsyms.c b/src/wrapper/kallsyms.c
-+index d2848764..93017adc 100644
-+--- a/src/wrapper/kallsyms.c
-++++ b/src/wrapper/kallsyms.c
-+@@ -39,10 +39,26 @@ unsigned long do_get_kallsyms(void)
-+ 	memset(&probe, 0, sizeof(probe));
-+ 	probe.pre_handler = dummy_kprobe_handler;
-+ 	probe.symbol_name = "kallsyms_lookup_name";
-++#ifdef PPC64_ELF_ABI_v2
-++	/*
-++	 * With powerpc64 ABIv2, we need the global entry point of
-++	 * kallsyms_lookup_name to call it later, while kprobe_register would
-++	 * automatically adjust the global entry point to the local entry point,
-++	 * when a kprobe was registered at a function entry. So we add 4 bytes
-++	 * which is the length of one instruction to kallsyms_lookup_name to
-++	 * avoid the adjustment.
-++	 */
-++	probe.offset = 4;
-++#endif
-+ 	ret = register_kprobe(&probe);
-+ 	if (ret)
-+ 		return 0;
-++#ifdef PPC64_ELF_ABI_v2
-++	/* Substract 4 bytes to get what we originally want */
-++	addr = (unsigned long)(((char *)probe.addr) - 4);
-++#else
-+ 	addr = (unsigned long)probe.addr;
-++#endif
-+ #ifdef CONFIG_ARM
-+ #ifdef CONFIG_THUMB2_KERNEL
-+ 	if (addr)
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.4.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.4.bb
-index 80b9ceec3f..ad4063bed3 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.13.4.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.4.bb
-@@ -17,6 +17,7 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0001-fix-net-skb-introduce-kfree_skb_reason-v5.15.58.v5.1.patch \
-            file://0001-fix-compaction.patch \
-            file://0001-fix-adjust-range-v5.10.137-in-block-probe.patch \
-+           file://0001-wrapper-powerpc64-fix-kernel-crash-caused-by-do_get_.patch \
-            "
+diff --git a/meta/recipes-core/kbd/kbd_2.5.1.bb b/meta/recipes-core/kbd/kbd_2.5.1.bb
+index aa3ab6e121..8822cdbef4 100644
+--- a/meta/recipes-core/kbd/kbd_2.5.1.bb
++++ b/meta/recipes-core/kbd/kbd_2.5.1.bb
+@@ -23,9 +23,11 @@ PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)} \
  
- # Use :append here so that the patch is applied also when using devupstream
+ PACKAGECONFIG[pam] = "--enable-vlock, --disable-vlock, libpam,"
+ 
+-PACKAGES += "${PN}-consolefonts ${PN}-keymaps ${PN}-unimaps ${PN}-consoletrans"
++PACKAGES += "${PN}-consolefonts ${PN}-consolefonts-restricted ${PN}-keymaps ${PN}-unimaps ${PN}-consoletrans"
+ 
+-FILES:${PN}-consolefonts = "${datadir}/consolefonts"
++# Package some fonts as restricted, see README.Ethiopic
++FILES:${PN}-consolefonts = "${datadir}/consolefonts/[a-zB-Z0-9]*"
++FILES:${PN}-consolefonts-restricted = "${datadir}/consolefonts/Agafari*"
+ FILES:${PN}-consoletrans = "${datadir}/consoletrans"
+ FILES:${PN}-keymaps = "${datadir}/keymaps"
+ FILES:${PN}-unimaps = "${datadir}/unimaps"
 -- 
-2.25.1
+2.34.1
 
 
