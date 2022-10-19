@@ -1,163 +1,177 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04B80C4332F
-	for <webhook@archiver.kernel.org>; Wed, 19 Oct 2022 09:32:52 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.5828.1666171962165167177
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FF88C433FE
+	for <webhook@archiver.kernel.org>; Wed, 19 Oct 2022 09:46:52 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web08.6099.1666172801876539308
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Oct 2022 02:32:42 -0700
+ Wed, 19 Oct 2022 02:46:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=dy38nQP8;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7291434a8f=qi.chen@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.5) with ESMTP id 29J7hWfE016150
-	for <openembedded-core@lists.openembedded.org>; Wed, 19 Oct 2022 09:32:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=jtXnOVrcVT+EzsUYTn68UqsY6zWnsZspGGR4AUtJwG8=;
- b=dy38nQP8f7Uo9w6Of80SndK/q4stZjqhau1IKevqMKomEOz89j68ixmc0aI8OUESJ3ti
- UnZi1idNn9mkxVPdtOZIkwCMxQqmitzui/jSpo0vGY1kdSJFScmq3ffFumIig+3n0gvb
- AUMs8DAw/8JBuiEC7Ar/OJdAmVAmjgEkvs0l+NcjjFqDDN9DYb42JXBaxgAU52givThe
- oPvUmAGL345tJJa9KA3y2TwcKEKW9xDlLD8MlAhL6FQ49MpD3eYu+pcbrY+j+CvxdC4+
- gIQ5Zib/KvVjcDqe25av1DAWR7XBg5HW36bMgOoLjakWbqwixvlip6SwjIZAG+td6Uec jQ== 
-Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2044.outbound.protection.outlook.com [104.47.73.44])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3k7ku9bnv1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 19 Oct 2022 09:32:41 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F11fZ8iUQ+AQXnTn3CwwNRidj1LSFG3AHOXm2YfDX+7EhrNy8FfsNzKKrSI9c0OZ3LiHWWiT/0oUMwPnprCTFBmKDz6vf/merMASlc557FkWLVznoWmm+PPM7f0dMW2XtIcwmG+1TnM9INUTg197kyDxfTAiIlnwaq5wEWeCk0MZsYxa9xOudJvUOjQkycgCw+BzuAkl//4YdOfz82c20j+1l2So88EFiKd5Wl/XviVPpk9cbfkudr7QiJ1pLjkpxf0BglnARdQ3QMzoN048Xjy4iqX81uZhr5u1zOn3DwZ5KqHKBRnvQ+D1tESRrkRQ87gb9JYF1gO3dajx0lA/Xg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jtXnOVrcVT+EzsUYTn68UqsY6zWnsZspGGR4AUtJwG8=;
- b=ZLE8ImFRNV30gN1wjP3RnnbVJuTt09bwagXEcxLLvGh/jyBgbc3zWS+2wexklvopYRFmvXRihTozPw0Tq9BNonGQ52WtyTNEpMZOe+2JLMlHyVXhNYvDwzZXrQLLzY+f9IYxXJimi0z263GvXY+vb/O3T6GZL0lkUtH8v8KRwScfHxMlNnSvEYRMV3mvnclT9MnH850U1P9bR504Pcnh6pIWZVSIwbUb5JO46lk9gIbmqXFkQ0Gf2QnsxjMueSaUwMzMUYuNQcaG2cKPwqduFkVq8X7z6LN2d7w6BAKt9VjCENToBfHviGzvoocMRVtoh+YolAib6iurOhBs01uzSA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by MN2PR11MB4567.namprd11.prod.outlook.com (2603:10b6:208:26d::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.33; Wed, 19 Oct
- 2022 09:32:38 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::623b:7365:46b:36fc]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::623b:7365:46b:36fc%7]) with mapi id 15.20.5723.033; Wed, 19 Oct 2022
- 09:32:38 +0000
-From: Chen Qi <Qi.Chen@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][master][kirkstone][PATCH V2] openssl: export necessary env vars in SDK
-Date: Wed, 19 Oct 2022 02:32:28 -0700
-Message-Id: <20221019093228.9619-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.37.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BY3PR05CA0008.namprd05.prod.outlook.com
- (2603:10b6:a03:254::13) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+ dkim=pass header.i=@gherzan.com header.s=google header.b=arOzeXYC;
+ spf=pass (domain: gherzan.ro, ip: 209.85.167.41, mailfrom: andrei@gherzan.ro)
+Received: by mail-lf1-f41.google.com with SMTP id b2so27185624lfp.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Oct 2022 02:46:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gherzan.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=K5F/3ayackbW2LeUXvnkTd0nrHkgYHf26B/jmHZRP/c=;
+        b=arOzeXYC7aKlLUwVwFWW/ux7VfJ2+oeMNScNGscfI3fkoSU/AIXFC/UcT9GYPnjRcG
+         d7vOPuCvGoaZr7GOpxKoXWBm2JoSPEAi5NspdgbRefI/c5dUffwjrPXYczcoilnTZcPJ
+         fyQEAuYgCEGi1lDyZ5+MA9hRFIE9GY+tid9ru/GRbf5LRgpInbiO6EGY1wJWkXfQYm/C
+         nqtLq3fzUL0B7VCtBuu3cEgz6kIX8+cws2ue2g+m+ZgUBKGCoypfuFrVmMWIMV/M9Gcm
+         I8hTOQiX8/sJUFANP3/68h1lL3J6l3doFSP9iAfz7uOJ4imkCyyeE1doX5E5LFzBkTga
+         4E8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K5F/3ayackbW2LeUXvnkTd0nrHkgYHf26B/jmHZRP/c=;
+        b=wWvn7kBtcAx6DmcaEuUneJDb6AhoQcwl8JzyFSbW/90e55EM7CHOqOujfZOGGfscv8
+         uHnzaz37LzN1vJhS5m5HbHmJ4ffzbWcK1Zn5COZKc97ibZhDe2vuL/8iJCcBrya9R+z1
+         q611nfeJrW/7US9ntng5s3+ROZaTfW6hdMwSOTDbhO9I6kvXlOoRKtXC6Vv/UDH01C66
+         LOqK4cbv9/e1vtLe3mevOHkb5g2UNwnuRF8zU5G5OVBeCWFH1tSSU81m0DnYAakbZ8gT
+         k0RkYux1KOsQ7CcFJlWSzZn/lBC2AE7mFhNLfAZ1po52P/Pxh2tWmVUOtQBBBu3Ng9xl
+         o1wg==
+X-Gm-Message-State: ACrzQf1xheZxRwH9ULwwA3erB6eJCvE0msd2G+4p5KTgpuKmPBGgX+ud
+	M3dc6DAGjL/AeHrtnVjLI+9XlHGLkRzQwqgMJ8qgtg==
+X-Google-Smtp-Source: AMsMyM5CId0l5zTnb8iA+eZ158cEan8ih7BZv20/4m5alYht3HjGmhUy5SIpG1HHYtAI6KfOBs8AdSZIGIuE37O2mpc=
+X-Received: by 2002:a05:6512:3e6:b0:4a2:3a88:51c9 with SMTP id
+ n6-20020a05651203e600b004a23a8851c9mr2427085lfq.562.1666172799647; Wed, 19
+ Oct 2022 02:46:39 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|MN2PR11MB4567:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae6d7186-8d3b-49f6-c0d4-08dab1b4dcc6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	1B0ShEIGEsAHJVBs6270OqYUtkWddjh4e0g2rZn+h5K+SrOS8ktU4F3tWeVtficX4IJL8mBLnbqQA56XBkn/F1nacfex5D6E4FRxJkZUEhjpe0vQ+AxPXMzRfm0s65XawbeCqb3e1W4uJBCCo5y1XNsvvf21QxXFpAPaWqh5qxfz2bzBiiq0pyjmm6LFdy607bZiXzWwrmJ7zGLqGh1NcsC2hxPUDYB3u0RjOgat+GSwQyiyB1RFZjZot4olWMD10AfmQhvVAxNHtWC5YSF3S1Ule6pweKINEaoIiQDYmcc6HRH6u5eSusSXZhMaBczgVwjm5G4RGkxRVeS4LT+lObFwWeSTzpjuPSVKD9Ibfq4I0b80aHmAaBvnBm8HdJrifCpTE101z8zFHYHktSjQhyUy+QP5jbv3z7Q7oMAOyeX6PN69I9XELe0XF5nQuAEhqhKRnjgEwkjmUOWJfd8Ga6kalq+pDaH04SzNHFqYavDReiCt3oG4jAdl9gdshDBwYV5yDzNjSMpWtF8+yr8bFKLu/jlUZ0HlGYe1XIGdt12WqqhQhTQY5NwSwl5AFTYzx31/C5cd/zNYq15RJddkMdx5IfY44E5T3TTgr8Bx6ecomlJewiP+i6qgRbe9cfw0VTB18QWI1NO0PSY7w1cO8fuxjKRqUNK1BAPnGn4ZTXsl4cjI9bGxH/TVvVkv7AhvIcabgAKS8CdCkqdWo6AjB2ktzR8oNGVfPi2BBbq26mtcO5k4q+emhp7VRcfgo+8HUnJ3T74c8Yi3C6ou0mA3QQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(136003)(346002)(366004)(396003)(39850400004)(451199015)(8936002)(52116002)(6506007)(6486002)(186003)(2906002)(86362001)(26005)(2616005)(8676002)(5660300002)(1076003)(83380400001)(478600001)(66946007)(6666004)(316002)(41300700001)(6916009)(6512007)(36756003)(38100700002)(66556008)(66476007)(38350700002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?79pwPlOebOrnZUkr1iVct1m5vKv7EfMHiFRG/yrTKPgP2qWcs1/HwZzl882a?=
- =?us-ascii?Q?FJhXMmFRbUacI93J5VrxrB0giaJHp5UHDJSlcr++HbLjo24ViEEmLGt45CAo?=
- =?us-ascii?Q?cL43gX+8TbKZbBzyj0wHjkXkwvkUVx2yNbeuJ8yf+yIvdcD2J4XYgVkikA+F?=
- =?us-ascii?Q?YthreBaBPKaB0E/jtFySweukcOPObjH1RZDsCSCycz0olKsEB+fgrfOpcXx0?=
- =?us-ascii?Q?unhASJ1Iq3EtHfOatPiEqw5zDpDFoWpMV9bJZBP2lnlVPgkLqbat3qs9QLim?=
- =?us-ascii?Q?qxhTkJ9ABFTM8IWaca7Dj5FDBRsrg+n3RG4af5kCu38fslUj+uBiR6Y1/w0s?=
- =?us-ascii?Q?Oga+WX7zIgg8hnVzgFhFgXn3PIfDqro5UVHNKcTecMzBwRNoraZsC23jgEzO?=
- =?us-ascii?Q?Yw1NG/ydFDSAsfSNMVTMUit4TAU1xrNAGYz1ZpwGcU3/rNn2/Fq2zPchbY0N?=
- =?us-ascii?Q?HC4CS1DX+wOgjMaR+0jkYzIlEv8FUb0EsrUV8Af+WAzhKdG5TR3PZBOiNgf1?=
- =?us-ascii?Q?qtGlBoGCZ+q1GTmEz6vm5kIwQbqoiDapDs8dQM1fGjgZVaWZsxITXDcUPAyS?=
- =?us-ascii?Q?mXMlfxdYm+AygEuJOcOKfu9xYdOJM6ClXLaMVQyoL/UBRFRHTJrm2QxC5Iay?=
- =?us-ascii?Q?WgND13L1LpyqV5Upe14eNFulD1rjtVDMva0gtSOz7zwowkLv75gGMihjJ0Hv?=
- =?us-ascii?Q?SSCoVPg/PTVKYmNcbHeJhD2hLaPqYDhEcs/s9jwpmP9XWOowESr3DaB+5iN4?=
- =?us-ascii?Q?sYMk7CEf7/KSKUBWu15/AyREEORpd0SNIDFCcAoT8UgzX27VA7//ahNjYukX?=
- =?us-ascii?Q?bBXc4e3GLL/3Tq+a6tJQitlYTC1Jg4uOr2j83YyLT/SCP9DWbfxfk89fsFUw?=
- =?us-ascii?Q?r9jeu2G36WMPFM5Sx0tJ+yNyvjAH/GxyM5EsY82YWOR4vcI23hFQtosaHFb8?=
- =?us-ascii?Q?r+jfRQ1ufCdJj5lQu3cUUn7PgOjdhLM2fR4WyZiD8MtqbCry0JR97VGNOMnN?=
- =?us-ascii?Q?JBzw+VXdpXjNIi2CPS+bo/cQHafjcbO36l09NYnQkZZeavOmVIs0DyP/Sd2i?=
- =?us-ascii?Q?BoSmgG/KI2dAxyWtnRBLbZWLoiwa8Hu2MzX1QqofozkEM9cLS3er3k/99nYr?=
- =?us-ascii?Q?SkP3gw++17+NPXei8penKqOE5LN/pOr5qdi/drZDwTd/kdlwqodwch6EVyeM?=
- =?us-ascii?Q?BFJSeIsKwDLTaA88pfW0hQ45jvtbNWEPpsv9eUgh4iZSoa7ccR0Msn/fJItu?=
- =?us-ascii?Q?hBXN2OdaJ3uvbemuR146Rs554JxRLkOk/mP11Da53p8TQBxYSotIQgvcNA5U?=
- =?us-ascii?Q?CGXzlOWyaQ7EJAx6494YEZJ6NacwojiplaEW8YOCQFYmpC9IIpI74x72Lsp9?=
- =?us-ascii?Q?rXI40T6+AdpkEYNGW4Mk7RpJB4T/2BBUW+ocVh0IwoAvHqLg62+r4AqWyY2d?=
- =?us-ascii?Q?5chk53oip2ZAJCfGBfKgOIGxfgBSFzh2TNyZkvOkBeU0t4FwBCcLVnSS/ceu?=
- =?us-ascii?Q?HBAioM9uG74KafLTJS9w9857cE00Bk8oIlBKjruOnuvdyLKBSnAnHv+ssLON?=
- =?us-ascii?Q?uQPyCk2eXcEWZCT0vpByJTxbniidJCsUHRgBQjzOjEJwtmsZQEpIcLgLn43B?=
- =?us-ascii?Q?2w=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae6d7186-8d3b-49f6-c0d4-08dab1b4dcc6
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2022 09:32:38.3994
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bnf35dawu7GasKU/UVtsQOJdHLMuqyMpWBHt61NZI/NOeBBkPw69fRoL8ZoKhg3bEUKQY46bzb5Qu7XEAgg9xw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4567
-X-Proofpoint-GUID: ft310Z8v7Ma_LJxxxek1nNm9MJNgqvni
-X-Proofpoint-ORIG-GUID: ft310Z8v7Ma_LJxxxek1nNm9MJNgqvni
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-19_05,2022-10-19_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
- lowpriorityscore=0 suspectscore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
- phishscore=0 spamscore=0 malwarescore=0 adultscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
- definitions=main-2210190051
+References: <171ECBAF5E33994B.19418@lists.openembedded.org> <20221019025450.1626994-1-mingli.yu@windriver.com>
+In-Reply-To: <20221019025450.1626994-1-mingli.yu@windriver.com>
+From: Andrei Gherzan <andrei@gherzan.com>
+Date: Wed, 19 Oct 2022 10:46:03 +0100
+Message-ID: <CAK18fxFV_RHbhhdvMaZBaS3G-p0b4cBnS3PKe5kRh6R=imymrw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] grub: disable build on armv7ve/a with hardfp
+To: "Yu, Mingli" <mingli.yu@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000db99ce05eb60155a"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Oct 2022 09:32:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171962
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Oct 2022 09:46:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171963
 
-In current SDK, when running the following command in python
-shell, we get an error.
+--000000000000db99ce05eb60155a
+Content-Type: text/plain; charset="UTF-8"
 
-$ python3
->>> from cryptography.hazmat.backends import openssl
+Hi,
 
-The error message is as below:
+On Wed, Oct 19, 2022 at 3:54 AM Yu, Mingli <mingli.yu@windriver.com> wrote:
 
-  cryptography.exceptions.InternalError: Unknown OpenSSL error.
+> From: Mingli Yu <mingli.yu@windriver.com>
+>
+> The commit(75dbdea940 grub: Allow build on armv7ve/a with softfp)
+> enable build on armv7ve/a with softfp, but it acutally enable
+> build on armv7ve/a with hardfp altogether and result in below build
+> failure:
+>  | checking for compile options to get strict alignment...
+> -mno-unaligned-access
+>  | checking if compiler generates unaligned accesses... no
+>  | checking if C symbols get an underscore after compilation... no
+>  | checking whether target compiler is working... no
+>  | configure: error: cannot compile for the target
+>
+> So update the check to disable build on armv7ve/a with hardfp.
+>
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  meta/recipes-bsp/grub/grub2.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-bsp/grub/grub2.inc
+> b/meta/recipes-bsp/grub/grub2.inc
+> index 2545b99b6a..7161c4560b 100644
+> --- a/meta/recipes-bsp/grub/grub2.inc
+> +++ b/meta/recipes-bsp/grub/grub2.inc
+> @@ -50,8 +50,8 @@ COMPATIBLE_HOST = "${GRUB_COMPATIBLE_HOST}"
+>  # Grub doesn't support hard float toolchain and won't be able to
+> forcefully
+>  # disable it on some of the target CPUs. See 'configure.ac' for
+>  # supported/unsupported CPUs in hardfp.
+> -COMPATIBLE_HOST:armv7a = "${@'null' if d.getVar('TUNE_CCARGS_MFLOAT') ==
+> 'hardfp' else d.getVar('GRUB_COMPATIBLE_HOST')}"
+> -COMPATIBLE_HOST:armv7ve = "${@'null' if d.getVar('TUNE_CCARGS_MFLOAT') ==
+> 'hardfp' else d.getVar('GRUB_COMPATIBLE_HOST')}"
+> +COMPATIBLE_HOST:armv7a = "${@'null' if
+> bb.utils.contains('TUNE_CCARGS_MFLOAT', 'hard', True, False, d) else
+> d.getVar('GRUB_COMPATIBLE_HOST')}"
+> +COMPATIBLE_HOST:armv7ve = "${@'null' if
+> bb.utils.contains('TUNE_CCARGS_MFLOAT', 'hard', True, False, d) else
+> d.getVar('GRUB_COMPATIBLE_HOST')}"
+>
 
-We could set OPENSSL_MODULES explicitly in nativesdk-openssl package
-so that when SDK is set up, it's in environment and we can
-get rid of the above error.
+Sounds like a typo on my side. I'll check my testing as I'm curious how
+I've managed to miss this. Thanks for fixing it!
 
-Also, there are other env vars that need to be exported. And we export
-all of them to keep sync with openssl-native.bbclass.
+Andrei
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../openssl/files/environment.d-openssl.sh                    | 4 ++++
- 1 file changed, 4 insertions(+)
+--000000000000db99ce05eb60155a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh b/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
-index b9cc24a7ac..516bbd1c56 100644
---- a/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
-+++ b/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
-@@ -1 +1,5 @@
- export OPENSSL_CONF="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/openssl.cnf"
-+export SSL_CERT_DIR="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/certs"
-+export SSL_CERT_FILE="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/cert.pem"
-+export OPENSSL_MODULES="$OECORE_NATIVE_SYSROOT/usr/lib/ossl-modules/"
-+export OPENSSL_ENGINES="$OECORE_NATIVE_SYSROOT/usr/lib/engines-3"
--- 
-2.37.1
+<div dir=3D"ltr"><div dir=3D"ltr">Hi,</div><br><div class=3D"gmail_quote"><=
+div dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 19, 2022 at 3:54 AM Yu, Mi=
+ngli &lt;<a href=3D"mailto:mingli.yu@windriver.com" target=3D"_blank">mingl=
+i.yu@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">From: Mingli Yu &lt;<a href=3D"mailto:mingli.yu@windriver=
+.com" target=3D"_blank">mingli.yu@windriver.com</a>&gt;<br>
+<br>
+The commit(75dbdea940 grub: Allow build on armv7ve/a with softfp)<br>
+enable build on armv7ve/a with softfp, but it acutally enable<br>
+build on armv7ve/a with hardfp altogether and result in below build<br>
+failure:<br>
+=C2=A0| checking for compile options to get strict alignment... -mno-unalig=
+ned-access<br>
+=C2=A0| checking if compiler generates unaligned accesses... no<br>
+=C2=A0| checking if C symbols get an underscore after compilation... no<br>
+=C2=A0| checking whether target compiler is working... no<br>
+=C2=A0| configure: error: cannot compile for the target<br>
+<br>
+So update the check to disable build on armv7ve/a with hardfp.<br>
+<br>
+Signed-off-by: Mingli Yu &lt;<a href=3D"mailto:mingli.yu@windriver.com" tar=
+get=3D"_blank">mingli.yu@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-bsp/grub/grub2.inc | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.=
+inc<br>
+index 2545b99b6a..7161c4560b 100644<br>
+--- a/meta/recipes-bsp/grub/grub2.inc<br>
++++ b/meta/recipes-bsp/grub/grub2.inc<br>
+@@ -50,8 +50,8 @@ COMPATIBLE_HOST =3D &quot;${GRUB_COMPATIBLE_HOST}&quot;<b=
+r>
+=C2=A0# Grub doesn&#39;t support hard float toolchain and won&#39;t be able=
+ to forcefully<br>
+=C2=A0# disable it on some of the target CPUs. See &#39;<a href=3D"http://c=
+onfigure.ac" rel=3D"noreferrer" target=3D"_blank">configure.ac</a>&#39; for=
+<br>
+=C2=A0# supported/unsupported CPUs in hardfp.<br>
+-COMPATIBLE_HOST:armv7a =3D &quot;${@&#39;null&#39; if d.getVar(&#39;TUNE_C=
+CARGS_MFLOAT&#39;) =3D=3D &#39;hardfp&#39; else d.getVar(&#39;GRUB_COMPATIB=
+LE_HOST&#39;)}&quot;<br>
+-COMPATIBLE_HOST:armv7ve =3D &quot;${@&#39;null&#39; if d.getVar(&#39;TUNE_=
+CCARGS_MFLOAT&#39;) =3D=3D &#39;hardfp&#39; else d.getVar(&#39;GRUB_COMPATI=
+BLE_HOST&#39;)}&quot;<br>
++COMPATIBLE_HOST:armv7a =3D &quot;${@&#39;null&#39; if bb.utils.contains(&#=
+39;TUNE_CCARGS_MFLOAT&#39;, &#39;hard&#39;, True, False, d) else d.getVar(&=
+#39;GRUB_COMPATIBLE_HOST&#39;)}&quot;<br>
++COMPATIBLE_HOST:armv7ve =3D &quot;${@&#39;null&#39; if bb.utils.contains(&=
+#39;TUNE_CCARGS_MFLOAT&#39;, &#39;hard&#39;, True, False, d) else d.getVar(=
+&#39;GRUB_COMPATIBLE_HOST&#39;)}&quot;<br>
+</blockquote><br></div><div class=3D"gmail_quote">Sounds like a typo on my =
+side. I&#39;ll check my testing as I&#39;m curious how I&#39;ve managed to =
+miss this. Thanks for fixing it!</div><div class=3D"gmail_quote"><br></div>=
+<div class=3D"gmail_quote">Andrei<br></div></div>
 
+--000000000000db99ce05eb60155a--
 
