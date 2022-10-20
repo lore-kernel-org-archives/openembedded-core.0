@@ -1,107 +1,89 @@
-Return-Path: <michael.opdenacker@bootlin.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A36DC433FE
-	for <webhook@archiver.kernel.org>; Thu, 20 Oct 2022 19:02:52 +0000 (UTC)
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
- by mx.groups.io with SMTP id smtpd.web09.1424.1666292570559257742
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B6E0C4332F
+	for <webhook@archiver.kernel.org>; Thu, 20 Oct 2022 22:30:14 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web08.3718.1666305008099971740
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Oct 2022 12:02:51 -0700
+ Thu, 20 Oct 2022 15:30:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=A3J5N3B6;
- spf=pass (domain: bootlin.com, ip: 217.70.178.230, mailfrom: michael.opdenacker@bootlin.com)
-Received: (Authenticated sender: michael.opdenacker@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 1ED8B240005;
-	Thu, 20 Oct 2022 19:02:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1666292568;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JJ2Bc99+br7/UwEUQnDldSMnkqSs88Zm1LmTunIJt2Y=;
-	b=A3J5N3B6yFiJ1Hzg4nz82jZuy4Ev9OBIAmLjZvU7ykbecP+cnWi7JN3EX4ynNBDN/OFZrT
-	MKzLmjhBbYCoTc54AMvfuXsUoNuD2ijsFT2sPe0pO06BvR99xnPl7y0Md84PmoCOHG1KeG
-	Lc4jM3AhCRhCC/2siLXVfBYAeF41A8/x71hE7WxVlieMJ6AqHBBifn6g457WWXO4h8PDPZ
-	RZg1zhzO67fV0rFBo15x9lNMnDed9BIeMfAuPHglaNji7qEtKL9VwWbv6+Vz9mUn19rg+6
-	JpoiEcge9YsR7bIswDU6zZajjsqbm+ktlgeCIsZYjNxCGn4YBpQ9VSLVl1dYMg==
-Message-ID: <16ac69d2-948a-5598-f404-c2093840e2cf@bootlin.com>
-Date: Thu, 20 Oct 2022 21:02:47 +0200
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SErECCzD;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id ez6so754869pjb.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Oct 2022 15:30:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TLHfjrKi7EBMw5pTYzXxS4IARDYAHg0hp2sGSoJBt6E=;
+        b=SErECCzDMNeO2TKo2Lfv7cMC2Y041t4q/zleLAkQNNH/bWy9x/ZlYjTb0NxjgQB9rD
+         oKZeTKRCfr+j+1xjIBST6eMlMyzbeBPjwMa902WcmeiMHDPBRPKXUSgl5l1YIRIGAck3
+         t6GzhB7s+Pfj4AIbhhdDxYgvxPNlh45EHceFLFyLqJJ1OvrxvmQ2nIqP0E7NSL22x/Y/
+         3AhR6Op6w+KuKmRlT7QZkRBEeURt6uHYjkNK1Al5mvDwIbUy8VxoWSBXLJsq/UzKk7Tf
+         reW1UdTuRxem7+wbmTQQ8IWEqF/VW7Jfx53j2lItBeMODmfpEOuSyRbEoGF2kR3Ru0kS
+         C1RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TLHfjrKi7EBMw5pTYzXxS4IARDYAHg0hp2sGSoJBt6E=;
+        b=fv4P3biZZzt3CU9aJ/4skirK+TS97kkIl13PSQ2cz+0NFz2DKPUSmF4vpG5YIRmIP0
+         2YRj1xb647UQiZvMl8iAxQrghX+N7RGjyRdZSp8RoVXj00Ay6brCP/PEq84zZFUB6zjv
+         kmMM6GzSALv8zQCAG6xD56k8ZLE9wWaD2nhZ65iSeQkc5zfCK9C0rQEXrEqp7FF/S92r
+         VLEyPK8+IMmhz301rQ2SGWOxaJH7oMazI6WgTtAOtHZVXECmpmyAIiMSX/b7wmZJvptg
+         MohBKVVoVmu4LiNw1c1GvM7W3s9PUnX/un37ki3KhG+bdUY9Hr5G74CeywEF8Awodnxi
+         clbg==
+X-Gm-Message-State: ACrzQf247bwFhj4aEWeVM5i0Hct/nOWHjgmDdgCqd0FZ4Lyf0kppODtX
+	xgImXreWQHlcW0R2Anr1+iM6mK0K7UY=
+X-Google-Smtp-Source: AMsMyM45jkdJ/m4XVbVdMze9jr98JRSxJu3OLnOKeLsqsKP1Zg8CqQ8h3J8wdwIkc3re/sGlwOXM/w==
+X-Received: by 2002:a17:902:ce82:b0:185:47af:a0e8 with SMTP id f2-20020a170902ce8200b0018547afa0e8mr16114279plg.7.1666305007165;
+        Thu, 20 Oct 2022 15:30:07 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::751e])
+        by smtp.gmail.com with ESMTPSA id p1-20020a1709027ec100b00172973d3cd9sm13165701plb.55.2022.10.20.15.30.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Oct 2022 15:30:06 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] rust: Disable 64bit atomics on crossbeam on riscv32
+Date: Thu, 20 Oct 2022 15:30:04 -0700
+Message-Id: <20221020223004.1665512-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] run-postinsts: Set dependency for ldconfig to
- avoid boot issues
-To: Arturo.Buzarra@digi.com
-References: <20221020135531.57483-1-arturo.buzarra@digi.com>
-Content-Language: en-US
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Organization: Bootlin
-In-Reply-To: <20221020135531.57483-1-arturo.buzarra@digi.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Oct 2022 19:02:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172005
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Oct 2022 22:30:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172006
 
-Hi Arturo
+riscv32 builds fail since AtomicI64 is not available in sync::atomic for
+this architecture. Therefore it needs to be opted out and the way out is
+to pass it by RUSTFLAGS, however rust target recipe overrides RUSTFLAGS
+before exporting it so its better to piggy back on the variable its
+using which is RUST_DEBUG_REMAP
 
-Thanks for the patch!
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/rust/rust_1.64.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-On 10/20/22 15:55, abuzarra via lists.openembedded.org wrote:
-> If a package with a postsints script requires ldconfig, the package class adds
-> a ldconfig postinst fragment to initialize it before. Systemd has its own
-> ldconfig.service to initialize it and sometimes if both services are running
-> at the same time in the first boot, the first one will work, but the second
-> one will fail with the following error:
->
->      ldconfig[141]: /sbin/ldconfig: Renaming of /etc/ld.so.cache~ to /etc/ld.so.cache failed: No such file or directory
->
-> This commit adds a ordering dependency between them to make sure that only one
-> service is running at the same time.
->
-> Signed-off-by: Arturo Buzarra <arturo.buzarra@digi.com>
-> ---
->   .../run-postinsts/run-postinsts/run-postinsts.service           | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-
-
-There's a problem with the way your patches are received. I used to have 
-it too.
-
-If I apply your patch through "git am", the author of the commit will be:
-abuzarra via lists.openembedded.org 
-<Arturo.Buzarra=digi.com@lists.openembedded.org>
-instead of
-Arturo Buzarra <arturo.buzarra@digi.com>
-
-Because of this issue, the maintainer has to manually fix this field 
-when accepting your patch. Worse, if he doesn't catch this, that's 
-harder to fix afterwards.
-
-You should be able to fix this by running:
-
-git config --global sendemail.from "arturo.buzarra@digi.com"
-
-This should add a "From" field to the sent patch which "git am" should 
-be able to match with your name.
-
-See 
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded#Sending_using_git-send-email
-
-Could you try to send an update? You could send it to me again through 
-private-email first.
-
-Thanks in advance
-Michael.
-
+diff --git a/meta/recipes-devtools/rust/rust_1.64.0.bb b/meta/recipes-devtools/rust/rust_1.64.0.bb
+index 1f9dbd3cce..b05f188d9c 100644
+--- a/meta/recipes-devtools/rust/rust_1.64.0.bb
++++ b/meta/recipes-devtools/rust/rust_1.64.0.bb
+@@ -9,6 +9,7 @@ FILES:${PN}-dev = ""
+ 
+ # Used by crossbeam_atomic.patch
+ export TARGET_VENDOR
++RUST_DEBUG_REMAP:append:riscv32 = " --cfg crossbeam_no_atomic_64"
+ 
+ do_compile () {
+     rust_runx build --stage 2
 -- 
-Michael Opdenacker, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.38.1
 
 
