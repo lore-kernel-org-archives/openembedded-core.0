@@ -1,239 +1,265 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00400C4332F
-	for <webhook@archiver.kernel.org>; Thu, 20 Oct 2022 14:25:36 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web09.10252.1666275928720794101
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E068C4332F
+	for <webhook@archiver.kernel.org>; Thu, 20 Oct 2022 14:36:07 +0000 (UTC)
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+ by mx.groups.io with SMTP id smtpd.web11.10239.1666276565755122234
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Oct 2022 07:25:29 -0700
+ Thu, 20 Oct 2022 07:36:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=t5oUnRJn;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id h13so20404198pfr.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Oct 2022 07:25:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=h8jnM4f3;
+ spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f175.google.com with SMTP id o2so12863798qkk.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Oct 2022 07:36:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HWnFO+D2kxXHVNHVnuWmVTTq0K3jRYO9DahCg9/9BCQ=;
-        b=t5oUnRJnQDfhXSPeUqBuGwfUfmzQe1BaCVCUJMkusB4gKg3MgYtHNfMczrgzDWDOUf
-         KtATdug/GqWE1FHJQyivE/4yVfCT/T8Euvp7oAAPInhtl2fWsAxfUDe8H2v0Y/7DJtQ4
-         NnO2Y8+s9tIvjZzR/75bGxCNchx/71NwZM09fBDulH2aTKya3VjJFGkQaJEkoh1ljeIe
-         GEnhe2xYMa2dsuYFVHsq/sKKFUF+5XYr2AuCb/7h93v7uifz67X15DP5dtyn0yQwBTor
-         qI9QXf1s1pASYBlwtDeWOJMWVWBibQYS3JY2aJ+oiglF54Og+WQFl88xQru4N0X6w1W2
-         QIlA==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZOADIuNjvf0FbuhxLQEQy78WPgSjv9oLIAVKp3rjAfU=;
+        b=h8jnM4f3re7hwTm7WaTmoHChI+2xN+13wZs8C23nVrXrviMWmT+b6FbevpADoUow2a
+         wrIW0DbmuQUd6JC9yBoh54N0PRganYlRx+h3xRipi5MexfgHxnGh3rXbMC33OIerWqUw
+         PylX1hjD0tcenWNA8EZxgqoJKiOyvasVMUJ9vVL4jtgpAv3ZZFYC/7dK0ZNQlnwMxyPj
+         YbgBa7x8mGhAoGM/y2P+mlPeNIDYxCCnTjACVEEbd1iWH3G8oFhjKIUq32y8hGldzGbh
+         ucdUyuPnEGImO/neNLaZY42yn1yLc2AYWXT7lfCwJNfzh9jCh9mdJjc02Ggj/N9c4t5V
+         M5EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HWnFO+D2kxXHVNHVnuWmVTTq0K3jRYO9DahCg9/9BCQ=;
-        b=inXkicjreEh+GghWfGF19m9qIL05ILdlWhusYSyNibMoqYYo59vPvuhzdQdNfFKR26
-         iFBetnfP9y1OcYRzXyZ3jM4xJAVjYcjbatY6A2H90ZNCHs36TfTSE3WAKpUEPV/IBri4
-         wmpFeVzvAV9X+SWpLu/r2YAuUo/8W1r1AlNEGACFQ/fofcIHU5VwqaD/Q5luhc5k0lU1
-         JJ43L5pmODrsx9hokfVBKkcn7EnOqDnt1ZmBDwz3WvufOVwmdLu4SjOZ6pX3hzl2hJky
-         nLbjYl4gpGIP0cRzp2MULrLYsLW5hilrllxnIXcLsAP3bN6tIwv1YKFnYwtnRn6zgqlA
-         iyNA==
-X-Gm-Message-State: ACrzQf35slOEVAOHq2bons+hGSWtoruuegy3n0JYcosGfeWlXVmfa0V5
-	f0YZALk4SGKU0dZrzLogJGHwJeH9mvoL5CMG
-X-Google-Smtp-Source: AMsMyM6rEsa7Ox+R8tHnznTnXjOz0G6/vi2SslvTyu4zCY4iy9OItxJS8CJp760VXnYVSPd4oTJkxQ==
-X-Received: by 2002:a05:6a00:1414:b0:563:ae66:3103 with SMTP id l20-20020a056a00141400b00563ae663103mr13902893pfu.17.1666275927379;
-        Thu, 20 Oct 2022 07:25:27 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id d21-20020a631d55000000b004597e92f99dsm11498793pgm.66.2022.10.20.07.25.25
-        for <openembedded-core@lists.openembedded.org>
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZOADIuNjvf0FbuhxLQEQy78WPgSjv9oLIAVKp3rjAfU=;
+        b=ph9RcWzk+lpBMv4L8MiyCh0S65kMe2oKdkIIIm4sFUBE7IutCUTHzjB5e8vk81K9lW
+         iANpqUrxBUQsG56yHLFhhysDfFlbnG4tlALRTG7KHq2ejCZ8c6vJfMsqK9KXMsVf9iU0
+         k+KYH92/N8f2GFNyArTfQ2eYmo/NSqa2V5b5hzCUPCzpIttrNuwFbXhBGcXHbdXKAMOI
+         jnd3CtPL2ByViQ50GmieGM3GzdcMW3Mh/FDVi5TWTcyPTQN8HrXKaQqLwSifJ6SXlqWZ
+         lSkmSp+UOKkMD1V1WPZA1AXyzboxBKBtOIuAZYasxH23moteIMArk1To2QdVfv9aeqGR
+         FXgg==
+X-Gm-Message-State: ACrzQf2kKmhA4Dz3KziacKIcMfkq28NM69Ln3zfqeopeSleHURNcdwNX
+	fHZ6WJdUG60doVtKfqEjjXvdTbG2mPo5BQ==
+X-Google-Smtp-Source: AMsMyM6Q59VFBQ5y85t07hXKu9iT3ENGvR7sc0m2xH0KfMchhSb0UwF642Uu0PsZFok6o+B9tE+tkw==
+X-Received: by 2002:a05:620a:2710:b0:6ed:967a:e81a with SMTP id b16-20020a05620a271000b006ed967ae81amr9588738qkp.6.1666276564667;
+        Thu, 20 Oct 2022 07:36:04 -0700 (PDT)
+Received: from build.lan (cpe7c9a54441c1f-cm7c9a54441c1d.cpe.net.cable.rogers.com. [173.34.238.88])
+        by smtp.gmail.com with ESMTPSA id bw15-20020a05622a098f00b0035d08c1da35sm6214451qtb.45.2022.10.20.07.36.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Oct 2022 07:25:26 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/13] Pull request (cover letter only)
-Date: Thu, 20 Oct 2022 04:25:16 -1000
-Message-Id: <cover.1666275842.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 20 Oct 2022 07:36:04 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: steve@sakoman.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/2][dunfell] linux-yocto/5.4: update to v5.4.219
+Date: Thu, 20 Oct 2022 10:36:01 -0400
+Message-Id: <20221020143601.45658-2-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20221020143601.45658-1-bruce.ashfield@gmail.com>
+References: <20221020143601.45658-1-bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Oct 2022 14:25:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171993
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Oct 2022 14:36:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171995
 
-The following changes since commit e728d0965d6fda8ac54e065ca7bf7eb9da9a8170:
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-  coreutils: add openssl PACKAGECONFIG (2022-09-30 09:35:23 -1000)
+Updating  to the latest korg -stable release that comprises
+the following commits:
 
-are available in the Git repository at:
+    fd92cfed8bc6 Linux 5.4.219
+    0cb5be43dc4b wifi: mac80211: fix MBSSID parsing use-after-free
+    9478c5f9c007 wifi: mac80211: don't parse mbssid in assoc response
+    7f441a6c90fe mac80211: mlme: find auth challenge directly
+    c248c3330d5f Revert "fs: check FMODE_LSEEK to control internal pipe splicing"
+    1d0da8674c23 Linux 5.4.218
+    3ff54a91e4ea Input: xpad - fix wireless 360 controller breaking after suspend
+    690467759573 Input: xpad - add supported devices as contributed on github
+    9389750ac6b0 wifi: cfg80211: update hidden BSSes to avoid WARN_ON
+    7fab3bf52059 wifi: mac80211_hwsim: avoid mac80211 warning on bad rate
+    77bb20ccb9df wifi: cfg80211: avoid nontransmitted BSS list corruption
+    785eaabfe310 wifi: cfg80211: fix BSS refcounting bugs
+    359ce507f751 wifi: cfg80211: ensure length byte is present before access
+    43689bf2cd8e wifi: cfg80211/mac80211: reject bad MBSSID elements
+    020402c7dd58 wifi: cfg80211: fix u8 overflow in cfg80211_update_notlisted_nontrans()
+    c634a9107f6a random: use expired timer rather than wq for mixing fast pool
+    39800adc38f6 random: avoid reading two cache lines on irq randomness
+    bc0375ca434b random: restore O_NONBLOCK support
+    49d2fc9f998b USB: serial: qcserial: add new usb-id for Dell branded EM7455
+    20a5bde60597 scsi: stex: Properly zero out the passthrough command structure
+    46b822a7550d efi: Correct Macmini DMI match in uefi cert quirk
+    b719d10f7ec3 ALSA: hda: Fix position reporting on Poulsbo
+    e5d25a3bfde4 random: clamp credited irq bits to maximum mixed
+    194f59391d6c ceph: don't truncate file in atomic_open
+    259c0f68168a nilfs2: replace WARN_ONs by nilfs_error for checkpoint acquisition failure
+    b7e409d11db9 nilfs2: fix leak of nilfs_root in case of writer thread creation failure
+    792211333ad7 nilfs2: fix NULL pointer dereference at nilfs_bmap_lookup_at_level()
+    963089ad76cb rpmsg: qcom: glink: replace strncpy() with strscpy_pad()
+    2da677c0c725 mmc: core: Terminate infinite loop in SD-UHS voltage switch
+    373eca05b5b8 mmc: core: Replace with already defined values for readability
+    7ec8f073c2bf USB: serial: ftdi_sio: fix 300 bps rate for SIO
+    21446ad9cb98 usb: mon: make mmapped memory read only
+    d2f3a51ca27e arch: um: Mark the stack non-executable to fix a binutils warning
+    bb2d4c37b1fc um: Cleanup compiler warning in arch/x86/um/tls_32.c
+    9e26e0eef622 um: Cleanup syscall_handler_t cast in syscalls_32.h
+    3c9a75b3d2f7 net/ieee802154: fix uninit value bug in dgram_sendmsg
+    61be8898d704 scsi: qedf: Fix a UAF bug in __qedf_probe()
+    c790d3a00d42 ARM: dts: fix Moxa SDIO 'compatible', remove 'sdhci' misnomer
+    aefe2f55a986 dmaengine: xilinx_dma: Report error in case of dma_set_mask_and_coherent API failure
+    db702ecd713a dmaengine: xilinx_dma: cleanup for fetching xlnx,num-fstores property
+    59684c877783 firmware: arm_scmi: Add SCMI PM driver remove routine
+    70e4f70d54e0 fs: fix UAF/GPF bug in nilfs_mdt_destroy
+    398312c687bb perf tools: Fixup get_current_dir_name() compilation
+    393a1aa4215b mm: pagewalk: Fix race between unmap and page walker
+    6e150d605c9e Linux 5.4.217
+    0c41153c367b docs: update mediator information in CoC docs
+    096740d67560 Makefile.extrawarn: Move -Wcast-function-type-strict to W=1
+    e911caf9a158 Revert "drm/amdgpu: use dirty framebuffer helper"
+    ae19c3c76dc4 xfs: remove unused variable 'done'
+    538657def702 xfs: fix uninitialized variable in xfs_attr3_leaf_inactive
+    9ff41b8d71ba xfs: streamline xfs_attr3_leaf_inactive
+    c893fedaf10c xfs: move incore structures out of xfs_da_format.h
+    5e13ad940a2a xfs: fix memory corruption during remote attr value buffer invalidation
+    821e0951b4b3 xfs: refactor remote attr value buffer invalidation
+    a1b66abe30da xfs: fix IOCB_NOWAIT handling in xfs_file_dio_aio_read
+    1e4a0723eb38 xfs: fix s_maxbytes computation on 32-bit kernels
+    16de74ee3ad6 xfs: truncate should remove all blocks, not just to the end of the page cache
+    87e73331e4b7 xfs: introduce XFS_MAX_FILEOFF
+    bd67d06b099d xfs: fix misuse of the XFS_ATTR_INCOMPLETE flag
+    24f45c878299 x86/speculation: Add RSB VM Exit protections
+    564275d4b93f x86/bugs: Warn when "ibrs" mitigation is selected on Enhanced IBRS parts
+    4891e5fd1001 x86/speculation: Use DECLARE_PER_CPU for x86_spec_ctrl_current
+    9862c0f4fd6c x86/speculation: Disable RRSBA behavior
+    b9ae02c3c253 x86/bugs: Add Cannon lake to RETBleed affected CPU list
+    d6a8a470dc22 x86/cpu/amd: Enumerate BTC_NO
+    2edfa537f3b1 x86/common: Stamp out the stepping madness
+    17a9fc4a7b91 x86/speculation: Fill RSB on vmexit for IBRS
+    2242cf215013 KVM: VMX: Fix IBRS handling after vmexit
+    51c71ed134e9 KVM: VMX: Prevent guest RSB poisoning attacks with eIBRS
+    a31bdec99a95 KVM: VMX: Convert launched argument to flags
+    5895a9297e60 KVM: VMX: Flatten __vmx_vcpu_run()
+    64723cd346ea KVM/nVMX: Use __vmx_vcpu_run in nested_vmx_check_vmentry_hw
+    57ba312f1037 KVM/VMX: Use TEST %REG,%REG instead of CMP $0,%REG in vmenter.S
+    87dfe68a3513 x86/speculation: Remove x86_spec_ctrl_mask
+    4109a8ce107d x86/speculation: Use cached host SPEC_CTRL value for guest entry/exit
+    0fd086edf887 x86/speculation: Fix SPEC_CTRL write on SMT state change
+    18d5a93fd202 x86/speculation: Fix firmware entry SPEC_CTRL handling
+    03a575a0f954 x86/speculation: Fix RSB filling with CONFIG_RETPOLINE=n
+    8afd1c7da2b0 x86/speculation: Change FILL_RETURN_BUFFER to work with objtool
+    3ee9e9a5af07 intel_idle: Disable IBRS during long idle
+    97bc52c14a93 x86/bugs: Report Intel retbleed vulnerability
+    fd67fe3db93f x86/bugs: Split spectre_v2_select_mitigation() and spectre_v2_user_select_mitigation()
+    2d4ce2d72c3b x86/speculation: Add spectre_v2=ibrs option to support Kernel IBRS
+    e2d793a3742a x86/bugs: Optimize SPEC_CTRL MSR writes
+    a3111faed5c1 x86/entry: Add kernel IBRS implementation
+    fd32a31553a1 x86/entry: Remove skip_r11rcx
+    3c93ff4e23ea x86/bugs: Keep a per-CPU IA32_SPEC_CTRL value
+    9a596426d7bd x86/bugs: Add AMD retbleed= boot parameter
+    063b7f980607 x86/bugs: Report AMD retbleed vulnerability
+    954d591a84d0 x86/cpufeatures: Move RETPOLINE flags to word 11
+    893cd858b09c x86/kvm/vmx: Make noinstr clean
+    f62d272c2fec x86/cpu: Add a steppings field to struct x86_cpu_id
+    69460b1ed63d x86/cpu: Add consistent CPU match macros
+    87449d94e75c x86/devicetable: Move x86 specific macro out of generic code
+    fbd29b7549b2 Revert "x86/cpu: Add a steppings field to struct x86_cpu_id"
+    3a8ff61e6f13 Revert "x86/speculation: Add RSB VM Exit protections"
 
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
 
-Adrian Freihofer (1):
-  own-mirrors: add crate
-
-Bhabu Bindu (1):
-  qemu: Fix CVE-2021-3611
-
-Chen Qi (1):
-  image_types_wic.bbclass: fix cross binutils dependency
-
-He Zhe (2):
-  lttng-tools: Upgrade 2.13.4 -> 2.13.8
-  lttng-modules: Fix crash on powerpc64
-
-Michael Halstead (1):
-  uninative: Upgrade to 3.7 to work with glibc 2.36
-
-Ross Burton (1):
-  qemu: fix CVE-2022-2962
-
-Teoh Jay Shen (1):
-  tiff: Security fixes CVE-2022-2867,CVE-2022-2868 and CVE-2022-2869
-
-Tim Orling (1):
-  python3: upgrade 3.10.4 -> 3.10.7
-
-Virendra Thakur (1):
-  qemu: Fix CVE-2021-3750 for qemu
-
-Xiangyu Chen (2):
-  qemu: Backport patches from upstream to support float128 on qemu-ppc64
-  linux-yocto-dev: add qemuarm64
-
-pgowda (1):
-  binutils : Fix CVE-2022-38128
-
- meta/classes/image_types_wic.bbclass          |    2 +-
- meta/classes/own-mirrors.bbclass              |    1 +
- meta/classes/sanity.bbclass                   |    2 +-
- meta/conf/distro/include/yocto-uninative.inc  |   10 +-
- .../binutils/binutils-2.38.inc                |    3 +
- .../binutils/0018-CVE-2022-38128-1.patch      |  350 ++++
- .../binutils/0018-CVE-2022-38128-2.patch      |  436 +++++
- .../binutils/0018-CVE-2022-38128-3.patch      |   95 ++
- ...h-92036-Fix-gc_fini_untrack-GH-92037.patch |   54 -
- ...report-missing-dependencies-for-disa.patch |    8 +-
- .../{python3_3.10.4.bb => python3_3.10.7.bb}  |    3 +-
- meta/recipes-devtools/qemu/qemu.inc           |   49 +
- ...ulip-Restrict-DMA-engine-to-memories.patch |   64 +
- ...end-float_exception_flags-to-16-bits.patch |   75 +
- ...32t-for-reply-queue-head-tail-values.patch |   83 +
- ...ftfloat-Add-flag-specific-to-Inf-Inf.patch |   59 +
- ...id_function_take_MemTxAttrs_argument.patch |   60 +
- ...softfloat-Add-flag-specific-to-Inf-0.patch |  126 ++
- ...et_function_take_MemTxAttrs_argument.patch |   98 ++
- ...dd-flags-specific-to-Inf-Inf-and-0-0.patch |   73 +
- ...ed_function_take_MemTxAttrs_argument.patch |   78 +
- ...-Add-flag-specific-to-signaling-nans.patch |  121 ++
- ...rw_function_take_MemTxAttrs_argument.patch |  158 ++
- ...e-float_invalid_op_addsub-for-new-fl.patch |  114 ++
- ...te_function_take_MemTxAttrs_argument.patch | 1453 +++++++++++++++++
- ...e-float_invalid_op_mul-for-new-flags.patch |   86 +
- ...ap_function_take_MemTxAttrs_argument.patch |  227 +++
- ...e-float_invalid_op_div-for-new-flags.patch |   99 ++
- ..._buf_rw_function_take_a_void_pointer.patch |   41 +
- ...arget-ppc-Update-fmadd-for-new-flags.patch |  102 ++
- ..._dma_buf_write_functions_take_a_void.patch |  167 ++
- .../0010-target-ppc-Split-out-do_fmadd.patch  |   71 +
- ...rw_function_take_MemTxAttrs_argument.patch |   91 ++
- ...s-max-min-cj-dp-to-use-VSX-registers.patch |   93 ++
- ...rw_function_take_MemTxAttrs_argument.patch |   65 +
- ...-Move-xs-max-min-cj-dp-to-decodetree.patch |  121 ++
- ...te_function_take_MemTxAttrs_argument.patch |  129 ++
- ...get-ppc-fix-xscvqpdp-register-access.patch |   41 +
- ...ad_function_take_MemTxAttrs_argument.patch |  222 +++
- ...rget-ppc-move-xscvqpdp-to-decodetree.patch |  130 ++
- ...uf_rw_function_propagate_MemTxResult.patch |   91 ++
- ...tore_fpscr-doesn-t-update-bits-0-to-.patch |   70 +
- ...ma_function_take_MemTxAttrs_argument.patch |  120 ++
- ...get-ppc-Introduce-TRANS-FLAGS-macros.patch |  133 ++
- ...ma_function_take_MemTxAttrs_argument.patch |  151 ++
- ...get-ppc-Implement-Vector-Expand-Mask.patch |  105 ++
- ...r_dma_function_propagate_MemTxResult.patch |   65 +
- ...et-ppc-Implement-Vector-Extract-Mask.patch |  141 ++
- ...r_dma_function_propagate_MemTxResult.patch |  175 ++
- ...ppc-Implement-Vector-Mask-Move-insns.patch |  187 +++
- ...ma_function_take_MemTxAttrs_argument.patch |  303 ++++
- ...xs-n-madd-am-ds-p-xs-n-msub-am-ds-p-.patch |  258 +++
- ...ma_function_take_MemTxAttrs_argument.patch |  271 +++
- ...mplement-xs-n-maddqp-o-xs-n-msubqp-o.patch |  174 ++
- ...i_dma_function_propagate_MemTxResult.patch |   47 +
- ...i_dma_function_propagate_MemTxResult.patch |  296 ++++
- .../qemu/qemu/CVE-2021-3611_1.patch           |   74 +
- .../qemu/qemu/CVE-2021-3611_2.patch           |   43 +
- .../qemu/qemu/CVE-2021-3750-1.patch           |   59 +
- .../qemu/qemu/CVE-2021-3750-2.patch           |   65 +
- .../qemu/qemu/CVE-2021-3750-3.patch           |  156 ++
- meta/recipes-kernel/linux/linux-yocto-dev.bb  |    2 +-
- ...4-fix-kernel-crash-caused-by-do_get_.patch |   94 ++
- .../lttng/lttng-modules_2.13.4.bb             |    1 +
- ...-tools_2.13.4.bb => lttng-tools_2.13.8.bb} |    2 +-
- .../libtiff/tiff/CVE-2022-2867.patch          |  129 ++
- .../libtiff/tiff/CVE-2022-2869.patch          |   84 +
- ...ed69a485a9cfb299d9f060eb2a46c54e5903.patch |   45 +
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |    3 +
- 69 files changed, 8536 insertions(+), 68 deletions(-)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0018-CVE-2022-38128-1.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0018-CVE-2022-38128-2.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0018-CVE-2022-38128-3.patch
- delete mode 100644 meta/recipes-devtools/python/python3/0001-gh-92036-Fix-gc_fini_untrack-GH-92037.patch
- rename meta/recipes-devtools/python/{python3_3.10.4.bb => python3_3.10.7.bb} (99%)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-net-tulip-Restrict-DMA-engine-to-memories.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-softfloat-Extend-float_exception_flags-to-16-bits.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-use-uint32t-for-reply-queue-head-tail-values.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0002-softfloat-Add-flag-specific-to-Inf-Inf.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0002_let_dma_memory_valid_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0003-softfloat-Add-flag-specific-to-Inf-0.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0003_let_dma_memory_set_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0004-softfloat-Add-flags-specific-to-Inf-Inf-and-0-0.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0004_let_dma_memory_rw_relaxed_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0005-softfloat-Add-flag-specific-to-signaling-nans.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0005_let_dma_memory_rw_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0006-target-ppc-Update-float_invalid_op_addsub-for-new-fl.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0006_let_dma_memory_read_write_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0007-target-ppc-Update-float_invalid_op_mul-for-new-flags.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0007_let_dma_memory_map_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0008-target-ppc-Update-float_invalid_op_div-for-new-flags.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0008_have_dma_buf_rw_function_take_a_void_pointer.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0009-target-ppc-Update-fmadd-for-new-flags.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0009_have_dma_buf_read_and_dma_buf_write_functions_take_a_void.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0010-target-ppc-Split-out-do_fmadd.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0010_let_pci_dma_rw_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0011-target-ppc-Fix-xs-max-min-cj-dp-to-use-VSX-registers.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0011_let_dma_buf_rw_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0012-target-ppc-Move-xs-max-min-cj-dp-to-decodetree.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0012_let_dma_buf_write_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0013-target-ppc-fix-xscvqpdp-register-access.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0013_let_dma_buf_read_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0014-target-ppc-move-xscvqpdp-to-decodetree.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0014_let_dma_buf_rw_function_propagate_MemTxResult.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0015-target-ppc-ppc_store_fpscr-doesn-t-update-bits-0-to-.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0015_let_st_pointer_dma_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0016-target-ppc-Introduce-TRANS-FLAGS-macros.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0016_let_ld_pointer_dma_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0017-target-ppc-Implement-Vector-Expand-Mask.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0017_let_st_pointer_dma_function_propagate_MemTxResult.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0018-target-ppc-Implement-Vector-Extract-Mask.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0018_let_ld_pointer_dma_function_propagate_MemTxResult.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0019-target-ppc-Implement-Vector-Mask-Move-insns.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0019_let_st_pointer_pci_dma_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0020-target-ppc-move-xs-n-madd-am-ds-p-xs-n-msub-am-ds-p-.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0020_let_ld_pointer_pci_dma_function_take_MemTxAttrs_argument.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0021-target-ppc-implement-xs-n-maddqp-o-xs-n-msubqp-o.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0021_let_st_pointer_pci_dma_function_propagate_MemTxResult.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0022_let_ld_pointer_pci_dma_function_propagate_MemTxResult.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3611_1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3611_2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3750-1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3750-2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3750-3.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-wrapper-powerpc64-fix-kernel-crash-caused-by-do_get_.patch
- rename meta/recipes-kernel/lttng/{lttng-tools_2.13.4.bb => lttng-tools_2.13.8.bb} (98%)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-2867.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-2869.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/b258ed69a485a9cfb299d9f060eb2a46c54e5903.patch
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+index 09ff50469a..5da86988ce 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "f06a67473d2422ed3bdfb951e0897929b0959678"
+-SRCREV_meta ?= "cb04dbc35b99660032c9b278e96b206c7fc3b106"
++SRCREV_machine ?= "983b2c21d3fa76840461947f3f644dd9442d8e40"
++SRCREV_meta ?= "7e9781b04df1fc0aac9309734bbe23b36c050b42"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "5.4.216"
++LINUX_VERSION ?= "5.4.219"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+index 3523945155..269ad6e459 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "5.4.216"
++LINUX_VERSION ?= "5.4.219"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine_qemuarm ?= "3513255b2d77e6a6bf2ebad2697e05cfd42215ab"
+-SRCREV_machine ?= "6f25ed1235d5c2556a2c1b491ffa3d3815fb26eb"
+-SRCREV_meta ?= "cb04dbc35b99660032c9b278e96b206c7fc3b106"
++SRCREV_machine_qemuarm ?= "a4c846b5cacb954ae98a8eba9e0450812f1db42c"
++SRCREV_machine ?= "ae25c500cf7dae5520897489b3fe49bdf068528b"
++SRCREV_meta ?= "7e9781b04df1fc0aac9309734bbe23b36c050b42"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+index acda5ebe78..d740333ff4 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
+ KBRANCH_qemux86-64 ?= "v5.4/standard/base"
+ KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "26b50c67881dd59a4d31bfcd667df69dc9e9ea52"
+-SRCREV_machine_qemuarm64 ?= "08307edd8480dc6a3ce10d84e27c816423f396e4"
+-SRCREV_machine_qemumips ?= "f49695f1e70bc9eeef061edcb2f22753520f7a43"
+-SRCREV_machine_qemuppc ?= "f87963b9e6cc4e036a49def1714f850488bae5b1"
+-SRCREV_machine_qemuriscv64 ?= "070ae01dd2e7c99939a8b67bb4d8f8cd433396d1"
+-SRCREV_machine_qemux86 ?= "070ae01dd2e7c99939a8b67bb4d8f8cd433396d1"
+-SRCREV_machine_qemux86-64 ?= "070ae01dd2e7c99939a8b67bb4d8f8cd433396d1"
+-SRCREV_machine_qemumips64 ?= "ae1f3a35c011a787423fedf843f0330f936e5bab"
+-SRCREV_machine ?= "070ae01dd2e7c99939a8b67bb4d8f8cd433396d1"
+-SRCREV_meta ?= "cb04dbc35b99660032c9b278e96b206c7fc3b106"
++SRCREV_machine_qemuarm ?= "88065fdc7d5d404312da98b78229996b61f56c21"
++SRCREV_machine_qemuarm64 ?= "ac9667e4dba109088d7ed5922f28d6ef1ba66e9b"
++SRCREV_machine_qemumips ?= "e0dd90f622f78e0ad05797996756528623070da4"
++SRCREV_machine_qemuppc ?= "0d45c84c8240fadec9a36a13d9cf077b6793bcfb"
++SRCREV_machine_qemuriscv64 ?= "35826e154ee014b64ccfa0d1f12d36b8f8a75939"
++SRCREV_machine_qemux86 ?= "35826e154ee014b64ccfa0d1f12d36b8f8a75939"
++SRCREV_machine_qemux86-64 ?= "35826e154ee014b64ccfa0d1f12d36b8f8a75939"
++SRCREV_machine_qemumips64 ?= "a5cc27ae60c504fc309926d8e72129128befdbd5"
++SRCREV_machine ?= "35826e154ee014b64ccfa0d1f12d36b8f8a75939"
++SRCREV_meta ?= "7e9781b04df1fc0aac9309734bbe23b36c050b42"
+ 
+ # remap qemuarm to qemuarma15 for the 5.4 kernel
+ # KMACHINE_qemuarm ?= "qemuarma15"
+@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+-LINUX_VERSION ?= "5.4.216"
++LINUX_VERSION ?= "5.4.219"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
 -- 
-2.25.1
+2.19.1
 
 
