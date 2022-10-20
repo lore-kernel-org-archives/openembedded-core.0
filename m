@@ -1,114 +1,75 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4060EC4332F
-	for <webhook@archiver.kernel.org>; Thu, 20 Oct 2022 15:08:17 +0000 (UTC)
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
- by mx.groups.io with SMTP id smtpd.web08.10663.1666278490689468679
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D8C5C433FE
+	for <webhook@archiver.kernel.org>; Thu, 20 Oct 2022 15:19:07 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web11.10792.1666279140033297248
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Oct 2022 08:08:10 -0700
+ Thu, 20 Oct 2022 08:19:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=LvhmTjZb;
- spf=pass (domain: gmail.com, ip: 209.85.160.50, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-13ae8117023so3329654fac.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Oct 2022 08:08:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=C8gpEaNd;
+ spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f42.google.com with SMTP id a29so34217324lfo.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Oct 2022 08:18:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jj82ChmOxi6RTSZh6YPjrqfKUcVefdoTUfDt2csvLXU=;
-        b=LvhmTjZbLVuBIiznQxOK5I3dVRJaR9MdY265+YBgFtpQOT1I9kXnFPIifiZ1VFYa0X
-         gZRIRREZdfArNSM79ufUcq3dLSL6xsEgZRKSGaEqiP7KR2Qs1uW+mGOnUhCogBUreDDQ
-         +w16enhllwYEMheb0lBlmqmTDqczTSSzbmQMWcrwgxkm9CjFRkHnqit7VKLMi908pQou
-         Y5zUZnOQPZt8M1Od8xfhLVoJaWqZZeirPros8+55gFSkWuF91gAWZApCUsLuCwYpXY4L
-         49s7ZXTeID9ajFlwkoyf7Gb0bV7z0rMdACPoOz5Q6Uis1V3DqY6Srbbs/3EhDwIjK65j
-         sZeQ==
+        bh=K/qUFWh6C6ng+aYhw95Tvtc8ebbxLavxxX7R34FJg3s=;
+        b=C8gpEaNdfVRFJCFgW+SbTuYFIg2KesWMlYhpJ0s6bB+jrSW4cJvhcqRC0dOzWjCYvM
+         iQ3ReAGhvNd6xN6XvRvX/b6CTbmcP+l6p3h1BiFw6Ka+b3Qnwfmpkpzy1EFzunLl/T8N
+         g5I5V4N7O97WyU3KDLAySiNAXd+pjaHq1SgMIBbGhakB4+2cKIabBvedlBUXR+4WARW1
+         OKHazCkXPFAB7BteGxj/mIwj+eXKK+ZIT587SJIdSxWNZ4z7TJg9at3apgLOH2s41EAN
+         SeVAtpsjKgVH3JZAQu0Ocy+MZYUwwQzhL7YKj/C0PbzeAtWmyFokKmuTObovRoGtDRRi
+         IVrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jj82ChmOxi6RTSZh6YPjrqfKUcVefdoTUfDt2csvLXU=;
-        b=LPlnTw5P7kbDj7nzODwaojWdBlYZGA4FJl8HEf8jucd2SyacA0JNguslWGO0M7GUYm
-         KhAd9rNjuLdFIc+hnGyDdLlGCZlUmMCyu9Se6G5Yu/BWYbpH5IqJsj8HBFbL9QyHNUps
-         dwm6yxaq6+uq0fzUR4FYSZ7SHZoiZPC/Pvp4sgibJodo2Tz+4BSlA1wB3ta5FuaQyo7A
-         aiVnI4Jni24ItwE6pDvonGyM1zn1v0w47T4m8fOYL9c6Of7/wIqYXTSOrTUOPjXW+Eiy
-         h08wgGK+95fOFQr53b3MFgH6/xfSlw8ULw/W+9aX4saaZkJ547pM44uZhvFCa9G4fX9z
-         6vrw==
-X-Gm-Message-State: ACrzQf2JJvqoyt3Gd3SiVjpaWj4MGNBZ2oher84pAvbi+y/mvWYrk21f
-	5NPDfyWdaXVkJhAR4Ga9V2rObyWQAnB38mYw0TZGhcJ/
-X-Google-Smtp-Source: AMsMyM7ajEM2TyqMpw0XcOZekUpdmewsNi18N7LEYFs6GeCUBBJ/fxxmdCqRd2IxuMVS8yRTLdp+4kK1g3/fxPlLhgA=
-X-Received: by 2002:a05:6870:d1c8:b0:132:1239:2550 with SMTP id
- b8-20020a056870d1c800b0013212392550mr25173740oac.55.1666278489820; Thu, 20
- Oct 2022 08:08:09 -0700 (PDT)
+        bh=K/qUFWh6C6ng+aYhw95Tvtc8ebbxLavxxX7R34FJg3s=;
+        b=kULAJX9+gxDvk5qlcJJTxYK8SSaO1FOzn92VXfDwgcjJR0OTlkhDQXHaoa+EILwwkA
+         8Pu3UwVq/fyBAgeiLJE95kl9iZE/fcN9gFarMVV3A2jFoE+cDEzDGRC1Dd/oYpQ7HS+s
+         6n5yUMx6POU1Ibgx5Jg+asVUmbPwelK5IqCXy9VfUMbqeGFXFe3K8zdyujjILm8RfdHY
+         DRyKKs0+HftSYXD7oD6iwoZHjupnXStiAmUwFGSZw5xOovfAcNTxZOT/iT0ZllcN+089
+         mODn/6tV1FKoYl+6InX5o8Ezwew4QPoFVz7DXAtOdaajDJJn6Nhyurc1hsGYeWsGEoj0
+         z8Fg==
+X-Gm-Message-State: ACrzQf1uOhSR/PV2xvT5sO0G0LZhLFrohUsQgBftD4AQNMU5f0urvFqD
+	5vwdjBfk+S5PM6oxJOnUMAUcHxqScGlvbjF0zWE=
+X-Google-Smtp-Source: AMsMyM5HY1NK8SEy9Ovoh8NF+EUoWXh70V0jG6sLr3qauJqv02gQEQRjSmbRDv8473bY2odqSWY1tkr6uIHMgl7Vo64=
+X-Received: by 2002:ac2:4c8e:0:b0:4a2:7d0d:c7a5 with SMTP id
+ d14-20020ac24c8e000000b004a27d0dc7a5mr4818266lfl.367.1666279138080; Thu, 20
+ Oct 2022 08:18:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221020135531.57483-1-arturo.buzarra@digi.com>
-In-Reply-To: <20221020135531.57483-1-arturo.buzarra@digi.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 20 Oct 2022 08:07:43 -0700
-Message-ID: <CAMKF1sqtNt+5UXRc18LR8Uhq9Vcppg2nadsQVpabKw5ekoNjMA@mail.gmail.com>
+References: <20221020135531.57483-1-arturo.buzarra@digi.com> <CAMKF1sqtNt+5UXRc18LR8Uhq9Vcppg2nadsQVpabKw5ekoNjMA@mail.gmail.com>
+In-Reply-To: <CAMKF1sqtNt+5UXRc18LR8Uhq9Vcppg2nadsQVpabKw5ekoNjMA@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 20 Oct 2022 17:18:46 +0200
+Message-ID: <CANNYZj8_C_=HW+ALVikFWGcWH5yqEFuknFQtGKFuedsz1VxfXQ@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] run-postinsts: Set dependency for ldconfig to
  avoid boot issues
-To: Arturo.Buzarra@digi.com
-Cc: openembedded-core@lists.openembedded.org
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Arturo.Buzarra@digi.com, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Oct 2022 15:08:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171998
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Oct 2022 15:19:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/171999
 
-On Thu, Oct 20, 2022 at 6:56 AM abuzarra via lists.openembedded.org
-<Arturo.Buzarra=digi.com@lists.openembedded.org> wrote:
+On Thu, 20 Oct 2022 at 17:08, Khem Raj <raj.khem@gmail.com> wrote:
+> > -After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount
+> > +After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount ldconfig.service
 >
-> If a package with a postsints script requires ldconfig, the package class adds
-> a ldconfig postinst fragment to initialize it before. Systemd has its own
-> ldconfig.service to initialize it and sometimes if both services are running
-> at the same time in the first boot, the first one will work, but the second
-> one will fail with the following error:
->
->     ldconfig[141]: /sbin/ldconfig: Renaming of /etc/ld.so.cache~ to /etc/ld.so.cache failed: No such file or directory
->
-> This commit adds a ordering dependency between them to make sure that only one
-> service is running at the same time.
->
-> Signed-off-by: Arturo Buzarra <arturo.buzarra@digi.com>
-> ---
->  .../run-postinsts/run-postinsts/run-postinsts.service           | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
-> index 7f72f3388a..b6b81d5c1a 100644
-> --- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
-> +++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
-> @@ -1,9 +1,9 @@
->  [Unit]
->  Description=Run pending postinsts
->  DefaultDependencies=no
-> -After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount
-> +After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount ldconfig.service
+> ldconfig is not always enabled, it's controlled via a DISTRO_FEATURE
+> so this will fail for such
+> systems. Maybe adding it conditionally via a systemd unit fragment
+> drop-in file would be a better way to go.
 
-ldconfig is not always enabled, it's controlled via a DISTRO_FEATURE
-so this will fail for such
-systems. Maybe adding it conditionally via a systemd unit fragment
-drop-in file would be a better way to go.
+But will it fail? I thought Requires= is the hard dependency, and
+After= sets only the ordering, but not dependencies.
 
->  Before=sysinit.target
->
->  [Service]
->  Type=oneshot
->  ExecStart=#SBINDIR#/run-postinsts
-> --
-> 2.38.0
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#171992): https://lists.openembedded.org/g/openembedded-core/message/171992
-> Mute This Topic: https://lists.openembedded.org/mt/94453597/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Alex
 
