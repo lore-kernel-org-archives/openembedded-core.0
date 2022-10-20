@@ -1,81 +1,107 @@
-Return-Path: <alberto@pianon.eu>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEAA2C433FE
-	for <webhook@archiver.kernel.org>; Thu, 20 Oct 2022 17:36:51 +0000 (UTC)
-Received: from server3.justice4all.it (server3.justice4all.it [95.217.19.36])
- by mx.groups.io with SMTP id smtpd.web08.356.1666287407500966663
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A36DC433FE
+	for <webhook@archiver.kernel.org>; Thu, 20 Oct 2022 19:02:52 +0000 (UTC)
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+ by mx.groups.io with SMTP id smtpd.web09.1424.1666292570559257742
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Oct 2022 10:36:48 -0700
+ Thu, 20 Oct 2022 12:02:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@pianon.eu header.s=mail20151219 header.b=C0AtABKx;
- spf=pass (domain: pianon.eu, ip: 95.217.19.36, mailfrom: alberto@pianon.eu)
-Received: from localhost (localhost [127.0.0.1])
-	by server3.justice4all.it (Postfix) with ESMTP id CE3805C0096;
-	Thu, 20 Oct 2022 19:36:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=pianon.eu; h=
-	message-id:user-agent:references:in-reply-to:subject:subject
-	:from:from:date:date:content-transfer-encoding:content-type
-	:content-type:mime-version; s=mail20151219; t=1666287404; x=
-	1668101805; bh=LUm4/GqN5t5VK85/TTBTTeM8m4u9D/8dcWn7dg6ijzU=; b=C
-	0AtABKxoNSVkWeFwL8kntPSD3mdTmnUnyVtHRJKlspn5v+UNdMB4Mx2sIrAN8xAW
-	p2I+ufV+q+yGdf4YmqO7GZviXH++W7NDLmrQtcE1bSvbXm9zXx3cpSL6uPZhpa8f
-	1dW8zU52APVADUpXHEh6IXhMa0zD6AL0+HjA5d00rY=
-X-Virus-Scanned: Debian amavisd-new at server3.justice4all.it
-Received: from server3.justice4all.it ([127.0.0.1])
-	by localhost (server3.justice4all.it [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id XtyTTgrNzYBD; Thu, 20 Oct 2022 19:36:44 +0200 (CEST)
-Received: from pianon.eu (localhost [127.0.0.1])
-	(Authenticated sender: alberto@pianon.eu)
-	by server3.justice4all.it (Postfix) with ESMTPA id 3A7175C0095;
-	Thu, 20 Oct 2022 19:36:44 +0200 (CEST)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=A3J5N3B6;
+ spf=pass (domain: bootlin.com, ip: 217.70.178.230, mailfrom: michael.opdenacker@bootlin.com)
+Received: (Authenticated sender: michael.opdenacker@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 1ED8B240005;
+	Thu, 20 Oct 2022 19:02:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1666292568;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JJ2Bc99+br7/UwEUQnDldSMnkqSs88Zm1LmTunIJt2Y=;
+	b=A3J5N3B6yFiJ1Hzg4nz82jZuy4Ev9OBIAmLjZvU7ykbecP+cnWi7JN3EX4ynNBDN/OFZrT
+	MKzLmjhBbYCoTc54AMvfuXsUoNuD2ijsFT2sPe0pO06BvR99xnPl7y0Md84PmoCOHG1KeG
+	Lc4jM3AhCRhCC/2siLXVfBYAeF41A8/x71hE7WxVlieMJ6AqHBBifn6g457WWXO4h8PDPZ
+	RZg1zhzO67fV0rFBo15x9lNMnDed9BIeMfAuPHglaNji7qEtKL9VwWbv6+Vz9mUn19rg+6
+	JpoiEcge9YsR7bIswDU6zZajjsqbm+ktlgeCIsZYjNxCGn4YBpQ9VSLVl1dYMg==
+Message-ID: <16ac69d2-948a-5598-f404-c2093840e2cf@bootlin.com>
+Date: Thu, 20 Oct 2022 21:02:47 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] run-postinsts: Set dependency for ldconfig to
+ avoid boot issues
+To: Arturo.Buzarra@digi.com
+References: <20221020135531.57483-1-arturo.buzarra@digi.com>
+Content-Language: en-US
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <20221020135531.57483-1-arturo.buzarra@digi.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Date: Thu, 20 Oct 2022 19:36:44 +0200
-From: Alberto Pianon <alberto@pianon.eu>
-To: Joshua Watt <JPEWhacker@gmail.com>
-Cc: Keiya Nobuta <nobuta.keiya@fujitsu.com>,
- openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 2/3] create-spdx: Fix "licenseDeclared" shows
- weird value
-In-Reply-To: <CAJdd5GYUxEHhZGNfj_7FL9_=7KF158kLoKmuSmEZR6q+5WdeKw@mail.gmail.com>
-References: <20221019105739.2279010-1-nobuta.keiya@fujitsu.com>
- <20221019105739.2279010-2-nobuta.keiya@fujitsu.com>
- <CAJdd5GYUxEHhZGNfj_7FL9_=7KF158kLoKmuSmEZR6q+5WdeKw@mail.gmail.com>
-User-Agent: Roundcube Webmail/1.4.1
-Message-ID: <7131d36c1eaf7bdf227326fabce86f79@pianon.eu>
-X-Sender: alberto@pianon.eu
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Oct 2022 17:36:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172004
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Oct 2022 19:02:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172005
+
+Hi Arturo
+
+Thanks for the patch!
+
+On 10/20/22 15:55, abuzarra via lists.openembedded.org wrote:
+> If a package with a postsints script requires ldconfig, the package class adds
+> a ldconfig postinst fragment to initialize it before. Systemd has its own
+> ldconfig.service to initialize it and sometimes if both services are running
+> at the same time in the first boot, the first one will work, but the second
+> one will fail with the following error:
+>
+>      ldconfig[141]: /sbin/ldconfig: Renaming of /etc/ld.so.cache~ to /etc/ld.so.cache failed: No such file or directory
+>
+> This commit adds a ordering dependency between them to make sure that only one
+> service is running at the same time.
+>
+> Signed-off-by: Arturo Buzarra <arturo.buzarra@digi.com>
+> ---
+>   .../run-postinsts/run-postinsts/run-postinsts.service           | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
 
+There's a problem with the way your patches are received. I used to have 
+it too.
 
-Il 2022-10-19 23:17 Joshua Watt ha scritto:
-> On Wed, Oct 19, 2022 at 6:08 AM Keiya Nobuta <nobuta.keiya@fujitsu.com> 
-> wrote:
->> 
->> Fixed an issue that "licenseDeclared" shows weird value, for example
->> `busybox.spdx.json` shows like:
->> 
->> "GPL-2.0-only AND DocumentRef-recipe-busybox:LicenseRef-bzip2-1.0.4"
->>                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
->>                    unwanted value
-> 
-> I don't believe this is unwanted: the license text lives in another
-> document (ecipe-busybox.spdx.json) so we need to indicate that here
-> 
+If I apply your patch through "git am", the author of the commit will be:
+abuzarra via lists.openembedded.org 
+<Arturo.Buzarra=digi.com@lists.openembedded.org>
+instead of
+Arturo Buzarra <arturo.buzarra@digi.com>
 
-That is correct, according to the specs:
+Because of this issue, the maintainer has to manually fix this field 
+when accepting your patch. Worse, if he doesn't catch this, that's 
+harder to fix afterwards.
 
-https://spdx.github.io/spdx-spec/SPDX-license-expressions/#d3-simple-license-expressions
+You should be able to fix this by running:
 
-Cheers,
+git config --global sendemail.from "arturo.buzarra@digi.com"
 
-Alberto
+This should add a "From" field to the sent patch which "git am" should 
+be able to match with your name.
+
+See 
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded#Sending_using_git-send-email
+
+Could you try to send an update? You could send it to me again through 
+private-email first.
+
+Thanks in advance
+Michael.
+
+-- 
+Michael Opdenacker, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
