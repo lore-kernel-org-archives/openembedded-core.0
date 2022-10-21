@@ -1,394 +1,161 @@
-Return-Path: <sundeep.kokkonda@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <4b1d26ac-6fe2-50cf-4cbd-23fcee49b0b8@gmail.com>
-Date: Mon, 20 Jun 2022 08:39:25 +0530
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99168FA373D
+	for <webhook@archiver.kernel.org>; Fri, 21 Oct 2022 15:48:48 +0000 (UTC)
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+ by mx.groups.io with SMTP id smtpd.web08.11658.1666367323864076665
+ for <openembedded-core@lists.openembedded.org>;
+ Fri, 21 Oct 2022 08:48:44 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CzXtKzq0;
+ spf=pass (domain: gmail.com, ip: 209.85.160.46, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-1364357a691so4019493fac.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Oct 2022 08:48:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=D1yEY2sVwn2kYe1YqGof57nFYRmxCNfBsYoVgPvam7w=;
+        b=CzXtKzq0jRgcUeId0k8l5ISPGzkfEnxZrAyUeQM1lBrCxgP/LV/GxJM8bm3d0xUqgL
+         7vCLFaPhY5Dfh5UOVg3LDRw1k6CcucIk/wXeZNyNTLPLq3MNFdC9xJywROm07q/E+FZF
+         8vC991cpPFtSmDPtdpzohwSTvhgMeFZ8zZtn23+Zbl8gBaqNQZJF31Ftfi1QSVM17AjO
+         km/O3Y6fZx5URsTUiWwHrF4VOZc1wwzvrDiwz/0Gu+OsAe7NWOiHeq9YNkoTPpg1XQvw
+         S0qvRqvl3OmUanq39Of2keXRBVK4jQydE6Q+fBnj7dlLRf0DXAbOVmKFjlPvnDfI+FNt
+         rl4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=D1yEY2sVwn2kYe1YqGof57nFYRmxCNfBsYoVgPvam7w=;
+        b=8NszOWNThXRWgRjMbGf2U4a+URAa3xX/o+Seqg0URbdLL8/6djMTAy7bVQ/HTbmU1S
+         Op7Gj/akTXj2+dwv/EuWZs9QDNGYwHWUoVxltROAkJIrpuiiXQzk5HE97U1bFC9wxl/q
+         tuDCY0DLamQjyNyi1TKqQsrKMY0f1IWMOjEbdT91Rln5ihwjkor99smJ41x/CK2iQ/Ye
+         o3+FTa3KCkhaCHI2rsUwHGbz8Gdg51PEWpVUOU633S23b7K+8tI+SKCJV0e9BuIOmGGq
+         IwHNRbt67Rv7okTY6HyKU4zB5nv5qGG5W9nenqP554TzXI7Do+EG52WOC9JWJpSssylj
+         gmpw==
+X-Gm-Message-State: ACrzQf1iOlRizGD1WHcNOuKQuMOAlNHMVZiXvlRok7t2DigndThm+IuP
+	FLRuOPzR+nDZMO8LMvbrrGE=
+X-Google-Smtp-Source: AMsMyM5JzlUWk4mKf/KyW+qD5q4kaPLzl7baWE8lBxyqftMio8elvQmR9GpXu2tpDKmaJ/k81VGSsw==
+X-Received: by 2002:a05:6870:c349:b0:13b:154e:5559 with SMTP id e9-20020a056870c34900b0013b154e5559mr4350309oak.31.1666367323141;
+        Fri, 21 Oct 2022 08:48:43 -0700 (PDT)
+Received: from ?IPV6:2605:a601:ac3d:c100:e3e8:d9:3a56:e27d? ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+        by smtp.gmail.com with ESMTPSA id d6-20020aca3606000000b0034d14c6ce3dsm1235061oia.16.2022.10.21.08.48.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Oct 2022 08:48:42 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Message-ID: <86f1e768-11ee-a693-d41e-9416ffa3fb04@gmail.com>
+Date: Fri, 21 Oct 2022 10:48:41 -0500
 MIME-Version: 1.0
-Subject: Re: [OE-core] [kirkstone 00/26] Patch review
-References: <CAOSpxdY7jX0L+eVhQmsATJ0Ui7WY2BO3YLhHPy9A1_xD8WVo7Q@mail.gmail.com>
- <10174.1655345951333043146@lists.openembedded.org>
- <e449115f-00a6-e11a-cd8d-f502db8a0b0d@windriver.com>
-From: "Sundeep KOKKONDA" <sundeep.kokkonda@gmail.com>
-In-Reply-To: <e449115f-00a6-e11a-cd8d-f502db8a0b0d@windriver.com>
-Content-Type: multipart/mixed; boundary="------------dQosiDXkoKRCtPQBLCUi0006"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [OE-core] [PATCH] runqemu: preload uninative libraries when host
+ gl drivers are in use
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+ Alexander Kanavin <alex@linutronix.de>
+References: <20220204204027.2323845-1-alex@linutronix.de>
+ <CAJdd5GZtMysfzY_Rz2vv_JwG_f=TvaFenS3X6iM0_p6cAQaEAg@mail.gmail.com>
+ <CANNYZj9oxuvB3J0pF+iZQnKxENos8jKS9qvjKkPUFA986q-FEw@mail.gmail.com>
 Content-Language: en-US
-List-id: <openembedded-core.lists.openembedded.org>
-To: Randy MacLeod <randy.macleod@windriver.com>, openembedded-core@lists.openembedded.org, "steve@sakoman.com" <steve@sakoman.com>
+In-Reply-To: <CANNYZj9oxuvB3J0pF+iZQnKxENos8jKS9qvjKkPUFA986q-FEw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+List-Id: <openembedded-core.lists.openembedded.org>
+X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
+ aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Oct 2022 15:48:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172028
 
---------------dQosiDXkoKRCtPQBLCUi0006
-Content-Type: multipart/alternative;
- boundary="------------0pqvIRfx1iRkHi01wp2Rj9AL"
+Ya I've tracked it down to when qemu invokes the qemu-oe-bridge-helper 
+to setup network bridging. This is a shell script that uses /bin/sh, and 
+as the log indicates, /bin/sh can't find the required symbols to start 
+up (and qemu fails).
 
---------------0pqvIRfx1iRkHi01wp2Rj9AL
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: 8bit
+I also see it when runqemu attempt so to invoke the stty program to 
+cleanup the console after qemu runs for the same reason. This one is a 
+little easier to fix; I have a prototype patch that only passes the 
+munged environment that sets LD_PRELOAD when runqemu actually invokes 
+qemu by passing env= to subprocess. The other process invocations with 
+subprcess are not passed this environment, so they don't see the 
+LD_PRELOAD. This doesn't fix the bridge problem however because in that 
+case, qemu is invoking the script so the script inherits qemu's environment.
 
-Hello Randy,
-
-On 16-06-2022 19:49, Randy MacLeod wrote:
-> On 2022-06-15 22:19, Sundeep KOKKONDA wrote:
->> Hello,
+On 10/21/22 10:43, Alexander Kanavin wrote:
+> This is the first time I hear about this - can you find out what is
+> expecting the symbol, and where it's supposed to come from?
+>
+> Alex
+>
+> On Fri, 21 Oct 2022 at 17:27, Joshua Watt <jpewhacker@gmail.com> wrote:
+>> This patch broke runqemu for me when I moved to kirkstone. I get this error:
 >>
->> GCC regression test performed on /Kirkstone/ with gcc-11.3 & 
->> gcc-11.2. The results are *NOT* identical. Below is test summary.
+>>   /bin/sh: symbol lookup error:
+>> /grmn/prj/mrn/alchemy/build/tmp/eng/kirkstone/tetra/sysroots-uninative/x86_64-linux/lib/librt.so.1:
+>> undefined symbol: __libc_unwind_link_get, version GLIBC_PRIVATE
 >>
->> *gcc-11.3:*
->> /                === gcc Summary ===/
->> /# of expected passes            126552/
->> /# of unexpected failures        24295/
->> /# of unexpected successes       77/
->> /# of expected failures          782/
->> /# of unresolved testcases       10/
->> /# of unsupported tests          2760/
->> //home/bft1/skokkonda/kirkstone/poky/build/sdk/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc 
->> version 11.3.0 (GCC)/
+>> And I'm not sure how to fix it. Reverting this change does resolve the problem.
 >>
->> *gcc-11.2:*
->> /                === gcc Summary ===/
->> /# of expected passes            125933/
->> /# of unexpected failures        24215/
->> /# of unexpected successes       76/
->> /# of expected failures          773/
->> /# of unresolved testcases       10/
->> /# of unsupported tests          2779/
->> //home/bft1/skokkonda/kirkstone-gcc-11.2/poky/build/sdk/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc 
->> version 11.2.0 (GCC)
+>> My host is Ubuntu 20.04
 >>
 >>
->> /
->
-> /11.3: # of expected passes            126552/
-> //11.2: # of expected passes            125933//
->
-> So >= 619 additional tests were added and they mostly pass (as you'd 
-> expect).
-> That's good news.
->
->
-> /11.3: # of unexpected failures        24295/
-> /11.2: # of unexpected failures        24215/
-> /
-> /
-> /So 80 additional unexpected failures - can you summarize what these 
-> failures are?
-> /
-There are 83 tests failed with GCC-11.3 and out of them most of the 
-failed cases (75 tests) are /execution /tests and the remaining are 
-/test for excess errors/ (Tests with excess messages output to stderr). 
-The Failed tests list is attached.
-> /Were any of them fixed after the 11.3 tag?
-> /
-Does it mean, do you want me to test on 11.4 and compare?
-> /
-> Are they related to one part of the toolchain or spread across various 
-> features?
-> Are they reproducible when buiding outside of bitbake?/
-The test failures are from gcc.dg/torture, gcc.c-torture & gcc.target 
-testsuites.
-> /
-> /
-> /The other differences are less significant.
-> If you post similar data in future emails, please do the math for people!
-> /
-> /
-> /
-> //
->> gcc-11.3 & gcc-11.2 test summaries are attached.
->
-> I didn't look at these yet but  thanks for providing them.
->
-> Since we're not seeing any runtime regression in our Yocto
-> test suite, I suspect that we shouldn't panic but should instead
-> just work to understand, fix, upstream and monitor for future regressions.
->
-> ../Randy
->
 >>
->>
->> --
->> Thanks,
->> Sundeep K.
->>
->> 
->>
->
-> -- 
-> # Randy MacLeod
-> # Wind River Linux
+>> On Fri, Feb 4, 2022 at 2:40 PM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+>>> Some of the host distributions build the drivers in a way (RPATH/RUNPATH)
+>>> that tricks uninative loader into loading pieces of the host libc, if
+>>> the same pieces haven't been previously loaded by native binaries. Mixing
+>>> the two libc versions leads to failures.
+>>>
+>>> This change ensures that the correct (uninative) versions are always in use.
+>>>
+>>> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+>>> ---
+>>>   meta/classes/qemuboot.bbclass | 2 +-
+>>>   scripts/runqemu               | 4 ++++
+>>>   2 files changed, 5 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
+>>> index cc1cbce69d..229bd88527 100644
+>>> --- a/meta/classes/qemuboot.bbclass
+>>> +++ b/meta/classes/qemuboot.bbclass
+>>> @@ -109,7 +109,7 @@ def qemuboot_vars(d):
+>>>       build_vars = ['MACHINE', 'TUNE_ARCH', 'DEPLOY_DIR_IMAGE',
+>>>                   'KERNEL_IMAGETYPE', 'IMAGE_NAME', 'IMAGE_LINK_NAME',
+>>>                   'STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE',
+>>> -                'STAGING_DIR_HOST', 'SERIAL_CONSOLES']
+>>> +                'STAGING_DIR_HOST', 'SERIAL_CONSOLES', 'UNINATIVE_LOADER']
+>>>       return build_vars + [k for k in d.keys() if k.startswith('QB_')]
+>>>
+>>>   do_write_qemuboot_conf[vardeps] += "${@' '.join(qemuboot_vars(d))}"
+>>> diff --git a/scripts/runqemu b/scripts/runqemu
+>>> index 4e05c1bb15..7d1f85f357 100755
+>>> --- a/scripts/runqemu
+>>> +++ b/scripts/runqemu
+>>> @@ -460,6 +460,10 @@ class BaseConfig(object):
+>>>           except subprocess.CalledProcessError as e:
+>>>               raise RunQemuError("Could not determine the path to dri drivers on the host via pkg-config.\nPlease install Mesa development files (particularly, dri.pc) on the host machine.")
+>>>           os.environ['LIBGL_DRIVERS_PATH'] = dripath.decode('utf-8').strip()
+>>> +        uninative_path = os.path.dirname(self.get("UNINATIVE_LOADER"))
+>>> +        preload_items = ['libdl.so.2', 'librt.so.1', 'libpthread.so.0']
+>>> +        preload_paths = [os.path.join(uninative_path, i) for i in preload_items]
+>>> +        os.environ['LD_PRELOAD'] = " ".join(preload_paths)
+>>>
+>>>       def check_args(self):
+>>>           for debug in ("-d", "--debug"):
+>>> --
+>>> 2.20.1
+>>>
+>>>
+>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>> Links: You receive all messages sent to this group.
+>>> View/Reply Online (#161382): https://lists.openembedded.org/g/openembedded-core/message/161382
+>>> Mute This Topic: https://lists.openembedded.org/mt/88916306/3616693
+>>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JPEWhacker@gmail.com]
+>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>>
 
-
---------------0pqvIRfx1iRkHi01wp2Rj9AL
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">Hello Randy,</div>
-    <div class="moz-cite-prefix"><br>
-    </div>
-    <div class="moz-cite-prefix">On 16-06-2022 19:49, Randy MacLeod
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:e449115f-00a6-e11a-cd8d-f502db8a0b0d@windriver.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <div class="moz-cite-prefix">On 2022-06-15 22:19, Sundeep KOKKONDA
-        wrote:<br>
-      </div>
-      <blockquote type="cite"
-        cite="mid:10174.1655345951333043146@lists.openembedded.org">
-        Hello,<br>
-        <br>
-        GCC regression test performed on <em>Kirkstone</em> with
-        gcc-11.3 &amp; gcc-11.2. The results are <strong>NOT</strong>
-        identical. Below is test summary.<br>
-        <br>
-        <span style="text-decoration: underline;"><strong>gcc-11.3:</strong></span><br>
-        <div><em>                === gcc Summary ===</em></div>
-        <div> </div>
-        <div><em># of expected passes            126552</em></div>
-        <div><em># of unexpected failures        24295</em></div>
-        <div><em># of unexpected successes       77</em></div>
-        <div><em># of expected failures          782</em></div>
-        <div><em># of unresolved testcases       10</em></div>
-        <div><em># of unsupported tests          2760</em></div>
-        <div><em>/home/bft1/skokkonda/kirkstone/poky/build/sdk/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc 
-            version 11.3.0 (GCC)</em></div>
-        <br>
-        <span style="text-decoration: underline;"><strong>gcc-11.2:</strong></span><br>
-        <div><em>                === gcc Summary ===</em></div>
-        <div> </div>
-        <div><em># of expected passes            125933</em></div>
-        <div><em># of unexpected failures        24215</em></div>
-        <div><em># of unexpected successes       76</em></div>
-        <div><em># of expected failures          773</em></div>
-        <div><em># of unresolved testcases       10</em></div>
-        <div><em># of unsupported tests          2779</em></div>
-        <div><em>/home/bft1/skokkonda/kirkstone-gcc-11.2/poky/build/sdk/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc 
-            version 11.2.0 (GCC)<br>
-            <br>
-            <br>
-          </em></div>
-      </blockquote>
-      <p><em>11.3: # of expected passes            126552</em><br>
-        <em><em>11.2: # of expected passes            125933</em></em></p>
-      <p>So &gt;= 619 additional tests were added and they mostly pass
-        (as you'd expect).<br>
-        That's good news.<br>
-      </p>
-      <p><br>
-      </p>
-      <div><em>11.3: # of unexpected failures        24295</em><br>
-        <div><em>11.2: # of unexpected failures        24215</em></div>
-        <div><em><br>
-          </em></div>
-        <div><em>So 80 additional unexpected failures - can you
-            summarize what these failures are?<br>
-          </em></div>
-      </div>
-    </blockquote>
-    There are 83 tests failed with GCC-11.3 and out of them most of the
-    failed cases (75 tests) are <i>execution </i>tests and the
-    remaining are <i>test for excess errors</i> (Tests with excess
-    messages output to stderr). The Failed tests list is attached.
-    <blockquote type="cite"
-      cite="mid:e449115f-00a6-e11a-cd8d-f502db8a0b0d@windriver.com">
-      <div>
-        <div><em> Were any of them fixed after the 11.3 tag? <br>
-          </em></div>
-      </div>
-    </blockquote>
-    Does it mean, do you want me to test on 11.4 and compare?<br>
-    <blockquote type="cite"
-      cite="mid:e449115f-00a6-e11a-cd8d-f502db8a0b0d@windriver.com">
-      <div>
-        <div><em> <br>
-            Are they related to one part of the toolchain or spread
-            across various features? <br>
-            Are they reproducible when buiding outside of bitbake?</em></div>
-      </div>
-    </blockquote>
-    The test failures are from gcc.dg/torture<span style="color: rgb(0,
-      0, 0); font-family: monospace; font-size: medium; font-style:
-      normal; font-variant-ligatures: normal; font-variant-caps: normal;
-      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
-      start; text-indent: 0px; text-transform: none; white-space:
-      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
-      0px; text-decoration-thickness: initial; text-decoration-style:
-      initial; text-decoration-color: initial; display: inline
-      !important; float: none;"></span>, <span style="color: rgb(0, 0,
-      0); font-family: monospace; font-size: medium; font-style: normal;
-      font-variant-ligatures: normal; font-variant-caps: normal;
-      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
-      start; text-indent: 0px; text-transform: none; white-space:
-      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
-      0px; text-decoration-thickness: initial; text-decoration-style:
-      initial; text-decoration-color: initial; display: inline
-      !important; float: none;">gcc.c-torture </span>&amp; gcc.target
-    testsuites.<br>
-    <blockquote type="cite"
-      cite="mid:e449115f-00a6-e11a-cd8d-f502db8a0b0d@windriver.com">
-      <div>
-        <div><em><br>
-          </em></div>
-        <div><em>The other differences are less significant.<br>
-            If you post similar data in future emails, please do the
-            math for people! <br>
-          </em></div>
-        <div><em><br>
-          </em></div>
-        <em></em></div>
-      <blockquote type="cite"
-        cite="mid:10174.1655345951333043146@lists.openembedded.org">
-        <div>gcc-11.3 &amp; gcc-11.2 test summaries are attached.<br>
-        </div>
-      </blockquote>
-      <p>I didn't look at these yet but  thanks for providing them.</p>
-      <p>Since we're not seeing any runtime regression in our Yocto<br>
-        test suite, I suspect that we shouldn't panic but should instead<br>
-        just work to understand, fix, upstream and monitor for future
-        regressions.<br>
-      </p>
-      <p>../Randy<br>
-      </p>
-      <blockquote type="cite"
-        cite="mid:10174.1655345951333043146@lists.openembedded.org">
-        <div><br>
-          <br>
-          --<br>
-          Thanks,<br>
-          Sundeep K.</div>
-        <br>
-        <fieldset class="moz-mime-attachment-header"></fieldset>
-        <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      </blockquote>
-      <p><br>
-      </p>
-      <pre class="moz-signature" cols="72">-- 
-# Randy MacLeod
-# Wind River Linux</pre>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------0pqvIRfx1iRkHi01wp2Rj9AL--
-
---------------dQosiDXkoKRCtPQBLCUi0006
-Content-Type: text/plain; charset=UTF-8; name="FailedTests_GCC-11.3"
-Content-Disposition: attachment; filename="FailedTests_GCC-11.3"
-Content-Transfer-Encoding: base64
-
-RkFJTDogZ2NjLmMtdG9ydHVyZS9leGVjdXRlL2JpdGZsZC0xMC5jICAgLU8wICBleGVjdXRpb24g
-dGVzdA0KRkFJTDogZ2NjLmMtdG9ydHVyZS9leGVjdXRlL2JpdGZsZC0xMC5jICAgLU8xICBleGVj
-dXRpb24gdGVzdA0KRkFJTDogZ2NjLmMtdG9ydHVyZS9leGVjdXRlL2JpdGZsZC0xMC5jICAgLU8y
-ICBleGVjdXRpb24gdGVzdA0KRkFJTDogZ2NjLmMtdG9ydHVyZS9leGVjdXRlL2JpdGZsZC0xMC5j
-ICAgLU8zIC1nICBleGVjdXRpb24gdGVzdA0KRkFJTDogZ2NjLmMtdG9ydHVyZS9leGVjdXRlL2Jp
-dGZsZC0xMC5jICAgLU9zICBleGVjdXRpb24gdGVzdA0KRkFJTDogZ2NjLmMtdG9ydHVyZS9leGVj
-dXRlL2JpdGZsZC0xMC5jICAgLU8yIC1mbHRvIC1mbm8tdXNlLWxpbmtlci1wbHVnaW4gLWZsdG8t
-cGFydGl0aW9uPW5vbmUgIGV4ZWN1dGlvbiB0ZXN0DQpGQUlMOiBnY2MuYy10b3J0dXJlL2V4ZWN1
-dGUvYml0ZmxkLTEwLmMgICAtTzIgLWZsdG8gLWZ1c2UtbGlua2VyLXBsdWdpbiAtZm5vLWZhdC1s
-dG8tb2JqZWN0cyAgZXhlY3V0aW9uIHRlc3QNCkZBSUw6IGdjYy5jLXRvcnR1cmUvZXhlY3V0ZS9w
-cjEwMzA1Mi5jICAgLU8wICBleGVjdXRpb24gdGVzdA0KRkFJTDogZ2NjLmMtdG9ydHVyZS9leGVj
-dXRlL3ByMTAzMDUyLmMgICAtTzEgIGV4ZWN1dGlvbiB0ZXN0DQpGQUlMOiBnY2MuYy10b3J0dXJl
-L2V4ZWN1dGUvcHIxMDMwNTIuYyAgIC1PMiAgZXhlY3V0aW9uIHRlc3QNCkZBSUw6IGdjYy5jLXRv
-cnR1cmUvZXhlY3V0ZS9wcjEwMzA1Mi5jICAgLU8zIC1nICBleGVjdXRpb24gdGVzdA0KRkFJTDog
-Z2NjLmMtdG9ydHVyZS9leGVjdXRlL3ByMTAzMDUyLmMgICAtT3MgIGV4ZWN1dGlvbiB0ZXN0DQpG
-QUlMOiBnY2MuYy10b3J0dXJlL2V4ZWN1dGUvcHIxMDMwNTIuYyAgIC1PMiAtZmx0byAtZm5vLXVz
-ZS1saW5rZXItcGx1Z2luIC1mbHRvLXBhcnRpdGlvbj1ub25lICBleGVjdXRpb24gdGVzdA0KRkFJ
-TDogZ2NjLmMtdG9ydHVyZS9leGVjdXRlL3ByMTAzMDUyLmMgICAtTzIgLWZsdG8gLWZ1c2UtbGlu
-a2VyLXBsdWdpbiAtZm5vLWZhdC1sdG8tb2JqZWN0cyAgZXhlY3V0aW9uIHRlc3QNCkZBSUw6IGdj
-Yy5jLXRvcnR1cmUvZXhlY3V0ZS9wcjEwMzI1NS5jICAgLU8wICBleGVjdXRpb24gdGVzdA0KRkFJ
-TDogZ2NjLmMtdG9ydHVyZS9leGVjdXRlL3ByMTAzMjU1LmMgICAtTzEgIGV4ZWN1dGlvbiB0ZXN0
-DQpGQUlMOiBnY2MuYy10b3J0dXJlL2V4ZWN1dGUvcHIxMDMyNTUuYyAgIC1PMiAgZXhlY3V0aW9u
-IHRlc3QNCkZBSUw6IGdjYy5jLXRvcnR1cmUvZXhlY3V0ZS9wcjEwMzI1NS5jICAgLU8zIC1mb21p
-dC1mcmFtZS1wb2ludGVyIC1mdW5yb2xsLWxvb3BzIC1mcGVlbC1sb29wcyAtZnRyYWNlciAtZmlu
-bGluZS1mdW5jdGlvbnMgIGV4ZWN1dGlvbiB0ZXN0DQpGQUlMOiBnY2MuYy10b3J0dXJlL2V4ZWN1
-dGUvcHIxMDMyNTUuYyAgIC1PMyAtZyAgZXhlY3V0aW9uIHRlc3QNCkZBSUw6IGdjYy5jLXRvcnR1
-cmUvZXhlY3V0ZS9wcjEwMzI1NS5jICAgLU9zICBleGVjdXRpb24gdGVzdA0KRkFJTDogZ2NjLmMt
-dG9ydHVyZS9leGVjdXRlL3ByMTAzMjU1LmMgICAtTzIgLWZsdG8gLWZuby11c2UtbGlua2VyLXBs
-dWdpbiAtZmx0by1wYXJ0aXRpb249bm9uZSAgZXhlY3V0aW9uIHRlc3QNCkZBSUw6IGdjYy5jLXRv
-cnR1cmUvZXhlY3V0ZS9wcjEwMzI1NS5jICAgLU8yIC1mbHRvIC1mdXNlLWxpbmtlci1wbHVnaW4g
-LWZuby1mYXQtbHRvLW9iamVjdHMgIGV4ZWN1dGlvbiB0ZXN0DQpGQUlMOiBnY2MuYy10b3J0dXJl
-L2V4ZWN1dGUvcHIxMDQ4MTQuYyAgIC1PMCAgZXhlY3V0aW9uIHRlc3QNCkZBSUw6IGdjYy5jLXRv
-cnR1cmUvZXhlY3V0ZS9wcjEwNDgxNC5jICAgLU8xICBleGVjdXRpb24gdGVzdA0KRkFJTDogZ2Nj
-LmMtdG9ydHVyZS9leGVjdXRlL3ByMTA0ODE0LmMgICAtTzIgIGV4ZWN1dGlvbiB0ZXN0DQpGQUlM
-OiBnY2MuYy10b3J0dXJlL2V4ZWN1dGUvcHIxMDQ4MTQuYyAgIC1PMyAtZm9taXQtZnJhbWUtcG9p
-bnRlciAtZnVucm9sbC1sb29wcyAtZnBlZWwtbG9vcHMgLWZ0cmFjZXIgLWZpbmxpbmUtZnVuY3Rp
-b25zICBleGVjdXRpb24gdGVzdA0KRkFJTDogZ2NjLmMtdG9ydHVyZS9leGVjdXRlL3ByMTA0ODE0
-LmMgICAtTzMgLWcgIGV4ZWN1dGlvbiB0ZXN0DQpGQUlMOiBnY2MuYy10b3J0dXJlL2V4ZWN1dGUv
-cHIxMDQ4MTQuYyAgIC1PcyAgZXhlY3V0aW9uIHRlc3QNCkZBSUw6IGdjYy5jLXRvcnR1cmUvZXhl
-Y3V0ZS9wcjEwNDgxNC5jICAgLU8yIC1mbHRvIC1mbm8tdXNlLWxpbmtlci1wbHVnaW4gLWZsdG8t
-cGFydGl0aW9uPW5vbmUgIGV4ZWN1dGlvbiB0ZXN0DQpGQUlMOiBnY2MuYy10b3J0dXJlL2V4ZWN1
-dGUvcHIxMDQ4MTQuYyAgIC1PMiAtZmx0byAtZnVzZS1saW5rZXItcGx1Z2luIC1mbm8tZmF0LWx0
-by1vYmplY3RzICBleGVjdXRpb24gdGVzdA0KRkFJTDogZ2NjLmRnL2FuYWx5emVyL2RhdGEtbW9k
-ZWwtMS5jICAodGVzdCBmb3Igd2FybmluZ3MsIGxpbmUgMjU0KQ0KRkFJTDogZ2NjLmRnL2FuYWx5
-emVyL3N0cm5kdXAtMS5jICAodGVzdCBmb3Igd2FybmluZ3MsIGxpbmUgMTEpDQpGQUlMOiBjLWMr
-Ky1jb21tb24vY3BwL3ByMTA0MTQ3LmMgIC1XYysrLWNvbXBhdCAgZXhlY3V0aW9uIHRlc3QNCkZB
-SUw6IGdjYy5kZy9wcjEwMjIyNC5jIGV4ZWN1dGlvbiB0ZXN0DQpGQUlMOiBnY2MuZGcvcHIxMDI3
-OTguYyBleGVjdXRpb24gdGVzdA0KRkFJTDogZ2NjLmRnL3ByMTAzODYwLmMgZXhlY3V0aW9uIHRl
-c3QNCkZBSUw6IGdjYy5kZy9zc28tMTYuYyBleGVjdXRpb24gdGVzdA0KRkFJTDogZ2NjLmRnL2lw
-YS9wcjEwMzA4My0xLmMgZXhlY3V0aW9uIHRlc3QNCkZBSUw6IGdjYy5kZy9sdG8vcHIxMDE4Njgg
-Y19sdG9fcHIxMDE4NjhfMC5vLWNfbHRvX3ByMTAxODY4XzMubyBleGVjdXRlIC1PMiAtZm5vLXN0
-cmljdC1hbGlhc2luZyAtZmx0bw0KRkFJTDogZ2NjLmRnL2x0by9wcjEwMTk0OSBjX2x0b19wcjEw
-MTk0OV8wLm8tY19sdG9fcHIxMDE5NDlfMS5vIGV4ZWN1dGUgLU8yIC1maXBhLXB0YSAtZmx0byAt
-Zmx0by1wYXJ0aXRpb249MXRvMQ0KRkFJTDogZ2NjLmRnL3RvcnR1cmUvcHIxMDIxMzkuYyAgIC1P
-MCAgZXhlY3V0aW9uIHRlc3QNCkZBSUw6IGdjYy5kZy90b3J0dXJlL3ByMTAyMTM5LmMgICAtTzEg
-IGV4ZWN1dGlvbiB0ZXN0DQpGQUlMOiBnY2MuZGcvdG9ydHVyZS9wcjEwMjEzOS5jICAgLU8yICBl
-eGVjdXRpb24gdGVzdA0KRkFJTDogZ2NjLmRnL3RvcnR1cmUvcHIxMDIxMzkuYyAgIC1PMyAtZyAg
-ZXhlY3V0aW9uIHRlc3QNCkZBSUw6IGdjYy5kZy90b3J0dXJlL3ByMTAyMTM5LmMgICAtT3MgIGV4
-ZWN1dGlvbiB0ZXN0DQpGQUlMOiBnY2MuZGcvdG9ydHVyZS9wcjEwMjEzOS5jICAgLU8yIC1mbHRv
-IC1mbm8tdXNlLWxpbmtlci1wbHVnaW4gLWZsdG8tcGFydGl0aW9uPW5vbmUgIGV4ZWN1dGlvbiB0
-ZXN0DQpGQUlMOiBnY2MuZGcvdG9ydHVyZS9wcjEwMjEzOS5jICAgLU8yIC1mbHRvIC1mdXNlLWxp
-bmtlci1wbHVnaW4gLWZuby1mYXQtbHRvLW9iamVjdHMgIGV4ZWN1dGlvbiB0ZXN0DQpGQUlMOiBn
-Y2MuZGcvdG9ydHVyZS9wcjEwMzE4MS5jICAgLU8wICBleGVjdXRpb24gdGVzdA0KRkFJTDogZ2Nj
-LmRnL3RvcnR1cmUvcHIxMDMxODEuYyAgIC1PMSAgZXhlY3V0aW9uIHRlc3QNCkZBSUw6IGdjYy5k
-Zy90b3J0dXJlL3ByMTAzMTgxLmMgICAtTzIgIGV4ZWN1dGlvbiB0ZXN0DQpGQUlMOiBnY2MuZGcv
-dG9ydHVyZS9wcjEwMzE4MS5jICAgLU8zIC1nICBleGVjdXRpb24gdGVzdA0KRkFJTDogZ2NjLmRn
-L3RvcnR1cmUvcHIxMDMxODEuYyAgIC1PcyAgZXhlY3V0aW9uIHRlc3QNCkZBSUw6IGdjYy5kZy90
-b3J0dXJlL3ByMTAzMTgxLmMgICAtTzIgLWZsdG8gLWZuby11c2UtbGlua2VyLXBsdWdpbiAtZmx0
-by1wYXJ0aXRpb249bm9uZSAgZXhlY3V0aW9uIHRlc3QNCkZBSUw6IGdjYy5kZy90b3J0dXJlL3By
-MTAzMTgxLmMgICAtTzIgLWZsdG8gLWZ1c2UtbGlua2VyLXBsdWdpbiAtZm5vLWZhdC1sdG8tb2Jq
-ZWN0cyAgZXhlY3V0aW9uIHRlc3QNCkZBSUw6IGdjYy5kZy90b3J0dXJlL3ByMTAzMjM3LmMgICAt
-TzAgIGV4ZWN1dGlvbiB0ZXN0DQpGQUlMOiBnY2MuZGcvdG9ydHVyZS9wcjEwMzIzNy5jICAgLU8x
-ICBleGVjdXRpb24gdGVzdA0KRkFJTDogZ2NjLmRnL3RvcnR1cmUvcHIxMDMyMzcuYyAgIC1PMiAg
-ZXhlY3V0aW9uIHRlc3QNCkZBSUw6IGdjYy5kZy90b3J0dXJlL3ByMTAzMjM3LmMgICAtTzMgLWZv
-bWl0LWZyYW1lLXBvaW50ZXIgLWZ1bnJvbGwtbG9vcHMgLWZwZWVsLWxvb3BzIC1mdHJhY2VyIC1m
-aW5saW5lLWZ1bmN0aW9ucyAgZXhlY3V0aW9uIHRlc3QNCkZBSUw6IGdjYy5kZy90b3J0dXJlL3By
-MTAzMjM3LmMgICAtTzMgLWcgIGV4ZWN1dGlvbiB0ZXN0DQpGQUlMOiBnY2MuZGcvdG9ydHVyZS9w
-cjEwMzIzNy5jICAgLU9zICBleGVjdXRpb24gdGVzdA0KRkFJTDogZ2NjLmRnL3RvcnR1cmUvcHIx
-MDMyMzcuYyAgIC1PMiAtZmx0byAtZm5vLXVzZS1saW5rZXItcGx1Z2luIC1mbHRvLXBhcnRpdGlv
-bj1ub25lICBleGVjdXRpb24gdGVzdA0KRkFJTDogZ2NjLmRnL3RvcnR1cmUvcHIxMDMyMzcuYyAg
-IC1PMiAtZmx0byAtZnVzZS1saW5rZXItcGx1Z2luIC1mbm8tZmF0LWx0by1vYmplY3RzICBleGVj
-dXRpb24gdGVzdA0KRkFJTDogZ2NjLmRnL3RvcnR1cmUvcHIxMDUxOTguYyAgIC1PMCAgZXhlY3V0
-aW9uIHRlc3QNCkZBSUw6IGdjYy5kZy90b3J0dXJlL3ByMTA1MTk4LmMgICAtTzEgIGV4ZWN1dGlv
-biB0ZXN0DQpGQUlMOiBnY2MuZGcvdG9ydHVyZS9wcjEwNTE5OC5jICAgLU8yICBleGVjdXRpb24g
-dGVzdA0KRkFJTDogZ2NjLmRnL3RvcnR1cmUvcHIxMDUxOTguYyAgIC1PMyAtZm9taXQtZnJhbWUt
-cG9pbnRlciAtZnVucm9sbC1sb29wcyAtZnBlZWwtbG9vcHMgLWZ0cmFjZXIgLWZpbmxpbmUtZnVu
-Y3Rpb25zICBleGVjdXRpb24gdGVzdA0KRkFJTDogZ2NjLmRnL3RvcnR1cmUvcHIxMDUxOTguYyAg
-IC1PMyAtZyAgZXhlY3V0aW9uIHRlc3QNCkZBSUw6IGdjYy5kZy90b3J0dXJlL3ByMTA1MTk4LmMg
-ICAtT3MgIGV4ZWN1dGlvbiB0ZXN0DQpGQUlMOiBnY2MuZGcvdG9ydHVyZS9wcjEwNTE5OC5jICAg
-LU8yIC1mbHRvIC1mbm8tdXNlLWxpbmtlci1wbHVnaW4gLWZsdG8tcGFydGl0aW9uPW5vbmUgIGV4
-ZWN1dGlvbiB0ZXN0DQpGQUlMOiBnY2MuZGcvdG9ydHVyZS9wcjEwNTE5OC5jICAgLU8yIC1mbHRv
-IC1mdXNlLWxpbmtlci1wbHVnaW4gLWZuby1mYXQtbHRvLW9iamVjdHMgIGV4ZWN1dGlvbiB0ZXN0
-DQpGQUlMOiBnY2MuZGcvdmVjdC9iYi1zbHAtcHIxMDE2MTUtMi5jIGV4ZWN1dGlvbiB0ZXN0DQpG
-QUlMOiBnY2MuZGcvdmVjdC9iYi1zbHAtcHIxMDE2MTUtMi5jIC1mbHRvIC1mZmF0LWx0by1vYmpl
-Y3RzIGV4ZWN1dGlvbiB0ZXN0DQpGQUlMOiBnY2MudGFyZ2V0L2kzODYvYXZ4LXByMTAyMjI0LmMg
-ZXhlY3V0aW9uIHRlc3QNCkZBSUw6IGdjYy50YXJnZXQvaTM4Ni9hdng1MTJmLXByMTAxNDcxLmMg
-KHRlc3QgZm9yIGV4Y2VzcyBlcnJvcnMpDQpGQUlMOiBnY2MudGFyZ2V0L2kzODYvYXZ4NTEyZi1w
-cjEwMTQ3MS5jIGV4ZWN1dGlvbiB0ZXN0DQpGQUlMOiBnY2MudGFyZ2V0L2kzODYvcHIxMDI0OTgu
-YyBleGVjdXRpb24gdGVzdA0KRkFJTDogZ2NjLnRhcmdldC9pMzg2L3ByMTAyNjI3LmMgZXhlY3V0
-aW9uIHRlc3QNCkZBSUw6IGdjYy50YXJnZXQvaTM4Ni9wcjEwNDk3MS5jIGV4ZWN1dGlvbiB0ZXN0
-DQpGQUlMOiBnY2MudGFyZ2V0L2kzODYvcHIxMDUwMDAtMS5jICh0ZXN0IGZvciBleGNlc3MgZXJy
-b3JzKQ0KRkFJTDogZ2NjLnRhcmdldC9pMzg2L3ByMTA1MDAwLTIuYyAodGVzdCBmb3IgZXhjZXNz
-IGVycm9ycykNCkZBSUw6IGdjYy50YXJnZXQvaTM4Ni9wcjEwNTAwMC0zLmMgKHRlc3QgZm9yIGV4
-Y2VzcyBlcnJvcnMpDQpGQUlMOiBnY2MudGFyZ2V0L2kzODYvcHI5OTc1NC0xLmMgZXhlY3V0aW9u
-IHRlc3QNCkZBSUw6IGdjYy50YXJnZXQvaTM4Ni9wcjk5NzU0LTIuYyBleGVjdXRpb24gdGVzdA==
-
---------------dQosiDXkoKRCtPQBLCUi0006--
