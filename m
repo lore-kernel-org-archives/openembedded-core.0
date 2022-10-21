@@ -1,116 +1,89 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 192F2C433FE
-	for <webhook@archiver.kernel.org>; Fri, 21 Oct 2022 14:05:48 +0000 (UTC)
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
- by mx.groups.io with SMTP id smtpd.web10.10213.1666361138605783843
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 692F4C433FE
+	for <webhook@archiver.kernel.org>; Fri, 21 Oct 2022 14:53:28 +0000 (UTC)
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+ by mx.groups.io with SMTP id smtpd.web11.10765.1666364001557082183
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Oct 2022 07:05:38 -0700
+ Fri, 21 Oct 2022 07:53:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=e3JtZV2x;
- spf=pass (domain: gmail.com, ip: 209.85.167.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f182.google.com with SMTP id o64so3263916oib.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Oct 2022 07:05:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=aRlNbsu5;
+ spf=pass (domain: gmail.com, ip: 209.85.160.48, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-131dda37dddso3903263fac.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Oct 2022 07:53:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=VrCHDyiwjyFdCZYiIFR3uAHIiQjJcTmXj7oBtOGdCBM=;
-        b=e3JtZV2xoKQakKJ1yzYU1WavnfAjG01NdvmSJFkAhPFHU1FUC3rjkXyt5rZJfw1Mn4
-         lbxkDGIosawxdO4bOAWHp9edytcmSIBigl4oZjCzDgmxTRz7oOp+uNoycLjSi7AhEbPA
-         tuXUS99Q3+VnqRC0xKKhvTyc3zVuXyEZp9b6La4hzPYsPYphHRCVJ4KM/lvB6GqNdHQc
-         kay21gDlOIygw2YYrALt4kXmtH/exCZjOBmsZR5Te/7F/pk0a4Dlnzn/L6pqMPr3bqqW
-         s0rGF+qFOGhO8wBizSCDesvrJA9Joq1LzkXnEY0htdHE7jB9EgZUnIvdfstXnWayuhMm
-         rQ/g==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XyI9ousf0MPY81cZsCziviLhDKH+Mlh8sundQNd5yzc=;
+        b=aRlNbsu5RBMgOJAneYogtCBxCmompwqYAb1PgnV+nVE081uBkmk7GsrV5jD3qsGnNE
+         v1prjUrwxPiVBigHfZfwP01CPEKaph9dI6pNztPp72X7I//BJeApuFFKmJpBtdwWBf/Q
+         jIpX67YVdycqRbrUla/riiN0g7DsKLTEB+qU+HwAd8y1KElwqSIUpwcyCpgMPjttHqMy
+         o2RP53DSfKAd9dMXTUa4GB/zOgaxx9RrfpUzEAntPqo27xQ/zxUD3rjL/u4igmRwAm3o
+         j8g88zLUfxy673iQE1qGeEogYQVjXYPWTgxAB07QlZI4p7T8q/F0ywXwT3F/Y+G5z5RY
+         GWTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VrCHDyiwjyFdCZYiIFR3uAHIiQjJcTmXj7oBtOGdCBM=;
-        b=hs3pxHt0RPzulqYv140xiVofhfDcag8kCD3ajJksYZTxWKOdxaSZ2XNDgmYNvPAsHh
-         T0BNvS6Y3ezhTFp2es/P9ql0tq/mMWhNEfHtzb3/Qu6k9vRbdjqhyelMd7PrD6DHZa1+
-         dTBuPssburYJcQU/QRrK+RJEMiEiylk5Ky4YzEfgzJdUAeOEiab4aZ7Qg7OiS89XLXL1
-         EDupX7MtrvovGwUJiWXEmSEXhIpjpSP0N3W2sWjMJwwybhA6w6xiVPzGw9ya2eEE/Jf8
-         y6Hs4u78nug4auX89x6l9W7RmrqbURujNhZmDeLJ9x0fK0mR65oHwmdSMQztYWwDK60D
-         4f2A==
-X-Gm-Message-State: ACrzQf1fljUUQn571DBtlVZGY0ShHtkxG2slkA2ouc7A3zUk3P9MqWRf
-	y+PHB9ekTI0toWwtWzjarfchhTULP5VrILVI31Aa8qqE
-X-Google-Smtp-Source: AMsMyM7j/qsmw0YlsOk2p6FnxqVjY05Q+/T7mO2UK+zUGOgmM/l7mBsl7mNKIL27KNJAPMSsb2YZulgzOom64kZvjN4=
-X-Received: by 2002:a05:6808:1902:b0:355:3420:6585 with SMTP id
- bf2-20020a056808190200b0035534206585mr14375514oib.262.1666361137802; Fri, 21
- Oct 2022 07:05:37 -0700 (PDT)
+        bh=XyI9ousf0MPY81cZsCziviLhDKH+Mlh8sundQNd5yzc=;
+        b=n6nepZE1A4JoMenO1V41eSQ3wRMuiIXAPk2KyIMJYXkGDAlqNTjlks1coOAlHeKcyh
+         7oaAwNTRTddyna8uK9k87mG5rtn+u20PtVWfnGqFe/Nk/QzlK9hjbZx+fYbdlVnoGt71
+         ZR9+TidAj1CCnY1cHXl4Gj0rlWN4ACYFHGMjBv/ncrKw+0D3QtZ88EmxnP9xlZ3SyemT
+         KrJAT8UbJMPYojqgoa63AkGOW9uJYbV67H0J6Cjrr8oYakasmiZTudNRrjhwheCX9LQZ
+         Yaa6anz+yhuNaXREGJhtfmwLyaG2hTOmkLtm8HilVl9ggF6VBsQATDLfWnsTytKHRJR/
+         //ng==
+X-Gm-Message-State: ACrzQf096FQAn9Kl4tIaEV5TCJLfEyLNNMoQQNSUF9kyQ+qlgHGcuGfy
+	fu1NOudREajPigMLI5CGbdAIVyLJH94=
+X-Google-Smtp-Source: AMsMyM65ym+1gYxoQ5vSYU7oiBvYVkPMzzmQk40MKzREI9vYfkc+QBZX3Q53W2jP+/mI7oHOv6ImBg==
+X-Received: by 2002:a05:6870:659f:b0:132:78e0:6e6b with SMTP id fp31-20020a056870659f00b0013278e06e6bmr12317235oab.8.1666364000453;
+        Fri, 21 Oct 2022 07:53:20 -0700 (PDT)
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+        by smtp.gmail.com with ESMTPSA id x67-20020a9d37c9000000b006619caef3bdsm1186581otb.25.2022.10.21.07.53.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Oct 2022 07:53:19 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: jon.mason@arm.com,
+	Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] runqemu: Fix gl-es argument from causing other arguments to be ignored
+Date: Fri, 21 Oct 2022 09:53:11 -0500
+Message-Id: <20221021145311.52133-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: <20221020223004.1665512-1-raj.khem@gmail.com> <CANNYZj_-7o3VNCONa1sTgscrWOZtSKy6iB1mL6pOT40wt5fTow@mail.gmail.com>
-In-Reply-To: <CANNYZj_-7o3VNCONa1sTgscrWOZtSKy6iB1mL6pOT40wt5fTow@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 21 Oct 2022 07:05:11 -0700
-Message-ID: <CAMKF1spz7=2NNxXj5w-ZAAohUz9ZxJ=d=eGvCg2N_fsKe1a0aQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] rust: Disable 64bit atomics on crossbeam on riscv32
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Oct 2022 14:05:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172020
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Oct 2022 14:53:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172021
 
-On Thu, Oct 20, 2022 at 11:04 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> We carry this patch, so that manual per-target fixups like this are
-> not needed, and crossbeam's internal lists are used properly:
->
-> https://git.yoctoproject.org/poky/tree/meta/recipes-devtools/rust/rust/crossbeam_atomic.patch?h=master-next&id=f4fe7cdaa7fc5785c55bd507c897f4d25d43cffa
->
-> Is it not working somehow? Does the list itself need to be fixed?
->
+The code to parse arguments was inadvertently skipping all arguments in
+the elif block after gl-es if it was specified on the command line.
 
-This patch is doing something else where its mapping and broadening
-the architecture to match crossbeam's understanding of it.
-Here issue is new where it does not yet realize that some
-architectures do not have 64bit atomics implemented.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ scripts/runqemu | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Alex
->
-> On Fri, 21 Oct 2022 at 00:30, Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > riscv32 builds fail since AtomicI64 is not available in sync::atomic for
-> > this architecture. Therefore it needs to be opted out and the way out is
-> > to pass it by RUSTFLAGS, however rust target recipe overrides RUSTFLAGS
-> > before exporting it so its better to piggy back on the variable its
-> > using which is RUST_DEBUG_REMAP
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/recipes-devtools/rust/rust_1.64.0.bb | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/meta/recipes-devtools/rust/rust_1.64.0.bb b/meta/recipes-devtools/rust/rust_1.64.0.bb
-> > index 1f9dbd3cce..b05f188d9c 100644
-> > --- a/meta/recipes-devtools/rust/rust_1.64.0.bb
-> > +++ b/meta/recipes-devtools/rust/rust_1.64.0.bb
-> > @@ -9,6 +9,7 @@ FILES:${PN}-dev = ""
-> >
-> >  # Used by crossbeam_atomic.patch
-> >  export TARGET_VENDOR
-> > +RUST_DEBUG_REMAP:append:riscv32 = " --cfg crossbeam_no_atomic_64"
-> >
-> >  do_compile () {
-> >      rust_runx build --stage 2
-> > --
-> > 2.38.1
-> >
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#172006): https://lists.openembedded.org/g/openembedded-core/message/172006
-> > Mute This Topic: https://lists.openembedded.org/mt/94464934/1686489
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 983f7514c7..189fc3da91 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -497,7 +497,7 @@ class BaseConfig(object):
+                 self.gtk = True
+             elif arg == 'gl':
+                 self.gl = True
+-            elif 'gl-es' in sys.argv[1:]:
++            elif arg == 'gl-es':
+                 self.gl_es = True
+             elif arg == 'egl-headless':
+                 self.egl_headless = True
+-- 
+2.33.0
+
 
