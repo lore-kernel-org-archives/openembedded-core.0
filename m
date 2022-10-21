@@ -2,40 +2,40 @@ Return-Path: <sean.anderson@seco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15550ECDFA1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26C2DFA3742
 	for <webhook@archiver.kernel.org>; Fri, 21 Oct 2022 23:38:01 +0000 (UTC)
 Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.78])
  by mx.groups.io with SMTP id smtpd.web10.1487.1666395471881117197
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Oct 2022 16:37:56 -0700
+ Fri, 21 Oct 2022 16:37:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@seco.com header.s=selector1 header.b=dykohjIw;
+ dkim=fail reason="body hash did not verify" header.i=@seco.com header.s=selector1 header.b=ddH372pr;
  spf=pass (domain: seco.com, ip: 40.107.6.78, mailfrom: sean.anderson@seco.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gsnpe0c0lOAWFRQepbfIesB71QqXe1fc0EWqPswwkzLBAnBU0cdQBiDczhfzINGc37PXe+WpFLChT+7Ikr08pHJaxdh6IgZYw1Zm2ZFAUKBAxJAc1JJ8KNVgFAJYF7FJqR49wsuzRIi2tSqhQAJUzGH5KOvKLiayTfxo1gn2PSKgNBwnew3Kri8TYh+d8qUdhNZZLIsp4ZspgW9EqWbwgtAKIfMj8b7gOtF8WFumC36Vszzli2v1JiKB+uw0NXnbXuD/C5yE7w9OczdOuho76enS+5VPc1SW05XmSomyhy0c79i5vflT+RdPpJ2D/RsB9dPMLQxMIekXSaetiP4m3A==
+ b=FyWelQpsc1oE2afk1ZUjPCWvAR/Ra3B5d/EHcdqjv+Q6vKnEsUH8f0ShJd7oKiNQMuG+GapK1sHokqCu2mZ9MsLlsdI2bOlzDMvLGCPSBy6z/qoXSQq/xO6kK61vfnFVemVok7VYK5ZjnPz9QpZHFn8TTuzW7Wbmj62RrQkYRFFXBB8BJdi7pAX59I/cZwrDbGfQMoM5foGL/xjJ09lDLHIepMpnLZ9m89/MytghSX9grbxqLM8sarrMyntajVRmQhWYgDcv86DTbK3GlHCRL73rhZsVHRlqMIxRG940isOEzEfj1XkK4Tx9L4cMfaFvKW0hf2z6C81e+JinK/YqFQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3GUO5GD3n722Qx+ufdf0TaCbeh7PWlMbBjnUnYnPK6A=;
- b=aCmfCzt7OaXFnoanTPIbghzflZI8vw3qR+/dK+/kjEFIcWZ11Nl7tUXTHJ0Etb8RICdonDe/Q9KJdMq5KpdGsmoa9IhF+a3ZNWYcC1dqycprGaAKT6C0Dmgm0p1UB+LGWtN0ePYK9jpsuTpb3YPWSVm60OnLYaluJO/vb5jT1mFYUll8UQSdivdHl1a8mJ2XcTIDydshbSA8+25SrAe6Yc3zqGtMQGMlt+vicXqgfVKAdgli4Y0QWBexSmMYcsokW4qrtgoJIvPPrTq8CpdqIwPPCg3W1WwbWyLnLgeykrwqyKmuDhUWCtxUlrLd1whix+amq1ZSV7bVOSkYDqsLEw==
+ bh=f5+D02N7r7bF6CjDW4Mx2POl/H70s6siQWazSY94HWg=;
+ b=mc59m/ixWpyNOfZV+3tewiiSeZ+zCf1sN1g5HzOvTKNsjPbztCAefjn4zjWzG6DeXLc0JDsE20Rqb7j0Hr18srdTNooJv72yv0t+qIpcLm+syxj6cQGxyUB1fap7h9CVoV+WQepmRP65XKrSaTMgI1BpWOlG0whQwPYCR/R5iJ4v0qI7tbxFNO//8zXpp9SUktIHi7xL++0r2QxudNT8w6uWDA3gNRYe1Jjk5y3K6jwCrjW7wKKa1p3NDXAo/sZ7mJp/NhdZ3AmJkC44FwJIrSGtHvnwi+kqm2Gz+WFrMv+tIP45kn66a1oziJU0fTQEXOTW62jEvZ0qQAFPHdTj/g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
  dkim=pass header.d=seco.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3GUO5GD3n722Qx+ufdf0TaCbeh7PWlMbBjnUnYnPK6A=;
- b=dykohjIwSArWlO5PWOfVhmmBFrghrRzpIqq7xL6kFqLauBa2782DhACMtDnSFRpZvEsYPLctwtdCuW4oPjVSO3l50L8SCRYh8Hwfo/PftPSgbHt5er9O3JOMWc2RfwKMzE/chP0fo19NoQl8hEBh5o6OQWDReMN7E6OVBlnrcLdwcoVQIQfPxwV5vgvvcfqQMa76PRBbvceTEmmaNNkTgRIIKFkjC29TLIlwtmZ20cLgAAv/OnHtQKxNHzskNX3J0g1PHuNt3vZzTaAfjqFlkB6hAFx+pyjCiHTkUe/GHcpwTX/5QN6Lm5s7Bzo1OBjlop0Ui0CX014nTATlJzYMAA==
+ bh=f5+D02N7r7bF6CjDW4Mx2POl/H70s6siQWazSY94HWg=;
+ b=ddH372prW7Owped9yw2XK1DxGgwDCA24bh+tpE92kj/Ffn8XTHiLURUbYZppqIYoYURgCCWJC15XTO/bVbU8c8SZRtDtQt94pwjeLZx5s5sPEe0zT4+V5kNrEiOhXq4zUo6F281BkV+9gLgYEZCOOGw3lX7AzGQ+wMGIqzDx8g0lEgDMXjJ04LsQVwBIjZDGHFGlzHEV5vLKcOPbcdBtTQTGY27+85AbC4PxQyEWZPQiyTPZq/AtW/Q6MDRJIVCv+Y72m8ga+jSD1cCI6wL1T8E3LXED8GBojmzO0vdAsffnhRPN8QQSSr8y3AkU65p5F0ZRN0LMwsVZh3KzEPehFg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=seco.com;
 Received: from DB7PR03MB4972.eurprd03.prod.outlook.com (2603:10a6:10:7d::22)
  by VI1PR0301MB6656.eurprd03.prod.outlook.com (2603:10a6:800:17f::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.32; Fri, 21 Oct
- 2022 23:37:51 +0000
+ 2022 23:37:47 +0000
 Received: from DB7PR03MB4972.eurprd03.prod.outlook.com
  ([fe80::204a:de22:b651:f86d]) by DB7PR03MB4972.eurprd03.prod.outlook.com
  ([fe80::204a:de22:b651:f86d%6]) with mapi id 15.20.5723.034; Fri, 21 Oct 2022
- 23:37:51 +0000
+ 23:37:47 +0000
 From: Sean Anderson <sean.anderson@seco.com>
 To: Alexandre Belloni <alexandre.belloni@bootlin.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
@@ -43,9 +43,9 @@ To: Alexandre Belloni <alexandre.belloni@bootlin.com>,
 CC: Luca Ceresoli <luca.ceresoli@bootlin.com>,
 	Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>,
 	Sean Anderson <sean.anderson@seco.com>
-Subject: [PATCH 4/6] uboot-sign: Use bitbake variables directly
-Date: Fri, 21 Oct 2022 19:37:24 -0400
-Message-ID: <20221021233726.1751124-5-sean.anderson@seco.com>
+Subject: [PATCH 1/6] uboot-sign: Fix using wrong KEY_REQ_ARGS
+Date: Fri, 21 Oct 2022 19:37:21 -0400
+Message-ID: <20221021233726.1751124-2-sean.anderson@seco.com>
 X-Mailer: git-send-email 2.35.1.1320.gc452695387.dirty
 In-Reply-To: <20221021233726.1751124-1-sean.anderson@seco.com>
 References: <20221021233726.1751124-1-sean.anderson@seco.com>
@@ -57,162 +57,86 @@ X-ClientProxiedBy: MN2PR11CA0012.namprd11.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DB7PR03MB4972:EE_|VI1PR0301MB6656:EE_
-X-MS-Office365-Filtering-Correlation-Id: f78696d1-645f-4480-92d2-08dab3bd44b9
+X-MS-Office365-Filtering-Correlation-Id: fee44d69-c879-40da-b60f-08dab3bd428b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	tWmEeChQSTTJFM456lA4MIpZIFHge/yX6cd7fVXU9j44ZUSXwEc7U3CxuVWU9NweB6Arie5KNgV1vPFeD0sYnYi8s7gHee+eMxjYA51+SaLPa+W/jQ46YlqCrVLwJmk3+GJhqxC0ZFFAq3o+P6lzsHmjSik8Mpse9V4koW8pXJweWHHAuWdYyrDlc94qoMuGwas35DHphS4bckC0xXrWCa4O7o31EB32eqXqoEmjTUi+u7ySlP87F70zyMIMPIet1gnDgcAj8zV+jWk6QYGDUmPNWHsqpx9ol4/JnPUUyE8W5MglT3MAIbLW1vfQ9fiqbevyptdaVyjHDmKOabIHy+WOr17l5NhepsOaB5mPJwhVyk0p2NGv3JxOhNc5DRIsyEgccjPwhqql4Waat/+U8wB5OzzYwT+98TTDW4qFhFsO0npQGwo8lNRwmbMixIJjmsHl6foo6QQAEdMjHk4ojeJGK6Af0wSFrxMVZlwIZfI6bAi1ahVC9I5qD2LGWXmUyEh4R+BfGsGtuNZSB3ejYy2DKZVf9j7K98JB5Smv4M81NcpLcA8+gM8qCEpgDa+ZbhxxdSFWzRsMnlcU53JYjWGGwDcCtfA4a/IX61oTVZ7B+dFWZwMKc2/u9rP8TFf+I4KecxWMXOWmPguajJUD49h4ds16g15+I+klVCQqbI9TJKWpM0xa60W1dDcMG02w6NmM1E+OnJsa8NfiO8rPJ4OQDz6xVVeiJPrnZPkne5ryvw8ev7KxFAviAp38N5qgrx5pskFZgrS6pH/Hw41pyA==
+	bfpwZEr2AIBn5F57CdhtUd7QG/Aahbj7nKnRaSbI4xe4yXuJuCcm+Wu4XARqLLJY8PXp0T8Dz0jKpd7MQ5uh8Yh9W3ZqNDFMF7pnpbEM+OUaSYiNVNyQHWodLNS2Nb/Y0khhSoya6UKmSIazkUsDISYgZsYL6PfyJpRagmC/r/l/eUZb5DRE5x4yHlAveQ/mVMSTc8o4SmQZhQ7TGmzv2jnincbc5p11gpUIGRbeDRVSkm/2DFT5LY4FNaJftUOPUpYUhhnoICvJmvcELVRKk9+meRIuaYZ9JFdiMaZUXMlDN70hgcc9n0iP+r2N0aAocjCiuQKkub+YZmz27zh4XC94wi5QJ60ShhNfK0gkDHXlGw4hr1W2cWtHluPv8k28GF99herdS076fTkv529DFwA/dDVPQ6dpbbURCGT3qzVB4duTe3TXe9ji0471Eh9yrXSJ3ArUBrbzqruOmWYezQIUsp5S08cgoEKYMxMVRbWq7sXFPTBkRQC5lcN5fkHhF5ugTQz+DB7veUZpYeojGOJ2RqPzQta6xWu6BP3U5TkJ1K4oSten1U9SBScXZMgvyF7hEsN/Z1mwWicKiFxdz4+zilyuLKX2wkzi487DIg4bJ7DxCXcnCL2L/CHTJiVYHD00xM0vJp4WQ7QO5JICa83dj1pf/8jnxMQi5xbwsjFkJFBfFpU36EvPETKYg6/7Udujs6qUWCIEo+4RCDRFxiRySayEbKYuOrk16jgRbfM5EGMB2nqd/Xt4LlXVAbD8PU8Gc+B4KgEDUQ3enNVTeQ==
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR03MB4972.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(366004)(39840400004)(136003)(346002)(376002)(396003)(451199015)(478600001)(83380400001)(86362001)(6486002)(4326008)(8676002)(66476007)(66556008)(66946007)(54906003)(316002)(107886003)(6666004)(52116002)(36756003)(6506007)(8936002)(5660300002)(6512007)(41300700001)(26005)(110136005)(38350700002)(38100700002)(1076003)(186003)(2616005)(44832011)(2906002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Vuo6gqPhw6OJhpwwdV48/ZW107RC+1WSnHP4GDl7mWYFSc75L+NB7v0Ly24c?=
- =?us-ascii?Q?gxi/I4qcusgrZSSCxyA9uIPW6fHT5wG7X6MNuHsN5Pc75TaCghCPlWEepbtT?=
- =?us-ascii?Q?5UA/xQGKBS6rHExAX+pWd6LldV/9cTzzKoHb6ugof+PL6O5GEQjKWlkFW9iR?=
- =?us-ascii?Q?pfCfMKZlPPdFHOUH2NjgVAIOL2ZS+/i3e6TvYLzn3DKfSDnFXef4FCzt6+0D?=
- =?us-ascii?Q?Y9dnVibpe4Vmk6aS7eKO7M5+cMdQV76M1FWtvo2KqIf38j5uGkbZ5nA5bODG?=
- =?us-ascii?Q?K8Njdt7zlTw4fP8Mbzf+6WHC8o1k5o1hsicTZqztJCr8WSIySPGMUlrgiDph?=
- =?us-ascii?Q?ko03yyRkBCkyo2MRPocz67dl3iyko08oCiSVSyeheyCMi8We44QmK1DbSo2D?=
- =?us-ascii?Q?fsl6WpbTcW5AetFswO2gXdOOkAzSLs3w5v9mlN9cufdws29Krpmob0flPN/3?=
- =?us-ascii?Q?tkgoGk3fjO5ZxhrOWef4JUNYuJdMna7RJDLXFreJsIXA2k/Yrq5QbKOzLWe6?=
- =?us-ascii?Q?9t011moRX6nQymq6Ta9UQbFLlnFVGy1k9zKa1bm/6tPO6zu6D5RLl9rmwNiL?=
- =?us-ascii?Q?qF11Ip72KLKSLLrdrT6sXlc/PIhIwvYjS6Mx7nuTQ9EvuJ0Euxi77dv4yxT8?=
- =?us-ascii?Q?qcRsMN+G9xl08ZDjKMTC0ZTk1HkVRp+FDSjyIysae1kr1YI5wzXzYVgmxr3s?=
- =?us-ascii?Q?U4M8yitznzcVG4aBGffnp1mPiv6ynD4dgbBmVpMPAJTGOOHhekJe22icHPOz?=
- =?us-ascii?Q?Zmy84CqraTznZs2tr5WqamZgnU4NZLqlfE3Ux4pSd/4orsx1b41j0Lzec4YW?=
- =?us-ascii?Q?QDbDqnZg81yCSw7BXckgHORFikeyaLeGGGIKpGqX/ccBppZVCfAq0oDiyzSx?=
- =?us-ascii?Q?BcumgwfPAMvsQtj+fMMEYHDAGdlVDevb3mpsMptjfHhHcs9/ouS7RG0G6kOX?=
- =?us-ascii?Q?kbHCn4LZSQ46gLO9NpkoEWOrx03Q7bsWdUfjuJU9ZS0pIVHRUkVFZTh8II2Y?=
- =?us-ascii?Q?ftx6IcLiy4vJPy/OP+Gn0Yl+8CM/UIICj50NP/SwiJMdzHNSHeeL55jDFm3l?=
- =?us-ascii?Q?MDoLU+vKtBMLPMOBUwtGWvWOEWzeoj7EZHR2JRZq6hyUQnxybvkrewBkuOkX?=
- =?us-ascii?Q?81R7/X/GbV4LllF7gOJIL3FR+djshxitNWle4p5ktnuhuWgmV6jiGeMayLFk?=
- =?us-ascii?Q?CDb8VSnNd4SZejtAs65ynPxVsnxt227PMkmhv3zsFJqekdoOLj8KxKKDnu4d?=
- =?us-ascii?Q?2n6zoCH5VeHrZl/4tPBLOwQHdxYaone6unz1fkIiGgzwXJ3EgjNapd1T7Uck?=
- =?us-ascii?Q?9/rcesGfPyQI0EmD6JVmYTsVzzWRKZdL3U3yr+7nUfagowgJMWAy0UwMf/61?=
- =?us-ascii?Q?sYOJw6Ee2r19hUsqUYojcQu86pBv0wdt3H6kT8aYnBOdgLBauqKQWkvDsmY0?=
- =?us-ascii?Q?qdMn0bwdiZ7mzbRSXIJD44tud/otASU+MJgHSnZcX89fvUYGjbxnoH321X8c?=
- =?us-ascii?Q?gB9u7I1vG0IqOncs4vrJf5eK0xKaCob4WYi/S6WcGKK8kzkHdJ/dK1pOFwBx?=
- =?us-ascii?Q?uPY5cWHADJa6+XaYcfSjW6MuLNWlfPQt2qFHN59tkpAa8zLv72bztTEuyCx9?=
- =?us-ascii?Q?4g=3D=3D?=
+	=?us-ascii?Q?sq6OVeh4dA9mwSY6kJJg2QV3WtbkyrIdAmvZZFJqxCXpFb8udJDcZdzg6VdM?=
+ =?us-ascii?Q?xwzuQLp5smHxuTX0XGEbbgpLzVGYjhn5q2gB30DVSUj07eHLLfxonk6AfJuD?=
+ =?us-ascii?Q?+Gyz7XGik7YMbhJu5xBEVdYD+34UkIohX9Fapk99iOd7eiA8xg8qv0nwQaoT?=
+ =?us-ascii?Q?5FSmKhi42zIItLccm17eudwTzAWzrL6NaFuTCaT4t6TX0j03z2w7guslEN6U?=
+ =?us-ascii?Q?SuDaDkKAxPYu5VAlVenuHVXyyy/p6pIerJrYBK+KvXKduXH3EPrl9ORQC77a?=
+ =?us-ascii?Q?KXnkJxsGOnr2itbBZ/riPq40CUgoREVTASlWFtOzRaBviKW97ooXZE5yU53I?=
+ =?us-ascii?Q?+wzMSEhuJ6Ze8IwpQls8Dp+vfPvsu98lGoa0V7a1tmWMDHz44mytTVQb0ukb?=
+ =?us-ascii?Q?UY1GHwW86CRMhTw0nAGKwGeqjQgOLITt/fSXJHdtaUUynLnWYlhoehSj78hh?=
+ =?us-ascii?Q?lK2Fup3ZUXiHLPG6FQt1syKyfDXNs1X1V4HR9z5+TgyVZj0p/OCaUz3g6wCm?=
+ =?us-ascii?Q?LTq/JEbPa4LW/MmNTx2thm8BhFsGt2Hz573H4ZWkg4LCwFqwjUVPdHsEOiqw?=
+ =?us-ascii?Q?rWuesWNvop3Nr9K7HjZnXzBbOEzJWVWEyrpHZ31mUrvCK5GaywaP0ZkGddkv?=
+ =?us-ascii?Q?uO2oY1NWQWPuUQgbPClV5eou4ewF1KiynHOoGPQ3c9NdewzKkhs3q7zMMoeY?=
+ =?us-ascii?Q?3X0tYDja79OPsuS7mg37FG6cXG2OzAlQ7F2xCQdWVabIjm1zSMKkNu192fLy?=
+ =?us-ascii?Q?STfOG2sDd5SyABBib8CW72eWmqG7y2tOzM0wOkE96506OPVdVCMy+8ivHhTC?=
+ =?us-ascii?Q?16M5w3BENtfNdWBqxFpKt7ZF5dGSibR945gnRfoL008MFvFYZeeesjFyR+Q9?=
+ =?us-ascii?Q?4TjWbzgn7jROYuZpfJl1CwziGvwmJlXh0qz9I0RlS9iw0Pmb0ckKx6VO/hhF?=
+ =?us-ascii?Q?k5uC/cGdlr5wfjm8WG+yieRyTzjc2I9GX6HB6QXn2M/pzNdH+s6ssdDEaVT5?=
+ =?us-ascii?Q?wpO3/xOVSbT5ODMRXMod2iGQ/se2Z5O7hNcE3i18O1BPHFbKxGI8IAl2mhwi?=
+ =?us-ascii?Q?NFpDP8pLlqQNuWFLWZLYleR/QUXzQEFbJwvelS/KBdy9V11wuTnwvcssSFl4?=
+ =?us-ascii?Q?F1Y8cOlKlkL/C5ASO3dKors/qkFn6p9Vz9sqLM/bVb7HWVVdo7/k0nQ3glnw?=
+ =?us-ascii?Q?6vIa4VPH+VMia7CFugsKK3haFYCeNAjYIAPx9OoKOiQ7escyoywBPXxmS1kB?=
+ =?us-ascii?Q?CyD0e87Ki0J+zpE9cQboankHRpFqyImAmMm8jMu6kn30I2eACPzsb5NprQOx?=
+ =?us-ascii?Q?4JJTAYZa3xVPnVv9jT0yDG4bOYy3vndsVPICT7dD0bbaVQEj0Nr87RM749pZ?=
+ =?us-ascii?Q?Q3G97YbQVXAt6JgUhcvWt/coa0N6Ypnq24S39Mtl7GqfU8xNJM80vKoliUYV?=
+ =?us-ascii?Q?XJPUsl4AqofBcTAz3c2E85wsHAbc/vuPZ4Vj7/UpzDOCaRZJfIHVnrYsbYSX?=
+ =?us-ascii?Q?+nTjhhciuKMlcTHgm3TkElwVMV42g/IaUiPgZMEQfAFj3dyST+hjI/qNdsOY?=
+ =?us-ascii?Q?1PECUaEpiFw8/gRnIqRcugR1WnAp19pM0r0Sx7qdu1tZWBQGgDknE95AQyYf?=
+ =?us-ascii?Q?Gg=3D=3D?=
 X-OriginatorOrg: seco.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f78696d1-645f-4480-92d2-08dab3bd44b9
+X-MS-Exchange-CrossTenant-Network-Message-Id: fee44d69-c879-40da-b60f-08dab3bd428b
 X-MS-Exchange-CrossTenant-AuthSource: DB7PR03MB4972.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2022 23:37:51.0487
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2022 23:37:47.6270
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pPkxHqAM9BJVpor5/QdePbHdXSXnP7aspXzuWqPkw6tduSzes6lxwNwim4mMOjE5AzABHry8UZN6hMy02Kpxng==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2QbU1z4F6Wq8SgpvDA5d0YpTlV3U2eK7BoPTNhTr7h1o/sGNwA71S2QbFfKsdGuDx2iL1DPm7MdD9VRn/G73sw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0301MB6656
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 21 Oct 2022 23:38:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172053
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172050
 
-uboot_fitimage_assemble is called from one place with the same
-arguments. Instead of using shell variables as intermediaries, simplify
-the function by using the bitbake variables directly. Removing a layer
-of indirection makes it easier to determine what values are being
-substituted in. Some variables can't be fully converted, but they will
-be addressed in the a few commits.
+When generating our SPL-verifying certificate, we use FIT_KEY_REQ_ARGS,
+which is intended for the U-Boot-verifying certificate. Instead, use
+UBOOT_FIT_KEY_REQ_ARGS.
 
+Fixes: 0e6b0fefa0 ("u-boot: Use a different Key for SPL signing")
 Signed-off-by: Sean Anderson <sean.anderson@seco.com>
 ---
 
- meta/classes-recipe/uboot-sign.bbclass | 30 +++++++++-----------------
- 1 file changed, 10 insertions(+), 20 deletions(-)
+ meta/classes-recipe/uboot-sign.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/u=
 boot-sign.bbclass
-index 4b5912a01d..85e23b963f 100644
+index debbf23ec6..4b5912a01d 100644
 --- a/meta/classes-recipe/uboot-sign.bbclass
 +++ b/meta/classes-recipe/uboot-sign.bbclass
-@@ -311,14 +311,8 @@ addtask uboot_generate_rsa_keys before do_uboot_assemb=
-le_fitimage after do_compi
- # Create a ITS file for the U-boot FIT, for use when
- # we want to sign it so that the SPL can verify it
- uboot_fitimage_assemble() {
--	uboot_its=3D"$1"
--	uboot_nodtb_bin=3D"$2"
--	uboot_dtb=3D"$3"
--	uboot_bin=3D"$4"
--	spl_dtb=3D"$5"
--	uboot_csum=3D"${UBOOT_FIT_HASH_ALG}"
--	uboot_sign_algo=3D"${UBOOT_FIT_SIGN_ALG}"
--	uboot_sign_keyname=3D"${SPL_SIGN_KEYNAME}"
-+	uboot_its=3D"$(basename ${STAGING_DATADIR}/u-boot-its-*)"
-+	uboot_bin=3D"$(basename ${STAGING_DATADIR}/u-boot-fitImage-*)"
+@@ -298,7 +298,7 @@ do_uboot_generate_rsa_keys() {
+ 				"${UBOOT_FIT_SIGN_NUMBITS}"
 =20
- 	rm -f $uboot_its $uboot_bin
-=20
-@@ -333,7 +327,7 @@ uboot_fitimage_assemble() {
-     images {
-         uboot {
-             description =3D "U-Boot image";
--            data =3D /incbin/("$uboot_nodtb_bin");
-+            data =3D /incbin/("${UBOOT_NODTB_BINARY}");
-             type =3D "standalone";
-             os =3D "u-boot";
-             arch =3D "${UBOOT_ARCH}";
-@@ -345,8 +339,8 @@ EOF
- 	if [ "${SPL_SIGN_ENABLE}" =3D "1" ] ; then
- 		cat << EOF >> $uboot_its
-             signature {
--                algo =3D "$uboot_csum,$uboot_sign_algo";
--                key-name-hint =3D "$uboot_sign_keyname";
-+                algo =3D "${UBOOT_FIT_HASH_ALG},${UBOOT_FIT_SIGN_ALG}";
-+                key-name-hint =3D "${SPL_SIGN_KEYNAME}";
-             };
- EOF
- 	fi
-@@ -355,7 +349,7 @@ EOF
-         };
-         fdt {
-             description =3D "U-Boot FDT";
--            data =3D /incbin/("$uboot_dtb");
-+            data =3D /incbin/("${UBOOT_DTB_BINARY}");
-             type =3D "flat_dt";
-             arch =3D "${UBOOT_ARCH}";
-             compression =3D "none";
-@@ -364,8 +358,8 @@ EOF
- 	if [ "${SPL_SIGN_ENABLE}" =3D "1" ] ; then
- 		cat << EOF >> $uboot_its
-             signature {
--                algo =3D "$uboot_csum,$uboot_sign_algo";
--                key-name-hint =3D "$uboot_sign_keyname";
-+                algo =3D "${UBOOT_FIT_HASH_ALG},${UBOOT_FIT_SIGN_ALG}";
-+                key-name-hint =3D "${SPL_SIGN_KEYNAME}";
-             };
- EOF
- 	fi
-@@ -400,7 +394,7 @@ EOF
- 		${UBOOT_MKIMAGE_SIGN} \
- 			${@'-D "${SPL_MKIMAGE_DTCOPTS}"' if len('${SPL_MKIMAGE_DTCOPTS}') else =
-''} \
- 			-F -k "${SPL_SIGN_KEYDIR}" \
--			-K "$spl_dtb" \
-+			-K "${SPL_DTB_BINARY}" \
- 			-r $uboot_bin \
- 			${SPL_MKIMAGE_SIGN_ARGS}
- 	fi
-@@ -430,12 +424,8 @@ do_uboot_assemble_fitimage() {
- 		cp -P ${STAGING_DATADIR}/u-boot-spl*.dtb ${B}
- 		cp -P ${STAGING_DATADIR}/u-boot-nodtb*.bin ${B}
- 		rm -rf ${B}/u-boot-fitImage-* ${B}/u-boot-its-*
--		kernel_uboot_fitimage_name=3D`basename ${STAGING_DATADIR}/u-boot-fitImag=
-e-*`
--		kernel_uboot_its_name=3D`basename ${STAGING_DATADIR}/u-boot-its-*`
- 		cd ${B}
--		uboot_fitimage_assemble $kernel_uboot_its_name ${UBOOT_NODTB_BINARY} \
--					${UBOOT_DTB_BINARY} $kernel_uboot_fitimage_name \
--					${SPL_DTB_BINARY}
-+		uboot_fitimage_assemble
- 	fi
- }
-=20
+ 			echo "Generating certificate for signing U-Boot fitImage"
+-			openssl req ${FIT_KEY_REQ_ARGS} "${UBOOT_FIT_KEY_SIGN_PKCS}" \
++			openssl req ${UBOOT_FIT_KEY_REQ_ARGS} "${UBOOT_FIT_KEY_SIGN_PKCS}" \
+ 				-key "${SPL_SIGN_KEYDIR}/${SPL_SIGN_KEYNAME}".key \
+ 				-out "${SPL_SIGN_KEYDIR}/${SPL_SIGN_KEYNAME}".crt
+ 		fi
 --=20
 2.35.1.1320.gc452695387.dirty
 
