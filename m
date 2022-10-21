@@ -2,194 +2,168 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFB9BC433FE
-	for <webhook@archiver.kernel.org>; Fri, 21 Oct 2022 18:15:02 +0000 (UTC)
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
- by mx.groups.io with SMTP id smtpd.web09.1296.1666376095581363975
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 602A2C433FE
+	for <webhook@archiver.kernel.org>; Fri, 21 Oct 2022 19:23:53 +0000 (UTC)
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+ by mx.groups.io with SMTP id smtpd.web11.2158.1666380228463385928
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Oct 2022 11:14:55 -0700
+ Fri, 21 Oct 2022 12:23:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=L/gXqd2E;
- spf=pass (domain: gmail.com, ip: 209.85.160.54, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-132fb4fd495so4503250fac.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Oct 2022 11:14:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jnloBW0K;
+ spf=pass (domain: gmail.com, ip: 209.85.160.48, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-13af2d12469so4730745fac.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Oct 2022 12:23:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ulPx8mZqDIjTrS2BXSVqzYR1U2TNZ1RNhWL6q3DOFAI=;
-        b=L/gXqd2EeTYOuuDdegKWYdegwvOw3WrYqHTizTBE4+M4xS+QOTdQmtLZPD0Tssmpiv
-         8y4tYKKHHL5HUjAG79fxb2gXYLieRaOFMiknbwwYH7xD9p4vbs9/tAqn94xzEA3BHfbX
-         b5YWIgg/DlxQDyJisP4loovjOLYlctR2+52yFMZXE2TP1sSQhs7MVI0JWKoE4fthm1gY
-         B+yTsXNKGv0ikVZirkc2ieHqb9tWpnHggEHuCivZezfOKT0iCWSPCHi0M/LHYW8sIA47
-         NIuYuuMqIty9p1RkoipIHjdlDAZfE3SCD3nO0zoqEXYUzq679IJ1ZPvNqNgE1lv8cRID
-         4h8g==
+        bh=UNEeNMUsSH9VnUni8Y5qdkjU+lloTJJM2rp+Vj78Sdg=;
+        b=jnloBW0Kot4oneIa9MICy43/fgsJIeAOF+4pT1kfVvty+I400U6LjS6RcYoVoDuxVN
+         +Q9zsFlEZYAxsvh/PLYrQADOXFK0BH0mo6dcsB6YID/2FS/Rwuw70a9zK0ZCM3xgZ4ta
+         cTo0zCmY+wDpbmUyrM+vK0Xm5PdioZwVgoXIBp0K6CQCtWmgVkGCPhmdTDHkSrj6GMrx
+         Hg4/loQbPdNDMn0MlSQXqqKBdY8x7dkgmb2nQ6BsKtZHU95FtlTEtz4fdXn8iJ8ZFTju
+         tj+v72bv96HV+YUNPknLhDBt+7dFoV5NxV8khlIn1JQWcIgsoxqeD6TL1ryWYE9ML/Gc
+         l0BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ulPx8mZqDIjTrS2BXSVqzYR1U2TNZ1RNhWL6q3DOFAI=;
-        b=glNeylE31PwuRoBEMt3gYwg08++mcrIMpQigvZbLQraO1+VDjKW2wnUZSI8quPGtVp
-         FdFssPwgzP9Y1lgGRYO816uK/iFK16SJq9YcSZVn7vhI5kqeLNvGqwoID2frNLOZaKt6
-         5jHJLJM4U4gi9votU7JzkoQcBkkzRG3EmQpEZVOh7A2/T4yOX5W98nbavXKMNMFqE8rt
-         wzus9uL1r57YSVVCPWpGqnyW99HQ8QQ9T481rZZGRW4d7fHMJqXrIyGJMkDXJmYEKyP6
-         KWsJF6O1UGxtf/peYG7hrFl4iT4OoOMd4QQvzYpTHB5JbIAk+3w1os4obCUw16PS43RH
-         wkTw==
-X-Gm-Message-State: ACrzQf10AFwjQozVArtJUx6pagaTX20TGjZfV6CEqr3ZH4ee/IflKPq1
-	bIBf6UmxeR2mSRJEBecf3gZuN5V0yIw=
-X-Google-Smtp-Source: AMsMyM71yGYYN49KwL9q+gXWVkR8/j+FWIkhbQ/HEBSFPvqnCKEh9MguYTV79fiKxsfOsoIqwNLC6A==
-X-Received: by 2002:a05:6870:1685:b0:132:d9b7:5fd6 with SMTP id j5-20020a056870168500b00132d9b75fd6mr13251631oae.252.1666376094582;
-        Fri, 21 Oct 2022 11:14:54 -0700 (PDT)
+        bh=UNEeNMUsSH9VnUni8Y5qdkjU+lloTJJM2rp+Vj78Sdg=;
+        b=8IXC0785unvkUOu7AVnsBv8logmTDvDegJhrq9Tq0TvIg9oUxkd6DpgTvBFbE0o7u7
+         J0cBg8CmyF8AVzk82HckBB3O38hZVXC4HghcN4Na4FynzXNfcYuASfIbM83RoPSjQLmo
+         qB0L6jt8GTBaBe9H6zeOxB5n1i5/6ryY9rsqrvcOmpSh7IAWFsbXS059MzZ13rJy+k0v
+         28roCYNceE1kdMkpTC4yj2Bo4cflrFxn9PEiqQt2p+RokPp9quMSudKq9aMXPLmtmnqR
+         erkMGRJtWSSoKT3kYjauK13hjuwramUB7jkHLpHl9Nx5AQWgOBaZRsZbOH+KtDveEbXh
+         g6sQ==
+X-Gm-Message-State: ACrzQf21iEJvv7eXBns1jEbDcEaUjnZLZKVUOocdcrt8dIxKGd93QjpG
+	IcETW6M1QjQxfheHxqx2a3uGIfk9AAg=
+X-Google-Smtp-Source: AMsMyM526yXU4LBHoQ5o7aM8DJsSSZXB4spyV4xmPqHh4/MyoOkvgUSBrux+GgZugzkpvg6n8fYAyA==
+X-Received: by 2002:a05:6870:9711:b0:131:d82c:f4cb with SMTP id n17-20020a056870971100b00131d82cf4cbmr30510147oaq.215.1666380227321;
+        Fri, 21 Oct 2022 12:23:47 -0700 (PDT)
 Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id z1-20020a05683010c100b006619f38a686sm1356487oto.56.2022.10.21.11.14.53
+        by smtp.gmail.com with ESMTPSA id y22-20020a056870459600b0011d02a3fa63sm10697124oao.14.2022.10.21.12.23.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Oct 2022 11:14:54 -0700 (PDT)
+        Fri, 21 Oct 2022 12:23:46 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] qemu-helper-native: Re-write bridge helper as C program
-Date: Fri, 21 Oct 2022 13:14:51 -0500
-Message-Id: <20221021181451.120630-1-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] runqemu: Do not perturb script environment
+Date: Fri, 21 Oct 2022 14:23:44 -0500
+Message-Id: <20221021192344.147477-1-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Oct 2022 18:15:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172040
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Oct 2022 19:23:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172041
 
-The bridge helper program is invoked directly from QEMU when it needs to
-attach to a network bridge. As such, it is subject to the environment of
-QEMU itself. Specifically, if bridging is enabled with direct rendering
-acceleration, QEMU is run with an LD_PRELOAD that attempts to preload
-several uninative libraries; however /bin/sh doesn't use the uninative
-loader which means it can fail to start with an error like:
+Instead of changing the script environment to affect the child
+processes, make a copy of the environment with modifications and pass
+that to subprocess.
+
+Specifically, when dri rendering is enabled, LD_PRELOAD was being passed
+to all processes created by the script which resulted in other commands
+(e.g. stty) exiting with a failure like:
 
  /bin/sh: symbol lookup error: sysroots-uninative/x86_64-linux/lib/librt.so.1: undefined symbol: __libc_unwind_link_get, version GLIBC_PRIVATE
 
-Converting the helper program to a C program resolves this problem
-because it will now use the uninative loader so the preload doesn't
-cause errors.
+Making a copy of the environment fixes this because the LD_PRELOAD is
+now only passed to qemu itself.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- .../qemu/qemu-helper-native_1.0.bb            |  6 +--
- .../qemu/qemu-helper/qemu-oe-bridge-helper    | 25 -----------
- .../qemu/qemu-helper/qemu-oe-bridge-helper.c  | 41 +++++++++++++++++++
- 3 files changed, 44 insertions(+), 28 deletions(-)
- delete mode 100755 meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper
- create mode 100644 meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper.c
+ scripts/runqemu | 26 ++++++++++++++------------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb b/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
-index aa9e499c77..e297586bbb 100644
---- a/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/tunctl.c;endline=4;md5=ff3a09996bc5fff6bc5
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 189fc3da91..a6ea578564 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -210,6 +210,7 @@ class BaseConfig(object):
+         self.mac_tap = "52:54:00:12:34:"
+         self.mac_slirp = "52:54:00:12:35:"
+         # pid of the actual qemu process
++        self.qemu_environ = os.environ.copy()
+         self.qemupid = None
+         # avoid cleanup twice
+         self.cleaned = False
+@@ -449,18 +450,19 @@ class BaseConfig(object):
+         # As runqemu can be run within bitbake (when using testimage, for example),
+         # we need to ensure that we run host pkg-config, and that it does not
+         # get mis-directed to native build paths set by bitbake.
++        env = os.environ.copy()
+         try:
+-            del os.environ['PKG_CONFIG_PATH']
+-            del os.environ['PKG_CONFIG_DIR']
+-            del os.environ['PKG_CONFIG_LIBDIR']
+-            del os.environ['PKG_CONFIG_SYSROOT_DIR']
++            del env['PKG_CONFIG_PATH']
++            del env['PKG_CONFIG_DIR']
++            del env['PKG_CONFIG_LIBDIR']
++            del env['PKG_CONFIG_SYSROOT_DIR']
+         except KeyError:
+             pass
+         try:
+-            dripath = subprocess.check_output("PATH=/bin:/usr/bin:$PATH pkg-config --variable=dridriverdir dri", shell=True)
++            dripath = subprocess.check_output("PATH=/bin:/usr/bin:$PATH pkg-config --variable=dridriverdir dri", shell=True, env=env)
+         except subprocess.CalledProcessError as e:
+             raise RunQemuError("Could not determine the path to dri drivers on the host via pkg-config.\nPlease install Mesa development files (particularly, dri.pc) on the host machine.")
+-        os.environ['LIBGL_DRIVERS_PATH'] = dripath.decode('utf-8').strip()
++        self.qemu_environ['LIBGL_DRIVERS_PATH'] = dripath.decode('utf-8').strip()
  
- SRC_URI = "\
-     file://tunctl.c \
--    file://qemu-oe-bridge-helper \
-+    file://qemu-oe-bridge-helper.c \
-     "
+         # This preloads uninative libc pieces and therefore ensures that RPATH/RUNPATH
+         # in host mesa drivers doesn't trick uninative into loading host libc.
+@@ -468,7 +470,7 @@ class BaseConfig(object):
+         uninative_path = os.path.dirname(self.get("UNINATIVE_LOADER"))
+         if os.path.exists(uninative_path):
+             preload_paths = [os.path.join(uninative_path, i) for i in preload_items]
+-            os.environ['LD_PRELOAD'] = " ".join(preload_paths)
++            self.qemu_environ['LD_PRELOAD'] = " ".join(preload_paths)
  
- S = "${WORKDIR}"
-@@ -16,13 +16,13 @@ inherit native
+     def check_args(self):
+         for debug in ("-d", "--debug"):
+@@ -482,8 +484,8 @@ class BaseConfig(object):
+                 sys.argv.remove(quiet)
  
- do_compile() {
- 	${CC} ${CFLAGS} ${LDFLAGS} -Wall tunctl.c -o tunctl
-+	${CC} ${CFLAGS} ${LDFLAGS} -Wall qemu-oe-bridge-helper.c -o qemu-oe-bridge-helper
- }
+         if 'gl' not in sys.argv[1:] and 'gl-es' not in sys.argv[1:]:
+-            os.environ['SDL_RENDER_DRIVER'] = 'software'
+-            os.environ['SDL_FRAMEBUFFER_ACCELERATION'] = 'false'
++            self.qemu_environ['SDL_RENDER_DRIVER'] = 'software'
++            self.qemu_environ['SDL_FRAMEBUFFER_ACCELERATION'] = 'false'
  
- do_install() {
- 	install -d ${D}${bindir}
- 	install tunctl ${D}${bindir}/
--
--    install -m 755 ${WORKDIR}/qemu-oe-bridge-helper ${D}${bindir}/
-+	install qemu-oe-bridge-helper ${D}${bindir}/
- }
+         unknown_arg = ""
+         for arg in sys.argv[1:]:
+@@ -1369,7 +1371,7 @@ class BaseConfig(object):
+         # need our font setup and show-cusor below so we need to see what qemu --help says
+         # is supported so we can pass our correct config in.
+         if not self.nographic and not self.sdl and not self.gtk and not self.publicvnc and not self.egl_headless == True:
+-            output = subprocess.check_output([self.qemu_bin, "--help"], universal_newlines=True)
++            output = subprocess.check_output([self.qemu_bin, "--help"], universal_newlines=True, env=self.qemu_environ)
+             if "-display gtk" in output:
+                 self.gtk = True
+             elif "-display sdl" in output:
+@@ -1393,7 +1395,7 @@ class BaseConfig(object):
+                 if self.sdl == True:
+                     self.qemu_opt += 'sdl,'
+                 elif self.gtk == True:
+-                    os.environ['FONTCONFIG_PATH'] = '/etc/fonts'
++                    self.qemu_environ['FONTCONFIG_PATH'] = '/etc/fonts'
+                     self.qemu_opt += 'gtk,'
  
- DEPENDS += "qemu-system-native"
-diff --git a/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper b/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper
-deleted file mode 100755
-index f057d4eef0..0000000000
---- a/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper
-+++ /dev/null
-@@ -1,25 +0,0 @@
--#! /bin/sh
--# Copyright 2020 Garmin Ltd. or its subsidiaries
--#
--# SPDX-License-Identifier: GPL-2.0
--#
--# Attempts to find and exec the host qemu-bridge-helper program
--
--# If the QEMU_BRIDGE_HELPER variable is set by the user, exec it.
--if [ -n "$QEMU_BRIDGE_HELPER" ]; then
--    exec "$QEMU_BRIDGE_HELPER" "$@"
--fi
--
--# Search common paths for the helper program
--BN="qemu-bridge-helper"
--PATHS="/usr/libexec/ /usr/lib/qemu/"
--
--for p in $PATHS; do
--    if [ -e "$p/$BN" ]; then
--        exec "$p/$BN" "$@"
--    fi
--done
--
--echo "$BN not found!" > /dev/stderr
--exit 1
--
-diff --git a/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper.c b/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper.c
-new file mode 100644
-index 0000000000..cadf2a012a
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper.c
-@@ -0,0 +1,41 @@
-+/*
-+ * Copyright 2022 Garmin Ltd. or its subsidiaries
-+ *
-+ * SPDX-License-Identifier: GPL-2.0
-+ *
-+ * Attempts to find and exec the host qemu-bridge-helper program
-+ */
-+
-+#include <stdio.h>
-+#include <unistd.h>
-+
-+void try_program(char const* path, char** args) {
-+    if (access(path, X_OK) == 0) {
-+        execv(path, args);
-+    }
-+}
-+
-+int main(int argc, char** argv) {
-+    char* var;
-+
-+    /* Copy arguments so that they are a NULL terminated list, skipping argv[0]
-+     * since it is this program name */
-+    char** args = malloc(argc * sizeof(char*));
-+    for (int i = 0; i < argc - 1; i++) {
-+        args[i] = argv[i + 1];
-+    }
-+    args[argc - 1] = NULL;
-+
-+    var = getenv("QEMU_BRIDGE_HELPER");
-+    if (var && var[0] != '\0') {
-+        execvp(var, args);
-+        return 1;
-+    }
-+
-+    try_program("/usr/libexec/qemu-bridge-helper", args);
-+    try_program("/usr/lib/qemu/qemu-bridge-helper", args);
-+
-+    fprintf(stderr, "No bridge helper found\n");
-+    return 1;
-+}
-+
+                 if self.gl == True:
+@@ -1514,7 +1516,7 @@ class BaseConfig(object):
+         if len(self.portlocks):
+             for descriptor in self.portlocks.values():
+                 pass_fds.append(descriptor.fileno())
+-        process = subprocess.Popen(cmds, stderr=subprocess.PIPE, pass_fds=pass_fds)
++        process = subprocess.Popen(cmds, stderr=subprocess.PIPE, pass_fds=pass_fds, env=self.qemu_environ)
+         self.qemupid = process.pid
+         retcode = process.wait()
+         if retcode:
 -- 
 2.33.0
 
