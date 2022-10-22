@@ -1,185 +1,108 @@
-Return-Path: <claus.stovgaard@gmail.com>
+Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F7F1C433FE
-	for <webhook@archiver.kernel.org>; Sat, 22 Oct 2022 12:59:45 +0000 (UTC)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web09.5934.1666443583083821299
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD7ADC04A95
+	for <webhook@archiver.kernel.org>; Sat, 22 Oct 2022 17:13:34 +0000 (UTC)
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+ by mx.groups.io with SMTP id smtpd.web11.627.1666458806256085313
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Oct 2022 05:59:43 -0700
+ Sat, 22 Oct 2022 10:13:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=N6sgQiL7;
- spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: claus.stovgaard@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id m16so15254141edc.4
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 Oct 2022 05:59:42 -0700 (PDT)
+ dkim=pass header.i=@underview.tech header.s=google header.b=HfMio+/L;
+ spf=pass (domain: underview.tech, ip: 209.85.160.43, mailfrom: vince@underview.tech)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-131dda37dddso7392628fac.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 Oct 2022 10:13:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=underview.tech; s=google;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0uNXzpOttHF0pzJM6njk5qXmK+3ddAPJVbuwHf+mjn4=;
-        b=N6sgQiL7cpYc8uGg2AARrQKhuhEGlpDEbHH/a1gLvQfyNRBWdErm2aFUd/OnfkqcYk
-         Ik5zXg/+l/vJbP4oWmoQjW3wL8jm1a/kdDoU9yJqH2RJBkvK1NkDjhFHxpO2N3qimKDy
-         i0c4SXMFfAuw1U34EoH8UW7ade3gi0kdeMf6XUipBQLOws58kQwM1tFpbVOK1HbuLK+E
-         yfI61LfGSg+BgICv7pXIEwwYKdSSe6nUoZonwRLlJYixe7A0wCci4y7zFKs5BjTftoLV
-         cgtn6PyFX6Xgy/Hn3bHekSgrGfSljx9ACSJ3s0d0lavBKeawmdbmNMeXhfFRB3BX8A3V
-         JWog==
+        bh=urj4nZ7mb062blC+qGZFZjR66kaQJGMk1WjdBxvZM3A=;
+        b=HfMio+/LeDEYbV2LoptV7PyhYGkUPQGn12gmRIBOTCNTDtSfUszZmQmhglvrebm+uL
+         i8ulSlc54urrHcLVGpPzTk3L3YVcv910h1WF7t52Ji38/vsu2sa7orcnulxf4w3kAFjB
+         56i7foiI9a/Ea+IUAhlf8Q8DTEOZm1L4iPTcFuemBLbZhq9noR+IUpnqh00P0LyiY3sW
+         ds1QMfA+IvN515NZi0j3rOtVONDsQX1NTTBKoCjnYb3pYfTuGR8jT8oZB85HELPw8Y4o
+         O0EL4bD2MirXTloUzx0wR5Lx/LnfQ0tHpQ1xNhjViVSpAgkFm058Irxv4nhqTJMXS6X7
+         xsFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0uNXzpOttHF0pzJM6njk5qXmK+3ddAPJVbuwHf+mjn4=;
-        b=VP4Bcn1Im7SI2Qzzw6E1jlLZ3zPfdMFuj2csibQOTosAkyofrPlv6YazPS93jxRWpI
-         MAlkSmQyNRBvq/j4OCJZeT5pTFZ4EqMHONsp3UktdWQ1u7bOCOZBfTZT5eiQx10ZU1QD
-         YcwWAIiybSNMMPNziQ3zf8/oUjstPmsuIqEh67DtGNLwOYarTJuXmRUi5y9jfsUoYyV9
-         4aNxxL0l/tmxjjdU1fJeWk7NOrJBG+99TkhZuZmDVXQP0A18Hp8QVotjmOEgfcvPLEXs
-         gQAfXXPp27cT1KeSWz2Et1fE8/k5/V8qFR+p4agzxlEIXNEfn5O8uKitoXC5fhh8rRAU
-         u4Gg==
-X-Gm-Message-State: ACrzQf2uvFoenMhrLPPTYPM86hzn0U3dKhuutzjFohakS4tXt03Sa6eF
-	paQLPnKDIQukpdoh9b8iqXav8WgwtAY=
-X-Google-Smtp-Source: AMsMyM4ZGDg0RMHQ2QGReQctaUoFYN5rMz3xwAJKVwyJwnkwnCBtDB6bVUsJ8illUCjALnqpBqInXw==
-X-Received: by 2002:a17:907:6d92:b0:78d:d2e5:7cda with SMTP id sb18-20020a1709076d9200b0078dd2e57cdamr19681309ejc.625.1666443580916;
-        Sat, 22 Oct 2022 05:59:40 -0700 (PDT)
-Received: from nova.frosteyes.dk (customer-85-204-195-200.ip4.gigabit.dk. [85.204.195.200])
-        by smtp.gmail.com with ESMTPSA id e11-20020a056402104b00b00459f4974128sm15115230edu.50.2022.10.22.05.59.40
+        bh=urj4nZ7mb062blC+qGZFZjR66kaQJGMk1WjdBxvZM3A=;
+        b=t/UMYpSiZq1+wMkBeJSKVTzf0aF5J6nDpsDinNfgy2FZOw13g75J4vD7sH/R9+vUaL
+         M9cKQxDmg3cejRSksqJ3SmCTlPSxxuxA3/pDA9ok7yGCglj6hwibIcedQcbPA+lQLf99
+         Fku01GOtilLFoggTUKspuXdHFfoX0SrxCV+PvAA4tC99qAJ+Huf1dR+5YpANjHi26BVS
+         v3Y/G1E6SpNIfWC6cUKy4mRPb4lqMWdOnwjJcm4lEwCruxq9n0RvPTpo5Vgsbl/XH01z
+         a8lHE5I0z37O729fc7U6ZJwQdhWlsafB+auSlnxLW93JOF5QX+FZb1SmDex68tieBkbs
+         jZvQ==
+X-Gm-Message-State: ACrzQf21kXEJSgOWtKOGyAyzkEAaQITPJeYnVQrqPxpaqGBu0wEhEKI9
+	FjHmbwmVOwZENRIHHG6GZQ93nOTCIF/LnC8P
+X-Google-Smtp-Source: AMsMyM5f7w8GDhUYd40fZy7sqDSJ3d7xykmzvgIaY/Sz3omF58AIoK7B61i2LbLd/9ol6BTTK7FJcQ==
+X-Received: by 2002:a05:6870:f596:b0:136:6fa7:8c76 with SMTP id eh22-20020a056870f59600b001366fa78c76mr33630647oab.236.1666458805330;
+        Sat, 22 Oct 2022 10:13:25 -0700 (PDT)
+Received: from vince-ubuntu.attlocal.net (99-113-4-128.lightspeed.hstntx.sbcglobal.net. [99.113.4.128])
+        by smtp.gmail.com with ESMTPSA id x27-20020a056870a79b00b001372c1902afsm11660703oao.52.2022.10.22.10.13.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Oct 2022 05:59:40 -0700 (PDT)
-From: Claus Stovgaard <claus.stovgaard@gmail.com>
+        Sat, 22 Oct 2022 10:13:24 -0700 (PDT)
+From: Vincent Davis Jr <vince@underview.tech>
 To: openembedded-core@lists.openembedded.org
-Cc: Claus Stovgaard <claus.stovgaard@gmail.com>
-Subject: [master][kirkstone][PATCH v2] gstreamer1.0-libav: fix errors with ffmpeg 5.x
-Date: Sat, 22 Oct 2022 14:59:34 +0200
-Message-Id: <20221022125934.106277-1-claus.stovgaard@gmail.com>
-X-Mailer: git-send-email 2.37.4
+Cc: Vincent Davis Jr <vince@underview.tech>
+Subject: [PATCH] libglvnd: add new recipe libglvnd v1.5.0
+Date: Sat, 22 Oct 2022 12:10:36 -0500
+Message-Id: <20221022171036.85415-1-vince@underview.tech>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 22 Oct 2022 12:59:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172061
+ <openembedded-core@lists.openembedded.org>; Sat, 22 Oct 2022 17:13:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172062
 
-Backport of patch already present upstream to fix issues with invalid
-characters for GLIB when combining gstreamer1.0-libav with ffmpeg 5.x.
-
-Remove when gstreamer1.0-libav is upgraded to 1.21.1 or above
-
-Signed-off-by: Claus Stovgaard <claus.stovgaard@gmail.com>
+Signed-off-by: Vincent Davis Jr <vince@underview.tech>
 ---
- ...r-APNG-encoder-property-registration.patch | 86 +++++++++++++++++++
- .../gstreamer/gstreamer1.0-libav_1.20.3.bb    |  4 +-
- 2 files changed, 89 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-libav-Fix-for-APNG-encoder-property-registration.patch
+ .../libglvnd/libglvnd_1.5.0.bb                | 30 +++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+ create mode 100644 meta/recipes-graphics/libglvnd/libglvnd_1.5.0.bb
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-libav-Fix-for-APNG-encoder-property-registration.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-libav-Fix-for-APNG-encoder-property-registration.patch
+diff --git a/meta/recipes-graphics/libglvnd/libglvnd_1.5.0.bb b/meta/recipes-graphics/libglvnd/libglvnd_1.5.0.bb
 new file mode 100644
-index 0000000000..526bbb0037
+index 0000000000..b92bad46e0
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-libav-Fix-for-APNG-encoder-property-registration.patch
-@@ -0,0 +1,86 @@
-+From 78a97c1ec35ada76d83fc67d0549ba56c74d8875 Mon Sep 17 00:00:00 2001
-+From: Seungha Yang <seungha@centricular.com>
-+Date: Thu, 7 Jul 2022 22:16:30 +0900
-+Subject: [PATCH] libav: Fix for APNG encoder property registration
++++ b/meta/recipes-graphics/libglvnd/libglvnd_1.5.0.bb
+@@ -0,0 +1,30 @@
++DESCRIPTION = "libglvnd is a vendor-neutral dispatch layer for arbitrating \
++OpenGL API calls between multiple vendors."
++HOMEPAGE = "https://gitlab.freedesktop.org/glvnd/libglvnd"
++LICENSE = "MIT & BSD-1-Clause & BSD-3-Clause & GPL-3.0-with-autoconf-exception"
++LIC_FILES_CHKSUM = "file://README.md;beginline=323;md5=7ac5f0111f648b92fe5427efeb08e8c4"
 +
-+The AVClass name of Animated PNG in FFmpeg 5.x is "(A)PNG"
-+and it will be converted to "-a-png" through
-+g_ascii_strdown() and g_strcanon(). But GLib disallow leading '-'
-+character for a GType name. Strip leading '-' to workaround it.
++SRC_URI = "git://git@gitlab.freedesktop.org/glvnd/libglvnd.git;protocol=https;branch=master"
 +
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/2724]
++# v1.5.0 tag
++SRCREV = "c7cdf0cc4395b57563294d1f340b6bb1b95366a0"
 +
-+Seungha Yangs patch was imported without modifications.
++REQUIRED_DISTRO_FEATURES = "opengl"
 +
-+Signed-off-by: Claus Stovgaard <claus.stovgaard@gmail.com>
-+---
-+ ext/libav/gstavcfg.c | 29 +++++++++++++++++++++++------
-+ 1 file changed, 23 insertions(+), 6 deletions(-)
++inherit meson pkgconfig features_check
 +
-+diff --git a/ext/libav/gstavcfg.c b/ext/libav/gstavcfg.c
-+index c736920..a8635a7 100644
-+--- a/ext/libav/gstavcfg.c
-++++ b/ext/libav/gstavcfg.c
-+@@ -91,10 +91,19 @@ register_enum (const AVClass ** obj, const AVOption * top_opt)
-+   gchar *lower_obj_name = g_ascii_strdown ((*obj)->class_name, -1);
-+   gchar *enum_name = g_strdup_printf ("%s-%s", lower_obj_name, top_opt->unit);
-+   gboolean none_default = TRUE;
-++  const gchar *enum_name_strip;
-+ 
-+   g_strcanon (enum_name, G_CSET_a_2_z G_CSET_DIGITS, '-');
-+ 
-+-  if ((res = g_type_from_name (enum_name)))
-++  /* strip leading '-'s */
-++  enum_name_strip = enum_name;
-++  while (enum_name_strip[0] == '-')
-++    enum_name_strip++;
-++
-++  if (enum_name_strip[0] == '\0')
-++    goto done;
-++
-++  if ((res = g_type_from_name (enum_name_strip)))
-+     goto done;
-+ 
-+   while ((opt = av_opt_next (obj, opt))) {
-+@@ -150,9 +159,8 @@ register_enum (const AVClass ** obj, const AVOption * top_opt)
-+       }
-+     }
-+ 
-+-    res =
-+-        g_enum_register_static (enum_name, &g_array_index (values, GEnumValue,
-+-            0));
-++    res = g_enum_register_static (enum_name_strip,
-++        &g_array_index (values, GEnumValue, 0));
-+ 
-+     gst_type_mark_as_plugin_api (res, 0);
-+   }
-+@@ -177,10 +185,19 @@ register_flags (const AVClass ** obj, const AVOption * top_opt)
-+   GArray *values = g_array_new (TRUE, TRUE, sizeof (GEnumValue));
-+   gchar *lower_obj_name = g_ascii_strdown ((*obj)->class_name, -1);
-+   gchar *flags_name = g_strdup_printf ("%s-%s", lower_obj_name, top_opt->unit);
-++  const gchar *flags_name_strip;
-+ 
-+   g_strcanon (flags_name, G_CSET_a_2_z G_CSET_DIGITS, '-');
-+ 
-+-  if ((res = g_type_from_name (flags_name)))
-++  /* strip leading '-'s */
-++  flags_name_strip = flags_name;
-++  while (flags_name_strip[0] == '-')
-++    flags_name_strip++;
-++
-++  if (flags_name_strip[0] == '\0')
-++    goto done;
-++
-++  if ((res = g_type_from_name (flags_name_strip)))
-+     goto done;
-+ 
-+   while ((opt = av_opt_next (obj, opt))) {
-+@@ -211,7 +228,7 @@ register_flags (const AVClass ** obj, const AVOption * top_opt)
-+     g_array_sort (values, (GCompareFunc) cmp_flags_value);
-+ 
-+     res =
-+-        g_flags_register_static (flags_name, &g_array_index (values,
-++        g_flags_register_static (flags_name_strip, &g_array_index (values,
-+             GFlagsValue, 0));
-+ 
-+     gst_type_mark_as_plugin_api (res, 0);
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.3.bb
-index e8da49af99..7a2c0d1365 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.3.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.3.bb
-@@ -11,7 +11,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
-                     file://ext/libav/gstav.h;beginline=1;endline=18;md5=a752c35267d8276fd9ca3db6994fca9c \
-                     "
- 
--SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
-+SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz \
-+           file://0001-libav-Fix-for-APNG-encoder-property-registration.patch \
-+           "
- SRC_URI[sha256sum] = "3fedd10560fcdfaa1b6462cbf79a38c4e7b57d7f390359393fc0cef6dbf27dfe"
- 
- S = "${WORKDIR}/gst-libav-${PV}"
++S = "${WORKDIR}/git"
++
++PACKAGECONFIG ?= "\
++  ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
++  ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'egl gles1 gles2', '', d)} \
++  ${@bb.utils.contains('DISTRO_FEATURES', 'opengl x11', 'glx', '', d)} \
++  "
++
++PACKAGECONFIG[x11] = "-Dx11=enabled,-Dx11=disabled,libx11 libxext xorgproto"
++PACKAGECONFIG[glx] = "-Dglx=enabled,-Dglx=disabled,libx11 libxext xorgproto"
++PACKAGECONFIG[egl] = "-Degl=true,-Degl=false,"
++PACKAGECONFIG[gles1] = "-Dgles1=true,-Dgles1=false,"
++PACKAGECONFIG[gles2] = "-Dgles2=true,-Dgles2=false,"
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
-2.37.4
+2.34.1
 
 
