@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C39CFA3740
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C492FA3741
 	for <webhook@archiver.kernel.org>; Mon, 24 Oct 2022 14:24:58 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web11.19770.1666621490179712272
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web10.19998.1666621494365146711
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Oct 2022 07:24:50 -0700
+ Mon, 24 Oct 2022 07:24:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=mVhqRi4R;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id p3so7634425pld.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Oct 2022 07:24:50 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=3LCyq9Dy;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.44, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f44.google.com with SMTP id b11so2126959pjp.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Oct 2022 07:24:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZxCuxXaqgRwhzfh9feDvmR1o9R7IqDMjvRo/cUnfF18=;
-        b=mVhqRi4R7S/edGafsVtnnzTeA7cpEd9ow5SthgH7OKl8yaobqvYrvLJE6+tZBBJUw8
-         urR23wYLClhparTNeM/gyq3ZnzQEFtjNuhHOPijZteBZLz5HpBZnFQe2fZirEQFt1KZW
-         81eb1N3h/S7z4dz6TuygH2rXBEotGcAX1/jM8X5iB1UDh6RMaURfTRec0WAIF2l1muoa
-         +ZW7M1fV3rv5SHJ7b5wmajwW2vGIVcmoJbDYOsoQlMezGoC+D8vJxt1QK1/MSV8sp1gu
-         Iu0lgZ7E1Qq3zWfDmLiRFsGVPmGY5RyhTjNJbHg688U15GVhHNoWAd747ywKDoAWtbJI
-         WMyQ==
+        bh=IRwXomfZPN/nxLa1dTHolvf3TJjG8zvKWhLg759Dc6E=;
+        b=3LCyq9Dyccnv4eRkDTbMmZ+hFVBUHMIYf4pglkkU52ahKhjJDgcOp+UUJj3ph4ZQm/
+         rAr2B8j351FWGSSfjPhsLVZqhHB7WFfY3tLpjqltzqPzCvvf1451p+2/nQ3vXHARhLQz
+         uaPUAFbxO1LzVSorw//hkkMkQmMgtCW1ZCOXdh6ScFcWN+H259ylEdAZhQYDzsx8Pm3Z
+         TWen4h8u1PBA0FFmm5RY52udvASheZDsoZ1iHTu9CJ48Cm6r5YG6eTNETlJPvfENFg1W
+         SI8lZXvZY4qicQtzLRvBUyzH3nwWOXs3TD9f8nPPiE7agk25vdh7a1Y/+tXBaTxBgy6t
+         YB+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZxCuxXaqgRwhzfh9feDvmR1o9R7IqDMjvRo/cUnfF18=;
-        b=Qx/pN3bFS3z848O9/xk4/iQ5z9gpZrHeDqcaTcnBx8fVscXdlzHjD1bn8QpOiEHmly
-         gF1PSo89Q08TNhX03fDW+STmtpeCWGiz4KmCkPIHMJw0B00YB+f+QJnjcZu7MIsd3c9b
-         eRdBfFejlcmdzEbf0jw1BsMOIRRa7I5beVYuivFpsgtIc3xXyYY8bXp6UFQNS1zvbBAO
-         T3D4WqavX3gh9lb/WGpR3ulIEx+DW8Vt2SXO5DYxyk7Jgxo8uC82L8HPjMGT6tmSU0Qx
-         4RodSU0u/QmoRaF+8aGnrRiemeV/Nkjp3XnV9Dcd1IMADwgRZFiv72MEBzb75osVq6Nu
-         TkwA==
-X-Gm-Message-State: ACrzQf074uucBNrZlgANb5DYnFwU6qRVOhQqafs5e3Rk12vmVQBI7aYS
-	f4AgMpibkuG9inFngFY3H/WPDEsR7ktpJxRf
-X-Google-Smtp-Source: AMsMyM7Z1KDhN3NEbt+d1aJ639KFGd7Ki0zzQr2D1bt2jorLI9hlswe49A0I4P/uEhuI9PjDClhM6w==
-X-Received: by 2002:a17:902:be18:b0:178:b9c9:97b8 with SMTP id r24-20020a170902be1800b00178b9c997b8mr32805443pls.38.1666621489291;
-        Mon, 24 Oct 2022 07:24:49 -0700 (PDT)
+        bh=IRwXomfZPN/nxLa1dTHolvf3TJjG8zvKWhLg759Dc6E=;
+        b=sZBWWdoozTEgJ6vCmBNMa5GtV4xGGn2BcppWFBB4t93TmjNBLMjCz0cg/OLRjtWUgK
+         sBcP26Yi5IWbPAHGSyLlwcFjF/ea1t/K2Uc7ZYQsMRLGKV3Btl3IZSJActYqBzxAVzmT
+         tO1NT4exwjjjmMMmzGHaQ97gPhYiHtFkVUJNohl1V27ZoTsHXlS68dFuudCCbYjwwYAw
+         de7vQzn0eqpxHz/tVkPE4QmBbHNwgq3hy7q0kilDbxreUPqqXztj3YVpn1BYfQNAd/+/
+         WKU/fEJM+JdRVfBOEJsICKSuyvl12WZq1RDSGLJpm0/SeTH5B3Zr0HOkLzXKxVqBaTpT
+         iISA==
+X-Gm-Message-State: ACrzQf3Vc4pKyAYbLtZajZXizicOXJEFTJa5YJIIR3AvJBB/Y50NwvXC
+	zsncU0SUeeawYMDCJRhpM3up0Qot8IRly6Gp
+X-Google-Smtp-Source: AMsMyM6pWTsyDWQRSabJl1ThOrmSodE9sPHggvkkGrIyya5SnaPt+fx2IX6SCzvJXsoPmB2vGmbuLA==
+X-Received: by 2002:a17:902:cf01:b0:186:810c:d994 with SMTP id i1-20020a170902cf0100b00186810cd994mr16222310plg.151.1666621493325;
+        Mon, 24 Oct 2022 07:24:53 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id z15-20020a170903018f00b0017e64da44c5sm19704457plg.203.2022.10.24.07.24.48
+        by smtp.gmail.com with ESMTPSA id z15-20020a170903018f00b0017e64da44c5sm19704457plg.203.2022.10.24.07.24.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 07:24:48 -0700 (PDT)
+        Mon, 24 Oct 2022 07:24:52 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 5/7] classes/kernel-fitimage: add ability to add additional signing options
-Date: Mon, 24 Oct 2022 04:24:19 -1000
-Message-Id: <fd39b936b03a6416e7a66408c47578daa2a08cf1.1666621276.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 7/7] selftest: skip virgl test on all Alma Linux
+Date: Mon, 24 Oct 2022 04:24:21 -1000
+Message-Id: <54bbfe94ae4514386c572564bf221edfdbb2ce38.1666621276.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1666621276.git.steve@sakoman.com>
 References: <cover.1666621276.git.steve@sakoman.com>
@@ -61,47 +61,30 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 24 Oct 2022 14:24:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172095
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172097
 
-From: Paul Eggleton <paul.eggleton@microsoft.com>
+This test will fail any time the host has libdrm > 2.4.107
 
-Add a UBOOT_MKIMAGE_SIGN_ARGS variable to enable passing additional
-options to uboot-mkimage when it is run the second time to perform
-signing.
-
-Signed-off-by: Paul Eggleton <paul.eggleton@microsoft.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8fd7ee7414b45a1feeef7982af3583475902a677)
-Signed-off-by: Massimiliano Minella <massimiliano.minella@se.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/kernel-fitimage.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/runtime_test.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index 7c0d93625b..e0dd215167 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -59,6 +59,9 @@ FIT_SIGN_ALG ?= "rsa2048"
- # fitImage Padding Algo
- FIT_PAD_ALG ?= "pkcs-1.5"
- 
-+# Arguments passed to mkimage for signing
-+UBOOT_MKIMAGE_SIGN_ARGS ?= ""
-+
- #
- # Emit the fitImage ITS header
- #
-@@ -479,7 +482,8 @@ fitimage_assemble() {
- 			${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
- 			-F -k "${UBOOT_SIGN_KEYDIR}" \
- 			$add_key_to_u_boot \
--			-r arch/${ARCH}/boot/${2}
-+			-r arch/${ARCH}/boot/${2} \
-+			${UBOOT_MKIMAGE_SIGN_ARGS}
- 	fi
- }
- 
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index 399727de49..aeda01848a 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -175,8 +175,8 @@ class TestImage(OESelftestTestCase):
+         if "DISPLAY" not in os.environ:
+             self.skipTest("virgl gtk test must be run inside a X session")
+         distro = oe.lsb.distro_identifier()
+-        if distro and distro == 'almalinux-8.6':
+-            self.skipTest('virgl isn\'t working with Alma 8')
++        if distro and distro.startswith('almalinux'):
++            self.skipTest('virgl isn\'t working with Alma Linux')
+         if distro and distro == 'debian-8':
+             self.skipTest('virgl isn\'t working with Debian 8')
+         if distro and distro == 'centos-7':
 -- 
 2.25.1
 
