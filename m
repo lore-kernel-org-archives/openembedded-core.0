@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CFE9FA373E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CFB4C38A2D
 	for <webhook@archiver.kernel.org>; Mon, 24 Oct 2022 14:24:58 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web11.19769.1666621488212009746
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.19770.1666621490179712272
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Oct 2022 07:24:48 -0700
+ Mon, 24 Oct 2022 07:24:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ztMVVem9;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f173.google.com with SMTP id 192so1936153pfx.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Oct 2022 07:24:48 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=g3F230az;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id p3so7634518pld.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Oct 2022 07:24:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=I0Xanhy6qrSHj41+r0cUU8EyNgpPQl8TMMr5IKDoxX0=;
-        b=ztMVVem9ctKhboDBXY6VTRMlZOJbFDrAX6FhWXIBUROuX+e9W4Bt1sEiU4HdtpuNav
-         2gTymRADzS8SlauLWFwZjmJjTEPC/ecGOB7Btfouy3t+coR9sOYfUSpM1GamjlotDAIc
-         HSwAiMS79OOb/9EMINgWaMMyL4GQ3x6AoJhk26rR24osTaXilFcHX2anPc3xdyZPf3Q8
-         9wp9GwpBkYgdrhDwQ1YiU/lOStiftI4BgkR8L6V8reXIFgosoCK0twMWs2s5/+RaiyuG
-         eScUP79/rRDih11gwjQlxH9FGM8FS15Zz5JncbwpkpxoVLD4zNkaWZ1g4B9g6519uymr
-         6LZg==
+        bh=jvH3yZjAFkzid+orcQun3SRoA42zZ2kpwQ6SrLB0aok=;
+        b=g3F230azYNRCeVho1EZS2qJ480JbC0kHTvnyE9qAnG1GC8L40442hMU2qB36g4VSz2
+         E7nHv+a/pcKuT6tXyT4CK96EG+fqP6/O2ZhZfbSIGUIHHNPAdIaoGsWVQpIudWhoOWNu
+         S6hvTi/0EpzmJJ/dICWFFu/HseBsaV7e3ajvzRopmgeSy2fWxBCUiOSov41mPNO2elLC
+         SLu+TJEPcl/jmFwHDW/C1Sh+hbZZqfoUwwwz0/rP9N5mYm/CvQ8VVLA0MOjIF5LeB6FS
+         UX+rMKbdZHjhUG6TMsfs1SeC6HyajiTYMUXKvLpHJraZy8M8tVNPbUDj0N//d8g9uk+9
+         a/9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=I0Xanhy6qrSHj41+r0cUU8EyNgpPQl8TMMr5IKDoxX0=;
-        b=beNc+EKStUhmHZ9UDncboh8rP6bCu7ke3790FFAHIEsNXJ52oJa7fYfUbkFnMX7SdL
-         OUnSIbRDxefarWleD4BvO/MCh0IW4ChAXd4JCi3qWhEftd8Z3sojvCRndsN4YghCphcN
-         64oVwe6YU7CebUbAiRlBwmab0ctGKr+pLAZbPN4O00GeejUEJQ1uJ9BU7FnpNR5fF//Z
-         EFBxr3aslVpAkBPPDR41UtNhT6GCsOwswbnHiEPRvEXrIQXGqTesoZgBwJWO7jPfGqwB
-         DgG76A+hGcybpgzxAYeH2kjRiID4DNvYc0HfuOfP6cNoBXRDAnsiGjkjr7jVKTd1HoJ4
-         G/4w==
-X-Gm-Message-State: ACrzQf2zq8PSK9oEUAUAOozgs1dkEmGMBrhO3yKpPkNJJAEtG6DqTB/q
-	Tl+37AjS4phNkdsH38jeb4B22bHcW7hrPjLC
-X-Google-Smtp-Source: AMsMyM6HXmb1s31p9jnRgxmwJ+PkPogjHVATgt63LCXPT/zdKBHl7gDNmUjpzxn4Wm2/s+Ger+Wqdw==
-X-Received: by 2002:a05:6a00:1946:b0:565:c337:c530 with SMTP id s6-20020a056a00194600b00565c337c530mr33407296pfk.47.1666621487251;
-        Mon, 24 Oct 2022 07:24:47 -0700 (PDT)
+        bh=jvH3yZjAFkzid+orcQun3SRoA42zZ2kpwQ6SrLB0aok=;
+        b=D/NcV+ls1uP7V7odUYIghJcBTUWSnKyQ5EoZvMNikwLxoFlHIKNfvjnuXIpLfckqwW
+         8AeqQs4sOIB3qvd9/tPm8CMEYjKdTynhoLIGwt6iff4aMXIj6Eal+UZtw7p4KmcBWw0e
+         0nPaJBMwCB6+ISHObd2Ak0HvkQYLroLRVjeBl8mfFI8YYMZMcSwHDDqyLUz9sGUMlUx2
+         otklJpxDLd0LpwwmgHRJ8lO2KeL623sr3UsEtg0MRR2qozxoeLHcEhPOOWqoENbKUnxk
+         8lPOrFXrvjDDxQzxa2FYEfNWIUFGyz0gE/VcaoOMqxyZxZozuhKjcMfVxJB6CfPBq6lg
+         abMA==
+X-Gm-Message-State: ACrzQf081VqBxV/1PIHbiMFA7Cn1WTbdXYqVfT1j/+N7/nvcTx85/+Mk
+	ay3ed7lXO9PWgYemHfZLfnaPO6x2nG49W0pp
+X-Google-Smtp-Source: AMsMyM51oVeMBEBFb93nMlZStg9toAcrnoXGxm0O56/72aRKpq2TU1phn4pzXrRwYQ35qXKunWEEhA==
+X-Received: by 2002:a17:90a:cf06:b0:212:d9ab:811b with SMTP id h6-20020a17090acf0600b00212d9ab811bmr17568688pju.65.1666621491453;
+        Mon, 24 Oct 2022 07:24:51 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id z15-20020a170903018f00b0017e64da44c5sm19704457plg.203.2022.10.24.07.24.46
+        by smtp.gmail.com with ESMTPSA id z15-20020a170903018f00b0017e64da44c5sm19704457plg.203.2022.10.24.07.24.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 07:24:46 -0700 (PDT)
+        Mon, 24 Oct 2022 07:24:50 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 4/7] dbus: upgrade 1.12.22 -> 1.12.24
-Date: Mon, 24 Oct 2022 04:24:18 -1000
-Message-Id: <f00cb90cb4169ecbc003c61b50ae9e0dd4b75254.1666621276.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 6/7] devtool: add HostKeyAlgorithms option to ssh and scp commands
+Date: Mon, 24 Oct 2022 04:24:20 -1000
+Message-Id: <9275d23c782071382c201bca2d647f6426a64e2f.1666621276.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1666621276.git.steve@sakoman.com>
 References: <cover.1666621276.git.steve@sakoman.com>
@@ -61,48 +61,63 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 24 Oct 2022 14:24:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172094
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172096
 
-From: Omkar <omkar.patil@kpit.com>
+With the newer version of ssh in Ubuntu 22.04 we are getting errors of this type:
 
-Upgrade dbus from 1.12.22 to 1.12.24
+Unable to negotiate with 192.168.7.2 port 22: no matching host key type found. Their offer: ssh-rsa
 
-Fix Below CVE's:
-2022-42010
-2022-42011
-2022-42012
+Add -o HostKeyAlgorithms=+ssh-rsa to command invocation as suggested at:
 
-Signed-off-by: Omkar Patil <omkarpatil10.93@gmail.com>
+http://www.openssh.com/legacy.html
+
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../dbus/{dbus-test_1.12.22.bb => dbus-test_1.12.24.bb}         | 0
- meta/recipes-core/dbus/dbus.inc                                 | 2 +-
- meta/recipes-core/dbus/{dbus_1.12.22.bb => dbus_1.12.24.bb}     | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/dbus/{dbus-test_1.12.22.bb => dbus-test_1.12.24.bb} (100%)
- rename meta/recipes-core/dbus/{dbus_1.12.22.bb => dbus_1.12.24.bb} (100%)
+ meta/lib/oeqa/selftest/cases/devtool.py | 2 +-
+ scripts/lib/devtool/deploy.py           | 8 ++++----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-core/dbus/dbus-test_1.12.22.bb b/meta/recipes-core/dbus/dbus-test_1.12.24.bb
-similarity index 100%
-rename from meta/recipes-core/dbus/dbus-test_1.12.22.bb
-rename to meta/recipes-core/dbus/dbus-test_1.12.24.bb
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index 8219f0875e..82e91c7b13 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -10,7 +10,7 @@ SRC_URI = "https://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
- "
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 87e71632ab..5febdde28e 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -1323,7 +1323,7 @@ class DevtoolExtractTests(DevtoolBase):
+             # Now really test deploy-target
+             result = runCmd('devtool deploy-target -c %s root@%s' % (testrecipe, qemu.ip))
+             # Run a test command to see if it was installed properly
+-            sshargs = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
++            sshargs = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o HostKeyAlgorithms=+ssh-rsa'
+             result = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, testcommand))
+             # Check if it deployed all of the files with the right ownership/perms
+             # First look on the host - need to do this under pseudo to get the correct ownership/perms
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index e0f8e64b9c..b4f9fbfe45 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -201,9 +201,9 @@ def deploy(args, config, basepath, workspace):
+                 print('  %s' % item)
+             return 0
  
--SRC_URI[sha256sum] = "8d25785c798ec4f892e6f9d177fb0ceeb8b29867b119798f9d5228561d3ad474"
-+SRC_URI[sha256sum] = "bc42d196c1756ac520d61bf3ccd6f42013617def45dd1e591a6091abf51dca38"
+-        extraoptions = ''
++        extraoptions = '-o HostKeyAlgorithms=+ssh-rsa'
+         if args.no_host_check:
+-            extraoptions += '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
++            extraoptions += ' -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+         if not args.show_status:
+             extraoptions += ' -q'
  
- EXTRA_OECONF = "--disable-xml-docs \
-                 --disable-doxygen-docs \
-diff --git a/meta/recipes-core/dbus/dbus_1.12.22.bb b/meta/recipes-core/dbus/dbus_1.12.24.bb
-similarity index 100%
-rename from meta/recipes-core/dbus/dbus_1.12.22.bb
-rename to meta/recipes-core/dbus/dbus_1.12.24.bb
+@@ -274,9 +274,9 @@ def undeploy(args, config, basepath, workspace):
+     elif not args.recipename and not args.all:
+         raise argparse_oe.ArgumentUsageError('If you don\'t specify a recipe, you must specify -a/--all', 'undeploy-target')
+ 
+-    extraoptions = ''
++    extraoptions = '-o HostKeyAlgorithms=+ssh-rsa'
+     if args.no_host_check:
+-        extraoptions += '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
++        extraoptions += ' -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+     if not args.show_status:
+         extraoptions += ' -q'
+ 
 -- 
 2.25.1
 
