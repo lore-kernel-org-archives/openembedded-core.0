@@ -1,370 +1,120 @@
-Return-Path: <anton.antonov@arm.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0294BECAAA1
-	for <webhook@archiver.kernel.org>; Mon, 24 Oct 2022 17:10:21 +0000 (UTC)
-Subject: rust: conflicts between Yocto and CC-RS compiler parameters
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3FEEC38A2D
+	for <webhook@archiver.kernel.org>; Mon, 24 Oct 2022 19:02:04 +0000 (UTC)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web12.135.1666638117307968854
+ for <openembedded-core@lists.openembedded.org>;
+ Mon, 24 Oct 2022 12:01:57 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=I/zU3RDx;
+ spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f172.google.com with SMTP id s196so9451104pgs.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Oct 2022 12:01:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tdm6yFQkURZTopyyxLkTjfPGOuDJhYp938Ej6YJ/XZ4=;
+        b=I/zU3RDxdXFcjT8wgbLi3CFur9qFkPEckLX2bLd1OaaasvA0K4XcSjiWzhaU1/lwQa
+         2tBwS28wSt4x5Lhldjb9OaztRAlEqpWAfiYy86uJTFogiLqd8xn48xO5BeAGaxuz6zvs
+         lNstV/og4kwwofa5HKU723QTCsfJAg3hL0dXnBIAPrtLscjr4MVhwQGSBtBQgL3VlQah
+         7HH96mIHBTtkxBoNMar+IkBNklVYYqi7KOepGknkFyWnhG+j0uCuxIAvJ78S/j1j5jK0
+         s23EBQRFMFS2Ts6mYgr2rzX7KiREne1xZnvtvNA3y0YazwgKlQpB7ebpPpGYpnEY3uqz
+         k/cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Tdm6yFQkURZTopyyxLkTjfPGOuDJhYp938Ej6YJ/XZ4=;
+        b=pXYzGKwZqr9lKW3pSepYwrNdNPUy9xwOkZz3NCIlKm3memtNe5iSPOPJ+zCZhY9Uvl
+         v5Os71uRaNj4WmWWECneknpI/W2ec88ZLO4TqZhb7DTebbhe/FYJ3r0PGUQ4jQ404eI6
+         tDJ1f37g20eJd+/7zMHZW6fbPgDwTIRv55S0bxsYAPlTG2x598m5HIl/2sClZPo2xDXc
+         4IiXMIAAfPUJXzR8FyG1dpyzWpIf3kWw8RgPgh5COXufEFl0Q+5WuEpPTLHX9RBzHQMt
+         iSicQGmsQn7TkGDX111fG+SWo3uEP3xBIKCSzf/FDYdHNcpyVfIuxL2SR3hHJNXbIWng
+         pJDg==
+X-Gm-Message-State: ACrzQf09gVki86XCzJ7lYk26f2/Ykx5JbEqoPzIXqPQo721lUftShHtR
+	MvWAyyh+i7dA1UCJu+QcR3F5ojXSDkvhVw==
+X-Google-Smtp-Source: AMsMyM42xIibqKrg15bh1gtZ9AZlkCPNxNnLTbke73OSyLFMzapUIVtrn/Oznups/QEYL42id1kxJg==
+X-Received: by 2002:a62:ee17:0:b0:55b:b0d:bc9f with SMTP id e23-20020a62ee17000000b0055b0b0dbc9fmr34769841pfi.39.1666638116046;
+        Mon, 24 Oct 2022 12:01:56 -0700 (PDT)
+Received: from nereus.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:94d6:2e34:1254:77d8])
+        by smtp.gmail.com with ESMTPSA id y5-20020a17090a134500b002005fcd2cb4sm4338485pjf.2.2022.10.24.12.01.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Oct 2022 12:01:55 -0700 (PDT)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-From: "Anton Antonov" <anton.antonov@arm.com>
-X-Originating-Location: Cambridge, England, GB (217.140.106.13)
-X-Originating-Platform: Mac Firefox 105
-User-Agent: GROUPS.IO Web Poster
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [kirkstone][PATCH] git: upgrade 2.35.4 -> 2.35.5
+Date: Mon, 24 Oct 2022 12:01:42 -0700
+Message-Id: <20221024190142.1143018-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Date: Mon, 24 Oct 2022 10:10:19 -0700
-Message-ID: <Byab.1666631419068358312.NzkU@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="pM3jSviEISvmkeHNhAzH"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Oct 2022 17:10:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172113
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Oct 2022 19:02:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172114
 
---pM3jSviEISvmkeHNhAzH
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+This release addresses the security issues CVE-2022-39253 and
+CVE-2022-39260.
 
-Hi all,
+ * CVE-2022-39253:
+   When relying on the `--local` clone optimization, Git dereferences
+   symbolic links in the source repository before creating hardlinks
+   (or copies) of the dereferenced link in the destination repository.
+   This can lead to surprising behavior where arbitrary files are
+   present in a repository's `$GIT_DIR` when cloning from a malicious
+   repository.
 
-After this change (using RUST_HOST_SYS instead of HOST_SYS): https://github=
-.com/yoctoproject/poky/commit/5c45b73c8fa445b5192bb9fac1bc80b038b44c0d buil=
-ds of parsec-service recipe for qemuarm machine started to fail:
-cc1: error: switch '-mcpu=3Dcortex-a15' conflicts with switch '-march=3Darm=
-v7-a+fp' [-Werror]
-Full log can be seen here:
-https://gitlab.com/akuster/meta-security/-/jobs/3204450989#L2086
+   Git will no longer dereference symbolic links via the `--local`
+   clone mechanism, and will instead refuse to clone repositories that
+   have symbolic links present in the `$GIT_DIR/objects` directory.
 
-This is the cargo build command before the change:
-cargo build -v --target arm-poky-linux-gnueabi =20
-and this is after:
-cargo build -v --target armv7-poky-linux-gnueabihf
+   Additionally, the value of `protocol.file.allow` is changed to be
+   "user" by default.
 
-The problem is that some Rust crates build dependency C libraries using "cc=
--rs" crate.
-This crate adds some compiler parameters depending on target =E2=80=9Carch=
-=E2=80=9D and for =E2=80=9Carmv7" these parameters conflicts with compiler =
-parameter defined by Yocto via TUNE_CCARGS:
-https://github.com/rust-lang/cc-rs/blob/53fb72c87e5769a299f1886ead831901b9c=
-775d6/src/lib.rs#L1700 We noticed it with qemuarm, but there might be other=
- conflicts as well. (If -Werror is used then builds would fail, otherwise i=
-t would be just a warning which is easy to miss)
+ * CVE-2022-39260:
+   An overly-long command string given to `git shell` can result in
+   overflow in `split_cmdline()`, leading to arbitrary heap writes and
+   remote code execution when `git shell` is exposed and the directory
+   `$HOME/git-shell-commands` exists.
 
-To fix the issue in our recipe we can define =E2=80=9CCRATE_CC_NO_DEFAULTS=
-=E2=80=9D env variable which disables adding compiler flags in "cc-rs":
-https://github.com/rust-lang/cc-rs#external-configuration-via-environment-v=
-ariables
-So, my questions is: shouldn=E2=80=99t =E2=80=9CCRATE_CC_NO_DEFAULTS=E2=80=
-=9D be defined in the Rust bbclass instead of expecting that owners of all =
-Rust apps recipes would be aware about this issue for some machines and wou=
-ld add workarounds in their recipes?
-I've tried to add "CRATE_CC_NO_DEFAULTS" into rust-target-config.bbclass , =
-but it breaks building rust-native. Looks like we don=E2=80=99t define all =
-the required parameters for native builds and rely (maybe not even intentio=
-nally) on parameters defined by cc-rs crate. Therefore to do it properly th=
-ere should be some logic around defining of "CRATE_CC_NO_DEFAULTS" in rust-=
-target-config.bbclass. I would be happy to hear ideas or recommendations.
+   `git shell` is taught to refuse interactive commands that are
+   longer than 4MiB in size. `split_cmdline()` is hardened to reject
+   inputs larger than 2GiB.
 
-Cheers,
-Anton
+Credit for finding CVE-2022-39253 goes to Cory Snider of Mirantis. The
+fix was authored by Taylor Blau, with help from Johannes Schindelin.
 
---pM3jSviEISvmkeHNhAzH
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Credit for finding CVE-2022-39260 goes to Kevin Backhouse of GitHub.
+The fix was authored by Kevin Backhouse, Jeff King, and Taylor Blau.
 
-<div class=3D"p-rich_text_section" style=3D"box-sizing: inherit; counter-re=
-set: list-0 0 list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 =
-0 list-8 0 list-9 0; color: #1d1c1d; font-family: Slack-Lato, Slack-Fractio=
-ns, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-varian=
-t-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400;=
- letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; te=
-xt-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -web=
-kit-text-stroke-width: 0px; background-color: #f8f8f8; text-decoration-thic=
-kness: initial; text-decoration-style: initial; text-decoration-color: init=
-ial;">Hi all,</div>
-<div class=3D"p-rich_text_section" style=3D"box-sizing: inherit; counter-re=
-set: list-0 0 list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 =
-0 list-8 0 list-9 0; color: #1d1c1d; font-family: Slack-Lato, Slack-Fractio=
-ns, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-varian=
-t-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400;=
- letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; te=
-xt-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -web=
-kit-text-stroke-width: 0px; background-color: #f8f8f8; text-decoration-thic=
-kness: initial; text-decoration-style: initial; text-decoration-color: init=
-ial;">&nbsp;</div>
-<div class=3D"p-rich_text_section" style=3D"box-sizing: inherit; counter-re=
-set: list-0 0 list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 =
-0 list-8 0 list-9 0; color: #1d1c1d; font-family: Slack-Lato, Slack-Fractio=
-ns, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-varian=
-t-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400;=
- letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; te=
-xt-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -web=
-kit-text-stroke-width: 0px; background-color: #f8f8f8; text-decoration-thic=
-kness: initial; text-decoration-style: initial; text-decoration-color: init=
-ial;">&nbsp;After this change (using RUST_HOST_SYS instead of HOST_SYS):<sp=
-an>&nbsp;</span><a class=3D"c-link" style=3D"box-sizing: inherit; color: rg=
-ba(var(--sk_highlight,18,100,163),1); text-decoration: none;" tabindex=3D"-=
-1" href=3D"https://github.com/yoctoproject/poky/commit/5c45b73c8fa445b5192b=
-b9fac1bc80b038b44c0d" target=3D"_blank" rel=3D"noopener noreferrer" data-st=
-ringify-link=3D"https://github.com/yoctoproject/poky/commit/5c45b73c8fa445b=
-5192bb9fac1bc80b038b44c0d" data-sk=3D"tooltip_parent" data-remove-tab-index=
-=3D"true">https://github.com/yoctoproject/poky/commit/5c45b73c8fa445b5192bb=
-9fac1bc80b038b44c0d</a>&nbsp; builds of parsec-service recipe for qemuarm m=
-achine started to fail:</div>
-<div class=3D"p-rich_text_section" style=3D"box-sizing: inherit; counter-re=
-set: list-0 0 list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 =
-0 list-8 0 list-9 0; color: #1d1c1d; font-family: Slack-Lato, Slack-Fractio=
-ns, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-varian=
-t-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400;=
- letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; te=
-xt-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -web=
-kit-text-stroke-width: 0px; background-color: #f8f8f8; text-decoration-thic=
-kness: initial; text-decoration-style: initial; text-decoration-color: init=
-ial;">
-<pre class=3D"c-mrkdwn__pre" style=3D"box-sizing: inherit; margin: 4px 0px;=
- padding: 8px; --saf-0: rgba(var(--sk_foreground_low,29,28,29),0.13); overf=
-low-wrap: break-word; font-size: 12px; font-variant-ligatures: none; line-h=
-eight: 1.50001; tab-size: 4; white-space: pre-wrap; word-break: normal; fon=
-t-family: Monaco, Menlo, Consolas, 'Courier New', monospace !important; bac=
-kground: rgba(var(--sk_foreground_min,29,28,29),0.04); border: 1px solid va=
-r(--saf-0); border-radius: 4px; counter-reset: list-0 0 list-1 0 list-2 0 l=
-ist-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: #1d1c=
-1d; font-style: normal; font-variant-caps: normal; font-weight: 400; letter=
--spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-tran=
-sform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration-thickness: initial; text-decoration-style: initial; text-de=
-coration-color: initial;" data-stringify-type=3D"pre">cc1: error: switch '-=
-mcpu=3Dcortex-a15' conflicts with switch '-march=3Darmv7-a+fp' [-Werror]</p=
-re>
-</div>
-<div class=3D"p-rich_text_section" style=3D"box-sizing: inherit; counter-re=
-set: list-0 0 list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 =
-0 list-8 0 list-9 0; color: #1d1c1d; font-family: Slack-Lato, Slack-Fractio=
-ns, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-varian=
-t-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400;=
- letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; te=
-xt-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -web=
-kit-text-stroke-width: 0px; background-color: #f8f8f8; text-decoration-thic=
-kness: initial; text-decoration-style: initial; text-decoration-color: init=
-ial;">Full log can be seen here:</div>
-<div class=3D"p-rich_text_section" style=3D"box-sizing: inherit; counter-re=
-set: list-0 0 list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 =
-0 list-8 0 list-9 0; color: #1d1c1d; font-family: Slack-Lato, Slack-Fractio=
-ns, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-varian=
-t-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400;=
- letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; te=
-xt-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -web=
-kit-text-stroke-width: 0px; background-color: #f8f8f8; text-decoration-thic=
-kness: initial; text-decoration-style: initial; text-decoration-color: init=
-ial;">https://gitlab.com/akuster/meta-security/-/jobs/3204450989#L2086</div=
->
-<div class=3D"p-rich_text_section" style=3D"box-sizing: inherit; counter-re=
-set: list-0 0 list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 =
-0 list-8 0 list-9 0; color: #1d1c1d; font-family: Slack-Lato, Slack-Fractio=
-ns, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-varian=
-t-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400;=
- letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; te=
-xt-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -web=
-kit-text-stroke-width: 0px; background-color: #f8f8f8; text-decoration-thic=
-kness: initial; text-decoration-style: initial; text-decoration-color: init=
-ial;"><br style=3D"box-sizing: inherit;" />&nbsp;&nbsp;This is the cargo bu=
-ild command before the change:</div>
-<pre class=3D"c-mrkdwn__pre" style=3D"box-sizing: inherit; margin: 4px 0px;=
- padding: 8px; --saf-0: rgba(var(--sk_foreground_low,29,28,29),0.13); overf=
-low-wrap: break-word; font-size: 12px; font-variant-ligatures: none; line-h=
-eight: 1.50001; tab-size: 4; white-space: pre-wrap; word-break: normal; fon=
-t-family: Monaco, Menlo, Consolas, 'Courier New', monospace !important; bac=
-kground: rgba(var(--sk_foreground_min,29,28,29),0.04); border: 1px solid va=
-r(--saf-0); border-radius: 4px; counter-reset: list-0 0 list-1 0 list-2 0 l=
-ist-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: #1d1c=
-1d; font-style: normal; font-variant-caps: normal; font-weight: 400; letter=
--spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-tran=
-sform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration-thickness: initial; text-decoration-style: initial; text-de=
-coration-color: initial;" data-stringify-type=3D"pre">cargo build -v --targ=
-et arm-poky-linux-gnueabi  </pre>
-<div class=3D"p-rich_text_section" style=3D"box-sizing: inherit; counter-re=
-set: list-0 0 list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 =
-0 list-8 0 list-9 0; color: #1d1c1d; font-family: Slack-Lato, Slack-Fractio=
-ns, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-varian=
-t-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400;=
- letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; te=
-xt-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -web=
-kit-text-stroke-width: 0px; background-color: #f8f8f8; text-decoration-thic=
-kness: initial; text-decoration-style: initial; text-decoration-color: init=
-ial;">&nbsp;&nbsp;and this is after:</div>
-<pre class=3D"c-mrkdwn__pre" style=3D"box-sizing: inherit; margin: 4px 0px;=
- padding: 8px; --saf-0: rgba(var(--sk_foreground_low,29,28,29),0.13); overf=
-low-wrap: break-word; font-size: 12px; font-variant-ligatures: none; line-h=
-eight: 1.50001; tab-size: 4; white-space: pre-wrap; word-break: normal; fon=
-t-family: Monaco, Menlo, Consolas, 'Courier New', monospace !important; bac=
-kground: rgba(var(--sk_foreground_min,29,28,29),0.04); border: 1px solid va=
-r(--saf-0); border-radius: 4px; counter-reset: list-0 0 list-1 0 list-2 0 l=
-ist-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: #1d1c=
-1d; font-style: normal; font-variant-caps: normal; font-weight: 400; letter=
--spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-tran=
-sform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration-thickness: initial; text-decoration-style: initial; text-de=
-coration-color: initial;" data-stringify-type=3D"pre">cargo build -v --targ=
-et armv7-poky-linux-gnueabihf</pre>
-<div class=3D"p-rich_text_section" style=3D"box-sizing: inherit; counter-re=
-set: list-0 0 list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 =
-0 list-8 0 list-9 0; color: #1d1c1d; font-family: Slack-Lato, Slack-Fractio=
-ns, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-varian=
-t-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400;=
- letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; te=
-xt-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -web=
-kit-text-stroke-width: 0px; background-color: #f8f8f8; text-decoration-thic=
-kness: initial; text-decoration-style: initial; text-decoration-color: init=
-ial;"><span aria-label=3D"" class=3D"c-mrkdwn__br" data-stringify-type=3D"p=
-aragraph-break" style=3D"box-sizing: inherit; display: block; height: 8px;"=
-></span>&nbsp;&nbsp;</div>
-<div class=3D"p-rich_text_section" style=3D"box-sizing: inherit; counter-re=
-set: list-0 0 list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 =
-0 list-8 0 list-9 0; color: #1d1c1d; font-family: Slack-Lato, Slack-Fractio=
-ns, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-varian=
-t-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400;=
- letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; te=
-xt-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -web=
-kit-text-stroke-width: 0px; background-color: #f8f8f8; text-decoration-thic=
-kness: initial; text-decoration-style: initial; text-decoration-color: init=
-ial;">&nbsp; The problem is that some Rust crates build dependency C librar=
-ies using "cc-rs" crate.<br />This crate adds some compiler parameters depe=
-nding on target &ldquo;arch&rdquo; and for &ldquo;armv7" these parameters c=
-onflicts with compiler parameter defined by Yocto via TUNE_CCARGS:<br /><a =
-class=3D"c-link" style=3D"box-sizing: inherit; color: rgba(var(--sk_highlig=
-ht,18,100,163),1); text-decoration: none;" tabindex=3D"-1" href=3D"https://=
-github.com/rust-lang/cc-rs/blob/53fb72c87e5769a299f1886ead831901b9c775d6/sr=
-c/lib.rs#L1700" target=3D"_blank" rel=3D"noopener noreferrer" data-stringif=
-y-link=3D"https://github.com/rust-lang/cc-rs/blob/53fb72c87e5769a299f1886ea=
-d831901b9c775d6/src/lib.rs#L1700" data-sk=3D"tooltip_parent" data-remove-ta=
-b-index=3D"true">https://github.com/rust-lang/cc-rs/blob/53fb72c87e5769a299=
-f1886ead831901b9c775d6/src/lib.rs#L1700</a><span aria-label=3D"" class=3D"c=
--mrkdwn__br" data-stringify-type=3D"paragraph-break" style=3D"box-sizing: i=
-nherit; display: block; height: 8px;"></span>We noticed it with qemuarm, bu=
-t there might be other conflicts as well. (If<span>&nbsp;</span><code class=
-=3D"c-mrkdwn__code" style=3D"box-sizing: inherit; background-color: rgba(va=
-r(--sk_foreground_min,29,28,29),0.04); border: 1px solid var(--saf-0); bord=
-er-radius: 3px; color: rgba(var(--sk_raspberry_red,224,30,90),1); padding: =
-2px 3px 1px; --saf-0: rgba(var(--sk_foreground_low,29,28,29),0.13); overflo=
-w-wrap: break-word; font-size: 12px; font-variant-ligatures: none; line-hei=
-ght: 1.50001; tab-size: 4; white-space: pre-wrap; word-break: normal; font-=
-family: Monaco, Menlo, Consolas, 'Courier New', monospace !important;" data=
--stringify-type=3D"code">-Werror</code><span>&nbsp;</span>is used then buil=
-ds would fail, otherwise it would be just a warning which is easy to miss)<=
-br /><span aria-label=3D"" class=3D"c-mrkdwn__br" data-stringify-type=3D"pa=
-ragraph-break" style=3D"box-sizing: inherit; display: block; height: 8px;">=
-</span></div>
-<div class=3D"p-rich_text_section" style=3D"box-sizing: inherit; counter-re=
-set: list-0 0 list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 =
-0 list-8 0 list-9 0; color: #1d1c1d; font-family: Slack-Lato, Slack-Fractio=
-ns, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-varian=
-t-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400;=
- letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; te=
-xt-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -web=
-kit-text-stroke-width: 0px; background-color: #f8f8f8; text-decoration-thic=
-kness: initial; text-decoration-style: initial; text-decoration-color: init=
-ial;"><br />&nbsp;&nbsp;To fix the issue in our recipe we can define &ldquo=
-;CRATE_CC_NO_DEFAULTS&rdquo; env variable which disables adding compiler fl=
-ags in "cc-rs":<span>&nbsp;</span></div>
-<div class=3D"p-rich_text_section" style=3D"box-sizing: inherit; counter-re=
-set: list-0 0 list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 =
-0 list-8 0 list-9 0; color: #1d1c1d; font-family: Slack-Lato, Slack-Fractio=
-ns, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-varian=
-t-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400;=
- letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; te=
-xt-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -web=
-kit-text-stroke-width: 0px; background-color: #f8f8f8; text-decoration-thic=
-kness: initial; text-decoration-style: initial; text-decoration-color: init=
-ial;"><a class=3D"c-link" style=3D"box-sizing: inherit; color: rgba(var(--s=
-k_highlight,18,100,163),1); text-decoration: none;" tabindex=3D"-1" href=3D=
-"https://github.com/rust-lang/cc-rs#external-configuration-via-environment-=
-variables" target=3D"_blank" rel=3D"noopener noreferrer" data-stringify-lin=
-k=3D"https://github.com/rust-lang/cc-rs#external-configuration-via-environm=
-ent-variables" data-sk=3D"tooltip_parent" data-remove-tab-index=3D"true">ht=
-tps://github.com/rust-lang/cc-rs#external-configuration-via-environment-var=
-iables</a><span aria-label=3D"" class=3D"c-mrkdwn__br" data-stringify-type=
-=3D"paragraph-break" style=3D"box-sizing: inherit; display: block; height: =
-8px;"></span><br />&nbsp; So, my questions is: shouldn&rsquo;t &ldquo;CRATE=
-_CC_NO_DEFAULTS&rdquo; be defined in the Rust bbclass instead of expecting =
-that owners of all Rust apps recipes would be aware about this issue for so=
-me machines and would add workarounds in their recipes?</div>
-<div class=3D"p-rich_text_section" style=3D"box-sizing: inherit; counter-re=
-set: list-0 0 list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 =
-0 list-8 0 list-9 0; color: #1d1c1d; font-family: Slack-Lato, Slack-Fractio=
-ns, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-varian=
-t-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400;=
- letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; te=
-xt-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -web=
-kit-text-stroke-width: 0px; background-color: #f8f8f8; text-decoration-thic=
-kness: initial; text-decoration-style: initial; text-decoration-color: init=
-ial;">&nbsp;&nbsp; I've tried to add "CRATE_CC_NO_DEFAULTS" into <code clas=
-s=3D"c-mrkdwn__code" style=3D"box-sizing: inherit; background-color: rgba(v=
-ar(--sk_foreground_min,29,28,29),0.04); border: 1px solid var(--saf-0); bor=
-der-radius: 3px; color: rgba(var(--sk_raspberry_red,224,30,90),1); padding:=
- 2px 3px 1px; --saf-0: rgba(var(--sk_foreground_low,29,28,29),0.13); overfl=
-ow-wrap: break-word; font-size: 12px; font-variant-ligatures: none; line-he=
-ight: 1.50001; tab-size: 4; white-space: pre-wrap; word-break: normal; font=
--family: Monaco, Menlo, Consolas, 'Courier New', monospace !important; font=
--style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing=
-: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: n=
-one; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-dec=
-oration-thickness: initial; text-decoration-style: initial; text-decoration=
--color: initial;" data-stringify-type=3D"code">rust-target-config.bbclass</=
-code>, but it <span style=3D"color: #1d1c1d; font-family: Slack-Lato, Slack=
--Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; fon=
-t-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weig=
-ht: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent:=
- 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0=
-px; -webkit-text-stroke-width: 0px; background-color: #f8f8f8; text-decorat=
-ion-thickness: initial; text-decoration-style: initial; text-decoration-col=
-or: initial; display: inline !important; float: none;">breaks building rust=
--native. Looks like we don&rsquo;t define all the required parameters for n=
-ative builds and rely (maybe not even intentionally) on parameters defined =
-by cc-rs crate. Therefore to do it properly there should be some logic arou=
-nd defining of </span>"CRATE_CC_NO_DEFAULTS" in <code class=3D"c-mrkdwn__co=
-de" style=3D"box-sizing: inherit; background-color: rgba(var(--sk_foregroun=
-d_min,29,28,29),0.04); border: 1px solid var(--saf-0); border-radius: 3px; =
-color: rgba(var(--sk_raspberry_red,224,30,90),1); padding: 2px 3px 1px; --s=
-af-0: rgba(var(--sk_foreground_low,29,28,29),0.13); overflow-wrap: break-wo=
-rd; font-size: 12px; font-variant-ligatures: none; line-height: 1.50001; ta=
-b-size: 4; white-space: pre-wrap; word-break: normal; font-family: Monaco, =
-Menlo, Consolas, 'Courier New', monospace !important; font-style: normal; f=
-ont-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans=
-: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; w=
-ord-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness=
-: initial; text-decoration-style: initial; text-decoration-color: initial;"=
- data-stringify-type=3D"code">rust-target-config.bbclass</code>. I would be=
- happy to hear ideas or recommendations.</div>
-<div class=3D"p-rich_text_section" style=3D"box-sizing: inherit; counter-re=
-set: list-0 0 list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 =
-0 list-8 0 list-9 0; color: #1d1c1d; font-family: Slack-Lato, Slack-Fractio=
-ns, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-varian=
-t-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400;=
- letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; te=
-xt-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -web=
-kit-text-stroke-width: 0px; background-color: #f8f8f8; text-decoration-thic=
-kness: initial; text-decoration-style: initial; text-decoration-color: init=
-ial;">&nbsp;</div>
-<div class=3D"p-rich_text_section" style=3D"box-sizing: inherit; counter-re=
-set: list-0 0 list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 =
-0 list-8 0 list-9 0; color: #1d1c1d; font-family: Slack-Lato, Slack-Fractio=
-ns, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-varian=
-t-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400;=
- letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; te=
-xt-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -web=
-kit-text-stroke-width: 0px; background-color: #f8f8f8; text-decoration-thic=
-kness: initial; text-decoration-style: initial; text-decoration-color: init=
-ial;">Cheers,</div>
-<div class=3D"p-rich_text_section" style=3D"box-sizing: inherit; counter-re=
-set: list-0 0 list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 =
-0 list-8 0 list-9 0; color: #1d1c1d; font-family: Slack-Lato, Slack-Fractio=
-ns, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-varian=
-t-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400;=
- letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; te=
-xt-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -web=
-kit-text-stroke-width: 0px; background-color: #f8f8f8; text-decoration-thic=
-kness: initial; text-decoration-style: initial; text-decoration-color: init=
-ial;">Anton</div>
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+ meta/recipes-devtools/git/{git_2.35.4.bb => git_2.35.5.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/git/{git_2.35.4.bb => git_2.35.5.bb} (98%)
 
---pM3jSviEISvmkeHNhAzH--
+diff --git a/meta/recipes-devtools/git/git_2.35.4.bb b/meta/recipes-devtools/git/git_2.35.5.bb
+similarity index 98%
+rename from meta/recipes-devtools/git/git_2.35.4.bb
+rename to meta/recipes-devtools/git/git_2.35.5.bb
+index 18f39875dbf..be4e3ca1d3b 100644
+--- a/meta/recipes-devtools/git/git_2.35.4.bb
++++ b/meta/recipes-devtools/git/git_2.35.5.bb
+@@ -165,4 +165,4 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
+                  "
+ EXTRA_OEMAKE += "NO_GETTEXT=1"
+ 
+-SRC_URI[tarball.sha256sum] = "4970108bdc227e2c3687899f8fc7501c54c839dcc42f4d999ac9e3e3f52df583"
++SRC_URI[tarball.sha256sum] = "2cca63fe7bebb5b4bf8efea7b46b12bb89c16ff9711b6b6d845928501d00d0a3"
+-- 
+2.30.2
+
 
