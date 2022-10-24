@@ -1,118 +1,39 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <christian.thiessen@airbus.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7596EC38A2D
-	for <webhook@archiver.kernel.org>; Mon, 24 Oct 2022 08:41:16 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web11.16929.1666600874216115002
- for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Oct 2022 01:41:14 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ed5qvikY;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id f37so15525643lfv.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Oct 2022 01:41:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fl10eP/arv2mu8ronEYC14SE7g488P1hBwsiVcdA0hE=;
-        b=Ed5qvikYkgAbDBYTZM9V0J+QdTwTRaUoVPMSZHThxPJTs2fyYy3kWl8zPCZrgWhm/m
-         +WyczosCvgJTRL44mznnhYiw8ymX9M5EcqKXzBhzCLqQ75bSztDRTokeHhGpeMvUvncB
-         a0nIDBfWVKo21yzKH71aRc5poVSUlXjPoKmAZ4H9YU69sQn5kPh7K5FO7HuLF/olG3de
-         yBB6wZ3iJK4cHPY3oo5epQi4PW1kXknk06FjgBpWMTE2eLGX9IBB0PTjGgiH/7G6aMH2
-         IDv50KXseRbSwq/CXC3WlC7bcNxFupHzuz4fJhXu2GenG9aPS1MyMM/bCr6rIKkF4vXI
-         9gdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Fl10eP/arv2mu8ronEYC14SE7g488P1hBwsiVcdA0hE=;
-        b=R2rQPsmF3nIn7JI0A1Vna5JlMeLwMEI/X3R+EZ+5iGR6LJvO9inzxVR2ZhDDXRedIM
-         7KBDt+DjdNIo8updHiKAbbRWmDYYNTIJo0MXYiapAc14vjG9tRBVlJ9vowqBmtX0Zqfd
-         K21C1lUzDWI6WmZ1+C/abVp5XMOwiqFJLxNWKWYuypoEnachQkY+eAFTHr/Af4wEVCLN
-         FKKCG14dJKfThKF2ia8s6fpP1tqF3tskYI+TCTuBHFgojy6YU5VfuL9GSPQVmY+baYEE
-         BY/HLjAMb2DGip7zj591yKuYoT19/r9RE0GB4Noor91e0CXVDFMrL1xWt9lwFnqUoysn
-         t2fw==
-X-Gm-Message-State: ACrzQf3IqKfCM6yDp1ZN5gvlp5Oil5Ta8xhbTQgwmwSd5bu4588tumqS
-	IVVIQCWZiKWFvxOljGmKXWUgVOP5Xk2milLn/8k=
-X-Google-Smtp-Source: AMsMyM6Ior2xZnlL3fWP9kkYIb8EKCH6sbZ2tDaCuc4HEpzqFlHcuFYwEeTEnay3jjHUnL4HaOox2RRO3pmqhDRKixc=
-X-Received: by 2002:a19:c50d:0:b0:4a9:2a57:e236 with SMTP id
- w13-20020a19c50d000000b004a92a57e236mr3321826lfe.263.1666600872192; Mon, 24
- Oct 2022 01:41:12 -0700 (PDT)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9982ECDFA1
+	for <webhook@archiver.kernel.org>; Mon, 24 Oct 2022 08:58:56 +0000 (UTC)
+Subject: Re: license manifest files effectively disappear when do_rootfs is not rerun
+To: openembedded-core@lists.openembedded.org
+From: =?UTF-8?B?Q2hyaXN0aWFuIFRoaWXDn2Vu?= <christian.thiessen@airbus.com>
+X-Originating-Location: Düsseldorf, North Rhine-Westphalia, DE (163.116.173.55)
+X-Originating-Platform: Windows Chrome 106
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-References: <XYMQ.1666600601427167951.xBaF@lists.openembedded.org>
-In-Reply-To: <XYMQ.1666600601427167951.xBaF@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 24 Oct 2022 10:41:00 +0200
-Message-ID: <CANNYZj9UMf4FRYzLCN9M+rW-mpL0-JRxROq4zpNd7ABJe5E+Dw@mail.gmail.com>
-Subject: Re: [OE-core] license manifest files effectively disappear when
- do_rootfs is not rerun
-To: christian.thiessen@airbus.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Date: Mon, 24 Oct 2022 01:58:46 -0700
+References: <CANNYZj9UMf4FRYzLCN9M+rW-mpL0-JRxROq4zpNd7ABJe5E+Dw@mail.gmail.com>
+In-Reply-To: <CANNYZj9UMf4FRYzLCN9M+rW-mpL0-JRxROq4zpNd7ABJe5E+Dw@mail.gmail.com>
+Message-ID: <1878.1666601926722962715@lists.openembedded.org>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Oct 2022 08:41:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172078
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Oct 2022 08:58:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172079
 
-Generally, you should not be deleting things from tmp/deploy (or tmp/
-for that matter) - either delete all of tmp/ and rely on sstate or
-don't touch it at all, and just re-run the build.
+I'm not deleting anything.
+Steps to reproduce would be:
+Build just about any image for any machine, as long as it uses the standard=
+ classes like license_image.bbclass.
+You'll get a build/tmp/deploy/licenses/${IMAGE}-${MACHINE} symlink pointing=
+ to build/tmp/deploy/licenses/${IMAGE}-${MACHINE}-<datetime> containing all=
+ the expected manifests.
+Run the same build again. Bitbake will rerun do_populate_lic_deploy, but no=
+t do_rootfs.
+build/tmp/deploy/licenses/${IMAGE}-${MACHINE} now points to a new directory=
+ that contains only image_license.manifest.
 
-It helps if you provide steps to reproduce this behavior.
-
-Alex
-
-On Mon, 24 Oct 2022 at 10:36, Christian Thie=C3=9Fen via
-lists.openembedded.org
-<christian.thiessen=3Dairbus.com@lists.openembedded.org> wrote:
->
-> (Cross-post: I first posted to https://lists.yoctoproject.org/g/yocto/mes=
-sage/58392, then realized that according to the poky readme this list is mo=
-re appropriate. Sorry, beginner's mistake)
->
-> Dear list,
-> when building an image with a Yocto setup based on kirkstone, it seems I'=
-ve come across an interesting corner case: The image built successfully, th=
-e build/tmp/deploy/licenses/${IMAGE}-${MACHINE} symlink got updated as expe=
-cted, but that new directory contained only image_license.manifest. license=
-.manifest and package.manifest were missing.
-> I've discovered that these latter files are generated by the image's do_r=
-ootfs task (ROOTFS_POSTPROCESS_COMMAND:prepend =3D "write_package_manifest;=
- license_create_manifest; " in poky/meta/classes/license_image.bbclass). Th=
-is task apparently did not need to be rerun in that particular build.
-> This behavior is at least a bit surprising to the user; bitbake claims to=
- have run everything that needed to be run, completes successfully and then=
- some files are just not there. It might be what happened here https://list=
-s.yoctoproject.org/g/yocto/message/49600 too. For me, it broke a CI build t=
-hat ran due to an environment change that didn't affect the image and then =
-failed to deploy the manifest files. I could run bitbake with -C rootfs as =
-a workaround, but that causes a warning and the problem could probably bett=
-er be fixed within the oe-core classes. I'm not sure how though: Could the =
-manifest generation be moved to a different point in the build, e.g. where =
-image_license.manifest is generated? Or should build/tmp/deploy/licenses/${=
-IMAGE}-${MACHINE} become a directory containing symlinks to files, instead =
-of a symlink to a new directory, so that things that don't need to be updat=
-ed can be retained? Maybe you have a completely different idea? I'll leave =
-that up for discussion.
-> Thank you,
->
-> Christian Thie=C3=9Fen
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#172077): https://lists.openembedded.org/g/openembedde=
-d-core/message/172077
-> Mute This Topic: https://lists.openembedded.org/mt/94530086/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Christian
 
