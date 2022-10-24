@@ -1,128 +1,78 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B00CC38A2D
-	for <webhook@archiver.kernel.org>; Mon, 24 Oct 2022 11:33:27 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web09.18032.1666611201610762710
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 033A0FA3742
+	for <webhook@archiver.kernel.org>; Mon, 24 Oct 2022 13:15:08 +0000 (UTC)
+Received: from mailout06.t-online.de (mailout06.t-online.de [194.25.134.19])
+ by mx.groups.io with SMTP id smtpd.web12.19208.1666617298884760544
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Oct 2022 04:33:22 -0700
+ Mon, 24 Oct 2022 06:14:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FsoEOGSr;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id bk15so15618835wrb.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Oct 2022 04:33:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y0Nvxx6uopFGygcvK60f/7pFZC7mXufq7wHKpZ6N3dI=;
-        b=FsoEOGSrbqvqzBNisjvvbff/txVTTtvcfu6ys9GtbwK7YpHma3EsgLaasIoCMO7bPM
-         QPOV3LNrv5xFH5HVAkN/LzYAtKSq2Y9HzGCFwH5TiIqFjlBJKQF13VGJGwXFvR1zpaci
-         VeeYDfOVNrkAEaJ9sZHgFO/k2+wzF+Q8Lc4gCtqtsaTicHYlJLyTe65AArK2ANRxKCvH
-         Lq4RO6Un5wQYAUn+Yw+4i8P8Ku4fMq2Iz7KBm3dKSIhDglguEHBsbX6L4yGRpq/QEQWl
-         ngJeXzlAkLRSOBeDJa0KQ0Rqu7UXWZBzIJ4l7RAQ050IYBS8uoe4l0zVsV4+5V6OIOGU
-         WYXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Y0Nvxx6uopFGygcvK60f/7pFZC7mXufq7wHKpZ6N3dI=;
-        b=acVssMaQpWZ2oYS9ei/vWFQQRcf8bfoNd6LiK1vE7TEJKI+By9qTTAoZABVfHZ/hq+
-         Q9gr3an7c8XGjEPnXbo49dqJvIpP0QISUS5kKCIzK5cOrh3gqPEY6sm05k4Dd7ufEnrv
-         frp4DVNPkWkAt35WDUOIvtyfX26Ore/tB2oxKsBc2WVaeKYFI6sQ+BAZDXYYRZVoaBFw
-         gUJab0maxX5pFn4OZktkpzTgto3rU3Hm7QcGaKDwZO/zMIWv+z1YVUBoZWubWOcC65JZ
-         ++uzPBP7Q9k11pW5tKGFDu/OUx4d9JCdJTwrPWcGUP8rlOs4QabdRRkQPJvcId8GT5x4
-         NKWA==
-X-Gm-Message-State: ACrzQf1o2TJzbI3tNEcb9+YmUDvLBMHECI2JRAkDpZZS5LLKiWAwH5No
-	XTu3xo/2uxOU2ZcT2AXtuqvWYYnWomMY3A==
-X-Google-Smtp-Source: AMsMyM68p4gVLmazq+9lYb1zqWp03PbtuoxX6+YU+3XE+y8yO2Q7uKAbZ/G2Meun4M4nL9wg503gtQ==
-X-Received: by 2002:a05:6000:1d82:b0:22c:ae77:c8dc with SMTP id bk2-20020a0560001d8200b0022cae77c8dcmr21735724wrb.413.1666611199695;
-        Mon, 24 Oct 2022 04:33:19 -0700 (PDT)
-Received: from og-worker-dev-01.infra.foundries.io.net (51-159-19-113.rev.poneytelecom.eu. [51.159.19.113])
-        by smtp.gmail.com with ESMTPSA id n4-20020a1ca404000000b003c41144b3cfsm7880044wme.20.2022.10.24.04.33.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 04:33:19 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.19, mailfrom: f_l_k@t-online.de)
+Received: from fwd88.dcpf.telekom.de (fwd88.aul.t-online.de [10.223.144.114])
+	by mailout06.t-online.de (Postfix) with SMTP id B918A9DA2
+	for <openembedded-core@lists.openembedded.org>; Mon, 24 Oct 2022 15:14:56 +0200 (CEST)
+Received: from flk-MS-7C91.. ([84.163.44.69]) by fwd88.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1omxI8-4DSlBh0; Mon, 24 Oct 2022 15:14:56 +0200
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [PATCH v2] kernel-yocto: improve fatal error messages of symbol_why.py
-Date: Mon, 24 Oct 2022 11:32:16 +0000
-Message-Id: <20221024113215.2116725-1-jose.quaresma@foundries.io>
+Cc: Markus Volk <f_l_k@t-online.de>
+Subject: [oe-core][PATCH] mesa: update 22.2.0 -> 22.2.2
+Date: Mon, 24 Oct 2022 15:14:26 +0200
+Message-Id: <20221024131426.368788-1-f_l_k@t-online.de>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1666617296-E30B0E65-3A2C9F87/0/0 CLEAN NORMAL
+X-TOI-MSGID: 254de463-e652-4ed2-a89f-b5faac3c0bbd
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Oct 2022 11:33:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172085
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Oct 2022 13:15:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172086
 
-Improve the fatal error message of the yocto-kernel-tools symbol_why.py
-and shows the command that generate the error as it can help understand
-the root cause of the error.
-
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
+ .../mesa/{mesa-gl_22.2.0.bb =3D> mesa-gl_22.2.2.bb}               | 0
+ meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
+ meta/recipes-graphics/mesa/{mesa_22.2.0.bb =3D> mesa_22.2.2.bb}   | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_22.2.0.bb =3D> mesa-gl_22.2.2=
+.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_22.2.0.bb =3D> mesa_22.2.2.bb} (=
+100%)
 
-v2: get cmd from the exception CalledProcessError
-
- meta/classes/kernel-yocto.bbclass | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index e8046bb8f6..82e792351f 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -500,7 +500,7 @@ python do_config_analysis() {
-                 try:
-                     analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--blame', c], cwd=s, env=env ).decode('utf-8')
-                 except subprocess.CalledProcessError as e:
--                    bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
-+                    bb.fatal( "config analysis failed when running '%s': %s" % (" ".join(e.cmd), e.output.decode('utf-8')))
- 
-                 outfile = d.getVar( 'CONFIG_ANALYSIS_FILE' )
- 
-@@ -508,7 +508,7 @@ python do_config_analysis() {
-                 try:
-                     analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--summary', '--extended', '--sanity', c], cwd=s, env=env ).decode('utf-8')
-                 except subprocess.CalledProcessError as e:
--                    bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
-+                    bb.fatal( "config analysis failed when running '%s': %s" % (" ".join(e.cmd), e.output.decode('utf-8')))
- 
-                 outfile = d.getVar( 'CONFIG_AUDIT_FILE' )
- 
-@@ -569,7 +569,7 @@ python do_kernel_configcheck() {
-     try:
-         analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--mismatches', extra_params], cwd=s, env=env ).decode('utf-8')
-     except subprocess.CalledProcessError as e:
--        bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
-+        bb.fatal( "config analysis failed when running '%s': %s" % (" ".join(e.cmd), e.output.decode('utf-8')))
- 
-     if analysis:
-         outfile = "{}/{}/cfg/mismatch.txt".format( s, kmeta )
-@@ -591,7 +591,7 @@ python do_kernel_configcheck() {
-     try:
-         analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--invalid', extra_params], cwd=s, env=env ).decode('utf-8')
-     except subprocess.CalledProcessError as e:
--        bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
-+        bb.fatal( "config analysis failed when running '%s': %s" % (" ".join(e.cmd), e.output.decode('utf-8')))
- 
-     if analysis:
-         outfile = "{}/{}/cfg/invalid.txt".format(s,kmeta)
-@@ -610,7 +610,7 @@ python do_kernel_configcheck() {
-     try:
-         analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--sanity'], cwd=s, env=env ).decode('utf-8')
-     except subprocess.CalledProcessError as e:
--        bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
-+        bb.fatal( "config analysis failed when running '%s': %s" % (" ".join(e.cmd), e.output.decode('utf-8')))
- 
-     if analysis:
-         outfile = "{}/{}/cfg/redefinition.txt".format(s,kmeta)
--- 
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_22.2.0.bb b/meta/recipes-=
+graphics/mesa/mesa-gl_22.2.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_22.2.0.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_22.2.2.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
+mesa/mesa.inc
+index 8a74e0a80a..0eec292e4e 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -22,7 +22,7 @@ SRC_URI =3D "https://mesa.freedesktop.org/archive/mesa-=
+${PV}.tar.xz \
+            file://0001-nir-nir_opt_move-fix-ALWAYS_INLINE-compiler-error=
+.patch \
+            "
+=20
+-SRC_URI[sha256sum] =3D "b1f9c8fd08f2cae3adf83355bef4d2398e8025f449473328=
+80f2d0066bdafa8c"
++SRC_URI[sha256sum] =3D "2de11fb74fc5cc671b818e49fe203cea0cd1d8b69756e97c=
+db06a2f4e78948f9"
+=20
+ UPSTREAM_CHECK_GITTAGREGEX =3D "mesa-(?P<pver>\d+(\.\d+)+)"
+=20
+diff --git a/meta/recipes-graphics/mesa/mesa_22.2.0.bb b/meta/recipes-gra=
+phics/mesa/mesa_22.2.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_22.2.0.bb
+rename to meta/recipes-graphics/mesa/mesa_22.2.2.bb
+--=20
 2.34.1
 
 
