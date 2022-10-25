@@ -2,109 +2,88 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0719BC38A2D
-	for <webhook@archiver.kernel.org>; Tue, 25 Oct 2022 17:42:20 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web08.1011.1666719732370334267
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65947C38A2D
+	for <webhook@archiver.kernel.org>; Tue, 25 Oct 2022 18:44:50 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web09.1863.1666723480570315131
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Oct 2022 10:42:12 -0700
+ Tue, 25 Oct 2022 11:44:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=U3naoqel;
- spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f43.google.com with SMTP id f37so23452478lfv.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Oct 2022 10:42:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=fSB0jDCG;
+ spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f46.google.com with SMTP id a14so19845822wru.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Oct 2022 11:44:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kWQKEhfl67j91j4JcAzavMQDag7snbjRVLPz1oe3WYw=;
-        b=U3naoqelcL9ttkS8RBONbycmwhL5Q8JdLjtEn3gIQ0gM1d+YsdBk5G3aHgOGZ0EPht
-         eyxsIny4WcNbVURbmyuAU8hZu7Y5g31e2S2bXBhJPJaG9bl0LlAY1YbPS/TMvub+Ql5J
-         yUDiGpoBE+tRLpOpUFsV1CKVlrBbni9VFEEa+r1gf+V3SKdIN32641mxiaGL04AGgbIU
-         m6Tu261XnQfjLHL3u5H71wSzxwB1cr/SXYWIh2tNb5NcaHEBsSrr5SBY9F9zOFzWDDNC
-         6e9PF9mJu0R40HMDlu6j6CG9JOL6MGJgq3UeWTI9RCN9Tqj0Hv9HixTF4z8WkPVYBTGR
-         RItw==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YRPjHzIRujiJlOYuWv0paCS4vJUNJuVn2p/NJ5urmV8=;
+        b=fSB0jDCGCXY3zGNFieJ0ld+RlYbMxD2fkbLegB63al/RhTB73caGH9qvYzsZyVkDPR
+         c4ckqjtZMVHFYiPsryPqe1BTq/zG9xbd0mymWG7mnTe+D6KX8lSq6+219SNYlsziDlV2
+         qXyICw//rOP/TW5nqYRhv5YuXgzBqxnKW5czfhCCMtoy4G3pA2/p3IxSVSCppQFV4ie7
+         KhzQyjWiaoDC3FQjYoX3xXhC0EB7n8fHu3QL8CBiTz/WbcdTVKDelAX20uIvJQadx/K/
+         tkKJn/naozLQg2Lolt72b7raJ2FtsnL7jn1mtCPPRDKM3lfHXo8GAhfryae9/9/NZTRH
+         mq2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kWQKEhfl67j91j4JcAzavMQDag7snbjRVLPz1oe3WYw=;
-        b=H6eseICzQCgzdH1S8bcupYiN964Jgtb43JbX3YoUoqlqBSnwn8hcx1RuRI/+phqK58
-         ynjBf3vpTr8fClPq8ERCZC2LuThBR9+SSUnYi0oE6UNIb7QNiNjv9SpxQ4uu3PIRsFD3
-         mg5nPR5ZDOYXS046pEGKTDAIm1dFHzXgniJpF+Xn+WNkwokW0mkBG2cbBHQJ8uUDloy+
-         9Gs/loSRC/EbGHWGaxWbt8tkhAkJFdRie7kV4ogr8XRs4etU3PJLVvguykrWTg5SjGVL
-         ADnB01WcqiiRRpCSbuarD7eG4V8z1AxbatrmQ6WA6s/eerVBLNNgGmetcAzEKZJuHdEv
-         QlEQ==
-X-Gm-Message-State: ACrzQf3lXonPY0hSpX0dTcUCTIcB1nm8ml4fgVSMn0ScDbPHcQ2nfgmV
-	EX6PnbcnJOgpQ9XLij3RpCHdutmxG5V4SRpUemw=
-X-Google-Smtp-Source: AMsMyM5HpOMUxEfe19HN2kCqQMvQ6gXmLaZ50e9WLL434/QWDt7jsvrprBAhfu8ZKbbGUUMuAonNkNsrV+fVJZ2SfBk=
-X-Received: by 2002:a05:6512:4016:b0:4a4:6edb:8d6e with SMTP id
- br22-20020a056512401600b004a46edb8d6emr15460647lfb.393.1666719730133; Tue, 25
- Oct 2022 10:42:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <C917DA2F-DB15-46D8-901C-B1AEF21AD347@arm.com> <27896.1666718567656134623@lists.openembedded.org>
-In-Reply-To: <27896.1666718567656134623@lists.openembedded.org>
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YRPjHzIRujiJlOYuWv0paCS4vJUNJuVn2p/NJ5urmV8=;
+        b=5V9cEgMmravKghETXIF0/5W2g6q7gOmf7LXB0DyYuBTCpzhsFoVtPgfBISMWea7ANY
+         HKc8vU17mC0jVYfGKSj9nQrTpZ1Fq5VrAUSNnteAkgeiBc69TDQDO98dZw1ZKJMJfFp9
+         94zrr578bmQt2mWJzr4VxkOHgOc+r75WDp8gHGSxoa2ldSbDjzJfMz/QeerTr4FuXJbb
+         XP0zRA/0DqW2cb5Dn/4ENTbEdXyMZ/sZmo2OZfCODxLJtfEKre8saiwnzUyKJAB68k7a
+         PUkGv+niOPL5ebO+kGw7cZyE8A2PxBfuYsY3UCdLsh7/VoDQHjy9JHeyusa9JMDJl1sq
+         siYA==
+X-Gm-Message-State: ACrzQf3k5L4uGPcgQ49b5sx2Dnjrodiipvd4ZfIbcBEGPW9C0jqqiZgI
+	8sMy3D7iFH/tsP7iMyn8ycYSJJPpl8s=
+X-Google-Smtp-Source: AMsMyM6JuaFrl3dApO+m512Gh/DR8Vu6IrAowDxuOOGs90EhVZyjPVB+mTEJucYvWf7wHMbGCTc/Qg==
+X-Received: by 2002:a5d:598d:0:b0:230:f238:a485 with SMTP id n13-20020a5d598d000000b00230f238a485mr27389477wri.71.1666723478904;
+        Tue, 25 Oct 2022 11:44:38 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id z2-20020adff742000000b00236705daefesm3294310wrp.39.2022.10.25.11.44.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Oct 2022 11:44:38 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 25 Oct 2022 19:41:58 +0200
-Message-ID: <CANNYZj92ZRsMUOj41WFZsmhMggVi2OV0xQ=q2OwmrWNdwaVBaw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] mesa: enable glvnd support
-To: Vincent Davis Jr <vince@underview.tech>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000746daf05ebdf6de2"
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 2/2] rust: install rustfmt for riscv32 as well
+Date: Tue, 25 Oct 2022 20:44:27 +0200
+Message-Id: <20221025184427.399850-2-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20221025184427.399850-1-alex@linutronix.de>
+References: <20221025184427.399850-1-alex@linutronix.de>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Oct 2022 17:42:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172140
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Oct 2022 18:44:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172142
 
---000000000000746daf05ebdf6de2
-Content-Type: text/plain; charset="UTF-8"
+With the above rust arch fixes it builds just fine.
 
-On Tue, 25 Oct 2022 at 19:22, Vincent Davis Jr <vince@underview.tech> wrote:
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/recipes-devtools/rust/rust_1.64.0.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-> Yeah, but I couldn't find where runtime depend for libegl is set and
-> libEGL_mesa.* gets include in image as runtime dependency without me
-> directly setting it. A bit of confusion there for me. Feel as if I
-> shouldn't need to RDEPENDS:${PN} = "libglx" in recipe that requires it.
-> Should just be included in image as libegl is. Is there a way to avoid
-> RDEPENDS:${PN} = "libglx"?
->
+diff --git a/meta/recipes-devtools/rust/rust_1.64.0.bb b/meta/recipes-devtools/rust/rust_1.64.0.bb
+index 1f9dbd3cce..dbf74cec8f 100644
+--- a/meta/recipes-devtools/rust/rust_1.64.0.bb
++++ b/meta/recipes-devtools/rust/rust_1.64.0.bb
+@@ -57,7 +57,6 @@ rust_do_install:class-nativesdk() {
+ }
+ 
+ EXTRA_TOOLS ?= "cargo-clippy clippy-driver rustfmt"
+-EXTRA_TOOLS:remove:riscv32 = "rustfmt"
+ rust_do_install:class-target() {
+     export PSEUDO_UNLOAD=1
+     rust_runx install
+-- 
+2.30.2
 
-It would not be necessary if something that dynamically links with these
-libraries is included in the image. Then the package task for that
-something will find out that these libraries are needed, will trace them to
-the packages that contain them, and insert RDEPENDS for those packages
-automatically.
-
-If the libraries are open with dlopen( ) at runtime, then yocto's packaging
-does not detect that, and you need to add a manual RDEPENDS.
-
-Alex
-
---000000000000746daf05ebdf6de2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Tue, 25 Oct 2022 at 19:22, Vincent Davis Jr &lt;vince@underview.t=
-ech&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Y=
-eah, but I couldn&#39;t find where runtime depend for libegl is set and lib=
-EGL_mesa.* gets include in image as runtime dependency without me directly =
-setting it. A bit of confusion there for me. Feel as if I shouldn&#39;t nee=
-d to RDEPENDS:${PN} =3D &quot;libglx&quot; in recipe that requires it. Shou=
-ld just be included in image as libegl is. Is there a way to avoid RDEPENDS=
-:${PN} =3D &quot;libglx&quot;?<br></blockquote></div><div class=3D"gmail_qu=
-ote"><br></div><div class=3D"gmail_quote">It would not be necessary if some=
-thing that dynamically links with these libraries is included in the image.=
- Then the package task for that something will find out that these librarie=
-s are needed, will trace them to the packages that contain them, and insert=
- RDEPENDS for those packages automatically.<br></div><div class=3D"gmail_qu=
-ote"><br></div><div class=3D"gmail_quote">If the libraries are open with dl=
-open( ) at runtime, then yocto&#39;s packaging does not detect that, and yo=
-u need to add a manual RDEPENDS.</div><div class=3D"gmail_quote"><br></div>=
-<div class=3D"gmail_quote">Alex<br></div></div>
-
---000000000000746daf05ebdf6de2--
 
