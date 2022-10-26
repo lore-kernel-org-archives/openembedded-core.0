@@ -1,130 +1,86 @@
-Return-Path: <a.fatoum@pengutronix.de>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6B98C38A2D
-	for <webhook@archiver.kernel.org>; Wed, 26 Oct 2022 13:22:33 +0000 (UTC)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
- by mx.groups.io with SMTP id smtpd.web10.7406.1666790545077906173
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECFC8C38A2D
+	for <webhook@archiver.kernel.org>; Wed, 26 Oct 2022 14:05:43 +0000 (UTC)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web12.7808.1666793140428244590
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Oct 2022 06:22:26 -0700
+ Wed, 26 Oct 2022 07:05:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: afa@pengutronix.de)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <afa@pengutronix.de>)
-	id 1ongMQ-00052z-Qo; Wed, 26 Oct 2022 15:22:22 +0200
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <afa@pengutronix.de>)
-	id 1ongMQ-000W4y-B5; Wed, 26 Oct 2022 15:22:21 +0200
-Received: from afa by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <afa@pengutronix.de>)
-	id 1ongMO-00DyQd-OS; Wed, 26 Oct 2022 15:22:20 +0200
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Subject: [PATCH 2/2] kernel-fitimage: skip FDT section creation for applicable symlinks
-Date: Wed, 26 Oct 2022 15:22:19 +0200
-Message-Id: <20221026132219.3330056-2-a.fatoum@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221026132219.3330056-1-a.fatoum@pengutronix.de>
-References: <20221026132219.3330056-1-a.fatoum@pengutronix.de>
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=r7b/UHs/;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.51, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f51.google.com with SMTP id y12so21380899edc.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Oct 2022 07:05:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=4S+OpO5ZtSCeNJAb1F8Xq8eSmoQkTvCO7v7DQTNqGSo=;
+        b=r7b/UHs/HQSyS9kHJU7ojACDYt+axlFUnSoxvgpNai2wcqOoWu3x2GrFqFmu9jkygb
+         JGW0NsV7e+2VDJRwcWac4Tr8SIdm7+DXtdjyMTB3qcteL5MO9uXw1u5tdqMWMVrUmc1a
+         aGrEtUuOyLapXHVr7zX4UGBE28dvjOJm1UcBkt9OCPbUKgpqkUQVmqqNYnqg5hbBTm1T
+         eTtwl5dePcmRCsAric2+uVX6BSU2GeTG6ZD6gbigML9p2DlN9PmNlUHmEb5nXBm2jz6a
+         wWxYCVHOdJQayfZT2AaicgVNGPwl4m/dDaBjUUqDa68k/85nyOelSYaP5kNr73tqUtSp
+         ywBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4S+OpO5ZtSCeNJAb1F8Xq8eSmoQkTvCO7v7DQTNqGSo=;
+        b=yPPnaztX3rz1ThSlhBm+KETIjGyCiC3dBg5Dbi91xduigyrwPTHdk3SWYGPDP81lnx
+         xpGUeoBDwV6Es8MCQviSx8xzrlJ3g4bKAtw/HAdoXVDGwWP/1pIb5YkPeMmL2HHNpjd3
+         dggVSOZExK66iC6FCtr2iOnlEMAR0hFVbehySf0Yq+bjeiX5eRd4kR3Hlg9NHdxsO2v4
+         pFBOZw2N3fG6eEvnnq/E9iqntXWIbjvZfJ4d+hExVIDNQvPlyX6nO4XG8XK0naAUUFif
+         ezZkhzeVuDRTSV9TekvZqDJ+wuCyjlQBmPeU5NJmkEqd5sryT5mx/tW1xUqF5e7Ab1E7
+         CbUA==
+X-Gm-Message-State: ACrzQf0h04Ysg2pi+qmb8XzYaAEPhq7+TRDzSOm8inszTKvG8fEyV3w4
+	v87FdRBA4XWpRpIMVglvtBx4DGRxzY6yC9Ym0BldQw==
+X-Google-Smtp-Source: AMsMyM7xZQkplgqcbXKOfaTMgAtUUNhgeIPVDaqOpUAPJqFN6mzBQpVPXHW97/SXq//w3akHcume7zDUA5TNMvG9K90=
+X-Received: by 2002:a50:eb05:0:b0:457:c6f5:5f65 with SMTP id
+ y5-20020a50eb05000000b00457c6f55f65mr40311339edp.311.1666793138516; Wed, 26
+ Oct 2022 07:05:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: afa@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+References: <5dd15cbcb294c6907e11461eb8080e0238ec306e.camel@siemens.com>
+In-Reply-To: <5dd15cbcb294c6907e11461eb8080e0238ec306e.camel@siemens.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Wed, 26 Oct 2022 04:05:26 -1000
+Message-ID: <CAOSpxdaDbBn-UURqoiBX9=SyT=3cwm=FjWPWXcxyWJecTaSfiw@mail.gmail.com>
+Subject: Re: eSDK cherry-picks
+To: "Valek, Andrej" <andrej.valek@siemens.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"ross.burton@arm.com" <ross.burton@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Oct 2022 13:22:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172154
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Oct 2022 14:05:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172156
 
-When building a FIT image with device trees, each device tree lands in a
-FIT section and is referenced by a FIT configuration node.
+Hi Andrej,
 
-FIT images however also allow referencing the same device tree from
-multiple configurations. This can be useful to reduce FIT image size
-while staying compatible with existing bootloaders. Allow
-kernel-fitimage.bbclass users to take advantage of this by mapping
-each symlink to a regular device tree included in the FIT to a
-configuration that references a common device tree section.
+It is a bit late to get them in for the 4.0.5 build scheduled for
+Monday, but I will take them immediately afterwards.
 
-Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
----
- meta/classes-recipe/kernel-fitimage.bbclass | 33 ++++++++++++++++++++-
- 1 file changed, 32 insertions(+), 1 deletion(-)
+Thanks!
 
-diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-recipe/kernel-fitimage.bbclass
-index 6307e3c50a3f..7980910aa8c4 100644
---- a/meta/classes-recipe/kernel-fitimage.bbclass
-+++ b/meta/classes-recipe/kernel-fitimage.bbclass
-@@ -354,6 +354,27 @@ EOF
- 	fi
- }
- 
-+#
-+# echoes symlink destination if it points below directory
-+#
-+# $1 ... file that's a potential symlink
-+# $2 ... expected parent directory
-+symlink_points_below() {
-+	file="$2/$1"
-+	dir=$2
-+
-+	if ! [ -L "$file" ]; then
-+		return
-+	fi
-+
-+	realpath="$(realpath --relative-to=$dir $file)"
-+	if [ -z "${realpath%%../*}" ]; then
-+		return
-+	fi
-+
-+	echo "$realpath"
-+}
-+
- #
- # Emit the fitImage ITS configuration section
- #
-@@ -392,7 +413,13 @@ fitimage_emit_section_config() {
- 	setup_line=""
- 	default_line=""
- 
-+	dtb_image_sect=$(symlink_points_below $dtb_image "${EXTERNAL_KERNEL_DEVICETREE}")
-+	if [ -z "$dtb_image_sect" ]; then
-+		dtb_image_sect=$dtb_image
-+	fi
-+
- 	dtb_image=$(echo $dtb_image | tr '/' '_')
-+	dtb_image_sect=$(echo "${dtb_image_sect}" | tr '/' '_')
- 
- 	# conf node name is selected based on dtb ID if it is present,
- 	# otherwise its selected based on kernel ID
-@@ -411,7 +438,7 @@ fitimage_emit_section_config() {
- 	if [ -n "$dtb_image" ]; then
- 		conf_desc="$conf_desc${sep}FDT blob"
- 		sep=", "
--		fdt_line="fdt = \"fdt-$dtb_image\";"
-+		fdt_line="fdt = \"fdt-$dtb_image_sect\";"
- 	fi
- 
- 	if [ -n "$ramdisk_id" ]; then
-@@ -568,6 +595,10 @@ fitimage_assemble() {
- 			echo "$DTBS" | tr ' ' '\n' | grep -xq "$DTB" && continue
- 
- 			DTBS="$DTBS $DTB"
-+
-+			# Also skip if a symlink. We'll later have each config section point at it
-+			[ $(symlink_points_below $DTB "${EXTERNAL_KERNEL_DEVICETREE}") ] && continue
-+
- 			DTB=$(echo $DTB | tr '/' '_')
- 			fitimage_emit_section_dtb $1 $DTB "${EXTERNAL_KERNEL_DEVICETREE}/$DTB"
- 		done
--- 
-2.30.2
+Steve
 
+On Tue, Oct 25, 2022 at 10:13 PM Valek, Andrej <andrej.valek@siemens.com> wrote:
+>
+> Hello Steve,
+>
+> Would it be possible to include these commits
+> https://git.yoctoproject.org/poky/commit/?id=4fd15f4e3ad50ba1830b20a5e339d75ebb74a4ce
+>  https://git.yoctoproject.org/poky/commit/?id=7e4b96e911f6b308aa1c970db37881d62ddefcac
+> into
+> kirkstone branch?
+>
+> I guess, some older branches are affected too. The dunfell branch is
+> safe.
+>
+> Thanks,
+> Andrej
 
