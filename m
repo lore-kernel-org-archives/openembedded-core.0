@@ -1,173 +1,80 @@
-Return-Path: <vince@underview.tech>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CE7FC433FE
-	for <webhook@archiver.kernel.org>; Wed, 26 Oct 2022 15:24:34 +0000 (UTC)
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
- by mx.groups.io with SMTP id smtpd.web12.8770.1666797863788557504
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C65FC38A2D
+	for <webhook@archiver.kernel.org>; Wed, 26 Oct 2022 16:03:44 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web11.9469.1666800214771706323
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Oct 2022 08:24:24 -0700
+ Wed, 26 Oct 2022 09:03:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=IGsbS9kR;
- spf=pass (domain: underview.tech, ip: 209.85.166.54, mailfrom: vince@underview.tech)
-Received: by mail-io1-f54.google.com with SMTP id l127so13648350iof.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Oct 2022 08:24:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=lmOFDg11;
+ spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f41.google.com with SMTP id r12so13348986lfp.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Oct 2022 09:03:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kgisx8+omXRBDYaXvNyw6g+gFMgbpe7NmECP3wDF5+g=;
-        b=IGsbS9kRMA+/6XvI9NyB1ZmR/bnF471kcqsayeoVzPLdwS6AY8zNWFk/kRFBTGb5WP
-         LzxDAXbOusgWFdcOpMiwM3NJ9r3N01ASEolhJXy+XB5kE/xB203vfo5v8MAjMyF7bH2B
-         XZJ3GayARAqRJtEkCPRA0q0I9A6v8H0l8yJEu/umIP5nATOFgZ39SNA2F1qGuMCv19Vl
-         ZZdWzLaiGXybRSUVMTLfSzNergNn3XQfKb4sCvhkLwG0KHpkP/h2AMcLJn2UzWIoIfbt
-         2yvK0+2ph833Y6YZ9PVQ10cpAha0Sk7jDjlYSJk0JEM0tK7S9WNIv+e+RmDW/r1UoeWn
-         SvzQ==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=QhQVa/SjeXRnhG8y1gnptEhZVc18NCPJK0AsB/lRcMo=;
+        b=lmOFDg11m2UWwpuvQy+NfE1YD1jnNHJjGqj7rHAUUW0/1Sl4P4UYaAlFizj+RqvN2d
+         tAdsX6zteVqWP9kqNLPE4FYqao9lhgVxoQun4AaU/pC6c5y3cftA2oGLX7hxF8rxtnm7
+         s4TLX0djc7xOixlOXfBkBucIoKCwSHLeq/2ihIm4jT5JnCTmbm09LO5O5ObOWXrDJ1Ke
+         iQDtsU9pmD73d2o+bH9ts2YAm/PlMPp+do/QfGN7/znAWYzJVc4Tf5juk2h7J7SLegos
+         23Kqd6R3L1lLOK0XRsuOGPfn9DyRktxAneOowo46oj5iwFqKXcrn1C4bg+aVpfgZ1fHb
+         iagg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kgisx8+omXRBDYaXvNyw6g+gFMgbpe7NmECP3wDF5+g=;
-        b=bOEg5P1bGqEsneXhfhHhYWsVmBZi3t61i1La1U5bmaePLoxlNcYK/kOTyr/6jSIebw
-         nds2mjDAIb7ihXyIt/oZM11GdXiT5uH7qAFiAEZeWdg3c/4emjLmcqVCTqgJNq+Oc8uK
-         DdiG62eXlKawWdUnKrZDlkYwrg5PgrMHIb8DkhSqbCsI/JpnbKqWzID5EoTfWxGXuvEr
-         3bxBDwX9hCMtejggjYZmSPJJ9KY7JhvuWdK4eer1RLg+TlAfUpYkqHe8d61CQLYrGlLO
-         HmkOsKcjHCzMvNtCd9zFJSy/attSIkpu9oKkJsCtMNpjaaDpyWSBSZpboyzojVQiNPsV
-         ziFA==
-X-Gm-Message-State: ACrzQf3+z5R3Avmz70grlIClOoT0av5ioMJUEM+Hn3fQPlnBhD2F+48+
-	vW2M40MTLjRJW9kfs5efST36IRhck69/05UZB68=
-X-Google-Smtp-Source: AMsMyM52x2WkenksD6tZXsMfzag9/8FhZp6TYeoduFer3X7/a9gD7416d3bJPHj1vsPcCa91rdgFQg==
-X-Received: by 2002:a02:a883:0:b0:347:c2ed:9ff with SMTP id l3-20020a02a883000000b00347c2ed09ffmr27316396jam.217.1666797862620;
-        Wed, 26 Oct 2022 08:24:22 -0700 (PDT)
-Received: from vince-ubuntu.attlocal.net (99-113-4-128.lightspeed.hstntx.sbcglobal.net. [99.113.4.128])
-        by smtp.gmail.com with ESMTPSA id p4-20020a02b004000000b003738c0a80b4sm2088722jah.144.2022.10.26.08.24.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Oct 2022 08:24:22 -0700 (PDT)
-From: Vincent Davis Jr <vince@underview.tech>
-To: openembedded-core@lists.openembedded.org
-Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH v3] mesa: enable glvnd support
-Date: Wed, 26 Oct 2022 10:22:31 -0500
-Message-Id: <20221026152231.11110-1-vince@underview.tech>
-X-Mailer: git-send-email 2.34.1
+        bh=QhQVa/SjeXRnhG8y1gnptEhZVc18NCPJK0AsB/lRcMo=;
+        b=ZX7MFHT9apjLO5kmNhvIYd9xfqSYkpZxtIvFLe7MPnlQa4Vxvw7lurcuYjGb7lwIEs
+         N7JZT0v4qVQ7bn7ZXgpWjgFlLQcz6ynZjDGMrbWQNRaXFl+f9Xlgbe/G5fGkII7f5SOI
+         BO11G2aUjvwjM7jAun9x5MI9I2iRO0QA3jCKeha0EknZhX+MtUsNBVbukdqkfiOy8Wwl
+         JNG+bowCBieO04TgZpR203HLeKN0tPMllDQacpIqTKW/Fe9NWylN82Z3JlPWCykM9Wy4
+         E2Rh90WhY1q7sxeodjZj/8yOUmusnfbMSVrWcmhEZNuqX5xGNTBHA775E+WBrIgiu6w3
+         Y1TA==
+X-Gm-Message-State: ACrzQf3Y/I3pZYyF6NRHg7C+yoFdb+qwE/OYFZmpypPbaaUFa4AOSwNd
+	S241VQepIDRqTAQjDJPmZPPJF/Cz21ITm48X6lE=
+X-Google-Smtp-Source: AMsMyM639p6XZKLgKhMDhhG7AW8RrRlHkc8Cc1yYUp8DvSWF1nk3Fn8KYkL6wbjYZy+7Q4bZWN2L4GYwWgndSn5AVFI=
+X-Received: by 2002:a05:6512:2399:b0:4a2:94d6:da27 with SMTP id
+ c25-20020a056512239900b004a294d6da27mr16917882lfv.131.1666800212245; Wed, 26
+ Oct 2022 09:03:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221018230820.2385167-1-raj.khem@gmail.com> <CANNYZj-r7G4y3ma8NkrgmKm-vgoXjvMEWYAUh=bOE0z80DrxkA@mail.gmail.com>
+ <CAMKF1srnBDVj5ig2ZF_fX+-UZ5jtp0U89uG8qE5cuW1SjX0AfQ@mail.gmail.com>
+ <171F65F5948858B5.6129@lists.openembedded.org> <CANNYZj89RTk6=-tqK550uDvUb3nZ1bfR=H1=Ns2pw5WaiPZ_Tw@mail.gmail.com>
+ <78322791-72e6-75fd-f870-1f2eb7d8e4f6@kernel.crashing.org>
+In-Reply-To: <78322791-72e6-75fd-f870-1f2eb7d8e4f6@kernel.crashing.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 26 Oct 2022 18:03:20 +0200
+Message-ID: <CANNYZj_KT77PhQtPd3gTT4J9RWZNnY0UgvH_PmOZXNs+yewM6Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] mesa: Add native patch via a variable
+To: Mark Hatle <mark.hatle@kernel.crashing.org>
+Cc: Ross Burton <ross.burton@arm.com>, Khem Raj <raj.khem@gmail.com>, 
+	Kai Kang <kai.kang@windriver.com>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Oct 2022 15:24:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172161
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Oct 2022 16:03:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172162
 
-Allows mesa to be built with glvnd support.
-Thus, creates libEGL_mesa.so* and libGLX_mesa.so*
-libraries meant to coexist with vendor neutral
-dispatch libraries from libglvnd.
+On Wed, 26 Oct 2022 at 16:35, Mark Hatle <mark.hatle@kernel.crashing.org> wrote:
+> (I just saw this, so a little late on the reply, but..)
+>
+> mesa-gl is ABSOLUTELY still being used.  It's needed for libmali usage.  Not
+> everyone wants to use lima support for graphics.
+>
+> It was broken into two separate packages so that is was VERY clear if you were
+> using mesa for 'everything' (mesa), or mesa JUST for 'gl' (not gles).
 
-Signed-off-by: Vincent Davis Jr <vince@underview.tech>
----
- .../conf/distro/include/default-providers.inc |  1 +
- meta/recipes-graphics/mesa/mesa.inc           | 20 +++++++++++++------
- 2 files changed, 15 insertions(+), 6 deletions(-)
+Okay, I'm not going to propose this, but can you clarify, what is the
+current use for 'gl'? Is it just opengl 3d in standalone x server
+based systems (which is slowly dying), or is there something else to
+it?
 
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index 6defdca12d..3a4e989c1f 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -5,6 +5,7 @@ PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
- PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xorg"
- PREFERRED_PROVIDER_virtual/egl ?= "mesa"
- PREFERRED_PROVIDER_virtual/libgl ?= "mesa"
-+PREFERRED_PROVIDER_virtual/libglx ?= "mesa"
- PREFERRED_PROVIDER_virtual/libgl-native ?= "mesa-native"
- PREFERRED_PROVIDER_virtual/nativesdk-libgl ?= "nativesdk-mesa"
- PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 04d78a6aa5..45a3f7a3cd 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -32,15 +32,18 @@ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- #because we cannot rely on the fact that all apps will use pkgconfig,
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
- do_install:append() {
--    if ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
--        sed -i -e 's/^#elif defined(__unix__) && defined(EGL_NO_X11)$/#elif defined(__unix__) \&\& defined(EGL_NO_X11) || ${@bb.utils.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
--    fi
-+  # sed can't find EGL/eglplatform.h as it doesn't get installed when glvnd enabled.
-+  # So, check if EGL/eglplatform.h exists before running sed.
-+  if ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'true', 'false', d)} && [ -f ${D}${includedir}/EGL/eglplatform.h ]; then
-+      sed -i -e 's/^#elif defined(__unix__) && defined(EGL_NO_X11)$/#elif defined(__unix__) \&\& defined(EGL_NO_X11) || ${@bb.utils.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-+  fi
- }
- 
- DEPENDS = "expat makedepend-native flex-native bison-native libxml2-native zlib chrpath-replacement-native python3-mako-native gettext-native"
- EXTRANATIVEPATH += "chrpath-native"
- PROVIDES = " \
-     ${@bb.utils.contains('PACKAGECONFIG', 'opengl', 'virtual/libgl', '', d)} \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'glvnd', 'virtual/libglx', '', d)} \
-     ${@bb.utils.contains('PACKAGECONFIG', 'gles', 'virtual/libgles1 virtual/libgles2 virtual/libgles3', '', d)} \
-     ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'virtual/egl', '', d)} \
-     ${@bb.utils.contains('PACKAGECONFIG', 'gbm', 'virtual/libgbm', '', d)} \
-@@ -119,6 +122,7 @@ VULKAN_DRIVERS:append ="${@bb.utils.contains('PACKAGECONFIG', 'broadcom', ',broa
- PACKAGECONFIG[vulkan] = "-Dvulkan-drivers=${@strip_comma('${VULKAN_DRIVERS}')}, -Dvulkan-drivers='',glslang-native vulkan-loader vulkan-headers"
- 
- PACKAGECONFIG[opengl] = "-Dopengl=true, -Dopengl=false"
-+PACKAGECONFIG[glvnd] = "-Dglvnd=true, -Dglvnd=false,libglvnd"
- 
- # "gles" requires "opengl"
- PACKAGECONFIG[gles] = "-Dgles1=enabled -Dgles2=enabled, -Dgles1=disabled -Dgles2=disabled"
-@@ -207,6 +211,7 @@ RDEPENDS:libopencl-mesa += "${@bb.utils.contains('PACKAGECONFIG', 'opencl', 'lib
- PACKAGES =+ "libegl-mesa libegl-mesa-dev \
-              libosmesa libosmesa-dev \
-              libgl-mesa libgl-mesa-dev \
-+             libglx-mesa libglx-mesa-dev \
-              libglapi libglapi-dev \
-              libgbm libgbm-dev \
-              libgles1-mesa libgles1-mesa-dev \
-@@ -225,7 +230,7 @@ do_install:append () {
-     rm -f ${D}${libdir}/gallium-pipe/*.la
-     rm -f ${D}${libdir}/gbm/*.la
- 
--    # it was packaged in libdricore9.1.3-1 and preventing upgrades when debian.bbclass was used 
-+    # it was packaged in libdricore9.1.3-1 and preventing upgrades when debian.bbclass was used
-     chrpath --delete ${D}${libdir}/dri/*_dri.so || true
- 
-     # libwayland-egl has been moved to wayland 1.15+
-@@ -243,6 +248,7 @@ python __anonymous() {
-         suffix = "-native"
-     for p in (("egl", "libegl", "libegl1"),
-               ("opengl", "libgl", "libgl1"),
-+              ("glvnd", "libglx",),
-               ("gles", "libgles1", "libglesv1-cm1"),
-               ("gles", "libgles2", "libglesv2-2"),
-               ("gles", "libgles3",),
-@@ -301,20 +307,22 @@ PACKAGES_DYNAMIC:class-native = "^mesa-driver-.*-native"
- FILES:mesa-megadriver = "${libdir}/dri/* ${datadir}/drirc.d"
- FILES:mesa-vulkan-drivers = "${libdir}/libvulkan_*.so ${datadir}/vulkan"
- FILES:${PN}-vdpau-drivers = "${libdir}/vdpau/*.so.*"
--FILES:libegl-mesa = "${libdir}/libEGL.so.*"
-+FILES:libegl-mesa = "${libdir}/libEGL*.so.*"
- FILES:libgbm = "${libdir}/libgbm.so.*"
- FILES:libgles1-mesa = "${libdir}/libGLESv1*.so.*"
- FILES:libgles2-mesa = "${libdir}/libGLESv2.so.*"
- FILES:libgl-mesa = "${libdir}/libGL.so.*"
-+FILES:libglx-mesa = "${libdir}/libGLX*.so.* ${datadir}/glvnd"
- FILES:libopencl-mesa = "${libdir}/libMesaOpenCL.so.* ${libdir}/gallium-pipe/*.so ${sysconfdir}/OpenCL/vendors/mesa.icd"
- FILES:libglapi = "${libdir}/libglapi.so.*"
- FILES:libosmesa = "${libdir}/libOSMesa.so.*"
- FILES:libxatracker = "${libdir}/libxatracker.so.*"
- 
- FILES:${PN}-dev = "${libdir}/pkgconfig/dri.pc ${includedir}/vulkan ${libdir}/vdpau/*.so"
--FILES:libegl-mesa-dev = "${libdir}/libEGL.* ${includedir}/EGL ${includedir}/KHR ${libdir}/pkgconfig/egl.pc"
-+FILES:libegl-mesa-dev = "${libdir}/libEGL*.* ${includedir}/EGL ${includedir}/KHR ${libdir}/pkgconfig/egl.pc"
- FILES:libgbm-dev = "${libdir}/libgbm.* ${libdir}/pkgconfig/gbm.pc ${includedir}/gbm.h"
- FILES:libgl-mesa-dev = "${libdir}/libGL.* ${includedir}/GL ${libdir}/pkgconfig/gl.pc"
-+FILES:libglx-mesa-dev = "${libdir}/libGLX*.*"
- FILES:libglapi-dev = "${libdir}/libglapi.*"
- FILES:libgles1-mesa-dev = "${libdir}/libGLESv1*.* ${includedir}/GLES ${libdir}/pkgconfig/glesv1*.pc"
- FILES:libgles2-mesa-dev = "${libdir}/libGLESv2.* ${includedir}/GLES2 ${libdir}/pkgconfig/glesv2.pc"
--- 
-2.34.1
-
+Alex
 
