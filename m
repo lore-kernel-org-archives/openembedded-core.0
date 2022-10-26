@@ -1,102 +1,143 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <thomas.perrot@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11AF2C433FE
-	for <webhook@archiver.kernel.org>; Wed, 26 Oct 2022 11:14:23 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web11.6370.1666782854986543800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51AAEC433FE
+	for <webhook@archiver.kernel.org>; Wed, 26 Oct 2022 12:01:33 +0000 (UTC)
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+ by mx.groups.io with SMTP id smtpd.web12.6507.1666785683428502085
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Oct 2022 04:14:15 -0700
+ Wed, 26 Oct 2022 05:01:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aJqk3hLU;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id j15so15220355wrq.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Oct 2022 04:14:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2uRF4KNdlqvRi1bcdg+9t8zVbIBabOf5hpiUveSqLhg=;
-        b=aJqk3hLUnU0P9IqkQ1Z6Zc51hnOJY7cD/JDhTA4p0EVhNSZXweYbMl/RB1iikSauQY
-         1c5tkyf1FuEM4PuAxEhM78EYMl7WTBSky5Sv41HDK+By3fcRZPY/ssZ2JZlf2KoSBB5P
-         97qbkpTCpa84MjPseWQZMCx4sD6wwnniOn1KE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2uRF4KNdlqvRi1bcdg+9t8zVbIBabOf5hpiUveSqLhg=;
-        b=JKRjCYWko6gcPWYc93/Z8DrqCYYkusOOzdPVbquj+VH6OE4d4t/b73QSBYtci0XvNc
-         H4TlOYEWyTL81YC4JAeaC4ATA0j54TRzTWiliI+RkIUupk04bZ+ZuHU9dyMERgwSSJvf
-         Fb1bnetv5Z8l/1fOL7jP9AIQh4lBdBu2d1U6oDUJ4aGS0PaVTTm/VJ9SGevALIkqxjGU
-         MS5iZdbzsaLrzZVyiKlOC1ic12ud40W6h/Gf2UgAMOvIQ6//PHDbf9G7p5e13pvya7/Q
-         JLbEpH1F0v2z8E40b8jasMmHXNd+TrvIXWAe13zNRhtfX7qGeiXba/5rWx3zeaq8u5MA
-         u2wg==
-X-Gm-Message-State: ACrzQf1GwWOVwmp0f013IdL5E+bR1nD19vBOE1v+1nWSlAA6m8hHNlxL
-	FCJPqFA4DiJx/R6EfCnAm/b79Q==
-X-Google-Smtp-Source: AMsMyM4dZqFT5uUmW4QroiKLMDsyzwQkwFxQZNJ1VSkSJb16QNx1+6wVxl+kd7Gi9DhzfbMLB6JcLw==
-X-Received: by 2002:a5d:588c:0:b0:231:891c:6fc1 with SMTP id n12-20020a5d588c000000b00231891c6fc1mr28225024wrf.25.1666782853279;
-        Wed, 26 Oct 2022 04:14:13 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:bd65:7511:b73b:c094? ([2001:8b0:aba:5f3c:bd65:7511:b73b:c094])
-        by smtp.gmail.com with ESMTPSA id r9-20020a05600c458900b003b4ac05a8a4sm2082161wmo.27.2022.10.26.04.14.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Oct 2022 04:14:12 -0700 (PDT)
-Message-ID: <2e7e3bf799fede599c134d21bed5fca3921cbc6b.camel@linuxfoundation.org>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=ONEjRd3g;
+ spf=pass (domain: bootlin.com, ip: 217.70.178.230, mailfrom: thomas.perrot@bootlin.com)
+Received: (Authenticated sender: thomas.perrot@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 365B224000D;
+	Wed, 26 Oct 2022 12:01:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1666785681;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ay7I/Yx2mz1x9vsQxV30an5I71w1YsTKAebapgldZPw=;
+	b=ONEjRd3gJ46W3feZ82/H0GVIapHn3obFLvjj1tYtqYOlbssAT+AoE02/HNibvTS3gpIqR2
+	4T+txKBPX6/clH7Mpoo6jXEFxEtqhE4YDKngjrH4i6i09XMkr/6Z7W+MzV3ZQndEQmspCU
+	MmeN/Q+r48Xq17qZE3q5sRmWagyaM9tOU7aCpPxI+Zzj18htt2RkUDGD/wcRrFNg6Om8Lt
+	cjAq/7VyglmQEEX6ChdWfBjqXla3Zon2YNsgwsl/JzTb1AFdlj+uy6BwHtcJaunZGdH5kr
+	e7Dd35KqQ05D365Neg4d0g4S0yRVK8VIf3H+4M6DcMb5uV4rgtuTb53I2TfcSg==
+Message-ID: <de91c8a8a867021ba226c9da0ea4e59bffdbf176.camel@bootlin.com>
 Subject: Re: [OE-core][PATCH] qemu.inc: add virtio input in required
  dependencies
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: thomas.perrot@bootlin.com, openembedded-core@lists.openembedded.org
-Date: Wed, 26 Oct 2022 12:14:10 +0100
-In-Reply-To: <20221018093227.3753321-1-thomas.perrot@bootlin.com>
+From: Thomas Perrot <thomas.perrot@bootlin.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 26 Oct 2022 14:01:20 +0200
+In-Reply-To: <2e7e3bf799fede599c134d21bed5fca3921cbc6b.camel@linuxfoundation.org>
 References: <20221018093227.3753321-1-thomas.perrot@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu1 
+	 <2e7e3bf799fede599c134d21bed5fca3921cbc6b.camel@linuxfoundation.org>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-z7lhvtdyekF12O9bGEQ4"
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Oct 2022 11:14:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172150
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Oct 2022 12:01:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172151
 
-On Tue, 2022-10-18 at 11:32 +0200, Thomas Perrot via
-lists.openembedded.org wrote:
-> From: Thomas Perrot <thomas.perrot@bootlin.com>
+
+--=-z7lhvtdyekF12O9bGEQ4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hello Richard,
+
+On Wed, 2022-10-26 at 12:14 +0100, Richard Purdie wrote:
+> On Tue, 2022-10-18 at 11:32 +0200, Thomas Perrot via
+> lists.openembedded.org wrote:
+> > From: Thomas Perrot <thomas.perrot@bootlin.com>
+> >=20
+> > Otherwise, it isn't possible to interact with the UI of images
+> > that provide graphic support.
+> >=20
+> > This issue only occurs when NO_RECOMMENDATIONS =3D "1" for Qemu
+> > targets which are kernel-modules in MACHINE_EXTRA_RRECOMMENDS.
+> >=20
+> > Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+> > ---
+> > =C2=A0meta/conf/machine/include/qemu.inc | 2 ++
+> > =C2=A01 file changed, 2 insertions(+)
+> >=20
+> > diff --git a/meta/conf/machine/include/qemu.inc
+> > b/meta/conf/machine/include/qemu.inc
+> > index 0d71bcbbad0d..dabe7ed8f386 100644
+> > --- a/meta/conf/machine/include/qemu.inc
+> > +++ b/meta/conf/machine/include/qemu.inc
+> > @@ -10,6 +10,8 @@ XSERVER ?=3D "xserver-xorg \
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 xf86-video-fbdev \
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 "
+> > =C2=A0
+> > +MACHINE_EXTRA_RDEPENDS +=3D "kernel-module-virtio-input"
+> > +
+> > =C2=A0MACHINE_FEATURES =3D "alsa bluetooth usbgadget screen vfat"
+> > =C2=A0
+> > =C2=A0MACHINEOVERRIDES =3D. "qemuall:"
 >=20
-> Otherwise, it isn't possible to interact with the UI of images
-> that provide graphic support.
+> This will fail if the kernel has the module built in - kernel modules
+> are always recommends for that reason. We'll have to find a different
+> solution I'm afraid.
+
+When this kernel module is built in, so the Qemu boot process stalled:
+"please wait: booting..."
+For this reason, is the proposed solution acceptable?
+
+Kind regards,
+Thomas
+
 >=20
-> This issue only occurs when NO_RECOMMENDATIONS =3D "1" for Qemu
-> targets which are kernel-modules in MACHINE_EXTRA_RRECOMMENDS.
+> Cheers,
 >=20
-> Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
-> ---
->  meta/conf/machine/include/qemu.inc | 2 ++
->  1 file changed, 2 insertions(+)
+> Richard
 >=20
-> diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/inclu=
-de/qemu.inc
-> index 0d71bcbbad0d..dabe7ed8f386 100644
-> --- a/meta/conf/machine/include/qemu.inc
-> +++ b/meta/conf/machine/include/qemu.inc
-> @@ -10,6 +10,8 @@ XSERVER ?=3D "xserver-xorg \
->              xf86-video-fbdev \
->              "
-> =20
-> +MACHINE_EXTRA_RDEPENDS +=3D "kernel-module-virtio-input"
-> +
->  MACHINE_FEATURES =3D "alsa bluetooth usbgadget screen vfat"
-> =20
->  MACHINEOVERRIDES =3D. "qemuall:"
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#172150):
+> https://lists.openembedded.org/g/openembedded-core/message/172150
+> Mute This Topic: https://lists.openembedded.org/mt/94404446/5443093
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:
+> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
+> thomas.perrot@bootlin.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
-This will fail if the kernel has the module built in - kernel modules
-are always recommends for that reason. We'll have to find a different
-solution I'm afraid.
+--=20
+Thomas Perrot, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
-Cheers,
 
-Richard
+--=-z7lhvtdyekF12O9bGEQ4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCAAdFiEEh0B3xqajCiMDqBIhn8ALBXH+Cu0FAmNZIZAACgkQn8ALBXH+
+Cu2gFAv/dO2g8jBOgvoiuamB/Yvutk/126k+/F38wObp/N86C94C2zYzBi6f2wCA
+dCS3+RQRciiSct4fJrSvc1MhxOfngZgD/0yPzPPvzr107vRmp2VGoPKzBTZjYbTN
+V62zQEIy2GRJi1ixo0ztUBlGtVGTBYpzVxp9zIe7MiXyv9LX/Bd3V8cKB+kBm7c7
+WNiV8k6LzTQ9SByySeq+URVPWun7MG4XZr0owBZlVMBuhXAFHQLxjYKz+0RK8von
+Byvp179j9PG59OA49HsabZuZx20cBoPdy/XlidBoJE9Y3b7GXyI14LVGUfXPFtYE
+/fZacGcYphkyeLZKdaAJwMJeT3zatCY2B47ocnU7iyFPWzDLldiPytQhz9oXsHuU
+OM2BF2Dybqxd7WykEzMCss2D6eqaDGRZCfuLlo1OtuEKi1o9wGVTFz2D15nuhy51
+RTqQ2lpAyLE0tRXOuFUKQJw/4xcaJdD573KfsiJ9Cq7SvmE21Cr2/o5yRNGbge7t
+2D2QysGf
+=V2qh
+-----END PGP SIGNATURE-----
+
+--=-z7lhvtdyekF12O9bGEQ4--
 
