@@ -2,179 +2,155 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE9BEECDFA1
-	for <webhook@archiver.kernel.org>; Wed, 26 Oct 2022 00:41:49 +0000 (UTC)
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
- by mx.groups.io with SMTP id smtpd.web08.1917.1666744905934982219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE158C38A2D
+	for <webhook@archiver.kernel.org>; Wed, 26 Oct 2022 00:46:29 +0000 (UTC)
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+ by mx.groups.io with SMTP id smtpd.web12.1920.1666745184013332746
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Oct 2022 17:41:46 -0700
+ Tue, 25 Oct 2022 17:46:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=mjDXA6kW;
- spf=pass (domain: gmail.com, ip: 209.85.210.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f52.google.com with SMTP id a13-20020a9d6e8d000000b00668d65fc44fso921598otr.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Oct 2022 17:41:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=S1KEg4ZP;
+ spf=pass (domain: gmail.com, ip: 209.85.161.49, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f49.google.com with SMTP id c10-20020a4a4f0a000000b004912ced26e8so359138oob.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Oct 2022 17:46:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vtcr6w6mViQOVf/4ll5r5Vlnpc9k3DDsGYbZxKy331M=;
-        b=mjDXA6kWBncBwtd/+otZf1EKvjmY9quASWVJvIjyjSfmiAmpJVx0Yj15D+V3nqPBxB
-         UqCplfRYuUj/np+ee5sW3fL1DOnjmNgEkoZILZ7qKS1cYaEg2AP79i34X/5Jdy2BBqUS
-         p/UBum/XnOV37iPh0e9qRRNIXTg6VCmRIy+dm8GySmcMr0pX0pLnAfmXl9i02wmt1AZh
-         wGZTELpfBO0kKjIysD1mtIX+hFNhNWkZr1ku5Ix47PYubm6atL8rnmdGEoedvmgiGI8F
-         2Ly1e40fNTwq/R/deNKGdRfQW1XWhAayMeNGJmTbeF/oI7jf8tkfiEXrC/+KkrrsmaFV
-         JyNg==
+        bh=eCPgc6DXIxfYKVOjwLSnvOnJjLX2NGMdmIzbMyLVmcg=;
+        b=S1KEg4ZPIvoxcgkKW1WlxX5bU/ivKsyWx/XV0h1m2K8jcHpA/2bTSPOQhDquMzxhCD
+         MFL/IeTBzJTyIxWz5lnAzFyjzuOufPAcAhAIHpYz4odEgEQsZOlZtIh3R/GioTXNncZE
+         2TsP/ol2EQIzipJPgpllbYS3wXwJzKOjdBTxJ3wKGO+TxSY9aik/4wZwKnnvDyX+He96
+         qgW8MMdfqVY2PUqFOORzHfqIzQ95I3xlZqL1TJIRpuGH/ybHJdBhVgZ5/olFNZx7yKeo
+         NO6FeftWbvViMG0eDRsTXILGkOYdV/AC3nm8QFNxsOFYnHFJfU/3eNkiK9Mc4+awSBhn
+         3u8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vtcr6w6mViQOVf/4ll5r5Vlnpc9k3DDsGYbZxKy331M=;
-        b=iuxsd6vx7W3KHFLDe2PjHBdZTcVZPJJn442WcsqOAygQyq4tpfVNT4tIY3fMuq4Ze1
-         g0gpvDKVGURzbsII9swUXlNXFIJoYHMoiiB8AMEx4QkTrlj12dj9qXI8NqaCPJCLE0XT
-         VklCmls/u00vxfctlyukOm5f3QirDdjqhbtK3O+cb8KYNqoUIbLsc0yM5k20qLdaa/NQ
-         v+LANvoLW97xrPXEwWMFhz3PXd4JSVz7WmpmeU0Ymel13POE5/OnCtvHywmcn++wUaP3
-         KDBlam94FN9lkfonYiYuMYfKE4+njjpwoYIk1Ji3ndJKz6AuvlIyIlZ0PR6x6BMXLZEg
-         rGuA==
-X-Gm-Message-State: ACrzQf0iFKGULOieLSTpwy7Wh1q5b4XR/vf+8t43JNzmsMeizfh134Z7
-	1cU//tNXSKg3UjDD7ziLBSJLOS8qmLtrYbBC2SY=
-X-Google-Smtp-Source: AMsMyM5wAtBRNKGDYs3ZsWS7nq8VXB1TWmJo6ZiPE/GQtEXewbKkwa+shkMyjOYLzYnG0RNP/u2Arp84AQhyW8pQDdc=
-X-Received: by 2002:a9d:74c6:0:b0:661:c309:f0cf with SMTP id
- a6-20020a9d74c6000000b00661c309f0cfmr19764938otl.55.1666744905124; Tue, 25
- Oct 2022 17:41:45 -0700 (PDT)
+        bh=eCPgc6DXIxfYKVOjwLSnvOnJjLX2NGMdmIzbMyLVmcg=;
+        b=7C5FQq9KawsTD2zx5vPChv5iRc/ZIgxidxpG9Y+s4sUjwLagBYwc8YctsjF3DnSHjV
+         HfTv+wxfFNB2lDXFNkf7+pF2WI1TS/S6IDMlWoT5Pk59lPLCUx4mV2kjzvcddV3PxhyK
+         la9SFWPbkpvofPBFh5GEU6JW1LZYx8shXBKzUhDXs3r0BUmJ8cK6Fkr1XAuWySIpbgVI
+         Op5mKHGbDdGpbqA/uMz3onenU3CwlRInYZOlHxiU+ubCnbYVkJYmRYP6zbWOfRsTsFeS
+         uwt88o3qlL/4B7h8v7m/bS8u0ZK68t4EasHJROvYHw/lIrkdYZ5Hd7vAS6WFRP1mwUlP
+         2MtA==
+X-Gm-Message-State: ACrzQf0TRa5A7QlQZQ0ozSj03YzfA4F1EE3Dj/SdJ9Sgsf1RAxuesY03
+	ipng7AsQEwwUpPOLcil4FafgDPp3rUR8+BBB6w4=
+X-Google-Smtp-Source: AMsMyM5cEN/kn8ScUQxGJtzlmvEF8kdQNieMzc3IU1779Jh9uOIfYobO29l2peW6Lnmp4irpGkkUQUE1Hc9WxPk6wBQ=
+X-Received: by 2002:a4a:8dd7:0:b0:47f:6250:4d82 with SMTP id
+ a23-20020a4a8dd7000000b0047f62504d82mr17936988ool.73.1666745183245; Tue, 25
+ Oct 2022 17:46:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221025184427.399850-1-alex@linutronix.de>
-In-Reply-To: <20221025184427.399850-1-alex@linutronix.de>
+References: <20221020223004.1665512-1-raj.khem@gmail.com> <17207C5BC457528C.2993@lists.openembedded.org>
+ <CANNYZj8d9b-se+mjFJwcm_TuyNY74np-=hi+QjGjt8zgh874Dw@mail.gmail.com>
+In-Reply-To: <CANNYZj8d9b-se+mjFJwcm_TuyNY74np-=hi+QjGjt8zgh874Dw@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 25 Oct 2022 17:41:19 -0700
-Message-ID: <CAMKF1sqTPNKL00Fc5a5b66mp9+Y_UOKBfogK-PL4tp4egW1NHw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] rust-target-config: match riscv target
- names with what rust expects
+Date: Tue, 25 Oct 2022 17:45:57 -0700
+Message-ID: <CAMKF1sqthWA=ZyfVVfcrdYYemLT3VkFnSFP-aUJ8bbBr_0Pqcw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] rust: Disable 64bit atomics on crossbeam on riscv32
 To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Oct 2022 00:41:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172143
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Oct 2022 00:46:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172144
 
-On Tue, Oct 25, 2022 at 11:44 AM Alexander Kanavin
+On Tue, Oct 25, 2022 at 9:15 AM Alexander Kanavin
 <alex.kanavin@gmail.com> wrote:
 >
-> Official rust risc-v targets are prefixed with riscv32gc- and riscv64gc-:
-> https://doc.rust-lang.org/nightly/rustc/platform-support.html
+> Ok, I have looked into this properly now. So:
 >
-> Particularly crossbeam-utils make important build time decisions
-> for atomics based on those names, and so we need to match ours
-> with official targets.
+> - the fail started to occur in 1.64 because crossbeam-utils is now a
+> dependency of rust core (hard fail) and not just rustfmt (soft fail)
+> - the correct way to address it is indeed to map oe arch (riscv32) to
+> rust arch (riscv32gc) via meta/lib/oe/rust.py, which works globally
+> across all recipes where this may occur.
+> - however doing that exposed confusion about how we map arches, as
+> there is actually a *third* arch involved (the internal llvm one
+> listed in custom target definition), which too needs to be correctly
+> mapped from oe arch so I fixed that as well.
 >
-> On the other hand, the actual definitions for those targets do not
-> use the 'gc' suffix in 'arch' and 'llvm-target' fields, and so we
-> need to follow that too, to avoid cryptic mismatch errors from rust-llvm:
-> https://github.com/rust-lang/rust/blob/master/compiler/rustc_target/src/spec/riscv32gc_unknown_linux_gnu.rs
+> None of the three arch sets match each other exactly, unfortunately.
+
+Right.
+
+>
+> Patches are coming shortly.
 >
 
-This approach seems good to me. I wonder if rust_sys_to_llvm_target
-would be problematic
-for vardep calculations on native targets.
+Thanks, I think we can also unbolt the workaround in librsvg as well.
 
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  .../classes-recipe/rust-target-config.bbclass | 40 ++++++++++++-------
->  meta/lib/oe/rust.py                           |  2 +
->  2 files changed, 28 insertions(+), 14 deletions(-)
+diff --git a/meta/recipes-gnome/librsvg/librsvg_2.54.5.bb
+b/meta/recipes-gnome/librsvg/librsvg_2.54.5.bb
+index fc52ae61c5..daf60217d4 100644
+--- a/meta/recipes-gnome/librsvg/librsvg_2.54.5.bb
++++ b/meta/recipes-gnome/librsvg/librsvg_2.54.5.bb
+@@ -35,7 +35,6 @@ export RUST_TARGET = "${RUST_HOST_SYS}"
+ RUSTFLAGS:append:mips = " --cfg crossbeam_no_atomic_64"
+ RUSTFLAGS:append:mipsel = " --cfg crossbeam_no_atomic_64"
+ RUSTFLAGS:append:powerpc = " --cfg crossbeam_no_atomic_64"
+-RUSTFLAGS:append:riscv32 = " --cfg crossbeam_no_atomic_64"
+
+ CARGO_DISABLE_BITBAKE_VENDORING = "1"
+ do_configure[postfuncs] += "cargo_common_do_configure"
+
+> Alex
 >
-> diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classes-recipe/rust-target-config.bbclass
-> index 9e1d81bf5c..2710b4325d 100644
-> --- a/meta/classes-recipe/rust-target-config.bbclass
-> +++ b/meta/classes-recipe/rust-target-config.bbclass
-> @@ -231,19 +231,19 @@ TARGET_POINTER_WIDTH[powerpc64le] = "64"
->  TARGET_C_INT_WIDTH[powerpc64le] = "64"
->  MAX_ATOMIC_WIDTH[powerpc64le] = "64"
->
-> -## riscv32-unknown-linux-{gnu, musl}
-> -DATA_LAYOUT[riscv32] = "e-m:e-p:32:32-i64:64-n32-S128"
-> -TARGET_ENDIAN[riscv32] = "little"
-> -TARGET_POINTER_WIDTH[riscv32] = "32"
-> -TARGET_C_INT_WIDTH[riscv32] = "32"
-> -MAX_ATOMIC_WIDTH[riscv32] = "32"
-> -
-> -## riscv64-unknown-linux-{gnu, musl}
-> -DATA_LAYOUT[riscv64] = "e-m:e-p:64:64-i64:64-i128:128-n64-S128"
-> -TARGET_ENDIAN[riscv64] = "little"
-> -TARGET_POINTER_WIDTH[riscv64] = "64"
-> -TARGET_C_INT_WIDTH[riscv64] = "64"
-> -MAX_ATOMIC_WIDTH[riscv64] = "64"
-> +## riscv32gc-unknown-linux-{gnu, musl}
-> +DATA_LAYOUT[riscv32gc] = "e-m:e-p:32:32-i64:64-n32-S128"
-> +TARGET_ENDIAN[riscv32gc] = "little"
-> +TARGET_POINTER_WIDTH[riscv32gc] = "32"
-> +TARGET_C_INT_WIDTH[riscv32gc] = "32"
-> +MAX_ATOMIC_WIDTH[riscv32gc] = "32"
-> +
-> +## riscv64gc-unknown-linux-{gnu, musl}
-> +DATA_LAYOUT[riscv64gc] = "e-m:e-p:64:64-i64:64-i128:128-n64-S128"
-> +TARGET_ENDIAN[riscv64gc] = "little"
-> +TARGET_POINTER_WIDTH[riscv64gc] = "64"
-> +TARGET_C_INT_WIDTH[riscv64gc] = "64"
-> +MAX_ATOMIC_WIDTH[riscv64gc] = "64"
->
->  # Convert a normal arch (HOST_ARCH, TARGET_ARCH, BUILD_ARCH, etc) to something
->  # rust's internals won't choke on.
-> @@ -258,9 +258,21 @@ def arch_to_rust_target_arch(arch):
->          return "arm"
->      elif arch == "powerpc64le":
->          return "powerpc64"
-> +    elif arch == "riscv32gc":
-> +        return "riscv32"
-> +    elif arch == "riscv64gc":
-> +        return "riscv64"
->      else:
->          return arch
->
-> +# Convert a rust target string to a llvm-compatible triplet
-> +def rust_sys_to_llvm_target(sys):
-> +    if sys.startswith('riscv32gc-'):
-> +        return sys.replace('riscv32gc-', 'riscv32-', 1)
-> +    if sys.startswith('riscv64gc-'):
-> +        return sys.replace('riscv64gc-', 'riscv64-', 1)
-> +    return sys
-> +
->  # generates our target CPU value
->  def llvm_cpu(d):
->      cpu = d.getVar('PACKAGE_ARCH')
-> @@ -334,7 +346,7 @@ def rust_gen_target(d, thing, wd, arch):
->
->      # build tspec
->      tspec = {}
-> -    tspec['llvm-target'] = rustsys
-> +    tspec['llvm-target'] = rust_sys_to_llvm_target(rustsys)
->      tspec['data-layout'] = d.getVarFlag('DATA_LAYOUT', arch_abi)
->      if tspec['data-layout'] is None:
->          bb.fatal("No rust target defined for %s" % arch_abi)
-> diff --git a/meta/lib/oe/rust.py b/meta/lib/oe/rust.py
-> index 1dc9cf150d..185553eeeb 100644
-> --- a/meta/lib/oe/rust.py
-> +++ b/meta/lib/oe/rust.py
-> @@ -8,4 +8,6 @@
->  def arch_to_rust_arch(arch):
->      if arch == "ppc64le":
->          return "powerpc64le"
-> +    if arch in ('riscv32', 'riscv64'):
-> +        return arch + 'gc'
->      return arch
-> --
-> 2.30.2
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#172141): https://lists.openembedded.org/g/openembedded-core/message/172141
-> Mute This Topic: https://lists.openembedded.org/mt/94565465/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+> On Sat, 22 Oct 2022 at 21:56, Alexander Kanavin via
+> lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
+> wrote:
+> >
+> > Ok, I'd like to understand where the failure is exactly. I just ran
+> > 'bitbake rust' with poky master (rust 1.63) for qemuriscv32 machine,
+> > and it succeeded. How can I see the fail? Did this become broken with
+> > a 1.64.0 upgrade in your branch? (which I believe hasn't yet been
+> > through the autobuilder, and so might show similar fails for other
+> > targets without atomic_64 support)
+> >
+> > Alex
+> >
+> > On Fri, 21 Oct 2022 at 00:30, Khem Raj <raj.khem@gmail.com> wrote:
+> > >
+> > > riscv32 builds fail since AtomicI64 is not available in sync::atomic for
+> > > this architecture. Therefore it needs to be opted out and the way out is
+> > > to pass it by RUSTFLAGS, however rust target recipe overrides RUSTFLAGS
+> > > before exporting it so its better to piggy back on the variable its
+> > > using which is RUST_DEBUG_REMAP
+> > >
+> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > ---
+> > >  meta/recipes-devtools/rust/rust_1.64.0.bb | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/meta/recipes-devtools/rust/rust_1.64.0.bb b/meta/recipes-devtools/rust/rust_1.64.0.bb
+> > > index 1f9dbd3cce..b05f188d9c 100644
+> > > --- a/meta/recipes-devtools/rust/rust_1.64.0.bb
+> > > +++ b/meta/recipes-devtools/rust/rust_1.64.0.bb
+> > > @@ -9,6 +9,7 @@ FILES:${PN}-dev = ""
+> > >
+> > >  # Used by crossbeam_atomic.patch
+> > >  export TARGET_VENDOR
+> > > +RUST_DEBUG_REMAP:append:riscv32 = " --cfg crossbeam_no_atomic_64"
+> > >
+> > >  do_compile () {
+> > >      rust_runx build --stage 2
+> > > --
+> > > 2.38.1
+> > >
+> > >
+> > >
+> > >
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#172064): https://lists.openembedded.org/g/openembedded-core/message/172064
+> > Mute This Topic: https://lists.openembedded.org/mt/94464934/1686489
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
 
