@@ -2,55 +2,55 @@ Return-Path: <bero@lindev.ch>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98DE9ECAAA1
-	for <webhook@archiver.kernel.org>; Thu, 27 Oct 2022 23:14:32 +0000 (UTC)
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
- by mx.groups.io with SMTP id smtpd.web12.328.1666912462086544443
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A40F2FA373D
+	for <webhook@archiver.kernel.org>; Thu, 27 Oct 2022 23:19:42 +0000 (UTC)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web09.397.1666912778871877041
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Oct 2022 16:14:22 -0700
+ Thu, 27 Oct 2022 16:19:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20210112.gappssmtp.com header.s=20210112 header.b=PRgootNj;
- spf=pass (domain: baylibre.com, ip: 209.85.218.67, mailfrom: bero@baylibre.com)
-Received: by mail-ej1-f67.google.com with SMTP id d26so8955578eje.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 16:14:21 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20210112.gappssmtp.com header.s=20210112 header.b=09hzplQt;
+ spf=pass (domain: baylibre.com, ip: 209.85.208.48, mailfrom: bero@baylibre.com)
+Received: by mail-ed1-f48.google.com with SMTP id a5so5436109edb.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 16:19:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HdMnKW9rRmL6JALsoEulmu3y5lkbuZe3H5tpXLdiJCg=;
-        b=PRgootNjDr7T/Riauf8p2ibMxw8Yh8+FPlc8JCknZB7UBH948S+XBE4TnJGT0t9zOi
-         Snu9T3EEWo19mzUMz09cUYWFZhLloku1PrOhemwDwwtjeIziqbW7/q6McV6zjToWvNvm
-         Sy7wumhbKON0ozueyCL0AHzmGaUeLVZDIwm4wor93JPOj5J1fFByb/JtjAY4TbIqdpEU
-         ON4qyi2eTqI5uBls8MZu9FcQLhBfKJM3K3PD0oT4zqOv3mcbapL5JlPL/2SkRw8i22A3
-         q/tCCPqt2aXeH4B4o6Av93Ro3iRqbfc5aT+z3JFl4YSvrGsl4tYnNFY9XlWjvoBWMIFi
-         rWMA==
+        bh=FeU9TJS/JrVufbBvShn4tR2jR3qJkOkUEpBHOkKEYuE=;
+        b=09hzplQtv9MN0YWYBwS0QAZE0ZM4fuuG1NBtH8n7arw8cLflUovgqH53ACAciDXWd8
+         8w9bFy/0KaAlYg1RFhwpQKDwVDEy4u3+o7mYhYgeBUL7p5wbjLe959rRUAkti/OizUZi
+         LGz/ZXRMEVDxiJIbdlt7EyhVkM6ZaErS0Q57+GD/PXZJwkCHuL5xvW6+TOrI0hjYCYAl
+         rI3ol/XB+60RmVHs7vbHfQ8S97ZZk/pilNH9XZ2dir/FN7NdcRK/RKI5rCbexfqmgVjK
+         Yba+wd3jnudn+v2StjJoqk0cuLcOWi0zHQPBYdeNcTghGHUGX77WtJpdlJ63A4lO7F+2
+         QFrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HdMnKW9rRmL6JALsoEulmu3y5lkbuZe3H5tpXLdiJCg=;
-        b=KFi0H+Ne9bIyNm5oHIkRz+cUuS2L/XLlvwkHoZ9wG9tq/2QMlOdcnQgrJkbhtLarZa
-         9M/78YUj1wyWfmB4sIKTB1GkDZMe1vpcbYnPKwupGvvrCLP9tCf50Lqiuuv8G6gPvxyW
-         uFyFCnyONP40PGhKU/J2IHejxv6zo+WnZSanS3zkgvtiRG7vWhbd55tA/LkArnWLcJWB
-         EisXEw17Q43/QI2VxhjZbGBwLWwWe1cHTC1YGak4bB0yQX8ke1J1Omee/lqwfZOVf8yW
-         9Z1+GebN7cSjhCb9GUG7mKtqeElG/eaDuIcuQlSvWMI+zPp2i+98TgrSExxXKVKruA7u
-         LYzQ==
-X-Gm-Message-State: ACrzQf16hH0m5S4oFJfuEDT3+0AyrSdjA+Q63BudG03K/ApICPu2vkIM
-	8zIu70Wh7JA2D8hw8xuB7Htdgmd62KM7Yw==
-X-Google-Smtp-Source: AMsMyM7NjPIIKHOrTySOocod4FcXAsZTL7m5SqObuUzh4QEDdOk8yzJUNolqI7yXTk39vQZ/OplNqA==
-X-Received: by 2002:a17:907:31c3:b0:770:852b:71a2 with SMTP id xf3-20020a17090731c300b00770852b71a2mr44468285ejb.557.1666912459789;
-        Thu, 27 Oct 2022 16:14:19 -0700 (PDT)
+        bh=FeU9TJS/JrVufbBvShn4tR2jR3qJkOkUEpBHOkKEYuE=;
+        b=JW0c2RjhAisTHEJ3napxHmXshGvFFBBdk03gpFfE3rX/HKRo18+62ZBQ1f+4WvCSzm
+         UKmW+CzfY4dfaMvgdaxzCA3pC3244NZ42jBBHcFzCX1Oa0SRz6eo33gYthfGTYDnb0zN
+         V63AnPvbo3oXS5cTw2HqSwwldc5awnImDOv/VbGuDLHpxl3sjrTWeqiVIY0k5kB5QCL+
+         CUgwo+2Cdt46203jryoFCtDzJb3Zlhce3c8cTdAYUepiVK4UzI+Hd9tHaNSDmfk7Q0Z+
+         kSwXvHwegmVSb1ZaxodjslVaBnXwZ/BnpTg35QFfFnfgRDUf97vFejxTeCbOC6ilQZBN
+         0zrw==
+X-Gm-Message-State: ACrzQf2KEK1H1bNDITjVR/uf3LBSJYhIy5BOU5HsO0NjAHRpEJDxk0VM
+	LmEWr45iDqDBQsz2ufKqYqqJtz64/oI7+g==
+X-Google-Smtp-Source: AMsMyM4WXbzNnUUYaFoxoujeubQ4cwfxqvhxGVxUM/USAd+LdPIxn3EajuMExJgplqBO4kwFuEcQXA==
+X-Received: by 2002:aa7:d506:0:b0:461:565e:8673 with SMTP id y6-20020aa7d506000000b00461565e8673mr32455091edq.416.1666912776875;
+        Thu, 27 Oct 2022 16:19:36 -0700 (PDT)
 Received: from c64.fritz.box ([2a01:2a8:8108:8301:7643:bec8:f62b:b074])
-        by smtp.gmail.com with ESMTPSA id g19-20020a056402181300b004619f024864sm1622062edy.81.2022.10.27.16.14.18
+        by smtp.gmail.com with ESMTPSA id r1-20020a17090609c100b0078db5bddd9csm1389723eje.22.2022.10.27.16.19.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Oct 2022 16:14:19 -0700 (PDT)
+        Thu, 27 Oct 2022 16:19:36 -0700 (PDT)
 From: bero@baylibre.com
 To: openembedded-core@lists.openembedded.org
 Cc: =?UTF-8?q?Bernhard=20Rosenkr=C3=A4nzer?= <bero@baylibre.com>
-Subject: [PATCH] base.bbclass: Try harder to find a compatible tar implementation
-Date: Fri, 28 Oct 2022 01:13:50 +0200
-Message-Id: <20221027231350.418471-1-bero@baylibre.com>
+Subject: [PATCH] bitbake.conf: Add HOSTTOOLS_NONFATAL bits needed for OpenMandriva hosts
+Date: Fri, 28 Oct 2022 01:19:34 +0200
+Message-Id: <20221027231934.504923-1-bero@baylibre.com>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -58,49 +58,43 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 23:14:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172229
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 23:19:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172230
 
 From: Bernhard Rosenkränzer <bero@baylibre.com>
 
-base.bbclass currently symlinks the first copy of tar on the PATH
-to hosttools.
+Some Linux distributions (e.g. OpenMandriva, ROSA) try to support
+gcc style LTO objects and clang style LTO objects at the same time
+by replacing ar and friends with a wrapper script that calls the
+binutils or llvm version of the tool depending on input.
 
-If that copy of tar isn't GNU tar (some Linux distributions use
-libarchive tar for the fact that it can handle zip files etc. as
-well; some others probably use busybox or toybox tar for space
-issues), the build fails early on because path.py uses --xattrs
-and --xattrs-include
-
-With this patch, base.bbclass checks if tar supports --xattrs-include,
-and checks for gtar if the first tar found doesn't support it.
+For those, the binutils and llvm versions need to be available in
+HOSTTOOLS as well (or the wrapper script will fail).
 
 Signed-off-by: Bernhard Rosenkränzer <bero@baylibre.com>
 ---
- meta/classes-global/base.bbclass | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ meta/conf/bitbake.conf | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bbclass
-index 8203f54519..b6391501ca 100644
---- a/meta/classes-global/base.bbclass
-+++ b/meta/classes-global/base.bbclass
-@@ -135,6 +135,16 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=True):
-             if os.path.islink(desttool):
-                 os.unlink(desttool)
-             srctool = bb.utils.which(path, tool, executable=True)
-+            # copytree() uses tar options such as --xattrs and
-+            # --xattrs-include that are currently specific to GNU tar.
-+            # If the first tar in PATH is libarchive tar or busybox/toybox
-+            # tar, GNU tar may well be available as gtar.
-+            if (tool == "tar"):
-+                import subprocess
-+                if not b'--xattrs-include' in subprocess.check_output([srctool, '--help']):
-+                    gtar = bb.utils.which(path, "gtar", executable=True)
-+                    if gtar:
-+                        srctool = gtar
-             # gcc/g++ may link to ccache on some hosts, e.g.,
-             # /usr/local/bin/ccache/gcc -> /usr/bin/ccache, then which(gcc)
-             # would return /usr/local/bin/ccache/gcc, but what we need is
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 62cdd9aa9c..e03bfd1b6b 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -534,6 +534,14 @@ HOSTTOOLS += "${@'ip ping ps scp ssh stty' if (bb.utils.contains_any('IMAGE_CLAS
+ # Link to these if present
+ HOSTTOOLS_NONFATAL += "aws gcc-ar gpg gpg-agent ld.bfd ld.gold nc pigz sftp socat ssh sudo"
+ 
++# Some Linux distributions (e.g. OpenMandriva, ROSA) try to support
++# gcc style LTO objects and clang style LTO objects at the same time
++# by replacing ar and friends with a wrapper script that calls the
++# binutils or llvm version of the tool depending on input. For those,
++# the binutils and llvm versions need to be available in HOSTTOOLS
++# as well (or the wrapper script will fail)
++HOSTTOOLS_NONFATAL += "binutils-ar binutils-ranlib binutils-nm gcc-ranlib gcc-nm"
++
+ # Temporary add few more detected in bitbake world
+ HOSTTOOLS_NONFATAL += "join nl size yes zcat"
+ 
 -- 
 2.38.1
 
