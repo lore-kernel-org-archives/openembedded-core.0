@@ -1,105 +1,86 @@
-Return-Path: <narpat.mali@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7BF3ECAAA1
-	for <webhook@archiver.kernel.org>; Thu, 27 Oct 2022 13:30:39 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.6439.1666877436710060879
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 591DCFA3740
+	for <webhook@archiver.kernel.org>; Thu, 27 Oct 2022 15:56:40 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web10.8250.1666886196715838852
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Oct 2022 06:30:39 -0700
+ Thu, 27 Oct 2022 08:56:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=N45uO/lM;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7299a514d3=narpat.mali@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 29RCnfYR021871
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 13:30:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS06212021;
- bh=H31HSaT/5zPYGKjbC2h9z7cJoJJ37hUofb3NQmZ1dnI=;
- b=N45uO/lMFfKpRH9m/NBdv974ZlkcFHnzr9J7CUfkZVwQb53uAYXZrLW1yuDVEnEuXjxj
- wLDSYo0mkCjLc4XWHkUuLCQDqaRiu6ueMJLcZMnz2D7aGEsw1S0ssOkkkcDmpiK+egFv
- eLftcvK48LdD5gj6s6D3WEmcZ4hFpshKIkGtTp/RWaywzmSPG+cJqinwrX6PSIis8oBX
- JvX+YIBS/DqUEISzeSLbKaddKKNfPXbdWY4WwbSqMwdH7v6C0W5EFrPOVAxTB+vQ3E5K
- 3EQrkYLZ4eodlYq0ngzWLlT0SqrEQ0ZV+NAh0fcgoLZpt8b56/4LoZkrhLAI2eecrHUE rA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kfg56gdpw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 13:30:35 +0000
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29RDT3mB028524
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 13:30:35 GMT
-Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kfg56gdpr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 27 Oct 2022 13:30:35 +0000
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 27 Oct 2022 06:30:32 -0700
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Thu, 27 Oct 2022 06:30:30 -0700
-From: Narpat Mali <narpat.mali@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <archana.polampalli@windriver.com>, <hari.gpillai@windriver.com>,
-        "Narpat
- Mali" <narpat.mali@windriver.com>,
-        Wang Mingyu <wangmy@fujitsu.com>,
-        "Alexandre Belloni" <alexandre.belloni@bootlin.com>
-Subject: [OE-core][kirkstone][PATCH 1/1] python3-mako: upgrade 1.2.1 -> 1.2.2
-Date: Thu, 27 Oct 2022 13:29:04 +0000
-Message-ID: <20221027132904.1998146-1-narpat.mali@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=B3utowLh;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id y10so1296999wma.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 08:56:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=quVCF59EZLXdSJPbPjr5yGNUw8BPa0YtWnl3/h6kY3s=;
+        b=B3utowLh9DHioeUsZcIJ1TLwnM8NZ7HErJDjrX6xe3/UHKZuSffQdVToMI7+Uikc43
+         nRKVWpIud81QJMxYYx6gptFALatVHCGBz1OJ3U45gUULS8EyFjXao8XpsR3tO7zs/2wT
+         zW8GhR9alcYDI9AFw/9Z+peHNksxCVc5I1hrU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=quVCF59EZLXdSJPbPjr5yGNUw8BPa0YtWnl3/h6kY3s=;
+        b=AkNoEWFwhMhZ+rE2ZiLAZukyjtULOnJ/utFLcVJo+g6vcDLCyYafjO5JVVFqGYkxhE
+         fXXL0daDbfvT68mtGhLCuv3x6acJYlSOv4ucSJ6mj0ZAfrAxxSYiUaMinwI27Fw+Z809
+         hj5vW9p+REiOPZtGF/b9V/NjCSaMk0ex0eT30HPthvz+G5RAkdjdcXmq2xIBZm112cwx
+         6sKm4ke7PfyZQeE0gyj8GksUtneYn7sDVIzFZ3tDteJl5iJdEU3KZZsIII888L47pYBV
+         Mq4u3yQ5J4ZKQb9sbfehZNSN55rYbAgr8aWT+qSd6NmJuCaq9fZ3Dc9eX6K01kg/KGj+
+         NBoQ==
+X-Gm-Message-State: ACrzQf1JygKWCA9WwPuSC2IcxXZhyacizMU2VVhNybFgiMbgjbZ/ilnY
+	5Srm0lsrrAg8xnZHQG4p8MSPYw==
+X-Google-Smtp-Source: AMsMyM45sl/O9wSO8rAt6Yt68UzVg9ShufarpNA3GgDIYiu7o2CKYFho6Ma8hFRKDIptcCD+H+CfJw==
+X-Received: by 2002:a05:600c:46cd:b0:3c6:f5ab:d383 with SMTP id q13-20020a05600c46cd00b003c6f5abd383mr6630260wmo.40.1666886195141;
+        Thu, 27 Oct 2022 08:56:35 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a815:5d52:bbbb:d081? ([2001:8b0:aba:5f3c:a815:5d52:bbbb:d081])
+        by smtp.gmail.com with ESMTPSA id bh17-20020a05600c3d1100b003cf47fdead5sm1944061wmb.30.2022.10.27.08.56.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Oct 2022 08:56:34 -0700 (PDT)
+Message-ID: <6f888c8b7e63a706f9e04fc81acf2098c0e781d5.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] mirrors.bbclass: use shallow tarball for
+ binutils-native
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: ecordonnier@snapchat.com
+Cc: openembedded-core@lists.openembedded.org, Etienne Cordonnier
+	 <ecordonnier@snap.com>
+Date: Thu, 27 Oct 2022 16:56:33 +0100
+In-Reply-To: <CAHUKmYbuyn_WayncEW1kvUorpf3L5kQrWvx_1YXQXw85qd+rxg@mail.gmail.com>
+References: <1721EF56935912B7.550@lists.openembedded.org>
+	 <CAHUKmYbuyn_WayncEW1kvUorpf3L5kQrWvx_1YXQXw85qd+rxg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: 1_NqR0BvZbkhWsMfJlsrW64qsvBWRbRu
-X-Proofpoint-ORIG-GUID: o1S3DTHHOF6boqF40I4XRKPjxknpgz2e
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-27_06,2022-10-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- adultscore=0 bulkscore=0 lowpriorityscore=0 mlxscore=0 suspectscore=0
- mlxlogscore=999 impostorscore=0 phishscore=0 malwarescore=0 clxscore=1015
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2210270072
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 13:30:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172193
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 15:56:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172194
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+On Thu, 2022-10-27 at 15:24 +0200, Etienne Cordonnier via
+lists.openembedded.org wrote:
+> To give some context: this is useful e.g. when using meta-clang,
+> because this introduces a dependency to binutils-native, and then a
+> full tarball of binutils is fetched additionally to a shallow
+> tarball. The original BB_GIT_SHALLOW lines were added because
+> of=C2=A0https://www.mail-archive.com/yocto@lists.yoctoproject.org/msg0875=
+2
+> .html
 
-Upstream master commit:
-https://git.openembedded.org/openembedded-core/commit/?id=10f9720a7fe1d25efce6a0ea0dec0052bb0f92c1
 
-Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
----
- .../python/{python3-mako_1.2.1.bb => python3-mako_1.2.2.bb}     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-mako_1.2.1.bb => python3-mako_1.2.2.bb} (85%)
+Rather than replying to the patch, this information should be in the
+original commit! :)
 
-diff --git a/meta/recipes-devtools/python/python3-mako_1.2.1.bb b/meta/recipes-devtools/python/python3-mako_1.2.2.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-mako_1.2.1.bb
-rename to meta/recipes-devtools/python/python3-mako_1.2.2.bb
-index 8155c37984..e3774ee621 100644
---- a/meta/recipes-devtools/python/python3-mako_1.2.1.bb
-+++ b/meta/recipes-devtools/python/python3-mako_1.2.2.bb
-@@ -8,7 +8,7 @@ PYPI_PACKAGE = "Mako"
- 
- inherit pypi python_setuptools_build_meta
- 
--SRC_URI[sha256sum] = "f054a5ff4743492f1aa9ecc47172cb33b42b9d993cffcc146c9de17e717b0307"
-+SRC_URI[sha256sum] = "3724869b363ba630a272a5f89f68c070352137b8fd1757650017b7e06fda163f"
- 
- RDEPENDS:${PN} = "${PYTHON_PN}-html \
-                   ${PYTHON_PN}-markupsafe \
--- 
-2.34.1
+Can you resend with that included please.
 
+Cheers,
+
+Richard
 
