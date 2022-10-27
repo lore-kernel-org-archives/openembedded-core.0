@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0816AFA3740
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 116A0FA3743
 	for <webhook@archiver.kernel.org>; Thu, 27 Oct 2022 20:16:30 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web08.2193.1666901788406356367
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web08.2192.1666901787311117763
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Oct 2022 13:16:28 -0700
+ Thu, 27 Oct 2022 13:16:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FPz6Q9l9;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id fy4so7881564ejc.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 13:16:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=f3fIrQYo;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id sc25so7839724ejc.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 13:16:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3rHdtzbms/rmMNMgMhxQ3T5qt7jxhBirBDQR64VpQX4=;
-        b=FPz6Q9l9i5wX9GQDCbhVJxuY6PERRs/4YU2nWA8W87CtcGqCzYY9A77JsTyFUNHnyf
-         m1ZgGcdhOmqx1vnpeJeaJhyq7IqyP+jaicfrKDPnX/xsNRV3MPQ2b47/VndQqM72z0oT
-         JVABay4qsN0NCy4JPxnBc2753LOzQfugima1Jn6PprckDdXy6wCNSrAGcqiFTsfTugqC
-         LHhXGlffNIAj7v+bpoxrPZ6w8rkRifBjV6q3zZ+yoE8ArHeo5NhFP2T+7cCng/pqdK3s
-         fdBPmZ4bxZ3sghIFZYyqpS1B6Si/kmPr0MZddocXaAwzNMtU9+XGaUxLGHUfVIwfYlG+
-         Wx8w==
+        bh=lm+RPZXhkQJdqxqVUTkT7mbWzcNFY+SjMGh7A03hUJM=;
+        b=f3fIrQYoqiWKgeEmmTm4OeNldk79NtqesHwjCVBrOXdNzRJknF6NqIznvTPbQ82ymX
+         pk4uFYBMclEYT7vfd1tbKduhp19LbtO2q4nDPOQn+cxAvytl/0JQ+Sn1YZrV+HQC2Efv
+         YyieJs66tdpBk6ara8YswWJMscvMhfxr2IFcB6BD8z7CnOgOV3Gsnznf596VDXJ8e7qD
+         hf/HPQXvAnxWpsOgpTXjznc+Mc9bssfdPaLPUro2bGwsr5DB/4OT2hEGCno11SMCx+QE
+         OZvty6ZPad2EJJNCst65ymZ3hQxWvmAUvX9QUrVXzej4asLwWZ7itEK3/jCN34Lct5S8
+         JQ7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3rHdtzbms/rmMNMgMhxQ3T5qt7jxhBirBDQR64VpQX4=;
-        b=n7ueKGxSo6OG7dQeaY5NP6iEWx5sFFEQm6st3oGJYyf8Inm1Dh9czMrlkAR7n0JMjp
-         mlijA/voZqeYkjKVUZ5HtIJEZ06g62HFnapnhvdOy7cdo93fafly2zsDgwdhjHdbX28m
-         g5MTMvT+7uswRmtg3891RujGbo+FiAS2yQdENej0NMLjqSskaVhsnsIzOQr7z2s0PmCA
-         f+K8h/QW8P4vuCrwBILXtMBdQWVyj1ZDE0yjgzPaQBTe+lC/ubdtksgigzmnJFRU2nu9
-         JPmcubMBPh8sI4h42BA4xMEBuROuxI+1jN8KPcBzMe9ropYYTF3RxwvtlU6F4YzIDsGd
-         NkvQ==
-X-Gm-Message-State: ACrzQf1Qx6hmLgxVxY3ZjGhjv8RG1u3YQU+r2cYTFCU0pAyGeBfSCH7W
-	BY9o/OQ7fT+pZnJ2gAqX9rcnzav8glf/Wg==
-X-Google-Smtp-Source: AMsMyM4is0OjWNx1pVPqMc2mkFunWxqV9aDYXhm5/V2zbZKUvPedpu9B//HKgl0Wsl5NsS6grHLlyg==
-X-Received: by 2002:a17:906:cc0b:b0:78e:1d51:36ea with SMTP id ml11-20020a170906cc0b00b0078e1d5136eamr44487957ejb.408.1666901786897;
-        Thu, 27 Oct 2022 13:16:26 -0700 (PDT)
+        bh=lm+RPZXhkQJdqxqVUTkT7mbWzcNFY+SjMGh7A03hUJM=;
+        b=Uscau/O2DG1CtrSMeZv5jk8eyKTo+kLoIdkMoNWPOqh6RFSK2Z3c6U4+wJbRzzYKKn
+         n/KVAmCw7X3gXLDDOGQddi9vH6aKn2a6cYupMJqu/N2FtJ2Sb+4Flj+WFIhwoea8gCkr
+         zNxKr55C/9Hpobw1ZUAtJukqHuyg3P9sHpIwUhGZiVjuDMY0tgRrN7/TNP3I8FvNFx8y
+         WdT4hF2qODdkCB39RbLzi9BCi3tYB/mOqy1XgPRoIx+hNxwyUc4k8PI1LCVkt2PTnTgo
+         gqId9XlpQXfSitqfZrTn3Cu0D/wZpWUhXjHxhO+TAOJHyOL55YVpaXZ+j3gM2QZnv21B
+         +9Eg==
+X-Gm-Message-State: ACrzQf3quFwuOTMsu15mVDA5HLMVf3fRNa8puLo92o2EQSvFG7dtmhcX
+	l4aXhWhVV4/OSkkblCdRx5X+UQh8Oo+oiQ==
+X-Google-Smtp-Source: AMsMyM507pstYXXaBkmhrr5XFsZU4lx+aXTZ6z6Scs7pKLyWl6fwaSwgfOa5Lwo9cTNxai5XdkPZSQ==
+X-Received: by 2002:a17:907:96a3:b0:790:65a:3a0a with SMTP id hd35-20020a17090796a300b00790065a3a0amr45041374ejc.728.1666901785523;
+        Thu, 27 Oct 2022 13:16:25 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id la19-20020a170907781300b0077b2b0563f4sm1267225ejc.173.2022.10.27.13.16.26
+        by smtp.gmail.com with ESMTPSA id la19-20020a170907781300b0077b2b0563f4sm1267225ejc.173.2022.10.27.13.16.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Oct 2022 13:16:26 -0700 (PDT)
+        Thu, 27 Oct 2022 13:16:25 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 05/23] grep: update 3.7 -> 3.8
-Date: Thu, 27 Oct 2022 22:15:53 +0200
-Message-Id: <20221027201611.3644334-5-alex@linutronix.de>
+Subject: [PATCH 03/23] go: update 1.19 -> 1.19.1
+Date: Thu, 27 Oct 2022 22:15:51 +0200
+Message-Id: <20221027201611.3644334-3-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221027201611.3644334-1-alex@linutronix.de>
 References: <20221027201611.3644334-1-alex@linutronix.de>
@@ -62,84 +62,111 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 20:16:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172209
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172207
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...a-standard-layout-so-glibc-and-musl-.patch | 32 -------------------
- .../grep/{grep_3.7.bb => grep_3.8.bb}         |  8 ++---
- 2 files changed, 3 insertions(+), 37 deletions(-)
- delete mode 100644 meta/recipes-extended/grep/grep/0001-mcontext-is-not-a-standard-layout-so-glibc-and-musl-.patch
- rename meta/recipes-extended/grep/{grep_3.7.bb => grep_3.8.bb} (84%)
+ meta/recipes-devtools/go/{go-1.19.inc => go-1.19.1.inc}   | 2 +-
+ ...o-binary-native_1.19.bb => go-binary-native_1.19.1.bb} | 4 ++--
+ ...cross-canadian_1.19.bb => go-cross-canadian_1.19.1.bb} | 0
+ .../go/{go-cross_1.19.bb => go-cross_1.19.1.bb}           | 0
+ .../go/{go-crosssdk_1.19.bb => go-crosssdk_1.19.1.bb}     | 0
+ .../go/{go-native_1.19.bb => go-native_1.19.1.bb}         | 0
+ .../go/{go-runtime_1.19.bb => go-runtime_1.19.1.bb}       | 0
+ ...go-make-content-based-hash-generation-less-pedan.patch | 8 ++++----
+ meta/recipes-devtools/go/{go_1.19.bb => go_1.19.1.bb}     | 0
+ 9 files changed, 7 insertions(+), 7 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.19.inc => go-1.19.1.inc} (89%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.19.bb => go-binary-native_1.19.1.bb} (83%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.19.bb => go-cross-canadian_1.19.1.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.19.bb => go-cross_1.19.1.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.19.bb => go-crosssdk_1.19.1.bb} (100%)
+ rename meta/recipes-devtools/go/{go-native_1.19.bb => go-native_1.19.1.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.19.bb => go-runtime_1.19.1.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.19.bb => go_1.19.1.bb} (100%)
 
-diff --git a/meta/recipes-extended/grep/grep/0001-mcontext-is-not-a-standard-layout-so-glibc-and-musl-.patch b/meta/recipes-extended/grep/grep/0001-mcontext-is-not-a-standard-layout-so-glibc-and-musl-.patch
-deleted file mode 100644
-index d8283d31b1..0000000000
---- a/meta/recipes-extended/grep/grep/0001-mcontext-is-not-a-standard-layout-so-glibc-and-musl-.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From 981385237834bdf3e468421147eece68d9bfc7e7 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 25 Mar 2022 13:34:26 -0700
--Subject: [PATCH] mcontext is not a standard layout so glibc and musl differ
--
--This is already applied to libsigsegv upstream, hopefully next version
--of grep will update its internal copy and we can drop this patch
--
--Upstream-Status: Backport [https://git.savannah.gnu.org/gitweb/?p=libsigsegv.git;a=commitdiff;h=a6ff69873110c0a8ba6f7fd90532dbc11224828c]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- lib/sigsegv.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/lib/sigsegv.c b/lib/sigsegv.c
--index 998c827..b6f4841 100644
----- a/lib/sigsegv.c
--+++ b/lib/sigsegv.c
--@@ -219,8 +219,8 @@ int libsigsegv_version = LIBSIGSEGV_VERSION;
-- #   define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.gp_regs[1]
-- #  else /* 32-bit */
-- /* both should be equivalent */
---#   if 0
---#    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.regs->gpr[1]
--+#   if ! defined __GLIBC__
--+#    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_regs->gregs[1]
-- #   else
-- #    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.uc_regs->gregs[1]
-- #   endif
---- 
--2.35.1
--
-diff --git a/meta/recipes-extended/grep/grep_3.7.bb b/meta/recipes-extended/grep/grep_3.8.bb
-similarity index 84%
-rename from meta/recipes-extended/grep/grep_3.7.bb
-rename to meta/recipes-extended/grep/grep_3.8.bb
-index 7005cbe164..be2caaa920 100644
---- a/meta/recipes-extended/grep/grep_3.7.bb
-+++ b/meta/recipes-extended/grep/grep_3.8.bb
-@@ -6,11 +6,9 @@ SECTION = "console/utils"
- LICENSE = "GPL-3.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464"
+diff --git a/meta/recipes-devtools/go/go-1.19.inc b/meta/recipes-devtools/go/go-1.19.1.inc
+similarity index 89%
+rename from meta/recipes-devtools/go/go-1.19.inc
+rename to meta/recipes-devtools/go/go-1.19.1.inc
+index f733a807b4..48140f1c2b 100644
+--- a/meta/recipes-devtools/go/go-1.19.inc
++++ b/meta/recipes-devtools/go/go-1.19.1.inc
+@@ -16,4 +16,4 @@ SRC_URI += "\
+     file://filter-build-paths.patch \
+     file://stack-protector.patch \
+ "
+-SRC_URI[main.sha256sum] = "9419cc70dc5a2523f29a77053cafff658ed21ef3561d9b6b020280ebceab28b9"
++SRC_URI[main.sha256sum] = "27871baa490f3401414ad793fba49086f6c855b1c584385ed7771e1204c7e179"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.19.bb b/meta/recipes-devtools/go/go-binary-native_1.19.1.bb
+similarity index 83%
+rename from meta/recipes-devtools/go/go-binary-native_1.19.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.19.1.bb
+index ca424a66b8..e67457b86c 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.19.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.19.1.bb
+@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+ PROVIDES = "go-native"
  
--SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.xz \
--           file://0001-mcontext-is-not-a-standard-layout-so-glibc-and-musl-.patch \
--          "
-+SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.xz"
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "464b6b66591f6cf055bc5df90a9750bf5fbc9d038722bb84a9d56a2bea974be6"
+-SRC_URI[go_linux_arm64.sha256sum] = "efa97fac9574fc6ef6c9ff3e3758fb85f1439b046573bf434cccb5e012bd00c8"
++SRC_URI[go_linux_amd64.sha256sum] = "acc512fbab4f716a8f97a8b3fbaa9ddd39606a28be6c2515ef7c6c6311acffde"
++SRC_URI[go_linux_arm64.sha256sum] = "49960821948b9c6b14041430890eccee58c76b52e2dbaafce971c3c38d43df9f"
  
--SRC_URI[sha256sum] = "5c10da312460aec721984d5d83246d24520ec438dd48d7ab5a05dbc0d6d6823c"
-+SRC_URI[sha256sum] = "498d7cc1b4fb081904d87343febb73475cf771e424fb7e6141aff66013abc382"
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.19.bb b/meta/recipes-devtools/go/go-cross-canadian_1.19.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.19.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.19.1.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.19.bb b/meta/recipes-devtools/go/go-cross_1.19.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.19.bb
+rename to meta/recipes-devtools/go/go-cross_1.19.1.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.19.bb b/meta/recipes-devtools/go/go-crosssdk_1.19.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.19.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.19.1.bb
+diff --git a/meta/recipes-devtools/go/go-native_1.19.bb b/meta/recipes-devtools/go/go-native_1.19.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-native_1.19.bb
+rename to meta/recipes-devtools/go/go-native_1.19.1.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.19.bb b/meta/recipes-devtools/go/go-runtime_1.19.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.19.bb
+rename to meta/recipes-devtools/go/go-runtime_1.19.1.bb
+diff --git a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
+index 8cbed93017..17fa9d9831 100644
+--- a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
++++ b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
+@@ -1,4 +1,4 @@
+-From a3db4da51df37d163ff9e8c1e1057280c648c545 Mon Sep 17 00:00:00 2001
++From fb22e586871cc6be0b7041e86d2daceee06ea568 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 28 Mar 2022 10:59:03 -0700
+ Subject: [PATCH] cmd/go: make content-based hash generation less pedantic
+@@ -32,13 +32,13 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  2 files changed, 34 insertions(+), 10 deletions(-)
  
- inherit autotools gettext texinfo pkgconfig
- 
-@@ -36,7 +34,7 @@ do_install () {
- inherit update-alternatives
- 
- PACKAGECONFIG ??= "pcre"
--PACKAGECONFIG[pcre] = "--enable-perl-regexp,--disable-perl-regexp,libpcre"
-+PACKAGECONFIG[pcre] = "--enable-perl-regexp,--disable-perl-regexp,libpcre2"
- 
- ALTERNATIVE_PRIORITY = "100"
- 
+ diff --git a/src/cmd/go/internal/envcmd/env.go b/src/cmd/go/internal/envcmd/env.go
+-index 529351d..df791b0 100644
++index 81ee859..2db3898 100644
+ --- a/src/cmd/go/internal/envcmd/env.go
+ +++ b/src/cmd/go/internal/envcmd/env.go
+ @@ -176,7 +176,7 @@ func ExtraEnvVars() []cfg.EnvVar {
+  func ExtraEnvVarsCostly() []cfg.EnvVar {
+- 	var b work.Builder
+- 	b.Init()
++ 	b := work.NewBuilder("")
++ 
+ -	cppflags, cflags, cxxflags, fflags, ldflags, err := b.CFlags(&load.Package{})
+ +	cppflags, cflags, cxxflags, fflags, ldflags, err := b.CFlags(&load.Package{}, false)
+  	if err != nil {
+diff --git a/meta/recipes-devtools/go/go_1.19.bb b/meta/recipes-devtools/go/go_1.19.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.19.bb
+rename to meta/recipes-devtools/go/go_1.19.1.bb
 -- 
 2.30.2
 
