@@ -2,12 +2,12 @@ Return-Path: <bero@lindev.ch>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 924D5ECAAA1
-	for <webhook@archiver.kernel.org>; Thu, 27 Oct 2022 18:59:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9650DECAAA1
+	for <webhook@archiver.kernel.org>; Thu, 27 Oct 2022 19:00:09 +0000 (UTC)
 Received: from mail.lindev.ch (mail.lindev.ch [5.39.83.55])
- by mx.groups.io with SMTP id smtpd.web09.1356.1666897166103081833
+ by mx.groups.io with SMTP id smtpd.web09.1360.1666897202204865417
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Oct 2022 11:59:26 -0700
+ Thu, 27 Oct 2022 12:00:02 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=softfail (domain: baylibre.com, ip: 5.39.83.55, mailfrom: bero@baylibre.com)
 Received: from c64.fritz.box (unknown [81.221.122.240])
@@ -15,14 +15,14 @@ Received: from c64.fritz.box (unknown [81.221.122.240])
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: bero@lindev.ch)
-	by mail.lindev.ch (Postfix) with ESMTPSA id 7D05B410036A;
-	Thu, 27 Oct 2022 20:59:23 +0200 (CEST)
+	by mail.lindev.ch (Postfix) with ESMTPSA id E92CC410036A;
+	Thu, 27 Oct 2022 20:59:59 +0200 (CEST)
 From: =?UTF-8?q?Bernhard=20Rosenkr=C3=A4nzer?= <bero@baylibre.com>
 To: openembedded-core@lists.openembedded.org
 Cc: =?UTF-8?q?Bernhard=20Rosenkr=C3=A4nzer?= <bero@baylibre.com>
-Subject: [kirkstone][PATCH 1/1] cmake-native: Fix host tool contamination (Bug: 14951)
-Date: Thu, 27 Oct 2022 20:58:54 +0200
-Message-Id: <20221027185853.2005941-1-bero@baylibre.com>
+Subject: [PATCH 1/1] cmake-native: Fix host tool contamination (Bug: 14951)
+Date: Thu, 27 Oct 2022 20:59:39 +0200
+Message-Id: <20221027185937.2023904-1-bero@baylibre.com>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -30,8 +30,8 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 18:59:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172199
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 19:00:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172200
 
 Trying to build cmake-native on a host system where curl was built with c=
 make
@@ -59,14 +59,14 @@ in recipe-sysroot-native.
 
 Signed-off-by: Bernhard Rosenkr=C3=A4nzer <bero@baylibre.com>
 ---
- meta/recipes-devtools/cmake/cmake-native_3.22.3.bb | 1 +
+ meta/recipes-devtools/cmake/cmake-native_3.24.0.bb | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.22.3.bb b/meta/re=
-cipes-devtools/cmake/cmake-native_3.22.3.bb
-index ee1f7761c4..45ea78ae00 100644
---- a/meta/recipes-devtools/cmake/cmake-native_3.22.3.bb
-+++ b/meta/recipes-devtools/cmake/cmake-native_3.22.3.bb
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.24.0.bb b/meta/re=
+cipes-devtools/cmake/cmake-native_3.24.0.bb
+index 722a486f20..bcc87eb8f2 100644
+--- a/meta/recipes-devtools/cmake/cmake-native_3.24.0.bb
++++ b/meta/recipes-devtools/cmake/cmake-native_3.24.0.bb
 @@ -32,6 +32,7 @@ CMAKE_EXTRACONF =3D "\
      -DCMAKE_USE_SYSTEM_LIBRARY_EXPAT=3D0 \
      -DENABLE_ACL=3D0 -DHAVE_ACL_LIBACL_H=3D0 \
