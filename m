@@ -1,139 +1,248 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F87CC38A2D
-	for <webhook@archiver.kernel.org>; Wed, 26 Oct 2022 23:03:25 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web10.399.1666825401383057387
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0C5FC433FE
+	for <webhook@archiver.kernel.org>; Thu, 27 Oct 2022 00:46:35 +0000 (UTC)
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by mx.groups.io with SMTP id smtpd.web08.1402.1666831588975404339
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Oct 2022 16:03:21 -0700
+ Wed, 26 Oct 2022 17:46:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=eF0wGfmh;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id c2so7510821plz.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Oct 2022 16:03:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qdw3xptH7fi9wjB1dn5bB8JekjklX3CqrXQqKs8fUpU=;
-        b=eF0wGfmhZc0ho2ZRdStPO2iG//0Qto4sROLSVEz3gI8d6nzbHkU8ogvqvPYfGKEs6Y
-         jii/sjO609j1Kuxr53P7wLbAPiGD18j2Bortf3igaMETa6jr8QGx9t23Eu8E6m/9UXcN
-         uYbQZfG76YYQaIJivqL5Of7uKfu9EEm7uK+LvnOKNFv431P2Vj4H+yWgQLL860fywCbs
-         VM6MXDg1nzs9euNndp3YemhxPtwGFgkF+gPQCEx0kw2yemfHV484wH6U0Gq5U20pHY+M
-         uZRxclwMPg5gl3hn2oB4WOgeqRYUCt/W0jvP2+MyubNNxuYfo0Y3yM8jjMEfXro4DXwO
-         p4iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qdw3xptH7fi9wjB1dn5bB8JekjklX3CqrXQqKs8fUpU=;
-        b=GHyFY29L/A8Gr/xajPh6FG+ClkQbFr15Y2OeqIDTOgjnRsvngPgyDfiOW/IXQZjlPi
-         8oBz9U5H8oUhOMFsRXVLzvBY2dIOMlx7qX7A0y89nm8IkL42gDqOEnXPAkyN6hP5Nr1V
-         7BwtxIXSvxSc1FV3SsEMTRVwb3sNPrnyucPZU0riPGCIw0B8ygxJAEblJdYcJHsnzFnU
-         JqcUsqHXC6crB0Xx2wY9MP5L3XTbFnaI0VQMAsCMFelEOx5QoNXGieB9noRtkVWusF0y
-         lenFHhFfeWdMSKuk1LQcuGqFdiuUP+F7Y4ZpvxaYlomCahaj9venaWVhWFsNaqTq07sI
-         qzjA==
-X-Gm-Message-State: ACrzQf0XjJgK0ZSHOHNXNBH8Zeks9znIwu7wxVevbsAaq/t1OdVJycOX
-	0cUvr2NxIkqrammG6i4CyaLn7CMBvHswWQsI
-X-Google-Smtp-Source: AMsMyM4kWZ0DBMcnvDx641BGInLRG4noS0cufXn6he6RYRp2oFcHt3+H0DDXRep9G006K/BUhBtsEw==
-X-Received: by 2002:a17:903:2596:b0:186:a395:c4bd with SMTP id jb22-20020a170903259600b00186a395c4bdmr19418776plb.60.1666825400020;
-        Wed, 26 Oct 2022 16:03:20 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id 185-20020a6206c2000000b0056bb7d90f0fsm3461641pfg.182.2022.10.26.16.03.19
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Oct 2022 16:03:19 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/16] Pull request (cover letter only)
-Date: Wed, 26 Oct 2022 13:03:09 -1000
-Message-Id: <cover.1666825236.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=missing; spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from [192.168.2.107] ([70.99.78.137])
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 29R0kR4v017243
+	for <openembedded-core@lists.openembedded.org>; Wed, 26 Oct 2022 19:46:28 -0500
+Message-ID: <8244b1a2-e090-8c4d-d0ef-a5501d4dfedb@kernel.crashing.org>
+Date: Wed, 26 Oct 2022 19:46:26 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.3
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+Subject: Re: [OE-core] [PATCH v2] mesa: Add native patch via a variable
+To: openembedded-core@lists.openembedded.org
+References: <20221018230820.2385167-1-raj.khem@gmail.com>
+ <CANNYZj-r7G4y3ma8NkrgmKm-vgoXjvMEWYAUh=bOE0z80DrxkA@mail.gmail.com>
+ <CAMKF1srnBDVj5ig2ZF_fX+-UZ5jtp0U89uG8qE5cuW1SjX0AfQ@mail.gmail.com>
+ <171F65F5948858B5.6129@lists.openembedded.org>
+ <CANNYZj89RTk6=-tqK550uDvUb3nZ1bfR=H1=Ns2pw5WaiPZ_Tw@mail.gmail.com>
+ <78322791-72e6-75fd-f870-1f2eb7d8e4f6@kernel.crashing.org>
+ <CANNYZj_KT77PhQtPd3gTT4J9RWZNnY0UgvH_PmOZXNs+yewM6Q@mail.gmail.com>
+ <4070adb4-bfb0-9d96-2193-c8f8386383e9@kernel.crashing.org>
+ <CAJdd5GbBEdmT4sk=UKdn+FUv5yVRT+tCppCBUpZip8rH06_niw@mail.gmail.com>
+ <CANNYZj9ag_2nUdZZjxbZpR4zOPCi8v7EK8kQ9jiddTJEYTYR9g@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CANNYZj9ag_2nUdZZjxbZpR4zOPCi8v7EK8kQ9jiddTJEYTYR9g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Oct 2022 23:03:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172177
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 00:46:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172178
 
-The following changes since commit dbad46a0079843b380cf3dda6008b12ab9526688:
 
-  build-appliance-image: Update to dunfell head revision (2022-10-06 23:23:20 +0100)
 
-are available in the Git repository at:
+On 10/26/22 1:01 PM, Alexander Kanavin wrote:
+> Is there a combination of libmali recipe and mesa-gl somewhere public
+> so we could try to pick it apart and see what links to where?
 
-  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+libmali is ALWAYS implementation specific.  You will need to pick a vendor and 
+build for it.  What is generic is the application interface (from what I've been 
+told.). I can give you the AMD (Xilinx) instructions.  But you likely won't be 
+able to actually execute the code without a corresponding board.  (AFAIK QEMU 
+doesn't have any mali400 emulation.)
 
-Bruce Ashfield (2):
-  linux-yocto/5.4: update to v5.4.216
-  linux-yocto/5.4: update to v5.4.219
+And to be clear, libmali provides the interfaces, but it is NOT a replacement to 
+mesa, it works WITH mesa, just the 'gl' part (not the gles part).
 
-Hitendra Prajapati (2):
-  dhcp: Fix CVE-2022-2928 & CVE-2022-2929
-  qemu: CVE-2021-3750 hcd-ehci: DMA reentrancy issue leads to
-    use-after-free
+The following is an abbreviated attempt to show how the pieces interact with 
+each other.  It may not be 100% correct, I am definitely not an expert at this. 
+(For example, I don't understand why it's "DRM" in some places but "DRI" in 
+others.  These seem to be 'generally' the same systems.)  But it's how the parts 
+and pieces appear to be put together based on a functioning system.
 
-John Edward Broadbent (1):
-  externalsrc: git submodule--helper list unsupported
 
-Michael Halstead (1):
-  uninative: Upgrade to 3.7 to work with glibc 2.36
+In a 'normal' system (mesa):
 
-Omkar (1):
-  dbus: upgrade 1.12.22 -> 1.12.24
+mesa provides:
+   libglapi.so.0
+   libEGL.so.1
+   libGLESv2.so.2
+   (and others)
 
-Paul Eggleton (1):
-  classes/kernel-fitimage: add ability to add additional signing options
+The CONFIG_DRM_LIMA backend and whatever the display port DRM (CONFIG_DRM_XLNX) 
+go through a dlopened backend module, which USUALLY talks to a kernel module for 
+any hardware access through a standard (known) kernel interface.
 
-Richard Purdie (1):
-  qemu: Avoid accidental librdmacm linkage
+In our case the dynamic modules would be the lima_dri.so and xlnx_dri.so.
 
-Steve Sakoman (5):
-  selftest: skip virgl test on ubuntu 22.04
-  qemu: Avoid accidental libvdeplug linkage
-  qemu: Add PACKAGECONFIG for rbd
-  devtool: add HostKeyAlgorithms option to ssh and scp commands
-  selftest: skip virgl test on all Alma Linux
+glmark2-es2-wayland ->
+   libwayland-client
+   libwayland-cursor
+   libwayland-egl.so.1
 
-Tim Orling (1):
-  python3: upgrade 3.8.13 -> 3.8.14
+I believe the libwayland-egl talks to weston "somehow" for the egl interfaces, 
+via the libwayland-client?  but I'm fuzzy here.
 
-wangmy (1):
-  dbus: upgrade 1.12.20 -> 1.12.22
+Weston has two related items:
 
- meta/classes/externalsrc.bbclass              |  19 +-
- meta/classes/kernel-fitimage.bbclass          |   6 +-
- meta/conf/distro/include/yocto-uninative.inc  |  10 +-
- meta/lib/oeqa/selftest/cases/devtool.py       |   2 +-
- meta/lib/oeqa/selftest/cases/runtime_test.py  |   6 +-
- .../dhcp/dhcp/CVE-2022-2928.patch             | 120 ++++++++++++
- .../dhcp/dhcp/CVE-2022-2929.patch             |  40 ++++
- meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb  |   2 +
- ...s-test_1.12.20.bb => dbus-test_1.12.24.bb} |   0
- meta/recipes-core/dbus/dbus.inc               |   3 +-
- .../dbus/{dbus_1.12.20.bb => dbus_1.12.24.bb} |   0
- .../python/python3/CVE-2021-28861.patch       | 135 -------------
- .../{python3_3.8.13.bb => python3_3.8.14.bb}  |   5 +-
- meta/recipes-devtools/qemu/qemu.inc           |   4 +
- .../qemu/qemu/CVE-2021-3750.patch             | 180 ++++++++++++++++++
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +--
- scripts/lib/devtool/deploy.py                 |   8 +-
- 19 files changed, 396 insertions(+), 180 deletions(-)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2022-2928.patch
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2022-2929.patch
- rename meta/recipes-core/dbus/{dbus-test_1.12.20.bb => dbus-test_1.12.24.bb} (100%)
- rename meta/recipes-core/dbus/{dbus_1.12.20.bb => dbus_1.12.24.bb} (100%)
- delete mode 100644 meta/recipes-devtools/python/python3/CVE-2021-28861.patch
- rename meta/recipes-devtools/python/{python3_3.8.13.bb => python3_3.8.14.bb} (98%)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3750.patch
+drm-backend.o ->
+   libglapi.so.0 (dlopened)
 
--- 
-2.25.1
+This bit uses mesa to access the DRM backend to actually display the stuff..
 
+gl-backend.so ->
+   libwayland-server
+   libEGL.so.1
+   libGLESv2.so.2
+
+This backend is used to render the items.
+
+
+So the glmark2 does it's benchmarking and renders (gl-backend) through Weston 
+backends to the display port (drm-backend).
+
+In the above case it all comes from mesa, the drm and libELG/libGLESv2 parts.
+
+
+
+The following shows a libmali configured system as a contrasts to the above:
+
+libmali-xlnx provides:
+
+libEGL.so.1
+libGLESv1_CM.so.1
+libGLESv2.so.2
+libmali.so.9
+libgbm.so.1
+
+(also provides specific backends for fbdev, headless, wayland and x11)
+
+
+It talks to a backend kernel module called 'mali.ko'
+
+mesa provides:
+
+libGL.so.1
+libglapi.so.0
+
+and also swrast dri interface
+
+glmark2-es2-wayland ->
+   libwayland-client
+   libwayland-cursor
+   libwayland-egl.so.1
+
+(same as above)
+
+drm-backend.o ->
+   libwayland-server
+   libdrm.so.2
+   libMali.so.9
+
+gl-backend.so ->
+   libwayland-server
+   libMali.so.9
+
+So in the above, libMali is providing all of the APIs of libEGL and libGLESv2, 
+as well as (enough of) libglapi for the built in raster implementation.
+
+
+Compiling things like Chromium that will link directly, you move from linking to 
+libGL.so from mesa to linking in libMali, along with libGL from mesa.  The 
+libMali will provide the core set of APIs, while the libGL will augement them 
+with additional APIs.
+
+Cairo is another utility that similar modifies in this way.
+
+
+To re-iterate, it's NOT a "swap libmali" and re-use everything.  You need to 
+rebuild anything that links to libgles or libgl or even libglapi with this new 
+configuration.  It's API compatible, NOT ABI compatible!
+
+
+I hope this helps.  As far as letting you play with it, I'm working through the 
+final stuff and should have something I can push to langdale/master on the 
+meta-xilinx and meta-xilinx-tools soon.
+
+--Mark
+
+> My (perhaps confused) understanding is similar to Joshua's: 'gl' is
+> basically 'opengl in x11' or 'opengl rendered to memory', and if a
+> system uses neither, then it is not needed.
+> 
+> Alex
+> 
+> On Wed, 26 Oct 2022 at 19:48, Joshua Watt <jpewhacker@gmail.com> wrote:
+>>
+>> On Wed, Oct 26, 2022 at 12:21 PM Mark Hatle
+>> <mark.hatle@kernel.crashing.org> wrote:
+>>>
+>>>
+>>>
+>>> On 10/26/22 11:03 AM, Alexander Kanavin wrote:
+>>>> On Wed, 26 Oct 2022 at 16:35, Mark Hatle <mark.hatle@kernel.crashing.org> wrote:
+>>>>> (I just saw this, so a little late on the reply, but..)
+>>>>>
+>>>>> mesa-gl is ABSOLUTELY still being used.  It's needed for libmali usage.  Not
+>>>>> everyone wants to use lima support for graphics.
+>>>>>
+>>>>> It was broken into two separate packages so that is was VERY clear if you were
+>>>>> using mesa for 'everything' (mesa), or mesa JUST for 'gl' (not gles).
+>>>>
+>>>> Okay, I'm not going to propose this, but can you clarify, what is the
+>>>> current use for 'gl'? Is it just opengl 3d in standalone x server
+>>>> based systems (which is slowly dying), or is there something else to
+>>>> it?
+>>
+>> Are you specifically talking about libmali with the following statements?
+>>
+>> I would say that in general libmali is probably not doing things in
+>> the "normal" way if so, although I'm not trying to say that it isn't a
+>> legitimate way to do it.
+>>
+>>>
+>>> Anything that needs "OpenGL", i.e. Wayland/Weston, X11, Chromium, etc etc etc.
+>>> These all end up linking to a combination of libmali and mesa-gl.
+>>
+>> In general (maybe not for libmali) Wayland and Weston themselves don't
+>> use OpenGL, or mesa-gl. Individual clients may be able to use it,
+>> although it's rare in my (incomplete) experience. Most of the OpenGL
+>> users in Wayland/Weston are going through XWayland/X11 and using GLX.
+>>
+>>>
+>>> Pretty much anything that depends on 'virtual/gl' (vs virtual/libgles1,2,3).
+>>> libmali provides virtual/libgles1 and virtual/libgles2 and a few other things
+>>> that meta-gl doesn't.
+>>>
+>>> libmali also doesn't include the DRM/DRI parts.  This comes from mesa-gl.
+>>
+>> In general, DRM/DRI doesn't come from mesa-gl. libdrm is its own
+>> recipe, and libgbm comes from mesa proper, or from some other
+>> dedicated vendor specific libgbm recipe.
+>>
+>>
+>> If this is sidetracking the discussion please ignore; I'm just a
+>> little confused by the above statements because either A) libmali is
+>> really weird B) my understanding of things is _way_ off, or C) the
+>> statements aren't quite correct.
+>>
+>>>
+>>> --Mark
+>>>
+>>>> Alex
+>>>
+>>>
+>>>
+>>>
+>>>
+>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>> Links: You receive all messages sent to this group.
+>>> View/Reply Online (#172168): https://lists.openembedded.org/g/openembedded-core/message/172168
+>>> Mute This Topic: https://lists.openembedded.org/mt/94420106/3616948
+>>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mark.hatle@kernel.crashing.org]
+>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>>
 
