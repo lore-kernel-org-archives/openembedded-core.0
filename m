@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20CE7FA374D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17854FA374B
 	for <webhook@archiver.kernel.org>; Thu, 27 Oct 2022 20:16:40 +0000 (UTC)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web10.2221.1666901791662738069
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web11.2198.1666901785877338429
  for <openembedded-core@lists.openembedded.org>;
  Thu, 27 Oct 2022 13:16:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ilb1yzMY;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id y69so4776279ede.5
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=MrhSbNXp;
+ spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f54.google.com with SMTP id v27so4803060eda.1
         for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 13:16:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=izywyyPF/LskgHbWY5TzJmyYRXYM8FdIhdKbaR4tPAQ=;
-        b=ilb1yzMYwayxXHyTelvMnAj9PvBRcB5pCf8EO91X1QLJxYfUjOASvRGxKYPOpoQbEw
-         lBhhbiJHqHJgsTUtaTWyVW4UVRSMWplMoVZc/pjsUPEE7m+fTUN+76IHfESSIV8BXi3q
-         fTx058Rr7Hv1Z1Q8rl4Fp38JK7Ak6CJGmIr2tncInSU3IOfvgVlMlCh2HFGx8kxJjyT5
-         VGp7JgGwTF//H+ToSIVi+w0oJhQnmm5w49Wxy71ZDgGfI2HO6jrNsA4RbDVMh4rWmDq2
-         n2sbCPY4odW6m+S0dMWc0Q6i3z3PQEMzZIIIwlXdgeGZRTA+DZ7/X+Fa7fuVyoX5ur24
-         YE9Q==
+        bh=x2FHqbm0QJgpmfAn1fom+Xz9vSCubwNulR49cEaPDX0=;
+        b=MrhSbNXpkJm3yyMfzv0PziXlxboS1SpLKWf5cHb/zJEstu3GMpD44PMG5QNTr8Q+V2
+         Z2p/z32US3fxRn75O+tajTX5FEizcJ7uvRMMctsIWJaTwfhSWn4LeSwOgsrB6+1IAb2/
+         yhrDhbKqVxAjMsaiPF7Skdv90yHNK4RJSBFFatRH2HWuasNsx2g8W1q/JB7hmwmeyF5r
+         J2VMCj4yVAXZczUa6Tjk8qmbjVvqtBIEDHrwKq0WVNsiuFriXHK5R+tFzIp2U7hoZOza
+         WI43hUtG2DtIrrreZngnD2hD167ZMvp6SBem4QSuQomS4CZ5e3h0cr1ZpoC98yJ/9W1H
+         WmFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=izywyyPF/LskgHbWY5TzJmyYRXYM8FdIhdKbaR4tPAQ=;
-        b=WIcGvsHxqHWYmlVoxJB4qxAadV3m9UowpjRHdywHbtWRiCKSXVsFxGTLo3hltmflh2
-         fUTkiQsO9zQhLnJgPuuAi4Mqg1YxzurcHpFJYHK66Gy6hXCdPLwAs++AmpzLlhIPdi7J
-         unI07Dt/n/tGWTVtBjjfBu+zm+a7K9qt4LXUl7oJJOVCLl8fUdfjOycwD6jCX61qDoYI
-         QmUbNOI2GZJRPyE5jQlRjBs6+AJPdBLCDmxuv3CwiHK02YzfPJZxoEPRoXJXznlmjO8e
-         wDkVMjcgIt5w9pNd3vaKfJ1redADgKuGRBekmJIbTAfxCz6wDjttqFUd3d3N9o0jhVIk
-         0BVg==
-X-Gm-Message-State: ACrzQf2GNM4mHslSz8yuc6kXN+7CAGf4l7soIjEQ3al6IwbeHgout6p+
-	ugxq6/qa4fvzHBteKWP5w5HSE7o4wcXOLA==
-X-Google-Smtp-Source: AMsMyM4jbUF5v2mqMnAMGLIbGkoCzaidsH9Vf3f334ZvbOulLW9KysxJXBsbHMFU4T9by2mUQDgnqw==
-X-Received: by 2002:a05:6402:430a:b0:462:2e05:30b5 with SMTP id m10-20020a056402430a00b004622e0530b5mr13186480edc.246.1666901790182;
-        Thu, 27 Oct 2022 13:16:30 -0700 (PDT)
+        bh=x2FHqbm0QJgpmfAn1fom+Xz9vSCubwNulR49cEaPDX0=;
+        b=WWxlus5OXphHpiNM0TQrGJs9voWykA5PesvTo35uPzM86MnsNjSjgmJJ1GbuXNEbe7
+         PXF+F0n+fU6RYFwKSLL2ljUJQU6q87njKNtqa7Rq6zWdT6rs7iwUc7EGO1N8lMSDNZ+z
+         BQwiQC4sT/rPM1ELG8vx47b0QNQe9jgHnX11Jlqd3hgwH0OpkUObPYKW7dDfWSG2Wu21
+         K2w9rZse3GnI7vl1+gCBIYQFvaml0yF17B+EIqWjKB2SbUdcqEZS417iU/vFm6MQO5wC
+         y/uK71ElF0pJOysIkX0pQq8j5MFAoGSi1UHUyOpQg1IGL4Px33HQTfakqDxtnREjojMJ
+         u3ww==
+X-Gm-Message-State: ACrzQf1E0p7vSD1jaRrQ7xnaN9JpriVBkN/PvXBh8oz2dsO0G/2hH6Hu
+	6VtYnhJTmQmxgIBWwH9RaH0SYlRF38vvHg==
+X-Google-Smtp-Source: AMsMyM7GZXPv4Ue/9N/4JZP2YhLI14MI/N2IKFWoanpTPtKrPkAgN47FgJCKioPnDkUER59CCH8xXw==
+X-Received: by 2002:a05:6402:d0b:b0:458:a244:4e99 with SMTP id eb11-20020a0564020d0b00b00458a2444e99mr47505290edb.46.1666901791403;
+        Thu, 27 Oct 2022 13:16:31 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id la19-20020a170907781300b0077b2b0563f4sm1267225ejc.173.2022.10.27.13.16.29
+        by smtp.gmail.com with ESMTPSA id la19-20020a170907781300b0077b2b0563f4sm1267225ejc.173.2022.10.27.13.16.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Oct 2022 13:16:29 -0700 (PDT)
+        Thu, 27 Oct 2022 13:16:31 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 10/23] libxft: update 2.3.4 -> 2.3.6
-Date: Thu, 27 Oct 2022 22:15:58 +0200
-Message-Id: <20221027201611.3644334-10-alex@linutronix.de>
+Subject: [PATCH 12/23] ovmf: upgrade edk2-stable202205 -> edk2-stable202208
+Date: Thu, 27 Oct 2022 22:16:00 +0200
+Message-Id: <20221027201611.3644334-12-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221027201611.3644334-1-alex@linutronix.de>
 References: <20221027201611.3644334-1-alex@linutronix.de>
@@ -62,31 +62,28 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 20:16:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172213
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172214
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../xorg-lib/{libxft_2.3.4.bb => libxft_2.3.6.bb}              | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxft_2.3.4.bb => libxft_2.3.6.bb} (90%)
+ meta/recipes-core/ovmf/ovmf_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxft_2.3.4.bb b/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb
-similarity index 90%
-rename from meta/recipes-graphics/xorg-lib/libxft_2.3.4.bb
-rename to meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb
-index 12636914dd..23c7ece3ab 100644
---- a/meta/recipes-graphics/xorg-lib/libxft_2.3.4.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb
-@@ -20,7 +20,8 @@ PROVIDES = "xft"
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
+index 40542239e2..d1bf8b080d 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -26,8 +26,8 @@ SRC_URI = "gitsm://github.com/tianocore/edk2.git;branch=master;protocol=https \
+            file://0006-reproducible.patch \
+            "
  
- PE = "1"
+-PV = "edk2-stable202205"
+-SRCREV = "16779ede2d366bfc6b702e817356ccf43425bcc8"
++PV = "edk2-stable202208"
++SRCREV = "ba0e0e4c6a174b71b18ccd6e47319cc45878893c"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>edk2-stable.*)"
  
--SRC_URI[sha256sum] = "57dedaab20914002146bdae0cb0c769ba3f75214c4c91bd2613d6ef79fc9abdd"
-+XORG_EXT = "tar.xz"
-+SRC_URI[sha256sum] = "60a6e7319fc938bbb8d098c9bcc86031cc2327b5d086d3335fc5c76323c03022"
- 
- XORG_PN = "libXft"
- 
+ inherit deploy
 -- 
 2.30.2
 
