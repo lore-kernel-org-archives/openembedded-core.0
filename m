@@ -1,157 +1,354 @@
-Return-Path: <Zheng.Qiu@windriver.com>
+Return-Path: <yashinde145@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BA5DFA3740
-	for <webhook@archiver.kernel.org>; Thu, 27 Oct 2022 17:47:39 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web08.523.1666892851528280115
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D094ECAAA1
+	for <webhook@archiver.kernel.org>; Thu, 27 Oct 2022 18:32:39 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web08.1020.1666895553488462226
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Oct 2022 10:47:31 -0700
+ Thu, 27 Oct 2022 11:32:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=gpdF5aop;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=729989650e=zheng.qiu@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 29RBSFmS009409
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 17:47:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=bV6BArcILEUpJGXbaZGw+bjKyfF1lT4i3co8xpjG5XI=;
- b=gpdF5aop9t0OETH11rmzTKwMB9d0EyFSxK3c8PVJtwMUooP3O4bJsKm+gN2ThUnRNVpN
- ACrGkIVdYx3yQwjNkz69R9SAUvCxgF9T78rTmE2GyJo8otCW/JbPDjrm+iiPCq9QaexJ
- k/RG4XXwlNQE8rTEmfOg94G2uFu2T9z+u/EPwpvbXAdKpNvGQ4cawLHZ0qfe6CDiDhMz
- TJzTZyNDr8wlcxjN3ruqOYmqVg0Hqn7axJa9HiEI7TVimuVP0H4M1XrHGNPk1xmLp/tq
- TX3jNO0kwwy+nTeZ87+4wqiGdv/GPqGlR/tRk0F/HJrRnK4utyFy+aCvNhwOt708giAy 2Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kfg56gn3r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 17:47:30 +0000
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29RHlUfI025167
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 17:47:30 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2169.outbound.protection.outlook.com [104.47.55.169])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kfg56gn3n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 27 Oct 2022 17:47:30 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DqfMXfufG5G3u3lIcHFMYv4QARCzLw0C5dlToGFJFNUaZAgj9S8RNwKVhoIb+s2Dg4xF2UJfLdJn1zc8I40dtElKjkmj+EKUgK8zTnWYOfwxEGYd8E4AtI/booeUFP/qnrPplXLwhXGFg+g/oyPaYnn8a1cbee7FbYEG8aZDV6gFYXYtZPbrZ1WguG9JMfaunqJdIN+X2qdshr3+XfX7KxfGSRkiE4MQbnbmpzLhzSBIQtW3lbmkerc/UwRJSF3EwQ1pjzqvmAfaoKZR+AW4p0Ljnf8VcnGWmXuzEZXJ2jw1tQTYHeOAE5ZJNKyy04iKyB2gbIpKcltiIuw/VKaeWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bV6BArcILEUpJGXbaZGw+bjKyfF1lT4i3co8xpjG5XI=;
- b=N47PA2fc3lZwGh7wboEwh+FWER5/8f+IjkA7E0T5/es6QzQ45Q3Yvtf6gxRSIFa72VYfYhuPvAfmk659dScIrh4mgYkfskL9thpL52/IHYK+Fkpp3IcMr8ugM17Fec7fJARuHc3AYOiD/ofc25t7SLddck/eCqEziAWLh/f2xNnr/ON2EGsMyRaPCY9g1pDzAGHO4oiRl64QjZZ4C3XYqSlYfVLemzq0/XJump4WxHjr9ftJA16H2TRCJMsFzBtlIUCHIHuq2+MxwxA9ivWTkPpUTwuXpZ70MYP6+0j+XdcJearHuarW4DQtatpZQQag4xy48PACalwq72eAG0N4Jw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM4PR11MB5536.namprd11.prod.outlook.com (2603:10b6:5:39b::15)
- by BL1PR11MB5554.namprd11.prod.outlook.com (2603:10b6:208:31d::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.28; Thu, 27 Oct
- 2022 17:47:28 +0000
-Received: from DM4PR11MB5536.namprd11.prod.outlook.com
- ([fe80::9900:3433:7cff:ce14]) by DM4PR11MB5536.namprd11.prod.outlook.com
- ([fe80::9900:3433:7cff:ce14%9]) with mapi id 15.20.5723.035; Thu, 27 Oct 2022
- 17:47:28 +0000
-From: Zheng Qiu <zheng.qiu@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Cc: zheng.qiu@windriver.com, ross.burton@arm.com
-Subject: [master][PATCH] tiff: fix a typo for CVE-2022-2953.patch
-Date: Thu, 27 Oct 2022 13:47:07 -0400
-Message-Id: <20221027174707.33423-1-zheng.qiu@windriver.com>
-X-Mailer: git-send-email 2.33.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: YQBPR0101CA0141.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:e::14) To DM4PR11MB5536.namprd11.prod.outlook.com
- (2603:10b6:5:39b::15)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FArxZNw2;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: yashinde145@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id c24so2425572pls.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 11:32:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=IwYXZm/URbMp7HxvNT7ZFwXM6OG0ox4ry1O2HbXX95w=;
+        b=FArxZNw201eXbEFnG4pwVfWxN7sH9oUuZIl5ht4CJl9Jbp8LO+xB/rPMBSqEiApsXV
+         ylAS2rFlFLP6dxsnJMv8RfdVoXhKou3vtQcK23cY3TLSUeGuI5rdcEKL5V2bLfTAorbi
+         giADXNRM51sp7459vRd9TJ3G2wgLeOSn4t0v8U4/gDhHeyDKY/HVfSFVbArdK7KsHiUc
+         +48H+U4j8KzaCH4T8ycUqXYjPcbjnrP1VFGJhVoAiT8PUSFWgea9vBTggxYGK05kT9LE
+         trwFv2+gASuOIZ7V/Se9A9D3H0GS8u71YHsM/zbT7jGuFIjaQ4enWvMHOaMyXb+KEdM8
+         u+pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IwYXZm/URbMp7HxvNT7ZFwXM6OG0ox4ry1O2HbXX95w=;
+        b=QVr5qs+Vdb7i4ozQD76YKfRGpPTaI6xEGpaZjlTngWLAz/v4Tz+5bkJkYwzR941nLb
+         RL/KmcnPtHKDzCNIpFMk/2x8QmXTAy7Ea4k9AIyN7Yw2LLuiFwybI7B9Vjhd8rdGwQa3
+         sTVjl2j5baeOzmWJ6Tg1BJywaojscy6ebyeDk6nH2R0m7KUXU4LE244gFNQNeCPbtmqA
+         91U7AAx2tA8y2aosLgrOQz5R32rGdApw4k/HQni/6LTOISjKMN6Xy0EkCPgHHcU7zBdd
+         X466SnaSEaTYADJPS85cvATw5JsBTzoycVx/j8lftoKqqCJW5b3SXdD+K8/JMceMTENO
+         i9BQ==
+X-Gm-Message-State: ACrzQf19Qpw/7PAbtI65eyYxx02Xs+XnDQdMxvKbOjUar+81YTVzBLTO
+	b4owvVn7Y4hJIDVKZKS19Evo4/nesT8Ct++zZ80=
+X-Google-Smtp-Source: AMsMyM5lfML81vnELpQjSmkrfmgzjREx2XloxjlHZak/h9Hqm121ah/mv/6OnXlM51Qj9WzJvr94n4R4/aa7kAGbqOQ=
+X-Received: by 2002:a17:90b:4a09:b0:20c:316d:e58b with SMTP id
+ kk9-20020a17090b4a0900b0020c316de58bmr11708128pjb.217.1666895552575; Thu, 27
+ Oct 2022 11:32:32 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5536:EE_|BL1PR11MB5554:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4d41dc0f-c879-4a53-fecf-08dab84350a4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	BeJd/3K4GqYUbAoEbrGX9Aw+FTDTFc/LWq+alMHqH3xcsCRYnn+jJpw9j8XozFA5wU4vX/GTtUiIAXwUxR8WS5RIZn0xKFIj7EDMEJmaNiP5LmW2yoQdmBQz2xLc6iKEH8ltNvth4LaYl/9bVuNbMdADzx7oBggtdxgBftb7XFF/6TI755aa5tbCbKVsXxDGW8rt4WQYxLY1RzwBPyM5cW1aieMGw3qTOTKuMpJGN1f9+k8bq5U5xjjaiclAxZPLfZemYh+Olmz5UivWdRzw8AAjAKJcCBqxTmUwr4LjJa1F+m12QyLhpNUVYQHxkCcibVOyexsKqHUo0wJ9nJcgpEtmnY34wIxKyUfJBWRMxU7j6gq7i/tc32fI976ddR14eeSQlZyYo7MZT1DLuCAKoMf5S0XRq4/5ChXJF+rnH+nOFpo/Bo+aiCYUF/3u2DMbrjdgZz2LxoYS1q+Kk/yGIXkOKJBigfK/lL1OGmjDAn2OYp2KAi1xlHfin1zK7CTDPjXbYVHazjeqAj61N7HiIAO9yQd+kAnxVS1CQc3erjUviFxZAduuwXoqnSHzkP/foMSKEjLZslRnErgIRThkzzpif+HEHNKn7Lt47Y021X0DJDJ8mZaoxkeu/9TUvkW0EVr4TzSSHQ6dMGSrrTJ69HU+0gwYz641ZnTDqznFGK7qd9rsgxdo8lB5bpJc5o1rZEtC9FyvvNlLBz+VaUNSISsv9oUVNhoB7s4032PO+WhpZR7EKRObl37uinpx/tv82zJer7XGIYD/Lh4Arxj1Cw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5536.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(366004)(39850400004)(136003)(376002)(346002)(451199015)(36756003)(38100700002)(6486002)(8936002)(66476007)(41300700001)(316002)(8676002)(66946007)(83380400001)(38350700002)(4326008)(478600001)(6916009)(5660300002)(6512007)(44832011)(66556008)(1076003)(186003)(4744005)(2616005)(2906002)(26005)(6666004)(6506007)(52116002)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?GcjlX0JXZp/PkwEbWccaslTe8wpnJO7wxAZXDUIZHkw0z5OKBzkBOp3u97CI?=
- =?us-ascii?Q?rUcfoXlnZ0H++QNQP21Ykor+2BUJUBJ9DEqJ51hgXx26eDQYUTepWO96DK84?=
- =?us-ascii?Q?ecknwW892ZHdrCaDt4yLtyTnoashYNlcyAXNkMrtJcbFLjqpdqbWxHEzcxJR?=
- =?us-ascii?Q?CvMKkl6e0KBz3+rq9tSW//4txkvgtT/i9H3a/B0JRFR2vR1PnVW0izv+aLM2?=
- =?us-ascii?Q?ELKwfPJCSUD/shg5T42xz85JMwq35rmNPxFXX9ucJPJrKHfoZYqvraDcdJ69?=
- =?us-ascii?Q?SnnwkDfZjxb/7ZhtkjVwzm7DWJHISh0aIMRvV2v2kb2cbCM25tqZecflp6Xb?=
- =?us-ascii?Q?15IYdsUgsuLuT4JRMFZSwBfSorBuczHOL25VOizIdJIa1KmSX+gBfq2RRhZg?=
- =?us-ascii?Q?yB62E2pktSKy099W0E9CiKXrcQ4259z0kPRkCkFwpHHcr97Z8TtAefyDd0pG?=
- =?us-ascii?Q?JbfU4PdhPy/alJnl7kpaBph1nr4DB/KWNVxAOEA+RBjct0YmKxdkz5hGo83T?=
- =?us-ascii?Q?gmC56xIxHE+JYGrqn3QkB7ZD7D5Z07UPZuCY9nzF/JQ6tgIL2L6Hol4cZ1z9?=
- =?us-ascii?Q?WRbM8ZoIX3ItH+7L/VlE/FN/75SkF5TcijdFFtNwW1LhQtnevn9i3tqfJfWR?=
- =?us-ascii?Q?fDjs/M0K4DfXqmdEM8ivMBaO7vcsIy9oWioLJWDilmAjDr/PYKT+YgXbI9BF?=
- =?us-ascii?Q?CJ0ng35u0I2zTPMPtp/WjHzXHR/renGYAsWuM/bjzUw4lAbdjAX5wTuF5VfZ?=
- =?us-ascii?Q?2PQl3LgW6AHrPHCIfSwMuh1IWHJ2tE+qXQhjRqTML1QKwMXHKBeGVBHgRi+z?=
- =?us-ascii?Q?vN8GW3S9NaTd4uuB4qjKmmy9uuHEFb4N4IpmAA+us1QGmZn9TXpKCFXbcIPs?=
- =?us-ascii?Q?kLamW5LWelYmloaHO1Iwhvo5QGu2EkMTNTcZCTHS+zWV5FC+CIqKKAxcbHzD?=
- =?us-ascii?Q?5GdvR4cfOi8WFemQpUVRrMMePXrn9L03DFTLsFVpdZlWOZSeCUqLD++LjMMS?=
- =?us-ascii?Q?aDJH/Kvvx/MFcJTB9Agj1wo97FECPL4XQ56hbIt0Zxz/DUr5Q/Cv8ic02m5Q?=
- =?us-ascii?Q?/MQfnhfSLns3Rkb5yYaHjQEO3zIOskh7LMaL1LZ0qgsotXU8xipfYgvy+HED?=
- =?us-ascii?Q?wdSozA9OYCZC1RPdhjBQKkYt4nGH5LM72KbeGehxOHAWfNmucX0A+rJTT7TU?=
- =?us-ascii?Q?JovDpqV7XLUih1kz771HD0u9DcRH6O9XaZ+uchd8oiAhaOpU9COuN2Xo7koy?=
- =?us-ascii?Q?XMWz+v2WwAiGOLXyqdos1s+6d76dCBjqEkkobNtXj9waVWiECSvAB7HIMuqA?=
- =?us-ascii?Q?jtgMfHq4x+Grcsaqc0C6DlVjlFlRZRTNGWOl9q2DlCsrwa9WJsbZBujOw/mc?=
- =?us-ascii?Q?ZZKoVJU6iJWUaPftwMBaKGBbYfaJH2DiLTPa7AmNstZDkbAFIRLWIVVWph0c?=
- =?us-ascii?Q?K1jL7leIAJ9EZzkWJmzdKcjoIPd/B3eZPfFZ93TaBC5Nml0HuasuAXfa+Nj7?=
- =?us-ascii?Q?kmnjWGi2Z1IHzaj96Ty9oYm2z3eokfg4iyncDgFPs0J2rUx6QDBgCHj6gcMj?=
- =?us-ascii?Q?Neo1uA/0fz+CsGUXDKgbc+Cjco14HNuvAV+xWHQDt89wiBeg1jqEbscVhhn6?=
- =?us-ascii?Q?yQ=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4d41dc0f-c879-4a53-fecf-08dab84350a4
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5536.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2022 17:47:28.3232
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3M4Q8XE4zP6LUdyR9vHBoPwsS9gcKjx0yEdhpEIhC5Dqqr1E6gOLccuwSfnfV0l+RDBbBw35OhLhDFLBjkOp6w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5554
-X-Proofpoint-GUID: o9_uq5KshzH_2-hhioIvUbvBJ-gzowr-
-X-Proofpoint-ORIG-GUID: JRU2pZbP2PMdQj9vghwLUwaCF6Ce-lxC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-27_07,2022-10-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- adultscore=0 bulkscore=0 lowpriorityscore=0 mlxscore=0 suspectscore=0
- mlxlogscore=645 impostorscore=0 phishscore=0 malwarescore=0 clxscore=1015
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2210270100
+References: <20221025091832.535612-1-yashinde145@gmail.com> <be23f9e3-1527-df63-938f-6611de6b242f@windriver.com>
+In-Reply-To: <be23f9e3-1527-df63-938f-6611de6b242f@windriver.com>
+From: Yash Shinde <yashinde145@gmail.com>
+Date: Fri, 28 Oct 2022 00:02:20 +0530
+Message-ID: <CALDccsE8H+vjnkyi87zXXtPFDR2KyRAcBzCkzCFEg8T8MRrv9g@mail.gmail.com>
+Subject: Re: [OE-core] [kirkstone] glibc: stable 2.35 branch updates.
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, steve@sakoman.com, 
+	rwmacleod@gmail.com, umesh.kalappa0@gmail.com, pgowda.cve@gmail.com, 
+	shivams@gmail.com, sundeep.kokkonda@gmail.com
+Content-Type: multipart/alternative; boundary="00000000000049fdf505ec085de7"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 17:47:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172197
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 18:32:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172198
 
-The CVE number in the patch is a typo. CVE-2022-2053 is not related to
-libtiff. So fix it.
+--00000000000049fdf505ec085de7
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Zheng Qiu <zheng.qiu@windriver.com>
+Yes, I will try to post the future updates 2 weeks before the given build
+date. This was the first time I was working on these updates. Please keep
+updating us about the timeline of the upcoming updates.
+
+Thanks,
+Yash.
+
+On Thu, 27 Oct 2022, 10:50 pm Randy MacLeod, <randy.macleod@windriver.com>
+wrote:
+
+> On 2022-10-25 05:18, Yash Shinde wrote:
+>
+> Below commits on glibc-2.35 stable branch are updated.
+> 8d125a1f91 (HEAD -> release/2.35/master, origin/release/2.35/master) elf: Do not completely clear reused namespace in dlmopen (bug 29600)
+> f8730697d2 nss: Use shared prefix in IPv4 address in tst-reload1
+> 135c29bf9c nss: Fix tst-nss-files-hosts-long on single-stack hosts (bug 24816)
+> 767c99850b nss: Implement --no-addrconfig option for getent
+> bca80a916e nscd: Drop local address tuple variable [BZ #29607]
+> 20152a849b x86-64: Require BMI1/BMI2 for AVX2 strrchr and wcsrchr implementations
+> 02aa1f4a5b x86-64: Require BMI2 and LZCNT for AVX2 memrchr implementation
+> c85a45acac x86-64: Require BMI2 for AVX2 (raw|w)memchr implementations
+> 1523fbedff x86-64: Require BMI2 for AVX2 wcs(n)cmp implementations
+> 7e1326c43a x86-64: Require BMI2 for AVX2 strncmp implementation
+> 6260de8867 x86-64: Require BMI2 for AVX2 strcmp implementation
+> 0161ebf15b x86-64: Require BMI2 for AVX2 str(n)casecmp implementations
+> 97ff96b0e1 x86: include BMI1 and BMI2 in x86-64-v3 level
+> a6d2e2c192 hppa: undef __ASSUME_SET_ROBUST_LIST
+> 562e5b2821 hppa: Fix initialization of dp register [BZ 29635]
+> e36aeeaf08 nptl: Add backoff mechanism to spinlock loop
+> 4f3c6dcd20 sysdeps: Add 'get_fast_jitter' interace in fast-jitter.h
+> a7d5383328 m68k: Enforce 4-byte alignment on internal locks (BZ #29537)
+> dee4146cec gconv: Use 64-bit interfaces in gconv_parseconfdir (bug 29583)
+> 6fea8e6b94 resolv: Fix building tst-resolv-invalid-cname for earlier C standards
+> 649213ae27 nss_dns: Rewrite _nss_dns_gethostbyname4_r using current interfaces
+> 4a214c7448 resolv: Add new tst-resolv-invalid-cname
+> 519e1b0251 nss_dns: In gaih_getanswer_slice, skip strange aliases (bug 12154)
+> ee74c14325 nss_dns: Rewrite getanswer_r to match getanswer_ptr (bug 12154, bug 29305)
+> 692fc980eb nss_dns: Remove remnants of IPv6 address mapping
+> def97e7f71 nss_dns: Rewrite _nss_dns_gethostbyaddr2_r and getanswer_ptr
+> 51b6c3c28b nss_dns: Split getanswer_ptr from getanswer_r
+> 492d259ebc resolv: Add DNS packet parsing helpers geared towards wire format
+> a333ba1d50 resolv: Add internal __ns_name_length_uncompressed function
+> d7c22ec359 resolv: Add the __ns_samebinaryname function
+> 83b09a8e86 resolv: Add internal __res_binary_hnok function
+> 6e56f918a8 resolv: Add tst-resolv-aliases
+> fae10fcb3b resolv: Add tst-resolv-byaddr for testing reverse lookup
+> d883d02008 elf: Implement force_first handling in _dl_sort_maps_dfs (bug 28937)
+> c15c0f1985 elf: Rename _dl_sort_maps parameter from skip to force_first
+> ff344711ea scripts/dso-ordering-test.py: Generate program run-time dependencies
+> f4687bb416 elf: Fix hwcaps string size overestimation
+> 55a636430b Use __ehdr_start rather than _begin in _dl_start_final
+> 61e15f6815 elf: Run tst-audit-tlsdesc, tst-audit-tlsdesc-dlopen everywhere
+>
+> Thanks Yash.
+>
+> There are more commits that I expected but what can you do!
+> I think this will go into the 4.0.6 since it's only a few days to 4.0.5
+> build.
+>
+> - YP 4.0.5 build date 2022/10/31
+> - YP 4.0.5 Release date 2022/11/11
+> - YP 4.0.6 build date 2022/12/12
+> - YP 4.0.6 Release date 2022/12/23
+>
+> Next time, we do the update try to send it 2 weeks before the build date
+> so on or before Nov 28th.
+>
+>
+> What test results for this update do you have to show Steve?
+>
+> Please present the results and put them in context by comparing
+> them to the previous tests without this update and summarizing
+> what you think of any new failures.
+>
+> Thanks,
+>
+> ../Randy
+>
+>
+>
+>
+> Signed-off-by: Yash Shinde <yashinde145@gmail.com> <yashinde145@gmail.com>
+> ---
+>  meta/recipes-core/glibc/glibc-version.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+> index d3cea19f9c..7d7db46c2f 100644
+> --- a/meta/recipes-core/glibc/glibc-version.inc
+> +++ b/meta/recipes-core/glibc/glibc-version.inc
+> @@ -1,6 +1,6 @@
+>  SRCBRANCH ?= "release/2.35/master"
+>  PV = "2.35"
+> -SRCREV_glibc ?= "f8ad66a4cab14ed294bf50e7a9eddb73da6cf307"
+> +SRCREV_glibc ?= "8d125a1f9145ad90c94e438858d6b5b7578686f2"
+>  SRCREV_localedef ?= "794da69788cbf9bf57b59a852f9f11307663fa87"
+>
+>  GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#172125): https://lists.openembedded.org/g/openembedded-core/message/172125
+> Mute This Topic: https://lists.openembedded.org/mt/94554674/3616765
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [randy.macleod@windriver.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+>
+> --
+> # Randy MacLeod
+> # Wind River Linux
+>
+>
+
+--00000000000049fdf505ec085de7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Yes, I will try to post the future updates 2 weeks before=
+=C2=A0the given build date. This was the first time I was working on these =
+updates. Please keep updating us about the timeline of the upcoming updates=
+.<div dir=3D"auto"><br></div><div dir=3D"auto">Thanks,</div><div dir=3D"aut=
+o">Yash.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Thu, 27 Oct 2022, 10:50 pm Randy MacLeod, &lt;<a href=3D=
+"mailto:randy.macleod@windriver.com" rel=3D"noreferrer noreferrer noreferre=
+r" target=3D"_blank">randy.macleod@windriver.com</a>&gt; wrote:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
+#ccc solid;padding-left:1ex">
+
+ =20
+  <div>
+    <div>On 2022-10-25 05:18, Yash Shinde wrote:<br>
+    </div>
+    <blockquote type=3D"cite">
+      <pre>Below commits on glibc-2.35 stable branch are updated.
+8d125a1f91 (HEAD -&gt; release/2.35/master, origin/release/2.35/master) elf=
+: Do not completely clear reused namespace in dlmopen (bug 29600)
+f8730697d2 nss: Use shared prefix in IPv4 address in tst-reload1
+135c29bf9c nss: Fix tst-nss-files-hosts-long on single-stack hosts (bug 248=
+16)
+767c99850b nss: Implement --no-addrconfig option for getent
+bca80a916e nscd: Drop local address tuple variable [BZ #29607]
+20152a849b x86-64: Require BMI1/BMI2 for AVX2 strrchr and wcsrchr implement=
+ations
+02aa1f4a5b x86-64: Require BMI2 and LZCNT for AVX2 memrchr implementation
+c85a45acac x86-64: Require BMI2 for AVX2 (raw|w)memchr implementations
+1523fbedff x86-64: Require BMI2 for AVX2 wcs(n)cmp implementations
+7e1326c43a x86-64: Require BMI2 for AVX2 strncmp implementation
+6260de8867 x86-64: Require BMI2 for AVX2 strcmp implementation
+0161ebf15b x86-64: Require BMI2 for AVX2 str(n)casecmp implementations
+97ff96b0e1 x86: include BMI1 and BMI2 in x86-64-v3 level
+a6d2e2c192 hppa: undef __ASSUME_SET_ROBUST_LIST
+562e5b2821 hppa: Fix initialization of dp register [BZ 29635]
+e36aeeaf08 nptl: Add backoff mechanism to spinlock loop
+4f3c6dcd20 sysdeps: Add &#39;get_fast_jitter&#39; interace in fast-jitter.h
+a7d5383328 m68k: Enforce 4-byte alignment on internal locks (BZ #29537)
+dee4146cec gconv: Use 64-bit interfaces in gconv_parseconfdir (bug 29583)
+6fea8e6b94 resolv: Fix building tst-resolv-invalid-cname for earlier C stan=
+dards
+649213ae27 nss_dns: Rewrite _nss_dns_gethostbyname4_r using current interfa=
+ces
+4a214c7448 resolv: Add new tst-resolv-invalid-cname
+519e1b0251 nss_dns: In gaih_getanswer_slice, skip strange aliases (bug 1215=
+4)
+ee74c14325 nss_dns: Rewrite getanswer_r to match getanswer_ptr (bug 12154, =
+bug 29305)
+692fc980eb nss_dns: Remove remnants of IPv6 address mapping
+def97e7f71 nss_dns: Rewrite _nss_dns_gethostbyaddr2_r and getanswer_ptr
+51b6c3c28b nss_dns: Split getanswer_ptr from getanswer_r
+492d259ebc resolv: Add DNS packet parsing helpers geared towards wire forma=
+t
+a333ba1d50 resolv: Add internal __ns_name_length_uncompressed function
+d7c22ec359 resolv: Add the __ns_samebinaryname function
+83b09a8e86 resolv: Add internal __res_binary_hnok function
+6e56f918a8 resolv: Add tst-resolv-aliases
+fae10fcb3b resolv: Add tst-resolv-byaddr for testing reverse lookup
+d883d02008 elf: Implement force_first handling in _dl_sort_maps_dfs (bug 28=
+937)
+c15c0f1985 elf: Rename _dl_sort_maps parameter from skip to force_first
+ff344711ea scripts/dso-ordering-test.py: Generate program run-time dependen=
+cies
+f4687bb416 elf: Fix hwcaps string size overestimation
+55a636430b Use __ehdr_start rather than _begin in _dl_start_final
+61e15f6815 elf: Run tst-audit-tlsdesc, tst-audit-tlsdesc-dlopen everywhere<=
+/pre>
+    </blockquote>
+    <p>Thanks Yash.<br>
+    </p>
+    <p>There are more commits that I expected but what can you do!<br>
+      I think this will go into the 4.0.6 since it&#39;s only a few days to
+      4.0.5 build.<br>
+    </p>
+    <p>
+      <li style=3D"color:black;margin-top:0in;margin-bottom:0in;vertical-al=
+ign:baseline"><span style=3D"font-family:&quot;Arial&quot;,sans-serif">YP 4=
+.0.5
+          build date 2022/10/31</span></li>
+      <li style=3D"color:black;margin-top:0in;margin-bottom:0in;vertical-al=
+ign:baseline"><span style=3D"font-family:&quot;Arial&quot;,sans-serif">YP 4=
+.0.5
+          Release date 2022/11/11</span></li>
+      <li style=3D"color:black;margin-top:0in;margin-bottom:0in;vertical-al=
+ign:baseline"><span style=3D"font-family:&quot;Arial&quot;,sans-serif">YP 4=
+.0.6
+          build date 2022/12/12</span></li>
+      <li style=3D"color:black;margin-top:0in;margin-bottom:0in;vertical-al=
+ign:baseline"><span style=3D"font-family:&quot;Arial&quot;,sans-serif">YP 4=
+.0.6
+          Release date 2022/12/23</span></li>
+    </p>
+    <p>Next time, we do the update try to send it 2 weeks before the
+      build date<br>
+      so on or before Nov 28th.</p>
+    <p><br>
+    </p>
+    <p>What test results for this update do you have to show Steve?<br>
+    </p>
+    <p>Please present the results and put them in context by comparing<br>
+      them to the previous tests without this update and summarizing<br>
+      what you think of any new failures.<br>
+    </p>
+    <p>Thanks,<br>
+    </p>
+    <p>../Randy<br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type=3D"cite">
+      <pre>
+
+Signed-off-by: Yash Shinde <a href=3D"mailto:yashinde145@gmail.com" rel=3D"=
+noreferrer noreferrer noreferrer noreferrer" target=3D"_blank">&lt;yashinde=
+145@gmail.com&gt;</a>
 ---
- meta/recipes-multimedia/libtiff/files/CVE-2022-2953.patch | 2 +-
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-2953.patch b/meta/recipes-multimedia/libtiff/files/CVE-2022-2953.patch
-index 98020ff92f..e673945fa3 100644
---- a/meta/recipes-multimedia/libtiff/files/CVE-2022-2953.patch
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2022-2953.patch
-@@ -1,4 +1,4 @@
--CVE: CVE-2022-2053
-+CVE: CVE-2022-2953
- Upstream-Status: Backport
- Signed-off-by: Ross Burton <ross.burton@arm.com>
- 
--- 
-2.33.0
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/=
+glibc/glibc-version.inc
+index d3cea19f9c..7d7db46c2f 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?=3D &quot;release/2.35/master&quot;
+ PV =3D &quot;2.35&quot;
+-SRCREV_glibc ?=3D &quot;f8ad66a4cab14ed294bf50e7a9eddb73da6cf307&quot;
++SRCREV_glibc ?=3D &quot;8d125a1f9145ad90c94e438858d6b5b7578686f2&quot;
+ SRCREV_localedef ?=3D &quot;794da69788cbf9bf57b59a852f9f11307663fa87&quot;
+=20
+ GLIBC_GIT_URI ?=3D &quot;git://<a href=3D"http://sourceware.org/git/glibc.=
+git" rel=3D"noreferrer noreferrer noreferrer noreferrer" target=3D"_blank">=
+sourceware.org/git/glibc.git</a>&quot;
+</pre>
+      <br>
+      <fieldset></fieldset>
+      <pre>-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+Links: You receive all messages sent to this group.
+View/Reply Online (#172125): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/172125" rel=3D"noreferrer noreferrer noreferrer nor=
+eferrer" target=3D"_blank">https://lists.openembedded.org/g/openembedded-co=
+re/message/172125</a>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/94554674/3616=
+765" rel=3D"noreferrer noreferrer noreferrer noreferrer" target=3D"_blank">=
+https://lists.openembedded.org/mt/94554674/3616765</a>
+Group Owner: <a href=3D"mailto:openembedded-core+owner@lists.openembedded.o=
+rg" rel=3D"noreferrer noreferrer noreferrer noreferrer" target=3D"_blank">o=
+penembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer noreferrer noreferrer noreferrer" target=3D"_blank=
+">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href=3D"=
+mailto:randy.macleod@windriver.com" rel=3D"noreferrer noreferrer noreferrer=
+ noreferrer" target=3D"_blank">randy.macleod@windriver.com</a>]
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre cols=3D"72">--=20
+# Randy MacLeod
+# Wind River Linux</pre>
+  </div>
+
+</blockquote></div>
+
+--00000000000049fdf505ec085de7--
 
