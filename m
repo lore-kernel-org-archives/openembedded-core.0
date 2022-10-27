@@ -1,201 +1,107 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <bero@lindev.ch>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ED88ECAAA1
-	for <webhook@archiver.kernel.org>; Thu, 27 Oct 2022 20:27:30 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.2325.1666902449432520608
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98DE9ECAAA1
+	for <webhook@archiver.kernel.org>; Thu, 27 Oct 2022 23:14:32 +0000 (UTC)
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
+ by mx.groups.io with SMTP id smtpd.web12.328.1666912462086544443
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Oct 2022 13:27:29 -0700
+ Thu, 27 Oct 2022 16:14:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=ipzhwlwd;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=72994f9e95=joe.slater@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 29RDm3bc004093
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 13:27:29 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS06212021;
- bh=FRbAvxktEx0siNuTNhWMgUD2lA12Wyzv3Krz/YbVN/U=;
- b=ipzhwlwdr+ZTjAkQk5rdPNxJrT3sYI9Zl0zfjvvmdpJFr3wJwsgaxia9t0gITpu2z0s9
- gTGuvePipj9JCSX037+56RHeuhV5VdbLySlUE8HJ75K9U/YpsocTHvuG1H7sUMdd60aP
- RkBa5lmtZhbXFfutXyQE69hMRVHh8rY6ggRZ993/057eL9gOcX9P6w7xEMCgeT1h8hu3
- cpu2vUGubTIT4X2R7uWm+kFg+zZMLiWWHQZ7y/wxP3spL1A0sRQ5JVfNjzWGubDPFXWq
- lVOlRj4/fWfjydOPZZX0XqhCwGW57eK535bH9YjpB78NKAIf6RF1C86at+Zgpa1Li/Lo tg== 
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kfg3gru8v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 13:27:28 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 27 Oct 2022 13:27:28 -0700
-Received: from ala-jslater-lx2.corp.ad.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Thu, 27 Oct 2022 13:27:28 -0700
-From: Joe Slater <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
-Subject: [oe-core][PATCH 1/1] python: fix CVE-2022-37454
-Date: Thu, 27 Oct 2022 13:27:28 -0700
-Message-ID: <20221027202728.397273-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@baylibre-com.20210112.gappssmtp.com header.s=20210112 header.b=PRgootNj;
+ spf=pass (domain: baylibre.com, ip: 209.85.218.67, mailfrom: bero@baylibre.com)
+Received: by mail-ej1-f67.google.com with SMTP id d26so8955578eje.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 16:14:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HdMnKW9rRmL6JALsoEulmu3y5lkbuZe3H5tpXLdiJCg=;
+        b=PRgootNjDr7T/Riauf8p2ibMxw8Yh8+FPlc8JCknZB7UBH948S+XBE4TnJGT0t9zOi
+         Snu9T3EEWo19mzUMz09cUYWFZhLloku1PrOhemwDwwtjeIziqbW7/q6McV6zjToWvNvm
+         Sy7wumhbKON0ozueyCL0AHzmGaUeLVZDIwm4wor93JPOj5J1fFByb/JtjAY4TbIqdpEU
+         ON4qyi2eTqI5uBls8MZu9FcQLhBfKJM3K3PD0oT4zqOv3mcbapL5JlPL/2SkRw8i22A3
+         q/tCCPqt2aXeH4B4o6Av93Ro3iRqbfc5aT+z3JFl4YSvrGsl4tYnNFY9XlWjvoBWMIFi
+         rWMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HdMnKW9rRmL6JALsoEulmu3y5lkbuZe3H5tpXLdiJCg=;
+        b=KFi0H+Ne9bIyNm5oHIkRz+cUuS2L/XLlvwkHoZ9wG9tq/2QMlOdcnQgrJkbhtLarZa
+         9M/78YUj1wyWfmB4sIKTB1GkDZMe1vpcbYnPKwupGvvrCLP9tCf50Lqiuuv8G6gPvxyW
+         uFyFCnyONP40PGhKU/J2IHejxv6zo+WnZSanS3zkgvtiRG7vWhbd55tA/LkArnWLcJWB
+         EisXEw17Q43/QI2VxhjZbGBwLWwWe1cHTC1YGak4bB0yQX8ke1J1Omee/lqwfZOVf8yW
+         9Z1+GebN7cSjhCb9GUG7mKtqeElG/eaDuIcuQlSvWMI+zPp2i+98TgrSExxXKVKruA7u
+         LYzQ==
+X-Gm-Message-State: ACrzQf16hH0m5S4oFJfuEDT3+0AyrSdjA+Q63BudG03K/ApICPu2vkIM
+	8zIu70Wh7JA2D8hw8xuB7Htdgmd62KM7Yw==
+X-Google-Smtp-Source: AMsMyM7NjPIIKHOrTySOocod4FcXAsZTL7m5SqObuUzh4QEDdOk8yzJUNolqI7yXTk39vQZ/OplNqA==
+X-Received: by 2002:a17:907:31c3:b0:770:852b:71a2 with SMTP id xf3-20020a17090731c300b00770852b71a2mr44468285ejb.557.1666912459789;
+        Thu, 27 Oct 2022 16:14:19 -0700 (PDT)
+Received: from c64.fritz.box ([2a01:2a8:8108:8301:7643:bec8:f62b:b074])
+        by smtp.gmail.com with ESMTPSA id g19-20020a056402181300b004619f024864sm1622062edy.81.2022.10.27.16.14.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Oct 2022 16:14:19 -0700 (PDT)
+From: bero@baylibre.com
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Bernhard=20Rosenkr=C3=A4nzer?= <bero@baylibre.com>
+Subject: [PATCH] base.bbclass: Try harder to find a compatible tar implementation
+Date: Fri, 28 Oct 2022 01:13:50 +0200
+Message-Id: <20221027231350.418471-1-bero@baylibre.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: QtmPSux97In7xUj5vCeMI-_2-EUxdJQ4
-X-Proofpoint-ORIG-GUID: QtmPSux97In7xUj5vCeMI-_2-EUxdJQ4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-27_07,2022-10-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 suspectscore=0
- spamscore=0 bulkscore=0 adultscore=0 lowpriorityscore=0 mlxlogscore=999
- mlxscore=0 impostorscore=0 malwarescore=0 priorityscore=1501 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2210270115
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 20:27:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172228
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 23:14:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172229
 
-Import a patch from github.com/cpython/cpython.git
+From: Bernhard Rosenkränzer <bero@baylibre.com>
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+base.bbclass currently symlinks the first copy of tar on the PATH
+to hosttools.
+
+If that copy of tar isn't GNU tar (some Linux distributions use
+libarchive tar for the fact that it can handle zip files etc. as
+well; some others probably use busybox or toybox tar for space
+issues), the build fails early on because path.py uses --xattrs
+and --xattrs-include
+
+With this patch, base.bbclass checks if tar supports --xattrs-include,
+and checks for gtar if the first tar found doesn't support it.
+
+Signed-off-by: Bernhard Rosenkränzer <bero@baylibre.com>
 ---
- .../python/python3/cve-2022-37454.patch       | 108 ++++++++++++++++++
- .../recipes-devtools/python/python3_3.10.6.bb |   1 +
- 2 files changed, 109 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/cve-2022-37454.patch
+ meta/classes-global/base.bbclass | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3/cve-2022-37454.patch b/meta/recipes-devtools/python/python3/cve-2022-37454.patch
-new file mode 100644
-index 0000000000..c019151a64
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/cve-2022-37454.patch
-@@ -0,0 +1,108 @@
-+From 1f66b714c5f2fef80ec5389456ac31756dbfff0e Mon Sep 17 00:00:00 2001
-+From: Theo Buehler <botovq@users.noreply.github.com>
-+Date: Fri, 21 Oct 2022 21:26:01 +0200
-+Subject: [PATCH] gh-98517: Fix buffer overflows in _sha3 module (#98519)
-+
-+This is a port of the applicable part of XKCP's fix [1] for
-+CVE-2022-37454 and avoids the segmentation fault and the infinite
-+loop in the test cases published in [2].
-+
-+[1]: https://github.com/XKCP/XKCP/commit/fdc6fef075f4e81d6b1bc38364248975e08e340a
-+[2]: https://mouha.be/sha-3-buffer-overflow/
-+
-+Regression test added by: Gregory P. Smith [Google LLC] <greg@krypto.org>
-+---
-+
-+Patch applied without modification.
-+
-+CVE: CVE-2022-37454
-+
-+Upstream-Status: Backport [github.com/cpython/cpython.git 0e4e058602d...]
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+---
-+ Lib/test/test_hashlib.py                          |  9 +++++++++
-+ .../2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst |  1 +
-+ Modules/_sha3/kcp/KeccakSponge.inc                | 15 ++++++++-------
-+ 3 files changed, 18 insertions(+), 7 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst
-+
-+diff --git a/Lib/test/test_hashlib.py b/Lib/test/test_hashlib.py
-+index ea31f8b..65330e1 100644
-+--- a/Lib/test/test_hashlib.py
-++++ b/Lib/test/test_hashlib.py
-+@@ -491,6 +491,15 @@ class HashLibTestCase(unittest.TestCase):
-+     def test_case_md5_uintmax(self, size):
-+         self.check('md5', b'A'*size, '28138d306ff1b8281f1a9067e1a1a2b3')
-+ 
-++    @unittest.skipIf(sys.maxsize < _4G - 1, 'test cannot run on 32-bit systems')
-++    @bigmemtest(size=_4G - 1, memuse=1, dry_run=False)
-++    def test_sha3_update_overflow(self, size):
-++        """Regression test for gh-98517 CVE-2022-37454."""
-++        h = hashlib.sha3_224()
-++        h.update(b'\x01')
-++        h.update(b'\x01'*0xffff_ffff)
-++        self.assertEqual(h.hexdigest(), '80762e8ce6700f114fec0f621fd97c4b9c00147fa052215294cceeed')
-++
-+     # use the three examples from Federal Information Processing Standards
-+     # Publication 180-1, Secure Hash Standard,  1995 April 17
-+     # http://www.itl.nist.gov/div897/pubs/fip180-1.htm
-+diff --git a/Misc/NEWS.d/next/Security/2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst b/Misc/NEWS.d/next/Security/2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst
-+new file mode 100644
-+index 0000000..2d23a6a
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst
-+@@ -0,0 +1 @@
-++Port XKCP's fix for the buffer overflows in SHA-3 (CVE-2022-37454).
-+diff --git a/Modules/_sha3/kcp/KeccakSponge.inc b/Modules/_sha3/kcp/KeccakSponge.inc
-+index e10739d..cf92e4d 100644
-+--- a/Modules/_sha3/kcp/KeccakSponge.inc
-++++ b/Modules/_sha3/kcp/KeccakSponge.inc
-+@@ -171,7 +171,7 @@ int SpongeAbsorb(SpongeInstance *instance, const unsigned char *data, size_t dat
-+     i = 0;
-+     curData = data;
-+     while(i < dataByteLen) {
-+-        if ((instance->byteIOIndex == 0) && (dataByteLen >= (i + rateInBytes))) {
-++        if ((instance->byteIOIndex == 0) && (dataByteLen-i >= rateInBytes)) {
-+ #ifdef SnP_FastLoop_Absorb
-+             /* processing full blocks first */
-+ 
-+@@ -199,10 +199,10 @@ int SpongeAbsorb(SpongeInstance *instance, const unsigned char *data, size_t dat
-+         }
-+         else {
-+             /* normal lane: using the message queue */
-+-
-+-            partialBlock = (unsigned int)(dataByteLen - i);
-+-            if (partialBlock+instance->byteIOIndex > rateInBytes)
-++            if (dataByteLen-i > rateInBytes-instance->byteIOIndex)
-+                 partialBlock = rateInBytes-instance->byteIOIndex;
-++            else
-++                partialBlock = (unsigned int)(dataByteLen - i);
-+             #ifdef KeccakReference
-+             displayBytes(1, "Block to be absorbed (part)", curData, partialBlock);
-+             #endif
-+@@ -281,7 +281,7 @@ int SpongeSqueeze(SpongeInstance *instance, unsigned char *data, size_t dataByte
-+     i = 0;
-+     curData = data;
-+     while(i < dataByteLen) {
-+-        if ((instance->byteIOIndex == rateInBytes) && (dataByteLen >= (i + rateInBytes))) {
-++        if ((instance->byteIOIndex == rateInBytes) && (dataByteLen-i >= rateInBytes)) {
-+             for(j=dataByteLen-i; j>=rateInBytes; j-=rateInBytes) {
-+                 SnP_Permute(instance->state);
-+                 SnP_ExtractBytes(instance->state, curData, 0, rateInBytes);
-+@@ -299,9 +299,10 @@ int SpongeSqueeze(SpongeInstance *instance, unsigned char *data, size_t dataByte
-+                 SnP_Permute(instance->state);
-+                 instance->byteIOIndex = 0;
-+             }
-+-            partialBlock = (unsigned int)(dataByteLen - i);
-+-            if (partialBlock+instance->byteIOIndex > rateInBytes)
-++            if (dataByteLen-i > rateInBytes-instance->byteIOIndex)
-+                 partialBlock = rateInBytes-instance->byteIOIndex;
-++            else
-++                partialBlock = (unsigned int)(dataByteLen - i);
-+             i += partialBlock;
-+ 
-+             SnP_ExtractBytes(instance->state, curData, instance->byteIOIndex, partialBlock);
-+-- 
-+2.32.0
-+
-diff --git a/meta/recipes-devtools/python/python3_3.10.6.bb b/meta/recipes-devtools/python/python3_3.10.6.bb
-index 1f8b60a7a5..116d9ea670 100644
---- a/meta/recipes-devtools/python/python3_3.10.6.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.6.bb
-@@ -36,6 +36,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://deterministic_imports.patch \
-            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
-            file://0001-Mitigate-the-race-condition-in-testSockName.patch \
-+           file://cve-2022-37454.patch \
-            "
- 
- SRC_URI:append:class-native = " \
+diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bbclass
+index 8203f54519..b6391501ca 100644
+--- a/meta/classes-global/base.bbclass
++++ b/meta/classes-global/base.bbclass
+@@ -135,6 +135,16 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=True):
+             if os.path.islink(desttool):
+                 os.unlink(desttool)
+             srctool = bb.utils.which(path, tool, executable=True)
++            # copytree() uses tar options such as --xattrs and
++            # --xattrs-include that are currently specific to GNU tar.
++            # If the first tar in PATH is libarchive tar or busybox/toybox
++            # tar, GNU tar may well be available as gtar.
++            if (tool == "tar"):
++                import subprocess
++                if not b'--xattrs-include' in subprocess.check_output([srctool, '--help']):
++                    gtar = bb.utils.which(path, "gtar", executable=True)
++                    if gtar:
++                        srctool = gtar
+             # gcc/g++ may link to ccache on some hosts, e.g.,
+             # /usr/local/bin/ccache/gcc -> /usr/bin/ccache, then which(gcc)
+             # would return /usr/local/bin/ccache/gcc, but what we need is
 -- 
-2.25.1
+2.38.1
 
 
