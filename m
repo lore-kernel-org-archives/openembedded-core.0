@@ -1,107 +1,118 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <narpat.mali@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 487DAC433FE
-	for <webhook@archiver.kernel.org>; Thu, 27 Oct 2022 02:37:26 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web11.2217.1666838237594981618
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DF79C67871
+	for <webhook@archiver.kernel.org>; Thu, 27 Oct 2022 08:38:48 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.4234.1666859923685876697
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Oct 2022 19:37:17 -0700
+ Thu, 27 Oct 2022 01:38:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Z/J1BRKI;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id b29so74813pfp.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Oct 2022 19:37:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JB9GvbNeZCpcBXpg7OBacE0vrOm/8GCNaHH4a4AbgYI=;
-        b=Z/J1BRKIXE720+lvSUEquLeDieVCiB7OhOlOWchnlA+WcEtuZypwW/McNef0HGMGjl
-         aRXGq9d2F4fcPikcRx0PiFaifldNsGtRTZ2Aq+H9ryx92UYo0Ubkg0fbQEC06bl9pOKX
-         wJPBTZRS7BBqVfuTBVme9fimS+V9xlBQzIY/M8jgJeesFE98a2p7bp+ETGYse/hVT1wc
-         AuExOPokVH4iuHoe0OQhQfOhBSbEmMm92ZORd5wibmZm/xBOtb0UeDOkY0uFCLPoMxPg
-         t8yZbcAdGHnuxXJWNPr4Iz9Gxkqj/BTd2cBirBBtK3AOTJYGs9+36DSYm4/3DJTqcqm1
-         CE3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JB9GvbNeZCpcBXpg7OBacE0vrOm/8GCNaHH4a4AbgYI=;
-        b=eWOLVXPFeE+RjbYWkVBCvGh4aIFz9dszzCyQtHSjmMB4FL8jJbkl1GxtMbjTsv1u/u
-         fS35b9cwibmeidXxvh0J+X2N2GGrSHwARHLMbJFdrStw1fmcff0dNnXW4spMTKyGguXM
-         6iXWbXCE1mlIkw1LRQVUCLnQLtgU4GLSNMi39B8gy0YNjSpCmgnng1QzPJ5xskmr70ZG
-         oDznkCYqZO2ahmw8MqfeE3bYZZm9BFlityOm7LqTqqw3HBgr9WP1qJ/TmarrKEqUE3Kf
-         09mqsHD5En0crKmFypVsueueDp5FRZ+PLLtwFMucEz5kCP/VBamLN0riVYtfmOe6+Moj
-         JyAA==
-X-Gm-Message-State: ACrzQf3OXxLJLt+ID1VW2NB7OEj0hF7jCz3g8vj3h9YjWeM0QeMjJCYv
-	VkU91Yt7zM1cn920gjodvX4Due0v1FUHizrf
-X-Google-Smtp-Source: AMsMyM6skbNjK5Eq5FDxdCf0zWvmYbFIP5BRlK/4pb0e74VrSFfjPF6Uh8ZaTVQwGfYvJAS1oYaRfQ==
-X-Received: by 2002:a63:242:0:b0:46f:357f:ac75 with SMTP id 63-20020a630242000000b0046f357fac75mr8627762pgc.575.1666838236622;
-        Wed, 26 Oct 2022 19:37:16 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id b1-20020a62cf01000000b0056246403534sm81088pfg.88.2022.10.26.19.37.15
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Oct 2022 19:37:16 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 8/8] Revert "lttng-tools: Upgrade 2.13.4 -> 2.13.8"
-Date: Wed, 26 Oct 2022 16:36:41 -1000
-Message-Id: <82237927dbbf9ae19dd63622dd02beec3622575e.1666825041.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1666825041.git.steve@sakoman.com>
-References: <cover.1666825041.git.steve@sakoman.com>
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=hVpimOYO;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7299a514d3=narpat.mali@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 29R6jRHf005737
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 01:38:43 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=PPS06212021;
+ bh=0adTOWM7juvhNUDc9senPfM6c10vBRKuHaNnJtbu8y0=;
+ b=hVpimOYOZWueONXEqmXv6Gy+4cMVGdSj6iYyhmorFcv+nzqQur60QOsLh6expJ8zyyce
+ B85MOJ9aN3FUK08rSZzC3JZpJ9fu0rQZywTj94riVDykVj44SHGw0OtKwLNlil6zNb3S
+ F21YHFJNX+bog1CSzNSsljMC3lsjlLKkT74ikoRxyr3uekIrejynHBp2zptMwl80eiwZ
+ zK8haQBk/H9EvoBE1s1O0u4ot5x1OcMx0uq1ro0SlN6Kz3ztVWCYDHazChfUioNE0/2m
+ qqq10rtGV/S/HzhJBLIyZTv6JgzXoMUbmwy7ByrDmAQwBp/95RTi/NI8/vDbUO3ssi7P Xw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kfg3gr933-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 01:38:43 -0700
+Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29R8bpot020677
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 01:38:42 -0700
+Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kfg3gr931-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 27 Oct 2022 01:38:42 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Thu, 27 Oct 2022 01:38:41 -0700
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Thu, 27 Oct 2022 01:38:39 -0700
+From: Narpat Mali <narpat.mali@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <archana.polampalli@windriver.com>, <hari.gpillai@windriver.com>,
+        "Narpat
+ Mali" <narpat.mali@windriver.com>,
+        Alexander Kanavin <alex@linutronix.de>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [OE-core][kirkstone][PATCH 1/1] python3-mako: upgrade 1.1.6 -> 1.2.0
+Date: Thu, 27 Oct 2022 08:35:42 +0000
+Message-ID: <20221027083541.1757707-1-narpat.mali@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: Bu9JM6yJ8hVuaXNDvqeKJJX571xxB-_9
+X-Proofpoint-ORIG-GUID: Xs5i1LS-QpOjnK1gYdbFknMYsM-9AoG1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-27_03,2022-10-26_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 suspectscore=0
+ spamscore=0 bulkscore=0 adultscore=0 lowpriorityscore=0 mlxlogscore=999
+ mlxscore=0 impostorscore=0 malwarescore=0 priorityscore=1501 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2210270048
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 02:37:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172187
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 08:38:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172188
 
-Unfortunately this version upgrade results in failing ptests:
+License-Update: copyright years
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-AssertionError: Failed ptests:
-{'lttng-tools': ['kernel/test_callstack_11_-_Validate_userspace_callstack',
-                 'kernel/test_userspace_probe_94_-_Enable_kernel_userspace_probe_event_for_session_test_userprobe_elf_cxx_function',
-                 'kernel/test_userspace_probe_95_-_Start_tracing_for_session_test_userprobe_elf_cxx_function',
-                 'kernel/test_userspace_probe_96_-_Stop_lttng_tracing_for_session_test_userprobe_elf_cxx_function',
-                 'kernel/test_userspace_probe_97_-_Validate_trace_for_event_userspace_probe_test_event',
-                 'kernel/test_userspace_probe_100_-_Enable_kernel_userspace_probe_event_for_session_test_userprobe_elf_cxx_method',
-                 'kernel/test_userspace_probe_101_-_Start_tracing_for_session_test_userprobe_elf_cxx_method',
-                 'kernel/test_userspace_probe_102_-_Stop_lttng_tracing_for_session_test_userprobe_elf_cxx_method',
-                 'kernel/test_userspace_probe_103_-_Validate_trace_for_event_userspace_probe_test_event']}
+Upstream master commit:
+https://git.openembedded.org/openembedded-core/commit/?id=f273900e846b8ac416c9d579db32a08c2f34141e
 
-This reverts commit 17d18936d201a61b16bbc24c9f10af6ef54620fc.
-
-(cherry picked from commit 01cea6f046a6ec018c94ca88b6f8851c2baf43eb)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
 ---
- .../lttng/{lttng-tools_2.13.8.bb => lttng-tools_2.13.4.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/lttng/{lttng-tools_2.13.8.bb => lttng-tools_2.13.4.bb} (98%)
+ .../python/{python3-mako_1.1.6.bb => python3-mako_1.2.0.bb} | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-mako_1.1.6.bb => python3-mako_1.2.0.bb} (59%)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.13.8.bb b/meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb
-similarity index 98%
-rename from meta/recipes-kernel/lttng/lttng-tools_2.13.8.bb
-rename to meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb
-index 0b6dfa48a4..0ea4da05ce 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.13.8.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb
-@@ -39,7 +39,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
-            file://disable-tests.patch \
-            "
+diff --git a/meta/recipes-devtools/python/python3-mako_1.1.6.bb b/meta/recipes-devtools/python/python3-mako_1.2.0.bb
+similarity index 59%
+rename from meta/recipes-devtools/python/python3-mako_1.1.6.bb
+rename to meta/recipes-devtools/python/python3-mako_1.2.0.bb
+index 71e5d96ba1..11e5f326bd 100644
+--- a/meta/recipes-devtools/python/python3-mako_1.1.6.bb
++++ b/meta/recipes-devtools/python/python3-mako_1.2.0.bb
+@@ -2,16 +2,18 @@ SUMMARY = "Templating library for Python"
+ HOMEPAGE = "http://www.makotemplates.org/"
+ SECTION = "devel/python"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=943eb67718222db21d44a4ef1836675f"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=b32291f107a8f1ea94c4a41e00a6a18d"
  
--SRC_URI[sha256sum] = "b1e959579b260790930b20f3c7aa7cefb8a40e0de80d4a777c2bf78c6b353dc1"
-+SRC_URI[sha256sum] = "565f3102410a53d484f4c8ff517978f1dc59f67f9d16f872f4357f3ca12200f6"
+ PYPI_PACKAGE = "Mako"
  
- inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
+ inherit pypi python_setuptools_build_meta
+ 
+-SRC_URI[sha256sum] = "4e9e345a41924a954251b95b4b28e14a301145b544901332e658907a7464b6b2"
++SRC_URI[sha256sum] = "9a7c7e922b87db3686210cf49d5d767033a41d4010b284e747682c92bddd8b39"
+ 
+ RDEPENDS:${PN} = "${PYTHON_PN}-html \
++                  ${PYTHON_PN}-markupsafe \
+                   ${PYTHON_PN}-netclient \
++                  ${PYTHON_PN}-pygments \
+                   ${PYTHON_PN}-threading \
+ "
  
 -- 
-2.25.1
+2.34.1
 
 
