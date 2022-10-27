@@ -1,248 +1,105 @@
-Return-Path: <ecordonnier@snapchat.com>
+Return-Path: <narpat.mali@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4F97FA3740
-	for <webhook@archiver.kernel.org>; Thu, 27 Oct 2022 13:24:49 +0000 (UTC)
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
- by mx.groups.io with SMTP id smtpd.web09.6370.1666877088562216975
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7BF3ECAAA1
+	for <webhook@archiver.kernel.org>; Thu, 27 Oct 2022 13:30:39 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.6439.1666877436710060879
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Oct 2022 06:24:48 -0700
+ Thu, 27 Oct 2022 06:30:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snapchat.com header.s=google header.b=ftoA2fZY;
- spf=pass (domain: snapchat.com, ip: 209.85.167.171, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-oi1-f171.google.com with SMTP id y67so1993319oiy.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 06:24:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snapchat.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kBR5LIagZH4NjHiT8v1LhEAyDsLbfF8aW7FUbdoV83I=;
-        b=ftoA2fZYTTtEG+6e782Ar2fvmRDwMwRMk2TBoiYQAnrcRGRTQy6YsVS8Gj9d17qD5M
-         AZ1oSXa9Ptg0WKfcJbDV+vlOfofFFdJfiVrAf/SWAeIoT83rD7M7fNUqX5xQIu8CDIDA
-         uGMUFU6FNV+HGdeulZ2Qa/huak82FhujthntM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kBR5LIagZH4NjHiT8v1LhEAyDsLbfF8aW7FUbdoV83I=;
-        b=zfyRFKfGlFmRVHNRO48OSDt4br7pkYpGG4Xyghx3x/mzGRSIumBl5QrT0z3xntHAAZ
-         Q1/7cEfuRnOBcGlftoZ9c0r4Dzf5Vtnk74g5UTZ0lL2diEzG7nFn3pEVjarL1qLerajj
-         Fihc9QBiRLD7Nhq3VNhoGg3RIC7RwcrdqvD61SG1FPzBl3GaPdo+Vn0/s6Y8nsfZV1hr
-         q9zQTgFalVvk2uDtdJYlSMWwIytwVureHIhh3+HjRRufCaEoAqj/dCtt3486l8Pa4lFP
-         Q3Ydjw4RmRrxr3iZp5yNQXYbpijfl6V5kjlTtLAFzhlslQxTrgYW/zOikdP/wYC5fjc0
-         SixA==
-X-Gm-Message-State: ACrzQf06/7WhxdcgRfcS2auULB4kMoI6fgHEuWZBCIuqDSLfKBVaYuP5
-	+6nMSpfioLWzIT9pl2N09mJitXH170lPUBbGiKv/+g==
-X-Google-Smtp-Source: AMsMyM42zkmgHWickrf4WF7rUeVyHR1xZ+iXw2UQB51YTIbSEoZf17wFYibpM8wyIzZ9mg97vmQEip7f04VI82w7zUQ=
-X-Received: by 2002:a05:6808:211a:b0:354:b569:7a4d with SMTP id
- r26-20020a056808211a00b00354b5697a4dmr4858148oiw.107.1666877087613; Thu, 27
- Oct 2022 06:24:47 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=N45uO/lM;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7299a514d3=narpat.mali@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 29RCnfYR021871
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 13:30:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=PPS06212021;
+ bh=H31HSaT/5zPYGKjbC2h9z7cJoJJ37hUofb3NQmZ1dnI=;
+ b=N45uO/lMFfKpRH9m/NBdv974ZlkcFHnzr9J7CUfkZVwQb53uAYXZrLW1yuDVEnEuXjxj
+ wLDSYo0mkCjLc4XWHkUuLCQDqaRiu6ueMJLcZMnz2D7aGEsw1S0ssOkkkcDmpiK+egFv
+ eLftcvK48LdD5gj6s6D3WEmcZ4hFpshKIkGtTp/RWaywzmSPG+cJqinwrX6PSIis8oBX
+ JvX+YIBS/DqUEISzeSLbKaddKKNfPXbdWY4WwbSqMwdH7v6C0W5EFrPOVAxTB+vQ3E5K
+ 3EQrkYLZ4eodlYq0ngzWLlT0SqrEQ0ZV+NAh0fcgoLZpt8b56/4LoZkrhLAI2eecrHUE rA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kfg56gdpw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 13:30:35 +0000
+Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29RDT3mB028524
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 13:30:35 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kfg56gdpr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 27 Oct 2022 13:30:35 +0000
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Thu, 27 Oct 2022 06:30:32 -0700
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Thu, 27 Oct 2022 06:30:30 -0700
+From: Narpat Mali <narpat.mali@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <archana.polampalli@windriver.com>, <hari.gpillai@windriver.com>,
+        "Narpat
+ Mali" <narpat.mali@windriver.com>,
+        Wang Mingyu <wangmy@fujitsu.com>,
+        "Alexandre Belloni" <alexandre.belloni@bootlin.com>
+Subject: [OE-core][kirkstone][PATCH 1/1] python3-mako: upgrade 1.2.1 -> 1.2.2
+Date: Thu, 27 Oct 2022 13:29:04 +0000
+Message-ID: <20221027132904.1998146-1-narpat.mali@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <1721EF56935912B7.550@lists.openembedded.org>
-In-Reply-To: <1721EF56935912B7.550@lists.openembedded.org>
-From: Etienne Cordonnier <ecordonnier@snapchat.com>
-Date: Thu, 27 Oct 2022 15:24:36 +0200
-Message-ID: <CAHUKmYbuyn_WayncEW1kvUorpf3L5kQrWvx_1YXQXw85qd+rxg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] mirrors.bbclass: use shallow tarball for binutils-native
-To: ecordonnier@snapchat.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Etienne Cordonnier <ecordonnier@snap.com>
-Content-Type: multipart/alternative; boundary="000000000000b1270b05ec041073"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: 1_NqR0BvZbkhWsMfJlsrW64qsvBWRbRu
+X-Proofpoint-ORIG-GUID: o1S3DTHHOF6boqF40I4XRKPjxknpgz2e
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-27_06,2022-10-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ adultscore=0 bulkscore=0 lowpriorityscore=0 mlxscore=0 suspectscore=0
+ mlxlogscore=999 impostorscore=0 phishscore=0 malwarescore=0 clxscore=1015
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2210270072
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 13:24:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172192
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Oct 2022 13:30:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172193
 
---000000000000b1270b05ec041073
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-To give some context: this is useful e.g. when using meta-clang, because
-this introduces a dependency to binutils-native, and then a full tarball of
-binutils is fetched additionally to a shallow tarball. The original
-BB_GIT_SHALLOW lines were added because of
-https://www.mail-archive.com/yocto@lists.yoctoproject.org/msg08752.html
+Upstream master commit:
+https://git.openembedded.org/openembedded-core/commit/?id=10f9720a7fe1d25efce6a0ea0dec0052bb0f92c1
 
-On Thu, Oct 27, 2022 at 3:14 PM Etienne Cordonnier via
-lists.openembedded.org <ecordonnier=3Dsnapchat.com@lists.openembedded.org>
-wrote:
+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+---
+ .../python/{python3-mako_1.2.1.bb => python3-mako_1.2.2.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-mako_1.2.1.bb => python3-mako_1.2.2.bb} (85%)
 
-> From: Etienne Cordonnier <ecordonnier@snap.com>
->
-> Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
-> ---
->  meta/classes-global/mirrors.bbclass | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/classes-global/mirrors.bbclass
-> b/meta/classes-global/mirrors.bbclass
-> index 9643b31a23..81fef7f660 100644
-> --- a/meta/classes-global/mirrors.bbclass
-> +++ b/meta/classes-global/mirrors.bbclass
-> @@ -90,6 +90,7 @@ BB_GIT_SHALLOW:pn-binutils-cross-${TARGET_ARCH} =3D "1"
->  BB_GIT_SHALLOW:pn-binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} =3D =
-"1"
->  BB_GIT_SHALLOW:pn-binutils-cross-testsuite =3D "1"
->  BB_GIT_SHALLOW:pn-binutils-crosssdk-${SDK_SYS} =3D "1"
-> +BB_GIT_SHALLOW:pn-binutils-native =3D "1"
->  BB_GIT_SHALLOW:pn-glibc =3D "1"
->  PREMIRRORS +=3D "git://sourceware.org/git/glibc.git
-> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__downloads.yoctopro=
-ject.org_mirror_sources_&d=3DDwIDAg&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2=
-epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsyDLWdbBqarUzFxz3aALck&m=3DHZqdrpkiUB7hnG=
-1RurPpT_UDdD0HHF4_H2A17NA-iXcaB_xKloPWVn8KEJnsaXSp&s=3DPK8TU6Ag_9FbxwQ5PsAC=
-CV_iuEu5W1hiwl9A66A7rZU&e=3D
-> \
->                git://sourceware.org/git/binutils-gdb.git
-> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__downloads.yoctopro=
-ject.org_mirror_sources_&d=3DDwIDAg&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2=
-epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsyDLWdbBqarUzFxz3aALck&m=3DHZqdrpkiUB7hnG=
-1RurPpT_UDdD0HHF4_H2A17NA-iXcaB_xKloPWVn8KEJnsaXSp&s=3DPK8TU6Ag_9FbxwQ5PsAC=
-CV_iuEu5W1hiwl9A66A7rZU&e=3D
-> "
-> --
-> 2.36.1.vfs.0.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#172191):
-> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
-.org_g_openembedded-2Dcore_message_172191&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0h=
-pF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsyDLWdbBqarUzFxz3aALck&m=
-=3DHZqdrpkiUB7hnG1RurPpT_UDdD0HHF4_H2A17NA-iXcaB_xKloPWVn8KEJnsaXSp&s=3DiFJ=
-XGqQZMzQVU-0L7T_t0yEZ3SsRFmt0qMLlH2HiIzo&e=3D
-> Mute This Topic:
-> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
-.org_mt_94603459_7048784&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2=
-epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsyDLWdbBqarUzFxz3aALck&m=3DHZqdrpkiUB7hnG=
-1RurPpT_UDdD0HHF4_H2A17NA-iXcaB_xKloPWVn8KEJnsaXSp&s=3DqJhgNTK8IIs21DHnbbdp=
-80XGjQEdCaB69DdoHdm0oyg&e=3D
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:
-> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
-.org_g_openembedded-2Dcore_unsub&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHva=
-bgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsyDLWdbBqarUzFxz3aALck&m=3DHZqdrp=
-kiUB7hnG1RurPpT_UDdD0HHF4_H2A17NA-iXcaB_xKloPWVn8KEJnsaXSp&s=3Deqf_X4c3BZvu=
-kqCMaSWKziPII1gdEGJFZyWTNQSWCww&e=3D
-> [ecordonnier@snapchat.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+diff --git a/meta/recipes-devtools/python/python3-mako_1.2.1.bb b/meta/recipes-devtools/python/python3-mako_1.2.2.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-mako_1.2.1.bb
+rename to meta/recipes-devtools/python/python3-mako_1.2.2.bb
+index 8155c37984..e3774ee621 100644
+--- a/meta/recipes-devtools/python/python3-mako_1.2.1.bb
++++ b/meta/recipes-devtools/python/python3-mako_1.2.2.bb
+@@ -8,7 +8,7 @@ PYPI_PACKAGE = "Mako"
+ 
+ inherit pypi python_setuptools_build_meta
+ 
+-SRC_URI[sha256sum] = "f054a5ff4743492f1aa9ecc47172cb33b42b9d993cffcc146c9de17e717b0307"
++SRC_URI[sha256sum] = "3724869b363ba630a272a5f89f68c070352137b8fd1757650017b7e06fda163f"
+ 
+ RDEPENDS:${PN} = "${PYTHON_PN}-html \
+                   ${PYTHON_PN}-markupsafe \
+-- 
+2.34.1
 
---000000000000b1270b05ec041073
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">To give some context: this is useful e.g. when using meta-=
-clang, because this introduces a dependency to binutils-native, and then a =
-full tarball of binutils is fetched additionally to a shallow tarball. The =
-original BB_GIT_SHALLOW lines were added because of=C2=A0<a href=3D"https:/=
-/www.mail-archive.com/yocto@lists.yoctoproject.org/msg08752.html">https://w=
-ww.mail-archive.com/yocto@lists.yoctoproject.org/msg08752.html</a></div><br=
-><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, O=
-ct 27, 2022 at 3:14 PM Etienne Cordonnier via <a href=3D"http://lists.opene=
-mbedded.org">lists.openembedded.org</a> &lt;ecordonnier=3D<a href=3D"mailto=
-:snapchat.com@lists.openembedded.org">snapchat.com@lists.openembedded.org</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Fr=
-om: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@snap.com" target=
-=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
-<br>
-Signed-off-by: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@snap.co=
-m" target=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes-global/mirrors.bbclass | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/classes-global/mirrors.bbclass b/meta/classes-global/mirr=
-ors.bbclass<br>
-index 9643b31a23..81fef7f660 100644<br>
---- a/meta/classes-global/mirrors.bbclass<br>
-+++ b/meta/classes-global/mirrors.bbclass<br>
-@@ -90,6 +90,7 @@ BB_GIT_SHALLOW:pn-binutils-cross-${TARGET_ARCH} =3D &quot=
-;1&quot;<br>
-=C2=A0BB_GIT_SHALLOW:pn-binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} =
-=3D &quot;1&quot;<br>
-=C2=A0BB_GIT_SHALLOW:pn-binutils-cross-testsuite =3D &quot;1&quot;<br>
-=C2=A0BB_GIT_SHALLOW:pn-binutils-crosssdk-${SDK_SYS} =3D &quot;1&quot;<br>
-+BB_GIT_SHALLOW:pn-binutils-native =3D &quot;1&quot;<br>
-=C2=A0BB_GIT_SHALLOW:pn-glibc =3D &quot;1&quot;<br>
-=C2=A0PREMIRRORS +=3D &quot;git://<a href=3D"http://sourceware.org/git/glib=
-c.git" rel=3D"noreferrer" target=3D"_blank">sourceware.org/git/glibc.git</a=
-> <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__downloa=
-ds.yoctoproject.org_mirror_sources_&amp;d=3DDwIDAg&amp;c=3DncDTmphkJTvjIDPh=
-0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsyDLWdbBqarUzFxz3a=
-ALck&amp;m=3DHZqdrpkiUB7hnG1RurPpT_UDdD0HHF4_H2A17NA-iXcaB_xKloPWVn8KEJnsaX=
-Sp&amp;s=3DPK8TU6Ag_9FbxwQ5PsACCV_iuEu5W1hiwl9A66A7rZU&amp;e=3D" rel=3D"nor=
-eferrer" target=3D"_blank">https://urldefense.proofpoint.com/v2/url?u=3Dhtt=
-ps-3A__downloads.yoctoproject.org_mirror_sources_&amp;d=3DDwIDAg&amp;c=3Dnc=
-DTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsyDL=
-WdbBqarUzFxz3aALck&amp;m=3DHZqdrpkiUB7hnG1RurPpT_UDdD0HHF4_H2A17NA-iXcaB_xK=
-loPWVn8KEJnsaXSp&amp;s=3DPK8TU6Ag_9FbxwQ5PsACCV_iuEu5W1hiwl9A66A7rZU&amp;e=
-=3D</a>=C2=A0 \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"htt=
-p://sourceware.org/git/binutils-gdb.git" rel=3D"noreferrer" target=3D"_blan=
-k">sourceware.org/git/binutils-gdb.git</a> <a href=3D"https://urldefense.pr=
-oofpoint.com/v2/url?u=3Dhttps-3A__downloads.yoctoproject.org_mirror_sources=
-_&amp;d=3DDwIDAg&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=
-=3DAhkbNonVuMIGRfPx_Qj9TsyDLWdbBqarUzFxz3aALck&amp;m=3DHZqdrpkiUB7hnG1RurPp=
-T_UDdD0HHF4_H2A17NA-iXcaB_xKloPWVn8KEJnsaXSp&amp;s=3DPK8TU6Ag_9FbxwQ5PsACCV=
-_iuEu5W1hiwl9A66A7rZU&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">https:=
-//urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__downloads.yoctoproject.org=
-_mirror_sources_&amp;d=3DDwIDAg&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2=
-epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsyDLWdbBqarUzFxz3aALck&amp;m=3DHZqdrp=
-kiUB7hnG1RurPpT_UDdD0HHF4_H2A17NA-iXcaB_xKloPWVn8KEJnsaXSp&amp;s=3DPK8TU6Ag=
-_9FbxwQ5PsACCV_iuEu5W1hiwl9A66A7rZU&amp;e=3D</a> &quot;<br>
--- <br>
-2.36.1.vfs.0.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#172191): <a href=3D"https://urldefense.proofpoint.com/v=
-2/url?u=3Dhttps-3A__lists.openembedded.org_g_openembedded-2Dcore_message_17=
-2191&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp=
-;r=3DAhkbNonVuMIGRfPx_Qj9TsyDLWdbBqarUzFxz3aALck&amp;m=3DHZqdrpkiUB7hnG1Rur=
-PpT_UDdD0HHF4_H2A17NA-iXcaB_xKloPWVn8KEJnsaXSp&amp;s=3DiFJXGqQZMzQVU-0L7T_t=
-0yEZ3SsRFmt0qMLlH2HiIzo&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">http=
-s://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded.org_g=
-_openembedded-2Dcore_message_172191&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh=
-0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsyDLWdbBqarUzFxz3a=
-ALck&amp;m=3DHZqdrpkiUB7hnG1RurPpT_UDdD0HHF4_H2A17NA-iXcaB_xKloPWVn8KEJnsaX=
-Sp&amp;s=3DiFJXGqQZMzQVU-0L7T_t0yEZ3SsRFmt0qMLlH2HiIzo&amp;e=3D</a> <br>
-Mute This Topic: <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dht=
-tps-3A__lists.openembedded.org_mt_94603459_7048784&amp;d=3DDwIFaQ&amp;c=3Dn=
-cDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsyD=
-LWdbBqarUzFxz3aALck&amp;m=3DHZqdrpkiUB7hnG1RurPpT_UDdD0HHF4_H2A17NA-iXcaB_x=
-KloPWVn8KEJnsaXSp&amp;s=3DqJhgNTK8IIs21DHnbbdp80XGjQEdCaB69DdoHdm0oyg&amp;e=
-=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefense.proofpoint.com=
-/v2/url?u=3Dhttps-3A__lists.openembedded.org_mt_94603459_7048784&amp;d=3DDw=
-IFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuM=
-IGRfPx_Qj9TsyDLWdbBqarUzFxz3aALck&amp;m=3DHZqdrpkiUB7hnG1RurPpT_UDdD0HHF4_H=
-2A17NA-iXcaB_xKloPWVn8KEJnsaXSp&amp;s=3DqJhgNTK8IIs21DHnbbdp80XGjQEdCaB69Dd=
-oHdm0oyg&amp;e=3D</a> <br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-=
-3A__lists.openembedded.org_g_openembedded-2Dcore_unsub&amp;d=3DDwIFaQ&amp;c=
-=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9=
-TsyDLWdbBqarUzFxz3aALck&amp;m=3DHZqdrpkiUB7hnG1RurPpT_UDdD0HHF4_H2A17NA-iXc=
-aB_xKloPWVn8KEJnsaXSp&amp;s=3Deqf_X4c3BZvukqCMaSWKziPII1gdEGJFZyWTNQSWCww&a=
-mp;e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefense.proofpoint=
-.com/v2/url?u=3Dhttps-3A__lists.openembedded.org_g_openembedded-2Dcore_unsu=
-b&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=
-=3DAhkbNonVuMIGRfPx_Qj9TsyDLWdbBqarUzFxz3aALck&amp;m=3DHZqdrpkiUB7hnG1RurPp=
-T_UDdD0HHF4_H2A17NA-iXcaB_xKloPWVn8KEJnsaXSp&amp;s=3Deqf_X4c3BZvukqCMaSWKzi=
-PII1gdEGJFZyWTNQSWCww&amp;e=3D</a>=C2=A0 [<a href=3D"mailto:ecordonnier@sna=
-pchat.com" target=3D"_blank">ecordonnier@snapchat.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000b1270b05ec041073--
 
