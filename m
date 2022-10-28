@@ -1,260 +1,102 @@
-Return-Path: <s.zhmylev@yadro.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3B3AFA3741
-	for <webhook@archiver.kernel.org>; Fri, 28 Oct 2022 13:05:46 +0000 (UTC)
-Received: from mta-01.yadro.com (mta-01.yadro.com [89.207.88.252])
- by mx.groups.io with SMTP id smtpd.web08.5815.1666962342418056490
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2B2EC38A02
+	for <webhook@archiver.kernel.org>; Fri, 28 Oct 2022 13:12:36 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web11.6037.1666962752403251130
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Oct 2022 06:05:43 -0700
+ Fri, 28 Oct 2022 06:12:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@yadro.com header.s=mta-01 header.b=E9QJSDfQ;
- spf=pass (domain: yadro.com, ip: 89.207.88.252, mailfrom: s.zhmylev@yadro.com)
-Received: from localhost (unknown [127.0.0.1])
-	by mta-01.yadro.com (Postfix) with ESMTP id 8D4EF41207;
-	Fri, 28 Oct 2022 13:05:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
-	mime-version:content-type:content-type:content-language
-	:accept-language:in-reply-to:references:message-id:date:date
-	:subject:subject:from:from:received:received:received:received
-	:received; s=mta-01; t=1666962338; x=1668776739; bh=dTpqOmEdyhDi
-	USjhWhytbP98A9Webi7jnUluWD55dyg=; b=E9QJSDfQhkzl+jA/mxrJD0KwimjN
-	gL6hVtihqfpN7Fw9Wfb1CoNhWU6ilnARFFp+e3cqu0JQJOgV8NfANF6+SuHTp5ZE
-	mbzFdJ5FDaW2jJ6uzuPAp5wDrWDQ48c57GRI5dBO9AIWzqgMMGiFLvfd4PA+w+KP
-	yPM9ae2IDNHgBGg=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
-	by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 81YSCs9-N17v; Fri, 28 Oct 2022 16:05:38 +0300 (MSK)
-Received: from T-EXCH-01.corp.yadro.com (T-EXCH-01.corp.yadro.com [172.17.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mta-01.yadro.com (Postfix) with ESMTPS id A638641221;
-	Fri, 28 Oct 2022 16:05:12 +0300 (MSK)
-Received: from T-EXCH-09.corp.yadro.com (172.17.11.59) by
- T-EXCH-01.corp.yadro.com (172.17.10.101) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.669.32; Fri, 28 Oct 2022 16:05:12 +0300
-Received: from T-EXCH-08.corp.yadro.com (172.17.11.58) by
- T-EXCH-09.corp.yadro.com (172.17.11.59) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.9; Fri, 28 Oct 2022 16:05:11 +0300
-Received: from T-EXCH-08.corp.yadro.com ([172.17.11.58]) by
- T-EXCH-08.corp.yadro.com ([172.17.11.58]) with mapi id 15.02.1118.009; Fri,
- 28 Oct 2022 16:05:11 +0300
-From: Sergey Zhmylev <s.zhmylev@yadro.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "ciaran.courtney@activeenergy.ie"
-	<ciaran.courtney@activeenergy.ie>
-Subject: Re: [OE-core] [PATCH] wic: swap partitions are not added to fstab
-Thread-Topic: [OE-core] [PATCH] wic: swap partitions are not added to fstab
-Thread-Index: AQHY6skvAq/IWMs7Y06yBH4H1RPRFq4jk/WA
-Date: Fri, 28 Oct 2022 13:05:11 +0000
-Message-ID: <b1da60bfe5e0910037a6dac36c75a6e2d078ba6b.camel@yadro.com>
-References: <20221028123050.3910-1-ciaran.courtney@activeenergy.ie>
-In-Reply-To: <20221028123050.3910-1-ciaran.courtney@activeenergy.ie>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.22.3.32]
-Content-Type: multipart/related;
-	boundary="_004_b1da60bfe5e0910037a6dac36c75a6e2d078ba6bcamelyadrocom_";
-	type="multipart/alternative"
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=PHFxqwLA;
+ spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f47.google.com with SMTP id z14so6537445wrn.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Oct 2022 06:12:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vdWL8Du/dRPuA72jWxGXafTDoK1euD4PUQz0S1HAbe4=;
+        b=PHFxqwLAZMdcBcoM6P+aA0y6ru91FkH7UUAIz9EklNino3wpAPLFtl0SqDo68/M590
+         RmI2Gwq08sp5o+HrBFGP+Hg6CInpNaJ9K0lfJj9OxIXkQ2yxbSLLdtM3JId5CLzPYiLa
+         BTfjMEK546YSi3R9Lh/p/p/9cl4FPARdfDYRpaNZSnc1YjDr9RfOVv4QJABk1OYQv0aj
+         slJeMSq6y9Zj1EXFXqADd54S/ImVN6hbfKMOuVmLnme7nmfzLNQ9llY4XqWR1XWpilA8
+         FIKRCfsnVyFF6GiHiFY1t5rFYWsra0rQdn+b5jfYOEIF+tQF46+Y4b9Q8PtbbLjGj9My
+         L9eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vdWL8Du/dRPuA72jWxGXafTDoK1euD4PUQz0S1HAbe4=;
+        b=cZiQK6pm5I3ISRRNDNY3bppy49I728s8Ce29lU0KHymK3bsQl/qz7L2Hbs96QoIyoi
+         2iH1V9k659l/r/CkjxKbjBNjR0Hr8kfHZp/y7CewrNMFktJo896P6TdJ2yaXAPW97ieD
+         RRRLsZaQ5NFAVu4pewo9T9TAwfmRijVR0qWfI9GUY//6A7sf3F5NlBZg4KQR2sXVlhRH
+         yOg83jTHA3JQ0ZCiRZIK4NBv7QbAq9sDgP39x+rVjuuji9XJrGzJ2bB1oV+KZCJiBTue
+         rtM2+7qFiDvRNuazU4jpTUscCeGi5vqRIa8cGsP7nqzZsyms3UtWUsbpK6XQiHDLmaBv
+         taug==
+X-Gm-Message-State: ACrzQf1Qh/OBwnEbPOcwVKm8EeejRG1WVvOe09L/k+U7RABsoS4B/2Us
+	ot1HOzA41YqW/P/O7tlqHgE4H1bfS3qrR2JXJj0=
+X-Google-Smtp-Source: AMsMyM7UIgqr4L8DKLRNvSPenNmMc2MD/dIi9wRswXefSLI0Z53QixHZmxtuKYfCD0MBR2wMxRTVfO7N7I4+fYiFbm0=
+X-Received: by 2002:adf:f8c3:0:b0:236:9c97:6f6b with SMTP id
+ f3-20020adff8c3000000b002369c976f6bmr3776884wrq.548.1666962750799; Fri, 28
+ Oct 2022 06:12:30 -0700 (PDT)
 MIME-Version: 1.0
+References: <20221028123050.3910-1-ciaran.courtney@activeenergy.ie> <b1da60bfe5e0910037a6dac36c75a6e2d078ba6b.camel@yadro.com>
+In-Reply-To: <b1da60bfe5e0910037a6dac36c75a6e2d078ba6b.camel@yadro.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 28 Oct 2022 15:12:18 +0200
+Message-ID: <CA+chaQdqMPBTSa=UNpzCbhJfG9ZN8MB3gG+L2GrGz7SD30EhZQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] wic: swap partitions are not added to fstab
+To: Sergey Zhmylev <s.zhmylev@yadro.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"ciaran.courtney@activeenergy.ie" <ciaran.courtney@activeenergy.ie>
+Content-Type: multipart/alternative; boundary="0000000000009d83b305ec1802ec"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Oct 2022 13:05:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172255
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Oct 2022 13:12:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172256
 
---_004_b1da60bfe5e0910037a6dac36c75a6e2d078ba6bcamelyadrocom_
-Content-Type: multipart/alternative;
-	boundary="_000_b1da60bfe5e0910037a6dac36c75a6e2d078ba6bcamelyadrocom_"
+--0000000000009d83b305ec1802ec
+Content-Type: text/plain; charset="UTF-8"
 
---_000_b1da60bfe5e0910037a6dac36c75a6e2d078ba6bcamelyadrocom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Fri, Oct 28, 2022 at 3:05 PM Sergey Zhmylev <s.zhmylev@yadro.com> wrote:
 
-VGhlIGNvbW1pdCB5b3UncmUgcmVmZmVyaW5nIHRvIGlzIGFic2VudDogaHR0cHM6Ly9naXQueW9j
-dG9wcm9qZWN0Lm9yZy9wb2t5L2NvbW1pdC8/aWQ9N2FhNjc4Y2U4MDRjMjFkYzFkYzUxYjliZTQ0
-MjY3MWJjMzNjNDA0MQ0KSXQgZG9lcyBub3QgZXhpc3QgZWl0aGVyIGluIHBva3ktY29udHJpYiBh
-bmQgb24gZ2l0aHViLg0KDQpCVFcgSSd2ZSBzZW50IHlvdSB0aGUgc25pcHBldCBmcm9tIHN5c3Rl
-bWQgYnVpbGQgd2hpY2ggc2hvd3MgdGhhdCBzd2FwIHBhcnRpdGlvbiBpcyBzdGlsbCBiZWluZyB1
-c2VkIGRlc3BpdGUgbWlzc2luZyBmc3RhYiBlbnRyeS4NCg0KTXkgcXVlc3Rpb24gZG9lcyBub3Qg
-aW1wbHkgdGhhdCBJJ20gbm90IGhhcHB5IHdpdGggdGhlIHBhdGNoIGFzIGRpcmVjdCBpbWFnZXIg
-cGx1Z2luIHdpbGwgcHJvcGVybHkgaGFuZGxlIHN3YXAgcGFydGl0aW9uLg0KVGhhbmtzIQ0KDQot
-LQ0KDQpXaXRoIGJlc3Qgd2lzaGVzLA0KW2NpZDphNTNkZGM5OWI2OGYwMWE2N2E1NzUzOGU4NzJh
-ZTYzODkzMzlkNWVkLmNhbWVsQHlhZHJvLmNvbS0wXSAgICAgICAgU2VyZ2VpIFpobXlsZXYNCkVu
-Z2luZWVyaW5nIGNvbnN1bHRhbnQNCk9TIGRldmVsb3BtZW50IGRlcGFydG1lbnQNCg0KDQoNCg0K
-DQoNCg0K0JIg0J/RgiwgMjgvMTAvMjAyMiDQsiAxMzozMCArMDEwMCwgY2lhcmFuLmNvdXJ0bmV5
-QGFjdGl2ZWVuZXJneS5pZSDQv9C40YjQtdGCOg0KwqvQktC90LjQvNCw0L3QuNC1ISDQlNCw0L3Q
-vdC+0LUg0L/QuNGB0YzQvNC+INC+0YIg0LLQvdC10YjQvdC10LPQviDQsNC00YDQtdGB0LDRgtCw
-IcK7DQoNCkZyb206IGNpYXJhbmNvdXJ0bmV5IDxjaWFyYW4uY291cnRuZXlAYWN0aXZlZW5lcmd5
-LmllPG1haWx0bzpjaWFyYW4uY291cnRuZXlAYWN0aXZlZW5lcmd5LmllPj4NCg0KLSBSZWdyZXNz
-aW9uIGluIDdhYTY3OGNlODA0YzIxZGMxZGM1MWI5YmU0NDI2NzFiYzMzYzQwNDENCg0KDQpTaWdu
-ZWQtb2ZmLWJ5OiBDaWFyYW4gQ291cnRuZXkgPGNpYXJhbi5jb3VydG5leUBhY3RpdmVlbmVyZ3ku
-aWU8bWFpbHRvOmNpYXJhbi5jb3VydG5leUBhY3RpdmVlbmVyZ3kuaWU+Pg0KLS0tDQogc2NyaXB0
-cy9saWIvd2ljL3BsdWdpbnMvaW1hZ2VyL2RpcmVjdC5weSB8IDIgKy0NCiAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCg0KZGlmZiAtLWdpdCBhL3NjcmlwdHMv
-bGliL3dpYy9wbHVnaW5zL2ltYWdlci9kaXJlY3QucHkgYi9zY3JpcHRzL2xpYi93aWMvcGx1Z2lu
-cy9pbWFnZXIvZGlyZWN0LnB5DQppbmRleCA1ODk2NWI3NWRhLi5kZmFhOTAxNTY3IDEwMDY0NA0K
-LS0tIGEvc2NyaXB0cy9saWIvd2ljL3BsdWdpbnMvaW1hZ2VyL2RpcmVjdC5weQ0KKysrIGIvc2Ny
-aXB0cy9saWIvd2ljL3BsdWdpbnMvaW1hZ2VyL2RpcmVjdC5weQ0KQEAgLTExNyw3ICsxMTcsNyBA
-QCBjbGFzcyBEaXJlY3RQbHVnaW4oSW1hZ2VyUGx1Z2luKToNCiAgICAgICAgIHVwZGF0ZWQgPSBG
-YWxzZQ0KICAgICAgICAgZm9yIHBhcnQgaW4gc2VsZi5wYXJ0czoNCiAgICAgICAgICAgICBpZiBu
-b3QgcGFydC5yZWFsbnVtIG9yIG5vdCBwYXJ0Lm1vdW50cG9pbnQgXA0KLSAgICAgICAgICAgICAg
-IG9yIHBhcnQubW91bnRwb2ludCA9PSAiLyIgb3Igbm90IHBhcnQubW91bnRwb2ludC5zdGFydHN3
-aXRoKCcvJyk6DQorICAgICAgICAgICAgICAgb3IgcGFydC5tb3VudHBvaW50ID09ICIvIiBvciBu
-b3QgKHBhcnQubW91bnRwb2ludC5zdGFydHN3aXRoKCcvJykgb3IgcGFydC5tb3VudHBvaW50ID09
-ICJzd2FwIik6DQogICAgICAgICAgICAgICAgIGNvbnRpbnVlDQoNCiAgICAgICAgICAgICBpZiBw
-YXJ0LnVzZV91dWlkOg0KLS0NCjIuMzQuMQ0KDQoNCi09LT0tPS09LT0tPS09LT0tPS09LT0tDQpM
-aW5rczogWW91IHJlY2VpdmUgYWxsIG1lc3NhZ2VzIHNlbnQgdG8gdGhpcyBncm91cC4NClZpZXcv
-UmVwbHkgT25saW5lICgjMTcyMjU0KTogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cv
-b3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8xNzIyNTQNCk11dGUgVGhpcyBUb3BpYzogaHR0cHM6
-Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL210Lzk0NjIzMTA0LzcyMjA1NDYNCkdyb3VwIE93bmVy
-OiBvcGVuZW1iZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPG1haWx0bzpv
-cGVuZW1iZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KVW5zdWJzY3Jp
-YmU6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vu
-c3ViIFtzLnpobXlsZXZAeWFkcm8uY29tPG1haWx0bzpzLnpobXlsZXZAeWFkcm8uY29tPl0NCi09
-LT0tPS09LT0tPS09LT0tPS09LT0tDQoNCg==
+> The commit you're reffering to is absent:
+> https://git.yoctoproject.org/poky/commit/?id=7aa678ce804c21dc1dc51b9be442671bc33c4041
+> It does not exist either in poky-contrib and on github.
+>
 
---_000_b1da60bfe5e0910037a6dac36c75a6e2d078ba6bcamelyadrocom_
-Content-Type: text/html; charset="utf-8"
-Content-ID: <861B4E20DD48AA409A137AF2AF56B785@yadro.com>
-Content-Transfer-Encoding: base64
+https://git.openembedded.org/openembedded-core/commit/?h=7aa678ce804c21dc1dc51b9be442671bc33c4041
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5Pg0KPGRpdj5UaGUgY29t
-bWl0IHlvdSdyZSByZWZmZXJpbmcgdG8gaXMgYWJzZW50OiZuYnNwOzxhIGhyZWY9Imh0dHBzOi8v
-Z2l0LnlvY3RvcHJvamVjdC5vcmcvcG9reS9jb21taXQvP2lkPTdhYTY3OGNlODA0YzIxZGMxZGM1
-MWI5YmU0NDI2NzFiYzMzYzQwNDEiPmh0dHBzOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvcG9reS9j
-b21taXQvP2lkPTdhYTY3OGNlODA0YzIxZGMxZGM1MWI5YmU0NDI2NzFiYzMzYzQwNDE8L2E+PC9k
-aXY+DQo8ZGl2Pkl0IGRvZXMgbm90IGV4aXN0IGVpdGhlciBpbiBwb2t5LWNvbnRyaWIgYW5kIG9u
-IGdpdGh1Yi48L2Rpdj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2PkJUVyBJJ3ZlIHNlbnQgeW91
-IHRoZSBzbmlwcGV0IGZyb20gc3lzdGVtZCBidWlsZCB3aGljaCBzaG93cyB0aGF0IHN3YXAgcGFy
-dGl0aW9uIGlzIHN0aWxsIGJlaW5nIHVzZWQgZGVzcGl0ZSBtaXNzaW5nIGZzdGFiIGVudHJ5Ljwv
-ZGl2Pg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+TXkgcXVlc3Rpb24gZG9lcyBub3QgaW1wbHkg
-dGhhdCBJJ20gbm90IGhhcHB5IHdpdGggdGhlIHBhdGNoIGFzIGRpcmVjdCBpbWFnZXIgcGx1Z2lu
-IHdpbGwgcHJvcGVybHkgaGFuZGxlIHN3YXAgcGFydGl0aW9uLjwvZGl2Pg0KPGRpdj5UaGFua3Mh
-PC9kaXY+DQo8ZGl2PjxzcGFuPg0KPHByZT4tLSA8YnI+PC9wcmU+DQo8ZGl2PldpdGggYmVzdCB3
-aXNoZXMsPGJyPg0KPHRhYmxlIGFsaWduPSJsZWZ0IiB3aWR0aD0iMzAwcHgiIGNlbGxzcGFjaW5n
-PSIyIiBjZWxscGFkZGluZz0iMSIgYm9yZGVyPSIwIiBiZ2NvbG9yPSIiPg0KPHRib2R5Pg0KPHRy
-Pg0KPHRkIHdpZHRoPSI3MHB4IiBhbGlnbj0iY2VudGVyIj48aW1nIHNyYz0iY2lkOmE1M2RkYzk5
-YjY4ZjAxYTY3YTU3NTM4ZTg3MmFlNjM4OTMzOWQ1ZWQuY2FtZWxAeWFkcm8uY29tLTAiIHdpZHRo
-PSI2M3B4IiBoZWlnaHQ9IjUwcHgiPjwvdGQ+DQo8dGQgYWxpZ249ImxlZnQiIHdpZHRoPSIyMzBw
-eCIgdmFsaWduPSJtaWRkbGUiIGJnY29sb3I9IiI+PGI+U2VyZ2VpIFpobXlsZXY8L2I+PGJyPg0K
-PGZvbnQgY29sb3I9IiM5Njk2OTYiPkVuZ2luZWVyaW5nIGNvbnN1bHRhbnQ8YnI+DQpPUyBkZXZl
-bG9wbWVudCBkZXBhcnRtZW50PC9mb250PjwvdGQ+DQo8L3RyPg0KPC90Ym9keT4NCjwvdGFibGU+
-DQo8YnI+DQo8L2Rpdj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRp
-dj48YnI+DQo8L2Rpdj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPC9z
-cGFuPjwvZGl2Pg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+0JIg0J/RgiwgMjgvMTAvMjAyMiDQ
-siAxMzozMCAmIzQzOzAxMDAsIGNpYXJhbi5jb3VydG5leUBhY3RpdmVlbmVyZ3kuaWUg0L/QuNGI
-0LXRgjo8L2Rpdj4NCjxibG9ja3F1b3RlIHR5cGU9ImNpdGUiIHN0eWxlPSJtYXJnaW46MCAwIDAg
-LjhleDsgYm9yZGVyLWxlZnQ6MnB4ICM3MjlmY2Ygc29saWQ7cGFkZGluZy1sZWZ0OjFleCI+DQo8
-ZGl2PsKr0JLQvdC40LzQsNC90LjQtSEg0JTQsNC90L3QvtC1INC/0LjRgdGM0LzQviDQvtGCINCy
-0L3QtdGI0L3QtdCz0L4g0LDQtNGA0LXRgdCw0YLQsCHCuzxicj4NCjwvZGl2Pg0KPGRpdj48YnI+
-DQo8L2Rpdj4NCjxkaXY+RnJvbTogY2lhcmFuY291cnRuZXkgJmx0OzxhIGhyZWY9Im1haWx0bzpj
-aWFyYW4uY291cnRuZXlAYWN0aXZlZW5lcmd5LmllIj5jaWFyYW4uY291cnRuZXlAYWN0aXZlZW5l
-cmd5LmllPC9hPiZndDs8YnI+DQo8L2Rpdj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2Pi0gUmVn
-cmVzc2lvbiBpbiA3YWE2NzhjZTgwNGMyMWRjMWRjNTFiOWJlNDQyNjcxYmMzM2M0MDQxPGJyPg0K
-PC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+U2lnbmVk
-LW9mZi1ieTogQ2lhcmFuIENvdXJ0bmV5ICZsdDs8YSBocmVmPSJtYWlsdG86Y2lhcmFuLmNvdXJ0
-bmV5QGFjdGl2ZWVuZXJneS5pZSI+Y2lhcmFuLmNvdXJ0bmV5QGFjdGl2ZWVuZXJneS5pZTwvYT4m
-Z3Q7PGJyPg0KPC9kaXY+DQo8ZGl2Pi0tLTxicj4NCjwvZGl2Pg0KPGRpdj4mbmJzcDtzY3JpcHRz
-L2xpYi93aWMvcGx1Z2lucy9pbWFnZXIvZGlyZWN0LnB5IHwgMiAmIzQzOy08YnI+DQo8L2Rpdj4N
-CjxkaXY+Jm5ic3A7MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCYjNDM7KSwgMSBkZWxldGlv
-bigtKTxicj4NCjwvZGl2Pg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+ZGlmZiAtLWdpdCBhL3Nj
-cmlwdHMvbGliL3dpYy9wbHVnaW5zL2ltYWdlci9kaXJlY3QucHkgYi9zY3JpcHRzL2xpYi93aWMv
-cGx1Z2lucy9pbWFnZXIvZGlyZWN0LnB5PGJyPg0KPC9kaXY+DQo8ZGl2PmluZGV4IDU4OTY1Yjc1
-ZGEuLmRmYWE5MDE1NjcgMTAwNjQ0PGJyPg0KPC9kaXY+DQo8ZGl2Pi0tLSBhL3NjcmlwdHMvbGli
-L3dpYy9wbHVnaW5zL2ltYWdlci9kaXJlY3QucHk8YnI+DQo8L2Rpdj4NCjxkaXY+JiM0MzsmIzQz
-OyYjNDM7IGIvc2NyaXB0cy9saWIvd2ljL3BsdWdpbnMvaW1hZ2VyL2RpcmVjdC5weTxicj4NCjwv
-ZGl2Pg0KPGRpdj5AQCAtMTE3LDcgJiM0MzsxMTcsNyBAQCBjbGFzcyBEaXJlY3RQbHVnaW4oSW1h
-Z2VyUGx1Z2luKTo8YnI+DQo8L2Rpdj4NCjxkaXY+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IHVwZGF0ZWQgPSBGYWxzZTxicj4NCjwvZGl2Pg0KPGRpdj4m
-bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgZm9yIHBhcnQg
-aW4gc2VsZi5wYXJ0czo8YnI+DQo8L2Rpdj4NCjxkaXY+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IGlmIG5vdCBw
-YXJ0LnJlYWxudW0gb3Igbm90IHBhcnQubW91bnRwb2ludCBcPGJyPg0KPC9kaXY+DQo8ZGl2Pi0m
-bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
-cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgb3IgcGFydC5tb3VudHBvaW50ID09ICZxdW90Oy8m
-cXVvdDsgb3Igbm90IHBhcnQubW91bnRwb2ludC5zdGFydHN3aXRoKCcvJyk6PGJyPg0KPC9kaXY+
-DQo8ZGl2PiYjNDM7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IG9yIHBhcnQubW91bnRwb2lu
-dCA9PSAmcXVvdDsvJnF1b3Q7IG9yIG5vdCAocGFydC5tb3VudHBvaW50LnN0YXJ0c3dpdGgoJy8n
-KSBvciBwYXJ0Lm1vdW50cG9pbnQgPT0gJnF1b3Q7c3dhcCZxdW90Oyk6PGJyPg0KPC9kaXY+DQo8
-ZGl2PiZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBjb250aW51ZTxicj4N
-CjwvZGl2Pg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IGlmIHBhcnQu
-dXNlX3V1aWQ6PGJyPg0KPC9kaXY+DQo8ZGl2Pi0tPGJyPg0KPC9kaXY+DQo8ZGl2PjIuMzQuMTxi
-cj4NCjwvZGl2Pg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2Pi09
-LT0tPS09LT0tPS09LT0tPS09LT0tPGJyPg0KPC9kaXY+DQo8ZGl2PkxpbmtzOiBZb3UgcmVjZWl2
-ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLjxicj4NCjwvZGl2Pg0KPGRpdj5WaWV3
-L1JlcGx5IE9ubGluZSAoIzE3MjI1NCk6IDxhIGhyZWY9Imh0dHBzOi8vbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMTcyMjU0Ij4NCmh0dHBzOi8vbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMTcyMjU0PC9h
-Pjxicj4NCjwvZGl2Pg0KPGRpdj5NdXRlIFRoaXMgVG9waWM6IDxhIGhyZWY9Imh0dHBzOi8vbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZy9tdC85NDYyMzEwNC83MjIwNTQ2Ij4NCmh0dHBzOi8vbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZy9tdC85NDYyMzEwNC83MjIwNTQ2PC9hPjxicj4NCjwvZGl2Pg0KPGRp
-dj5Hcm91cCBPd25lcjogPGEgaHJlZj0ibWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlJiM0Mztvd25l
-ckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIj4NCm9wZW5lbWJlZGRlZC1jb3JlJiM0Mztvd25lckBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnPC9hPjxicj4NCjwvZGl2Pg0KPGRpdj5VbnN1YnNjcmliZTog
-PGEgaHJlZj0iaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNv
-cmUvdW5zdWIiPg0KaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVk
-LWNvcmUvdW5zdWI8L2E+Jm5ic3A7WzxhIGhyZWY9Im1haWx0bzpzLnpobXlsZXZAeWFkcm8uY29t
-Ij5zLnpobXlsZXZAeWFkcm8uY29tPC9hPl08YnI+DQo8L2Rpdj4NCjxkaXY+LT0tPS09LT0tPS09
-LT0tPS09LT0tPS08YnI+DQo8L2Rpdj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8L2Jsb2NrcXVvdGU+
-DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
---_000_b1da60bfe5e0910037a6dac36c75a6e2d078ba6bcamelyadrocom_--
+It's oe-core commit.
 
---_004_b1da60bfe5e0910037a6dac36c75a6e2d078ba6bcamelyadrocom_
-Content-Type: image/png; name="image001.png"
-Content-Description: image001.png
-Content-Disposition: inline; filename="image001.png"; size=1982;
-	creation-date="Fri, 28 Oct 2022 13:05:11 GMT";
-	modification-date="Fri, 28 Oct 2022 13:05:11 GMT"
-Content-ID: <a53ddc99b68f01a67a57538e872ae6389339d5ed.camel@yadro.com-0>
-Content-Transfer-Encoding: base64
+--0000000000009d83b305ec1802ec
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-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
+<div dir=3D"ltr"><div dir=3D"ltr">On Fri, Oct 28, 2022 at 3:05 PM Sergey Zh=
+mylev &lt;<a href=3D"mailto:s.zhmylev@yadro.com">s.zhmylev@yadro.com</a>&gt=
+; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">
 
---_004_b1da60bfe5e0910037a6dac36c75a6e2d078ba6bcamelyadrocom_--
+
+
+<div>
+<div>The commit you&#39;re reffering to is absent:=C2=A0<a href=3D"https://=
+git.yoctoproject.org/poky/commit/?id=3D7aa678ce804c21dc1dc51b9be442671bc33c=
+4041" target=3D"_blank">https://git.yoctoproject.org/poky/commit/?id=3D7aa6=
+78ce804c21dc1dc51b9be442671bc33c4041</a></div>
+<div>It does not exist either in poky-contrib and on github.</div></div></b=
+lockquote><div><br></div><div><a href=3D"https://git.openembedded.org/opene=
+mbedded-core/commit/?h=3D7aa678ce804c21dc1dc51b9be442671bc33c4041">https://=
+git.openembedded.org/openembedded-core/commit/?h=3D7aa678ce804c21dc1dc51b9b=
+e442671bc33c4041</a>=C2=A0</div><div><br></div><div>It&#39;s oe-core commit=
+.</div></div></div>
+
+--0000000000009d83b305ec1802ec--
 
