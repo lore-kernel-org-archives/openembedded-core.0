@@ -1,258 +1,81 @@
-Return-Path: <s.zhmylev@yadro.com>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F7DAC38A02
-	for <webhook@archiver.kernel.org>; Fri, 28 Oct 2022 12:18:46 +0000 (UTC)
-Received: from mta-01.yadro.com (mta-01.yadro.com [89.207.88.252])
- by mx.groups.io with SMTP id smtpd.web09.5528.1666959514367951858
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8662FC38A02
+	for <webhook@archiver.kernel.org>; Fri, 28 Oct 2022 12:18:56 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web08.5387.1666959532969948107
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Oct 2022 05:18:36 -0700
+ Fri, 28 Oct 2022 05:18:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@yadro.com header.s=mta-01 header.b=OhinH/7h;
- spf=pass (domain: yadro.com, ip: 89.207.88.252, mailfrom: s.zhmylev@yadro.com)
-Received: from localhost (unknown [127.0.0.1])
-	by mta-01.yadro.com (Postfix) with ESMTP id 6D9B641207;
-	Fri, 28 Oct 2022 12:18:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
-	mime-version:content-type:content-type:content-language
-	:accept-language:in-reply-to:references:message-id:date:date
-	:subject:subject:from:from:received:received:received:received
-	:received; s=mta-01; t=1666959507; x=1668773908; bh=Y6AGNVaQ8PEL
-	h/okxn5ncAXPWcbeFys++gSo9ohV2Ck=; b=OhinH/7h/2rF3QXLrm9SH9PcJTHf
-	I1UmRS7nFvUCPZXgCY4Ah23IAZ1XURZ84s/igp/bposxOti0P5BFaCj3KbPTtsq5
-	o2QOkkmoapnXwgKljj1RT9EGJo1PPuw3grvOxkJN5gI7qbXmn40+7HJZN3wFaIw/
-	RcDGvNeoO1LDdZE=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
-	by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id h7lgyMz-t3XE; Fri, 28 Oct 2022 15:18:27 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (T-EXCH-02.corp.yadro.com [172.17.10.102])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mta-01.yadro.com (Postfix) with ESMTPS id A258D411FF;
-	Fri, 28 Oct 2022 15:18:27 +0300 (MSK)
-Received: from T-EXCH-06.corp.yadro.com (172.17.10.110) by
- T-EXCH-02.corp.yadro.com (172.17.10.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.669.32; Fri, 28 Oct 2022 15:18:27 +0300
-Received: from T-EXCH-08.corp.yadro.com (172.17.11.58) by
- T-EXCH-06.corp.yadro.com (172.17.10.110) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.15; Fri, 28 Oct 2022 15:18:26 +0300
-Received: from T-EXCH-08.corp.yadro.com ([172.17.11.58]) by
- T-EXCH-08.corp.yadro.com ([172.17.11.58]) with mapi id 15.02.1118.009; Fri,
- 28 Oct 2022 15:18:26 +0300
-From: Sergey Zhmylev <s.zhmylev@yadro.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "ciaran.courtney@activeenergy.ie"
-	<ciaran.courtney@activeenergy.ie>
-Subject: Re: [OE-core] [PATCH] wic: swap partitions are not added to fstab
-Thread-Topic: [OE-core] [PATCH] wic: swap partitions are not added to fstab
-Thread-Index: AQHY6rTkxjk1nzRA9kGYdAib/J7rP64jhw4A
-Date: Fri, 28 Oct 2022 12:18:26 +0000
-Message-ID: <46ff03e8d48871ae8bced43c7f38337114dbb7a2.camel@yadro.com>
-References: <20221028100509.32171-1-ciaran.courtney@activeenergy.ie>
-In-Reply-To: <20221028100509.32171-1-ciaran.courtney@activeenergy.ie>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.22.3.32]
-Content-Type: multipart/related;
-	boundary="_004_46ff03e8d48871ae8bced43c7f38337114dbb7a2camelyadrocom_";
-	type="multipart/alternative"
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=RDu74tuB;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: michael.opdenacker@bootlin.com)
+Received: (Authenticated sender: michael.opdenacker@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 625E61C000C;
+	Fri, 28 Oct 2022 12:18:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1666959530;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fCjNpFs9tELn/3PlB6Hbvv0ZUSzbSHoHoDroa0iUzy4=;
+	b=RDu74tuBwnzmRV/worCiMHX8e4czIqpVALXtlxS/o4LMFGyMImyNQWItq1+QpWZ+rZWzPX
+	TcxvrbEyVP8k4Joy9aorBwrhyJ3OSpznkiCm5L4jMd7KhFsiwNT5H9vmGNOqpWLy/L3hr1
+	QubvXTmJNAO4OVFB+3X9k0PLcY1RM/ttEyV+t7a+oLh8iAHFQ+yr+vbA7vACMVkjb+aJo2
+	kjqomjmsB5w8jEoIc8QNk+l0O10r0iByE4+5fRWvJdfH6yXUaoxBopcUauS6Pf73tQet8W
+	aSQGyQ1DfxyNBD/xanUUvm5d0/wz9SPciO838Qlenr55ZGAdMY4V1oyuI9L7jw==
+Message-ID: <fa110b7b-a058-edf4-9ece-f8ee0a03f8fc@bootlin.com>
+Date: Fri, 28 Oct 2022 14:18:49 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] wic: swap partitions are not added to fstab
+Content-Language: en-US
+To: ciaran.courtney@activeenergy.ie
+References: <20221028100509.32171-1-ciaran.courtney@activeenergy.ie>
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <20221028100509.32171-1-ciaran.courtney@activeenergy.ie>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Oct 2022 12:18:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172250
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Oct 2022 12:18:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172251
 
---_004_46ff03e8d48871ae8bced43c7f38337114dbb7a2camelyadrocom_
-Content-Type: multipart/alternative;
-	boundary="_000_46ff03e8d48871ae8bced43c7f38337114dbb7a2camelyadrocom_"
+Hi Ciaran,
 
---_000_46ff03e8d48871ae8bced43c7f38337114dbb7a2camelyadrocom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On 10/28/22 12:05, ciaran.courtney@activeenergy.ie wrote:
+> From: ciarancourtney <ciaran.courtney@activeenergy.ie>
+>
+> - Regression in 7aa678ce804c21dc1dc51b9be442671bc33c4041
+>
+> Signed-off-by: ciarancourtney <ciaran.courtney@activeenergy.ie>
 
-SGkgQ2lhcmFuLA0KDQpUaGFuayB5b3UgZm9yIHRoZSBwYXRjaCENCldoYXQgZm9yIGRvIHlvdSBu
-ZWVkIHN3YXAgaW4gZnN0YWI/DQpJdCB3b3JrcyBwZXJmZWN0bHkgb3V0IG9mIHRoZSBib3ggd2l0
-aG91dCBmc3RhYiBlbnRyeToNCg0KDQpyb290QGdlbmVyaWN4ODYtNjQ8bWFpbHRvOnJvb3RAZ2Vu
-ZXJpY3g4Ni02ND46fiMgZ3JlcCBzd2FwIC9ldGMvZnN0YWINCg0Kcm9vdEBnZW5lcmljeDg2LTY0
-PG1haWx0bzpyb290QGdlbmVyaWN4ODYtNjQ+On4jIGNhdCAvcHJvYy9zd2Fwcw0KDQpGaWxlbmFt
-ZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgVHlwZSAgICAgICAgICAgIFNpemUgICAg
-ICAgICAgICBVc2VkICAgICAgICAgICAgUHJpb3JpdHkNCg0KL2Rldi92ZGEzICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHBhcnRpdGlvbiAgICAgICA0NTA1MiAgICAgICAgICAgMCAgICAg
-ICAgICAgICAgIC0yDQoNCg0KLS0NCg0KV2l0aCBiZXN0IHdpc2hlcywNCltjaWQ6MGZmZWY4MjEz
-MGMwMDI5MzA0MmJlNWQxNDZjNDdlOTJlN2MxOWIyYi5jYW1lbEB5YWRyby5jb20tMF0gICAgICAg
-IFNlcmdlaSBaaG15bGV2DQpFbmdpbmVlcmluZyBjb25zdWx0YW50DQpPUyBkZXZlbG9wbWVudCBk
-ZXBhcnRtZW50DQoNCg0KDQoNCg0KDQoNCtCSINCf0YIsIDI4LzEwLzIwMjIg0LIgMTE6MDUgKzAx
-MDAsIGNpYXJhbi5jb3VydG5leUBhY3RpdmVlbmVyZ3kuaWUg0L/QuNGI0LXRgjoNCsKr0JLQvdC4
-0LzQsNC90LjQtSEg0JTQsNC90L3QvtC1INC/0LjRgdGM0LzQviDQvtGCINCy0L3QtdGI0L3QtdCz
-0L4g0LDQtNGA0LXRgdCw0YLQsCHCuw0KDQpGcm9tOiBjaWFyYW5jb3VydG5leSA8Y2lhcmFuLmNv
-dXJ0bmV5QGFjdGl2ZWVuZXJneS5pZTxtYWlsdG86Y2lhcmFuLmNvdXJ0bmV5QGFjdGl2ZWVuZXJn
-eS5pZT4+DQoNCi0gUmVncmVzc2lvbiBpbiA3YWE2NzhjZTgwNGMyMWRjMWRjNTFiOWJlNDQyNjcx
-YmMzM2M0MDQxDQoNClNpZ25lZC1vZmYtYnk6IGNpYXJhbmNvdXJ0bmV5IDxjaWFyYW4uY291cnRu
-ZXlAYWN0aXZlZW5lcmd5LmllPG1haWx0bzpjaWFyYW4uY291cnRuZXlAYWN0aXZlZW5lcmd5Lmll
-Pj4NCi0tLQ0KIHNjcmlwdHMvbGliL3dpYy9wbHVnaW5zL2ltYWdlci9kaXJlY3QucHkgfCAyICst
-DQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQoNCmRpZmYg
-LS1naXQgYS9zY3JpcHRzL2xpYi93aWMvcGx1Z2lucy9pbWFnZXIvZGlyZWN0LnB5IGIvc2NyaXB0
-cy9saWIvd2ljL3BsdWdpbnMvaW1hZ2VyL2RpcmVjdC5weQ0KaW5kZXggNTg5NjViNzVkYS4uZGZh
-YTkwMTU2NyAxMDA2NDQNCi0tLSBhL3NjcmlwdHMvbGliL3dpYy9wbHVnaW5zL2ltYWdlci9kaXJl
-Y3QucHkNCisrKyBiL3NjcmlwdHMvbGliL3dpYy9wbHVnaW5zL2ltYWdlci9kaXJlY3QucHkNCkBA
-IC0xMTcsNyArMTE3LDcgQEAgY2xhc3MgRGlyZWN0UGx1Z2luKEltYWdlclBsdWdpbik6DQogICAg
-ICAgICB1cGRhdGVkID0gRmFsc2UNCiAgICAgICAgIGZvciBwYXJ0IGluIHNlbGYucGFydHM6DQog
-ICAgICAgICAgICAgaWYgbm90IHBhcnQucmVhbG51bSBvciBub3QgcGFydC5tb3VudHBvaW50IFwN
-Ci0gICAgICAgICAgICAgICBvciBwYXJ0Lm1vdW50cG9pbnQgPT0gIi8iIG9yIG5vdCBwYXJ0Lm1v
-dW50cG9pbnQuc3RhcnRzd2l0aCgnLycpOg0KKyAgICAgICAgICAgICAgIG9yIHBhcnQubW91bnRw
-b2ludCA9PSAiLyIgb3Igbm90IChwYXJ0Lm1vdW50cG9pbnQuc3RhcnRzd2l0aCgnLycpIG9yIHBh
-cnQubW91bnRwb2ludCA9PSAic3dhcCIpOg0KICAgICAgICAgICAgICAgICBjb250aW51ZQ0KDQog
-ICAgICAgICAgICAgaWYgcGFydC51c2VfdXVpZDoNCi0tDQoyLjM0LjENCg0KDQotPS09LT0tPS09
-LT0tPS09LT0tPS09LQ0KTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdlcyBzZW50IHRvIHRo
-aXMgZ3JvdXAuDQpWaWV3L1JlcGx5IE9ubGluZSAoIzE3MjI0NCk6IGh0dHBzOi8vbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMTcyMjQ0DQpNdXRlIFRo
-aXMgVG9waWM6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tdC85NDYyMzEwNC83MjIw
-NTQ2DQpHcm91cCBPd25lcjogb3BlbmVtYmVkZGVkLWNvcmUrb3duZXJAbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZzxtYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUrb3duZXJAbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZz4NClVuc3Vic2NyaWJlOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVu
-ZW1iZWRkZWQtY29yZS91bnN1YiBbcy56aG15bGV2QHlhZHJvLmNvbTxtYWlsdG86cy56aG15bGV2
-QHlhZHJvLmNvbT5dDQotPS09LT0tPS09LT0tPS09LT0tPS09LQ0KDQo=
 
---_000_46ff03e8d48871ae8bced43c7f38337114dbb7a2camelyadrocom_
-Content-Type: text/html; charset="utf-8"
-Content-ID: <73850C2760ED0845AB332456797A393F@yadro.com>
-Content-Transfer-Encoding: base64
+Many thanks for the patch!
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5Pg0KPGRpdj5IaSBDaWFy
-YW4sPC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj5UaGFuayB5b3UgZm9yIHRoZSBwYXRj
-aCE8L2Rpdj4NCjxkaXY+V2hhdCBmb3IgZG8geW91IG5lZWQgc3dhcCBpbiBmc3RhYj88L2Rpdj4N
-CjxkaXY+SXQgd29ya3MgcGVyZmVjdGx5IG91dCBvZiB0aGUgYm94IHdpdGhvdXQgZnN0YWIgZW50
-cnk6PC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPHByZT48YSBocmVmPSJtYWlsdG86cm9vdEBn
-ZW5lcmljeDg2LTY0Ij5yb290QGdlbmVyaWN4ODYtNjQ8L2E+On4jIGdyZXAgc3dhcCAvZXRjL2Zz
-dGFiPC9wcmU+DQo8cHJlPjxhIGhyZWY9Im1haWx0bzpyb290QGdlbmVyaWN4ODYtNjQiPnJvb3RA
-Z2VuZXJpY3g4Ni02NDwvYT46fiMgY2F0IC9wcm9jL3N3YXBzPC9wcmU+DQo8cHJlPkZpbGVuYW1l
-CQkJCVR5cGUJCVNpemUJCVVzZWQJCVByaW9yaXR5PC9wcmU+DQo8cHJlPi9kZXYvdmRhMyAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBwYXJ0aXRpb24JNDUwNTIJCTAJCS0yPC9wcmU+DQo8
-ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj48c3Bhbj4NCjxwcmU+LS0gPGJyPjwvcHJlPg0KPGRpdj5X
-aXRoIGJlc3Qgd2lzaGVzLDxicj4NCjx0YWJsZSBhbGlnbj0ibGVmdCIgd2lkdGg9IjMwMHB4IiBj
-ZWxsc3BhY2luZz0iMiIgY2VsbHBhZGRpbmc9IjEiIGJvcmRlcj0iMCIgYmdjb2xvcj0iIj4NCjx0
-Ym9keT4NCjx0cj4NCjx0ZCB3aWR0aD0iNzBweCIgYWxpZ249ImNlbnRlciI+PGltZyBzcmM9ImNp
-ZDowZmZlZjgyMTMwYzAwMjkzMDQyYmU1ZDE0NmM0N2U5MmU3YzE5YjJiLmNhbWVsQHlhZHJvLmNv
-bS0wIiB3aWR0aD0iNjNweCIgaGVpZ2h0PSI1MHB4Ij48L3RkPg0KPHRkIGFsaWduPSJsZWZ0IiB3
-aWR0aD0iMjMwcHgiIHZhbGlnbj0ibWlkZGxlIiBiZ2NvbG9yPSIiPjxiPlNlcmdlaSBaaG15bGV2
-PC9iPjxicj4NCjxmb250IGNvbG9yPSIjOTY5Njk2Ij5FbmdpbmVlcmluZyBjb25zdWx0YW50PGJy
-Pg0KT1MgZGV2ZWxvcG1lbnQgZGVwYXJ0bWVudDwvZm9udD48L3RkPg0KPC90cj4NCjwvdGJvZHk+
-DQo8L3RhYmxlPg0KPGJyPg0KPC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj48YnI+DQo8
-L2Rpdj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj48YnI+DQo8
-L2Rpdj4NCjwvc3Bhbj48L2Rpdj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2PtCSINCf0YIsIDI4
-LzEwLzIwMjIg0LIgMTE6MDUgJiM0MzswMTAwLCBjaWFyYW4uY291cnRuZXlAYWN0aXZlZW5lcmd5
-LmllINC/0LjRiNC10YI6PC9kaXY+DQo8YmxvY2txdW90ZSB0eXBlPSJjaXRlIiBzdHlsZT0ibWFy
-Z2luOjAgMCAwIC44ZXg7IGJvcmRlci1sZWZ0OjJweCAjNzI5ZmNmIHNvbGlkO3BhZGRpbmctbGVm
-dDoxZXgiPg0KPGRpdj7Cq9CS0L3QuNC80LDQvdC40LUhINCU0LDQvdC90L7QtSDQv9C40YHRjNC8
-0L4g0L7RgiDQstC90LXRiNC90LXQs9C+INCw0LTRgNC10YHQsNGC0LAhwrs8YnI+DQo8L2Rpdj4N
-CjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2PkZyb206IGNpYXJhbmNvdXJ0bmV5ICZsdDs8YSBocmVm
-PSJtYWlsdG86Y2lhcmFuLmNvdXJ0bmV5QGFjdGl2ZWVuZXJneS5pZSI+Y2lhcmFuLmNvdXJ0bmV5
-QGFjdGl2ZWVuZXJneS5pZTwvYT4mZ3Q7PGJyPg0KPC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0K
-PGRpdj4tIFJlZ3Jlc3Npb24gaW4gN2FhNjc4Y2U4MDRjMjFkYzFkYzUxYjliZTQ0MjY3MWJjMzNj
-NDA0MTxicj4NCjwvZGl2Pg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+U2lnbmVkLW9mZi1ieTog
-Y2lhcmFuY291cnRuZXkgJmx0OzxhIGhyZWY9Im1haWx0bzpjaWFyYW4uY291cnRuZXlAYWN0aXZl
-ZW5lcmd5LmllIj5jaWFyYW4uY291cnRuZXlAYWN0aXZlZW5lcmd5LmllPC9hPiZndDs8YnI+DQo8
-L2Rpdj4NCjxkaXY+LS0tPGJyPg0KPC9kaXY+DQo8ZGl2PiZuYnNwO3NjcmlwdHMvbGliL3dpYy9w
-bHVnaW5zL2ltYWdlci9kaXJlY3QucHkgfCAyICYjNDM7LTxicj4NCjwvZGl2Pg0KPGRpdj4mbmJz
-cDsxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oJiM0MzspLCAxIGRlbGV0aW9uKC0pPGJyPg0K
-PC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj5kaWZmIC0tZ2l0IGEvc2NyaXB0cy9saWIv
-d2ljL3BsdWdpbnMvaW1hZ2VyL2RpcmVjdC5weSBiL3NjcmlwdHMvbGliL3dpYy9wbHVnaW5zL2lt
-YWdlci9kaXJlY3QucHk8YnI+DQo8L2Rpdj4NCjxkaXY+aW5kZXggNTg5NjViNzVkYS4uZGZhYTkw
-MTU2NyAxMDA2NDQ8YnI+DQo8L2Rpdj4NCjxkaXY+LS0tIGEvc2NyaXB0cy9saWIvd2ljL3BsdWdp
-bnMvaW1hZ2VyL2RpcmVjdC5weTxicj4NCjwvZGl2Pg0KPGRpdj4mIzQzOyYjNDM7JiM0MzsgYi9z
-Y3JpcHRzL2xpYi93aWMvcGx1Z2lucy9pbWFnZXIvZGlyZWN0LnB5PGJyPg0KPC9kaXY+DQo8ZGl2
-PkBAIC0xMTcsNyAmIzQzOzExNyw3IEBAIGNsYXNzIERpcmVjdFBsdWdpbihJbWFnZXJQbHVnaW4p
-Ojxicj4NCjwvZGl2Pg0KPGRpdj4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
-bmJzcDsmbmJzcDsgdXBkYXRlZCA9IEZhbHNlPGJyPg0KPC9kaXY+DQo8ZGl2PiZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBmb3IgcGFydCBpbiBzZWxmLnBh
-cnRzOjxicj4NCjwvZGl2Pg0KPGRpdj4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
-cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgaWYgbm90IHBhcnQucmVhbG51
-bSBvciBub3QgcGFydC5tb3VudHBvaW50IFw8YnI+DQo8L2Rpdj4NCjxkaXY+LSZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
-YnNwOyZuYnNwOyZuYnNwOyBvciBwYXJ0Lm1vdW50cG9pbnQgPT0gJnF1b3Q7LyZxdW90OyBvciBu
-b3QgcGFydC5tb3VudHBvaW50LnN0YXJ0c3dpdGgoJy8nKTo8YnI+DQo8L2Rpdj4NCjxkaXY+JiM0
-MzsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
-bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgb3IgcGFydC5tb3VudHBvaW50ID09ICZxdW90
-Oy8mcXVvdDsgb3Igbm90IChwYXJ0Lm1vdW50cG9pbnQuc3RhcnRzd2l0aCgnLycpIG9yIHBhcnQu
-bW91bnRwb2ludCA9PSAmcXVvdDtzd2FwJnF1b3Q7KTo8YnI+DQo8L2Rpdj4NCjxkaXY+Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IGNvbnRpbnVlPGJyPg0KPC9kaXY+DQo8
-ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
-cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgaWYgcGFydC51c2VfdXVpZDo8
-YnI+DQo8L2Rpdj4NCjxkaXY+LS08YnI+DQo8L2Rpdj4NCjxkaXY+Mi4zNC4xPGJyPg0KPC9kaXY+
-DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+LT0tPS09LT0tPS09
-LT0tPS09LT0tPS08YnI+DQo8L2Rpdj4NCjxkaXY+TGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNz
-YWdlcyBzZW50IHRvIHRoaXMgZ3JvdXAuPGJyPg0KPC9kaXY+DQo8ZGl2PlZpZXcvUmVwbHkgT25s
-aW5lICgjMTcyMjQ0KTogPGEgaHJlZj0iaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cv
-b3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8xNzIyNDQiPg0KaHR0cHM6Ly9saXN0cy5vcGVuZW1i
-ZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8xNzIyNDQ8L2E+PGJyPg0KPC9k
-aXY+DQo8ZGl2Pk11dGUgVGhpcyBUb3BpYzogPGEgaHJlZj0iaHR0cHM6Ly9saXN0cy5vcGVuZW1i
-ZWRkZWQub3JnL210Lzk0NjIzMTA0LzcyMjA1NDYiPg0KaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRk
-ZWQub3JnL210Lzk0NjIzMTA0LzcyMjA1NDY8L2E+PGJyPg0KPC9kaXY+DQo8ZGl2Pkdyb3VwIE93
-bmVyOiA8YSBocmVmPSJtYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUmIzQzO293bmVyQGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmciPg0Kb3BlbmVtYmVkZGVkLWNvcmUmIzQzO293bmVyQGxpc3RzLm9wZW5l
-bWJlZGRlZC5vcmc8L2E+PGJyPg0KPC9kaXY+DQo8ZGl2PlVuc3Vic2NyaWJlOiA8YSBocmVmPSJo
-dHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS91bnN1YiI+
-DQpodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS91bnN1
-YjwvYT4mbmJzcDtbPGEgaHJlZj0ibWFpbHRvOnMuemhteWxldkB5YWRyby5jb20iPnMuemhteWxl
-dkB5YWRyby5jb208L2E+XTxicj4NCjwvZGl2Pg0KPGRpdj4tPS09LT0tPS09LT0tPS09LT0tPS09
-LTxicj4NCjwvZGl2Pg0KPGRpdj48YnI+DQo8L2Rpdj4NCjwvYmxvY2txdW90ZT4NCjwvYm9keT4N
-CjwvaHRtbD4NCg==
+However, your "Signed-off-by" information doesn't properly list your 
+first and last names, and this will cause trouble generating the release 
+notes.
 
---_000_46ff03e8d48871ae8bced43c7f38337114dbb7a2camelyadrocom_--
+Could you run:
 
---_004_46ff03e8d48871ae8bced43c7f38337114dbb7a2camelyadrocom_
-Content-Type: image/png; name="image001.png"
-Content-Description: image001.png
-Content-Disposition: inline; filename="image001.png"; size=1982;
-	creation-date="Fri, 28 Oct 2022 12:18:26 GMT";
-	modification-date="Fri, 28 Oct 2022 12:18:26 GMT"
-Content-ID: <0ffef82130c00293042be5d146c47e92e7c19b2b.camel@yadro.com-0>
-Content-Transfer-Encoding: base64
+git config --global user.name "Ciaran Courtney"
 
-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
+(if I'm not mistaken), and regenerate your patch, please?
 
---_004_46ff03e8d48871ae8bced43c7f38337114dbb7a2camelyadrocom_--
+Thanks in advance
+Cheers
+Michael.
+
+-- 
+Michael Opdenacker, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
