@@ -1,314 +1,310 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F5E8FA3742
-	for <webhook@archiver.kernel.org>; Fri, 28 Oct 2022 17:41:27 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web12.2352.1666978884220328316
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA5C0ECAAA1
+	for <webhook@archiver.kernel.org>; Fri, 28 Oct 2022 18:02:47 +0000 (UTC)
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by mx.groups.io with SMTP id smtpd.web09.2579.1666980162998335466
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Oct 2022 10:41:24 -0700
+ Fri, 28 Oct 2022 11:02:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=L0a2x4dj;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=83001d837a=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 29SGfEEL025883
-	for <openembedded-core@lists.openembedded.org>; Fri, 28 Oct 2022 10:41:23 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS06212021;
- bh=G9+yLmSukjSkTBNRCsVb8vs4eUS5MTg7KgkFRylnVBY=;
- b=L0a2x4djSRC/aGgg8XXxNTJdtGCsGp0NLdSYbAmGTMT4octxt1Gmvqv8cbdHdUzZUnZS
- z6DDriV0WqPhUfevTUjzF4HaSKkAwtCybznlK7g0/3UHlnTVrZ8rLcFMj1vSfXoKUBSu
- 7za43D+Y/sU12+tFYiRU2KS7ODtWTTswaFdBSbVtMeuhOFyj7Mge0C3dV2VFZkhXitue
- y5304vfqQ6KbnS0rKxLZhl/yLgzw0I5BLqKdVLen4Aihx/Kz/QB2WMocDT3jcitjTrF9
- wQHgE9F56x36bp6dUtPEHlnAeqJfykRGqf1cjVxxZLm3QAmjg9FnHV42/0+ROXdfOooc Xg== 
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kfg3gsqu7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 28 Oct 2022 10:41:23 -0700
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Fri, 28 Oct 2022 10:41:22 -0700
-Received: from pek-hostel-deb01.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2308.27 via Frontend Transport; Fri, 28 Oct 2022 10:41:21 -0700
-From: Archana Polampalli <archana.polampalli@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <Hari.GPillai@windriver.com>, <Randy.MacLeod@windriver.com>,
-        <narpat.mali@windriver.com>,
-        Archana Polampalli
-	<archana.polampalli@windriver.com>
-Subject: [meta-secure-core][PATCH 1/1] libpam: fix CVE-2022-28321
-Date: Sat, 29 Oct 2022 00:49:46 +0800
-Message-ID: <20221028164946.2494540-1-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=missing; spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from [192.168.2.107] ([70.99.78.137])
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 29SI1eku031799;
+	Fri, 28 Oct 2022 13:01:40 -0500
+Message-ID: <6f373e74-1bae-930f-11e1-1b402fbccb83@kernel.crashing.org>
+Date: Fri, 28 Oct 2022 13:01:38 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: N3arY0v7zhXrayuSAA-dgyart0OrRiJG
-X-Proofpoint-ORIG-GUID: N3arY0v7zhXrayuSAA-dgyart0OrRiJG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-28_07,2022-10-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
- spamscore=0 bulkscore=0 adultscore=0 lowpriorityscore=0 mlxlogscore=999
- mlxscore=0 impostorscore=0 malwarescore=0 priorityscore=1501 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2210280111
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.3
+Subject: Re: [OE-core] [PATCH v2] mesa: Add native patch via a variable
+Content-Language: en-US
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20221018230820.2385167-1-raj.khem@gmail.com>
+ <CANNYZj-r7G4y3ma8NkrgmKm-vgoXjvMEWYAUh=bOE0z80DrxkA@mail.gmail.com>
+ <CAMKF1srnBDVj5ig2ZF_fX+-UZ5jtp0U89uG8qE5cuW1SjX0AfQ@mail.gmail.com>
+ <171F65F5948858B5.6129@lists.openembedded.org>
+ <CANNYZj89RTk6=-tqK550uDvUb3nZ1bfR=H1=Ns2pw5WaiPZ_Tw@mail.gmail.com>
+ <78322791-72e6-75fd-f870-1f2eb7d8e4f6@kernel.crashing.org>
+ <CANNYZj_KT77PhQtPd3gTT4J9RWZNnY0UgvH_PmOZXNs+yewM6Q@mail.gmail.com>
+ <4070adb4-bfb0-9d96-2193-c8f8386383e9@kernel.crashing.org>
+ <CAJdd5GbBEdmT4sk=UKdn+FUv5yVRT+tCppCBUpZip8rH06_niw@mail.gmail.com>
+ <CANNYZj9ag_2nUdZZjxbZpR4zOPCi8v7EK8kQ9jiddTJEYTYR9g@mail.gmail.com>
+ <8244b1a2-e090-8c4d-d0ef-a5501d4dfedb@kernel.crashing.org>
+ <CANNYZj8ZU-nCAvZfOQ-Wo_u9nVy0-z=ySuAvydVLGkZ_Wu7p5Q@mail.gmail.com>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+In-Reply-To: <CANNYZj8ZU-nCAvZfOQ-Wo_u9nVy0-z=ySuAvydVLGkZ_Wu7p5Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Oct 2022 17:41:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172270
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Oct 2022 18:02:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172271
 
-The Linux-PAM package before 1.5.2-6.1 for openSUSE Tumbleweed allows
-authentication bypass for SSH logins. The pam_access.so module doesn't
-correctly restrict login if a user tries to connect from an IP address
-that is not resolvable via DNS. In such conditions, a user with denied
-access to a machine can still get access. NOTE: the relevance of this
-issue is largely limited to openSUSE Tumbleweed and openSUSE Factory;
-it does not affect Linux-PAM upstream.
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2022-28321
 
-Upstream patches:
-https://github.com/linux-pam/linux-pam/commit/08992030c56c940c0707ccbc442b1c325aa01e6d
-https://github.com/linux-pam/linux-pam/commit/23393bef92c1e768eda329813d7af55481c6ca9f
+On 10/28/22 5:59 AM, Alexander Kanavin wrote:
+> Thanks. What I would want to understand is whether this arrangement
+> should have its own
+> MACHINE_FEATURE, e.g. 'vendor-egl' or similar, and then mesa proper
+> would be configured accordingly to
+> disable bits that come from the vendor.
+> 
+> Is there a particular need for a separate recipe?
 
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
----
- .../pam/libpam/CVE-2022-28321-0002.patch      | 205 ++++++++++++++++++
- meta/recipes-extended/pam/libpam_1.5.2.bb     |   1 +
- 2 files changed, 206 insertions(+)
- create mode 100644 meta/recipes-extended/pam/libpam/CVE-2022-28321-0002.patch
+When libmali support is enabled in our configuration we do the following:
 
-diff --git a/meta/recipes-extended/pam/libpam/CVE-2022-28321-0002.patch b/meta/recipes-extended/pam/libpam/CVE-2022-28321-0002.patch
-new file mode 100644
-index 0000000000..e7bf03f9f7
---- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/CVE-2022-28321-0002.patch
-@@ -0,0 +1,205 @@
-+From 23393bef92c1e768eda329813d7af55481c6ca9f Mon Sep 17 00:00:00 2001
-+From: Thorsten Kukuk <kukuk@suse.com>
-+Date: Thu, 24 Feb 2022 10:37:32 +0100
-+Subject: [PATCH 2/2] pam_access: handle hostnames in access.conf
-+
-+According to the manual page, the following entry is valid but does not
-+work:
-+-:root:ALL EXCEPT localhost
-+
-+See https://bugzilla.suse.com/show_bug.cgi?id=1019866
-+
-+Patched is based on PR#226 from Josef Moellers
-+
-+Upstream-Status: Backport
-+CVE: CVE-2022-28321
-+
-+Reference to upstream patch:
-+[https://github.com/linux-pam/linux-pam/commit/23393bef92c1e768eda329813d7af55481c6ca9f]
-+
-+Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
-+---
-+ modules/pam_access/pam_access.c | 95 ++++++++++++++++++++++++++-------
-+ 1 file changed, 76 insertions(+), 19 deletions(-)
-+
-+diff --git a/modules/pam_access/pam_access.c b/modules/pam_access/pam_access.c
-+index 277192b..bca424f 100644
-+--- a/modules/pam_access/pam_access.c
-++++ b/modules/pam_access/pam_access.c
-+@@ -637,7 +637,7 @@ remote_match (pam_handle_t *pamh, char *tok, struct login_info *item)
-+       if ((str_len = strlen(string)) > tok_len
-+ 	  && strcasecmp(tok, string + str_len - tok_len) == 0)
-+ 	return YES;
-+-    } else if (tok[tok_len - 1] == '.') {
-++    } else if (tok[tok_len - 1] == '.') {       /* internet network numbers (end with ".") */
-+       struct addrinfo hint;
-+ 
-+       memset (&hint, '\0', sizeof (hint));
-+@@ -678,7 +678,7 @@ remote_match (pam_handle_t *pamh, char *tok, struct login_info *item)
-+       return NO;
-+     }
-+ 
-+-    /* Assume network/netmask with an IP of a host.  */
-++    /* Assume network/netmask, IP address or hostname.  */
-+     return network_netmask_match(pamh, tok, string, item);
-+ }
-+ 
-+@@ -696,7 +696,7 @@ string_match (pam_handle_t *pamh, const char *tok, const char *string,
-+     /*
-+      * If the token has the magic value "ALL" the match always succeeds.
-+      * Otherwise, return YES if the token fully matches the string.
-+-	 * "NONE" token matches NULL string.
-++     * "NONE" token matches NULL string.
-+      */
-+ 
-+     if (strcasecmp(tok, "ALL") == 0) {		/* all: always matches */
-+@@ -714,7 +714,8 @@ string_match (pam_handle_t *pamh, const char *tok, const char *string,
-+ 
-+ /* network_netmask_match - match a string against one token
-+  * where string is a hostname or ip (v4,v6) address and tok
-+- * represents either a single ip (v4,v6) address or a network/netmask
-++ * represents either a hostname, a single ip (v4,v6) address
-++ * or a network/netmask
-+  */
-+ static int
-+ network_netmask_match (pam_handle_t *pamh,
-+@@ -723,10 +724,12 @@ network_netmask_match (pam_handle_t *pamh,
-+     char *netmask_ptr;
-+     char netmask_string[MAXHOSTNAMELEN + 1];
-+     int addr_type;
-++    struct addrinfo *ai = NULL;
-+ 
-+     if (item->debug)
-+-    pam_syslog (pamh, LOG_DEBUG,
-++      pam_syslog (pamh, LOG_DEBUG,
-+ 		"network_netmask_match: tok=%s, item=%s", tok, string);
-++
-+     /* OK, check if tok is of type addr/mask */
-+     if ((netmask_ptr = strchr(tok, '/')) != NULL)
-+       {
-+@@ -760,54 +763,108 @@ network_netmask_match (pam_handle_t *pamh,
-+ 	    netmask_ptr = number_to_netmask(netmask, addr_type,
-+ 		netmask_string, MAXHOSTNAMELEN);
-+ 	  }
-+-	}
-++
-++        /*
-++         * Construct an addrinfo list from the IP address.
-++         * This should not fail as the input is a correct IP address...
-++         */
-++	if (getaddrinfo (tok, NULL, NULL, &ai) != 0)
-++	  {
-++	    return NO;
-++	  }
-++      }
-+     else
-+-	/* NO, then check if it is only an addr */
-+-	if (isipaddr(tok, NULL, NULL) != YES)
-++      {
-++        /*
-++	 * It is either an IP address or a hostname.
-++	 * Let getaddrinfo sort everything out
-++	 */
-++	if (getaddrinfo (tok, NULL, NULL, &ai) != 0)
-+ 	  {
-++	    pam_syslog(pamh, LOG_ERR, "cannot resolve hostname \"%s\"", tok);
-++
-+ 	    return NO;
-+ 	  }
-++	netmask_ptr = NULL;
-++      }
-+ 
-+     if (isipaddr(string, NULL, NULL) != YES)
-+       {
-+-	/* Assume network/netmask with a name of a host.  */
-+ 	struct addrinfo hint;
-+ 
-++	/* Assume network/netmask with a name of a host.  */
-+ 	memset (&hint, '\0', sizeof (hint));
-+ 	hint.ai_flags = AI_CANONNAME;
-+ 	hint.ai_family = AF_UNSPEC;
-+ 
-+ 	if (item->gai_rv != 0)
-++	  {
-++	    freeaddrinfo(ai);
-+ 	    return NO;
-++	  }
-+ 	else if (!item->res &&
-+ 		(item->gai_rv = getaddrinfo (string, NULL, &hint, &item->res)) != 0)
-++	  {
-++	    freeaddrinfo(ai);
-+ 	    return NO;
-++	  }
-+         else
-+ 	  {
-+ 	    struct addrinfo *runp = item->res;
-++	    struct addrinfo *runp1;
-+ 
-+ 	    while (runp != NULL)
-+ 	      {
-+ 		char buf[INET6_ADDRSTRLEN];
-+ 
-+-		DIAG_PUSH_IGNORE_CAST_ALIGN;
-+-		inet_ntop (runp->ai_family,
-+-			runp->ai_family == AF_INET
-+-			? (void *) &((struct sockaddr_in *) runp->ai_addr)->sin_addr
-+-			: (void *) &((struct sockaddr_in6 *) runp->ai_addr)->sin6_addr,
-+-			buf, sizeof (buf));
-+-		DIAG_POP_IGNORE_CAST_ALIGN;
-++		if (getnameinfo (runp->ai_addr, runp->ai_addrlen, buf, sizeof (buf), NULL, 0, NI_NUMERICHOST) != 0)
-++		  {
-++		    freeaddrinfo(ai);
-++		    return NO;
-++		  }
-+ 
-+-		if (are_addresses_equal(buf, tok, netmask_ptr))
-++		for (runp1 = ai; runp1 != NULL; runp1 = runp1->ai_next)
-+ 		  {
-+-		    return YES;
-++                    char buf1[INET6_ADDRSTRLEN];
-++
-++                    if (runp->ai_family != runp1->ai_family)
-++                      continue;
-++
-++                    if (getnameinfo (runp1->ai_addr, runp1->ai_addrlen, buf1, sizeof (buf1), NULL, 0, NI_NUMERICHOST) != 0)
-++		      {
-++			freeaddrinfo(ai);
-++			return NO;
-++		      }
-++
-++                    if (are_addresses_equal (buf, buf1, netmask_ptr))
-++                      {
-++                        freeaddrinfo(ai);
-++                        return YES;
-++                      }
-+ 		  }
-+ 		runp = runp->ai_next;
-+ 	      }
-+ 	  }
-+       }
-+     else
-+-      return (are_addresses_equal(string, tok, netmask_ptr));
-++      {
-++       struct addrinfo *runp1;
-++
-++       for (runp1 = ai; runp1 != NULL; runp1 = runp1->ai_next)
-++         {
-++           char buf1[INET6_ADDRSTRLEN];
-++
-++           (void) getnameinfo (runp1->ai_addr, runp1->ai_addrlen, buf1, sizeof (buf1), NULL, 0, NI_NUMERICHOST);
-++
-++           if (are_addresses_equal(string, buf1, netmask_ptr))
-++             {
-++               freeaddrinfo(ai);
-++               return YES;
-++             }
-++         }
-++      }
-++
-++  freeaddrinfo(ai);
-+ 
-+   return NO;
-+ }
-+-- 
-+2.37.3
-+
-diff --git a/meta/recipes-extended/pam/libpam_1.5.2.bb b/meta/recipes-extended/pam/libpam_1.5.2.bb
-index 081986ef43..dabd3256c8 100644
---- a/meta/recipes-extended/pam/libpam_1.5.2.bb
-+++ b/meta/recipes-extended/pam/libpam_1.5.2.bb
-@@ -24,6 +24,7 @@ SRC_URI = "https://github.com/linux-pam/linux-pam/releases/download/v${PV}/Linux
-            file://0001-run-xtests.sh-check-whether-files-exist.patch \
-            file://run-ptest \
-            file://pam-volatiles.conf \
-+           file://CVE-2022-28321-0002.patch \
-            "
- 
- SRC_URI[sha256sum] = "e4ec7131a91da44512574268f493c6d8ca105c87091691b8e9b56ca685d4f94d"
--- 
-2.25.1
+define a mali400 MACHINEOVERRIDE
 
+Then we use PREFERRED_PROVIDER to switch:
+
+https://github.com/Xilinx/meta-xilinx/blob/master/meta-xilinx-core/conf/machine/include/machine-xilinx-default.inc#L25
+
+virtual/libgles1
+virtual/libgles2
+virtual/egl
+virtual/libgl
+virtual/mesa
+
+So the mesa-gl
+
+the PROVIDES are:
+
+virtual/libgl virtual/mesa
+
+while in mesa:
+
+PROVIDES = " \
+     ${@bb.utils.contains('PACKAGECONFIG', 'opengl', 'virtual/libgl', '', d)} \
+     ${@bb.utils.contains('PACKAGECONFIG', 'gles', 'virtual/libgles1 
+virtual/libgles2 virtual/libgles3', '', d)} \
+     ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'virtual/egl', '', d)} \
+     ${@bb.utils.contains('PACKAGECONFIG', 'gbm', 'virtual/libgbm', '', d)} \
+     virtual/mesa \
+     "
+
+While it might be possible to switch around the PROVIDES using distibution 
+configuration or similar, this has been difficult to get right in the past. 
+This is why the split happened, it's one or the other based on the configuration.
+
+--Mark
+
+> Alex
+> 
+> On Thu, 27 Oct 2022 at 02:46, Mark Hatle <mark.hatle@kernel.crashing.org> wrote:
+>>
+>>
+>>
+>> On 10/26/22 1:01 PM, Alexander Kanavin wrote:
+>>> Is there a combination of libmali recipe and mesa-gl somewhere public
+>>> so we could try to pick it apart and see what links to where?
+>>
+>> libmali is ALWAYS implementation specific.  You will need to pick a vendor and
+>> build for it.  What is generic is the application interface (from what I've been
+>> told.). I can give you the AMD (Xilinx) instructions.  But you likely won't be
+>> able to actually execute the code without a corresponding board.  (AFAIK QEMU
+>> doesn't have any mali400 emulation.)
+>>
+>> And to be clear, libmali provides the interfaces, but it is NOT a replacement to
+>> mesa, it works WITH mesa, just the 'gl' part (not the gles part).
+>>
+>> The following is an abbreviated attempt to show how the pieces interact with
+>> each other.  It may not be 100% correct, I am definitely not an expert at this.
+>> (For example, I don't understand why it's "DRM" in some places but "DRI" in
+>> others.  These seem to be 'generally' the same systems.)  But it's how the parts
+>> and pieces appear to be put together based on a functioning system.
+>>
+>>
+>> In a 'normal' system (mesa):
+>>
+>> mesa provides:
+>>     libglapi.so.0
+>>     libEGL.so.1
+>>     libGLESv2.so.2
+>>     (and others)
+>>
+>> The CONFIG_DRM_LIMA backend and whatever the display port DRM (CONFIG_DRM_XLNX)
+>> go through a dlopened backend module, which USUALLY talks to a kernel module for
+>> any hardware access through a standard (known) kernel interface.
+>>
+>> In our case the dynamic modules would be the lima_dri.so and xlnx_dri.so.
+>>
+>> glmark2-es2-wayland ->
+>>     libwayland-client
+>>     libwayland-cursor
+>>     libwayland-egl.so.1
+>>
+>> I believe the libwayland-egl talks to weston "somehow" for the egl interfaces,
+>> via the libwayland-client?  but I'm fuzzy here.
+>>
+>> Weston has two related items:
+>>
+>> drm-backend.o ->
+>>     libglapi.so.0 (dlopened)
+>>
+>> This bit uses mesa to access the DRM backend to actually display the stuff..
+>>
+>> gl-backend.so ->
+>>     libwayland-server
+>>     libEGL.so.1
+>>     libGLESv2.so.2
+>>
+>> This backend is used to render the items.
+>>
+>>
+>> So the glmark2 does it's benchmarking and renders (gl-backend) through Weston
+>> backends to the display port (drm-backend).
+>>
+>> In the above case it all comes from mesa, the drm and libELG/libGLESv2 parts.
+>>
+>>
+>>
+>> The following shows a libmali configured system as a contrasts to the above:
+>>
+>> libmali-xlnx provides:
+>>
+>> libEGL.so.1
+>> libGLESv1_CM.so.1
+>> libGLESv2.so.2
+>> libmali.so.9
+>> libgbm.so.1
+>>
+>> (also provides specific backends for fbdev, headless, wayland and x11)
+>>
+>>
+>> It talks to a backend kernel module called 'mali.ko'
+>>
+>> mesa provides:
+>>
+>> libGL.so.1
+>> libglapi.so.0
+>>
+>> and also swrast dri interface
+>>
+>> glmark2-es2-wayland ->
+>>     libwayland-client
+>>     libwayland-cursor
+>>     libwayland-egl.so.1
+>>
+>> (same as above)
+>>
+>> drm-backend.o ->
+>>     libwayland-server
+>>     libdrm.so.2
+>>     libMali.so.9
+>>
+>> gl-backend.so ->
+>>     libwayland-server
+>>     libMali.so.9
+>>
+>> So in the above, libMali is providing all of the APIs of libEGL and libGLESv2,
+>> as well as (enough of) libglapi for the built in raster implementation.
+>>
+>>
+>> Compiling things like Chromium that will link directly, you move from linking to
+>> libGL.so from mesa to linking in libMali, along with libGL from mesa.  The
+>> libMali will provide the core set of APIs, while the libGL will augement them
+>> with additional APIs.
+>>
+>> Cairo is another utility that similar modifies in this way.
+>>
+>>
+>> To re-iterate, it's NOT a "swap libmali" and re-use everything.  You need to
+>> rebuild anything that links to libgles or libgl or even libglapi with this new
+>> configuration.  It's API compatible, NOT ABI compatible!
+>>
+>>
+>> I hope this helps.  As far as letting you play with it, I'm working through the
+>> final stuff and should have something I can push to langdale/master on the
+>> meta-xilinx and meta-xilinx-tools soon.
+>>
+>> --Mark
+>>
+>>> My (perhaps confused) understanding is similar to Joshua's: 'gl' is
+>>> basically 'opengl in x11' or 'opengl rendered to memory', and if a
+>>> system uses neither, then it is not needed.
+>>>
+>>> Alex
+>>>
+>>> On Wed, 26 Oct 2022 at 19:48, Joshua Watt <jpewhacker@gmail.com> wrote:
+>>>>
+>>>> On Wed, Oct 26, 2022 at 12:21 PM Mark Hatle
+>>>> <mark.hatle@kernel.crashing.org> wrote:
+>>>>>
+>>>>>
+>>>>>
+>>>>> On 10/26/22 11:03 AM, Alexander Kanavin wrote:
+>>>>>> On Wed, 26 Oct 2022 at 16:35, Mark Hatle <mark.hatle@kernel.crashing.org> wrote:
+>>>>>>> (I just saw this, so a little late on the reply, but..)
+>>>>>>>
+>>>>>>> mesa-gl is ABSOLUTELY still being used.  It's needed for libmali usage.  Not
+>>>>>>> everyone wants to use lima support for graphics.
+>>>>>>>
+>>>>>>> It was broken into two separate packages so that is was VERY clear if you were
+>>>>>>> using mesa for 'everything' (mesa), or mesa JUST for 'gl' (not gles).
+>>>>>>
+>>>>>> Okay, I'm not going to propose this, but can you clarify, what is the
+>>>>>> current use for 'gl'? Is it just opengl 3d in standalone x server
+>>>>>> based systems (which is slowly dying), or is there something else to
+>>>>>> it?
+>>>>
+>>>> Are you specifically talking about libmali with the following statements?
+>>>>
+>>>> I would say that in general libmali is probably not doing things in
+>>>> the "normal" way if so, although I'm not trying to say that it isn't a
+>>>> legitimate way to do it.
+>>>>
+>>>>>
+>>>>> Anything that needs "OpenGL", i.e. Wayland/Weston, X11, Chromium, etc etc etc.
+>>>>> These all end up linking to a combination of libmali and mesa-gl.
+>>>>
+>>>> In general (maybe not for libmali) Wayland and Weston themselves don't
+>>>> use OpenGL, or mesa-gl. Individual clients may be able to use it,
+>>>> although it's rare in my (incomplete) experience. Most of the OpenGL
+>>>> users in Wayland/Weston are going through XWayland/X11 and using GLX.
+>>>>
+>>>>>
+>>>>> Pretty much anything that depends on 'virtual/gl' (vs virtual/libgles1,2,3).
+>>>>> libmali provides virtual/libgles1 and virtual/libgles2 and a few other things
+>>>>> that meta-gl doesn't.
+>>>>>
+>>>>> libmali also doesn't include the DRM/DRI parts.  This comes from mesa-gl.
+>>>>
+>>>> In general, DRM/DRI doesn't come from mesa-gl. libdrm is its own
+>>>> recipe, and libgbm comes from mesa proper, or from some other
+>>>> dedicated vendor specific libgbm recipe.
+>>>>
+>>>>
+>>>> If this is sidetracking the discussion please ignore; I'm just a
+>>>> little confused by the above statements because either A) libmali is
+>>>> really weird B) my understanding of things is _way_ off, or C) the
+>>>> statements aren't quite correct.
+>>>>
+>>>>>
+>>>>> --Mark
+>>>>>
+>>>>>> Alex
+>>>>>
+>>>>>
+>>>>>
+>>>>>
+>>>>>
+>>>>>
+>>>>>
+>>
+>>
+>>
+>>
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#172245): https://lists.openembedded.org/g/openembedded-core/message/172245
+>> Mute This Topic: https://lists.openembedded.org/mt/94420106/3616948
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mark.hatle@kernel.crashing.org]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
 
