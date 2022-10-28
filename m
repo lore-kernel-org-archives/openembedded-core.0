@@ -1,160 +1,107 @@
-Return-Path: <changhyeok.bae@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF2EFC38A02
-	for <webhook@archiver.kernel.org>; Fri, 28 Oct 2022 19:57:13 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web08.1251.1666987030814967589
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 701CBC38A02
+	for <webhook@archiver.kernel.org>; Fri, 28 Oct 2022 22:33:53 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web09.696.1666996424212367311
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Oct 2022 12:57:11 -0700
+ Fri, 28 Oct 2022 15:33:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=dycXFZOP;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: changhyeok.bae@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id q9so15532779ejd.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Oct 2022 12:57:10 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=HH4f27Rc;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f50.google.com with SMTP id t10-20020a17090a4e4a00b0020af4bcae10so5727311pjl.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Oct 2022 15:33:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zhLPaQl8UY8sVtkwG4yHf5BHy6jiWLa+WxiJYyAgrwU=;
-        b=dycXFZOP3jqXeFeGq79y9g95IWXk2pwRkaah8so0+LhKNngi3oMI0ouC44w7a7f7vU
-         7UUYPsZZ85eF/3i00bMSzvG5JADMrIlauAKcVM/WdMnVQ9p3Xlmo2u4+mchLtRV7AjDz
-         ZE881SZ/4jTbuxFdJkg7QI78i6fgtAddUoIVrW98Wt28mlYwnMKAPWXSPWCNcU93UcNW
-         Of+NZAz3cZ59Qo6x6dBRJMREK5W3sTyJDxj2BC4m5SYSCiRUCEYjRDdFZjgLLykviGem
-         hLlCSuey60f3WN1+RUN7WYadcU9ygo8mf9Kt1nuyG1/wcnnjBh1fO4v9d3teSqIp+NB3
-         3bgg==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MWjhgEzfH+sr8VmJ5uzn/wLWXq3ggfhSCRitdakZ6rQ=;
+        b=HH4f27RcED8IK2TjPx3686ywKBOsuQFlsb/iC6tCUQfwv94IOeP6xrOqHHLcDy+rkS
+         JO2BIWyP1eIQ1sT+IjjV3QYtfVwbr3skZqfhgc7JjMDjSJl9w+3JCy+BwPlIQxQq4kXE
+         B1dE6RfaYkx726k+x9MLLqKQREkvrMuBHE0msMMNPp28TE9uoes5TIEGgz70LnvtGG1a
+         znvk8VAGQ89Ak+8mIcB9b8fpW+UmdeC/SJap/i9B6kQN8JTa52MENsI8rY9Tcdjwco8j
+         z09Qon5Gz1zMUefHAL3RBQ6hPNaorc6/bPuNtSNo6yAecJp8euXllGlDMPC0SvStbJqX
+         NY5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zhLPaQl8UY8sVtkwG4yHf5BHy6jiWLa+WxiJYyAgrwU=;
-        b=LRPRLISyHtHnuPJjzyG7Sl/nLbAJPAJAwVU8v2DF/USaGPnB93lBwURfdm6Wj6ted5
-         0p74kaP2FvXnSF8dENQZKGXIUkhlYrrjFw1G6MmOTRcrQ6TyoRB9lUhyeyFbcVcAD8eQ
-         yp1cjRM3/Vl79pUx8xJvROaLfKuswqpyQcaUpxtjNPLVg9uz7M/yx+NonOuFliXHmaqs
-         7YhfFiYySxSfTl2Lg6xOC/cMDxtjTjRKJR5gIRl1fFHWEgtehvlpTrYAYRbOfEjzPgkN
-         Ed28cZ1KgHWaz1vATn3FUZOv9ITYDD/9pk6BjIYljZsAZtSrRHTONj5FMFClQSF1r8Ul
-         Gyow==
-X-Gm-Message-State: ACrzQf3+n5lef+Rr2sl4tn0R4Yp0a6GB4kYk/DA3VsaHNq+/+CZGdVCY
-	EiVyyyOJ2a2Ikh7H1npRBh3YPjVTkpI=
-X-Google-Smtp-Source: AMsMyM4slQoBCS57OLrwB7tFK8pthdFpqcJqwrpcv9qRiktrUxGu63nactmICaXB9iMfQx/fi1lU7A==
-X-Received: by 2002:a17:907:2c59:b0:78d:8e03:134 with SMTP id hf25-20020a1709072c5900b0078d8e030134mr902158ejc.310.1666987028810;
-        Fri, 28 Oct 2022 12:57:08 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5aea4e.dynamic.kabel-deutschland.de. [95.90.234.78])
-        by smtp.gmail.com with ESMTPSA id c7-20020a17090603c700b007ad86f86b4fsm2676587eja.69.2022.10.28.12.57.07
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MWjhgEzfH+sr8VmJ5uzn/wLWXq3ggfhSCRitdakZ6rQ=;
+        b=QOj3lh8F8rDrcX2cRJeRMWTX3mFB/e+ykW/QIUooKyw4gEv0eBQJ1dEM4uWCCbmxOV
+         jLN7TTF/J9xxODWO9pm+/aBxYRcAxrnKrHlVrkYUnvqKWwidMIg1W3zg3oNq+bYpoB/k
+         t1f1acRf2Y1ShqXpEvU3WbvcmQvYRi92qxhLxhBH3uoDChFsTUkx82IvLcXW00VKbzjX
+         OK/LlgELiC+r1+yspboDT+GJ6TewE9ZGKQS3nxtdvwIVdPa0n0RBETjq7Vk/XTvtOmw8
+         NTorz/ab9x/SY1JnQeuyDQ3Ndkq8H2xoacufswDHd4NSMDDWVtfdTighQ1b7MD1R4UV3
+         /kWQ==
+X-Gm-Message-State: ACrzQf3IfV8ERvOHbKDpQGSn1mnZDFW/++PelTVwbO0vSe1IN4Jd+U4m
+	vFMFqEgmSQHOVKOo81fmEtFCu6JUamjvAl5m
+X-Google-Smtp-Source: AMsMyM7LcWmLd+FF8J8TlV+4JJHGNovVGW2qucIV6UFxCMnRnzaivjBOoKj45fSEHXP+VvnyBw1SiA==
+X-Received: by 2002:a17:90b:1c8d:b0:203:cc25:4eb5 with SMTP id oo13-20020a17090b1c8d00b00203cc254eb5mr1596044pjb.132.1666996422953;
+        Fri, 28 Oct 2022 15:33:42 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id p187-20020a625bc4000000b005628a30a500sm3313776pfb.41.2022.10.28.15.33.41
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Oct 2022 12:57:08 -0700 (PDT)
-From: Changhyeok Bae <changhyeok.bae@gmail.com>
+        Fri, 28 Oct 2022 15:33:42 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Changhyeok Bae <changhyeok.bae@gmail.com>
-Subject: [OE-Core][PATCH] iproute2: upgrade 5.19.0 -> 6.0.0
-Date: Fri, 28 Oct 2022 19:56:59 +0000
-Message-Id: <20221028195659.4683-1-changhyeok.bae@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Subject: [OE-core][kirkstone 0/8] Pull request (cover letter only)
+Date: Fri, 28 Oct 2022 12:33:30 -1000
+Message-Id: <cover.1666996333.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Oct 2022 19:57:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172273
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Oct 2022 22:33:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172274
 
-Two patches are in upstream.
+This the final patch set for the 4.0.5 release build on Monday.
 
-Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
----
- ...-_GNU_SOURCE-when-checking-for-setns.patch | 28 -------------------
- ...-add-an-include-where-MIN-is-defined.patch | 25 -----------------
- .../{iproute2_5.19.0.bb => iproute2_6.0.0.bb} |  4 +--
- 3 files changed, 1 insertion(+), 56 deletions(-)
- delete mode 100644 meta/recipes-connectivity/iproute2/iproute2/0001-configure-Define-_GNU_SOURCE-when-checking-for-setns.patch
- delete mode 100644 meta/recipes-connectivity/iproute2/iproute2/0001-ip-ipstats.c-add-an-include-where-MIN-is-defined.patch
- rename meta/recipes-connectivity/iproute2/{iproute2_5.19.0.bb => iproute2_6.0.0.bb} (92%)
+The following changes since commit 4781fee6aea9512b7cb390b76e6f9f0a86a5bd11:
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-configure-Define-_GNU_SOURCE-when-checking-for-setns.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-configure-Define-_GNU_SOURCE-when-checking-for-setns.patch
-deleted file mode 100644
-index 04d44ef444..0000000000
---- a/meta/recipes-connectivity/iproute2/iproute2/0001-configure-Define-_GNU_SOURCE-when-checking-for-setns.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From dc837a6b4c2cad7f31cddfe56cd652e26baadc02 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 10 Aug 2022 22:31:03 -0700
--Subject: [PATCH] configure: Define _GNU_SOURCE when checking for setns
--
--glibc defines this function only as gnu extention
--
--Upstream-Status: Submitted [https://lore.kernel.org/netdev/20220811053440.778649-1-raj.khem@gmail.com/T/#u]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- configure | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/configure b/configure
--index 440facb..c02753b 100755
----- a/configure
--+++ b/configure
--@@ -191,6 +191,7 @@ check_ipt_lib_dir()
-- check_setns()
-- {
--     cat >$TMPDIR/setnstest.c <<EOF
--+#define _GNU_SOURCE
-- #include <sched.h>
-- int main(int argc, char **argv)
-- {
---- 
--2.37.1
--
-diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-ip-ipstats.c-add-an-include-where-MIN-is-defined.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-ip-ipstats.c-add-an-include-where-MIN-is-defined.patch
-deleted file mode 100644
-index edd73818ba..0000000000
---- a/meta/recipes-connectivity/iproute2/iproute2/0001-ip-ipstats.c-add-an-include-where-MIN-is-defined.patch
-+++ /dev/null
-@@ -1,25 +0,0 @@
--From c8a99f1035ec7b158a204f90e9a7ed3c0b1e3d52 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Fri, 5 Aug 2022 11:31:56 +0200
--Subject: [PATCH] ip/ipstats.c: add an include where MIN is defined
--
--Otherwise, non-glibc systems error out (e.g. on musl).
--
--Upstream-Status: Submitted [by email to stephen@networkplumber.org,netdev@vger.kernel.org]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- ip/ipstats.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/ip/ipstats.c b/ip/ipstats.c
--index 5cdd15a..1ac275b 100644
----- a/ip/ipstats.c
--+++ b/ip/ipstats.c
--@@ -1,6 +1,7 @@
-- // SPDX-License-Identifier: GPL-2.0+
-- #include <assert.h>
-- #include <errno.h>
--+#include <sys/param.h>
-- 
-- #include "list.h"
-- #include "utils.h"
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_5.19.0.bb b/meta/recipes-connectivity/iproute2/iproute2_6.0.0.bb
-similarity index 92%
-rename from meta/recipes-connectivity/iproute2/iproute2_5.19.0.bb
-rename to meta/recipes-connectivity/iproute2/iproute2_6.0.0.bb
-index 3cbf80a810..9373dba5f5 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_5.19.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_6.0.0.bb
-@@ -13,11 +13,9 @@ DEPENDS = "flex-native bison-native iptables libcap"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-            file://0001-libc-compat.h-add-musl-workaround.patch \
--           file://0001-ip-ipstats.c-add-an-include-where-MIN-is-defined.patch \
--           file://0001-configure-Define-_GNU_SOURCE-when-checking-for-setns.patch \
-            "
- 
--SRC_URI[sha256sum] = "26b7a34d6a7fd2f7a42e2b39c5a90cb61bac522d1096067ffeb195e5693d7791"
-+SRC_URI[sha256sum] = "523139e9e72aec996374fa2de74be4c53d2dd05589488934d21ff97bae19580a"
- 
- inherit update-alternatives bash-completion pkgconfig
- 
+  lttng-modules: Fix crash on powerpc64 (2022-10-17 04:30:43 -1000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
+
+Bruce Ashfield (2):
+  linux-yocto/5.10: update to v5.10.147
+  linux-yocto/5.10: update to v5.10.149
+
+Steve Sakoman (1):
+  Revert "lttng-tools: Upgrade 2.13.4 -> 2.13.8"
+
+Tim Orling (1):
+  git: upgrade 2.35.4 -> 2.35.5
+
+Vyacheslav Yurkov (2):
+  files: overlayfs-etc: refactor preinit template
+  classes: files: Extend overlayfs-etc class
+
+Yash Shinde (2):
+  binutils: stable 2.38 branch updates
+  glibc: stable 2.35 branch updates.
+
+ meta/classes/overlayfs-etc.bbclass            |  5 +++-
+ meta/files/overlayfs-etc-preinit.sh.in        | 23 ++++++++++++++----
+ meta/recipes-core/glibc/glibc-version.inc     |  2 +-
+ .../binutils/binutils-2.38.inc                |  2 +-
+ .../git/{git_2.35.4.bb => git_2.35.5.bb}      |  2 +-
+ .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 +++++++++----------
+ ...-tools_2.13.8.bb => lttng-tools_2.13.4.bb} |  2 +-
+ 9 files changed, 45 insertions(+), 29 deletions(-)
+ rename meta/recipes-devtools/git/{git_2.35.4.bb => git_2.35.5.bb} (98%)
+ rename meta/recipes-kernel/lttng/{lttng-tools_2.13.8.bb => lttng-tools_2.13.4.bb} (98%)
+
 -- 
-2.17.1
+2.25.1
 
 
