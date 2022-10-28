@@ -2,66 +2,66 @@ Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AA6CECAAA1
-	for <webhook@archiver.kernel.org>; Fri, 28 Oct 2022 16:30:37 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web09.1557.1666974633850361472
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F5E8FA3742
+	for <webhook@archiver.kernel.org>; Fri, 28 Oct 2022 17:41:27 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web12.2352.1666978884220328316
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Oct 2022 09:30:34 -0700
+ Fri, 28 Oct 2022 10:41:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=TRqYOxWb;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=83001d837a=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 29SBSPS8007599
-	for <openembedded-core@lists.openembedded.org>; Fri, 28 Oct 2022 16:30:33 GMT
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=L0a2x4dj;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=83001d837a=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 29SGfEEL025883
+	for <openembedded-core@lists.openembedded.org>; Fri, 28 Oct 2022 10:41:23 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
  subject : date : message-id : mime-version : content-transfer-encoding :
  content-type; s=PPS06212021;
- bh=y+SdchrLnERZfjQW4QKYSn96EPhNSbpwIKsTSzt7E7Q=;
- b=TRqYOxWb3bvN11Eb8ZFgw+kDxqcusjcpvvCOo+CAiuLpTcrfjN0nvGjLyofCHKKLamzS
- 5W/odRFSJtlnGfMnHHqM6rdeZ/qv1LbuB9IcLJVEOs741QJE6f7zsnGEYfg/GkTh828U
- /7+pYJBu4m0sLf0mrdZgK0UWScyK1SGZ8WyLdacrbrmknZqHnlDDvSm5JUtdUKEsVpqg
- yc/IBJOir9c6hO+l9C+58AHvJNQ3itWueiDgTxcsDY6/82jmOh84Px94ZaI/W6cN9uJ/
- I8TJmJwje/bwglMOAhhvEALYX5gWLt6BMPFvvW6VcS02wVeTPC/BmOsrlo6Uc1LJMuCS pA== 
+ bh=G9+yLmSukjSkTBNRCsVb8vs4eUS5MTg7KgkFRylnVBY=;
+ b=L0a2x4djSRC/aGgg8XXxNTJdtGCsGp0NLdSYbAmGTMT4octxt1Gmvqv8cbdHdUzZUnZS
+ z6DDriV0WqPhUfevTUjzF4HaSKkAwtCybznlK7g0/3UHlnTVrZ8rLcFMj1vSfXoKUBSu
+ 7za43D+Y/sU12+tFYiRU2KS7ODtWTTswaFdBSbVtMeuhOFyj7Mge0C3dV2VFZkhXitue
+ y5304vfqQ6KbnS0rKxLZhl/yLgzw0I5BLqKdVLen4Aihx/Kz/QB2WMocDT3jcitjTrF9
+ wQHgE9F56x36bp6dUtPEHlnAeqJfykRGqf1cjVxxZLm3QAmjg9FnHV42/0+ROXdfOooc Xg== 
 Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kfg56hkmg-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kfg3gsqu7-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 28 Oct 2022 16:30:32 +0000
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+	for <openembedded-core@lists.openembedded.org>; Fri, 28 Oct 2022 10:41:23 -0700
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Fri, 28 Oct 2022 09:30:30 -0700
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Fri, 28 Oct 2022 09:30:28 -0700
+ 15.1.2242.12; Fri, 28 Oct 2022 10:41:22 -0700
+Received: from pek-hostel-deb01.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2308.27 via Frontend Transport; Fri, 28 Oct 2022 10:41:21 -0700
 From: Archana Polampalli <archana.polampalli@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <Hari.GPillai@windriver.com>, <Randy.MacLeod@windriver.com>,
         <narpat.mali@windriver.com>,
         Archana Polampalli
 	<archana.polampalli@windriver.com>
-Subject: [oe-core][PATCH 1/1] libpam: fix CVE-2022-28321
-Date: Fri, 28 Oct 2022 16:30:22 +0000
-Message-ID: <20221028163022.1620593-1-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [meta-secure-core][PATCH 1/1] libpam: fix CVE-2022-28321
+Date: Sat, 29 Oct 2022 00:49:46 +0800
+Message-ID: <20221028164946.2494540-1-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: bnkSDDBynrxI_7C68v9rwKrrog4wvNW1
-X-Proofpoint-ORIG-GUID: bnkSDDBynrxI_7C68v9rwKrrog4wvNW1
+X-Proofpoint-GUID: N3arY0v7zhXrayuSAA-dgyart0OrRiJG
+X-Proofpoint-ORIG-GUID: N3arY0v7zhXrayuSAA-dgyart0OrRiJG
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-10-28_07,2022-10-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- adultscore=0 bulkscore=0 lowpriorityscore=0 mlxscore=0 suspectscore=0
- mlxlogscore=999 impostorscore=0 phishscore=0 malwarescore=0 clxscore=1015
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2210280103
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
+ spamscore=0 bulkscore=0 adultscore=0 lowpriorityscore=0 mlxlogscore=999
+ mlxscore=0 impostorscore=0 malwarescore=0 priorityscore=1501 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2210280111
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Oct 2022 16:30:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172269
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Oct 2022 17:41:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172270
 
 The Linux-PAM package before 1.5.2-6.1 for openSUSE Tumbleweed allows
 authentication bypass for SSH logins. The pam_access.so module doesn't
@@ -297,10 +297,10 @@ index 0000000000..e7bf03f9f7
 +2.37.3
 +
 diff --git a/meta/recipes-extended/pam/libpam_1.5.2.bb b/meta/recipes-extended/pam/libpam_1.5.2.bb
-index bde7fef8a2..3be879082e 100644
+index 081986ef43..dabd3256c8 100644
 --- a/meta/recipes-extended/pam/libpam_1.5.2.bb
 +++ b/meta/recipes-extended/pam/libpam_1.5.2.bb
-@@ -24,6 +24,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/Linux-PAM-${PV}.tar.xz \
+@@ -24,6 +24,7 @@ SRC_URI = "https://github.com/linux-pam/linux-pam/releases/download/v${PV}/Linux
             file://0001-run-xtests.sh-check-whether-files-exist.patch \
             file://run-ptest \
             file://pam-volatiles.conf \
@@ -309,6 +309,6 @@ index bde7fef8a2..3be879082e 100644
  
  SRC_URI[sha256sum] = "e4ec7131a91da44512574268f493c6d8ca105c87091691b8e9b56ca685d4f94d"
 -- 
-2.34.1
+2.25.1
 
 
