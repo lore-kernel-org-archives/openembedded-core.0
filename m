@@ -1,85 +1,98 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC0FDFA3741
-	for <webhook@archiver.kernel.org>; Mon, 31 Oct 2022 21:55:10 +0000 (UTC)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
- by mx.groups.io with SMTP id smtpd.web10.2001.1667253305754176572
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90380FA3744
+	for <webhook@archiver.kernel.org>; Mon, 31 Oct 2022 21:55:30 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web08.2012.1667253323571932142
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Oct 2022 14:55:06 -0700
+ Mon, 31 Oct 2022 14:55:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=P8Y1grlB;
- spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f173.google.com with SMTP id j14so18372775ljh.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 31 Oct 2022 14:55:05 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WS85nCvF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id bs21so17870422wrb.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 31 Oct 2022 14:55:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rqrx7euZ7Qtqz92o3Y9GbIPlm98RAwc4EVFqLy2pizI=;
-        b=P8Y1grlBoNSy0tn3m9ilRD9aPkiI3iE0N3JfaeNTxsaUcYBCSbOix5G1RbKl9NYZvZ
-         s4p6WgSbaeWLvlleF/3tm7yPov5rttqZX60hjRXOIFR6qrKslGhsN3YQye8lUQwlhBRm
-         Jtd6KHJ2+r977ph+fexJHdDC1GmHtlwO9Q/vrknhFhLxuH68a4Nj3dJsqsbog3LewgNZ
-         9x84EObofsomIay6zYoFZO+h2pBY8zPLEdS+oDnXgqECEg3WhbwpavA2mZc5gf05OkmH
-         XsfEWl6o3zba0kjzlA2gPF/ffm5R50odl4YMRo/9b4IYLo9d2C1ms1Fk/DaqY7xQP7fd
-         Fk8w==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=eGdyxQ+Q9aHzfaVLnIUFcRuWuCsAK5wsajGaoy7jNeE=;
+        b=WS85nCvFWsYQllSfTY35BVHJSrBR+sa10NZ2iW8WZUi8ca2MQn2DbBRY7yxw2Imi/R
+         028Q72H5tV9fRzYUwYUMbFajhGNt49YXnylf6Zi/4L36GCZQZCQLJJ8fAGEhXVcR31XB
+         pKTSWOP8tCe9dbqmxXWwobfwsbTR4D9fQnehU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rqrx7euZ7Qtqz92o3Y9GbIPlm98RAwc4EVFqLy2pizI=;
-        b=JlEUGNeFPLi4N5hWLDst0h2izRYpg6L0bpnIZYQ1LItUjIee4K4UBmAPFf5Oe2QZBA
-         LcOzlwb5koveWaCNfN4qYt/n409A8jne44Q+bsLjxcxUeRMYXQGgySLttZQ8aFCu9QqY
-         Gfzyso/OTgCNH1wZ71CWRiN/RLNb3GqPUgxpol8WvkNY34bkaIR+ovtVyrhGAnncRpcz
-         n0IOeaSnRv6fJzLDTCewO5c35L0+MTVP9WDutnj+tzPgCJP7WlQwRdf17QG9X/z6H96b
-         OfyaOA9+q47tpwnjELXhmigwZ3luuRWFQyBsM41i4On8219lJVupn+oqf2uQJaFMsA/q
-         cmcw==
-X-Gm-Message-State: ACrzQf2OaacKPm2hSqUq802OZ8xUt768zuLOq9+79MNZxV9UaHF4CCxO
-	AJttyY+hwhR3RWTFiQRnjU9aVJy1ZMLPGwlrDCw=
-X-Google-Smtp-Source: AMsMyM6G3bBKnkdzfbD6GoEQ5KBuqYJDfzzF91jq1imxTRVCxEPeSBM7YXQ0tXZkQq5pBEqs0UwB8THBho3cMk7gf0c=
-X-Received: by 2002:a05:651c:23a5:b0:26d:d196:d04 with SMTP id
- bk37-20020a05651c23a500b0026dd1960d04mr53330ljb.403.1667253303905; Mon, 31
- Oct 2022 14:55:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221031210902.169924-1-peter@berginkonsult.se>
- <CANNYZj81UaR6CojRriPNwGbq76mk+0Y+j8khBy2ZTrUqm4R1jA@mail.gmail.com> <e95e1314-a709-1f5a-548b-e27b4e5d3362@berginkonsult.se>
-In-Reply-To: <e95e1314-a709-1f5a-548b-e27b4e5d3362@berginkonsult.se>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 31 Oct 2022 22:54:51 +0100
-Message-ID: <CANNYZj_A3cUHCjkys1_7DtasJU5sD5z0ruQv=WjSVCkwGKjbbg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] systemd: change syntax for SRC_URI append
-To: Peter Bergin <peter@berginkonsult.se>
-Cc: openembedded-core@lists.openembedded.org
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eGdyxQ+Q9aHzfaVLnIUFcRuWuCsAK5wsajGaoy7jNeE=;
+        b=kz5WV5ZDAtwM2fCSGN5/HRGa29UB+gyCN7DZ0T2v++mJLNK/o0HegFTt9vxd2SZASC
+         aqi2OcU2Skcer8kQJrSuem2L2EPHdmU4nNU0W1qeJM/xRigw0S/k9HuMLQXm2jBes/0D
+         ccgkulG/94RjbGOHk/iWBRsoFrigmrp211kFct9VmF3HnUtupWs6F2A+rWDkb1xkcMOL
+         RglP+A+uIN4sm9FpcXdTofgKYehkHW1H/Gcc8TJORkaOhiAMrwfZXQyb+qtGqae9IUtL
+         1alJmxe3zCh1eCQGfeflz9jGF7ZrtY9KJmmPVZpAnTSi55/Zs/Uc6ZT0LIuFlAG71h3s
+         jjHA==
+X-Gm-Message-State: ACrzQf3Qy60ppblWcjlbuY2CNfkhOGyY4zV7RPZF05z9u9VujAnF0hRb
+	z8emADACt7cG6H9GNwLdCwIdTWqLZe6R5Q==
+X-Google-Smtp-Source: AMsMyM5nE7XucAQADsPseFfWbicT7ZN8sZeU3kExoQeWigrhPgVr7v+aoye4mAYnjev06VUekB+zlA==
+X-Received: by 2002:a05:6000:1549:b0:22e:519e:f39d with SMTP id 9-20020a056000154900b0022e519ef39dmr9433357wry.703.1667253321899;
+        Mon, 31 Oct 2022 14:55:21 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:7f2d:d8cb:afb2:98f4? ([2001:8b0:aba:5f3c:7f2d:d8cb:afb2:98f4])
+        by smtp.gmail.com with ESMTPSA id q1-20020a1ce901000000b003b476cabf1csm6230394wmc.26.2022.10.31.14.55.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Oct 2022 14:55:21 -0700 (PDT)
+Message-ID: <cb0b4ef0e5b5d7665e4182e17f48006ab32dbd65.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 12/13] go: submit patch upstream
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Date: Mon, 31 Oct 2022 21:55:19 +0000
+In-Reply-To: <20221031114719.2725967-12-alex@linutronix.de>
+References: <20221031114719.2725967-1-alex@linutronix.de>
+	 <20221031114719.2725967-12-alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Oct 2022 21:55:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172342
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Oct 2022 21:55:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172343
 
-On Mon, 31 Oct 2022 at 22:32, Peter Bergin <peter@berginkonsult.se> wrote:
-> Sure, I can do that. My aim for override those in a bbappend is just for
-> development purposes and nothing I plan to use in production or push in
-> public. My way of working when I realized this was to build latest
-> master of systemd that had a bunch of patches that I would like to test.
-> To do that I needed to change git repo to systemd.git. When tested I
-> plan to backport relevant patches that I need to add to current systemd
-> version in oe-core to my local layer until next systemd release. Then I
-> thought this could simplify things for more people. But I'm fine if this
-> is not accepted for upstream and I can work around that.
+On Mon, 2022-10-31 at 12:47 +0100, Alexander Kanavin wrote:
+> Note: it will not be reviewed until RP signs the google CLA
+> (link in the PR).
+>=20
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  meta/recipes-devtools/go/go/filter-build-paths.patch | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-devtools/go/go/filter-build-paths.patch b/meta/=
+recipes-devtools/go/go/filter-build-paths.patch
+> index a1aa37c2a4..a036f177e0 100644
+> --- a/meta/recipes-devtools/go/go/filter-build-paths.patch
+> +++ b/meta/recipes-devtools/go/go/filter-build-paths.patch
+> @@ -8,7 +8,9 @@ embedded in the go binary so that builds are reproducible=
+ regardless of build
+>  location. This codepath is hit for statically linked go binaries such as=
+ those
+>  on mips/ppc.
+> =20
+> -Upstream-Status: Pending
+> +Upstream-Status: Submitted [https://github.com/golang/go/pull/56410]
+> +Note: RP needs to sign Google CLA for the PR to proceed.
+> +
 
-We had a related discussion recently regarding mesa, where there is a
-similar desire to 'reuse' the recipe from core as much as possible but
-build from a different revision. Typically this would be done by
-having some kind of common .inc file (systemd.inc in this case), and
-then adding the missing parts in a custom .bb that includes the .inc
-across layers (bitbake allows this). No promises about keeping things
-in .inc compatible with whatever happens in custom layers though.
+I did sort that, I'm not sure I quite wanted to get into a larger
+discussion on how to do it properly and to rewrite the patch and run
+more tests though...
 
-Another option is to use the devupstream class, and there are examples
-in oe-core for it. Would that work for you?
+Cheers,
 
-Alex
+Richard
 
