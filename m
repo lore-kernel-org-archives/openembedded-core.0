@@ -1,93 +1,103 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3382FA3741
-	for <webhook@archiver.kernel.org>; Mon, 31 Oct 2022 14:17:01 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web09.9603.1667225819688691033
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08917ECAAA1
+	for <webhook@archiver.kernel.org>; Mon, 31 Oct 2022 14:29:52 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web10.9912.1667226582362367667
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Oct 2022 07:16:59 -0700
+ Mon, 31 Oct 2022 07:29:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QpN7p9Da;
- spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f43.google.com with SMTP id b11so10507195pjp.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 31 Oct 2022 07:16:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SdsrzQlizJ0o4rbaqwb4mFcl4i05jc5OUHvCPXOQphk=;
-        b=QpN7p9DaCavY6nUuO42LCgTPdbbTndLHbn/SKtN+0zjvCm7ox9rW/pNgEXiWtfANVD
-         brfIoX/1m1wsJhwu5IDcph2AEGnQJmvR490mgERJvmlLgiq1FnrfwX35OYvdu8fViyVT
-         hzgSFk041a9v3NBACzetUW+Eh5dGfCRNzpOCKYjC3v8Dd1dM9OM5lgyA+f+Xqt3fmHSl
-         7HwEdjcbCGeSX8cQsViQhrphkMR2uRpmfk238z8Iwm2cUUK2/0UeOEC3BZfwftSn8MZf
-         aPIGryumAKtNDhV2hXRKhfyI5/SV6kPMe6BJ5kPh+2Tv1PKG/uSMnzR54Qo+N2hFNzPE
-         xb4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SdsrzQlizJ0o4rbaqwb4mFcl4i05jc5OUHvCPXOQphk=;
-        b=O++qbfLMpIrbXFc4X1IEM3jLzdq2Zk+BBn3t5hymaXwmHPuHLCIw9Ti0LyXmUrDroo
-         Mz5UTViO/RL25q2T9xPZAJvcgBqN21X7rwCKakNKHsNV6EynWEKF8UnuWbQl7iz9zlph
-         6orAr5/u0cWQ9L3bunx6b6I1MKULBsi0fEGUBBskon5Fpjeg6TX0RHzUoTqfPBqmk7hz
-         sBWz8u1JHsFIVs2yFGEtJB5qx8oLRFfxtnAt7HsjzSLvtfkOQ2IfYWV6cZI9mrwAYsHC
-         SBxCJp0ZHxJVRXzLZwetdUnKGc9fg+ILEQYmoU2JYHZdcih7v5MlKctPUQt84rlZEfK2
-         7igg==
-X-Gm-Message-State: ACrzQf1OEUTa/DwhoPu3neZIsIAJN55aAb1PbOnMKZGKdR9felRV997u
-	ELl7MHwljdvzydyj12miW5cVeqL4M/R9cg==
-X-Google-Smtp-Source: AMsMyM5U6K8C/tp1X9ROh8JVdRasTiVClLR/R3CO4ICZiKkI7s5j6YXyeBuzEsqdXyuU4QKcXwQJQQ==
-X-Received: by 2002:a17:90a:2b47:b0:213:a42a:13e5 with SMTP id y7-20020a17090a2b4700b00213a42a13e5mr15464143pjc.31.1667225818470;
-        Mon, 31 Oct 2022 07:16:58 -0700 (PDT)
-Received: from nereus.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:83f0:8b49:3bf9:3f41])
-        by smtp.gmail.com with ESMTPSA id 65-20020a621644000000b0056bbcf88b93sm4660733pfw.42.2022.10.31.07.16.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Oct 2022 07:16:57 -0700 (PDT)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] vim: upgrade 9.0.0614 -> 9.0.0820
-Date: Mon, 31 Oct 2022 07:16:43 -0700
-Message-Id: <20221031141643.3665904-1-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=elUF0oqL;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 4A31040003;
+	Mon, 31 Oct 2022 14:29:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1667226580;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9lf0wOaH89xI4HP60VJY8o5RiW7Y/N+H+GH+y9jDk+Y=;
+	b=elUF0oqLoy7fcN/ZdCLJVqhjPHMd7n3MWgl2GoW6dLCqOM6qMbd3SSFeUPWUg2BZz5Gnaw
+	McUc0nVPLxZiyJtF5pK32D/FNi1w0xwlc7oXyf+X1sGOnOqiod5kMyxCm2G+5KRL+i7N2O
+	qaQtTxpbyGDDHz7krifc+nkIvDoR7iT49f3ugIZcIBOXhmmIgd42O4tlgrXV/cFqPEHmrV
+	5GwVaLpdxcq8qTVo2zeZnlWiSurKUJ4dZKYetwnmK/7wXeD8wBqkywV2Io2iKZcMYSHb1j
+	FsTmcDTyekcSbYB7S4mRfoL33c6W4kKbZye3EelchPJCmkvQdy3XOAxdKa6YGQ==
+Date: Mon, 31 Oct 2022 15:29:39 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: wangmy <wangmy@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] Add nativesdk of systemd-systemctl
+Message-ID: <Y1/b04+Xg1vA6zDg@mail.local>
+References: <1667204240-3627-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1667204240-3627-1-git-send-email-wangmy@fujitsu.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Oct 2022 14:17:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172317
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Oct 2022 14:29:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172318
 
-Includes fixes for CVE-2022-3705
-https://nvd.nist.gov/vuln/detail/CVE-2022-3705
+Hello, this causses the following failure on the AB:
 
-For a short list of important changes, see:
-https://www.arp242.net/vimlog/
+AssertionError: 
+The following recipes do not have a maintainer assigned to them. Please add an entry to meta/conf/distro/include/maintainers.inc file.
+nativesdk-systemd-systemctl (/home/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/recipes-core/systemd/nativesdk-systemd-systemctl.bb)
 
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
----
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 0710f6afbf2..298a111853a 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -20,8 +20,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            "
- 
--PV .= ".0614"
--SRCREV = "ef976323e770315b5fca544efb6b2faa25674d15"
-+PV .= ".0820"
-+SRCREV = "03d6e6f42b0deeb02d52c8a48c14abe431370c1c"
- 
- # Remove when 8.3 is out
- UPSTREAM_VERSION_UNKNOWN = "1"
+On 31/10/2022 16:17:20+0800, wangmy wrote:
+> From: Wang Mingyu <wangmy@fujitsu.com>
+> 
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  .../systemd/nativesdk-systemd-systemctl.bb      | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+>  create mode 100644 meta/recipes-core/systemd/nativesdk-systemd-systemctl.bb
+> 
+> diff --git a/meta/recipes-core/systemd/nativesdk-systemd-systemctl.bb b/meta/recipes-core/systemd/nativesdk-systemd-systemctl.bb
+> new file mode 100644
+> index 0000000000..66b5ec5e6e
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/nativesdk-systemd-systemctl.bb
+> @@ -0,0 +1,17 @@
+> +SUMMARY = "Wrapper for enabling systemd services"
+> +
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+> +
+> +PR = "r0"
+> +
+> +inherit nativesdk
+> +
+> +SRC_URI = "file://systemctl"
+> +
+> +S = "${WORKDIR}"
+> +
+> +do_install() {
+> +	install -d ${D}${bindir}
+> +	install -m 0755 ${WORKDIR}/systemctl ${D}${bindir}
+> +}
+> -- 
+> 2.25.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#172293): https://lists.openembedded.org/g/openembedded-core/message/172293
+> Mute This Topic: https://lists.openembedded.org/mt/94680777/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.30.2
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
