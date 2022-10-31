@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0240FFA3747
-	for <webhook@archiver.kernel.org>; Mon, 31 Oct 2022 11:47:51 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.8161.1667216868006867171
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4FF2FA3740
+	for <webhook@archiver.kernel.org>; Mon, 31 Oct 2022 11:47:50 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.8159.1667216860802059723
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Oct 2022 04:47:48 -0700
+ Mon, 31 Oct 2022 04:47:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=C+5s/0Oi;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id h9so15641852wrt.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 31 Oct 2022 04:47:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZxQxpbDc;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id r186-20020a1c44c3000000b003cf4d389c41so7837217wma.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 31 Oct 2022 04:47:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=G3PRdCpxlPVOux084kD5BTVD7VzycqoHyk3J1lFrfDM=;
-        b=C+5s/0OiGO34ZY+yBGFiBzUWIZsikf0Tl9R8hS9TPh9VA/GsfniLvarcFw/nNPbwHm
-         jZ5C7NPUZY9PBIUOSqIEDqs7/XjP5ybt9A2VefhAENNAPFLAnkZDvF8HlQPgETlHL8no
-         MC9JYOlGCy67p1c4PYHB6n0IQbeYXwnPLbEIuXepJUfcjBeGnsHZQIQrRD05vInu0eOP
-         QA3OiSIMlUYsoh/61c60gsflG4WW85fA7e8jHa7Ym04QwR8f8IWkBlK2N4yYQknpxOA9
-         o1jpaWb9cuHk5IlGqZPD160AvSOYLdwI9yvB4HWYgeFyTPkdp0Q7bs9nIfUOPzNFlsB9
-         QYPw==
+        bh=sEWZvXM5E6dFN/BXAPQZSHMpwgCE5Juuy7Th5wRM5yk=;
+        b=ZxQxpbDc+i+aVMDlu3wIR+LPXjpM1AA71BlFORdQ5YwJljaCK1tj6FD/jbEDG03u1N
+         vQIRKROMudREV1QMmOzQxsfjf6XMUyM7QhsF0ejN4vxSXQVJ32aoTypJvi4LXK63WkfY
+         HwFMFS5pVFmpNfwyFpTKmMJnD4BXuGcatG31e1+OFgplI+rUK0CFBVSNhDjZLULsStfi
+         Cvmujs1+o1VeldQTkuUMpGP/Q84vPoTOl4C5ne5h6jtb6weslo1zTQkPj7TnhBtaodUx
+         AGF4wAcm5SlhK82tqURyoq2gNuZKmuGLNkXI0k362fYHU+o/hQu67bZe1WNUgcvuxoTX
+         0eZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=G3PRdCpxlPVOux084kD5BTVD7VzycqoHyk3J1lFrfDM=;
-        b=nXumuTju5zZE1OUE6K41R/WTS3UG/8phXWocdW9LwG0Rrga3ghrhzVyspFYYN6k4AA
-         ausBXByb8kMPNwueXldZ76yQqoewYTMd8m97STbYQJzwYVOIoVLltVTr1xgKeHRQdRqm
-         tbVdhavzcyBf/a4l+eFLtUZ8cegPq6LQVjITPJXI+OkYId6A4Pq742QecfA1rH4QqMzz
-         i2rdb6uhkXktgjBiZvYz4etGTuMJlmGnhKqPWGoS7HmMPRkOpbHo2jVRJC+mtpXlWiXr
-         J+rDKhUeyLwZ5yckP+W3X1Lk05vidhatPlpCmPqiU2wG7q3RL935Ke2PxRg9ONvUbahe
-         LfPg==
-X-Gm-Message-State: ACrzQf2roVc5XRoB74vgk6+yjRcFSbWIDHmlyzOteDiGhhY8ouo3a00t
-	+rwbXZuaEmydO+jtZaIfHmQQTL+LfHs=
-X-Google-Smtp-Source: AMsMyM4xaL4V4PGyc4DxxbRIghgDmKv10D4xwin5PF92bubib0ZNKsOdnLBDlX5xY78GIWh/8zasGA==
-X-Received: by 2002:a5d:6da9:0:b0:22e:53bd:31c1 with SMTP id u9-20020a5d6da9000000b0022e53bd31c1mr8404784wrs.358.1667216866503;
-        Mon, 31 Oct 2022 04:47:46 -0700 (PDT)
+        bh=sEWZvXM5E6dFN/BXAPQZSHMpwgCE5Juuy7Th5wRM5yk=;
+        b=5oxkJBFtIReNmTZ4zcFuyMHqnAJKMRD1y1f/6ywJs5BrO98RZ3NQs9dlyJE1u5YzMK
+         m8DNpAndt31CVEJ02yAkXyu3xVGJcx+0FePTxMmcLpgOdYYLS78k7TtQ14vsRpU79tUS
+         SK4fCE96ZI8U+G02cUHf8/D+xPZacl6kWqDQUoAuWQidhfKp/fypWIr4Y9JcehHKAd5z
+         tzsMUBzyD82tV2vsi0JR54o8NkROPf4TcitgerAJBi1S6//cfkOM8uQrf1wyHUTbT38P
+         eU9JZa8pEueSnJwn/+GLma9aIBL9+nPvnaMOeH8z/gRIJ9/+7PQZqV6/U9ljNHyO0j7h
+         AYLQ==
+X-Gm-Message-State: ACrzQf0FYkTQRRAhkFh7lECUfSgV0swD3xLXjoK/Rj5hxgGlcUPtwrk8
+	WLQZXtyyOTMXHQpByI97oobAehIhASU=
+X-Google-Smtp-Source: AMsMyM6cK55ZN8/SxnxozUnjkAYNS8tYM8gdiIsB4yUoEYrIhK6eYVe0a+Q3BeArLSzRMVXgnC+N8g==
+X-Received: by 2002:a1c:cc1a:0:b0:3cf:7055:c010 with SMTP id h26-20020a1ccc1a000000b003cf7055c010mr3399024wmb.136.1667216859325;
+        Mon, 31 Oct 2022 04:47:39 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id m11-20020adfa3cb000000b002366e3f1497sm7017965wrb.6.2022.10.31.04.47.45
+        by smtp.gmail.com with ESMTPSA id m11-20020adfa3cb000000b002366e3f1497sm7017965wrb.6.2022.10.31.04.47.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Oct 2022 04:47:46 -0700 (PDT)
+        Mon, 31 Oct 2022 04:47:38 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 12/13] go: submit patch upstream
-Date: Mon, 31 Oct 2022 12:47:18 +0100
-Message-Id: <20221031114719.2725967-12-alex@linutronix.de>
+Subject: [PATCH 03/13] python3-cryptography: convert to cargo-update-recipe-crates class
+Date: Mon, 31 Oct 2022 12:47:09 +0100
+Message-Id: <20221031114719.2725967-3-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221031114719.2725967-1-alex@linutronix.de>
 References: <20221031114719.2725967-1-alex@linutronix.de>
@@ -61,32 +61,154 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Oct 2022 11:47:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172314
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Oct 2022 11:47:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172305
 
-Note: it will not be reviewed until RP signs the google CLA
-(link in the PR).
+This allows semi-automated updates to the list of crates, which
+is far too awkward to maintain by hand, particularly on version updates.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/go/go/filter-build-paths.patch | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../python/python3-cryptography-crates.inc    | 58 +++++++++++++++++++
+ .../python/python3-cryptography_38.0.1.bb     | 58 +------------------
+ 2 files changed, 61 insertions(+), 55 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python3-cryptography-crates.inc
 
-diff --git a/meta/recipes-devtools/go/go/filter-build-paths.patch b/meta/recipes-devtools/go/go/filter-build-paths.patch
-index a1aa37c2a4..a036f177e0 100644
---- a/meta/recipes-devtools/go/go/filter-build-paths.patch
-+++ b/meta/recipes-devtools/go/go/filter-build-paths.patch
-@@ -8,7 +8,9 @@ embedded in the go binary so that builds are reproducible regardless of build
- location. This codepath is hit for statically linked go binaries such as those
- on mips/ppc.
- 
--Upstream-Status: Pending
-+Upstream-Status: Submitted [https://github.com/golang/go/pull/56410]
-+Note: RP needs to sign Google CLA for the PR to proceed.
+diff --git a/meta/recipes-devtools/python/python3-cryptography-crates.inc b/meta/recipes-devtools/python/python3-cryptography-crates.inc
+new file mode 100644
+index 0000000000..9339a15091
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-cryptography-crates.inc
+@@ -0,0 +1,58 @@
++# Autogenerated with 'bitbake -c update_crates python3-cryptography'
 +
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++SRC_URI += " \ 
++        crate://crates.io/Inflector/0.11.4 \ 
++        crate://crates.io/aliasable/0.1.3 \ 
++        crate://crates.io/android_system_properties/0.1.5 \ 
++        crate://crates.io/asn1/0.12.2 \ 
++        crate://crates.io/asn1_derive/0.12.2 \ 
++        crate://crates.io/autocfg/1.1.0 \ 
++        crate://crates.io/base64/0.13.0 \ 
++        crate://crates.io/bitflags/1.3.2 \ 
++        crate://crates.io/bumpalo/3.10.0 \ 
++        crate://crates.io/cfg-if/1.0.0 \ 
++        crate://crates.io/chrono/0.4.22 \ 
++        crate://crates.io/core-foundation-sys/0.8.3 \ 
++        crate://crates.io/iana-time-zone/0.1.47 \ 
++        crate://crates.io/indoc/0.3.6 \ 
++        crate://crates.io/indoc-impl/0.3.6 \ 
++        crate://crates.io/instant/0.1.12 \ 
++        crate://crates.io/js-sys/0.3.59 \ 
++        crate://crates.io/libc/0.2.132 \ 
++        crate://crates.io/lock_api/0.4.8 \ 
++        crate://crates.io/log/0.4.17 \ 
++        crate://crates.io/num-integer/0.1.45 \ 
++        crate://crates.io/num-traits/0.2.15 \ 
++        crate://crates.io/once_cell/1.14.0 \ 
++        crate://crates.io/ouroboros/0.15.4 \ 
++        crate://crates.io/ouroboros_macro/0.15.4 \ 
++        crate://crates.io/parking_lot/0.11.2 \ 
++        crate://crates.io/parking_lot_core/0.8.5 \ 
++        crate://crates.io/paste/0.1.18 \ 
++        crate://crates.io/paste-impl/0.1.18 \ 
++        crate://crates.io/pem/1.1.0 \ 
++        crate://crates.io/proc-macro-error/1.0.4 \ 
++        crate://crates.io/proc-macro-error-attr/1.0.4 \ 
++        crate://crates.io/proc-macro-hack/0.5.19 \ 
++        crate://crates.io/proc-macro2/1.0.43 \ 
++        crate://crates.io/pyo3/0.15.2 \ 
++        crate://crates.io/pyo3-build-config/0.15.2 \ 
++        crate://crates.io/pyo3-macros/0.15.2 \ 
++        crate://crates.io/pyo3-macros-backend/0.15.2 \ 
++        crate://crates.io/quote/1.0.21 \ 
++        crate://crates.io/redox_syscall/0.2.16 \ 
++        crate://crates.io/scopeguard/1.1.0 \ 
++        crate://crates.io/smallvec/1.9.0 \ 
++        crate://crates.io/syn/1.0.99 \ 
++        crate://crates.io/unicode-ident/1.0.3 \ 
++        crate://crates.io/unindent/0.1.10 \ 
++        crate://crates.io/version_check/0.9.4 \ 
++        crate://crates.io/wasm-bindgen/0.2.82 \ 
++        crate://crates.io/wasm-bindgen-backend/0.2.82 \ 
++        crate://crates.io/wasm-bindgen-macro/0.2.82 \ 
++        crate://crates.io/wasm-bindgen-macro-support/0.2.82 \ 
++        crate://crates.io/wasm-bindgen-shared/0.2.82 \ 
++        crate://crates.io/winapi/0.3.9 \ 
++        crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \ 
++        crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \ 
++"
+diff --git a/meta/recipes-devtools/python/python3-cryptography_38.0.1.bb b/meta/recipes-devtools/python/python3-cryptography_38.0.1.bb
+index 905293a43e..68679b745a 100644
+--- a/meta/recipes-devtools/python/python3-cryptography_38.0.1.bb
++++ b/meta/recipes-devtools/python/python3-cryptography_38.0.1.bb
+@@ -16,63 +16,11 @@ SRC_URI += "\
+     file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
+     file://check-memfree.py \
+     file://run-ptest \
+-    crate://crates.io/Inflector/0.11.4 \
+-    crate://crates.io/aliasable/0.1.3 \
+-    crate://crates.io/android_system_properties/0.1.5 \
+-    crate://crates.io/asn1/0.12.2 \
+-    crate://crates.io/asn1_derive/0.12.2 \
+-    crate://crates.io/autocfg/1.1.0 \
+-    crate://crates.io/base64/0.13.0 \
+-    crate://crates.io/bitflags/1.3.2 \
+-    crate://crates.io/bumpalo/3.10.0 \
+-    crate://crates.io/cfg-if/1.0.0 \
+-    crate://crates.io/chrono/0.4.22 \
+-    crate://crates.io/core-foundation-sys/0.8.3 \
+-    crate://crates.io/iana-time-zone/0.1.47 \
+-    crate://crates.io/indoc-impl/0.3.6 \
+-    crate://crates.io/indoc/0.3.6 \
+-    crate://crates.io/instant/0.1.12 \
+-    crate://crates.io/js-sys/0.3.59 \
+-    crate://crates.io/libc/0.2.132 \
+-    crate://crates.io/lock_api/0.4.8 \
+-    crate://crates.io/log/0.4.17 \
+-    crate://crates.io/num-integer/0.1.45 \
+-    crate://crates.io/num-traits/0.2.15 \
+-    crate://crates.io/once_cell/1.14.0 \
+-    crate://crates.io/ouroboros/0.15.4 \
+-    crate://crates.io/ouroboros_macro/0.15.4 \
+-    crate://crates.io/parking_lot/0.11.2 \
+-    crate://crates.io/parking_lot_core/0.8.5 \
+-    crate://crates.io/paste-impl/0.1.18 \
+-    crate://crates.io/paste/0.1.18 \
+-    crate://crates.io/pem/1.1.0 \
+-    crate://crates.io/proc-macro-error-attr/1.0.4 \
+-    crate://crates.io/proc-macro-error/1.0.4 \
+-    crate://crates.io/proc-macro-hack/0.5.19 \
+-    crate://crates.io/proc-macro2/1.0.43 \
+-    crate://crates.io/pyo3-build-config/0.15.2 \
+-    crate://crates.io/pyo3-macros-backend/0.15.2 \
+-    crate://crates.io/pyo3-macros/0.15.2 \
+-    crate://crates.io/pyo3/0.15.2 \
+-    crate://crates.io/quote/1.0.21 \
+-    crate://crates.io/redox_syscall/0.2.16 \
+-    crate://crates.io/scopeguard/1.1.0 \
+-    crate://crates.io/smallvec/1.9.0 \
+-    crate://crates.io/syn/1.0.99 \
+-    crate://crates.io/unicode-ident/1.0.3 \
+-    crate://crates.io/unindent/0.1.10 \
+-    crate://crates.io/version_check/0.9.4 \
+-    crate://crates.io/wasm-bindgen/0.2.82 \
+-    crate://crates.io/wasm-bindgen-backend/0.2.82 \
+-    crate://crates.io/wasm-bindgen-macro-support/0.2.82 \
+-    crate://crates.io/wasm-bindgen-macro/0.2.82 \
+-    crate://crates.io/wasm-bindgen-shared/0.2.82 \
+-    crate://crates.io/winapi/0.3.9 \
+-    crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
+-    crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
+ "
  
- ---
+-inherit pypi python_setuptools3_rust
++require ${BPN}-crates.inc
++
++inherit pypi python_setuptools3_rust cargo-update-recipe-crates
+ 
+ DEPENDS += " \
+     ${PYTHON_PN}-cffi-native \
 -- 
 2.30.2
 
