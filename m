@@ -1,212 +1,135 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83F61FA3742
-	for <webhook@archiver.kernel.org>; Mon, 31 Oct 2022 09:59:40 +0000 (UTC)
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
- by mx.groups.io with SMTP id smtpd.web09.7384.1667210370103765757
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3DF3FA3742
+	for <webhook@archiver.kernel.org>; Mon, 31 Oct 2022 11:47:40 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web11.8158.1667216859470766473
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Oct 2022 02:59:30 -0700
+ Mon, 31 Oct 2022 04:47:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=W0eEJfEi;
- spf=pass (domain: gmail.com, ip: 209.85.166.182, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-il1-f182.google.com with SMTP id r1so5955385ilg.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 31 Oct 2022 02:59:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=WQUxqApx;
+ spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f50.google.com with SMTP id j15so15596220wrq.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 31 Oct 2022 04:47:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dJx0IZEh7sCJJpTKWsYm4sjycFWIgS7BbXpTRWRjXE4=;
-        b=W0eEJfEiRp0vXD5juo2gWASDwz8QkBS0mRhS3E2KTWa+VIB8qxclOuwt5iWIltnB9e
-         6oJym4BKBzAsFF5KIH8Gp1LMnDK59v9ue3v+sHz2gyipKcssDEjXltHyYSdyyHvjpBpC
-         VOnGZ5Muo4vosq6eMgDgMBF7Ypa+runZVI3uBa7D74EvP9QKCi4GMngY9JrO/bSCQp+y
-         oi6lYHsboZcXziDhDLVGzBIecdxk6wU2cqcuFWEfJZG+sEgrIT1EUp0/xjKmLbccR1AV
-         taKjIPPr3qKA2ZZTjBnFtT94durUqVWfSr75VWfx4gXiD425OEhCZ/ibymKnBTFW7z1T
-         dWJw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8t431kAywv13IkBs6xw+a2qvmVt0M4V1XdgpNer+Skw=;
+        b=WQUxqApxJRzf7EGUNHmPx53Vp5xd2mjlDCQVyveTFmTWQYTWfsMqszal6xEkNUkKUr
+         tJ7NvP6LyrOAuSRX8gLQsuNutAKaRgxZJkUBos66WHZmB7kub1gXGLThZybMsa4g8K8z
+         NbBAzOAsVzKlyzddZxz8T5eenPAj+8GmQkYCmqlT6IXWpXUf5jkfm9AYPxq413AOHz7G
+         dY2wWx+AddDOOlaxSku/ioDWPkxOhtKiTCMlDy9wNipbb2lsbZgX6vLGyizI4r4hUhbQ
+         Ij1WVO75uNGJ0hFr0cXB8vd6W/kmdObnRNXPHeg71kxAWY5HwdpiqtbWsY0w7vXYwr8u
+         TDCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dJx0IZEh7sCJJpTKWsYm4sjycFWIgS7BbXpTRWRjXE4=;
-        b=su+RXjOnrh7M4g9eomO62mFLMDqUsZcSJSJxRgLT7C65N1bcKENdJm3RjZ1ToEUwXv
-         zBq40yQUNv+meScwbT/R9dYU2o3PPQkHIs7Y8HNSk9Y32pRSf6Cu9Sx6BD8T7AUyD2Z+
-         3q8hz2SmfFu+8/EMQ2YkRQs6/aavK+1+F/EZpqiw4CsfLDh+bmaB6eft2V/B14PH97Hw
-         vfmHeBu9RbfN1yEX83lNBXSWIeiY9EhTf1oYMrwa/fNBI+ydNDKPS0+cVATTg7Y0dp4c
-         DYc164uL15xCJ5dFBfrj5GddxymjpTfKSp1GEGwX/BJe+MojkwmU4cCJhzx8C/sai9jw
-         AIPg==
-X-Gm-Message-State: ACrzQf2Pv0aXwHSN8bycoXICAQCd7c1UiUpz7Febyg5dlHJn7mW8S3sw
-	ptmHrWf2A3CV1oPKek67C66V3SC/F3kwZvlmkP6BhmeS
-X-Google-Smtp-Source: AMsMyM7Einl8vNH3LS5zQBLLIoj0Zzw9jIaQCjxKdyRflE//cjMOmwzazG3CZFR3c72Zm2XrG0LUH5NDf5s1CUC2rIE=
-X-Received: by 2002:a92:d482:0:b0:300:79a0:ab67 with SMTP id
- p2-20020a92d482000000b0030079a0ab67mr6140551ilg.241.1667210369462; Mon, 31
- Oct 2022 02:59:29 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8t431kAywv13IkBs6xw+a2qvmVt0M4V1XdgpNer+Skw=;
+        b=Y7iE7kWLyufCn0rt2t0uHM1vG/kyH6bjaMsQppWmzL16ox19BAOWAFLH5/0uSFkEKz
+         X4h582/xL+YQ5OezPJGSmne0yc8aBYCFOB5qiDz7ctr89ZP1DmJO5DjRQLdSMmm+3KC+
+         GkKSZwbo7OtZLKDgtjIq7wc9ZtFhDv9CbhnBCqi1n34/0YrRjZSc258uVPLMUE9rO+on
+         POuSwSSM+mkswkMVk6yVUf46tWMNU5lpFnuFVzg2x74UNE3/TcwUlSr7btV9BLHBjq7j
+         vNHyDL6CZqxuv81dLSGdPWPE+07QMHepBohwCCR16KLqiqw6Yus2XF1rkY165HAsLhQ6
+         9r1w==
+X-Gm-Message-State: ACrzQf2zXLpW2chAAlHLDJFp5myLRaEmu6Lpq0Oegqf+LLf3eROnFFU4
+	O7zs5ajCt5Es6umrCk16vCVbGn+1iVY=
+X-Google-Smtp-Source: AMsMyM46PTsb5PtpWLO6tehDr6rAh2dNlaz8UfCDaYFIX/h0xfj8GNCtdjGWwmfj3ltPRPClnKn28A==
+X-Received: by 2002:a5d:4572:0:b0:236:ccbe:3513 with SMTP id a18-20020a5d4572000000b00236ccbe3513mr2716490wrc.497.1667216857812;
+        Mon, 31 Oct 2022 04:47:37 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id m11-20020adfa3cb000000b002366e3f1497sm7017965wrb.6.2022.10.31.04.47.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Oct 2022 04:47:37 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 01/13] cargo-update-recipe-crates.bbclass: add a class to generate SRC_URI crate lists from Cargo.lock
+Date: Mon, 31 Oct 2022 12:47:07 +0100
+Message-Id: <20221031114719.2725967-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20221030173815.10212-1-alex.kiernan@gmail.com>
- <20221030173815.10212-2-alex.kiernan@gmail.com> <CANNYZj_VyT8xSFF=un1cF_4PugEOhuP-hkN3K66XOc_MvbAV6g@mail.gmail.com>
- <CAO5Uq5TkQtPoGV4NETup9NSVf+ybewXhi=YzoSQ4t2GTpDhecA@mail.gmail.com> <CANNYZj_e632YO2XqXccYq65HQi_1_Musu=X7ybFqLYv+a7gEvQ@mail.gmail.com>
-In-Reply-To: <CANNYZj_e632YO2XqXccYq65HQi_1_Musu=X7ybFqLYv+a7gEvQ@mail.gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Mon, 31 Oct 2022 09:59:18 +0000
-Message-ID: <CAO5Uq5R6-C+5mrhioQOmbGx4eAt40jMO0D_NpUnFCTQx3HdR5Q@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH 2/2] cargo_common.bbclass: Support local github repos
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Oct 2022 09:59:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172302
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Oct 2022 11:47:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172303
 
-On Sun, Oct 30, 2022 at 6:35 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> It would also help if there=E2=80=99s an actual recipe and component some=
-where where the problem exists now. The uuid-test does look like a made up =
-example.
->
+For better or worse, more and more rust components are appearing that do
+not include their dependencies in tarballs (or git trees), and rely on cargo
+to fetch them. On the other hand, bitbake does not use cargo (and quite possible
+won't ever be able to), and relies on having each item explicitly listed in SRC_URI
+with a crate:// prefix. This however creates a problem of both making such lists in
+the first place and updating them when a recipe is updated to a newer version.
 
-That's fair... basically it was demonstrating the problem I have with
-a bunch of private repos, which I expect will crop up a lot in the
-embedded rust world - if you're doing public dev, everything exists as
-crates, in the private world you're consuming crates + internal stuff.
-Not sure where to try and find a real world example as I'd expect
-pretty much everyone will push to crates.io if their code is open -
-searching around for a bit, I've failed to find any (though a couple
-which have some dev only dependencies which come through git).
+So this class can be used to perform such updates by implementing a task that does it;
+the next commit shows the outcome for python3-bcrypt (which has been tested to work
+and produce a successful build).
 
-> Let=E2=80=99s merge the crate updater to core first, then we can think of=
- handling other ways to specify dependencies. =E2=80=98cargo bitbake=E2=80=
-=99 is pretty broken and dead.
->
+Note: the python script relies on tomllib library, which appears in Python 3.11 and
+does not exist in earlier versions - I've tested this by first updating python to 3.11-rc2
+in oe-core.
 
-The crate updater feels like it's going to be directionally better -
-testing it locally, it works for things which only consume things from
-crates.io, but that's only one out of thirty or so components I have
-to deal with.
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ .../cargo-update-recipe-crates.bbclass        | 41 +++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+ create mode 100644 meta/classes-recipe/cargo-update-recipe-crates.bbclass
 
+diff --git a/meta/classes-recipe/cargo-update-recipe-crates.bbclass b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
+new file mode 100644
+index 0000000000..f90938c734
+--- /dev/null
++++ b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
+@@ -0,0 +1,41 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# SPDX-License-Identifier: MIT
++#
++
++##
++## Purpose:
++## This class is used to update the list of crates in SRC_URI
++## by reading Cargo.lock in the source tree.
++##
++## See meta/recipes-devtools/python/python3-bcrypt_*.bb for an example
++##
++## To perform the update: bitbake -c update_crates recipe-name
++
++addtask do_update_crates after do_patch
++do_update_crates[depends] = "python3-native:do_populate_sysroot"
++
++do_update_crates() {
++    nativepython3 - <<EOF
++
++def get_crates(f):
++    import tomllib
++    c_list = 'SRC_URI += " \\ \n'
++    crates = tomllib.load(open(f, 'rb'))
++    for c in crates['package']:
++        if 'source' in c and 'crates.io' in c['source']:
++            c_list += "        crate://crates.io/{}/{} \\ \n".format(c['name'], c['version'])
++    c_list += '"\n'
++    return c_list
++
++import os
++crates = "# Autogenerated with 'bitbake -c update_crates ${PN}'\n\n"
++for root, dirs, files in os.walk('${S}'):
++    for file in files:
++        if file == 'Cargo.lock':
++            crates += get_crates(os.path.join(root, file))
++open(os.path.join('${THISDIR}', '${PN}'+"-crates.inc"), 'w').write(crates)
++
++EOF
++}
+-- 
+2.30.2
 
-> Alex
->
-> On Sun 30. Oct 2022 at 19.12, Alex Kiernan <alex.kiernan@gmail.com> wrote=
-:
->>
->> I was wondering about how to do that - my test case was
->> https://github.com/akiernan/uuid-test, but that's clearly not
->> adequate; the recipe there comes from `cargo bitbake` as `bitbake -c
->> update_crates` doesn't deal with git dependencies, or dig down into
->> transitive deps, which also needs solving.
->>
->> I'm not clear if something like this could be added as part of the
->> stuff that's in master-next for rust tests? Or if we need to build out
->> something new.
->>
->> On Sun, Oct 30, 2022 at 5:58 PM Alexander Kanavin
->> <alex.kanavin@gmail.com> wrote:
->> >
->> > There doesn=E2=80=99t seem to be a test case or an example for this. H=
-ow can we ensure the code is correct?
->> >
->> > Alex
->> >
->> > On Sun 30. Oct 2022 at 18.38, Alex Kiernan <alex.kiernan@gmail.com> wr=
-ote:
->> >>
->> >> Since disable network was added cargo configurations which reference =
-git
->> >> repos fail as they attempt to fetch across the network as part of
->> >> do_compile, even if EXTRA_OECARGO_PATHS to add them as part of `paths=
-`
->> >> is used, as this is documented as only working for packages which exi=
-st
->> >> in crates.io.
->> >>
->> >> Add parsing of the SRC_URIs for git repos and include `[patch]` secti=
-ons
->> >> to redirect to the checked out source repos which the bitbake fetcher
->> >> has already populated.
->> >>
->> >> There are still cases which don't work - if you have multiple copies =
-of
->> >> the same repo with different revisions, there's currently no way to
->> >> represent that and anything using a repo which has a virtual manifest
->> >> will fail to build (see https://github.com/rust-lang/cargo/issues/493=
-4).
->> >>
->> >> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
->> >> ---
->> >>  meta/classes-recipe/cargo_common.bbclass | 30 ++++++++++++++++++++++=
-++
->> >>  1 file changed, 30 insertions(+)
->> >>
->> >> diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-=
-recipe/cargo_common.bbclass
->> >> index f503a001dd8e..63b13829084b 100644
->> >> --- a/meta/classes-recipe/cargo_common.bbclass
->> >> +++ b/meta/classes-recipe/cargo_common.bbclass
->> >> @@ -116,6 +116,36 @@ cargo_common_do_configure () {
->> >>         EOF
->> >>  }
->> >>
->> >> +python cargo_common_do_patch_paths() {
->> >> +    cargo_config =3D os.path.join(d.getVar("CARGO_HOME"), "config")
->> >> +    if not os.path.exists(cargo_config):
->> >> +        return
->> >> +
->> >> +    src_uri =3D (d.getVar('SRC_URI') or "").split()
->> >> +    if len(src_uri) =3D=3D 0:
->> >> +        return
->> >> +
->> >> +    patches =3D dict()
->> >> +    workdir =3D d.getVar('WORKDIR')
->> >> +    fetcher =3D bb.fetch2.Fetch(src_uri, d)
->> >> +    for url in fetcher.urls:
->> >> +        ud =3D fetcher.ud[url]
->> >> +        if ud.type =3D=3D 'git':
->> >> +            name =3D ud.parm.get('name')
->> >> +            destsuffix =3D ud.parm.get('destsuffix')
->> >> +            if name is not None and destsuffix is not None:
->> >> +                repo =3D '%s://%s%s' % (ud.proto, ud.host, ud.path)
->> >> +                path =3D '%s =3D { path =3D "%s" }' % (name, os.path=
-.join(workdir, destsuffix))
->> >> +                patches.setdefault(repo, []).append(path)
->> >> +
->> >> +    with open(cargo_config, "a+") as config:
->> >> +        for k, v in patches.items():
->> >> +            print('\n[patch."%s"]' % k, file=3Dconfig)
->> >> +            for name in v:
->> >> +                print(name, file=3Dconfig)
->> >> +}
->> >> +do_configure[postfuncs] +=3D "cargo_common_do_patch_paths"
->> >> +
->> >>  oe_cargo_fix_env () {
->> >>         export CC=3D"${RUST_TARGET_CC}"
->> >>         export CXX=3D"${RUST_TARGET_CXX}"
->> >> --
->> >> 2.35.1
->> >>
->> >>
->> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> >> Links: You receive all messages sent to this group.
->> >> View/Reply Online (#172284): https://lists.openembedded.org/g/openemb=
-edded-core/message/172284
->> >> Mute This Topic: https://lists.openembedded.org/mt/94668827/1686489
->> >> Group Owner: openembedded-core+owner@lists.openembedded.org
->> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=
- [alex.kanavin@gmail.com]
->> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> >>
->>
->>
->> --
->> Alex Kiernan
-
-
-
---
-Alex Kiernan
 
