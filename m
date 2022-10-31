@@ -1,77 +1,91 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <peter@berginkonsult.se>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C5AAECAAA1
-	for <webhook@archiver.kernel.org>; Mon, 31 Oct 2022 21:25:10 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web09.1566.1667251505614303333
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98759ECAAA1
+	for <webhook@archiver.kernel.org>; Mon, 31 Oct 2022 21:32:50 +0000 (UTC)
+Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
+ by mx.groups.io with SMTP id smtpd.web10.1723.1667251964868425747
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Oct 2022 14:25:06 -0700
+ Mon, 31 Oct 2022 14:32:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=qwpOVAVj;
- spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id s24so18284752ljs.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 31 Oct 2022 14:25:05 -0700 (PDT)
+ dkim=pass header.i=@berginkonsult.se header.s=rsa1 header.b=D5GbRu9y;
+ spf=none, err=permanent DNS error (domain: berginkonsult.se, ip: 46.30.210.184, mailfrom: peter@berginkonsult.se)
+Received: from mailrelay3.pub.mailoutpod2-cph3.one.com (mailrelay3.pub.mailoutpod2-cph3.one.com [104.37.34.8])
+	by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPS
+	id 8d3c07e6-5963-11ed-be8b-d0431ea8bb03;
+	Mon, 31 Oct 2022 21:32:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BoptFshCYqSqx47ziCVZIsEFZSj5RR7eAlm7EBv6vj4=;
-        b=qwpOVAVj9CleyoKrqjB25T1WjRkpGVIRogh8U2MKdnKa289RLCYfPpBheTr0JfKm77
-         YDKz00+Eg891Zaizl1cv/1KOfMop4TDEzgHk0SNfTXOGjQoT7S4gBdkSJatYqCwDbgUM
-         p0wplMKQEnJ4h7I6nLY+/z9anXZgzw9UNDV4rShl+nNWTcOG3yQnbXruHI625pqFKt+3
-         HcPe6SXA6M6ONibYnOQIILySuE1NJKTdtBpTIeS9QGXnJx8NIt9MFpsj8IBi8A+U18WB
-         TrmynCD5NOfTJFVTmPrn1mxmjC6dQqhqDNJopObMbJWR6rqNGlBPRdNYRFjPsHOBrwII
-         nExw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BoptFshCYqSqx47ziCVZIsEFZSj5RR7eAlm7EBv6vj4=;
-        b=YUSs7Q+s7UUIEEKFq+UFxdzfCt9Ut/tOrY4YGVFpK0Jtw8C+DmT2or6/sQUjAAaQ28
-         +tO4WahcGnoC7qRDfU7pwFRvtVoaDT7to5qijc2lFTI+R0PK2H7OTAv7cog1KH0IK1NT
-         276pnk49GGSYbxvsy/hsKe3VRfO3uh+QswKR9qt714ryBTKJg3ix7v+6Mn7W90OFYES2
-         WMsmbEmKiG1JCriX7RT4phVSBMwkP1Zgy/OVxINj+VIzU1OG3qui/2FlVdo64NJ2DVml
-         G3DR922KngzSTHN2XTcv3NiAWT4nKtcPH1Bs/+hPtuiOTZzMQ6E7GykRIyPEHX33Ne6h
-         ftAw==
-X-Gm-Message-State: ACrzQf29LP1Cj/admhl2ak+CWejbzxrn1yiaS1Zl5ER0wBIHpyDce7zl
-	oQCElkAqpyJfTywmFXapF3yi1lWqVeAJItHjqJI=
-X-Google-Smtp-Source: AMsMyM66oqO7pz6fb2fgqJvZnNvNF/KBYSj+Tonv8YeleZOhzkGBJ+7X1aAZl5G/WFUnRP161qCKR/B0B8NjSeArXAk=
-X-Received: by 2002:a05:651c:23a5:b0:26d:d196:d04 with SMTP id
- bk37-20020a05651c23a500b0026dd1960d04mr30148ljb.403.1667251503692; Mon, 31
- Oct 2022 14:25:03 -0700 (PDT)
+	d=berginkonsult.se; s=rsa1;
+	h=content-transfer-encoding:content-type:in-reply-to:from:references:cc:to:
+	 subject:mime-version:date:message-id:from;
+	bh=Uv/M13SBqp8lNgGdqvmBTwcgtDmoANLZOVDBsG22fSk=;
+	b=D5GbRu9yohXkTlBoW61wAeVtYp1w8SgyyJMqqLv90QohI3wXUI5j+Qgujcm9CeVQiI8rjsDuKDrc3
+	 TT1vwbpoai2BZn97deanFhb+c+obSiL+eKlMm48JGyq9hkmtHKhawRTS+UtBY9ypSVg8fo4KCp+LLt
+	 pZLur3O5lpJmE6yb08wD6Ci4RZZcSAPUOPrde/0oFFcV1Ufl5IAKWeJI+4XTz1wKYpXG15N4cAG2EU
+	 zdP7f7N/Lm4Rl1CAKY4v6M8raOxUTHbL5lBciNhuDD6M9TdDbdfNTrV+oxJgEwUsDyWlUqCyr5vnT3
+	 wuJiwHXlK+c7P/ONqDoOtDt/Vj8jqlA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=berginkonsult.se; s=ed1;
+	h=content-transfer-encoding:content-type:in-reply-to:from:references:cc:to:
+	 subject:mime-version:date:message-id:from;
+	bh=Uv/M13SBqp8lNgGdqvmBTwcgtDmoANLZOVDBsG22fSk=;
+	b=0kF543woaDTBKd7rqrYspl36bGYFbRi2tN/epJ888HivO0LVkGowP8jEelmZCJDIAJ8zH7La+NubA
+	 2gIXEcQCA==
+X-HalOne-ID: 8c6bc67e-5963-11ed-b689-7b202c25bcfe
+Received: from [192.168.100.34] (ua-213-113-159-147.bbcust.telenor.se [213.113.159.147])
+	by mailrelay3 (Halon) with ESMTPSA
+	id 8c6bc67e-5963-11ed-b689-7b202c25bcfe;
+	Mon, 31 Oct 2022 21:32:42 +0000 (UTC)
+Message-ID: <e95e1314-a709-1f5a-548b-e27b4e5d3362@berginkonsult.se>
+Date: Mon, 31 Oct 2022 22:32:41 +0100
 MIME-Version: 1.0
-References: <20221031210902.169924-1-peter@berginkonsult.se>
-In-Reply-To: <20221031210902.169924-1-peter@berginkonsult.se>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 31 Oct 2022 22:24:51 +0100
-Message-ID: <CANNYZj81UaR6CojRriPNwGbq76mk+0Y+j8khBy2ZTrUqm4R1jA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
 Subject: Re: [OE-core] [PATCH] systemd: change syntax for SRC_URI append
-To: Peter Bergin <peter@berginkonsult.se>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+References: <20221031210902.169924-1-peter@berginkonsult.se>
+ <CANNYZj81UaR6CojRriPNwGbq76mk+0Y+j8khBy2ZTrUqm4R1jA@mail.gmail.com>
+Content-Language: en-US
+From: Peter Bergin <peter@berginkonsult.se>
+In-Reply-To: <CANNYZj81UaR6CojRriPNwGbq76mk+0Y+j8khBy2ZTrUqm4R1jA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Oct 2022 21:25:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172338
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Oct 2022 21:32:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172339
 
-On Mon, 31 Oct 2022 at 22:09, Peter Bergin <peter@berginkonsult.se> wrote:
->
-> In order to be able to override the git repo used in a bbappend
-> file the additions of files to SRC_URI needs to be done with :append
-> instead of +=, otherwise those will not be added.
->
-> My use case for this change is to try to build latest
-> systemd that is located in another repo than the one used
-> by the recipe (systemd.git instead of systemd-stable.git).
-> With this change this is possible to do by having SRC_URI, SRCREV
-> and SRCBRANCH in a bbappend.
+Hi Alex,
 
-Sorry but overriding these three things in a bbappend is a horrible
-idea, and should not be done. Copy and tweak the whole recipe please.
+On 2022-10-31 22:24, Alexander Kanavin wrote:
+> On Mon, 31 Oct 2022 at 22:09, Peter Bergin <peter@berginkonsult.se> wrote:
+>> In order to be able to override the git repo used in a bbappend
+>> file the additions of files to SRC_URI needs to be done with :append
+>> instead of +=, otherwise those will not be added.
+>>
+>> My use case for this change is to try to build latest
+>> systemd that is located in another repo than the one used
+>> by the recipe (systemd.git instead of systemd-stable.git).
+>> With this change this is possible to do by having SRC_URI, SRCREV
+>> and SRCBRANCH in a bbappend.
+> Sorry but overriding these three things in a bbappend is a horrible
+> idea, and should not be done. Copy and tweak the whole recipe please.
 
-Alex
+Sure, I can do that. My aim for override those in a bbappend is just for 
+development purposes and nothing I plan to use in production or push in 
+public. My way of working when I realized this was to build latest 
+master of systemd that had a bunch of patches that I would like to test. 
+To do that I needed to change git repo to systemd.git. When tested I 
+plan to backport relevant patches that I need to add to current systemd 
+version in oe-core to my local layer until next systemd release. Then I 
+thought this could simplify things for more people. But I'm fine if this 
+is not accepted for upstream and I can work around that.
+
+Best regards,
+/Peter
+
+
 
