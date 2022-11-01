@@ -1,116 +1,107 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51BE9C433FE
-	for <webhook@archiver.kernel.org>; Tue,  1 Nov 2022 09:40:09 +0000 (UTC)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web12.4300.1667295603703191614
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2C93FA3743
+	for <webhook@archiver.kernel.org>; Tue,  1 Nov 2022 11:32:09 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web09.5095.1667302327480695261
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Nov 2022 02:40:04 -0700
+ Tue, 01 Nov 2022 04:32:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=WzDfxMN9;
- spf=pass (domain: linaro.org, ip: 209.85.208.178, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f178.google.com with SMTP id x21so18707796ljg.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 02:40:03 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FnTju0ZU;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id v1so19688623wrt.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 04:32:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=03aUSS8J9gukHKFn05PPxKIYqG5uVoA8oyTh1rd00Wg=;
-        b=WzDfxMN9x3qWtQvwqlyoJjiwUD75b2lO90ixrxxtdSEZgvJWsHdwvldcdXi8+bml+P
-         Xx3mwAQR2DnLC1Gyisn/e0JZpqP9yBKtYGl3ddArYUvqo7UP8GUTwaCPZeWsFbvyrarO
-         Sy62PfPIBsrGH7dbPv+PTA+EhLIulRns7Otgp4QPn9s31OcNnRSeFrnTovkFBOaCEQ4k
-         9b41eaytKHQH5qLjao9DPvvHOrAbHJcZss73PVNVyN1pZ48z44wh6wCLuE1j8x8g0+Cl
-         2T1Vx8W9HsYkm7BPb7tdouQUijkmYjfv17MJxSpeTorcmI3HJCk+R2x8g+Vxsxcck5Ay
-         P7Mw==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=YhV+11B6mIz+ju2GNexGWguvmZ2/pev4Sy7oO+4fSzM=;
+        b=FnTju0ZUgSpy7pvvPTkB1to/9oicQ7zO6x9efLcGHpXUSwuomEJc3qXpG0ABqbET2e
+         JWa+nZ6oBOJkW6S9kQ9YFZ0f8vQS9mMP3Log9BZLWPcjR0KtGpi4zG2wNSgUEmhDHZ82
+         uAc5OevSJAJJ27xA9miDB5zUMU3HQffETdftI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=03aUSS8J9gukHKFn05PPxKIYqG5uVoA8oyTh1rd00Wg=;
-        b=dPWpBg9N6ytFxvc3cdBKLehVPTdEbbZ2MOqbucdUlYvfOtGq69/0dNouj4G1EYPM8a
-         sJ9Ngyb8pu+zSnO4v8Jv4bnv8oaSCNfNatGqg4PuwYDDdChOQdrj+tkV8GIyLi37Sne9
-         TaBU4XVw7OAlae1q/EXj4sYvlAmrmXZxn8pDZaCiA29lDGISDDvW48F2i3A/iz3YnqBS
-         csqPlSZOc65mfmqpxNnh74aBA7VOgojmpkkyDhm4Lj6nSty5QbuU9DcH7x9rn8UL0utJ
-         FkDw3yGYffQSlTYgDdOusSljjzhNu54KgKpqTc0rw/gyoVcES6mPxu3uAZGxdDguT6jk
-         bMcA==
-X-Gm-Message-State: ACrzQf3gkxjwzFKOAUOt/VlLkW7vPvdqGMCZcd9IlYOKf4Rj9B2hdzsa
-	b29lNgephhSr1PThlAtxrCaNxA==
-X-Google-Smtp-Source: AMsMyM4Dt1IbemSM5SpQ7/+9LQ/TSJbW/5ljcO9hqB3mf05CCj2eUj3rq7nzLauq2WX1ImttqB3+bA==
-X-Received: by 2002:a2e:9c88:0:b0:277:139e:6a3d with SMTP id x8-20020a2e9c88000000b00277139e6a3dmr6892762lji.527.1667295601156;
-        Tue, 01 Nov 2022 02:40:01 -0700 (PDT)
-Received: from nuoska (dsl-olubng11-54f814-94.dhcp.inet.fi. [84.248.20.94])
-        by smtp.gmail.com with ESMTPSA id z24-20020a196518000000b00494978b0caesm1598502lfb.276.2022.11.01.02.40.00
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YhV+11B6mIz+ju2GNexGWguvmZ2/pev4Sy7oO+4fSzM=;
+        b=Uc0g5EttbTJjsQFh9TCgkcOQ5o9HrvpJ58KsXixynOnlJngKH+yhwenVdGNNlA9zsE
+         BfIeRO2LYndeNTB3XywDS9JSD+LfJ7ozQQAz0VBrXfOWci+1zjj2++rDWVOdoO/waISf
+         4xIO/OTzcojAnH6mnD+t/6dPn5Cok0TdB162+fIXAcwXu7TIPT3xPohlT9LM61cR5vcy
+         /PvV0bmHiakuUamkvQcOYmjVUSXqKEn550AzgqFINbVWErodq8cwMeyP/tdCMcbeZXrX
+         1SRh5ez98ygtxNo0jlRmI7f36BXszkA7CotYLRC3btWd6NkYSX9j2zSMjidzfm0L2tgf
+         PQAA==
+X-Gm-Message-State: ACrzQf2Wodbo4EgOPDwumtpXgomDKXdvZMj/14rgR2GLPk6xs1/ZCCy9
+	Dk4PyAyZQrRvB5wVlgmh6Uz1HQ==
+X-Google-Smtp-Source: AMsMyM6EipoA0Gt7PWtEO79CUBw6qJgriNfJ2FP818WwH9LrsK1WonLfTrmnVv7JF09x9BiPCZr9ow==
+X-Received: by 2002:adf:e3cc:0:b0:235:95b1:2124 with SMTP id k12-20020adfe3cc000000b0023595b12124mr11455130wrm.693.1667302325809;
+        Tue, 01 Nov 2022 04:32:05 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:7f2d:d8cb:afb2:98f4? ([2001:8b0:aba:5f3c:7f2d:d8cb:afb2:98f4])
+        by smtp.gmail.com with ESMTPSA id co26-20020a0560000a1a00b0022dc6e76bbdsm9984929wrb.46.2022.11.01.04.32.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Nov 2022 02:40:00 -0700 (PDT)
-Date: Tue, 1 Nov 2022 11:39:58 +0200
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Peter Bergin <peter@berginkonsult.se>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] systemd: change syntax for SRC_URI append
-Message-ID: <Y2DpbhnSdM2tyyyw@nuoska>
-References: <20221031210902.169924-1-peter@berginkonsult.se>
- <CANNYZj81UaR6CojRriPNwGbq76mk+0Y+j8khBy2ZTrUqm4R1jA@mail.gmail.com>
- <e95e1314-a709-1f5a-548b-e27b4e5d3362@berginkonsult.se>
- <CANNYZj_A3cUHCjkys1_7DtasJU5sD5z0ruQv=WjSVCkwGKjbbg@mail.gmail.com>
- <35e2faf3-7cc5-a266-12f3-73ef600be8b7@berginkonsult.se>
- <CANNYZj-8-Ao5yj=rU7qS9oK=mBASs0Fm0=28sxp849DCOSVw-g@mail.gmail.com>
+        Tue, 01 Nov 2022 04:32:05 -0700 (PDT)
+Message-ID: <35d2def13540f539de71fb547e001a3b1a3d3467.camel@linuxfoundation.org>
+Subject: Re: [OE-Core][PATCH v2 1/3] kernel: classes: Extract savedefconfig
+ to a class
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross.burton@arm.com>, "alex.kiernan@gmail.com"
+	 <alex.kiernan@gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Tue, 01 Nov 2022 11:32:04 +0000
+In-Reply-To: <C228B32E-EFA8-4A69-A915-4E53FFE719D3@arm.com>
+References: <20221012071813.778-1-alex.kiernan@gmail.com>
+	 <7C7AB85E-C822-4DCC-B462-AD314119EAE4@arm.com>
+	 <CAO5Uq5Tqqt=oaGQt7kyZUg4gkJ6Uo_ahNR6itZSEwYyDX8rKrQ@mail.gmail.com>
+	 <C228B32E-EFA8-4A69-A915-4E53FFE719D3@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANNYZj-8-Ao5yj=rU7qS9oK=mBASs0Fm0=28sxp849DCOSVw-g@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 09:40:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172356
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 11:32:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172357
 
-Hi,
+On Mon, 2022-10-31 at 22:12 +0000, Ross Burton wrote:
+> On 12 Oct 2022, at 20:43, Alex Kiernan via lists.openembedded.org <alex.k=
+iernan=3Dgmail.com@lists.openembedded.org> wrote:
+> >=20
+> > On Wed, Oct 12, 2022 at 5:36 PM Ross Burton <Ross.Burton@arm.com> wrote=
+:
+> > >=20
+> > > On 12 Oct 2022, at 08:18, Alex Kiernan via lists.openembedded.org <al=
+ex.kiernan=3Dgmail.com@lists.openembedded.org> wrote:
+> > > >=20
+> > > > Move savedefconfig task to a class so we can reuse it in other reci=
+pes
+> > > > which support it.
+> > >=20
+> > > There are three users of cml1 in oe-core: kernel, uboot, and busybox.=
+  Does busybox support savedefconfig?
+> > >=20
+> >=20
+> > It doesn't and fairly obviously goes boom=E2=80=A6
+>=20
+> If you really keen you could see if savedefconfig is a valid target someh=
+ow (search make -p for savedefconfig?), but to be honest given Ulrich=E2=80=
+=99s reply I=E2=80=99m fine with the cml1 class supporting a function that =
+most implementations, if not all, support.
+>=20
+> It seems preferable to a class which is just "oe_runmake savedefconfig=E2=
+=80=9D, at least.
 
-On Tue, Nov 01, 2022 at 10:10:45AM +0100, Alexander Kanavin wrote:
-> On Tue, 1 Nov 2022 at 09:12, Peter Bergin <peter@berginkonsult.se> wrote:
-> > This opened my eyes for the way systemd recipes are built up in oe-core.
-> > It seems a bit the other way around. systemd.inc contains almost only
-> > version information. systemd_251.4.bb is huge and contains a lot of
-> > thing that I think can be shared among versions. If it had been the
-> > other way around it had been easy to have a systemd_git.bb, including
-> > systemd.inc, in my local layer (or upstream if desired) that build
-> > systemd main branch. What do you think of that? Is is worth working on
-> > such a patch? Or are there reasons for that setup?
-> 
-> I prefer the opposite actually. Where possible, I fold the .inc files
-> into the main recipe because that makes maintenance easier, and if
-> someone needs to change that in non-upstreamable manner, they have to
-> perform a full fork in a private layer. I do not like bits and pieces
-> of code scattered all over the place and gathered together by bitbake,
-> that does not help readability.
-
-systemd contains both compiled code and large amounts of config files
-which frequently need to be changed in various ways in real products. Think of
-all the defaults for systemd-networkd, systemd-journald, service files etc.
-
-Thus, it is common to have a bbappend for it which either patches
-or otherwise changes these config files (e.g. sed in a
-do_install_append()).
-
-In these cases full fork of the poky side recipe is not needed or even
-wanted.
-
-What breaks these use cases is use of :append to change various
-variables which users also need to change. A SRC_URI:append with 10's of
-patches needs SRC_URI:remove for all of them, possibly increasing with
-every security update gets really annoying in a .bbappend and users will
-need to fully fork the recipes.
-
-The .bb or .inc way of handling the main recipe doesn't really matter as
-long it easy in a .bbappend to amend things to the variables like
-SRC_URI and that these amendments work when there are small updates to
-the recipe from e.g. LTS branch.
+The other "trick" that could work here is to put most of the definition
+in the class but put the addtask in the recipe/inc file. That way most
+is command and shared but only the valid users enable it with what is a
+single line.
 
 Cheers,
 
--Mikko
+Richard
+
 
