@@ -2,46 +2,46 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 104D0C433FE
-	for <webhook@archiver.kernel.org>; Tue,  1 Nov 2022 18:02:32 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web09.3620.1667325742284284554
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37B80C4332F
+	for <webhook@archiver.kernel.org>; Tue,  1 Nov 2022 18:24:22 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web08.10085.1667327057870740426
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Nov 2022 11:02:22 -0700
+ Tue, 01 Nov 2022 11:24:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=qajMH718;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id f37so24504421lfv.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 11:02:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eh+z4xGt;
+ spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f177.google.com with SMTP id a15so22135668ljb.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 11:24:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=iIXzw+wEMo8sFb4UuEghsG04KtYkAO7sPoRQ4dZN9o8=;
-        b=qajMH718pjZ4RTCIXLHNWb0nV3jjf0WZJjGti7ELQdyIk3iX7W45HU0nIRyDrR/4Lw
-         isbY0OCUtc4wgaW/f0CEl2J50JOgJ4tv73xEXf6H1tQPvddnzCl5zIsq4Aov0cxYnXH9
-         8oEbY4q/vh+yyMrBQJJfXirKZh4evUaOI6NWBED9zUrbW1WDjti+mtvYSMEx44AdXSJS
-         qv9iR8NX/uOvGTQnijsyu/dv8F/ftC8rqfqHrfETas/WMq/FNa68fOz7zBwg5AoL0Bk8
-         X7jx+BGeb35YFGqLZcTjBba9Ecux1tZC3YxGbmwtOosDLCEIcPm5GRviU/xvtVNDy6IA
-         RwSQ==
+        bh=mi72GEqvRPBrBu5tIA2w4/So5Q5ox/Pkxu7MLtDKszI=;
+        b=eh+z4xGtBe2nirr/DojE3Nd7c1Q3WP7hcss1WSjhiCoTnbxM4/AdR6x7HEFscI+9AM
+         1xaLRhBFLaCLuHUwe3WXUQA7mdr86/mpj9JoFJPUiiqQve++EhKQnIDRHs6A9y1K0fXM
+         bYdYouEFedWppRANH9H4poTF/YS/o1jwFh+p6FA1QS5fHx6SNYBnMBN9O2tGEiIZbhmz
+         cvEWpZwrgY9ybIOJVxgV0A4m9aPMfSj46z4/CxTUc6d8v6MictwMMIrqMHFLSR9l5gIs
+         Vxt1gkh0ILwp3xvzufUH74nELBcl+aOGUBUgSyvlsUHgm0+EMzcsr+3x9y/powGBZWW4
+         l67w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=iIXzw+wEMo8sFb4UuEghsG04KtYkAO7sPoRQ4dZN9o8=;
-        b=hOxx3AjUj/hxTUSuxAm+ZS85Oc5hXHm/5pMHhoV8vBv6zbboGFJaH4N3luO3Be/8hg
-         rSBWdrKWGBP6kslt2YtyUipgJTXeJJ/xd6hpW4t3tfGzDFs6/+BxS+5ofZdgUo4fWRCX
-         IKwzDhFIm6e+bmkPDWzal0Wo+TViv5E7JpIDKHM6mBL03Oc9lripNdYN9FzJX2I7ka3i
-         0sBYjZVa1AXgxt5h858FOrXmQtzFRxp4t1chiX4GTPVWQA/1aSPhnn/oE3H7oZsAo060
-         z+YxO4fjZHYEDUgeuTOdhbnTTAQMHv1tN1dctdoU2gnvZcJBvhcRJ9910F+hUsOzZlvH
-         DF4Q==
-X-Gm-Message-State: ACrzQf3esjGY3BL9jiElbh5J3s+VdtvWqtQKX7lrWGRluyZA5CKAaau/
-	yralzUQBJT06evKnSDBy831K8A0nN/JJu4xtn04=
-X-Google-Smtp-Source: AMsMyM7COxv+VvviLLkCzwK06WOtxTQVCpUtOPWMGdCsmlzc3HW34+tdulvAvMJ7u80IFZZr+Tb7QnXIh8q51jEEUow=
-X-Received: by 2002:ac2:4c8e:0:b0:4a2:7d0d:c7a5 with SMTP id
- d14-20020ac24c8e000000b004a27d0dc7a5mr7462534lfl.367.1667325740425; Tue, 01
- Nov 2022 11:02:20 -0700 (PDT)
+        bh=mi72GEqvRPBrBu5tIA2w4/So5Q5ox/Pkxu7MLtDKszI=;
+        b=eHmwxolcTDxm5tqwwbp7bmNBJ98PlBAkmJ6jwTF9ew4ctUaq3tkZQ75UwhZ4uI4/Bh
+         SGG7r4aK88bk90AkNK684zMRRkPdBRTb0Uz9V3mHgYp64hzRQ7YvDx9u/P/esq7N3+l6
+         CsXkty8OBZ49j6v0daCC9qiOPqxqBiUzaSCay78oo29VpsaHFTWXbz+4nSqfuS5hKjyr
+         9ufNNceawVLFZAT58p5yzjcxiWI7NVtVgm71JhP0tHIQnL3B9vVwXcO2mwii+h42kWYh
+         g3TXSx1kaGsUyyXZ/LdWOn4EMQa0kY0tOg0OL90eHpkBbOOWfuPBG1psnAUeHL7BQp5q
+         eKAg==
+X-Gm-Message-State: ACrzQf2ykYKzAweGL/os+8gdWqXLFjEXgtO7Z7GISuJhY3f77UWkirwE
+	rvvNwb36WLaA1iP8Jt7Dvx5KOIrYbYSfuAkLg7M=
+X-Google-Smtp-Source: AMsMyM68FM54lP81Tv9GXTdnsZdJAxXcdxF/6tulN/duVc3wlExkrj6dWzbgRPJfZlZNryNwPYH4AVXcptjaqmahuyc=
+X-Received: by 2002:a05:651c:23a5:b0:26d:d196:d04 with SMTP id
+ bk37-20020a05651c23a500b0026dd1960d04mr1209040ljb.403.1667327056198; Tue, 01
+ Nov 2022 11:24:16 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221021233726.1751124-1-sean.anderson@seco.com>
  <20221021233726.1751124-7-sean.anderson@seco.com> <f8039bfc391404e83464c6894ce3ebf5496f1da1.camel@linuxfoundation.org>
@@ -50,11 +50,11 @@ References: <20221021233726.1751124-1-sean.anderson@seco.com>
  <cf9846db-f142-e8bd-3fbc-51a430b5684d@seco.com> <3720dadc9a760c068eed340cd7877c92b6ffd482.camel@linuxfoundation.org>
  <3b106bb0-ecdb-efb1-1a54-7ad6ae345852@seco.com> <42bd04f74f012c2bf921c486087a6659c9534756.camel@linuxfoundation.org>
  <3eccb82e-73ac-1e79-8a99-0d6b3cc7839d@seco.com> <ea92c4e3fda1e06defc28532e8f0b1c7205e09c1.camel@linuxfoundation.org>
- <c4d27774-ec17-e171-6470-1730441b5b02@seco.com>
-In-Reply-To: <c4d27774-ec17-e171-6470-1730441b5b02@seco.com>
+ <c4d27774-ec17-e171-6470-1730441b5b02@seco.com> <172387EDE52D4BA6.10252@lists.openembedded.org>
+In-Reply-To: <172387EDE52D4BA6.10252@lists.openembedded.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 1 Nov 2022 19:02:08 +0100
-Message-ID: <CANNYZj_z52Y+nkU-uJFYPJVRj2a1CgT9xbHqs+rj0c3TtuPH6Q@mail.gmail.com>
+Date: Tue, 1 Nov 2022 19:24:04 +0100
+Message-ID: <CANNYZj_D7EKk=aYUYEK4UO9U0JLF+kkz7ajhx3o+QUgMXv3gWw@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 6/6] u-boot: Rework signing to remove interdependencies
 To: sean.anderson@seco.com
 Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
@@ -64,22 +64,23 @@ Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 18:02:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172378
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 18:24:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172379
 
-On Tue, 1 Nov 2022 at 18:54, Sean Anderson via lists.openembedded.org
-<sean.anderson=seco.com@lists.openembedded.org> wrote:
-> If you use a tool like b4 [1] it can automatically generate a summary thank-you message.
-> As an example, [2]. This keeps the number of messages down and is not terribly
-> burdensome for maintainers (since it fits into the usual patch workflow),
+On Tue, 1 Nov 2022 at 19:02, Alexander Kanavin via
+lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
+wrote:
+> > You can set up something like pwbot [3], which integrates with patchwork
+> > and your repository. It produces messages like [4] automatically when it
+> > notices they have been merged into the repositiry, and marks them as
+> > "Accepted" in patchwork. This is even lower effort for your maintainers.
 >
-> You can set up something like pwbot [3], which integrates with patchwork
-> and your repository. It produces messages like [4] automatically when it
-> notices they have been merged into the repositiry, and marks them as
-> "Accepted" in patchwork. This is even lower effort for your maintainers.
+> You are very much welcome to set these things up for the project and
+> maintain them.
 
-You are very much welcome to set these things up for the project and
-maintain them.
+And by the way, this is a serious offer. We do not have a maintainer
+for patchwork, and we are looking for one, as seen here:
+https://git.yoctoproject.org/poky/tree/MAINTAINERS.md?h=master-next
 
 Alex
 
