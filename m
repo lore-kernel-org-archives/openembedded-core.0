@@ -1,175 +1,402 @@
-Return-Path: <sean.anderson@seco.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C80FC4332F
-	for <webhook@archiver.kernel.org>; Tue,  1 Nov 2022 18:30:12 +0000 (UTC)
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.81])
- by mx.groups.io with SMTP id smtpd.web09.3949.1667327406432718467
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D896C4332F
+	for <webhook@archiver.kernel.org>; Tue,  1 Nov 2022 18:38:42 +0000 (UTC)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web10.10315.1667327913540282065
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Nov 2022 11:30:08 -0700
+ Tue, 01 Nov 2022 11:38:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@seco.com header.s=selector1 header.b=q7BJU405;
- spf=pass (domain: seco.com, ip: 40.107.13.81, mailfrom: sean.anderson@seco.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dSv5woqEOL1j3EIDjFboC78nGDJDPNC+tJcP2Y78BCn86WRo76nd5JYfu0kBrVAw/3OKDFSvI0GOcfSl3koLYM2KnS7aqkrTGFuvWTauBYaly+gNXfrWFymXgDuPKkLEvutaowvp5jQTJiHoBKaBKlx+GAVWxPLu9O6sC63Mwx/AY3U1xiIWSvc/3GiHyw5CnXsbDomncKnPpf0cWAD+2pwp264ZAjwPgTtxFUwmL/CusoPZ8MntJNWR4LvdqUpshRHb6PFpIc9JQjU2bH9q5JmF/klZW4NPpRMOF6p+hzTSPTf2A0NXoI6k+jidco97SyV3XpN1RwNC59Oxd7lxZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8N3ulTmRKnNXlFIbr06zn+bg/cPlFC8u819nrMffVN8=;
- b=H0hwZ7H5778XAHnDlDNtzEqozz8LrvRj9h/tjHi9SHEctEiFboyX2MP+HAUM9rJFVnlRhoN4QimhmtUII6oLEsKixNXh7thCJMbOsHqvt35qDWuX7SVXeC3OfeCQwMfH034ZZmdesbZJQeJrzkLpqT8cQTQNowiQL1Kk+V38/fLvx0fN3JbFyMF4sYe3M0OyVNc2WyqEh0XhvcxVhy3lQECzbRReEEyc1AfTY6zAfyyJrxJAJP0yrve8iJJdcgFaXpy5HR6O60OHBga6M6PwZpuOgsunev5Z1Pdc9FAbeOqtKQcrWZf8bAPPMNC9IViKID0G5d6v4dCoBRZ+Ypuzgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
- dkim=pass header.d=seco.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8N3ulTmRKnNXlFIbr06zn+bg/cPlFC8u819nrMffVN8=;
- b=q7BJU4053gFgvCD20s3s9SzP2NSxYnICc3xVeCnDPCbU9tbzZv7Jg9rWfriW8AH+icvw4eadHIKKPx3mnCRZkyXuAx1pQoQeC8Uq6qc/YvJbamMTT1gckRnE25Nr/8NqXN+a4FR2pch09u9b2377U/Og8ja2zeWPrtEmzDxzSLTTydUMaIRwUW/DHdymrhuHnsVPK9xsGF25kdbxNmB5mJCai7zInCSf+X+rJ96IPeLAllc4wHu0dGUr/GzPaZuzsfuqEK+wtmRdQ7GbefPb6opaqSz2VQlHtHi7AK/RX8c6too3H4JnyKaAEoMqdhi4RVN2FFVjYs0ERU1A5zrJkA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=seco.com;
-Received: from DB7PR03MB4972.eurprd03.prod.outlook.com (2603:10a6:10:7d::22)
- by PR3PR03MB6393.eurprd03.prod.outlook.com (2603:10a6:102:7c::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.20; Tue, 1 Nov
- 2022 18:30:01 +0000
-Received: from DB7PR03MB4972.eurprd03.prod.outlook.com
- ([fe80::9489:5192:ea65:b786]) by DB7PR03MB4972.eurprd03.prod.outlook.com
- ([fe80::9489:5192:ea65:b786%7]) with mapi id 15.20.5769.022; Tue, 1 Nov 2022
- 18:30:00 +0000
-Message-ID: <a0b45f0c-e85a-a39a-0194-cac78767fc84@seco.com>
-Date: Tue, 1 Nov 2022 14:29:56 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [OE-core] [PATCH 6/6] u-boot: Rework signing to remove
- interdependencies
-Content-Language: en-US
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- openembedded-core@lists.openembedded.org,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, akuster808@gmail.com,
- ticotimo@gmail.com, RAJ.KHEM@gmail.com,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-References: <20221021233726.1751124-1-sean.anderson@seco.com>
- <20221021233726.1751124-7-sean.anderson@seco.com>
- <f8039bfc391404e83464c6894ce3ebf5496f1da1.camel@linuxfoundation.org>
- <dbd14d02-ad22-1036-d659-f71eb09a0e83@seco.com>
- <514b492351ff6be577b80881adbc6b508fc04071.camel@linuxfoundation.org>
- <b0708cba-a038-7031-58b0-c08ef0fe6625@seco.com>
- <1c053ef1a0c03728cb09f5259a1d52adc631460c.camel@linuxfoundation.org>
- <cf9846db-f142-e8bd-3fbc-51a430b5684d@seco.com>
- <3720dadc9a760c068eed340cd7877c92b6ffd482.camel@linuxfoundation.org>
- <3b106bb0-ecdb-efb1-1a54-7ad6ae345852@seco.com>
- <42bd04f74f012c2bf921c486087a6659c9534756.camel@linuxfoundation.org>
- <3eccb82e-73ac-1e79-8a99-0d6b3cc7839d@seco.com>
- <ea92c4e3fda1e06defc28532e8f0b1c7205e09c1.camel@linuxfoundation.org>
- <c4d27774-ec17-e171-6470-1730441b5b02@seco.com>
- <CANNYZj_z52Y+nkU-uJFYPJVRj2a1CgT9xbHqs+rj0c3TtuPH6Q@mail.gmail.com>
-From: Sean Anderson <sean.anderson@seco.com>
-In-Reply-To: <CANNYZj_z52Y+nkU-uJFYPJVRj2a1CgT9xbHqs+rj0c3TtuPH6Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BL1PR13CA0131.namprd13.prod.outlook.com
- (2603:10b6:208:2bb::16) To DB7PR03MB4972.eurprd03.prod.outlook.com
- (2603:10a6:10:7d::22)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=MLMfUrc7;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: ticotimo@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id y14so39299139ejd.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 11:38:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yb59kNa8mQvaqDfiPaQXR/3yGUOzp1Ssb8EgmaE/hXM=;
+        b=MLMfUrc7cEsAxv1gsbn67fKHvVavY36OA4SR0EtbxV9GhqfUe/1QvV61hP0YPdCfLt
+         1oWYcP8GAeLzEPfkZ33Boofw5Y3j6t2WZegqu2GaHU4ld9bAYD/hrZpzlPRej3kvxqcm
+         toSi851N6kSrqNyZocvG3IJAOkSeCcd6/8SfmB61yL0dd1sZNuGbGSB1mfyJD/XuyWTZ
+         s40kLV0urYa2UYVuivfyv/8jnwVInr7SlM0lxV/kIt4JHMwl1iSWi0DLnj8DOcyDi6lt
+         Y3nWoGLKQHldvf9ptCKScpNhuTxz1CGCiv5h2oMiFo8GnQQp3RHfHNcKNY5jTecaoA0m
+         0CxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Yb59kNa8mQvaqDfiPaQXR/3yGUOzp1Ssb8EgmaE/hXM=;
+        b=OWA94AE/lzqwOb5HwEMmree8677GjtsK2e/P/n/FUPMI+10oHhBZN9nOX6f+2pQl7y
+         L8ZaQkGouAgZAON2yyiDd9I5OP5Z5bcGj+ldL/0zYJwf3LtRcKMPCYAWzKpRsJFNwK6F
+         z7y48Q9ctQWpaynVVw9dJW2CfcXREWSVxzPeBMAXE/3tktkLNAjNwV7XoyK/2K2HG21D
+         72Ubb+HsKnSTyItlMltIkbktHOUXi3Xo/Nc+BOz8cF6iyUs+Q8pXmwTEvfTBopX7CjZ0
+         1h1m4Ntlt0Me5DxWuZzz7x2Tk0ldy+aCB/nKTL036cEaZ0ysUkUJztducC95z788Vbug
+         no0w==
+X-Gm-Message-State: ACrzQf1XnwnJ2LACbVns3A3zuHfkjkQ9cqjgF+lbUM12HMid34S7kvKb
+	XxV8UzBwEGlKhpBSJDJxex/quhZXBlvOjogzg2Q=
+X-Google-Smtp-Source: AMsMyM4Cb56PTAY7VA7rlVq6Brqpg5URAkR/P1eXLbdNK+MNb4sLRV4EKu+fFmJ78Q5Tdz5CGvteMjpKIswiNGuVOVQ=
+X-Received: by 2002:a17:906:f854:b0:7ad:d196:9df with SMTP id
+ ks20-20020a170906f85400b007add19609dfmr12082476ejb.295.1667327911772; Tue, 01
+ Nov 2022 11:38:31 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB7PR03MB4972:EE_|PR3PR03MB6393:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2d0852b5-cc68-4d41-118a-08dabc371600
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	0kHwQhHSR9w87/CezQyvY4LBVWePIra4A8FhL1HZS4Os4SuIR+zBCDqMs9Cj4iBQ8c+C8uDMhVAUdJE9hfCbMQy8GLfPA+9CHqIwHFaJlQ3n6hRbLCpg8/9s8MBNP+HPLa32TE3hJ0cePsXGowP0Cr/VYx4dBMoBFydP/LD5qYoFCb3Gz2Cab3n+CQ+DZ/D/ur0+0OXvoYnEG9Xmmm1NxElj48AX4bEqqUsx2idhMpX4RgyBdF8tcJgbDQYeraG3bFqKRBnQyP0xV1RjFPLaebn9ZcyttPYbt0Wy0nKga+KSncAWdY7CYNlqZQJpCXlRJDoQElZu/4FbsIlC32Rf6dTO7jnQRNyBax2CluKTGwUZWJyhZ4ZWXdXJjZAafIokcaszTVqI9gptqHPyMZk3I3FcAM90HF5xV7W43QjdMQo9tae5l1Mhsp4v6pNNo8os1vXK9rmaGV73y5He6IUfpwHiSRWhVAbOQ1WUv7JD2ckuOgYmboCPMBvk+s3vCuCDp+q0Wc0Y9I0H7UsTvq13DHJE7aMM3EJc9xHxAzAq+WNZh36Guxy3Ob9J1wvPugolkRSOGHoQHo5qXpoiSJeSneYDsefFP0k6QsCwxaYfCaR82LVjV3M2MHkWeodWwFXRDNhvCke+w7Qb9n/ySZLvpDrjJim7XdulknbTWEmH/bwPzEla9A/1PnNleQLdIP3pxPl+8/FhA4Ef/y1riIP5dLFiloSI18v2cTnuuAUuY+0F8XB36wS2zMimjiWFmmXq2qac/UfwfltOwZX8MZY+sPEXKz+EdQ2SGwGHUDJi8aoLc6il8I0O0pRQAzVal2JZiYM6ThykTuP5hyBIwma6TQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR03MB4972.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(396003)(376002)(136003)(366004)(346002)(39840400004)(451199015)(36756003)(31686004)(66899015)(38100700002)(38350700002)(5660300002)(2906002)(44832011)(83380400001)(31696002)(86362001)(6512007)(26005)(316002)(478600001)(186003)(2616005)(966005)(6486002)(54906003)(6916009)(6506007)(66476007)(66556008)(8936002)(4326008)(8676002)(41300700001)(66946007)(52116002)(53546011)(6666004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?MjJVUGxOa1g2L3RDd3c3clNpVmp0OERKblgvSndFeXorUllSZlQ4Q1pZcVlO?=
- =?utf-8?B?dkNvVXRLc3Q1ZkNoUTBjQTJDbTBJRytsMDJWTUs4ZjFQZFYzQ05ZT2VvOUhG?=
- =?utf-8?B?T1VVaDRRUnZGTk9BcUdEVFpLeWJUK21kUG9qUkF1UEdDaHo2UmlwWWdEUmlK?=
- =?utf-8?B?MjVjUlNWM3R6RkpZZFJJcGNubUxDVWpFbzV1czkyVGFLbEtwa0FrdythNlhW?=
- =?utf-8?B?QlRlWGtidC9iN25rZ1c5UDl5VlU0WTl3Z3BpSVMvREttaGJtbCs1QWM2dW00?=
- =?utf-8?B?RnpKaUIzcFpzdWJnNUEzZ0tsK01INnN1bkcwRzZMSGg2d2xtV2hHcXY4cFVT?=
- =?utf-8?B?NHJpMk9JYzA0Q3RJQmhPTnJWejJjUi9Eb2pGLzIwV1ZnamtLV1FKWDZ2YXgx?=
- =?utf-8?B?dS96RGgzeUp3cGp1cjVxTiszamtrMGo2VmpNVGd0Vml4dE9HL1gxRzVyRE11?=
- =?utf-8?B?dXBJbEpDMFZlOHhYZjJ3TXlMbFhMbUN5N2orL0pKd09DaEVvS3ZhTlNZQklx?=
- =?utf-8?B?cHdPbXUxL1RobU95bXNJVzhDa3V6bzRnaWNUMnZ2UGs5aGpCTHFlWkpJZldj?=
- =?utf-8?B?QS9sakI5TU9xRHdFanVZc1A1SVdnM1QzMUhoQzg1cmdGR0tSUjhIWis3TFlL?=
- =?utf-8?B?R21kekpnak9GZXZ6aUhKVUR1Vk9ubUJ3UEFTcUF1NE4wZG94OGY3Q2dGT2pk?=
- =?utf-8?B?ZWtsZUM5bG5aRWw3TFJtNk9YMGtLb3JvNjFYbkFlamlpWkNqS2JVM2JaM21n?=
- =?utf-8?B?NS9TTzVFRGR6dWU3Rzl5WnFJejJqclBXcmpMb1NxMWNNOEdSeVJKOVRxbDh6?=
- =?utf-8?B?cXA1ZHVlRVp1dGtOUS9SRW1BV1Fsd2hzSmhtWEVBUHVqWjBOc0sxRlBCTTk1?=
- =?utf-8?B?L2tLQU5OMHV2UEo1dUptSTBLajFkSW52RHBEOFhaM2tNU3ErbFpvOTAvcnlz?=
- =?utf-8?B?S2lEUDUvY2dVcDhsMWdaTUZwMG1qY1I3MDMyOVdSZE1ROUxIdEVvRGdobnpM?=
- =?utf-8?B?MzRIekQzUnd4WTVLUFlGTmdoaEhqVXhrZ3pzcGhZUnY5MDl3akNGbm9Dd1pz?=
- =?utf-8?B?SGdwV1o3czVRN2cyU0FxczlJRXB5azJ1cTczWWJwelJCM3RQVjBFdGg0OVUz?=
- =?utf-8?B?QjZzWFA2NnhaWmVWSUdsMXVUWitaTkFWYlFtMlpmSGhzY3BZNm0wckxzMkc4?=
- =?utf-8?B?VzJVMURReE1TZzZ0RC9abTJ4azVSZXJiSzFTREN2cnExWG5oRUlBNjhkdjJH?=
- =?utf-8?B?dDU2SXJrY2JNVnczZHNGTExXZDVRZENkdEFGRi9EbzlockFUeW93b2NCdVla?=
- =?utf-8?B?bnNGLzRHQ1l1M2JKYXdzenJ2UDE0VXk5dXZSclFOWGdHRUxYUDFNSWlBR3FF?=
- =?utf-8?B?ZGF4OTEzRllsNXJCRVFCVmtuR3h1WWhZRktuNkV5b1VEcVVibUNoNDdzMy9m?=
- =?utf-8?B?a3pUYWZvdENwT1FmSmZ3Zkh0Ky9hOTdxYTNYTmR6bEtvT1VqV3ZTd0hMNjh5?=
- =?utf-8?B?U3MxSUdVQ2tzN0dBTzQzbWVtTHl6eHIvSWJML3c2RzVFY3NXMnNHeW14eFc1?=
- =?utf-8?B?K2o5TDdJTDlMTUdrVHNUOEhNbklQTnBLTUVDK2VEMGdtOFdaQTdRY1BVYmoy?=
- =?utf-8?B?enBDT2l1cElrYjlHU3pvZGFTYnlVdC93R1F3QTlSK1ROeElBQ0VSMWRiWTF3?=
- =?utf-8?B?S0lMSElEUHhrZm9wR3JLcHhiZEpYYS80cUpEd293Zi9HUGpMSEsvU2JIVHd5?=
- =?utf-8?B?aGNDNmZHUlEzRnhCd1NTZlVFMDlXZzlJNy9sK21CZk42OW1xdTZEYWR3alYv?=
- =?utf-8?B?d0hiRXIzaUZJWmlieEdSUDZZS2laclVjOE1mU0ZSb002RVc5aVVQUVdyekpN?=
- =?utf-8?B?RVpJSEM1RktQSlFVbmtXNkpjK08vYlN0RjBBZGZ4clRYa2NaY3N6WWdQMnVB?=
- =?utf-8?B?dmgvQU05Mnc5RHY5REc5QWdNWDhvU3F4dEtnL0cyaTR0UVZjMDh6RnNiV3Zr?=
- =?utf-8?B?VnNYRC94TkJVVlArQWJJNU9kazh3eHBpTGxDOHlBR1htTzZzNk4rS1gyRWpL?=
- =?utf-8?B?d0d1OGY2d1ZTVTk0c1Q4K0ttaG8rOHVHaU1pNmFpOGlQNTRlSG9YRm91S2tD?=
- =?utf-8?B?cWZJKzJJSmRoVEhwb2kwcXZ0VXAraThFbWZEYzFlZTYzUzVZK3J5UkJBTnVN?=
- =?utf-8?B?R0E9PQ==?=
-X-OriginatorOrg: seco.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d0852b5-cc68-4d41-118a-08dabc371600
-X-MS-Exchange-CrossTenant-AuthSource: DB7PR03MB4972.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2022 18:30:00.6704
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8If7wThCavvYp8pDgbKaUk/p4OMych4osr+SrMtuA9nwmdY/P3FpK78VLf6fjrh2+MYa3DY1Sa+MJ1VLmwrFnQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR03MB6393
+References: <20221101170310.2740317-1-edtanous@google.com>
+In-Reply-To: <20221101170310.2740317-1-edtanous@google.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Tue, 1 Nov 2022 11:38:20 -0700
+Message-ID: <CANx9H-BnKcR1WTLsVS=Mm52b2DhXDOzTg2Cw0eZsSCdYyEcgcg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] Upgrade OpenSSL 3.0.5 -> 3.0.7
+To: edtanous@google.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000e7c5f705ec6d076f"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 18:30:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172380
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 18:38:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172381
 
-On 11/1/22 14:02, Alexander Kanavin wrote:
-> [You don't often get email from alex.kanavin@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
-> 
-> On Tue, 1 Nov 2022 at 18:54, Sean Anderson via lists.openembedded.org
-> <sean.anderson=seco.com@lists.openembedded.org> wrote:
->> If you use a tool like b4 [1] it can automatically generate a summary thank-you message.
->> As an example, [2]. This keeps the number of messages down and is not terribly
->> burdensome for maintainers (since it fits into the usual patch workflow),
->>
->> You can set up something like pwbot [3], which integrates with patchwork
->> and your repository. It produces messages like [4] automatically when it
->> notices they have been merged into the repositiry, and marks them as
->> "Accepted" in patchwork. This is even lower effort for your maintainers.
-> 
-> You are very much welcome to set these things up for the project and
-> maintain them.
+--000000000000e7c5f705ec6d076f
+Content-Type: text/plain; charset="UTF-8"
 
-Well, b4 is something you'd have to integrate into your personal workflow,
-so I can't help with that.
+The commit message should reference the two new CVEs as well:
 
-I believe in order to set up pwbot you need a computer with
+CVE-2022-3786 and CVE-2022-3602: X.509 Email Address Buffer Overflows
+https://www.openssl.org/blog/blog/2022/11/01/email-address-overflows/
 
-- The git repository you want to track on it. The easiest way to do this is
-  probably to run it on git.openembedded.org itself.
-- A patchwork API key (to modify the patch status)
-- A working email with smtp access (to send out the emails). This probably
-  means a local sendmail (or other) server.
-- cron (or something else)
 
-Although I would be happy to help set things up, I'd need some help from the
-people responsible for maintaining these existing services.
+On Tue, Nov 1, 2022 at 10:03 AM edtanous via lists.openembedded.org
+<edtanous=google.com@lists.openembedded.org> wrote:
 
---Sean
+> From: Ed Tanous <edtanous@google.com>
+>
+> OpenSSL 3.0.5 includes a HIGH level security vulnerability [1].
+>
+> Upgrade the recipe to point to 3.0.7.
+>
+> CVE-2022-3358 is reported fixed in 3.0.6, so drop the patch for that as
+> well.
+>
+> [1] https://www.openssl.org/news/vulnerabilities.html
+>
+> Signed-off-by: Ed Tanous <edtanous@google.com>
+> ---
+>  .../openssl/openssl/CVE-2022-3358.patch       | 55 -------------------
+>  .../{openssl_3.0.5.bb => openssl_3.0.7.bb}    |  3 +-
+>  2 files changed, 1 insertion(+), 57 deletions(-)
+>  delete mode 100644
+> meta/recipes-connectivity/openssl/openssl/CVE-2022-3358.patch
+>  rename meta/recipes-connectivity/openssl/{openssl_3.0.5.bb =>
+> openssl_3.0.7.bb} (98%)
+>
+> diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2022-3358.patch
+> b/meta/recipes-connectivity/openssl/openssl/CVE-2022-3358.patch
+> deleted file mode 100644
+> index 18b2a5a6b2..0000000000
+> --- a/meta/recipes-connectivity/openssl/openssl/CVE-2022-3358.patch
+> +++ /dev/null
+> @@ -1,55 +0,0 @@
+> -From 56e1d693f0ec5550a8e3dd52d30e57a02f0287af Mon Sep 17 00:00:00 2001
+> -From: Hitendra Prajapati <hprajapati@mvista.com>
+> -Date: Wed, 19 Oct 2022 11:08:23 +0530
+> -Subject: [PATCH] CVE-2022-3358
+> -
+> -Upstream-Status: Backport [
+> https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=5485c56679d7c49b96e8fc8ca708b0b7e7c03c4b
+> ]
+> -CVE : CVE-2022-3358
+> -Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> ----
+> - crypto/evp/digest.c  | 4 +++-
+> - crypto/evp/evp_enc.c | 6 ++++--
+> - 2 files changed, 7 insertions(+), 3 deletions(-)
+> -
+> -diff --git a/crypto/evp/digest.c b/crypto/evp/digest.c
+> -index de9a1dc..e6e03ea 100644
+> ---- a/crypto/evp/digest.c
+> -+++ b/crypto/evp/digest.c
+> -@@ -225,7 +225,9 @@ static int evp_md_init_internal(EVP_MD_CTX *ctx,
+> const EVP_MD *type,
+> -             || tmpimpl != NULL
+> - #endif
+> -             || (ctx->flags & EVP_MD_CTX_FLAG_NO_INIT) != 0
+> --            || type->origin == EVP_ORIG_METH) {
+> -+            || (type != NULL && type->origin == EVP_ORIG_METH)
+> -+            || (type == NULL && ctx->digest != NULL
+> -+                             && ctx->digest->origin == EVP_ORIG_METH)) {
+> -         if (ctx->digest == ctx->fetched_digest)
+> -             ctx->digest = NULL;
+> -         EVP_MD_free(ctx->fetched_digest);
+> -diff --git a/crypto/evp/evp_enc.c b/crypto/evp/evp_enc.c
+> -index 19a07de..5df08bd 100644
+> ---- a/crypto/evp/evp_enc.c
+> -+++ b/crypto/evp/evp_enc.c
+> -@@ -131,7 +131,10 @@ static int evp_cipher_init_internal(EVP_CIPHER_CTX
+> *ctx,
+> - #if !defined(OPENSSL_NO_ENGINE) && !defined(FIPS_MODULE)
+> -             || tmpimpl != NULL
+> - #endif
+> --            || impl != NULL) {
+> -+            || impl != NULL
+> -+            || (cipher != NULL && cipher->origin == EVP_ORIG_METH)
+> -+            || (cipher == NULL && ctx->cipher != NULL
+> -+                               && ctx->cipher->origin == EVP_ORIG_METH))
+> {
+> -         if (ctx->cipher == ctx->fetched_cipher)
+> -             ctx->cipher = NULL;
+> -         EVP_CIPHER_free(ctx->fetched_cipher);
+> -@@ -147,7 +150,6 @@ static int evp_cipher_init_internal(EVP_CIPHER_CTX
+> *ctx,
+> -         ctx->cipher_data = NULL;
+> -     }
+> -
+> --
+> -     /* Start of non-legacy code below */
+> -
+> -     /* Ensure a context left lying around from last time is cleared */
+> ---
+> -2.25.1
+> -
+> diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.5.bb
+> b/meta/recipes-connectivity/openssl/openssl_3.0.7.bb
+> similarity index 98%
+> rename from meta/recipes-connectivity/openssl/openssl_3.0.5.bb
+> rename to meta/recipes-connectivity/openssl/openssl_3.0.7.bb
+> index 175692436d..45fd1de2fd 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_3.0.5.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_3.0.7.bb
+> @@ -12,14 +12,13 @@ SRC_URI = "
+> http://www.openssl.org/source/openssl-${PV}.tar.gz \
+>
+> file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+>             file://afalg.patch \
+>             file://0001-Configure-do-not-tweak-mips-cflags.patch \
+> -           file://CVE-2022-3358.patch \
+>             "
+>
+>  SRC_URI:append:class-nativesdk = " \
+>             file://environment.d-openssl.sh \
+>             "
+>
+> -SRC_URI[sha256sum] =
+> "aa7d8d9bef71ad6525c55ba11e5f4397889ce49c2c9349dcea6d3e4f0b024a7a"
+> +SRC_URI[sha256sum] =
+> "83049d042a260e696f62406ac5c08bf706fd84383f945cf21bd61e9ed95c396e"
+>
+>  inherit lib_package multilib_header multilib_script ptest perlnative
+>  MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+> --
+> 2.38.1.273.g43a17bfeac-goog
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#172369):
+> https://lists.openembedded.org/g/openembedded-core/message/172369
+> Mute This Topic: https://lists.openembedded.org/mt/94715257/924729
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> ticotimo@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000e7c5f705ec6d076f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr">The commit message shoul=
+d reference the two new CVEs as well:<div><br>CVE-2022-3786 and CVE-2022-36=
+02: X.509 Email Address Buffer Overflows<br><a href=3D"https://www.openssl.=
+org/blog/blog/2022/11/01/email-address-overflows/">https://www.openssl.org/=
+blog/blog/2022/11/01/email-address-overflows/</a><br></div><div><br></div><=
+/div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
+ttr">On Tue, Nov 1, 2022 at 10:03 AM edtanous via <a href=3D"http://lists.o=
+penembedded.org">lists.openembedded.org</a> &lt;edtanous=3D<a href=3D"mailt=
+o:google.com@lists.openembedded.org">google.com@lists.openembedded.org</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From:=
+ Ed Tanous &lt;<a href=3D"mailto:edtanous@google.com" target=3D"_blank">edt=
+anous@google.com</a>&gt;<br>
+<br>
+OpenSSL 3.0.5 includes a HIGH level security vulnerability [1].<br>
+<br>
+Upgrade the recipe to point to 3.0.7.<br>
+<br>
+CVE-2022-3358 is reported fixed in 3.0.6, so drop the patch for that as<br>
+well.<br>
+<br>
+[1] <a href=3D"https://www.openssl.org/news/vulnerabilities.html" rel=3D"no=
+referrer" target=3D"_blank">https://www.openssl.org/news/vulnerabilities.ht=
+ml</a><br>
+<br>
+Signed-off-by: Ed Tanous &lt;<a href=3D"mailto:edtanous@google.com" target=
+=3D"_blank">edtanous@google.com</a>&gt;<br>
+---<br>
+=C2=A0.../openssl/openssl/CVE-2022-3358.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0| 5=
+5 -------------------<br>
+=C2=A0.../{<a href=3D"http://openssl_3.0.5.bb" rel=3D"noreferrer" target=3D=
+"_blank">openssl_3.0.5.bb</a> =3D&gt; <a href=3D"http://openssl_3.0.7.bb" r=
+el=3D"noreferrer" target=3D"_blank">openssl_3.0.7.bb</a>}=C2=A0 =C2=A0 |=C2=
+=A0 3 +-<br>
+=C2=A02 files changed, 1 insertion(+), 57 deletions(-)<br>
+=C2=A0delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2022=
+-3358.patch<br>
+=C2=A0rename meta/recipes-connectivity/openssl/{<a href=3D"http://openssl_3=
+.0.5.bb" rel=3D"noreferrer" target=3D"_blank">openssl_3.0.5.bb</a> =3D&gt; =
+<a href=3D"http://openssl_3.0.7.bb" rel=3D"noreferrer" target=3D"_blank">op=
+enssl_3.0.7.bb</a>} (98%)<br>
+<br>
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2022-3358.patch =
+b/meta/recipes-connectivity/openssl/openssl/CVE-2022-3358.patch<br>
+deleted file mode 100644<br>
+index 18b2a5a6b2..0000000000<br>
+--- a/meta/recipes-connectivity/openssl/openssl/CVE-2022-3358.patch<br>
++++ /dev/null<br>
+@@ -1,55 +0,0 @@<br>
+-From 56e1d693f0ec5550a8e3dd52d30e57a02f0287af Mon Sep 17 00:00:00 2001<br>
+-From: Hitendra Prajapati &lt;<a href=3D"mailto:hprajapati@mvista.com" targ=
+et=3D"_blank">hprajapati@mvista.com</a>&gt;<br>
+-Date: Wed, 19 Oct 2022 11:08:23 +0530<br>
+-Subject: [PATCH] CVE-2022-3358<br>
+-<br>
+-Upstream-Status: Backport [<a href=3D"https://git.openssl.org/gitweb/?p=3D=
+openssl.git;a=3Dcommitdiff;h=3D5485c56679d7c49b96e8fc8ca708b0b7e7c03c4b" re=
+l=3D"noreferrer" target=3D"_blank">https://git.openssl.org/gitweb/?p=3Dopen=
+ssl.git;a=3Dcommitdiff;h=3D5485c56679d7c49b96e8fc8ca708b0b7e7c03c4b</a>]<br=
+>
+-CVE : CVE-2022-3358<br>
+-Signed-off-by: Hitendra Prajapati &lt;<a href=3D"mailto:hprajapati@mvista.=
+com" target=3D"_blank">hprajapati@mvista.com</a>&gt;<br>
+----<br>
+- crypto/evp/digest.c=C2=A0 | 4 +++-<br>
+- crypto/evp/evp_enc.c | 6 ++++--<br>
+- 2 files changed, 7 insertions(+), 3 deletions(-)<br>
+-<br>
+-diff --git a/crypto/evp/digest.c b/crypto/evp/digest.c<br>
+-index de9a1dc..e6e03ea 100644<br>
+---- a/crypto/evp/digest.c<br>
+-+++ b/crypto/evp/digest.c<br>
+-@@ -225,7 +225,9 @@ static int evp_md_init_internal(EVP_MD_CTX *ctx, const=
+ EVP_MD *type,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|| tmpimpl !=3D NULL<br>
+- #endif<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|| (ctx-&gt;flags &amp; EV=
+P_MD_CTX_FLAG_NO_INIT) !=3D 0<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 || type-&gt;origin =3D=3D EVP_O=
+RIG_METH) {<br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 || (type !=3D NULL &amp;&amp; t=
+ype-&gt;origin =3D=3D EVP_ORIG_METH)<br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 || (type =3D=3D NULL &amp;&amp;=
+ ctx-&gt;digest !=3D NULL<br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;&amp; ctx-&gt;digest-&gt;origin =3D=3D =
+EVP_ORIG_METH)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ctx-&gt;digest =3D=3D ctx-&gt;fetche=
+d_digest)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;digest =3D NULL;<b=
+r>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0EVP_MD_free(ctx-&gt;fetched_digest);<br>
+-diff --git a/crypto/evp/evp_enc.c b/crypto/evp/evp_enc.c<br>
+-index 19a07de..5df08bd 100644<br>
+---- a/crypto/evp/evp_enc.c<br>
+-+++ b/crypto/evp/evp_enc.c<br>
+-@@ -131,7 +131,10 @@ static int evp_cipher_init_internal(EVP_CIPHER_CTX *c=
+tx,<br>
+- #if !defined(OPENSSL_NO_ENGINE) &amp;&amp; !defined(FIPS_MODULE)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|| tmpimpl !=3D NULL<br>
+- #endif<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 || impl !=3D NULL) {<br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 || impl !=3D NULL<br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 || (cipher !=3D NULL &amp;&amp;=
+ cipher-&gt;origin =3D=3D EVP_ORIG_METH)<br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 || (cipher =3D=3D NULL &amp;&am=
+p; ctx-&gt;cipher !=3D NULL<br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;&amp; ctx-&gt;cipher-&gt;origin =
+=3D=3D EVP_ORIG_METH)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ctx-&gt;cipher =3D=3D ctx-&gt;fetche=
+d_cipher)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;cipher =3D NULL;<b=
+r>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0EVP_CIPHER_free(ctx-&gt;fetched_cipher);=
+<br>
+-@@ -147,7 +150,6 @@ static int evp_cipher_init_internal(EVP_CIPHER_CTX *ct=
+x,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;cipher_data =3D NULL;<br>
+-=C2=A0 =C2=A0 =C2=A0}<br>
+- <br>
+--<br>
+-=C2=A0 =C2=A0 =C2=A0/* Start of non-legacy code below */<br>
+- <br>
+-=C2=A0 =C2=A0 =C2=A0/* Ensure a context left lying around from last time i=
+s cleared */<br>
+--- <br>
+-2.25.1<br>
+-<br>
+diff --git a/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_3.=
+0.5.bb" rel=3D"noreferrer" target=3D"_blank">openssl_3.0.5.bb</a> b/meta/re=
+cipes-connectivity/openssl/<a href=3D"http://openssl_3.0.7.bb" rel=3D"noref=
+errer" target=3D"_blank">openssl_3.0.7.bb</a><br>
+similarity index 98%<br>
+rename from meta/recipes-connectivity/openssl/<a href=3D"http://openssl_3.0=
+.5.bb" rel=3D"noreferrer" target=3D"_blank">openssl_3.0.5.bb</a><br>
+rename to meta/recipes-connectivity/openssl/<a href=3D"http://openssl_3.0.7=
+.bb" rel=3D"noreferrer" target=3D"_blank">openssl_3.0.7.bb</a><br>
+index 175692436d..45fd1de2fd 100644<br>
+--- a/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_3.0.5.bb"=
+ rel=3D"noreferrer" target=3D"_blank">openssl_3.0.5.bb</a><br>
++++ b/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_3.0.7.bb"=
+ rel=3D"noreferrer" target=3D"_blank">openssl_3.0.7.bb</a><br>
+@@ -12,14 +12,13 @@ SRC_URI =3D &quot;<a href=3D"http://www.openssl.org/sou=
+rce/openssl-$%7BPV%7D.tar.gz" rel=3D"noreferrer" target=3D"_blank">http://w=
+ww.openssl.org/source/openssl-${PV}.tar.gz</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-buildinfo-strip-sysro=
+ot-and-debug-prefix-map-from-co.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://afalg.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Configure-do-not-twea=
+k-mips-cflags.patch \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2022-3358.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+=C2=A0SRC_URI:append:class-nativesdk =3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://<a href=3D"http://environm=
+ent.d-openssl.sh" rel=3D"noreferrer" target=3D"_blank">environment.d-openss=
+l.sh</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+-SRC_URI[sha256sum] =3D &quot;aa7d8d9bef71ad6525c55ba11e5f4397889ce49c2c934=
+9dcea6d3e4f0b024a7a&quot;<br>
++SRC_URI[sha256sum] =3D &quot;83049d042a260e696f62406ac5c08bf706fd84383f945=
+cf21bd61e9ed95c396e&quot;<br>
+<br>
+=C2=A0inherit lib_package multilib_header multilib_script ptest perlnative<=
+br>
+=C2=A0MULTILIB_SCRIPTS =3D &quot;${PN}-bin:${bindir}/c_rehash&quot;<br>
+-- <br>
+2.38.1.273.g43a17bfeac-goog<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#172369): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/172369" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/172369</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/94715257/9247=
+29" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt/=
+94715257/924729</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
+=3D"_blank">ticotimo@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000e7c5f705ec6d076f--
 
