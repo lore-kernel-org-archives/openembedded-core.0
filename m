@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3A8AC64ED4
-	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 00:40:39 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.847.1667349632999146985
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08ED7C64EDA
+	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 00:40:40 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.846.1667349632977337599
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Nov 2022 17:40:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=R3qMx6Vy;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018435c852d4-bceea430-6efc-4cc1-ac30-623b6bb96a27-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ZhiNcVvN;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018435c854f1-35fe6c7d-3bbb-4131-87b3-fbe7a0d38e25-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1667349631;
+	t=1667349632;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=cN2rHcNPokmYrYvshFRNQNXOJRVqEQtIvpR188p402M=;
-	b=R3qMx6VyKuI1DVcQL3vUueZIzvJ7vPMnNl0zeUXXN9sLPBVfFXs8Q8mGZPIyCHSh
-	Bk/NlNSzNwyc+yeJsm0nPRQ84FWZxIiMauiiI7R5SEV5o6yAL+l+mbyIlT0tJ40E0Q/
-	1GviGe3SBuc/ga6vGFDgtIRfEjiqjsliihATAPy8=
+	bh=XuZkGeq9/oB2nre7Ylg3FViupJfzANHHlWrsD/2x5Hc=;
+	b=ZhiNcVvN69Q14+Ek/UzgatDTEPizqWzjon+lw5Q0P6m27/1yoWUjThx7S6ObXsWL
+	nK25HtfEVdP4RLZHaLZr1b/mn0M75mYHlg2D2kXqKRsH0ztWxJ+X92IZAWJCXGIC3jH
+	sNw365DkTzhlX7o7kIA9rCDI58VgBBc3iMrftieo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1667349631;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1667349632;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=cN2rHcNPokmYrYvshFRNQNXOJRVqEQtIvpR188p402M=;
-	b=apXl9s5VzP5Ayodfc7JMZS/RvET/yQTBAoo5GgG/jSwPuD28fLSzLOp/Iwa6pZyl
-	+WWrnkHogd7f1B6+WWSoZiD2GutXs+iKCJTCLjxeBftxbQsZP9YymR9BX7ft5G+XrH0
-	YJGZNcN0Lo8U7R8At0LdTU9SV/CS2Fr5Fqe3t1h4=
-Content-Type: multipart/mixed; boundary="===============7080059796166287938=="
+	bh=XuZkGeq9/oB2nre7Ylg3FViupJfzANHHlWrsD/2x5Hc=;
+	b=cu+vGAQbCX0rngoWs99eMRp57tZKCuaH7wRd1lAq7lyEiZtVHfmzqhJ47b8799p5
+	t4R2k7rS8hUv22SW6ued70s9qBUhsE7UMr+2wRwdzzOQcnoKhPO942Rv2WgE3uyIm2o
+	7Rg+tvD1LoGtpDjpZlbv0Y9+QW/SFfqysHogHmRY=
+Content-Type: multipart/mixed; boundary="===============5522236562186455019=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] diffstat: upgrading to 1.65 SUCCEEDED
-Message-ID: <0101018435c852d4-bceea430-6efc-4cc1-ac30-623b6bb96a27-000000@us-west-2.amazonses.com>
-Date: Wed, 2 Nov 2022 00:40:31 +0000
+Subject: [AUH] orc: upgrading to 0.4.33 SUCCEEDED
+Message-ID: <0101018435c854f1-35fe6c7d-3bbb-4131-87b3-fbe7a0d38e25-000000@us-west-2.amazonses.com>
+Date: Wed, 2 Nov 2022 00:40:32 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.11.02-54.240.27.23
+X-SES-Outgoing: 2022.11.02-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 00:40:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172418
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 00:40:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172416
 
---===============7080059796166287938==
+--===============5522236562186455019==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *diffstat* to *1.65* has Succeeded.
+that the automatic attempt to upgrade the recipe *orc* to *0.4.33* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-diffstat-upgrade-1.64-1.65.patch
+    - apply the patch: git am 0001-orc-upgrade-0.4.32-0.4.33.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,99 +69,96 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7080059796166287938==
+--===============5522236562186455019==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/diffstat/diffstat-dbg: PKGV changed from 1.64 [default] to 1.65 [default]
-packages/core2-32-poky-linux/diffstat/diffstat-dbg: PKGSIZE changed from 115600 to 115984 (+0%)
-packages/core2-32-poky-linux/diffstat/diffstat-dbg: PV changed from "1.64" to "1.65"
-packages/core2-32-poky-linux/diffstat/diffstat-dev: PKGV changed from 1.64 [default] to 1.65 [default]
-packages/core2-32-poky-linux/diffstat/diffstat-dev: PV changed from "1.64" to "1.65"
-packages/core2-32-poky-linux/diffstat/diffstat-doc: PKGV changed from 1.64 [default] to 1.65 [default]
-packages/core2-32-poky-linux/diffstat/diffstat-doc: PKGSIZE changed from 9069 to 9066 (-0%)
-packages/core2-32-poky-linux/diffstat/diffstat-doc: PV changed from "1.64" to "1.65"
-packages/core2-32-poky-linux/diffstat/diffstat-locale: PKGV changed from 1.64 [default] to 1.65 [default]
-packages/core2-32-poky-linux/diffstat/diffstat-locale: PV changed from "1.64" to "1.65"
-packages/core2-32-poky-linux/diffstat/diffstat-ptest: FILELIST: added "/usr/lib/diffstat/ptest/testing/case43.ref /usr/lib/diffstat/ptest/testing/case44k.ref /usr/lib/diffstat/ptest/testing/case44p1.ref /usr/lib/diffstat/ptest/testing/case46.ref /usr/lib/diffstat/ptest/testing/case42f0.ref /usr/lib/diffstat/ptest/testing/case45u.ref /usr/lib/diffstat/ptest/testing/case45b.ref /usr/lib/diffstat/ptest/testing/case46k.ref /usr/lib/diffstat/ptest/testing/case44.ref /usr/lib/diffstat/ptest/testing/case43p1.ref /usr/lib/diffstat/ptest/testing/case43r2.ref /usr/lib/diffstat/ptest/testing/case43f0.ref /usr/lib/diffstat/ptest/testing/case43p9.ref /usr/lib/diffstat/ptest/testing/case42R.ref /usr/lib/diffstat/ptest/testing/case42k.ref /usr/lib/diffstat/ptest/testing/case44r1.ref /usr/lib/diffstat/ptest/testing/case46b.ref /usr/lib/diffstat/ptest/testing/case44b.ref /usr/lib/diffstat/ptest/testing/case44r2.ref /usr/lib/diffstat/ptest/testing/case46R.ref /usr/lib/diffstat/ptest/testing/case45.pat
-  /usr/lib/diffstat/ptest/testing/case42u.ref /usr/lib/diffstat/ptest/testing/case46.pat /usr/lib/diffstat/ptest/testing/case42r2.ref /usr/lib/diffstat/ptest/testing/case46f0.ref /usr/lib/diffstat/ptest/testing/case42p9.ref /usr/lib/diffstat/ptest/testing/case45r2.ref /usr/lib/diffstat/ptest/testing/case46p1.ref /usr/lib/diffstat/ptest/testing/case46Rp0.ref /usr/lib/diffstat/ptest/testing/case44f0.ref /usr/lib/diffstat/ptest/testing/case43u.ref /usr/lib/diffstat/ptest/testing/case45p1.ref /usr/lib/diffstat/ptest/testing/case44u.ref /usr/lib/diffstat/ptest/testing/case43k.ref /usr/lib/diffstat/ptest/testing/case45R.ref /usr/lib/diffstat/ptest/testing/case45f0.ref /usr/lib/diffstat/ptest/testing/case45r1.ref /usr/lib/diffstat/ptest/testing/case42p1.ref /usr/lib/diffstat/ptest/testing/case45.ref /usr/lib/diffstat/ptest/testing/case43Rp0.ref /usr/lib/diffstat/ptest/testing/case44.pat /usr/lib/diffstat/ptest/testing/case45Rp0.ref /usr/lib/diffstat/ptest/testing/case45p9.ref /usr/lib/diffs
- tat/ptest/testing/case44R.ref /usr/lib/diffstat/ptest/testing/case46u.ref /usr/lib/diffstat/ptest/testing/case45k.ref /usr/lib/diffstat/ptest/testing/case46r2.ref /usr/lib/diffstat/ptest/testing/case43.pat /usr/lib/diffstat/ptest/testing/case42.ref /usr/lib/diffstat/ptest/testing/case43r1.ref /usr/lib/diffstat/ptest/testing/case46r1.ref /usr/lib/diffstat/ptest/testing/case44Rp0.ref /usr/lib/diffstat/ptest/testing/case42r1.ref /usr/lib/diffstat/ptest/testing/case44p9.ref /usr/lib/diffstat/ptest/testing/case42b.ref /usr/lib/diffstat/ptest/testing/case43R.ref /usr/lib/diffstat/ptest/testing/case43b.ref /usr/lib/diffstat/ptest/testing/case46p9.ref /usr/lib/diffstat/ptest/testing/case42.pat /usr/lib/diffstat/ptest/testing/case42Rp0.ref"
-packages/core2-32-poky-linux/diffstat/diffstat-ptest: PKGV changed from 1.64 [default] to 1.65 [default]
-packages/core2-32-poky-linux/diffstat/diffstat-ptest: PKGSIZE changed from 558757 to 623782 (+12%)
-packages/core2-32-poky-linux/diffstat/diffstat-ptest: PV changed from "1.64" to "1.65"
-packages/core2-32-poky-linux/diffstat/diffstat-src: PKGV changed from 1.64 [default] to 1.65 [default]
-packages/core2-32-poky-linux/diffstat/diffstat-src: PKGSIZE changed from 85056 to 85350 (+0%)
-packages/core2-32-poky-linux/diffstat/diffstat-src: PV changed from "1.64" to "1.65"
-packages/core2-32-poky-linux/diffstat/diffstat-staticdev: PKGV changed from 1.64 [default] to 1.65 [default]
-packages/core2-32-poky-linux/diffstat/diffstat-staticdev: PV changed from "1.64" to "1.65"
-packages/core2-32-poky-linux/diffstat/diffstat: PKGV changed from 1.64 [default] to 1.65 [default]
-packages/core2-32-poky-linux/diffstat/diffstat: PV changed from "1.64" to "1.65"
-packages/core2-32-poky-linux/diffstat: PKGV changed from 1.64 [default] to 1.65 [default]
-packages/core2-32-poky-linux/diffstat: PV changed from "1.64" to "1.65"
-packages/core2-32-poky-linux/diffstat: SRC_URI changed from "http://invisible-mirror.net/archives/diffstat/diffstat-1.64.tgz file://run-ptest file://avoid-check-user-break-cc.patch" to "http://invisible-mirror.net/archives/diffstat/diffstat-1.65.tgz file://run-ptest file://avoid-check-user-break-cc.patch"
+packages/core2-32-poky-linux/orc: SRC_URI changed from "http://gstreamer.freedesktop.org/src/orc/orc-0.4.32.tar.xz" to "http://gstreamer.freedesktop.org/src/orc/orc-0.4.33.tar.xz"
+packages/core2-32-poky-linux/orc: PV changed from "0.4.32" to "0.4.33"
+packages/core2-32-poky-linux/orc: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
+packages/core2-32-poky-linux/orc/liborc-0.4: FILES: removed "/usr/lib/liborc-0.4.so.0.32.0", added "/usr/lib/liborc-0.4.so.0.33.0"
+packages/core2-32-poky-linux/orc/liborc-0.4: PKGSIZE changed from 624040 to 706088 (+13%)
+packages/core2-32-poky-linux/orc/liborc-0.4: PV changed from "0.4.32" to "0.4.33"
+packages/core2-32-poky-linux/orc/liborc-0.4: FILELIST: removed "/usr/lib/liborc-0.4.so.0.32.0", added "/usr/lib/liborc-0.4.so.0.33.0"
+packages/core2-32-poky-linux/orc/liborc-0.4: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
+packages/core2-32-poky-linux/orc/liborc-test-0.4: FILES: removed "/usr/lib/liborc-test-0.4.so.0.32.0", added "/usr/lib/liborc-test-0.4.so.0.33.0"
+packages/core2-32-poky-linux/orc/liborc-test-0.4: PV changed from "0.4.32" to "0.4.33"
+packages/core2-32-poky-linux/orc/liborc-test-0.4: FILELIST: removed "/usr/lib/liborc-test-0.4.so.0.32.0", added "/usr/lib/liborc-test-0.4.so.0.33.0"
+packages/core2-32-poky-linux/orc/liborc-test-0.4: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
+packages/core2-32-poky-linux/orc/orc-dbg: PKGSIZE changed from 1159176 to 1224812 (+6%)
+packages/core2-32-poky-linux/orc/orc-dbg: PV changed from "0.4.32" to "0.4.33"
+packages/core2-32-poky-linux/orc/orc-dbg: FILELIST: removed "/usr/lib/.debug/liborc-0.4.so.0.32.0 /usr/lib/.debug/liborc-test-0.4.so.0.32.0", added "/usr/lib/.debug/liborc-test-0.4.so.0.33.0 /usr/lib/.debug/liborc-0.4.so.0.33.0"
+packages/core2-32-poky-linux/orc/orc-dbg: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
+packages/core2-32-poky-linux/orc/orc-dev: PKGSIZE changed from 164215 to 193890 (+18%)
+packages/core2-32-poky-linux/orc/orc-dev: PV changed from "0.4.32" to "0.4.33"
+packages/core2-32-poky-linux/orc/orc-dev: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
+packages/core2-32-poky-linux/orc/orc-doc: PV changed from "0.4.32" to "0.4.33"
+packages/core2-32-poky-linux/orc/orc-doc: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
+packages/core2-32-poky-linux/orc/orc-examples: PV changed from "0.4.32" to "0.4.33"
+packages/core2-32-poky-linux/orc/orc-examples: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
+packages/core2-32-poky-linux/orc/orc-locale: PV changed from "0.4.32" to "0.4.33"
+packages/core2-32-poky-linux/orc/orc-locale: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
+packages/core2-32-poky-linux/orc/orc-src: PKGSIZE changed from 1282355 to 1437847 (+12%)
+packages/core2-32-poky-linux/orc/orc-src: PV changed from "0.4.32" to "0.4.33"
+packages/core2-32-poky-linux/orc/orc-src: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
+packages/core2-32-poky-linux/orc/orc-staticdev: PKGSIZE changed from 87278 to 91514 (+5%)
+packages/core2-32-poky-linux/orc/orc-staticdev: PV changed from "0.4.32" to "0.4.33"
+packages/core2-32-poky-linux/orc/orc-staticdev: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
+packages/core2-32-poky-linux/orc/orc: PV changed from "0.4.32" to "0.4.33"
+packages/core2-32-poky-linux/orc/orc: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
+Changes to packages/core2-32-poky-linux/orc (sysroot):
+  /usr/lib/liborc-0.4.so.0 changed symlink target from liborc-0.4.so.0.32.0 to liborc-0.4.so.0.33.0
+  /usr/lib/liborc-test-0.4.so.0 changed symlink target from liborc-test-0.4.so.0.32.0 to liborc-test-0.4.so.0.33.0
+  /usr/lib/liborc-0.4.so.0.32.0 moved to /usr/lib/liborc-0.4.so.0.33.0
+  /usr/lib/liborc-test-0.4.so.0.32.0 moved to /usr/lib/liborc-test-0.4.so.0.33.0
 
---===============7080059796166287938==
+--===============5522236562186455019==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-orc-upgrade-0.4.32-0.4.33.patch"
+
+RnJvbSA3ZTljNzUyNDgxODY2NjVkMGE1MjBkOTFiZDZiOWYxN2RlY2QxZDY2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMSBOb3YgMjAyMiAwODozODozMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG9y
+YzogdXBncmFkZSAwLjQuMzIgLT4gMC40LjMzCgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9v
+cmMve29yY18wLjQuMzIuYmIgPT4gb3JjXzAuNC4zMy5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdl
+ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvb3JjL3tvcmNfMC40LjMyLmJiID0+IG9yY18wLjQuMzMuYmJ9ICg5MiUpCgpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL29yYy9vcmNfMC40LjMyLmJiIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL29yYy9vcmNfMC40LjMzLmJiCnNpbWlsYXJpdHkgaW5kZXggOTIlCnJlbmFt
+ZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9vcmMvb3JjXzAuNC4zMi5iYgpyZW5hbWUgdG8g
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL29yYy9vcmNfMC40LjMzLmJiCmluZGV4IDgyOTI1NWYxMTAu
+Ljg3M2ZlMzkyMGIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9vcmMvb3JjXzAu
+NC4zMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3JjL29yY18wLjQuMzMuYmIKQEAg
+LTUsNyArNSw3IEBAIExJQ0VOU0UgPSAiQlNELTItQ2xhdXNlICYgQlNELTMtQ2xhdXNlIgogTElD
+X0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9MTQwMGJkOWQwOWU4YWY1NmI5ZWM5
+ODJiM2Q4NTc5N2UiCiAKIFNSQ19VUkkgPSAiaHR0cDovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5v
+cmcvc3JjL29yYy9vcmMtJHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImE2NmUz
+ZDhmMmI3ZTY1MTc4ZDc4NmEwMWVmNjFmMmEwYTBiNGQwYjgzNzBkZTdjZTEzNGJhNzNkYTRhZjE4
+ZjAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiODQ0ZTZkN2RiODA4NmY3OTNmNTc2MThkM2Q0YjY4
+ZDI5ZDk5YjE2MDM0ZTcxNDMwZGYzYzIxY2ZkM2MzNTQyYSIKIAogaW5oZXJpdCBtZXNvbiBwa2dj
+b25maWcgZ3RrLWRvYwogCi0tIAoyLjMxLjEKCg==
+
+--===============5522236562186455019==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/diffstat/diffstat-ptest: FILELIST: added "/usr/lib/diffstat/ptest/testing/case42.ref /usr/lib/diffstat/ptest/testing/case43k.ref /usr/lib/diffstat/ptest/testing/case42p1.ref /usr/lib/diffstat/ptest/testing/case42r1.ref /usr/lib/diffstat/ptest/testing/case43f0.ref /usr/lib/diffstat/ptest/testing/case46f0.ref /usr/lib/diffstat/ptest/testing/case45R.ref /usr/lib/diffstat/ptest/testing/case46R.ref /usr/lib/diffstat/ptest/testing/case42.pat /usr/lib/diffstat/ptest/testing/case46r1.ref /usr/lib/diffstat/ptest/testing/case45.pat /usr/lib/diffstat/ptest/testing/case45.ref /usr/lib/diffstat/ptest/testing/case42u.ref /usr/lib/diffstat/ptest/testing/case46p9.ref /usr/lib/diffstat/ptest/testing/case43r1.ref /usr/lib/diffstat/ptest/testing/case46Rp0.ref /usr/lib/diffstat/ptest/testing/case44f0.ref /usr/lib/diffstat/ptest/testing/case46.pat /usr/lib/diffstat/ptest/testing/case46b.ref /usr/lib/diffstat/ptest/testing/case42p9.ref /usr/lib/diffstat/ptest/testing/case44R.r
- ef /usr/lib/diffstat/ptest/testing/case44k.ref /usr/lib/diffstat/ptest/testing/case43p9.ref /usr/lib/diffstat/ptest/testing/case46p1.ref /usr/lib/diffstat/ptest/testing/case44b.ref /usr/lib/diffstat/ptest/testing/case43.ref /usr/lib/diffstat/ptest/testing/case45r2.ref /usr/lib/diffstat/ptest/testing/case45b.ref /usr/lib/diffstat/ptest/testing/case45p9.ref /usr/lib/diffstat/ptest/testing/case44.pat /usr/lib/diffstat/ptest/testing/case46.ref /usr/lib/diffstat/ptest/testing/case43u.ref /usr/lib/diffstat/ptest/testing/case42R.ref /usr/lib/diffstat/ptest/testing/case42Rp0.ref /usr/lib/diffstat/ptest/testing/case43.pat /usr/lib/diffstat/ptest/testing/case46r2.ref /usr/lib/diffstat/ptest/testing/case42r2.ref /usr/lib/diffstat/ptest/testing/case43R.ref /usr/lib/diffstat/ptest/testing/case42b.ref /usr/lib/diffstat/ptest/testing/case44r1.ref /usr/lib/diffstat/ptest/testing/case45p1.ref /usr/lib/diffstat/ptest/testing/case45u.ref /usr/lib/diffstat/ptest/testing/case45r1.ref /usr/lib/diffstat/p
- test/testing/case43Rp0.ref /usr/lib/diffstat/ptest/testing/case43p1.ref /usr/lib/diffstat/ptest/testing/case43b.ref /usr/lib/diffstat/ptest/testing/case45Rp0.ref /usr/lib/diffstat/ptest/testing/case46u.ref /usr/lib/diffstat/ptest/testing/case46k.ref /usr/lib/diffstat/ptest/testing/case43r2.ref /usr/lib/diffstat/ptest/testing/case45f0.ref /usr/lib/diffstat/ptest/testing/case44Rp0.ref /usr/lib/diffstat/ptest/testing/case44p9.ref /usr/lib/diffstat/ptest/testing/case42k.ref /usr/lib/diffstat/ptest/testing/case42f0.ref /usr/lib/diffstat/ptest/testing/case44.ref /usr/lib/diffstat/ptest/testing/case45k.ref /usr/lib/diffstat/ptest/testing/case44p1.ref /usr/lib/diffstat/ptest/testing/case44u.ref /usr/lib/diffstat/ptest/testing/case44r2.ref"
-packages/core2-32-poky-linux/diffstat/diffstat-ptest: PKGSIZE changed from 558757 to 623782 (+12%)
+packages/core2-32-poky-linux/orc/liborc-0.4: PKGSIZE changed from 624040 to 706088 (+13%)
+packages/core2-32-poky-linux/orc/liborc-0.4: FILELIST: removed "/usr/lib/liborc-0.4.so.0.32.0", added "/usr/lib/liborc-0.4.so.0.33.0"
+packages/core2-32-poky-linux/orc/liborc-test-0.4: FILELIST: removed "/usr/lib/liborc-test-0.4.so.0.32.0", added "/usr/lib/liborc-test-0.4.so.0.33.0"
+packages/core2-32-poky-linux/orc/orc-dev: PKGSIZE changed from 164215 to 193890 (+18%)
+packages/core2-32-poky-linux/orc/orc-src: PKGSIZE changed from 1282355 to 1437847 (+12%)
+Changes to packages/core2-32-poky-linux/orc (sysroot):
+  /usr/lib/liborc-0.4.so.0 changed symlink target from liborc-0.4.so.0.32.0 to liborc-0.4.so.0.33.0
+  /usr/lib/liborc-test-0.4.so.0 changed symlink target from liborc-test-0.4.so.0.32.0 to liborc-test-0.4.so.0.33.0
+  /usr/lib/liborc-0.4.so.0.32.0 moved to /usr/lib/liborc-0.4.so.0.33.0
+  /usr/lib/liborc-test-0.4.so.0.32.0 moved to /usr/lib/liborc-test-0.4.so.0.33.0
 
---===============7080059796166287938==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-diffstat-upgrade-1.64-1.65.patch"
-
-RnJvbSA4NTE3NzkwYTVmNWY5YzdkNjIzY2UwZjgxZDI2NWEyY2NkMDU3YjJjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBOb3YgMjAyMiAwNzo0NDoyMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGRp
-ZmZzdGF0OiB1cGdyYWRlIDEuNjQgLT4gMS42NQoKLS0tCiAuLi4ve2RpZmZzdGF0XzEuNjQuYmIg
-PT4gZGlmZnN0YXRfMS42NS5iYn0gICAgfCAyMyArKysrKysrKysrKysrKysrKy0tCiAxIGZpbGUg
-Y2hhbmdlZCwgMjEgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvZGlmZnN0YXQve2RpZmZzdGF0XzEuNjQuYmIgPT4gZGlmZnN0YXRfMS42
-NS5iYn0gKDQ3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGlmZnN0YXQv
-ZGlmZnN0YXRfMS42NC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kaWZmc3RhdC9kaWZmc3Rh
-dF8xLjY1LmJiCnNpbWlsYXJpdHkgaW5kZXggNDclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9kaWZmc3RhdC9kaWZmc3RhdF8xLjY0LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvZGlmZnN0YXQvZGlmZnN0YXRfMS42NS5iYgppbmRleCA3MTdmNTAzMDM5Li5jM2Vm
-OWU0NjE3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGlmZnN0YXQvZGlmZnN0
-YXRfMS42NC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGlmZnN0YXQvZGlmZnN0YXRf
-MS42NS5iYgpAQCAtMSwzICsxLDIyIEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2
-YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xs
-b3dpbmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vu
-c2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFu
-ZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGlj
-ZW5zZS1VcGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdo
-dCB5ZWFycyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gQ09QWUlORwor
-IyArKysgQ09QWUlORworIyBAQCAtMSw0ICsxLDQgQEAKKyMgLUNvcHlyaWdodCAxOTk0LTIwMTks
-MjAyMSBieSBUaG9tYXMgRS4gRGlja2V5CisjICtDb3B5cmlnaHQgMTk5NC0yMDIxLDIwMjIgYnkg
-VGhvbWFzIEUuIERpY2tleQorIyAgQWxsIFJpZ2h0cyBSZXNlcnZlZC4KKyMgIAorIyAgUGVybWlz
-c2lvbiB0byB1c2UsIGNvcHksIG1vZGlmeSwgYW5kIGRpc3RyaWJ1dGUgdGhpcyBzb2Z0d2FyZSBh
-bmQgaXRzCisjIAorIworCiBTVU1NQVJZID0gIlRvb2wgdG8gcHJvZHVjZSBhIHN0YXRpc3RpY3Mg
-YmFzZWQgb24gYSBkaWZmIgogREVTQ1JJUFRJT04gPSAiZGlmZnN0YXQgcmVhZHMgdGhlIG91dHB1
-dCBvZiBkaWZmIGFuZCBkaXNwbGF5cyBhIGhpc3RvZ3JhbSBvZiBcCiB0aGUgaW5zZXJ0aW9ucywg
-ZGVsZXRpb25zLCBhbmQgbW9kaWZpY2F0aW9ucyBwZXItZmlsZS4gSXQgaXMgdXNlZnVsIGZvciBc
-CkBAIC01LDE0ICsyNCwxNCBAQCByZXZpZXdpbmcgbGFyZ2UsIGNvbXBsZXggcGF0Y2ggZmlsZXMu
-IgogSE9NRVBBR0UgPSAiaHR0cDovL2ludmlzaWJsZS1pc2xhbmQubmV0L2RpZmZzdGF0LyIKIFNF
-Q1RJT04gPSAiZGV2ZWwiCiBMSUNFTlNFID0gIk1JVCIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmls
-ZTovL0NPUFlJTkc7bWQ1PWY2MDViMTk4NmNjM2I4MDhlYzBlNGZhOWQwZTBmMmQ5IgorTElDX0ZJ
-TEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9NjQ1MDU5NDA0OWYwZWVkMTA1MmU2MzRk
-ZGNiZWVjMjgiCiAKIFNSQ19VUkkgPSAiaHR0cDovL2ludmlzaWJsZS1taXJyb3IubmV0L2FyY2hp
-dmVzLyR7QlBOfS8ke0JQfS50Z3ogXAogICAgICAgICAgICBmaWxlOi8vcnVuLXB0ZXN0IFwKICAg
-ICAgICAgICAgZmlsZTovL2F2b2lkLWNoZWNrLXVzZXItYnJlYWstY2MucGF0Y2ggXAogICAgICAg
-ICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJiOGFlZTM4ZDlkMmUxZDA1OTI2ZTZiNTU4
-MTBhOWQyYzJkZDQwN2YyNGQ2YTI2NzM4NzU2M2E0NDM2ZTNmN2ZjIgorU1JDX1VSSVtzaGEyNTZz
-dW1dID0gIjhjZjI3NDI0OTI2ZGViY2Q4NTkyMTc1NWMzOTE1NTU5Mjg4MjQ0YmQxMDNmNjJkNzQw
-ZGM2YjgzYjU1N2EyOGEiCiAKIGluaGVyaXQgYXV0b3Rvb2xzIGdldHRleHQgcHRlc3QKIAotLSAK
-Mi4zMS4xCgo=
-
---===============7080059796166287938==--
+--===============5522236562186455019==--
 
