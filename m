@@ -2,47 +2,46 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44A1AC6786C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B8FFC67800
 	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 00:40:40 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.843.1667349632023130775
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web12.870.1667349631595276587
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Nov 2022 17:40:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=V1lXsSaj;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018435c850ac-c83a3553-e5c8-4373-959f-e0a837342f12-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=bnJ2mOVw;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018435c852d8-aef78b19-2acf-45be-a30f-baf7d7565498-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1667349631;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=oroC6ISC0IvJ8g4Rnf7zWf7SlNlSeO88bfegZWUEEEI=;
-	b=V1lXsSajAYwAO8H3KvGeN2Fyk0J6HHEdGaz+ypbcHYZPicVGTZuHL2iHtpqkKvaL
-	ICX7Vv9i2dLxQGcM9lL0Qwy3bLXvwXxaHuY+LsiF/pibcdXxmqUn4KFCBjG16J5A2x5
-	C//vrRGw4acOYEoAdEOaIikkOZ19J3ZQR6m4kIFM=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=083Boor/VzsFDwWtfy24gZxWgXaF1PECfvCffxTnYx4=;
+	b=bnJ2mOVwKSaQTcePsSzhly0cA5KKK5x/xJNjwpfEy0wE4fW5wwR2+VybC+sdC2Zv
+	ECtHVLWAy+sGHCJUBsYADWLHh0rGf5Fcihu1VaSpjXjpsKvLZvMkgQVeMMG1ooKdPbo
+	heg6eLDIFvkjomHTay/EdUU798O0DE+x76hREld0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1667349631;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=oroC6ISC0IvJ8g4Rnf7zWf7SlNlSeO88bfegZWUEEEI=;
-	b=Y35u1MfrhVO/hEHxnrUa5pegA1J8e4tUuEg3mxzUQXx8JFdjT7D5TVzcMZcTO/xY
-	ChFPjN5Rba/qsJBS0iJwtOwkOR8eQvZwFGfz7WplOkSYhb5IchUWRyqWL7vWtatpg0g
-	aIQA2FbdsTEL0NeN3suBi06cqtX0mkRR0CEh5N/w=
-Content-Type: multipart/mixed; boundary="===============2744478076132681378=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=083Boor/VzsFDwWtfy24gZxWgXaF1PECfvCffxTnYx4=;
+	b=VvNhb/p7YwYIt6wuzfXnr1y105wb+O21A9IHM39I2Cwgwk3jZhGjHqc8gFq6xpc2
+	e5EDUBzWQ6B6FXhT1gVEW9sl5tttZq5ZPT06Z7unseHnp4FNRrFPbTmwazjs/j+w4eR
+	UMDwIu7NtCaQ0WQ1YYMIYaeuAf/7iYyGrcY6Oh2E=
+Content-Type: multipart/mixed; boundary="===============7886023081519552080=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] glib-2.0: upgrading to 2.74.1 FAILED
-Message-ID: <0101018435c850ac-c83a3553-e5c8-4373-959f-e0a837342f12-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] netbase: upgrading to 6.4 SUCCEEDED
+Message-ID: <0101018435c852d8-aef78b19-2acf-45be-a30f-baf7d7565498-000000@us-west-2.amazonses.com>
 Date: Wed, 2 Nov 2022 00:40:31 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.11.02-54.240.27.45
+X-SES-Outgoing: 2022.11.02-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 00:40:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172398
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172402
 
---===============2744478076132681378==
+--===============7886023081519552080==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,117 +49,128 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *glib-2.0* to *2.74.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *netbase* to *6.4* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-netbase-upgrade-6.3-6.4.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe glib-2.0 failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1664 entries from dependency cache.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:6629851ef39bd270192b3a09847927b72f1ffee0"
-workspace            = "master:78fd269e6649000b48ef1ef3e86009bad00fa815"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 22 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1664 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 887 .bb files complete (885 cached, 2 parsed). 1665 targets, 35 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:6629851ef39bd270192b3a09847927b72f1ffee0"
-workspace            = "master:78fd269e6649000b48ef1ef3e86009bad00fa815"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 18 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   7% |##                                  | ETA:  0:00:02
-Adding changed files:  15% |#####                               | ETA:  0:00:01
-Adding changed files:  22% |########                            | ETA:  0:00:01
-Adding changed files:  30% |###########                         | ETA:  0:00:00
-Adding changed files:  38% |#############                       | ETA:  0:00:00
-Adding changed files:  45% |################                    | ETA:  0:00:00
-Adding changed files:  53% |###################                 | ETA:  0:00:00
-Adding changed files:  61% |######################              | ETA:  0:00:00
-Adding changed files:  68% |########################            | ETA:  0:00:00
-Adding changed files:  76% |###########################         | ETA:  0:00:00
-Adding changed files:  84% |##############################      | ETA:  0:00:00
-Adding changed files:  91% |#################################   | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:01
-INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://download.gnome.org/sources//glib/2.74/glib-2.74.1.tar.xz...
-INFO: Rebasing devtool onto 156c8c0fb6137d1f2199afe4195fe107a1506fb3
-WARNING: Command 'git rebase 156c8c0fb6137d1f2199afe4195fe107a1506fb3' failed:
-Auto-merging gio/tests/meson.build
-CONFLICT (content): Merge conflict in gio/tests/meson.build
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-class-native onto 156c8c0fb6137d1f2199afe4195fe107a1506fb3
-WARNING: Command 'git rebase 156c8c0fb6137d1f2199afe4195fe107a1506fb3' failed:
-Auto-merging gio/tests/meson.build
-CONFLICT (content): Merge conflict in gio/tests/meson.build
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/glib-2.0
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/glib-2.0/glib-2.0_2.74.1.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============2744478076132681378==--
+--===============7886023081519552080==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/all-poky-linux/netbase: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/all-poky-linux/netbase: SRC_URI changed from "http://ftp.debian.org/debian/pool/main/n/netbase/netbase_6.3.tar.xz" to "http://ftp.debian.org/debian/pool/main/n/netbase/netbase_6.4.tar.xz"
+packages/all-poky-linux/netbase: PV changed from "6.3" to "6.4"
+packages/all-poky-linux/netbase/netbase-dbg: PV changed from "6.3" to "6.4"
+packages/all-poky-linux/netbase/netbase-dbg: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/all-poky-linux/netbase/netbase-dev: PV changed from "6.3" to "6.4"
+packages/all-poky-linux/netbase/netbase-dev: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/all-poky-linux/netbase/netbase-doc: PV changed from "6.3" to "6.4"
+packages/all-poky-linux/netbase/netbase-doc: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/all-poky-linux/netbase/netbase-locale: PV changed from "6.3" to "6.4"
+packages/all-poky-linux/netbase/netbase-locale: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/all-poky-linux/netbase/netbase-src: PV changed from "6.3" to "6.4"
+packages/all-poky-linux/netbase/netbase-src: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/all-poky-linux/netbase/netbase-staticdev: PV changed from "6.3" to "6.4"
+packages/all-poky-linux/netbase/netbase-staticdev: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/all-poky-linux/netbase/netbase: PKGSIZE changed from 18448 to 18721 (+1%)
+packages/all-poky-linux/netbase/netbase: PV changed from "6.3" to "6.4"
+packages/all-poky-linux/netbase/netbase: PKGV changed from 6.3 [default] to 6.4 [default]
+
+--===============7886023081519552080==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-netbase-upgrade-6.3-6.4.patch"
+
+RnJvbSA2MTQ2N2FjYTliYjFjNTBlNDFhNTE4NTI4ZmFmYzI0YTMzYmJhOGRjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMSBOb3YgMjAyMiAwNzoyMjo1MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG5l
+dGJhc2U6IHVwZ3JhZGUgNi4zIC0+IDYuNAoKLS0tCiAuLi4ve25ldGJhc2VfNi4zLmJiID0+IG5l
+dGJhc2VfNi40LmJifSAgICAgICAgfCA1OCArKysrKysrKysrKysrKysrKystCiAxIGZpbGUgY2hh
+bmdlZCwgNTYgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lw
+ZXMtY29yZS9uZXRiYXNlL3tuZXRiYXNlXzYuMy5iYiA9PiBuZXRiYXNlXzYuNC5iYn0gKDIxJSkK
+CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9uZXRiYXNlL25ldGJhc2VfNi4zLmJiIGIv
+bWV0YS9yZWNpcGVzLWNvcmUvbmV0YmFzZS9uZXRiYXNlXzYuNC5iYgpzaW1pbGFyaXR5IGluZGV4
+IDIxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9uZXRiYXNlL25ldGJhc2VfNi4zLmJi
+CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtY29yZS9uZXRiYXNlL25ldGJhc2VfNi40LmJiCmluZGV4
+IGJlYzY0OThjZGQuLjRiMDk0NzlmMGUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL25l
+dGJhc2UvbmV0YmFzZV82LjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvbmV0YmFzZS9uZXRi
+YXNlXzYuNC5iYgpAQCAtMSwxNiArMSw2OCBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtT
+VU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUg
+Zm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBs
+aWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVk
+LCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEg
+J0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5
+cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIGRlYmlh
+bi9jb3B5cmlnaHQKKyMgKysrIGRlYmlhbi9jb3B5cmlnaHQKKyMgQEAgLTEsMTEgKzEsMjggQEAK
+KyMgLVRoaXMgcGFja2FnZSB3YXMgY3JlYXRlZCBieSBQZXRlciBUb2JpYXMgdG9iaWFzQGV0LWlu
+Zi5maG8tZW1kZW4uZGUgb24KKyMgLVdlZCwgMjQgQXVnIDE5OTQgMjE6MzM6MjggKzAyMDAgYW5k
+IG1haW50YWluZWQgYnkgQW50aG9ueSBUb3ducworIyAtPGFqdEBkZWJpYW4ub3JnPiB1bnRpbCAy
+MDAxLgorIyAtSXQgaXMgY3VycmVudGx5IG1haW50YWluZWQgYnkgTWFyY28gZCdJdHJpIDxtZEBs
+aW51eC5pdD4uCisjICtGb3JtYXQ6IGh0dHBzOi8vd3d3LmRlYmlhbi5vcmcvZG9jL3BhY2thZ2lu
+Zy1tYW51YWxzL2NvcHlyaWdodC1mb3JtYXQvMS4wLworIyArQ29tbWVudDoKKyMgKyBUaGlzIHBh
+Y2thZ2Ugd2FzIGNyZWF0ZWQgYnkgUGV0ZXIgVG9iaWFzIHRvYmlhc0BldC1pbmYuZmhvLWVtZGVu
+LmRlIG9uCisjICsgV2VkLCAyNCBBdWcgMTk5NCAyMTozMzoyOCArMDIwMCBhbmQgbWFpbnRhaW5l
+ZCBieSBBbnRob255IFRvd25zCisjICsgPGFqdEBkZWJpYW4ub3JnPiB1bnRpbCAyMDAxLgorIyAr
+IEl0IGlzIGN1cnJlbnRseSBtYWludGFpbmVkIGJ5IE1hcmNvIGQnSXRyaSA8bWRAbGludXguaXQ+
+LgorIyAgCisjIC1Db3B5cmlnaHQgMTk5NC0yMDEwIFBldGVyIFRvYmlhcywgQW50aG9ueSBUb3du
+cyBhbmQgTWFyY28gZCdJdHJpCisjIC0KKyMgLVRoZSBwcm9ncmFtcyBpbiB0aGlzIHBhY2thZ2Ug
+YXJlIGRpc3RyaWJ1dGVkIHVuZGVyIHRoZSB0ZXJtcyBvZiB0aGUgR05VCisjIC1HZW5lcmFsIFB1
+YmxpYyBMaWNlbnNlLCB2ZXJzaW9uIDIgYXMgZGlzdHJpYnV0ZWQgYnkgdGhlIEZyZWUgU29mdHdh
+cmUKKyMgLUZvdW5kYXRpb24uIE9uIERlYmlhbiBzeXN0ZW1zLCBhIGNvcHkgb2YgdGhpcyBsaWNl
+bnNlIG1heSBiZSBmb3VuZCBpbgorIyAtL3Vzci9zaGFyZS9jb21tb24tbGljZW5zZXMvR1BMLTIu
+CisjICtGaWxlczogKgorIyArQ29weXJpZ2h0OgorIyArIENvcHlyaWdodCAoYykgMTk5NC0xOTk4
+IFBldGVyIFRvYmlhcworIyArIENvcHlyaWdodCAoYykgMTk5OC0yMDAxIEFudGhvbnkgVG93bnMK
+KyMgKyBDb3B5cmlnaHQgKGMpIDIwMDItMjAyMiBNYXJjbyBkJ0l0cmkKKyMgK0xpY2Vuc2U6IEdQ
+TC0yCisjICsgVGhpcyBwcm9ncmFtIGlzIGZyZWUgc29mdHdhcmU7IHlvdSBjYW4gcmVkaXN0cmli
+dXRlIGl0IGFuZC9vciBtb2RpZnkKKyMgKyBpdCB1bmRlciB0aGUgdGVybXMgb2YgdGhlIEdOVSBH
+ZW5lcmFsIFB1YmxpYyBMaWNlbnNlLCB2ZXJzaW9uIDIsIGFzCisjICsgcHVibGlzaGVkIGJ5IHRo
+ZSBGcmVlIFNvZnR3YXJlIEZvdW5kYXRpb24uCisjICsgLgorIyArIFRoaXMgcHJvZ3JhbSBpcyBk
+aXN0cmlidXRlZCBpbiB0aGUgaG9wZSB0aGF0IGl0IHdpbGwgYmUgdXNlZnVsLAorIyArIGJ1dCBX
+SVRIT1VUIEFOWSBXQVJSQU5UWTsgd2l0aG91dCBldmVuIHRoZSBpbXBsaWVkIHdhcnJhbnR5IG9m
+CisjICsgTUVSQ0hBTlRBQklMSVRZIG9yIEZJVE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NF
+LiAgU2VlIHRoZQorIyArIEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGZvciBtb3JlIGRldGFp
+bHMuCisjICsgLgorIyArIFlvdSBzaG91bGQgaGF2ZSByZWNlaXZlZCBhIGNvcHkgb2YgdGhlIEdO
+VSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGFsb25nCisjICsgd2l0aCB0aGlzIHByb2dyYW07IGlm
+IG5vdCwgd3JpdGUgdG8gdGhlIEZyZWUgU29mdHdhcmUgRm91bmRhdGlvbiwKKyMgKyBJbmMuLCA1
+MSBGcmFua2xpbiBTdHJlZXQsIEZpZnRoIEZsb29yLCBCb3N0b24sIE1BIDAyMTEwLTEzMDEsIFVT
+QS4KKyMgKyAuCisjICsgT24gRGViaWFuIHN5c3RlbXMsIHRoZSBjb21wbGV0ZSB0ZXh0IG9mIHRo
+ZSBHTlUgR2VuZXJhbCBQdWJsaWMgTGljZW5zZQorIyArIHZlcnNpb24gMiBjYW4gYmUgZm91bmQg
+aW4gJy91c3Ivc2hhcmUvY29tbW9uLWxpY2Vuc2VzL0dQTC0yJy4KKyMgCisjCisKIFNVTU1BUlkg
+PSAiQmFzaWMgVENQL0lQIG5ldHdvcmtpbmcgc3VwcG9ydCIKIERFU0NSSVBUSU9OID0gIlRoaXMg
+cGFja2FnZSBwcm92aWRlcyB0aGUgbmVjZXNzYXJ5IGluZnJhc3RydWN0dXJlIGZvciBiYXNpYyBU
+Q1AvSVAgYmFzZWQgbmV0d29ya2luZyIKIEhPTUVQQUdFID0gImh0dHA6Ly9wYWNrYWdlcy5kZWJp
+YW4ub3JnL25ldGJhc2UiCiBTRUNUSU9OID0gImJhc2UiCiBMSUNFTlNFID0gIkdQTC0yLjAtb25s
+eSIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL2RlYmlhbi9jb3B5cmlnaHQ7bWQ1PTNkZDYx
+OTJkMzA2ZjU4MmRlZTc2ODdkYTNkODc0OGFiIgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8v
+ZGViaWFuL2NvcHlyaWdodDttZDU9NzhkZDJjN2M2ZjQ4NzM0OGU0YTAwOTJjMTdhMTlkNDIiCiBQ
+RSA9ICIxIgogCiBTUkNfVVJJID0gIiR7REVCSUFOX01JUlJPUn0vbWFpbi9uLyR7QlBOfS8ke0JQ
+Tn1fJHtQVn0udGFyLnh6IgogCiBpbmhlcml0IGFsbGFyY2gKIAotU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gIjdjNDJhNmExY2FmYTBjNjQxMDNjNzFjYWI2NDMxZmM4NjEzMTc5YjI0NDlhMWEwMGU1NWUz
+NTg0ZTg2MGQ4MWMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZmE2NjIxODI2ZmYxMTUwZTU4MWJk
+OTBiYzNjOGE0ZWNhZmU1ZGY5MDQwNGYyMDdkYjZkY2RmMmM3NWYyNmFkNyIKIAogVVBTVFJFQU1f
+Q0hFQ0tfVVJJID0gIiR7REVCSUFOX01JUlJPUn0vbWFpbi9uL25ldGJhc2UvIgogCkBAIC0yMSwz
+ICs3Myw1IEBAIGRvX2luc3RhbGwgKCkgewogCWluc3RhbGwgLW0gMDY0NCAke1N9L2V0Yy9zZXJ2
+aWNlcyAke0R9JHtzeXNjb25mZGlyfS9zZXJ2aWNlcwogCWluc3RhbGwgLW0gMDY0NCAke1N9L2V0
+Yy9ldGhlcnR5cGVzICR7RH0ke3N5c2NvbmZkaXJ9L2V0aGVydHlwZXMKIH0KKworUyA9ICIke1dP
+UktESVJ9L25ldGJhc2UiCi0tIAoyLjMxLjEKCg==
+
+--===============7886023081519552080==--
 
