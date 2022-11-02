@@ -2,46 +2,46 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74BD6C3A589
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80206C3A59F
 	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 00:40:38 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web12.880.1667349635930968532
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web08.877.1667349633706037208
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Nov 2022 17:40:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=VAHHqrjO;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018435c860ab-5f819eb1-69e6-4307-a1c2-3147eacd1c56-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=S1OUsQrE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018435c86192-f12fadf6-53bb-4327-bfab-33af96e19f37-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1667349635;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=OdMnCmROjhMUSiwf/5pj7sJ+JapQXMNieVJif7HHuFw=;
-	b=VAHHqrjOT5DtdBt8KQHvrKxTixBvEB4ONjF8QFTxid9EdpUq/8/ff0bHwL7ShZ/F
-	+utfLUVo0ukZayND6IL1sDFp6KE259/sxIgKpXTOexkN8bwKXvh+pe7YBkVS77XWySc
-	75uKQv5Kfih8iADnYcTxnahGCwYxqTp1DU0fi3fk=
+	bh=s9SUzKtevkD9tizWhviej/08wPvVvaFfWPgVGlGjKaU=;
+	b=S1OUsQrEzlHWf40OpwEIihz2yNNBc3xv7K4520NF5gJgQtCE1XkxJY3dKxSheOsO
+	81WqYwqcMxsICKKnf7iatUPDEc9UcmUgb3Qht7hjxSSF6p3xi+trN582Eplcx+IP+Ht
+	OUzW8fMKhNDi65BRkqlk2UCGIECnQLQQThfVJwTE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1667349635;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=OdMnCmROjhMUSiwf/5pj7sJ+JapQXMNieVJif7HHuFw=;
-	b=AbO8nLbkwF8XT1Qkndzq0441BAItumQrHSY8nsDt/CNTPoFRtaIKtPZn+VtmDX/A
-	XWHgnl8jsE5LosH8OWOk0NW+279DCiZ7fi7v4YZ5MEwvV4UIrGaOBk6tgtqRWVVo+dc
-	HqWnVD4HD6ZCCCRspOG936KhXvbWNNxWud++exBA=
-Content-Type: multipart/mixed; boundary="===============6860615761870245144=="
+	bh=s9SUzKtevkD9tizWhviej/08wPvVvaFfWPgVGlGjKaU=;
+	b=cYYIPV3+EU68+NsRD7Vr5YK58DxvCsOuoG/ZSPfmywS4QHCdpWoW4/MmjnOfy5xJ
+	WTaiZAoJ3FGbwAGsVWln+ShJ7BN1DU+3+PN5CktM9MMFn6O0HYXYW5UHSNXy04Tsyzi
+	OH3cmKT0EiE0l8eR7Kgyz/C/tkbkjoB+eI0i1cW0=
+Content-Type: multipart/mixed; boundary="===============5273387409563768150=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] xf86-input-vmmouse: upgrading to 13.2.0 FAILED
-Message-ID: <0101018435c860ab-5f819eb1-69e6-4307-a1c2-3147eacd1c56-000000@us-west-2.amazonses.com>
+Subject: [AUH] libxxf86vm: upgrading to 1.1.5 FAILED
+Message-ID: <0101018435c86192-f12fadf6-53bb-4327-bfab-33af96e19f37-000000@us-west-2.amazonses.com>
 Date: Wed, 2 Nov 2022 00:40:35 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.11.02-54.240.27.29
+X-SES-Outgoing: 2022.11.02-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 00:40:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172496
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172494
 
---===============6860615761870245144==
+--===============5273387409563768150==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -49,12 +49,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *xf86-input-vmmouse* to *13.2.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libxxf86vm* to *1.1.5* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade xf86-input-vmmouse -V 13.2.0
+The following devtool command failed:  upgrade libxxf86vm -V 1.1.5
 NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
 WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
 Loaded 1664 entries from dependency cache.
@@ -83,7 +85,7 @@ Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100%
 NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 4 seconds
+NOTE: Writing buildhistory took: 3 seconds
 WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
 Loaded 1664 entries from dependency cache.
@@ -112,19 +114,19 @@ Initialising tasks...done.
 Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
 NOTE: No setscene tasks
 NOTE: Executing Tasks
-WARNING: Failed to fetch URL https://www.x.org/releases//individual/driver/xf86-input-vmmouse-13.2.0.tar.bz2, attempting MIRRORS if available
+WARNING: Failed to fetch URL https://www.x.org/releases//individual/lib/libXxf86vm-1.1.5.tar.bz2, attempting MIRRORS if available
 NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 3 seconds
 
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://www.x.org/releases//individual/driver/xf86-input-vmmouse-13.2.0.tar.bz2...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-vl0crcwq/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-vl0crcwq/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-vl0crcwq/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-vl0crcwq/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-vl0crcwq/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-vl0c
- rcwq/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -O /home/pokybuild/yocto-worker/auh/build/build/build/downloads/xf86-input-vmmouse-13.2.0.tar.bz2.tmp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://www.x.org/releases//individual/driver/xf86-input-vmmouse-13.2.0.tar.bz2' --progress=dot -v failed with exit code 8, no output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://www.x.org/releases//individual/driver/xf86-input-vmmouse-13.2.0.tar.bz2')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-vl0crcwq/work/temp/log.do_fetch.3541927
-ERROR: Failed to fetch URL https://www.x.org/releases//individual/driver/xf86-input-vmmouse-13.2.0.tar.bz2
+INFO: Fetching https://www.x.org/releases//individual/lib/libXxf86vm-1.1.5.tar.bz2...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-_mkb6jek/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-_mkb6jek/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-_mkb6jek/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-_mkb6jek/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-_mkb6jek/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-_mkb
+ 6jek/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -O /home/pokybuild/yocto-worker/auh/build/build/build/downloads/libXxf86vm-1.1.5.tar.bz2.tmp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://www.x.org/releases//individual/lib/libXxf86vm-1.1.5.tar.bz2' --progress=dot -v failed with exit code 8, no output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://www.x.org/releases//individual/lib/libXxf86vm-1.1.5.tar.bz2')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-_mkb6jek/work/temp/log.do_fetch.4000128
+ERROR: Failed to fetch URL https://www.x.org/releases//individual/lib/libXxf86vm-1.1.5.tar.bz2
 
 
 Please review the attached files for further information and build/update failures.
@@ -132,5 +134,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6860615761870245144==--
+--===============5273387409563768150==--
 
