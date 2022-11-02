@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59DD0C6FD23
-	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 00:40:41 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web09.869.1667349637610010653
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4124C6FA95
+	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 00:40:40 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.844.1667349632518358541
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Nov 2022 17:40:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Y1j77jiw;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018435c866a7-a98b30c6-ccd7-4d9f-b4d9-27106d8645fc-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=nmQgB/Az;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018435c86869-f8f42111-2230-4c31-bc82-f48f6ffc2371-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1667349637;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=hft0LspqAzpZnLEKHTrQFoef4XA5jIYaf1VwMTf+wzw=;
-	b=Y1j77jiwAr43TB+mErr8sgbSOUq5qSjn7y3y4Nu/TdAUFrNWiMxV7RyQOvr2jRCi
-	TKOT0hikhlJJGzZ1wGVFHT/mSJi7Juw1iV4Z2b4FAOhHZRdWh4nfRG6zkOwJ3QkFITj
-	9PlRVA+QhPgMiUfatCCLcN31HCvf/Q0bLIWmU0hA=
+	bh=ooNLg1cvLt1MRuJ1niYyXDGMjjS02LqFw1DZGZfi7hw=;
+	b=nmQgB/Az3917uvQaO8OWTGv6Y+DUfIo33ABYv0DzOe2JyGnTBmJuesFCOzYL0x6c
+	P6trcLAZiFky2ipp352V/NSVtdqamC7zUsPbIcGuhIq097RlpuQE1WbjiRcf0AbJhtM
+	PV2hXt9xgABoJBRlCIjyCysotQ5pNxp/A71krXzE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1667349637;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=hft0LspqAzpZnLEKHTrQFoef4XA5jIYaf1VwMTf+wzw=;
-	b=Zd/Z6gnlRA+VFoMwRtvv7lB+pgAY0xeR/ejBdaH4XhrICQL4jmNqvFLrbpULdUvN
-	mgqYpFLXIVN6Kiby0gwD2JJ4A6wr2fZ0QqfKBQzNyMf8oveUGhPfOECHj4sFWd42H4d
-	Dfr+WB+uCtrjBjNxduqnBzqOM0cJq6uHnfmFUZhQ=
-Content-Type: multipart/mixed; boundary="===============2496776198444609166=="
+	bh=ooNLg1cvLt1MRuJ1niYyXDGMjjS02LqFw1DZGZfi7hw=;
+	b=j/heVEdtKBgoFJZyu7tVTaBqYb8CYWY7DnnWGKvaw6nDIREY1n3IM7y1TwtIAYYA
+	AGjNfbaE/cixzwx321cb8lcpkxCNQjLq5kNKMMY9ZvRVDcwifNsrZ8lsIlr0vDV3VYy
+	hFWM/98JMDo/wTSqjwzvjaQbeERzM1Uht+GWOeqI=
+Content-Type: multipart/mixed; boundary="===============1263588645431196345=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Joshua Watt <JPEWhacker@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] diffoscope: upgrading to 224 SUCCEEDED
-Message-ID: <0101018435c866a7-a98b30c6-ccd7-4d9f-b4d9-27106d8645fc-000000@us-west-2.amazonses.com>
-Date: Wed, 2 Nov 2022 00:40:36 +0000
+Subject: [AUH] nghttp2: upgrading to 1.50.0 SUCCEEDED
+Message-ID: <0101018435c86869-f8f42111-2230-4c31-bc82-f48f6ffc2371-000000@us-west-2.amazonses.com>
+Date: Wed, 2 Nov 2022 00:40:37 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.11.02-54.240.27.31
+X-SES-Outgoing: 2022.11.02-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 00:40:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172510
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 00:40:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172533
 
---===============2496776198444609166==
+--===============1263588645431196345==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *diffoscope* to *224* has Succeeded.
+that the automatic attempt to upgrade the recipe *nghttp2* to *1.50.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-diffoscope-upgrade-221-224.patch
+    - apply the patch: git am 0001-nghttp2-upgrade-1.49.0-1.50.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,2329 +69,2792 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============2496776198444609166==
+--===============1263588645431196345==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: PV changed from "221" to "224"
-packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: PKGV changed from 221 [default] to 224 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-dev: PV changed from "221" to "224"
-packages/core2-32-poky-linux/diffoscope/diffoscope-dev: PKGV changed from 221 [default] to 224 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-doc: PV changed from "221" to "224"
-packages/core2-32-poky-linux/diffoscope/diffoscope-doc: PKGV changed from 221 [default] to 224 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-locale: PV changed from "221" to "224"
-packages/core2-32-poky-linux/diffoscope/diffoscope-locale: PKGV changed from 221 [default] to 224 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-src: PV changed from "221" to "224"
-packages/core2-32-poky-linux/diffoscope/diffoscope-src: PKGV changed from 221 [default] to 224 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: PV changed from "221" to "224"
-packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: PKGV changed from 221 [default] to 224 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope: PV changed from "221" to "224"
-packages/core2-32-poky-linux/diffoscope/diffoscope: PKGSIZE changed from 1376175 to 1376339 (+0%)
-packages/core2-32-poky-linux/diffoscope/diffoscope: PKGV changed from 221 [default] to 224 [default]
-packages/core2-32-poky-linux/diffoscope: PV changed from "221" to "224"
-packages/core2-32-poky-linux/diffoscope: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-221.tar.gz" to "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-224.tar.gz"
-packages/core2-32-poky-linux/diffoscope: PKGV changed from 221 [default] to 224 [default]
-Changes to packages/core2-32-poky-linux/diffoscope (sysroot):
-  /usr/lib/python3.11/site-packages/diffoscope-221.dist-info moved to /usr/lib/python3.11/site-packages/diffoscope-224.dist-info
+packages/core2-32-poky-linux/nghttp2: PKGV changed from 1.49.0 [default] to 1.50.0 [default]
+packages/core2-32-poky-linux/nghttp2: SRC_URI changed from "https://github.com/nghttp2/nghttp2/releases//download/v1.49.0/nghttp2-1.49.0.tar.xz file://0001-fetch-ocsp-response-use-python3.patch" to "https://github.com/nghttp2/nghttp2/releases//download/v1.50.0/nghttp2-1.50.0.tar.xz file://0001-fetch-ocsp-response-use-python3.patch"
+packages/core2-32-poky-linux/nghttp2: PV changed from "1.49.0" to "1.50.0"
+packages/core2-32-poky-linux/nghttp2/libnghttp2: PKGV changed from 1.49.0 [default] to 1.50.0 [default]
+packages/core2-32-poky-linux/nghttp2/libnghttp2: PV changed from "1.49.0" to "1.50.0"
+packages/core2-32-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.23.0", added "/usr/lib/libnghttp2.so.14.24.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-client: PKGV changed from 1.49.0 [default] to 1.50.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-client: PV changed from "1.49.0" to "1.50.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: PKGV changed from 1.49.0 [default] to 1.50.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: PKGSIZE changed from 463624 to 464512 (+0%)
+packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: PV changed from "1.49.0" to "1.50.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: FILELIST: removed "/usr/lib/.debug/libnghttp2.so.14.23.0", added "/usr/lib/.debug/libnghttp2.so.14.24.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-dev: PKGV changed from 1.49.0 [default] to 1.50.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-dev: PKGSIZE changed from 207176 to 207588 (+0%)
+packages/core2-32-poky-linux/nghttp2/nghttp2-dev: PV changed from "1.49.0" to "1.50.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-doc: PKGV changed from 1.49.0 [default] to 1.50.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-doc: PV changed from "1.49.0" to "1.50.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-locale: PKGV changed from 1.49.0 [default] to 1.50.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-locale: PV changed from "1.49.0" to "1.50.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-proxy: PKGV changed from 1.49.0 [default] to 1.50.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-proxy: PV changed from "1.49.0" to "1.50.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-server: PKGV changed from 1.49.0 [default] to 1.50.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-server: PV changed from "1.49.0" to "1.50.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-src: PKGV changed from 1.49.0 [default] to 1.50.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-src: PKGSIZE changed from 1006030 to 1008607 (+0%)
+packages/core2-32-poky-linux/nghttp2/nghttp2-src: PV changed from "1.49.0" to "1.50.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-staticdev: PKGV changed from 1.49.0 [default] to 1.50.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-staticdev: PV changed from "1.49.0" to "1.50.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2: PKGV changed from 1.49.0 [default] to 1.50.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2: PV changed from "1.49.0" to "1.50.0"
+Changes to packages/core2-32-poky-linux/nghttp2 (sysroot):
+  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.23.0 to libnghttp2.so.14.24.0
+  /usr/lib/libnghttp2.so.14.23.0 moved to /usr/lib/libnghttp2.so.14.24.0
+Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
+  /sysroot-providers/virtual_i686-poky-linux-g++ was added
+  /sysroot-providers/virtual_i686-poky-linux-gcc was added
+  /usr/bin/i686-poky-linux was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-c++ was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-cpp was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-g++ was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-12.2.0 was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-ar was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-nm was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-ranlib was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcov was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcov-dump was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcov-tool was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-lto-dump was added
+  /usr/libexec/i686-poky-linux was added
+  /usr/libexec/i686-poky-linux/gcc was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/ar was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/as was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/cc1 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/cc1plus was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/collect2 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/cpp was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/gcc was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/g++-mapper-server was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-ar was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-as was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-cpp was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-gcc was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-ld.bfd was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-ld was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-ld.gold was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-nm was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-objcopy was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-objdump was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-ranlib was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-strip was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/fixincl was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/fixinc.sh was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/mkheaders was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/mkinstalldirs was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/ld.bfd was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/ld was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/ld.gold was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1plugin.so.0.0.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1plugin.so.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1plugin.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1.so.0.0.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1.so.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcp1plugin.so.0.0.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcp1plugin.so.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcp1plugin.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/liblto_plugin.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/lto1 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/lto-wrapper was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/nm was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/objcopy was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/objdump was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/gengtype was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/ranlib was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/strip was added
+  /usr/lib/i686-poky-linux was added
+  /usr/lib/i686-poky-linux/bfd-plugins was added
+  /usr/lib/i686-poky-linux/bfd-plugins/liblto_plugin.so was added
+  /usr/lib/i686-poky-linux/gcc was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0 was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/adxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/ammintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/amxbf16intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/amxint8intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/amxtileintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx2intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx5124fmapsintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx5124vnniwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512bf16intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512bf16vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512bitalgintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512bwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512cdintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512dqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512erintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512fintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512fp16intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512fp16vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512ifmaintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512ifmavlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512pfintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vbmi2intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vbmi2vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vbmiintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vbmivlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vlbwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vldqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vnniintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vnnivlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vp2intersectintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vp2intersectvlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vpopcntdqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vpopcntdqvlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avxvnniintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/bmi2intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/bmiintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/bmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/cet.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/cetintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/cldemoteintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/clflushoptintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/clwbintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/clzerointrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/cpuid.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/cross-stdarg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/emmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/enqcmdintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/f16cintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include-fixed was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include-fixed/limits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include-fixed/README was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include-fixed/syslimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/float.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/fma4intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/fmaintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/fxsrintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/gfniintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/hresetintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/ia32intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/immintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/iso646.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/keylockerintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/lwpintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/lzcntintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/mm3dnow.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/mmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/mm_malloc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/movdirintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/mwaitintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/mwaitxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/nmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/pconfigintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/pkuintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/pmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/popcntintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/prfchwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/quadmath.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/quadmath_weak.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/rdseedintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/rtmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/serializeintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/sgxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/shaintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/smmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdalign.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdarg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdatomic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdbool.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stddef.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdfix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdint-gcc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdint.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdnoreturn.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/tbmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/tmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/tsxldtrkintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/uintrintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/unwind.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/vaesintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/varargs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/vpclmulqdqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/waitpkgintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/wbnoinvdintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/wmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/x86gprintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/x86intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xopintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xsavecintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xsaveintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xsaveoptintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xsavesintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xtestintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/fixinc_list was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/gsyslimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/include was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/include/limits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/include/README was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/macro_list was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/mkheaders.conf was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/gtype.state was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ada was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ada/gcc-interface was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ada/gcc-interface/ada-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/addresses.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/alias.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/align.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/alloc-pool.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/all-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ansidecl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/array-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/asan.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/attr-fnspec.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/attribs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/auto-host.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/auto-profile.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/backend.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/basic-block.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/bb-reorder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/b-header-vars was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/bitmap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/builtin-attrs.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/builtins.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/builtin-types.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/bversion.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/calls.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ccmp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family/c-common.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family/c-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family/c-objc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family/c-pragma.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family/c-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfganal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgbuild.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgcleanup.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgexpand.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfg-flags.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfghooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgloop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgloopmanip.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgrtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cgraph.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cif-code.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/collect2-aix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/collect2.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/collect-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/color-macros.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/common was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/common/config was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/common/config/i386 was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/conditions.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/configargs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/dbxelf.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/elfos.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/glibc-stdint.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/gnu-user.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386 was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/att.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/gnu-user64.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/gnu-user-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/i386.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/i386-isa.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/i386-opts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/i386-protos.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/linux64.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/linux-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/stringop.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/unix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/x86-64.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/x86-tune.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/initfini-array.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/linux-android.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/linux.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/linux-protos.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/vxworks-dummy.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/context.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/convert.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/coretypes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/coroutine-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/coverage.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/cp-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/cp-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/cxx-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/name-lookup.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/operators.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cppbuiltin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cppdefault.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cpplib.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/type-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cselib.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ctfc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/d was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/data-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dbgcnt.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dbgcnt.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dbxout.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dce.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ddg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/d/d-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/debug.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/defaults.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/df.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dfp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-color.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-core.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-event-id.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-metadata.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-path.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-spec.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-url.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/digraph.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dojump.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dominance.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/domwalk.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/double-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dump-context.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dumpfile.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dwarf2asm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dwarf2ctf.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dwarf2out.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/edit-context.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/emit-rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/errors.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/escaped_string.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/et-forest.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/except.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/explow.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/expmed.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/expr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/fibonacci_heap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/file-find.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/filenames.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/file-prefix-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/fixed-value.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/flags.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/flag-types.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/fold-const-call.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/fold-const.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/function-abi.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/function.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcc-plugin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcc-rich-location.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcc-symtab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcov-counter.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcov-io.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcse-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcse.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/generic-match.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gengtype.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/genrtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gensupport.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ggc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ggc-internal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-array-bounds.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-expr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-fold.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-iterator.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-low.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-match.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-predicate-analysis.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-predict.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-cache.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-edge.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-fold.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-gori.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-path.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-trace.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-ssa-evrp-analyze.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-ssa-warn-access.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-ssa-warn-restrict.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-walk.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimplify.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimplify-me.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/glimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gomp-constants.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/graphds.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/graph.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/graphite.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/graphviz.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gsstruct.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gstab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gsyms.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gsyslimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gtm-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gtype-desc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hard-reg-set.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hash-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hash-map-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hash-set.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hashtab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hash-table.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hash-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/highlev-plugin-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hosthooks-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hosthooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hw-doloop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hwint.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ifcvt.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/inchash.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/incpath.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/input.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-addr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-attr-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-attr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-codes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-config.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-constants.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-flags.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-modes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-modes-inline.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-notes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/internal-fn.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/internal-fn.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/intl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/int-vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-fnsummary.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-icf-gimple.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-icf.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-inline.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-modref.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-modref-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-param-manipulation.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-predicate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-prop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-reference.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-ref.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ira.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ira-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/is-a.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/iterator-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/json.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/langhooks-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/langhooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lcm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/libfuncs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/libiberty.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/limitx.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/limity.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/line-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/linux.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/loop-unroll.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lower-subreg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lra.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lra-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lto-compress.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lto-section-names.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lto-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/machmode.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/machmode.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/md5.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/memmodel.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/memory-block.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/mem-stats.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/mem-stats-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/mode-classes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/mux-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/objc was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/objc/objc-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/obstack.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/obstack-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-expand.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-general.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-low.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-offload.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-simd-clone.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optabs.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optabs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optabs-libfuncs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optabs-query.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optabs-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optinfo-emit-json.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optinfo.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/options.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/opt-problem.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/opts-diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/opts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/opt-suggestions.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ordered-hash-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/output.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/passes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/pass-instances.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/pass_manager.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/plugin-api.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/plugin.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/plugin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/plugin-version.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/pointer-query.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/poly-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/poly-int-types.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/predict.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/predict.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/prefix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/print-rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/print-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/profile-count.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/profile.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/range.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/range-op.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/read-md.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/read-rtl-function.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/real.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/realmpfr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/recog.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/regcprop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/reg-notes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/regrename.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/regset.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/regs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/reload.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/resource.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtlanal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtl.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtl-error.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtlhash.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtlhooks-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtl-iter.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtl-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtx-vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/run-rtl-passes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/safe-ctype.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sanitizer.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sbitmap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sched-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/selftest-diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/selftest.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/selftest-rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sel-sched-dump.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sel-sched.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sel-sched-ir.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sese.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/shortest-paths.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/shrink-wrap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/signop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sparseset.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/spellcheck.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/spellcheck-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/splay-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/splay-tree-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sreal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ssa-iterators.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/stab.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/statistics.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/stmt.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/stor-layout.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/streamer-hooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/stringpool.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/substring-locations.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/symbol-summary.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/symtab-clones.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/symtab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/symtab-thunks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sync-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/system.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target-globals.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target-hooks-macros.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target-insns.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/targhooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/timevar.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/timevar.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tm_p.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tm-preds.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/toplev.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tracer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/trans-mem.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-affine.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-cfgcleanup.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-cfg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-check.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-chrec.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-core.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-data-ref.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-dfa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-dump.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-eh.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-hasher.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-hash-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-if-conv.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-inline.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-into-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-iterator.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-nested.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-object-size.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-outof-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-parloops.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-pass.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-phinodes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-scalar-evolution.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-sra.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-address.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-alias-compare.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-alias.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-ccp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-coalesce.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-dce.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-dom.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-dse.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-live.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-loop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-loop-ivopts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-loop-manip.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-loop-niter.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-math-opts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssanames.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-operands.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-propagate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-reassoc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-sccvn.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-scopedtables.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-strlen.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-ter.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-threadedge.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-threadupdate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-stdarg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/treestruct.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-switch-conversion.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-vectorizer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-vrp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tristate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tsan.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tsystem.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/typeclass.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/typed-splay-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ubsan.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/valtrack.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-pointer-equiv.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-prof.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-query.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-range-equiv.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-range.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-relation.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/varasm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vec.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vec-perm-indices.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/version.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vmsdbg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vr-values.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vtable-verify.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/wide-int-bitmask.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/wide-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/wide-int-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/xcoff.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/xcoffout.h was added
+  /sysroot-providers/virtual_i686-poky-linux-musl-g++ was removed
+  /sysroot-providers/virtual_i686-poky-linux-musl-gcc was removed
+  /usr/bin/i686-poky-linux-musl was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-c++ was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-cpp was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-g++ was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-12.2.0 was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-ar was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-nm was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-ranlib was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov-dump was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov-tool was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-lto-dump was removed
+  /usr/libexec/i686-poky-linux-musl was removed
+  /usr/libexec/i686-poky-linux-musl/gcc was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/ar was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/as was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/cc1 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/cc1plus was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/collect2 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/cpp was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/gcc was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/g++-mapper-server was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-ar was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-as was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-cpp was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-gcc was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-ld.bfd was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-ld was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-ld.gold was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-nm was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-objcopy was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-objdump was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-ranlib was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-strip was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/fixincl was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/fixinc.sh was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/mkheaders was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/mkinstalldirs was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/ld.bfd was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/ld was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/ld.gold was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1plugin.so.0.0.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1plugin.so.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1plugin.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1.so.0.0.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1.so.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcp1plugin.so.0.0.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcp1plugin.so.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcp1plugin.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/liblto_plugin.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/lto1 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/lto-wrapper was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/nm was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/objcopy was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/objdump was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/gengtype was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/ranlib was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/strip was removed
+  /usr/lib/i686-poky-linux-musl was removed
+  /usr/lib/i686-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/i686-poky-linux-musl/bfd-plugins/liblto_plugin.so was removed
+  /usr/lib/i686-poky-linux-musl/gcc was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0 was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/adxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/ammintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/amxbf16intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/amxint8intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/amxtileintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx2intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx5124fmapsintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx5124vnniwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512bf16intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512bf16vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512bitalgintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512bwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512cdintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512dqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512erintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512fintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512fp16intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512fp16vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512ifmaintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512ifmavlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512pfintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vbmi2intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vbmi2vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vbmiintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vbmivlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vlbwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vldqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vnniintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vnnivlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vp2intersectintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vp2intersectvlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vpopcntdqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vpopcntdqvlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avxvnniintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/bmi2intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/bmiintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/bmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/cet.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/cetintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/cldemoteintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/clflushoptintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/clwbintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/clzerointrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/cpuid.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/cross-stdarg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/emmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/enqcmdintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/f16cintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include-fixed was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include-fixed/limits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include-fixed/README was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include-fixed/syslimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/float.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/fma4intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/fmaintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/fxsrintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/gfniintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/hresetintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/ia32intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/immintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/iso646.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/keylockerintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/lwpintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/lzcntintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/mm3dnow.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/mmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/mm_malloc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/movdirintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/mwaitintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/mwaitxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/nmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/pconfigintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/pkuintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/pmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/popcntintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/prfchwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/quadmath.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/quadmath_weak.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/rdseedintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/rtmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/serializeintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/sgxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/shaintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/smmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdalign.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdarg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdatomic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdbool.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stddef.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdfix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdint-gcc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdint.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdnoreturn.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/tbmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/tmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/tsxldtrkintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/uintrintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/unwind.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/vaesintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/varargs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/vpclmulqdqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/waitpkgintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/wbnoinvdintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/wmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/x86gprintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/x86intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xopintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xsavecintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xsaveintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xsaveoptintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xsavesintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xtestintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/fixinc_list was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/gsyslimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/include was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/include/limits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/include/README was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/macro_list was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/mkheaders.conf was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/gtype.state was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ada was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ada/gcc-interface was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ada/gcc-interface/ada-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/addresses.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/alias.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/align.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/alloc-pool.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/all-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ansidecl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/array-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/asan.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/attr-fnspec.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/attribs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/auto-host.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/auto-profile.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/backend.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/basic-block.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/bb-reorder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/b-header-vars was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/bitmap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/builtin-attrs.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/builtins.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/builtin-types.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/bversion.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/calls.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ccmp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family/c-common.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family/c-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family/c-objc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family/c-pragma.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family/c-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfganal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgbuild.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgcleanup.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgexpand.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfg-flags.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfghooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgloop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgloopmanip.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgrtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cgraph.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cif-code.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/collect2-aix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/collect2.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/collect-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/color-macros.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/common was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/common/config was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/common/config/i386 was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/conditions.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/configargs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/dbxelf.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/elfos.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/glibc-stdint.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/gnu-user.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386 was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/att.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/gnu-user64.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/gnu-user-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/i386.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/i386-isa.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/i386-opts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/i386-protos.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/linux64.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/linux-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/stringop.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/unix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/x86-64.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/x86-tune.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/initfini-array.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/linux-android.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/linux.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/linux-protos.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/vxworks-dummy.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/context.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/convert.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/coretypes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/coroutine-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/coverage.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/cp-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/cp-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/cxx-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/name-lookup.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/operators.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cppbuiltin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cppdefault.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cpplib.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/type-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cselib.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ctfc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/d was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/data-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dbgcnt.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dbgcnt.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dbxout.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dce.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ddg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/d/d-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/debug.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/defaults.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/df.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dfp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-color.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-core.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-event-id.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-metadata.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-path.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-spec.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-url.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/digraph.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dojump.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dominance.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/domwalk.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/double-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dump-context.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dumpfile.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dwarf2asm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dwarf2ctf.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dwarf2out.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/edit-context.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/emit-rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/errors.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/escaped_string.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/et-forest.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/except.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/explow.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/expmed.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/expr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/fibonacci_heap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/file-find.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/filenames.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/file-prefix-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/fixed-value.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/flags.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/flag-types.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/fold-const-call.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/fold-const.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/function-abi.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/function.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcc-plugin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcc-rich-location.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcc-symtab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcov-counter.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcov-io.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcse-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcse.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/generic-match.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gengtype.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/genrtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gensupport.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ggc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ggc-internal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-array-bounds.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-expr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-fold.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-iterator.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-low.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-match.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-predicate-analysis.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-predict.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-cache.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-edge.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-fold.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-gori.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-path.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-trace.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-ssa-evrp-analyze.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-ssa-warn-access.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-ssa-warn-restrict.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-walk.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimplify.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimplify-me.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/glimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gomp-constants.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/graphds.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/graph.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/graphite.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/graphviz.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gsstruct.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gstab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gsyms.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gsyslimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gtm-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gtype-desc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hard-reg-set.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hash-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hash-map-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hash-set.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hashtab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hash-table.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hash-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/highlev-plugin-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hosthooks-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hosthooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hw-doloop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hwint.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ifcvt.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/inchash.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/incpath.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/input.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-addr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-attr-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-attr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-codes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-config.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-constants.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-flags.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-modes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-modes-inline.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-notes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/internal-fn.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/internal-fn.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/intl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/int-vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-fnsummary.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-icf-gimple.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-icf.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-inline.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-modref.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-modref-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-param-manipulation.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-predicate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-prop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-reference.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-ref.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ira.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ira-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/is-a.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/iterator-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/json.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/langhooks-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/langhooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lcm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/libfuncs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/libiberty.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/limitx.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/limity.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/line-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/linux.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/loop-unroll.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lower-subreg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lra.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lra-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lto-compress.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lto-section-names.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lto-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/machmode.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/machmode.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/md5.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/memmodel.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/memory-block.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/mem-stats.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/mem-stats-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/mode-classes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/mux-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/objc was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/objc/objc-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/obstack.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/obstack-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-expand.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-general.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-low.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-offload.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-simd-clone.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optabs.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optabs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optabs-libfuncs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optabs-query.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optabs-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optinfo-emit-json.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optinfo.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/options.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/opt-problem.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/opts-diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/opts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/opt-suggestions.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ordered-hash-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/output.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/passes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/pass-instances.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/pass_manager.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/plugin-api.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/plugin.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/plugin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/plugin-version.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/pointer-query.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/poly-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/poly-int-types.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/predict.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/predict.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/prefix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/print-rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/print-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/profile-count.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/profile.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/range.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/range-op.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/read-md.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/read-rtl-function.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/real.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/realmpfr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/recog.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/regcprop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/reg-notes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/regrename.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/regset.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/regs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/reload.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/resource.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtlanal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtl.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtl-error.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtlhash.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtlhooks-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtl-iter.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtl-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtx-vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/run-rtl-passes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/safe-ctype.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sanitizer.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sbitmap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sched-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/selftest-diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/selftest.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/selftest-rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sel-sched-dump.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sel-sched.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sel-sched-ir.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sese.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/shortest-paths.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/shrink-wrap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/signop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sparseset.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/spellcheck.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/spellcheck-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/splay-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/splay-tree-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sreal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ssa-iterators.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/stab.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/statistics.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/stmt.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/stor-layout.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/streamer-hooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/stringpool.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/substring-locations.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/symbol-summary.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/symtab-clones.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/symtab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/symtab-thunks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sync-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/system.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target-globals.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target-hooks-macros.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target-insns.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/targhooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/timevar.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/timevar.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tm_p.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tm-preds.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/toplev.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tracer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/trans-mem.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-affine.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-cfgcleanup.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-cfg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-check.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-chrec.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-core.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-data-ref.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-dfa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-dump.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-eh.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-hasher.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-hash-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-if-conv.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-inline.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-into-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-iterator.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-nested.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-object-size.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-outof-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-parloops.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-pass.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-phinodes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-scalar-evolution.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-sra.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-address.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-alias-compare.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-alias.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-ccp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-coalesce.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-dce.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-dom.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-dse.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-live.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-loop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-loop-ivopts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-loop-manip.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-loop-niter.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-math-opts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssanames.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-operands.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-propagate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-reassoc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-sccvn.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-scopedtables.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-strlen.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-ter.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-threadedge.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-threadupdate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-stdarg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/treestruct.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-switch-conversion.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-vectorizer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-vrp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tristate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tsan.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tsystem.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/typeclass.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/typed-splay-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ubsan.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/valtrack.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-pointer-equiv.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-prof.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-query.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-range-equiv.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-range.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-relation.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/varasm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vec.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vec-perm-indices.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/version.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vmsdbg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vr-values.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vtable-verify.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int-bitmask.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
 
---===============2496776198444609166==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-diffoscope-upgrade-221-224.patch"
-
-RnJvbSA2YjY1ZTIxNmEzMWUxYzc3ODFlM2JlN2FhMzI5OGEwMjc1YmVlYTc3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBOb3YgMjAyMiAyMzoyOTowMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGRp
-ZmZvc2NvcGU6IHVwZ3JhZGUgMjIxIC0+IDIyNAoKLS0tCiAuLi4vZGlmZm9zY29wZS97ZGlmZm9z
-Y29wZV8yMjEuYmIgPT4gZGlmZm9zY29wZV8yMjQuYmJ9ICAgICAgICAgfCAyICstCiAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9kaWZmb3Njb3BlL3tkaWZmb3Njb3BlXzIyMS5iYiA9PiBkaWZmb3Njb3BlXzIy
-NC5iYn0gKDkyJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9kaWZmb3Njb3Bl
-L2RpZmZvc2NvcGVfMjIxLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZm
-b3Njb3BlXzIyNC5iYgpzaW1pbGFyaXR5IGluZGV4IDkyJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9kaWZmb3Njb3BlL2RpZmZvc2NvcGVfMjIxLmJiCnJlbmFtZSB0byBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9kaWZmb3Njb3BlL2RpZmZvc2NvcGVfMjI0LmJiCmluZGV4IGM4MDEyMDBk
-N2MuLjVkNjM0YjgwNzMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2Nv
-cGUvZGlmZm9zY29wZV8yMjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29w
-ZS9kaWZmb3Njb3BlXzIyNC5iYgpAQCAtMTIsNyArMTIsNyBAQCBQWVBJX1BBQ0tBR0UgPSAiZGlm
-Zm9zY29wZSIKIAogaW5oZXJpdCBweXBpIHNldHVwdG9vbHMzCiAKLVNSQ19VUklbc2hhMjU2c3Vt
-XSA9ICI3YjE3MjRlOWIxZTVhYzY1OTdjYWMwN2QwYWNkMjY2MWRiMWJjZjBkNmE5YjJlODdiZTIx
-YjVlMzgwNmJlOWY4IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjE5MjBlYmRjYTQwZTg1ZjAxOWE4
-NGUwMjIwZTRhNzlmMDBmZmRhZmMwZjc4ZTFmMWUyMjE5MTIzZDVjMDhkZmIiCiAKIFJERVBFTkRT
-OiR7UE59ICs9ICJiaW51dGlscyB2aW0gc3F1YXNoZnMtdG9vbHMgcHl0aG9uMy1saWJhcmNoaXZl
-LWMgcHl0aG9uMy1tYWdpYyBweXRob24zLXJwbSIKIAotLSAKMi4zMS4xCgo=
-
---===============2496776198444609166==
+--===============1263588645431196345==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/diffoscope (sysroot):
-  /usr/lib/python3.11/site-packages/diffoscope-221.dist-info moved to /usr/lib/python3.11/site-packages/diffoscope-224.dist-info
+packages/core2-32-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.23.0", added "/usr/lib/libnghttp2.so.14.24.0"
+Changes to packages/core2-32-poky-linux/nghttp2 (sysroot):
+  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.23.0 to libnghttp2.so.14.24.0
+  /usr/lib/libnghttp2.so.14.23.0 moved to /usr/lib/libnghttp2.so.14.24.0
+Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
+  /sysroot-providers/virtual_i686-poky-linux-g++ was added
+  /sysroot-providers/virtual_i686-poky-linux-gcc was added
+  /usr/bin/i686-poky-linux was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-c++ was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-cpp was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-g++ was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-12.2.0 was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-ar was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-nm was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-ranlib was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcov was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcov-dump was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcov-tool was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-lto-dump was added
+  /usr/libexec/i686-poky-linux was added
+  /usr/libexec/i686-poky-linux/gcc was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/ar was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/as was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/cc1 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/cc1plus was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/collect2 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/cpp was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/gcc was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/g++-mapper-server was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-ar was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-as was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-cpp was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-gcc was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-ld.bfd was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-ld was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-ld.gold was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-nm was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-objcopy was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-objdump was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-ranlib was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/i686-poky-linux-strip was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/fixincl was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/fixinc.sh was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/mkheaders was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/mkinstalldirs was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/ld.bfd was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/ld was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/ld.gold was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1plugin.so.0.0.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1plugin.so.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1plugin.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1.so.0.0.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1.so.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcc1.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcp1plugin.so.0.0.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcp1plugin.so.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/libcp1plugin.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/liblto_plugin.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/lto1 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/lto-wrapper was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/nm was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/objcopy was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/objdump was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/gengtype was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/ranlib was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/12.2.0/strip was added
+  /usr/lib/i686-poky-linux was added
+  /usr/lib/i686-poky-linux/bfd-plugins was added
+  /usr/lib/i686-poky-linux/bfd-plugins/liblto_plugin.so was added
+  /usr/lib/i686-poky-linux/gcc was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0 was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/adxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/ammintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/amxbf16intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/amxint8intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/amxtileintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx2intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx5124fmapsintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx5124vnniwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512bf16intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512bf16vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512bitalgintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512bwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512cdintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512dqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512erintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512fintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512fp16intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512fp16vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512ifmaintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512ifmavlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512pfintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vbmi2intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vbmi2vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vbmiintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vbmivlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vlbwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vldqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vnniintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vnnivlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vp2intersectintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vp2intersectvlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vpopcntdqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avx512vpopcntdqvlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/avxvnniintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/bmi2intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/bmiintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/bmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/cet.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/cetintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/cldemoteintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/clflushoptintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/clwbintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/clzerointrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/cpuid.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/cross-stdarg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/emmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/enqcmdintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/f16cintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include-fixed was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include-fixed/limits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include-fixed/README was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include-fixed/syslimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/float.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/fma4intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/fmaintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/fxsrintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/gfniintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/hresetintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/ia32intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/immintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/iso646.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/keylockerintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/lwpintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/lzcntintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/mm3dnow.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/mmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/mm_malloc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/movdirintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/mwaitintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/mwaitxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/nmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/pconfigintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/pkuintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/pmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/popcntintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/prfchwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/quadmath.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/quadmath_weak.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/rdseedintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/rtmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/serializeintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/sgxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/shaintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/smmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdalign.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdarg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdatomic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdbool.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stddef.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdfix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdint-gcc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdint.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/stdnoreturn.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/tbmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/tmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/tsxldtrkintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/uintrintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/unwind.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/vaesintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/varargs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/vpclmulqdqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/waitpkgintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/wbnoinvdintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/wmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/x86gprintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/x86intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xopintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xsavecintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xsaveintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xsaveoptintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xsavesintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include/xtestintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/fixinc_list was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/gsyslimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/include was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/include/limits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/include/README was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/macro_list was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/install-tools/mkheaders.conf was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/gtype.state was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ada was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ada/gcc-interface was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ada/gcc-interface/ada-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/addresses.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/alias.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/align.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/alloc-pool.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/all-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ansidecl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/array-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/asan.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/attr-fnspec.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/attribs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/auto-host.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/auto-profile.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/backend.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/basic-block.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/bb-reorder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/b-header-vars was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/bitmap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/builtin-attrs.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/builtins.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/builtin-types.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/bversion.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/calls.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ccmp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family/c-common.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family/c-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family/c-objc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family/c-pragma.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-family/c-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfganal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgbuild.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgcleanup.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgexpand.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfg-flags.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfghooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgloop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgloopmanip.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cfgrtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cgraph.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cif-code.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/collect2-aix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/collect2.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/collect-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/color-macros.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/common was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/common/config was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/common/config/i386 was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/conditions.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/configargs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/dbxelf.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/elfos.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/glibc-stdint.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/gnu-user.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386 was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/att.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/gnu-user64.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/gnu-user-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/i386.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/i386-isa.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/i386-opts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/i386-protos.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/linux64.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/linux-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/stringop.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/unix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/x86-64.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/i386/x86-tune.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/initfini-array.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/linux-android.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/linux.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/linux-protos.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/config/vxworks-dummy.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/context.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/convert.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/coretypes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/coroutine-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/coverage.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/cp-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/cp-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/cxx-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/name-lookup.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/operators.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cppbuiltin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cppdefault.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cpplib.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cp/type-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/cselib.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ctfc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/c-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/d was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/data-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dbgcnt.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dbgcnt.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dbxout.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dce.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ddg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/d/d-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/debug.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/defaults.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/df.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dfp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-color.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-core.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-event-id.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-metadata.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-path.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-spec.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/diagnostic-url.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/digraph.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dojump.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dominance.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/domwalk.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/double-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dump-context.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dumpfile.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dwarf2asm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dwarf2ctf.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/dwarf2out.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/edit-context.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/emit-rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/errors.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/escaped_string.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/et-forest.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/except.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/explow.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/expmed.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/expr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/fibonacci_heap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/file-find.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/filenames.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/file-prefix-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/fixed-value.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/flags.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/flag-types.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/fold-const-call.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/fold-const.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/function-abi.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/function.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcc-plugin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcc-rich-location.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcc-symtab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcov-counter.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcov-io.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcse-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gcse.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/generic-match.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gengtype.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/genrtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gensupport.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ggc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ggc-internal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-array-bounds.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-expr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-fold.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-iterator.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-low.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-match.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-predicate-analysis.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-predict.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-cache.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-edge.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-fold.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-gori.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-path.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-range-trace.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-ssa-evrp-analyze.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-ssa-warn-access.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-ssa-warn-restrict.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimple-walk.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimplify.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gimplify-me.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/glimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gomp-constants.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/graphds.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/graph.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/graphite.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/graphviz.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gsstruct.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gstab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gsyms.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gsyslimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gtm-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/gtype-desc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hard-reg-set.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hash-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hash-map-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hash-set.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hashtab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hash-table.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hash-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/highlev-plugin-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hosthooks-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hosthooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hw-doloop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/hwint.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ifcvt.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/inchash.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/incpath.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/input.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-addr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-attr-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-attr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-codes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-config.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-constants.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-flags.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-modes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-modes-inline.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/insn-notes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/internal-fn.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/internal-fn.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/intl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/int-vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-fnsummary.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-icf-gimple.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-icf.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-inline.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-modref.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-modref-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-param-manipulation.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-predicate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-prop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-reference.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-ref.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ipa-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ira.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ira-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/is-a.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/iterator-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/json.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/langhooks-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/langhooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lcm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/libfuncs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/libiberty.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/limitx.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/limity.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/line-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/linux.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/loop-unroll.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lower-subreg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lra.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lra-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lto-compress.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lto-section-names.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/lto-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/machmode.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/machmode.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/md5.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/memmodel.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/memory-block.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/mem-stats.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/mem-stats-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/mode-classes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/mux-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/objc was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/objc/objc-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/obstack.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/obstack-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-expand.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-general.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-low.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-offload.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/omp-simd-clone.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optabs.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optabs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optabs-libfuncs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optabs-query.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optabs-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optinfo-emit-json.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/optinfo.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/options.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/opt-problem.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/opts-diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/opts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/opt-suggestions.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ordered-hash-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/output.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/passes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/pass-instances.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/pass_manager.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/plugin-api.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/plugin.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/plugin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/plugin-version.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/pointer-query.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/poly-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/poly-int-types.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/predict.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/predict.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/prefix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/print-rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/print-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/profile-count.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/profile.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/range.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/range-op.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/read-md.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/read-rtl-function.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/real.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/realmpfr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/recog.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/regcprop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/reg-notes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/regrename.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/regset.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/regs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/reload.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/resource.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtlanal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtl.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtl-error.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtlhash.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtlhooks-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtl-iter.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtl-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/rtx-vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/run-rtl-passes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/safe-ctype.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sanitizer.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sbitmap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sched-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/selftest-diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/selftest.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/selftest-rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sel-sched-dump.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sel-sched.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sel-sched-ir.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sese.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/shortest-paths.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/shrink-wrap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/signop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sparseset.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/spellcheck.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/spellcheck-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/splay-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/splay-tree-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sreal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ssa-iterators.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/stab.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/statistics.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/stmt.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/stor-layout.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/streamer-hooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/stringpool.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/substring-locations.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/symbol-summary.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/symtab-clones.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/symtab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/symtab-thunks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/sync-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/system.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target-globals.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target-hooks-macros.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/target-insns.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/targhooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/timevar.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/timevar.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tm_p.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tm-preds.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/toplev.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tracer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/trans-mem.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-affine.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-cfgcleanup.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-cfg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-check.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-chrec.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-core.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-data-ref.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-dfa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-dump.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-eh.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-hasher.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-hash-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-if-conv.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-inline.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-into-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-iterator.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-nested.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-object-size.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-outof-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-parloops.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-pass.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-phinodes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-scalar-evolution.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-sra.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-address.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-alias-compare.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-alias.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-ccp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-coalesce.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-dce.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-dom.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-dse.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-live.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-loop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-loop-ivopts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-loop-manip.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-loop-niter.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-math-opts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssanames.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-operands.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-propagate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-reassoc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-sccvn.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-scopedtables.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-strlen.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-ter.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-threadedge.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-ssa-threadupdate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-stdarg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/treestruct.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-switch-conversion.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-vectorizer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tree-vrp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tristate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tsan.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/tsystem.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/typeclass.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/typed-splay-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/ubsan.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/valtrack.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-pointer-equiv.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-prof.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-query.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-range-equiv.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-range.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/value-relation.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/varasm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vec.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vec-perm-indices.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/version.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vmsdbg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vr-values.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/vtable-verify.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/wide-int-bitmask.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/wide-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/wide-int-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/xcoff.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/plugin/include/xcoffout.h was added
+  /sysroot-providers/virtual_i686-poky-linux-musl-g++ was removed
+  /sysroot-providers/virtual_i686-poky-linux-musl-gcc was removed
+  /usr/bin/i686-poky-linux-musl was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-c++ was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-cpp was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-g++ was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-12.2.0 was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-ar was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-nm was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-ranlib was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov-dump was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov-tool was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-lto-dump was removed
+  /usr/libexec/i686-poky-linux-musl was removed
+  /usr/libexec/i686-poky-linux-musl/gcc was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/ar was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/as was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/cc1 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/cc1plus was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/collect2 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/cpp was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/gcc was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/g++-mapper-server was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-ar was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-as was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-cpp was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-gcc was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-ld.bfd was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-ld was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-ld.gold was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-nm was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-objcopy was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-objdump was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-ranlib was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/i686-poky-linux-musl-strip was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/fixincl was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/fixinc.sh was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/mkheaders was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/mkinstalldirs was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/ld.bfd was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/ld was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/ld.gold was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1plugin.so.0.0.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1plugin.so.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1plugin.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1.so.0.0.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1.so.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcc1.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcp1plugin.so.0.0.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcp1plugin.so.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/libcp1plugin.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/liblto_plugin.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/lto1 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/lto-wrapper was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/nm was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/objcopy was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/objdump was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/gengtype was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/ranlib was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/strip was removed
+  /usr/lib/i686-poky-linux-musl was removed
+  /usr/lib/i686-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/i686-poky-linux-musl/bfd-plugins/liblto_plugin.so was removed
+  /usr/lib/i686-poky-linux-musl/gcc was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0 was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/adxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/ammintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/amxbf16intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/amxint8intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/amxtileintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx2intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx5124fmapsintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx5124vnniwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512bf16intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512bf16vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512bitalgintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512bwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512cdintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512dqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512erintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512fintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512fp16intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512fp16vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512ifmaintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512ifmavlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512pfintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vbmi2intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vbmi2vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vbmiintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vbmivlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vlbwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vldqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vnniintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vnnivlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vp2intersectintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vp2intersectvlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vpopcntdqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avx512vpopcntdqvlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/avxvnniintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/bmi2intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/bmiintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/bmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/cet.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/cetintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/cldemoteintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/clflushoptintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/clwbintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/clzerointrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/cpuid.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/cross-stdarg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/emmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/enqcmdintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/f16cintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include-fixed was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include-fixed/limits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include-fixed/README was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include-fixed/syslimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/float.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/fma4intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/fmaintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/fxsrintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/gfniintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/hresetintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/ia32intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/immintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/iso646.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/keylockerintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/lwpintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/lzcntintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/mm3dnow.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/mmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/mm_malloc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/movdirintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/mwaitintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/mwaitxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/nmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/pconfigintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/pkuintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/pmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/popcntintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/prfchwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/quadmath.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/quadmath_weak.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/rdseedintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/rtmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/serializeintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/sgxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/shaintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/smmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdalign.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdarg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdatomic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdbool.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stddef.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdfix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdint-gcc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdint.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/stdnoreturn.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/tbmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/tmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/tsxldtrkintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/uintrintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/unwind.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/vaesintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/varargs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/vpclmulqdqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/waitpkgintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/wbnoinvdintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/wmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/x86gprintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/x86intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xopintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xsavecintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xsaveintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xsaveoptintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xsavesintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/include/xtestintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/fixinc_list was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/gsyslimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/include was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/include/limits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/include/README was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/macro_list was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/install-tools/mkheaders.conf was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/gtype.state was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ada was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ada/gcc-interface was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ada/gcc-interface/ada-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/addresses.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/alias.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/align.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/alloc-pool.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/all-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ansidecl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/array-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/asan.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/attr-fnspec.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/attribs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/auto-host.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/auto-profile.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/backend.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/basic-block.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/bb-reorder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/b-header-vars was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/bitmap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/builtin-attrs.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/builtins.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/builtin-types.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/bversion.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/calls.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ccmp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family/c-common.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family/c-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family/c-objc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family/c-pragma.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-family/c-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfganal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgbuild.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgcleanup.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgexpand.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfg-flags.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfghooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgloop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgloopmanip.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cfgrtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cgraph.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cif-code.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/collect2-aix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/collect2.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/collect-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/color-macros.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/common was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/common/config was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/common/config/i386 was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/conditions.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/configargs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/dbxelf.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/elfos.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/glibc-stdint.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/gnu-user.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386 was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/att.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/gnu-user64.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/gnu-user-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/i386.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/i386-isa.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/i386-opts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/i386-protos.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/linux64.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/linux-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/stringop.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/unix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/x86-64.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/i386/x86-tune.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/initfini-array.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/linux-android.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/linux.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/linux-protos.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/config/vxworks-dummy.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/context.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/convert.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/coretypes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/coroutine-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/coverage.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/cp-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/cp-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/cxx-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/name-lookup.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/operators.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cppbuiltin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cppdefault.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cpplib.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cp/type-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/cselib.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ctfc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/c-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/d was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/data-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dbgcnt.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dbgcnt.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dbxout.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dce.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ddg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/d/d-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/debug.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/defaults.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/df.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dfp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-color.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-core.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-event-id.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-metadata.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-path.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-spec.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/diagnostic-url.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/digraph.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dojump.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dominance.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/domwalk.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/double-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dump-context.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dumpfile.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dwarf2asm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dwarf2ctf.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/dwarf2out.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/edit-context.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/emit-rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/errors.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/escaped_string.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/et-forest.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/except.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/explow.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/expmed.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/expr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/fibonacci_heap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/file-find.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/filenames.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/file-prefix-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/fixed-value.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/flags.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/flag-types.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/fold-const-call.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/fold-const.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/function-abi.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/function.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcc-plugin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcc-rich-location.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcc-symtab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcov-counter.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcov-io.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcse-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gcse.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/generic-match.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gengtype.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/genrtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gensupport.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ggc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ggc-internal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-array-bounds.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-expr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-fold.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-iterator.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-low.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-match.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-predicate-analysis.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-predict.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-cache.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-edge.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-fold.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-gori.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-path.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-range-trace.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-ssa-evrp-analyze.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-ssa-warn-access.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-ssa-warn-restrict.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimple-walk.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimplify.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gimplify-me.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/glimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gomp-constants.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/graphds.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/graph.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/graphite.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/graphviz.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gsstruct.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gstab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gsyms.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gsyslimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gtm-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/gtype-desc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hard-reg-set.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hash-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hash-map-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hash-set.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hashtab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hash-table.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hash-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/highlev-plugin-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hosthooks-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hosthooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hw-doloop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/hwint.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ifcvt.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/inchash.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/incpath.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/input.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-addr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-attr-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-attr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-codes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-config.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-constants.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-flags.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-modes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-modes-inline.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/insn-notes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/internal-fn.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/internal-fn.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/intl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/int-vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-fnsummary.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-icf-gimple.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-icf.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-inline.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-modref.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-modref-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-param-manipulation.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-predicate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-prop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-reference.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-ref.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ipa-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ira.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ira-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/is-a.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/iterator-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/json.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/langhooks-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/langhooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lcm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/libfuncs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/libiberty.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/limitx.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/limity.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/line-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/linux.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/loop-unroll.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lower-subreg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lra.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lra-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lto-compress.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lto-section-names.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/lto-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/machmode.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/machmode.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/md5.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/memmodel.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/memory-block.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/mem-stats.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/mem-stats-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/mode-classes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/mux-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/objc was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/objc/objc-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/obstack.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/obstack-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-expand.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-general.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-low.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-offload.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/omp-simd-clone.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optabs.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optabs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optabs-libfuncs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optabs-query.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optabs-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optinfo-emit-json.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/optinfo.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/options.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/opt-problem.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/opts-diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/opts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/opt-suggestions.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ordered-hash-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/output.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/passes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/pass-instances.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/pass_manager.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/plugin-api.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/plugin.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/plugin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/plugin-version.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/pointer-query.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/poly-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/poly-int-types.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/predict.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/predict.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/prefix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/print-rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/print-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/profile-count.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/profile.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/range.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/range-op.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/read-md.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/read-rtl-function.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/real.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/realmpfr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/recog.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/regcprop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/reg-notes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/regrename.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/regset.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/regs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/reload.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/resource.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtlanal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtl.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtl-error.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtlhash.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtlhooks-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtl-iter.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtl-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/rtx-vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/run-rtl-passes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/safe-ctype.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sanitizer.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sbitmap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sched-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/selftest-diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/selftest.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/selftest-rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sel-sched-dump.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sel-sched.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sel-sched-ir.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sese.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/shortest-paths.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/shrink-wrap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/signop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sparseset.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/spellcheck.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/spellcheck-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/splay-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/splay-tree-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sreal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ssa-iterators.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/stab.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/statistics.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/stmt.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/stor-layout.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/streamer-hooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/stringpool.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/substring-locations.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/symbol-summary.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/symtab-clones.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/symtab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/symtab-thunks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/sync-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/system.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target-globals.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target-hooks-macros.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/target-insns.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/targhooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/timevar.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/timevar.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tm_p.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tm-preds.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/toplev.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tracer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/trans-mem.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-affine.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-cfgcleanup.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-cfg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-check.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-chrec.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-core.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-data-ref.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-dfa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-dump.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-eh.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-hasher.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-hash-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-if-conv.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-inline.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-into-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-iterator.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-nested.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-object-size.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-outof-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-parloops.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-pass.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-phinodes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-scalar-evolution.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-sra.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-address.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-alias-compare.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-alias.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-ccp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-coalesce.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-dce.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-dom.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-dse.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-live.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-loop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-loop-ivopts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-loop-manip.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-loop-niter.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-math-opts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssanames.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-operands.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-propagate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-reassoc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-sccvn.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-scopedtables.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-strlen.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-ter.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-threadedge.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-ssa-threadupdate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-stdarg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/treestruct.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-switch-conversion.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-vectorizer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tree-vrp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tristate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tsan.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/tsystem.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/typeclass.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/typed-splay-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/ubsan.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/valtrack.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-pointer-equiv.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-prof.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-query.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-range-equiv.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-range.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/value-relation.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/varasm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vec.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vec-perm-indices.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/version.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vmsdbg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vr-values.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/vtable-verify.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int-bitmask.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
 
---===============2496776198444609166==
-Content-Type: text/plain; charset="us-ascii"
+--===============1263588645431196345==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-nghttp2-upgrade-1.49.0-1.50.0.patch"
 
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 886 .bb files complete (0 cached, 886 parsed). 1664 targets, 53 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the cortexa15t2hf-neon sysroot...done.
-Removing 1 recipes from the qemuarm sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+RnJvbSAxNDBkYWQ5MDc4NGY0M2MzMzdhOWI4YTI4NTQwYTQwODViZjhiYTRhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMiBOb3YgMjAyMiAwMDozMToxNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG5n
+aHR0cDI6IHVwZ3JhZGUgMS40OS4wIC0+IDEuNTAuMAoKLS0tCiAuLi4vbmdodHRwMi97bmdodHRw
+Ml8xLjQ5LjAuYmIgPT4gbmdodHRwMl8xLjUwLjAuYmJ9ICAgICAgICAgICAgfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtc3VwcG9ydC9uZ2h0dHAyL3tuZ2h0dHAyXzEuNDkuMC5iYiA9PiBuZ2h0dHAyXzEuNTAu
+MC5iYn0gKDkyJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZ2h0dHAyL25n
+aHR0cDJfMS40OS4wLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEu
+NTAuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDkyJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9uZ2h0dHAyL25naHR0cDJfMS40OS4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9uZ2h0dHAyL25naHR0cDJfMS41MC4wLmJiCmluZGV4IDZjM2Q1NDMwODMuLjY2MzExYjJl
+ZGYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8xLjQ5
+LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNTAuMC5i
+YgpAQCAtOCw3ICs4LDcgQEAgU1JDX1VSSSA9ICJcCiAgICAgJHtHSVRIVUJfQkFTRV9VUkl9L2Rv
+d25sb2FkL3Yke1BWfS9uZ2h0dHAyLSR7UFZ9LnRhci54eiBcCiAgICAgZmlsZTovLzAwMDEtZmV0
+Y2gtb2NzcC1yZXNwb25zZS11c2UtcHl0aG9uMy5wYXRjaCBcCiAiCi1TUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiYjBjZmQ0OTJiYmYwYjEzMWM0NzJlOGY2NTAxYzlmNGVlODJiNTFiNjgxMzBmNDdiMjc4
+YzBiN2M5ODQ4YTY2ZSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJhZjI0MDA3ZTM0YzE4Yzc4MjM5
+M2ExZGMzNjg1ZjhmZDViNTAyODNlOTBhOTE5MWQyNTQ4OGViNTBhYTJjODI1IgogCiBpbmhlcml0
+IGNtYWtlIG1hbnBhZ2VzIHB5dGhvbjNuYXRpdmUgZ2l0aHViLXJlbGVhc2VzCiBQQUNLQUdFQ09O
+RklHW21hbnBhZ2VzXSA9ICIiCi0tIAoyLjMxLjEKCg==
 
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "arm-poky-linux-gnueabi"
-MACHINE              = "qemuarm"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
-TARGET_FPU           = "hard"
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:374176871ca6bd9ad6745c1a3e12c7b092ac2099"
-workspace            = "master:78fd269e6649000b48ef1ef3e86009bad00fa815"
-
-Initialising tasks...done.
-Sstate summary: Wanted 92 Local 30 Mirrors 0 Missed 62 Current 641 (32% match, 91% complete)
-Removing 1 stale sstate objects for arch qemuarm...done.
-Removing 1 stale sstate objects for arch cortexa15t2hf-neon...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 688 of 733 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 694 of 733 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1370 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_fetch)
-NOTE: Running task 1457 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_fetch)
-NOTE: Running task 1458 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_fetch)
-NOTE: Running task 1459 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_fetch)
-NOTE: Running task 1470 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_fetch)
-NOTE: Running task 1480 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_fetch)
-NOTE: Running task 1481 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_fetch)
-NOTE: Running task 1482 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_fetch)
-NOTE: Running task 1483 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_fetch)
-NOTE: Running task 1484 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_fetch)
-NOTE: Running task 1485 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_fetch)
-NOTE: recipe curl-7.85.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe lua-5.4.4-r0: task do_fetch: Started
-NOTE: recipe lua-5.4.4-r0: task do_fetch: Succeeded
-NOTE: recipe lz4-1_1.9.4-r0: task do_fetch: Started
-NOTE: recipe curl-7.85.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe diffoscope-224-r0: task do_fetch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Started
-NOTE: Running task 1555 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_unpack)
-NOTE: recipe diffoscope-224-r0: task do_fetch: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_fetch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_fetch: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_fetch: Succeeded
-NOTE: Running task 1556 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_unpack)
-NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Started
-NOTE: Running task 1557 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_unpack)
-NOTE: Running task 1558 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_unpack)
-NOTE: recipe vim-9.0.0614-r0: task do_fetch: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_fetch: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_fetch: Started
-NOTE: recipe binutils-2.39-r0: task do_fetch: Succeeded
-NOTE: Running task 1559 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_unpack)
-NOTE: recipe python3-magic-0.4.27-r0: task do_fetch: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_fetch: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1560 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_unpack)
-NOTE: Running task 1561 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_unpack)
-NOTE: Running task 1562 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_unpack)
-NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_unpack: Started
-NOTE: Running task 1563 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_unpack)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/curl/7.85.0-r0/temp/log.do_packagedata_setscene.1780631
-NOTE: recipe diffoscope-224-r0: task do_unpack: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Started
-NOTE: Running task 1564 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_unpack)
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 730 of 733 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_package_setscene)
-NOTE: recipe vim-9.0.0614-r0: task do_fetch: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_unpack: Started
-NOTE: recipe curl-7.85.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1565 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_unpack)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_unpack: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_unpack: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_unpack: Started
-NOTE: recipe binutils-2.39-r0: task do_unpack: Started
-NOTE: recipe diffoscope-224-r0: task do_unpack: Succeeded
-NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_unpack: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_unpack: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_unpack: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Succeeded
-NOTE: Running task 1566 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_patch)
-NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1567 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_patch)
-NOTE: Running task 1568 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_patch)
-NOTE: Running task 1569 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_patch)
-NOTE: Running task 1570 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_patch)
-NOTE: Running task 1571 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_patch)
-NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Started
-NOTE: recipe vim-9.0.0614-r0: task do_unpack: Started
-NOTE: recipe lua-5.4.4-r0: task do_patch: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_patch: Started
-NOTE: recipe diffoscope-224-r0: task do_patch: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_unpack: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_patch: Started
-NOTE: Running task 1572 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_patch)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1573 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_patch)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_patch: Succeeded
-NOTE: Running task 1574 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-magic-0.4.27-r0: task do_patch: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_patch: Succeeded
-NOTE: recipe lz4-1_1.9.4-r0: task do_patch: Started
-NOTE: Running task 1575 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1576 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1577 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1578 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_populate_lic)
-NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_patch: Started
-NOTE: Running task 1579 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lua-5.4.4-r0: task do_patch: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_patch: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1580 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe diffoscope-224-r0: task do_populate_lic: Started
-NOTE: Running task 1581 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_patch: Succeeded
-NOTE: recipe lz4-1_1.9.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1582 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_patch)
-NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1583 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_deploy_source_date_epoch)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_populate_lic: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Started
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_populate_lic unihash changed to be93776526efe4d2e97073e1067608662b693869202b634e69af5b989fb3a56b
-NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lz4-1_1.9.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_unpack: Succeeded
-NOTE: Running task 1584 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_patch)
-NOTE: recipe vim-9.0.0614-r0: task do_patch: Started
-NOTE: recipe curl-7.85.0-r0: task do_package_setscene: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Succeeded
-NOTE: Running task 1585 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vim-9.0.0614-r0: task do_patch: Succeeded
-NOTE: Running task 1586 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vim-9.0.0614-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_unpack: Succeeded
-NOTE: Running task 1587 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_patch)
-NOTE: recipe curl-7.85.0-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 731 of 733 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.36.bb:do_packagedata_setscene)
-NOTE: recipe binutils-2.39-r0: task do_patch: Started
-NOTE: recipe glibc-2.36-r0: task do_packagedata_setscene: Started
-NOTE: recipe glibc-2.36-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1965 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_configure_ptest_base)
-NOTE: Running task 2125 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.8.bb:do_compile)
-NOTE: Running task 2130 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_compile)
-NOTE: Running task 2187 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2278 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_packagedata)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_configure_ptest_base: Started
-NOTE: Running task 2338 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2339 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gnutls-3.7.8-r0: task do_compile: Started
-NOTE: Running task 2340 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2349 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2393 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2394 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: recipe libarchive-3.6.1-r0: task do_compile: Started
-NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe curl-7.85.0-r0: task do_packagedata: Started
-NOTE: Running task 2432 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile)
-NOTE: recipe lz4-1_1.9.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe diffoscope-224-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_compile: Started
-NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe lz4-1_1.9.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2433 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure)
-NOTE: Running task 2434 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_configure)
-NOTE: recipe binutils-2.39-r0: task do_patch: Succeeded
-NOTE: Running task 2435 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_deploy_source_date_epoch)
-NOTE: recipe lua-5.4.4-r0: task do_configure: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_configure: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe curl-7.85.0-r0: task do_packagedata: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2436 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_configure)
-NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_configure: Succeeded
-NOTE: recipe lz4-1_1.9.4-r0: task do_configure: Succeeded
-NOTE: Running task 2437 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_configure)
-NOTE: Running task 2438 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure_ptest_base)
-NOTE: recipe python3-magic-0.4.27-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2439 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_compile)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2440 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_configure)
-NOTE: Running task 2441 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_configure)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Started
-NOTE: Running task 2442 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_configure)
-NOTE: recipe diffoscope-224-r0: task do_configure: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Started
-NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_compile: Started
-NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_configure: Succeeded
-NOTE: Running task 2443 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
-NOTE: Running task 2444 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_compile)
-NOTE: recipe binutils-2.39-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_configure: Started
-NOTE: recipe diffoscope-224-r0: task do_compile: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_configure: Started
-NOTE: recipe lua-5.4.4-r0: task do_compile: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_configure: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_configure: Succeeded
-NOTE: Running task 2445 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_compile)
-NOTE: Running task 2446 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_compile)
-NOTE: recipe python3-magic-0.4.27-r0: task do_compile: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_compile: Started
-NOTE: recipe diffoscope-224-r0: task do_compile: Succeeded
-NOTE: Running task 2447 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_install)
-NOTE: recipe diffoscope-224-r0: task do_install: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_compile: Succeeded
-NOTE: Running task 2448 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_install)
-NOTE: recipe python3-magic-0.4.27-r0: task do_compile: Succeeded
-NOTE: Running task 2449 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_install)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_install: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_install: Started
-NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
-NOTE: Running task 2450 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
-NOTE: recipe libarchive-3.6.1-r0: task do_compile: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
-NOTE: Running task 2451 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_install)
-NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_install: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_install: Succeeded
-NOTE: Running task 2452 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
-NOTE: recipe python3-magic-0.4.27-r0: task do_install: Succeeded
-NOTE: Running task 2453 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_package)
-NOTE: Running task 2454 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_package)
-NOTE: recipe libarchive-3.6.1-r0: task do_install: Started
-NOTE: Running task 2455 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_package)
-NOTE: Running task 2456 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_populate_sysroot)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_package: Started
-NOTE: recipe lua-5.4.4-r0: task do_install: Started
-NOTE: recipe diffoscope-224-r0: task do_package: Started
-NOTE: recipe diffoscope-224-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_package: Started
-NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
-NOTE: Running task 2457 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
-NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_install: Succeeded
-NOTE: Running task 2458 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_populate_sysroot)
-NOTE: Running task 2459 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_package)
-NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2460 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
-NOTE: Running task 2461 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
-NOTE: recipe libarchive-3.6.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_package: Started
-NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
-NOTE: recipe lua-5.4.4-r0: task do_package: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Succeeded
-NOTE: Running task 2462 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_compile)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_package: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_package: Succeeded
-NOTE: Running task 2463 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_packagedata)
-NOTE: Running task 2464 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_packagedata)
-NOTE: recipe python3-magic-0.4.27-r0: task do_packagedata: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_packagedata: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Succeeded
-NOTE: Running task 2465 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_install)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_packagedata: Succeeded
-NOTE: Running task 2466 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_package_write_rpm)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-224-r0: task do_package: Succeeded
-NOTE: Running task 2467 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_packagedata)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Succeeded
-NOTE: Running task 2468 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_package)
-NOTE: Running task 2469 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_populate_sysroot)
-NOTE: recipe diffoscope-224-r0: task do_packagedata: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Started
-NOTE: recipe diffoscope-224-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libarchive-3.6.1-r0: task do_package: Succeeded
-NOTE: Running task 2470 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_packagedata)
-NOTE: recipe libarchive-3.6.1-r0: task do_packagedata: Started
-NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
-NOTE: Running task 2471 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
-NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2472 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_package_write_rpm)
-NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Succeeded
-NOTE: Running task 2473 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_packagedata)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_compile: Succeeded
-NOTE: Running task 2474 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile_ptest_base)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Succeeded
-NOTE: Running task 2475 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_install)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_install: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_install: Succeeded
-NOTE: Running task 2476 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_install_ptest_base)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_install_ptest_base: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2477 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_populate_sysroot)
-NOTE: Running task 2478 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_package)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_package: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Succeeded
-NOTE: Running task 2479 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_compile)
-NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_compile: Succeeded
-NOTE: Running task 2480 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_install)
-NOTE: recipe lz4-1_1.9.4-r0: task do_install: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_install: Succeeded
-NOTE: Running task 2481 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_package)
-NOTE: Running task 2482 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_populate_sysroot)
-NOTE: recipe lz4-1_1.9.4-r0: task do_populate_sysroot: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_package: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2483 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Succeeded
-NOTE: Running task 2484 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_install)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_install: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2485 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_configure)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_configure: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_package: Succeeded
-NOTE: Running task 2486 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_packagedata)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_configure: Succeeded
-NOTE: Running task 2487 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_compile)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_packagedata: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_compile: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_install: Succeeded
-NOTE: recipe libgcrypt-1.10.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2488 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package)
-NOTE: Running task 2489 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_populate_sysroot)
-NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_package: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_package: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2490 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_packagedata)
-NOTE: Running task 2491 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lz4-1_1.9.4-r0: task do_packagedata: Started
-NOTE: recipe vim-9.0.0614-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_packagedata: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2492 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_configure)
-NOTE: recipe vim-9.0.0614-r0: task do_configure: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_compile: Succeeded
-NOTE: Running task 2493 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_install)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_install: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_install: Succeeded
-NOTE: Running task 2494 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_package: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_package: Succeeded
-NOTE: Running task 2495 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_packagedata)
-NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_package: Succeeded
-NOTE: Running task 2496 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_packagedata)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_packagedata: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2497 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package_write_rpm)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_package_write_rpm: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_configure: Succeeded
-NOTE: Running task 2498 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_compile)
-NOTE: recipe vim-9.0.0614-r0: task do_compile: Started
-NOTE: recipe vim-9.0.0614-r0: task do_compile: Succeeded
-NOTE: Running task 2499 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_install)
-NOTE: recipe vim-9.0.0614-r0: task do_install: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_compile: Succeeded
-NOTE: Running task 2500 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.8.bb:do_install)
-NOTE: recipe gnutls-3.7.8-r0: task do_install: Started
-NOTE: recipe vim-9.0.0614-r0: task do_install: Succeeded
-NOTE: Running task 2501 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_package)
-NOTE: recipe vim-9.0.0614-r0: task do_package: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_install: Succeeded
-NOTE: Running task 2502 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.8.bb:do_populate_sysroot)
-NOTE: Running task 2503 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.8.bb:do_package)
-NOTE: recipe gnutls-3.7.8-r0: task do_populate_sysroot: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_package: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2504 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2505 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_configure)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_configure: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_package: Succeeded
-NOTE: Running task 2506 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.8.bb:do_packagedata)
-NOTE: recipe gnutls-3.7.8-r0: task do_packagedata: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_packagedata: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_package: Succeeded
-NOTE: Running task 2507 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_packagedata)
-NOTE: recipe vim-9.0.0614-r0: task do_packagedata: Started
-NOTE: recipe vim-9.0.0614-r0: task do_packagedata: Succeeded
-NOTE: Running task 2508 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_package_write_rpm)
-NOTE: recipe vim-9.0.0614-r0: task do_package_write_rpm: Started
-NOTE: recipe vim-9.0.0614-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_configure: Succeeded
-NOTE: Running task 2509 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_compile)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_compile: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_compile: Succeeded
-NOTE: Running task 2510 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_install)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_install: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_install: Succeeded
-NOTE: Running task 2511 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_populate_sysroot)
-NOTE: Running task 2512 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_package)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_populate_sysroot: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_package: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2513 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_prepare_recipe_sysroot)
-NOTE: recipe elfutils-0.187-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe elfutils-0.187-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2514 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_configure)
-NOTE: recipe elfutils-0.187-r0: task do_configure: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_package: Succeeded
-NOTE: Running task 2515 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_packagedata)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_packagedata: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_packagedata: Succeeded
-NOTE: recipe elfutils-0.187-r0: task do_configure: Succeeded
-NOTE: Running task 2516 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_configure_ptest_base)
-NOTE: recipe elfutils-0.187-r0: task do_configure_ptest_base: Started
-NOTE: recipe elfutils-0.187-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2517 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_compile)
-NOTE: recipe elfutils-0.187-r0: task do_compile: Started
-NOTE: recipe elfutils-0.187-r0: task do_compile: Succeeded
-NOTE: Running task 2518 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_compile_ptest_base)
-NOTE: recipe elfutils-0.187-r0: task do_compile_ptest_base: Started
-NOTE: recipe elfutils-0.187-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2519 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_install)
-NOTE: recipe elfutils-0.187-r0: task do_install: Started
-NOTE: recipe elfutils-0.187-r0: task do_install: Succeeded
-NOTE: Running task 2520 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_install_ptest_base)
-NOTE: recipe elfutils-0.187-r0: task do_install_ptest_base: Started
-NOTE: recipe elfutils-0.187-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2521 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_package)
-NOTE: Running task 2522 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_populate_sysroot)
-NOTE: recipe elfutils-0.187-r0: task do_package: Started
-NOTE: recipe elfutils-0.187-r0: task do_populate_sysroot: Started
-NOTE: recipe elfutils-0.187-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2523 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2524 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe binutils-2.39-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe binutils-2.39-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2525 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_configure)
-NOTE: recipe binutils-2.39-r0: task do_configure: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2526 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_configure)
-NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Started
-NOTE: recipe binutils-2.39-r0: task do_configure: Succeeded
-NOTE: Running task 2527 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_compile)
-NOTE: recipe binutils-2.39-r0: task do_compile: Started
-NOTE: recipe elfutils-0.187-r0: task do_package: Succeeded
-NOTE: Running task 2528 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_packagedata)
-NOTE: recipe elfutils-0.187-r0: task do_packagedata: Started
-NOTE: recipe elfutils-0.187-r0: task do_packagedata: Succeeded
-NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Succeeded
-NOTE: Running task 2529 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_compile)
-NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Succeeded
-NOTE: Running task 2530 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_install)
-NOTE: recipe rpm-1_4.18.0-r0: task do_install: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_install: Succeeded
-NOTE: Running task 2531 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_package)
-NOTE: recipe rpm-1_4.18.0-r0: task do_package: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_package: Succeeded
-NOTE: Running task 2532 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_packagedata)
-NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2533 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_package_write_rpm)
-NOTE: recipe rpm-1_4.18.0-r0: task do_package_write_rpm: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_compile: Succeeded
-NOTE: Running task 2534 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_install)
-NOTE: recipe binutils-2.39-r0: task do_install: Started
-NOTE: recipe binutils-2.39-r0: task do_install: Succeeded
-NOTE: Running task 2535 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_package)
-NOTE: recipe binutils-2.39-r0: task do_package: Started
-NOTE: recipe binutils-2.39-r0: task do_package: Succeeded
-NOTE: Running task 2536 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_packagedata)
-NOTE: recipe binutils-2.39-r0: task do_packagedata: Started
-NOTE: recipe binutils-2.39-r0: task do_packagedata: Succeeded
-NOTE: Running task 2537 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_package_write_rpm)
-NOTE: Running task 2538 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_package_write_rpm)
-NOTE: Running task 2539 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_package_qa)
-NOTE: recipe binutils-2.39-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-224-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-224-r0: task do_package_qa: Started
-NOTE: recipe diffoscope-224-r0: task do_package_qa: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 2540 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_build)
-NOTE: Tasks Summary: Attempted 2540 tasks of which 2376 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 10 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-src went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-dbg went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package libcurl went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-ptest went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-staticdev went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-dev went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-doc went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-locale went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============2496776198444609166==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
-
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 886 .bb files complete (0 cached, 886 parsed). 1665 targets, 49 skipped, 0 masked, 0 errors.
-Removing 117 recipes from the core2-32 sysroot...done.
-Removing 123 recipes from the qemux86 sysroot...done.
-
-Summary: There was 1 WARNING message.
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: Nothing PROVIDES 'diffoscope'
-diffoscope was skipped: incompatible with host i686-poky-linux-musl (not in COMPATIBLE_HOST)
-
---===============2496776198444609166==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
-
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 886 .bb files complete (0 cached, 886 parsed). 1664 targets, 63 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the mips32r2 sysroot...done.
-Removing 1 recipes from the qemumips sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "mips-poky-linux"
-MACHINE              = "qemumips"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:374176871ca6bd9ad6745c1a3e12c7b092ac2099"
-workspace            = "master:78fd269e6649000b48ef1ef3e86009bad00fa815"
-
-Initialising tasks...done.
-Sstate summary: Wanted 93 Local 30 Mirrors 0 Missed 63 Current 640 (32% match, 91% complete)
-Removing 1 stale sstate objects for arch mips32r2...done.
-Removing 1 stale sstate objects for arch qemumips...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 687 of 733 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 694 of 733 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1368 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_fetch)
-NOTE: Running task 1457 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_fetch)
-NOTE: Running task 1459 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_fetch)
-NOTE: Running task 1460 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_fetch)
-NOTE: Running task 1470 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_fetch)
-NOTE: Running task 1480 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_fetch)
-NOTE: Running task 1481 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_fetch)
-NOTE: Running task 1482 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_fetch)
-NOTE: Running task 1483 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_fetch)
-NOTE: Running task 1484 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_fetch)
-NOTE: Running task 1485 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_fetch)
-NOTE: recipe lua-5.4.4-r0: task do_fetch: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Started
-NOTE: recipe curl-7.85.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe curl-7.85.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_fetch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Started
-NOTE: recipe lua-5.4.4-r0: task do_fetch: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_fetch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_fetch: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_fetch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_fetch: Started
-NOTE: Running task 1555 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_unpack)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_fetch: Started
-NOTE: Running task 1556 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_unpack)
-NOTE: Running task 1557 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_unpack)
-NOTE: recipe python3-magic-0.4.27-r0: task do_fetch: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_fetch: Started
-NOTE: Running task 1558 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_unpack)
-NOTE: recipe lz4-1_1.9.4-r0: task do_fetch: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_fetch: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_fetch: Started
-NOTE: Running task 1559 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_unpack)
-NOTE: Running task 1560 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_unpack)
-NOTE: Running task 1561 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_unpack)
-NOTE: recipe vim-9.0.0614-r0: task do_fetch: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_fetch: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_fetch: Succeeded
-NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_unpack: Started
-NOTE: Running task 1562 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_unpack)
-NOTE: Running task 1563 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_unpack)
-NOTE: Running task 1564 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_unpack)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Started
-NOTE: recipe diffoscope-224-r0: task do_unpack: Started
-NOTE: recipe curl-7.85.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_unpack: Started
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/curl/7.85.0-r0/temp/log.do_packagedata_setscene.2045848
-NOTE: Running task 1565 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_unpack)
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_unpack: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_unpack: Started
-NOTE: Running setscene task 730 of 733 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_package_setscene)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_unpack: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_unpack: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_unpack: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_unpack: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_unpack: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Started
-NOTE: recipe diffoscope-224-r0: task do_unpack: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_unpack: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1566 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_patch)
-NOTE: Running task 1567 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_patch)
-NOTE: Running task 1568 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_patch)
-NOTE: Running task 1569 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_patch)
-NOTE: Running task 1570 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_patch)
-NOTE: Running task 1571 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_patch)
-NOTE: recipe lua-5.4.4-r0: task do_patch: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Started
-NOTE: recipe diffoscope-224-r0: task do_patch: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_patch: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_patch: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_unpack: Succeeded
-NOTE: Running task 1572 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_patch)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_patch: Succeeded
-NOTE: Running task 1573 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_deploy_source_date_epoch)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_unpack: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_patch: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_patch: Succeeded
-NOTE: Running task 1574 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1575 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_populate_lic)
-NOTE: Running task 1576 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_patch)
-NOTE: Running task 1577 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1578 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe lz4-1_1.9.4-r0: task do_patch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1579 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe diffoscope-224-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lua-5.4.4-r0: task do_patch: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_populate_lic: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_patch: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1580 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe lz4-1_1.9.4-r0: task do_patch: Succeeded
-NOTE: Running task 1581 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_patch: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_populate_lic: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1582 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1583 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_patch)
-NOTE: recipe python3-magic-0.4.27-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_populate_lic unihash changed to be93776526efe4d2e97073e1067608662b693869202b634e69af5b989fb3a56b
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Started
-NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lz4-1_1.9.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_unpack: Succeeded
-NOTE: Running task 1584 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_patch)
-NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_patch: Started
-NOTE: recipe curl-7.85.0-r0: task do_package_setscene: Started
-NOTE: Running task 1585 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_patch: Succeeded
-NOTE: Running task 1586 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe vim-9.0.0614-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vim-9.0.0614-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe curl-7.85.0-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 731 of 733 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.36.bb:do_packagedata_setscene)
-NOTE: recipe glibc-2.36-r0: task do_packagedata_setscene: Started
-NOTE: recipe glibc-2.36-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe binutils-2.39-r0: task do_unpack: Succeeded
-NOTE: Running task 1962 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_configure_ptest_base)
-NOTE: Running task 2124 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.8.bb:do_compile)
-NOTE: Running task 2129 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_compile)
-NOTE: Running task 2184 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_configure_ptest_base: Started
-NOTE: Running task 2275 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_packagedata)
-NOTE: Running task 2310 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.45.bb:do_packagedata)
-NOTE: Running task 2337 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2339 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2340 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gnutls-3.7.8-r0: task do_compile: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_compile: Started
-NOTE: Running task 2346 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_patch)
-NOTE: Running task 2349 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2393 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2394 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile)
-NOTE: Running task 2395 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe curl-7.85.0-r0: task do_packagedata: Started
-NOTE: recipe libgpg-error-1.45-r0: task do_packagedata: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe diffoscope-224-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe binutils-2.39-r0: task do_patch: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_compile: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2433 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure)
-NOTE: recipe lz4-1_1.9.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2434 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_configure)
-NOTE: recipe lua-5.4.4-r0: task do_configure: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_configure: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2435 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_configure)
-NOTE: recipe lz4-1_1.9.4-r0: task do_configure: Succeeded
-NOTE: Running task 2436 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_configure)
-NOTE: recipe curl-7.85.0-r0: task do_packagedata: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_configure: Succeeded
-NOTE: Running task 2437 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_compile)
-NOTE: Running task 2438 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure_ptest_base)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Started
-NOTE: recipe diffoscope-224-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_compile: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2439 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_configure)
-NOTE: Running task 2440 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_configure)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Started
-NOTE: Running task 2441 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_configure)
-NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_configure: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_configure: Started
-NOTE: Running task 2442 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
-NOTE: recipe libgpg-error-1.45-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_configure: Started
-NOTE: recipe diffoscope-224-r0: task do_configure: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_configure: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_compile: Started
-NOTE: Running task 2443 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_compile)
-NOTE: Running task 2444 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_compile)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_configure: Succeeded
-NOTE: Running task 2445 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_compile)
-NOTE: recipe python3-magic-0.4.27-r0: task do_compile: Started
-NOTE: recipe diffoscope-224-r0: task do_compile: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_compile: Started
-NOTE: recipe binutils-2.39-r0: task do_patch: Succeeded
-NOTE: Running task 2446 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_deploy_source_date_epoch)
-NOTE: recipe binutils-2.39-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_compile: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2447 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_install)
-NOTE: recipe diffoscope-224-r0: task do_compile: Succeeded
-NOTE: Running task 2448 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_install)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_compile: Succeeded
-NOTE: Running task 2449 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_install)
-NOTE: recipe python3-magic-0.4.27-r0: task do_install: Started
-NOTE: recipe diffoscope-224-r0: task do_install: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_install: Started
-NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
-NOTE: Running task 2450 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
-NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_install: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2451 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_package)
-NOTE: Running task 2452 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
-NOTE: recipe libarchive-3.6.1-r0: task do_compile: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_install: Succeeded
-NOTE: Running task 2453 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_install)
-NOTE: recipe python3-magic-0.4.27-r0: task do_package: Started
-NOTE: Running task 2454 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_package)
-NOTE: recipe lua-5.4.4-r0: task do_install: Started
-NOTE: recipe diffoscope-224-r0: task do_install: Succeeded
-NOTE: recipe libarchive-3.6.1-r0: task do_install: Started
-NOTE: Running task 2455 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_package)
-NOTE: Running task 2456 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_populate_sysroot)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_package: Started
-NOTE: recipe diffoscope-224-r0: task do_populate_sysroot: Started
-NOTE: recipe diffoscope-224-r0: task do_package: Started
-NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
-NOTE: Running task 2457 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
-NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
-NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe libarchive-3.6.1-r0: task do_install: Succeeded
-NOTE: Running task 2458 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
-NOTE: Running task 2459 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
-NOTE: Running task 2460 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_populate_sysroot)
-NOTE: Running task 2461 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_package)
-NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
-NOTE: recipe lua-5.4.4-r0: task do_package: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_populate_sysroot: Started
-NOTE: recipe diffoscope-224-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libarchive-3.6.1-r0: task do_package: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Succeeded
-NOTE: Running task 2462 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_compile)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_package: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2463 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_packagedata)
-NOTE: recipe libarchive-3.6.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_packagedata: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_package: Succeeded
-NOTE: Running task 2464 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_packagedata)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_packagedata: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Succeeded
-NOTE: Running task 2465 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_install)
-NOTE: recipe python3-magic-0.4.27-r0: task do_packagedata: Succeeded
-NOTE: Running task 2466 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_package_write_rpm)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_packagedata: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_package: Succeeded
-NOTE: Running task 2467 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_packagedata)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_packagedata: Started
-NOTE: Running task 2468 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_package)
-NOTE: Running task 2469 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_populate_sysroot)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_packagedata: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
-NOTE: Running task 2470 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
-NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_package: Succeeded
-NOTE: Running task 2471 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_packagedata)
-NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
-NOTE: recipe libarchive-3.6.1-r0: task do_packagedata: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2472 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_package_write_rpm)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_package_write_rpm: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Succeeded
-NOTE: Running task 2473 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_packagedata)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Succeeded
-NOTE: recipe libgcrypt-1.10.1-r0: task do_compile: Succeeded
-NOTE: Running task 2474 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile_ptest_base)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2475 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_install)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_install: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_install: Succeeded
-NOTE: Running task 2476 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_install_ptest_base)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_install_ptest_base: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_compile: Succeeded
-NOTE: Running task 2477 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_install)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2478 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_populate_sysroot)
-NOTE: recipe lz4-1_1.9.4-r0: task do_install: Started
-NOTE: Running task 2479 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_package)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_package: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_install: Succeeded
-NOTE: Running task 2480 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_package)
-NOTE: Running task 2481 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_populate_sysroot)
-NOTE: recipe lz4-1_1.9.4-r0: task do_populate_sysroot: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_package: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe lz4-1_1.9.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2482 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2483 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_configure)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_configure: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_configure: Succeeded
-NOTE: Running task 2484 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_compile)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_compile: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_package: Succeeded
-NOTE: Running task 2485 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_packagedata)
-NOTE: recipe lz4-1_1.9.4-r0: task do_packagedata: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Succeeded
-NOTE: Running task 2486 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_compile)
-NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_packagedata: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Succeeded
-NOTE: Running task 2487 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_install)
-NOTE: recipe libxt-1_1.2.1-r0: task do_install: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_compile: Succeeded
-NOTE: Running task 2488 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_install)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_install: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_install: Succeeded
-NOTE: recipe libgcrypt-1.10.1-r0: task do_package: Succeeded
-NOTE: Running task 2489 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package)
-NOTE: Running task 2490 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_packagedata)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_package: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_install: Succeeded
-NOTE: recipe libgcrypt-1.10.1-r0: task do_packagedata: Started
-NOTE: Running task 2491 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package)
-NOTE: Running task 2492 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_populate_sysroot)
-NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_package: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_packagedata: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2493 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vim-9.0.0614-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_package: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2494 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_configure)
-NOTE: Running task 2495 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_packagedata)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_packagedata: Started
-NOTE: recipe vim-9.0.0614-r0: task do_configure: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2496 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package_write_rpm)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_package_write_rpm: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_package: Succeeded
-NOTE: Running task 2497 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_packagedata)
-NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_configure: Succeeded
-NOTE: Running task 2498 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_compile)
-NOTE: recipe vim-9.0.0614-r0: task do_compile: Started
-NOTE: recipe vim-9.0.0614-r0: task do_compile: Succeeded
-NOTE: Running task 2499 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_install)
-NOTE: recipe vim-9.0.0614-r0: task do_install: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_compile: Succeeded
-NOTE: Running task 2500 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.8.bb:do_install)
-NOTE: recipe vim-9.0.0614-r0: task do_install: Succeeded
-NOTE: Running task 2501 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_package)
-NOTE: recipe gnutls-3.7.8-r0: task do_install: Started
-NOTE: recipe vim-9.0.0614-r0: task do_package: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_install: Succeeded
-NOTE: Running task 2502 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.8.bb:do_populate_sysroot)
-NOTE: Running task 2503 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.8.bb:do_package)
-NOTE: recipe gnutls-3.7.8-r0: task do_populate_sysroot: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_package: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2504 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2505 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_configure)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_configure: Started
-NOTE: recipe vim-9.0.0614-r0: task do_package: Succeeded
-NOTE: Running task 2506 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_packagedata)
-NOTE: recipe vim-9.0.0614-r0: task do_packagedata: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_package: Succeeded
-NOTE: Running task 2507 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.8.bb:do_packagedata)
-NOTE: recipe gnutls-3.7.8-r0: task do_packagedata: Started
-NOTE: recipe vim-9.0.0614-r0: task do_packagedata: Succeeded
-NOTE: Running task 2508 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_package_write_rpm)
-NOTE: recipe vim-9.0.0614-r0: task do_package_write_rpm: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_packagedata: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_configure: Succeeded
-NOTE: Running task 2509 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_compile)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_compile: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_compile: Succeeded
-NOTE: Running task 2510 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_install)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_install: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_install: Succeeded
-NOTE: Running task 2511 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_populate_sysroot)
-NOTE: Running task 2512 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_package)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_populate_sysroot: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_package: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2513 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_prepare_recipe_sysroot)
-NOTE: recipe elfutils-0.187-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe elfutils-0.187-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2514 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_configure)
-NOTE: recipe elfutils-0.187-r0: task do_configure: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_package: Succeeded
-NOTE: Running task 2515 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_packagedata)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_packagedata: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_packagedata: Succeeded
-NOTE: recipe elfutils-0.187-r0: task do_configure: Succeeded
-NOTE: Running task 2516 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_configure_ptest_base)
-NOTE: recipe elfutils-0.187-r0: task do_configure_ptest_base: Started
-NOTE: recipe elfutils-0.187-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2517 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_compile)
-NOTE: recipe elfutils-0.187-r0: task do_compile: Started
-NOTE: recipe elfutils-0.187-r0: task do_compile: Succeeded
-NOTE: Running task 2518 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_compile_ptest_base)
-NOTE: recipe elfutils-0.187-r0: task do_compile_ptest_base: Started
-NOTE: recipe elfutils-0.187-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2519 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_install)
-NOTE: recipe elfutils-0.187-r0: task do_install: Started
-NOTE: recipe elfutils-0.187-r0: task do_install: Succeeded
-NOTE: Running task 2520 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_install_ptest_base)
-NOTE: recipe elfutils-0.187-r0: task do_install_ptest_base: Started
-NOTE: recipe elfutils-0.187-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2521 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_package)
-NOTE: Running task 2522 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_populate_sysroot)
-NOTE: recipe elfutils-0.187-r0: task do_package: Started
-NOTE: recipe elfutils-0.187-r0: task do_populate_sysroot: Started
-NOTE: recipe elfutils-0.187-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2523 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2524 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_prepare_recipe_sysroot)
-NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe binutils-2.39-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe binutils-2.39-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2525 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_configure)
-NOTE: recipe binutils-2.39-r0: task do_configure: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2526 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_configure)
-NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Started
-NOTE: recipe binutils-2.39-r0: task do_configure: Succeeded
-NOTE: Running task 2527 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_compile)
-NOTE: recipe binutils-2.39-r0: task do_compile: Started
-NOTE: recipe elfutils-0.187-r0: task do_package: Succeeded
-NOTE: Running task 2528 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_packagedata)
-NOTE: recipe elfutils-0.187-r0: task do_packagedata: Started
-NOTE: recipe elfutils-0.187-r0: task do_packagedata: Succeeded
-NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Succeeded
-NOTE: Running task 2529 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_compile)
-NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Succeeded
-NOTE: Running task 2530 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_install)
-NOTE: recipe rpm-1_4.18.0-r0: task do_install: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_install: Succeeded
-NOTE: Running task 2531 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_package)
-NOTE: recipe rpm-1_4.18.0-r0: task do_package: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_package: Succeeded
-NOTE: Running task 2532 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_packagedata)
-NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2533 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_package_write_rpm)
-NOTE: recipe rpm-1_4.18.0-r0: task do_package_write_rpm: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_compile: Succeeded
-NOTE: Running task 2534 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_install)
-NOTE: recipe binutils-2.39-r0: task do_install: Started
-NOTE: recipe binutils-2.39-r0: task do_install: Succeeded
-NOTE: Running task 2535 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_package)
-NOTE: recipe binutils-2.39-r0: task do_package: Started
-NOTE: recipe binutils-2.39-r0: task do_package: Succeeded
-NOTE: Running task 2536 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_packagedata)
-NOTE: recipe binutils-2.39-r0: task do_packagedata: Started
-NOTE: recipe binutils-2.39-r0: task do_packagedata: Succeeded
-NOTE: Running task 2537 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_package_write_rpm)
-NOTE: Running task 2538 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_package_write_rpm)
-NOTE: Running task 2539 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_package_qa)
-NOTE: recipe binutils-2.39-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-224-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-224-r0: task do_package_qa: Started
-NOTE: recipe diffoscope-224-r0: task do_package_qa: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 2540 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_build)
-NOTE: Tasks Summary: Attempted 2540 tasks of which 2375 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 10 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-src went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-dbg went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package libcurl went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-ptest went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-staticdev went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-dev went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-doc went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-locale went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============2496776198444609166==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
-
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 886 .bb files complete (0 cached, 886 parsed). 1664 targets, 70 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the ppc7400 sysroot...done.
-Removing 1 recipes from the qemuppc sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "powerpc-poky-linux"
-MACHINE              = "qemuppc"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:374176871ca6bd9ad6745c1a3e12c7b092ac2099"
-workspace            = "master:78fd269e6649000b48ef1ef3e86009bad00fa815"
-
-Initialising tasks...done.
-Sstate summary: Wanted 93 Local 30 Mirrors 0 Missed 63 Current 640 (32% match, 91% complete)
-Removing 1 stale sstate objects for arch ppc7400...done.
-Removing 1 stale sstate objects for arch qemuppc...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 687 of 733 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 694 of 733 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1370 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_fetch)
-NOTE: Running task 1457 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_fetch)
-NOTE: Running task 1459 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_fetch)
-NOTE: Running task 1460 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_fetch)
-NOTE: Running task 1470 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_fetch)
-NOTE: Running task 1480 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_fetch)
-NOTE: Running task 1481 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_fetch)
-NOTE: Running task 1482 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_fetch)
-NOTE: Running task 1483 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_fetch)
-NOTE: Running task 1484 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_fetch)
-NOTE: Running task 1485 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_fetch)
-NOTE: recipe lua-5.4.4-r0: task do_fetch: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_fetch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Started
-NOTE: recipe curl-7.85.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe curl-7.85.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe diffoscope-224-r0: task do_fetch: Started
-NOTE: recipe lua-5.4.4-r0: task do_fetch: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_fetch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_fetch: Started
-NOTE: recipe diffoscope-224-r0: task do_fetch: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_fetch: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_fetch: Started
-NOTE: Running task 1555 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_unpack)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_fetch: Started
-NOTE: Running task 1556 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_unpack)
-NOTE: Running task 1557 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_unpack)
-NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1558 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_unpack)
-NOTE: Running task 1559 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_unpack)
-NOTE: recipe binutils-2.39-r0: task do_fetch: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_fetch: Succeeded
-NOTE: Running task 1560 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_unpack)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_fetch: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_fetch: Succeeded
-NOTE: Running task 1561 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_unpack)
-NOTE: recipe vim-9.0.0614-r0: task do_fetch: Succeeded
-NOTE: Running task 1562 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_unpack)
-NOTE: recipe lua-5.4.4-r0: task do_unpack: Started
-NOTE: Running task 1563 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_unpack)
-NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1564 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_unpack)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Started
-NOTE: Running task 1565 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_unpack)
-NOTE: recipe diffoscope-224-r0: task do_unpack: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_unpack: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_unpack: Started
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/curl/7.85.0-r0/temp/log.do_packagedata_setscene.2213016
-NOTE: recipe lz4-1_1.9.4-r0: task do_unpack: Started
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 730 of 733 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_package_setscene)
-NOTE: recipe curl-7.85.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_unpack: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_unpack: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_unpack: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_unpack: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_unpack: Started
-NOTE: Running task 1566 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_patch)
-NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_unpack: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_unpack: Succeeded
-NOTE: Running task 1567 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_patch)
-NOTE: Running task 1568 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_patch)
-NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1569 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_patch)
-NOTE: Running task 1570 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_patch)
-NOTE: Running task 1571 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_patch)
-NOTE: recipe python3-magic-0.4.27-r0: task do_patch: Started
-NOTE: recipe lua-5.4.4-r0: task do_patch: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Started
-NOTE: recipe diffoscope-224-r0: task do_patch: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_patch: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_unpack: Succeeded
-NOTE: Running task 1572 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_patch)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1573 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-magic-0.4.27-r0: task do_patch: Succeeded
-NOTE: Running task 1574 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_patch)
-NOTE: Running task 1575 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_deploy_source_date_epoch)
-NOTE: recipe diffoscope-224-r0: task do_patch: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_patch: Succeeded
-NOTE: recipe lz4-1_1.9.4-r0: task do_patch: Started
-NOTE: Running task 1576 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1577 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1578 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_populate_lic)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_patch: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_patch: Succeeded
-NOTE: Running task 1579 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe lz4-1_1.9.4-r0: task do_patch: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe diffoscope-224-r0: task do_populate_lic: Started
-NOTE: Running task 1580 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1581 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_patch: Succeeded
-NOTE: Running task 1582 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_patch)
-NOTE: Running task 1583 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_deploy_source_date_epoch)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_populate_lic: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Started
-NOTE: recipe diffoscope-224-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_populate_lic unihash changed to be93776526efe4d2e97073e1067608662b693869202b634e69af5b989fb3a56b
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lz4-1_1.9.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_unpack: Succeeded
-NOTE: Running task 1584 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_patch)
-NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Succeeded
-NOTE: Running task 1585 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe curl-7.85.0-r0: task do_package_setscene: Started
-NOTE: recipe vim-9.0.0614-r0: task do_patch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_patch: Succeeded
-NOTE: Running task 1586 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe vim-9.0.0614-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vim-9.0.0614-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe curl-7.85.0-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 731 of 733 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.36.bb:do_packagedata_setscene)
-NOTE: recipe glibc-2.36-r0: task do_packagedata_setscene: Started
-NOTE: recipe glibc-2.36-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1964 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_configure_ptest_base)
-NOTE: recipe binutils-2.39-r0: task do_unpack: Succeeded
-NOTE: Running task 2124 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.8.bb:do_compile)
-NOTE: Running task 2129 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_compile)
-NOTE: Running task 2186 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_configure_ptest_base: Started
-NOTE: Running task 2277 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_packagedata)
-NOTE: Running task 2312 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.45.bb:do_packagedata)
-NOTE: Running task 2337 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gnutls-3.7.8-r0: task do_compile: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_compile: Started
-NOTE: Running task 2339 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2340 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2346 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_patch)
-NOTE: Running task 2349 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2350 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile)
-NOTE: Running task 2394 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_prepare_recipe_sysroot)
-NOTE: recipe curl-7.85.0-r0: task do_packagedata: Started
-NOTE: Running task 2395 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libgpg-error-1.45-r0: task do_packagedata: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe diffoscope-224-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe binutils-2.39-r0: task do_patch: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_compile: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2433 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure)
-NOTE: recipe lz4-1_1.9.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_configure: Started
-NOTE: Running task 2434 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_configure)
-NOTE: recipe lz4-1_1.9.4-r0: task do_configure: Started
-NOTE: recipe lua-5.4.4-r0: task do_configure: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2435 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure_ptest_base)
-NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2436 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_configure)
-NOTE: recipe lz4-1_1.9.4-r0: task do_configure: Succeeded
-NOTE: Running task 2437 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_configure)
-NOTE: Running task 2438 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_compile)
-NOTE: recipe curl-7.85.0-r0: task do_packagedata: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Started
-NOTE: recipe diffoscope-224-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_compile: Started
-NOTE: Running task 2439 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_configure)
-NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2440 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
-NOTE: recipe libgpg-error-1.45-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2441 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_configure)
-NOTE: Running task 2442 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_configure)
-NOTE: recipe diffoscope-224-r0: task do_configure: Started
-NOTE: recipe lua-5.4.4-r0: task do_compile: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_configure: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_configure: Started
-NOTE: recipe diffoscope-224-r0: task do_configure: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_configure: Succeeded
-NOTE: Running task 2443 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_compile)
-NOTE: Running task 2444 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_compile)
-NOTE: recipe python3-magic-0.4.27-r0: task do_configure: Succeeded
-NOTE: Running task 2445 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_compile)
-NOTE: recipe diffoscope-224-r0: task do_compile: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_compile: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_compile: Started
-NOTE: recipe binutils-2.39-r0: task do_patch: Succeeded
-NOTE: Running task 2446 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_compile: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_compile: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2447 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_install)
-NOTE: recipe diffoscope-224-r0: task do_compile: Succeeded
-NOTE: Running task 2448 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_install)
-NOTE: Running task 2449 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_install)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_install: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_install: Started
-NOTE: recipe diffoscope-224-r0: task do_install: Started
-NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
-NOTE: Running task 2450 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
-NOTE: recipe binutils-2.39-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
-NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2451 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_install: Succeeded
-NOTE: Running task 2452 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_package)
-NOTE: recipe python3-magic-0.4.27-r0: task do_install: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_install: Started
-NOTE: Running task 2453 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_package)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_package: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_package: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_compile: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_install: Succeeded
-NOTE: Running task 2454 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_install)
-NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
-NOTE: Running task 2455 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_package)
-NOTE: Running task 2456 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_populate_sysroot)
-NOTE: Running task 2457 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
-NOTE: recipe libarchive-3.6.1-r0: task do_install: Started
-NOTE: recipe diffoscope-224-r0: task do_populate_sysroot: Started
-NOTE: recipe diffoscope-224-r0: task do_package: Started
-NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
-NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2458 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
-NOTE: Running task 2459 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
-NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
-NOTE: recipe lua-5.4.4-r0: task do_package: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Succeeded
-NOTE: recipe libarchive-3.6.1-r0: task do_install: Succeeded
-NOTE: Running task 2460 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_compile)
-NOTE: recipe diffoscope-224-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2461 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_populate_sysroot)
-NOTE: Running task 2462 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_package)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_package: Started
-NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_package: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_package: Succeeded
-NOTE: Running task 2463 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_packagedata)
-NOTE: Running task 2464 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_packagedata)
-NOTE: recipe libarchive-3.6.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_packagedata: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_packagedata: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Succeeded
-NOTE: Running task 2465 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_install)
-NOTE: recipe python3-magic-0.4.27-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_packagedata: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Started
-NOTE: Running task 2466 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_package_write_rpm)
-NOTE: recipe python3-magic-0.4.27-r0: task do_package_write_rpm: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_package: Succeeded
-NOTE: Running task 2467 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_package)
-NOTE: Running task 2468 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_populate_sysroot)
-NOTE: Running task 2469 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_packagedata)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Started
-NOTE: recipe diffoscope-224-r0: task do_packagedata: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_packagedata: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
-NOTE: Running task 2470 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
-NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
-NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
-NOTE: recipe libarchive-3.6.1-r0: task do_package: Succeeded
-NOTE: Running task 2471 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_packagedata)
-NOTE: recipe libarchive-3.6.1-r0: task do_packagedata: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2472 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_package_write_rpm)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_package_write_rpm: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Succeeded
-NOTE: Running task 2473 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_packagedata)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libgcrypt-1.10.1-r0: task do_compile: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Succeeded
-NOTE: Running task 2474 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile_ptest_base)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2475 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_install)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_install: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_install: Succeeded
-NOTE: Running task 2476 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_install_ptest_base)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_install_ptest_base: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2477 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_populate_sysroot)
-NOTE: Running task 2478 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_package)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_package: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe lz4-1_1.9.4-r0: task do_compile: Succeeded
-NOTE: Running task 2479 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_install)
-NOTE: recipe lz4-1_1.9.4-r0: task do_install: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Succeeded
-NOTE: Running task 2480 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_compile)
-NOTE: recipe lz4-1_1.9.4-r0: task do_install: Succeeded
-NOTE: Running task 2481 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_package)
-NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Started
-NOTE: Running task 2482 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_populate_sysroot)
-NOTE: recipe lz4-1_1.9.4-r0: task do_populate_sysroot: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_package: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_package: Succeeded
-NOTE: Running task 2483 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_packagedata)
-NOTE: recipe lz4-1_1.9.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2484 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_packagedata: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2485 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_configure)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_configure: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_packagedata: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_configure: Succeeded
-NOTE: Running task 2486 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_compile)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_compile: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Succeeded
-NOTE: Running task 2487 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_install)
-NOTE: recipe libxt-1_1.2.1-r0: task do_install: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_package: Succeeded
-NOTE: Running task 2488 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_packagedata)
-NOTE: recipe lz4-1_1.9.4-r0: task do_packagedata: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_install: Succeeded
-NOTE: Running task 2489 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package)
-NOTE: Running task 2490 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_populate_sysroot)
-NOTE: recipe libxt-1_1.2.1-r0: task do_package: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_packagedata: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2491 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vim-9.0.0614-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_compile: Succeeded
-NOTE: Running task 2492 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_install)
-NOTE: recipe vim-9.0.0614-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2493 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_configure)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_install: Started
-NOTE: recipe vim-9.0.0614-r0: task do_configure: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_install: Succeeded
-NOTE: Running task 2494 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_package: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_package: Succeeded
-NOTE: Running task 2495 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_packagedata)
-NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_package: Succeeded
-NOTE: Running task 2496 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_packagedata)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_packagedata: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2497 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package_write_rpm)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_package_write_rpm: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_configure: Succeeded
-NOTE: Running task 2498 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_compile)
-NOTE: recipe vim-9.0.0614-r0: task do_compile: Started
-NOTE: recipe vim-9.0.0614-r0: task do_compile: Succeeded
-NOTE: Running task 2499 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_install)
-NOTE: recipe vim-9.0.0614-r0: task do_install: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_compile: Succeeded
-NOTE: Running task 2500 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.8.bb:do_install)
-NOTE: recipe gnutls-3.7.8-r0: task do_install: Started
-NOTE: recipe vim-9.0.0614-r0: task do_install: Succeeded
-NOTE: Running task 2501 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_package)
-NOTE: recipe vim-9.0.0614-r0: task do_package: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_install: Succeeded
-NOTE: Running task 2502 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.8.bb:do_populate_sysroot)
-NOTE: Running task 2503 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.8.bb:do_package)
-NOTE: recipe gnutls-3.7.8-r0: task do_populate_sysroot: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_package: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2504 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2505 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_configure)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_configure: Started
-NOTE: recipe vim-9.0.0614-r0: task do_package: Succeeded
-NOTE: recipe gnutls-3.7.8-r0: task do_package: Succeeded
-NOTE: Running task 2506 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_packagedata)
-NOTE: Running task 2507 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.8.bb:do_packagedata)
-NOTE: recipe vim-9.0.0614-r0: task do_packagedata: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_packagedata: Started
-NOTE: recipe vim-9.0.0614-r0: task do_packagedata: Succeeded
-NOTE: Running task 2508 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_package_write_rpm)
-NOTE: recipe gnutls-3.7.8-r0: task do_packagedata: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_package_write_rpm: Started
-NOTE: recipe vim-9.0.0614-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_configure: Succeeded
-NOTE: Running task 2509 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_compile)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_compile: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_compile: Succeeded
-NOTE: Running task 2510 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_install)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_install: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_install: Succeeded
-NOTE: Running task 2511 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_populate_sysroot)
-NOTE: Running task 2512 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_package)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_populate_sysroot: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_package: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2513 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_prepare_recipe_sysroot)
-NOTE: recipe elfutils-0.187-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe elfutils-0.187-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2514 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_configure)
-NOTE: recipe elfutils-0.187-r0: task do_configure: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_package: Succeeded
-NOTE: Running task 2515 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_packagedata)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_packagedata: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_packagedata: Succeeded
-NOTE: recipe elfutils-0.187-r0: task do_configure: Succeeded
-NOTE: Running task 2516 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_configure_ptest_base)
-NOTE: recipe elfutils-0.187-r0: task do_configure_ptest_base: Started
-NOTE: recipe elfutils-0.187-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2517 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_compile)
-NOTE: recipe elfutils-0.187-r0: task do_compile: Started
-NOTE: recipe elfutils-0.187-r0: task do_compile: Succeeded
-NOTE: Running task 2518 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_compile_ptest_base)
-NOTE: recipe elfutils-0.187-r0: task do_compile_ptest_base: Started
-NOTE: recipe elfutils-0.187-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2519 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_install)
-NOTE: recipe elfutils-0.187-r0: task do_install: Started
-NOTE: recipe elfutils-0.187-r0: task do_install: Succeeded
-NOTE: Running task 2520 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_install_ptest_base)
-NOTE: recipe elfutils-0.187-r0: task do_install_ptest_base: Started
-NOTE: recipe elfutils-0.187-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2521 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_package)
-NOTE: Running task 2522 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_populate_sysroot)
-NOTE: recipe elfutils-0.187-r0: task do_package: Started
-NOTE: recipe elfutils-0.187-r0: task do_populate_sysroot: Started
-NOTE: recipe elfutils-0.187-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2523 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2524 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_prepare_recipe_sysroot)
-NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe binutils-2.39-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe binutils-2.39-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2525 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_configure)
-NOTE: recipe binutils-2.39-r0: task do_configure: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2526 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_configure)
-NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Started
-NOTE: recipe binutils-2.39-r0: task do_configure: Succeeded
-NOTE: Running task 2527 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_compile)
-NOTE: recipe binutils-2.39-r0: task do_compile: Started
-NOTE: recipe elfutils-0.187-r0: task do_package: Succeeded
-NOTE: Running task 2528 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_packagedata)
-NOTE: recipe elfutils-0.187-r0: task do_packagedata: Started
-NOTE: recipe elfutils-0.187-r0: task do_packagedata: Succeeded
-NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Succeeded
-NOTE: Running task 2529 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_compile)
-NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Succeeded
-NOTE: Running task 2530 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_install)
-NOTE: recipe rpm-1_4.18.0-r0: task do_install: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_install: Succeeded
-NOTE: Running task 2531 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_package)
-NOTE: recipe rpm-1_4.18.0-r0: task do_package: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_package: Succeeded
-NOTE: Running task 2532 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_packagedata)
-NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2533 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_package_write_rpm)
-NOTE: recipe rpm-1_4.18.0-r0: task do_package_write_rpm: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_compile: Succeeded
-NOTE: Running task 2534 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_install)
-NOTE: recipe binutils-2.39-r0: task do_install: Started
-NOTE: recipe binutils-2.39-r0: task do_install: Succeeded
-NOTE: Running task 2535 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_package)
-NOTE: recipe binutils-2.39-r0: task do_package: Started
-NOTE: recipe binutils-2.39-r0: task do_package: Succeeded
-NOTE: Running task 2536 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_packagedata)
-NOTE: recipe binutils-2.39-r0: task do_packagedata: Started
-NOTE: recipe binutils-2.39-r0: task do_packagedata: Succeeded
-NOTE: Running task 2537 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_package_write_rpm)
-NOTE: Running task 2538 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_package_write_rpm)
-NOTE: Running task 2539 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_package_qa)
-NOTE: recipe binutils-2.39-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-224-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-224-r0: task do_package_qa: Started
-NOTE: recipe diffoscope-224-r0: task do_package_qa: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 2540 of 2540 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_build)
-NOTE: Tasks Summary: Attempted 2540 tasks of which 2375 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 10 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-src went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-dbg went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package libcurl went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-ptest went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-staticdev went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-dev went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-doc went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-locale went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============2496776198444609166==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1665 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 886 .bb files complete (885 cached, 1 parsed). 1664 targets, 35 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:374176871ca6bd9ad6745c1a3e12c7b092ac2099"
-workspace            = "master:78fd269e6649000b48ef1ef3e86009bad00fa815"
-
-Initialising tasks...done.
-Sstate summary: Wanted 91 Local 28 Mirrors 0 Missed 63 Current 646 (30% match, 91% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 693 of 737 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 700 of 737 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1563 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_configure_ptest_base)
-NOTE: recipe curl-7.85.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1873 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_fetch)
-NOTE: Running task 1905 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.8.bb:do_compile)
-NOTE: recipe curl-7.85.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_configure_ptest_base: Started
-NOTE: Running task 1911 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_compile)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_fetch: Started
-NOTE: Running task 2119 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_fetch)
-NOTE: Running task 2121 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_fetch)
-NOTE: Running task 2122 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_fetch)
-NOTE: Running task 2164 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_fetch)
-NOTE: Running task 2170 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile)
-NOTE: recipe lua-5.4.4-r0: task do_fetch: Succeeded
-NOTE: recipe gnutls-3.7.8-r0: task do_compile: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_compile: Started
-NOTE: Running task 2171 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_unpack)
-NOTE: Running task 2172 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2211 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.45.bb:do_packagedata)
-NOTE: Running task 2218 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_fetch)
-NOTE: Running task 2219 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_fetch)
-NOTE: Running task 2220 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_fetch)
-NOTE: Running task 2221 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_fetch)
-NOTE: Running task 2222 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_fetch)
-NOTE: Running task 2223 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_fetch)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/curl/7.85.0-r0/temp/log.do_packagedata_setscene.879573
-NOTE: recipe lz4-1_1.9.4-r0: task do_fetch: Started
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: recipe curl-7.85.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_fetch: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_compile: Started
-NOTE: recipe diffoscope-224-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 736 of 737 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_package_setscene)
-NOTE: recipe lua-5.4.4-r0: task do_unpack: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_fetch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vim-9.0.0614-r0: task do_fetch: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_fetch: Started
-NOTE: recipe libgpg-error-1.45-r0: task do_packagedata: Started
-NOTE: recipe binutils-2.39-r0: task do_fetch: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_fetch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Started
-NOTE: Running task 2399 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_unpack)
-NOTE: recipe python3-magic-0.4.27-r0: task do_fetch: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_fetch: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_fetch: Started
-NOTE: Running task 2400 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_unpack)
-NOTE: Running task 2401 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_unpack)
-NOTE: Running task 2402 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_unpack)
-NOTE: Running task 2403 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe binutils-2.39-r0: task do_fetch: Succeeded
-NOTE: Running task 2404 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vim-9.0.0614-r0: task do_fetch: Succeeded
-NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_fetch: Succeeded
-NOTE: Running task 2405 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lua-5.4.4-r0: task do_unpack: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2406 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_patch)
-NOTE: Running task 2407 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_unpack)
-NOTE: Running task 2408 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_unpack)
-NOTE: Running task 2409 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_unpack)
-NOTE: Running task 2410 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_unpack)
-NOTE: Running task 2411 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_unpack)
-NOTE: Running task 2412 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_unpack)
-NOTE: Running task 2413 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2414 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2415 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_prepare_recipe_sysroot)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_unpack: Started
-NOTE: recipe diffoscope-224-r0: task do_unpack: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lua-5.4.4-r0: task do_patch: Started
-NOTE: recipe binutils-2.39-r0: task do_unpack: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_unpack: Started
-NOTE: recipe vim-9.0.0614-r0: task do_unpack: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_unpack: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_unpack: Started
-NOTE: recipe diffoscope-224-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe diffoscope-224-r0: task do_unpack: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_unpack: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Succeeded
-NOTE: Running task 2416 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_patch)
-NOTE: Running task 2417 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_patch)
-NOTE: Running task 2418 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_patch)
-NOTE: Running task 2419 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_patch)
-NOTE: recipe lz4-1_1.9.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_patch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_patch: Started
-NOTE: Running task 2420 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_patch)
-NOTE: recipe libgpg-error-1.45-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_patch: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Succeeded
-NOTE: Running task 2421 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_deploy_source_date_epoch)
-NOTE: recipe lz4-1_1.9.4-r0: task do_unpack: Succeeded
-NOTE: Running task 2422 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_patch)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_patch: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe lz4-1_1.9.4-r0: task do_patch: Started
-NOTE: recipe diffoscope-224-r0: task do_patch: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_patch: Succeeded
-NOTE: Running task 2423 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_deploy_source_date_epoch)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2424 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2425 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2426 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_populate_lic)
-NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_patch: Succeeded
-NOTE: Running task 2427 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2428 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_patch)
-NOTE: Running task 2429 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe lz4-1_1.9.4-r0: task do_patch: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe diffoscope-224-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe diffoscope-224-r0: task do_populate_lic: Started
-NOTE: Running task 2430 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_patch: Started
-NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Succeeded
-NOTE: recipe lz4-1_1.9.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2431 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_patch)
-NOTE: Running task 2432 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_configure)
-NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Started
-NOTE: recipe diffoscope-224-r0: task do_populate_lic: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Started
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_populate_lic unihash changed to be93776526efe4d2e97073e1067608662b693869202b634e69af5b989fb3a56b
-NOTE: recipe python3-magic-0.4.27-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_patch: Succeeded
-NOTE: recipe lz4-1_1.9.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2433 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure)
-NOTE: Running task 2434 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_configure)
-NOTE: recipe vim-9.0.0614-r0: task do_unpack: Succeeded
-NOTE: Running task 2435 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_configure)
-NOTE: Running task 2436 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_configure)
-NOTE: Running task 2437 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2438 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_configure)
-NOTE: Running task 2439 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_patch)
-NOTE: Running task 2440 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_configure)
-NOTE: recipe lua-5.4.4-r0: task do_configure: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Started
-NOTE: recipe curl-7.85.0-r0: task do_package_setscene: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_configure: Started
-NOTE: recipe diffoscope-224-r0: task do_configure: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vim-9.0.0614-r0: task do_patch: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_configure: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_configure: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_configure: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_configure: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_configure: Succeeded
-NOTE: Running task 2441 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_compile)
-NOTE: Running task 2442 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure_ptest_base)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_configure: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_configure: Succeeded
-NOTE: Running task 2443 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_compile)
-NOTE: Running task 2444 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_compile)
-NOTE: recipe lz4-1_1.9.4-r0: task do_compile: Started
-NOTE: Running task 2445 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_compile)
-NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Started
-NOTE: recipe diffoscope-224-r0: task do_compile: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_compile: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_compile: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2446 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
-NOTE: recipe lua-5.4.4-r0: task do_compile: Started
-NOTE: recipe vim-9.0.0614-r0: task do_patch: Succeeded
-NOTE: Running task 2447 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe vim-9.0.0614-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_compile: Succeeded
-NOTE: Running task 2448 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_install)
-NOTE: recipe curl-7.85.0-r0: task do_package_setscene: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 2462 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.85.0.bb:do_packagedata)
-NOTE: recipe libarchive-3.6.1-r0: task do_install: Started
-NOTE: recipe curl-7.85.0-r0: task do_packagedata: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Succeeded
-NOTE: Running task 2463 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe binutils-2.39-r0: task do_unpack: Succeeded
-NOTE: Running task 2464 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_patch)
-NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe binutils-2.39-r0: task do_patch: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_compile: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_compile: Succeeded
-NOTE: Running task 2465 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_install)
-NOTE: Running task 2466 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_install)
-NOTE: recipe curl-7.85.0-r0: task do_packagedata: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_compile: Succeeded
-NOTE: Running task 2467 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_install)
-NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_install: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_install: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_install: Succeeded
-NOTE: Running task 2468 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_populate_sysroot)
-NOTE: Running task 2469 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_package)
-NOTE: recipe diffoscope-224-r0: task do_install: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_package: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_install: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_install: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
-NOTE: Running task 2470 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
-NOTE: Running task 2471 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_package)
-NOTE: Running task 2472 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_package)
-NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_package: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_package: Started
-NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2473 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
-NOTE: recipe libarchive-3.6.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_install: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_patch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_install: Started
-NOTE: Running task 2474 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2475 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_package)
-NOTE: Running task 2476 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_populate_sysroot)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2477 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_compile)
-NOTE: recipe diffoscope-224-r0: task do_package: Started
-NOTE: recipe diffoscope-224-r0: task do_populate_sysroot: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Started
-NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2478 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
-NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
-NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2479 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
-NOTE: Running task 2480 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
-NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
-NOTE: recipe lua-5.4.4-r0: task do_package: Started
-NOTE: recipe diffoscope-224-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Succeeded
-NOTE: Running task 2481 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_install)
-NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_package: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_package: Succeeded
-NOTE: Running task 2482 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_packagedata)
-NOTE: Running task 2483 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_packagedata)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_packagedata: Started
-NOTE: recipe python3-magic-0.4.27-r0: task do_packagedata: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Succeeded
-NOTE: Running task 2484 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_package)
-NOTE: Running task 2485 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_populate_sysroot)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_packagedata: Succeeded
-NOTE: Running task 2486 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.27.bb:do_package_write_rpm)
-NOTE: recipe python3-magic-0.4.27-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-224-r0: task do_package: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2487 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_packagedata)
-NOTE: recipe diffoscope-224-r0: task do_packagedata: Started
-NOTE: recipe diffoscope-224-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-magic-0.4.27-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libarchive-3.6.1-r0: task do_package: Succeeded
-NOTE: Running task 2488 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.1.bb:do_packagedata)
-NOTE: recipe libarchive-3.6.1-r0: task do_packagedata: Started
-NOTE: recipe libarchive-3.6.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2489 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_package_write_rpm)
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_package_write_rpm: Started
-NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
-NOTE: Running task 2490 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
-NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
-NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-libarchive-c-4.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libgcrypt-1.10.1-r0: task do_compile: Succeeded
-NOTE: Running task 2491 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile_ptest_base)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Succeeded
-NOTE: Running task 2492 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_install)
-NOTE: Running task 2493 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_packagedata)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_install: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Succeeded
-NOTE: recipe libgcrypt-1.10.1-r0: task do_install: Succeeded
-NOTE: Running task 2494 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_install_ptest_base)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_install_ptest_base: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2495 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_populate_sysroot)
-NOTE: Running task 2496 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_package)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_package: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe lz4-1_1.9.4-r0: task do_compile: Succeeded
-NOTE: Running task 2497 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_install)
-NOTE: recipe lz4-1_1.9.4-r0: task do_install: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_install: Succeeded
-NOTE: Running task 2498 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_package)
-NOTE: Running task 2499 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_populate_sysroot)
-NOTE: recipe lz4-1_1.9.4-r0: task do_populate_sysroot: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_package: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2500 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2501 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_configure)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_configure: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_configure: Succeeded
-NOTE: Running task 2502 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_compile)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_compile: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Succeeded
-NOTE: Running task 2503 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_compile)
-NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_package: Succeeded
-NOTE: Running task 2504 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.4.bb:do_packagedata)
-NOTE: recipe lz4-1_1.9.4-r0: task do_packagedata: Started
-NOTE: recipe lz4-1_1.9.4-r0: task do_packagedata: Succeeded
-NOTE: recipe libgcrypt-1.10.1-r0: task do_package: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Succeeded
-NOTE: Running task 2505 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_install)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_compile: Succeeded
-NOTE: Running task 2506 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_packagedata)
-NOTE: Running task 2507 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_install)
-NOTE: recipe libxt-1_1.2.1-r0: task do_install: Started
-NOTE: recipe libgcrypt-1.10.1-r0: task do_packagedata: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_install: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_install: Succeeded
-NOTE: Running task 2508 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package)
-NOTE: recipe libgcrypt-1.10.1-r0: task do_packagedata: Succeeded
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_package: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_install: Succeeded
-NOTE: Running task 2509 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package)
-NOTE: Running task 2510 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_populate_sysroot)
-NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_package: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2511 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vim-9.0.0614-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_package: Succeeded
-NOTE: Running task 2512 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_packagedata)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_packagedata: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2513 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package_write_rpm)
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_package_write_rpm: Started
-NOTE: recipe vim-9.0.0614-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2514 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_configure)
-NOTE: recipe vim-9.0.0614-r0: task do_configure: Started
-NOTE: recipe squashfs-tools-4.5.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_package: Succeeded
-NOTE: Running task 2515 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_packagedata)
-NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_configure: Succeeded
-NOTE: Running task 2516 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_compile)
-NOTE: recipe vim-9.0.0614-r0: task do_compile: Started
-NOTE: recipe vim-9.0.0614-r0: task do_compile: Succeeded
-NOTE: Running task 2517 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_install)
-NOTE: recipe vim-9.0.0614-r0: task do_install: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_compile: Succeeded
-NOTE: Running task 2518 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.8.bb:do_install)
-NOTE: recipe gnutls-3.7.8-r0: task do_install: Started
-NOTE: recipe vim-9.0.0614-r0: task do_install: Succeeded
-NOTE: Running task 2519 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_package)
-NOTE: recipe vim-9.0.0614-r0: task do_package: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_install: Succeeded
-NOTE: Running task 2520 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.8.bb:do_populate_sysroot)
-NOTE: Running task 2521 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.8.bb:do_package)
-NOTE: recipe gnutls-3.7.8-r0: task do_populate_sysroot: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_package: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2522 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2523 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_configure)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_configure: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_package: Succeeded
-NOTE: Running task 2524 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.8.bb:do_packagedata)
-NOTE: recipe gnutls-3.7.8-r0: task do_packagedata: Started
-NOTE: recipe vim-9.0.0614-r0: task do_package: Succeeded
-NOTE: Running task 2525 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_packagedata)
-NOTE: recipe vim-9.0.0614-r0: task do_packagedata: Started
-NOTE: recipe gnutls-3.7.8-r0: task do_packagedata: Succeeded
-NOTE: recipe vim-9.0.0614-r0: task do_packagedata: Succeeded
-NOTE: Running task 2526 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_9.0.bb:do_package_write_rpm)
-NOTE: recipe vim-9.0.0614-r0: task do_package_write_rpm: Started
-NOTE: recipe vim-9.0.0614-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_configure: Succeeded
-NOTE: Running task 2527 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_compile)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_compile: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_compile: Succeeded
-NOTE: Running task 2528 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_install)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_install: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_install: Succeeded
-NOTE: Running task 2529 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_populate_sysroot)
-NOTE: Running task 2530 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_package)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_populate_sysroot: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_package: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2531 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_prepare_recipe_sysroot)
-NOTE: recipe elfutils-0.187-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe elfutils-0.187-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2532 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_configure)
-NOTE: recipe elfutils-0.187-r0: task do_configure: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_package: Succeeded
-NOTE: Running task 2533 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb:do_packagedata)
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_packagedata: Started
-NOTE: recipe libmicrohttpd-0.9.75-r0: task do_packagedata: Succeeded
-NOTE: recipe elfutils-0.187-r0: task do_configure: Succeeded
-NOTE: Running task 2534 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_configure_ptest_base)
-NOTE: recipe elfutils-0.187-r0: task do_configure_ptest_base: Started
-NOTE: recipe elfutils-0.187-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2535 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_compile)
-NOTE: recipe elfutils-0.187-r0: task do_compile: Started
-NOTE: recipe elfutils-0.187-r0: task do_compile: Succeeded
-NOTE: Running task 2536 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_compile_ptest_base)
-NOTE: recipe elfutils-0.187-r0: task do_compile_ptest_base: Started
-NOTE: recipe elfutils-0.187-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2537 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_install)
-NOTE: recipe elfutils-0.187-r0: task do_install: Started
-NOTE: recipe elfutils-0.187-r0: task do_install: Succeeded
-NOTE: Running task 2538 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_install_ptest_base)
-NOTE: recipe elfutils-0.187-r0: task do_install_ptest_base: Started
-NOTE: recipe elfutils-0.187-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2539 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_package)
-NOTE: Running task 2540 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_populate_sysroot)
-NOTE: recipe elfutils-0.187-r0: task do_package: Started
-NOTE: recipe elfutils-0.187-r0: task do_populate_sysroot: Started
-NOTE: recipe elfutils-0.187-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2541 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2542 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe binutils-2.39-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe binutils-2.39-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2543 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_configure)
-NOTE: recipe binutils-2.39-r0: task do_configure: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2544 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_configure)
-NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Started
-NOTE: recipe binutils-2.39-r0: task do_configure: Succeeded
-NOTE: Running task 2545 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_compile)
-NOTE: recipe binutils-2.39-r0: task do_compile: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Succeeded
-NOTE: Running task 2546 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_compile)
-NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Started
-NOTE: recipe elfutils-0.187-r0: task do_package: Succeeded
-NOTE: Running task 2547 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.187.bb:do_packagedata)
-NOTE: recipe elfutils-0.187-r0: task do_packagedata: Started
-NOTE: recipe elfutils-0.187-r0: task do_packagedata: Succeeded
-NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Succeeded
-NOTE: Running task 2548 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_install)
-NOTE: recipe rpm-1_4.18.0-r0: task do_install: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_install: Succeeded
-NOTE: Running task 2549 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_package)
-NOTE: recipe rpm-1_4.18.0-r0: task do_package: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_package: Succeeded
-NOTE: Running task 2550 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_packagedata)
-NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2551 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_package_write_rpm)
-NOTE: recipe rpm-1_4.18.0-r0: task do_package_write_rpm: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_compile: Succeeded
-NOTE: Running task 2552 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_install)
-NOTE: recipe binutils-2.39-r0: task do_install: Started
-NOTE: recipe binutils-2.39-r0: task do_install: Succeeded
-NOTE: Running task 2553 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_package)
-NOTE: recipe binutils-2.39-r0: task do_package: Started
-NOTE: recipe binutils-2.39-r0: task do_package: Succeeded
-NOTE: Running task 2554 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_packagedata)
-NOTE: recipe binutils-2.39-r0: task do_packagedata: Started
-NOTE: recipe binutils-2.39-r0: task do_packagedata: Succeeded
-NOTE: Running task 2555 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.39.bb:do_package_write_rpm)
-NOTE: Running task 2556 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_package_write_rpm)
-NOTE: Running task 2557 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_package_qa)
-NOTE: recipe binutils-2.39-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-224-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-224-r0: task do_package_qa: Started
-NOTE: recipe diffoscope-224-r0: task do_package_qa: Succeeded
-NOTE: recipe diffoscope-224-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe binutils-2.39-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 2558 of 2558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_224.bb:do_build)
-NOTE: Tasks Summary: Attempted 2558 tasks of which 2393 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 10 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-src went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-dbg went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package libcurl went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-ptest went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-staticdev went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-dev went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-doc went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl-locale went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: QA Issue: Package version for package curl went backwards which would break package feeds (from 0:7.86.0-r0 to 0:7.85.0-r0) [version-going-backwards]
-ERROR: curl-7.85.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============2496776198444609166==--
+--===============1263588645431196345==--
 
