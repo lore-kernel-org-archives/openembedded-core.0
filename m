@@ -1,123 +1,149 @@
-Return-Path: <psaavedra@igalia.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB04FC433FE
-	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 12:27:14 +0000 (UTC)
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [178.60.130.6])
- by mx.groups.io with SMTP id smtpd.web09.5496.1667392025461376239
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68D2EC433FE
+	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 13:27:25 +0000 (UTC)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web12.6228.1667395635371410574
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Nov 2022 05:27:06 -0700
+ Wed, 02 Nov 2022 06:27:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@igalia.com header.s=20170329 header.b=lR/2DBJl;
- spf=pass (domain: igalia.com, ip: 178.60.130.6, mailfrom: psaavedra@igalia.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
-	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=hk+cKxM43L+sEFuTiCWEiAU7O+6IxGArsq9BQIRe4RE=; b=lR/2DBJledTmcm1IFK+L6HxHDb
-	PziqSQhLElwx2K+Awn/+MdHlB4XaoGv7nO/VzuwfcXqqMFpEFIHWWCHgjgvpgVOXf+8SXGT8zRxFC
-	+7uhB91fNyfwPAzrjCP3+aCNqLVsicblA1xLdxvK07GO00rvVMPqpo6JZAtea5VBGTLHQFJkY8h8r
-	+TVtdiXrq39BLUfOJmQipaKxhqht48XnqqZiCV3n1xiGrxcy94HiI1MYLzQwMpTiBBq5h6+A8NjYM
-	mKY+cVG7BAZBAUuzbB1lmLBeFrNUh0pqP/jDFi4htRpA/1HSw2FX+9zsUgYjUg7mKz6Z+FJKtxH//
-	I3b+AIIg==;
-Received: from [89.7.24.164] (helo=golpe.local.igalia.com)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1oqCpi-00ApA5-0u; Wed, 02 Nov 2022 13:27:02 +0100
-From: Pablo Saavedra <psaavedra@igalia.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=GkxIPkzq;
+ spf=pass (domain: mvista.com, ip: 209.85.215.169, mailfrom: hprajapati@mvista.com)
+Received: by mail-pg1-f169.google.com with SMTP id q71so16232396pgq.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 06:27:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fhxTytnJmMa4LyKildQMsqyKDhFupJ15EZqOthn2wU8=;
+        b=GkxIPkzqfdCLhriqrn6XFIj9KKPtCpEZt313Hu3nFbpKwqQSyM8qheTeOXZhObuqd6
+         lBp4VxBN1NNvtnuLgT1wJCPYamtq4r2xLLOiS3DVLCR7TICIGvjAsoOL1GV6ZKO6XpRi
+         u5pyt8lWSTgmGB2RhjtqkVP/oHd9FJ36Eottg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fhxTytnJmMa4LyKildQMsqyKDhFupJ15EZqOthn2wU8=;
+        b=IeTvudhT6jXzMoad2oCL7G7B4hzcpWLGdz62HF+5NOx3Rv+fKfzv4wepO8e3m1v2Aa
+         3cvv1zzpYmUkzU+i4zdAHdGmTE4E4b0DoO8rDqDkwbwhUiPhNzKgAwTh/vi7m5WfZXXq
+         uarZpW0XvaN8kcHVEdXTQenNll5+tqOBoZNgKA0V1qQjDOxf1ZHEgUBPPi9UrLNlRCb1
+         1051dkni4fd6QWl9bwfDVcCyQ7LYUpmUvMSq0kf/kzjDGq7d+ddXh/ZgLQBLU1dswdyK
+         MLDPVu3iF9ZWtdOeDkieYJp/i6sPKPDBRtqA05cb1A5oIQRDmHbNNA5yt/CEJUTFHtKv
+         SJDA==
+X-Gm-Message-State: ACrzQf3ZpbiUkvuENnJa4RTcJLNufPm0+Cw2YwYIiDzKrnaOHmy80tKu
+	O3xLHsepSL9lr6lhMU2q76BDvPVE9X50xA==
+X-Google-Smtp-Source: AMsMyM6CbiEsYRrVbZN56NiajVCOcJt5kOQgJe/unTGU6xVSDwgS8wKIUL0qxnBgJlwPkunu8v4bQw==
+X-Received: by 2002:a63:ce0f:0:b0:46f:868f:291 with SMTP id y15-20020a63ce0f000000b0046f868f0291mr19572855pgf.23.1667395634539;
+        Wed, 02 Nov 2022 06:27:14 -0700 (PDT)
+Received: from MVIN00024 ([27.121.101.119])
+        by smtp.gmail.com with ESMTPSA id q12-20020a170902a3cc00b0017f7c4e2604sm8224634plb.296.2022.11.02.06.27.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Nov 2022 06:27:14 -0700 (PDT)
+Received: by MVIN00024 (sSMTP sendmail emulation); Wed, 02 Nov 2022 18:57:08 +0530
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Pablo Saavedra <psaavedra@igalia.com>
-Subject: [master][PATCH] weston: update 10.0.2 -> 11.0.0
-Date: Wed,  2 Nov 2022 13:26:58 +0100
-Message-Id: <20221102122658.321986-1-psaavedra@igalia.com>
-X-Mailer: git-send-email 2.34.1
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [dunfell][PATCH] libX11: CVE-2022-3554 Fix memory leak
+Date: Wed,  2 Nov 2022 18:57:06 +0530
+Message-Id: <20221102132706.302463-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 12:27:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172587
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 13:27:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172588
 
-Highlights for this release:
+Upstream-Status: Backport from https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/1d11822601fd24a396b354fa616b04ed3df8b4ef
 
-- Continued work on color management infrastructure:
-  In Weston 11, if you enable the tentative, experimental and WIP color
-  management option, Weston will not only blend in linear light, but
-  you can also set up a monitor ICC profile and Weston will do some
-  kind of color mapping from sRGB to that profile. Furthermore, you can
-  configure a monitor into HDR mode and deliver HDR characteristics from
-  weston.ini to the monitor, but Weston will *not* produce proper HDR
-  content yet, meaning the display is incorrect.
-- Various RDP improvements.
-- Performance improvements in the DRM backend.
-- Support for the wp_single_pixel_buffer_v1 protocol.
-- weston_buffer refactoring.
-- Groundwork for running multiple backends at the same time (e.g. KMS + RDP)
-  and for multi-GPU support in the DRM backend. This is not supported
-  yet, but may be in a future release.
-
-Breaking changes for users:
-
-- The cms-static and cms-colord plugins are now deprecated.
-- A number of features have been removed from desktop-shell: multiple
-  workspaces, zoom, exposay.
-- wl_shell support has been removed (superseded by xdg-shell).
-- The fbdev backend has been removed (superseded by KMS).
-- weston-launch and launcher-direct have been removed (superseded by libseat).
-- The weston-info and weston-gears clients have been removed (weston-info is
-  superseded by wayland-info).
-- The KMS max-bpc property is now set by default. If you experience black
-  screens with (faulty) monitors, try lowering it in weston.ini.
-- Weston will now abort when running out of memory. Weston is not suitable
-  for memory constrained environments.
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- .../wayland/{weston_10.0.2.bb => weston_11.0.0.bb}        | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
- rename meta/recipes-graphics/wayland/{weston_10.0.2.bb => weston_11.0.0.bb} (93%)
+ .../xorg-lib/libx11/CVE-2022-3554.patch       | 58 +++++++++++++++++++
+ .../recipes-graphics/xorg-lib/libx11_1.6.9.bb |  1 +
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2022-3554.patch
 
-diff --git a/meta/recipes-graphics/wayland/weston_10.0.2.bb b/meta/recipes-graphics/wayland/weston_11.0.0.bb
-similarity index 93%
-rename from meta/recipes-graphics/wayland/weston_10.0.2.bb
-rename to meta/recipes-graphics/wayland/weston_11.0.0.bb
-index 786d12be61..ba4f4062d0 100644
---- a/meta/recipes-graphics/wayland/weston_10.0.2.bb
-+++ b/meta/recipes-graphics/wayland/weston_11.0.0.bb
-@@ -13,7 +13,7 @@ SRC_URI = "https://gitlab.freedesktop.org/wayland/weston/-/releases/${PV}/downlo
-            file://systemd-notify.weston-start \
-            "
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/CVE-2022-3554.patch b/meta/recipes-graphics/xorg-lib/libx11/CVE-2022-3554.patch
+new file mode 100644
+index 0000000000..fb61195225
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/libx11/CVE-2022-3554.patch
+@@ -0,0 +1,58 @@
++From 8b51d1375a4dd6a7cf3a919da83d8e87e57e7333 Mon Sep 17 00:00:00 2001
++From: Hitendra Prajapati <hprajapati@mvista.com>
++Date: Wed, 2 Nov 2022 17:04:15 +0530
++Subject: [PATCH] CVE-2022-3554
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/1d11822601fd24a396b354fa616b04ed3df8b4ef]
++CVE: CVE-2022-3554
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++
++fix a memory leak in XRegisterIMInstantiateCallback
++
++Analysis:
++
++    _XimRegisterIMInstantiateCallback() opens an XIM and closes it using
++    the internal function pointers, but the internal close function does
++    not free the pointer to the XIM (this would be done in XCloseIM()).
++
++Report/patch:
++
++    Date: Mon, 03 Oct 2022 18:47:32 +0800
++    From: Po Lu <luangruo@yahoo.com>
++    To: xorg-devel@lists.x.org
++    Subject: Re: Yet another leak in Xlib
++
++    For reference, here's how I'm calling XRegisterIMInstantiateCallback:
++
++    XSetLocaleModifiers ("");
++    XRegisterIMInstantiateCallback (compositor.display,
++                                    XrmGetDatabase (compositor.display),
++                                    (char *) compositor.resource_name,
++                                    (char *) compositor.app_name,
++                                    IMInstantiateCallback, NULL);
++    and XMODIFIERS is:
++
++        @im=ibus
++
++Signed-off-by: Thomas E. Dickey's avatarThomas E. Dickey <dickey@invisible-island.net>
++---
++ modules/im/ximcp/imInsClbk.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/modules/im/ximcp/imInsClbk.c b/modules/im/ximcp/imInsClbk.c
++index 961aaba..0a8a874 100644
++--- a/modules/im/ximcp/imInsClbk.c
+++++ b/modules/im/ximcp/imInsClbk.c
++@@ -204,6 +204,9 @@ _XimRegisterIMInstantiateCallback(
++     if( xim ) {
++ 	lock = True;
++ 	xim->methods->close( (XIM)xim );
+++	/* XIMs must be freed manually after being opened; close just
+++	   does the protocol to deinitialize the IM.  */
+++	XFree( xim );
++ 	lock = False;
++ 	icb->call = True;
++ 	callback( display, client_data, NULL );
++-- 
++2.25.1
++
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
+index ff2a6f7265..72ab1d4150 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
+@@ -16,6 +16,7 @@ SRC_URI += "file://Fix-hanging-issue-in-_XReply.patch \
+             file://CVE-2020-14344.patch \
+             file://CVE-2020-14363.patch \
+             file://CVE-2021-31535.patch \
++            file://CVE-2022-3554.patch \
+ "
  
--SRC_URI[sha256sum] = "89646ca0d9f8d413c2767e5c3828eaa3fa149c2a105b3729a6894fa7cf1549e7"
-+SRC_URI[sha256sum] = "a6138d4dc9554560ac304312df456019f4be025ec79130f05fb5f2e41c091e1d"
- 
- UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
- UPSTREAM_CHECK_REGEX = "weston-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
-@@ -58,12 +58,8 @@ PACKAGECONFIG[wayland] = "-Dbackend-wayland=true,-Dbackend-wayland=false,virtual
- PACKAGECONFIG[x11] = "-Dbackend-x11=true,-Dbackend-x11=false,virtual/libx11 libxcb libxcb libxcursor cairo"
- # Headless Weston
- PACKAGECONFIG[headless] = "-Dbackend-headless=true,-Dbackend-headless=false"
--# Weston on framebuffer
--PACKAGECONFIG[fbdev] = "-Ddeprecated-backend-fbdev=true,-Ddeprecated-backend-fbdev=false,udev mtdev"
- # Weston on RDP
- PACKAGECONFIG[rdp] = "-Dbackend-rdp=true,-Dbackend-rdp=false,freerdp"
--# weston-launch
--PACKAGECONFIG[launch] = "-Ddeprecated-weston-launch=true,-Ddeprecated-weston-launch=false,drm"
- # VA-API desktop recorder
- PACKAGECONFIG[vaapi] = "-Dbackend-drm-screencast-vaapi=true,-Dbackend-drm-screencast-vaapi=false,libva"
- # Weston with EGL support
-@@ -77,7 +73,7 @@ PACKAGECONFIG[systemd] = "-Dsystemd=true -Dlauncher-logind=true,-Dsystemd=false
- # Weston with Xwayland support (requires X11 and Wayland)
- PACKAGECONFIG[xwayland] = "-Dxwayland=true,-Dxwayland=false"
- # colord CMS support
--PACKAGECONFIG[colord] = "-Dcolor-management-colord=true,-Dcolor-management-colord=false,colord"
-+PACKAGECONFIG[colord] = "-Ddeprecated-color-management-colord=true,-Ddeprecated-color-management-colord=false,colord"
- # Clients support
- PACKAGECONFIG[clients] = "-Dsimple-clients=${SIMPLECLIENTS} -Ddemo-clients=true,-Dsimple-clients= -Ddemo-clients=false"
- # Virtual remote output with GStreamer on DRM backend
+ SRC_URI[md5sum] = "55adbfb6d4370ecac5e70598c4e7eed2"
 -- 
-2.34.1
+2.25.1
 
 
