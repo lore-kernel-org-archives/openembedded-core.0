@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E148EC4332F
-	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 02:43:01 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web12.1988.1667356966975856675
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5444C433FE
+	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 02:43:11 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web11.1945.1667356984310796107
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Nov 2022 19:43:00 -0700
+ Tue, 01 Nov 2022 19:43:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=3jGDjkUD;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id k7so5580309pll.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 19:43:00 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=6lRqdEph;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f46.google.com with SMTP id z5-20020a17090a8b8500b00210a3a2364fso2670532pjn.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 19:43:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Jd+pjbbiwQKgwvAQ5ausJeMub/6SaieGgjJLpPomlsk=;
-        b=3jGDjkUD566VHvsC8iur5Eyxy3s8x1X+Y0/cdYlJybbYsFShmFNAsMBNWyJeImxJGU
-         kSggmZLzd6LywXFkTuSRxTx8EhpoMQxKPAyiFgu2hHICd1DM/a4R6zI/tMGSMMSGFC7m
-         BSyw1dkQnNWUpWIV/bgGfzFp7c7hjz6RiM+2PXzBhejF4bFUvGwQKlvAF0B0uafMZ2h/
-         u+f9OgUG5RiwqTRLtE+IWvEKj8TTbmRotsVq05ph5d7FtP9gHyAcMWvWG1nEmq4Kznl/
-         z9Neb045684+2Iv5xypoTxyc26qDx5cDuIJkN72AX4mcrPYlYcaP5c8Eg02ciZUfU8wA
-         er4Q==
+        bh=9OxOzJe6DDwf+1/vHLVOzCmOVeAgwND7ERxnfOq0hkQ=;
+        b=6lRqdEph07bfkSIf8GV25/YNm3EXgTwvG/AsDtCNqZ0m7SkhvrZL1zXznOljzuGw01
+         SGtFtFf2b5e+/k4UVcj69IPtegr6Nfjn5nwdU6yiU/Xu9gaI/CrACGKj/zC9dHYKCmh4
+         fkeh7PhL2fiTxr2VM445CyQBweuR4qxLFJ95Vdd6xrP/Ytg6lF3dcuevGardyz3JvQHy
+         GBbGR+VCHIy4M8AMCwd10JqwIdQHhdOdyacEaN0EYbcgEoeOJY12u2gijzecaXrGDPix
+         J6tZB+6czi6nzSCzhG6DV8+89zW9udTy4VCwJQP2EJ0iI+Bztp9bZxVHZ6I2pF4CWE+q
+         ZJqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Jd+pjbbiwQKgwvAQ5ausJeMub/6SaieGgjJLpPomlsk=;
-        b=KcPd8BHbwNg7/YRW7b23ml7wmKlmGtGiPFyGExYE7QZd109F2PP0fHUFSfJIzhT+9x
-         5WazT2ils0RRRLeq5pa9z1+MLdaZsiLodA9FVn9t9HAPPx62extccLJkXD75PD4lG21M
-         KT6T4jwAWj5cZMzdRPh8lyKGrDp2V5+k/xUpXE4qHvSUmWoOE5aXFQa3rdd8TvvCyPtj
-         hWlSpAr786MYY28RAKIoGx9DWQeNBhV5gCVoxbH2q8BAhFXWJ24JxUMq9/4nrSGugVVf
-         Dg2W0dUWgoeYfOBehIZPlG9GYRm1eibNuQtDc6lpC95DsDCejeBvTtLADEldTqQpi2VO
-         2Y8Q==
-X-Gm-Message-State: ACrzQf2SDsqtwhrYU0A7KgvGWz90N2Q4hlM1h3hRXaOwW5WTBOyrZsc0
-	XgWeUOLIjzVSvTnffsWw7vb61BKlTtbASNYc
-X-Google-Smtp-Source: AMsMyM6vUJee/5Lfc77ueM1Zg18e5eXuPp7E2hLexnU8XFJnOLefMy3FPtECDXh5UaNPjXjK3Xu6ZQ==
-X-Received: by 2002:a17:90b:3901:b0:213:dfd5:a75f with SMTP id ob1-20020a17090b390100b00213dfd5a75fmr14292598pjb.233.1667356979633;
-        Tue, 01 Nov 2022 19:42:59 -0700 (PDT)
+        bh=9OxOzJe6DDwf+1/vHLVOzCmOVeAgwND7ERxnfOq0hkQ=;
+        b=Ka+EPqAhACvNf2CW6fEmFyKLRWhD60y0P0Ajlo/1q9CpBR34+qV9Dt1/jBACChdk1B
+         OZXDdDEkildCaprXJd4x9NJfzIb/uiBWXcwmmJKL0i0JM07PdrK5chxs1nv38dmoAFs3
+         H2f4rtETYj4tk1Yyb8Ovn7mXXZB9ii+rZNfzdn013dn3sTRh7/hI0SB1dhN/d61sqRHQ
+         Gj7EIARgjBPL5RchIL8UBZ3YX/a0ZWEhiAox2Br4jo6HJdpk1gslZx5NeGZWC4tj4Pm9
+         zzitJ2NlWYqRB/hudnEtIKzCn1nWdGThspY2UgURecsKKHNY5B1lOg8uMLCgFxeaITIz
+         QfDQ==
+X-Gm-Message-State: ACrzQf2okEDvms64h1kb9d4vQ62WzC0I7lr7U7b9k8rHlVmNs7FAHRXJ
+	lu5z9MRLDVQy4nLLFCRypFagH8sEWu7GWDHB
+X-Google-Smtp-Source: AMsMyM7eibJTVkVjYxhjJsNlGJVmOgW0WVoDMNWXpuiiee33j1vr5WVv53SVkBX4Roz/zUJGFbh3jQ==
+X-Received: by 2002:a17:90a:c56:b0:213:d200:e958 with SMTP id u22-20020a17090a0c5600b00213d200e958mr16662392pje.6.1667356983379;
+        Tue, 01 Nov 2022 19:43:03 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id d18-20020a170902e15200b00186da904da0sm1462846pla.154.2022.11.01.19.42.58
+        by smtp.gmail.com with ESMTPSA id d18-20020a170902e15200b00186da904da0sm1462846pla.154.2022.11.01.19.43.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Nov 2022 19:42:59 -0700 (PDT)
+        Tue, 01 Nov 2022 19:43:03 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 18/20] runqemu: Fix gl-es argument from causing other arguments to be ignored
-Date: Tue,  1 Nov 2022 16:42:08 -1000
-Message-Id: <dd1dcfada1fa46ecb8227c2852769b35026875d3.1667356805.git.steve@sakoman.com>
+Subject: [OE-core][langdale 20/20] gnutls: upgrade 3.7.7 -> 3.7.8
+Date: Tue,  1 Nov 2022 16:42:10 -1000
+Message-Id: <a583ac20cc82ede59e1a4e30708cf5434b49ce37.1667356805.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1667356805.git.steve@sakoman.com>
 References: <cover.1667356805.git.steve@sakoman.com>
@@ -60,35 +60,59 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 02:43:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172558
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 02:43:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172560
 
-From: Joshua Watt <JPEWhacker@gmail.com>
+From: wangmy <wangmy@fujitsu.com>
 
-The code to parse arguments was inadvertently skipping all arguments in
-the elif block after gl-es if it was specified on the command line.
+Changelog:
+=========
+** libgnutls: In FIPS140 mode, RSA signature verification is an approved
+   operation if the key has modulus with known sizes (1024, 1280,
+   1536, and 1792 bits), in addition to any modulus sizes larger than
+   2048 bits, according to SP800-131A rev2.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+** libgnutls: gnutls_session_channel_binding performs additional checks when
+   GNUTLS_CB_TLS_EXPORTER is requested. According to RFC9622 4.2, the
+   "tls-exporter" channel binding is only usable when the handshake is
+   bound to a unique master secret (i.e., either TLS 1.3 or extended
+   master secret extension is negotiated). Otherwise the function now
+   returns error.
+
+** libgnutls: usage of the following functions, which are designed to
+   loosen restrictions imposed by allowlisting mode of configuration,
+   has been additionally restricted. Invoking them is now only allowed
+   if system-wide TLS priority string has not been initialized yet:
+gnutls_digest_set_secure
+gnutls_sign_set_secure
+gnutls_sign_set_secure_for_certs
+gnutls_protocol_set_enabled
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 718bb8d56f6a24c86e67830a7d13af54df2ebb4e)
+(cherry picked from commit 858886aa07d0c2c2ef2489996cc8eca5fbe931fa)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/runqemu | 2 +-
+ .../recipes-support/gnutls/{gnutls_3.7.7.bb => gnutls_3.7.8.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/gnutls/{gnutls_3.7.7.bb => gnutls_3.7.8.bb} (97%)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 5daf492bac..a6ea578564 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -499,7 +499,7 @@ class BaseConfig(object):
-                 self.gtk = True
-             elif arg == 'gl':
-                 self.gl = True
--            elif 'gl-es' in sys.argv[1:]:
-+            elif arg == 'gl-es':
-                 self.gl_es = True
-             elif arg == 'egl-headless':
-                 self.egl_headless = True
+diff --git a/meta/recipes-support/gnutls/gnutls_3.7.7.bb b/meta/recipes-support/gnutls/gnutls_3.7.8.bb
+similarity index 97%
+rename from meta/recipes-support/gnutls/gnutls_3.7.7.bb
+rename to meta/recipes-support/gnutls/gnutls_3.7.8.bb
+index c7d782e4eb..8f979a5b99 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.7.7.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.7.8.bb
+@@ -24,7 +24,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "be9143d0d58eab64dba9b77114aaafac529b6c0d7e81de6bdf1c9b59027d2106"
++SRC_URI[sha256sum] = "c58ad39af0670efe6a8aee5e3a8b2331a1200418b64b7c51977fb396d4617114"
+ 
+ inherit autotools texinfo pkgconfig gettext lib_package gtk-doc
+ 
 -- 
 2.25.1
 
