@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67398C6FA90
-	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 00:40:40 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web09.855.1667349632190420967
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 157DDC6FD1C
+	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 00:40:41 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.878.1667349634337752058
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Nov 2022 17:40:38 -0700
+ Tue, 01 Nov 2022 17:40:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=YRA91kv4;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018435c86773-65ad823d-b34a-48ed-8dc9-1231a66e1f6b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=hobxPagf;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018435c862c9-59e27973-b2bf-4044-b576-a7362ef050ec-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1667349638;
+	t=1667349636;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=pwds2HW4sItvf5u2PLyKeu3wbUmHPKf7XDgPzLjcEm0=;
-	b=YRA91kv4BGJDDCj9iRId0mruR5anVhhzmf13NsF/+XL/cK6iRe9OzRY0D3qOapCk
-	s70iSvqSrx5MLCEL+TlNqxzfkqnD4EcvmzJGpdbNCFVNIpUeB0KvSsGBDFjK098b6xC
-	EkVknRuL4QPhVZdv5NRjeaFBBjNKO6OQI1RIxtyo=
+	bh=VpeQAn1qBz2bKufi68IRG0tO31zmB2DEELNSbPmT+Qc=;
+	b=hobxPagfVEYyUQeLPWsxlkJ/xqIpsZUPiTU+u+E0zQ7nXbBkITTBq0NfvJbagLSO
+	Omq8SEvxR1libxqiAnY4Fgi+u3XGAWQqYUdeypnk8sEj5ukVCpvuQpYVVOg28RJiW83
+	J+X38/RVAb2edN7/9Wv40Zyd7QPfYKK7b1UkVpF8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1667349638;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1667349636;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=pwds2HW4sItvf5u2PLyKeu3wbUmHPKf7XDgPzLjcEm0=;
-	b=kytaQkCcshlX//wCmY76eV9zWWbOOaToZvcsOBa50OpKIVmC8XFfMte5tArsYOoW
-	BAkGlgRA82kOtD6TLcRfNTgqvCyxLpxYxVp50skbJGz21nccNmRZ/pguGTg1cWDjf7Y
-	ZkD/ZEF2/s70HH+CCtP8PB5t6yDOB8NIHLtP4LlI=
-Content-Type: multipart/mixed; boundary="===============6809912974073876833=="
+	bh=VpeQAn1qBz2bKufi68IRG0tO31zmB2DEELNSbPmT+Qc=;
+	b=MXVwh3WhNO5zTumUdOgkIqiiG1F9waMWP/7mZjPwdOeUy2wohws5zqCaKgrhqcpg
+	BcInyQNHjBH1NbndmhVbK44718Wz3QMU1hfMli/osZWgHxNH5XcvaSRh064X9CmGya3
+	FDQRuZRWbx2BNCPb3reXsvlxNHrhaaGtqRp09GjE=
+Content-Type: multipart/mixed; boundary="===============9055962372502945614=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Michael Opdenacker <michael.opdenacker@bootlin.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libical: upgrading to 3.0.16 SUCCEEDED
-Message-ID: <0101018435c86773-65ad823d-b34a-48ed-8dc9-1231a66e1f6b-000000@us-west-2.amazonses.com>
-Date: Wed, 2 Nov 2022 00:40:36 +0000
+Subject: [AUH] alsa-lib: upgrading to 1.2.8 SUCCEEDED
+Message-ID: <0101018435c862c9-59e27973-b2bf-4044-b576-a7362ef050ec-000000@us-west-2.amazonses.com>
+Date: Wed, 2 Nov 2022 00:40:35 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.11.02-54.240.27.23
+X-SES-Outgoing: 2022.11.02-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 00:40:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172537
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 00:40:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172520
 
---===============6809912974073876833==
+--===============9055962372502945614==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libical* to *3.0.16* has Succeeded.
+that the automatic attempt to upgrade the recipe *alsa-lib* to *1.2.8* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libical-upgrade-3.0.15-3.0.16.patch
+    - apply the patch: git am 0001-alsa-lib-upgrade-1.2.7.2-1.2.8.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,47 +69,39 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6809912974073876833==
+--===============9055962372502945614==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libical: SRC_URI changed from "https://github.com/libical/libical/releases//download/v3.0.15/libical-3.0.15.tar.gz file://0001-cmake-Do-not-export-CC-into-gir-compiler.patch" to "https://github.com/libical/libical/releases//download/v3.0.16/libical-3.0.16.tar.gz file://0001-cmake-Do-not-export-CC-into-gir-compiler.patch"
-packages/core2-32-poky-linux/libical: PKGV changed from 3.0.15 [default] to 3.0.16 [default]
-packages/core2-32-poky-linux/libical: PV changed from "3.0.15" to "3.0.16"
-packages/core2-32-poky-linux/libical/libical-dbg: PKGSIZE changed from 2530016 to 2529936 (-0%)
-packages/core2-32-poky-linux/libical/libical-dbg: FILELIST: removed "/usr/lib/.debug/libical.so.3.0.15 /usr/lib/.debug/libicalss_cxx.so.3.0.15 /usr/lib/.debug/libicalss.so.3.0.15 /usr/lib/.debug/libical-glib.so.3.0.15 /usr/lib/.debug/libical_cxx.so.3.0.15 /usr/lib/.debug/libicalvcal.so.3.0.15", added "/usr/lib/.debug/libicalss_cxx.so.3.0.16 /usr/lib/.debug/libical_cxx.so.3.0.16 /usr/lib/.debug/libicalss.so.3.0.16 /usr/lib/.debug/libicalvcal.so.3.0.16 /usr/lib/.debug/libical.so.3.0.16 /usr/lib/.debug/libical-glib.so.3.0.16"
-packages/core2-32-poky-linux/libical/libical-dbg: PKGV changed from 3.0.15 [default] to 3.0.16 [default]
-packages/core2-32-poky-linux/libical/libical-dbg: PV changed from "3.0.15" to "3.0.16"
-packages/core2-32-poky-linux/libical/libical-dev: PKGSIZE changed from 2980307 to 2980500 (+0%)
-packages/core2-32-poky-linux/libical/libical-dev: PKGV changed from 3.0.15 [default] to 3.0.16 [default]
-packages/core2-32-poky-linux/libical/libical-dev: PV changed from "3.0.15" to "3.0.16"
-packages/core2-32-poky-linux/libical/libical-doc: PKGV changed from 3.0.15 [default] to 3.0.16 [default]
-packages/core2-32-poky-linux/libical/libical-doc: PV changed from "3.0.15" to "3.0.16"
-packages/core2-32-poky-linux/libical/libical-locale: PKGV changed from 3.0.15 [default] to 3.0.16 [default]
-packages/core2-32-poky-linux/libical/libical-locale: PV changed from "3.0.15" to "3.0.16"
-packages/core2-32-poky-linux/libical/libical-src: PKGSIZE changed from 3057695 to 3057925 (+0%)
-packages/core2-32-poky-linux/libical/libical-src: PKGV changed from 3.0.15 [default] to 3.0.16 [default]
-packages/core2-32-poky-linux/libical/libical-src: PV changed from "3.0.15" to "3.0.16"
-packages/core2-32-poky-linux/libical/libical-staticdev: PKGV changed from 3.0.15 [default] to 3.0.16 [default]
-packages/core2-32-poky-linux/libical/libical-staticdev: PV changed from "3.0.15" to "3.0.16"
-packages/core2-32-poky-linux/libical/libical: FILELIST: removed "/usr/lib/libicalvcal.so.3.0.15 /usr/lib/libical_cxx.so.3.0.15 /usr/lib/libical-glib.so.3.0.15 /usr/lib/libicalss.so.3.0.15 /usr/lib/libical.so.3.0.15 /usr/lib/libicalss_cxx.so.3.0.15", added "/usr/lib/libical_cxx.so.3.0.16 /usr/lib/libical.so.3.0.16 /usr/lib/libicalss.so.3.0.16 /usr/lib/libicalvcal.so.3.0.16 /usr/lib/libical-glib.so.3.0.16 /usr/lib/libicalss_cxx.so.3.0.16"
-packages/core2-32-poky-linux/libical/libical: PKGV changed from 3.0.15 [default] to 3.0.16 [default]
-packages/core2-32-poky-linux/libical/libical: PV changed from "3.0.15" to "3.0.16"
-Changes to packages/core2-32-poky-linux/libical (sysroot):
-  /usr/lib/libical_cxx.so.3 changed symlink target from libical_cxx.so.3.0.15 to libical_cxx.so.3.0.16
-  /usr/lib/libical-glib.so.3 changed symlink target from libical-glib.so.3.0.15 to libical-glib.so.3.0.16
-  /usr/lib/libical.so.3 changed symlink target from libical.so.3.0.15 to libical.so.3.0.16
-  /usr/lib/libicalss_cxx.so.3 changed symlink target from libicalss_cxx.so.3.0.15 to libicalss_cxx.so.3.0.16
-  /usr/lib/libicalss.so.3 changed symlink target from libicalss.so.3.0.15 to libicalss.so.3.0.16
-  /usr/lib/libicalvcal.so.3 changed symlink target from libicalvcal.so.3.0.15 to libicalvcal.so.3.0.16
-  /usr/lib/libical_cxx.so.3.0.15 moved to /usr/lib/libical_cxx.so.3.0.16
-  /usr/lib/libical-glib.so.3.0.15 moved to /usr/lib/libical-glib.so.3.0.16
-  /usr/lib/libical.so.3.0.15 moved to /usr/lib/libical.so.3.0.16
-  /usr/lib/libicalss_cxx.so.3.0.15 moved to /usr/lib/libicalss_cxx.so.3.0.16
-  /usr/lib/libicalss.so.3.0.15 moved to /usr/lib/libicalss.so.3.0.16
-  /usr/lib/libicalvcal.so.3.0.15 moved to /usr/lib/libicalvcal.so.3.0.16
+packages/core2-32-poky-linux/alsa-lib/alsa-conf: PKGV changed from 1.2.7.2 [default] to 1.2.8 [default]
+packages/core2-32-poky-linux/alsa-lib/alsa-conf: PKGSIZE changed from 155351 to 155390 (+0%)
+packages/core2-32-poky-linux/alsa-lib/alsa-conf: PV changed from "1.2.7.2" to "1.2.8"
+packages/core2-32-poky-linux/alsa-lib/alsa-lib-dbg: PKGV changed from 1.2.7.2 [default] to 1.2.8 [default]
+packages/core2-32-poky-linux/alsa-lib/alsa-lib-dbg: PKGSIZE changed from 2976248 to 2976592 (+0%)
+packages/core2-32-poky-linux/alsa-lib/alsa-lib-dbg: PV changed from "1.2.7.2" to "1.2.8"
+packages/core2-32-poky-linux/alsa-lib/alsa-lib-dev: PKGV changed from 1.2.7.2 [default] to 1.2.8 [default]
+packages/core2-32-poky-linux/alsa-lib/alsa-lib-dev: PKGSIZE changed from 441449 to 441475 (+0%)
+packages/core2-32-poky-linux/alsa-lib/alsa-lib-dev: PV changed from "1.2.7.2" to "1.2.8"
+packages/core2-32-poky-linux/alsa-lib/alsa-lib-doc: PKGV changed from 1.2.7.2 [default] to 1.2.8 [default]
+packages/core2-32-poky-linux/alsa-lib/alsa-lib-doc: PV changed from "1.2.7.2" to "1.2.8"
+packages/core2-32-poky-linux/alsa-lib/alsa-lib-locale: PKGV changed from 1.2.7.2 [default] to 1.2.8 [default]
+packages/core2-32-poky-linux/alsa-lib/alsa-lib-locale: PV changed from "1.2.7.2" to "1.2.8"
+packages/core2-32-poky-linux/alsa-lib/alsa-lib-src: PKGV changed from 1.2.7.2 [default] to 1.2.8 [default]
+packages/core2-32-poky-linux/alsa-lib/alsa-lib-src: PKGSIZE changed from 3394224 to 3395611 (+0%)
+packages/core2-32-poky-linux/alsa-lib/alsa-lib-src: PV changed from "1.2.7.2" to "1.2.8"
+packages/core2-32-poky-linux/alsa-lib/alsa-lib-staticdev: PKGV changed from 1.2.7.2 [default] to 1.2.8 [default]
+packages/core2-32-poky-linux/alsa-lib/alsa-lib-staticdev: PV changed from "1.2.7.2" to "1.2.8"
+packages/core2-32-poky-linux/alsa-lib/alsa-lib: PKGV changed from 1.2.7.2 [default] to 1.2.8 [default]
+packages/core2-32-poky-linux/alsa-lib/alsa-lib: PV changed from "1.2.7.2" to "1.2.8"
+packages/core2-32-poky-linux/alsa-lib/alsa-server: PKGV changed from 1.2.7.2 [default] to 1.2.8 [default]
+packages/core2-32-poky-linux/alsa-lib/alsa-server: PV changed from "1.2.7.2" to "1.2.8"
+packages/core2-32-poky-linux/alsa-lib: SRC_URI changed from "https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.7.2.tar.bz2" to "https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.8.tar.bz2"
+packages/core2-32-poky-linux/alsa-lib: PKGV changed from 1.2.7.2 [default] to 1.2.8 [default]
+packages/core2-32-poky-linux/alsa-lib: PV changed from "1.2.7.2" to "1.2.8"
+packages/core2-32-poky-linux/alsa-lib/libatopology: PKGV changed from 1.2.7.2 [default] to 1.2.8 [default]
+packages/core2-32-poky-linux/alsa-lib/libatopology: PV changed from "1.2.7.2" to "1.2.8"
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1463,70 +1455,13 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
-Changes to packages/x86_64-linux/libical-native (sysroot):
-  /usr/lib/libical_cxx.so.3 changed symlink target from libical_cxx.so.3.0.15 to libical_cxx.so.3.0.16
-  /usr/lib/libical-glib.so.3 changed symlink target from libical-glib.so.3.0.15 to libical-glib.so.3.0.16
-  /usr/lib/libical.so.3 changed symlink target from libical.so.3.0.15 to libical.so.3.0.16
-  /usr/lib/libicalss_cxx.so.3 changed symlink target from libicalss_cxx.so.3.0.15 to libicalss_cxx.so.3.0.16
-  /usr/lib/libicalss.so.3 changed symlink target from libicalss.so.3.0.15 to libicalss.so.3.0.16
-  /usr/lib/libicalvcal.so.3 changed symlink target from libicalvcal.so.3.0.15 to libicalvcal.so.3.0.16
-  /usr/lib/libical_cxx.so.3.0.15 moved to /usr/lib/libical_cxx.so.3.0.16
-  /usr/lib/libical-glib.so.3.0.15 moved to /usr/lib/libical-glib.so.3.0.16
-  /usr/lib/libical.so.3.0.15 moved to /usr/lib/libical.so.3.0.16
-  /usr/lib/libicalss_cxx.so.3.0.15 moved to /usr/lib/libicalss_cxx.so.3.0.16
-  /usr/lib/libicalss.so.3.0.15 moved to /usr/lib/libicalss.so.3.0.16
-  /usr/lib/libicalvcal.so.3.0.15 moved to /usr/lib/libicalvcal.so.3.0.16
 
---===============6809912974073876833==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libical-upgrade-3.0.15-3.0.16.patch"
-
-RnJvbSA4NWNhZjAzM2EyYWM1M2RjMDgxOTEyNmNmOTY4YmEyYWI0MThlY2VmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBOb3YgMjAyMiAyMzo1NjoxMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YmljYWw6IHVwZ3JhZGUgMy4wLjE1IC0+IDMuMC4xNgoKLS0tCiAuLi4vbGliaWNhbC97bGliaWNh
-bF8zLjAuMTUuYmIgPT4gbGliaWNhbF8zLjAuMTYuYmJ9ICAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9saWJpY2FsL3tsaWJpY2FsXzMuMC4xNS5iYiA9PiBsaWJpY2FsXzMuMC4x
-Ni5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJpY2FsL2xp
-YmljYWxfMy4wLjE1LmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliaWNhbC9saWJpY2FsXzMu
-MC4xNi5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9saWJpY2FsL2xpYmljYWxfMy4wLjE1LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9saWJpY2FsL2xpYmljYWxfMy4wLjE2LmJiCmluZGV4IDFjZWIwMDA1Y2QuLjYxNTk5YjIw
-ZGQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmljYWwvbGliaWNhbF8zLjAu
-MTUuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliaWNhbC9saWJpY2FsXzMuMC4xNi5i
-YgpAQCAtMTUsNyArMTUsNyBAQCBTRUNUSU9OID0gImxpYnMiCiBTUkNfVVJJID0gIiR7R0lUSFVC
-X0JBU0VfVVJJfS9kb3dubG9hZC92JHtQVn0vJHtCUH0udGFyLmd6IFwKICAgICAgICAgICAgZmls
-ZTovLzAwMDEtY21ha2UtRG8tbm90LWV4cG9ydC1DQy1pbnRvLWdpci1jb21waWxlci5wYXRjaCBc
-CiAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjAxOTA4NWJhOTk5MzZmMjU1NDZk
-ODZjYjNlMzQ4NTJlNWZlMmI1YTdkNWYxY2I0NDIzYTBjYzQyZTM5OWY2MjkiCitTUkNfVVJJW3No
-YTI1NnN1bV0gPSAiYjQ0NzA1ZGQ3MWNhNDUzOGM4NmZiMTYyNDg0ODNhYjRiNDg5Nzg1MjRmYjFk
-YTUwOTdiZDc2YWEyZTBmMGMzMyIKIAogaW5oZXJpdCBjbWFrZSBwa2djb25maWcgZ29iamVjdC1p
-bnRyb3NwZWN0aW9uIHZhbGEgZ2l0aHViLXJlbGVhc2VzCiAKLS0gCjIuMzEuMQoK
-
---===============6809912974073876833==
+--===============9055962372502945614==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/libical/libical: FILELIST: removed "/usr/lib/libicalvcal.so.3.0.15 /usr/lib/libicalss_cxx.so.3.0.15 /usr/lib/libicalss.so.3.0.15 /usr/lib/libical.so.3.0.15 /usr/lib/libical_cxx.so.3.0.15 /usr/lib/libical-glib.so.3.0.15", added "/usr/lib/libicalss_cxx.so.3.0.16 /usr/lib/libicalvcal.so.3.0.16 /usr/lib/libical.so.3.0.16 /usr/lib/libicalss.so.3.0.16 /usr/lib/libical-glib.so.3.0.16 /usr/lib/libical_cxx.so.3.0.16"
-Changes to packages/core2-32-poky-linux/libical (sysroot):
-  /usr/lib/libical_cxx.so.3 changed symlink target from libical_cxx.so.3.0.15 to libical_cxx.so.3.0.16
-  /usr/lib/libical-glib.so.3 changed symlink target from libical-glib.so.3.0.15 to libical-glib.so.3.0.16
-  /usr/lib/libical.so.3 changed symlink target from libical.so.3.0.15 to libical.so.3.0.16
-  /usr/lib/libicalss_cxx.so.3 changed symlink target from libicalss_cxx.so.3.0.15 to libicalss_cxx.so.3.0.16
-  /usr/lib/libicalss.so.3 changed symlink target from libicalss.so.3.0.15 to libicalss.so.3.0.16
-  /usr/lib/libicalvcal.so.3 changed symlink target from libicalvcal.so.3.0.15 to libicalvcal.so.3.0.16
-  /usr/lib/libical_cxx.so.3.0.15 moved to /usr/lib/libical_cxx.so.3.0.16
-  /usr/lib/libical-glib.so.3.0.15 moved to /usr/lib/libical-glib.so.3.0.16
-  /usr/lib/libical.so.3.0.15 moved to /usr/lib/libical.so.3.0.16
-  /usr/lib/libicalss_cxx.so.3.0.15 moved to /usr/lib/libicalss_cxx.so.3.0.16
-  /usr/lib/libicalss.so.3.0.15 moved to /usr/lib/libicalss.so.3.0.16
-  /usr/lib/libicalvcal.so.3.0.15 moved to /usr/lib/libicalvcal.so.3.0.16
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2880,782 +2815,36 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
-Changes to packages/x86_64-linux/libical-native (sysroot):
-  /usr/lib/libical_cxx.so.3 changed symlink target from libical_cxx.so.3.0.15 to libical_cxx.so.3.0.16
-  /usr/lib/libical-glib.so.3 changed symlink target from libical-glib.so.3.0.15 to libical-glib.so.3.0.16
-  /usr/lib/libical.so.3 changed symlink target from libical.so.3.0.15 to libical.so.3.0.16
-  /usr/lib/libicalss_cxx.so.3 changed symlink target from libicalss_cxx.so.3.0.15 to libicalss_cxx.so.3.0.16
-  /usr/lib/libicalss.so.3 changed symlink target from libicalss.so.3.0.15 to libicalss.so.3.0.16
-  /usr/lib/libicalvcal.so.3 changed symlink target from libicalvcal.so.3.0.15 to libicalvcal.so.3.0.16
-  /usr/lib/libical_cxx.so.3.0.15 moved to /usr/lib/libical_cxx.so.3.0.16
-  /usr/lib/libical-glib.so.3.0.15 moved to /usr/lib/libical-glib.so.3.0.16
-  /usr/lib/libical.so.3.0.15 moved to /usr/lib/libical.so.3.0.16
-  /usr/lib/libicalss_cxx.so.3.0.15 moved to /usr/lib/libicalss_cxx.so.3.0.16
-  /usr/lib/libicalss.so.3.0.15 moved to /usr/lib/libicalss.so.3.0.16
-  /usr/lib/libicalvcal.so.3.0.15 moved to /usr/lib/libicalvcal.so.3.0.16
 
---===============6809912974073876833==
-Content-Type: text/plain; charset="us-ascii"
+--===============9055962372502945614==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-alsa-lib-upgrade-1.2.7.2-1.2.8.patch"
 
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 886 .bb files complete (0 cached, 886 parsed). 1664 targets, 53 skipped, 0 masked, 0 errors.
-Removing 2 recipes from the cortexa15t2hf-neon sysroot...done.
-Removing 2 recipes from the qemuarm sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+RnJvbSA2ZDYwNzkwZjQ1MzAwYWEyMTljNjNiNGY5MjhjZTZkZWIzNWU1MmUzIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMSBOb3YgMjAyMiAxODoyNDo0MiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGFs
+c2EtbGliOiB1cGdyYWRlIDEuMi43LjIgLT4gMS4yLjgKCi0tLQogLi4uL2Fsc2Eve2Fsc2EtbGli
+XzEuMi43LjIuYmIgPT4gYWxzYS1saWJfMS4yLjguYmJ9ICAgICAgICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLW11bHRpbWVkaWEvYWxzYS97YWxzYS1saWJfMS4yLjcuMi5iYiA9PiBhbHNhLWxpYl8x
+LjIuOC5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9hbHNh
+L2Fsc2EtbGliXzEuMi43LjIuYmIgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9hbHNhL2Fsc2Et
+bGliXzEuMi44LmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
+cy1tdWx0aW1lZGlhL2Fsc2EvYWxzYS1saWJfMS4yLjcuMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
+cGVzLW11bHRpbWVkaWEvYWxzYS9hbHNhLWxpYl8xLjIuOC5iYgppbmRleCA5ZWZkYWU4YWQ1Li5i
+Zjk2OGM5MjBiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9hbHNhL2Fsc2Et
+bGliXzEuMi43LjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvYWxzYS9hbHNhLWxp
+Yl8xLjIuOC5iYgpAQCAtMTAsNyArMTAsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9D
+T1BZSU5HO21kNT1hOTE2NDY3YjkxMDc2ZTYzMWRkOGVkYjc0MjQ3NjljNyBcCiAgICAgICAgICAg
+ICAgICAgICAgICIKIAogU1JDX1VSSSA9ICJodHRwczovL3d3dy5hbHNhLXByb2plY3Qub3JnL2Zp
+bGVzL3B1Yi9saWIvJHtCUH0udGFyLmJ6MiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI4YTM1Yjcy
+MThlNTBmMmEyYzc5MzQyZDBkZTk4ZGVkODE0MzljZTE5ZTEyODA5Mzg1ZWM5YmU5NTk2ZGU3YzJm
+IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjFhYjAxYjc0ZTMzNDI1Y2E5OWMyZTM2YzA4NDRmZDY4
+ODgyNzMxOTNiZDg5ODI0MGZlOGY5M2FjY2JjYmYzNDciCiAKIGluaGVyaXQgYXV0b3Rvb2xzIHBr
+Z2NvbmZpZwogCi0tIAoyLjMxLjEKCg==
 
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "arm-poky-linux-gnueabi"
-MACHINE              = "qemuarm"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
-TARGET_FPU           = "hard"
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:a2afb9ba7b81daeac283036fc6825353199d959a"
-workspace            = "master:78fd269e6649000b48ef1ef3e86009bad00fa815"
-
-Initialising tasks...done.
-Sstate summary: Wanted 27 Local 20 Mirrors 0 Missed 7 Current 280 (74% match, 97% complete)
-Removing 1 stale sstate objects for arch qemuarm...done.
-Removing 1 stale sstate objects for arch cortexa15t2hf-neon...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 281 of 307 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 282 of 307 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_populate_sysroot_setscene)
-NOTE: Running task 859 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_fetch)
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libical-3.0.16-r0: task do_fetch: Started
-NOTE: recipe libical-3.0.16-r0: task do_fetch: Succeeded
-NOTE: Running task 901 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_unpack)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/libffi/3.4.2-r0/temp/log.do_packagedata_setscene.2918502
-NOTE: recipe libical-3.0.16-r0: task do_unpack: Started
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 304 of 307 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_package_setscene)
-NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_unpack: Succeeded
-NOTE: Running task 902 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_patch)
-NOTE: recipe libical-3.0.16-r0: task do_patch: Started
-NOTE: recipe libical-3.0.16-r0: task do_patch: Succeeded
-NOTE: Running task 903 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_deploy_source_date_epoch)
-NOTE: Running task 904 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_generate_toolchain_file)
-NOTE: Running task 905 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_populate_lic)
-NOTE: recipe libical-3.0.16-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libical-3.0.16-r0: task do_generate_toolchain_file: Started
-NOTE: recipe libical-3.0.16-r0: task do_populate_lic: Started
-NOTE: recipe libical-3.0.16-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_populate_lic: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_populate_lic unihash changed to b921b011a67ecdfd3f5c29c1bfdbb3ab915ab1a355174ebc98fce0f3fff920c9
-NOTE: recipe libffi-3.4.2-r0: task do_package_setscene: Started
-NOTE: recipe libffi-3.4.2-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 305 of 307 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.36.bb:do_packagedata_setscene)
-NOTE: recipe glibc-2.36-r0: task do_packagedata_setscene: Started
-NOTE: recipe glibc-2.36-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1101 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata)
-NOTE: Running task 1154 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata: Started
-NOTE: recipe libical-3.0.16-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1167 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_configure)
-NOTE: recipe libical-3.0.16-r0: task do_configure: Started
-NOTE: recipe libical-3.0.16-r0: task do_configure: Succeeded
-NOTE: Running task 1168 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_compile)
-NOTE: recipe libical-3.0.16-r0: task do_compile: Started
-NOTE: recipe libical-3.0.16-r0: task do_compile: Succeeded
-NOTE: Running task 1169 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_install)
-NOTE: recipe libical-3.0.16-r0: task do_install: Started
-NOTE: recipe libical-3.0.16-r0: task do_install: Succeeded
-NOTE: Running task 1170 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_package)
-NOTE: Running task 1171 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_populate_sysroot)
-NOTE: recipe libical-3.0.16-r0: task do_package: Started
-NOTE: recipe libical-3.0.16-r0: task do_populate_sysroot: Started
-NOTE: recipe libical-3.0.16-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_package: Succeeded
-NOTE: Running task 1172 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_packagedata)
-NOTE: recipe libical-3.0.16-r0: task do_packagedata: Started
-NOTE: recipe libical-3.0.16-r0: task do_packagedata: Succeeded
-NOTE: Running task 1173 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_package_write_rpm)
-NOTE: Running task 1174 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_package_qa)
-NOTE: recipe libical-3.0.16-r0: task do_package_write_rpm: Started
-NOTE: recipe libical-3.0.16-r0: task do_package_qa: Started
-NOTE: recipe libical-3.0.16-r0: task do_package_qa: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1175 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_build)
-NOTE: Tasks Summary: Attempted 1175 tasks of which 1158 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-src went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-dbg went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-staticdev went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-dev went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-doc went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-locale went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============6809912974073876833==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
-
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 886 .bb files complete (0 cached, 886 parsed). 1665 targets, 49 skipped, 0 masked, 0 errors.
-Removing 35 recipes from the core2-32 sysroot...done.
-Removing 36 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux-musl"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:a2afb9ba7b81daeac283036fc6825353199d959a"
-workspace            = "master:78fd269e6649000b48ef1ef3e86009bad00fa815"
-
-Initialising tasks...done.
-Sstate summary: Wanted 158 Local 151 Mirrors 0 Missed 7 Current 150 (95% match, 97% complete)
-Removing 2 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 155 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 156 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 157 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 158 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_71.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 161 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.14.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 162 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 163 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 164 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_71.1.bb:do_populate_sysroot_setscene)
-NOTE: Running task 703 of 1176 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_fetch)
-NOTE: recipe vala-0.56.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxml2-2.9.14-r0: task do_packagedata_setscene: Started
-NOTE: recipe icu-71.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe vala-0.56.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxml2-2.9.14-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libical-3.0.16-r0: task do_fetch: Started
-NOTE: recipe gobject-introspection-1.72.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe icu-71.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libical-3.0.16-r0: task do_fetch: Succeeded
-NOTE: Running task 737 of 1176 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_unpack)
-NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe vala-0.56.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_unpack: Started
-NOTE: Running setscene task 182 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb:do_packagedata_setscene)
-NOTE: recipe libxml2-2.9.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe icu-71.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 184 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.0.bb:do_packagedata_setscene)
-NOTE: recipe libxml2-2.9.14-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.72.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe vala-0.56.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 187 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe icu-71.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 189 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe libical-3.0.16-r0: task do_unpack: Succeeded
-NOTE: recipe glib-2.0-1_2.72.3-r0: task do_packagedata_setscene: Started
-NOTE: Running task 755 of 1176 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_patch)
-NOTE: recipe python3-3.11.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.72.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libical-3.0.16-r0: task do_patch: Started
-NOTE: recipe python3-3.11.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libical-3.0.16-r0: task do_patch: Succeeded
-NOTE: recipe glib-2.0-1_2.72.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 756 of 1176 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_deploy_source_date_epoch)
-NOTE: Running task 757 of 1176 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_generate_toolchain_file)
-NOTE: Running task 758 of 1176 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_populate_lic)
-NOTE: recipe libical-3.0.16-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libical-3.0.16-r0: task do_generate_toolchain_file: Started
-NOTE: recipe libical-3.0.16-r0: task do_populate_lic: Started
-NOTE: recipe python3-3.11.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_generate_toolchain_file: Succeeded
-NOTE: Running setscene task 193 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 194 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 195 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 196 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 197 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
-NOTE: Running setscene task 198 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.39.4.bb:do_packagedata_setscene)
-NOTE: recipe python3-3.11.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 199 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 200 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 202 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 203 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 204 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 205 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.39.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe openssl-3.0.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe readline-8.1.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.72.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xz-5.2.7-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 208 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 209 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 210 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 211 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 212 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_packagedata_setscene)
-NOTE: Running setscene task 213 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_populate_sysroot_setscene)
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.39.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libical-3.0.16-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_populate_lic: Succeeded
-NOTE: recipe openssl-3.0.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe readline-8.1.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_populate_lic unihash changed to b921b011a67ecdfd3f5c29c1bfdbb3ab915ab1a355174ebc98fce0f3fff920c9
-NOTE: recipe xz-5.2.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.39.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.38.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre-8.45-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpcre-8.45-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe readline-8.1.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 215 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
-NOTE: recipe sqlite3-3_3.39.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe openssl-3.0.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 220 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe xz-5.2.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe readline-8.1.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libffi/3.4.2-r0/temp/log.do_packagedata_setscene.2931985
-NOTE: recipe openssl-3.0.5-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 225 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_package_setscene)
-NOTE: recipe xz-5.2.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.39.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpcre-8.45-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpcre-8.45-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 231 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 232 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-2.38.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 238 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb:do_packagedata_setscene)
-NOTE: Running setscene task 239 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 240 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 241 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 243 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 244 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 245 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 246 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 247 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 248 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.3+20220423-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.3+20220423-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ncurses-6.3+20220423-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ncurses-6.3+20220423-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 255 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 256 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 262 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 263 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 264 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 265 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe cracklib-2.9.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cracklib-2.9.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe cracklib-2.9.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe cracklib-2.9.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 270 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
-NOTE: Running setscene task 271 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
-NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.4.2-r0: task do_package_setscene: Started
-NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libffi-3.4.2-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 275 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 277 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 281 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 283 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 285 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.3+gitAUTOINC+dc9285ad1d-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 286 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-1.2.3+gitAUTOINC+dc9285ad1d-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.3+gitAUTOINC+dc9285ad1d-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 289 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 290 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 291 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.19.bb:do_packagedata_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-5.19-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.3+gitAUTOINC+dc9285ad1d-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 292 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 293 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-5.19-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 302 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 305 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.19.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-5.19-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-5.19-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 306 of 308 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.39.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-i686-2.39-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-i686-2.39-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1102 of 1176 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata)
-NOTE: Running task 1155 of 1176 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata: Started
-NOTE: recipe libical-3.0.16-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1168 of 1176 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_configure)
-NOTE: recipe libical-3.0.16-r0: task do_configure: Started
-NOTE: recipe libical-3.0.16-r0: task do_configure: Succeeded
-NOTE: Running task 1169 of 1176 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_compile)
-NOTE: recipe libical-3.0.16-r0: task do_compile: Started
-NOTE: recipe libical-3.0.16-r0: task do_compile: Succeeded
-NOTE: Running task 1170 of 1176 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_install)
-NOTE: recipe libical-3.0.16-r0: task do_install: Started
-NOTE: recipe libical-3.0.16-r0: task do_install: Succeeded
-NOTE: Running task 1171 of 1176 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_package)
-NOTE: Running task 1172 of 1176 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_populate_sysroot)
-NOTE: recipe libical-3.0.16-r0: task do_package: Started
-NOTE: recipe libical-3.0.16-r0: task do_populate_sysroot: Started
-NOTE: recipe libical-3.0.16-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_package: Succeeded
-NOTE: Running task 1173 of 1176 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_packagedata)
-NOTE: recipe libical-3.0.16-r0: task do_packagedata: Started
-NOTE: recipe libical-3.0.16-r0: task do_packagedata: Succeeded
-NOTE: Running task 1174 of 1176 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_package_write_rpm)
-NOTE: Running task 1175 of 1176 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_package_qa)
-NOTE: recipe libical-3.0.16-r0: task do_package_write_rpm: Started
-NOTE: recipe libical-3.0.16-r0: task do_package_qa: Started
-NOTE: recipe libical-3.0.16-r0: task do_package_qa: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1176 of 1176 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_build)
-NOTE: Tasks Summary: Attempted 1176 tasks of which 1159 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-src went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-dbg went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-staticdev went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-dev went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-doc went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-locale went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============6809912974073876833==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
-
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 886 .bb files complete (0 cached, 886 parsed). 1664 targets, 63 skipped, 0 masked, 0 errors.
-Removing 2 recipes from the mips32r2 sysroot...done.
-Removing 2 recipes from the qemumips sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "mips-poky-linux"
-MACHINE              = "qemumips"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:a2afb9ba7b81daeac283036fc6825353199d959a"
-workspace            = "master:78fd269e6649000b48ef1ef3e86009bad00fa815"
-
-Initialising tasks...done.
-Sstate summary: Wanted 27 Local 20 Mirrors 0 Missed 7 Current 280 (74% match, 97% complete)
-Removing 1 stale sstate objects for arch qemumips...done.
-Removing 1 stale sstate objects for arch mips32r2...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 281 of 307 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 282 of 307 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_populate_sysroot_setscene)
-NOTE: Running task 859 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_fetch)
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libical-3.0.16-r0: task do_fetch: Started
-NOTE: recipe libical-3.0.16-r0: task do_fetch: Succeeded
-NOTE: Running task 901 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_unpack)
-NOTE: recipe libical-3.0.16-r0: task do_unpack: Started
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/libffi/3.4.2-r0/temp/log.do_packagedata_setscene.2922474
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 304 of 307 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_package_setscene)
-NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_unpack: Succeeded
-NOTE: Running task 902 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_patch)
-NOTE: recipe libical-3.0.16-r0: task do_patch: Started
-NOTE: recipe libical-3.0.16-r0: task do_patch: Succeeded
-NOTE: Running task 903 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_deploy_source_date_epoch)
-NOTE: Running task 904 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_generate_toolchain_file)
-NOTE: Running task 905 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_populate_lic)
-NOTE: recipe libical-3.0.16-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libical-3.0.16-r0: task do_generate_toolchain_file: Started
-NOTE: recipe libical-3.0.16-r0: task do_populate_lic: Started
-NOTE: recipe libical-3.0.16-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_populate_lic unihash changed to b921b011a67ecdfd3f5c29c1bfdbb3ab915ab1a355174ebc98fce0f3fff920c9
-NOTE: recipe libical-3.0.16-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libffi-3.4.2-r0: task do_package_setscene: Started
-NOTE: recipe libffi-3.4.2-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 305 of 307 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.36.bb:do_packagedata_setscene)
-NOTE: recipe glibc-2.36-r0: task do_packagedata_setscene: Started
-NOTE: recipe glibc-2.36-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1101 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata)
-NOTE: Running task 1154 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata: Started
-NOTE: recipe libical-3.0.16-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1167 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_configure)
-NOTE: recipe libical-3.0.16-r0: task do_configure: Started
-NOTE: recipe libical-3.0.16-r0: task do_configure: Succeeded
-NOTE: Running task 1168 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_compile)
-NOTE: recipe libical-3.0.16-r0: task do_compile: Started
-NOTE: recipe libical-3.0.16-r0: task do_compile: Succeeded
-NOTE: Running task 1169 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_install)
-NOTE: recipe libical-3.0.16-r0: task do_install: Started
-NOTE: recipe libical-3.0.16-r0: task do_install: Succeeded
-NOTE: Running task 1170 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_package)
-NOTE: Running task 1171 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_populate_sysroot)
-NOTE: recipe libical-3.0.16-r0: task do_package: Started
-NOTE: recipe libical-3.0.16-r0: task do_populate_sysroot: Started
-NOTE: recipe libical-3.0.16-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_package: Succeeded
-NOTE: Running task 1172 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_packagedata)
-NOTE: recipe libical-3.0.16-r0: task do_packagedata: Started
-NOTE: recipe libical-3.0.16-r0: task do_packagedata: Succeeded
-NOTE: Running task 1173 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_package_write_rpm)
-NOTE: Running task 1174 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_package_qa)
-NOTE: recipe libical-3.0.16-r0: task do_package_write_rpm: Started
-NOTE: recipe libical-3.0.16-r0: task do_package_qa: Started
-NOTE: recipe libical-3.0.16-r0: task do_package_qa: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1175 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_build)
-NOTE: Tasks Summary: Attempted 1175 tasks of which 1158 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-src went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-dbg went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-staticdev went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-dev went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-doc went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-locale went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============6809912974073876833==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
-
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 886 .bb files complete (0 cached, 886 parsed). 1664 targets, 70 skipped, 0 masked, 0 errors.
-Removing 2 recipes from the ppc7400 sysroot...done.
-Removing 2 recipes from the qemuppc sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "powerpc-poky-linux"
-MACHINE              = "qemuppc"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:a2afb9ba7b81daeac283036fc6825353199d959a"
-workspace            = "master:78fd269e6649000b48ef1ef3e86009bad00fa815"
-
-Initialising tasks...done.
-Sstate summary: Wanted 27 Local 20 Mirrors 0 Missed 7 Current 280 (74% match, 97% complete)
-Removing 1 stale sstate objects for arch ppc7400...done.
-Removing 1 stale sstate objects for arch qemuppc...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 281 of 307 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 282 of 307 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_populate_sysroot_setscene)
-NOTE: Running task 859 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_fetch)
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libical-3.0.16-r0: task do_fetch: Started
-NOTE: recipe libical-3.0.16-r0: task do_fetch: Succeeded
-NOTE: Running task 901 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_unpack)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/libffi/3.4.2-r0/temp/log.do_packagedata_setscene.2926443
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: recipe libical-3.0.16-r0: task do_unpack: Started
-NOTE: Running setscene task 304 of 307 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_package_setscene)
-NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_unpack: Succeeded
-NOTE: Running task 902 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_patch)
-NOTE: recipe libical-3.0.16-r0: task do_patch: Started
-NOTE: recipe libical-3.0.16-r0: task do_patch: Succeeded
-NOTE: Running task 903 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_deploy_source_date_epoch)
-NOTE: Running task 904 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_generate_toolchain_file)
-NOTE: Running task 905 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_populate_lic)
-NOTE: recipe libical-3.0.16-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libical-3.0.16-r0: task do_generate_toolchain_file: Started
-NOTE: recipe libical-3.0.16-r0: task do_populate_lic: Started
-NOTE: recipe libical-3.0.16-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_populate_lic: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_populate_lic unihash changed to b921b011a67ecdfd3f5c29c1bfdbb3ab915ab1a355174ebc98fce0f3fff920c9
-NOTE: recipe libffi-3.4.2-r0: task do_package_setscene: Started
-NOTE: recipe libffi-3.4.2-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 305 of 307 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.36.bb:do_packagedata_setscene)
-NOTE: recipe glibc-2.36-r0: task do_packagedata_setscene: Started
-NOTE: recipe glibc-2.36-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1101 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata)
-NOTE: Running task 1154 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata: Started
-NOTE: recipe libical-3.0.16-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1167 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_configure)
-NOTE: recipe libical-3.0.16-r0: task do_configure: Started
-NOTE: recipe libical-3.0.16-r0: task do_configure: Succeeded
-NOTE: Running task 1168 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_compile)
-NOTE: recipe libical-3.0.16-r0: task do_compile: Started
-NOTE: recipe libical-3.0.16-r0: task do_compile: Succeeded
-NOTE: Running task 1169 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_install)
-NOTE: recipe libical-3.0.16-r0: task do_install: Started
-NOTE: recipe libical-3.0.16-r0: task do_install: Succeeded
-NOTE: Running task 1170 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_package)
-NOTE: Running task 1171 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_populate_sysroot)
-NOTE: recipe libical-3.0.16-r0: task do_package: Started
-NOTE: recipe libical-3.0.16-r0: task do_populate_sysroot: Started
-NOTE: recipe libical-3.0.16-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_package: Succeeded
-NOTE: Running task 1172 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_packagedata)
-NOTE: recipe libical-3.0.16-r0: task do_packagedata: Started
-NOTE: recipe libical-3.0.16-r0: task do_packagedata: Succeeded
-NOTE: Running task 1173 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_package_write_rpm)
-NOTE: Running task 1174 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_package_qa)
-NOTE: recipe libical-3.0.16-r0: task do_package_write_rpm: Started
-NOTE: recipe libical-3.0.16-r0: task do_package_qa: Started
-NOTE: recipe libical-3.0.16-r0: task do_package_qa: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1175 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_build)
-NOTE: Tasks Summary: Attempted 1175 tasks of which 1158 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-src went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-dbg went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-staticdev went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-dev went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-doc went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-locale went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============6809912974073876833==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1665 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 886 .bb files complete (885 cached, 1 parsed). 1664 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:a2afb9ba7b81daeac283036fc6825353199d959a"
-workspace            = "master:78fd269e6649000b48ef1ef3e86009bad00fa815"
-
-Initialising tasks...done.
-Sstate summary: Wanted 25 Local 18 Mirrors 0 Missed 7 Current 282 (72% match, 97% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 283 of 307 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 284 of 307 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1030 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_fetch)
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libical-3.0.16-r0: task do_fetch: Started
-NOTE: recipe libical-3.0.16-r0: task do_fetch: Succeeded
-NOTE: Running task 1106 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_unpack)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/libffi/3.4.2-r0/temp/log.do_packagedata_setscene.2913867
-NOTE: recipe libical-3.0.16-r0: task do_unpack: Started
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 306 of 307 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_package_setscene)
-NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_unpack: Succeeded
-NOTE: Running task 1107 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_patch)
-NOTE: recipe libical-3.0.16-r0: task do_patch: Started
-NOTE: recipe libical-3.0.16-r0: task do_patch: Succeeded
-NOTE: Running task 1108 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1109 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_generate_toolchain_file)
-NOTE: Running task 1110 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_populate_lic)
-NOTE: recipe libical-3.0.16-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libical-3.0.16-r0: task do_generate_toolchain_file: Started
-NOTE: recipe libical-3.0.16-r0: task do_populate_lic: Started
-NOTE: recipe libical-3.0.16-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_populate_lic unihash changed to b921b011a67ecdfd3f5c29c1bfdbb3ab915ab1a355174ebc98fce0f3fff920c9
-NOTE: recipe libical-3.0.16-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libffi-3.4.2-r0: task do_package_setscene: Started
-NOTE: recipe libffi-3.4.2-r0: task do_package_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1140 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata)
-NOTE: Running task 1156 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata: Started
-NOTE: recipe libical-3.0.16-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1167 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_configure)
-NOTE: recipe libical-3.0.16-r0: task do_configure: Started
-NOTE: recipe libical-3.0.16-r0: task do_configure: Succeeded
-NOTE: Running task 1168 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_compile)
-NOTE: recipe libical-3.0.16-r0: task do_compile: Started
-NOTE: recipe libical-3.0.16-r0: task do_compile: Succeeded
-NOTE: Running task 1169 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_install)
-NOTE: recipe libical-3.0.16-r0: task do_install: Started
-NOTE: recipe libical-3.0.16-r0: task do_install: Succeeded
-NOTE: Running task 1170 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_package)
-NOTE: Running task 1171 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_populate_sysroot)
-NOTE: recipe libical-3.0.16-r0: task do_package: Started
-NOTE: recipe libical-3.0.16-r0: task do_populate_sysroot: Started
-NOTE: recipe libical-3.0.16-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_package: Succeeded
-NOTE: Running task 1172 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_packagedata)
-NOTE: recipe libical-3.0.16-r0: task do_packagedata: Started
-NOTE: recipe libical-3.0.16-r0: task do_packagedata: Succeeded
-NOTE: Running task 1173 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_package_write_rpm)
-NOTE: Running task 1174 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_package_qa)
-NOTE: recipe libical-3.0.16-r0: task do_package_write_rpm: Started
-NOTE: recipe libical-3.0.16-r0: task do_package_qa: Started
-NOTE: recipe libical-3.0.16-r0: task do_package_qa: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1175 of 1175 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_build)
-NOTE: Tasks Summary: Attempted 1175 tasks of which 1158 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-src went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-dbg went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-staticdev went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-dev went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-doc went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi-locale went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: QA Issue: Package version for package libffi went backwards which would break package feeds (from 0:3.4.4-r0 to 0:3.4.2-r0) [version-going-backwards]
-ERROR: libffi-3.4.2-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============6809912974073876833==--
+--===============9055962372502945614==--
 
