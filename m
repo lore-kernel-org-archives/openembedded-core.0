@@ -1,288 +1,386 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED743C4332F
-	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 15:35:25 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web09.7823.1667403321801940851
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18DE6C4332F
+	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 15:47:36 +0000 (UTC)
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+ by mx.groups.io with SMTP id smtpd.web11.7963.1667404045756475080
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Nov 2022 08:35:21 -0700
+ Wed, 02 Nov 2022 08:47:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Q5TGEg4I;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=830590c779=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A2CVAmo026558
-	for <openembedded-core@lists.openembedded.org>; Wed, 2 Nov 2022 08:35:21 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=content-type :
- message-id : date : subject : to : cc : references : from : in-reply-to :
- mime-version; s=PPS06212021;
- bh=ssksSszcPc75+EHymDaqqR80ug8n19ChB18gCgzyY+I=;
- b=Q5TGEg4IcrTruSpihVu1RJswwrYgYN+sSVAU77ntC+2b/sFw3sLEO4ZnhFgyEjTkjNgx
- 7k+SDMIxeg9gKCSaFsg2hyWb59GMBZpMsdYnJLbFoCKPOFFlGVfDnJtiWaVA77rsLZBc
- Ay3/fe1MvSW/upjrQn33NVeL4AeJ6OyNXyG1iN5g0FbQ0LWu5dp1KBf5ltfRNpTYO0AP
- AKuRm9mcKtQz79nFqk0OVZAMXv5aclFeAqLvNlPeONMk/ojouSIky0E3sDJ/suFO+Nek
- Ol2g7rOxvYv0FflEnYpSc4682kpYYCpfxaMEfu4NA5tyjqrmSwDcDSnOTHcZUKeYgrnX Ig== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kj2gsafv0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 08:35:21 -0700
-Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A2FXxFo030082
-	for <openembedded-core@lists.openembedded.org>; Wed, 2 Nov 2022 08:35:20 -0700
-Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1anam02lp2044.outbound.protection.outlook.com [104.47.57.44])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kj2gsafuy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 02 Nov 2022 08:35:20 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i0JmJ2gZ0uJzPQa1rbLzOUTeQLXvC1W4X2JlT8MHtQjGkOig5aiiSqbxW2w3knQ+8Umy98vudUBAuMKdcl+ZjnP9E7GC/eq9j9Eltu2MbZn1h6RYFWKNhMxM7s8ngc9BGLAsXYL6BNsHRxluv0UL2x0WqjY6wvbtujhaTP7eNwJIUZ6XHaYy/0AC0sA1k1xdTUF9H+pHg6KdVSzbJwJu9SDtE8e5CK4Tio7Ap/hxzd96xX2Ymgc1Em2rYEgOcOnb7DV6YTnCAVIiw9HqUQfRjiSW6WagjlIPq2xmR5g7mcAyHlNfOagD7qoZVkegf9HCm/TlCy6qgZHYz5LM6xekfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ssksSszcPc75+EHymDaqqR80ug8n19ChB18gCgzyY+I=;
- b=SAeuYvi++odMfvFaHyTEdyhW9s1yQWo6lOiQjEFSnRvg9Y7Im7g0ofdPHiBffFmQjvAgIsqUWZh3O9lMZrO7vCDQJLYpOm1qjeCFBGpbhlIuY14DjC7tgFLiXOTq5Cc4HRuxJvjC2+VlHH4kncg7Df2VYJgzUT2aa1C3nIETvD2ewpeBM80e1jMV6P7WXr/7f9jnzebvWl2jYW9U51Z1v/hkoeQrHWI0qMoSuG3SDMsMAbG8auPImnwmoseWJBWzZzdcIU+7gD99HuFgkhQP+tW3tYiaMZAEarzOHAZjnYrg9pRvrje7sjnN8OmA93fCLPpe6uYCBlOkBuF8L1SEDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
- by DS0PR11MB6399.namprd11.prod.outlook.com (2603:10b6:8:c8::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5791.22; Wed, 2 Nov 2022 15:35:17 +0000
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::daa9:a3d:d4ac:7043]) by DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::daa9:a3d:d4ac:7043%6]) with mapi id 15.20.5769.021; Wed, 2 Nov 2022
- 15:35:17 +0000
-Content-Type: multipart/alternative;
- boundary="------------Dg36BIL4m7I0wLg09h0tQmHr"
-Message-ID: <cd94ea37-4164-08e3-f7bd-2826006d2070@windriver.com>
-Date: Wed, 2 Nov 2022 11:35:14 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: Dunfell toolchain update analysis
-Content-Language: en-CA
-To: Steve Sakoman <steve@sakoman.com>,
-        "Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>
-Cc: "Moodalappa, Shivaprasad" <Shivaprasad.Moodalappa@windriver.com>,
-        Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <4af9fc74-3b02-57ca-7aa1-d02a90f0f621@windriver.com>
- <CAOSpxdYo-5pvq632UZoxSyD5+sHQJcZYfwA0L3w1FauFm_fXHA@mail.gmail.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <CAOSpxdYo-5pvq632UZoxSyD5+sHQJcZYfwA0L3w1FauFm_fXHA@mail.gmail.com>
-X-ClientProxiedBy: SJ0PR05CA0071.namprd05.prod.outlook.com
- (2603:10b6:a03:332::16) To DM6PR11MB3994.namprd11.prod.outlook.com
- (2603:10b6:5:193::19)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=dHmt75Uy;
+ spf=pass (domain: gmail.com, ip: 209.85.221.173, mailfrom: sakoman@gmail.com)
+Received: by mail-vk1-f173.google.com with SMTP id g26so9148094vkm.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 08:47:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=24jP/onSzIiMPUF27jxxQI2f8KWp5ingB5nPX3o73FI=;
+        b=dHmt75UysxstrOzj044EVN0djXtr5YMBKYaq3P0IPLz3d/424fyCzNF0qDraetPz58
+         81tk5Qp6lhgaf+VuJKy/5a8OJy/ZgfD5+ajt2YxXQnuFXj77mlgaaUsPsHft9/JaHRbF
+         SRUGrj6Bd5LkU7xQL6BVyAmAbFonhdy3cU8jKRs9OBeVU8X3lJmfRKYPbwFcZcZHJSmS
+         AHgnwsMuH8qJOlAtW6d8QDtQyFFUI0M/f9KzFntGnqBoQViyT/EAcZUK/o9+4TQI5vvu
+         h0Ua16N9C2u4b4kxK1KJ0dprzEwgvGCfXn4ckFkrWU0+pj/GKYLPJzPEaAITEu5G9bIp
+         1C3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=24jP/onSzIiMPUF27jxxQI2f8KWp5ingB5nPX3o73FI=;
+        b=aedDA9maali8oNAknJ/9TSsnreToo/wyo4eBCjLxqcI4PsZueIFiHGvL1V9FjJ7XhL
+         HE4MoM5/qXQHufLGl8tza9/N4p2h6OPJaOGFC/2+QmYln2h1ZmgAEi5BWAfhbKHriyVB
+         P2VFacFZZu2fC75kOwCCR8vYecfEcvahEc1tplN9cpOHjpY9+qOGldxFVTYUAduWg+Zg
+         Tsviqb4ZbtUEJeZHC+pWubJgScdlLzmgRNIO3xccvWur3Z0QLUS/ehsefdr1ICbI0Swm
+         qMQg7g4dHwpjZ15r6hIhM9b1hV3J5cNVFk7Za7pVuMmYoy+sm90cp2DoW72QCirt2fDk
+         mo2Q==
+X-Gm-Message-State: ACrzQf18jaBGrjLNXOaC2i9Txe7b+1AWqS7p/9xCcxPnLHl7/86ii+C7
+	cIN+T4syvsDLik79bfeZgRId8lemE+e2Nr2lcRw=
+X-Google-Smtp-Source: AMsMyM4iXLtL9Ws1kpiuSXTd06092AVQh/dX/nfW/GY3uT5uS7UOpRul9qkUX6RpV0PXKaBdHYIPweIk/41IGF86G0k=
+X-Received: by 2002:a1f:aa42:0:b0:3ab:81ee:8fa9 with SMTP id
+ t63-20020a1faa42000000b003ab81ee8fa9mr12285497vke.17.1667404044483; Wed, 02
+ Nov 2022 08:47:24 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR11MB3994:EE_|DS0PR11MB6399:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae546ccd-1541-40b4-7233-08dabce7d81f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	SzwWbOfay5iTKFk5EXUs9gvgKxp6Flw/1F0JBR+gpR9nCw5TKkEEeas4UNHNDW0bDVkCIxZMo1wO2skyKowTs7dUpmjL3UhoJythMbThMxcLl4rX7733jPsxSjFVN/us2JZPZxXaSsMkVFq3RJjuEKewFZu70S2b0bpJlms4XMGZ4McHBuTiqkfUIdtibnPIRCtPe33jVURj10kAgzGvQ6MBEZ6Z0b67n9TL63D8gPLzCSmOfzMhlAIsPgZDL0bOLblINR4tFRP33R0tktxM8sm+TxOYJtw4/rzT84lHsGn9CYCAHfIAODMLhQZGyFt3AjrGXs5oVlEOIobPASFQUxx5Nv5tM6hJYHDlf0FPqHttKBjZ6/nLivxnHfLGmhcQJJ5gbWvBhaSPOWoafi7IbgYFtXjsGZAlkbLRxSjnp3zwpgKqfvfCpAnDxvgNwXWAPR1QCYrBvH5fI/YrFhRH05+wq5KPm8X0KRTRp1hQ5KYHhF3lGH3kYQKFOm8P4GP6PgjgGEH4fQpBrKUyQalXdnSxG6bGFQvzZ3SbhpHTsuIBTTmR8nP9QdGh2Dr4aGAiu23fWx2JVM2Bs7M/UJvJdOvusWa1d+raaTq1Hf4kgZQii67rRDJafMCfjfMqMqAuZ/mtB8uqoyWyGbVT5TZd1VGkIEvjwBnTJazdmpw9BDKdV0/YueV8RwmTpHehS8ZD+dyxbEmJEDGvvp4dBK7N5Ne1DGLp/1xPXOMPre4LzVpNcldeEqJftmF3F9cjujbFLZe6qr1boDwt5u2pSsBMx/0cMwlDBusO6lW9yRYg04Q=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(39850400004)(346002)(376002)(136003)(396003)(451199015)(36756003)(15650500001)(2906002)(38100700002)(66476007)(5660300002)(6666004)(8676002)(4326008)(66946007)(66556008)(6636002)(54906003)(6486002)(316002)(8936002)(41300700001)(110136005)(83380400001)(3480700007)(31696002)(31686004)(86362001)(2616005)(26005)(186003)(6506007)(478600001)(33964004)(53546011)(6512007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?eEZCZFpqaG15d1lidGRGVDNiVk5KZktURW5DRFhsZk1zZ0U4b3V0dk84NTI0?=
- =?utf-8?B?a0pzblFJYndoUDMxVUpUYUhOdE1aSTZFbVN0S205NTg5L1lqL3pZeWpuTkx2?=
- =?utf-8?B?dWI2SkpxKzhzVW5yZEZKelp1WFNoWW42anRscGV0eVpjNkdwVUs4NXppSWVL?=
- =?utf-8?B?MHBIdWx4ajhlUUxidjFUQmR4RzNIMEFBUExTdXN3NnZzSGRjanEzblliZ1Aw?=
- =?utf-8?B?K1RFYTQwZkJLNVRBcEx4bmZKczJqaDlSeEo3b1QwbEtIUnhORXArb1l3bTN5?=
- =?utf-8?B?Q3k2WHpsZGl6N08rcDZFRk9xUzBNbmlzMHlONmFUbFJPK2hwRlZhRFVUVGRm?=
- =?utf-8?B?ZFkxQnBxY2JRZmFsUlNTZUdwMk83aXRWZGhQcEYwenFUdDJNNGtmZ1ZlWk1p?=
- =?utf-8?B?S3FDUENwOVhCT0trNUhOUjh5QnNIUy9ndHk5UDJ4anhpeElicThtWDQ0N2Zi?=
- =?utf-8?B?V01SZTR3d243cDBQeG8zNUpxaDQ0NnVUWnpoaHltc2dIWFVBYjhpakF4aXNR?=
- =?utf-8?B?MlE1UDl6RUtnVEpjV0ZHeHA3RVpzREU1NVZlUWRxdDhzSFJpK3B2cDlleUp1?=
- =?utf-8?B?WE1UdVVudlp1RGs1V0UwdFdkdVdDNUs3UGVNVGN1dlN0K0w2a0t2VFhIL2tI?=
- =?utf-8?B?MlFhTmxQekxRRzVKM2lTQVBOeVo5WnNUd3QrbnhxQ2ExTElSQm15ZWJoWkxh?=
- =?utf-8?B?eFZKdTR4OGt0YzNsVkExZ3FMNDJvQThjYmp2MTVNWDRzOGVSVVgvVS9hZ1dU?=
- =?utf-8?B?SUtZS0JmNm10b3hHbGRwemRtY0RSOUNjZGdPTitsN0ZuamFUSk0raUlkWTl0?=
- =?utf-8?B?citXT3JqU09FdUVGWXJ3cTlhM1psTE5JOFh5b2NTVEJRYURxVnNQelFQS1FC?=
- =?utf-8?B?bFZINm1RZDVsdDRPMVhxdFo2WDFKSjN6RGtNQmIxdU9ROVg1aklMUkZDNk1X?=
- =?utf-8?B?SlJoSm1sN0YxeW1HOGswMHJ0K1pMVjBEdmcxK3VaOFJoRGR6NzVkak1RbGtG?=
- =?utf-8?B?c1YyR2tBRnkrWE5JL0E5RUFyWjdacG9wdjhKRERCajZXMzhCdTZWV3hRUGRU?=
- =?utf-8?B?ZVRHUHIvUVcxUDVUVEs1Q1dLMlZhS3lUa0gzSklzb1BaemtlMDd4TmxONjdN?=
- =?utf-8?B?S1pzVFBGMEIzK3pDNjREMDJLZzlNQmJ1N0hlblJRR2xydTVWVmN0RUl3T3Na?=
- =?utf-8?B?bGtNRmhGa3JUcGZCeCtkaUQrWmlxcnc0S0RNdjNVV1VwMUFsbFptVXF4V3c0?=
- =?utf-8?B?QlBTOFNiUFNZYWxlUktpdFZHN3hCVlZDRHN5WHMxaTBhOHRyVThLMk9vMEhK?=
- =?utf-8?B?NmlXbHdzajUrQ3orSm1yeFNOZDNoYTgxY3phWGFkOXhaZE4vUWFTWVIxd1dJ?=
- =?utf-8?B?cXJoL3JNNGJHNmFER01Oc3lod3E5bm9vU0wxWnBMZVJWd2Y2T08vSUxxcUQ5?=
- =?utf-8?B?dVYyM25EMkRTMk5tOER1ZmR1eGc2VTkrZ0syTEJtekFveGg3bVQvMlZzVTdi?=
- =?utf-8?B?Qkd1TS9LOVVMd2U3RXJKVnNHaTErbjRXanoxL3VRL0M5Um9QUmc1Ni82Y0RQ?=
- =?utf-8?B?NGZVU1NEMHFIYkV5WkwrNXVONzdUNjhHMXYyMzFBeFg0ZUE1K1VGMCt0QkUz?=
- =?utf-8?B?S1BmTjNQUE5wSTNXRXlnUWVTcjlnQzNCTzFTMk0rSUtLZkR5aEI2K2IwUzJZ?=
- =?utf-8?B?U0ZKa1prVjRaVnNjam9lUFdxWlVsTlhqbG1DNWw3WCtmMWhVVHBrS2Nla0Y5?=
- =?utf-8?B?MWd1V2dSUWFJOFlRTmp3T1kyWVV3c2VlT09pNWZSK0ZOYW5UR2NXVkRkUGd3?=
- =?utf-8?B?NU90WGpSREIrMUlTeDdIMkl3V2R6Q0g3UjkweGhzdjdRcy85U285ZDVUZWMv?=
- =?utf-8?B?Wm1DMkFRRlZwbGRtd3ZDeTY0cWZYQlhCdDhUTytBby85UWk3OURjeC9xa1I0?=
- =?utf-8?B?YUJLSy9ic1p4RklhV3BFZ0lSKzdqOGJrU01qQy9na1lRdDNqcHhiZjJVaFZi?=
- =?utf-8?B?REtMSllwOVN3empGNWNDYTNBRDErS3dydzhQd0pBZVpSVFhBWkw1SEZIUmM5?=
- =?utf-8?B?ZldyaC9UQTNLUkwzYWdXK3Q3cmgyRldjK2hROUxJYUdrbTVSUTJXMmRMUTh2?=
- =?utf-8?B?WVpVSitvTTFYcmNyTUpmZGZPU0VsVlZvdWFmaytrUTlpODhUUjROemJWWmFQ?=
- =?utf-8?B?UHc9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae546ccd-1541-40b4-7233-08dabce7d81f
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2022 15:35:17.7471
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xE20kwj4UW3a89Oh0xZWN8BP1JIcmaZBu3fJ6LGN99HZAYAIstK6VuvpstwtHbc4WycJIUPRn7B56cIhI5KSbDQNQvmBikJVz6qwv3RpbCg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6399
-X-Proofpoint-GUID: lrnqhKAcAI0yy8o2jnuPxNTvjewIEs_2
-X-Proofpoint-ORIG-GUID: Ny_vyczVsTiz4nMySJfpDnh71N6V6fpI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-02_13,2022-11-02_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxscore=0
- spamscore=0 malwarescore=0 adultscore=0 mlxlogscore=999 impostorscore=0
- priorityscore=1501 lowpriorityscore=0 phishscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211020100
+References: <20221102112417.53713-1-hprajapati@mvista.com>
+In-Reply-To: <20221102112417.53713-1-hprajapati@mvista.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Wed, 2 Nov 2022 05:47:13 -1000
+Message-ID: <CAGDS+nnmSACBBwCntqb4B4ZfwON4cM=n81EdQU2J7SyaG9NYGw@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][PATCH] golang: CVE-2022-41715 regexp/syntax:
+ limit memory used by parsing regexps
+To: Hitendra Prajapati <hprajapati@mvista.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 15:35:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172594
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 15:47:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172595
 
---------------Dg36BIL4m7I0wLg09h0tQmHr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+This is failing in do_patch on the autobuilder:
 
-Add Sundeep back after accidentally dropping him from the list.
+ERROR: Applying patch 'CVE-2022-41715.patch' on target directory
+'TOPDIR/tmp/work/x86_64-linux/go-native/1.14.15-r0/go'
+Command Error: 'quilt --quiltrc
+TOPDIR/tmp/work/x86_64-linux/go-native/1.14.15-r0/recipe-sysroot-native/etc/quiltrc
+push' exited with 0  Output:
+Applying patch CVE-2022-41715.patch
+patching file src/regexp/syntax/parse.go
+Hunk #1 FAILED at 90.
+Hunk #2 FAILED at 122.
+Hunk #3 succeeded at 106 (offset -52 lines).
+Hunk #4 FAILED at 190.
+Hunk #5 FAILED at 306.
+Hunk #6 succeeded at 456 (offset -54 lines).
+Hunk #7 succeeded at 514 (offset -54 lines).
+4 out of 7 hunks FAILED -- rejects in file src/regexp/syntax/parse.go
+patching file src/regexp/syntax/parse_test.go
+Hunk #1 FAILED at 484.
+1 out of 1 hunk FAILED -- rejects in file src/regexp/syntax/parse_test.go
+Patch CVE-2022-41715.patch does not apply (enforce with -f)
+DEBUG: Python function patch_do_patch finished
+DEBUG: Python function do_patch finished
 
-On 2022-11-02 11:00, Steve Sakoman wrote:
-> On Wed, Nov 2, 2022 at 2:24 AM Randy MacLeod
-> <randy.macleod@windriver.com>  wrote:
->> Thanks for the info I requested Sundeep.
->>
->>
->> Steve or anyone using dunfell,
->>
->> Do you have any concerns with the updates shown below?
-> The glibc and binutils updates seem fine.  The gcc update(s) concern
-> me a little bit, but we can test and see if any issues arise.
+Details of all failures:
 
-Sure.
-
-The next dunfell build/release dates are:
-
-# YP 3.1.21 build date 2022/11/28
-# YP 3.1.21 Release date 2022/12/09
-
-so let's get started.
-
-Sundeep, send the updates with, or followed by, the test results please.
-
-../Randy
-
-
->
-> Steve
->
->> Hello Randy,
->>
->> I checked the Dunfell branch for gcc, glibc & binutils updates.
->>
->> gcc-9.3 is currently used in Dunfell and gcc-9.5 was released by gcc.
->> glibc-2.31 is used by Dunfell and latest commits in this branch are listed in attached file 'glibc.log'
->> binutils-2.34 is used by Dunfell and latest commits in this branch are listed in attached file 'binutils-gdb.log'
->>
->> Can I update all these 3 modules as mentioned above?
->>
->>
->> Thanks,
->> Sundeep K.
-
-
--- 
-# Randy MacLeod
-# Wind River Linux
-
---------------Dg36BIL4m7I0wLg09h0tQmHr
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">Add Sundeep back after accidentally
-      dropping him from the list.</div>
-    <div class="moz-cite-prefix"><br>
-    </div>
-    <div class="moz-cite-prefix">On 2022-11-02 11:00, Steve Sakoman
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:CAOSpxdYo-5pvq632UZoxSyD5+sHQJcZYfwA0L3w1FauFm_fXHA@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">On Wed, Nov 2, 2022 at 2:24 AM Randy MacLeod
-<a class="moz-txt-link-rfc2396E" href="mailto:randy.macleod@windriver.com">&lt;randy.macleod@windriver.com&gt;</a> wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Thanks for the info I requested Sundeep.
-
-
-Steve or anyone using dunfell,
-
-Do you have any concerns with the updates shown below?
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">The glibc and binutils updates seem fine.  The gcc update(s) concern
-me a little bit, but we can test and see if any issues arise.</pre>
-    </blockquote>
-    <p>Sure.</p>
-    <p>The next dunfell build/release dates are:<br>
-    </p>
-    <p>
-      <li style="color:black;margin-top:0in;margin-bottom:0in;mso-list:l4
-        level1 lfo11;vertical-align:baseline"><span style="font-family:&quot;Arial&quot;,sans-serif">YP 3.1.21
-          build date 2022/11/28</span></li>
-      <li style="color:black;margin-top:0in;margin-bottom:0in;mso-list:l4
-        level1 lfo11;vertical-align:baseline"><span style="font-family:&quot;Arial&quot;,sans-serif">YP 3.1.21
-          Release date 2022/12/09</span></li>
-    </p>
-    <p>so let's get started. <br>
-    </p>
-    <p>Sundeep, send the updates with, or followed by, the test results
-      please.<br>
-    </p>
-    <p>../Randy</p>
-    <p><br>
-    </p>
-    <blockquote type="cite" cite="mid:CAOSpxdYo-5pvq632UZoxSyD5+sHQJcZYfwA0L3w1FauFm_fXHA@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">
+https://errors.yoctoproject.org/Errors/Build/154397/
 
 Steve
 
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Hello Randy,
-
-I checked the Dunfell branch for gcc, glibc &amp; binutils updates.
-
-gcc-9.3 is currently used in Dunfell and gcc-9.5 was released by gcc.
-glibc-2.31 is used by Dunfell and latest commits in this branch are listed in attached file 'glibc.log'
-binutils-2.34 is used by Dunfell and latest commits in this branch are listed in attached file 'binutils-gdb.log'
-
-Can I update all these 3 modules as mentioned above?
-
-
-Thanks,
-Sundeep K.
-</pre>
-      </blockquote>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-# Randy MacLeod
-# Wind River Linux</pre>
-  </body>
-</html>
-
---------------Dg36BIL4m7I0wLg09h0tQmHr--
+On Wed, Nov 2, 2022 at 1:24 AM Hitendra Prajapati <hprajapati@mvista.com> wrote:
+>
+> Upstream-Status: Backport from https://github.com/golang/go/commit/e9017c2416ad0ef642f5e0c2eab2dbf3cba4d997
+>
+> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> ---
+>  meta/recipes-devtools/go/go-1.14.inc          |   1 +
+>  .../go/go-1.14/CVE-2022-41715.patch           | 253 ++++++++++++++++++
+>  2 files changed, 254 insertions(+)
+>  create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2022-41715.patch
+>
+> diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
+> index 3341beb159..bae8eb8398 100644
+> --- a/meta/recipes-devtools/go/go-1.14.inc
+> +++ b/meta/recipes-devtools/go/go-1.14.inc
+> @@ -42,6 +42,7 @@ SRC_URI += "\
+>      file://0003-CVE-2022-32190.patch \
+>      file://0004-CVE-2022-32190.patch \
+>      file://CVE-2022-2880.patch \
+> +    file://CVE-2022-41715.patch \
+>  "
+>
+>  SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
+> diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2022-41715.patch b/meta/recipes-devtools/go/go-1.14/CVE-2022-41715.patch
+> new file mode 100644
+> index 0000000000..e0bfbaa55f
+> --- /dev/null
+> +++ b/meta/recipes-devtools/go/go-1.14/CVE-2022-41715.patch
+> @@ -0,0 +1,253 @@
+> +From db39634158a68c19c8821323fe855643d11cedfc Mon Sep 17 00:00:00 2001
+> +From: Hitendra Prajapati <hprajapati@mvista.com>
+> +Date: Wed, 2 Nov 2022 10:55:30 +0530
+> +Subject: [PATCH] CVE-2022-41715
+> +
+> +Upstream-Status: Backport [https://github.com/golang/go/commit/e9017c2416ad0ef642f5e0c2eab2dbf3cba4d997]
+> +CVE: CVE-2022-41715
+> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> +
+> +regexp: limit size of parsed regexps
+> +
+> +Set a 128 MB limit on the amount of space used by []syntax.Inst
+> +in the compiled form corresponding to a given regexp.
+> +
+> +Also set a 128 MB limit on the rune storage in the *syntax.Regexp
+> +tree itself.
+> +---
+> + src/regexp/syntax/parse.go      | 145 ++++++++++++++++++++++++++++++--
+> + src/regexp/syntax/parse_test.go |  13 +--
+> + 2 files changed, 148 insertions(+), 10 deletions(-)
+> +
+> +diff --git a/src/regexp/syntax/parse.go b/src/regexp/syntax/parse.go
+> +index 55bd20d..60491d5 100644
+> +--- a/src/regexp/syntax/parse.go
+> ++++ b/src/regexp/syntax/parse.go
+> +@@ -90,15 +90,49 @@ const (
+> + // until we've allocated at least maxHeight Regexp structures.
+> + const maxHeight = 1000
+> +
+> ++// maxSize is the maximum size of a compiled regexp in Insts.
+> ++// It too is somewhat arbitrarily chosen, but the idea is to be large enough
+> ++// to allow significant regexps while at the same time small enough that
+> ++// the compiled form will not take up too much memory.
+> ++// 128 MB is enough for a 3.3 million Inst structures, which roughly
+> ++// corresponds to a 3.3 MB regexp.
+> ++const (
+> ++      maxSize  = 128 << 20 / instSize
+> ++      instSize = 5 * 8 // byte, 2 uint32, slice is 5 64-bit words
+> ++)
+> ++
+> ++// maxRunes is the maximum number of runes allowed in a regexp tree
+> ++// counting the runes in all the nodes.
+> ++// Ignoring character classes p.numRunes is always less than the length of the regexp.
+> ++// Character classes can make it much larger: each \pL adds 1292 runes.
+> ++// 128 MB is enough for 32M runes, which is over 26k \pL instances.
+> ++// Note that repetitions do not make copies of the rune slices,
+> ++// so \pL{1000} is only one rune slice, not 1000.
+> ++// We could keep a cache of character classes we've seen,
+> ++// so that all the \pL we see use the same rune list,
+> ++// but that doesn't remove the problem entirely:
+> ++// consider something like [\pL01234][\pL01235][\pL01236]...[\pL^&*()].
+> ++// And because the Rune slice is exposed directly in the Regexp,
+> ++// there is not an opportunity to change the representation to allow
+> ++// partial sharing between different character classes.
+> ++// So the limit is the best we can do.
+> ++const (
+> ++      maxRunes = 128 << 20 / runeSize
+> ++      runeSize = 4 // rune is int32
+> ++)
+> ++
+> + type parser struct {
+> +       flags       Flags     // parse mode flags
+> +       stack       []*Regexp // stack of parsed expressions
+> +       free        *Regexp
+> +       numCap      int // number of capturing groups seen
+> +       wholeRegexp string
+> +-      tmpClass    []rune          // temporary char class work space
+> +-      numRegexp   int             // number of regexps allocated
+> +-      height      map[*Regexp]int // regexp height for height limit check
+> ++      tmpClass    []rune            // temporary char class work space
+> ++      numRegexp   int               // number of regexps allocated
+> ++      numRunes    int               // number of runes in char classes
+> ++      repeats     int64             // product of all repetitions seen
+> ++      height      map[*Regexp]int   // regexp height, for height limit check
+> ++      size        map[*Regexp]int64 // regexp compiled size, for size limit check
+> + }
+> +
+> + func (p *parser) newRegexp(op Op) *Regexp {
+> +@@ -122,6 +156,104 @@ func (p *parser) reuse(re *Regexp) {
+> +       p.free = re
+> + }
+> +
+> ++func (p *parser) checkLimits(re *Regexp) {
+> ++      if p.numRunes > maxRunes {
+> ++              panic(ErrInternalError)
+> ++      }
+> ++      p.checkSize(re)
+> ++      p.checkHeight(re)
+> ++}
+> ++
+> ++func (p *parser) checkSize(re *Regexp) {
+> ++      if p.size == nil {
+> ++              // We haven't started tracking size yet.
+> ++              // Do a relatively cheap check to see if we need to start.
+> ++              // Maintain the product of all the repeats we've seen
+> ++              // and don't track if the total number of regexp nodes
+> ++              // we've seen times the repeat product is in budget.
+> ++              if p.repeats == 0 {
+> ++                      p.repeats = 1
+> ++              }
+> ++              if re.Op == OpRepeat {
+> ++                      n := re.Max
+> ++                      if n == -1 {
+> ++                              n = re.Min
+> ++                      }
+> ++                      if n <= 0 {
+> ++                              n = 1
+> ++                      }
+> ++                      if int64(n) > maxSize/p.repeats {
+> ++                              p.repeats = maxSize
+> ++                      } else {
+> ++                              p.repeats *= int64(n)
+> ++                      }
+> ++              }
+> ++              if int64(p.numRegexp) < maxSize/p.repeats {
+> ++                      return
+> ++              }
+> ++
+> ++              // We need to start tracking size.
+> ++              // Make the map and belatedly populate it
+> ++              // with info about everything we've constructed so far.
+> ++              p.size = make(map[*Regexp]int64)
+> ++              for _, re := range p.stack {
+> ++                      p.checkSize(re)
+> ++              }
+> ++      }
+> ++
+> ++      if p.calcSize(re, true) > maxSize {
+> ++              panic(ErrInternalError)
+> ++      }
+> ++}
+> ++
+> ++func (p *parser) calcSize(re *Regexp, force bool) int64 {
+> ++      if !force {
+> ++              if size, ok := p.size[re]; ok {
+> ++                      return size
+> ++              }
+> ++      }
+> ++
+> ++      var size int64
+> ++      switch re.Op {
+> ++      case OpLiteral:
+> ++              size = int64(len(re.Rune))
+> ++      case OpCapture, OpStar:
+> ++              // star can be 1+ or 2+; assume 2 pessimistically
+> ++              size = 2 + p.calcSize(re.Sub[0], false)
+> ++      case OpPlus, OpQuest:
+> ++              size = 1 + p.calcSize(re.Sub[0], false)
+> ++      case OpConcat:
+> ++              for _, sub := range re.Sub {
+> ++                      size += p.calcSize(sub, false)
+> ++              }
+> ++      case OpAlternate:
+> ++              for _, sub := range re.Sub {
+> ++                      size += p.calcSize(sub, false)
+> ++              }
+> ++              if len(re.Sub) > 1 {
+> ++                      size += int64(len(re.Sub)) - 1
+> ++              }
+> ++      case OpRepeat:
+> ++              sub := p.calcSize(re.Sub[0], false)
+> ++              if re.Max == -1 {
+> ++                      if re.Min == 0 {
+> ++                              size = 2 + sub // x*
+> ++                      } else {
+> ++                              size = 1 + int64(re.Min)*sub // xxx+
+> ++                      }
+> ++                      break
+> ++              }
+> ++              // x{2,5} = xx(x(x(x)?)?)?
+> ++              size = int64(re.Max)*sub + int64(re.Max-re.Min)
+> ++      }
+> ++
+> ++      if size < 1 {
+> ++              size = 1
+> ++      }
+> ++      p.size[re] = size
+> ++      return size
+> ++}
+> ++
+> + func (p *parser) checkHeight(re *Regexp) {
+> +       if p.numRegexp < maxHeight {
+> +               return
+> +@@ -158,6 +290,7 @@ func (p *parser) calcHeight(re *Regexp, force bool) int {
+> +
+> + // push pushes the regexp re onto the parse stack and returns the regexp.
+> + func (p *parser) push(re *Regexp) *Regexp {
+> ++      p.numRunes += len(re.Rune)
+> +       if re.Op == OpCharClass && len(re.Rune) == 2 && re.Rune[0] == re.Rune[1] {
+> +               // Single rune.
+> +               if p.maybeConcat(re.Rune[0], p.flags&^FoldCase) {
+> +@@ -189,7 +322,7 @@ func (p *parser) push(re *Regexp) *Regexp {
+> +       }
+> +
+> +       p.stack = append(p.stack, re)
+> +-      p.checkHeight(re)
+> ++      p.checkLimits(re)
+> +       return re
+> + }
+> +
+> +@@ -305,7 +438,7 @@ func (p *parser) repeat(op Op, min, max int, before, after, lastRepeat string) (
+> +       re.Sub = re.Sub0[:1]
+> +       re.Sub[0] = sub
+> +       p.stack[n-1] = re
+> +-      p.checkHeight(re)
+> ++      p.checkLimits(re)
+> +
+> +       if op == OpRepeat && (min >= 2 || max >= 2) && !repeatIsValid(re, 1000) {
+> +               return "", &Error{ErrInvalidRepeatSize, before[:len(before)-len(after)]}
+> +@@ -509,6 +642,7 @@ func (p *parser) factor(sub []*Regexp) []*Regexp {
+> +
+> +                       for j := start; j < i; j++ {
+> +                               sub[j] = p.removeLeadingString(sub[j], len(str))
+> ++                              p.checkLimits(sub[j])
+> +                       }
+> +                       suffix := p.collapse(sub[start:i], OpAlternate) // recurse
+> +
+> +@@ -566,6 +700,7 @@ func (p *parser) factor(sub []*Regexp) []*Regexp {
+> +                       for j := start; j < i; j++ {
+> +                               reuse := j != start // prefix came from sub[start]
+> +                               sub[j] = p.removeLeadingRegexp(sub[j], reuse)
+> ++                              p.checkLimits(sub[j])
+> +                       }
+> +                       suffix := p.collapse(sub[start:i], OpAlternate) // recurse
+> +
+> +diff --git a/src/regexp/syntax/parse_test.go b/src/regexp/syntax/parse_test.go
+> +index 1ef6d8a..67e3c56 100644
+> +--- a/src/regexp/syntax/parse_test.go
+> ++++ b/src/regexp/syntax/parse_test.go
+> +@@ -484,12 +484,15 @@ var invalidRegexps = []string{
+> +       `(?P<>a)`,
+> +       `[a-Z]`,
+> +       `(?i)[a-Z]`,
+> +-      `a{100000}`,
+> +-      `a{100000,}`,
+> +-      "((((((((((x{2}){2}){2}){2}){2}){2}){2}){2}){2}){2})",
+> +-      strings.Repeat("(", 1000) + strings.Repeat(")", 1000),
+> +-      strings.Repeat("(?:", 1000) + strings.Repeat(")*", 1000),
+> +       `\Q\E*`,
+> ++      `a{100000}`,  // too much repetition
+> ++      `a{100000,}`, // too much repetition
+> ++      "((((((((((x{2}){2}){2}){2}){2}){2}){2}){2}){2}){2})",    // too much repetition
+> ++      strings.Repeat("(", 1000) + strings.Repeat(")", 1000),    // too deep
+> ++      strings.Repeat("(?:", 1000) + strings.Repeat(")*", 1000), // too deep
+> ++      "(" + strings.Repeat("(xx?)", 1000) + "){1000}",          // too long
+> ++      strings.Repeat("(xx?){1000}", 1000),                      // too long
+> ++      strings.Repeat(`\pL`, 27000),                             // too many runes
+> + }
+> +
+> + var onlyPerl = []string{
+> +--
+> +2.25.1
+> +
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#172585): https://lists.openembedded.org/g/openembedded-core/message/172585
+> Mute This Topic: https://lists.openembedded.org/mt/94731679/3617601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [sakoman@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
