@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64488C64E78
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A2EBC64E7B
 	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 00:40:39 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web09.856.1667349632279043740
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.877.1667349634281229063
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Nov 2022 17:40:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=n1k7fgZE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018435c85be4-9423db5c-a0be-458c-92ca-ff4447e8dc2c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=cGR+fQHx;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018435c85a02-9e945cef-78f8-46bf-bbf4-f942568ec5aa-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1667349634;
+	t=1667349633;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=g4OkEz24RE9GJQXQ8BXQBVWER2W8eqHTg8tcxnFKZXY=;
-	b=n1k7fgZE1u4EKhLY3WNwyGXq35W0rRkwTOgCQiAlkGQvrtF5khTTqijbDiyZ6fBg
-	AF4UPc7nDq+vKeg/JsDnYz4TScu1LMzNAN4aR2oA975QdUchiSk7MD6GhGtMHlTi++j
-	M8MzosXa/n/2f6spz31Y6AkFsphL/YAfwnuYmQzM=
+	bh=tc5gYNcmcXAFT86tdSjLJqbPNE+mB4eOpuVjwsKxni8=;
+	b=cGR+fQHxxF4I8JEYgHHOttBiKT6+yHNyqY3O/qAlYX8aJP0PGtgD1fV2YsWMxdCp
+	p2zFjSYkrlbXn4HwY4b2kCyk/bJKFpFKhXah+8EJE3aHZHOFSMaKB1+WBonQo4ItO3K
+	6LgZeq6HaN/cDXdoxg5o7gJaFf7sRWIHrqN1kFqY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1667349634;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1667349633;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=g4OkEz24RE9GJQXQ8BXQBVWER2W8eqHTg8tcxnFKZXY=;
-	b=fC7tM3ICCMu178qPxb1589a+516r1hHfYQZhD9sX+z95hpaNqHNZG/UYpqI0YRCl
-	nftS5lVC2v6D1761BNPGc4EkHAcuddjdAht94qvP/GZXKvXErYTmUdt0xN6uZXnAjwt
-	6He14I/BEVFmR047WEyQ1yi3/Qv1NPfynnZ+9Z0w=
-Content-Type: multipart/mixed; boundary="===============7227141666817969864=="
+	bh=tc5gYNcmcXAFT86tdSjLJqbPNE+mB4eOpuVjwsKxni8=;
+	b=fmZRTZnu/zHV5Q/+YzdifWqGeDL7AVu9nVV+0rm46TCvX9GiFdjI6QtR3af2rGGN
+	N/9lIqeJ6QYkHHLjhG/ERgjjEJgyTDy4uf79u6WbdZdXZ5JoZYjaj1VnIN0O5hUkcPC
+	mISltOzgQx47rcqLlig5NL83SBrnKjnNQsG0BVlA=
+Content-Type: multipart/mixed; boundary="===============7935398545426831714=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libidn2: upgrading to 2.3.4 SUCCEEDED
-Message-ID: <0101018435c85be4-9423db5c-a0be-458c-92ca-ff4447e8dc2c-000000@us-west-2.amazonses.com>
-Date: Wed, 2 Nov 2022 00:40:34 +0000
+Subject: [AUH] python3-typing-extensions: upgrading to 4.4.0 SUCCEEDED
+Message-ID: <0101018435c85a02-9e945cef-78f8-46bf-bbf4-f942568ec5aa-000000@us-west-2.amazonses.com>
+Date: Wed, 2 Nov 2022 00:40:33 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.11.02-54.240.27.193
+X-SES-Outgoing: 2022.11.02-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 00:40:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172449
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172448
 
---===============7227141666817969864==
+--===============7935398545426831714==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libidn2* to *2.3.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-typing-extensions* to *4.4.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libidn2-upgrade-2.3.3-2.3.4.patch
+    - apply the patch: git am 0001-python3-typing-extensions-upgrade-4.3.0-4.4.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,139 +69,138 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7227141666817969864==
+--===============7935398545426831714==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libidn2: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2: PACKAGES: added "libidn2-locale-ko"
-packages/core2-32-poky-linux/libidn2: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2: SRC_URI changed from "https://ftp.gnu.org/gnu/libidn/libidn2-2.3.3.tar.gz" to "https://ftp.gnu.org/gnu/libidn/libidn2-2.3.4.tar.gz"
-packages/core2-32-poky-linux/libidn2/libidn2-bin: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-bin: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-dbg: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-dbg: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-dbg: PKGSIZE changed from 223488 to 271932 (+22%)
-packages/core2-32-poky-linux/libidn2/libidn2-dev: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-dev: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-doc: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-doc: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-doc: PKGSIZE changed from 80110 to 80113 (+0%)
-packages/core2-32-poky-linux/libidn2/libidn2-locale-cs: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-cs: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-cs: PKGSIZE changed from 6554 to 6694 (+2%)
-packages/core2-32-poky-linux/libidn2/libidn2-locale-da: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-da: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-de: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-de: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-de: PKGSIZE changed from 6750 to 6883 (+2%)
-packages/core2-32-poky-linux/libidn2/libidn2-locale-eo: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-eo: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-eo: PKGSIZE changed from 6353 to 6492 (+2%)
-packages/core2-32-poky-linux/libidn2/libidn2-locale-es: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-es: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-es: PKGSIZE changed from 6707 to 6854 (+2%)
-packages/core2-32-poky-linux/libidn2/libidn2-locale-fi: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-fi: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-fr: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-fr: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-fr: PKGSIZE changed from 6682 to 6812 (+2%)
-packages/core2-32-poky-linux/libidn2/libidn2-locale-fur: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-fur: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-hr: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-hr: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-hu: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-hu: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-id: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-id: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-it: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-it: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-ja: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-ja: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-ka: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-ka: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-nl: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-nl: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-nl: PKGSIZE changed from 6482 to 6606 (+2%)
-packages/core2-32-poky-linux/libidn2/libidn2-locale-pl: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-pl: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-pl: PKGSIZE changed from 6574 to 6722 (+2%)
-packages/core2-32-poky-linux/libidn2/libidn2-locale-pt-br: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-pt-br: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-ro: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-ro: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-ro: PKGSIZE changed from 6710 to 6851 (+2%)
-packages/core2-32-poky-linux/libidn2/libidn2-locale-ru: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-ru: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-ru: PKGSIZE changed from 6292 to 8305 (+32%)
-packages/core2-32-poky-linux/libidn2/libidn2-locale-sr: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-sr: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-sr: PKGSIZE changed from 7869 to 8041 (+2%)
-packages/core2-32-poky-linux/libidn2/libidn2-locale-sv: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-sv: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-sv: PKGSIZE changed from 6384 to 6511 (+2%)
-packages/core2-32-poky-linux/libidn2/libidn2-locale-uk: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-uk: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-uk: PKGSIZE changed from 8243 to 8398 (+2%)
-packages/core2-32-poky-linux/libidn2/libidn2-locale-vi: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-vi: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-zh-cn: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-locale-zh-cn: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-locale-zh-cn: PKGSIZE changed from 6210 to 6322 (+2%)
-packages/core2-32-poky-linux/libidn2/libidn2-src: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-src: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2-src: PKGSIZE changed from 1279727 to 1875647 (+47%)
-packages/core2-32-poky-linux/libidn2/libidn2-src: FILELIST: directory renamed /usr/src/debug/libidn2/2.3.3-r0/gl -> /usr/src/debug/libidn2/2.3.4-r0/gl, directory renamed /usr/src/debug/libidn2/2.3.3-r0/src -> /usr/src/debug/libidn2/2.3.4-r0/src, directory renamed /usr/src/debug/libidn2/2.3.3-r0/lib -> /usr/src/debug/libidn2/2.3.4-r0/lib, directory renamed /usr/src/debug/libidn2/2.3.3-r0/unistring -> /usr/src/debug/libidn2/2.3.4-r0/unistring, removed "/usr/src/debug/libidn2/2.3.3-r0/unistring/uninorm/decomposition-table1.h /usr/src/debug/libidn2/2.3.3-r0/unistring/uninorm/decomposition-table2.h /usr/src/debug/libidn2/2.3.3-r0/unistring/uninorm/decompose-internal.h", added "/usr/src/debug/libidn2/2.3.4-r0/unistring/unictype/scripts_byname.gperf /usr/src/debug/libidn2/2.3.4-r0/unistring/uninorm/decomposition-table2.h /usr/src/debug/libidn2/2.3.4-r0/unistring/uninorm/canonical-decomposition.c /usr/src/debug/libidn2/2.3.4-r0/unistring/unictype/categ_of.c /usr/src/debug/libidn2/2.3.4-r0/un
- istring/uninorm/decompose-internal.h /usr/src/debug/libidn2/2.3.4-r0/unistring/unictype/combiningclass.c /usr/src/debug/libidn2/2.3.4-r0/unistring/unictype/joiningtype_of.h /usr/src/debug/libidn2/2.3.4-r0/unistring/unictype/joiningtype_of.c /usr/src/debug/libidn2/2.3.4-r0/unistring/unictype/bidi_of.h /usr/src/debug/libidn2/2.3.4-r0/unistring/unictype/categ_M.h /usr/src/debug/libidn2/2.3.4-r0/unistring/uninorm/normalize-internal.h /usr/src/debug/libidn2/2.3.4-r0/unistring/unictype/combiningclass.h /usr/src/debug/libidn2/2.3.4-r0/unistring/unictype/scripts.c /usr/src/debug/libidn2/2.3.4-r0/unistring/uninorm/decomposition-table.h /usr/src/debug/libidn2/2.3.4-r0/unistring/uninorm/decomposition-table1.h /usr/src/debug/libidn2/2.3.4-r0/unistring/unictype/scripts.h /usr/src/debug/libidn2/2.3.4-r0/unistring/uninorm/u-normalize-internal.h /usr/src/debug/libidn2/2.3.4-r0/unistring/unictype/categ_of.h /usr/src/debug/libidn2/2.3.4-r0/unistring/unictype/bidi_of.c"
-packages/core2-32-poky-linux/libidn2/libidn2-staticdev: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2-staticdev: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2: PV changed from "2.3.3" to "2.3.4"
-packages/core2-32-poky-linux/libidn2/libidn2: PKGV changed from 2.3.3 [default] to 2.3.4 [default]
-packages/core2-32-poky-linux/libidn2/libidn2: PKGSIZE changed from 210436 to 329220 (+56%)
+packages/core2-32-poky-linux/python3-typing-extensions: PKGV changed from 4.3.0 [default] to 4.4.0 [default]
+packages/core2-32-poky-linux/python3-typing-extensions: SRC_URI changed from "https://files.pythonhosted.org/packages/source/t/typing_extensions/typing_extensions-4.3.0.tar.gz" to "https://files.pythonhosted.org/packages/source/t/typing_extensions/typing_extensions-4.4.0.tar.gz"
+packages/core2-32-poky-linux/python3-typing-extensions: PV changed from "4.3.0" to "4.4.0"
+packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-dbg: PKGV changed from 4.3.0 [default] to 4.4.0 [default]
+packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-dbg: PV changed from "4.3.0" to "4.4.0"
+packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-dev: PKGV changed from 4.3.0 [default] to 4.4.0 [default]
+packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-dev: PV changed from "4.3.0" to "4.4.0"
+packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-doc: PKGV changed from 4.3.0 [default] to 4.4.0 [default]
+packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-doc: PV changed from "4.3.0" to "4.4.0"
+packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-locale: PKGV changed from 4.3.0 [default] to 4.4.0 [default]
+packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-locale: PV changed from "4.3.0" to "4.4.0"
+packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-src: PKGV changed from 4.3.0 [default] to 4.4.0 [default]
+packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-src: PV changed from "4.3.0" to "4.4.0"
+packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-staticdev: PKGV changed from 4.3.0 [default] to 4.4.0 [default]
+packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-staticdev: PV changed from "4.3.0" to "4.4.0"
+packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions: PKGV changed from 4.3.0 [default] to 4.4.0 [default]
+packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions: PKGSIZE changed from 185260 to 198292 (+7%)
+packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions: PV changed from "4.3.0" to "4.4.0"
+Changes to packages/core2-32-poky-linux/python3-typing-extensions (sysroot):
+  /usr/lib/python3.11/site-packages/typing_extensions-4.3.0.dist-info moved to /usr/lib/python3.11/site-packages/typing_extensions-4.4.0.dist-info
 
---===============7227141666817969864==
+--===============7935398545426831714==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/libidn2: PACKAGES: added "libidn2-locale-ko"
-packages/core2-32-poky-linux/libidn2/libidn2-dbg: PKGSIZE changed from 223488 to 271932 (+22%)
-packages/core2-32-poky-linux/libidn2/libidn2-locale-ru: PKGSIZE changed from 6292 to 8305 (+32%)
-packages/core2-32-poky-linux/libidn2/libidn2-src: PKGSIZE changed from 1279727 to 1875647 (+47%)
-packages/core2-32-poky-linux/libidn2/libidn2: PKGSIZE changed from 210436 to 329220 (+56%)
+Changes to packages/core2-32-poky-linux/python3-typing-extensions (sysroot):
+  /usr/lib/python3.11/site-packages/typing_extensions-4.3.0.dist-info moved to /usr/lib/python3.11/site-packages/typing_extensions-4.4.0.dist-info
 
---===============7227141666817969864==
+--===============7935398545426831714==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libidn2-upgrade-2.3.3-2.3.4.patch"
+ filename="0001-python3-typing-extensions-upgrade-4.3.0-4.4.0.patch"
 
-RnJvbSA5ZjBkODZlMDczMjRmYWViZjlhZjNjMjdiZWZiOGZmNTdlMDk3ZDA2IE1vbiBTZXAgMTcg
+RnJvbSBlYTk4MDlhOGI4Mjg0ZmFhNTBhYWEzMWFmY2ZiMmMwZWEyOGMyYjNiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBOb3YgMjAyMiAxMjo0NTo0MyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YmlkbjI6IHVwZ3JhZGUgMi4zLjMgLT4gMi4zLjQKCi0tLQogLi4uL2xpYmlkbi97bGliaWRuMl8y
-LjMuMy5iYiA9PiBsaWJpZG4yXzIuMy40LmJifSAgICAgICAgICAgICAgIHwgMiArLQogMSBmaWxl
-IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
-cGVzLWV4dGVuZGVkL2xpYmlkbi97bGliaWRuMl8yLjMuMy5iYiA9PiBsaWJpZG4yXzIuMy40LmJi
-fSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJpZG4vbGliaWRu
-Ml8yLjMuMy5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJpZG4vbGliaWRuMl8yLjMuNC5i
-YgpzaW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQv
-bGliaWRuL2xpYmlkbjJfMi4zLjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9s
-aWJpZG4vbGliaWRuMl8yLjMuNC5iYgppbmRleCBhODZiMmI1YThkLi5iNDhkZTM5ZmEwIDEwMDY0
-NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGliaWRuL2xpYmlkbjJfMi4zLjMuYmIKKysr
-IGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYmlkbi9saWJpZG4yXzIuMy40LmJiCkBAIC0xMiw3
-ICsxMiw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTJkODM0ZWE3
-ZDQ4MDQzOGFkYTA0ZTVkODQ2MTUyMzk1IFwKICAgICAgICAgICAgICAgICAgICAgIgogCiBTUkNf
-VVJJID0gIiR7R05VX01JUlJPUn0vbGliaWRuLyR7QlBOfS0ke1BWfS50YXIuZ3oiCi1TUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiZjNhYzk4NzUyMmMwMGQzM2Q0NGIzMjNjYWU0MjRlMmNmZmNiNGM2M2M2
-YWE2Y2QxMzc2ZWRhY2JmMWMzNmViMCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI5M2NhYmE3MmI0
-ZTA1MWQxZjhkNGY1YTA3NmFiNjNjOTliNzdmYWVlMDE5YjcyYjk3ODNiMjY3OTg2ZGJiNDVmIgog
-CiBERVBFTkRTID0gInZpcnR1YWwvbGliaWNvbnYgbGlidW5pc3RyaW5nIgogCi0tIAoyLjMxLjEK
-Cg==
+CkRhdGU6IFR1ZSwgMSBOb3YgMjAyMiAxMTowOTo0MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtdHlwaW5nLWV4dGVuc2lvbnM6IHVwZ3JhZGUgNC4zLjAgLT4gNC40LjAKCi0tLQogLi4u
+L3B5dGhvbi9weXRob24zLXR5cGluZy1leHRlbnNpb25zXzQuMy4wLmJiIHwgMTQgLS0tLQogLi4u
+L3B5dGhvbi9weXRob24zLXR5cGluZy1leHRlbnNpb25zXzQuNC4wLmJiIHwgNjkgKysrKysrKysr
+KysrKysrKysrKwogMiBmaWxlcyBjaGFuZ2VkLCA2OSBpbnNlcnRpb25zKCspLCAxNCBkZWxldGlv
+bnMoLSkKIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
+dGhvbjMtdHlwaW5nLWV4dGVuc2lvbnNfNC4zLjAuYmIKIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdHlwaW5nLWV4dGVuc2lvbnNfNC40LjAu
+YmIKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdHlw
+aW5nLWV4dGVuc2lvbnNfNC4zLjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
+dGhvbjMtdHlwaW5nLWV4dGVuc2lvbnNfNC4zLjAuYmIKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0
+CmluZGV4IDk2Mzg0OTFlYjQuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLXR5cGluZy1leHRlbnNpb25zXzQuMy4wLmJiCisrKyAvZGV2L251bGwK
+QEAgLTEsMTQgKzAsMCBAQAotSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRodWIuY29tL3B5dGhvbi90
+eXBpbmciCi1MSUNFTlNFID0gIlBTRi0yLjAiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9M
+SUNFTlNFO21kNT02NGZjMmIzMGI2N2QwYTg0MjNjMjUwZTAzODZlZDcyZiIKLQotIyBUaGUgbmFt
+ZSBvbiBQeVBpIGlzIHNsaWdodGx5IGRpZmZlcmVudC4KLVBZUElfUEFDS0FHRSA9ICJ0eXBpbmdf
+ZXh0ZW5zaW9ucyIKLQotU1JDX1VSSVtzaGEyNTZzdW1dID0gImU2ZDI2NzdhMzJmNDdmYzdlYjI3
+OTVkYjFkZDE1YzFmMzRlZmY2MTZiY2FmMmNmYjVlOTk3Zjg1NGZhMWM0YTYiCi0KLWluaGVyaXQg
+cHlwaSBweXRob25fZmxpdF9jb3JlCi0KLUJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNk
+ayIKLQotVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAiL3R5cGluZy1leHRlbnNpb25zLyg/UDxwdmVy
+PihcZCtbXC5cLV9dKikrKS8iCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
+aG9uL3B5dGhvbjMtdHlwaW5nLWV4dGVuc2lvbnNfNC40LjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMtdHlwaW5nLWV4dGVuc2lvbnNfNC40LjAuYmIKbmV3IGZpbGUg
+bW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMC4uYzhjYmIyMTVmMAotLS0gL2Rldi9udWxsCisr
+KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy10eXBpbmctZXh0ZW5zaW9u
+c180LjQuMC5iYgpAQCAtMCwwICsxLDY5IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NV
+TSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBm
+b2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxp
+Y2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQs
+IGFuZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAn
+TGljZW5zZS1VcGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHly
+aWdodCB5ZWFycyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gTElDRU5T
+RQorIyArKysgTElDRU5TRQorIyBAQCAtMTMsMTIgKzEzLDExIEBACisjICAKKyMgIEluIE1heSAy
+MDAwLCBHdWlkbyBhbmQgdGhlIFB5dGhvbiBjb3JlIGRldmVsb3BtZW50IHRlYW0gbW92ZWQgdG8K
+KyMgIEJlT3Blbi5jb20gdG8gZm9ybSB0aGUgQmVPcGVuIFB5dGhvbkxhYnMgdGVhbS4gIEluIE9j
+dG9iZXIgb2YgdGhlIHNhbWUKKyMgLXllYXIsIHRoZSBQeXRob25MYWJzIHRlYW0gbW92ZWQgdG8g
+RGlnaXRhbCBDcmVhdGlvbnMgKG5vdyBab3BlCisjIC1Db3Jwb3JhdGlvbiwgc2VlIGh0dHA6Ly93
+d3cuem9wZS5jb20pLiAgSW4gMjAwMSwgdGhlIFB5dGhvbiBTb2Z0d2FyZQorIyAtRm91bmRhdGlv
+biAoUFNGLCBzZWUgaHR0cDovL3d3dy5weXRob24ub3JnL3BzZi8pIHdhcyBmb3JtZWQsIGEKKyMg
+LW5vbi1wcm9maXQgb3JnYW5pemF0aW9uIGNyZWF0ZWQgc3BlY2lmaWNhbGx5IHRvIG93biBQeXRo
+b24tcmVsYXRlZAorIyAtSW50ZWxsZWN0dWFsIFByb3BlcnR5LiAgWm9wZSBDb3Jwb3JhdGlvbiBp
+cyBhIHNwb25zb3JpbmcgbWVtYmVyIG9mCisjIC10aGUgUFNGLgorIyAreWVhciwgdGhlIFB5dGhv
+bkxhYnMgdGVhbSBtb3ZlZCB0byBEaWdpdGFsIENyZWF0aW9ucywgd2hpY2ggYmVjYW1lCisjICta
+b3BlIENvcnBvcmF0aW9uLiAgSW4gMjAwMSwgdGhlIFB5dGhvbiBTb2Z0d2FyZSBGb3VuZGF0aW9u
+IChQU0YsIHNlZQorIyAraHR0cHM6Ly93d3cucHl0aG9uLm9yZy9wc2YvKSB3YXMgZm9ybWVkLCBh
+IG5vbi1wcm9maXQgb3JnYW5pemF0aW9uCisjICtjcmVhdGVkIHNwZWNpZmljYWxseSB0byBvd24g
+UHl0aG9uLXJlbGF0ZWQgSW50ZWxsZWN0dWFsIFByb3BlcnR5LgorIyArWm9wZSBDb3Jwb3JhdGlv
+biB3YXMgYSBzcG9uc29yaW5nIG1lbWJlciBvZiB0aGUgUFNGLgorIyAgCisjICBBbGwgUHl0aG9u
+IHJlbGVhc2VzIGFyZSBPcGVuIFNvdXJjZSAoc2VlIGh0dHA6Ly93d3cub3BlbnNvdXJjZS5vcmcg
+Zm9yCisjICB0aGUgT3BlbiBTb3VyY2UgRGVmaW5pdGlvbikuICBIaXN0b3JpY2FsbHksIG1vc3Qs
+IGJ1dCBub3QgYWxsLCBQeXRob24KKyMgQEAgLTc0LDggKzczLDkgQEAKKyMgIGRpc3RyaWJ1dGUs
+IGFuZCBvdGhlcndpc2UgdXNlIFB5dGhvbiBhbG9uZSBvciBpbiBhbnkgZGVyaXZhdGl2ZSB2ZXJz
+aW9uLAorIyAgcHJvdmlkZWQsIGhvd2V2ZXIsIHRoYXQgUFNGJ3MgTGljZW5zZSBBZ3JlZW1lbnQg
+YW5kIFBTRidzIG5vdGljZSBvZiBjb3B5cmlnaHQsCisjICBpLmUuLCAiQ29weXJpZ2h0IChjKSAy
+MDAxLCAyMDAyLCAyMDAzLCAyMDA0LCAyMDA1LCAyMDA2LCAyMDA3LCAyMDA4LCAyMDA5LCAyMDEw
+LAorIyAtMjAxMSwgMjAxMiwgMjAxMywgMjAxNCBQeXRob24gU29mdHdhcmUgRm91bmRhdGlvbjsg
+QWxsIFJpZ2h0cyBSZXNlcnZlZCIgYXJlCisjIC1yZXRhaW5lZCBpbiBQeXRob24gYWxvbmUgb3Ig
+aW4gYW55IGRlcml2YXRpdmUgdmVyc2lvbiBwcmVwYXJlZCBieSBMaWNlbnNlZS4KKyMgKzIwMTEs
+IDIwMTIsIDIwMTMsIDIwMTQsIDIwMTUsIDIwMTYsIDIwMTcsIDIwMTgsIDIwMTksIDIwMjAsIDIw
+MjEsIDIwMjIgUHl0aG9uIFNvZnR3YXJlIEZvdW5kYXRpb247CisjICtBbGwgUmlnaHRzIFJlc2Vy
+dmVkIiBhcmUgcmV0YWluZWQgaW4gUHl0aG9uIGFsb25lIG9yIGluIGFueSBkZXJpdmF0aXZlIHZl
+cnNpb24KKyMgK3ByZXBhcmVkIGJ5IExpY2Vuc2VlLgorIyAgCisjICAzLiBJbiB0aGUgZXZlbnQg
+TGljZW5zZWUgcHJlcGFyZXMgYSBkZXJpdmF0aXZlIHdvcmsgdGhhdCBpcyBiYXNlZCBvbgorIyAg
+b3IgaW5jb3Jwb3JhdGVzIFB5dGhvbiBvciBhbnkgcGFydCB0aGVyZW9mLCBhbmQgd2FudHMgdG8g
+bWFrZQorIyBAQCAtMTgwLDkgKzE4MCw5IEBACisjICBBZ3JlZW1lbnQsIExpY2Vuc2VlIG1heSBz
+dWJzdGl0dXRlIHRoZSBmb2xsb3dpbmcgdGV4dCAob21pdHRpbmcgdGhlCisjICBxdW90ZXMpOiAi
+UHl0aG9uIDEuNi4xIGlzIG1hZGUgYXZhaWxhYmxlIHN1YmplY3QgdG8gdGhlIHRlcm1zIGFuZAor
+IyAgY29uZGl0aW9ucyBpbiBDTlJJJ3MgTGljZW5zZSBBZ3JlZW1lbnQuICBUaGlzIEFncmVlbWVu
+dCB0b2dldGhlciB3aXRoCisjIC1QeXRob24gMS42LjEgbWF5IGJlIGxvY2F0ZWQgb24gdGhlIElu
+dGVybmV0IHVzaW5nIHRoZSBmb2xsb3dpbmcKKyMgK1B5dGhvbiAxLjYuMSBtYXkgYmUgbG9jYXRl
+ZCBvbiB0aGUgaW50ZXJuZXQgdXNpbmcgdGhlIGZvbGxvd2luZworIyAgdW5pcXVlLCBwZXJzaXN0
+ZW50IGlkZW50aWZpZXIgKGtub3duIGFzIGEgaGFuZGxlKTogMTg5NS4yMi8xMDEzLiAgVGhpcwor
+IyAtQWdyZWVtZW50IG1heSBhbHNvIGJlIG9idGFpbmVkIGZyb20gYSBwcm94eSBzZXJ2ZXIgb24g
+dGhlIEludGVybmV0CisjICtBZ3JlZW1lbnQgbWF5IGFsc28gYmUgb2J0YWluZWQgZnJvbSBhIHBy
+b3h5IHNlcnZlciBvbiB0aGUgaW50ZXJuZXQKKyMgIHVzaW5nIHRoZSBmb2xsb3dpbmcgVVJMOiBo
+dHRwOi8vaGRsLmhhbmRsZS5uZXQvMTg5NS4yMi8xMDEzIi4KKyMgIAorIyAgMy4gSW4gdGhlIGV2
+ZW50IExpY2Vuc2VlIHByZXBhcmVzIGEgZGVyaXZhdGl2ZSB3b3JrIHRoYXQgaXMgYmFzZWQgb24K
+KyMgCisjCisKK0hPTUVQQUdFID0gImh0dHBzOi8vZ2l0aHViLmNvbS9weXRob24vdHlwaW5nIgor
+TElDRU5TRSA9ICJQU0YtMi4wIgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTtt
+ZDU9ZjE2YjMyMzkxNzk5MmUwZjhhNmYwMDcxYmM5OTEzZTIiCisKKyMgVGhlIG5hbWUgb24gUHlQ
+aSBpcyBzbGlnaHRseSBkaWZmZXJlbnQuCitQWVBJX1BBQ0tBR0UgPSAidHlwaW5nX2V4dGVuc2lv
+bnMiCisKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIxNTExNDM0YmI5MmJmOGRkMTk4YzEyYjFjYzgx
+MmU4MDBkNDE4MWNmY2I4Njc2NzRlMGY4Mjc5Y2M5MzA4N2FhIgorCitpbmhlcml0IHB5cGkgcHl0
+aG9uX2ZsaXRfY29yZQorCitCQkNMQVNTRVhURU5EID0gIm5hdGl2ZSBuYXRpdmVzZGsiCisKK1VQ
+U1RSRUFNX0NIRUNLX1JFR0VYID0gIi90eXBpbmctZXh0ZW5zaW9ucy8oP1A8cHZlcj4oXGQrW1wu
+XC1fXSopKykvIgotLSAKMi4zMS4xCgo=
 
---===============7227141666817969864==--
+--===============7935398545426831714==--
 
