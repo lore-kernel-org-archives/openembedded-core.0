@@ -2,57 +2,57 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EE82C43219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EF00C4167B
 	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 03:19:02 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web09.2242.1667359135724434779
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web09.2243.1667359137794589082
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Nov 2022 20:18:55 -0700
+ Tue, 01 Nov 2022 20:18:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=YHJSK/4O;
- spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: ticotimo@gmail.com)
-Received: by mail-pl1-f178.google.com with SMTP id j12so15359408plj.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 20:18:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SaI5GxbS;
+ spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: ticotimo@gmail.com)
+Received: by mail-pf1-f181.google.com with SMTP id b29so15216056pfp.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 20:18:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=U02+38X4mpWzsJVql31/ytiILZwOmFRJCvHrtc4ooZs=;
-        b=YHJSK/4OaznAU2HXWO5UGDshZSdhLQ+NFnG3tDplj6tz/aDftLnZwyizSwfUFdfCpv
-         tS8PjmWUXzjVYjyzADds2a0+Hoc/yvMlc4KxG6L4CH+amCceoxGHQs40mQbMltZQIF6l
-         8lbRdNOTZP2LnpBbUiBiUF9nsRrXKDHaGdRdagfdNoow7s7At4X7MdVNtaMocbeeSDVC
-         zNgs0KkjNhSchMlUZjyWg7jTC9iBgbzZrGYxPQo27J9ZL+6Vll3n8HXrLVXnzCow/krz
-         HSAluFBkXD+TbPzAGQgj+94vQbIFWfjAr1c3qgXCyH7vhI7YuL8NSPULkL6es+sRq31G
-         Vpww==
+        bh=19kvxFicGVs4D2j7gXQNn0rvxFXztz6gvinoDiJAxUI=;
+        b=SaI5GxbSuWZ5dGoYOAcM96aVeG88TlPRZXxrvyzJq6YG0Aab5sV1+8ffdEZsZ1Xa2V
+         65LNarHeJ5Vd4BSBZM+z6Dttids81o0gQpJ3p8tnXO+w4r1ZjCCzG6T8hQImzkkY0BVw
+         Ie3Ds0rwnnBU8bv1sgiJOYFGN1dJ3+ijwFBnJQFQeKnBAIK2lcpgYU0PwPn3wYdDrue3
+         cwQKiDnTawhJR8zTy6LDv9ZMMLTkvgJnkHk0SpacyVNnKOFcb54U815zYEXlEXgRW7qw
+         ZKsCECoIoG/g8vmgTQn7DqrjSLNbSicxUkCBLga3em6T8Bk7knCV7bqGT0K7b7K2zr59
+         AbAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=U02+38X4mpWzsJVql31/ytiILZwOmFRJCvHrtc4ooZs=;
-        b=4rrrNyR8BBUmmMcAhsImzOgshmmGoSBWSFdadnSnrcJ37HJhAXkBwp7mIPtf1IK3x6
-         IwenR0b3tbwdRHTyT6plCWQGV5CH8OqtUkUW8C731zeH91+rD59iy0XmYzpuJ41yfDB0
-         NJITvSPthgLL8uuJ9YxYTGBsD8oMnr2eoieEHGuiyt/+Pn0plyHKv+ipLSyh4fsLfojB
-         77aSV1FwXdOEQwhttbDhLQNRrEVJtyWCGQpP+JXxstVa8/CWsW5cJiMClAnCuHy03pKf
-         /a0dyI32ZitLwO6FcOKTgblWnitwW2Jeq/bOFysl+GnOAUNtLHvuCn6nwGinA7Wy4Cdu
-         DZhQ==
-X-Gm-Message-State: ACrzQf358qPVUm80wnWC2ketyKy5S2M+euu6zFjeNx/CEA9QxjI/GIZf
-	wt4hlRgZ+6hxfL+0RnuxqUjc4Amy2nm34w==
-X-Google-Smtp-Source: AMsMyM5RlxR6lfIGvcW5eTdXUOodIazXDv5W8vN1nc4SdMNQp5WDS0uW8uq3z2NjULsOABb2a1ZxbA==
-X-Received: by 2002:a17:902:c1c6:b0:186:994f:6e57 with SMTP id c6-20020a170902c1c600b00186994f6e57mr22411995plc.17.1667359134734;
-        Tue, 01 Nov 2022 20:18:54 -0700 (PDT)
+        bh=19kvxFicGVs4D2j7gXQNn0rvxFXztz6gvinoDiJAxUI=;
+        b=Skg42ffmdtLbMlGWR2QFMKAA9a6Vb9rFXj1wZQxh2GVwSvGFPlwzBgnmY1RxSIdWfL
+         eRv+aSlrF5WurozkDv5s/uwVM6PVGeE+J/DnHIcT0ZObNmJxwtEfmjkIXYbYNQudX4AN
+         n9pmm8YlgFj5f+OoMPyru/aBwWARTN2LTprxgx/VXrwoloo429Jq6uuEAQAddMgwToNK
+         io5zOxi3PVg6PTlw00q2/74SQ8ziLJ+DiA5Zx5E8FSe5zim2w1kWP95f2ojv20CY+PMo
+         vw49rRaW90kkqBLtZ3SXm9bKEzWtFR3Bz7WCMRMrzXQ4zdqHWlxSN/7dW0cAIU7olGnM
+         cGCg==
+X-Gm-Message-State: ACrzQf3YF66Je1kmVFqzCaLqrPW6qX2IQsgAh6/GgNYNoJnwqvMyeJCz
+	KWod13pGljQZHCOYCsae5Hk5RR3XQ8lbRw==
+X-Google-Smtp-Source: AMsMyM4bf7a1QaLa6t74G0TY8WrqEfurTlAmO0l1beniDiYdM371N11WoDppR0aFMJZBHvgdJX/hQw==
+X-Received: by 2002:a05:6a00:8c8:b0:52c:887d:fa25 with SMTP id s8-20020a056a0008c800b0052c887dfa25mr22741942pfu.86.1667359136678;
+        Tue, 01 Nov 2022 20:18:56 -0700 (PDT)
 Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:5e16:97a8:56b5:1576])
-        by smtp.gmail.com with ESMTPSA id y22-20020a17090a16d600b002139459e121sm269644pje.27.2022.11.01.20.18.53
+        by smtp.gmail.com with ESMTPSA id y22-20020a17090a16d600b002139459e121sm269644pje.27.2022.11.01.20.18.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Nov 2022 20:18:54 -0700 (PDT)
+        Tue, 01 Nov 2022 20:18:56 -0700 (PDT)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH 07/11] python3-more-itertools: upgrade 8.14.0 -> 9.0.0
-Date: Tue,  1 Nov 2022 20:18:26 -0700
-Message-Id: <20221102031830.3606777-7-tim.orling@konsulko.com>
+Subject: [PATCH 08/11] python3-pytz: upgrade 2022.4 -> 2022.6
+Date: Tue,  1 Nov 2022 20:18:27 -0700
+Message-Id: <20221102031830.3606777-8-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221102031830.3606777-1-tim.orling@konsulko.com>
 References: <20221102031830.3606777-1-tim.orling@konsulko.com>
@@ -62,54 +62,40 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 03:19:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172569
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172570
 
-https://github.com/more-itertools/more-itertools/blob/master/docs/versions.rst#900
+https://launchpad.net/pytz/+announcement/30743
 
-9.0.0
+pytz 2022.6, containing the 2022f IANA database, has been released.
+There are no code changes.
 
-* Potentially breaking changes
-  - `grouper` no longer accepts an integer as its first
-    argument. Previously this raised a DeprecationWarning.
-  - `collate` has been removed. Use the built-in
-    `heapq.merge` instead.
-  - `windowed` now yields nothing when its iterable is
-     empty.
+https://launchpad.net/pytz/+announcement/30736
 
-* This library now advertises support for Python 3.7+.
-
-* New functions
-  - `constrained_batches`
-  - `batched` (from the Python itertools docs)
-  - `polynomial_from_roots` (from the Python itertools
-     docs)
-  -`sieve` (from the Python itertools docs)
-
-* Other changes
-  - Some documentation issues were fixed (thanks to nanouasyn)
+pytz 2022.5 has been released containing the IANA 2022e database
+release. There are no code changes.
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- ...more-itertools_8.14.0.bb => python3-more-itertools_9.0.0.bb} | 2 +-
+ .../python/{python3-pytz_2022.4.bb => python3-pytz_2022.6.bb}   | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-more-itertools_8.14.0.bb => python3-more-itertools_9.0.0.bb} (86%)
+ rename meta/recipes-devtools/python/{python3-pytz_2022.4.bb => python3-pytz_2022.6.bb} (89%)
 
-diff --git a/meta/recipes-devtools/python/python3-more-itertools_8.14.0.bb b/meta/recipes-devtools/python/python3-more-itertools_9.0.0.bb
-similarity index 86%
-rename from meta/recipes-devtools/python/python3-more-itertools_8.14.0.bb
-rename to meta/recipes-devtools/python/python3-more-itertools_9.0.0.bb
-index c955f93d9b2..fce3aea8977 100644
---- a/meta/recipes-devtools/python/python3-more-itertools_8.14.0.bb
-+++ b/meta/recipes-devtools/python/python3-more-itertools_9.0.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/erikrose/more-itertools"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3396ea30f9d21389d7857719816f83b5"
+diff --git a/meta/recipes-devtools/python/python3-pytz_2022.4.bb b/meta/recipes-devtools/python/python3-pytz_2022.6.bb
+similarity index 89%
+rename from meta/recipes-devtools/python/python3-pytz_2022.4.bb
+rename to meta/recipes-devtools/python/python3-pytz_2022.6.bb
+index 330314f1bd7..9631f592883 100644
+--- a/meta/recipes-devtools/python/python3-pytz_2022.4.bb
++++ b/meta/recipes-devtools/python/python3-pytz_2022.6.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=1a67fc46c1b596cce5d21209bbe75999"
  
--SRC_URI[sha256sum] = "c09443cd3d5438b8dafccd867a6bc1cb0894389e90cb53d227456b0b0bccb750"
-+SRC_URI[sha256sum] = "5a6257e40878ef0520b1803990e3e22303a41b5714006c32a3fd8304b26ea1ab"
+ inherit pypi setuptools3 ptest
  
- inherit pypi python_flit_core ptest
+-SRC_URI[sha256sum] = "48ce799d83b6f8aab2020e369b627446696619e79645419610b9facd909b3174"
++SRC_URI[sha256sum] = "e89512406b793ca39f5971bc999cc538ce125c0e51c27941bef4568b460095e2"
  
+ RDEPENDS:${PN}:class-target += "\
+     ${PYTHON_PN}-datetime \
 -- 
 2.34.1
 
