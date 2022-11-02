@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD01CC6FA9B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3925C6FA97
 	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 00:40:40 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web08.875.1667349632981329428
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web12.870.1667349631595276587
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Nov 2022 17:40:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=OvMqpMq9;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018435c86775-d0052452-5f73-41c8-b923-59d884261e9b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=eA3ffQRE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018435c86720-5853d36a-36ae-478f-b31e-57076e72f8c1-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1667349637;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=P62r3Y45O8ZgLVuMVxb55BrAokgTIHNP3FCxcC6u0bM=;
-	b=OvMqpMq9ZJ+smerpuooUzjULMjal9XVVYtL42a+5ZpfwzbSYCRHAwOTQs5hoR88Q
-	clCYKm2gnSqAampxlV8GVF7DofUfp6veIxnvQR7s9idIF3ZQ879T48DC4QphYl7zOxj
-	qH/eAw+Onlvs9aWy3X2ItQINON4QuHZufiY/gwTA=
+	bh=tn/Lzy4aRWU4h3bK/BLcIwfD7DXRtrz8LbT6C4D9vUo=;
+	b=eA3ffQRE7bFe7vVuppiKcXFNy2fDf5jrYDwy3jVMTjqFkkzevAH9zc7UX5KTnPJ+
+	U3pFCSWkei7HcbDJFiC337GYdxurhjaCGwaGADlRnuq9zjl44ru1r0sJNXphbrbcVmK
+	yNDkEFu8KA9zN+RHUPLglf2ryyhBzc3uhm6HIE9o=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1667349637;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=P62r3Y45O8ZgLVuMVxb55BrAokgTIHNP3FCxcC6u0bM=;
-	b=EuSxpm5d1sUonnFhBxAglIWuudlHgSRUJTO+QkrEFhM28ZlxbxlbYlgSENIBMHui
-	CB84qhG17BrdB50k3L5P+65E2LMz5I1ZAElBrPQpfinNDj20DhIN2lbnJbMwLeHDQ1g
-	Nk8TZiKlR1zKuIOkB2zDNPU8oM50ltABb8mP/fSs=
-Content-Type: multipart/mixed; boundary="===============0768279492548424397=="
+	bh=tn/Lzy4aRWU4h3bK/BLcIwfD7DXRtrz8LbT6C4D9vUo=;
+	b=TDxSipihll9MIcsRHncaIFpIC5tPCPz5tzsCF0hhjF/ATKG32zhPOn4BWeYwoee1
+	K0yydN907B7uaUSU0NJqsXUDYzMDl0yQ7U0qp6POQhn6sy/KniskQVIYT8oJmWg31dC
+	45z7OW5bUD2C3JrXoh8/W4oTBBg+SBnILYJQBOtg=
+Content-Type: multipart/mixed; boundary="===============8167655277945513627=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libsoup-2.4: upgrading to 2.74.3 SUCCEEDED
-Message-ID: <0101018435c86775-d0052452-5f73-41c8-b923-59d884261e9b-000000@us-west-2.amazonses.com>
+Subject: [AUH] libffi: upgrading to 3.4.4 SUCCEEDED
+Message-ID: <0101018435c86720-5853d36a-36ae-478f-b31e-57076e72f8c1-000000@us-west-2.amazonses.com>
 Date: Wed, 2 Nov 2022 00:40:36 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.11.02-54.240.27.45
+X-SES-Outgoing: 2022.11.02-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 00:40:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172527
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172529
 
---===============0768279492548424397==
+--===============8167655277945513627==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libsoup-2.4* to *2.74.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *libffi* to *3.4.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libsoup-2.4-upgrade-2.74.2-2.74.3.patch
+    - apply the patch: git am 0001-libffi-upgrade-3.4.2-3.4.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,162 +69,41 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============0768279492548424397==
+--===============8167655277945513627==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libsoup-2.4: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4: SRC_URI changed from "https://download.gnome.org/sources//libsoup/2.74/libsoup-2.74.2.tar.xz" to "https://download.gnome.org/sources//libsoup/2.74/libsoup-2.74.3.tar.xz"
-packages/core2-32-poky-linux/libsoup-2.4: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-dbg: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-dbg: PKGSIZE changed from 1576308 to 1576260 (-0%)
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-dbg: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-dev: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-dev: PKGSIZE changed from 1623879 to 1624086 (+0%)
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-dev: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-doc: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-doc: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-an: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-an: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-as: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-as: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-be: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-be: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-bg: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-bg: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-bn-in: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-bn-in: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-bs: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-bs: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ca+valencia: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ca+valencia: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ca: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ca: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-cs: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-cs: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-da: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-da: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-de: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-de: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-el: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-el: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-en-gb: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-en-gb: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-eo: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-eo: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-es: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-es: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-et: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-et: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-eu: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-eu: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-fa: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-fa: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-fi: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-fi: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-fr: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-fr: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-fur: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-fur: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-gd: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-gd: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-gl: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-gl: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-gu: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-gu: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-he: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-he: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-hi: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-hi: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-hr: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-hr: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-hu: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-hu: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-id: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-id: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-it: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-it: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ja: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ja: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-kn: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-kn: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ko: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ko: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-lt: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-lt: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-lv: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-lv: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ml: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ml: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-mr: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-mr: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ms: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ms: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-nb: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-nb: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ne: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ne: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-nl: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-nl: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-oc: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-oc: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-or: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-or: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-pa: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-pa: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-pl: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-pl: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-pt-br: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-pt-br: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-pt: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-pt: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ro: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ro: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ru: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ru: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-sk: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-sk: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-sl: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-sl: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-sr+latin: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-sr+latin: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-sr: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-sr: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-sv: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-sv: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ta: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ta: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-te: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-te: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-tg: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-tg: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-th: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-th: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-tr: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-tr: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ug: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-ug: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-uk: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-uk: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-uz+cyrillic: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-uz+cyrillic: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-vi: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-vi: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-zh-cn: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-zh-cn: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-zh-hk: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-zh-hk: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-zh-tw: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-locale-zh-tw: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-src: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-src: PKGSIZE changed from 1787945 to 1787959 (+0%)
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-src: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-staticdev: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4-staticdev: PV changed from "2.74.2" to "2.74.3"
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4: PKGV changed from 2.74.2 [default] to 2.74.3 [default]
-packages/core2-32-poky-linux/libsoup-2.4/libsoup-2.4: PV changed from "2.74.2" to "2.74.3"
+packages/core2-32-poky-linux/libffi: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
+packages/core2-32-poky-linux/libffi: PV changed from "3.4.2" to "3.4.4"
+packages/core2-32-poky-linux/libffi: SRC_URI changed from "https://github.com/libffi/libffi/releases//download/v3.4.2/libffi-3.4.2.tar.gz file://not-win32.patch file://0001-arm-sysv-reverted-clang-VFP-mitigation.patch" to "https://github.com/libffi/libffi/releases//download/v3.4.4/libffi-3.4.4.tar.gz file://not-win32.patch file://0001-arm-sysv-reverted-clang-VFP-mitigation.patch"
+packages/core2-32-poky-linux/libffi/libffi-dbg: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
+packages/core2-32-poky-linux/libffi/libffi-dbg: PKGSIZE changed from 105492 to 98504 (-7%)
+packages/core2-32-poky-linux/libffi/libffi-dbg: PV changed from "3.4.2" to "3.4.4"
+packages/core2-32-poky-linux/libffi/libffi-dbg: FILELIST: removed "/usr/lib/.debug/libffi.so.8.1.0", added "/usr/lib/.debug/libffi.so.8.1.2"
+packages/core2-32-poky-linux/libffi/libffi-dev: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
+packages/core2-32-poky-linux/libffi/libffi-dev: PKGSIZE changed from 20222 to 20487 (+1%)
+packages/core2-32-poky-linux/libffi/libffi-dev: FILES: removed "/usr/lib/libffi-3.4.2", added "/usr/lib/libffi-3.4.4"
+packages/core2-32-poky-linux/libffi/libffi-dev: PV changed from "3.4.2" to "3.4.4"
+packages/core2-32-poky-linux/libffi/libffi-doc: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
+packages/core2-32-poky-linux/libffi/libffi-doc: PKGSIZE changed from 44031 to 43864 (-0%)
+packages/core2-32-poky-linux/libffi/libffi-doc: PV changed from "3.4.2" to "3.4.4"
+packages/core2-32-poky-linux/libffi/libffi-locale: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
+packages/core2-32-poky-linux/libffi/libffi-locale: PV changed from "3.4.2" to "3.4.4"
+packages/core2-32-poky-linux/libffi/libffi-src: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
+packages/core2-32-poky-linux/libffi/libffi-src: PKGSIZE changed from 302781 to 304753 (+1%)
+packages/core2-32-poky-linux/libffi/libffi-src: PV changed from "3.4.2" to "3.4.4"
+packages/core2-32-poky-linux/libffi/libffi-staticdev: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
+packages/core2-32-poky-linux/libffi/libffi-staticdev: PV changed from "3.4.2" to "3.4.4"
+packages/core2-32-poky-linux/libffi/libffi: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
+packages/core2-32-poky-linux/libffi/libffi: PKGSIZE changed from 42419 to 38327 (-10%)
+packages/core2-32-poky-linux/libffi/libffi: PV changed from "3.4.2" to "3.4.4"
+packages/core2-32-poky-linux/libffi/libffi: FILELIST: removed "/usr/lib/libffi.so.8.1.0", added "/usr/lib/libffi.so.8.1.2"
+Changes to packages/core2-32-poky-linux/libffi (sysroot):
+  /usr/lib/libffi.so.8 changed symlink target from libffi.so.8.1.0 to libffi.so.8.1.2
+  /usr/lib/libffi.so changed symlink target from libffi.so.8.1.0 to libffi.so.8.1.2
+  /usr/lib/libffi.so.8.1.0 moved to /usr/lib/libffi.so.8.1.2
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1578,13 +1457,22 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
+Changes to packages/x86_64-linux/libffi-native (sysroot):
+  /usr/lib/libffi.so.8 changed symlink target from libffi.so.8.1.0 to libffi.so.8.1.2
+  /usr/lib/libffi.so changed symlink target from libffi.so.8.1.0 to libffi.so.8.1.2
+  /usr/lib/libffi.so.8.1.0 moved to /usr/lib/libffi.so.8.1.2
 
---===============0768279492548424397==
+--===============8167655277945513627==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-32-poky-linux/libffi/libffi: FILELIST: removed "/usr/lib/libffi.so.8.1.0", added "/usr/lib/libffi.so.8.1.2"
+Changes to packages/core2-32-poky-linux/libffi (sysroot):
+  /usr/lib/libffi.so.8 changed symlink target from libffi.so.8.1.0 to libffi.so.8.1.2
+  /usr/lib/libffi.so changed symlink target from libffi.so.8.1.0 to libffi.so.8.1.2
+  /usr/lib/libffi.so.8.1.0 moved to /usr/lib/libffi.so.8.1.2
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2938,37 +2826,64 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
+Changes to packages/x86_64-linux/libffi-native (sysroot):
+  /usr/lib/libffi.so.8 changed symlink target from libffi.so.8.1.0 to libffi.so.8.1.2
+  /usr/lib/libffi.so changed symlink target from libffi.so.8.1.0 to libffi.so.8.1.2
+  /usr/lib/libffi.so.8.1.0 moved to /usr/lib/libffi.so.8.1.2
 
---===============0768279492548424397==
+--===============8167655277945513627==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libsoup-2.4-upgrade-2.74.2-2.74.3.patch"
+ filename="0001-libffi-upgrade-3.4.2-3.4.4.patch"
 
-RnJvbSA3OTEyOWJlM2VjZGMzNmIwOTY3NDMzZjYzM2VlNzYyYmNhNjQ0NDk2IE1vbiBTZXAgMTcg
+RnJvbSBmMGUzYzlmNmM4MjY5MTU1OWFlMzY4NzNiOTAyNGM0YzI2YmNiYjQ4IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMiBOb3YgMjAyMiAwMDowMToyMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnNvdXAtMi40OiB1cGdyYWRlIDIuNzQuMiAtPiAyLjc0LjMKCi0tLQogLi4uL2xpYnNvdXAve2xp
-YnNvdXAtMi40XzIuNzQuMi5iYiA9PiBsaWJzb3VwLTIuNF8yLjc0LjMuYmJ9ICAgIHwgMiArLQog
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvbGlic291cC97bGlic291cC0yLjRfMi43NC4yLmJiID0+IGxpYnNv
-dXAtMi40XzIuNzQuMy5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9y
-dC9saWJzb3VwL2xpYnNvdXAtMi40XzIuNzQuMi5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xp
-YnNvdXAvbGlic291cC0yLjRfMi43NC4zLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBm
-cm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnNvdXAvbGlic291cC0yLjRfMi43NC4yLmJiCnJl
-bmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJzb3VwL2xpYnNvdXAtMi40XzIuNzQuMy5i
-YgppbmRleCA2ZmYzOTNjOWEzLi43OTI4MWZiZjViIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-c3VwcG9ydC9saWJzb3VwL2xpYnNvdXAtMi40XzIuNzQuMi5iYgorKysgYi9tZXRhL3JlY2lwZXMt
-c3VwcG9ydC9saWJzb3VwL2xpYnNvdXAtMi40XzIuNzQuMy5iYgpAQCAtMTIsNyArMTIsNyBAQCBE
-RVBFTkRTID0gImdsaWItMi4wIGdsaWItMi4wLW5hdGl2ZSBsaWJ4bWwyIHNxbGl0ZTMgbGlicHNs
-IgogU0hSVF9WRVIgPSAiJHtAZC5nZXRWYXIoJ1BWJykuc3BsaXQoJy4nKVswXX0uJHtAZC5nZXRW
-YXIoJ1BWJykuc3BsaXQoJy4nKVsxXX0iCiAKIFNSQ19VUkkgPSAiJHtHTk9NRV9NSVJST1J9L2xp
-YnNvdXAvJHtTSFJUX1ZFUn0vbGlic291cC0ke1BWfS50YXIueHoiCi1TUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiZjBhNDI3NjU2ZTVmZTE5ZTFkZjcxYzEwN2U4OGRmYTFiMmU2NzNjMjVjNTQ3Yjc4MjNi
-NjAxOGI0MGQwMTE1OSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJlNGI3N2M0MWNmYzRjOGM1YTAz
-NWZjZGMzMjBjN2JjNmNmYjc1ZWY3YzVhMDM0MTUzZGYxNDEzZmExZDkyZjEzIgogCiBDVkVfUFJP
-RFVDVCA9ICJsaWJzb3VwIgogCi0tIAoyLjMxLjEKCg==
+CkRhdGU6IFR1ZSwgMSBOb3YgMjAyMiAyMzo1MDowNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YmZmaTogdXBncmFkZSAzLjQuMiAtPiAzLjQuNAoKLS0tCiAuLi4ve2xpYmZmaV8zLjQuMi5iYiA9
+PiBsaWJmZmlfMy40LjQuYmJ9ICAgICAgfCAyMyArKysrKysrKysrKysrKysrKy0tCiAxIGZpbGUg
+Y2hhbmdlZCwgMjEgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtc3VwcG9ydC9saWJmZmkve2xpYmZmaV8zLjQuMi5iYiA9PiBsaWJmZmlfMy40LjQuYmJ9
+ICg2MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZmZpL2xpYmZmaV8z
+LjQuMi5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmZmaS9saWJmZmlfMy40LjQuYmIKc2lt
+aWxhcml0eSBpbmRleCA2MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZmZp
+L2xpYmZmaV8zLjQuMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZmZpL2xp
+YmZmaV8zLjQuNC5iYgppbmRleCA0MWMzY2FkNTg2Li5kYmJmNzMxNTg2IDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJmZmkvbGliZmZpXzMuNC4yLmJiCisrKyBiL21ldGEvcmVj
+aXBlcy1zdXBwb3J0L2xpYmZmaS9saWJmZmlfMy40LjQuYmIKQEAgLTEsMyArMSwyMiBAQAorIyBG
+SVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdk
+ZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdl
+ZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhl
+IExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisj
+IHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBs
+ZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUg
+Y2hhbmdlczoKKyMKKyMgLS0tIExJQ0VOU0UKKyMgKysrIExJQ0VOU0UKKyMgQEAgLTEsNCArMSw0
+IEBACisjIC1saWJmZmkgLSBDb3B5cmlnaHQgKGMpIDE5OTYtMjAyMSAgQW50aG9ueSBHcmVlbiwg
+UmVkIEhhdCwgSW5jIGFuZCBvdGhlcnMuCisjICtsaWJmZmkgLSBDb3B5cmlnaHQgKGMpIDE5OTYt
+MjAyMiAgQW50aG9ueSBHcmVlbiwgUmVkIEhhdCwgSW5jIGFuZCBvdGhlcnMuCisjICBTZWUgc291
+cmNlIGZpbGVzIGZvciBkZXRhaWxzLgorIyAgCisjICBQZXJtaXNzaW9uIGlzIGhlcmVieSBncmFu
+dGVkLCBmcmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNvbiBvYnRhaW5pbmcKKyMgCisjCisKIFNV
+TU1BUlkgPSAiQSBwb3J0YWJsZSBmb3JlaWduIGZ1bmN0aW9uIGludGVyZmFjZSBsaWJyYXJ5Igog
+SE9NRVBBR0UgPSAiaHR0cDovL3NvdXJjZXdhcmUub3JnL2xpYmZmaS8iCiBERVNDUklQVElPTiA9
+ICJUaGUgYGxpYmZmaScgbGlicmFyeSBwcm92aWRlcyBhIHBvcnRhYmxlLCBoaWdoIGxldmVsIHBy
+b2dyYW1taW5nIGludGVyZmFjZSB0byB2YXJpb3VzIGNhbGxpbmcgXApAQCAtOCwxMyArMjcsMTMg
+QEAgbGlicmFyeSByZWFsbHkgb25seSBwcm92aWRlcyB0aGUgbG93ZXN0LCBtYWNoaW5lIGRlcGVu
+ZGVudCBsYXllciBvZiBhIGZ1bGx5IGZlYXQKIEEgbGF5ZXIgbXVzdCBleGlzdCBhYm92ZSBgbGli
+ZmZpJyB0aGF0IGhhbmRsZXMgdHlwZSBjb252ZXJzaW9ucyBmb3IgdmFsdWVzIHBhc3NlZCBiZXR3
+ZWVuIHRoZSB0d28gbGFuZ3VhZ2VzLiIKIAogTElDRU5TRSA9ICJNSVQiCi1MSUNfRklMRVNfQ0hL
+U1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT02NzliNWM5YmRjNzlhMmI5M2VlNTc0ZTE5M2U3YTdi
+YyIKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTMyYzBkMDlhMDY0MWRh
+ZjQ5MDNlNWQ2MWNjOGYyM2E4IgogCiBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3du
+bG9hZC92JHtQVn0vJHtCUE59LSR7UFZ9LnRhci5neiBcCiAgICAgICAgICAgIGZpbGU6Ly9ub3Qt
+d2luMzIucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1hcm0tc3lzdi1yZXZlcnRlZC1j
+bGFuZy1WRlAtbWl0aWdhdGlvbi5wYXRjaCBcCiAgICAgICAgICAgICIKLVNSQ19VUklbc2hhMjU2
+c3VtXSA9ICI1NDBmYjcyMTYxOWE2YWJhM2JkZWVmN2Q5NDBkOGU5ZTBlNmQyYzE5MzU5NWJjMjQz
+MjQxYjc3ZmY5ZTkzNjIwIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImQ2NmM1NmFkMjU5YTgyY2Yy
+YTlkZmM0MDhiMzJiZjVkYTUyMzcxNTAwYjg0NzQ1ZjdmYjhiNjQ1NzEyZGY2NzYiCiAKIEVYVFJB
+X09FQ09ORiArPSAiLS1kaXNhYmxlLWJ1aWxkZGlyIC0tZGlzYWJsZS1leGVjLXN0YXRpYy10cmFt
+cCIKIEVYVFJBX09FQ09ORjpjbGFzcy1uYXRpdmUgKz0gIi0td2l0aC1nY2MtYXJjaD1nZW5lcmlj
+IgotLSAKMi4zMS4xCgo=
 
---===============0768279492548424397==--
+--===============8167655277945513627==--
 
