@@ -2,128 +2,109 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E460AC43219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5FD4C43217
 	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 02:42:51 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web12.1989.1667356969097259721
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web10.1935.1667356963204736946
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Nov 2022 19:42:49 -0700
+ Tue, 01 Nov 2022 19:42:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=TG7g3hMt;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id g24so15305409plq.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 19:42:49 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ysDoh4mS;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id l2so15280842pld.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 19:42:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AxZLV9VSvYu9p6eXvRzdb0gBwUixM4Wi1T2Q35/vgEY=;
-        b=TG7g3hMt+UCRCBD5qj3XDygdmOKB2h4GWbm8gyaoGRbPtX5z27d/5e2WeEE20PzJ5y
-         9GGzJhIoerCkgszJ3MrvF5jnesNX5GPoq0VpAdXl56AZNskNgWvbp9tM7O1WwIFNTCcb
-         1OwWUxtUE6akqB0x83jDA30HMB8G1r7YH10r54iOThTutAa53jPjypLJBfwxV4OCVeoq
-         vKrBX6mAKMHpKz7MxAKsflTLm0FT3g6Yrp3NzDg6s+rtzBtlyUjCbmS+nKpn1osjCXGc
-         INNbSrytOP/T3DoZ9/V/JcUS681PWGTF26HEgEUgNMv7QQVXEgOjOJ3aIHHGNg/CoNXf
-         OiBQ==
+        bh=lf13shiaQrIvm8Ni270Z+NpDcH7sahBD0yOJlbVK5eQ=;
+        b=ysDoh4mSOcJ7R5HuhdevmvaCGNIrTLbr70Kml+zIPVMeUFyf07bv5LqGgUvTBacuYi
+         jBTY1eom50RDL3XUwDKc8zkKeqoJS24ackBBB6i5eWDhDjfB9ElSI6HtGaKf7C5IwxYg
+         nde5ZFy/4kbER7a4/91SQk86iRcMLeHfEW4CgcIuCxuIBrgDC5NG0bHXIk2sbhOIBvGJ
+         wC+ffZE7Ph1AoSHlkDPArBvVWKzag7Sf/kxX7/spb4ojByyjDpMsIn3JDIvTmPdmUcZL
+         X94XrKvzCu2H2j9GWi2JK7HXc/laJcRn2bLIfOUbZOv07e+h/GHci577qTRa2bk0s9WX
+         +MvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AxZLV9VSvYu9p6eXvRzdb0gBwUixM4Wi1T2Q35/vgEY=;
-        b=vqBDYAWUMtTffRR6FeOYxAuxtjG7qC6KptI5eBFGW18MaSl1wEsAI4U4DOXJlhc1DV
-         gMEDVXu4biq7+qoQ2evOK23dOute8VRlfrCGEq0p5eS2Jpokmm0v4gLkX7NrNRt+U6py
-         4SYCs1nIWlVZcTH56fxp7OHllY2KLzpQVOS+Cydvr5zK9gOKXbaxoIwZTyahTbJP8/zX
-         VM1jNvnVsh156XjuX9mCnFGD74qGnY8A7WQCoAFu8QNUKDh7Jl6+oZszOYnCP0LpiUMC
-         GQJ/tplvtCa2XVSPqpje/c/f/4Kw0xZvV5oYGfcTGabLzG1q5grLb4D7xqhrYY8vRI6w
-         GEHg==
-X-Gm-Message-State: ACrzQf32ciH7Xiys+su2XK7Um0AW71IfICDyP6N1P66BIXBGF3nl5l1P
-	T40tZBUGNavMWAYvIGfHuXjrzMujhzU7oZjs
-X-Google-Smtp-Source: AMsMyM5lA0eo39jYi9n41PanPTJCH10owZTzsBOd0Se35355YVVTvM/pRIBIFP583A6RImPK3CKrbw==
-X-Received: by 2002:a17:902:a611:b0:186:9ba2:148b with SMTP id u17-20020a170902a61100b001869ba2148bmr22509316plq.164.1667356968051;
-        Tue, 01 Nov 2022 19:42:48 -0700 (PDT)
+        bh=lf13shiaQrIvm8Ni270Z+NpDcH7sahBD0yOJlbVK5eQ=;
+        b=nP4ypd3s+TFBaEXGdFCCs9gYsl0tOtklbn0jpsJKSgG+rtdpFyP+H1p2fss0+tc6qm
+         eWPmsb/qT+7L0VwI42A+8Mnim5qtQtPqYOMAlWUevRFmH5LlhZluzCdyn1c8UONZGZX/
+         EEvA++3oPjOtaOaLskh5peF7jqDCtj7Sjtqlb6UFklwtdSr3rHDv3gNRz2wdU4lbrwNx
+         oOYjAKbEFWRPokZbh0IqVPUDqtzm/3hDjrz41LLS+cwZIgbAzYOuUWsGJQqTVyZE+rfW
+         Ej7OYdDhHnWtZAKbONaKfuleEkuMmWjGrbPRpSi1J8Wb+OYm8d7DkdI33vu4L+FMMsgz
+         Bk0A==
+X-Gm-Message-State: ACrzQf2d8JxvjfUU9CFfZ7hXlW1EdTZ6RemoJFilJBYVfwbxFaDlAeIa
+	CiOkG2gKeYCd+cPi5NQPgYdtWljHWDWn1DRg
+X-Google-Smtp-Source: AMsMyM7K3npWB69HadUkELtq1RlpeSG8zapXIgvyUi8Jti20nrblyaHLu4FJm2ySHxtUkoWW/qLOwg==
+X-Received: by 2002:a17:903:245:b0:178:e0ba:e507 with SMTP id j5-20020a170903024500b00178e0bae507mr23333100plh.115.1667356970013;
+        Tue, 01 Nov 2022 19:42:50 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id d18-20020a170902e15200b00186da904da0sm1462846pla.154.2022.11.01.19.42.47
+        by smtp.gmail.com with ESMTPSA id d18-20020a170902e15200b00186da904da0sm1462846pla.154.2022.11.01.19.42.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Nov 2022 19:42:47 -0700 (PDT)
+        Tue, 01 Nov 2022 19:42:49 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 12/20] mtools: upgrade 4.0.40 -> 4.0.41
-Date: Tue,  1 Nov 2022 16:42:02 -1000
-Message-Id: <9ac0de44f11123876a92f7d7819d5ff2c20475b7.1667356805.git.steve@sakoman.com>
+Subject: [OE-core][langdale 13/20] ifupdown: upgrade 0.8.37 -> 0.8.39
+Date: Tue,  1 Nov 2022 16:42:03 -1000
+Message-Id: <342fb3183fd1910b76c2bed242bf8b2ea179d217.1667356805.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1667356805.git.steve@sakoman.com>
 References: <cover.1667356805.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 02:42:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172552
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172553
 
 From: wangmy <wangmy@fujitsu.com>
 
-disable-hardcoded-configs.patch
-refreshed for new version
+ifupdown (0.8.38)
+  * Remove dependency on lsb-base (Closes: #1020604)
+  * Remove pump support (no longer in Debian archive)
+  * Fix error message when turning down VLAN interfaces. Thanks to Aleksandr
+    Muravjov (Closes: #1007889)
+  * Ship Ubuntu's integration scripts for systemd-resolved. Thanks to Luca
+    Boccassi (Closes: #1016798)
+  * Add rfkill support. Thanks to Sebastian Reichel <email address hidden>
+    (Closes: #645559)
 
-Changelo:
-=========
-- Made it possible again to have FAT32 filesystems with less
-  than 0xfff5 clusters
-- Make FAT32 entries 0 and 1 match what windows 10 does
-- Misc source code and configure script cleanup
+ifupdown (0.8.39)
+  * Add execution permission on resolved scripts. Thanks to Vincent Lefèvre
+    (Closes: #1021259)
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit b19127f0cd0e10c7180c138284b38c97fa9db7af)
+(cherry picked from commit f0462e3336c7134aeeb2684692732c187971b330)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../mtools/mtools/disable-hardcoded-configs.patch           | 6 +++---
- .../mtools/{mtools_4.0.40.bb => mtools_4.0.41.bb}           | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/mtools/{mtools_4.0.40.bb => mtools_4.0.41.bb} (93%)
+ .../ifupdown/{ifupdown_0.8.37.bb => ifupdown_0.8.39.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/ifupdown/{ifupdown_0.8.37.bb => ifupdown_0.8.39.bb} (97%)
 
-diff --git a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
-index 8f46174a5b..2d42fa531a 100644
---- a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
-+++ b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
-@@ -1,4 +1,4 @@
--From 3a05dc2c0acff1713dd44cef5e9f328f0706eb3e Mon Sep 17 00:00:00 2001
-+From c496cad7b7a84e599f521f289648373df9fad80f Mon Sep 17 00:00:00 2001
- From: Ed Bartosh <ed.bartosh@linux.intel.com>
- Date: Tue, 13 Jun 2017 14:55:52 +0300
- Subject: [PATCH] Disabled reading host configs.
-@@ -12,10 +12,10 @@ Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-  1 file changed, 8 deletions(-)
+diff --git a/meta/recipes-core/ifupdown/ifupdown_0.8.37.bb b/meta/recipes-core/ifupdown/ifupdown_0.8.39.bb
+similarity index 97%
+rename from meta/recipes-core/ifupdown/ifupdown_0.8.37.bb
+rename to meta/recipes-core/ifupdown/ifupdown_0.8.39.bb
+index 57d4152a39..7096bc94d7 100644
+--- a/meta/recipes-core/ifupdown/ifupdown_0.8.37.bb
++++ b/meta/recipes-core/ifupdown/ifupdown_0.8.39.bb
+@@ -16,7 +16,7 @@ SRC_URI = "git://salsa.debian.org/debian/ifupdown.git;protocol=https;branch=mast
+            file://0001-ifupdown-skip-wrong-test-case.patch \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'file://tweak-ptest-script.patch', '', d)} \
+            "
+-SRCREV = "2b4138f36ce3ba37186aa01b502273e0c39ab518"
++SRCREV = "be91dd267b4a8db502a6bbf5758563f7048b8078"
  
- diff --git a/config.c b/config.c
--index 630f99d..07dbf53 100644
-+index 8c5fa83..346048b 100644
- --- a/config.c
- +++ b/config.c
--@@ -834,14 +834,6 @@ void read_config(void)
-+@@ -843,14 +843,6 @@ void read_config(void)
-  	memcpy(devices, const_devices,
-  	       nr_const_devices*sizeof(struct device));
-  
-diff --git a/meta/recipes-devtools/mtools/mtools_4.0.40.bb b/meta/recipes-devtools/mtools/mtools_4.0.41.bb
-similarity index 93%
-rename from meta/recipes-devtools/mtools/mtools_4.0.40.bb
-rename to meta/recipes-devtools/mtools/mtools_4.0.41.bb
-index 200c7c7681..29e7427a10 100644
---- a/meta/recipes-devtools/mtools/mtools_4.0.40.bb
-+++ b/meta/recipes-devtools/mtools/mtools_4.0.41.bb
-@@ -24,7 +24,7 @@ RRECOMMENDS:${PN}:libc-glibc = "\
- 	glibc-gconv-ibm866 \
- 	glibc-gconv-ibm869 \
- 	"
--SRC_URI[sha256sum] = "a22fca42354011dd2293a7f51f228b46ebbd802e7740b0975912afecb79d5df4"
-+SRC_URI[sha256sum] = "2542152264fb3eff7ed70662abf4f4eef8133bc37d0b7a686c240df2b5f80a13"
+ S = "${WORKDIR}/git"
  
- SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
-            file://mtools-makeinfo.patch \
 -- 
 2.25.1
 
