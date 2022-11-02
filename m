@@ -2,72 +2,70 @@ Return-Path: <yanxk.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52233C636D3
-	for <webhook@archiver.kernel.org>; Fri,  3 Feb 2023 03:05:47 +0000 (UTC)
-Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com [85.158.142.1])
- by mx.groups.io with SMTP id smtpd.web10.2522.1675393536749907238
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48349C636CC
+	for <webhook@archiver.kernel.org>; Fri,  3 Feb 2023 03:08:47 +0000 (UTC)
+Received: from mail3.bemta32.messagelabs.com (mail3.bemta32.messagelabs.com [195.245.230.18])
+ by mx.groups.io with SMTP id smtpd.web10.2575.1675393719754489917
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Feb 2023 19:05:37 -0800
+ Thu, 02 Feb 2023 19:08:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@fujitsu.com header.s=170520fj header.b=XRZxHh8X;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.1, mailfrom: yanxk.fnst@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=WBVUrXuY;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.18, mailfrom: yanxk.fnst@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1675393534; i=@fujitsu.com;
-	bh=Rpx1EqZFhi+LFy9pJ6926F5TIyrW7gnTxlqapK2VWeg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	b=XRZxHh8XkTzdyAy9o1J3q8h9YqL8mpzAxX+FeKU6mPirGVBMMi0aUKu3GJ9BS8Ywk
-	 rYHoBvYhmX5Pkm4SPkYxkFL9SLrcbqI/EWu/hoGBeyOG30s/6Xuvtzr37ABBHZnzi3
-	 b4ekQzYi9bwGU55gYT+s7wEKyu5+5UhKaRuqnc4CspAunbA9KsAnhJhMAy8jx7anTH
-	 xlHYAjPo88e2tMi5qeBTPLnJA5D84gXhnELrcT8dQxbW8VQEz4OV/yJ8a1PRDw4qRb
-	 prJhVai9dO/BGMquQNvWuvs9XCA/zx7AqDK0VavgM5YaLnK8vJ76LbChebH27eJ0Iq
-	 1LrKyEYSc5t7Q==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrBIsWRWlGSWpSXmKPExsViZ8ORqPu38k6
-  ywfYdJhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8b/K+/ZCyaxVVzZvZi5gXE2axcjF4eQwGNG
-  iXsnGlggnOtMEgfurWCGcPYyShzreMXYxcjJwSYgJ7H48VSgFg4OEQE9iav/REHCzAKeEl3zZ
-  rKA2MICzhJLn/0Fs1kEVCT2bHgOZvMKuErMXXaeCcSWABqzY/UTJoi4oMTJmU9YIOZoSrRu/8
-  0OYctLNG+dzQxRryRx59dlRgi7UqL1wy8WCFtN4uq5TcwTGAVmIRk1C8moWUhGLWBkXsVoVpx
-  aVJZapGusl1SUmZ5RkpuYmaOXWKWbqJdaqpuXX1SSoWuol1herJdaXKxXXJmbnJOil5dasokR
-  GLwpxYlCOxi/9f7VO8QoycGkJMp7Nu9OshBfUn5KZUZicUZ8UWlOavEhRhkODiUJ3ohioJxgU
-  Wp6akVaZg4wkmDSEhw8SiK860uB0rzFBYm5xZnpEKlTjMYcdxfu3cvM8fHPxb3MQix5+XmpUu
-  K8LyqASgVASjNK8+AGwSL8EqOslDAvIwMDgxBPQWpRbmYJqvwrRnEORiVh3mvlQFN4MvNK4Pa
-  9AjqFCeiUu9Y3QU4pSURISTUwpa790Lf/VsaDEq3amn8f7r88ONUvcuMygxd/qpZt62zauHZB
-  b3qIPYO+gZaks+X8lUdr45ZO25Ny/Jpk8m0+5ljluft0/sumVOn8MvSaw7DCwpPxpbnMzokZw
-  Tz8Ivv4NG+c8pf7ffsGc6byrUmF15u3LZmYFzEj1M7vxsWZaiwmBwUk/l8WL54wY4L49nd5eV
-  31O6+clzOS+rJhedNtlnPXVE6XfN204fuZwydtew+tOGQl8Ld/U6ftyr6a40sKKicvqzhUYuM
-  fpJR7s9xH/htr0iWrrTI5cV/7V8s0eVefZFN2+O74ruLr1Ylhv5480KuPq2S68f3/ur79R59k
-  9Wae2h3+2H7vGdnpL35aT1diKc5INNRiLipOBADK8+Z8awMAAA==
+	s=170520fj; t=1675393718; i=@fujitsu.com;
+	bh=A0nUngdvS64wxgwWJFoWBkwlP1Jcj3WyCpIvnYjYGxk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=WBVUrXuYE5BAKUEQCeflnrUi3e/RHZdW+g5qBd50p2CZIFK80Q6f/ONCTRU3H8pBC
+	 CMLpouIUPlKESKpUvSFRYJzviwIlb6Omxh8UpnWT6/jBQGPM7f6jrSeL+G0mm+KGUD
+	 ZhteFjBqCNnHrpokEwfMFhU0OssIjdMJ3ToIDaUHClGm0swHa5VErBSBW3VOJOlpve
+	 QmrXs/8K9t2CsBnXYw8SNJMUbW91gjYGG/0a7mwr7iL997rmRl4mb4oyOS82+eK50L
+	 NWSOhi774jd/mEgyXeQXc6vylLic23YP0n9FaPRr/jn4Xp/eRJxrbimSOEeXYccYPb
+	 FVPuP2xfpwNVw==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLIsWRWlGSWpSXmKPExsViZ8ORqLu16k6
+  ywex6izs/37E7MHqc27iCMYAxijUzLym/IoE14/ji9ewFryQr/kx/xtjAuFOsi5GLQ0jgMaPE
+  mnnz2SCc60wSG/b9YYVw9jJKLPl+Gcjh5GATkJNY/HgqkM3BISKgJ3H1nyiIySzgKHFhrzpIh
+  bCAtkRP834WEJtFQEVi0oouRhCbV8BV4sCZ90wgtgTQlB2rnzBBxAUlTs58AlbPLCAhcfDFC2
+  aIGiWJO78uM0LYlRKtH36xQNhqElfPbWKewMg/C0n7LCTtCxiZVjGaFqcWlaUW6ZrpJRVlpme
+  U5CZm5uglVukm6qWW6panFpfoGuollhfrpRYX6xVX5ibnpOjlpZZsYgSGYUoxw40djHP6/uod
+  YpTkYFIS5T2bdydZiC8pP6UyI7E4I76oNCe1+BCjDAeHkgRvRDFQTrAoNT21Ii0zBxgTMGkJD
+  h4lEd71pUBp3uKCxNzizHSI1ClGY467C/fuZeb4+OfiXmYhlrz8vFQpcd7FlUClAiClGaV5cI
+  NgsXqJUVZKmJeRgYFBiKcgtSg3swRV/hWjOAejkjDvtXKgKTyZeSVw+14BncIEdMpd65sgp5Q
+  kIqSkGpg0yuV11TkC+y7szXvR+vTcr7n1F0LVV1907EhZvvlr+tMFsxIi087tStpf8tvy2kTT
+  xTs+7WZlcpPbf8U5bWPvigS7LUx/D+szfBYRun3qC3PVo4Wrk0/5z2FU3L9R5s2M8NdPstpMX
+  l1lZla1XjO3Ldc8ku9l++9HvyZJdx+7Pcfth7r7U7/C5bqitxsiTiwvj32+8fCDB5aqyyuOTR
+  b9NPVI7/4C/YCCD09NthU/VPu8ytSpIcb3gvZjC0/x/TPvavzbK/X84K2ve2PCd5meaFmz+ma
+  OdPvt9Q99TZ3mN2i8TGT8cWb7/sUdqVops2X2bXHi3rO1bE5TK+O2Pvbs3gfOwXN1XP1CDIqU
+  Dh0PU2Ipzkg01GIuKk4EAPy5w3dQAwAA
 X-Env-Sender: yanxk.fnst@fujitsu.com
-X-Msg-Ref: server-10.tower-732.messagelabs.com!1675393533!20285!1
+X-Msg-Ref: server-16.tower-585.messagelabs.com!1675393716!113489!1
 X-Originating-IP: [62.60.8.97]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.102.2; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 3527 invoked from network); 3 Feb 2023 03:05:33 -0000
+Received: (qmail 24185 invoked from network); 3 Feb 2023 03:08:36 -0000
 Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-10.tower-732.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 3 Feb 2023 03:05:33 -0000
+  by server-16.tower-585.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 3 Feb 2023 03:08:36 -0000
 Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 4B738100194
-	for <openembedded-core@lists.openembedded.org>; Fri,  3 Feb 2023 03:05:33 +0000 (GMT)
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 9BB89100197
+	for <openembedded-core@lists.openembedded.org>; Fri,  3 Feb 2023 03:08:36 +0000 (GMT)
 Received: from R01UKEXCASM223.r01.fujitsu.local (R01UKEXCASM223 [10.182.185.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 3E970100195
-	for <openembedded-core@lists.openembedded.org>; Fri,  3 Feb 2023 03:05:33 +0000 (GMT)
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 8E56B100194
+	for <openembedded-core@lists.openembedded.org>; Fri,  3 Feb 2023 03:08:36 +0000 (GMT)
 Received: from localhost.localdomain (10.167.218.229) by
  R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
- (TLS) id 15.0.1497.42; Fri, 3 Feb 2023 03:05:31 +0000
+ (TLS) id 15.0.1497.42; Fri, 3 Feb 2023 03:08:34 +0000
 From: <yanxk.fnst@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: <fnstml-fujitsuten@fujitsu.com>, Yan Xinkuan <yanxk.fnst@fujitsu.com>
-Subject: [meta-oe][PATCH] bc ptest: fix bugs caused by input method
-Date: Wed, 2 Nov 2022 09:15:27 +0800
-Message-ID: <1667351727-9064-1-git-send-email-yanxk.fnst@fujitsu.com>
+CC: <fnstml-fujitsuten@fujitsu.com>, Yan <yanxk.fnst@fujitsu.com>
+Subject: [meta-oe][PATCH V1] tar: add ptest
+Date: Wed, 2 Nov 2022 09:18:31 +0800
+Message-ID: <1667351911-9129-1-git-send-email-yanxk.fnst@fujitsu.com>
 X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-Originating-IP: [10.167.218.229]
 X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
  R01UKEXCASM223.r01.fujitsu.local (10.182.185.121)
@@ -75,39 +73,97 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Feb 2023 03:05:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176704
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Feb 2023 03:08:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176705
 
-From: Yan Xinkuan <yanxk.fnst@fujitsu.com>
+From: Yan <yanxk.fnst@fujitsu.com>
 
-fix some bugs related to echo function caused by input method.
+enable ptest for oss "tar".
 
-echo would work fine now, difference as below:
-
-before:		=E2=80=9CPASS: bc/*.b=E2=80=9D
-
-now:	 	PASS: bc/*.b
-
-Signed-off-by: Yan Xinkuan <yanxk.fnst@fujitsu.com>
+Signed-off-by: Yanxinkuan <yanxk.fnst@fujitsu.com>
 ---
- meta/recipes-extended/bc/bc/run-ptest | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ meta/recipes-extended/tar/files/run-ptest     | 10 +++++++
+ meta/recipes-extended/tar/tar_1.34.bb         | 27 +++++++++++++++++--
+ 3 files changed, 36 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/tar/files/run-ptest
 
-diff --git a/meta/recipes-extended/bc/bc/run-ptest b/meta/recipes-extended/bc/bc/run-ptest
-index 66a1b9d708..ba5abe6805 100644
---- a/meta/recipes-extended/bc/bc/run-ptest
-+++ b/meta/recipes-extended/bc/bc/run-ptest
-@@ -2,8 +2,8 @@
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 72162f10ee..d3e18ea4a4 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -100,6 +100,7 @@ PTESTS_SLOW = "\
+     python3-cryptography-ptest \
+     python3-ptest \
+     strace-ptest \
++    tar-ptest \
+     tcl-ptest \
+     util-linux-ptest \
+     valgrind-ptest \
+diff --git a/meta/recipes-extended/tar/files/run-ptest b/meta/recipes-extended/tar/files/run-ptest
+new file mode 100644
+index 0000000000..9ca27153d9
+--- /dev/null
++++ b/meta/recipes-extended/tar/files/run-ptest
+@@ -0,0 +1,10 @@
++#!/bin/sh
++
++# Define tar test work dir
++WORKDIR=/usr/lib/tar/ptest/tests/
++
++# Run test
++cd ${WORKDIR}
++./atconfig ./atlocal ./testsuite
++
++./testsuite 2>&1 | grep -E '[0-9]{1,3}: ' | sed -e 's/^.....//' -e '/[ok]$/s/^/PASS: /;/FAILED (.*)/s/^/FAIL: /;/skipped (.*)/s/^/SKIP: /;/expected failure/ s/^/PASS: /;/UNEXPECTED PASS/s/^/FAIL: /' -e 's/ok$//g' -e 's/FAILED.*//g' -e 's/skipped.*//g' -e 's/expected failure.*//g' -e 's/UNEXPECTED PASS.*//g'
+diff --git a/meta/recipes-extended/tar/tar_1.34.bb b/meta/recipes-extended/tar/tar_1.34.bb
+index 7307cd57a2..7a178c345f 100644
+--- a/meta/recipes-extended/tar/tar_1.34.bb
++++ b/meta/recipes-extended/tar/tar_1.34.bb
+@@ -6,11 +6,12 @@ SECTION = "base"
+ LICENSE = "GPL-3.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
- for TEST in *.b; do
- 	if bc -l $TEST </dev/null; then
--		echo =E2=80=9CPASS: bc/$TEST=E2=80=9D
-+		echo "PASS: bc/$TEST"
- 	else
--		echo =E2=80=9CFAIL: bc/$TEST=E2=80=9D
-+		echo "FAIL: bc/$TEST"
- 	fi
- done
+-SRC_URI = "${GNU_MIRROR}/tar/tar-${PV}.tar.bz2"
++SRC_URI = "${GNU_MIRROR}/tar/tar-${PV}.tar.bz2 \
++           file://run-ptest"
+ 
+ SRC_URI[sha256sum] = "b44cc67f8a1f6b0250b7c860e952b37e8ed932a90bd9b1862a511079255646ff"
+ 
+-inherit autotools gettext texinfo
++inherit autotools gettext texinfo ptest
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG:append:class-target = " ${@bb.utils.filter('DISTRO_FEATURES', 'acl', d)}"
+@@ -42,6 +43,28 @@ do_install:append:class-target() {
+     fi
+ }
+ 
++# Tar testsuite would generate some small tests that are
++# bash scripts, so set ptest dependency to bash
++RDEPENDS:${PN}-ptest += "bash"
++
++do_compile_ptest() {
++    oe_runmake -C ${B}/gnu/ check
++    oe_runmake -C ${B}/lib/ check
++    oe_runmake -C ${B}/rmt/ check
++    oe_runmake -C ${B}/src/ check
++    oe_runmake -C ${B}/tests/ genfile checkseekhole ckmtime
++}
++
++do_install_ptest() {
++    install -d ${D}${PTEST_PATH}/tests/
++    install --mode=755 ${B}/tests/atconfig ${D}${PTEST_PATH}/tests/
++    install --mode=755 ${B}/tests/atlocal ${D}${PTEST_PATH}/tests/
++    install --mode=755 ${B}/tests/genfile ${D}${PTEST_PATH}/tests/
++    install --mode=755 ${B}/tests/checkseekhole ${D}${PTEST_PATH}/tests/
++    install --mode=755 ${B}/tests/ckmtime ${D}${PTEST_PATH}/tests/
++    install --mode=755 ${S}/tests/testsuite ${D}${PTEST_PATH}/tests/
++}
++
+ PACKAGES =+ "${PN}-rmt"
+ 
+ FILES:${PN}-rmt = "${sbindir}/rmt*"
 -- 
 2.25.1
 
