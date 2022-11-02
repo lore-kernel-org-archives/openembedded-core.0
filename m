@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDCA0C63708
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2862C6370A
 	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 00:40:38 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web09.858.1667349632528139790
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web12.879.1667349635889753565
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Nov 2022 17:40:35 -0700
+ Tue, 01 Nov 2022 17:40:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=UlVSX6IC;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018435c85f26-16e29fa7-f940-4456-a0bc-fedac8f974a5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=MqgdFJ6m;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018435c860c4-9ebb70ee-2ff3-4967-8a05-5f3da790b9fe-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1667349634;
+	t=1667349635;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=5OMAGiDOa19HCkDonvs/QRwXkp6HiGPI1KgMC5as614=;
-	b=UlVSX6IC8Us4IW2uXEiYeDDfou8jeBafceV4FPpfjMOHh8ZM6CsXHzeIec8WVC6u
-	d6+5Uo+eru6CeYx+nJlrMWPXebuJJ+dTnyKosLRJWYQHNq0A0VXOTIZvUZ0Yhh18nfz
-	eJk5M2PmRc3hJO7MCxjUEDHjQoGjyRC8mhintsHc=
+	bh=gYScNem/xSj/0WtftBiTfNG5EF+iCuNdiYMnJ/WlSJU=;
+	b=MqgdFJ6mpCOEB9pzmGSIkn8CfyOKt7gYOkdUQi6tF465pZ033Kx2+cg8tNV0Wu+b
+	MRngjUstVEWQk5nA7MpNGMimXqgDVZIiKuyiYN2pYN4LQ6ct5AkV7VeryCrFuNGmGRu
+	EEUbyXxwoCt+xNIEIz6m8w/hBmdbouimZ7w7r6gw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1667349634;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1667349635;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=5OMAGiDOa19HCkDonvs/QRwXkp6HiGPI1KgMC5as614=;
-	b=MvX6nr+/O3IwEziV7rK+HManLXvDo3FTr9wZzDFjhvpPhpguFG0LWuoW4iTeixVX
-	CU3P3vBVKOlyilXzBj4mt8dt8NhjrTHHyETeJGHH6+7KqBZYzNhXOd0Tw+6s1HQEBYO
-	7EelCvYpU62MuGQ27dnrlfG7ZCiKz3eIh6yMSyxU=
-Content-Type: multipart/mixed; boundary="===============6320205859109611190=="
+	bh=gYScNem/xSj/0WtftBiTfNG5EF+iCuNdiYMnJ/WlSJU=;
+	b=dH21n6lVSJ7RuFAeoOR0BEGHGs2vCNyM3hs9pQNDg5O+j04sJcpxbNS0ueFjWZ/s
+	3LnXpaGU01oxSWA2uA+3e4mcsz786/n4uJJIfZ+JOz4N7PSWKwHvSdNo756WXuFyJg0
+	1aAaZ/xJULxYqcYtBm3sGlOiYWBDpQgaGHbklqzk=
+Content-Type: multipart/mixed; boundary="===============8160229514758884051=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] spirv-headers: upgrading to 1.3.231.1 SUCCEEDED
-Message-ID: <0101018435c85f26-16e29fa7-f940-4456-a0bc-fedac8f974a5-000000@us-west-2.amazonses.com>
-Date: Wed, 2 Nov 2022 00:40:34 +0000
+Subject: [AUH] weston: upgrading to 11.0.0 FAILED
+Message-ID: <0101018435c860c4-9ebb70ee-2ff3-4967-8a05-5f3da790b9fe-000000@us-west-2.amazonses.com>
+Date: Wed, 2 Nov 2022 00:40:35 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.11.02-54.240.27.30
+X-SES-Outgoing: 2022.11.02-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 00:40:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172473
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172475
 
---===============6320205859109611190==
+--===============8160229514758884051==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *spirv-headers* to *1.3.231.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *weston* to *11.0.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-spirv-headers-upgrade-1.3.224.1-1.3.231.1.patch
+    - apply the patch: git am 0001-weston-upgrade-10.0.2-11.0.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,60 +75,139 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6320205859109611190==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/spirv-headers: PV changed from "1.3.224.1" to "1.3.231.1"
-packages/core2-32-poky-linux/spirv-headers: PKGV changed from 1.3.224.1 [default] to 1.3.231.1 [default]
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-dbg: PV changed from "1.3.224.1" to "1.3.231.1"
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-dbg: PKGV changed from 1.3.224.1 [default] to 1.3.231.1 [default]
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-dev: PV changed from "1.3.224.1" to "1.3.231.1"
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-dev: PKGSIZE changed from 2720528 to 2738782 (+1%)
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-dev: PKGV changed from 1.3.224.1 [default] to 1.3.231.1 [default]
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-doc: PV changed from "1.3.224.1" to "1.3.231.1"
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-doc: PKGV changed from 1.3.224.1 [default] to 1.3.231.1 [default]
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-locale: PV changed from "1.3.224.1" to "1.3.231.1"
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-locale: PKGV changed from 1.3.224.1 [default] to 1.3.231.1 [default]
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-src: PV changed from "1.3.224.1" to "1.3.231.1"
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-src: PKGV changed from 1.3.224.1 [default] to 1.3.231.1 [default]
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-staticdev: PV changed from "1.3.224.1" to "1.3.231.1"
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-staticdev: PKGV changed from 1.3.224.1 [default] to 1.3.231.1 [default]
-packages/core2-32-poky-linux/spirv-headers/spirv-headers: PV changed from "1.3.224.1" to "1.3.231.1"
-packages/core2-32-poky-linux/spirv-headers/spirv-headers: PKGV changed from 1.3.224.1 [default] to 1.3.231.1 [default]
-
---===============6320205859109611190==
+--===============8160229514758884051==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-spirv-headers-upgrade-1.3.224.1-1.3.231.1.patch"
+ filename="0001-weston-upgrade-10.0.2-11.0.0.patch"
 
-RnJvbSA3Yjg2YWZmMTBlYTlhMjBiNWNjMzcyM2QwNjE1NGE4NDRkMDE3ZTc5IE1vbiBTZXAgMTcg
+RnJvbSA2NWExN2MzOTczZWY2MWQyOGNmNGZjYWRmZTQwZWJjMmNmNGM5MWJmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBOb3YgMjAyMiAxNjo0Mzo1MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNw
-aXJ2LWhlYWRlcnM6IHVwZ3JhZGUgMS4zLjIyNC4xIC0+IDEuMy4yMzEuMQoKLS0tCiAuLi4ve3Nw
-aXJ2LWhlYWRlcnNfMS4zLjIyNC4xLmJiID0+IHNwaXJ2LWhlYWRlcnNfMS4zLjIzMS4xLmJifSAg
-fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci97c3BpcnYtaGVhZGVyc18xLjMuMjI0LjEu
-YmIgPT4gc3BpcnYtaGVhZGVyc18xLjMuMjMxLjEuYmJ9ICg5MiUpCgpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtaGVhZGVyc18xLjMuMjI0LjEuYmIgYi9tZXRh
-L3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi1oZWFkZXJzXzEuMy4yMzEuMS5iYgpzaW1pbGFy
-aXR5IGluZGV4IDkyJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGly
-di1oZWFkZXJzXzEuMy4yMjQuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Nw
-aXIvc3BpcnYtaGVhZGVyc18xLjMuMjMxLjEuYmIKaW5kZXggOTQ1MDBhOTZiYS4uZmRjYzhkNTIz
-ZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtaGVhZGVyc18x
-LjMuMjI0LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtaGVhZGVy
-c18xLjMuMjMxLjEuYmIKQEAgLTcsNyArNyw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vd3d3Lmto
-cm9ub3Mub3JnL3JlZ2lzdHJ5L3NwaXItdiIKIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NI
-S1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9YzkzOGI4NWJjZWI4ZmIyNmMxYTgwN2YyOGE1MmFl
-MmQiCiAKLVNSQ1JFViA9ICJiMmExNTZlMWMwNDM0YmM4Yzk5YWFlYmJhMWM3YmU5OGJlN2FjNTgw
-IgorU1JDUkVWID0gIjg1YTFlZDIwMGQ1MDY2MDc4NmMxYTg4ZDkxNjZlODcxMTIzY2NlMzkiCiBT
-UkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1NQSVJWLUhlYWRlcnM7cHJv
-dG9jb2w9aHR0cHM7YnJhbmNoPW1hc3RlciIKIFBFID0gIjEiCiBVUFNUUkVBTV9DSEVDS19HSVRU
-QUdSRUdFWCA9ICJzZGstKD9QPHB2ZXI+XGQrKFwuXGQrKSspIgotLSAKMi4zMS4xCgo=
+CkRhdGU6IFR1ZSwgMSBOb3YgMjAyMiAxNzowNjoyMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHdl
+c3RvbjogdXBncmFkZSAxMC4wLjIgLT4gMTEuMC4wCgotLS0KIC4uLi93YXlsYW5kL3t3ZXN0b25f
+MTAuMC4yLmJiID0+IHdlc3Rvbl8xMS4wLjAuYmJ9ICAgICAgICAgICAgICB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1ncmFwaGljcy93YXlsYW5kL3t3ZXN0b25fMTAuMC4yLmJiID0+IHdlc3Rvbl8xMS4wLjAu
+YmJ9ICg5OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2Vz
+dG9uXzEwLjAuMi5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3dlc3Rvbl8xMS4w
+LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL3dheWxhbmQvd2VzdG9uXzEwLjAuMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL3dheWxhbmQvd2VzdG9uXzExLjAuMC5iYgppbmRleCA3ODZkMTJiZTYxLi4zNTA1YWQ1NzMy
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93ZXN0b25fMTAuMC4y
+LmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3dlc3Rvbl8xMS4wLjAuYmIK
+QEAgLTEzLDcgKzEzLDcgQEAgU1JDX1VSSSA9ICJodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5v
+cmcvd2F5bGFuZC93ZXN0b24vLS9yZWxlYXNlcy8ke1BWfS9kb3dubG8KICAgICAgICAgICAgZmls
+ZTovL3N5c3RlbWQtbm90aWZ5Lndlc3Rvbi1zdGFydCBcCiAgICAgICAgICAgICIKIAotU1JDX1VS
+SVtzaGEyNTZzdW1dID0gIjg5NjQ2Y2EwZDlmOGQ0MTNjMjc2N2U1YzM4MjhlYWEzZmExNDljMmEx
+MDViMzcyOWE2ODk0ZmE3Y2YxNTQ5ZTciCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYTYxMzhkNGRj
+OTU1NDU2MGFjMzA0MzEyZGY0NTYwMTlmNGJlMDI1ZWM3OTEzMGYwNWZiNWYyZTQxYzA5MWUxZCIK
+IAogVVBTVFJFQU1fQ0hFQ0tfVVJJID0gImh0dHBzOi8vd2F5bGFuZC5mcmVlZGVza3RvcC5vcmcv
+cmVsZWFzZXMuaHRtbCIKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gIndlc3Rvbi0oP1A8cHZlcj5c
+ZCtcLlxkK1wuKD8hOVxkKylcZCspIgotLSAKMi4zMS4xCgo=
 
---===============6320205859109611190==--
+--===============8160229514758884051==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1664 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 886 .bb files complete (885 cached, 1 parsed). 1664 targets, 36 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:321645fbbff880c86dd009577c38db20899b4ac4"
+workspace            = "master:78fd269e6649000b48ef1ef3e86009bad00fa815"
+
+Initialising tasks...done.
+Sstate summary: Wanted 193 Local 186 Mirrors 0 Missed 7 Current 456 (96% match, 98% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 2089 of 2274 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/weston_11.0.0.bb:do_fetch)
+NOTE: Running task 2177 of 2274 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/weston_11.0.0.bb:do_write_config)
+NOTE: recipe weston-11.0.0-r0: task do_fetch: Started
+NOTE: recipe weston-11.0.0-r0: task do_write_config: Started
+NOTE: recipe weston-11.0.0-r0: task do_fetch: Succeeded
+NOTE: Running task 2260 of 2274 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/weston_11.0.0.bb:do_unpack)
+NOTE: Running task 2261 of 2274 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/weston_11.0.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe weston-11.0.0-r0: task do_write_config: Succeeded
+NOTE: recipe weston-11.0.0-r0: task do_unpack: Started
+NOTE: recipe weston-11.0.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe weston-11.0.0-r0: task do_unpack: Succeeded
+NOTE: Running task 2262 of 2274 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/weston_11.0.0.bb:do_patch)
+NOTE: recipe weston-11.0.0-r0: task do_patch: Started
+NOTE: recipe weston-11.0.0-r0: task do_patch: Succeeded
+NOTE: Running task 2263 of 2274 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/weston_11.0.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2264 of 2274 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/weston_11.0.0.bb:do_populate_lic)
+NOTE: recipe weston-11.0.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe weston-11.0.0-r0: task do_populate_lic: Started
+NOTE: recipe weston-11.0.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe weston-11.0.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2265 of 2274 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/weston_11.0.0.bb:do_configure)
+NOTE: recipe weston-11.0.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe weston-11.0.0-r0: task do_configure: Started
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.36.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/seatd/seatd_0.7.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/au
+ h/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_7.1.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.12.3.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.9.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.113.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gr
+ aphics/jpeg/libjpeg-turbo_2.1.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.2.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.10.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.19.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.27.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:
+ do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/meson/meson_0.63.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/r
+ ecipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.12.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.7.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['base-files', 'base-passwd', 'dbus', 'glib-2.0', 'glibc', 'seatd', 'systemd', 'gcc-cross-i686', 'gcc-runtime', 'qemu-native', 'quilt-native', 'shadow-sysroot', 'shadow', 'gdk-pixbuf', 'cairo', 'libdrm', 'libjpeg-turbo', 'mesa', 'pango', 'libinput', 'mtdev', 'wayland-protocols', 'wayland', 'libx11', 'libxcb', 'libxcursor', 'libxkbcommon', 'pixman', 'meson-native', 'ninja-native', 'patch-native', 'pkgconfig-native', 'pseudo-native', 'python3-native', 'shadow-native', 'xz-native', 'wayland-native', 'libtool-native', 'attr-native', 'gettext-minimal-native', 'libevdev', 'libcheck', 'bzip2-native', 'gdbm-native', 'libtirpc-native', 'libffi-native', 'libnsl2-native', 'readline-native', 'zlib-native', 'openssl-native', 'ncurses-native', 'util-linux-libuuid-native', 'sqlite3-native', 'python3-wheel-native', 'python3-picobuild-native', 'python3-setuptools-native', 'python3-installer-native', 'libpng', 'opkg-utils', 'libxrender', 'fontconfig', 'zl
+ ib', 'libsm', 'libxext', 'update-rc.d', 'initscripts', 'util-macros', 'libxfixes', 'libxdmcp', 'xcb-proto', 'xorgproto', 'libpthread-stubs', 'libxau', 'texinfo-dummy-native', 'flex-native', 'zstd-native', 'linux-libc-headers', 'gnu-config-native', 'gmp-native', 'libmpc-native', 'mpfr-native', 'binutils-cross-i686', 'attr', 'libxcrypt', 'libpam', 'libgcc', 'harfbuzz', 'libxft', 'gobject-introspection', 'fribidi', 'freetype', 'libpciaccess', 'xkeyboard-config', 'libxml2', 'expat', 'vulkan-headers', 'vulkan-loader', 'libxxf86vm', 'libxdamage', 'xrandr', 'libxshmfence', 'xtrans', 'autoconf-archive', 'expat-native', 'libxml2-native', 'libpcre', 'libffi', 'util-linux', 'bash-completion', 'zstd', 'kmod', 'acl', 'libcap', 'libseccomp', 'shared-mime-info', 'glib-2.0-native', 're2c-native', 'perl-native', 'python3-flit-core-native', 'libice', 'm4-native', 'flex', 'cracklib', 'icu', 'python3', 'libxrandr', 'cmake-native', 'bzip2', 'util-linux-libuuid', 'libcap-ng', 'ncurses', 'xz', 'gettext-na
+ tive', 'libpcre-native', 'util-linux-native', 'make-native', 'unzip-native', 'openssl', 'sqlite3', 'libnsl2', 'readline', 'libtirpc', 'gdbm', 'curl-native', 'libcap-ng-native', 'libpcre2-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| NOTE: Executing meson -Dpipewire=false -Dsimple-clients=all -Ddemo-clients=true -Dcolor-management-colord=false -Drenderer-gl=true -Ddeprecated-backend-fbdev=false -Dbackend-headless=false -Dimage-jpeg=true -Dbackend-drm=true -Ddeprecated-weston-launch=false -Dlauncher-libseat=true -Dcolor-management-lcms=false -Dbackend-rdp=false -Dremoting=false -Dscreenshare=true -Dshell-desktop=true -Dshell-fullscreen=true -Dshell-ivi=true -Dsystemd=true -Dlauncher-logind=true -Dbackend-drm-screencast-vaapi=false -Dbackend-wayland=true -Dimage-webp=false -Dbackend-x11=true -Dxwayland=true...
+| The Meson build system
+| Version: 0.63.3
+| Source dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/weston/11.0.0-r0/weston-11.0.0
+| Build dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/weston/11.0.0-r0/build
+| Build type: cross build
+| 
+| ../weston-11.0.0/meson.build:1:0: ERROR: Unknown options: "color-management-colord, deprecated-backend-fbdev, deprecated-weston-launch"
+| 
+| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/weston/11.0.0-r0/build/meson-logs/meson-log.txt
+| ERROR: meson failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/weston/11.0.0-r0/temp/run.do_configure.3354322:174 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/weston/11.0.0-r0/temp/run.do_configure.3354322, line 174
+| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/weston/11.0.0-r0/temp/run.do_configure.3354322, line 163
+| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/weston/11.0.0-r0/temp/run.do_configure.3354322, line 149
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/weston/11.0.0-r0/temp/run.do_configure.3354322, line 187
+NOTE: recipe weston-11.0.0-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 2265 tasks of which 2257 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 5 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/weston_11.0.0.bb:do_configure
+Summary: There was 1 WARNING message.
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: weston-11.0.0-r0 do_configure: meson failed
+ERROR: weston-11.0.0-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/weston/11.0.0-r0/temp/run.do_configure.3354322', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/weston/11.0.0-r0/temp/log.do_configure.3354322
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/weston_11.0.0.bb:do_configure) failed with exit code '1'
+
+--===============8160229514758884051==--
 
