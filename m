@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19DC9C63714
-	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 00:40:39 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web09.863.1667349635136616499
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4AD5C47090
+	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 00:40:38 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web09.865.1667349635589367445
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Nov 2022 17:40:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=MEP+ax8W;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018435c85d78-3f6768a5-5452-422a-8235-34fdeab4db2a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=J1XKKS4O;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018435c85f38-ed9d18be-85c8-4cb0-ab58-69275ae18a3e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1667349634;
+	t=1667349635;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=VAlKKstCj670IRXWYDTcknHjher3a/n+6N5KHWCcf18=;
-	b=MEP+ax8WMx1S+sPPPmZnyEK4O8jVKXTVpFKII+TALM4XnluElDqxqKH7YjfJMM6e
-	l/yBlu8CPZg9eowUsI6JaEOs+8lUV3GtmHoLJeHptGECL0rDHiErId7hENatkBqG3IF
-	Rv6JBZ2HxigxWMaOHdXT/SeRCJ9FCo0qtsPabcJ0=
+	bh=TRn59XD/68rJoxoLwBQrf77BIUBtaZwAWIUunnrzA8c=;
+	b=J1XKKS4O1AU7TdYGtM8pqG+KG0Rm0dtH7SOgC/T3Qs/uPgHtX7x6QPzT0wxonOF3
+	iNI0gGjcEe5FqXRie4OB9+08DLBZX8NvCUUUNh2sKykNeLR9d+5wfYaDZvzTC6trMp4
+	v7FKTqxApJoKP4KFZvBHoGKAd/evoaDeHFXGOktI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1667349634;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1667349635;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=VAlKKstCj670IRXWYDTcknHjher3a/n+6N5KHWCcf18=;
-	b=F2zRYOoOL+K482m5M3TpaT0hESt+YWUxAH5995blLTGPUxvGHoNRwuhTWGxzw79r
-	MLgMQGvZ4elYR+cppBrhcsey4qpkEjf9PwXb+pfYNnqbgWS2XGmTM9fH/9gOAPZ5ifL
-	S3dEIYo1AXD5nnD2X+o7qcS+3VwMXE6cUBp+0UQ0=
-Content-Type: multipart/mixed; boundary="===============3926937532663932643=="
+	bh=TRn59XD/68rJoxoLwBQrf77BIUBtaZwAWIUunnrzA8c=;
+	b=D+FhPYteQF5iOQsEdreKgXVOJktLsXp3pdZHTH3bgQOL5UOo5Eks9CHUxr4YDfOO
+	N8pBVVmO164qgBuRSkq7o+nsOBTuoCe3W2VfU9e5g9Bf8lwYPTpL4aLnlLevCo7BzxG
+	iCaaxyWSVvjmG5Q9Zukh45AI4gLtyEdlk7vAR/mY=
+Content-Type: multipart/mixed; boundary="===============1077148749583422114=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Jose Quaresma <quaresma.jose@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gcr: upgrading to 4.0.0 FAILED
-Message-ID: <0101018435c85d78-3f6768a5-5452-422a-8235-34fdeab4db2a-000000@us-west-2.amazonses.com>
+Subject: [AUH] shaderc: upgrading to 2022.3 FAILED
+Message-ID: <0101018435c85f38-ed9d18be-85c8-4cb0-ab58-69275ae18a3e-000000@us-west-2.amazonses.com>
 Date: Wed, 2 Nov 2022 00:40:34 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.11.02-54.240.27.33
+X-SES-Outgoing: 2022.11.02-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 00:40:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172466
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 00:40:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172483
 
---===============3926937532663932643==
+--===============1077148749583422114==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,100 +50,209 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gcr* to *4.0.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *shaderc* to *2022.3* has Failed(do_compile).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe gcr failed.
-NOTE: Starting bitbake server...
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1664 entries from dependency cache.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:9486e168b1ac203de47378a1fb762d956f45b42e"
-workspace            = "master:78fd269e6649000b48ef1ef3e86009bad00fa815"
-
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 21 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1664 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 887 .bb files complete (885 cached, 2 parsed). 1665 targets, 35 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:9486e168b1ac203de47378a1fb762d956f45b42e"
-workspace            = "master:78fd269e6649000b48ef1ef3e86009bad00fa815"
-
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 17 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  22% |########                            | ETA:  0:00:00
-Adding changed files:  45% |################                    | ETA:  0:00:00
-Adding changed files:  68% |########################            | ETA:  0:00:00
-Adding changed files:  91% |################################    | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://download.gnome.org/sources//gcr/4.0/gcr-4.0.0.tar.xz;name=archive...
-INFO: Rebasing devtool onto 8c13da86fa969b47edd4219d9915c35df07294fb
-WARNING: Command 'git rebase 8c13da86fa969b47edd4219d9915c35df07294fb' failed:
-CONFLICT (modify/delete): ui/meson.build deleted in HEAD and modified in cf6a5ad (meson: Fix unknown kw argument in gnome.generate_gir). Version cf6a5ad (meson: Fix unknown kw argument in gnome.generate_gir) of ui/meson.build left in tree.
-Auto-merging gcr/meson.build
-CONFLICT (content): Merge conflict in gcr/meson.build
-Auto-merging gck/meson.build
-CONFLICT (content): Merge conflict in gck/meson.build
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gcr
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/gcr/gcr_4.0.0.bb
+do_compile failed
 
 
+
+Next steps:
+    - apply the patch: git am 0001-shaderc-upgrade-2022.2-2022.3.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============3926937532663932643==--
+--===============1077148749583422114==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-shaderc-upgrade-2022.2-2022.3.patch"
+
+RnJvbSA1ODY1NWNmY2EyMTM0M2ZkYjQ5MWM2OGQxNzkxMDcyM2Y0ZTUwMTI5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMSBOb3YgMjAyMiAxNjozODo0NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNo
+YWRlcmM6IHVwZ3JhZGUgMjAyMi4yIC0+IDIwMjIuMwoKLS0tCiAuLi4vc2hhZGVyYy97c2hhZGVy
+Y18yMDIyLjIuYmIgPT4gc2hhZGVyY18yMDIyLjMuYmJ9ICAgICAgICAgICAgfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy97c2hhZGVyY18yMDIyLjIuYmIgPT4gc2hhZGVyY18yMDIy
+LjMuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMv
+c2hhZGVyY18yMDIyLjIuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9zaGFkZXJj
+XzIwMjIuMy5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
+Z3JhcGhpY3Mvc2hhZGVyYy9zaGFkZXJjXzIwMjIuMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
+LWdyYXBoaWNzL3NoYWRlcmMvc2hhZGVyY18yMDIyLjMuYmIKaW5kZXggZGYwZmU4ZTZjOC4uMTgy
+ODZkNDBmOCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMvc2hhZGVy
+Y18yMDIyLjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMvc2hhZGVyY18y
+MDIyLjMuYmIKQEAgLTYsNyArNiw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vZ2l0aHViLmNvbS9n
+b29nbGUvc2hhZGVyYyIKIExJQ0VOU0UgPSAiQXBhY2hlLTIuMCIKIExJQ19GSUxFU19DSEtTVU0g
+PSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTg2ZDNmM2E5NWMzMjRjOTQ3OWJkODk4Njk2OGY0MzI3Igog
+Ci1TUkNSRVYgPSAiM2YxNjM1ZGY3Nzc0YTkwZjY5MTc3M2UwMDkzYmM2YWQ4MDA1ZGU1YSIKK1NS
+Q1JFViA9ICI0YmJiNjQ2ZGRiMzI3OWM2YTI3ZTdhYTBlYjg2YzEwYzhhZGQ5ODdiIgogU1JDX1VS
+SSA9ICJnaXQ6Ly9naXRodWIuY29tL2dvb2dsZS9zaGFkZXJjLmdpdDtwcm90b2NvbD1odHRwczti
+cmFuY2g9bWFpbiBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWNtYWtlLWRpc2FibGUtYnVpbGRp
+bmctZXh0ZXJuYWwtZGVwZW5kZW5jaWVzLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovLzAwMDIt
+bGlic2hhZGVyY191dGlsLWZpeC1nbHNsYW5nLWhlYWRlci1maWxlLWxvY2F0aW9uLnBhdGNoIFwK
+LS0gCjIuMzEuMQoK
+
+--===============1077148749583422114==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1664 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 886 .bb files complete (885 cached, 1 parsed). 1664 targets, 36 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:68347ea07bb28564736187ad4cf8601032c6a397"
+workspace            = "master:78fd269e6649000b48ef1ef3e86009bad00fa815"
+
+Initialising tasks...done.
+Sstate summary: Wanted 28 Local 21 Mirrors 0 Missed 7 Current 143 (75% match, 95% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 665 of 701 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2022.3.bb:do_fetch)
+NOTE: recipe shaderc-2022.3-r0: task do_fetch: Started
+NOTE: recipe shaderc-2022.3-r0: task do_fetch: Succeeded
+NOTE: Running task 687 of 701 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2022.3.bb:do_unpack)
+NOTE: Running task 688 of 701 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2022.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe shaderc-2022.3-r0: task do_unpack: Started
+NOTE: recipe shaderc-2022.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe shaderc-2022.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe shaderc-2022.3-r0: task do_unpack: Succeeded
+NOTE: Running task 689 of 701 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2022.3.bb:do_patch)
+NOTE: recipe shaderc-2022.3-r0: task do_patch: Started
+NOTE: recipe shaderc-2022.3-r0: task do_patch: Succeeded
+NOTE: Running task 690 of 701 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2022.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 691 of 701 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2022.3.bb:do_generate_toolchain_file)
+NOTE: Running task 692 of 701 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2022.3.bb:do_populate_lic)
+NOTE: recipe shaderc-2022.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe shaderc-2022.3-r0: task do_generate_toolchain_file: Started
+NOTE: recipe shaderc-2022.3-r0: task do_populate_lic: Started
+NOTE: recipe shaderc-2022.3-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe shaderc-2022.3-r0: task do_populate_lic: Succeeded
+NOTE: recipe shaderc-2022.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 693 of 701 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2022.3.bb:do_configure)
+NOTE: recipe shaderc-2022.3-r0: task do_configure: Started
+NOTE: recipe shaderc-2022.3-r0: task do_configure: Succeeded
+NOTE: Running task 694 of 701 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2022.3.bb:do_compile)
+NOTE: recipe shaderc-2022.3-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| NOTE: VERBOSE=1 cmake --build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build --target all --
+| [1/29] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build && /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/cmake -DCHANGES_FILE=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/CHANGES -DTEMPLATE_FILE=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/cmake/shaderc.pc.in -DOUT_FILE=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build/shaderc.pc -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_INCLUDEDIR=include -DLIBS=-lshaderc_shared -P /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/cmake/write_pkg_config.cmake
+| [2/29] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build && /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/cmake -DCHANGES_FILE=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/CHANGES -DTEMPLATE_FILE=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/cmake/shaderc_static.pc.in -DOUT_FILE=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build/shaderc_static.pc -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_INCLUDEDIR=include -DLIBS=-lshaderc\ \ -lshaderc_util -P /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/cmake/write_pkg_config.cmake
+| [3/29] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build && /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/cmake -DCHANGES_FILE=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/CHANGES -DTEMPLATE_FILE=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/cmake/shaderc_combined.pc.in -DOUT_FILE=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build/shaderc_combined.pc -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_INCLUDEDIR=include -DLIBS=-lshaderc_combined -P /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/cmake/write_pkg_config.cmake
+| [4/29] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ -DENABLE_HLSL -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/include -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/
+ build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -std=c++11 -std=gnu++11 -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/resources.cc.o -MF libshaderc_util/CMakeFiles/shaderc_util.dir/src/resources.cc.o.d -o libshaderc_util/CMakeFiles/shaderc_util.dir/sr
+ c/resources.cc.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/src/resources.cc
+| FAILED: libshaderc_util/CMakeFiles/shaderc_util.dir/src/resources.cc.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ -DENABLE_HLSL -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/include -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/b
+ uild/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -std=c++11 -std=gnu++11 -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/resources.cc.o -MF libshaderc_util/CMakeFiles/shaderc_util.dir/src/resources.cc.o.d -o libshaderc_util/CMakeFiles/shaderc_util.dir/src/resou
+ rces.cc.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/src/resources.cc
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/src/resources.cc:151:6: error: too many initializers for 'const shaderc_util::TBuiltInResource' {aka 'const TBuiltInResource'}
+|   151 |     }};
+|       |      ^
+| [5/29] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build && /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/utils/update_build_version.py /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build/build-version.inc /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git
+| [6/29] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc/include -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linu
+ x/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -std=c++11 -std=gnu++11 -MD -MT glslc/CMakeFiles/glslc.dir/src/file.cc.o -MF glslc/CMakeFiles/glslc.dir
+ /src/file.cc.o.d -o glslc/CMakeFiles/glslc.dir/src/file.cc.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/glslc/src/file.cc
+| [7/29] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ -DENABLE_HLSL -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/include -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/
+ build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -std=c++11 -std=gnu++11 -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/shader_stage.cc.o -MF libshaderc_util/CMakeFiles/shaderc_util.dir/src/shader_stage.cc.o.d -o libshaderc_util/CMakeFiles/shaderc_util.
+ dir/src/shader_stage.cc.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/src/shader_stage.cc
+| [8/29] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ -DENABLE_HLSL -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/include -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/
+ build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -std=c++11 -std=gnu++11 -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/version_profile.cc.o -MF libshaderc_util/CMakeFiles/shaderc_util.dir/src/version_profile.cc.o.d -o libshaderc_util/CMakeFiles/shaderc
+ _util.dir/src/version_profile.cc.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/src/version_profile.cc
+| [9/29] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc/include -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linu
+ x/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -std=c++11 -std=gnu++11 -MD -MT glslc/CMakeFiles/glslc.dir/src/shader_stage.cc.o -MF glslc/CMakeFiles/g
+ lslc.dir/src/shader_stage.cc.o.d -o glslc/CMakeFiles/glslc.dir/src/shader_stage.cc.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/glslc/src/shader_stage.cc
+| [10/29] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ -DENABLE_HLSL -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/include -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh
+ /build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -std=c++11 -std=gnu++11 -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/args.cc.o -MF libshaderc_util/CMakeFiles/shaderc_util.dir/src/args.cc.o.d -o libshaderc_util/CMakeFiles/shaderc_util.dir/src/args.cc
+ .o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/src/args.cc
+| [11/29] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ -DENABLE_HLSL -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/include -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh
+ /build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -std=c++11 -std=gnu++11 -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/io_shaderc.cc.o -MF libshaderc_util/CMakeFiles/shaderc_util.dir/src/io_shaderc.cc.o.d -o libshaderc_util/CMakeFiles/shaderc_util.dir
+ /src/io_shaderc.cc.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/src/io_shaderc.cc
+| [12/29] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ -DENABLE_HLSL -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/include -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh
+ /build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -std=c++11 -std=gnu++11 -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/file_finder.cc.o -MF libshaderc_util/CMakeFiles/shaderc_util.dir/src/file_finder.cc.o.d -o libshaderc_util/CMakeFiles/shaderc_util.d
+ ir/src/file_finder.cc.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/src/file_finder.cc
+| [13/29] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ -DENABLE_HLSL -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/include -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh
+ /build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -std=c++11 -std=gnu++11 -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/message.cc.o -MF libshaderc_util/CMakeFiles/shaderc_util.dir/src/message.cc.o.d -o libshaderc_util/CMakeFiles/shaderc_util.dir/src/m
+ essage.cc.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/src/message.cc
+| [14/29] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc/include -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-lin
+ ux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -std=c++11 -std=gnu++11 -MD -MT glslc/CMakeFiles/glslc.dir/src/dependency_info.cc.o -MF glslc/CMakeFil
+ es/glslc.dir/src/dependency_info.cc.o.d -o glslc/CMakeFiles/glslc.dir/src/dependency_info.cc.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/glslc/src/dependency_info.cc
+| [15/29] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc/include -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-lin
+ ux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -std=c++11 -std=gnu++11 -MD -MT glslc/CMakeFiles/glslc.dir/src/file_includer.cc.o -MF glslc/CMakeFiles
+ /glslc.dir/src/file_includer.cc.o.d -o glslc/CMakeFiles/glslc.dir/src/file_includer.cc.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/glslc/src/file_includer.cc
+| [16/29] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc/include -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-lin
+ ux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -std=c++11 -std=gnu++11 -MD -MT glslc/CMakeFiles/glslc.dir/src/resource_parse.cc.o -MF glslc/CMakeFile
+ s/glslc.dir/src/resource_parse.cc.o.d -o glslc/CMakeFiles/glslc.dir/src/resource_parse.cc.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/glslc/src/resource_parse.cc
+| [17/29] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ -DENABLE_HLSL -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/include -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh
+ /build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -std=c++11 -std=gnu++11 -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/spirv_tools_wrapper.cc.o -MF libshaderc_util/CMakeFiles/shaderc_util.dir/src/spirv_tools_wrapper.cc.o.d -o libshaderc_util/CMakeFile
+ s/shaderc_util.dir/src/spirv_tools_wrapper.cc.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/src/spirv_tools_wrapper.cc
+| [18/29] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc/include -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-lin
+ ux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -std=c++11 -std=gnu++11 -MD -MT glslc/CMakeFiles/glslc.dir/src/file_compiler.cc.o -MF glslc/CMakeFiles
+ /glslc.dir/src/file_compiler.cc.o.d -o glslc/CMakeFiles/glslc.dir/src/file_compiler.cc.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/glslc/src/file_compiler.cc
+| [19/29] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc/include -I/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/include -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
+ 32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -std=c++11 -std=gnu++11 -MD -MT libshaderc/CMakeFiles/shaderc.dir/src/shaderc.cc.o -MF libs
+ haderc/CMakeFiles/shaderc.dir/src/shaderc.cc.o.d -o libshaderc/CMakeFiles/shaderc.dir/src/shaderc.cc.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc/src/shaderc.cc
+| [20/29] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ -DSHADERC_IMPLEMENTATION -DSHADERC_SHAREDLIB -Dshaderc_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc/include -I/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/include -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -fPIC -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -std=c++11 -std=
+ gnu++11 -MD -MT libshaderc/CMakeFiles/shaderc_shared.dir/src/shaderc.cc.o -MF libshaderc/CMakeFiles/shaderc_shared.dir/src/shaderc.cc.o.d -o libshaderc/CMakeFiles/shaderc_shared.dir/src/shaderc.cc.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc/src/shaderc.cc
+| [21/29] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ -DENABLE_HLSL -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/include -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git=/usr/src/debug/shaderc/2022.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh
+ /build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build=/usr/src/debug/shaderc/2022.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -std=c++11 -std=gnu++11 -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/compiler.cc.o -MF libshaderc_util/CMakeFiles/shaderc_util.dir/src/compiler.cc.o.d -o libshaderc_util/CMakeFiles/shaderc_util.dir/src
+ /compiler.cc.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/git/libshaderc_util/src/compiler.cc
+| ninja: build stopped: subcommand failed.
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/temp/run.do_compile.2152602:160 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
+| WARNING: Backtrace (BB generated script):
+| 	#1: cmake_runcmake_build, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/temp/run.do_compile.2152602, line 160
+| 	#2: cmake_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/temp/run.do_compile.2152602, line 154
+| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/temp/run.do_compile.2152602, line 149
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/temp/run.do_compile.2152602, line 173
+NOTE: recipe shaderc-2022.3-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 694 tasks of which 685 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2022.3.bb:do_compile
+Summary: There was 1 WARNING message.
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: shaderc-2022.3-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/temp/run.do_compile.2152602', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/shaderc/2022.3-r0/temp/log.do_compile.2152602
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2022.3.bb:do_compile) failed with exit code '1'
+
+--===============1077148749583422114==--
 
