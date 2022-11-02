@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84A73C64E94
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DF7FC64E96
 	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 00:40:39 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web08.878.1667349634101442584
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web08.875.1667349632981329428
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Nov 2022 17:40:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Xn+I6aSp;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018435c858ee-ae87a8ab-38dc-4cb8-94d0-e89608d82b17-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=b1cbkvId;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018435c859eb-1120b3f1-1ee0-483d-996b-bab96c6888de-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1667349633;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=K2hFrro2t7y9ZbC1pUvAxYtzn6bp5Gq3MJ0rh6XghDI=;
-	b=Xn+I6aSpfwd3KTHqaeS2ybDzS3bgwh1ciVv6za9psOhwVo/Fuuy7b0NMGCvz7l9t
-	OdLVPlJQ+/JJn3UQPpmkEOd6OYO8dAGLa1OietcS46SZew2Oi1BwwdEHe806OCTF3GD
-	hyfu8bpnrxap/FjH3uZY1BX9solpK8Y0eUkCw5Xo=
+	bh=iiu2mb3r5UKibsnBDu5nDdMPtt+RK2FgBvmfKpO4waQ=;
+	b=b1cbkvIdpX3HqWMmDbBDtoZg4soBb+3VO4ploqCkVtt2Z3WluCBwmA25c9PXCTlk
+	1qJonwl2bdIpUYPHpJ914Q4KA0DhnVp5gZNmyA30Y3JWEd5zm8Q7+EL99NnvSS0chbh
+	P1O17CZDupEIAOc3/NVP1A8GTRezZuvFueri8ONQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1667349633;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=K2hFrro2t7y9ZbC1pUvAxYtzn6bp5Gq3MJ0rh6XghDI=;
-	b=NzScXPTJiD6lahPvbenIre8ZVtEXGjd8nw9iAVZkZzzXiQVzX6jC7Lrb6/fB+Xn/
-	S7b6bAdExlYogPNILiaKz5geK42pXUwbaOdm9fixMyVeFxLq5QtK46GYnNbjfHyjfGD
-	82eM06c6EDi/+RbIlbiqde+pIJvX9RSOFTZ+cvnQ=
-Content-Type: multipart/mixed; boundary="===============6943616502124652134=="
+	bh=iiu2mb3r5UKibsnBDu5nDdMPtt+RK2FgBvmfKpO4waQ=;
+	b=hW/5Zb7ZsW6Sv/DhcmUeI/bbZ/osNxTJVB6LUvRxY/ur+Wt4cEYgDNG1aFY7vUCw
+	a9cKNheJmeOOvN3K9bTq4cVSzm/QxcHXUBg2uxLxskSBSQ5MsW/zJv8vUdrKmGeWwQc
+	JCZLTdt0iX5w84mwsUOjVgWWeMMRGRVxCcErC8LY=
+Content-Type: multipart/mixed; boundary="===============2526957430454711623=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pytest: upgrading to 7.2.0 SUCCEEDED
-Message-ID: <0101018435c858ee-ae87a8ab-38dc-4cb8-94d0-e89608d82b17-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-setuptools: upgrading to 65.5.0 SUCCEEDED
+Message-ID: <0101018435c859eb-1120b3f1-1ee0-483d-996b-bab96c6888de-000000@us-west-2.amazonses.com>
 Date: Wed, 2 Nov 2022 00:40:33 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.11.02-54.240.27.29
+X-SES-Outgoing: 2022.11.02-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 00:40:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172442
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172440
 
---===============6943616502124652134==
+--===============2526957430454711623==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pytest* to *7.2.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-setuptools* to *65.5.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pytest-upgrade-7.1.3-7.2.0.patch
+    - apply the patch: git am 0001-python3-setuptools-upgrade-65.0.2-65.5.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,96 +69,95 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6943616502124652134==
+--===============2526957430454711623==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-pytest: PKGV changed from 7.1.3 [default] to 7.2.0 [default]
-packages/core2-32-poky-linux/python3-pytest: PV changed from "7.1.3" to "7.2.0"
-packages/core2-32-poky-linux/python3-pytest: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pytest/pytest-7.1.3.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pytest/pytest-7.2.0.tar.gz"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-dbg: PKGV changed from 7.1.3 [default] to 7.2.0 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-dbg: PV changed from "7.1.3" to "7.2.0"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-dev: PKGV changed from 7.1.3 [default] to 7.2.0 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-dev: PV changed from "7.1.3" to "7.2.0"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-doc: PKGV changed from 7.1.3 [default] to 7.2.0 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-doc: PV changed from "7.1.3" to "7.2.0"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-locale: PKGV changed from 7.1.3 [default] to 7.2.0 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-locale: PV changed from "7.1.3" to "7.2.0"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-src: PKGV changed from 7.1.3 [default] to 7.2.0 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-src: PV changed from "7.1.3" to "7.2.0"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-staticdev: PKGV changed from 7.1.3 [default] to 7.2.0 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-staticdev: PV changed from "7.1.3" to "7.2.0"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest: PKGV changed from 7.1.3 [default] to 7.2.0 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest: FILELIST: directory renamed /usr/lib/python3.11/site-packages/pytest-7.1.3.dist-info -> /usr/lib/python3.11/site-packages/pytest-7.2.0.dist-info, added "/usr/lib/python3.11/site-packages/_pytest/_py/__pycache__/error.cpython-311.pyc /usr/lib/python3.11/site-packages/py.py /usr/lib/python3.11/site-packages/_pytest/_py/__init__.py /usr/lib/python3.11/site-packages/__pycache__/py.cpython-311.pyc /usr/lib/python3.11/site-packages/_pytest/_py/__pycache__/__init__.cpython-311.pyc /usr/lib/python3.11/site-packages/_pytest/_py/path.py /usr/lib/python3.11/site-packages/_pytest/_py/__pycache__/path.cpython-311.pyc /usr/lib/python3.11/site-packages/_pytest/_py/error.py"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest: PKGSIZE changed from 2447699 to 2615775 (+7%)
-packages/core2-32-poky-linux/python3-pytest/python3-pytest: PV changed from "7.1.3" to "7.2.0"
-Changes to packages/core2-32-poky-linux/python3-pytest (sysroot):
-  /usr/lib/python3.11/site-packages/pytest-7.1.3.dist-info moved to /usr/lib/python3.11/site-packages/pytest-7.2.0.dist-info
-  /usr/lib/python3.11/site-packages/__pycache__ was added
-  /usr/lib/python3.11/site-packages/__pycache__/py.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/py.py was added
-  /usr/lib/python3.11/site-packages/_pytest/_py was added
-  /usr/lib/python3.11/site-packages/_pytest/_py/error.py was added
-  /usr/lib/python3.11/site-packages/_pytest/_py/__init__.py was added
-  /usr/lib/python3.11/site-packages/_pytest/_py/path.py was added
-  /usr/lib/python3.11/site-packages/_pytest/_py/__pycache__ was added
-  /usr/lib/python3.11/site-packages/_pytest/_py/__pycache__/error.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/_pytest/_py/__pycache__/__init__.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/_pytest/_py/__pycache__/path.cpython-311.pyc was added
+packages/core2-32-poky-linux/python3-setuptools: PKGV changed from 65.0.2 [default] to 65.5.0 [default]
+packages/core2-32-poky-linux/python3-setuptools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-65.0.2.tar.gz file://0001-change-shebang-to-python3.patch file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch" to "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-65.5.0.tar.gz file://0001-change-shebang-to-python3.patch file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
+packages/core2-32-poky-linux/python3-setuptools: PV changed from "65.0.2" to "65.5.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-pkg-resources: PKGV changed from 65.0.2 [default] to 65.5.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-pkg-resources: PV changed from "65.0.2" to "65.5.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dbg: PKGV changed from 65.0.2 [default] to 65.5.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dbg: PV changed from "65.0.2" to "65.5.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dev: PKGV changed from 65.0.2 [default] to 65.5.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dev: PV changed from "65.0.2" to "65.5.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-doc: PKGV changed from 65.0.2 [default] to 65.5.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-doc: PV changed from "65.0.2" to "65.5.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-locale: PKGV changed from 65.0.2 [default] to 65.5.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-locale: PV changed from "65.0.2" to "65.5.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-src: PKGV changed from 65.0.2 [default] to 65.5.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-src: PV changed from "65.0.2" to "65.5.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-staticdev: PKGV changed from 65.0.2 [default] to 65.5.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-staticdev: PV changed from "65.0.2" to "65.5.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: PKGV changed from 65.0.2 [default] to 65.5.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: PV changed from "65.0.2" to "65.5.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: PKGSIZE changed from 6076196 to 6071609 (-0%)
+Changes to packages/core2-32-poky-linux/python3-setuptools (sysroot):
+  /usr/lib/python3.11/site-packages/setuptools-65.0.2.dist-info moved to /usr/lib/python3.11/site-packages/setuptools-65.5.0.dist-info
+Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
+  /usr/lib/python3.11/site-packages/setuptools-65.0.2.dist-info moved to /usr/lib/python3.11/site-packages/setuptools-65.5.0.dist-info
 
---===============6943616502124652134==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-pytest-upgrade-7.1.3-7.2.0.patch"
-
-RnJvbSAyMTBhOWM0MjgwYjk4NmE4ZjEzMmFkNzhmNWFiNjRlNDZkN2ZjNGE1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBOb3YgMjAyMiAxMDo1NTozMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcHl0ZXN0OiB1cGdyYWRlIDcuMS4zIC0+IDcuMi4wCgotLS0KIC4uLi9weXRob24ve3B5
-dGhvbjMtcHl0ZXN0XzcuMS4zLmJiID0+IHB5dGhvbjMtcHl0ZXN0XzcuMi4wLmJifSB8IDIgKy0K
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHl0ZXN0XzcuMS4zLmJiID0+IHB5
-dGhvbjMtcHl0ZXN0XzcuMi4wLmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1weXRlc3RfNy4xLjMuYmIgYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHl0ZXN0XzcuMi4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTMl
-CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weXRlc3Rf
-Ny4xLjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1w
-eXRlc3RfNy4yLjAuYmIKaW5kZXggMzczZjdmMzVmYS4uMDJmYzU1ZmRiMCAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5dGVzdF83LjEuMy5iYgorKysg
-Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHl0ZXN0XzcuMi4wLmJiCkBA
-IC01LDcgKzUsNyBAQCBERVNDUklQVElPTiA9ICJUaGUgcHl0ZXN0IGZyYW1ld29yayBtYWtlcyBp
-dCBlYXN5IHRvIHdyaXRlIHNtYWxsIHRlc3RzLCB5ZXQgc2NhbAogTElDRU5TRSA9ICJNSVQiCiBM
-SUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT1iZDI3ZTQxYjY1NTBmZTBmYzQ1
-MzU2ZDFkODFlZTM3YyIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjRmMzY1ZmVjMmRmZjljMTE2
-MmY4MzRkOWYxOGFmMWJhMTMwNjJkYjBjNzA4YmY3Yjk0NmY4YTVjNzYxODBjMzkiCitTUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiYzQwMTRlYjQwZTEwZjExZjM1NWFkNGUzYzJmYjJjNmM2ZDE5MTljNzNm
-M2I1YTQzM2RlNDcwODIwMmNhZGU1OSIKIAogREVQRU5EUyArPSAicHl0aG9uMy1zZXR1cHRvb2xz
-LXNjbS1uYXRpdmUiCiAKLS0gCjIuMzEuMQoK
-
---===============6943616502124652134==
+--===============2526957430454711623==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/python3-pytest/python3-pytest: FILELIST: directory renamed /usr/lib/python3.11/site-packages/pytest-7.1.3.dist-info -> /usr/lib/python3.11/site-packages/pytest-7.2.0.dist-info, added "/usr/lib/python3.11/site-packages/py.py /usr/lib/python3.11/site-packages/_pytest/_py/__pycache__/path.cpython-311.pyc /usr/lib/python3.11/site-packages/__pycache__/py.cpython-311.pyc /usr/lib/python3.11/site-packages/_pytest/_py/error.py /usr/lib/python3.11/site-packages/_pytest/_py/__pycache__/__init__.cpython-311.pyc /usr/lib/python3.11/site-packages/_pytest/_py/__pycache__/error.cpython-311.pyc /usr/lib/python3.11/site-packages/_pytest/_py/path.py /usr/lib/python3.11/site-packages/_pytest/_py/__init__.py"
-Changes to packages/core2-32-poky-linux/python3-pytest (sysroot):
-  /usr/lib/python3.11/site-packages/pytest-7.1.3.dist-info moved to /usr/lib/python3.11/site-packages/pytest-7.2.0.dist-info
-  /usr/lib/python3.11/site-packages/__pycache__ was added
-  /usr/lib/python3.11/site-packages/__pycache__/py.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/py.py was added
-  /usr/lib/python3.11/site-packages/_pytest/_py was added
-  /usr/lib/python3.11/site-packages/_pytest/_py/error.py was added
-  /usr/lib/python3.11/site-packages/_pytest/_py/__init__.py was added
-  /usr/lib/python3.11/site-packages/_pytest/_py/path.py was added
-  /usr/lib/python3.11/site-packages/_pytest/_py/__pycache__ was added
-  /usr/lib/python3.11/site-packages/_pytest/_py/__pycache__/error.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/_pytest/_py/__pycache__/__init__.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/_pytest/_py/__pycache__/path.cpython-311.pyc was added
+Changes to packages/core2-32-poky-linux/python3-setuptools (sysroot):
+  /usr/lib/python3.11/site-packages/setuptools-65.0.2.dist-info moved to /usr/lib/python3.11/site-packages/setuptools-65.5.0.dist-info
+Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
+  /usr/lib/python3.11/site-packages/setuptools-65.0.2.dist-info moved to /usr/lib/python3.11/site-packages/setuptools-65.5.0.dist-info
 
---===============6943616502124652134==--
+--===============2526957430454711623==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-setuptools-upgrade-65.0.2-65.5.0.patch"
+
+RnJvbSAxOWUyOWI2MmM4ZTAyZjM1MjBiN2QwNTkzM2JjYmY1NjBiOWI5NGYyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMSBOb3YgMjAyMiAxMTowMjowNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtc2V0dXB0b29sczogdXBncmFkZSA2NS4wLjIgLT4gNjUuNS4wCgotLS0KIC4uLi8wMDAx
+LWNvbmRpdGlvbmFsbHktZG8tbm90LWZldGNoLWNvZGUtYnktZWFzeV9pbnN0YWxsLnBhdGNoICB8
+IDIgKy0KIC4uLnl0aG9uMy1zZXR1cHRvb2xzXzY1LjAuMi5iYiA9PiBweXRob24zLXNldHVwdG9v
+bHNfNjUuNS4wLmJifSB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAy
+IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhv
+bjMtc2V0dXB0b29sc182NS4wLjIuYmIgPT4gcHl0aG9uMy1zZXR1cHRvb2xzXzY1LjUuMC5iYn0g
+KDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
+c2V0dXB0b29scy8wMDAxLWNvbmRpdGlvbmFsbHktZG8tbm90LWZldGNoLWNvZGUtYnktZWFzeV9p
+bnN0YWxsLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVw
+dG9vbHMvMDAwMS1jb25kaXRpb25hbGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWVhc3lfaW5zdGFs
+bC5wYXRjaAppbmRleCBjOGM3MTNjODQyLi4xYjVmOWM3NTc3IDEwMDY0NAotLS0gYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29scy8wMDAxLWNvbmRpdGlvbmFs
+bHktZG8tbm90LWZldGNoLWNvZGUtYnktZWFzeV9pbnN0YWxsLnBhdGNoCisrKyBiL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzLzAwMDEtY29uZGl0aW9uYWxs
+eS1kby1ub3QtZmV0Y2gtY29kZS1ieS1lYXN5X2luc3RhbGwucGF0Y2gKQEAgLTEsNCArMSw0IEBA
+Ci1Gcm9tIDQyZDM0OTAzMWNkOTUyYzEyNjIwZmNmMDJjYmFiNzBhMzcxZjRiMTkgTW9uIFNlcCAx
+NyAwMDowMDowMCAyMDAxCitGcm9tIGEwZTA4NzNhOGVlNjY3NGQ0M2U2MDRkNjZiZjY2ZDk0ZmM4
+ZWViNmYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBIb25neHUgSmlhIDxob25neHUu
+amlhQHdpbmRyaXZlci5jb20+CiBEYXRlOiBUdWUsIDE3IEp1bCAyMDE4IDEwOjEzOjM4ICswODAw
+CiBTdWJqZWN0OiBbUEFUQ0hdIGNvbmRpdGlvbmFsbHkgZG8gbm90IGZldGNoIGNvZGUgYnkgZWFz
+eV9pbnN0YWxsCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtc2V0dXB0b29sc182NS4wLjIuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
+dGhvbjMtc2V0dXB0b29sc182NS41LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHNfNjUuMC4y
+LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0
+b29sc182NS41LjAuYmIKaW5kZXggMWE2MzllYTMzMy4uODE5OGNiZDEwNCAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHNfNjUuMC4yLmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzY1
+LjUuMC5iYgpAQCAtMTEsNyArMTEsNyBAQCBTUkNfVVJJOmFwcGVuZDpjbGFzcy1uYXRpdmUgPSAi
+IGZpbGU6Ly8wMDAxLWNvbmRpdGlvbmFsbHktZG8tbm90LWZldGNoLWNvZGUtYnktZQogU1JDX1VS
+SSArPSAiZmlsZTovLzAwMDEtY2hhbmdlLXNoZWJhbmctdG8tcHl0aG9uMy5wYXRjaCBcCiAgICAg
+ICAgICAgICBmaWxlOi8vMDAwMS1fZGlzdHV0aWxzLXN5c2NvbmZpZy5weS1tYWtlLWl0LXBvc3Np
+YmxlLXRvLXN1YnN0aXRlLnBhdGNoIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMTAxYmYxNWNh
+NzIzYmVlZjQyYzhkYjkxYTc2MWYzNzQ4ZDRkNjk3ZTE3ZmFlOTA0ZGI2MGMwYjYxOWQ4ZDA5NCIK
+K1NSQ19VUklbc2hhMjU2c3VtXSA9ICI1MTJlNTUzNjIyMGUzODE0NjE3NmVmYjgzM2Q0YTYyYWE3
+MjZiN2JiZmY4MmNmYmM4YmE5ZWFhMzk5NmUwYjE3IgogCiBERVBFTkRTICs9ICIke1BZVEhPTl9Q
+Tn0iCiAKLS0gCjIuMzEuMQoK
+
+--===============2526957430454711623==--
 
