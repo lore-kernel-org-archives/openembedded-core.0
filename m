@@ -2,125 +2,206 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37FD2C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 390EEC43219
 	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 03:18:42 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.2219.1667359121493179645
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web08.2273.1667359117559608465
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Nov 2022 20:18:41 -0700
+ Tue, 01 Nov 2022 20:18:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=MQ5iCa3Y;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: ticotimo@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id p21so11489756plr.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 20:18:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=nPiXYzmp;
+ spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f178.google.com with SMTP id e129so15107784pgc.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 20:18:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=htEDE3GHltVs1USE9YeaE2TwzUtAZI70D8CteyLsbjg=;
-        b=MQ5iCa3Y/XVbu7MiDu05wG6BH4stmpwVa51Y7MtpZwCj9TJhcY0RPOhbVHle/8fWPf
-         3JZZ/x59BgX/ZfiSncqacol2K42UBOffeFpp0VqpBwwbuJjWI4MydXxrbg79N494VH1B
-         zXu9PobMyqVvmnbreomCknp0u78Yj15nDIyVOMIz21H2T7Mmpou431hfHqZDdfCmv0wP
-         S1OdYEffuSVRApSYXERKDd4q1gQa3LSu5w5ceUnPNd5zOkINpRb/PNNQ/EV9lANZJJB8
-         yYOtKBozPB9SxZt2xxpqtaRKBLLzv6J1hOHqukd75nsw6hyxzRi+Q8TWIsvxNQowNhxk
-         Cxkw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MGLohfT0jspeAxSfznf8mpjk1K8nkXFPszb+KMaexjs=;
+        b=nPiXYzmpwFVF2F32dKg2YZXKZKdn3Spb+bpo0e+6hVyxCufIOznI0K371QSTTwxhuY
+         VBxb84XgSY+HlGmiyXCyTSZJ6IfD72E/0a8E1vS3lAjR0ZVGGFD79de/N9LMxIEHFLHR
+         4IbkUmZXk4fbGOXfK1sYJ28/xboylj85NQh+ju2T883ZqHQWBVz2zyx4ouDNzlBX9cSY
+         ETit8IV4+UxvL+XsRtCj66LDeEEaPf247QzJxceCCMNgHXMsv2YESc5GH94YZ92y4SXG
+         0JDdrAf3lOMSKBfTuVT+rja9FXQScy6KIA3IjLeJLpZs2SZIzWMhlt82ZuIVOjxUpMl1
+         Vaag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=htEDE3GHltVs1USE9YeaE2TwzUtAZI70D8CteyLsbjg=;
-        b=t3vysV+Hni5xXBn68NoVyPSQfjxT5hU3wEFvnExpl1F+wtwJQ/9phrxuKMCIzVT5DG
-         SkV+xWIdVknaJ+XswL4NnbAH7twHe81kaevOWgKonWcrZEFpoB0W+P2B+KGoCeYDwxJc
-         EPZkkTfumQ/oSUCC5L8ogwqw8m3orzKa7HDM+c9tNYcSAdWDavZ6BV4DJY6UyriAOdTB
-         as4PdSgQjOBD0vGXJ1yzJ61jlEBZDB9YJGClGM01FVpbjCDmCvKpumZtb7e4FRGm/Joo
-         mttrp3LcNK6PI6eB9th+4XRRNEIa6fngp9Jh9Gs50BIz12GhtqIpuGqp+3a4KEWHJ7W4
-         p11w==
-X-Gm-Message-State: ACrzQf3k9/jUJvz2fcTuIalDZDCwagL0sVEkqCLVqRs265jNgA662hV/
-	X4W7wMyIGIRUrzVLMTCtTACR60gFW+RPhg==
-X-Google-Smtp-Source: AMsMyM5uPKQ/S4RKR2wm0kpV9F548Sv09JkUa4S+MWTzGYfTWZEVnKf3OgKiT5A0cKdbaG/u/fNAcQ==
-X-Received: by 2002:a17:90b:164d:b0:213:6a84:2529 with SMTP id il13-20020a17090b164d00b002136a842529mr23435426pjb.32.1667359120024;
-        Tue, 01 Nov 2022 20:18:40 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MGLohfT0jspeAxSfznf8mpjk1K8nkXFPszb+KMaexjs=;
+        b=FosMR0WPh+A/9FDgEX3b78Pv5go7mq1k4H79rhpvBT3a8eKQDMpo0RZaHBHmhe1YpB
+         3HerP+8r/CmRYV4p9Mo0d3TXc/5W2iUYOtBeEwQm5uvf1+hcDUAGhILhaHqm3lUqAPQN
+         68igRheKe9GPri5V4NLygpgLcFoOarUcAxyIKYVufqdreAgnH5t+lehj1+pWsqE/L5zU
+         LnuHIOzgGs+MjK3tjFJHJmmQr8UOdKA0sTxV7xnTNuoR9ylQ7tJJH/c5Q4umZE8vWFfz
+         fkDEY1aEVbZ8iJc4VF6IUQcqPwnj0y5/JpDQJHTjEUqOhkTYD+Jep6PUY1EfOyfKW+4G
+         WSaw==
+X-Gm-Message-State: ACrzQf3kSYjqoWmO+zhkOmFq4pEY9lh9XeD2WaTLXWMCfIQE+yQySQ4Q
+	gwHgfWNnzCDogUstI8P/+rkLx6vpPXw/kA==
+X-Google-Smtp-Source: AMsMyM5/aAfX/MtU5XIPOYO/QViV7vlkiVHZmJtLtttXbTkG02xDEKUQrO7eJyLGNHnicZ/dBKXi1g==
+X-Received: by 2002:a63:ce54:0:b0:46a:e2a9:c7f6 with SMTP id r20-20020a63ce54000000b0046ae2a9c7f6mr19645262pgi.264.1667359116321;
+        Tue, 01 Nov 2022 20:18:36 -0700 (PDT)
 Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:5e16:97a8:56b5:1576])
-        by smtp.gmail.com with ESMTPSA id y22-20020a17090a16d600b002139459e121sm269644pje.27.2022.11.01.20.18.39
+        by smtp.gmail.com with ESMTPSA id y22-20020a17090a16d600b002139459e121sm269644pje.27.2022.11.01.20.18.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Nov 2022 20:18:39 -0700 (PDT)
+        Tue, 01 Nov 2022 20:18:35 -0700 (PDT)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH 02/11] python3-cryptography{-vectors}: 38.0.1 -> 38.0.3
-Date: Tue,  1 Nov 2022 20:18:21 -0700
-Message-Id: <20221102031830.3606777-2-tim.orling@konsulko.com>
+Subject: [PATCH 01/11] python3-bcrypt: upgrade 4.0.0 -> 4.0.1
+Date: Tue,  1 Nov 2022 20:18:20 -0700
+Message-Id: <20221102031830.3606777-1-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221102031830.3606777-1-tim.orling@konsulko.com>
-References: <20221102031830.3606777-1-tim.orling@konsulko.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 03:18:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172564
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172563
 
-38.0.3 - 2022-11-01
+* Refresh python3-bcrypt-crates.inc
 
-* Updated Windows, macOS, and Linux wheels to be compiled with OpenSSL
-  3.0.7, which resolves CVE-2022-3602 and CVE-2022-3786.
+Upstream release notes[1]:
 
-38.0.2 - 2022-10-11 (YANKED)
+* We now build PyPy manylinux wheels.
+* Fixed a bug where passing an invalid salt to checkpw could result in
+  a pyo3_runtime.PanicException. It now correctly raises a ValueError.
 
-Attention!
-
-This release was subsequently yanked from PyPI due to a regression in
-OpenSSL.
-
-* Updated Windows, macOS, and Linux wheels to be compiled with OpenSSL
-  3.0.6.
-
-https://github.com/pyca/cryptography/blob/main/CHANGELOG.rst#3803---2022-11-01
+[1] https://github.com/pyca/bcrypt/#401
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- ...vectors_38.0.1.bb => python3-cryptography-vectors_38.0.3.bb} | 2 +-
- ...n3-cryptography_38.0.1.bb => python3-cryptography_38.0.3.bb} | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-cryptography-vectors_38.0.1.bb => python3-cryptography-vectors_38.0.3.bb} (90%)
- rename meta/recipes-devtools/python/{python3-cryptography_38.0.1.bb => python3-cryptography_38.0.3.bb} (95%)
+ .../python/python3-bcrypt-crates.inc          | 100 +++++++++---------
+ ...crypt_4.0.0.bb => python3-bcrypt_4.0.1.bb} |   2 +-
+ 2 files changed, 51 insertions(+), 51 deletions(-)
+ rename meta/recipes-devtools/python/{python3-bcrypt_4.0.0.bb => python3-bcrypt_4.0.1.bb} (88%)
 
-diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.1.bb b/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb
-similarity index 90%
-rename from meta/recipes-devtools/python/python3-cryptography-vectors_38.0.1.bb
-rename to meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb
-index 43e96b48448..9e4c40e0c4a 100644
---- a/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.1.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c3617db4fb6fae01f1d253ab91511e4 \
- # NOTE: Make sure to keep this recipe at the same version as python3-cryptography
- #       Upgrade both recipes at the same time
+diff --git a/meta/recipes-devtools/python/python3-bcrypt-crates.inc b/meta/recipes-devtools/python/python3-bcrypt-crates.inc
+index 78c5d5aa22a..65c7765f0cf 100644
+--- a/meta/recipes-devtools/python/python3-bcrypt-crates.inc
++++ b/meta/recipes-devtools/python/python3-bcrypt-crates.inc
+@@ -1,53 +1,53 @@
+ # Autogenerated with 'bitbake -c update_crates python3-bcrypt'
  
--SRC_URI[sha256sum] = "0431fd107c1fbad0377704a7051945b3b391169fddc4f6fa0bd4edc6b6e235dd"
-+SRC_URI[sha256sum] = "1cdafd42f5348d77e4e7e4791aefd1f62b16bd552a0274afc9346533fe32e925"
+-SRC_URI += " \ 
+-        crate://crates.io/autocfg/1.1.0 \ 
+-        crate://crates.io/base64/0.13.0 \ 
+-        crate://crates.io/bcrypt/0.13.0 \ 
+-        crate://crates.io/bcrypt-pbkdf/0.8.1 \ 
+-        crate://crates.io/bitflags/1.3.2 \ 
+-        crate://crates.io/block-buffer/0.10.2 \ 
+-        crate://crates.io/blowfish/0.9.1 \ 
+-        crate://crates.io/byteorder/1.4.3 \ 
+-        crate://crates.io/cfg-if/1.0.0 \ 
+-        crate://crates.io/cipher/0.4.3 \ 
+-        crate://crates.io/cpufeatures/0.2.4 \ 
+-        crate://crates.io/crypto-common/0.1.6 \ 
+-        crate://crates.io/digest/0.10.3 \ 
+-        crate://crates.io/generic-array/0.14.6 \ 
+-        crate://crates.io/getrandom/0.2.7 \ 
+-        crate://crates.io/indoc/0.3.6 \ 
+-        crate://crates.io/indoc-impl/0.3.6 \ 
+-        crate://crates.io/inout/0.1.3 \ 
+-        crate://crates.io/instant/0.1.12 \ 
+-        crate://crates.io/libc/0.2.132 \ 
+-        crate://crates.io/lock_api/0.4.7 \ 
+-        crate://crates.io/once_cell/1.13.1 \ 
+-        crate://crates.io/parking_lot/0.11.2 \ 
+-        crate://crates.io/parking_lot_core/0.8.5 \ 
+-        crate://crates.io/paste/0.1.18 \ 
+-        crate://crates.io/paste-impl/0.1.18 \ 
+-        crate://crates.io/pbkdf2/0.10.1 \ 
+-        crate://crates.io/proc-macro-hack/0.5.19 \ 
+-        crate://crates.io/proc-macro2/1.0.43 \ 
+-        crate://crates.io/pyo3/0.15.2 \ 
+-        crate://crates.io/pyo3-build-config/0.15.2 \ 
+-        crate://crates.io/pyo3-macros/0.15.2 \ 
+-        crate://crates.io/pyo3-macros-backend/0.15.2 \ 
+-        crate://crates.io/quote/1.0.21 \ 
+-        crate://crates.io/redox_syscall/0.2.16 \ 
+-        crate://crates.io/scopeguard/1.1.0 \ 
+-        crate://crates.io/sha2/0.10.2 \ 
+-        crate://crates.io/smallvec/1.9.0 \ 
+-        crate://crates.io/subtle/2.4.1 \ 
+-        crate://crates.io/syn/1.0.99 \ 
+-        crate://crates.io/typenum/1.15.0 \ 
+-        crate://crates.io/unicode-ident/1.0.3 \ 
+-        crate://crates.io/unindent/0.1.10 \ 
+-        crate://crates.io/version_check/0.9.4 \ 
+-        crate://crates.io/wasi/0.11.0+wasi-snapshot-preview1 \ 
+-        crate://crates.io/winapi/0.3.9 \ 
+-        crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \ 
+-        crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \ 
+-        crate://crates.io/zeroize/1.5.7 \ 
++SRC_URI += " \
++        crate://crates.io/autocfg/1.1.0 \
++        crate://crates.io/base64/0.13.0 \
++        crate://crates.io/bcrypt/0.13.0 \
++        crate://crates.io/bcrypt-pbkdf/0.8.1 \
++        crate://crates.io/bitflags/1.3.2 \
++        crate://crates.io/block-buffer/0.10.3 \
++        crate://crates.io/blowfish/0.9.1 \
++        crate://crates.io/byteorder/1.4.3 \
++        crate://crates.io/cfg-if/1.0.0 \
++        crate://crates.io/cipher/0.4.3 \
++        crate://crates.io/cpufeatures/0.2.5 \
++        crate://crates.io/crypto-common/0.1.6 \
++        crate://crates.io/digest/0.10.5 \
++        crate://crates.io/generic-array/0.14.6 \
++        crate://crates.io/getrandom/0.2.7 \
++        crate://crates.io/indoc/0.3.6 \
++        crate://crates.io/indoc-impl/0.3.6 \
++        crate://crates.io/inout/0.1.3 \
++        crate://crates.io/instant/0.1.12 \
++        crate://crates.io/libc/0.2.134 \
++        crate://crates.io/lock_api/0.4.9 \
++        crate://crates.io/once_cell/1.15.0 \
++        crate://crates.io/parking_lot/0.11.2 \
++        crate://crates.io/parking_lot_core/0.8.5 \
++        crate://crates.io/paste/0.1.18 \
++        crate://crates.io/paste-impl/0.1.18 \
++        crate://crates.io/pbkdf2/0.10.1 \
++        crate://crates.io/proc-macro-hack/0.5.19 \
++        crate://crates.io/proc-macro2/1.0.46 \
++        crate://crates.io/pyo3/0.15.2 \
++        crate://crates.io/pyo3-build-config/0.15.2 \
++        crate://crates.io/pyo3-macros/0.15.2 \
++        crate://crates.io/pyo3-macros-backend/0.15.2 \
++        crate://crates.io/quote/1.0.21 \
++        crate://crates.io/redox_syscall/0.2.16 \
++        crate://crates.io/scopeguard/1.1.0 \
++        crate://crates.io/sha2/0.10.6 \
++        crate://crates.io/smallvec/1.10.0 \
++        crate://crates.io/subtle/2.4.1 \
++        crate://crates.io/syn/1.0.102 \
++        crate://crates.io/typenum/1.15.0 \
++        crate://crates.io/unicode-ident/1.0.4 \
++        crate://crates.io/unindent/0.1.10 \
++        crate://crates.io/version_check/0.9.4 \
++        crate://crates.io/wasi/0.11.0+wasi-snapshot-preview1 \
++        crate://crates.io/winapi/0.3.9 \
++        crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
++        crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
++        crate://crates.io/zeroize/1.5.7 \
+ "
+diff --git a/meta/recipes-devtools/python/python3-bcrypt_4.0.0.bb b/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-bcrypt_4.0.0.bb
+rename to meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb
+index 857b38df2ce..6ce45ca6ee1 100644
+--- a/meta/recipes-devtools/python/python3-bcrypt_4.0.0.bb
++++ b/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb
+@@ -5,7 +5,7 @@ HOMEPAGE = "https://pypi.org/project/bcrypt/"
  
- PYPI_PACKAGE = "cryptography_vectors"
+ DEPENDS += "${PYTHON_PN}-cffi-native"
  
-diff --git a/meta/recipes-devtools/python/python3-cryptography_38.0.1.bb b/meta/recipes-devtools/python/python3-cryptography_38.0.3.bb
-similarity index 95%
-rename from meta/recipes-devtools/python/python3-cryptography_38.0.1.bb
-rename to meta/recipes-devtools/python/python3-cryptography_38.0.3.bb
-index 68679b745ad..14ad459c1b1 100644
---- a/meta/recipes-devtools/python/python3-cryptography_38.0.1.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography_38.0.3.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=bf405a8056a6647e7d077b0e7bc36aba \
-                    "
- LDSHARED += "-pthread"
+-SRC_URI[sha256sum] = "c59c170fc9225faad04dde1ba61d85b413946e8ce2e5f5f5ff30dfd67283f319"
++SRC_URI[sha256sum] = "27d375903ac8261cfe4047f6709d16f7d18d39b1ec92aaf72af989552a650ebd"
  
--SRC_URI[sha256sum] = "1db3d807a14931fa317f96435695d9ec386be7b84b618cc61cfa5d08b0ae33d7"
-+SRC_URI[sha256sum] = "bfbe6ee19615b07a98b1d2287d6a6073f734735b49ee45b11324d85efc4d5cbd"
+ inherit pypi python_setuptools3_rust ptest cargo-update-recipe-crates
  
- SRC_URI += "\
-     file://0002-Cargo.toml-edition-2018-2021.patch \
 -- 
 2.34.1
 
