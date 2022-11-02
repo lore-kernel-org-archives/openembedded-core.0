@@ -1,162 +1,86 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <jdmason@kudzu.us>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B261C433FE
-	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 00:10:38 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web09.597.1667347832631948001
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16CD4C4332F
+	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 00:24:58 +0000 (UTC)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+ by mx.groups.io with SMTP id smtpd.web12.716.1667348680787322093
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Nov 2022 17:10:33 -0700
+ Tue, 01 Nov 2022 17:24:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=mJ+tukwm;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: ticotimo@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id f5so19674690ejc.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 17:10:32 -0700 (PDT)
+ dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112 header.b=EX6Ud8Go;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.160.175, mailfrom: jdmason@kudzu.us)
+Received: by mail-qt1-f175.google.com with SMTP id cr19so10448302qtb.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Nov 2022 17:24:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=s6jUGjyHPjj8nIMMFN8O/1CzXDGRS6jtGDWy4wEe/fM=;
-        b=mJ+tukwmQxtrAirUZMhwlT5GsVLxig09xeV/21t5eHaqueuyriwwwcnDNmuZWeeLz4
-         D1I66nKcD8gYEu9IVui/clWvzF0qwr864GIPBTn4zAgeXpt2cTGV1fxx7uZTgFYL9RbG
-         tYFHa7haDyoX16lnrSOtFYsGWeipUUGQ1D/ddLoJchzN5vr2Ybhpgor3msa1qrAHmkkC
-         bLiu+QKIkeNnrjv6OQp4kNBzQe/E+p2G5aNbpHHYJRz+maDXdN/QGrR/UxGBqRJDEx38
-         UzbnkZp+P/e3WW2Y5NmADXn9W1qgmtfix1J52BOb//f0HpqfOP+pmWyO44wnPUKtOr8O
-         SWpQ==
+        d=kudzu-us.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=V6hodiEIkIkDPmYFG/TPsFChlaKp0BTU989fexxex/s=;
+        b=EX6Ud8Goz50b6+IJzuWoJ87SmglqDhQXe7+0PQ6yoitzAF7onKnL/mJyXnsIKgp/5p
+         hJybfq1unlk0q7xVBXX0cR6yFwihBHiDfMh/E9dugDMdkTPOyhz6LWXhiWXdafUrEv5q
+         aTRRD1jXZN4XXA6Do1Fs1VRj7+GoFr3vx7FvMWpqFWVDbsXeN4Zb62M6OXI47Ooy3KLI
+         vsx3lamopybPWzF+qlcSHgG6/j8FfB8QIK9FxvspWtB5+2Fqa1G3Mjw3Wl7oRpECxjGM
+         GdmU1nfnLxRsiI2m0mRF0W906+gqEFTSFqfrawb9ZfwA9lUJFMYWa00raJTLcRwHO/DW
+         MbYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=s6jUGjyHPjj8nIMMFN8O/1CzXDGRS6jtGDWy4wEe/fM=;
-        b=rCvU+w2u8tL5NtiJ/uZjAwctAs4uMrixkp92Ef20/OlQxuAXjigWlSJllIgY5UbZr+
-         UUABHQjTThP3toKkKcHoCcQq09SXUg3YA/jAmTuYhFPSOGH2ZLBFKPv1TEXv2q7AIEYs
-         mMQE3QFh4qskGiq0vAzOrGe2VyeP50Bi4SjUmdK0PcXBupFFUhp9aXVasDtoYaNwexAR
-         5kkUEWZ1kUvfd7UPWZF2tTHJUNDjgtwWkh6cG+0zgWcNo5fdIqgvn3EMKTrj6U4zWDQI
-         2cLX+0i2wRwiT6qVgqWz5+4PHrRjiGE0x63pcqyI3P/iL6UORXD2xwDKxQ4gHh6glvIf
-         9ksQ==
-X-Gm-Message-State: ACrzQf3zTXmtvwlnuy5TTmd8Xl2Kn94J43uCuVkUAAT0MPQ3Kry4Zt7N
-	3WgyNV08bqHiQGbm2lFGqdxtM2VeSx5fEJZ87zA=
-X-Google-Smtp-Source: AMsMyM5LSZ+O4bPAFhWiLGLbC4WWB4UniUhOAP+A/D0Yrf/QpeOCkCKPI31mmL0SJ1zGajA0y5hVjcJN6+Lz833QB60=
-X-Received: by 2002:a17:907:3207:b0:741:3a59:738d with SMTP id
- xg7-20020a170907320700b007413a59738dmr20631092ejb.110.1667347830928; Tue, 01
- Nov 2022 17:10:30 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=V6hodiEIkIkDPmYFG/TPsFChlaKp0BTU989fexxex/s=;
+        b=BvVchTyIc032YR0X24YOqdq+BVje5DKYdrQ760jOlgXifqb0D4rQv8P4HQOQXSBlYL
+         p/BJZiya/y2zBrAVqsS00NfhXnLv74aOjNLawS6QIgGmB+YfZhE667wIhcsloGkxAoO9
+         yS1X5yfOPp9Aw65vubg7cWC8rz6pz9j+g6nsEqRpw0zR842oaqhdD4TQxWFUnVTHWv3E
+         3nZbDDPcXQH3ZMe/xncUvIPI5y+ouLZckf3wJ5Zi2IERYlQpgUbEyTGYOj4E4JQ2E2c0
+         Esi12U0Im78tAQCQ6C3r51Aj8FRbbaZbsIE9jRhTKFqjtHojO33uk4Ylmv+1YmPwCR+h
+         q7ZA==
+X-Gm-Message-State: ACrzQf3hD3I3gEl0UEFW9DIHKsD6pPUGfDF0tdzkYK4FT/gUxKbczoZS
+	YzF2KQu/h5sZrV9h/L1H5qXLFt5Ni4J5CQ==
+X-Google-Smtp-Source: AMsMyM7WssMI/1pWyPbcnZhUqr8GpNQ5IfXJHZVr9+54LmQQLLU0PTsg7tCVB2QhvMWazVJi67B8Zg==
+X-Received: by 2002:a05:622a:14d4:b0:39c:fe54:1cc6 with SMTP id u20-20020a05622a14d400b0039cfe541cc6mr17821717qtx.88.1667348679186;
+        Tue, 01 Nov 2022 17:24:39 -0700 (PDT)
+Received: from localhost ([2605:a601:a608:5600:5336:1ccc:fa87:21b2])
+        by smtp.gmail.com with ESMTPSA id m8-20020ac84448000000b00397e97baa96sm5860523qtn.0.2022.11.01.17.24.38
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Nov 2022 17:24:38 -0700 (PDT)
+From: Jon Mason <jdmason@kudzu.us>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto-dev: add qemuarmv5
+Date: Tue,  1 Nov 2022 20:24:38 -0400
+Message-Id: <20221102002438.2618588-1-jdmason@kudzu.us>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <17142B1671501C64.2599@lists.openembedded.org> <CAOSpxdZBXZuaGcC=aZQTmC_XLPhfzjvmMr9R9g_qoDXWj4_FNg@mail.gmail.com>
- <bea81871d7a4247eec8f3cc1f4f363a1b29aa2ad.camel@linuxfoundation.org>
-In-Reply-To: <bea81871d7a4247eec8f3cc1f4f363a1b29aa2ad.camel@linuxfoundation.org>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Tue, 1 Nov 2022 17:10:19 -0700
-Message-ID: <CANx9H-DDviHpE-7wkzbHumunim1_OBotObUaXZqSLSpwRSwYHg@mail.gmail.com>
-Subject: Re: [OE-core] Dunfell CVE reduction fun: Raffle #2
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Steve Sakoman <steve@sakoman.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000002df8ca05ec71abb0"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 00:10:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172393
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 00:24:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172394
 
---0000000000002df8ca05ec71abb0
-Content-Type: text/plain; charset="UTF-8"
+qemuarmv5 passes testimage on with the linux-yocto-dev kernel.  Add it
+to the compatible machines list for that recipe.
 
-On Tue, Nov 1, 2022 at 3:29 PM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Signed-off-by: Jon Mason <jdmason@kudzu.us>
+---
+ meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> On Tue, 2022-11-01 at 05:35 -1000, Steve Sakoman wrote:
-> > There were 66 entries in the raffle:
-> >
-> > steve@hexa ~/Desktop $ wc -l cve-raffle.txt
-> > 66 cve-raffle.txt
-> >
-> > Many thanks to all who participated, this is great progress!
-> >
-> > And the winner is:
-> >
-> > steve@hexa ~/Desktop $ shuf -n 1 cve-raffle.txt
-> > CVE-2018-25032 Tim Orling <tim.orling@konsulko.com>
-> >
-> > Congratulations Tim!
->
-> Nice! Thanks for doing this Steve, it is a good bit of fun :)
->
+diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+index 4825bf7a9916..aeb04f59e8d2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+@@ -50,7 +50,7 @@ PACKAGECONFIG[dt-validation] = ",,python3-dtschema-native"
+ # we need the wrappers if validation isn't in the packageconfig
+ DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'dt-validation', '', 'python3-dtschema-wrapper-native', d)}"
+ 
+-COMPATIBLE_MACHINE = "^(qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64|qemuriscv32|qemuriscv64)$"
++COMPATIBLE_MACHINE = "^(qemuarmv5|qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64|qemuriscv32|qemuriscv64)$"
+ 
+ KERNEL_DEVICETREE:qemuarmv5 = "versatile-pb.dtb"
+ 
+-- 
+2.30.2
 
-Mark off one bucket list item :)
-
-
->
-> Cheers,
->
-> Richard
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#172392):
-> https://lists.openembedded.org/g/openembedded-core/message/172392
-> Mute This Topic: https://lists.openembedded.org/mt/94713069/924729
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ticotimo@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---0000000000002df8ca05ec71abb0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 1, 2022 at 3:29 PM Richar=
-d Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.=
-purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">On Tue, 2022-11-01 at 05:35 -1000, Steve Sakoman =
-wrote:<br>
-&gt; There were 66 entries in the raffle:<br>
-&gt; <br>
-&gt; steve@hexa ~/Desktop $ wc -l cve-raffle.txt<br>
-&gt; 66 cve-raffle.txt<br>
-&gt; <br>
-&gt; Many thanks to all who participated, this is great progress!<br>
-&gt; <br>
-&gt; And the winner is:<br>
-&gt; <br>
-&gt; steve@hexa ~/Desktop $ shuf -n 1 cve-raffle.txt<br>
-&gt; CVE-2018-25032 Tim Orling &lt;<a href=3D"mailto:tim.orling@konsulko.co=
-m" target=3D"_blank">tim.orling@konsulko.com</a>&gt;<br>
-&gt; <br>
-&gt; Congratulations Tim!<br>
-<br>
-Nice! Thanks for doing this Steve, it is a good bit of fun :)<br></blockquo=
-te><div><br></div><div>Mark off one bucket list item :)</div><div>=C2=A0<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#172392): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/172392" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/172392</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/94713069/9247=
-29" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt/=
-94713069/924729</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
-=3D"_blank">ticotimo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---0000000000002df8ca05ec71abb0--
 
