@@ -2,37 +2,37 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08ED7C64EDA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08D9CC64ED8
 	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 00:40:40 +0000 (UTC)
 Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.846.1667349632977337599
+ by mx.groups.io with SMTP id smtpd.web08.875.1667349632981329428
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Nov 2022 17:40:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ZhiNcVvN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018435c854f1-35fe6c7d-3bbb-4131-87b3-fbe7a0d38e25-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Q5j5lZBN;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018435c85464-e2b1de59-55b7-42db-ab46-16827bd5e109-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1667349632;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=XuZkGeq9/oB2nre7Ylg3FViupJfzANHHlWrsD/2x5Hc=;
-	b=ZhiNcVvN69Q14+Ek/UzgatDTEPizqWzjon+lw5Q0P6m27/1yoWUjThx7S6ObXsWL
-	nK25HtfEVdP4RLZHaLZr1b/mn0M75mYHlg2D2kXqKRsH0ztWxJ+X92IZAWJCXGIC3jH
-	sNw365DkTzhlX7o7kIA9rCDI58VgBBc3iMrftieo=
+	bh=WiQ0atfJ2+0B58p17rcjSw7OROZb9DlZN+2cwAfNAbo=;
+	b=Q5j5lZBN0L3MWWTfcgxgeOWI1eyFDbORaAhtNwuF+d4aql4oESo9UQGwJgzGMym/
+	JAOvhkKkzYnKVVTG/QS4dBROLgmS1HaBu6ieapn9W21LH3mlZ0K0AtKK3+1QY5aOCf2
+	5ZxweeQGvIXajfxfi9axvNLWPKYTrSqlMHvE9ohM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1667349632;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=XuZkGeq9/oB2nre7Ylg3FViupJfzANHHlWrsD/2x5Hc=;
-	b=cu+vGAQbCX0rngoWs99eMRp57tZKCuaH7wRd1lAq7lyEiZtVHfmzqhJ47b8799p5
-	t4R2k7rS8hUv22SW6ued70s9qBUhsE7UMr+2wRwdzzOQcnoKhPO942Rv2WgE3uyIm2o
-	7Rg+tvD1LoGtpDjpZlbv0Y9+QW/SFfqysHogHmRY=
-Content-Type: multipart/mixed; boundary="===============5522236562186455019=="
+	bh=WiQ0atfJ2+0B58p17rcjSw7OROZb9DlZN+2cwAfNAbo=;
+	b=BusoMEBy6MbrHperri1zF72XeNH5xrjFHtsj5nTCaMruLiXq6LpXXbRnMq9rXWbw
+	Ci+hHUnvs6faAI90w5Mh8dLTaWpgzN5VY1crnOdTuBJmJwZM9MUjDU9GsGx4GP/kXK9
+	T1skUqzZKtHt3ub9YeVVv1DszQmB7qZ1ynC2gbnA=
+Content-Type: multipart/mixed; boundary="===============1262800989908964774=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] orc: upgrading to 0.4.33 SUCCEEDED
-Message-ID: <0101018435c854f1-35fe6c7d-3bbb-4131-87b3-fbe7a0d38e25-000000@us-west-2.amazonses.com>
+Subject: [AUH] libedit: upgrading to 20221030-3.1 SUCCEEDED
+Message-ID: <0101018435c85464-e2b1de59-55b7-42db-ab46-16827bd5e109-000000@us-west-2.amazonses.com>
 Date: Wed, 2 Nov 2022 00:40:32 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2022.11.02-54.240.27.45
@@ -40,9 +40,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 00:40:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172416
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172417
 
---===============5522236562186455019==
+--===============1262800989908964774==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *orc* to *0.4.33* has Succeeded.
+that the automatic attempt to upgrade the recipe *libedit* to *20221030-3.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-orc-upgrade-0.4.32-0.4.33.patch
+    - apply the patch: git am 0001-libedit-upgrade-20210910-3.1-20221030-3.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,96 +69,87 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5522236562186455019==
+--===============1262800989908964774==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/orc: SRC_URI changed from "http://gstreamer.freedesktop.org/src/orc/orc-0.4.32.tar.xz" to "http://gstreamer.freedesktop.org/src/orc/orc-0.4.33.tar.xz"
-packages/core2-32-poky-linux/orc: PV changed from "0.4.32" to "0.4.33"
-packages/core2-32-poky-linux/orc: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
-packages/core2-32-poky-linux/orc/liborc-0.4: FILES: removed "/usr/lib/liborc-0.4.so.0.32.0", added "/usr/lib/liborc-0.4.so.0.33.0"
-packages/core2-32-poky-linux/orc/liborc-0.4: PKGSIZE changed from 624040 to 706088 (+13%)
-packages/core2-32-poky-linux/orc/liborc-0.4: PV changed from "0.4.32" to "0.4.33"
-packages/core2-32-poky-linux/orc/liborc-0.4: FILELIST: removed "/usr/lib/liborc-0.4.so.0.32.0", added "/usr/lib/liborc-0.4.so.0.33.0"
-packages/core2-32-poky-linux/orc/liborc-0.4: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
-packages/core2-32-poky-linux/orc/liborc-test-0.4: FILES: removed "/usr/lib/liborc-test-0.4.so.0.32.0", added "/usr/lib/liborc-test-0.4.so.0.33.0"
-packages/core2-32-poky-linux/orc/liborc-test-0.4: PV changed from "0.4.32" to "0.4.33"
-packages/core2-32-poky-linux/orc/liborc-test-0.4: FILELIST: removed "/usr/lib/liborc-test-0.4.so.0.32.0", added "/usr/lib/liborc-test-0.4.so.0.33.0"
-packages/core2-32-poky-linux/orc/liborc-test-0.4: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
-packages/core2-32-poky-linux/orc/orc-dbg: PKGSIZE changed from 1159176 to 1224812 (+6%)
-packages/core2-32-poky-linux/orc/orc-dbg: PV changed from "0.4.32" to "0.4.33"
-packages/core2-32-poky-linux/orc/orc-dbg: FILELIST: removed "/usr/lib/.debug/liborc-0.4.so.0.32.0 /usr/lib/.debug/liborc-test-0.4.so.0.32.0", added "/usr/lib/.debug/liborc-test-0.4.so.0.33.0 /usr/lib/.debug/liborc-0.4.so.0.33.0"
-packages/core2-32-poky-linux/orc/orc-dbg: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
-packages/core2-32-poky-linux/orc/orc-dev: PKGSIZE changed from 164215 to 193890 (+18%)
-packages/core2-32-poky-linux/orc/orc-dev: PV changed from "0.4.32" to "0.4.33"
-packages/core2-32-poky-linux/orc/orc-dev: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
-packages/core2-32-poky-linux/orc/orc-doc: PV changed from "0.4.32" to "0.4.33"
-packages/core2-32-poky-linux/orc/orc-doc: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
-packages/core2-32-poky-linux/orc/orc-examples: PV changed from "0.4.32" to "0.4.33"
-packages/core2-32-poky-linux/orc/orc-examples: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
-packages/core2-32-poky-linux/orc/orc-locale: PV changed from "0.4.32" to "0.4.33"
-packages/core2-32-poky-linux/orc/orc-locale: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
-packages/core2-32-poky-linux/orc/orc-src: PKGSIZE changed from 1282355 to 1437847 (+12%)
-packages/core2-32-poky-linux/orc/orc-src: PV changed from "0.4.32" to "0.4.33"
-packages/core2-32-poky-linux/orc/orc-src: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
-packages/core2-32-poky-linux/orc/orc-staticdev: PKGSIZE changed from 87278 to 91514 (+5%)
-packages/core2-32-poky-linux/orc/orc-staticdev: PV changed from "0.4.32" to "0.4.33"
-packages/core2-32-poky-linux/orc/orc-staticdev: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
-packages/core2-32-poky-linux/orc/orc: PV changed from "0.4.32" to "0.4.33"
-packages/core2-32-poky-linux/orc/orc: PKGV changed from 0.4.32 [default] to 0.4.33 [default]
-Changes to packages/core2-32-poky-linux/orc (sysroot):
-  /usr/lib/liborc-0.4.so.0 changed symlink target from liborc-0.4.so.0.32.0 to liborc-0.4.so.0.33.0
-  /usr/lib/liborc-test-0.4.so.0 changed symlink target from liborc-test-0.4.so.0.32.0 to liborc-test-0.4.so.0.33.0
-  /usr/lib/liborc-0.4.so.0.32.0 moved to /usr/lib/liborc-0.4.so.0.33.0
-  /usr/lib/liborc-test-0.4.so.0.32.0 moved to /usr/lib/liborc-test-0.4.so.0.33.0
+packages/core2-32-poky-linux/libedit: PV changed from "20210910-3.1" to "20221030-3.1"
+packages/core2-32-poky-linux/libedit: PKGV changed from 20210910-3.1 [default] to 20221030-3.1 [default]
+packages/core2-32-poky-linux/libedit: SRC_URI changed from "http://www.thrysoee.dk/editline/libedit-20210910-3.1.tar.gz file://stdc-predef.patch" to "http://www.thrysoee.dk/editline/libedit-20221030-3.1.tar.gz file://stdc-predef.patch"
+packages/core2-32-poky-linux/libedit/libedit-dbg: PV changed from "20210910-3.1" to "20221030-3.1"
+packages/core2-32-poky-linux/libedit/libedit-dbg: PKGV changed from 20210910-3.1 [default] to 20221030-3.1 [default]
+packages/core2-32-poky-linux/libedit/libedit-dbg: FILELIST: removed "/usr/lib/.debug/libedit.so.0.0.68", added "/usr/lib/.debug/libedit.so.0.0.70"
+packages/core2-32-poky-linux/libedit/libedit-dbg: PKGSIZE changed from 481000 to 487588 (+1%)
+packages/core2-32-poky-linux/libedit/libedit-dev: PV changed from "20210910-3.1" to "20221030-3.1"
+packages/core2-32-poky-linux/libedit/libedit-dev: PKGV changed from 20210910-3.1 [default] to 20221030-3.1 [default]
+packages/core2-32-poky-linux/libedit/libedit-dev: PKGSIZE changed from 18343 to 19115 (+4%)
+packages/core2-32-poky-linux/libedit/libedit-doc: PV changed from "20210910-3.1" to "20221030-3.1"
+packages/core2-32-poky-linux/libedit/libedit-doc: PKGV changed from 20210910-3.1 [default] to 20221030-3.1 [default]
+packages/core2-32-poky-linux/libedit/libedit-locale: PV changed from "20210910-3.1" to "20221030-3.1"
+packages/core2-32-poky-linux/libedit/libedit-locale: PKGV changed from 20210910-3.1 [default] to 20221030-3.1 [default]
+packages/core2-32-poky-linux/libedit/libedit-src: PV changed from "20210910-3.1" to "20221030-3.1"
+packages/core2-32-poky-linux/libedit/libedit-src: PKGV changed from 20210910-3.1 [default] to 20221030-3.1 [default]
+packages/core2-32-poky-linux/libedit/libedit-src: FILELIST: directory renamed /usr/src/debug/libedit/20210910-3.1-r0/src/editline -> /usr/src/debug/libedit/20221030-3.1-r0/src/editline, removed "/usr/src/debug/libedit/20210910-3.1-r0/src/map.h /usr/src/debug/libedit/20210910-3.1-r0/src/keymacro.c /usr/src/debug/libedit/20210910-3.1-r0/src/strlcat.c /usr/src/debug/libedit/20210910-3.1-r0/src/sys.h /usr/src/debug/libedit/20210910-3.1-r0/src/hist.c /usr/src/debug/libedit/20210910-3.1-r0/src/el.c /usr/src/debug/libedit/20210910-3.1-r0/src/func.h /usr/src/debug/libedit/20210910-3.1-r0/src/chared.h /usr/src/debug/libedit/20210910-3.1-r0/src/filecomplete.h /usr/src/debug/libedit/20210910-3.1-r0/src/refresh.c /usr/src/debug/libedit/20210910-3.1-r0/src/search.c /usr/src/debug/libedit/20210910-3.1-r0/src/strlcpy.c /usr/src/debug/libedit/20210910-3.1-r0/src/read.h /usr/src/debug/libedit/20210910-3.1-r0/src/wcsdup.c /usr/src/debug/libedit/20210910-3.1-r0/src/vi.c /usr/src/debug/libedit/20210910-
+ 3.1-r0/src/chartype.h /usr/src/debug/libedit/20210910-3.1-r0/src/readline.c /usr/src/debug/libedit/20210910-3.1-r0/src/tty.c /usr/src/debug/libedit/20210910-3.1-r0/src/vi.h /usr/src/debug/libedit/20210910-3.1-r0/src/prompt.c /usr/src/debug/libedit/20210910-3.1-r0/src/help.h /usr/src/debug/libedit/20210910-3.1-r0/src/map.c /usr/src/debug/libedit/20210910-3.1-r0/src/history.c /usr/src/debug/libedit/20210910-3.1-r0/src/tty.h /usr/src/debug/libedit/20210910-3.1-r0/src/vis.h /usr/src/debug/libedit/20210910-3.1-r0/src/terminal.c /usr/src/debug/libedit/20210910-3.1-r0/src/eln.c /usr/src/debug/libedit/20210910-3.1-r0/src/el.h /usr/src/debug/libedit/20210910-3.1-r0/src/filecomplete.c /usr/src/debug/libedit/20210910-3.1-r0/src/histedit.h /usr/src/debug/libedit/20210910-3.1-r0/src/vis.c /usr/src/debug/libedit/20210910-3.1-r0/src/prompt.h /usr/src/debug/libedit/20210910-3.1-r0/src/sig.h /usr/src/debug/libedit/20210910-3.1-r0/src/emacs.c /usr/src/debug/libedit/20210910-3.1-r0/src/sig.c /usr/src/
+ debug/libedit/20210910-3.1-r0/src/terminal.h /usr/src/debug/libedit/20210910-3.1-r0/src/refresh.h /usr/src/debug/libedit/20210910-3.1-r0/src/parse.c /usr/src/debug/libedit/20210910-3.1-r0/src/emacs.h /usr/src/debug/libedit/20210910-3.1-r0/src/keymacro.h /usr/src/debug/libedit/20210910-3.1-r0/src/chartype.c /usr/src/debug/libedit/20210910-3.1-r0/src/literal.h /usr/src/debug/libedit/20210910-3.1-r0/src/search.h /usr/src/debug/libedit/20210910-3.1-r0/src/parse.h /usr/src/debug/libedit/20210910-3.1-r0/src/common.h /usr/src/debug/libedit/20210910-3.1-r0/src/unvis.c /usr/src/debug/libedit/20210910-3.1-r0/src/chared.c /usr/src/debug/libedit/20210910-3.1-r0/src/literal.c /usr/src/debug/libedit/20210910-3.1-r0/src/tokenizer.c /usr/src/debug/libedit/20210910-3.1-r0/src/read.c /usr/src/debug/libedit/20210910-3.1-r0/src/common.c /usr/src/debug/libedit/20210910-3.1-r0/src/hist.h", added "/usr/src/debug/libedit/20221030-3.1-r0/src/read.c /usr/src/debug/libedit/20221030-3.1-r0/src/sig.c /usr/src/d
+ ebug/libedit/20221030-3.1-r0/src/el.c /usr/src/debug/libedit/20221030-3.1-r0/src/vis.h /usr/src/debug/libedit/20221030-3.1-r0/src/vi.c /usr/src/debug/libedit/20221030-3.1-r0/src/unvis.c /usr/src/debug/libedit/20221030-3.1-r0/src/func.h /usr/src/debug/libedit/20221030-3.1-r0/src/emacs.h /usr/src/debug/libedit/20221030-3.1-r0/src/vis.c /usr/src/debug/libedit/20221030-3.1-r0/src/filecomplete.c /usr/src/debug/libedit/20221030-3.1-r0/src/read.h /usr/src/debug/libedit/20221030-3.1-r0/src/sys.h /usr/src/debug/libedit/20221030-3.1-r0/src/chared.h /usr/src/debug/libedit/20221030-3.1-r0/src/literal.c /usr/src/debug/libedit/20221030-3.1-r0/src/sig.h /usr/src/debug/libedit/20221030-3.1-r0/src/terminal.c /usr/src/debug/libedit/20221030-3.1-r0/src/help.h /usr/src/debug/libedit/20221030-3.1-r0/src/terminal.h /usr/src/debug/libedit/20221030-3.1-r0/src/map.h /usr/src/debug/libedit/20221030-3.1-r0/src/vi.h /usr/src/debug/libedit/20221030-3.1-r0/src/tty.c /usr/src/debug/libedit/20221030-3.1-r0/src/com
+ mon.h /usr/src/debug/libedit/20221030-3.1-r0/src/readline.c /usr/src/debug/libedit/20221030-3.1-r0/src/refresh.c /usr/src/debug/libedit/20221030-3.1-r0/src/keymacro.h /usr/src/debug/libedit/20221030-3.1-r0/src/eln.c /usr/src/debug/libedit/20221030-3.1-r0/src/wcsdup.c /usr/src/debug/libedit/20221030-3.1-r0/src/refresh.h /usr/src/debug/libedit/20221030-3.1-r0/src/literal.h /usr/src/debug/libedit/20221030-3.1-r0/src/reallocarr.c /usr/src/debug/libedit/20221030-3.1-r0/src/hist.c /usr/src/debug/libedit/20221030-3.1-r0/src/keymacro.c /usr/src/debug/libedit/20221030-3.1-r0/src/prompt.c /usr/src/debug/libedit/20221030-3.1-r0/src/histedit.h /usr/src/debug/libedit/20221030-3.1-r0/src/prompt.h /usr/src/debug/libedit/20221030-3.1-r0/src/search.c /usr/src/debug/libedit/20221030-3.1-r0/src/hist.h /usr/src/debug/libedit/20221030-3.1-r0/src/chartype.c /usr/src/debug/libedit/20221030-3.1-r0/src/map.c /usr/src/debug/libedit/20221030-3.1-r0/src/emacs.c /usr/src/debug/libedit/20221030-3.1-r0/src/el.h /
+ usr/src/debug/libedit/20221030-3.1-r0/src/parse.c /usr/src/debug/libedit/20221030-3.1-r0/src/tokenizer.c /usr/src/debug/libedit/20221030-3.1-r0/src/chartype.h /usr/src/debug/libedit/20221030-3.1-r0/src/parse.h /usr/src/debug/libedit/20221030-3.1-r0/src/strlcat.c /usr/src/debug/libedit/20221030-3.1-r0/src/search.h /usr/src/debug/libedit/20221030-3.1-r0/src/common.c /usr/src/debug/libedit/20221030-3.1-r0/src/strlcpy.c /usr/src/debug/libedit/20221030-3.1-r0/src/history.c /usr/src/debug/libedit/20221030-3.1-r0/src/chared.c /usr/src/debug/libedit/20221030-3.1-r0/src/filecomplete.h /usr/src/debug/libedit/20221030-3.1-r0/src/tty.h"
+packages/core2-32-poky-linux/libedit/libedit-src: PKGSIZE changed from 582218 to 589212 (+1%)
+packages/core2-32-poky-linux/libedit/libedit-staticdev: PV changed from "20210910-3.1" to "20221030-3.1"
+packages/core2-32-poky-linux/libedit/libedit-staticdev: PKGV changed from 20210910-3.1 [default] to 20221030-3.1 [default]
+packages/core2-32-poky-linux/libedit/libedit: PV changed from "20210910-3.1" to "20221030-3.1"
+packages/core2-32-poky-linux/libedit/libedit: PKGV changed from 20210910-3.1 [default] to 20221030-3.1 [default]
+packages/core2-32-poky-linux/libedit/libedit: FILELIST: removed "/usr/lib/libedit.so.0.0.68", added "/usr/lib/libedit.so.0.0.70"
+packages/core2-32-poky-linux/libedit/libedit: PKGSIZE changed from 226785 to 234977 (+4%)
+Changes to packages/core2-32-poky-linux/libedit (sysroot):
+  /usr/lib/libedit.so.0 changed symlink target from libedit.so.0.0.68 to libedit.so.0.0.70
+  /usr/lib/libedit.so changed symlink target from libedit.so.0.0.68 to libedit.so.0.0.70
+  /usr/lib/libedit.so.0.0.68 moved to /usr/lib/libedit.so.0.0.70
 
---===============5522236562186455019==
+--===============1262800989908964774==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-orc-upgrade-0.4.32-0.4.33.patch"
+ filename="0001-libedit-upgrade-20210910-3.1-20221030-3.1.patch"
 
-RnJvbSA3ZTljNzUyNDgxODY2NjVkMGE1MjBkOTFiZDZiOWYxN2RlY2QxZDY2IE1vbiBTZXAgMTcg
+RnJvbSBmOTg2ZTI1MGZjMWZmMjczMWNhMWUyOWVmZGFjNDlhOTMzYWRhOGIzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBOb3YgMjAyMiAwODozODozMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG9y
-YzogdXBncmFkZSAwLjQuMzIgLT4gMC40LjMzCgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9v
-cmMve29yY18wLjQuMzIuYmIgPT4gb3JjXzAuNC4zMy5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvb3JjL3tvcmNfMC40LjMyLmJiID0+IG9yY18wLjQuMzMuYmJ9ICg5MiUpCgpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL29yYy9vcmNfMC40LjMyLmJiIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL29yYy9vcmNfMC40LjMzLmJiCnNpbWlsYXJpdHkgaW5kZXggOTIlCnJlbmFt
-ZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9vcmMvb3JjXzAuNC4zMi5iYgpyZW5hbWUgdG8g
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL29yYy9vcmNfMC40LjMzLmJiCmluZGV4IDgyOTI1NWYxMTAu
-Ljg3M2ZlMzkyMGIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9vcmMvb3JjXzAu
-NC4zMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3JjL29yY18wLjQuMzMuYmIKQEAg
-LTUsNyArNSw3IEBAIExJQ0VOU0UgPSAiQlNELTItQ2xhdXNlICYgQlNELTMtQ2xhdXNlIgogTElD
-X0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9MTQwMGJkOWQwOWU4YWY1NmI5ZWM5
-ODJiM2Q4NTc5N2UiCiAKIFNSQ19VUkkgPSAiaHR0cDovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5v
-cmcvc3JjL29yYy9vcmMtJHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImE2NmUz
-ZDhmMmI3ZTY1MTc4ZDc4NmEwMWVmNjFmMmEwYTBiNGQwYjgzNzBkZTdjZTEzNGJhNzNkYTRhZjE4
-ZjAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiODQ0ZTZkN2RiODA4NmY3OTNmNTc2MThkM2Q0YjY4
-ZDI5ZDk5YjE2MDM0ZTcxNDMwZGYzYzIxY2ZkM2MzNTQyYSIKIAogaW5oZXJpdCBtZXNvbiBwa2dj
-b25maWcgZ3RrLWRvYwogCi0tIAoyLjMxLjEKCg==
+CkRhdGU6IFR1ZSwgMSBOb3YgMjAyMiAwNzo1NDo1MyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YmVkaXQ6IHVwZ3JhZGUgMjAyMTA5MTAtMy4xIC0+IDIwMjIxMDMwLTMuMQoKLS0tCiAuLi4ve2xp
+YmVkaXRfMjAyMTA5MTAtMy4xLmJiID0+IGxpYmVkaXRfMjAyMjEwMzAtMy4xLmJifSAgICAgICAg
+fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGliZWRpdC97bGliZWRpdF8yMDIxMDkxMC0zLjEu
+YmIgPT4gbGliZWRpdF8yMDIyMTAzMC0zLjEuYmJ9ICg4OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL2xpYmVkaXQvbGliZWRpdF8yMDIxMDkxMC0zLjEuYmIgYi9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvbGliZWRpdC9saWJlZGl0XzIwMjIxMDMwLTMuMS5iYgpzaW1pbGFyaXR5
+IGluZGV4IDg4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGliZWRpdC9saWJl
+ZGl0XzIwMjEwOTEwLTMuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYmVk
+aXQvbGliZWRpdF8yMDIyMTAzMC0zLjEuYmIKaW5kZXggNWFhODNlZjI0Ni4uOTE5NTI1OGMxMCAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYmVkaXQvbGliZWRpdF8yMDIxMDkx
+MC0zLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYmVkaXQvbGliZWRpdF8yMDIy
+MTAzMC0zLjEuYmIKQEAgLTEzLDcgKzEzLDcgQEAgaW5oZXJpdCBhdXRvdG9vbHMKIFNSQ19VUkkg
+PSAiaHR0cDovL3d3dy50aHJ5c29lZS5kay9lZGl0bGluZS8ke0JQfS50YXIuZ3ogXAogICAgICAg
+ICAgICBmaWxlOi8vc3RkYy1wcmVkZWYucGF0Y2ggXAogICAgICAgICAgICIKLVNSQ19VUklbc2hh
+MjU2c3VtXSA9ICI2NzkyYTZhOTkyMDUwNzYyZWRjY2EyOGZmMzMxOGNkYjdkZTM3ZGNjZjdiYzMw
+ZGI1OWZjZDcwMTdlZWQxM2M1IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImYwOTI1YTVhZGY0YjFi
+ZjExNmVlMTk3NjZiN2RhYTc2NjkxN2FlYzE5ODc0Nzk0M2IxYzRlZGY2N2E0YmUyYmIiCiAKIEJC
+Q0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKIAotLSAKMi4zMS4xCgo=
 
---===============5522236562186455019==
+--===============1262800989908964774==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/orc/liborc-0.4: PKGSIZE changed from 624040 to 706088 (+13%)
-packages/core2-32-poky-linux/orc/liborc-0.4: FILELIST: removed "/usr/lib/liborc-0.4.so.0.32.0", added "/usr/lib/liborc-0.4.so.0.33.0"
-packages/core2-32-poky-linux/orc/liborc-test-0.4: FILELIST: removed "/usr/lib/liborc-test-0.4.so.0.32.0", added "/usr/lib/liborc-test-0.4.so.0.33.0"
-packages/core2-32-poky-linux/orc/orc-dev: PKGSIZE changed from 164215 to 193890 (+18%)
-packages/core2-32-poky-linux/orc/orc-src: PKGSIZE changed from 1282355 to 1437847 (+12%)
-Changes to packages/core2-32-poky-linux/orc (sysroot):
-  /usr/lib/liborc-0.4.so.0 changed symlink target from liborc-0.4.so.0.32.0 to liborc-0.4.so.0.33.0
-  /usr/lib/liborc-test-0.4.so.0 changed symlink target from liborc-test-0.4.so.0.32.0 to liborc-test-0.4.so.0.33.0
-  /usr/lib/liborc-0.4.so.0.32.0 moved to /usr/lib/liborc-0.4.so.0.33.0
-  /usr/lib/liborc-test-0.4.so.0.32.0 moved to /usr/lib/liborc-test-0.4.so.0.33.0
+packages/core2-32-poky-linux/libedit/libedit: FILELIST: removed "/usr/lib/libedit.so.0.0.68", added "/usr/lib/libedit.so.0.0.70"
+Changes to packages/core2-32-poky-linux/libedit (sysroot):
+  /usr/lib/libedit.so.0 changed symlink target from libedit.so.0.0.68 to libedit.so.0.0.70
+  /usr/lib/libedit.so changed symlink target from libedit.so.0.0.68 to libedit.so.0.0.70
+  /usr/lib/libedit.so.0.0.68 moved to /usr/lib/libedit.so.0.0.70
 
---===============5522236562186455019==--
+--===============1262800989908964774==--
 
