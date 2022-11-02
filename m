@@ -1,90 +1,83 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <leon.anavi@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD22BC433FE
-	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 15:00:25 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web12.7412.1667401223453322825
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D00F0C433FE
+	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 15:02:35 +0000 (UTC)
+Received: from voyager.superhosting.bg (voyager.superhosting.bg [79.124.30.14])
+ by mx.groups.io with SMTP id smtpd.web12.7452.1667401351004613080
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Nov 2022 08:00:24 -0700
+ Wed, 02 Nov 2022 08:02:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Mzeg9RYS;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.45, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f45.google.com with SMTP id a13so26912531edj.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 08:00:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=x6+vvzSphqkz5AWdTV0Cy0ljTCsPjouk0QjR2qCUQ40=;
-        b=Mzeg9RYSdvXq7WWz/hn+FPw7hAWBWyp3KAfQ7AVsEVZAg1NVmP8cyyjh6H1kMihoKl
-         +zKMRIrVL6OgKbvLSDqnO58wft66bFTZugznsYnjWyOHGGvKCWcng7ax0a3SuF9+Ygaf
-         BP8eciN8/KR9OMlJ59xuczvK5bXAbCUIVNMMgBp13V9/OYWOOD+efq8N3yE3lKPgIfEx
-         4OFg8FtOYvylOv2CGCQ0jnSf+1g6FtSbpOY+e9/PkKPBPoNLyudQIp5Y63Grg/BWbVRY
-         48IzErDJOp15AJ5sPdv6jIsVZqQT72hDnF6+A29i6MzjUdR1R1tJu/ysFUgtNNwQlTLf
-         LUbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=x6+vvzSphqkz5AWdTV0Cy0ljTCsPjouk0QjR2qCUQ40=;
-        b=FTmMrhv3MduI45gA5ci4HQOFLAkmOOkCRrOrYVIuGTzZE/yjqokegj1dcxWIgQ1Kgm
-         2u5+PwiomC84SCvkODnNVsls9fAYUffL/Sic4eZvrWk1CLIp9DPifxl2eFV52hg44+V0
-         UhRNjjYwDjtJGrX/JfhRIMkxx3I/pfmjPAwCF746J1FQ6VFXicmZ66ZBlUXDi+jVIKSf
-         8TzcQaGZZzC0D9E3xghccltiZrMDGGDAszRD2Im/2/R291JQfz0q/VMjX2PoKus9uSC5
-         eBmLR+xeJenPM2eycL3qamdOEGZxkLiI/tkBymnIRuAi7EXwuJk2n2YK0WcNsbx/Bw6o
-         8Qhw==
-X-Gm-Message-State: ACrzQf34Gtjj7NCxrgrzsWfgnMhCyr5v3nYqe50SUmGbJGcfEAcuhHEG
-	i5ToscvLI3l5Qr5OUn/4rY/sBI8mfcX6bh7TslTVIQ==
-X-Google-Smtp-Source: AMsMyM7Zsjzqk+TSeK3SlBXokYl7RsEh6vSGi5vT4I1AYb+kpG6MMUW05CWMDvDPUTPd/b1Ma3DLpyVma0emjxnmrq0=
-X-Received: by 2002:a50:eb05:0:b0:457:c6f5:5f65 with SMTP id
- y5-20020a50eb05000000b00457c6f55f65mr24579766edp.311.1667401221590; Wed, 02
- Nov 2022 08:00:21 -0700 (PDT)
+ dkim=pass header.i=@anavi.org header.s=default header.b=d/aQvMvE;
+ spf=softfail (domain: konsulko.com, ip: 79.124.30.14, mailfrom: leon.anavi@konsulko.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=anavi.org;
+	s=default; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=ZaF7X3Se774rvCCtPbXWLZivjyQs0/dXFvnSfksJXNE=; b=d/aQvMvEm/LVOhidlg9vYt5Ijh
+	5cQKNOOXgS42bPpmZzDSKywH6GRi8ADE8MvrXrVDQFbbzx9RUuj14L+gKaZILRX0pssnrdky06YGF
+	pGoQYKkcbAm2sRosJRuNbswLOfYRZW8R3tWeZGu5CfEo+/nZMm9FmAGRewiaF0OOiG3KGk3OBZvdh
+	dG8dYkMo08wZjYqurbSkl1hLEXyT9Njmtc15C1cLB1S/eF7942fpMt/yr9pnLVXsfAEbG/eFl8Yr6
+	cqcsmfKZ58YmF8MwWkclt72ny8s9uRtLzWtka7Z4d9chEBsVu5a8VckaxgBKUBf6oCzlquh6h6TL1
+	KARKZRCw==;
+Received: from lan.nucleusys.com ([92.247.61.126]:41372 helo=tone.k.g)
+	by voyager.superhosting.bg with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.95)
+	(envelope-from <leon.anavi@konsulko.com>)
+	id 1oqFHf-00056B-2f;
+	Wed, 02 Nov 2022 17:02:30 +0200
+From: Leon Anavi <leon.anavi@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Leon Anavi <leon.anavi@konsulko.com>
+Subject: [PATCH] python3-manifest.json: Fix re in core
+Date: Wed,  2 Nov 2022 17:02:17 +0200
+Message-Id: <20221102150217.3103640-1-leon.anavi@konsulko.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <4af9fc74-3b02-57ca-7aa1-d02a90f0f621@windriver.com>
-In-Reply-To: <4af9fc74-3b02-57ca-7aa1-d02a90f0f621@windriver.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 2 Nov 2022 05:00:10 -1000
-Message-ID: <CAOSpxdYo-5pvq632UZoxSyD5+sHQJcZYfwA0L3w1FauFm_fXHA@mail.gmail.com>
-Subject: Re: Dunfell toolchain update analysis
-To: Randy MacLeod <randy.macleod@windriver.com>
-Cc: "Moodalappa, Shivaprasad" <Shivaprasad.Moodalappa@windriver.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - voyager.superhosting.bg
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - konsulko.com
+X-Get-Message-Sender-Via: voyager.superhosting.bg: authenticated_id: leon@anavi.org
+X-Authenticated-Sender: voyager.superhosting.bg: leon@anavi.org
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 15:00:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172591
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 15:02:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172592
 
-On Wed, Nov 2, 2022 at 2:24 AM Randy MacLeod
-<randy.macleod@windriver.com> wrote:
->
-> Thanks for the info I requested Sundeep.
->
->
-> Steve or anyone using dunfell,
->
-> Do you have any concerns with the updates shown below?
+Following the update from 3.10.6 to 3.11.0, the source code of
+module re for regular expression operations has been moved to
+Lib/re/. File python3-manifest.json has been modified according
+to the new path.
 
-The glibc and binutils updates seem fine.  The gcc update(s) concern
-me a little bit, but we can test and see if any issues arise.
+Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
+---
+ meta/recipes-devtools/python/python3/python3-manifest.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Steve
+diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
+index 02c918d6e5..2fa9d5dc78 100644
+--- a/meta/recipes-devtools/python/python3/python3-manifest.json
++++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+@@ -290,7 +290,7 @@
+             "${libdir}/python${PYTHON_MAJMIN}/pkgutil.py",
+             "${libdir}/python${PYTHON_MAJMIN}/platform.py",
+             "${libdir}/python${PYTHON_MAJMIN}/posixpath.py",
+-            "${libdir}/python${PYTHON_MAJMIN}/re.py",
++            "${libdir}/python${PYTHON_MAJMIN}/re/*",
+             "${libdir}/python${PYTHON_MAJMIN}/reprlib.py",
+             "${libdir}/python${PYTHON_MAJMIN}/rlcompleter.py",
+             "${libdir}/python${PYTHON_MAJMIN}/runpy.py",
+-- 
+2.30.2
 
-> Hello Randy,
->
-> I checked the Dunfell branch for gcc, glibc & binutils updates.
->
-> gcc-9.3 is currently used in Dunfell and gcc-9.5 was released by gcc.
-> glibc-2.31 is used by Dunfell and latest commits in this branch are listed in attached file 'glibc.log'
-> binutils-2.34 is used by Dunfell and latest commits in this branch are listed in attached file 'binutils-gdb.log'
->
-> Can I update all these 3 modules as mentioned above?
->
->
-> Thanks,
-> Sundeep K.
 
