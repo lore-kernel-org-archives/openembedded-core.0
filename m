@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45C48C65BDB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FA1DC6787C
 	for <webhook@archiver.kernel.org>; Wed,  2 Nov 2022 00:40:40 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web09.855.1667349632190420967
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.842.1667349631878782967
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Nov 2022 17:40:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ePjdu+7c;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018435c850e5-7596cbfb-0e71-4541-8c7d-2c6273e7977e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=FUszEm5W;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018435c850ae-61361224-6dc2-4818-b2b4-57b2a0a4eb97-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1667349631;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=tUZ+a9gBjrraTB7xdBYtkzGeBbINGR0YA4dBQGgp3W4=;
-	b=ePjdu+7cGIuG9MuJls4A8rgnq+P+R9F19jQiyEUvYnZ/mO7T7nGmr0AaRgjhtZSR
-	mxYS6JSU0pGIQw0jowC+X72c5gpXy8dC7CrRNZdOgszKygT8bQmYyk0bAV6XjGtx9Qc
-	BTrQrW/oezN6w+V6iD/w+cJ8/qY+36pRJ7f6Ac24=
+	bh=0TuWHo+cIgYbxI4Rf+Jp/8mN1a4by4VmFJgbMrY8InU=;
+	b=FUszEm5WAay5yzZBOW5hL+F+nYPHe4QIqtQnbip96EMFYQOVLPpvGrl4Vr3RjIOS
+	TF74YcX1/K3oGtWYIgH/A8x34DQXjP4lIdov8yV4TcoFzg5BNCBCK4IIyVqCVdPFLY+
+	QvJj6+jfUEFHwtM4g88MazNoBvLx6V9yXa1WnSOA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1667349631;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=tUZ+a9gBjrraTB7xdBYtkzGeBbINGR0YA4dBQGgp3W4=;
-	b=PGnhkQ8zkMwDvRpwyGStvxvcIlgBkmq56UyG2shWBQQ4kY+XJvmQqriTp2TX7CIt
-	zKWZBjZVcB7VvFa8MFXKvk0tzeG6iiQ91b7RoXiy0K077r9xFj6AToWJEPze9SzP70Q
-	5rynhUqhvqCZd5dQ/lHD/Y1TANL2FXAiIC6chpEs=
-Content-Type: multipart/mixed; boundary="===============2811337157037969875=="
+	bh=0TuWHo+cIgYbxI4Rf+Jp/8mN1a4by4VmFJgbMrY8InU=;
+	b=CDsYCZLzLD133fgnjgquz7C5ZyzCy1ptr7Y+50wqIhRznAaLW8IMJt3Zy4qdQhX1
+	0BZv1mqD8JzbJlr4kX423UExCZdbncGCUjkWRifiOqDzHjv1YpBVir93FRizn86t6kM
+	cBmXu3VjBVXeWocXvhLN8uwRwDAwgwRmG0DOQaEA=
+Content-Type: multipart/mixed; boundary="===============6584424449021446599=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] expat: upgrading to 2.5.0 SUCCEEDED
-Message-ID: <0101018435c850e5-7596cbfb-0e71-4541-8c7d-2c6273e7977e-000000@us-west-2.amazonses.com>
+Subject: [AUH] gettext: upgrading to 0.21.1 FAILED
+Message-ID: <0101018435c850ae-61361224-6dc2-4818-b2b4-57b2a0a4eb97-000000@us-west-2.amazonses.com>
 Date: Wed, 2 Nov 2022 00:40:31 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.11.02-54.240.27.23
+X-SES-Outgoing: 2022.11.02-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 00:40:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172401
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172397
 
---===============2811337157037969875==
+--===============6584424449021446599==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,108 +50,147 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *expat* to *2.5.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *gettext* to *0.21.1* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-expat-upgrade-2.4.9-2.5.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe gettext failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1664 entries from dependency cache.
+
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:6629851ef39bd270192b3a09847927b72f1ffee0"
+workspace            = "master:78fd269e6649000b48ef1ef3e86009bad00fa815"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1664 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 887 .bb files complete (885 cached, 2 parsed). 1665 targets, 35 skipped, 0 masked, 0 errors.
+
+Summary: There was 1 WARNING message.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:6629851ef39bd270192b3a09847927b72f1ffee0"
+workspace            = "master:78fd269e6649000b48ef1ef3e86009bad00fa815"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   2% |                                    | ETA:  0:00:05
+Adding changed files:   4% |#                                   | ETA:  0:00:04
+Adding changed files:   7% |##                                  | ETA:  0:00:03
+Adding changed files:   9% |###                                 | ETA:  0:00:03
+Adding changed files:  12% |####                                | ETA:  0:00:03
+Adding changed files:  14% |#####                               | ETA:  0:00:03
+Adding changed files:  16% |######                              | ETA:  0:00:03
+Adding changed files:  19% |######                              | ETA:  0:00:03
+Adding changed files:  21% |#######                             | ETA:  0:00:02
+Adding changed files:  24% |########                            | ETA:  0:00:02
+Adding changed files:  26% |#########                           | ETA:  0:00:02
+Adding changed files:  28% |##########                          | ETA:  0:00:02
+Adding changed files:  31% |###########                         | ETA:  0:00:02
+Adding changed files:  33% |############                        | ETA:  0:00:02
+Adding changed files:  36% |############                        | ETA:  0:00:02
+Adding changed files:  38% |#############                       | ETA:  0:00:01
+Adding changed files:  40% |##############                      | ETA:  0:00:01
+Adding changed files:  43% |###############                     | ETA:  0:00:01
+Adding changed files:  45% |################                    | ETA:  0:00:01
+Adding changed files:  48% |#################                   | ETA:  0:00:01
+Adding changed files:  50% |##################                  | ETA:  0:00:01
+Adding changed files:  52% |###################                 | ETA:  0:00:01
+Adding changed files:  55% |###################                 | ETA:  0:00:01
+Adding changed files:  57% |####################                | ETA:  0:00:01
+Adding changed files:  60% |#####################               | ETA:  0:00:01
+Adding changed files:  62% |######################              | ETA:  0:00:01
+Adding changed files:  64% |#######################             | ETA:  0:00:01
+Adding changed files:  67% |########################            | ETA:  0:00:00
+Adding changed files:  69% |#########################           | ETA:  0:00:00
+Adding changed files:  72% |#########################           | ETA:  0:00:00
+Adding changed files:  74% |##########################          | ETA:  0:00:00
+Adding changed files:  76% |###########################         | ETA:  0:00:00
+Adding changed files:  79% |############################        | ETA:  0:00:00
+Adding changed files:  81% |#############################       | ETA:  0:00:00
+Adding changed files:  84% |##############################      | ETA:  0:00:00
+Adding changed files:  86% |###############################     | ETA:  0:00:00
+Adding changed files:  88% |################################    | ETA:  0:00:00
+Adding changed files:  91% |################################    | ETA:  0:00:00
+Adding changed files:  93% |#################################   | ETA:  0:00:00
+Adding changed files:  96% |##################################  | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:03
+INFO: Extracting current version source...
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://ftp.gnu.org/gnu/gettext/gettext-0.21.1.tar.gz...
+INFO: Rebasing devtool onto d6b252a49d5f130c0f6ea21c7406f9dcf58654f2
+WARNING: Command 'git rebase d6b252a49d5f130c0f6ea21c7406f9dcf58654f2' failed:
+Auto-merging libtextstyle/gnulib-m4/libglib.m4
+CONFLICT (content): Merge conflict in libtextstyle/gnulib-m4/libglib.m4
+Auto-merging libtextstyle/gnulib-m4/libcroco.m4
+CONFLICT (content): Merge conflict in libtextstyle/gnulib-m4/libcroco.m4
+Auto-merging libtextstyle/gnulib-local/m4/libglib.m4
+CONFLICT (content): Merge conflict in libtextstyle/gnulib-local/m4/libglib.m4
+Auto-merging libtextstyle/gnulib-local/m4/libcroco.m4
+CONFLICT (content): Merge conflict in libtextstyle/gnulib-local/m4/libcroco.m4
+Auto-merging gettext-tools/gnulib-m4/libxml.m4
+CONFLICT (content): Merge conflict in gettext-tools/gnulib-m4/libxml.m4
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gettext
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/gettext/gettext_0.21.1.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============2811337157037969875==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/expat/expat-bin: PKGV changed from 2.4.9 [default] to 2.5.0 [default]
-packages/core2-32-poky-linux/expat/expat-bin: PV changed from "2.4.9" to "2.5.0"
-packages/core2-32-poky-linux/expat/expat-dbg: PKGV changed from 2.4.9 [default] to 2.5.0 [default]
-packages/core2-32-poky-linux/expat/expat-dbg: PV changed from "2.4.9" to "2.5.0"
-packages/core2-32-poky-linux/expat/expat-dbg: PKGSIZE changed from 1867104 to 1876252 (+0%)
-packages/core2-32-poky-linux/expat/expat-dbg: FILELIST: removed "/usr/lib/.debug/libexpat.so.1.8.9", added "/usr/lib/.debug/libexpat.so.1.8.10"
-packages/core2-32-poky-linux/expat/expat-dev: PKGV changed from 2.4.9 [default] to 2.5.0 [default]
-packages/core2-32-poky-linux/expat/expat-dev: PV changed from "2.4.9" to "2.5.0"
-packages/core2-32-poky-linux/expat/expat-dev: PKGSIZE changed from 65148 to 65230 (+0%)
-packages/core2-32-poky-linux/expat/expat-doc: PKGV changed from 2.4.9 [default] to 2.5.0 [default]
-packages/core2-32-poky-linux/expat/expat-doc: PV changed from "2.4.9" to "2.5.0"
-packages/core2-32-poky-linux/expat/expat-doc: PKGSIZE changed from 73875 to 75317 (+2%)
-packages/core2-32-poky-linux/expat/expat-locale: PKGV changed from 2.4.9 [default] to 2.5.0 [default]
-packages/core2-32-poky-linux/expat/expat-locale: PV changed from "2.4.9" to "2.5.0"
-packages/core2-32-poky-linux/expat/expat-ptest: PKGV changed from 2.4.9 [default] to 2.5.0 [default]
-packages/core2-32-poky-linux/expat/expat-ptest: PV changed from "2.4.9" to "2.5.0"
-packages/core2-32-poky-linux/expat/expat-ptest: PKGSIZE changed from 1015006 to 1027294 (+1%)
-packages/core2-32-poky-linux/expat/expat-src: PKGV changed from 2.4.9 [default] to 2.5.0 [default]
-packages/core2-32-poky-linux/expat/expat-src: PV changed from "2.4.9" to "2.5.0"
-packages/core2-32-poky-linux/expat/expat-src: PKGSIZE changed from 1106678 to 1113920 (+1%)
-packages/core2-32-poky-linux/expat/expat-staticdev: PKGV changed from 2.4.9 [default] to 2.5.0 [default]
-packages/core2-32-poky-linux/expat/expat-staticdev: PV changed from "2.4.9" to "2.5.0"
-packages/core2-32-poky-linux/expat/expat: PKGV changed from 2.4.9 [default] to 2.5.0 [default]
-packages/core2-32-poky-linux/expat/expat: PV changed from "2.4.9" to "2.5.0"
-packages/core2-32-poky-linux/expat/expat: PKGSIZE changed from 173409 to 173410 (+0%)
-packages/core2-32-poky-linux/expat/expat: FILELIST: removed "/usr/lib/libexpat.so.1.8.9", added "/usr/lib/libexpat.so.1.8.10"
-packages/core2-32-poky-linux/expat: SRC_URI changed from "https://github.com/libexpat/libexpat/releases//download/R_2_4_9/expat-2.4.9.tar.bz2 file://run-ptest" to "https://github.com/libexpat/libexpat/releases//download/R_2_5_0/expat-2.5.0.tar.bz2 file://run-ptest"
-packages/core2-32-poky-linux/expat: PV changed from "2.4.9" to "2.5.0"
-packages/core2-32-poky-linux/expat: PKGV changed from 2.4.9 [default] to 2.5.0 [default]
-Changes to packages/core2-32-poky-linux/expat (sysroot):
-  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.8.9 to libexpat.so.1.8.10
-  /usr/lib/cmake/expat-2.4.9 moved to /usr/lib/cmake/expat-2.5.0
-  /usr/lib/libexpat.so.1.8.10 was added
-  /usr/lib/libexpat.so.1.8.9 was removed
-
---===============2811337157037969875==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-expat-upgrade-2.4.9-2.5.0.patch"
-
-RnJvbSBjYmJlNzAzZjJjMDk4NDM0NjdmMWMyZjc2YWFiZDk4NWUwOGZiZWM0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBOb3YgMjAyMiAwNzowMDoyMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGV4
-cGF0OiB1cGdyYWRlIDIuNC45IC0+IDIuNS4wCgotLS0KIG1ldGEvcmVjaXBlcy1jb3JlL2V4cGF0
-L3tleHBhdF8yLjQuOS5iYiA9PiBleHBhdF8yLjUuMC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29y
-ZS9leHBhdC97ZXhwYXRfMi40LjkuYmIgPT4gZXhwYXRfMi41LjAuYmJ9ICg5MSUpCgpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvZXhwYXQvZXhwYXRfMi40LjkuYmIgYi9tZXRhL3JlY2lw
-ZXMtY29yZS9leHBhdC9leHBhdF8yLjUuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDkxJQpyZW5hbWUg
-ZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9leHBhdC9leHBhdF8yLjQuOS5iYgpyZW5hbWUgdG8gbWV0
-YS9yZWNpcGVzLWNvcmUvZXhwYXQvZXhwYXRfMi41LjAuYmIKaW5kZXggOTU2MWVkZDg0Zi4uYWE4
-ZDQzOWQ1ZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvZXhwYXQvZXhwYXRfMi40Ljku
-YmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZXhwYXQvZXhwYXRfMi41LjAuYmIKQEAgLTE1LDcg
-KzE1LDcgQEAgU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvUl8ke1ZFUlNJ
-T05fVEFHfS9leHBhdC0ke1BWfS50YXIuYnoyICBcCiBHSVRIVUJfQkFTRV9VUkkgPSAiaHR0cHM6
-Ly9naXRodWIuY29tL2xpYmV4cGF0L2xpYmV4cGF0L3JlbGVhc2VzLyIKIFVQU1RSRUFNX0NIRUNL
-X1JFR0VYID0gInJlbGVhc2VzL3RhZy9SXyg/UDxwdmVyPi4rKSIKIAotU1JDX1VSSVtzaGEyNTZz
-dW1dID0gIjdmNDRkMTQ2OWIxMTA3NzNhOTRiMGQ1YWJlZWVmZmFlZjc5ZjhiZDY0MDZiMDdlNTIz
-OTRiY2Y0ODEyNjQzN2EiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNmYwZTZlMDFmN2IzMDAyNWZh
-MDVjODVmZGFkMWU1ZDBlYzdmZDM1ZDlmNjFiMjJmMzQ5OThkZTExOTY5ZmY2NyIKIAogRVhUUkFf
-T0VDTUFLRTpjbGFzcy1uYXRpdmUgKz0gIi1ERVhQQVRfQlVJTERfRE9DUz1PRkYiCiAKLS0gCjIu
-MzEuMQoK
-
---===============2811337157037969875==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/expat/expat: FILELIST: removed "/usr/lib/libexpat.so.1.8.9", added "/usr/lib/libexpat.so.1.8.10"
-Changes to packages/core2-32-poky-linux/expat (sysroot):
-  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.8.9 to libexpat.so.1.8.10
-  /usr/lib/cmake/expat-2.4.9 moved to /usr/lib/cmake/expat-2.5.0
-  /usr/lib/libexpat.so.1.8.10 was added
-  /usr/lib/libexpat.so.1.8.9 was removed
-
---===============2811337157037969875==--
+--===============6584424449021446599==--
 
