@@ -1,101 +1,138 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <patrick@stwcx.xyz>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F99DC4332F
-	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 16:28:24 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web08.663.1667492897684928868
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9539C4332F
+	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 16:48:24 +0000 (UTC)
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+ by mx.groups.io with SMTP id smtpd.web12.888.1667494095862646662
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 09:28:18 -0700
+ Thu, 03 Nov 2022 09:48:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=t8LFV++h;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.49, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f49.google.com with SMTP id k2so6759452ejr.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 09:28:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=78k7NtK3ksMHyQx6RZymDiZAJ4SEAC1jFXNXMcAepH0=;
-        b=t8LFV++hAuKgmfC3NT2SY1ETU7rm7JwbD69wHVzkNCLniE8OFtRuqKx1hlxoJq9v5Z
-         PvrAZm0Xp4Bj7V8nKJ1hozZieHUat29DqZnjMZfvKKeTomwuF8x1rZZvkGAq0y/CYy+i
-         74k+aYMJaHpm5e2k2b2esSM1Cr9vR8Zu+GYuT997jj0/anWTMg60N4kZHcyUJ1K0nBrS
-         xRAQVx9ln/LkpIgz6OXbklKKznhCL+BavynPRVnNVBGay7U7nIJa+08t5+E1L14/sohX
-         Z/gLpTJirYHz8em96QkCwEeltbJ5rrjL9sjX7dDVwE/oOutuIPu9Jo4prw6gV/v3oPdJ
-         QfJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=78k7NtK3ksMHyQx6RZymDiZAJ4SEAC1jFXNXMcAepH0=;
-        b=DAktbH46Q1q3yAuqAxujEnnpqpD0EEXu58WdOU2tmQhaH7FmE3+/KjpEvBY2elEJlp
-         FiRHvJkfnUPhpq0/waps/74E7r9AYz0mbyeAEEjEFtwOz1WP9JEpmCwA5In3wKBc2I4S
-         raQKYzBoDpNMzZr9tVwGy9FrOLqZ+hvZpGVXKqs10CK9Xk6tPqi6v0Teim0JrPZkORQn
-         SdZ7d/mrmg2Y5BTbOCAdXFc0WEXK7WLVH3qBXsRMjfPOUyR4LdtjLQ67s7s5rRK/gOze
-         o9OH6yHFM9GH6dvDaAvA0d0xv30fo5aqSaGpZTPcQHgQDXyr3HCbsTqxsMN8jeIiQWgo
-         Z+aA==
-X-Gm-Message-State: ACrzQf0B9hMo06lPyii3Ami1VgjEAALX2B1A7S+DNOqYFBVuey0Vi9cw
-	dcvWwPcGL+yTZvozZi9jf5dfo97phyXJDK7f6+IBTw==
-X-Google-Smtp-Source: AMsMyM5Sm7qMMXQTIMR/CwVW2NsnEvQVieZbs0z9VFMjcshvjD+ZaK/O8LoTDLcsN5RZIcTQohKtECdlJMa5o8Hn7U4=
-X-Received: by 2002:a17:907:7e9f:b0:7ad:b389:1145 with SMTP id
- qb31-20020a1709077e9f00b007adb3891145mr27541234ejc.92.1667492895857; Thu, 03
- Nov 2022 09:28:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1667356805.git.steve@sakoman.com> <c28dc71f17133f6e4470fc0c1a552c743869b3ad.1667356805.git.steve@sakoman.com>
- <Y2PkQjspCvfitDqj@heinlein.taila677.ts.net>
-In-Reply-To: <Y2PkQjspCvfitDqj@heinlein.taila677.ts.net>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Thu, 3 Nov 2022 06:28:04 -1000
-Message-ID: <CAOSpxdb0PxRcf7Xgq5sP3JHVe9doF7XH71xW=yK4wYQwpRnegQ@mail.gmail.com>
+ dkim=fail reason="signature has expired" header.i=@stwcx.xyz header.s=fm3 header.b=KxOdQ1ST;
+ spf=pass (domain: stwcx.xyz, ip: 64.147.123.19, mailfrom: patrick@stwcx.xyz)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.west.internal (Postfix) with ESMTP id 07D533200917;
+	Thu,  3 Nov 2022 12:48:14 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Thu, 03 Nov 2022 12:48:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1667494094; x=1667580494; bh=B0/3mINa7Y
+	b6HMuB7vSx2eQy7DCPy6nWD8BrhWizR8s=; b=KxOdQ1STy8OneV11q5rJvhx4nj
+	3MIN4paFvmh07riwjDQ/DmjkcyxNp5TTVqlMynYXRzLGMSqvCvzr0EuHUUmtNYRQ
+	GMtmYoVALvUc2XfF1rvp91cJJBXhS12Ydcelzxco8SudKRZ81gaeJz1ankio7m6F
+	ZH6ZFZI+AH5/z2Bca++F5RbjiAaNDRA1B+FhsW92uAZA/lVgkX2hdYerw1G1acMC
+	WFg7a+xraId4KRUjioZixuu8JD9hdotd/1uTUL2xcKgyxoCIv+KkBNJH18QGTN7n
+	QT6hL5yzzUmzBGZ0RKJudjnXBHR6eb6xqbtishoX/efpfz7LF2kF+rVgRVSQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1667494094; x=1667580494; bh=B0/3mINa7Yb6HMuB7vSx2eQy7DCP
+	y6nWD8BrhWizR8s=; b=OpStApdeMCR+Qf/iNQrff8HD4pwtV9QCqKSjZSNIdcNQ
+	SrGnWrzj0QF+q0sIys0lrDA5cPpFLletvqnDbKa9OdbZmXmIMiVRxqQg08mHktzR
+	HYa44rjtoUUP++P3klyC58VA4nToW8ydeGUuh4vSBoQc9Zvck4mn+v9vTO5lpq2n
+	HV9G9CiVhVh2RAEkKqnNaBCBRMPloMAmkHBOVDaqPUnndvjLBwKnGNqeDLGQWvqr
+	UW8ibyz+/u419ivcZss/iXw2tRZae8LLdEpg+dXsUv39e7sPL9hF0h1SfycvAefg
+	31w+BuH9e0CP4JZTE/emM5RFHZ1HKcBbVRmzMH8AeA==
+X-ME-Sender: <xms:zvBjY5LapAnH-koABlG1QwdoKE9AGQ3LVfPg8XqkJAqB95-7bRMprA>
+    <xme:zvBjY1JYHpo_-LzrY4qYcB5t-vG1tV4f3tc-lE_hgY6CUd3JvMNs7TZYIoinzBHwy
+    OvfSF-KB_Xmc6fx9os>
+X-ME-Received: <xmr:zvBjYxufPWFxcX4-2nX0VcKlDGRBk3j0WKvgVpdxpcQ4zgkrlSKAl-9t5U6GP21Y-GvlHsnvNWHLHb-VZeNW1kS8E3lcl6PDLho>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudelgdekkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfg
+    hrlhcuvffnffculddvfedmnecujfgurhepfffhvfevuffkfhggtggujgesghdtreertddt
+    vdenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkhessh
+    htfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepgfelfffhhfeileeltdfhfeelffef
+    iedvvdffhfffteefheeuleehudehfffhgefhnecuffhomhgrihhnpehophgvnhgvmhgsvg
+    guuggvugdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
+    fhhrohhmpehprghtrhhitghksehsthiftgigrdighiii
+X-ME-Proxy: <xmx:zvBjY6Zs9h-VqcHZrtuyGSTXJjLJOkqKlCx5YDXxwYPCp4q5PJsdrw>
+    <xmx:zvBjYwYr1Vokjz0degB-V6LwtOauPxB07TSagr7fW0SSW6G7_1nVDg>
+    <xmx:zvBjY-BR2Y_8OETbsHrznZ0nCPudoGs7SkZwOGtGLS2ponjqFe8xuw>
+    <xmx:zvBjY5Bk97r75dXs8BO2Nhdit288KFfO1w0YVES0pANCB8XWlEro_g>
+Feedback-ID: i68a1478a:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 3 Nov 2022 12:48:13 -0400 (EDT)
+Date: Thu, 3 Nov 2022 11:48:12 -0500
+From: Patrick Williams <patrick@stwcx.xyz>
+To: Steve Sakoman <steve@sakoman.com>
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [OE-core][langdale 01/20] openssl: CVE-2022-3358 Using a Custom
  Cipher with NID_undef may lead to NULL encryption
-To: Patrick Williams <patrick@stwcx.xyz>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <Y2PwzAYE9uTZgZHA@heinlein.taila677.ts.net>
+References: <cover.1667356805.git.steve@sakoman.com>
+ <c28dc71f17133f6e4470fc0c1a552c743869b3ad.1667356805.git.steve@sakoman.com>
+ <Y2PkQjspCvfitDqj@heinlein.taila677.ts.net>
+ <CAOSpxdb0PxRcf7Xgq5sP3JHVe9doF7XH71xW=yK4wYQwpRnegQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="jpu1Om2pSGEcAXxg"
+Content-Disposition: inline
+In-Reply-To: <CAOSpxdb0PxRcf7Xgq5sP3JHVe9doF7XH71xW=yK4wYQwpRnegQ@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 16:28:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172643
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 16:48:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172644
 
-On Thu, Nov 3, 2022 at 5:54 AM Patrick Williams <patrick@stwcx.xyz> wrote:
->
-> On Tue, Nov 01, 2022 at 04:41:51PM -1000, Steve Sakoman wrote:
-> > From: Hitendra Prajapati <hprajapati@mvista.com>
-> >
-> > Upstream-Status: Backport from https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=5485c56679d7c49b96e8fc8ca708b0b7e7c03c4b]
-> > Description:
-> >       CVE-2022-3358 openssl: Using a Custom Cipher with NID_undef may lead to NULL encryption.
-> > Affects "openssl < 3.0.6"
-> >
-> > Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-> > Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> > (cherry picked from commit f98b2273c6f03f8f6029a7a409600ce290817e27)
-> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
->
-> Instead of picking up this patch, wouldn't it make a lot more sense to
-> go to 3.0.7 like we did with [1]?  Since 3.0.7 contains a HIGH severity
-> CVE fix as well as the one mentioned here, it seems like we should get
-> that backported to both Langdale and Kirkstone quickly.
 
-This patchset was tested and sent out for review prior to the 3.0.7
-upgrade hitting master.
+--jpu1Om2pSGEcAXxg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Note that I have the 3.0.7 upgrade in the patches currently under test
-for both langdale and kirkstone:
+On Thu, Nov 03, 2022 at 06:28:04AM -1000, Steve Sakoman wrote:
+> On Thu, Nov 3, 2022 at 5:54 AM Patrick Williams <patrick@stwcx.xyz> wrote:
+> > Instead of picking up this patch, wouldn't it make a lot more sense to
+> > go to 3.0.7 like we did with [1]?  Since 3.0.7 contains a HIGH severity
+> > CVE fix as well as the one mentioned here, it seems like we should get
+> > that backported to both Langdale and Kirkstone quickly.
+>=20
+> This patchset was tested and sent out for review prior to the 3.0.7
+> upgrade hitting master.
 
-https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/langdale-nut
-https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+Understood.
 
-If the langdale test succeeds I will include the 3.0.7 upgrade patch
-in the pull request for the above series (hopefully later today)
+> Note that I have the 3.0.7 upgrade in the patches currently under test
+> for both langdale and kirkstone:
+>=20
+> https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/la=
+ngdale-nut
+> https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/ki=
+rkstone-nut
+>=20
+> If the langdale test succeeds I will include the 3.0.7 upgrade patch
+> in the pull request for the above series (hopefully later today)
 
-Steve
+Great.  Thank you.
 
-> 1. https://lore.kernel.org/openembedded-core/20221101170310.2740317-1-edtanous@google.com/
->
-> --
-> Patrick Williams
+--=20
+Patrick Williams
+
+--jpu1Om2pSGEcAXxg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmNj8MoACgkQqwNHzC0A
+wRkvtQ/7BPHCxFe7NzVbuBR0vwICo8ol056FTKocF2R3kkX9LM/Fevq6ECxxwiTG
+QxLAusq8lBwOicFZ6OrAKfhBsLUFBR4iQgEcn+AqW+mRwXlmSFvAa5MC3p3TGTbO
+jk/bJo9A457d+zyrICSB6gBSEXxCsb/kWG38WzUCCRQXGAwrN5RPg3VfnDQHItWO
+1GT93G3UjrwNWHKNirzlDU/3OQyeqfhkdsDjlMMY6JRXT9vxXJnEYZi+hLJjt7Fz
+p3RaXefufVpeqq/O1f30LKoIkkecUDXf2wyhDnTkfqJWGXvJA88ZjwOCvdrDzDTp
+2GNxpTB3x1LKhKHU3Xzv1OnJQuaY4f2cu9zekgCzpLkw9MuYrMU52YaAdI+NL8XN
++c1DwkxzgrUorFhprYT7+KmOBZrK8sUz+bW0TTsqHfAeg1O5vxzjSPk4jh02QoML
+NqRbkkbQJrUVd+eoOVTmWm+L1aM3ZX+0D/3r4TpWS/hp1+dJxNGN37CynAw/o3ZN
+dBm16R3glWgQh7qCq53JFDmZq6LmScvV5wGqqGWw+8Q1/KsBS/xZZjKUMG+FcH1U
+VOF9iyAVwVojMlmHreo+z3DthEVuYuGfpkxdhD4FTycg0UAx2YXvEPqW1sf7pa8r
+oTJikKl+7ZOVynCqOpE9MBSwZD/1PnvzI/Hm6O3R17/374xiaWI=
+=gBG9
+-----END PGP SIGNATURE-----
+
+--jpu1Om2pSGEcAXxg--
 
