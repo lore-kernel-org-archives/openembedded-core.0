@@ -1,169 +1,344 @@
-Return-Path: <luca.boccassi@gmail.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FCECC4332F
-	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 10:43:11 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web10.17724.1667472186156331979
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDB8CC433FE
+	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 11:48:31 +0000 (UTC)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web12.18351.1667476110991854065
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 03:43:06 -0700
+ Thu, 03 Nov 2022 04:48:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=k+MC3gQY;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id a11-20020a05600c2d4b00b003cf6f5fd9f1so917623wmg.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 03:43:05 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=bofetffJ;
+ spf=pass (domain: mvista.com, ip: 209.85.216.54, mailfrom: hprajapati@mvista.com)
+Received: by mail-pj1-f54.google.com with SMTP id o7so1384463pjj.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 04:48:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=z1m0eGKItOnYLlKFVAnK07z2pgGy2F78IyZBUZG/C44=;
-        b=k+MC3gQYVXS1EiEoYTm3KA6cw9CERaZfUUF8f5HYb5SSHxCO3z5vPMv7LRmTihXWbt
-         jji4HRUzRT5jxj0yj3FFYXh9gdGE0aaaKjPNoroyBtOJgIngj3Whms9mb7OWOG3KlCVK
-         YSi01dQtN7jcyY3K+qFvR9S8jUGexv4x0FlaO4YqbKyasMyNp5sUxbUKUldf1PykBC9O
-         cVjIPXg2bxrCKC6eEZU3AWIlVDQC4h6OtgJGVihc7Wc+ttBQtghUcgTUTSc9HxDeSyiI
-         geb3IfMAqdeBuzto+1w5CIcY6UKW9rdLeXlT5qXoa9hzvDIwgWXaBUmaDKSDQMj+a25H
-         kYEw==
+        d=mvista.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2e401a0VoBYmI/0V59ij5ZiKVABC8w/XZCUIHNGROvM=;
+        b=bofetffJdvTSGW0u1djDsSWV9CttwhKitEHCyVHFYR+3OkLbRMNT+QaS06lUWqz9K0
+         XeGHgsB64TdCrR36YQJ76K4Er7VAq5g+GBluXbcbCEREcZ+HBDrluVm5aFXwcr/+L+aD
+         1J6Z5PW5VPrIBJIckmtFnEybEb32s/iZWQync=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z1m0eGKItOnYLlKFVAnK07z2pgGy2F78IyZBUZG/C44=;
-        b=wd9ZckIUCww3Xe5f+A8i2A1JoURtI55Bp2cNUwgLWwe4hp02pSTK4y5LevRIxqDUPO
-         UMXEprsrOCjhj6rs9GDdLg8qO8lX5OVAUZBDLjg1zXHYwI4vQAooVLVpJhW+jE4NSzxD
-         SvyUE5Lbhy2fmol1CLJpcpxdQo+ubCF+qxqT+cwlTCpcU/34Z5EQUAlT8zDMLoxL9uqZ
-         3eEQWsBYhuh5fo12oidIuSRd1T7EmQz5wI65YQSQeGFMLnf8sSd/7VPAdRYGQGY7ZU1m
-         5ofRw1RofVo5c4FPflaod9CnIKBh5IFNCXvur5IfjNPWRMCmaxUM/QOhc3vL5mCsqTp6
-         8QkA==
-X-Gm-Message-State: ACrzQf0tcMoM8X9EYcO3ULZ4o3lVObDB5C66PFQN3SYA6z6QXwfD4wrM
-	8O1J0Zqxj+OTFkiZQndCtvjD5Os2OdNpJZVI
-X-Google-Smtp-Source: AMsMyM7+RE+G/MhJ7hZHNFP+srNVM9lNgV/2rXgWeyv1yWGtu9nNlMF++SLDOUo9wvHGJrc+WfZbYg==
-X-Received: by 2002:a05:600c:1e8c:b0:3cf:55e7:c54f with SMTP id be12-20020a05600c1e8c00b003cf55e7c54fmr23999002wmb.61.1667472183866;
-        Thu, 03 Nov 2022 03:43:03 -0700 (PDT)
-Received: from localhost ([137.220.119.58])
-        by smtp.gmail.com with ESMTPSA id m36-20020a05600c3b2400b003cf47556f21sm5586569wms.2.2022.11.03.03.43.02
-        for <openembedded-core@lists.openembedded.org>
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2e401a0VoBYmI/0V59ij5ZiKVABC8w/XZCUIHNGROvM=;
+        b=l/0Ff5KrBMhbjcXVF57M9MGcq08xdoguqbN63Umr+y8JctuZqr7XFIN0AChYBHFVkN
+         P0u8czqkVzuJC3fnAT2A2gOO7WtkIRFvSh7TUovVOAan4xIR1lPgDbou6eRSaTVvauef
+         GYhJEffamKT487dZMaBpsC/D2UOTb0DXJZ1ZmWyeUlj1O7+gT3TyePOFPhxbf9thMfEB
+         jCeFtjtgejkz/oe4j8qsYdlWkuCd6jfrX6VvUF3Bq8i+4V5cFZdiQNZ6W7ffLrLnoVe+
+         eSVn6VNVsPzUrnVHBDR0cUXLCvC8nFHiY4LmTrYjQU5a/p6avitcWmVv9YCH4aa4xx25
+         aTdA==
+X-Gm-Message-State: ACrzQf3LVOY9vfsHWkKRTnxtqNumwvDgovQy78WJdkhwheAsMac7aAqo
+	xSzZo6wKDIL05PEo6rqr1hcUuw3xozpWSQ==
+X-Google-Smtp-Source: AMsMyM5UnMJk0zgLqle39RqCaSNEdMT+lqXeGLEJQLLf/A9KsK+rXjA7+V/pq7PQ2gk96v1fPD3wSg==
+X-Received: by 2002:a17:90a:ea18:b0:216:92a9:fcd6 with SMTP id w24-20020a17090aea1800b0021692a9fcd6mr144832pjy.179.1667476109975;
+        Thu, 03 Nov 2022 04:48:29 -0700 (PDT)
+Received: from MVIN00024 ([150.129.170.149])
+        by smtp.gmail.com with ESMTPSA id s4-20020a170902ea0400b00186727e5f5csm416164plg.248.2022.11.03.04.48.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 03:43:03 -0700 (PDT)
-From: luca.boccassi@gmail.com
+        Thu, 03 Nov 2022 04:48:29 -0700 (PDT)
+Received: by MVIN00024 (sSMTP sendmail emulation); Thu, 03 Nov 2022 17:18:24 +0530
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] systemd: bump to v252
-Date: Thu,  3 Nov 2022 10:42:55 +0000
-Message-Id: <20221103104255.1120494-1-luca.boccassi@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] golang: CVE-2022-41715 regexp/syntax: limit memory used by parsing regexps
+Date: Thu,  3 Nov 2022 17:18:23 +0530
+Message-Id: <20221103114823.349490-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 10:43:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172622
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 11:48:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172623
 
-From: Luca Boccassi <luca.boccassi@microsoft.com>
+Upstream-Status: Backport from https://github.com/golang/go/commit/e9017c2416ad0ef642f5e0c2eab2dbf3cba4d997
 
-Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
-NOTE: I do not use musl, so I have not touched those patches
+ meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
+ .../go/go-1.18/CVE-2022-41715.patch           | 253 ++++++++++++++++++
+ 2 files changed, 254 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2022-41715.patch
 
- .../{systemd-boot_251.4.bb => systemd-boot_252.bb}       | 0
- meta/recipes-core/systemd/systemd.inc                    | 4 ++--
- ...t-Don-t-install-dependency-links-at-install-tim.patch | 4 ++--
- .../systemd/{systemd_251.4.bb => systemd_252.bb}         | 9 +++++++++
- 4 files changed, 13 insertions(+), 4 deletions(-)
- rename meta/recipes-core/systemd/{systemd-boot_251.4.bb => systemd-boot_252.bb} (100%)
- rename meta/recipes-core/systemd/{systemd_251.4.bb => systemd_252.bb} (98%)
-
-diff --git a/meta/recipes-core/systemd/systemd-boot_251.4.bb b/meta/recipes-core/systemd/systemd-boot_252.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-boot_251.4.bb
-rename to meta/recipes-core/systemd/systemd-boot_252.bb
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index 71eb93f23a2..fbaef910af7 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -14,8 +14,8 @@ LICENSE = "GPL-2.0-only & LGPL-2.1-only"
- LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
-                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
- 
--SRCREV = "2a674b4b66af1a050a0362b646d2fca90c90112e"
--SRCBRANCH = "v251-stable"
-+SRCREV = "e8dc52766e1fdb4f8c09c3ab654d1270e1090c8d"
-+SRCBRANCH = "v252-stable"
- SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=https;branch=${SRCBRANCH} \
+diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
+index b18de66f42..b9129e3d75 100644
+--- a/meta/recipes-devtools/go/go-1.17.13.inc
++++ b/meta/recipes-devtools/go/go-1.17.13.inc
+@@ -17,6 +17,7 @@ SRC_URI += "\
+     file://0001-exec.go-do-not-write-linker-flags-into-buildids.patch \
+     file://0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
+     file://CVE-2022-27664.patch \
++    file://CVE-2022-41715.patch \
  "
+ SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
  
-diff --git a/meta/recipes-core/systemd/systemd/0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch b/meta/recipes-core/systemd/systemd/0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch
-index a19a0255591..2a033b134e1 100644
---- a/meta/recipes-core/systemd/systemd/0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch
-+++ b/meta/recipes-core/systemd/systemd/0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch
-@@ -29,7 +29,7 @@ diff --git a/units/meson.build b/units/meson.build
- index a9bf28f6d9..11d3644168 100644
- --- a/units/meson.build
- +++ b/units/meson.build
--@@ -63,8 +63,7 @@ units = [
-+@@ -62,8 +62,7 @@ units = [
-          ['poweroff.target',                     '',
-           (with_runlevels ? 'runlevel0.target' : '')],
-          ['printer.target',                      ''],
-@@ -64,7 +64,7 @@ diff --git a/units/systemd-binfmt.service.in b/units/systemd-binfmt.service.in
- index 96f595ad72..7c010bb224 100644
- --- a/units/systemd-binfmt.service.in
- +++ b/units/systemd-binfmt.service.in
--@@ -14,6 +14,7 @@ Documentation=https://www.kernel.org/doc/html/latest/admin-guide/binfmt-misc.htm
-+@@ -14,6 +14,7 @@ Documentation=https://docs.kernel.org/admin-guide/binfmt-misc.html
-  Documentation=https://www.freedesktop.org/wiki/Software/systemd/APIFileSystems
-  DefaultDependencies=no
-  Conflicts=shutdown.target
-diff --git a/meta/recipes-core/systemd/systemd_251.4.bb b/meta/recipes-core/systemd/systemd_252.bb
-similarity index 98%
-rename from meta/recipes-core/systemd/systemd_251.4.bb
-rename to meta/recipes-core/systemd/systemd_252.bb
-index 87668cadc75..7c929c22e0f 100644
---- a/meta/recipes-core/systemd/systemd_251.4.bb
-+++ b/meta/recipes-core/systemd/systemd_252.bb
-@@ -526,12 +526,15 @@ FILES:${PN}-extra-utils = "\
-                         ${bindir}/systemd-stdio-bridge \
-                         ${base_bindir}/systemd-ask-password \
-                         ${base_bindir}/systemd-tty-ask-password-agent \
-+                        ${systemd_system_unitdir}/initrd.target.wants/systemd-pcrphase-initrd.path \
-                         ${systemd_system_unitdir}/systemd-ask-password-console.path \
-                         ${systemd_system_unitdir}/systemd-ask-password-console.service \
-                         ${systemd_system_unitdir}/systemd-ask-password-wall.path \
-                         ${systemd_system_unitdir}/systemd-ask-password-wall.service \
-                         ${systemd_system_unitdir}/sysinit.target.wants/systemd-ask-password-console.path \
-                         ${systemd_system_unitdir}/sysinit.target.wants/systemd-ask-password-wall.path \
-+                        ${systemd_system_unitdir}/sysinit.target.wants/systemd-pcrphase.path \
-+                        ${systemd_system_unitdir}/sysinit.target.wants/systemd-pcrphase-sysinit.path \
-                         ${systemd_system_unitdir}/multi-user.target.wants/systemd-ask-password-wall.path \
-                         ${rootlibexecdir}/systemd/systemd-resolve-host \
-                         ${rootlibexecdir}/systemd/systemd-ac-power \
-@@ -539,12 +542,17 @@ FILES:${PN}-extra-utils = "\
-                         ${rootlibexecdir}/systemd/systemd-bus-proxyd \
-                         ${systemd_system_unitdir}/systemd-bus-proxyd.service \
-                         ${systemd_system_unitdir}/systemd-bus-proxyd.socket \
-+                        ${rootlibexecdir}/systemd/systemd-measure \
-+                        ${rootlibexecdir}/systemd/systemd-pcrphase \
-                         ${rootlibexecdir}/systemd/systemd-socket-proxyd \
-                         ${rootlibexecdir}/systemd/systemd-reply-password \
-                         ${rootlibexecdir}/systemd/systemd-sleep \
-                         ${rootlibexecdir}/systemd/system-sleep \
-                         ${systemd_system_unitdir}/systemd-hibernate.service \
-                         ${systemd_system_unitdir}/systemd-hybrid-sleep.service \
-+                        ${systemd_system_unitdir}/systemd-pcrphase-initrd.service \
-+                        ${systemd_system_unitdir}/systemd-pcrphase.service \
-+                        ${systemd_system_unitdir}/systemd-pcrphase-sysinit.service \
-                         ${systemd_system_unitdir}/systemd-suspend.service \
-                         ${systemd_system_unitdir}/sleep.target \
-                         ${rootlibexecdir}/systemd/systemd-initctl \
-@@ -614,6 +622,7 @@ FILES:${PN} = " ${base_bindir}/* \
-                 ${bindir}/timedatectl \
-                 ${bindir}/bootctl \
-                 ${bindir}/oomctl \
-+                ${bindir}/userdbctl \
-                 ${exec_prefix}/lib/tmpfiles.d/*.conf \
-                 ${exec_prefix}/lib/systemd \
-                 ${exec_prefix}/lib/modules-load.d \
+diff --git a/meta/recipes-devtools/go/go-1.18/CVE-2022-41715.patch b/meta/recipes-devtools/go/go-1.18/CVE-2022-41715.patch
+new file mode 100644
+index 0000000000..87002ad37d
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.18/CVE-2022-41715.patch
+@@ -0,0 +1,253 @@
++From baae577660381bc08497351e1def000a582f2a4f Mon Sep 17 00:00:00 2001
++From: Hitendra Prajapati <hprajapati@mvista.com>
++Date: Thu, 3 Nov 2022 12:03:10 +0530
++Subject: [PATCH] CVE-2022-41715
++
++Upstream-Status: Backport [https://github.com/golang/go/commit/e9017c2416ad0ef642f5e0c2eab2dbf3cba4d997]
++CVE: CVE-2022-41715
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++
++regexp: limit size of parsed regexps
++
++Set a 128 MB limit on the amount of space used by []syntax.Inst
++in the compiled form corresponding to a given regexp.
++
++Also set a 128 MB limit on the rune storage in the *syntax.Regexp
++tree itself.
++---
++ src/regexp/syntax/parse.go      | 145 ++++++++++++++++++++++++++++++--
++ src/regexp/syntax/parse_test.go |  13 +--
++ 2 files changed, 148 insertions(+), 10 deletions(-)
++
++diff --git a/src/regexp/syntax/parse.go b/src/regexp/syntax/parse.go
++index d7cf2af..3792960 100644
++--- a/src/regexp/syntax/parse.go
+++++ b/src/regexp/syntax/parse.go
++@@ -90,15 +90,49 @@ const (
++ // until we've allocated at least maxHeight Regexp structures.
++ const maxHeight = 1000
++ 
+++// maxSize is the maximum size of a compiled regexp in Insts.
+++// It too is somewhat arbitrarily chosen, but the idea is to be large enough
+++// to allow significant regexps while at the same time small enough that
+++// the compiled form will not take up too much memory.
+++// 128 MB is enough for a 3.3 million Inst structures, which roughly
+++// corresponds to a 3.3 MB regexp.
+++const (
+++	maxSize  = 128 << 20 / instSize
+++	instSize = 5 * 8 // byte, 2 uint32, slice is 5 64-bit words
+++)
+++
+++// maxRunes is the maximum number of runes allowed in a regexp tree
+++// counting the runes in all the nodes.
+++// Ignoring character classes p.numRunes is always less than the length of the regexp.
+++// Character classes can make it much larger: each \pL adds 1292 runes.
+++// 128 MB is enough for 32M runes, which is over 26k \pL instances.
+++// Note that repetitions do not make copies of the rune slices,
+++// so \pL{1000} is only one rune slice, not 1000.
+++// We could keep a cache of character classes we've seen,
+++// so that all the \pL we see use the same rune list,
+++// but that doesn't remove the problem entirely:
+++// consider something like [\pL01234][\pL01235][\pL01236]...[\pL^&*()].
+++// And because the Rune slice is exposed directly in the Regexp,
+++// there is not an opportunity to change the representation to allow
+++// partial sharing between different character classes.
+++// So the limit is the best we can do.
+++const (
+++	maxRunes = 128 << 20 / runeSize
+++	runeSize = 4 // rune is int32
+++)
+++
++ type parser struct {
++ 	flags       Flags     // parse mode flags
++ 	stack       []*Regexp // stack of parsed expressions
++ 	free        *Regexp
++ 	numCap      int // number of capturing groups seen
++ 	wholeRegexp string
++-	tmpClass    []rune          // temporary char class work space
++-	numRegexp   int             // number of regexps allocated
++-	height      map[*Regexp]int // regexp height for height limit check
+++	tmpClass    []rune            // temporary char class work space
+++	numRegexp   int               // number of regexps allocated
+++	numRunes    int               // number of runes in char classes
+++	repeats     int64             // product of all repetitions seen
+++	height      map[*Regexp]int   // regexp height, for height limit check
+++	size        map[*Regexp]int64 // regexp compiled size, for size limit check
++ }
++ 
++ func (p *parser) newRegexp(op Op) *Regexp {
++@@ -122,6 +156,104 @@ func (p *parser) reuse(re *Regexp) {
++ 	p.free = re
++ }
++ 
+++func (p *parser) checkLimits(re *Regexp) {
+++	if p.numRunes > maxRunes {
+++		panic(ErrInternalError)
+++	}
+++	p.checkSize(re)
+++	p.checkHeight(re)
+++}
+++
+++func (p *parser) checkSize(re *Regexp) {
+++	if p.size == nil {
+++		// We haven't started tracking size yet.
+++		// Do a relatively cheap check to see if we need to start.
+++		// Maintain the product of all the repeats we've seen
+++		// and don't track if the total number of regexp nodes
+++		// we've seen times the repeat product is in budget.
+++		if p.repeats == 0 {
+++			p.repeats = 1
+++		}
+++		if re.Op == OpRepeat {
+++			n := re.Max
+++			if n == -1 {
+++				n = re.Min
+++			}
+++			if n <= 0 {
+++				n = 1
+++			}
+++			if int64(n) > maxSize/p.repeats {
+++				p.repeats = maxSize
+++			} else {
+++				p.repeats *= int64(n)
+++			}
+++		}
+++		if int64(p.numRegexp) < maxSize/p.repeats {
+++			return
+++		}
+++
+++		// We need to start tracking size.
+++		// Make the map and belatedly populate it
+++		// with info about everything we've constructed so far.
+++		p.size = make(map[*Regexp]int64)
+++		for _, re := range p.stack {
+++			p.checkSize(re)
+++		}
+++	}
+++
+++	if p.calcSize(re, true) > maxSize {
+++		panic(ErrInternalError)
+++	}
+++}
+++
+++func (p *parser) calcSize(re *Regexp, force bool) int64 {
+++	if !force {
+++		if size, ok := p.size[re]; ok {
+++			return size
+++		}
+++	}
+++
+++	var size int64
+++	switch re.Op {
+++	case OpLiteral:
+++		size = int64(len(re.Rune))
+++	case OpCapture, OpStar:
+++		// star can be 1+ or 2+; assume 2 pessimistically
+++		size = 2 + p.calcSize(re.Sub[0], false)
+++	case OpPlus, OpQuest:
+++		size = 1 + p.calcSize(re.Sub[0], false)
+++	case OpConcat:
+++		for _, sub := range re.Sub {
+++			size += p.calcSize(sub, false)
+++		}
+++	case OpAlternate:
+++		for _, sub := range re.Sub {
+++			size += p.calcSize(sub, false)
+++		}
+++		if len(re.Sub) > 1 {
+++			size += int64(len(re.Sub)) - 1
+++		}
+++	case OpRepeat:
+++		sub := p.calcSize(re.Sub[0], false)
+++		if re.Max == -1 {
+++			if re.Min == 0 {
+++				size = 2 + sub // x*
+++			} else {
+++				size = 1 + int64(re.Min)*sub // xxx+
+++			}
+++			break
+++		}
+++		// x{2,5} = xx(x(x(x)?)?)?
+++		size = int64(re.Max)*sub + int64(re.Max-re.Min)
+++	}
+++
+++	if size < 1 {
+++		size = 1
+++	}
+++	p.size[re] = size
+++	return size
+++}
+++
++ func (p *parser) checkHeight(re *Regexp) {
++ 	if p.numRegexp < maxHeight {
++ 		return
++@@ -158,6 +290,7 @@ func (p *parser) calcHeight(re *Regexp, force bool) int {
++ 
++ // push pushes the regexp re onto the parse stack and returns the regexp.
++ func (p *parser) push(re *Regexp) *Regexp {
+++	p.numRunes += len(re.Rune)
++ 	if re.Op == OpCharClass && len(re.Rune) == 2 && re.Rune[0] == re.Rune[1] {
++ 		// Single rune.
++ 		if p.maybeConcat(re.Rune[0], p.flags&^FoldCase) {
++@@ -189,7 +322,7 @@ func (p *parser) push(re *Regexp) *Regexp {
++ 	}
++ 
++ 	p.stack = append(p.stack, re)
++-	p.checkHeight(re)
+++	p.checkLimits(re)
++ 	return re
++ }
++ 
++@@ -299,7 +432,7 @@ func (p *parser) repeat(op Op, min, max int, before, after, lastRepeat string) (
++ 	re.Sub = re.Sub0[:1]
++ 	re.Sub[0] = sub
++ 	p.stack[n-1] = re
++-	p.checkHeight(re)
+++	p.checkLimits(re)
++ 
++ 	if op == OpRepeat && (min >= 2 || max >= 2) && !repeatIsValid(re, 1000) {
++ 		return "", &Error{ErrInvalidRepeatSize, before[:len(before)-len(after)]}
++@@ -503,6 +636,7 @@ func (p *parser) factor(sub []*Regexp) []*Regexp {
++ 
++ 			for j := start; j < i; j++ {
++ 				sub[j] = p.removeLeadingString(sub[j], len(str))
+++				p.checkLimits(sub[j])
++ 			}
++ 			suffix := p.collapse(sub[start:i], OpAlternate) // recurse
++ 
++@@ -560,6 +694,7 @@ func (p *parser) factor(sub []*Regexp) []*Regexp {
++ 			for j := start; j < i; j++ {
++ 				reuse := j != start // prefix came from sub[start]
++ 				sub[j] = p.removeLeadingRegexp(sub[j], reuse)
+++				p.checkLimits(sub[j])
++ 			}
++ 			suffix := p.collapse(sub[start:i], OpAlternate) // recurse
++ 
++diff --git a/src/regexp/syntax/parse_test.go b/src/regexp/syntax/parse_test.go
++index 1ef6d8a..67e3c56 100644
++--- a/src/regexp/syntax/parse_test.go
+++++ b/src/regexp/syntax/parse_test.go
++@@ -484,12 +484,15 @@ var invalidRegexps = []string{
++ 	`(?P<>a)`,
++ 	`[a-Z]`,
++ 	`(?i)[a-Z]`,
++-	`a{100000}`,
++-	`a{100000,}`,
++-	"((((((((((x{2}){2}){2}){2}){2}){2}){2}){2}){2}){2})",
++-	strings.Repeat("(", 1000) + strings.Repeat(")", 1000),
++-	strings.Repeat("(?:", 1000) + strings.Repeat(")*", 1000),
++ 	`\Q\E*`,
+++	`a{100000}`,  // too much repetition
+++	`a{100000,}`, // too much repetition
+++	"((((((((((x{2}){2}){2}){2}){2}){2}){2}){2}){2}){2})",    // too much repetition
+++	strings.Repeat("(", 1000) + strings.Repeat(")", 1000),    // too deep
+++	strings.Repeat("(?:", 1000) + strings.Repeat(")*", 1000), // too deep
+++	"(" + strings.Repeat("(xx?)", 1000) + "){1000}",          // too long
+++	strings.Repeat("(xx?){1000}", 1000),                      // too long
+++	strings.Repeat(`\pL`, 27000),                             // too many runes
++ }
++ 
++ var onlyPerl = []string{
++-- 
++2.25.1
++
 -- 
-2.34.1
+2.25.1
 
 
