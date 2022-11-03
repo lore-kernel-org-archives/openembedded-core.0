@@ -1,138 +1,100 @@
-Return-Path: <patrick@stwcx.xyz>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9539C4332F
-	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 16:48:24 +0000 (UTC)
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
- by mx.groups.io with SMTP id smtpd.web12.888.1667494095862646662
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAB7AC4332F
+	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 17:31:24 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web08.1367.1667496682425562084
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 09:48:16 -0700
+ Thu, 03 Nov 2022 10:31:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@stwcx.xyz header.s=fm3 header.b=KxOdQ1ST;
- spf=pass (domain: stwcx.xyz, ip: 64.147.123.19, mailfrom: patrick@stwcx.xyz)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id 07D533200917;
-	Thu,  3 Nov 2022 12:48:14 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Thu, 03 Nov 2022 12:48:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1667494094; x=1667580494; bh=B0/3mINa7Y
-	b6HMuB7vSx2eQy7DCPy6nWD8BrhWizR8s=; b=KxOdQ1STy8OneV11q5rJvhx4nj
-	3MIN4paFvmh07riwjDQ/DmjkcyxNp5TTVqlMynYXRzLGMSqvCvzr0EuHUUmtNYRQ
-	GMtmYoVALvUc2XfF1rvp91cJJBXhS12Ydcelzxco8SudKRZ81gaeJz1ankio7m6F
-	ZH6ZFZI+AH5/z2Bca++F5RbjiAaNDRA1B+FhsW92uAZA/lVgkX2hdYerw1G1acMC
-	WFg7a+xraId4KRUjioZixuu8JD9hdotd/1uTUL2xcKgyxoCIv+KkBNJH18QGTN7n
-	QT6hL5yzzUmzBGZ0RKJudjnXBHR6eb6xqbtishoX/efpfz7LF2kF+rVgRVSQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1667494094; x=1667580494; bh=B0/3mINa7Yb6HMuB7vSx2eQy7DCP
-	y6nWD8BrhWizR8s=; b=OpStApdeMCR+Qf/iNQrff8HD4pwtV9QCqKSjZSNIdcNQ
-	SrGnWrzj0QF+q0sIys0lrDA5cPpFLletvqnDbKa9OdbZmXmIMiVRxqQg08mHktzR
-	HYa44rjtoUUP++P3klyC58VA4nToW8ydeGUuh4vSBoQc9Zvck4mn+v9vTO5lpq2n
-	HV9G9CiVhVh2RAEkKqnNaBCBRMPloMAmkHBOVDaqPUnndvjLBwKnGNqeDLGQWvqr
-	UW8ibyz+/u419ivcZss/iXw2tRZae8LLdEpg+dXsUv39e7sPL9hF0h1SfycvAefg
-	31w+BuH9e0CP4JZTE/emM5RFHZ1HKcBbVRmzMH8AeA==
-X-ME-Sender: <xms:zvBjY5LapAnH-koABlG1QwdoKE9AGQ3LVfPg8XqkJAqB95-7bRMprA>
-    <xme:zvBjY1JYHpo_-LzrY4qYcB5t-vG1tV4f3tc-lE_hgY6CUd3JvMNs7TZYIoinzBHwy
-    OvfSF-KB_Xmc6fx9os>
-X-ME-Received: <xmr:zvBjYxufPWFxcX4-2nX0VcKlDGRBk3j0WKvgVpdxpcQ4zgkrlSKAl-9t5U6GP21Y-GvlHsnvNWHLHb-VZeNW1kS8E3lcl6PDLho>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudelgdekkecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfg
-    hrlhcuvffnffculddvfedmnecujfgurhepfffhvfevuffkfhggtggujgesghdtreertddt
-    vdenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkhessh
-    htfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepgfelfffhhfeileeltdfhfeelffef
-    iedvvdffhfffteefheeuleehudehfffhgefhnecuffhomhgrihhnpehophgvnhgvmhgsvg
-    guuggvugdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
-    fhhrohhmpehprghtrhhitghksehsthiftgigrdighiii
-X-ME-Proxy: <xmx:zvBjY6Zs9h-VqcHZrtuyGSTXJjLJOkqKlCx5YDXxwYPCp4q5PJsdrw>
-    <xmx:zvBjYwYr1Vokjz0degB-V6LwtOauPxB07TSagr7fW0SSW6G7_1nVDg>
-    <xmx:zvBjY-BR2Y_8OETbsHrznZ0nCPudoGs7SkZwOGtGLS2ponjqFe8xuw>
-    <xmx:zvBjY5Bk97r75dXs8BO2Nhdit288KFfO1w0YVES0pANCB8XWlEro_g>
-Feedback-ID: i68a1478a:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 3 Nov 2022 12:48:13 -0400 (EDT)
-Date: Thu, 3 Nov 2022 11:48:12 -0500
-From: Patrick Williams <patrick@stwcx.xyz>
-To: Steve Sakoman <steve@sakoman.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][langdale 01/20] openssl: CVE-2022-3358 Using a Custom
- Cipher with NID_undef may lead to NULL encryption
-Message-ID: <Y2PwzAYE9uTZgZHA@heinlein.taila677.ts.net>
-References: <cover.1667356805.git.steve@sakoman.com>
- <c28dc71f17133f6e4470fc0c1a552c743869b3ad.1667356805.git.steve@sakoman.com>
- <Y2PkQjspCvfitDqj@heinlein.taila677.ts.net>
- <CAOSpxdb0PxRcf7Xgq5sP3JHVe9doF7XH71xW=yK4wYQwpRnegQ@mail.gmail.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gHOWU+I2;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id l14so3851479wrw.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 10:31:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WgYLU1HQElFdZegwurDB1EBppE8aqa0krTkZo6KJ1xU=;
+        b=gHOWU+I2XY5DI6tWm4Mp58WW1E7cvlTYVjRPLfj8ORb6QsP3KAxET9VWe2/z4T/Y1F
+         OhV/LWCgTnUmj8sHQI2/cV+9AZFMO4To6GttzFZ5HQcb6lEBdCMAIt2QENLDP/tmBgv/
+         +tMbOK8Ko9G0dmdNxYYUDAWqsmOyn1+y67F0U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WgYLU1HQElFdZegwurDB1EBppE8aqa0krTkZo6KJ1xU=;
+        b=erj2vL/RS4+MOJw2Hge2Ib3HMo9xR0RMyixMdbfF1/KeJo9MXGll7z6e7AqPqxuMVL
+         eF3y9huGg9meQsFlz4bs4JwVsF0EWx6cyj7s6GL2ZrNZIdGoURxWWiO5gXCqX00pNeWu
+         zez6ZDdBd2ZYLRWqL4LMFHAO6fpXniBONF3Gg+MTefw8Z2MOQUkdsJNRanXcl63WBH8U
+         WYTnRsxl3dg4sDpWQ7qNsOfV3jchcnDxE5jLk596wRADGhObB2gNYNfAdsNhDXMvMW8r
+         ofcUBVBpFX3+gpp9Q7Zb5rBXJ6XdM5K06YEV15qNMXSy8w11RN0KpY5w4kkUckHTyV3U
+         oLxQ==
+X-Gm-Message-State: ACrzQf3uqFF5Ts1BDs8GBhsFZ6mLO2xesIiGhGXMC9egrpn7a9RZfrm2
+	XvMavZiMBTh2W6+yU3T91Hf9O75ztHGc2g==
+X-Google-Smtp-Source: AMsMyM49WOj69S+Mij5HHy6koQXmfGMa7TrTrOrwAZlqfyojHVyurtkTZFMdRelpgDcP413e1s3bBQ==
+X-Received: by 2002:a5d:4410:0:b0:236:a8f9:268f with SMTP id z16-20020a5d4410000000b00236a8f9268fmr19856411wrq.405.1667496680034;
+        Thu, 03 Nov 2022 10:31:20 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:fec4:d12e:21c:2d17])
+        by smtp.gmail.com with ESMTPSA id n21-20020a05600c3b9500b003b4c979e6bcsm605036wms.10.2022.11.03.10.31.19
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Nov 2022 10:31:19 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] gcc-shared-source: Fix source date epoch handling
+Date: Thu,  3 Nov 2022 17:31:17 +0000
+Message-Id: <20221103173117.874301-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="jpu1Om2pSGEcAXxg"
-Content-Disposition: inline
-In-Reply-To: <CAOSpxdb0PxRcf7Xgq5sP3JHVe9doF7XH71xW=yK4wYQwpRnegQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 16:48:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172644
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 17:31:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172645
 
+The source date epoch for gcc isn't being transferred from the shared
+workdir to the current WORKDIR for the specific recipe. This results in
+the clamping code within sstate.bbclass using a value from 2011 which
+changes the timestamps of many files. Since this happens part way
+through the build, if pieces of gcc haven't built, or build/rebuild
+later, we see things rebuilding when they should not and for generated
+files, races are possible.
 
---jpu1Om2pSGEcAXxg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fix this by copying the SDE from the shared workdir into the recipe
+workdir.
 
-On Thu, Nov 03, 2022 at 06:28:04AM -1000, Steve Sakoman wrote:
-> On Thu, Nov 3, 2022 at 5:54 AM Patrick Williams <patrick@stwcx.xyz> wrote:
-> > Instead of picking up this patch, wouldn't it make a lot more sense to
-> > go to 3.0.7 like we did with [1]?  Since 3.0.7 contains a HIGH severity
-> > CVE fix as well as the one mentioned here, it seems like we should get
-> > that backported to both Langdale and Kirkstone quickly.
->=20
-> This patchset was tested and sent out for review prior to the 3.0.7
-> upgrade hitting master.
+[YOCTO #14953]
 
-Understood.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/gcc/gcc-shared-source.inc | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-> Note that I have the 3.0.7 upgrade in the patches currently under test
-> for both langdale and kirkstone:
->=20
-> https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/la=
-ngdale-nut
-> https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/ki=
-rkstone-nut
->=20
-> If the langdale test succeeds I will include the 3.0.7 upgrade patch
-> in the pull request for the above series (hopefully later today)
+[v2: Rework to calculate sdk_file as Peter suggested]
 
-Great.  Thank you.
+diff --git a/meta/recipes-devtools/gcc/gcc-shared-source.inc b/meta/recipes-devtools/gcc/gcc-shared-source.inc
+index aac4b49313c..cd2e3410995 100644
+--- a/meta/recipes-devtools/gcc/gcc-shared-source.inc
++++ b/meta/recipes-devtools/gcc/gcc-shared-source.inc
+@@ -9,3 +9,13 @@ SRC_URI = ""
+ 
+ do_configure[depends] += "gcc-source-${PV}:do_preconfigure"
+ do_populate_lic[depends] += "gcc-source-${PV}:do_unpack"
++do_deploy_source_date_epoch[depends] += "gcc-source-${PV}:do_deploy_source_date_epoch"
++
++# Copy the SDE from the shared workdir to the recipe workdir
++do_deploy_source_date_epoch () {
++	sde_file=${SDE_FILE}
++	sde_file=${sde_file#${WORKDIR}/}
++	mkdir -p ${SDE_DEPLOYDIR} $(dirname ${SDE_FILE})
++	cp -p ${S}/../$sde_file ${SDE_DEPLOYDIR}
++	cp -p ${S}/../$sde_file ${SDE_FILE}
++}
+-- 
+2.34.1
 
---=20
-Patrick Williams
-
---jpu1Om2pSGEcAXxg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmNj8MoACgkQqwNHzC0A
-wRkvtQ/7BPHCxFe7NzVbuBR0vwICo8ol056FTKocF2R3kkX9LM/Fevq6ECxxwiTG
-QxLAusq8lBwOicFZ6OrAKfhBsLUFBR4iQgEcn+AqW+mRwXlmSFvAa5MC3p3TGTbO
-jk/bJo9A457d+zyrICSB6gBSEXxCsb/kWG38WzUCCRQXGAwrN5RPg3VfnDQHItWO
-1GT93G3UjrwNWHKNirzlDU/3OQyeqfhkdsDjlMMY6JRXT9vxXJnEYZi+hLJjt7Fz
-p3RaXefufVpeqq/O1f30LKoIkkecUDXf2wyhDnTkfqJWGXvJA88ZjwOCvdrDzDTp
-2GNxpTB3x1LKhKHU3Xzv1OnJQuaY4f2cu9zekgCzpLkw9MuYrMU52YaAdI+NL8XN
-+c1DwkxzgrUorFhprYT7+KmOBZrK8sUz+bW0TTsqHfAeg1O5vxzjSPk4jh02QoML
-NqRbkkbQJrUVd+eoOVTmWm+L1aM3ZX+0D/3r4TpWS/hp1+dJxNGN37CynAw/o3ZN
-dBm16R3glWgQh7qCq53JFDmZq6LmScvV5wGqqGWw+8Q1/KsBS/xZZjKUMG+FcH1U
-VOF9iyAVwVojMlmHreo+z3DthEVuYuGfpkxdhD4FTycg0UAx2YXvEPqW1sf7pa8r
-oTJikKl+7ZOVynCqOpE9MBSwZD/1PnvzI/Hm6O3R17/374xiaWI=
-=gBG9
------END PGP SIGNATURE-----
-
---jpu1Om2pSGEcAXxg--
 
