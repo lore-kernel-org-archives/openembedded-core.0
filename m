@@ -1,151 +1,197 @@
-Return-Path: <chase.qi@linaro.org>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23361C433FE
-	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 05:42:00 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web09.16168.1667454111806280742
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61F29C433FE
+	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 06:16:10 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web12.16362.1667456161896800863
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Nov 2022 22:41:52 -0700
+ Wed, 02 Nov 2022 23:16:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=LSnTFVhe;
- spf=pass (domain: linaro.org, ip: 209.85.210.173, mailfrom: chase.qi@linaro.org)
-Received: by mail-pf1-f173.google.com with SMTP id q9so702562pfg.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 22:41:51 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=P46HNrxE;
+ spf=pass (domain: mvista.com, ip: 209.85.214.169, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f169.google.com with SMTP id 4so1041400pli.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 23:16:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=mvista.com; s=google;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xubeEaczaT4ZCVNIeW73wfot37DKk2can+d78J1T+YA=;
-        b=LSnTFVhe6Tk5ClVbYjE1xQndsZHq+gVL4FKZEUx4IfnFb/JxcQfes6v8WdIl5EwodZ
-         xWueTiRNCSEw6TdkkmFqbAc+nDH8eJYDg3dcqqKvOM7ETBEHz0ZICCyiKk0kr0YdNjH0
-         4Lc7y6WQZp65JUIwx4Mung7xVpP7zH+7jXk8EDVXkrAJxgvBMvm/MkEDCbjM8UD/4AeM
-         sAGh8/s7eAzAWbGZl9FI3EegU6FuGiIrX3l43qw0B5QUccXGIICRQcP6GL2iJdOtXhcA
-         MxZZ+8QRdvUOY/C/SNfFQvh0FZhfRCpE3Xh7rwcPES1T+bTqqZarQ/40foPQ2Wtt4abo
-         jn9Q==
+        bh=bAwalcoJF4Up+h0yEaCZ4UF1dxtcKd1BmJX8IG8P1HY=;
+        b=P46HNrxExSHwplKvjW6pNq7U/LYLQqWKwLhLcPs1SJjddzK31lRMsNu06kRDg1f5qv
+         QwEZPOJNgZE3Qij9s1JFgYWNuE4CC23gAf7lraSw5PSG2igDKwgAf9eunvL3h8QhOrlv
+         xNViGfNGsVSJPXVGTXdRwvpqd9VZIDMr8Qg30=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xubeEaczaT4ZCVNIeW73wfot37DKk2can+d78J1T+YA=;
-        b=GGDrYIkVv0aNhXpgxi2mzRBLinCWgWhf8tZAghsgTlZRTxZaX+aQBTW0PdhruKqNNT
-         L/tztKpmaj/vPyQ5Zd0DcKCZmAe9ClzKSbs0/U7bZX/t/Ie0tRta9FRfD9rPVJNgZbMa
-         IdadAPKwOT7Kfjh4sGK0vI4X8BxOHXQVgBhl+vWqaeLPMssjcihYTWqWvxIEbWG1lW0I
-         5OlopRglxaSrkSjnjz4Vw79hZrTCRdA/Lmsbivz7mB532N/SvF9dcdpEiyhBPkKtXm57
-         Zgn3UA+l31z0Hj0Kw5nYyhWcMH5H/lRqi5I70648hns6X3NaxN0uotJNDPYIGgnAd/tb
-         l5HA==
-X-Gm-Message-State: ACrzQf1w6qIUaPcP5tX7CX3gSKB0kEYHFv0Gs85HwdBTXWoXiwAf3wxZ
-	6q4WbOa/GXZmsa3iDJGv7/L7vnDcE+Qxay6Hx+M=
-X-Google-Smtp-Source: AMsMyM7ui1FjCplTVyQVzJ/wLGMXSDTWttv1wSMihm0M/vRyw+8Wgk1t/vPB94Ea8TXB0S/o64FXaQ==
-X-Received: by 2002:a05:6a00:88f:b0:558:8186:3ec3 with SMTP id q15-20020a056a00088f00b0055881863ec3mr28259274pfj.83.1667454111081;
-        Wed, 02 Nov 2022 22:41:51 -0700 (PDT)
-Received: from localhost.localdomain ([107.161.26.140])
-        by smtp.gmail.com with ESMTPSA id e15-20020a170902ed8f00b0016be834d54asm9284613plj.306.2022.11.02.22.41.49
+        bh=bAwalcoJF4Up+h0yEaCZ4UF1dxtcKd1BmJX8IG8P1HY=;
+        b=JZKTvv/rWzhrZO28ctVISiUkclP+Q1X8uAXFVXxTp09mGGxUs/y2M+ffQtotTLqt50
+         9BAVwVawwWYh/RLBBZ5OLcRx1U1CjyIoi85ooe7z3WH/3SdzMwNB4ucZOD756vpsKmWD
+         c+p3vh2Cs7CYC8aidjPw0T4Nr58ac5u6G2Bsxlpp8n/KIxlQlQ6taxXSPA3t/iowszmJ
+         8vWISDGXKF6eo8yqWjj3WBW1hjxPa4FmFVhvgkZhfjeqgH/l0aS3VtG+wiMQ0XrFGTdH
+         YOTIZEWZICTkHVqrNw3MzYkqxwz7c+OCkrt9pcYLqx/zZoQKjyTorqZEKfeGUL/McLm3
+         oyxQ==
+X-Gm-Message-State: ACrzQf1D7jRXdyC6jDtxOP6ry4mWKERz9J30+KykzfbenEMa+lB1CUNV
+	JfVFYJSiD/SseizexI8rCjEwKW8M9wL+xw==
+X-Google-Smtp-Source: AMsMyM4YbecGKXi5a4VSDPTEYgg2cKxx92Q1BMrSi5gi6EvMDj9CmphmWWaqkVCwLeQU/E+ilwqcVA==
+X-Received: by 2002:a17:90a:3e85:b0:213:36b6:fa16 with SMTP id k5-20020a17090a3e8500b0021336b6fa16mr29004695pjc.56.1667456160884;
+        Wed, 02 Nov 2022 23:16:00 -0700 (PDT)
+Received: from MVIN00024 ([150.129.170.149])
+        by smtp.gmail.com with ESMTPSA id u16-20020a170902e5d000b001767f6f04efsm9476828plf.242.2022.11.02.23.15.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Nov 2022 22:41:50 -0700 (PDT)
-From: Chase Qi <chase.qi@linaro.org>
+        Wed, 02 Nov 2022 23:16:00 -0700 (PDT)
+Received: by MVIN00024 (sSMTP sendmail emulation); Thu, 03 Nov 2022 11:45:54 +0530
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Chase Qi <chase.qi@linaro.org>
-Subject: [PATCH] libc-test: add libc testsuite for musl
-Date: Thu,  3 Nov 2022 05:39:26 +0000
-Message-Id: <20221103053926.719998-1-chase.qi@linaro.org>
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] libX11: CVE-2022-3554 & CVE-2022-3555 Fix memory leak
+Date: Thu,  3 Nov 2022 11:45:53 +0530
+Message-Id: <20221103061553.106084-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 05:42:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172610
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 06:16:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172611
 
-libc-test is a collection of unit test to measure the correctness and
-robustness of a C/POSIX standard library implementation. It is developed
-as part of the musl project.
+Upstream-Status: Backport from https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/1d11822601fd24a396b354fa616b04ed3df8b4ef && https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/8a368d808fec166b5fb3dfe6312aab22c7ee20af
 
-Signed-off-by: Chase Qi <chase.qi@linaro.org>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- meta/recipes-core/musl/libc-test/run-ptest | 17 ++++++++
- meta/recipes-core/musl/libc-test_git.bb    | 45 ++++++++++++++++++++++
- 2 files changed, 62 insertions(+)
- create mode 100644 meta/recipes-core/musl/libc-test/run-ptest
- create mode 100644 meta/recipes-core/musl/libc-test_git.bb
+ .../xorg-lib/libx11/CVE-2022-3554.patch       | 58 +++++++++++++++++++
+ .../xorg-lib/libx11/CVE-2022-3555.patch       | 40 +++++++++++++
+ .../xorg-lib/libx11_1.7.3.1.bb                |  2 +
+ 3 files changed, 100 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2022-3554.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2022-3555.patch
 
-diff --git a/meta/recipes-core/musl/libc-test/run-ptest b/meta/recipes-core/musl/libc-test/run-ptest
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/CVE-2022-3554.patch b/meta/recipes-graphics/xorg-lib/libx11/CVE-2022-3554.patch
 new file mode 100644
-index 0000000000..30abcdfba5
+index 0000000000..74e447608d
 --- /dev/null
-+++ b/meta/recipes-core/musl/libc-test/run-ptest
-@@ -0,0 +1,17 @@
-+#!/bin/sh
++++ b/meta/recipes-graphics/xorg-lib/libx11/CVE-2022-3554.patch
+@@ -0,0 +1,58 @@
++From 6a72a51768355746b5afb693920394d9727ae6c1 Mon Sep 17 00:00:00 2001
++From: Hitendra Prajapati <hprajapati@mvista.com>
++Date: Thu, 3 Nov 2022 09:27:02 +0530
++Subject: [PATCH] CVE-2022-3554
 +
-+make cleanall
-+make run | tee libc-test.log
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/1d11822601fd24a396b354fa616b04ed3df8b4ef]
++CVE: CVE-2022-3554
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +
-+echo ""
-+echo "--- ptest result ---"
-+if grep -q '^FAIL src.*\.exe.*' libc-test.log; then
-+    # Consolidate output format.
-+    # e.g. "FAIL src/api/main.exe [status 1]" -> "FAIL: api_main"
-+    grep '^FAIL src.*\.exe.*' libc-test.log \
-+        | sed 's|^FAIL src/|FAIL: |;s|/|_|;s|\.exe.*\]||'
-+    exit 1
-+else
-+    echo "PASS: libc-test"
-+    exit 0
-+fi
-diff --git a/meta/recipes-core/musl/libc-test_git.bb b/meta/recipes-core/musl/libc-test_git.bb
++fix a memory leak in XRegisterIMInstantiateCallback
++
++Analysis:
++
++    _XimRegisterIMInstantiateCallback() opens an XIM and closes it using
++    the internal function pointers, but the internal close function does
++    not free the pointer to the XIM (this would be done in XCloseIM()).
++
++Report/patch:
++
++    Date: Mon, 03 Oct 2022 18:47:32 +0800
++    From: Po Lu <luangruo@yahoo.com>
++    To: xorg-devel@lists.x.org
++    Subject: Re: Yet another leak in Xlib
++
++    For reference, here's how I'm calling XRegisterIMInstantiateCallback:
++
++    XSetLocaleModifiers ("");
++    XRegisterIMInstantiateCallback (compositor.display,
++                                    XrmGetDatabase (compositor.display),
++                                    (char *) compositor.resource_name,
++                                    (char *) compositor.app_name,
++                                    IMInstantiateCallback, NULL);
++    and XMODIFIERS is:
++
++        @im=ibus
++
++Signed-off-by: Thomas E. Dickey's avatarThomas E. Dickey <dickey@invisible-island.net>
++---
++ modules/im/ximcp/imInsClbk.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/modules/im/ximcp/imInsClbk.c b/modules/im/ximcp/imInsClbk.c
++index 95b379c..c10e347 100644
++--- a/modules/im/ximcp/imInsClbk.c
+++++ b/modules/im/ximcp/imInsClbk.c
++@@ -212,6 +212,9 @@ _XimRegisterIMInstantiateCallback(
++     if( xim ) {
++ 	lock = True;
++ 	xim->methods->close( (XIM)xim );
+++	/* XIMs must be freed manually after being opened; close just
+++	   does the protocol to deinitialize the IM.  */
+++	XFree( xim );
++ 	lock = False;
++ 	icb->call = True;
++ 	callback( display, client_data, NULL );
++-- 
++2.25.1
++
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/CVE-2022-3555.patch b/meta/recipes-graphics/xorg-lib/libx11/CVE-2022-3555.patch
 new file mode 100644
-index 0000000000..d5d8845727
+index 0000000000..6ddb86776e
 --- /dev/null
-+++ b/meta/recipes-core/musl/libc-test_git.bb
-@@ -0,0 +1,45 @@
-+SUMMARY = "Musl libc test to be run with ptest"
-+HOMEPAGE = "https://wiki.musl-libc.org/libc-test.html"
-+DESCRIPTION = "libc-test is a collection of unit tests to measure the \
-+correctness and robustness of a C/POSIX standard library implementation. It is \
-+developed as part of the musl project."
-+SECTION = "tests"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=43ed1245085be90dc934288117d55a3b"
++++ b/meta/recipes-graphics/xorg-lib/libx11/CVE-2022-3555.patch
+@@ -0,0 +1,40 @@
++From cb54a4b588b0c315d3e407859ff497c17606649c Mon Sep 17 00:00:00 2001
++From: Hitendra Prajapati <hprajapati@mvista.com>
++Date: Thu, 3 Nov 2022 09:30:05 +0530
++Subject: [PATCH] CVE-2022-3555
 +
-+inherit ptest
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/8a368d808fec166b5fb3dfe6312aab22c7ee20af]
++CVE: CVE-2022-3555
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +
-+SRCREV = "18e28496adee3d84fefdda6efcb9c5b8996a2398"
-+SRC_URI = " \
-+    git://nsz.repo.hu:49100/repo/libc-test;branch=master \
-+    file://run-ptest \
-+"
-+MIRRORS += "git://nsz.repo.hu:49100/repo/libc-test git://repo.or.cz/libc-test"
++Fix two memory leaks in _XFreeX11XCBStructure()
 +
-+S = "${WORKDIR}/git"
++Even when XCloseDisplay() was called, some memory was leaked.
 +
-+# libc-test 'make' or 'make run' command is designed to build and run tests. It
-+# reports both build and test failures. The commands should be run on target.
-+do_compile() {
-+    :
-+}
++XCloseDisplay() calls _XFreeDisplayStructure(), which calls
++_XFreeX11XCBStructure().
 +
-+RDEPENDS:${PN}-ptest = " \
-+    bash \
-+    grep \
-+    musl \
-+    packagegroup-core-buildessential \
-+    sed \
-+"
++However, _XFreeX11XCBStructure() did not destroy the condition variables,
++resulting in the leaking of some 40 bytes.
 +
-+do_install_ptest () {
-+    cp ${S}/Makefile ${D}${PTEST_PATH}
-+    cp ${S}/config.mak.def ${D}${PTEST_PATH}/config.mak
-+    cp -r ${S}/src ${D}${PTEST_PATH}/
-+}
++Signed-off-by: default avatarHodong <hodong@yozmos.com>
++---
++ src/xcb_disp.c | 2 ++
++ 1 file changed, 2 insertions(+)
 +
-+# libc-test-ptest depends on empty libc-test.
-+ALLOW_EMPTY:${PN} = "1"
++diff --git a/src/xcb_disp.c b/src/xcb_disp.c
++index 70a602f..e9becee 100644
++--- a/src/xcb_disp.c
+++++ b/src/xcb_disp.c
++@@ -102,6 +102,8 @@ void _XFreeX11XCBStructure(Display *dpy)
++ 		dpy->xcb->pending_requests = tmp->next;
++ 		free(tmp);
++ 	}
+++	xcondition_clear(dpy->xcb->event_notify);
+++	xcondition_clear(dpy->xcb->reply_notify);
++ 	xcondition_free(dpy->xcb->event_notify);
++ 	xcondition_free(dpy->xcb->reply_notify);
++ 	Xfree(dpy->xcb);
++-- 
++2.25.1
 +
-+COMPATIBLE_HOST = "null"
-+COMPATIBLE_HOST:libc-musl = "(.*)"
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.7.3.1.bb b/meta/recipes-graphics/xorg-lib/libx11_1.7.3.1.bb
+index 0c3abcd896..3e6b50c0a3 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.7.3.1.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.7.3.1.bb
+@@ -15,6 +15,8 @@ PE = "1"
+ SRC_URI = "${XORG_MIRROR}/individual/lib/${XORG_PN}-${PV}.tar.xz"
+ 
+ SRC_URI += "file://disable_tests.patch \
++            file://CVE-2022-3554.patch \
++            file://CVE-2022-3555.patch \
+            "
+ SRC_URI[sha256sum] = "2ffd417266fb875028fdc0ef349694f63dbcd76d0b0cfacfb52e6151f4b60989"
+ 
 -- 
 2.25.1
 
