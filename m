@@ -1,130 +1,154 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB45EC43217
-	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 14:39:02 +0000 (UTC)
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web11.20079.1667486339377182857
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D755C433FE
+	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 14:54:23 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web08.20123.1667487254584824666
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 07:39:00 -0700
+ Thu, 03 Nov 2022 07:54:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
-Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
-	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1oqbMr-005oFS-EA; Thu, 03 Nov 2022 16:38:54 +0200
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1oqbMr-009abO-1e; Thu, 03 Nov 2022 16:38:53 +0200
-From: mikko.rapeli@linaro.org
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=IGmuDT4K;
+ spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: ticotimo@gmail.com)
+Received: by mail-pf1-f169.google.com with SMTP id b29so1801804pfp.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 07:54:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZJvYB3j/Ih36a5ffxRGzNbb+lkl/CBukCd8H0I60tQQ=;
+        b=IGmuDT4KU/0AhMsTivfKW7JOF1ofYua9iYl1wMnxpcS1QGjaEK+GE/Tj3jO2svqoSa
+         kTz6X9rgXqYVK60bzQAD6COQGiaeHkraqHsRzLNIz0Vko5HgYbqPh+fyNW5FNQOkFeRt
+         B4KMAiR92VZ7Rqp5oVTbjqqvQX3+SZ1aWF36eYMhDbrJ1J7Cnlud6qkgnChN3K/HOFJJ
+         m1qOgP+8xOXmLPHx13mjyvKcCWJ/4P/IQ5NXYoPKx7p5/5HPmoDLm6jf7UtezCtEtn4X
+         y9VYvI/a1X7sQLDR3jtZI5Vj0gGhUH356tjD6NHbeJyWvFUN8ZwEPeTb+Y5TlaKo7qSR
+         yL6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZJvYB3j/Ih36a5ffxRGzNbb+lkl/CBukCd8H0I60tQQ=;
+        b=x0lDLI9GVzrvSni3d7JT+XkGl/DR6i6djfxABSbUrc/y97X/372XFrq4CtYEqrwWZW
+         KL3dL38KH2Sl8dr8eMNJzcR9mDBl0wumNdt5VCmBNUb3G936HJkZnK1uUBwpXj4le8NR
+         tl3NgmI+PVsuxmQ11CbechNXslS54SALa405K8ZroOt9QTfMroTyD65gq6mz+VCpT13O
+         baVRoEVVTLAjg8V336JYtSsNB3WzQ4nxZHFjdI8xnbV8fPwe3/6X2DTNtvGaOedWyNC8
+         3O18fUkMxfL+zT7591Qn8TBOnE4cfbuxiuIjssfWbA3KzL8aY+gU9PO1ao59vzi1PA3H
+         V77A==
+X-Gm-Message-State: ACrzQf2VdjysurojlEC0rjygR9Rh7AFTbvJ15gWdAtPGi7JvlJMKEBcB
+	Li3+qh3jH4U91kbwdJrEQk4NCikO5FHvxw==
+X-Google-Smtp-Source: AMsMyM6D1pM5b762CQnkSULZr+6suqQ2/uqdB4BZK3vne5kywAkY0VGH2SAP83IaTcPwCb/kUacxvQ==
+X-Received: by 2002:aa7:96c7:0:b0:56b:c569:99c with SMTP id h7-20020aa796c7000000b0056bc569099cmr30729791pfq.4.1667487253460;
+        Thu, 03 Nov 2022 07:54:13 -0700 (PDT)
+Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:5e97:dd3b:a8e8:d7aa])
+        by smtp.gmail.com with ESMTPSA id z8-20020a6553c8000000b0046f6d7dcd1dsm892344pgr.25.2022.11.03.07.54.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Nov 2022 07:54:13 -0700 (PDT)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Maxim Uvarov <maxim.uvarov@linaro.org>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [kirkstone][PATCH 1/2] wic: add UEFI kernel as UEFI stub
-Date: Thu,  3 Nov 2022 16:38:49 +0200
-Message-Id: <20221103143850.2285312-1-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.26.1
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH v2] python3-typing-extensions: upgrade 4.3.0 -> 4.4.0
+Date: Thu,  3 Nov 2022 07:54:10 -0700
+Message-Id: <20221103145410.860492-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspam-Score: -1.2 (-)
-X-Rspam-Report: Action: no action
- Symbol: RCVD_TLS_LAST(0.00)
- Symbol: ARC_NA(0.00)
- Symbol: DMARC_POLICY_SOFTFAIL(0.10)
- Symbol: RCPT_COUNT_THREE(0.00)
- Symbol: TO_DN_SOME(0.00)
- Symbol: R_MISSING_CHARSET(0.50)
- Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
- Symbol: MIME_GOOD(-0.10)
- Symbol: FROM_NO_DN(0.00)
- Symbol: MID_CONTAINS_FROM(1.00)
- Symbol: NEURAL_HAM(-0.00)
- Symbol: R_SPF_NA(0.00)
- Symbol: FORGED_SENDER(0.30)
- Symbol: R_DKIM_NA(0.00)
- Symbol: MIME_TRACE(0.00)
- Symbol: ASN(0.00)
- Symbol: FROM_NEQ_ENVFROM(0.00)
- Symbol: BAYES_HAM(-3.00)
- Symbol: RCVD_COUNT_TWO(0.00)
- Message-ID: 20221103143850.2285312-1-mikko.rapeli@linaro.org
-X-SA-Exim-Connect-IP: 2001:67c:1be8::11
-X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 14:39:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172632
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 14:54:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172634
 
-From: Maxim Uvarov <maxim.uvarov@linaro.org>
+* Add SUMMARY, DESCRIPTION, BUGTRACKER and SECTION
+* Update HOMEPAGE to agree with PyPi
 
-Linux kernel can be compiled as UEFI stub and loaded directly
-with UEFI firmware without grub or other UEFI shell.
+https://github.com/python/typing_extensions/blob/main/CHANGELOG.md#release-440-october-6-2022
 
-Tested with wic file:
-bootloader  --ptable gpt --timeout=0  --append="rootwait"
-part /boot --source bootimg-efi --sourceparams="loader=uefi-kernel" \
- --ondisk sda  --fstype=vfat --label bootfs \
-  --active --align 1024 --use-uuid
-part / --source rootfs --fstype=ext4 --label rootfs \
-  --align 1024 --exclude-path boot/ --use-label
+Release 4.4.0 (October 6, 2022)
 
-(From OE-Core rev: b18025fc8a2dad963b6f4b697e24455f2511b279)
+* Add typing_extensions.Any a backport of python 3.11's Any class
+  which is subclassable at runtime. (backport from python/cpython#31841,
+  by Shantanu and Jelle Zijlstra). Patch by James Hilton-Balfe
+  (@Gobot1234).
+* Add initial support for TypeVarLike default parameter, PEP 696.
+  Patch by Marc Mueller (@cdce8p).
+* Runtime support for PEP 698, adding typing_extensions.override.
+  Patch by Jelle Zijlstra.
+* Add the infer_variance parameter to TypeVar, as specified in PEP
+  695. Patch by Jelle Zijlstra.
 
-Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+License-Update: update copyright years; align with CPython LICENSE
+
+See https://github.com/python/typing_extensions/pull/63
+
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- scripts/lib/wic/plugins/source/bootimg-efi.py | 24 +++++++++++++++++++
- 1 file changed, 24 insertions(+)
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index a65a5b9780..f74aaa4a81 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -210,6 +210,8 @@ class BootimgEFIPlugin(SourcePlugin):
-                 cls.do_configure_grubefi(hdddir, creator, cr_workdir, source_params)
-             elif source_params['loader'] == 'systemd-boot':
-                 cls.do_configure_systemdboot(hdddir, creator, cr_workdir, source_params)
-+            elif source_params['loader'] == 'uefi-kernel':
-+                return
-             else:
-                 raise WicError("unrecognized bootimg-efi loader: %s" % source_params['loader'])
-         except KeyError:
-@@ -365,6 +367,28 @@ class BootimgEFIPlugin(SourcePlugin):
-                 for mod in [x for x in os.listdir(kernel_dir) if x.startswith("systemd-")]:
-                     cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, mod[8:])
-                     exec_cmd(cp_cmd, True)
-+            elif source_params['loader'] == 'uefi-kernel':
-+                kernel = get_bitbake_var("KERNEL_IMAGETYPE")
-+                if not kernel:
-+                    raise WicError("Empty KERNEL_IMAGETYPE %s\n" % target)
-+                target = get_bitbake_var("TARGET_SYS")
-+                if not target:
-+                    raise WicError("Unknown arch (TARGET_SYS) %s\n" % target)
+Changes in v2:
+ * Remove devtool hints about license change
+ * Improve recipe by adding SUMMARY, DESCRIPTION, BUGTRACKER, SECTION
+ * Update HOMEPAGE to agree with PyPi
+ * Add License-Update info
+
+ .../python/python3-typing-extensions_4.3.0.bb | 14 -----------
+ .../python/python3-typing-extensions_4.4.0.bb | 24 +++++++++++++++++++
+ 2 files changed, 24 insertions(+), 14 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-typing-extensions_4.3.0.bb
+ create mode 100644 meta/recipes-devtools/python/python3-typing-extensions_4.4.0.bb
+
+diff --git a/meta/recipes-devtools/python/python3-typing-extensions_4.3.0.bb b/meta/recipes-devtools/python/python3-typing-extensions_4.3.0.bb
+deleted file mode 100644
+index 9638491eb44..00000000000
+--- a/meta/recipes-devtools/python/python3-typing-extensions_4.3.0.bb
++++ /dev/null
+@@ -1,14 +0,0 @@
+-HOMEPAGE = "https://github.com/python/typing"
+-LICENSE = "PSF-2.0"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=64fc2b30b67d0a8423c250e0386ed72f"
+-
+-# The name on PyPi is slightly different.
+-PYPI_PACKAGE = "typing_extensions"
+-
+-SRC_URI[sha256sum] = "e6d2677a32f47fc7eb2795db1dd15c1f34eff616bcaf2cfb5e997f854fa1c4a6"
+-
+-inherit pypi python_flit_core
+-
+-BBCLASSEXTEND = "native nativesdk"
+-
+-UPSTREAM_CHECK_REGEX = "/typing-extensions/(?P<pver>(\d+[\.\-_]*)+)/"
+diff --git a/meta/recipes-devtools/python/python3-typing-extensions_4.4.0.bb b/meta/recipes-devtools/python/python3-typing-extensions_4.4.0.bb
+new file mode 100644
+index 00000000000..27ec7560ea7
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-typing-extensions_4.4.0.bb
+@@ -0,0 +1,24 @@
++SUMMARY = "Backported and Experimental Type Hints for Python 3.7+"
++DESCRIPTION = "The typing_extensions module serves two related purposes:\
++\
++* Enable use of new type system features on older Python versions. For \
++  example, typing.TypeGuard is new in Python 3.10, but typing_extensions \
++  allows users on previous Python versions to use it too.\
++* Enable experimentation with new type system PEPs before they are accepted \
++  and added to the typing module."
++HOMEPAGE = "https://github.com/python/typing_extensions"
++BUGTRACKER = "https://github.com/python/typing_extensions/issues"
++SECTIONS = "libs"
++LICENSE = "PSF-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=f16b323917992e0f8a6f0071bc9913e2"
 +
-+                if re.match("x86_64", target):
-+                    kernel_efi_image = "bootx64.efi"
-+                elif re.match('i.86', target):
-+                    kernel_efi_image = "bootia32.efi"
-+                elif re.match('aarch64', target):
-+                    kernel_efi_image = "bootaa64.efi"
-+                elif re.match('arm', target):
-+                    kernel_efi_image = "bootarm.efi"
-+                else:
-+                    raise WicError("UEFI stub kernel is incompatible with target %s" % target)
++# The name on PyPi is slightly different.
++PYPI_PACKAGE = "typing_extensions"
 +
-+                for mod in [x for x in os.listdir(kernel_dir) if x.startswith(kernel)]:
-+                    cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, kernel_efi_image)
-+                    exec_cmd(cp_cmd, True)
-             else:
-                 raise WicError("unrecognized bootimg-efi loader: %s" %
-                                source_params['loader'])
++SRC_URI[sha256sum] = "1511434bb92bf8dd198c12b1cc812e800d4181cfcb867674e0f8279cc93087aa"
++
++inherit pypi python_flit_core
++
++UPSTREAM_CHECK_REGEX = "/typing-extensions/(?P<pver>(\d+[\.\-_]*)+)/"
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
-2.35.1
+2.34.1
 
 
