@@ -1,170 +1,255 @@
-Return-Path: <sakib.sajal@windriver.com>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 028B4C433FE
-	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 15:11:13 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web08.20319.1667488266039577650
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15ECEC433FE
+	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 15:11:43 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web08.20330.1667488302578525438
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 08:11:06 -0700
+ Thu, 03 Nov 2022 08:11:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=s5aQVcTR;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=83062f08e3=sakib.sajal@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A3Cvw1E003360
-	for <openembedded-core@lists.openembedded.org>; Thu, 3 Nov 2022 15:11:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=Y+NgZC+1Y0Z+oztiPZ6/Pu93UJID2Odd7/qLmC2Gh38=;
- b=s5aQVcTRoNAIooiBp6vhiOEDiN278nm3mUkJqlt5zUTeZZ6Tv9lYXpIzjWaZ8L07KfPT
- /ZZDBDoozk3rSDTk+t+wd2QtCDzANrlRMOiuIo/twaWUJKqu0vMUXGYT9PL6EBsbfhKv
- BxBAs5hkRkOIoSslFBd+uORGW0+yUK6Bo4mfgeIy52jkSHVTAvZokwaxzJTJ5PioMibz
- B2JizNr9c8jWw1AiNz8EEw93LOz9Q1AVO93F7JSbyNwxf5Xvbe/gJd2D9X9ANzdPXuiG
- 2mcAAdizsKFnl76trYT4Dx2DEh5Z/MSjHrftRCLfdEHENWjklUo3H9I9c581RMDMxw0X Gg== 
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3km4d30fpw-1
+ dkim=fail reason="body hash did not verify" header.i=@windriver.com header.s=pps06212021 header.b=cL/i6g6M;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8306525b0b=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A3CHBRW024709
+	for <openembedded-core@lists.openembedded.org>; Thu, 3 Nov 2022 08:11:42 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=message-id : date
+ : subject : to : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=PPS06212021;
+ bh=iZdduhR/moZDQqV/vLLe1VqbkkZWC2esYh17IBGqiYQ=;
+ b=cL/i6g6MORNWHYJrvHXjrO1T2Pd4lkfOMrSGf+t/wk2gQPqCvNrO7asaGWhh7J1Qy3kV
+ wqbExxR0XVvIPQHeCYOF5jK4LLAi4FXAnsF1VZNjoJSDy7UJ7XtS3BxAsqw3FMa4UYE7
+ oNbFouIS9sy+CyuQTsXaKPqgTXavwzWlgAG07Ji0YY/xI52Bq1XaJYOp2Q2ohd1z8MRl
+ aCqSx37LzRYViBGg6Msy9FaizGOV4Roo5xTl256gXecl+hcwnXdIyGahcOXKMmTmJDqo
+ WRCYu2vuAOtPzLWVbHoyp86vECUqgmlF9bWY5Iec6zppT8BUOPS7fRMjB5M6BbEL0OOw PQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3km4awrgf5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 15:11:03 +0000
+	for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 08:11:41 -0700
+Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A3FBfjw021899
+	for <openembedded-core@lists.openembedded.org>; Thu, 3 Nov 2022 08:11:41 -0700
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2107.outbound.protection.outlook.com [104.47.70.107])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3km4awrgf2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 03 Nov 2022 08:11:41 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eK/GZdRBo2vCZRjr03bzpmbejrw9ZLixjE6ZTw5uC9HL7P6Corhz9y8YxA0KtBT6rjejtLa1Mc8HXBP5C92wOzxJ7YU7YpPEBvghFFsHZESAHqSf62vA26E65Ze8QxuxmO8d90Lo/fGmZqfK2oAFv35ciiUxNYGh/urLxpfSRv5yiGOyyWdMzJAYW6q2ztZvkNy4u6L0yQsxarKnNsZsG8LUORX9s5tmtqwXoih7y/whWXbE3WfzHdImMojZD2VSYLLp8hioC+eYoWfXVnrjRV1cd5fI5nQ7Nctra0vZHLUKjdLztTom6N7NL9hzj747Cpjcz+09XNxvhNmRv1/H5g==
+ b=Pz5DUdlImmRjRS5r5UtYuz02WAbFn/K8gjWmjvMfbcQJnTpsuT7p89iwsL1JWVKG2A0aNDvlaa96UBZ6sFoqlc8FmIecEgA9KEs2pYjFKsDB4kzjeXxshTDH0QCCAmMVaT0QJg6iKKb7Tyib/FVzNVJf/MRNCY/F/o7vO1WeGM4O4EGdn1ypZOQcLVzzooov0lkGQDHSqKlqbQvLDROUdKEimx+oQoQ0NS4Ui0feLmelpySt7QLKd5vt4ag1+Ftp1rkw/HocD5ajihOhfmkr+NWlQX6jDpcGbfcgKu9bIVIHCwqWUkOSpoAw7XxzBhU70zRvaho+V7ywoHsQtxRYYw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y+NgZC+1Y0Z+oztiPZ6/Pu93UJID2Odd7/qLmC2Gh38=;
- b=GmhUhC3ccLtUyfNJBLatOUppA7++RlDAPR+mzYk35lY3hLog2RxOGlMJk3BSoORSqZ+CmOg2now/4prYs3q/bDC9XMtfad30U5Dw+S4QxweK1ygrhMCGRSUPEZ0nz0sqo0opvZ9yULapFz30XJY2lQLPeNouGDYc7Cy35Te1ar5t3zGVcz3YtynCqnyJiNqOl66SeIxkgDdfHAmS30dHGJwe4BLuDSDVMAMd8VDrEYru5Nj1L5R/jzLU/kh70df1+BPuLCxelaN0RgRDWcbRMAAAd9hoU4q8q5qAcrZYdjDb+BdleTHYPD+4H/ZS48gOron7KjeNnAR4FlY3t6lVLA==
+ bh=iZdduhR/moZDQqV/vLLe1VqbkkZWC2esYh17IBGqiYQ=;
+ b=QL2+2iMoOouhogWMlWoPB8A6UVhSI4JqBATWWpcFsxowGKAuVBvKrmSD4V//0u8nZfesQB/o7Atgc8FuE12RsaGG5436VEyEK2jBrq2bD2SIJYRD2XEA+tAbuspYCAb5+F3fUEDDfqeV/OXdNBr394yIU65a6cZ+pAVD30R7yDHrKo15FJAKb/QJRIdZU4e0gPs60kUNGjSQH2HOHBRnYasG8I09+1NOX28UTgisipOy9Tdzw4sorGDskKwRAB40UEuTOmaibKqytXPpg/9Nuz51yHXr3PBUnyy9A7PsRYn3dspXf8kSz6w3xPquaZm1wh68Q3Ud9p/5tRD0y84juw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM6PR11MB2538.namprd11.prod.outlook.com (2603:10b6:5:be::20) by
- CO6PR11MB5572.namprd11.prod.outlook.com (2603:10b6:303:13c::20) with
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
+ by DM4PR11MB6263.namprd11.prod.outlook.com (2603:10b6:8:a6::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.20; Thu, 3 Nov
- 2022 15:11:01 +0000
-Received: from DM6PR11MB2538.namprd11.prod.outlook.com
- ([fe80::1f24:5efb:1519:ef4d]) by DM6PR11MB2538.namprd11.prod.outlook.com
- ([fe80::1f24:5efb:1519:ef4d%7]) with mapi id 15.20.5791.021; Thu, 3 Nov 2022
- 15:11:01 +0000
-From: Sakib Sajal <sakib.sajal@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [kirkstone][PATCH] lighttpd: upgrade 1.4.66 -> 1.4.67
-Date: Thu,  3 Nov 2022 11:10:47 -0400
-Message-Id: <20221103151047.39436-1-sakib.sajal@windriver.com>
-X-Mailer: git-send-email 2.33.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: YQBPR01CA0015.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01::23)
- To DM6PR11MB2538.namprd11.prod.outlook.com (2603:10b6:5:be::20)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.14; Thu, 3 Nov
+ 2022 15:11:39 +0000
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::daa9:a3d:d4ac:7043]) by DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::daa9:a3d:d4ac:7043%6]) with mapi id 15.20.5769.021; Thu, 3 Nov 2022
+ 15:11:39 +0000
+Message-ID: <16cac375-eaef-7561-516d-5fd687618c7a@windriver.com>
+Date: Thu, 3 Nov 2022 11:11:19 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [OE-core] [PATCH 1/1] lame: Remove hardcoded rpaths
+Content-Language: en-CA
+To: Paulo Neves <ptsneves@gmail.com>,
+        Richard Purdie <richard.purdie@linuxfoundation.org>,
+        openembedded-core@lists.openembedded.org
+References: <20220726202337.2141895-1-ptsneves@gmail.com>
+ <17b35aa4c6c3c8f0e1dcb309e7897048ec5f8510.camel@linuxfoundation.org>
+ <5e177514-1fce-4a2a-b85f-1adfb5623c03@gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+In-Reply-To: <5e177514-1fce-4a2a-b85f-1adfb5623c03@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: BYAPR05CA0069.namprd05.prod.outlook.com
+ (2603:10b6:a03:74::46) To DM6PR11MB3994.namprd11.prod.outlook.com
+ (2603:10b6:5:193::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR11MB2538:EE_|CO6PR11MB5572:EE_
-X-MS-Office365-Filtering-Correlation-Id: 80422e54-74dc-4e0d-0e84-08dabdad9e64
+X-MS-TrafficTypeDiagnostic: DM6PR11MB3994:EE_|DM4PR11MB6263:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2a45fc5d-261c-4e8b-10bc-08dabdadb4e8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	pywEb39PeCN5Xcyy/ok9tFi8yyP1QJyQKFO1/u+YWW71i/g0AYZJL0ovyqQsngC5egp/z5CsS0n85hGosDfKVYGbS/M+pKsVUCntFbkVsIJNgEb0EDsgeRQmglGxK/WadjzxO5PDbe+D0HNS96UGAt3ifLywDqhlYEyTkWz/G8YracUdpia1/DBti41XIMBUaUp0gb3gYer2btyc6TtI71XiEOrsVpeA4kKuCN84MG7ZpLi8v6cSNPiY7th1LOmFvbdqiU8/HBcD3803ZGNGJK6L1GLL1b1klwiv7NpIFcpKHlIuUkW5ng7Irw+4jQCuV6H0spqol36g8PRlA4AdI3P4SsPwjjFLHhs2vM2PGfalT7imimem1QYX67S1tVipI+79q0lL7s1uAe5kUfMOx9nOheSECwMzvPVJe2lOlrAnsDLd5U80l/DAllbkj7ASJXDprwgZGNdM3JhJhIYmRcRgrg1tVI4AXbnozfdKcBcyj3fHxHXOUhboG7ght1R1+f77HnJ6pgo+9Yua1IhQYPFm2vmjZKeXuiroz3U1/NDYhjzseRa3DO49RyufMP39GN6bco94JLW9iGJ0GXfgJxcCFL67zk6K/9OOqmPCwm4RNtCsHd+qaezKAkHj0cloDecFNxVaZ9B22+eJSweE6Mk0uiqRlnYDL1YKJJ9z0eg8suLMQSV7oKaqsqonSUc8qouBfuEwJlUQLAUqnHb5/DazT7vMD8RB9YpDJaq958vW1A3y7my/D7oK9rDKiBRjfsAMt4irD4gJDK9/URE5XsecTXSsGKrTxMoxsWHPGXI=
+	Sr7z9XBSZsTcmpxJxcVETnxDr6jaXYdtKGYj8yXPOHicMPWZxwWA31DPyqCTixMOMLGMeI65pDSH8nwsULeZrNrvdqPrIjRcKw3eO4tN9C1qeYTiYibCSc6CqMeTFzC0Tu+qM9C//aBhGqbWYrvDxDAWcVttJUpjndLRGYbtCMNIYKXwkJTNTcDMGVlqQErpAGilbzX++Q5ot2xflaZZNf+8fGE6N0EZH33iz2yJN2mOiJ4TGVl2BGLMhJaRtuQZOFLDbPDYsdViVccztl6Qk4QN/PXgC2sd8UR2bOWe6rYEbKFN6voLQPAui6dzepbC5NBn/qLIqMlAjmdXFv+VilGDDuyeUh/f3f++n+zxCUcJHdT8gsIESupuZcb3LBTBOHn4r6VxoRri+qJJYTvb9r8XePnKSqiZQFTbi9ii/HDf1riQK67D9Mc95ETGjd1rs4OJ3Ei6vBB5PNlxFafGvKseaEzSmFUhihpqnrmQcJYNoX/E/PbLfB5XHGErAr7LWQi7kyvXwuK7Q6rkR8hiVX1/xQyDloUjR0bzlA+ayTLFyBShf1AeK4CmosLnUoMKsYQqLjDaaX3mYRsYiMrwDGsq0aM1MezKsq0Ezb48/SealRBBerJZOs0vXPwM0/xTolEnDBxwwHN3pPTqWgUtRE/GzIzuCU1P6CN1ky0tnnHyLpFSg0+4GPzfUivHhoLz2k3M9UV6NdTlji6uu4eahU4tVZvQYtv+/gCMJFBKJ9KUispyS5VW+fjVsoCG8HNI3yCcAKZjt/mEwsLDGTIlQHIoHcfW/Ws4TlYduMdCm1ZamuQsjzotXpqctn1RrLVLcd/HyzazzzM4tLBANkNkEFq77nfny4bDjrXzoRB4o9lEAwvT2J84gGwcdQdRyjYv
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB2538.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39850400004)(346002)(376002)(136003)(366004)(396003)(451199015)(66946007)(8676002)(6916009)(66476007)(66556008)(83380400001)(316002)(2906002)(6506007)(26005)(1076003)(186003)(2616005)(6486002)(5660300002)(52116002)(38100700002)(38350700002)(86362001)(36756003)(478600001)(6512007)(41300700001)(8936002)(44832011)(6666004);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(396003)(376002)(39850400004)(346002)(136003)(451199015)(86362001)(6512007)(31696002)(83380400001)(5660300002)(38100700002)(41300700001)(2906002)(8676002)(66946007)(66556008)(110136005)(66476007)(478600001)(26005)(2616005)(6486002)(53546011)(186003)(316002)(6506007)(966005)(8936002)(36756003)(31686004)(6666004)(66899015)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?0DUvmcx5a/awRVXbrNaP4uMssUeL8FuQA3Ph2uAfzEaaZL0AdGDtwlqE6s2D?=
- =?us-ascii?Q?Nj/ueDzSqP/Br6RTzCGP0CvEUYoG5Z06P3YnJr7gZmmalWU9EH88Oi/86gTI?=
- =?us-ascii?Q?SLJ1lxLwfsyBCMbyFcqAShpXS281o73d2yPiKRsz4cTss5U0LZW8VswyJECY?=
- =?us-ascii?Q?1uXPKq2KLPDf8mvTZEWdiWL2D6v4zJPIugY7MkMGW3dstD/LQ3rOuIkrNebU?=
- =?us-ascii?Q?kX/TqNqwIez7R1OtzL6AJvqAcVeb16mnwWESn/PGFyEsDDYdqU0W4R35MA93?=
- =?us-ascii?Q?JFGM1vafdOLFa6L8niVRYKshaYZsGZeWt6F/4/zQYW6kdCfKcUv3WLonLtv+?=
- =?us-ascii?Q?/rk3qHl+A0A9lncFQK8D2xUEecU67pbUS+l+rg+WZ9r9AZACXKVjNyTrjO/Q?=
- =?us-ascii?Q?8+cDqxNRzWI4ya5opJVf2IzAaC8K+HNefHBVI+e4iY6TlrmLOTeISmGKEKC5?=
- =?us-ascii?Q?5031LVPdLXhiQtAhZAL6m7wTCCOMeZZZHjnXWM3mYozSbUjwIpMu5CsIDSj/?=
- =?us-ascii?Q?dw5kuXmKUnPf4kuLEENU02jxmVdUEq7qdkbCieu1Pj8OL5r0We7b+hhi9gBK?=
- =?us-ascii?Q?CkbU7W5t2E1e0L3XCXCrh2jPwwzAjOoMtnJROrv038+UhBoumqwJvVe8u70u?=
- =?us-ascii?Q?22rKphIUZ2DgWd9O3YPEeetjRBfG1TLy7z+LEiAUf8XyL2zoVy4m2TUL8tPq?=
- =?us-ascii?Q?QgvJ00bMnT8ubGdFzRzJRss3+cODBajqhP7JQeT5y2tsoBsTMsgmMFWRU8oA?=
- =?us-ascii?Q?3eGAqVr2ZCEx9XgnK87SZ3+07SB5tM5gKKaTBWUdtRKzynbIV8Tc/9TIKDqO?=
- =?us-ascii?Q?vgmZdE6vI4OAVAZfxEpyVrUdmAG+zyzF4SwdJNiUhRvIyjLvu9lpksGrlkg6?=
- =?us-ascii?Q?Z40PPIzEI0OAEj4MTRy7h4tHNlg12yXYjE2h8CJl36uvZJQkuUSu3dSVPIGI?=
- =?us-ascii?Q?WrBrYfsNzmrlWnmSwd8aARz/cKXmuEr6cOM8xXweU5mpKpWGbplIH28i4g2x?=
- =?us-ascii?Q?6yZ5X5wl7yOnJmka0ot7JRWI8p/adn7jlM0XguUvDsrvFlaSLd00TLDtFiaB?=
- =?us-ascii?Q?TGOiqp4/6pmJEI8tDc1NzEuLOQjdRCQ+qUr92SwGw3II+sgJBG0NjlYEan1C?=
- =?us-ascii?Q?LikqONWzO2qfa+DhdHWrRb78uwUKYAsyRiws7PhyWK0BfWYyaGpQ6tof7sA+?=
- =?us-ascii?Q?ilYeES9R37ghvwyMHNHEHBYtFgakqemNt8UZiP2V93wgBC9ZRWrn8znsRGJv?=
- =?us-ascii?Q?Sl9sCX2s5V1itEFQ4i/GPkbGw/PhpW6LblKqXZYKw1LT/ZAhgqYQl50FyRRB?=
- =?us-ascii?Q?+5x8TjGrrNQZS2sHj7GjVzzzj5LRoZ4y0jA7SKnHEzogZ5Wgc59CzNnr5t+1?=
- =?us-ascii?Q?bT2NURfSQmb5by766YvW1UUJrYzB5OGhPh2A0qRhOSX46y89VABJO/eP23qy?=
- =?us-ascii?Q?EWupSiqJC3QtDhB0GpJgI5/xWD5yZ1BV95NO9JXeR9uA66yEG2vrGR78Jzka?=
- =?us-ascii?Q?oK1OIJ5o95ih+biHHbV+pKfd12p2JzZtF7+0+ZXLAmziIOs317fZXB5fx4RP?=
- =?us-ascii?Q?e82gGWy/6hckGGTXubFVE9dDWC6fOsOJnfNZDeslLwnH9wZ7cL4AmtkVH7At?=
- =?us-ascii?Q?jA=3D=3D?=
+	=?utf-8?B?ZDMrNTA5NklkaDFndzlDM2Q4SzVnVnZXR0FLOUVaOFpnOVF2Wm5Lc05sWDVl?=
+ =?utf-8?B?V01odHJ6QWdYSzR1V1FoNWdWOFNMWUVNejBuVzZiYXFJTDFTQkpJTjFJNjRv?=
+ =?utf-8?B?bzZqcGhpaWhGdDhsUVJyaEpaZXJXSTBJTWpLdGFkbzR3V0Ntai9lSTlvbU5M?=
+ =?utf-8?B?Vm5jdkhYK1lRUXNBZDNvemdOUXZCWFdSNCtKTDJQNnNORWJsUXhHdXlVaXc3?=
+ =?utf-8?B?QjQrR1Q2c3BoMmpQN2xCbk9kcmZxYzJUQkRmVlJVZmpiM1hhd3B0WnFCZjdm?=
+ =?utf-8?B?bDl0YjFzYmJQYVJ3VExHcDNmZTFmRXBNNXBzQ0xLaFRHa0Vad2xoK1BsRDR5?=
+ =?utf-8?B?SWU0dlBsMktZQWo5dE9ZNnA1Tmg3UHIwYUhIR25XZjhGTDM1Wkx4OVdpU2tG?=
+ =?utf-8?B?bVlUbHEvMlRHdW1mNWhlZzJqc1I2c1dOaEZFRmhuWDZHaW80a0VuRGVCUGRr?=
+ =?utf-8?B?Y054RVM3eTlNOTRyNXJaenhTTjFqNUhZR0hFOUNaRnI5azkwQ05ublBZWDl5?=
+ =?utf-8?B?djB0UjcwVVpvOHB3aDFWdnNKMm1NWlh6M0R3QVdmNDZ0MWFjZUEycmxoNCty?=
+ =?utf-8?B?U2VPdHJNcjNOKzl4TVZndVpSc1hPU09RWCtmZ3BBelRHbitONXkxRTcyTmRi?=
+ =?utf-8?B?K2JpblFHR1M4Q1JvbW9tSFIzdWtndHd6YW5nWXg2RDdyd2c2QkJ6ZVZUdmRv?=
+ =?utf-8?B?NTZ6WnVKN0FHRHgvWTBZL0NyaGFoRG5DUkRmUUxucHVmajNkSE9sNmJ6d043?=
+ =?utf-8?B?dDZVQ0RIUkMzRytoaVJiWlZXZ3U1ZjRFSFUzbk94Ly9xSkhJQldjY044WmVs?=
+ =?utf-8?B?RVgydTk3cVRHOWtOdmNPS0ZiR3M2M3ZFbTRpdTdmWTR0Znovc3M0VFJIWVQ5?=
+ =?utf-8?B?bmNEZTVNT09RdjZlQVowU21RU2tPYTIvdmRYeXNDMHh0VlhncEpYTjdSNDBO?=
+ =?utf-8?B?SjRoWkN1Wm84VTN0TE81VDlRVXI3V2hWcmpFMTFld2VaVzFhZ25xeS9ZQ1Z2?=
+ =?utf-8?B?WVlobnp4ajBaaCtXRnlEZlFJRmRMQWNCZnd4Z3A0WXExVThSYk9LbFlMbHBr?=
+ =?utf-8?B?RDFKcjJWYWoxUnFPL3oyWklDd3JybDNxTzBwcTErUEtQbldOZXZOWXVrb0Vq?=
+ =?utf-8?B?cGxSS2I1Q1Z1RXhTdDR1NUcvVC9xRUU0L1lHZ2VHR3laaDBKQVhVK3N6SHJJ?=
+ =?utf-8?B?ZDBKN2ZsSUE4cURjRE00WVRhVWpNV3VvcDVVWmpzbzFNRko2RGRXNjhzZVBr?=
+ =?utf-8?B?MVpLa0hOTjhmVjJVUjVNQm1xNVJ2MHU5a2pESkJoRjhqNHo3Zk5HKzh5T0pl?=
+ =?utf-8?B?RmJxNVozUGhHZ2U0YThxdFBGbmNwRXduTS9lSTlzUHZDM1ljVHVCc282YUJX?=
+ =?utf-8?B?RUh6Q0p4QlV1TjFUOEdDOGZjVTNaSWFHdEkwSE9aZHo0Q0VONjFqdFBXblhs?=
+ =?utf-8?B?YUViMlI4djZEeS95c01JK1Y1L0k4QlVKOTBZLzAvWWJSV1V5Zk5ocHh5c3Zz?=
+ =?utf-8?B?Z0YrdVZ1QW16Q1g0T21aYUdDTDJLWWI3Y2oxb2JzRTFkNjlYSDg1NDV1c1ZD?=
+ =?utf-8?B?NVJCakpQTklwMzFCSnh2bHJZaHFhL3NqaFd5bEVuOXVWajZuTTBZdkpaYlJ4?=
+ =?utf-8?B?T1ZjcnlFeGwyYUdjRjdPLzJvM0NFQkI4VGlYNnFuMitLelAySE1wUFkvRXNl?=
+ =?utf-8?B?blZQdzIxL0oxTURSZFVjVjh0M1BVTVcrditlUlZCVVR1SDB3M3lzQU8vWmRo?=
+ =?utf-8?B?dm9KU2tCSFljZUVJNEc2YXl0aUlUekFCakxLTWg4aUxDZURza3BBVlAyQmxJ?=
+ =?utf-8?B?blFjT1VFc2VxT3haV0VidTBhSDNJMGhCbjQyR2pROTBTR1orQTM1clV0RDgv?=
+ =?utf-8?B?MVpPOFFSWktkeUI2K0syekRZMjNrUWpQRWg5RE5tSlhGcjdmWjFMYlEzc0hy?=
+ =?utf-8?B?cWpGbjJwckZnSlNMZXl6VmVKRWJlODNKS1ZwdnNGZDBVOHJ0VkNWWVlhbnJG?=
+ =?utf-8?B?NlFzcU1zcmIxdkVoeXcyejd3dDRJaTRIMmtUTWQ2TytCbytjZm5Ib2gwR2Iy?=
+ =?utf-8?B?eUpHRnh1UmpYbHdqQkd1Zjh0TGJSZ0NveDEzbXhNSW1HaVJuKzg3bUxXK3BW?=
+ =?utf-8?B?czJrbHVrNWN1QTREazRkdjZzWEk4aXlxdUlPcVhyMlpqL2hKS09JejVuc2ZQ?=
+ =?utf-8?B?NEE9PQ==?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80422e54-74dc-4e0d-0e84-08dabdad9e64
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB2538.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a45fc5d-261c-4e8b-10bc-08dabdadb4e8
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2022 15:11:01.2570
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2022 15:11:39.0164
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kBQmstOY9r2sb1sQdQ5caYRz4gY2MF3uN9+3wu+kriSQB2ILq34ws7FSwD5wN4WezOwujyzzIBKX/GwGww8gTbEGEUuQ78u6YtLh2NSNrI0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5572
-X-Proofpoint-GUID: oYZ8jV_XOWqy88Ycp3yKInL6GSLuzUcj
-X-Proofpoint-ORIG-GUID: oYZ8jV_XOWqy88Ycp3yKInL6GSLuzUcj
+X-MS-Exchange-CrossTenant-UserPrincipalName: XqDh1VG3q3nbUj/yRzPHcgUF41F+Q63zAJmbWoh5T3FRDHwY9ZSAGj22jNBTPESgrtdP3kBY3jHsQ4Z2216NLwkRxYvfWxTWL5BpG34I+M8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6263
+X-Proofpoint-ORIG-GUID: cYuBaUa4MfIN5Qjg8nj2tzID7V5LQBZU
+X-Proofpoint-GUID: qO8JYj8Ft9rVK4WgvYrNZrJIO3gULCwK
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-11-03_04,2022-11-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
- malwarescore=0 suspectscore=0 impostorscore=0 mlxscore=0
- lowpriorityscore=0 spamscore=0 priorityscore=1501 clxscore=1015
- adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
+ priorityscore=1501 spamscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0
+ adultscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2210170000 definitions=main-2211030101
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 2A3CHBRW024709
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 15:11:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172635
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 15:11:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172636
 
-From: wangmy <wangmy@fujitsu.com>
+On 2022-07-27 04:32, Paulo Neves wrote:
+> I thought of that myself, but did not yet investigate. We have=20
+> hardcode_into_libs disabling in 4 "recipes":
+>
+> git grep hardcode_into_libs -- meta
+> recipes-devtools/binutils/binutils/0009-Use-libtool-2.4.patch:=20
+> hardcode_into_libs=3Dyes
+> recipes-devtools/binutils/binutils/0009-Use-libtool-2.4.patch: if test=20
+> "$hardcode_into_libs" !=3D yes || test "$build_old_libs" =3D yes; then
+> recipes-devtools/gcc/gcc-sanitizers.inc:=C2=A0=C2=A0=C2=A0 sed -i -e=20
+> 's/hardcode_into_libs=3Dyes/hardcode_into_libs=3Dno/'=20
+> ${B}/${TARGET_SYS}/libsanitizer/libtool
+> recipes-devtools/gcc/gcc-source.inc:=C2=A0=C2=A0=C2=A0 cmd =3D d.expand=
+("sed -i -e=20
+> 's/hardcode_into_libs=3Dyes/hardcode_into_libs=3Dno/' ${S}/libcc1/confi=
+gure")
+> recipes-devtools/gcc/libgfortran.inc:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sed -i -e=20
+> 's/hardcode_into_libs=3Dyes/hardcode_into_libs=3Dno/'=20
+> ${B}/${TARGET_SYS}/$target/libtool
+> recipes-support/db/db_5.3.28.bb:=C2=A0=C2=A0=C2=A0 sed -i -e=20
+> 's|hardcode_into_libs=3Dyes|hardcode_into_libs=3Dno|' ${B}/libtool
+>
+> The hardcode_into_libs=3Dno did not fix things for the lame case. We=20
+> have a patch for libtools that looks like could be the culprit and=20
+> need tightening [1]
+>
+>
+> [1]=20
+> recipes-devtools/libtool/libtool/0004-ltmain.sh-Fix-sysroot-paths-being=
+-encoded-into-RPATH.patch
 
-Changelog:
-=============
-  * Update comment about TCP_INFO on OpenBSD
-  * [mod_ajp13] fix crash with bad response headers (fixes #3170)
-  * [core] handle RDHUP when collecting chunked body
-  * [core] tweak streaming request body to backends
-  * [core] handle ENOSPC with pwritev() (#3171)
-  * [core] manually calculate off_t max (fixes #3171)
-  * [autoconf] force large file support (#3171)
-  * [multiple] quiet coverity warnings using casts
-  * [meson] add license keyword to project declaration
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7a399862bb2e1503fbffa18e7ec0767643f76132)
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
----
- .../lighttpd/{lighttpd_1.4.66.bb => lighttpd_1.4.67.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/lighttpd/{lighttpd_1.4.66.bb => lighttpd_1.4.67.bb} (97%)
+Paulo,
 
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.66.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.67.bb
-similarity index 97%
-rename from meta/recipes-extended/lighttpd/lighttpd_1.4.66.bb
-rename to meta/recipes-extended/lighttpd/lighttpd_1.4.67.bb
-index 801162867c..838881f238 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.66.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.67.bb
-@@ -19,7 +19,7 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
-            file://lighttpd \
-            "
- 
--SRC_URI[sha256sum] = "47ac6e60271aa0196e65472d02d019556dc7c6d09df3b65df2c1ab6866348e3b"
-+SRC_URI[sha256sum] = "7e04d767f51a8d824b32e2483ef2950982920d427d1272ef4667f49d6f89f358"
- 
- DEPENDS = "virtual/crypt"
- 
--- 
-2.33.0
+Can you summarize where we are with this bug.
+Richard thinks that there has been some progres...
+
+We were reviewing it during the YP bugboard.
+I've put the bug in NEEDINFO.
+
+
+Thanks,
+
+../Randy
+
+
+
+>
+> Paulo Neves
+>
+> On 7/26/22 23:34, Richard Purdie wrote:
+>> On Tue, 2022-07-26 at 22:23 +0200, Paulo Neves wrote:
+>>> Due to hardcoded rpaths tmpdir contamination happened on lame
+>>> executable. This commit hot patches libtool to not hardcode
+>>> the .libs directory in the rpath. This solves [YOCTO #14863]
+>>>
+>>> Signed-off-by: Paulo Neves <ptsneves@gmail.com>
+>>> ---
+>>> =C2=A0 meta/recipes-multimedia/lame/lame_3.100.bb | 4 ++++
+>>> =C2=A0 1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/meta/recipes-multimedia/lame/lame_3.100.bb=20
+>>> b/meta/recipes-multimedia/lame/lame_3.100.bb
+>>> index 5b42795f4e..2d9bd9d29f 100644
+>>> --- a/meta/recipes-multimedia/lame/lame_3.100.bb
+>>> +++ b/meta/recipes-multimedia/lame/lame_3.100.bb
+>>> @@ -24,3 +24,7 @@ FILES:${PN} =3D "${bindir}/lame"
+>>> =C2=A0 FILES:libmp3lame =3D "${libdir}/libmp3lame.so.*"
+>>> =C2=A0 FILES:libmp3lame-dev =3D "${includedir} ${libdir}/*"
+>>> =C2=A0 FILES:${PN}-dev =3D ""
+>>> +do_compile:prepend() {
+>>> +=C2=A0=C2=A0=C2=A0 # Stop libtool adding RPATHs
+>>> +=C2=A0=C2=A0=C2=A0 sed -i -e=20
+>>> 's|hardcode_libdir_flag_spec=3D".*"|hardcode_libdir_flag_spec=3D""|'=20
+>>> ${B}/libtool
+>>> +}
+>> Any idea why lame has this issue but we don't see it with anything els=
+e
+>> using libtool? I'm wondering if there is an underlying cause we should
+>> look at?
+>>
+>> Cheers,
+>>
+>> Richard
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#168549): https://lists.openembedded.org/g/openembed=
+ded-core/message/168549
+> Mute This Topic: https://lists.openembedded.org/mt/92636379/3616765
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+randy.macleod@windriver.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+
+--=20
+# Randy MacLeod
+# Wind River Linux
 
 
