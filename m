@@ -1,89 +1,130 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE3A2C4332F
-	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 17:37:34 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web12.1474.1667497053183411194
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF312C4332F
+	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 17:40:14 +0000 (UTC)
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+ by mx.groups.io with SMTP id smtpd.web11.1495.1667497209976467971
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 10:37:33 -0700
+ Thu, 03 Nov 2022 10:40:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=B8YW9894;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id v1so3824840wrt.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 10:37:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=omWZ9o3H;
+ spf=pass (domain: gmail.com, ip: 209.85.160.52, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-13bef14ea06so3008831fac.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 10:40:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AIKHOJKyexUu6qiibagK/kqfIQypTxzLUyWeEArKzQA=;
-        b=B8YW9894l3/On0uYqcUCskyfto1cldalbt2G+fawRnPgWkRQ076LzXh5xFqIhPVxAx
-         cNSEACQMqqUhMUZD+sDQMprwn1s1Xr2f9kqTDjgDTfVrCTLVEQ8PbLKRxJgfKIp1YHpE
-         hoYKf+hdMCY6KVRByeG+ihjhqdi3jxnKteZJw=
+        bh=eypNNpPxZie2hYWXBV36odA6zGjPqm3jrI+Hcl+2Vuk=;
+        b=omWZ9o3HL8MX7ErmR6FCv0kVTNeehkZiR0P+U/tItmTJcTWp+1BSOpIzOdT7jMGAxo
+         VxjdjyL3/wy9CL5u/bOLFkF1XB/EFNOeFpwD2pcy6fR1x05Mtd7cNukthHJOtOV+ktL7
+         DRdmz2fuBzK1OK6tkUkav0Q7tmdm/LPU1SPTrZKLYAZYYKvrbN7sjx6uvt7cKC7yCRLE
+         evdT8vh2G5RfwMY8EZUiN8NFx8rsPLGYXQC/6jFOyvJPpHF+/QcIpD7BJMOc1LsjjmQ3
+         y8t9B5LNoGhIGdrhVPzMppVwRvJgCor3vzVpD4PMXoROxLX8E8rhNRnFIx4advJUiOeQ
+         85iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+        h=content-transfer-encoding:in-reply-to:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AIKHOJKyexUu6qiibagK/kqfIQypTxzLUyWeEArKzQA=;
-        b=qRlk1EbpBh6W6rRDERkVe3yzGIyJ1/u852Al9pC3kz8LAqPiJKRLOdHMIG+agA7D7i
-         hDRl10+zdRiJYReBbz4slvtUg5ZiPdbPp+2RcMV3jBqYIbJbOgOevgyv1fvPhe7yrsxs
-         uWf0KkqzIJ6agc3EeV1z06EvBFRQrTUhQ/C86hyCB899H2JvPUhJI+y6aLdlTLKNM4Lv
-         1L3H1URXkPJy77etI4vWTp+JOAq4Z8KrMF2r0Yjekp8BYlO6GCKOBpB4IJwDYZxHyNfE
-         EOzxada/S3k8Lces9gngd++Z5/08Vb2xJ/B8BwRS0GwHVmabFIvIFZ5CpBIxqNDy8blc
-         j1xg==
-X-Gm-Message-State: ACrzQf0s7U+iODnaVaxfC4TLEW3dTgi4MGQt/nNSq+aDILfUcO9P465a
-	bDrB/46xQHOiT0tbu5wkuHJ4IqxOHw7MuA==
-X-Google-Smtp-Source: AMsMyM4kagWwq8aZDgmBwqnwwIkzqafYE5KG74xHBDv2GivVsSZ9Z7F74pHz7wqWkv4akWTe4Twkjg==
-X-Received: by 2002:a05:6000:1e0b:b0:236:8a6e:8d with SMTP id bj11-20020a0560001e0b00b002368a6e008dmr19434144wrb.20.1667497051015;
-        Thu, 03 Nov 2022 10:37:31 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:fec4:d12e:21c:2d17])
-        by smtp.gmail.com with ESMTPSA id h19-20020a05600c351300b003b4ff30e566sm7676901wmq.3.2022.11.03.10.37.30
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 10:37:30 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] bitbake.conf: Drop export of SOURCE_DATE_EPOCH_FALLBACK
-Date: Thu,  3 Nov 2022 17:37:29 +0000
-Message-Id: <20221103173729.875233-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
+        bh=eypNNpPxZie2hYWXBV36odA6zGjPqm3jrI+Hcl+2Vuk=;
+        b=NzrdgjoyValgI0LJvLacpg0k4cGbXOatfZwh5N+ONXiqT5GiYgKFlYBy0JnAqbkVSc
+         bfQsc0Y70QlCDBv0jXkGQ8WN0CeomiBDpmhbslYf4M5Dsms5I4rJ6cz3BCF52vpteyR0
+         9PDbPheX8zYiXoDtD/NWFrpPDJll2y8r/lFujkumA8Pl1Zcz0SgP/wEEVkVE+MsamaOw
+         IlpDQB9SZSOyNZwiBgiNwYl3kU9IWzsaq6rFi5T/7/AEBYsaqr1GPaRqeAaNIYg0ex+D
+         5UEr/I+4VclAsfuuR7e1ICA/nlqv6cUOledtOuhAK4yoIDjGT1tuAVLcU4gNlUFtXPXZ
+         cJug==
+X-Gm-Message-State: ACrzQf36M0enVbSIJ1ejAijWMpuxGmtKt8KbEsREPBNqw8+imzySaV/g
+	xKDfeLYe8JiQNUFITJGDXWk=
+X-Google-Smtp-Source: AMsMyM6XzMpNqAT9m/0azjwESCwK/jvWj/1UKjyt6F+4q+OxxOuxSLIdX01u2F2nqsub5/ufqZKtzw==
+X-Received: by 2002:a05:6870:15d3:b0:122:5c72:f21f with SMTP id k19-20020a05687015d300b001225c72f21fmr27810793oad.178.1667497209272;
+        Thu, 03 Nov 2022 10:40:09 -0700 (PDT)
+Received: from ?IPV6:2605:a601:ac3d:c100:e3e8:d9:3a56:e27d? ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+        by smtp.gmail.com with ESMTPSA id k18-20020a056830151200b00667ff6b7e9esm578980otp.40.2022.11.03.10.40.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Nov 2022 10:40:08 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Message-ID: <780f2fd1-9e44-664e-eab6-189ee1e7a5fe@gmail.com>
+Date: Thu, 3 Nov 2022 12:40:07 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [OE-core] [PATCH 0/1] create-spdx: default share_src for shared
+ sources
+Content-Language: en-US
+To: Konrad WEIHMANN <kweihmann@witekio.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Cc: "steve@sakoman.com" <steve@sakoman.com>
+References: <AM8P192MB09633133388817BF0814341EA3389@AM8P192MB0963.EURP192.PROD.OUTLOOK.COM>
+ <164f7e3d-59f7-98c7-f75e-e67fc949f462@gmail.com>
+ <AM8P192MB09632ED64CA52FB9CA30C13CA3389@AM8P192MB0963.EURP192.PROD.OUTLOOK.COM>
+ <40a86fb6-07d3-5491-9202-4114cf963f4a@gmail.com>
+In-Reply-To: <40a86fb6-07d3-5491-9202-4114cf963f4a@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 17:37:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172646
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 17:40:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172647
 
-Whilst SDE definitely needs to be exported, the fallback does not as
-it is only used in our python code via the datastore.
 
-It was introduced as an export in 9a1dde74e794362399193dc3f81c9685a83d0776
-but even then it doesn't look like it needed to be, likely just a copy and
-paste mistake.
+On 11/3/22 11:20, Joshua Watt wrote:
+>
+> On 11/3/22 09:49, Konrad WEIHMANN wrote:
+>> so what's the conclusion? I would be okay to add a var like 
+>> SPDX_SHARED_SOURCE (default WORKDIR) or something and reference this 
+>> as a default - when using a weak default ppl could override that to 
+>> their needs...
+>
+>
+> Ya, I think what you have is fine with a minor change; the limitations 
+> of not handling non-kernel shared source very well isn't changing. I 
+> did leave a minor comment in github, but otherwise LGTM
 
-Drop the export.
+Per discussion on GitHub, this is fine to merge as is. Thanks
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 62cdd9aa9c2..a1f0f624e9c 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -676,7 +676,7 @@ export PYTHONHASHSEED = "0"
- export PERL_HASH_SEED = "0"
- export SOURCE_DATE_EPOCH ?= "${@get_source_date_epoch_value(d)}"
- # A SOURCE_DATE_EPOCH of '0' might be misinterpreted as no SDE
--export SOURCE_DATE_EPOCH_FALLBACK ??= "1302044400"
-+SOURCE_DATE_EPOCH_FALLBACK ??= "1302044400"
- REPRODUCIBLE_TIMESTAMP_ROOTFS ??= "1520598896"
- 
- ##################################################################
--- 
-2.34.1
-
+>
+>
+>>
+>> Would that be something that would work?
+>> ------------------------------------------------------------------------
+>> *From:* Joshua Watt <jpewhacker@gmail.com>
+>> *Sent:* Thursday, November 3, 2022 3:28 PM
+>> *To:* Konrad WEIHMANN <kweihmann@witekio.com>; 
+>> openembedded-core@lists.openembedded.org 
+>> <openembedded-core@lists.openembedded.org>
+>> *Cc:* steve@sakoman.com <steve@sakoman.com>
+>> *Subject:* Re: [OE-core] [PATCH 0/1] create-spdx: default share_src 
+>> for shared sources
+>> I see the problem, but I'm not quite sure this is the correct solution.
+>> It *does* fix the problem for exact recipe that provides the source code
+>> (e.g. the llvm-sources recipe), but I don't think it will correctly pick
+>> up the sources for anything that actually uses that shared source code
+>> (e.g. clang); this isn't necessarily a problem in your patch however, I
+>> think it's actually a problem with any non-kernel recipes.
+>>
+>>
+>> On 11/3/22 09:15, Konrad WEIHMANN via lists.openembedded.org wrote:
+>> > https://github.com/witekio-kwe/poky spdx-fix
+>>
+>> Witekio GmbH is registered in Frankfurt. Registered office: Am 
+>> Wartfeld 7 - 61169 Friedberg. Registered company number: HRB 95432. 
+>> VAT number DE287400071
+>> This message contains confidential information and is intended only 
+>> for the individual(s) addressed in the message. If you aren't the 
+>> named addressee, you should not disseminate, distribute, or copy this 
+>> e-mail.
+>>
+>> We continuously commit to comply with the applicable data protection 
+>> laws and ensure fair and transparent processing of your personal 
+>> data. Please read our privacy statement including an information 
+>> notice and data protection policy for detailed information on our 
+>> website.
+>>
 
