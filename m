@@ -1,115 +1,134 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <s.zhmylev@yadro.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8DCAC433FE
-	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 15:24:03 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web12.125.1667489035878947776
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10591C4332F
+	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 15:27:04 +0000 (UTC)
+Received: from mta-01.yadro.com (mta-01.yadro.com [89.207.88.252])
+ by mx.groups.io with SMTP id smtpd.web11.151.1667489213323124097
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 08:23:56 -0700
+ Thu, 03 Nov 2022 08:26:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=hFJ7J5l4;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1667489036;
-  x=1699025036;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=qQBOnghtyGIh+w6YmsLfKE37LLOvLUspAU/dAXl7Srk=;
-  b=hFJ7J5l45CFM4CE96R/y/4v8M19xyZV38bxGIFskmIJ5KMpedxeoInZ9
-   N+wGRBW3ILN9WjHIagHvYg5PhRMAE0iagF0qson24MJHzYzMQ5vIZ8jZY
-   ydL3CDkApP4c1RJh2iOmvb5BOpTgBFE8n1YBJbrVP6T47u8WPA04OTVjb
-   kbyJ4fsNmoqTjTWUvqI6JEjj1rpR0a41K8kBhLQiJcRlfEfvMimrpmIQk
-   aM2k5d3QPbRw596qKTssbKRKu/yKgnH3wlZDgkhEa4sJ6ZaVa7f0lYJNv
-   KDsnViphr5W5e6LQ5agCTpa7FmUTgEQrXWkE8VDD+kc6mVcX62A/9RiWv
-   g==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH 1/2] gcc-shared-source: Fix source date epoch
- handling
-Thread-Topic: [OE-core] [PATCH 1/2] gcc-shared-source: Fix source date epoch
- handling
-Thread-Index: AQHY74GcQG/Fn4ks4k+cr+FbpaDKvq4tTY2w
-Date: Thu, 3 Nov 2022 15:23:53 +0000
-Message-ID: <22395ca2bbcb4a88a4b4295bfdf6ae2c@axis.com>
-References: <20221103124123.842602-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20221103124123.842602-1-richard.purdie@linuxfoundation.org>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=fail reason="signature has expired" header.i=@yadro.com header.s=mta-01 header.b=JGMwqVR8;
+ spf=pass (domain: yadro.com, ip: 89.207.88.252, mailfrom: s.zhmylev@yadro.com)
+Received: from localhost (unknown [127.0.0.1])
+	by mta-01.yadro.com (Postfix) with ESMTP id 02937404CB
+	for <openembedded-core@lists.openembedded.org>; Thu,  3 Nov 2022 15:26:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+	content-type:content-type:content-transfer-encoding:mime-version
+	:x-mailer:message-id:date:date:subject:subject:from:from
+	:received:received:received:received; s=mta-01; t=1667489208; x=
+	1669303609; bh=KHrG7XicxtV8hSvMfSKLdVMG5PAEVuQknIP9HVdaEWY=; b=J
+	GMwqVR8uSlNx9qnCc24q7DvmrsWP8t3DERh4zyBiLpX7+EnucFkMdEebej2FDFLY
+	O7PQsONw44WJH7lmlAQFM8sWgRyMYSYitQcPnusrWTPNs4QInM41rJkU0S4WAf2S
+	nxb9KsJC0vzWYHZWfPgp8eclpq8gft+U3rYkM/Tqk0=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+	by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id z1CAsI8aGdqE
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  3 Nov 2022 18:26:48 +0300 (MSK)
+Received: from T-EXCH-01.corp.yadro.com (T-EXCH-01.corp.yadro.com [172.17.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mta-01.yadro.com (Postfix) with ESMTPS id 99FE441223
+	for <openembedded-core@lists.openembedded.org>; Thu,  3 Nov 2022 18:26:20 +0300 (MSK)
+Received: from T-EXCH-08.corp.yadro.com (172.17.11.58) by
+ T-EXCH-01.corp.yadro.com (172.17.10.101) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.669.32; Thu, 3 Nov 2022 18:26:20 +0300
+Received: from localhost.localdomain (172.22.3.32) by T-EXCH-08.corp.yadro.com
+ (172.17.11.58) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1118.9; Thu, 3 Nov 2022
+ 18:26:20 +0300
+From: <s.zhmylev@yadro.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Sergei Zhmylev <s.zhmylev@yadro.com>
+Subject: [PATCH] wic: make ext2/3/4 images reproducible
+Date: Thu, 3 Nov 2022 18:26:07 +0300
+Message-ID: <20221103152607.3940380-1-s.zhmylev@yadro.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [172.22.3.32]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-08.corp.yadro.com (172.17.11.58)
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 15:24:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172637
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 15:27:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172638
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Richard Purdie
-> Sent: den 3 november 2022 13:41
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 1/2] gcc-shared-source: Fix source date epoch h=
-andling
->=20
-> The source date epoch for gcc isn't being transferred from the shared
-> workdir to the current WORKDIR for the specific recipe. This results in
-> the clamping code within sstate.bbclass using a value from 2011 which
-> changes the timestamps of many files. Since this happens part way
-> through the build, if pieces of gcc haven't built, or build/rebuild
-> later, we see things rebuilding when they should not and for generated
-> files, races are possible.
->=20
-> Fix this by copying the SDE from the shared workdir into the recipe
-> workdir.
->=20
-> [YOCTO #14953]
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-devtools/gcc/gcc-shared-source.inc | 9 +++++++++
->  1 file changed, 9 insertions(+)
->=20
-> diff --git a/meta/recipes-devtools/gcc/gcc-shared-source.inc b/meta/recip=
-es-devtools/gcc/gcc-shared-source.inc
-> index aac4b49313c..cdc27deffdb 100644
-> --- a/meta/recipes-devtools/gcc/gcc-shared-source.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-shared-source.inc
-> @@ -9,3 +9,12 @@ SRC_URI =3D ""
->=20
->  do_configure[depends] +=3D "gcc-source-${PV}:do_preconfigure"
->  do_populate_lic[depends] +=3D "gcc-source-${PV}:do_unpack"
-> +do_deploy_source_date_epoch[depends] +=3D "gcc-source-${PV}:do_deploy_so=
-urce_date_epoch"
-> +
-> +# Copy the SDE from the shared workdir to the recipe workdir
-> +do_deploy_source_date_epoch () {
-> +	mkdir -p ${SDE_DEPLOYDIR}
-> +	cp -p ${S}/../source-date-epoch/__source_date_epoch.txt ${SDE_DEPLOYDIR=
-}/__source_date_epoch.txt
-> +	mkdir -p `dirname ${SDE_FILE}`
-> +	cp -p ${S}/../source-date-epoch/__source_date_epoch.txt ${SDE_FILE}
+From: Sergei Zhmylev <s.zhmylev@yadro.com>
 
-Even though I doubt the name of the epoch file is likely to change=20
-any time soon, I think it is better to avoid hardcoding it here.
-Thus I suggest the following instead:
+Ext2/3/4 FS contains not only mtime, but also ctime, atime and crtime.
+Currently, all the files are being added into the rootfs image using
+mkfs -d functionality which affects all the timestamps excluding mtime.
+This patch ensures all the timestamps inside the FS image equal to
+the SOURCE_DATE_EPOCH if it is set.
 
-	sde_file=3D${SDE_FILE}
-	sde_file=3D${sde_file#${WORKDIR}/}
-	mkdir -p ${SDE_DEPLOYDIR} $(dirname ${SDE_FILE})
-	cp -p ${S}/../$sde_file ${SDE_DEPLOYDIR}
-	cp -p ${S}/../$sde_file ${SDE_FILE}
+Signed-off-by: Sergei Zhmylev <s.zhmylev@yadro.com>
+---
+ scripts/lib/wic/partition.py | 27 ++++++++++++++++++++++-----
+ 1 file changed, 22 insertions(+), 5 deletions(-)
 
-> +}
-> --
-> 2.34.1
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index bc889bdeb9..b7965267cb 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -294,17 +294,34 @@ class Partition():
+                 f.write("cd etc\n")
+                 f.write("rm fstab\n")
+                 f.write("write %s fstab\n" % (self.updated_fstab_path))
+-                if os.getenv('SOURCE_DATE_EPOCH'):
+-                    fstab_time =3D int(os.getenv('SOURCE_DATE_EPOCH'))
+-                    for time in ["atime", "mtime", "ctime"]:
+-                        f.write("set_inode_field fstab %s %s\n" % (time,=
+ hex(fstab_time)))
+-                        f.write("set_inode_field fstab %s_extra 0\n" % (=
+time))
+             debugfs_cmd =3D "debugfs -w -f %s %s" % (debugfs_script_path=
+, rootfs)
+             exec_native_cmd(debugfs_cmd, native_sysroot)
+=20
+         mkfs_cmd =3D "fsck.%s -pvfD %s" % (self.fstype, rootfs)
+         exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=3Dpseudo)
+=20
++        if os.getenv('SOURCE_DATE_EPOCH'):
++            sde_time =3D hex(int(os.getenv('SOURCE_DATE_EPOCH')))
++            debugfs_script_path =3D os.path.join(cr_workdir, "debugfs_sc=
+ript")
++            files =3D []
++            for root, dirs, others in os.walk(rootfs_dir):
++                base =3D root.replace(rootfs_dir, "").rstrip(os.sep)
++                files +=3D [ "/" if base =3D=3D "" else base ]
++                files +=3D [ base + "/" + n for n in dirs + others ]
++            with open(debugfs_script_path, "w") as f:
++                f.write("set_current_time %s\n" % (sde_time))
++                f.write("set_super_value hash_seed %s\n" % (self.fsuuid)=
+)
++                for file in set(files):
++                    for time in ["atime", "mtime", "ctime", "crtime"]:
++                        f.write("set_inode_field \"%s\" %s %s\n" % (file=
+, time, sde_time))
++                        f.write("set_inode_field \"%s\" %s_extra 0\n" % =
+(file, time))
++                for time in ["wtime", "mkfs_time", "lastcheck"]:
++                    f.write("set_super_value %s %s\n" % (time, sde_time)=
+)
++                for time in ["mtime", "first_error_time", "last_error_ti=
+me"]:
++                    f.write("set_super_value %s 0\n" % (time))
++            debugfs_cmd =3D "debugfs -w -f %s %s" % (debugfs_script_path=
+, rootfs)
++            exec_native_cmd(debugfs_cmd, native_sysroot)
++
+         self.check_for_Y2038_problem(rootfs, native_sysroot)
+=20
+     def prepare_rootfs_btrfs(self, rootfs, cr_workdir, oe_builddir, root=
+fs_dir,
+--=20
+2.37.2
 
-//Peter
 
