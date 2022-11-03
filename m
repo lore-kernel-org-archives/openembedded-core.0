@@ -2,98 +2,87 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAB7AC4332F
-	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 17:31:24 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web08.1367.1667496682425562084
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE3A2C4332F
+	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 17:37:34 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web12.1474.1667497053183411194
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 10:31:22 -0700
+ Thu, 03 Nov 2022 10:37:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gHOWU+I2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id l14so3851479wrw.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 10:31:22 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=B8YW9894;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id v1so3824840wrt.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 10:37:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WgYLU1HQElFdZegwurDB1EBppE8aqa0krTkZo6KJ1xU=;
-        b=gHOWU+I2XY5DI6tWm4Mp58WW1E7cvlTYVjRPLfj8ORb6QsP3KAxET9VWe2/z4T/Y1F
-         OhV/LWCgTnUmj8sHQI2/cV+9AZFMO4To6GttzFZ5HQcb6lEBdCMAIt2QENLDP/tmBgv/
-         +tMbOK8Ko9G0dmdNxYYUDAWqsmOyn1+y67F0U=
+        bh=AIKHOJKyexUu6qiibagK/kqfIQypTxzLUyWeEArKzQA=;
+        b=B8YW9894l3/On0uYqcUCskyfto1cldalbt2G+fawRnPgWkRQ076LzXh5xFqIhPVxAx
+         cNSEACQMqqUhMUZD+sDQMprwn1s1Xr2f9kqTDjgDTfVrCTLVEQ8PbLKRxJgfKIp1YHpE
+         hoYKf+hdMCY6KVRByeG+ihjhqdi3jxnKteZJw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WgYLU1HQElFdZegwurDB1EBppE8aqa0krTkZo6KJ1xU=;
-        b=erj2vL/RS4+MOJw2Hge2Ib3HMo9xR0RMyixMdbfF1/KeJo9MXGll7z6e7AqPqxuMVL
-         eF3y9huGg9meQsFlz4bs4JwVsF0EWx6cyj7s6GL2ZrNZIdGoURxWWiO5gXCqX00pNeWu
-         zez6ZDdBd2ZYLRWqL4LMFHAO6fpXniBONF3Gg+MTefw8Z2MOQUkdsJNRanXcl63WBH8U
-         WYTnRsxl3dg4sDpWQ7qNsOfV3jchcnDxE5jLk596wRADGhObB2gNYNfAdsNhDXMvMW8r
-         ofcUBVBpFX3+gpp9Q7Zb5rBXJ6XdM5K06YEV15qNMXSy8w11RN0KpY5w4kkUckHTyV3U
-         oLxQ==
-X-Gm-Message-State: ACrzQf3uqFF5Ts1BDs8GBhsFZ6mLO2xesIiGhGXMC9egrpn7a9RZfrm2
-	XvMavZiMBTh2W6+yU3T91Hf9O75ztHGc2g==
-X-Google-Smtp-Source: AMsMyM49WOj69S+Mij5HHy6koQXmfGMa7TrTrOrwAZlqfyojHVyurtkTZFMdRelpgDcP413e1s3bBQ==
-X-Received: by 2002:a5d:4410:0:b0:236:a8f9:268f with SMTP id z16-20020a5d4410000000b00236a8f9268fmr19856411wrq.405.1667496680034;
-        Thu, 03 Nov 2022 10:31:20 -0700 (PDT)
+        bh=AIKHOJKyexUu6qiibagK/kqfIQypTxzLUyWeEArKzQA=;
+        b=qRlk1EbpBh6W6rRDERkVe3yzGIyJ1/u852Al9pC3kz8LAqPiJKRLOdHMIG+agA7D7i
+         hDRl10+zdRiJYReBbz4slvtUg5ZiPdbPp+2RcMV3jBqYIbJbOgOevgyv1fvPhe7yrsxs
+         uWf0KkqzIJ6agc3EeV1z06EvBFRQrTUhQ/C86hyCB899H2JvPUhJI+y6aLdlTLKNM4Lv
+         1L3H1URXkPJy77etI4vWTp+JOAq4Z8KrMF2r0Yjekp8BYlO6GCKOBpB4IJwDYZxHyNfE
+         EOzxada/S3k8Lces9gngd++Z5/08Vb2xJ/B8BwRS0GwHVmabFIvIFZ5CpBIxqNDy8blc
+         j1xg==
+X-Gm-Message-State: ACrzQf0s7U+iODnaVaxfC4TLEW3dTgi4MGQt/nNSq+aDILfUcO9P465a
+	bDrB/46xQHOiT0tbu5wkuHJ4IqxOHw7MuA==
+X-Google-Smtp-Source: AMsMyM4kagWwq8aZDgmBwqnwwIkzqafYE5KG74xHBDv2GivVsSZ9Z7F74pHz7wqWkv4akWTe4Twkjg==
+X-Received: by 2002:a05:6000:1e0b:b0:236:8a6e:8d with SMTP id bj11-20020a0560001e0b00b002368a6e008dmr19434144wrb.20.1667497051015;
+        Thu, 03 Nov 2022 10:37:31 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:fec4:d12e:21c:2d17])
-        by smtp.gmail.com with ESMTPSA id n21-20020a05600c3b9500b003b4c979e6bcsm605036wms.10.2022.11.03.10.31.19
+        by smtp.gmail.com with ESMTPSA id h19-20020a05600c351300b003b4ff30e566sm7676901wmq.3.2022.11.03.10.37.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 10:31:19 -0700 (PDT)
+        Thu, 03 Nov 2022 10:37:30 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] gcc-shared-source: Fix source date epoch handling
-Date: Thu,  3 Nov 2022 17:31:17 +0000
-Message-Id: <20221103173117.874301-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH] bitbake.conf: Drop export of SOURCE_DATE_EPOCH_FALLBACK
+Date: Thu,  3 Nov 2022 17:37:29 +0000
+Message-Id: <20221103173729.875233-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 17:31:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172645
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 17:37:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172646
 
-The source date epoch for gcc isn't being transferred from the shared
-workdir to the current WORKDIR for the specific recipe. This results in
-the clamping code within sstate.bbclass using a value from 2011 which
-changes the timestamps of many files. Since this happens part way
-through the build, if pieces of gcc haven't built, or build/rebuild
-later, we see things rebuilding when they should not and for generated
-files, races are possible.
+Whilst SDE definitely needs to be exported, the fallback does not as
+it is only used in our python code via the datastore.
 
-Fix this by copying the SDE from the shared workdir into the recipe
-workdir.
+It was introduced as an export in 9a1dde74e794362399193dc3f81c9685a83d0776
+but even then it doesn't look like it needed to be, likely just a copy and
+paste mistake.
 
-[YOCTO #14953]
+Drop the export.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/gcc/gcc-shared-source.inc | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[v2: Rework to calculate sdk_file as Peter suggested]
-
-diff --git a/meta/recipes-devtools/gcc/gcc-shared-source.inc b/meta/recipes-devtools/gcc/gcc-shared-source.inc
-index aac4b49313c..cd2e3410995 100644
---- a/meta/recipes-devtools/gcc/gcc-shared-source.inc
-+++ b/meta/recipes-devtools/gcc/gcc-shared-source.inc
-@@ -9,3 +9,13 @@ SRC_URI = ""
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 62cdd9aa9c2..a1f0f624e9c 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -676,7 +676,7 @@ export PYTHONHASHSEED = "0"
+ export PERL_HASH_SEED = "0"
+ export SOURCE_DATE_EPOCH ?= "${@get_source_date_epoch_value(d)}"
+ # A SOURCE_DATE_EPOCH of '0' might be misinterpreted as no SDE
+-export SOURCE_DATE_EPOCH_FALLBACK ??= "1302044400"
++SOURCE_DATE_EPOCH_FALLBACK ??= "1302044400"
+ REPRODUCIBLE_TIMESTAMP_ROOTFS ??= "1520598896"
  
- do_configure[depends] += "gcc-source-${PV}:do_preconfigure"
- do_populate_lic[depends] += "gcc-source-${PV}:do_unpack"
-+do_deploy_source_date_epoch[depends] += "gcc-source-${PV}:do_deploy_source_date_epoch"
-+
-+# Copy the SDE from the shared workdir to the recipe workdir
-+do_deploy_source_date_epoch () {
-+	sde_file=${SDE_FILE}
-+	sde_file=${sde_file#${WORKDIR}/}
-+	mkdir -p ${SDE_DEPLOYDIR} $(dirname ${SDE_FILE})
-+	cp -p ${S}/../$sde_file ${SDE_DEPLOYDIR}
-+	cp -p ${S}/../$sde_file ${SDE_FILE}
-+}
+ ##################################################################
 -- 
 2.34.1
 
