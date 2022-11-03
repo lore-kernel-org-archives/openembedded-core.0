@@ -1,127 +1,89 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F7D1C4332F
-	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 09:42:01 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.17297.1667468511103651695
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7990AC433FE
+	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 10:34:41 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web09.17851.1667471668799729650
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 02:41:51 -0700
+ Thu, 03 Nov 2022 03:34:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=MmVSSGsa;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id c3-20020a1c3503000000b003bd21e3dd7aso2898858wma.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 02:41:50 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FtxGSahX;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id c3-20020a1c3503000000b003bd21e3dd7aso3049813wma.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 03:34:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VeSkujD2o1kXINFKr5xH2+kUBff4EH/F3YwC5IC60mI=;
-        b=MmVSSGsaBRK8iO9S0eXt/1c1Ky40/2hrnX8J+nPk2RSBjXxjjreFBlvDtPG1JrFr6M
-         WEo2GiF8WXfCYL/lIz8sUce4g1+Uj310nv4YBy4/NBJ6tTr0dkooil2CeKaVY/3MYndQ
-         oASvLn+Vuo0YuNIr2hBtuEN1E+pof5gUXdAUspRebieY70cwNbayWIEuHrGkE6JcE+C7
-         7FKud2o1uQeQm9TqMo3zO/RkSe6+qJHZa6Giyy4rdjTTt6EKNefW15ltNpRLXVg4ahdG
-         x6xNgGzJtUCjSbY7I1WTdwbidqeiaxW4XYb4gQvPi0AAgm9FEaqG9ORTJiOhZO6XgWyI
-         sSLw==
+        d=linuxfoundation.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cf1p01Wwi4waoB2PNAixotbEfg47i82iDLHfzoFUW2Q=;
+        b=FtxGSahXj11fCrsekmS2irgmQelutieScbQXiFk3Bu+FGddK+P1v1xSy1mPZgSKuzW
+         vwjzFWiERbT7B/JNI0HBCg580CgiiSSM7ds1uXBUolqWgzg4HQHdcKhdBHnwRjPD+QNQ
+         NrcvpBnq1bO8YssJOgt6p5QdG1O2NzjYL/s+Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VeSkujD2o1kXINFKr5xH2+kUBff4EH/F3YwC5IC60mI=;
-        b=aEji7qoiRzjjPJDSwkOtMSogcVtVFCcYI0ip1nkLsZUhZgEKqxiRJdyuxdwRBA7YxB
-         Cr6W+KWRe9nW8bp0Vxv90AboXvrtx6L/Zo7Rg2wPxKbnHhUj2pyCDpkYHLgYe8B+jo+6
-         XkXB6Ci8YRFXjArCi2Pl2GMtBF449mnsMiAmLsfUB+nfQaaPfgzh6fKmmvU/VanTkuwx
-         ni3QwQtOdmT6bvZ8pLSxNtdTjt/v1FzZRtpru3bIfdTLbpYLu6cr/ihTxxxp9FuQ6yA1
-         obT3kZlVCVPmx0N4OtYALb/449awlYmz/nLRmD3vePRtA0GBY/edywzjZzj7DeXEMfev
-         eE/g==
-X-Gm-Message-State: ACrzQf0IzV+8zVWJRBqiXzTps+r5iKuwygZGtI0OHZQdYIdRnHwg3dlz
-	KzcKNVXMkaCawTpZ3etrd9+92eomZKP0Zw==
-X-Google-Smtp-Source: AMsMyM4WW21yz8RLO799Uhx59zM67r/NNEkK7KALi2bSxtDMKtNAAWVpSvToXijU+MOPLlQIMX4k7A==
-X-Received: by 2002:a1c:7312:0:b0:3cf:6957:1639 with SMTP id d18-20020a1c7312000000b003cf69571639mr16916577wmb.108.1667468508960;
-        Thu, 03 Nov 2022 02:41:48 -0700 (PDT)
-Received: from og-worker-dev-01.infra.foundries.io.net (51-159-19-113.rev.poneytelecom.eu. [51.159.19.113])
-        by smtp.gmail.com with ESMTPSA id n4-20020a5d6b84000000b0022e653f5abbsm356880wrx.69.2022.11.03.02.41.47
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cf1p01Wwi4waoB2PNAixotbEfg47i82iDLHfzoFUW2Q=;
+        b=BySW4244QogxwQ6t7wHVr7D+Z49lLXbhAggthS8qghFmSMYPSugOUvJI7aqHwPHa04
+         lBzE9mbiHpgCnvSET5nBQdMWDY7y8oijWf6QTQ/MZ9rhDwZ6+zK/iwiqxEhXnlyJYSQ3
+         yYd1cPo2Z5+l/NCzFEB44kAaxC+CvEQB82mnzEa0/PkETGHGI1OYh0datxLsZNfKIZ+6
+         6+ygVt8TzRY9RvPhMDSBZZqoP1iAcTOfWu+GWv7quc12g+HDOrYoNlrG+otbdWsJsXbg
+         YiKMLESp9j7gGmS4R0PlhiK00U1CnhsApC0IDGS7zJ9NwOWcdRxiC3X7FPNDC3NLtu5h
+         rslQ==
+X-Gm-Message-State: ACrzQf19W4DxGKHGW1Hqtg8bEj3S7xIpUIZck5J/FNhYGdftVtyY7J/M
+	CP1AberVW1hy1Zy/Po+KBvMvdkXYi+5LAA==
+X-Google-Smtp-Source: AMsMyM6PqvTNK68Rp9Z+mnW1NiGPmhAXEzmwy4iMrY3THLG7W6GKuL40G2X32blSd6lqNH0bJ7CbGQ==
+X-Received: by 2002:a05:600c:46ce:b0:3c6:f274:33b2 with SMTP id q14-20020a05600c46ce00b003c6f27433b2mr18875217wmo.27.1667471666717;
+        Thu, 03 Nov 2022 03:34:26 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:fec4:d12e:21c:2d17])
+        by smtp.gmail.com with ESMTPSA id g17-20020a5d4891000000b0023655e51c33sm534662wrq.4.2022.11.03.03.34.25
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 02:41:48 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+        Thu, 03 Nov 2022 03:34:26 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: ricardo@foundries.io,
-	Bruce Ashfield <bruce.ashfield@gmail.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [kirkstone][PATCH] kern-tools: fix relative path processing
-Date: Thu,  3 Nov 2022 09:41:16 +0000
-Message-Id: <20221103094116.3474799-1-jose.quaresma@foundries.io>
+Subject: [PATCH] gcc-source: Fix gengtypes race
+Date: Thu,  3 Nov 2022 10:34:25 +0000
+Message-Id: <20221103103425.823566-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 09:42:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172620
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 10:34:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172621
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+gcc renamed .c files to .cc files:
 
-The previous fix for processing of paths with relative components, broke
-uses cases that were a mix of patches and configuration fragments.
+https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=5c69acb32329d49e58c26fa41ae74229a52b9106
 
-Updating the SRCREV to include a simplied fix for relative paths, and
-a cleanup patch from Jose:
+but we didn't fix this reference which meant we re-introduced a race around
+gengtypes-lex.c. This lead to the race reappearing on the autobuilder. Fix
+the naming to avoid the problem again.
 
-[
-  Author: Jose Quaresma <quaresma.jose@gmail.com>
-  Date:   Thu Sep 29 16:37:23 2022 +0000
+[YOCTO #14953]
 
-      scc: only look for error in scc_output_file if it has valid content
-
-      When process_file function fails the output of the processed script is show to
-      the user, some parsing is performed as well to look for common errors so we
-      can point to the right input file.
-
-      This can only be done when the scc_output_file have some valid content
-      otherwise it will show invalid messages to the user.
-
-      Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-      Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-
-  Author: Bruce Ashfield <bruce.ashfield@gmail.com>
-  Date:   Wed Oct 5 19:13:33 2022 +0000
-
-      spp: ensure that prefix check uses absolute paths
-
-      The previous fix for this issue was too broad, and impacted
-      all calls to the prefix check and removal. With this change,
-      we only expand the input on scc/spp operations that may
-      execute with relative paths.
-
-      Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 533720a1756454447341769c4a0969fce8d6f287)
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
+ meta/recipes-devtools/gcc/gcc-source.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index dea7b65a7c..07d7daf5fb 100644
---- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-+++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "\
+diff --git a/meta/recipes-devtools/gcc/gcc-source.inc b/meta/recipes-devtools/gcc/gcc-source.inc
+index 224b7778efd..03837f43811 100644
+--- a/meta/recipes-devtools/gcc/gcc-source.inc
++++ b/meta/recipes-devtools/gcc/gcc-source.inc
+@@ -26,7 +26,7 @@ python do_preconfigure () {
+     cmd = d.expand('cd ${S} && PATH=${PATH} gnu-configize')
+     subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
+     # See 0044-gengtypes.patch, we need to regenerate this file
+-    bb.utils.remove(d.expand("${S}/gcc/gengtype-lex.c"))
++    bb.utils.remove(d.expand("${S}/gcc/gengtype-lex.cc"))
+     cmd = d.expand("sed -i 's/BUILD_INFO=info/BUILD_INFO=/' ${S}/gcc/configure")
+     subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
  
- DEPENDS = "git-native"
- 
--SRCREV = "ba600ef61a85966596126a6e8d936971905e8749"
-+SRCREV = "6a4752ebbe7d242c02b3c74a5772926edd243626"
- PV = "0.3+git${SRCPV}"
- 
- inherit native
 -- 
 2.34.1
 
