@@ -1,159 +1,151 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <chase.qi@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01511C433FE
-	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 05:33:20 +0000 (UTC)
-Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com [85.158.142.113])
- by mx.groups.io with SMTP id smtpd.web10.15932.1667453587154503013
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23361C433FE
+	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 05:42:00 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web09.16168.1667454111806280742
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Nov 2022 22:33:10 -0700
+ Wed, 02 Nov 2022 22:41:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=NJdAF298;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.113, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1667453589; i=@fujitsu.com;
-	bh=e6gN5gjbJhs6K6Y4eZXwdZ2fGHadPX+tHBhRbrVFqtc=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=NJdAF298FpwpvSeyPWTzav/ypmj6EWYJsEEAyLkMF6q92VPKeKNGlMZji0H8Uf2F8
-	 NQTKbrPfmdqGgdBNc14yNXJX1blbRVk8OgxXNgLmwiZae3w0wsJFqEi0gR3YpgIv3h
-	 HgCUwo0tFut86FrRF27XjJVD0VUO40pUqUBSZnVCkwegwwWvxeBNkNWOvTW2+AhdjX
-	 MRc1P+vMTDU3BIX8qO/uqELtD9j2f7DEJyiQJQvdR/V1Dd6MUVZim+hsaief0EB01A
-	 K8Y0DbiReOVyLiCiXFJuK2/b2VHhrJ95VZPPxP6nuGtp92kk8cnCF8RUL0Yo7kKZ1Q
-	 FkuoP0vX6EyQQ==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrDIsWRWlGSWpSXmKPExsViZ8OxWXdqUHK
-  ywft1QhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aPmT4FvTIVCw/XNDAek+xi5OIQErjPKNF5
-  YjILhHOJSWL1gc2sEM5uRomXm74DOZwcbAJSEjfu/2frYuTgEBHQk7j6TxQkzCygIvHidw87i
-  C0sYCPR+W02I4jNAhR/eu8MmM0r4CTxveMHmC0hoCAx5eF7ZhCbU8BZ4tPFBSwgthBQzdc1m5
-  kg6gUlTs58wgIxX0Li4IsXzBC9ihKzLzezQNgVErNmtTFB2GoSV89tYp7AKDgLSfssJO0LGJl
-  WMZoVpxaVpRbpGuslFWWmZ5TkJmbm6CVW6SbqpZbq5uUXlWToGuollhfrpRYX6xVX5ibnpOjl
-  pZZsYgQGbkpx+vodjO+W/tE7xCjJwaQkyntlZ1KyEF9SfkplRmJxRnxRaU5q8SFGGQ4OJQler
-  cDkZCHBotT01Iq0zBxgFMGkJTh4lER4r/sBpXmLCxJzizPTIVKnGC05ps7+t5+ZYzmYnPm17Q
-  CzEEtefl6qlDhvJMg8AZCGjNI8uHGwSL/EKCslzMvIwMAgxFOQWpSbWYIq/4pRnINRSZh3K8h
-  ansy8Eritr4AOYgI6aFt1EshBJYkIKakGJuNuznmV4b9eLFNXclzm//uOWsCzi/fPXk/zlEtW
-  f3u6e+daRiGVDYtl0p+uWDTpalPFsRPMr28ukoj06Nianbmao1bYK87zj8B0rlgBK7agl4EHF
-  3InTwv8UP3p8az3pyf6f9UvigjPuDGJuaecWeUCj9fji9sNxD7WcltPCnIsYTgf+uNDwu2CqW
-  +qHsptO1tpL2CgFxJ7PeyA5ba3VVNmHHLgvMHOE/I0JU74t+PW3lOdwqdflEjozNfU/G9mWCR
-  hciHweNvK6iV34lZM1L79NXllukRb4wWBtYwmC35zMlVv7eqwPdSpxbs5TmmevL7+z/8z4l/e
-  /Xys+MbWLvsWvn1Rqd+ni7eGp76bpMRSnJFoqMVcVJwIAOBasuVvAwAA
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-3.tower-745.messagelabs.com!1667453588!664705!1
-X-Originating-IP: [62.60.8.179]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.100.1; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 4692 invoked from network); 3 Nov 2022 05:33:09 -0000
-Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
-  by server-3.tower-745.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 3 Nov 2022 05:33:09 -0000
-Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id BCC037C
-	for <openembedded-core@lists.openembedded.org>; Thu,  3 Nov 2022 05:33:08 +0000 (GMT)
-Received: from R01UKEXCASM126.r01.fujitsu.local (R01UKEXCASM126 [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id B023F7B
-	for <openembedded-core@lists.openembedded.org>; Thu,  3 Nov 2022 05:33:08 +0000 (GMT)
-Received: from localhost.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Thu, 3 Nov 2022 05:33:07 +0000
-From: <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] socat: upgrade 1.7.4.3 -> 1.7.4.4
-Date: Thu, 3 Nov 2022 13:32:51 +0800
-Message-ID: <1667453571-28233-3-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1667453571-28233-1-git-send-email-wangmy@fujitsu.com>
-References: <1667453571-28233-1-git-send-email-wangmy@fujitsu.com>
+ dkim=pass header.i=@linaro.org header.s=google header.b=LSnTFVhe;
+ spf=pass (domain: linaro.org, ip: 209.85.210.173, mailfrom: chase.qi@linaro.org)
+Received: by mail-pf1-f173.google.com with SMTP id q9so702562pfg.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Nov 2022 22:41:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xubeEaczaT4ZCVNIeW73wfot37DKk2can+d78J1T+YA=;
+        b=LSnTFVhe6Tk5ClVbYjE1xQndsZHq+gVL4FKZEUx4IfnFb/JxcQfes6v8WdIl5EwodZ
+         xWueTiRNCSEw6TdkkmFqbAc+nDH8eJYDg3dcqqKvOM7ETBEHz0ZICCyiKk0kr0YdNjH0
+         4Lc7y6WQZp65JUIwx4Mung7xVpP7zH+7jXk8EDVXkrAJxgvBMvm/MkEDCbjM8UD/4AeM
+         sAGh8/s7eAzAWbGZl9FI3EegU6FuGiIrX3l43qw0B5QUccXGIICRQcP6GL2iJdOtXhcA
+         MxZZ+8QRdvUOY/C/SNfFQvh0FZhfRCpE3Xh7rwcPES1T+bTqqZarQ/40foPQ2Wtt4abo
+         jn9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xubeEaczaT4ZCVNIeW73wfot37DKk2can+d78J1T+YA=;
+        b=GGDrYIkVv0aNhXpgxi2mzRBLinCWgWhf8tZAghsgTlZRTxZaX+aQBTW0PdhruKqNNT
+         L/tztKpmaj/vPyQ5Zd0DcKCZmAe9ClzKSbs0/U7bZX/t/Ie0tRta9FRfD9rPVJNgZbMa
+         IdadAPKwOT7Kfjh4sGK0vI4X8BxOHXQVgBhl+vWqaeLPMssjcihYTWqWvxIEbWG1lW0I
+         5OlopRglxaSrkSjnjz4Vw79hZrTCRdA/Lmsbivz7mB532N/SvF9dcdpEiyhBPkKtXm57
+         Zgn3UA+l31z0Hj0Kw5nYyhWcMH5H/lRqi5I70648hns6X3NaxN0uotJNDPYIGgnAd/tb
+         l5HA==
+X-Gm-Message-State: ACrzQf1w6qIUaPcP5tX7CX3gSKB0kEYHFv0Gs85HwdBTXWoXiwAf3wxZ
+	6q4WbOa/GXZmsa3iDJGv7/L7vnDcE+Qxay6Hx+M=
+X-Google-Smtp-Source: AMsMyM7ui1FjCplTVyQVzJ/wLGMXSDTWttv1wSMihm0M/vRyw+8Wgk1t/vPB94Ea8TXB0S/o64FXaQ==
+X-Received: by 2002:a05:6a00:88f:b0:558:8186:3ec3 with SMTP id q15-20020a056a00088f00b0055881863ec3mr28259274pfj.83.1667454111081;
+        Wed, 02 Nov 2022 22:41:51 -0700 (PDT)
+Received: from localhost.localdomain ([107.161.26.140])
+        by smtp.gmail.com with ESMTPSA id e15-20020a170902ed8f00b0016be834d54asm9284613plj.306.2022.11.02.22.41.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Nov 2022 22:41:50 -0700 (PDT)
+From: Chase Qi <chase.qi@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Chase Qi <chase.qi@linaro.org>
+Subject: [PATCH] libc-test: add libc testsuite for musl
+Date: Thu,  3 Nov 2022 05:39:26 +0000
+Message-Id: <20221103053926.719998-1-chase.qi@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 05:33:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172609
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 05:42:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172610
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+libc-test is a collection of unit test to measure the correctness and
+robustness of a C/POSIX standard library implementation. It is developed
+as part of the musl project.
 
-0001-configure.ac-check-getprotobynumber_r-with-AC_TRY_LI.patch
-removed since it's included in 1.7.4.4
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Chase Qi <chase.qi@linaro.org>
 ---
- ...ck-getprotobynumber_r-with-AC_TRY_LI.patch | 35 -------------------
- .../{socat_1.7.4.3.bb => socat_1.7.4.4.bb}    |  6 ++--
- 2 files changed, 2 insertions(+), 39 deletions(-)
- delete mode 100644 meta/recipes-connectivity/socat/socat/0001-configure.ac-check-getprotobynumber_r-with-AC_TRY_LI.patch
- rename meta/recipes-connectivity/socat/{socat_1.7.4.3.bb => socat_1.7.4.4.bb} (89%)
+ meta/recipes-core/musl/libc-test/run-ptest | 17 ++++++++
+ meta/recipes-core/musl/libc-test_git.bb    | 45 ++++++++++++++++++++++
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta/recipes-core/musl/libc-test/run-ptest
+ create mode 100644 meta/recipes-core/musl/libc-test_git.bb
 
-diff --git a/meta/recipes-connectivity/socat/socat/0001-configure.ac-check-getprotobynumber_r-with-AC_TRY_LI.patch b/meta/recipes-connectivity/socat/socat/0001-configure.ac-check-getprotobynumber_r-with-AC_TRY_LI.patch
-deleted file mode 100644
-index fbfb0816dd..0000000000
---- a/meta/recipes-connectivity/socat/socat/0001-configure.ac-check-getprotobynumber_r-with-AC_TRY_LI.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From d67d6b4f981db9612d808bd723176a1d2996d53a Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Mon, 17 Jan 2022 13:21:32 +0100
--Subject: [PATCH] configure.ac: check getprotobynumber_r with AC_TRY_LINK
--
--AC_TRY_COMPILE won't error out if the function is altogether absent
--(e.g. on linux musl C library), the test needs to link all the way.
--
--Upstream-Status: Submitted [via email to socat@dest-unreach.org]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- configure.ac | 6 +++---
-- 1 file changed, 3 insertions(+), 3 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index d4acc9e..973a7f2 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -137,13 +137,13 @@ AC_MSG_RESULT($sc_cv_have_prototype_hstrerror)
-- # getprotobynumber_r() is not standardized
-- AC_MSG_CHECKING(for getprotobynumber_r() variant)
-- AC_CACHE_VAL(sc_cv_getprotobynumber_r,
---[AC_TRY_COMPILE([#include <stddef.h>
--+[AC_TRY_LINK([#include <stddef.h>
-- #include <netdb.h>],[getprotobynumber_r(1,NULL,NULL,1024,NULL);],
-- [sc_cv_getprotobynumber_r=1; tmp_bynum_variant=Linux],
--- [AC_TRY_COMPILE([#include <stddef.h>
--+ [AC_TRY_LINK([#include <stddef.h>
--  #include <netdb.h>],[getprotobynumber_r(1,NULL,NULL,1024);],
--  [sc_cv_getprotobynumber_r=2; tmp_bynum_variant=Solaris],
---  [AC_TRY_COMPILE([#include <stddef.h>
--+  [AC_TRY_LINK([#include <stddef.h>
--   #include <netdb.h>],[getprotobynumber_r(1,NULL,NULL);],
--   [sc_cv_getprotobynumber_r=3; tmp_bynum_variant=AIX],
-- 
-diff --git a/meta/recipes-connectivity/socat/socat_1.7.4.3.bb b/meta/recipes-connectivity/socat/socat_1.7.4.4.bb
-similarity index 89%
-rename from meta/recipes-connectivity/socat/socat_1.7.4.3.bb
-rename to meta/recipes-connectivity/socat/socat_1.7.4.4.bb
-index a4a0a8933e..5a379380d1 100644
---- a/meta/recipes-connectivity/socat/socat_1.7.4.3.bb
-+++ b/meta/recipes-connectivity/socat/socat_1.7.4.4.bb
-@@ -9,11 +9,9 @@ LICENSE = "GPL-2.0-with-OpenSSL-exception"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://README;beginline=257;endline=287;md5=82520b052f322ac2b5b3dfdc7c7eea86"
- 
--SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
--           file://0001-configure.ac-check-getprotobynumber_r-with-AC_TRY_LI.patch \
--           "
-+SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2"
- 
--SRC_URI[sha256sum] = "d47318104415077635119dfee44bcfb41de3497374a9a001b1aff6e2f0858007"
-+SRC_URI[sha256sum] = "fbd42bd2f0e54a3af6d01bdf15385384ab82dbc0e4f1a5e153b3e0be1b6380ac"
- 
- inherit autotools
- 
+diff --git a/meta/recipes-core/musl/libc-test/run-ptest b/meta/recipes-core/musl/libc-test/run-ptest
+new file mode 100644
+index 0000000000..30abcdfba5
+--- /dev/null
++++ b/meta/recipes-core/musl/libc-test/run-ptest
+@@ -0,0 +1,17 @@
++#!/bin/sh
++
++make cleanall
++make run | tee libc-test.log
++
++echo ""
++echo "--- ptest result ---"
++if grep -q '^FAIL src.*\.exe.*' libc-test.log; then
++    # Consolidate output format.
++    # e.g. "FAIL src/api/main.exe [status 1]" -> "FAIL: api_main"
++    grep '^FAIL src.*\.exe.*' libc-test.log \
++        | sed 's|^FAIL src/|FAIL: |;s|/|_|;s|\.exe.*\]||'
++    exit 1
++else
++    echo "PASS: libc-test"
++    exit 0
++fi
+diff --git a/meta/recipes-core/musl/libc-test_git.bb b/meta/recipes-core/musl/libc-test_git.bb
+new file mode 100644
+index 0000000000..d5d8845727
+--- /dev/null
++++ b/meta/recipes-core/musl/libc-test_git.bb
+@@ -0,0 +1,45 @@
++SUMMARY = "Musl libc test to be run with ptest"
++HOMEPAGE = "https://wiki.musl-libc.org/libc-test.html"
++DESCRIPTION = "libc-test is a collection of unit tests to measure the \
++correctness and robustness of a C/POSIX standard library implementation. It is \
++developed as part of the musl project."
++SECTION = "tests"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=43ed1245085be90dc934288117d55a3b"
++
++inherit ptest
++
++SRCREV = "18e28496adee3d84fefdda6efcb9c5b8996a2398"
++SRC_URI = " \
++    git://nsz.repo.hu:49100/repo/libc-test;branch=master \
++    file://run-ptest \
++"
++MIRRORS += "git://nsz.repo.hu:49100/repo/libc-test git://repo.or.cz/libc-test"
++
++S = "${WORKDIR}/git"
++
++# libc-test 'make' or 'make run' command is designed to build and run tests. It
++# reports both build and test failures. The commands should be run on target.
++do_compile() {
++    :
++}
++
++RDEPENDS:${PN}-ptest = " \
++    bash \
++    grep \
++    musl \
++    packagegroup-core-buildessential \
++    sed \
++"
++
++do_install_ptest () {
++    cp ${S}/Makefile ${D}${PTEST_PATH}
++    cp ${S}/config.mak.def ${D}${PTEST_PATH}/config.mak
++    cp -r ${S}/src ${D}${PTEST_PATH}/
++}
++
++# libc-test-ptest depends on empty libc-test.
++ALLOW_EMPTY:${PN} = "1"
++
++COMPATIBLE_HOST = "null"
++COMPATIBLE_HOST:libc-musl = "(.*)"
 -- 
 2.25.1
 
