@@ -1,123 +1,101 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97F9BC433FE
-	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 16:20:44 +0000 (UTC)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
- by mx.groups.io with SMTP id smtpd.web08.553.1667492441189085373
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F99DC4332F
+	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 16:28:24 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web08.663.1667492897684928868
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 09:20:41 -0700
+ Thu, 03 Nov 2022 09:28:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZDeiQ45S;
- spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-13bd2aea61bso2778217fac.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 09:20:41 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=t8LFV++h;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.49, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f49.google.com with SMTP id k2so6759452ejr.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 09:28:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ojy/dixiIe8l4upL9ft8H44cEVosUwTckelQGXVX0gY=;
-        b=ZDeiQ45SfyvWP8N3c4fiDcNIk4Mw1yW+RRi9WqT7oGupOTjzuCN5nC0ciP36EasOQw
-         7m2nYWm6XNYkYIu/ygDx67e6kNKAmxbBA5iW9HhcikKARtXn4YnFhwievqEVhLZDwsEE
-         uvrGWDWFLd8GkBh4ZVJtH8w1vZgLxQbJYLUCzpIHpVR6Iq4figEjJcQoDkmD+21+GqUY
-         FqLHR/Pl/8ulcJI5gnbRNOR3bAysAJNtUyXXsTuJUezASf+zN9XD4DvHmBDuU82F/rGn
-         bMTvqyKIyhRyr2JsR1eQe3Wd6oFeCr3MHNY9GtD8fTlvu7E4IIjJlJLMqaMujHuXvuQQ
-         MjpQ==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=78k7NtK3ksMHyQx6RZymDiZAJ4SEAC1jFXNXMcAepH0=;
+        b=t8LFV++hAuKgmfC3NT2SY1ETU7rm7JwbD69wHVzkNCLniE8OFtRuqKx1hlxoJq9v5Z
+         PvrAZm0Xp4Bj7V8nKJ1hozZieHUat29DqZnjMZfvKKeTomwuF8x1rZZvkGAq0y/CYy+i
+         74k+aYMJaHpm5e2k2b2esSM1Cr9vR8Zu+GYuT997jj0/anWTMg60N4kZHcyUJ1K0nBrS
+         xRAQVx9ln/LkpIgz6OXbklKKznhCL+BavynPRVnNVBGay7U7nIJa+08t5+E1L14/sohX
+         Z/gLpTJirYHz8em96QkCwEeltbJ5rrjL9sjX7dDVwE/oOutuIPu9Jo4prw6gV/v3oPdJ
+         QfJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ojy/dixiIe8l4upL9ft8H44cEVosUwTckelQGXVX0gY=;
-        b=HGRQfy19m5CULwACy9DGE674MtDgJ4j0tlNGRvzjXwm1aDjHThZR4o1GmNc0bLcykN
-         PFKdumyY95lv00tT/W3h+WHIj9nthvbg2hJfatYdSNMkFI/nBOy2Rg3vGsqI00xflov8
-         DmZTwokqDh908Cd5JTeRnclf3ny131Tcvwk0B+Po1EzBZ4O1+ATlWksmwTqCeq1CXhXP
-         BWaNCW86XIOPe/V5s3CGtO5RvsbjOJPbFw9Y9JmbVedMN4hiYVsK7EclfiDlYKJBnhDC
-         syg4ORdfmgFfFpYvau4+jP1IQERlw9GHLfKKweKLQiiNBWmJc7L7tNOoEdEYB57/yGlC
-         HyMA==
-X-Gm-Message-State: ACrzQf3GfqJW8Xgf8biSLqXV/amVi8bM+VENxbjAd0aGH9xYQM1yEMf8
-	jZSjQw4O9+MWzi+cyMtGR0g=
-X-Google-Smtp-Source: AMsMyM5HxrxEMo2ommn8+/DZ8R5FIV9xH/eq1UFW5Sv8rDgM/H6dLbVrqf4o39f3xMzhu4pIrrYuZQ==
-X-Received: by 2002:a05:6870:e30e:b0:132:e934:5c0a with SMTP id z14-20020a056870e30e00b00132e9345c0amr18346277oad.202.1667492440498;
-        Thu, 03 Nov 2022 09:20:40 -0700 (PDT)
-Received: from ?IPV6:2605:a601:ac3d:c100:e3e8:d9:3a56:e27d? ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id y10-20020a056870b00a00b0013b0b19100fsm558708oae.32.2022.11.03.09.20.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Nov 2022 09:20:39 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <40a86fb6-07d3-5491-9202-4114cf963f4a@gmail.com>
-Date: Thu, 3 Nov 2022 11:20:39 -0500
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=78k7NtK3ksMHyQx6RZymDiZAJ4SEAC1jFXNXMcAepH0=;
+        b=DAktbH46Q1q3yAuqAxujEnnpqpD0EEXu58WdOU2tmQhaH7FmE3+/KjpEvBY2elEJlp
+         FiRHvJkfnUPhpq0/waps/74E7r9AYz0mbyeAEEjEFtwOz1WP9JEpmCwA5In3wKBc2I4S
+         raQKYzBoDpNMzZr9tVwGy9FrOLqZ+hvZpGVXKqs10CK9Xk6tPqi6v0Teim0JrPZkORQn
+         SdZ7d/mrmg2Y5BTbOCAdXFc0WEXK7WLVH3qBXsRMjfPOUyR4LdtjLQ67s7s5rRK/gOze
+         o9OH6yHFM9GH6dvDaAvA0d0xv30fo5aqSaGpZTPcQHgQDXyr3HCbsTqxsMN8jeIiQWgo
+         Z+aA==
+X-Gm-Message-State: ACrzQf0B9hMo06lPyii3Ami1VgjEAALX2B1A7S+DNOqYFBVuey0Vi9cw
+	dcvWwPcGL+yTZvozZi9jf5dfo97phyXJDK7f6+IBTw==
+X-Google-Smtp-Source: AMsMyM5Sm7qMMXQTIMR/CwVW2NsnEvQVieZbs0z9VFMjcshvjD+ZaK/O8LoTDLcsN5RZIcTQohKtECdlJMa5o8Hn7U4=
+X-Received: by 2002:a17:907:7e9f:b0:7ad:b389:1145 with SMTP id
+ qb31-20020a1709077e9f00b007adb3891145mr27541234ejc.92.1667492895857; Thu, 03
+ Nov 2022 09:28:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [OE-core] [PATCH 0/1] create-spdx: default share_src for shared
- sources
-Content-Language: en-US
-To: Konrad WEIHMANN <kweihmann@witekio.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Cc: "steve@sakoman.com" <steve@sakoman.com>
-References: <AM8P192MB09633133388817BF0814341EA3389@AM8P192MB0963.EURP192.PROD.OUTLOOK.COM>
- <164f7e3d-59f7-98c7-f75e-e67fc949f462@gmail.com>
- <AM8P192MB09632ED64CA52FB9CA30C13CA3389@AM8P192MB0963.EURP192.PROD.OUTLOOK.COM>
-In-Reply-To: <AM8P192MB09632ED64CA52FB9CA30C13CA3389@AM8P192MB0963.EURP192.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <cover.1667356805.git.steve@sakoman.com> <c28dc71f17133f6e4470fc0c1a552c743869b3ad.1667356805.git.steve@sakoman.com>
+ <Y2PkQjspCvfitDqj@heinlein.taila677.ts.net>
+In-Reply-To: <Y2PkQjspCvfitDqj@heinlein.taila677.ts.net>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Thu, 3 Nov 2022 06:28:04 -1000
+Message-ID: <CAOSpxdb0PxRcf7Xgq5sP3JHVe9doF7XH71xW=yK4wYQwpRnegQ@mail.gmail.com>
+Subject: Re: [OE-core][langdale 01/20] openssl: CVE-2022-3358 Using a Custom
+ Cipher with NID_undef may lead to NULL encryption
+To: Patrick Williams <patrick@stwcx.xyz>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 16:20:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172642
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 16:28:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172643
 
+On Thu, Nov 3, 2022 at 5:54 AM Patrick Williams <patrick@stwcx.xyz> wrote:
+>
+> On Tue, Nov 01, 2022 at 04:41:51PM -1000, Steve Sakoman wrote:
+> > From: Hitendra Prajapati <hprajapati@mvista.com>
+> >
+> > Upstream-Status: Backport from https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=5485c56679d7c49b96e8fc8ca708b0b7e7c03c4b]
+> > Description:
+> >       CVE-2022-3358 openssl: Using a Custom Cipher with NID_undef may lead to NULL encryption.
+> > Affects "openssl < 3.0.6"
+> >
+> > Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> > Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> > (cherry picked from commit f98b2273c6f03f8f6029a7a409600ce290817e27)
+> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
+>
+> Instead of picking up this patch, wouldn't it make a lot more sense to
+> go to 3.0.7 like we did with [1]?  Since 3.0.7 contains a HIGH severity
+> CVE fix as well as the one mentioned here, it seems like we should get
+> that backported to both Langdale and Kirkstone quickly.
 
-On 11/3/22 09:49, Konrad WEIHMANN wrote:
-> so what's the conclusion? I would be okay to add a var like 
-> SPDX_SHARED_SOURCE (default WORKDIR) or something and reference this 
-> as a default - when using a weak default ppl could override that to 
-> their needs...
+This patchset was tested and sent out for review prior to the 3.0.7
+upgrade hitting master.
 
+Note that I have the 3.0.7 upgrade in the patches currently under test
+for both langdale and kirkstone:
 
-Ya, I think what you have is fine with a minor change; the limitations 
-of not handling non-kernel shared source very well isn't changing. I did 
-leave a minor comment in github, but otherwise LGTM
+https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/langdale-nut
+https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
 
+If the langdale test succeeds I will include the 3.0.7 upgrade patch
+in the pull request for the above series (hopefully later today)
 
+Steve
+
+> 1. https://lore.kernel.org/openembedded-core/20221101170310.2740317-1-edtanous@google.com/
 >
-> Would that be something that would work?
-> ------------------------------------------------------------------------
-> *From:* Joshua Watt <jpewhacker@gmail.com>
-> *Sent:* Thursday, November 3, 2022 3:28 PM
-> *To:* Konrad WEIHMANN <kweihmann@witekio.com>; 
-> openembedded-core@lists.openembedded.org 
-> <openembedded-core@lists.openembedded.org>
-> *Cc:* steve@sakoman.com <steve@sakoman.com>
-> *Subject:* Re: [OE-core] [PATCH 0/1] create-spdx: default share_src 
-> for shared sources
-> I see the problem, but I'm not quite sure this is the correct solution.
-> It *does* fix the problem for exact recipe that provides the source code
-> (e.g. the llvm-sources recipe), but I don't think it will correctly pick
-> up the sources for anything that actually uses that shared source code
-> (e.g. clang); this isn't necessarily a problem in your patch however, I
-> think it's actually a problem with any non-kernel recipes.
->
->
-> On 11/3/22 09:15, Konrad WEIHMANN via lists.openembedded.org wrote:
-> > https://github.com/witekio-kwe/poky spdx-fix
->
-> Witekio GmbH is registered in Frankfurt. Registered office: Am 
-> Wartfeld 7 - 61169 Friedberg. Registered company number: HRB 95432. 
-> VAT number DE287400071
-> This message contains confidential information and is intended only 
-> for the individual(s) addressed in the message. If you aren't the 
-> named addressee, you should not disseminate, distribute, or copy this 
-> e-mail.
->
-> We continuously commit to comply with the applicable data protection 
-> laws and ensure fair and transparent processing of your personal data. 
-> Please read our privacy statement including an information notice and 
-> data protection policy for detailed information on our website.
->
+> --
+> Patrick Williams
 
