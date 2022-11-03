@@ -1,98 +1,97 @@
-Return-Path: <leon.anavi@konsulko.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35EDEC43219
-	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 12:35:02 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web10.18633.1667478901345643531
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D731C4332F
+	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 12:41:32 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web10.18686.1667479287955929874
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 05:35:01 -0700
+ Thu, 03 Nov 2022 05:41:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=t8bOnD6D;
- spf=pass (domain: konsulko.com, ip: 209.85.218.44, mailfrom: leon.anavi@konsulko.com)
-Received: by mail-ej1-f44.google.com with SMTP id y14so4767478ejd.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 05:35:01 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=I4HsGU5v;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id bg9-20020a05600c3c8900b003bf249616b0so1097517wmb.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 05:41:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rs2hO31gRcoInnKFVM9BbTpV6iykNWuFZEE3xR+bvwU=;
-        b=t8bOnD6D/vAKBIP2Fq3RYLxRISg77e9LKVi7H0JIopvcbPuSw4m1jEzhrN5YplEnDj
-         7R3oGfCj8uKN9i6gJAC6vjoME456Axj3j8X0dSWjwIk+6w8QG3Dc9AaQb81cuAhde2ZU
-         hodaVGj4j0moe4NhaMdykf7QHqAk12PLwvufA=
+        d=linuxfoundation.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ESLkm6tKEVTVonu4zseOGuXhs/q/pMOVn84StOHaG0o=;
+        b=I4HsGU5vUYn1WlBh0kvuG5VwW420QQnh6ieZH2YScAAucfXO9dhWwujBy/KcAaWTE0
+         V+umDIvePHcvovC/HrkoXca1ulq1IZAVZVnml+CHb6YUYJIAa8mQ1Cr8xh7WcVHPy1wu
+         h2Sv+Vj+bbQOeLki/nLU33z5rySwuQ2Dsx2z8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rs2hO31gRcoInnKFVM9BbTpV6iykNWuFZEE3xR+bvwU=;
-        b=7/UxvbuagkwboyMlLM8VjGr4LZMiZBiOtIkm5BCFXIrGYpZHZ14oiJvadQgZToaD+d
-         Ndb+LiSJhFcj0x+6zeFWi1eUPpk3VUX09thABWU6ZcY8lQJQVcY0qL/ena4M60IFKGvn
-         iz1kdNk1UDT4m9O4R7VU13YahinxqHZgoadwBfmu+zWBkn89NtMNod0um8vtJOS+uYvy
-         BZVg1ReL9S5Bodx5GsNWo2UA5br+iHQuWBe0WgSSudRRDdIvtLnQYuhoBCeBrHHSRAhX
-         TNkYksyoZrcnQtfbfz3I1SVriwqEXYZ0Vhl/ql/CJwMb4FtQ4XQN3m09iy0JZpBKOBo1
-         dtEA==
-X-Gm-Message-State: ACrzQf2LH9VGkrGYzCrb+NUFBzUeI73ujI07T6rJ6RNkaeHN9NSRapb7
-	3mEsFQUPcQuDmj3OXZLcAfpYgQ==
-X-Google-Smtp-Source: AMsMyM4ZihdUN6H4gjhaYZZMNvBk2jfrGuAq31kXalSEtISsyYYWDjFQ7my5nTh85BNoS4X3T/69/w==
-X-Received: by 2002:a17:907:7fa5:b0:791:9a5f:101a with SMTP id qk37-20020a1709077fa500b007919a5f101amr28877845ejc.453.1667478899683;
-        Thu, 03 Nov 2022 05:34:59 -0700 (PDT)
-Received: from [192.168.5.100] ([46.55.231.62])
-        by smtp.gmail.com with ESMTPSA id a13-20020a17090680cd00b00787a6adab7csm442594ejx.147.2022.11.03.05.34.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Nov 2022 05:34:59 -0700 (PDT)
-Message-ID: <127f2641-6624-2ffa-070f-ce874e54f6fa@konsulko.com>
-Date: Thu, 3 Nov 2022 14:34:58 +0200
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ESLkm6tKEVTVonu4zseOGuXhs/q/pMOVn84StOHaG0o=;
+        b=njmw7EfulERvsWTmhFBg5eFqFGFMAmCslgTZdtz7mO7KIrfS09FUPJyIls1FHV0LtO
+         q5wL16Gosngl/4bNd3yPCBSyzHtK6YVGRjM5VMraNiBJyOHexrvwsR00CFpTVIm7trYD
+         g4r4LkfO0VRkoeg7/1Jo5nogMFXRRwNu2owltxIxSAy+dFegUrqKjf8RASkVZzwwqI7c
+         yF1zU5oTBc58wXCykkC316ozpeeCWNFHmLwamh0IO+1+h+t/x3Bv5L3nOtkgdnkGfFjD
+         pdN+2TEmn4KIBU8HPM7/Yag3Aq9EWqz1si0RM8ehCGY5cgMsNw61O8aLKl+nMr06DIQC
+         lmWQ==
+X-Gm-Message-State: ACrzQf3uQeAqJgSk9BH31qTjXRKbBH3oTdAKco63RIalv2EoMdO8WEac
+	rEeBqNI6IoZ15eFtPvkLBA4SwDPG+44Zqg==
+X-Google-Smtp-Source: AMsMyM7Y3GYj3DDiSeahMr9rYfODDntXCumipxQL0zd6J7T+sX3F2UOQmtSHxy7nCBTOjz1q2WexFA==
+X-Received: by 2002:a05:600c:654f:b0:3c3:b5b7:43a9 with SMTP id dn15-20020a05600c654f00b003c3b5b743a9mr29906258wmb.201.1667479285432;
+        Thu, 03 Nov 2022 05:41:25 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:fec4:d12e:21c:2d17])
+        by smtp.gmail.com with ESMTPSA id u8-20020a05600c19c800b003c6f8d30e40sm5661651wmq.31.2022.11.03.05.41.24
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Nov 2022 05:41:24 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] gcc-shared-source: Fix source date epoch handling
+Date: Thu,  3 Nov 2022 12:41:22 +0000
+Message-Id: <20221103124123.842602-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [OE-core] [PATCHv2] python3-manifest.json: Fix re in core
-Content-Language: en-US
-To: Quentin Schulz <quentin.schulz@theobroma-systems.com>,
- openembedded-core@lists.openembedded.org
-References: <20221102190935.1700103-1-leon.anavi@konsulko.com>
- <ac210bf3-ebcb-7dcf-1d41-f3e35aa3b532@theobroma-systems.com>
-From: Leon Anavi <leon.anavi@konsulko.com>
-In-Reply-To: <ac210bf3-ebcb-7dcf-1d41-f3e35aa3b532@theobroma-systems.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 12:35:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172625
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 12:41:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172626
 
-Hi Quentin,
+The source date epoch for gcc isn't being transferred from the shared
+workdir to the current WORKDIR for the specific recipe. This results in
+the clamping code within sstate.bbclass using a value from 2011 which
+changes the timestamps of many files. Since this happens part way
+through the build, if pieces of gcc haven't built, or build/rebuild
+later, we see things rebuilding when they should not and for generated
+files, races are possible.
 
-On 3.11.22 г. 11:39 ч., Quentin Schulz wrote:
-> Hi Leon,
->
-> On 11/2/22 20:09, Leon Anavi wrote:
->> Following the update from 3.10.6 to 3.11.0, the source code of
->> module re for regular expression operations has been moved to
->> Lib/re/. File python3-manifest.json has been modified according
->> to the new path.
->>
->
-> I guess the changes are more than just about re module in v2? In that 
-> case the commit title and log should be changed to mention what the 
-> commit is now doing?
-Thank you for the feedback. You are right. I ran bitbake python3 -c 
-create_manifest and it also updated other files and rdepends in the 
-manifest. I've submitted v3 of the patch with explanation in the git 
-commit message.
+Fix this by copying the SDE from the shared workdir into the recipe
+workdir.
 
-Thanks,
-Leon
->
-> Cheers,
-> Quentin
+[YOCTO #14953]
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/gcc/gcc-shared-source.inc | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/meta/recipes-devtools/gcc/gcc-shared-source.inc b/meta/recipes-devtools/gcc/gcc-shared-source.inc
+index aac4b49313c..cdc27deffdb 100644
+--- a/meta/recipes-devtools/gcc/gcc-shared-source.inc
++++ b/meta/recipes-devtools/gcc/gcc-shared-source.inc
+@@ -9,3 +9,12 @@ SRC_URI = ""
+ 
+ do_configure[depends] += "gcc-source-${PV}:do_preconfigure"
+ do_populate_lic[depends] += "gcc-source-${PV}:do_unpack"
++do_deploy_source_date_epoch[depends] += "gcc-source-${PV}:do_deploy_source_date_epoch"
++
++# Copy the SDE from the shared workdir to the recipe workdir
++do_deploy_source_date_epoch () {
++	mkdir -p ${SDE_DEPLOYDIR}
++	cp -p ${S}/../source-date-epoch/__source_date_epoch.txt ${SDE_DEPLOYDIR}/__source_date_epoch.txt
++	mkdir -p `dirname ${SDE_FILE}`
++	cp -p ${S}/../source-date-epoch/__source_date_epoch.txt ${SDE_FILE}
++}
 -- 
-Leon Anavi
-Software Engineer
-konsulko.com
+2.34.1
 
 
