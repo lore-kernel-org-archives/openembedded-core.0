@@ -2,59 +2,60 @@ Return-Path: <nathan@nathanrossi.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A686BC4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6844C433FE
 	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 07:56:30 +0000 (UTC)
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web10.16672.1667462183553149098
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web09.16880.1667462189230069840
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 00:56:23 -0700
+ Thu, 03 Nov 2022 00:56:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nathanrossi.com header.s=google header.b=ToYfurkR;
- spf=pass (domain: nathanrossi.com, ip: 209.85.215.176, mailfrom: nathan@nathanrossi.com)
-Received: by mail-pg1-f176.google.com with SMTP id 78so969095pgb.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 00:56:23 -0700 (PDT)
+ dkim=pass header.i=@nathanrossi.com header.s=google header.b=LUst+0hg;
+ spf=pass (domain: nathanrossi.com, ip: 209.85.214.177, mailfrom: nathan@nathanrossi.com)
+Received: by mail-pl1-f177.google.com with SMTP id u6so1155050plq.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 00:56:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=nathanrossi.com; s=google;
         h=mime-version:content-transfer-encoding:subject:cc:to:from
          :references:in-reply-to:message-id:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zpd5o1FVJjHYRjv3pSV2PHApDZsncNwYDzW/m69RX1g=;
-        b=ToYfurkRCqN4dr5Q4aE/xAviHZgfh3uDJ1fj72Nn+Iw2CWGmgPKxKmKMiSHJqVd5bL
-         0BvH075IrGnVZP4WLrf7VG6NbONvzPOiXDyk5vU5dd/a4l71ov74uYjEIcSyPJLTKy70
-         vtsZ+AXK/fUcmRDKUgRm9THbq6V70W9faEea4t4EmFPQiYESdLkPVXctF9FNJrj6FXEI
-         +JFn7Ly7oF8BAfvkVbbsL+ynKsGwnIuVt7efZD6ihcI7o/bXI/dvh4Msdxk4m/wcCRNP
-         FFPtH6oas3UuCAWIPq367n+JB0Gm5zhliX82KC9Gwxacne/Ne/U3XhXSLwPLTRuXTVtG
-         6Gdg==
+        bh=n94LPe89X6J99cRvHy1YATnmt8heLfHsDOcDaScNYWk=;
+        b=LUst+0hgL2SEtKP1Kia2HjjKhJ9ChGpZpyBIGg2Su0wqdVnAaWflTDSNdy1QiJWJgs
+         y0IPj1VaLUAoue02EuL25pvXAabAwAWHNQNZrJhxFV4P7CxyOD9rIirvj15XdxT5kte8
+         h3xJP4LDqs4Tl7JsMsbx8iWFjff9HG85peZrKZ6TJiih3/+UEMIc+ir9MKW6F/W6PEEz
+         yJjCYrH84i6VAGzTGaWkgCv3bY+Pg/OfjUacxvYnSY14/wzFvN52sieJ9OjrOFV/zA++
+         H3bRo0+n/HEN25KDAdjhxn7rSVtOv3MSbdf7bMh0nuK9E4Md90F4XYqCCM7IdcZ09jnJ
+         pRzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:content-transfer-encoding:subject:cc:to:from
          :references:in-reply-to:message-id:date:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=zpd5o1FVJjHYRjv3pSV2PHApDZsncNwYDzW/m69RX1g=;
-        b=YYfSHSyeRqr6zP3nB8LEk0BoC12XeDK0Vace81jl0/N4o4OeDG/I/tR3era8V9EzuX
-         07pDcB9VWoE/1tdqkO6KYcJ35/18ihef4ZdvlkTCmoJSU2FeYKh5sfbZOPjIZd2G5LdM
-         IHYEy5OH5LHMHUSFVOe/4eXg0pVy4CXb3tjTu/WuJBrt1GGpZRgnAuCwz+a496TlF59C
-         /tbBHpYP+BLLg1jVgSAgTl/+qqmMkVd89M1jyjrKw//ehg1vkDhCdeJjVD/1RkysYvJ6
-         J1TLUyyT3gq420CQei91BSLKUvdvN5MzzrWx8pzZTwaTG2mMWqkj40kwG2vGvLHW2yp+
-         dvqw==
-X-Gm-Message-State: ACrzQf3yn1SfI/+vT8xtVWeierSzTB5F+DU3uOJbVhhqJWdpO3uiJXkc
-	l7NZGskkzIqc7htDv/AFZNAzSg==
-X-Google-Smtp-Source: AMsMyM7wfejsG2XQlxHUIbt5rA+1Izd23pqHIgM2txetWtLsYAT9+H/Sq7JpEA200sDBTh9GzcEoDA==
-X-Received: by 2002:aa7:8687:0:b0:560:3299:a6c0 with SMTP id d7-20020aa78687000000b005603299a6c0mr29259763pfo.81.1667462183035;
-        Thu, 03 Nov 2022 00:56:23 -0700 (PDT)
+        bh=n94LPe89X6J99cRvHy1YATnmt8heLfHsDOcDaScNYWk=;
+        b=aKWYooD9NTCc/Stq9MzsPUyjJ51WDesNNrOtQ9clM0F3josph/JV6D0tVuZhT0IYvq
+         oAk6QTU4FCgsMtwlv84ez5c9gamOSgUpx7oLCuEVfl1bLGAIe0+rYo0l2GlKpMOBIu++
+         ICr/bYiX61zenc9VjAvk6nMnwYIg5sFkRC137fZizgm5x0L/IySyqYfqQVvGx9UDJ66k
+         p7+QpBmumGLHjiFyRdKL8SiJYNkHMwRilfxG91hm42Qkem432DPTZJvUE93Edwt3nGrY
+         rzwI5ujAIyb3Ba9L7m/b3DYg+4yG1p7+J4QhVYGE7rTZq4u2G1pzmmQ7ev8S9bfh2L22
+         BD6g==
+X-Gm-Message-State: ACrzQf254KnEOpsSoAq2rCR646zEQoVkLYP9/8PNRAMH3/0gi5rBmNbn
+	PG8D7oJLdgep/ojR7/NoN0N0Dw==
+X-Google-Smtp-Source: AMsMyM4N6LVJbgYYbX2XXacmOqYLEYIcrh0TVwMEus0V9amtU3KgM/HxaCR3gXVbzOVpXTlNoh/tRw==
+X-Received: by 2002:a17:90a:b011:b0:213:473e:6fe1 with SMTP id x17-20020a17090ab01100b00213473e6fe1mr30134168pjq.229.1667462188565;
+        Thu, 03 Nov 2022 00:56:28 -0700 (PDT)
 Received: from [127.0.1.1] (117-20-68-146.751444.bne.nbn.aussiebb.net. [117.20.68.146])
-        by smtp.gmail.com with UTF8SMTPSA id h3-20020a63f903000000b00458a0649474sm226843pgi.11.2022.11.03.00.56.20
+        by smtp.gmail.com with UTF8SMTPSA id x23-20020aa79ad7000000b0056d3b8f530csm135418pfp.34.2022.11.03.00.56.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 00:56:21 -0700 (PDT)
+        Thu, 03 Nov 2022 00:56:27 -0700 (PDT)
 Date: Thu, 03 Nov 2022 07:56:06 +0000
-Message-Id: <20221103075606.208982-2-nathan@nathanrossi.com>
+Message-Id: <20221103075606.208982-3-nathan@nathanrossi.com>
 In-Reply-To: <20221103075606.208982-1-nathan@nathanrossi.com>
 References: <20221103075606.208982-1-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 Cc: 
  Nathan Rossi <nathan@nathanrossi.com>, Nathan Rossi <nathan.rossi@digi.com>
-Subject: [PATCH 2/3] glibc-locale: Do not INHIBIT_DEFAULT_DEPS
+Subject: 
+ [PATCH 3/3] package: Fix handling of minidebuginfo with newer binutils
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
@@ -62,50 +63,83 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 07:56:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172616
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172617
 
 From: Nathan Rossi <nathan.rossi@digi.com>
 
-The glibc-locale recipe already partially depends on the base depends in
-order to satisfy the do_package dependency on binutils. However since
-commit d6ffd683bf6 NM has defaulted to gcc-nm, meaning do_package
-depends on gcc (for minidebuginfo).
+Newer versions of binutils (2.38+) have changed how the
+"--only-keep-debug" of objcopy behaves when stripping non-debug sections
+from an ELF.
 
-Whilst the do_package task could handle having the dependencies
-explicitly defined (either in glibc-locale or in package.bbclass),
-setting these would require some amount of conditional dependency
-configuration (cross/crosssdk/etc.). Since both binutils and gcc are
-already dependencies of virtual/libc (although compilerlibs is not),
-having glibc-locale not inhibit the default depends simplifies the
-handling of this situation for both glibc-locale and package.bbclass.
+  https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=68f543154e92ab0f5d6c569e0fa143f5e8bd2d80
+
+This change causes associated sections to be correctly marked as NOBITS
+with the section contents removed from the output. The side effect is
+that this causes issues with objcopy's ability to perform symbol and
+relocation stripping (-S/--strip-all) on the debug split ELF, such that
+with some object files (e.g. kernel modules) objcopy fails to strip
+symbols/relocations with an error like the following:
+
+  .../.debug/nls_cp950.ko[.rodata]: file truncated
+
+Because of this it is now problematic to generate minidebuginfo for
+these types of ELF objects. However it is not typically useful to inject
+minidebuginfo into these types of ELFs, and other distributions (e.g.
+Fedora, referring to find-debuginfo.sh of debugedit) only insert
+minidebuginfo into executables and shared libraries.
+
+This change causes the minidebuginfo injection to only apply to EXEC/DYN
+type ELFs, which limits the injection to executables and shared
+libraires.
+
+Additionally this change fixes the parsing of the sections from the
+"readelf -W -S" output which was not accounting for the section index
+column having leading spaces for single digit index values e.g. "[ 1]".
 
 Signed-off-by: Nathan Rossi <nathan.rossi@digi.com>
 ---
- meta/recipes-core/glibc/glibc-locale.inc | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+ meta/classes-global/package.bbclass | 21 ++++++++++++++++++---
+ 1 file changed, 18 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
-index 7c14abfe99..7f70b3ca4f 100644
---- a/meta/recipes-core/glibc/glibc-locale.inc
-+++ b/meta/recipes-core/glibc/glibc-locale.inc
-@@ -5,14 +5,9 @@ SUMMARY = "Locale data from glibc"
- BPN = "glibc"
- LOCALEBASEPN = "${MLPREFIX}glibc"
+diff --git a/meta/classes-global/package.bbclass b/meta/classes-global/package.bbclass
+index 2d985d8aff..7a0a428b30 100644
+--- a/meta/classes-global/package.bbclass
++++ b/meta/classes-global/package.bbclass
+@@ -490,16 +490,31 @@ def inject_minidebuginfo(file, dvar, dv, d):
+         bb.debug(1, 'ELF file {} has no debuginfo, skipping minidebuginfo injection'.format(file))
+         return
  
--# glibc-collateral.inc inhibits all default deps, but do_package needs objcopy
--# ERROR: objcopy failed with exit code 127 (cmd was 'i586-webos-linux-objcopy' --only-keep-debug 'glibc-locale/2.17-r0/package/usr/lib/gconv/IBM1166.so' 'glibc-locale/2.17-r0/package/usr/lib/gconv/.debug/IBM1166.so')
--# ERROR: Function failed: split_and_strip_files
--BINUTILSDEP = "virtual/${MLPREFIX}${TARGET_PREFIX}binutils:do_populate_sysroot"
--BINUTILSDEP:class-nativesdk = "virtual/${TARGET_PREFIX}binutils-crosssdk:do_populate_sysroot"
--do_package[depends] += "${BINUTILSDEP}"
--
--DEPENDS += "virtual/libc"
-+# Do not inhibit default deps, do_package requires binutils/gcc for
-+# objcopy/gcc-nm and glibc-locale depends on virtual/libc directly.
-+INHIBIT_DEFAULT_DEPS = ""
- 
- # Binary locales are generated at build time if ENABLE_BINARY_LOCALE_GENERATION
- # is set. The idea is to avoid running localedef on the target (at first boot)
++    # minidebuginfo does not make sense to apply to ELF objects other than
++    # executables and shared libraries, skip applying the minidebuginfo
++    # generation for objects like kernel modules.
++    for line in subprocess.check_output([readelf, '-h', debugfile], universal_newlines=True).splitlines():
++        if not line.strip().startswith("Type:"):
++            continue
++        elftype = line.split(":")[1].strip()
++        if not any(elftype.startswith(i) for i in ["EXEC", "DYN"]):
++            bb.debug(1, 'ELF file {} is not executable/shared, skipping minidebuginfo injection'.format(file))
++            return
++        break
++
+     # Find non-allocated PROGBITS, NOTE, and NOBITS sections in the debuginfo.
+     # We will exclude all of these from minidebuginfo to save space.
+     remove_section_names = []
+     for line in subprocess.check_output([readelf, '-W', '-S', debugfile], universal_newlines=True).splitlines():
+-        fields = line.split()
+-        if len(fields) < 8:
++        # strip the leading "  [ 1]" section index to allow splitting on space
++        if ']' not in line:
++            continue
++        fields = line[line.index(']') + 1:].split()
++        if len(fields) < 7:
+             continue
+         name = fields[0]
+         type = fields[1]
+-        flags = fields[7]
++        flags = fields[6]
+         # .debug_ sections will be removed by objcopy -S so no need to explicitly remove them
+         if name.startswith('.debug_'):
+             continue
 ---
 2.37.2
 
