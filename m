@@ -1,344 +1,286 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <leon.anavi@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDB8CC433FE
-	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 11:48:31 +0000 (UTC)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web12.18351.1667476110991854065
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3617BC4332F
+	for <webhook@archiver.kernel.org>; Thu,  3 Nov 2022 12:28:22 +0000 (UTC)
+Received: from voyager.superhosting.bg (voyager.superhosting.bg [79.124.30.14])
+ by mx.groups.io with SMTP id smtpd.web08.18510.1667478486969671390
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 04:48:31 -0700
+ Thu, 03 Nov 2022 05:28:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=bofetffJ;
- spf=pass (domain: mvista.com, ip: 209.85.216.54, mailfrom: hprajapati@mvista.com)
-Received: by mail-pj1-f54.google.com with SMTP id o7so1384463pjj.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 04:48:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2e401a0VoBYmI/0V59ij5ZiKVABC8w/XZCUIHNGROvM=;
-        b=bofetffJdvTSGW0u1djDsSWV9CttwhKitEHCyVHFYR+3OkLbRMNT+QaS06lUWqz9K0
-         XeGHgsB64TdCrR36YQJ76K4Er7VAq5g+GBluXbcbCEREcZ+HBDrluVm5aFXwcr/+L+aD
-         1J6Z5PW5VPrIBJIckmtFnEybEb32s/iZWQync=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2e401a0VoBYmI/0V59ij5ZiKVABC8w/XZCUIHNGROvM=;
-        b=l/0Ff5KrBMhbjcXVF57M9MGcq08xdoguqbN63Umr+y8JctuZqr7XFIN0AChYBHFVkN
-         P0u8czqkVzuJC3fnAT2A2gOO7WtkIRFvSh7TUovVOAan4xIR1lPgDbou6eRSaTVvauef
-         GYhJEffamKT487dZMaBpsC/D2UOTb0DXJZ1ZmWyeUlj1O7+gT3TyePOFPhxbf9thMfEB
-         jCeFtjtgejkz/oe4j8qsYdlWkuCd6jfrX6VvUF3Bq8i+4V5cFZdiQNZ6W7ffLrLnoVe+
-         eSVn6VNVsPzUrnVHBDR0cUXLCvC8nFHiY4LmTrYjQU5a/p6avitcWmVv9YCH4aa4xx25
-         aTdA==
-X-Gm-Message-State: ACrzQf3LVOY9vfsHWkKRTnxtqNumwvDgovQy78WJdkhwheAsMac7aAqo
-	xSzZo6wKDIL05PEo6rqr1hcUuw3xozpWSQ==
-X-Google-Smtp-Source: AMsMyM5UnMJk0zgLqle39RqCaSNEdMT+lqXeGLEJQLLf/A9KsK+rXjA7+V/pq7PQ2gk96v1fPD3wSg==
-X-Received: by 2002:a17:90a:ea18:b0:216:92a9:fcd6 with SMTP id w24-20020a17090aea1800b0021692a9fcd6mr144832pjy.179.1667476109975;
-        Thu, 03 Nov 2022 04:48:29 -0700 (PDT)
-Received: from MVIN00024 ([150.129.170.149])
-        by smtp.gmail.com with ESMTPSA id s4-20020a170902ea0400b00186727e5f5csm416164plg.248.2022.11.03.04.48.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 04:48:29 -0700 (PDT)
-Received: by MVIN00024 (sSMTP sendmail emulation); Thu, 03 Nov 2022 17:18:24 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
+ dkim=pass header.i=@anavi.org header.s=default header.b=cUC0T9Yo;
+ spf=softfail (domain: konsulko.com, ip: 79.124.30.14, mailfrom: leon.anavi@konsulko.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=anavi.org;
+	s=default; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=BVxId7hvS0a9z+IdnE7PQ7qn374My27aLCto+w3EmUI=; b=cUC0T9YoWujl2jgiP75p5Y5PHc
+	PifMfU7Iafv5BNLe4Rw2eXCtZNEdVp/COUytzgD2WzYGxbdnFLtaMZxZjpjGb0k84yA9hWajqu7oE
+	pN+V1k4o/8ZtoEXXUOBloFCOAGYmpmu0meLk1p22CJjfH2fbRH3AvsJumsguubl1JnEaC/Lzivijg
+	VCdfQVFYq1aB6xXSy2PIsNbWGiDXaOEPCd1WBc+q9OxPbFbu+p26C17eLzrs/SLqPJSPHif0gWyDX
+	lwrNWhmSB/top5z5nvSJFhgos2geU6m0OMOLstS++F5QqL7xcEsNjNuAz5VaQhpa2w/x/UGoh7Sa+
+	ZbxCxPig==;
+Received: from lan.nucleusys.com ([92.247.61.126]:34406 helo=tone.k.g)
+	by voyager.superhosting.bg with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.95)
+	(envelope-from <leon.anavi@konsulko.com>)
+	id 1oqZLp-0000fT-ME;
+	Thu, 03 Nov 2022 14:28:05 +0200
+From: Leon Anavi <leon.anavi@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] golang: CVE-2022-41715 regexp/syntax: limit memory used by parsing regexps
-Date: Thu,  3 Nov 2022 17:18:23 +0530
-Message-Id: <20221103114823.349490-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Leon Anavi <leon.anavi@konsulko.com>
+Subject: [PATCHv3] python3-manifest.json: Fix re in core
+Date: Thu,  3 Nov 2022 14:27:55 +0200
+Message-Id: <20221103122755.3818894-1-leon.anavi@konsulko.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - voyager.superhosting.bg
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - konsulko.com
+X-Get-Message-Sender-Via: voyager.superhosting.bg: authenticated_id: leon@anavi.org
+X-Authenticated-Sender: voyager.superhosting.bg: leon@anavi.org
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 11:48:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172623
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 12:28:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172624
 
-Upstream-Status: Backport from https://github.com/golang/go/commit/e9017c2416ad0ef642f5e0c2eab2dbf3cba4d997
+Following the update from 3.10.6 to 3.11.0, the source code of
+module re for regular expression operations has been moved to
+Lib/re/. File python3-manifest.json has been modified according
+to the new path.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+According to the instructions the new python3-manifest.json
+version was created by running bitbake python3 -c create_manifest.
+Because of this it also updated other files and rdepends in it.
+
+Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
 ---
- meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
- .../go/go-1.18/CVE-2022-41715.patch           | 253 ++++++++++++++++++
- 2 files changed, 254 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2022-41715.patch
+ .../python/python3/python3-manifest.json      | 74 +++++++++++--------
+ 1 file changed, 44 insertions(+), 30 deletions(-)
 
-diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
-index b18de66f42..b9129e3d75 100644
---- a/meta/recipes-devtools/go/go-1.17.13.inc
-+++ b/meta/recipes-devtools/go/go-1.17.13.inc
-@@ -17,6 +17,7 @@ SRC_URI += "\
-     file://0001-exec.go-do-not-write-linker-flags-into-buildids.patch \
-     file://0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
-     file://CVE-2022-27664.patch \
-+    file://CVE-2022-41715.patch \
- "
- SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
- 
-diff --git a/meta/recipes-devtools/go/go-1.18/CVE-2022-41715.patch b/meta/recipes-devtools/go/go-1.18/CVE-2022-41715.patch
-new file mode 100644
-index 0000000000..87002ad37d
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.18/CVE-2022-41715.patch
-@@ -0,0 +1,253 @@
-+From baae577660381bc08497351e1def000a582f2a4f Mon Sep 17 00:00:00 2001
-+From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Thu, 3 Nov 2022 12:03:10 +0530
-+Subject: [PATCH] CVE-2022-41715
-+
-+Upstream-Status: Backport [https://github.com/golang/go/commit/e9017c2416ad0ef642f5e0c2eab2dbf3cba4d997]
-+CVE: CVE-2022-41715
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+
-+regexp: limit size of parsed regexps
-+
-+Set a 128 MB limit on the amount of space used by []syntax.Inst
-+in the compiled form corresponding to a given regexp.
-+
-+Also set a 128 MB limit on the rune storage in the *syntax.Regexp
-+tree itself.
-+---
-+ src/regexp/syntax/parse.go      | 145 ++++++++++++++++++++++++++++++--
-+ src/regexp/syntax/parse_test.go |  13 +--
-+ 2 files changed, 148 insertions(+), 10 deletions(-)
-+
-+diff --git a/src/regexp/syntax/parse.go b/src/regexp/syntax/parse.go
-+index d7cf2af..3792960 100644
-+--- a/src/regexp/syntax/parse.go
-++++ b/src/regexp/syntax/parse.go
-+@@ -90,15 +90,49 @@ const (
-+ // until we've allocated at least maxHeight Regexp structures.
-+ const maxHeight = 1000
-+ 
-++// maxSize is the maximum size of a compiled regexp in Insts.
-++// It too is somewhat arbitrarily chosen, but the idea is to be large enough
-++// to allow significant regexps while at the same time small enough that
-++// the compiled form will not take up too much memory.
-++// 128 MB is enough for a 3.3 million Inst structures, which roughly
-++// corresponds to a 3.3 MB regexp.
-++const (
-++	maxSize  = 128 << 20 / instSize
-++	instSize = 5 * 8 // byte, 2 uint32, slice is 5 64-bit words
-++)
-++
-++// maxRunes is the maximum number of runes allowed in a regexp tree
-++// counting the runes in all the nodes.
-++// Ignoring character classes p.numRunes is always less than the length of the regexp.
-++// Character classes can make it much larger: each \pL adds 1292 runes.
-++// 128 MB is enough for 32M runes, which is over 26k \pL instances.
-++// Note that repetitions do not make copies of the rune slices,
-++// so \pL{1000} is only one rune slice, not 1000.
-++// We could keep a cache of character classes we've seen,
-++// so that all the \pL we see use the same rune list,
-++// but that doesn't remove the problem entirely:
-++// consider something like [\pL01234][\pL01235][\pL01236]...[\pL^&*()].
-++// And because the Rune slice is exposed directly in the Regexp,
-++// there is not an opportunity to change the representation to allow
-++// partial sharing between different character classes.
-++// So the limit is the best we can do.
-++const (
-++	maxRunes = 128 << 20 / runeSize
-++	runeSize = 4 // rune is int32
-++)
-++
-+ type parser struct {
-+ 	flags       Flags     // parse mode flags
-+ 	stack       []*Regexp // stack of parsed expressions
-+ 	free        *Regexp
-+ 	numCap      int // number of capturing groups seen
-+ 	wholeRegexp string
-+-	tmpClass    []rune          // temporary char class work space
-+-	numRegexp   int             // number of regexps allocated
-+-	height      map[*Regexp]int // regexp height for height limit check
-++	tmpClass    []rune            // temporary char class work space
-++	numRegexp   int               // number of regexps allocated
-++	numRunes    int               // number of runes in char classes
-++	repeats     int64             // product of all repetitions seen
-++	height      map[*Regexp]int   // regexp height, for height limit check
-++	size        map[*Regexp]int64 // regexp compiled size, for size limit check
-+ }
-+ 
-+ func (p *parser) newRegexp(op Op) *Regexp {
-+@@ -122,6 +156,104 @@ func (p *parser) reuse(re *Regexp) {
-+ 	p.free = re
-+ }
-+ 
-++func (p *parser) checkLimits(re *Regexp) {
-++	if p.numRunes > maxRunes {
-++		panic(ErrInternalError)
-++	}
-++	p.checkSize(re)
-++	p.checkHeight(re)
-++}
-++
-++func (p *parser) checkSize(re *Regexp) {
-++	if p.size == nil {
-++		// We haven't started tracking size yet.
-++		// Do a relatively cheap check to see if we need to start.
-++		// Maintain the product of all the repeats we've seen
-++		// and don't track if the total number of regexp nodes
-++		// we've seen times the repeat product is in budget.
-++		if p.repeats == 0 {
-++			p.repeats = 1
-++		}
-++		if re.Op == OpRepeat {
-++			n := re.Max
-++			if n == -1 {
-++				n = re.Min
-++			}
-++			if n <= 0 {
-++				n = 1
-++			}
-++			if int64(n) > maxSize/p.repeats {
-++				p.repeats = maxSize
-++			} else {
-++				p.repeats *= int64(n)
-++			}
-++		}
-++		if int64(p.numRegexp) < maxSize/p.repeats {
-++			return
-++		}
-++
-++		// We need to start tracking size.
-++		// Make the map and belatedly populate it
-++		// with info about everything we've constructed so far.
-++		p.size = make(map[*Regexp]int64)
-++		for _, re := range p.stack {
-++			p.checkSize(re)
-++		}
-++	}
-++
-++	if p.calcSize(re, true) > maxSize {
-++		panic(ErrInternalError)
-++	}
-++}
-++
-++func (p *parser) calcSize(re *Regexp, force bool) int64 {
-++	if !force {
-++		if size, ok := p.size[re]; ok {
-++			return size
-++		}
-++	}
-++
-++	var size int64
-++	switch re.Op {
-++	case OpLiteral:
-++		size = int64(len(re.Rune))
-++	case OpCapture, OpStar:
-++		// star can be 1+ or 2+; assume 2 pessimistically
-++		size = 2 + p.calcSize(re.Sub[0], false)
-++	case OpPlus, OpQuest:
-++		size = 1 + p.calcSize(re.Sub[0], false)
-++	case OpConcat:
-++		for _, sub := range re.Sub {
-++			size += p.calcSize(sub, false)
-++		}
-++	case OpAlternate:
-++		for _, sub := range re.Sub {
-++			size += p.calcSize(sub, false)
-++		}
-++		if len(re.Sub) > 1 {
-++			size += int64(len(re.Sub)) - 1
-++		}
-++	case OpRepeat:
-++		sub := p.calcSize(re.Sub[0], false)
-++		if re.Max == -1 {
-++			if re.Min == 0 {
-++				size = 2 + sub // x*
-++			} else {
-++				size = 1 + int64(re.Min)*sub // xxx+
-++			}
-++			break
-++		}
-++		// x{2,5} = xx(x(x(x)?)?)?
-++		size = int64(re.Max)*sub + int64(re.Max-re.Min)
-++	}
-++
-++	if size < 1 {
-++		size = 1
-++	}
-++	p.size[re] = size
-++	return size
-++}
-++
-+ func (p *parser) checkHeight(re *Regexp) {
-+ 	if p.numRegexp < maxHeight {
-+ 		return
-+@@ -158,6 +290,7 @@ func (p *parser) calcHeight(re *Regexp, force bool) int {
-+ 
-+ // push pushes the regexp re onto the parse stack and returns the regexp.
-+ func (p *parser) push(re *Regexp) *Regexp {
-++	p.numRunes += len(re.Rune)
-+ 	if re.Op == OpCharClass && len(re.Rune) == 2 && re.Rune[0] == re.Rune[1] {
-+ 		// Single rune.
-+ 		if p.maybeConcat(re.Rune[0], p.flags&^FoldCase) {
-+@@ -189,7 +322,7 @@ func (p *parser) push(re *Regexp) *Regexp {
-+ 	}
-+ 
-+ 	p.stack = append(p.stack, re)
-+-	p.checkHeight(re)
-++	p.checkLimits(re)
-+ 	return re
-+ }
-+ 
-+@@ -299,7 +432,7 @@ func (p *parser) repeat(op Op, min, max int, before, after, lastRepeat string) (
-+ 	re.Sub = re.Sub0[:1]
-+ 	re.Sub[0] = sub
-+ 	p.stack[n-1] = re
-+-	p.checkHeight(re)
-++	p.checkLimits(re)
-+ 
-+ 	if op == OpRepeat && (min >= 2 || max >= 2) && !repeatIsValid(re, 1000) {
-+ 		return "", &Error{ErrInvalidRepeatSize, before[:len(before)-len(after)]}
-+@@ -503,6 +636,7 @@ func (p *parser) factor(sub []*Regexp) []*Regexp {
-+ 
-+ 			for j := start; j < i; j++ {
-+ 				sub[j] = p.removeLeadingString(sub[j], len(str))
-++				p.checkLimits(sub[j])
-+ 			}
-+ 			suffix := p.collapse(sub[start:i], OpAlternate) // recurse
-+ 
-+@@ -560,6 +694,7 @@ func (p *parser) factor(sub []*Regexp) []*Regexp {
-+ 			for j := start; j < i; j++ {
-+ 				reuse := j != start // prefix came from sub[start]
-+ 				sub[j] = p.removeLeadingRegexp(sub[j], reuse)
-++				p.checkLimits(sub[j])
-+ 			}
-+ 			suffix := p.collapse(sub[start:i], OpAlternate) // recurse
-+ 
-+diff --git a/src/regexp/syntax/parse_test.go b/src/regexp/syntax/parse_test.go
-+index 1ef6d8a..67e3c56 100644
-+--- a/src/regexp/syntax/parse_test.go
-++++ b/src/regexp/syntax/parse_test.go
-+@@ -484,12 +484,15 @@ var invalidRegexps = []string{
-+ 	`(?P<>a)`,
-+ 	`[a-Z]`,
-+ 	`(?i)[a-Z]`,
-+-	`a{100000}`,
-+-	`a{100000,}`,
-+-	"((((((((((x{2}){2}){2}){2}){2}){2}){2}){2}){2}){2})",
-+-	strings.Repeat("(", 1000) + strings.Repeat(")", 1000),
-+-	strings.Repeat("(?:", 1000) + strings.Repeat(")*", 1000),
-+ 	`\Q\E*`,
-++	`a{100000}`,  // too much repetition
-++	`a{100000,}`, // too much repetition
-++	"((((((((((x{2}){2}){2}){2}){2}){2}){2}){2}){2}){2})",    // too much repetition
-++	strings.Repeat("(", 1000) + strings.Repeat(")", 1000),    // too deep
-++	strings.Repeat("(?:", 1000) + strings.Repeat(")*", 1000), // too deep
-++	"(" + strings.Repeat("(xx?)", 1000) + "){1000}",          // too long
-++	strings.Repeat("(xx?){1000}", 1000),                      // too long
-++	strings.Repeat(`\pL`, 27000),                             // too many runes
-+ }
-+ 
-+ var onlyPerl = []string{
-+-- 
-+2.25.1
-+
+diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
+index 02c918d6e5..64203cf0fc 100644
+--- a/meta/recipes-devtools/python/python3/python3-manifest.json
++++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+@@ -246,6 +246,7 @@
+             "${libdir}/python${PYTHON_MAJMIN}/heapq.py",
+             "${libdir}/python${PYTHON_MAJMIN}/imp.py",
+             "${libdir}/python${PYTHON_MAJMIN}/importlib",
++            "${libdir}/python${PYTHON_MAJMIN}/importlib/_abc.py",
+             "${libdir}/python${PYTHON_MAJMIN}/importlib/_bootstrap.py",
+             "${libdir}/python${PYTHON_MAJMIN}/importlib/_bootstrap_external.py",
+             "${libdir}/python${PYTHON_MAJMIN}/importlib/abc.py",
+@@ -266,6 +267,7 @@
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_opcode.*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_posixsubprocess.*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_struct.*.so",
++            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_typing.*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/array.*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/binascii.*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/grp.*.so",
+@@ -290,7 +292,11 @@
+             "${libdir}/python${PYTHON_MAJMIN}/pkgutil.py",
+             "${libdir}/python${PYTHON_MAJMIN}/platform.py",
+             "${libdir}/python${PYTHON_MAJMIN}/posixpath.py",
+-            "${libdir}/python${PYTHON_MAJMIN}/re.py",
++            "${libdir}/python${PYTHON_MAJMIN}/re",
++            "${libdir}/python${PYTHON_MAJMIN}/re/_casefix.py",
++            "${libdir}/python${PYTHON_MAJMIN}/re/_compiler.py",
++            "${libdir}/python${PYTHON_MAJMIN}/re/_constants.py",
++            "${libdir}/python${PYTHON_MAJMIN}/re/_parser.py",
+             "${libdir}/python${PYTHON_MAJMIN}/reprlib.py",
+             "${libdir}/python${PYTHON_MAJMIN}/rlcompleter.py",
+             "${libdir}/python${PYTHON_MAJMIN}/runpy.py",
+@@ -315,8 +321,11 @@
+             "${libdir}/python${PYTHON_MAJMIN}/traceback.py",
+             "${libdir}/python${PYTHON_MAJMIN}/types.py",
+             "${libdir}/python${PYTHON_MAJMIN}/typing.py",
++            "${libdir}/python${PYTHON_MAJMIN}/urllib",
++            "${libdir}/python${PYTHON_MAJMIN}/urllib/parse.py",
+             "${libdir}/python${PYTHON_MAJMIN}/warnings.py",
+             "${libdir}/python${PYTHON_MAJMIN}/weakref.py",
++            "${libdir}/python${PYTHON_MAJMIN}/zipimport.py",
+             "${prefix}/lib/python${PYTHON_MAJMIN}/config*/*[!.a]"
+         ],
+         "cached": [
+@@ -398,9 +407,17 @@
+             "${libdir}/python${PYTHON_MAJMIN}/encodings/__pycache__/latin_1.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/encodings/__pycache__/utf_8.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/importlib/__pycache__",
++            "${libdir}/python${PYTHON_MAJMIN}/importlib/__pycache__/_abc.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/importlib/__pycache__/abc.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/importlib/__pycache__/machinery.*.pyc",
+-            "${libdir}/python${PYTHON_MAJMIN}/importlib/__pycache__/util.*.pyc"
++            "${libdir}/python${PYTHON_MAJMIN}/importlib/__pycache__/util.*.pyc",
++            "${libdir}/python${PYTHON_MAJMIN}/re/__pycache__",
++            "${libdir}/python${PYTHON_MAJMIN}/re/__pycache__/_casefix.*.pyc",
++            "${libdir}/python${PYTHON_MAJMIN}/re/__pycache__/_compiler.*.pyc",
++            "${libdir}/python${PYTHON_MAJMIN}/re/__pycache__/_constants.*.pyc",
++            "${libdir}/python${PYTHON_MAJMIN}/re/__pycache__/_parser.*.pyc",
++            "${libdir}/python${PYTHON_MAJMIN}/urllib/__pycache__",
++            "${libdir}/python${PYTHON_MAJMIN}/urllib/__pycache__/parse.*.pyc"
+         ]
+     },
+     "crypt": {
+@@ -487,6 +504,7 @@
+         "rdepends": [
+             "core",
+             "pprint",
++            "profile",
+             "shell",
+             "stringold"
+         ],
+@@ -560,6 +578,7 @@
+             "debugger",
+             "difflib",
+             "pprint",
++            "profile",
+             "shell",
+             "stringold",
+             "unittest"
+@@ -617,12 +636,9 @@
+             "core"
+         ],
+         "files": [
+-            "${libdir}/python${PYTHON_MAJMIN}/formatter.py",
+             "${libdir}/python${PYTHON_MAJMIN}/html"
+         ],
+-        "cached": [
+-            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/formatter.*.pyc"
+-        ]
++        "cached": []
+     },
+     "idle": {
+         "summary": "Python Integrated Development Environment",
+@@ -711,7 +727,6 @@
+             "crypt",
+             "datetime",
+             "email",
+-            "fcntl",
+             "io",
+             "math",
+             "mime",
+@@ -810,7 +825,7 @@
+             "shell",
+             "smtpd",
+             "sqlite3",
+-	    "statistics",
++            "statistics",
+             "stringold",
+             "syslog",
+             "terminal",
+@@ -873,7 +888,6 @@
+             "${libdir}/python${PYTHON_MAJMIN}/smtplib.py",
+             "${libdir}/python${PYTHON_MAJMIN}/telnetlib.py",
+             "${libdir}/python${PYTHON_MAJMIN}/urllib",
+-            "${libdir}/python${PYTHON_MAJMIN}/urllib/parse.py",
+             "${libdir}/python${PYTHON_MAJMIN}/uuid.py"
+         ],
+         "cached": [
+@@ -886,8 +900,6 @@
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/secrets.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/smtplib.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/telnetlib.*.pyc",
+-            "${libdir}/python${PYTHON_MAJMIN}/urllib/__pycache__",
+-            "${libdir}/python${PYTHON_MAJMIN}/urllib/__pycache__/parse.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/uuid.*.pyc"
+         ]
+     },
+@@ -981,7 +993,7 @@
+         "summary": "Python pretty-print support",
+         "rdepends": [
+             "core",
+-	    "profile"
++            "profile"
+         ],
+         "files": [
+             "${libdir}/python${PYTHON_MAJMIN}/pprint.py"
+@@ -1088,18 +1100,20 @@
+         "cached": []
+     },
+     "statistics": {
+-	"summary": "Basic statistics module",
+-	"rdepends": [
+-	    "core",
+-	    "math",
+-	    "numbers"
+-	],
+-	"files": [
+-	    "${libdir}/python${PYTHON_MAJMIN}/statistics.py"
+-	],
+-	"cached": [
+-	    "${libdir}/python${PYTHON_MAJMIN}/__pycache__/statistics.*.pyc"
+-	]
++        "summary": "Basic statistics module",
++        "rdepends": [
++            "core",
++            "crypt",
++            "math",
++            "numbers"
++        ],
++        "files": [
++            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_statistics.*.so",
++            "${libdir}/python${PYTHON_MAJMIN}/statistics.py"
++        ],
++        "cached": [
++            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/statistics.*.pyc"
++        ]
+     },
+     "stringold": {
+         "summary": "Python string APIs [deprecated]",
+@@ -1159,7 +1173,6 @@
+             "core"
+         ],
+         "files": [
+-	    "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_tkinter.*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/tkinter"
+         ],
+         "cached": []
+@@ -1175,6 +1188,7 @@
+             "netclient",
+             "numbers",
+             "pprint",
++            "profile",
+             "stringold"
+         ],
+         "files": [
+@@ -1231,7 +1245,6 @@
+             "crypt",
+             "datetime",
+             "email",
+-            "fcntl",
+             "html",
+             "io",
+             "math",
+@@ -1252,12 +1265,13 @@
+     "zoneinfo": {
+         "summary": "IANA time zone support",
+         "rdepends": [
+-            "core"
++            "core",
++            "datetime"
+         ],
+         "files": [
+-            "${libdir}/python${PYTHON_MAJMIN}/zoneinfo",
+-            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_zoneinfo.*.so"
++            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_zoneinfo.*.so",
++            "${libdir}/python${PYTHON_MAJMIN}/zoneinfo"
+         ],
+-       "cached": []
++        "cached": []
+     }
+ }
 -- 
-2.25.1
+2.30.2
 
 
