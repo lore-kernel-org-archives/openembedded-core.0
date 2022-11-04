@@ -2,108 +2,95 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94236C43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0722C43219
 	for <webhook@archiver.kernel.org>; Fri,  4 Nov 2022 03:02:17 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web09.7190.1667530927001650130
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web12.7137.1667530932474349484
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 20:02:16 -0700
+ Thu, 03 Nov 2022 20:02:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=fIT6gT/M;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id b21so3711988plc.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 20:02:16 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=GkqZ3aHD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f181.google.com with SMTP id g129so3301216pgc.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 20:02:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WyzL3XWs6T77rLBRvWIeQXVa5/ctXm1vnX8C5fNOgSE=;
-        b=fIT6gT/Mo7zOhb6+yTHZhjcRM7rzMkMJZ/sk4uAWnYMgOA/NcOPHhUoMetmssbTSxQ
-         8BLDd8WcTRpMkRaTuUwi7F26oTfwwpt/ce0cN6usLreE2abTNCJQ2op1PvYwf98HgMEH
-         +mECcIs67I+JgWO4oUmX8Kkb8Xcx+8bHEnSI4c7gp4/mPkPl/AskIXkg/zmM42xCUH0U
-         uQgiB53j1JIwqomDOebuqmuKBfcmkKLRgBJUevxZx3GuaUZLeHOykCcIWkuztOFWPoDs
-         PHnToDNrE8PUUP4/iFuqsa+tqI3sK2Jlmt8ocWqXT1XE/kqBbay1oPV8+b6P4WTNa0sH
-         50xA==
+        bh=UzjnBIpXMH9mCcaD11XUV2ZBCzRgM0GYqdTxHBduhp4=;
+        b=GkqZ3aHDmasqCxB6qhhnGLJc8Yg/xqx7mRqhytEsw8AfvQYN6noDhOrgBV10q6XD6h
+         OAJKKVYddM/IK2Cn85bqsCBVp0u9Ae7ZLywKyUmbaB5jqaSOs0gPye5gYlbzejM6A1Et
+         No14TFGaZygzoSezU+rLye9Cz9v0shQmaZ6RsdWsEYCvzt55fc55qJ5er/ye18JF3ln/
+         0Ys/Mw/uKte2A8KALYQyaXam9OOALOKXpqqT6tsY791YDUiAlm4MWR+pvka1v7dIZRbX
+         6i3u9mrTzZXU8q+Xm946q0ONKANiO0z+nDYA8NGAJ4x1ACuKLaRhMWkaFdAruboiwgUj
+         tAhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WyzL3XWs6T77rLBRvWIeQXVa5/ctXm1vnX8C5fNOgSE=;
-        b=3X3pq1fwXPJ3J6SJ36+EklEKbthjVl6qUbLssEHfh/eT8EUpxhKAHvghIn0LUb1Y6d
-         bsXtkiq0QrbPWBZPS8Tg5ncd8Ft1zXIIh3WI5K2A73NqK1dHQ94XdN556oohxFD7793a
-         PNaIAmfO0c7+tfKL/R0qV/YaZZA8lyYLkG/xFJz4pJtmV3+n/SkHRPPuIMX2ScshZPNZ
-         z0lKmGdHwMFQ+cWc21isON8dmwYGFfSgVEpijuhs5fg4ptHVEfT9xT52iIxVGh4xGIhB
-         MjhwMr3HQ99aPyma0nEYimDIQZURGQ1aGA8bWuDS+J6HCSFBWXWngjSTrIon5EiXV0Kq
-         rtqg==
-X-Gm-Message-State: ACrzQf0WoOCuaz1ePzlnwX4CBubdfMsm0TdJ1P6F38WDddv1uy6cbocs
-	IeFYIbA96py+ijThyHOKesSTLx54wnN3Zyqr
-X-Google-Smtp-Source: AMsMyM4a/PIMXcWEOFlx2CW+zvMM9qDQa98h1gyc8c4ZaSVwCPM6CfcYodRatQ8X+/EAOJHMSldASQ==
-X-Received: by 2002:a17:903:2348:b0:186:970e:739e with SMTP id c8-20020a170903234800b00186970e739emr33850219plh.115.1667530935369;
-        Thu, 03 Nov 2022 20:02:15 -0700 (PDT)
+        bh=UzjnBIpXMH9mCcaD11XUV2ZBCzRgM0GYqdTxHBduhp4=;
+        b=sf9fL/b9KHdE0l8ntatgy/3Jdljd1GGiUu+Xt34gKfhKvhC9hEcSNX72HGOypkx3JN
+         2trJ1sY8vMN5N7rsNzfsm1ddnKyeWplSL3NQ+1lLRL+/APp4CBOux8CNUPYsXVsBguq2
+         pqvXelTl9E0i1MTRLV9Qb7IaWlDlmgHjW+PqD3Nt8SfGPQcjIdRwAP0dH/unERQKFC9u
+         EeWQSOv7OsVRlxLvB2xxOdo/U2Thc3YhH3cz5dkDvVhgXWRs2M2jEKrLL473zFx4SRk5
+         yvG1ZHehVb3qvXS/tpu6PuPq9dewyJ4fVlFeWVi//EXyVlyy7IIYRlAmiTMlJE13XkXW
+         noDA==
+X-Gm-Message-State: ACrzQf1kFSXM/6MASU7hJjdUDjqzcy1g8VL2qAlvIz9IM6SkdJP6n7SS
+	e9bsZeSMPT4KdOXlx5AK5r0LeiDuejvpTQIj
+X-Google-Smtp-Source: AMsMyM66vHbWnLm69u7C+Z/JfkWwQV0FDogIEshiWPGXCujZvRGixKbkyiXzzxAAoEBNBbE7JDh58g==
+X-Received: by 2002:a62:d412:0:b0:56c:6f25:8b12 with SMTP id a18-20020a62d412000000b0056c6f258b12mr33254124pfh.60.1667530931576;
+        Thu, 03 Nov 2022 20:02:11 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id r7-20020a17090a454700b0020b7de675a4sm667902pjm.41.2022.11.03.20.02.14
+        by smtp.gmail.com with ESMTPSA id r7-20020a17090a454700b0020b7de675a4sm667902pjm.41.2022.11.03.20.02.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 20:02:15 -0700 (PDT)
+        Thu, 03 Nov 2022 20:02:11 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 29/31] cmake-native: Fix host tool contamination (Bug: 14951)
-Date: Thu,  3 Nov 2022 17:01:04 -1000
-Message-Id: <1fdb3f36e9ac0e5335650eb5286169e943a402cd.1667530733.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 27/31] runqemu: Fix gl-es argument from causing other arguments to be ignored
+Date: Thu,  3 Nov 2022 17:01:02 -1000
+Message-Id: <5b6418afb2b9a227a42e533a5002bb9b6d27bfd2.1667530733.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1667530733.git.steve@sakoman.com>
 References: <cover.1667530733.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 04 Nov 2022 03:02:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172690
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172688
 
-From: Bernhard Rosenkränzer <bero@baylibre.com>
+From: Joshua Watt <JPEWhacker@gmail.com>
 
-Trying to build cmake-native on a host system where curl was built with cmake
-(resulting in CURLConfig.cmake and friends, which do not use the same naming
-schemes expected by cmake-native's build process, being installed to a system
-wide cmake directory like /usr/lib64/cmake/CURL) results in undefined
-references to all libcurl symbols.
+The code to parse arguments was inadvertently skipping all arguments in
+the elif block after gl-es if it was specified on the command line.
 
-The problem is that cmake-native sees and uses the system wide
-/usr/lib64/cmake/CURL/CURLConfig.cmake, which defines CURL::libcurl and
-CURL::curl as opposed to setting ${CURL_LIBRARIES} as expected by
-cmake-native.
-
-find_package(CURL) (cmake-native's CMakeLists.txt, line 478) succeeds, but
-incorrectly uses the system wide CURLConfig.cmake, resulting
-CMAKE_CURL_LIBRARIES to be set to an empty string (cmake-native's
-CMakeLists.txt, line 484), causing the cmake-native build to miss -lcurl.
-
-The simplest fix is to let cmake know the right value for
-CURL_LIBRARIES. Making it -lcurl should always work with libcurl-native
-in recipe-sysroot-native.
-
-Signed-off-by: Bernhard Rosenkränzer <bero@baylibre.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 718bb8d56f6a24c86e67830a7d13af54df2ebb4e)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+(cherry picked from commit dd1dcfada1fa46ecb8227c2852769b35026875d3)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/cmake/cmake-native_3.22.3.bb | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/runqemu | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.22.3.bb b/meta/recipes-devtools/cmake/cmake-native_3.22.3.bb
-index ee1f7761c4..45ea78ae00 100644
---- a/meta/recipes-devtools/cmake/cmake-native_3.22.3.bb
-+++ b/meta/recipes-devtools/cmake/cmake-native_3.22.3.bb
-@@ -32,6 +32,7 @@ CMAKE_EXTRACONF = "\
-     -DCMAKE_USE_SYSTEM_LIBRARY_EXPAT=0 \
-     -DENABLE_ACL=0 -DHAVE_ACL_LIBACL_H=0 \
-     -DHAVE_SYS_ACL_H=0 \
-+    -DCURL_LIBRARIES=-lcurl \
- "
- 
- do_configure () {
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 1d63281382..0cce8bb96a 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -499,7 +499,7 @@ class BaseConfig(object):
+                 self.gtk = True
+             elif arg == 'gl':
+                 self.gl = True
+-            elif 'gl-es' in sys.argv[1:]:
++            elif arg == 'gl-es':
+                 self.gl_es = True
+             elif arg == 'egl-headless':
+                 self.egl_headless = True
 -- 
 2.25.1
 
