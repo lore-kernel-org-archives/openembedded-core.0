@@ -1,330 +1,142 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CF50C4332F
-	for <webhook@archiver.kernel.org>; Fri,  4 Nov 2022 05:26:38 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web08.7996.1667539588764489115
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF580C43217
+	for <webhook@archiver.kernel.org>; Fri,  4 Nov 2022 06:48:18 +0000 (UTC)
+Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com [195.245.230.1])
+ by mx.groups.io with SMTP id smtpd.web12.8279.1667544496958009508
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 22:26:28 -0700
+ Thu, 03 Nov 2022 23:48:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=OvCB9ONa;
- spf=pass (domain: mvista.com, ip: 209.85.210.179, mailfrom: hprajapati@mvista.com)
-Received: by mail-pf1-f179.google.com with SMTP id b29so3560255pfp.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 22:26:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gFU4oGyiTYcjYHQos7YIo4hSIYOK+Uae3YWX7hO8vgA=;
-        b=OvCB9ONaVFM6fhSxFsY9wf1b3Y6ik8BdOfRcUzWc0WEpkaoasKFUP0GzOMMi0P1moC
-         0GKDjqB/Dj0MY8T3oO7uPTOQth3LpsYBvPwlvhr9D2SVCmij/+NL+oJWQa7ZInpI7+YS
-         UQ9Kc9pOaQ2JrghzQWJQq62uO+ioOc57Rscco=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gFU4oGyiTYcjYHQos7YIo4hSIYOK+Uae3YWX7hO8vgA=;
-        b=2y1kSCuIBv6mYmM9RmTX25Vqn4aAmtOV+cZeF46sW/GUUoffjbwb3dfMPR0cuOSg/o
-         beCHm9/2qrWeTrZAjS+SvdgMtRAwZUDHkmRmvP9naFPpgx8QRGJagYJmSRTCEtXCREKa
-         BKiWl3VRLFFdO3hefYttKOFUvBuAfgZkfjdwO1X8h3Kf4/wAhgbfUCWqn1gNvJiWkqda
-         SC7S/+l7rPWFSVW8yd2y2hLGUBQM+DjqNOqadmCWKijKbYHVxem2hX3ahEwICkaAnWTo
-         McYkjBCv0Ro63+q9V8mx7sGInXgKtyL7nhOSX0votmSPwG4I6ggCPtg7y9PqFVLb0+3C
-         pHzA==
-X-Gm-Message-State: ACrzQf0xiFsDYgFx6Tsk8PSp7U5wJOA2ka6TwGdDVWx1FAN/JM+CVMex
-	Gn6B+HPnW/Z6wLb6pSbfiytui6ExgDtLUg==
-X-Google-Smtp-Source: AMsMyM5wiDDTDgh5SUK6wXx3rtSgjeX9YxJRYeCK0PFrG+SAER5e5GEGhDWvAEh3Xcx9rYSJDBpUvg==
-X-Received: by 2002:a63:fe58:0:b0:46f:dc58:b23c with SMTP id x24-20020a63fe58000000b0046fdc58b23cmr17495262pgj.205.1667539586861;
-        Thu, 03 Nov 2022 22:26:26 -0700 (PDT)
-Received: from MVIN00024 ([43.249.234.213])
-        by smtp.gmail.com with ESMTPSA id y18-20020a170902b49200b001806445887asm1572259plr.223.2022.11.03.22.26.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 22:26:26 -0700 (PDT)
-Received: by MVIN00024 (sSMTP sendmail emulation); Fri, 04 Nov 2022 10:56:21 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] curl: Fix multiple CVEs
-Date: Fri,  4 Nov 2022 10:56:19 +0530
-Message-Id: <20221104052619.107569-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=BMNsgCTY;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.1, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1667544494; i=@fujitsu.com;
+	bh=v6Ou33l9WX66p9Fkuaq0CzxNikzUgb/VbAn94yJMfQg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=BMNsgCTYA8S3shm2dDt6OKXvLMTcTvCgPmVeIIKy/6x0rdeVed4yGEwQoNjsMDB8S
+	 UKCRorVGEluFdS9TY6+JDbK+FmlNehKxMWD9/XY/Y/ipeGm2B7rwTKlkNoGYDpA2a+
+	 SC6lNrGjOSCo4S1VEpmpj0gCsi6Gk8UKePm9LVzGKCgtInlUBsYRupf6HTRx8AfSug
+	 y29uDkcaJsk/AEapmjIgl9S21iHFtrqf0EztsZ9rlT9j8wzEXtwG1qVB3FgjFrOT56
+	 mRlTE2XFGFJdvk8Zle+mPpmrAulfFLSxBBPFad+NYWi9lPVzbBjnc+7DyscXWoYOrh
+	 GCZBrLrHrbSXA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrHIsWRWlGSWpSXmKPExsViZ8ORpLt2a0q
+  yQUuzgcWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmnG+wb/glkjF1QWLWBsYlwp1MXJxCAk8YJT4
+  eHErG4RzmUniy4anLBDObkaJrz1/mLsYOTnYBKQkbtz/D1TFwSEioCdx9Z8oSJhZQEXixe8ed
+  hBbWMBJ4kd7GyOIzQIU33vrKlicV8BRYsuPuSwgtoSAgsSUh++ZIeKCEidnPmGBmCMhcfDFC2
+  aIGkWJ2ZeboeorJGbNamOCsNUkrp7bxDyBkX8WkvZZSNoXMDKtYjQtTi0qSy3SNddLKspMzyj
+  JTczM0Uus0k3USy3VLU8tLtE11EssL9ZLLS7WK67MTc5J0ctLLdnECAzElGLG3B2MO5f90TvE
+  KMnBpCTKW8ebkizEl5SfUpmRWJwRX1Sak1p8iFGGg0NJgnfuJqCcYFFqempFWmYOMCpg0hIcP
+  EoivL/nAaV5iwsSc4sz0yFSpxiNOZYtv7aXmWPm17YDzEIsefl5qVLivIZbgEoFQEozSvPgBs
+  Gi9RKjrJQwLyMDA4MQT0FqUW5mCar8K0ZxDkYlYd5pIPfwZOaVwO17BXQKE9Ap26qTQE4pSUR
+  ISTUwnSnj6surEAifnn9g0qt7xWu0p/5Qvc3U9oaxQz19DfvWawqsbxnS64Tl117xcn941fWx
+  6u6bWken6ud+FnbZMCFdPj3s7raKbOaLR/hftiX/XHbdjFvgsNcre4mar1Nnc3K53inKenOP5
+  5pozPxnatP/9tx7PcdvjdujW5XPrv5jcVlkzXt/zVbR5IsXtj8LCr7rsDN++gylypMPu2y21/
+  hOXvFQR4n3pftKjw9JN7MbTCtjq5LFX1y9ML106YHdK58d4tlVtiR8296MG8fV5RlfuNw17LT
+  4cfoo43sLt2NFzo+qHyo5NC5Uf/HrXtTlurQfbIyu1y5nKfFHKt0IvWKcUVP+aMMJprkxW2va
+  mpVYijMSDbWYi4oTAUsbMSxRAwAA
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-14.tower-591.messagelabs.com!1667544493!37992!1
+X-Originating-IP: [62.60.8.98]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.100.1; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 17124 invoked from network); 4 Nov 2022 06:48:13 -0000
+Received: from unknown (HELO n03ukasimr03.n03.fujitsu.local) (62.60.8.98)
+  by server-14.tower-591.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 4 Nov 2022 06:48:13 -0000
+Received: from n03ukasimr03.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTP id 6839E1B5
+	for <openembedded-core@lists.openembedded.org>; Fri,  4 Nov 2022 06:48:13 +0000 (GMT)
+Received: from R01UKEXCASM126.r01.fujitsu.local (R01UKEXCASM126 [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTPS id 5D4751B1
+	for <openembedded-core@lists.openembedded.org>; Fri,  4 Nov 2022 06:48:13 +0000 (GMT)
+Received: from localhost.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.32; Fri, 4 Nov 2022 06:48:11 +0000
+From: <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-babel: upgrade 2.10.3 -> 2.11.0
+Date: Fri, 4 Nov 2022 14:47:56 +0800
+Message-ID: <1667544476-4822-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Nov 2022 05:26:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172693
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Nov 2022 06:48:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172694
 
-Backport fixes for:
- * CVE-2022-32221 - Upstream-Status: Backport from https://github.com/curl/curl/commit/a64e3e59938abd7d6
- * CVE-2022-42915 - Upstream-Status: Backport from https://github.com/curl/curl/commit/55e1875729f9d9fc7315ce
- * CVE-2022-42916 - Upstream-Status: Backport from https://github.com/curl/curl/commit/53bcf55b4538067e6
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+License-Update:
+"the author" changed to "the copyright holder nor the names of its contributors"
+"THE AUTHOR" changed to "THE COPYRIGHT HOLDERS AND CONTRIBUTORS"
+
+Changelog:
+===========
+Improvements
+------------
+* Support for hex escapes in JavaScript string literals :gh:'#877'
+* Add support for formatting decimals in compact form :gh:'#909'
+* Adapt parse_date to handle ISO dates in ASCII format :gh:'#842'
+* Use 'ast' instead of 'eval' for Python string extraction :gh:'#915'
+    * This also enables extraction from static f-strings.
+      F-strings with expressions are silently ignored (but won't raise an error as they used to).
+
+Infrastructure
+---------------
+* Tests: Use regular asserts and "pytest.raises()" :gh:'#875'
+* Wheels are now built in GitHub Actions :gh:'#888'
+* Small improvements to the CLDR downloader script :gh:'#894'
+* Remove antiquated '__nonzero__' methods :gh:'#896'
+* Remove superfluous '__unicode__' declarations :gh:'#905'
+* Mark package compatible with Python 3.11 :gh:'#913'
+* Quiesce pytest warnings :gh:'#916'
+
+Bugfixes
+-----------
+* Use email.Message for pofile header parsing instead of the deprecated "cgi.parse_header" function. :gh:'#876'
+* Remove determining time zone via systemsetup on macOS :gh:'#914'
+
+Documentation
+--------------
+* Update Python versions in documentation :gh:'#898'
+* Align BSD-3 license with OSI template :gh:'#912'
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../curl/curl/CVE-2022-32221.patch            |  29 ++++
- .../curl/curl/CVE-2022-42915.patch            |  55 +++++++
- .../curl/curl/CVE-2022-42916.patch            | 136 ++++++++++++++++++
- meta/recipes-support/curl/curl_7.82.0.bb      |   3 +
- 4 files changed, 223 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-32221.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-42915.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-42916.patch
+ .../{python3-babel_2.10.3.bb => python3-babel_2.11.0.bb}      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-babel_2.10.3.bb => python3-babel_2.11.0.bb} (76%)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2022-32221.patch b/meta/recipes-support/curl/curl/CVE-2022-32221.patch
-new file mode 100644
-index 0000000000..caf4bac2cb
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2022-32221.patch
-@@ -0,0 +1,29 @@
-+From 84bbc1b45962cee04758b41251a5aeb452b3ec54 Mon Sep 17 00:00:00 2001
-+From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Fri, 4 Nov 2022 10:05:36 +0530
-+Subject: [PATCH] CVE-2022-32221
-+
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/a64e3e59938abd7d6]
-+CVE: CVE-2022-32221
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+
-+setopt: when POST is set, reset the 'upload' field
-+---
-+ lib/setopt.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/lib/setopt.c b/lib/setopt.c
-+index 7aa6fdb..7f5999e 100644
-+--- a/lib/setopt.c
-++++ b/lib/setopt.c
-+@@ -625,6 +625,7 @@ CURLcode Curl_vsetopt(struct Curl_easy *data, CURLoption option, va_list param)
-+     }
-+     else
-+       data->set.method = HTTPREQ_GET;
-++      data->set.upload = FALSE;
-+     break;
-+ 
-+   case CURLOPT_HTTPPOST:
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/curl/curl/CVE-2022-42915.patch b/meta/recipes-support/curl/curl/CVE-2022-42915.patch
-new file mode 100644
-index 0000000000..8b71a4d61c
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2022-42915.patch
-@@ -0,0 +1,55 @@
-+From b82afc7231a23a27a671f54712e0c8b2df6be144 Mon Sep 17 00:00:00 2001
-+From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Fri, 4 Nov 2022 10:08:06 +0530
-+Subject: [PATCH] CVE-2022-42915
-+
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/55e1875729f9d9fc7315ce]
-+CVE: CVE-2022-42915
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+
-+http_proxy: restore the protocol pointer on error
-+---
-+ lib/http_proxy.c | 6 ++----
-+ lib/url.c        | 9 ---------
-+ 2 files changed, 2 insertions(+), 13 deletions(-)
-+
-+diff --git a/lib/http_proxy.c b/lib/http_proxy.c
-+index 5d5ffc0..e902a2a 100644
-+--- a/lib/http_proxy.c
-++++ b/lib/http_proxy.c
-+@@ -210,10 +210,8 @@ void Curl_connect_done(struct Curl_easy *data)
-+     Curl_dyn_free(&s->rcvbuf);
-+     Curl_dyn_free(&s->req);
-+ 
-+-    /* restore the protocol pointer, if not already done */
-+-    if(s->prot_save)
-+-      data->req.p.http = s->prot_save;
-+-    s->prot_save = NULL;
-++    /* restore the protocol pointer */
-++    data->req.p.http = s->prot_save;
-+     data->info.httpcode = 0; /* clear it as it might've been used for the
-+                                 proxy */
-+     data->req.ignorebody = FALSE;
-+diff --git a/lib/url.c b/lib/url.c
-+index c713e54..4ae6091 100644
-+--- a/lib/url.c
-++++ b/lib/url.c
-+@@ -728,15 +728,6 @@ static void conn_shutdown(struct Curl_easy *data, struct connectdata *conn)
-+   DEBUGASSERT(data);
-+   infof(data, "Closing connection %ld", conn->connection_id);
-+ 
-+-#ifndef USE_HYPER
-+-  if(conn->connect_state && conn->connect_state->prot_save) {
-+-    /* If this was closed with a CONNECT in progress, cleanup this temporary
-+-       struct arrangement */
-+-    data->req.p.http = NULL;
-+-    Curl_safefree(conn->connect_state->prot_save);
-+-  }
-+-#endif
-+-
-+   /* possible left-overs from the async name resolvers */
-+   Curl_resolver_cancel(data);
-+ 
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/curl/curl/CVE-2022-42916.patch b/meta/recipes-support/curl/curl/CVE-2022-42916.patch
-new file mode 100644
-index 0000000000..402f31d727
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2022-42916.patch
-@@ -0,0 +1,136 @@
-+From 099afdea12483391d56d3bfb8e6e7510bdc957fa Mon Sep 17 00:00:00 2001
-+From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Fri, 4 Nov 2022 10:10:49 +0530
-+Subject: [PATCH] CVE-2022-42916
-+
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/53bcf55b4538067e6]
-+CVE: CVE-2022-42916
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+
-+url: use IDN decoded names for HSTS checks
-+---
-+ lib/url.c | 91 ++++++++++++++++++++++++++++---------------------------
-+ 1 file changed, 47 insertions(+), 44 deletions(-)
-+
-+diff --git a/lib/url.c b/lib/url.c
-+index 4ae6091..4707fe6 100644
-+--- a/lib/url.c
-++++ b/lib/url.c
-+@@ -2003,10 +2003,56 @@ static CURLcode parseurlandfillconn(struct Curl_easy *data,
-+     if(!strcasecompare("file", data->state.up.scheme))
-+       return CURLE_OUT_OF_MEMORY;
-+   }
-++  hostname = data->state.up.hostname;
-++
-++  if(hostname && hostname[0] == '[') {
-++    /* This looks like an IPv6 address literal. See if there is an address
-++       scope. */
-++    size_t hlen;
-++    conn->bits.ipv6_ip = TRUE;
-++    /* cut off the brackets! */
-++    hostname++;
-++    hlen = strlen(hostname);
-++    hostname[hlen - 1] = 0;
-++
-++    zonefrom_url(uh, data, conn);
-++  }
-++
-++  /* make sure the connect struct gets its own copy of the host name */
-++  conn->host.rawalloc = strdup(hostname ? hostname : "");
-++  if(!conn->host.rawalloc)
-++    return CURLE_OUT_OF_MEMORY;
-++  conn->host.name = conn->host.rawalloc;
-++
-++  /*************************************************************
-++   * IDN-convert the hostnames
-++   *************************************************************/
-++  result = Curl_idnconvert_hostname(data, &conn->host);
-++  if(result)
-++    return result;
-++  if(conn->bits.conn_to_host) {
-++    result = Curl_idnconvert_hostname(data, &conn->conn_to_host);
-++    if(result)
-++      return result;
-++  }
-++#ifndef CURL_DISABLE_PROXY
-++  if(conn->bits.httpproxy) {
-++    result = Curl_idnconvert_hostname(data, &conn->http_proxy.host);
-++    if(result)
-++      return result;
-++  }
-++  if(conn->bits.socksproxy) {
-++    result = Curl_idnconvert_hostname(data, &conn->socks_proxy.host);
-++    if(result)
-++      return result;
-++  }
-++#endif
-+ 
-+ #ifndef CURL_DISABLE_HSTS
-++  /* HSTS upgrade */
-+   if(data->hsts && strcasecompare("http", data->state.up.scheme)) {
-+-    if(Curl_hsts(data->hsts, data->state.up.hostname, TRUE)) {
-++    /* This MUST use the IDN decoded name */
-++    if(Curl_hsts(data->hsts, conn->host.name, TRUE)) {
-+       char *url;
-+       Curl_safefree(data->state.up.scheme);
-+       uc = curl_url_set(uh, CURLUPART_SCHEME, "https", 0);
-+@@ -2111,26 +2157,6 @@ static CURLcode parseurlandfillconn(struct Curl_easy *data,
-+ 
-+   (void)curl_url_get(uh, CURLUPART_QUERY, &data->state.up.query, 0);
-+ 
-+-  hostname = data->state.up.hostname;
-+-  if(hostname && hostname[0] == '[') {
-+-    /* This looks like an IPv6 address literal. See if there is an address
-+-       scope. */
-+-    size_t hlen;
-+-    conn->bits.ipv6_ip = TRUE;
-+-    /* cut off the brackets! */
-+-    hostname++;
-+-    hlen = strlen(hostname);
-+-    hostname[hlen - 1] = 0;
-+-
-+-    zonefrom_url(uh, data, conn);
-+-  }
-+-
-+-  /* make sure the connect struct gets its own copy of the host name */
-+-  conn->host.rawalloc = strdup(hostname ? hostname : "");
-+-  if(!conn->host.rawalloc)
-+-    return CURLE_OUT_OF_MEMORY;
-+-  conn->host.name = conn->host.rawalloc;
-+-
-+ #ifdef ENABLE_IPV6
-+   if(data->set.scope_id)
-+     /* Override any scope that was set above.  */
-+@@ -3705,29 +3731,6 @@ static CURLcode create_conn(struct Curl_easy *data,
-+   if(result)
-+     goto out;
-+ 
-+-  /*************************************************************
-+-   * IDN-convert the hostnames
-+-   *************************************************************/
-+-  result = Curl_idnconvert_hostname(data, &conn->host);
-+-  if(result)
-+-    goto out;
-+-  if(conn->bits.conn_to_host) {
-+-    result = Curl_idnconvert_hostname(data, &conn->conn_to_host);
-+-    if(result)
-+-      goto out;
-+-  }
-+-#ifndef CURL_DISABLE_PROXY
-+-  if(conn->bits.httpproxy) {
-+-    result = Curl_idnconvert_hostname(data, &conn->http_proxy.host);
-+-    if(result)
-+-      goto out;
-+-  }
-+-  if(conn->bits.socksproxy) {
-+-    result = Curl_idnconvert_hostname(data, &conn->socks_proxy.host);
-+-    if(result)
-+-      goto out;
-+-  }
-+-#endif
-+ 
-+   /*************************************************************
-+    * Check whether the host and the "connect to host" are equal.
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index 5368c91f5c..8270003f62 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -29,6 +29,9 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2022-32207.patch \
-            file://CVE-2022-32208.patch \
-            file://CVE-2022-35252.patch \
-+           file://CVE-2022-32221.patch \
-+           file://CVE-2022-42915.patch \
-+           file://CVE-2022-42916.patch \
-            "
- SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
+diff --git a/meta/recipes-devtools/python/python3-babel_2.10.3.bb b/meta/recipes-devtools/python/python3-babel_2.11.0.bb
+similarity index 76%
+rename from meta/recipes-devtools/python/python3-babel_2.10.3.bb
+rename to meta/recipes-devtools/python/python3-babel_2.11.0.bb
+index 7420bfc917..f6eae88b80 100644
+--- a/meta/recipes-devtools/python/python3-babel_2.10.3.bb
++++ b/meta/recipes-devtools/python/python3-babel_2.11.0.bb
+@@ -1,9 +1,9 @@
+ DESCRIPTION = "A collection of tools for internationalizing Python applications"
+ HOMEPAGE = "http://babel.edgewall.org/"
+ LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=1b3f4650099e6d6a73e5a7fc8774ff18"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=fb98e9f202b978d6569807b9525cc691"
+ 
+-SRC_URI[sha256sum] = "7614553711ee97490f732126dc077f8d0ae084ebc6a96e23db1482afabdb2c51"
++SRC_URI[sha256sum] = "5ef4b3226b0180dedded4229651c8b0e1a3a6a2837d45a073272f313e4cf97f6"
+ 
+ PYPI_PACKAGE = "Babel"
  
 -- 
 2.25.1
