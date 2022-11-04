@@ -1,79 +1,55 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <egyszeregy@freemail.hu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEF58C4332F
-	for <webhook@archiver.kernel.org>; Fri,  4 Nov 2022 16:28:32 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.177.1667579310305420415
- for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Nov 2022 09:28:30 -0700
-Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 34F5B1FB;
-	Fri,  4 Nov 2022 09:28:35 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 818D33F5A1;
-	Fri,  4 Nov 2022 09:28:28 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0763BC433FE
+	for <webhook@archiver.kernel.org>; Fri,  4 Nov 2022 17:08:52 +0000 (UTC)
+Subject: Re: How to use linux-firmware to install single firmware package? #kirkstone
 To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH] insane: add codeload.github.com to src-uri-bad check
-Date: Fri,  4 Nov 2022 16:28:25 +0000
-Message-Id: <20221104162825.3644472-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
+From: "Livius" <egyszeregy@freemail.hu>
+X-Originating-Location: Stuttgart, Baden-Württemberg, DE (194.39.218.10)
+X-Originating-Platform: Windows Chrome 107
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Date: Fri, 04 Nov 2022 10:08:44 -0700
+References: <d682bdd7-ba1f-8708-fb64-6ae29b2ac074@theobroma-systems.com>
+In-Reply-To: <d682bdd7-ba1f-8708-fb64-6ae29b2ac074@theobroma-systems.com>
+Message-ID: <27593.1667581724503766480@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="e15BnHgux7THZ1wWjplz"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Nov 2022 16:28:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172724
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Nov 2022 17:08:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172725
 
-GitHub redirects /archive/ URLs to codeload.github.com, a dedicated
-service for caching git archives:
+--e15BnHgux7THZ1wWjplz
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-$ wget -v https://github.com/unicode-org/icu/archive/refs/tags/release-72=
--1.zip
-HTTP request sent, awaiting response... 302 Found
-Location: https://codeload.github.com/unicode-org/icu/zip/refs/tags/relea=
-se-72-1 [following]
+I have a linux-firmware_%.bbappend ( https://github.com/Freescale/meta-free=
+scale-3rdparty/blob/kirkstone/recipes-kernel/linux-firmware/linux-firmware_=
+%25.bbappend ) from meta-freescale-3rdparty layer. I think, it is too simpl=
+e, it can not cause the problem. In my local.conf I set up to generate buil=
+dhistory (i used the following commands), soon my next image build is ready=
+ an i can share the results.
 
-This is not the case for uploaded artifacts:
+INHERIT +=3D "buildhistory"
+BUILDHISTORY_COMMIT =3D "0"
 
-$ wget -v https://github.com/unicode-org/icu/releases/download/release-72=
--1/icu4c-72_1-data-bin-l.zip.asc
-HTTP request sent, awaiting response... 302 Found
-Location: https://objects.githubusercontent.com/github-production-release=
--asset-2e65be/49244766/... [following]
+--e15BnHgux7THZ1wWjplz
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Check for codeload.github.com URLs in the src-uri-bad check in case
-the SRC_URI contains this final URL, and not the public URI.
+<div>I have a <a href=3D"https://github.com/Freescale/meta-freescale-3rdpar=
+ty/blob/kirkstone/recipes-kernel/linux-firmware/linux-firmware_%25.bbappend=
+" target=3D"_blank" rel=3D"noopener">linux-firmware_%.bbappend</a> from met=
+a-freescale-3rdparty layer. I think, it is too simple, it can not cause the=
+ problem. In my local.conf I set up to generate buildhistory (i used the fo=
+llowing commands), soon my next image build is ready an i can share the res=
+ults.</div>
+<div>&nbsp;</div>
+<div>INHERIT +=3D "buildhistory"</div>
+<div>BUILDHISTORY_COMMIT =3D "0"</div>
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/classes-global/insane.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/ins=
-ane.bbclass
-index dc46857a194..df2c40c3c5d 100644
---- a/meta/classes-global/insane.bbclass
-+++ b/meta/classes-global/insane.bbclass
-@@ -1346,7 +1346,7 @@ def unpack_check_src_uri(pn, d):
-=20
-     for url in d.getVar("SRC_URI").split():
-         # Search for github and gitlab URLs that pull unstable archives =
-(comment for future greppers)
--        if re.search(r"git(hu|la)b\.com/.+/.+/archive/.+", url):
-+        if re.search(r"git(hu|la)b\.com/.+/.+/archive/.+", url) or "//co=
-deload.github.com/" in url:
-             oe.qa.handle_error("src-uri-bad", "%s: SRC_URI uses unstable=
- GitHub/GitLab archives, convert recipe to use git protocol" % pn, d)
-=20
- python do_qa_unpack() {
---=20
-2.34.1
-
+--e15BnHgux7THZ1wWjplz--
 
