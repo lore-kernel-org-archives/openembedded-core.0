@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 919CDC43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AF0DC4321E
 	for <webhook@archiver.kernel.org>; Fri,  4 Nov 2022 03:02:07 +0000 (UTC)
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web10.7194.1667530918792572195
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.7162.1667530922595474511
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 20:01:58 -0700
+ Thu, 03 Nov 2022 20:02:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=iTTpzjgA;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f181.google.com with SMTP id e129so3300534pgc.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 20:01:58 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=o1TEW57S;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id j12so3719803plj.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 20:02:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0Yn+A3ocZCkSSiNfExAD1/bKvrcPRtn7JeuuGGphWhc=;
-        b=iTTpzjgAEEb9foE0LRWcem1xkfYMLUiyG3u4SXHsLCY1GtuO0CsvG63lp5vh61mmwC
-         BzUcqeyEBfC3KDiHiSL95OXy3Yv5QfI6Jbo6PGAZmR8O//f5kEdHia2Ds2RaD3JskAjf
-         ylSaxf90rug9hAjeTZwYdTYhYHJK3zPe+th7Qi4RJ2SeBFEvde+TWkrM2TfTa4H356xF
-         7LvfdzHr/OzVA8i6fkSCCPBuD5J94LlrYUQlxE5IpQRdUyS+5b/UwtJeQGxAIiOzuLL7
-         iZE9teOxVWnyNFDTSLuzCEYDHS8InS1hWwhuJL1+2J8WRx3CZVq0PnEHDouPSGSZMKiS
-         ZEWg==
+        bh=PEZUUwQqgf+Fh8ZnHR6RTi7BS7g+CUvUW/UT9/rpC6c=;
+        b=o1TEW57Sqm2hgi881EbwhCc2BSsGawd4o8Xgj/ISZhDbqrDlF/V5G0tzKDcyYb89+r
+         8X16RcvowGlZpEkPnsfDpfYn01MjJlS6y9oBYqhgo4Oa/wMpfkSdfnBrn/HoQeO3t6m0
+         Fayj56F0kFNycSP52zArXCbSV9/+h7TeCCG9mSV30+5JuQZKXKV/sI3qZisv3Yodqics
+         ZpUgnPiUoxLQHpNgyQWVfuPs+UDINpkYw9dlNH3d8/n7G52ScI12dwQg63Z5cbjQj4WQ
+         LNsNOLOfmcjX+wrgirwR5VQhlOLbwVUW5LdumlOOCVD9UrGWK/7tj1rM8xoutV8TFGvb
+         Yp+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0Yn+A3ocZCkSSiNfExAD1/bKvrcPRtn7JeuuGGphWhc=;
-        b=kgL4wUvFMlgbmGhvoXDtOqpQ5sPawjeJCUZ0jlzSKz3CFyyVsXyZfsLQXjZCMsXFlz
-         oIubwuaODC2MfdsRevL17xobZ8uyCy7FoB/6DlanZFnfA4DVh6iGxnofOzp3PF8+RehW
-         ngNgkfvc5LchcbgyxKtK+6CG+umVUMOqMD9xTIIDHwKUIOJ9mssfW7MBv2wlicPVUEO1
-         woRveT9ueRNAOCtOdCTm22moPTOeAOecSzeYen00i21ATQ37TVqZU9U/yD/1AQbsJKYe
-         p3q23POxcmVtSdVeoJe0csY/0fUt535YckdZwIUS4jBIqzRst1auj58AqYbuupI/Sv8U
-         aHXA==
-X-Gm-Message-State: ACrzQf1qgLA58D/35gJPapyX5pVeEckWnQP4mWUR5DyvO4EiH4jGjzZo
-	ccLms9nOh6uPzKE2RrqKfWreOISo8E8pF+Mq
-X-Google-Smtp-Source: AMsMyM6UmbHdNI+DM2fb7x1+1klrUAgG/oEJW1iXes03CqimTYrOh9Tl4g/G6IPq6z5ibEuRfo1VZQ==
-X-Received: by 2002:a65:6bca:0:b0:46f:5de2:30d4 with SMTP id e10-20020a656bca000000b0046f5de230d4mr28976182pgw.323.1667530917955;
-        Thu, 03 Nov 2022 20:01:57 -0700 (PDT)
+        bh=PEZUUwQqgf+Fh8ZnHR6RTi7BS7g+CUvUW/UT9/rpC6c=;
+        b=A6BeKkRe2gO4NIThWq7TQb0Iymx9WA8ONVA6w/nhtqGHObCFS7gVgloXPpE7GsS63q
+         01u+ESB8koJdYOyNH8w4gGtCNzQuEnwLtkayME0xgTV8w2jFCBn+On1AlHPAofwkLav4
+         9ve3l7wO0gCvxgl+E4STMUjmpatULswp+3IxATMmoqjOTKAoMg0bmNnyZ43UuMnmsRmk
+         7mwL7+lGmY3yIec5oB3Y3ptET0aGY7x3Q094FazmigIOIiFZ+KTiYacd2otGKlAKNJvC
+         N0ZR6Et66Jxn3BESQx2yOkP8UiYK7KwJ4+Oha5aG6XAjZtIQAPf0TAMZgTvyLBupBLjS
+         Ii2w==
+X-Gm-Message-State: ACrzQf16qKLhnA2bJoN6jDi4nDT7zsc/RzaGwS8LxXEKm2IFa3IZUlra
+	6Jm+ZWGlDsTTrCEnKHpNAmU/UGvPbwCr+LuT
+X-Google-Smtp-Source: AMsMyM6x15mZCafpZfZyByLtaTaph7TPwTDuhUF3qgSvQt/8U67QA8rgVHNSi2G4d28LJ5B315PZUA==
+X-Received: by 2002:a17:90b:3b44:b0:213:34f7:facb with SMTP id ot4-20020a17090b3b4400b0021334f7facbmr52350829pjb.150.1667530921680;
+        Thu, 03 Nov 2022 20:02:01 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id r7-20020a17090a454700b0020b7de675a4sm667902pjm.41.2022.11.03.20.01.57
+        by smtp.gmail.com with ESMTPSA id r7-20020a17090a454700b0020b7de675a4sm667902pjm.41.2022.11.03.20.02.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 20:01:57 -0700 (PDT)
+        Thu, 03 Nov 2022 20:02:01 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 20/31] bluez5: add dbus to RDEPENDS
-Date: Thu,  3 Nov 2022 17:00:55 -1000
-Message-Id: <93c8639bfe47242760b8b8a760e7cff360dd9001.1667530733.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 22/31] gnutls: Unified package names to lower-case
+Date: Thu,  3 Nov 2022 17:00:57 -1000
+Message-Id: <f35654181ae27db44f30292191c084f924e61f1e.1667530733.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1667530733.git.steve@sakoman.com>
 References: <cover.1667530733.git.steve@sakoman.com>
@@ -61,35 +61,35 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 04 Nov 2022 03:02:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172681
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172683
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+From: Keiya Nobuta <nobuta.keiya@fujitsu.com>
 
-Unless we're using systemd, dbus is not pulled into the system
-automatically. Bluez5 will not work without dbus so add it to RDEPENDS
-explicitly.
+create-spdx can't detect the license properly if the case doesn't
+match, so fix it.
 
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Signed-off-by: Keiya Nobuta <nobuta.keiya@fujitsu.com>
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 377ef7009a8638efe688b6b61f67ae399eb1f23d)
+(cherry picked from commit 9c87828493784d996910d742006268a626ef0130)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-support/gnutls/gnutls_3.7.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 79d4645ca8..f07e318897 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-                     file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
-                     file://src/main.c;beginline=1;endline=24;md5=0ad83ca0dc37ab08af448777c581e7ac"
- DEPENDS = "dbus glib-2.0"
-+RDEPENDS:${PN} += "dbus"
- PROVIDES += "bluez-hcidump"
- RPROVIDES:${PN} += "bluez-hcidump"
+diff --git a/meta/recipes-support/gnutls/gnutls_3.7.4.bb b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
+index 94e7f0d58e..fb06337efb 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.7.4.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
+@@ -8,7 +8,7 @@ LICENSE = "GPL-3.0-or-later & LGPL-2.1-or-later"
+ LICENSE:${PN} = "LGPL-2.1-or-later"
+ LICENSE:${PN}-xx = "LGPL-2.1-or-later"
+ LICENSE:${PN}-bin = "GPL-3.0-or-later"
+-LICENSE:${PN}-OpenSSL = "GPL-3.0-or-later"
++LICENSE:${PN}-openssl = "GPL-3.0-or-later"
  
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=71391c8e0c1cfe68077e7fce3b586283 \
+                     file://doc/COPYING;md5=c678957b0c8e964aa6c70fd77641a71e \
 -- 
 2.25.1
 
