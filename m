@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91A0FC43219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 919CDC43217
 	for <webhook@archiver.kernel.org>; Fri,  4 Nov 2022 03:02:07 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web10.7197.1667530925117850979
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web10.7194.1667530918792572195
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 20:02:05 -0700
+ Thu, 03 Nov 2022 20:01:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Pl277rBH;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.42, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f42.google.com with SMTP id l6so3433007pjj.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 20:02:05 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=iTTpzjgA;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f181.google.com with SMTP id e129so3300534pgc.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 20:01:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=A5c5QSo5R805eSJQxUUx6hmvmgmfAiDeBBj/XT2Qw1g=;
-        b=Pl277rBHxuM0zYrQB4wVcWdlTzDwjUQhXp1erRDhyUQuGIzo42azBsoDwv+OQLQoS3
-         29+6L8ULD/UveuquSp6bNwgAKJtuGkIpsBxi4oVM9+MdninwoOfhKGTOh0E29EZbQ9oG
-         07mb0Q3ou6BbOkINZPUnPXHbhrYWFCGdMpFeSz/xpCH/Qu00JcZi7nvPM50gv6FgVJlp
-         5PJXsvdfXkJ5wg9D1nl1lM/W3XcpxSxckwTiajN1xECFYseZU0S2DaV7gp05x8vXgSHY
-         BatyazY8YP3qH3r0l5Wb0QvBGwPUZyI/Qs3L/kzHNHwaUCCRQ6XKkKoTEXEuQNJyky9b
-         tbUw==
+        bh=0Yn+A3ocZCkSSiNfExAD1/bKvrcPRtn7JeuuGGphWhc=;
+        b=iTTpzjgAEEb9foE0LRWcem1xkfYMLUiyG3u4SXHsLCY1GtuO0CsvG63lp5vh61mmwC
+         BzUcqeyEBfC3KDiHiSL95OXy3Yv5QfI6Jbo6PGAZmR8O//f5kEdHia2Ds2RaD3JskAjf
+         ylSaxf90rug9hAjeTZwYdTYhYHJK3zPe+th7Qi4RJ2SeBFEvde+TWkrM2TfTa4H356xF
+         7LvfdzHr/OzVA8i6fkSCCPBuD5J94LlrYUQlxE5IpQRdUyS+5b/UwtJeQGxAIiOzuLL7
+         iZE9teOxVWnyNFDTSLuzCEYDHS8InS1hWwhuJL1+2J8WRx3CZVq0PnEHDouPSGSZMKiS
+         ZEWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=A5c5QSo5R805eSJQxUUx6hmvmgmfAiDeBBj/XT2Qw1g=;
-        b=OAjtXcl2N+zRPWsHBhJ5ns5og5UdlCK9yJP7M02rfGdKNtNtVw9U7po9VUAi0lwOYn
-         aKqG0ht5r8hKF5CEK8zLjEzXUdtmI++lPxjdQrvJiUXNI8fSUphQ4ouIN6CmBuq90IDe
-         hjEfCvGdVYqx+i/jmH9vTlof8r12lTVJHL6N6Apx2FY3AebSdDVdAYRtNPJDUaCVG+/4
-         qHXBb2PXdz+jB/dypgC4CFTXD17jMOZVuJtJB0esv8bVb94aeZyjyjFrfQ+tzUkFByyz
-         2kRA354dMY2uJTLLRPLN8XUbFngSdEPq3/y1p8Me0iTvQ7HjCX9kw36IkNhKfvEPCmbm
-         PZKQ==
-X-Gm-Message-State: ACrzQf3pLPQ1Qt6cX7KOpmBC5yLzFnxUeVH9OczawJpJ3uMO80dgBj8L
-	pQrMBeiCGGm0uZ6kOWjpCAtavQfsW4C315M3
-X-Google-Smtp-Source: AMsMyM4/CtfNFin+vbdHQ206xlevBHBmOJwmQPDzKy1v+y2VySI4BqaKZV8xSC9kAYfNYqgsJOfORQ==
-X-Received: by 2002:a17:90a:8504:b0:212:c1f4:ddf1 with SMTP id l4-20020a17090a850400b00212c1f4ddf1mr35107083pjn.224.1667530924241;
-        Thu, 03 Nov 2022 20:02:04 -0700 (PDT)
+        bh=0Yn+A3ocZCkSSiNfExAD1/bKvrcPRtn7JeuuGGphWhc=;
+        b=kgL4wUvFMlgbmGhvoXDtOqpQ5sPawjeJCUZ0jlzSKz3CFyyVsXyZfsLQXjZCMsXFlz
+         oIubwuaODC2MfdsRevL17xobZ8uyCy7FoB/6DlanZFnfA4DVh6iGxnofOzp3PF8+RehW
+         ngNgkfvc5LchcbgyxKtK+6CG+umVUMOqMD9xTIIDHwKUIOJ9mssfW7MBv2wlicPVUEO1
+         woRveT9ueRNAOCtOdCTm22moPTOeAOecSzeYen00i21ATQ37TVqZU9U/yD/1AQbsJKYe
+         p3q23POxcmVtSdVeoJe0csY/0fUt535YckdZwIUS4jBIqzRst1auj58AqYbuupI/Sv8U
+         aHXA==
+X-Gm-Message-State: ACrzQf1qgLA58D/35gJPapyX5pVeEckWnQP4mWUR5DyvO4EiH4jGjzZo
+	ccLms9nOh6uPzKE2RrqKfWreOISo8E8pF+Mq
+X-Google-Smtp-Source: AMsMyM6UmbHdNI+DM2fb7x1+1klrUAgG/oEJW1iXes03CqimTYrOh9Tl4g/G6IPq6z5ibEuRfo1VZQ==
+X-Received: by 2002:a65:6bca:0:b0:46f:5de2:30d4 with SMTP id e10-20020a656bca000000b0046f5de230d4mr28976182pgw.323.1667530917955;
+        Thu, 03 Nov 2022 20:01:57 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id r7-20020a17090a454700b0020b7de675a4sm667902pjm.41.2022.11.03.20.02.03
+        by smtp.gmail.com with ESMTPSA id r7-20020a17090a454700b0020b7de675a4sm667902pjm.41.2022.11.03.20.01.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 20:02:03 -0700 (PDT)
+        Thu, 03 Nov 2022 20:01:57 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 23/31] meson: make wrapper options sub-command specific
-Date: Thu,  3 Nov 2022 17:00:58 -1000
-Message-Id: <a8739ccdca5ade6db40d7b6c7e67acc8c973b4a7.1667530733.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 20/31] bluez5: add dbus to RDEPENDS
+Date: Thu,  3 Nov 2022 17:00:55 -1000
+Message-Id: <93c8639bfe47242760b8b8a760e7cff360dd9001.1667530733.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1667530733.git.steve@sakoman.com>
 References: <cover.1667530733.git.steve@sakoman.com>
@@ -61,61 +61,35 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 04 Nov 2022 03:02:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172684
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172681
 
-From: Liam Beguin <liambeguin@gmail.com>
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-The meson-wrapper adds setup options to facilitate cross-compilation.
-The current options are exclusive to the setup sub-command and might
-cause issues with other sub-commands.
+Unless we're using systemd, dbus is not pulled into the system
+automatically. Bluez5 will not work without dbus so add it to RDEPENDS
+explicitly.
 
-Update the wrapper to make options sub-command specific.
-
-Signed-off-by: Liam Beguin <liambeguin@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 7bcda141f2019862b4fb5d8dec7956cd8344b420)
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 377ef7009a8638efe688b6b61f67ae399eb1f23d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../meson/meson/meson-wrapper                 | 21 +++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
+ meta/recipes-connectivity/bluez5/bluez5.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/meson/meson/meson-wrapper b/meta/recipes-devtools/meson/meson/meson-wrapper
-index 8fafaad975..b65ba8e803 100755
---- a/meta/recipes-devtools/meson/meson/meson-wrapper
-+++ b/meta/recipes-devtools/meson/meson/meson-wrapper
-@@ -5,7 +5,7 @@ if [ -z "$OECORE_NATIVE_SYSROOT" ]; then
- fi
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 79d4645ca8..f07e318897 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+                     file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
+                     file://src/main.c;beginline=1;endline=24;md5=0ad83ca0dc37ab08af448777c581e7ac"
+ DEPENDS = "dbus glib-2.0"
++RDEPENDS:${PN} += "dbus"
+ PROVIDES += "bluez-hcidump"
+ RPROVIDES:${PN} += "bluez-hcidump"
  
- if [ -z "$SSL_CERT_DIR" ]; then
--    export SSL_CERT_DIR="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/"
-+    export SSL_CERT_DIR="$OECORE_NATIVE_SYSROOT/etc/ssl/certs/"
- fi
- 
- # If these are set to a cross-compile path, meson will get confused and try to
-@@ -13,7 +13,20 @@ fi
- # config is already in meson.cross.
- unset CC CXX CPP LD AR NM STRIP
- 
-+for arg in "$@"; do
-+    case "$arg" in
-+    -*) continue ;;
-+    *) SUBCMD="$arg"; break ;;
-+    esac
-+done
-+
-+if [ "$SUBCMD" = "setup" ] || [ -d "$SUBCMD" ]; then
-+    MESON_SUB_OPTS=" \
-+        --cross-file="$OECORE_NATIVE_SYSROOT/usr/share/meson/${TARGET_PREFIX}meson.cross" \
-+        --native-file="$OECORE_NATIVE_SYSROOT/usr/share/meson/meson.native" \
-+        "
-+fi
-+
- exec "$OECORE_NATIVE_SYSROOT/usr/bin/meson.real" \
--     --cross-file "${OECORE_NATIVE_SYSROOT}/usr/share/meson/${TARGET_PREFIX}meson.cross" \
--     --native-file "${OECORE_NATIVE_SYSROOT}/usr/share/meson/meson.native" \
--     "$@"
-+    "$@" \
-+    $MESON_SUB_OPTS
 -- 
 2.25.1
 
