@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AF0DC4321E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EACEC4167B
 	for <webhook@archiver.kernel.org>; Fri,  4 Nov 2022 03:02:07 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.7162.1667530922595474511
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web12.7134.1667530920860211456
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 20:02:02 -0700
+ Thu, 03 Nov 2022 20:02:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=o1TEW57S;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id j12so3719803plj.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 20:02:02 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=1OcsI/E9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.169, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f169.google.com with SMTP id b5so3308078pgb.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 20:02:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PEZUUwQqgf+Fh8ZnHR6RTi7BS7g+CUvUW/UT9/rpC6c=;
-        b=o1TEW57Sqm2hgi881EbwhCc2BSsGawd4o8Xgj/ISZhDbqrDlF/V5G0tzKDcyYb89+r
-         8X16RcvowGlZpEkPnsfDpfYn01MjJlS6y9oBYqhgo4Oa/wMpfkSdfnBrn/HoQeO3t6m0
-         Fayj56F0kFNycSP52zArXCbSV9/+h7TeCCG9mSV30+5JuQZKXKV/sI3qZisv3Yodqics
-         ZpUgnPiUoxLQHpNgyQWVfuPs+UDINpkYw9dlNH3d8/n7G52ScI12dwQg63Z5cbjQj4WQ
-         LNsNOLOfmcjX+wrgirwR5VQhlOLbwVUW5LdumlOOCVD9UrGWK/7tj1rM8xoutV8TFGvb
-         Yp+g==
+        bh=dE8+V/o7V2iglwJ0ZEZBMWOR9YJvU/y95VmbSc3miBM=;
+        b=1OcsI/E9CHylgOdC8s4sn8YZvnaTKNzrBEYagv9BCWLO+wIp2sP9Spw1n+HVXoLWBj
+         ebBpOU1eeoZdPTP6n9OVqBJK2YuNFiNWQ3D4sdlYdifunGF4BweRu5oSyb7K5R3DprNb
+         NUMk7Q4NbIvp18TEyTXdhZkjetW7CnUrp+czs/b8CY30exHDClqoP1JzZ0jX6fDybQsf
+         stYFNaMgnnGxistDf2xftUvvnN4fpFe9EXQQDev7FUdD5u/jOaPd+5NPJESs1QtwyAiF
+         z+rkl91zsRGydl+LTlroas+YOAiKPgWqu/izrzZ+6UO2SR33jtzf6TsWlV+uKBlA3zd4
+         bQ+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PEZUUwQqgf+Fh8ZnHR6RTi7BS7g+CUvUW/UT9/rpC6c=;
-        b=A6BeKkRe2gO4NIThWq7TQb0Iymx9WA8ONVA6w/nhtqGHObCFS7gVgloXPpE7GsS63q
-         01u+ESB8koJdYOyNH8w4gGtCNzQuEnwLtkayME0xgTV8w2jFCBn+On1AlHPAofwkLav4
-         9ve3l7wO0gCvxgl+E4STMUjmpatULswp+3IxATMmoqjOTKAoMg0bmNnyZ43UuMnmsRmk
-         7mwL7+lGmY3yIec5oB3Y3ptET0aGY7x3Q094FazmigIOIiFZ+KTiYacd2otGKlAKNJvC
-         N0ZR6Et66Jxn3BESQx2yOkP8UiYK7KwJ4+Oha5aG6XAjZtIQAPf0TAMZgTvyLBupBLjS
-         Ii2w==
-X-Gm-Message-State: ACrzQf16qKLhnA2bJoN6jDi4nDT7zsc/RzaGwS8LxXEKm2IFa3IZUlra
-	6Jm+ZWGlDsTTrCEnKHpNAmU/UGvPbwCr+LuT
-X-Google-Smtp-Source: AMsMyM6x15mZCafpZfZyByLtaTaph7TPwTDuhUF3qgSvQt/8U67QA8rgVHNSi2G4d28LJ5B315PZUA==
-X-Received: by 2002:a17:90b:3b44:b0:213:34f7:facb with SMTP id ot4-20020a17090b3b4400b0021334f7facbmr52350829pjb.150.1667530921680;
-        Thu, 03 Nov 2022 20:02:01 -0700 (PDT)
+        bh=dE8+V/o7V2iglwJ0ZEZBMWOR9YJvU/y95VmbSc3miBM=;
+        b=eyyARoty4mxl2bJKStYYETjQb+paoVjVZuL0FdQOivKXcx2ek81/NzN3Iv84i7xayn
+         M1tyvV0x2WY2KvCskm6Abz2bktzhQNUdn5xqThQSM5tOIy+WZDDQRFzqeBBoW9cBzfzP
+         GM5g4u6kVaBnI3UvyxNpBRop9+62UNkpWR7yK3Zc+v+TumZid2vaUgHdb5RIFT3HJBCX
+         ezAQv21Q5m4au3571XukCG+/uGTwecUAV3CBDv6HLL6q+1SP/joFXryfXtUMhbm+1JUr
+         jKvuw1/khJR0s2SqWEMAuH02ohWLuBT4L8dM0pdUOtNnG3oLulBDLOwadw+MXfq4JAGb
+         1OjA==
+X-Gm-Message-State: ACrzQf0c9sZh2L44CR/ahCDjZ1JmtYBDBNfPB4BDhnaBf1pTejBJz9vy
+	nOvULHmhoHWVDZaEl1Z31912uZLBo7/t+MP2
+X-Google-Smtp-Source: AMsMyM4zRjwq4g/K8yjekyrVFKgxDkbwoU8eCI5YEK6qlEk5WjktUCc4U4SIKBjwBAWeFv+1UgHcZw==
+X-Received: by 2002:a63:c04f:0:b0:46f:9f4a:593 with SMTP id z15-20020a63c04f000000b0046f9f4a0593mr23615268pgi.482.1667530919867;
+        Thu, 03 Nov 2022 20:01:59 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id r7-20020a17090a454700b0020b7de675a4sm667902pjm.41.2022.11.03.20.02.00
+        by smtp.gmail.com with ESMTPSA id r7-20020a17090a454700b0020b7de675a4sm667902pjm.41.2022.11.03.20.01.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 20:02:01 -0700 (PDT)
+        Thu, 03 Nov 2022 20:01:59 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 22/31] gnutls: Unified package names to lower-case
-Date: Thu,  3 Nov 2022 17:00:57 -1000
-Message-Id: <f35654181ae27db44f30292191c084f924e61f1e.1667530733.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 21/31] glib-2.0: fix rare GFileInfo test case failure
+Date: Thu,  3 Nov 2022 17:00:56 -1000
+Message-Id: <eb208256778a941aa38b8dba1cb0897e36908cdb.1667530733.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1667530733.git.steve@sakoman.com>
 References: <cover.1667530733.git.steve@sakoman.com>
@@ -61,35 +61,95 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 04 Nov 2022 03:02:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172683
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172682
 
-From: Keiya Nobuta <nobuta.keiya@fujitsu.com>
+From: Ross Burton <ross.burton@arm.com>
 
-create-spdx can't detect the license properly if the case doesn't
-match, so fix it.
+If a access or creation timestamp has 0 microseconds, then the test
+fails as it doesn't expect this to be a valid value.  Expand a previous
+fix for modification times to cover these timestamps too.
 
-Signed-off-by: Keiya Nobuta <nobuta.keiya@fujitsu.com>
+[ YOCTO #14373 ]
+
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9c87828493784d996910d742006268a626ef0130)
+(cherry picked from commit 15715e6ad81c97cd50e288f3745615eb19be90d1)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/gnutls/gnutls_3.7.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...-info-don-t-assume-million-in-one-ev.patch | 51 +++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |  1 +
+ 2 files changed, 52 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch
 
-diff --git a/meta/recipes-support/gnutls/gnutls_3.7.4.bb b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
-index 94e7f0d58e..fb06337efb 100644
---- a/meta/recipes-support/gnutls/gnutls_3.7.4.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
-@@ -8,7 +8,7 @@ LICENSE = "GPL-3.0-or-later & LGPL-2.1-or-later"
- LICENSE:${PN} = "LGPL-2.1-or-later"
- LICENSE:${PN}-xx = "LGPL-2.1-or-later"
- LICENSE:${PN}-bin = "GPL-3.0-or-later"
--LICENSE:${PN}-OpenSSL = "GPL-3.0-or-later"
-+LICENSE:${PN}-openssl = "GPL-3.0-or-later"
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch
+new file mode 100644
+index 0000000000..c33fa88a76
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch
+@@ -0,0 +1,51 @@
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/merge_requests/2990]
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++From 14838522a706ebdcc3cdab661d4c368099fe3a4e Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@arm.com>
++Date: Tue, 6 Jul 2021 19:26:03 +0100
++Subject: [PATCH] gio/tests/g-file-info: don't assume million-in-one events
++ don't happen
++
++The access and creation time tests create a file, gets the time in
++seconds, then gets the time in microseconds and assumes that the
++difference between the two has to be above 0.
++
++As rare as this may be, it can happen:
++
++$ stat g-file-info-test-50A450 -c %y
++2021-07-06 18:24:56.000000767 +0100
++
++Change the test to simply assert that the difference not negative to
++handle this case.
++
++This is the same fix as 289f8b, but that was just modification time.
++---
++ gio/tests/g-file-info.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/gio/tests/g-file-info.c b/gio/tests/g-file-info.c
++index 59411c3a8..a213e4b92 100644
++--- a/gio/tests/g-file-info.c
+++++ b/gio/tests/g-file-info.c
++@@ -239,7 +239,7 @@ test_g_file_info_access_time (void)
++   g_assert_nonnull (dt_usecs);
++ 
++   ts = g_date_time_difference (dt_usecs, dt);
++-  g_assert_cmpint (ts, >, 0);
+++  g_assert_cmpint (ts, >=, 0);
++   g_assert_cmpint (ts, <, G_USEC_PER_SEC);
++ 
++   /* Try round-tripping the access time. */
++@@ -316,7 +316,7 @@ test_g_file_info_creation_time (void)
++   g_assert_nonnull (dt_usecs);
++ 
++   ts = g_date_time_difference (dt_usecs, dt);
++-  g_assert_cmpint (ts, >, 0);
+++  g_assert_cmpint (ts, >=, 0);
++   g_assert_cmpint (ts, <, G_USEC_PER_SEC);
++ 
++   /* Try round-tripping the creation time. */
++-- 
++2.34.1
++
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
+index dd1ea508d2..b5ab6502a3 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
+@@ -16,6 +16,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
+            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
+            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
++           file://0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch \
+            "
+ SRC_URI:append:class-native = " file://relocate-modules.patch"
  
- LIC_FILES_CHKSUM = "file://LICENSE;md5=71391c8e0c1cfe68077e7fce3b586283 \
-                     file://doc/COPYING;md5=c678957b0c8e964aa6c70fd77641a71e \
 -- 
 2.25.1
 
