@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B4BAC43219
-	for <webhook@archiver.kernel.org>; Fri,  4 Nov 2022 03:01:47 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web08.7203.1667530903347625408
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F030C433FE
+	for <webhook@archiver.kernel.org>; Fri,  4 Nov 2022 03:01:57 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web09.7184.1667530909029209279
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 20:01:43 -0700
+ Thu, 03 Nov 2022 20:01:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=e9DE7sXr;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id d13-20020a17090a3b0d00b00213519dfe4aso3550471pjc.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 20:01:43 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=12l9VNaP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id y4so3729596plb.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 20:01:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dh7P+Kvs7DNNS+nsi7wNd6C96KTJW9bnqpNH2SKqyH0=;
-        b=e9DE7sXrMdB3TAi6+v92sNGfx6PaxNCEqjX0kiU0IIFPodGh6yVd9efyz1anOhL+zO
-         Vzqwqjqk3eS2jakuh1XNw8vYltAfExALvumdsr5P0BGF/F9Iywumq8FUk015ue1N1zFN
-         NYjStHfsSjF0z1Pm6b1CGkW0Ts5+2anYV2gaz5SWD6sfEy6kM/nd4SGcg4OC+3zUL9uO
-         1JLQWLs8J4FNpSb345eePuhggyFV9y8w77y3p7mo3YC/7ubdBqTvx64F4MiZyAoAx7qv
-         Olhom1Od7yxww9Dk5jVeLaoDsboJKPEWvIJ2YO6Yx98cBStn/nChttxe4tV0TayFizUF
-         OpOQ==
+        bh=13mMlarCT89+FXhdb3+Pczr3UqiMcXQnbGhONwD72Jc=;
+        b=12l9VNaPM3PWqPpH2baXX8gqQjmhiCzDsn7tJNWYaFWouDXzNnD6/1TUcUhNpmCbbJ
+         uHB4Ku1i/2BKVFA4+qaXvaS4cWT17yYnGehzDAMIA7K3fhqVSSuf1/eIHF98iMfttgS5
+         UoPUWucQYEbouUi+VqoOZmfN+AjXXByqGVHqOwC80s/TzXK6xof1DccX62EppPaZTSkB
+         vOq1vDOMnrGRlz8lSMFSEPvt/wTtk1kJ0L96oGl29ebzxcS8HUW9PmsfC1J99C+1JbNc
+         F37wMbkXhntZjSl5ZjzJWl1GfKN/J6nRd4nuRazbb2EH5fFXsRaCnJgzSlGBx+Fhl489
+         BUsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dh7P+Kvs7DNNS+nsi7wNd6C96KTJW9bnqpNH2SKqyH0=;
-        b=ypMKeoNUcckNWpUd6+Rt7sAl8ITle/C/vIYWUwsuJgkd4wMSv/o3tXynmghpFuin9U
-         J4C90M0DiaQge591VPLZpL++49y1CATVZgzkQ9zX/gBE/BuCeyiK7t3D/M3Dpji2i5Pk
-         SlLJjPVjWAfh1zXaEgSOR7w6YbXR2aGaWeJRi43B3x2/vso3bUqtJlYfqZt1Js1vxwCV
-         pBsbjBG2PPtJEzuwb2bImNT16O2Ipi9M0+55jv1IbCz5Guxr/kf51NbTCzNsy+DjIa1C
-         YQzIH2nfv20fZ3Ehc9HTk1/SUoTlWhL2mRcXw0f3U1hlWt6kGKua+fRxqbUhAC14oGwm
-         5tvA==
-X-Gm-Message-State: ACrzQf3dPL9aZROb8jaNjjHK50etkIG5F5HW1DvRVfoq7xvQ5OgxNfMo
-	OJo4os6ByJk/bszu2VL8FFMFIaoBOgs5Uab9
-X-Google-Smtp-Source: AMsMyM7wlLcJrf+9QPhV1wKhcARhzUyZt36aVem0GA3MqQ7pV1YoCCJ3jqHPLPV72XIruyoRv4gmww==
-X-Received: by 2002:a17:90a:cb8b:b0:211:7744:d155 with SMTP id a11-20020a17090acb8b00b002117744d155mr50843867pju.187.1667530902448;
-        Thu, 03 Nov 2022 20:01:42 -0700 (PDT)
+        bh=13mMlarCT89+FXhdb3+Pczr3UqiMcXQnbGhONwD72Jc=;
+        b=H9ZHlEKJtqaFZyUe1crQKAKenSLDO08JEsZpTUzBTw86SFb22BSf3C8NoYW7BGdd9y
+         o/OppxwsusoABXfI4cwoBVCuTEaMN/FJ8RunTYYAGhggo+G+roifmtwahwvf4wYoBZlW
+         6k6TqJtPop8DRWOoE+YYqW60ybEAqA6SfcG662t6eiQWQJ08304H6M77wJ77zAOYswDb
+         7cjQreRDqjs1ddZG/4WoimZPQwIdYubxCaOb6iHOfJ4LRsD1WRnv+w6VujT87utB74Pl
+         97vIr0xMVJlpqeYbfSjzBZOeNKWuJ7BzJ9t4O3NDjlhtJeHS4aPLX68UKkWV6Ci7gEhd
+         X5QQ==
+X-Gm-Message-State: ACrzQf3PxIjWxnOqazNiXbX4Px0sYcVSxGBZAaFmQUu/be0qVx5t0867
+	jh0qCbA5EGaH+Aoe6RIpxQnIwFpW+m+ZZpxS
+X-Google-Smtp-Source: AMsMyM7oeABxsjgqvsnX/v1p/AwvusjqtghLkut6HTAFnClB3iTVN5RSEJiHQaaF23MSQxtO3jhy7g==
+X-Received: by 2002:a17:90a:f507:b0:211:e623:da5b with SMTP id cs7-20020a17090af50700b00211e623da5bmr52630250pjb.37.1667530908106;
+        Thu, 03 Nov 2022 20:01:48 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id r7-20020a17090a454700b0020b7de675a4sm667902pjm.41.2022.11.03.20.01.41
+        by smtp.gmail.com with ESMTPSA id r7-20020a17090a454700b0020b7de675a4sm667902pjm.41.2022.11.03.20.01.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 20:01:42 -0700 (PDT)
+        Thu, 03 Nov 2022 20:01:47 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 12/31] ifupdown: upgrade 0.8.37 -> 0.8.39
-Date: Thu,  3 Nov 2022 17:00:47 -1000
-Message-Id: <3dbfce9557e40c9a630337c9bf2ec129c02ed386.1667530733.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 15/31] psplash: add psplash-default in rdepends
+Date: Thu,  3 Nov 2022 17:00:50 -1000
+Message-Id: <358a9528a633de9e0e89225fd935b2a7dacf1652.1667530733.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1667530733.git.steve@sakoman.com>
 References: <cover.1667530733.git.steve@sakoman.com>
@@ -60,36 +60,36 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Nov 2022 03:01:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172673
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Nov 2022 03:01:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172676
 
-From: wangmy <wangmy@fujitsu.com>
+From: Thomas Perrot <thomas.perrot@bootlin.com>
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit f0462e3336c7134aeeb2684692732c187971b330)
+Otherwise when the installation of recommended packages is prevented
+(NO_RECOMMENDATIONS = "1"), then splash screen will not be cast.
+
+Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 2a0928532b8303858980d6df6271669dbb69e224)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ifupdown/{ifupdown_0.8.37.bb => ifupdown_0.8.39.bb}         | 2 +-
+ meta/recipes-core/psplash/psplash_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/ifupdown/{ifupdown_0.8.37.bb => ifupdown_0.8.39.bb} (97%)
 
-diff --git a/meta/recipes-core/ifupdown/ifupdown_0.8.37.bb b/meta/recipes-core/ifupdown/ifupdown_0.8.39.bb
-similarity index 97%
-rename from meta/recipes-core/ifupdown/ifupdown_0.8.37.bb
-rename to meta/recipes-core/ifupdown/ifupdown_0.8.39.bb
-index 57d4152a39..7096bc94d7 100644
---- a/meta/recipes-core/ifupdown/ifupdown_0.8.37.bb
-+++ b/meta/recipes-core/ifupdown/ifupdown_0.8.39.bb
-@@ -16,7 +16,7 @@ SRC_URI = "git://salsa.debian.org/debian/ifupdown.git;protocol=https;branch=mast
-            file://0001-ifupdown-skip-wrong-test-case.patch \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'file://tweak-ptest-script.patch', '', d)} \
-            "
--SRCREV = "2b4138f36ce3ba37186aa01b502273e0c39ab518"
-+SRCREV = "be91dd267b4a8db502a6bbf5758563f7048b8078"
+diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
+index edc0ac1d89..9532ed1534 100644
+--- a/meta/recipes-core/psplash/psplash_git.bb
++++ b/meta/recipes-core/psplash/psplash_git.bb
+@@ -58,7 +58,7 @@ python __anonymous() {
+         d.setVarFlag("ALTERNATIVE_TARGET_%s" % ep, 'psplash', '${bindir}/%s' % p)
+         d.appendVar("RDEPENDS:%s" % ep, " %s" % pn)
+         if p == "psplash-default":
+-            d.appendVar("RRECOMMENDS:%s" % pn, " %s" % ep)
++            d.appendVar("RDEPENDS:%s" % pn, " %s" % ep)
+ }
  
  S = "${WORKDIR}/git"
- 
 -- 
 2.25.1
 
