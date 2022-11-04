@@ -2,206 +2,159 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFE51C43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEC9BC4332F
 	for <webhook@archiver.kernel.org>; Fri,  4 Nov 2022 03:01:27 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web09.7176.1667530878658974221
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web09.7177.1667530885706557936
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 20:01:18 -0700
+ Thu, 03 Nov 2022 20:01:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=cmSGI4sV;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id q1so3288334pgl.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 20:01:18 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=tqm8jKUR;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id j12so3718788plj.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 20:01:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8rrLkzZzopuf6vr9ZhqQKigD4R8QVV5bRmxRo+G3TCo=;
-        b=cmSGI4sVNdHYiDzkVJhOKgYMomx9H3HnOxWlNA8XcQVBYLHhsjIU7P+iQMzH1cn+yA
-         6O90/pALJO9mdjQhk5/Dp7lCLl+PBvfEjGK2q78DGI3JwOqbWbfz/BCGNJb5U7OeJ8YF
-         6sSNrvUtb2arp9HGjhsCPxJ96T0Yh7vLUFOF7SeweLxTxWXJMTVg5QiW+obI04FZXFM0
-         dwil+geIch6S59/vSSWjETUNo4SDTw3Pni8ZbWXNZ1xBJ5xcDXypTPPn2PmcZkNgwdRe
-         mOH9QHpO/8sY6dKZ7fc3YfZAgYiH9XkogUYRMJwFxVBm5dzgWNBNYltcGUMcMLxWJW4w
-         xQ3A==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yLa2GHEWRItJ9WN63WYVy4qyN5YYFTQq2aok7q7RSO0=;
+        b=tqm8jKUR0UMYE6trU4qc6s1WwwuwDo8qF/kNO+QHmXPnvgO1U8rb9ozMrDRdHZWFRK
+         AZgeNRMhcw5RNjQmpjQT2KiRZhBbZ8v2XgXbJgDSDrUXes3+zQ+4jrMvg1ivisp4psXI
+         XxPj6NLNMjZZ1I3ptoUKeEL6CYOF3LFkkyWiRI9DLbkKxSy5YLSAKZgvGhDM5sxx6SOj
+         tMLkEtWcp0994OCkRW7luNQfeBEu1UjAKmTbLEYzHd4AzGnmNFV0jKCUSUt9FRUyFreO
+         WgzrwaWnotIOmxihMDACalFeeCWUM6Wz9KuxL01307WojpAn+uDSHxZiihU9zBhSByXJ
+         s/oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8rrLkzZzopuf6vr9ZhqQKigD4R8QVV5bRmxRo+G3TCo=;
-        b=FgUlzy8k09SIWjb1z6oJpoVAUH/8edGvgnTYZwEQ5gvG4Tm4IHWBBi4wb/MbbvLjkm
-         4OyRbSISSmnywL0o34v0OkFpz+v2I2QgJpmKOx/W8t/CNVEjabyc2PziKK8v06OJqFHq
-         bRkc5d+up9YK7VSsoQMrywiGPLta2XPT7K/Enj89fe93Xlb87rhYlr1r57l5wTUYikWi
-         HfgQkTodIkBgh+5FGTeJ1usLO47Xqo5rwgLTfp1C2a49GJ5nWhlDBT72wYNgbW711cHv
-         /2OHKyxRLrOKAZA2pq+kIF6SZnzT/TBF61oNl7yk94Zfgw2VowY3a1xScnC+0DSPYepu
-         FJ4g==
-X-Gm-Message-State: ACrzQf2ufCzG8CYlbeuhK/gKum9dzgjXY2iEXg3IvRz21RL40RSOVplw
-	AkrZ54xolXi/3H28HzmFFPYHuWlYNjNH0X2E
-X-Google-Smtp-Source: AMsMyM4embNavIM49XiFf6ei6tWHBAy+6+dDPeKUx5wuBDUUXGWiheJCWjgc/oNHhPexOqPPy/OC7Q==
-X-Received: by 2002:a05:6a00:1a0f:b0:56e:32a2:abcf with SMTP id g15-20020a056a001a0f00b0056e32a2abcfmr8432140pfv.35.1667530877378;
-        Thu, 03 Nov 2022 20:01:17 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yLa2GHEWRItJ9WN63WYVy4qyN5YYFTQq2aok7q7RSO0=;
+        b=dlzgh/Skbe7h0SBhI4DfppkSYQSAxPN429SqWhXKbABypulaxl+rhP9cCkDieNouyd
+         X3bnI/5P5aBrTh3jcH2WwAj8ywXwYX9VUTeCAKMf9FpohBveQH+zc+mEQWiEMAtvm0Ex
+         06hSa9gDCpLnyfgpxlQfn+JSM3jOlxASjkk9oP/CXTkOE/q+aw8eteP9sX/9KRny5vi0
+         2nGzm2Jf44iRWAIQ7PMI6O0sEG2vNYrWeGhCKgAMewZ4pcbHltYXdT7AuBqtbpdlx792
+         u4bE/AOZnCCP3P4wHI6TbFTIbH5vC74N6adqoCkV9hU3zjC/dpcltwdZbAxe9DSythS+
+         N/8w==
+X-Gm-Message-State: ACrzQf1scWuL98HdVMvaDSH+mnZAymwBNMV8Qd9ANRb/QwXFv81O/YSN
+	4gfYL90Y2VUuC5qy0WLFh8zob3WIa5dxRmUA
+X-Google-Smtp-Source: AMsMyM705ss91gYdvZU5tCjAroP/W2LggzDzdNTNFNLj98NltRYT/K3okNymMpaHphIgUVvLsMWYCQ==
+X-Received: by 2002:a17:902:e952:b0:17c:7aaa:c679 with SMTP id b18-20020a170902e95200b0017c7aaac679mr33608353pll.74.1667530884790;
+        Thu, 03 Nov 2022 20:01:24 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id r7-20020a17090a454700b0020b7de675a4sm667902pjm.41.2022.11.03.20.01.16
+        by smtp.gmail.com with ESMTPSA id r7-20020a17090a454700b0020b7de675a4sm667902pjm.41.2022.11.03.20.01.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 20:01:16 -0700 (PDT)
+        Thu, 03 Nov 2022 20:01:24 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/31] Patch review
-Date: Thu,  3 Nov 2022 17:00:35 -1000
-Message-Id: <cover.1667530733.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 03/31] openssl: CVE-2022-3358 Using a Custom Cipher with NID_undef may lead to NULL encryption
+Date: Thu,  3 Nov 2022 17:00:38 -1000
+Message-Id: <0575f1d03e640a989b4e75b3ef18944de383187f.1667530733.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1667530733.git.steve@sakoman.com>
+References: <cover.1667530733.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 04 Nov 2022 03:01:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172661
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172664
 
-Please review this set of patches for kirkstone and have comments back by
-end of day Monday.
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-Passed a-full on autobuilder:
+Upstream-Status: Backport from https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=5485c56679d7c49b96e8fc8ca708b0b7e7c03c4b]
+Description:
+	CVE-2022-3358 openssl: Using a Custom Cipher with NID_undef may lead to NULL encryption.
+Affects "openssl < 3.0.6"
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4416
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit f98b2273c6f03f8f6029a7a409600ce290817e27)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+(cherry picked from commit 08b32d2b35c2ba63774d098af467d1c723b1b6e6)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../openssl/openssl/CVE-2022-3358.patch       | 55 +++++++++++++++++++
+ .../openssl/openssl_3.0.5.bb                  |  1 +
+ 2 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2022-3358.patch
 
-The following changes since commit fbdf93f43ff4b876487e1f26752598ec8abcb46e:
-
-  build-appliance-image: Update to kirkstone head revision (2022-10-29 16:32:59 +0100)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Alex Kiernan (1):
-  u-boot: Remove duplicate inherit of cml1
-
-Bartosz Golaszewski (1):
-  bluez5: add dbus to RDEPENDS
-
-Bernhard Rosenkränzer (1):
-  cmake-native: Fix host tool contamination (Bug: 14951)
-
-Chen Qi (1):
-  openssl: export necessary env vars in SDK
-
-Ed Tanous (1):
-  openssl: Upgrade 3.0.5 -> 3.0.7
-
-Frank de Brabander (1):
-  cve-update-db-native: add timeout to urlopen() calls
-
-Hitendra Prajapati (1):
-  openssl: CVE-2022-3358 Using a Custom Cipher with NID_undef may lead
-    to NULL encryption
-
-Jan-Simon Moeller (1):
-  buildtools-tarball: export certificates to python and curl
-
-Jeremy Puhlman (1):
-  qemu-native: Add PACKAGECONFIG option for jack
-
-Joshua Watt (2):
-  runqemu: Do not perturb script environment
-  runqemu: Fix gl-es argument from causing other arguments to be ignored
-
-Keiya Nobuta (1):
-  gnutls: Unified package names to lower-case
-
-Khem Raj (1):
-  perf: Depend on native setuptools3
-
-Liam Beguin (1):
-  meson: make wrapper options sub-command specific
-
-Mark Hatle (1):
-  insane.bbclass: Allow hashlib version that only accepts on parameter
-
-Narpat Mali (1):
-  wayland: fix CVE-2021-3782
-
-Richard Purdie (1):
-  openssl: Fix SSL_CERT_FILE to match ca-certs location
-
-Ross Burton (7):
-  lighttpd: fix CVE-2022-41556
-  expat: backport the fix for CVE-2022-43680
-  scripts/oe-check-sstate: cleanup
-  scripts/oe-check-sstate: force build to run for all targets,
-    specifically populate_sysroot
-  opkg-utils: use a git clone, not a dynamic snapshot
-  oe/packagemanager/rpm: don't leak file objects
-  glib-2.0: fix rare GFileInfo test case failure
-
-Teoh Jay Shen (1):
-  vim: Upgrade 9.0.0598 -> 9.0.0614
-
-Thomas Perrot (1):
-  psplash: add psplash-default in rdepends
-
-Tim Orling (1):
-  vim: upgrade 9.0.0614 -> 9.0.0820
-
-Vyacheslav Yurkov (1):
-  overlayfs: Allow not used mount points
-
-Xiangyu Chen (1):
-  ltp: backport clock_gettime04 fix from upstream
-
-Zheng Qiu (1):
-  tiff: fix CVE-2022-2953
-
-wangmy (1):
-  ifupdown: upgrade 0.8.37 -> 0.8.39
-
- meta/classes/insane.bbclass                   |   5 +-
- meta/classes/overlayfs.bbclass                |   6 +-
- meta/lib/oe/overlayfs.py                      |   6 +-
- meta/lib/oe/package_manager/rpm/__init__.py   |  33 +-
- meta/recipes-bsp/u-boot/u-boot.inc            |   2 +-
- meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
- .../openssl/files/environment.d-openssl.sh    |   4 +
- .../{openssl_3.0.5.bb => openssl_3.0.7.bb}    |   2 +-
- .../expat/expat/CVE-2022-43680.patch          |  33 +
- meta/recipes-core/expat/expat_2.4.9.bb        |   1 +
- ...-info-don-t-assume-million-in-one-ev.patch |  51 ++
- meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |   1 +
- ...{ifupdown_0.8.37.bb => ifupdown_0.8.39.bb} |   2 +-
- meta/recipes-core/meta/buildtools-tarball.bb  |   2 +
- .../recipes-core/meta/cve-update-db-native.bb |   9 +-
- meta/recipes-core/psplash/psplash_git.bb      |   2 +-
- .../cmake/cmake-native_3.22.3.bb              |   1 +
- .../meson/meson/meson-wrapper                 |  21 +-
- .../opkg-utils/opkg-utils_0.5.0.bb            |   6 +-
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- .../lighttpd/lighttpd/CVE-2022-41556.patch    |  31 +
- .../lighttpd/lighttpd_1.4.66.bb               |   1 +
- ...set-threshold-based-on-the-clock-res.patch |  89 +++
- meta/recipes-extended/ltp/ltp_20220121.bb     |   1 +
- .../wayland/wayland/CVE-2021-3782.patch       | 111 ++++
- .../wayland/wayland_1.20.0.bb                 |   2 +
- meta/recipes-kernel/perf/perf.bb              |   2 +-
- ...ue-330-and-some-more-from-320-to-349.patch | 609 ++++++++++++++++++
- .../libtiff/tiff/CVE-2022-2953.patch          |  87 +++
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |   2 +
- meta/recipes-support/gnutls/gnutls_3.7.4.bb   |   2 +-
- meta/recipes-support/vim/vim.inc              |   4 +-
- scripts/oe-check-sstate                       |   8 +-
- scripts/runqemu                               |  28 +-
- 34 files changed, 1115 insertions(+), 51 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl_3.0.5.bb => openssl_3.0.7.bb} (99%)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2022-43680.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch
- rename meta/recipes-core/ifupdown/{ifupdown_0.8.37.bb => ifupdown_0.8.39.bb} (97%)
- create mode 100644 meta/recipes-extended/lighttpd/lighttpd/CVE-2022-41556.patch
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-clock_gettime04-set-threshold-based-on-the-clock-res.patch
- create mode 100644 meta/recipes-graphics/wayland/wayland/CVE-2021-3782.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/0001-tiffcrop-Fix-issue-330-and-some-more-from-320-to-349.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-2953.patch
-
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2022-3358.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2022-3358.patch
+new file mode 100644
+index 0000000000..18b2a5a6b2
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2022-3358.patch
+@@ -0,0 +1,55 @@
++From 56e1d693f0ec5550a8e3dd52d30e57a02f0287af Mon Sep 17 00:00:00 2001
++From: Hitendra Prajapati <hprajapati@mvista.com>
++Date: Wed, 19 Oct 2022 11:08:23 +0530
++Subject: [PATCH] CVE-2022-3358
++
++Upstream-Status: Backport [https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=5485c56679d7c49b96e8fc8ca708b0b7e7c03c4b]
++CVE : CVE-2022-3358
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ crypto/evp/digest.c  | 4 +++-
++ crypto/evp/evp_enc.c | 6 ++++--
++ 2 files changed, 7 insertions(+), 3 deletions(-)
++
++diff --git a/crypto/evp/digest.c b/crypto/evp/digest.c
++index de9a1dc..e6e03ea 100644
++--- a/crypto/evp/digest.c
+++++ b/crypto/evp/digest.c
++@@ -225,7 +225,9 @@ static int evp_md_init_internal(EVP_MD_CTX *ctx, const EVP_MD *type,
++             || tmpimpl != NULL
++ #endif
++             || (ctx->flags & EVP_MD_CTX_FLAG_NO_INIT) != 0
++-            || type->origin == EVP_ORIG_METH) {
+++            || (type != NULL && type->origin == EVP_ORIG_METH)
+++            || (type == NULL && ctx->digest != NULL
+++                             && ctx->digest->origin == EVP_ORIG_METH)) {
++         if (ctx->digest == ctx->fetched_digest)
++             ctx->digest = NULL;
++         EVP_MD_free(ctx->fetched_digest);
++diff --git a/crypto/evp/evp_enc.c b/crypto/evp/evp_enc.c
++index 19a07de..5df08bd 100644
++--- a/crypto/evp/evp_enc.c
+++++ b/crypto/evp/evp_enc.c
++@@ -131,7 +131,10 @@ static int evp_cipher_init_internal(EVP_CIPHER_CTX *ctx,
++ #if !defined(OPENSSL_NO_ENGINE) && !defined(FIPS_MODULE)
++             || tmpimpl != NULL
++ #endif
++-            || impl != NULL) {
+++            || impl != NULL
+++            || (cipher != NULL && cipher->origin == EVP_ORIG_METH)
+++            || (cipher == NULL && ctx->cipher != NULL
+++                               && ctx->cipher->origin == EVP_ORIG_METH)) {
++         if (ctx->cipher == ctx->fetched_cipher)
++             ctx->cipher = NULL;
++         EVP_CIPHER_free(ctx->fetched_cipher);
++@@ -147,7 +150,6 @@ static int evp_cipher_init_internal(EVP_CIPHER_CTX *ctx,
++         ctx->cipher_data = NULL;
++     }
++ 
++-
++     /* Start of non-legacy code below */
++ 
++     /* Ensure a context left lying around from last time is cleared */
++-- 
++2.25.1
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.5.bb b/meta/recipes-connectivity/openssl/openssl_3.0.5.bb
+index e50ff7f8c5..ee051ee7d4 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.0.5.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.0.5.bb
+@@ -12,6 +12,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://afalg.patch \
+            file://0001-Configure-do-not-tweak-mips-cflags.patch \
++           file://CVE-2022-3358.patch \
+            "
+ 
+ SRC_URI:append:class-nativesdk = " \
 -- 
 2.25.1
 
