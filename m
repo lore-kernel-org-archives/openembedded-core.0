@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC095C4321E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADBB9C433FE
 	for <webhook@archiver.kernel.org>; Fri,  4 Nov 2022 03:01:27 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web11.7149.1667530881786464670
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web12.7127.1667530883773100432
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Nov 2022 20:01:22 -0700
+ Thu, 03 Nov 2022 20:01:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=6d5jSurD;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.171, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f171.google.com with SMTP id 64so3314891pgc.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 20:01:21 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=fR1HGnHV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f176.google.com with SMTP id k15so3384385pfg.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Nov 2022 20:01:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gsU1daWWAr33IRDtcnNuPrDZtQaTPyq7yROvMnDsBgE=;
-        b=6d5jSurDvxIY2ebWf/l49dFuSrXGNBCo3u8bUZgMXraxw4nQADWwDMKr5MarT8cE0T
-         rYWGJTqrDAxJpVfixXbMDeFecxZHPiZpS+1jIn3W3XN05JH/88MIqU/frKHQRPw++mV/
-         Itfgl23a/xfbs0o0B01Q5Aif/JLcd5NR+kJ7vCJEvKcYtl7/uaLRvjkHrD6BDDMiggql
-         BBxsFsrBeuKBNoJMT26qMVho7hVw4UL3vxiz2xwAuuU8+eYij59GitcqPGQLWXleMZkq
-         SlSP6ZOvi/8PMmPlO259kwrPJkuhz9dDx2gV1xGpyVdjPnl8eh2tP5Lucp6tvQVFmjh8
-         6g5A==
+        bh=x24hCMCcucIw5sPlAWZ5PxMJ/RFs7nBss6CnYNustIk=;
+        b=fR1HGnHVW3fIew9LqD94SoSlv0NahePQKlcL1wTskjxy236XaaNOugKErbTQVkqQtr
+         mkMdmtaKN/o2LUFI3ymnflVgxm8xLjVjwJgrNra2ILlvcXUEd0IsrEFNAy+nE/VuQat1
+         VKpziPnBMSUtKN/+yMMy+GWZbneNpHWcLCH3CpqRAwoHjrQ2Kt1acL3PfSDBuyS3K1Ot
+         CiiIyedp4oShaD4QIsFY7e+nrsTWiksETvz+XR2wMmE4slBTUzieeNmrR936dwH7ZLzv
+         9/6Q9x2ucm0OjFkJDrFDouDFolLpSnN7Kg/Xz1s1aFJ979G0wr4aFHRHop/gude+C4c3
+         mrZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gsU1daWWAr33IRDtcnNuPrDZtQaTPyq7yROvMnDsBgE=;
-        b=IaedmkEv5Miy+8mxQbpnBcBdNT3ndLKxyT3tJuDVKS5k9KEP56XXi1W0OlMCRkr1zG
-         M842AGdc+MGbF2EfnNp2++sDjwMoQNl0ovWPQKqNfzWIcutrO1HdOaEZncjxO4UeF+lu
-         adsGgLGzkvGJl2c2cYWZ9jYD6rREzr5uGwrBPNQbpg18tN9KSgAWmObjlYVvbiwia534
-         yM92hdBqZjJ9RKUif9S0NT1wGW/XM+oHrFwyKWUoc/+EzhEIsVswNC1CVkdGXLJeEt5c
-         LEymIKkVCtB95lAZa5qh6IesCVPH7ZWAiXXZkMVYIc7FAvh3MirD0OULmmus8oeYphki
-         2JJg==
-X-Gm-Message-State: ACrzQf2NWNZS/mK87bG0kEBgrmdnKpJajF9SopsU1oWS3LC8tBfjlyFT
-	l3rjX9vKKqU3UITQAwQPdqkhFT5nQAjVAvrP
-X-Google-Smtp-Source: AMsMyM7ZexXPKwBZmwnvY9GbKjxDm1fOz5S431tN7eo5v877xVFcOtl5H4dE4AqW3HeRPEWmk3ENJg==
-X-Received: by 2002:a05:6a00:23c9:b0:56c:9f62:3369 with SMTP id g9-20020a056a0023c900b0056c9f623369mr32704459pfc.22.1667530880734;
-        Thu, 03 Nov 2022 20:01:20 -0700 (PDT)
+        bh=x24hCMCcucIw5sPlAWZ5PxMJ/RFs7nBss6CnYNustIk=;
+        b=K5QdfHfAkhnF4u119a1SYqnimf+W7/m/FCaA1NRcmAgyM5zK7Kmtb2U2sbr0qtFuZ9
+         IDF1YnatAv2+NH5bK/lwkIX4/hxI+nG4IJs3PdbtXLG2Hy8R9+91oLDvFY2xG8Kz7YCo
+         4pPRkogY63SWeKDqbjhSZE3udkkEoD/KXpin02cFO6wolqeI9vxnS/0Ve1Ftf92rLA4J
+         xmcBkxOjeQ0r79uznWQ48MBm7c3WSCI59DGEl0GKuEG1NGIloAfRYXa9PhA2+m2ZxkRd
+         AGx2AKZNq2nsYFBsRcS+yrbUdq40Kz7NeYdq4Z9WPMT5K6tatApVwvfuT9Po+EStSeT4
+         xo1A==
+X-Gm-Message-State: ACrzQf3ng+zWoJwsaSrWjiArqakzBVLH6lCr/n4KAGMuYaJjYVePJiYN
+	PX26+Cc4+Ju4T5+FqOLwSr3uUw6XIo3vmVNd
+X-Google-Smtp-Source: AMsMyM6Fxs4hPesvzjsHeEpkPoICKz+QVDlzbet9dolsEAzkgGewzpaery/AM3FNggduEPSKe6kVaQ==
+X-Received: by 2002:a63:5205:0:b0:46f:6320:9016 with SMTP id g5-20020a635205000000b0046f63209016mr29136753pgb.437.1667530882804;
+        Thu, 03 Nov 2022 20:01:22 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id r7-20020a17090a454700b0020b7de675a4sm667902pjm.41.2022.11.03.20.01.19
+        by smtp.gmail.com with ESMTPSA id r7-20020a17090a454700b0020b7de675a4sm667902pjm.41.2022.11.03.20.01.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 20:01:20 -0700 (PDT)
+        Thu, 03 Nov 2022 20:01:22 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 01/31] openssl: export necessary env vars in SDK
-Date: Thu,  3 Nov 2022 17:00:36 -1000
-Message-Id: <dbeaf140c38b22887338735bbb57b66f6a47faa6.1667530733.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 02/31] openssl: Fix SSL_CERT_FILE to match ca-certs location
+Date: Thu,  3 Nov 2022 17:00:37 -1000
+Message-Id: <d45879ac4a46ee5b6182a57c5bf4b2f0d5e20219.1667530733.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1667530733.git.steve@sakoman.com>
 References: <cover.1667530733.git.steve@sakoman.com>
@@ -61,48 +61,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 04 Nov 2022 03:01:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172662
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172663
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-In current SDK, when running the following command in python
-shell, we get an error.
+In OE-Core d6b15d1e70b99185cf245d829ada5b6fb99ec1af,
+"openssl: export necessary env vars in SDK", the value added for
+SSL_CERT_FILE was in conflict with the value used elsewhere, such as
+in buildtools. This makes them match and fixes buildtools testsdk
+failures.
 
-$ python3
->>> from cryptography.hazmat.backends import openssl
-
-The error message is as below:
-
-  cryptography.exceptions.InternalError: Unknown OpenSSL error.
-
-We could set OPENSSL_MODULES explicitly in nativesdk-openssl package
-so that when SDK is set up, it's in environment and we can
-get rid of the above error.
-
-Also, there are other env vars that need to be exported. And we export
-all of them to keep sync with openssl-native.bbclass.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d6b15d1e70b99185cf245d829ada5b6fb99ec1af)
+(cherry picked from commit 7d383a7fc6da666c80f2fc037af5f49a3388eb2b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
-(cherry picked from commit 69030b368773baae65d95e39d3587913b8401bc7)
+(cherry picked from commit a9a50f2216951e26b62ed2f86f341d9ad13acf48)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../openssl/files/environment.d-openssl.sh                    | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../recipes-connectivity/openssl/files/environment.d-openssl.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh b/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
-index b9cc24a7ac..516bbd1c56 100644
+index 516bbd1c56..6f23490c87 100644
 --- a/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
 +++ b/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
-@@ -1 +1,5 @@
+@@ -1,5 +1,5 @@
  export OPENSSL_CONF="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/openssl.cnf"
-+export SSL_CERT_DIR="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/certs"
-+export SSL_CERT_FILE="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/cert.pem"
-+export OPENSSL_MODULES="$OECORE_NATIVE_SYSROOT/usr/lib/ossl-modules/"
-+export OPENSSL_ENGINES="$OECORE_NATIVE_SYSROOT/usr/lib/engines-3"
+ export SSL_CERT_DIR="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/certs"
+-export SSL_CERT_FILE="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/cert.pem"
++export SSL_CERT_FILE="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/certs/ca-certificates.crt"
+ export OPENSSL_MODULES="$OECORE_NATIVE_SYSROOT/usr/lib/ossl-modules/"
+ export OPENSSL_ENGINES="$OECORE_NATIVE_SYSROOT/usr/lib/engines-3"
 -- 
 2.25.1
 
