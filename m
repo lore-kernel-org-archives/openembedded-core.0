@@ -1,261 +1,160 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 170ABC433FE
-	for <webhook@archiver.kernel.org>; Sat,  5 Nov 2022 19:36:36 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web08.9476.1667676986925015478
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F9E1C433FE
+	for <webhook@archiver.kernel.org>; Sat,  5 Nov 2022 19:41:06 +0000 (UTC)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web09.9786.1667677258454755507
  for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Nov 2022 12:36:27 -0700
+ Sat, 05 Nov 2022 12:40:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=RRPuF5dr;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=y8JSI95G;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.48, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f48.google.com with SMTP id a5so12043439edb.11
+        for <openembedded-core@lists.openembedded.org>; Sat, 05 Nov 2022 12:40:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1667676987;
-  x=1699212987;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:mime-version;
-  bh=Ez7nvksFfunvscLdy+poEpS2GV3IAsQJD6xand4jDmM=;
-  b=RRPuF5drL/IX7ayqyncIZC9SI+DLAKg8QmczjzKS9wunZVaE6b6C5DuU
-   XOanGZifD+QdkkOPxAfcX6nUR1vn8oTclIpSwLNe20TunE+xDAOOpqlju
-   cAFmjiYKRa3pI4IhKRP9UQi9oZcOshVPa5h6XA6Da5lM2M5QvYIA0qNzQ
-   A3L68TdhCkUvv/enDREOFE1i5JwoHsLAESODcai9RCa4/C5wamaEQ0epB
-   9pbC2QHsne7fYRV/KlvbTCkT+o0jYwvkXCP3S2gksZAur4W7GsnDIEUcd
-   ltagDqiaNvVLRdXCG7+PglangXg/5YUug0wB6mpKUYIBNTrJLofRJpOJR
-   g==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Martin Jansa <martin.jansa@gmail.com>, Steve Sakoman <steve@sakoman.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [langdale][PATCH 2/2] externalsrc.bbclass: Remove a
- trailing slash from ${B}
-Thread-Topic: [OE-core] [langdale][PATCH 2/2] externalsrc.bbclass: Remove a
- trailing slash from ${B}
-Thread-Index: AQHY8UBSz3fLndEIaUKpGtptFYaKwK4wlYmAgAAjU/A=
-Date: Sat, 5 Nov 2022 19:36:24 +0000
-Message-ID: <1e435dd091324e19aa0231e86ef5da8d@axis.com>
-References: <20221105154203.273684-1-pkj@axis.com>
- <20221105154203.273684-2-pkj@axis.com>
- <CAOSpxdZzGOPfcesAm0ykhcatZCMUwLUBjLudauD1J1Kod1UFFw@mail.gmail.com>
- <CA+chaQcY4iku9jwfsTQqe95E_Gge6X5GC=ZHLBDVwr7_poa86A@mail.gmail.com>
-In-Reply-To: <CA+chaQcY4iku9jwfsTQqe95E_Gge6X5GC=ZHLBDVwr7_poa86A@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: multipart/alternative;
-	boundary="_000_1e435dd091324e19aa0231e86ef5da8daxiscom_"
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ojEeem2p7zMtpmNrk+E3YmE7/n4WZ30xgF+aPRfsyLg=;
+        b=y8JSI95GnwoFAiu4CaEVr43OHWkkEqbrx3XldM86ftT75Ip2zRfMGXiJSZBgY3mK+7
+         ABCzKfwH0NQRKAMwutL4BEGj4AhlXYTF/ZxxpSHb8sH9Bz0v6cA1vOwZ3pj7SIdcXVF6
+         9nBh9yLxi/v8XLFMISSzC6zeT4MF34apP/IRD01vO9wXCwv/u5wg4+h/stPRMq08Mgsh
+         V9YrlOOdy7MesFBRs2rlCbBjrl7/snCPUxju9iV7FnoXppYIuFZI6dVsVZ2OjIuoMc7z
+         IJ5uqcZjWtRUMhSV4CWkZmHYFDa2ydYs5VwVyI8veEqkjBOKLsuncWUGM2d7ROCgdMWT
+         //yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ojEeem2p7zMtpmNrk+E3YmE7/n4WZ30xgF+aPRfsyLg=;
+        b=BFq7fV3eRDk942xhWEHxCsInmV3+YU97aPmN0erboBHbQQ57vmjWcm2ZRxsF0K78fZ
+         5WtkJz71IAuoV8cOFeqXIeWpghH6ObcuQKYQqz4Bw/G+SS5jgGhDmeIbvT4uczRm/k4L
+         E1FwsDR574J0+dLVkFdKSeMT46iIlcrvEUfxDlB1nBPpwnE4lZuBr2DHDegctpZPQaQz
+         EHCCqG713PS0a7vhKrEWUNPdIaQDUIuBsUVSsGhLi/GWbzNNQ0f84iMelgMv7vHuR4M4
+         PR3NLahtYSaMMDjs/kdw2ipP4UxJrsFv3y7J7c/u1tylwVusVpvvlNjAYrViqqHOj4p8
+         Nu4Q==
+X-Gm-Message-State: ACrzQf2xx5F3qN1t5KvI8ea9yr7uUcxxrdm0GHO2M+k4wkb9U66+0n5u
+	2GoGeM/3E6UVw5wIg4DdUWkUmL8kkLbIAs+iWm8oJA==
+X-Google-Smtp-Source: AMsMyM7BGNNsjJv2JpCYqXEOmFQ7abpYc0q3lEJmrCpzMXyyBdonWTls3MaCW4SqWG13Q0N244IY/dx7bWdgRDSWSkc=
+X-Received: by 2002:a50:eb05:0:b0:457:c6f5:5f65 with SMTP id
+ y5-20020a50eb05000000b00457c6f55f65mr41119015edp.311.1667677256782; Sat, 05
+ Nov 2022 12:40:56 -0700 (PDT)
 MIME-Version: 1.0
+References: <20221105154203.273684-1-pkj@axis.com> <20221105154203.273684-2-pkj@axis.com>
+ <CAOSpxdZzGOPfcesAm0ykhcatZCMUwLUBjLudauD1J1Kod1UFFw@mail.gmail.com>
+ <CA+chaQcY4iku9jwfsTQqe95E_Gge6X5GC=ZHLBDVwr7_poa86A@mail.gmail.com> <1e435dd091324e19aa0231e86ef5da8d@axis.com>
+In-Reply-To: <1e435dd091324e19aa0231e86ef5da8d@axis.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Sat, 5 Nov 2022 09:40:45 -1000
+Message-ID: <CAOSpxdbOxC-Vgzbw-dtj_TpiEGXo1kL6jeN-8L9TjCgrJy_4xQ@mail.gmail.com>
+Subject: Re: [OE-core] [langdale][PATCH 2/2] externalsrc.bbclass: Remove a
+ trailing slash from ${B}
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 05 Nov 2022 19:36:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172756
+ <openembedded-core@lists.openembedded.org>; Sat, 05 Nov 2022 19:41:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172757
 
---_000_1e435dd091324e19aa0231e86ef5da8daxiscom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Sat, Nov 5, 2022 at 9:36 AM Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+>
+> Argh, the second series (with three patches) is intended for Kirkstone, not Langdale.
 
-QXJnaCwgdGhlIHNlY29uZCBzZXJpZXMgKHdpdGggdGhyZWUgcGF0Y2hlcykgaXMgaW50ZW5kZWQg
-Zm9yIEtpcmtzdG9uZSwgbm90IExhbmdkYWxlLg0KDQovL1BldGVyDQoNCkZyb206IE1hcnRpbiBK
-YW5zYSA8bWFydGluLmphbnNhQGdtYWlsLmNvbT4NClNlbnQ6IGRlbiA1IG5vdmVtYmVyIDIwMjIg
-MTk6MjgNClRvOiBTdGV2ZSBTYWtvbWFuIDxzdGV2ZUBzYWtvbWFuLmNvbT4NCkNjOiBQZXRlciBL
-amVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT47IG9wZW5lbWJlZGRlZC1j
-b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW2xhbmdk
-YWxlXVtQQVRDSCAyLzJdIGV4dGVybmFsc3JjLmJiY2xhc3M6IFJlbW92ZSBhIHRyYWlsaW5nIHNs
-YXNoIGZyb20gJHtCfQ0KDQpJbiBteSBpbmJveCBpdCBsb29rcyBkaWZmZXJlbnRseSwgMi8zIGFu
-ZCAzLzMgYXJlbid0IGlkZW50aWNhbCBhbmQgYm90aCBhcmUgaW5kZWVkIGluIGxhbmdkYWxlLW51
-dC4NCg0KVGhlbiB0aGVyZSBpcyAxLzIgaWRlbnRpY2FsIHRvIDIvMyAocHJvYmFibHkgZnJvbSBz
-ZW5kaW5nIGxhc3QgMyBleHRlcm5hbHNyYy5iYmNsYXNzIGNoYW5nZXMgYW5kIHRoZW4gcmUtc2Vu
-ZGluZyBhZnRlciByZWFsaXppbmcgdGhhdCBvbmx5IGxhc3QgMiBhcmUgbmVlZGVkKS4NCg0KMS8z
-IGlzICBhbHJlYWR5IGluIGxhbmdkYWxlOg0KaHR0cHM6Ly9naXQub3BlbmVtYmVkZGVkLm9yZy9v
-cGVuZW1iZWRkZWQtY29yZS9jb21taXQvP2g9bGFuZ2RhbGUmaWQ9NmQ5MzY0ZTVmMzUzNTk1NGY2
-NWNiYmM2OTRlZTc5MzNhYzFkNjY0Zg0KDQpJIHRoaW5rIGFsbCBpcyBmaW5lIGluIGxhbmdkYWxl
-LW51dC4NCg0KQ2hlZXJzLA0KDQpPbiBTYXQsIE5vdiA1LCAyMDIyIGF0IDY6NTkgUE0gU3RldmUg
-U2Frb21hbiA8c3RldmVAc2Frb21hbi5jb208bWFpbHRvOnN0ZXZlQHNha29tYW4uY29tPj4gd3Jv
-dGU6DQpJJ3ZlIGFscmVhZHkgZ290IHRoZXNlIGZpcnN0IHR3byBwYXRjaGVzIGluIHN0YWJsZS9s
-YW5nZGFsZS1udXQ6DQoNCmh0dHBzOi8vZ2l0Lm9wZW5lbWJlZGRlZC5vcmcvb3BlbmVtYmVkZGVk
-LWNvcmUtY29udHJpYi9sb2cvP2g9c3RhYmxlL2xhbmdkYWxlLW51dA0KDQpBbmQgeW91ciAzLzMg
-c2VlbXMgdG8gYmUgaWRlbnRpY2FsIHRvIDIvMy4gIEFtIEkgbWlzc2luZyBzb21ldGhpbmc/DQoN
-ClN0ZXZlDQoNCk9uIFNhdCwgTm92IDUsIDIwMjIgYXQgNTo0MiBBTSBQZXRlciBLamVsbGVyc3Rl
-ZHQNCjxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb208bWFpbHRvOnBldGVyLmtqZWxsZXJzdGVk
-dEBheGlzLmNvbT4+IHdyb3RlOg0KPg0KPiBGcm9tOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVy
-LmtqZWxsZXJzdGVkdEBheGlzLmNvbTxtYWlsdG86cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29t
-Pj4NCj4NCj4gVGhlIHRyYWlsaW5nIHNsYXNoIGluICR7Qn0gY2F1c2VkIC1mZGVidWctcHJlZml4
-LW1hcD0ke0J9PS4uLiB0byBub3QNCj4gbWF0Y2ggYXMgaW50ZW5kZWQsIHJlc3VsdGluZyBpbiAk
-e1RNUERJUn0gZW5kaW5nIHVwIGluIGZpbGVzIGluDQo+ICR7UE59LWRiZyB3aGVuIGV4dGVybmFs
-c3JjIHdhcyBpbiB1c2UsIHdoaWNoIGluIHR1cm4gdHJpZ2dlcmVkIGJ1aWxkcGF0aA0KPiBRQSB3
-YXJuaW5ncy4NCj4NCj4gU2lnbmVkLW9mZi1ieTogQWxleGFuZHJlIEJlbGxvbmkgPGFsZXhhbmRy
-ZS5iZWxsb25pQGJvb3RsaW4uY29tPG1haWx0bzphbGV4YW5kcmUuYmVsbG9uaUBib290bGluLmNv
-bT4+DQo+IFNpZ25lZC1vZmYtYnk6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51
-eGZvdW5kYXRpb24ub3JnPG1haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3Jn
-Pj4NCj4gU2lnbmVkLW9mZi1ieTogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3Rl
-ZHRAYXhpcy5jb208bWFpbHRvOnBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4+DQo+IC0tLQ0K
-PiAgbWV0YS9jbGFzc2VzL2V4dGVybmFsc3JjLmJiY2xhc3MgfCAyICstDQo+ICAxIGZpbGUgY2hh
-bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCj4NCj4gZGlmZiAtLWdpdCBhL21l
-dGEvY2xhc3Nlcy9leHRlcm5hbHNyYy5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzL2V4dGVybmFsc3Jj
-LmJiY2xhc3MNCj4gaW5kZXggNTkwNTM0MjU4OS4uNzVmYjkxYmNiMCAxMDA2NDQNCj4gLS0tIGEv
-bWV0YS9jbGFzc2VzL2V4dGVybmFsc3JjLmJiY2xhc3MNCj4gKysrIGIvbWV0YS9jbGFzc2VzL2V4
-dGVybmFsc3JjLmJiY2xhc3MNCj4gQEAgLTYxLDcgKzYxLDcgQEAgcHl0aG9uICgpIHsNCj4gICAg
-ICAgICAgaWYgZXh0ZXJuYWxzcmNidWlsZDoNCj4gICAgICAgICAgICAgIGQuc2V0VmFyKCdCJywg
-ZXh0ZXJuYWxzcmNidWlsZCkNCj4gICAgICAgICAgZWxzZToNCj4gLSAgICAgICAgICAgIGQuc2V0
-VmFyKCdCJywgJyR7V09SS0RJUn0vJHtCUE59LSR7UFZ9LycpDQo+ICsgICAgICAgICAgICBkLnNl
-dFZhcignQicsICcke1dPUktESVJ9LyR7QlBOfS0ke1BWfScpDQo+DQo+ICAgICAgICAgIGxvY2Fs
-X3NyY3VyaSA9IFtdDQo+ICAgICAgICAgIGZldGNoID0gYmIuZmV0Y2gyLkZldGNoKChkLmdldFZh
-cignU1JDX1VSSScpIG9yICcnKS5zcGxpdCgpLCBkKQ0KPg0KPg0KPg0KDQotPS09LT0tPS09LT0t
-PS09LT0tPS09LQ0KTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdlcyBzZW50IHRvIHRoaXMg
-Z3JvdXAuDQpWaWV3L1JlcGx5IE9ubGluZSAoIzE3Mjc1NCk6IGh0dHBzOi8vbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMTcyNzU0DQpNdXRlIFRoaXMg
-VG9waWM6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tdC85NDgyODg3NC8zNjE3MTU2
-DQpHcm91cCBPd25lcjogb3BlbmVtYmVkZGVkLWNvcmUrb3duZXJAbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZzxtYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUlMkJvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnPg0KVW5zdWJzY3JpYmU6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5l
-bWJlZGRlZC1jb3JlL3Vuc3ViIFtNYXJ0aW4uSmFuc2FAZ21haWwuY29tPG1haWx0bzpNYXJ0aW4u
-SmFuc2FAZ21haWwuY29tPl0NCi09LT0tPS09LT0tPS09LT0tPS09LT0tDQo=
+No worries!  I think we are good in kirkstone too:
 
---_000_1e435dd091324e19aa0231e86ef5da8daxiscom_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZvbnQt
-ZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsN
-Cgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9u
-OnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxOA0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25h
-bC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjojOTQz
-NjM0Ow0KCWZvbnQtd2VpZ2h0Om5vcm1hbDsNCglmb250LXN0eWxlOm5vcm1hbDt9DQouTXNvQ2hw
-RGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglmb250LWZhbWlseToiQ2Fs
-aWJyaSIsc2Fucy1zZXJpZjsNCgltc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUzt9DQpAcGFnZSBX
-b3JkU2VjdGlvbjENCgl7c2l6ZTo2MTIuMHB0IDc5Mi4wcHQ7DQoJbWFyZ2luOjcwLjg1cHQgNzAu
-ODVwdCA3MC44NXB0IDcwLjg1cHQ7fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0
-aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZh
-dWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwh
-LS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86
-aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFb
-ZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJTViIgbGluaz0iYmx1ZSIgdmxpbms9InB1
-cnBsZSIgc3R5bGU9IndvcmQtd3JhcDpicmVhay13b3JkIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0
-aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNv
-bG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPkFyZ2gsIHRoZSBzZWNvbmQg
-c2VyaWVzICh3aXRoIHRocmVlIHBhdGNoZXMpIGlzIGludGVuZGVkIGZvciBLaXJrc3RvbmUsIG5v
-dCBMYW5nZGFsZS48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3Vh
-Z2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1s
-YW5ndWFnZTpFTi1VUyI+Ly9QZXRlcjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iY29sb3I6Izk0MzYzNDttc28tZmFy
-ZWFzdC1sYW5ndWFnZTpFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdiBz
-dHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtwYWRkaW5nOjBj
-bSAwY20gMGNtIDQuMHB0Ij4NCjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXIt
-dG9wOnNvbGlkICNFMUUxRTEgMS4wcHQ7cGFkZGluZzozLjBwdCAwY20gMGNtIDBjbSI+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBsYW5nPSJFTi1VUyI+RnJvbTo8L3NwYW4+PC9iPjxz
-cGFuIGxhbmc9IkVOLVVTIj4gTWFydGluIEphbnNhICZsdDttYXJ0aW4uamFuc2FAZ21haWwuY29t
-Jmd0Ow0KPGJyPg0KPGI+U2VudDo8L2I+IGRlbiA1IG5vdmVtYmVyIDIwMjIgMTk6Mjg8YnI+DQo8
-Yj5Ubzo8L2I+IFN0ZXZlIFNha29tYW4gJmx0O3N0ZXZlQHNha29tYW4uY29tJmd0Ozxicj4NCjxi
-PkNjOjwvYj4gUGV0ZXIgS2plbGxlcnN0ZWR0ICZsdDtwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5j
-b20mZ3Q7OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPGJyPg0KPGI+
-U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW2xhbmdkYWxlXVtQQVRDSCAyLzJdIGV4dGVybmFs
-c3JjLmJiY2xhc3M6IFJlbW92ZSBhIHRyYWlsaW5nIHNsYXNoIGZyb20gJHtCfTxvOnA+PC9vOnA+
-PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZu
-YnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5JbiBteSBpbmJveCBp
-dCBsb29rcyBkaWZmZXJlbnRseSwgMi8zIGFuZCAzLzMgYXJlbid0IGlkZW50aWNhbCBhbmQgYm90
-aCBhcmUgaW5kZWVkIGluIGxhbmdkYWxlLW51dC48bzpwPjwvbzpwPjwvcD4NCjxkaXY+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPlRoZW4gdGhlcmUgaXMgMS8yIGlkZW50aWNhbCB0byAyLzMgKHBy
-b2JhYmx5IGZyb20gc2VuZGluZyBsYXN0IDMgZXh0ZXJuYWxzcmMuYmJjbGFzcyBjaGFuZ2VzIGFu
-ZCB0aGVuIHJlLXNlbmRpbmcgYWZ0ZXIgcmVhbGl6aW5nIHRoYXQgb25seSBsYXN0IDIgYXJlIG5l
-ZWRlZCkuPG86cD48L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4m
-bmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4xLzMg
-aXMmbmJzcDsgYWxyZWFkeSBpbiBsYW5nZGFsZTo8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRp
-dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxhIGhyZWY9Imh0dHBzOi8vZ2l0Lm9wZW5lbWJlZGRl
-ZC5vcmcvb3BlbmVtYmVkZGVkLWNvcmUvY29tbWl0Lz9oPWxhbmdkYWxlJmFtcDtpZD02ZDkzNjRl
-NWYzNTM1OTU0ZjY1Y2JiYzY5NGVlNzkzM2FjMWQ2NjRmIj5odHRwczovL2dpdC5vcGVuZW1iZWRk
-ZWQub3JnL29wZW5lbWJlZGRlZC1jb3JlL2NvbW1pdC8/aD1sYW5nZGFsZSZhbXA7aWQ9NmQ5MzY0
-ZTVmMzUzNTk1NGY2NWNiYmM2OTRlZTc5MzNhYzFkNjY0ZjwvYT48bzpwPjwvbzpwPjwvcD4NCjwv
-ZGl2Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286
-cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5JIHRoaW5rIGFsbCBp
-cyBmaW5lIGluIGxhbmdkYWxlLW51dC48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+Q2hlZXJzLDxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rp
-dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxk
-aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiBTYXQsIE5vdiA1LCAyMDIyIGF0IDY6NTkgUE0g
-U3RldmUgU2Frb21hbiAmbHQ7PGEgaHJlZj0ibWFpbHRvOnN0ZXZlQHNha29tYW4uY29tIj5zdGV2
-ZUBzYWtvbWFuLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8Ymxv
-Y2txdW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBw
-dDtwYWRkaW5nOjBjbSAwY20gMGNtIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdo
-dDowY20iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1ib3R0b206MTIuMHB0
-Ij5JJ3ZlIGFscmVhZHkgZ290IHRoZXNlIGZpcnN0IHR3byBwYXRjaGVzIGluIHN0YWJsZS9sYW5n
-ZGFsZS1udXQ6PGJyPg0KPGJyPg0KPGEgaHJlZj0iaHR0cHM6Ly9naXQub3BlbmVtYmVkZGVkLm9y
-Zy9vcGVuZW1iZWRkZWQtY29yZS1jb250cmliL2xvZy8/aD1zdGFibGUvbGFuZ2RhbGUtbnV0IiB0
-YXJnZXQ9Il9ibGFuayI+aHR0cHM6Ly9naXQub3BlbmVtYmVkZGVkLm9yZy9vcGVuZW1iZWRkZWQt
-Y29yZS1jb250cmliL2xvZy8/aD1zdGFibGUvbGFuZ2RhbGUtbnV0PC9hPjxicj4NCjxicj4NCkFu
-ZCB5b3VyIDMvMyBzZWVtcyB0byBiZSBpZGVudGljYWwgdG8gMi8zLiZuYnNwOyBBbSBJIG1pc3Np
-bmcgc29tZXRoaW5nPzxicj4NCjxicj4NClN0ZXZlPGJyPg0KPGJyPg0KT24gU2F0LCBOb3YgNSwg
-MjAyMiBhdCA1OjQyIEFNIFBldGVyIEtqZWxsZXJzdGVkdDxicj4NCiZsdDs8YSBocmVmPSJtYWls
-dG86cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tIiB0YXJnZXQ9Il9ibGFuayI+cGV0ZXIua2pl
-bGxlcnN0ZWR0QGF4aXMuY29tPC9hPiZndDsgd3JvdGU6PGJyPg0KJmd0Ozxicj4NCiZndDsgRnJv
-bTogUGV0ZXIgS2plbGxlcnN0ZWR0ICZsdDs8YSBocmVmPSJtYWlsdG86cGV0ZXIua2plbGxlcnN0
-ZWR0QGF4aXMuY29tIiB0YXJnZXQ9Il9ibGFuayI+cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29t
-PC9hPiZndDs8YnI+DQomZ3Q7PGJyPg0KJmd0OyBUaGUgdHJhaWxpbmcgc2xhc2ggaW4gJHtCfSBj
-YXVzZWQgLWZkZWJ1Zy1wcmVmaXgtbWFwPSR7Qn09Li4uIHRvIG5vdDxicj4NCiZndDsgbWF0Y2gg
-YXMgaW50ZW5kZWQsIHJlc3VsdGluZyBpbiAke1RNUERJUn0gZW5kaW5nIHVwIGluIGZpbGVzIGlu
-PGJyPg0KJmd0OyAke1BOfS1kYmcgd2hlbiBleHRlcm5hbHNyYyB3YXMgaW4gdXNlLCB3aGljaCBp
-biB0dXJuIHRyaWdnZXJlZCBidWlsZHBhdGg8YnI+DQomZ3Q7IFFBIHdhcm5pbmdzLjxicj4NCiZn
-dDs8YnI+DQomZ3Q7IFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRyZSBCZWxsb25pICZsdDs8YSBocmVm
-PSJtYWlsdG86YWxleGFuZHJlLmJlbGxvbmlAYm9vdGxpbi5jb20iIHRhcmdldD0iX2JsYW5rIj5h
-bGV4YW5kcmUuYmVsbG9uaUBib290bGluLmNvbTwvYT4mZ3Q7PGJyPg0KJmd0OyBTaWduZWQtb2Zm
-LWJ5OiBSaWNoYXJkIFB1cmRpZSAmbHQ7PGEgaHJlZj0ibWFpbHRvOnJpY2hhcmQucHVyZGllQGxp
-bnV4Zm91bmRhdGlvbi5vcmciIHRhcmdldD0iX2JsYW5rIj5yaWNoYXJkLnB1cmRpZUBsaW51eGZv
-dW5kYXRpb24ub3JnPC9hPiZndDs8YnI+DQomZ3Q7IFNpZ25lZC1vZmYtYnk6IFBldGVyIEtqZWxs
-ZXJzdGVkdCAmbHQ7PGEgaHJlZj0ibWFpbHRvOnBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbSIg
-dGFyZ2V0PSJfYmxhbmsiPnBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbTwvYT4mZ3Q7PGJyPg0K
-Jmd0OyAtLS08YnI+DQomZ3Q7Jm5ic3A7IG1ldGEvY2xhc3Nlcy9leHRlcm5hbHNyYy5iYmNsYXNz
-IHwgMiAmIzQzOy08YnI+DQomZ3Q7Jm5ic3A7IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigm
-IzQzOyksIDEgZGVsZXRpb24oLSk8YnI+DQomZ3Q7PGJyPg0KJmd0OyBkaWZmIC0tZ2l0IGEvbWV0
-YS9jbGFzc2VzL2V4dGVybmFsc3JjLmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMvZXh0ZXJuYWxzcmMu
-YmJjbGFzczxicj4NCiZndDsgaW5kZXggNTkwNTM0MjU4OS4uNzVmYjkxYmNiMCAxMDA2NDQ8YnI+
-DQomZ3Q7IC0tLSBhL21ldGEvY2xhc3Nlcy9leHRlcm5hbHNyYy5iYmNsYXNzPGJyPg0KJmd0OyAm
-IzQzOyYjNDM7JiM0MzsgYi9tZXRhL2NsYXNzZXMvZXh0ZXJuYWxzcmMuYmJjbGFzczxicj4NCiZn
-dDsgQEAgLTYxLDcgJiM0Mzs2MSw3IEBAIHB5dGhvbiAoKSB7PGJyPg0KJmd0OyZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgaWYgZXh0ZXJuYWxzcmNidWlsZDo8YnI+DQomZ3Q7Jm5i
-c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGQuc2V0VmFyKCdC
-JywgZXh0ZXJuYWxzcmNidWlsZCk8YnI+DQomZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
-ICZuYnNwOyBlbHNlOjxicj4NCiZndDsgLSZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7IGQuc2V0VmFyKCdCJywgJyR7V09SS0RJUn0vJHtCUE59LSR7UFZ9LycpPGJyPg0K
-Jmd0OyAmIzQzOyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGQuc2V0
-VmFyKCdCJywgJyR7V09SS0RJUn0vJHtCUE59LSR7UFZ9Jyk8YnI+DQomZ3Q7PGJyPg0KJmd0OyZu
-YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgbG9jYWxfc3JjdXJpID0gW108YnI+DQom
-Z3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBmZXRjaCA9IGJiLmZldGNoMi5G
-ZXRjaCgoZC5nZXRWYXIoJ1NSQ19VUkknKSBvciAnJykuc3BsaXQoKSwgZCk8YnI+DQomZ3Q7PGJy
-Pg0KJmd0OyA8YnI+DQomZ3Q7PGJyPg0KPGJyPg0KLT0tPS09LT0tPS09LT0tPS09LT0tPS08YnI+
-DQpMaW5rczogWW91IHJlY2VpdmUgYWxsIG1lc3NhZ2VzIHNlbnQgdG8gdGhpcyBncm91cC48YnI+
-DQpWaWV3L1JlcGx5IE9ubGluZSAoIzE3Mjc1NCk6IDxhIGhyZWY9Imh0dHBzOi8vbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMTcyNzU0IiB0YXJnZXQ9
-Il9ibGFuayI+DQpodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQt
-Y29yZS9tZXNzYWdlLzE3Mjc1NDwvYT48YnI+DQpNdXRlIFRoaXMgVG9waWM6IDxhIGhyZWY9Imh0
-dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tdC85NDgyODg3NC8zNjE3MTU2IiB0YXJnZXQ9
-Il9ibGFuayI+DQpodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvOTQ4Mjg4NzQvMzYx
-NzE1NjwvYT48YnI+DQpHcm91cCBPd25lcjogPGEgaHJlZj0ibWFpbHRvOm9wZW5lbWJlZGRlZC1j
-b3JlJTJCb3duZXJAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyIgdGFyZ2V0PSJfYmxhbmsiPg0Kb3Bl
-bmVtYmVkZGVkLWNvcmUmIzQzO293bmVyQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8L2E+PGJyPg0K
-VW5zdWJzY3JpYmU6IDxhIGhyZWY9Imh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29w
-ZW5lbWJlZGRlZC1jb3JlL3Vuc3ViIiB0YXJnZXQ9Il9ibGFuayI+DQpodHRwczovL2xpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS91bnN1YjwvYT4gWzxhIGhyZWY9Im1h
-aWx0bzpNYXJ0aW4uSmFuc2FAZ21haWwuY29tIiB0YXJnZXQ9Il9ibGFuayI+TWFydGluLkphbnNh
-QGdtYWlsLmNvbTwvYT5dPGJyPg0KLT0tPS09LT0tPS09LT0tPS09LT0tPS08bzpwPjwvbzpwPjwv
-cD4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRt
-bD4NCg==
+Patch series for both will go out for review in the next day or so
+once autobuilder testing is done.
 
---_000_1e435dd091324e19aa0231e86ef5da8daxiscom_--
+Steve
+
+> From: Martin Jansa <martin.jansa@gmail.com>
+> Sent: den 5 november 2022 19:28
+> To: Steve Sakoman <steve@sakoman.com>
+> Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [langdale][PATCH 2/2] externalsrc.bbclass: Remove a trailing slash from ${B}
+>
+>
+>
+> In my inbox it looks differently, 2/3 and 3/3 aren't identical and both are indeed in langdale-nut.
+>
+>
+>
+> Then there is 1/2 identical to 2/3 (probably from sending last 3 externalsrc.bbclass changes and then re-sending after realizing that only last 2 are needed).
+>
+>
+>
+> 1/3 is  already in langdale:
+>
+> https://git.openembedded.org/openembedded-core/commit/?h=langdale&id=6d9364e5f3535954f65cbbc694ee7933ac1d664f
+>
+>
+>
+> I think all is fine in langdale-nut.
+>
+>
+>
+> Cheers,
+>
+>
+>
+> On Sat, Nov 5, 2022 at 6:59 PM Steve Sakoman <steve@sakoman.com> wrote:
+>
+> I've already got these first two patches in stable/langdale-nut:
+>
+> https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/langdale-nut
+>
+> And your 3/3 seems to be identical to 2/3.  Am I missing something?
+>
+> Steve
+>
+> On Sat, Nov 5, 2022 at 5:42 AM Peter Kjellerstedt
+> <peter.kjellerstedt@axis.com> wrote:
+> >
+> > From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> >
+> > The trailing slash in ${B} caused -fdebug-prefix-map=${B}=... to not
+> > match as intended, resulting in ${TMPDIR} ending up in files in
+> > ${PN}-dbg when externalsrc was in use, which in turn triggered buildpath
+> > QA warnings.
+> >
+> > Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > ---
+> >  meta/classes/externalsrc.bbclass | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+> > index 5905342589..75fb91bcb0 100644
+> > --- a/meta/classes/externalsrc.bbclass
+> > +++ b/meta/classes/externalsrc.bbclass
+> > @@ -61,7 +61,7 @@ python () {
+> >          if externalsrcbuild:
+> >              d.setVar('B', externalsrcbuild)
+> >          else:
+> > -            d.setVar('B', '${WORKDIR}/${BPN}-${PV}/')
+> > +            d.setVar('B', '${WORKDIR}/${BPN}-${PV}')
+> >
+> >          local_srcuri = []
+> >          fetch = bb.fetch2.Fetch((d.getVar('SRC_URI') or '').split(), d)
+> >
+> >
+> >
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#172754): https://lists.openembedded.org/g/openembedded-core/message/172754
+> Mute This Topic: https://lists.openembedded.org/mt/94828874/3617156
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [Martin.Jansa@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 
