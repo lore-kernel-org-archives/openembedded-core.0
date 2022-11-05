@@ -2,42 +2,44 @@ Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9596C4332F
-	for <webhook@archiver.kernel.org>; Sat,  5 Nov 2022 15:42:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D162CC433FE
+	for <webhook@archiver.kernel.org>; Sat,  5 Nov 2022 15:43:14 +0000 (UTC)
 Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web10.7296.1667662931917442607
+ by mx.groups.io with SMTP id smtpd.web11.7208.1667662988552932470
  for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Nov 2022 08:42:12 -0700
+ Sat, 05 Nov 2022 08:43:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=hsRbNS3N;
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=FtQ1Vg0+;
  spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1667662932;
-  x=1699198932;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=10MyaCFEsNlgaltBMbMRd8q3eemhmCUNvcALiC8q7/Y=;
-  b=hsRbNS3NrNExrHHXuLvwjNXyTO55yzuEVLaVw3iSPMV4bRoJFrydgbYC
-   2hjK/ZzBDJV80/vmKUDvW6HGwseUoN7D6YCxkHMUDY/Gzkh2cL23tsAnH
-   l0d60njUGdoJP31K9F8lqE7wQLtjJub9WXMNCX6iI2ukxdSZqCWiNdYSr
-   E6nQNWPnWdbj2FLuotE8y5u/kPQ6A/VyIpn9Vq7+TtQHRvpzwRghR5tUF
-   w62qaqgqLqzzUJD9F7W76JpcYmx7o2R+ET09nSkHl8OGGuZwSS0B2e64T
-   dcefKazHBnZV+K/LySVthnCZI867CnIV4haqmkUW2eQ7A85FYr1kRtkW6
-   Q==;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1667662990;
+  x=1699198990;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=jJ0iTEXgSfw4UfShldmMw1xUNHJn1pATmQ/HyMK43VI=;
+  b=FtQ1Vg0+gu6ZPnPs1J5uTTzQ2qzUjbf2/1SU3apcEKC4r/WAZRU5rg9+
+   16amWTZE3uSwvLhqqB2s14gO5NOy95JOv4xQtRefqUpeQev9y8tIQVwlM
+   21D6QIUAk9Z3NMwwLY9kO2TaJog0/1OCUkzTUN6HrnjjqfAOj5J4+qvT9
+   CD4XnnkX/v3muaH1Rs4MNX7crWSsL79Kv3puc8NrG4wReD7djaq+H5G6y
+   b8Tp81M/HAuG7n6j9GuhuRuVInqvOXZutYksL+V/cJMdNZoqzwe12HvG/
+   YCc6FC0EkOwv2QGoqKDEoTlUc7nPgQSdfXQ3R5LEBCZjkbMz7kBroaWYR
+   w==;
 From: Peter Kjellerstedt <pkj@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [langdale][PATCH 1/2] externalsrc.bbclass: fix git repo detection
-Date: Sat, 5 Nov 2022 16:42:02 +0100
-Message-ID: <20221105154203.273684-1-pkj@axis.com>
+Subject: [langdale][PATCH 2/3] externalsrc.bbclass: fix git repo detection
+Date: Sat, 5 Nov 2022 16:43:02 +0100
+Message-ID: <20221105154303.274085-2-pkj@axis.com>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221105154303.274085-1-pkj@axis.com>
+References: <20221105154303.274085-1-pkj@axis.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 05 Nov 2022 15:42:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172747
+ <openembedded-core@lists.openembedded.org>; Sat, 05 Nov 2022 15:43:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172751
 
 From: Martin Jansa <Martin.Jansa@gmail.com>
 
@@ -98,10 +100,10 @@ Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index 06a9548a20..5905342589 100644
+index 766c4979c5..686553f900 100644
 --- a/meta/classes/externalsrc.bbclass
 +++ b/meta/classes/externalsrc.bbclass
-@@ -212,8 +212,8 @@ def srctree_hash_files(d, srcdir=None):
+@@ -211,8 +211,8 @@ def srctree_hash_files(d, srcdir=None):
      try:
          git_dir = os.path.join(s_dir,
              subprocess.check_output(['git', '-C', s_dir, 'rev-parse', '--git-dir'], stderr=subprocess.DEVNULL).decode("utf-8").rstrip())
