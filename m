@@ -1,133 +1,100 @@
-Return-Path: <egyszeregy@freemail.hu>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99F2AC433FE
-	for <webhook@archiver.kernel.org>; Sun,  6 Nov 2022 13:32:11 +0000 (UTC)
-Received: from smtp-out.onbox.hu (smtp-out.onbox.hu [46.107.16.193])
- by mx.groups.io with SMTP id smtpd.web08.16105.1667741530080658568
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 920F4C433FE
+	for <webhook@archiver.kernel.org>; Sun,  6 Nov 2022 13:33:41 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web10.16283.1667741615482737434
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Nov 2022 05:32:11 -0800
+ Sun, 06 Nov 2022 05:33:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@freemail.hu header.s=20181004 header.b=J1FpU65D;
- spf=pass (domain: freemail.hu, ip: 46.107.16.193, mailfrom: egyszeregy@freemail.hu)
-Received: from localhost.localdomain (catv-178-48-208-198.catv.fixed.vodafone.hu [178.48.208.198])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.onbox.hu (Postfix) with ESMTPSA id 4N4wJR0BxGzkXJ;
-	Sun,  6 Nov 2022 14:32:07 +0100 (CET)
-From: egyszeregy@freemail.hu
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Benjamin=20Sz=C5=91ke?= <egyszeregy@freemail.hu>
-Subject: [master][PATCH v2] image_types: Add 7-Zip support in conversion types and commands
-Date: Sun,  6 Nov 2022 14:31:53 +0100
-Message-Id: <20221106133153.2232-1-egyszeregy@freemail.hu>
-X-Mailer: git-send-email 2.38.1.windows.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrvdeigdegjeculddtuddrgedvfedrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucggtfgfnhhsuhgsshgtrhhisggvpdcuhfftgffgofetkffnnecuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpegvghihshiivghrvghghiesfhhrvggvmhgrihhlrdhhuhenucggtffrrghtthgvrhhnpedtfeejvdeuleegvdelgfeugffgveeuveelkeffteekudehvddutdetleefgeffueenucfkphepudejkedrgeekrddvtdekrdduleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehhvghloheplhhotggrlhhhohhsthdrlhhotggrlhguohhmrghinhdpihhnvghtpedujeekrdegkedrvddtkedrudelkedpmhgrihhlfhhrohhmpegvghihshiivghrvghghiesfhhrvggvmhgrihhlrdhhuhdpnhgspghrtghpthhtohepuddprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=simple/relaxed; t=1667741527;
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=JYlaqqtn;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f48.google.com with SMTP id h14so8300605pjv.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 06 Nov 2022 05:33:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=date:message-id:to:from:subject:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iKHCIZeye6PUP4wLGB/AqBahSV0fovBwejMwAxlSAws=;
+        b=JYlaqqtnSrynFCALFcMaNAHjavVUNKbjxuJYO2n5jsJCLyzrCIkIMG3uvkTSLAIjqy
+         usEV1Sv1lFWVjJv9UmU0PVBC27tv0Cqrw/N/P9K3gyZpW6abkamQSc85ezMp73uSCM3K
+         cAAENb1N3nyCOQwtwKkRWk+hBhhrJPXtqvIR2FqBehxgSM1Bu5kbfOQnIZdyyX6QFO3d
+         PCVrULjkZstJ5aPxgXjnntvZybIiQ7BRq9Lf9/xEJArWQrqIk4PzPvIsuRbEw26prBlb
+         eFpSH3U//YgANv+OzlnHDHoZ8uSQ5A0E/Go1NooHJ6t8J/Ay6rpOsor7Pf7p5bbnkj2q
+         xrUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=date:message-id:to:from:subject:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iKHCIZeye6PUP4wLGB/AqBahSV0fovBwejMwAxlSAws=;
+        b=ZJY7CEtl7BgDtFULrpu4K51N3S5a7lZ45EIqx5HfSBL1N2KD7l+xitJy1O3Vlv5N0X
+         asKdprpSvkWGws+GLfmqr5jPvsAE56cAKKE768CBrgjxCKeOA+aXrKmg1tLEZMr71Xcs
+         u9u9j+EKqe/yZ7yIIuiZ1nKMj34XejUZW0pIwyH7hIOIOV9k5fxgr4S0mywoyAHrGgub
+         zpOBA9Gj/cq69sOlFy/KjXa2X2n84wOY48QynDuNku3FselPO0Y2xXsxWugv7rA8MUCy
+         AlaFNakgoBbNlzHpHV0V8XxoSl5BNMshpEuxo8s1aARPV2Ul30p9V/fFxrYs0cxFt2FA
+         lyJw==
+X-Gm-Message-State: ACrzQf3rBE5M2n9CKFbDOeL0do+wGyjguZctGNy0KvOj2EWB6u3YIzaI
+	fFC/XfatfPJDdm9S22BKn4ZMtn6dJXgSxeqx
+X-Google-Smtp-Source: AMsMyM63/JbohKYoLPN62JiqXETSqMt3hnGQN6DCj0hysdH7UCR1iEWsTyuH/SGR3/FLMz2LCYh/WA==
+X-Received: by 2002:a17:90b:2d8e:b0:213:d517:f40f with SMTP id sj14-20020a17090b2d8e00b00213d517f40fmr38562899pjb.5.1667741614309;
+        Sun, 06 Nov 2022 05:33:34 -0800 (PST)
+Received: from nuc.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id n3-20020aa79843000000b0056c814a501dsm2729629pfq.10.2022.11.06.05.33.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Nov 2022 05:33:33 -0800 (PST)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 29EC69602D6; Sun,  6 Nov 2022 03:33:32 -1000 (HST)
+Subject: OE-core CVE metrics for langdale on Sun 06 Nov 2022 03:30:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20221106133332.29EC69602D6@nuc.router0800d9.com>
+Date: Sun,  6 Nov 2022 03:33:32 -1000 (HST)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 06 Nov 2022 13:32:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172765
+ <openembedded-core@lists.openembedded.org>; Sun, 06 Nov 2022 13:33:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172766
 
-	s=20181004; d=freemail.hu;
+Branch: langdale
 
-	h=From:To:Cc:Subject:Date:MIME-Version:Content-Type:Content-Transfer-Encoding;
+New this week: 5 CVEs
+CVE-2022-41716 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41716 *
+CVE-2022-42915 (CVSS3: 9.8 CRITICAL): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42915 *
+CVE-2022-42916 (CVSS3: 7.5 HIGH): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42916 *
+CVE-2022-43995 (CVSS3: 7.1 HIGH): sudo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-43995 *
+CVE-2022-44638 (CVSS3: 8.8 HIGH): pixman:pixman-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-44638 *
 
-	l=3376; bh=04eYxfqiZL3vrO/7ppKX0DrhEm26mc8zxfsQxtyIEvA=;
+Removed this week: 13 CVEs
+CVE-2022-3165 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3165 *
+CVE-2022-3352 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3352 *
+CVE-2022-3358 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3358 *
+CVE-2022-3550 (CVSS3: 9.8 CRITICAL): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3550 *
+CVE-2022-3551 (CVSS3: 7.5 HIGH): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3551 *
+CVE-2022-3553 (CVSS3: 7.5 HIGH): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3553 *
+CVE-2022-3554 (CVSS3: N/A): libx11:libx11-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3554 *
+CVE-2022-3570 (CVSS3: 9.8 CRITICAL): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3570 *
+CVE-2022-3597 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3597 *
+CVE-2022-3598 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3598 *
+CVE-2022-3599 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3599 *
+CVE-2022-3626 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3626 *
+CVE-2022-3627 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3627 *
 
-	b=J1FpU65DNnm3ThXCeKWpTAuyYDI/CActnIhVRoihZbPwBUIwlOgcE/WbHbZ4vEmU
+Full list:  Found 12 unpatched CVEs
+CVE-2022-2879 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2879 *
+CVE-2022-2880 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2880 *
+CVE-2022-3705 (CVSS3: 7.5 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3705 *
+CVE-2022-39253 (CVSS3: 5.5 MEDIUM): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39253 *
+CVE-2022-39260 (CVSS3: 8.8 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39260 *
+CVE-2022-41715 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41715 *
+CVE-2022-41716 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41716 *
+CVE-2022-42915 (CVSS3: 9.8 CRITICAL): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42915 *
+CVE-2022-42916 (CVSS3: 7.5 HIGH): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42916 *
+CVE-2022-43680 (CVSS3: 7.5 HIGH): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-43680 *
+CVE-2022-43995 (CVSS3: 7.1 HIGH): sudo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-43995 *
+CVE-2022-44638 (CVSS3: 8.8 HIGH): pixman:pixman-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-44638 *
 
-	be/a+/S+xV/JA4UWZgTi9/XzDy9KkMwfUnygR6ynUxvVubvpLBeCJMj4Nzor/pD+8RY
-
-	pKPOomavveo7X7+y6beSB3OvCifBKNq9U9A940dJS8MRNQ2Fz5+qtvePxOce9QPuWF3
-
-	NlgS/JI0MvGriwwksVZe4O2d8kP5kq1puXhIgXKbVOwXq8G3M3abuqwKP6eeggHYuGl
-
-	tLmEt5OmpFFn6uiOT+tEZ349Sdyt8560IAcGBBOh9VN2gd5ZQMwl4dAc1ebw8wFeGsc
-
-	UC+cosaPOA==
-Content-Transfer-Encoding: quoted-printable
-
-From: Benjamin Sz=C5=91ke <egyszeregy@freemail.hu>
-
-Add 7-Zip support in conversion types and commands. Default arguments of =
-7-Zip are compression level: 9, method: BZip2, extension: zip. All these =
-are overridable from local.con for any other use case in user side. First=
- goal was to make an alternative zip conversion which can operate faster =
-in multi-thread systems (on many CPU core), normal zip is just a single t=
-hread compression. 7-Zip can do a zip compression in multi-thread process=
-ing, so it is fine to use and speed up it.
----
- meta/classes-recipe/image_types.bbclass | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recip=
-e/image_types.bbclass
-index 764e6a5574..f70c71b9d4 100644
---- a/meta/classes-recipe/image_types.bbclass
-+++ b/meta/classes-recipe/image_types.bbclass
-@@ -59,6 +59,10 @@ XZ_INTEGRITY_CHECK ?=3D "crc32"
-=20
- ZIP_COMPRESSION_LEVEL ?=3D "-9"
-=20
-+7ZIP_COMPRESSION_LEVEL ?=3D "9"
-+7ZIP_COMPRESSION_METHOD ?=3D "BZip2"
-+7ZIP_EXTENSION ?=3D "zip"
-+
- ZSTD_COMPRESSION_LEVEL ?=3D "-3"
-=20
- JFFS2_SUM_EXTRA_ARGS ?=3D ""
-@@ -304,7 +308,7 @@ IMAGE_TYPES:append:x86-64 =3D " hddimg iso"
- # CONVERSION_CMD/DEPENDS.
- COMPRESSIONTYPES ?=3D ""
-=20
--CONVERSIONTYPES =3D "gz bz2 lzma xz lz4 lzo zip zst sum md5sum sha1sum s=
-ha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi qcow=
-2 base64 gzsync zsync ${COMPRESSIONTYPES}"
-+CONVERSIONTYPES =3D "gz bz2 lzma xz lz4 lzo zip 7zip zst sum md5sum sha1=
-sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi=
- qcow2 base64 gzsync zsync ${COMPRESSIONTYPES}"
- CONVERSION_CMD:lzma =3D "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}=
-.${type}"
- CONVERSION_CMD:gz =3D "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}${IMAGE=
-_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
- CONVERSION_CMD:bz2 =3D "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$=
-{type}"
-@@ -312,6 +316,7 @@ CONVERSION_CMD:xz =3D "xz -f -k -c ${XZ_COMPRESSION_L=
-EVEL} ${XZ_DEFAULTS} --check=3D
- CONVERSION_CMD:lz4 =3D "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$=
-{type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
- CONVERSION_CMD:lzo =3D "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type=
-}"
- CONVERSION_CMD:zip =3D "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAG=
-E_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-+CONVERSION_CMD:7zip =3D "7za a -mx=3D${7ZIP_COMPRESSION_LEVEL} -mm=3D${7=
-ZIP_COMPRESSION_METHOD} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.${7ZIP_=
-EXTENSION} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
- CONVERSION_CMD:zst =3D "zstd -f -k -T0 -c ${ZSTD_COMPRESSION_LEVEL} ${IM=
-AGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}=
-.${type}.zst"
- CONVERSION_CMD:sum =3D "sumtool -i ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${t=
-ype} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sum ${JFFS2_SUM_EXTRA_A=
-RGS}"
- CONVERSION_CMD:md5sum =3D "md5sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${ty=
-pe} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.md5sum"
-@@ -337,6 +342,7 @@ CONVERSION_DEPENDS_xz =3D "xz-native"
- CONVERSION_DEPENDS_lz4 =3D "lz4-native"
- CONVERSION_DEPENDS_lzo =3D "lzop-native"
- CONVERSION_DEPENDS_zip =3D "zip-native"
-+CONVERSION_DEPENDS_7zip =3D "p7zip-native"
- CONVERSION_DEPENDS_zst =3D "zstd-native"
- CONVERSION_DEPENDS_sum =3D "mtd-utils-native"
- CONVERSION_DEPENDS_bmap =3D "bmap-tools-native"
---=20
-2.38.1.windows.1
-
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
