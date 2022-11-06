@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A45DC4321E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49BA0C43219
 	for <webhook@archiver.kernel.org>; Sun,  6 Nov 2022 16:04:22 +0000 (UTC)
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web08.17571.1667750656479486971
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web09.17888.1667750658365772395
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Nov 2022 08:04:16 -0800
+ Sun, 06 Nov 2022 08:04:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Ne51eKSC;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f181.google.com with SMTP id g129so8422799pgc.7
-        for <openembedded-core@lists.openembedded.org>; Sun, 06 Nov 2022 08:04:16 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=p1gXfjGB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id m6so8602602pfb.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 06 Nov 2022 08:04:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PmaCXYSKM8fehfsPYvn9cHHfnUhnODty/4ZRsK7DAUk=;
-        b=Ne51eKSCBTWhLn8uzPRdvffaJky1OwwiE9orNMIoqV6trb8/wSKZdJdt7vYQaSAUl1
-         jxtwPoP/ULws8rguez2uD2Q3hJ0pY5qsu9c7DwgclH3uFZ8ZrEDPbLfTTtYqffx5Drk2
-         LI61qE128YF/0ZALY2VhR/cCTsz5xeWwJB5ljCT57TdGh1XbpbcNSD7mBBGLYfAyOhoL
-         kI5KV2m8EDddePH48et+1Scxyngf0Yh9tTEpZPaqo69cuZ5jmCOcTKfFvgj+KH/y7TyD
-         umdV+DE6gUl7VAKsMRbPkfIECGNG9waQqNSiBE728UCTXL2Gs2HGuvngGqigoUtiURA4
-         BvVw==
+        bh=q50Q3YcBRUaqfNd5gJW+VT5Weg9h+OdMwfD4l6moZTk=;
+        b=p1gXfjGBXdNaJ74sRfPHjM8F8xGr4LiA0I8TA7CdeEjZkBbmaV/+9H4NbIKEzLAwsp
+         tRgXjrZnRlDGzkEQ4K5rTMdf3kHBE4CS4taFcuewzYD3tlLVSphp6uolNfxrCEANb6m3
+         COEazaW1nmKtxe7rqK9+lyy+flWE9OCJcempKUs87glyGL6lxOUqf0uzPzwNIsxzRIIm
+         vRFa68qRvPnv1c+WahoiJ2ZoNYpz+c50eIYXGIS30lEo9q+sNgsdtrUO+LtVPirZakNr
+         d2E67+6d+/OtLYYIG2B9LksFZLin6MLOFA6jdGo3OjaIhRvobclF++9gwQUTu+Cgn6ks
+         uM6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PmaCXYSKM8fehfsPYvn9cHHfnUhnODty/4ZRsK7DAUk=;
-        b=XTC0KenlvPfEKf+b+OdTNjxwmJN5Umeu1vP63mWAkTAYgTWWlxxHLv/stgv+j8voQJ
-         F5urFL2NiO6DETS0YO2gpF0/cOv6f458ZvsIXHhxRcTSl55K54ywlLCSNaocAaCh9MF9
-         7jicN6RfwQUkla0pTPob7dPACE6OOCKUEIFijpLdMkK9gplsPUQg+v6dhUa4YItDlDoV
-         Y0CgNKm1NlbAOJdtH7Lpj071V19XPT1cWnNFwkHFNQYRuPm+3Wz7RlPsVooldwHFHhhk
-         P/ei7oSu6b0b4DYpRkmaItL1YeD0kNZWs7im82PqdcoOmnE0pDHEEAdu1d6dY6yrp7Hj
-         0kQg==
-X-Gm-Message-State: ACrzQf33euPdbpVpMJPwOe6b7NYYpBqkz3TP0Qd2LgkoPCnWg4IxO00n
-	W6yrWRoIzCBF3kMcw7zjBZgoyNHKmms+edx0
-X-Google-Smtp-Source: AMsMyM6RKMDp3rK7TNTVsQI4iwFbzzJB8M9uvE4ylRfaKyBr5VGUSR88QUmbzFAMZ9VduRd0v+eoxg==
-X-Received: by 2002:a63:ee4f:0:b0:46f:87a8:97ab with SMTP id n15-20020a63ee4f000000b0046f87a897abmr36400356pgk.349.1667750655525;
-        Sun, 06 Nov 2022 08:04:15 -0800 (PST)
+        bh=q50Q3YcBRUaqfNd5gJW+VT5Weg9h+OdMwfD4l6moZTk=;
+        b=n1XvLBFmJwoxqyh1HVcpoHHrLA8zOj504+FqKRpg/FKIWE5P1s5V8lOnF03vA6kClm
+         7kdCQmeXhObwGd6SZTU6Dz/khyTTJJa60IInr4PGu2DjC9rgLSAsO6/hKP9pk3L/rw3h
+         jCw2eVXvfPsJC4IWeOMlAEsDfrt42pPqXCeFIWYnUz/OxvNQLJWQ5gKjGtXznlO1sJT6
+         d7WghgHjwL3Ah0A6qGyrEM3dow/Z4j1cBeK1x6bYYW6bJS6RRjQ24xma8zb5lt08E1yE
+         6J4byS35qpCTSh61Y+UhkyFydYJjQD9/JyK79LQSmbtnlLMwUHc9gs/GLPHwPmawsOuK
+         Tv4g==
+X-Gm-Message-State: ACrzQf0VZitN5PSbL+vPGZNTLv3m+XYnyUmA8ZLyzoivZ5haKPzFnNdK
+	EEjgL6JjUJPZ6fDMqtdX/hGBosuk5Q+d05Wx
+X-Google-Smtp-Source: AMsMyM6HF09P881/qCNHLrUP1OUXsM+zrFQ9eWgBwf9lvFcdEoqBgGUPv+cCAhj7AoU7upCltPtBtA==
+X-Received: by 2002:a65:6e0e:0:b0:434:59e0:27d3 with SMTP id bd14-20020a656e0e000000b0043459e027d3mr38009523pgb.185.1667750657394;
+        Sun, 06 Nov 2022 08:04:17 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id s11-20020a170902ea0b00b0018700ba9090sm3294683plg.185.2022.11.06.08.04.14
+        by smtp.gmail.com with ESMTPSA id s11-20020a170902ea0b00b0018700ba9090sm3294683plg.185.2022.11.06.08.04.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Nov 2022 08:04:15 -0800 (PST)
+        Sun, 06 Nov 2022 08:04:17 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 7/8] coreutils: add openssl PACKAGECONFIG
-Date: Sun,  6 Nov 2022 06:03:52 -1000
-Message-Id: <590d8f2bdbb7ea558b9e99e58a1dae2b5eb58153.1667750511.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 8/8] bluez5: add dbus to RDEPENDS
+Date: Sun,  6 Nov 2022 06:03:53 -1000
+Message-Id: <babcb7cd3bbefe9c0ea28e960e4fd6cefbc03cae.1667750511.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1667750511.git.steve@sakoman.com>
 References: <cover.1667750511.git.steve@sakoman.com>
@@ -61,37 +61,35 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 06 Nov 2022 16:04:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172813
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172814
 
-From: Daniel McGregor <daniel.mcgregor@vecima.com>
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-coreutils-native will pick up openssl on the host if it's GPL
-compatible (version >= 3), which causes uninative failures with hosts
-that don't have openssl3.
+Unless we're using systemd, dbus is not pulled into the system
+automatically. Bluez5 will not work without dbus so add it to RDEPENDS
+explicitly.
 
-Add a PACKAGECONFIG entry for openssl so it can be enabled, but isn't
-by default.
-
-Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9859a8124a0c09ac38d476445e7df7097f41d153)
+(cherry picked from commit 377ef7009a8638efe688b6b61f67ae399eb1f23d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/coreutils/coreutils_8.31.bb | 1 +
+ meta/recipes-connectivity/bluez5/bluez5.inc | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/coreutils/coreutils_8.31.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
-index 3d569881e8..3841f71155 100644
---- a/meta/recipes-core/coreutils/coreutils_8.31.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
-@@ -51,6 +51,7 @@ PACKAGECONFIG_class-nativesdk ??= "xattr"
- PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl,"
- PACKAGECONFIG[xattr] = "--enable-xattr,--disable-xattr,attr,"
- PACKAGECONFIG[single-binary] = "--enable-single-binary,--disable-single-binary,,"
-+PACKAGECONFIG[openssl] = "--with-openssl=yes,--with-openssl=no,openssl"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index eaac9ee849..7ad054b3a7 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+                     file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
+                     file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e"
+ DEPENDS = "dbus glib-2.0"
++RDEPENDS:${PN} += "dbus"
+ PROVIDES += "bluez-hcidump"
+ RPROVIDES_${PN} += "bluez-hcidump"
  
- # [ df mktemp nice printenv base64 gets a special treatment and is not included in this
- bindir_progs = "arch basename chcon cksum comm csplit cut dir dircolors dirname du \
 -- 
 2.25.1
 
