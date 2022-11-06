@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3C93C4321E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5E9BC433FE
 	for <webhook@archiver.kernel.org>; Sun,  6 Nov 2022 14:18:21 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web09.16786.1667744293403046839
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web09.16785.1667744291554862083
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Nov 2022 06:18:13 -0800
+ Sun, 06 Nov 2022 06:18:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=75Ec9WvJ;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id p12so3425920plq.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 06 Nov 2022 06:18:13 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=LajkMsWM;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id p21so8917477plr.7
+        for <openembedded-core@lists.openembedded.org>; Sun, 06 Nov 2022 06:18:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2h6weqAD9xa3p3LV0uS4nscUohy13EduPZcOMzZg4x0=;
-        b=75Ec9WvJNGYsXIfji1S08JwR8OahtojnuTUL0lP+YSqYEk8SvW+pSdlQm0qkeLNOcF
-         qP3hsl4vCXgRVkuiR+1jaNjyeizQgZV6am9wrg+hK0W6SbxpbnjkapLct/qt7rO040kj
-         5lVkW/H2HqjdHc7FgxeK0clB1EoTWgVdwQl+2QmuCm5To+ZfctJSNKOJNwy4Zk06mzsO
-         HWLkl65qGkMDlIk4+xTX80kwq3f8q/A9lMa26fG3YW/fvuNebn6OEVEhItLGcBEtlQrE
-         LcB+an35r8F7OQFDhGrUAgOscxmOn1WT3De05uSGFpEH2j3TZ6oFI/lptRl+qntIAT7n
-         Heqg==
+        bh=hEjE6CuB8QOSwk0Vg3vg+ve+Eak9QULOn33S2hMEk+Q=;
+        b=LajkMsWMnSl2oW5po2K0ZBiWTpJlJV8LuIzAHtb4kzMRHxGiqjL8ykJKkAMN9W6wzH
+         TND4Y7ztl957KimbcQEI+ohY2Dz0+TmFtKg/s02FOg+3AR58fBeqJsoqt9hGKIr1v4Jk
+         jC4bKLmB6ybPiqa7zXQQzCGX3Z1/bfUnP1LpqjXRE8zVRy2uU8KsqgpKJ53qtKpQt9yv
+         pTWBB30yTdtfOiE2slisAVZWuOefn32LU1EmtrjRXoSp9PLdScTp+W6FouDzR9DMB9VO
+         ppBas0R9nRc15l8ojxTJYdoh70YeOAIR8/B5JyHEoUndG4C1O1W7jOEp1bX0KHYEbROG
+         S5Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2h6weqAD9xa3p3LV0uS4nscUohy13EduPZcOMzZg4x0=;
-        b=MiFxE2/BUn1Fxz9v3dd+bg05QuT2+vfh0A+nUT6cfdb0+TOYXPszgl+jP7G4ms9jzy
-         ytzP2hq0TvB+FZ3F+pQpd/N95v13/2eKCDJqnqY4gVSgmBnLIltPp8mn32z9e/A9oFBo
-         g8aYngN6ZVoL8w0NYw0ZVqbk1YKbOTLQsUkFNozvYF/5lEGdgGrrqcS2C/0IvZCvToUM
-         OxV+CGkqsl6eDmDWIhwfsIkRz8cOxgde6ogKAEiTg8rHkdB9oqVIAheQ8U9B5G0WP1LA
-         HkGpTOjaWn20JvPD6H2M43n6/jPuMFVYSPfPafHm0rNDTQc1tAuVOidl/d0Q6lPde/+b
-         gvfQ==
-X-Gm-Message-State: ACrzQf0Amc4juenKU6pK6vwV6xBFpy5gdDuXAwt4fRQa2lWKLx30l85f
-	WwDB+rX8fhbObAp0iO+7uauPs2nfVeudoCNg
-X-Google-Smtp-Source: AMsMyM4WOwXbOj6FXpXx579c6pbog8QMsWWW2IFW0ixmCRRKZ8hq00WxjUDHSKfJkBzN1lDxxabuig==
-X-Received: by 2002:a17:903:100c:b0:186:63a1:3b5d with SMTP id a12-20020a170903100c00b0018663a13b5dmr46782371plb.148.1667744292507;
-        Sun, 06 Nov 2022 06:18:12 -0800 (PST)
+        bh=hEjE6CuB8QOSwk0Vg3vg+ve+Eak9QULOn33S2hMEk+Q=;
+        b=xpnCNb+2VrEb3TFkDbLSbj0ABR3Ax2g/HwPqihOt3HIUFvdUstQ7qhah1eCaqmt/ZM
+         3GNDEoS7pAet9m1LzsL1oIE48y2tLYYuTLQpFZISr+EZwQDLNqrLfEbHg1gh3yGjZ3Os
+         u4rLBEUhOc1QnmBmusk2VEy4WaADuXTljaCxm5WTpl2dDjSTxN/lzdHP0ud8e9aHmfhq
+         wDLRN9joVFyWPRy9XDhMhTzgCIFW6lBvY+mnJyS1525TAyubNMqrad7jn1/tdQic3jjo
+         nNhjVOQr6c4uQsv2D5a+CB6zCyA0g/vp675PDtTc+iKEt19jKm/4nqifNvpqZk0Hm8+L
+         Hghg==
+X-Gm-Message-State: ANoB5pnlsmi5dqpR5IbWRRffteE1WXsxNG/HG6KOdyXOdfK1LJxlL7IO
+	OkIiMEKVecb/axXNZSzuCW61g7Vf9aU0j2Vq
+X-Google-Smtp-Source: AA0mqf7UeXDM3inIWftdXzN6CgYJlrbwv72zpGP+Yi7k2Rez6E8QXJ/dWIfA3rPzA5EiLWTt46/6Xg==
+X-Received: by 2002:a17:902:ce07:b0:188:7cd7:1ff0 with SMTP id k7-20020a170902ce0700b001887cd71ff0mr2393580plg.174.1667744290636;
+        Sun, 06 Nov 2022 06:18:10 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id a3-20020a170902710300b0017534ffd491sm3224907pll.163.2022.11.06.06.18.11
+        by smtp.gmail.com with ESMTPSA id a3-20020a170902710300b0017534ffd491sm3224907pll.163.2022.11.06.06.18.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Nov 2022 06:18:12 -0800 (PST)
+        Sun, 06 Nov 2022 06:18:10 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 21/34] kern-tools: fix relative path processing
-Date: Sun,  6 Nov 2022 04:17:04 -1000
-Message-Id: <d56e29947176976e172a3e731a6ae37df98af4bb.1667744095.git.steve@sakoman.com>
+Subject: [OE-core][langdale 20/34] grub: disable build on armv7ve/a with hardfp
+Date: Sun,  6 Nov 2022 04:17:03 -1000
+Message-Id: <3d4bb6b1ba41e83c98e821ddf86e231daec029b1.1667744095.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1667744095.git.steve@sakoman.com>
 References: <cover.1667744095.git.steve@sakoman.com>
@@ -61,66 +61,45 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 06 Nov 2022 14:18:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172789
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172788
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Mingli Yu <mingli.yu@windriver.com>
 
-The previous fix for processing of paths with relative components, broke
-uses cases that were a mix of patches and configuration fragments.
+The commit(75dbdea940 grub: Allow build on armv7ve/a with softfp)
+enable build on armv7ve/a with softfp, but it acutally enable
+build on armv7ve/a with hardfp altogether and result in below build
+failure:
+ | checking for compile options to get strict alignment... -mno-unaligned-access
+ | checking if compiler generates unaligned accesses... no
+ | checking if C symbols get an underscore after compilation... no
+ | checking whether target compiler is working... no
+ | configure: error: cannot compile for the target
 
-Updating the SRCREV to include a simplied fix for relative paths, and
-a cleanup patch from Jose:
+So update the check to disable build on armv7ve/a with hardfp.
 
-[
-  Author: Jose Quaresma <quaresma.jose@gmail.com>
-  Date:   Thu Sep 29 16:37:23 2022 +0000
-
-      scc: only look for error in scc_output_file if it has valid content
-
-      When process_file function fails the output of the processed script is show to
-      the user, some parsing is performed as well to look for common errors so we
-      can point to the right input file.
-
-      This can only be done when the scc_output_file have some valid content
-      otherwise it will show invalid messages to the user.
-
-      Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-      Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-
-  Author: Bruce Ashfield <bruce.ashfield@gmail.com>
-  Date:   Wed Oct 5 19:13:33 2022 +0000
-
-      spp: ensure that prefix check uses absolute paths
-
-      The previous fix for this issue was too broad, and impacted
-      all calls to the prefix check and removal. With this change,
-      we only expand the input on scc/spp operations that may
-      execute with relative paths.
-
-      Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 533720a1756454447341769c4a0969fce8d6f287)
+(cherry picked from commit f67b2880fc2cfb21f51216c63b5f24d0524b4278)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-bsp/grub/grub2.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index dea7b65a7c..07d7daf5fb 100644
---- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-+++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "\
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index 2545b99b6a..7161c4560b 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -50,8 +50,8 @@ COMPATIBLE_HOST = "${GRUB_COMPATIBLE_HOST}"
+ # Grub doesn't support hard float toolchain and won't be able to forcefully
+ # disable it on some of the target CPUs. See 'configure.ac' for
+ # supported/unsupported CPUs in hardfp.
+-COMPATIBLE_HOST:armv7a = "${@'null' if d.getVar('TUNE_CCARGS_MFLOAT') == 'hardfp' else d.getVar('GRUB_COMPATIBLE_HOST')}"
+-COMPATIBLE_HOST:armv7ve = "${@'null' if d.getVar('TUNE_CCARGS_MFLOAT') == 'hardfp' else d.getVar('GRUB_COMPATIBLE_HOST')}"
++COMPATIBLE_HOST:armv7a = "${@'null' if bb.utils.contains('TUNE_CCARGS_MFLOAT', 'hard', True, False, d) else d.getVar('GRUB_COMPATIBLE_HOST')}"
++COMPATIBLE_HOST:armv7ve = "${@'null' if bb.utils.contains('TUNE_CCARGS_MFLOAT', 'hard', True, False, d) else d.getVar('GRUB_COMPATIBLE_HOST')}"
  
- DEPENDS = "git-native"
- 
--SRCREV = "ba600ef61a85966596126a6e8d936971905e8749"
-+SRCREV = "6a4752ebbe7d242c02b3c74a5772926edd243626"
- PV = "0.3+git${SRCPV}"
- 
- inherit native
+ # configure.ac has code to set this automagically from the target tuple
+ # but the OE freeform one (core2-foo-bar-linux) don't work with that.
 -- 
 2.25.1
 
