@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF621C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB9BCC433FE
 	for <webhook@archiver.kernel.org>; Sun,  6 Nov 2022 14:18:31 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web12.16500.1667744308760119968
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web10.16727.1667744306937325343
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Nov 2022 06:18:28 -0800
+ Sun, 06 Nov 2022 06:18:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=T+g9rm3f;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id k5so8345309pjo.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 06 Nov 2022 06:18:28 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=NPTGcSf4;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id io19so8913307plb.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 06 Nov 2022 06:18:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1ki/YcT1N2g/o/WFaYUSGKOHlPXLAqrHTL88vx7Mlxs=;
-        b=T+g9rm3fYIUzacS4Jf7na2RbfYEdwJX/ptTZzWMlUTX8OXjkgBv3ibTjMTLRKBLZ9K
-         GdB6JEItscXz0fruspMAxKjTi3zSk8PZZtx4WtZ4wIg3n0P0iFhon2NoS62NKt4HsQsS
-         c3SfyKYgSEhX5DpyFoka6mu65ExCDQr7BWN2ic1HGnp6odw4PzlquapcJhAA8z5v0WYg
-         xw5Og6w+Fov6vWYlh8lI5oNV1DrDJ3JpPF9nkmmA1By2SUK5s/SgReuQEmckeR1U4P6C
-         bgkqruRB1cofKYvu8NXC8FVxreGLMlD+Y85lKD8//y45Boqt4TfXeP5O6Yo9Jkp/bs6h
-         ylJA==
+        bh=9TEBbcuC6pY4JDBnByQ2zMxkSU8E45pFJr9ZCevqw2A=;
+        b=NPTGcSf4tuxZH0PFJ61Q8vc22+O+LILMndbfntpRSNGiVFjcD8zca6/71AKFgkikwy
+         ZNiI2S3K/BcpOOrOqQWJ+bmAsOY3D+bX4Tf5qSZ1Et4Xo7rIaWCVUO8cb82b4NT5DZkM
+         zWhjZWZGj7h2sOTSZF/t+V1Mq2RnYaxi3zhlek7aJ+TTU17AlQ+rsPkJWkdtHfAuszJO
+         LwHGzL7PA0BgsLomreORbq2xxOBqw0XNX3/6YcHnqjlcKQpVX5Y9OBXeam793wm7B9Y1
+         Va3vErVlyJPRtvZKeEth5NWYgiF3CJCc5vowBNbRedJ6J2lF/sbj5NvxPgXO+1AYwXeI
+         cXeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1ki/YcT1N2g/o/WFaYUSGKOHlPXLAqrHTL88vx7Mlxs=;
-        b=ddw/1pLLdtSmLs3NNPVzK9jamWOHf91NeB7IVMmJa/cM5RHM9O9QYhqYBlBQLHihIJ
-         kxt+rjfbsX4xxgfj2TD4+Oixvq8etcunBHEK7bXLjW88DVG3HYYsH15KlGrlMo8D4q14
-         IFfo2x3RMC7W3LPvos6AXQZtUENcwZVRZUeBudeBuJ0zW58IaRDwXWQ02HMQ/0a9PDuH
-         G9KXWXleEtmx8ckSmEPjOFSFUTRD9PVodZU+d16RlkkuX2LJoAatIAWb9xFnwrcQ5KPz
-         lpxlonscNtYz5qiiJf+H9UQrypvMNDsYtAIAhkPjD6pgPtTJ9UNsLYdKn/mCWaP/NRCr
-         L+Uw==
-X-Gm-Message-State: ACrzQf03E3I4lQhX8NZFOgD1MXDo67nyvV1nswFgZx1FITQhLLDUm4d9
-	DNt1l5kbC0NT6YQdEfxMMgxBNoo1lZAW1DOR
-X-Google-Smtp-Source: AMsMyM7BCg6wroQtL/EssYwB3WdYzlTPb/G8zGkeSEXQ1jaSUxUHZE0pGxhnWYHuCoKB3wIswvoHvg==
-X-Received: by 2002:a17:903:1205:b0:178:ac4e:70b8 with SMTP id l5-20020a170903120500b00178ac4e70b8mr45509052plh.52.1667744307830;
-        Sun, 06 Nov 2022 06:18:27 -0800 (PST)
+        bh=9TEBbcuC6pY4JDBnByQ2zMxkSU8E45pFJr9ZCevqw2A=;
+        b=zGhEhI2yqdUxGh18Vxkq55qTS3n5HpNJzZg/+dLJjHoksvq2M/cksevRt+4K0Raz9b
+         9D4uJTK5M+Kweh2fG4aG6oatjZQrbRC/yLHV79XKTq0OY8YYdboElb0FV8Sq23taByVS
+         XtrX4UTJJBQqCHZERro/oGwgi83yXnggfx+nLAcsGnykrGCc2hyEKD5EKHhoMVbwtG+5
+         k54msPoWqJbY2Haqt0FJDhY+e7E2J+fiZbQyjdUCaqHvNGmH/0ry33bjxmXX0xA4e/1U
+         aw6Xa0rj9HP3Lh7/ix/40I7xJ87lsMsvygDpLwXGjp96r66KoQ931aJUbC/5g8IVeai0
+         bXFw==
+X-Gm-Message-State: ACrzQf1xgiq0i5YSJSF8koPp4A4uWZdn3L0QDDOqa5ivI/kdDmL9d9Aj
+	e/6S/g047dpmrXsYQ83cxF8M99ngLFznqp85
+X-Google-Smtp-Source: AMsMyM7XG2RlH4pLh4lgeXlDHBKhN2WWu0WO6JIrhSSdOfhHUKegn0v47nVTQABBZ7QWLXaY1OvX2Q==
+X-Received: by 2002:a17:90a:3e85:b0:213:36b6:fa16 with SMTP id k5-20020a17090a3e8500b0021336b6fa16mr45541291pjc.56.1667744309750;
+        Sun, 06 Nov 2022 06:18:29 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id a3-20020a170902710300b0017534ffd491sm3224907pll.163.2022.11.06.06.18.26
+        by smtp.gmail.com with ESMTPSA id a3-20020a170902710300b0017534ffd491sm3224907pll.163.2022.11.06.06.18.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Nov 2022 06:18:27 -0800 (PST)
+        Sun, 06 Nov 2022 06:18:29 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 29/34] uboot-sign: Fix using wrong KEY_REQ_ARGS
-Date: Sun,  6 Nov 2022 04:17:12 -1000
-Message-Id: <f01b15fcffd1a628a17caf1e94753c8cd09ea48f.1667744095.git.steve@sakoman.com>
+Subject: [OE-core][langdale 30/34] kernel: Clear SYSROOT_DIRS instead of replacing sysroot_stage_all
+Date: Sun,  6 Nov 2022 04:17:13 -1000
+Message-Id: <d9081df0dc62f733bef643340af678eeba74fe89.1667744095.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1667744095.git.steve@sakoman.com>
 References: <cover.1667744095.git.steve@sakoman.com>
@@ -61,36 +61,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 06 Nov 2022 14:18:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172797
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172798
 
 From: Sean Anderson <sean.anderson@seco.com>
 
-When generating our SPL-verifying certificate, we use FIT_KEY_REQ_ARGS,
-which is intended for the U-Boot-verifying certificate. Instead, use
-UBOOT_FIT_KEY_REQ_ARGS.
+Replacing sysroot_stage_all by a no-op recipe makes it difficult for
+bbappends to stage files intentionally. Instead, just clear
+SYSROOT_DIRS, allowing other bbappends to easily add new directories.
 
-Fixes: 0e6b0fefa0 ("u-boot: Use a different Key for SPL signing")
 Signed-off-by: Sean Anderson <sean.anderson@seco.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit a2d939ccb182a1ad29280d236b9f9e1d09527af1)
+(cherry picked from commit 849791e7086463a4c7c53c2c1ed9603a6c3a080d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-recipe/uboot-sign.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes-recipe/kernel.bbclass | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
-index debbf23ec6..4b5912a01d 100644
---- a/meta/classes-recipe/uboot-sign.bbclass
-+++ b/meta/classes-recipe/uboot-sign.bbclass
-@@ -298,7 +298,7 @@ do_uboot_generate_rsa_keys() {
- 				"${UBOOT_FIT_SIGN_NUMBITS}"
+diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
+index e4e69e0763..7bb3449223 100644
+--- a/meta/classes-recipe/kernel.bbclass
++++ b/meta/classes-recipe/kernel.bbclass
+@@ -594,9 +594,7 @@ do_shared_workdir () {
+ }
  
- 			echo "Generating certificate for signing U-Boot fitImage"
--			openssl req ${FIT_KEY_REQ_ARGS} "${UBOOT_FIT_KEY_SIGN_PKCS}" \
-+			openssl req ${UBOOT_FIT_KEY_REQ_ARGS} "${UBOOT_FIT_KEY_SIGN_PKCS}" \
- 				-key "${SPL_SIGN_KEYDIR}/${SPL_SIGN_KEYNAME}".key \
- 				-out "${SPL_SIGN_KEYDIR}/${SPL_SIGN_KEYNAME}".crt
- 		fi
+ # We don't need to stage anything, not the modules/firmware since those would clash with linux-firmware
+-sysroot_stage_all () {
+-	:
+-}
++SYSROOT_DIRS = ""
+ 
+ KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} O=${B} olddefconfig || oe_runmake -C ${S} O=${B} oldnoconfig"
+ 
 -- 
 2.25.1
 
