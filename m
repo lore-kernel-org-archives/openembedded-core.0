@@ -1,107 +1,100 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C106EC43217
-	for <webhook@archiver.kernel.org>; Mon,  7 Nov 2022 16:25:53 +0000 (UTC)
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
- by mx.groups.io with SMTP id smtpd.web12.320.1667838348512539081
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B33EC433FE
+	for <webhook@archiver.kernel.org>; Mon,  7 Nov 2022 18:02:12 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.1108.1667844128410901194
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Nov 2022 08:25:48 -0800
+ Mon, 07 Nov 2022 10:02:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=PDIieLYa;
- spf=pass (domain: gmail.com, ip: 209.85.210.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f43.google.com with SMTP id d26-20020a05683018fa00b0066ab705617aso6810104otf.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 08:25:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gzsuxr2ppq8z5oORJAhDUQkjWKGAFlb/hNoPSy6k3zg=;
-        b=PDIieLYay9V6URXm3W/D/Xc2IzfE5l9lKkjqUKTrJOur+GgNqfOC81cOeepJR8tDKb
-         fEfTVaQ4ILrjNCT7P2p6wtb+/lcdkTxR70mABov0ep+57+UH+U3VzWWBbGzfYakv3r3J
-         2i+GwRfuORFJkaaqFQK3HacGOOicSqNdLTSm9KIcSUcVX9y/0BjpzxweU+Lt06y9UEGA
-         o+rO8WWnxIVa8lFW0b+j70pI+SSiRAEsUiYtDDXIElebkm4QU9IzZtYU1vLCIWjk+Nh3
-         6zuP/n9Fs1PxNpOahL94i18Gxl6kZdQuKMffY6P9gzxyqGV9TUu58cxAqOtJokku54T2
-         +X1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Gzsuxr2ppq8z5oORJAhDUQkjWKGAFlb/hNoPSy6k3zg=;
-        b=8BhRJxiHaq1/5WRVcO4/uSSBSDVJKcJup6nJLJpNf7wStIGqrCKuLxcbFNHqdyYrN1
-         +oy/qp27O+w1IwlvyELCOglw7j5gZxAbxKrbfmHmIATv6dr+LEpQdBi8NSJfNgNjkan/
-         4FoYkrUEfduVTvnptxFVko2OxXCBPQTdz2sdTWYXGgMUVIl2Aer/AOs09MefvZxoCGBY
-         lH0msxWTI8TeRPnT/RK1HA1N/RMxLiqjZQKlNdYc3dfQO9gYlN6f4BVuLxDkwhuu+imZ
-         5Jq8mkgMbYjXgfPFmFgT8WHWCesnzcKc7ly/H+ThDVb3uQ/yHlsez8rL/ZFnC/2PMrGO
-         Ho5Q==
-X-Gm-Message-State: ACrzQf1oLsmQjQrgZ7N5+ckcgAm39yXlqv6dQ3DPtl2ZRmGELsCyfxPI
-	PkU0WwjNpVaz/Scr+DnQxR/F3pI9tl1xwWoi9ZY=
-X-Google-Smtp-Source: AMsMyM7TYMP+7h/jR/A0LXylzhR0H1a5nmZPIPmjeEVdedMlLZ9J5HI6egRqJPuH+c5bqeuETK1040rX1MQcQIhA2Bg=
-X-Received: by 2002:a9d:65c9:0:b0:66c:5124:909a with SMTP id
- z9-20020a9d65c9000000b0066c5124909amr21480014oth.111.1667838347613; Mon, 07
- Nov 2022 08:25:47 -0800 (PST)
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 055AC1FB;
+	Mon,  7 Nov 2022 10:02:14 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6891D3F534;
+	Mon,  7 Nov 2022 10:02:07 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: nd@arm.com
+Subject: [PATCH][langdale 1/2] pixman: backport fix for CVE-2022-44638
+Date: Mon,  7 Nov 2022 18:02:04 +0000
+Message-Id: <20221107180205.2838225-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20221105164343.1328765-1-f_l_k@t-online.de>
-In-Reply-To: <20221105164343.1328765-1-f_l_k@t-online.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 7 Nov 2022 08:25:21 -0800
-Message-ID: <CAMKF1sok84zeArjLdO5bTWUm=7h9DCv2eG2zz70uz=RT_b8SDw@mail.gmail.com>
-Subject: Re: [oe-core][PATCH] webkitgtk: use libsoup-3.0 by default
-To: Markus Volk <f_l_k@t-online.de>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 16:25:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172925
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 18:02:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172926
 
-On Sat, Nov 5, 2022 at 9:44 AM Markus Volk <f_l_k@t-online.de> wrote:
->
-> Some Gnome projects have stopped  supporting libsoup-2.4. Therefore, switch to libsoup-3.0.
-> This would unblock the update of geary or gnome-online-accounts, which would otherwise
-> fail like this:
->
-> | Run-time dependency webkit2gtk-4.1 found: NO (tried pkgconfig)
-> |
-> | ../git/meson.build:70:0: ERROR: Dependency "webkit2gtk-4.1" not found, tried pkgconfig
->
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ .../xorg-lib/pixman/CVE-2022-44638.patch      | 33 +++++++++++++++++++
+ .../xorg-lib/pixman_0.40.0.bb                 |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.=
+patch
 
-There is also a break overved in some meta-oe packages see
+diff --git a/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch b=
+/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
+new file mode 100644
+index 00000000000..d226766d49a
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
+@@ -0,0 +1,33 @@
++CVE: CVE-2022-44638
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++From a1f88e842e0216a5b4df1ab023caebe33c101395 Mon Sep 17 00:00:00 2001
++From: Matt Turner <mattst88@gmail.com>
++Date: Wed, 2 Nov 2022 12:07:32 -0400
++Subject: [PATCH] Avoid integer overflow leading to out-of-bounds write
++
++Thanks to Maddie Stone and Google's Project Zero for discovering this
++issue, providing a proof-of-concept, and a great analysis.
++
++Closes: https://gitlab.freedesktop.org/pixman/pixman/-/issues/63
++---
++ pixman/pixman-trap.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/pixman/pixman-trap.c b/pixman/pixman-trap.c
++index 91766fd..7560405 100644
++--- a/pixman/pixman-trap.c
+++++ b/pixman/pixman-trap.c
++@@ -74,7 +74,7 @@ pixman_sample_floor_y (pixman_fixed_t y,
++=20
++     if (f < Y_FRAC_FIRST (n))
++     {
++-	if (pixman_fixed_to_int (i) =3D=3D 0x8000)
+++	if (pixman_fixed_to_int (i) =3D=3D 0xffff8000)
++ 	{
++ 	    f =3D 0; /* saturate */
++ 	}
++--=20
++GitLab
++
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb b/meta/recip=
+es-graphics/xorg-lib/pixman_0.40.0.bb
+index ccfe2777466..c56733eefd6 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
+@@ -9,6 +9,7 @@ DEPENDS =3D "zlib"
+=20
+ SRC_URI =3D "https://www.cairographics.org/releases/${BP}.tar.gz \
+            file://0001-ARM-qemu-related-workarounds-in-cpu-features-dete=
+cti.patch \
++           file://CVE-2022-44638.patch \
+            "
+ SRC_URI[md5sum] =3D "73858c0862dd9896fb5f62ae267084a4"
+ SRC_URI[sha256sum] =3D "6d200dec3740d9ec4ec8d1180e25779c00bc749f94278c8b=
+9021f5534db223fc"
+--=20
+2.34.1
 
-https://errors.yoctoproject.org/Errors/Build/154536/
-Perhaps minio is not related but I have not looked too closely.
-
-> Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> ---
->  meta/recipes-sato/webkit/webkitgtk_2.36.7.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
-> index 76b119c9c7..f3e1adee70 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
-> +++ b/meta/recipes-sato/webkit/webkitgtk_2.36.7.bb
-> @@ -43,7 +43,7 @@ DEPENDS = " \
->            gstreamer1.0-plugins-base \
->            "
->
-> -PACKAGECONFIG_SOUP ?= "soup2"
-> +PACKAGECONFIG_SOUP ?= "soup3"
->  PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd wayland x11', d)} \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'webgl opengl', '', d)} \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'webgl gles2', d)} \
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#172753): https://lists.openembedded.org/g/openembedded-core/message/172753
-> Mute This Topic: https://lists.openembedded.org/mt/94829885/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
 
