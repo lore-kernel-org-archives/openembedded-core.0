@@ -1,145 +1,136 @@
-Return-Path: <quentin.schulz@theobroma-systems.com>
+Return-Path: <egyszeregy@freemail.hu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0930AC4332F
-	for <webhook@archiver.kernel.org>; Mon,  7 Nov 2022 13:03:32 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.57])
- by mx.groups.io with SMTP id smtpd.web12.2942.1667826203695875730
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33A73C4332F
+	for <webhook@archiver.kernel.org>; Mon,  7 Nov 2022 13:32:22 +0000 (UTC)
+Received: from smtp-out.onbox.hu (smtp-out.onbox.hu [46.107.16.227])
+ by mx.groups.io with SMTP id smtpd.web12.3253.1667827931876729728
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Nov 2022 05:03:24 -0800
+ Mon, 07 Nov 2022 05:32:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@theobroma-systems.com header.s=selector1 header.b=IwqyCf+U;
- spf=pass (domain: theobroma-systems.com, ip: 40.107.22.57, mailfrom: quentin.schulz@theobroma-systems.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iLocC/x0xwZLPz4JMvkmDAu5Gtd98hxlE2zaLD+e0jMuAIXAzDcksFDEqzOzODWP4U9ZJ6l5SK56owNfFjnKBxjivMKewsha6qA5lHxHzcvW5/wKefVnwSOeWRNZCxmsPetT1xTvS9QUor6SxPGKhgWN6X98sm3ikY8I1rcKWM1gjA4KB3mVF+K6qAJuJ9+qxUofTsUS881tJM9ZNPgTdD6tAMrTWg8GeIJvFOBU2oQ+DyEBgiJ0FbyVh/vtOq2YledZjUg59Yh90q8bwOM5TsDONgUf/9SkvQx0CgX0asPMr04TgK1g1HZR0rxcr1rI+Nlvc2kF3E6zMmbTqkVTGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rMEbic6LjPNCwy2InXw2wLoGdbhy2vg/hNMu8y5aLUo=;
- b=VGxcdCCtlCF8AqmzzWsGjaPn5w7M97ZknCVXDYgyIS7ZjUeVuq4rH5ms0L0fmmCXzobNaGmB7d3nag11i+KIaATf6lpiIfZapzcylXFNPmNPLYbWwOnHDWVJvoOwa08+0Ag9c3YNifz4e/XuP6dYRIz8JyYvHs//hHG5dFCTdAOQPEA5dFWFBvQMFsVnF9Vg4XtdGD6yKz0Asei2vawXNxxHw46uT8L8LhIyibUA6KD9JvEchRERZ8dZwBHlq35726NYIcDQP7XhKT8ao9G4vuNQuFw8qiCMpUf7gN+FOH0PcLNqihTfhzxi7j0e3kr6CIPRu+xhkLApda415D17oA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
- header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
- arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=theobroma-systems.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rMEbic6LjPNCwy2InXw2wLoGdbhy2vg/hNMu8y5aLUo=;
- b=IwqyCf+UaO9DJa9u1WZ7pFJRM0XoRMYe6cDTulXs2ew3iLVDp9vD/FhzawQVdTfVMjehYnJugBkiIUfz5lNT372GLi0wT+vWUeiCu5QBNJ7wju68RFaKH1gJxvnJSiZI2idDlGqhEBNiPan8xUOSDy8BQvTmaG3NjPrGQNF1J+K+r4npzNX+83FlmdG4R4doWGw5apsqaHLjGBVxl/iDLr4QUKr424lBFdWynq0ibultlbKym8+RFk7EOMd/AvU9cA6bZKdc/KoxbsB6fKX3woaod8fXFWQjGkoFvHf5X3gHs6+sBniPJdDZxwjrsXWC1PlW/ZGOvLzdaTzg81wAcQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
-Received: from DU2PR04MB8536.eurprd04.prod.outlook.com (2603:10a6:10:2d7::10)
- by PAXPR04MB8606.eurprd04.prod.outlook.com (2603:10a6:102:219::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.22; Mon, 7 Nov
- 2022 13:03:20 +0000
-Received: from DU2PR04MB8536.eurprd04.prod.outlook.com
- ([fe80::5e5e:1989:e5ec:c833]) by DU2PR04MB8536.eurprd04.prod.outlook.com
- ([fe80::5e5e:1989:e5ec:c833%3]) with mapi id 15.20.5791.026; Mon, 7 Nov 2022
- 13:03:20 +0000
-Message-ID: <b837d8d6-ec68-823d-88f8-5bdb05c67ad9@theobroma-systems.com>
-Date: Mon, 7 Nov 2022 14:03:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [OE-core] How to use linux-firmware to install single firmware
- package? #kirkstone
-Content-Language: en-US
-To: Livius <egyszeregy@freemail.hu>, openembedded-core@lists.openembedded.org
-References: <27593.1667581724503766480@lists.openembedded.org>
- <32673.1667587483969030362@lists.openembedded.org>
-From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-In-Reply-To: <32673.1667587483969030362@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: AS8P189CA0058.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:458::20) To DU2PR04MB8536.eurprd04.prod.outlook.com
- (2603:10a6:10:2d7::10)
+ dkim=fail reason="body hash did not verify" header.i=@freemail.hu header.s=20181004 header.b=Sg3craRK;
+ spf=pass (domain: freemail.hu, ip: 46.107.16.227, mailfrom: egyszeregy@freemail.hu)
+Received: from localhost.localdomain (catv-178-48-208-198.catv.fixed.vodafone.hu [178.48.208.198])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.onbox.hu (Postfix) with ESMTPSA id 4N5XG03W7fzvvK;
+	Mon,  7 Nov 2022 14:32:08 +0100 (CET)
+From: egyszeregy@freemail.hu
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Benjamin=20Sz=C5=91ke?= <egyszeregy@freemail.hu>
+Subject: [master][PATCH v3] image_types: Add 7-Zip support in conversion types and commands
+Date: Mon,  7 Nov 2022 14:31:54 +0100
+Message-Id: <20221107133154.77-1-egyszeregy@freemail.hu>
+X-Mailer: git-send-email 2.38.1.windows.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PR04MB8536:EE_|PAXPR04MB8606:EE_
-X-MS-Office365-Filtering-Correlation-Id: 27081cd7-5d2a-4be9-8992-08dac0c071ee
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	+c9lR9tdntiBODQ4/fZyZZz1kInObBplZM7xoe3DLTqNXbTGOPrAr2M63mxjYNkLqe1kVoKuOrgXQ+27Z1TWcfs+LH8NQ2DkDf93OO4onwW5JYheNA+F/JmaLJVAo+GmqqtEZEggTXny3GNPI6tYorPKCqyWvSoO7pCFU5gTdipZANWm98msMrd8ag66c/PKDVS8/OjOvj2VtI96cIksWu01ue7FTjfyuWMdJLGTP9XSotkGBNCYzhReU1sUNgvQ7NToL0KsKy31N73WWEYtxRP+DuBJHQb3OnZEr8sn6kiVf5k0wvBxaLbn0hayqu8NRwCTdsCIzXTVSLP39YIX5VFASKW8leA/6Xzjz+NnE8q6VfI/KqOEqWcYA7aVJx/thsPMjp3MteH20Az++Os38ddkAuo4E1hDUI96M4ZrmFy6eMJq+a/6i64fNWiIDKqGhQJFT4sI6MjbUz+N021HUp8sOa2Gj1AvlO2lUQiqgQlNk+zOToqJQDGfEiuYN26LUd2zn7Qz5G62BgSJrFA3lpChb3yp9QotsA+UDuqQUVboZAcFGRNtRNjEMtnjxi9kkOxRzvRr7Ap4a9UvwwjeSo2ingNvx+nWlhZup97YXj1TPdc+IDvEPVvngO3Mn8W2ZhIk/ZY+1ArrKTj+uT4x1KCmCvdGxFNh9MFX/1MeApA0xzKOlV+IhoOzR+drtSS4Oq+Op65B1ELlQMoWI+gCMPtJmyuLAuPU6H757efjEfuvvqhnCLYP8zCWp8WecArfNkC5cLPuTciPfxyvStMH6QmL9VHnMdkV5AJAf73HLC8=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8536.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(136003)(396003)(346002)(376002)(39850400004)(366004)(451199015)(26005)(6512007)(2616005)(6506007)(53546011)(186003)(44832011)(4744005)(2906002)(8676002)(478600001)(38100700002)(6486002)(41300700001)(5660300002)(8936002)(316002)(66946007)(66556008)(66476007)(36756003)(31696002)(86362001)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?kniMokZ1kgqqniHWxNB9IprJvBGhxnkUdv8RXRUCD8wHMY19sfw2r0x5WxSw?=
- =?us-ascii?Q?UBB8loIx0vzUNtQqRspFsiTjuMkaZH9L03FI4QAXU9H3p5D9XSn1raxTPbvO?=
- =?us-ascii?Q?TBzaIYRXyBKKR5/xdCoSz67oRDRzevCJajKpx4LeS+dSa4rQgC/tnbNXrtUQ?=
- =?us-ascii?Q?1ONLbMnHEk6GWpy7JxkGVn466xP6aXE4eAvLExhQfXFbNCPQWHV6CswoUPIV?=
- =?us-ascii?Q?lPvxkz67NL8FGfONBJ8I/vL7wgQ/PhWw5jH0wFOZfvBhsXoPOrhwGS4FVxFe?=
- =?us-ascii?Q?7iYorbkUoIjaGEty4KlI0Tage/7q/NkF+DBGYnGTRk/1Mf8lAQPOCeR6MeUu?=
- =?us-ascii?Q?ysTwFqHRfRNg5OAQD1S9hTxLAZKbhMRKPaBsXoJCZfShn00WqkQKYuimTBmM?=
- =?us-ascii?Q?DWsfWtB0XOxseL7jzzVKlF0NvUN6Whf+Hd0k0QCHIlEqgx8OZCcE6P1/LAsD?=
- =?us-ascii?Q?0BoHwuhvFiCpKjyzRorQj0JizxFLLRAClYgToMSPNvBULraX5FJmkVP3Y+aT?=
- =?us-ascii?Q?EulDupqlFFX4hOouphDqdLV5u2TjGJ5EQ2Mh5dpy475KPgys5ZkWgWNfFlLP?=
- =?us-ascii?Q?jLZvSPRRElMpaPLNJYuFfCjVbfQwiRJTi+4A/ewKHy21Qvqb0R2DLTEEEw5g?=
- =?us-ascii?Q?QSUg3IdHXqxworKQckWlMqldCFFhw/QUUWMA+oq+RIfWRGoEjYSaegS1Ho96?=
- =?us-ascii?Q?4TNb7+x3fWBSpo5KgUliKne5V4eeudDztMKJ/o7I9As9v/Z+ySkC1cBfZ1hR?=
- =?us-ascii?Q?y/6G9i23dDxMMruT3r5bGjr0tiTBHpRO7IjoCZIcZuL6CaxSSy4c3C9v0gqF?=
- =?us-ascii?Q?wIA0jD48LR0E2KdY2ILAQ9L7grb9vtMt0N6YUgdrKX3pZ25vIjguXvlea0xX?=
- =?us-ascii?Q?pKML7Zux6czRbf8jqNFmUxPEL083MBWq4W/K8wXVxEFeNXn0pJJeWHTch+6A?=
- =?us-ascii?Q?w0rewccxwHOALj2qblvz8ZJ+KxH3ChHq1rizb4bVJiwcdtzLYnb4q6t0SPXp?=
- =?us-ascii?Q?Dk6QInZSvY84f+3WxIEUL5aWI2gnwiqa62mbnkoUuXyy5NvHl4eU5zRyKIez?=
- =?us-ascii?Q?s5s1mJ+J8OoOjJ3gMW8OM3qdGg37NDnqJy2sea89Iwx6Rr9ahWcSKYhUBrDQ?=
- =?us-ascii?Q?MkrRAAgLrgDzSrT+j4wZQfwbmBXyn0sZ+9tLGNhc+EKWlyQG9UpUx0IzKtWw?=
- =?us-ascii?Q?3qje3ARPU3rZ6mymHm+mgrOUOA7vC5PWUl62ui6w5MKvLhgiqlxJ3iHDO9am?=
- =?us-ascii?Q?rPUg09AsO9ePmmKRQEr8Zy5xWHtZRm+m4b+I8RqhvwdlFMQXqVkV/DChO2a+?=
- =?us-ascii?Q?p5B8oMdkOacjuNE7DYZJgWVahgVRgaKNzP2/8WrP/wqUQiSodPBZJeD+7pRs?=
- =?us-ascii?Q?RUpYhgZ1qco94qk9Mj3wGKZzAoVDVZSKI8QGQ23zLGgGxyFjcq2nUXgTGKOa?=
- =?us-ascii?Q?b6CRutSe8zPcn2/SfPqr5pOkniHrbFveOzIcfT38ggLLvC8y55zVq9san5EP?=
- =?us-ascii?Q?uCeDtp54CIPXEUsKP9TjGLliY8Pi/6Uh2v56dDqbcTn2dZkNR5ilqwpxrQGZ?=
- =?us-ascii?Q?x9NPqoneuG9xIrUUKMceF22ZRaTsvu9UNW6b7R5zj1Bl1fxJIL7OIp+eScTR?=
- =?us-ascii?Q?qJPP6F9FpUx8f1zzJXOSMuM=3D?=
-X-OriginatorOrg: theobroma-systems.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27081cd7-5d2a-4be9-8992-08dac0c071ee
-X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8536.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2022 13:03:20.5620
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pzeh+mDXEr1YrdXUTX4H2lGJG2g6b26F7RQEGSYbsBIfyaCUlU2OKst1knfBN8Px1tX0VNTD+Qjsjl30YTntJhf63MtysxqGnemi1xADIwR3m7qCvnjEzXClzD+DZ+0v
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8606
+Content-Type: text/plain; charset=UTF-8
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrvdekgdehvdculddtuddrgedvuddrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucggtfgfnhhsuhgsshgtrhhisggvpdcuhfftgffgofetkffnnecuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffogggtgfesthekredtredtjeenucfhrhhomhepvghghihsiigvrhgvghihsehfrhgvvghmrghilhdrhhhunecuggftrfgrthhtvghrnhepveeuieeijeeileeuveekffevtdfhueetjeevuddvveffkeeuhfffiedvgeelvdeunecukfhppedujeekrdegkedrvddtkedrudelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhephhgvlhhopehlohgtrghlhhhoshhtrdhlohgtrghlughomhgrihhnpdhinhgvthepudejkedrgeekrddvtdekrdduleekpdhmrghilhhfrhhomhepvghghihsiigvrhgvghihsehfrhgvvghmrghilhdrhhhupdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=simple/relaxed; t=1667827928;
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 13:03:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172840
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 13:32:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172841
 
-Hi,
+	s=20181004; d=freemail.hu;
 
-On 11/4/22 19:44, Livius wrote:
-> What should i check in=C2=A0buildhistory? In my buildhistory=C2=A0folder=
-=C2=A0linux-firmware folder contains all packages as a subfolders, like was=
- in my=C2=A0tmp/deploy/rpm/noarch. Following content is in my=C2=A0linux-fi=
-rmware/linux-firmware-imx-sdma-imx7d/latest text file.
->=20
-> PE =3D 1
-> PV =3D 20220913
-> PR =3D r0
-> RPROVIDES =3D
-> RDEPENDS =3D linux-firmware-imx-sdma-license
-> RRECOMMENDS =3D
-> PKGSIZE =3D 2862
-> FILES =3D /lib/firmware/imx/sdma/sdma-imx7d.bin
-> FILELIST =3D /lib/firmware/imx/sdma/sdma-imx7d.bin
->=20
+	h=From:To:Cc:Subject:Date:MIME-Version:Content-Type:Content-Transfer-Encoding;
 
-The installed-packages.txt would probably list all linux-firmware=20
-packages I assume?
+	l=3481; bh=+ocFnAYqLBywMTwhkTYb/Xxz94g3hCtks9qoRJO2p8Y=;
 
-Could you also check the=20
-linux-firmware/linux-firmware-imx-sdma-license/latest text file and tell=20
-us what it contains? Because the content of=20
-linux-firmware/linux-firmware-imx-sdma-imx7d/latest seems to be fine.
+	b=Sg3craRKzxS0UQpEPMQUeceNd92g0jd1xy3k0UlWUCzgMfVgG4GeI9zWxr3QuqSH
 
-Cheers,
-Quentin
+	vdhKuSMB5NPjHlxYczYYGDWnRj/ge7dK1/0AmZFgMDzc8gkA8BUHfmeD+ANjapvFY3P
+
+	1nPkhGR44eQHhnUuvnfL5bvBRehXWGFvVSQ4RfkkuBclQm0kw+IhIRyreMM4qB8BTOx
+
+	HBbjkPwVtFEyq3ksoybARxzLJJ8Iacy5YIbzSaBbKUQPoo7ZKqQpek3mAtwf4OTzKVK
+
+	RHI7bXj1ZotV1IDrC6BwVFzUhTVzNZ0phrX+/jtyXpq8VdcD27jcBO5DqaBGYF8O6rM
+
+	6T/RfGgquQ==
+Content-Transfer-Encoding: quoted-printable
+
+From: Benjamin Sz=C5=91ke <egyszeregy@freemail.hu>
+
+Add 7-Zip support in conversion types and commands. Default arguments of =
+7-Zip are compression level: 9, method: BZip2, extension: 7z. All these a=
+re overridable from local.con for any other use case in user side. First =
+goal was to make an alternative zip conversion which can operate faster i=
+n multi-thread systems (on many CPU cores), normal zip is just a single t=
+hread compression. 7-Zip can do a compression in multi-thread processing,=
+ so it is fine to use and speed up it and 7-Zip is supported also in many=
+ platform to use.
+
+Signed-off-by: Benjamin Sz=C5=91ke <egyszeregy@freemail.hu>
+---
+ meta/classes-recipe/image_types.bbclass | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recip=
+e/image_types.bbclass
+index 764e6a5574..ae00728a74 100644
+--- a/meta/classes-recipe/image_types.bbclass
++++ b/meta/classes-recipe/image_types.bbclass
+@@ -59,6 +59,10 @@ XZ_INTEGRITY_CHECK ?=3D "crc32"
+=20
+ ZIP_COMPRESSION_LEVEL ?=3D "-9"
+=20
++7ZIP_COMPRESSION_LEVEL ?=3D "9"
++7ZIP_COMPRESSION_METHOD ?=3D "BZip2"
++7ZIP_EXTENSION ?=3D "7z"
++
+ ZSTD_COMPRESSION_LEVEL ?=3D "-3"
+=20
+ JFFS2_SUM_EXTRA_ARGS ?=3D ""
+@@ -304,7 +308,7 @@ IMAGE_TYPES:append:x86-64 =3D " hddimg iso"
+ # CONVERSION_CMD/DEPENDS.
+ COMPRESSIONTYPES ?=3D ""
+=20
+-CONVERSIONTYPES =3D "gz bz2 lzma xz lz4 lzo zip zst sum md5sum sha1sum s=
+ha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi qcow=
+2 base64 gzsync zsync ${COMPRESSIONTYPES}"
++CONVERSIONTYPES =3D "gz bz2 lzma xz lz4 lzo zip 7zip zst sum md5sum sha1=
+sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi=
+ qcow2 base64 gzsync zsync ${COMPRESSIONTYPES}"
+ CONVERSION_CMD:lzma =3D "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}=
+.${type}"
+ CONVERSION_CMD:gz =3D "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}${IMAGE=
+_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+ CONVERSION_CMD:bz2 =3D "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$=
+{type}"
+@@ -312,6 +316,7 @@ CONVERSION_CMD:xz =3D "xz -f -k -c ${XZ_COMPRESSION_L=
+EVEL} ${XZ_DEFAULTS} --check=3D
+ CONVERSION_CMD:lz4 =3D "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$=
+{type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
+ CONVERSION_CMD:lzo =3D "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type=
+}"
+ CONVERSION_CMD:zip =3D "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAG=
+E_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
++CONVERSION_CMD:7zip =3D "7za a -mx=3D${7ZIP_COMPRESSION_LEVEL} -mm=3D${7=
+ZIP_COMPRESSION_METHOD} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.${7ZIP_=
+EXTENSION} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+ CONVERSION_CMD:zst =3D "zstd -f -k -T0 -c ${ZSTD_COMPRESSION_LEVEL} ${IM=
+AGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}=
+.${type}.zst"
+ CONVERSION_CMD:sum =3D "sumtool -i ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${t=
+ype} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sum ${JFFS2_SUM_EXTRA_A=
+RGS}"
+ CONVERSION_CMD:md5sum =3D "md5sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${ty=
+pe} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.md5sum"
+@@ -337,6 +342,7 @@ CONVERSION_DEPENDS_xz =3D "xz-native"
+ CONVERSION_DEPENDS_lz4 =3D "lz4-native"
+ CONVERSION_DEPENDS_lzo =3D "lzop-native"
+ CONVERSION_DEPENDS_zip =3D "zip-native"
++CONVERSION_DEPENDS_7zip =3D "p7zip-native"
+ CONVERSION_DEPENDS_zst =3D "zstd-native"
+ CONVERSION_DEPENDS_sum =3D "mtd-utils-native"
+ CONVERSION_DEPENDS_bmap =3D "bmap-tools-native"
+--=20
+2.38.1.windows.1
+
 
