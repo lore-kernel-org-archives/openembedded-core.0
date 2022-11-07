@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE700C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCD49C43217
 	for <webhook@archiver.kernel.org>; Mon,  7 Nov 2022 14:55:52 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web12.4229.1667832947549542280
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web09.4342.1667832948899435495
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Nov 2022 06:55:47 -0800
+ Mon, 07 Nov 2022 06:55:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=LvyB/ZNP;
- spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id v7so7061000wmn.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 06:55:47 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=oK38z+T7;
+ spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f45.google.com with SMTP id c3-20020a1c3503000000b003bd21e3dd7aso9808112wma.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 06:55:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=F7cZgt0Dv0mwKFm68NP1dKy/Q2ODKdwGEjYeSODYmbc=;
-        b=LvyB/ZNPhRwnzpcRFUBO34zP+ApcptG9pKcZ6EhGYJeR5ojyho4HcZbG0KHinK6/3N
-         1i0sDTFK1h3pN90TwolDnF0tziBxKBJnvOmNsXkctQVKoS9bfFbG9XeCFH9wptF4a0sC
-         604Y/0hlHg4n1MmYH98F8icGcBU2jUGSqK6T/rDqkf7fWr7d5WSddwJRU/2+ZKjL1s2m
-         XSwibwInYX+iyb+DWJejPex1b5rHmjr8sIE8iqFffRyP4823waZt0U+He/SCvzWKEnVi
-         wrgADpG5mftId6icCj1jP0xkMM91KhXH91TWoduFqdpvkeeLZO9oYsSTTeCESdkpDDtS
-         Z7nQ==
+        bh=L9UOBpOo3wy+h89NobCPhHnm62zMRop4o0eMzMTdIfQ=;
+        b=oK38z+T7m4R8yA8SHOwvc1ypMjG0+N2ntlVJSWTV3kFtVjiaRv3A9tVVxJC+K4eMNk
+         lxqlR2ylaxPSygMrksdT6cAngAEc6DigjdQAjMYED8PvN5apIlXxwX7Go5c77iblDKz5
+         zYlgtOpAywhD6a1ZBciQnuNmbE6MtXC+XqFTPWkYbKXiZEYu7Ip+6H86QZPNJ5/3MmmS
+         oj5tTqAVUS052pebu1QsRi8WWTt/jzhe+AvHr0WEhzcfiP0KoLTXJXYxpp0xdqIQBVJ2
+         zQbFwDZ0vRrZ9rhUwjb6EbpJfA6GjwZpHS6LAO+KmzC6e2SxAdTpCjREEZ0JwFnlYQdo
+         4yxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=F7cZgt0Dv0mwKFm68NP1dKy/Q2ODKdwGEjYeSODYmbc=;
-        b=niBSqyvU2uLl7Ig5razKghemcXkgCyhE+0MYjOFzSbKcAT7Z/qphd2xYo9DxApR8Gh
-         rftdGhZLowozbsw80sMJIYufv21Ox8UPV58wFF13MsgmzR9nCA7ynDj2xBCkaSSFTNHl
-         WoaKPQKjaIVZtQWJNNXqqojntzVqE7xBfIOAqrwVN4T4tTrbKEYtWy1Id8bB/8O44cYX
-         IKgPGroSoAw5RjJs7izPQk7kBprI96tZOkk3jgnPJYqVbt7Wuw31NQo/lMQwnERaWnXX
-         GY9FCnHvrpXk0v1/7MCesIdXZfIFO6zlLjfRdaSnayl4Yvw1tqP/K/GVuzE3FUYVywG4
-         Fdlw==
-X-Gm-Message-State: ACrzQf2wh3nwU6C7FkXoR+lS6151N/406efNkl/0/KhUsYbMh4S2aqpz
-	CTfoNZikfY5aCVeZH7+aZR4/VqOX89k=
-X-Google-Smtp-Source: AMsMyM6XMavFfgdzwSXfBuIxBNXy6Er/6I3IYvdfxMaiDNhyJkyVtpe28t1+ukP64ar8ZD0GtSl0nQ==
-X-Received: by 2002:a05:600c:654f:b0:3c3:b5b7:43a9 with SMTP id dn15-20020a05600c654f00b003c3b5b743a9mr44311703wmb.201.1667832946037;
-        Mon, 07 Nov 2022 06:55:46 -0800 (PST)
+        bh=L9UOBpOo3wy+h89NobCPhHnm62zMRop4o0eMzMTdIfQ=;
+        b=LRHCIcGvWi0FU15qXJxxwX0YUxXcBDL7oC6XTtprN1XD2t8C7G3dcFjdKNOitQK43M
+         ZCaOnUASJxp1toOAndMpGMDRaE4Bi+oCTfgW+YHB/NlsDPUq64i/VgR47tBjDWtM0eOj
+         RHOnBCQFRSWnPu4Kgl9Jz/9zIdntY8iJ7JozsTWitPEMNnPR5+SO5OuE8bM+yxEt+y0t
+         pM5jIyh9/IWKN+lnvcfaEPLroa+2o2nTR3pSSjOu0L9i6ka8lZ7Gm6MxzZQgu/QT2KHw
+         WUbOLI9n179IbU4mbB+SzE4or7c9FtqdP7Avj0VEvVUQ/2N4Kltin/hYWvbrFVfHgEcj
+         71eA==
+X-Gm-Message-State: ACrzQf1VUmTdm5ZHnMR6W63PQEnghfLzxsPVBGDVDgLhRpm97oNTq5w3
+	L3YJwxUqeHzQhoWUI+bJVD40d88MMbk=
+X-Google-Smtp-Source: AMsMyM7N4posh5XW1MUFZ2YZ680UxqXrdMuupe3ZjYI3uX8bM5yii/z+YWQzSfSZEv7rI8OqeVMixw==
+X-Received: by 2002:a05:600c:4fd5:b0:3cf:9e9b:68f5 with SMTP id o21-20020a05600c4fd500b003cf9e9b68f5mr8564446wmq.60.1667832947362;
+        Mon, 07 Nov 2022 06:55:47 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id s13-20020a5d69cd000000b0023659925b2asm7460440wrw.51.2022.11.07.06.55.45
+        by smtp.gmail.com with ESMTPSA id s13-20020a5d69cd000000b0023659925b2asm7460440wrw.51.2022.11.07.06.55.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Nov 2022 06:55:45 -0800 (PST)
+        Mon, 07 Nov 2022 06:55:46 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 32/48] libsoup-2.4: upgrade 2.74.2 -> 2.74.3
-Date: Mon,  7 Nov 2022 15:54:52 +0100
-Message-Id: <20221107145508.1051404-32-alex@linutronix.de>
+Subject: [PATCH 33/48] gdk-pixbuf: upgrade 2.42.9 -> 2.42.10
+Date: Mon,  7 Nov 2022 15:54:53 +0100
+Message-Id: <20221107145508.1051404-33-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221107145508.1051404-1-alex@linutronix.de>
 References: <20221107145508.1051404-1-alex@linutronix.de>
@@ -62,29 +62,29 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 14:55:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172882
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172883
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../libsoup/{libsoup-2.4_2.74.2.bb => libsoup-2.4_2.74.3.bb}    | 2 +-
+ .../gdk-pixbuf/{gdk-pixbuf_2.42.9.bb => gdk-pixbuf_2.42.10.bb}  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.74.2.bb => libsoup-2.4_2.74.3.bb} (95%)
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.42.9.bb => gdk-pixbuf_2.42.10.bb} (98%)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-similarity index 95%
-rename from meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
-rename to meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-index 6ff393c9a3..79281fbf5b 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-@@ -12,7 +12,7 @@ DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 libpsl"
- SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.9.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
+similarity index 98%
+rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.9.bb
+rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
+index d33718e3ea..aa44515fbb 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.9.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
+@@ -23,7 +23,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://0001-Add-use_prebuilt_tools-option.patch \
+            "
  
- SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
--SRC_URI[sha256sum] = "f0a427656e5fe19e1df71c107e88dfa1b2e673c25c547b7823b6018b40d01159"
-+SRC_URI[sha256sum] = "e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13"
+-SRC_URI[sha256sum] = "28f7958e7bf29a32d4e963556d241d0a41a6786582ff6a5ad11665e0347fc962"
++SRC_URI[sha256sum] = "ee9b6c75d13ba096907a2e3c6b27b61bcd17f5c7ebeab5a5b439d2f2e39fe44b"
  
- CVE_PRODUCT = "libsoup"
+ inherit meson pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gi-docgen lib_package
  
 -- 
 2.30.2
