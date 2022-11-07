@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 852EEC4321E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7710EC43217
 	for <webhook@archiver.kernel.org>; Mon,  7 Nov 2022 14:55:32 +0000 (UTC)
 Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web08.4304.1667832928871683551
+ by mx.groups.io with SMTP id smtpd.web10.4291.1667832929812357582
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Nov 2022 06:55:29 -0800
+ Mon, 07 Nov 2022 06:55:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NcmwDvWm;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=MfqJXUFO;
  spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id bk15so16552020wrb.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 06:55:28 -0800 (PST)
+Received: by mail-wr1-f54.google.com with SMTP id z14so16606349wrn.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 06:55:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ha7ye/A9Ni+tMVN4mPgXmAFzuGPh5ibnf9cwbjyL7jg=;
-        b=NcmwDvWmLLUEgSlckDMk4VOvDP/UtuoEoN1JcD6dllAMRNIzkiq/Mp9SQrM2weDVxI
-         AaFifa4aaowB5cmwuVbiRJah16M0maUlNdQprldfE3+ckadFwr6yjMZRLQ0vdm8Qvhhd
-         dZ2ACsjuoLte+mgqb7XohggQt4EubohM8dLZ5sRZ1zmA5O98TX2TNRSaqGwOkP5wUSw2
-         XFbOjSW0w0JlFlBgkgZzVvM4qmUpWyXWtWNEoYy/WeA8slO5MlbAdYGoKjeUROyMPyOv
-         F4AVDsngVKoq7MDgT/TX+NYJE/RRxny0MJZ/phxd7JX+QKh3t/mtFii1chtxpB8zuGxI
-         /TUQ==
+        bh=VwMpGxDCZlFme8oJrOmkgKJ/8Pw/9gRH1baDSrReni4=;
+        b=MfqJXUFOLZGvcb0ikvZWf6tLXGb1njqBj+hdqj3uKKYifgIJLWMAfhugibwVptNBTH
+         tXaK4ZhwT2gF6lRvlmSzZ7IgWyURWVBoMCYQ1FOBEaxyumI+fluyzWH7QW1vZ8y5uXcn
+         or9LpSPmHrPYahsPqDJp3hNoHFtFFu0c57TGyxXsPFa0U+rm1S0gm7FuFr12EMS9kDx7
+         NtpPi+2uKh5To9xTYB4G7jj/K/Pf6h/AoywrBQLbliwWLbj5lsq1N1yMq1M/2W64VKPz
+         Xs2LHMDzHa8Eq9WN4pRlObMcpZUPw31odYzZkHvjSVPt7cYer44lzcvnln71eLAVenOJ
+         WY7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ha7ye/A9Ni+tMVN4mPgXmAFzuGPh5ibnf9cwbjyL7jg=;
-        b=2y53m1lixeL2V3/oBhf3f0VfKm68II+3MGe3+ligkoBALN4QO5nIzL6HX5HVfdJiaG
-         EOQ/TDeFCFSkotrojR5kiCyPBfkS0fA193UzYiG4UHyGvFI3RYVYTZAliubJAVZzDT7W
-         zATrr9/e/qoZihzELV4sAt+CtrumjcBYD5Xt/5YAe6bDTEYALmDWu0SfZZfx0V4hdfZr
-         xPy9oYsyeNfWga+G+4TZDbKhJUYplMCRpiznm+ccH0aOrTraLl5xXVtWIndlrg8RFk9i
-         TlV3KtNxq27VrC7kT/9U5zsN/WV+G5L+t+GC4+8YbznRms2U4d0nz0OYFRnHT//G14U6
-         k6+w==
-X-Gm-Message-State: ACrzQf3RPX5O+anL/0EzxqAoy0u/+OxbMzdCycaQlA8anObxonuzpj2v
-	lewc/AkGXCkc7leBgLzacPx7RWHtKWc=
-X-Google-Smtp-Source: AMsMyM4H5rMrZdaHrBD17Y3tOWaiS2Eh7ZWHOZvgL7zBy9uwNwlOX9BV1f3yXGHfCccfrRzjFcgyqg==
-X-Received: by 2002:a5d:6485:0:b0:236:4ed2:409c with SMTP id o5-20020a5d6485000000b002364ed2409cmr31605338wri.110.1667832927411;
-        Mon, 07 Nov 2022 06:55:27 -0800 (PST)
+        bh=VwMpGxDCZlFme8oJrOmkgKJ/8Pw/9gRH1baDSrReni4=;
+        b=gevfsUhaBtn/5Zw4+q/3+lqA4XWXF1P59uXGsnXNggGshYGyotzVqig3YgnAQ9XdDI
+         v1lnBFBEwmJ0SbnB3Q3jMPuX5BxThWMvBFBvGKH4YZlYXJvRylIceqyG2N0ICduB9iBD
+         5VjeCxTDHLn5BXcz8dhfCxDLlfinhe6WvudA9SRpGD4/GwrQ8tfOjKyyFmlQ6PUOuPW0
+         5zc5i6ZaELB8RtAwqhOvSxeGIO5McENDFbNlafHyYJnjNLpT15JQhisOIpmcfvK8geyy
+         LZLL99MLq5KTAM8P6U8m2xOpEIO1Y4D6eWPEoUeO4IblTN/joQVn5rkphfTd1jrx67PG
+         WUtg==
+X-Gm-Message-State: ACrzQf3eijBzPlH1MoMmoFzLoumIB3vncaQWyaeGp/RxR2D4zGwv6p81
+	Hg70w1GoNJP+YC8Pt7D1Qvf3D3L+RSo=
+X-Google-Smtp-Source: AMsMyM49gztZPDHmdXNvdpkR5N0mo0y6atCxaz80PtX9SpFGNht+38VjLyCHQCXGgMIYrhu5CAC6mA==
+X-Received: by 2002:a05:6000:1241:b0:236:8a38:6744 with SMTP id j1-20020a056000124100b002368a386744mr33170661wrx.270.1667832928243;
+        Mon, 07 Nov 2022 06:55:28 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id s13-20020a5d69cd000000b0023659925b2asm7460440wrw.51.2022.11.07.06.55.26
+        by smtp.gmail.com with ESMTPSA id s13-20020a5d69cd000000b0023659925b2asm7460440wrw.51.2022.11.07.06.55.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Nov 2022 06:55:26 -0800 (PST)
+        Mon, 07 Nov 2022 06:55:27 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 15/48] python3-git: upgrade 3.1.28 -> 3.1.29
-Date: Mon,  7 Nov 2022 15:54:35 +0100
-Message-Id: <20221107145508.1051404-15-alex@linutronix.de>
+Subject: [PATCH 16/48] xwayland: upgrade 22.1.3 -> 22.1.4
+Date: Mon,  7 Nov 2022 15:54:36 +0100
+Message-Id: <20221107145508.1051404-16-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221107145508.1051404-1-alex@linutronix.de>
 References: <20221107145508.1051404-1-alex@linutronix.de>
@@ -62,29 +62,29 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 14:55:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172865
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172866
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../python/{python3-git_3.1.28.bb => python3-git_3.1.29.bb}     | 2 +-
+ .../xwayland/{xwayland_22.1.3.bb => xwayland_22.1.4.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-git_3.1.28.bb => python3-git_3.1.29.bb} (92%)
+ rename meta/recipes-graphics/xwayland/{xwayland_22.1.3.bb => xwayland_22.1.4.bb} (95%)
 
-diff --git a/meta/recipes-devtools/python/python3-git_3.1.28.bb b/meta/recipes-devtools/python/python3-git_3.1.29.bb
-similarity index 92%
-rename from meta/recipes-devtools/python/python3-git_3.1.28.bb
-rename to meta/recipes-devtools/python/python3-git_3.1.29.bb
-index cdcd862be2..e75f8b4e3f 100644
---- a/meta/recipes-devtools/python/python3-git_3.1.28.bb
-+++ b/meta/recipes-devtools/python/python3-git_3.1.29.bb
-@@ -12,7 +12,7 @@ PYPI_PACKAGE = "GitPython"
+diff --git a/meta/recipes-graphics/xwayland/xwayland_22.1.3.bb b/meta/recipes-graphics/xwayland/xwayland_22.1.4.bb
+similarity index 95%
+rename from meta/recipes-graphics/xwayland/xwayland_22.1.3.bb
+rename to meta/recipes-graphics/xwayland/xwayland_22.1.4.bb
+index da1b27525d..8597d07a7d 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_22.1.3.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_22.1.4.bb
+@@ -10,7 +10,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
  
- inherit pypi python_setuptools_build_meta
+ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "a712eb7bce32cd934df36814b5dd046aa670899c16fe98f2afb003578f86a1c5"
++SRC_URI[sha256sum] = "5c39bdd77444c3fa7a0e2ef317ae69ddde89a901dc8914dbc8eac39a9313512a"
  
--SRC_URI[sha256sum] = "6bd3451b8271132f099ceeaf581392eaf6c274af74bb06144307870479d0697c"
-+SRC_URI[sha256sum] = "cc36bfc4a3f913e66805a28e84703e419d9c264c1077e537b54f0e1af85dbefd"
- 
- DEPENDS += " ${PYTHON_PN}-gitdb"
+ UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
  
 -- 
 2.30.2
