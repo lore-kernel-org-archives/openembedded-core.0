@@ -1,124 +1,102 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7573BC433FE
-	for <webhook@archiver.kernel.org>; Mon,  7 Nov 2022 14:41:22 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web12.4071.1667832078203573468
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92791C4332F
+	for <webhook@archiver.kernel.org>; Mon,  7 Nov 2022 14:55:22 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web10.4285.1667832920515670336
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Nov 2022 06:41:18 -0800
+ Mon, 07 Nov 2022 06:55:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=JDtRw2GC;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 0A4CB1C0009;
-	Mon,  7 Nov 2022 14:41:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1667832076;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PZT8Pc5EUhK4SacqOBUs0iKnk8J2RC7ypckDm9RcLoc=;
-	b=JDtRw2GCzyWnLHYkMLrZOlmuJiB5JTk0oGrWcghar09t7JbbmjPjb9f4UBxBvuKrpVbLub
-	4pSaI4zbNk0Xp+lx+RM2NE0u8S7bpqapORx+mtiEGs+dh3lMUPFr2it7+utQUSmUwmcRqZ
-	opP/p40U1kQ0w1q4JVw9oO+Na43G+d4NxFu7NcR6U/SfGUK7rk9G7ikMd8yHiRR41RbpNL
-	extIWLdTFGK5izW9CqNbc07k7Fh9TRSSdIkQCLRIc7q6atF9iyjZ097TctyU4vkx/qJLsZ
-	YFwZqXe3xWx/Pgxkf1ovRWch8CRdp1lScIDaoraPaAKoWOpzwzmpW/8cEM2D9g==
-Date: Mon, 7 Nov 2022 15:41:15 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Livius <egyszeregy@freemail.hu>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [master][PATCH v2 1/2] image_types: Add 7-Zip support
- in conversion types and commands
-Message-ID: <Y2kZC0uwAuBEGtMC@mail.local>
-References: <20221107123733.912-1-egyszeregy@freemail.hu>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VO7Oy2uO;
+ spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f50.google.com with SMTP id h9so16654337wrt.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 06:55:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QQ10OIxiwH+vCA9KybsLFdcV5RLUoHo5LXDfa62yNEg=;
+        b=VO7Oy2uOcWfkN6h8mDq5URi4kSiXSsIVO6jKjr3Q7k/mZ6nIHVg8y+pmlkbrX9W9Wt
+         HJOmUrQA0i6t3SoYaRfSPvLxoWN6zR9b2TF4YM1dc9Xz1IaB1DcMDol7jfxlsS85YoVz
+         udqKslUSvgrkEbo+PC2Qz/Me4SSkhrhJ2BXJNRYIXom4OYC/kKlhS8VGHPCaL1Qtb3zX
+         Kv13B0yHIMdSUtVioLCmAJffjtKTzeRYZHcEK4ZFugyXLF+SNpO/eWcJgHZsSWlnrs26
+         Ien9nL+PMWDnSQ7dy0nKEoX6asYlma1ZEOT4btfv8T4AwrxETQ1j5q83lYKI268IWpIC
+         CWGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QQ10OIxiwH+vCA9KybsLFdcV5RLUoHo5LXDfa62yNEg=;
+        b=qKaj2aJ/n8N2yoHTHEyJauoRN0Avgo7gIx0fkpG6ro/8RSXtMkVAxUUyeRtlMs8bMf
+         ZSyORjMBlXlP8yfJdk71hMjvCPPcvEXWXRRGcJ5EgT9Uhn2+U44WH0FFCPIVTO071dhk
+         bJ0vYETpmbYLsgsjnWZUwOXZ7gdePN747YKDhbHM3gq1KnAPIjdpfyyRvTSlRYJAsyTk
+         kI8udanVI/uqdPyZ9i++q5cF4X4YFnC1/KBqryb2JO8dkF8edwwOWlsLnUzo/nfqUN90
+         B/d+TYlQ4C10W6A3X4M9fjYReF8wlKhCXkVWUAgLqMUX9EbKpcWB7B5h5623Aydv/xcF
+         uicg==
+X-Gm-Message-State: ACrzQf2f6grlqgzwl/CWeTeRLt6ACecR/hM23BrlwR8iXA4a3GDy2ZFD
+	ZSgHDPYQjvvRzY3tpAw1obwC7UEh1Yk=
+X-Google-Smtp-Source: AMsMyM52wiuEJNke7TzORG3uxkNS8k38mCCbiQL2TKrOJ7ddZkZm7wwpPZUDbrW32EmJZDMlqSz7Wg==
+X-Received: by 2002:a5d:5e8a:0:b0:236:cdf2:aa33 with SMTP id ck10-20020a5d5e8a000000b00236cdf2aa33mr26725699wrb.713.1667832919012;
+        Mon, 07 Nov 2022 06:55:19 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id s13-20020a5d69cd000000b0023659925b2asm7460440wrw.51.2022.11.07.06.55.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Nov 2022 06:55:18 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 05/48] ccache: upgrade 4.6.3 -> 4.7.2
+Date: Mon,  7 Nov 2022 15:54:25 +0100
+Message-Id: <20221107145508.1051404-5-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20221107145508.1051404-1-alex@linutronix.de>
+References: <20221107145508.1051404-1-alex@linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221107123733.912-1-egyszeregy@freemail.hu>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 14:41:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172850
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 14:55:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172855
 
-Hello,
+License-Update: formatting, years, removed redundant copy of a boost license
 
-On 07/11/2022 13:37:32+0100, Livius wrote:
-> From: Benjamin Szőke <egyszeregy@freemail.hu>
-> 
-> Add 7-Zip support in conversion types and commands. Default arguments of 7-Zip are compression level: 9, method: BZip2, extension: zip. All these are overridable from local.con for any other use case in user side. First goal was to make an alternative zip conversion which can operate faster in multi-thread systems (on many CPU core), normal zip is just a single thread compression. 7-Zip can do a zip compression in multi-thread processing, so it is fine to use and speed up it.
-> 
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ .../ccache/{ccache_4.6.3.bb => ccache_4.7.2.bb}               | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/ccache/{ccache_4.6.3.bb => ccache_4.7.2.bb} (82%)
 
-Could you also wrap the commit message?
-
-Thanks!
-
-> Signed-off-by: Benjamin Szőke <egyszeregy@freemail.hu>
-> ---
->  meta/classes-recipe/image_types.bbclass | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
-> index 764e6a5574..f70c71b9d4 100644
-> --- a/meta/classes-recipe/image_types.bbclass
-> +++ b/meta/classes-recipe/image_types.bbclass
-> @@ -59,6 +59,10 @@ XZ_INTEGRITY_CHECK ?= "crc32"
->  
->  ZIP_COMPRESSION_LEVEL ?= "-9"
->  
-> +7ZIP_COMPRESSION_LEVEL ?= "9"
-> +7ZIP_COMPRESSION_METHOD ?= "BZip2"
-> +7ZIP_EXTENSION ?= "zip"
-> +
->  ZSTD_COMPRESSION_LEVEL ?= "-3"
->  
->  JFFS2_SUM_EXTRA_ARGS ?= ""
-> @@ -304,7 +308,7 @@ IMAGE_TYPES:append:x86-64 = " hddimg iso"
->  # CONVERSION_CMD/DEPENDS.
->  COMPRESSIONTYPES ?= ""
->  
-> -CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi qcow2 base64 gzsync zsync ${COMPRESSIONTYPES}"
-> +CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip 7zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi qcow2 base64 gzsync zsync ${COMPRESSIONTYPES}"
->  CONVERSION_CMD:lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
->  CONVERSION_CMD:gz = "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
->  CONVERSION_CMD:bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-> @@ -312,6 +316,7 @@ CONVERSION_CMD:xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_DEFAULTS} --check=
->  CONVERSION_CMD:lz4 = "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
->  CONVERSION_CMD:lzo = "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
->  CONVERSION_CMD:zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-> +CONVERSION_CMD:7zip = "7za a -mx=${7ZIP_COMPRESSION_LEVEL} -mm=${7ZIP_COMPRESSION_METHOD} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.${7ZIP_EXTENSION} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
->  CONVERSION_CMD:zst = "zstd -f -k -T0 -c ${ZSTD_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zst"
->  CONVERSION_CMD:sum = "sumtool -i ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
->  CONVERSION_CMD:md5sum = "md5sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.md5sum"
-> @@ -337,6 +342,7 @@ CONVERSION_DEPENDS_xz = "xz-native"
->  CONVERSION_DEPENDS_lz4 = "lz4-native"
->  CONVERSION_DEPENDS_lzo = "lzop-native"
->  CONVERSION_DEPENDS_zip = "zip-native"
-> +CONVERSION_DEPENDS_7zip = "p7zip-native"
->  CONVERSION_DEPENDS_zst = "zstd-native"
->  CONVERSION_DEPENDS_sum = "mtd-utils-native"
->  CONVERSION_DEPENDS_bmap = "bmap-tools-native"
-> -- 
-> 2.38.1.windows.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#172837): https://lists.openembedded.org/g/openembedded-core/message/172837
-> Mute This Topic: https://lists.openembedded.org/mt/94864714/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/meta/recipes-devtools/ccache/ccache_4.6.3.bb b/meta/recipes-devtools/ccache/ccache_4.7.2.bb
+similarity index 82%
+rename from meta/recipes-devtools/ccache/ccache_4.6.3.bb
+rename to meta/recipes-devtools/ccache/ccache_4.7.2.bb
+index bc1be92bff..b8598af639 100644
+--- a/meta/recipes-devtools/ccache/ccache_4.6.3.bb
++++ b/meta/recipes-devtools/ccache/ccache_4.7.2.bb
+@@ -7,14 +7,14 @@ HOMEPAGE = "http://ccache.samba.org"
+ SECTION = "devel"
+ 
+ LICENSE = "GPL-3.0-or-later"
+-LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=7a19377a02749d8a1281ed608169b0ee"
++LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=8fc2cae2bbabeb9236cacfa1c83a3dc5"
+ 
+ DEPENDS = "zstd"
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
+            file://0001-xxhash.h-Fix-build-with-gcc-12.patch \
+            "
+-SRC_URI[sha256sum] = "f46ba3706ad80c30d4d5874dee2bf9227a7fcd0ccaac31b51919a3053d84bd05"
++SRC_URI[sha256sum] = "6b346f441342a25a6c1d7e010957a593f416e94b5d66fdf2e2992953b3860b9d"
+ 
+ inherit cmake github-releases
+ 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.30.2
+
 
