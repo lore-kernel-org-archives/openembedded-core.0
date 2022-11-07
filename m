@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFA45C43219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7978C4321E
 	for <webhook@archiver.kernel.org>; Mon,  7 Nov 2022 15:37:10 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web10.98.1667835424175059788
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web09.95.1667835428798989482
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Nov 2022 07:37:04 -0800
+ Mon, 07 Nov 2022 07:37:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=3PIhNsqU;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f47.google.com with SMTP id m6-20020a17090a5a4600b00212f8dffec9so10686350pji.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 07:37:04 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=XlBY0LbU;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f175.google.com with SMTP id r18so10754284pgr.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 07:37:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CeVJxbaNcqlS86QyypG1KXW3HDyxFyoadYaH2Sh8pOg=;
-        b=3PIhNsqUmEtHiAHcQWPduA3LHiaMayf7ki+5wm49TzVDGmVBVoFsX7qCgHklMvgAsg
-         74jZh+SfoCV4dd47xMR5dS5SVl5h8HmDRBPlmTkrX7KMxAABFV3M7ABp+oDuAc0Dsh8V
-         6Hdug9g4JcN0q8ZqPkE7dVGBl3yROLUYMF+IBO0w3O3sNWFw2LuUUt9iAZcPKHbE9YsK
-         g6uIbwe00R7Z5LIF5U+bkRQ6Vn/ijb2vtDQSU47jvGFzmoPONsbIah8+hAuWbfv/l0mc
-         DAV/wLvSmzEYRlma6hNMau1n7AerBrt3qzowUA6ZMkkIEDNxAe3Hlv5LyVmRjWoNv6wa
-         oPxQ==
+        bh=B58JzzQ9NL+YaTWMoy5VTd83QDarkuXZJn8ocV4v7z8=;
+        b=XlBY0LbUxxhFd5n+DEWOtIMglHbACdnBdOkjwX/yxyD2XSqa0C7JHTUymG2UU5gzb7
+         pWW/UCLKcEQWKjmhmOXEQ/gqxCoy/GHiTtyMvc8n+1qasu5dA3yAs7wsHAIi6URk71Ih
+         vR6ZIFzhoZ7jcAjH42GCosQShdDk7xQ7F3kR+wGHHdM0yWPwuAikc4Wzz84pwoySn669
+         aaZaQoFmGewQnP2krEb38M81YoivS0TSBMz9k/0dPhJrmGD6m6r0wXtcbTDCObdcbph8
+         N8Lx+I13afLp0nhmXUIVXuTvroz5u2k6DCul+8Ik6rA0ZX95w7OUOs8+9IOTtnBzfgBZ
+         Gl+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CeVJxbaNcqlS86QyypG1KXW3HDyxFyoadYaH2Sh8pOg=;
-        b=8JoPllphKbZL/rauaj73ZlfMx+BvctcNbW2MMZPya29FWb8/k14G3L6cShMhGohBTs
-         9gKKk3ESafxfyLo3S97fwTyDHERdOsg759Nbh/FLXkh91F/xvTQQuYx7yBTBVBnoxnpW
-         yyW9imxCW2b1VA2+6LF1g4PAxQuqtU/wi6UNYaz42gwOXGXKEJiZ01kqehlT275xdI0H
-         z1bgQFpKLPtul9qUq2CSes31vO+CNJGGZ9pD9B960jjl1TWK+vG0CtRs68J9urxgMBi9
-         5YuUogEDHxPMWYvBEi/XYTXAIje4AiaNoVs4y3luUtKVd2RFZJQn2INbhopfO+flfWo5
-         pqVQ==
-X-Gm-Message-State: ACrzQf0/Mzmw9K+xU9/cgXAUqAH7jlsi+VjI1rtcUhu2Rt3Orkt+uXkN
-	BDsV7xGMwkAySAq2xpAk/t2ANQ3DzFvZk1cd
-X-Google-Smtp-Source: AMsMyM7Qt8wtEmIib7Wl7z0sLA74tLgvdu6i/CFLJd2ncdekiDHJNlwLwHTJonnKiK4ROASDE12wdA==
-X-Received: by 2002:a17:90a:6c41:b0:212:fdaf:d79c with SMTP id x59-20020a17090a6c4100b00212fdafd79cmr51134939pjj.134.1667835423276;
-        Mon, 07 Nov 2022 07:37:03 -0800 (PST)
+        bh=B58JzzQ9NL+YaTWMoy5VTd83QDarkuXZJn8ocV4v7z8=;
+        b=1AB2AG5kmFKSZqTW8OPl0vT/tYgCIM+mAfSs5eLkDOe9pE0d1CDX+UBormd9BYkaPJ
+         jskpF/YX1pV12tTGrdJU2CsTZg+uNcDXaStSIBkCgMKrqmSH6MdslCe/31AOeJdmRgVI
+         FY9T2wir6X1KTBokhg7crdmeMq/rMS7PRGmZiWWHPUMaoQUbtqn4r8XjxbIqm1EeFvGj
+         Btd6nHyB4lp8ouFrd2IYNuGUr7ec23SI1JRCcLSe78YRredfJW32NrkfL4u4SpPDvBrH
+         CXJY2bwXuXdzCx+waKnUVdtqizlikQs+ZzfbzFoFlNjg9kVa4lQEO7NL8YRQyflsw/RU
+         Q6Vw==
+X-Gm-Message-State: ACrzQf37i1ZaPQvdKDEcp9apSKqWXlXxPqX/n4YhszZQFPwDrwZIyJwg
+	QW691yNjaFI2/AQeUwA4WADKNOT8J7HOYaDQ
+X-Google-Smtp-Source: AMsMyM5ifA6yzGoM/YIzmbqqEXrJh07rr9JuuUdXhmKnP8f0QCtXkE7O6H9z9lr4x8C5tCZvkM9Z8A==
+X-Received: by 2002:a63:ff10:0:b0:46f:efa0:2824 with SMTP id k16-20020a63ff10000000b0046fefa02824mr27964417pgi.460.1667835427844;
+        Mon, 07 Nov 2022 07:37:07 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id v2-20020aa799c2000000b00561dcfa700asm4628627pfi.107.2022.11.07.07.37.02
+        by smtp.gmail.com with ESMTPSA id v2-20020aa799c2000000b00561dcfa700asm4628627pfi.107.2022.11.07.07.37.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Nov 2022 07:37:02 -0800 (PST)
+        Mon, 07 Nov 2022 07:37:07 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 05/25] wpebackend-fdo: upgrade 1.12.1 -> 1.14.0
-Date: Mon,  7 Nov 2022 05:36:24 -1000
-Message-Id: <d5269e53d936570c875ef743f4ac198bb3658b6e.1667834972.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 07/25] lttng-ust: upgrade 2.13.3 -> 2.13.4
+Date: Mon,  7 Nov 2022 05:36:26 -1000
+Message-Id: <552c17a4c4a9f4efad3d113fe069b2624bcc73b3.1667834972.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1667834972.git.steve@sakoman.com>
 References: <cover.1667834972.git.steve@sakoman.com>
@@ -61,39 +61,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 15:37:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172904
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172906
 
 From: wangmy <wangmy@fujitsu.com>
 
-Changelog:
-==========
-Fixed a crash caused by trying to deallocate already freed graphics buffers in certain situations.
+Bug fix release
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 0db4627fe8c6f8a0080248052dc06419774cba4f)
+(cherry picked from commit 0be632451f4e9a4a6a08d051e6f493715658c23b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../{wpebackend-fdo_1.12.1.bb => wpebackend-fdo_1.14.0.bb}      | 2 +-
+ .../lttng/{lttng-ust_2.13.3.bb => lttng-ust_2.13.4.bb}          | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-sato/webkit/{wpebackend-fdo_1.12.1.bb => wpebackend-fdo_1.14.0.bb} (90%)
+ rename meta/recipes-kernel/lttng/{lttng-ust_2.13.3.bb => lttng-ust_2.13.4.bb} (95%)
 
-diff --git a/meta/recipes-sato/webkit/wpebackend-fdo_1.12.1.bb b/meta/recipes-sato/webkit/wpebackend-fdo_1.14.0.bb
-similarity index 90%
-rename from meta/recipes-sato/webkit/wpebackend-fdo_1.12.1.bb
-rename to meta/recipes-sato/webkit/wpebackend-fdo_1.14.0.bb
-index 5f776c13e6..708201043b 100644
---- a/meta/recipes-sato/webkit/wpebackend-fdo_1.12.1.bb
-+++ b/meta/recipes-sato/webkit/wpebackend-fdo_1.14.0.bb
-@@ -13,7 +13,7 @@ inherit meson features_check pkgconfig
- REQUIRED_DISTRO_FEATURES = "opengl"
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.13.3.bb b/meta/recipes-kernel/lttng/lttng-ust_2.13.4.bb
+similarity index 95%
+rename from meta/recipes-kernel/lttng/lttng-ust_2.13.3.bb
+rename to meta/recipes-kernel/lttng/lttng-ust_2.13.4.bb
+index cc88bf5b11..56200ac3e1 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.13.3.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.13.4.bb
+@@ -34,7 +34,7 @@ SRC_URI = "https://lttng.org/files/lttng-ust/lttng-ust-${PV}.tar.bz2 \
+            file://0001-Makefile.am-update-rpath-link.patch \
+            "
  
- SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "45aa833c44ec292f31fa943b01b8cc75e54eb623ad7ba6a66fc2f118fe69e629"
-+SRC_URI[sha256sum] = "e75b0cb2c7145448416e8696013d8883f675c66c11ed750e06865efec5809155"
+-SRC_URI[sha256sum] = "2cc42f51145050430ac4ab72b32d95fd78d5566ccbe44e14a8fcdd23c0ed8f6f"
++SRC_URI[sha256sum] = "698f82ec5dc56e981c0bb08c46ebabaf31c60e877c2e365b9fd6d3a9fff8b398"
  
- # Especially helps compiling with clang which enable this as error when
- # using c++11
+ CVE_PRODUCT = "ust"
+ 
 -- 
 2.25.1
 
