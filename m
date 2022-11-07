@@ -1,172 +1,291 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <ecordonnier@snapchat.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01845C433FE
-	for <webhook@archiver.kernel.org>; Mon,  7 Nov 2022 09:55:01 +0000 (UTC)
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com (EUR02-DB5-obe.outbound.protection.outlook.com [40.107.249.82])
- by mx.groups.io with SMTP id smtpd.web08.1642.1667814891006048006
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB6ADC4332F
+	for <webhook@archiver.kernel.org>; Mon,  7 Nov 2022 09:55:30 +0000 (UTC)
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+ by mx.groups.io with SMTP id smtpd.web08.1649.1667814928619909086
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Nov 2022 01:54:51 -0800
+ Mon, 07 Nov 2022 01:55:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=dLE5iCpe;
- spf=pass (domain: arm.com, ip: 40.107.249.82, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
- b=VxfQK5AVvvxToxnXvbPraVaVupex5aFfW8RP7FTt7ZnZ2H0gpNHs6m3BQui+jwhx93ry5qi/gGIvRw52vfw5dqOe6e7IDmTaeeRsJXTJ8K8WelkTyLYu/o8IghAjiE8HGiK6vKCu7ZKzYe89C4X3EpTXD5bCZSIxa1ID0P5Ecpp5B22kir49bjVVHzMjsCBnLDI1SnIVTioc6gDoqHpeP82V7WMvuqlyxr35u+pe3tCFZIau2Soc3DJIY/254lF7fOCT40SUPpeDf1hiV6DHd+HfSmI6C6RSrjd67pfjkGStPZZ9v2nnhJZwY9GhuYwvW8hBkP0xxvhoht4VQOJlUg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IFlKTEc8TBfuTKFrw2BmvCAWXyWEDngCzhnDdM6SH44=;
- b=DqKTkZJ9d3SV3/XVTLZneRHrERqhJ7qr/B8N9uV6MqWRugCwkl0GQ1VHfE8aRXxwoN2g9xuIoGbsFr0eU9LlWzNARexv9eF7uT+BACxRntSfeU1AAizG1eESYv86M4H2ed7UPun4wSJk9eUwjf9HMx7VCsU4fPW8mnjNU4eBmX1AEMQeZ3ss5vrLG0aamwGP28SU4KO5lMmYgX1ToOOxZDXt+/6QPcE06DfWz2bNB39nQZjoS1H3aJASV5oxeswhJtnTeA3z2GW5CEC/F9wcKPG7bG3EYN6kPDHNUldEmjHTgNdAARNU3f3PTboCTnPVDrlnXl7XJZEX0zBI0YQneA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
- oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IFlKTEc8TBfuTKFrw2BmvCAWXyWEDngCzhnDdM6SH44=;
- b=dLE5iCpezgh3AxYyzDY3JOOBXYrwDZSvhkBi+2G2DX4KI0gV/mBPadRsBVMKxManDbKPL7RSvq4ieLCOaEP0RaPUF7vYcei6gGLgLD9mKLIMWiy0mmWtkN0ycIs/2I+PGWR4sz8TD8Vh0hr46fY1Nzva7JE4nsGGC8LBnupPZXY=
-Received: from FR0P281CA0147.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:96::11)
- by AM9PR08MB6660.eurprd08.prod.outlook.com (2603:10a6:20b:305::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.11; Mon, 7 Nov
- 2022 09:54:48 +0000
-Received: from VI1EUR03FT046.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:d10:96:cafe::36) by FR0P281CA0147.outlook.office365.com
- (2603:10a6:d10:96::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.11 via Frontend
- Transport; Mon, 7 Nov 2022 09:54:47 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- VI1EUR03FT046.mail.protection.outlook.com (100.127.144.113) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5791.20 via Frontend Transport; Mon, 7 Nov 2022 09:54:47 +0000
-Received: ("Tessian outbound f394866f3f2b:v130"); Mon, 07 Nov 2022 09:54:46 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: c14084d823fbdf0b
-X-CR-MTA-TID: 64aa7808
-Received: from ad6938e4b2f1.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id C104BA70-9171-4EDC-80BC-EF9D8D5556A3.1;
-	Mon, 07 Nov 2022 09:54:39 +0000
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id ad6938e4b2f1.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Mon, 07 Nov 2022 09:54:39 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kFV5Xb3QhY1pkNNbSx0qudjmZbbbH5wTjx30Zez3axO0aNAqOWqCwvXZFNrWE/1s8AlZkZAHOc8Hj1tGXuERhVrZWZin5jLUr6K+Ko3exHxfYDaUPWjEjx1cee+xo7aFMCxrBLxmyvpA5z7H3SuBXS1f5HIud4kVjSQspW97WTlAs6Jgmxp0Q+1Vkqjh7RgV3r4QXaWfigGB7D8Eyen03JT6SsquXewlNz1phiWPM67ljsWd7paJtgR3ojPclzVU2fa8de8LPALkrdkS1cpTMzPh7QWutByse2T5L4N4hMFhVaZpe8LIkWexPtT6fEde014daaIC3yddPdTlusegCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IFlKTEc8TBfuTKFrw2BmvCAWXyWEDngCzhnDdM6SH44=;
- b=F7IGO8XDsfr/NA1RvBxICrMhgJlPnEt+Xe+glo9sE6VWX7wey4pyxcoTlaKaNrfstXV9cUZv7hZQAuo81jO7DRx7VejHgN3kPFwxt0WOvbR2RWa2pjxPeuV2dVX48cdDry3aJ36EIuPyT0rddpCBYRwr4QrPaUiS/VrsXQB2Fbe9LqDw5yEIJa/JFnhpTliKiSnoEn52JTbrAKSWzBK7Cz6Q6Qfm+hZk83cl155uCgTeyZPdW2lZfTl6xow2/mxSN2P2aC9MxFErzrcuVR7kAH//LQToC2A4JxnFdDIAzapbfmsLfByd6QIjpLCIRO65Tw2yPmsT2MCTOMhTioZNYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IFlKTEc8TBfuTKFrw2BmvCAWXyWEDngCzhnDdM6SH44=;
- b=dLE5iCpezgh3AxYyzDY3JOOBXYrwDZSvhkBi+2G2DX4KI0gV/mBPadRsBVMKxManDbKPL7RSvq4ieLCOaEP0RaPUF7vYcei6gGLgLD9mKLIMWiy0mmWtkN0ycIs/2I+PGWR4sz8TD8Vh0hr46fY1Nzva7JE4nsGGC8LBnupPZXY=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by PR3PR08MB5852.eurprd08.prod.outlook.com (2603:10a6:102:8e::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.11; Mon, 7 Nov
- 2022 09:54:34 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::af9:29f:ae3b:108f]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::af9:29f:ae3b:108f%5]) with mapi id 15.20.5813.011; Mon, 7 Nov 2022
- 09:54:34 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: cp0613 <cp0613@linux.alibaba.com>, Openembedded Core
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Private: Re: [OE-core] [PATCH 0/1] add python3-brotli_1.0.9 in
- meta/recipes-devtools/python
-Thread-Topic: Private: Re: [OE-core] [PATCH 0/1] add python3-brotli_1.0.9 in
- meta/recipes-devtools/python
-Thread-Index: AQHY7/GErWj+qGuBUkub8wYtgs28da4u2ZgAgAEfUYCAA0UIAA==
-Date: Mon, 7 Nov 2022 09:54:34 +0000
-Message-ID: <65FD2834-713C-44D8-B748-13ECE33F41AB@arm.com>
-References: <F334F7CB-A181-4439-A050-47F8043125D8@arm.com>
- <31379.1667635113750086818@lists.openembedded.org>
-In-Reply-To: <31379.1667635113750086818@lists.openembedded.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.200.110.1.12)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|PR3PR08MB5852:EE_|VI1EUR03FT046:EE_|AM9PR08MB6660:EE_
-X-MS-Office365-Filtering-Correlation-Id: 012f9359-eb4d-41ee-f83e-08dac0a61add
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- sWKyLy1K+0PsA9Lby0BiMCkwqyP6S4bIgyPbX7UCZzM+43laCxKg4EWw/oKtDJabCs8K+LrIUK4F/OXXU+Pgk+VCBxCgDZGrjzi30K0FtbBkNcAP4oMWOjbFgjGTYMiim+bkObg9Js29ajuN/Wsm2vOshy4bGloP+aFqXK6oaVq5n638QkUWsE2p2EIu61m7lnbmYAplekVJUFHkdMUb0MQnRcUYkfcfQGpr8iz6cmQ07drKXy+mawqh1T1I/Ihp3opbLTDlvWEK43YYwDoqGbRTBT85wQCzz/jiHwVcPtchWLc0etm/gmz0x0Sb6gtdDlGPvxbL4GUpk0zcZAgHXVbHb7kkoNItCyH449B9iMVFvB5q58A4C8b12ZNLuMvadaD12DMbwdg2BNn3MQ69GTnmwhZ93VtFT7ox5dWzVEJyaam6cq4Z9YkcEgkBCicvnxurKl8nsavENETMPYAid5pVSrYFk+Wy1V4YzmI4wsAiS4VjBADvk9xMxrYu7bWsz9JA1HfbgzWbEgis1YtsTt05aaGDhmhhBlq8Vp14dsXX6cuI750yzafNxQ97ftgvK2HlXnzzdKGcsHM2fyyDzJYtZyYHBzLYGQEXhsHCXskznSKiMBWdxZNILltSuokVkR4RpIkOyxpckrzYN97jDhAxN7JYWEgHN+dFCvDU3gUtoxZZXphaDBCh6wSNJUza4lP+9nB9RointYXyirZRp9xc21zR2Ry4raqXldsGilNlVdTs9W0WH8lQN1ECSsA+t1Yd6FR+WRyw63+ac6pWEHQQCFImIqSxGX9RrI8/QBw=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(366004)(396003)(39860400002)(346002)(376002)(451199015)(186003)(36756003)(110136005)(316002)(2906002)(6486002)(5660300002)(38070700005)(76116006)(478600001)(71200400001)(4744005)(41300700001)(66946007)(66446008)(64756008)(66556008)(66476007)(8676002)(91956017)(8936002)(33656002)(38100700002)(26005)(53546011)(6512007)(2616005)(122000001)(86362001)(6506007)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <3B3AA5F52458E54C9EC9CCF50F0F913C@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@snapchat.com header.s=google header.b=h3aNBHif;
+ spf=pass (domain: snapchat.com, ip: 209.85.167.169, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-oi1-f169.google.com with SMTP id p127so11545915oih.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 01:55:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=snapchat.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=7C482Ttkp0x1D56TD0dSxH9jmPA2787hqFgPmPVhVR4=;
+        b=h3aNBHifI+xY/LiRa0xc/wVFIfGwbyuVSYsfDB6SvqMU529bX3ubvjwh0J1NDrRiRS
+         wSGDh0kaZw+zeVhWSCq6U1/6nr6TSn4Q9IpEMgNrk7azPl7fqO1QvJAHLlXiVW4AuW8s
+         vk6FckA5kSJ0UW9MroWb+JhvUHa1Cbp/60Qm0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7C482Ttkp0x1D56TD0dSxH9jmPA2787hqFgPmPVhVR4=;
+        b=hWK+/SBWUdQ/+YZJDDQoodux/uEE28VP7HsAJUmfJd375+x+UL06UrGSibCGKcywEU
+         ssVrnatHtb4D1vATSytXkTiW0eL6AaIfdVC8aYNci0BIg9ZAVuSQzO2IOaQcdTwtWqeG
+         MTksaM1ilcK3IeV1qLfPXbuZbBvTynCGkbJMV2tuUIQaZK16sCGohDwWQNTsOfvoezY9
+         jc9JiWC+Je3QeQCm0zqU1tf6NPdTNyIun19VemWOuaIQvkWzzNO+Bc1dZu4/P4fJlrG3
+         UahdBtausafJI1bvG4VfQg8584GJBs52FDEnUekIOteMS2U54HIGNFDrLOyHQtZogiJ8
+         fIfQ==
+X-Gm-Message-State: ACrzQf3kv2J4Y4pUuUZFnqyukCB1N5dmSHeC0sry+L2i5tuitped+bxb
+	GLifeyIIZ9NGnXZ+lY/9xd57lmfmUNh/FJ42gba5Pg==
+X-Google-Smtp-Source: AMsMyM7GrvP8QLRMk4pK+mlLB40eWRfk7HZYOldjDKawmxZ2vH04tnj8d5mol2havdgmJqboGK0RqEgAmFrfcONkZQ4=
+X-Received: by 2002:a05:6808:1206:b0:359:54a3:b6ba with SMTP id
+ a6-20020a056808120600b0035954a3b6bamr540492oil.111.1667814927678; Mon, 07 Nov
+ 2022 01:55:27 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR08MB5852
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- VI1EUR03FT046.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	1a8530f8-4822-4830-dd50-08dac0a61364
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	jhpS1/AnDYG6zRJ/Udp/DFcc41NBIe7wXRSso987cOr+sHC1y87q5uzf/JV2ouI9dWNS9XAa01qo90PJ5Yc7sFehoSE5CZbA0yk4rhGxXbzFt/i4xEFPBL+yixtl1pw7Fdj8si/m4/nCwuBQyVvXMmrkGbueaYrkydRVo4jSYCP1PrPOMdChmbkR9j9RIS8HC5vlmUmk5V0ZMdwVGmVdsOOa/JPR2hHN7fZpg4kpjrHsIRThXzDuspU/9qCYdvKV++vQ+rjXWz7dP4XmIJ70JEvs2Qps3etDVqAiWIK0+4+pwYlUn1IIodTVde8M2mNmtItHHG6X3RbsIRTPGAts4gFRouHWDAhoR2uXWxeZD6UmxDu+UtQSR4NMYsKBJPEdQNBPrfOboCEddPjpDPPLKwOujZHrLCEVgvD8r6JiNAimOY0EHi84AM3HxwTKE1DLqcitzy/egB7SOhXe9vVmNhXtMIxWV27/Xmo1oqPmlwTAaLHJ+l99qWvzmcuitQuqn8ZKwfPwpLFA4vCnKeu8EfdxnvzMmBoEbBCAY4UrJccPMlovU5cJrnoX2xWvt6CIYLb809spXXU1FTA5oNJsLPCoAfaEd0nbrifGeATNgerP1KWhzOkEmzchygfmhkRBTIydmr9/nY1Ja5cNkLpqbJYCykCt8KlYMCwm0G1XSVjLDsLCgNF3o3NU8i4x/59LeCplxH2jQLAqcEQ8qaEAy6jmQAIW6sBsZC7w08P5B8D/epu/386uRHke3/7N3MQe5aGfqVKdKgURthYmKky/5A==
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230022)(4636009)(136003)(346002)(39860400002)(376002)(396003)(451199015)(40470700004)(46966006)(36840700001)(86362001)(47076005)(2616005)(36756003)(6512007)(33656002)(6506007)(110136005)(53546011)(26005)(186003)(336012)(316002)(82740400003)(2906002)(40460700003)(81166007)(356005)(8936002)(36860700001)(5660300002)(70206006)(70586007)(4744005)(8676002)(41300700001)(40480700001)(82310400005)(478600001)(6486002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2022 09:54:47.2642
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 012f9359-eb4d-41ee-f83e-08dac0a61add
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	VI1EUR03FT046.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6660
+References: <20221104142443.1728589-1-ecordonnier@snap.com> <Y2fadQvhPh/wHFRK@mail.local>
+In-Reply-To: <Y2fadQvhPh/wHFRK@mail.local>
+From: Etienne Cordonnier <ecordonnier@snapchat.com>
+Date: Mon, 7 Nov 2022 10:55:16 +0100
+Message-ID: <CAHUKmYY9NggaZo-3n9Yq9BTu-v5kdJtVLtoyQ=LzCPbZ49cadg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] mirrors.bbclass: use shallow tarball for nativesdk-binutils
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Etienne Cordonnier <ecordonnier@snap.com>
+Content-Type: multipart/alternative; boundary="00000000000050e81205ecde6c1a"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 09:55:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172831
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 09:55:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172832
 
-Re-adding oe-core to the CC as this discussion should be on the list.
+--00000000000050e81205ecde6c1a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I suggest you add the recipe to meta-python then.
+I've resent the patch and changed git's sendemail.envelopesender option so
+that the From field matches the email used in the SOB field.
 
-Ross
+On Sun, Nov 6, 2022 at 5:02 PM Alexandre Belloni <
+alexandre.belloni@bootlin.com> wrote:
 
-> On 5 Nov 2022, at 07:58, cp0613 <cp0613@linux.alibaba.com> wrote:
->=20
-> Thanks. This is my first submission and there may be some operation is wr=
-ong. I will continue to try git-send-email.
->=20
-> The reason for using python3-brotli is that this library is dependent on =
-many other projects. However, it cannot be installed directly through pip3 =
-on the RISCV platform. Therefore, we use yocto to compile it. We find that =
-many python bb are here, so we add them here.
+> On 04/11/2022 15:24:43+0100, Etienne Cordonnier via lists.openembedded.or=
+g
+> wrote:
+> > This is useful e.g. when using meta-clang, which introduces a dependenc=
+y
+> to nativesdk-binutils when
+> > populating the SDK, and then a full tarball of binutils is fetched
+> additionally to a shallow tarball.
+> >
+> > Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+>
+> The SoB needs to match the author and sender. You are using two
+> different addresses here.
+>
+> > ---
+> >  meta/classes-global/mirrors.bbclass | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/meta/classes-global/mirrors.bbclass
+> b/meta/classes-global/mirrors.bbclass
+> > index 81fef7f660..8b984de3bf 100644
+> > --- a/meta/classes-global/mirrors.bbclass
+> > +++ b/meta/classes-global/mirrors.bbclass
+> > @@ -91,6 +91,8 @@
+> BB_GIT_SHALLOW:pn-binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} =3D "=
+1"
+> >  BB_GIT_SHALLOW:pn-binutils-cross-testsuite =3D "1"
+> >  BB_GIT_SHALLOW:pn-binutils-crosssdk-${SDK_SYS} =3D "1"
+> >  BB_GIT_SHALLOW:pn-binutils-native =3D "1"
+> > +BB_GIT_SHALLOW:pn-nativesdk-binutils =3D "1"
+> > +
+> >  BB_GIT_SHALLOW:pn-glibc =3D "1"
+> >  PREMIRRORS +=3D "git://sourceware.org/git/glibc.git
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__downloads.yoctopro=
+ject.org_mirror_sources_&d=3DDwIBAg&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2=
+epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DItIZIiBFvPUc7h=
+a-blv_xFb0FMnb2T_GL7CNoIiQdZKZOHxwxi75uwo6Hol3J3TA&s=3Dhk4_w8STTvGIN0VNAn2u=
+zyYG_oOrycryBPA5-pYHAPg&e=3D
+> \
+> >                git://sourceware.org/git/binutils-gdb.git
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__downloads.yoctopro=
+ject.org_mirror_sources_&d=3DDwIBAg&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2=
+epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DItIZIiBFvPUc7h=
+a-blv_xFb0FMnb2T_GL7CNoIiQdZKZOHxwxi75uwo6Hol3J3TA&s=3Dhk4_w8STTvGIN0VNAn2u=
+zyYG_oOrycryBPA5-pYHAPg&e=3D
+> "
+> > --
+> > 2.36.1.vfs.0.0
+> >
+>
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#172714):
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
+.org_g_openembedded-2Dcore_message_172714&d=3DDwIBAg&c=3DncDTmphkJTvjIDPh0h=
+pF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=
+=3DItIZIiBFvPUc7ha-blv_xFb0FMnb2T_GL7CNoIiQdZKZOHxwxi75uwo6Hol3J3TA&s=3DC08=
+MKSdkpczwMDUBLU0lDwc6-divmgE89AHm-eHFcy0&e=3D
+> > Mute This Topic:
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
+.org_mt_94806491_3617179&d=3DDwIBAg&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2=
+epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DItIZIiBFvPUc7h=
+a-blv_xFb0FMnb2T_GL7CNoIiQdZKZOHxwxi75uwo6Hol3J3TA&s=3DaWDi_0FtVYrz0eG_bPJO=
+0tqup8a5jLutsSoTa3Pynwk&e=3D
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe:
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
+.org_g_openembedded-2Dcore_unsub&d=3DDwIBAg&c=3DncDTmphkJTvjIDPh0hpF_4vCHva=
+bgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DItIZIi=
+BFvPUc7ha-blv_xFb0FMnb2T_GL7CNoIiQdZKZOHxwxi75uwo6Hol3J3TA&s=3DFpYs9M88TVaC=
+f1Ibbm3mKpHzyHV_ihvwGydOexSfF2s&e=3D
+> [alexandre.belloni@bootlin.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+>
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__bootlin.com&d=3DDw=
+IBAg&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Q=
+j9TsRih1DULJTKUkSGa66m67E&m=3DItIZIiBFvPUc7ha-blv_xFb0FMnb2T_GL7CNoIiQdZKZO=
+Hxwxi75uwo6Hol3J3TA&s=3DLu5F2iWAYyxz6ynKWLlP56TD2uUQTBZBQSCOpzaMaRI&e=3D
+>
 
+--00000000000050e81205ecde6c1a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">I&#39;ve resent the patch and changed git&#39;s sendemail.=
+envelopesender=C2=A0option so that the From field matches the email used in=
+ the SOB field.</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Sun, Nov 6, 2022 at 5:02 PM Alexandre Belloni &lt;<a hre=
+f=3D"mailto:alexandre.belloni@bootlin.com" target=3D"_blank">alexandre.bell=
+oni@bootlin.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">On 04/11/2022 15:24:43+0100, Etienne Cordonnier via <a href=
+=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lis=
+ts.openembedded.org</a> wrote:<br>
+&gt; This is useful e.g. when using meta-clang, which introduces a dependen=
+cy to nativesdk-binutils when<br>
+&gt; populating the SDK, and then a full tarball of binutils is fetched add=
+itionally to a shallow tarball.<br>
+&gt; <br>
+&gt; Signed-off-by: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@sn=
+ap.com" target=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
+<br>
+The SoB needs to match the author and sender. You are using two<br>
+different addresses here.<br>
+<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/classes-global/mirrors.bbclass | 2 ++<br>
+&gt;=C2=A0 1 file changed, 2 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/meta/classes-global/mirrors.bbclass b/meta/classes-global=
+/mirrors.bbclass<br>
+&gt; index 81fef7f660..8b984de3bf 100644<br>
+&gt; --- a/meta/classes-global/mirrors.bbclass<br>
+&gt; +++ b/meta/classes-global/mirrors.bbclass<br>
+&gt; @@ -91,6 +91,8 @@ BB_GIT_SHALLOW:pn-binutils-cross-canadian-${TRANSLAT=
+ED_TARGET_ARCH} =3D &quot;1&quot;<br>
+&gt;=C2=A0 BB_GIT_SHALLOW:pn-binutils-cross-testsuite =3D &quot;1&quot;<br>
+&gt;=C2=A0 BB_GIT_SHALLOW:pn-binutils-crosssdk-${SDK_SYS} =3D &quot;1&quot;=
+<br>
+&gt;=C2=A0 BB_GIT_SHALLOW:pn-binutils-native =3D &quot;1&quot;<br>
+&gt; +BB_GIT_SHALLOW:pn-nativesdk-binutils =3D &quot;1&quot;<br>
+&gt; +<br>
+&gt;=C2=A0 BB_GIT_SHALLOW:pn-glibc =3D &quot;1&quot;<br>
+&gt;=C2=A0 PREMIRRORS +=3D &quot;git://<a href=3D"http://sourceware.org/git=
+/glibc.git" rel=3D"noreferrer" target=3D"_blank">sourceware.org/git/glibc.g=
+it</a> <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__do=
+wnloads.yoctoproject.org_mirror_sources_&amp;d=3DDwIBAg&amp;c=3DncDTmphkJTv=
+jIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUk=
+SGa66m67E&amp;m=3DItIZIiBFvPUc7ha-blv_xFb0FMnb2T_GL7CNoIiQdZKZOHxwxi75uwo6H=
+ol3J3TA&amp;s=3Dhk4_w8STTvGIN0VNAn2uzyYG_oOrycryBPA5-pYHAPg&amp;e=3D" rel=
+=3D"noreferrer" target=3D"_blank">https://urldefense.proofpoint.com/v2/url?=
+u=3Dhttps-3A__downloads.yoctoproject.org_mirror_sources_&amp;d=3DDwIBAg&amp=
+;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Q=
+j9TsRih1DULJTKUkSGa66m67E&amp;m=3DItIZIiBFvPUc7ha-blv_xFb0FMnb2T_GL7CNoIiQd=
+ZKZOHxwxi75uwo6Hol3J3TA&amp;s=3Dhk4_w8STTvGIN0VNAn2uzyYG_oOrycryBPA5-pYHAPg=
+&amp;e=3D</a>=C2=A0 \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 git://<a href=
+=3D"http://sourceware.org/git/binutils-gdb.git" rel=3D"noreferrer" target=
+=3D"_blank">sourceware.org/git/binutils-gdb.git</a> <a href=3D"https://urld=
+efense.proofpoint.com/v2/url?u=3Dhttps-3A__downloads.yoctoproject.org_mirro=
+r_sources_&amp;d=3DDwIBAg&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfd=
+iw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DItIZIiBFvPUc=
+7ha-blv_xFb0FMnb2T_GL7CNoIiQdZKZOHxwxi75uwo6Hol3J3TA&amp;s=3Dhk4_w8STTvGIN0=
+VNAn2uzyYG_oOrycryBPA5-pYHAPg&amp;e=3D" rel=3D"noreferrer" target=3D"_blank=
+">https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__downloads.yoctopro=
+ject.org_mirror_sources_&amp;d=3DDwIBAg&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHva=
+bgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=
+=3DItIZIiBFvPUc7ha-blv_xFb0FMnb2T_GL7CNoIiQdZKZOHxwxi75uwo6Hol3J3TA&amp;s=
+=3Dhk4_w8STTvGIN0VNAn2uzyYG_oOrycryBPA5-pYHAPg&amp;e=3D</a> &quot;<br>
+&gt; -- <br>
+&gt; 2.36.1.vfs.0.0<br>
+&gt; <br>
+<br>
+&gt; <br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#172714): <a href=3D"https://urldefense.proofpoint.=
+com/v2/url?u=3Dhttps-3A__lists.openembedded.org_g_openembedded-2Dcore_messa=
+ge_172714&amp;d=3DDwIBAg&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdi=
+w&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DItIZIiBFvPUc7=
+ha-blv_xFb0FMnb2T_GL7CNoIiQdZKZOHxwxi75uwo6Hol3J3TA&amp;s=3DC08MKSdkpczwMDU=
+BLU0lDwc6-divmgE89AHm-eHFcy0&amp;e=3D" rel=3D"noreferrer" target=3D"_blank"=
+>https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded.=
+org_g_openembedded-2Dcore_message_172714&amp;d=3DDwIBAg&amp;c=3DncDTmphkJTv=
+jIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUk=
+SGa66m67E&amp;m=3DItIZIiBFvPUc7ha-blv_xFb0FMnb2T_GL7CNoIiQdZKZOHxwxi75uwo6H=
+ol3J3TA&amp;s=3DC08MKSdkpczwMDUBLU0lDwc6-divmgE89AHm-eHFcy0&amp;e=3D</a> <b=
+r>
+&gt; Mute This Topic: <a href=3D"https://urldefense.proofpoint.com/v2/url?u=
+=3Dhttps-3A__lists.openembedded.org_mt_94806491_3617179&amp;d=3DDwIBAg&amp;=
+c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj=
+9TsRih1DULJTKUkSGa66m67E&amp;m=3DItIZIiBFvPUc7ha-blv_xFb0FMnb2T_GL7CNoIiQdZ=
+KZOHxwxi75uwo6Hol3J3TA&amp;s=3DaWDi_0FtVYrz0eG_bPJO0tqup8a5jLutsSoTa3Pynwk&=
+amp;e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefense.proofpoin=
+t.com/v2/url?u=3Dhttps-3A__lists.openembedded.org_mt_94806491_3617179&amp;d=
+=3DDwIBAg&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbN=
+onVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DItIZIiBFvPUc7ha-blv_xFb0FMnb=
+2T_GL7CNoIiQdZKZOHxwxi75uwo6Hol3J3TA&amp;s=3DaWDi_0FtVYrz0eG_bPJO0tqup8a5jL=
+utsSoTa3Pynwk&amp;e=3D</a> <br>
+&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
+edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
+</a><br>
+&gt; Unsubscribe: <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dh=
+ttps-3A__lists.openembedded.org_g_openembedded-2Dcore_unsub&amp;d=3DDwIBAg&=
+amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfP=
+x_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DItIZIiBFvPUc7ha-blv_xFb0FMnb2T_GL7CNoI=
+iQdZKZOHxwxi75uwo6Hol3J3TA&amp;s=3DFpYs9M88TVaCf1Ibbm3mKpHzyHV_ihvwGydOexSf=
+F2s&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefense.proof=
+point.com/v2/url?u=3Dhttps-3A__lists.openembedded.org_g_openembedded-2Dcore=
+_unsub&amp;d=3DDwIBAg&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&a=
+mp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DItIZIiBFvPUc7ha-=
+blv_xFb0FMnb2T_GL7CNoIiQdZKZOHxwxi75uwo6Hol3J3TA&amp;s=3DFpYs9M88TVaCf1Ibbm=
+3mKpHzyHV_ihvwGydOexSfF2s&amp;e=3D</a>=C2=A0 [<a href=3D"mailto:alexandre.b=
+elloni@bootlin.com" target=3D"_blank">alexandre.belloni@bootlin.com</a>]<br=
+>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; <br>
+<br>
+<br>
+-- <br>
+Alexandre Belloni, co-owner and COO, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__bootlin.c=
+om&amp;d=3DDwIBAg&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=
+=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DItIZIiBFvPUc7ha-blv_=
+xFb0FMnb2T_GL7CNoIiQdZKZOHxwxi75uwo6Hol3J3TA&amp;s=3DLu5F2iWAYyxz6ynKWLlP56=
+TD2uUQTBZBQSCOpzaMaRI&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">https:=
+//urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__bootlin.com&amp;d=3DDwIBAg=
+&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRf=
+Px_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DItIZIiBFvPUc7ha-blv_xFb0FMnb2T_GL7CNo=
+IiQdZKZOHxwxi75uwo6Hol3J3TA&amp;s=3DLu5F2iWAYyxz6ynKWLlP56TD2uUQTBZBQSCOpza=
+MaRI&amp;e=3D</a> <br>
+</blockquote></div>
+
+--00000000000050e81205ecde6c1a--
 
