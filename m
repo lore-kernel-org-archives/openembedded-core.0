@@ -1,141 +1,169 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <s.zhmylev@yadro.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 498AEC4332F
-	for <webhook@archiver.kernel.org>; Mon,  7 Nov 2022 13:56:52 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web10.3583.1667829401644607847
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40C1CC433FE
+	for <webhook@archiver.kernel.org>; Mon,  7 Nov 2022 14:01:22 +0000 (UTC)
+Received: from mta-01.yadro.com (mta-01.yadro.com [89.207.88.252])
+ by mx.groups.io with SMTP id smtpd.web12.3566.1667829678869992562
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Nov 2022 05:56:42 -0800
+ Mon, 07 Nov 2022 06:01:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CTyglPX+;
- spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id r12so16877532lfp.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 05:56:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=K4MwnjhU0aAjSoe5vN5klRCtWy2fqTRXVr2i8mBWYQ0=;
-        b=CTyglPX+L0ka20lxQRAX0mi6hd2cfqjjiTvV+QJ8SMqVhhMK72QTC3SEqr1RN4ER6H
-         i1ganPyRpLF6co72Kh8TKzvh8oZES9zkTmm0ryIkOW7clKVg8hj/lsWEpzn8UQXy+aqU
-         O1qzWSiV+fkb8lpbOhKGjheQzCmq2NWKoQorIg6KjuSfq2x1mjr70fjZ0PaWqdn3yv46
-         s1peAEcnxtx3yeXonZdMm+eban2QBKsvM21ee+Ai7k4fAqV7iym9TjCTAzSddXBc/NBH
-         MfS1qRjXsKS/Hqaz6E3vKupkM8NbM4EPdRQmN+H9/C/L2O8D1eNir9BOlfyeh7rzJCPR
-         IgdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=K4MwnjhU0aAjSoe5vN5klRCtWy2fqTRXVr2i8mBWYQ0=;
-        b=045cW7ZB0TrxIP6dfF90OnxTMVVBN77LG1Jb/R/fOGbf6JQc7VhZ2oGEACB5zMJsJR
-         RxDeaf9WE3RCXGkli8sN1mCuK2Johj69u25mJMIO+olHCNfuPUMzJDbDzs8HbdlHctuX
-         a8a09uG2UlGz0i6dBntcC9+6Rruwq/J1Im68Eg9fZU+T1S7wVv1EBT5b/hSiO+SkGQeL
-         TOQi1zZG1JqcLtVz+JGWOCFmxLFnrS4/qsx2BO+IpANWoDlhOlBHM4ej4Jyu/f7zddlR
-         gq0PVzJy0d307hTwYdh4ryMSeiP+kXYUC7OYomtTtlw8GqlsUyZ+N9InVLVEF/uVJOug
-         kHJg==
-X-Gm-Message-State: ACrzQf1vAd4J2s8b2QYgQDDjDcr+BOonR7OaevB0dh7OBP4EYfgrnvhk
-	a2DtsSp7SC3ycGiZzwv7ddsx+GW9YAhDj/0YDwo=
-X-Google-Smtp-Source: AMsMyM410WUXmwQFb16Td9gYIACApgk0BwvpMkr+PO4jzQFGPu3Mv/Pf3pC7XCuBJLXV9/LO4H43cN5ZpvSjSWyJlhs=
-X-Received: by 2002:a05:6512:2399:b0:4a2:94d6:da27 with SMTP id
- c25-20020a056512239900b004a294d6da27mr18039003lfv.131.1667829399576; Mon, 07
- Nov 2022 05:56:39 -0800 (PST)
-MIME-Version: 1.0
-References: <20221107135423.19834-1-s.zhmylev@yadro.com>
-In-Reply-To: <20221107135423.19834-1-s.zhmylev@yadro.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 7 Nov 2022 14:56:28 +0100
-Message-ID: <CANNYZj_Dter5Pz_2EVE=9GBhK2O6OTNUiKLB02kFoDQg7_MiHA@mail.gmail.com>
+ dkim=fail reason="signature has expired" header.i=@yadro.com header.s=mta-01 header.b=H82YX7yr;
+ spf=pass (domain: yadro.com, ip: 89.207.88.252, mailfrom: s.zhmylev@yadro.com)
+Received: from localhost (unknown [127.0.0.1])
+	by mta-01.yadro.com (Postfix) with ESMTP id BDBCC40355;
+	Mon,  7 Nov 2022 14:01:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+	mime-version:content-transfer-encoding:content-id:content-type
+	:content-type:content-language:accept-language:in-reply-to
+	:references:message-id:date:date:subject:subject:from:from
+	:received:received:received:received:received; s=mta-01; t=
+	1667829673; x=1669644074; bh=NniJx1udNDwsTaMxY3+d8cpgNw9Q6K6UCxf
+	HYs/4uEk=; b=H82YX7yrutxDr3lC1qDkwBSYiJoblZP7JzRr36HocW6wPV9qrjf
+	lV7DZ1Qa2HYnkyqcHXNsw9bXywtL6GwEe6Z+hbgv/M28yzHP3t+dbY9KE/C8VS+4
+	L/z2Kq2RHVuqhp9gZeGhaN5MDLpZ4PPqmhnJ9BsgwHE6MI2bIO5Llb5U=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+	by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id n0_aK3HVrXSj; Mon,  7 Nov 2022 17:01:13 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (T-EXCH-02.corp.yadro.com [172.17.10.102])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mta-01.yadro.com (Postfix) with ESMTPS id 7D0D3404CB;
+	Mon,  7 Nov 2022 17:01:12 +0300 (MSK)
+Received: from T-Exch-05.corp.yadro.com (172.17.10.109) by
+ T-EXCH-02.corp.yadro.com (172.17.10.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.669.32; Mon, 7 Nov 2022 17:01:12 +0300
+Received: from T-EXCH-08.corp.yadro.com (172.17.11.58) by
+ T-Exch-05.corp.yadro.com (172.17.10.109) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.9; Mon, 7 Nov 2022 17:01:12 +0300
+Received: from T-EXCH-08.corp.yadro.com ([172.17.11.58]) by
+ T-EXCH-08.corp.yadro.com ([172.17.11.58]) with mapi id 15.02.1118.009; Mon, 7
+ Nov 2022 17:01:11 +0300
+From: Sergey Zhmylev <s.zhmylev@yadro.com>
+To: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] [PATCH v2] wic: make ext2/3/4 images reproducible
-To: Sergey Zhmylev <s.zhmylev@yadro.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Thread-Topic: [OE-core] [PATCH v2] wic: make ext2/3/4 images reproducible
+Thread-Index: AQHY8rB5pg2yjxH3dUCHS/JLNIJo464zScsAgAABUYA=
+Date: Mon, 7 Nov 2022 14:01:11 +0000
+Message-ID: <c7f818203a7dc8b03680dc69a2ce21c7601a53cb.camel@yadro.com>
+References: <20221107135423.19834-1-s.zhmylev@yadro.com>
+	 <CANNYZj_Dter5Pz_2EVE=9GBhK2O6OTNUiKLB02kFoDQg7_MiHA@mail.gmail.com>
+In-Reply-To: <CANNYZj_Dter5Pz_2EVE=9GBhK2O6OTNUiKLB02kFoDQg7_MiHA@mail.gmail.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.22.3.215]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <11AF0F5B7C8FB5409296BE95F4E39F81@yadro.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 13:56:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172843
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 14:01:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172844
 
-Since this is v2, and v1 was controversial, it is good practice to
-document the differences with v1.
-
-Alex
-
-On Mon, 7 Nov 2022 at 14:54, Sergey Zhmylev <s.zhmylev@yadro.com> wrote:
->
-> From: Sergei Zhmylev <s.zhmylev@yadro.com>
->
-> Ext2/3/4 FS contains not only mtime, but also ctime, atime and crtime.
-> Currently, all the files are being added into the rootfs image using
-> mkfs -d functionality which affects all the timestamps excluding mtime.
-> This patch ensures all the timestamps inside the FS image equal to
-> the SOURCE_DATE_EPOCH if it is set.
->
-> Signed-off-by: Sergei Zhmylev <s.zhmylev@yadro.com>
-> ---
->  scripts/lib/wic/partition.py | 31 ++++++++++++++++++++++++++-----
->  1 file changed, 26 insertions(+), 5 deletions(-)
->
-> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-> index bc889bdeb9..140f3c12dc 100644
-> --- a/scripts/lib/wic/partition.py
-> +++ b/scripts/lib/wic/partition.py
-> @@ -294,17 +294,38 @@ class Partition():
->                  f.write("cd etc\n")
->                  f.write("rm fstab\n")
->                  f.write("write %s fstab\n" % (self.updated_fstab_path))
-> -                if os.getenv('SOURCE_DATE_EPOCH'):
-> -                    fstab_time = int(os.getenv('SOURCE_DATE_EPOCH'))
-> -                    for time in ["atime", "mtime", "ctime"]:
-> -                        f.write("set_inode_field fstab %s %s\n" % (time, hex(fstab_time)))
-> -                        f.write("set_inode_field fstab %s_extra 0\n" % (time))
->              debugfs_cmd = "debugfs -w -f %s %s" % (debugfs_script_path, rootfs)
->              exec_native_cmd(debugfs_cmd, native_sysroot)
->
->          mkfs_cmd = "fsck.%s -pvfD %s" % (self.fstype, rootfs)
->          exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
->
-> +        if os.getenv('SOURCE_DATE_EPOCH'):
-> +            sde_time = hex(int(os.getenv('SOURCE_DATE_EPOCH')))
-> +            debugfs_script_path = os.path.join(cr_workdir, "debugfs_script")
-> +            files = []
-> +            fields_to_set = ["atime", "ctime", "crtime"]
-> +            if 'ROOTFS_RESET_MTIME' in os.environ:
-> +                fields_to_set += ["mtime"]
-> +            for root, dirs, others in os.walk(rootfs_dir):
-> +                base = root.replace(rootfs_dir, "").rstrip(os.sep)
-> +                files += [ "/" if base == "" else base ]
-> +                files += [ base + "/" + n for n in dirs + others ]
-> +            with open(debugfs_script_path, "w") as f:
-> +                f.write("set_current_time %s\n" % (sde_time))
-> +                f.write("set_inode_field /etc/fstab mtime %s\n" % (sde_time))
-> +                f.write("set_inode_field /etc/fstab mtime_extra 0\n")
-> +                for file in set(files):
-> +                    for time in fields_to_set:
-> +                        f.write("set_inode_field \"%s\" %s %s\n" % (file, time, sde_time))
-> +                        f.write("set_inode_field \"%s\" %s_extra 0\n" % (file, time))
-> +                for time in ["wtime", "mkfs_time", "lastcheck"]:
-> +                    f.write("set_super_value %s %s\n" % (time, sde_time))
-> +                for time in ["mtime", "first_error_time", "last_error_time"]:
-> +                    f.write("set_super_value %s 0\n" % (time))
-> +            debugfs_cmd = "debugfs -w -f %s %s" % (debugfs_script_path, rootfs)
-> +            exec_native_cmd(debugfs_cmd, native_sysroot)
-> +
->          self.check_for_Y2038_problem(rootfs, native_sysroot)
->
->      def prepare_rootfs_btrfs(self, rootfs, cr_workdir, oe_builddir, rootfs_dir,
-> --
-> 2.37.2
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#172842): https://lists.openembedded.org/g/openembedded-core/message/172842
-> Mute This Topic: https://lists.openembedded.org/mt/94866134/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+RGlmZmVyZW5jZSB3aXRoIHYxOgotIG10aW1lIHdpbGwgYmUgc2V0IG9ubHkgaW4gY2FzZSBvZiB1
+c2VyIGV4cGxpY2l0bHkgYXNrZWQgZm9yIHRoaXMKLSBpbiBhbGwgb3RoZXIgY2FzZXMgaXQgd2ls
+bCBiZSBsZWZ0IGludGFjdAotIG10aW1lIGZvciAvZXRjL2ZzdGFiIHdpbGwgYmUgc2V0IGFueXRp
+bWUKLSBleHRmcyBkaXJlY3RvcnkgaGFzaCBzZWVkIHJldmVydGVkIGJhY2sgdG8gb3JpZ2luYWwg
+dmFsdWUKCkFsZXgsIHRoYW5rIHlvdSBmb3IgdGhlIGNvbW1lbnQhCklzIGl0IHBvc3NpYmxlIHRv
+IGFkZCB0aGUgbm90ZSBpbnRvICJnaXQgc2VuZC1lbWFpbCIgYXMgaXQgd2lsbCBiZQp2aXNpYmxl
+IGluIHRoZSBlbWFpbCBidXQgd29uJ3QgZ28gaW50byB0aGUgY29tbWl0IFttZXNzYWdlXSBpdHNl
+bGY/Ci0tIApXaXRoIGJlc3Qgd2lzaGVzLApTZXJnZWkgWmhteWxldgpFbmdpbmVlcmluZyBjb25z
+dWx0YW50Ck9TIGRldmVsb3BtZW50IGRlcGFydG1lbnQKCgoKT24gTW9uLCAyMDIyLTExLTA3IGF0
+IDE0OjU2ICswMTAwLCBBbGV4YW5kZXIgS2FuYXZpbiB3cm90ZToKPiDCq9CS0L3QuNC80LDQvdC4
+0LUhINCU0LDQvdC90L7QtSDQv9C40YHRjNC80L4g0L7RgiDQstC90LXRiNC90LXQs9C+INCw0LTR
+gNC10YHQsNGC0LAhwrsKPiAKPiBTaW5jZSB0aGlzIGlzIHYyLCBhbmQgdjEgd2FzIGNvbnRyb3Zl
+cnNpYWwsIGl0IGlzIGdvb2QgcHJhY3RpY2UgdG8KPiBkb2N1bWVudCB0aGUgZGlmZmVyZW5jZXMg
+d2l0aCB2MS4KPiAKPiBBbGV4Cj4gCj4gT24gTW9uLCA3IE5vdiAyMDIyIGF0IDE0OjU0LCBTZXJn
+ZXkgWmhteWxldiA8cy56aG15bGV2QHlhZHJvLmNvbT4KPiB3cm90ZToKPiA+IAo+ID4gRnJvbTog
+U2VyZ2VpIFpobXlsZXYgPHMuemhteWxldkB5YWRyby5jb20+Cj4gPiAKPiA+IEV4dDIvMy80IEZT
+IGNvbnRhaW5zIG5vdCBvbmx5IG10aW1lLCBidXQgYWxzbyBjdGltZSwgYXRpbWUgYW5kCj4gPiBj
+cnRpbWUuCj4gPiBDdXJyZW50bHksIGFsbCB0aGUgZmlsZXMgYXJlIGJlaW5nIGFkZGVkIGludG8g
+dGhlIHJvb3RmcyBpbWFnZQo+ID4gdXNpbmcKPiA+IG1rZnMgLWQgZnVuY3Rpb25hbGl0eSB3aGlj
+aCBhZmZlY3RzIGFsbCB0aGUgdGltZXN0YW1wcyBleGNsdWRpbmcKPiA+IG10aW1lLgo+ID4gVGhp
+cyBwYXRjaCBlbnN1cmVzIGFsbCB0aGUgdGltZXN0YW1wcyBpbnNpZGUgdGhlIEZTIGltYWdlIGVx
+dWFsIHRvCj4gPiB0aGUgU09VUkNFX0RBVEVfRVBPQ0ggaWYgaXQgaXMgc2V0Lgo+ID4gCj4gPiBT
+aWduZWQtb2ZmLWJ5OiBTZXJnZWkgWmhteWxldiA8cy56aG15bGV2QHlhZHJvLmNvbT4KPiA+IC0t
+LQo+ID4gwqBzY3JpcHRzL2xpYi93aWMvcGFydGl0aW9uLnB5IHwgMzEgKysrKysrKysrKysrKysr
+KysrKysrKysrKystLS0tLQo+ID4gwqAxIGZpbGUgY2hhbmdlZCwgMjYgaW5zZXJ0aW9ucygrKSwg
+NSBkZWxldGlvbnMoLSkKPiA+IAo+ID4gZGlmZiAtLWdpdCBhL3NjcmlwdHMvbGliL3dpYy9wYXJ0
+aXRpb24ucHkKPiA+IGIvc2NyaXB0cy9saWIvd2ljL3BhcnRpdGlvbi5weQo+ID4gaW5kZXggYmM4
+ODliZGViOS4uMTQwZjNjMTJkYyAxMDA2NDQKPiA+IC0tLSBhL3NjcmlwdHMvbGliL3dpYy9wYXJ0
+aXRpb24ucHkKPiA+ICsrKyBiL3NjcmlwdHMvbGliL3dpYy9wYXJ0aXRpb24ucHkKPiA+IEBAIC0y
+OTQsMTcgKzI5NCwzOCBAQCBjbGFzcyBQYXJ0aXRpb24oKToKPiA+IMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIGYud3JpdGUoImNkIGV0Y1xuIikKPiA+IMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIGYud3JpdGUoInJtIGZzdGFiXG4iKQo+ID4gwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgZi53cml0ZSgid3JpdGUgJXMgZnN0YWJcbiIgJQo+ID4gKHNlbGYu
+dXBkYXRlZF9mc3RhYl9wYXRoKSkKPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+aWYgb3MuZ2V0ZW52KCdTT1VSQ0VfREFURV9FUE9DSCcpOgo+ID4gLcKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZzdGFiX3RpbWUgPQo+ID4gaW50KG9zLmdldGVudignU09V
+UkNFX0RBVEVfRVBPQ0gnKSkKPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBmb3IgdGltZSBpbiBbImF0aW1lIiwgIm10aW1lIiwgImN0aW1lIl06Cj4gPiAtwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmLndyaXRlKCJzZXRfaW5v
+ZGVfZmllbGQgZnN0YWIgJXMgJXNcbiIgJQo+ID4gKHRpbWUsIGhleChmc3RhYl90aW1lKSkpCj4g
+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmLndyaXRl
+KCJzZXRfaW5vZGVfZmllbGQgZnN0YWIgJXNfZXh0cmEKPiA+IDBcbiIgJSAodGltZSkpCj4gPiDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZGVidWdmc19jbWQgPSAiZGVidWdmcyAtdyAtZiAlcyAl
+cyIgJQo+ID4gKGRlYnVnZnNfc2NyaXB0X3BhdGgsIHJvb3RmcykKPiA+IMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBleGVjX25hdGl2ZV9jbWQoZGVidWdmc19jbWQsIG5hdGl2ZV9zeXNyb290KQo+
+ID4gCj4gPiDCoMKgwqDCoMKgwqDCoMKgIG1rZnNfY21kID0gImZzY2suJXMgLXB2ZkQgJXMiICUg
+KHNlbGYuZnN0eXBlLCByb290ZnMpCj4gPiDCoMKgwqDCoMKgwqDCoMKgIGV4ZWNfbmF0aXZlX2Nt
+ZChta2ZzX2NtZCwgbmF0aXZlX3N5c3Jvb3QsIHBzZXVkbz1wc2V1ZG8pCj4gPiAKPiA+ICvCoMKg
+wqDCoMKgwqDCoCBpZiBvcy5nZXRlbnYoJ1NPVVJDRV9EQVRFX0VQT0NIJyk6Cj4gPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBzZGVfdGltZSA9IGhleChpbnQob3MuZ2V0ZW52KCdTT1VSQ0VfREFU
+RV9FUE9DSCcpKSkKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGRlYnVnZnNfc2NyaXB0X3Bh
+dGggPSBvcy5wYXRoLmpvaW4oY3Jfd29ya2RpciwKPiA+ICJkZWJ1Z2ZzX3NjcmlwdCIpCj4gPiAr
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmaWxlcyA9IFtdCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBmaWVsZHNfdG9fc2V0ID0gWyJhdGltZSIsICJjdGltZSIsICJjcnRpbWUiXQo+ID4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgJ1JPT1RGU19SRVNFVF9NVElNRScgaW4gb3MuZW52aXJv
+bjoKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZmllbGRzX3RvX3NldCArPSBb
+Im10aW1lIl0KPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZvciByb290LCBkaXJzLCBvdGhl
+cnMgaW4gb3Mud2Fsayhyb290ZnNfZGlyKToKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgYmFzZSA9IHJvb3QucmVwbGFjZShyb290ZnNfZGlyLCAiIikucnN0cmlwKG9zLnNlcCkK
+PiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZmlsZXMgKz0gWyAiLyIgaWYgYmFz
+ZSA9PSAiIiBlbHNlIGJhc2UgXQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBm
+aWxlcyArPSBbIGJhc2UgKyAiLyIgKyBuIGZvciBuIGluIGRpcnMgKyBvdGhlcnMgXQo+ID4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgd2l0aCBvcGVuKGRlYnVnZnNfc2NyaXB0X3BhdGgsICJ3Iikg
+YXMgZjoKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZi53cml0ZSgic2V0X2N1
+cnJlbnRfdGltZSAlc1xuIiAlIChzZGVfdGltZSkpCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIGYud3JpdGUoInNldF9pbm9kZV9maWVsZCAvZXRjL2ZzdGFiIG10aW1lICVzXG4i
+ICUKPiA+IChzZGVfdGltZSkpCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGYu
+d3JpdGUoInNldF9pbm9kZV9maWVsZCAvZXRjL2ZzdGFiIG10aW1lX2V4dHJhCj4gPiAwXG4iKQo+
+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmb3IgZmlsZSBpbiBzZXQoZmlsZXMp
+Ogo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZvciB0aW1lIGlu
+IGZpZWxkc190b19zZXQ6Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBmLndyaXRlKCJzZXRfaW5vZGVfZmllbGQgXCIlc1wiICVzICVzXG4iICUKPiA+
+IChmaWxlLCB0aW1lLCBzZGVfdGltZSkpCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBmLndyaXRlKCJzZXRfaW5vZGVfZmllbGQgXCIlc1wiICVzX2V4
+dHJhCj4gPiAwXG4iICUgKGZpbGUsIHRpbWUpKQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBmb3IgdGltZSBpbiBbInd0aW1lIiwgIm1rZnNfdGltZSIsICJsYXN0Y2hlY2siXToK
+PiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmLndyaXRlKCJzZXRf
+c3VwZXJfdmFsdWUgJXMgJXNcbiIgJSAodGltZSwKPiA+IHNkZV90aW1lKSkKPiA+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZm9yIHRpbWUgaW4gWyJtdGltZSIsICJmaXJzdF9lcnJv
+cl90aW1lIiwKPiA+ICJsYXN0X2Vycm9yX3RpbWUiXToKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBmLndyaXRlKCJzZXRfc3VwZXJfdmFsdWUgJXMgMFxuIiAlICh0
+aW1lKSkKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGRlYnVnZnNfY21kID0gImRlYnVnZnMg
+LXcgLWYgJXMgJXMiICUKPiA+IChkZWJ1Z2ZzX3NjcmlwdF9wYXRoLCByb290ZnMpCj4gPiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBleGVjX25hdGl2ZV9jbWQoZGVidWdmc19jbWQsIG5hdGl2ZV9z
+eXNyb290KQo+ID4gKwo+ID4gwqDCoMKgwqDCoMKgwqDCoCBzZWxmLmNoZWNrX2Zvcl9ZMjAzOF9w
+cm9ibGVtKHJvb3RmcywgbmF0aXZlX3N5c3Jvb3QpCj4gPiAKPiA+IMKgwqDCoMKgIGRlZiBwcmVw
+YXJlX3Jvb3Rmc19idHJmcyhzZWxmLCByb290ZnMsIGNyX3dvcmtkaXIsCj4gPiBvZV9idWlsZGRp
+ciwgcm9vdGZzX2RpciwKPiA+IC0tCj4gPiAyLjM3LjIKPiA+IAo+ID4gCj4gPiAtPS09LT0tPS09
+LT0tPS09LT0tPS09LQo+ID4gTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdlcyBzZW50IHRv
+IHRoaXMgZ3JvdXAuCj4gPiBWaWV3L1JlcGx5IE9ubGluZSAoIzE3Mjg0Mik6Cj4gPiBodHRwczov
+L2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzE3Mjg0
+Mgo+ID4gTXV0ZSBUaGlzIFRvcGljOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQv
+OTQ4NjYxMzQvMTY4NjQ4OQo+ID4gR3JvdXAgT3duZXI6IG9wZW5lbWJlZGRlZC1jb3JlK293bmVy
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcKPiA+IFVuc3Vic2NyaWJlOiBodHRwczovL2xpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtCj4gPiBjb3JlL3Vuc3ViwqBbYWxleC5rYW5h
+dmluQGdtYWlsLmNvbV0KPiA+IC09LT0tPS09LT0tPS09LT0tPS09LT0tCj4gPiAK
 
