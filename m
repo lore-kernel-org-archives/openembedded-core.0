@@ -2,146 +2,102 @@ Return-Path: <chase.qi@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E44FC433FE
-	for <webhook@archiver.kernel.org>; Tue,  8 Nov 2022 03:52:27 +0000 (UTC)
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
- by mx.groups.io with SMTP id smtpd.web10.4129.1667879539720890804
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 485ABC4332F
+	for <webhook@archiver.kernel.org>; Tue,  8 Nov 2022 03:57:47 +0000 (UTC)
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
+ by mx.groups.io with SMTP id smtpd.web09.4333.1667879865681663882
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Nov 2022 19:52:19 -0800
+ Mon, 07 Nov 2022 19:57:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=i7fuFvMS;
- spf=pass (domain: linaro.org, ip: 209.85.166.41, mailfrom: chase.qi@linaro.org)
-Received: by mail-io1-f41.google.com with SMTP id e189so10580146iof.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 19:52:19 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=s8I9PL1w;
+ spf=pass (domain: linaro.org, ip: 209.85.166.42, mailfrom: chase.qi@linaro.org)
+Received: by mail-io1-f42.google.com with SMTP id n191so10552364iod.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 19:57:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/PN80gFDhx4Jw0nMtlH2Ou+rYR1qskMOmddU+XLnMSw=;
-        b=i7fuFvMS1GSyFPRkV90OPdVL2k/6HXyL8YPYXe1TRupYBuU4UZVgCXbpfgOFgymVlJ
-         TnB+N3P8hohnU1iNTVdpokg/vVFbrEdMjlumluEilewAh+gympoi55Ho22EJRn6W5IWZ
-         LYeXz9zkWJC7CjBfOBnoXSZroGC2o41tYtsln7LXXDfoSewoYZ9S9LhanfScqSdjp3gR
-         SeOsg1feuxb6tM7NWVFTwXEWoYeNFMGxQcjZ5fbUy1htw9+iOXEnWbcvCVO22u2HjfBU
-         +hB8r2b5ePYQ8K793xjmUojbLfmIpIGQPV7YeIc8gb7jcQQO7reFwgejbZ0sKZqZ2/Fc
-         ffOw==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0mutfGMyr68kjZksMYbDBkMzUtFajPuJTf4hslcejnE=;
+        b=s8I9PL1wBEZNMeg/knzGrRnWtPBzbelZn9QKsYTkmn5v+sY09vOKIAjme837Sg9GI4
+         N086piAHXs2e/QXfQnq90NDKWvryitwIoqyI7IgK9kqpS1A6gn8+4V1OKUbJgk/3FD5M
+         E7ws+LUWCJGFpcH1dISodEnyjMVmNfG5ne+wcfdiA/dZVrq2Og270UWVX9ssDIWeCtvL
+         oGdtsqm7c4N426AYGTL9gYh4igUleLx6ZKWQEdWtMGQReIeOB20yKEzzHV29DLxXoLEe
+         VNL/U+vmvPYNdk0WXpAvsu0SNK0TzF7TMvcAHLtQRxv6+pjDJuojFqW351w2lIQGrZUa
+         Mntg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/PN80gFDhx4Jw0nMtlH2Ou+rYR1qskMOmddU+XLnMSw=;
-        b=flEzz3TlPwi1Dm3D1L1obs3QtTqWTTIROzcBGmZN1wLCqPZPGd2wOsqlBOQc/G237/
-         2Yg2edpPQ61SauOqR7f02bP5KikIZmi/YTQTnXpXKx2eo3WeF1i7uPuuX2peqmeE+mQs
-         fxDd/vaYGyceJfdk7DqyrOjFAMCDQ1yOOWy6lRKJu8iJ7Mwv8eBXxSUwl2aWUZ6PdXZa
-         8riZwqIZtTTLpjVKImL4kfPf1WbsXXLCKy45j56okE8N+qN/irB2JqIqFG5ExwK77hoK
-         YPELFcQig6zo/hL62S8e3ricusX25wDsccTVzEHb2UjAnLNpo/JnMFo1gTBAIfHAddYS
-         rerA==
-X-Gm-Message-State: ACrzQf3TP9bdhdGSe8GGrFFh6IFdrHnAlnntDXs5Swn53qh+p98Qteny
-	pQRDsg3Nih5jrkAMUEIbgYK1lGf9oaXHPFKvoF/5nQ==
-X-Google-Smtp-Source: AMsMyM578kJP30Bn9tLFCBLg5/8Av/Ntic1GOi040C7tlMkgSLPaLR1MmY4m2XSs0WF56ZS/MlcanIZnyr7s6zpu9CA=
-X-Received: by 2002:a02:cb91:0:b0:375:662b:5032 with SMTP id
- u17-20020a02cb91000000b00375662b5032mr25039778jap.219.1667879538855; Mon, 07
- Nov 2022 19:52:18 -0800 (PST)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0mutfGMyr68kjZksMYbDBkMzUtFajPuJTf4hslcejnE=;
+        b=mqz5t6mDGHkrUBNpf1MWKpsdtnvMHKZNK/VDU0A81GBpNMxor1+xwbEewUXtB6pq1U
+         K46Kh6YgQgAEhphbgg6efZ5I3bCHWyAXb1GnCRoV0F7a/ywm1cljukoWBWlO3rwYYhZJ
+         Z2/q6gnzecTTolNqoAGLrKDG44gZ5V8hpPh2llQzrbgbkfFyUrcKL+wmzc9T25gMh4hf
+         ICbp7vjmAOuc+IHmngYS/swXpqPGHafOnxeB/e2nfpLjKow2mvHbQzgO3O5SClN7LMAA
+         6QWNf/AAQw89cVhV5c4urzd8CtYlUAm/wlLnoyj/+7UXXMtwk/0xWt6beauNaku64TBr
+         Pj3Q==
+X-Gm-Message-State: ACrzQf0QxvgENdd/czd8x01n+O9WGTwlETiTC9kq+qxEo3Kvc5DgfrbP
+	SuDtoV/ZD0XnNvdV7tAVFSmt1GDjMBY/ychewvrEUW1GSO5ab48b
+X-Google-Smtp-Source: AMsMyM6T2MaPtFrKqk7xQB8cCogjdb55hSzxlyppr19mw9wUZFRVF8XZACXpju8ACA80668vN9HH9WE0xowIqNvvpog=
+X-Received: by 2002:a05:6602:164f:b0:6d4:8783:8019 with SMTP id
+ y15-20020a056602164f00b006d487838019mr19083780iow.77.1667879864826; Mon, 07
+ Nov 2022 19:57:44 -0800 (PST)
 MIME-Version: 1.0
-References: <20221104100140.976337-1-chase.qi@linaro.org> <Y2TnY7I2mllJTkox@nuoska>
-In-Reply-To: <Y2TnY7I2mllJTkox@nuoska>
+References: <20221104100140.976337-1-chase.qi@linaro.org> <D6F57683-658C-420A-BE73-78E1E03FE0A0@arm.com>
+In-Reply-To: <D6F57683-658C-420A-BE73-78E1E03FE0A0@arm.com>
 From: Chase Qi <chase.qi@linaro.org>
-Date: Tue, 8 Nov 2022 11:52:07 +0800
-Message-ID: <CACLiBhDtuDwuu_xCJnEY+HYu5kAtmnqXNkGo8F269+FjhyDMFQ@mail.gmail.com>
+Date: Tue, 8 Nov 2022 11:57:33 +0800
+Message-ID: <CACLiBhCeqAT-D6FZUx0on8q6XR53qiT=kwdMqKjw+5Q+4m8fuQ@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH v2] libc-test: add libc testsuite for musl
-To: Mikko Rapeli <mikko.rapeli@linaro.org>
-Cc: openembedded-core@lists.openembedded.org
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 03:52:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172949
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 03:57:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172950
 
-Hi Mikko,
+Hi Ross,
 
 Thanks for the review.
 
-On Fri, 4 Nov 2022 at 18:20, Mikko Rapeli <mikko.rapeli@linaro.org> wrote:
+On Fri, 4 Nov 2022 at 22:13, Ross Burton <Ross.Burton@arm.com> wrote:
 >
-> On Fri, Nov 04, 2022 at 10:01:40AM +0000, Chase Qi wrote:
-> > libc-test is a collection of unit test to measure the correctness and
-> > robustness of a C/POSIX standard library implementation. It is developed
-> > as part of the musl project.
+> On 4 Nov 2022, at 10:01, Chase Qi via lists.openembedded.org <chase.qi=3D=
+linaro.org@lists.openembedded.org> wrote:
 > >
-> > Signed-off-by: Chase Qi <chase.qi@linaro.org>
-> > ---
-> >  .../distro/include/ptest-packagelists.inc     |  1 +
-> >  meta/recipes-core/musl/libc-test/run-ptest    | 17 +++++++
-> >  meta/recipes-core/musl/libc-test_git.bb       | 50 +++++++++++++++++++
-> >  3 files changed, 68 insertions(+)
-> >  create mode 100644 meta/recipes-core/musl/libc-test/run-ptest
-> >  create mode 100644 meta/recipes-core/musl/libc-test_git.bb
-> >
-> > diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-> > index 32b0e5297a..3c9ff43bd9 100644
-> > --- a/meta/conf/distro/include/ptest-packagelists.inc
-> > +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> > @@ -105,6 +105,7 @@ PTESTS_SLOW = "\
-> >
-> >  PTESTS_SLOW:remove:riscv64 = "valgrind-ptest"
-> >  PTESTS_PROBLEMS:append:riscv64 = "valgrind-ptest"
-> > +PTESTS_SLOW:append:libc-musl = " libc-test-ptest"
-> >
-> >  #    ruby-ptest \ # Timeout
-> >  #    lz4-ptest \ # Needs a rewrite
-> > diff --git a/meta/recipes-core/musl/libc-test/run-ptest b/meta/recipes-core/musl/libc-test/run-ptest
-> > new file mode 100644
-> > index 0000000000..a30cee590e
-> > --- /dev/null
-> > +++ b/meta/recipes-core/musl/libc-test/run-ptest
-> > @@ -0,0 +1,17 @@
-> > +#!/bin/sh
-> > +
+> > +SRCREV =3D "18e28496adee3d84fefdda6efcb9c5b8996a2398"
+> > +SRC_URI =3D " \
+> > +    git://nsz.repo.hu:49100/repo/libc-test;branch=3Dmaster \
+> > +    file://run-ptest \
+> > +"
+> > +MIRRORS +=3D "git://nsz.repo.hu:49100/repo/libc-test git://repo.or.cz/=
+libc-test=E2=80=9D
 >
-> Please use at least "set -e" to capture errors of failing
-> commands.
+> The project=E2=80=99s web site at https://wiki.musl-libc.org/libc-test.ht=
+ml says the git URL is git://repo.or.cz/libc-test, so that=E2=80=99s the UR=
+L we should fetch from.
 >
 
-+1 Enabled in v3.
+The summary page https://repo.or.cz/libc-test.git shows it is a mirror
+URL of git://nsz.repo.hu:49100/repo/libc-test. In v3, I removed the
+MIRRORS line.  https://repo.or.cz/libc-test.git is used directly now.
+At least, there is a team maintaining the services.
 
-> > +cd /opt/libc-test
-> > +make cleanall
-> > +make run | tee libc-test.log
+> Also as this project doesn=E2=80=99t appear to have versions, set:
 >
-> Depending how this handles errors, the return value from
-> "make run" may need to be discarded, but I'd prefer
-> this to be explicit if "set -e" is used.
+> PV=3D=E2=80=9C0+git${SRCPV}=E2=80=9D.
 >
+> This way the version has the git SHA in, and if they ever release a versi=
+on it will be greater than 0 and sort correctly.
 
-Yes. In case the command return with non-zero, I switched to "make run
-|| true" in v3 for the following log parsing.
+Make sense, added in v3. Thanks for the suggestion.
 
-> > +echo ""
-> > +echo "--- ptest result ---"
-> > +if grep -q '^FAIL src.*\.exe.*' libc-test.log; then
-> > +    # Consolidate output format.
-> > +    # e.g. "FAIL src/api/main.exe [status 1]" -> "FAIL: api_main"
-> > +    grep '^FAIL src.*\.exe.*' libc-test.log \
-> > +        | sed 's|^FAIL src/|FAIL: |;s|/|_|;s|\.exe.*\]||'
-> > +    exit 1
-> > +else
-> > +    echo "PASS: libc-test"
->
-> Would be nice if something would check that tests were actually
-> executed.
-
-I think src/REPORT can be used to check if 'make run' is finished
-correctly. Per the logic here
-http://nsz.repo.hu/git/?p=libc-test;a=blob;f=Makefile;h=cf2ab2b2c8ebef0a9eab8cb06efc7bb5d989cc83;hb=HEAD#l120,
-I understand the file is generated after all sub-tests are finished.
-Would you please review v3?
-
-Thanks,
-Chase
+- Chase
 
 >
-> Cheers,
->
-> -Mikko
+> Ross
 
