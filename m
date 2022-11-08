@@ -1,208 +1,174 @@
-Return-Path: <ola.x.nilsson@axis.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89AB2C433FE
-	for <webhook@archiver.kernel.org>; Tue,  8 Nov 2022 17:58:33 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web12.435.1667930309432052197
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB79CC4332F
+	for <webhook@archiver.kernel.org>; Tue,  8 Nov 2022 18:18:33 +0000 (UTC)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.52])
+ by mx.groups.io with SMTP id smtpd.web10.659.1667931504642493462
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Nov 2022 09:58:33 -0800
+ Tue, 08 Nov 2022 10:18:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=N0t4Bc9V;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: ola.x.nilsson@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1667930310;
-  x=1699466310;
-  h=references:from:to:cc:subject:date:in-reply-to:
-   message-id:mime-version:content-transfer-encoding;
-  bh=cWn2ekDRhoiKLP+YCoHlYJ3VM3SUC75Rie6t2wJMFHg=;
-  b=N0t4Bc9Vvfk5LFRve2hq592S4/p/o+KlAAmX8qnqB1jQg7mezWOSMAKM
-   C2ln9IftUXJJfFRs56kfnGedZ/elUhvgLxY2mQqSR/BYMPQbYAre8cgKd
-   bn1O9fDETaRUNPGqgVR4kyciQpQnh1kvCSJ46mZuEjMMUsmF9cLXrGLYS
-   QQowIKMdfFvQ7iDU+wuDyHKWbYDB1JNOLU+4eZW7AvQLP3x3siMNdCCxD
-   +UGRNUB5L3a103ipIM7KNKNSOua+Z2cFHzYj+WJhsl0qpmUcawvMdMBaI
-   45SNUtuaG5fFKmyb3Mt+IhnQ65NyMDttwoHFqHwyVIj+upGRdBmiYFt2J
-   A==;
-References: <20221108000828.42824-1-niko.mauno@vaisala.com>
- <20221108000828.42824-2-niko.mauno@vaisala.com>
- <CANNYZj9f2nfRbwU1MXn2a7ruKHhkw318F92Lqp9xYd8acvubwQ@mail.gmail.com>
- <5e84a23b-1111-470c-11fa-a8cc9d32dcf0@vaisala.com>
- <CANNYZj_EO7LRfzGb86D1s=YMB1Vz=1VYVropJo7VGPvsq5_FsA@mail.gmail.com>
- <a0ba0394-c43e-b21a-1a2b-e5a7ea016404@vaisala.com>
- <17259B3874804FB3.24550@lists.openembedded.org>
- <CANNYZj_CZaKxkhmHL3h7sW5i9QNZpAfwnc8ZbcX24oDw82=5dg@mail.gmail.com>
- <jwqcz9xsdah.fsf@axis.com> <1725A47F2FC9966F.2170@lists.openembedded.org>
-User-agent: mu4e 1.8.9; emacs 29.0.50
-From: Ola x Nilsson <ola.x.nilsson@axis.com>
-To: Ola x Nilsson <Ola.x.Nilsson@axis.com>
-CC: Alexander Kanavin <alex.kanavin@gmail.com>, Niko Mauno
-	<niko.mauno@vaisala.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [RFC PATCH 2/3] kbd: Disable 64 bit time with 32 bit
- glibc
-Date: Tue, 8 Nov 2022 18:56:06 +0100
-Organization: Axis Communications AB
-In-Reply-To: <1725A47F2FC9966F.2170@lists.openembedded.org>
-Message-ID: <jwq4jv9s4zi.fsf@axis.com>
-MIME-Version: 1.0
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=YXfZqCUx;
+ spf=pass (domain: arm.com, ip: 40.107.6.52, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=avxi02ALUfyRmIY3L3G6+Nu8r78N4RBXC9eZWvkAHgNvlZqdcsMbwHDraJ93kJxKr0r51V+tYECXGL/JazZ1uJb42hI1MBJV0L47AvP/fL9lwGywUafuHPIc1ecBesFV4Baxh7smHeR+eRzM4LAkygm1b/3jOxDWuXNeIJ2eZ8iysiaQT0eYY2L8elMSi6kE6QLID4bbsXP/kg6FOADX/C2xUI3UFDps97yn2+m010nkB4MhnI+NvMXF5R2y+011iej3QTgSEOC6JDPyIlkCQTB1LqlaofIUU/mfarYEa6FWrhDSCc8M/0/Dw19vPmbnRWNsLrxsPuNFYys/fvHqaQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EwxrEau70jJbFg6g3/8Bx6cn56M7rmACLY/uHiN7P2w=;
+ b=L9+q8NqwL4seLR1QiofM0ytq+S/DQ63p8xxMpZxDf+3i1KbswCjHLeGdp0KoqJ0kftbLZncIgfmb2YIlPBf9LFZy7bLFJRLKfiyN2vqdR37IE9Uzw2mVJkqI97IVqHip3YduEeIsvp9+hraumAS9PsrP/NmDyV6RYlgweDWtqtOVfoiizYp83xVAiZwGs5M8CRs1H3RdRNaNqe73+L3RDQ1NwMc1w4QD5gEnVks4W3dHQf9cOT9roYkNdCPsMPg3a0TS5G+55IcTzpHhYw+sZlKZuahYTFy6qz5jfZo+QFx/07bpJT4Pff80MVwGuYjuBDAjyMO6L3O12ENNOonWSg==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
+ oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EwxrEau70jJbFg6g3/8Bx6cn56M7rmACLY/uHiN7P2w=;
+ b=YXfZqCUxsq3mVpru5aUV9OCSEkzMxT3eckLF/2dRuTFeg6RkrMu4uuUm6luRZs5wdaFC4J/q3LLeDLkBSOweJ1TFWgC3tL+DO8iL5oMVPjcTNbcv+ViQv5R6reqpiYX3HvYVeYGYXJauEv8+Gvfo7vmk2KN7K0TlvtVV7uJghgM=
+Received: from FR0P281CA0141.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:96::12)
+ by GV1PR08MB8179.eurprd08.prod.outlook.com (2603:10a6:150:91::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.11; Tue, 8 Nov
+ 2022 18:18:20 +0000
+Received: from VI1EUR03FT003.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:d10:96:cafe::d3) by FR0P281CA0141.outlook.office365.com
+ (2603:10a6:d10:96::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.12 via Frontend
+ Transport; Tue, 8 Nov 2022 18:18:20 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ VI1EUR03FT003.mail.protection.outlook.com (100.127.144.82) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5813.12 via Frontend Transport; Tue, 8 Nov 2022 18:18:19 +0000
+Received: ("Tessian outbound 0800d254cb3b:v130"); Tue, 08 Nov 2022 18:18:19 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 6ed61e0506e96201
+X-CR-MTA-TID: 64aa7808
+Received: from 014926386127.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id A85FC99B-8593-429C-97BA-21A08A90675D.1;
+	Tue, 08 Nov 2022 18:15:56 +0000
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 014926386127.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Tue, 08 Nov 2022 18:15:56 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MPNbNlgCagi5rHyK85UtNs6QPw2FTZXBZqp9ySO3PpO+x0hX4DjGCaHng/EHVp4r3RLuxBmuZnpidaZbO13BUWTCdnuyQYFYu3H4Us7BwSBCWqtxL8m0fy4Y1JiKS0BGxmUtcHvdUVieEh8zNOBOYF7HCI0pLx4wO2v5Oqr2mg+8qH+63m6W+kHRay5QQE0Wfdk/3CIVXwolN1bbfcJSfyCsh5tTzz9HMHJqkUW6DFxtrew/cdExt7LlVOv5dmm/OCybDlETso4rpvBG4c2doUswk7j9Tauu1UlJyWfg2+KFcFcFDnDxwVp/mtyIN8+CRK36X1zrP5hTsnyWMjodJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EwxrEau70jJbFg6g3/8Bx6cn56M7rmACLY/uHiN7P2w=;
+ b=cj9m7RqIQa61l05tIq1gnsDeeifWh3TNO+f/St6YTVNYaxE+DCX9Ns/bA8VLLCBeYSeiyxy2Ku8RPPp5aZcMAEo/Am01RJucP4dHUqwDN8LtG9GEuc3ykyhVv7R6le+QHZvTib/W77R3J+5uGW3w8FtPN6v0Hyp4tCzjBOeHOYPkA3EXI1s/wsyEjJ8nLlhzyLf8JwjE9iFghq24DieMhyUdzQbpOx+GI7rFS3ctDM/lNaL4WZXsfJniFrdev4zPR+ght7WwJ36FIk3x8iIAW52/0aw06mx7CDHggsgCsZ7TnQwWGfNgB9N7703Q4msA+vGoDWfpQQaV606r520r9w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EwxrEau70jJbFg6g3/8Bx6cn56M7rmACLY/uHiN7P2w=;
+ b=YXfZqCUxsq3mVpru5aUV9OCSEkzMxT3eckLF/2dRuTFeg6RkrMu4uuUm6luRZs5wdaFC4J/q3LLeDLkBSOweJ1TFWgC3tL+DO8iL5oMVPjcTNbcv+ViQv5R6reqpiYX3HvYVeYGYXJauEv8+Gvfo7vmk2KN7K0TlvtVV7uJghgM=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AS8PR08MB9017.eurprd08.prod.outlook.com (2603:10a6:20b:5b1::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.11; Tue, 8 Nov
+ 2022 18:15:52 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::af9:29f:ae3b:108f]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::af9:29f:ae3b:108f%5]) with mapi id 15.20.5813.011; Tue, 8 Nov 2022
+ 18:15:52 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
+CC: Openembedded Core <openembedded-core@lists.openembedded.org>, Alexander
+ Kanavin <alex@linutronix.de>
+Subject: Re: [OE-core] [PATCH 47/48] sanity.bbclass: do not check for presence
+ of distutils
+Thread-Topic: [OE-core] [PATCH 47/48] sanity.bbclass: do not check for
+ presence of distutils
+Thread-Index: AQHY8rnmxICAQrTBNUmCekczx70uQK41VsUA
+Date: Tue, 8 Nov 2022 18:15:52 +0000
+Message-ID: <29FE1D7A-808C-4EFA-880F-5D7C055C7E2E@arm.com>
+References: <20221107145508.1051404-1-alex@linutronix.de>
+ <20221107145508.1051404-47-alex@linutronix.de>
+In-Reply-To: <20221107145508.1051404-47-alex@linutronix.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3731.200.110.1.12)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|AS8PR08MB9017:EE_|VI1EUR03FT003:EE_|GV1PR08MB8179:EE_
+X-MS-Office365-Filtering-Correlation-Id: dccdd9d2-2c6d-4158-fc92-08dac1b59d22
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ s61oRrWZ6YxZvxpOfAjGodief5f8p7wP6LCJIcWGxElT5MAXJREkGWRRyRV3Lunb/iWk0C+NwzmZWBnsyRuRAsVriqVog2XsSpDOhLjAUXczrn0ANUAI/GtVGdHg2ElRuEApL/Mq3QjMlYBM7RDTcNDo4Q4G/e6yY90FsYEe1lAN2914z7tm8DxESLX7T3w7IczEAeJa1eV8IJwaLlcsA3q5Gmcm030VIsAbPuRmkZq4ydJJftppSgjDoBaHtVhf/rtphG0sh/cu+mElY3s7fNmjAAr+sNvvUMwutgDeyKGxA6QID47XC2NbS60G6is+b33dzMmSyNz9IDugwtdx3XKvLNz+N5iNSXExoNAdJVU4dsPQE47oV5VcG6VO1uNbtJP49CZ8u/PARI1b4x/gGoNekBpKy2YiwcjUNXPrgN7n1gtuC5Hfm+nPg/b8pDjFCn1TBZb9lk2QWH9yXRtkD3voxcTSeFMlPDzJEFjl36pPjgQrrC6/WfKKXUv061PYA5loWxE1KnnHw7SxTsvoUqi/eanwTopPisE4cdb8aKXi8T2oMtCVVTIc6VimLPFWm25utSWD/6IUDalQuo2LyrZeGci1vNLXYq1tI7R4lbsn91z4IAjP5sDNROy9+8MuN1H3PdfZSynTGFAkq1pLQZxbZSb8GKGaDVl1sp+BCnSHsn9V5ejE05UFhEoGEsZGePxZdC5t/c3zRfXoHely776crGIGCWaS6xB0OGzE0+WffQ10vsAsaYQ2F1CCxK+K3Zrb78OqM6Bc/d5sPsDDxpKGjDKMgcn5iNVk/rcCJQk=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(366004)(136003)(376002)(39860400002)(346002)(451199015)(53546011)(26005)(2616005)(38100700002)(122000001)(66946007)(6506007)(5660300002)(4744005)(186003)(6512007)(2906002)(71200400001)(66446008)(54906003)(6486002)(66556008)(41300700001)(66476007)(478600001)(316002)(6916009)(8676002)(8936002)(91956017)(4326008)(64756008)(76116006)(36756003)(33656002)(38070700005)(86362001)(45980500001);DIR:OUT;SFP:1101;
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-ID: <4E533E1FEC377C4AACE8BDC228C75B1B@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB9017
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ VI1EUR03FT003.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	a8a27787-bbf0-4407-d8c3-08dac1b5456c
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	yedeh5NDYctCPMCROs7GODgmCkvGVaIeq1OeHg/Y4RrwItBVDs7FoZEIBEGkZOXu3P0YuBGMlraScc00W6LSef4/H8edBUBm045iIX3IT13K+X/BZykX5ooczsaNSx5HRTGB+9sDc9qIYQhh5CtdjnUgou0J8OhmDToASSGmHXWOX+07BTcglhGVr5kBRYrMj5ME5WP/tk5N8GmhtEIHUmJgfUuSRpzbgD9ze11hn46NsCCRXyN3CBkw6eFPFkYfpk8PURpSmnF36VwX2vLxFj+IfDt6QfFo0HiitRaJln0SrdXnyGE+IFIZPpgGhYJ8/9bz5mIwcO08bIKkFZu+WePaRBn3dnWAY7OjnD0ebk/0GOI9UjjoCs2z1ZJ6jwI30AqKN1wvSGfjEH/3fYdIn8rAXLyfyI/62J9I/2evQHEVAfuS+HbcmuzPUEghggINckIiJzKaytxnbKJfqfub2VjZkz1XU+HzD8wZu35WeIeJE2rZK5NMtjUpCiT0rppIAqY4M3wdSdr6XCs/MvfEV2be+V7pMJInhC8/BIJ9iKUXuztDWx7hduMj9gVW839agXU23kn7x8k4gY4b16hSTAK1SeTT6iHW4k7hx5HrSW8+oGw/5kx/WKozOolNZ/BhuW14zLxLdjqoLqYBuLy0UtWoMcCm029qkCmfaUu4QC8Id9dnqmBqffmB7QE8sbCBp3w/lo5REoKNPFTqdP8yOQcYe0LTZsCGCbhD2hifri3RgEnpDGi8jsAbnzCSeTCfGt6nGk31v/Ivw1nSHYz6xw==
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(396003)(136003)(346002)(376002)(451199015)(36840700001)(40470700004)(46966006)(478600001)(6486002)(336012)(47076005)(316002)(356005)(40460700003)(81166007)(8936002)(2906002)(186003)(2616005)(82740400003)(54906003)(86362001)(53546011)(36756003)(26005)(6512007)(33656002)(6506007)(107886003)(41300700001)(8676002)(40480700001)(82310400005)(4326008)(70586007)(70206006)(5660300002)(6862004)(4744005)(36860700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2022 18:18:19.4966
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dccdd9d2-2c6d-4158-fc92-08dac1b59d22
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	VI1EUR03FT003.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB8179
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 17:58:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172988
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 18:18:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172989
 
-
-And here is a link to the documentation for the _TIME_BITS Feature Test
-Macro
-https://www.gnu.org/software/libc/manual/html_node/Feature-Test-Macros.html=
-#index-_005fTIME_005fBITS
-
-The docs for _FILE_OFFSET_BITS is just above.
-
-/Ola
-
-On Tue, Nov 08 2022, Ola x Nilsson wrote:
-
-> Sorry, that link did not explain the -D_USE_TIME_BITS=3D64 flag.
->
-> I was sure I had read official docs of this somewhere but now I can only
-> find https://sourceware.org/glibc/wiki/Y2038ProofnessDesign#Detailed_impl=
-ementation
->
-> /Ola
->
-> On Tue, Nov 08 2022, Ola x Nilsson wrote:
->
->> As far as I can tell from glibc's documentation, this is how you are
->> supposed to do it.  glibc chose to always support both 32 and 64 bit
->> APIs for time and file offset and make the normal int size the default.
->> musl chose to switch to 64bit altogether.=20
->>
->> https://www.gnu.org/software/libc/manual/html_node/64_002dbit-time-symbo=
-l-handling.html
->>
->> /Ola
->>
->> On Tue, Nov 08 2022, Alexander Kanavin wrote:
->>
->>> I suppose what I want to say is - perhaps this should be discussed
->>> with upstreams first? Things should 'just work' without having to set
->>> some magic flags in an external configuration.
->>>
->>> Alex
->>>
->>> On Tue, 8 Nov 2022 at 13:18, Alexander Kanavin via
->>> lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
->>> wrote:
->>>>
->>>> Is this a recommendation somewhere official?
->>>>
->>>> Alex
->>>>
->>>> On Tue 8. Nov 2022 at 13.04, Niko Mauno <niko.mauno@vaisala.com> wrote:
->>>>>
->>>>> My understanding wrt. Y2038 and 32-bit glibc hosts was such that it
->>>>> makes sense to set said compiler flags globally to ensure user space
->>>>> wide Y2038 compliance. So I encountered this compiler error while
->>>>> building poky reference images with additional effective
->>>>>
->>>>>    TARGET_CPPFLAGS +=3D "-D_TIME_BITS=3D64 -D_FILE_OFFSET_BITS=3D64"
->>>>>
->>>>> declaration in meta/conf/distro/include/tclibc-glibc.inc.
->>>>>
->>>>> -Niko
->>>>>
->>>>> On 8.11.2022 13.50, Alexander Kanavin wrote:
->>>>> > So you need to set -D_TIME_BITS=3D64
->>>>> > -D_FILE_OFFSET_BITS=3D64 to get some error? But why set that, shoul=
-dn=E2=80=99t
->>>>> > the defaults work?
->>>>> >
->>>>> > Alex
->>>>> >
->>>>> > On Tue 8. Nov 2022 at 12.48, Niko Mauno <niko.mauno@vaisala.com
->>>>> > <mailto:niko.mauno@vaisala.com>> wrote:
->>>>> >
->>>>> >     I have not studied the issue, but in order to reproduce this er=
-ror I
->>>>> >     add
->>>>> >     'MACHINE =3D "qemuarm"' to local.conf then issue 'bitbake kbd' =
-against
->>>>> >     current master while TARGET_CPPFLAGS value is set to "-D_TIME_B=
-ITS=3D64
->>>>> >     -D_FILE_OFFSET_BITS=3D64".
->>>>> >
->>>>> >     -Niko
->>>>> >
->>>>> >     On 8.11.2022 11.14, Alexander Kanavin wrote:
->>>>> >      > We do build for 32 bit arm targets, so is this seen only in =
-specific
->>>>> >      > circumstances? What are they?
->>>>> >      >
->>>>> >      > Alex
->>>>> >      >
->>>>> >      > On Tue, 8 Nov 2022 at 01:09, Niko Mauno via
->>>>> >     lists.openembedded.org
->>>>> >     <http://lists.openembedded.org/
->>>>> >      > <niko.mauno=3Dvaisala.com@lists.openembedded.org
->>>>> >     <mailto:vaisala.com@lists.openembedded.org>> wrote:
->>>>> >      >>
->>>>> >      >> For now add exemption in order to avoid following failure d=
-uring
->>>>> >      >> do_compile()
->>>>> >      >>
->>>>> >      >>    |
->>>>> >     .../build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/kbd/2.=
-5.1-r0/recipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi/../../libexec/a=
-rm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/12.2.0/ld:.libs/libtswrap.=
-ver:2:
->>>>> > syntax error in VERSION script
->>>>> >      >>    | collect2: error: ld returned 1 exit status
->>>>> >      >>
->>>>> >      >> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com
->>>>> >     <mailto:niko.mauno@vaisala.com>>
->>>>> >      >> ---
->>>>> >      >>   meta/recipes-core/kbd/kbd_2.5.1.bb
->>>>> >     <http://kbd_2.5.1.bb/
->>>>> >      >>   1 file changed, 3 insertions(+)
->>>>> >      >>
->>>>> >      >> diff --git a/meta/recipes-core/kbd/kbd_2.5.1.bb
->>>>> >     <http://kbd_2.5.1.bb/
->>>>> >      >> index aa3ab6e121..b623aecd36 100644
->>>>> >      >> --- a/meta/recipes-core/kbd/kbd_2.5.1.bb
->>>>> >     <http://kbd_2.5.1.bb/
->>>>> >      >> +++ b/meta/recipes-core/kbd/kbd_2.5.1.bb
->>>>> >     <http://kbd_2.5.1.bb/
->>>>> >      >> @@ -18,6 +18,9 @@ SRC_URI =3D
->>>>> >     "${KERNELORG_MIRROR}/linux/utils/${BPN}/${BP}.tar.xz \
->>>>> >      >>
->>>>> >      >>   SRC_URI[sha256sum] =3D
->>>>> >     "ccdf452387a6380973d2927363e9cbb939fa2068915a6f937ff9d245220246=
-83"
->>>>> >      >>
->>>>> >      >> +# Compiling 64 bit time for 32 bit host is broken
->>>>> >      >> +GLIBC_64BIT_TIME_CPPFLAGS =3D ""
->>>>> >      >> +
->>>>> >      >>   PACKAGECONFIG ?=3D "${@bb.utils.filter('DISTRO_FEATURES',=
- 'pam',
->>>>> >     d)} \
->>>>> >      >>                     "
->>>>> >      >>
->>>>> >      >> --
->>>>> >      >> 2.36.1
->>>>> >      >>
->>>>> >      >>
->>>>> >      >>
->>>>> >      >>
->>>>> >
->>>>
->>>>
->>>>=20
->>>>
->>> [4. ATT00001.txt --- text/plain; ATT00001.txt]...
->
-> [4. ATT00001.txt --- text/plain; ATT00001.txt]...
-
+T24gNyBOb3YgMjAyMiwgYXQgMTQ6NTUsIEFsZXhhbmRlciBLYW5hdmluIHZpYSBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnIDxhbGV4LmthbmF2aW49Z21haWwuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmc+IHdyb3RlOg0KPiAgICAgIyBDaGVjayB0aGUgcHl0aG9uIGluc3RhbGwgaXMgY29tcGxldGUu
+IEV4YW1wbGVzIHRoYXQgYXJlIG9mdGVuIHJlbW92ZWQgaW4NCj4gLSAgICAjIG1pbmltYWwgaW5z
+dGFsbGF0aW9uczogZ2xpYi0yLjAtbmF0aXZlcyByZXF1cmllcyAjIHhtbC5wYXJzZXJzLmV4cGF0
+IGFuZCBpY3UNCj4gLSAgICAjIHJlcXVpcmVzIGRpc3R1dGlscy5zeXNjb25maWcuDQo+ICsgICAg
+IyBtaW5pbWFsIGluc3RhbGxhdGlvbnM6IGdsaWItMi4wLW5hdGl2ZXMgcmVxdXJpZXMgIyB4bWwu
+cGFyc2Vycy5leHBhdA0KPiAgICAgdHJ5Og0KPiAgICAgICAgIGltcG9ydCB4bWwucGFyc2Vycy5l
+eHBhdA0KPiAtICAgICAgICBpbXBvcnQgZGlzdHV0aWxzLnN5c2NvbmZpZw0KPiArICAgICAgICBp
+bXBvcnQgc3lzY29uZmlnDQoNCldlbGwsIHdlIGNoZWNrIGZvciBkaXN0dXRpbHMgYmVjYXVzZSBp
+dOKAmXMgb2Z0ZW4gcGFja2FnZWQgc2VwYXJhdGVseSwgZm9yIGV4YW1wbGUgaW4gRGViaWFuL1Vi
+dW50dSBpdCBpcyBwYXJ0IG9mIHB5dGhvbjMtZGlzdHV0aWxzIGFuZCBpcyBub3QgaW5zdGFsbGVk
+IGlmIHlvdSBqdXN0IOKAmGFwdCBpbnN0YWxsIHB5dGhvbjPigJkuDQoNCnN5c2NvbmZpZyBpcyBu
+b3Qgc3BsaXQgb3V0LCBpdOKAmXMgcGFydCBvZiB0aGUgY29yZSBsaWJyYXJ5Lg0KDQpJZiB3ZSBk
+b27igJl0IGFjdHVhbGx5IG5lZWQgYSAqaG9zdCogZGlzdHV0aWxzIGFueW1vcmUgKGFuZCB0aGlz
+IGlzIGVhc2lseSB0ZXN0ZWQpIHRoZW4gd2UgY2FuIHJlbW92ZSB0aGlzIGNoZWNrIGVudGlyZWx5
+LiBJZiB3ZSBkbywgdGhlbiB0aGlzIHRlc3QgbmVlZHMgdG8gcmVtYWluIGFuZCB0aGUgY29kZSB0
+aGF0IHVzZXMgKmhvc3QqIGRpc3R1dGlscyBzaG91bGQgYmUgZml4ZWQuDQoNClJvc3M=
 
