@@ -1,156 +1,106 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <nathan@nathanrossi.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 000AAC433FE
-	for <webhook@archiver.kernel.org>; Tue,  8 Nov 2022 02:43:16 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web08.3687.1667875394747613267
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27DF8C4332F
+	for <webhook@archiver.kernel.org>; Tue,  8 Nov 2022 03:23:57 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.3921.1667877835838813420
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Nov 2022 18:43:15 -0800
+ Mon, 07 Nov 2022 19:23:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=nfBcXX4F;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.44, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id gw22so12505771pjb.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 18:43:14 -0800 (PST)
+ dkim=pass header.i=@nathanrossi.com header.s=google header.b=SQyHiJKP;
+ spf=pass (domain: nathanrossi.com, ip: 209.85.214.174, mailfrom: nathan@nathanrossi.com)
+Received: by mail-pl1-f174.google.com with SMTP id d20so11947388plr.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 19:23:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ijfT8XP7DarI/85JB0ePCcBYa1tNSavRiENYiiiCfF0=;
-        b=nfBcXX4FRQVjeG7yRtskDn5L9V1DQ9jv9O67NWy+NuHc095KcqcpYVdl7r46NeVADv
-         d2ywHEAalC9K+RU3/cUOxdEC1eWxz+Thax0nnv7KtDIlMxJfqurf7YnHOHdjM56GKOM0
-         9+nai6KrDoKsbPUYxuhvaQxjoYIzkZjpdgvRHbx0Tq5O++YhE1dRbrtDwWIPFIi04fil
-         wrhTfoTqWRgwxGPxYm9tkCSjtDDLtjQgoD2I3oy4fzYiAMeBxMTms17X+d8mMMRFKbMr
-         j22MSKrB2BcvffJCPgmKMsy2x8g8PA2emDyBtcsgF2t1/7CfsTjpKy4DyJolA9sei7Si
-         SQ8Q==
+        d=nathanrossi.com; s=google;
+        h=mime-version:content-transfer-encoding:subject:cc:to:from
+         :message-id:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CU7uHV4teZeHBbZsV5s8Pr2xmgP8UjXKh7Dkn123JfQ=;
+        b=SQyHiJKPisFaL2lbkeXBhketfl386lJGTlRnRKB50g2HJkJjCpdHB8siNLx1+kvv6i
+         ENDCBhIjf6mhfh1FPILGNXWF+Nbb5wA7riYuagoFG6kzIFg+T3plffWQNufTshtPhD0O
+         HMmnXFCuOGguw6atMmqHqen1z/OH0yT+Wb7084N/ykfCu8aGlVaTtaCwIxoxPGz5dQT4
+         SvsNYF1iAODxnwjXXnXB6mzGbi7yR7L5Fkp4wDW+vcBk+ew4mRh+5pcWqPE/E7LP8eWF
+         j/olEXjqlJbipRtMHrW15FhrhGjnA7s9+bQHGaMq/vttnFCVke2FcXuwRUCcfdmTmLrr
+         usSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ijfT8XP7DarI/85JB0ePCcBYa1tNSavRiENYiiiCfF0=;
-        b=4V0l+lvGzGdSQLVVIHkWPLII4813EXkpXnWH7hLy2Lfqfn7mZTYnt9lJBnokK1glHn
-         dKjBGP5kEPHBQb59p/0cA/qDmJVFHGE0hYAC8z5mEsNDGw3ERzEXfBfFYAbNNbduF8RY
-         UYHh2lWr97wq/kAe3eC7qsTIUt17Uo+ZDtse2Eohd3ZYiX3yBTRSebShdrfridHh5Ynu
-         GZc0RDv8pdB+po8Y6a3a5AE/tbKC8DBZZssnMxMbL7hV0wb7Hm0DTX00TQTnFoDRYmKq
-         a6ff9y21J+pTbDPqD/UamkZUibjaR5HBwTeJQxdK8YVCXUY+txpCgIK8+zf4y86MuPrG
-         357Q==
-X-Gm-Message-State: ACrzQf26A1pUINjQYfSTvXMB5lTgTHFwPony5k+qNDf+WKg/K2F/0+55
-	iud3vVR3GgSAfnpoi8rC1frmN3/Al2CW1HBx
-X-Google-Smtp-Source: AMsMyM6ePfrcZpjHKEUrRJsu2lDQMGrk7N6QbjlrcmOpvn53+QOUxlySgYaJQ0dKxHeyZaWRjBKjeg==
-X-Received: by 2002:a17:90a:164f:b0:213:bda6:2873 with SMTP id x15-20020a17090a164f00b00213bda62873mr49701567pje.215.1667875393513;
-        Mon, 07 Nov 2022 18:43:13 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id o16-20020a170902d4d000b0018157b415dbsm5672546plg.63.2022.11.07.18.43.12
-        for <openembedded-core@lists.openembedded.org>
+        h=mime-version:content-transfer-encoding:subject:cc:to:from
+         :message-id:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CU7uHV4teZeHBbZsV5s8Pr2xmgP8UjXKh7Dkn123JfQ=;
+        b=QfzEyo2riuf4zEEJSMqK7t0aVVXUaM0u5m1Z8KLyimGf6H7AGvdSCcQeL8tNPI1Tvb
+         fqLnpUe9t5YivXZvqr6QHC6YQaZDKsoc826t6gCNTNHCRHBSlgCBbPAfEPG0GlLZnWgd
+         0ARX+JkiRlZHS0q5Q+J4nyCS7q2QIf9amerRCi8PioKI6yf7kISTEs/7Tf6U/TOoT9ab
+         4OhUwhZNkJoF0Zz9tiUa6gC7N5ZfSamsjkX8cWQ3DKUZAhy2QJdBEfLJZeza7VuT995F
+         YMpJ22pd8VC+Ep4366wrxp6EMbmmQjV5ITqi7PiEgVpzGAxbcdzBrmYgiKZtF5b+3Rhf
+         VevQ==
+X-Gm-Message-State: ACrzQf0y7gtNiVb/UkeHVXTG7Qdq4hfrPtywJAP7gPQU1TLcWxGMINA0
+	n9xQcbIx188llESptY0LNzybXEJER/s12g==
+X-Google-Smtp-Source: AMsMyM7Gmd2H9I0J09EfWYXR2793ucfLQI12rqukSdLNtmizSJU8i1UvRk9P7vasCYKwDfBJK+hvKQ==
+X-Received: by 2002:a17:90b:1113:b0:216:616c:5fa0 with SMTP id gi19-20020a17090b111300b00216616c5fa0mr25096472pjb.225.1667877834351;
+        Mon, 07 Nov 2022 19:23:54 -0800 (PST)
+Received: from [127.0.1.1] (117-20-68-146.751444.bne.nbn.aussiebb.net. [117.20.68.146])
+        by smtp.gmail.com with UTF8SMTPSA id x4-20020a170902a38400b001782a0d3eeasm5670362pla.115.2022.11.07.19.23.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Nov 2022 18:43:13 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
+        Mon, 07 Nov 2022 19:23:53 -0800 (PST)
+Date: Tue, 08 Nov 2022 03:23:42 +0000
+Message-Id: <20221108032342.371283-1-nathan@nathanrossi.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/21] Pull request (cover letter only)
-Date: Mon,  7 Nov 2022 16:43:08 -1000
-Message-Id: <cover.1667875142.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Cc: 
+ Nathan Rossi <nathan@nathanrossi.com>, Nathan Rossi <nathan.rossi@digi.com>
+Subject: 
+ [PATCH] oeqa/selftest/lic_checksum: Cleanup changes to emptytest include
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 02:43:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172944
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 03:23:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172945
 
-The following changes since commit 555fd2848b970fd38c20651b5e98cabb7f31287c:
+From: Nathan Rossi <nathan.rossi@digi.com>
 
-  vim: upgrade 9.0.0614 -> 9.0.0820 (2022-11-04 13:13:27 +0000)
+Config written to the emptytest include file is invalid after the test
+has cleaned up its temporary directories resulting in the emptytest
+recipe potentially having invalid content when parsed by successive
+bitbake runs.
 
-are available in the Git repository at:
+This presents the following error in tests after lic_checksum execution,
+e.g. 'oe-selftest -r lic_checksum recipetool'
 
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
+  ERROR: .../emptytest.bb: Unable to get checksum for emptytest SRC_URI entry tmpn_nyosnq: file could not be found
 
-Alex Kiernan (1):
-  u-boot: Remove duplicate inherit of cml1
+Remove the recipe include content once the bitbake runs are completed in
+each lic_checksum test case.
 
-Bartosz Golaszewski (1):
-  bluez5: add dbus to RDEPENDS
+Signed-off-by: Nathan Rossi <nathan.rossi@digi.com>
+---
+ meta/lib/oeqa/selftest/cases/lic_checksum.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Bernhard Rosenkränzer (1):
-  cmake-native: Fix host tool contamination (Bug: 14951)
-
-Frank de Brabander (1):
-  cve-update-db-native: add timeout to urlopen() calls
-
-Jan-Simon Moeller (1):
-  buildtools-tarball: export certificates to python and curl
-
-Jeremy Puhlman (1):
-  qemu-native: Add PACKAGECONFIG option for jack
-
-Joshua Watt (2):
-  runqemu: Do not perturb script environment
-  runqemu: Fix gl-es argument from causing other arguments to be ignored
-
-Keiya Nobuta (1):
-  gnutls: Unified package names to lower-case
-
-Khem Raj (1):
-  perf: Depend on native setuptools3
-
-Liam Beguin (1):
-  meson: make wrapper options sub-command specific
-
-Mark Hatle (1):
-  insane.bbclass: Allow hashlib version that only accepts on parameter
-
-Ross Burton (5):
-  scripts/oe-check-sstate: cleanup
-  scripts/oe-check-sstate: force build to run for all targets,
-    specifically populate_sysroot
-  opkg-utils: use a git clone, not a dynamic snapshot
-  oe/packagemanager/rpm: don't leak file objects
-  glib-2.0: fix rare GFileInfo test case failure
-
-Thomas Perrot (1):
-  psplash: add psplash-default in rdepends
-
-Vyacheslav Yurkov (1):
-  overlayfs: Allow not used mount points
-
-Xiangyu Chen (1):
-  ltp: backport clock_gettime04 fix from upstream
-
-wangmy (1):
-  ifupdown: upgrade 0.8.37 -> 0.8.39
-
- meta/classes/insane.bbclass                   |  5 +-
- meta/classes/overlayfs.bbclass                |  6 +-
- meta/lib/oe/overlayfs.py                      |  6 +-
- meta/lib/oe/package_manager/rpm/__init__.py   | 33 ++++---
- meta/recipes-bsp/u-boot/u-boot.inc            |  2 +-
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
- ...-info-don-t-assume-million-in-one-ev.patch | 51 +++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |  1 +
- ...{ifupdown_0.8.37.bb => ifupdown_0.8.39.bb} |  2 +-
- meta/recipes-core/meta/buildtools-tarball.bb  |  2 +
- .../recipes-core/meta/cve-update-db-native.bb |  9 +-
- meta/recipes-core/psplash/psplash_git.bb      |  2 +-
- .../cmake/cmake-native_3.22.3.bb              |  1 +
- .../meson/meson/meson-wrapper                 | 21 ++++-
- .../opkg-utils/opkg-utils_0.5.0.bb            |  6 +-
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- ...set-threshold-based-on-the-clock-res.patch | 89 +++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20220121.bb     |  1 +
- meta/recipes-kernel/perf/perf.bb              |  2 +-
- meta/recipes-support/gnutls/gnutls_3.7.4.bb   |  2 +-
- scripts/oe-check-sstate                       |  8 +-
- scripts/runqemu                               | 28 +++---
- 22 files changed, 231 insertions(+), 48 deletions(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch
- rename meta/recipes-core/ifupdown/{ifupdown_0.8.37.bb => ifupdown_0.8.39.bb} (97%)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-clock_gettime04-set-threshold-based-on-the-clock-res.patch
-
--- 
-2.25.1
-
+diff --git a/meta/lib/oeqa/selftest/cases/lic_checksum.py b/meta/lib/oeqa/selftest/cases/lic_checksum.py
+index 5897a396d9..2d0b805b90 100644
+--- a/meta/lib/oeqa/selftest/cases/lic_checksum.py
++++ b/meta/lib/oeqa/selftest/cases/lic_checksum.py
+@@ -28,6 +28,7 @@ LIC_FILES_CHKSUM = "file://%s;md5=d41d8cd98f00b204e9800998ecf8427e"
+ SRC_URI = "file://%s;md5=d41d8cd98f00b204e9800998ecf8427e"
+ """ % (urllib.parse.quote(lic_path), urllib.parse.quote(lic_path)))
+         result = bitbake(bitbake_cmd)
++        self.delete_recipeinc('emptytest')
+ 
+ 
+     # Verify that changing a license file that has an absolute path causes
+@@ -53,5 +54,6 @@ SRC_URI = "file://%s;md5=d41d8cd98f00b204e9800998ecf8427e"
+             f.write("data")
+ 
+         result = bitbake(bitbake_cmd, ignore_status=True)
++        self.delete_recipeinc('emptytest')
+         if error_msg not in result.output:
+             raise AssertionError(result.output)
+---
+2.37.2
 
