@@ -1,116 +1,106 @@
-Return-Path: <ezhilarasanx.s@intel.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F014EC4332F
-	for <webhook@archiver.kernel.org>; Tue,  8 Nov 2022 08:51:58 +0000 (UTC)
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by mx.groups.io with SMTP id smtpd.web11.5718.1667897509159772177
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC8DEC4332F
+	for <webhook@archiver.kernel.org>; Tue,  8 Nov 2022 09:14:48 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web12.5902.1667898883648021953
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Nov 2022 00:51:49 -0800
+ Tue, 08 Nov 2022 01:14:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=lTdX/hw1;
- spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: ezhilarasanx.s@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667897509; x=1699433509;
-  h=from:to:subject:date:message-id;
-  bh=EmpYepONhV3kjr5hK4tqnSQR0I/2NiXLw11M6fSJuPI=;
-  b=lTdX/hw1gfXA2Fhh5KpAXufl5yOQtHdgDzfQz9/DCSeFgJh3eusBNrsr
-   VNKqjGSldMlizbiHFkkJS8S8vOSr06LVKvdiPLc2gluZMh3A8AGfgnpDP
-   /Smnx8X4ZXHRHvcw3NNCkvI6hfpwkqG0JR/lVAn2rVyypTaxX3pegOgry
-   T5h3743WRdlrg61LcTHrbF4BYqfzly/jKwl2JTWCFvYx5uqMmh4ctJfGg
-   Rr2JNUAh2SgZ6TPKKER8H/Yq97mqnAakXcZtgUHX2uyDbPAFt0SMlLaSb
-   pq5ETXi/hn4bHQ3CSY77I34LhKuY6gN5YOJ11O7rNJuxvp0s9TMxNPdv0
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="308264807"
-X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; 
-   d="scan'208";a="308264807"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2022 00:51:21 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="699843786"
-X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; 
-   d="scan'208";a="699843786"
-Received: from inlubt0314.iind.intel.com ([10.67.198.223])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2022 00:51:20 -0800
-From: Ezhilarasan <ezhilarasanx.s@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] pixman: backport fix for CVE-2022-44638
-Date: Tue,  8 Nov 2022 14:21:09 +0530
-Message-Id: <20221108085109.3851-1-ezhilarasanx.s@intel.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Id6HZtRQ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id t10so20201951ljj.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 01:14:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=elypsuoc8+Q6c6vo9DEAkKYZD52+CpOzdzoE9IfkiBM=;
+        b=Id6HZtRQlFNMfLVS0Q3GHDzK263B27GGGrfLBw+a85fcWJogyjuRfwdJDON23F7q5e
+         kKTRW/gQK2lk8mq60Iex1/9eQ+KMGKJ8S3poabAYZLZcPRjBa6CchzS9vs6zHW6Rd0pN
+         pg1weBsAHSpmmTqZax9lof+IsAOknUn/Ej2QRw5+3ISYPlp4EMQnNQ96lLbnJCF/rAJ5
+         jaLrnkzB0DrRRkaJWiPo4KycTk5Il869X2c7ZEpoUCwNMTguMuwJnFKNPjQYPCiScAp4
+         QbWF/XFDgSH4St+hzhhws4LbmaDQV00iyhFaJpHIPCptzM9Jr4VvzjWwu4+B0JI4fRWs
+         2ONg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=elypsuoc8+Q6c6vo9DEAkKYZD52+CpOzdzoE9IfkiBM=;
+        b=SDK3BsYFx+hVQtWN0NILYdeY0FmrgrHMdlISfVNXQNAR86h4TVnZiRk2n0UEUhiocf
+         VvPv/jL3jEuN9MBVAg4aFkHfPG/Bj+/k4/7kvCpVY7YySX6Ei0fspESOvD6JhQPklmtY
+         DEyfQHsLj8Qrp6oUCY/L9KUe3ZckczpgV06KfwAo2/y4ji3fboY1BL071GUktDqUZd9a
+         iPjqWwCkedB+by6lVaGS+/DhDYt5QhHvj9NGeMNBUtcH/WLMZ3OQhHWIJkFBJulSp+RP
+         GgKArRtoOXePxSDg4/rMquPuqbIUDlMCWggm7jpkb87LaJ2cDc7Dl1E72umbjquTS06d
+         PcCQ==
+X-Gm-Message-State: ACrzQf0E6A7uUc5KMsGW0iVlqaHuWtA0IvhKa0Nnm0Kbq5KzY9DTKVCC
+	9Qoy43CFQcqBgqtJAw527zjFLNyJuW7UMzO+e/3BK3OJ
+X-Google-Smtp-Source: AMsMyM5k1+P8D+/0DvcsmUA6pcDOeCoVCZxWFNM1/FSEjJWQWqfkewfKgDCmymhMR1QLB/+BaIZxH4OYlwNwfrnBnZE=
+X-Received: by 2002:a05:651c:23a5:b0:26d:d196:d04 with SMTP id
+ bk37-20020a05651c23a500b0026dd1960d04mr6799729ljb.403.1667898881861; Tue, 08
+ Nov 2022 01:14:41 -0800 (PST)
+MIME-Version: 1.0
+References: <20221108000828.42824-1-niko.mauno@vaisala.com> <20221108000828.42824-2-niko.mauno@vaisala.com>
+In-Reply-To: <20221108000828.42824-2-niko.mauno@vaisala.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 8 Nov 2022 10:14:30 +0100
+Message-ID: <CANNYZj9f2nfRbwU1MXn2a7ruKHhkw318F92Lqp9xYd8acvubwQ@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH 2/3] kbd: Disable 64 bit time with 32 bit glibc
+To: niko.mauno@vaisala.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 08:51:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172954
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 09:14:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172955
 
-Reference to upstream patch:
-https://gitlab.freedesktop.org/pixman/pixman/-/commit/a1f88e842e0216a5b4df1ab023caebe33c101395
+We do build for 32 bit arm targets, so is this seen only in specific
+circumstances? What are they?
 
-Signed-off-by: Ravula AdhityaX Siddartha <adhityax.siddartha.ravula@intel.com>
----
- .../xorg-lib/pixman/CVE-2022-44638.patch      | 37 +++++++++++++++++++
- .../xorg-lib/pixman_0.40.0.bb                 |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
+Alex
 
-diff --git a/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch b/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
-new file mode 100644
-index 0000000000..ab5acaf2ee
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
-@@ -0,0 +1,37 @@
-+From a1f88e842e0216a5b4df1ab023caebe33c101395 Mon Sep 17 00:00:00 2001
-+From: Matt Turner <mattst88@gmail.com>
-+Date: Wed, 2 Nov 2022 12:07:32 -0400
-+Subject: [PATCH] Avoid integer overflow leading to out-of-bounds write
-+
-+Upstream-Status: Backport
-+CVE: CVE-2022-44638
-+
-+Reference to upstream patch:
-+https://gitlab.freedesktop.org/pixman/pixman/-/commit/a1f88e842e0216a5b4df1ab023caebe33c101395
-+
-+Signed-off-by: Ravula AdhityaX Siddartha <adhityax.siddartha.ravula@intel.com>
-+
-+Thanks to Maddie Stone and Google's Project Zero for discovering this
-+issue, providing a proof-of-concept, and a great analysis.
-+
-+Closes: https://gitlab.freedesktop.org/pixman/pixman/-/issues/63
-+---
-+ pixman/pixman-trap.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/pixman/pixman-trap.c b/pixman/pixman-trap.c
-+index 91766fd..7560405 100644
-+--- a/pixman/pixman-trap.c
-++++ b/pixman/pixman-trap.c
-+@@ -74,7 +74,7 @@ pixman_sample_floor_y (pixman_fixed_t y,
-+ 
-+     if (f < Y_FRAC_FIRST (n))
-+     {
-+-	if (pixman_fixed_to_int (i) == 0x8000)
-++	if (pixman_fixed_to_int (i) == 0xffff8000)
-+ 	{
-+ 	    f = 0; /* saturate */
-+ 	}
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb b/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
-index ccfe277746..c56733eefd 100644
---- a/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
-@@ -9,6 +9,7 @@ DEPENDS = "zlib"
- 
- SRC_URI = "https://www.cairographics.org/releases/${BP}.tar.gz \
-            file://0001-ARM-qemu-related-workarounds-in-cpu-features-detecti.patch \
-+           file://CVE-2022-44638.patch \
-            "
- SRC_URI[md5sum] = "73858c0862dd9896fb5f62ae267084a4"
- SRC_URI[sha256sum] = "6d200dec3740d9ec4ec8d1180e25779c00bc749f94278c8b9021f5534db223fc"
--- 
-2.17.1
-
+On Tue, 8 Nov 2022 at 01:09, Niko Mauno via lists.openembedded.org
+<niko.mauno=vaisala.com@lists.openembedded.org> wrote:
+>
+> For now add exemption in order to avoid following failure during
+> do_compile()
+>
+>   | .../build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi/../../libexec/arm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/12.2.0/ld:.libs/libtswrap.ver:2: syntax error in VERSION script
+>   | collect2: error: ld returned 1 exit status
+>
+> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
+> ---
+>  meta/recipes-core/kbd/kbd_2.5.1.bb | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/recipes-core/kbd/kbd_2.5.1.bb b/meta/recipes-core/kbd/kbd_2.5.1.bb
+> index aa3ab6e121..b623aecd36 100644
+> --- a/meta/recipes-core/kbd/kbd_2.5.1.bb
+> +++ b/meta/recipes-core/kbd/kbd_2.5.1.bb
+> @@ -18,6 +18,9 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/${BP}.tar.xz \
+>
+>  SRC_URI[sha256sum] = "ccdf452387a6380973d2927363e9cbb939fa2068915a6f937ff9d24522024683"
+>
+> +# Compiling 64 bit time for 32 bit host is broken
+> +GLIBC_64BIT_TIME_CPPFLAGS = ""
+> +
+>  PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)} \
+>                    "
+>
+> --
+> 2.36.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#172940): https://lists.openembedded.org/g/openembedded-core/message/172940
+> Mute This Topic: https://lists.openembedded.org/mt/94880633/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
