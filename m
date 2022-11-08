@@ -2,137 +2,114 @@ Return-Path: <ezhilarasanx.s@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7D31C4332F
-	for <webhook@archiver.kernel.org>; Tue,  8 Nov 2022 08:29:28 +0000 (UTC)
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by mx.groups.io with SMTP id smtpd.web11.5569.1667896164316695280
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F014EC4332F
+	for <webhook@archiver.kernel.org>; Tue,  8 Nov 2022 08:51:58 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by mx.groups.io with SMTP id smtpd.web11.5718.1667897509159772177
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Nov 2022 00:29:24 -0800
+ Tue, 08 Nov 2022 00:51:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=SAie+D4O;
- spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: ezhilarasanx.s@intel.com)
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=lTdX/hw1;
+ spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: ezhilarasanx.s@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667896164; x=1699432164;
+  t=1667897509; x=1699433509;
   h=from:to:subject:date:message-id;
-  bh=b1EfDsWVNrUZScZ6KWmxdzVbpUnlLelhRcVOsKlw7G8=;
-  b=SAie+D4OEKuz49aVHKq7vo6DJ/9ZQIhHNqT9IyPluS60cuIx1eYTH1nK
-   lz3agE2u7rNJzGS+5YFRBfwTCOThOAVmsg5NydHwr4ShCr6D07nu6KMtM
-   do9B8K7HLPucAMS/d+0w7y7/7MsAlmsp0SGsroJ9oEUokzRJxygv9AU7v
-   lVVWsz9rud5VycVvNJo84zvSjneXthNxTA76Cqbcb+inJ0Wz4NI0vH+Eg
-   r9rpca5JYSupYseAQMUDQxgqL16FGwLEpvZHQ3a8l/dUY5XkqYJvipnP2
-   JHntma84Wl3hcRx9f3CQ+WYpHpR/zELHAygOEc1hkhT+0nhSkivz5ue1Y
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="337366059"
+  bh=EmpYepONhV3kjr5hK4tqnSQR0I/2NiXLw11M6fSJuPI=;
+  b=lTdX/hw1gfXA2Fhh5KpAXufl5yOQtHdgDzfQz9/DCSeFgJh3eusBNrsr
+   VNKqjGSldMlizbiHFkkJS8S8vOSr06LVKvdiPLc2gluZMh3A8AGfgnpDP
+   /Smnx8X4ZXHRHvcw3NNCkvI6hfpwkqG0JR/lVAn2rVyypTaxX3pegOgry
+   T5h3743WRdlrg61LcTHrbF4BYqfzly/jKwl2JTWCFvYx5uqMmh4ctJfGg
+   Rr2JNUAh2SgZ6TPKKER8H/Yq97mqnAakXcZtgUHX2uyDbPAFt0SMlLaSb
+   pq5ETXi/hn4bHQ3CSY77I34LhKuY6gN5YOJ11O7rNJuxvp0s9TMxNPdv0
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="308264807"
 X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; 
-   d="scan'208";a="337366059"
+   d="scan'208";a="308264807"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2022 00:29:24 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="699837435"
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2022 00:51:21 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="699843786"
 X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; 
-   d="scan'208";a="699837435"
+   d="scan'208";a="699843786"
 Received: from inlubt0314.iind.intel.com ([10.67.198.223])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2022 00:29:23 -0800
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2022 00:51:20 -0800
 From: Ezhilarasan <ezhilarasanx.s@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] sudo: backport fix for CVE-2022-43995
-Date: Tue,  8 Nov 2022 13:59:12 +0530
-Message-Id: <20221108082912.32560-1-ezhilarasanx.s@intel.com>
+Subject: [PATCH] pixman: backport fix for CVE-2022-44638
+Date: Tue,  8 Nov 2022 14:21:09 +0530
+Message-Id: <20221108085109.3851-1-ezhilarasanx.s@intel.com>
 X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 08:29:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172953
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 08:51:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172954
 
 Reference to upstream patch:
-https://github.com/sudo-project/sudo/commit/bd209b9f16fcd1270c13db27ae3329c677d48050
+https://gitlab.freedesktop.org/pixman/pixman/-/commit/a1f88e842e0216a5b4df1ab023caebe33c101395
 
 Signed-off-by: Ravula AdhityaX Siddartha <adhityax.siddartha.ravula@intel.com>
 ---
- .../sudo/files/CVE-2022-43995.patch           | 60 +++++++++++++++++++
- meta/recipes-extended/sudo/sudo_1.9.11p3.bb   |  1 +
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-extended/sudo/files/CVE-2022-43995.patch
+ .../xorg-lib/pixman/CVE-2022-44638.patch      | 37 +++++++++++++++++++
+ .../xorg-lib/pixman_0.40.0.bb                 |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
 
-diff --git a/meta/recipes-extended/sudo/files/CVE-2022-43995.patch b/meta/recipes-extended/sudo/files/CVE-2022-43995.patch
+diff --git a/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch b/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
 new file mode 100644
-index 0000000000..3929f32e9e
+index 0000000000..ab5acaf2ee
 --- /dev/null
-+++ b/meta/recipes-extended/sudo/files/CVE-2022-43995.patch
-@@ -0,0 +1,60 @@
-+From bd209b9f16fcd1270c13db27ae3329c677d48050 Mon Sep 17 00:00:00 2001
-+From: "Todd C. Miller" <Todd.Miller@sudo.ws>
-+Date: Fri, 28 Oct 2022 07:29:55 -0600
-+Subject: [PATCH] Fix CVE-2022-43995, potential heap overflow for passwords < 8
-+ characters. Starting with sudo 1.8.0 the plaintext password buffer is
-+ dynamically sized so it is not safe to assume that it is at least 9 bytes in
-+ size. Found by Hugo Lefeuvre (University of Manchester) with ConfFuzz.
++++ b/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
+@@ -0,0 +1,37 @@
++From a1f88e842e0216a5b4df1ab023caebe33c101395 Mon Sep 17 00:00:00 2001
++From: Matt Turner <mattst88@gmail.com>
++Date: Wed, 2 Nov 2022 12:07:32 -0400
++Subject: [PATCH] Avoid integer overflow leading to out-of-bounds write
 +
 +Upstream-Status: Backport
-+CVE: CVE-2022-43995
++CVE: CVE-2022-44638
 +
 +Reference to upstream patch:
-+https://github.com/sudo-project/sudo/commit/bd209b9f16fcd1270c13db27ae3329c677d48050
++https://gitlab.freedesktop.org/pixman/pixman/-/commit/a1f88e842e0216a5b4df1ab023caebe33c101395
 +
 +Signed-off-by: Ravula AdhityaX Siddartha <adhityax.siddartha.ravula@intel.com>
 +
-+---
-+ plugins/sudoers/auth/passwd.c | 11 +++++------
-+ 1 file changed, 5 insertions(+), 6 deletions(-)
++Thanks to Maddie Stone and Google's Project Zero for discovering this
++issue, providing a proof-of-concept, and a great analysis.
 +
-+diff --git a/plugins/sudoers/auth/passwd.c b/plugins/sudoers/auth/passwd.c
-+index b2046eca2..0416861e9 100644
-+--- a/plugins/sudoers/auth/passwd.c
-++++ b/plugins/sudoers/auth/passwd.c
-+@@ -63,7 +63,7 @@ sudo_passwd_init(struct passwd *pw, sudo_auth *auth)
-+ int
-+ sudo_passwd_verify(struct passwd *pw, char *pass, sudo_auth *auth, struct sudo_conv_callback *callback)
-+ {
-+-    char sav, *epass;
-++    char des_pass[9], *epass;
-+     char *pw_epasswd = auth->data;
-+     size_t pw_len;
-+     int matched = 0;
-+@@ -75,12 +75,12 @@ sudo_passwd_verify(struct passwd *pw, char *pass, sudo_auth *auth, struct sudo_c
++Closes: https://gitlab.freedesktop.org/pixman/pixman/-/issues/63
++---
++ pixman/pixman-trap.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/pixman/pixman-trap.c b/pixman/pixman-trap.c
++index 91766fd..7560405 100644
++--- a/pixman/pixman-trap.c
+++++ b/pixman/pixman-trap.c
++@@ -74,7 +74,7 @@ pixman_sample_floor_y (pixman_fixed_t y,
 + 
-+     /*
-+      * Truncate to 8 chars if standard DES since not all crypt()'s do this.
-+-     * If this turns out not to be safe we will have to use OS #ifdef's (sigh).
-+      */
-+-    sav = pass[8];
-+     pw_len = strlen(pw_epasswd);
-+-    if (pw_len == DESLEN || HAS_AGEINFO(pw_epasswd, pw_len))
-+-	pass[8] = '\0';
-++    if (pw_len == DESLEN || HAS_AGEINFO(pw_epasswd, pw_len)) {
-++	strlcpy(des_pass, pass, sizeof(des_pass));
-++	pass = des_pass;
-++    }
-+ 
-+     /*
-+      * Normal UN*X password check.
-+@@ -88,7 +88,6 @@ sudo_passwd_verify(struct passwd *pw, char *pass, sudo_auth *auth, struct sudo_c
-+      * only compare the first DESLEN characters in that case.
-+      */
-+     epass = (char *) crypt(pass, pw_epasswd);
-+-    pass[8] = sav;
-+     if (epass != NULL) {
-+ 	if (HAS_AGEINFO(pw_epasswd, pw_len) && strlen(epass) == DESLEN)
-+ 	    matched = !strncmp(pw_epasswd, epass, DESLEN);
-+--
-+2.17.1
-diff --git a/meta/recipes-extended/sudo/sudo_1.9.11p3.bb b/meta/recipes-extended/sudo/sudo_1.9.11p3.bb
-index ba610ee2e7..fa9cf48196 100644
---- a/meta/recipes-extended/sudo/sudo_1.9.11p3.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.9.11p3.bb
-@@ -4,6 +4,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-            file://0001-sudo.conf.in-fix-conflict-with-multilib.patch \
-            file://0001-lib-util-mksigname.c-correctly-include-header-for-ou.patch \
-+           file://CVE-2022-43995.patch \
-            "
++     if (f < Y_FRAC_FIRST (n))
++     {
++-	if (pixman_fixed_to_int (i) == 0x8000)
+++	if (pixman_fixed_to_int (i) == 0xffff8000)
++ 	{
++ 	    f = 0; /* saturate */
++ 	}
++-- 
++GitLab
++
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb b/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
+index ccfe277746..c56733eefd 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
+@@ -9,6 +9,7 @@ DEPENDS = "zlib"
  
- PAM_SRC_URI = "file://sudo.pam"
+ SRC_URI = "https://www.cairographics.org/releases/${BP}.tar.gz \
+            file://0001-ARM-qemu-related-workarounds-in-cpu-features-detecti.patch \
++           file://CVE-2022-44638.patch \
+            "
+ SRC_URI[md5sum] = "73858c0862dd9896fb5f62ae267084a4"
+ SRC_URI[sha256sum] = "6d200dec3740d9ec4ec8d1180e25779c00bc749f94278c8b9021f5534db223fc"
 -- 
 2.17.1
 
