@@ -1,152 +1,187 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F183C4332F
-	for <webhook@archiver.kernel.org>; Tue,  8 Nov 2022 19:37:44 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web09.1615.1667936261650214557
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 328F6C4332F
+	for <webhook@archiver.kernel.org>; Tue,  8 Nov 2022 19:50:44 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web10.1808.1667937042534981309
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Nov 2022 11:37:42 -0800
+ Tue, 08 Nov 2022 11:50:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pyMgJXW1;
- spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f181.google.com with SMTP id d3so22651191ljl.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 11:37:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IAwb8RdWxY3cyu2WFlxVTHGtu8dZ+xL0a5cl42Qbk4c=;
-        b=pyMgJXW1/DTm3G4SNlT2Mxdq6j9VZRym+tuf42MSb6aFK/SeSI7xdYiOYUxCuSbPUx
-         gffRRM4AQ3E4XsVuHe9srq+qPUv6oQEmjeMs3C1nkhG1IYkfZRmkY2YvdMA+KlSFxNfo
-         gsGAX+rbHLizxhkwpmm3lDGDgqDi+0D6KiFsKUf2YWJDHYdjXJ0rkQO9Q/xLw8MwEtQc
-         lfCUkSPLpccER7BlBs9tv9yAodSZroyOJ7cDXuCe/g4bDfBTYUTEFx4mNbTfYXHbsxBJ
-         MW4MAUH17R557q8xqwFVGvjNB31VDPnX7VljTeDG/xOFu/7gqlO0TWdFnvEZnAlApUBM
-         2LUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IAwb8RdWxY3cyu2WFlxVTHGtu8dZ+xL0a5cl42Qbk4c=;
-        b=gF4JP8SAV4L4kZEnOhWpLgD8ddh8LSHLdbYhICxX5UgksP5gjs7p6oHx0dtb2pNiLb
-         wXzROuCdDqpKwpi0wiFc1cdLlz8sg6Jdn2wJssBmQLs4tC6eEcIK2UMtWJiNGDKePnU0
-         u7jcr3TKQIvypDzVeIPEeP+uadBdldXY89YWtsBFfZh46mhgXCL2fvXDaGs7SRs6UyqC
-         IcauI5EDY67/QK0/9Qvx4wK6FZ58BpC2QG78LNFeITPrTFNP4Z8z2b602PjD5KUwWy1U
-         6F/J+FUYOGXR7maMFUchReaIhW5Lc+be99G2EHSWEilkGxfLrH73t6PjQ4LljNY8SJV5
-         LQDQ==
-X-Gm-Message-State: ACrzQf1ukqItWcZmQH7lJuegljV87lejcaiURuV+aI10wspvRyJFT/Vo
-	guW7Y3vjbROD7AXCBMYeuBqEFV3Swi7ic+pViuE=
-X-Google-Smtp-Source: AMsMyM7xdH4DOA/Z1k/GhUjg9SejkJV3N5oye3JURlLSiXobPe+wIg4uBAU/Glt+oIMrVlr2ACIfY/7V6LYVIzawPNA=
-X-Received: by 2002:a2e:885a:0:b0:277:eba:852 with SMTP id z26-20020a2e885a000000b002770eba0852mr7638208ljj.31.1667936259675;
- Tue, 08 Nov 2022 11:37:39 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=RMVEA4QU;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id C2ACE1C0006;
+	Tue,  8 Nov 2022 19:50:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1667937040;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HnLqk++TRTz4ZxXeFVO/k1HBdLUDIMR4Q6x/mn2QlO0=;
+	b=RMVEA4QUjVTCYkkjPIYRmf0s9y3fRo+0kFwigeGvX47U64SEQJM6d5Md7F1qmUYeKh3Mbc
+	PwLnIJhp/4/ywIKn9c8snkCzy0B6Nelfp5LJx3HC4NVwmCDn/SSbyYAW4KuhYg4CY1qplR
+	SsLqcjGeiH90T73f7kKPaW9TT3R02ODEr+mZnRhHZ2ET6+9WA74Ykp0RGa2/64hxYCPWUe
+	v57PB+G7xB0bw8ERrkyvVN6hYD4nUOX8TJ6a9eLDxtqXwohfFmOXvTqPGBfCp0DATHUGNR
+	MgQd9wR7hHWv9hlHylxBd5FmJw+bouNfLEKubDEKHLtlgIzYSuB4Bnuo0Lh+1A==
+Date: Tue, 8 Nov 2022 20:50:39 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Chase Qi <chase.qi@linaro.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v3] libc-test: add libc testsuite for musl
+Message-ID: <Y2qzD8cb//AgUXco@mail.local>
+References: <20221108034233.3452233-1-chase.qi@linaro.org>
 MIME-Version: 1.0
-References: <IAS2.1666358226748943797.wkAx@lists.openembedded.org>
- <CAHwn2Xni=DChyNRGfrQ=qVgrEK3b=0AhRMx+MAONYcWW9-V_=A@mail.gmail.com>
- <C7082AE8-28B1-4277-BEC3-F7C6C14E7100@arm.com> <CAHwn2Xkgw-fAmy92oLWOUG8=K0-3dVwYXsLKEqR-WtGoHHdc1g@mail.gmail.com>
- <CABC0sH3LFm48+buev6gFFAAoDT2SLqR-r-rndSjx+eU54H5=1w@mail.gmail.com>
- <17210CE2C7C78501.808@lists.openembedded.org> <17211049B04D4148.10479@lists.openembedded.org>
- <172331B40D5EBCA0.9941@lists.openembedded.org> <CAHwn2XmaTHGGUZXn9bC=SBj51zL6eo6rhWPR4SPP_UN0js9-8g@mail.gmail.com>
- <CANNYZj8o_GjiqwADQQp5KM_mnQTi+mw6nVh2E1GWVsfi9o3ZKg@mail.gmail.com>
- <CAHwn2Xmaqn+OAPJ-PH2eYr+w8J1OWkDVMQLgkZ3V7ughLYY9oA@mail.gmail.com>
- <CANNYZj-AEZ0LheXd2ZLfC4Q=V+iq=T-Lvhutwe5_kt_SaHiHZg@mail.gmail.com>
- <CAHwn2Xn+n5ArRRH3u=x+wA+y+AaEyBOZd1JQB45FQH6rme02wg@mail.gmail.com>
- <CABC0sH0DjvXC4Hw7CxM__spomLbN1ntEsV03-CQ=3OgLLDakLg@mail.gmail.com>
- <1725B2503015CF3E.24882@lists.openembedded.org> <CANNYZj_mWfY2aoYOPxwxL32EN8h-HjmKCqZ1BB0XsC4Rd4Cg3g@mail.gmail.com>
- <CAHwn2X=ZCLSFAui=NV4e39FKk9azL4oqoNj85UHdgb9EdEaO2g@mail.gmail.com>
-In-Reply-To: <CAHwn2X=ZCLSFAui=NV4e39FKk9azL4oqoNj85UHdgb9EdEaO2g@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 8 Nov 2022 20:37:28 +0100
-Message-ID: <CANNYZj-nYbhYp8yfZYdDmS0TN8mRHmUB1Jh2zmLmcLH1FiyKpA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] openssh: Install internal header/lib files
-To: Willy Tu <wltu@google.com>
-Cc: Tristan Lelong <tlelong@google.com>, Ross Burton <Ross.Burton@arm.com>, 
-	openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221108034233.3452233-1-chase.qi@linaro.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 19:37:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172995
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 19:50:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172996
 
-Ah, I thought this was in a separate layer. I think you're best off
-getting a private copy of openssh sources then.
+Hello,
 
-Alex
+This fails with:
+The following recipes do not have a maintainer assigned to them. Please add an entry to meta/conf/distro/include/maintainers.inc file.
+libc-test (/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/recipes-core/musl/libc-test_git.bb)
 
-On Tue, 8 Nov 2022 at 20:30, Willy Tu <wltu@google.com> wrote:
->
-> So do you suggest adding bbappend in meta-openembedded where https://github.com/openembedded/meta-openembedded/pull/597 will live?
->
-> I'll check with the maintainer there. And Google/hiba users will maintain that.
->
-> Best,
->
-> Willy Tu
->
->
-> On Tue, Nov 8, 2022 at 11:25 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->>
->> Actually, you don't need to do this in HIBA - a bbappend to openssh will do.
->>
->> Alex
->>
->> On Tue, 8 Nov 2022 at 20:21, Alexander Kanavin via
->> lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
->> wrote:
->> >
->> > I'd rather have this hidden in your recipes, yes. It's clearly a
->> > special needs issue, and something you shouldn't ask us to maintain
->> > for you (what I mean is that you're not going to rebase the patch when
->> > a new openssh version is out, or adjust do_install - this falls on
->> > usually me, and my time to do these ever-growing maintenance things is
->> > not infinite).
->> >
->> > Alex
->> >
->> >
->> > On Tue, 8 Nov 2022 at 20:12, Tristan Lelong <tlelong@google.com> wrote:
->> > >
->> > > To be clear: OpenSSH maintainer will not accept a patch that exposes these files in the upstream version, but we got confirmation that they were ok if we maintained such a patch in OE (or a custom do_install in the recipe).
->> > >
->> > > If this solution is not acceptable from the OE maintainers point of view, the next option is to update the HIBA recipe to fetch OpenSSH sources on top of HIBA sources directly in HIBA's workdir, and use these instead of the one from sysroot.
->> > >
->> > > Would this work better for you?
->> > >
->> > > On Tue, Nov 8, 2022, 18:16 Willy Tu <wltu@google.com> wrote:
->> > >>
->> > >> I think they are fine with the hack here. oops. Ok, I'll work with
->> > >> them to get the fix without this change.
->> > >>
->> > >> Thanks for the feedback.
->> > >>
->> > >> Willy Tu
->> > >>
->> > >>
->> > >> On Tue, Nov 8, 2022 at 9:12 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->> > >> >
->> > >> > On Tue, 8 Nov 2022 at 18:08, Willy Tu <wltu@google.com> wrote:
->> > >> > >
->> > >> > > Thanks Alexander for the feedback,
->> > >> > >
->> > >> > > We had some discussion internally with one of the OpenSSH maintainers
->> > >> > > and they are fine with it. I'll try to see if there is a public forum
->> > >> > > where we can share the discussion.
->> > >> >
->> > >> > If they are fine with it, then you need to submit a patch to openssh
->> > >> > that installs the needed pieces (perhaps subject to a configure
->> > >> > switch), get it accepted, and then add a backport to oe-core, in that
->> > >> > order. No do_install_append hacks please.
->> > >> >
->> > >> > Alex
->> >
->> > -=-=-=-=-=-=-=-=-=-=-=-
->> > Links: You receive all messages sent to this group.
->> > View/Reply Online (#172992): https://lists.openembedded.org/g/openembedded-core/message/172992
->> > Mute This Topic: https://lists.openembedded.org/mt/94475279/1686489
->> > Group Owner: openembedded-core+owner@lists.openembedded.org
->> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
->> > -=-=-=-=-=-=-=-=-=-=-=-
->> >
+On 08/11/2022 03:42:33+0000, Chase Qi wrote:
+> libc-test is a collection of unit test to measure the correctness and
+> robustness of a C/POSIX standard library implementation. It is developed
+> as part of the musl project.
+> 
+> Signed-off-by: Chase Qi <chase.qi@linaro.org>
+> ---
+>  .../distro/include/ptest-packagelists.inc     |  1 +
+>  meta/recipes-core/musl/libc-test/run-ptest    | 28 ++++++++++
+>  meta/recipes-core/musl/libc-test_git.bb       | 51 +++++++++++++++++++
+>  3 files changed, 80 insertions(+)
+>  create mode 100644 meta/recipes-core/musl/libc-test/run-ptest
+>  create mode 100644 meta/recipes-core/musl/libc-test_git.bb
+> 
+> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+> index 32b0e5297a..3c9ff43bd9 100644
+> --- a/meta/conf/distro/include/ptest-packagelists.inc
+> +++ b/meta/conf/distro/include/ptest-packagelists.inc
+> @@ -105,6 +105,7 @@ PTESTS_SLOW = "\
+>  
+>  PTESTS_SLOW:remove:riscv64 = "valgrind-ptest"
+>  PTESTS_PROBLEMS:append:riscv64 = "valgrind-ptest"
+> +PTESTS_SLOW:append:libc-musl = " libc-test-ptest"
+>  
+>  #    ruby-ptest \ # Timeout
+>  #    lz4-ptest \ # Needs a rewrite
+> diff --git a/meta/recipes-core/musl/libc-test/run-ptest b/meta/recipes-core/musl/libc-test/run-ptest
+> new file mode 100644
+> index 0000000000..0b4b687dec
+> --- /dev/null
+> +++ b/meta/recipes-core/musl/libc-test/run-ptest
+> @@ -0,0 +1,28 @@
+> +#!/bin/sh
+> +
+> +set -e
+> +
+> +cd /opt/libc-test
+> +make cleanall
+> +make run || true
+> +
+> +echo ""
+> +echo "--- ptest result ---"
+> +# libc-test runs tests by module(e.g. src/api) and generates sub-module test
+> +# report(e.g. src/api/REPORT) first. After all tests finish, it generates the
+> +# consolidated report file src/REPORT.
+> +report="/opt/libc-test/src/REPORT"
+> +if ! [ -f "${report}" ]; then
+> +    echo "${report} not found!"
+> +    echo "FAIL: libc-test"
+> +    exit 1
+> +# libc-test prints error on failure and prints nothing on success.
+> +elif grep -q '^FAIL src.*\.exe.*' "${report}"; then
+> +    # Print test failure in ptest format.
+> +    # e.g. "FAIL src/api/main.exe [status 1]" -> "FAIL: api_main"
+> +    grep '^FAIL src.*\.exe.*' "${report}" \
+> +        | sed 's|^FAIL src/|FAIL: |;s|/|_|;s|\.exe.*\]||'
+> +    exit 1
+> +else
+> +    echo "PASS: libc-test"
+> +fi
+> diff --git a/meta/recipes-core/musl/libc-test_git.bb b/meta/recipes-core/musl/libc-test_git.bb
+> new file mode 100644
+> index 0000000000..b5bfc6e34c
+> --- /dev/null
+> +++ b/meta/recipes-core/musl/libc-test_git.bb
+> @@ -0,0 +1,51 @@
+> +SUMMARY = "Musl libc unit tests"
+> +HOMEPAGE = "https://wiki.musl-libc.org/libc-test.html"
+> +DESCRIPTION = "libc-test is a collection of unit tests to measure the \
+> +correctness and robustness of a C/POSIX standard library implementation. It is \
+> +developed as part of the musl project."
+> +SECTION = "tests"
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=43ed1245085be90dc934288117d55a3b"
+> +
+> +inherit ptest
+> +
+> +SRCREV = "18e28496adee3d84fefdda6efcb9c5b8996a2398"
+> +SRC_URI = " \
+> +    git://repo.or.cz/libc-test;branch=master \
+> +    file://run-ptest \
+> +"
+> +
+> +PV = "0+git${SRCPV}"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +# libc-test 'make' or 'make run' command is designed to build and run tests. It
+> +# reports both build and test failures. The commands should be run on target.
+> +do_compile() {
+> +    :
+> +}
+> +
+> +RDEPENDS:${PN} = " \
+> +    bash \
+> +    grep \
+> +    musl \
+> +    packagegroup-core-buildessential \
+> +"
+> +
+> +RDEPENDS:${PN}-ptest = " \
+> +     ${PN} \
+> +     sed \
+> +"
+> +
+> +install_path = "/opt/${PN}"
+> +FILES:${PN} += "${install_path}/*"
+> +
+> +do_install () {
+> +    install -d ${D}${install_path}/
+> +    cp ${S}/Makefile ${D}${install_path}
+> +    cp ${S}/config.mak.def ${D}${install_path}/config.mak
+> +    cp -r ${S}/src ${D}${install_path}
+> +}
+> +
+> +COMPATIBLE_HOST = "null"
+> +COMPATIBLE_HOST:libc-musl = "(.*)"
+> -- 
+> 2.25.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#172948): https://lists.openembedded.org/g/openembedded-core/message/172948
+> Mute This Topic: https://lists.openembedded.org/mt/94883839/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
