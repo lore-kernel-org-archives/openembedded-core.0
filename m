@@ -1,223 +1,352 @@
-Return-Path: <niko.mauno@vaisala.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6A5FC433FE
-	for <webhook@archiver.kernel.org>; Tue,  8 Nov 2022 12:04:49 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.53])
- by mx.groups.io with SMTP id smtpd.web08.7191.1667909075499053561
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BABCC433FE
+	for <webhook@archiver.kernel.org>; Tue,  8 Nov 2022 12:18:30 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web09.7330.1667909903142472161
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Nov 2022 04:04:36 -0800
+ Tue, 08 Nov 2022 04:18:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=xBuqq1ls;
- spf=pass (domain: vaisala.com, ip: 40.107.22.53, mailfrom: niko.mauno@vaisala.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O9+STwJCygn9hXlzbKLsMXRxBCjWemzyYdtS3vrbeEzFSAan9euzohxNteOh+NpuemB4ZP6QIqtXEqqUGOdgGVMrClnwGhuKtffgHN1gef1x+d308+0jt9CLzSK4KlsepkZCofRsMXT9edD2NYH23a3Jh/jU1SroyIMcRi3sEoZFo7/0/ob8A/v+yQHISi/ydaku3gzK9cK/aG8UN/r7RpanzoMnq00kG3I2awNjI7eNJlIRFoaTKNj1xGG67ZC3Uxlj5Kwf/S7TOVzPiQH3MiE8VLgMoRQeDibjPiRq8k5TtBsOlJyXlle2Uf46KAptDCqJjIUEUM31OzsPvvYFpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CWJ8ACkHibLAAVgSxNmXgas7HW3eMK+sFuau1HZ8Zhw=;
- b=jjpOUBbekwqQvGLgnvN2CtHKCm1kUWcGMfDRa+fPcA+p+WKLHQY7kdYxWBETfzMchUyJyqlkVJXtIt8E5nzJtq1HCw3LrM90KvKrD2++9/nnjONUEpGRMqxD5CkQpHCfFZzMPi6qnfCptzZEhIxs1Tj54pbIZPutjJcaXzMwrXz8iB7qsbNjKjzR83qgmcGslZVUUfU1r/kZGXCXXK97dz/f8Zn1rPEoLVcTZQ9DlAu1tekOvRrKp0Z9vqllNEBlNxNpVah8pRMuLtXVdU6XCgS7A8o/y6XfBkurqjkdtzhKi76K3bzjjnR/oH3RCMOeWYcpjE+dOhWMsLthcncjqw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
- dkim=pass header.d=vaisala.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CWJ8ACkHibLAAVgSxNmXgas7HW3eMK+sFuau1HZ8Zhw=;
- b=xBuqq1lsrH3GhW+dGmaRPyTGOhKrqJ61dg+LtyJHymfMpZFezREGE/rXjsBHZJ99/vL2vaM3XMmkjWPYvBJh33VR3vikas16NCFq/V5WTcjmsAOBLhwOQh1fS/xYHyYPUUXqjk7w34Hh/xU/S4DQ4qRFSp+WpN0svO7RPe4pDWZJ5x8j75Lx2YvRCRZ0ljGFIGkZo+MGicTMDwiDrh7EQE5s2DKk7p9uAvEmmpOCFcTHqG61KDe2rIzhqDBafRUPMU3FNER4ztAVC9Wz999ekx4pFj2JUzUlVjp2dTJG/LdVSHCQ6rwMkLQrNmfScDwt36FlBVXK7MNpvdVSRDebrA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vaisala.com;
-Received: from PAXPR06MB8579.eurprd06.prod.outlook.com (2603:10a6:102:2b3::22)
- by PA4PR06MB8474.eurprd06.prod.outlook.com (2603:10a6:102:2a5::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.27; Tue, 8 Nov
- 2022 12:04:32 +0000
-Received: from PAXPR06MB8579.eurprd06.prod.outlook.com
- ([fe80::a2ad:443:3e3e:7baa]) by PAXPR06MB8579.eurprd06.prod.outlook.com
- ([fe80::a2ad:443:3e3e:7baa%5]) with mapi id 15.20.5791.025; Tue, 8 Nov 2022
- 12:04:32 +0000
-Message-ID: <a0ba0394-c43e-b21a-1a2b-e5a7ea016404@vaisala.com>
-Date: Tue, 8 Nov 2022 14:04:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [OE-core] [RFC PATCH 2/3] kbd: Disable 64 bit time with 32 bit
- glibc
-Content-Language: en-US
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-References: <20221108000828.42824-1-niko.mauno@vaisala.com>
- <20221108000828.42824-2-niko.mauno@vaisala.com>
- <CANNYZj9f2nfRbwU1MXn2a7ruKHhkw318F92Lqp9xYd8acvubwQ@mail.gmail.com>
- <5e84a23b-1111-470c-11fa-a8cc9d32dcf0@vaisala.com>
- <CANNYZj_EO7LRfzGb86D1s=YMB1Vz=1VYVropJo7VGPvsq5_FsA@mail.gmail.com>
-From: Niko Mauno <niko.mauno@vaisala.com>
-In-Reply-To: <CANNYZj_EO7LRfzGb86D1s=YMB1Vz=1VYVropJo7VGPvsq5_FsA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: GV3P280CA0041.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:9::19) To PAXPR06MB8579.eurprd06.prod.outlook.com
- (2603:10a6:102:2b3::22)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=e/uggRHm;
+ spf=pass (domain: gmail.com, ip: 209.85.167.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f52.google.com with SMTP id d6so20972534lfs.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 04:18:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=q/zMlIdCLflNnhnp7UrR0VqoOJCDqIPSeGDBpHOp6Fs=;
+        b=e/uggRHmK7a7w9xSTy3KuzCEp/FRNqYxzJZ67Lk68QT7QlsRTYA4obaCvLif5bm4wE
+         qfCn2Ogh6eza7OTq7sgZ5ErKrlZGFmNzeMkY5+Ldsq9xbv4u6ApXizh2Eqh9/V6Befns
+         1L2Y+m2yCjePbg6yLWbDLnQaIcWfdVtjosgnCugnlTH3vVS2xwv71BkPd7PA+fhBL/uc
+         xtqgmaxmCxERGE3AtYEVgQCCyFfYp638C0CzTHi6ET3D1WwIODjkErXQTHipCmi4ZwxR
+         tHgD0pV32hqncCOqm/8GIYwLZbn90VDO8BaseseqiBdrA5xxHuoqqccf2K581Ayl6ewr
+         Ft0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=q/zMlIdCLflNnhnp7UrR0VqoOJCDqIPSeGDBpHOp6Fs=;
+        b=ynROrmBsQ95QGEk8XE3mBjHZFmf+yaWowKvbPNgRXueU82L+5jjWjtEf4ZmqiuUADK
+         +bXQe4u4qG+Pz5quEd6ejyIWjiqFSZhq+1xWU2WDpbCsHBZQYX/hp3cKS97osYO2Mt8e
+         y8ZC0m+su2J4P9r5yYvzLD7cu5CF+SIV7gNZIYobABarHMKVPRbUQ29JvAlaAwlgCLi4
+         a4fVN51OYvu70+YXFZ5+GYEvZhZuLfcZhJ3qlJ37wg4L6sn4lI+BhdDlcYeHF2RJ0GBM
+         RG/mDtxTiK1DdpIlEYgOcSQmrkmw9wXQlvOngJDwi2jFureSXOCd8Ip5Xgsc7S+bGuXm
+         FZyw==
+X-Gm-Message-State: ACrzQf3t0L2KcSTjuqiN66xuiWvpfd7xhXDDuiwKYir4jL7ScB+IK7K1
+	YXHTATEx4s+bGL5DzWUdLTIL6ac0Uw46S1Mx/S8=
+X-Google-Smtp-Source: AMsMyM6y7WRW88os7eYuyhca60iQoCzR5HYWaO41rpbjuH7qkNlFjIhAdtdhcQDLqczkA6jB3wPqOppU2+x9mGC+K5Q=
+X-Received: by 2002:ac2:4c8e:0:b0:4a2:7d0d:c7a5 with SMTP id
+ d14-20020ac24c8e000000b004a27d0dc7a5mr18914361lfl.367.1667909901236; Tue, 08
+ Nov 2022 04:18:21 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR06MB8579:EE_|PA4PR06MB8474:EE_
-X-MS-Office365-Filtering-Correlation-Id: b0914a65-3637-40b6-5626-08dac18165a4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	OtMfGYgyvh40LSR6AvDrDb0jB5vMZqSxKk09s2pqnLIQdW6cFKW1Tj9mUu6oHyrgJMa1tZ8KWzPqjpstvL3+Hz2PhVboZUXetUMzy5b+e1RHTHYq8nWJCP9F1EzfC9feblmJoDC0C6/t1li6EINNXTrPGJZnj4XYOuq7ktdNrrFJ++IQfJMZhHqoAOi/5YkUB2sx45OdotR9VTt283iorIj5mAo7wbHh0j7aPEmG4BOKHqbDaDgTOvWLxDXencfU63f52EEVepOpasMubwQYZ1JbKB/uP0s/EDehMOUTIVPVSJUm2wOdZWuHF+74u+qj5eOwEf0mD6L5+1/3Mz4somA+hneiVZLgX5DR0tw3r5cjxM72XkB0G3anFUZUOKuv/iKc54FAsg7/+Lu75UzB0jNaud90Vr7mTQZfK794AHS1W7Cl/trfUvk5NL8nwulo8uNFzN+sFMiQqtZnh0bKg0eekXmMaLllKLJ00t+dDLWCcz0bwrB+6YyXW+4lcSFMj02j2TKAHRc5++rIMAdwnvqkxoybk1YDNFaVOcnIET+3tv4z3E576iqk068/S3EpYoKZT+z/TzjJE8wY1QCXhmShDtfoCMTXrXm2ENqwkoZd7Mk3PF1+EC31yXwWEttj2ZcWdyuNk4eXUpKxalrHLEzzkNnrvCWcfVgIxaGvUf7p8174NQ8YyG6ngCbG+/0bfnZBIAdjbogZekbF71rgkd3R9y++WOeqR/y/ULvJrCFVboDjY/Rw2E3pF9gQsDzxm7QEZ5Q3dzzDUIjiZrKACUjP4Rr7LVHsxaOa2NVrX3Q5l1nbwgq8DlFe9vEZjGq/
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR06MB8579.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(396003)(39850400004)(136003)(366004)(346002)(451199015)(86362001)(31696002)(6916009)(6666004)(83380400001)(36756003)(41300700001)(66556008)(186003)(44832011)(2906002)(8936002)(2616005)(6506007)(66476007)(66946007)(8676002)(316002)(38100700002)(26005)(6486002)(6512007)(4326008)(5660300002)(66899015)(966005)(31686004)(478600001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?nRkbgEiN3gDC6LRclcoyC3R1R/pnO6PWc82juEV3BWLLjJfly5Glx9J3wAR1?=
- =?us-ascii?Q?Lsi5VYL/zr8px7tp7yPPCp1iXwubzfHIWptK9rc8LkmEyy5fFN1YRsaSR0aS?=
- =?us-ascii?Q?69ofQEUZj2j/M8SvKKLOxPQePCcSnUC+1ECcfONgjLeCKmfTAHTAW8mGYDzj?=
- =?us-ascii?Q?Y8g7Mh9hpRNISY8ZgKDpZJm7nQB0Za7WadbgV6OlENtP2EWevEDth6ivhYb2?=
- =?us-ascii?Q?s3Ws9zaw/ZujBwdrXWL9bZT62g5HG4eH56j8ixgQOCUpESFKaTCyw6z9ziDk?=
- =?us-ascii?Q?zGQow4hm5avx9/Vv8ysSH6tzu0Bagm4NJN3MpRDb7PbynzPVCZXgzuYUiIeC?=
- =?us-ascii?Q?HJFH5kei111hlPRQV35FCiP6xa6GvMnOn+V5ZLZfvySfdrWeqZmyaluvBaBH?=
- =?us-ascii?Q?Awu/LKkMnCDdeWdPEjtT9FAim3tM6WhYvYEyJX2q0FjrBlgKUeaC1Mv8d0zt?=
- =?us-ascii?Q?yR43iUZrg/evXvPa8hRKXF9pFnYkeZYWi4z84HVo9Leuf93JyGGJ4mhGhklF?=
- =?us-ascii?Q?dmflG8fZfFL+8eHXuk2Hi4P9OBPCqdP8JETbXqqMAinzzBSTnYq5YFqnzmeg?=
- =?us-ascii?Q?w6iP5XXvHniFZUOeBX+PMpPFhAMfnkm+gDeHjm8AmNTtpSivVP55tZ21mgRV?=
- =?us-ascii?Q?rkmk9DEt0VJQe0ED69Bn5hDTIbkfzItZj89q3oYi5ybJ18QMddlxBukdDiqn?=
- =?us-ascii?Q?FHQAi/NOwbWMGWhvXcUHFgJwhfQl3/ZutQ2c7GzSalbS0mHI5lZLpAILy8iu?=
- =?us-ascii?Q?NxREGFEuebp5IjkxJs5PFoYf6mNca2xnPJi82A2LLjfcxHVdJemfqTbhxK2G?=
- =?us-ascii?Q?SG5a8EfJ8eC/K+WsfwVveOlDNJyFY6DkA6Y2ZLEFwk07qTqlH5kkT/pN+QaF?=
- =?us-ascii?Q?lGjsvXQ5QAkTI3oeC43317Yam4mVZyqu8JVb4zKf/Gb63WMyWX5NxGraVmzk?=
- =?us-ascii?Q?qyyFoEBww2dXpHte6Yv5yVHwi+oeJHpNP6gBgbAqkwwL8HxkC7Dp0XvYb85d?=
- =?us-ascii?Q?hQSoPa8DN7H+zZQDeF3SAPKRE+rDibE8OiXBojwIg4B80p19BGDulQqgakzl?=
- =?us-ascii?Q?oXngV99M6egeZlEzPUGcGIooYbS+6ZbkaFRPjBpsuohFK0QsK+wp5FZS5Ntr?=
- =?us-ascii?Q?uocfSmN9rQ+5CGN3lr+8SnJdpcg4tRTiCpYxBmfp5WQQJkVngV+xZ7ywDavW?=
- =?us-ascii?Q?bwTmD2OpFo+BpOuW3/3ooVu0S8Q1uYy2/rEmkcWsHVV3v2KRpKgShq3iTZkL?=
- =?us-ascii?Q?TkBJeq2JouMqhzTMPiky4gIgjie6HoxpdKF7/oEsToQHGooc1Wy4AmMB8YKL?=
- =?us-ascii?Q?z+NsCW0h7fSRGDdIeyV+NXo1w+o8E4yr/SeDtsXZlHeLh9GrjNQwZwBNYQrM?=
- =?us-ascii?Q?B6M0fUWGcjfkO59qkoDUceDJ3ZanQvN7r5L2YLbDXMW2lDzmGlLYBxBU6UPV?=
- =?us-ascii?Q?zTs6z3aundh8musG3mUufz0DJapDAi83Dkmus4vsrSFkucRgRflJ/NJUrGae?=
- =?us-ascii?Q?cuzHsSFckHtM7HEqamkvE40QPOolkFAXiMKjxqnvYaOjTl9e6ylOnOV8uU4h?=
- =?us-ascii?Q?ZPjyDmhAhP0OFKMHr7HnSioWN0KiaxTXTZUkEMfOI98Ed7trsx7DhJffRY7C?=
- =?us-ascii?Q?3A=3D=3D?=
-X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0914a65-3637-40b6-5626-08dac18165a4
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR06MB8579.eurprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2022 12:04:32.7807
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: J2anS5fZC8pXhP7TDWuZ0Cixxeh4W5EpyUBKAL5T7+ql1T5r5/E+ivsO0kCRNRut2J6ZCQNNytzsVHNPwkJ4qw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR06MB8474
+References: <20221108000828.42824-1-niko.mauno@vaisala.com>
+ <20221108000828.42824-2-niko.mauno@vaisala.com> <CANNYZj9f2nfRbwU1MXn2a7ruKHhkw318F92Lqp9xYd8acvubwQ@mail.gmail.com>
+ <5e84a23b-1111-470c-11fa-a8cc9d32dcf0@vaisala.com> <CANNYZj_EO7LRfzGb86D1s=YMB1Vz=1VYVropJo7VGPvsq5_FsA@mail.gmail.com>
+ <a0ba0394-c43e-b21a-1a2b-e5a7ea016404@vaisala.com>
+In-Reply-To: <a0ba0394-c43e-b21a-1a2b-e5a7ea016404@vaisala.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 8 Nov 2022 13:18:10 +0100
+Message-ID: <CANNYZj_40ANh2DWbijg47=5MgYku2sw6bBg11heqWW6aVP1OgQ@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH 2/3] kbd: Disable 64 bit time with 32 bit glibc
+To: Niko Mauno <niko.mauno@vaisala.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000002e3d9c05ecf489a6"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 12:04:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172963
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 12:18:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172964
 
-My understanding wrt. Y2038 and 32-bit glibc hosts was such that it=20
-makes sense to set said compiler flags globally to ensure user space=20
-wide Y2038 compliance. So I encountered this compiler error while=20
-building poky reference images with additional effective
+--0000000000002e3d9c05ecf489a6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-   TARGET_CPPFLAGS +=3D "-D_TIME_BITS=3D64 -D_FILE_OFFSET_BITS=3D64"
+Is this a recommendation somewhere official?
 
-declaration in meta/conf/distro/include/tclibc-glibc.inc.
+Alex
 
--Niko
+On Tue 8. Nov 2022 at 13.04, Niko Mauno <niko.mauno@vaisala.com> wrote:
 
-On 8.11.2022 13.50, Alexander Kanavin wrote:
-> So you need to set -D_TIME_BITS=3D64
-> -D_FILE_OFFSET_BITS=3D64 to get some error? But why set that, shouldn=E2=
-=80=99t=20
-> the defaults work?
->=20
-> Alex
->=20
-> On Tue 8. Nov 2022 at 12.48, Niko Mauno <niko.mauno@vaisala.com=20
-> <mailto:niko.mauno@vaisala.com>> wrote:
->=20
->     I have not studied the issue, but in order to reproduce this error I
->     add
->     'MACHINE =3D "qemuarm"' to local.conf then issue 'bitbake kbd' agains=
-t
->     current master while TARGET_CPPFLAGS value is set to "-D_TIME_BITS=3D=
-64
->     -D_FILE_OFFSET_BITS=3D64".
->=20
->     -Niko
->=20
->     On 8.11.2022 11.14, Alexander Kanavin wrote:
->      > We do build for 32 bit arm targets, so is this seen only in specif=
-ic
->      > circumstances? What are they?
->      >
->      > Alex
->      >
->      > On Tue, 8 Nov 2022 at 01:09, Niko Mauno via
->     lists.openembedded.org
->     <http://lists.openembedded.org/
->      > <niko.mauno=3Dvaisala.com@lists.openembedded.org
->     <mailto:vaisala.com@lists.openembedded.org>> wrote:
->      >>
->      >> For now add exemption in order to avoid following failure during
->      >> do_compile()
->      >>
->      >>=C2=A0 =C2=A0 |
->     .../build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0=
-/recipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi/../../libexec/arm-pok=
-y-linux-gnueabi/gcc/arm-poky-linux-gnueabi/12.2.0/ld:.libs/libtswrap.ver:2:=
- syntax error in VERSION script
->      >>=C2=A0 =C2=A0 | collect2: error: ld returned 1 exit status
->      >>
->      >> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com
->     <mailto:niko.mauno@vaisala.com>>
->      >> ---
->      >>=C2=A0 =C2=A0meta/recipes-core/kbd/kbd_2.5.1.bb
->     <http://kbd_2.5.1.bb/
->      >>=C2=A0 =C2=A01 file changed, 3 insertions(+)
->      >>
->      >> diff --git a/meta/recipes-core/kbd/kbd_2.5.1.bb
->     <http://kbd_2.5.1.bb/
->      >> index aa3ab6e121..b623aecd36 100644
->      >> --- a/meta/recipes-core/kbd/kbd_2.5.1.bb
->     <http://kbd_2.5.1.bb/
->      >> +++ b/meta/recipes-core/kbd/kbd_2.5.1.bb
->     <http://kbd_2.5.1.bb/
->      >> @@ -18,6 +18,9 @@ SRC_URI =3D
->     "${KERNELORG_MIRROR}/linux/utils/${BPN}/${BP}.tar.xz \
->      >>
->      >>=C2=A0 =C2=A0SRC_URI[sha256sum] =3D
->     "ccdf452387a6380973d2927363e9cbb939fa2068915a6f937ff9d24522024683"
->      >>
->      >> +# Compiling 64 bit time for 32 bit host is broken
->      >> +GLIBC_64BIT_TIME_CPPFLAGS =3D ""
->      >> +
->      >>=C2=A0 =C2=A0PACKAGECONFIG ?=3D "${@bb.utils.filter('DISTRO_FEATUR=
-ES', 'pam',
->     d)} \
->      >>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0"
->      >>
->      >> --
->      >> 2.36.1
->      >>
->      >>
->      >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->      >> Links: You receive all messages sent to this group.
->      >> View/Reply Online (#172940):
->     https://lists.openembedded.org/g/openembedded-core/message/172940
->     <https://lists.openembedded.org/g/openembedded-core/message/172940
->      >> Mute This Topic:
->     https://lists.openembedded.org/mt/94880633/1686489
->     <https://lists.openembedded.org/mt/94880633/1686489
->      >> Group Owner: openembedded-core+owner@lists.openembedded.org
->     <mailto:openembedded-core%2Bowner@lists.openembedded.org>
->      >> Unsubscribe:
->     https://lists.openembedded.org/g/openembedded-core/unsub
->     <https://lists.openembedded.org/g/openembedded-core/unsub
->      >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->      >>
->=20
+> My understanding wrt. Y2038 and 32-bit glibc hosts was such that it
+> makes sense to set said compiler flags globally to ensure user space
+> wide Y2038 compliance. So I encountered this compiler error while
+> building poky reference images with additional effective
+>
+>    TARGET_CPPFLAGS +=3D "-D_TIME_BITS=3D64 -D_FILE_OFFSET_BITS=3D64"
+>
+> declaration in meta/conf/distro/include/tclibc-glibc.inc.
+>
+> -Niko
+>
+> On 8.11.2022 13.50, Alexander Kanavin wrote:
+> > So you need to set -D_TIME_BITS=3D64
+> > -D_FILE_OFFSET_BITS=3D64 to get some error? But why set that, shouldn=
+=E2=80=99t
+> > the defaults work?
+> >
+> > Alex
+> >
+> > On Tue 8. Nov 2022 at 12.48, Niko Mauno <niko.mauno@vaisala.com
+> > <mailto:niko.mauno@vaisala.com>> wrote:
+> >
+> >     I have not studied the issue, but in order to reproduce this error =
+I
+> >     add
+> >     'MACHINE =3D "qemuarm"' to local.conf then issue 'bitbake kbd' agai=
+nst
+> >     current master while TARGET_CPPFLAGS value is set to "-D_TIME_BITS=
+=3D64
+> >     -D_FILE_OFFSET_BITS=3D64".
+> >
+> >     -Niko
+> >
+> >     On 8.11.2022 11.14, Alexander Kanavin wrote:
+> >      > We do build for 32 bit arm targets, so is this seen only in
+> specific
+> >      > circumstances? What are they?
+> >      >
+> >      > Alex
+> >      >
+> >      > On Tue, 8 Nov 2022 at 01:09, Niko Mauno via
+> >     lists.openembedded.org
+> >     <http://lists.openembedded.org/
+> >      > <niko.mauno=3Dvaisala.com@lists.openembedded.org
+> >     <mailto:vaisala.com@lists.openembedded.org>> wrote:
+> >      >>
+> >      >> For now add exemption in order to avoid following failure durin=
+g
+> >      >> do_compile()
+> >      >>
+> >      >>    |
+> >
+>  .../build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/re=
+cipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi/../../libexec/arm-poky-l=
+inux-gnueabi/gcc/arm-poky-linux-gnueabi/12.2.0/ld:.libs/libtswrap.ver:2:
+> syntax error in VERSION script
+> >      >>    | collect2: error: ld returned 1 exit status
+> >      >>
+> >      >> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com
+> >     <mailto:niko.mauno@vaisala.com>>
+> >      >> ---
+> >      >>   meta/recipes-core/kbd/kbd_2.5.1.bb
+> >     <http://kbd_2.5.1.bb/
+> >      >>   1 file changed, 3 insertions(+)
+> >      >>
+> >      >> diff --git a/meta/recipes-core/kbd/kbd_2.5.1.bb
+> >     <http://kbd_2.5.1.bb/
+> >      >> index aa3ab6e121..b623aecd36 100644
+> >      >> --- a/meta/recipes-core/kbd/kbd_2.5.1.bb
+> >     <http://kbd_2.5.1.bb/
+> >      >> +++ b/meta/recipes-core/kbd/kbd_2.5.1.bb
+> >     <http://kbd_2.5.1.bb/
+> >      >> @@ -18,6 +18,9 @@ SRC_URI =3D
+> >     "${KERNELORG_MIRROR}/linux/utils/${BPN}/${BP}.tar.xz \
+> >      >>
+> >      >>   SRC_URI[sha256sum] =3D
+> >     "ccdf452387a6380973d2927363e9cbb939fa2068915a6f937ff9d24522024683"
+> >      >>
+> >      >> +# Compiling 64 bit time for 32 bit host is broken
+> >      >> +GLIBC_64BIT_TIME_CPPFLAGS =3D ""
+> >      >> +
+> >      >>   PACKAGECONFIG ?=3D "${@bb.utils.filter('DISTRO_FEATURES', 'pa=
+m',
+> >     d)} \
+> >      >>                     "
+> >      >>
+> >      >> --
+> >      >> 2.36.1
+> >      >>
+> >      >>
+> >      >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >      >> Links: You receive all messages sent to this group.
+> >      >> View/Reply Online (#172940):
+> >     https://lists.openembedded.org/g/openembedded-core/message/172940
+> >     <https://lists.openembedded.org/g/openembedded-core/message/172940
+> >      >> Mute This Topic:
+> >     https://lists.openembedded.org/mt/94880633/1686489
+> >     <https://lists.openembedded.org/mt/94880633/1686489
+> >      >> Group Owner: openembedded-core+owner@lists.openembedded.org
+> >     <mailto:openembedded-core%2Bowner@lists.openembedded.org>
+> >      >> Unsubscribe:
+> >     https://lists.openembedded.org/g/openembedded-core/unsub
+> >     <https://lists.openembedded.org/g/openembedded-core/unsub
+> >      >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >      >>
+> >
+>
+
+--0000000000002e3d9c05ecf489a6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Is this a recommendation somewhere official?</div><div di=
+r=3D"auto"><br></div><div dir=3D"auto">Alex=C2=A0</div><div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue 8. Nov 2022 a=
+t 13.04, Niko Mauno &lt;<a href=3D"mailto:niko.mauno@vaisala.com">niko.maun=
+o@vaisala.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:soli=
+d;padding-left:1ex;border-left-color:rgb(204,204,204)">My understanding wrt=
+. Y2038 and 32-bit glibc hosts was such that it <br>
+makes sense to set said compiler flags globally to ensure user space <br>
+wide Y2038 compliance. So I encountered this compiler error while <br>
+building poky reference images with additional effective<br>
+<br>
+=C2=A0 =C2=A0TARGET_CPPFLAGS +=3D &quot;-D_TIME_BITS=3D64 -D_FILE_OFFSET_BI=
+TS=3D64&quot;<br>
+<br>
+declaration in meta/conf/distro/include/tclibc-glibc.inc.<br>
+<br>
+-Niko<br>
+<br>
+On 8.11.2022 13.50, Alexander Kanavin wrote:<br>
+&gt; So you need to set -D_TIME_BITS=3D64<br>
+&gt; -D_FILE_OFFSET_BITS=3D64 to get some error? But why set that, shouldn=
+=E2=80=99t <br>
+&gt; the defaults work?<br>
+&gt; <br>
+&gt; Alex<br>
+&gt; <br>
+&gt; On Tue 8. Nov 2022 at 12.48, Niko Mauno &lt;<a href=3D"mailto:niko.mau=
+no@vaisala.com" target=3D"_blank">niko.mauno@vaisala.com</a> <br>
+&gt; &lt;mailto:<a href=3D"mailto:niko.mauno@vaisala.com" target=3D"_blank"=
+>niko.mauno@vaisala.com</a>&gt;&gt; wrote:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0I have not studied the issue, but in order to repro=
+duce this error I<br>
+&gt;=C2=A0 =C2=A0 =C2=A0add<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&#39;MACHINE =3D &quot;qemuarm&quot;&#39; to local.=
+conf then issue &#39;bitbake kbd&#39; against<br>
+&gt;=C2=A0 =C2=A0 =C2=A0current master while TARGET_CPPFLAGS value is set t=
+o &quot;-D_TIME_BITS=3D64<br>
+&gt;=C2=A0 =C2=A0 =C2=A0-D_FILE_OFFSET_BITS=3D64&quot;.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0-Niko<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0On 8.11.2022 11.14, Alexander Kanavin wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; We do build for 32 bit arm targets, so is thi=
+s seen only in specific<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; circumstances? What are they?<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; Alex<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; On Tue, 8 Nov 2022 at 01:09, Niko Mauno via<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"http://lists.openembedded.org" rel=3D"no=
+referrer" target=3D"_blank">lists.openembedded.org</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"http://lists.openembedded.org/" rel=
+=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; &lt;niko.mauno=3D<a href=3D"mailto:vaisala.co=
+m@lists.openembedded.org" target=3D"_blank">vaisala.com@lists.openembedded.=
+org</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:vaisala.com@lists.open=
+embedded.org" target=3D"_blank">vaisala.com@lists.openembedded.org</a>&gt;&=
+gt; wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; For now add exemption in order to avoid f=
+ollowing failure during<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; do_compile()<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;=C2=A0 =C2=A0 |<br>
+&gt;=C2=A0 =C2=A0 =C2=A0.../build/tmp/work/cortexa15t2hf-neon-poky-linux-gn=
+ueabi/kbd/2.5.1-r0/recipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi/../=
+../libexec/arm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/12.2.0/ld:.lib=
+s/libtswrap.ver:2: syntax error in VERSION script<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;=C2=A0 =C2=A0 | collect2: error: ld return=
+ed 1 exit status<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; Signed-off-by: Niko Mauno &lt;<a href=3D"=
+mailto:niko.mauno@vaisala.com" target=3D"_blank">niko.mauno@vaisala.com</a>=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:niko.mauno@vaisala.com=
+" target=3D"_blank">niko.mauno@vaisala.com</a>&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; ---<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;=C2=A0 =C2=A0meta/recipes-core/kbd/<a href=
+=3D"http://kbd_2.5.1.bb" rel=3D"noreferrer" target=3D"_blank">kbd_2.5.1.bb<=
+/a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"http://kbd_2.5.1.bb/" rel=3D"norefer=
+rer" target=3D"_blank">http://kbd_2.5.1.bb/</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;=C2=A0 =C2=A01 file changed, 3 insertions(=
++)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; diff --git a/meta/recipes-core/kbd/<a hre=
+f=3D"http://kbd_2.5.1.bb" rel=3D"noreferrer" target=3D"_blank">kbd_2.5.1.bb=
+</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"http://kbd_2.5.1.bb/" rel=3D"norefer=
+rer" target=3D"_blank">http://kbd_2.5.1.bb/</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; index aa3ab6e121..b623aecd36 100644<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; --- a/meta/recipes-core/kbd/<a href=3D"ht=
+tp://kbd_2.5.1.bb" rel=3D"noreferrer" target=3D"_blank">kbd_2.5.1.bb</a><br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"http://kbd_2.5.1.bb/" rel=3D"norefer=
+rer" target=3D"_blank">http://kbd_2.5.1.bb/</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; +++ b/meta/recipes-core/kbd/<a href=3D"ht=
+tp://kbd_2.5.1.bb" rel=3D"noreferrer" target=3D"_blank">kbd_2.5.1.bb</a><br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"http://kbd_2.5.1.bb/" rel=3D"norefer=
+rer" target=3D"_blank">http://kbd_2.5.1.bb/</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; @@ -18,6 +18,9 @@ SRC_URI =3D<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&quot;${KERNELORG_MIRROR}/linux/utils/${BPN}/${BP}.=
+tar.xz \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;=C2=A0 =C2=A0SRC_URI[sha256sum] =3D<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&quot;ccdf452387a6380973d2927363e9cbb939fa2068915a6=
+f937ff9d24522024683&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; +# Compiling 64 bit time for 32 bit host =
+is broken<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; +GLIBC_64BIT_TIME_CPPFLAGS =3D &quot;&quo=
+t;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;=C2=A0 =C2=A0PACKAGECONFIG ?=3D &quot;${@b=
+b.utils.filter(&#39;DISTRO_FEATURES&#39;, &#39;pam&#39;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0d)} \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; --<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; 2.36.1<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=
+=3D-<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; Links: You receive all messages sent to t=
+his group.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; View/Reply Online (#172940):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://lists.openembedded.org/g/openemb=
+edded-core/message/172940" rel=3D"noreferrer" target=3D"_blank">https://lis=
+ts.openembedded.org/g/openembedded-core/message/172940</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://lists.openembedded.org/g/ope=
+nembedded-core/message/172940" rel=3D"noreferrer" target=3D"_blank">https:/=
+/lists.openembedded.org/g/openembedded-core/message/172940</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; Mute This Topic:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://lists.openembedded.org/mt/948806=
+33/1686489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
+.org/mt/94880633/1686489</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://lists.openembedded.org/mt/94=
+880633/1686489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembe=
+dded.org/mt/94880633/1686489</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; Group Owner: <a href=3D"mailto:openembedd=
+ed-core%2Bowner@lists.openembedded.org" target=3D"_blank">openembedded-core=
++owner@lists.openembedded.org</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:openembedded-core%252B=
+owner@lists.openembedded.org" target=3D"_blank">openembedded-core%2Bowner@l=
+ists.openembedded.org</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; Unsubscribe:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://lists.openembedded.org/g/openemb=
+edded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openem=
+bedded.org/g/openembedded-core/unsub</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://lists.openembedded.org/g/ope=
+nembedded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.op=
+enembedded.org/g/openembedded-core/unsub</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=
+=3D-<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
+&gt; <br>
+</blockquote></div></div>
+
+--0000000000002e3d9c05ecf489a6--
 
