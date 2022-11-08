@@ -1,167 +1,204 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <nathan@nathanrossi.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2301BC433FE
-	for <webhook@archiver.kernel.org>; Tue,  8 Nov 2022 03:30:57 +0000 (UTC)
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
- by mx.groups.io with SMTP id smtpd.web12.4062.1667878254569964628
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B629C4332F
+	for <webhook@archiver.kernel.org>; Tue,  8 Nov 2022 03:34:07 +0000 (UTC)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web11.3989.1667878439513579966
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Nov 2022 19:30:54 -0800
+ Mon, 07 Nov 2022 19:34:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=nQ0wrBZx;
- spf=pass (domain: gmail.com, ip: 209.85.160.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-13b23e29e36so14952619fac.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 19:30:54 -0800 (PST)
+ dkim=pass header.i=@nathanrossi.com header.s=google header.b=SVLliClo;
+ spf=pass (domain: nathanrossi.com, ip: 209.85.208.54, mailfrom: nathan@nathanrossi.com)
+Received: by mail-ed1-f54.google.com with SMTP id v27so20593649eda.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Nov 2022 19:33:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=nathanrossi.com; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JKWHr73W/6hvKD+zwQpwe9e5Y4B85M/jiQmlMhSjd6w=;
-        b=nQ0wrBZxk7iQK28UAMZ8x8Msx2cig+Zu621e9pfNxCpT7G8HttX/fZ6daBLXL0n5KI
-         jf969x+Hte1m/uSFSdqz2eCV0lGt3Nte8kHk2QNd0lfEZoHe/YJoPHISLitiXNLlbMTg
-         B+4vW27yDcW+UNPbamOOly69xZd4QNU2BkbbCTiWmlrGEdQP9RlBN+6JENDLgnPtddq2
-         zFBgl4VeThz7TZpRpqPWpWnEhMEMJPmKQsjeAhyKsYHYeH6UnBZT6dyT9q9HlW7qKna/
-         wmtKSc4OF0QX2ZhvJ+/yYK2x4Ef9oJsrPLt8AIGM1HY6TCoKYu/sUyaF9yFnTKozM8Qd
-         Js4w==
+        bh=8/HtM9PJ9YE7rDeQpaz0r9huww/FHnOJ9P3AIIci1kM=;
+        b=SVLliCloI9Bl/sOfjjdCHfszZRr73f65r3ILYbH+miC/RGsrAFqJwgvIBBQD7K2W/J
+         ImTMGH2yg8e4Z8M3q+g35RctwqIwocSydP2aeSLaN3fLymKpEJ1fDA0FLBpAFYijsVrK
+         CaPRDNYadRn+eftsVD3mD1wso5D/A/Z/XZKnU4ANL2SKZzYuDB86bXkjEShh4rFeUNgG
+         7OiXauCb8IbKwOvd5xlbRdjriAsJp/0mqTxI1zOZwEBWd0PdQ3A3QlvKLQTmOjIdOqmT
+         DQ6u0U6y3NgjMhwcbZ67Cxd4JPu9KgXaDlrCl+T5oon6PdHJHMunwDyLWEJkmlnOFelF
+         +eIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JKWHr73W/6hvKD+zwQpwe9e5Y4B85M/jiQmlMhSjd6w=;
-        b=YiqAia/WA8GUNBi9mxJTgm2ZsEL+QFCLh5JaPnZyXUMGu0632Muv7/NbrA/m0FucUB
-         QcwVTa0R3Z5Vtz+rXQcu5q1GoKUcBw4fwWmhUKzL5hkRiyw4yRKHesVutzlaG++pSk+/
-         8JFPtohV+aHXnX+YFgxjJ+A8Mfy6bY8Wrp7aOIq7PGxjO38N/IvFa1kxvUc0xBlB7fJh
-         ZDejHcDkD+DBRRsSeDTaz80nnlX0UfVY7HRNLuD0CC0DPE5fXRYUC90M3n0dINpyppbK
-         j4EaceX7GT5i7xdbViqwDJg0DftH+0//Rayfl/1tn9j8i4r0rwtXFGAIDjeYrKKUllkm
-         d1Eg==
-X-Gm-Message-State: ACrzQf2v3p8x0HedNnxunZJfFMEnYaqZZDrnUdrdPMmIJIeVGTMx4BTk
-	xgsQCcxJck9VKm7AWmzz1bXOPinPgsYuqKhrbiI=
-X-Google-Smtp-Source: AMsMyM5GISDkZXYDVA5s4nj9NRSQPHeJaol+sqau87eoil49HHSqQjg94hAXBpschqfAmrxXX0NoyRdRhV03rGLY294=
-X-Received: by 2002:a05:6870:b00b:b0:127:2d3d:3c16 with SMTP id
- y11-20020a056870b00b00b001272d3d3c16mr41001545oae.262.1667878253690; Mon, 07
- Nov 2022 19:30:53 -0800 (PST)
+        bh=8/HtM9PJ9YE7rDeQpaz0r9huww/FHnOJ9P3AIIci1kM=;
+        b=35/zlSAbcrcXXwMoAptkpBg2oTwO6CHdVO/dhnjZXQMoX3TD0rU67KeQHO9PVKQSte
+         BvmYJYZHxnLaMe1mgLRqi0QWYlRBA2KA0lcsCyLLP/U2tfwWl9eH/GmKVbjvToQP9MCb
+         7/obdBATlAFJbqdyNg/JmwJBH75wZ6sMmbAgKBcmICuZBzwxHeSvOcmFtoX6gnq5ZJ0o
+         4JHWfK5wa6PrBnwu/OA61qae3wyPIxHR/KqlGrK5fxEkpxr1G1GkJ3sLmWziDQaZ8M2L
+         7s1lc948177w6AzGgEhC10kbxRDpFRMkhxhpmrxk95OPrlHV5zgpKBKpB3Kky+UFHKoe
+         skUA==
+X-Gm-Message-State: ACrzQf0bnTyz85tnDa16y9HWwTvblFr9fIap3TZNaVPAKsOlFbeBQ8RF
+	kH90rhGdbMWFBUVOs/UKVvWkVSpuBUGhSbLgJx8MhQ==
+X-Google-Smtp-Source: AMsMyM5C7Qpa1inZVEu9RIOQB16XDv3Dc4gDlQPG9r/k0CuZenE6Qp4OAsetj/cPJ7cMev/4Z9sBJWBvj+rKqSi3ISw=
+X-Received: by 2002:a05:6402:366:b0:463:11e8:13cb with SMTP id
+ s6-20020a056402036600b0046311e813cbmr52338974edw.367.1667878437857; Mon, 07
+ Nov 2022 19:33:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20221108000828.42824-1-niko.mauno@vaisala.com>
-In-Reply-To: <20221108000828.42824-1-niko.mauno@vaisala.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 7 Nov 2022 19:30:27 -0800
-Message-ID: <CAMKF1spGT0-AJS+e6=ssV8xHpCPurE--NR5f=c8zRccQCmh58A@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH 1/3] Try to ensure 64 bit time on 32 bit
- glibcful hosts
-To: niko.mauno@vaisala.com
-Cc: openembedded-core@lists.openembedded.org
+References: <20221103075606.208982-1-nathan@nathanrossi.com>
+ <20221103075606.208982-3-nathan@nathanrossi.com> <Y2fY05Xy+3SjNN3q@mail.local>
+In-Reply-To: <Y2fY05Xy+3SjNN3q@mail.local>
+From: Nathan Rossi <nathan@nathanrossi.com>
+Date: Tue, 8 Nov 2022 13:33:46 +1000
+Message-ID: <CA+aJhH22n3HDQgVuQaTnMixz3A=mdDfVen9oRf4mmkXn1hSyDQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/3] package: Fix handling of minidebuginfo with
+ newer binutils
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Nathan Rossi <nathan.rossi@digi.com>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 03:30:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172946
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 03:34:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172947
 
-On Mon, Nov 7, 2022 at 4:09 PM Niko Mauno via lists.openembedded.org
-<niko.mauno=vaisala.com@lists.openembedded.org> wrote:
+On Mon, 7 Nov 2022 at 01:55, Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
 >
-> Add default C Preprocessor flags that ensure Y2038 compatible 64 bit
-> time on 32 bit host applications when glibc is used. Prerequisites
-> are glibc version 2.34 or newer and Linux kernel version 5.1 or newer.
+> Hello,
 >
-> Example of impact on 32 bit 'qemuarm' machine running
-> core-image-minimal. Before this change:
+> This series causes the following failure on the autobuilders:
 >
->   root@qemuarm:~# /bin/busybox date
->   Sun Nov  6 06:09:39 UTC 2022
->   root@qemuarm:~# /sbin/hwclock.util-linux -w
->   root@qemuarm:~# /sbin/hwclock.util-linux
->   2022-11-06 06:09:49.994249+00:00
->   root@qemuarm:~# /bin/busybox date -s 2040-01-01
->   date: invalid date '2040-01-01'
->   root@qemuarm:~# /bin/date.coreutils -s 2040-01-01
->   Sun Jan  1 00:00:00 UTC 2040
->   root@qemuarm:~# /sbin/hwclock.util-linux -w
->   root@qemuarm:~# /sbin/hwclock.util-linux
->   1931-03-04 06:26:23.000000+00:00
->   root@qemuarm:~#
->
-> After this change:
->
->   root@qemuarm:~# /bin/busybox date
->   Sun Nov  6 06:02:20 UTC 2022
->   root@qemuarm:~# /sbin/hwclock.util-linux -w
->   root@qemuarm:~# /sbin/hwclock.util-linux
->   2022-11-06 06:02:27.989730+00:00
->   root@qemuarm:~# /bin/busybox date -s 2040-01-01
->   Sun Jan  1 00:00:00 UTC 2040
->   root@qemuarm:~# /sbin/hwclock.util-linux -w
->   root@qemuarm:~# /sbin/hwclock.util-linux
->   2040-01-01 00:00:20.992954+00:00
->   root@qemuarm:~#
->
-> From here on, the adding of new flags can be disabled on recipe or
-> global level by resetting the value of associated variable containing
-> the CPPFLAGS specific for 64 bit time
->
->   GLIBC_64BIT_TIME_CPPFLAGS = ""
->
-> which can be useful e.g. when working around failure to compile a
-> component due to lack of 64 bit time support on 32 bit build in the
-> component's source code.
->
-> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
-> ---
->  meta/conf/distro/include/tclibc-glibc.inc        | 3 +++
->  meta/recipes-devtools/gcc/gcc-sanitizers_12.2.bb | 2 ++
->  meta/recipes-devtools/pseudo/pseudo_git.bb       | 2 ++
->  3 files changed, 7 insertions(+)
->
-> diff --git a/meta/conf/distro/include/tclibc-glibc.inc b/meta/conf/distro/include/tclibc-glibc.inc
-> index f48d16939e..95770298e9 100644
-> --- a/meta/conf/distro/include/tclibc-glibc.inc
-> +++ b/meta/conf/distro/include/tclibc-glibc.inc
-> @@ -17,6 +17,9 @@ PREFERRED_PROVIDER_virtual/crypt ?= "libxcrypt"
->
->  CXXFLAGS += "-fvisibility-inlines-hidden"
->
-> +GLIBC_64BIT_TIME_CPPFLAGS = "-D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64"
-> +TARGET_CPPFLAGS += "${GLIBC_64BIT_TIME_CPPFLAGS}"
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/4354/steps/14/logs/stdio
 
-We only need it for 32bit systems and not for 64bit systems. So
-perhaps we need it for only 32bit systems.
+I looked into these failures, the SRC_URI error appears to be an issue
+with the lic_checksum test itself, and it presents without this
+series. I have posted a patch to resolve it
+https://lists.openembedded.org/g/openembedded-core/message/172945.
 
-> +
->  LIBC_DEPENDENCIES = "\
->                      glibc \
->                      glibc-dbg \
-> diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers_12.2.bb b/meta/recipes-devtools/gcc/gcc-sanitizers_12.2.bb
-> index 8bda2ccad6..b3fafa0ea4 100644
-> --- a/meta/recipes-devtools/gcc/gcc-sanitizers_12.2.bb
-> +++ b/meta/recipes-devtools/gcc/gcc-sanitizers_12.2.bb
-> @@ -5,3 +5,5 @@ require gcc-sanitizers.inc
->  # sanitizer_linux.s:5749: Error: lo register required -- `ldr ip,[sp],#8'
->  ARM_INSTRUCTION_SET:armv4 = "arm"
->  ARM_INSTRUCTION_SET:armv5 = "arm"
-> +
-> +GLIBC_64BIT_TIME_CPPFLAGS = ""
-> diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-> index c34580b4ff..7734d0fbb0 100644
-> --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-> +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-> @@ -19,3 +19,5 @@ PV = "1.9.0+git${SRCPV}"
+The other errors around "test.bb" bash hash changes do not appear to
+be errors from the recipetools bitbake execution (note the "2 ERROR
+messages"). I suspect they are just captured during the fetch selftest
+cases in a common stderr buffer? I was unable to reproduce them
+locally when running fetch/recipetool.
+
+Regards,
+Nathan
+
+
+
 >
->  # error: use of undeclared identifier '_STAT_VER'
->  COMPATIBLE_HOST:libc-musl = 'null'
-> +
-> +GLIBC_64BIT_TIME_CPPFLAGS = ""
+> 2022-11-06 00:37:54,099 - oe-selftest - INFO - RESULTS - recipetool.RecipetoolAppendTests.test_recipetool_appendfile_add: ERROR
+> 2022-11-06 00:37:54,099 - oe-selftest - INFO - RESULTS - recipetool.RecipetoolAppendTests.test_recipetool_appendfile_add_bindir: ERROR
+> 2022-11-06 00:37:54,099 - oe-selftest - INFO - RESULTS - recipetool.RecipetoolAppendTests.test_recipetool_appendfile_add_machine: ERROR
+> 2022-11-06 00:37:54,099 - oe-selftest - INFO - RESULTS - recipetool.RecipetoolAppendTests.test_recipetool_appendfile_alternatives: ERROR
+> 2022-11-06 00:37:54,099 - oe-selftest - INFO - RESULTS - recipetool.RecipetoolAppendTests.test_recipetool_appendfile_basic: ERROR
+> 2022-11-06 00:37:54,099 - oe-selftest - INFO - RESULTS - recipetool.RecipetoolAppendTests.test_recipetool_appendfile_binary: ERROR
+> 2022-11-06 00:37:54,099 - oe-selftest - INFO - RESULTS - recipetool.RecipetoolAppendTests.test_recipetool_appendfile_extlayer: ERROR
+> 2022-11-06 00:37:54,099 - oe-selftest - INFO - RESULTS - recipetool.RecipetoolAppendTests.test_recipetool_appendfile_inst_func: ERROR
+> 2022-11-06 00:37:54,100 - oe-selftest - INFO - RESULTS - recipetool.RecipetoolAppendTests.test_recipetool_appendfile_inst_glob: ERROR
+> 2022-11-06 00:37:54,100 - oe-selftest - INFO - RESULTS - recipetool.RecipetoolAppendTests.test_recipetool_appendfile_inst_todir_glob: ERROR
+> 2022-11-06 00:37:54,100 - oe-selftest - INFO - RESULTS - recipetool.RecipetoolAppendTests.test_recipetool_appendfile_invalid: ERROR
+> 2022-11-06 00:37:54,100 - oe-selftest - INFO - RESULTS - recipetool.RecipetoolAppendTests.test_recipetool_appendfile_orig: ERROR
+> 2022-11-06 00:37:54,100 - oe-selftest - INFO - RESULTS - recipetool.RecipetoolAppendTests.test_recipetool_appendfile_patch: ERROR
+> 2022-11-06 00:37:54,100 - oe-selftest - INFO - RESULTS - recipetool.RecipetoolAppendTests.test_recipetool_appendfile_postinstall: ERROR
+> 2022-11-06 00:37:54,100 - oe-selftest - INFO - RESULTS - recipetool.RecipetoolAppendTests.test_recipetool_appendfile_renamed: ERROR
+> 2022-11-06 00:37:54,100 - oe-selftest - INFO - RESULTS - recipetool.RecipetoolAppendTests.test_recipetool_appendfile_script: ERROR
+> 2022-11-06 00:37:54,100 - oe-selftest - INFO - RESULTS - recipetool.RecipetoolAppendTests.test_recipetool_appendfile_subdir: ERROR
+> 2022-11-06 00:37:54,100 - oe-selftest - INFO - RESULTS - recipetool.RecipetoolAppendTests.test_recipetool_appendfile_todir: ERROR
+> 2022-11-06 00:37:54,100 - oe-selftest - INFO - RESULTS - recipetool.RecipetoolAppendTests.test_recipetool_appendfile_wildcard: ERROR
+>
+> On 03/11/2022 07:56:06+0000, Nathan Rossi wrote:
+> > From: Nathan Rossi <nathan.rossi@digi.com>
+> >
+> > Newer versions of binutils (2.38+) have changed how the
+> > "--only-keep-debug" of objcopy behaves when stripping non-debug sections
+> > from an ELF.
+> >
+> >   https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=68f543154e92ab0f5d6c569e0fa143f5e8bd2d80
+> >
+> > This change causes associated sections to be correctly marked as NOBITS
+> > with the section contents removed from the output. The side effect is
+> > that this causes issues with objcopy's ability to perform symbol and
+> > relocation stripping (-S/--strip-all) on the debug split ELF, such that
+> > with some object files (e.g. kernel modules) objcopy fails to strip
+> > symbols/relocations with an error like the following:
+> >
+> >   .../.debug/nls_cp950.ko[.rodata]: file truncated
+> >
+> > Because of this it is now problematic to generate minidebuginfo for
+> > these types of ELF objects. However it is not typically useful to inject
+> > minidebuginfo into these types of ELFs, and other distributions (e.g.
+> > Fedora, referring to find-debuginfo.sh of debugedit) only insert
+> > minidebuginfo into executables and shared libraries.
+> >
+> > This change causes the minidebuginfo injection to only apply to EXEC/DYN
+> > type ELFs, which limits the injection to executables and shared
+> > libraires.
+> >
+> > Additionally this change fixes the parsing of the sections from the
+> > "readelf -W -S" output which was not accounting for the section index
+> > column having leading spaces for single digit index values e.g. "[ 1]".
+> >
+> > Signed-off-by: Nathan Rossi <nathan.rossi@digi.com>
+> > ---
+> >  meta/classes-global/package.bbclass | 21 ++++++++++++++++++---
+> >  1 file changed, 18 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/meta/classes-global/package.bbclass b/meta/classes-global/package.bbclass
+> > index 2d985d8aff..7a0a428b30 100644
+> > --- a/meta/classes-global/package.bbclass
+> > +++ b/meta/classes-global/package.bbclass
+> > @@ -490,16 +490,31 @@ def inject_minidebuginfo(file, dvar, dv, d):
+> >          bb.debug(1, 'ELF file {} has no debuginfo, skipping minidebuginfo injection'.format(file))
+> >          return
+> >
+> > +    # minidebuginfo does not make sense to apply to ELF objects other than
+> > +    # executables and shared libraries, skip applying the minidebuginfo
+> > +    # generation for objects like kernel modules.
+> > +    for line in subprocess.check_output([readelf, '-h', debugfile], universal_newlines=True).splitlines():
+> > +        if not line.strip().startswith("Type:"):
+> > +            continue
+> > +        elftype = line.split(":")[1].strip()
+> > +        if not any(elftype.startswith(i) for i in ["EXEC", "DYN"]):
+> > +            bb.debug(1, 'ELF file {} is not executable/shared, skipping minidebuginfo injection'.format(file))
+> > +            return
+> > +        break
+> > +
+> >      # Find non-allocated PROGBITS, NOTE, and NOBITS sections in the debuginfo.
+> >      # We will exclude all of these from minidebuginfo to save space.
+> >      remove_section_names = []
+> >      for line in subprocess.check_output([readelf, '-W', '-S', debugfile], universal_newlines=True).splitlines():
+> > -        fields = line.split()
+> > -        if len(fields) < 8:
+> > +        # strip the leading "  [ 1]" section index to allow splitting on space
+> > +        if ']' not in line:
+> > +            continue
+> > +        fields = line[line.index(']') + 1:].split()
+> > +        if len(fields) < 7:
+> >              continue
+> >          name = fields[0]
+> >          type = fields[1]
+> > -        flags = fields[7]
+> > +        flags = fields[6]
+> >          # .debug_ sections will be removed by objcopy -S so no need to explicitly remove them
+> >          if name.startswith('.debug_'):
+> >              continue
+> > ---
+> > 2.37.2
+>
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#172617): https://lists.openembedded.org/g/openembedded-core/message/172617
+> > Mute This Topic: https://lists.openembedded.org/mt/94752153/3617179
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
+>
+>
 > --
-> 2.36.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#172939): https://lists.openembedded.org/g/openembedded-core/message/172939
-> Mute This Topic: https://lists.openembedded.org/mt/94880624/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
