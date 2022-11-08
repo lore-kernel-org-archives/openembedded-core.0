@@ -1,164 +1,255 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <wltu@google.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49B54C43219
-	for <webhook@archiver.kernel.org>; Tue,  8 Nov 2022 17:01:34 +0000 (UTC)
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.49])
- by mx.groups.io with SMTP id smtpd.web10.450.1667926888649315358
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49A41C4332F
+	for <webhook@archiver.kernel.org>; Tue,  8 Nov 2022 17:09:04 +0000 (UTC)
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+ by mx.groups.io with SMTP id smtpd.web08.555.1667927338942047318
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Nov 2022 09:01:30 -0800
+ Tue, 08 Nov 2022 09:08:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=kHtNXmAy;
- spf=pass (domain: arm.com, ip: 40.107.105.49, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
- b=deJW4JITmuo5bf9q8+b+ZISEaaw/sE/B2O1uNGqQ66YVCfk6B/143l7lf3I2Uop0BbFpuZCCokaONP8Ffb9YRtnxrEPimmusjdZasM+XmsAJ3NWNfjii7VYHmSMhyJQUkUw0bX9FDhpIhlneEtDbOQ0fhNSPSo/sAW3SMkWEnCSAIARWp2VI6p894aGdjdshs4euDlbvAgG3h4hh3xCbFdfYEkSQSGsqc3AEEeuibsxj55IOW7VCYTo210x2v8SXJwgFCZxkuHhcae4BxGiTxNZR7ldTbYgaCenqFh6ssLBKDxeWUYaWtnphh2YTSrHSoYm6AEce4VzlnfJiSLnJuA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4d+rFqScKljLuL9KfQYuAr721tX0wmzjof3tPqg1WgY=;
- b=MKkvgbK6nn6zEsfN3QqXTPf4lN/pUQO9nyAaqMAzDCZJvQhGZ4WQt05pbxd9G3zEMsI6pZMaut/hSxHnbDIRGDKyVaJQ1Wf3Vj7xHs+LxcR/mHLAZiudfH3VYXCpwYEIRcnZl9sxlLfAKt2AenFY/I3Wpk8hmyR870ejPP9JH8UImq8sC8pyo5jf5x9cSpdSgLGfWcuc6e+s5A8rBoNTvs4Ih1r1MguX+f7FFNIHYdoJwSpKE2KOfnx43b82PsxYE63PZfke97IV3B3p60MLVca8I6p+CzXlHjTw0Sf9Mnp1Q95h+D0omzQgowbVmOq9dAWpzPc96sZeCRU+tVCVIQ==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
- oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4d+rFqScKljLuL9KfQYuAr721tX0wmzjof3tPqg1WgY=;
- b=kHtNXmAyyK9PNT6AnR83KoJQBp+kH5Zkiy/3YTzlO/JGtqWTYhgrDik+GYTTKq99AuMsgHTyNPPUu0Fz3YwHGQK58F5qaK4hmYEJ8yrs3mhAoCS+GzZj9cYb1ArSjaungYg9AhrV1NqX+6S4FZUh/+ka5g/1/jU3++G5jo0rbvs=
-Received: from AM5PR0602CA0014.eurprd06.prod.outlook.com
- (2603:10a6:203:a3::24) by DB3PR08MB8843.eurprd08.prod.outlook.com
- (2603:10a6:10:438::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.11; Tue, 8 Nov
- 2022 17:01:23 +0000
-Received: from AM7EUR03FT026.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:203:a3:cafe::df) by AM5PR0602CA0014.outlook.office365.com
- (2603:10a6:203:a3::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.27 via Frontend
- Transport; Tue, 8 Nov 2022 17:01:22 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM7EUR03FT026.mail.protection.outlook.com (100.127.140.154) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5791.20 via Frontend Transport; Tue, 8 Nov 2022 17:01:22 +0000
-Received: ("Tessian outbound f394866f3f2b:v130"); Tue, 08 Nov 2022 17:01:22 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: fd3be8683015e53e
-X-CR-MTA-TID: 64aa7808
-Received: from 8cf2376eab83.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id C3CA2A13-8E5D-40DC-8A73-A6C610AF8F4B.1;
-	Tue, 08 Nov 2022 17:01:15 +0000
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 8cf2376eab83.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Tue, 08 Nov 2022 17:01:15 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Tq1CH9lHrZ3nSMsy9OVG/IGzVz4mROwvGvpRW9kd8KbUg9ZMaZKHrR7L5Ddr0M8ghFVCGf5lBZGqYX6Lp0PsoO10tLGcK/a+gnUXloDUxXQJpO60bNsw8MdHFM+BVQPx7mDgu19Acrrpljec+meLd2prx5P7MUrnfdVFcvBoyf0VAjpkJyOxtL/xICm5RHIrNspDYIFUu3JiXSpUmZXAPjdQCJx8BYvhi/c9sUl2BEtKvOhWAok3qDPZsDDYmnnl+qByE53isdajKIPj7qm5VDbdOGj6T5U9cYACSplUwPwDhFibNaKR/FYoCgcnOVdVABiKkLhj2Xd2UOJTRwHuww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4d+rFqScKljLuL9KfQYuAr721tX0wmzjof3tPqg1WgY=;
- b=l334Teu7urN3V0XZFnFn2Iav+SfE+KazdRjDWRk4hF0JlggJ6yJSkVrp+EnPBZm7JbruinHTHUd4ukA+l8Hm5tdG+Mb4o55X7+R5UJseW1XipTv9pdrHcZP982Bfj3lQkJeky+urdBVCjHeilxBiQgGCvULBClM7poObg5DS/E9ONB++H6I71hOgHGqGEZ0EEWWlfzoo7q72t0C9A8A2LeF75TQNC4f7B+5SfVSRW/bCuJHK3zSZzIr9AssefoHrfaLrQmK9fAFnA5bmMYCc+WYVnxCAypP82Dbr6WDk/16cYl1bQcYBLoLkKFH8n4IFIt5AP94Fqinoiq9RGS+6Rw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4d+rFqScKljLuL9KfQYuAr721tX0wmzjof3tPqg1WgY=;
- b=kHtNXmAyyK9PNT6AnR83KoJQBp+kH5Zkiy/3YTzlO/JGtqWTYhgrDik+GYTTKq99AuMsgHTyNPPUu0Fz3YwHGQK58F5qaK4hmYEJ8yrs3mhAoCS+GzZj9cYb1ArSjaungYg9AhrV1NqX+6S4FZUh/+ka5g/1/jU3++G5jo0rbvs=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by DB9PR08MB7608.eurprd08.prod.outlook.com (2603:10a6:10:30b::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.11; Tue, 8 Nov
- 2022 17:01:13 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::af9:29f:ae3b:108f]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::af9:29f:ae3b:108f%5]) with mapi id 15.20.5813.011; Tue, 8 Nov 2022
- 17:01:13 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "Gundlupet Raju, Sandeep" <sandeep.gundlupet-raju@amd.com>
-CC: Openembedded Core <openembedded-core@lists.openembedded.org>, "Hatle,
- Mark" <mark.hatle@amd.com>
-Subject: Re: python3-picobuild build issues
-Thread-Topic: python3-picobuild build issues
-Thread-Index: AQHY8474dxFAPLLyg02hWF68vRDik641QECA
-Date: Tue, 8 Nov 2022 17:01:13 +0000
-Message-ID: <196A74E6-80CB-4137-9E28-4C0E498A51AD@arm.com>
-References: <34e26020-b14c-e5b2-d397-0d0715b67e4c@amd.com>
-In-Reply-To: <34e26020-b14c-e5b2-d397-0d0715b67e4c@amd.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.200.110.1.12)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|DB9PR08MB7608:EE_|AM7EUR03FT026:EE_|DB3PR08MB8843:EE_
-X-MS-Office365-Filtering-Correlation-Id: 36193690-c892-4dc3-4e2b-08dac1aadd29
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- KVXWcsqccEIR76dxepZc+OXxF5sldgDsRFnJSQJ3lynUJLIgsTz4eiQhgkc9F4/1l/X4i5PBjooAgkaOmc+Xu5vNYp5tvUOgXuUIX2RkX3qshS8xfoNAXVkl8YES9zYHGs+Xv7ZQMxuVjr5o5/4Jxj7e6xhoqFOeRSFW4OFQ4Tgor9LIsn02g7D98DPTOOSCLsPSPWI74uRW+XEKlTaQhy7KF+LJh2Ow7B3dH1uNCtqj5xTxqCBcZMCKYZvRQTub/FP8OiYi+yPbf0sMa6yYRdetVzKRdsH9HTYBNwBU+CgP0C2z+qmSu2IZX4BfOQ7mA9YzKfhCrnt18QhD1meSnzL7dYWakszGBufEs4I5buRwl2Gj5fTGuxUjp4S54ULFz3v/9zQrgrW5IymKXx/GpY1uHY6AmXJqA2kOdS984qMZTk8Zu5Z/0PfZ5bJ+so90VcPuU3odRy/lNA+p6MZzUw43vvuYmafc2Q/Mv99trwa1w7gz9EGBlxNXDXx+wcSfNkZRew2/FOQfUgjTSEvUEscq1V8Mx8dEMzPWoubbKWOsoz5aYrSyfps0a4l+mvyCnqLfIJuO/F7Yh6Emchn4leJiv76+jGxZiuM3et0Xem/6FuX4sjWJasuP6hogpCnc1zVCSDBqmnJLH1T1OucMoJQ+u03Awsv7cngFD7KboWR04jojgoBLVbMTRekNgho9RpXMQyARbjdInvmiFOTvsxaDA3FNaj0qHQmaLnU6tM5d5/CSsNNqX5mQ8rkzMiRdN9Rc4WxrLZVmUazkQydOq9qQcKQTBALP+Cg70IZ8zs4=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(366004)(39860400002)(376002)(136003)(396003)(451199015)(36756003)(71200400001)(76116006)(2906002)(6506007)(8936002)(4326008)(38100700002)(66476007)(6916009)(66556008)(64756008)(91956017)(8676002)(6486002)(4744005)(122000001)(66946007)(54906003)(66446008)(41300700001)(316002)(33656002)(38070700005)(86362001)(5660300002)(26005)(2616005)(186003)(53546011)(6512007)(478600001)(83380400001)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <CBE27EBFFEA8884A97F105C316BD2A05@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@google.com header.s=20210112 header.b=E3JB+Hev;
+ spf=pass (domain: google.com, ip: 209.85.219.51, mailfrom: wltu@google.com)
+Received: by mail-qv1-f51.google.com with SMTP id u7so10626188qvn.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 09:08:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OL6ZPt0uLb7ZeMvX59qkMz7Oq9J631habY3g4o+tVgg=;
+        b=E3JB+HevbjUBRX/M9jzu/wWxgpNUGWfCJTLOIwwkDv9wo80YLPXV3zjyvmlu9Zksgr
+         JR6JGwoJJJokIwu26FEBa/sIqjcKuW25A6i5PRe7EhZYxrsKXQnDWFCskRH0cQyAD4PT
+         +zZfUuDyN4R6z8HszACV9yG8BUyXdsNJQMYy7lmx1U1t7h9cJAEd54X+mOmt6eva3MDR
+         S5DhhSpZvBs500Wj6mvCxy2uTqsqZ+GjYsyBMyR/iDSYSQ1AC4lvxDYnlomsguB70Ka5
+         7zNlkcIJsmpFRv3PMSDqTDrQWFb9rq+Gs11bcDxZjbiKf5FETeSi7hMv+/yGeQVDzL8+
+         mFBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OL6ZPt0uLb7ZeMvX59qkMz7Oq9J631habY3g4o+tVgg=;
+        b=HyN8GIwIqCD+0igNgbb+pg1kI1UuFfAmCDEjoIZ0s9GTKZmnDLPP2YBT708Kl4oE1L
+         m84NYl74YVkb3KKoB4LZOFE0EHGTagiqroz46My/zdrR5lHrPfkSsa/TAOcMBmpm3qvY
+         oiiYRrvNhi2mzYztXgMSTvpC+pCAsX04mLzNCZBcTbKj+KaHgYTjf2cE6YXI2BIJODC5
+         0xGIlQeOlP5DeXTEUO5+VEu7K1UOLN5w21U71blb/z85EmZkuXw/wP5UCWqG46D261Wt
+         JoI9ZkDU9CfvotBRmQbCKEo0sniRYRi4Xewokw3NanfnORFYzXEC45Sc0ewa3npuAORU
+         TWBg==
+X-Gm-Message-State: ACrzQf2Lcj/lqNNTsIVO525H2gGDf1eItRodPoqMSrTNvmnmkqaTiF/U
+	Flbh2CIBKIOgQUpcyUkVtE69Mfc3o3kdcIf/QnZPiw==
+X-Google-Smtp-Source: AMsMyM7k80KKNEcTrIkDdNx/1y3iEyU5KXhccKBmifknMRwRmLbSZ6rlpN0D+fAJVKD4TSyhf0Mna2cXJzhP6XRLZuc=
+X-Received: by 2002:ad4:5bc1:0:b0:4ad:34b2:d29c with SMTP id
+ t1-20020ad45bc1000000b004ad34b2d29cmr50649046qvt.21.1667927337804; Tue, 08
+ Nov 2022 09:08:57 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB7608
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM7EUR03FT026.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	d39decd5-24e8-4142-0f52-08dac1aad802
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	eXuTQbGjLSAGBC75FdgikywlXhr3wTBeObTs1/WiedFZ/TRLJMAHb9LkiRw/Q3deduWEqq0h3hfGbqa4EBzx5zd81HS5GOD8TUqMHqQOz3gak9P+HvGyZQGeLKjeIIDUbHJ5EUMcrTqIUpYPwrl2lpWZTytHazda1iUkGBK7zrTr+/xapvpu0YTQo6sPMIYtRso1E3Ys8dojqzEakjgyLv1A8pop+Eqst8jBgXCtYV73fROoJP7/U/v8jmfjs6A2GwDIif7hF0yS/OmjaH/aWRuko3XHRnU/5UXz9qYWWuf53wDMwOAWflUdXwENLheAvu3vAO/pRPl06pH+1QpnrAL4s8fEztu2lzG39ZsjQ1ppewsmi5AQYJ6X3eE0tN5rp0bHlBQk+ZioYuIxWnv4rHMDU0wOzwRKc1whRwlFxN2hzX/O1Z8OXfM1gUmkJ0JX4brjRLL+lF1yLnnbgQm0w6rk8pFSE4AwYm1CoGdF4it1iuffGYCqxfgQ1ud5ZWHWtvdGR0g7/T7ocl5Qyxsa/awcEVbneLQJEp7KHjR+OqLVv9TTbk8dV0+ez1d+Y95kSgpk7tOI9VLdfxuQDm6zhHAQiS2S+01AWNbc6SylGmtAwK5Ar6t/NUv2elfw81k8AnkoVpsH3NKriZdEUt3Q3mTn8oXeNrVUKiOOtFilUf0UY1T2I69orn4iXIrUOP0sWcpmsuA5gOKOwRDAPHg7bej4Uortc08Q+vnwcsRZvQHJ9CgtODhID6CZnLRuDCBB4FWWDz0a6Et3voL9LzV4JQ==
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230022)(4636009)(136003)(346002)(376002)(39860400002)(396003)(451199015)(46966006)(40470700004)(36840700001)(82310400005)(36756003)(6486002)(81166007)(82740400003)(36860700001)(41300700001)(2906002)(40480700001)(6506007)(5660300002)(6862004)(8676002)(4326008)(70586007)(33656002)(70206006)(316002)(8936002)(4744005)(54906003)(356005)(336012)(40460700003)(86362001)(53546011)(2616005)(26005)(186003)(83380400001)(478600001)(6512007)(47076005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2022 17:01:22.4950
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 36193690-c892-4dc3-4e2b-08dac1aadd29
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM7EUR03FT026.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR08MB8843
+References: <IAS2.1666358226748943797.wkAx@lists.openembedded.org>
+ <CAHwn2Xni=DChyNRGfrQ=qVgrEK3b=0AhRMx+MAONYcWW9-V_=A@mail.gmail.com>
+ <C7082AE8-28B1-4277-BEC3-F7C6C14E7100@arm.com> <CAHwn2Xkgw-fAmy92oLWOUG8=K0-3dVwYXsLKEqR-WtGoHHdc1g@mail.gmail.com>
+ <CABC0sH3LFm48+buev6gFFAAoDT2SLqR-r-rndSjx+eU54H5=1w@mail.gmail.com>
+ <17210CE2C7C78501.808@lists.openembedded.org> <17211049B04D4148.10479@lists.openembedded.org>
+ <172331B40D5EBCA0.9941@lists.openembedded.org> <CAHwn2XmaTHGGUZXn9bC=SBj51zL6eo6rhWPR4SPP_UN0js9-8g@mail.gmail.com>
+ <CANNYZj8o_GjiqwADQQp5KM_mnQTi+mw6nVh2E1GWVsfi9o3ZKg@mail.gmail.com>
+In-Reply-To: <CANNYZj8o_GjiqwADQQp5KM_mnQTi+mw6nVh2E1GWVsfi9o3ZKg@mail.gmail.com>
+From: Willy Tu <wltu@google.com>
+Date: Tue, 8 Nov 2022 09:08:46 -0800
+Message-ID: <CAHwn2Xmaqn+OAPJ-PH2eYr+w8J1OWkDVMQLgkZ3V7ughLYY9oA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] openssh: Install internal header/lib files
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Tristan Lelong <tlelong@google.com>, Ross Burton <Ross.Burton@arm.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 17:01:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172981
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 17:09:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172982
 
-T24gOCBOb3YgMjAyMiwgYXQgMTY6MjcsIEd1bmRsdXBldCBSYWp1LCBTYW5kZWVwIDxzYW5kZWVw
-Lmd1bmRsdXBldC1yYWp1QGFtZC5jb20+IHdyb3RlOg0KPiANCj4gSGkgUm9zcywNCj4gDQo+IEkn
-bSB1c2luZyBsYW5nZGFsZSByZWxlYXNlIGFuZCBidWlsZCBob3N0IGlzIFVidW50dS0xOC4wNC4z
-LCBBbnkgcG9pbnRlcnMgb24gYmVsb3cgYnVpbGQgaXNzdWVzLg0KPiANCj4gfCB1c2FnZTogcHl0
-aG9uIC1tIGluc3RhbGxlciBbLWhdIFstLWRlc3RkaXIgcGF0aF0gWy0tY29tcGlsZS1ieXRlY29k
-ZSBsZXZlbF0NCj4gfCAgICAgICAgICAgICAgICAgICAgICAgICAgICBbLS1uby1jb21waWxlLWJ5
-dGVjb2RlXQ0KPiB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHdoZWVsDQoNClRoYXQgc3Vn
-Z2VzdHMgdGhhdCBpcyBydW5uaW5nIGEgY29weSBvZiBpbnN0YWxsZXIgd2hpY2ggaXNu4oCZdCBv
-dXJzLiAgRG8geW91IGhhdmUgbG9jYWwgY2hhbmdlcyB0byB0aGUgcHl0aG9uMy1pbnN0YWxsZXIg
-cmVjaXBlPyBJcyB0aGlzIHJlcHJvZHVjaWJsZSB3aXRoIGEgcGxhaW4gY2hlY2tvdXQgb2YgcG9r
-eS9sYW5nZGFsZSB3aXRoIG5vIEJTUHMgb3Igb3RoZXIgcGF0Y2hlcz8NCg0KUm9zcw==
+Thanks Alexander for the feedback,
+
+We had some discussion internally with one of the OpenSSH maintainers
+and they are fine with it. I'll try to see if there is a public forum
+where we can share the discussion.
+
+Willy Tu
+
+
+On Tue, Nov 8, 2022 at 8:27 AM Alexander Kanavin <alex.kanavin@gmail.com> w=
+rote:
+>
+> The correct way to do this is to discuss the issue with openssh
+> upstream, and provide a link to any such discussion if it has already
+> happened. If they don't want to install these things, they have
+> reasons, and you need to at least try to convince them otherwise.
+>
+> We generally do not go against upstream choices.
+>
+> Alex
+>
+> On Tue, 8 Nov 2022 at 17:23, Willy Tu via lists.openembedded.org
+> <wltu=3Dgoogle.com@lists.openembedded.org> wrote:
+> >
+> > Is there anything else that I need to do to help move this forward?
+> >
+> > Willy Tu
+> >
+> > On Mon, Oct 31, 2022 at 8:42 AM Willy Tu via lists.openembedded.org <wl=
+tu=3Dgoogle.com@lists.openembedded.org> wrote:
+> >>
+> >> Friendly ping. Is there any more concern on this?
+> >>
+> >> Willy Tu
+> >>
+> >>
+> >> On Mon, Oct 24, 2022 at 10:07 AM Willy Tu via lists.openembedded.org
+> >> <wltu=3Dgoogle.com@lists.openembedded.org> wrote:
+> >> >
+> >> > Testing it out more and it seems like the current change is fine in =
+that regard.
+> >> >
+> >> > I was building it against an OpenBMC image which include the change =
+and the header and libssh.a files doesn't show up in the image itself
+> >> >
+> >> > ```
+> >> > ./tmp/work/izumi-openbmc-linux-gnueabi/obmc-phosphor-image
+> >> > ```
+> >> > doesn't have those files. I believe that's what we are looking for?
+> >> >
+> >> > Willy Tu
+> >> >
+> >> > On Mon, Oct 24, 2022 at 9:05 AM Willy Tu via lists.openembedded.org =
+<wltu=3Dgoogle.com@lists.openembedded.org> wrote:
+> >> >>
+> >> >> I am testing it out again and it seems like it does install to the =
+target .
+> >> >>
+> >> >> ```
+> >> >> $ find -name libssh.a
+> >> >> ./tmp/sysroots-components/armv7a/openssh/usr/lib/libssh.a
+> >> >> ./tmp/work/armv7a-openbmc-linux-gnueabi/openssh/9.0p1-r0/image/usr/=
+lib/libssh.a
+> >> >> ./tmp/work/armv7a-openbmc-linux-gnueabi/openssh/9.0p1-r0/sysroot-de=
+stdir/usr/lib/libssh.a
+> >> >> ./tmp/work/armv7a-openbmc-linux-gnueabi/openssh/9.0p1-r0/packages-s=
+plit/openssh-staticdev/usr/lib/libssh.a
+> >> >> ./tmp/work/armv7a-openbmc-linux-gnueabi/openssh/9.0p1-r0/openssh-9.=
+0p1/libssh.a
+> >> >> ./tmp/work/armv7a-openbmc-linux-gnueabi/openssh/9.0p1-r0/package/us=
+r/lib/libssh.a
+> >> >> ./tmp/work/armv7a-openbmc-linux-gnueabi/hiba/1.0+gitAUTOINC+3199239=
+c6a-r0/recipe-sysroot/usr/lib/libssh.a
+> >> >> ```
+> >> >> We don't want this, right?
+> >> >>
+> >> >> I'll have to try to figure it out and fix it.
+> >> >>
+> >> >> Willy Tu
+> >> >>
+> >> >> On Mon, Oct 24, 2022 at 7:57 AM Tristan Lelong <tlelong@google.com>=
+ wrote:
+> >> >>>
+> >> >>>
+> >> >>>
+> >> >>> On Fri, Oct 21, 2022 at 6:22 PM Willy Tu <wltu@google.com> wrote:
+> >> >>>>
+> >> >>>> Hi Ross,
+> >> >>>>
+> >> >>>> Thanks for the feedback.
+> >> >>>>
+> >> >>>> Can you point to the right repo to update? Just to make sure that=
+ I understand the concern, you are not referring to https://github.com/open=
+embedded/meta-openembedded/pull/597, right? I am making changes to http://c=
+git.openembedded.org/openembedded-core/tree/meta/recipes-connectivity/opens=
+sh/openssh_9.0p1.bb which I thought is part of oe-core.
+> >> >>>>
+> >> >>>> @Tristan Lelong is the maintainer for hiba and is okay with the c=
+hange. Do you have any suggestions on installing it to just the sysroot in =
+openssh while using it from the hiba recipe? I was not able to do that when=
+ I tried it.
+> >> >>>
+> >> >>>
+> >> >>> This was indeed discussed previously in another version of the pat=
+ch, it seemed the best way to expose OpenSSH's internal files was via the d=
+evel package (not installed on the target), rather than hook into another p=
+ackage's syroot.
+> >> >>>
+> >> >>> The OpenSSH static libraries and header files are currently not ma=
+de officially available because the API is not considered stable enough, bu=
+t exporting them in OE for HIBA (gated by a PACKAGECONFIG) in order to supp=
+ort HIBA is fine.
+> >> >>>
+> >> >>>>
+> >> >>>>
+> >> >>>> Thanks,
+> >> >>>>
+> >> >>>> Willy Tu
+> >> >>>>
+> >> >>>>
+> >> >>>>
+> >> >>>>
+> >> >>>> On Fri, Oct 21, 2022 at 7:59 AM Ross Burton <Ross.Burton@arm.com>=
+ wrote:
+> >> >>>>>
+> >> >>>>> Hi,
+> >> >>>>>
+> >> >>>>> oe-core doesn=E2=80=99t accept merge requests on the github mirr=
+ors, and you pushed to meta-oe, which is a different repository.
+> >> >>>>>
+> >> >>>>> >> + if ${@bb.utils.contains('DISTRO_FEATURES', 'opensshinternal=
+s', 'true', 'false', d)}; then
+> >> >>>>>
+> >> >>>>> This should be a PACKAGECONFIG, as it=E2=80=99s not a distro-wid=
+e setting.
+> >> >>>>>
+> >> >>>>> >> + install -d ${D}${includedir}/ssh
+> >> >>>>> >> + install -d ${D}${includedir}/ssh/openbsd-compat
+> >> >>>>> >> + install -m0644 ${S}/*.h ${D}${includedir}/ssh
+> >> >>>>> >> + install -m0644 ${S}/openbsd-compat/*.h ${D}${includedir}/ss=
+h/openbsd-compat
+> >> >>>>> >> +
+> >> >>>>> >> + install -d ${D}${libdir}
+> >> >>>>> >> + install -m0644 ${S}/libssh.a ${D}${libdir}
+> >> >>>>> >> + install -m0644 ${S}/openbsd-compat/libopenbsd-compat.a ${D}=
+${libdir}
+> >> >>>>> >> + fi
+> >> >>>>>
+> >> >>>>> So you=E2=80=99re installing bits of the SSH source into the *ta=
+rget* packages because one piece of software needs the build tree. This is =
+clearly an unsupported use of openssh, as the hiba build instructions liter=
+ally say =E2=80=9Cbuild openssh, then point hiba=E2=80=99s configure at tha=
+t build tree=E2=80=9D.  If
+> >> >>>>>
+> >> >>>>> I suggest a better approach would be to have a bbappend in your =
+layer which adds the files you need to *just the sysroot*, so the target pa=
+ckages are unaltered.
+> >> >>>>>
+> >> >>>>> Ross
+> >> >>>
+> >> >>>
+> >> >>>
+> >> >>> --
+> >> >>> Tristan Lelong | SRE | tlelong@google.com |
+> >> >>
+> >> >>
+> >> >>
+> >> >>
+> >> >
+> >> >
+> >> >
+> >>
+> >>
+> >>
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#172975): https://lists.openembedded.org/g/openembed=
+ded-core/message/172975
+> > Mute This Topic: https://lists.openembedded.org/mt/94475279/1686489
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+alex.kanavin@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
 
