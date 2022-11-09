@@ -2,142 +2,149 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2F96C4332F
-	for <webhook@archiver.kernel.org>; Wed,  9 Nov 2022 14:20:50 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.3683.1668003649812019266
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC523C43217
+	for <webhook@archiver.kernel.org>; Wed,  9 Nov 2022 14:21:00 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web09.3847.1668003656162736447
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Nov 2022 06:20:50 -0800
+ Wed, 09 Nov 2022 06:20:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=5zFliCGg;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id p12so11725574plq.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 06:20:49 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=OHNVb4Z3;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id z26so16836894pff.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 06:20:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=c/2TeE9oMc1IYTYJjoTlyRxcEm6I0EvLVazNqm4/Fw0=;
-        b=5zFliCGgoXzIHu5G+KPk1IccCLY9nf08/7pcKOoEaSZb1DGpjE0OlBsVT+YTidtGJ/
-         YtLMShfO37O7+QnS87V4T+dAZooMTjH94FF4GNEYwykjSGuBk9FbVAV55Gl4wueuVZl8
-         PBZHGJdIZrojA8xqYzfYCuSNENT7hYFD41mD3C3FpzdTf+Jg/T5fmcUUhb1OjAAWCzNy
-         oDWeoyVHmtTzX+Jzo2+9dV9roF6asoQNVSeRq66LwqxE7e/dIn/9zsXfvMgnotFUeCm+
-         V8aYS6WpkTTmcI+ZA3DeykaVhE0QDGK1u3a6bNnnZdE3wbP0ggrqwPLy7nIykA3r9JnD
-         V49g==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ml5lwkJzna8vHSLYneRri7QrseEqzLWhqsjJA2R/KKk=;
+        b=OHNVb4Z3irYcjcLQpoYwzoVFfBpVGRq7FUZsTF+aJE80WEGT7u9E9TrnKHVoNeOTGO
+         SnBoesJg86FX15bu0IyX4wKjb+4iiHrxB1JyrEl1tYSgUi0vaBVHL2Ov6jLFRxeJrJWp
+         hmFVag2xrqQZsp//ingPCdlqh4zPCaWCtXIYsH0kDXg7GeXLGg4iPjEPxlrQlO2CoyIZ
+         f/hEjo4W9ndt/Dxi7bILZaAjgggC1l0gs+ROPL298rvspC8CUdIWrLRg49DzNKYavlH6
+         ky0NjuQiCKXJ7Vhmpg+t4TU+D2Q9WZpJdKYEkvOkCET5RqgCjEmkbqr6Tw4RkeRVzw9A
+         TCPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=c/2TeE9oMc1IYTYJjoTlyRxcEm6I0EvLVazNqm4/Fw0=;
-        b=5BOGcfRycjKPRqBUexnpNoL0QAUts7hROgMX6kIePygsiQ31K2jw3rMsUs1tx9as3w
-         hxhEdbG9Ar0iObf3SILYibtr0CO5Irt4pCMxQshWyWE9svWS5UG2+D8ZJAnDsh6bV4gj
-         Bnkei+0z0LbiXBfSGSsIGC3XL8JUPIL0t2hmpid06EYdbCILZqbURAl9MdGgIwFwl/JT
-         s+gFoW9ezt4G9BDl8YGV1n0Hgt5QctpkTXaQQMywVeLpsW1H0o4oG3IgRGiv6W+Y6VfP
-         UzvTUDOD6G/uc97PcYS0DxiYOLDQupZKaw1pIt+YHBdpU3a2HcKqwQru2QryTu8V41Qa
-         AvpQ==
-X-Gm-Message-State: ACrzQf3/xAOAmcigYvvtlhOynsqLFZu5hbQ1l7sjN2lUwqugRiQTfL0k
-	1Pvy/B5x4pfSKggl9e2NI4NJODSbV9GqRF4X
-X-Google-Smtp-Source: AMsMyM4CW+zkKi00hE7S8JHKYC2Qq5iNLXoxNeQIXbZ0yeYjm91Qzd6fZF29jAn38GveEiy6TEJtDA==
-X-Received: by 2002:a17:90a:8988:b0:212:e1b9:e8fd with SMTP id v8-20020a17090a898800b00212e1b9e8fdmr78422134pjn.148.1668003648472;
-        Wed, 09 Nov 2022 06:20:48 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ml5lwkJzna8vHSLYneRri7QrseEqzLWhqsjJA2R/KKk=;
+        b=ca8hFInPQTHnEcY9pNm6aCXwFgwHIyxktrpe5tNw15SAqrTbtXZGer12sS4B/bMEAn
+         PzVVEJl5S8/mdYoOw1JNNfgLtBElLJi5VT0tRth1YkpvXHTMDvCPRG/rfUo7DqfI3Sdu
+         +q8UB5xj6SaoJ2EXS3S8G/jXucz6siGO+Expo8ZbY70rbpewi0djvNWU6quQPlkrS3fp
+         ktv/TtLr3tuq9uBakNt0/pWZ8nI5fxoBnAqtwrxK7u0FAX2mEAOk+hn4bCQWPXL0rMqi
+         nl992eFD1kLPa7/uQoipUCoZ1ZcJps70HZkDIU48WGMClcRNKZwfrSnKGrmcWkpFhNSy
+         2nOA==
+X-Gm-Message-State: ACrzQf20RYyEhsivFbENQJEoObWpzG2ezeJgKROeuHW7xBw5XX7wF/7h
+	ZvwBeCtWQacuVmKrB/XEmnsohl+sHm7+nbeB
+X-Google-Smtp-Source: AMsMyM7qhs9j3C4nmdl1CHyIpaLKAC2Aa/r1vlufI0Y9m9aUQrQLqc48MAnGc+hEqG5j9l4WhkKjvg==
+X-Received: by 2002:a63:e641:0:b0:46f:b6e1:195d with SMTP id p1-20020a63e641000000b0046fb6e1195dmr44382014pgj.587.1668003655136;
+        Wed, 09 Nov 2022 06:20:55 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id s17-20020a170902a51100b001822121c45asm9059337plq.28.2022.11.09.06.20.47
+        by smtp.gmail.com with ESMTPSA id s17-20020a170902a51100b001822121c45asm9059337plq.28.2022.11.09.06.20.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Nov 2022 06:20:47 -0800 (PST)
+        Wed, 09 Nov 2022 06:20:54 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 00/10] Patch review
-Date: Wed,  9 Nov 2022 04:20:30 -1000
-Message-Id: <cover.1668003427.git.steve@sakoman.com>
+Subject: [OE-core][langdale 03/10] sudo: backport fix for CVE-2022-43995
+Date: Wed,  9 Nov 2022 04:20:33 -1000
+Message-Id: <a41a5f310246dcd9dbdb4537d59bc0579c3b1052.1668003427.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1668003427.git.steve@sakoman.com>
+References: <cover.1668003427.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 14:20:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173019
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 14:21:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173022
 
-Please review this set of patches for langdale and have comments back by
-end of day Friday.  This should be the final patchset before the 4.1.1
-build next Monday.
+From: Ross Burton <ross.burton@arm.com>
 
-Passed a-full on autobuilder:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4443
-
-The following changes since commit 0eee57ef03908c04e1567889f72d7187b5c1f657:
-
-  mirrors.bbclass: use shallow tarball for binutils-native (2022-11-04 09:16:52 -1000)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/langdale-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/langdale-nut
-
-Alexander Kanavin (3):
-  shadow: update 4.12.1 -> 4.12.3
-  lttng-modules: upgrade 2.13.4 -> 2.13.5
-  quilt: backport a patch to address grep 3.8 failures
-
-Bernhard Rosenkränzer (1):
-  cmake-native: Fix host tool contamination
-
-Michael Opdenacker (1):
-  create-spdx.bbclass: remove unused SPDX_INCLUDE_PACKAGED
-
-Robert Joslyn (1):
-  curl: Backport CVE fixes
-
-Ross Burton (3):
-  pixman: backport fix for CVE-2022-44638
-  sudo: backport fix for CVE-2022-43995
-  sanity: check for GNU tar specifically
-
-ciarancourtney (1):
-  wic: swap partitions are not added to fstab
-
- meta/classes-global/sanity.bbclass            |   8 +
- meta/classes/create-spdx.bbclass              |   2 -
- .../cmake/cmake-native_3.24.0.bb              |   1 +
- meta/recipes-devtools/quilt/quilt.inc         |   1 +
- .../quilt/quilt/fix-grep-3.8.patch            | 144 ++++++++++++++++++
- meta/recipes-extended/shadow/shadow.inc       |   2 +-
- .../{shadow_4.12.1.bb => shadow_4.12.3.bb}    |   0
- .../sudo/files/CVE-2022-43995.patch           |  54 +++++++
- meta/recipes-extended/sudo/sudo_1.9.11p3.bb   |   1 +
- .../xorg-lib/pixman/CVE-2022-44638.patch      |  33 ++++
- .../xorg-lib/pixman_0.40.0.bb                 |   1 +
- .../lttng-modules/0001-fix-compaction.patch   |  68 ---------
- ...c-fix-tracepoint-mm_page_alloc_zone_.patch | 106 -------------
- ...oduce-kfree_skb_reason-v5.15.58.v5.1.patch |  53 -------
- ...ags-parameter-from-aops-write_begin-.patch |  76 ---------
- ...Fix-type-of-cpu-in-trace-event-v5.19.patch | 124 ---------------
- ...ules_2.13.4.bb => lttng-modules_2.13.5.bb} |   7 +-
- .../curl/curl/CVE-2022-32221.patch            |  27 ++++
- .../curl/curl/CVE-2022-35260.patch            |  73 +++++++++
- .../curl/curl/CVE-2022-42915.patch            |  53 +++++++
- .../curl/curl/CVE-2022-42916.patch            | 134 ++++++++++++++++
- meta/recipes-support/curl/curl_7.85.0.bb      |   4 +
- scripts/lib/wic/plugins/imager/direct.py      |   2 +-
- 23 files changed, 537 insertions(+), 437 deletions(-)
- create mode 100644 meta/recipes-devtools/quilt/quilt/fix-grep-3.8.patch
- rename meta/recipes-extended/shadow/{shadow_4.12.1.bb => shadow_4.12.3.bb} (100%)
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../sudo/files/CVE-2022-43995.patch           | 54 +++++++++++++++++++
+ meta/recipes-extended/sudo/sudo_1.9.11p3.bb   |  1 +
+ 2 files changed, 55 insertions(+)
  create mode 100644 meta/recipes-extended/sudo/files/CVE-2022-43995.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-compaction.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-page_alloc-fix-tracepoint-mm_page_alloc_zone_.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-net-skb-introduce-kfree_skb_reason-v5.15.58.v5.1.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-fix-fs-Remove-flags-parameter-from-aops-write_begin-.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-fix-workqueue-Fix-type-of-cpu-in-trace-event-v5.19.patch
- rename meta/recipes-kernel/lttng/{lttng-modules_2.13.4.bb => lttng-modules_2.13.5.bb} (76%)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-32221.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-35260.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-42915.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-42916.patch
 
+diff --git a/meta/recipes-extended/sudo/files/CVE-2022-43995.patch b/meta/recipes-extended/sudo/files/CVE-2022-43995.patch
+new file mode 100644
+index 0000000000..64dca8c9c6
+--- /dev/null
++++ b/meta/recipes-extended/sudo/files/CVE-2022-43995.patch
+@@ -0,0 +1,54 @@
++CVE: CVE-2022-43995
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++From bd209b9f16fcd1270c13db27ae3329c677d48050 Mon Sep 17 00:00:00 2001
++From: "Todd C. Miller" <Todd.Miller@sudo.ws>
++Date: Fri, 28 Oct 2022 07:29:55 -0600
++Subject: [PATCH] Fix CVE-2022-43995, potential heap overflow for passwords < 8
++ characters. Starting with sudo 1.8.0 the plaintext password buffer is
++ dynamically sized so it is not safe to assume that it is at least 9 bytes in
++ size. Found by Hugo Lefeuvre (University of Manchester) with ConfFuzz.
++
++---
++ plugins/sudoers/auth/passwd.c | 11 +++++------
++ 1 file changed, 5 insertions(+), 6 deletions(-)
++
++diff --git a/plugins/sudoers/auth/passwd.c b/plugins/sudoers/auth/passwd.c
++index b2046eca2..0416861e9 100644
++--- a/plugins/sudoers/auth/passwd.c
+++++ b/plugins/sudoers/auth/passwd.c
++@@ -63,7 +63,7 @@ sudo_passwd_init(struct passwd *pw, sudo_auth *auth)
++ int
++ sudo_passwd_verify(struct passwd *pw, char *pass, sudo_auth *auth, struct sudo_conv_callback *callback)
++ {
++-    char sav, *epass;
+++    char des_pass[9], *epass;
++     char *pw_epasswd = auth->data;
++     size_t pw_len;
++     int matched = 0;
++@@ -75,12 +75,12 @@ sudo_passwd_verify(struct passwd *pw, char *pass, sudo_auth *auth, struct sudo_c
++ 
++     /*
++      * Truncate to 8 chars if standard DES since not all crypt()'s do this.
++-     * If this turns out not to be safe we will have to use OS #ifdef's (sigh).
++      */
++-    sav = pass[8];
++     pw_len = strlen(pw_epasswd);
++-    if (pw_len == DESLEN || HAS_AGEINFO(pw_epasswd, pw_len))
++-	pass[8] = '\0';
+++    if (pw_len == DESLEN || HAS_AGEINFO(pw_epasswd, pw_len)) {
+++	strlcpy(des_pass, pass, sizeof(des_pass));
+++	pass = des_pass;
+++    }
++ 
++     /*
++      * Normal UN*X password check.
++@@ -88,7 +88,6 @@ sudo_passwd_verify(struct passwd *pw, char *pass, sudo_auth *auth, struct sudo_c
++      * only compare the first DESLEN characters in that case.
++      */
++     epass = (char *) crypt(pass, pw_epasswd);
++-    pass[8] = sav;
++     if (epass != NULL) {
++ 	if (HAS_AGEINFO(pw_epasswd, pw_len) && strlen(epass) == DESLEN)
++ 	    matched = !strncmp(pw_epasswd, epass, DESLEN);
+diff --git a/meta/recipes-extended/sudo/sudo_1.9.11p3.bb b/meta/recipes-extended/sudo/sudo_1.9.11p3.bb
+index ba610ee2e7..fa9cf48196 100644
+--- a/meta/recipes-extended/sudo/sudo_1.9.11p3.bb
++++ b/meta/recipes-extended/sudo/sudo_1.9.11p3.bb
+@@ -4,6 +4,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+            file://0001-sudo.conf.in-fix-conflict-with-multilib.patch \
+            file://0001-lib-util-mksigname.c-correctly-include-header-for-ou.patch \
++           file://CVE-2022-43995.patch \
+            "
+ 
+ PAM_SRC_URI = "file://sudo.pam"
 -- 
 2.25.1
 
