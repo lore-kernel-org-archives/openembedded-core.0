@@ -1,67 +1,98 @@
-Return-Path: <luca.boccassi@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C596C4332F
-	for <webhook@archiver.kernel.org>; Wed,  9 Nov 2022 19:24:49 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web09.1358.1668021888264666505
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4103C43219
+	for <webhook@archiver.kernel.org>; Wed,  9 Nov 2022 19:31:49 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web09.1444.1668022308418623914
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Nov 2022 11:24:48 -0800
+ Wed, 09 Nov 2022 11:31:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=f9TbmBL2;
- spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id bs21so27416025wrb.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 11:24:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f2QGAVzB434ou3/XeQiSufAPQsffYyjAoQaSApkKNio=;
-        b=f9TbmBL2OpiLuuSjCl8DfNgcba6nF2frDrMVzJRPcu+ieY9SJ8g9Rn3pKF7WFjVqNo
-         GQFom4tK2WSqYvjksQQvxTKdysmolzKqB7v0w8KljWKxs6RtqoDGUBpcE3WrndUQ3Svn
-         zoYrPMoCLVmYg7Eczs13h4d4yZu4cBdXRtimUIWBnirLeFQftJFge67yY9UxP0FRazA6
-         NfBoIqDLHIgCJ84ArJOytVMnkg5nvxbDR5+3/+aWDvAQe+yJwMdns3ESFyR68/sZVzIX
-         NbAsD6sBMVveB5Ykbq/xH5ZA/VQOu5Hxs+oi8HngMO21iah46IRY1PzK6Ql9IH/PbmMp
-         92Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f2QGAVzB434ou3/XeQiSufAPQsffYyjAoQaSApkKNio=;
-        b=vENky11O9uD7Oa3NxqEzsrYkVYJBmiNcn1MhoGl86xueH7mEVrS+IxYpIFAp/lAmIL
-         VZ+kgatA0YnU57iu5XqgmWj+3FVBWoJ9d+hzQVRmTnJQbaHTPSb/CGbETF9MvuStUg/v
-         jlJNABlnj4uYmajcf3oE5O5+cU1fL9bHMGvxXOaz8mUBd8u1cv718R5rI0F79cRHPow1
-         jGTw8X07mPeipLHH++6NVMzE1yDefgVevFbYajTsXbz3lmX758XNQ4zJVVHanfwEpA86
-         csLr4F/0kXWdhRCTPpXMMRMdX1Eq0wjNb0eia96+1xYtz7sMfoL8yh4FUPl2tAMXt9M2
-         2C/w==
-X-Gm-Message-State: ACrzQf0lhFzytrTaLMCoJzxAS9Jrl3cuDxj/IDm53eETTpNg0h5ncdJw
-	P6g3mRwnk6rudE3hPlxldFsL6pnfz+M=
-X-Google-Smtp-Source: AMsMyM6D2335CR9eyqjGJ4AIRgpCNVQ2POofl2N4SzLaxY9dtAG3s7ZIc1Al/nTUWzVm9SRss5Jbqg==
-X-Received: by 2002:adf:fdce:0:b0:236:f543:2fd9 with SMTP id i14-20020adffdce000000b00236f5432fd9mr25797454wrs.511.1668021886158;
-        Wed, 09 Nov 2022 11:24:46 -0800 (PST)
-Received: from localhost ([2a01:4b00:d307:1000:f1d3:eb5e:11f4:a7d9])
-        by smtp.gmail.com with ESMTPSA id p11-20020a05600c358b00b003cf47fdead5sm2853214wmq.30.2022.11.09.11.24.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Nov 2022 11:24:45 -0800 (PST)
-From: luca.boccassi@gmail.com
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 404601FB;
+	Wed,  9 Nov 2022 11:31:54 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9D69A3F703;
+	Wed,  9 Nov 2022 11:31:47 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: raj.khem@gmail.com
-Subject: Re: [PATCH v3] systemd: Fix 252 release build on musl
-Date: Wed,  9 Nov 2022 19:24:31 +0000
-Message-Id: <20221109192431.1913633-1-luca.boccassi@gmail.com>
+Cc: nd@arm.com
+Subject: [PATCH 08/15] oeqa/selftest/overlayfs: overlayfs: skip x86-specific tests
+Date: Wed,  9 Nov 2022 19:31:28 +0000
+Message-Id: <20221109193135.291048-8-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221109002306.853567-1-raj.khem@gmail.com>
-References: <20221109002306.853567-1-raj.khem@gmail.com>
+In-Reply-To: <20221109193135.291048-1-ross.burton@arm.com>
+References: <20221109193135.291048-1-ross.burton@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 19:24:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173033
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 19:31:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173041
 
-Acked-by: Luca Boccassi <luca.boccassi@microsoft.com>
+For now, not all machines have a default wks file, so mark the tests
+which need a wks as being specific to qemux86-64.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/lib/oeqa/selftest/cases/overlayfs.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py b/meta/lib/oeqa/se=
+lftest/cases/overlayfs.py
+index 57a8c8bdb6e..dfd9f1486d0 100644
+--- a/meta/lib/oeqa/selftest/cases/overlayfs.py
++++ b/meta/lib/oeqa/selftest/cases/overlayfs.py
+@@ -7,6 +7,7 @@
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import bitbake, runqemu
+ from oeqa.core.decorator import OETestTag
++from oeqa.core.decorator.data import skipIfNotMachine
+=20
+ def getline_qemu(out, line):
+     for l in out.split('\n'):
+@@ -333,6 +334,8 @@ EXTRA_IMAGE_FEATURES +=3D "package-management"
+         self.assertTrue("overlayfs-etc" in res.output, msg=3Dres.output)
+         self.assertTrue("package-management" in res.output, msg=3Dres.ou=
+tput)
+=20
++    # https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14963
++    @skipIfNotMachine("qemux86-64", "tests are qemux86-64 specific curre=
+ntly")
+     def test_image_feature_is_missing(self):
+         """
+         Summary:   Overlayfs-etc class is not applied when image feature=
+ is not set
+@@ -368,9 +371,11 @@ OVERLAYFS_ETC_DEVICE =3D "/dev/sda3"
+             line =3D getline_qemu(output, "upperdir=3D/data/overlay-etc/=
+upper")
+             self.assertFalse(line, msg=3Doutput)
+=20
++    @skipIfNotMachine("qemux86-64", "tests are qemux86-64 specific curre=
+ntly")
+     def test_sbin_init_preinit(self):
+         self.run_sbin_init(False)
+=20
++    @skipIfNotMachine("qemux86-64", "tests are qemux86-64 specific curre=
+ntly")
+     def test_sbin_init_original(self):
+         self.run_sbin_init(True)
+=20
+@@ -419,6 +424,7 @@ OVERLAYFS_ETC_DEVICE =3D "/dev/sda3"
+             line =3D getline_qemu(output, testFile)
+             self.assertTrue(line and line.startswith(testFile), msg=3Dou=
+tput)
+=20
++    @skipIfNotMachine("qemux86-64", "tests are qemux86-64 specific curre=
+ntly")
+     def test_lower_layer_access(self):
+         """
+         Summary:   Test that lower layer of /etc is available read-only =
+when configured
+--=20
+2.34.1
+
 
