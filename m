@@ -1,215 +1,256 @@
-Return-Path: <chase.qi@linaro.org>
+Return-Path: <ola.x.nilsson@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5D28C4332F
-	for <webhook@archiver.kernel.org>; Wed,  9 Nov 2022 06:50:48 +0000 (UTC)
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
- by mx.groups.io with SMTP id smtpd.web12.511.1667976640566207112
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AFB7C433FE
+	for <webhook@archiver.kernel.org>; Wed,  9 Nov 2022 07:48:39 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web09.822.1667980112594086895
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Nov 2022 22:50:40 -0800
+ Tue, 08 Nov 2022 23:48:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=uV344LKO;
- spf=pass (domain: linaro.org, ip: 209.85.166.46, mailfrom: chase.qi@linaro.org)
-Received: by mail-io1-f46.google.com with SMTP id p141so13259064iod.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 22:50:40 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=dz8SXh1T;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: ola.x.nilsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=v0bO8SViZO0EuCCjjJI7GNXlkD2b842taMHOSBdmSMk=;
-        b=uV344LKO5GZOiLnY168iP5L2dZKh70QPTpy/cK5lo4eJvvqqh3vI1JxJmJ9Fu2QUk1
-         JvSW8EVC7fKI0JSpJGPRtJ4PZsi2qKFaOvZ64Bboh7ew9m5WjZtfkglqo2GBMYFgUhLM
-         zEREcqzMgaopScIBO9Mr5DumQx5XxoxMTvdHi5WOflZXZTpRtxVLCFbbP117GPUpkTlx
-         dluMXp7F1rAVeQBBDq4vbpEnMRGGnT5q47Am6jPbVHFx/9HHWAkC6zxB63rqUBpz1o72
-         T6ANPpy3i3o+YIY4bmlRxwNwdc9SmKRuZf/zGvIzYz8ga5DrlSCjStPVnriOX4VFaXnK
-         0Qjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=v0bO8SViZO0EuCCjjJI7GNXlkD2b842taMHOSBdmSMk=;
-        b=ddr41ZU7VHXRd/K2qDY43/AlmHGn2RrL5RcPhJcfpMEl7qT9mZWJXOVCff86denFjl
-         m+2fmavdIWlnR0Mgg/7gs8U+RCtUiqncQiMPdBM2zK74LF3F7aGmygtYaAODt502SA4D
-         hmLwsUpM57urZA9Cn4gB9iUvez2lWaFTdegUH87YNMHZo6PrrqwknJnxxyg0bQ6mOfDM
-         hTmUN8SQfIQtPAfvr+LINKe9vzzi4KAvjI4kMHKPtnATUq7NBjO5IFT4FS/ywieJpneX
-         Cjr3EqKBo7GAiaJYrDaMu6Oa0AndtgnmhswcfpWxwAu8eQqCljMO52a+SvkicYXXo6Ea
-         wJSg==
-X-Gm-Message-State: ACrzQf2uvebXjpcww9iwEgUOukua/nzc5Wsrl8ygbzFMXJe8rL4d0HI+
-	t6lA+rxDcHhyiIj2cnzQhrRcLtt9Xx4Yf/Jvtc7w4A==
-X-Google-Smtp-Source: AMsMyM4oHg8uoyBpNMb+U3wd9Og73uAm0NZaIptCJRjpEM7intKyYYf37phzaergqo8VUiUENcEH2eq8Pxd85pfaA24=
-X-Received: by 2002:a5d:9c50:0:b0:6d5:5fcc:1790 with SMTP id
- 16-20020a5d9c50000000b006d55fcc1790mr19861995iof.160.1667976639927; Tue, 08
- Nov 2022 22:50:39 -0800 (PST)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1667980113;
+  x=1699516113;
+  h=references:from:to:cc:subject:date:in-reply-to:
+   message-id:mime-version:content-transfer-encoding;
+  bh=yGJP4X8iN5OqYVkvAoUoP50qqSBjXWSzJkUcdVJMONU=;
+  b=dz8SXh1T6L8w5wMYzViVW/+FVZnBSF0ZmMy620dnsKA9+NY/6hdYcPeu
+   ZjnJeKX2qOCF3UBmQgAOYvP83hPZ4FokJ2l4hYtmo2fQ9fj8ifMrKMadm
+   CEHuSORIrcOVNRZeQub92ihYWOgkVKPFCLYU84MFHY9h1Px0PgsKJj/Lu
+   6xGkYd8Opo3N/8cfcq7vqSln3Trh8HCVBJiU8U5L7rOCKNqKoPywqm0jh
+   YYaV1fhWNPBwFp//fhtSDK1y/Kf14SONdefznhzlWsuO+gD+InJKB940s
+   Aq2nHgH6nOs7fKcB1ADMJOkScsMo3F64d+/A/yvyCOHMuVO2HkjEu814U
+   A==;
+References: <20221108000828.42824-1-niko.mauno@vaisala.com>
+ <20221108000828.42824-2-niko.mauno@vaisala.com>
+ <CANNYZj9f2nfRbwU1MXn2a7ruKHhkw318F92Lqp9xYd8acvubwQ@mail.gmail.com>
+ <5e84a23b-1111-470c-11fa-a8cc9d32dcf0@vaisala.com>
+ <CANNYZj_EO7LRfzGb86D1s=YMB1Vz=1VYVropJo7VGPvsq5_FsA@mail.gmail.com>
+ <a0ba0394-c43e-b21a-1a2b-e5a7ea016404@vaisala.com>
+ <17259B3874804FB3.24550@lists.openembedded.org>
+ <CANNYZj_CZaKxkhmHL3h7sW5i9QNZpAfwnc8ZbcX24oDw82=5dg@mail.gmail.com>
+ <jwqcz9xsdah.fsf@axis.com> <1725A47F2FC9966F.2170@lists.openembedded.org>
+ <jwq4jv9s4zi.fsf@axis.com>
+ <CANNYZj8wUXkx2c9zvVEds+FvrA0hGvHyDACsjLRy4zzr28ne-g@mail.gmail.com>
+User-agent: mu4e 1.8.9; emacs 29.0.50
+From: Ola x Nilsson <ola.x.nilsson@axis.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: Niko Mauno <niko.mauno@vaisala.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [RFC PATCH 2/3] kbd: Disable 64 bit time with 32 bit
+ glibc
+Date: Wed, 9 Nov 2022 08:44:36 +0100
+Organization: Axis Communications AB
+In-Reply-To: <CANNYZj8wUXkx2c9zvVEds+FvrA0hGvHyDACsjLRy4zzr28ne-g@mail.gmail.com>
+Message-ID: <jwqzgd0r2k2.fsf@axis.com>
 MIME-Version: 1.0
-References: <20221108034233.3452233-1-chase.qi@linaro.org> <Y2qzD8cb//AgUXco@mail.local>
-In-Reply-To: <Y2qzD8cb//AgUXco@mail.local>
-From: Chase Qi <chase.qi@linaro.org>
-Date: Wed, 9 Nov 2022 14:50:29 +0800
-Message-ID: <CACLiBhBOyWrKGU3Ps79GP0qGVkGNVmgyQs=cUVGLrp_XXzcQdQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] libc-test: add libc testsuite for musl
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 06:50:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173013
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 07:48:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173014
 
-Hi Alexandre,
 
-On Wed, 9 Nov 2022 at 03:50, Alexandre Belloni
-<alexandre.belloni@bootlin.com> wrote:
->
-> Hello,
->
-> This fails with:
-> The following recipes do not have a maintainer assigned to them. Please add an entry to meta/conf/distro/include/maintainers.inc file.
-> libc-test (/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/recipes-core/musl/libc-test_git.bb)
->
+Doing the rince and repeat thing, yes.
 
-Thanks for pointing this out. I have sent v4. I added myself as the
-maintainer of the recipe. I am fine to change it to any of the oe-core
-core maintainers if that makes more sense.
+Some of us may not have the luxury to wait for glibc to reach
+'eventually'.  Whether OpenEmbedded should carry this option and how are
+other discussions.  I'm open to carrying this as a plugin layer.
 
-- Chase
+For what it's worth I would prefer if glibc at least had a configuration
+option to force 64-bit only.=20
 
-> On 08/11/2022 03:42:33+0000, Chase Qi wrote:
-> > libc-test is a collection of unit test to measure the correctness and
-> > robustness of a C/POSIX standard library implementation. It is developed
-> > as part of the musl project.
-> >
-> > Signed-off-by: Chase Qi <chase.qi@linaro.org>
-> > ---
-> >  .../distro/include/ptest-packagelists.inc     |  1 +
-> >  meta/recipes-core/musl/libc-test/run-ptest    | 28 ++++++++++
-> >  meta/recipes-core/musl/libc-test_git.bb       | 51 +++++++++++++++++++
-> >  3 files changed, 80 insertions(+)
-> >  create mode 100644 meta/recipes-core/musl/libc-test/run-ptest
-> >  create mode 100644 meta/recipes-core/musl/libc-test_git.bb
-> >
-> > diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-> > index 32b0e5297a..3c9ff43bd9 100644
-> > --- a/meta/conf/distro/include/ptest-packagelists.inc
-> > +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> > @@ -105,6 +105,7 @@ PTESTS_SLOW = "\
-> >
-> >  PTESTS_SLOW:remove:riscv64 = "valgrind-ptest"
-> >  PTESTS_PROBLEMS:append:riscv64 = "valgrind-ptest"
-> > +PTESTS_SLOW:append:libc-musl = " libc-test-ptest"
-> >
-> >  #    ruby-ptest \ # Timeout
-> >  #    lz4-ptest \ # Needs a rewrite
-> > diff --git a/meta/recipes-core/musl/libc-test/run-ptest b/meta/recipes-core/musl/libc-test/run-ptest
-> > new file mode 100644
-> > index 0000000000..0b4b687dec
-> > --- /dev/null
-> > +++ b/meta/recipes-core/musl/libc-test/run-ptest
-> > @@ -0,0 +1,28 @@
-> > +#!/bin/sh
-> > +
-> > +set -e
-> > +
-> > +cd /opt/libc-test
-> > +make cleanall
-> > +make run || true
-> > +
-> > +echo ""
-> > +echo "--- ptest result ---"
-> > +# libc-test runs tests by module(e.g. src/api) and generates sub-module test
-> > +# report(e.g. src/api/REPORT) first. After all tests finish, it generates the
-> > +# consolidated report file src/REPORT.
-> > +report="/opt/libc-test/src/REPORT"
-> > +if ! [ -f "${report}" ]; then
-> > +    echo "${report} not found!"
-> > +    echo "FAIL: libc-test"
-> > +    exit 1
-> > +# libc-test prints error on failure and prints nothing on success.
-> > +elif grep -q '^FAIL src.*\.exe.*' "${report}"; then
-> > +    # Print test failure in ptest format.
-> > +    # e.g. "FAIL src/api/main.exe [status 1]" -> "FAIL: api_main"
-> > +    grep '^FAIL src.*\.exe.*' "${report}" \
-> > +        | sed 's|^FAIL src/|FAIL: |;s|/|_|;s|\.exe.*\]||'
-> > +    exit 1
-> > +else
-> > +    echo "PASS: libc-test"
-> > +fi
-> > diff --git a/meta/recipes-core/musl/libc-test_git.bb b/meta/recipes-core/musl/libc-test_git.bb
-> > new file mode 100644
-> > index 0000000000..b5bfc6e34c
-> > --- /dev/null
-> > +++ b/meta/recipes-core/musl/libc-test_git.bb
-> > @@ -0,0 +1,51 @@
-> > +SUMMARY = "Musl libc unit tests"
-> > +HOMEPAGE = "https://wiki.musl-libc.org/libc-test.html"
-> > +DESCRIPTION = "libc-test is a collection of unit tests to measure the \
-> > +correctness and robustness of a C/POSIX standard library implementation. It is \
-> > +developed as part of the musl project."
-> > +SECTION = "tests"
-> > +LICENSE = "MIT"
-> > +LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=43ed1245085be90dc934288117d55a3b"
-> > +
-> > +inherit ptest
-> > +
-> > +SRCREV = "18e28496adee3d84fefdda6efcb9c5b8996a2398"
-> > +SRC_URI = " \
-> > +    git://repo.or.cz/libc-test;branch=master \
-> > +    file://run-ptest \
-> > +"
-> > +
-> > +PV = "0+git${SRCPV}"
-> > +
-> > +S = "${WORKDIR}/git"
-> > +
-> > +# libc-test 'make' or 'make run' command is designed to build and run tests. It
-> > +# reports both build and test failures. The commands should be run on target.
-> > +do_compile() {
-> > +    :
-> > +}
-> > +
-> > +RDEPENDS:${PN} = " \
-> > +    bash \
-> > +    grep \
-> > +    musl \
-> > +    packagegroup-core-buildessential \
-> > +"
-> > +
-> > +RDEPENDS:${PN}-ptest = " \
-> > +     ${PN} \
-> > +     sed \
-> > +"
-> > +
-> > +install_path = "/opt/${PN}"
-> > +FILES:${PN} += "${install_path}/*"
-> > +
-> > +do_install () {
-> > +    install -d ${D}${install_path}/
-> > +    cp ${S}/Makefile ${D}${install_path}
-> > +    cp ${S}/config.mak.def ${D}${install_path}/config.mak
-> > +    cp -r ${S}/src ${D}${install_path}
-> > +}
-> > +
-> > +COMPATIBLE_HOST = "null"
-> > +COMPATIBLE_HOST:libc-musl = "(.*)"
-> > --
-> > 2.25.1
-> >
+/Ola
+
+On Tue, Nov 08 2022, Alexander Kanavin wrote:
+
+> Thanks. But: face, meet palm.
 >
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#172948): https://lists.openembedded.org/g/openembedded-core/message/172948
-> > Mute This Topic: https://lists.openembedded.org/mt/94883839/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
+> "If _TIME_BITS is undefined, the bit size of time_t is architecture
+> dependent. Currently it defaults to 64 bits on most architectures.
+> Although it defaults to 32 bits on some traditional architectures
+> (i686, ARM), this is planned to change and applications should not
+> rely on this. "
+>
+> No one needs to know or care about this, they should just set it to 64
+> for all targets, break all the badly written userspace and move on.
+>
+> Anyway, rather than add exceptions all over the core layers, I'd
+> suggest that you set it to 64, 'bitbake world' with all of meta-oe,
+> then send fixes upstream for everything that breaks. Rinse, repeat.
+> Then when the 'planned to change' actually happens we should be ready
+> for it.
+>
+> Alex
 >
 >
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+>
+>
+> On Tue, 8 Nov 2022 at 18:58, Ola x Nilsson <ola.x.nilsson@axis.com> wrote:
+>>
+>>
+>> And here is a link to the documentation for the _TIME_BITS Feature Test
+>> Macro
+>> https://www.gnu.org/software/libc/manual/html_node/Feature-Test-Macros.h=
+tml#index-_005fTIME_005fBITS
+>>
+>> The docs for _FILE_OFFSET_BITS is just above.
+>>
+>> /Ola
+>>
+>> On Tue, Nov 08 2022, Ola x Nilsson wrote:
+>>
+>> > Sorry, that link did not explain the -D_USE_TIME_BITS=3D64 flag.
+>> >
+>> > I was sure I had read official docs of this somewhere but now I can on=
+ly
+>> > find https://sourceware.org/glibc/wiki/Y2038ProofnessDesign#Detailed_i=
+mplementation
+>> >
+>> > /Ola
+>> >
+>> > On Tue, Nov 08 2022, Ola x Nilsson wrote:
+>> >
+>> >> As far as I can tell from glibc's documentation, this is how you are
+>> >> supposed to do it.  glibc chose to always support both 32 and 64 bit
+>> >> APIs for time and file offset and make the normal int size the defaul=
+t.
+>> >> musl chose to switch to 64bit altogether.
+>> >>
+>> >> https://www.gnu.org/software/libc/manual/html_node/64_002dbit-time-sy=
+mbol-handling.html
+>> >>
+>> >> /Ola
+>> >>
+>> >> On Tue, Nov 08 2022, Alexander Kanavin wrote:
+>> >>
+>> >>> I suppose what I want to say is - perhaps this should be discussed
+>> >>> with upstreams first? Things should 'just work' without having to set
+>> >>> some magic flags in an external configuration.
+>> >>>
+>> >>> Alex
+>> >>>
+>> >>> On Tue, 8 Nov 2022 at 13:18, Alexander Kanavin via
+>> >>> lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.=
+org>
+>> >>> wrote:
+>> >>>>
+>> >>>> Is this a recommendation somewhere official?
+>> >>>>
+>> >>>> Alex
+>> >>>>
+>> >>>> On Tue 8. Nov 2022 at 13.04, Niko Mauno <niko.mauno@vaisala.com> wr=
+ote:
+>> >>>>>
+>> >>>>> My understanding wrt. Y2038 and 32-bit glibc hosts was such that it
+>> >>>>> makes sense to set said compiler flags globally to ensure user spa=
+ce
+>> >>>>> wide Y2038 compliance. So I encountered this compiler error while
+>> >>>>> building poky reference images with additional effective
+>> >>>>>
+>> >>>>>    TARGET_CPPFLAGS +=3D "-D_TIME_BITS=3D64 -D_FILE_OFFSET_BITS=3D6=
+4"
+>> >>>>>
+>> >>>>> declaration in meta/conf/distro/include/tclibc-glibc.inc.
+>> >>>>>
+>> >>>>> -Niko
+>> >>>>>
+>> >>>>> On 8.11.2022 13.50, Alexander Kanavin wrote:
+>> >>>>> > So you need to set -D_TIME_BITS=3D64
+>> >>>>> > -D_FILE_OFFSET_BITS=3D64 to get some error? But why set that, sh=
+ouldn=E2=80=99t
+>> >>>>> > the defaults work?
+>> >>>>> >
+>> >>>>> > Alex
+>> >>>>> >
+>> >>>>> > On Tue 8. Nov 2022 at 12.48, Niko Mauno <niko.mauno@vaisala.com
+>> >>>>> > <mailto:niko.mauno@vaisala.com>> wrote:
+>> >>>>> >
+>> >>>>> >     I have not studied the issue, but in order to reproduce this=
+ error I
+>> >>>>> >     add
+>> >>>>> >     'MACHINE =3D "qemuarm"' to local.conf then issue 'bitbake kb=
+d' against
+>> >>>>> >     current master while TARGET_CPPFLAGS value is set to "-D_TIM=
+E_BITS=3D64
+>> >>>>> >     -D_FILE_OFFSET_BITS=3D64".
+>> >>>>> >
+>> >>>>> >     -Niko
+>> >>>>> >
+>> >>>>> >     On 8.11.2022 11.14, Alexander Kanavin wrote:
+>> >>>>> >      > We do build for 32 bit arm targets, so is this seen only =
+in specific
+>> >>>>> >      > circumstances? What are they?
+>> >>>>> >      >
+>> >>>>> >      > Alex
+>> >>>>> >      >
+>> >>>>> >      > On Tue, 8 Nov 2022 at 01:09, Niko Mauno via
+>> >>>>> >     lists.openembedded.org
+>> >>>>> >     <http://lists.openembedded.org/
+>> >>>>> >      > <niko.mauno=3Dvaisala.com@lists.openembedded.org
+>> >>>>> >     <mailto:vaisala.com@lists.openembedded.org>> wrote:
+>> >>>>> >      >>
+>> >>>>> >      >> For now add exemption in order to avoid following failur=
+e during
+>> >>>>> >      >> do_compile()
+>> >>>>> >      >>
+>> >>>>> >      >>    |
+>> >>>>> >     .../build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/kbd=
+/2.5.1-r0/recipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi/../../libexe=
+c/arm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/12.2.0/ld:.libs/libtswr=
+ap.ver:2:
+>> >>>>> > syntax error in VERSION script
+>> >>>>> >      >>    | collect2: error: ld returned 1 exit status
+>> >>>>> >      >>
+>> >>>>> >      >> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com
+>> >>>>> >     <mailto:niko.mauno@vaisala.com>>
+>> >>>>> >      >> ---
+>> >>>>> >      >>   meta/recipes-core/kbd/kbd_2.5.1.bb
+>> >>>>> >     <http://kbd_2.5.1.bb/
+>> >>>>> >      >>   1 file changed, 3 insertions(+)
+>> >>>>> >      >>
+>> >>>>> >      >> diff --git a/meta/recipes-core/kbd/kbd_2.5.1.bb
+>> >>>>> >     <http://kbd_2.5.1.bb/
+>> >>>>> >      >> index aa3ab6e121..b623aecd36 100644
+>> >>>>> >      >> --- a/meta/recipes-core/kbd/kbd_2.5.1.bb
+>> >>>>> >     <http://kbd_2.5.1.bb/
+>> >>>>> >      >> +++ b/meta/recipes-core/kbd/kbd_2.5.1.bb
+>> >>>>> >     <http://kbd_2.5.1.bb/
+>> >>>>> >      >> @@ -18,6 +18,9 @@ SRC_URI =3D
+>> >>>>> >     "${KERNELORG_MIRROR}/linux/utils/${BPN}/${BP}.tar.xz \
+>> >>>>> >      >>
+>> >>>>> >      >>   SRC_URI[sha256sum] =3D
+>> >>>>> >     "ccdf452387a6380973d2927363e9cbb939fa2068915a6f937ff9d245220=
+24683"
+>> >>>>> >      >>
+>> >>>>> >      >> +# Compiling 64 bit time for 32 bit host is broken
+>> >>>>> >      >> +GLIBC_64BIT_TIME_CPPFLAGS =3D ""
+>> >>>>> >      >> +
+>> >>>>> >      >>   PACKAGECONFIG ?=3D "${@bb.utils.filter('DISTRO_FEATURE=
+S', 'pam',
+>> >>>>> >     d)} \
+>> >>>>> >      >>                     "
+>> >>>>> >      >>
+>> >>>>> >      >> --
+>> >>>>> >      >> 2.36.1
+>> >>>>> >      >>
+>> >>>>> >      >>
+>> >>>>> >      >>
+>> >>>>> >      >>
+>> >>>>> >
+>> >>>>
+>> >>>>
+>> >>>>
+>> >>>>
+>> >>> [4. ATT00001.txt --- text/plain; ATT00001.txt]...
+>> >
+>> > [4. ATT00001.txt --- text/plain; ATT00001.txt]...
+>>
+
 
