@@ -1,131 +1,86 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6830AC433FE
-	for <webhook@archiver.kernel.org>; Wed,  9 Nov 2022 22:14:34 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.298.1668032069517435450
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EB15C433FE
+	for <webhook@archiver.kernel.org>; Wed,  9 Nov 2022 23:07:56 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web08.335.1668035262635431128
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Nov 2022 14:14:29 -0800
+ Wed, 09 Nov 2022 15:07:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GRyZL6VY;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id o4so27969812wrq.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 14:14:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=OKWulViYdAj4bjnKG/EiFX9YjRmB735I48L0YTO+GCs=;
-        b=GRyZL6VYFOSQ8+sL8zRPxVTFXsq5BddXdE5kULqlzU6oDacgko87dtX5rLJlozfqy6
-         T2UZa3PiUlV0194dUF84eOynhT6h1v2OCGUKNByNmidY8HkhZS+01iS13B6t7BwsiskJ
-         b8y3w38xTSmHXyaUROiPam0TvV8YObi5Xxwpo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OKWulViYdAj4bjnKG/EiFX9YjRmB735I48L0YTO+GCs=;
-        b=wyV34hRyia5Ztr8pEvWuy4kmTQ8Ha+x4GJzqFIIslcJB/ct9QsHsnAu8YXZNrcSowP
-         qkWon+ceP5H5w5ejw3gvp4VT4L2ezn23Kym761y5OLgxybCUu5OWb7cAfgnQJQ9eURyj
-         1N5ZbzlFuuGjYoLW7bC/3rK8NyQRYqe72kEWIpu0wYQEurOojePdznwICwS6gbpgrmcA
-         ea2CDKXdF+L8BXVikKQrHY+7bhru/mkfyKmEcRwAyXk7904fIXYlrQz0KNCn9wAXK6m1
-         Dhmfm49hvb3h38TPLGxkbDmqXk4GDKR17IeCpgVQMFbrIwmk7GxqF/n1OXW7+vylaqnr
-         2fsA==
-X-Gm-Message-State: ACrzQf0oy6EGXfNf28FDmR4ZIzT5+qqpu7WikEBsGDPtDyizjoAvvHTQ
-	nfgS0O6C5VVqhoFKbXqFsU7nSQ==
-X-Google-Smtp-Source: AMsMyM4mqwilESeinEi1ezG/Du+bdN/7G8X/QOstFwJVBP5A/At+RnVb1gMoTA40+YkuKGYIdsADXA==
-X-Received: by 2002:a5d:6a08:0:b0:236:e06b:ec19 with SMTP id m8-20020a5d6a08000000b00236e06bec19mr30621843wru.150.1668032067752;
-        Wed, 09 Nov 2022 14:14:27 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:17d7:2b2a:fa9:1005? ([2001:8b0:aba:5f3c:17d7:2b2a:fa9:1005])
-        by smtp.gmail.com with ESMTPSA id h8-20020a05600c314800b003b3365b38f9sm3263048wmo.10.2022.11.09.14.14.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Nov 2022 14:14:26 -0800 (PST)
-Message-ID: <7a3e2fb0a5f0e71581fa4c2da529454bd2eb27ad.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC] [PATCH] Allow fitimage + initramfs rebuild to
- be accelerated
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Paul Eggleton <paul.eggleton@linux.microsoft.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 09 Nov 2022 22:14:24 +0000
-In-Reply-To: <1667435031-7224-1-git-send-email-paul.eggleton@linux.microsoft.com>
-References: 
-	<1667435031-7224-1-git-send-email-paul.eggleton@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu1 
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=BofYXYGm;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 607D6E0002;
+	Wed,  9 Nov 2022 23:07:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1668035260;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xotB0W/GkhQDJQwsoeTDJsdEx6K1P3mV3sW7JYL/Byw=;
+	b=BofYXYGmE4rEAlGyOTrC/3BSZF4AjONjbKdOYA3jiOkmYuD/53RypIMwosfy6XzeQyxVsN
+	3SD9vCdxk2Ia1mOD7U/3OHPT5szBQPMQfWNPoU8imTN1hn+Nwn9tyn+I6BgJdeVZXf6Dnk
+	xYs6vG/6bC42U1hhHhn+jLto7m+llm1EVIhfn5hP0R0Z9/zKONGuK3Eml4c9DJs3cpbb3L
+	JNlgR+x/eS5kMaGrSl8rMUKcF2t1cmT/fW9KXhdMEVyCiOEgSCRhvlB8ac+CwgrGu4XVuv
+	3xCT5ItBSHvmUa14MiGmRoTM/xShIzZVi2/Er872yAQfGlgYd6rxadb/1fvEjw==
+Date: Thu, 10 Nov 2022 00:07:38 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Sean Anderson <sean.anderson@seco.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH 6/6] u-boot: Rework signing to remove interdependencies
+Message-ID: <Y2wyumeMw77ATwDl@mail.local>
+References: <514b492351ff6be577b80881adbc6b508fc04071.camel@linuxfoundation.org>
+ <b0708cba-a038-7031-58b0-c08ef0fe6625@seco.com>
+ <1c053ef1a0c03728cb09f5259a1d52adc631460c.camel@linuxfoundation.org>
+ <cf9846db-f142-e8bd-3fbc-51a430b5684d@seco.com>
+ <3720dadc9a760c068eed340cd7877c92b6ffd482.camel@linuxfoundation.org>
+ <3b106bb0-ecdb-efb1-1a54-7ad6ae345852@seco.com>
+ <42bd04f74f012c2bf921c486087a6659c9534756.camel@linuxfoundation.org>
+ <3eccb82e-73ac-1e79-8a99-0d6b3cc7839d@seco.com>
+ <ea92c4e3fda1e06defc28532e8f0b1c7205e09c1.camel@linuxfoundation.org>
+ <c4d27774-ec17-e171-6470-1730441b5b02@seco.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c4d27774-ec17-e171-6470-1730441b5b02@seco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 22:14:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173061
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 23:07:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173062
 
-On Wed, 2022-11-02 at 17:23 -0700, Paul Eggleton wrote:
-> From: Paul Eggleton <paul.eggleton@microsoft.com>
->=20
-> We have a usecase where our initramfs changes on every build (since it
-> contains a version number which is based on the date), and we're
-> incorporating that into a fitImage. Most of the time our builds are done
-> from shared state and we want them to be as efficient as possible.
-> Currently, when the initramfs signature is different this setup requires
-> the kernel to be recompiled on every build, which is not ideal. I've
-> come up with the following rough patch to address this, which does the
-> following:
->=20
-> * Avoid the dependency of do_bundle_initramfs on ${INITRAMFS_IMAGE} if
->   we are going to be building that for the fit image later anyway
-> * Add a do_preserve_kernel_build task to preserve the files needed to
->   re-run do_assemble_fitimage_initramfs in a separate location from
->   ${B}, which can be saved to sstate
-> * Add a do_deploy_fitimage task to deploy just the files written out by
->   do_assemble_fitimage_initramfs to ${DEPLOY_DIR_IMAGE}; this allows us
->   to preserve less in sstate than we would have to if we allowed
->   do_deploy to rerun. Of course the downside is we then need to add a
->   dependency from the image's do_build on the kernel's
->   do_deploy_fitimage, and I had to introduce a variable to control that
->   which is a bit awkward.
->=20
-> This patch is quite rough and I'd like to take suggestions on how to
-> improve it. One of my challenges is I don't have a complete grasp of all
-> the usage modes supported by this code so I'd appreciate folks who do
-> taking a look.
+Hi,
 
-I don't have good answers unfortunately.
+On 01/11/2022 13:54:18-0400, Sean Anderson wrote:
+> > That would result in a lot of messages on the mailing list and ends up
+> > being a lot of work for the maintainers as well.
+> 
+> If you use a tool like b4 [1] it can automatically generate a summary thank-you message.
+> As an example, [2]. This keeps the number of messages down and is not terribly
+> burdensome for maintainers (since it fits into the usual patch workflow),
+> 
 
-We have tried really hard to avoid putting all of the kernel build
-output into sstate. The main reason for that was that recompiling the
-kernel from source took around the same amount of time as compressing
-it and moving it around in sstate, it was huge.
+I was also surprised to not receive confirmation that my patches were
+applied. However, unfortunately, b4 is not working with our current
+workflow as I am applying the patches and providing tested branches to
+Richard that he is cherry-picking from.
 
-If we're going to start putting all the kernel bits into sstate, we
-would probably rethink kernel-devsrc and a few other pieces too. I'm
-not sure we should do that but they're all connected. Perhaps we do
-give in and do that but I doubt people will like the build times or
-sstate size increases :(.
+> You can set up something like pwbot [3], which integrates with patchwork
+> and your repository. It produces messages like [4] automatically when it
+> notices they have been merged into the repositiry, and marks them as
+> "Accepted" in patchwork. This is even lower effort for your maintainers.
+> 
 
-I'd also observe that we don't have good tests for a lot of these
-different use cases. The code has slowly been turning into an if/else
-labyrinth and it is very unclear which usecases are being used by
-people. We have seen a rise in test cases and I have pushed for them
-where I can but the situation isn't great and is a big worry whenever
-we make changes in here.
-
-Adding in yet further if/else paths with magic variables to control
-them isn't filling me with confidence.
-
-The recent work Sean Anderson did on fitimage with u-boot looked like a
-promising de-cluttering of some of the maze.
-
-I added Bruce to Cc:.
-
-Cheers,
-
-Richard
+This would integrate better but I4m not sure we have a pw instace for
+every repository that compose poky.
 
 
-
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
