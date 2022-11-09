@@ -1,92 +1,113 @@
-Return-Path: <maxime.roussinbelanger@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EEC8C4332F
-	for <webhook@archiver.kernel.org>; Wed,  9 Nov 2022 03:05:03 +0000 (UTC)
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
- by mx.groups.io with SMTP id smtpd.web11.2074.1667963098025499655
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE375C433FE
+	for <webhook@archiver.kernel.org>; Wed,  9 Nov 2022 03:47:23 +0000 (UTC)
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+ by mx.groups.io with SMTP id smtpd.web09.2290.1667965639564002264
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Nov 2022 19:04:58 -0800
+ Tue, 08 Nov 2022 19:47:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=JroXay9R;
- spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: maxime.roussinbelanger@gmail.com)
-Received: by mail-qt1-f181.google.com with SMTP id x15so9751928qtv.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 19:04:57 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=S0V08+D7;
+ spf=pass (domain: gmail.com, ip: 209.85.160.54, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-13be3ef361dso18394439fac.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 19:47:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=o/K4q9NcB8EulhRJNwWwTIY5rAGldyXj7vFFh5+7HRk=;
-        b=JroXay9R2Ysm406cShfcoKd78iocB06KBhmIQqRTF30rSn+kcro7enCfEyADJ0RKGL
-         7m36S2UoyIy8f7ay8CO1FlY8/fmCSc2i3V3Q89ImeUXeNA0GvnY2+34dYRp8Gs45JA+j
-         n9PkrnaJiAywMoxbqD0XCD8R2UrQ00GtcTsKEFreGjhQR8MFBRlBtdjKGIGPCVyuGez/
-         4TE3ZbUYjliWaycU+TNoW6HTUCbkX/EdgQu3XBMAiqynLOeJt4fEE9wqawNv0MIOLm4D
-         6k1PsetoouDyFCv6hfCtAbsg2UTEy8W90Iv1/AVENVNXSwPaJtxtaks78xy4CMa4aZYM
-         BiNg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=yxNyxQLi7PN0xAJvuJCU97jqV7HKao+QwVUC3dk/INQ=;
+        b=S0V08+D7LAKJMqHEDgS5lvB/nUeg4kH4oBOV54ZV/FAgwVvlkU/DepmrpKIQWEh3gB
+         8grcbqlGSE34ZuIUEyog8zzJ6X01NX/Ij89HgxqZrR/BnTalj2IkDin3n3JkIqL4o8Ji
+         YGSPlvycRTy/3/gzia4ta9P53Wzthds9bMEcOIURKYuQwqADV5fMoOryJ5VuXcE+sH07
+         znXW2uK++vW+tDkLiIrWxwvHiZim+ZcbAEQB/mh4Rm++ttxRiYq95eeGf2az8GJWNUfS
+         UEk3/LyY71nkgAAYqe4jGqVBulP6kqdVgoe0VGAt7osI+HHO06Ww+5mBbzhk1w2MT9kb
+         JvVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=o/K4q9NcB8EulhRJNwWwTIY5rAGldyXj7vFFh5+7HRk=;
-        b=hvSYuHtHKTiCa4+Mkz3K98HBoDjydqS7hlSqpEUHWrgrn5e3MBSFdUnGSeqRGlYfSH
-         0EeBShL0SfKHdnn6nzgXIpISb1WA61fBjnqtH+oISAA8BWkHXZPeKmH06JVpvmhOf47w
-         bBgtRMglD0hI3HBd3Fxn3lKEe5QLMyU5drglGYKjATpYQsMVJ+h6ASzYoc+NQngzZXiH
-         EGKoEgFawA/CG+BiaEH8rv2zJOLSf9A9w2wpGg+Zi6opnRmhgNL8tWI4l6GYskfzId8C
-         ALkoCww4LGaWxbUkJOWIse1bNzyqhOc27l2KG6k10q1iDZW/L8HyH2+PFwVD7hwt9+Yr
-         +BUQ==
-X-Gm-Message-State: ANoB5pk9QZhY/PfjA7c+U98hZBdEajGMdkOXwPucOU9tdk/QbiPfIGpJ
-	dS66JTTQoJYXUSpFeMTHR1t2mrZhV3A=
-X-Google-Smtp-Source: AA0mqf7RV/RnjMnQ26aEcrN27LaHesURPYR8nFTQYuJSQ18c0biz1m0FhjZuqqp6Abr7H3TVVkQ1EQ==
-X-Received: by 2002:a05:622a:40d:b0:3a5:8b89:8258 with SMTP id n13-20020a05622a040d00b003a58b898258mr10964879qtx.664.1667963096903;
-        Tue, 08 Nov 2022 19:04:56 -0800 (PST)
-Received: from mbedesk.Sonatest.net (ipagstaticip-d73c7528-4de5-0861-800b-03d8b15e3869.sdsl.bell.ca. [174.94.156.236])
-        by smtp.gmail.com with ESMTPSA id l19-20020a05622a175300b003a50c9993e1sm9273695qtk.16.2022.11.08.19.04.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Nov 2022 19:04:56 -0800 (PST)
-From: maxime.roussinbelanger@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Maxime=20Roussin-B=C3=A9langer?= <maxime.roussinbelanger@gmail.com>
-Subject: [PATCH] mesa: fix runpath with native llvm-config in target sysroot
-Date: Tue,  8 Nov 2022 22:04:44 -0500
-Message-Id: <20221109030444.2414546-1-maxime.roussinbelanger@gmail.com>
-X-Mailer: git-send-email 2.36.0
+        bh=yxNyxQLi7PN0xAJvuJCU97jqV7HKao+QwVUC3dk/INQ=;
+        b=ATHpmuWpq+PAP7K3yHATxrYnDFnk76LR55NPrD2DlidIHIJbVVdN8gTQs5QCjvdsC+
+         gMoovTZx6HdMK46/h+S4EwStD3RUmRNAZioAquLNtKkswK1M9Ftxmg16NkeA71PEw+Hg
+         54QkcS7vSgNhclV5OfEq0I1xr8xxWs9gILht2d0QXnSt2/TJPqTMHgPu/5htY1xei83B
+         JNOZwoQ5XN93nzK50bDLtsVRxcnTM1x2GZ2xliDf0WUUWRA5uI+rEV544TzYj69Tq4H/
+         itSkKOQ/28dAOD9qiBMTN2wkdzd7ESKmud/x7BjCi6tEkK3RCjhRj/PEvgvmuwAwyse1
+         tcRw==
+X-Gm-Message-State: ACrzQf09Hk2888HAe2Yt9u940ZJTVoVRuDsVMf1h9NohxyMPkUzVIMUr
+	JwxKWAN8tJHFZ1/wWC6+keYa0vAAxznvDaFHYqc=
+X-Google-Smtp-Source: AMsMyM6NGxFj8e1PDZfULKwPGxr2thntpXTMIUN0MXCXf9Ptv2FHNH/lhDrR5qHLnS0y3HG1zICQwqg3hxxbAAGfTY4=
+X-Received: by 2002:a05:6870:b00b:b0:127:2d3d:3c16 with SMTP id
+ y11-20020a056870b00b00b001272d3d3c16mr43936682oae.262.1667965637981; Tue, 08
+ Nov 2022 19:47:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20221107145508.1051404-1-alex@linutronix.de> <20221107145508.1051404-46-alex@linutronix.de>
+ <53c48a9347a894fd991b4faf3bfb415ae3529830.camel@linuxfoundation.org>
+In-Reply-To: <53c48a9347a894fd991b4faf3bfb415ae3529830.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 8 Nov 2022 19:46:51 -0800
+Message-ID: <CAMKF1soCO_zcACw7+EmudmD2i=yv59_YSkOioMoFxYmOR+RcFA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 46/48] python3: use the standard shell version
+ of python3-config
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 03:05:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173009
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 03:47:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173010
 
-From: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
+I am seeing a bunch of failures perhaps related but not sure
 
-llvm-config is copied from native to target sysroot, it shouldn't be
-allowed to use target shared libraries when it loads.
+https://errors.yoctoproject.org/Errors/Build/154610/
 
-Remove all runpath so it uses shared library from host system since
-native llvm-config is compiled with hosttools compiler.
-
-Signed-off-by: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
----
- meta/recipes-graphics/mesa/mesa.inc | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 67cfb4f6c1..abc2c3f4c4 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -61,6 +61,7 @@ do_configure:prepend () {
- 	if [ -e ${STAGING_BINDIR_NATIVE}/llvm-config${MESA_LLVM_RELEASE} ]; then
- 		cp ${STAGING_BINDIR_NATIVE}/llvm-config${MESA_LLVM_RELEASE} ${STAGING_BINDIR}
- 		cp ${STAGING_BINDIR_NATIVE}/llvm-config ${STAGING_BINDIR}
-+		chrpath -d ${STAGING_BINDIR}/llvm-config
- 	fi
- }
- 
--- 
-2.36.0
-
+On Tue, Nov 8, 2022 at 2:59 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Mon, 2022-11-07 at 15:55 +0100, Alexander Kanavin wrote:
+> >
+> > +SYSROOT_PREPROCESS_FUNCS:append:class-target = " provide_target_config_script"
+> > +SYSROOT_PREPROCESS_FUNCS:append:class-nativesdk = " provide_target_config_script"
+> > +
+> > +provide_target_config_script() {
+> > +        install -d ${SYSROOT_DESTDIR}${bindir}/
+> > +        install ${D}/${bindir}/python3-config ${SYSROOT_DESTDIR}${bindir}/
+> > +        install ${D}/${bindir}/python${PYTHON_MAJMIN}-config ${SYSROOT_DESTDIR}${bindir}/
+> > +}
+> > +
+> > +
+> >  SSTATE_SCAN_FILES += "Makefile _sysconfigdata.py"
+> >  SSTATE_HASHEQUIV_FILEMAP = " \
+> >      populate_sysroot:*/lib*/python3*/_sysconfigdata*.py:${TMPDIR} \
+>
+> This made me wonder if we shouldn't have a better way of handling this.
+> I was wondering if we should have a sysroot_stage_file function (like
+> sysroot_stage_dir) and then we could do something like:
+>
+> sysroot_stage_all:append() {
+>         sysroot_stage_file ${D}/${bindir}/python3-config ${SYSROOT_DESTDIR}/${bindir}/python3-config
+> }
+>
+> Note that the sysroot code plays with hardlinks for efficiency, I
+> appreciate one file doesn't really matter though.
+>
+> I was hoping we could have just added to SYSROOT_DIRS but that does
+> only handle dirs, not files.
+>
+> Cheers,
+>
+> Richard
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#173003): https://lists.openembedded.org/g/openembedded-core/message/173003
+> Mute This Topic: https://lists.openembedded.org/mt/94867622/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
