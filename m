@@ -1,113 +1,178 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <niko.mauno@iki.fi>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE375C433FE
-	for <webhook@archiver.kernel.org>; Wed,  9 Nov 2022 03:47:23 +0000 (UTC)
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
- by mx.groups.io with SMTP id smtpd.web09.2290.1667965639564002264
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AE7CC433FE
+	for <webhook@archiver.kernel.org>; Wed,  9 Nov 2022 06:32:18 +0000 (UTC)
+Received: from mailtransmit05.runbox.com (mailtransmit05.runbox.com [185.226.149.38])
+ by mx.groups.io with SMTP id smtpd.web09.413.1667975530757777087
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Nov 2022 19:47:19 -0800
+ Tue, 08 Nov 2022 22:32:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=S0V08+D7;
- spf=pass (domain: gmail.com, ip: 209.85.160.54, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-13be3ef361dso18394439fac.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Nov 2022 19:47:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yxNyxQLi7PN0xAJvuJCU97jqV7HKao+QwVUC3dk/INQ=;
-        b=S0V08+D7LAKJMqHEDgS5lvB/nUeg4kH4oBOV54ZV/FAgwVvlkU/DepmrpKIQWEh3gB
-         8grcbqlGSE34ZuIUEyog8zzJ6X01NX/Ij89HgxqZrR/BnTalj2IkDin3n3JkIqL4o8Ji
-         YGSPlvycRTy/3/gzia4ta9P53Wzthds9bMEcOIURKYuQwqADV5fMoOryJ5VuXcE+sH07
-         znXW2uK++vW+tDkLiIrWxwvHiZim+ZcbAEQB/mh4Rm++ttxRiYq95eeGf2az8GJWNUfS
-         UEk3/LyY71nkgAAYqe4jGqVBulP6kqdVgoe0VGAt7osI+HHO06Ww+5mBbzhk1w2MT9kb
-         JvVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yxNyxQLi7PN0xAJvuJCU97jqV7HKao+QwVUC3dk/INQ=;
-        b=ATHpmuWpq+PAP7K3yHATxrYnDFnk76LR55NPrD2DlidIHIJbVVdN8gTQs5QCjvdsC+
-         gMoovTZx6HdMK46/h+S4EwStD3RUmRNAZioAquLNtKkswK1M9Ftxmg16NkeA71PEw+Hg
-         54QkcS7vSgNhclV5OfEq0I1xr8xxWs9gILht2d0QXnSt2/TJPqTMHgPu/5htY1xei83B
-         JNOZwoQ5XN93nzK50bDLtsVRxcnTM1x2GZ2xliDf0WUUWRA5uI+rEV544TzYj69Tq4H/
-         itSkKOQ/28dAOD9qiBMTN2wkdzd7ESKmud/x7BjCi6tEkK3RCjhRj/PEvgvmuwAwyse1
-         tcRw==
-X-Gm-Message-State: ACrzQf09Hk2888HAe2Yt9u940ZJTVoVRuDsVMf1h9NohxyMPkUzVIMUr
-	JwxKWAN8tJHFZ1/wWC6+keYa0vAAxznvDaFHYqc=
-X-Google-Smtp-Source: AMsMyM6NGxFj8e1PDZfULKwPGxr2thntpXTMIUN0MXCXf9Ptv2FHNH/lhDrR5qHLnS0y3HG1zICQwqg3hxxbAAGfTY4=
-X-Received: by 2002:a05:6870:b00b:b0:127:2d3d:3c16 with SMTP id
- y11-20020a056870b00b00b001272d3d3c16mr43936682oae.262.1667965637981; Tue, 08
- Nov 2022 19:47:17 -0800 (PST)
+ dkim=pass header.i=@runbox.com header.s=selector2 header.b=StjJXo4f;
+ spf=pass (domain: runbox.com, ip: 185.226.149.38, mailfrom: realint@runbox.com)
+Received: from mailtransmit03.runbox ([10.9.9.163] helo=aibo.runbox.com)
+	by mailtransmit05.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.93)
+	(envelope-from <realint@runbox.com>)
+	id 1osed4-00EsJw-HK; Wed, 09 Nov 2022 07:32:06 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
+	 s=selector2; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:Reply-To:MIME-Version:Date:Message-ID;
+	bh=ev6Vxk/x0qwjrKrMxdm/8K41qPIfuL+W1tDBthgQftw=; b=StjJXo4fD0oiKydOM0T1Yk+a25
+	KxvDd530YEOT3g3KheHHLvHA7/PjriUe5PBKMWdteCIl9suIB687Qx7+o1/2tltO3ZpULOst/bisF
+	V5afLDMmeqxpwVon28b/q4MrfkUj5O5vb/QMxJDN7KPVnPaFEImmPR99B7pNY3b3cIFouX9kUQNja
+	50w3+fGgi1B4eBcETG9Di3NlXxpepSiLHV8qxhm8nWyBtaqAXWqEFaqUi0yn5Zfv/6xDL5Oq/PYvy
+	/d6ItlyjXD6tNoJC9DV/RilnUltWtD68qjKfcKARIS31QmccGWjHjWVnVJ1qCq2p+2Jsr8wJc+Psq
+	V42uPJlg==;
+Received: from [10.9.9.74] (helo=submission03.runbox)
+	by mailtransmit03.runbox with esmtp (Exim 4.86_2)
+	(envelope-from <realint@runbox.com>)
+	id 1osed3-0002AU-UL; Wed, 09 Nov 2022 07:32:06 +0100
+Received: by submission03.runbox with esmtpsa  [Authenticated ID (1051538)]  (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.90_1)
+	id 1oseco-0006cY-CR; Wed, 09 Nov 2022 07:31:50 +0100
+Message-ID: <aed66526-9df8-fbf8-696c-b85a44f8e1b8@runbox.com>
+Date: Wed, 9 Nov 2022 08:33:53 +0200
 MIME-Version: 1.0
-References: <20221107145508.1051404-1-alex@linutronix.de> <20221107145508.1051404-46-alex@linutronix.de>
- <53c48a9347a894fd991b4faf3bfb415ae3529830.camel@linuxfoundation.org>
-In-Reply-To: <53c48a9347a894fd991b4faf3bfb415ae3529830.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 8 Nov 2022 19:46:51 -0800
-Message-ID: <CAMKF1soCO_zcACw7+EmudmD2i=yv59_YSkOioMoFxYmOR+RcFA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 46/48] python3: use the standard shell version
- of python3-config
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Reply-To: niko.mauno@iki.fi
+Subject: Re: [OE-core] [RFC PATCH 1/3] Try to ensure 64 bit time on 32 bit
+ glibcful hosts
+Content-Language: en-US
+To: Ola x Nilsson <ola.x.nilsson@axis.com>,
+ openembedded-core@lists.openembedded.org
+Cc: "niko.mauno@vaisala.com" <niko.mauno@vaisala.com>
+References: <20221108000828.42824-1-niko.mauno@vaisala.com>
+ <jwqh6z9soii.fsf@axis.com>
+From: Niko Mauno <realint@runbox.com>
+In-Reply-To: <jwqh6z9soii.fsf@axis.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 03:47:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173010
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 06:32:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173011
 
-I am seeing a bunch of failures perhaps related but not sure
+On related note, in this RFC series I was basing on reference set in 
+https://github.com/lmajewski/meta-y2038/blob/master/conf/distro/y2038.inc#L8 
+where the author has opted to use TARGET_CPPFLAGS.
 
-https://errors.yoctoproject.org/Errors/Build/154610/
+-Niko
 
-On Tue, Nov 8, 2022 at 2:59 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2022-11-07 at 15:55 +0100, Alexander Kanavin wrote:
-> >
-> > +SYSROOT_PREPROCESS_FUNCS:append:class-target = " provide_target_config_script"
-> > +SYSROOT_PREPROCESS_FUNCS:append:class-nativesdk = " provide_target_config_script"
-> > +
-> > +provide_target_config_script() {
-> > +        install -d ${SYSROOT_DESTDIR}${bindir}/
-> > +        install ${D}/${bindir}/python3-config ${SYSROOT_DESTDIR}${bindir}/
-> > +        install ${D}/${bindir}/python${PYTHON_MAJMIN}-config ${SYSROOT_DESTDIR}${bindir}/
-> > +}
-> > +
-> > +
-> >  SSTATE_SCAN_FILES += "Makefile _sysconfigdata.py"
-> >  SSTATE_HASHEQUIV_FILEMAP = " \
-> >      populate_sysroot:*/lib*/python3*/_sysconfigdata*.py:${TMPDIR} \
->
-> This made me wonder if we shouldn't have a better way of handling this.
-> I was wondering if we should have a sysroot_stage_file function (like
-> sysroot_stage_dir) and then we could do something like:
->
-> sysroot_stage_all:append() {
->         sysroot_stage_file ${D}/${bindir}/python3-config ${SYSROOT_DESTDIR}/${bindir}/python3-config
-> }
->
-> Note that the sysroot code plays with hardlinks for efficiency, I
-> appreciate one file doesn't really matter though.
->
-> I was hoping we could have just added to SYSROOT_DIRS but that does
-> only handle dirs, not files.
->
-> Cheers,
->
-> Richard
->
+On 11/8/22 12:51, Ola x Nilsson wrote:
+> 
+> I'm working on the same thing, but I put GLIBC_64BIT_TIME_CPPFLAGS in
+> TARGET_CC_ARCH instead to make sure they applied everywhere.
+> 
+> I'd be interested to hear what others think is the best place to put
+> these flags.
+> 
+> I'm also looking at QA tests to make sure that no application or shared
+> object is still using 32bit time or file functions from glibc.
+> 
+> /Ola
+> 
+> On Tue, Nov 08 2022, Niko Mauno via lists.openembedded.org wrote:
+> 
+>> Add default C Preprocessor flags that ensure Y2038 compatible 64 bit
+>> time on 32 bit host applications when glibc is used. Prerequisites
+>> are glibc version 2.34 or newer and Linux kernel version 5.1 or newer.
+>>
+>> Example of impact on 32 bit 'qemuarm' machine running
+>> core-image-minimal. Before this change:
+>>
+>>    root@qemuarm:~# /bin/busybox date
+>>    Sun Nov  6 06:09:39 UTC 2022
+>>    root@qemuarm:~# /sbin/hwclock.util-linux -w
+>>    root@qemuarm:~# /sbin/hwclock.util-linux
+>>    2022-11-06 06:09:49.994249+00:00
+>>    root@qemuarm:~# /bin/busybox date -s 2040-01-01
+>>    date: invalid date '2040-01-01'
+>>    root@qemuarm:~# /bin/date.coreutils -s 2040-01-01
+>>    Sun Jan  1 00:00:00 UTC 2040
+>>    root@qemuarm:~# /sbin/hwclock.util-linux -w
+>>    root@qemuarm:~# /sbin/hwclock.util-linux
+>>    1931-03-04 06:26:23.000000+00:00
+>>    root@qemuarm:~#
+>>
+>> After this change:
+>>
+>>    root@qemuarm:~# /bin/busybox date
+>>    Sun Nov  6 06:02:20 UTC 2022
+>>    root@qemuarm:~# /sbin/hwclock.util-linux -w
+>>    root@qemuarm:~# /sbin/hwclock.util-linux
+>>    2022-11-06 06:02:27.989730+00:00
+>>    root@qemuarm:~# /bin/busybox date -s 2040-01-01
+>>    Sun Jan  1 00:00:00 UTC 2040
+>>    root@qemuarm:~# /sbin/hwclock.util-linux -w
+>>    root@qemuarm:~# /sbin/hwclock.util-linux
+>>    2040-01-01 00:00:20.992954+00:00
+>>    root@qemuarm:~#
+>>
+>>  From here on, the adding of new flags can be disabled on recipe or
+>> global level by resetting the value of associated variable containing
+>> the CPPFLAGS specific for 64 bit time
+>>
+>>    GLIBC_64BIT_TIME_CPPFLAGS = ""
+>>
+>> which can be useful e.g. when working around failure to compile a
+>> component due to lack of 64 bit time support on 32 bit build in the
+>> component's source code.
+>>
+>> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
+>> ---
+>>   meta/conf/distro/include/tclibc-glibc.inc        | 3 +++
+>>   meta/recipes-devtools/gcc/gcc-sanitizers_12.2.bb | 2 ++
+>>   meta/recipes-devtools/pseudo/pseudo_git.bb       | 2 ++
+>>   3 files changed, 7 insertions(+)
+>>
+>> diff --git a/meta/conf/distro/include/tclibc-glibc.inc b/meta/conf/distro/include/tclibc-glibc.inc
+>> index f48d16939e..95770298e9 100644
+>> --- a/meta/conf/distro/include/tclibc-glibc.inc
+>> +++ b/meta/conf/distro/include/tclibc-glibc.inc
+>> @@ -17,6 +17,9 @@ PREFERRED_PROVIDER_virtual/crypt ?= "libxcrypt"
+>>   
+>>   CXXFLAGS += "-fvisibility-inlines-hidden"
+>>   
+>> +GLIBC_64BIT_TIME_CPPFLAGS = "-D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64"
+>> +TARGET_CPPFLAGS += "${GLIBC_64BIT_TIME_CPPFLAGS}"
+>> +
+>>   LIBC_DEPENDENCIES = "\
+>>   		     glibc \
+>>   		     glibc-dbg \
+>> diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers_12.2.bb b/meta/recipes-devtools/gcc/gcc-sanitizers_12.2.bb
+>> index 8bda2ccad6..b3fafa0ea4 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-sanitizers_12.2.bb
+>> +++ b/meta/recipes-devtools/gcc/gcc-sanitizers_12.2.bb
+>> @@ -5,3 +5,5 @@ require gcc-sanitizers.inc
+>>   # sanitizer_linux.s:5749: Error: lo register required -- `ldr ip,[sp],#8'
+>>   ARM_INSTRUCTION_SET:armv4 = "arm"
+>>   ARM_INSTRUCTION_SET:armv5 = "arm"
+>> +
+>> +GLIBC_64BIT_TIME_CPPFLAGS = ""
+>> diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+>> index c34580b4ff..7734d0fbb0 100644
+>> --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
+>> +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+>> @@ -19,3 +19,5 @@ PV = "1.9.0+git${SRCPV}"
+>>   
+>>   # error: use of undeclared identifier '_STAT_VER'
+>>   COMPATIBLE_HOST:libc-musl = 'null'
+>> +
+>> +GLIBC_64BIT_TIME_CPPFLAGS = ""
+> 
+> 
+> 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#173003): https://lists.openembedded.org/g/openembedded-core/message/173003
-> Mute This Topic: https://lists.openembedded.org/mt/94867622/1997914
+> View/Reply Online (#172959): https://lists.openembedded.org/g/openembedded-core/message/172959
+> Mute This Topic: https://lists.openembedded.org/mt/94880624/3618026
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [niko.mauno@iki.fi]
 > -=-=-=-=-=-=-=-=-=-=-=-
->
+> 
+
 
