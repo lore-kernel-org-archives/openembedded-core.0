@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB8F2C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5629C433FE
 	for <webhook@archiver.kernel.org>; Wed,  9 Nov 2022 14:21:00 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web10.3862.1668003658219768169
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web11.3685.1668003654396130306
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Nov 2022 06:20:58 -0800
+ Wed, 09 Nov 2022 06:20:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=M0O9ur3O;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id k7so17222364pll.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 06:20:58 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Vj8qtfz0;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f181.google.com with SMTP id b185so16815584pfb.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 06:20:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0/PnEYqkCsdrtHjrWSeCZOZavEgRQQzcywaUyfzIAKs=;
-        b=M0O9ur3OhGLedgvg9CgC48jZ3lQQX15ZzjsFS4rl1gCZI9v+BpsFjCsD9TK/7pRmmJ
-         00wUwoD39u64eety/ktLfST8/pyjwKhtrRKj/368JX817wDIfPNvnQtp66pycJEhz8sx
-         Q+CuGrNGRBYGaN8SAMDSOXGAJofTsn7uPmZH/qLl/j/hrDcylR+dJI58HuMDn1SYtq91
-         ADppSg9mNlibDjMIlP2KRSP1ztEtRwXnP4Z7EAJzRAAK657HhM54/CL09dEGxEKiZEhV
-         +6L6D55HQSWWD9KbFp6wuGN5LA+5mu8vBWXq74VE0NTi7y9P998SABs1qpjEHWu+9y/E
-         gmhA==
+        bh=PROXUBjmZHKgc2EoPWe4t872joOd+egODbKhkayjizU=;
+        b=Vj8qtfz0rgh5ugdE1ppcjtVuzw/OZQMCoyGx4SyCLDYvIYK2C28B3hgCsQxloM4Dox
+         bqEIGXQjqnLz6JJZovpXoks1VtrluH3eOBOmXkxcnOBsP5WAL7xI7DbkkE67416YIji5
+         2PAFtbK7Ioj3qJJ09Xw6ELcBMD/gHul3sGMTWtsUrEGudhBpKSuBqUXIxURyexwH99Sm
+         RTW2F9OQK4k4ZpOO769FHDT3qKD+6Xd8ZtVJ4yM+ZWNeBEjmHxvLCu7/67gSkqfs7Tw8
+         v+r/+RcrVnQM5WaBMwJYootizI0e54ruWBCSKUXLVVAdQHtmySG5AEgFPPGx9kOc8HOG
+         Ng/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0/PnEYqkCsdrtHjrWSeCZOZavEgRQQzcywaUyfzIAKs=;
-        b=mLSz1MSntQXkbmkjpBNoRmiS+qCNSUbubiGsnCQrKxuPmquqcxHOUknoBWbelNvrXV
-         GQ0c94K4UHUINHg5M7URTA1Tdz4H1oMMDL2GVtnuxFNi6zlXI/gZr6mSVC0jckPQnXkN
-         Jz/1dTOLOSEVSDG3BMV952QjWaKJvlzEz58i5xk2U4nwYac4hfwAXRc+FHv2dVpEZLA2
-         fPj7awCduDyQ/9w5DL1Az9C1YfQNLXvyj6I55AUsWDYGztwwQ1E8fQWWxSTiOoLgeENP
-         NSwEiufc2qXCcApoU54wOQxeZ3jw1w7Svlfpk0bRopsM5TwdKxhmpumtnecgquTQsOgG
-         LupQ==
-X-Gm-Message-State: ACrzQf1UXSEiQTLVAxGl4Mnxq1AHska3n3cqyrgZQ67cRdIVo7zTXKyS
-	zYEJQatBXKqm3EkTTL1pUgxo0V3tJNdv114H
-X-Google-Smtp-Source: AMsMyM5BzFKrH6NivDwOWvyoAIODT4hCxGKGpD51d8SG6N6CW9CQtniLWPaLMpB/io+4GWYg9mr5Lw==
-X-Received: by 2002:a17:902:d4ce:b0:188:5340:4a3a with SMTP id o14-20020a170902d4ce00b0018853404a3amr34939913plg.79.1668003657195;
-        Wed, 09 Nov 2022 06:20:57 -0800 (PST)
+        bh=PROXUBjmZHKgc2EoPWe4t872joOd+egODbKhkayjizU=;
+        b=6NdtBXAU+oMPXt1u/QmyqoQKfbliaXRw+FFLtSqJp+KseiN7r4owwZAeso66Wki6CI
+         MsIz5FBwSLNOdiQ0/Ln4iefT1eVzBFxakUQlfdd4ZDdYrjzqGjb7IMIkPn24icUnkzXQ
+         ORFae2400Wyfsf8PJruZuPkrMTRnK41F2Xchnf6qaa+uBSwSx7EVxOHUG+4o2zFsQDXO
+         vbHYWu0KN2o+GHpP3zT4ITSzOvijyqQqPWmg4iUt19ohnjixUCpqrLLFgfassWCWmO/T
+         GS6PpED6Kn55tTur3eYkCpc2U7GqgWAKhN0B76t0N6FVIbWN+ckoFmM06IOX92WWGWU/
+         jE+w==
+X-Gm-Message-State: ACrzQf1OblHDesBjUdEEddohTq+53gVBXnwHDTrQouEnyjYu3q0cM560
+	++KLXcab/3JUZVDE4XR5FWHvaaz4ur/hoMBX
+X-Google-Smtp-Source: AMsMyM59SoxBg4QKeOc+ZA/z2pJPMHuF4vh4UEU11pwodoPuz8gYAm/CF6S29iXDwexmdtWU6rFp+A==
+X-Received: by 2002:a65:6404:0:b0:46f:a711:c481 with SMTP id a4-20020a656404000000b0046fa711c481mr46862876pgv.262.1668003653331;
+        Wed, 09 Nov 2022 06:20:53 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id s17-20020a170902a51100b001822121c45asm9059337plq.28.2022.11.09.06.20.56
+        by smtp.gmail.com with ESMTPSA id s17-20020a170902a51100b001822121c45asm9059337plq.28.2022.11.09.06.20.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Nov 2022 06:20:56 -0800 (PST)
+        Wed, 09 Nov 2022 06:20:52 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 04/10] shadow: update 4.12.1 -> 4.12.3
-Date: Wed,  9 Nov 2022 04:20:34 -1000
-Message-Id: <30fe8df131a3ef5efa5c35e69fce7b2d1bdc2f7d.1668003427.git.steve@sakoman.com>
+Subject: [OE-core][langdale 02/10] pixman: backport fix for CVE-2022-44638
+Date: Wed,  9 Nov 2022 04:20:32 -1000
+Message-Id: <23df4760ebc153c484d467e51b414910c570a6f8.1668003427.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1668003427.git.steve@sakoman.com>
 References: <cover.1668003427.git.steve@sakoman.com>
@@ -61,45 +61,69 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 14:21:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173023
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173021
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Ross Burton <ross.burton@arm.com>
 
-4.12.2 changes
-	* Address CVE-2013-4235
-	* Fix uk manpages
-
-4.12.3 changes
-	* Revert the removal of subid_init as pointed out by Balint.
-	* Address CVE-2013-4235 (TOCTTOU when copying directories)
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 5b9fc88d06f79e8dbd2375172689f2fbf3e2a8a3)
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/shadow/shadow.inc                         | 2 +-
- .../shadow/{shadow_4.12.1.bb => shadow_4.12.3.bb}               | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/shadow/{shadow_4.12.1.bb => shadow_4.12.3.bb} (100%)
+ .../xorg-lib/pixman/CVE-2022-44638.patch      | 33 +++++++++++++++++++
+ .../xorg-lib/pixman_0.40.0.bb                 |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
 
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index a87e23569b..5656a375b7 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -30,7 +30,7 @@ SRC_URI:append:class-native = " \
- SRC_URI:append:class-nativesdk = " \
-            file://0001-Disable-use-of-syslog-for-sysroot.patch \
+diff --git a/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch b/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
+new file mode 100644
+index 0000000000..d226766d49
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
+@@ -0,0 +1,33 @@
++CVE: CVE-2022-44638
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++From a1f88e842e0216a5b4df1ab023caebe33c101395 Mon Sep 17 00:00:00 2001
++From: Matt Turner <mattst88@gmail.com>
++Date: Wed, 2 Nov 2022 12:07:32 -0400
++Subject: [PATCH] Avoid integer overflow leading to out-of-bounds write
++
++Thanks to Maddie Stone and Google's Project Zero for discovering this
++issue, providing a proof-of-concept, and a great analysis.
++
++Closes: https://gitlab.freedesktop.org/pixman/pixman/-/issues/63
++---
++ pixman/pixman-trap.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/pixman/pixman-trap.c b/pixman/pixman-trap.c
++index 91766fd..7560405 100644
++--- a/pixman/pixman-trap.c
+++++ b/pixman/pixman-trap.c
++@@ -74,7 +74,7 @@ pixman_sample_floor_y (pixman_fixed_t y,
++ 
++     if (f < Y_FRAC_FIRST (n))
++     {
++-	if (pixman_fixed_to_int (i) == 0x8000)
+++	if (pixman_fixed_to_int (i) == 0xffff8000)
++ 	{
++ 	    f = 0; /* saturate */
++ 	}
++-- 
++GitLab
++
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb b/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
+index ccfe277746..c56733eefd 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
+@@ -9,6 +9,7 @@ DEPENDS = "zlib"
+ 
+ SRC_URI = "https://www.cairographics.org/releases/${BP}.tar.gz \
+            file://0001-ARM-qemu-related-workarounds-in-cpu-features-detecti.patch \
++           file://CVE-2022-44638.patch \
             "
--SRC_URI[sha256sum] = "9fdb73b5d2b44e8ba9fcee1b4493ac75dd5040bda35b9ac8b06570cd192e7ee3"
-+SRC_URI[sha256sum] = "f525154adc5605e4ebf03d3e7ee8be4d7f3c7cf9df2c2244043406b6eefca2da"
- 
- 
- # Additional Policy files for PAM
-diff --git a/meta/recipes-extended/shadow/shadow_4.12.1.bb b/meta/recipes-extended/shadow/shadow_4.12.3.bb
-similarity index 100%
-rename from meta/recipes-extended/shadow/shadow_4.12.1.bb
-rename to meta/recipes-extended/shadow/shadow_4.12.3.bb
+ SRC_URI[md5sum] = "73858c0862dd9896fb5f62ae267084a4"
+ SRC_URI[sha256sum] = "6d200dec3740d9ec4ec8d1180e25779c00bc749f94278c8b9021f5534db223fc"
 -- 
 2.25.1
 
