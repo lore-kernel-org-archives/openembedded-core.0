@@ -1,151 +1,261 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <bluelightning@bluelightning.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAD28C4167B
-	for <webhook@archiver.kernel.org>; Wed,  9 Nov 2022 19:31:59 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.1511.1668022310393784215
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD993C433FE
+	for <webhook@archiver.kernel.org>; Wed,  9 Nov 2022 19:42:09 +0000 (UTC)
+Received: from mail-49-r22.ipv4.per01.ds.network (mail-49-r22.ipv4.per01.ds.network [27.123.26.153])
+ by mx.groups.io with SMTP id smtpd.web12.1672.1668022922949021276
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Nov 2022 11:31:50 -0800
+ Wed, 09 Nov 2022 11:42:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 39A8E1FB;
-	Wed,  9 Nov 2022 11:31:56 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 96E6F3F703;
-	Wed,  9 Nov 2022 11:31:49 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
+ dkim=fail reason="no key for verify" header.i=@softec.co.nz header.s=default header.b=ONDDM+BH;
+ spf=none, err=permanent DNS error (domain: bluelightning.org, ip: 27.123.26.153, mailfrom: bluelightning@bluelightning.org)
+Received: from server-72-r70.ipv4.per01.ds.network (cp-fp06.syd02.ds.network [122.201.124.108])
+	by halon-out01.au.ds.network (Halon) with ESMTPS
+	id 3f3401b5-6067-11ed-a146-f8db88ea9a09;
+	Thu, 10 Nov 2022 03:46:47 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=softec.co.nz; s=default; h=Content-Type:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=MaRqQHL+GOxGbsK3eyoPQFL1jhNmc/9G5p1xrRXbJ/k=; b=ONDDM+BH3UOdKQLOb5PEL3527H
+	paGua7V5slDLu5UCngJLYZ5Pp0it8lqmIDyquoojHcokS68euRSdvipoVe3YjZguArIyqcvVJAcLn
+	gdKJy0JtA5kht6SDfsIEH0LBEGDrDZM4d9SdDXcINuoJcm6cGyZCCCjz+HgchtkqcE/2mRMbaeHZr
+	ZXTq4KmOOHQLjvmJkHMvP6sdsDfsWBasP98KYawP7ZXExnpvYpIBTFEL87TmWMY6GP5WeScIa0jKW
+	KHC5XIBSkO5COOB0H6Z1z7ZSyTCEllVNUn7rKa9C13Wf/gvsoN1GmIF3zWSEQsAWCYTsqVdXMRh7O
+	mJOZOoFA==;
+Received: from [151.210.143.155] (port=40854 helo=linc.localnet)
+	by cp-fp06.syd02.ds.network with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <bluelightning@bluelightning.org>)
+	id 1osqxR-0004NV-I1;
+	Thu, 10 Nov 2022 08:41:57 +1300
+From: Paul Eggleton <bluelightning@bluelightning.org>
 To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH 11/15] oeqa/selftest/runqemu: don't hardcode qemux86-64
-Date: Wed,  9 Nov 2022 19:31:31 +0000
-Message-Id: <20221109193135.291048-11-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221109193135.291048-1-ross.burton@arm.com>
-References: <20221109193135.291048-1-ross.burton@arm.com>
+Cc: Ming Liu <liu.ming50@gmail.com>, Marek Vasut <marex@denx.de>, Andrej Valek <andrej.valek@siemens.com>, Abdellatif El Khlifi <abdellatif.elkhlifi@arm.com>, Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>, Sean Anderson <sean.anderson@seco.com>, George McCollister <george.mccollister@gmail.com>
+Subject: Re: [OE-core] [RFC] [PATCH] Allow fitimage + initramfs rebuild to be accelerated
+Date: Thu, 10 Nov 2022 08:41:55 +1300
+Message-ID: <7449258.EvYhyI6sBW@linc>
+In-Reply-To: <1667435031-7224-1-git-send-email-paul.eggleton@linux.microsoft.com>
+References: <1667435031-7224-1-git-send-email-paul.eggleton@linux.microsoft.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cp-fp06.syd02.ds.network
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - bluelightning.org
+X-Get-Message-Sender-Via: cp-fp06.syd02.ds.network: authenticated_id: paul@softec.co.nz
+X-Authenticated-Sender: cp-fp06.syd02.ds.network: paul@softec.co.nz
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 19:31:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173044
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Nov 2022 19:42:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173049
 
-Don't hardcode qemux86-64. This has some complications: the
-IMAGE_FSTYPES needs to be constructed to reflect what the machine can
-do (only x86 machines can build ISO images), and several tests which need
-a wic file are currently limited to qemux86-64.
+Hi folks
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Any comments? Alternative approaches?
+
+Thanks
+Paul
+
+
+----- original message -----
+Subject: [OE-core] [RFC] [PATCH] Allow fitimage + initramfs rebuild to be accelerated
+Date: Thursday, 3 November 2022, 13:23:51 NZDT
+From: Paul Eggleton <paul.eggleton@linux.microsoft.com>
+To: openembedded-core@lists.openembedded.org
+
+We have a usecase where our initramfs changes on every build (since it
+contains a version number which is based on the date), and we're
+incorporating that into a fitImage. Most of the time our builds are done
+from shared state and we want them to be as efficient as possible.
+Currently, when the initramfs signature is different this setup requires
+the kernel to be recompiled on every build, which is not ideal. I've
+come up with the following rough patch to address this, which does the
+following:
+
+* Avoid the dependency of do_bundle_initramfs on ${INITRAMFS_IMAGE} if
+  we are going to be building that for the fit image later anyway
+* Add a do_preserve_kernel_build task to preserve the files needed to
+  re-run do_assemble_fitimage_initramfs in a separate location from
+  ${B}, which can be saved to sstate
+* Add a do_deploy_fitimage task to deploy just the files written out by
+  do_assemble_fitimage_initramfs to ${DEPLOY_DIR_IMAGE}; this allows us
+  to preserve less in sstate than we would have to if we allowed
+  do_deploy to rerun. Of course the downside is we then need to add a
+  dependency from the image's do_build on the kernel's
+  do_deploy_fitimage, and I had to introduce a variable to control that
+  which is a bit awkward.
+
+This patch is quite rough and I'd like to take suggestions on how to
+improve it. One of my challenges is I don't have a complete grasp of all
+the usage modes supported by this code so I'd appreciate folks who do
+taking a look.
+
+Thanks!
+Paul
 ---
- meta/lib/oeqa/selftest/cases/runqemu.py | 26 ++++++++++++++++---------
- 1 file changed, 17 insertions(+), 9 deletions(-)
+ meta/classes-recipe/image.bbclass           |  5 +--
+ meta/classes-recipe/kernel-fitimage.bbclass | 55 ++++++++++++++++++++++++-----
+ meta/classes-recipe/kernel.bbclass          |  2 +-
+ 3 files changed, 51 insertions(+), 11 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/runqemu.py b/meta/lib/oeqa/self=
-test/cases/runqemu.py
-index c1d277a095a..58a4526df64 100644
---- a/meta/lib/oeqa/selftest/cases/runqemu.py
-+++ b/meta/lib/oeqa/selftest/cases/runqemu.py
-@@ -9,6 +9,7 @@ import tempfile
- import time
- import oe.types
- from oeqa.core.decorator import OETestTag
-+from oeqa.core.decorator.data import skipIfNotArch, skipIfNotMachine
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import bitbake, runqemu, get_bb_var, runCmd
-=20
-@@ -22,23 +23,25 @@ class RunqemuTests(OESelftestTestCase):
-     def setUpLocal(self):
-         super(RunqemuTests, self).setUpLocal()
-         self.recipe =3D 'core-image-minimal'
--        self.machine =3D  'qemux86-64'
--        self.fstypes =3D "ext4 iso hddimg wic.vmdk wic.qcow2 wic.vdi"
--        self.cmd_common =3D "runqemu nographic"
-+        self.machine =3D  self.td['MACHINE']
+diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.bbclass
+index e387645..cedd913 100644
+--- a/meta/classes-recipe/image.bbclass
++++ b/meta/classes-recipe/image.bbclass
+@@ -137,13 +137,14 @@ def rootfs_variables(d):
+ 
+ do_rootfs[vardeps] += "${@rootfs_variables(d)}"
+ 
++IMAGE_FITIMAGE_DEPEND = "${@'virtual/kernel:do_deploy_fitimage' if d.getVar('IMAGE_FITIMAGE') == '1' else ''}"
 +
-+        self.fstypes =3D "ext4"
-+        if self.td["HOST_ARCH"] in ('i586', 'i686', 'x86_64'):
-+            self.fstypes +=3D " iso hddimg"
-+        if self.machine =3D=3D "qemux86-64":
-+            self.fstypes +=3D " wic.vmdk wic.qcow2 wic.vdi"
-=20
--        kvm =3D oe.types.qemu_use_kvm(get_bb_var('QEMU_USE_KVM'), 'x86_6=
-4')
-+        self.cmd_common =3D "runqemu nographic"
-+        kvm =3D oe.types.qemu_use_kvm(get_bb_var('QEMU_USE_KVM'), self.t=
-d["TARGET_ARCH"])
-         if kvm:
-             self.cmd_common +=3D " kvm"
-=20
-         self.write_config(
- """
--MACHINE =3D "%s"
- IMAGE_FSTYPES =3D "%s"
- # 10 means 1 second
- SYSLINUX_TIMEOUT =3D "10"
--"""
--% (self.machine, self.fstypes)
--        )
-+""" % self.fstypes)
-=20
-         if not RunqemuTests.image_is_ready:
-             RunqemuTests.deploy_dir_image =3D get_bb_var('DEPLOY_DIR_IMA=
-GE')
-@@ -59,6 +62,7 @@ SYSLINUX_TIMEOUT =3D "10"
-             with open(qemu.qemurunnerlog) as f:
-                 self.assertIn('rootfs.ext4', f.read(), "Failed: %s" % cm=
-d)
-=20
-+    @skipIfNotArch(['i586', 'i686', 'x86_64'])
-     def test_boot_machine_iso(self):
-         """Test runqemu machine iso"""
-         cmd =3D "%s %s iso" % (self.cmd_common, self.machine)
-@@ -73,7 +77,8 @@ SYSLINUX_TIMEOUT =3D "10"
-             with open(qemu.qemurunnerlog) as f:
-                 self.assertTrue(qemu.runner.logged, "Failed: %s, %s" % (=
-cmd, f.read()))
-=20
+ # This is needed to have kernel image in DEPLOY_DIR.
+ # This follows many common usecases and user expectations.
+ # But if you are building an image which doesn't need the kernel image at all,
+ # you can unset this variable manually.
+ KERNEL_DEPLOY_DEPEND ?= "virtual/kernel:do_deploy"
+-do_build[depends] += "${KERNEL_DEPLOY_DEPEND}"
 -
-+    # https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14963
-+    @skipIfNotMachine("qemux86-64", "tests are qemux86-64 specific curre=
-ntly")
-     def test_boot_recipe_image_vmdk(self):
-         """Test runqemu recipe-image vmdk"""
-         cmd =3D "%s %s wic.vmdk" % (self.cmd_common, self.recipe)
-@@ -81,6 +86,7 @@ SYSLINUX_TIMEOUT =3D "10"
-             with open(qemu.qemurunnerlog) as f:
-                 self.assertIn('format=3Dvmdk', f.read(), "Failed: %s" % =
-cmd)
-=20
-+    @skipIfNotMachine("qemux86-64", "tests are qemux86-64 specific curre=
-ntly")
-     def test_boot_recipe_image_vdi(self):
-         """Test runqemu recipe-image vdi"""
-         cmd =3D "%s %s wic.vdi" % (self.cmd_common, self.recipe)
-@@ -96,6 +102,7 @@ SYSLINUX_TIMEOUT =3D "10"
-                 self.assertTrue(qemu.runner.logged, "Failed: %s, %s" % (=
-cmd, f.read()))
-=20
-=20
-+    @skipIfNotArch(['i586', 'i686', 'x86_64'])
-     def test_boot_deploy_hddimg(self):
-         """Test runqemu deploy_dir_image hddimg"""
-         cmd =3D "%s %s hddimg" % (self.cmd_common, self.deploy_dir_image=
-)
-@@ -110,6 +117,7 @@ SYSLINUX_TIMEOUT =3D "10"
-             with open(qemu.qemurunnerlog) as f:
-                 self.assertIn(' -netdev user', f.read(), "Failed: %s" % =
-cmd)
-=20
-+    @skipIfNotMachine("qemux86-64", "tests are qemux86-64 specific curre=
-ntly")
-     def test_boot_machine_slirp_qcow2(self):
-         """Test runqemu machine slirp qcow2"""
-         cmd =3D "%s slirp wic.qcow2 %s" % (self.cmd_common, self.machine=
-)
---=20
-2.34.1
++do_build[depends] += "${KERNEL_DEPLOY_DEPEND} ${IMAGE_FITIMAGE_DEPEND}"
+ 
+ python () {
+     def extraimage_getdepends(task):
+diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-recipe/kernel-fitimage.bbclass
+index 7980910..40406fc 100644
+--- a/meta/classes-recipe/kernel-fitimage.bbclass
++++ b/meta/classes-recipe/kernel-fitimage.bbclass
+@@ -731,10 +731,32 @@ do_install:append() {
+        fi
+ }
+ 
++python do_preserve_kernel_build() {
++    archdir = d.getVar('KERNEL_OUTPUT_DIR')
++    src = d.getVar('B')
++    dst = d.getVar('INITRAMFSDIR')
++    oe.path.copyhardlinktree(os.path.join(src, archdir), os.path.join(dst, archdir))
++    for fn in ['vmlinux', 'fit-image.its']:
++        oe.path.copyhardlink(os.path.join(src, fn), os.path.join(dst, fn))
++}
++
++INITRAMFSDIR = "${WORKDIR}/initramfs-work"
++SSTATETASKS += "do_preserve_kernel_build"
++do_preserve_kernel_build[cleandirs] = "${INITRAMFSDIR}"
++do_preserve_kernel_build[sstate-plaindirs] = "${INITRAMFSDIR}"
++
++python do_preserve_kernel_build_setscene () {
++    sstate_setscene(d)
++}
++addtask preserve_kernel_build_setscene
++
++
++addtask preserve_kernel_build after do_bundle_initramfs
++
+ do_assemble_fitimage_initramfs() {
+        if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage" && \
+                test -n "${INITRAMFS_IMAGE}" ; then
+-               cd ${B}
++               cd ${INITRAMFSDIR}
+                if [ "${INITRAMFS_IMAGE_BUNDLE}" = "1" ]; then
+                        fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage-bundle ""
+                        ln -sf fitImage-bundle ${B}/${KERNEL_OUTPUT_DIR}/fitImage
+@@ -744,7 +766,9 @@ do_assemble_fitimage_initramfs() {
+        fi
+ }
+ 
+-addtask assemble_fitimage_initramfs before do_deploy after do_bundle_initramfs
++addtask assemble_fitimage_initramfs after do_preserve_kernel_build
++
++do_assemble_fitimage_initramfs[depends] += "virtual/${TARGET_PREFIX}binutils:do_populate_sysroot"
+ 
+ do_kernel_generate_rsa_keys() {
+        if [ "${UBOOT_SIGN_ENABLE}" = "0" ] && [ "${FIT_GENERATE_KEYS}" = "1" ]; then
+@@ -793,20 +817,33 @@ do_kernel_generate_rsa_keys() {
+ 
+ addtask kernel_generate_rsa_keys before do_assemble_fitimage after do_compile
+ 
+-kernel_do_deploy[vardepsexclude] = "DATETIME"
+-kernel_do_deploy:append() {
++FITIMGDEPLOYDIR = "${WORKDIR}/fitimage-deploy"
++SSTATETASKS += "do_deploy_fitimage"
++do_deploy_fitimage[sstate-inputdirs] = "${FITIMGDEPLOYDIR}"
++do_deploy_fitimage[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
++
++python do_deploy_fitimage_setscene () {
++        sstate_setscene(d)
++}
++addtask do_deploy_fitimage_setscene
++
++do_deploy_fitimage[dirs] = "${FITIMGDEPLOYDIR} ${INITRAMFSDIR}"
++
++do_deploy_fitimage[vardepsexclude] = "DATETIME"
++do_deploy_fitimage() {
++       deployDir="${FITIMGDEPLOYDIR}"
+        # Update deploy directory
+        if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage"; then
+ 
+                if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
+                        bbnote "Copying fit-image.its source file..."
+-                       install -m 0644 ${B}/fit-image.its "$deployDir/fitImage-its-${KERNEL_FIT_NAME}.its"
++                       install -m 0644 ${INITRAMFSDIR}/fit-image.its "$deployDir/fitImage-its-${KERNEL_FIT_NAME}.its"
+                        if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
+                                ln -snf fitImage-its-${KERNEL_FIT_NAME}.its "$deployDir/fitImage-its-${KERNEL_FIT_LINK_NAME}"
+                        fi
+ 
+                        bbnote "Copying linux.bin file..."
+-                       install -m 0644 ${B}/linux.bin $deployDir/fitImage-linux.bin-${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT}
++                       install -m 0644 ${INITRAMFSDIR}/linux.bin $deployDir/fitImage-linux.bin-${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT}
+                        if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
+                                ln -snf fitImage-linux.bin-${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT} "$deployDir/fitImage-linux.bin-${KERNEL_FIT_LINK_NAME}"
+                        fi
+@@ -814,14 +851,14 @@ kernel_do_deploy:append() {
+ 
+                if [ -n "${INITRAMFS_IMAGE}" ]; then
+                        bbnote "Copying fit-image-${INITRAMFS_IMAGE}.its source file..."
+-                       install -m 0644 ${B}/fit-image-${INITRAMFS_IMAGE}.its "$deployDir/fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.its"
++                       install -m 0644 ${INITRAMFSDIR}/fit-image-${INITRAMFS_IMAGE}.its "$deployDir/fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.its"
+                        if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
+                                ln -snf fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.its "$deployDir/fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}"
+                        fi
+ 
+                        if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
+                                bbnote "Copying fitImage-${INITRAMFS_IMAGE} file..."
+-                               install -m 0644 ${B}/${KERNEL_OUTPUT_DIR}/fitImage-${INITRAMFS_IMAGE} "$deployDir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT}"
++                               install -m 0644 ${INITRAMFSDIR}/${KERNEL_OUTPUT_DIR}/fitImage-${INITRAMFS_IMAGE} "$deployDir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT}"
+                                if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
+                                        ln -snf fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT} "$deployDir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}"
+                                fi
+@@ -829,3 +866,5 @@ kernel_do_deploy:append() {
+                fi
+        fi
+ }
++
++addtask do_deploy_fitimage before do_build after do_deploy do_assemble_fitimage_initramfs
+diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
+index 7bb3449..f2efb3e 100644
+--- a/meta/classes-recipe/kernel.bbclass
++++ b/meta/classes-recipe/kernel.bbclass
+@@ -140,7 +140,7 @@ set -e
+     # If the INTIRAMFS_IMAGE is set but the INITRAMFS_IMAGE_BUNDLE is set to 0,
+     # the do_bundle_initramfs does nothing, but the INITRAMFS_IMAGE is built
+     # standalone for use by wic and other tools.
+-    if image:
++    if image and 'fitImage' not in d.getVar('KERNEL_IMAGETYPES'):
+         if d.getVar('INITRAMFS_MULTICONFIG'):
+             d.appendVarFlag('do_bundle_initramfs', 'mcdepends', ' mc::${INITRAMFS_MULTICONFIG}:${INITRAMFS_IMAGE}:do_image_complete')
+         else:
+-- 
+1.8.3.1
+
+
 
 
