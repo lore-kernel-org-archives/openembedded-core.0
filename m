@@ -1,206 +1,168 @@
-Return-Path: <sukumar@mvista.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 054B1C4332F
-	for <webhook@archiver.kernel.org>; Thu, 10 Nov 2022 12:01:21 +0000 (UTC)
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web10.6452.1668081679394455842
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ACF9C433FE
+	for <webhook@archiver.kernel.org>; Thu, 10 Nov 2022 14:05:21 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web12.7839.1668089117087489475
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Nov 2022 04:01:19 -0800
+ Thu, 10 Nov 2022 06:05:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=i0MGwgg8;
- spf=pass (domain: mvista.com, ip: 209.85.215.179, mailfrom: sukumar@mvista.com)
-Received: by mail-pg1-f179.google.com with SMTP id 136so1616357pga.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Nov 2022 04:01:19 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=1JE5Lbjt;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id c2so1444050plz.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Nov 2022 06:05:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GWmJ6ESxcj+EFZKXhjNXftBVVm9CeXgsc2s4AbGGZis=;
-        b=i0MGwgg8MUQSSUd8UKO33EX0SF5Yxq9RN8qFxDWpnUk7JC8r5Z0eWgEBERaNLXy+pX
-         dLdgAi2I9DHZ1BAJ4jHfvuH9vGTZV54mbKgpwHf8sRSEms0T104PGL1OWRveqNhHguaB
-         97gqyzGMiIXO2YNfE8BMKD7OIlArKznHHVbZs=
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FBvy1xICBYjzX9EGxyTEt7mbmip61RCA8xWtzAX/US4=;
+        b=1JE5Lbjth305WYv3wVTbXZi3nBxSvc5km96M9TtSdOHPQJqm+GGOsiZ/o549y76TjP
+         3uBCk9w0Ea5oHn7WUP7LOpxlvkpSzqtXEHFtFNTed+cuA7Ozy8syAQKYK93NZwUTkcmh
+         QlVQwDazrKQGbCx0/vQhO0wqAQYYxYNz/fH7L0IHztUB036ZnjpUZv+qoKsHInruABaJ
+         1jm7I520u31LKr+jnz3UhHATswu+AcDxpc1cx1dp6pdQUbc7COdNKoBZvgvjxNablbuz
+         cQcUHodo2GypQI9jqIUPhVzuO1Y3MnIRj4fVS83NryrQOZckdUZIff0tcyD4mj6HeJ/4
+         W+Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GWmJ6ESxcj+EFZKXhjNXftBVVm9CeXgsc2s4AbGGZis=;
-        b=yQdjxrpi2bJqCXfvAnsEmol00CkELYPdQYRMb9pV3ECmG39SeSdklfactK2MYOLmky
-         ctWFJvdmUT22oCleHg0MP6IDG5T29dleHG+V9iUgmNEqaqV9VzindF3PTYUibESqMEI9
-         r7kXUEqSTs7E3zzRVc1KYz2HIeJ4Q7MW4l4y3M1+aNz8z18mDiUdrhC55bI+ve1pj5bJ
-         IPrTs7S6gf4vOY18xVLjaU2MhvBsTWD6Vfj3jvntp/zBOjjWPJR2IRnsjHdu0jOXgLwe
-         lKCwBQZnzk51uo+jJ8oHRsTeNeludI1a9HD2Pxp4m8xc7glNVRc2Yh3sPBfDlK1Hatak
-         RURQ==
-X-Gm-Message-State: ACrzQf1xGFmnYtB5sT+el17tWDAQvnz5NV/bw5XUhlzwXEnSit8hO89f
-	qDrhHHyRBZiV5lD4cmSsbtI4MmvOECa0wtCb
-X-Google-Smtp-Source: AMsMyM64ML065F40Nzk/zcE+5Q0e4YReGlhvUGVcnXvAhHkUlu+Y4absfL4ZWLTaYTvDgXqpGzinrw==
-X-Received: by 2002:a63:2d01:0:b0:43c:e6cd:a9e4 with SMTP id t1-20020a632d01000000b0043ce6cda9e4mr2307275pgt.546.1668081677692;
-        Thu, 10 Nov 2022 04:01:17 -0800 (PST)
-Received: from mars-sukumar.mvista.com ([182.74.28.237])
-        by smtp.gmail.com with ESMTPSA id u2-20020a17090341c200b00186afd756edsm11054905ple.283.2022.11.10.04.01.15
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 10 Nov 2022 04:01:16 -0800 (PST)
-From: sukumar@mvista.com
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FBvy1xICBYjzX9EGxyTEt7mbmip61RCA8xWtzAX/US4=;
+        b=elW006DeMXwf51nOPWcBE4Dl5FwJKk01LdY42ZlWwpHyVvzvH25qW46IvqvsKEMiXL
+         gC0dFGSQpgl6CAWyldM2t9OL31rcEWofesCvcWxrWs+WO457N3nHhwN7gL9lpeIYVF4W
+         aM3WGbHZh7VlveXJCLrvJPva2jePWZO6zoDo8VbhPbAKp53GSwXuRoHSbFAhkAa7mR3v
+         a9nLP8aHGysxprUr77zt1ZElNPSwqveIp6ta2PZIUcYAUNv9GN6eBHEhWw9fQ4arBvu+
+         pt2GZuagRz5mSLAXwgtzJ0LEbY8vb9kbz8xUda8yHlAUw5B/6c069Fzfx/sttj7Tdx4f
+         OK1g==
+X-Gm-Message-State: ACrzQf1gdWZ3L9OlUnkkJao8yxiyei4qcrI4i5hX1VkgGXx8skRbTDCd
+	z3C/NR3FpEibF8MpDtALwqYA7EK072SGrJe8
+X-Google-Smtp-Source: AMsMyM4OQiLaU0Su2tG7+T97+zrRLqr3xMpQk81EbL/nwW3SKe3jn81pTVl2scLNGJpxkWuC8W7F/Q==
+X-Received: by 2002:a17:903:22d2:b0:187:1f4a:6593 with SMTP id y18-20020a17090322d200b001871f4a6593mr57202188plg.138.1668089115728;
+        Thu, 10 Nov 2022 06:05:15 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id j8-20020a17090a31c800b002132adb61ccsm3087597pjf.48.2022.11.10.06.05.14
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Nov 2022 06:05:15 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Sunil Kumar <sukumar@mvista.com>
-Subject: [OE-core][dunfell][PATCH] go: Security Fix for CVE-2022-2879
-Date: Thu, 10 Nov 2022 17:30:59 +0530
-Message-Id: <1668081659-29302-1-git-send-email-sukumar@mvista.com>
-X-Mailer: git-send-email 2.7.4
+Subject: [OE-core][kirkstone 00/25] Pull request (cover letter only)
+Date: Thu, 10 Nov 2022 04:05:07 -1000
+Message-Id: <cover.1668089053.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Nov 2022 12:01:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173073
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Nov 2022 14:05:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173074
 
-From: Sunil Kumar <sukumar@mvista.com>
+The following changes since commit e1c36bdfb3c31f359e58d1644c238b74410d6091:
 
-archive/tar: limit size of headers
+  perf: Depend on native setuptools3 (2022-11-04 07:55:17 -1000)
 
-Set a 1MiB limit on special file blocks (PAX headers, GNU long names,
-GNU link names), to avoid reading arbitrarily large amounts of data
-into memory.
+are available in the Git repository at:
 
-Link: https://github.com/golang/go/commit/0a723816cd2
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
 
-Signed-off-by: Sunil Kumar <sukumar@mvista.com>
----
- meta/recipes-devtools/go/go-1.14.inc               |   1 +
- .../go/go-1.14/CVE-2022-2879.patch                 | 111 +++++++++++++++++++++
- 2 files changed, 112 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2022-2879.patch
+Bruce Ashfield (2):
+  linux-yocto/5.15: update to v5.15.72
+  kern-tools: fix relative path processing
 
-diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
-index 3341beb..e8ff1c4 100644
---- a/meta/recipes-devtools/go/go-1.14.inc
-+++ b/meta/recipes-devtools/go/go-1.14.inc
-@@ -42,6 +42,7 @@ SRC_URI += "\
-     file://0003-CVE-2022-32190.patch \
-     file://0004-CVE-2022-32190.patch \
-     file://CVE-2022-2880.patch \
-+    file://CVE-2022-2879.patch \
- "
- 
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
-diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2022-2879.patch b/meta/recipes-devtools/go/go-1.14/CVE-2022-2879.patch
-new file mode 100644
-index 0000000..ea04a82
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.14/CVE-2022-2879.patch
-@@ -0,0 +1,111 @@
-+From 9d339f1d0f53c4116a7cb4acfa895f31a07212ee Mon Sep 17 00:00:00 2001
-+From: Damien Neil <dneil@google.com>
-+Date: Fri, 2 Sep 2022 20:45:18 -0700
-+Subject: [PATCH] archive/tar: limit size of headers
-+
-+Set a 1MiB limit on special file blocks (PAX headers, GNU long names,
-+GNU link names), to avoid reading arbitrarily large amounts of data
-+into memory.
-+
-+Thanks to Adam Korczynski (ADA Logics) and OSS-Fuzz for reporting
-+this issue.
-+
-+Fixes CVE-2022-2879
-+Updates #54853
-+Fixes #55926
-+
-+Change-Id: I85136d6ff1e0af101a112190e027987ab4335680
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1565555
-+Reviewed-by: Tatiana Bradley <tatianabradley@google.com>
-+Run-TryBot: Roland Shoemaker <bracewell@google.com>
-+Reviewed-by: Roland Shoemaker <bracewell@google.com>
-+(cherry picked from commit 6ee768cef6b82adf7a90dcf367a1699ef694f3b2)
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1591053
-+Reviewed-by: Julie Qiu <julieqiu@google.com>
-+Reviewed-by: Damien Neil <dneil@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/438498
-+TryBot-Result: Gopher Robot <gobot@golang.org>
-+Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
-+Reviewed-by: Carlos Amedee <carlos@golang.org>
-+Reviewed-by: Dmitri Shuralyov <dmitshur@golang.org>
-+Run-TryBot: Carlos Amedee <carlos@golang.org>
-+
-+Upstream-Status: Backport [https://github.com/golang/go/commit/0a723816cd2]
-+CVE: CVE-2022-2879
-+Signed-off-by: Sunil Kumar <sukumar@mvista.com>
-+---
-+ src/archive/tar/format.go |  4 ++++
-+ src/archive/tar/reader.go | 14 ++++++++++++--
-+ src/archive/tar/writer.go |  3 +++
-+ 3 files changed, 19 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/archive/tar/format.go b/src/archive/tar/format.go
-+index cfe24a5..6642364 100644
-+--- a/src/archive/tar/format.go
-++++ b/src/archive/tar/format.go
-+@@ -143,6 +143,10 @@ const (
-+	blockSize  = 512 // Size of each block in a tar stream
-+	nameSize   = 100 // Max length of the name field in USTAR format
-+	prefixSize = 155 // Max length of the prefix field in USTAR format
-++
-++	// Max length of a special file (PAX header, GNU long name or link).
-++	// This matches the limit used by libarchive.
-++	maxSpecialFileSize = 1 << 20
-+ )
-+
-+ // blockPadding computes the number of bytes needed to pad offset up to the
-+diff --git a/src/archive/tar/reader.go b/src/archive/tar/reader.go
-+index 4f9135b..e996595 100644
-+--- a/src/archive/tar/reader.go
-++++ b/src/archive/tar/reader.go
-+@@ -104,7 +104,7 @@ func (tr *Reader) next() (*Header, error) {
-+			continue // This is a meta header affecting the next header
-+		case TypeGNULongName, TypeGNULongLink:
-+			format.mayOnlyBe(FormatGNU)
-+-			realname, err := ioutil.ReadAll(tr)
-++			realname, err := readSpecialFile(tr)
-+			if err != nil {
-+				return nil, err
-+			}
-+@@ -294,7 +294,7 @@ func mergePAX(hdr *Header, paxHdrs map[string]string) (err error) {
-+ // parsePAX parses PAX headers.
-+ // If an extended header (type 'x') is invalid, ErrHeader is returned
-+ func parsePAX(r io.Reader) (map[string]string, error) {
-+-	buf, err := ioutil.ReadAll(r)
-++	buf, err := readSpecialFile(r)
-+	if err != nil {
-+		return nil, err
-+	}
-+@@ -827,6 +827,16 @@ func tryReadFull(r io.Reader, b []byte) (n int, err error) {
-+	return n, err
-+ }
-+
-++// readSpecialFile is like ioutil.ReadAll except it returns
-++// ErrFieldTooLong if more than maxSpecialFileSize is read.
-++func readSpecialFile(r io.Reader) ([]byte, error) {
-++	buf, err := ioutil.ReadAll(io.LimitReader(r, maxSpecialFileSize+1))
-++	if len(buf) > maxSpecialFileSize {
-++		return nil, ErrFieldTooLong
-++	}
-++	return buf, err
-++}
-++
-+ // discard skips n bytes in r, reporting an error if unable to do so.
-+ func discard(r io.Reader, n int64) error {
-+	// If possible, Seek to the last byte before the end of the data section.
-+diff --git a/src/archive/tar/writer.go b/src/archive/tar/writer.go
-+index e80498d..893eac0 100644
-+--- a/src/archive/tar/writer.go
-++++ b/src/archive/tar/writer.go
-+@@ -199,6 +199,9 @@ func (tw *Writer) writePAXHeader(hdr *Header, paxHdrs map[string]string) error {
-+			flag = TypeXHeader
-+		}
-+		data := buf.String()
-++		if len(data) > maxSpecialFileSize {
-++			return ErrFieldTooLong
-++		}
-+		if err := tw.writeRawFile(name, data, flag, FormatPAX); err != nil || isGlobal {
-+			return err // Global headers return here
-+		}
-+--
-+2.7.4
+Christian Eggers (1):
+  linux-firmware: split rtl8761 firmware
+
+Claus Stovgaard (1):
+  gstreamer1.0-libav: fix errors with ffmpeg 5.x
+
+Etienne Cordonnier (1):
+  mirrors.bbclass: use shallow tarball for binutils-native
+
+John Edward Broadbent (1):
+  externalsrc: git submodule--helper list unsupported
+
+Jose Quaresma (1):
+  kernel-yocto: improve fatal error messages of symbol_why.py
+
+Keiya Nobuta (1):
+  create-spdx: Remove ";name=..." for downloadLocation
+
+Martin Jansa (2):
+  vulkan-samples: add lfs=0 to SRC_URI to avoid git smudge errors in
+    do_unpack
+  externalsrc.bbclass: fix git repo detection
+
+Peter Kjellerstedt (1):
+  externalsrc.bbclass: Remove a trailing slash from ${B}
+
+Richard Purdie (1):
+  numactl: upgrade 2.0.14 -> 2.0.15
+
+Sean Anderson (2):
+  kernel: Clear SYSROOT_DIRS instead of replacing sysroot_stage_all
+  uboot-sign: Fix using wrong KEY_REQ_ARGS
+
+Sergei Zhmylev (1):
+  wic: honor the SOURCE_DATE_EPOCH in case of updated fstab
+
+Thomas Perrot (1):
+  xserver-xorg: move some recommended dependencies in required
+
+Vincent Davis Jr (1):
+  linux-firmware: package amdgpu firmware
+
+wangmy (8):
+  libcap: upgrade 2.65 -> 2.66
+  libical: upgrade 3.0.14 -> 3.0.15
+  numactl: upgrade 2.0.15 -> 2.0.16
+  wpebackend-fdo: upgrade 1.12.1 -> 1.14.0
+  libksba: upgrade 1.6.0 -> 1.6.2
+  lttng-ust: upgrade 2.13.3 -> 2.13.4
+  lttng-ust: upgrade 2.13.4 -> 2.13.5
+  lighttpd: upgrade 1.4.66 -> 1.4.67
+
+ meta/classes/create-spdx.bbclass              |  1 +
+ meta/classes/externalsrc.bbclass              | 25 +++---
+ meta/classes/kernel-yocto.bbclass             | 10 +--
+ meta/classes/kernel.bbclass                   |  4 +-
+ meta/classes/mirrors.bbclass                  |  1 +
+ meta/classes/uboot-sign.bbclass               |  2 +-
+ .../lighttpd/lighttpd/CVE-2022-41556.patch    | 31 -------
+ ...{lighttpd_1.4.66.bb => lighttpd_1.4.67.bb} |  3 +-
+ .../vulkan/vulkan-samples_git.bb              |  2 +-
+ .../xorg-xserver/xserver-xorg.inc             |  6 +-
+ .../kern-tools/kern-tools-native_git.bb       |  2 +-
+ .../linux-firmware/linux-firmware_20220913.bb | 18 ++++
+ .../linux/linux-yocto-rt_5.15.bb              |  6 +-
+ .../linux/linux-yocto-tiny_5.15.bb            |  6 +-
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb | 26 +++---
+ ...ttng-ust_2.13.3.bb => lttng-ust_2.13.5.bb} |  2 +-
+ ...r-APNG-encoder-property-registration.patch | 86 +++++++++++++++++++
+ .../gstreamer/gstreamer1.0-libav_1.20.3.bb    |  4 +-
+ ...fdo_1.12.1.bb => wpebackend-fdo_1.14.0.bb} |  2 +-
+ ...-Raise-the-size-of-arrays-containing.patch |  2 +-
+ .../libcap/{libcap_2.65.bb => libcap_2.66.bb} |  2 +-
+ .../{libical_3.0.14.bb => libical_3.0.15.bb}  |  2 +-
+ .../{libksba_1.6.0.bb => libksba_1.6.2.bb}    |  2 +-
+ meta/recipes-support/numactl/numactl_git.bb   |  6 +-
+ scripts/lib/wic/partition.py                  |  7 +-
+ scripts/lib/wic/plugins/imager/direct.py      |  3 +
+ scripts/lib/wic/plugins/source/rootfs.py      |  2 +-
+ 27 files changed, 173 insertions(+), 90 deletions(-)
+ delete mode 100644 meta/recipes-extended/lighttpd/lighttpd/CVE-2022-41556.patch
+ rename meta/recipes-extended/lighttpd/{lighttpd_1.4.66.bb => lighttpd_1.4.67.bb} (96%)
+ rename meta/recipes-kernel/lttng/{lttng-ust_2.13.3.bb => lttng-ust_2.13.5.bb} (95%)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-libav-Fix-for-APNG-encoder-property-registration.patch
+ rename meta/recipes-sato/webkit/{wpebackend-fdo_1.12.1.bb => wpebackend-fdo_1.14.0.bb} (90%)
+ rename meta/recipes-support/libcap/{libcap_2.65.bb => libcap_2.66.bb} (96%)
+ rename meta/recipes-support/libical/{libical_3.0.14.bb => libical_3.0.15.bb} (96%)
+ rename meta/recipes-support/libksba/{libksba_1.6.0.bb => libksba_1.6.2.bb} (94%)
+
 -- 
-2.7.4
+2.25.1
 
 
