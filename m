@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E71EBC43219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E65CDC43217
 	for <webhook@archiver.kernel.org>; Thu, 10 Nov 2022 18:13:05 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web10.10.1668103984304330355
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web10.11.1668103984997024785
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Nov 2022 10:13:04 -0800
+ Thu, 10 Nov 2022 10:13:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=hqdXG0Mj;
- spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id w14so3437018wru.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=EMJv9yJR;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id cl5so3438453wrb.9
         for <openembedded-core@lists.openembedded.org>; Thu, 10 Nov 2022 10:13:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8DmTaw2D+OADAErlzb9lWHgrmkKO6OiNr74yJ/QrnqM=;
-        b=hqdXG0Mjm6zISLc6gsA64aQKOVh2wozQZ3V4VVeajTgEKaC2NqUPOR1yViN4bKgMx2
-         vM/WY7ISYAQAyl58kJVRupnmpDe9DrgnEfgK2FanG7Gy28tGwQyRFRfMtQRzturmr7hS
-         O+WnnR60zSHTWVQHLPE7/k15dRT2tsmxBz66MVNYJsSbQtvfEcWcU0QiTYsgDvUbfBBV
-         85PY3pQMgJTa5HRijc9LYhGIAxVwBLTkH9brwoZK5iJV4lXdkBDnY9xF0S4WuuASNrca
-         ZTdO1qtnTEgPm+7UfYLJPKpM7EWn7HCTPZxXcohKGeFJmpncLTDXDGcObOutRx1JrZtJ
-         +7IA==
+        bh=wpQzeIgqOOEFPqeZWTV1iqmiFzwBMo0+uPELIZ3ifg4=;
+        b=EMJv9yJRL2Qcj4tL//w8/CypRytpkmNBGwLyYXTmy5fLSTt7EWQoR16kwIFLiD2Rx9
+         eADTnSp3SoHKQ3dZyNRVfXSsiVFDselVgBaCMHMqDbLFLRgIKpOLgXSrrueQOkgU21wu
+         SUlZdxG6En3Oph+46VOLe4CHorwJOUZKtD3ASQjxfI8ItcwV+kZ1gxIniXaP+g7WOAzQ
+         jfpMvRdTNGZvaeCf5azNrmdKhZ6KIWh1TX/WR1mDetbqQ3iqIHeEibHxoyJuB6yV+69J
+         nUAXCnHYiawY7yUYx7/5zF4jsP18XMgFFtqQtfBT+vFKeAzibrFF0uystOginMqTqUhU
+         rsNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8DmTaw2D+OADAErlzb9lWHgrmkKO6OiNr74yJ/QrnqM=;
-        b=IiHgbzKbjTE/HUwLjoTskbRW5sKmpn1E4Pybq6C+sF3G7U/dXoVtxBIYheRxZM+DAc
-         /ja6i8dv0gSqOgCUPi+UXxD/h6lG2oEhaxmhWA8iG8fkMIyXG0Ksey6GueK+IhA4fknA
-         gKPFjzXRcXSc03H9nQxQCiejpzS22M24boRAMAhW7e1C2CWChS5K7uzQNg4tBmEt4Ef6
-         skJSRO5tMcspbtzEmodfqMA+cnAX9eyMJeWyr9befRqN8FfttKShbZuPsnBm8lQghFu6
-         wCNezeOYXZ0wacEhTCyQELcw43c2GjRqaNswOCIPUZuOkrMeXJsBWLkW0xeNQN/2VJio
-         J6tw==
-X-Gm-Message-State: ACrzQf1v7ySDSTV0W92LX4nnzcjAj3yu/rxXTRnhIGLOqvDgKIg8xTZ4
-	2P6Xd0B0M0sRbsc3MrpP6XVGGVBCmDY=
-X-Google-Smtp-Source: AMsMyM7TVVsZLigbEQ7RBwPurl5vg5q9Dd7XOoz/LZjDmWHkB2YaiEgX2iTEDM1pBFIv83TgBWLwSg==
-X-Received: by 2002:a05:6000:118c:b0:236:bc26:7e0d with SMTP id g12-20020a056000118c00b00236bc267e0dmr39659460wrx.662.1668103982799;
-        Thu, 10 Nov 2022 10:13:02 -0800 (PST)
+        bh=wpQzeIgqOOEFPqeZWTV1iqmiFzwBMo0+uPELIZ3ifg4=;
+        b=TI6VZTRmVNJ7OqThzj+qHxaqkpVkz4He1SrAODednDfSGtGlPI0nr5nP+A5U9UkJG4
+         td8wUS4L1cYoQSO3lXjqyb4C5J5Ddjj/lv8uxDaNbBNNdIvz8wU6G0p7Lc5R4JuLtpAM
+         wxdelrisv9tyMgpnJbhUF7mjiMkwMpYIgVg5A01Dc3tH9V1sJljLLSQpi5sZYrfaNLWc
+         isPs/MQnZiItLicobvF7ez0CNJTmr1gsXrusOX+XRKGbDm/lRLbIDYHyfBHAKJfXWiRT
+         aSjo0mBaT+GXxX63W6gyakL4iNATFUWrPnTw2PgXtHTW2yL8XIgeg0tiV1SOFchHEIkO
+         9fBA==
+X-Gm-Message-State: ACrzQf0AUS1++/IRvSKWe2tQ7xyzI2O71oPPueC90zgrtguKATP+fNwj
+	jIDHe1XEbj1XdcVDjWPA3GrD5HJNCVs=
+X-Google-Smtp-Source: AMsMyM7M2BgbwSX8z0n/p3564LNCMvhAnXUENqnPzFA3KK5p9e6UIx/aCc5dUNZVNQRD55Y58brtcQ==
+X-Received: by 2002:adf:dcce:0:b0:236:a8a4:37e5 with SMTP id x14-20020adfdcce000000b00236a8a437e5mr39952520wrm.188.1668103983420;
+        Thu, 10 Nov 2022 10:13:03 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id m3-20020a05600c3b0300b003b4ff30e566sm8400477wms.3.2022.11.10.10.13.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Nov 2022 10:13:02 -0800 (PST)
+        Thu, 10 Nov 2022 10:13:03 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 04/19] libxkbfile: update 1.1.0 -> 1.1.1
-Date: Thu, 10 Nov 2022 19:12:34 +0100
-Message-Id: <20221110181249.1240200-4-alex@linutronix.de>
+Subject: [PATCH 05/19] libxmu: update 1.1.3 -> 1.1.4
+Date: Thu, 10 Nov 2022 19:12:35 +0100
+Message-Id: <20221110181249.1240200-5-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221110181249.1240200-1-alex@linutronix.de>
 References: <20221110181249.1240200-1-alex@linutronix.de>
@@ -62,30 +62,52 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Nov 2022 18:13:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173087
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173088
+
+Drop ipv6 option as no longer supported.
+
+License-Update: additional files, path corrections
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../xorg-lib/{libxkbfile_1.1.0.bb => libxkbfile_1.1.1.bb}    | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxkbfile_1.1.0.bb => libxkbfile_1.1.1.bb} (73%)
+ .../xorg-lib/{libxmu_1.1.3.bb => libxmu_1.1.4.bb}        | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxmu_1.1.3.bb => libxmu_1.1.4.bb} (66%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.0.bb b/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.1.bb
-similarity index 73%
-rename from meta/recipes-graphics/xorg-lib/libxkbfile_1.1.0.bb
-rename to meta/recipes-graphics/xorg-lib/libxkbfile_1.1.1.bb
-index 0fd0e3f47f..17ff588fdb 100644
---- a/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.1.bb
-@@ -13,6 +13,5 @@ DEPENDS += "virtual/libx11 xorgproto"
+diff --git a/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb b/meta/recipes-graphics/xorg-lib/libxmu_1.1.4.bb
+similarity index 66%
+rename from meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb
+rename to meta/recipes-graphics/xorg-lib/libxmu_1.1.4.bb
+index eab3f07512..22632aa5a7 100644
+--- a/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxmu_1.1.4.bb
+@@ -10,7 +10,7 @@ second library, libXmuu."
+ require xorg-lib-common.inc
+ 
+ LICENSE = "MIT & MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=def3d8e4e9c42004f1941fa22f01dc18"
++LIC_FILES_CHKSUM = "file://COPYING;md5=e79ad4fcc53b9bfe0fc38507a56446b9"
+ 
+ DEPENDS += "libxt libxext"
+ PROVIDES = "xmu"
+@@ -18,6 +18,7 @@ PROVIDES = "xmu"
  PE = "1"
  
- BBCLASSEXTEND = "native"
--
--SRC_URI[md5sum] = "dd7e1e946def674e78c0efbc5c7d5b3b"
--SRC_URI[sha256sum] = "758dbdaa20add2db4902df0b1b7c936564b7376c02a0acd1f2a331bd334b38c7"
+ XORG_PN = "libXmu"
 +XORG_EXT = "tar.xz"
-+SRC_URI[sha256sum] = "8623dc26e7aac3c5ad8a25e57b566f4324f5619e5db38457f0804ee4ed953443"
+ 
+ LEAD_SONAME = "libXmu"
+ 
+@@ -27,8 +28,4 @@ FILES:libxmuu = "${libdir}/libXmuu.so.*"
+ 
+ BBCLASSEXTEND = "native"
+ 
+-SRC_URI[md5sum] = "ac774cff8b493f566088a255dbf91201"
+-SRC_URI[sha256sum] = "9c343225e7c3dc0904f2122b562278da5fed639b1b5e880d25111561bac5b731"
+-
+-PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+-PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
++SRC_URI[sha256sum] = "210de3ab9c3e9382572c25d17c2518a854ce6e2c62c5f8315deac7579e758244"
 -- 
 2.30.2
 
