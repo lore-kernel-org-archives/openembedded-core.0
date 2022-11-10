@@ -1,156 +1,154 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23751C433FE
-	for <webhook@archiver.kernel.org>; Thu, 10 Nov 2022 16:17:32 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web12.9520.1668097048072851988
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14B26C4332F
+	for <webhook@archiver.kernel.org>; Thu, 10 Nov 2022 16:17:52 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web08.9439.1668097067116252781
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Nov 2022 08:17:28 -0800
+ Thu, 10 Nov 2022 08:17:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=jzjeJBtA;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 35A21FF802;
-	Thu, 10 Nov 2022 16:17:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1668097045;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1rlNqgmQV7oajecphY7/dtpp392mrdAJKe5adyzUCqE=;
-	b=jzjeJBtAVj763prBMB62iIshDMGiAK8c35wclCOdAtoiLNA9WXn63j5RjqiqWlWoXzr68t
-	Q6KNLFM90JxaA6mKCzIIrvxYynB+tzJ0ILDRGYAE0L3KLQywEivcs8Vhmukf0/iAmgfwwX
-	j4xWXJrWWTT5G/cfCjWqNEnaZ1YrtWHBN7ojy0UeySHv7ZBocn3btOQWpGgLb862/5duHs
-	T6rHcTw0uXMwC7kW14zzUZsmbnO7SoLPsnd5qoZghZjivNTz11b2EUZevPgGBKKtTzSGgO
-	eEs1VOo0kpdbEBEfdTj59/Nc5sjvR1xJe1phIv4Q1U7PQdfNBOGzPa6wx0iyhA==
-Date: Thu, 10 Nov 2022 17:17:24 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Peter Marko <peter.marko@siemens.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][PATCH] systemd: add group render to udev package
-Message-ID: <Y20kFKDvCiET6XBE@mail.local>
-References: <20221108175154.280624-1-peter.marko@siemens.com>
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ki5s5EnE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.49, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f49.google.com with SMTP id ud5so6279646ejc.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Nov 2022 08:17:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bSdnL+g+Bl+qetwvp1HrAwk97Yd966HP/V5w8xcqUEE=;
+        b=ki5s5EnEOd7+XRaZ7Wbt+eL2F729gFRDKpxcxQ3qLOurDiAMLdYrGhjDQkdaaiXBNf
+         KYkNnxvTpUthIGQnv3myQG9y0eMu4Wadw8rGnNsWVCEzPZAhgOHrtXmWmpZclDMxyByT
+         Q9AsVnN3y9j+TkuCQcJEWnqenToXv74sxW10ClBf7Rjeu/OTj3Wf9U8bNij23gP+GIXh
+         lF25dTwuq96A3FfwMi1W3nSHHj1PKfGwhdNIa7YKR7IRUM/Kv5y2YH/TQ0V08rMUEA7/
+         cicaD+lkEoMg/YQ7R24XCc7kRJZGh13Sc1iwpkpEJld2Wqs+JcOcwxukrnmvCB0i2S15
+         na8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bSdnL+g+Bl+qetwvp1HrAwk97Yd966HP/V5w8xcqUEE=;
+        b=QbiUxVDU2b5QAlHi05CilfcM34agBKAV/p3rZBlX5Y7DZ5fJFwCbT0l9QyN/P2Mj1Q
+         rLIV9ZcpZKTvDYzQhheKsRMYI8AgEdQS2F4O/Pu0S/TtBmjHlvhjjv4kwnlO/g971vaW
+         IZ+nOgS3FoD7AZG+3Ql64A/n4QlpogVKfYanQWpyVWAzvFn6oGN/2zKYj4FJkh3rZCKj
+         ajq/lo48dbR7kCbbQCEJaYnYl3ghuA9tlSPFDHUb60irABGL+4naKq08HFMcVmsT9rcf
+         NJ2jgfO70euAfQINXxcOjjARvBaMSrpBXYhYFQy27oydkLdU5h1SBd95DgeqCb+fEyzg
+         TAdg==
+X-Gm-Message-State: ANoB5plbMYKs4UYxFKruZimPHTCh7wW3vKzEyyycfYtp6fTV9VMFMEAA
+	RKgEFTt5e1lhJ+BUODZEUMyU9ZsQo+Ar9abqWwNicw==
+X-Google-Smtp-Source: AA0mqf7E8McpVC5LeTxOz11CsKlVZr+O5Q0kZ9jxGeD7ZSuCwkakUsbbDoy7iZD8Nr/EfSfL06IF0QnGkPeI7tVBn6o=
+X-Received: by 2002:a17:906:5fce:b0:7ae:8a4b:301 with SMTP id
+ k14-20020a1709065fce00b007ae8a4b0301mr5821860ejv.92.1668097065319; Thu, 10
+ Nov 2022 08:17:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20221108175154.280624-1-peter.marko@siemens.com>
+References: <20221110062840.52346-1-vkumbhar@mvista.com>
+In-Reply-To: <20221110062840.52346-1-vkumbhar@mvista.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Thu, 10 Nov 2022 06:17:34 -1000
+Message-ID: <CAOSpxdZiDzPAM3xtfqA_GnMk=mH=0b_-VzYzCyxny-9KEgLukQ@mail.gmail.com>
+Subject: Re: [OE-core][dunfell][PATCH] curl: fix CVE-2022-32221 POST following
+ PUT confusion
+To: vkumbhar <vkumbhar@mvista.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Nov 2022 16:17:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173081
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Nov 2022 16:17:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173082
 
-Hello,
+This patch doesn't apply.  It appears you are not at the current dunfell HEAD.
 
-This causes the following failure:
+steve@hexa ~/Repos/openembedded-core (stable/dunfell-nut) $ git am -3
+~/Downloads/dunfell-curl-fix-CVE-2022-32221-POST-following-PUT-confusion.patch
+Applying: curl: fix CVE-2022-32221 POST following PUT confusion
+Using index info to reconstruct a base tree...
+M meta/recipes-support/curl/curl_7.69.1.bb
+.git/rebase-apply/patch:37: trailing whitespace.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/1839/ste=
-ps/12/logs/stdio
+.git/rebase-apply/patch:39: trailing whitespace.
+--
+.git/rebase-apply/patch:41: new blank line at EOF.
++
+warning: 3 lines add whitespace errors.
+Falling back to patching base and 3-way merge...
+Auto-merging meta/recipes-support/curl/curl_7.69.1.bb
+CONFLICT (content): Merge conflict in meta/recipes-support/curl/curl_7.69.1.bb
+error: Failed to merge in the changes.
+Patch failed at 0001 curl: fix CVE-2022-32221 POST following PUT confusion
 
-ERROR: Nothing PROVIDES 'udev' (but /home/pokybuild/yocto-worker/reproducib=
-le/build/meta/recipes-bsp/usbutils/usbutils_014.bb, /home/pokybuild/yocto-w=
-orker/reproducible/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaa=
-pi_1.20.4.bb, /home/pokybuild/yocto-worker/reproducible/build/meta/recipes-=
-graphics/wayland/libinput_1.21.0.bb, /home/pokybuild/yocto-worker/reproduci=
-ble/build/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb, /home/=
-pokybuild/yocto-worker/reproducible/build/meta/recipes-extended/mdadm/mdadm=
-_4.2.bb, /home/pokybuild/yocto-worker/reproducible/build/meta/recipes-suppo=
-rt/libusb/libusb1_1.0.26.bb, /home/pokybuild/yocto-worker/reproducible/buil=
-d/meta/recipes-gnome/libgudev/libgudev_237.bb, /home/pokybuild/yocto-worker=
-/reproducible/build/meta/recipes-connectivity/ofono/ofono_2.0.bb, /home/pok=
-ybuild/yocto-worker/reproducible/build/meta/recipes-graphics/igt-gpu-tools/=
-igt-gpu-tools_git.bb, /home/pokybuild/yocto-worker/reproducible/build/meta/=
-recipes-multimedia/alsa/alsa-utils_1.2.8.bb, /home/pokybuild/yocto-worker/r=
-eproducible/build/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb, /h=
-ome/pokybuild/yocto-worker/reproducible/build/meta/recipes-graphics/waffle/=
-waffle_1.7.0.bb, /home/pokybuild/yocto-worker/reproducible/build/meta/recip=
-es-bsp/pciutils/pciutils_3.8.0.bb, /home/pokybuild/yocto-worker/reproducibl=
-e/build/meta/recipes-graphics/wayland/weston_11.0.0.bb, /home/pokybuild/yoc=
-to-worker/reproducible/build/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.=
-bb, /home/pokybuild/yocto-worker/reproducible/build/meta/recipes-connectivi=
-ty/bluez5/bluez5_5.65.bb, /home/pokybuild/yocto-worker/reproducible/build/m=
-eta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.4.bb DEPENDS on or othe=
-rwise requires it)
-systemd PROVIDES udev but was skipped: systemd - udev: system groupname ren=
-der does not have a static ID defined. Add render to one of these files: /h=
-ome/pokybuild/yocto-worker/reproducible/build/build-st/meta-selftest/files/=
-static-group
-eudev PROVIDES udev but was skipped: conflicting distro feature 'systemd' (=
-in DISTRO_FEATURES)
-ERROR: Required build target 'meta-world-pkgdata' has no buildable provider=
-s.
-Missing or unbuildable dependency chain was: ['meta-world-pkgdata', 'usbuti=
-ls', 'udev']
+Steve
 
-
-
-On 08/11/2022 18:51:54+0100, Peter Marko wrote:
-> From NEWS for v236:
-> * The "uaccess" udev tag has been dropped from /dev/kvm and
->   /dev/dri/renderD*.  These devices now have the 0666 permissions by
->   default (but this may be changed at build-time). /dev/dri/renderD*
->   will now be owned by the "render" group along with /dev/kfd.
->=20
-> Without the group systemd-udevd startup logs:
->   /lib/udev/rules.d/50-udev-default.rules:39 Unknown group 'render', igno=
-ring
->   /lib/udev/rules.d/50-udev-default.rules:40 Unknown group 'render', igno=
-ring
->=20
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+On Wed, Nov 9, 2022 at 8:28 PM vkumbhar <vkumbhar@mvista.com> wrote:
+>
+> From: Vivek Kumbhar <vkumbhar@mvista.com>
+>
+> Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
 > ---
->  meta/recipes-core/systemd/systemd_251.4.bb | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/meta/recipes-core/systemd/systemd_251.4.bb b/meta/recipes-co=
-re/systemd/systemd_251.4.bb
-> index 1b771a7b86..5fb0e86982 100644
-> --- a/meta/recipes-core/systemd/systemd_251.4.bb
-> +++ b/meta/recipes-core/systemd/systemd_251.4.bb
-> @@ -395,11 +395,13 @@ SYSTEMD_PACKAGES =3D "${@bb.utils.contains('PACKAGE=
-CONFIG', 'binfmt', '${PN}-binfm
->  SYSTEMD_SERVICE:${PN}-binfmt =3D "systemd-binfmt.service"
-> =20
->  USERADD_PACKAGES =3D "${PN} ${PN}-extra-utils \
-> +                    udev \
->                      ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', =
-'${PN}-journal-gatewayd', '', d)} \
->                      ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', =
-'${PN}-journal-remote', '', d)} \
->                      ${@bb.utils.contains('PACKAGECONFIG', 'journal-uploa=
-d', '${PN}-journal-upload', '', d)} \
+>  .../curl/curl/CVE-2022-32221.patch            | 29 +++++++++++++++++++
+>  meta/recipes-support/curl/curl_7.69.1.bb      |  1 +
+>  2 files changed, 30 insertions(+)
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2022-32221.patch
+>
+> diff --git a/meta/recipes-support/curl/curl/CVE-2022-32221.patch b/meta/recipes-support/curl/curl/CVE-2022-32221.patch
+> new file mode 100644
+> index 0000000000..ad1769e19a
+> --- /dev/null
+> +++ b/meta/recipes-support/curl/curl/CVE-2022-32221.patch
+> @@ -0,0 +1,29 @@
+> +From 9f9f2ed81151b1063eac5fb0eca5bbb195cbfe79 Mon Sep 17 00:00:00 2001
+> +From: Vivek Kumbhar <vkumbhar@mvista.com>
+> +Date: Mon, 7 Nov 2022 12:51:19 +0530
+> +Subject: [PATCH] CVE-2022-32221
+> +
+> +Upstream-Status: Backport [https://github.com/curl/curl/commit/a64e3e59938abd7d6]
+> +CVE: CVE-2022-32221
+> +Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+> +
+> +setopt: when POST is set, reset the 'upload' field.
+> +---
+> + lib/setopt.c | 1 +
+> + 1 file changed, 1 insertion(+)
+> +
+> +diff --git a/lib/setopt.c b/lib/setopt.c
+> +index 4648c87..48f789c 100644
+> +--- a/lib/setopt.c
+> ++++ b/lib/setopt.c
+> +@@ -486,6 +486,7 @@ CURLcode Curl_vsetopt(struct Curl_easy *data, CURLoption option, va_list param)
+> +     }
+> +     else
+> +       data->set.httpreq = HTTPREQ_GET;
+> ++      data->set.upload = FALSE;
+> +     break;
+> +
+> +   case CURLOPT_COPYPOSTFIELDS:
+> +--
+> +2.25.1
+> +
+> diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
+> index c3d629108a..a5795c5038 100644
+> --- a/meta/recipes-support/curl/curl_7.69.1.bb
+> +++ b/meta/recipes-support/curl/curl_7.69.1.bb
+> @@ -13,6 +13,7 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+>             file://CVE-2020-8284.patch \
+>             file://CVE-2020-8285.patch \
+>             file://CVE-2020-8286.patch \
+> +           file://CVE-2022-32221.patch \
 >  "
->  GROUPADD_PARAM:${PN} =3D "-r systemd-journal;"
-> +GROUPADD_PARAM:udev =3D "-r render"
->  GROUPADD_PARAM:${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'polkit=
-_hostnamed_fallback', '-r systemd-hostname;', '', d)}"
->  USERADD_PARAM:${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'coredum=
-p', '--system -d / -M --shell /sbin/nologin systemd-coredump;', '', d)}"
->  USERADD_PARAM:${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'network=
-d', '--system -d / -M --shell /sbin/nologin systemd-network;', '', d)}"
-> --=20
-> 2.30.2
->=20
-
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>  SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#172987): https://lists.openembedded.org/g/openembedde=
-d-core/message/172987
-> Mute This Topic: https://lists.openembedded.org/mt/94895791/3617179
+> View/Reply Online (#173069): https://lists.openembedded.org/g/openembedded-core/message/173069
+> Mute This Topic: https://lists.openembedded.org/mt/94931188/3620601
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-exandre.belloni@bootlin.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
-
-
---=20
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
