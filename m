@@ -1,107 +1,86 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <jorcrous@amazon.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0076C4332F
-	for <webhook@archiver.kernel.org>; Thu, 10 Nov 2022 20:58:10 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web09.1154.1668113888561930675
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0225EC433FE
+	for <webhook@archiver.kernel.org>; Thu, 10 Nov 2022 21:30:40 +0000 (UTC)
+Received: from smtp-fw-2101.amazon.com (smtp-fw-2101.amazon.com [72.21.196.25])
+ by mx.groups.io with SMTP id smtpd.web08.1585.1668115830747758010
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Nov 2022 12:58:08 -0800
+ Thu, 10 Nov 2022 13:30:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=UqWf8Lk1;
- spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f177.google.com with SMTP id l8so2318806ljh.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Nov 2022 12:58:08 -0800 (PST)
+ dkim=pass header.i=@amazon.com header.s=amazon201209 header.b=YaLTn+fT;
+ spf=pass (domain: amazon.com, ip: 72.21.196.25, mailfrom: prvs=3066031d8=jorcrous@amazon.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dcMkWTPklDZ+GJrbD0E4bESmGr5sYw9g3Nf0EEAE8y8=;
-        b=UqWf8Lk1n5hx9gKko1tmTWJBy+pT8JjIQhkoOfDEOqKd2WnMdpfl4K2F2YjDFSPvwE
-         /dI09qP/JVC8xqUg76PdUjIijZPkiO+DBnpllTwvfW+b52zEoF9QsiB1YX6c3Zzkhqj9
-         jT1lami6KhSaJT6+G3JaG8D7tPvV/dmJV3D7q0tPeHhyz8weckiXjt+FL0VqfvepgNxP
-         Pl3xt6HY+xgbVO4UWLNekC7ASm7O2yDRLMuxnZ9VElx6Pg80bV67bgOkMK5ReF/0P8+K
-         ibUf4KMW9akNOQrmZvTt8vRh0EixAQiYJfhxAMGneHENnJDLWLGPIqwyWVa4LDU1AMHe
-         mu3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dcMkWTPklDZ+GJrbD0E4bESmGr5sYw9g3Nf0EEAE8y8=;
-        b=OBk2q3NoBYe+SVofddnkoSb7eXMy9mVAAhnITUOMy2Q1JCw268Kb+q6KPu3tbo9kw0
-         1fkDjTFr3B+isltopDEgG5EZTPdGV98USmVvN2CxB0Z9fuueqDCXZkKevtAlHWGBuXr3
-         ep0fG8YUy5ZZ1CPYg/UTldM9VnNMBhhMOn3vmQztsSYpviiSIrB0fyLnj4mBjLqBWQN6
-         kIGWD3528klB4jGfFe46L305INtnvWCmGfBfFRkE9oDlUrCIp/0XFQcqshVLKNb40VLR
-         i9d+1gZxHucX0WIb8zeoofgcMqgtGP2TGYcZfS7vKtdf01y+zY1uldNmOX3c6uFYGH5V
-         UuiQ==
-X-Gm-Message-State: ACrzQf3qmgOKxEfg7TuOK/Jvj9D5hCqqy9qSqYK/KXBeGAvicvIyXfCC
-	3GfgUcDMopJ05iPsWNLYwA7El9ayUNDAVqfQZWY=
-X-Google-Smtp-Source: AMsMyM74Z49BQ44ew0r4tP4j+0Q+/h4y5AmDZyznw2Qr4hN25iZI1I63/Wm5Il9D6Yh1vItHmtxpRIQrBcXSPqNSMWk=
-X-Received: by 2002:a05:651c:23a5:b0:26d:d196:d04 with SMTP id
- bk37-20020a05651c23a500b0026dd1960d04mr9637200ljb.403.1668113886715; Thu, 10
- Nov 2022 12:58:06 -0800 (PST)
-MIME-Version: 1.0
-References: <20221110204232.12768-1-jorcrous@amazon.com> <20221110204232.12768-4-jorcrous@amazon.com>
-In-Reply-To: <20221110204232.12768-4-jorcrous@amazon.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 10 Nov 2022 21:57:55 +0100
-Message-ID: <CANNYZj8Q4yDjr-=-u4VCMYf8khBDUmwu9+c7qKezqKSx-9grZA@mail.gmail.com>
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1668115831; x=1699651831;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8vZGzGK7ejJz4UtCKcu3eGO8Tyu5O4eveLADrYhYvh4=;
+  b=YaLTn+fTyJBlDy+PQ48l2q1NEJn3SMm2xNFDPxRCRGs7l/rCFFmqPil1
+   UNpAsssq7TQfNTMWPbiebw+CYZv7EEr1F0XwQRWXQiLWlpuFesmnDYzCE
+   eGiFtr+iGMGD77+8wdieyKIeb6Gx3tofj+6LYzDVGv8LHKA/xswVWDY4T
+   I=;
+X-IronPort-AV: E=Sophos;i="5.96,154,1665446400"; 
+   d="scan'208";a="261912973"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-iad-1d-m6i4x-153b24bc.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-2101.iad2.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2022 21:30:29 +0000
+Received: from EX13MTAUWB001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+	by email-inbound-relay-iad-1d-m6i4x-153b24bc.us-east-1.amazon.com (Postfix) with ESMTPS id 664DFC1F93;
+	Thu, 10 Nov 2022 21:30:28 +0000 (UTC)
+Received: from EX19D047UWB002.ant.amazon.com (10.13.138.34) by
+ EX13MTAUWB001.ant.amazon.com (10.43.161.249) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.42; Thu, 10 Nov 2022 21:30:27 +0000
+Received: from amazon.com (10.43.161.14) by EX19D047UWB002.ant.amazon.com
+ (10.13.138.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1118.20; Thu, 10 Nov 2022
+ 21:30:27 +0000
+Date: Thu, 10 Nov 2022 14:30:24 -0700
+From: Jordan Crouse <jorcrous@amazon.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: <openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] [PATCH 3/3] vulkan-validation: Add the official Vulkan
  validation layers
-To: jorcrous@amazon.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <20221110213024.ob3bvz4g2hsixmu3@amazon.com>
+References: <20221110204232.12768-1-jorcrous@amazon.com>
+ <20221110204232.12768-4-jorcrous@amazon.com>
+ <CANNYZj8Q4yDjr-=-u4VCMYf8khBDUmwu9+c7qKezqKSx-9grZA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CANNYZj8Q4yDjr-=-u4VCMYf8khBDUmwu9+c7qKezqKSx-9grZA@mail.gmail.com>
+User-Agent: NeoMutt/20171215
+X-Originating-IP: [10.43.161.14]
+X-ClientProxiedBy: EX13D24UWA002.ant.amazon.com (10.43.160.200) To
+ EX19D047UWB002.ant.amazon.com (10.13.138.34)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Nov 2022 20:58:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173110
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Nov 2022 21:30:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173111
 
-On Thu, 10 Nov 2022 at 21:42, Jordan Crouse via lists.openembedded.org
-<jorcrous=amazon.com@lists.openembedded.org> wrote:
-> +DEPENDS += "vulkan-headers"
-> +DEPENDS += "spirv-headers spirv-tools"
-> +DEPENDS += "vulkan-loader"
-> +DEPENDS += "glslang"
+On Thu, Nov 10, 2022 at 09:57:55PM +0100, Alexander Kanavin wrote:
+> On Thu, 10 Nov 2022 at 21:42, Jordan Crouse via lists.openembedded.org
 
-This should be squashed into a single line.
+<snip>
 
-> +
-> +EXTRA_OECMAKE = "\
-> +                 -DBUILD_TESTS=OFF \
-> +                 -DPYTHON_EXECUTABLE=${HOSTTOOLS_DIR}/python3 \
-> +                 -DASSEMBLER_WORKS=FALSE \
-> +                 -DVULKAN_HEADERS_INSTALL_DIR=${STAGING_EXECPREFIXDIR} \
-> +                 -DGLSLANG_INSTALL_DIR=${STAGING_DATADIR} \
-> +                 -DSPIRV_HEADERS_INSTALL_DIR=${STAGING_EXECPREFIXDIR} \
-> +                 -DUSE_ROBIN_HOOD_HASHING=OFF \
-> +                 "
+> > +FILES:${PN} += "/usr/share/vulkan/ /usr/lib/"
+> > +
+> > +INSANE_SKIP:${PN} += " ldflags"
+> > +INHIBIT_PACKAGE_STRIP = "1"
+> > +INHIBIT_SYSROOT_STRIP = "1"
+> > +SOLIBS = ".so"
+> > +FILES_SOLIBSDEV = ""
+> 
+> All of the above should be removed. If there are error messages due to
+> that, please show them, and we'll figure out how to address them
+> properly.
 
-Some of the choices here would be good to explain in the commit
-message. What is this 'robin hood hashing' and why do we not want it?
-:)
+ERROR: vulkan-validation-1.3.231.1-r0 do_package_qa: QA Issue: -dev package vulkan-validation-dev contains non-symlink .so '/usr/lib/libVkLayer_khronos_validation.so' [dev-elf]
 
-> +
-> +PACKAGECONFIG[x11] = "-DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_XCB_SUPPORT=ON, -DBUILD_WSI_XLIB_SUPPORT=OFF -DBUILD_WSI_XCB_SUPPORT=OFF, libxcb libx11 libxrandr"
-> +PACKAGECONFIG[wayland] = "-DBUILD_WSI_WAYLAND_SUPPORT=ON, -DBUILD_WSI_WAYLAND_SUPPORT=OFF, wayland"
+I borrowed the QA inhibit from vulkan-loader (since they are built
+mostly the same) but if there is a different path forward, that would be
+great.
 
-These should be enabled by default subject to DISTRO_FEATURES.
-
-> +FILES:${PN} += "/usr/share/vulkan/ /usr/lib/"
-> +
-> +INSANE_SKIP:${PN} += " ldflags"
-> +INHIBIT_PACKAGE_STRIP = "1"
-> +INHIBIT_SYSROOT_STRIP = "1"
-> +SOLIBS = ".so"
-> +FILES_SOLIBSDEV = ""
-
-All of the above should be removed. If there are error messages due to
-that, please show them, and we'll figure out how to address them
-properly.
-
-New recipes also need a meta/conf/distro/inclue/maintainers.inc entry.
-
-Alex
+Jordan
 
