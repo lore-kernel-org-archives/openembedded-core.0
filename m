@@ -2,65 +2,63 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5530DC433FE
-	for <webhook@archiver.kernel.org>; Fri, 11 Nov 2022 12:16:43 +0000 (UTC)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web08.4708.1668168994448768895
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA67BC4332F
+	for <webhook@archiver.kernel.org>; Fri, 11 Nov 2022 13:07:43 +0000 (UTC)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web12.5129.1668172062939547911
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Nov 2022 04:16:34 -0800
+ Fri, 11 Nov 2022 05:07:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=lMc6Nufu;
- spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-ej1-f50.google.com with SMTP id ud5so12190984ejc.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Nov 2022 04:16:34 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=WdjGkw3b;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id f27so12519239eje.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Nov 2022 05:07:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=V4ouzw0QbK+SlzmTLBwXZ/Cb5Ds9OG5JJY6Qs7bC3Qk=;
-        b=lMc6NufuISRIQ5aKyNbk8CVH9hoXzLVR5U1Yca1opK+NzHJYB6cpn48H3iz3IYbXDq
-         r6hisgt03J1EV6lo3Swu8VhmPCGwOFYXkYOBYhScbq9usfUASxZ0Bpvf11irEZOFznUT
-         oLg+LTXnR0ZiPRC+dorksz5im4HRtJMSTt5I2JUlKEZtlXzgTSVHc0JLKNqTZFTy90+A
-         MFcIZkd04lcR6zY+FrSZQ/YLRQwpJ65Dd8dYicfaUm/JKXqsZOMsck6baWPQAdn3ooJk
-         fm//SxAKgP/7BKJNhZI3n/SvvrTc+jxP+GwfS8fc4XyXmdIEp/I5cCHzLXZo/b02C5P/
-         YgRA==
+        bh=/pVLAB/Pd5QXofVCwvis0owWr4Z20Z3Cx+HbWeAhG3c=;
+        b=WdjGkw3bU1o6JPnW8GLLHpyOQsqynZpFguL+1BOUaePHaz3ol7vyXoMswf6nUKK0aE
+         t3Khaq7JseSbbMidpQs7D8Rg/NW7GHD73S0UNg6rJ/5SVJlYM3BpGKCPtzJVtr6TgsNd
+         ftPkpHF+TuF7N0dnplY3tT0MWscL1RZRIZhW5qWauaTZeabKX3XZY9hpkIyomNF0cTok
+         rLRYUJhhlTIEYgU9HexklxddZu0SsSRXdDHYgBF8PG3ngLlZi/nPvjmWG34CxWGYrAJS
+         PpeiIBRKlOphJN0eVgoOmV5uJFcsMATVUj78MblZsgxad68aqLIlb7Ck8TrPinTMWv99
+         gu2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=V4ouzw0QbK+SlzmTLBwXZ/Cb5Ds9OG5JJY6Qs7bC3Qk=;
-        b=fKyFv/cygwcsAMbzIi8gc8itOw1TCE3IJjTYhiXf/3P3j/oY6Slekpna/1PazZWVlP
-         g1b/Y5FHz+IvHSk43cIH9InN+FR6LRayrVcIdYHBo79RU1m9oRt2AJMkkcYiry9hrP6K
-         fe5J1RuDE5/K637aKRcD6q0uWTFgEGZT5H2nKQGU7LlskIu1vfvyhLRYqo3gqU2zjCJQ
-         UJ5dsJE2+oXNWZ0eF1JpWEyNAgG/Pt1dtUSiN9kGxlDpCz/FMgJ2x46VKxaMXu/hr9JK
-         /l/Fhln+Lkit/BkM/Zmm43ldYC3iQiodBXNOKhIHOuJVwuR9Vwk6ye4dwj75FaJvTAQl
-         orAA==
-X-Gm-Message-State: ANoB5pmHbqan9wVl1gPUp1xNN9NzZcjFGObo3RhzhjITdAgWjcS/psGe
-	BrVY5ZZbi3cr+Qqmf9UY+Iw1TS0iTbM=
-X-Google-Smtp-Source: AA0mqf7TrrO5qO8UEMruy0lLvVvs89a+e0fpyHzMf49VitLsD3xaa2XfiCMmZH1qvdbAdiXtcPgq3w==
-X-Received: by 2002:a17:906:7f92:b0:78d:4e5b:ffaa with SMTP id f18-20020a1709067f9200b0078d4e5bffaamr1543570ejr.455.1668168992489;
-        Fri, 11 Nov 2022 04:16:32 -0800 (PST)
+        bh=/pVLAB/Pd5QXofVCwvis0owWr4Z20Z3Cx+HbWeAhG3c=;
+        b=UAVmM1/KGod2ZBlqhgQw64PnuxLey2DgC8You13L+NMRq3IZXUrprdAUgijUdEvgc8
+         RKLmCZS6JBjwTEddsu8kdbnZDBNrVqhw9tQGxBSqsPQPtHGPud2b9sXfeLaGfLoxfepv
+         DMizivOeYsrn7ru7Fws5nKIq1Gn6pn+sBgcgK9qSJYrqyjru1vlIbC46m5xt7NKWk8HF
+         YhQc0dalNDuwhaxO0ysT9AdLDrw3Mwilp2oloB7K8a7WDzFc8SIWbvm7TkWJTqzoLuGp
+         N5lwVm6CTqqmystHXvApsUECYLg1K8M4bl8m5dICE9Ry0GkXzvViEnRtm3bf8StDvD3D
+         GOsA==
+X-Gm-Message-State: ANoB5pk5vHJ7txd/MjnPowp29Mzi57rLcC+kArT0UFYdstrTBtXz/U3K
+	v8gtvgY0rWvECCJaiNRbIw8ql/FJsn4=
+X-Google-Smtp-Source: AA0mqf6QJaU2lC8vLSJdg8g8sQkGS2jDYdkx8CRMsVzp4rCDlRjknz80tQbHMbnUGJXVHtrCJuTQfQ==
+X-Received: by 2002:a17:906:4dc2:b0:7ae:50c6:fd0a with SMTP id f2-20020a1709064dc200b007ae50c6fd0amr1759268ejw.184.1668172060961;
+        Fri, 11 Nov 2022 05:07:40 -0800 (PST)
 Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net. [91.135.6.246])
-        by smtp.gmail.com with ESMTPSA id e25-20020a170906315900b007adbd01c566sm815921eje.146.2022.11.11.04.16.31
+        by smtp.gmail.com with ESMTPSA id et19-20020a170907295300b007ad2da5668csm858676ejc.112.2022.11.11.05.07.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Nov 2022 04:16:32 -0800 (PST)
+        Fri, 11 Nov 2022 05:07:40 -0800 (PST)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alexk@zuma.ai>
-Subject: [OE-Core][dunfell][PATCH] openssl: upgrade 1.1.1q to 1.1.1s
-Date: Fri, 11 Nov 2022 12:15:59 +0000
-Message-Id: <20221111121558.26518-1-alex.kiernan@gmail.com>
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [OE-Core][dunfell][PATCH v2] openssl: upgrade 1.1.1q to 1.1.1s
+Date: Fri, 11 Nov 2022 13:06:32 +0000
+Message-Id: <20221111130631.26829-1-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Nov 2022 12:16:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173126
-
-From: Alex Kiernan <alexk@zuma.ai>
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Nov 2022 13:07:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173127
 
 Major changes between OpenSSL 1.1.1r and OpenSSL 1.1.1s [1 Nov 2022]
 * Fixed a regression introduced in OpenSSL 1.1.1r not refreshing the
@@ -69,7 +67,12 @@ Major changes between OpenSSL 1.1.1r and OpenSSL 1.1.1s [1 Nov 2022]
 Major changes between OpenSSL 1.1.1q and OpenSSL 1.1.1r [11 Oct 2022]
 * Added a missing header for memcmp that caused compilation failure on
   some platforms
+
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
+
+Add missing Signed-off-by.
+
  .../openssl/{openssl_1.1.1q.bb => openssl_1.1.1s.bb}            | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
  rename meta/recipes-connectivity/openssl/{openssl_1.1.1q.bb => openssl_1.1.1s.bb} (98%)
