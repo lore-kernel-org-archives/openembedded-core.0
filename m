@@ -1,136 +1,88 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <jorcrous@amazon.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A75E2C433FE
-	for <webhook@archiver.kernel.org>; Fri, 11 Nov 2022 18:13:45 +0000 (UTC)
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
- by mx.groups.io with SMTP id smtpd.web08.106.1668190421890213925
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B65FEC4332F
+	for <webhook@archiver.kernel.org>; Fri, 11 Nov 2022 21:47:26 +0000 (UTC)
+Received: from smtp-fw-6002.amazon.com (smtp-fw-6002.amazon.com [52.95.49.90])
+ by mx.groups.io with SMTP id smtpd.web10.2502.1668203238997480204
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Nov 2022 10:13:42 -0800
+ Fri, 11 Nov 2022 13:47:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Hx51dtdZ;
- spf=pass (domain: gmail.com, ip: 209.85.166.41, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f41.google.com with SMTP id z3so4113384iof.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Nov 2022 10:13:41 -0800 (PST)
+ dkim=pass header.i=@amazon.com header.s=amazon201209 header.b=JGJfMko7;
+ spf=pass (domain: amazon.com, ip: 52.95.49.90, mailfrom: prvs=3074a5097=jorcrous@amazon.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2RSfdDaJL2TS2cHwzxuun4nqtMDIMSnzxV/TYRtzINI=;
-        b=Hx51dtdZysk4z3kFZT8SR9RjCiAx+d1KzO46v58/p7NDad8AHM8R8mo9mRltkCPk4s
-         nD213MoRDX3u/reweeWaEg6anc3okAzpu56bN/TipEDL6Gy13eMJkg6NmKEwakoINI/L
-         22c82Z99sa93k9KDRd64GhPjz31G8dRgQ7IyJ5/wfHVZhZZHK4KSdeEorREm1hj1+aWJ
-         Zv8rVGusBjtfUVSwQVXMzFULhu7e2GX4FFpR4P9HkTJU93L37xV134RUgr/C7tI7brsv
-         wA2qtpGSipvD/NiQiPZGbQPiWupSDG3/Jz15RMFJDt6nzNg1IS43tTqRKHsYAEDOLgSp
-         N18g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2RSfdDaJL2TS2cHwzxuun4nqtMDIMSnzxV/TYRtzINI=;
-        b=vSFOzv+nipTmIJNrnCDFQ0LrFbg5645iA5trzmuk5/JYFIPE8uZ1PWG3h0yofnROkw
-         4YBKDTojcx2TrKq/yfel8+uN9MqC8fM9PRDrKEMTmNjpPO21USEQpAQ7HWvrC4K2DMGE
-         w8iyqMrGNd+zLEDQrDWr21V0tMFE/Rb4JS3pNL9Vqoht/AvZHnUNo3FTToBJkm4DBUeo
-         Ds/fRTs9FCRYuBghM4E51/ehQkl+ENv78eGccT9l5E69K8q9e8hEJ64bwotwPXI7WwrD
-         uV5j6QQ5jYfn7NHf79D6Fi+GuqTMKJeOQWRjnKiUMUujmTCasdLP3upO+l492n4iP4Zg
-         vkJQ==
-X-Gm-Message-State: ANoB5pkchRUb0qwD7XahB8IAaRbpHE9evNsydP5T0MJD8AqqdA7G0LXu
-	rHcj2Po6bQ6nSgv/Qbg3IA3mlGTxMu1WbOe6fKw=
-X-Google-Smtp-Source: AA0mqf44u0PCgQ30wqsCo937/RT5MyIr0M839/ij/2d3aYJ9kTwvhxxqSjH/s7yi7yX5XHFrmLGAGrGWsDxBt2Qkizo=
-X-Received: by 2002:a05:6638:1b07:b0:372:f7ed:9f78 with SMTP id
- cb7-20020a0566381b0700b00372f7ed9f78mr1307106jab.245.1668190420891; Fri, 11
- Nov 2022 10:13:40 -0800 (PST)
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1668203239; x=1699739239;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=MY3mRBg1qBFaTOGqMe4nkAqp/QcZfwS3LU8y2hDMIWk=;
+  b=JGJfMko7aMLI1FuBstn6sxcVzCya+hr2BfEKLG1m7D7kfcmAq2HoY4O+
+   f5IBS0kkdtwWDRoPlwc9m8lQIqMGxif5XPWXscqbfY5FRwneatZyz2i8k
+   2TIk1bfIaL98AnCN1ehWd3o556vfsPkTO+NuB4dmN3I2V0M1iT0D6ANlo
+   w=;
+X-IronPort-AV: E=Sophos;i="5.96,157,1665446400"; 
+   d="scan'208";a="265896098"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-iad-1e-m6i4x-0aba4706.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-6002.iad6.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2022 21:47:18 +0000
+Received: from EX13MTAUWB001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
+	by email-inbound-relay-iad-1e-m6i4x-0aba4706.us-east-1.amazon.com (Postfix) with ESMTPS id 7CCE6A1032;
+	Fri, 11 Nov 2022 21:47:17 +0000 (UTC)
+Received: from EX19D047UWB002.ant.amazon.com (10.13.138.34) by
+ EX13MTAUWB001.ant.amazon.com (10.43.161.249) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.42; Fri, 11 Nov 2022 21:47:16 +0000
+Received: from dev-dsk-jorcrous-2c-c78924fd.us-west-2.amazon.com
+ (10.43.161.14) by EX19D047UWB002.ant.amazon.com (10.13.138.34) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
+ 15.2.1118.20; Fri, 11 Nov 2022 21:47:16 +0000
+From: Jordan Crouse <jorcrous@amazon.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Khem Raj <raj.khem@gmail.com>, Alexander Kanavin <alex.kanavin@gmail.com>,
+	Jordan Crouse <jorcrous@amazon.com>
+Subject: [PATCH v2 0/3] Add vulkan validation and improvements for headless devices
+Date: Fri, 11 Nov 2022 21:47:11 +0000
+Message-ID: <20221111214714.9939-1-jorcrous@amazon.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-References: <1667435031-7224-1-git-send-email-paul.eggleton@linux.microsoft.com>
- <7a3e2fb0a5f0e71581fa4c2da529454bd2eb27ad.camel@linuxfoundation.org>
- <3386323.QJadu78ljV@linc> <7d37134e-3239-f6dd-fe35-4ac5f7d519be@prevas.dk> <1945179b38c4a062ccf90f0b275755625ec9a6f6.camel@linuxfoundation.org>
-In-Reply-To: <1945179b38c4a062ccf90f0b275755625ec9a6f6.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 11 Nov 2022 13:13:29 -0500
-Message-ID: <CADkTA4NAn_2s9FvwGAZfCnMW2ogeC5XkRyZN9u9_5qjwiBGBtw@mail.gmail.com>
-Subject: Re: [OE-core] [RFC] [PATCH] Allow fitimage + initramfs rebuild to be accelerated
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: rasmus.villemoes@prevas.dk, openembedded-core@lists.openembedded.org, 
-	paul.eggleton@linux.microsoft.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.43.161.14]
+X-ClientProxiedBy: EX13D15UWB001.ant.amazon.com (10.43.161.254) To
+ EX19D047UWB002.ant.amazon.com (10.13.138.34)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Nov 2022 18:13:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173140
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Nov 2022 21:47:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173141
 
-On Fri, Nov 11, 2022 at 8:36 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2022-11-11 at 14:25 +0100, Rasmus Villemoes via
-> lists.openembedded.org wrote:
-> > On 10/11/2022 21.32, Paul Eggleton via lists.openembedded.org wrote:
-> > > Hi Richard
-> > >
-> > > On Thursday, 10 November 2022 11:14:24 NZDT Richard Purdie wrote:
-> >
-> > > > Adding in yet further if/else paths with magic variables to control
-> > > > them isn't filling me with confidence.
-> > >
-> > > I understand that. I was hoping to figure out a way to avoid adding significant
-> > > extra complexity.
-> > >
-> >
-> > FWIW, we've long since given up on using kernel-fitimage.bbclass, it is
-> > way to inflexible (e.g. there's no way to build two FIT images with the
-> > same kernel but different initramfs).
-> >
-> > It is much simpler to just have a separate small kernel-fit.bb recipe
-> > which pulls vmlinux or Image or whatnot, plus the .dtbs, from
-> > DEPLOY_DIR_IMAGE along with the initramfs images, provide our own .its
-> > file(s), and build the FIT image(s) there. That automatically avoids
-> > rebuilding the kernel when only something in initramfs has changed.
-> >
-> > Building the kernel and packaging the binary into some container format
-> > really doesn't need to be done in the same recipe.
->
-> I'm open to the idea of changing it to do that as that is how I'd
-> prefer it worked. I don't use it or know much about the needs people
-> have so I end up guided by others though...
+This small patchset has a few small fixes and a new recipe for the official
+Vulkan validation layers from Khronos.
 
-I'm of a like mind.
+The first patch addresses a bug in the exported cmake packages from
+spriv-tools to make sure that the library path is correctly set.  The
+second patch enables vulkan-loader for "headless" devices that don't have
+either X11 nor Wayland.  The third patch adds the vulkan-validation for the
+same version level as the Vulkan headers and other packages.
 
-We've been wanting to re-work and clean up a LOT of the kernel classes
-for quite some time, but with all of the different workflows (and lack of tests)
-it is hard to get it right, and not break someone's case.
+Changes in v2:
+- Don't change PR per Khem Raj
+- Put DEPENDS all on one line
+- Remove unused OEMAKE flags
+- Force /usr/lib/*.so into ${PN} and remove INSANE_SKIP
 
-I've been working through Paul's suggested patch, and I agree that it
-does try to minimize the copying of the kernel build artifacts, but the
-complication to the class and build is inevitable.
+Jordan Crouse (3):
+  spirv-tools: Correctly set the prefix in exported cmake packages
+  vulkan-loader: Allow headless targets to build the loader
+  vulkan-validation: Add the official Vulkan validation layers
 
-I've also done multiple packaging and wrapping of boot artifacts outside
-of a single recipe, to avoid both complexity and extra building.
-
-I'm wondering if your classes are something you can cleanup and share ?
-That would help the discussion as we could talk about some tangible
-new approaches.
-
-Bruce
-
->
-> Cheers,
->
-> Richard
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#173129): https://lists.openembedded.org/g/openembedded-core/message/173129
-> Mute This Topic: https://lists.openembedded.org/mt/94747626/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
-
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ .../spir/spirv-tools_1.3.231.1.bb             |  5 ++-
+ .../vulkan/vulkan-loader_1.3.231.1.bb         |  2 -
+ .../vulkan/vulkan-validation_1.3.231.1.bb     | 39 +++++++++++++++++++
+ 4 files changed, 43 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-graphics/vulkan/vulkan-validation_1.3.231.1.bb
 
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.37.1
+
 
