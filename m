@@ -1,115 +1,81 @@
-Return-Path: <vince@underview.tech>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED859C433FE
-	for <webhook@archiver.kernel.org>; Fri, 11 Nov 2022 07:34:11 +0000 (UTC)
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
- by mx.groups.io with SMTP id smtpd.web08.3014.1668152050379091686
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39BBBC4332F
+	for <webhook@archiver.kernel.org>; Fri, 11 Nov 2022 08:03:22 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web12.3214.1668153796770906332
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Nov 2022 23:34:10 -0800
+ Fri, 11 Nov 2022 00:03:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=LTTtRIzl;
- spf=pass (domain: underview.tech, ip: 209.85.167.171, mailfrom: vince@underview.tech)
-Received: by mail-oi1-f171.google.com with SMTP id t62so4187334oib.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Nov 2022 23:34:10 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Fbgi4vxD;
+ spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f177.google.com with SMTP id u11so3684490ljk.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Nov 2022 00:03:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TNAUBsvyQPVBJr7yi3KaHwy8T+F7l7QijtcWm61wegY=;
-        b=LTTtRIzl4fv74CqUlrzj48DvN0Nik8RvKCUJWhgFwX7bgtQRdtuNp6FALWKu/Xw/Zu
-         u0GdI9lshNNaoDXECcKsMnv3ERR/NQlsGQPjOqpOGrLriDzntijZVBfVS2CNgwToQCc3
-         pnaLiqcfGD93oPAAE1+F5R7hM5jaG4aESQibfC+V2ZGmfa59cRcUqVJUBNVlx6wsuF4m
-         QHOjQ34IbvF5fB8X60NbLSyea4koOPoiFclJyUZ3PWqpwHmIDomeMFQX00NKriL9lPSZ
-         om5BuKUnacNsEIs2BdRgxXPvpYDAWBslOc2ObGchHBzobVTCCpMpmZ1MBm0jqeQK87N4
-         6/sA==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZKIeSTb+4X/zxp+GzTDh0i/fGXNxo+WBIkm6Zg1LP+Y=;
+        b=Fbgi4vxDa6nA0K59ublG5tOvYWfT//Fwq9xA570P6GGREkArTc9+Gfvq1nj7myZDj1
+         SPBpk9fTcmZD3LyyPjvkwWyNy6RoHllTlGiyPFSOUIblQtpC+IhrENIqk7GxjB32sfVj
+         NCcGI9RJanV7Tp/eCylbJlPrvMJ66y4RX06qmkEiY1PHAoWLAFPigUfJtyVmYO+M0JXR
+         Uhdzc8J++H3e+slOBpFTNvqIXMzZ8ROzCxxcAax7X4s0qnU7j5q1CofQwwwAZB//UTpH
+         LsUueS3nwUOeo8PBxiUCtew2e3qyPSkPB8AcXTxoG0lCB/vQTgUxnjy91Z0PHOLqHIt9
+         gmJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TNAUBsvyQPVBJr7yi3KaHwy8T+F7l7QijtcWm61wegY=;
-        b=zuQpKN4+YuwnfKAcWpnya8mLkfRo9c80vdEja7gPxvIeGBX3KLFv0KImi33xQ2A7Cr
-         nhXJRr4Wk4GbrTHKn3wk2pUveqofuzwNwyLN5vTzWsj6BlG0bhoCDdZxI48oLpqEj/KT
-         R7fALk9+T9QVWjcCMvEKa9adTG6O9WXeN5pnix7/EneIrXrr25o1AdpN+29E/UJpN0Fa
-         cobK3AzICcSsF8RVu7HCBsNGftnN2+wqOin7xSZEvwQzBT567hQlnhYhCGDCZ/YAiSad
-         7x/ThVTINOkjpLqU1LuZiYXuqICEac1wjxb6moo6Q1nCcf337cOcBpWTbmFgCzFN2EU/
-         pDBA==
-X-Gm-Message-State: ANoB5pnOAYoAJ/A+MOo2zgFYYBTfaOWSjhsPRqe5I81f1f6yYc69PHM/
-	ixDu+jDYSc+OdTo5Gtyk8nCJfYNneO9qmQOD1LY=
-X-Google-Smtp-Source: AA0mqf7evctb/0VsO5cpyK2tzdbrBTmqaFP535OX8wmwItaMcowKz066TOvvytBsArfJ9F3l1hAVjw==
-X-Received: by 2002:a05:6808:1119:b0:359:fe66:d49a with SMTP id e25-20020a056808111900b00359fe66d49amr208367oih.209.1668152049347;
-        Thu, 10 Nov 2022 23:34:09 -0800 (PST)
-Received: from vince-ubuntu.attlocal.net (99-113-4-128.lightspeed.hstntx.sbcglobal.net. [99.113.4.128])
-        by smtp.gmail.com with ESMTPSA id v4-20020a9d6044000000b00661a05691fasm690696otj.79.2022.11.10.23.34.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Nov 2022 23:34:08 -0800 (PST)
-From: Vincent Davis Jr <vince@underview.tech>
-To: openembedded-core@lists.openembedded.org
-Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH] mesa: update llvm-config RPATH
-Date: Fri, 11 Nov 2022 01:32:44 -0600
-Message-Id: <20221111073244.1014136-1-vince@underview.tech>
-X-Mailer: git-send-email 2.34.1
+        bh=ZKIeSTb+4X/zxp+GzTDh0i/fGXNxo+WBIkm6Zg1LP+Y=;
+        b=CmEVVt2FcyvXBn7G8ZfAZ17Nrwd5ehYFeUA2PmQAsysBEqeewd0RyVEXCV/q3INMq2
+         asYARQYDtuhSAo35nZS920Jrb342NUedJSwYDJ20dvMKL19ed/kBFjyDREhNZzx3p+5t
+         ralawe1y6+k+OJBNJL9jdkpOC2Gh5v9k2JHqhkx767b0YQsonNU2TjrRajMXsffR4z4h
+         YfRMLN7IbxCB5EZw2pFH3L78CiVG1wCD6bXfpCHQ0jsrTD6PbAUWHRV2ruxd/tp2cZ8Y
+         IpRqznnokLDFK7XmpGPwtcwUkQ9SCX4bSrNPSpYNS7NAmFRYf8fIb3o9iEmoiKJcAQ3h
+         9OXQ==
+X-Gm-Message-State: ANoB5pkykovMSpYT2tzwxHMHxNQnv2h9GOv6AdvyInUQ0+ryTsU+k1QA
+	hQ1M6Z5u1HZTxrHDgUo3Ii7DQ+Vj/c+pcLwhQY0=
+X-Google-Smtp-Source: AA0mqf5u0QuwOvweksxYYcB5+nQbcS/RsacorSuvZN1ybe9I+NK47pt6gNOercwdhu7pUujb6toRaSNrVVUDKvr4cgI=
+X-Received: by 2002:a2e:a5c7:0:b0:277:8759:bf65 with SMTP id
+ n7-20020a2ea5c7000000b002778759bf65mr265504ljp.108.1668153794344; Fri, 11 Nov
+ 2022 00:03:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221110204232.12768-1-jorcrous@amazon.com> <20221110204232.12768-4-jorcrous@amazon.com>
+ <CANNYZj8Q4yDjr-=-u4VCMYf8khBDUmwu9+c7qKezqKSx-9grZA@mail.gmail.com> <20221110213024.ob3bvz4g2hsixmu3@amazon.com>
+In-Reply-To: <20221110213024.ob3bvz4g2hsixmu3@amazon.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 11 Nov 2022 09:03:02 +0100
+Message-ID: <CANNYZj8v2Ps2GTJv_4hhGr09VjPWO2LwHPOFUcncenX8SfCY8g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/3] vulkan-validation: Add the official Vulkan
+ validation layers
+To: Jordan Crouse <jorcrous@amazon.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Nov 2022 07:34:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173117
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Nov 2022 08:03:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173118
 
-RPATH on the llvm-config binary is set wrong which leads to.
+On Thu, 10 Nov 2022 at 22:30, Jordan Crouse <jorcrous@amazon.com> wrote:
+> ERROR: vulkan-validation-1.3.231.1-r0 do_package_qa: QA Issue: -dev package vulkan-validation-dev contains non-symlink .so '/usr/lib/libVkLayer_khronos_validation.so' [dev-elf]
+>
+> I borrowed the QA inhibit from vulkan-loader (since they are built
+> mostly the same) but if there is a different path forward, that would be
+> great.
 
-llvm-config: error while loading shared libraries: libtinfo.so.5:
-cannot open shared object file: No such file or directory
+Thanks. I am not seeing QA inhibits or any special handling in the
+current vulkan-loader:
+https://git.yoctoproject.org/poky/tree/meta/recipes-graphics/vulkan/vulkan-loader_1.3.231.1.bb?h=master-next
 
-AND
+Can you find out why the /usr/lib/libVkLayer_khronos_validation.so is
+built unversioned and where in the source tree that decision is made?
 
-File "/../../../mesa/<version>/recipe-sysroot-native/usr/lib/python3.11/re/__init__.py", line 223, in finditer
-  return _compile(pattern, flags).finditer(string)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: expected string or bytes-like object, got 'NoneType'
+We generally require that everything in $libdir is versioned, and .so
+is a development symlink to versioned originals.
 
-Which in turn leads to meson configure failures as the llvm
-version number isn't properly returned.
-
-The libtinfo.so.5 library can be found in STAGING_BASELIBDIR
-update rpath on llvm-config to STAGING_BASELIBDIR. So, that
-meson configure succeeds.
-
-Signed-off-by: Vincent Davis Jr <vince@underview.tech>
----
- meta/recipes-graphics/mesa/mesa.inc | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 7dbca5876a..77f9a5c81d 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -64,6 +64,11 @@ do_configure:prepend () {
- 	if [ -e ${STAGING_BINDIR_NATIVE}/llvm-config${MESA_LLVM_RELEASE} ]; then
- 		cp ${STAGING_BINDIR_NATIVE}/llvm-config${MESA_LLVM_RELEASE} ${STAGING_BINDIR}
- 		cp ${STAGING_BINDIR_NATIVE}/llvm-config ${STAGING_BINDIR}
-+
-+		# RPATH on the llvm-config binary is set wrong which leads to
-+		# llvm-config: error while loading shared libraries: libtinfo.so.5: cannot open shared object file: No such file or directory
-+		# Which in turn leads to meson configure failures as the llvm-config version number isn't properly returned
-+		chrpath --replace ${STAGING_BASELIBDIR} ${STAGING_BINDIR}/llvm-config
- 	fi
- }
- 
-@@ -227,7 +232,7 @@ do_install:append () {
-     rm -f ${D}${libdir}/gallium-pipe/*.la
-     rm -f ${D}${libdir}/gbm/*.la
- 
--    # it was packaged in libdricore9.1.3-1 and preventing upgrades when debian.bbclass was used 
-+    # it was packaged in libdricore9.1.3-1 and preventing upgrades when debian.bbclass was used
-     chrpath --delete ${D}${libdir}/dri/*_dri.so || true
- 
-     # libwayland-egl has been moved to wayland 1.15+
--- 
-2.34.1
-
+Alex
 
