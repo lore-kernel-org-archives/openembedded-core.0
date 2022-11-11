@@ -1,136 +1,212 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 044E1C433FE
-	for <webhook@archiver.kernel.org>; Fri, 11 Nov 2022 14:35:04 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web08.6077.1668177296138542847
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16C60C433FE
+	for <webhook@archiver.kernel.org>; Fri, 11 Nov 2022 14:56:04 +0000 (UTC)
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+ by mx.groups.io with SMTP id smtpd.web11.6441.1668178561802755936
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Nov 2022 06:34:56 -0800
+ Fri, 11 Nov 2022 06:56:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=fHAw/uyI;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.52, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f52.google.com with SMTP id m22so12922553eji.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Nov 2022 06:34:55 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=dTCcorH1;
+ spf=pass (domain: gmail.com, ip: 209.85.160.41, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-13bd19c3b68so5655576fac.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Nov 2022 06:56:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kAji9rA1JEMkiDI8broKz8guNvJVFwt9LqFJAvwcP4k=;
-        b=fHAw/uyINKpJdk4CD8/wMWN47M33qQREcuwDaHv48OQ6z+r9GSk9ElgdPN1Q/f0Pwr
-         WpakneOvB4vVhmbjAl/BsGEw/IKZGwFppXKjG6CDZajofD4lqsveBsiHWcRA6Dvi74qt
-         ROZDYg6j9hddU5Y630EDgVXyS1N4XeypVLf3NvR1Ylb3i3ahMM7OonYCruHKMCgzdU8D
-         4tfLP0i3uAWbk+WVPpqEgCfu9k24efBYQm18+k7d9ZY5n8K663yyJTfLfbYM5zPV1xxc
-         NOVikNH8zMwEfj1hAumboaN/kFJUKlq3OPnE/9zHWMSE7JUoNwIv0KUQd8smDCNDYT+F
-         0wIw==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=o/0Q9Dt5pQR8r9K5LhFDhmfsWoeotQAVdZ8kA/avcMs=;
+        b=dTCcorH14i0F3fNyKr1IxsDDBZ9TwZUBvRhUfNAHUsZWa2JNNZ3/hvQ0D5dkXXtUOY
+         sZxbvRvPItFC4NDEGLjcLxwbdF2k/Ow23D6dWXqQt6bzf5k9djQh/b24AymB1xHqCwsO
+         HNnP5elHwizKQx1HvbEZ9csU+8d9SGVks0pVVL08rCd+XfGtLoozzUkYMmAbxEB21J/Z
+         QG1gIDn6XY3oBtjg6KsNkTgX0+Cx/Bx9Mygazw3Oz5kDHrroJcfema0Ez5PdvnHsEQ38
+         cKnboEk1WzsEBFHc2ozhyuH5k7KAQiiFVLvGNpKY7nii/L6fnkO1gMeh67rPj4wh4Bjj
+         UiEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kAji9rA1JEMkiDI8broKz8guNvJVFwt9LqFJAvwcP4k=;
-        b=PYnz8sXigIFIkw5YHYtKy7UX9uwbLLXGJa/CnQPOPMAlQe6dHVPJOMtb+DsKx7h5sY
-         WUb72UQfZ/OQ78iW9k5izcGRNeSp8fy+0J3y27CoayEgEzaCIfVZbkk65uxVhFg16LXi
-         /fZpRBUIAhsQq6jWMrQBtLPkUx5/3lK3AGCaqTJRT4qdi+j0FHgpmofIidg/O/zYg0ov
-         PJ/Oj4x4Jq+ihY1Jl7DdEhMLiJI2GL/Kx977B3b0QLjeycB+mZTBCWlzNWRGQyNvHjdP
-         qbMOYoKQFnp8MhITq8UbKzeQnz+OCoSRZ2XcLYlIGQFo65UefUOuu7BEWTproG9VSiqq
-         qYIQ==
-X-Gm-Message-State: ANoB5pl3+X/iTyeBqMr2ijj/9nqoP8XemVez/ww4HFrpmfQ2eOlg6kJ1
-	yZw0J8yIYrqP7XHOTnpM49Gbm7rdriFGMx2GY5163VG1Bvhy1g==
-X-Google-Smtp-Source: AA0mqf56arsRILzYOodb5KRolN6jX9lxmKqRt6mhEimnFbK4u6n2vW/PaVDsWytNEV9KXl67n1C0Azdp9uctrIaZMQw=
-X-Received: by 2002:a17:906:a0d0:b0:7ac:2e16:a8d2 with SMTP id
- bh16-20020a170906a0d000b007ac2e16a8d2mr1956257ejb.584.1668177294124; Fri, 11
- Nov 2022 06:34:54 -0800 (PST)
+        bh=o/0Q9Dt5pQR8r9K5LhFDhmfsWoeotQAVdZ8kA/avcMs=;
+        b=E1wYcBChP0zp4k2tCpBjT8ns3NBqZW/MPHU+UEfnv2chsGm9sOi0LFTZgtHNzq5fVf
+         SkDbWhp1GaWnrFyfngQsZ/gyMgjOOnOD6y/6c5UzsWOcCCD9aZM9D5URWEDdZBJLs/TJ
+         CiPGFA6q6cNwqDuTTZ2cVkgSr1C/qto5bEPvJfKrJDgp9hdqZJr56au3hAbQhcvMHA3q
+         Rkt+yn7OO4QZetuxiY76NxHxkHzENpH/IV2MJU8Ch2QSfoxhRX0QoEMT+wKQa8trGyOb
+         R0BL5/20AmciSGFDI/jWLu+nAk1Z9GQqcGqds8N90MebXkEOJE238WkctO98lB17/KeL
+         eZeQ==
+X-Gm-Message-State: ANoB5pl9tCu1JO+H2TjJNr4WmnN0AhayHfVrCRwXYJiEt56V6KsUIKbz
+	d0VNehLKQiscTE+Npxw2SVodD063kEY=
+X-Google-Smtp-Source: AA0mqf6V5b4x39bbumbfR+Myq6UqrRm5AIs+I2BkMDO+ZGX9hvQ6TLKP4dLc6aeetRIlOOSheJxPHQ==
+X-Received: by 2002:a05:6870:3c88:b0:13b:a9ac:ad64 with SMTP id gl8-20020a0568703c8800b0013ba9acad64mr1046574oab.290.1668178560598;
+        Fri, 11 Nov 2022 06:56:00 -0800 (PST)
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+        by smtp.gmail.com with ESMTPSA id v4-20020acade04000000b00359ba124b07sm903373oig.36.2022.11.11.06.55.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Nov 2022 06:55:59 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] scripts: convert-overrides: Allow command-line customizations
+Date: Fri, 11 Nov 2022 08:55:51 -0600
+Message-Id: <20221111145551.1115391-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: <20221109011421.1257186-1-xiangyu.chen@eng.windriver.com>
-In-Reply-To: <20221109011421.1257186-1-xiangyu.chen@eng.windriver.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 11 Nov 2022 04:34:42 -1000
-Message-ID: <CAOSpxdZBZdKoE-vZaz4fZoSz03ToKn-AQcEGF1G6rLgVAPF5YQ@mail.gmail.com>
-Subject: Re: [OE-Core][kirkstone][PATCH] lttng-tools: Upgrade 2.13.4 -> 2.13.8
-To: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Nov 2022 14:35:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173132
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Nov 2022 14:56:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173133
 
-Master branch is currently at 2.13.7, so you will need to submit the
-version bump to 2.13.8 for master first.  I will then cherry-pick the
-version bumps to langdale and kirkstone.
+Adds argument parsing to the conversion script so that the fields that
+the script uses to do conversions can be customized on the command line.
+The intention is to allows easier customization without having to fork
+the script, and allow automated checking on 3rd party layers via CI
+without false positives
 
-Thanks!
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ scripts/contrib/convert-overrides.py | 103 +++++++++++++++------------
+ 1 file changed, 57 insertions(+), 46 deletions(-)
 
-Steve
+diff --git a/scripts/contrib/convert-overrides.py b/scripts/contrib/convert-overrides.py
+index 4d41a4c4759..1939757f1bc 100755
+--- a/scripts/contrib/convert-overrides.py
++++ b/scripts/contrib/convert-overrides.py
+@@ -22,50 +22,62 @@ import sys
+ import tempfile
+ import shutil
+ import mimetypes
++import argparse
+ 
+-if len(sys.argv) < 2:
+-    print("Please specify a directory to run the conversion script against.")
+-    sys.exit(1)
++parser = argparse.ArgumentParser(description="Convert override syntax")
++parser.add_argument("--override", "-o", action="append", default=[], help="Add additional strings to consider as an override (e.g. custom machines/distros")
++parser.add_argument("--skip", "-s", action="append", default=[], help="Add additional string to skip and not consider an override")
++parser.add_argument("--skip-ext", "-e", action="append", default=[], help="Additional file suffixes to skip when processing (e.g. '.foo')")
++parser.add_argument("--package-vars", action="append", default=[], help="Additional variables to treat as package variables")
++parser.add_argument("--image-vars", action="append", default=[], help="Additional variables to treat as image variables")
++parser.add_argument("--short-override", action="append", default=[], help="Additional strings to treat as short overrides")
++parser.add_argument("path", nargs="+", help="Paths to convert")
++
++args = parser.parse_args()
+ 
+ # List of strings to treat as overrides
+-vars = ["append", "prepend", "remove"]
+-vars = vars + ["qemuarm", "qemux86", "qemumips", "qemuppc", "qemuriscv", "qemuall"]
+-vars = vars + ["genericx86", "edgerouter", "beaglebone-yocto"]
+-vars = vars + ["armeb", "arm", "armv5", "armv6", "armv4", "powerpc64", "aarch64", "riscv32", "riscv64", "x86", "mips64", "powerpc"]
+-vars = vars + ["mipsarch", "x86-x32", "mips16e", "microblaze", "e5500-64b", "mipsisa32", "mipsisa64"]
+-vars = vars + ["class-native", "class-target", "class-cross-canadian", "class-cross", "class-devupstream"]
+-vars = vars + ["tune-",  "pn-", "forcevariable"]
+-vars = vars + ["libc-musl", "libc-glibc", "libc-newlib","libc-baremetal"]
+-vars = vars + ["task-configure", "task-compile", "task-install", "task-clean", "task-image-qa", "task-rm_work", "task-image-complete", "task-populate-sdk"]
+-vars = vars + ["toolchain-clang", "mydistro", "nios2", "sdkmingw32", "overrideone", "overridetwo"]
+-vars = vars + ["linux-gnux32", "linux-muslx32", "linux-gnun32", "mingw32", "poky", "darwin", "linuxstdbase"]
+-vars = vars + ["linux-gnueabi", "eabi"]
+-vars = vars + ["virtclass-multilib", "virtclass-mcextend"]
++vars = args.override
++vars += ["append", "prepend", "remove"]
++vars += ["qemuarm", "qemux86", "qemumips", "qemuppc", "qemuriscv", "qemuall"]
++vars += ["genericx86", "edgerouter", "beaglebone-yocto"]
++vars += ["armeb", "arm", "armv5", "armv6", "armv4", "powerpc64", "aarch64", "riscv32", "riscv64", "x86", "mips64", "powerpc"]
++vars += ["mipsarch", "x86-x32", "mips16e", "microblaze", "e5500-64b", "mipsisa32", "mipsisa64"]
++vars += ["class-native", "class-target", "class-cross-canadian", "class-cross", "class-devupstream"]
++vars += ["tune-",  "pn-", "forcevariable"]
++vars += ["libc-musl", "libc-glibc", "libc-newlib","libc-baremetal"]
++vars += ["task-configure", "task-compile", "task-install", "task-clean", "task-image-qa", "task-rm_work", "task-image-complete", "task-populate-sdk"]
++vars += ["toolchain-clang", "mydistro", "nios2", "sdkmingw32", "overrideone", "overridetwo"]
++vars += ["linux-gnux32", "linux-muslx32", "linux-gnun32", "mingw32", "poky", "darwin", "linuxstdbase"]
++vars += ["linux-gnueabi", "eabi"]
++vars += ["virtclass-multilib", "virtclass-mcextend"]
+ 
+ # List of strings to treat as overrides but only with whitespace following or another override (more restricted matching).
+ # Handles issues with arc matching arch.
+-shortvars = ["arc", "mips", "mipsel", "sh4"]
++shortvars = ["arc", "mips", "mipsel", "sh4"] + args.short_override
+ 
+ # Variables which take packagenames as an override
+ packagevars = ["FILES", "RDEPENDS", "RRECOMMENDS", "SUMMARY", "DESCRIPTION", "RSUGGESTS", "RPROVIDES", "RCONFLICTS", "PKG", "ALLOW_EMPTY",
+               "pkg_postrm", "pkg_postinst_ontarget", "pkg_postinst", "INITSCRIPT_NAME", "INITSCRIPT_PARAMS", "DEBIAN_NOAUTONAME", "ALTERNATIVE",
+               "PKGE", "PKGV", "PKGR", "USERADD_PARAM", "GROUPADD_PARAM", "CONFFILES", "SYSTEMD_SERVICE", "LICENSE", "SECTION", "pkg_preinst",
+               "pkg_prerm", "RREPLACES", "GROUPMEMS_PARAM", "SYSTEMD_AUTO_ENABLE", "SKIP_FILEDEPS", "PRIVATE_LIBS", "PACKAGE_ADD_METADATA",
+-              "INSANE_SKIP", "DEBIANNAME", "SYSTEMD_SERVICE_ESCAPED"]
++              "INSANE_SKIP", "DEBIANNAME", "SYSTEMD_SERVICE_ESCAPED"] + args.package_vars
+ 
+ # Expressions to skip if encountered, these are not overrides
+-skips = ["parser_append", "recipe_to_append", "extra_append", "to_remove", "show_appends", "applied_appends", "file_appends", "handle_remove"]
+-skips = skips + ["expanded_removes", "color_remove", "test_remove", "empty_remove", "toaster_prepend", "num_removed", "licfiles_append", "_write_append"]
+-skips = skips + ["no_report_remove", "test_prepend", "test_append", "multiple_append", "test_remove", "shallow_remove", "do_remove_layer", "first_append"]
+-skips = skips + ["parser_remove", "to_append", "no_remove", "bblayers_add_remove", "bblayers_remove", "apply_append", "is_x86", "base_dep_prepend"]
+-skips = skips + ["autotools_dep_prepend", "go_map_arm", "alt_remove_links", "systemd_append_file", "file_append", "process_file_darwin"]
+-skips = skips + ["run_loaddata_poky", "determine_if_poky_env", "do_populate_poky_src", "libc_cv_include_x86_isa_level", "test_rpm_remove", "do_install_armmultilib"]
+-skips = skips + ["get_appends_for_files", "test_doubleref_remove", "test_bitbakelayers_add_remove", "elf32_x86_64", "colour_remove", "revmap_remove"]
+-skips = skips + ["test_rpm_remove", "test_bitbakelayers_add_remove", "recipe_append_file", "log_data_removed", "recipe_append", "systemd_machine_unit_append"]
+-skips = skips + ["recipetool_append", "changetype_remove", "try_appendfile_wc", "test_qemux86_directdisk", "test_layer_appends", "tgz_removed"]
+-
+-imagevars = ["IMAGE_CMD", "EXTRA_IMAGECMD", "IMAGE_TYPEDEP", "CONVERSION_CMD", "COMPRESS_CMD"]
+-packagevars = packagevars + imagevars
++skips = args.skip
++skips += ["parser_append", "recipe_to_append", "extra_append", "to_remove", "show_appends", "applied_appends", "file_appends", "handle_remove"]
++skips += ["expanded_removes", "color_remove", "test_remove", "empty_remove", "toaster_prepend", "num_removed", "licfiles_append", "_write_append"]
++skips += ["no_report_remove", "test_prepend", "test_append", "multiple_append", "test_remove", "shallow_remove", "do_remove_layer", "first_append"]
++skips += ["parser_remove", "to_append", "no_remove", "bblayers_add_remove", "bblayers_remove", "apply_append", "is_x86", "base_dep_prepend"]
++skips += ["autotools_dep_prepend", "go_map_arm", "alt_remove_links", "systemd_append_file", "file_append", "process_file_darwin"]
++skips += ["run_loaddata_poky", "determine_if_poky_env", "do_populate_poky_src", "libc_cv_include_x86_isa_level", "test_rpm_remove", "do_install_armmultilib"]
++skips += ["get_appends_for_files", "test_doubleref_remove", "test_bitbakelayers_add_remove", "elf32_x86_64", "colour_remove", "revmap_remove"]
++skips += ["test_rpm_remove", "test_bitbakelayers_add_remove", "recipe_append_file", "log_data_removed", "recipe_append", "systemd_machine_unit_append"]
++skips += ["recipetool_append", "changetype_remove", "try_appendfile_wc", "test_qemux86_directdisk", "test_layer_appends", "tgz_removed"]
++
++imagevars = ["IMAGE_CMD", "EXTRA_IMAGECMD", "IMAGE_TYPEDEP", "CONVERSION_CMD", "COMPRESS_CMD"] + args.image_vars
++packagevars += imagevars
++
++skip_ext = [".html", ".patch", ".m4", ".diff"] + args.skip_ext
+ 
+ vars_re = {}
+ for exp in vars:
+@@ -124,21 +136,20 @@ def processfile(fn):
+ ourname = os.path.basename(sys.argv[0])
+ ourversion = "0.9.3"
+ 
+-if os.path.isfile(sys.argv[1]):
+-    processfile(sys.argv[1])
+-    sys.exit(0)
+-
+-for targetdir in sys.argv[1:]:
+-    print("processing directory '%s'" % targetdir)
+-    for root, dirs, files in os.walk(targetdir):
+-        for name in files:
+-            if name == ourname:
+-                continue
+-            fn = os.path.join(root, name)
+-            if os.path.islink(fn):
+-                continue
+-            if "/.git/" in fn or fn.endswith(".html") or fn.endswith(".patch") or fn.endswith(".m4") or fn.endswith(".diff"):
+-                continue
+-            processfile(fn)
++for p in args.path:
++    if os.path.isfile(p):
++        processfile(p)
++    else:
++        print("processing directory '%s'" % p)
++        for root, dirs, files in os.walk(p):
++            for name in files:
++                if name == ourname:
++                    continue
++                fn = os.path.join(root, name)
++                if os.path.islink(fn):
++                    continue
++                if "/.git/" in fn or any(fn.endswith(ext) for ext in skip_ext):
++                    continue
++                processfile(fn)
+ 
+ print("All files processed with version %s" % ourversion)
+-- 
+2.33.0
 
-On Tue, Nov 8, 2022 at 3:14 PM Xiangyu Chen
-<xiangyu.chen@eng.windriver.com> wrote:
->
-> From: Xiangyu Chen <xiangyu.chen@windriver.com>
->
-> Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-> ---
->  .../{lttng-tools_2.13.4.bb => lttng-tools_2.13.8.bb}  | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
->  rename meta/recipes-kernel/lttng/{lttng-tools_2.13.4.bb => lttng-tools_2.13.8.bb} (90%)
->
-> diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb b/meta/recipes-kernel/lttng/lttng-tools_2.13.8.bb
-> similarity index 90%
-> rename from meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb
-> rename to meta/recipes-kernel/lttng/lttng-tools_2.13.8.bb
-> index 0ea4da05ce..a814eb79f9 100644
-> --- a/meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb
-> +++ b/meta/recipes-kernel/lttng/lttng-tools_2.13.8.bb
-> @@ -39,7 +39,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
->             file://disable-tests.patch \
->             "
->
-> -SRC_URI[sha256sum] = "565f3102410a53d484f4c8ff517978f1dc59f67f9d16f872f4357f3ca12200f6"
-> +SRC_URI[sha256sum] = "b1e959579b260790930b20f3c7aa7cefb8a40e0de80d4a777c2bf78c6b353dc1"
->
->  inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
->
-> @@ -113,7 +113,7 @@ do_install_ptest () {
->          for f in $(find "${B}/tests/$d" -maxdepth 1 -executable -type f -printf '%P ') ; do
->              cp ${B}/tests/$d/$f ${D}${PTEST_PATH}/tests/`dirname $d`/$f
->              case $f in
-> -                *.so|userspace-probe-elf-binary)
-> +                *.so|userspace-probe-elf-*)
->                      install -d ${D}${PTEST_PATH}/tests/$d/
->                      ln -s  ../$f ${D}${PTEST_PATH}/tests/$d/$f
->                      # Remove any rpath/runpath to pass QA check.
-> @@ -124,6 +124,7 @@ do_install_ptest () {
->      done
->
->      chrpath --delete ${D}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary/userspace-probe-elf-binary
-> +    chrpath --delete ${D}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-cxx-binary/userspace-probe-elf-cxx-binary
->      chrpath --delete ${D}${PTEST_PATH}/tests/regression/ust/ust-dl/libbar.so
->      chrpath --delete ${D}${PTEST_PATH}/tests/regression/ust/ust-dl/libfoo.so
->
-> @@ -185,4 +186,10 @@ do_install_ptest () {
->  INHIBIT_PACKAGE_STRIP_FILES = "\
->      ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary/userspace-probe-elf-binary \
->      ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary/.libs/userspace-probe-elf-binary \
-> +    ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-cxx-binary/userspace-probe-elf-cxx-binary \
-> +    ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-cxx-binary/.libs/userspace-probe-elf-cxx-binary \
-> +    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-syscall-events/gen-syscall-events \
-> +    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-syscall-events/.libs/gen-syscall-events \
-> +    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-syscall-events-callstack/gen-syscall-events-callstack \
-> +    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-syscall-events-callstack/.libs/gen-syscall-events-callstack \
->      "
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#173006): https://lists.openembedded.org/g/openembedded-core/message/173006
-> Mute This Topic: https://lists.openembedded.org/mt/94904524/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
 
