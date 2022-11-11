@@ -1,143 +1,102 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5AA8C4332F
-	for <webhook@archiver.kernel.org>; Fri, 11 Nov 2022 13:42:23 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web08.5473.1668174138927080658
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23FFBC433FE
+	for <webhook@archiver.kernel.org>; Fri, 11 Nov 2022 14:34:04 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.6142.1668177235039760721
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Nov 2022 05:42:19 -0800
+ Fri, 11 Nov 2022 06:33:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Hxqu8cU8;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 187-20020a1c02c4000000b003cf9c3f3b80so5630214wmc.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Nov 2022 05:42:18 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ICTcd9uN;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id v1so6685818wrt.11
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Nov 2022 06:33:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=/XE3+YZfAeg6a8Yt3tbLGpDxL/VDl1z+H5Q9P2LMpOI=;
-        b=Hxqu8cU8nomnJmoJX9VqTEPCuXl50akKq6LhJ/6nHcEgxitUX1GBkSxQnaizNVZHfo
-         AYsQYWwa6cc05uLMQCiXCulOCnxIbcEoe1NSlhp3wJNTcdeArpq4iFGSF6nZ+ryX9Nku
-         3C4LI67SJnZ2lFOTnFpFZJh4o0jTJam63TXUk=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CEPIXyFDnpb3+7dCH5/uXRnD1P3Z2/lqt6bjLbqGbeQ=;
+        b=ICTcd9uNvAQ0zO7LSpt2JPeHeFlFgklSY5uFRCluG9j5/E/dv0RO/3GCv8giRvQNwf
+         4mkX5ev4sR4WRSnLdLhY4xotMsSaaXtpN4KZqefZEaHfc/owGh4YHENaNMpfXyfo9xFb
+         kvNjZJjt8BL1fq173L0Gfjfx8j3Pa+6iLdg0/nghGV0/6xmZuxlmFuqTnK1ApCFYzDxt
+         x7MRJ8tMLElpWyWQmAUEv+Uq+h/Vydo5/Ib0TowLGihNTjVuPOHDgRmsn46evau7zwDF
+         vafkqxRtlMmLZmgE42PjFQjE7I1iAbEoyIPhyp8ab19r4HgPn2Mpm+5JVcqdAPf7phWc
+         PK8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/XE3+YZfAeg6a8Yt3tbLGpDxL/VDl1z+H5Q9P2LMpOI=;
-        b=oBpKHtqyCxsjUL8Wk03zax2DIEECmWZUSPiOSlr/K4a25Q7q3HN6tNfkkTSLj0Wewm
-         dbCL0z2re87ub34EdOQfQ8Nj54Sd8zb8+ZfnoNP2xNf7t1lsh1Nj6DFb/skPrDC8kV41
-         ju8sP7aS9JznDchWQSppg4UomMuY0JoltSN2DJnQS+OeVOWqrFRNfTmMk5v60gN6tvKG
-         /oSZjAgt4iB9ZEFmGefl3bngn/qF81Zpisy57zzDW7haQ+C1CFcFsgdFm0tVQeeG1HTT
-         HVGA5Twyn8svhi+B8CmX4vPr1GRMiZd1EiFe6ljZ4cpBcsm9MvO9G3sCICgDfH/XYLpg
-         csqw==
-X-Gm-Message-State: ANoB5pksLRUnk0ap1Lko4VWpiW6wI99iA5T/8W403UiTDmW3k1zenAfj
-	wyzJVkN9YZgjk639+vwzTnKuSA==
-X-Google-Smtp-Source: AA0mqf61ZoBdW/aoBQiiLjmMF73gOEjpZ7eFHWlPxaZlKiaRoD/p03uZ5AWLvxm1fXVCk6okkbci+g==
-X-Received: by 2002:a05:600c:3d89:b0:3cf:760a:fbaf with SMTP id bi9-20020a05600c3d8900b003cf760afbafmr1319044wmb.110.1668174137334;
-        Fri, 11 Nov 2022 05:42:17 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:2115:4271:c44b:61ee? ([2001:8b0:aba:5f3c:2115:4271:c44b:61ee])
-        by smtp.gmail.com with ESMTPSA id z13-20020adff1cd000000b0024166413a4fsm1938356wro.37.2022.11.11.05.42.16
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CEPIXyFDnpb3+7dCH5/uXRnD1P3Z2/lqt6bjLbqGbeQ=;
+        b=4UQGwSrtG2cf2OtCIcn3dL6ili9yzvl3YZGKbvGeVE/UQ59dxKtmw/dCtpIyUauekr
+         F2s0PY5cg0FxuUsc6I67re7RgyxZfXnArjaxSq5EDtjtPmzqJx1b95wchGdrE1+hjTyW
+         3duPyePWEeeEd95bofz6hrNsMSA+9lwJ7KlNeBUzrwGDND8KGvMF+lQVDDbIMSBCamxl
+         FW7Sr86gHFNQA6wS2TXkzQOtBUsFP2OE+eUx8FwCFEq27rYa7mvV2/NcJAj3VTFUAl9k
+         kLIWe7Myu5pEtOE1lja2eEtfqXeK2w23dXO7kgNIG98loXp8yooMOrl6KFjrlYdnu2Uh
+         cs+g==
+X-Gm-Message-State: ANoB5pl7xxj3ydxC2b7NPbdZRDHr2Tzb9UQEBczovN6nBzB4yEMBqXiA
+	DbrfmGpQO/rCvVb5EvFOw6vWWxndVaM=
+X-Google-Smtp-Source: AA0mqf7gIRPOMyTMrKj+OKn49CLZOLsixXsg/8RGRDwjD/wX1/CJaMvvYOPRSlVeoHCeI99jbyKFsQ==
+X-Received: by 2002:a5d:68c1:0:b0:236:84b5:c0d8 with SMTP id p1-20020a5d68c1000000b0023684b5c0d8mr1452913wrw.342.1668177233407;
+        Fri, 11 Nov 2022 06:33:53 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id k18-20020a5d6e92000000b0023647841c5bsm2077726wrz.60.2022.11.11.06.33.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Nov 2022 05:42:16 -0800 (PST)
-Message-ID: <dc30d84efdfb5a2ae0802d247729d32bfe106234.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 10/19] libxext: update 1.3.4 -> 1.3.5
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>, Alexandre Belloni
-	 <alexandre.belloni@bootlin.com>
-Date: Fri, 11 Nov 2022 13:42:15 +0000
-In-Reply-To: <20221110181249.1240200-10-alex@linutronix.de>
-References: <20221110181249.1240200-1-alex@linutronix.de>
-	 <20221110181249.1240200-10-alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu1 
+        Fri, 11 Nov 2022 06:33:52 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] libxext: update 1.3.4 -> 1.3.5
+Date: Fri, 11 Nov 2022 15:33:49 +0100
+Message-Id: <20221111143349.1756790-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Nov 2022 13:42:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173130
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Nov 2022 14:34:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173131
 
-On Thu, 2022-11-10 at 19:12 +0100, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  meta/recipes-graphics/xorg-lib/a              | 33 +++++++++++++++++++
->  .../{libxext_1.3.4.bb =3D> libxext_1.3.5.bb}    |  7 ++--
->  2 files changed, 36 insertions(+), 4 deletions(-)
->  create mode 100644 meta/recipes-graphics/xorg-lib/a
->  rename meta/recipes-graphics/xorg-lib/{libxext_1.3.4.bb =3D> libxext_1.3=
-.5.bb} (75%)
->=20
-> diff --git a/meta/recipes-graphics/xorg-lib/a b/meta/recipes-graphics/xor=
-g-lib/a
-> new file mode 100644
-> index 0000000000..a5a08000df
-> --- /dev/null
-> +++ b/meta/recipes-graphics/xorg-lib/a
-> @@ -0,0 +1,33 @@
-> +libdmx_1.1.4.bb
-> +libfontenc_1.1.6.bb
-> +libice_1.0.10.bb
-> +libpciaccess_0.17.bb
-> +libsm_1.2.3.bb
-> +libx11_1.8.1.bb
-> +libx11-compose-data_1.6.8.bb
-> +libxau_1.0.10.bb
-> +libxcomposite_0.4.5.bb
-> +libxcursor_1.2.1.bb
-> +libxdamage_1.1.5.bb
-> +libxdmcp_1.1.3.bb
-> +libxext_1.3.4.bb
-> +libxfixes_6.0.0.bb
-> +libxfont_1.5.4.bb
-> +libxfont2_2.0.6.bb
-> +libxft_2.3.6.bb
-> +libxi_1.8.bb
-> +libxinerama_1.1.5.bb
-> +libxkbfile_1.1.1.bb
-> +libxmu_1.1.4.bb
-> +libxpm_3.5.13.bb
-> +libxrandr_1.5.2.bb
-> +libxrender_0.9.11.bb
-> +libxres_1.2.1.bb
-> +libxscrnsaver_1.2.3.bb
-> +libxshmfence_1.3.1.bb
-> +libxt_1.2.1.bb
-> +libxtst_1.2.4.bb
-> +libxv_1.0.11.bb
-> +libxvmc_1.0.13.bb
-> +libxxf86vm_1.1.5.bb
-> +xtrans_1.4.0.bb
+License-Update: copyright holders
 
-What does this do? ;-)
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ .../xorg-lib/{libxext_1.3.4.bb => libxext_1.3.5.bb}        | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxext_1.3.4.bb => libxext_1.3.5.bb} (75%)
 
-> diff --git a/meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb b/meta/recip=
-es-graphics/xorg-lib/libxext_1.3.5.bb
-> similarity index 75%
-> rename from meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb
-> rename to meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb
-> index a0ba54d184..d4d4119485 100644
-> --- a/meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb
-> +++ b/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb
-> @@ -11,7 +11,7 @@ extensions."
->  require xorg-lib-common.inc
-> =20
->  LICENSE =3D "MIT"
-> -LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D879ce266785414bd1cbc3bc2f4d9d=
-7c8"
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4234bb3b2f1521ea101e4e9db7c33=
-c69"
-
-License change not mentioned in the commit.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb b/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb
+similarity index 75%
+rename from meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb
+rename to meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb
+index a0ba54d184..d4d4119485 100644
+--- a/meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb
++++ b/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb
+@@ -11,7 +11,7 @@ extensions."
+ require xorg-lib-common.inc
+ 
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=879ce266785414bd1cbc3bc2f4d9d7c8"
++LIC_FILES_CHKSUM = "file://COPYING;md5=4234bb3b2f1521ea101e4e9db7c33c69"
+ 
+ DEPENDS += "xorgproto virtual/libx11"
+ PROVIDES = "xext"
+@@ -19,8 +19,7 @@ PROVIDES = "xext"
+ PE = "1"
+ 
+ XORG_PN = "libXext"
+-
++XORG_EXT = "tar.xz"
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-SRC_URI[md5sum] = "f5b48bb76ba327cd2a8dc7a383532a95"
+-SRC_URI[sha256sum] = "59ad6fcce98deaecc14d39a672cf218ca37aba617c9a0f691cac3bcd28edf82b"
++SRC_URI[sha256sum] = "db14c0c895c57ea33a8559de8cb2b93dc76c42ea4a39e294d175938a133d7bca"
+-- 
+2.30.2
 
 
