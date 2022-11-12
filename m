@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA3BFC4167D
-	for <webhook@archiver.kernel.org>; Sat, 12 Nov 2022 14:10:29 +0000 (UTC)
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web09.2953.1668262213238848055
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98933C4332F
+	for <webhook@archiver.kernel.org>; Sat, 12 Nov 2022 14:10:39 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web08.2925.1668262229786839138
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Nov 2022 06:10:22 -0800
+ Sat, 12 Nov 2022 06:10:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=v8nOG7QF;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f181.google.com with SMTP id e129so6546122pgc.9
-        for <openembedded-core@lists.openembedded.org>; Sat, 12 Nov 2022 06:10:22 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Pm7Y1kIl;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id j12so6430395plj.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 12 Nov 2022 06:10:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=EqxTKAtQDFUCkwjMz+dGTj0DFbS5BqoW14jS9hBY9o0=;
-        b=v8nOG7QFvKSfS9m1zh3PAQSK4dci08jLNylu1uIcxlBv/G1edKG9N9sc+pIjgwKHTd
-         y9cZayOkWNfxS/7XQ5HYkOvXRF0OawKWdHgVbKKURX1/48rLilnwuKIEG6UMbx9qmL9W
-         wRE+NWya84fdiUDzvCQQqWPLJARQJRgfXgeZWL8wVaBM7QB6fdMWhbNm0CmrEoNlwfJE
-         xUxPh3vscCon3XcyJ1H1aAOYM69KEmSkwTz53mY+g0ef7sNC1pVEWcnaFRQsv50dj37f
-         mlr6fgFvjHtL6L3z3zYco/pmpo8wNDiAcXKUoEbcgvvSFbn3DYpP/d0kqm4v/thlnudk
-         vzYA==
+        bh=/MkfVQs9/YaOmzkJPjERSHvzRZVYsHgLFQOF5JFh6eQ=;
+        b=Pm7Y1kIlc6CFKFt2OlqkB0Tpvhyg3F5T31k2c3FXjNzoXgw0oEWZaiIKU2T9BVMQpX
+         wcjJpYEaMc6E9p7or9DyfnTu4w8ULtJ7p8jfhDg0RAaofeUQ1IxBXaXMX+bFc1s36Yig
+         /50k2Gp8Kis7SnWPRJThxcqrTo9/4hiRh3uwDfPuHUZUy3arBj0yAILPzMNu15esnbeT
+         XDZPds9/aUpufaHfIVM/PLUR3oHyugRCswglVi6oo4TY4CZvKyUSRvwwKXATeI6Pe1Ji
+         5WnGFUDJ4OorGbgPnkIyfCDEYoz17x+46IGP0Yl79H+3bQf5E6JSU5+jzM+MZoNlQ1Ef
+         K43g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EqxTKAtQDFUCkwjMz+dGTj0DFbS5BqoW14jS9hBY9o0=;
-        b=DzOMwLf+HwoXNFEV31+2xi+ux+ErMMNTBhpc+UBR4DX26jEU0qnPosqQhwvVzHtJQf
-         UTIyJVUu2TQoXjOSHFG1heMqbn3LDgfYZYm+KJNp93FYfcMj/SxlIzrUFSOoQ5qETffc
-         kG23VKznakxmyZaaoH+pN9fTD32Wie/fLMhsWL5LZxfoGcMb1LR05lXC+K3iicW9Bl2i
-         vjkVMJ6F15ipm0FPI/lYv9PS+1m59ePX3EQCA+xdb559mOxKTLC9ybCR48+OWaH2j1xs
-         DT3zIb0/PFIP261Rb4QIuqojiH+fa9KfXV7zDcX35kWXoNeUGMIuPjhXfOzfy9zyB6DZ
-         muJA==
-X-Gm-Message-State: ANoB5plZU3O4cX889IHP/9sdXXoTjMB8eM0IJFLNLiwj1yTgE5Q/TnYh
-	348q1wpsBd8I+Y3xXiqfydqpCXIYhTCW6ypU
-X-Google-Smtp-Source: AA0mqf73TAQsyTGBKJ9Uh/w4kXGxhxk+blZH7UySNIZYMHG5NH1lNEjXgfyHS8LOdBLhaZPUUUNzWg==
-X-Received: by 2002:a63:481c:0:b0:470:514e:1f15 with SMTP id v28-20020a63481c000000b00470514e1f15mr5580374pga.358.1668262222128;
-        Sat, 12 Nov 2022 06:10:22 -0800 (PST)
+        bh=/MkfVQs9/YaOmzkJPjERSHvzRZVYsHgLFQOF5JFh6eQ=;
+        b=NIALrbBjmBlZs5NA4mrGgXHcuaHQvI09AiQtvxZ3id1OUCxCVdNrW9IFYDLAGX0RDU
+         kVB2YPlA6ygJLhIcRVanEx0+pek7OMmRWTJwARXWCWZzxTITfxLeiI3TYKfM8xBYbrKg
+         asa+UFDQop/d9jTkl+Hn7p6OeBifBpvbj83EHtMPR+xEtoh3kOlpv7on9vyDIvOY2Auk
+         SidBOK8iJSjIl4GgQxOHX9CMvt6iMzyejXPvBP3FPSP8b66RvzXfaK7A4e+4GNNl4hgp
+         /uWRgSMo+rcRxzhZlaOxPqHoItNlHcoKRlyFmDHQC6d26x4Ky/Oy1MgaDdTQCvFAzw4e
+         FMnQ==
+X-Gm-Message-State: ANoB5pmYNRf0VYpREQy8Us4N0JpRGWwWv8qRmAvyqIQHQZIWDxZQ258y
+	HFEfeJL0s1btLHGJ6AKn18grEqE6+P0K1U5R
+X-Google-Smtp-Source: AA0mqf55AXx6IRDX2HTzYHG45YoX8FE1AMtBTpzBiVupzHbnnl8vdFWJPBpgh1KADKRG08NOihyJjg==
+X-Received: by 2002:a17:902:9a81:b0:185:378d:7c2a with SMTP id w1-20020a1709029a8100b00185378d7c2amr6802975plp.127.1668262228836;
+        Sat, 12 Nov 2022 06:10:28 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id g10-20020a1709026b4a00b0018853dd8832sm3733883plt.4.2022.11.12.06.10.21
+        by smtp.gmail.com with ESMTPSA id g10-20020a1709026b4a00b0018853dd8832sm3733883plt.4.2022.11.12.06.10.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Nov 2022 06:10:21 -0800 (PST)
+        Sat, 12 Nov 2022 06:10:28 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/11] externalsrc.bbclass: fix git repo detection
-Date: Sat, 12 Nov 2022 04:09:56 -1000
-Message-Id: <1f0e4de8d92edd7438d462c779d917ac0ccd5499.1668262073.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 11/11] wic: swap partitions are not added to fstab
+Date: Sat, 12 Nov 2022 04:09:59 -1000
+Message-Id: <ce99d451a54b8ce46b7f9030deaba86355009b1a.1668262073.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1668262073.git.steve@sakoman.com>
 References: <cover.1668262073.git.steve@sakoman.com>
@@ -60,82 +60,34 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 12 Nov 2022 14:10:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173157
+ <openembedded-core@lists.openembedded.org>; Sat, 12 Nov 2022 14:10:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173160
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: ciarancourtney <ciaran.courtney@activeenergy.ie>
 
-* fix issue introduced in:
-  https://git.openembedded.org/openembedded-core/commit/?id=95fbac8dcad6c93f4c9737e9fe13e92ab6befa09
+- Regression in 7aa678ce804c21dc1dc51b9be442671bc33c4041
 
-* it added check for s_dir + git-dir (typically '.git') isn't
-  the same as ${TOPDIR} + git-dir, but due to copy-paste issue
-  it was just comparing it with s_dir + git-dir again, resulting
-  in most external repos (where git-dir is '.git') to be processed
-  as regular directory (not taking advantage of git write-tree).
-
-* normally this wouldn't be an issue, but for big repo with a lot of
-  files this added a lot of checksums in:
-  d.setVarFlag('do_compile', 'file-checksums', '${@srctree_hash_files(d)}')
-
-  and I mean *a lot, e.g. in chromium build it was 380227 paths
-  which still wouldn't that bad, but the checksum processing in
-  siggen.py isn't trivial and just looping through all these
-  checksums takes very long time (over 1000sec on fast NVME drive
-  with warm cache) and then
-  https://git.openembedded.org/bitbake/commit/?id=b4975d2ecf615ac4c240808fbc5a3f879a93846b
-  made the processing a bit more complicated and the loop in
-  get_taskhash() function took 6448sec and to make things worse
-  there was no output from bitbake during that time, so even with -DDD
-  it looks like this:
-
-  DEBUG: virtual/libgles2 resolved to: mesa (langdale/oe-core/meta/recipes-graphics/mesa/mesa_22.2.0.bb)
-  Bitbake still alive (no events for 600s). Active tasks:
-  Bitbake still alive (no events for 1200s). Active tasks:
-  Bitbake still alive (no events for 1800s). Active tasks:
-  Bitbake still alive (no events for 2400s). Active tasks:
-  Bitbake still alive (no events for 3000s). Active tasks:
-  Bitbake still alive (no events for 3600s). Active tasks:
-  Bitbake still alive (no events for 4200s). Active tasks:
-  Bitbake still alive (no events for 4800s). Active tasks:
-  Bitbake still alive (no events for 5400s). Active tasks:
-  Bitbake still alive (no events for 6000s). Active tasks:
-  DEBUG: Starting bitbake-worker
-
-  without -DDD it will get stuck for almost 2 hours in:
-  "Initialising tasks..."
-  before it finally writes sstate summary like:
-  "Sstate summary: Wanted 3102 Local 0 Mirrors 0 Missed 3102 Current 1483 (0% match, 32% complete)"
-
-* fix the copy&paste typo to use git work-tree in most cases, but
-  be aware that this issue still exists for huge local source
-  trees not in git
-
-[YOCTO #14942]
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Ciaran Courtney <ciaran.courtney@activeenergy.ie>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 9102e5a94b8146cb1da27afbe41d3db999a914ff)
+(cherry picked from commit f1243572ad6b6303fe562e4eb7a9826fd51ea3c3)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/externalsrc.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/lib/wic/plugins/imager/direct.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index 291fcf5653..fc20eedf4d 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -207,8 +207,8 @@ def srctree_hash_files(d, srcdir=None):
-     try:
-         git_dir = os.path.join(s_dir,
-             subprocess.check_output(['git', '-C', s_dir, 'rev-parse', '--git-dir'], stderr=subprocess.DEVNULL).decode("utf-8").rstrip())
--        top_git_dir = os.path.join(s_dir, subprocess.check_output(['git', '-C', d.getVar("TOPDIR"), 'rev-parse', '--git-dir'],
--            stderr=subprocess.DEVNULL).decode("utf-8").rstrip())
-+        top_git_dir = os.path.join(d.getVar("TOPDIR"),
-+            subprocess.check_output(['git', '-C', d.getVar("TOPDIR"), 'rev-parse', '--git-dir'], stderr=subprocess.DEVNULL).decode("utf-8").rstrip())
-         if git_dir == top_git_dir:
-             git_dir = None
-     except subprocess.CalledProcessError:
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+index 2505c13fce..42704d1e10 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -115,7 +115,7 @@ class DirectPlugin(ImagerPlugin):
+         updated = False
+         for part in self.parts:
+             if not part.realnum or not part.mountpoint \
+-               or part.mountpoint == "/" or not part.mountpoint.startswith('/'):
++               or part.mountpoint == "/" or not (part.mountpoint.startswith('/') or part.mountpoint == "swap"):
+                 continue
+ 
+             if part.use_uuid:
 -- 
 2.25.1
 
