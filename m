@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A825DC4321E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DA45C433FE
 	for <webhook@archiver.kernel.org>; Sat, 12 Nov 2022 14:10:29 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web12.2834.1668262221307806564
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web12.2836.1668262227315437950
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Nov 2022 06:10:21 -0800
+ Sat, 12 Nov 2022 06:10:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=T/zzrYNm;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id m6so7240384pfb.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 12 Nov 2022 06:10:21 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=JnmqvcNd;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id v17so6444305plo.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 12 Nov 2022 06:10:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=U04nW+ReiZv/SIq8qNjiR3NvNyoqNBfrb9SOpXkOlxs=;
-        b=T/zzrYNmEnT+uMlKC0S944wKHsCgBlWkDlqLCGb3UX9qH+zvNqneKfnykLp7FrSJmb
-         W9MfxDPZUjTYznhE4yBniFR22M5fvMuT1sUN4TAzeHJQEZ/b1TGIZTU3/NvnxJDOOQen
-         BXSdFv4gga9+hIa6AN+Fn7XN3Pi78O7FqrdR9yohiHHWP6UWjHSzlpjaZAo2bQ+FgnTf
-         hNk3SdPk06IpsZzGcspM70LsCs9Nt+48vAfYz3FgOljsVn7Wz/XPcShiEQX8pg0xg/Js
-         5+psqxjF5ntfBzQKFgfY2/0mZsjbAmwQg6LUhiyfuKYU9oLD9ir4qjVN93oIOWCX9n74
-         vVSQ==
+        bh=SrZ3+jOA/KgWS6rwNU3D7RUl077QPn6PwAiTrVVWjCY=;
+        b=JnmqvcNdzaqrhbfYP1mVZgQdravZRqqczxK80oEuBnylRVUF8iv8Y2xZXaO9hI/3WE
+         RVdimB3ysMAK7h5FMbFXiQNFJN4Bz5e+9kkR63cA473eb4koFH9h5pp5QUjiJeMgO1l5
+         Th6vVmj06yaW/6nA4G/U8snmw/ywZEWr7etY3uicL8HlbxxwkTLrPTzRAhcul4vLn2DL
+         fbvC1ewLl/baPP1JF/Xhl81VbjHdHCRL3PeI/T3bYJsey1rDxXNOenizh+8st5k0fm0i
+         G8oNesNvof7UFFIPRbxR4/UaUyCZ+ytEly/3KjlewRBhQtT1LXA1YnEtHkvNba91YCSn
+         J98w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=U04nW+ReiZv/SIq8qNjiR3NvNyoqNBfrb9SOpXkOlxs=;
-        b=O3MCfi4ikjHWkUDbb+98nZB+ypKgxYrzrnMP8glLouSgDlIIbHhzSPVRESOF7c7B+c
-         KAHvybvdkuKNOyf48zoCj+9fRzg0O8I+sM6+EoaHy22FyCa8pg9buJL0lln9bHR7pNPj
-         X1TRwFEW5kYnEEEC0qp7mzODx/dQs1QGKkTjweqe0+KTYE50DCPdh8Q1QF5JKTEfd71N
-         38CQyvmtB4O0jDy2pFWBpMrdXkB53hwYOq0XyizF8TOMPxVpsyAHNe2qtInaBZkLl9OM
-         sijo/jkRduX78npoDpo4PIXsg3jStEgxOWGswo7oHoaQTviEloVrRnwfOdqh4w9BLfFD
-         rEsw==
-X-Gm-Message-State: ANoB5plQ73wRyDrmU4RwjaYEqcjjHbKvCw3+3vuIcaCDLyCM4pG+0FkM
-	gog+og/EgIPuUD6isHCy4HZ4RrOnXG+AyWK8
-X-Google-Smtp-Source: AA0mqf7euD2khpkyeDLdWrC2pAD5b/JplWs9tfaAv0b1n5Ba0zmPivj+wmTV77v6QpKIV5H2crA1Dg==
-X-Received: by 2002:a63:5554:0:b0:46f:7e1c:77be with SMTP id f20-20020a635554000000b0046f7e1c77bemr5641564pgm.32.1668262220273;
-        Sat, 12 Nov 2022 06:10:20 -0800 (PST)
+        bh=SrZ3+jOA/KgWS6rwNU3D7RUl077QPn6PwAiTrVVWjCY=;
+        b=uwSseGz6fw0zuKSkEh4xV97FxSTmhM3H1IQQZM5mFdhXTzZTSWBrvv9TWDDQJ0Kycs
+         BvaVIHNJj5pDBnUvGwAa6bJ45WMhcP6v5+uHnf//Wknuxb0EFjQqQYWHC340nSSvxshS
+         lSM+JX2bJWWDOyQrr12CV90ayEZD3y4CQuHxX/5URd3aFcy7afHRm66zIhIAEOm8fCat
+         C2H/XMRe7ON+Ay/Vel1kyJ/1rZOaWiqCNnNWr+0BePOsB1YHXYxARpR//pxTkasrX/Px
+         3yIlcT0Ac85zOkxU+q7tFe1fEDbEhUgYApquKxetNpT4B9pzgU3UhAe54JXG5HsDTSmp
+         atgw==
+X-Gm-Message-State: ANoB5plF8EpPrNNyQAwPHLLbehuD50NxdxCtXKqCDYz20XfV3yFRtB6v
+	41K9hrPJekgpfeODcoquPaIZYgM1uHVZ8A97
+X-Google-Smtp-Source: AA0mqf45RrmUYgkJRqG0T/K/NF6vkwzZOppvD888yw59V8QauJI0kGuWkOPwZnq7a963ebn8p+zmKg==
+X-Received: by 2002:a17:90b:2750:b0:212:c87e:dc8b with SMTP id qi16-20020a17090b275000b00212c87edc8bmr6599955pjb.229.1668262226312;
+        Sat, 12 Nov 2022 06:10:26 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id g10-20020a1709026b4a00b0018853dd8832sm3733883plt.4.2022.11.12.06.10.19
+        by smtp.gmail.com with ESMTPSA id g10-20020a1709026b4a00b0018853dd8832sm3733883plt.4.2022.11.12.06.10.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Nov 2022 06:10:19 -0800 (PST)
+        Sat, 12 Nov 2022 06:10:25 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 07/11] openssl: upgrade 1.1.1q to 1.1.1s
-Date: Sat, 12 Nov 2022 04:09:55 -1000
-Message-Id: <a39a32efd41c92a3ada49d667979c79101a4a2da.1668262073.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 10/11] sanity: check for GNU tar specifically
+Date: Sat, 12 Nov 2022 04:09:58 -1000
+Message-Id: <8f852648fe730615c99bcdaace8a4748ef4e96a5.1668262073.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1668262073.git.steve@sakoman.com>
 References: <cover.1668262073.git.steve@sakoman.com>
@@ -61,41 +61,42 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 12 Nov 2022 14:10:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173156
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173159
 
-From: Alex Kiernan <alex.kiernan@gmail.com>
+From: Ross Burton <ross.burton@arm.com>
 
-Major changes between OpenSSL 1.1.1r and OpenSSL 1.1.1s [1 Nov 2022]
-* Fixed a regression introduced in OpenSSL 1.1.1r not refreshing the
-  certificate data to be signed before signing the certificate.
+We need the system tar to be GNU tar, as we reply on --xattrs.  Some
+distributions may be using libarchive's tar binary, which is definitely
+not as featureful, so check for this and abort early with a clear
+message instead of later with mysterious errors.
 
-Major changes between OpenSSL 1.1.1q and OpenSSL 1.1.1r [11 Oct 2022]
-* Added a missing header for memcmp that caused compilation failure on
-  some platforms
-
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 7dd2b1cd1bb10e67485dab8600c0787df6c2eee7)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../openssl/{openssl_1.1.1q.bb => openssl_1.1.1s.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1q.bb => openssl_1.1.1s.bb} (98%)
+ meta/classes/sanity.bbclass | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1q.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1s.bb
-similarity index 98%
-rename from meta/recipes-connectivity/openssl/openssl_1.1.1q.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.1.1s.bb
-index 139b7fe935..6c8f285996 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1q.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1s.bb
-@@ -24,7 +24,7 @@ SRC_URI_append_class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 37354af9d5..33e5e5952f 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -561,6 +561,14 @@ def check_tar_version(sanity_data):
+     version = result.split()[3]
+     if LooseVersion(version) < LooseVersion("1.28"):
+         return "Your version of tar is older than 1.28 and does not have the support needed to enable reproducible builds. Please install a newer version of tar (you could use the project's buildtools-tarball from our last release or use scripts/install-buildtools).\n"
++
++    try:
++        result = subprocess.check_output(["tar", "--help"], stderr=subprocess.STDOUT).decode('utf-8')
++        if "--xattrs" not in result:
++            return "Your tar doesn't support --xattrs, please use GNU tar.\n"
++    except subprocess.CalledProcessError as e:
++        return "Unable to execute tar --help, exit code %d\n%s\n" % (e.returncode, e.output)
++
+     return None
  
--SRC_URI[sha256sum] = "d7939ce614029cdff0b6c20f0e2e5703158a489a72b2507b8bd51bf8c8fd10ca"
-+SRC_URI[sha256sum] = "c5ac01e760ee6ff0dab61d6b2bbd30146724d063eb322180c6f18a6f74e4b6aa"
- 
- inherit lib_package multilib_header multilib_script ptest
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+ # We use git parameters and functionality only found in 1.7.8 or later
 -- 
 2.25.1
 
