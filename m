@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46F58C43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46F16C4332F
 	for <webhook@archiver.kernel.org>; Sun, 13 Nov 2022 14:13:14 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web12.2804.1668348779511320811
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web08.2795.1668348786792166517
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Nov 2022 06:13:10 -0800
+ Sun, 13 Nov 2022 06:13:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=HHHq6rao;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f182.google.com with SMTP id v3so8164224pgh.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Nov 2022 06:13:10 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=t4ANZ9Qe;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f174.google.com with SMTP id b62so8196481pgc.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Nov 2022 06:13:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mpJfuI4s21/vx0yeMdf+dEkCsnBrKSSZLAjrShsO6tI=;
-        b=HHHq6raonYGkeOqNQD5usP5yS98nukviMc+ZI98oMbrfDVBThYM2LHOSQdy02JLNFl
-         P7lkM3CD3N9Mh0me2F4NUTAx3RNPUYMw0repdvo0HVxUQnlCOtrvgPV21oyu9eVQiAAT
-         1HqcMlKKCijekU7Rr12B6p+Ssfa6dOhgBzWhhxs+adrUw3HIkcGWiP43K6BzlbNWXZT2
-         GzuBdc3XoWZ4ZxL6RpSkGbPdNTgCbrutN+3jwdNazzSKf5bxKP5EU6RXlEWwIJkXYgJT
-         VGANgTdPNLix7jDDBhKDa9yBMmp5fcG/8zBlOI9B5nck6lov2kABiD7JmsJxOelBunrw
-         1TSA==
+        bh=/2+16qmXPWSgMVy2e933A7/14TTCQyzEH8Az5xQAZpg=;
+        b=t4ANZ9QeWU+WHQJz7WR36PYjNAHWV8TSh3dNHqq9PYRKnKyBl9fUtEYHfJd7EtsWlk
+         ++iGn21flC/E+nqoDUkbAyF9zpMgF2N5Grp2TlHUhmM+5h+ZS/3gcPiqs3dd5+mHBBpC
+         +LzQ2ejCc88SUz+aIeqotq16IhT6EuJfT7Tz3ib6iq66YNwo18qmK1lPOF13orHoBDqh
+         d4VUBh9EuC8CgS/3FQ5it9zRLQP3LvrwKhLV9QN2gQUiL0ZkPMjZGFBUhv0iVK/x6hLA
+         73TfFuUIO1jvCnjzrjVmHWk6gfbSqXFxxmtWiJyGC+fWFzqCFNhztvT4jv475y8N47nm
+         xUCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mpJfuI4s21/vx0yeMdf+dEkCsnBrKSSZLAjrShsO6tI=;
-        b=MVaqqOI0cKi6alIRbyGXoAUfj3J8Q/yyjwKMxMpUWM8dcqT5ejYKRC8SbnB8judpKz
-         grb/7Av0CgCB3eWqQapVNOGZVrK4CLqb2+K2dzDWIPHonJYjtpxjri8hciWalLr4trch
-         6MWUdp8DUxgJP5wFJBDP4FGgdcCXCIsOIfpEdk9StSD7SwY75keQRbNot7zkJnCYEDfH
-         UgWwSZisX97vSFTG9vKagaA1Smr0vMclJME06e95xMUtW1bZ8736V7sDX5WeK6QKPztu
-         BHnIX3cvm0DzmAIlv6ucL8u48vB8Vz462RA9TFR65Eketrdsw5to7DVjYJPu5QOhqjQx
-         JwZA==
-X-Gm-Message-State: ANoB5pmeJ5vQD4zKfvGo3NUalF8Y/KNPe8p5jVtKqWuP6popE0TMdVUJ
-	HRGOUFW5QGEzsmVk8mxXrS8XNADmJW1/IDzn
-X-Google-Smtp-Source: AA0mqf5CX7KeBObY6cqvaBDwMJpus+b3LwEjuRDNdnc6kWp4OVOYK0+91iM1ZD0EHrRcfJDlmzDDmQ==
-X-Received: by 2002:a63:5d5f:0:b0:46f:fea7:4816 with SMTP id o31-20020a635d5f000000b0046ffea74816mr8598802pgm.532.1668348790144;
-        Sun, 13 Nov 2022 06:13:10 -0800 (PST)
+        bh=/2+16qmXPWSgMVy2e933A7/14TTCQyzEH8Az5xQAZpg=;
+        b=rTs/+8sWLvi15yaoJQc9lgY3VEN8AmYJfeigwCD2PshV6epZdop1rpn1rDWQil+N9P
+         wMWCQaJLxEVX+SPrFmK/2am/EtdJfCMPPqvwZoSe2utEBK9nDqJkkjgV3sCTHvpoS55p
+         M10+25YWsM0LjPQnpEqxlvxWUtK/hJGaXiYy/6MPYWeUrG0J+7fLuyVmA7HZrqvUQNGz
+         9CFxLSx0MfscJmvIvNktt6sX8hoaAH/A1hJFZlhKPDUfMsxOrsxtYrOAckdj7vCL1kM6
+         Kif4SfGLQozRzMj2JcEriAZY2DLD8VozRm+2cMvOLpZCpcMSxQX76e40ouzd945/f8jE
+         AzSg==
+X-Gm-Message-State: ANoB5pmlCBVFF5/ZlwR5l/itYZxCCuZdbSfeTETNoqbhMt+0s5cFIIa9
+	v4Fuwji3RmRDDUpnM8DB7mV60rSpCMsEcie7
+X-Google-Smtp-Source: AA0mqf7qGE5V+KnOg5OT3VQNICfL3vNrQcKqSilzL/UbaGJhgVoYpKXsNdMAirYBLtymRJg5adZBAA==
+X-Received: by 2002:a05:6a00:3007:b0:56b:e15a:7215 with SMTP id ay7-20020a056a00300700b0056be15a7215mr10236447pfb.27.1668348785414;
+        Sun, 13 Nov 2022 06:13:05 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id w34-20020a634762000000b0046b2ebb0a52sm4198771pgk.17.2022.11.13.06.13.08
+        by smtp.gmail.com with ESMTPSA id w34-20020a634762000000b0046b2ebb0a52sm4198771pgk.17.2022.11.13.06.13.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Nov 2022 06:13:09 -0800 (PST)
+        Sun, 13 Nov 2022 06:13:04 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 6/9] sanity: check for GNU tar specifically
-Date: Sun, 13 Nov 2022 04:12:44 -1000
-Message-Id: <238993097826461a0f8bc2545c9383d8cfc0beea.1668348622.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 4/9] lttng-modules: upgrade 2.13.4 -> 2.13.5
+Date: Sun, 13 Nov 2022 04:12:42 -1000
+Message-Id: <43d9e154880909face6d3fc76c7e2d4310c17e7c.1668348622.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1668348622.git.steve@sakoman.com>
 References: <cover.1668348622.git.steve@sakoman.com>
@@ -61,42 +61,525 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 13 Nov 2022 14:13:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173200
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173198
 
-From: Ross Burton <ross.burton@arm.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-We need the system tar to be GNU tar, as we reply on --xattrs.  Some
-distributions may be using libarchive's tar binary, which is definitely
-not as featureful, so check for this and abort early with a clear
-message instead of later with mysterious errors.
+2022-08-19 (National Potato Day) LTTng modules 2.13.5
+	* Fix: incorrect stub prototypes when CONFIG_HAVE_SYSCALL_TRACEPOINTS=n
+	* fix: mm/tracing: add 'accounted' entry into output of allocation tracepoints (v6.0)
+	* fix: block: remove bdevname (v6.0)
+	* fix: fs/jbd2: Fix the documentation of the jbd2_write_superblock() callers (v6.0)
+	* fix: tie compaction probe build to CONFIG_COMPACTION
+	* fix: net: skb: introduce kfree_skb_reason() (v5.15.58..v5.16)
+	* fix: workqueue: Fix type of cpu in trace event (v5.19)
+	* fix: fs: Remove flags parameter from aops->write_begin (v5.19)
+	* fix: mm/page_alloc: fix tracepoint mm_page_alloc_zone_locked() (v5.19)
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 7dd2b1cd1bb10e67485dab8600c0787df6c2eee7)
+(cherry picked from commit 335c60e76b341014bd69eaac0a4b281036a94916)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/sanity.bbclass | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ .../lttng-modules/0001-fix-compaction.patch   |  68 ----------
+ ...c-fix-tracepoint-mm_page_alloc_zone_.patch | 106 ---------------
+ ...oduce-kfree_skb_reason-v5.15.58.v5.1.patch |  53 --------
+ ...ags-parameter-from-aops-write_begin-.patch |  76 -----------
+ ...Fix-type-of-cpu-in-trace-event-v5.19.patch | 124 ------------------
+ ...ules_2.13.4.bb => lttng-modules_2.13.5.bb} |   7 +-
+ 6 files changed, 1 insertion(+), 433 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-compaction.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-page_alloc-fix-tracepoint-mm_page_alloc_zone_.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-net-skb-introduce-kfree_skb_reason-v5.15.58.v5.1.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-fix-fs-Remove-flags-parameter-from-aops-write_begin-.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-fix-workqueue-Fix-type-of-cpu-in-trace-event-v5.19.patch
+ rename meta/recipes-kernel/lttng/{lttng-modules_2.13.4.bb => lttng-modules_2.13.5.bb} (78%)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 5c97effb96..f2b2e4dfaf 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -498,6 +498,14 @@ def check_tar_version(sanity_data):
-     version = result.split()[3]
-     if bb.utils.vercmp_string_op(version, "1.28", "<"):
-         return "Your version of tar is older than 1.28 and does not have the support needed to enable reproducible builds. Please install a newer version of tar (you could use the project's buildtools-tarball from our last release or use scripts/install-buildtools).\n"
-+
-+    try:
-+        result = subprocess.check_output(["tar", "--help"], stderr=subprocess.STDOUT).decode('utf-8')
-+        if "--xattrs" not in result:
-+            return "Your tar doesn't support --xattrs, please use GNU tar.\n"
-+    except subprocess.CalledProcessError as e:
-+        return "Unable to execute tar --help, exit code %d\n%s\n" % (e.returncode, e.output)
-+
-     return None
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-compaction.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-compaction.patch
+deleted file mode 100644
+index 21e27ffc5e..0000000000
+--- a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-compaction.patch
++++ /dev/null
+@@ -1,68 +0,0 @@
+-From 8e42c4821fb5f5cb816b6ddf73d9a13ba3298a63 Mon Sep 17 00:00:00 2001
+-From: Michael Jeanson <mjeanson@efficios.com>
+-Date: Wed, 10 Aug 2022 11:07:14 -0400
+-Subject: [PATCH] fix: tie compaction probe build to CONFIG_COMPACTION
+-
+-The definition of 'struct compact_control' in 'mm/internal.h' depends on
+-CONFIG_COMPACTION being defined. Only build the compaction probe when
+-this configuration option is enabled.
+-
+-Thanks to Bruce Ashfield <bruce.ashfield@gmail.com> for reporting this
+-issue.
+-
+-Upstream-Status: Backport [https://review.lttng.org/c/lttng-modules/+/8660]
+-
+-Change-Id: I81e77aa9c1bf10452c152d432fe5224df0db42c9
+-Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
+----
+- src/probes/Kbuild | 34 ++++++++++++++++++----------------
+- 1 file changed, 18 insertions(+), 16 deletions(-)
+-
+-diff --git a/src/probes/Kbuild b/src/probes/Kbuild
+-index 2908cf75..3e556b8e 100644
+---- a/src/probes/Kbuild
+-+++ b/src/probes/Kbuild
+-@@ -167,22 +167,24 @@ ifneq ($(CONFIG_BTRFS_FS),)
+-   endif # $(wildcard $(btrfs_dep))
+- endif # CONFIG_BTRFS_FS
+- 
+--# A dependency on internal header 'mm/internal.h' was introduced in v5.18
+--compaction_dep = $(srctree)/mm/internal.h
+--compaction_dep_wildcard = $(wildcard $(compaction_dep))
+--compaction_dep_check = $(shell \
+--if [ \( $(VERSION) -ge 6 \
+--   -o \( $(VERSION) -eq 5 -a $(PATCHLEVEL) -ge 18 \) \) -a \
+--   -z "$(compaction_dep_wildcard)" ] ; then \
+--  echo "warn" ; \
+--else \
+--  echo "ok" ; \
+--fi ;)
+--ifeq ($(compaction_dep_check),ok)
+--  obj-$(CONFIG_LTTNG) += lttng-probe-compaction.o
+--else
+--  $(warning Files $(compaction_dep) not found. Probe "compaction" is disabled. Use full kernel source tree to enable it.)
+--endif # $(wildcard $(compaction_dep))
+-+ifneq ($(CONFIG_COMPACTION),)
+-+  # A dependency on internal header 'mm/internal.h' was introduced in v5.18
+-+  compaction_dep = $(srctree)/mm/internal.h
+-+  compaction_dep_wildcard = $(wildcard $(compaction_dep))
+-+  compaction_dep_check = $(shell \
+-+  if [ \( $(VERSION) -ge 6 \
+-+     -o \( $(VERSION) -eq 5 -a $(PATCHLEVEL) -ge 18 \) \) -a \
+-+     -z "$(compaction_dep_wildcard)" ] ; then \
+-+    echo "warn" ; \
+-+  else \
+-+    echo "ok" ; \
+-+  fi ;)
+-+  ifeq ($(compaction_dep_check),ok)
+-+    obj-$(CONFIG_LTTNG) += lttng-probe-compaction.o
+-+  else
+-+    $(warning Files $(compaction_dep) not found. Probe "compaction" is disabled. Use full kernel source tree to enable it.)
+-+  endif # $(wildcard $(compaction_dep))
+-+endif # CONFIG_COMPACTION
+- 
+- ifneq ($(CONFIG_EXT4_FS),)
+-   ext4_dep = $(srctree)/fs/ext4/*.h
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-page_alloc-fix-tracepoint-mm_page_alloc_zone_.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-page_alloc-fix-tracepoint-mm_page_alloc_zone_.patch
+deleted file mode 100644
+index 62376806c8..0000000000
+--- a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-page_alloc-fix-tracepoint-mm_page_alloc_zone_.patch
++++ /dev/null
+@@ -1,106 +0,0 @@
+-From 8d5da4d2a3d7d9173208f4e8dc7a709f0bfc9820 Mon Sep 17 00:00:00 2001
+-From: Michael Jeanson <mjeanson@efficios.com>
+-Date: Wed, 8 Jun 2022 12:56:36 -0400
+-Subject: [PATCH 1/3] fix: mm/page_alloc: fix tracepoint
+- mm_page_alloc_zone_locked() (v5.19)
+-
+-See upstream commit :
+-
+-  commit 10e0f7530205799e7e971aba699a7cb3a47456de
+-  Author: Wonhyuk Yang <vvghjk1234@gmail.com>
+-  Date:   Thu May 19 14:08:54 2022 -0700
+-
+-    mm/page_alloc: fix tracepoint mm_page_alloc_zone_locked()
+-
+-    Currently, trace point mm_page_alloc_zone_locked() doesn't show correct
+-    information.
+-
+-    First, when alloc_flag has ALLOC_HARDER/ALLOC_CMA, page can be allocated
+-    from MIGRATE_HIGHATOMIC/MIGRATE_CMA.  Nevertheless, tracepoint use
+-    requested migration type not MIGRATE_HIGHATOMIC and MIGRATE_CMA.
+-
+-    Second, after commit 44042b4498728 ("mm/page_alloc: allow high-order pages
+-    to be stored on the per-cpu lists") percpu-list can store high order
+-    pages.  But trace point determine whether it is a refiil of percpu-list by
+-    comparing requested order and 0.
+-
+-    To handle these problems, make mm_page_alloc_zone_locked() only be called
+-    by __rmqueue_smallest with correct migration type.  With a new argument
+-    called percpu_refill, it can show roughly whether it is a refill of
+-    percpu-list.
+-
+-Upstream-Status: Backport
+-
+-Change-Id: I2e4a57393757f12b9c5a4566c4d1102ee2474a09
+-Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
+-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+----
+- include/instrumentation/events/kmem.h | 45 +++++++++++++++++++++++++++
+- 1 file changed, 45 insertions(+)
+-
+-diff --git a/include/instrumentation/events/kmem.h b/include/instrumentation/events/kmem.h
+-index 29c0fb7f..8c19e962 100644
+---- a/include/instrumentation/events/kmem.h
+-+++ b/include/instrumentation/events/kmem.h
+-@@ -218,6 +218,50 @@ LTTNG_TRACEPOINT_EVENT_MAP(mm_page_alloc, kmem_mm_page_alloc,
+- 	)
+- )
+- 
+-+#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,19,0))
+-+LTTNG_TRACEPOINT_EVENT_CLASS(kmem_mm_page,
+-+
+-+	TP_PROTO(struct page *page, unsigned int order, int migratetype,
+-+			int percpu_refill),
+-+
+-+	TP_ARGS(page, order, migratetype, percpu_refill),
+-+
+-+	TP_FIELDS(
+-+		ctf_integer_hex(struct page *, page, page)
+-+		ctf_integer(unsigned long, pfn,
+-+			page ? page_to_pfn(page) : -1UL)
+-+		ctf_integer(unsigned int, order, order)
+-+		ctf_integer(int, migratetype, migratetype)
+-+		ctf_integer(int, percpu_refill, percpu_refill)
+-+	)
+-+)
+-+
+-+LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(kmem_mm_page, mm_page_alloc_zone_locked,
+-+
+-+	kmem_mm_page_alloc_zone_locked,
+-+
+-+	TP_PROTO(struct page *page, unsigned int order, int migratetype,
+-+			int percpu_refill),
+-+
+-+	TP_ARGS(page, order, migratetype, percpu_refill)
+-+)
+-+
+-+LTTNG_TRACEPOINT_EVENT_MAP(mm_page_pcpu_drain,
+-+
+-+	kmem_mm_page_pcpu_drain,
+-+
+-+	TP_PROTO(struct page *page, unsigned int order, int migratetype),
+-+
+-+	TP_ARGS(page, order, migratetype),
+-+
+-+	TP_FIELDS(
+-+		ctf_integer(unsigned long, pfn,
+-+			page ? page_to_pfn(page) : -1UL)
+-+		ctf_integer(unsigned int, order, order)
+-+		ctf_integer(int, migratetype, migratetype)
+-+	)
+-+)
+-+#else
+- LTTNG_TRACEPOINT_EVENT_CLASS(kmem_mm_page,
+- 
+- 	TP_PROTO(struct page *page, unsigned int order, int migratetype),
+-@@ -250,6 +294,7 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(kmem_mm_page, mm_page_pcpu_drain,
+- 
+- 	TP_ARGS(page, order, migratetype)
+- )
+-+#endif
+- 
+- #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(3,19,2)	\
+- 	|| LTTNG_KERNEL_RANGE(3,14,36, 3,15,0)		\
+--- 
+-2.19.1
+-
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-net-skb-introduce-kfree_skb_reason-v5.15.58.v5.1.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-net-skb-introduce-kfree_skb_reason-v5.15.58.v5.1.patch
+deleted file mode 100644
+index ca6abea9c0..0000000000
+--- a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-net-skb-introduce-kfree_skb_reason-v5.15.58.v5.1.patch
++++ /dev/null
+@@ -1,53 +0,0 @@
+-From d8254360c7f2ff9b3f945e9668d89c0b56b9bd91 Mon Sep 17 00:00:00 2001
+-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+-Date: Fri, 29 Jul 2022 15:37:43 -0400
+-Subject: [PATCH] fix: net: skb: introduce kfree_skb_reason() (v5.15.58..v5.16)
+-
+-See upstream commit :
+-
+-  commit c504e5c2f9648a1e5c2be01e8c3f59d394192bd3
+-  Author: Menglong Dong <imagedong@tencent.com>
+-  Date:   Sun Jan 9 14:36:26 2022 +0800
+-
+-    net: skb: introduce kfree_skb_reason()
+-
+-    Introduce the interface kfree_skb_reason(), which is able to pass
+-    the reason why the skb is dropped to 'kfree_skb' tracepoint.
+-
+-    Add the 'reason' field to 'trace_kfree_skb', therefor user can get
+-    more detail information about abnormal skb with 'drop_monitor' or
+-    eBPF.
+-
+-    All drop reasons are defined in the enum 'skb_drop_reason', and
+-    they will be print as string in 'kfree_skb' tracepoint in format
+-    of 'reason: XXX'.
+-
+-    ( Maybe the reasons should be defined in a uapi header file, so that
+-    user space can use them? )
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+-Change-Id: Ib3c039207739dad10f097cf76474e0822e351273
+----
+- include/instrumentation/events/skb.h | 4 +++-
+- 1 file changed, 3 insertions(+), 1 deletion(-)
+-
+-diff --git a/include/instrumentation/events/skb.h b/include/instrumentation/events/skb.h
+-index 237e54ad..186732ea 100644
+---- a/include/instrumentation/events/skb.h
+-+++ b/include/instrumentation/events/skb.h
+-@@ -13,7 +13,9 @@
+- /*
+-  * Tracepoint for free an sk_buff:
+-  */
+--#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,17,0))
+-+#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,17,0) \
+-+	|| LTTNG_KERNEL_RANGE(5,15,58, 5,16,0))
+-+
+- LTTNG_TRACEPOINT_ENUM(skb_drop_reason,
+- 	TP_ENUM_VALUES(
+- 		ctf_enum_value("NOT_SPECIFIED",	SKB_DROP_REASON_NOT_SPECIFIED)
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0002-fix-fs-Remove-flags-parameter-from-aops-write_begin-.patch b/meta/recipes-kernel/lttng/lttng-modules/0002-fix-fs-Remove-flags-parameter-from-aops-write_begin-.patch
+deleted file mode 100644
+index 84c97d5f90..0000000000
+--- a/meta/recipes-kernel/lttng/lttng-modules/0002-fix-fs-Remove-flags-parameter-from-aops-write_begin-.patch
++++ /dev/null
+@@ -1,76 +0,0 @@
+-From b5d1c38665cd69d7d1c94231fe0609da5c8afbc3 Mon Sep 17 00:00:00 2001
+-From: Michael Jeanson <mjeanson@efficios.com>
+-Date: Wed, 8 Jun 2022 13:07:59 -0400
+-Subject: [PATCH 2/3] fix: fs: Remove flags parameter from aops->write_begin
+- (v5.19)
+-
+-See upstream commit :
+-
+-  commit 9d6b0cd7579844761ed68926eb3073bab1dca87b
+-  Author: Matthew Wilcox (Oracle) <willy@infradead.org>
+-  Date:   Tue Feb 22 14:31:43 2022 -0500
+-
+-    fs: Remove flags parameter from aops->write_begin
+-
+-    There are no more aop flags left, so remove the parameter.
+-
+-Upstream-Status: Backport
+-
+-Change-Id: I82725b93e13d749f52a631b2ac60df81a5e839f8
+-Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
+-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+----
+- include/instrumentation/events/ext4.h | 30 +++++++++++++++++++++++++++
+- 1 file changed, 30 insertions(+)
+-
+-diff --git a/include/instrumentation/events/ext4.h b/include/instrumentation/events/ext4.h
+-index 513762c0..222416ec 100644
+---- a/include/instrumentation/events/ext4.h
+-+++ b/include/instrumentation/events/ext4.h
+-@@ -122,6 +122,35 @@ LTTNG_TRACEPOINT_EVENT(ext4_begin_ordered_truncate,
+- 	)
+- )
+- 
+-+#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,19,0))
+-+LTTNG_TRACEPOINT_EVENT_CLASS(ext4__write_begin,
+-+
+-+	TP_PROTO(struct inode *inode, loff_t pos, unsigned int len),
+-+
+-+	TP_ARGS(inode, pos, len),
+-+
+-+	TP_FIELDS(
+-+		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+-+		ctf_integer(ino_t, ino, inode->i_ino)
+-+		ctf_integer(loff_t, pos, pos)
+-+		ctf_integer(unsigned int, len, len)
+-+	)
+-+)
+-+
+-+LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__write_begin, ext4_write_begin,
+-+
+-+	TP_PROTO(struct inode *inode, loff_t pos, unsigned int len),
+-+
+-+	TP_ARGS(inode, pos, len)
+-+)
+-+
+-+LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__write_begin, ext4_da_write_begin,
+-+
+-+	TP_PROTO(struct inode *inode, loff_t pos, unsigned int len),
+-+
+-+	TP_ARGS(inode, pos, len)
+-+)
+-+#else
+- LTTNG_TRACEPOINT_EVENT_CLASS(ext4__write_begin,
+- 
+- 	TP_PROTO(struct inode *inode, loff_t pos, unsigned int len,
+-@@ -153,6 +182,7 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__write_begin, ext4_da_write_begin,
+- 
+- 	TP_ARGS(inode, pos, len, flags)
+- )
+-+#endif
+- 
+- LTTNG_TRACEPOINT_EVENT_CLASS(ext4__write_end,
+- 	TP_PROTO(struct inode *inode, loff_t pos, unsigned int len,
+--- 
+-2.19.1
+-
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0003-fix-workqueue-Fix-type-of-cpu-in-trace-event-v5.19.patch b/meta/recipes-kernel/lttng/lttng-modules/0003-fix-workqueue-Fix-type-of-cpu-in-trace-event-v5.19.patch
+deleted file mode 100644
+index 63f9c40d92..0000000000
+--- a/meta/recipes-kernel/lttng/lttng-modules/0003-fix-workqueue-Fix-type-of-cpu-in-trace-event-v5.19.patch
++++ /dev/null
+@@ -1,124 +0,0 @@
+-From 526f13c844cd29f89bd3e924867d9ddfe3c40ade Mon Sep 17 00:00:00 2001
+-From: Michael Jeanson <mjeanson@efficios.com>
+-Date: Wed, 15 Jun 2022 12:07:16 -0400
+-Subject: [PATCH 3/3] fix: workqueue: Fix type of cpu in trace event (v5.19)
+-
+-See upstream commit :
+-
+-  commit 873a400938b31a1e443c4d94b560b78300787540
+-  Author: Wonhyuk Yang <vvghjk1234@gmail.com>
+-  Date:   Wed May 4 11:32:03 2022 +0900
+-
+-    workqueue: Fix type of cpu in trace event
+-
+-    The trace event "workqueue_queue_work" use unsigned int type for
+-    req_cpu, cpu. This casue confusing cpu number like below log.
+-
+-    $ cat /sys/kernel/debug/tracing/trace
+-    cat-317  [001] ...: workqueue_queue_work: ... req_cpu=8192 cpu=4294967295
+-
+-    So, change unsigned type to signed type in the trace event. After
+-    applying this patch, cpu number will be printed as -1 instead of
+-    4294967295 as folllows.
+-
+-    $ cat /sys/kernel/debug/tracing/trace
+-    cat-1338  [002] ...: workqueue_queue_work: ... req_cpu=8192 cpu=-1
+-
+-Upstream-Status: Backport
+-
+-Change-Id: I478083c350b6ec314d87e9159dc5b342b96daed7
+-Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
+-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+----
+- include/instrumentation/events/workqueue.h | 49 ++++++++++++++++++++--
+- 1 file changed, 46 insertions(+), 3 deletions(-)
+-
+-diff --git a/include/instrumentation/events/workqueue.h b/include/instrumentation/events/workqueue.h
+-index 023b65a8..5693cf89 100644
+---- a/include/instrumentation/events/workqueue.h
+-+++ b/include/instrumentation/events/workqueue.h
+-@@ -28,10 +28,35 @@ LTTNG_TRACEPOINT_EVENT_CLASS(workqueue_work,
+- 	)
+- )
+- 
+-+#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,19,0))
+- /**
+-  * workqueue_queue_work - called when a work gets queued
+-  * @req_cpu:	the requested cpu
+-- * @cwq:	pointer to struct cpu_workqueue_struct
+-+ * @pwq:	pointer to struct pool_workqueue
+-+ * @work:	pointer to struct work_struct
+-+ *
+-+ * This event occurs when a work is queued immediately or once a
+-+ * delayed work is actually queued on a workqueue (ie: once the delay
+-+ * has been reached).
+-+ */
+-+LTTNG_TRACEPOINT_EVENT(workqueue_queue_work,
+-+
+-+	TP_PROTO(int req_cpu, struct pool_workqueue *pwq,
+-+		 struct work_struct *work),
+-+
+-+	TP_ARGS(req_cpu, pwq, work),
+-+
+-+	TP_FIELDS(
+-+		ctf_integer_hex(void *, work, work)
+-+		ctf_integer_hex(void *, function, work->func)
+-+		ctf_integer(int, req_cpu, req_cpu)
+-+	)
+-+)
+-+#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(3,9,0))
+-+/**
+-+ * workqueue_queue_work - called when a work gets queued
+-+ * @req_cpu:	the requested cpu
+-+ * @pwq:	pointer to struct pool_workqueue
+-  * @work:	pointer to struct work_struct
+-  *
+-  * This event occurs when a work is queued immediately or once a
+-@@ -40,17 +65,34 @@ LTTNG_TRACEPOINT_EVENT_CLASS(workqueue_work,
+-  */
+- LTTNG_TRACEPOINT_EVENT(workqueue_queue_work,
+- 
+--#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(3,9,0))
+- 	TP_PROTO(unsigned int req_cpu, struct pool_workqueue *pwq,
+- 		 struct work_struct *work),
+- 
+- 	TP_ARGS(req_cpu, pwq, work),
+-+
+-+	TP_FIELDS(
+-+		ctf_integer_hex(void *, work, work)
+-+		ctf_integer_hex(void *, function, work->func)
+-+		ctf_integer(unsigned int, req_cpu, req_cpu)
+-+	)
+-+)
+- #else
+-+/**
+-+ * workqueue_queue_work - called when a work gets queued
+-+ * @req_cpu:	the requested cpu
+-+ * @cwq:	pointer to struct cpu_workqueue_struct
+-+ * @work:	pointer to struct work_struct
+-+ *
+-+ * This event occurs when a work is queued immediately or once a
+-+ * delayed work is actually queued on a workqueue (ie: once the delay
+-+ * has been reached).
+-+ */
+-+LTTNG_TRACEPOINT_EVENT(workqueue_queue_work,
+-+
+- 	TP_PROTO(unsigned int req_cpu, struct cpu_workqueue_struct *cwq,
+- 		 struct work_struct *work),
+- 
+- 	TP_ARGS(req_cpu, cwq, work),
+--#endif
+- 
+- 	TP_FIELDS(
+- 		ctf_integer_hex(void *, work, work)
+-@@ -58,6 +100,7 @@ LTTNG_TRACEPOINT_EVENT(workqueue_queue_work,
+- 		ctf_integer(unsigned int, req_cpu, req_cpu)
+- 	)
+- )
+-+#endif
+- 
+- /**
+-  * workqueue_activate_work - called when a work gets activated
+--- 
+-2.19.1
+-
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.4.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.5.bb
+similarity index 78%
+rename from meta/recipes-kernel/lttng/lttng-modules_2.13.4.bb
+rename to meta/recipes-kernel/lttng/lttng-modules_2.13.5.bb
+index ad4063bed3..307fb912cf 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.13.4.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.5.bb
+@@ -11,11 +11,6 @@ include lttng-platforms.inc
  
- # We use git parameters and functionality only found in 1.7.8 or later
+ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://0009-Rename-genhd-wrapper-to-blkdev.patch \
+-           file://0001-fix-mm-page_alloc-fix-tracepoint-mm_page_alloc_zone_.patch \
+-           file://0002-fix-fs-Remove-flags-parameter-from-aops-write_begin-.patch \
+-           file://0003-fix-workqueue-Fix-type-of-cpu-in-trace-event-v5.19.patch \
+-           file://0001-fix-net-skb-introduce-kfree_skb_reason-v5.15.58.v5.1.patch \
+-           file://0001-fix-compaction.patch \
+            file://0001-fix-adjust-range-v5.10.137-in-block-probe.patch \
+            file://0001-wrapper-powerpc64-fix-kernel-crash-caused-by-do_get_.patch \
+            "
+@@ -23,7 +18,7 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+ # Use :append here so that the patch is applied also when using devupstream
+ SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch"
+ 
+-SRC_URI[sha256sum] = "6159d00e4e1d59546eec8d4a67e1aa39c1084ceb5e5afeb666eab4b8a5b5a9ee"
++SRC_URI[sha256sum] = "eceb3428d80e85a9f008425beb9526195c9f7f02b302f28add56df53aef3e708"
+ 
+ export INSTALL_MOD_DIR="kernel/lttng-modules"
+ 
 -- 
 2.25.1
 
