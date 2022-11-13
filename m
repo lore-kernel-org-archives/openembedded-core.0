@@ -1,140 +1,149 @@
-Return-Path: <christoph.lauer@email.de>
+Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCEFCC43217
-	for <webhook@archiver.kernel.org>; Sun, 13 Nov 2022 08:43:22 +0000 (UTC)
-Received: from mout.web.de (mout.web.de [212.227.17.12])
- by mx.groups.io with SMTP id smtpd.web09.997.1668328996662690218
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCD89C433FE
+	for <webhook@archiver.kernel.org>; Sun, 13 Nov 2022 08:44:42 +0000 (UTC)
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+ by mx.groups.io with SMTP id smtpd.web11.926.1668329081575903744
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Nov 2022 00:43:17 -0800
+ Sun, 13 Nov 2022 00:44:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@email.de header.s=s29768273 header.b=vYuMmcZL;
- spf=pass (domain: email.de, ip: 212.227.17.12, mailfrom: christoph.lauer@email.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=email.de;
-	s=s29768273; t=1668328994;
-	bh=cg1pGxAsDkfwPhbFTCPFkweNs7laE5h5zI5HZFqz3H0=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-	b=vYuMmcZLFidM2+z/YrBar3ah/GUYrPFLFNwDOuUYiUjhwpX9TSKSDrM48tK0+P6so
-	 FSf9yQadCoq0DnyWzI7qIqI0e2UoCSQIFRG8HvjUSghf8KyKjmw28DWc36Mu+lPDK2
-	 0j8tCnPC6qI9L+OYufPk/sUhKyMLaSJJjlbt95fEdP5BMJAkfsaSe8QPwrmslk9Ru7
-	 Yp97ANrmL1QIhVk9CeV+kz4zFhpTJoKTv1FksfyTrS7sxa93Lb+OZ5/J4qsdOykjV7
-	 rqwEIWmmsDLkC12p/v8jsHeWFMOVy6dAdPDrNOjOusS+VFTOn6O+iySsODTUmc72Y+
-	 +HusAwD07r1Bg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from xtr-acuyocto-p01.xtronic-net.com ([178.251.90.190]) by
- smtp.web.de (mrweb105 [213.165.67.124]) with ESMTPSA (Nemesis) id
- 1MrwwJ-1pHLym3MMX-00nWmb; Sun, 13 Nov 2022 09:43:13 +0100
-From: Christoph Lauer <christoph.lauer@email.de>
+ dkim=pass header.i=@underview.tech header.s=google header.b=RObmYJB0;
+ spf=pass (domain: underview.tech, ip: 209.85.167.179, mailfrom: vince@underview.tech)
+Received: by mail-oi1-f179.google.com with SMTP id c129so8835961oia.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Nov 2022 00:44:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=underview.tech; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YmsWOSRD7/VQ4XwqVqV5I0HBfV2sXpd8heHwjkrtKbU=;
+        b=RObmYJB02WyrzTCk9LctL8/s7gW6OFq7x2hPVlFusPXTBO6ewgQPQNQkKj1LChnFtg
+         lBpv7OP3TrCv9TDzkJxGxrhPlNJPwySxYJne7QFN2gn5jOruxNLfCHP6hrbSl+C8jSKx
+         PTDb7KrletZ+ggtmYD1i572Zbjpf30Q3vzcpzZeuthDcl1mlfFO6jaTsqnl/AewHHYzk
+         RxcvmHQ2ZtmfEciIPM9NQJloMc5+sUh0PPV2N/2b7sO120ukU2jQy/aJx47QG1xOBtlL
+         FnEQSd6fc833nR2q7fB9pPz2DuAvcYf9rgXmEA3ETUKiRkBIQW3jjI+VIaE/Ftz1NCMf
+         pk3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YmsWOSRD7/VQ4XwqVqV5I0HBfV2sXpd8heHwjkrtKbU=;
+        b=ji7gMtLeGXIBmUqQYDhEBEkPwkh/X3/8E+tv6+wuQtp5OxkMpDzjzUVbl8Q+c2N33t
+         Be08qW9Hk5DDcLOdYHNeTOMX7FCedxMENIys8QBC9mvpqcutTnwHcZem20Dn/HA7tOF/
+         7Uzamf9H7in/Pot0E01ZxM4sSTq/UsoimMAQZTL0B7Em6TWhQHtAAaKu7GFG70v5b2BA
+         rhemSwlrCuXu3wDRZI7t7yXgtBPPkxJcCjHzBdW5vNUQFvYlp+vDk9jHu6p//nVbk7nK
+         ngU1Zl+QTD59qAwKEoQWqXuyvwFqKACR9urEfmhjgR4D3gKsCa475LEAxOMCd2LBGmIy
+         ScyA==
+X-Gm-Message-State: ANoB5pnPjHiulRDgwnglfqsVollLbX4j3CRV13FTcLkGFc83mijoBah2
+	kqzIJxgc1EPlO3XD1ZKxbmiWdOvIjFSFG33h
+X-Google-Smtp-Source: AA0mqf6otzjaatUQ3/qS845hpLrMupfZHS5Fz91H82VlEU7gUhaR4P9SMLBiO2axMztJTKXzaQahng==
+X-Received: by 2002:a54:4783:0:b0:359:fcf4:9e47 with SMTP id o3-20020a544783000000b00359fcf49e47mr3774530oic.81.1668329080149;
+        Sun, 13 Nov 2022 00:44:40 -0800 (PST)
+Received: from vince-ubuntu.attlocal.net (99-113-4-128.lightspeed.hstntx.sbcglobal.net. [99.113.4.128])
+        by smtp.gmail.com with ESMTPSA id w21-20020a056870b39500b0012c21a64a76sm3566803oap.24.2022.11.13.00.44.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Nov 2022 00:44:39 -0800 (PST)
+From: Vincent Davis Jr <vince@underview.tech>
 To: openembedded-core@lists.openembedded.org
-Cc: Christoph Lauer <christoph.lauer@xtronic.de>
-Subject: [PATCH 1/2] initial machine configs: set PREFERRED_PROVIDERs as weaker defaults
-Date: Sun, 13 Nov 2022 08:42:54 +0000
-Message-Id: <20221113084255.18113-1-christoph.lauer@email.de>
-X-Mailer: git-send-email 2.17.1
-X-Provags-ID: V03:K1:H1soe9siaEyReGiiwYTt0gAxs+S4wQ0CLhGJQfwsc45cHylWCJJ
- eODLSl8Obcjq0csDJJ8C0q7DosjOjJT2s/WL7wolF4h19joRmCyz6i7iXntklNqA4QXnxBz
- +s0k7Y977u0DEINef+5GnOujfhajOOxTuBShJo2S/Q/QMziLNXVLvd4DJd4ERN5qzIFqK7+
- +xMIvPf3kfiTmhxKa6RiQ==
-UI-OutboundReport: notjunk:1;M01:P0:ocOncfsJN/c=;L0T2hFAwyWuM9j/6zYSH8K0V1sF
- yodc3+c7AZp5N45zv1dN/KD3T8sOkuzXdml8mK0Dm8k9+38F7L4zs3eMAAo4r33Dr9hiigGl3
- 4//gv7BAcyr8CbjvJnFrYUU7Cg07waL17qErXP87MOv2FS3edDkKAM+ZiSZA+Uy3vNev/BPgb
- 1XK8FU/5pw+tIPxNdIHchRbPNh14hBtGzQCNbZDnOtwUssNrYk0ObyOvmL21ijpXF7BNgaSiD
- ko5ursjE7FQka1XtGDfaqpFBd4RuvOEle9cXvvly4xp0IJ5kaiuPRNITLwPaw7Fpd8vECkxXx
- TLjXqVZQsrYKLNYnmYob13FTMNi6LQAZQDrjIRWi2mpv7jyoyufIVg2vuyiEE69CiAbOs/VxV
- KrEYMpO+Jk1LTNISqil0wXC9ltPzkPTMArDzPhShEWVGaMGbvRf4ql6Mk2vi8I/FhYzlIUiPy
- 5aD8O2vKH5jawhMFYBa6t1JeeYjvaYFWbIsk9Gtb1f7xDvc32BMlxIXY1ZgeTMbpIFu947ieQ
- cbt2jZm+44L+um6/tdyuql6fDJj+TYG2fE8eJPxp4Lcqd13b7Mu+ZU7WhgFLKYCIcCW9TkK+A
- niWRavDanzZndmcqWS0ss+qXdb4Ws5bFC7j5IZYZ/KqWlya/s233t0UElx/P+Bj3ImmtHRRE7
- rewsfq5wc5g1tuQdGsHv2qbjMxmPfj4q6lvzZ78Ukrr58A+8G41xBvlQ9/CT8t1hDWaZhQ2Df
- VKgLekAVZKuiAYl2B41+snLHGDeNe8BQ+vy3r2vfX219z8AQ/W6IyPogQUEr3ylnuAHIWI+3J
- HwWb5E7Xgj6/XCAh38w05nWxYBCThtW1H3bC7s1CJHDZhCG8UyiYKW0VfSYmQV5fVNulDE+Zn
- Y6mOYIOBInhynnwK+2ZdHXB2ruVLJwKg+zUuLwFgbjUvSHgBKU2PK3NRCwya55cvkhuipNMgj
- g9fQwV7udBCZg2D2NC0bcklo4BQ=
-Content-Transfer-Encoding: quoted-printable
+Cc: Vincent Davis Jr <vince@underview.tech>
+Subject: [PATCH] llvm: fix native llvm-config RUNPATH
+Date: Sun, 13 Nov 2022 02:44:29 -0600
+Message-Id: <20221113084429.329094-1-vince@underview.tech>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 13 Nov 2022 08:43:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173185
+ <openembedded-core@lists.openembedded.org>; Sun, 13 Nov 2022 08:44:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173187
 
-From: Christoph Lauer <christoph.lauer@xtronic.de>
+Problem occurs when native llvm-config binary is
+required by another recipe. RUNPATH is hardcoded
+to $ORIGIN/../lib:$ORIGIN/../../lib which depending
+upon architecture 'lib' directory name may vary
+(i.e 'lib64').
 
-This gives BSP creators the flexibility to change PREFERRED_PROVIDERs with=
- weak defaults
+Commit fixes issue by updating rpath on binary to include
+architecture dependent directory name.
 
-Signed-off-by: Christoph Lauer <christoph.lauer@xtronic.de>
-=2D--
- meta-yocto-bsp/conf/machine/beaglebone-yocto.conf         | 6 +++---
- meta-yocto-bsp/conf/machine/edgerouter.conf               | 2 +-
- meta-yocto-bsp/conf/machine/include/genericx86-common.inc | 4 ++--
- 3 files changed, 6 insertions(+), 6 deletions(-)
+Commit also fixes issue with llvm-config --libdir command
+by setting LLVM_LIBDIR_SUFFIX. Command will return proper
+architecture dependent directory name.
 
-diff --git a/meta-yocto-bsp/conf/machine/beaglebone-yocto.conf b/meta-yoct=
-o-bsp/conf/machine/beaglebone-yocto.conf
-index 284559c50c..d5c5a4a2ef 100644
-=2D-- a/meta-yocto-bsp/conf/machine/beaglebone-yocto.conf
-+++ b/meta-yocto-bsp/conf/machine/beaglebone-yocto.conf
-@@ -2,7 +2,7 @@
- #@NAME: Beaglebone-yocto machine
- #@DESCRIPTION: Reference machine configuration for http://beagleboard.org=
-/bone and http://beagleboard.org/black boards
+Signed-off-by: Vincent Davis Jr <vince@underview.tech>
+---
+ meta/recipes-devtools/llvm/llvm_git.bb | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
--PREFERRED_PROVIDER_virtual/xserver ?=3D "xserver-xorg"
-+PREFERRED_PROVIDER_virtual/xserver ??=3D "xserver-xorg"
- XSERVER ?=3D "xserver-xorg \
-            xf86-video-modesetting \
-            "
-@@ -23,14 +23,14 @@ do_image_wic[depends] +=3D "mtools-native:do_populate_=
-sysroot dosfstools-native:do
- SERIAL_CONSOLES ?=3D "115200;ttyS0 115200;ttyO0 115200;ttyAMA0"
- SERIAL_CONSOLES_CHECK =3D "${SERIAL_CONSOLES}"
-
--PREFERRED_PROVIDER_virtual/kernel ?=3D "linux-yocto"
-+PREFERRED_PROVIDER_virtual/kernel ??=3D "linux-yocto"
- PREFERRED_VERSION_linux-yocto ?=3D "5.15%"
-
- KERNEL_IMAGETYPE =3D "zImage"
- KERNEL_DEVICETREE =3D "am335x-bone.dtb am335x-boneblack.dtb am335x-bonegr=
-een.dtb"
- KERNEL_EXTRA_ARGS +=3D "LOADADDR=3D${UBOOT_ENTRYPOINT}"
-
--PREFERRED_PROVIDER_virtual/bootloader ?=3D "u-boot"
-+PREFERRED_PROVIDER_virtual/bootloader ??=3D "u-boot"
-
- SPL_BINARY =3D "MLO"
- UBOOT_SUFFIX =3D "img"
-diff --git a/meta-yocto-bsp/conf/machine/edgerouter.conf b/meta-yocto-bsp/=
-conf/machine/edgerouter.conf
-index 249864e9ce..367d2e091a 100644
-=2D-- a/meta-yocto-bsp/conf/machine/edgerouter.conf
-+++ b/meta-yocto-bsp/conf/machine/edgerouter.conf
-@@ -10,7 +10,7 @@ KERNEL_IMAGETYPE =3D "vmlinux"
- KERNEL_ALT_IMAGETYPE =3D "vmlinux.bin"
- KERNEL_IMAGE_STRIP_EXTRA_SECTIONS  =3D ".comment"
-
--PREFERRED_PROVIDER_virtual/kernel ?=3D "linux-yocto"
-+PREFERRED_PROVIDER_virtual/kernel ??=3D "linux-yocto"
- PREFERRED_VERSION_linux-yocto ?=3D "5.15%"
-
- SERIAL_CONSOLES =3D "115200;ttyS0"
-diff --git a/meta-yocto-bsp/conf/machine/include/genericx86-common.inc b/m=
-eta-yocto-bsp/conf/machine/include/genericx86-common.inc
-index 8c5e5522bc..2fe34dcd47 100644
-=2D-- a/meta-yocto-bsp/conf/machine/include/genericx86-common.inc
-+++ b/meta-yocto-bsp/conf/machine/include/genericx86-common.inc
-@@ -3,8 +3,8 @@ require conf/machine/include/x86/qemuboot-x86.inc
- MACHINE_FEATURES +=3D "wifi efi pcbios"
-
- PREFERRED_VERSION_linux-yocto ?=3D "5.15%"
--PREFERRED_PROVIDER_virtual/kernel ?=3D "linux-yocto"
--PREFERRED_PROVIDER_virtual/xserver ?=3D "xserver-xorg"
-+PREFERRED_PROVIDER_virtual/kernel ??=3D "linux-yocto"
-+PREFERRED_PROVIDER_virtual/xserver ??=3D "xserver-xorg"
- XSERVER ?=3D "${XSERVER_X86_BASE} \
-             ${XSERVER_X86_EXT} \
-             ${XSERVER_X86_I915} \
-=2D-
-2.17.1
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index 1f47e5d0fb..29eb119be5 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -56,6 +56,14 @@ def get_llvm_arch(bb, d, arch_var):
+ def get_llvm_host_arch(bb, d):
+     return get_llvm_arch(bb, d, 'HOST_ARCH')
+ 
++def get_llvm_libdir_suffix(bb, d):
++    import re
++    arch = d.getVar('HOST_ARCH')
++    if re.match(r'(x86.64)$', arch):
++        return 64
++    else:
++        return ""
++
+ PACKAGECONFIG ??= ""
+ # if optviewer OFF, force the modules to be not found or the ones on the host would be found
+ PACKAGECONFIG[optviewer] = ",-DPY_PYGMENTS_FOUND=OFF -DPY_PYGMENTS_LEXERS_C_CPP_FOUND=OFF -DPY_YAML_FOUND=OFF,python3-pygments python3-pyyaml,python3-pygments python3-pyyaml"
+@@ -64,6 +72,7 @@ PACKAGECONFIG[optviewer] = ",-DPY_PYGMENTS_FOUND=OFF -DPY_PYGMENTS_LEXERS_C_CPP_
+ # Default to build all OE-Core supported target arches (user overridable).
+ #
+ LLVM_TARGETS ?= "AMDGPU;${@get_llvm_host_arch(bb, d)}"
++LLVM_TARGET_LIBDIR_SUFFIX ?= "${@get_llvm_libdir_suffix(bb, d)}"
+ 
+ ARM_INSTRUCTION_SET:armv5 = "arm"
+ ARM_INSTRUCTION_SET:armv4t = "arm"
+@@ -83,6 +92,10 @@ EXTRA_OECMAKE += "-DLLVM_ENABLE_ASSERTIONS=OFF \
+                   -DCMAKE_BUILD_TYPE=Release \
+                   -G Ninja"
+ 
++EXTRA_OECMAKE:append:class-native = "\
++                  -DLLVM_LIBDIR_SUFFIX=${LLVM_TARGET_LIBDIR_SUFFIX} \
++                  "
++
+ EXTRA_OECMAKE:append:class-target = "\
+                   -DCMAKE_CROSSCOMPILING:BOOL=ON \
+                   -DLLVM_TABLEGEN=${STAGING_BINDIR_NATIVE}/llvm-tblgen${PV} \
+@@ -129,6 +142,7 @@ do_install:class-native() {
+ }
+ 
+ SYSROOT_PREPROCESS_FUNCS:append:class-target = " llvm_sysroot_preprocess"
++SYSROOT_PREPROCESS_FUNCS:append:class-native = " llvm_sysroot_preprocess_native"
+ 
+ llvm_sysroot_preprocess() {
+ 	install -d ${SYSROOT_DESTDIR}${bindir_crossscripts}/
+@@ -136,6 +150,18 @@ llvm_sysroot_preprocess() {
+ 	ln -sf llvm-config ${SYSROOT_DESTDIR}${bindir_crossscripts}/llvm-config${PV}
+ }
+ 
++# All of LLVM's shipping binaries have an rpath pointing at ``$ORIGIN/../lib``.
++# Recipe llvm requires llvm-native to compile. When compiling llvm build libraries
++# are located in $ORIGIN/../lib directory. When the llvm-config binary required
++# in another recipe depending upon HOST_ARCH variable libraries may be located
++# in a different directory. Account for both situations here.
++llvm_sysroot_preprocess_native() {
++	chrpath --replace '$ORIGIN'/../lib${LLVM_TARGET_LIBDIR_SUFFIX}:'$ORIGIN'/../../lib${LLVM_TARGET_LIBDIR_SUFFIX}:'$ORIGIN'/../lib:'$ORIGIN'/../../lib \
++                          ${SYSROOT_DESTDIR}${bindir}/llvm-tblgen${PV}
++	chrpath --replace '$ORIGIN'/../lib${LLVM_TARGET_LIBDIR_SUFFIX}:'$ORIGIN'/../../lib${LLVM_TARGET_LIBDIR_SUFFIX}:'$ORIGIN'/../lib:'$ORIGIN'/../../lib \
++                          ${SYSROOT_DESTDIR}${bindir}/llvm-config${PV}
++}
++
+ PACKAGES =+ "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-libllvm ${PN}-liboptremarks ${PN}-liblto"
+ 
+ RRECOMMENDS:${PN}-dev += "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-liboptremarks"
+-- 
+2.34.1
 
 
