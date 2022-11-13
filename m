@@ -2,163 +2,246 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3BF0C4332F
-	for <webhook@archiver.kernel.org>; Sun, 13 Nov 2022 17:44:58 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web12.145.1668361489842120768
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 780EBC4332F
+	for <webhook@archiver.kernel.org>; Sun, 13 Nov 2022 17:49:07 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web11.20.1668361740573043197
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Nov 2022 09:44:50 -0800
+ Sun, 13 Nov 2022 09:49:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=k/obDex6;
- spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f177.google.com with SMTP id x21so10296245ljg.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Nov 2022 09:44:49 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jhWhUhIi;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id u11so10320741ljk.6
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Nov 2022 09:49:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zmCM/XIjTnAp4YLB2e+DMk9ujmC4U9FCw92Zk2pEuXQ=;
-        b=k/obDex6eaBK3Oy9iHsvf2wIcKa9pdd1HosznI2bepLmk3VmefQeUO2CvDXVlyqSTX
-         oBhyNliy0uWbNB8iJw4gbSyY4auQ/LIg2jVdj2fx6x0usnI2i9tQ72BAXD672Zupngb8
-         zpGRNhtB/EpWd9mDQoNF7+gfjbGJmQ1jrAAbPGw7h2mgZ3Yb5SWRgnbZrXpemZoE0TYB
-         2OAIv/S3v8xXP8gczzIxU2TSk/rCfD4hJJINJbby2g5hUInyGQw+lFraUhBDDMqvH2BX
-         tcrowaelQZwy3pbNyJC0VvqeZq9Du58vvIEvvGYkCjB8AtQHA63a9gZewf5kU5ErglFp
-         T2wg==
+        bh=uV6mp2xw9QZjFwV34mEAxKeXB73GGXyTI6my0OI16wA=;
+        b=jhWhUhIioo9e0ujpgN9PIpXb2yJ6vHHq2ai4dQQoWYGEPwFqmtTeEoRTuV6TS0uIlO
+         AuQuAwRn31KzO8wyn/5MrzEdk3NmVQ9oGm4gdQFNV5qqaF/3VQk08Ufo8K3ErVJY3FxD
+         VyCQhQtPrybVpBVOqW3sZmZA2GpEXGFkyBhB4a47d004/8wBTnqWoL0aUnoamgD51O5I
+         o2JW39UDmnKR/S0OdpvQxTfllqYiLnjyACa68k2Uk+q4eYmsoOIOrdTvGVqBIDTpqJ9h
+         +9GAA1AD70WtjM21UMtQ+UPxIO1wXOO6Am7pOauxCW0cad6pS1sYZ3/6uPTNNSydnrCp
+         pN/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zmCM/XIjTnAp4YLB2e+DMk9ujmC4U9FCw92Zk2pEuXQ=;
-        b=0/m6XXiSd0WwwCFwWJm6Ue0IlSCLCLBNx4ueDh273E+7mheaFym/TYfjCsjvJUgYaH
-         kqWl5652eVga6fEpy3UvlZrdmekM5Y3oF1XYQ4zD++NtUYEU3JM3lKGvsrz4C0Dz2MFd
-         V+AyVNRcP3oRtPJWDltScDQwcQjLKOn8RFHGWTAZ+8IEc9RVCFgeoeZ/nIIJ6p7Z3xvu
-         Oe7E/gb1knYeQoy7R8DbxG7zeWuWKqSq18CH7F9gzs1eP6FAPhY0nI4ojD5ynDKwT80m
-         PQJWSx/7wLxOHuJA3tQejQN2bGl8QLbw7rxLMkaJ1Lfn4ioVvl0zP9VCMiOiF6gawDiv
-         mJaw==
-X-Gm-Message-State: ANoB5plHwjHdCKP6ZTn0v9NN4Isaw65zQO/AaE6n1hhbcPlIkXeVMEJJ
-	9O09ziuV8+ua5IUbn2KvhD0iDMY7GfUQHfE8yPk=
-X-Google-Smtp-Source: AA0mqf5AiXKxT6ZXqumebgSY8BtilJMSEFwspY1BOwKx41bi4byFMdAVeBjQxg3oG0e+WB1mPQo/6ClRLNC+Qu1dXkw=
-X-Received: by 2002:a2e:a5c7:0:b0:277:8759:bf65 with SMTP id
- n7-20020a2ea5c7000000b002778759bf65mr2952814ljp.108.1668361487916; Sun, 13
- Nov 2022 09:44:47 -0800 (PST)
+        bh=uV6mp2xw9QZjFwV34mEAxKeXB73GGXyTI6my0OI16wA=;
+        b=POoywf+bKTny5/DRUVr5DjQClu0KzmKXvtWeCAoVPViaZ7tAba4skUiDTjDj2AbOEC
+         JaEh9/TzxAUo7zUjJ5JsQgi5rgKG7qrQdtqX4UNJZ2xYv7jnK3sVdbda0YwPBNpbpYyE
+         Rez3mM/hRsijJFAJuhgZK9qA4ZMm8F/yNuq9stTT1oQj1etxx4C0G/QAQazPGez4qA9e
+         6KTTt3Ltbm82wL7tEXyNMuet1/V3E/L1wwLiljbziMoDUGQiOSF1DwGH1J5FvS+Nycjw
+         HzVbk94Yvpem9Wud2cgNG5JtPTndcB5tDfgFYvanMBS3tIXJxka2Iwve6xlYnkzP4lPe
+         dd/g==
+X-Gm-Message-State: ANoB5pkZ09vZmWe/TvmHHug3mtuZ/oHKQmDYADtrRUj53QN961p2eHXO
+	bDhVd8QYeGKGpLq5MT0qp6GVm1pj2LtNYOyniAY=
+X-Google-Smtp-Source: AA0mqf4Pa9ewxuZxB9OgvTCcZEQztmvaMi0pWqhhkKllLXe6cnYz5KtIpLe7sAFSOszPNIezUUFqPuKNeHsHab7QIxk=
+X-Received: by 2002:a05:651c:b14:b0:277:e01:6119 with SMTP id
+ b20-20020a05651c0b1400b002770e016119mr3550910ljr.33.1668361738520; Sun, 13
+ Nov 2022 09:48:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20221113084429.329094-1-vince@underview.tech>
-In-Reply-To: <20221113084429.329094-1-vince@underview.tech>
+References: <20221112163103.42796-1-christoph.lauer@email.de> <b6ac86a81444402796ff28436add5731@axis.com>
+In-Reply-To: <b6ac86a81444402796ff28436add5731@axis.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 13 Nov 2022 18:44:36 +0100
-Message-ID: <CANNYZj_hMQeMh-Rp-fJ=nezRUcwaOk3mMpX4iKSxAEia7tmZeg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] llvm: fix native llvm-config RUNPATH
-To: Vincent Davis Jr <vince@underview.tech>
-Cc: openembedded-core@lists.openembedded.org
+Date: Sun, 13 Nov 2022 18:48:47 +0100
+Message-ID: <CANNYZj-CrvJpLCNFTi9Q__NWBc_25nUJqKwTqpEsHbU8wvCo6A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] initial configs: set initial
+ {DISTRO|MACHINE|IMAGE}FEATUREs as weak as possible
+To: Christoph Lauer <christoph.lauer@email.de>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Christoph Lauer <christoph.lauer@xtronic.de>, 
+	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 13 Nov 2022 17:44:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173207
+ <openembedded-core@lists.openembedded.org>; Sun, 13 Nov 2022 17:49:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173208
 
-I'm not sure I understand the desired outcome properly. Does this
-patch native llvm-config according to the target libdir, or according
-to the build host libdir? The first one is not correct (native items
-must be reusable between targets), the second one is not solving the
-problem?
+It helps if you explain what use case this enables that cannot be
+currently fulfilled. (not a generic 'change features with weak
+defaults' but specific examples of adding and removing and setting
+features).
 
 Alex
 
-On Sun, 13 Nov 2022 at 09:44, Vincent Davis Jr <vince@underview.tech> wrote:
+On Sun, 13 Nov 2022 at 14:43, Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
 >
-> Problem occurs when native llvm-config binary is
-> required by another recipe. RUNPATH is hardcoded
-> to $ORIGIN/../lib:$ORIGIN/../../lib which depending
-> upon architecture 'lib' directory name may vary
-> (i.e 'lib64').
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org> On Behalf Of Christoph Lauer
+> > Sent: den 12 november 2022 17:31
+> > To: openembedded-core@lists.openembedded.org
+> > Cc: Christoph Lauer <christoph.lauer@xtronic.de>
+> > Subject: [OE-core] [PATCH] initial configs: set initial {DISTRO|MACHINE|IMAGE}FEATUREs as weak as possible
+> >
+> > From: Christoph Lauer <christoph.lauer@xtronic.de>
+> >
+> > This gives BSP creators the flexibility to change features with weak defaults
+> >
+> > Signed-off-by: Christoph Lauer <christoph.lauer@xtronic.de>
+> > ---
+> >  meta-poky/conf/distro/poky.conf               |  2 +-
+> >  meta/conf/bitbake.conf                        | 28 +++++++++----------
+> >  .../distro/include/default-distrovars.inc     |  6 ++--
+> >  meta/conf/machine/include/qemu.inc            |  2 +-
+> >  meta/conf/machine/include/riscv/qemuriscv.inc |  2 +-
+> >  5 files changed, 20 insertions(+), 20 deletions(-)
+> >
+> > diff --git a/meta-poky/conf/distro/poky.conf b/meta-poky/conf/distro/poky.conf
+> > index 3e90766349..3a453ef9ed 100644
+> > --- a/meta-poky/conf/distro/poky.conf
+> > +++ b/meta-poky/conf/distro/poky.conf
+> > @@ -18,7 +18,7 @@ POKY_DEFAULT_DISTRO_FEATURES = "largefile opengl ptest multiarch wayland vulkan"
+> >  POKY_DEFAULT_EXTRA_RDEPENDS = "packagegroup-core-boot"
+> >  POKY_DEFAULT_EXTRA_RRECOMMENDS = "kernel-module-af-packet"
+> >
+> > -DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${POKY_DEFAULT_DISTRO_FEATURES}"
+> > +DISTRO_FEATURES ??= "${DISTRO_FEATURES_DEFAULT} ${POKY_DEFAULT_DISTRO_FEATURES}"
+> >
+> >  PREFERRED_VERSION_linux-yocto ?= "5.19%"
+> >  PREFERRED_VERSION_linux-yocto-rt ?= "5.19%"
+> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> > index dea573986d..b2540bb3f5 100644
+> > --- a/meta/conf/bitbake.conf
+> > +++ b/meta/conf/bitbake.conf
+> > @@ -885,31 +885,31 @@ OES_BITBAKE_CONF = "1"
+> >  # Machine properties and packagegroup-base stuff
+> >  ##################################################################
+> >
+> > -MACHINE_FEATURES ?= ""
+> > -DISTRO_FEATURES ?= ""
+> > +MACHINE_FEATURES ??= ""
+> > +DISTRO_FEATURES ??= ""
+> >
+> > -DISTRO_EXTRA_RDEPENDS ?= ""
+> > -DISTRO_EXTRA_RRECOMMENDS ?= ""
+> > -MACHINE_EXTRA_RDEPENDS ?= ""
+> > -MACHINE_EXTRA_RRECOMMENDS ?= ""
+> > -MACHINE_ESSENTIAL_EXTRA_RDEPENDS ?= ""
+> > -MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
+> > +DISTRO_EXTRA_RDEPENDS ??= ""
+> > +DISTRO_EXTRA_RRECOMMENDS ??= ""
+> > +MACHINE_EXTRA_RDEPENDS ??= ""
+> > +MACHINE_EXTRA_RRECOMMENDS ??= ""
+> > +MACHINE_ESSENTIAL_EXTRA_RDEPENDS ??= ""
+> > +MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ??= ""
+> >
+> >  EXTRA_IMAGE_FEATURES ??= ""
+> >  IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
+> >
+> >  # Native distro features (will always be used for -native, even if they
+> >  # are not enabled for target)
+> > -DISTRO_FEATURES_NATIVE ?= "x11 ipv6 xattr"
+> > -DISTRO_FEATURES_NATIVESDK ?= "x11"
+> > +DISTRO_FEATURES_NATIVE ??= "x11 ipv6 xattr"
+> > +DISTRO_FEATURES_NATIVESDK ??= "x11"
+> >
+> >  # Normally target distro features will not be applied to native builds:
+> >  # Native distro features on this list will use the target feature value
+> > -DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation debuginfod opengl wayland"
+> > -DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation debuginfod opengl wayland"
+> > +DISTRO_FEATURES_FILTER_NATIVE ??= "api-documentation debuginfod opengl wayland"
+> > +DISTRO_FEATURES_FILTER_NATIVESDK ??= "api-documentation debuginfod opengl wayland"
+> >
+> > -DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit gobject-introspection-data ldconfig"
+> > -MACHINE_FEATURES_BACKFILL = "rtc qemu-usermode"
+> > +DISTRO_FEATURES_BACKFILL ??= "pulseaudio sysvinit gobject-introspection-data ldconfig"
+> > +MACHINE_FEATURES_BACKFILL ??= "rtc qemu-usermode"
+> >
+> >  COMBINED_FEATURES = "${@oe.utils.set_intersect('DISTRO_FEATURES', 'MACHINE_FEATURES', d)}"
+> >  COMBINED_FEATURES[vardeps] += "DISTRO_FEATURES MACHINE_FEATURES"
+> > diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+> > index abf48f79f0..3b3d439ad3 100644
+> > --- a/meta/conf/distro/include/default-distrovars.inc
+> > +++ b/meta/conf/distro/include/default-distrovars.inc
+> > @@ -19,9 +19,9 @@ DISTRO_FEATURES_DEFAULT:remove:arc = "seccomp"
+> >  # seccomp is not yet ported to microblaze
+> >  DISTRO_FEATURES_DEFAULT:remove:microblaze = "seccomp"
+> >
+> > -DISTRO_FEATURES_DEFAULT ?= "acl alsa bluetooth debuginfod ext2 ipv4 ipv6 pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp"
+> > -DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT}"
+> > -IMAGE_FEATURES ?= ""
+> > +DISTRO_FEATURES_DEFAULT ??= "acl alsa bluetooth debuginfod ext2 ipv4 ipv6 pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp"
+> > +DISTRO_FEATURES ??= "${DISTRO_FEATURES_DEFAULT}"
+> > +IMAGE_FEATURES ??= ""
+> >
+> >  COMMERCIAL_AUDIO_PLUGINS ?= ""
+> >  # COMMERCIAL_AUDIO_PLUGINS ?= "gst-plugins-ugly-mad gst-plugins-ugly-mpegaudioparse"
+> > diff --git a/meta/conf/machine/include/qemu.inc
+> > b/meta/conf/machine/include/qemu.inc
+> > index d9bed7708d..04ffe55309 100644
+> > --- a/meta/conf/machine/include/qemu.inc
+> > +++ b/meta/conf/machine/include/qemu.inc
+> > @@ -10,7 +10,7 @@ XSERVER ?= "xserver-xorg \
+> >              xf86-video-fbdev \
+> >              "
+> >
+> > -MACHINE_FEATURES = "alsa bluetooth usbgadget screen vfat"
+> > +MACHINE_FEATURES ??= "alsa bluetooth usbgadget screen vfat"
+> >
+> >  MACHINEOVERRIDES =. "qemuall:"
+> >
+> > diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/machine/include/riscv/qemuriscv.inc
+> > index 0b399ac1f9..f5f9f89a9f 100644
+> > --- a/meta/conf/machine/include/riscv/qemuriscv.inc
+> > +++ b/meta/conf/machine/include/riscv/qemuriscv.inc
+> > @@ -3,7 +3,7 @@ PREFERRED_PROVIDER_virtual/bootloader ??= "u-boot"
+> >  require conf/machine/include/qemu.inc
+> >  require conf/machine/include/riscv/tune-riscv.inc
+> >
+> > -MACHINE_FEATURES = "screen keyboard ext2 ext3 serial"
+> > +MACHINE_FEATURES ?= "screen keyboard ext2 ext3 serial"
+> >
+> >  KERNEL_IMAGETYPE = "Image"
+> >  KERNEL_IMAGETYPES += "uImage"
+> > --
+> > 2.17.1
 >
-> Commit fixes issue by updating rpath on binary to include
-> architecture dependent directory name.
+> This is a breaking change, which can have a lot of not easily detected
+> consequences, and I would advise against it. Changing ??= to ?= means
+> that you can no longer do, e.g., DISTRO_FEATURES += " foo" in your
+> configuration. For comparison, if you add the following to a recipe or
+> your local.conf:
 >
-> Commit also fixes issue with llvm-config --libdir command
-> by setting LLVM_LIBDIR_SUFFIX. Command will return proper
-> architecture dependent directory name.
+> FOOBAR1 ??= "foo"
+> FOOBAR1 += "bar"
+> FOOBAR2 ?= "foo"
+> FOOBAR2 += "bar"
 >
-> Signed-off-by: Vincent Davis Jr <vince@underview.tech>
-> ---
->  meta/recipes-devtools/llvm/llvm_git.bb | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
+> the result will be:
 >
-> diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-> index 1f47e5d0fb..29eb119be5 100644
-> --- a/meta/recipes-devtools/llvm/llvm_git.bb
-> +++ b/meta/recipes-devtools/llvm/llvm_git.bb
-> @@ -56,6 +56,14 @@ def get_llvm_arch(bb, d, arch_var):
->  def get_llvm_host_arch(bb, d):
->      return get_llvm_arch(bb, d, 'HOST_ARCH')
+> FOOBAR1=" bar"
+> FOOBAR2="foo bar"
 >
-> +def get_llvm_libdir_suffix(bb, d):
-> +    import re
-> +    arch = d.getVar('HOST_ARCH')
-> +    if re.match(r'(x86.64)$', arch):
-> +        return 64
-> +    else:
-> +        return ""
-> +
->  PACKAGECONFIG ??= ""
->  # if optviewer OFF, force the modules to be not found or the ones on the host would be found
->  PACKAGECONFIG[optviewer] = ",-DPY_PYGMENTS_FOUND=OFF -DPY_PYGMENTS_LEXERS_C_CPP_FOUND=OFF -DPY_YAML_FOUND=OFF,python3-pygments python3-pyyaml,python3-pygments python3-pyyaml"
-> @@ -64,6 +72,7 @@ PACKAGECONFIG[optviewer] = ",-DPY_PYGMENTS_FOUND=OFF -DPY_PYGMENTS_LEXERS_C_CPP_
->  # Default to build all OE-Core supported target arches (user overridable).
->  #
->  LLVM_TARGETS ?= "AMDGPU;${@get_llvm_host_arch(bb, d)}"
-> +LLVM_TARGET_LIBDIR_SUFFIX ?= "${@get_llvm_libdir_suffix(bb, d)}"
+> If your patch is applied to Poky, this is the resulting change in the
+> configuration:
 >
->  ARM_INSTRUCTION_SET:armv5 = "arm"
->  ARM_INSTRUCTION_SET:armv4t = "arm"
-> @@ -83,6 +92,10 @@ EXTRA_OECMAKE += "-DLLVM_ENABLE_ASSERTIONS=OFF \
->                    -DCMAKE_BUILD_TYPE=Release \
->                    -G Ninja"
+> --- a.txt       2022-11-13 14:34:17.882922391 +0100
+> +++ b.txt       2022-11-13 14:34:37.902531305 +0100
+> @@ -7,6 +7,6 @@
+>  DISTRO_FEATURES_NATIVE="x11 ipv6 xattr"
+>  DISTRO_FEATURES_NATIVESDK="x11"
+>  IMAGE_FEATURES=" debug-tweaks ptest-pkgs debug-tweaks tools-debug"
+> -MACHINE_FEATURES="alsa bluetooth usbgadget screen vfat x86 pci rtc qemu-usermode"
+> +MACHINE_FEATURES=" x86 pci rtc qemu-usermode"
+>  MACHINE_FEATURES_BACKFILL="rtc qemu-usermode"
+>  MACHINE_FEATURES_BACKFILL_CONSIDERED=" "
 >
-> +EXTRA_OECMAKE:append:class-native = "\
-> +                  -DLLVM_LIBDIR_SUFFIX=${LLVM_TARGET_LIBDIR_SUFFIX} \
-> +                  "
-> +
->  EXTRA_OECMAKE:append:class-target = "\
->                    -DCMAKE_CROSSCOMPILING:BOOL=ON \
->                    -DLLVM_TABLEGEN=${STAGING_BINDIR_NATIVE}/llvm-tblgen${PV} \
-> @@ -129,6 +142,7 @@ do_install:class-native() {
->  }
+> As can be seen, your change has modified the default configuration for
+> qemux86-64 and you did not notice, even though you were aware that you
+> were changing the variables. Imagine what it would do to others...
 >
->  SYSROOT_PREPROCESS_FUNCS:append:class-target = " llvm_sysroot_preprocess"
-> +SYSROOT_PREPROCESS_FUNCS:append:class-native = " llvm_sysroot_preprocess_native"
->
->  llvm_sysroot_preprocess() {
->         install -d ${SYSROOT_DESTDIR}${bindir_crossscripts}/
-> @@ -136,6 +150,18 @@ llvm_sysroot_preprocess() {
->         ln -sf llvm-config ${SYSROOT_DESTDIR}${bindir_crossscripts}/llvm-config${PV}
->  }
->
-> +# All of LLVM's shipping binaries have an rpath pointing at ``$ORIGIN/../lib``.
-> +# Recipe llvm requires llvm-native to compile. When compiling llvm build libraries
-> +# are located in $ORIGIN/../lib directory. When the llvm-config binary required
-> +# in another recipe depending upon HOST_ARCH variable libraries may be located
-> +# in a different directory. Account for both situations here.
-> +llvm_sysroot_preprocess_native() {
-> +       chrpath --replace '$ORIGIN'/../lib${LLVM_TARGET_LIBDIR_SUFFIX}:'$ORIGIN'/../../lib${LLVM_TARGET_LIBDIR_SUFFIX}:'$ORIGIN'/../lib:'$ORIGIN'/../../lib \
-> +                          ${SYSROOT_DESTDIR}${bindir}/llvm-tblgen${PV}
-> +       chrpath --replace '$ORIGIN'/../lib${LLVM_TARGET_LIBDIR_SUFFIX}:'$ORIGIN'/../../lib${LLVM_TARGET_LIBDIR_SUFFIX}:'$ORIGIN'/../lib:'$ORIGIN'/../../lib \
-> +                          ${SYSROOT_DESTDIR}${bindir}/llvm-config${PV}
-> +}
-> +
->  PACKAGES =+ "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-libllvm ${PN}-liboptremarks ${PN}-liblto"
->
->  RRECOMMENDS:${PN}-dev += "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-liboptremarks"
-> --
-> 2.34.1
+> //Peter
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#173187): https://lists.openembedded.org/g/openembedded-core/message/173187
-> Mute This Topic: https://lists.openembedded.org/mt/94995332/1686489
+> View/Reply Online (#173193): https://lists.openembedded.org/g/openembedded-core/message/173193
+> Mute This Topic: https://lists.openembedded.org/mt/94982790/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
