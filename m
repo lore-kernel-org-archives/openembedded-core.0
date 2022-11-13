@@ -2,31 +2,31 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69996C433FE
-	for <webhook@archiver.kernel.org>; Sun, 13 Nov 2022 14:34:14 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.web11.2990.1668350052130769181
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53A57C4332F
+	for <webhook@archiver.kernel.org>; Sun, 13 Nov 2022 14:34:44 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.web11.2996.1668350081972744389
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Nov 2022 06:34:13 -0800
+ Sun, 13 Nov 2022 06:34:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=W+KKaQjp;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-202211131434083daa1833b1f130b2c5-ipzh_j@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202211131434083daa1833b1f130b2c5
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=isOeAtOG;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-2022111314344026fe186ebacc223a1c-r5qktq@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 2022111314344026fe186ebacc223a1c
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 13 Nov 2022 15:34:09 +0100
+        Sun, 13 Nov 2022 15:34:40 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=m984Fq4Md11GPfI4BX1oVFjVsFSK9LTenObsM6c+JIU=;
- b=W+KKaQjpGCAvoEpt4IdT+KDYKcSfEnaKqYi2V21i2AbRVOz3TwP3+xhaRJxL18cdUHut/S
- hr32D9g9gABTAPyOoeWTJIpMYuB59LcBZ9ggcU1Z1gnW4yufJiU6a8ZvY4CPQHw8/KBJccEC
- UrW7vl3tS+dHDtRwig66CNGhMtE1k=;
+ bh=nPrwxjlpmnO6OKXPl5DZvuoG8Zbc8eVc8tdEs9ePstc=;
+ b=isOeAtOG8Xd33+Z16gpMwBjbK1CjwPZ4Ws5w7E5VKncGWEwc2bUsjAyeJU/1c3mq2qoyj5
+ jvczZl1ZGaEYR/lUIkpMfjXyu1EXVevnGB/QPZXjHMKBxBFvkXqjsaYKl1NLE+XQt4A1swFU
+ 5VslihzXe1INomhr5a1Q+k7nEgoqE=;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH v2 0/2] systemd: add group render to udev package
-Date: Sun, 13 Nov 2022 15:33:04 +0100
-Message-Id: <20221113143306.5413-1-peter.marko@siemens.com>
+Subject: [OE-core][PATCH v2 1/2] systemd: add group render to udev package
+Date: Sun, 13 Nov 2022 15:33:05 +0100
+Message-Id: <20221113143306.5413-2-peter.marko@siemens.com>
 In-Reply-To: <20221108175154.280624-1-peter.marko@siemens.com>
 References: <20221108175154.280624-1-peter.marko@siemens.com>
 MIME-Version: 1.0
@@ -36,19 +36,42 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 13 Nov 2022 14:34:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173204
+ <openembedded-core@lists.openembedded.org>; Sun, 13 Nov 2022 14:34:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173205
 
-v2: update meta-selftest static ids
+From NEWS for v236:
+* The "uaccess" udev tag has been dropped from /dev/kvm and
+  /dev/dri/renderD*.  These devices now have the 0666 permissions by
+  default (but this may be changed at build-time). /dev/dri/renderD*
+  will now be owned by the "render" group along with /dev/kfd.
 
-Peter Marko (2):
-  systemd: add group render to udev package
-  meta-selftest/staticids: add render group for systemd
+Without the group systemd-udevd startup logs:
+  /lib/udev/rules.d/50-udev-default.rules:39 Unknown group 'render', ignoring
+  /lib/udev/rules.d/50-udev-default.rules:40 Unknown group 'render', ignoring
 
- meta-selftest/files/static-group           | 1 +
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
  meta/recipes-core/systemd/systemd_251.8.bb | 2 ++
- 2 files changed, 3 insertions(+)
+ 1 file changed, 2 insertions(+)
 
+diff --git a/meta/recipes-core/systemd/systemd_251.8.bb b/meta/recipes-core/systemd/systemd_251.8.bb
+index 1b771a7b86..5fb0e86982 100644
+--- a/meta/recipes-core/systemd/systemd_251.8.bb
++++ b/meta/recipes-core/systemd/systemd_251.8.bb
+@@ -395,11 +395,13 @@ SYSTEMD_PACKAGES = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-binfm
+ SYSTEMD_SERVICE:${PN}-binfmt = "systemd-binfmt.service"
+ 
+ USERADD_PACKAGES = "${PN} ${PN}-extra-utils \
++                    udev \
+                     ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-journal-gatewayd', '', d)} \
+                     ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-journal-remote', '', d)} \
+                     ${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '${PN}-journal-upload', '', d)} \
+ "
+ GROUPADD_PARAM:${PN} = "-r systemd-journal;"
++GROUPADD_PARAM:udev = "-r render"
+ GROUPADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', '-r systemd-hostname;', '', d)}"
+ USERADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'coredump', '--system -d / -M --shell /sbin/nologin systemd-coredump;', '', d)}"
+ USERADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'networkd', '--system -d / -M --shell /sbin/nologin systemd-network;', '', d)}"
 -- 
 2.30.2
 
