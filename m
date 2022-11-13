@@ -1,249 +1,171 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 780EBC4332F
-	for <webhook@archiver.kernel.org>; Sun, 13 Nov 2022 17:49:07 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web11.20.1668361740573043197
- for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Nov 2022 09:49:00 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jhWhUhIi;
- spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id u11so10320741ljk.6
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Nov 2022 09:49:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=uV6mp2xw9QZjFwV34mEAxKeXB73GGXyTI6my0OI16wA=;
-        b=jhWhUhIioo9e0ujpgN9PIpXb2yJ6vHHq2ai4dQQoWYGEPwFqmtTeEoRTuV6TS0uIlO
-         AuQuAwRn31KzO8wyn/5MrzEdk3NmVQ9oGm4gdQFNV5qqaF/3VQk08Ufo8K3ErVJY3FxD
-         VyCQhQtPrybVpBVOqW3sZmZA2GpEXGFkyBhB4a47d004/8wBTnqWoL0aUnoamgD51O5I
-         o2JW39UDmnKR/S0OdpvQxTfllqYiLnjyACa68k2Uk+q4eYmsoOIOrdTvGVqBIDTpqJ9h
-         +9GAA1AD70WtjM21UMtQ+UPxIO1wXOO6Am7pOauxCW0cad6pS1sYZ3/6uPTNNSydnrCp
-         pN/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uV6mp2xw9QZjFwV34mEAxKeXB73GGXyTI6my0OI16wA=;
-        b=POoywf+bKTny5/DRUVr5DjQClu0KzmKXvtWeCAoVPViaZ7tAba4skUiDTjDj2AbOEC
-         JaEh9/TzxAUo7zUjJ5JsQgi5rgKG7qrQdtqX4UNJZ2xYv7jnK3sVdbda0YwPBNpbpYyE
-         Rez3mM/hRsijJFAJuhgZK9qA4ZMm8F/yNuq9stTT1oQj1etxx4C0G/QAQazPGez4qA9e
-         6KTTt3Ltbm82wL7tEXyNMuet1/V3E/L1wwLiljbziMoDUGQiOSF1DwGH1J5FvS+Nycjw
-         HzVbk94Yvpem9Wud2cgNG5JtPTndcB5tDfgFYvanMBS3tIXJxka2Iwve6xlYnkzP4lPe
-         dd/g==
-X-Gm-Message-State: ANoB5pkZ09vZmWe/TvmHHug3mtuZ/oHKQmDYADtrRUj53QN961p2eHXO
-	bDhVd8QYeGKGpLq5MT0qp6GVm1pj2LtNYOyniAY=
-X-Google-Smtp-Source: AA0mqf4Pa9ewxuZxB9OgvTCcZEQztmvaMi0pWqhhkKllLXe6cnYz5KtIpLe7sAFSOszPNIezUUFqPuKNeHsHab7QIxk=
-X-Received: by 2002:a05:651c:b14:b0:277:e01:6119 with SMTP id
- b20-20020a05651c0b1400b002770e016119mr3550910ljr.33.1668361738520; Sun, 13
- Nov 2022 09:48:58 -0800 (PST)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B542AC4332F
+	for <webhook@archiver.kernel.org>; Sun, 13 Nov 2022 19:17:07 +0000 (UTC)
+Subject: Re: [PATCH] llvm: fix native llvm-config RUNPATH
+To: openembedded-core@lists.openembedded.org
+From: "Vincent Davis Jr" <vince@underview.tech>
+X-Originating-Location: Richmond, Texas, US (99.113.4.128)
+X-Originating-Platform: Linux Firefox 106
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-References: <20221112163103.42796-1-christoph.lauer@email.de> <b6ac86a81444402796ff28436add5731@axis.com>
-In-Reply-To: <b6ac86a81444402796ff28436add5731@axis.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 13 Nov 2022 18:48:47 +0100
-Message-ID: <CANNYZj-CrvJpLCNFTi9Q__NWBc_25nUJqKwTqpEsHbU8wvCo6A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] initial configs: set initial
- {DISTRO|MACHINE|IMAGE}FEATUREs as weak as possible
-To: Christoph Lauer <christoph.lauer@email.de>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Christoph Lauer <christoph.lauer@xtronic.de>, 
-	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Content-Type: text/plain; charset="UTF-8"
+Date: Sun, 13 Nov 2022 11:17:04 -0800
+References: <CANNYZj_hMQeMh-Rp-fJ=nezRUcwaOk3mMpX4iKSxAEia7tmZeg@mail.gmail.com>
+In-Reply-To: <CANNYZj_hMQeMh-Rp-fJ=nezRUcwaOk3mMpX4iKSxAEia7tmZeg@mail.gmail.com>
+Message-ID: <3205.1668367024981923542@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="6T7QP8fQaII0u8nE4ZwT"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 13 Nov 2022 17:49:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173208
+ <openembedded-core@lists.openembedded.org>; Sun, 13 Nov 2022 19:17:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173209
 
-It helps if you explain what use case this enables that cannot be
-currently fulfilled. (not a generic 'change features with weak
-defaults' but specific examples of adding and removing and setting
-features).
+--6T7QP8fQaII0u8nE4ZwT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Alex
+Hey,
 
-On Sun, 13 Nov 2022 at 14:43, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org> On Behalf Of Christoph Lauer
-> > Sent: den 12 november 2022 17:31
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Christoph Lauer <christoph.lauer@xtronic.de>
-> > Subject: [OE-core] [PATCH] initial configs: set initial {DISTRO|MACHINE|IMAGE}FEATUREs as weak as possible
-> >
-> > From: Christoph Lauer <christoph.lauer@xtronic.de>
-> >
-> > This gives BSP creators the flexibility to change features with weak defaults
-> >
-> > Signed-off-by: Christoph Lauer <christoph.lauer@xtronic.de>
-> > ---
-> >  meta-poky/conf/distro/poky.conf               |  2 +-
-> >  meta/conf/bitbake.conf                        | 28 +++++++++----------
-> >  .../distro/include/default-distrovars.inc     |  6 ++--
-> >  meta/conf/machine/include/qemu.inc            |  2 +-
-> >  meta/conf/machine/include/riscv/qemuriscv.inc |  2 +-
-> >  5 files changed, 20 insertions(+), 20 deletions(-)
-> >
-> > diff --git a/meta-poky/conf/distro/poky.conf b/meta-poky/conf/distro/poky.conf
-> > index 3e90766349..3a453ef9ed 100644
-> > --- a/meta-poky/conf/distro/poky.conf
-> > +++ b/meta-poky/conf/distro/poky.conf
-> > @@ -18,7 +18,7 @@ POKY_DEFAULT_DISTRO_FEATURES = "largefile opengl ptest multiarch wayland vulkan"
-> >  POKY_DEFAULT_EXTRA_RDEPENDS = "packagegroup-core-boot"
-> >  POKY_DEFAULT_EXTRA_RRECOMMENDS = "kernel-module-af-packet"
-> >
-> > -DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${POKY_DEFAULT_DISTRO_FEATURES}"
-> > +DISTRO_FEATURES ??= "${DISTRO_FEATURES_DEFAULT} ${POKY_DEFAULT_DISTRO_FEATURES}"
-> >
-> >  PREFERRED_VERSION_linux-yocto ?= "5.19%"
-> >  PREFERRED_VERSION_linux-yocto-rt ?= "5.19%"
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index dea573986d..b2540bb3f5 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -885,31 +885,31 @@ OES_BITBAKE_CONF = "1"
-> >  # Machine properties and packagegroup-base stuff
-> >  ##################################################################
-> >
-> > -MACHINE_FEATURES ?= ""
-> > -DISTRO_FEATURES ?= ""
-> > +MACHINE_FEATURES ??= ""
-> > +DISTRO_FEATURES ??= ""
-> >
-> > -DISTRO_EXTRA_RDEPENDS ?= ""
-> > -DISTRO_EXTRA_RRECOMMENDS ?= ""
-> > -MACHINE_EXTRA_RDEPENDS ?= ""
-> > -MACHINE_EXTRA_RRECOMMENDS ?= ""
-> > -MACHINE_ESSENTIAL_EXTRA_RDEPENDS ?= ""
-> > -MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
-> > +DISTRO_EXTRA_RDEPENDS ??= ""
-> > +DISTRO_EXTRA_RRECOMMENDS ??= ""
-> > +MACHINE_EXTRA_RDEPENDS ??= ""
-> > +MACHINE_EXTRA_RRECOMMENDS ??= ""
-> > +MACHINE_ESSENTIAL_EXTRA_RDEPENDS ??= ""
-> > +MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ??= ""
-> >
-> >  EXTRA_IMAGE_FEATURES ??= ""
-> >  IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
-> >
-> >  # Native distro features (will always be used for -native, even if they
-> >  # are not enabled for target)
-> > -DISTRO_FEATURES_NATIVE ?= "x11 ipv6 xattr"
-> > -DISTRO_FEATURES_NATIVESDK ?= "x11"
-> > +DISTRO_FEATURES_NATIVE ??= "x11 ipv6 xattr"
-> > +DISTRO_FEATURES_NATIVESDK ??= "x11"
-> >
-> >  # Normally target distro features will not be applied to native builds:
-> >  # Native distro features on this list will use the target feature value
-> > -DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation debuginfod opengl wayland"
-> > -DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation debuginfod opengl wayland"
-> > +DISTRO_FEATURES_FILTER_NATIVE ??= "api-documentation debuginfod opengl wayland"
-> > +DISTRO_FEATURES_FILTER_NATIVESDK ??= "api-documentation debuginfod opengl wayland"
-> >
-> > -DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit gobject-introspection-data ldconfig"
-> > -MACHINE_FEATURES_BACKFILL = "rtc qemu-usermode"
-> > +DISTRO_FEATURES_BACKFILL ??= "pulseaudio sysvinit gobject-introspection-data ldconfig"
-> > +MACHINE_FEATURES_BACKFILL ??= "rtc qemu-usermode"
-> >
-> >  COMBINED_FEATURES = "${@oe.utils.set_intersect('DISTRO_FEATURES', 'MACHINE_FEATURES', d)}"
-> >  COMBINED_FEATURES[vardeps] += "DISTRO_FEATURES MACHINE_FEATURES"
-> > diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-> > index abf48f79f0..3b3d439ad3 100644
-> > --- a/meta/conf/distro/include/default-distrovars.inc
-> > +++ b/meta/conf/distro/include/default-distrovars.inc
-> > @@ -19,9 +19,9 @@ DISTRO_FEATURES_DEFAULT:remove:arc = "seccomp"
-> >  # seccomp is not yet ported to microblaze
-> >  DISTRO_FEATURES_DEFAULT:remove:microblaze = "seccomp"
-> >
-> > -DISTRO_FEATURES_DEFAULT ?= "acl alsa bluetooth debuginfod ext2 ipv4 ipv6 pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp"
-> > -DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT}"
-> > -IMAGE_FEATURES ?= ""
-> > +DISTRO_FEATURES_DEFAULT ??= "acl alsa bluetooth debuginfod ext2 ipv4 ipv6 pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp"
-> > +DISTRO_FEATURES ??= "${DISTRO_FEATURES_DEFAULT}"
-> > +IMAGE_FEATURES ??= ""
-> >
-> >  COMMERCIAL_AUDIO_PLUGINS ?= ""
-> >  # COMMERCIAL_AUDIO_PLUGINS ?= "gst-plugins-ugly-mad gst-plugins-ugly-mpegaudioparse"
-> > diff --git a/meta/conf/machine/include/qemu.inc
-> > b/meta/conf/machine/include/qemu.inc
-> > index d9bed7708d..04ffe55309 100644
-> > --- a/meta/conf/machine/include/qemu.inc
-> > +++ b/meta/conf/machine/include/qemu.inc
-> > @@ -10,7 +10,7 @@ XSERVER ?= "xserver-xorg \
-> >              xf86-video-fbdev \
-> >              "
-> >
-> > -MACHINE_FEATURES = "alsa bluetooth usbgadget screen vfat"
-> > +MACHINE_FEATURES ??= "alsa bluetooth usbgadget screen vfat"
-> >
-> >  MACHINEOVERRIDES =. "qemuall:"
-> >
-> > diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/machine/include/riscv/qemuriscv.inc
-> > index 0b399ac1f9..f5f9f89a9f 100644
-> > --- a/meta/conf/machine/include/riscv/qemuriscv.inc
-> > +++ b/meta/conf/machine/include/riscv/qemuriscv.inc
-> > @@ -3,7 +3,7 @@ PREFERRED_PROVIDER_virtual/bootloader ??= "u-boot"
-> >  require conf/machine/include/qemu.inc
-> >  require conf/machine/include/riscv/tune-riscv.inc
-> >
-> > -MACHINE_FEATURES = "screen keyboard ext2 ext3 serial"
-> > +MACHINE_FEATURES ?= "screen keyboard ext2 ext3 serial"
-> >
-> >  KERNEL_IMAGETYPE = "Image"
-> >  KERNEL_IMAGETYPES += "uImage"
-> > --
-> > 2.17.1
->
-> This is a breaking change, which can have a lot of not easily detected
-> consequences, and I would advise against it. Changing ??= to ?= means
-> that you can no longer do, e.g., DISTRO_FEATURES += " foo" in your
-> configuration. For comparison, if you add the following to a recipe or
-> your local.conf:
->
-> FOOBAR1 ??= "foo"
-> FOOBAR1 += "bar"
-> FOOBAR2 ?= "foo"
-> FOOBAR2 += "bar"
->
-> the result will be:
->
-> FOOBAR1=" bar"
-> FOOBAR2="foo bar"
->
-> If your patch is applied to Poky, this is the resulting change in the
-> configuration:
->
-> --- a.txt       2022-11-13 14:34:17.882922391 +0100
-> +++ b.txt       2022-11-13 14:34:37.902531305 +0100
-> @@ -7,6 +7,6 @@
->  DISTRO_FEATURES_NATIVE="x11 ipv6 xattr"
->  DISTRO_FEATURES_NATIVESDK="x11"
->  IMAGE_FEATURES=" debug-tweaks ptest-pkgs debug-tweaks tools-debug"
-> -MACHINE_FEATURES="alsa bluetooth usbgadget screen vfat x86 pci rtc qemu-usermode"
-> +MACHINE_FEATURES=" x86 pci rtc qemu-usermode"
->  MACHINE_FEATURES_BACKFILL="rtc qemu-usermode"
->  MACHINE_FEATURES_BACKFILL_CONSIDERED=" "
->
-> As can be seen, your change has modified the default configuration for
-> qemux86-64 and you did not notice, even though you were aware that you
-> were changing the variables. Imagine what it would do to others...
->
-> //Peter
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#173193): https://lists.openembedded.org/g/openembedded-core/message/173193
-> Mute This Topic: https://lists.openembedded.org/mt/94982790/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Desired outcome is for mesa meson configure to succeeded by updating
+RUNPATH on llvm-config native binary required by mesa when gallium-llvm
+included. When running bitbake -c devshell mesa. Then chrpath -l on llvm-co=
+nfig
+
+Should return on TARGET_ARCH x86_64
+$ORIGIN/../lib64:$ORIGIN/../../lib64
+not
+$ORIGIN/../lib:$ORIGIN/../../lib
+
+SNAPSHOT OF FAILURE
+***************************************************************************=
+**********************************************
+File "/../../../mesa/<version>/recipe-sysroot-native/usr/lib/python3.11/re/=
+__init__.py", line 223, in finditer
+return _compile(pattern, flags).finditer(string)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected string or bytes-like object, got 'NoneType'
+***************************************************************************=
+**********************************************
+
+Reason for above failure, at least for me, when TARGET_ARCH =3D x86_64 you =
+run into
+bellow when running llvm-config --help or variant commands directly.
+
+llvm-config: error while loading shared libraries: libtinfo.so.5: cannot op=
+en shared object file: No such file or directory
+
+Because of that when mesa configure executes llvm-config --version the stri=
+ng is not returned. Thus, leading
+to above error.
+
+If you run chrpath -l on llvm-config you see
+
+$ORIGIN/../lib:$ORIGIN/../../lib:::::::::::::::::::::::::::::::::::::::::::=
+::::::::::::::::::::::::::::::::::
+
+When target architecture is x86_64 those folders don't exists in recipe-sys=
+root of a recipe that requires llvm-native.
+
+The llvm_sysroot_preprocess_native function in current MR addresses that pr=
+oblem by
+making RUNPATH target architecture dependent.
+
+As to why RUNPATH includes both the original RUNPATH and the update target =
+architecture
+dependent directory name the llvm recipe requires the llvm-native llvm-conf=
+ig binary to
+compile, but the build libs are stored in lib directory not lib64. Tried ev=
+erything I could
+think of change that not much can be done about that. When llvm-native gets=
+ included
+in another recipe however libs are located at $ORIGIN/../lib64:$ORIGIN/../.=
+./lib64, at least
+for TARGET ARCH x86_64.
+
+As for the second problem llvm-config --libdir returns
+
+/../../../../../../mesa/2_22.2.2-r0/recipe-sysroot/usr/lib
+
+instead of
+
+/../../../../../../mesa/2_22.2.2-r0/recipe-sysroot/usr/lib64
+
+Which causes mesa configure to fail as ../../mesa/2_22.2.2-r0/recipe-sysroo=
+t/usr/lib doesn't exist.
+
+According to https://github.com/llvm/llvm-project/blob/a11cd0d94ed3cabf0998=
+a0289aead05da94c86eb/llvm/CMakeLists.txt#L399
+and https://github.com/llvm/llvm-project/blob/a11cd0d94ed3cabf0998a0289aead=
+05da94c86eb/llvm/CMakeLists.txt#L389
+
+LLVM_LIBDIR_SUFFIX variable is used to set command. MR addresses that by se=
+tting the LLVM_LIBDIR_SUFFIX
+variable. The reason I decided to use HOST_ARCH instead of TARGET_ARCH is b=
+ecause bitbake sets
+HOST_ARCH =3D "${TARGET_ARCH}" in bitbake.conf, but I'll admit there's igno=
+rance on my part in terms
+of what I think that variable is set to and what class-native it used for.
+
+:)
+
+--6T7QP8fQaII0u8nE4ZwT
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hey,<br /><br />Desired outcome is for mesa meson configure to succeeded by=
+ updating<br />RUNPATH on llvm-config native binary required by mesa when g=
+allium-llvm<br />included. When running bitbake -c devshell mesa. Then chrp=
+ath -l on llvm-config<br /><br />Should return on TARGET_ARCH x86_64<br />$=
+ORIGIN/../lib64:$ORIGIN/../../lib64<br />not <br />$ORIGIN/../lib:$ORIGIN/.=
+./../lib<br /><br />SNAPSHOT OF FAILURE<br />******************************=
+***************************************************************************=
+****************<br />File "/../../../mesa/&lt;version&gt;/recipe-sysroot-n=
+ative/usr/lib/python3.11/re/__init__.py", line 223, in finditer<br />return=
+ _compile(pattern, flags).finditer(string)<br />^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^^^^^^^^^^<br />TypeError: expected string or bytes-like object, got 'N=
+oneType'<br />*************************************************************=
+************************************************************<br /><br />Rea=
+son for above failure, at least for me, when TARGET_ARCH =3D x86_64 you run=
+ into<br />bellow when running llvm-config --help or variant commands direc=
+tly.<br /><br />llvm-config: error while loading shared libraries: libtinfo=
+.so.5: cannot open shared object file: No such file or directory<br /><br /=
+>Because of that when mesa configure executes llvm-config --version the str=
+ing is not returned. Thus, leading<br />to above error.<br /><br />If you r=
+un chrpath -l on llvm-config you see<br /><br />$ORIGIN/../lib:$ORIGIN/../.=
+./lib::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::=
+:::::::<br /><br />When target architecture is x86_64 those folders don't e=
+xists in recipe-sysroot of a recipe that requires llvm-native.<br /><br />T=
+he llvm_sysroot_preprocess_native function in current MR addresses that pro=
+blem by<br />making RUNPATH target architecture dependent.<br /><br />As to=
+ why RUNPATH includes both the original RUNPATH and the update target archi=
+tecture<br />dependent directory name the llvm recipe requires the llvm-nat=
+ive llvm-config binary to<br />compile, but the build libs are stored in li=
+b directory not lib64. Tried everything I could<br />think of change that n=
+ot much can be done about that. When llvm-native gets included<br />in anot=
+her recipe however libs are located at $ORIGIN/../lib64:$ORIGIN/../../lib64=
+, at least<br />for TARGET ARCH x86_64.<br /><br />As for the second proble=
+m llvm-config --libdir returns<br /><br />/../../../../../../mesa/2_22.2.2-=
+r0/recipe-sysroot/usr/lib<br /><br />instead of<br /><br />/../../../../../=
+../mesa/2_22.2.2-r0/recipe-sysroot/usr/lib64<br /><br />Which causes mesa c=
+onfigure to fail as ../../mesa/2_22.2.2-r0/recipe-sysroot/usr/lib doesn't e=
+xist.<br /><br />According to <a href=3D"https://github.com/llvm/llvm-proje=
+ct/blob/a11cd0d94ed3cabf0998a0289aead05da94c86eb/llvm/CMakeLists.txt#L399" =
+target=3D"_blank" rel=3D"noopener">https://github.com/llvm/llvm-project/blo=
+b/a11cd0d94ed3cabf0998a0289aead05da94c86eb/llvm/CMakeLists.txt#L399</a><br =
+/>and <a href=3D"https://github.com/llvm/llvm-project/blob/a11cd0d94ed3cabf=
+0998a0289aead05da94c86eb/llvm/CMakeLists.txt#L389" target=3D"_blank" rel=3D=
+"noopener">https://github.com/llvm/llvm-project/blob/a11cd0d94ed3cabf0998a0=
+289aead05da94c86eb/llvm/CMakeLists.txt#L389</a><br /><span class=3D"pl-smi"=
+><br />LLVM_LIBDIR_SUFFIX variable is used to set </span>command. MR addres=
+ses that by setting the <span class=3D"pl-smi">LLVM_LIBDIR_SUFFIX<br />vari=
+able. The reason I decided to use HOST_ARCH instead of TARGET_ARCH is becau=
+se bitbake sets<br />HOST_ARCH =3D "${TARGET_ARCH}" in bitbake.conf, but I'=
+ll admit there's ignorance on my part in terms<br />of what I think that va=
+riable is set to and what class-native it used for.<br /><br />:)<br /></sp=
+an>
+<div id=3D":pf" class=3D"a3s aiL "><wbr /></div>
+
+--6T7QP8fQaII0u8nE4ZwT--
 
