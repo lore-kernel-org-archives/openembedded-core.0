@@ -1,88 +1,243 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 113F1C433FE
-	for <webhook@archiver.kernel.org>; Sun, 13 Nov 2022 13:32:24 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web12.2476.1668346339958300089
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 467F2C4332F
+	for <webhook@archiver.kernel.org>; Sun, 13 Nov 2022 13:44:04 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web12.2561.1668347034447377035
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Nov 2022 05:32:20 -0800
+ Sun, 13 Nov 2022 05:43:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Ybf/6raF;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id q1-20020a17090a750100b002139ec1e999so8403217pjk.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Nov 2022 05:32:19 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=XJBCW43P;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=date:message-id:to:from:subject:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Hr+9Z8vk5Fn5fVohPSZBu3dehERTUL5DXipaXtLZEpQ=;
-        b=Ybf/6raFSfCCvYdjFAiRiwyjyIsm2c36X5LYRxsU1idXEHp3dAvYCpoGlG7H+qLKuN
-         Sz8hFoZ3hZjSxu7yL5X4i1rRXhngsmuXHwhZFLkZyJCsUOrCy3igVebqMvOaWnNydC5C
-         Vd52ILR1IpmfbystC+9M8cKt6MfOahyBuP3QdT4zbGBydDoTwGhntwG+nZhGi4nyF/8S
-         Q4WS5KXemwApBcQMqEaCMq6jP/OXQQU+4Lm3R4PjVlfWeirdWogTVmMjXVFVgKUR0Uv8
-         1kG6cGRIxbOw4kVxuFtv/BmE9qp+okUKV4SvSZG2ExOjHWvkXraO5Nrq0OSK0Tha9Fbz
-         3nJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=date:message-id:to:from:subject:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Hr+9Z8vk5Fn5fVohPSZBu3dehERTUL5DXipaXtLZEpQ=;
-        b=dCz0vcp2VfHGhrRXjswvjkLJw3jrd+t0hu0qH1QWONY0XjaYRYHXQgzhbFkFx3tl78
-         hXALjW3csECnArMUo54k0TIv/se39o/4m1/6rHcCecmTEDWVZyNLpWLeK+pWVg0vuo6v
-         yUQUYuVlBvcL4RA5gyHXw1/yGm97muTW6ePfcZLsKUF9m/Fye5yjd0AIoQzBQTPPyG0R
-         IbpYhD5lAfmZLSgRZEqEk2TjDxH/Ld9/xeM3bsfNxQw+3xzo0BykMztjTLKDXNE3d1gH
-         rbQNX7OkUfE9JMBwKt99sQyQ+KYMfkFOZ3XS5PQtaDajhDX8SGKwHsZNa2xgM5yS694w
-         oglw==
-X-Gm-Message-State: ANoB5pmrprIfsQvGL0rA6aAFMtFMFCxdhrUll9Pb+aoe0YjLiDSmsoCF
-	A+iRTGURz4WQISiB3e8ovQMQ32wi9hd7wSGA
-X-Google-Smtp-Source: AA0mqf73n+nG5HJnmmTPHWC+1ZUxgcqPEi4jbqk4AAsR9L0gBFurVilc9v5JReMYEHpF3V/bjnRAnQ==
-X-Received: by 2002:a17:903:2301:b0:187:3fcb:121e with SMTP id d1-20020a170903230100b001873fcb121emr10180663plh.100.1668346338594;
-        Sun, 13 Nov 2022 05:32:18 -0800 (PST)
-Received: from nuc.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id e127-20020a621e85000000b0056bb06ce1cfsm4864879pfe.97.2022.11.13.05.32.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Nov 2022 05:32:18 -0800 (PST)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 446D19602F2; Sun, 13 Nov 2022 03:32:16 -1000 (HST)
-Subject: OE-core CVE metrics for langdale on Sun 13 Nov 2022 03:30:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20221113133216.446D19602F2@nuc.router0800d9.com>
-Date: Sun, 13 Nov 2022 03:32:16 -1000 (HST)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1668347035;
+  x=1699883035;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=BUUP4l/uBxwSqsHsXSD+huB1uHDOqMCqQOXXGmemArk=;
+  b=XJBCW43PR+6oSI/jYYDriFFgVTWKA3VfPgR25M3sxptC4aH8x53Y+YkZ
+   B9vc3LkL9K52Ix65R7z79ZV9PgaDmHkvIX1ksBS+g8Q8oH7ITdX7Azszb
+   Ge9iteTm4ZZF7lbkJykIj5qhoIzkFeYgehYvOVvKUP+q40VcG74m4Wmxe
+   q1ka4/wE2xludQ6DElq7sVWIvzm3upOYPpyscTv4Hu9RqmconXnVd/3Ue
+   COeerpSsUJBDakvcK/5Eb6q9BZ7Xd9DsdDKsS24csJHVjZK0MB71vswfM
+   8NDCZvsB1X3KiDHxALm+tcYO/ZqsEKsHenkqHRwDJcr4dCpxaLhASysJA
+   Q==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Christoph Lauer <christoph.lauer@email.de>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: Christoph Lauer <christoph.lauer@xtronic.de>
+Subject: RE: [OE-core] [PATCH] initial configs: set initial
+ {DISTRO|MACHINE|IMAGE}FEATUREs as weak as possible
+Thread-Topic: [OE-core] [PATCH] initial configs: set initial
+ {DISTRO|MACHINE|IMAGE}FEATUREs as weak as possible
+Thread-Index: AQHY9rRDKjZIJ5QxAk+KO/6WmY5fjK481OMg
+Date: Sun, 13 Nov 2022 13:43:52 +0000
+Message-ID: <b6ac86a81444402796ff28436add5731@axis.com>
+References: <20221112163103.42796-1-christoph.lauer@email.de>
+In-Reply-To: <20221112163103.42796-1-christoph.lauer@email.de>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 13 Nov 2022 13:32:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173192
+ <openembedded-core@lists.openembedded.org>; Sun, 13 Nov 2022 13:44:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173193
 
-Branch: langdale
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> On Behalf Of Christoph Lauer
+> Sent: den 12 november 2022 17:31
+> To: openembedded-core@lists.openembedded.org
+> Cc: Christoph Lauer <christoph.lauer@xtronic.de>
+> Subject: [OE-core] [PATCH] initial configs: set initial {DISTRO|MACHINE|I=
+MAGE}FEATUREs as weak as possible
+>=20
+> From: Christoph Lauer <christoph.lauer@xtronic.de>
+>=20
+> This gives BSP creators the flexibility to change features with weak defa=
+ults
+>=20
+> Signed-off-by: Christoph Lauer <christoph.lauer@xtronic.de>
+> ---
+>  meta-poky/conf/distro/poky.conf               |  2 +-
+>  meta/conf/bitbake.conf                        | 28 +++++++++----------
+>  .../distro/include/default-distrovars.inc     |  6 ++--
+>  meta/conf/machine/include/qemu.inc            |  2 +-
+>  meta/conf/machine/include/riscv/qemuriscv.inc |  2 +-
+>  5 files changed, 20 insertions(+), 20 deletions(-)
+>=20
+> diff --git a/meta-poky/conf/distro/poky.conf b/meta-poky/conf/distro/poky=
+.conf
+> index 3e90766349..3a453ef9ed 100644
+> --- a/meta-poky/conf/distro/poky.conf
+> +++ b/meta-poky/conf/distro/poky.conf
+> @@ -18,7 +18,7 @@ POKY_DEFAULT_DISTRO_FEATURES =3D "largefile opengl ptes=
+t multiarch wayland vulkan"
+>  POKY_DEFAULT_EXTRA_RDEPENDS =3D "packagegroup-core-boot"
+>  POKY_DEFAULT_EXTRA_RRECOMMENDS =3D "kernel-module-af-packet"
+>=20
+> -DISTRO_FEATURES ?=3D "${DISTRO_FEATURES_DEFAULT} ${POKY_DEFAULT_DISTRO_F=
+EATURES}"
+> +DISTRO_FEATURES ??=3D "${DISTRO_FEATURES_DEFAULT} ${POKY_DEFAULT_DISTRO_=
+FEATURES}"
+>=20
+>  PREFERRED_VERSION_linux-yocto ?=3D "5.19%"
+>  PREFERRED_VERSION_linux-yocto-rt ?=3D "5.19%"
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index dea573986d..b2540bb3f5 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -885,31 +885,31 @@ OES_BITBAKE_CONF =3D "1"
+>  # Machine properties and packagegroup-base stuff
+>  ##################################################################
+>=20
+> -MACHINE_FEATURES ?=3D ""
+> -DISTRO_FEATURES ?=3D ""
+> +MACHINE_FEATURES ??=3D ""
+> +DISTRO_FEATURES ??=3D ""
+>=20
+> -DISTRO_EXTRA_RDEPENDS ?=3D ""
+> -DISTRO_EXTRA_RRECOMMENDS ?=3D ""
+> -MACHINE_EXTRA_RDEPENDS ?=3D ""
+> -MACHINE_EXTRA_RRECOMMENDS ?=3D ""
+> -MACHINE_ESSENTIAL_EXTRA_RDEPENDS ?=3D ""
+> -MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?=3D ""
+> +DISTRO_EXTRA_RDEPENDS ??=3D ""
+> +DISTRO_EXTRA_RRECOMMENDS ??=3D ""
+> +MACHINE_EXTRA_RDEPENDS ??=3D ""
+> +MACHINE_EXTRA_RRECOMMENDS ??=3D ""
+> +MACHINE_ESSENTIAL_EXTRA_RDEPENDS ??=3D ""
+> +MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ??=3D ""
+>=20
+>  EXTRA_IMAGE_FEATURES ??=3D ""
+>  IMAGE_FEATURES +=3D "${EXTRA_IMAGE_FEATURES}"
+>=20
+>  # Native distro features (will always be used for -native, even if they
+>  # are not enabled for target)
+> -DISTRO_FEATURES_NATIVE ?=3D "x11 ipv6 xattr"
+> -DISTRO_FEATURES_NATIVESDK ?=3D "x11"
+> +DISTRO_FEATURES_NATIVE ??=3D "x11 ipv6 xattr"
+> +DISTRO_FEATURES_NATIVESDK ??=3D "x11"
+>=20
+>  # Normally target distro features will not be applied to native builds:
+>  # Native distro features on this list will use the target feature value
+> -DISTRO_FEATURES_FILTER_NATIVE ?=3D "api-documentation debuginfod opengl =
+wayland"
+> -DISTRO_FEATURES_FILTER_NATIVESDK ?=3D "api-documentation debuginfod open=
+gl wayland"
+> +DISTRO_FEATURES_FILTER_NATIVE ??=3D "api-documentation debuginfod opengl=
+ wayland"
+> +DISTRO_FEATURES_FILTER_NATIVESDK ??=3D "api-documentation debuginfod ope=
+ngl wayland"
+>=20
+> -DISTRO_FEATURES_BACKFILL =3D "pulseaudio sysvinit gobject-introspection-=
+data ldconfig"
+> -MACHINE_FEATURES_BACKFILL =3D "rtc qemu-usermode"
+> +DISTRO_FEATURES_BACKFILL ??=3D "pulseaudio sysvinit gobject-introspectio=
+n-data ldconfig"
+> +MACHINE_FEATURES_BACKFILL ??=3D "rtc qemu-usermode"
+>=20
+>  COMBINED_FEATURES =3D "${@oe.utils.set_intersect('DISTRO_FEATURES', 'MAC=
+HINE_FEATURES', d)}"
+>  COMBINED_FEATURES[vardeps] +=3D "DISTRO_FEATURES MACHINE_FEATURES"
+> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/=
+distro/include/default-distrovars.inc
+> index abf48f79f0..3b3d439ad3 100644
+> --- a/meta/conf/distro/include/default-distrovars.inc
+> +++ b/meta/conf/distro/include/default-distrovars.inc
+> @@ -19,9 +19,9 @@ DISTRO_FEATURES_DEFAULT:remove:arc =3D "seccomp"
+>  # seccomp is not yet ported to microblaze
+>  DISTRO_FEATURES_DEFAULT:remove:microblaze =3D "seccomp"
+>=20
+> -DISTRO_FEATURES_DEFAULT ?=3D "acl alsa bluetooth debuginfod ext2 ipv4 ip=
+v6 pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat sec=
+comp"
+> -DISTRO_FEATURES ?=3D "${DISTRO_FEATURES_DEFAULT}"
+> -IMAGE_FEATURES ?=3D ""
+> +DISTRO_FEATURES_DEFAULT ??=3D "acl alsa bluetooth debuginfod ext2 ipv4 i=
+pv6 pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat se=
+ccomp"
+> +DISTRO_FEATURES ??=3D "${DISTRO_FEATURES_DEFAULT}"
+> +IMAGE_FEATURES ??=3D ""
+>=20
+>  COMMERCIAL_AUDIO_PLUGINS ?=3D ""
+>  # COMMERCIAL_AUDIO_PLUGINS ?=3D "gst-plugins-ugly-mad gst-plugins-ugly-m=
+pegaudioparse"
+> diff --git a/meta/conf/machine/include/qemu.inc
+> b/meta/conf/machine/include/qemu.inc
+> index d9bed7708d..04ffe55309 100644
+> --- a/meta/conf/machine/include/qemu.inc
+> +++ b/meta/conf/machine/include/qemu.inc
+> @@ -10,7 +10,7 @@ XSERVER ?=3D "xserver-xorg \
+>              xf86-video-fbdev \
+>              "
+>=20
+> -MACHINE_FEATURES =3D "alsa bluetooth usbgadget screen vfat"
+> +MACHINE_FEATURES ??=3D "alsa bluetooth usbgadget screen vfat"
+>=20
+>  MACHINEOVERRIDES =3D. "qemuall:"
+>=20
+> diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/ma=
+chine/include/riscv/qemuriscv.inc
+> index 0b399ac1f9..f5f9f89a9f 100644
+> --- a/meta/conf/machine/include/riscv/qemuriscv.inc
+> +++ b/meta/conf/machine/include/riscv/qemuriscv.inc
+> @@ -3,7 +3,7 @@ PREFERRED_PROVIDER_virtual/bootloader ??=3D "u-boot"
+>  require conf/machine/include/qemu.inc
+>  require conf/machine/include/riscv/tune-riscv.inc
+>=20
+> -MACHINE_FEATURES =3D "screen keyboard ext2 ext3 serial"
+> +MACHINE_FEATURES ?=3D "screen keyboard ext2 ext3 serial"
+>=20
+>  KERNEL_IMAGETYPE =3D "Image"
+>  KERNEL_IMAGETYPES +=3D "uImage"
+> --
+> 2.17.1
 
-New this week: 3 CVEs
-CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
-CVE-2022-42919 (CVSS3: 7.8 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42919 *
-CVE-2022-45061 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-45061 *
+This is a breaking change, which can have a lot of not easily detected=20
+consequences, and I would advise against it. Changing ??=3D to ?=3D means=20
+that you can no longer do, e.g., DISTRO_FEATURES +=3D " foo" in your=20
+configuration. For comparison, if you add the following to a recipe or=20
+your local.conf:
 
-Removed this week: 1 CVEs
-CVE-2022-3705 (CVSS3: 7.5 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3705 *
+FOOBAR1 ??=3D "foo"
+FOOBAR1 +=3D "bar"
+FOOBAR2 ?=3D "foo"
+FOOBAR2 +=3D "bar"
 
-Full list:  Found 14 unpatched CVEs
-CVE-2022-2879 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2879 *
-CVE-2022-2880 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2880 *
-CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
-CVE-2022-39253 (CVSS3: 5.5 MEDIUM): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39253 *
-CVE-2022-39260 (CVSS3: 8.8 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39260 *
-CVE-2022-41715 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41715 *
-CVE-2022-41716 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41716 *
-CVE-2022-42915 (CVSS3: 9.8 CRITICAL): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42915 *
-CVE-2022-42916 (CVSS3: 7.5 HIGH): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42916 *
-CVE-2022-42919 (CVSS3: 7.8 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42919 *
-CVE-2022-43680 (CVSS3: 7.5 HIGH): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-43680 *
-CVE-2022-43995 (CVSS3: 7.1 HIGH): sudo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-43995 *
-CVE-2022-44638 (CVSS3: 8.8 HIGH): pixman:pixman-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-44638 *
-CVE-2022-45061 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-45061 *
+the result will be:
 
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+FOOBAR1=3D" bar"
+FOOBAR2=3D"foo bar"
+
+If your patch is applied to Poky, this is the resulting change in the=20
+configuration:
+
+--- a.txt       2022-11-13 14:34:17.882922391 +0100
++++ b.txt       2022-11-13 14:34:37.902531305 +0100
+@@ -7,6 +7,6 @@
+ DISTRO_FEATURES_NATIVE=3D"x11 ipv6 xattr"
+ DISTRO_FEATURES_NATIVESDK=3D"x11"
+ IMAGE_FEATURES=3D" debug-tweaks ptest-pkgs debug-tweaks tools-debug"
+-MACHINE_FEATURES=3D"alsa bluetooth usbgadget screen vfat x86 pci rtc qemu-=
+usermode"
++MACHINE_FEATURES=3D" x86 pci rtc qemu-usermode"
+ MACHINE_FEATURES_BACKFILL=3D"rtc qemu-usermode"
+ MACHINE_FEATURES_BACKFILL_CONSIDERED=3D" "
+
+As can be seen, your change has modified the default configuration for=20
+qemux86-64 and you did not notice, even though you were aware that you=20
+were changing the variables. Imagine what it would do to others...
+
+//Peter
+
 
