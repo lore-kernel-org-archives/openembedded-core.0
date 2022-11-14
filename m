@@ -1,97 +1,103 @@
-Return-Path: <jorcrous@amazon.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F3A9C4332F
-	for <webhook@archiver.kernel.org>; Mon, 14 Nov 2022 15:24:00 +0000 (UTC)
-Received: from smtp-fw-80007.amazon.com (smtp-fw-80007.amazon.com [99.78.197.218])
- by mx.groups.io with SMTP id smtpd.web09.6837.1668439434839472776
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6AE4C43217
+	for <webhook@archiver.kernel.org>; Mon, 14 Nov 2022 15:51:00 +0000 (UTC)
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+ by mx.groups.io with SMTP id smtpd.web10.7172.1668441052317178969
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Nov 2022 07:23:54 -0800
+ Mon, 14 Nov 2022 07:50:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amazon.com header.s=amazon201209 header.b=NpBgCYyh;
- spf=pass (domain: amazon.com, ip: 99.78.197.218, mailfrom: prvs=310f54154=jorcrous@amazon.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1668439435; x=1699975435;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Yn6M3HbcqYFP44+WlyJHYEmOYl4vkFV+fUM0I6ss1Vs=;
-  b=NpBgCYyhZvHcasDeLz3RauFclMVbPHwQNDWgtw1rL5flkKPYxVNlPmyt
-   GoxBLWLCtdgR0iyzCasT55VDzuM8eaPwvkpYQ3+u2se5tXLDsqgRVksc+
-   AMSv1pEU8eqEZ8Z0H9SoFawz+5T5U1PWg6s6umLk9ezUb/9rNS9oXDc8Q
-   I=;
-X-IronPort-AV: E=Sophos;i="5.96,164,1665446400"; 
-   d="scan'208";a="150526401"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO email-inbound-relay-iad-1e-m6i4x-3554bfcf.us-east-1.amazon.com) ([10.25.36.214])
-  by smtp-border-fw-80007.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 15:23:53 +0000
-Received: from EX13MTAUWB002.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
-	by email-inbound-relay-iad-1e-m6i4x-3554bfcf.us-east-1.amazon.com (Postfix) with ESMTPS id CD189859EB;
-	Mon, 14 Nov 2022 15:23:51 +0000 (UTC)
-Received: from EX19D047UWB002.ant.amazon.com (10.13.138.34) by
- EX13MTAUWB002.ant.amazon.com (10.43.161.202) with Microsoft SMTP Server (TLS)
- id 15.0.1497.42; Mon, 14 Nov 2022 15:23:49 +0000
-Received: from amazon.com (10.43.162.178) by EX19D047UWB002.ant.amazon.com
- (10.13.138.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1118.20; Mon, 14 Nov 2022
- 15:23:49 +0000
-Date: Mon, 14 Nov 2022 08:23:47 -0700
-From: Jordan Crouse <jorcrous@amazon.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 3/3] vulkan-validation: Add the official Vulkan
- validation layers
-Message-ID: <20221114152347.z67ftsylidd3tfjt@amazon.com>
-References: <20221110204232.12768-1-jorcrous@amazon.com>
- <20221110204232.12768-4-jorcrous@amazon.com>
- <Y3Frpp2ImWRduS8k@mail.local>
+ dkim=missing; spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
+Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
+	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1oubjT-00CHXA-K9; Mon, 14 Nov 2022 17:50:48 +0200
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1oubjT-00FKr9-0v; Mon, 14 Nov 2022 17:50:47 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>,
+	Quentin Schulz <foss+yocto@0leil.net>
+Subject: [PATCH v2 1/2] qemurunner.py: support setting slirp host IP address
+Date: Mon, 14 Nov 2022 17:50:37 +0200
+Message-Id: <20221114155038.3654499-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <Y3Frpp2ImWRduS8k@mail.local>
-User-Agent: NeoMutt/20171215
-X-Originating-IP: [10.43.162.178]
-X-ClientProxiedBy: EX13D29UWA001.ant.amazon.com (10.43.160.187) To
- EX19D047UWB002.ant.amazon.com (10.13.138.34)
+Content-Transfer-Encoding: 8bit
+X-Rspam-Score: -1.2 (-)
+X-Rspam-Report: Action: no action
+ Symbol: RCVD_TLS_LAST(0.00)
+ Symbol: ARC_NA(0.00)
+ Symbol: DMARC_POLICY_SOFTFAIL(0.10)
+ Symbol: FROM_HAS_DN(0.00)
+ Symbol: RCPT_COUNT_THREE(0.00)
+ Symbol: R_MISSING_CHARSET(0.50)
+ Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
+ Symbol: TAGGED_RCPT(0.00)
+ Symbol: MIME_GOOD(-0.10)
+ Symbol: TO_DN_SOME(0.00)
+ Symbol: MID_CONTAINS_FROM(1.00)
+ Symbol: NEURAL_HAM(-0.00)
+ Symbol: R_SPF_NA(0.00)
+ Symbol: FORGED_SENDER(0.30)
+ Symbol: R_DKIM_NA(0.00)
+ Symbol: MIME_TRACE(0.00)
+ Symbol: ASN(0.00)
+ Symbol: FROM_NEQ_ENVFROM(0.00)
+ Symbol: BAYES_HAM(-3.00)
+ Symbol: RCVD_COUNT_TWO(0.00)
+ Message-ID: 20221114155038.3654499-1-mikko.rapeli@linaro.org
+X-SA-Exim-Connect-IP: 2001:67c:1be8::11
+X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Nov 2022 15:24:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173249
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Nov 2022 15:51:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173250
 
-On Sun, Nov 13, 2022 at 11:11:50PM +0100, Alexandre Belloni wrote:
-> Hello,
-> 
-> On 10/11/2022 20:42:32+0000, Jordan Crouse via lists.openembedded.org wrote:
-> > Add a recipe to build the Khronos official Vulkan validation layers that can
-> > assist developers in verifying that their applications correctly use the
-> > Vulkan APIs.
-> >
-> 
-> 
-> This failed on the autobuilders:
-> 
-> NOTE: recipe vulkan-validation-1.3.231.1-r0: task do_compile: Started
-> ERROR: vulkan-validation-1.3.231.1-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/core2-64-poky-linux/vulkan-validation/1.3.231.1-r0/temp/run.do_compile.3939056', 1, None, None)
-> ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/core2-64-poky-linux/vulkan-validation/1.3.231.1-r0/temp/log.do_compile.3939056
-> Log data follows:
-> | DEBUG: Executing shell function do_compile
-> | NOTE: VERBOSE=1 cmake --build /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/core2-64-poky-linux/vulkan-validation/1.3.231.1-r0/build --target all --
-> | ninja: error: '/home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/core2-64-poky-linux/vulkan-validation/1.3.231.1-r0/recipe-sysroot/usr/lib', needed by 'layers/libVkLayer_khronos_validation.so', missing and no known rule to make it
-> | WARNING: /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/core2-64-poky-linux/vulkan-validation/1.3.231.1-r0/temp/run.do_compile.3939056:153 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/core2-64-poky-linux/vulkan-validation/1.3.231.1-r0/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
-> | WARNING: Backtrace (BB generated script):
-> |       #1: cmake_runcmake_build, /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/core2-64-poky-linux/vulkan-validation/1.3.231.1-r0/temp/run.do_compile.3939056, line 153
-> |       #2: cmake_do_compile, /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/core2-64-poky-linux/vulkan-validation/1.3.231.1-r0/temp/run.do_compile.3939056, line 147
-> |       #3: do_compile, /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/core2-64-poky-linux/vulkan-validation/1.3.231.1-r0/temp/run.do_compile.3939056, line 142
-> |       #4: main, /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/core2-64-poky-linux/vulkan-validation/1.3.231.1-r0/temp/run.do_compile.3939056, line 166
-> NOTE: recipe vulkan-validation-1.3.231.1-r0: task do_compile: Failed
-> ERROR: Task (/home/pokybuild/yocto-worker/qemux86-world/build/meta/recipes-graphics/vulkan/vulkan-validation_1.3.231.1.bb:do_compile) failed with exit code '1'
-> 
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/6064/steps/11/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/3735/steps/12/logs/stdio
+By default host side IP address is not set and qemu listens
+on all IP addresses on the host machine which is not a good
+idea when images have root login enabled without password.
+It make sense to listen only on localhost IP address 127.0.0.1 using
+config change like:
 
-Thanks, I'll see if I can figure out what happened here.
+QB_SLIRP_OPT = "-netdev user,id=net0,hostfwd=tcp:127.0.0.1:2222-:22"
 
-Jordan
+This config works for qemu itself, but breaks runqemu which tries to
+parse the host side port number from qemu process command line arguments.
+So change the runqemu side hostfwd parsing for port number to ignore
+the host IP address field.
+
+Reviewed-by: Quentin Schulz <foss+yocto@0leil.net>
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+---
+ meta/lib/oeqa/utils/qemurunner.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+v2: improved commit message
+
+v1: https://lists.openembedded.org/g/openembedded-core/topic/95016024#173234
+
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index e602399232..f175f8a1de 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -401,7 +401,8 @@ class QemuRunner:
+                 cmdline = re_control_char.sub(' ', cmdline)
+             try:
+                 if self.use_slirp:
+-                    tcp_ports = cmdline.split("hostfwd=tcp::")[1]
++                    tcp_ports = cmdline.split("hostfwd=tcp:")[1]
++                    tcp_ports = tcp_ports.split(":")[1]
+                     host_port = tcp_ports[:tcp_ports.find('-')]
+                     self.ip = "localhost:%s" % host_port
+                 else:
+-- 
+2.34.1
+
 
