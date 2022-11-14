@@ -2,438 +2,465 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC916C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9743C4167D
 	for <webhook@archiver.kernel.org>; Mon, 14 Nov 2022 19:01:26 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web08.760.1668452479860716944
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.740.1668452479072026932
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Nov 2022 11:01:20 -0800
+ Mon, 14 Nov 2022 11:01:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=l5sofJe6;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id t4so8140626wmj.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Nov 2022 11:01:19 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZPkMNYsz;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id v1so19972420wrt.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Nov 2022 11:01:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oBRGrQgZu0sbADm/L6F1oYBolDbjuSJoHZaUxC9NFGY=;
-        b=l5sofJe6ezQAzs4B20QY8nZmywXFH3PkxrjIObeKPRnzclmcf6MKrOiYrUH94ggrpN
-         Da+E4umb2CEwc0zPdwk1jbY+54ACR52PArXceYVjnNNJlZcOHKWt1ZUEMbnSV7yRflm6
-         l9C8yWhiwdhVtQMVRp4Nukv43mO4Hog7wjqNZ60iu+0JXzSstflPrXNv76WYsgsNarS8
-         w0GFaCYI48sZgQK6XkURboK7wPz8vbSTKew9h2hlUXDANRke5tAEx/coVcdueP1GhVuC
-         5BybiecYR+eHoSmxw86g76D5GhliENssZzKKufEznowDJahWHvqDqx4gE3gQBmtqK7+y
-         x0yw==
+        bh=1FG+HNImxPL5Y9kahYeBQzxL5qKvC5Ydb59eYSppkz8=;
+        b=ZPkMNYsz7dlwdjzciF0gq1/DERd7uTb8QnWd/JkXAd28DnJqiOVzHQjFknoablY4Pj
+         6KfkdpK6sBwCy28kEueDFsI+VtfFw2cLiZ4aynFvzQ60BWZeAjRnY7DItd3wx+JQAp/w
+         UYXlYqCxnmDmdnDV5xF2srKBspLL0h7yR44Mh+zqEShYSXtkPHadomULOgrj6WuQVns2
+         m253JDafxwnGuYEjCnJGG+4YluPgv2d/Dhb54hYoSkCYmfWVihm9nurGBltQrIcHlmj7
+         tLpPbzR3pZBcWZzGw6ExdmdTYRaT327QcystA0L05w88a8rP2B1ZGOPuNuUXErrhq8l5
+         IIfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oBRGrQgZu0sbADm/L6F1oYBolDbjuSJoHZaUxC9NFGY=;
-        b=49u8CwaYsCCz9wofdtBccFpqDUt/GQwk4xKTTafDU5VapfA2dAqwJFGWKIim6Qipti
-         mw4ZJYAOyJuHIjK53PzAv1R6YVm/QYMGcWoZDAKQUddGfgr+XIhhUscK9v9TVZpJmU1F
-         qUkuPG3Vdj+/hW6MO4F1rT+R87hFPa+y36oERV4l+zsHHv8FKkDl4c5zyci+Iqqxd/vz
-         SHU61bERamwerzeLZC40Xra6gB89eRA9LpB9u0Zt2zje77jVhxnO7ciOqhZ1lOWUsMNo
-         nOcduQwOkG+adl+7ThT4sbTXrNz4tPBJZL+tKrKuj+hxZKAMh07LooKFADFsV5HkxOeJ
-         /wQg==
-X-Gm-Message-State: ANoB5pnV8zfwIwUfArxeWZ7Rtn5Nr+r9BNhWMvcgP9dsSx37L+m9kY+9
-	G9eFoLr8YqeW+Esn3lm+Ybi2td6fxXc=
-X-Google-Smtp-Source: AA0mqf7PhTPKsDLSFLmdK03os61qRLmrgzMd4b4IypOaSuRxlrR7wf7AywmcOE0YkWsFCkP8jfAGNg==
-X-Received: by 2002:a05:600c:3d94:b0:3cf:9b4d:ec4f with SMTP id bi20-20020a05600c3d9400b003cf9b4dec4fmr9191175wmb.114.1668452478031;
-        Mon, 14 Nov 2022 11:01:18 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id c7-20020a1c3507000000b003c6f1732f65sm18091811wma.38.2022.11.14.11.01.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=1FG+HNImxPL5Y9kahYeBQzxL5qKvC5Ydb59eYSppkz8=;
+        b=D+lzALE0u7XBNA18j/W9uzDxE2OPc5XDbB4Ow3dapDxmLqoqxJoLqZftsrPYZ3W2p7
+         kUOg9vcD17SofcYoeJpoZ230yjDkcEKABuLxVckhfe96OYlAojjUSS2ixki/C8K818U6
+         KWNt4df+ov5JfELpy/iDpjkuI89hmNCQQvHePBVH7RACXgivoj5SkDXtMNAmOaXPacik
+         9EqXJYjmH4GFwqIwIvFUe1/kIMSACH1VDhpK92ibBb5RRuB0cU9LJHcJ3iJLpkr0P+7I
+         zFncb3kArPSft76TdNw0j5T882nuw+S0R+RnC8NssNuuLah2ZkKcPFpkT5xXHxkc6Vk8
+         dBiw==
+X-Gm-Message-State: ANoB5pnvbgvOEaXOL0H32M6N9ldeZPq1ntmJvgLKqCHhgWmFTG5pCp+C
+	NmAAyf7+Dm/k/qkKDW6mdDyDWkYsxMo=
+X-Google-Smtp-Source: AA0mqf7Wf+2W+mhLbUpBbZw8Bjvoml1+CDdg0tLPqM+6zi/9GY4+plLg9D5usqCmxm3MKyCyAm0cJQ==
+X-Received: by 2002:a5d:4b90:0:b0:241:784b:666b with SMTP id b16-20020a5d4b90000000b00241784b666bmr6728847wrt.483.1668452477399;
         Mon, 14 Nov 2022 11:01:17 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id c7-20020a1c3507000000b003c6f1732f65sm18091811wma.38.2022.11.14.11.01.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Nov 2022 11:01:16 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 7/8] bash: update 5.1.16 -> 5.2.9
-Date: Mon, 14 Nov 2022 20:00:55 +0100
-Message-Id: <20221114190056.2612669-7-alex@linutronix.de>
+Subject: [PATCH 6/8] make: update 4.3 -> 4.4
+Date: Mon, 14 Nov 2022 20:00:54 +0100
+Message-Id: <20221114190056.2612669-6-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221114190056.2612669-1-alex@linutronix.de>
 References: <20221114190056.2612669-1-alex@linutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 14 Nov 2022 19:01:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173260
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173259
 
-Remove patches:
-execute_cmd.patch
-(purpose of patch unclear)
-makerace.patch/makerace2.patch
-(merged upstream)
+Deleted patches:
+make/0001-makeinst-Do-not-undef-POSIX-on-clang-arm.patch
+(modified bit removed upstream)
+make/0001-src-dir.c-fix-buffer-overflow-warning.patch
+make/0002-w32-compat-dirent.c-follow-header.patch
+make/0003-posixfcn-fcntl-gnulib-make-emulated.patch
+(fixed upstream)
+make/0002-modules-fcntl-allow-being-detected-by-importing-proj.patch
+(code removed upstream)
+
+License-update: formatting
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../bash/bash/execute_cmd.patch               | 28 ------
- .../recipes-extended/bash/bash/makerace.patch | 52 ----------
- .../bash/bash/makerace2.patch                 | 98 -------------------
- .../bash/bash/use_aclocal.patch               | 27 +++--
- .../bash/{bash_5.1.16.bb =3D> bash_5.2.9.bb}    |  5 +-
- 5 files changed, 20 insertions(+), 190 deletions(-)
- delete mode 100644 meta/recipes-extended/bash/bash/execute_cmd.patch
- delete mode 100644 meta/recipes-extended/bash/bash/makerace.patch
- delete mode 100644 meta/recipes-extended/bash/bash/makerace2.patch
- rename meta/recipes-extended/bash/{bash_5.1.16.bb =3D> bash_5.2.9.bb} (79%)
+ meta/recipes-devtools/git/git_2.38.1.bb       |  3 +-
+ ...inst-Do-not-undef-POSIX-on-clang-arm.patch | 38 ---------
+ ...rc-dir.c-fix-buffer-overflow-warning.patch | 41 ----------
+ ...low-being-detected-by-importing-proj.patch | 33 --------
+ ...02-w32-compat-dirent.c-follow-header.patch | 36 ---------
+ ...-posixfcn-fcntl-gnulib-make-emulated.patch | 79 -------------------
+ meta/recipes-devtools/make/make/sigpipe.patch | 42 ++++++++++
+ meta/recipes-devtools/make/make_4.3.bb        | 18 -----
+ meta/recipes-devtools/make/make_4.4.bb        | 14 ++++
+ 9 files changed, 58 insertions(+), 246 deletions(-)
+ delete mode 100644 meta/recipes-devtools/make/make/0001-makeinst-Do-not-undef-POSIX-on-clang-arm.patch
+ delete mode 100644 meta/recipes-devtools/make/make/0001-src-dir.c-fix-buffer-overflow-warning.patch
+ delete mode 100644 meta/recipes-devtools/make/make/0002-modules-fcntl-allow-being-detected-by-importing-proj.patch
+ delete mode 100644 meta/recipes-devtools/make/make/0002-w32-compat-dirent.c-follow-header.patch
+ delete mode 100644 meta/recipes-devtools/make/make/0003-posixfcn-fcntl-gnulib-make-emulated.patch
+ create mode 100644 meta/recipes-devtools/make/make/sigpipe.patch
+ delete mode 100644 meta/recipes-devtools/make/make_4.3.bb
+ create mode 100644 meta/recipes-devtools/make/make_4.4.bb
 
-diff --git a/meta/recipes-extended/bash/bash/execute_cmd.patch b/meta/recip=
-es-extended/bash/bash/execute_cmd.patch
+diff --git a/meta/recipes-devtools/git/git_2.38.1.bb b/meta/recipes-devtools/git/git_2.38.1.bb
+index 033e36ae16..ef64dba7ac 100644
+--- a/meta/recipes-devtools/git/git_2.38.1.bb
++++ b/meta/recipes-devtools/git/git_2.38.1.bb
+@@ -71,7 +71,8 @@ do_install () {
+ 	install -m 644 ${S}/contrib/completion/git-completion.bash ${D}/${datadir}/bash-completion/completions/git
+ 
+         if [ "${@bb.utils.filter('PACKAGECONFIG', 'manpages', d)}" ]; then
+-            oe_runmake install-man DESTDIR="${D}"
++            # Needs to be serial with make 4.4 due to https://savannah.gnu.org/bugs/index.php?63362
++            make install-man DESTDIR="${D}"
+         fi
+ }
+ 
+diff --git a/meta/recipes-devtools/make/make/0001-makeinst-Do-not-undef-POSIX-on-clang-arm.patch b/meta/recipes-devtools/make/make/0001-makeinst-Do-not-undef-POSIX-on-clang-arm.patch
 deleted file mode 100644
-index 7a9e9a902f..0000000000
---- a/meta/recipes-extended/bash/bash/execute_cmd.patch
+index 2da7c983dc..0000000000
+--- a/meta/recipes-devtools/make/make/0001-makeinst-Do-not-undef-POSIX-on-clang-arm.patch
 +++ /dev/null
-@@ -1,28 +0,0 @@
--Upstream-Status: Inappropriate [embedded specific]
+@@ -1,38 +0,0 @@
+-From 86b7947156a0c33e768d0a265e38f2881a70a7e2 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Fri, 6 Mar 2020 23:19:37 -0800
+-Subject: [PATCH] makeinst: Do not undef POSIX on clang/arm
 -
--Rebase to 5.0
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+-if __arm internal compiler macro is defined then make assumes that the
+-system is not posix and goes ahead and undefs POSIX, which results in
+-miscompiling make with clang, since clang does define __arm unlike gcc
+-which does not, but they both support posix just fine, so here check for
+-compiler not being clang when __arm is defined before undefining posix
+-
+-Fixes error like
+-../make-4.3/src/job.c:507:27: error: too many arguments to function call, expected 0, have 1
+-  sigsetmask (siggetmask (0) & ~fatal_signal_mask)
+-              ~~~~~~~~~~  ^
+-
+-Upstream-Status: Pending
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ----
-- execute_cmd.c | 6 +++++-
-- 1 file changed, 5 insertions(+), 1 deletion(-)
+- src/makeint.h | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--diff --git a/execute_cmd.c b/execute_cmd.c
--index f1d74bf..31674b4 100644
----- a/execute_cmd.c
--+++ b/execute_cmd.c
--@@ -2567,7 +2567,11 @@ execute_pipeline (command, asynchronous, pipe_in, p=
-ipe_out, fds_to_close)
--   /* If the `lastpipe' option is set with shopt, and job control is not
--      enabled, execute the last element of non-async pipelines in the
--      current shell environment. */
---  if (lastpipe_opt && job_control =3D=3D 0 && asynchronous =3D=3D 0 && pi=
-pe_out =3D=3D NO_PIPE && prev > 0)
--+  if (lastpipe_opt &&=20
--+#if defined(JOB_CONTROL)
--+		job_control =3D=3D 0 &&=20
--+#endif
--+		asynchronous =3D=3D 0 && pipe_out =3D=3D NO_PIPE && prev > 0)
+-diff --git a/src/makeint.h b/src/makeint.h
+-index c428a36..fadf963 100644
+---- a/src/makeint.h
+-+++ b/src/makeint.h
+-@@ -115,7 +115,7 @@ extern int errno;
+- #endif
+- 
+- /* Some systems define _POSIX_VERSION but are not really POSIX.1.  */
+--#if (defined (butterfly) || defined (__arm) || (defined (__mips) && defined (_SYSTYPE_SVR3)) || (defined (sequent) && defined (i386)))
+-+#if (defined (butterfly) || (defined (__arm) && !defined(__clang__)) || (defined (__mips) && defined (_SYSTYPE_SVR3)) || (defined (sequent) && defined (i386)))
+- # undef POSIX
+- #endif
+- 
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-devtools/make/make/0001-src-dir.c-fix-buffer-overflow-warning.patch b/meta/recipes-devtools/make/make/0001-src-dir.c-fix-buffer-overflow-warning.patch
+deleted file mode 100644
+index 57970824f6..0000000000
+--- a/meta/recipes-devtools/make/make/0001-src-dir.c-fix-buffer-overflow-warning.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From cd7091a7d88306004ca98c5dafcc40f44589b105 Mon Sep 17 00:00:00 2001
+-From: Jens Rehsack <sno@netbsd.org>
+-Date: Mon, 24 Feb 2020 10:52:21 +0100
+-Subject: [PATCH 1/3] src/dir.c: fix buffer-overflow warning
+-
+-Fix compiler warning:
+-	src/dir.c:1294:7: warning: 'strncpy' specified bound depends on the
+-			  length of the source argument [-Wstringop-overflow=]
+-
+-The existing code assumes `path` will never exceed `MAXPATHLEN`. Also the
+-size of the buffer is increased by 1 to hold a path with the length of
+-`MAXPATHLEN` and trailing `0`.
+-
+-Signed-off-by: Jens Rehsack <sno@netbsd.org>
+----
+-Upstream-Status: Pending (https://savannah.gnu.org/bugs/?57888)
+-
+- src/dir.c | 6 +++---
+- 1 file changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/src/dir.c b/src/dir.c
+-index 862a18e..cad4c4a 100644
+---- a/src/dir.c
+-+++ b/src/dir.c
+-@@ -1289,10 +1289,10 @@ local_stat (const char *path, struct stat *buf)
+-   if (plen > 1 && path[plen - 1] == '.'
+-       && (path[plen - 2] == '/' || path[plen - 2] == '\\'))
 -     {
--       lstdin =3D move_to_high_fd (0, 1, -1);
--       if (lstdin > 0)
----=20
--2.7.4
--
-diff --git a/meta/recipes-extended/bash/bash/makerace.patch b/meta/recipes-=
-extended/bash/bash/makerace.patch
-deleted file mode 100644
-index 9bd7c280fe..0000000000
---- a/meta/recipes-extended/bash/bash/makerace.patch
-+++ /dev/null
-@@ -1,52 +0,0 @@
--We're seeing pipesize.h being created in parallel:
--
--/bin/sh ../../bash-5.1/builtins/psize.sh > pipesize.h
--/bin/sh ../../bash-5.1/builtins/psize.sh > pipesize.h
--
--./mkbuiltins -D ../../bash-5.1/builtins ../../bash-5.1/builtins/ulimit.def
--x86_64-pokysdk-linux-gcc  --sysroot=3D/home/pokybuild/yocto-worker/multili=
-b/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-bash/5.1-r0=
-/recipe-sysroot -c   -DHAVE_CONFIG_H -DSHELL  -I. -I..  -I../../bash-5.1 -I=
-../../bash-5.1/include -I../../bash-5.1/lib -I../../bash-5.1/builtins    -O=
-2 -pipe -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/multilib/build/bu=
-ild/tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-bash/5.1-r0=3D/usr/sr=
-c/debug/nativesdk-bash/5.1-r0                      -fdebug-prefix-map=3D/ho=
-me/pokybuild/yocto-worker/multilib/build/build/tmp/work/x86_64-nativesdk-po=
-kysdk-linux/nativesdk-bash/5.1-r0=3D/usr/src/debug/nativesdk-bash/5.1-r0   =
-                   -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/multil=
-ib/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-bash/5.1-r=
-0/recipe-sysroot=3D                      -fdebug-prefix-map=3D/home/pokybui=
-ld/yocto-worker/multilib/build/build/tmp/work/x86_64-nativesdk-pokysdk-linu=
-x/nativesdk-bash/5.1-r0/recipe-sysroot-native=3D   ulimit.c || ( rm -f ulim=
-it.c ; exit 1 )
--make[1]: Leaving directory '/home/pokybuild/yocto-worker/multilib/build/bu=
-ild/tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-bash/5.1-r0/build/bui=
-ltins'
--rm -f redir.o
--x86_64-pokysdk-linux-gcc  --sysroot=3D/home/pokybuild/yocto-worker/multili=
-b/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-bash/5.1-r0=
-/recipe-sysroot  -DPROGRAM=3D'"bash"' -DCONF_HOSTTYPE=3D'"x86_64"' -DCONF_O=
-STYPE=3D'"linux-gnu"' -DCONF_MACHTYPE=3D'"x86_64-pokysdk-linux-gnu"' -DCONF=
-_VENDOR=3D'"pokysdk"' -DLOCALEDIR=3D'"/opt/poky/3.2+snapshot/sysroots/x86_6=
-4-pokysdk-linux/usr/share/locale"' -DPACKAGE=3D'"bash"' -DSHELL -DHAVE_CONF=
-IG_H   -I.  -I../bash-5.1 -I../bash-5.1/include -I../bash-5.1/lib    -O2 -p=
-ipe -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/multilib/build/build/=
-tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-bash/5.1-r0=3D/usr/src/de=
-bug/nativesdk-bash/5.1-r0                      -fdebug-prefix-map=3D/home/p=
-okybuild/yocto-worker/multilib/build/build/tmp/work/x86_64-nativesdk-pokysd=
-k-linux/nativesdk-bash/5.1-r0=3D/usr/src/debug/nativesdk-bash/5.1-r0       =
-               -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/multilib/b=
-uild/build/tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-bash/5.1-r0/re=
-cipe-sysroot=3D                      -fdebug-prefix-map=3D/home/pokybuild/y=
-octo-worker/multilib/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/na=
-tivesdk-bash/5.1-r0/recipe-sysroot-native=3D   -c ../bash-5.1/redir.c
--In file included from ../../bash-5.1/builtins/../../bash-5.1/builtins/ulim=
-it.def:95:
--pipesize.h:9:5: error: expected '=3D', ',', ';', 'asm' or '__attribute__' =
-before '-' token
--    9 | bash-5.1/builtins/psize.sh: 37: ../../bash-5.1/builtins/psize.sh: =
-./psize.aux: Text file busy
--      |     ^
--make[1]: *** [Makefile:119: ulimit.o] Error 1
--make[1]: Leaving directory '/home/pokybuild/yocto-worker/multilib/build/bu=
-ild/tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-bash/5.1-r0/build/bui=
-ltins'
--make: *** [Makefile:737: builtins/libbuiltins.a] Error 1
--make: *** Waiting for unfinished jobs....
--In file included from ../bash-5.1/redir.c:61:
--./builtins/pipesize.h:9:5: error: expected '=3D', ',', ';', 'asm' or '__at=
-tribute__' before '-' token
--    9 | bash-5.1/builtins/psize.sh: 37: ../../bash-5.1/builtins/psize.sh: =
-./psize.aux: Text file busy
--      |     ^
--make: *** [Makefile:101: redir.o] Error 1
--WARNING: exit code 1 from a shell command.
--
--which happens since builtins/ulimit.o depends on pipesize.h as well as a t=
-op=20
--level dependency. This means:
--
--    @(cd $(DEFDIR) && $(MAKE) $(MFLAGS) pipesize.h ) || exit 1
--
--races with:
--
--    @(cd $(DEFDIR) && $(MAKE) $(MFLAGS) DEBUG=3D${DEBUG} targets ) || exit=
- 1
--
--Hack around this by forcing BUILTINS_LIBRARY onto pipesize.h as a dependen=
-cy.
--
--Upstream-Status: Submitted [https://lists.gnu.org/archive/html/bug-bash/20=
-21-01/msg00152.html]
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--
--Index: bash-5.1/Makefile.in
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
----- bash-5.1.orig/Makefile.in
--+++ bash-5.1/Makefile.in
--@@ -746,7 +746,7 @@ ${DEFDIR}/bashgetopt.o:	$(BUILTIN_SRCDIR
-- ${DEFDIR}/builtext.h: $(BUILTIN_DEFS)
-- 	@(cd $(DEFDIR) && $(MAKE) $(MFLAGS) builtext.h ) || exit 1
--=20
---${DEFDIR}/pipesize.h:
--+${DEFDIR}/pipesize.h: $(BUILTINS_LIBRARY)
-- 	@(cd $(DEFDIR) && $(MAKE) $(MFLAGS) pipesize.h ) || exit 1
--=20
-- $(SDIR)/man2html$(EXEEXT):	${SUPPORT_SRC}/man2html.c
-diff --git a/meta/recipes-extended/bash/bash/makerace2.patch b/meta/recipes=
--extended/bash/bash/makerace2.patch
-deleted file mode 100644
-index abb51a5086..0000000000
---- a/meta/recipes-extended/bash/bash/makerace2.patch
-+++ /dev/null
-@@ -1,98 +0,0 @@
--The main makefile can call mkbuiltins from multiple different codepaths in=
- parallel.
--When called, it moves the existing files out the way and creates new ones,=
- then
--compares which will break the build if timing is unlucky.
--
--The root of the problem is mkbuiltins.c creating a file but also referenci=
-ng that
--file under the same name. By modifing it to allow the final name and the t=
-emp name
--to be specified, we can avoid the original reason for the moving of files =
-around.
--This allows them to be created under a new name and then replaced if chang=
-ed,
--removing any race windows around accessing the files whilst they've been
--moved or are being rewritten.
--
--See [YOCTO #14227]
--
--Upstream-Status: Submitted [https://savannah.gnu.org/patch/index.php?10210]
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--
--Index: bash-5.1.8/builtins/Makefile.in
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
----- bash-5.1.8.orig/builtins/Makefile.in
--+++ bash-5.1.8/builtins/Makefile.in
--@@ -185,19 +185,17 @@ gen-helpfiles:	tmpbuiltins.o gen-helpfil
-- 	$(CC_FOR_BUILD) ${CCFLAGS_FOR_BUILD} $(LDFLAGS_FOR_BUILD) -o $@ gen-help=
-files.o tmpbuiltins.o $(LIBS_FOR_BUILD)
--=20
-- builtext.h builtins.c: $(MKBUILTINS) $(DEFSRC)
---	@-if test -f builtins.c; then mv -f builtins.c old-builtins.c; fi
---	@-if test -f builtext.h; then mv -f builtext.h old-builtext.h; fi
---	./$(MKBUILTINS) -externfile builtext.h -structfile builtins.c \
--+	./$(MKBUILTINS) -externfile builtext-new.h -externfinalfile builtext.h -=
-structfile builtins-new.c \
-- 	    -noproduction $(DIRECTDEFINE) $(HELPDIRDEFINE) $(HELPSTRINGS) $(DEFS=
-RC)
---	@-if cmp -s old-builtext.h builtext.h 2>/dev/null; then \
---		mv old-builtext.h builtext.h; \
--+	@-if ! cmp -s builtext.h builtext-new.h 2>/dev/null; then \
--+		mv builtext-new.h builtext.h; \
-- 	 else \
---		$(RM) old-builtext.h; \
--+		$(RM) builtext-new.h; \
-- 	 fi
---	@-if cmp -s old-builtins.c builtins.c 2>/dev/null; then \
---		mv old-builtins.c builtins.c; \
--+	@-if ! cmp -s builtins.c builtins-new.c 2>/dev/null; then \
--+		mv builtins-new.c builtins.c; \
-- 	 else \
---		$(RM) old-builtins.c; \
--+		$(RM) builtins-new.c; \
-- 	 fi
--=20
-- helpdoc:	gen-helpfiles
--Index: bash-5.1.8/builtins/mkbuiltins.c
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
----- bash-5.1.8.orig/builtins/mkbuiltins.c
--+++ bash-5.1.8/builtins/mkbuiltins.c
--@@ -113,6 +113,9 @@ char *struct_filename =3D (char *)NULL;
-- /* The name of the external declaration file. */
-- char *extern_filename =3D (char *)NULL;
--=20
--+/* The final name of the external declaration file. */
--+char *extern_final_filename =3D (char *)NULL;
--+
-- /* Here is a structure for manipulating arrays of data. */
-- typedef struct {
--   int size;		/* Number of slots allocated to array. */
--@@ -230,6 +233,8 @@ main (argc, argv)
--=20
--       if (strcmp (arg, "-externfile") =3D=3D 0)
-- 	extern_filename =3D argv[arg_index++];
--+      else if (strcmp (arg, "-externfinalfile") =3D=3D 0)
--+	extern_final_filename =3D argv[arg_index++];
--       else if (strcmp (arg, "-structfile") =3D=3D 0)
-- 	struct_filename =3D argv[arg_index++];
--       else if (strcmp (arg, "-noproduction") =3D=3D 0)
--@@ -273,6 +278,9 @@ main (argc, argv)
-- 	}
+--      char parent[MAXPATHLEN];
+-+      char parent[MAXPATHLEN+1];
+- 
+--      strncpy (parent, path, plen - 2);
+--      parent[plen - 2] = '\0';
+-+      strncpy (parent, path, MAXPATHLEN);
+-+      parent[MIN(plen - 2, MAXPATHLEN)] = '\0';
+-       if (stat (parent, buf) < 0 || !_S_ISDIR (buf->st_mode))
+-         return -1;
 -     }
--=20
--+  if (!extern_final_filename)
--+    extern_final_filename =3D extern_filename;
--+
--   /* If there are no files to process, just quit now. */
--   if (arg_index =3D=3D argc)
--     exit (0);
--@@ -1174,7 +1182,7 @@ write_file_headers (structfile, externfi
-- 	fprintf (structfile, "%s\n", structfile_header[i]);
--=20
--       fprintf (structfile, "#include \"%s\"\n",
---	       extern_filename ? extern_filename : "builtext.h");
--+	       extern_final_filename ? extern_final_filename : "builtext.h");
--=20
--       fprintf (structfile, "#include \"bashintl.h\"\n");
--=20
--@@ -1184,7 +1192,7 @@ write_file_headers (structfile, externfi
--   if (externfile)
--     fprintf (externfile,
-- 	     "/* %s - The list of builtins found in libbuiltins.a. */\n",
---	     extern_filename ? extern_filename : "builtext.h");
--+	     extern_final_filename ? extern_final_filename : "builtext.h");
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-devtools/make/make/0002-modules-fcntl-allow-being-detected-by-importing-proj.patch b/meta/recipes-devtools/make/make/0002-modules-fcntl-allow-being-detected-by-importing-proj.patch
+deleted file mode 100644
+index b3d97f9a3a..0000000000
+--- a/meta/recipes-devtools/make/make/0002-modules-fcntl-allow-being-detected-by-importing-proj.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From fb8aaed3b040e589cd880fd714dda5ec00687217 Mon Sep 17 00:00:00 2001
+-From: Jens Rehsack <sno@netbsd.org>
+-Date: Mon, 24 Feb 2020 12:10:06 +0100
+-Subject: [PATCH 2/2] modules: fcntl: allow being detected by importing
+- projects
+-
+-GNU project `make` relies on gnulib but provides some own compatibility
+-functions - including an `fcntl`, which fails on mingw.
+-The intension of gnulib is providing these functions and being wider tested,
+-but silently injecting a function opens battle of compatibility layers.
+-
+-So adding a hint into target `config.h` to allow deciding whether using
+-an own compatibility implementation or not.
+-
+-Signed-off-by: Jens Rehsack <sno@netbsd.org>
+----
+-Upstream-Status: Pending
+-
+- m4/gnulib-comp.m4 | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/m4/gnulib-comp.m4 b/m4/gnulib-comp.m4
+-index 3ee0811..cf75541 100644
+---- a/m4/gnulib-comp.m4
+-+++ b/m4/gnulib-comp.m4
+-@@ -147,6 +147,7 @@
+-   gl_FUNC_FCNTL
+-   if test $HAVE_FCNTL = 0 || test $REPLACE_FCNTL = 1; then
+-     AC_LIBOBJ([fcntl])
+-+    AC_DEFINE(HAVE_GNULIB_FCNTL, 1, [Define to 1 if you have the `fcntl' function via gnulib.])
+-   fi
+-   gl_FCNTL_MODULE_INDICATOR([fcntl])
+-   gl_FCNTL_H
+diff --git a/meta/recipes-devtools/make/make/0002-w32-compat-dirent.c-follow-header.patch b/meta/recipes-devtools/make/make/0002-w32-compat-dirent.c-follow-header.patch
+deleted file mode 100644
+index 9ecc44543e..0000000000
+--- a/meta/recipes-devtools/make/make/0002-w32-compat-dirent.c-follow-header.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From 4dd8b4f43aa0078707ad9a7932f4e137bc4383ed Mon Sep 17 00:00:00 2001
+-From: Jens Rehsack <sno@netbsd.org>
+-Date: Mon, 24 Feb 2020 11:12:43 +0100
+-Subject: [PATCH 2/3] w32: compat: dirent.c: follow header
+-
+-src/w32/include/dirent.h completely delegates to mingw dirent implementation,
+-gnulib detects it as fine and completely usable - trust in that.
+-
+-Signed-off-by: Jens Rehsack <sno@netbsd.org>
+----
+-Upstream-Status: Pending (https://savannah.gnu.org/bugs/?57888)
+-
+- src/w32/compat/dirent.c | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
+-
+-diff --git a/src/w32/compat/dirent.c b/src/w32/compat/dirent.c
+-index b8ec615..de80f72 100644
+---- a/src/w32/compat/dirent.c
+-+++ b/src/w32/compat/dirent.c
+-@@ -23,7 +23,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
+- #include <stdlib.h>
+- #include "dirent.h"
+- 
+--
+-+#ifndef __MINGW32__
+- DIR*
+- opendir(const char* pDirName)
+- {
+-@@ -193,3 +193,4 @@ seekdir(DIR* pDir, long nPosition)
+- 
+-         return;
 - }
--=20
-- /* Write out any necessary closing information for
-diff --git a/meta/recipes-extended/bash/bash/use_aclocal.patch b/meta/recip=
-es-extended/bash/bash/use_aclocal.patch
-index bebaa08bfe..bd6870b386 100644
---- a/meta/recipes-extended/bash/bash/use_aclocal.patch
-+++ b/meta/recipes-extended/bash/bash/use_aclocal.patch
-@@ -1,3 +1,8 @@
-+From d1bf23817afffd5917b74da6946e0c3b7e63e336 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Mon, 28 Dec 2020 21:04:27 +0100
-+Subject: [PATCH] bash: update 5.0 -> 5.1
+-+#endif  /* !__MINGW32__ */
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-devtools/make/make/0003-posixfcn-fcntl-gnulib-make-emulated.patch b/meta/recipes-devtools/make/make/0003-posixfcn-fcntl-gnulib-make-emulated.patch
+deleted file mode 100644
+index 70414c51f4..0000000000
+--- a/meta/recipes-devtools/make/make/0003-posixfcn-fcntl-gnulib-make-emulated.patch
++++ /dev/null
+@@ -1,79 +0,0 @@
+-From 3d074c8fca5fcf3e6b83d33788f35a8f1b3a44a2 Mon Sep 17 00:00:00 2001
+-From: Jens Rehsack <sno@netbsd.org>
+-Date: Fri, 21 Feb 2020 19:29:49 +0100
+-Subject: [PATCH 3/3] posixfcn: fcntl: gnulib > make-emulated
+-
+-Rate the fcntl emulation from gnulib higher than the own one.
+-
+-Signed-off-by: Jens Rehsack <sno@netbsd.org>
+----
+-Upstream-Status: Pending (https://savannah.gnu.org/bugs/?57888)
+-
+- src/output.h              | 19 ++++++++++++++-----
+- src/w32/compat/posixfcn.c |  2 ++
+- 2 files changed, 16 insertions(+), 5 deletions(-)
+-
+-diff --git a/src/output.h b/src/output.h
+-index a506505..d3ce6b7 100644
+---- a/src/output.h
+-+++ b/src/output.h
+-@@ -67,14 +67,21 @@ void output_dump (struct output *out);
+- 
+- # ifdef WINDOWS32
+- /* For emulations in w32/compat/posixfcn.c.  */
+--#  define F_GETFD 1
+--#  define F_SETLKW 2
+-+#  ifndef F_GETFD
+-+#   define F_GETFD 1
+-+#  endif
+-+#  ifndef F_SETLKW
+-+#   define F_SETLKW 2
+-+#  endif
+- /* Implementation note: None of the values of l_type below can be zero
+-    -- they are compared with a static instance of the struct, so zero
+-    means unknown/invalid, see w32/compat/posixfcn.c. */
+--#  define F_WRLCK 1
+--#  define F_UNLCK 2
+--
+-+#  ifndef F_WRLCK
+-+#   define F_WRLCK 1
+-+#  endif
+-+#  ifndef F_UNLCK
+-+#   define F_UNLCK 2
+-+#  endif
+- struct flock
+-   {
+-     short l_type;
+-@@ -89,7 +96,9 @@ struct flock
+- typedef intptr_t sync_handle_t;
+- 
+- /* Public functions emulated/provided in posixfcn.c.  */
+-+#  ifndef HAVE_GNULIB_FCNTL
+- int fcntl (intptr_t fd, int cmd, ...);
+-+#  endif
+- intptr_t create_mutex (void);
+- int same_stream (FILE *f1, FILE *f2);
+- 
+-diff --git a/src/w32/compat/posixfcn.c b/src/w32/compat/posixfcn.c
+-index 975dfb7..d337b9c 100644
+---- a/src/w32/compat/posixfcn.c
+-+++ b/src/w32/compat/posixfcn.c
+-@@ -29,6 +29,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
+- #ifndef NO_OUTPUT_SYNC
+- /* Support for OUTPUT_SYNC and related functionality.  */
+- 
+-+#ifndef HAVE_GNULIB_FCNTL
+- /* Emulation of fcntl that supports only F_GETFD and F_SETLKW.  */
+- int
+- fcntl (intptr_t fd, int cmd, ...)
+-@@ -142,6 +143,7 @@ fcntl (intptr_t fd, int cmd, ...)
+-         return -1;
+-     }
+- }
+-+#endif /* GNULIB_TEST_FCNTL */
+- 
+- static intptr_t mutex_handle = -1;
+- 
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-devtools/make/make/sigpipe.patch b/meta/recipes-devtools/make/make/sigpipe.patch
+new file mode 100644
+index 0000000000..a7270fdbda
+--- /dev/null
++++ b/meta/recipes-devtools/make/make/sigpipe.patch
+@@ -0,0 +1,42 @@
++From 92ab2e642d2c04b3dcb5a736ae6193680bfd5f74 Mon Sep 17 00:00:00 2001
++From: Paul Smith <psmith@gnu.org>
++Date: Sun, 6 Nov 2022 15:22:02 -0500
++Subject: * src/main.c (main): [SV 63307] Handle SIGPIPE as a fatal signal
 +
- Including m4 files directly like this confuses autotools.bbclass, remove
- the references and rely upon aclocal to collect the m4 files together
- as needed instead making it work like other autotools based projects.
-@@ -5,17 +10,23 @@ as needed instead making it work like other autotools ba=
-sed projects.
- Upstream-Status: Inappropriate [OE configuration specific]
- RP 2021/1/20
-=20
--Index: bash-5.1/configure.ac
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
----- bash-5.1.orig/configure.ac
--+++ bash-5.1/configure.ac
--@@ -688,47 +688,6 @@ if test x$SIZE =3D x; then
++Always ignoring SIGPIPE is visible to child processes.
++
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/make.git/commit/?id=92ab2e642d2c04b3dcb5a736ae6193680bfd5f74]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 +---
-+ configure.ac | 43 -------------------------------------------
-+ 1 file changed, 43 deletions(-)
++ src/main.c | 8 +++-----
++ 1 file changed, 3 insertions(+), 5 deletions(-)
 +
-+diff --git a/configure.ac b/configure.ac
-+index 50a6e20..a3b5bd7 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -710,49 +710,6 @@ if test x$SIZE =3D x; then
-  fi
-  AC_SUBST(SIZE)
-=20=20
- -m4_include([m4/stat-time.m4])
- -m4_include([m4/timespec.m4])
- -
-+-m4_include([m4/strtoimax.m4])
++diff --git a/src/main.c b/src/main.c
++index eec9365..f2caf7a 100644
++--- a/src/main.c
+++++ b/src/main.c
++@@ -1182,11 +1182,6 @@ main (int argc, char **argv, char **envp)
++   /* Useful for attaching debuggers, etc.  */
++   SPIN ("main-entry");
++ 
++-  /* Don't die if our stdout sends us SIGPIPE.  */
++-#ifdef SIGPIPE
++-  bsd_signal (SIGPIPE, SIG_IGN);
++-#endif
 +-
- -dnl include files for gettext
- -
- -m4_include([m4/codeset.m4])
-@@ -54,6 +65,6 @@ Index: bash-5.1/configure.ac
- -m4_include([m4/wint_t.m4])
- -m4_include([m4/xsize.m4])
- -
-- dnl Turn on any extensions available in the GNU C library.
-- AC_DEFINE(_GNU_SOURCE, 1)
--=20
-+ dnl C compiler characteristics
-+ AC_C_CONST
-+ AC_C_INLINE
-diff --git a/meta/recipes-extended/bash/bash_5.1.16.bb b/meta/recipes-exten=
-ded/bash/bash_5.2.9.bb
-similarity index 79%
-rename from meta/recipes-extended/bash/bash_5.1.16.bb
-rename to meta/recipes-extended/bash/bash_5.2.9.bb
-index d046faa4e5..39a5d3de86 100644
---- a/meta/recipes-extended/bash/bash_5.1.16.bb
-+++ b/meta/recipes-extended/bash/bash_5.2.9.bb
-@@ -5,7 +5,6 @@ LICENSE =3D "GPL-3.0-or-later"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd32239bcb673463ab874e80d47fae50=
-4"
-=20
- SRC_URI =3D "${GNU_MIRROR}/bash/${BP}.tar.gz;name=3Dtarball \
--           file://execute_cmd.patch \
-            file://mkbuiltins_have_stringize.patch \
-            file://build-tests.patch \
-            file://test-output.patch \
-@@ -13,11 +12,9 @@ SRC_URI =3D "${GNU_MIRROR}/bash/${BP}.tar.gz;name=3Dtarb=
-all \
-            file://run-bash-ptests \
-            file://fix-run-builtins.patch \
-            file://use_aclocal.patch \
--           file://makerace.patch \
--           file://makerace2.patch \
-            "
-=20
--SRC_URI[tarball.sha256sum] =3D "5bac17218d3911834520dad13cd1f85ab944e1c09a=
-e1aba55906be1f8192f558"
-+SRC_URI[tarball.sha256sum] =3D "68d978264253bc933d692f1de195e2e5b463a3984d=
-fb4e5504b076865f16b6dd"
-=20
- DEBUG_OPTIMIZATION:append:armv4 =3D " ${@bb.utils.contains('TUNE_CCARGS', =
-'-mthumb', '-fomit-frame-pointer', '', d)}"
- DEBUG_OPTIMIZATION:append:armv5 =3D " ${@bb.utils.contains('TUNE_CCARGS', =
-'-mthumb', '-fomit-frame-pointer', '', d)}"
---=20
++ #ifdef HAVE_ATEXIT
++   if (ANY_SET (check_io_state (), IO_STDOUT_OK))
++     atexit (close_stdout);
++@@ -1265,6 +1260,9 @@ main (int argc, char **argv, char **envp)
++ #ifdef SIGQUIT
++   FATAL_SIG (SIGQUIT);
++ #endif
+++#ifdef SIGPIPE
+++  FATAL_SIG (SIGPIPE);
+++#endif
++   FATAL_SIG (SIGINT);
++   FATAL_SIG (SIGTERM);
++ 
++-- 
++cgit v1.1
++
+diff --git a/meta/recipes-devtools/make/make_4.3.bb b/meta/recipes-devtools/make/make_4.3.bb
+deleted file mode 100644
+index 9350bed05a..0000000000
+--- a/meta/recipes-devtools/make/make_4.3.bb
++++ /dev/null
+@@ -1,18 +0,0 @@
+-LICENSE = "GPL-3.0-only"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+-require make.inc
+-
+-SRC_URI += "\
+-	file://0001-m4-getloadavg.m4-restrict-AIX-specific-test-on-AIX.patch \
+-	file://0002-modules-fcntl-allow-being-detected-by-importing-proj.patch \
+-	file://0001-src-dir.c-fix-buffer-overflow-warning.patch \
+-	file://0002-w32-compat-dirent.c-follow-header.patch \
+-	file://0003-posixfcn-fcntl-gnulib-make-emulated.patch \
+-	file://0001-makeinst-Do-not-undef-POSIX-on-clang-arm.patch \
+-"
+-
+-EXTRA_OECONF += "--without-guile"
+-
+-SRC_URI[sha256sum] = "e05fdde47c5f7ca45cb697e973894ff4f5d79e13b750ed57d7b66d8defc78e19"
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/make/make_4.4.bb b/meta/recipes-devtools/make/make_4.4.bb
+new file mode 100644
+index 0000000000..6642c708d8
+--- /dev/null
++++ b/meta/recipes-devtools/make/make_4.4.bb
+@@ -0,0 +1,14 @@
++LICENSE = "GPL-3.0-only"
++LIC_FILES_CHKSUM = "file://COPYING;md5=c678957b0c8e964aa6c70fd77641a71e"
++require make.inc
++
++SRC_URI += " \
++           file://0001-m4-getloadavg.m4-restrict-AIX-specific-test-on-AIX.patch \
++           file://sigpipe.patch \
++           "
++
++EXTRA_OECONF += "--without-guile"
++
++SRC_URI[sha256sum] = "581f4d4e872da74b3941c874215898a7d35802f03732bdccee1d4a7979105d18"
++
++BBCLASSEXTEND = "native nativesdk"
+-- 
 2.30.2
 
 
