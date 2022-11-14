@@ -1,157 +1,180 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0D78C43219
-	for <webhook@archiver.kernel.org>; Sun, 13 Nov 2022 22:22:38 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web11.2599.1668378157150517366
- for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Nov 2022 14:22:37 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=kxlg/obJ;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id BA825E0003;
-	Sun, 13 Nov 2022 22:22:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1668378155;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CXsZDblGPuW4RVwIDmj8DlPg1i3ZWfN1TCHCzpxrGWc=;
-	b=kxlg/obJi3OsGs3DV6wM4j2LnZ1Nxo429a6n135cNbKyWAaa5EjtCloiQgXNkug4qTebl2
-	vZRzBt2mk+I0EQhzKS+TCoF4sDUemFWLzz//YQL54zBRpWIvYude31mv57w2qPZHArl5u6
-	WGbc0bIBaPrEwC3rKeYupuzPKMMgg5YArs4wtf+ZN1OI6msw1O7D7drODag2cI5Ix4jDW/
-	yXHMOSaz9l+A3TgvvNIoR2aHUVWUaySeRjT8gMihtoweNRn5wmwtyy0cIpoC09JZAIginS
-	+pH0DAdU5/CqGncA1kKI5ZLX7UdVyv2Lenyw6vapb5pAegq/wnfcLxxPBuq8Rw==
-Date: Sun, 13 Nov 2022 23:22:34 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: jorcrous@amazon.com
-Cc: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>,
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: Re: [OE-core] [PATCH v2 3/3] vulkan-validation: Add the official
- Vulkan validation layers
-Message-ID: <Y3FuKrS1+t7pYcFb@mail.local>
-References: <20221111214714.9939-1-jorcrous@amazon.com>
- <20221111214714.9939-4-jorcrous@amazon.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 113FDC4332F
+	for <webhook@archiver.kernel.org>; Mon, 14 Nov 2022 00:09:26 +0000 (UTC)
+Subject: Re: [PATCH] llvm: fix native llvm-config RUNPATH
+To: openembedded-core@lists.openembedded.org
+From: "Vincent Davis Jr" <vince@underview.tech>
+X-Originating-Location: Richmond, Texas, US (99.113.4.128)
+X-Originating-Platform: Linux Firefox 106
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221111214714.9939-4-jorcrous@amazon.com>
+Date: Sun, 13 Nov 2022 16:09:16 -0800
+References: <CANNYZj_Gt0eou9UeCiq=kZ1dCVJoPqgqEzV0o6O4CvHyrJC4Ag@mail.gmail.com>
+In-Reply-To: <CANNYZj_Gt0eou9UeCiq=kZ1dCVJoPqgqEzV0o6O4CvHyrJC4Ag@mail.gmail.com>
+Message-ID: <17985.1668384556897417838@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="8UTjWY1Wcod0C34fhLGp"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 13 Nov 2022 22:22:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173213
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Nov 2022 00:09:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173214
 
-Hello,
+--8UTjWY1Wcod0C34fhLGp
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-This was actually the version I tested and that failed on the
-autobuilders.
+O I see usr/lib directory does exists for me in recipe-sysroot-native too, =
+but not in recipe-sysroot.
+Think mesa configure may be utilizing the version of llvm-config in recipe-=
+sysroot and
+not recipe-sysroot-native.
 
-On 11/11/2022 21:47:14+0000, Jordan Crouse via lists.openembedded.org wrote:
-> Add a recipe to build the Khronos official Vulkan validation layers that can
-> assist developers in verifying that their applications correctly use the
-> Vulkan APIs.
-> 
-> USE_ROBIN_HOOD_HASHING=OFF disables a third party dependency on [1] which
-> is a performant reimplementation of std::unordered_map and
-> std::unordered_set that gives better performance when using validation for
-> extremely heavy workloads on a desktop. There isn't much benefit to
-> enabling it on most embedded systems so force it off for now but no bias
-> against making it optional if robin-hood-hashing is made available in the
-> metadata.
-> 
-> [1] https://github.com/martinus/robin-hood-hashing
-> 
-> Signed-off-by: Jordan Crouse <jorcrous@amazon.com>
-> ---
-> 
-> Changes in v2:
-> - Put DEPENDS all on one line
-> - Remove unused OEMAKE flags
-> - Force /usr/lib/*.so into ${PN} and remove INSANE_SKIP
-> 
->  meta/conf/distro/include/maintainers.inc      |  1 +
->  .../vulkan/vulkan-validation_1.3.231.1.bb     | 39 +++++++++++++++++++
->  2 files changed, 40 insertions(+)
->  create mode 100644 meta/recipes-graphics/vulkan/vulkan-validation_1.3.231.1.bb
-> 
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> index 5b7ce77c3c..8f319c63a7 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -810,6 +810,7 @@ RECIPE_MAINTAINER:pn-vulkan-headers = "Anuj Mittal <anuj.mittal@intel.com>"
->  RECIPE_MAINTAINER:pn-vulkan-loader = "Anuj Mittal <anuj.mittal@intel.com>"
->  RECIPE_MAINTAINER:pn-vulkan-samples = "Ross Burton <ross.burton@arm.com>"
->  RECIPE_MAINTAINER:pn-vulkan-tools = "Anuj Mittal <anuj.mittal@intel.com>"
-> +RECIPE_MAINTAINER:pn-vulkan-validation = "Jordan Crouse <jorcrous@amazon.com>"
->  RECIPE_MAINTAINER:pn-waffle = "Ross Burton <ross.burton@arm.com>"
->  RECIPE_MAINTAINER:pn-watchdog = "Alexander Kanavin <alex.kanavin@gmail.com>"
->  RECIPE_MAINTAINER:pn-watchdog-config = "Alexander Kanavin <alex.kanavin@gmail.com>"
-> diff --git a/meta/recipes-graphics/vulkan/vulkan-validation_1.3.231.1.bb b/meta/recipes-graphics/vulkan/vulkan-validation_1.3.231.1.bb
-> new file mode 100644
-> index 0000000000..37becb1d16
-> --- /dev/null
-> +++ b/meta/recipes-graphics/vulkan/vulkan-validation_1.3.231.1.bb
-> @@ -0,0 +1,39 @@
-> +SUMMARY = "Vulkan Validation layers"
-> +DESCRIPTION = "Khronos official Vulkan validation layers to assist developers \
-> +in verifying that their applications correctly use the Vulkan API"
-> +HOMEPAGE = "https://www.khronos.org/vulkan/"
-> +BUGTRACKER = "https://github.com/KhronosGroup/Vulkan-ValidationLayers"
-> +SECTION = "libs"
-> +
-> +LICENSE = "Apache-2.0"
-> +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=8df9e8826734226d08cb412babfa599c"
-> +SRC_URI = "git://github.com/KhronosGroup/Vulkan-ValidationLayers.git;branch=sdk-1.3.231;protocol=https"
-> +
-> +SRCREV="f489610de566df6a5c20de1a3e54776e0ad852e1"
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +REQUIRED_DISTRO_FEATURES = "vulkan"
-> +
-> +inherit cmake features_check pkgconfig
-> +
-> +DEPENDS += "vulkan-headers spirv-headers spirv-tools vulkan-loader glslang"
-> +
-> +EXTRA_OECMAKE = "\
-> +                 -DBUILD_TESTS=OFF \
-> +                 -DPYTHON_EXECUTABLE=${HOSTTOOLS_DIR}/python3 \
-> +                 -DVULKAN_HEADERS_INSTALL_DIR=${STAGING_EXECPREFIXDIR} \
-> +                 -DGLSLANG_INSTALL_DIR=${STAGING_DATADIR} \
-> +                 -DSPIRV_HEADERS_INSTALL_DIR=${STAGING_EXECPREFIXDIR} \
-> +                 -DUSE_ROBIN_HOOD_HASHING=OFF \
-> +                 "
-> +
-> +PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)}"
-> +
-> +PACKAGECONFIG[x11] = "-DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_XCB_SUPPORT=ON, -DBUILD_WSI_XLIB_SUPPORT=OFF -DBUILD_WSI_XCB_SUPPORT=OFF, libxcb libx11 libxrandr"
-> +PACKAGECONFIG[wayland] = "-DBUILD_WSI_WAYLAND_SUPPORT=ON, -DBUILD_WSI_WAYLAND_SUPPORT=OFF, wayland"
-> +
-> +FILES:${PN} = "${libdir}/*.so ${datadir}/vulkan"
-> +FILES:${PN}-dev = ""
-> +
-> +UPSTREAM_CHECK_GITTAGREGEX = "sdk-(?P<pver>\d+(\.\d+)+)"
-> -- 
-> 2.37.1
-> 
+mesa/2_22.2.2-r0/mesa-22.2.2# ldd ../recipe-sysroot-native/usr/bin/llvm-con=
+fig
+linux-vdso.so.1 (0x00007ffe7b5cb000)
+libpseudo.so =3D> /../../../../../../../tmp/sysroots-components/x86_64/pseu=
+do-native/usr/lib/pseudo/lib64/libpseudo.so (0x00007f4d138ed000)
+libtinfo.so.5 =3D> /../../../../../../../tmp/work/amd64-northstar-linux/mes=
+a/2_22.2.2-r0/mesa-22.2.2/../recipe-sysroot-native/usr/bin/../lib/libtinfo.=
+so.5 (0x00007f4d138bd000)
+libstdc++.so.6 =3D> /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007f4d1367d00=
+0)
+libm.so.6 =3D> /lib/x86_64-linux-gnu/libm.so.6 (0x00007f4d13594000)
+libgcc_s.so.1 =3D> /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f4d13574000)
+libc.so.6 =3D> /lib/x86_64-linux-gnu/libc.so.6 (0x00007f4d1334c000)
+libdl.so.2 =3D> /lib/x86_64-linux-gnu/libdl.so.2 (0x00007f4d13347000)
+libpthread.so.0 =3D> /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007f4d13342=
+000)
+/../../../../../../../tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-=
+64.so.2 =3D> /lib64/ld-linux-x86-64.so.2 (0x00007f4d13994000)
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#173144): https://lists.openembedded.org/g/openembedded-core/message/173144
-> Mute This Topic: https://lists.openembedded.org/mt/94969329/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+mesa/2_22.2.2-r0/mesa-22.2.2# ldd ../recipe-sysroot/usr/bin/llvm-config
+linux-vdso.so.1 (0x00007ffc5bc95000)
+libpseudo.so =3D> /../../../../../../../tmp/sysroots-components/x86_64/pseu=
+do-native/usr/lib/pseudo/lib64/libpseudo.so (0x00007f1c6c02b000)
+libtinfo.so.5 =3D> /../../../../../../../tmp/work/amd64-northstar-linux/mes=
+a/2_22.2.2-r0/mesa-22.2.2/../recipe-sysroot/usr/bin/../../lib64/libtinfo.so=
+.5 (0x00007f1c6bffb000)
+libstdc++.so.6 =3D> /../../../../../../../tmp/work/amd64-northstar-linux/me=
+sa/2_22.2.2-r0/mesa-22.2.2/../recipe-sysroot/usr/bin/../lib64/libstdc++.so.=
+6 (0x00007f1c6bdd7000)
+libm.so.6 =3D> /../../../../../../../tmp/work/amd64-northstar-linux/mesa/2_=
+22.2.2-r0/mesa-22.2.2/../recipe-sysroot/usr/bin/../../lib64/libm.so.6 (0x00=
+007f1c6bcfb000)
+libgcc_s.so.1 =3D> /../../../../../../../tmp/work/amd64-northstar-linux/mes=
+a/2_22.2.2-r0/mesa-22.2.2/../recipe-sysroot/usr/bin/../../lib64/libgcc_s.so=
+.1 (0x00007f1c6bcdb000)
+libc.so.6 =3D> /../../../../../../../tmp/work/amd64-northstar-linux/mesa/2_=
+22.2.2-r0/mesa-22.2.2/../recipe-sysroot/usr/bin/../../lib64/libc.so.6 (0x00=
+007f1c6bafd000)
+libdl.so.2 =3D> /lib/x86_64-linux-gnu/libdl.so.2 (0x00007f1c6bae2000)
+libpthread.so.0 =3D> /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007f1c6badb=
+000)
+/../../../../../../../tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-=
+64.so.2 =3D> /lib64/ld-linux-x86-64.so.2 (0x00007f1c6c0d2000)
 
+../mesa/2_22.2.2-r0/mesa-22.2.2# which llvm-config
+/../../../../../../../tmp/work/amd64-northstar-linux/mesa/2_22.2.2-r0/recip=
+e-sysroot/usr/bin/crossscripts/llvm-config
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+../mesa/2_22.2.2-r0/mesa-22.2.2# llvm-config --version
+15.0.1
+
+../mesa/2_22.2.2-r0/mesa-22.2.2# llvm-config --libdir
+/../../../../../../../tmp/work/amd64-northstar-linux/mesa/2_22.2.2-r0/recip=
+e-sysroot/usr/lib64
+
+../mesa/2_22.2.2-r0/mesa-22.2.2# ls /../../../../../../../mesa/2_22.2.2-r0/=
+recipe-sysroot/usr/
+bin=C2=A0 include=C2=A0 lib64=C2=A0 share
+
+***************************************************************************=
+**************************************************
+
+../mesa/2_22.2.2-r0/mesa-22.2.2# ../recipe-sysroot-native/usr/bin/llvm-conf=
+ig --version
+15.0.1
+
+../mesa/2_22.2.2-r0/mesa-22.2.2# ../recipe-sysroot-native/usr/bin/llvm-conf=
+ig --libdir
+/../../../../../../../tmp/work/amd64-northstar-linux/mesa/2_22.2.2-r0/recip=
+e-sysroot-native/usr/lib64
+
+../mesa/2_22.2.2-r0/mesa-22.2.2# ls /../../../../../../../tmp/work/amd64-no=
+rthstar-linux/mesa/2_22.2.2-r0/recipe-sysroot-native/usr/
+bin=C2=A0 include=C2=A0 lib=C2=A0 libexec=C2=A0 sbin=C2=A0 share
+
+My apologies mesa configure utilizes the bin in recipe-sysroot not recipe-s=
+ysroot-native.
+
+--8UTjWY1Wcod0C34fhLGp
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+O I see usr/lib directory does exists for me in recipe-sysroot-native too, =
+but not in recipe-sysroot.<br />Think mesa configure may be utilizing the v=
+ersion of llvm-config in recipe-sysroot and<br />not recipe-sysroot-native.=
+<br /><br />mesa/2_22.2.2-r0/mesa-22.2.2# ldd ../recipe-sysroot-native/usr/=
+bin/llvm-config<br />&nbsp;&nbsp; &nbsp;linux-vdso.so.1 (0x00007ffe7b5cb000=
+)<br />&nbsp;&nbsp; &nbsp;libpseudo.so =3D&gt; /../../../../../../../tmp/sy=
+sroots-components/x86_64/pseudo-native/usr/lib/pseudo/lib64/libpseudo.so (0=
+x00007f4d138ed000)<br />&nbsp;&nbsp; &nbsp;libtinfo.so.5 =3D&gt; /../../../=
+../../../../tmp/work/amd64-northstar-linux/mesa/2_22.2.2-r0/mesa-22.2.2/../=
+recipe-sysroot-native/usr/bin/../lib/libtinfo.so.5 (0x00007f4d138bd000)<br =
+/>&nbsp;&nbsp; &nbsp;libstdc++.so.6 =3D&gt; /lib/x86_64-linux-gnu/libstdc++=
+.so.6 (0x00007f4d1367d000)<br />&nbsp;&nbsp; &nbsp;libm.so.6 =3D&gt; /lib/x=
+86_64-linux-gnu/libm.so.6 (0x00007f4d13594000)<br />&nbsp;&nbsp; &nbsp;libg=
+cc_s.so.1 =3D&gt; /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f4d13574000)<=
+br />&nbsp;&nbsp; &nbsp;libc.so.6 =3D&gt; /lib/x86_64-linux-gnu/libc.so.6 (=
+0x00007f4d1334c000)<br />&nbsp;&nbsp; &nbsp;libdl.so.2 =3D&gt; /lib/x86_64-=
+linux-gnu/libdl.so.2 (0x00007f4d13347000)<br />&nbsp;&nbsp; &nbsp;libpthrea=
+d.so.0 =3D&gt; /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007f4d13342000)<b=
+r />&nbsp;&nbsp;&nbsp; /../../../../../../../tmp/sysroots-uninative/x86_64-=
+linux/lib/ld-linux-x86-64.so.2 =3D&gt; /lib64/ld-linux-x86-64.so.2 (0x00007=
+f4d13994000)<br /><br /><br />mesa/2_22.2.2-r0/mesa-22.2.2# ldd ../recipe-s=
+ysroot/usr/bin/llvm-config<br />&nbsp;&nbsp; &nbsp;linux-vdso.so.1 (0x00007=
+ffc5bc95000)<br />&nbsp;&nbsp; &nbsp;libpseudo.so =3D&gt; /../../../../../.=
+./../tmp/sysroots-components/x86_64/pseudo-native/usr/lib/pseudo/lib64/libp=
+seudo.so (0x00007f1c6c02b000)<br />&nbsp;&nbsp; &nbsp;libtinfo.so.5 =3D&gt;=
+ /../../../../../../../tmp/work/amd64-northstar-linux/mesa/2_22.2.2-r0/mesa=
+-22.2.2/../recipe-sysroot/usr/bin/../../lib64/libtinfo.so.5 (0x00007f1c6bff=
+b000)<br />&nbsp;&nbsp; &nbsp;libstdc++.so.6 =3D&gt; /../../../../../../../=
+tmp/work/amd64-northstar-linux/mesa/2_22.2.2-r0/mesa-22.2.2/../recipe-sysro=
+ot/usr/bin/../lib64/libstdc++.so.6 (0x00007f1c6bdd7000)<br />&nbsp;&nbsp; &=
+nbsp;libm.so.6 =3D&gt; /../../../../../../../tmp/work/amd64-northstar-linux=
+/mesa/2_22.2.2-r0/mesa-22.2.2/../recipe-sysroot/usr/bin/../../lib64/libm.so=
+.6 (0x00007f1c6bcfb000)<br />&nbsp;&nbsp; &nbsp;libgcc_s.so.1 =3D&gt; /../.=
+./../../../../../tmp/work/amd64-northstar-linux/mesa/2_22.2.2-r0/mesa-22.2.=
+2/../recipe-sysroot/usr/bin/../../lib64/libgcc_s.so.1 (0x00007f1c6bcdb000)<=
+br />&nbsp;&nbsp; &nbsp;libc.so.6 =3D&gt; /../../../../../../../tmp/work/am=
+d64-northstar-linux/mesa/2_22.2.2-r0/mesa-22.2.2/../recipe-sysroot/usr/bin/=
+../../lib64/libc.so.6 (0x00007f1c6bafd000)<br />&nbsp;&nbsp; &nbsp;libdl.so=
+.2 =3D&gt; /lib/x86_64-linux-gnu/libdl.so.2 (0x00007f1c6bae2000)<br />&nbsp=
+;&nbsp; &nbsp;libpthread.so.0 =3D&gt; /lib/x86_64-linux-gnu/libpthread.so.0=
+ (0x00007f1c6badb000)<br />&nbsp;&nbsp; /../../../../../../../tmp/sysroots-=
+uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 =3D&gt; /lib64/ld-linux-x86=
+-64.so.2 (0x00007f1c6c0d2000)<br /><br /><br />../mesa/2_22.2.2-r0/mesa-22.=
+2.2# which llvm-config<br />/../../../../../../../tmp/work/amd64-northstar-=
+linux/mesa/2_22.2.2-r0/recipe-sysroot/usr/bin/crossscripts/llvm-config<br /=
+><br />../mesa/2_22.2.2-r0/mesa-22.2.2# llvm-config --version<br />&nbsp;15=
+.0.1<br /><br />../mesa/2_22.2.2-r0/mesa-22.2.2# llvm-config --libdir<br />=
+/../../../../../../../tmp/work/amd64-northstar-linux/mesa/2_22.2.2-r0/recip=
+e-sysroot/usr/lib64<br /><br />../mesa/2_22.2.2-r0/mesa-22.2.2# ls /../../.=
+./../../../../mesa/2_22.2.2-r0/recipe-sysroot/usr/<br />bin&nbsp; include&n=
+bsp; lib64&nbsp; share<br /><br />*****************************************=
+***************************************************************************=
+*********<br /><br />../mesa/2_22.2.2-r0/mesa-22.2.2# ../recipe-sysroot-nat=
+ive/usr/bin/llvm-config --version<br />15.0.1<br /><br />../mesa/2_22.2.2-r=
+0/mesa-22.2.2# ../recipe-sysroot-native/usr/bin/llvm-config --libdir<br />/=
+../../../../../../../tmp/work/amd64-northstar-linux/mesa/2_22.2.2-r0/recipe=
+-sysroot-native/usr/lib64<br /><br />../mesa/2_22.2.2-r0/mesa-22.2.2# ls /.=
+./../../../../../../tmp/work/amd64-northstar-linux/mesa/2_22.2.2-r0/recipe-=
+sysroot-native/usr/<br />bin&nbsp; include&nbsp; lib&nbsp; libexec&nbsp; sb=
+in&nbsp; share<br /><br />My apologies mesa configure utilizes the bin in r=
+ecipe-sysroot not recipe-sysroot-native.
+
+--8UTjWY1Wcod0C34fhLGp--
 
