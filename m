@@ -1,183 +1,228 @@
-Return-Path: <zboszor@pr.hu>
+Return-Path: <ecordonnier@snapchat.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB1D4C4332F
-	for <webhook@archiver.kernel.org>; Mon, 14 Nov 2022 09:38:08 +0000 (UTC)
-Received: from mail6.pr.hu (mail6.pr.hu [87.242.0.6])
- by mx.groups.io with SMTP id smtpd.web12.3822.1668418678854970597
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA78CC4332F
+	for <webhook@archiver.kernel.org>; Mon, 14 Nov 2022 09:39:08 +0000 (UTC)
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+ by mx.groups.io with SMTP id smtpd.web08.3729.1668418739333881389
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Nov 2022 01:38:00 -0800
+ Mon, 14 Nov 2022 01:38:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pr.hu header.s=pr20170203 header.b=VlvzJ6Wh;
- spf=pass (domain: pr.hu, ip: 87.242.0.6, mailfrom: zboszor@pr.hu)
-Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
-	by frontdoor.pr.hu with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <zboszor@pr.hu>)
-	id 1ouVud-0001Ea-1B; Mon, 14 Nov 2022 10:37:55 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
-	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=oOjqpiii/LrCTar1VlvtWB74izk9hVNrg/YYS3FtKYg=; b=VlvzJ6Wh1bB2ysjzyN7TTdgKwk
-	jJb8r/6YPg00vM6Ky8QNBr+5P0gCpwDWfoIVzLjtd1a/NqkxVHSisHHLkOTiSgF+6Ud7i1/hBDq6o
-	n/sZfm5sCqPA8AGt5ZyRCe5fprN27rPRPydhqemdBir2/6T1QcmCN+PbaIUuv2oWw3i4kRO+ZwW/+
-	6heSYnHSudCCauvBIhMCWXztKxHrpdupJY8NdBL16APbmzGjT7guGJpENtsxdoLFOasJXZUmLzwRD
-	eEKVWQHEladDkShYrCNGTqKJG5Lv2uU0PhA+tKzuSLwcs3w8If7iq3lPigJSXSgLN8MjXIzievgQp
-	nrviLnBQ==;
-Received: from host-87-242-32-154.prtelecom.hu ([87.242.32.154] helo=[192.168.1.144])
-	by mail.pr.hu with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.94.2)
-	(envelope-from <zboszor@pr.hu>)
-	id 1ouVuW-0003Ij-0P; Mon, 14 Nov 2022 10:37:52 +0100
-Message-ID: <4e794143-dad1-873c-76ac-b68f80091c30@pr.hu>
-Date: Mon, 14 Nov 2022 10:37:44 +0100
+ dkim=pass header.i=@snap.com header.s=google header.b=amtgE5C4;
+ spf=pass (domain: snapchat.com, ip: 209.85.167.173, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-oi1-f173.google.com with SMTP id h132so10853698oif.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Nov 2022 01:38:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=snap.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=UqxuvmkLUbDj+RFy2Uw3bHWxOkd/9wBROCf49l6m5YA=;
+        b=amtgE5C4q59r+cTUgaVuS6Wy/yTtTNO7PFz7keZhrBWq9Ova3B9Wobb3Ob6K51SXnb
+         t/hnivKx4QCpE6M1WEq4Pdna7ieGQvm64eKTnHroK8VtC4srX3APQKLNN8uajlVwVqVV
+         LB8OichssNk1kWdgWfBUpQEhYUuTpfJP/OaQ4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UqxuvmkLUbDj+RFy2Uw3bHWxOkd/9wBROCf49l6m5YA=;
+        b=bdZeatAiyUC1CtB4hYirOMmhAd86HDgEXrDG87Gav0pyUu6fo706IT0D4CcuqAr7E+
+         tUbRCltG9LWm+/m+WYX7WiHnY6aFMZc0xy43M/bYAKDkrTJ6qcd0H+eF5O6eOptvhVtz
+         OFXSu1rideAM31R9Fc175vvI1bYHE6oUf1VvwF/n35c2+nmfOiJu5okdrxau8Mn1VLqg
+         DJ5NxjmkWbbghHOKD9bS/ypDSJKr+7jGy/DKB+56MMEUSniY2///Og7LkEe/5vGu2FrP
+         n+5Pm28C6vYH8LleDdnZ9iqXdZzEJVPGnGxlPtVV+DTHFslCw4KDd61z43F4kaSJqMb6
+         +nmg==
+X-Gm-Message-State: ANoB5pnHkFvY270ylxnXKN9iPoPQu0vl1w7Ulied4n20TCTaO7ONW2bs
+	Y7DpHw+rTzgyIGQvjtCu+OO2Xz2YKo5Bxt12aCerRg==
+X-Google-Smtp-Source: AA0mqf47rtmzA8xJuu/WMzyY57DU6KR2xUJ08jM11hVzAbPsDZtAWr0YozcC3CserfL/Mbjwy16/5+3z7tyJABt1MYI=
+X-Received: by 2002:aca:2306:0:b0:35a:83c1:ce7 with SMTP id
+ e6-20020aca2306000000b0035a83c10ce7mr5397821oie.107.1668418738437; Mon, 14
+ Nov 2022 01:38:58 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [OE-core] [PATCH] Add nativesdk of systemd-systemctl
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
- "wangmy@fujitsu.com" <wangmy@fujitsu.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <1667204240-3627-1-git-send-email-wangmy@fujitsu.com>
- <CANNYZj873res=PuBbMB-ffy6=ek-8UFNt+QvYru1dKdU-VjuWg@mail.gmail.com>
- <OSBPR01MB1845B7BA1558188406E85D23DC379@OSBPR01MB1845.jpnprd01.prod.outlook.com>
- <CANNYZj9U-KBCsC=6aNZ5LJ8sx=XqBCEVY2m75U8xZjb5k=7CCA@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
-In-Reply-To: <CANNYZj9U-KBCsC=6aNZ5LJ8sx=XqBCEVY2m75U8xZjb5k=7CCA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Scan-Signature: 6e8e55c9b1de86adf00aae073b3499a9
+References: <20221107095119.965403-1-ecordonnier@snap.com> <935fefd6-3746-56f4-0f9e-21f3f505f629@bootlin.com>
+In-Reply-To: <935fefd6-3746-56f4-0f9e-21f3f505f629@bootlin.com>
+From: Etienne Cordonnier <ecordonnier@snap.com>
+Date: Mon, 14 Nov 2022 10:38:47 +0100
+Message-ID: <CAHUKmYaBo4Gd3wPhte3TJ3yDucbjroK7kmrjst5HXi1x3cXS7g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] mirrors.bbclass: use shallow tarball for nativesdk-binutils
+To: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000003def8d05ed6b0230"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Nov 2022 09:38:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173232
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Nov 2022 09:39:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173233
 
-Hi,
+--0000000000003def8d05ed6b0230
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I think this is not the correct approach, but here are my
-use cases:
+Hi Michael,
+thanks for your reply and sorry about the wrong email. I changed the
+configuration and added "sendemail.from" (I had used
+sendemail.envelopesender previously). However this patch is already applied
+to the master branch, so I didn't send an updated patch.
 
-I recently discovered that the python script replacement
-of the native build of systemctl mishandles services with
-multiple RequiredBy= and WantedBy= clauses in the [Install]
-section and only creates the symlink for the first service
-or target in the list. It doesn't matter if there are multiple
-RequiredBy= or WantedBy= lines, or the services/targets are
-listed in a single clause line.
+On Tue, Nov 8, 2022 at 11:36 AM Michael Opdenacker <
+michael.opdenacker@bootlin.com> wrote:
 
-It also doesn't handle "systemctl set-default custom.target".
-I need it for some custom images, currently I am setting the
-target symlink manually in an image postprocess script.
+> Hi Etienne
+>
+> Many thanks for the patch!
+>
+> On 11/7/22 10:51, Etienne Cordonnier via lists.openembedded.org wrote:
+> > This is useful e.g. when using meta-clang, which introduces a dependenc=
+y
+> to nativesdk-binutils when
+> > populating the SDK, and then a full tarball of binutils is fetched
+> additionally to a shallow tarball.
+> >
+> > Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+>
+> However, there's a problem with the way your patches are received on the
+> Yocto Project mailing lists though. I used to have it too.
+>
+> If I apply your patch through "git am", the author of the commit will be:
+> Etienne Cordonnier via lists.openembedded.org
+> <ecordonnier=3Dsnapchat.com@lists.openembedded.org>
+> instead of
+> Etienne Cordonnier <ecordonnier@snap.com>
+>
+> That's because of the configuration of the Yocto Project mailing lists,
+> if I understood correctly.
+>
+> Because of this issue, the maintainer has to manually fix this field
+> when accepting your patch. Worse, if he doesn't catch this, that's
+> harder to fix afterwards.
+>
+> You should be able to fix this by running:
+> git config --global sendemail.from "ecordonnier@snap.com"
+>
+> This should add a "From" field to the sent patch which "git am" should
+> be able to match with your name.
+> At least this worked for me. See
+>
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__www.openembedded.o=
+rg_wiki_How-5Fto-5Fsubmit-5Fa-5Fpatch-5Fto-5FOpenEmbedded-23Sending-5Fusing=
+-5Fgit-2Dsend-2Demail&d=3DDwICaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epc=
+kfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DOATWj9fV3DIgh3gSY=
+x7h1yPhVJlnNDVyzQschgNMU_R_oANac6LSiRo7KudX_voS&s=3Du9CUuyjhy1CAiQqvOo0blFX=
+DVHF2H69Kkre3Sm8ViaY&e=3D
+>
+> Could you try to send an update (don't hesitate to send a private one to
+> me first)?
+>
+> Thanks in advance
+> Michael.
+>
+> --
+> Michael Opdenacker, Bootlin
+> Embedded Linux and Kernel engineering
+>
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__bootlin.com&d=3DDw=
+ICaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Q=
+j9TsRih1DULJTKUkSGa66m67E&m=3DOATWj9fV3DIgh3gSYx7h1yPhVJlnNDVyzQschgNMU_R_o=
+ANac6LSiRo7KudX_voS&s=3D33HzPwa4N8A8AGPjlZNOGbTWftq-kFhbFm3OVBa0QXw&e=3D
+>
+>
 
-With a cross-script setting the proper --root option for
-calling the native systemctl, both would be solved.
+--0000000000003def8d05ed6b0230
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Also, to be able to include libfprint / fprintd in Yocto,
-the native build of systend is needed for the dependency list:
+<div dir=3D"ltr">Hi Michael,<br>thanks for your reply and sorry about the=
+=C2=A0wrong email. I changed the configuration and added &quot;sendemail.fr=
+om&quot; (I had used sendemail.envelopesender previously). However this pat=
+ch is already applied to the master branch, so I didn&#39;t send an updated=
+ patch.</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Tue, Nov 8, 2022 at 11:36 AM Michael Opdenacker &lt;<a href=3D"ma=
+ilto:michael.opdenacker@bootlin.com">michael.opdenacker@bootlin.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Etien=
+ne<br>
+<br>
+Many thanks for the patch!<br>
+<br>
+On 11/7/22 10:51, Etienne Cordonnier via <a href=3D"http://lists.openembedd=
+ed.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wro=
+te:<br>
+&gt; This is useful e.g. when using meta-clang, which introduces a dependen=
+cy to nativesdk-binutils when<br>
+&gt; populating the SDK, and then a full tarball of binutils is fetched add=
+itionally to a shallow tarball.<br>
+&gt;<br>
+&gt; Signed-off-by: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@sn=
+ap.com" target=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
+<br>
+However, there&#39;s a problem with the way your patches are received on th=
+e <br>
+Yocto Project mailing lists though. I used to have it too.<br>
+<br>
+If I apply your patch through &quot;git am&quot;, the author of the commit =
+will be:<br>
+Etienne Cordonnier via <a href=3D"http://lists.openembedded.org" rel=3D"nor=
+eferrer" target=3D"_blank">lists.openembedded.org</a> <br>
+&lt;ecordonnier=3D<a href=3D"mailto:snapchat.com@lists.openembedded.org" ta=
+rget=3D"_blank">snapchat.com@lists.openembedded.org</a>&gt;<br>
+instead of<br>
+Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@snap.com" target=3D"_b=
+lank">ecordonnier@snap.com</a>&gt;<br>
+<br>
+That&#39;s because of the configuration of the Yocto Project mailing lists,=
+ <br>
+if I understood correctly.<br>
+<br>
+Because of this issue, the maintainer has to manually fix this field <br>
+when accepting your patch. Worse, if he doesn&#39;t catch this, that&#39;s =
+<br>
+harder to fix afterwards.<br>
+<br>
+You should be able to fix this by running:<br>
+git config --global sendemail.from &quot;<a href=3D"mailto:ecordonnier@snap=
+.com" target=3D"_blank">ecordonnier@snap.com</a>&quot;<br>
+<br>
+This should add a &quot;From&quot; field to the sent patch which &quot;git =
+am&quot; should <br>
+be able to match with your name.<br>
+At least this worked for me. See <br>
+<a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__www.opene=
+mbedded.org_wiki_How-5Fto-5Fsubmit-5Fa-5Fpatch-5Fto-5FOpenEmbedded-23Sendin=
+g-5Fusing-5Fgit-2Dsend-2Demail&amp;d=3DDwICaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_=
+4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&=
+amp;m=3DOATWj9fV3DIgh3gSYx7h1yPhVJlnNDVyzQschgNMU_R_oANac6LSiRo7KudX_voS&am=
+p;s=3Du9CUuyjhy1CAiQqvOo0blFXDVHF2H69Kkre3Sm8ViaY&amp;e=3D" rel=3D"noreferr=
+er" target=3D"_blank">https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A=
+__www.openembedded.org_wiki_How-5Fto-5Fsubmit-5Fa-5Fpatch-5Fto-5FOpenEmbedd=
+ed-23Sending-5Fusing-5Fgit-2Dsend-2Demail&amp;d=3DDwICaQ&amp;c=3DncDTmphkJT=
+vjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKU=
+kSGa66m67E&amp;m=3DOATWj9fV3DIgh3gSYx7h1yPhVJlnNDVyzQschgNMU_R_oANac6LSiRo7=
+KudX_voS&amp;s=3Du9CUuyjhy1CAiQqvOo0blFXDVHF2H69Kkre3Sm8ViaY&amp;e=3D</a> <=
+br>
+<br>
+Could you try to send an update (don&#39;t hesitate to send a private one t=
+o <br>
+me first)?<br>
+<br>
+Thanks in advance<br>
+Michael.<br>
+<br>
+-- <br>
+Michael Opdenacker, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__bootlin.c=
+om&amp;d=3DDwICaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=
+=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DOATWj9fV3DIgh3gSYx7h=
+1yPhVJlnNDVyzQschgNMU_R_oANac6LSiRo7KudX_voS&amp;s=3D33HzPwa4N8A8AGPjlZNOGb=
+TWftq-kFhbFm3OVBa0QXw&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">https:=
+//urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__bootlin.com&amp;d=3DDwICaQ=
+&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRf=
+Px_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DOATWj9fV3DIgh3gSYx7h1yPhVJlnNDVyzQsch=
+gNMU_R_oANac6LSiRo7KudX_voS&amp;s=3D33HzPwa4N8A8AGPjlZNOGbTWftq-kFhbFm3OVBa=
+0QXw&amp;e=3D</a> <br>
+<br>
+</blockquote></div>
 
-libfprint
-->  libfprint-native (for native generator binaries)
-     -> libgusb-native
-        -> systemd-native (for native libudev)
-
-Best regards,
-Zoltán Böszörményi
-
-2022. 10. 31. 9:52 keltezéssel, Alexander Kanavin írta:
-> You need to explain why this is useful to the broader community. What
-> is the use case? Each addition to oe-core adds to the maintenance
-> costs, so it needs to be justified and explained.
-> 
-> Alex
-> 
-> On Mon, 31 Oct 2022 at 09:38, wangmy@fujitsu.com <wangmy@fujitsu.com> wrote:
->>
->> I need to use nativesdk-systemd-systemctl.
->> I added this file in meta-oe, and the maintainers received it.
->> However, they suggested that it was better to contribute to oe-core.
->>
->>    --
->> Best Regards
->> ---------------------------------------------------
->> Wang Mingyu
->> Development Dept.I
->> Nanjing Fujitsu Nanda Software Tech. Co., Ltd.(FNST) No. 6 Wenzhu Road, Nanjing, 210012, China
->> TEL: +86+25-86630566-8568
->> COINS: 79988548
->> FAX: +86+25-83317685
->> MAIL: wangmy@fujitsu.com
->> http://www.fujitsu.com/cn/fnst/
->>
->>> -----Original Message-----
->>> From: Alexander Kanavin <alex.kanavin@gmail.com>
->>> Sent: Monday, October 31, 2022 4:24 PM
->>> To: Wang, Mingyu/王 鸣瑜 <wangmy@fujitsu.com>
->>> Cc: openembedded-core@lists.openembedded.org
->>> Subject: Re: [OE-core] [PATCH] Add nativesdk of systemd-systemctl
->>>
->>> You need to explain the use case. Why is this beneficial to have on oe-core?
->>>
->>> Alex
->>>
->>> On Mon, 31 Oct 2022 at 09:17, wangmy <wangmy@fujitsu.com> wrote:
->>>>
->>>> From: Wang Mingyu <wangmy@fujitsu.com>
->>>>
->>>> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
->>>> ---
->>>>   .../systemd/nativesdk-systemd-systemctl.bb      | 17
->>> +++++++++++++++++
->>>>   1 file changed, 17 insertions(+)
->>>>   create mode 100644
->>>> meta/recipes-core/systemd/nativesdk-systemd-systemctl.bb
->>>>
->>>> diff --git a/meta/recipes-core/systemd/nativesdk-systemd-systemctl.bb
->>>> b/meta/recipes-core/systemd/nativesdk-systemd-systemctl.bb
->>>> new file mode 100644
->>>> index 0000000000..66b5ec5e6e
->>>> --- /dev/null
->>>> +++ b/meta/recipes-core/systemd/nativesdk-systemd-systemctl.bb
->>>> @@ -0,0 +1,17 @@
->>>> +SUMMARY = "Wrapper for enabling systemd services"
->>>> +
->>>> +LICENSE = "MIT"
->>>> +LIC_FILES_CHKSUM =
->>> "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de
->>> 20420"
->>>> +
->>>> +PR = "r0"
->>>> +
->>>> +inherit nativesdk
->>>> +
->>>> +SRC_URI = "file://systemctl"
->>>> +
->>>> +S = "${WORKDIR}"
->>>> +
->>>> +do_install() {
->>>> +       install -d ${D}${bindir}
->>>> +       install -m 0755 ${WORKDIR}/systemctl ${D}${bindir} }
->>>> --
->>>> 2.25.1
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>> -=-=-=-=-=-=-=-=-=-=-=-
->>>> Links: You receive all messages sent to this group.
->>>> View/Reply Online (#172297): https://lists.openembedded.org/g/openembedded-core/message/172297
->>>> Mute This Topic: https://lists.openembedded.org/mt/94680777/3617728
->>>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [zboszor@pr.hu]
->>>> -=-=-=-=-=-=-=-=-=-=-=-
->>>>
-
+--0000000000003def8d05ed6b0230--
 
