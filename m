@@ -2,162 +2,129 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63E8DC433FE
-	for <webhook@archiver.kernel.org>; Mon, 14 Nov 2022 14:42:00 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web12.6401.1668436916980456256
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45470C433FE
+	for <webhook@archiver.kernel.org>; Mon, 14 Nov 2022 14:42:50 +0000 (UTC)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web12.6420.1668436960767570072
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Nov 2022 06:41:57 -0800
+ Mon, 14 Nov 2022 06:42:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=NX1wp19V;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.42, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f42.google.com with SMTP id 13so28936356ejn.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Nov 2022 06:41:56 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=gKuLjbBm;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.54, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f54.google.com with SMTP id i21so17621516edj.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Nov 2022 06:42:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=xd1KYf40GIticDw3J4Zy4lMuXSjqN/hnDCDseeMurCU=;
-        b=NX1wp19V9hmBwf2zmAPfUXWuXDDyS0WAB9oFGhUQe3KNZeSiSvhq5J/N0QmkXYEIp/
-         cUotTZjKoH6TzJ8eMYDr8TkBpZKHGPW6YiX1523KH4DobMYCHPZMRyCDK4hvWz/bgJdP
-         d2n3idtRdnq79bFI9HsZ/5MgXBAvKrK5ZHPE/BKbJxHWgzvzmgzvWUY8BG/Cy4sMmY8X
-         1ivgJnWl7QQB/ui0047kunAzJRb4ZzertiGPPOTMQ++zXXbCuMfG/sgQO/6/jwbmn4s2
-         q2LYwcJVZxh3DcujyfjPIMNV6dqaCOCttu1201o4ZP3Cr284QJYqQ1sy8Cb7TPvZDRjN
-         ryrA==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VPQh5L3hhUBcEWLaPZpo23Hy0f+FDFZrjsbATEpy0cc=;
+        b=gKuLjbBmaPLiTfawAt+FLhMSC8y44qt4bl80lyqNteFfsIxKDzs09H4JhTDXF1QFQx
+         /7g2/Mx0Gjs44ZHfZ1T0ax3Fq00zW+9NdEKiTUlrKcsEW1+2l9no0YaRmw+25C5aTwPv
+         yaLQMcSwcdSjwO7/Tmu/Fi+gnl1rhinTH5tK8QVi4HIuLQYAatR5YkbKagY3bJfI19kc
+         XxnIVZZCKZZNicBPckefHHUW1gqgPtKU2F50uHpRduDhjZGifN8ji4VZGJWV+OJR5q5X
+         I/4JIs220HvdopUZxXYsvCsqTTHGCxQFZzYOYI1JZ7ogY6efncRaAuXY5euFQtMUxvz8
+         wzoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xd1KYf40GIticDw3J4Zy4lMuXSjqN/hnDCDseeMurCU=;
-        b=mx3ejiGcSa1z/e75m8wsiwFkRefI4pAIuqBrrBWNdI4KasKzR8GFuLQIIkRWr8a309
-         qEnxJUXOiGq6MAu63i0ZdqEMabP0w4gHf0z5iILaWcg/gl+s45KFvqcdJgJOh/K3mLGc
-         Hn00uHCbPLtV9cBgVALZ04FPgH1CO9UICfxSnFElm0aumUoiS+NxYRpUdlrKROHL/xxM
-         Dei/yc9e4Q+uw/+25DqmRTaAmsKUCDdUpXaggmdC3lXmGdgokrnUXsdxvHGeUhJ3kf6I
-         HSBP3Y3f4axg2wDbqXy8LbUbFkpBcv3RDBqqqu4M82rR4rBCVYuBoVAPh1rDcwLPsBZL
-         v3IA==
-X-Gm-Message-State: ANoB5pnBU9EzlxTgV8xIjcpFT0rmvdxPrTcHbIMqL0RvrRKRe2AoAGv7
-	gcibj8WF0uW6S2vABIe7BSGl247PdSZAcloaR/so0ixxXugfVWce
-X-Google-Smtp-Source: AA0mqf7JkRLe7NJcj62RbSldy/AAGQf/myPM6LhbD+nWL41CmjVo5/UGkSHJ1JJ4ydeLX/oJmdL7tdYD3CPHzzPivVc=
-X-Received: by 2002:a17:906:b102:b0:7ae:129b:2ce7 with SMTP id
- u2-20020a170906b10200b007ae129b2ce7mr10151805ejy.92.1668436914865; Mon, 14
- Nov 2022 06:41:54 -0800 (PST)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VPQh5L3hhUBcEWLaPZpo23Hy0f+FDFZrjsbATEpy0cc=;
+        b=3r37Wa3wJS/fRljUi19GvN78pv+XJn6Awd24rW6ZB8bkLFczU/YAvdoGDFZXHnt9y/
+         pfW2efhckUnhgWrJuMYvmS9S8mPQgbupY85yjo4TySBwYuzZ2vmP8IWu0rNytlKNgDEt
+         AdmGY2+XVZGJns+xeH3oqhjvROj1URkz1grT8toHU4DvWqJFmc3iGrfoCG1sVMYS+DIy
+         oDMYow6oBTQnVGN9f3pXXw+Y3xNf+UnLWkopSYF9j1nIC/+z3GX2rpYeZ12mRTb2STiR
+         R8qiqDySTv50sJIsyAsJIk0XRH5ip9aEVCdHIOnljlhLvuIGiNCp+5BJ+cY14N4HJvL6
+         85lQ==
+X-Gm-Message-State: ANoB5pnvbzIVlaps/uovgf2sLj1xuRn/ytxW5Yju67XPpjvt5vYMBPau
+	8NrWmbsJB+nyWjU0Fc5M3fVDgD3AxuDJrFbYU2hq9w==
+X-Google-Smtp-Source: AA0mqf4Y+IxGjmqzZJaPeCON8XeAVFL0MKHI39mZUITBw1DE6s2yg9yGTbo/TzQEniJ2pQNayU5rqHfMSe3y+v2Wu/s=
+X-Received: by 2002:a50:fd9a:0:b0:461:b279:1175 with SMTP id
+ o26-20020a50fd9a000000b00461b2791175mr11464576edt.124.1668436959156; Mon, 14
+ Nov 2022 06:42:39 -0800 (PST)
 MIME-Version: 1.0
-References: <20221109011421.1257186-1-xiangyu.chen@eng.windriver.com>
- <CAOSpxdZBZdKoE-vZaz4fZoSz03ToKn-AQcEGF1G6rLgVAPF5YQ@mail.gmail.com> <0af62566-0fd0-e862-c3b5-401a17fa168e@windriver.com>
-In-Reply-To: <0af62566-0fd0-e862-c3b5-401a17fa168e@windriver.com>
+References: <20221014152245.243292-1-jose.quaresma@foundries.io>
+ <171DF8E2F2B472D4.2422@lists.openembedded.org> <CANPvuRntRt1e33kujzgs_=K_FSoOOj0N7KCKkyoiyrSynDJc9w@mail.gmail.com>
+ <bc610ce45417a57c2212c3fd20a61e57189765bb.camel@linuxfoundation.org>
+ <1723BFAED82D2E62.15522@lists.openembedded.org> <CANPvuRmUm8T2XukmmRDgg0NU0bmhktKWA_6tQfASkVmj1N+_Dw@mail.gmail.com>
+In-Reply-To: <CANPvuRmUm8T2XukmmRDgg0NU0bmhktKWA_6tQfASkVmj1N+_Dw@mail.gmail.com>
 From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 14 Nov 2022 04:41:43 -1000
-Message-ID: <CAOSpxdY1qjAgBAZBg_ejaU3txfBtptFmkgqKMcdW0RaGjo9c7A@mail.gmail.com>
-Subject: Re: [OE-Core][kirkstone][PATCH] lttng-tools: Upgrade 2.13.4 -> 2.13.8
-To: xiangyu.chen@eng.windriver.com
-Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Nov 2022 04:42:28 -1000
+Message-ID: <CAOSpxdavney1CQdZrS+85ySzJ-SjRuQLMKRYF3SmxP36TYGa=Q@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v3 2/2] archiver: avoid using machine variable as
+ it breaks multiconfig
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org, ricardo@foundries.io, 
+	Jose Quaresma <jose.quaresma@foundries.io>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Nov 2022 14:42:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173245
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Nov 2022 14:42:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173246
 
-On Sun, Nov 13, 2022 at 4:17 PM <xiangyu.chen@eng.windriver.com> wrote:
->
->
-> On 11/11/22 22:34, Steve Sakoman wrote:
-> > CAUTION: This email comes from a non Wind River email account!
-> > Do not click links or open attachments unless you recognize the sender and know the content is safe.
-> >
-> > Master branch is currently at 2.13.7, so you will need to submit the
-> > version bump to 2.13.8 for master first.  I will then cherry-pick the
-> > version bumps to langdale and kirkstone.
-> >
-> > Thanks!
-> >
-> > Steve
+On Mon, Nov 14, 2022 at 3:17 AM Jose Quaresma <quaresma.jose@gmail.com> wro=
+te:
 >
 > Hi Steve,
 >
->
-> The lttng-tools on master already upgraded to 2.13.8
->
-> https://git.openembedded.org/openembedded-core/tree/meta/recipes-kernel/lttng/lttng-tools_2.13.8.bb
+> Can this patch be backported to kirkstone?
 
-You are correct of course :-)  I was mistakenly looking at the version
-of lttng-modules when reviewing!
-
-I did try this lttng-tools update previously and encountered ptest issues:
-
-https://lists.openembedded.org/g/openembedded-core/message/172187
-
-If you could fix this I'd be able to take the patch.
-
-Thanks for your help!
+Certainly!  I've added it to my test queue.
 
 Steve
 
-> > On Tue, Nov 8, 2022 at 3:14 PM Xiangyu Chen
-> > <xiangyu.chen@eng.windriver.com> wrote:
-> >> From: Xiangyu Chen <xiangyu.chen@windriver.com>
-> >>
-> >> Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-> >> ---
-> >>   .../{lttng-tools_2.13.4.bb => lttng-tools_2.13.8.bb}  | 11 +++++++++--
-> >>   1 file changed, 9 insertions(+), 2 deletions(-)
-> >>   rename meta/recipes-kernel/lttng/{lttng-tools_2.13.4.bb => lttng-tools_2.13.8.bb} (90%)
-> >>
-> >> diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb b/meta/recipes-kernel/lttng/lttng-tools_2.13.8.bb
-> >> similarity index 90%
-> >> rename from meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb
-> >> rename to meta/recipes-kernel/lttng/lttng-tools_2.13.8.bb
-> >> index 0ea4da05ce..a814eb79f9 100644
-> >> --- a/meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb
-> >> +++ b/meta/recipes-kernel/lttng/lttng-tools_2.13.8.bb
-> >> @@ -39,7 +39,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
-> >>              file://disable-tests.patch \
-> >>              "
-> >>
-> >> -SRC_URI[sha256sum] = "565f3102410a53d484f4c8ff517978f1dc59f67f9d16f872f4357f3ca12200f6"
-> >> +SRC_URI[sha256sum] = "b1e959579b260790930b20f3c7aa7cefb8a40e0de80d4a777c2bf78c6b353dc1"
-> >>
-> >>   inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
-> >>
-> >> @@ -113,7 +113,7 @@ do_install_ptest () {
-> >>           for f in $(find "${B}/tests/$d" -maxdepth 1 -executable -type f -printf '%P ') ; do
-> >>               cp ${B}/tests/$d/$f ${D}${PTEST_PATH}/tests/`dirname $d`/$f
-> >>               case $f in
-> >> -                *.so|userspace-probe-elf-binary)
-> >> +                *.so|userspace-probe-elf-*)
-> >>                       install -d ${D}${PTEST_PATH}/tests/$d/
-> >>                       ln -s  ../$f ${D}${PTEST_PATH}/tests/$d/$f
-> >>                       # Remove any rpath/runpath to pass QA check.
-> >> @@ -124,6 +124,7 @@ do_install_ptest () {
-> >>       done
-> >>
-> >>       chrpath --delete ${D}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary/userspace-probe-elf-binary
-> >> +    chrpath --delete ${D}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-cxx-binary/userspace-probe-elf-cxx-binary
-> >>       chrpath --delete ${D}${PTEST_PATH}/tests/regression/ust/ust-dl/libbar.so
-> >>       chrpath --delete ${D}${PTEST_PATH}/tests/regression/ust/ust-dl/libfoo.so
-> >>
-> >> @@ -185,4 +186,10 @@ do_install_ptest () {
-> >>   INHIBIT_PACKAGE_STRIP_FILES = "\
-> >>       ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary/userspace-probe-elf-binary \
-> >>       ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary/.libs/userspace-probe-elf-binary \
-> >> +    ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-cxx-binary/userspace-probe-elf-cxx-binary \
-> >> +    ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-cxx-binary/.libs/userspace-probe-elf-cxx-binary \
-> >> +    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-syscall-events/gen-syscall-events \
-> >> +    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-syscall-events/.libs/gen-syscall-events \
-> >> +    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-syscall-events-callstack/gen-syscall-events-callstack \
-> >> +    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-syscall-events-callstack/.libs/gen-syscall-events-callstack \
-> >>       "
-> >> --
-> >> 2.34.1
-> >>
-> >>
-> >> -=-=-=-=-=-=-=-=-=-=-=-
-> >> Links: You receive all messages sent to this group.
-> >> View/Reply Online (#173006): https://lists.openembedded.org/g/openembedded-core/message/173006
-> >> Mute This Topic: https://lists.openembedded.org/mt/94904524/3620601
-> >> Group Owner: openembedded-core+owner@lists.openembedded.org
-> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
-> >> -=-=-=-=-=-=-=-=-=-=-=-
-> >>
+>> Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia quar=
+ta, 2/11/2022 =C3=A0(s) 10:55:
+>>>
+>>> On Wed, 2022-11-02 at 09:42 +0000, Jose Quaresma wrote:
+>>> > Are there any issues with this patch or the oe-selftest in the
+>>> > previous one that I need to address?
+>>>
+>>> When I was reviewing the patches that were queued while I was away,
+>>> this one wasn't one I could immediately look at and make a decision on.
+>>> It was therefore deferred for me to spend a bit more time on. I'm
+>>> trying to get there!
+>>
+>>
+>> Thanks for the update.
+>> I decided to ask now because I saw that the master branch has started th=
+e integration again.
+>> If anything is needed from me please let me know.
+>>
+>> Jose
+>>
+>>>
+>>>
+>>> Cheers,
+>>>
+>>> Richard
+>>>
+>>>
+>>
+>>
+>> --
+>> Best regards,
+>>
+>> Jos=C3=A9 Quaresma
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#172584): https://lists.openembedded.org/g/openembedd=
+ed-core/message/172584
+>> Mute This Topic: https://lists.openembedded.org/mt/94730390/5052612
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [q=
+uaresma.jose@gmail.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+>
+>
+> --
+> Best regards,
+>
+> Jos=C3=A9 Quaresma
 
