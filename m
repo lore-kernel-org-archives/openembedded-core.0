@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83D8FC64E92
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 796DAC64E90
 	for <webhook@archiver.kernel.org>; Tue, 15 Nov 2022 13:05:46 +0000 (UTC)
 Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
  by mx.groups.io with SMTP id smtpd.web08.5161.1668517535773395009
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Nov 2022 05:05:35 -0800
+ Tue, 15 Nov 2022 05:05:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=GhVMfM28;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101847b651cb0-39d19c43-cac5-4dae-86c2-2604a7a54185-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=M3BhfGFF;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101847b652302-8b403336-d731-4b4b-89ba-bab75b9e3091-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1668517535;
+	t=1668517536;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=DaCsJIJaP5h0I2qjJPq+KgTgR6IWBrmrEygiSUlMvQI=;
-	b=GhVMfM286pohniuf4boDmSUBeaILGOC9PQaQZ5MzjHq9N0/ybbOtLs+5zqk3jzSv
-	jJ+rYNPEpXrlLwZMZ/DsIx3hzHwr2ZAdKeRVOG7OyJWCWllECiF+IBOQi9E9u80aCy5
-	8T9RCQaHZQ1rsmfgJ67aQz+hmbwUfx0xeESJvoxI=
+	bh=/iAZbGnocZA8thEkhSzvEYPxErnhidSaLOKJ/CIZYh4=;
+	b=M3BhfGFFaXKou+ZKlao8KqJ1+n2E5YTs/mQhy2BouuD7TcZMOhNKxFFgVGHRYVkf
+	DrCTfWvfRELVLb1TbFcWV3r8uA94UtmSXrFbwYFgyfslSitPMYnkU0Kdgn4BRHsP7Yo
+	t6jI3DoSdgtETgegjAWBCoznQgLj/kSAvVfErjUM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1668517535;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1668517536;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=DaCsJIJaP5h0I2qjJPq+KgTgR6IWBrmrEygiSUlMvQI=;
-	b=FRXXWuF7/exchO34NZvQmoVj3+7ZWWbn2pJ4fuNhelh6wOXEa+d2SfVUc4C1XjxD
-	Tk7mBI3B+T8MDh4UDfLPz8jU8dQhX/4hCG4EIf3LbAUrPDCRZZoAhhubF/l+yPLd8qB
-	x6pKkLWALm5oEyeTI2VI+LZxAf0cKAifOm99klr8=
-Content-Type: multipart/mixed; boundary="===============8669840204253246125=="
+	bh=/iAZbGnocZA8thEkhSzvEYPxErnhidSaLOKJ/CIZYh4=;
+	b=e1gvFwF3+9HooGFLjd0jG/5vr9m+nzfJjztVU+nWOExhDRyH/fGBTwdnwv9vCONf
+	QbeKRNFTi5l0dJqqUWbL63IBnFHvi10YqnEMy5cw1tMUPr9EVLzfrqGUkjFGZf1zwzu
+	HBtjpWVKr7G32tk4tSYg+3yitPgEcHR4W/xD3xHk=
+Content-Type: multipart/mixed; boundary="===============1208700070519375613=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] systemd: upgrading to 252.1 FAILED
-Message-ID: <010101847b651cb0-39d19c43-cac5-4dae-86c2-2604a7a54185-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Nov 2022 13:05:34 +0000
+Subject: [AUH] babeltrace: upgrading to 1.5.11 SUCCEEDED
+Message-ID: <010101847b652302-8b403336-d731-4b4b-89ba-bab75b9e3091-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Nov 2022 13:05:36 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2022.11.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Nov 2022 13:05:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173287
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173322
 
---===============8669840204253246125==
+--===============1208700070519375613==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,68 +50,83 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *systemd* to *252.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *babeltrace* to *1.5.11* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-babeltrace-upgrade-1.5.8-1.5.11.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe systemd failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1665 entries from dependency cache.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:5ce6bc97d9caba8eb66fe918397b925b8f750236"
-workspace            = "master:1a8272f40f071fda3b2039e433cee6fa6e42d783"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Rebasing devtool onto 60fbeb0b14f51e9aa7803c00f64b7bd02f09fb72
-WARNING: Command 'git rebase 60fbeb0b14f51e9aa7803c00f64b7bd02f09fb72' failed:
-Auto-merging src/boot/bootctl.c
-CONFLICT (content): Merge conflict in src/boot/bootctl.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-libc-musl onto 60fbeb0b14f51e9aa7803c00f64b7bd02f09fb72
-WARNING: Command 'git rebase 60fbeb0b14f51e9aa7803c00f64b7bd02f09fb72' failed:
-Auto-merging src/boot/bootctl.c
-CONFLICT (content): Merge conflict in src/boot/bootctl.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/systemd
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/systemd/systemd_252.1.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============8669840204253246125==--
+--===============1208700070519375613==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-babeltrace-upgrade-1.5.8-1.5.11.patch"
+
+RnJvbSBhZWY3M2UzYTI2ODJjMzJkYmUwZjY0YjdjMmUyYTU2NGI5MjU2N2I5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTUgTm92IDIwMjIgMTE6MjM6MDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
+YWJlbHRyYWNlOiB1cGdyYWRlIDEuNS44IC0+IDEuNS4xMQoKLS0tCiAuLi4vbHR0bmcve2JhYmVs
+dHJhY2VfMS41LjguYmIgPT4gYmFiZWx0cmFjZV8xLjUuMTEuYmJ9ICAgICAgICAgfCAyICstCiAx
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMta2VybmVsL2x0dG5nL3tiYWJlbHRyYWNlXzEuNS44LmJiID0+IGJhYmVsdHJhY2Vf
+MS41LjExLmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcv
+YmFiZWx0cmFjZV8xLjUuOC5iYiBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvYmFiZWx0cmFj
+ZV8xLjUuMTEuYmIKc2ltaWxhcml0eSBpbmRleCA5OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
+LWtlcm5lbC9sdHRuZy9iYWJlbHRyYWNlXzEuNS44LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+a2VybmVsL2x0dG5nL2JhYmVsdHJhY2VfMS41LjExLmJiCmluZGV4IDE5NjAxZTdkMWIuLjhlMmZl
+NDE2NGQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvYmFiZWx0cmFjZV8x
+LjUuOC5iYgorKysgYi9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2JhYmVsdHJhY2VfMS41LjEx
+LmJiCkBAIC0xMCw3ICsxMCw3IEBAIERFUEVORFMgPSAiZ2xpYi0yLjAgdXRpbC1saW51eCBwb3B0
+IGJpc29uLW5hdGl2ZSBmbGV4LW5hdGl2ZSIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0LmVmZmljaW9z
+LmNvbS9iYWJlbHRyYWNlLmdpdDticmFuY2g9c3RhYmxlLTEuNSBcCiAJICAgZmlsZTovL3J1bi1w
+dGVzdCBcCiAJICAiCi1TUkNSRVYgPSAiMDU0YTU0YWUxMGIwMWEyNzFhZmM0ZjE5NDk2YzA0MWIx
+MGZiNDE0YyIKK1NSQ1JFViA9ICI5MWMwMGY3MDg4NDg4N2ZmNWM0ODQ5YThlM2Q0N2UzMTFhMjJi
+YTlkIgogVVBTVFJFQU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAidig/UDxwdmVyPjEoXC5cZCspKykk
+IgogCiBTID0gIiR7V09SS0RJUn0vZ2l0IgotLSAKMi4zMS4xCgo=
+
+--===============1208700070519375613==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/babeltrace/babeltrace-dbg: PV changed from "1.5.8" to "1.5.11"
+packages/core2-32-poky-linux/babeltrace/babeltrace-dbg: PKGSIZE changed from 1992052 to 1993036 (+0%)
+packages/core2-32-poky-linux/babeltrace/babeltrace-dbg: PKGV changed from 1.5.8 [default] to 1.5.11 [default]
+packages/core2-32-poky-linux/babeltrace/babeltrace-dev: PV changed from "1.5.8" to "1.5.11"
+packages/core2-32-poky-linux/babeltrace/babeltrace-dev: PKGSIZE changed from 102270 to 102272 (+0%)
+packages/core2-32-poky-linux/babeltrace/babeltrace-dev: PKGV changed from 1.5.8 [default] to 1.5.11 [default]
+packages/core2-32-poky-linux/babeltrace/babeltrace-doc: PV changed from "1.5.8" to "1.5.11"
+packages/core2-32-poky-linux/babeltrace/babeltrace-doc: PKGSIZE changed from 83892 to 84435 (+1%)
+packages/core2-32-poky-linux/babeltrace/babeltrace-doc: PKGV changed from 1.5.8 [default] to 1.5.11 [default]
+packages/core2-32-poky-linux/babeltrace/babeltrace-locale: PV changed from "1.5.8" to "1.5.11"
+packages/core2-32-poky-linux/babeltrace/babeltrace-locale: PKGV changed from 1.5.8 [default] to 1.5.11 [default]
+packages/core2-32-poky-linux/babeltrace/babeltrace-ptest: PV changed from "1.5.8" to "1.5.11"
+packages/core2-32-poky-linux/babeltrace/babeltrace-ptest: PKGSIZE changed from 2291614 to 2291680 (+0%)
+packages/core2-32-poky-linux/babeltrace/babeltrace-ptest: PKGV changed from 1.5.8 [default] to 1.5.11 [default]
+packages/core2-32-poky-linux/babeltrace/babeltrace-src: PV changed from "1.5.8" to "1.5.11"
+packages/core2-32-poky-linux/babeltrace/babeltrace-src: PKGSIZE changed from 1770859 to 1771176 (+0%)
+packages/core2-32-poky-linux/babeltrace/babeltrace-src: PKGV changed from 1.5.8 [default] to 1.5.11 [default]
+packages/core2-32-poky-linux/babeltrace/babeltrace-staticdev: PV changed from "1.5.8" to "1.5.11"
+packages/core2-32-poky-linux/babeltrace/babeltrace-staticdev: PKGV changed from 1.5.8 [default] to 1.5.11 [default]
+packages/core2-32-poky-linux/babeltrace/babeltrace: PV changed from "1.5.8" to "1.5.11"
+packages/core2-32-poky-linux/babeltrace/babeltrace: PKGV changed from 1.5.8 [default] to 1.5.11 [default]
+packages/core2-32-poky-linux/babeltrace: PV changed from "1.5.8" to "1.5.11"
+packages/core2-32-poky-linux/babeltrace: PKGV changed from 1.5.8 [default] to 1.5.11 [default]
+
+--===============1208700070519375613==--
 
