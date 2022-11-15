@@ -1,149 +1,191 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73A11C4332F
-	for <webhook@archiver.kernel.org>; Tue, 15 Nov 2022 22:16:57 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web09.7868.1668550609687327584
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF18FC433FE
+	for <webhook@archiver.kernel.org>; Tue, 15 Nov 2022 22:48:59 +0000 (UTC)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web11.106.1668552534369488054
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Nov 2022 14:16:50 -0800
+ Tue, 15 Nov 2022 14:48:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OFCf1Ud1;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id a11-20020a05600c2d4b00b003cf6f5fd9f1so142224wmg.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Nov 2022 14:16:49 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=kK6BTsEG;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: ticotimo@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id k2so39905892ejr.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Nov 2022 14:48:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7fxEux4UTthVXBv3g8nZhqlJfYxPRdUl5ZQ39FTdGU0=;
-        b=OFCf1Ud1pPO9ezEAk/+64k8pojnhwC8Q74Y0ibSatDzKitXlujNuhSycN2Ldbj5vek
-         qwD1R8PEHChfrMRGDDwf54Xv0LBh7duTCms+Jp5XRBKh3BWMSILykOqW/soXOLWb0aI2
-         2kSmXKSNBm07Bq0ZdlNpVN4X3Czvel5Hns1fI=
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=dplk2VwlvrUviyBb8wzF5Oob4bs9KXAQyhKvP3pqYqo=;
+        b=kK6BTsEGUOX+HmTuPOvMrqi95CUl1JuEuzt6FATy1/DlyqVhZjxrhMUDrPmbhj5Uhe
+         uTtA2A/K9ZwRJUzf41zKRD9enlRuoVJ9iyCAwZYlCeqlIcBbveU7Xk6zfeT3oT3dHPME
+         /2Nq4C+BFycPV0G1d2JjIM5/ox5rFtXEEFdxMllXBNttijUO4cZRDh+oTAD9u/NjopC1
+         gprvO/XUyn+ciOz6MygMO/c1ypillBhlDLTCtBOyNVRfMefg6TjPj7wKLxGbOMS9+nmR
+         QiWu86XADwGg0evYUMg9sfzjlSHQCEzlZGS04God3tC/TUiqaYIyR+S8teYC/bLp8djG
+         6DLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=7fxEux4UTthVXBv3g8nZhqlJfYxPRdUl5ZQ39FTdGU0=;
-        b=qTh32kQ8YqbNMvJznLk0e4dDb1Ro2kr4tJdGAH47/Zi8obvWe+fXCEMqpx2j5sJ2s1
-         fR9caUB2H3Pym8/ZN6Wm4XnXqgOeaDLC5wShkWzXXlyqVnTRseqjIXjbXgpNh9fHZIU1
-         QQyddsmWdAvL3F838ZbPY+IqsbPW/pzBIgsrK92U8wR62hTFtUpFxEFYrxw818ukqsE3
-         GJjDG6T3oqbsttoQ/dq7TRYTbpYpWGbl3XKd9xA9k0aN/BPVYBiOTzeoDQ8MxZUNwrut
-         XF2TACrSWRbDR4BivXP443bTAuROa6616Su7kAaKsZ/wX060TVy9WSjEfhuahhPuPuYp
-         Lh3A==
-X-Gm-Message-State: ANoB5pntgf6SBwWnYfZxL40tYctCeP7i2uOHZC9100rE9ZCUs3Q1ZqaD
-	iZHr3bTYIEgztykCHNiYS4IymIaqVCgiZQ==
-X-Google-Smtp-Source: AA0mqf5kHpw6jkhntxCiDogZsCRbcsCrq+VEYlEJ+/zDnkCaLGcBZTF3KXmvwGtXTRiMfzhL5oqkTg==
-X-Received: by 2002:a05:600c:1d92:b0:3cf:78fc:eda2 with SMTP id p18-20020a05600c1d9200b003cf78fceda2mr249267wms.47.1668550607806;
-        Tue, 15 Nov 2022 14:16:47 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:6779:84d:e47:6803? ([2001:8b0:aba:5f3c:6779:84d:e47:6803])
-        by smtp.gmail.com with ESMTPSA id g10-20020a05600c4eca00b003c6b874a0dfsm126227wmq.14.2022.11.15.14.16.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Nov 2022 14:16:47 -0800 (PST)
-Message-ID: <c5f326ab71f86866bc0f0665debf93f885bc7516.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] sanity: Drop data finalize call
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Nov 2022 22:16:45 +0000
-In-Reply-To: <b74451c1aba840738a8ae62a6287c04c@axis.com>
-References: <20221111225827.2412062-1-richard.purdie@linuxfoundation.org>
-	 <b74451c1aba840738a8ae62a6287c04c@axis.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu1 
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dplk2VwlvrUviyBb8wzF5Oob4bs9KXAQyhKvP3pqYqo=;
+        b=jAiHPDu0ukaoOzLAs0sd+2BSgsEb+4VzDGmOuepstgXvHyoHH0bUFk3l3WhrlUIuf5
+         Jqts9pPRwg2PQH4AIoyKz0miVLZtsxT8HG0dkRJ+IuZhoFPan+t2EN1Y+IoJRFkeNJNX
+         BABcRnOWpHBSzs91GDU/WtCYdsnT3Zg0v1zcdjF5Pp9kOzjdDtbXTpamOCMGitQux8Fr
+         emPiJABCFVnLG3g9yyupdudiRq+j6gkZ4WRLkg8f7bX85RUjBr3vsv98sHlkbRGTu9zo
+         VA11TS3WI4md06ACP8VjZ1+E4URMJ63rrchYa3V7R35qmBdpBX1GS5UDyQKJ2lUBZwFA
+         CJ3A==
+X-Gm-Message-State: ANoB5pm7aOhp19X4YuF7nd9obQdNBZ4aSyvqAhEsKqFmm+ZEI+dzWmmc
+	gYLRNs5LTEqT4bMxve7JOC5ZJtnuZopRV+DmRaY=
+X-Google-Smtp-Source: AA0mqf7KPQUgF9YnDXNPB2cS5cC8wfq4qUgFMXA5viXrnfies4JcOZRb3H2lyg/YdH5L35hP5SIFJ6C0bdhXVR8TFaU=
+X-Received: by 2002:a17:906:414d:b0:781:951:2fb with SMTP id
+ l13-20020a170906414d00b00781095102fbmr15704591ejk.64.1668552532616; Tue, 15
+ Nov 2022 14:48:52 -0800 (PST)
 MIME-Version: 1.0
+References: <010101847b65247d-c4a41205-aad6-4e70-856e-0f1f6cc887ca-000000@us-west-2.amazonses.com>
+In-Reply-To: <010101847b65247d-c4a41205-aad6-4e70-856e-0f1f6cc887ca-000000@us-west-2.amazonses.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Tue, 15 Nov 2022 14:48:40 -0800
+Message-ID: <CANx9H-D1AjBGzPPpO+mFrwWa_beSYSC0s-fGJM-Ax5-TvZEYAQ@mail.gmail.com>
+Subject: Re: [OE-core] [AUH] at-spi2-core: upgrading to 2.46.0 FAILED
+To: Auto Upgrade Helper <auh@yoctoproject.org>
+Cc: Tim Orling <tim.orling@konsulko.com>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000feeb6405ed8a2852"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Nov 2022 22:16:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173358
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Nov 2022 22:48:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173359
 
-On Tue, 2022-11-15 at 15:10 +0000, Peter Kjellerstedt wrote:
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org
-> > <openembedded-core@lists.openembedded.org> On Behalf Of Richard
-> > Purdie
-> > Sent: den 11 november 2022 23:58
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCH] sanity: Drop data finalize call
-> >=20
-> > This call was effectively like update_data and no longer did
-> > anything
-> > in bitbake. Drop it as it is obsolete.
-> >=20
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> > =C2=A0meta/classes-global/sanity.bbclass | 11 ++---------
-> > =C2=A01 file changed, 2 insertions(+), 9 deletions(-)
-> >=20
-> > diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-
-> > global/sanity.bbclass
-> > index 8c7d4d08809..6cb0d6cf882 100644
-> > --- a/meta/classes-global/sanity.bbclass
-> > +++ b/meta/classes-global/sanity.bbclass
-> > @@ -1003,13 +1003,6 @@ def check_sanity(sanity_data):
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if status.messages !=3D "":
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0raise_sanity_erro=
-r(sanity_data.expand(status.messages),
-> > sanity_data, status.network_error)
-> >=20
-> > -# Create a copy of the datastore and finalise it to ensure appends
-> > and
-> > -# overrides are set - the datastore has yet to be finalised at
-> > ConfigParsed
-> > -def copy_data(e):
-> > -    sanity_data =3D bb.data.createCopy(e.data)
-> > -    sanity_data.finalize()
-> > -    return sanity_data
-> > -
-> > =C2=A0addhandler config_reparse_eventhandler
-> > =C2=A0config_reparse_eventhandler[eventmask] =3D "bb.event.ConfigParsed=
-"
-> > =C2=A0python config_reparse_eventhandler() {
-> > @@ -1020,13 +1013,13 @@ addhandler check_sanity_eventhandler
-> > =C2=A0check_sanity_eventhandler[eventmask] =3D "bb.event.SanityCheck
-> > bb.event.NetworkTest"
-> > =C2=A0python check_sanity_eventhandler() {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if bb.event.getName(e) =3D=3D "SanityChec=
-k":
-> > -        sanity_data =3D copy_data(e)
-> > +        sanity_data =3D bb.data.createCopy(e.data)
->=20
-> For my understanding, wouldn't it be the same to do:
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sanity_data =3D bb.data.c=
-reateCopy(d)
+--000000000000feeb6405ed8a2852
+Content-Type: text/plain; charset="UTF-8"
 
-Yes.
+Ugly working branch:
+https://git.yoctoproject.org/poky-contrib/log/?h=timo/at-spi2-core_2.46.0
 
-> I found this in the bitbake documentation, which seems to support my=20
-> understanding: A global variable "e" is defined, which represents the
-> current event. ... The global datastore is available as "d". In
-> legacy=20
-> code, you might see "e.data" used to get the datastore. However,
-> realize=20
-> that "e.data" is deprecated and you should use "d" going forward.
-
-e.data is how we used to have to access the datastore in event
-contexts. We did add d to allow standardisation and we do want to
-remove e.data but haven't cleaned out the old references yet. Arguably
-I could/should have here but I was already nesting a few issues deep in
-cleanups so I've left that for another time.
-
-> Further, is there any reason to use bb.data.createCopy(d) instead of=20
-> d.createCopy()? AFAICT, the former just calls the latter.
-
-d.createCopy() is indeed the preferred syntax and functionally the
-same.
+This upgrade merges atk and at-spi2-atk into at-spi2-core. The most obvious
+collateral damage is in webkitgtk.
 
 
-Cheers,
+On Tue, Nov 15, 2022 at 5:07 AM Auto Upgrade Helper <auh@yoctoproject.org>
+wrote:
 
-Richard
+> Hello,
+>
+> this email is a notification from the Auto Upgrade Helper
+> that the automatic attempt to upgrade the recipe *at-spi2-core* to
+> *2.46.0* has Failed(do_compile).
+>
+> Detailed error information:
+>
+> do_compile failed
+>
+>
+>
+> Next steps:
+>     - apply the patch: git am 0001-at-spi2-core-upgrade-2.44.1-2.46.0.patch
+>     - check the changes to upstream patches and summarize them in the
+> commit message,
+>     - compile an image that contains the package
+>     - perform some basic sanity tests
+>     - amend the patch and sign it off: git commit -s --reset-author --amend
+>     - send it to the appropriate mailing list
+>
+> Alternatively, if you believe the recipe should not be upgraded at this
+> time,
+> you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+> automatic upgrades would no longer be attempted.
+>
+> Please review the attached files for further information and build/update
+> failures.
+> Any problem please file a bug at
+> https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+>
+> Regards,
+> The Upgrade Helper
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#173343):
+> https://lists.openembedded.org/g/openembedded-core/message/173343
+> Mute This Topic: https://lists.openembedded.org/mt/95042140/924729
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> ticotimo@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
 
+--000000000000feeb6405ed8a2852
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Ugly working branch:</div><div><a href=3D"https://git=
+.yoctoproject.org/poky-contrib/log/?h=3Dtimo/at-spi2-core_2.46.0">https://g=
+it.yoctoproject.org/poky-contrib/log/?h=3Dtimo/at-spi2-core_2.46.0</a></div=
+><div><br></div><div>This upgrade merges atk and at-spi2-atk into at-spi2-c=
+ore. The most obvious collateral damage is in webkitgtk.<br></div><div dir=
+=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
+"gmail_attr">On Tue, Nov 15, 2022 at 5:07 AM Auto Upgrade Helper &lt;<a hre=
+f=3D"mailto:auh@yoctoproject.org">auh@yoctoproject.org</a>&gt; wrote:<br></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">Hello,<br>
+<br>
+this email is a notification from the Auto Upgrade Helper<br>
+that the automatic attempt to upgrade the recipe *at-spi2-core* to *2.46.0*=
+ has Failed(do_compile).<br>
+<br>
+Detailed error information:<br>
+<br>
+do_compile failed<br>
+<br>
+<br>
+<br>
+Next steps:<br>
+=C2=A0 =C2=A0 - apply the patch: git am 0001-at-spi2-core-upgrade-2.44.1-2.=
+46.0.patch<br>
+=C2=A0 =C2=A0 - check the changes to upstream patches and summarize them in=
+ the commit message,<br>
+=C2=A0 =C2=A0 - compile an image that contains the package<br>
+=C2=A0 =C2=A0 - perform some basic sanity tests<br>
+=C2=A0 =C2=A0 - amend the patch and sign it off: git commit -s --reset-auth=
+or --amend<br>
+=C2=A0 =C2=A0 - send it to the appropriate mailing list<br>
+<br>
+Alternatively, if you believe the recipe should not be upgraded at this tim=
+e,<br>
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that<br>
+automatic upgrades would no longer be attempted.<br>
+<br>
+Please review the attached files for further information and build/update f=
+ailures.<br>
+Any problem please file a bug at <a href=3D"https://bugzilla.yoctoproject.o=
+rg/enter_bug.cgi?product=3DAutomated%20Update%20Handler" rel=3D"noreferrer"=
+ target=3D"_blank">https://bugzilla.yoctoproject.org/enter_bug.cgi?product=
+=3DAutomated%20Update%20Handler</a><br>
+<br>
+Regards,<br>
+The Upgrade Helper<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#173343): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/173343" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/173343</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/95042140/9247=
+29" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt/=
+95042140/924729</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
+=3D"_blank">ticotimo@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000feeb6405ed8a2852--
 
