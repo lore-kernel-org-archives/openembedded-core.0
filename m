@@ -1,176 +1,198 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <s.zhmylev@yadro.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D5FFC433FE
-	for <webhook@archiver.kernel.org>; Tue, 15 Nov 2022 15:46:17 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web09.7030.1668527172724538528
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96EAFC433FE
+	for <webhook@archiver.kernel.org>; Tue, 15 Nov 2022 15:51:57 +0000 (UTC)
+Received: from mta-01.yadro.com (mta-01.yadro.com [89.207.88.252])
+ by mx.groups.io with SMTP id smtpd.web09.7106.1668527511303178421
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Nov 2022 07:46:13 -0800
+ Tue, 15 Nov 2022 07:51:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=A2nAW6Wf;
- spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f171.google.com with SMTP id b9so18059095ljr.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Nov 2022 07:46:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=UyJHqmI32cx7J5r3LQR9T2yLdz8is9llRWY76Vidxio=;
-        b=A2nAW6Wfejn69i9YJGJ2ZmYORURjYv4NFUzq/FDHm/4cGA9HfvbykWkvTGRM6f2jfI
-         j2BVfb8fFguJmRvmJzc7Nz6q0LBtwL2ZMhTN+bWbG5mIR1tM+CdHVmrAdL0iEqGoefq1
-         O1wLrf5yuoZTMXFTCPtS7WJzCeD9KZ31PXgbvSoCMUYoWYm/li9oM45rV+rA4d/vtpAc
-         y+8kflc9d3iPww3JOaohrKG9OwFSpXo/yuij63ytXoxv1Csqoqv5aGUz/QCp7TUEXqxV
-         vnfBn9xlgRGOwszRbAlH6TkrQuEOkmKZkMoSuHtc+O558PikF4RIAB8aZSLzwBDVlTH3
-         yW7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UyJHqmI32cx7J5r3LQR9T2yLdz8is9llRWY76Vidxio=;
-        b=TfcgAmtMy6wSiav2hGuKH9JSdYtithxy+P/U7Jm1U5utSpo7f77qoeW7S5qsRVgYoW
-         0aBpPBMOS3boH00Er7sVmaz/cBRAefAZe1SZr8SYDc3+Je3+CzgnY7mN2xITJznpFcvm
-         D2rPvYjWKGP1H/DxBC6o7ALthNf5MSCBqfZ/fOjjwXnSgMZEnwAneBG39Z4rhSv13Z8G
-         aBbqhcNGs8OfGuty1xncZ8zbTVX9Xw7TpIVFZQVxYZb4MsjnMLD87zqwZoRNcIPs/ovu
-         X+K8P8yy+nWjJTgPZORIfhiT8TIQwgp7eEnCEQYm4Swj9xeU1liBzss/sbUgD5ybQh05
-         79Fg==
-X-Gm-Message-State: ANoB5plo484PBFdXU9/lM3igOlWdJGqByq5j+xJaSjtdhvOzDnc/BCy/
-	IiUQYouzEeNCuKys7NDUoxwjL9P0zf8ypCpd978=
-X-Google-Smtp-Source: AA0mqf7NWujJz0s81Ow0wsAyUDq9nOk9Z3IPIUO2idgH5eM2Vsy2yBNnbAxjuSg2Gbbqfs/hylpxPKzKSqiSjxIWVq0=
-X-Received: by 2002:a2e:9857:0:b0:277:eba:852 with SMTP id e23-20020a2e9857000000b002770eba0852mr6576008ljj.31.1668527170776;
- Tue, 15 Nov 2022 07:46:10 -0800 (PST)
-MIME-Version: 1.0
-References: <20221115144031.89678-1-s.zhmylev@yadro.com>
-In-Reply-To: <20221115144031.89678-1-s.zhmylev@yadro.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 15 Nov 2022 16:45:59 +0100
-Message-ID: <CANNYZj8MFbwyeeQqfbvyU6ZjmgZ_Fu7VbfZWq9iS-imDp0sjkA@mail.gmail.com>
+ dkim=fail reason="signature has expired" header.i=@yadro.com header.s=mta-01 header.b=o7s8V9q+;
+ spf=pass (domain: yadro.com, ip: 89.207.88.252, mailfrom: s.zhmylev@yadro.com)
+Received: from localhost (unknown [127.0.0.1])
+	by mta-01.yadro.com (Postfix) with ESMTP id 06A4141185;
+	Tue, 15 Nov 2022 15:51:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+	mime-version:content-transfer-encoding:content-id:content-type
+	:content-type:content-language:accept-language:in-reply-to
+	:references:message-id:date:date:subject:subject:from:from
+	:received:received:received:received:received; s=mta-01; t=
+	1668527507; x=1670341908; bh=fhK6EtRn0v4nW5r1TV+kKWjx6S0xNgU9bgG
+	G1hkkaIs=; b=o7s8V9q+g9Ge4wH/1cGURVud00StCg77pnDSADrmkLXRxK3OjRW
+	6LKLSwvuIm4vxjhEgun8ezQsRzbfGdYrGwr7CvVREBOMJMkYdYTyoPWnuU6FTweL
+	Rttj6kJMs1lhO1o+SgrWVjJFg6/fkltYTZ6dCZBGMUIxvLlYuOxOILPc=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+	by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id KOF_OHWOUqWL; Tue, 15 Nov 2022 18:51:47 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (T-EXCH-02.corp.yadro.com [172.17.10.102])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mta-01.yadro.com (Postfix) with ESMTPS id A77B8404CD;
+	Tue, 15 Nov 2022 18:51:46 +0300 (MSK)
+Received: from T-EXCH-09.corp.yadro.com (172.17.11.59) by
+ T-EXCH-02.corp.yadro.com (172.17.10.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.669.32; Tue, 15 Nov 2022 18:51:46 +0300
+Received: from T-EXCH-08.corp.yadro.com (172.17.11.58) by
+ T-EXCH-09.corp.yadro.com (172.17.11.59) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.9; Tue, 15 Nov 2022 18:51:46 +0300
+Received: from T-EXCH-08.corp.yadro.com ([172.17.11.58]) by
+ T-EXCH-08.corp.yadro.com ([172.17.11.58]) with mapi id 15.02.1118.009; Tue,
+ 15 Nov 2022 18:51:46 +0300
+From: Sergey Zhmylev <s.zhmylev@yadro.com>
+To: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] [PATCH] wic: implement bootloader --password
-To: Sergey Zhmylev <s.zhmylev@yadro.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Thread-Topic: [OE-core] [PATCH] wic: implement bootloader --password
+Thread-Index: AQHY+QA8jDMDjyxcQk6nPaLk2/eXi64/7muAgAABnYA=
+Date: Tue, 15 Nov 2022 15:51:46 +0000
+Message-ID: <61ca1b5747eb5bb98dfbcc89353fb10c14a5ea89.camel@yadro.com>
+References: <20221115144031.89678-1-s.zhmylev@yadro.com>
+	 <CANNYZj8MFbwyeeQqfbvyU6ZjmgZ_Fu7VbfZWq9iS-imDp0sjkA@mail.gmail.com>
+In-Reply-To: <CANNYZj8MFbwyeeQqfbvyU6ZjmgZ_Fu7VbfZWq9iS-imDp0sjkA@mail.gmail.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.22.3.32]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <7559FC8DCE645F478AB8E53199D22DE0@yadro.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Nov 2022 15:46:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173349
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Nov 2022 15:51:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173350
 
-Wait, is the password provided through command line?
-
-Alex
-
-On Tue, 15 Nov 2022 at 15:40, Sergey Zhmylev <s.zhmylev@yadro.com> wrote:
->
-> From: Sergei Zhmylev <s.zhmylev@yadro.com>
->
-> Currently the only way to specify a password for bootloader
-> is to supply a complete user-defined bootloader config file
-> to the build process.  This patch introduces a --password
-> paramenter in order to simplify bootloaders hardening.
->
-> Signed-off-by: Sergei Zhmylev <s.zhmylev@yadro.com>
-> ---
->  scripts/lib/wic/ksparser.py                         |  1 +
->  scripts/lib/wic/plugins/source/bootimg-efi.py       |  6 +++++-
->  scripts/lib/wic/plugins/source/bootimg-pcbios.py    |  7 ++++++-
->  .../lib/wic/plugins/source/isoimage-isohybrid.py    | 13 +++++++++++--
->  4 files changed, 23 insertions(+), 4 deletions(-)
->
-> diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-> index d1e546b12d..89bc897a5a 100644
-> --- a/scripts/lib/wic/ksparser.py
-> +++ b/scripts/lib/wic/ksparser.py
-> @@ -195,6 +195,7 @@ class KickStart():
->                                  default='msdos')
->          bootloader.add_argument('--timeout', type=int)
->          bootloader.add_argument('--source')
-> +        bootloader.add_argument('--password')
->
->          include = subparsers.add_parser('include')
->          include.add_argument('path', type=cannedpathtype)
-> diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-> index 4b00913a70..3d84252796 100644
-> --- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-> +++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-> @@ -86,7 +86,11 @@ class BootimgEFIPlugin(SourcePlugin):
->              grubefi_conf += "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1\n"
->              grubefi_conf += "default=boot\n"
->              grubefi_conf += "timeout=%s\n" % bootloader.timeout
-> -            grubefi_conf += "menuentry '%s'{\n" % (title if title else "boot")
-> +            if bootloader.password:
-> +                grubefi_conf += "set superusers=\"root\"\n"
-> +                grubefi_conf += "export superusers\n"
-> +                grubefi_conf += "password root %s\n" % (bootloader.password)
-> +            grubefi_conf += "menuentry '%s' %s {\n" % (title if title else "boot", "--unrestricted" if bootloader.password else "")
->
->              kernel = get_bitbake_var("KERNEL_IMAGETYPE")
->              if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
-> diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-> index 32e47f1831..cbf4622cf9 100644
-> --- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-> +++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-> @@ -113,8 +113,13 @@ class BootimgPcbiosPlugin(SourcePlugin):
->              syslinux_conf = ""
->              syslinux_conf += "PROMPT 0\n"
->              syslinux_conf += "TIMEOUT " + str(bootloader.timeout) + "\n"
-> +            if bootloader.password:
-> +                syslinux_conf += "MENU MASTER PASSWD " + str(bootloader.password) + "\n"
-> +                syslinux_conf += "ALLOWOPTIONS 0\n"
-> +                syslinux_conf += "NOESCAPE 1\n"
-> +            else:
-> +                syslinux_conf += "ALLOWOPTIONS 1\n"
->              syslinux_conf += "\n"
-> -            syslinux_conf += "ALLOWOPTIONS 1\n"
->              syslinux_conf += "SERIAL 0 115200\n"
->              syslinux_conf += "\n"
->              if splashline:
-> diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> index 607356ad13..1d5099f954 100644
-> --- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> +++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> @@ -63,8 +63,13 @@ class IsoImagePlugin(SourcePlugin):
->          syslinux_conf = ""
->          syslinux_conf += "PROMPT 0\n"
->          syslinux_conf += "TIMEOUT %s \n" % (bootloader.timeout or 10)
-> +        if bootloader.password:
-> +            syslinux_conf += "MENU MASTER PASSWD " + str(bootloader.password) + "\n"
-> +            syslinux_conf += "ALLOWOPTIONS 0\n"
-> +            syslinux_conf += "NOESCAPE 1\n"
-> +        else:
-> +            syslinux_conf += "ALLOWOPTIONS 1\n"
->          syslinux_conf += "\n"
-> -        syslinux_conf += "ALLOWOPTIONS 1\n"
->          syslinux_conf += "SERIAL 0 115200\n"
->          syslinux_conf += "\n"
->          if splashline:
-> @@ -116,10 +121,14 @@ class IsoImagePlugin(SourcePlugin):
->              grubefi_conf += "--parity=no --stop=1\n"
->              grubefi_conf += "default=boot\n"
->              grubefi_conf += "timeout=%s\n" % (bootloader.timeout or 10)
-> +            if bootloader.password:
-> +                grubefi_conf += "set superusers=\"root\"\n"
-> +                grubefi_conf += "export superusers\n"
-> +                grubefi_conf += "password root %s\n" % (bootloader.password)
->              grubefi_conf += "\n"
->              grubefi_conf += "search --set=root --label %s " % part.label
->              grubefi_conf += "\n"
-> -            grubefi_conf += "menuentry 'boot'{\n"
-> +            grubefi_conf += "menuentry 'boot' %s {\n" % ("--unrestricted" if bootloader.password else "")
->
->              kernel = get_bitbake_var("KERNEL_IMAGETYPE")
->              if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
-> --
-> 2.37.2
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#173346): https://lists.openembedded.org/g/openembedded-core/message/173346
-> Mute This Topic: https://lists.openembedded.org/mt/95043934/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Tm8sIHRoZSBwYXNzd29yZCBpcyBwcm92aWRlZCB0aHJvdWdoIHdrcyBmaWxlLiAKa3NwYXJzZXIu
+cHkgaXMgYSB3aWMgc3Vic3lzdGVtIHdoaWNoIHBhcnNlcyB0aG9zZSBraWtzdGFydCBmaWxlcy4K
+LS0gCldpdGggYmVzdCB3aXNoZXMsClNlcmdlaSBaaG15bGV2CkVuZ2luZWVyaW5nIGNvbnN1bHRh
+bnQKT1MgZGV2ZWxvcG1lbnQgZGVwYXJ0bWVudAoKCgpPbiBUdWUsIDIwMjItMTEtMTUgYXQgMTY6
+NDUgKzAxMDAsIEFsZXhhbmRlciBLYW5hdmluIHdyb3RlOgo+IAo+IFdhaXQsIGlzIHRoZSBwYXNz
+d29yZCBwcm92aWRlZCB0aHJvdWdoIGNvbW1hbmQgbGluZT8KPiAKPiBBbGV4Cj4gCj4gT24gVHVl
+LCAxNSBOb3YgMjAyMiBhdCAxNTo0MCwgU2VyZ2V5IFpobXlsZXYgPHMuemhteWxldkB5YWRyby5j
+b20+Cj4gd3JvdGU6Cj4gPiAKPiA+IEZyb206IFNlcmdlaSBaaG15bGV2IDxzLnpobXlsZXZAeWFk
+cm8uY29tPgo+ID4gCj4gPiBDdXJyZW50bHkgdGhlIG9ubHkgd2F5IHRvIHNwZWNpZnkgYSBwYXNz
+d29yZCBmb3IgYm9vdGxvYWRlcgo+ID4gaXMgdG8gc3VwcGx5IGEgY29tcGxldGUgdXNlci1kZWZp
+bmVkIGJvb3Rsb2FkZXIgY29uZmlnIGZpbGUKPiA+IHRvIHRoZSBidWlsZCBwcm9jZXNzLsKgIFRo
+aXMgcGF0Y2ggaW50cm9kdWNlcyBhIC0tcGFzc3dvcmQKPiA+IHBhcmFtZW50ZXIgaW4gb3JkZXIg
+dG8gc2ltcGxpZnkgYm9vdGxvYWRlcnMgaGFyZGVuaW5nLgo+ID4gCj4gPiBTaWduZWQtb2ZmLWJ5
+OiBTZXJnZWkgWmhteWxldiA8cy56aG15bGV2QHlhZHJvLmNvbT4KPiA+IC0tLQo+ID4gwqBzY3Jp
+cHRzL2xpYi93aWMva3NwYXJzZXIucHnCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgfMKgIDEgKwo+ID4gwqBzY3JpcHRzL2xpYi93aWMvcGx1Z2lucy9zb3Vy
+Y2UvYm9vdGltZy1lZmkucHnCoMKgwqDCoMKgwqAgfMKgIDYgKysrKystCj4gPiDCoHNjcmlwdHMv
+bGliL3dpYy9wbHVnaW5zL3NvdXJjZS9ib290aW1nLXBjYmlvcy5wecKgwqDCoCB8wqAgNyArKysr
+KystCj4gPiDCoC4uLi9saWIvd2ljL3BsdWdpbnMvc291cmNlL2lzb2ltYWdlLWlzb2h5YnJpZC5w
+ecKgwqDCoCB8IDEzCj4gPiArKysrKysrKysrKy0tCj4gPiDCoDQgZmlsZXMgY2hhbmdlZCwgMjMg
+aW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKPiA+IAo+ID4gZGlmZiAtLWdpdCBhL3Njcmlw
+dHMvbGliL3dpYy9rc3BhcnNlci5weQo+ID4gYi9zY3JpcHRzL2xpYi93aWMva3NwYXJzZXIucHkK
+PiA+IGluZGV4IGQxZTU0NmIxMmQuLjg5YmM4OTdhNWEgMTAwNjQ0Cj4gPiAtLS0gYS9zY3JpcHRz
+L2xpYi93aWMva3NwYXJzZXIucHkKPiA+ICsrKyBiL3NjcmlwdHMvbGliL3dpYy9rc3BhcnNlci5w
+eQo+ID4gQEAgLTE5NSw2ICsxOTUsNyBAQCBjbGFzcyBLaWNrU3RhcnQoKToKPiA+IMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+ZGVmYXVsdD0nbXNkb3MnKQo+ID4gwqDCoMKgwqDCoMKgwqDCoCBib290bG9hZGVyLmFkZF9hcmd1
+bWVudCgnLS10aW1lb3V0JywgdHlwZT1pbnQpCj4gPiDCoMKgwqDCoMKgwqDCoMKgIGJvb3Rsb2Fk
+ZXIuYWRkX2FyZ3VtZW50KCctLXNvdXJjZScpCj4gPiArwqDCoMKgwqDCoMKgwqAgYm9vdGxvYWRl
+ci5hZGRfYXJndW1lbnQoJy0tcGFzc3dvcmQnKQo+ID4gCj4gPiDCoMKgwqDCoMKgwqDCoMKgIGlu
+Y2x1ZGUgPSBzdWJwYXJzZXJzLmFkZF9wYXJzZXIoJ2luY2x1ZGUnKQo+ID4gwqDCoMKgwqDCoMKg
+wqDCoCBpbmNsdWRlLmFkZF9hcmd1bWVudCgncGF0aCcsIHR5cGU9Y2FubmVkcGF0aHR5cGUpCj4g
+PiBkaWZmIC0tZ2l0IGEvc2NyaXB0cy9saWIvd2ljL3BsdWdpbnMvc291cmNlL2Jvb3RpbWctZWZp
+LnB5Cj4gPiBiL3NjcmlwdHMvbGliL3dpYy9wbHVnaW5zL3NvdXJjZS9ib290aW1nLWVmaS5weQo+
+ID4gaW5kZXggNGIwMDkxM2E3MC4uM2Q4NDI1Mjc5NiAxMDA2NDQKPiA+IC0tLSBhL3NjcmlwdHMv
+bGliL3dpYy9wbHVnaW5zL3NvdXJjZS9ib290aW1nLWVmaS5weQo+ID4gKysrIGIvc2NyaXB0cy9s
+aWIvd2ljL3BsdWdpbnMvc291cmNlL2Jvb3RpbWctZWZpLnB5Cj4gPiBAQCAtODYsNyArODYsMTEg
+QEAgY2xhc3MgQm9vdGltZ0VGSVBsdWdpbihTb3VyY2VQbHVnaW4pOgo+ID4gwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIGdydWJlZmlfY29uZiArPSAic2VyaWFsIC0tdW5pdD0wIC0tc3BlZWQ9MTE1
+MjAwIC0tCj4gPiB3b3JkPTggLS1wYXJpdHk9bm8gLS1zdG9wPTFcbiIKPiA+IMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCBncnViZWZpX2NvbmYgKz0gImRlZmF1bHQ9Ym9vdFxuIgo+ID4gwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIGdydWJlZmlfY29uZiArPSAidGltZW91dD0lc1xuIiAlIGJvb3Rs
+b2FkZXIudGltZW91dAo+ID4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ3J1YmVmaV9jb25mICs9
+ICJtZW51ZW50cnkgJyVzJ3tcbiIgJSAodGl0bGUgaWYgdGl0bGUKPiA+IGVsc2UgImJvb3QiKQo+
+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgYm9vdGxvYWRlci5wYXNzd29yZDoKPiA+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ3J1YmVmaV9jb25mICs9ICJzZXQgc3VwZXJ1
+c2Vycz1cInJvb3RcIlxuIgo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBncnVi
+ZWZpX2NvbmYgKz0gImV4cG9ydCBzdXBlcnVzZXJzXG4iCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIGdydWJlZmlfY29uZiArPSAicGFzc3dvcmQgcm9vdCAlc1xuIiAlCj4gPiAo
+Ym9vdGxvYWRlci5wYXNzd29yZCkKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGdydWJlZmlf
+Y29uZiArPSAibWVudWVudHJ5ICclcycgJXMge1xuIiAlICh0aXRsZSBpZgo+ID4gdGl0bGUgZWxz
+ZSAiYm9vdCIsICItLXVucmVzdHJpY3RlZCIgaWYgYm9vdGxvYWRlci5wYXNzd29yZCBlbHNlICIi
+KQo+ID4gCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAga2VybmVsID0gZ2V0X2JpdGJha2Vf
+dmFyKCJLRVJORUxfSU1BR0VUWVBFIikKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiBn
+ZXRfYml0YmFrZV92YXIoIklOSVRSQU1GU19JTUFHRV9CVU5ETEUiKSA9PSAiMSI6Cj4gPiBkaWZm
+IC0tZ2l0IGEvc2NyaXB0cy9saWIvd2ljL3BsdWdpbnMvc291cmNlL2Jvb3RpbWctcGNiaW9zLnB5
+Cj4gPiBiL3NjcmlwdHMvbGliL3dpYy9wbHVnaW5zL3NvdXJjZS9ib290aW1nLXBjYmlvcy5weQo+
+ID4gaW5kZXggMzJlNDdmMTgzMS4uY2JmNDYyMmNmOSAxMDA2NDQKPiA+IC0tLSBhL3NjcmlwdHMv
+bGliL3dpYy9wbHVnaW5zL3NvdXJjZS9ib290aW1nLXBjYmlvcy5weQo+ID4gKysrIGIvc2NyaXB0
+cy9saWIvd2ljL3BsdWdpbnMvc291cmNlL2Jvb3RpbWctcGNiaW9zLnB5Cj4gPiBAQCAtMTEzLDgg
+KzExMywxMyBAQCBjbGFzcyBCb290aW1nUGNiaW9zUGx1Z2luKFNvdXJjZVBsdWdpbik6Cj4gPiDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3lzbGludXhfY29uZiA9ICIiCj4gPiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgc3lzbGludXhfY29uZiArPSAiUFJPTVBUIDBcbiIKPiA+IMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBzeXNsaW51eF9jb25mICs9ICJUSU1FT1VUICIgKyBzdHIoYm9vdGxv
+YWRlci50aW1lb3V0KQo+ID4gKyAiXG4iCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiBi
+b290bG9hZGVyLnBhc3N3b3JkOgo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBz
+eXNsaW51eF9jb25mICs9ICJNRU5VIE1BU1RFUiBQQVNTV0QgIiArCj4gPiBzdHIoYm9vdGxvYWRl
+ci5wYXNzd29yZCkgKyAiXG4iCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN5
+c2xpbnV4X2NvbmYgKz0gIkFMTE9XT1BUSU9OUyAwXG4iCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIHN5c2xpbnV4X2NvbmYgKz0gIk5PRVNDQVBFIDFcbiIKPiA+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIGVsc2U6Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IHN5c2xpbnV4X2NvbmYgKz0gIkFMTE9XT1BUSU9OUyAxXG4iCj4gPiDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgc3lzbGludXhfY29uZiArPSAiXG4iCj4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCBzeXNsaW51eF9jb25mICs9ICJBTExPV09QVElPTlMgMVxuIgo+ID4gwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIHN5c2xpbnV4X2NvbmYgKz0gIlNFUklBTCAwIDExNTIwMFxuIgo+ID4gwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIHN5c2xpbnV4X2NvbmYgKz0gIlxuIgo+ID4gwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIGlmIHNwbGFzaGxpbmU6Cj4gPiBkaWZmIC0tZ2l0IGEvc2NyaXB0cy9saWIv
+d2ljL3BsdWdpbnMvc291cmNlL2lzb2ltYWdlLWlzb2h5YnJpZC5weQo+ID4gYi9zY3JpcHRzL2xp
+Yi93aWMvcGx1Z2lucy9zb3VyY2UvaXNvaW1hZ2UtaXNvaHlicmlkLnB5Cj4gPiBpbmRleCA2MDcz
+NTZhZDEzLi4xZDUwOTlmOTU0IDEwMDY0NAo+ID4gLS0tIGEvc2NyaXB0cy9saWIvd2ljL3BsdWdp
+bnMvc291cmNlL2lzb2ltYWdlLWlzb2h5YnJpZC5weQo+ID4gKysrIGIvc2NyaXB0cy9saWIvd2lj
+L3BsdWdpbnMvc291cmNlL2lzb2ltYWdlLWlzb2h5YnJpZC5weQo+ID4gQEAgLTYzLDggKzYzLDEz
+IEBAIGNsYXNzIElzb0ltYWdlUGx1Z2luKFNvdXJjZVBsdWdpbik6Cj4gPiDCoMKgwqDCoMKgwqDC
+oMKgIHN5c2xpbnV4X2NvbmYgPSAiIgo+ID4gwqDCoMKgwqDCoMKgwqDCoCBzeXNsaW51eF9jb25m
+ICs9ICJQUk9NUFQgMFxuIgo+ID4gwqDCoMKgwqDCoMKgwqDCoCBzeXNsaW51eF9jb25mICs9ICJU
+SU1FT1VUICVzIFxuIiAlIChib290bG9hZGVyLnRpbWVvdXQgb3IKPiA+IDEwKQo+ID4gK8KgwqDC
+oMKgwqDCoMKgIGlmIGJvb3Rsb2FkZXIucGFzc3dvcmQ6Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBzeXNsaW51eF9jb25mICs9ICJNRU5VIE1BU1RFUiBQQVNTV0QgIiArCj4gPiBzdHIoYm9v
+dGxvYWRlci5wYXNzd29yZCkgKyAiXG4iCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzeXNs
+aW51eF9jb25mICs9ICJBTExPV09QVElPTlMgMFxuIgo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgc3lzbGludXhfY29uZiArPSAiTk9FU0NBUEUgMVxuIgo+ID4gK8KgwqDCoMKgwqDCoMKgIGVs
+c2U6Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzeXNsaW51eF9jb25mICs9ICJBTExPV09Q
+VElPTlMgMVxuIgo+ID4gwqDCoMKgwqDCoMKgwqDCoCBzeXNsaW51eF9jb25mICs9ICJcbiIKPiA+
+IC3CoMKgwqDCoMKgwqDCoCBzeXNsaW51eF9jb25mICs9ICJBTExPV09QVElPTlMgMVxuIgo+ID4g
+wqDCoMKgwqDCoMKgwqDCoCBzeXNsaW51eF9jb25mICs9ICJTRVJJQUwgMCAxMTUyMDBcbiIKPiA+
+IMKgwqDCoMKgwqDCoMKgwqAgc3lzbGludXhfY29uZiArPSAiXG4iCj4gPiDCoMKgwqDCoMKgwqDC
+oMKgIGlmIHNwbGFzaGxpbmU6Cj4gPiBAQCAtMTE2LDEwICsxMjEsMTQgQEAgY2xhc3MgSXNvSW1h
+Z2VQbHVnaW4oU291cmNlUGx1Z2luKToKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBncnVi
+ZWZpX2NvbmYgKz0gIi0tcGFyaXR5PW5vIC0tc3RvcD0xXG4iCj4gPiDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgZ3J1YmVmaV9jb25mICs9ICJkZWZhdWx0PWJvb3RcbiIKPiA+IMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCBncnViZWZpX2NvbmYgKz0gInRpbWVvdXQ9JXNcbiIgJSAoYm9vdGxvYWRl
+ci50aW1lb3V0Cj4gPiBvciAxMCkKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIGJvb3Rs
+b2FkZXIucGFzc3dvcmQ6Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGdydWJl
+ZmlfY29uZiArPSAic2V0IHN1cGVydXNlcnM9XCJyb290XCJcbiIKPiA+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgZ3J1YmVmaV9jb25mICs9ICJleHBvcnQgc3VwZXJ1c2Vyc1xuIgo+
+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBncnViZWZpX2NvbmYgKz0gInBhc3N3
+b3JkIHJvb3QgJXNcbiIgJQo+ID4gKGJvb3Rsb2FkZXIucGFzc3dvcmQpCj4gPiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgZ3J1YmVmaV9jb25mICs9ICJcbiIKPiA+IMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBncnViZWZpX2NvbmYgKz0gInNlYXJjaCAtLXNldD1yb290IC0tbGFiZWwgJXMgIiAl
+Cj4gPiBwYXJ0LmxhYmVsCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ3J1YmVmaV9jb25m
+ICs9ICJcbiIKPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGdydWJlZmlfY29uZiArPSAibWVu
+dWVudHJ5ICdib290J3tcbiIKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGdydWJlZmlfY29u
+ZiArPSAibWVudWVudHJ5ICdib290JyAlcyB7XG4iICUgKCItLQo+ID4gdW5yZXN0cmljdGVkIiBp
+ZiBib290bG9hZGVyLnBhc3N3b3JkIGVsc2UgIiIpCj4gPiAKPiA+IMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBrZXJuZWwgPSBnZXRfYml0YmFrZV92YXIoIktFUk5FTF9JTUFHRVRZUEUiKQo+ID4g
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIGdldF9iaXRiYWtlX3ZhcigiSU5JVFJBTUZTX0lN
+QUdFX0JVTkRMRSIpID09ICIxIjoKPiA+IC0tCj4gPiAyLjM3LjIKPiA+IAo+ID4gCj4gPiAtPS09
+LT0tPS09LT0tPS09LT0tPS09LQo+ID4gTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdlcyBz
+ZW50IHRvIHRoaXMgZ3JvdXAuCj4gPiBWaWV3L1JlcGx5IE9ubGluZSAoIzE3MzM0Nik6Cj4gPiBo
+dHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdl
+LzE3MzM0Ngo+ID4gTXV0ZSBUaGlzIFRvcGljOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5v
+cmcvbXQvOTUwNDM5MzQvMTY4NjQ4OQo+ID4gR3JvdXAgT3duZXI6IG9wZW5lbWJlZGRlZC1jb3Jl
+K293bmVyQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcKPiA+IFVuc3Vic2NyaWJlOiBodHRwczovL2xp
+c3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtCj4gPiBjb3JlL3Vuc3ViwqBbYWxl
+eC5rYW5hdmluQGdtYWlsLmNvbV0KPiA+IC09LT0tPS09LT0tPS09LT0tPS09LT0tCj4gPiAK
 
